@@ -1,36 +1,64 @@
 # DM-tRNA-seq / DM-TGIRT-seq
 
 **Defining source:** Zheng *et al.*, *Nature Methods* (2015),
-doi:10.1038/nmeth.3478. The PMC author manuscript and supplements were read.
+[doi:10.1038/nmeth.3478](https://doi.org/10.1038/nmeth.3478).
 
-## Evidence used
+## Source-led chemistry
 
-- 🟢 Full text lines 52–54 establish combined wild-type AlkB and D135S treatment,
-  followed by TGIRT template switching rather than RNA-adapter ligation.
-- 🟢 Methods lines 80–96 give deacylation, the blocked 41-nt RNA starter, the one-base-T
-  DNA-primer overhang, 60 °C TGIRT, CircLigase II, both PCR primers and HiSeq sequencing.
-- 🟡 The separate sequencing primer is not printed, so its exact annealing span is not
-  asserted.
-- 🟢 The source prints the RNA starter as
-  `AGAUCGGAAGAGCACACGUCUAGUUCUACAGUCCGACGAUC/3SpC3/`, and prints both complete
-  post-circularization PCR primers. The 3′ spacer blocks starter extension.
-- 🟡 The complementary DNA starter primer is described as radiolabeled with a
-  single-T 3′ overhang, but its full ordered sequence and label position are not
-  printed. Complementarity permits a base-level reconstruction only if the exact
-  annealing register is established; no synthetic modification can be inferred from it.
-- 🟢 A later [InGex TGIRT-III small-RNA/CircLigase protocol](https://fnkprddata.blob.core.windows.net/domestic/data/datasheet/IGX/TGIRT10.pdf) (updated 2017-01-23,
-  pp. 1–3) prints this 41-nt starter RNA, its complementary DNA primer and the same
-  PCR-primer architecture. It uses a degenerate `N` DNA-primer overhang, whereas
-  the defining 2015 paper explicitly uses `T`. This is a later variant, so the
-  diagram follows the 2015 `T` statement. The vendor protocol identifies the
-  Read 1 binding region as the NEBNext small-RNA primer site; it does not identify
-  the exact HiSeq reagent/primer used for the published run.
-- 🔴 The 2015 run's HiSeq model, flow-cell chemistry and sequencing kit revision
-  are unspecified. Illumina's HiSeq 2500 primers page lists several possible
-  primer mixes, so the distinct run-primer oligo and its exact landing site remain
-  unresolved rather than confirmed absent from all linked materials.
+- 🟢 The defining author-manuscript Methods, “TGIRT template-switching reactions
+  and sequencing” (JATS text line 90), print the RNA starter
+  `AGAUCGGAAGAGCACACGUCUAGUUCUACAGUCCGACGAUC/3SpC3/`. Its 3′ spacer blocks
+  extension. A complementary **32P-labeled DNA primer** has a single 3′ `T`
+  overhang; “32P” denotes the isotope, not a DNA-primer length.
+- 🟢 That method names **GsI-IIC MalE rigid fusion RT**, followed by NaOH treatment,
+  neutralization, gel purification of cDNA, CircLigase II circularization and
+  Phusion-HF amplification. The RNA starter must therefore be distinguished from
+  the extended DNA strand and the purified single-stranded DNA product.
+- 🟡 The page reconstructs the minimal DNA starter as the reverse complement of
+  the printed RNA plus its specified 3′ `T`. The complementary core is marked
+  inferred: full-length pairing without additional DNA extensions is a modelling
+  assumption. The label position is unassigned.
+- 🟢 Both PCR primers are printed in the defining Methods. Their opposed binding
+  suffixes account for the entire RNA starter; the remaining PCR-primer bases are
+  5′ tails. A full PCR primer need not occur as a contiguous sequence in the starter.
+- 🟡 Circular-to-linear PCR product assembly, selected barcode, barcode width and
+  loaded HiSeq sequencing-primer reagent remain unassigned **model data**. The page
+  does not assert that all linked sources omit these facts.
+
+## Source versions and linked material
+
+- The cited Mohr *et al.* 2013 original (doi:10.1261/rna.039743.113), body and
+  relevant Methods, distinguish GsI-IIC-MRF and TeI4c-MRF enzymes. Its SOLiD
+  template-switching example is a separate library architecture.
+- The cited Shen *et al.* 2015 original supplement, “TGIRT-seq of RQC-associated
+  RNAs” (CDC Stacks original DOCX text lines 72–75), positively describes a
+  complementary 42-nt DNA starter, equimolar single-base overhangs, and
+  **TeI4c-MRF with a C-terminal truncation**. The RNA and PCR sequences agree with
+  the DM source, but its enzyme and overhang choices do not replace DM’s GsI-IIC
+  and selected `T`.
+- The cited Katibah *et al.* 2014 original (doi:10.1073/pnas.1412842111), main
+  Methods, points to SI Methods for its Illumina library modifications. The actual
+  SI original remains a pending source obligation: publisher HTTP and HTTPS
+  supplement links returned 403, while the PMC attachment route returned a
+  download gate. Author-copy recovery remains to be checked.
+- The later author-lab small-RNA/CircLigase PDF (filename dated 2016-06-14) and
+  [InGex TGIRT-III protocol](https://fnkprddata.blob.core.windows.net/domestic/data/datasheet/IGX/TGIRT10.pdf)
+  (updated 2017-01-23) print a DNA primer with a degenerate `N` overhang and
+  explicitly describe 5′ labeling. These are later variants; neither assigns
+  the 2015 study’s label position or selected run reagent.
+- The original Epicentre CircLigase II manual, Lit. 298, Rev. A, December 2012,
+  pp. 2–4, requires single-stranded DNA with 5′ monophosphate and 3′ hydroxyl.
+  The 2015 source explicitly extends the manufacturer incubation. The manual’s
+  optional exonuclease cleanup is not imported into the DM graph.
+- The current official HiSeq 2500 primer-box page lists alternative primer mixes
+  and links compatibility/instrument guides. It is a candidate comparator, not
+  evidence that the authors used a HiSeq 2500 or any particular mix.
+
+The source review remains **in progress**. Publisher supplements, the separate
+NIHMS results supplement and later vendor method retain their earlier independent
+checks. Newly recovered originals and direct linked-source dispositions are recorded
+in the maintainer source checklist; no missing-information claim is accepted.
 
 ## Boundary
 
-This is the 2015 demethylase/TGIRT protocol. It is not mim-tRNAseq, which preserves
-modification-induced mismatches, and not YAMAT-seq, which ligates a Y adapter to NCCA.
+This is the 2015 demethylase/TGIRT protocol. It is not mim-tRNAseq or YAMAT-seq.

@@ -7,7 +7,10 @@ from protocol_graph import InputRole
 from protocol_graph import MaterialKind
 from protocol_graph import ProtocolGraph
 from protocol_graph import StepKind
-from rna_library_operations import finish_pcr
+from protocol_graph import SequencingPlan
+from pcr import PCRGeometry
+from chemdraw import Construct, Segment
+import illumina as il
 from adapter_ligation import AdapterLigationGeometry
 from circular import CircularizationGeometry
 from rna_library_operations import molecule
@@ -114,7 +117,31 @@ def _local_graph(d, final, primers, *, reagent: str,
                     statement="Inherited Flynn 2016 icSHAPE step 58 circularizes purified cDNA with CircLigase II; exact circular junction is not yet reconstructed in this model."))
     reviewed.extend(("rna_adapter", "adapter_ligase", "ligate_adapter", "library_rt_primer",
                      "library_rt_enzyme", "library_rt", "circle_ligase", "circularize_cdna"))
-    finish_pcr(graph, "library", circle, final, primers, d.sequencing, reviewed, label=d.title)
+    # Original PARIS explicitly inherits Flynn 2016 step 26 onward, including
+    # its step 60 Solexa primer pair. This assignment belongs to this route.
+    p5 = graph.input("library_forward", "Flynn 2016 P5-Solexa PCR primer",
+                     MaterialKind.OLIGO,
+                     state=Construct([Segment("P5-Solexa", il.NEBNEXT_UNIVERSAL_PRIMER)]),
+                     source="Flynn 2016 doi:10.1038/nprot.2016.011 reagent list and step 60")
+    p3 = graph.input("library_reverse", "Flynn 2016 P3-Solexa PCR primer",
+                     MaterialKind.OLIGO,
+                     state=Construct([Segment("P7", il.P7),
+                         Segment("P3-Solexa arm", "CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT")]),
+                     source="Flynn 2016 doi:10.1038/nprot.2016.011 reagent list and step 60")
+    polymerase = graph.input("library_polymerase", "Phusion HF PCR master mix",
+                             MaterialKind.CATALYST)
+    library = graph.product("library_library", "PARIS sequencing library",
+                            MaterialKind.LIBRARY, state=final)
+    graph.react("library_pcr", "Amplify the inherited adapter-route library", StepKind.PCR,
+                ((circle, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+                 (p3, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(circle.state,
+                    reason="The original inherited primer pair is declared; its circular-template binding sites and complete amplicon have not been assembled in this model."))
+    plan = (SequencingPlan(library=final, primers=tuple(primers)) if primers
+            else SequencingPlan(limitation=d.sequencing))
+    graph.sequence(library, plan)
+    reviewed.extend(("library_forward", "library_reverse", "library_polymerase",
+                     "library_pcr", "library_library"))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 

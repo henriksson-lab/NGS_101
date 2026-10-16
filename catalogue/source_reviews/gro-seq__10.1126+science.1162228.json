@@ -1,6 +1,6 @@
 {
   "dir": "gro-seq__10.1126+science.1162228",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "core_2008",
@@ -19,22 +19,57 @@
         "date": "2026-10-15",
         "locations": "PMC2833333 XML lines 28-32",
         "finding": "Original article explains BrUTP run-on, fragmentation, BrU immunopurification and sequencing from fragment 5-prime end, but does not print historic ligation/primer oligos in these accessible Methods/results."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Original article JATS28–32 and external-link/supplement inventory; complete source-bundle scraper before reading",
+            "finding": "Read primary BrUTP run-on, triple antibody enrichment, RNA-fragment 5′ read entry, two biological replicates and 33-base reads. Original links identify GSE13518 and Science DC1. Exact historical kit identity is not inferred from later GRO-seq."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Original main plus original SOM title1–27/overview381–410/Methods629–746",
+            "finding": "Independent original-source reading confirms original 2008 source identity, route and read interpretation. Source-specific operations below come from the recovered SOM, not a later implementation."
+          }
+        }
+      ]
     },
     {
       "id": "core_2008_supp",
       "role": "supplement",
-      "locator": "NIHMS177763-supplement-Supplementary_Data.pdf, DOI manuscript MANIFEST explicit PMC gated URL",
-      "availability": "unavailable",
+      "locator": "_data/sources/gro-seq__10.1126+science.1162228/594009_9144e1ea58ad4573871ec024827290f3.pdf",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Original 2008 supplementary PDF is marked manual behind PMC Preparing to download gate.",
-      "pass_1": null,
-      "pass_2": null,
-      "discovered_from": "core_2008"
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual original cover; overview381–410; full Methods629–714; processing715–746; original FigureS1 visually inspected PDFp27 and caption925–932; S15/S16 captions; mandatory GRO-cap bundle scraper21hits4files before original reading and own-bundle scraper4hits1file after retrieval",
+        "finding": "Cover explicitly names Core/Waterfall/Lis, Science1162228 DC1 and 4Dec2008. Original route: two DNase treatments, SDS/PK/acid phenol recovery, hydrolysis/P30, capture1, TAP→low-pH PNK3′ repair→raised-pH/ATP5′ phosphorylation, 5′ adapter FIRST→capture2, 3′ adapter SECOND→capture3, two10µL SSIII reactions, RNase cocktail/H, Phusion15cycles, PAGE>90nt, Illumina1G33-base reads. Full visual FigureS1 agrees. Computational 3′ read trimming to29 and rRNA alignment removal are separate. No later poly(A)/circularization or exact modern oligo identity imported. Remaining source figures/results/references not all read."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh original title1–27, overview381–410 and complete Methods629–746 after full GRO-cap scraper21hits4files",
+        "finding": "Independent original read confirms two DNase treatments, SDS/PK/acid phenol, hydrolysis/P30, TAP and low/high-pH PNK stages, 5′-then-3′ adapter order and allthree anti-BrU capture/elution rounds; two10µL SSIII, RNase cocktail/H, Phusion15/PAGE>90, Illumina1G33reads. Computational trimming/rRNA filtering remain distinct. Does not establish later2018 oligo identity or a full visual/result-figure audit."
+      },
+      "discovered_from": "core_2008",
+      "retrieval_history": [
+        {
+          "locator": "NIHMS177763-supplement-Supplementary_Data.pdf, DOI manuscript MANIFEST explicit PMC gated URL",
+          "availability": "unavailable",
+          "reason": "Original 2008 supplementary PDF is marked manual behind PMC Preparing to download gate.",
+          "pass_1": null,
+          "pass_2": null
+        }
+      ],
+      "original_identity": "Registered public mirror https://www.cecerelab.com/_files/ugd/594009_9144e1ea58ad4573871ec024827290f3.pdf, 3,979,386bytes; original cover identifies title/authors/DOI/DC1. Narrow registered vendor/Folder fetch72837 completed successfully. Gated PMC copy does not mean this source is unavailable."
     },
     {
       "id": "later_author_2018",
-      "role": "linked_material",
+      "role": "other",
       "locator": "Later author GRO-seq stepwise protocol, PMC5880289 JATS, local PMC5880289_PMC5880289.xml.txt",
       "availability": "read",
       "relevance": "relevant",
@@ -50,30 +85,122 @@
         "locations": "PMC5880289 XML Materials lines 107-113 and library steps 328-355",
         "finding": "Later author protocol prints /5Phos/ and /idSp/ NTI223, NTI200/201 PCR primers and NTI202 run primer; cannot project this later construction onto 2008 without original supplement."
       },
-      "discovered_from": "core_2008"
+      "scope_correction": "This later protocol was retrieved during a previous audit; a 2008 paper cannot directly cite the later2018 implementation. Retained as a comparison source, not an inherited original2008 recipe.",
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Actual original PMC5880289 oligonucleotides107–115 and full library section326–355 after bundle scraper",
+            "finding": "Later source explicitly uses poly(A) tailing/NTI223 priming, circularization and abasic-spacer cleavage with later NTI200/201/202. Its exact modifications are valid for that source but are not transferred to original2008 two-adapter ligation. Bounded comparison, not whole-source absence or exclusion."
+          }
+        }
+      ]
+    },
+    {
+      "id": "study_geo",
+      "role": "linked_material",
+      "locator": "_data/sources/gro-seq__10.1126+science.1162228/geo-GSE13518-all-full.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "core_2008",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Series1–33; entire two sample metadata records8894–8986, including shared extraction8910/8960 and processing8918/8968; fresh bundle scraper4hits1file",
+        "finding": "Both replicates explicitly describe nuclei/run-on, extraction/hydrolysis, antibody enrichment, TAP/low-pH PNK then raised-pH+ATP PNK, 5′ then3′ adapters with repeat capture, RT/PCR/PAGE. Both name Illumina Genome Analyzer; ELANDhg18/rDNA alignment removal is computational. Literal relations identify SRX003135/SRX003136, BioSamplesSAMN02195590/91, SRP000629 and later reanalyses. Platform annotation and raw sequencing files were not inspected."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original sample metadata8894–8986: identical extraction8910/8960, processing8918/8968, instrument8930/8980 and actual SRX003135/SRX003136 plus BioSample relations; fresh own-bundle scraper4hits1file",
+        "finding": "Independently read both sample bodies. Source confirms5′ adapter first, three captures and TAP plus low/high-pH PNK. Genome Analyzer instrument and rDNA alignment filtering are positive readout metadata, not physical library processing. No ordered kit oligo identity is supplied by these inspected fields; no global absence claim accepted."
+      }
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-15",
-      "locations": "Core 2008 JATS article opening method paragraph and supplementary manifest; later author 2018 Materials and library section",
-      "finding": "Followed later author protocol and read its exact oligos, but original 2008 supplement is unavailable and cannot be replaced by later implementation."
+      "reviewer": "audit_nanocut_closeout",
+      "date": "2026-10-16",
+      "locations": "Original article external links, original SOM overview/Methods/ref21/ref39 and actual GEO sample/series relations",
+      "finding": "Recovered original route resolves the old generic reaction-order gap. Actual remaining linked-source scopes are recorded separately. Historical oligo orders/kit revision are model questions, not confirmed unpublished information or a hypothetical unavailable component document."
     },
     "pass_2": {
-      "reviewer": "audit_a_h",
-      "date": "2026-10-15",
-      "locations": "Core 2008 PMC2833333 lines 28-32 and later author PMC5880289 lines 107-113, 328-355",
-      "finding": "Checked original article-to-supplement inventory and later author method; original 2008 supplementary material remains unavailable, preventing backward projection of later primers."
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original main and fresh original SOM381–410/629–746; current local module reviewed against original",
+      "finding": "Independent source and model review confirms source-owned ordering, physical fates and separation from the later route. Full remaining linked-scope gate is not claimed."
     }
   },
-  "missing_claims": [
+  "missing_claims": [],
+  "conclusion": "Original2008 SOM recovered and independently read; bounded source-owned chemistry correction complete. Review remains in_progress for actual linked originals, historical guide identity and remaining supplement scope. No missing-information claim accepted.",
+  "history": [
     {
-      "claim": "Exact original GRO-seq sequencing primers and adapter set are unresolved",
-      "disposition": "blocked",
-      "evidence": "2008 primary text lacks oligo table and its historical supplement is inaccessible; 2018 author oligos are later variant evidence only."
+      "date": "2026-10-16",
+      "reason": "Recovered original 2008 SOM through a registered public mirror; rebuilt local source-owned reaction order. Original gated PMC retrieval history remains distinct from original-document availability.",
+      "previous_status": "blocked",
+      "previous_missing_claims": [
+        {
+          "claim": "Exact original GRO-seq sequencing primers and adapter set are unresolved",
+          "disposition": "blocked",
+          "evidence": "2008 primary text lacks oligo table and its historical supplement is inaccessible; 2018 author oligos are later variant evidence only."
+        }
+      ],
+      "previous_conclusion": "First pass separates original 2008 method from later 2018 author implementation; original supplement and second pass pending."
     }
   ],
-  "conclusion": "First pass separates original 2008 method from later 2018 author implementation; original supplement and second pass pending."
+  "open_model_questions": [
+    "Exact historical Illumina Small RNA Isolation Kit revision, ordered adapter/RT/PCR bases and end modifications remain unassigned pending source reconciliation.",
+    "The known original Read1=33 is structured; sequencing-primer geometry and exact index acquisition remain unassigned.",
+    "The two source10µL RT reactions are declared together; aliquot partitioning is not inferred beyond the original statement."
+  ],
+  "linked_scope_queue": [
+    {
+      "original": "Strobl and Eick, EMBO J11:3307(1992), SOM reference39",
+      "from": "Original nuclei-isolation Methods629–632",
+      "status": "Actual cited nuclei predecessor requires source identity/retrieval/original reading; no whole-kit or reaction transfer from title alone."
+    },
+    {
+      "original": "Cameron and Uhlenbeck, Biochemistry16:5120(1977), SOM reference21",
+      "from": "Original overview low-pH PNK3′-phosphate removal and bibliography",
+      "status": "Actual mechanistic provenance identified; original/linked-scope checks remain open, not accepted irrelevance."
+    },
+    {
+      "original": "Historical Illumina Small RNA Isolation Kit instructions",
+      "from": "Original adapter ligation and RT/PCR manufacturer references692–711",
+      "status": "Actual named historical kit guide identity/revision remains to reconcile. Desired exact oligo specification is an open question, not a fabricated unavailable original."
+    },
+    {
+      "original": "GSE13518 actual SRX003135/SRX003136, BioSamples and SRP000629",
+      "from": "Original GEO relations8936–8937/8985–8986 and series32–33",
+      "status": "Actual child metadata remain unread. Later GSE66031/GSE85747 links are labelled reanalyses in GEO; source scope not extended to their raw data."
+    },
+    {
+      "original": "Remaining original SOM result figures/tables and cited materials",
+      "from": "Actual original SOM contents and bibliography",
+      "status": "Bounded Methods/FigureS1/S15/S16 readings do not constitute all-figure/all-reference inspection; no whole-supplement absence claim accepted."
+    }
+  ],
+  "model_corrections": [
+    "Removed rna_cell_assays family imports, custom_library and dead generic workflow/branch selector. Original source owns all reaction order and fates locally.",
+    "Removed fabricated44nt insert and8nt BrU UMI. Source-known roles carry no invented sequence length; BrUTP and incorporated nucleotide tracer are structural inputs.",
+    "Restored both DNase treatments, protein removal/RNA recovery, P30 cleanup, TAP and two distinct PNK functions, both original5′-then3′ adapter ligations, allthree capture/elution/extraction rounds, RNase treatment and PAGE selection.",
+    "Known original33-base read declared in READ_LENGTHS/READ_SPECS and graph acquired roles, with exact historical primer geometry unresolved. Computational trimming/rRNA filtering do not become physical fates.",
+    "Later poly(A)/circle implementation not used to fill original historical adapter identities. Repository modelling corrections are not publication errors."
+  ],
+  "verification_checkpoints": [
+    {
+      "date": "2026-10-16",
+      "reviewer": "audit_nanocut_closeout",
+      "checks": "Seven source-backed tests PASS; schematic builds56,829bytes; pairing zero problems; source guard zero concrete oligos checked/zero failures/five inputs without exact states; chemistry27steps/28unresolved/zero contradictory; review validation/documentation build/scoped whitespace checks PASS.",
+      "scope": "Original reaction/source-transcription checks do not establish a base-level adapter or PCR proof. No source absence accepted; status remains in_progress. Registered original SOM fetch72837 and initial53895 terminal; no raw data downloaded."
+    },
+    {
+      "date": "2026-10-16",
+      "reviewer": "root",
+      "checks": "Fresh own-bundle full scraper completed: four hits in one file. Independent original GEO P2 and final incorporated-tracer/structured33-cycle declarations reviewed.",
+      "scope": "Bounded P2 only; source questions and listed actual child obligations remain open."
+    }
+  ]
 }

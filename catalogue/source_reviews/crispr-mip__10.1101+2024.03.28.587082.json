@@ -64,30 +64,131 @@
     {
       "id": "lenticrispr_vector",
       "role": "linked_material",
-      "locator": "lentiCRISPRv2 vector original map/source cited by preprint",
-      "availability": "unavailable",
+      "locator": "_data/sources/crispr-mip__10.1101+2024.03.28.587082/addgene-52961_lentiCRISPRv2.gb and original addgene-plasmid-52961-sequence-244694-sequence-lines.json / -features.json",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "Original vector map/source required for genomic probe-arm placement is not yet obtained.",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Full bundle oligo scraper; original Addgene verified sequence record244694,248sequence-lines; GenBank ORIGIN0based2219–4233; original paper Plasmids390–398 and probe design460–469; TableS2 rowsMIP_probe_1–9/P5_tracrRNA_fwd/P7_tracrRNA_rev",
+        "finding": "Paper explicitly identifies screenedBrunellokinome75314 backbone52961. Source-positive arm sites are plus2219–2238 and4210–4233, each unique; the probe binds the opposite strand. Emptyvector has1972basefiller gap. For an explicitly cloned illustrative +G/20guide cassette, mapped scaffold76/flank15 supports112gap,154footprint,238circle and269inversePCR. Printed PCR tails map within captured source context. Removed unsupported blanketstatement that allBrunelloguides lackinitialG; alternative111gap remains only a model convention, not publication discrepancy. Existing126versus134probe discrepancy unchanged."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Fresh original Addgene sequence-lines record244694: all248 SVG rows, each unique two-track main-strand group; cached GenBank ORIGIN; original TableS2 probe1/P5/P7 rows; preprint Methods390–398 and probe design460–469; full bundle oligo scraper",
+        "finding": "Independently reconstructed 14,873 bases from the original primary display, agreeing exactly with the cached export. The source126-base probe has13N positions; its19-base extension and23-base ligation arms each map uniquely at plus2219–2238 and4210–4233 (zero-based). The probe binds the complementary strand. Source PCR-primer18-base footprints map at plus4191–4209 and minus4151–4169. Paper explicitly identifies Brunello75314 backbone52961; the empty deposited vector includes a stuffer, so its1972-base unmodified gap is not the cloned guide gap. The page correctly labels its +G/20-base guide as illustrative, without claiming every actual Brunello member has that first-base convention. The original134-versus126 probe discrepancy remains visible; geometry for an illustrative cloned cassette is conditional, not proof of every screened clone."
+      },
+      "reason": "Original Addgene sequence-viewer JSON freshly fetched through registered extra_sources; main-strand SVG extraction reconstructs14873bases exactly equal to recovered GenBank. Both source acquisition and chemistry reading are now complete for P1.",
       "discovered_from": "preprint"
+    },
+    {
+      "id": "broad_pdna_amplification",
+      "role": "linked_material",
+      "locator": "_data/sources/crispr-mip__10.1101+2024.03.28.587082/broadgpp-pdna-library-amplification.pdf.txt; original https://media.addgene.org/cms/filer_public/56/71/5671c68a-1463-4ec8-9db5-761fae99265d/broadgpp-pdna-library-amplification.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "preprint",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entire one-page original; source preprint Plasmids390–398 naming this upstream library preparation.",
+        "finding": "The source describes upstream pooled-plasmid expansion and explicitly delegates representation QC to its sgRNA Illumina PCR protocol. It is not the MIP gap-fill/circularization route. Reagent/manufacturer identifiers concern bacterial library handling; no such steps or condition choices are transferred into the MIP reaction graph."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire one-page original; final representation-QC delegation.",
+        "finding": "Independently confirmed upstream pooled-plasmid expansion and explicit delegation to the Illumina-PCR representation-QC protocol. This is not the MIP gap-fill/circularization route."
+      }
+    },
+    {
+      "id": "broad_sgrna_qc",
+      "role": "linked_material",
+      "locator": "_data/sources/crispr-mip__10.1101+2024.03.28.587082/broadgpp-sequencing-protocol.pdf.txt; original https://media.addgene.org/cms/filer_public/61/16/611619f4-0926-4a07-b5c7-e286a8ecf7f5/broadgpp-sequencing-protocol.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "preprint",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entire original PCR/cleanup and primer appendix, including vector-specific P7 options, staggered P5 pool and all96 index orientations; preprint Plasmids390–398; TableS2 identity scope.",
+        "finding": "Positive source gives vector-specific pooled-library QC PCR strands with staggered P5 and indexed P7, distinct lentiGuide/lentiCRISPRv2 options and actual barcode/index-read orientation columns. These are the upstream library-representation control, not a substitute for original TableS2 MIP PCR primers or captured-circle geometry. The table does not assign a chosen well to every CRISPR-MIP experiment. Material names and kit instructions are not imported as additional MIP chemistry by default."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original; primer appendix77–123 and all96 index/read pairs124–716, independently checked against actual source.",
+        "finding": "Independently read shared staggered P5 and distinct lentiGuide/lentiCRISPRv2 P7 tails. The eight named P5 staggers are0,1,2,3,4,6,7,8 rather than contiguous0–7. Parsed all96 A01–H12 oligo/index-read pairs and confirmed all96 reverse-complement relationships. This is upstream library-representation QC, not a replacement for MIP TableS2 strands or probe geometry; no experiment-specific well choice inferred."
+      }
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "first_pass_d_e",
-      "date": "2026-10-15",
-      "locations": "Preprint lines 81-132, 395-476; Table S2 lines 1-10; scraper reviewed",
-      "finding": "Followed preprint into original probe table and checked modifications. Vector source remains needed to validate genomic-target arm placement."
+      "reviewer": "audit_editing_closeout",
+      "date": "2026-10-16",
+      "locations": "OriginalpaperPlasmids390–398, design460–469, Methods and references7–10/24/26–27; TableS2; original depositedAddgene map and registered source viewer data",
+      "finding": "Followed actual screened-backbone pointer into original deposited source and checked probe/PCR geometry independently. The paper also names Broad pDNA-amplification and sgRNA-NGS protocols, GFPguide predecessorDoyle2018, general MIP predecessors and gDNA/reaction-analysis references; their complete original/link scope is not yet reviewed here. Those sources cannot be bypassed to assert absence or guide-specific universality. No missing claim accepted; root independent map/source-link confirmation remains."
     },
     "pass_2": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-15",
-      "locations": "Preprint methods line 445 Table S2 pointer and actual media-2 oligo workbook",
-      "finding": "Followed explicit original Table S2 reference. Underlying lentiCRISPRv2 vector source remains unavailable."
-    }
+      "reviewer": "root_independent_original_read",
+      "date": "2026-10-16",
+      "locations": "Original preprint Plasmids390–398, Design460–469; original TableS2; deposited backbone main sequence and map",
+      "finding": "Followed the actual screened-backbone pointer into original Addgene display data and independently checked arm/PCR placement. This resolves the previous unavailable-map reason. The source also explicitly points to Broad amplification/NGS QC protocols and GFP-guide provenance; those and the cited MIP-method sources still need a complete linked-source inventory and independent checks. No source absence or universal library cloning convention is accepted."
+    },
+    "additional_checks": [
+      {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Preprint lines 81-132, 395-476; Table S2 lines 1-10; scraper reviewed",
+        "finding": "Followed preprint into original probe table and checked modifications. Vector source remains needed to validate genomic-target arm placement."
+      },
+      {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Preprint methods line 445 Table S2 pointer and actual media-2 oligo workbook",
+        "finding": "Followed explicit original Table S2 reference. Underlying lentiCRISPRv2 vector source remains unavailable."
+      },
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original preprint Plasmids390–398 and references7–9; full Broad pDNA/QC originals after full bundle scraper.",
+        "finding": "Two named Broad originals are available and now first-read; independent checks remain pending. The cached Hardenbol2003 Nature nbt821 page explicitly says subscription-content preview and contains an abstract, not the full scientific article. Its file presence is not counted as a full source reading. A fresh source search found publisher/PubMed/author-upload landing routes but no obtained full article yet; cited original and other predecessor/GFP provenance checks remain open. No source absence or universal plasmid-first-base convention accepted."
+      }
+    ]
   },
   "missing_claims": [],
-  "conclusion": "Original source bundle and oligo scraper checked in first pass; listed linked material and independent second pass remain pending. No missing-information claim is accepted."
+  "conclusion": "The recovered backbone now has two independent checks against fresh primary Addgene sequence data. Source-defined probe/PCR placement agrees with the molecular model, and unsupported universal guide-first-base wording is corrected. Remaining named library/QC and predecessor-source links are a reading queue, not confirmation of absent information.",
+  "source_recovery_followups": [
+    {
+      "reviewer": "audit_editing_closeout",
+      "date": "2026-10-16",
+      "scope": "Acquisition, validation and identity verification only; not an original-chemistry reading pass.",
+      "file": "_data/sources/crispr-mip__10.1101+2024.03.28.587082/addgene-52961_lentiCRISPRv2.gb; original cached export in lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/",
+      "identity": "LOCUS/DEFINITION identify lentiCRISPRv2 Addgene52961; parsed ORIGIN length14873; MD5f79502331b8b10da4005daf303640f86; original acquisition2026-10-03 and source JSONURLs recorded in sibling manifest.",
+      "next_read_scope": "Independently read deposited sequence and compare both MIP arms, target orientation/gap and relation to actual screened backbone; no chemistry pass recorded here."
+    }
+  ],
+  "source_access_obligations": [
+    {
+      "source": "Hardenbol et al.2003, doi10.1038/nbt821, full original article",
+      "locator": "_data/sources/crispr-mip__10.1101+2024.03.28.587082/nbt821.html.txt is a publisher preview only",
+      "availability_checks": [
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Actual publisher-page Abstract609ff and explicit preview/access text; fresh author-copy source search.",
+          "finding": "Current downloaded page is a subscription-content preview, not a full scientific source. A full original has not been obtained; no full reading counted."
+        },
+        {
+          "reviewer": "audit_rna_contacts_closeout",
+          "date": "2026-10-16",
+          "locations": "Actual cached page609–624,677–699.",
+          "finding": "Independently confirmed Abstract followed by explicit subscription preview and institutional/fullPDF purchase options. Abstract supports only high-level concept. No scientific full-article pass or assertion of no supplementary originals is supplied."
+        }
+      ],
+      "state": "full_original_access_unresolved"
+    }
+  ]
 }

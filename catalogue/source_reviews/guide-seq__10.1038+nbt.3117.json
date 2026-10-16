@@ -1,6 +1,6 @@
 {
   "dir": "guide-seq__10.1038+nbt.3117",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "tsai2015",
@@ -63,18 +63,120 @@
     {
       "id": "pmc_supp_copy",
       "role": "supplement",
-      "locator": "PMC NIHMS647337-supplement-1.pdf, https://pmc.ncbi.nlm.nih.gov/articles/instance/4320685/bin/NIHMS647337-supplement-1.pdf",
-      "availability": "unavailable",
+      "locator": "_data/sources/guide-seq__10.1038+nbt.3117/nbt.3117_supp_NIHMS647337-supplement-1.pdf.txt",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "PMC download gate; publisher corrected ESM21 is on disk, but equivalence of the PMC copy has not been checked."
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Full bundle scraper198hits/4files; actual PMC text33340–33379,33608–33700; rendered originalp32 compared with correctedpublisherp33",
+        "finding": "Recovered the identified214485908byte publicPMCCloudoriginal using standardFolder.save with explicit215MBcap. Previous unavailability was a downloader120MBcap, not a publicaccess barrier. ActualolderGSP1labels remain swapped; text and visual source comparison confirms publisherJune2015correction. Oldcopy prints onlyvalidationcycling, correctedcopy addsdiscoveryprogram. Bothcopies agree151/8/16/151 andcustomwells13/14. Model uses correctedsource."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh198-hit bundle scraper; originalPMC33340–33379/33608–33678/33690–33700 vs correctedMOESM21notice1–10/32905–32939/33180–33250",
+        "finding": "Independent actualsource comparison confirms oldPMC+GSP1GTTTA/minusATACC vs corrected+ATACC/minusGTTTA, originalvalidation-onlyprogram vs correction’s distinct discovery/validation. Readout151/8/16/151 andcustomwells13/14 agree. These are versioned source artifacts, not a globally missing supplement."
+      }
     },
     {
       "id": "illumina_guide",
       "role": "vendor",
-      "locator": "Illumina Indexed Sequencing Overview Guide #15057455, cited in protocol note for MiSeq index-2 primer assignment",
-      "availability": "unavailable",
+      "locator": "_data/sources/guide-seq__10.1038+nbt.3117/illumina_indexed-sequencing-overview-guide-15057455-08.pdf.txt",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Instrument original has not yet been independently read in this audit; index-2 primer identity remains model inference."
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Full bundle scraper198hits/4files; originalv08title1–6,history150–186,MiSeqforwardworkflow391–418/p4",
+        "finding": "Printedv08November2020, with historyRevAJuly2014/RevBFebruary2015. ActualMiSeqforwardworkflow anneals template to graftedP5, performs7nonimagedchemistrycycles, then imagesIndex2. LocalcanonicalP5 is now explicitly a computationalpost-extensionanchor, not an exact29ntphysicalgraftedoligo. No2015guideedition or recipe selection is inferred."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh198-hit bundle scraper; actual15057455v08title1–6/history150–186/p4body391–418",
+        "finding": "Independently read printedNovember2020version and2014/2015lineage, plusMiSeqgraftedP5→7chemistry-onlycycles→imagedIndex2. This establishes generic manufacturer mechanism and effectiveanchor interpretation, not literal29ntphysicalprimer or the selected2015guideedition."
+      }
+    },
+    {
+      "id": "illumina_custom_spiking",
+      "role": "linked_material",
+      "locator": "_data/sources/guide-seq__10.1038+nbt.3117/illumina_000001542.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "illumina_guide",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Freshfullscraper198hits/4files; illumina_000001542.html.txt241–246 and actualHTMLhrefinventory",
+        "finding": "CurrentmanufacturerMiSeqsection241–246 explicitly has no customIndex2option because templateusesgraftedP5. Actualhref inventory namesMiSeq15041638 plus separateotherplatformguides; relevantMiSeqchildfollowed. Contemporary2026source, notauthors2015guide."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read actual originals: illumina_000001542.html.txt241–246 and actualHTMLhrefinventory",
+        "finding": "WholeMiSeqfootnote241–246 independentlyconfirms no customI2/graftedP5. Current2026 comparator, nothistorical2015edition."
+      }
+    },
+    {
+      "id": "illumina_paired_end_overview",
+      "role": "linked_material",
+      "locator": "_data/sources/guide-seq__10.1038+nbt.3117/illumina_000002099.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "illumina_guide",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Freshfullscraper198hits/4files; illumina_000002099.html.txt195–239",
+        "finding": "Wholebody195–239 legacyWorkflowA: MiSeqgraftedP5 then7darkcycles andforwardIndex2, distinctfrommoderni100solutionprimers. Doesnotassignphysicalgraftedoligosequence or2015recipe."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read actual originals: illumina_000002099.html.txt195–239",
+        "finding": "Independent fulllegacyWorkflowA195–239 confirmsMiSeqgraftedP5+7nonimagedcycles beforeimaging, separatecurrenti100mode. Not2015revisionproof."
+      }
+    },
+    {
+      "id": "miseq_custom_primer_landing",
+      "role": "linked_material",
+      "locator": "_data/sources/guide-seq__10.1038+nbt.3117/illumina_using_customprimers_miseq_15041638.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "illumina_custom_spiking",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Freshfullscraper198hits/4files; illumina_using_customprimers_miseq_15041638.html.txt4086–4211 and actualPDFhref",
+        "finding": "Actualsubstantivebody4086–4211 andPDFhref inventory identify MiSeqCustomPrimersGuide15041638v01; exactPDFdownloadfollowed. Noidentityinferredfromshorttitlealone."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read actual originals: illumina_using_customprimers_miseq_15041638.html.txt4086–4211 and actualPDFhref",
+        "finding": "Independent actuallandingbody4086–4211 identifiesv01PDF, not a title-only or unrelated-page read."
+      }
+    },
+    {
+      "id": "miseq_custom_primer_v01",
+      "role": "linked_material",
+      "locator": "_data/sources/guide-seq__10.1038+nbt.3117/illumina_miseq-system-custom-primers-guide-15041638-01.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "miseq_custom_primer_landing",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Freshfullscraper198hits/4files; illumina_miseq-system-custom-primers-guide-15041638-01.pdf.txttitle/40–198",
+        "finding": "Read entire substantiveguidebody40–198: printedv01February2016, stockwells12/13/14 vs dedicatedcustom18/19/20, historyRevAMarch2013/RevBJuly2013. Dedicatedcustom-onlyroute differsfromGUIDE-seq’sspikeintostock13/14, so do notsubstituterecipe or callconflict. NamedPhiXdenature/dilute15039740 controlreference remainsunopened."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read actual originals: illumina_miseq-system-custom-primers-guide-15041638-01.pdf.txttitle/40–198",
+        "finding": "Independent title/body40–79/history177–198 confirmsFebruary2016, stockvsdedicatedcustomreservoirs,2013history, andactualPhiX15039740controlchild. Custom-onlyloadingroute doesnotcontradict orreplaceGUIDE-seq’sspikeins. Childscope remainspending, not a sourceabsence claim."
+      }
     }
   ],
   "linked_information": {
@@ -90,7 +192,29 @@
       "date": "2026-10-16",
       "locations": "Original PMC4320685 JATS lines 59–65, 125–131; Original Springer corrected Supplement MOESM21 text lines 1–10 (correction notice), 32750–32910 (Table 4), 33073–33190 (library protocol); Original Springer MOESM22 workbook off-target site table header and initial rows",
       "finding": "Independently read source locations listed. Unavailable historical/manual/supplement sources in checklist remain blocked; no confirmed missing claim."
-    }
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "ActualcorrectedpublisherSOM and olderPMCcopy, currentmanufacturer15057455v08, bulletin000001542, overview000002099, exactlinkedMiSeq15041638landing+v01PDF",
+        "finding": "Known formeraccess blockers resolved:214MBPMCcopy was sizecaplimited; vendorguideactualversion nowidentified/read. MiSeqcustomprimerchildfollowed andclassified asdifferentloadingmode. ActualfurthernamedPhiXdenature/diluteGuide15039740 andbroaderinstrument/reagent/predecessorlinkscope remainpending; none isexcluded from uninspectedcontents. Exactphysicalgraft/experimentpair/historicalrecipe are unassignedmodeldata, notproofmissingdocuments."
+      },
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Located independent original comparisons andmanufacturerbody/linkedMiSeqguide sections reported2026-10-16",
+        "finding": "Independentchecks confirmactualPMCcorrectionversionboundary, MiSeq7darkcyclemechanism, currentvendorrevisionbounds andcustom-onlyvsstock-spikemode. TheactualPhiX15039740controlreference remainsunread; nofullinstrument/reagenthistoryabsence orcomplete linkedgateclaimed."
+      }
+    ],
+    "pending_scope": [
+      {
+        "source": "miseq_custom_primer_v01",
+        "identified_original": "MiSeq System Denature and Dilute Libraries Guide, part15039740",
+        "location": "Guide15041638v01 text76–79, PhiXcontrol note",
+        "state": "Identified but not retrieved/read in this bounded batch; relevance to current declarations remains to classify. No access barrier or missing-information claim inferred."
+      }
+    ]
   },
   "missing_claims": [
     {
@@ -99,10 +223,18 @@
       "evidence": "Corrected publisher Supplementary Table 4 prints NNWNNWNN in all A01–A16 Y-adapters; source discrepancy with main-text amplification wording is displayed on the protocol page."
     },
     {
-      "claim": "The physical i5/index-2 priming oligo is specified by GUIDE-seq",
-      "disposition": "blocked",
-      "evidence": "The paper states the 16-cycle read and spikes custom primers only into MiSeq positions 13 and 14. The page infers standard P5 priming from an Illumina instrument guide not yet checked in this audit."
+      "claim": "The model treats canonicalP5 as the exact physicalgrafted Index2oligo.",
+      "disposition": "resolved",
+      "evidence": "Repository interpretationcorrected: manufacturerpositivelyspecifiesgraftedP5 plus7darkcycles, while canonicalP5 is now explicitly an effectivepost-extensionread-startanchor. Noexactphysicaloligo or selectedhistoricalrecipe isassigned; these modelquestions are not acceptedpublicationabsence."
     }
   ],
-  "conclusion": "Two independent located reads establish the dsODN, corrected Y-adapter/STAT-PCR method and source conflict on the molecular-index timing. PMC supplement copy and official Illumina index-2 guide remain unavailable, so missing claims stay blocked."
+  "conclusion": "Former knownsourceaccess/revisiongaps resolved through recoveredolderPMCcopy andactualvendororiginals, eachindependentlychecked. Publicsourcecorrectionnoticespreserved andphysicalIndex2anchorqualificationcorrected. Review staysin_progress foractualremaininglinked-source scope, including namedPhiXcontrolguide; no missinginformation accepted.",
+  "additional_checks": [
+    {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Fresh198-hit bundle scraper; definingJATS125–133, actualPMC/tablevisualp32 versuscorrectedpublisherp33, correctedTable4/Methods, actualvendorv08 andtwo manufacturerbulletins/linkedMiSeqguide",
+      "finding": "All modifiedsourceoligos andcorrected GSP labels are regressionchecked againstoriginals:13newsourcechecks,28totalPASS. PhysicalIndex2P5claimcorrected to computationalpost-darkcycleanchor;7darkcyclesexplicit without changing16imagedcycles. PCRlimitationsnowdeclare unassembledmodelstates ratherthanclaimingvariableflanksmakegeometry impossible orsourceinformationmissing. ExistingJune2015correction andmain-versus-adapterindex-timingnotice remain public."
+    }
+  ]
 }

@@ -1,17 +1,28 @@
 #!/usr/bin/env python3
-"""Source-boundary checks for the NEBNext USER-adaptor workflow."""
+"""Source transcription checks against the original selected NEB oligo manual."""
 from __future__ import annotations
+import os
+import re
 import sys
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
+sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
 import nebnext_user as N
-from checks import Check, run_common
+from checks import Check, Source, have
 check = Check()
-check.section("NEB manuals' protocol choices")
-check("end-prep incubations", N.END_PREP_TIMES, ((20, 30), (65, 30)))
-check("hairpin ligation", N.LIGATION, (20, 15))
-check("USER incubation", N.USER, (37, 15))
-check("minimum PCR cycles", N.MINIMUM_PCR_CYCLES, 3)
-run_common(check)
+bundle = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources" / HERE.parent.name
+source = Source(bundle / "manuale7600.pdf.txt", "NEB E7600 v6.0_6/24; ref/MANIFEST.md")
+if have(check, source, label="selected original NEB oligo manual"):
+    original = re.sub(r"\s+", "", source.path.read_text())
+    check("full modified hairpin in original E7600 p3",
+          "/5Phos/" + N.hairpin_oligo().top().replace("U", "dU")[:-1] + "-s-T" in original)
+    for primer in (N.i5_primer(), N.i7_primer()):
+        sequence = primer.top()
+        check(primer.name + " original complete oligo including terminal protection",
+              sequence[:-1] + "*" + sequence[-1] in original)
+second = Source(bundle / "manuale7780.pdf.txt", "NEB E7780 Set 2 original p3; independent same-adaptor source")
+if have(check, second, label="second original hairpin source"):
+    original = re.sub(r"\s+", "", second.path.read_text())
+    check("full modified hairpin also printed by E7780 p3",
+          "/5Phos/" + N.hairpin_oligo().top().replace("U", "dU")[:-1] + "-s-T" in original)
 check.report()

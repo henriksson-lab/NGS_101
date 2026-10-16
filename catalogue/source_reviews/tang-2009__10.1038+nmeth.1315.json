@@ -12,14 +12,14 @@
       "pass_2": {
         "reviewer": "audit_tenx_closeout",
         "date": "2026-10-16",
-        "locations": "Original tang-et-al-solid-nature-methods-2009.pdf.txt Results68\u201376, Figure1caption89\u201395, OnlineMethods950\u2013986 and originalrefs16\u201317 at889\u2013899; fullbundle oligo scraper run before original reading",
-        "finding": "Independent original reading confirms2009departures from predecessor: RT50C30min, extension6min (plus6sec/cycle), amine-blocked UP1/UP2, not automatic2010/predecessor numeric inheritance. OnlineMethods confirms exonucleaseI, TdTpolyA, UP2secondstrand,20PCR then9amine-primerPCRcycles; Covaris80\u2013130bp fragments, endrepair and unbarcodedP1/P2ligation;6%gel selects150\u2013200bp ligated DNA before8\u201310libraryPCRcycles. It reports50baseSOLiDoutput. Current graph includes correct source fragment range and gel selection with rejected-fraction fate; note explicitly separates2010context. Methods cites2007Kurimoto as actual procedure predecessor plus2006reference; these links andSOLiDvendor instructions remain separately checked, not waived by this main pass. No publication-error or confirmed-primer-absence conclusion is established."
+        "locations": "Original tang-et-al-solid-nature-methods-2009.pdf.txt Results68–76, Figure1caption89–95, OnlineMethods950–986 and originalrefs16–17 at889–899; fullbundle oligo scraper run before original reading",
+        "finding": "Independent original reading confirms2009departures from predecessor: RT50C30min, extension6min (plus6sec/cycle), amine-blocked UP1/UP2, not automatic2010/predecessor numeric inheritance. OnlineMethods confirms exonucleaseI, TdTpolyA, UP2secondstrand,20PCR then9amine-primerPCRcycles; Covaris80–130bp fragments, endrepair and unbarcodedP1/P2ligation;6%gel selects150–200bp ligated DNA before8–10libraryPCRcycles. It reports50baseSOLiDoutput. Current graph includes correct source fragment range and gel selection with rejected-fraction fate; note explicitly separates2010context. Methods cites2007Kurimoto as actual procedure predecessor plus2006reference; these links andSOLiDvendor instructions remain separately checked, not waived by this main pass. No publication-error or confirmed-primer-absence conclusion is established."
       },
       "pass_1": {
         "reviewer": "audit_editing_closeout",
         "date": "2026-10-16",
-        "locations": "Original Results lines68\u201376; Figure1 lines89\u201395; Online Methods lines950\u2013986; references16\u201317 lines889\u2013899",
-        "finding": "Original directly specifies 50C30min RT, exonucleaseI, TdT polyA, UP2 second strand, 20PCR cycles plus9 with NH2-UP1/2, Covaris80\u2013130bp shearing, endrepair, unbarcoded P1/P2 ligation,150\u2013200bp gel fraction and8\u201310 libraryPCR cycles,50base SOLiD output. Corrected model fragment range and omitted gel-selection stage. Linked predecessor reference17 (Kurimoto2007) and vendor low-input SOLiD workflow still need original source checks."
+        "locations": "Original Results lines68–76; Figure1 lines89–95; Online Methods lines950–986; references16–17 lines889–899",
+        "finding": "Original directly specifies 50C30min RT, exonucleaseI, TdT polyA, UP2 second strand, 20PCR cycles plus9 with NH2-UP1/2, Covaris80–130bp shearing, endrepair, unbarcoded P1/P2 ligation,150–200bp gel fraction and8–10 libraryPCR cycles,50base SOLiD output. Corrected model fragment range and omitted gel-selection stage. Linked predecessor reference17 (Kurimoto2007) and vendor low-input SOLiD workflow still need original source checks."
       }
     },
     {
@@ -37,8 +37,8 @@
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Original Springer MOESM306_ESM.xls.txt lines 1\u201312: UP1, UP2, NH2-UP1/UP2, SOLiD P1/P2 upper/lower strands, library PCR primers and footnotes; source-bundle scraper run",
-        "finding": "Independently confirms full UP1/UP2 and 5\u2032 amine variants, paired SOLiD P1/P2 adapter strands, and amplification primers. The table footnote says 5\u2032 NH2 blocks ligation of sheared cDNA 5\u2032-end fragments to SOLiD adapters, reducing end bias."
+        "locations": "Original Springer MOESM306_ESM.xls.txt lines 1–12: UP1, UP2, NH2-UP1/UP2, SOLiD P1/P2 upper/lower strands, library PCR primers and footnotes; source-bundle scraper run",
+        "finding": "Independently confirms full UP1/UP2 and 5′ amine variants, paired SOLiD P1/P2 adapter strands, and amplification primers. The table footnote says 5′ NH2 blocks ligation of sheared cDNA 5′-end fragments to SOLiD adapters, reducing end bias."
       }
     },
     {
@@ -75,7 +75,7 @@
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "nprot.2009.236_PMC3847604.xml.txt Methods and oligo table lines 1395\u20131415",
+        "locations": "nprot.2009.236_PMC3847604.xml.txt Methods and oligo table lines 1395–1415",
         "finding": "Later same-author detailed procedure independently prints UP1/UP2 and amine-blocked variants, agreeing with 2009 oligo table for those bases. It does not prove all 2009 timings were identical."
       },
       "discovered_from": "main_2009"
@@ -95,7 +95,7 @@
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "nar_gkl050_PMC1409679.xml.txt lines 56\u201365",
+        "locations": "nar_gkl050_PMC1409679.xml.txt lines 56–65",
         "finding": "Original predecessor prints V1/V3 oligo-dT24 handles that match 2009 UP1/UP2; its T7-V1 PCR branch is predecessor context, not automatically the 2009 sequencing workflow."
       },
       "discovered_from": "main_2009"
@@ -111,18 +111,66 @@
       "pass_1": {
         "reviewer": "audit_editing_closeout",
         "date": "2026-10-16",
-        "locations": "Original Steps15\u201320 lines508\u2013541; polyA/secondstrand Steps21\u201330; PCR Step34line660; T7-promoter PCR Steps38\u201343lines675\u2013714; Figure1workflow",
+        "locations": "Original Steps15–20 lines508–541; polyA/secondstrand Steps21–30; PCR Step34line660; T7-promoter PCR Steps38–43lines675–714; Figure1workflow",
         "finding": "Cited predecessor RT is50C5min and initialPCR72C3min, compared with Tang2009 stated30minRT and6minPCR. Predecessor ninecycle extension addsT7V1 for microarrayIVT; Tang2009 instead usesNH2-UP1/2 for SOLiD. These branches must not be inherited as identical. Its underlying2006 predecessor is already independently inventoried."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original kurimoto-et-al-single-cell-2007.pdf.txt Steps15–17 lines508–516; Step34 lines660–661; complete Steps38–43 lines673–714, including primer table; Tang2009 original Results68–76 and Methods950–986 compared directly; full Tang bundle scraper before reading",
+        "finding": "Independent original source confirms predecessor RT50C5min (with short-cDNA rationale) and20cycle PCR extension72C3min plus6sec/cycle. Its nine-cycle follow-up is explicitly T7-promoter addition for microarray IVT, using T7V1 and V3(dT)24. Tang2009 explicitly changes RT to30min, PCR extension to6min and uses amine-blocked NH2-UP1/2 instead. Current Tang graph preserves those2009 choices and does not import T7/microarray branch from the predecessor. Source inheritance is bounded to common oligo-dT/exonuclease/polyA/second-strand design; predecessor does not establish identity of Tang sequencing-library operations."
       }
     },
     {
       "id": "solid_low_input",
       "role": "vendor",
-      "locator": "Applied Biosystems SOLiD low-input fragment library workflow, cited Online Methods lines969\u2013974",
-      "availability": "unavailable",
+      "locator": "Official SOLiD System2.0 Fragment Library Preparation: Lower Input20ng–2ug Quick Reference Card; PN4415121RevA12/2008; https://documents.thermofisher.com/TFS-Assets/LSG/manuals/cms_059673.pdf; local cms_059673.pdf.txt",
+      "availability": "read",
       "relevance": "relevant",
       "discovered_from": "main_2009",
-      "reason": "Original operation/primer loading instructions need version identification and retrieval. Source wording alone does not establish all instrument primer oligos."
+      "reason": "Contemporaneous original recovered through extra_sources and full-bundle oligo scraper. Tang2009 does not identify the vendor guide revision; this candidate is read and comparable but exact experiment applicability is unverified. Agreement on selected size does not establish complete workflow identity.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "All five original pages: p1shearing/title; p2end repair/ligation; p3size selection and Nick Translation and Library Amplification; p4PCR/QC; p5partnumber/date. Text lines1–8,150–240 and finalfooter. Original Tang2009 Methods969–986 compared directly.",
+        "finding": "Official December2008lower-input card covers20ng–2ug and instructs150–200bp PAGE selection, matching this stated Tang operation. Card adds72C20min nick translation before libraryPCR and gives input-dependent8–16PCRcycles; for100ng–1ug its default is10–12cycles, whereas Tang explicitly specifies8–10. No wholesale equivalence is justified. Potential omitted nick-translation stage is a qualified model question, not established Tang chemistry from this unassigned revision. Tang-local8–10cycle value remains source authority. Card names primers1/2 without sequences and points to fullSOLiD2.0UserGuide for detail; no selected primer absence is accepted. Public primary-vendor searches found this card, higher-input sibling and laterSOLiD4/5500guides; full2.0guide exactURL/PN still not identified. Later guides are not silently substituted."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Originalcms_059673 LowerInput20ng–2ug titlep1; gel/NickTranslation+LibraryAmplificationp3 text160–245; p5 PN4415121RevA12/2008; originalsourceoligoscraper",
+        "finding": "Contemporaryoriginalquickcardincludes150–200bpgelselectionand72C20minnicktranslationbeforePCR, withinputdependentcycles; Tangmainactuallyuses8–10cyclesfor200–500ng. Tangdoesnotnamequickcardrevision. Guideisboundedcomparison/sourceofpotentialunrepresentedmaturation, notproofofidenticalTangimplementation; no inferredstepaddedasestablished. Carddirectsfull2.0UserGuide, whoseexactoriginalremainsunidentified."
+      }
+    },
+    {
+      "id": "solid_higher_input_candidate",
+      "role": "vendor",
+      "discovered_from": "main_2009",
+      "locator": "Official cms_059674.pdf.txt; SOLiD2.0 HigherInput≥2ug card PN4415133RevA12/2008; https://documents.thermofisher.com/TFS-Assets/LSG/manuals/cms_059674.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original title and footer identify a distinct higher-input branch; Tang2009 explicitly uses200–500ng and says low-input workflow. This document is not substituted as its source recipe.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original first-page title, repeated section/page headings and final-page date/PN footer, text1–8 and399–435; compared to Tang2009 original input statement",
+        "finding": "Original is contemporaneous but titled HigherInput2ugor more, PN4415133RevA12/2008. Its historical vendor provenance does not make this different input branch applicable to Tang200–500ng. Excluded as source of Tang reaction conditions; no absence conclusion depends on an unread sequence scan."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Originalcms_059674 title/frontmatter HigherInput2ugormore; separatefullsourceoligoscraper",
+        "finding": "Originaltitleandinputrangeidentifythehigher-inputsibling, notTang200–500nglow-inputbranch. ExcludedfromassigningTangconditionsbasedonactualoriginalscope; norecipeinherited."
+      }
+    },
+    {
+      "id": "solid_full_guide",
+      "role": "linked_material",
+      "discovered_from": "solid_low_input",
+      "locator": "Applied Biosystems SOLiD System2.0 User Guide, named in PN4415121RevA quickcard p1; exact full-guide revision/URL not identified",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual lower-input quickcard points to full user guide for detailed instructions. Vendor-site/title searches retrieved contemporaneous quickcards but did not identify an exact full2.0original URL/PN; laterSOLiD4/5500manuals do not establish2009identity. This is a remaining source-identity/retrieval task, not accepted information absence."
     }
   ],
   "linked_information": {
@@ -143,14 +191,20 @@
       {
         "reviewer": "audit_editing_closeout",
         "date": "2026-10-16",
-        "locations": "Original2009 Methods, supplement pointers and references16\u201317",
+        "locations": "Original2009 Methods, supplement pointers and references16–17",
         "finding": "Main text now read and its own numerical reaction/library details replace imported2010 values. Identified actual2007 predecessor in addition to2006; vendor low-input fragment workflow remains to retrieve. Preserve earlier link passes as history, not closure."
       },
       {
         "reviewer": "audit_tenx_closeout",
         "date": "2026-10-16",
-        "locations": "Original2009Results/Methods,Figure1andreference16\u201317; localgraph fragmentation/size_select/library_pcr and public note source-version notice",
+        "locations": "Original2009Results/Methods,Figure1andreference16–17; localgraph fragmentation/size_select/library_pcr and public note source-version notice",
         "finding": "Independently followed actual predecessor pointers: original states2007protocol with explicit2009changes and namesSOLiDlow-inputfragment workflow. Localmodel numerical correction is supported directly by2009original. Newly recovered Kurimoto2007 and vendor-source rows require their own original checks; this pass preserves outstanding source gate."
+      },
+      {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh Kurimoto2007 originals plus actual official vendor2008low/high-input quickcards, including lower-cardp1linked full-user-guide pointer",
+        "finding": "Cited Kurimoto original independently checked and distinctT7microarraybranch excluded from Tang. Newly recovered low-input vendor card is source-positive but Tanghistoricalrevisionunassigned; candidate nick-translation step is not promoted to establishedTang chemistry. Original lower-card source and higher-card branch exclusion await independent check. Full2.0guide is a concrete linked source identity still to resolve; no source-absence acceptance."
       }
     ]
   },
@@ -161,7 +215,7 @@
       "evidence": "Recovered main now directly supplies principal steps and numerical conditions; independent new-main pass and relevant2007/vendor linked sources remain open. No absence claim accepted."
     }
   ],
-  "conclusion": "Recovered defining Online Methods resolves principal reaction-order and numeric scope. Model now uses80\u2013130bp shearing and150\u2013200bp gel selection before8\u201310 library-PCR cycles. Independent reading of new original and linked2007/vendor source checks remain.",
+  "conclusion": "Recovered defining Online Methods resolves principal reaction-order and numeric scope. Model now uses80–130bp shearing and150–200bp gel selection before8–10 library-PCR cycles. Independent reading of new original and linked2007/vendor source checks remain.",
   "source_recovery_followup": {
     "reviewer": "audit_rna_contacts_closeout",
     "date": "2026-10-16",

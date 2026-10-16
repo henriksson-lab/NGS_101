@@ -84,7 +84,12 @@
         "locations": "Original PDF pp3\u20134 lines124\u2013143 and1121\u20131128; unauthed /api/v1/protocols/33276?fields[]=guidelines&fields[]=documents&fields[]=description&fields[]=materials&fields[]=steps, metadata doi/uri and complete guidelines entityMap0\u20131",
         "finding": "Original protocol supplies custom10base or8base design guidance, not an identified Smart3 customi5/i7 workbook. EntityMap0 is ordered RT/TSO/PCR oligo table; entityMap1 is linked Costello paper. Corrected invented source identity in checklist. Later xpress workbook is not silently applied to original Smart3 experiment. Published main Methods remains behind subscriptionpreview. Actual selected pair remains unresolved, not confirmed absent."
       },
-      "pass_2": null,
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original Smart3 protocol integer33276, PDF pp3\u20134 text124\u2013143 and indexPCR1121\u20131128; source bundle oligo scrape",
+        "finding": "Source recommends custom designed Nextera indexes,10bases or8depending experiment, specifies design constraints and explicitly linksCostello. It does not identify a missing order workbook. Earlier supposed-file blocker was a repository source-identity assumption. No unseen member list is invented or absenceaccepted."
+      },
       "discovered_from": "author_protocol"
     },
     {
@@ -100,23 +105,36 @@
         "locations": "PMC5941783 JATS lines 85\u2013110, 205\u2013246; Additional file1 DOCX full text, Additional file2 XLSX all rows/headers (two96-index sets), Additional file3 DOCX complete design guidance, especially i5 AC paragraph; original Smart3 protocol PDF pp3\u20134 and xpress protocol p3 outward link",
         "finding": "The real linked index-design paper is Costello2018. It explains index swaps; Additional file3 states i5 AC causes skipped initial bases on MiSeq/HiSeq2500/NovaSeq. Additional file2 supplies that paper's own192eight-base indexes, not a Smart3/xpress cell assignment or author order roster. Additional file1 supplies index-swapping experiments. These originals are relevant to the cited design advice; their specific index members are not evidence for which Smart3 cells used which pair. Methods cites generic library-prep methods; those predecessors do not establish any Smart3 pair and are excluded from this index-assignment question. No evidence of inheritance of this paper's96pair scheme by Smart3."
       },
-      "pass_2": null
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original Costello2018 PMC5941783 JATS85\u2013110, Discussion205\u2013226 and Methods; Additionalfile1 bothfigure legends; Additionalfile2 all192index rows/two96sets; Additionalfile3 complete design guidance; full original bundle scraper",
+        "finding": "Original establishes nonredundant dual-index design and index-swapping observations, provides two96-member8-base sets and explicit i5-AC/secondary-structure cautions. It is a design reference, not the Smart3/xpress ordered10-base-member list. Its own study-specific instruments/reagents cannot substitute for Smart3/xpress assignments; generic design/vendor/software follow-on links remain qualified by their actual scope."
+      }
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-15",
-      "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
-      "finding": "Read author protocols.io oligo/index sections and source inventory; full published paper and custom index order remain unavailable."
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "Original author protocol33276 DOIbcq4ivyw PDF pp3\u20134 and public API full guidelines entityMap0\u20131; Costello2018 article and original supplements1\u20133; publisher HTML subscription-preview627\u2013720; author Smart-seq3 GitHub master tree and README",
+      "finding": "Fresh original-source link inspection supersedes assumed unavailable custom-order workbook. Original Smart3 protocol supplies oligo table and custom index-design instructions, with actual link to Costello index-artifact paper; no separate custom-order file is identified in those original instructions. Costello original and all3supplements are read and scoped to generic design/performance, not a Smart3 cell-to-index assignment. Author GitHub is a processing/analysis repository, not a recovered order roster. Distinct later xpress workbook is not imported as Smart3 experiment evidence. Original published main Methods remains behind explicit subscription preview after publisher/author/preprint routes; absence of an experimental selected pair is not accepted."
     },
     "pass_2": {
       "reviewer": "audit_a_h",
       "date": "2026-10-15",
       "locations": "bioRxiv preprint Methods, author protocols.io oligo/index sections, local MANIFEST.tsv",
       "finding": "Preprint and author protocol give oligo motifs and custom-index specification, but published full text and specific custom-index workbook/order are not locally readable."
-    }
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
+        "finding": "Read author protocols.io oligo/index sections and source inventory; full published paper and custom index order remain unavailable."
+      }
+    ]
   },
   "missing_claims": [
     {
@@ -125,7 +143,7 @@
       "evidence": "Published original Methods still inaccessible after publisher HTML/PDF and existing author/preprint routes. Actual original author protocol gives index-design criteria; no separate order-list source was identified there. Independent new link checks pending; no confirmed absence."
     }
   ],
-  "conclusion": "Published original Methods remain behind explicit subscription barrier. Original author protocol source identity corrected: design guidance plus linked Costello paper, not an identified unavailable custom index roster. Newly examined source/link rows await independent review.",
+  "conclusion": "Original author protocol index instructions and linkedCostello originals now independently checked. Supposed missing order-workbook identity corrected; published mainMethods still restricted behind subscriptionpreview. No confirmed publication absence accepted.",
   "source_recovery_followup": {
     "reviewer": "audit_rna_contacts_closeout",
     "date": "2026-10-16",

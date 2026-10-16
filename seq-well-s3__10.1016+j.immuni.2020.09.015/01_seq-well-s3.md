@@ -19,7 +19,7 @@ Other papers in the catalogue rows for this method:
   [Seq-Well](../seq-well__10.1038+nmeth.4179/01_seq-well.md).
 - **Drop-seq** (same beads, same oligos) — Macosko EZ et al., *Cell* 2015, doi:10.1016/j.cell.2015.05.002.
 - nanoCAGE / CAGEscan — Plessy C et al., *Nat Methods* 2010, doi:10.1038/nmeth.1470; cited by
-  the upstream page only for the term "semi-suppressive PCR" (single-primer WTA).
+  the original protocol for single-primer WTA.
 
 Sources read (fetched by `tools/get_sources.py`, into
 `$CHEM_DATA/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/`, never committed):
@@ -31,13 +31,16 @@ Sources read (fetched by `tools/get_sources.py`, into
 | `j.immuni.2020.09.015_supp_mmc1.pdf.txt` | complete Document S1, including the Seq-Well S3 Master Protocol | RT, second-strand and PCR mixes, incubation, index-primer stocks and read lengths |
 | `j.immuni.2020.09.015_supp_mmc8.pdf.txt` | article plus Document S2 | cross-check of the published methods and protocol |
 | `j.immuni.2020.09.015_supp_mmc3.xlsx.txt` | Table S2 cell metadata | result data, not oligo construction |
-| `upstream_SeqWell_S3.html.txt` | scg_lib_structs page | second, complete account; checked against the paper in §2 |
+| `upstream_SeqWell_S3.html.txt` | scg_lib_structs page | orientation and historical comparison only; never evidence |
 | `mmc1_partial_FigS1A_legend.decoded.txt` | **hand-recovered** Figure S1A legend (see below) | step list of the S3 scheme; "random octamer" wording |
-| `j.immuni.2020.09.015_PMC7562821_supplementary.zip` | Europe PMC supplement bundle — **truncated** at exactly 50,000,000 bytes | salvaged mmc2, mmc4–7 (xlsx: gene tables, no chemistry) and the first ~38 MB of mmc1.pdf |
+| `j.immuni.2020.09.015_supp_mmc2.xlsx` through `mmc7.xlsx` | complete originals recovered through PMC Cloud; workbook sheets inspected | comparison statistics, cell-level metadata (including observed cell barcodes), differential expression and enrichment results; no additional synthesis recipes |
 
 Cross-checked against a sibling protocol's sources (read only):
 `_data/sources/drop-seq-seq-well__10.1016+j.cell.2015.05.002/nmeth.4179_…_MOESM237_ESM.pdf.txt`
-(Seq-Well 2017 Supplementary Table 1) for the bead oligo, which the S3 paper does not print.
+(Seq-Well 2017 Supplementary Table 1) for the predecessor bead architecture.
+The S3 Document S1 itself also prints SeqB in its Sequences section (extracted
+lines 4718–4732); predecessor agreement supplies context rather than replacing
+that direct source.
 
 Also read the Shalek lab's [Seq-Well S³ Master Protocol](https://shaleklab.com/wp-content/uploads/2024/02/Hughes.et_.al_.Master.Protocol.pdf),
 linked from its current [protocols index](https://shaleklab.com/resources/protocols/).
@@ -122,22 +125,18 @@ Beads-oligo-dT-seqB  |--5'- TTTTTTTAAGCAGTGGTATCAACGCAGAGTAC[12-bp cell barcode]
   `TAAGGCGA` as N701, but the study does not say it used N701. The model therefore keeps
   eight variable index bases. Standard primer form `nextera.n7xx_primer(<i7>)` =
   `CAAGCAGAAGACGGCATACGAGAT <i7> GTCTCGTGGGCTCGG` 🟡 for the unverified historical kit.
-- **Read 2 and i7-index sequencing primers** — not mentioned (standard kit primers). 🔴
+- **Read 2 and i7-index sequencing primers** — model assignments from standard vendor
+  Nextera context, without a historical kit-version assignment. 🟡
 
-### Upstream (scg_lib_structs) vs. the paper — agreements and disagreements
+### Original-source boundaries
 
-| Oligo (upstream name) | Agreement | Note |
-|---|---|---|
-| TSO | **agrees**, incl. `rGrGrG` 🟢 | paper prints a stray space, `…CGCAGAG TGAAT…`; upstream has none |
-| Smart PCR Primer (TSO_PCR) | **agrees** 🟢 | — |
-| dN-Smart Randomer (dN-SMRT) | **agrees** 🟢 | the paper calls it "S3 Randomer" / "dn-SMART oligo"; "dN-SMRT" is upstream's name |
-| New-P5-SMART PCR Hybrid Oligo (P5-TSO_Hybrid) | sequence **agrees**; upstream **omits the two phosphorothioates** `∗A∗C` | same omission as on the Drop-seq page; the PS bonds protect the 3'-terminal `AC` that makes the primer bead-end-specific (below) 🟡 (inferred) |
-| Custom Read 1 Primer (Read_1_Custom_SeqB) | **agrees** 🟢 | — |
-| Beads-oligo-dT-seqB | **agrees** with the 2019 original-author S3 Master Protocol p. 39 and Seq-Well 2017 Table 1 | 🟢 S3 bead architecture; barcode member remains a placeholder |
-| Nextera N7xx, Read 2 primer, i7 index primer | member not specified by the paper | 🟡 official Illumina family table supplies standard Nextera context; historical member and kit revision remain unresolved |
-| Upstream's step "(1) Add Read 1 sequencing primer (seqA)" | label says **seqA** but the drawn primer is the **seqB** sequence (the one in the paper) | internal slip on the upstream page 🟡 |
-| Upstream wording "Klenow enzyme" | paper: **Klenow Fragment (3'→5' exo⁻)**, NEB M0212L 🟢 | upstream less specific |
-| Upstream step 2: RT "for all cells in one reaction" after bead removal | **agrees** with STAR Methods 🟢 | — |
+The original-author June 2019 Master Protocol p. 39 prints the complete bead, TSO,
+randomer, SMART PCR, modified P5-SMART and custom Read 1 sequences. Its p. 22 names
+Nextera XT, P5-SMART and N700 for the selected library. The official Illumina adapter
+sequence document supplies standard Nextera family context for the right arm and
+Index 1/Read 2 binding sites; the displayed bases from that context are inferred,
+because the historical kit revision and chosen N700 member remain unassigned.
+The upstream drawing is not evidence for these assignments.
 
 ### How the oligos interlock — 🟡 (computed with `lib/`)
 
@@ -156,8 +155,9 @@ every non-Illumina oligo:
   (2) = 66 nt.
 - **Custom Read 1 primer** = the P5 hybrid minus `illumina.P5`, exactly (37 nt); it ends on
   the bead's last constant base, so read 1 starts on cell-barcode base 1.
-- Upstream's read 2 and i7-index primers are exactly **`nextera.READ2_PRIMER`** and
-  **`nextera.INDEX1_PRIMER`**; upstream's N7xx primer is exactly `nextera.n7xx_primer`.
+- Standard vendor Nextera context supplies **`nextera.READ2_PRIMER`**,
+  **`nextera.INDEX1_PRIMER`** and the N7xx PCR arms; their use for the historical
+  implementation is a model inference, rather than a selected index-member assignment.
 
 Consequences:
 
@@ -166,12 +166,12 @@ Consequences:
 2. The **bead end** and the **TSO/randomer end** differ right after the handle (`AC` vs
    `GA`). The P5 hybrid ends `…GCAGAGT∗A∗C`, matching only the bead end; on the other end its
    last two bases are mismatched, so in the Nextera PCR only bead-end fragments extend
-   from it. 🟡 (computed; upstream says the same, step 6 "Product 2")
+   from it. 🟡 (computed from the printed bead and hybrid primer)
 3. With the P5 hybrid and an N7xx as the only primers, the one exponentially amplifiable
    tagmentation product per cDNA is **bead end + s7 Tn5 end** — the 3'-most fragment. 🟡
-   (agrees with upstream step 6, "Product 7")
-4. The randomer's reverse complement, which ends the top strand in upstream's step 5, is
-   `VNNNCCNNNTCACTCTGCGTTGATACCACTGCTT` — upstream writes this correctly. (`chemdraw.revcomp`
+   (conditional on the standard Nextera arm assignment)
+4. The randomer's IUPAC reverse complement is
+   `VNNNCCNNNTCACTCTGCGTTGATACCACTGCTT`. (`chemdraw.revcomp`
    passes IUPAC `B` through unchanged, so `B`→`V` was done by hand.) 🟡
 
 ## 3. Step by step
@@ -234,7 +234,7 @@ Beads from one PBMC array split six ways: ± second-strand synthesis, crossed wi
 RT, (b) **no TSO**, (c) heat-inactivated RT. Only "no TSO, no S3" (= Seq-Well v1 without
 TSO) gave no appreciable WTA product.
 
-## 4. Final library — 🟡 (assembled from the oligos above; agrees with upstream step 7)
+## 4. Final library — 🟡 (assembled from original oligos and vendor family context)
 
 Identical in structure to Seq-Well v1; S3 changes which molecules reach it, not the layout.
 Top strand 5'→3':
@@ -258,10 +258,11 @@ Top strand 5'→3':
 | i7 (reverse complement of the N7xx index) | `<i7'>` | 8 |
 | `illumina.P7_RC` | `ATCTCGTATGCCGTCTTCTGCTTG` | 24 |
 
-Checked: upstream's final top strand = P5 hybrid (without PS marks) + 20 N, and ends with
-exactly `nextera.ME_RC` + `nextera.S7_RC` + 8 N + `illumina.P7_RC`. 🟡 (computed)
+The P5 end is derived from the original modified hybrid primer. The Nextera right
+arm is conditional on the official standard family assignment; its bases are marked
+inferred in the molecular constructors and public page.
 
-No i5 index: the P5 end is the same custom primer for every sample; samples are
+In the displayed MiSeq/NextSeq implementation there is no i5 index: the P5 end is the same custom primer for every sample; samples are
 demultiplexed on the N700 (i7) index only. 🟢 ("demultiplexed using Nextera N700 indices")
 
 Note the randomer end (`handle·GA·NNNGGNNNB…`) never appears in a sequenced library: it is
@@ -288,28 +289,57 @@ Read 2 reads the transcript in the **sense** orientation, starting at a Tn5 cut 
 
 ## 6. Open questions
 
-- 🔴 Why the randomer tail is `NNNGGNNNB`: the fixed internal `GG` and the non-A 3' base are
-  not explained. Fig. S1A's legend calls it a "random octamer"; the tail has 7 degenerate
+- 🟡 Unresolved design rationale for why the randomer tail is `NNNGGNNNB`: the fixed internal `GG` and the non-A 3' base are
+  not assigned by this model. Fig. S1A's legend calls it a "random octamer"; the tail has 7 degenerate
   positions + `GG` = 9 nt, so "octamer" matches neither count. 🟡 (counted)
 - 🟡 A plausible reason for the 3'-terminal `B` (C/G/T, never A): a randomer ending in `A`
   would pair on the T30 run that every bead-bound first strand carries next to the barcode,
   priming a useless handle-to-T30 product. Not stated by the authors.
-- 🔴 Why the published STAR Methods say 1 M TE when both stepwise author protocols
+- 🟡 Unresolved interpretation of why the published STAR Methods say 1 M TE when both stepwise author protocols
   say 1xTE; the model follows the detailed 1xTE instruction.
-- 🔴 Why the published STAR Methods use 10 µL TD + 5 µL ATM while both stepwise
-  author protocols use 11 µL TD + 4 µL ATM; the model has no numeric split.
+- 🟡 Unresolved interpretation of why the published STAR Methods use 10 µL TD + 5 µL ATM while the 2019 and published Document S1 stepwise
+  protocols use 11 µL TD + 4 µL ATM; the model has no numeric split.
 - 🟡 "KAPA 5X Mastermix" vs "KAPA 2x HiFi HotStart" — presumably the 2× ReadyMix.
 - 🟢 The Master Protocol supplies the library PCR primer stock concentrations: 10 µM each.
 
 ## 7. How this note was made (tool evaluation)
 
-`get_sources.py` got the PMC HTML/XML and the upstream page. An initial Europe PMC
+Initially, `get_sources.py` got the PMC HTML/XML and the upstream page. An initial Europe PMC
 supplementary zip was cut at exactly 50,000,000 bytes; the complete mmc1.pdf was
 subsequently recovered and its Master Protocol read. The Figure S1 legend uses a
 re-encoded font and was decoded by a
 substitution table into `mmc1_partial_FigS1A_legend.decoded.txt`. `scrape_primers.py`
-found every paper oligo but split the TSO (stray space) and the P5 hybrid (stray hyphen
-and stray space, `∗` phosphorothioates not parsed), and `--find` reports **0 locations for the randomer**,
-which is verbatim in both files — it does not match degenerate IUPAC bases. All sequences
-marked 🟢 above were confirmed with `--find` (randomer by its ACGT prefix plus grep; P5
-hybrid in the paper by its two halves).
+originally split the TSO and P5 hybrid and did not match the degenerate randomer.
+Those were historical tool limitations. The 2026-10-16 full-bundle scraper lists
+the TSO with its RNA end, the P5 hybrid phosphorothioates and the randomer at
+their original locations. The actual source table still controls transcription:
+nearby labels can be joined to a hit. Complete original supplements mmc1–8 have
+since been recovered through PMC Cloud. Both readers inspected every workbook's
+sheet inventory and the combined article/supplement rather than relying on the
+initial truncated archive or on scraper silence.
+
+## Fresh original-source check (2026-10-16)
+
+The retrieved originals are `Hughes.et_.al_.Master.Protocol.pdf.txt` and
+`Chapter3_SeqWell.pdf.txt` in the Seq-Well S3 source bundle; the full bundle oligo
+scraper was run before reading them (275 hits across ten files). The 2019 guide
+lines 730–800, 930–970, 1068–1098 and 1895–1923 corroborate source order, modified
+oligos, and instrument-specific read options. The 2023 chapter lines 305–330,
+880–935, 1093–1170 and 1280–1310 corroborate the later 10/5 tagmentation recipe
+and 20/8/50 NextSeq option. These are positive version differences, not proof that
+an explanatory correction document is absent.
+
+The 2019 guide p. 24 separately recommends optional NovaSeq Index 2 and dual
+indexing, while its listed library primers are the common P5-SMART plus N700 pair.
+The page therefore selects its explicit MiSeq/NextSeq 20/8/50 option; it does not
+assign the optional NovaSeq second-index implementation. Bead-lot-dependent
+21-cycle Read 1 is another stated variant.
+
+Remaining linked originals need fresh source-specific checks: the 2019 guide's
+NextSeq/MiSeq custom-primer guides, its generic Illumina loading-documents link,
+and the 2023 chapter's cluster-density, bcl2fastq, demultiplexing and Cumulus
+processing references. The chapter's scg_lib_structs illustration is excluded as
+upstream artwork, not used for oligo evidence. The defining article also identifies
+GEO GSE150672 and the Alexandria processed-data portal. No raw data are required
+for the present molecular claims; metadata and linked-source scope remain to be
+checked. This protocol remains in progress, with no new source-absence acceptance.

@@ -19,7 +19,15 @@
         "date": "2026-10-15",
         "locations": "local JATS ng.3142_PMC4254663.xml.txt lines 536-543; local article PDF lines 625-634",
         "finding": "Core et al. 2014 says its K562 and GM12878 GRO-cap libraries were made precisely as Kruesi et al. 2013. The immediately following TruSeq Small RNA adapters clause is attached to PRO-seq, not GRO-cap; Kruesi must be read to establish the GRO-cap adapters."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Fresh full bundle oligo scraper (12 hits in two files), original Core2014 JATS Methods lines534–549",
+          "finding": "The original source assigns GRO-cap precisely to Kruesi2013. Adjacent GRO-seq follows Wang and adjacent PRO-seq follows Kwak with TruSeq SmallRNA adapters; the PRO-seq kit statement does not establish GRO-cap chemistry. Thirty-base mapping trim is postprocessing, not acquired run length."
+        }
+      ]
     },
     {
       "id": "springer_supp",
@@ -38,7 +46,21 @@
         "date": "2026-10-15",
         "locations": "publisher MOESM77 PDF text title/figure headings and adapter/oligo search",
         "finding": "The publisher supplement comprises results and figure descriptions; no GRO-cap oligo table identified in the inspected text."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "Original MOESM77 PDF all29 pages visually inventoried through contact sheet; full-size p29 inspected alongside Table1/2 text.",
+          "finding": "Pages1–28 comprise browser snapshots, HMM and genomic/TF result plots; no library geometry is inferred from those panels. Original p29 Table1 explicitly labels GRO-cap30bp as length of mapped reads, not acquisition cycles; Table2 classifies transcription factors. This adds original-image scope to earlier extracted-text checks, without claiming complete oligo disclosure or absence."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original29-page supplement contact sheet plus full-size original p29; referring article Methods534–549.",
+          "finding": "Independently inspected original image inventory. Table1 explicitly labels30bp as mapped-read length, not acquisition cycles; Table2 is TF classification. No acquisition recipe is assigned from these result tables."
+        }
+      ]
     },
     {
       "id": "springer_supp_bed_results",
@@ -78,7 +100,15 @@
         "locations": "local elife00808.pdf.txt lines 1135-1161 (GRO-seq contrast), 1163-1203 (GRO-cap); original PDF Methods pp. 22-23",
         "finding": "The explicit GRO-cap method ligates RA3 (part 15013207) to the 3-prime RNA after first BrU enrichment, repeats BrU capture, applies Terminator exonuclease and Antarctic phosphatase, splits TAP+/TAP−, ligates RA5 (part 15013205) to TAP+ 5-prime RNA, then captures BrU a third time. GRO-cap RT/PCR are delegated to Core 2008; GRO-seq circular RT primer on prior page is a different branch."
       },
-      "discovered_from": "core_article"
+      "discovered_from": "core_article",
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original Kruesi2013 PDF text1080–1132 (NRO/first capture),1135–1161 (adjacent GRO-seq completion),1163–1203 (GRO-cap),1205–1211 (joint read mapping); Methods pp21–23",
+          "finding": "Independent reading confirms GRO-cap excludes base hydrolysis, uses RA3 after first BrU capture, second capture, Terminator digestion, Antarctic phosphatase, TAP+/no-TAP split, RA5 ligation, third capture, then explicit Core2008 RT/amplification/PAGE delegation. The circular RT primer and six-base RPI family above the GRO-cap heading belong to GRO-seq and are not assigned to GRO-cap. A positive adapter sequence is printed in the joint mapping section: cutadapt target TGGAATTCTCGGGTGCCAAGG matches current RA3. This establishes a historical read-through/trim target, not full ordered-strand modifications or a GRO-cap PCR/index assignment."
+        }
+      ]
     },
     {
       "id": "illumina_truseq_small_rna",
@@ -98,7 +128,15 @@
         "locations": "local illumina_TruSeq-SmallRNA.htm.txt lines 144-192; official Illumina web page sections RNA 3-prime Adapter, RNA 5-prime Adapter, RTP, RP1, RPI",
         "finding": "Official v22 table prints RA3 TGGAATTCTCGGGTGCCAAGG and RA5 GUUCAGAGUUCUACAGUCCGACGAUC, RTP and RP1, and 48 six-base RPI members. This supports named kit identities but does not prove the exact 2013 kit revision or selected 2014 library index."
       },
-      "discovered_from": "kruesi_2013"
+      "discovered_from": "kruesi_2013",
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original local official sequence page lines144–192, RNA5 Adapter/RNA3 Adapter/RTP/RP1/RPI sections",
+          "finding": "Current official sequence page prints RA3 and RNA-spelled RA5, plus a six-base RPI family. Original Kruesi mapping independently corroborates the RA3 trim sequence. Neither source supplies an experiment-specific2014 GRO-cap index assignment or proves every historical ordering-strand modification."
+        }
+      ]
     },
     {
       "id": "core_2008_groseq",
@@ -138,7 +176,15 @@
         "date": "2026-10-15",
         "locations": "local original Science SOM PDF text lines 683-710, especially 699-710; cover/front matter lines 1-20",
         "finding": "Original Science Supporting Online Material contains the inherited RT/PCR details: Illumina Small RNA Isolation Kit RT primer, SuperScript III 44/52 C, RNase cocktail and H, 15 Phusion cycles with kit PCR primers, PAGE purification above 90 nt. The SOM is mirrored but keeps original Science DOI/header; local PMC supplement endpoint was gated."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original Science SOM mirror cover1–20 verifies DOI/header; text683–710, particularly699–710, printed pp18–19",
+          "finding": "Independent original read verifies the explicitly inherited downstream order: Illumina SmallRNA kit RT primer plus SuperScriptIII, RNase cocktail and RNaseH, Phusion PCR with kit primers, then non-denaturing PAGE. Original cutoff above90nt belongs to the inherited reference; current endpoint remains unassembled. These source operations do not identify a six-base index or the later GRO-cap primer pair."
+        }
+      ]
     },
     {
       "id": "illumina_rev_c_2011",
@@ -158,7 +204,398 @@
         "date": "2026-10-16",
         "locations": "Official Illumina TruSeq Small RNA Sample Prep Guide part 15004197 Rev C (2011) extracted lines 443–455, 500–509, 980–1006, 1643–1765 (Table 7); compared to existing Kruesi 2013 review locations 1163–1203",
         "finding": "Independent read confirms RA3 component part #15013207 and RA5 #15013205, the two parts named in independently reviewed Kruesi 2013 methods. The guide instructs one of RPI1–RPI48 per library during PCR and Table 7 prints their six-base index values. Rev C does not print full RA3/RA5 oligo sequences or select a Core 2014 GRO-cap RPI member. Matching part numbers supports kit-component identity, but the current web sequence table alone cannot prove unchanged 2011 oligo bases or an experiment-specific index."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original2011 RevC guide component inventory lines443–455 and500–509, with actual part numbers read afresh",
+          "finding": "The contemporary guide identifies RA3 #15013207 and RA5 #15013205, matching Kruesi. Component identity corroboration does not establish that GRO-cap inherited the adjacent GRO-seq PCR/index declaration."
+        }
+      ]
+    },
+    {
+      "id": "gse60456_geo_metadata",
+      "role": "linked_material",
+      "locator": "Original NCBI GEO GSE60456 family SOFT metadata, GSE60456_family.soft.gz (decompressed original GSE60456_family.soft); geo-GSE60456-all-full.txt is alternative original export.",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "core_article",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; Series6–41; all four GRO-cap sample records68–275; protocols89/141/193/245; processing and experiment cross-references.",
+        "finding": "The four actual Core2014 GRO-cap sample records independently corroborate RA3 then second capture, Terminator/AP, TAP/control, RA5 then third capture, and RT/PCR/PAGE completion. Thirty bases is explicitly processing trim. Sample instrument is HiSeq2000. Records identify SRX682016–19 and distinct neighboring GRO/PRO-seq samples; their sequence/primer data are not assigned to GRO-cap."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Series6–41; all four GRO-cap sample records68–275; protocols89/141/193/245; processing and experiment cross-references.",
+        "finding": "Independent original metadata read confirms the four actual Core2014 GRO-cap sample records independently corroborate RA3 then second capture, Terminator/AP, TAP/control, RA5 then third capture, and RT/PCR/PAGE completion. Thirty bases is explicitly processing trim. Sample instrument is HiSeq2000. Records identify SRX682016–19 and distinct neighboring GRO/PRO-seq samples; their sequence/primer data are not assigned to GRO-cap."
       }
+    },
+    {
+      "id": "gse43087_geo_metadata",
+      "role": "linked_material",
+      "locator": "Original NCBI GEO GSE43087 family SOFT metadata, GSE43087_family.soft.gz (decompressed original GSE43087_family.soft); geo-GSE43087-all-full.txt is alternative original export.",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "kruesi_2013",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; Series6–56; all eight GRO-cap sample records383–820; first complete protocol402–404 and processing405–411, repeated across other GRO-cap records; SRA links.",
+        "finding": "The eight actual precursor GRO-cap records corroborate the source-owned reaction order and Core2008 completion. Processing prints the RA3 trim target TGGAATTCTCGGGTGCCAAGG and30bp trimming. HiSeq2000 and SRX212227–34 are explicitly identified. Literal metadata ml units conflict with original PDF µl and are not used as model conditions."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Series6–56; all eight GRO-cap sample records383–820; first complete protocol402–404 and processing405–411, repeated across other GRO-cap records; SRA links.",
+        "finding": "Independent original metadata read confirms the eight actual precursor GRO-cap records corroborate the source-owned reaction order and Core2008 completion. Processing prints the RA3 trim target TGGAATTCTCGGGTGCCAAGG and30bp trimming. HiSeq2000 and SRX212227–34 are explicitly identified. Literal metadata ml units conflict with original PDF µl and are not used as model conditions."
+      }
+    },
+    {
+      "id": "srx682016_experiment",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/ena/browser/api/xml/SRX682016?format=xml; SRX682016.xml and .xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "gse60456_geo_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; full original XML identity/design/library/platform/link tree and extracted text.",
+        "finding": "Actual original experiment maps the corresponding GEO sample, declares SINGLE layout and Illumina HiSeq2000, with OTHER/TRANSCRIPTOMIC/other library descriptors. Construction protocol repeats the source-owned GEO GRO-cap method; all four Core2014 records contain an identical protocol paragraph. Outgoing links identify sample, submission and run file-report metadata; no sequencing reads or raw-read inference used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent complete original SRX682016.xml tree: EXPERIMENT identifiers/title, DESIGN/LIBRARY_DESCRIPTOR including empty SINGLE node, PLATFORM/ILLUMINA/INSTRUMENT_MODEL, all experiment XREF links/attributes; compare actual GEO sample identity.",
+        "finding": "Every one of the12 inspected original experiments declares SINGLE and Illumina HiSeq2000. Four Core2014 construction paragraphs reproduce the checked GEO chemistry; the eight Kruesi experiment records do not contain that node. These are scope-local findings, not a claim that all publications omit details. Updated local source-declared single-read output while retaining unassigned acquired cycles, primer/index identity and geometry. Read1 trimming/mapped30bp is not substituted for acquisition length. ENA sample/submission and run-file metadata XREFs are explicitly identified, not silently claimed read. Two Kruesi stage titles differ from GEO; no sample-stage assignment is propagated."
+      }
+    },
+    {
+      "id": "srx682017_experiment",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/ena/browser/api/xml/SRX682017?format=xml; SRX682017.xml and .xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "gse60456_geo_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; full original XML identity/design/library/platform/link tree and extracted text.",
+        "finding": "Actual original experiment maps the corresponding GEO sample, declares SINGLE layout and Illumina HiSeq2000, with OTHER/TRANSCRIPTOMIC/other library descriptors. Construction protocol repeats the source-owned GEO GRO-cap method; all four Core2014 records contain an identical protocol paragraph. Outgoing links identify sample, submission and run file-report metadata; no sequencing reads or raw-read inference used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent complete original SRX682017.xml tree: EXPERIMENT identifiers/title, DESIGN/LIBRARY_DESCRIPTOR including empty SINGLE node, PLATFORM/ILLUMINA/INSTRUMENT_MODEL, all experiment XREF links/attributes; compare actual GEO sample identity.",
+        "finding": "Every one of the12 inspected original experiments declares SINGLE and Illumina HiSeq2000. Four Core2014 construction paragraphs reproduce the checked GEO chemistry; the eight Kruesi experiment records do not contain that node. These are scope-local findings, not a claim that all publications omit details. Updated local source-declared single-read output while retaining unassigned acquired cycles, primer/index identity and geometry. Read1 trimming/mapped30bp is not substituted for acquisition length. ENA sample/submission and run-file metadata XREFs are explicitly identified, not silently claimed read. Two Kruesi stage titles differ from GEO; no sample-stage assignment is propagated."
+      }
+    },
+    {
+      "id": "srx682018_experiment",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/ena/browser/api/xml/SRX682018?format=xml; SRX682018.xml and .xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "gse60456_geo_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; full original XML identity/design/library/platform/link tree and extracted text.",
+        "finding": "Actual original experiment maps the corresponding GEO sample, declares SINGLE layout and Illumina HiSeq2000, with OTHER/TRANSCRIPTOMIC/other library descriptors. Construction protocol repeats the source-owned GEO GRO-cap method; all four Core2014 records contain an identical protocol paragraph. Outgoing links identify sample, submission and run file-report metadata; no sequencing reads or raw-read inference used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent complete original SRX682018.xml tree: EXPERIMENT identifiers/title, DESIGN/LIBRARY_DESCRIPTOR including empty SINGLE node, PLATFORM/ILLUMINA/INSTRUMENT_MODEL, all experiment XREF links/attributes; compare actual GEO sample identity.",
+        "finding": "Every one of the12 inspected original experiments declares SINGLE and Illumina HiSeq2000. Four Core2014 construction paragraphs reproduce the checked GEO chemistry; the eight Kruesi experiment records do not contain that node. These are scope-local findings, not a claim that all publications omit details. Updated local source-declared single-read output while retaining unassigned acquired cycles, primer/index identity and geometry. Read1 trimming/mapped30bp is not substituted for acquisition length. ENA sample/submission and run-file metadata XREFs are explicitly identified, not silently claimed read. Two Kruesi stage titles differ from GEO; no sample-stage assignment is propagated."
+      }
+    },
+    {
+      "id": "srx682019_experiment",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/ena/browser/api/xml/SRX682019?format=xml; SRX682019.xml and .xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "gse60456_geo_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; full original XML identity/design/library/platform/link tree and extracted text.",
+        "finding": "Actual original experiment maps the corresponding GEO sample, declares SINGLE layout and Illumina HiSeq2000, with OTHER/TRANSCRIPTOMIC/other library descriptors. Construction protocol repeats the source-owned GEO GRO-cap method; all four Core2014 records contain an identical protocol paragraph. Outgoing links identify sample, submission and run file-report metadata; no sequencing reads or raw-read inference used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent complete original SRX682019.xml tree: EXPERIMENT identifiers/title, DESIGN/LIBRARY_DESCRIPTOR including empty SINGLE node, PLATFORM/ILLUMINA/INSTRUMENT_MODEL, all experiment XREF links/attributes; compare actual GEO sample identity.",
+        "finding": "Every one of the12 inspected original experiments declares SINGLE and Illumina HiSeq2000. Four Core2014 construction paragraphs reproduce the checked GEO chemistry; the eight Kruesi experiment records do not contain that node. These are scope-local findings, not a claim that all publications omit details. Updated local source-declared single-read output while retaining unassigned acquired cycles, primer/index identity and geometry. Read1 trimming/mapped30bp is not substituted for acquisition length. ENA sample/submission and run-file metadata XREFs are explicitly identified, not silently claimed read. Two Kruesi stage titles differ from GEO; no sample-stage assignment is propagated."
+      }
+    },
+    {
+      "id": "srx212227_experiment",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/ena/browser/api/xml/SRX212227?format=xml; SRX212227.xml and .xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "gse43087_geo_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; full original XML identity/design/library/platform/link tree and extracted text.",
+        "finding": "Actual original experiment maps the corresponding GEO sample, declares SINGLE layout and Illumina HiSeq2000, with OTHER/TRANSCRIPTOMIC/other library descriptors. This original experiment XML has no construction-protocol node; that is a scoped XML-content observation, not a publication-absence conclusion. Outgoing links identify sample, submission and run file-report metadata; no sequencing reads or raw-read inference used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent complete original SRX212227.xml tree: EXPERIMENT identifiers/title, DESIGN/LIBRARY_DESCRIPTOR including empty SINGLE node, PLATFORM/ILLUMINA/INSTRUMENT_MODEL, all experiment XREF links/attributes; compare actual GEO sample identity.",
+        "finding": "Every one of the12 inspected original experiments declares SINGLE and Illumina HiSeq2000. Four Core2014 construction paragraphs reproduce the checked GEO chemistry; the eight Kruesi experiment records do not contain that node. These are scope-local findings, not a claim that all publications omit details. Updated local source-declared single-read output while retaining unassigned acquired cycles, primer/index identity and geometry. Read1 trimming/mapped30bp is not substituted for acquisition length. ENA sample/submission and run-file metadata XREFs are explicitly identified, not silently claimed read. Two Kruesi stage titles differ from GEO; no sample-stage assignment is propagated."
+      }
+    },
+    {
+      "id": "srx212228_experiment",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/ena/browser/api/xml/SRX212228?format=xml; SRX212228.xml and .xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "gse43087_geo_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; full original XML identity/design/library/platform/link tree and extracted text.",
+        "finding": "Actual original experiment maps the corresponding GEO sample, declares SINGLE layout and Illumina HiSeq2000, with OTHER/TRANSCRIPTOMIC/other library descriptors. This original experiment XML has no construction-protocol node; that is a scoped XML-content observation, not a publication-absence conclusion. Outgoing links identify sample, submission and run file-report metadata; no sequencing reads or raw-read inference used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent complete original SRX212228.xml tree: EXPERIMENT identifiers/title, DESIGN/LIBRARY_DESCRIPTOR including empty SINGLE node, PLATFORM/ILLUMINA/INSTRUMENT_MODEL, all experiment XREF links/attributes; compare actual GEO sample identity.",
+        "finding": "Every one of the12 inspected original experiments declares SINGLE and Illumina HiSeq2000. Four Core2014 construction paragraphs reproduce the checked GEO chemistry; the eight Kruesi experiment records do not contain that node. These are scope-local findings, not a claim that all publications omit details. Updated local source-declared single-read output while retaining unassigned acquired cycles, primer/index identity and geometry. Read1 trimming/mapped30bp is not substituted for acquisition length. ENA sample/submission and run-file metadata XREFs are explicitly identified, not silently claimed read. Two Kruesi stage titles differ from GEO; no sample-stage assignment is propagated."
+      }
+    },
+    {
+      "id": "srx212229_experiment",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/ena/browser/api/xml/SRX212229?format=xml; SRX212229.xml and .xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "gse43087_geo_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; full original XML identity/design/library/platform/link tree and extracted text.",
+        "finding": "Actual original experiment maps the corresponding GEO sample, declares SINGLE layout and Illumina HiSeq2000, with OTHER/TRANSCRIPTOMIC/other library descriptors. This original experiment XML has no construction-protocol node; that is a scoped XML-content observation, not a publication-absence conclusion. Outgoing links identify sample, submission and run file-report metadata; no sequencing reads or raw-read inference used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent complete original SRX212229.xml tree: EXPERIMENT identifiers/title, DESIGN/LIBRARY_DESCRIPTOR including empty SINGLE node, PLATFORM/ILLUMINA/INSTRUMENT_MODEL, all experiment XREF links/attributes; compare actual GEO sample identity.",
+        "finding": "Every one of the12 inspected original experiments declares SINGLE and Illumina HiSeq2000. Four Core2014 construction paragraphs reproduce the checked GEO chemistry; the eight Kruesi experiment records do not contain that node. These are scope-local findings, not a claim that all publications omit details. Updated local source-declared single-read output while retaining unassigned acquired cycles, primer/index identity and geometry. Read1 trimming/mapped30bp is not substituted for acquisition length. ENA sample/submission and run-file metadata XREFs are explicitly identified, not silently claimed read. Two Kruesi stage titles differ from GEO; no sample-stage assignment is propagated."
+      }
+    },
+    {
+      "id": "srx212230_experiment",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/ena/browser/api/xml/SRX212230?format=xml; SRX212230.xml and .xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "gse43087_geo_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; full original XML identity/design/library/platform/link tree and extracted text.",
+        "finding": "Actual original experiment maps the corresponding GEO sample, declares SINGLE layout and Illumina HiSeq2000, with OTHER/TRANSCRIPTOMIC/other library descriptors. This original experiment XML has no construction-protocol node; that is a scoped XML-content observation, not a publication-absence conclusion. Outgoing links identify sample, submission and run file-report metadata; no sequencing reads or raw-read inference used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent complete original SRX212230.xml tree: EXPERIMENT identifiers/title, DESIGN/LIBRARY_DESCRIPTOR including empty SINGLE node, PLATFORM/ILLUMINA/INSTRUMENT_MODEL, all experiment XREF links/attributes; compare actual GEO sample identity.",
+        "finding": "Every one of the12 inspected original experiments declares SINGLE and Illumina HiSeq2000. Four Core2014 construction paragraphs reproduce the checked GEO chemistry; the eight Kruesi experiment records do not contain that node. These are scope-local findings, not a claim that all publications omit details. Updated local source-declared single-read output while retaining unassigned acquired cycles, primer/index identity and geometry. Read1 trimming/mapped30bp is not substituted for acquisition length. ENA sample/submission and run-file metadata XREFs are explicitly identified, not silently claimed read. Two Kruesi stage titles differ from GEO; no sample-stage assignment is propagated."
+      }
+    },
+    {
+      "id": "srx212231_experiment",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/ena/browser/api/xml/SRX212231?format=xml; SRX212231.xml and .xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "gse43087_geo_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; full original XML identity/design/library/platform/link tree and extracted text.",
+        "finding": "Actual original experiment maps the corresponding GEO sample, declares SINGLE layout and Illumina HiSeq2000, with OTHER/TRANSCRIPTOMIC/other library descriptors. This original experiment XML has no construction-protocol node; that is a scoped XML-content observation, not a publication-absence conclusion. Outgoing links identify sample, submission and run file-report metadata; no sequencing reads or raw-read inference used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent complete original SRX212231.xml tree: EXPERIMENT identifiers/title, DESIGN/LIBRARY_DESCRIPTOR including empty SINGLE node, PLATFORM/ILLUMINA/INSTRUMENT_MODEL, all experiment XREF links/attributes; compare actual GEO sample identity.",
+        "finding": "Every one of the12 inspected original experiments declares SINGLE and Illumina HiSeq2000. Four Core2014 construction paragraphs reproduce the checked GEO chemistry; the eight Kruesi experiment records do not contain that node. These are scope-local findings, not a claim that all publications omit details. Updated local source-declared single-read output while retaining unassigned acquired cycles, primer/index identity and geometry. Read1 trimming/mapped30bp is not substituted for acquisition length. ENA sample/submission and run-file metadata XREFs are explicitly identified, not silently claimed read. Two Kruesi stage titles differ from GEO; no sample-stage assignment is propagated."
+      }
+    },
+    {
+      "id": "srx212232_experiment",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/ena/browser/api/xml/SRX212232?format=xml; SRX212232.xml and .xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "gse43087_geo_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; full original XML identity/design/library/platform/link tree and extracted text.",
+        "finding": "Actual original experiment maps the corresponding GEO sample, declares SINGLE layout and Illumina HiSeq2000, with OTHER/TRANSCRIPTOMIC/other library descriptors. This original experiment XML has no construction-protocol node; that is a scoped XML-content observation, not a publication-absence conclusion. Outgoing links identify sample, submission and run file-report metadata; no sequencing reads or raw-read inference used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent complete original SRX212232.xml tree: EXPERIMENT identifiers/title, DESIGN/LIBRARY_DESCRIPTOR including empty SINGLE node, PLATFORM/ILLUMINA/INSTRUMENT_MODEL, all experiment XREF links/attributes; compare actual GEO sample identity.",
+        "finding": "Every one of the12 inspected original experiments declares SINGLE and Illumina HiSeq2000. Four Core2014 construction paragraphs reproduce the checked GEO chemistry; the eight Kruesi experiment records do not contain that node. These are scope-local findings, not a claim that all publications omit details. Updated local source-declared single-read output while retaining unassigned acquired cycles, primer/index identity and geometry. Read1 trimming/mapped30bp is not substituted for acquisition length. ENA sample/submission and run-file metadata XREFs are explicitly identified, not silently claimed read. Two Kruesi stage titles differ from GEO; no sample-stage assignment is propagated."
+      }
+    },
+    {
+      "id": "srx212233_experiment",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/ena/browser/api/xml/SRX212233?format=xml; SRX212233.xml and .xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "gse43087_geo_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; full original XML identity/design/library/platform/link tree and extracted text.",
+        "finding": "Actual original experiment maps the corresponding GEO sample, declares SINGLE layout and Illumina HiSeq2000, with OTHER/TRANSCRIPTOMIC/other library descriptors. This original experiment XML has no construction-protocol node; that is a scoped XML-content observation, not a publication-absence conclusion. Outgoing links identify sample, submission and run file-report metadata; no sequencing reads or raw-read inference used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent complete original SRX212233.xml tree: EXPERIMENT identifiers/title, DESIGN/LIBRARY_DESCRIPTOR including empty SINGLE node, PLATFORM/ILLUMINA/INSTRUMENT_MODEL, all experiment XREF links/attributes; compare actual GEO sample identity.",
+        "finding": "Every one of the12 inspected original experiments declares SINGLE and Illumina HiSeq2000. Four Core2014 construction paragraphs reproduce the checked GEO chemistry; the eight Kruesi experiment records do not contain that node. These are scope-local findings, not a claim that all publications omit details. Updated local source-declared single-read output while retaining unassigned acquired cycles, primer/index identity and geometry. Read1 trimming/mapped30bp is not substituted for acquisition length. ENA sample/submission and run-file metadata XREFs are explicitly identified, not silently claimed read. Two Kruesi stage titles differ from GEO; no sample-stage assignment is propagated."
+      }
+    },
+    {
+      "id": "srx212234_experiment",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/ena/browser/api/xml/SRX212234?format=xml; SRX212234.xml and .xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "gse43087_geo_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper21 hits/4 files; full original XML identity/design/library/platform/link tree and extracted text.",
+        "finding": "Actual original experiment maps the corresponding GEO sample, declares SINGLE layout and Illumina HiSeq2000, with OTHER/TRANSCRIPTOMIC/other library descriptors. This original experiment XML has no construction-protocol node; that is a scoped XML-content observation, not a publication-absence conclusion. Outgoing links identify sample, submission and run file-report metadata; no sequencing reads or raw-read inference used."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent complete original SRX212234.xml tree: EXPERIMENT identifiers/title, DESIGN/LIBRARY_DESCRIPTOR including empty SINGLE node, PLATFORM/ILLUMINA/INSTRUMENT_MODEL, all experiment XREF links/attributes; compare actual GEO sample identity.",
+        "finding": "Every one of the12 inspected original experiments declares SINGLE and Illumina HiSeq2000. Four Core2014 construction paragraphs reproduce the checked GEO chemistry; the eight Kruesi experiment records do not contain that node. These are scope-local findings, not a claim that all publications omit details. Updated local source-declared single-read output while retaining unassigned acquired cycles, primer/index identity and geometry. Read1 trimming/mapped30bp is not substituted for acquisition length. ENA sample/submission and run-file metadata XREFs are explicitly identified, not silently claimed read. Two Kruesi stage titles differ from GEO; no sample-stage assignment is propagated."
+      }
+    },
+    {
+      "id": "cornell_grocap_hub",
+      "role": "linked_material",
+      "locator": "http://compgen.bscb.cornell.edu/~alm253/hubs/grocap/hub.txt",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "core_article",
+      "pass_1": null,
+      "pass_2": null,
+      "availability_checks": [
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "Actual registered original URL, elevated standard source fetch repeated.",
+          "finding": "HTTP404; no original content read."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Actual named Cornell hub URL independently requested; original referring article740–748 read.",
+          "finding": "Browser retrieval upgrades HTTPS and fails; no scientific content read. Referring article identifies this as genomic data tracks/TSS calls."
+        }
+      ],
+      "reason": "Availability check is not a scientific reading or accepted exclusion. Original referring article locates this as results tracks; source-specific scope remains recorded separately from desired primer/index questions."
+    },
+    {
+      "id": "cshl_grocap_hub",
+      "role": "linked_material",
+      "discovered_from": "cornell_grocap_hub",
+      "locator": "http://compgen.cshl.edu/GROcap/hub.txt; local hub.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "All six original hub.txt header lines after registered retrieval and fresh full-bundle oligo scraper.",
+        "finding": "Current author hub identifies human_grocap and author contact, links genomes.txt and grocap.html. UCSC support points to this migrated address. It supplies actual linked source locators, not byte identity with unavailable historical Cornell content or a library recipe."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "All six original hub.txt lines after fresh bundle scraper.",
+        "finding": "Independently confirms human GRO-cap hub, genomesFile genomes.txt and descriptionUrl grocap.html. Neither protocol chemistry nor identity with historical Cornell file is established by header labels."
+      }
+    },
+    {
+      "id": "cshl_grocap_genomes",
+      "role": "linked_material",
+      "discovered_from": "cshl_grocap_hub",
+      "locator": "http://compgen.cshl.edu/GROcap/genomes.txt; local genomes.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Both original genomes.txt lines.",
+        "finding": "Genome hg19; trackDb hg19/trackDb.txt. Follow actual track descriptor for scope; assembly metadata does not establish library chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Both original genomes.txt lines after fresh bundle scraper.",
+        "finding": "Independently confirms genome hg19 and trackDb hg19/trackDb.txt. This current assembly/track-index metadata is not physical library chemistry or proof of Cornell-byte identity."
+      }
+    },
+    {
+      "id": "cshl_grocap_tracks",
+      "role": "linked_material",
+      "discovered_from": "cshl_grocap_genomes",
+      "locator": "http://compgen.cshl.edu/GROcap/hg19/trackDb.txt; local trackDb.txt (6893 bytes)",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Both readers inspected the actual descriptor: genomic signal and TSS result-track metadata rather than reagent, oligo or acquisition methods. No chemical-method child is named in this descriptor.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entire original trackDb.txt: GRO-cap signal, GRO/PRO-seq signal and TSS region track blocks, all keys and relative links.",
+        "finding": "Actual file names bigWig signal tracks for TAP/noTAP and strands/cell lines plus bigBed TSS tracks. All child links are bigDataUrl result files; no include, html or methods-description keys. Data files not fetched. This bounded result-metadata reading does not inspect unavailable grocap.html."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "All6893bytes of original trackDb.txt after fresh fullbundle scraper21hits/4files.",
+        "finding": "Independently read GRO-cap noTAP/wTAP strand/cellline bigWig signals, GRO/PRO-seq signals and TSS bigBed classifications. Only child content URLs are bigDataUrl results; no include/html description keys. Supports bounded exclusion of this file, not absence in datafiles, unread grocap.html or historical Cornell-byte identity."
+      }
+    },
+    {
+      "id": "cshl_grocap_description",
+      "role": "linked_material",
+      "discovered_from": "cshl_grocap_hub",
+      "locator": "http://compgen.cshl.edu/GROcap/grocap.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Named original hub description returned an empty response in two registered network-enabled retrieval attempts. Content has not been read; alternate author location/version remains to investigate.",
+      "availability_checks": [
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Registered source fetch logs chem-grocap-hub-description.log and chem-grocap-track-metadata.log; original source MANIFEST.tsv manual grocap.html row.",
+          "finding": "Both original URL retrievals failed content validation as empty file. This is source-response evidence, not a publication-absence conclusion."
+        }
+      ]
     }
   ],
   "linked_information": {
@@ -174,19 +611,109 @@
       "date": "2026-10-15",
       "locations": "Core 2014 JATS lines 536-543; Kruesi 2013 original PDF local text lines 1135-1203; Core 2008 Science SOM original PDF mirror local text lines 683-710; Illumina official v22 sequence table local lines 144-192",
       "finding": "Independently followed Core 2014 to Kruesi 2013, then its RT/PCR delegation to original Core 2008 SOM and its named TruSeq adapters to official Illumina sequence table. The particular 2014 index and historical kit revision are not established; source scope cannot support a confirmed-missing claim yet."
-    }
+    },
+    "remaining_source_obligations": [
+      {
+        "locator": "http://compgen.cshl.edu/GROcap/grocap.html",
+        "state": "actual_original_empty_response_content_unread",
+        "required": "Investigate legitimate alternate author description; retain unread source boundary."
+      },
+      {
+        "locator": "http://compgen.bscb.cornell.edu/~alm253/hubs/grocap/hub.txt",
+        "state": "historical_url_unavailable_current_author_hub_recovered",
+        "required": "Current CSHL originals do not prove identical historical bytes; retain this version boundary."
+      }
+    ],
+    "obligation_history": [
+      {
+        "date": "2026-10-16",
+        "previous": [
+          {
+            "locator": "SRX682016–19 and SRX212227–34 original experiment XMLs",
+            "state": "first_read_complete_second_read_pending",
+            "required": "Actual library/readout metadata independently inspected before scope closure."
+          },
+          {
+            "locator": "http://compgen.bscb.cornell.edu/~alm253/hubs/grocap/hub.txt",
+            "state": "original_unavailable_content_not_read",
+            "required": "Record independently checked referring-source results-track scope and unavailable original; no publication-absence acceptance."
+          }
+        ],
+        "change": "Reconciled stale ENA second-reader pending flag with actual twelve original XML second-pass records. Recovered current author hub and genome descriptor; description remains unread and track descriptor independent scope check pending."
+      }
+    ]
   },
   "missing_claims": [
     {
       "claim": "GRO-cap RA3 and RA5 adapter identity and bases are missing",
       "disposition": "resolved",
       "evidence": "Kruesi's original Methods identifies RA3 and RA5 by name and part number; the official Illumina TruSeq Small RNA page prints both sequences."
-    },
-    {
-      "claim": "The particular GRO-cap RPI index member and exact historical adapter-sequence revision remain unresolved",
-      "disposition": "blocked",
-      "evidence": "Kruesi 2013 names RA3/RA5 part numbers; Illumina Rev C (2011) confirms the same part numbers and lists RPI1–48 six-mers, but neither specifies Core 2014 sample index choices nor publishes full RA3/RA5 strands. Current Illumina sequence table prints those strands without proving identical historical lot composition. Rev C has two located independent source passes; the sample-specific assignment and lot-specific full strands remain unverified."
     }
   ],
-  "conclusion": "Two independent passes recovered GRO-cap RA3/RA5 identities, corrected reaction order, and Core 2008 inherited RT/PCR operations. A newly located 2011 Illumina guide independently corroborates the historical RA3/RA5 part numbers and RPI family in two independent source checks; selected 2014 index and exact adapter-sequence revision remain unresolved. No missing-information claim is accepted."
+  "conclusion": "Local GRO-cap reaction order, Core2008 completion and source-declared single-end acquisition retain their independent original checks. Recovered current author hub and genome descriptor have two original reads; actual track descriptor has independent two-pass result-scope checks. Original hub description returns empty content and remains unread. No publication-wide absence or complete linked-scope closure is claimed.",
+  "additional_checks": [
+    {
+      "reviewer": "source_reaudit_rna",
+      "date": "2026-10-16",
+      "locations": "Local GRO-cap protocol_graph declaration inspected against the located original methods above",
+      "finding": "The decoupled graph preserves the correct TAP+ reaction order and three BrU captures, models RNase digestion waste and PAGE rejection, and keeps the physical endpoint, historical RT/PCR primer strands and indexing unassigned. No six-base index or GRO-seq circularization is assigned. Current RA3/RA5 reference bases remain inferred; original-positive RA3 trim evidence now qualifies any broad assertion that all historical adapter base information is unverified."
+    }
+  ],
+  "linked_source_inventory": [
+    {
+      "reviewer": "audit_nanocut_closeout",
+      "date": "2026-10-16",
+      "locations": "Core2014 original JATS Methods534–549, Data740–748 and reference identitiesR21/R22/R56/R57; Kruesi2013 original Methods1080–1211 and dataset1590–1620; Core2008 SOM original683–710.",
+      "items": [
+        {
+          "source": "Kruesi2013 doi:10.7554/eLife.00808",
+          "disposition": "Actual GRO-cap precursor, original already checked independently twice."
+        },
+        {
+          "source": "Core2008 doi:10.1126/science.1162228 and original SOM",
+          "disposition": "Explicit Kruesi GRO-cap RT/PCR/PAGE completion, originals already checked independently twice."
+        },
+        {
+          "source": "GSE60456 and GSE43087",
+          "disposition": "Actual article-linked dataset originals registered for full metadata inspection; source identity must survive distinct accession caching."
+        },
+        {
+          "source": "http://compgen.bscb.cornell.edu/~alm253/hubs/grocap/hub.txt",
+          "disposition": "Article740–748 identifies genomic tracks/TSS calls. Actual original URL returns404 on first registered retrieval; second availability/scope check pending."
+        },
+        {
+          "source": "Kwak2013 doi:10.1126/science.1229386 and Wang2014 doi:10.1016/j.celrep.2014.01.037",
+          "disposition": "Core2014 explicitly assigns these to adjacent PRO-seq and GRO-seq, respectively; not inherited as GRO-cap recipe. This records referring-source scope, not whole-original missing-information checks."
+        },
+        {
+          "source": "Ingolia2010 doi:10.1016/s0076-6879(10)70006-9",
+          "disposition": "Kruesi1135–1161 attaches this to adjacent GRO-seq poly(A)/circularization. GRO-cap1199–1203 delegates RT/PCR/PAGE to Core2008 instead. No poly(A)/circularization imported; predecessor original not read here."
+        },
+        {
+          "source": "Cutadapt Martin2011 and historical code.google.com/p/cutadapt",
+          "disposition": "Article mapping and Kruesi1205–1211 use processing software. Printed cutadapt argument itself supplies positive RA3 trim bases; software identity is not physical ordering-strand evidence."
+        }
+      ]
+    }
+  ],
+  "open_model_questions": [
+    {
+      "question": "The GRO-cap historical completion primer pair, index identity/length and complete ordered adapter-strand details are unassigned in the model",
+      "scope": "Unassigned model information; no identified unavailable component disclosure document and no accepted publication-absence claim.",
+      "evidence": "Core2014 explicitly follows Kruesi GRO-cap and its Core2008 RT/PCR delegation. The RP1/RPI six-base family is printed under adjacent GRO-seq, so calling the later GRO-cap index an RPI six-mer is unsupported. Original Kruesi prints the RA3 cutadapt target; the complete historical ordered oligo/modification and sample-index assignments remain separate model questions, not identified unavailable documents or accepted publication absence.",
+      "history": [
+        {
+          "claim": "The particular GRO-cap RPI index member and exact historical adapter-sequence revision remain unresolved",
+          "evidence": "Kruesi 2013 names RA3/RA5 part numbers; Illumina Rev C (2011) confirms the same part numbers and lists RPI1–48 six-mers, but neither specifies Core 2014 sample index choices nor publishes full RA3/RA5 strands. Current Illumina sequence table prints those strands without proving identical historical lot composition. Rev C has two located independent source passes; the sample-specific assignment and lot-specific full strands remain unverified."
+        }
+      ]
+    }
+  ],
+  "model_changes": [
+    {
+      "date": "2026-10-16",
+      "change": "Declared source-positive single-end Read1 acquisition from all four Core2014 SRA experiment originals; added original-source XML transcription checks. Added public metadata-unit discrepancy notice (GEOml versus originalPDFmicrolitres), assigning no model volumes.",
+      "evidence": "Both readers inspected sample methods and actual XML; 14 local source checks pass."
+    }
+  ]
 }

@@ -19,11 +19,19 @@
         "date": "2026-10-16",
         "locations": "Official SQK-RAD114 HTML lines 270–280, 383–499",
         "finding": "FRA tagmentation precedes RA/ADB attachment; 30°C/80°C incubation, kit reagents and volumes given; no FRA tag or RA oligo bases printed."
-      }
+      },
+      "additional_passes": [
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "Official protocol text line245 (RSE_9177_v114_revQ_12Dec2025), lines383–505 (library preparation), 890–905 (adapter attachment troubleshooting); complete original HTML href inventory.",
+          "finding": "Independently verified that Fragmentation Mix (FRA) precedes Rapid Adapter (RA) with ADB. The companion document explicitly describes enzyme-free attachment. The protocol does not provide a physical FRA/RA sequence junction. Actual named links include Input DNA/RNA QC, Flow Cell Check, MinKNOW, Data Analysis and Flow Cell Wash Kit; none identifies a component-oligos disclosure document. The received protocol HTML has no direct chemistry-technical-document href; the companion is an independently registered official source."
+        }
+      ]
     },
     {
       "id": "chem_doc",
-      "role": "linked_material",
+      "role": "vendor",
       "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/chemistry-technical-document.html.txt",
       "availability": "read",
       "relevance": "relevant",
@@ -39,16 +47,614 @@
         "locations": "Official chemistry technical document lines 381–418, 2120–2128",
         "finding": "SQK-RAD114 transposase simultaneously fragments/tags gDNA; RA attaches enzyme-free afterward; reagent glossary identifies FRA/RA and motor on RA but not component sequences."
       },
-      "discovered_from": "protocol",
       "additional_passes": [
         {
           "reviewer": "root",
           "date": "2026-10-16",
           "locations": "Official chemistry technical document extracted lines 378–418, 2060–2088 and 2119–2128; full Rapid V14 source-bundle oligo scraper run before reading.",
           "finding": "The technical document prints Rapid Adapter (RA) top strand 5′-CCTGTACTTCGTTCAGTTACGTATTGCT-3′ in its Adapter sequences section. It separately says FRA tags DNA in transposase fragmentation, RA attaches without enzyme after transposition, and a motor is loaded on RA. It does not print the FRA-installed tag or complete motor-loaded RA assembly/end attachment geometry. Existing page/model correctly include the published RA strand; the review conclusion understated that source-positive fact."
+        },
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "Official technical document rapid workflow lines378–418, adapter sequences2060–2088, kit reagents2120–2128; complete original HTML href inventory. Ran the full bundle oligo scraper first.",
+          "finding": "Independently read the RA-labelled top strand: 5′-CCTGTACTTCGTTCAGTTACGTATTGCT-3′. LA and NA have separately labelled bottom strands; sharing a top sequence does not assign either bottom, cohesive end, motor-bearing strand or attachment junction to RA. The FRA glossary describes transposase-tagged DNA; the RA glossary places a motor on the adapter. The rapid workflow states post-transposition enzyme-free attachment. The current local model uses only the printed RA strand as a separate input and a role-level endpoint, matching this evidence boundary."
+        }
+      ],
+      "discovery_note": "Official ONT companion document registered in catalogue/extra_sources.tsv. The received Rapid protocol HTML contains no chemistry-technical-document href. Older direct-link wording remains historical, rather than current provenance."
+    },
+    {
+      "id": "input_qc",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/input-dna-rna-qc.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "protocol",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original IDI_S1006_v1_revD_10Oct2025; complete section inventory, DNA sections231–447 and RNA section inventory thereafter; original HTML href inventory.",
+        "finding": "Defines DNA mass, purity, molecular-weight and fragmentation QC. Its input and recovery tables explicitly describe SQK-LSK114, so those conditions are not transferred to SQK-RAD114. Supports generic HMW input role, not a FRA/RA end structure. The RNA sections are a separate input modality. Linked information: https://community.nanoporetech.com/contaminants and /rna_contaminants are explicitly linked for contamination tolerance; these are not used as adapter-assembly evidence. Other extraction/measurement links concern sample QC rather than the declared FRA/RA molecular junction."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original input QC DNA sections231–260 and329–369; compare document input-kit labels with SQK-RAD114.",
+        "finding": "Independently read DNA mass/purity/size QC and its explicitly ligation-kit input recommendations. The LSK amounts are not assigned to RAD114. This source supplies sample QC context, not an FRA/RA strand assembly. Contaminant/RNA child targets are named in the first pass but are not represented here as opened or independently checked."
+      }
+    },
+    {
+      "id": "flow_cell_check",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/flow-cell-check.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "protocol",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original PQE_1004_v1_revAL_25Apr2025; sections1–3, especially217–259; original HTML href inventory.",
+        "finding": "Counts available nanopores using a QC DNA molecule present in flow-cell storage buffer. Covers device/flow-cell checking rather than attaching a sample Rapid Adapter. No QC molecule is assigned as a sample-library component. Linked information: The named MinKNOW companion link is followed in its own checklist row; device setup and hardware links are not used as molecular construction evidence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original flow-cell check217–261.",
+        "finding": "The check uses a QC DNA molecule in flow-cell storage buffer to count active pores. That molecule is not the incoming RAD114 sample library; the document does not justify adding its components to the Rapid graph. MinKNOW is checked separately in this checklist."
+      }
+    },
+    {
+      "id": "flow_cell_wash",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/flow-cell-wash-kit-exp-wsh004.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "protocol",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original WFC_9120_v1_revS_25Jul2025; complete section inventory; overview231–250, reagent preparation326–390, washing435–510 and reuse/storage thereafter; original HTML href inventory.",
+        "finding": "Describes flushing/digesting an existing library from a used flow cell for reuse or storage. Wash Mix/WMX and Wash Diluent/DIL are wash reagents, not FRA or RA components. No wash reaction is silently added to the sample-library assembly. Linked information: Explicit know-how link: https://nanoporetech.com/document/requirements/flow-cell-wash-kit-exp-wsh004-or-exp-wsh004-xl-know-how . It is identified for wash performance/reuse, not as a component-oligos disclosure. Its target is not used to establish FRA/RA structure; further inspection is needed if wash chemistry is added to the graph."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original wash overview231–251 and preparation326–345.",
+        "finding": "The source describes removal of an existing library for flow-cell reuse, not attachment of FRA/RA to the incoming sample. The know-how child target remains explicitly identified rather than claimed read. Wash chemistry is not added to the Rapid sample construction."
+      }
+    },
+    {
+      "id": "minknow_companion",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/experiment-companion-minknow.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "protocol",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete section inventory; hardware/flow-cell check1360–1420, kit selection2470–2507 and corresponding device sections, basecalling/barcoding2510–2565, monitoring4758–4836; original HTML href inventory.",
+        "finding": "Describes device control, explicit kit/expansion selection, signal acquisition, basecalling and pore status. The Adapter channel state denotes a pore currently sequencing adapter; it does not specify physical RA motor-bearing strand or attachment geometry. Choosing another kit in software cannot supply a Rapid V14 molecular assembly. Linked information: Flow-cell wash link is checked in its own row. Dorado model-name documentation and Output Specifications links describe software/model/output configuration, not an asserted chemical junction; those targets are not imported as molecular evidence. The actual barcoding options apply only when a barcoding kit/expansion is selected, and optional barcode/primer trimming is software output handling. These options do not add sample barcodes or a physical primer to SQK-RAD114."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original kit selection2470–2511; basecalling/barcoding2509–2568; pore-state monitoring4800–4830.",
+        "finding": "Sequencing-kit identity is selected explicitly; barcoding options exist only for a selected barcoding kit/expansion. Adapter channel status is a pore-current classification, not a physical motor assembly specification. Software options do not assign other kits' primers or barcodes to RAD114. Dorado/output child targets remain unvisited here."
+      }
+    },
+    {
+      "id": "data_analysis",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/data-analysis.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "protocol",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete sections1–9, especially225–260,540–585 and583–646; original HTML href inventory.",
+        "finding": "Defines current-signal-to-basecall processing, POD5/BAM/FASTQ output and kit-specific barcode flanks. Its barcode section explicitly sends sequence questions back to the chemistry technical document, whose original is checked. Neither a barcode kit nor its flanking sequence is assigned to unbarcoded SQK-RAD114. Linked information: Followed actual Chemistry technical document backlink to the checked companion. Dorado repository/documentation, Output Specifications and EPI2ME links concern software processing and outputs; no source claim about FRA-tag or motor assembly is derived from those targets."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original acquisition/output225–260; barcode context562–588 and actual chemistry-document backlink.",
+        "finding": "Current signal is converted to basecalls and POD5/BAM/FASTQ outputs. The original explicitly distinguishes kit-specific barcode flanks and native barcode reverse complements. Its chemistry backlink reaches the already checked technical document. Identical barcode cores do not establish equal flanks or physical adapter geometry; software child targets are not claimed read."
+      }
+    },
+    {
+      "id": "dna_contaminants",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/contaminants.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "input_qc",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original substantive body853–1486 and original outgoing-link inventory.",
+        "finding": "Describes DNA extraction carryover, Nanodrop spectra/ratios and generic Ligation/Rapid kit performance. No specific kit generation is assigned by those generic labels; the model does not import contaminant-tolerance values into RAD114. This is input-QC context, rather than evidence of the FRA-installed strand or RA junction."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original substantive body853–1486, after full bundle scraper.",
+        "finding": "Independently read extraction carryover effects and Nanodrop/library-efficiency text for generic Ligation/Rapid kits. Specific RAD114 reagent identity is not assigned by those labels. Did not visually audit every assay plot; no whole-page missing-sequence conclusion follows."
+      }
+    },
+    {
+      "id": "wash_knowhow",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/flow-cell-wash-kit-exp-wsh004-or-exp-wsh004-xl-know-how.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "flow_cell_wash",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete substantive body210–293, including overview, reload sections, figure captions and change log; actual links.",
+        "finding": "Nuclease removes loaded DNA and sequencing adapters for flow-cell reuse. The captioned demonstration uses Lambda DNA and Rapid Barcoding SQK-RBK114.96, not a barcode assignment for RAD114. The actual protocol backlink reaches the checked wash original. Wash performance and its versioned numerical captions are not imported into sample-adapter assembly."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original substantive body210–293, after full bundle scraper.",
+        "finding": "Independently verified nuclease digestion of loaded DNA and sequencing adapters for reuse. Captions explicitly use Lambda plus SQK-RBK114.96 barcoding. This is a separate downstream wash, not a physical RAD114 attachment recipe."
+      }
+    },
+    {
+      "id": "dorado_repository",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/dorado.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "data_analysis",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original repository entry/README content, especially overview and DNA adapter/primer trimming section1161–1166; outgoing documentation links.",
+        "finding": "Dorado is a read-processing toolkit with adapter/primer trimming, model selection and downstream algorithms. Followed its concrete read-trimming documentation. Runtime downloads, benchmarking, alignment, polishing and correction do not define physical FRA/RA chemistry. This README does not prove the contents or absence of any specification elsewhere in the repository."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original README1140–1195, including1161–1164 and outgoing trimming/modification/duplex documentation links.",
+        "finding": "Actual README concerns read-processing capabilities. Detailed trimming source is checked separately; software alignment, modification and duplex tools are not assigned as physical RAD114 reagent operations. No whole-repository absence claim."
+      }
+    },
+    {
+      "id": "dorado_getting_started",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/index.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "data_analysis",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete substantive Getting started content1454–end, installation/CLI/subcommand overview and source links.",
+        "finding": "Describes software binaries, installation and command-line invocation rather than kit reagents. The retrieved getting-started snapshot names a version separately from the current repository snapshot; no historical runtime equivalence or processing default is assigned to the protocol."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete substantive original1454–1868.",
+        "finding": "Actual source explicitly names Dorado2.1.1 and describes installation, platforms, CLI, redirection and hardware. This snapshot does not establish historical versions or defaults used in an unspecified sequencing run."
+      }
+    },
+    {
+      "id": "dorado_basecalling",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/basecall_overview.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "data_analysis",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Substantive overview1470–1630; signal pre-processing1550–1567; actual read-trimming links.",
+        "finding": "Separates POD5 raw-signal input, preprocessing, basecalling and sequence post-processing. The received page explicitly says DNA rapid-adapter trimming is disabled while adjacent general text describes adapter detection; no fixed Rapid trimming behavior is inferred for an unspecified software version. Followed named read-trimming and output-format originals."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original overview1470–1570, especially banner1556 and general prose1560.",
+        "finding": "Independently verified POD5 signal-to-basecall scope. Explicit DNA rapid-adapter trimming disabled banner coexists with general detection prose; no universal Rapid processing behavior is selected from the generic paragraph."
+      }
+    },
+    {
+      "id": "dorado_modified_bases",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/mods.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "data_analysis",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete substantive modified-base section through1710, including model selection, motifs and BAM-modification metadata.",
+        "finding": "Documents model-dependent modified-base predictions and output annotations. Such optional capabilities do not declare an enzymatic modification operation in the DNA library graph or establish a sample modification call without a selected model. No adapters or kit reactions are borrowed from software examples."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original substantive1427–1710.",
+        "finding": "Independently read modified-model extension and version limits, all-context versus motif predictions, MM/ML outputs, thresholds and Modkit link. Software optional predictions do not establish sample chemistry or an adapter assembly."
+      }
+    },
+    {
+      "id": "dorado_models",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/models.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "minknow_companion",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete substantive model-naming section1370–1456.",
+        "finding": "Explains analyte, pore, chemistry, translocation-speed and model-version fields. Kit14 e8.2 is a model compatibility designation, not a full adapter-assembly specification or proof that every Kit14 product has the same chemistry. DNA/RNA model examples are not transferred into the RAD114 declaration."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original model naming1370–1456.",
+        "finding": "Independently read analyte, pore, chemistry, speed and model-version nomenclature. These are processing/model compatibility fields rather than physical FRA/RA junction geometry."
+      }
+    },
+    {
+      "id": "output_specs_index",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/latest.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "data_analysis",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original output specification introduction808–816 and complete format navigation/link inventory.",
+        "finding": "The actual index scopes the project primarily to MinKNOW outputs and points to separate Dorado/EPI2ME documentation. Followed BAM and POD5 format specifications for relevant read/signal semantics, without treating file schemas as covalent molecule maps."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original output-spec introduction808–816 and format navigation.",
+        "finding": "Index primarily describes MinKNOW outputs and points to separate Dorado/EPI2ME documentation. Output specifications are not a molecular adapter declaration."
+      }
+    },
+    {
+      "id": "dorado_read_trimming",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/read_trimming.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "dorado_repository",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete substantive read-trimming sections1379–1585, including DNA/RNA differences, kit selection, inferred orientation, UMI and custom-primer handling.",
+        "finding": "Defines optional kit-aware trimming of adapter/primer sequences and a default all option in this documentation snapshot. TS orientation is inferred from detected primers, and PCS/PCB UMI features are explicitly kit-specific; these do not establish a physical sequencing primer or UMI in RAD114. Custom primer files are user declarations, not evidence the assayed kit contains those primers. No version or trimming option is selected by this protocol graph."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original substantive sections1379–1585, after fresh full source-bundle scraper.",
+        "finding": "Independently read kit-metadata-dependent adapter/primer detection, inferred TS orientation from detected primers, and UMI features specific to PCS114/PCB114 or explicitly supplied custom10x primers. None assigns physical primers or UMIs to RAD114. No algorithm evaluation or whole-source absence claim."
+      }
+    },
+    {
+      "id": "bam_specification",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/bam.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "output_specs_index",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original BAM overview1744–1765; run/model read groups1850–1945; raw-signal sample and trim metadata2510–2530; complete field inventory.",
+        "finding": "Describes output records and run/model/barcode metadata. The ts field counts trimmed raw-signal samples, not an adapter oligo length or physical junction coordinate. Format examples for other analytes/barcodes do not add those components to RAD114."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original1744–1765,1850–1945 and2510–2530.",
+        "finding": "Read BAM/run/model metadata and raw-signal sample/trim counts independently. Trimming counts do not define a physical oligo length or covalent attachment junction."
+      }
+    },
+    {
+      "id": "pod5_specification",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/pod5.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "output_specs_index",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original POD5 output body932–1012 and raw-format/source links.",
+        "finding": "Defines a raw-signal container, storage paths, batching and minimum format version. POD5 data layout is not a molecular adapter sequence or an assembly specification. Implementation/schema links serve file-format details rather than a source claim about FRA/RA chemistry."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original substantive932–1012.",
+        "finding": "Independently checked Arrow/raw-read signal format, file paths, batching and version scope. This is readout storage, not physical FRA/RA assembly."
+      }
+    },
+    {
+      "id": "epi2me_overview",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/about.html.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "data_analysis",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete substantive application overview88–end and named workflow scope.",
+        "finding": "Application/cloud overview describes running downstream analyses on sequencing data, not preparing or attaching RAD114 reagents. No software workflow is imported as a molecular reaction or a claim that the entire platform lacks other information."
+      },
+      "reason": "Read original describes a downstream software application/index, rather than a physical kit-library construction.",
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete substantive original88–171.",
+        "finding": "Actual source is a desktop/cloud Nextflow analysis-product overview. Supports exclusion as a physical RAD114 FRA/RA construction source without claiming that the entire platform lacks other information."
+      }
+    },
+    {
+      "id": "epi2me_workflow_index",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/wfindex.html.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "data_analysis",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete workflow index and its analysis descriptions; source links.",
+        "finding": "Lists downstream analysis workflows across unrelated sample applications. This catalogue is not an SQK-RAD114 library recipe; assay-specific child analyses are not assigned to this library declaration. No raw datasets or computational workflows were downloaded or run."
+      },
+      "reason": "Read original describes a downstream software application/index, rather than a physical kit-library construction.",
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original workflow list95–157.",
+        "finding": "Actual list describes signal-processing, mapping, counting, variant, assembly, classification and reporting analyses with repository/documentation/sample-report links. These analysis-specific reports, datasets and other assays are not RAD114 reagent specifications. No algorithms or workflows executed."
+      }
+    },
+    {
+      "id": "rna_contaminants",
+      "role": "linked_material",
+      "locator": "https://community.nanoporetech.com/rna_contaminants",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "input_qc",
+      "reason": "The actual named source redirects to a customer sign-in shell rather than scientific content. The standard fetcher rejected only240visiblecharacters; no source content has been read or excluded as irrelevant.",
+      "pass_1": null,
+      "pass_2": null,
+      "availability_checks": [
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "Registered original URL via standard fetcher and fetchers.base.get; HTTP200,27432bytes.",
+          "finding": "Visible content identifies nanoporetech-customers Sign In and cookies/authentication; this is availability evidence only."
+        },
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Independently fetched actual registered URL using fetchers.base.get; HTTP200,27378bytes.",
+          "finding": "Original response title is nanoporetech-customers - Sign In; authentication shell rather than the scientific document. No reading pass or absence inference."
         }
       ]
     },
+    {
+      "id": "other_kit_lsk114",
+      "role": "linked_material",
+      "locator": "Oxford Nanopore genomic DNA by ligation SQK-LSK114; genomic-dna-by-ligation-sqk-lsk114.html.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original vendor page lines 268-273, 400-406, 611-680",
+        "finding": "Vendor instructions specify DNA repair/end-prep, dA-tail, LA ligation and clean-up in order."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "SQK-LSK114 original vendor page lines 268-273, 400-406, 611-680; scraper on page",
+        "finding": "Vendor states dA-tailing, ligation of Ligation Adapter and cleanup; kit-specific LA is not interchangeable."
+      },
+      "discovered_from": "chem_doc",
+      "reason": "Separate explicitly identified kit workflow; its reaction choices or adapter assembly are not assigned to RAD114.",
+      "source_review_origin": "catalogue/source_reviews/oxford-nanopore-ligation-sequencing-v14.json (actual original-file reads retained)",
+      "additional_scope_check": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Full source bundle scraper, original kit identity and library-prep sections: LSK114249,400–406,418–697; ULK114255,1224–1277,1296–1385.",
+        "finding": "LSK114 explicitly requires repair/end-prep and LA ligation and warns its LA is not interchangeable. ULK114 explicitly dilutes FRA and uses RA plus precipitation cleanup. Shared component names or printed top-strand identity do not establish equivalent complete assemblies or authorize either source recipe for RAD114."
+      }
+    },
+    {
+      "id": "other_kit_ulk114",
+      "role": "linked_material",
+      "locator": "_data/sources/oxford-nanopore-ultra-long-v14/ultra-long-dna-sequencing-kit-sqk-ulk114.html.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "lines 1224–1277 and 1321–1385",
+        "finding": "Official SQK-ULK114 protocol dilutes FRA, adds it to long DNA, heat/ice steps, then adds Rapid Adapter and purifies by precipitation."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Official ONT SQK-ULK114 protocol fragmentation mix and adapter steps around lines 1224–1277 and 1321–1385; scraper",
+        "finding": "Ultra-long workflow uses controlled fragmentation, end preparation and Rapid Adapter loading. Protocol names kit reagents but does not print motor-bound assembly chemistry."
+      },
+      "discovered_from": "chem_doc",
+      "reason": "Separate explicitly identified kit workflow; its reaction choices or adapter assembly are not assigned to RAD114.",
+      "source_review_origin": "catalogue/source_reviews/oxford-nanopore-ultra-long-v14.json (actual original-file reads retained)",
+      "additional_scope_check": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Full source bundle scraper, original kit identity and library-prep sections: LSK114249,400–406,418–697; ULK114255,1224–1277,1296–1385.",
+        "finding": "LSK114 explicitly requires repair/end-prep and LA ligation and warns its LA is not interchangeable. ULK114 explicitly dilutes FRA and uses RA plus precipitation cleanup. Shared component names or printed top-strand identity do not establish equivalent complete assemblies or authorize either source recipe for RAD114."
+      }
+    },
+    {
+      "id": "other_kit_rpb114_24",
+      "role": "linked_material",
+      "locator": "https://nanoporetech.com/document/rapid-sequencing-dna-v14-pcr-barcoding-sqk-rpb114-24; rapid-sequencing-dna-v14-pcr-barcoding-sqk-rpb114-24.html.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "chem_doc",
+      "reason": "Explicitly identified separate PCR-barcoding kit; its barcode primers, FRM and attachment workflow are not assigned to unbarcoded SQK-RAD114. This is a kit-identity exclusion, not a whole-source absence claim.",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper (224 hits/2 files); original245–270,365–375,540–635,767–808,1060–1142; original HTML document-link inventory.",
+        "finding": "RPB_9191_v114_revI_28Apr2026 explicitly describes SQK-RPB114.24 tagmentation followed by barcoded PCR, names 24 Rapid Barcode Primers, distinguishes plate/vial primer formats, and attaches RA after PCR. The RA noninterchangeability warning and separate FRM/PCR branch prevent transfer of this kit recipe or complete assembly to RAD114. The printed sequence table is retained as this original’s named primer sequence table, not promoted to RAD114 sequences. QC/wash/analysis links return to already inspected vendor parents; plant extraction, device requirements and loading/support links are distinct sample/device scope, not assigned kit-component identities."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper (224 hits/2 files); original245–270,365–375,540–635,767–808,1060–1142.",
+        "finding": "Exact revision RPB_9191_v114_revI_28Apr2026 identifies SQK-RPB114.24 PCR barcoding, FRM, 24 named Rapid Barcode Primers and post-PCR RA attachment. Explicit noninterchangeability and plate/vial primer-format distinction support a separate PCR branch. Shared RA name does not assign complete adapter/FRM geometry or primers to unbarcoded RAD114. Scope exclusion establishes source-specific identity, not universal undisclosure."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_nanocut_closeout",
+      "date": "2026-10-16",
+      "locations": "Seven parent originals plus newly obtained child documents for contamination, wash mechanism, Dorado processing/models/trimming, output formats and EPI2ME software; actual LSK114/ULK114 originals checked as separate kits. Separate SQK-RPB114.24 original revision and PCR/adapter sections checked.",
+      "finding": "Followed actual named QC, wash, processing, file-format and analysis children; every readable child recorded here now has an independent second reading. The RNA-contaminant original remains a separately confirmed authentication barrier with no scientific reading pass. Three actual other-kit originals (LSK114, ULK114 and RPB114.24) are source-specifically distinguished from RAD114; shared reagent names or sequences do not establish complete assembly identity. Further other-kit application source scope remains open. No publication absence accepted."
+    },
+    "pass_2": {
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "New DNA contaminant, wash know-how, Dorado/processing/model/trimming, output and EPI2ME original sections as recorded in their individual rows; independent RNA URL availability check.",
+      "finding": "Independently inspected actual child originals and their stated software/QC/wash scope, rather than assuming irrelevant content from titles. The processing sources do not establish physical FRA/RA geometry or transfer another kit’s primers/barcodes. EPI2ME overview/index are downstream software sources. RNA original remains an authentication shell and has no scientific reading pass. Current software snapshots do not establish historical run versions or defaults; no publication absence accepted."
+    },
+    "additional_passes": [
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Followed official SQK-RAD114 protocol chemistry-document link; inspected chemistry technical document rapid workflow lines 378–418, adapter sequences lines 2060–2088, reagent glossary lines 2119–2128.",
+        "finding": "The linked technical document supplies RA top-strand bases and mechanism outline, but no FRA tag or complete RA motor assembly. Other kit-family sequences in that document are not assigned to SQK-RAD114. Component-level source remains unlocated, so linked information stays blocked."
+      },
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Official protocol and companion technical document; original cached HTML href inventory.",
+        "finding": "Original component readings are retained above. The companion is a registered official document rather than an actual protocol href. Missing geometry describes desired model information, rather than an identified unavailable component disclosure document."
+      },
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Five named vendor originals: located sections in their individual second-pass rows.",
+        "finding": "Independent content checks distinguish QC, pore checking/washing, software readout and kit-specific barcode context from sample FRA/RA assembly. Children recorded by the first reader are not falsely treated as opened originals. Remaining child-link/source-scope inventory remains open; no publication-absence claim accepted."
+      }
+    ],
+    "historical_passes": [
+      {
+        "field": "pass_1",
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Current official protocol and chemistry document read; component-level source still absent.",
+        "finding": "Linked-source inventory and independent second review remain open."
+      },
+      {
+        "field": "pass_2",
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Official SQK-RAD114 HTML lines 270–280, 383–499; Official chemistry technical document lines 381–418, 2120–2128",
+        "finding": "Read listed originals and followed identified linked sources in checklist; unavailable relevant source rows remain blocked."
+      },
+      {
+        "field": "pass_2",
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original protocol383–505 and890–905; technical document378–418,2060–2088 and2120–2128; complete HTML anchor inventory of both originals.",
+        "finding": "Followed same-document adapter, reagent and rapid anchors and checked actual outgoing document names. The RA strand is source-positive; LA/NA assemblies are not assigned by sequence identity. The document identity check finds no named component_oligos original in this scope. Explicitly linked QC, flow-cell, analysis and different-kit documents still need source-specific inspection or a double-checked relevance classification before audit closure. No publication absence is accepted."
+      },
+      {
+        "field": "pass_1",
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original SQK-RAD114 protocol and chemistry companion; five actual named linked originals: input QC, flow-cell check, Flow Cell Wash Kit, MinKNOW companion and Data Analysis. Full bundle scraper run before located readings; complete original HTML href inventories checked.",
+        "finding": "All five actual named sources have been fetched and first-read. QC and flow-cell hardware/wash documents do not define the sample FRA/RA assembly. Acquisition and analysis documents explain kit selection, signal/basecall outputs and kit-specific barcode context; the chemistry sequence backlink reaches the already checked technical document. Explicit links to contaminant tolerance, wash know-how and software/runtime manuals are recorded by name and not presented as inspected molecular-assembly sources. The remaining component specifications are model questions, not an invented unavailable document. Independent second reads and final source-scope decision remain pending; no absence accepted."
+      },
+      {
+        "field": "pass_2",
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original protocol383–505 and890–905; technical document378–418,2060–2088 and2120–2128; complete HTML anchor inventory of both originals.",
+        "finding": "Followed same-document adapter, reagent and rapid anchors and checked actual outgoing document names. The RA strand is source-positive; LA/NA assemblies are not assigned by sequence identity. The document identity check finds no named component_oligos original in this scope. Explicitly linked QC, flow-cell, analysis and different-kit documents still need source-specific inspection or a double-checked relevance classification before audit closure. No publication absence is accepted."
+      },
+      {
+        "field": "pass_1",
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Seven parent originals plus newly obtained child documents for contamination, wash mechanism, Dorado processing/models/trimming, output formats and EPI2ME software; actual LSK114/ULK114 originals checked as separate kits.",
+        "finding": "Followed actual named child sources rather than inventing component disclosures. DNA contaminant and wash sources have two located content checks; RNA counterpart is an independently confirmed authentication barrier, not a read or accepted exclusion. Software readout, kit-aware trimming and file formats remain separate from physical adapter assembly. Actual other-kit originals establish separate workflows and do not supply an inherited Rapid assembly. Remaining software second passes, inaccessible RNA-source scope and further explicitly identified other-kit links remain open. No publication absence accepted."
+      }
+    ],
+    "scope_note": "The technical document also links named other-kit applications (for example SQK-LSK114 and SQK-RPB114.24), size selection, and internal current/legacy sections. These are not assigned as SQK-RAD114 component documents. Their relevance or exclusion remains a located source-scope decision, rather than proof of unavailable information.",
+    "historical_link_obligations": [
+      {
+        "locator": "https://nanoporetech.com/document/input-dna-rna-qc",
+        "context": "Rapid protocol input-QC instructions; inspect whether relevant chemistry extends beyond sample QC.",
+        "state": "identified_original_link_not_double_checked_here"
+      },
+      {
+        "locator": "https://nanoporetech.com/document/flow-cell-check",
+        "context": "Rapid protocol loading and flow-cell QC; assess scope from the actual original.",
+        "state": "identified_original_link_not_double_checked_here"
+      },
+      {
+        "locator": "https://nanoporetech.com/document/flow-cell-wash-kit-exp-wsh004",
+        "context": "Rapid protocol flow-cell reuse and nuclease-flush troubleshooting; assess the original before excluding.",
+        "state": "identified_original_link_not_double_checked_here"
+      },
+      {
+        "locator": "https://nanoporetech.com/document/experiment-companion-minknow",
+        "context": "Rapid protocol sequencing acquisition; assess readout scope from the original.",
+        "state": "identified_original_link_not_double_checked_here"
+      },
+      {
+        "locator": "https://nanoporetech.com/document/data-analysis",
+        "context": "Rapid protocol basecalling and downstream analysis; assess sequence/readout scope from the original.",
+        "state": "identified_original_link_not_double_checked_here"
+      }
+    ],
+    "remaining_source_obligations": [
+      {
+        "locator": "https://community.nanoporetech.com/rna_contaminants",
+        "state": "authentication_barrier_confirmed_independently",
+        "required": "Scientific content unread. No source exclusion or publication-absence conclusion accepted from the login shell."
+      },
+      {
+        "locator": "Other distinct-kit application links in chemistry companion",
+        "state": "source_scope_inventory_open",
+        "required": "Retain explicit source identity/scope where relevant. Existing LSK114/ULK114 originals are checked; do not turn shared adapter names into equal physical assembly."
+      },
+      {
+        "locator": "Other-kit RPB114.24 original links: plant-leaf extraction, device requirements/manuals, loading lesson and support article231",
+        "state": "original_link_inventory_recorded_not_all_children_read_twice",
+        "required": "These are actual links found in the distinct PCR-barcoding original, not invented component documents. Relevant child scope must be independently established before a broad linked-material or absence gate is closed; no physical RAD114 component identity imported."
+      }
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "All newly retrieved DNA-QC, wash, software and output child originals now have two located independent readings. Actual source scope keeps model/version selection, trimming and file schemas separate from physical FRA/RA construction. The RNA contaminant original remains unread behind independently confirmed customer sign-in. Distinct-kit Rapid PCR Barcoding scope is being checked alongside existing LSK114/ULK114 original evidence. No absence or inaccessible-source exclusion is accepted.",
+  "historical_non_source_rows": [
     {
       "id": "component_oligos",
       "role": "linked_material",
@@ -61,35 +667,16 @@
       "discovered_from": "chem_doc"
     }
   ],
-  "linked_information": {
-    "result": "blocked",
-    "pass_1": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-16",
-      "locations": "Current official protocol and chemistry document read; component-level source still absent.",
-      "finding": "Linked-source inventory and independent second review remain open."
-    },
-    "pass_2": {
-      "reviewer": "second_pass_d_e",
-      "date": "2026-10-16",
-      "locations": "Official SQK-RAD114 HTML lines 270–280, 383–499; Official chemistry technical document lines 381–418, 2120–2128",
-      "finding": "Read listed originals and followed identified linked sources in checklist; unavailable relevant source rows remain blocked."
-    },
-    "additional_passes": [
-      {
-        "reviewer": "root",
-        "date": "2026-10-16",
-        "locations": "Followed official SQK-RAD114 protocol chemistry-document link; inspected chemistry technical document rapid workflow lines 378–418, adapter sequences lines 2060–2088, reagent glossary lines 2119–2128.",
-        "finding": "The linked technical document supplies RA top-strand bases and mechanism outline, but no FRA tag or complete RA motor assembly. Other kit-family sequences in that document are not assigned to SQK-RAD114. Component-level source remains unlocated, so linked information stays blocked."
-      }
-    ]
-  },
-  "missing_claims": [
+  "open_model_questions": [
     {
-      "claim": "FRA-installed tag, complete RA motor complex and exact attachment chemistry",
-      "evidence": "Official rapid protocol and chemistry technical document have two located source reads. The chemistry document prints RA top-strand bases, but the FRA tag, motor-loaded complex and exact end geometry are not established by the inspected originals. Component-level relevant source remains unavailable.",
-      "disposition": "blocked"
+      "question": "What explicit molecular states should represent FRA-installed tags and their attachment ends?",
+      "evidence": "The identified official documents describe FRA function. No original document named component_oligos was identified; a desired component specification does not establish document availability.",
+      "disposition": "unresolved_model_data"
+    },
+    {
+      "question": "How does the source-printed RA top strand participate in the complete motor-bearing assembly and physical attachment junction?",
+      "evidence": "Only the RA-labelled strand is assigned locally. LA/NA bottom geometry is not transferred, and the role-level endpoint does not claim this assembly.",
+      "disposition": "unresolved_model_data"
     }
-  ],
-  "conclusion": "Two located independent reads cover the official SQK-RAD114 protocol and chemistry technical document. The latter publishes the Rapid Adapter top strand used in the existing model; FRA-installed tag, full motor-loaded assembly and attachment-end geometry remain blocked by unavailable component-level source. No absence is accepted."
+  ]
 }

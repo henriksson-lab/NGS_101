@@ -80,7 +80,23 @@
         "locations": "Official Iso-Seq Rev10 cDNA checklist lines 260–268, 358–374, 416, 565, 589–602; IsoSeq_v2_primers_12.fasta lines 1–26",
         "finding": "Input cDNA protocol uses template switching and publishes complete bc01–bc12 plus opposite cDNA PCR primers; RT mix/TSO 2.0 bases remain unresolved. This source predates Kinnex array assembly."
       },
-      "discovered_from": "kit_guide"
+      "discovered_from": "kit_guide",
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_tenx_closeout",
+            "date": "2026-10-16",
+            "locations": "Original SMRTLinkv13.1 p100 text5580–5585 and p101FASTA5591–5617; KinnexRev09 multiplexing188–195 and PCRmix730–759",
+            "finding": "FASTA is for identifying cDNA primers for removal. The3-prime reference explicitly excludes Ts and is reverse-complemented. Thus its AAGCAG...TAC entry is not a validated physical PCR/RT oligo. The actual Kinnex kit separately names barcoded IsoSeq primer and amplification primer; current declaration leaves full physical input oligos unassigned."
+          },
+          "pass_2": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Independently read original SMRTLinkv13.1 p1005580–5585/p101/p102 plus KinnexRev09 multiplexing188–195/PCRmix730–759",
+            "finding": "Confirms3p trimming-reference orientation and polyT exclusion. MAS8 segmentation FASTA is likewise ordered analysis motifs, not full primer or ligating-end evidence. Positive reference sequences must remain visible without being promoted to physical reagents."
+          }
+        }
+      ]
     },
     {
       "id": "mas8_reference",
@@ -120,7 +136,23 @@
         "locations": "Original PacBio SMRT Link v13.1 PDF extracted pp.100–102, lines 5574–5585, 5591–5617, 5629–5635, 5655–5674; full Kinnex bundle scraper before reading",
         "finding": "Independently confirms MAS-Seq Adapter v3 (MAS8) as default segmentation set and Iso-Seq v2 Barcoded cDNA Primers as default trimming primer set. Guide prints the twelve 5-prime cDNA primers and opposite 3-prime primer; model bc01 and 3-prime values match exact text. The custom segmentation example lists short 16-base A–E motifs, whereas versioned public FASTA lists 17-base A–H and 14-base Q; these are analysis-reference contexts, not proof of physical junction sequence/length."
       },
-      "discovered_from": "tech_overview"
+      "discovered_from": "tech_overview",
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_tenx_closeout",
+            "date": "2026-10-16",
+            "locations": "Original SMRTLinkv13.1 p100 text5580–5585 and p101FASTA5591–5617; KinnexRev09 multiplexing188–195 and PCRmix730–759",
+            "finding": "FASTA is for identifying cDNA primers for removal. The3-prime reference explicitly excludes Ts and is reverse-complemented. Thus its AAGCAG...TAC entry is not a validated physical PCR/RT oligo. The actual Kinnex kit separately names barcoded IsoSeq primer and amplification primer; current declaration leaves full physical input oligos unassigned."
+          },
+          "pass_2": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Independently read original SMRTLinkv13.1 p1005580–5585/p101/p102 plus KinnexRev09 multiplexing188–195/PCRmix730–759",
+            "finding": "Confirms3p trimming-reference orientation and polyT exclusion. MAS8 segmentation FASTA is likewise ordered analysis motifs, not full primer or ligating-end evidence. Positive reference sequences must remain visible without being promoted to physical reagents."
+          }
+        }
+      ]
     },
     {
       "id": "public_dataset_readme",
@@ -181,21 +213,221 @@
         "locations": "Original PacBio Application Note 102-326-591 Rev03 Nov2024, PDF pp.1–3 and visually inspected p.3 Figure 3; extracted text lines 1–40, 70–110, 114–160. Full Kinnex source-bundle oligo scraper run before reading.",
         "finding": "Independent read confirms Iso-Seq express 2.0 cDNA enters the Kinnex workflow; p.3 says 5-prime cDNA barcodes are added during amplification, 12-plex cDNA and four-plex terminal adapters, partial arrays removed by nuclease, complete arrays enriched by adapter ligation. Figure 3 depicts named A–E array units and terminal bc hairpins schematically; no full sequence, adapter-end polarity, or covalent junction is printed in the inspected figure/text."
       }
+    },
+    {
+      "id": "masseq_research_predecessor",
+      "role": "predecessor",
+      "locator": "Original AlKhafaji et al doi10.1038/s41587-023-01815-7; PMC12236355 accepted manuscript; _data/sources/pacbio-kinnex-full-length-rna/PMC12236355_PMC12236355.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "application_note",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original body97–105; Methods Multiplexed array assembly135–139; Code/DataAvailability285–291; full expanded source-bundle oligo scraper before original reading (RST additionally passed to neutral scan function)",
+        "finding": "Research15-member assembly uses dU-containing PCR oligos, USER digestion and HiFi Taq DNA ligase. It is a positive physical reaction-method source cited by Kinnex application note p2. It does not identify the commercial8-member primer mixes or Kinnex enzyme formulation. Code/DataAvailability name Longbow and the paper-data repository."
+      },
+      "pass_2": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original body97–105, chemical Methods Multiplexed array assembly135–139 and original Code/DataAvailability285–291, independently read after full-bundle scraper.",
+        "finding": "Research15-member assembly uses dU-containing PCR oligos, USER digestion and HiFi Taq DNA ligase. It is a positive physical reaction-method source cited by Kinnex application note p2. It does not identify the commercial8-member primer mixes or Kinnex enzyme formulation. Code/DataAvailability name Longbow and the paper-data repository."
+      }
+    },
+    {
+      "id": "masseq_original_supplement",
+      "role": "supplement",
+      "locator": "Publisher original Supplementary Information to doi10.1038/s41587-023-01815-7; _data/sources/pacbio-kinnex-full-length-rna/41587_2023_1815_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "masseq_research_predecessor",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Supplementary Information PDF pp25–26 Table1; figures1–21 captions and SupplementaryNote1 scope; full expanded source-bundle oligo scraper before original reading (RST additionally passed to neutral scan function)",
+        "finding": "Table1 positively prints sixteen research MAS15 boundary identities A–P and full 5-prime-10x PCR oligos, including internal U notation; A-Fwd and P-Rev endpoints lack U as printed. Sixteen boundary identities delimit fifteen cDNAs, not an array-count error. Research oligos and reference16mers are not evidence of commercial MAS8 component identity. Other figures report experimental results and Note1 defines computational transcript-annotation algorithms."
+      },
+      "pass_2": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original SI PDFpp25–26 Table1 directly visually inspected; all Figure1–21 captions; Note1 definitions407–435; full-bundle scraper before reading. Algorithm implementations and every plotted-result image were not individually audited.",
+        "finding": "Table1 positively prints sixteen research MAS15 boundary identities A–P and full 5-prime-10x PCR oligos, including internal U notation; A-Fwd and P-Rev endpoints lack U as printed. Sixteen boundary identities delimit fifteen cDNAs, not an array-count error. Research oligos and reference16mers are not evidence of commercial MAS8 component identity. Other figures report experimental results and Note1 defines computational transcript-annotation algorithms. Scope checking does not establish absence across the whole SI or repository."
+      }
+    },
+    {
+      "id": "masseq_reporting_summary",
+      "role": "supplement",
+      "locator": "Original publisher reporting summary March4,2023; _data/sources/pacbio-kinnex-full-length-rna/41587_2023_1815_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "masseq_research_predecessor",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire4page original; software/code35–90, data94–103, study-design and flow-cytometry sections; full expanded source-bundle oligo scraper before original reading (RST additionally passed to neutral scan function)",
+        "finding": "Substantive software disclosure names Longbow0.6.4, Longbow WDL commit9844452445cc803f814613e203eaf971814babbc, long-read-pipelines82bfe460778e56ac642942e62638d594f22bd6bf, paper-data0c166c63ce4d8ee37c835c89c9693bb65becb51c. These historical source identities must not be substituted by current snapshots; remaining content covers data/results/sample handling, not a commercial Kinnex component specification."
+      },
+      "pass_2": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire4page original; software/code35–90, data94–103, study-design and flow-cytometry sections; independent full-bundle scraper before original reading; SI Table1 also directly visually inspected in PDF",
+        "finding": "Substantive software disclosure names Longbow0.6.4, Longbow WDL commit9844452445cc803f814613e203eaf971814babbc, long-read-pipelines82bfe460778e56ac642942e62638d594f22bd6bf, paper-data0c166c63ce4d8ee37c835c89c9693bb65becb51c. These historical source identities must not be substituted by current snapshots; remaining content covers data/results/sample handling, not a commercial Kinnex component specification."
+      }
+    },
+    {
+      "id": "longbow_current_readme",
+      "role": "linked_material",
+      "locator": "https://raw.githubusercontent.com/broadinstitute/longbow/248a5ce9ac4c0d2bc803f2b7edcec208a8f0828c/README.rst; _data/sources/pacbio-kinnex-full-length-rna/gh_README.rst",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "masseq_research_predecessor",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original pinned README.rst, including GettingStarted, Documentation and Developer links; full expanded source-bundle oligo scraper before original reading (RST additionally passed to neutral scan function)",
+        "finding": "Current snapshot describes computational annotation/filtering/segmentation with mas_15+sc_10x5p, Docker0.6.14 and software documentation/demo BAM/FASTA links. It does not assign commercial MAS8 oligo arms; README scope is not whole-repository absence and does not establish identity with historical Longbow0.6.4."
+      },
+      "pass_2": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original pinned README.rst, including GettingStarted, Documentation and Developer links; independent full-bundle scraper before original reading; SI Table1 also directly visually inspected in PDF",
+        "finding": "Current snapshot describes computational annotation/filtering/segmentation with mas_15+sc_10x5p, Docker0.6.14 and software documentation/demo BAM/FASTA links. It does not assign commercial MAS8 oligo arms; README scope is not whole-repository absence and does not establish identity with historical Longbow0.6.4."
+      }
+    },
+    {
+      "id": "masseq_paper_current_readme",
+      "role": "linked_material",
+      "locator": "https://github.com/broadinstitute/mas-seq-paper-data/raw/ae9c079f8d9a54f0ae268f3c2edacc7a515f7bbb/README.md; _data/sources/pacbio-kinnex-full-length-rna/README.md",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "masseq_research_predecessor",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original pinned README.md, Data/Code/Terra/Preprint sections; full expanded source-bundle oligo scraper before original reading (RST additionally passed to neutral scan function)",
+        "finding": "Research SIRV10/15 arrays, analysis WDL/result data/plots/Terra resources; states preprintLongbow0.2.2 and final0.6.3 except UMI0.6.6. This is a distinct source snapshot from reporting summary0.6.4 and does not identify commercial8-member physical reagents. No whole-repository sequence absence follows."
+      },
+      "pass_2": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original pinned README.md, Data/Code/Terra/Preprint sections; independent full-bundle scraper before original reading; SI Table1 also directly visually inspected in PDF",
+        "finding": "Research SIRV10/15 arrays, analysis WDL/result data/plots/Terra resources; states preprintLongbow0.2.2 and final0.6.3 except UMI0.6.6. This is a distinct source snapshot from reporting summary0.6.4 and does not identify commercial8-member physical reagents. No whole-repository sequence absence follows."
+      }
+    },
+    {
+      "id": "longbow_historical_model",
+      "role": "linked_material",
+      "locator": "Longbow tag v0.6.4 (official tag resolves to 9844452445cc803f814613e203eaf971814babbc); _data/sources/pacbio-kinnex-full-length-rna/README.rst; _data/sources/pacbio-kinnex-full-length-rna/gh_model.py; _data/sources/pacbio-kinnex-full-length-rna/gh_model_utils.py",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "masseq_reporting_summary",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire README; model.py25–60,159–212,680–745; model_utils.py353–413; full-bundle scraper48hits/5files plus direct neutral scanner for RST/Python/WDL/GenBank/R extensions before reading.",
+        "finding": "README Docker0.6.4 and MAS15/sc10x5p analysis; configured MAS15 A–P16mers, MAS10 motifs and IsoSeq V/M are read-recognition models. Model composition and ordered-segment validation do not assign complete commercial Kinnex PCR oligos."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Entire README; model.py25–60,159–212,680–745; model_utils.py353–413; own full-bundle scraper before independent original inspection.",
+        "finding": "Independently read full README and the listed model/model_utils sections: configured research recognition sequences and model lookup/composition, rather than physical commercial reagent declarations."
+      }
+    },
+    {
+      "id": "longbow_historical_wdl",
+      "role": "linked_material",
+      "locator": "Longbow WDL exact reporting commit9844452445cc803f814613e203eaf971814babbc; _data/sources/pacbio-kinnex-full-length-rna/gh_MasSeqSingleFlowcell.wdl",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "masseq_reporting_summary",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "WDL1–115; full-bundle scraper48hits/5files plus direct neutral scanner for RST/Python/WDL/GenBank/R extensions before reading.",
+        "finding": "Inputs are BAM/reference/segmentation resources; ordered delimiters split reads, with MAS15 defaults. Workflow inputs/outputs and software links concern computational research read processing, not a commercial kit reagent specification."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "WDL1–115; own full-bundle scraper before independent original inspection.",
+        "finding": "Independent WDL1–115 read confirms research segmentation inputs and model arguments; no physical commercial oligo assignment is made from these processing inputs."
+      }
+    },
+    {
+      "id": "pipelines_historical_processing",
+      "role": "linked_material",
+      "locator": "long-read-pipelines exact reporting commit82bfe460778e56ac642942e62638d594f22bd6bf; _data/sources/pacbio-kinnex-full-length-rna/gh_PB10xMasSeqArraySingleFlowcellv5.wdl; _data/sources/pacbio-kinnex-full-length-rna/gh_tag_mas_sirv_umi_positions.py",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "masseq_reporting_summary",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "WDL1–115,239–282; entire170line UMI script; full-bundle scraper48hits/5files plus direct neutral scanner for RST/Python/WDL/GenBank/R extensions before reading.",
+        "finding": "MAS15/sc10x5p Longbow annotation/segmentation workflow. Script extracts/removes eight-base UMI using annotated10x coordinates/fallback START and writes BAM tags; this is an analysis operation, not reagent ordering."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "WDL1–115,239–282; entire170line UMI script; own full-bundle scraper before independent original inspection.",
+        "finding": "Independent listed WDL sections and full tagger read confirms MAS15/sc10x5p model arguments and eight-base UMI BAM processing; does not identify commercial MAS8 physical oligos."
+      }
+    },
+    {
+      "id": "pipelines_research_eight_member_design",
+      "role": "linked_material",
+      "locator": "long-read-pipelines exact reporting commit82bfe460778e56ac642942e62638d594f22bd6bf; _data/sources/pacbio-kinnex-full-length-rna/gh_cDNA_array_8x.gb; _data/sources/pacbio-kinnex-full-length-rna/gh_cDNA_array_8x.unique_seqs_for_cartographer.fasta",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "masseq_reporting_summary",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original GenBank LOCUS, complete FEATURES1–567 and ORIGIN568–end; entire22line companion FASTA; compared official mas8_primers.fasta all9records; full-bundle scraper48hits/5files plus direct neutral scanner for RST/Python/WDL/GenBank/R extensions before reading.",
+        "finding": "Positive research8x molecular design dated24Apr2020 includes10x barcode/UMI/polyT/cDNA/TSO, primer_bind and ligation annotations. Research ohA ACGTACAGTCTACAC... differs from commercial MAS8 A AGCTTACTTGTGAAGAT. Same array count does not identify kit reagents, handles or junctions."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Original GenBank LOCUS, complete FEATURES1–567 and ORIGIN568–end; entire22line companion FASTA; compared official mas8_primers.fasta all9records; own full-bundle scraper before independent original inspection.",
+        "finding": "Independent complete GenBank/FASTA inspection confirms research8x design and different9nt-style overhang references versus commercial A–H17nt/Q14. Seven U labels occur, but only first is typed modified_base142; do not promote all labels into experimentally established U chemistry or assign this research design to commercial Kinnex."
+      }
+    },
+    {
+      "id": "paperdata_historical_analysis",
+      "role": "linked_material",
+      "locator": "mas-seq-paper-data exact reporting commit0c166c63ce4d8ee37c835c89c9693bb65becb51c; _data/sources/pacbio-kinnex-full-length-rna/gh_README.md; _data/sources/pacbio-kinnex-full-length-rna/gh_mb_02_long_adata_seurat_sct.R",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "masseq_reporting_summary",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire historical README; entire64line R script; full-bundle scraper48hits/5files plus direct neutral scanner for RST/Python/WDL/GenBank/R extensions before reading.",
+        "finding": "Historical README identifies research SIRV10/15 arrays and Longbow0.2.2 example plus analysis/result resources. R script consumes count matrices for normalization, PCA/UMAP/clustering. These inspected resources do not establish commercial8-member physical reagent identity."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Entire historical README; entire64line R script; own full-bundle scraper before independent original inspection.",
+        "finding": "Independent full README and64line R script read confirms research array/data/software scope and downstream count-matrix analysis; not a commercial Kinnex oligo ordering declaration."
+      }
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "audit_s_z",
+      "reviewer": "audit_tenx_closeout",
       "date": "2026-10-16",
-      "locations": "Kit guide and official technical overview read; barcode source in SMRT Link not yet accessed, so no proprietary claim accepted.",
-      "finding": "Linked-source inventory and independent second review remain open."
+      "locations": "KinnexRev09 protocol/applicationnoteRev03 bibliography; SMRTLink13.1 pp100–102; MAS Methods/CodeDataAvailability, SI Table1/reporting summary; exact historical README/model/WDL/tagger/GenBank/FASTA/R sections recorded in checklist.",
+      "finding": "Followed actual commercial kit references and chemistry predecessor, then exact historical reporting-summary identities. Software/developer/demo/data links in inspected originals concern research recognition/segmentation/count analysis; actual research8x molecular reference was opened and distinguished from commercialMAS8. No identified unread commercial chemistry original remains in this scoped inventory. No whole-repository absence conclusion or claim that all commercial bases are unpublished follows; physical model questions remain unassigned. Correction: completion of the named historical-file reads does not close direct external readout-reference/documentation children; their original checks remain pending below."
     },
     "pass_2": {
-      "reviewer": "second_pass_d_e",
+      "reviewer": "independent_rna_contacts",
       "date": "2026-10-16",
-      "locations": "Kit Rev09 pp.16–17; official 103-343-700 overview pp.18–20,27; linked Iso-Seq Rev10 guide and FASTA lines 1–26",
-      "finding": "Followed input-cDNA predecessor and technical overview; corrected published bcM barcode availability. SMRT Link FASTA and full Kinnex adapter/segmentation sequences remain blocked."
+      "locations": "Independent historical-source sections recorded in five new checklist rows; earlier independent PacBio/article/SI/reporting/link checks retained in original rows and additional_passes.",
+      "finding": "Independently verified exact historical software/model/processing sources and positive2020research8x molecular design. Their research/analysis scope does not identify commercial Kinnex components. This completes the previously pending named historical-source scope together with retained independent original/link checks; no whole-repository absence is asserted. Scope limitation: README developer/documentation children and GCS/BAM inputs were classified from their roles in the inspected originals, not each externally opened; this is not a complete repository/link audit or evidence of publication absence. Correction: no full linked-source gate is accepted from classifying unopened targets using referring text."
     },
     "additional_passes": [
       {
@@ -215,15 +447,72 @@
         "date": "2026-10-16",
         "locations": "Followed official Kinnex dataset README reference [4] to original PacBio application note Rev03 and independently read pp.1–3, including visual inspection of p.3 Figure 3 after full bundle scraper.",
         "finding": "The linked note corroborates topology and multiplexing but does not resolve complete Kinnex physical oligos. Other new PacBio reference files have independent P2; component-level sources remain open."
+      },
+      {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Kit guide and official technical overview read; barcode source in SMRT Link not yet accessed, so no proprietary claim accepted.",
+        "finding": "Linked-source inventory and independent second review remain open."
+      },
+      {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "KinnexRev09 full protocol/source roles, applicationnoteRev03 p2 method attribution and bibliography; original MAS predecessor Methods/Code/Data; SI Table1pp25–26; full reporting summary; pinned Longbow/paper-dataREADMEs; SMRTLinkp100–102",
+        "finding": "Recovered actual previously omitted MAS research predecessor and two supplements, followed Code/Data links to actual original READMEs, and corrected physical-versus-analysis3p primer interpretation from original source text. New sources have independent P2. Research15-member physical oligos do not identify commercial8-member reagents. Reporting exact historical software identities remain concrete source-version scope questions; no hypothetical missing component-disclosure document is introduced. No publication absence accepted."
+      },
+      {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Kit Rev09 pp.16–17; official 103-343-700 overview pp.18–20,27; linked Iso-Seq Rev10 guide and FASTA lines 1–26",
+        "finding": "Followed input-cDNA predecessor and technical overview; corrected published bcM barcode availability. SMRT Link FASTA and full Kinnex adapter/segmentation sequences remain blocked."
       }
     ]
   },
   "missing_claims": [
+    {
+      "claim": "Withdrawal of generic complete-physical-components absence claim; physical details remain unassigned in this declaration.",
+      "disposition": "resolved",
+      "evidence": "Positive research physical oligos and published analysis references are now distinguished. No specific unavailable component-disclosure document or universal source absence has been established. Resolved means withdrawal of the unsupported absence framing, not recovery/validation of all commercial bases."
+    }
+  ],
+  "conclusion": "Nineteen source groups have located independent original checks, including exact historical code and positive research designs. Direct external readout references/documentation linked by historical sources still need bounded original scope checks; earlier reviewed status overstated completion and is withdrawn. No accepted missing-information claim. Physical commercial model questions remain separate from this concrete source backlog.",
+  "prior_missing_claims": [
     {
       "claim": "Complete Kinnex orientation-PCR primer constructs, physical segmentation junctions, terminal-adapter arms/end geometry and sequencing-primer binding site",
       "evidence": "Kit guide and overview have two independent reads. Independent new-source P2 verifies the official Kinnex index ZIP, MAS8 FASTA/XML, SMRT Link guide, multiplexing page and public dataset README; they establish four bcM cores, nine analysis motifs and Iso-Seq cDNA PCR primers. The README-linked PacBio application note has one located read and corroborates topology but not physical oligo arms. These sources do not prove complete physical Kinnex assembly components or absence thereof.",
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent original-source reads now cover the kit guide, overview, Kinnex index FASTA, MAS8 FASTA/XML, SMRT Link guide, multiplexing resource, dataset README and linked application note. The model/page reproduce barcode cores, segmentation reference motifs and example Iso-Seq primers without treating analysis motifs as physical junctions. Full Kinnex orientation-PCR oligos, terminal-adapter arms/end geometry and sequencing-primer site remain unresolved by these sources; no missing-information claim is accepted."
+  "open_model_questions": [
+    "Complete commercial Kinnex orientation-PCR primer oligos and their physical binding geometry",
+    "Commercial segmentation junctions and terminal-adapter strands/ends",
+    "Loaded sequencing-primer identity/site; no blunt end assumed",
+    "Physical IsoSeq input oligos must not be inferred from reverse-complemented/polyT-excluded trimming references"
+  ],
+  "pending_link_checks": [
+    {
+      "source": "Longbow v0.6.4 README lines17,49–51,70; exact reporting WDL32–37; historical paper-data README34–48",
+      "identified_originals": [
+        "https://broadinstitute.github.io/longbow/ (actual command/model/readout documentation)",
+        "gs://broad-dsde-methods-long-reads/resources/MASseq_0.0.2/cDNA_array_15x.unique_seqs_for_cartographer.fasta",
+        "gs://broad-dsde-methods-long-reads/resources/MASseq_0.0.2/bounds_file_for_extraction.txt",
+        "gs://broad-dsde-methods-long-reads/resources/MASseq_0.0.2/10x_adapter.fasta",
+        "gs://broad-dsde-methods-long-reads/resources/MASseq_0.0.2/tso_adapter.fasta",
+        "https://github.com/broadinstitute/longbow/raw/main/tests/test_data/resources/SIRV_Library.fasta",
+        "https://www.biorxiv.org/content/10.1101/2021.10.01.462818v1",
+        "https://www.lexogen.com/sirvs/sirv-sets/",
+        "https://app.terra.bio/#workspaces/broad-firecloud-dsde-methods/MAS-seq%20-%20Data%20Segmentation%20and%20Alignment"
+      ],
+      "next_action": "Read actual direct reference/documentation originals and independently check relevance before treating linked scope complete. These are identified targets awaiting bounded scope inspection, not established inaccessible component documents. Demo rawBAMs/results and software package/install/dependency targets are not molecular assembly declarations; no dataset download is required absent a page claim needing it."
+    }
+  ],
+  "source_integrity_checks": [
+    {
+      "date": "2026-10-16",
+      "reviewer": "audit_tenx_closeout",
+      "scope": "All12cachedGitHub originals: current/historicalREADMEpairs; historicalmodel.py/model_utils.py;2WDLs;SIRVtagger;research8xGenBank/FASTA;historicalR",
+      "method": "Re-fetched exact registered manifestURL for each through standardfetchers.base.get;HTTP200,byte-identicaltoactualcachedfile andMD5equalmanifest.12PASS. Current/historicaldifferentnames+hashes verified; no filenamecollisionfound.",
+      "limitation": "Content/provenance check only; does not supply another independent source-content reading or close direct-child source obligations."
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "dir": "sf4su-seq__10.1093+nar+gkag652",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "original",
@@ -19,7 +19,23 @@
         "date": "2026-10-16",
         "locations": "JATS lines 118–125, size-fractionated 4sU-Seq paragraph",
         "finding": "The defining method gel-selects short thio-labelled RNA, decaps with 5-prime pyrophosphohydrolase, then uses NEBNext Small RNA library kit; no protocol-specific oligo sequence table here."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Actual original JATS118–125, main readout discussion and actual data/code link inventory; full-bundle oligo scraper17hits2files",
+            "finding": "Source identifies thio-RNA front end and sf4sU gel/dialysis/RppH/small-RNA-kit branch. Alignment5′/3′ endpoint extraction does not alone establish paired-end acquisition or cycle masks. Actual data links include GSE179306 and author SNU-seq repository; their child scope remains open."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Original2026 supplementary297–455 and main source context",
+            "finding": "Independent original read confirms distinct sf4sU preparation; no bPAP/QuantSeq or TT sonication/library transfer warranted. sf4sU paragraph names NextSeq500 without acquired read mask."
+          }
+        }
+      ]
     },
     {
       "id": "supp_methods",
@@ -38,7 +54,23 @@
         "date": "2026-10-16",
         "locations": "Supplementary Methods PDF lines 428–453; Supplementary Figure 4 caption lines 75–80",
         "finding": "Supplement describes gel/dialysis/decapping and explicit handoff to NEBNext kit; Fig. 4 shows adaptor-ligated product and adaptor dimer but no distinct sf4sU adaptor bases."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Actual original297–455, Figure4C caption75–80, reagent list692–729; original PDFp18 visually inspected",
+            "finding": "Read shared pulse/extraction/HPDP/cleanup/µMACS/DTT/miRNeasy+on-columnDNase front end, source no-sonication branch, gel/dialysis/precipitation/RppH/EDTAheatstop/recovery and E7300S handoff. Figure4C explicitly identifies adapter-dimer band. Dimer removal and precise2026 gel window/read mask remain unassigned. PDFvisibly1mMNaCl."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Full actual supplementary297–455 and Figure4C75–80; originalPDFp18",
+            "finding": "Independent actual source check confirms all named source operations and adapter-dimer product class. Visually printed wash1mMNaCl is not extraction error; no actual-source evidence of complete dimer removal supplied by this bounded pass."
+          }
+        }
+      ]
     },
     {
       "id": "nebnext_manual",
@@ -57,12 +89,28 @@
         "date": "2026-10-16",
         "locations": "NEB E7300 manual extracted lines 946–1070, especially 1042–1069; oligo scraper hits checked",
         "finding": "Official E7300 appendix prints 3-prime rApp adaptor ending NH2, RNA 5-prime adaptor, RT primer, PCR primer and index-primer family. These are kit-family bases, not evidence of the exact index tube chosen in this study."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Cover1–7, actual protocol443–635/QC section and whole source oligos1042–1070; full-bundle scraper",
+            "finding": "Guide Version9.0_07/25 defines compatible5′P/3′OH ATP-free substrates;3′ligation→RT-primer blocking of free3′adapter→5′ligation→RT/PCR. Exact RTprimer pairs with3′adapter; publishedRNA5′adapter and rApp/NH2/protectedPCR family retained. Guide revision/index is not assigned as verified study choice; QC methods are conditional, not proof of assay-specific dimer removal."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Actual cover1–7, protocol443–600 and whole oligos1042–1070 after fresh scraper",
+            "finding": "Independent guide read confirms dated version, compatibility conditions, anti-dimer hybridization before5′ligation and positive adapter/primer modifications/index members. No selected study revision/index member or universal quantitative ligation recovery inferred."
+          }
+        }
+      ]
     },
     {
       "id": "snu_predecessor",
       "role": "linked_material",
-      "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/2021.07.14.452379_v2.full.pdf.txt",
+      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/2021.07.14.452379_v2.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -77,30 +125,241 @@
         "date": "2026-10-16",
         "locations": "Original SNU preprint extracted lines 205–234 and method passages naming sf4sU and SNU",
         "finding": "Preprint describes common 4sU pulldown and the sf4sU size-fractionation branch; supports inheritance of thio-labelled input, not a new unique small-RNA adaptor."
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Actual preprint cover/date and sf4sU method1664–1710",
+            "finding": "Version2 is posted24October2025, despite2021 DOI. Actual method names50–100bp small band, dialysis/RppH/EDTA/recovery. This is a version-positive predecessor detail; its precise interval is not silently assigned to the2026 paragraph, which says small-RNA region. Earlier generic2021 source labels do not identify this revision."
+          }
+        },
+        {
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Actual version 2 full text 1655–1685, compared with version 1 1368–1385 after mandatory scraper",
+            "finding": "Size fractionated 4sU-Seq in version 2 explicitly selects 50–100 bp; version 1 names SNU-Seq with size-selection and selects 70–100 bp. Preserve version-specific values and unassigned exact 2026 interval."
+          }
+        }
+      ]
+    },
+    {
+      "id": "dolken2008_original",
+      "role": "predecessor",
+      "locator": "_data/sources/tt-seq__10.1126+science.aad9841/High_resolution_gene_expression_profiling_for_simultaneous_kinetic_parameter_analysis_of_RNA_synthesis_and_decay.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual original text940–976 and visually rendered PDFp13/printed1970 after fresh TTbundle scraper25hits1file",
+        "finding": "Original HPDP/capture/wash/DTT/recovery body visibly prints1MNaCl. The2026 original visibly prints1mMNaCl and says with modifications. This is a real published difference; intended wash not resolved, no proven typo or transfer of ancestor amounts/temperature/recovery kit. Actual ancestor cites Cleary2005; remaining linked scope not completed."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh original940–974 and visually rendered PDFp13/printed1970, compared with2026suppPDFp18",
+        "finding": "Independent original read confirms1MNaCl versus2026printed1mM. Source difference not extraction error; modifications permit possible intentional variation, no replacement concentration assigned."
+      }
+    },
+    {
+      "id": "geo_series",
+      "role": "linked_material",
+      "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/geo-GSE179306-self-full.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "original",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual Overall Design line 11, after mandatory full bundle scraper",
+        "finding": "Series explicitly describes size-selected ssSNU without bPAP, 50–100 bp selection and four raw files. File count alone is not read layout. Exact 2026 gel interval is not assigned from this source."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual Overall Design line 11, after mandatory full bundle scraper",
+        "finding": "Series explicitly describes size-selected ssSNU without bPAP, 50–100 bp selection and four raw files. File count alone is not read layout. Exact 2026 gel interval is not assigned from this source."
+      }
+    },
+    {
+      "id": "geo_samples",
+      "role": "linked_material",
+      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/geo-GSE179306-gsm-full.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "geo_series",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "All ten sample headers, unique protocol/instrument/relation fields; selected GSM5452295 full sample body lines 52–100, following full bundle scraper 17 hits in 2 files",
+        "finding": "GSM5452295 PL_size_selected_SNU_WT is HEK293, 70–100 bp extraction, small-RNA kit, NextSeq 500 and SRX11439177. Other sample branches remain distinct. Four processed endpoint bedgraphs do not declare mates."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual selected sample lines 52–75 and 89–100 after fresh scraper",
+        "finding": "Independent original sample read confirms title, 70–100 bp selection, kit, NextSeq 500 and SRX11439177; differs from series 50–100 bp. No typo or universal interval assigned."
+      }
+    },
+    {
+      "id": "preprint_v1",
+      "role": "linked_material",
+      "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/2021.07.14.452379v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "snu_predecessor",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual printed version/date and Methods 1370–1385 after full SNU scraper 55 hits in 4 files",
+        "finding": "Version 1, July 14 2021, names SNU-Seq with size-selection and explicitly selects 70–100 bp before dialysis/RppH. This is a version-specific source fact, not automatic 2026 window assignment."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual version 1 Methods 1368–1385",
+        "finding": "Independent original read confirms 70–100 bp in size-selected SNU branch; version 2 instead prints 50–100 bp."
+      }
+    },
+    {
+      "id": "sra_experiment_ena",
+      "role": "linked_material",
+      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/SRX11439177.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "geo_samples",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original XML identifiers, construction protocol, library layout, platform and link inventory after mandatory scraper",
+        "finding": "SRX11439177 / GSM5452295 / SRS9481766 / SRP328288 declares SINGLE and NextSeq 500, with 70–100 bp construction protocol. Actual children are sample/submission and file reports. Inspected body has no cycle declaration; this is not an accepted absence claim."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entire original XML identifiers, construction protocol, library layout, platform and link inventory after mandatory scraper",
+        "finding": "SRX11439177 / GSM5452295 / SRS9481766 / SRP328288 declares SINGLE and NextSeq 500, with 70–100 bp construction protocol. Actual children are sample/submission and file reports. Inspected body has no cycle declaration; this is not an accepted absence claim."
+      }
+    },
+    {
+      "id": "sra_run_package",
+      "role": "linked_material",
+      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/efetch.fcgi",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "sra_experiment_ena",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original NCBI experiment and all four RUN Statistics/Read and original file identity fields after mandatory full bundle scraper",
+        "finding": "Experiment SRX11439177 alias GSM5452295 declares SINGLE. SRR15130590–93 all have Read index 0 average 75, stdev 0 and count equal total spots (83767894, 82619771, 87952911, 84837388); index 1 count zero. Original files are L001–004 R1 only. Sample-specific deposited single genomic read length 75 is positive; complete instrument/index cycle mask is unassigned. No raw files downloaded."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entire original NCBI experiment and all four RUN Statistics/Read and original file identity fields after mandatory full bundle scraper",
+        "finding": "Experiment SRX11439177 alias GSM5452295 declares SINGLE. SRR15130590–93 all have Read index 0 average 75, stdev 0 and count equal total spots (83767894, 82619771, 87952911, 84837388); index 1 count zero. Original files are L001–004 R1 only. Sample-specific deposited single genomic read length 75 is positive; complete instrument/index cycle mask is unassigned. No raw files downloaded."
       }
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "second_pass_d_e",
+      "reviewer": "audit_nanocut_closeout",
       "date": "2026-10-16",
-      "locations": "Supplementary Methods lines 360–367 and 428–453; NEB manual cover and oligo section",
-      "finding": "The shared 2021 bioRxiv preprint and 2026 supplementary methods establish the inherited 4sU capture versus distinct sf4sU size-selection/NEB kit branch; versioned NEB index set and remaining source files still need second pass."
+      "locations": "Original2026 Methods/supplement, dated E7300 guide, preprintv2 identity and actual Dölken capture original",
+      "finding": "Local source-owned operations and conditional kit reference corrected. Exact study index/revision/run masks are open assignments, not confirmed absent. Actual TT/capture/code/data/remaining vendor/supplement children remain listed."
     },
     "pass_2": {
-      "reviewer": "audit_a_h",
+      "reviewer": "root",
       "date": "2026-10-16",
-      "locations": "Defining JATS lines 118–125, original Supplementary Methods 428–453, NEB E7300 manual 946–1070, linked SNU preprint methods",
-      "finding": "Followed source-named NEBNext kit to its E7300 original manual and checked the shared SNU chemistry predecessor. No sf4sU-specific index choice was given in these inspected sources."
-    }
+      "locations": "Fresh actual2026supp297–455, E7300 cover/protocol/oligos and Dölken capture originals",
+      "finding": "Bounded original readings support source operations and wash-difference notice. Full linked-source gate and exact study assignment are not claimed."
+    },
+    "additional_checks": [
+      {
+        "pass_1": {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "Original GEO series/sample, ENA experiment and NCBI complete four-run package, plus versioned Methods",
+          "finding": "Followed actual article-to-GEO-to-experiment metadata chain. Relevant sample readout is SINGLE 75; file/report/sample and author-code child scopes remain open. No raw data fetched."
+        },
+        "pass_2": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Fresh GEO selected sample 52–100, complete ENA experiment, all four NCBI RUN Statistics and version 1/version 2 Methods",
+          "finding": "Independent original confirmation of bounded positive findings; no complete source-gate or missing-information acceptance."
+        }
+      }
+    ]
   },
-  "missing_claims": [
+  "missing_claims": [],
+  "conclusion": "Bounded source-local chemistry and deposited readout correction complete. Independent original readings support GSM5452295 SINGLE 75, version/sample gel-window difference and wash difference. Actual remaining linked-source scope and study/model questions keep full audit in_progress. No missing-information claim accepted.",
+  "history": [
     {
-      "claim": "The exact sf4sU-Seq index and adapter set is unavailable",
-      "disposition": "blocked",
-      "evidence": "Kit-specific oligos are source-positive; exact experiment-specific set/revision has not been resolved, and a second independent source pass is pending."
+      "date": "2026-10-16",
+      "reason": "Fresh original-source audit and local chemistry ownership; inherited helper and blanket source-absence wording removed.",
+      "previous_status": "blocked",
+      "previous_missing_claims": [
+        {
+          "claim": "The exact sf4sU-Seq index and adapter set is unavailable",
+          "disposition": "blocked",
+          "evidence": "Kit-specific oligos are source-positive; exact experiment-specific set/revision has not been resolved, and a second independent source pass is pending."
+        }
+      ],
+      "previous_conclusion": "Kit-specific oligos are source-positive; exact experiment-specific set/revision has not been resolved, and a second independent source pass is pending."
+    },
+    {
+      "date": "2026-10-16",
+      "reason": "Bounded original GEO/SRA metadata follow-up and version-specific gel-window comparison; all registered small-source fetches terminal zero, no raw data.",
+      "previous_open_model_questions": [
+        "Study-specific E7300 lot/revision and selected index member remain unassigned; dated source-positive kit reference is conditional by default.",
+        "GSM5452295 / SRX11439177 has a positive SINGLE, 75-base deposited genomic read declaration. Complete technical/index cycle mask, primer geometry and other library assignments remain open.",
+        "Exact assay-specific final assembly, gel excision window, quantitative compatibility/recovery and adapter-dimer/blocked-adapter fates remain unassigned.",
+        "Published1mM/1M wash difference may reflect modifications or a transcription difference; numerical wash salt is unassigned."
+      ]
     }
   ],
-  "conclusion": "Kit-specific oligos are source-positive; exact experiment-specific set/revision has not been resolved, and a second independent source pass is pending."
+  "open_model_questions": [
+    "Study-specific E7300 lot/revision and selected index member remain unassigned; dated source-positive kit reference is conditional by default.",
+    "GSM5452295 / SRX11439177 has a positive SINGLE, 75-base deposited genomic read declaration. Complete technical/index cycle mask, primer geometry and other library assignments remain open.",
+    "Exact assay-specific final assembly, gel excision window, quantitative compatibility/recovery and adapter-dimer/blocked-adapter fates remain unassigned.",
+    "Published1mM/1M wash difference may reflect modifications or a transcription difference; numerical wash salt is unassigned."
+  ],
+  "linked_scope_queue": [
+    {
+      "original": "Original TT2016 and Dölken2008→Cleary2005 capture predecessor chain",
+      "from": "2026 original inherits TT with modifications/no-sonicationSNU front end; actual Dölken methods reference",
+      "status": "Dölken capture body read twice; remaining actual predecessors/supplements and linked-source scope not complete. No ancestor conditions transferred automatically."
+    },
+    {
+      "original": "GSE179306 study records and https://github.com/ugerlevik/SNU-seq",
+      "from": "Actual2026 article data/code links",
+      "status": "GSE179306 series, all sample identity/protocol fields, selected GSM5452295 full metadata, ENA experiment and all four NCBI run statistics read; source-specific SINGLE 75 is established. Actual author repository, sample/submission/file-report children and remaining study-specific scope are open; raw reads are not required at this checkpoint."
+    },
+    {
+      "original": "Dated E7300 guide QC/size-selection choices and relevant source-named recovery/vendor instructions",
+      "from": "Original2026 kit handoff and E7300 actual protocol/QC text",
+      "status": "Guide oligos/anti-dimer stage read twice; study-specific QC branch/revision and relevant vendor linked originals remain open."
+    },
+    {
+      "original": "Remaining2026 supplement figures/results and preprint version1/version2 relationships",
+      "from": "Original supplement and actual versioned preprint source",
+      "status": "Version 1 and version 2 size-selection Methods now independently compared: 70–100 versus 50–100 bp. Remaining supplement/result scopes and historical experimental identity remain open; no whole-figure exclusion claimed."
+    }
+  ],
+  "model_corrections": [
+    "Removed FourSUReadout/role_library/make_spec recipe inheritance and generic eight-base final index; source choices/fates/conditions/order are declared locally.",
+    "RNA classes are separated by pulse incorporation, not whole-transcript age; label-containing RNA can include pre-existing sequence.",
+    "Restored total-RNA extraction, HPDP cleanup, bound capture/DTT release, miRNeasy/on-columnDNase, gel recovery and decapping stop/recovery.",
+    "Restored conditional RT-primer blocking of excess3′adapter before5′ligation; source observed adapter-dimer product remains explicit with unresolved fate.",
+    "Dated kit mapping defaults inferred in constructors/Segment bases, with preamble and INFERRED captions; source-positive oligo text remains a qualified guide reference. No universal substrate compatibility or recovery asserted.",
+    "Initial PCR geometry is an explicitly unassembled cDNA template, not finished library. Study read mask remains unassigned; computational endpoint processing is separate.",
+    "Public wash notice retains both actual original values and leaves wash salt unassigned; no claimed proven publication error.",
+    "Declared deposited GSM5452295 single Read 1 length 75 from all four original SRA run records; no complete instrument/index mask inferred.",
+    "Public size-window notice preserves series/version 2 50–100 bp and sample/version 1 70–100 bp. Exact 2026 gel interval remains unassigned; no proven typo."
+  ]
 }

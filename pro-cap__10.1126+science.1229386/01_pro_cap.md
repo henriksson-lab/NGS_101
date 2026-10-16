@@ -1,23 +1,43 @@
-# PRO-cap
+# PRO-cap — original 2013 cap-selection branch
 
-**Defining paper:** Kwak et al., *Science* (2013), doi:10.1126/science.1229386. The open author manuscript was read from PMCID PMC3974810.
+[The defining Kwak 2013 paper](https://doi.org/10.1126/science.1229386) derives PRO-cap from precision nuclear run-on. All four biotin-NTPs are supplied together; the informative coordinate is the capped nascent-RNA 5′ end.
 
-## Molecular boundary
+## Original source and molecular order
 
-🟢 The original PRO-cap run-on supplies all four biotin-11-NTPs together at 375 µM each (supplement lines 105–111). Engaged polymerases incorporate labelled nucleotides, and streptavidin selection enriches those nascent molecules.
+🟢 The [author-hosted PDF](https://www.cecerelab.com/_files/ugd/594009_926d2d49ebf94caa8e6cf707c2f4846a.pdf) is the complete original Science 2013 supplement, containing both PRO-seq and PRO-cap. Its printed title/date/DOI identify it independently of the gated PMC download route.
 
-🟢 PRO-cap modifies the same selected pool to recover capped RNA 5′ ends. Enzymatic cap selection therefore changes the informative end from the PRO-seq active-site 3′ end to the initiating 5′ nucleotide.
+The page follows the original PRO-cap branch:
 
-🟢 In the original supplement (author-hosted PDF, lines 117–147), 3′ RNA-adapter ligation and a second streptavidin selection precede Antarctic phosphatase and TAP treatment. The 5′ RNA adapter is ligated only after cap repair, followed by another streptavidin selection before reverse transcription. The schematic follows this order and retains the 3′ adapter through cap selection and 5′ ligation.
+1. Four-biotin-NTP run-on, RNA extraction/desalting and first streptavidin enrichment, **without** PRO-seq fragmentation.
+2. Standard Illumina 3′ RNA-adapter ligation and second streptavidin enrichment.
+3. Antarctic phosphatase before TAP; PNK is expressly omitted.
+4. Standard 5′ RNA-adapter ligation and third streptavidin enrichment.
+5. Standard Illumina RT/PCR, Phusion amplification and PAGE library purification.
 
-## Evidence boundary
+The adjacent reverse PRO-seq adapters are assigned to the other branch. They are not silently used as PRO-cap reagents.
 
-🟡 The original paper uses standard Illumina RNA adapters and RT/PCR primers for PRO-cap, without printing their bases in the author-hosted supplement. A later author protocol prints a complete PRO-cap oligo set, but its release is not silently substituted into the defining 2013 construct.
+## Uncapped material and index boundary
 
-## Oligo source audit
+🟡 AP/TAP chemistry permits an uncapped, biotin-labelled 5′-OH outcome. The graph shows this as an inferred logical class with unresolved downstream fate, not as a physically separated fraction. Streptavidin recognizes the run-on label; capture alone does not prove that every uncapped molecule or incompletely adapter-ligated molecule was removed.
 
-🟢 Checked the original Science supplement hosted by the authors (`594009_926d2d49ebf94caa8e6cf707c2f4846a.pdf.txt`, lines 118–147). It prints modified **reverse PRO-seq** adapters, but explicitly says PRO-cap instead uses standard Illumina 3′ and 5′ RNA adapters, RT primer, and PCR/index primers. Those standards are named rather than sequenced in the 2013 supplement; copying the adjacent reverse PRO-seq oligos into PRO-cap would be wrong.
+The original historical standard oligo identities and sample-index configuration remain unassigned in the molecular model. A shared helper's previous eight-base index was unsupported and has been removed. The local graph declares RT, PCR and purification without importing a generic cDNA-finishing recipe. These are repository modelling corrections, not publication errors.
 
-🟢 The authors' later detailed protocol (`PMC5502525_PMC5502525.xml.txt`, lines 2885–2902; [open article](https://pmc.ncbi.nlm.nih.gov/articles/PMC5502525/)) specifies a concrete PRO-cap implementation: RA3 `UGGAAUUCUCGGGUGCCAAGG-/Inverted dT/`, RA5 `GUUCAGAGUUCUACAGUCCGACGAUC`, RTP `GCCTTGGCACCCGAGAATTCCA`, RP1 `AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA`, and an RPI-n index-primer family. These are useful source-verified oligos for that 2016 implementation, but the 2013 paper does not establish that every base and modification was identical. The schematic retains role-labelled ends pending a version-specific reconstruction.
+## Later and dated vendor comparators
 
-🟢 The later protocol adds a 5′-phosphate-dependent exonuclease before alkaline phosphatase (JATS lines 182–188 and 1648–1651). The 2013 supplement specifies Antarctic phosphatase before TAP without that exonuclease (lines 129–134); the page follows the 2013 reaction order.
+🟢 [Mahat 2016](https://doi.org/10.1038/nprot.2016.086), Table 1, prints a concrete later PRO-cap implementation:
+
+- RA3: `{{= pro_cap.RA3_2016 }}-/Inverted dT/`; the table separately states its 5′ phosphate.
+- RA5: `{{= pro_cap.RA5_2016 }}`.
+- RTP: `{{= pro_cap.RTP_2016 }}`.
+- RP1: `{{= pro_cap.RP1_2016 }}`.
+- RPI-n: `{{= pro_cap.RPI_2016 }}`.
+
+These declarations are version-scoped comparisons, not inputs to the original 2013 graph. The later protocol adds a 5′-phosphate-dependent exonuclease before phosphatase treatment. That step is not added to the original AP/TAP branch.
+
+🟢 The dated Illumina *TruSeq Small RNA Sample Preparation Guide*, 15004197 Rev C, March 2011, names RA3/RA5/RTP/RP1/RPI and six-base indexes. It describes truncated RNA ligase 2 for its 3′ reaction and a separate 5′ ligation/RT/index-PCR route. A matching reagent name alone does not establish equal modifications, a chosen 2013 kit, or equivalence to the later author-modified RNA adapters.
+
+## Readout and remaining audit scope
+
+Original SOM analysis uses the 5′ ends of **non-reverse-complemented** reads for initiation mapping, unlike PRO-seq. The source names GenomeAnalyzer 2/HiSeq 2000; the exact original loaded run primers and acquired cycles are not declared here. PCR-site architecture is not a loaded-primer assignment.
+
+The audit remains in progress. Remaining original SOM figure/table/script scope and named precursor/source links are recorded in the review. An unassigned historical reagent choice is not an invented unavailable manual, and no publication-wide missing-information claim is accepted.

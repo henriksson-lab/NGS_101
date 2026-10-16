@@ -8,12 +8,15 @@ that the P7 side is deliberately NOT the stock TruSeq arm, and where the 16-cycl
 index-2 read puts the two P5-side identifiers.
 """
 from pathlib import Path
+import os
+import re
+import unicodedata
 import sys
 H = Path(__file__).resolve().parent
 sys.path[:0] = [str(H), str(H.parents[1] / "lib")]
 import guide_seq as M
 import seqprimers as sp
-from checks import Check
+from checks import Check, Source, have
 
 c = Check()
 
@@ -62,5 +65,36 @@ c("the ligating end is cohesive", geometry.kind, "cohesive")
 c("the library carries exactly one dA/dT junction, beside the Read 1 arm",
   [s.name for s in M.FINAL_LIBRARY if "dT" in s.name or "dA" in s.name],
   ["adapter 3' dT : fragment dA"])
+
+c.section("complete oligos from the corrected original, not the older PMC labels")
+root=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"/H.parent.name
+original=Source(root/"nbt.3117_41587_2015_BFnbt3117_MOESM21_ESM.pdf.txt",
+                "Corrected publisher supplement; tools/get_sources.py --slugs "+H.parent.name)
+if have(c,original,label="corrected publisher Supplementary Table 4"):
+    text=unicodedata.normalize("NFKC",original.path.read_text())
+    start=text.index("Supplementary Table 4 Common")
+    end=text.index("Supplementary Results",start)
+    compact=re.sub(r"\s+","",text[start:end])
+    for name,sequence in (("A01",M.A01_WRITTEN),
+                           ("MiseqCommonAdapter",M.COMMON_ADAPTER_WRITTEN),
+                           ("P701",M.P701_WRITTEN),
+                           ("P5_1",M.P5_1),("P5_2",M.P5_2),
+                           ("Index1",M.INDEX1_SEQ_PRIMER),
+                           ("Read2",M.READ2_SEQ_PRIMER),
+                           ("Nuclease_off_+_GSP1",M.GSP1_A),
+                           ("Nuclease_off_+_GSP2",M.GSP2_A)):
+        c(name+" complete original ordering sequence/modifications",name+sequence in compact)
+    # The PDF extraction maps its minus glyph to '3'; the rendered source was checked.
+    c("corrected minus GSP1 complete source row",
+      "Nuclease_off_3_GSP1"+M.GSP1_B in compact)
+    c("corrected minus GSP2 complete source row",
+      "Nuclease_off_3_GSP2"+M.GSP2_B in compact)
+article=Source(root/"nbt.3117_PMC4320685.xml.txt",
+               "Defining article modified tag strands; tools/get_sources.py --slugs "+H.parent.name)
+if have(c,article,label="original defining article"):
+    compact=re.sub(r"\s+","",article.path.read_text())
+    for name,written in (("tag A",M.DSODN_A_WRITTEN),("tag B",M.DSODN_B_WRITTEN)):
+        c(name+" complete original phosphorylated/PS ordering string",
+          written.replace("'","′") in compact)
 
 c.report()

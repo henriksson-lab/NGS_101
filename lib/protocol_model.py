@@ -1,8 +1,10 @@
-"""Small shared constructors for role-level protocol schematics.
+"""Constructors for declared molecular roles and legacy schematic shortcuts.
 
-These are used when a source establishes molecular roles and transformations but does
-not publish one immutable base-level adapter geometry.  They keep placeholder handling,
-junction marking and workflow continuity in one place.
+An unassigned role records the model's scope; it does not establish source absence.
+Supplied parts can share placeholder handling, drawing and workflow continuity.
+Legacy ``role_library`` and ``da_tailed`` choose platform or end representations;
+their caller reviews are tracked in catalogue/chemistry_decoupling.tsv. Do not add
+callers to those shortcuts while their source choices are being migrated.
 """
 from __future__ import annotations
 

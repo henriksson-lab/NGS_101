@@ -1466,6 +1466,26 @@ _IUPAC = {"A": "A", "C": "C", "G": "G", "T": "T", "U": "T", "N": "ACGT", "W": "A
 _WC = {"A": "T", "T": "A", "C": "G", "G": "C"}
 
 
+def iupac_complement(seq: str) -> str:
+    """Complement nucleotide classes, preserving order and case.
+
+    This accepts IUPAC nucleotide symbols only. Schematic placeholders belong in
+    placeholder segments and must not be interpreted as nucleotide classes.
+    U is treated as T, matching the pairing alphabet. No fold or enzyme behavior
+    follows from complementing a declared class.
+    """
+    symbols = {frozenset(bases): symbol for symbol, bases in _IUPAC.items()
+               if symbol != "U"}
+    out = []
+    for letter in seq:
+        bases = _IUPAC.get(letter.upper())
+        if bases is None:
+            raise ValueError(f"not an IUPAC nucleotide symbol: {letter!r}")
+        paired = symbols[frozenset(complement(base) for base in bases)]
+        out.append(paired.lower() if letter.islower() else paired)
+    return "".join(out)
+
+
 def bases_pair(a: str, b: str) -> bool:
     """True if `a` may sit opposite `b` in a drawn duplex.
 

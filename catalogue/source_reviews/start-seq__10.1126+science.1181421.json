@@ -1,6 +1,6 @@
 {
   "dir": "start-seq__10.1126+science.1181421",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "nechaev_2010_jats",
@@ -9,16 +9,16 @@
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_s_z",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Author manuscript JATS lines 38–46, 58–60, 112; scraper run on full bundle",
-        "finding": "Reports short (<100 nt), nuclear, capped RNAs; 5′ reads map initiation and separately designed adapters let 3′ reads map pausing. Refers to Fig S2/S3, Table S1 and online Materials/Methods, but no adapter bases or selection chemistry printed."
+        "locations": "Original JATS 36\u201360; original XML supplemental-media identity and Methods reference 12",
+        "finding": "Fresh full-bundle scraper before reading. Short nuclear capped RNA under 100 nt; separate 5-prime initiation and custom 3-prime end-reading libraries. Pause-position distribution is not gel-selection range. JATS identifies actual NIHMS401007 supplemental original; scientific details remain deferred to it."
       },
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Original PMC JATS extracted lines 36–46 and Supplementary Material pointer",
-        "finding": "Independently confirms short nuclear capped RNA under 100 nt and separately designed 3′-end adapters; the 25–60 nt interval describes mapped pause positions, not a gel-selection range. Adapter bases and detailed library prep are deferred to supplement."
+        "locations": "Fresh full-bundle scraper (0 hits), then original JATS 36\u201360",
+        "finding": "Independent current reading confirms separate endpoint libraries, short nuclear capped RNA and pause-position versus selection distinction. No source absence established."
       }
     },
     {
@@ -29,75 +29,69 @@
       "relevance": "relevant",
       "pass_1": null,
       "pass_2": null,
-      "reason": "PMC download gate; same-named object is absent from PMC Cloud TDM bucket and direct PMC bin URL returned 404."
-    },
-    {
-      "id": "science_som_alternate",
-      "role": "supplement",
-      "locator": "https://www.science.org/doi/suppl/10.1126/science.1181421/suppl_file/nechaev.som.pdf",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "Science alternate supporting-material route returned HTTP 403; exact filename/version unverified."
+      "reason": "Fresh registered PMC download route returns PreparingToDownload gate; TDM Cloud has no attachments. Exact printed Science DC1 landing returned HTTP403. Identified author SOM ResearchGate record is request-only/no full-text in browser; registered fetch403. These are routes to the same identified original, not multiple missing scientific documents.",
+      "identified_routes": [
+        "https://www.sciencemag.org/cgi/content/full/science.1181421/DC1",
+        "https://www.researchgate.net/publication/242178329_Supporting_Online_Material_for_Global_Analysis_of_Short_RNAs_Reveals_Widespread_Promoter-Proximal_Stalling_and_Arrest_of_Pol_II_in_Drosophila"
+      ]
     },
     {
       "id": "nechaev_geo_series",
       "role": "linked_material",
-      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE18643",
+      "locator": "_data/sources/start-seq__10.1126+science.1181421/geo-GSE18643-self-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_s_z",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Original GEO GSE18643 full SOFT series summary and nine !Series_sample_id fields",
-        "finding": "Series links the original Nechaev deposit to nine samples including GSM463298 5′ and GSM463301 3′. Series itself lacks molecular recipe; its sample links were followed."
+        "locations": "Complete original series SOFT record 1\u201344",
+        "finding": "Read original series identity, all nine sample IDs, processing README/RAW tar links, SRA SRP001584 and BioProject PRJNA121575. Two named sample originals followed; seven other samples and processing README remain unread. No raw data downloaded."
       },
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Original GSE18643 SOFT title, PubMed ID, nine !Series_sample_id fields and accession links",
-        "finding": "Original deposit names Nechaev paper and links the nine samples, including GSM463298 and GSM463301; the series itself prints no oligo sequence or library recipe."
+        "locations": "Fresh full-bundle scraper then complete original series SOFT 1\u201344",
+        "finding": "Independent entire series metadata read confirms nine sample IDs and linked records. Does not exclude remaining seven samples, processing README or SRA chemistry metadata."
       },
       "discovered_from": "nechaev_2010_jats"
     },
     {
       "id": "nechaev_geo_five",
       "role": "linked_material",
-      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM463298",
+      "locator": "_data/sources/start-seq__10.1126+science.1181421/geo-GSM463298-self-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_s_z",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Original GEO GSM463298 full SOFT !Sample_title and !Sample_extract_protocol_ch1",
-        "finding": "5′ library: gel-select 25–100 nt nuclear RNA; 5′ polyphosphatase then Terminator exonuclease; standard Illumina 3′ linker, gel cleanup, alkaline phosphatase then tobacco acid pyrophosphatase, standard Illumina 5′ linker, kit RT/PCR. No linker bases in record."
+        "locations": "Complete original sample SOFT 1\u201343, extraction line21 and processing line22",
+        "finding": "Fresh bundle scraper before complete reading. Both gel-select 25\u2013100 nt, sequential polyphosphatase/Terminator, 3-prime linker, gel cleanup, alkaline phosphatase, TAP, 5-prime linker, RT and PCR. Untreated sample uses standard Illumina small-RNA linkers and kit RT. Genome Analyzer II; trimming to26nt is computational, not acquired cycle declaration. Two displayed samples are independent conditions, not physical split of one RNA preparation."
       },
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Original GSM463298 SOFT !Sample_title and !Sample_extract_protocol_ch1",
-        "finding": "Independently confirms 25–100-nt gel selection, 5-prime polyphosphatase then Terminator exonuclease, standard Illumina 3-prime linker, gel cleanup, alkaline phosphatase then TAP, standard 5-prime linker, then kit RT/PCR. The sample does not print adapter bases."
+        "locations": "Fresh full-bundle scraper then entire original sample SOFT 1\u201343",
+        "finding": "Independently read exact succession, interval, kit/custom distinction, sample condition and GAII. Confirms26nt is only computational trimming; no actual ordered linker or acquired mask supplied by a shared recipe."
       },
       "discovered_from": "nechaev_geo_series"
     },
     {
       "id": "nechaev_geo_three",
       "role": "linked_material",
-      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM463301",
+      "locator": "_data/sources/start-seq__10.1126+science.1181421/geo-GSM463301-self-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_s_z",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Original GEO GSM463301 full SOFT !Sample_title and !Sample_extract_protocol_ch1",
-        "finding": "3′ library uses same 25–100 nt selection and enzyme order, but custom 3′/5′ linkers and custom RT primer with standard Illumina kit reagents. No custom oligo bases in record."
+        "locations": "Complete original sample SOFT 1\u201343, extraction line21 and processing line22",
+        "finding": "Fresh bundle scraper before complete reading. Both gel-select 25\u2013100 nt, sequential polyphosphatase/Terminator, 3-prime linker, gel cleanup, alkaline phosphatase, TAP, 5-prime linker, RT and PCR. LacZ-depleted sample uses custom 3-prime/5-prime linkers and a custom RT primer with other kit reagents. Genome Analyzer II; trimming to26nt is computational, not acquired cycle declaration. Two displayed samples are independent conditions, not physical split of one RNA preparation."
       },
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Original GSM463301 SOFT !Sample_title and !Sample_extract_protocol_ch1",
-        "finding": "Independently confirms the same 25–100-nt selection and enzyme order but custom 3-prime and 5-prime linkers plus a custom RT primer; sample prints no custom oligo bases."
+        "locations": "Fresh full-bundle scraper then entire original sample SOFT 1\u201343",
+        "finding": "Independently read exact succession, interval, kit/custom distinction, sample condition and GAII. Confirms26nt is only computational trimming; no actual ordered linker or acquired mask supplied by a shared recipe."
       },
       "discovered_from": "nechaev_geo_series"
     },
@@ -108,15 +102,15 @@
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_s_z",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Henriques 2013 original JATS lines 56, 66–70, 142–148, 162–170; scraper run on bundle",
-        "finding": "Follow-up uses 3′ scRNA-seq, explicitly says libraries were prepared as in Nechaev 2010; introduces spike-in controls and supplementary extended procedures but prints no Nechaev custom linker bases. Its GEO GSE49078 was followed."
+        "locations": "Original JATS 140\u2013171",
+        "finding": "Read actual scRNA section: later 3-prime library delegates to Nechaev2010, adds15 capped spike-ins for specified figures and links GSE49078. Adjacent short-RNA qPCR uses a separate poly(A)/RT procedure; not assigned to defining2010 sequencing route. Later extended methods remain blocked."
       },
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Successor original PMC JATS Experimental Procedures, scRNA-seq section extracted lines 142–150, accession statement line 169",
+        "locations": "Successor original PMC JATS Experimental Procedures, scRNA-seq section extracted lines 142\u2013150, accession statement line 169",
         "finding": "Independently confirms later 3-prime scRNA libraries were prepared as in Nechaev 2010 and links GEO GSE49078; no Nechaev custom linker bases printed."
       }
     },
@@ -141,7 +135,7 @@
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
         "locations": "GEO GSE49078 full SOFT series summary/sample list and representative GSM1193420 !Sample_extract_protocol_ch1",
-        "finding": "Successor deposit says its 3′ scRNA libraries followed Nechaev 2010; representative sample provides no custom adapter bases. The series contains 3′ read data."
+        "finding": "Successor deposit says its 3\u2032 scRNA libraries followed Nechaev 2010; representative sample provides no custom adapter bases. The series contains 3\u2032 read data."
       },
       "pass_2": {
         "reviewer": "root",
@@ -158,15 +152,15 @@
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_s_z",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Official Rev D guide lines 1–22, 80–94, 286–333, 651–685, 865–930, 1079–1120; scraper run on bundle",
-        "finding": "August 2010 guide names SRA 5′/3′ adapters and RT primer by part number, but extracted guide has no oligo base strings. Its default workflow ligates 5′ then 3′, unlike author GEO custom 3′ then 5′ method; guide postdates 2009 experiment and does not establish exact kit revision."
+        "locations": "Printed title; components286\u2013333; 5-prime ligation651\u2013685,3-prime ligation865\u2013930,RT/PCR1079\u20131120",
+        "finding": "Original manufacturer document1004239RevD is August2010, after experiment. Names standard SRA adapters/RT/GX1/GX2/Phusion components; standard5-prime-then3-prime ligation differs from source-deposited modified route. It is a positive dated original, not an identified experimental edition or proof of custom oligo assignment."
       },
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Official guide Rev D cover extracted lines 1–21, kit contents lines 285–333, ligation section headings",
+        "locations": "Official guide Rev D cover extracted lines 1\u201321, kit contents lines 285\u2013333, ligation section headings",
         "finding": "August 2010 vendor guide names SRA 5-prime/3-prime adapters and RT primer by part number but does not print bases. Its default 5-prime-then-3-prime order postdates and differs from the original GEO author method; it cannot identify the 2009 kit revision."
       },
       "discovered_from": "nechaev_geo_five"
@@ -185,29 +179,255 @@
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "audit_s_z",
+      "reviewer": "audit_rna_contacts_closeout",
       "date": "2026-10-16",
-      "locations": "Nechaev 2010 JATS lines 38–46 and supplementary pointer; GSE18643 series and GSM463298/GSM463301 SOFT; Henriques 2013 JATS lines 142–148 and GSE49078/GSM1193420 SOFT; official Illumina Rev D; PMC Cloud manifests and Science alternate",
-      "finding": "Followed original GEO sample links and found precise size-selection/enzyme/adapter order that the article body omits. Henriques 2013 reuses Nechaev and its supplement remains gated. The original Science supplement, successor supplement, and actual 2009 kit revision are unavailable, so custom adapter-base absence cannot be accepted."
+      "locations": "Defining JATS/actual supplemental identity; complete GEO series and two displayed sample records; dated vendor original; later Henriques JATS",
+      "finding": "Original SOM remains gate-blocked after actual PMC/DC1 and identified author-record attempts. Seven GEO sample children, linked processing README, SRA experiment metadata, later study supplemental scope and vendor child inventory remain pending. Unverified speculative supplement filename is not a separate source identity."
     },
     "pass_2": {
       "reviewer": "root",
       "date": "2026-10-16",
-      "locations": "Original Nechaev JATS and GSE18643/GSM463298/GSM463301 SOFT; later Henriques JATS and GSE49078/GSM1193420 SOFT; official Illumina Rev D guide; source-bundle scraper",
-      "finding": "Independently followed the paper to its GEO samples and later reuse. GEO resolves the actual 25–100-nt selection, enzyme order and standard versus custom adapter branches. Both original supplements remain gated and the 2009 kit revision is unknown, so custom oligo absence remains blocked."
+      "locations": "Fresh original main36\u201360, complete GSE18643SOFT1\u201344 and both source sampleSOFT1\u201343",
+      "finding": "Independently read displayed source routes and linked sample inventory. Exact physical processing order and conditions verified; remaining named children not excluded from unopened titles or no-hit scraper. No whole linked gate closure."
     }
   },
-  "missing_claims": [
-    {
-      "claim": "Exact Nechaev 2010 custom 3′-read RNA linkers and RT primer bases are confirmed unavailable in original and linked sources",
-      "disposition": "blocked",
-      "evidence": "Original JATS and GEO sample records specify custom roles/order but no bases; defining Science supplement remains inaccessible."
+  "missing_claims": [],
+  "conclusion": "Protocol-owned two-source Start-seq graph replaces shared recipe selection. Separate deposited sample inputs, complete source processing order, explicit post3-prime gel and distinct phosphatase/TAP steps retained. Degraded-product fate stays unresolved, source26nt trimming not assigned as acquisition. Actual SOM and named linked children remain open; no accepted missing-information claim.",
+  "history_before_primary_reaudit_2026_10_16": {
+    "dir": "start-seq__10.1126+science.1181421",
+    "status": "blocked",
+    "source_checklist": [
+      {
+        "id": "nechaev_2010_jats",
+        "role": "defining",
+        "locator": "_data/sources/start-seq__10.1126+science.1181421/science.1181421_PMC3435875.xml.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Author manuscript JATS lines 38\u201346, 58\u201360, 112; scraper run on full bundle",
+          "finding": "Reports short (<100 nt), nuclear, capped RNAs; 5\u2032 reads map initiation and separately designed adapters let 3\u2032 reads map pausing. Refers to Fig S2/S3, Table S1 and online Materials/Methods, but no adapter bases or selection chemistry printed."
+        },
+        "pass_2": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original PMC JATS extracted lines 36\u201346 and Supplementary Material pointer",
+          "finding": "Independently confirms short nuclear capped RNA under 100 nt and separately designed 3\u2032-end adapters; the 25\u201360 nt interval describes mapped pause positions, not a gel-selection range. Adapter bases and detailed library prep are deferred to supplement."
+        }
+      },
+      {
+        "id": "nechaev_2010_supp",
+        "role": "supplement",
+        "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3435875/bin/NIHMS401007-supplement-supp_material.pdf",
+        "availability": "unavailable",
+        "relevance": "relevant",
+        "pass_1": null,
+        "pass_2": null,
+        "reason": "PMC download gate; same-named object is absent from PMC Cloud TDM bucket and direct PMC bin URL returned 404."
+      },
+      {
+        "id": "science_som_alternate",
+        "role": "supplement",
+        "locator": "https://www.science.org/doi/suppl/10.1126/science.1181421/suppl_file/nechaev.som.pdf",
+        "availability": "unavailable",
+        "relevance": "relevant",
+        "pass_1": null,
+        "pass_2": null,
+        "reason": "Science alternate supporting-material route returned HTTP 403; exact filename/version unverified."
+      },
+      {
+        "id": "nechaev_geo_series",
+        "role": "linked_material",
+        "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE18643",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Original GEO GSE18643 full SOFT series summary and nine !Series_sample_id fields",
+          "finding": "Series links the original Nechaev deposit to nine samples including GSM463298 5\u2032 and GSM463301 3\u2032. Series itself lacks molecular recipe; its sample links were followed."
+        },
+        "pass_2": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original GSE18643 SOFT title, PubMed ID, nine !Series_sample_id fields and accession links",
+          "finding": "Original deposit names Nechaev paper and links the nine samples, including GSM463298 and GSM463301; the series itself prints no oligo sequence or library recipe."
+        },
+        "discovered_from": "nechaev_2010_jats"
+      },
+      {
+        "id": "nechaev_geo_five",
+        "role": "linked_material",
+        "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM463298",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Original GEO GSM463298 full SOFT !Sample_title and !Sample_extract_protocol_ch1",
+          "finding": "5\u2032 library: gel-select 25\u2013100 nt nuclear RNA; 5\u2032 polyphosphatase then Terminator exonuclease; standard Illumina 3\u2032 linker, gel cleanup, alkaline phosphatase then tobacco acid pyrophosphatase, standard Illumina 5\u2032 linker, kit RT/PCR. No linker bases in record."
+        },
+        "pass_2": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original GSM463298 SOFT !Sample_title and !Sample_extract_protocol_ch1",
+          "finding": "Independently confirms 25\u2013100-nt gel selection, 5-prime polyphosphatase then Terminator exonuclease, standard Illumina 3-prime linker, gel cleanup, alkaline phosphatase then TAP, standard 5-prime linker, then kit RT/PCR. The sample does not print adapter bases."
+        },
+        "discovered_from": "nechaev_geo_series"
+      },
+      {
+        "id": "nechaev_geo_three",
+        "role": "linked_material",
+        "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM463301",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Original GEO GSM463301 full SOFT !Sample_title and !Sample_extract_protocol_ch1",
+          "finding": "3\u2032 library uses same 25\u2013100 nt selection and enzyme order, but custom 3\u2032/5\u2032 linkers and custom RT primer with standard Illumina kit reagents. No custom oligo bases in record."
+        },
+        "pass_2": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original GSM463301 SOFT !Sample_title and !Sample_extract_protocol_ch1",
+          "finding": "Independently confirms the same 25\u2013100-nt selection and enzyme order but custom 3-prime and 5-prime linkers plus a custom RT primer; sample prints no custom oligo bases."
+        },
+        "discovered_from": "nechaev_geo_series"
+      },
+      {
+        "id": "henriques_2013_jats",
+        "role": "other",
+        "locator": "_data/sources/start-seq__10.1126+science.1181421/j.molcel.2013.10.001_PMC3845087.xml.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Henriques 2013 original JATS lines 56, 66\u201370, 142\u2013148, 162\u2013170; scraper run on bundle",
+          "finding": "Follow-up uses 3\u2032 scRNA-seq, explicitly says libraries were prepared as in Nechaev 2010; introduces spike-in controls and supplementary extended procedures but prints no Nechaev custom linker bases. Its GEO GSE49078 was followed."
+        },
+        "pass_2": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Successor original PMC JATS Experimental Procedures, scRNA-seq section extracted lines 142\u2013150, accession statement line 169",
+          "finding": "Independently confirms later 3-prime scRNA libraries were prepared as in Nechaev 2010 and links GEO GSE49078; no Nechaev custom linker bases printed."
+        }
+      },
+      {
+        "id": "henriques_2013_supp",
+        "role": "supplement",
+        "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3845087/bin/NIHMS530973-supplement-01.pdf",
+        "availability": "unavailable",
+        "relevance": "relevant",
+        "pass_1": null,
+        "pass_2": null,
+        "reason": "PMC TDM supplement download gate; not in PMC Cloud bucket. Could contain extended procedure or spike-in oligos.",
+        "discovered_from": "henriques_2013_jats"
+      },
+      {
+        "id": "henriques_geo",
+        "role": "linked_material",
+        "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE49078",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "GEO GSE49078 full SOFT series summary/sample list and representative GSM1193420 !Sample_extract_protocol_ch1",
+          "finding": "Successor deposit says its 3\u2032 scRNA libraries followed Nechaev 2010; representative sample provides no custom adapter bases. The series contains 3\u2032 read data."
+        },
+        "pass_2": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original GSE49078 SOFT title, sample list; GSM1193420 SOFT !Sample_extract_protocol_ch1 and processing",
+          "finding": "Successor GEO explicitly attributes its 3-prime scRNA sequencing method to Nechaev 2010 but provides no custom adapter bases."
+        },
+        "discovered_from": "henriques_2013_jats"
+      },
+      {
+        "id": "illumina_2010_guide",
+        "role": "vendor",
+        "locator": "_data/sources/start-seq__10.1126+science.1181421/illumina_SmallRNA_SamplePrep_Guide_1004239_D.pdf.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Official Rev D guide lines 1\u201322, 80\u201394, 286\u2013333, 651\u2013685, 865\u2013930, 1079\u20131120; scraper run on bundle",
+          "finding": "August 2010 guide names SRA 5\u2032/3\u2032 adapters and RT primer by part number, but extracted guide has no oligo base strings. Its default workflow ligates 5\u2032 then 3\u2032, unlike author GEO custom 3\u2032 then 5\u2032 method; guide postdates 2009 experiment and does not establish exact kit revision."
+        },
+        "pass_2": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Official guide Rev D cover extracted lines 1\u201321, kit contents lines 285\u2013333, ligation section headings",
+          "finding": "August 2010 vendor guide names SRA 5-prime/3-prime adapters and RT primer by part number but does not print bases. Its default 5-prime-then-3-prime order postdates and differs from the original GEO author method; it cannot identify the 2009 kit revision."
+        },
+        "discovered_from": "nechaev_geo_five"
+      },
+      {
+        "id": "illumina_experiment_revision",
+        "role": "vendor",
+        "locator": "Illumina Small RNA Sample Preparation Kit revision used for Nechaev 2009 experiments",
+        "availability": "unavailable",
+        "relevance": "relevant",
+        "pass_1": null,
+        "pass_2": null,
+        "reason": "Author GEO names kit and standard reagents, but no catalog/revision or vendor guide version. The fetched Rev D was issued August 2010, after the experiment."
+      }
+    ],
+    "linked_information": {
+      "result": "blocked",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Nechaev 2010 JATS lines 38\u201346 and supplementary pointer; GSE18643 series and GSM463298/GSM463301 SOFT; Henriques 2013 JATS lines 142\u2013148 and GSE49078/GSM1193420 SOFT; official Illumina Rev D; PMC Cloud manifests and Science alternate",
+        "finding": "Followed original GEO sample links and found precise size-selection/enzyme/adapter order that the article body omits. Henriques 2013 reuses Nechaev and its supplement remains gated. The original Science supplement, successor supplement, and actual 2009 kit revision are unavailable, so custom adapter-base absence cannot be accepted."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Nechaev JATS and GSE18643/GSM463298/GSM463301 SOFT; later Henriques JATS and GSE49078/GSM1193420 SOFT; official Illumina Rev D guide; source-bundle scraper",
+        "finding": "Independently followed the paper to its GEO samples and later reuse. GEO resolves the actual 25\u2013100-nt selection, enzyme order and standard versus custom adapter branches. Both original supplements remain gated and the 2009 kit revision is unknown, so custom oligo absence remains blocked."
+      }
     },
+    "missing_claims": [
+      {
+        "claim": "Exact Nechaev 2010 custom 3\u2032-read RNA linkers and RT primer bases are confirmed unavailable in original and linked sources",
+        "disposition": "blocked",
+        "evidence": "Original JATS and GEO sample records specify custom roles/order but no bases; defining Science supplement remains inaccessible."
+      },
+      {
+        "claim": "Nechaev Start-RNAs were gel-selected at 25\u201365 nt",
+        "disposition": "resolved",
+        "evidence": "Earlier graph conflated observed pause-position interval with selection. Original GEO GSM463298/GSM463301 records explicitly gel-select 25\u2013100-nt RNA; corrected graph."
+      }
+    ],
+    "conclusion": "Original and linked readable sources now have two independent checks. GEO resolves reaction order and 25\u2013100-nt selection; custom oligo bases and historical kit revision remain blocked by unavailable primary supplements."
+  },
+  "model_questions": [
+    "Actual ordered 2010 standard/custom adapters, RT/PCR primers, enzyme formulation and historical kit edition remain unassigned model data; do not invent an unavailable document for an unknown selected member.",
+    "Exact acquired masks, cycle counts and index acquisition remain unassigned. Processing to26nt is not proof of26 acquired cycles.",
+    "Exonuclease degradation products have unresolved subsequent recovery/removal; no immediate physical discard or complete depletion efficiency is asserted."
+  ],
+  "historical_identity_questions": [
     {
-      "claim": "Nechaev Start-RNAs were gel-selected at 25–65 nt",
-      "disposition": "resolved",
-      "evidence": "Earlier graph conflated observed pause-position interval with selection. Original GEO GSM463298/GSM463301 records explicitly gel-select 25–100-nt RNA; corrected graph."
+      "former_id": "science_som_alternate",
+      "locator": "https://www.science.org/doi/suppl/10.1126/science.1181421/suppl_file/nechaev.som.pdf",
+      "finding": "Earlier guessed filename was unverified. Keep as historical retrieval attempt, not an identified additional original. Actual JATS file and printed DC1 landing are recorded above."
     }
   ],
-  "conclusion": "Original and linked readable sources now have two independent checks. GEO resolves reaction order and 25–100-nt selection; custom oligo bases and historical kit revision remain blocked by unavailable primary supplements."
+  "pending_linked_sources": [
+    "Identified original2010 NIHMS401007 supporting methods, FiguresS1\u2013S13 and TablesS1/S2, still route-blocked.",
+    "Other seven samples linked by GSE18643; exact Data_Processing_ReadMe.txt; SRA experiment metadata linked by inspected samples SRX015110/SRX015113. Data archives and bedGraph results not fetched.",
+    "Henriques2013 identified original supplement NIHMS530973-supplement-01.pdf remains PMC gate-blocked; successor deposited scope requires fresh bounded follow-up.",
+    "Dated2010 manufacturer document source-specific linked vendor/support scope not fully inventoried; actual study kit edition remains model assignment, not accepted absence."
+  ],
+  "current_model_independent_check": {
+    "reviewer": "root",
+    "date": "2026-10-16",
+    "locations": "Final local chem.py versus freshly read original GEO series 1\u201344 and both sample records 1\u201343",
+    "finding": "Independent final declaration review confirms distinct deposited input samples, source-specific processing order and unresolved degradation-product recovery/fate. Separate library branches preserve standard/custom adapter and RT distinctions. No further model edits requested; source review remains open for identified original and linked obligations."
+  }
 }

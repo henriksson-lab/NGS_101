@@ -15,6 +15,17 @@ exclusion. `linked_information.result` says `enumerated`, `none_found`, or `bloc
 both reviewers describe how they checked links. A linked item is another source
 row with `role: "linked_material"` and `discovered_from` naming its referring row.
 
+Name an identified original document, repository or file in each source row.
+A desired reagent specification or an unassigned experimental index is an open
+question, not evidence that a disclosure document exists but is inaccessible.
+Keep those questions separate from actual unavailable originals. A cited source
+whose identity or version remains unresolved still blocks its missing-information
+claim. Reclassifying a question never establishes absence or supplies a reading pass.
+
+The metadata-only [identity queue](../source_review_identity_queue.tsv) flags rows
+needing this distinction. Its questions are not source-content findings, accepted
+exclusions or completed reviews.
+
 Two independent people or agents check the **original** source text separately,
 including sources judged irrelevant to the missing claim so that exclusions do
 not depend on one reader.
@@ -34,6 +45,12 @@ Only `accepted_missing` claims confirmed absence, and it also requires the publi
 page to display the checked source scope and linked-information disposition.
 `reviewed` means two passes found no accepted missing claim. `in_progress` allows
 partial entries; it cannot establish absence.
+Named source or link obligations may be tracked in `pending_sources` and
+`pending_linked_targets` during an audit. Either nonempty queue prevents a
+`reviewed` or `accepted_missing` status, even if every current checklist row has
+two passes. Resolve each item against its original and retain the located checks
+in the source checklist before clearing the queue. Removing a pending item without
+that evidence does not establish source completeness.
 
 Example shape (replace every value with a located, protocol-specific review):
 

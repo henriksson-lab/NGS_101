@@ -4,7 +4,7 @@ import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
 import kinnex as K
 import seqprimers as sp
-from chemdraw import Row, annotation_rows, panel, protocol_graph_panels, strand_row
+from chemdraw import annotation_rows, panel, protocol_graph_panels, strand_row
 from dumbbell import dumbbell_rows
 from page import head, info
 OUT=H.parent/"kinnex-full-length-rna.html"
@@ -22,15 +22,14 @@ def render():
                   'provides the segmentation recognition motifs below; these short references do not establish full physical adapter or PCR-primer sequences.</p>',
                   '<p>' + ', '.join(f'{name} <code>{bases}</code>' for name,bases in K.MAS8_REFERENCE_MOTIFS.items()) + '</p>'])
     parts.append('<p>The <a href="https://www.pacb.com/wp-content/uploads/SMRT-Link-User-Guide-v13.1.pdf">SMRT Link v13.1 guide</a>, p. 101, gives the Iso-Seq v2 primer family. '
-                 f'Example bc01 5′ primer: <code>{K.ISOSEQ_V2_BC01_5P}</code>; common 3′ primer: <code>{K.ISOSEQ_V2_3P}</code>. '
-                 'The chosen bc01–bc12 primer depends on the sample.</p>')
+                 f'Example bc01 5′ trimming reference: <code>{K.ISOSEQ_V2_BC01_5P_REFERENCE}</code>; 3′ trimming reference: <code>{K.ISOSEQ_V2_3P_REFERENCE}</code>. '
+                 'The chosen bc01–bc12 depends on the sample. Page 100 specifies that the 3′ reference excludes poly(T) and is reverse-complemented; these records are for primer removal, not full physical oligo ordering.</p>')
     parts.extend(['<h2>Reaction workflow</h2>',
                   protocol_graph_panels(graph, cls="long")])
     parts.extend(['<h2>Sequencing-primer and polymerase binding</h2>',
-        panel([Row(chunks=[("sequencing primer + polymerase  --->  [terminal-adapter primer site]", "r2", False)]),
-               *dumbbell_rows(K.SMRTBELL)],cls="long",caption="The sequencing primer anneals in a terminal adapter whose bases have not been verified from the checked guide, so the binding site and extension direction are shown without a fabricated sequence."),
+        panel(dumbbell_rows(K.SMRTBELL),cls="long",caption="INFERRED — the sequencing primer anneals in a terminal adapter whose bases have not been verified from the checked guide. Its exact binding site and extension direction remain unresolved."),
         '<h2>HiFi passes and segmentation</h2>',
-        panel([strand_row(cycle),*annotation_rows(cycle)],cls="long",caption="One polymerase circuit traverses the eight-insert array in both orientations. Consensus is formed first; the seven ordered segmentation junctions then delimit the eight original cDNAs."),
+        panel([strand_row(cycle),*annotation_rows(cycle)],cls="long",caption="INFERRED — one schematic polymerase circuit traverses the eight-insert array in both orientations. Consensus is formed first; the seven ordered segmentation junctions then delimit the eight original cDNAs."),
         sp.read_spec_table([sp.read_spec('Sequencing output',None,
             'HiFi consensus of an eight-cDNA segmented SMRTbell array','include')],
             'PacBio records repeated polymerase passes; cycle count is molecule- and movie-dependent.'),'</div>'])

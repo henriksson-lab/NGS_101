@@ -1,17 +1,37 @@
-# CUT&Tag
+# CUT&Tag: original 2019 bulk method
 
-## 1. What it is
+CUT&Tag recruits adapter-loaded Protein A–Tn5 to chromatin through antibodies, coupling target-proximal cleavage with adapter transfer. This page represents the original **bulk** method. Its universal-i5/barcoded-i7 PCR differs from the paper's separate single-cell method with 72 i5 and 72 i7 indices.
 
-CUT&Tag maps chromatin-bound proteins by recruiting adapter-loaded Protein A–Tn5 through a specific antibody, so target-proximal cleavage and sequencing-adapter transfer are the same molecular event.
+## Sources and version boundaries
 
-## 2. Sources and evidence
+- 🟢 [Kaya-Okur et al., Nature Communications (2019)](https://doi.org/10.1038/s41467-019-09982-5), Methods: transposome preparation, bulk CUT&Tag and sequencing. The original article specifies NEBNext HiFi PCR and AMPure DNA extraction before PCR.
+- 🟢 Cited [Picelli et al., Genome Research (2014)](https://doi.org/10.1101/gr.177881.114), Methods, “Transposome assembly in solution”: the complete three loaded oligos below. Its supplemental inventory and reaction-condition table describe Picelli's own variants; those conditions are not CUT&Tag selections.
+- 🟢 Historical author protocol [wnufdew, Version 1](https://doi.org/10.17504/protocols.io.wnufdew), March 6, 2019, integer ID 18868. The article links this version. Its PCR footnote permits Nextera primers **or** indexed primers from Buenrostro2015.
+- 🟢 [z6hf9b6, Version 2](https://doi.org/10.17504/protocols.io.z6hf9b6), April 21, 2019, ID 22441, is a separate revision. The current default export is Version 3, February 25, 2020, bcuhiwt6, ID 33385. A redirect to that export does not make it the original cited method.
+- 🟢 [Buenrostro et al., Nature (2015)](https://doi.org/10.1038/nature14590), original MOESM36 workbook: 92 indexed i5 and 96 indexed i7 PCR oligos. The two leading NoMX rows are short C1 PCR arms, not complete P5/P7 library primers.
 
-- 🟢 Kaya-Okur HS et al. *CUT&Tag for efficient epigenomic profiling of small samples and single cells.* Nature Communications 10:1930 (2019). [doi:10.1038/s41467-019-09982-5](https://doi.org/10.1038/s41467-019-09982-5).
-- 🟢 The Methods specify an equimolar preannealed Tn5MEDS-A/Tn5MEDS-B mixture loaded onto pA–Tn5, antibody binding in permeabilized cells, magnesium activation, gap-filling extension and indexed PCR.
-- 🟢 The CUT&Tag Methods cite Picelli et al., [doi:10.1101/gr.177881.114](https://doi.org/10.1101/gr.177881.114), for the preannealed Tn5MEDS-A/B loaded onto pA–Tn5. Picelli's Methods print Tn5ME-A `TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG`, Tn5ME-B `GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG`, and the shared reverse mosaic-end strand `5′-/5Phos/CTGTCTCTTATACACATCT-3′`. The A/B bodies match the canonical segments in `lib/nextera.py`.
-- 🟡 The defining paper names the standard adapter pair rather than reprinting these bases. Its own Supplementary Files 1–3 do not supply a different adapter sequence; the sequence assignment follows its cited construction source.
-- 🔴 The defining methods do not specify which particular Nextera N5/N7 sample-index members were used for each library; the named pair establishes adapter geometry, not a sample barcode choice.
+## Exact loaded adapter pool
 
-## 3. Molecular path
+Picelli's source strands are written 5′→3′ with modifications retained:
 
-Antibody binds the chromatin epitope, Protein A recruits a loaded Tn5 dimer, and washing removes unbound transposase. Magnesium activates target-proximal tagmentation. Gap fill and indexed PCR select heterologous S5/S7 products and complete the Illumina library.
+ME-A: `{{= cut_tag.ME_A }}`
+
+ME-B: `{{= cut_tag.ME_B }}`
+
+ME reverse: `/5Phos/{{= cut_tag.ME_REVERSE }}`
+
+Each long strand anneals through its mosaic end to the same phosphorylated reverse strand. The source specifies an equimolar preannealed A/B pool. That alone does not establish the adapter pairing of every loaded dimer or the frequency of each resulting fragment class.
+
+## Molecular path and represented uncertainty
+
+The graph declares antibodies, the source adapter pool and pA–Tn5 locally. Washing precedes magnesium activation. It then represents a conditional A/B fragment and explicitly shows inferred A/A and B/B possibilities. Their physical fates remain unresolved; the model does not turn the absence of two different handles into an absolute claim that single-primer amplification is impossible.
+
+The published bulk route extracts DNA before gap filling and PCR. **The published article and cited Version 1 describe different extraction routes:** the article's bulk Methods use AMPure; Version 1's DNA-extraction section uses phenol/chloroform and ethanol precipitation. The page follows the article. These are documented source/version differences; the sources do not establish which route every individual experiment used.
+
+The exact universal i5 oligo is not assigned in this model. A conditional endpoint uses the explicitly permitted Buenrostro i7 family, with its selected member and sample assignment left unassigned. This is not evidence that every experiment used that family, a variable i5 barcode, or a particular eight-cycle dual-index run. Exact loaded sequencing primers are also unassigned. The article describes paired-end Illumina sequencing and an economical 25×25 option, rather than one universal acquired run.
+
+The article also discusses pA–Tn5-associated *E. coli* DNA used for calibration. That source branch is outside the current molecular graph; no mechanism or fate for that carryover is inferred here.
+
+## Source audit still in progress
+
+Accessible Picelli originals have replaced the earlier retrieval gap. Historical protocols.io versions have been recovered separately. The review retains the precise scopes of both readers and pending linked-source checks. Unassigned primer choices and sample mapping are model questions, not accepted claims that publication-wide information is absent.

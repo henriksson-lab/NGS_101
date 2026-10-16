@@ -20,17 +20,75 @@ sequence handles or readout by default, or turn undeclared model data into a cla
 of published absence. Similarities between independently declared protocols can be
 identified by analyzing their graphs and molecular operations.
 
+A helper's name or family membership is not evidence that two reactions are equal.
+Reusing an operation does not establish equal substrates, end chemistry, enzyme
+behavior, products or experimental conditions. Those choices and their evidence
+remain local, even when two declarations currently have identical values. A
+similarity report compares declared components and identifies its scope; it must
+not feed inferred equivalence back into either protocol's construction.
+An explicit parameter list is insufficient if the helper still fills omitted values
+with source-specific chemistry. Unknown values stay unknown. Shared validators may
+establish the declared molecular relation, but may not supply a different protocol's
+missing state to make that relation pass. Verified predecessor reuse records the
+specific component and source/version locally; it does not inherit the whole recipe.
+
+Use the following boundary when reviewing a helper, regardless of its directory,
+name, or whether it is a pure function:
+
+| Choice | Owner |
+|---|---|
+| Oligo identity, modifications, index length and identifier meaning | Protocol declaration, with local source support |
+| Enzyme, conditions, reaction order and branch selection | Protocol declaration |
+| Expected products, off-products and their experimental or computational fates | Protocol declaration; distinguish physical removal from later filtering |
+| Evidence, inference and missing-information conclusions | Protocol declaration and source review |
+| Complement, supplied-strand pairing, primer-site location and declared junction compatibility | Shared computation or validator, with explicit inputs and stated scope |
+| Similarity between protocols | Analysis of their independent declarations, stating what was compared and what remains unknown |
+
+A helper is neutral only within its stated molecular contract. Making every
+parameter explicit does not justify assuming that an enzyme produces a proposed
+state, that a paired sequence is the preferred fold, or that a plausible
+off-product is observed experimentally. Shared analysis can derive a candidate or
+check a narrow relation; its result retains that scope and uncertainty. It cannot
+silently add the candidate to a protocol as a source-established product.
+Unknown values in two declarations are not evidence of equality. A common final
+sequence likewise does not establish the same preparation route or read recipe.
+Creating graph nodes does not establish that they were reviewed against a source.
+Source-coverage mappings belong in the protocol declaration; a shared recipe must
+not populate reviewed identifiers merely because it created those nodes.
+
 **Why.** The source audit found a shared 10x endpoint recipe imposing a Nextera
 Read 1 handle on gene-expression libraries whose guide specifies TruSeq, and
 single-index geometry on variants using dual indexes. Such endpoints can be
 internally consistent and still contradict the protocol's original source.
 Sharing a recipe can therefore create an unintended extrapolation.
 
-**Migration.** Start with the four `tenx_rna` callers and inventory other shared
-chemistry recipes. Check each affected protocol against its own sources while
-moving source choices into its declaration. Retain neutral molecular operations
-and validators; a repository-wide migration remains open until its callers are
-reviewed.
+**Migration.** Apply this boundary across chemistries, using the inventory in
+`catalogue/chemistry_decoupling.tsv`. Move sole-owner recipes to their protocol;
+for recipes shared by several protocols, check each caller against its own sources
+while moving source choices into its declaration. Retain neutral molecular
+operations and validators. Ownership changes that preserve a declaration do not
+verify its chemistry; the repository-wide migration remains open until its callers
+and remaining implicit choices are reviewed.
+
+## 2026-10-16 — Distinguish source identity from unassigned model data
+
+**Decision.** A source checklist names identified original documents, repositories
+or files. Desired component specifications and unassigned experimental values are
+questions to investigate, rather than proof that an unavailable disclosure document
+exists. A genuinely cited source with unresolved identity remains an open source
+obligation. Moving a question out of the document inventory never establishes
+publication absence or supplies either independent reading pass.
+An explicitly cited revision is part of that source's identity. Retrieval must
+preserve it and verify the returned document before following its attachments;
+the latest export is not proof of what an earlier revision disclosed.
+
+**Why.** The audit found an Atrandi manual revision label appearing only in a prior
+review record, and other rows describing desired reagent internals without identifying
+an original document. Conversely, retrieved manuals and publisher figures contained
+positive sequence information missed by those broad gap labels. Keeping document
+identity, model coverage and source absence separate prevents both false blockers
+and premature missing-information acceptance. The identity queue records questions;
+source-specific inspection must resolve them.
 
 ## 2026-10-15 — Double-check sources before accepting missing information
 
@@ -321,6 +379,15 @@ treated as incorporated sequence. Relevant material-bearing side products are ac
 for; the graph does not enumerate salts, hydrolysis products or every failed molecule.
 Population operations may group a documented class of non-library products in one waste
 node rather than pretending their proportions are known.
+An operation name does not establish a non-library class: tagmentation does not
+universally require a second, discarded output. Each protocol declares product
+classes from its own adapter geometry and sources. A single represented class is
+not a claim of complete experimental recovery. Every declared side product still
+requires an explicit fate and is rendered automatically; source completeness must
+be checked against the originals rather than inferred from an output count.
+Likewise, binding a protein or probe to a molecule does not by itself declare a
+separation. Binding requires an explicit partner, while retained/rejected fates
+are required when the protocol actually declares selection or capture.
 
 Circle closure has structured geometry for the same reason adapter ligation does: a
 closed product cannot reveal whether the source used direct single- or double-strand

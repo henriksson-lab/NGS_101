@@ -1,6 +1,6 @@
 {
   "dir": "nebnext-ultra-ii-dna-library-prep-user-adaptor",
-  "status": "in_progress",
+  "status": "reviewed",
   "source_checklist": [
     {
       "id": "manual_main",
@@ -64,30 +64,113 @@
     {
       "id": "third_party_faq",
       "role": "linked_material",
-      "locator": "https://www.neb.com/faqs/2019/03/08/can-i-use-this-nebnext-kit-with-adaptors-and-primers-from-other-vendors-than-neb",
-      "availability": "unavailable",
+      "locator": "https://www.neb.com/faqs/can-i-use-this-nebnext-kit-with-adaptors-and-primers-from-other-vendors-than-neb (official redirect target of the dated URL printed in E7103/E7645 manual)",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "FAQ explicitly linked in original manual but not yet checked.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original FAQ body paragraphs1–3 (browser lines5–7) and linked E7416/E7395 destinations; full source-bundle oligo scraper first",
+        "finding": "Other-vendor T-overhang adaptors may be compatible with optimization. FAQ points full-length indexed/UMI configurations to E7416 RNA and E7395 DNA manuals, separate from this declared nonindexed E7600 USER-cleavable hairpin. Does not assign that hairpin to arbitrary third-party adapters."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original dated FAQ redirected to canonical and en-us page; full body paragraphs1–3; linked E7416/E7395 manual identities",
+        "finding": "Independently read official original. External T-overhang adapters are possible; full indexed UMI branches point to E7416 RNA/E7395 DNA. These are separate architectures, not replacements for the selected E7600 nonindexed USER hairpin or Set1 primers."
+      },
+      "reason": "Both dated and canonical URLs return403 to Python downloader in this environment; original official page was independently read through browser retrieval by both readers. No access barrier remains to reading its content.",
       "discovered_from": "manual_main"
+    },
+    {
+      "id": "manual_7395",
+      "role": "linked_material",
+      "discovered_from": "third_party_faq",
+      "locator": "_data/sources/nebnext-ultra-ii-dna-library-prep-user-adaptor/manuale7395.pdf.txt; https://www.neb.com/en/-/media/nebus/files/manuals/manuale7395.pdf; v2.0_2/21",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Separate full-length indexed UMI adaptor branch, not the nonindexed E7600 hairpin / i501-i701 declaration. Relevance checked against actual original architecture, not filename.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original pp1–3 component table, workflow, compatibility list and sequence/index scope; E7416 p4 ligation branch and revision history; full expanded source-bundle scraper before reading",
+        "finding": "DNA; full sequencing arms, 11-base UMI, 8-base unique dual indexes, TA-overhang ligation, PCR-free compatibility. These are distinct positive architectures. Kit-compatibility, sample-sheet and demultiplexing links do not identify a different E7600 hairpin or alter the selected Set1 oligos; no universal missing-sequence claim follows."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original E7395 pp1–3 / E7416 pp1–4 after full expanded NEB source-bundle scraper",
+        "finding": "Independently verified DNA; full sequencing arms, 11-base UMI, 8-base unique dual indexes, TA-overhang ligation, PCR-free compatibility. Separate ligation branches and matching final trimming arms do not make these reagents the selected nonindexed E7600 hairpin. Excluded from this chosen library configuration."
+      }
+    },
+    {
+      "id": "manual_7416",
+      "role": "linked_material",
+      "discovered_from": "third_party_faq",
+      "locator": "_data/sources/nebnext-ultra-ii-dna-library-prep-user-adaptor/manuale7416.pdf.txt; https://www.neb.com/en/-/media/nebus/files/manuals/manuale7416.pdf; v5.0_9/25",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Separate full-length indexed UMI adaptor branch, not the nonindexed E7600 hairpin / i501-i701 declaration. Relevance checked against actual original architecture, not filename.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original pp1–3 component table, workflow, compatibility list and sequence/index scope; E7416 p4 ligation branch and revision history; full expanded source-bundle scraper before reading",
+        "finding": "RNA/cDNA; full sequencing arms, 12-base UMI, 8-base unique dual indexes, TA-overhang ligation. These are distinct positive architectures. Kit-compatibility, sample-sheet and demultiplexing links do not identify a different E7600 hairpin or alter the selected Set1 oligos; no universal missing-sequence claim follows."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original E7395 pp1–3 / E7416 pp1–4 after full expanded NEB source-bundle scraper",
+        "finding": "Independently verified RNA/cDNA; full sequencing arms, 12-base UMI, 8-base unique dual indexes, TA-overhang ligation. Separate ligation branches and matching final trimming arms do not make these reagents the selected nonindexed E7600 hairpin. Excluded from this chosen library configuration."
+      }
     }
   ],
   "linked_information": {
-    "result": "blocked",
+    "result": "enumerated",
     "pass_1": {
-      "reviewer": "first_pass_d_e",
-      "date": "2026-10-15",
-      "locations": "Original E7103/E7645 lines 12-85; E7600 lines 54-89; E7780 lines 17-32; scraper reviewed",
-      "finding": "Followed main kit manual to both original NEB oligo-kit manuals; linked user-adapter FAQ remains unchecked."
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "E7103/E7645 original instructions and references; E7600 pp2–3,11–12; E7780 p3; original third-party FAQ complete body; E7395/E7416 original branch scope",
+      "finding": "Followed the concrete omitted FAQ and its DNA/RNA UDI/UMI manuals. Original-source scope checks distinguish those full-length indexed adapters from the selected nonindexed E7600 USER hairpin; same canonical read-trimming arms do not merge reagent identities. Oligo manuals directly print selected sequences and index alternatives; sample-sheet, pooling and demultiplexing resources do not select another experimental index for this explicit i501/i701 example. No relevant identified unread original remains for the source-positive selected architecture; no publication absence is asserted."
     },
     "pass_2": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-15",
-      "locations": "Main manual oligo-kit pointer lines 196-216; E7600/E7780 component and sequence sections",
-      "finding": "Followed NEB kit manual to both original oligo-set manuals. Third-party adaptor FAQ is still unavailable."
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Existing independent original E7103/E7645/E7600/E7780 passes; fresh original E7600p3/E7780p3; complete official FAQ body; E7395pp1–3/E7416pp1–4",
+      "finding": "Independent original reads verify full modified hairpin, the selected nonindexed USER workflow, and separate positive architectures of both FAQ-linked UDI/UMI branches. Compatibility of external T-overhang adapters does not assign the E7600 hairpin to them. No missing information is accepted; graph choices remain scoped to source-positive E7600/i501/i701."
     }
   },
   "missing_claims": [],
-  "conclusion": "Original source bundle and oligo scraper checked in first pass; listed linked material and independent second pass remain pending. No missing-information claim is accepted."
+  "conclusion": "The previously unread FAQ and both concretely linked indexed-UMI manuals now have independent original reads. The declared nonindexed E7600 USER hairpin, selected Set1 primers and main workflow have source-positive evidence; no missing-information claim is accepted. Corrected a repository-only false sequence-withdrawal exception and represented source-known adapter-end geometry. Optional third-party/full-length UDI/UMI branches remain separate, based on two original scope checks.",
+  "additional_checks": [
+    {
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "Original E7600 p3 text85–86 and pp11–12 complete i501/i701 sequences; E7780 p3 text83–84; E7103/E7645 text38–41,214–216,639–640; fresh full-bundle scraper",
+      "finding": "Both current oligo manuals positively print the complete 5Phos/dU/terminal-s-T hairpin. Removed repository false vendor-withdrawal explanation; not a publication error. Exact i501/i701 graph inputs now derive selected canonical primer arms and index identities. Complete modified original source checks pass in both oligo manuals and selected primers. Generic scraper splits CdUA; its scoped exception now states parser limitation rather than source absence. Physical cohesive T end is source-known, not unavailable merely because the closed product is topological."
+    },
+    {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Neutral tools/scrape_primers.py dU regression against original E7600/E7780 hairpin; tools/selftest.py; source guard and direct original tests",
+      "finding": "Resolved the remaining scraper defect: unbracketed CdUA now stays inside the full oligo and records deoxyuridine rather than RNA. Removed the protocol source-guard exception entirely. Three graph oligos now pass the general source guard, with no failures or unrepresented exact inputs, and four direct modified-original checks pass. Full shared suite:1189 checks pass. The prior additional-check description of a scoped parser exception is historical."
+    }
+  ],
+  "prior_linked_information": [
+    {
+      "result": "blocked",
+      "pass_1": {
+        "reviewer": "first_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original E7103/E7645 lines 12-85; E7600 lines 54-89; E7780 lines 17-32; scraper reviewed",
+        "finding": "Followed main kit manual to both original NEB oligo-kit manuals; linked user-adapter FAQ remains unchecked."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Main manual oligo-kit pointer lines 196-216; E7600/E7780 component and sequence sections",
+        "finding": "Followed NEB kit manual to both original oligo-set manuals. Third-party adaptor FAQ is still unavailable."
+      }
+    }
+  ]
 }

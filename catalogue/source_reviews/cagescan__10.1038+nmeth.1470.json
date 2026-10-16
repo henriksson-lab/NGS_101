@@ -1,6 +1,6 @@
 {
   "dir": "cagescan__10.1038+nmeth.1470",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "paper",
@@ -19,12 +19,28 @@
         "date": "2026-10-15",
         "locations": "JATS lines 111-115 and 151",
         "finding": "Article explains semi-suppressive PCR and paired-end CAGEscan adapter addition, with supplementary material linked; the exact run primers occur in its supplement."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Actual main JATS111–115 and Figure1caption322–324; actual ext-link and ref16 inventory; full source-bundle scraper28hits2files before reading",
+            "finding": "Main describes preferential cap template switching and semi-suppressive amplification; CAGEscan retains full cDNA and replaces ends by PCR. Separate nanoCAGE cleavage route is not imported. Actual PMCID is2906222; earlier note2900199 was a repository citation error."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Fresh actual main111–115 and original OnlineMethods1–118 after full-bundle scraper28hits",
+            "finding": "Independent original source check confirms source-specific CAGEscan route, barcode and custom paired-end primers, distinct from nanoCAGE cleavage."
+          }
+        }
+      ]
     },
     {
       "id": "supplement",
       "role": "supplement",
-      "locator": "MOESM315_ESM.pdf.txt, CAGEscan original oligo table",
+      "locator": "_data/sources/cagescan__10.1038+nmeth.1470/nmeth.1470_41592_2010_BFnmeth1470_MOESM315_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -38,8 +54,77 @@
         "date": "2026-10-15",
         "locations": "Lines 5153-5172",
         "finding": "Table explicitly prints CAGEscan forward and reverse PCR primers and forward/reverse paired-end sequencing primers: TAGTCGAACTGAAGGTCTCCAGCA and CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Original Table8 text5134–5170 and full rendered PDFp26, _data/tmp/cagescan-inspection/table8.png",
+            "finding": "All eight actual CAGEscan oligos confirmed. TSO carries three/six DNA barcode positions plus RNA rGrGrG; RT carries N6; four PCR oligos and two custom run primers are printed. RT TAGTCGAACGAAG differs from semi-reverse TAGTCGAACTGAAG upstream of a shorter exact3′match; no proven oligo typo claimed."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Fresh original Table8 PDFp26 visually rendered and compared to5134–5169",
+            "finding": "Independent visual original reading confirms all eight sequences, including RT C versus semi-reverse T difference. Exact ordered source values retained; short3′match possibility prevents declaring a proven error."
+          }
+        }
+      ]
     },
+    {
+      "id": "online_methods",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/cagescan__10.1038+nmeth.1470/nmeth.1470_supp_NIHMS207200-supplement-supplement_1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual text1–118,225–241; rendered original printedp17/PDFp3 at _data/tmp/cagescan-inspection/methods17.png",
+        "finding": "Read inherited RT conditions and CAGEscan-specific SSIII/PrimeScript, RNAClean,1.2-of30µLpilot/3µLproduction, semi-suppressive PCR, AMPure,8ngpilot/remaining20ng adapter PCR, AMPure and5-of30µLgelQC/GAII custom primers. Primers visibly100mM/200mM while nearby dNTP200µM: apparent source unit issue, no corrected amount assigned. Paired alignment/rDNA removal/identical-pair collapse are computational."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh actual OnlineMethods text1–118 and original printedp17/PDFp3 visual inspection",
+        "finding": "Independent reading confirms two qPCR/mainPCR rounds and three named bead cleanups, source-specific enzymes/inline3or6barcode and GAII custom primers. Original visibly prints100mM/200mM primer concentrations distinct from nearbyµM dNTP. No replacement concentration warranted."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_nanocut_closeout",
+      "date": "2026-10-16",
+      "locations": "Actual main/OnlineMethods/Table8, reference16 and manufacturer pointers",
+      "finding": "Source-positive eight oligos and instrument identity recovered. Historical instrument_context row named a desired specification rather than an actual original; moved into open model/study questions. Actual linked references/manufacturer and remaining supplement scope still need original-source disposition."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Actual main111–115, original OnlineMethods1–118, Table8p26 and current local molecular declarations",
+      "finding": "Bounded original-source/model review confirms six structural input states, distinct first-strand classes, correct ordered operations and explicit initial-template geometry boundary. This is not a whole linked-source absence gate."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Bounded CAGEscan source-local chemistry correction complete; original eight primers, source-specific route and actual apparent unit issue independently checked. Full audit remains in_progress for actual linked materials and unfinished assembly/study questions; no missing-information claim accepted.",
+  "history": [
+    {
+      "date": "2026-10-16",
+      "reason": "Fresh actual Online Methods/Table8 audit and source-local graph migration; original primer identities positive, initial geometry still a model question.",
+      "previous_status": "blocked",
+      "previous_missing_claims": [
+        {
+          "claim": "Exact read placement is unresolved because source omits primer sequences.",
+          "disposition": "blocked",
+          "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
+        }
+      ],
+      "previous_conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+    }
+  ],
+  "superseded_source_rows": [
     {
       "id": "instrument_context",
       "role": "linked_material",
@@ -50,27 +135,42 @@
       "reason": "Exact landings and run implementation not reconstructed from the original source."
     }
   ],
-  "linked_information": {
-    "result": "blocked",
-    "pass_1": {
-      "reviewer": "audit_a_h",
-      "date": "2026-10-15",
-      "locations": "Supplement table and article references",
-      "finding": "Two run primers are printed; model lacks exact geometry."
-    },
-    "pass_2": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-15",
-      "locations": "MOESM315 lines 5153-5172",
-      "finding": "Independent table reading confirms both custom run primer sequences; claimed sequence absence would be false. Remaining gap is model reconstruction."
-    }
-  },
-  "missing_claims": [
+  "open_model_questions": [
+    "Complete source-oligo end assembly and initial semi-suppressive/adapter-PCR template geometry remain unassembled, despite published primers.",
+    "Study-specific three/six-position barcode members and exact run cycle counts remain unassigned.",
+    "Original primer concentration units100mM/200mM appear problematic; intended values remain unresolved without an unverified replacement."
+  ],
+  "linked_scope_queue": [
     {
-      "claim": "Exact read placement is unresolved because source omits primer sequences.",
-      "disposition": "blocked",
-      "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
+      "original": "Bentley et al.2008, doi:10.1038/nature07517, reference16",
+      "from": "Original CAGEscan paired-end adapter/bridge-PCR source reference",
+      "status": "Actual named original remains to be read for bounded instrument/adapter scope; title alone is not an exclusion."
+    },
+    {
+      "original": "Actual cited nanoCAGE/RT methodological provenance and manufacturer instructions for RNACleanXP/AMPureXP",
+      "from": "Original OnlineMethods1–118 and references27–29",
+      "status": "CAGEscan-specific substitutions are read in the defining original. Remaining original/linked vendor revision identities and predecessor dispositions remain open; no whole-kit transfer or accepted absence."
+    },
+    {
+      "original": "Remaining MOESM315 figures/result tables, NIHMS supplement1/2 result originals and OnlineMethods later linked materials",
+      "from": "Actual source bundle/contents inventory",
+      "status": "Fresh bounded table/method readings do not constitute a whole visual supplement or all-reference audit."
     }
   ],
-  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+  "model_corrections": [
+    "Removed nascent_protocols make_spec/role_library and generic eight-base sample-index choice; local declarations own oligos, products, conditions, reaction order and fates.",
+    "All eight original oligos retained; six structural inputs have local molecular states. InlineTSO barcode retains structured sample-index meaning; RNA rGrGrG and N6 priming roles explicit.",
+    "Separated cap-linked, other-cDNA and primer-artifact classes into Scene strands rather than a covalent chimera. Suppressive amplification is not a physical discard.",
+    "Restored RNAClean, both pilot/production PCR rounds and both AMPure cleanups, source aliquot/QC branches and computed remainders; unspecified first-strand residual handling remains UNRESOLVED.",
+    "Unavailable PCR geometry uses explicit unassembled initial-template Construct, not finished library or pool Scene.",
+    "Source primer-unit notice rendered publicly; upstream RT/semi-primer difference retained without asserting a proven oligo error. Wrong prior PMCID corrected as repository citation error."
+  ],
+  "verification_checkpoints": [
+    {
+      "date": "2026-10-16",
+      "reviewer": "audit_nanocut_closeout",
+      "checks": "Six local source-backed tests PASS; schematic53260bytes builds; source guard4checked/0failed/2inputswithout exact states; root integrated pairing0 and chemistry batch0contradictory; review/docs/scoped whitespace checks run at checkpoint.",
+      "scope": "Exact initial-template geometry and complete linked-source review not established. No stage/commit or raw data downloads."
+    }
+  ]
 }

@@ -1,34 +1,89 @@
 # ChRO-seq — research notes
 
-Defining source: Chu *et al.*, *Nature Genetics* (2018), [10.1038/s41588-018-0244-3](https://doi.org/10.1038/s41588-018-0244-3) ([open author manuscript](https://pmc.ncbi.nlm.nih.gov/articles/PMC6204104/)).
+Chu *et al.*, *Nature Genetics* (2018),
+[10.1038/s41588-018-0244-3](https://doi.org/10.1038/s41588-018-0244-3),
+[original author manuscript](https://pmc.ncbi.nlm.nih.gov/articles/PMC6204104/).
 
-## 1. What it is
+## Sources and scope
 
-Chromatin run-on sequencing (ChRO-seq) maps active RNA polymerase from isolated chromatin. Unlike nuclear run-on, the input can be solid tissue and can contain substantially degraded RNA.
+- 🟢 Original article Methods: chromatin isolation, ChRO library preparation and mapping
+  (`s41588-018-0244-3_PMC6204104.xml.txt`, lines 150–158), plus the actual external-link
+  inventory and references 27–28.
+- 🟢 Original Supplementary Table 1, first sheet of the MOESM3 workbook (text lines 1–40):
+  sample/replicate-specific run-on method and “Unique molecular index barcode” column.
+- 🟢 Mahat *et al.*, *Nature Protocols* (2016),
+  [10.1038/nprot.2016.086](https://doi.org/10.1038/nprot.2016.086): original PRO-seq
+  overview, Table 1 and the adapter/end-repair steps. This is the explicitly cited
+  predecessor, not proof that every ChRO library used unchanged oligos.
+- 🟢 Supplementary Notes 1–7 and the table legends were read for referring scope: assay
+  comparisons, biological analysis and the dREG-HD computational method. This does not
+  constitute a complete visual audit of the 30 supplementary figures or all result tables.
 
-## Sources read
+The oligo scraper was run on the complete bundles before source reading. Its output
+is a reading aid, not proof that source information is absent.
 
-- 🟢 The defining article's ChRO-seq/leChRO-seq Methods and supplementary-method description were read in the open manuscript.
-- 🟢 Its Methods cite Mahat *et al.*, *Nature Protocols* (2016), DOI `10.1038/nprot.2016.086`, as the library-preparation method. Table 1 of that open protocol (`nprot.2016.086_PMC5502525.xml.txt`, lines 2870–2905) was checked for the prior PRO-seq oligos. The citation establishes procedural ancestry, not that every ChRO-seq sample used an identical synthesis order.
-- The repository source fetch records the publisher copy as manual: `python3 tools/get_sources.py --doi 10.1038/s41588-018-0244-3`.
+## Source-owned ChRO route
 
-## Construct-changing steps
+1. 🟢 NUN isolation retains a chromatin pellet, followed by washes and sonication in
+   chromatin storage buffer to suspend the pellet. The source retains engaged polymerases.
+2. 🟢 Run-on supplies ATP and GTP with biotin-11-CTP and biotin-11-UTP in Sarkosyl-containing
+   buffer. The nascent RNA acquires affinity labels during extension; those labels are
+   not UMIs and have no assigned eight-base length.
+3. 🟢 Trizol LS stops the reaction; GlycoBlue-assisted recovery yields RNA. ChRO then uses
+   base hydrolysis, intended to yield 40–100-base RNA fragments.
+4. 🟢 First streptavidin capture and Trizol release recover biotin-containing RNA.
+5. 🟢 The 3′ RNA adapter is ligated using the source M0204L reagent.
+6. 🟢 Second streptavidin capture is followed by RppH decapping, PNK 5′ phosphorylation
+   and Trizol purification. The cited predecessor makes the intervening bead release
+   explicit; these steps prepare RNA for 5′-adapter ligation.
+7. 🟢 Ligate the 5′ RNA adapter, then perform the third streptavidin capture/recovery.
+8. 🟢 Reverse transcription (source 18080-044) and PCR (M0491L) generate an Illumina-compatible
+   library. The defining article names NextSeq 500, but no universal cycle mask is selected
+   by this model.
 
-1. 🟢 Chromatin is isolated in NUN buffer; engaged polymerases remain attached to template and nascent RNA.
-2. 🟢 Run-on is performed in the presence of biotinylated ribonucleotides and sarkosyl. The newly extended 3′ end becomes the affinity handle.
-3. 🟢 RNA is fragmented, biotin-labelled nascent RNA is captured on streptavidin, and strand-specific RNA adapters are installed.
-4. 🟢 Reverse transcription and PCR complete the Illumina-compatible library. Repeated biotin selection suppresses unlabelled RNA background.
+The local graph declares all three captures, both adapter ligations and their source
+order. Extraction and binding/wash removed fractions have physical discard fates; these
+are not computational deduplication or a guarantee that every unbound molecule lacks label.
+The graph does not infer an exact adapter-ligation or PCR geometry from a finished endpoint.
 
-The biotin-NTP mark is not part of the sequenced cDNA: it selects the RNA whose endpoint is interpreted as polymerase position.
+## ChRO and leChRO differ
 
-## Final library and read layout
+🟢 **leChRO is length-extension ChRO.** RNase cocktail replaces the RNase inhibitor during
+initial isolation; post-run-on hydrolysis is omitted. It is not an extra linear-amplification
+branch. The previous note's description was a repository error and has been corrected.
+This page's reaction graph shows the ChRO branch and annotates the leChRO differences.
 
-- 🟢 The genomic alignment is strand-specific and the read end adjacent to the run-on-labelled RNA end is the positional measurement.
-- 🟢 The cited PRO-seq method prints 3′ RNA adapter VRA3 `5′-pGAUCGUCGGACUGUAGAACUCUGAAC-/Inverted dT/-3′`, 5′ RNA adapter VRA5 `5′-CCUUGGCACCCGAGAAUUCCA-3′` (unphosphorylated 5′ end), RT/PCR primer RP1 `5′-AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA-3′`, and indexed PCR primer RPI-n `5′-CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA-3′` (Table 1; `NNNNNN` is the sample barcode).
-- 🟡 ChRO-seq explicitly follows that prior workflow for 3′ and 5′ adapter ligation, reverse transcription and amplification, so these are strong candidate oligos for implementations that did not substitute adapters. The defining paper does not name VRA3/VRA5/RP1/RPI-n or document which samples carry six-base UMIs; their assignment to every published ChRO-seq library remains an inference. The schematic retains role-level arms until that version boundary is resolved.
+🟢 Source mapping interprets the nascent RNA **3′ end from the read 5′ end** in ChRO, and
+RNA **5′ end from the read 3′ end** in leChRO. These are read-orientation statements, not
+an assignment of an arbitrary modern sequencing-primer family.
 
-The public page lists those four oligos as the **cited predecessor's** sequences. It does not label them as confirmed ChRO reagent orders or assign their bases to the ChRO-specific final construct.
+## Oligos and identifiers
 
-## Boundary and uncertainty
+🟢 Mahat 2016 Table 1 prints these **predecessor** oligos:
 
-leChRO-seq is a named low-input extension described in the same paper. This page shows ChRO-seq and does not silently merge the extra linear-amplification branch into it.
+- VRA3: `5′-pGAUCGUCGGACUGUAGAACUCUGAAC-/Inverted dT/-3′`.
+- VRA5: `5′-CCUUGGCACCCGAGAAUUCCA-3′`, unphosphorylated at its 5′ end.
+- RP1, for RT and PCR: `5′-AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA-3′`.
+- RPI-n: `5′-CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA-3′`.
+  Its six Ns are a **sample index**, not the optional ChRO molecule identifier.
+
+🟢 The ChRO article says some libraries have a molecule identifier in the first six
+sequenced bases. Original Table 1 actually marks samples, including `UMU94-13_leChr`,
+`GBM-88-04_Chr` and `PDX-88-04_P57`, among others. Marks vary between replicate/subsample
+rows. Blank cells and combined rows do not define an immutable ordered adapter identity.
+The previous statement that sample membership was undocumented was incorrect.
+
+The public page lists predecessor sequences without assigning them unchanged to every
+ChRO sample. The endpoint retains molecular roles while exact study-specific adapter arms,
+UMI-bearing variants, primer sites and run masks remain open model questions. This does
+not assert that those details were never published.
+
+## Remaining source obligations
+
+Reference 27 is Wuarin and Schibler's 1994 chromatin-isolation method; reference 28 is the
+2016 PRO-seq protocol. The article also directly links GSE117832 and the Danko-Lab PRO-seq
+processing pipeline. The review ledger records actual original-source retrieval and reading
+scope. An unspecified manufacturer protocol is an unresolved source identity, not an
+invented unavailable document. Full supplementary visual/result-table scope and relevant
+linked material still require bounded dispositions and independent original readings.
+No missing-information claim is accepted at this checkpoint.

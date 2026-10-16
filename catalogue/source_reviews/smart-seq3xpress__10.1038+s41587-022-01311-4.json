@@ -56,8 +56,8 @@
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "Publisher MOESM1 Supplementary Note full text, especially lines 84\u2013119 on TSO spacer and 166\u2013174 on index PCR; MOESM2 all 3 original scanned pages independently OCR-inspected",
-        "finding": "Independently read both supplements and ran scraper. MOESM1 explicitly says the improved xpress TSO adds two degenerate W bases between UMI and rGrGrG (lines 101\u2013106) to reduce strand invasion while preserving PCR-primer competition, and discusses index PCR optimization without naming experiment-specific i5/i7 members. MOESM2 is a Nature Reporting Summary and has no ordered oligo or index assignment. The paper/protocol TSO is already modeled; no new index member can be asserted from these supplements."
+        "locations": "Publisher MOESM1 Supplementary Note full text, especially lines 84–119 on TSO spacer and 166–174 on index PCR; MOESM2 all 3 original scanned pages independently OCR-inspected",
+        "finding": "Independently read both supplements and ran scraper. MOESM1 explicitly says the improved xpress TSO adds two degenerate W bases between UMI and rGrGrG (lines 101–106) to reduce strand invasion while preserving PCR-primer competition, and discusses index PCR optimization without naming experiment-specific i5/i7 members. MOESM2 is a Nature Reporting Summary and has no ordered oligo or index assignment. The paper/protocol TSO is already modeled; no new index member can be asserted from these supplements."
       }
     },
     {
@@ -69,26 +69,36 @@
       "pass_1": {
         "reviewer": "audit_tenx_closeout",
         "date": "2026-10-16",
-        "locations": "Original historical API protocol51484: id/doi/uri and guidelines.entityMap[2].data original_name, source and guid9C5F7340342A11EEAFD10A58A9FEAC02; gh7u2zw6.xls.txt lines1\u2013386 UD_i5_indices and387\u2013772 UD_i7_indices, every well/name/full oligo inspected; original PMC9546772 JATS Methods lines88\u201398",
+        "locations": "Original historical API protocol51484: id/doi/uri and guidelines.entityMap[2].data original_name, source and guid9C5F7340342A11EEAFD10A58A9FEAC02; gh7u2zw6.xls.txt lines1–386 UD_i5_indices and387–772 UD_i7_indices, every well/name/full oligo inspected; original PMC9546772 JATS Methods lines88–98",
         "finding": "Recovered source workbook has384complete i5 and384complete i7 ordered primers, all ten-base indexes with P5+i5+s5 or P7+i7+s7. A1 examples are TTGGTACGCG and ATAGGCGCTC. Original v1 and later117877 API refer to identical workbook URL; no later-version substitution. Paper independently specifies10-base dual indexes. Corrected local endpoint/PCR/renderer to source10base geometry, with A1/A1 explicitly illustrative, not an experimental assignment. Old8base endpoint was repository model inheritance, not publication error."
       },
-      "pass_2": null,
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original anonymous API51484 id/doi/uri plusguidelines attachment entity; workbook gh7u2zw6.xls.txt both384-row sheets; original PMC9546772 Methods88–98; full fresh bundle scraper",
+        "finding": "Historical API identifies384set_Nextera_BC_order.xls. Independently checked both384-row sets, all10-base index names, completeA1andP24 oligos and source architecture. Article explicitly says10-base dual customNextera indexes. Local A1/A1pair is an illustration, not an assignment to a published cell; inherited8-base endpoint was a repository error."
+      },
       "discovered_from": "author_protocol"
     },
     {
       "id": "index_design_paper",
       "role": "linked_material",
       "discovered_from": "author_protocol",
-      "locator": "Costello et al2018 doi:10.1186/s12864-018-4703-0; PMC5941783, Additional files1\u20133. Repeatable doi row in catalogue/extra_sources.tsv; local DOI bundle doi_10.1186+s12864-018-4703-0 (also fetched into each protocol bundle).",
+      "locator": "Costello et al2018 doi:10.1186/s12864-018-4703-0; PMC5941783, Additional files1–3. Repeatable doi row in catalogue/extra_sources.tsv; local DOI bundle doi_10.1186+s12864-018-4703-0 (also fetched into each protocol bundle).",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_tenx_closeout",
         "date": "2026-10-16",
-        "locations": "PMC5941783 JATS lines 85\u2013110, 205\u2013246; Additional file1 DOCX full text, Additional file2 XLSX all rows/headers (two96-index sets), Additional file3 DOCX complete design guidance, especially i5 AC paragraph; original Smart3 protocol PDF pp3\u20134 and xpress protocol p3 outward link",
+        "locations": "PMC5941783 JATS lines 85–110, 205–246; Additional file1 DOCX full text, Additional file2 XLSX all rows/headers (two96-index sets), Additional file3 DOCX complete design guidance, especially i5 AC paragraph; original Smart3 protocol PDF pp3–4 and xpress protocol p3 outward link",
         "finding": "The real linked index-design paper is Costello2018. It explains index swaps; Additional file3 states i5 AC causes skipped initial bases on MiSeq/HiSeq2500/NovaSeq. Additional file2 supplies that paper's own192eight-base indexes, not a Smart3/xpress cell assignment or author order roster. Additional file1 supplies index-swapping experiments. These originals are relevant to the cited design advice; their specific index members are not evidence for which Smart3 cells used which pair. Methods cites generic library-prep methods; those predecessors do not establish any Smart3 pair and are excluded from this index-assignment question. No evidence of inheritance of this paper's96pair scheme by Smart3."
       },
-      "pass_2": null
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original Costello2018 PMC5941783 JATS85–110, Discussion205–226 and Methods; Additionalfile1 bothfigure legends; Additionalfile2 all192index rows/two96sets; Additionalfile3 complete design guidance; full original bundle scraper",
+        "finding": "Original establishes nonredundant dual-index design and index-swapping observations, provides two96-member8-base sets and explicit i5-AC/secondary-structure cautions. It is a design reference, not the Smart3/xpress ordered10-base-member list. Its own study-specific instruments/reagents cannot substitute for Smart3/xpress assignments; generic design/vendor/software follow-on links remain qualified by their actual scope."
+      }
     },
     {
       "id": "pcr_cycle_plot_attachment",
@@ -104,7 +114,12 @@
         "locations": "Complete original single page rendered visually and extracted text after bundle oligo scrape; all21facets:10/12/14/15/16/17/18 PCRcycles by exon%,UMI-read%,gene counts versusreadpairs",
         "finding": "QC plot contains only numerical performance axes/point distributions, no oligos, order table or cell-to-index assignment. Excluded from recovering exact selected indexes; source original opened, not excluded by filename."
       },
-      "pass_2": null
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original attached gh7e2zw6.pdf complete single-page image rendered independently; full bundle scraper",
+        "finding": "All21facets compare7PCRcycle counts against exon%, UMI-containing reads and gene counts/readpairs. This is a PCR-quality/results plot, not an index order table or exact oligo source. Exclusion is based on the rendered original, not its sparse text or filename."
+      }
     },
     {
       "id": "preprint_version",
@@ -116,35 +131,893 @@
       "pass_1": {
         "reviewer": "audit_tenx_closeout",
         "date": "2026-10-16",
-        "locations": "Original preprint Methods228\u2013290 RT/TSO and334\u2013369 librarypreparation/sequencing; data/codeavailability542\u2013546; fullbundle scraper rerun before reading",
+        "locations": "Original preprint Methods228–290 RT/TSO and334–369 librarypreparation/sequencing; data/codeavailability542–546; fullbundle scraper rerun before reading",
         "finding": "Preprint already specifies10base dual customNextera indexes. It predates improvedWW TSO: originalMethods prints N8rGrGrG, while final2022paper and authorv1protocol explicitly introduceWW. Page represents finalpublishedimprovedTSO, not preprint chemistry. Data/code link is zUMIs processing software, not an oligo order roster; no index-assignment source identified there. This is a version difference, not a demonstrated publication error."
       },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original2021.07.10.451889v1 PDF TSO228/256; library/index334–369; data/code542–546; finalPMC9546772Methods76,88–98; fresh full bundle scraper",
+        "finding": "Preprint positively specifies10-base customNextera indexes and prints the original TSO withoutWW. Final paper explicitly distinguishes original and improvedWW TSO, so declarations retain named source version rather than silently assertingpreprint/finalidentity. MGIconversion and customsequencing are a separately described branch, outside currentIlluminaschematic; linkedvendor instructions still need their own scopecheck before any full missing-information conclusion."
+      }
+    },
+    {
+      "id": "embedded_images",
+      "role": "linked_material",
+      "discovered_from": "author_protocol",
+      "locator": "Original author protocol51484 public metadata image entities; local protocolsio_attachment_hujr/hujx/huj3/huj7/hukb/hukf/hukj/hukp/hukt/hukx2zw6.jpg plus ten matching thumbnails",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Original embedded cost/QC/pooling images do not provide index oligos or cell-to-index assignments; full original images opened visually rather than excluded by filename. Molecular choices come from the oligo table/workbook and Methods.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original PMC9546772 Methods88–98 and source links; original author protocol51484/v1 complete guidelines file/link entities, steps6–7 and15; actual attached workbook gh7u2zw6.xls both384-row sheets; original gh7e2zw6.pdf single page; all20 protocolsio_attachment_*.jpg opened visually; Costello2018 article and all3supplements; recovered2021preprint Methods/data-code links",
+        "finding": "Fresh source/link scope supersedes historical absent-XLS finding (retained in additional_checks). Recovered original v1 metadata identifies workbook source and exact ordered10base indexes; later-v3 metadata does not silently substitute a source version. Followed actual Costello index-design link and all3original supplements; its own eight-base sets are not Smart3 assignments. Opened embedded images: cost comparison hujr, PCR-cycle QC hujx (same metric scope as attached PDF), pooling apparatus photographs huj3/huj7/hukb/hukf, and four Bioanalyzer QC traces hukj/hukp/hukt/hukx; remaining ten tiny images are thumbnails of those originals. No embedded image contains an oligo roster or experimental cell-to-index allocation. Author GitHub contains spinner files and README, not an index roster. zUMIs/UMIcountR links concern read processing, not additional molecular construction. Original Methods/protocol Step15 describes a distinct optional MGI conversion/circularization branch; current public page explicitly limits itself to Illumina-compatible endpoint before that branch. No absence claim about MGI vendor chemistry is made and no vendor conversion recipe is inherited. Actual experimental index assignment remains unspecified by the model; A1/A1 is explicitly illustrative. No relevant unexamined source is being accepted as proof of absence."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "All20 actualprotocolsio_attachment_*.jpg separately opened; fullcurrentbundle oligo scraper independentlyrun",
+        "finding": "Independent visualcheck identifies cost comparison, PCR-cycleQC, fourpoolingapparatus photos andfourBioanalyzer traces, plusmatching thumbnails. These support cost/QC/handling descriptions; none is the full oligo-order roster or a cell-to-index assignment. The originalXLS attachment independently supplies the actual oligos."
+      }
+    },
+    {
+      "id": "mgi_branch_scope",
+      "role": "linked_material",
+      "discovered_from": "author_protocol",
+      "locator": "Original PMC9546772 Methods Sequencing at JATS98; original protocol51484 Step15 MGI conversion/circularization instructions and its printed MGI primer table",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "These original instructions define a distinct downstream MGI branch; current public page explicitly represents the Illumina-compatible endpoint before conversion. Source is read for branch exclusion; no claim that vendor conversion chemistry or loaded MGI primers are unpublished. No MGI recipe is used in this endpoint.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original PMC9546772 Methods88–98 and source links; original author protocol51484/v1 complete guidelines file/link entities, steps6–7 and15; actual attached workbook gh7u2zw6.xls both384-row sheets; original gh7e2zw6.pdf single page; all20 protocolsio_attachment_*.jpg opened visually; Costello2018 article and all3supplements; recovered2021preprint Methods/data-code links",
+        "finding": "Fresh source/link scope supersedes historical absent-XLS finding (retained in additional_checks). Recovered original v1 metadata identifies workbook source and exact ordered10base indexes; later-v3 metadata does not silently substitute a source version. Followed actual Costello index-design link and all3original supplements; its own eight-base sets are not Smart3 assignments. Opened embedded images: cost comparison hujr, PCR-cycle QC hujx (same metric scope as attached PDF), pooling apparatus photographs huj3/huj7/hukb/hukf, and four Bioanalyzer QC traces hukj/hukp/hukt/hukx; remaining ten tiny images are thumbnails of those originals. No embedded image contains an oligo roster or experimental cell-to-index allocation. Author GitHub contains spinner files and README, not an index roster. zUMIs/UMIcountR links concern read processing, not additional molecular construction. Original Methods/protocol Step15 describes a distinct optional MGI conversion/circularization branch; current public page explicitly limits itself to Illumina-compatible endpoint before that branch. No absence claim about MGI vendor chemistry is made and no vendor conversion recipe is inherited. Actual experimental index assignment remains unspecified by the model; A1/A1 is explicitly illustrative. No relevant unexamined source is being accepted as proof of absence."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original PMC9546772Methods Sequencing98 and originalauthorprotocol51484 Step15 text2070–2199 including primer-table heading",
+        "finding": "Originalexplicitly offersMGI orIllumina sequencing and directsMGI library conversion/circles to a separate kit/manual. Currentpage explicitlystopsatIllumina-compatible endpoint beforeconversion anddoesnotassertMGI primers/unreportedchemistry. This checksbranch exclusiononly; no uninspectedMGIvendor recipe is imported oracceptedmissing."
+      }
+    },
+    {
+      "id": "e_mtab_11488_idf",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/biostudies/files/E-MTAB-11488/E-MTAB-11488.idf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original complete IDF protocol descriptions or SDRF headers/all unique library, protocol and derived-file fields; fresh full bundle scraper before inspection.",
+        "finding": "Actual IDF/SDRF identifies the10xv3.1 comparator, with28/8/92 read recipe and16-base cell barcode/12-base UMI. Those assignments are not transferred to xpress."
+      },
+      "pass_2": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Complete original IDF protocol rows; SDRF headers and all unique chemistry/library/protocol/derived-file fields.",
+        "finding": "Independent original metadata read confirms actual IDF/SDRF identifies the10xv3.1 comparator, with28/8/92 read recipe and16-base cell barcode/12-base UMI. Those assignments are not transferred to xpress."
+      },
+      "reason": "Actual IDF/SDRF identifies the10xv3.1 comparator, with28/8/92 read recipe and16-base cell barcode/12-base UMI. Those assignments are not transferred to xpress."
+    },
+    {
+      "id": "e_mtab_11488_sdrf",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/biostudies/files/E-MTAB-11488/E-MTAB-11488.sdrf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original complete IDF protocol descriptions or SDRF headers/all unique library, protocol and derived-file fields; fresh full bundle scraper before inspection.",
+        "finding": "Actual IDF/SDRF identifies the10xv3.1 comparator, with28/8/92 read recipe and16-base cell barcode/12-base UMI. Those assignments are not transferred to xpress."
+      },
+      "pass_2": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Complete original IDF protocol rows; SDRF headers and all unique chemistry/library/protocol/derived-file fields.",
+        "finding": "Independent original metadata read confirms actual IDF/SDRF identifies the10xv3.1 comparator, with28/8/92 read recipe and16-base cell barcode/12-base UMI. Those assignments are not transferred to xpress."
+      },
+      "reason": "Actual IDF/SDRF identifies the10xv3.1 comparator, with28/8/92 read recipe and16-base cell barcode/12-base UMI. Those assignments are not transferred to xpress."
+    },
+    {
+      "id": "e_mtab_11452_idf",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/biostudies/files/E-MTAB-11452/E-MTAB-11452.idf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original complete IDF protocol descriptions or SDRF headers/all unique library, protocol and derived-file fields; fresh full bundle scraper before inspection.",
+        "finding": "Actual metadata identifies six MGI PBMC source assays and explicitly names PBMCs.allruns.barcode_annotation.txt. IDF states phosphorylated indexes or conversion PCR and MGI circularization; no MGI assembly is inherited into the represented Illumina endpoint."
+      },
+      "pass_2": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Complete original IDF protocol rows; SDRF headers and all unique chemistry/library/protocol/derived-file fields.",
+        "finding": "Independent original metadata read confirms actual metadata identifies six MGI PBMC source assays and explicitly names PBMCs.allruns.barcode_annotation.txt. IDF states phosphorylated indexes or conversion PCR and MGI circularization; no MGI assembly is inherited into the represented Illumina endpoint."
+      }
+    },
+    {
+      "id": "e_mtab_11452_sdrf",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/biostudies/files/E-MTAB-11452/E-MTAB-11452.sdrf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original complete IDF protocol descriptions or SDRF headers/all unique library, protocol and derived-file fields; fresh full bundle scraper before inspection.",
+        "finding": "Actual metadata identifies six MGI PBMC source assays and explicitly names PBMCs.allruns.barcode_annotation.txt. IDF states phosphorylated indexes or conversion PCR and MGI circularization; no MGI assembly is inherited into the represented Illumina endpoint."
+      },
+      "pass_2": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Complete original IDF protocol rows; SDRF headers and all unique chemistry/library/protocol/derived-file fields.",
+        "finding": "Independent original metadata read confirms actual metadata identifies six MGI PBMC source assays and explicitly names PBMCs.allruns.barcode_annotation.txt. IDF states phosphorylated indexes or conversion PCR and MGI circularization; no MGI assembly is inherited into the represented Illumina endpoint."
+      }
+    },
+    {
+      "id": "e_mtab_11467_idf",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/biostudies/files/E-MTAB-11467/E-MTAB-11467.idf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original complete IDF protocol descriptions or SDRF headers/all unique library, protocol and derived-file fields; fresh full bundle scraper before inspection.",
+        "finding": "Actual metadata identifies fifteen variable-condition datasets, mixed SINGLE/PAIRED records and fifteen named barcode-annotation children. These conditions are not one universal xpress recipe; only the selected final improved-TSO declaration is represented."
+      },
+      "pass_2": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Complete original IDF protocol rows; SDRF headers and all unique chemistry/library/protocol/derived-file fields.",
+        "finding": "Independent original metadata read confirms actual metadata identifies fifteen variable-condition datasets, mixed SINGLE/PAIRED records and fifteen named barcode-annotation children. These conditions are not one universal xpress recipe; only the selected final improved-TSO declaration is represented."
+      }
+    },
+    {
+      "id": "e_mtab_11467_sdrf",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/biostudies/files/E-MTAB-11467/E-MTAB-11467.sdrf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original complete IDF protocol descriptions or SDRF headers/all unique library, protocol and derived-file fields; fresh full bundle scraper before inspection.",
+        "finding": "Actual metadata identifies fifteen variable-condition datasets, mixed SINGLE/PAIRED records and fifteen named barcode-annotation children. These conditions are not one universal xpress recipe; only the selected final improved-TSO declaration is represented."
+      },
+      "pass_2": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Complete original IDF protocol rows; SDRF headers and all unique chemistry/library/protocol/derived-file fields.",
+        "finding": "Independent original metadata read confirms actual metadata identifies fifteen variable-condition datasets, mixed SINGLE/PAIRED records and fifteen named barcode-annotation children. These conditions are not one universal xpress recipe; only the selected final improved-TSO declaration is represented."
+      }
+    },
+    {
+      "id": "e_mtab_11452_file_inventory",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/biostudies/api/v1/studies/E-MTAB-11452; local E-MTAB-11452.html (JSON original)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original JSON file-path/size inventory and matching SDRF named files.",
+        "finding": "Original study API enumerates actual source filenames and byte sizes, including one PBMC barcode-annotation file. The legacy SDRF processed-ZIP URL fails, but the named individual originals are available from the current file inventory; archive failure is not missing-information evidence."
+      },
+      "pass_2": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Complete original JSON file inventories, all file paths/sizes, compared with SDRF.",
+        "finding": "Original study API enumerates actual source filenames and byte sizes, including one PBMC barcode-annotation file. The legacy SDRF processed-ZIP URL fails, but the named individual originals are available from the current file inventory; archive failure is not missing-information evidence."
+      }
+    },
+    {
+      "id": "e_mtab_11467_file_inventory",
+      "role": "linked_material",
+      "locator": "https://www.ebi.ac.uk/biostudies/api/v1/studies/E-MTAB-11467; local E-MTAB-11467.html (JSON original)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original JSON file-path/size inventory and matching SDRF named files.",
+        "finding": "Original study API enumerates actual source filenames and byte sizes, including fifteen optimization barcode-annotation files. The legacy SDRF processed-ZIP URL fails, but the named individual originals are available from the current file inventory; archive failure is not missing-information evidence."
+      },
+      "pass_2": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Complete original JSON file inventories, all file paths/sizes, compared with SDRF.",
+        "finding": "Original study API enumerates actual source filenames and byte sizes, including fifteen optimization barcode-annotation files. The legacy SDRF processed-ZIP URL fails, but the named individual originals are available from the current file inventory; archive failure is not missing-information evidence."
+      }
+    },
+    {
+      "id": "author_repository",
+      "role": "linked_material",
+      "locator": "Smart-seq3xpress.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_protocol",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original repository tree and rendered README638–769.",
+        "finding": "Actual entry tree lists README/LICENSE and SS3Spinner_v2.md/.stl, supporting the explicitly linked pooling-apparatus scope. This is not a whole-repository absence conclusion or an inherited molecular recipe."
+      },
+      "pass_2": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Original repository tree and rendered README638–769.",
+        "finding": "Actual entry tree lists README/LICENSE and SS3Spinner_v2.md/.stl, supporting the explicitly linked pooling-apparatus scope. This is not a whole-repository absence conclusion or an inherited molecular recipe."
+      }
+    },
+    {
+      "id": "zumis_repository",
+      "role": "linked_material",
+      "locator": "zUMIs.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_protocol",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original README1360–1518 and1515–1610, processing description, version changelog and citation link.",
+        "finding": "Original documents FASTQ/cDNA/UMI/barcode processing, alignment/counting and software versions. Compatibility with another named assay does not establish shared physical chemistry. Current README is not proof of historical2.8.2 behavior. Wiki/code branches are not falsely marked read."
+      },
+      "pass_2": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Original README1360–1518 and1515–1610, processing description, version changelog and citation link.",
+        "finding": "Original documents FASTQ/cDNA/UMI/barcode processing, alignment/counting and software versions. Compatibility with another named assay does not establish shared physical chemistry. Current README is not proof of historical2.8.2 behavior. Wiki/code branches are not falsely marked read."
+      }
+    },
+    {
+      "id": "pytsofilter_repository",
+      "role": "linked_material",
+      "locator": "pyTSOfilter.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original README731–765, version and full usage description.",
+        "finding": "Original v0.1.2 README identifies filtering of TSO-artifact reads from aligned BAM, requiring zUMIs and stranded gene assignments. This is read processing, not a new adapter construction. Algorithm implementation is not evaluated here."
+      },
+      "pass_2": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Original README731–765, version and full usage description.",
+        "finding": "Original v0.1.2 README identifies filtering of TSO-artifact reads from aligned BAM, requiring zUMIs and stranded gene assignments. This is read processing, not a new adapter construction. Algorithm implementation is not evaluated here."
+      }
+    },
+    {
+      "id": "bcl2fastq_vendor_page",
+      "role": "linked_material",
+      "locator": "illumina_bcl2fastq-conversion-software-v2-20.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_protocol",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original vendor page4158–4330 and actual href inventory.",
+        "finding": "Original software page lists2.20 RPM/source distributions, release notes and EULA, dated2017. No software binary is downloaded or assigned as a physical index source."
+      },
+      "pass_2": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Original vendor page4158–4330 and actual href inventory.",
+        "finding": "Original software page lists2.20 RPM/source distributions, release notes and EULA, dated2017. No software binary is downloaded or assigned as a physical index source."
+      }
+    },
+    {
+      "id": "bcl2fastq_release_notes",
+      "role": "linked_material",
+      "locator": "illumina_bcl2fastq2-2-20-0-release-notes-1000000039216-00.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_protocol",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original two-page release notes, document1000000039216 v00,28Aug2017.",
+        "finding": "Original confirms BCL-to-FASTQ conversion software2.20.0 and refers to a User Guide without naming a complete guide revision here. Software release behavior does not repair the author protocol I8 versus BC1-10 mismatch. No binary or kit sequence is imported."
+      },
       "pass_2": null
+    },
+    {
+      "id": "nextera_xt_technical_note",
+      "role": "linked_material",
+      "locator": "illumina_nextera-xt-troubleshooting-technical-note.pdf; final article reference9 URL",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original technical-note p1 image and text1–27; source describes tagmentation and index-PCR schematic.",
+        "finding": "Original schematic distinguishes transposome-loaded partial adapters, tagmented fragments and limited-cycle index PCR. Its genomic-input troubleshooting quantities are not xpress conditions. The local graph uses the final paper commercial Nextera option and leaves exact end/gap intermediates unassigned; no full loaded-adapter assembly is inferred from this figure."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "zumis_article",
+      "role": "linked_material",
+      "locator": "doi:10.1093/gigascience/giy059; gigascience_giy059_PMC6007394.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "zumis_repository",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original article identity/publication date; workflow, filtering, barcode selection, mapping/counting sections79–137 and outputs.",
+        "finding": "Actual2018 zUMIs article describes processing flexible barcode/UMI read arrangements into counts and examples from other assays. It is a software-method original, not the2022 xpress order workbook or a source of an experimental physical primer assignment. Automatic fetched reviews/preprints/results supplements are not all claimed read."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "quartz_seq2_pooling_reference",
+      "role": "linked_material",
+      "locator": "doi:10.1186/s13059-018-1407-3; s13059-018-1407-3_PMC5845169.xml.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "author_protocol",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual author protocol Step13/p26 local1970–1975 and original Quartz-Seq2 main-article identity and pooling methods236–238.",
+        "finding": "The actual cited paper is Quartz-Seq2: author protocol points to its pooling-holder inspiration. Original methods physically pool plate contents, while its distinct RT/poly(A)-tailing chemistry is not inherited into xpress. A temporary retrieval description misnamed this DOI as zUMIs; that repository description is corrected, not a publication error. No whole-source oligo absence is asserted."
+      },
+      "pass_2": null,
+      "reason": "The actual cited paper is Quartz-Seq2: author protocol points to its pooling-holder inspiration. Original methods physically pool plate contents, while its distinct RT/poly(A)-tailing chemistry is not inherited into xpress. A temporary retrieval description misnamed this DOI as zUMIs; that repository description is corrected, not a publication error. No whole-source oligo absence is asserted."
+    },
+    {
+      "id": "annotation_hek_lowvolume_barcode_annotation",
+      "role": "linked_material",
+      "locator": "HEK_lowvolume.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has194 records; source identifier field RG has lengths[16]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has194 records; source identifier field RG has lengths[16]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has194 records; source identifier field RG has lengths[16]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+        }
+      ]
+    },
+    {
+      "id": "annotation_hekxpress_cycles_cleanups_barcode_annotation",
+      "role": "linked_material",
+      "locator": "HEKxpress_cycles_cleanups.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has6343 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has6343 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has6343 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+        }
+      ]
+    },
+    {
+      "id": "annotation_hometn5_barcode_annotation",
+      "role": "linked_material",
+      "locator": "HomeTn5.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has1251 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has1251 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has1251 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+        }
+      ]
+    },
+    {
+      "id": "annotation_k562_lowvolume_barcode_annotation",
+      "role": "linked_material",
+      "locator": "K562_lowvolume.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has231 records; source identifier field RG has lengths[16]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has231 records; source identifier field RG has lengths[16]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has231 records; source identifier field RG has lengths[16]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+        }
+      ]
+    },
+    {
+      "id": "annotation_pbmcs_allruns_barcode_annotation",
+      "role": "linked_material",
+      "locator": "PBMCs.allruns.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11452_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has43671 records; source identifier field barcode has lengths[20]. Explicit cellID/run/barcode fields retain source-specific sample identities;43671 records and34565 distinct20-base barcodes do not imply a single universal primer/well assignment."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has43671 records; source identifier field barcode has lengths[20]. Explicit cellID/run/barcode fields retain source-specific sample identities;43671 records and34565 distinct20-base barcodes do not imply a single universal primer/well assignment."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has43671 records; source identifier field barcode has lengths[20]. Explicit cellID/run/barcode fields retain source-specific sample identities;43671 records and34565 distinct20-base barcodes do not imply a single universal primer/well assignment."
+        }
+      ]
+    },
+    {
+      "id": "annotation_smartseq3xpress_preamp_polymerase_barcode_annotation",
+      "role": "linked_material",
+      "locator": "Smartseq3xpress_PreAmp_Polymerase.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has1977 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has1977 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has1977 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+        }
+      ]
+    },
+    {
+      "id": "annotation_smartseq3xpress_seqamp_kapa_tde1_barcode_annotation",
+      "role": "linked_material",
+      "locator": "Smartseq3xpress_SeqAmp_KAPA_TDE1.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has4186 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has4186 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has4186 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+        }
+      ]
+    },
+    {
+      "id": "annotation_smartseq3xpress_seqamp_tsos_rttest_v1_barcode_annotation",
+      "role": "linked_material",
+      "locator": "Smartseq3xpress_SeqAmp_TSOs_RTtest_v1.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has4440 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has4440 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has4440 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs."
+        }
+      ]
+    },
+    {
+      "id": "annotation_smartseq3xpress_seqamp_tsos_rttest_v2_barcode_annotation",
+      "role": "linked_material",
+      "locator": "Smartseq3xpress_SeqAmp_TSOs_RTtest_v2.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has4756 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs. NNNNNNNNWW is explicitly labelled length10, with complexity262144: the source identifier includes8N+2W, not10fullydegenerateN."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has4756 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs. NNNNNNNNWW is explicitly labelled length10, with complexity262144: the source identifier includes8N+2W, not10fullydegenerateN."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has4756 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs. NNNNNNNNWW is explicitly labelled length10, with complexity262144: the source identifier includes8N+2W, not10fullydegenerateN."
+        }
+      ]
+    },
+    {
+      "id": "annotation_smartseq3xpress_seqamp_tsos_rttest_v3_barcode_annotation",
+      "role": "linked_material",
+      "locator": "Smartseq3xpress_SeqAmp_TSOs_RTtest_v3.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has3641 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has3641 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has3641 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs."
+        }
+      ]
+    },
+    {
+      "id": "annotation_smartseq3xpress_seqamp_tsos_rttest_v4_barcode_annotation",
+      "role": "linked_material",
+      "locator": "Smartseq3xpress_SeqAmp_TSOs_RTtest_v4.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has2293 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has2293 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has2293 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs."
+        }
+      ]
+    },
+    {
+      "id": "annotation_smartseq3xpress_seqamp_tsos_rttest_v5_barcode_annotation",
+      "role": "linked_material",
+      "locator": "Smartseq3xpress_SeqAmp_TSOs_RTtest_v5.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has2025 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs. NNNNNNNNWW is explicitly labelled length10, with complexity262144: the source identifier includes8N+2W, not10fullydegenerateN."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has2025 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs. NNNNNNNNWW is explicitly labelled length10, with complexity262144: the source identifier includes8N+2W, not10fullydegenerateN."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has2025 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs. NNNNNNNNWW is explicitly labelled length10, with complexity262144: the source identifier includes8N+2W, not10fullydegenerateN."
+        }
+      ]
+    },
+    {
+      "id": "annotation_smartseq3xpress_seqamp_tsos_rttest_v6_barcode_annotation",
+      "role": "linked_material",
+      "locator": "Smartseq3xpress_SeqAmp_TSOs_RTtest_v6.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has3783 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs. NNNNNNNNWW is explicitly labelled length10, with complexity262144: the source identifier includes8N+2W, not10fullydegenerateN."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has3783 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs. NNNNNNNNWW is explicitly labelled length10, with complexity262144: the source identifier includes8N+2W, not10fullydegenerateN."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has3783 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs. NNNNNNNNWW is explicitly labelled length10, with complexity262144: the source identifier includes8N+2W, not10fullydegenerateN."
+        }
+      ]
+    },
+    {
+      "id": "annotation_smartseq3xpress_seqamp_tsos_rttest_v7_barcode_annotation",
+      "role": "linked_material",
+      "locator": "Smartseq3xpress_SeqAmp_TSOs_RTtest_v7.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has4387 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs. NNNNNNNNWW is explicitly labelled length10, with complexity262144: the source identifier includes8N+2W, not10fullydegenerateN."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has4387 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs. NNNNNNNNWW is explicitly labelled length10, with complexity262144: the source identifier includes8N+2W, not10fullydegenerateN."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has4387 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence. Original UMIsequence/UMIlength/UMIcomplexity fields retain multiple distinct TSO designs. NNNNNNNNWW is explicitly labelled length10, with complexity262144: the source identifier includes8N+2W, not10fullydegenerateN."
+        }
+      ]
+    },
+    {
+      "id": "annotation_overlays_barcode_annotation",
+      "role": "linked_material",
+      "locator": "overlays.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has579 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has579 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has579 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+        }
+      ]
+    },
+    {
+      "id": "annotation_tagmentations_barcode_annotation",
+      "role": "linked_material",
+      "locator": "tagmentations.barcode_annotation.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "e_mtab_11467_file_inventory",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has1258 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+        "finding": "Original has1258 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Original header and all identifier-field lengths; UMIsequence/UMIlength/UMIcomplexity unique values where present; fresh full bundle scraper3441hits/27files before reading. No performance optimization analysis.",
+          "finding": "Original has1258 records; source identifier field RG has lengths[20]. Source-specific conditions are retained. Identifier strings alone are not mapped to ordered i5/i7 primers without orientation and source-version evidence."
+        }
+      ]
+    },
+    {
+      "id": "mgi_app_a_manual",
+      "role": "linked_material",
+      "locator": "MGIEasy Universal Library Conversion Kit(App-A) user manual, explicitly named by original author protocol Step15/p31; historical revision not specified. Official candidate original URLs: https://en.mgi-tech.com/Uploads/Temp/file/20240410/661609766ec3f.pdf; https://en.mgi-tech.com/Uploads/Temp/file/20250109/677f63fa51c5f.pdf; https://en.mgi-tech.com/Download/download_file_new/id/512?format=pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "mgi_branch_scope",
+      "pass_1": null,
+      "pass_2": null,
+      "availability_checks": [
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "Registered official vendor candidates via standard source fetcher; repeated public web retrieval of first two actual URLs.",
+          "finding": "Registered vendor routes returned HTTP404; web original requests returned503/404. Search snippets are not original-reading passes. No historical manual revision or complete vendor chemistry is established."
+        }
+      ],
+      "reason": "A genuinely named optional-branch manual, not an invented component specification. The page stops before MGI conversion; this source is not accepted absent or claimed read/excluded by title."
     }
   ],
   "linked_information": {
     "result": "enumerated",
     "pass_1": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-15",
-      "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
-      "finding": "Read original JATS and author protocol; linked index XLS is absent; no categorical absence claim."
+      "reviewer": "audit_nanocut_closeout",
+      "date": "2026-10-16",
+      "locations": "Actual article/protocol link inventory, original metadata and code entry documentation, technical note/release notes, sixteen recovered original barcode annotations.",
+      "finding": "Followed named sources and recovered available study annotations rather than accepting an unassigned cell/index value as missing information. Final improved TSO, source-labelled10position8N+2W identifier and ten-base index architecture are owned locally. Actual remaining source obligations are explicitly listed; no publication absence accepted."
     },
     "pass_2": {
-      "reviewer": "audit_a_h",
-      "date": "2026-10-15",
-      "locations": "Original JATS Methods; author protocol PDF primer table and line 155; local MANIFEST.tsv",
-      "finding": "Author protocol explicitly names 384set_Nextera_BC_order.xls for index allocation; it is absent. Article and author protocol print core oligos, so a blanket oligo-absence claim is incorrect."
-    }
+      "reviewer": "root; source_reaudit_rna",
+      "date": "2026-10-16",
+      "locations": "Individual rows preserve located independent readers: RNA worker on referring protocol/metadata/repositories; root and RNA worker independently read all16 annotations.",
+      "finding": "Positive original annotation evidence supports10-position identifier composition without treating all positions as N or transferring optimization variants. Metadata and repository scope checks are bounded, not whole-code/whole-dataset absence assertions. Pending originals/manual scope are not promoted to complete review."
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
+        "finding": "Read original JATS and author protocol; linked index XLS is absent; no categorical absence claim."
+      },
+      {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original JATS Methods; author protocol PDF primer table and line 155; local MANIFEST.tsv",
+        "finding": "Author protocol explicitly names 384set_Nextera_BC_order.xls for index allocation; it is absent. Article and author protocol print core oligos, so a blanket oligo-absence claim is incorrect."
+      }
+    ],
+    "historical_passes": [
+      {
+        "field": "pass_1",
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original PMC9546772 Methods88–98 and source links; original author protocol51484/v1 complete guidelines file/link entities, steps6–7 and15; actual attached workbook gh7u2zw6.xls both384-row sheets; original gh7e2zw6.pdf single page; all20 protocolsio_attachment_*.jpg opened visually; Costello2018 article and all3supplements; recovered2021preprint Methods/data-code links",
+        "finding": "Fresh source/link scope supersedes historical absent-XLS finding (retained in additional_checks). Recovered original v1 metadata identifies workbook source and exact ordered10base indexes; later-v3 metadata does not silently substitute a source version. Followed actual Costello index-design link and all3original supplements; its own eight-base sets are not Smart3 assignments. Opened embedded images: cost comparison hujr, PCR-cycle QC hujx (same metric scope as attached PDF), pooling apparatus photographs huj3/huj7/hukb/hukf, and four Bioanalyzer QC traces hukj/hukp/hukt/hukx; remaining ten tiny images are thumbnails of those originals. No embedded image contains an oligo roster or experimental cell-to-index allocation. Author GitHub contains spinner files and README, not an index roster. zUMIs/UMIcountR links concern read processing, not additional molecular construction. Original Methods/protocol Step15 describes a distinct optional MGI conversion/circularization branch; current public page explicitly limits itself to Illumina-compatible endpoint before that branch. No absence claim about MGI vendor chemistry is made and no vendor conversion recipe is inherited. Actual experimental index assignment remains unspecified by the model; A1/A1 is explicitly illustrative. No relevant unexamined source is being accepted as proof of absence."
+      },
+      {
+        "field": "pass_2",
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "OriginalPMC9546772Methods76,88–98; exacthistoricalprotocol51484API id/doi/attachmententity; original384+384workbook; all20JPEGs andsinglepageQC-PDF; Costelloarticle+all3supplements; preprintMethods and data/code links",
+        "finding": "Independentlyfollowed exactpublishedprotocol revision to originalindexworkbook andadditionalQCattachments, rather than accepting a missingPDFannotation as unavailableinformation. Source10-base architecture andillustrativeA1/A1fullprimersarepositivelyestablished. CheckedalternativeMGIconversion source scopeagainsttheexplicitIlluminapageboundary. Costello8-base indexdesignstudyisnotxpressmemberassignment. Remainingfollow-onvendor/design-link scope and actualexperimentalpairallocation arenotacceptedabsent; keepauditinprogresswhilethosequestionsremain."
+      }
+    ],
+    "remaining_source_obligations": [
+      {
+        "locator": "Named App-A user manual and unspecified historical revision",
+        "state": "actual_named_source_unavailable_not_read",
+        "required": "Retain genuine failed vendor retrievals and open historical-version identity. Do not import MGI conversion or accept absence."
+      },
+      {
+        "locator": "New NexteraXT technical note; bcl2fastq release notes; zUMIs2018 article; QuartzSeq2 pooling original",
+        "state": "located_first_pass_second_pass_pending",
+        "required": "Independent original-source scope check remains to be recorded; no broad absence/exclusion gate accepted from first reading."
+      },
+      {
+        "locator": "Explicit linked software wiki/userguide and metadata experiment/run children",
+        "state": "bounded_follow_on_inventory_not_all_opened",
+        "required": "Current molecular/readout claims use own ordered oligos and source-positive metadata. Further source scope must be established where needed for any broader missing-information conclusion; no code algorithm or raw-data claim is made."
+      }
+    ]
   },
-  "missing_claims": [
-    {
-      "claim": "Assignment of a particular source-known index pair to a published cell is not established by the recovered order workbook",
-      "disposition": "blocked",
-      "evidence": "Available full ordered primers and10base window are established; local page uses explicit illustrative A1/A1. No absence claim is accepted. Independent review of newly recovered workbook/link scope remains pending."
-    }
-  ],
-  "conclusion": "Source-positive custom index recovery corrects local endpoint to10base dual indexes. Newly recovered source and link rows await independent pass; no confirmed-missing claim accepted.",
+  "missing_claims": [],
+  "conclusion": "Local xpress chemistry and public evidence boundary corrected from its own originals. All16 available annotation files recovered and independently checked; identifier is source-labelled10positions8N+2W, and index architecture is10bases with an explicit published processing-example discrepancy. Illustrative pair remains deliberate model selection. Actual manual/revision and remaining linked-original scope obligations persist; no publication-absence claim accepted.",
   "additional_checks": [
     {
       "reviewer": "audit_tenx_closeout",
@@ -161,7 +1034,7 @@
     {
       "reviewer": "audit_tenx_closeout",
       "date": "2026-10-16",
-      "locations": "PMC5941783 JATS lines 85\u2013110, 205\u2013246; Additional file1 DOCX full text, Additional file2 XLSX all rows/headers (two96-index sets), Additional file3 DOCX complete design guidance, especially i5 AC paragraph; original Smart3 protocol PDF pp3\u20134 and xpress protocol p3 outward link",
+      "locations": "PMC5941783 JATS lines 85–110, 205–246; Additional file1 DOCX full text, Additional file2 XLSX all rows/headers (two96-index sets), Additional file3 DOCX complete design guidance, especially i5 AC paragraph; original Smart3 protocol PDF pp3–4 and xpress protocol p3 outward link",
       "finding": "The real linked index-design paper is Costello2018. It explains index swaps; Additional file3 states i5 AC causes skipped initial bases on MiSeq/HiSeq2500/NovaSeq. Additional file2 supplies that paper's own192eight-base indexes, not a Smart3/xpress cell assignment or author order roster. Additional file1 supplies index-swapping experiments. These originals are relevant to the cited design advice; their specific index members are not evidence for which Smart3 cells used which pair. Methods cites generic library-prep methods; those predecessors do not establish any Smart3 pair and are excluded from this index-assignment question. No evidence of inheritance of this paper's96pair scheme by Smart3."
     },
     {
@@ -169,6 +1042,25 @@
       "date": "2026-10-16",
       "locations": "Costello2018 Supplementary Table2 complete sheet, Supplementary design-guidance DOCX references and main JATS availability/method references",
       "finding": "Linked-information disposition: Table2 links Illumina adapter-sequence letter1000000002694-02 for generic adapter/primer architecture, not a Smart3 ordered index member or cell assignment. Its base transcription is not used to assert a Smart3 selected pair; the recovered xpress complete ordered primers supply their own source bases. Guidance references Levenshtein/mFold/IDT computational-design tools, not protocol-specific oligo order records. Main gnomAD/restricted dataset links are performance/contamination data from Costello study and not Smart3 source assignments; excluded from selected Smart3/xpress pair recovery. No raw reads or physical vendor lot records are required by the schematic claims."
+    },
+    {
+      "reviewer": "audit_nanocut_closeout",
+      "date": "2026-10-16",
+      "locations": "Final paper Methods76–98; original protocol oligo table and2252–2290; actual order workbook; all16 annotation originals and metadata inventories; local declaration and targeted tests.",
+      "finding": "Removed all SMART-family/page_parts selectors. Local declaration owns source oligos, selected enzymes/options, complete preamp product, source notice and evidence scope. Amplified output now retains forward-primer overhang. UMI feature now spans source-labelled10positions8N+2W rather than only8N, with WW class/spacer preserved. Public notice records protocol I8/I8 versus BC1-10/ten-base workbook difference. These model corrections do not claim complete reaction proof."
+    }
+  ],
+  "open_model_questions": [
+    {
+      "question": "A source-specific physical i5/i7 primer assignment for a represented experimental cell, including orientation and source version.",
+      "scope": "Available order workbook and newly recovered experimental barcode annotations are source-positive. The local declaration deliberately uses illustrative A1/A1; an unassigned model value is not confirmed publication absence.",
+      "history": [
+        {
+          "claim": "Assignment of a particular source-known index pair to a published cell is not established by the recovered order workbook",
+          "disposition": "blocked",
+          "evidence": "Available full ordered primers and10base window are established; local page uses explicit illustrative A1/A1. No absence claim is accepted. Independent review of newly recovered workbook/link scope remains pending."
+        }
+      ]
     }
   ]
 }

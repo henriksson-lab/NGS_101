@@ -1,23 +1,48 @@
 # SNU-Seq
 
-**Defining paper:** Gerlevik et al., *Nucleic Acids Research* (2026), doi:10.1093/nar/gkag652.
+[Gerlevik et al., NAR (2026)](https://doi.org/10.1093/nar/gkag652) enriches RNA containing pulse-incorporated 4sU, adds artificial poly(A) tails and uses a 3′-region RNA library kit. Intentional sonication is omitted. A labelled molecule may include pre-existing RNA tracts; enrichment does not prove that every nucleotide was synthesized during the pulse.
 
-## Molecular boundary
+## Original versions
 
-🟢 Pulse-labelled 4sU RNA is thiol-biotinylated and affinity-purified. Intact enriched RNA is polyadenylated with bacterial poly(A) polymerase before a 3′-anchored library is made.
+The actual [Lorenz preprint v1](https://www.biorxiv.org/content/10.1101/2021.07.14.452379v1.full.pdf) was recovered separately and its printed **July 14, 2021** header verified. Its methods (current text 1310–1380) report bacterial PAP on 150 ng RNA for 45 min at 37°C, isopropanol recovery, thirteen PCR cycles and **Ion Chef/Ion Proton**. They do not specify Illumina FWD or SR100 in that passage. Its Hep3B pulse conditions and yeast spike-in are version-specific.
 
-🟢 The protocol selects labelled molecules without converting 4sU. Its informative coordinate is the native end retained by the intact-RNA preparation.
+The previously cached v2 is printed **October 24, 2025**, despite the 2021 DOI. That version and the 2026 supplement describe Ion Torrent and Illumina FWD options. The 2026 original Supplementary Methods (text 306–429) reports thirteen PCR cycles and single-end 100-nt acquisition on Ion Proton or Illumina NextSeq 2000. The graph selects that later +bPAP route, with dated kit references qualified below. The size-selected branch and no-bPAP/no-4sU/rRNA-depletion controls are separate source variants.
 
-## Evidence boundary
+## Capture, release and PAP
 
-🟡 SNU-Seq and sf4sU-Seq share a defining paper but are separate protocols: bacterial polyadenylation of intact RNA and size fractionation of short RNA do not produce equivalent endpoint information.
+The 2026 SNU route inherits its described TT-seq enrichment while omitting sonication: HPDP-biotinylation, cleanup before affinity capture, µMACS streptavidin-column washing, **DTT release**, miRNeasy recovery with on-column DNase I, then bacterial PAP and precipitation. The graph begins at recovered total RNA after the pulse and source spike-in addition.
 
-## Oligo source audit
+The unbound/wash fractions are physical separations. The eluted fraction is enriched for pulse-labelled RNA; complete capture, release or separation of all transcript age classes is not established. Remaining column contents and individual RNA-degradation-product fates are explicitly unresolved.
 
-🟢 The defining article's Supplementary Methods (`PMC13309788_supp_gkag652_supplemental_file.pdf.txt`, lines 380–388) specify Lexogen QuantSeq 3′ mRNA library preparation with either the Ion Torrent or Illumina FWD kit, 13 PCR cycles, and single-end 100-nt sequencing on Ion Proton or Illumina NextSeq2000. The authors' [GEO record for a SNU-Seq library](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM5240711) confirms the Ion Torrent branch in one deposited run. The supplement prints no kit oligo bases.
+### Source-version wash difference
 
-🟢 The official [Ion Torrent guide 012UG036V0130 (2018)](https://www.lexogen.com/wp-content/uploads/2018/06/012UG036V0130_QuantSeq-IonTorrent.pdf), overview and Appendices D–E, gives the kit's oligo(dT)-primed first strand with a P1 arm, random-primed second strand with an A arm, 9–11-base inline barcode choices, and the finished library shell. Its Appendix E prints a `TCAG–barcode–CGAT–insert` read start; an index read is not needed for this branch. The official [Illumina FWD guide 015UG009V0260 (2021)](https://www.lexogen.com/wp-content/uploads/2021/08/015UG009V0260_QuantSeq_Illumina_2021-08-16.pdf), overview and Appendix G, prints the P5–Read 1–insert–Read 2–i7–P7 shell and sequencing-primer bases. It uses oligo(dT) first-strand and random second-strand priming, with i7 introduced by PCR. The paper and GEO do not identify each sample's exact kit revision or chosen index/barcode, so the single schematic keeps its platform-specific ends symbolic; this is a limit of the displayed combined branch, not an absence of published vendor library architecture.
+The printed 2026 Supplementary Methods p. 18 (text line 338) specifies **1 mM NaCl** in the capture wash. The printed Dölken 2008 Methods p. 1970 (text 966–968) specifies **1 M NaCl**. Both original pages were visually inspected. The 2026 procedure explicitly includes modifications, so this is a qualified source-version difference, not a proven typographical error. The schematic displays both values and does not select a concentration.
 
-🔴 Neither original paper nor the checked guides identify every proprietary primer reagent as an ordering oligo for the experiments. The actual revision and barcode well for each library remain unresolved; source-review status is blocked rather than confirmed missing.
+The TT-seq 2016 supplement delegates purification to Dölken 2008 rather than printing this entire recipe itself. Dölken's original room-temperature capture and RNeasy recovery are not substituted for the 2026 conditions and miRNeasy recovery.
 
-🟢 The same Supplementary Methods (lines 375–388) place bacterial poly(A) polymerase before Lexogen library preparation. They do not establish a separate RNA-adapter ligation in the SNU-Seq branch, so the graph passes the tailed RNA directly to kit-based reverse transcription rather than drawing an invented ligation.
+## Two kit-specific declarations
+
+The [Ion Torrent guide 012UG036V0130](https://www.lexogen.com/wp-content/uploads/2018/06/012UG036V0130_QuantSeq-IonTorrent.pdf), printed June 13, 2018, describes:
+
+- P1-side oligo(dT)-primed first-strand synthesis.
+- RNA-template degradation with RS1/heat/RS2.
+- A-side random-primed second-strand synthesis, introducing an inline barcode.
+- Bead cleanup, PCR and post-PCR bead purification.
+
+Its Appendix E prints the finished architecture and a `TCAG–barcode–CGAT–RNA` read start. The barcode family is 9–11 nt; no separate index read is required in this guide. The actual study barcode member and physical loaded sequencing primer remain unassigned.
+
+The [Illumina FWD guide 015UG009V0260](https://www.lexogen.com/wp-content/uploads/2021/08/015UG009V0260_QuantSeq_Illumina_2021-08-16.pdf), revision table dated August 16, 2021, describes oligo(dT) first strand, RNA removal with RS/heat, random second strand using the Read 1 side, bead cleanup, PCR-introduced i7 and post-PCR purification. Appendix G supplies the finished library and complete sequencing-primer strings. The PDF also includes a separately numbered critical-recommendations insert; its presence does not change the main guide's printed revision identity. Optional UMI, UDI and REV/CSP modules are not selected.
+
+**Inferred study assignment:** both displayed endpoint constructors use these source-positive dated guide architectures as conditional references. Exact experimental kit revisions, full ordered kit reagents and selected barcode/index members remain unassigned. This is model data awaiting assignment, not absence of published vendor architectures. Fixed reference bases default to inferred; biological RNA and copied poly(A) lengths stay variable. The two platform branches are joined by an explicit warning-producing comparison boundary, not a claim that one experimental sample was physically split.
+
+## Readout and processing limits
+
+Both chosen guide families read **towards poly(A)** from the random second-strand side. FWD does not use the REV/CSP read direction. A longer read can be needed to reach the native RNA 3′ boundary; the first acquired base does not universally identify it.
+
+The 2026 analysis clips poly(A), masks genomic A-rich regions, filters alignments and computes the **aligned-read 3′ coordinate** using `bedtools genomecov -3`. The 2021 original likewise uses `-bg -3`. Those operations do not prove native-end reach for every read or physically remove library molecules. The computed FWD reference preview stops at the variable biological interval instead of inventing read-through into a fixed tail.
+
+## Linked source scope
+
+The original GSM5240711 record confirms an Ion Torrent QuantSeq SNU sample with yeast spike-in, biotin capture and PAP. The three article-linked GEO series were scoped separately: GSE165251 contains nuclear/cytoplasmic polyadenylated-RNA controls, GSE172053 contains multiple Hep3B assays, and GSE179306 includes SNU, size-selected and TT-seq contexts. Their child sample/experiment bodies are not all inspected. No raw reads or result archives were downloaded.
+
+The actual author repository landing and embedded README describe preprocessing and analysis for the later study; child script bodies, archived revision equivalence, further vendor sources and remaining supplementary contents remain open in the review. No missing-information claim is accepted.

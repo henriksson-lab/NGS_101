@@ -39,7 +39,15 @@
         "locations": "Published PMC11588347 JATS lines 169–188",
         "finding": "Published Methods describes in-nuclei cell barcoding before sonication and NHS bead coupling, then repeated spatial split-pool tag ligation; cell and spatial barcodes remain distinct layers."
       },
-      "discovered_from": "preprint"
+      "discovered_from": "preprint",
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Fresh full bundle scraper /tmp/scsprite-expanded-fresh-scrape.txt before original JATS Methods lines140–207 and CodeAvailability401; data generation194 and sequencing analysis198–200",
+          "finding": "Original article specifies at least120 bases Read1 and95 Read2, DPM at beginning of Read1 plus remaining five tags Read2, and later trimming Read1 to100. No exact150/150 acquisition count is adopted. Local model removed inherited TruSeq shell, arbitrary9/17 tag lengths and unsupported exact cycle spans."
+        }
+      ]
     },
     {
       "id": "supp_notes",
@@ -179,30 +187,165 @@
         "date": "2026-10-16",
         "locations": "Author alternate scSPRITE2 parser config lines 1–386, compared line-by-line with original author scSPRITE parser config lines 1–387; both files inspected in full",
         "finding": "Independent comparison finds all 96 Y, EVEN and ODD strings identical in order across configs. Every scSPRITE2 DPM string is exactly the 17-base constant TCATGTCTTCCGATCT plus its same-index 10-base DPM string from the first config (96/96). The alternate header omits the blank READ1 line and keeps the same READ2 tag order. These are alternative parser matching patterns; neither identifies which parser applied to each published library or establishes a complete ordered Y-even ligation adapter or selected PCR pair."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Both original full author configs, all96 DPM rows; pinned newly fetched configs byte-identical to prior originals",
+          "finding": "Counting correction to earlier audit text: TCATGTCTTCCGATCT has16 bases, not17. Every96-entry alternate DPM value equals this16-base motif plus its same-index first-config value. This corrects repository audit arithmetic, not a publication error. Pinned pipeline config positively selects this alternate parser."
+        }
+      ]
+    },
+    {
+      "id": "author_pipeline_readme",
+      "role": "linked_material",
+      "locator": "_data/sources/scsprite__10.1101+2020.08.11.242081/gh_README.md",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Entire one-line original README at pinned commit 2aeb96e7641fd90f1e7c00bab38f05a418977c7c",
+        "finding": "The author describes the scSPRITE folder as Snakemake codes, work in progress; this is pipeline context, not a full experimental oligo declaration."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_review",
+        "date": "2026-10-16",
+        "locations": "Entire one-line original README at pinned commit 2aeb96e7641fd90f1e7c00bab38f05a418977c7c",
+        "finding": "The author describes the scSPRITE folder as Snakemake codes, work in progress; this is pipeline context, not a full experimental oligo declaration."
+      }
+    },
+    {
+      "id": "author_pipeline_config",
+      "role": "linked_material",
+      "locator": "_data/sources/scsprite__10.1101+2020.08.11.242081/gh_config.yaml",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Original config.yaml whole file, especially CONFIGBC and TRIMR1 entries",
+        "finding": "The pinned author snapshot explicitly selects misc/config_dpm6_y-stag_scSPRITE2.txt and TRIMR1=100. Remaining settings concern alignment, filtering, clusters and contact maps; trimming is postprocessing, not acquired read length."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_review",
+        "date": "2026-10-16",
+        "locations": "Original config.yaml whole file, especially CONFIGBC and TRIMR1 entries",
+        "finding": "The pinned author snapshot explicitly selects misc/config_dpm6_y-stag_scSPRITE2.txt and TRIMR1=100. Remaining settings concern alignment, filtering, clusters and contact maps; trimming is postprocessing, not acquired read length."
+      }
+    },
+    {
+      "id": "author_pipeline_snakefile",
+      "role": "linked_material",
+      "locator": "_data/sources/scsprite__10.1101+2020.08.11.242081/gh_Snakefile.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Raw original Snakefile lines 1–6, 74–86, 110–117",
+        "finding": "The workflow passes raw paired inputs and the selected CONFIGBC file into BarcodeIdentification_v1.2.0.jar; subsequent processing trims Read1. This establishes the selected configuration in this snapshot, not every historical experimental library."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_review",
+        "date": "2026-10-16",
+        "locations": "Raw original Snakefile lines 1–6, 74–86, 110–117",
+        "finding": "The workflow passes raw paired inputs and the selected CONFIGBC file into BarcodeIdentification_v1.2.0.jar; subsequent processing trims Read1. This establishes the selected configuration in this snapshot, not every historical experimental library."
+      }
+    },
+    {
+      "id": "author_pipeline_matcher_source",
+      "role": "linked_material",
+      "locator": "_data/sources/scsprite__10.1101+2020.08.11.242081/gh_BarcodeIdentification.java",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Raw Java original checkRead1/checkRead2 and checkRead/checkReadForTag, lines 227–279; parseConfigFile lines 322–365",
+        "finding": "The source matcher consumes actual input bases left to right according to the configured category order, without reverse-complementing in this matching routine. Source-versus-compiled-JAR equivalence has not been verified; matching patterns are not a complete ordered ligation oligo or sequencing-primer declaration."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_review",
+        "date": "2026-10-16",
+        "locations": "Raw Java original checkRead1/checkRead2 and checkRead/checkReadForTag, lines 227–279; parseConfigFile lines 322–365",
+        "finding": "The source matcher consumes actual input bases left to right according to the configured category order, without reverse-complementing in this matching routine. Source-versus-compiled-JAR equivalence has not been verified; matching patterns are not a complete ordered ligation oligo or sequencing-primer declaration."
+      }
+    },
+    {
+      "id": "author_pipeline_tag_layout",
+      "role": "linked_material",
+      "locator": "_data/sources/scsprite__10.1101+2020.08.11.242081/gh_tag_layout.png",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Visually inspected complete original 846x139 image at pinned commit 2aeb96e7641fd90f1e7c00bab38f05a418977c7c",
+        "finding": "The embedded image shows READ1 through DPM/DNA and opposing READ2 over a DPM reverse-complement–Odd–Even–Odd–Y chain. This five-part illustration differs from the article's explicit six-part scSPRITE identifier and cannot supply scSPRITE adapter bases, physical tag lengths or sequencing-primer sites. Its experimental scope is unassigned; the model follows explicit scSPRITE Methods."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_review",
+        "date": "2026-10-16",
+        "locations": "Visually inspected complete original 846x139 image at pinned commit 2aeb96e7641fd90f1e7c00bab38f05a418977c7c",
+        "finding": "The embedded image shows READ1 through DPM/DNA and opposing READ2 over a DPM reverse-complement–Odd–Even–Odd–Y chain. This five-part illustration differs from the article's explicit six-part scSPRITE identifier and cannot supply scSPRITE adapter bases, physical tag lengths or sequencing-primer sites. Its experimental scope is unassigned; the model follows explicit scSPRITE Methods."
       }
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "audit_s_z",
+      "reviewer": "source_reaudit_rna",
       "date": "2026-10-16",
-      "locations": "Published JATS line 401 author code; CaltechAUTHORS SPRITE original record xrfk6-20h25 mmc5.xlsx; scSPRITE config file lines 1–387",
-      "finding": "Followed original SPRITE Table S5 and scSPRITE author parser. Exact Y read barcode family is available and matches predecessor Terminal Bottom strings, but full scSPRITE Y-even oligo and PCR primer pair remain unresolved. New source rows await independent second reader. An adjacent alternate parser adds a 17-base prefix to DPM read matching; exact raw read offsets cannot be fixed from these configs alone."
+      "locations": "Fresh article JATS Methods140–207/CodeAvailability401, supplementary Notes1–5 and ST1–3 headers/results; author repository recursive tree at commit2aeb96e7641fd90f1e7c00bab38f05a418977c7c, selected config.yaml, raw Snakefile, Java matching source and original tag_layout.png; existing full original SPRITE TableS5/config source rows",
+      "finding": "Followed the original author code link beyond two parser data files. The selected config is now positive; the embedded five-tag figure is scoped separately from explicit six-tag scSPRITE Methods. Remaining pipeline settings specify downstream analysis rather than library oligos. Local model endpoint/PCR/read-site declarations are intentionally unassembled, not evidence of publication absence. No identified inaccessible original is established by those unassigned model values. Prior source-specific histories retained; fresh independent linked-inventory closure still required."
     },
     "pass_2": {
       "reviewer": "audit_a_h",
       "date": "2026-10-16",
       "locations": "Original SPRITE Caltech Table S5 Sheet1 lines 1–868; scSPRITE author parser config lines 1–387; scSPRITE published article JATS cited-code link line 401",
       "finding": "Followed author-linked parser and original SPRITE Table S5 and verified all 96 Y, ODD, EVEN and DPM read-string relationships. Both sources are now read twice. Neither specifies the full scSPRITE Y-even ordering oligo/ligation-end geometry or uniquely identifies the scSPRITE library PCR primer pair."
-    }
+    },
+    "previous_checks": [
+      {
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Published JATS line 401 author code; CaltechAUTHORS SPRITE original record xrfk6-20h25 mmc5.xlsx; scSPRITE config file lines 1–387",
+          "finding": "Followed original SPRITE Table S5 and scSPRITE author parser. Exact Y read barcode family is available and matches predecessor Terminal Bottom strings, but full scSPRITE Y-even oligo and PCR primer pair remain unresolved. New source rows await independent second reader. An adjacent alternate parser adds a 17-base prefix to DPM read matching; exact raw read offsets cannot be fixed from these configs alone."
+        },
+        "pass_2": {
+          "reviewer": "audit_a_h",
+          "date": "2026-10-16",
+          "locations": "Original SPRITE Caltech Table S5 Sheet1 lines 1–868; scSPRITE author parser config lines 1–387; scSPRITE published article JATS cited-code link line 401",
+          "finding": "Followed author-linked parser and original SPRITE Table S5 and verified all 96 Y, ODD, EVEN and DPM read-string relationships. Both sources are now read twice. Neither specifies the full scSPRITE Y-even ordering oligo/ligation-end geometry or uniquely identifies the scSPRITE library PCR primer pair."
+        },
+        "result": "blocked"
+      }
+    ]
   },
   "missing_claims": [
+    {
+      "claim": "Earlier blanket assertion of missing oligos, adapter geometry or read layout",
+      "disposition": "resolved",
+      "evidence": "Withdrawn as a publication-absence assertion. The page describes unassembled local ordering oligos, PCR geometry and read sites. Known source read minima and six-part identifier order are retained; a shared generic endpoint does not establish physical molecular structure."
+    }
+  ],
+  "conclusion": "The original author pipeline sources now have two independently attributed checks, including selected parser configuration and the embedded five-part layout figure. The model follows the explicit six-part scSPRITE Methods and source read minima; inherited TruSeq shell, arbitrary physical tag lengths and exact cycle spans were removed. A fresh independent linked-inventory closure is pending. No publication absence is accepted; unassembled local oligo/PCR/read-site assignments are model obligations rather than identified unavailable documents.",
+  "previous_missing_claims": [
     {
       "claim": "Any asserted absence of exact oligo, adapter geometry or read layout beyond the located source rows",
       "evidence": "Inspected source locations above; linked-source inventory incomplete.",
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Original SPRITE Table S5 and scSPRITE author parser have two independent readings. Their 96-member Y, ODD, EVEN and DPM read-string relationships are verified, but a read parser and predecessor order table do not establish the full scSPRITE Y-even ligation oligo/end geometry or selected library PCR pair. These claims remain blocked."
+  "open_model_questions": [
+    "Assemble source-qualified scSPRITE ordering oligos, PCR precursor and sequencing entry without transferring the bulk five-tag illustration or generic TruSeq endpoints."
+  ]
 }

@@ -1,21 +1,37 @@
 # Start-seq
 
-**Defining paper:** Nechaev et al., *Science* (2010), doi:10.1126/science.1181421. The open author manuscript was read from PMCID PMC3435875.
+[Nechaev et al., Science (2010)](https://doi.org/10.1126/science.1181421) sequences short capped nuclear RNA. Its 5′-end libraries map initiation; separate custom libraries read RNA 3′ termini associated with promoter-proximal pausing. These are distinct library preparations, not the two reads of one asserted paired-end construct.
 
-## Molecular boundary
+## Original deposited library routes
 
-🟢 The method isolates short capped nuclear RNAs associated with promoter-proximal Pol II. The published analysis uses the 5′ RNA end to locate transcription initiation and a purpose-built second library to read RNA 3′ ends and locate pausing.
+The defining [GSE18643 series](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE18643) links nine samples. The displayed examples are the untreated [5′-read sample GSM463298](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM463298) and LacZ-depleted [3′-read sample GSM463301](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM463301). Their independently read original extraction fields specify:
 
-🟢 The informative molecules are short Start-RNAs rather than fragments sampled uniformly from total RNA.
+1. Select **25–100-nt nuclear RNA** on a gel.
+2. Treat sequentially with 5′ polyphosphatase and Terminator 5′ exonuclease.
+3. Ligate the branch-specific **3′ linker**, then gel-purify.
+4. Treat sequentially with alkaline phosphatase and tobacco acid pyrophosphatase.
+5. Ligate the branch-specific **5′ linker**, then reverse-transcribe and amplify with the named Illumina small-RNA kit reagents.
 
-## Evidence boundary
+The 5′-read sample uses standard Illumina small-RNA linkers. The 3′-read sample specifies two custom linkers and a custom RT primer. No standard or later TruSeq oligos are substituted for that branch. The new protocol-owned graph expands this order explicitly; shared constructors no longer choose its adapters, RT/PCR formulation or endpoint.
 
-🟢 The accessible manuscript states that its custom 3′-end adapters remain compatible with commercial Illumina sequencing primers. The original [GEO GSE18643 sample records](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE18643) give reaction order for both endpoint libraries. The supplementary file that may give their custom oligo bases remains behind the PMC download gate, so the schematic shows the two endpoints without inventing bases.
+The two displayed deposits have different sample conditions. The graph starts from two independent nuclear-RNA inputs and does not claim they were physically split from one recovered sample. A common enzyme-type input expresses the shared named polyphosphatase reagent, not shared biological identity or a known reagent lot.
 
-## Oligo source audit
+## Molecule fates and read processing
 
-🟢 The open author manuscript (`science.1181421_PMC3435875.xml.txt`, lines 38–44) says it isolates short, nuclear, capped RNA and designs new adapters for direct 3′-end sequencing. It cites figures S2–S3 and Table S1 but does not say Table S1 is an oligo table. The [5′-end GEO sample GSM463298](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM463298) and [3′-end sample GSM463301](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM463301) are original author-deposited methods: both gel-select 25–100-nt RNA, treat with 5′ polyphosphatase then Terminator exonuclease to retain capped RNA, ligate a 3′ linker, gel-purify, treat with alkaline phosphatase then tobacco acid pyrophosphatase, and ligate a 5′ linker. The 5′ library uses standard Illumina small-RNA linkers; the 3′ library uses two custom linkers and a custom RT primer. This is the source for the two distinct graph branches and corrects an earlier model error that used the observed 25–65-nt pause interval as the size-selection window.
+Terminator treatment creates a logical class of degraded RNA products. Their eventual recovery/removal is unresolved; enzymatic degradation is not an immediate physical discard of intact RNA. No complete depletion efficiency is asserted. Excising selected gel material is a physical separation, with the precise composition of excluded post-ligation material unassigned.
 
-🟡 The official [Illumina Small RNA Sample Preparation Guide Rev D (August 2010)](https://sapac.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_legacy/SmallRNA_SamplePrep_Guide_1004239_D.pdf) identifies SRA 5′/3′ adapters and RT primer by reagent part number, but prints no bases in the fetched text. Its standard workflow ligates the 5′ adapter first; the original GEO methods explicitly use a modified 3′-then-5′ order. Rev D was issued after the original experiment and does not establish the authors' exact kit revision or custom oligo sequences.
+The original samples report **Illumina Genome Analyzer II**. Their reads were **trimmed to 26 nt** before alignment: this is a computational rule, not proof of acquisition cycles. Mappable reads from biological replicates were merged during analysis. Exact acquired masks, index reads and molecular primer sites remain unassigned.
 
-🔴 The linked original `NIHMS401007-supplement-supp_material.pdf` is unavailable through the PMC route; Science's alternate supplement route returned 403. The later Henriques 2013 paper ([10.1016/j.molcel.2013.10.001](https://doi.org/10.1016/j.molcel.2013.10.001), JATS lines 142–148) reuses Nechaev's 3′ scRNA library procedure and does not print the custom adapter bases in its accessible article. Its own supplement is gated too. Exact custom 3′-library adapters, RT primer and any sample-index identity remain blocked pending these sources; the page no longer asserts an index.
+The article's observed promoter-proximal pause-position interval is not an RNA gel-selection interval. The earlier repository used the former as a selection rule; the original GEO records resolve the RNA interval as 25–100 nt.
+
+## Historical kit and successor boundaries
+
+The recovered [Illumina Small RNA Sample Preparation Guide 1004239 Rev. D](https://sapac.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_legacy/SmallRNA_SamplePrep_Guide_1004239_D.pdf) is dated **August 2010**, after the experiment. It identifies SRA adapters, RT primer and GX1/GX2 PCR components by part number and describes a standard 5′-then-3′ ligation workflow. The author-deposited Start-seq order is explicitly modified. This positive manufacturer original does not identify the exact experimental kit edition, custom oligos or selected enzyme formulation.
+
+[Henriques et al., Molecular Cell (2013)](https://doi.org/10.1016/j.molcel.2013.10.001) is a later study: its scRNA-seq section delegates the 3′ library method to Nechaev 2010 and adds synthetic capped spike-ins for selected experiments. Its short-RNA qPCR uses a distinct poly(A)/RT procedure; that is not assigned to the 2010 sequencing library. Its extended-methods original remains access-blocked.
+
+## Original supplement and remaining work
+
+The exact defining original is `NIHMS401007-supplement-supp_material.pdf`, identified by the PMC JATS. Current PMC download routes return a gate; the TDM Cloud record provides no attachment. The original published article also identifies the Science DC1 landing; its registered retrieval returned HTTP 403. The identified author ResearchGate SOM record currently offers request-only access, not the original file. No speculative PDF filename is counted as another original document.
+
+The missing source remains an access blocker, not confirmed scientific absence. The remaining seven GEO samples, linked processing README, experiment metadata and other chemistry-relevant source children remain explicit obligations in the review. Ordered 2010 library reagents and run assignments stay unassembled model data; no missing-information claim is accepted.

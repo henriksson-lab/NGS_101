@@ -1,6 +1,6 @@
 {
   "dir": "atrandi-wgs__10.1101+2025.06.20.660799",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "preprint",
@@ -47,39 +47,136 @@
       "availability": "unavailable",
       "relevance": "relevant",
       "discovered_from": "preprint",
-      "reason": "Claimed as checked by legacy audit but absent from local bundle; must obtain and verify."
+      "reason": "Legacy audit named v1.3 without an original locator. Directly checked preprintv1 June2025 andv2 September2026 kit Methods: both nameCKP-BARK1 and an Atrandi manual, not v1.3. Local source notes already identify vendorV3. Do not infer equivalence or require an invented source; independent version-scope check still pending before retiring this historical identity issue.",
+      "identity_check": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original preprintv1Methods1228–1249; v2Methods1373–1405; both vendor original revision tables and protocol-local source notes/refmanifest",
+        "finding": "No actual v1.3document is identified by these original method citations. This is an unverified historical review label, not evidence that vendorV3 equals1.3 or that a relevant known original is inaccessible. Root independent source-identity check remains pending."
+      }
     },
     {
       "id": "sequencing_guide",
       "role": "linked_material",
-      "locator": "Atrandi sequencing guide",
-      "availability": "unavailable",
+      "locator": "_data/sources/atrandi-wgs__10.1101+2025.06.20.660799/DGPM02323206001_Single_Microbe_DNA_Barcoding_Kit_Library_Prep_For_Seq_V3.pdf.txt",
+      "availability": "read",
       "relevance": "relevant",
       "discovered_from": "preprint",
-      "reason": "Claimed as checked by legacy audit but absent from local bundle; must obtain and verify."
+      "reason": "Complete original vendor V3 guide now read directly, including figures and sequence/revision tables; original acquisition URL remains unlogged. Identity is validated by original title/imprint/document number/revision history, not filename alone.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original DGPM02323206001_V3.pdf.txt: overview/linkedkit48–112; p4 originalFigure2 and full modified oligos168–202; release/purification and fragmentation219–367; ligation/PCR367–580; sequencing626–663; demultiplexing/code/figure717–807; complete96barcode sequences Tables2–3 at830–1240; troubleshooting1248–1289; revision history1323–1347. Original PDF pp4/13 also rendered and viewed, not text alone.",
+        "finding": "Source-positive sequence recovery: full phosphate/terminalPS topadapter, aminoC6 bottomadapter and both complete indexing primers (six-baseAACCTG example) match existing local source-owned constants; added tests against actual original, not only citation comments. Four sets of24eight-base barcode identities are printed. Source describes four-base linkers and repeated extraction offsets; pseudocodeA36:42 conflicts with8base description. Existing public discrepancy notice now pins exactV3pages and keeps36:44modelchoice. Figure6 example is not used to assign real linker/cassette oligos. Guide independently gives128baseR1/172baseR2 and optional6baseindexes dependent on primer choice; currentpage now explicitly scopes V3exampleendpoint rather than asserting experimental customindex/runmask identity. V2 changed PCRenzyme toUltraIIQ5; V3 changed demultiplexing. The library manual usesNEBFS/E7805 and supplies its own modified ligation-adapter example; this does not authorize substituting another NEB hairpin/USER route. Full ordered cassette strands/end geometry and complete barcode-side arm remain model limitations, not accepted source-absence claims."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original DGPM02323206001 V3: p4 adapter/primer table and Figure2 independently rendered; read configuration text645–667; Figure6 printedp13 independently enlarged; all96 Table2/3 sequences; revision history1323–1350; full source-bundle oligo scrape",
+        "finding": "Independently verified the printed phosphorylated/protected top adapter, amino-C6 bottom adapter, six-base example i7 primer and P5 primer, plus the qualified128/172 read configuration and optional indexes. The guide explicitly calls this a validated example, not the exact index assignment in the study. Figure6 clearly starts with D=GAACTGGA and C=ATGCGCCC; neither occurs among any of all96 table members on either strand. This is a base-bearing source example with an unresolved relationship to the kit tables, not evidence for universal linker assignments. The public notice correctly preserves the table/model boundary. V3 dated3November2023 and its V2 enzyme change are explicit; neither establishes equivalence to a supposedv1.3."
+      }
+    },
+    {
+      "id": "kit_protocol_v3_original",
+      "role": "linked_material",
+      "discovered_from": "preprint",
+      "locator": "_data/sources/atrandi-wgs__10.1101+2025.06.20.660799/DGPM02323198001_Single_Microbe_DNA_Barcoding_Kit_V3.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Original title/imprint/document number and full revision history checked directly; V3dated3November2023. Read as its own source identity, not substituted for unlocatedv1.3.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original DGPM02323198001_V3.pdf.txt: kitcomponents52–178; barcode diversity243–250 and Figures2–3; detailedsteps14–30 WGA/debranching/endprep323–476; barcodeA–D steps31–44 at479–560; companion-guide pointer567–569; revision history679–703. Full bundle oligo scraper before reading.",
+        "finding": "Original names kitCKP-BARK1 and specific component product numbers (WGApolymeraseCRP-WGP1, primer mixCRP-PRM1, debranchingCRP-DBE1, endprepCRP-EPE1, ligaseCRP-LGE1), not molecular enzyme identities. WGA45C15min/65C10min is explicit; debranching37C1h; endprep20C30min/65C30min; four sequential A–D ligation rounds across24wells each. Source explicitly delegates released-DNA/library preparation to DGPM02323206001, which is separately read. Those MDA conditions are not imported into the separate PTA path. Original revision labels areV1/V2/V3 with V3dated3Nov2023; no source-positive mapping to the legacyv1.3 claim. SPC generation/encapsulation manuals describe upstream compartment production; current graph starts with encapsulated microbes, so this source does not supply a capsule fabrication recipe."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original DGPM02323198001 V3: barcode diversity/structure and Figures2–3 independently rendered; WGA program text345–383; debranching/end-preparation401–438; round locations494–559; revision-history footer; full original bundle scraper",
+        "finding": "Original names CKP-BARK1 and four24-member barcode rounds, shows the D/C/B/A library order, and specifies MDA debranching before end preparation/barcoding. The source-known WGA incubation matches the preprint MDA description. This does not establish that the separate commercial ResolveDNA PTA branch used the same debranching operation or identify its proprietary reagent molecules. Source-owned V3 states remain distinguished from research-grade PTA illustrations."
+      }
+    },
+    {
+      "id": "preprint_v1",
+      "role": "linked_material",
+      "discovered_from": "preprint",
+      "locator": "Original defining preprintv1,21June2025, fetched via extra_sources:2025.06.20.660799v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original v1Methods1228–1249 WGA/barcoding/librarypreparation, and actual source/kit naming; fullbundle scraper rerun after retrieval",
+        "finding": "V1 describes MDA withCKP-BARK1,45C15min and65C10min, debranching/endprep following manual, then four-round ligation, release,NEBFS andcustomPCR. It does not contain the laterPTAbranch or identify the vendor manual asv1.3. V2 is the chemistry source for current PTA implementation; do not project PTA intov1."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_original_read",
+        "date": "2026-10-16",
+        "locations": "Original21June2025 v1 Methods1228–1249, independently read after complete bundle scraper; compared to28September2026 v2 MDA/PTA/library paragraphs1373–1405",
+        "finding": "Originalv1 names CKP-BARK1, MDA/debranching/end preparation, release and E7805S library preparation, but does not name a vendor manualv1.3. Version2 adds a separate commercial PTA procedure and mentions end preparation after it; omission of a debranching sentence is not positive evidence that the step was absent. An unrelated protocol cannot establish that branch choice. Both versions leave the study-specific selected indexing pair unassigned by this schematic."
+      }
     }
   ],
   "linked_information": {
-    "result": "blocked",
+    "result": "enumerated",
     "pass_1": {
-      "reviewer": "audit_a_h",
-      "date": "2026-10-15",
-      "locations": "Preprint citations and kit references",
-      "finding": "Kit protocol and sequencing guide named but unavailable."
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "Originalv1/v2kit/method citations and both completeV3vendororiginals, including companionpointer, reference/vendor-product/analysis-tool sections and actual revision histories",
+      "finding": "Fresh source/link pass supersedes historical unavailable-vendor rationale. Both cached manuals are originalV3documents and read under those identities; exact old downloadURL is unlogged, so homepage is only reacquisition startingpoint. Mainkit explicitly links companionlibraryguide; it is read. Libraryguide gives modifiedadapter/indexsequences, barcodetables, PCRreagent and sequencingrecommendations, so blanket absence statements are incorrect. Kit generation guides describe upstream compartment preparation (currentgraph startsinsidecapsules); Qubit/Bioanalyzer guides concern quantitation/QC, analysis software pointers concern demultiplexing/fileIO, not extra orderedcassette structures. Preprintv2 names commercialResolveDNA#100954 andNEB#E7805; exactmanufacturer-guiderevision/applicability and orderedcassette evidence remain open. Vendor-source names/productnumbers do not establish molecular identities. Originalpreprintv1andv2 do not identify av1.3manual; historical label awaits independent source-identity disposition, not substitution. No relevant unknown source is used to accept information absence."
     },
     "pass_2": {
       "reviewer": "audit_s_z",
       "date": "2026-10-15",
       "locations": "Preprint and media-1, especially supplement lines 322-333",
       "finding": "Vendor instructions are referenced and absent locally; cannot accept the legacy confirmed_missing status."
-    }
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Preprint citations and kit references",
+        "finding": "Kit protocol and sequencing guide named but unavailable."
+      }
+    ]
   },
   "missing_claims": [
     {
-      "claim": "Barcode cassette, linker, Read 2 arm, polymerase and debranching enzyme are undisclosed.",
+      "claim": "Exact ordered cassette strands/end geometry, complete barcode-side landing arm and commercial ResolveDNA reagent identities are not established in this declaration",
       "disposition": "blocked",
-      "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
+      "evidence": "RecoveredV3manuals positively establish barcode identities, modifiedadapter/PCRprimers and kit component productnames. Exactremainingmodeldetails, linkedmanufacturer version applicability and newindependent source passes remain pending; no categorical published-absence claim accepted."
     }
   ],
-  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+  "conclusion": "Both V3 manuals and the original preprintv1 now have independent located checks, alongside the existingv2 source reads. Source-led oligo/modification and figure/table discrepancies are public; unsupported universal chemistry and debranching interpretations are qualified. The unsupported legacyv1.3 identity and actual named manufacturer/predecessor scope still require resolution; no missing-information conclusion is accepted.",
+  "source_recovery_followups": [
+    {
+      "reviewer": "audit_editing_closeout",
+      "date": "2026-10-16",
+      "scope": "Acquisition, validation and identity verification only; not an original-chemistry reading pass.",
+      "file": "DGPM02323198001_V3 andDGPM02323206001_V3 original PDFs now in source bundle",
+      "identity": "Original titles/imprints and printed revision histories identify both Atrandi manuals; PDF metadata creation2023-11-06 agrees with printed revision date2023-11-03; MD5s26709a1b18ba0bd4291d5604b7788aec and37ec7a496b09864f6e20215f3cbc493b.",
+      "next_read_scope": "Read both complete originals after full bundle scraper; inspect oligo/read-layout/kit component details and actual revision mapping. Determine whether legacy v1.3 label refers to a distinct document. Independent two-pass source/link checks still required."
+    }
+  ],
+  "additional_checks": [
+    {
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "Originalv2Methods1373–1405, Figure2caption280–300, vendorV3originals compared to currentlocalgraph/preamble/notes",
+      "finding": "V2 PTAparagraph names endprep but does not explicitly state debranching was omitted, while genericFigure2caption describes debranching afterWGA. Local page now labels the omission as represented branch interpretation, not positive experimental proof or confirmation by an unrelated Negreira protocol. Existing research-grade six-base/2PS/alpha-thio-ddN molecular illustration was not established as commercialResolveDNA reagent identity by these sources; constructor segments, graph inputs/product and public captions/caveat now mark it inferred. No sharedhelper changed."
+    },
+    {
+      "reviewer": "root_independent_original_read",
+      "date": "2026-10-16",
+      "locations": "Original V3 Figure6 and complete Table2/3 inventory; current public discrepancy and PTA caveats",
+      "finding": "A source-positive example must not be described as wholly unavailable, yet its confident D/C strings fail both-strand matching against every table member. The revised page states that mismatch and retains unassigned linkers rather than extrapolating a universal cassette. Source-specified commercial PTA and a research-grade molecular illustration remain separate. No source absence is accepted."
+    },
+    {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Source-known V3 p4 adapter and primer tables; local ligation_adapter() and protocol_graph() declarations",
+      "finding": "The known two-strand adapter and both complete example PCR primers now enter the graph as molecular states, using the same adapter constructor as the detail view. Pairing is checked during construction. The opposite barcode-end and PCR precursor geometry remain explicitly unassembled; source-known input states do not prove those transitions. Four direct original-file transcription/modification checks pass; the generic source guard still filters these manually recovered originals because their historical PDF URLs were not logged, so no synthetic retrieval URL was added to force a pass."
+    }
+  ]
 }

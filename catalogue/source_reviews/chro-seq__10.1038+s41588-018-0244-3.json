@@ -1,6 +1,6 @@
 {
   "dir": "chro-seq__10.1038+s41588-018-0244-3",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "paper",
@@ -19,8 +19,230 @@
         "date": "2026-10-15",
         "locations": "PMC6204104 original JATS Methods lines 154-158, reference 28 lines 500-509",
         "finding": "ChRO library prep closely followed Mahat 2016 PRO-seq Nature Protocols (10.1038/nprot.2016.086), an explicit predecessor."
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Actual main JATS150–158 and references27/28, complete external-link inventory; fresh full-bundle oligo scraper",
+            "finding": "Read NUN isolation/washes/suspension, ATP/GTP+biotinCTP/UTP run-on, TrizolLS recovery, ChRO-only hydrolysis, three streptavidin captures, separate3′/5′ligations, RppH/PNK and RT/PCR. Original source fixes substantial steps omitted by prior generic graph. leChRO is length-extension with RNase cocktail and no hydrolysis; not linear amplification. Some libraries first6bp molecule identifier; source RNA/read-end interpretation differs between branches."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Actual original JATS142–165",
+            "finding": "Independent source read confirms ChRO/leChRO branch distinction, allthree capture/recovery stages, RppH/PNK, bothadapter ligations and RT/PCR; some6bpUMIs, ChRO RNA3′→read5′ versus leChRO RNA5′→read3′."
+          }
+        }
+      ]
+    },
+    {
+      "id": "proseq2016",
+      "role": "predecessor",
+      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/PMC5502525_PMC5502525.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Original PMC5502525 JATS Table 1 lines 2870-2910",
+        "finding": "Table 1 prints VRA3 and VRA5 RNA adapters with end modifications, RP1 RT/PCR primer, and RPI-n indexed PCR primer family. ChRO Methods cites this source but does not prove each ChRO variant used these unchanged."
+      },
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "_data/sources/doi_10.1038+nprot.2016.086/nprot.2016.086_PMC5502525.xml.txt Table 1 lines 2870-2905 and read trimming line 2487; ChRO defining JATS lines 154-158; oligo scraper on original DOI bundle, hits at Table 1 lines 2876, 2880, 2883, 2897, 2900-2901",
+        "finding": "Independently checked Mahat et al. 2016 original PRO-seq Table 1. VRA3 is a 5-prime-phosphorylated 3-prime RNA adapter with /Inverted dT/ at its 3-prime end; VRA5 is unphosphorylated at its 5-prime end; RP1 serves both RT and PCR; RPI-n carries six sample-index Ns. PRO-cap RA3/RA5/RTP are separately listed and must not be substituted for PRO-seq. ChRO JATS says its library preparation closely followed this method but also says some ChRO libraries used six-base molecule UMIs in adapters, so Table 1 cannot establish an unchanged oligo variant for every ChRO library."
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Own original PMC5502525_PMC5502525.xml.txt160–200,1558–1690,1830–1990,2870–2905; fresh full-bundle scraper",
+            "finding": "Original PRO-seq overview and steps49–82 explicitly define three streptavidin enrichments/release and end repair with RppH/PNK;5′ligation uses sameT4RNAI mix52. Table1 prints protected/phosphorylatedVRA3,unphosphorylatedVRA5,RP1 and RPI-n with6Nsampleindex; PRO-cap rows remain distinct. This source is predecessor evidence, not exact study-specific synthesis identity."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Own original PMC5502525 overview160–200,1558–1690,1830–1990 and Table1 2870–2905; fresh original reading",
+            "finding": "Independently read T4RNAI/ATP/PEG3′ligation, capture2 repeat23–48, TAPorRppH,PNK→Trizol/aqueousRNArecovery,VRA5vsRA5ligation repeatsmix52,capture3repeat23–48,RP1vsRTP RT. Supports explicit inherited components, not universal ChRO oligo/index assignment."
+          }
+        }
+      ]
+    },
+    {
+      "id": "supplement_notes_figures",
+      "role": "supplement",
+      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/s41588-018-0244-3_41588_2018_244_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original notes1–7(text130–330), contents/tablelegends5722–5752 and references",
+        "finding": "Read actual assay-comparison and computational/biological analysis notes, inventory30figures and7workbooktables. Table1 expressly points to attached workbook. This is not a full visual figure read or complete linked-scope exclusion; old scraper-only aggregate passes retained historically, not upgraded."
       }
     },
+    {
+      "id": "reporting_summary",
+      "role": "supplement",
+      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/s41588-018-0244-3_41588_2018_244_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual original reporting summary beginning/software section, text1–90",
+        "finding": "This file is May7,2018 reporting summary, not SupplementaryTable1. Software versions and Danko lab GitHub are named. Remaining body/links not fully dispositioned."
+      }
+    },
+    {
+      "id": "supplement_workbook",
+      "role": "supplement",
+      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/s41588-018-0244-3_41588_2018_244_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire actual firstsheet SupplementaryTable1 text1–40; sheet inventory",
+        "finding": "Original run-on method and Unique molecular index barcode column mark samples/replicates, including UMU94-13_leChr,GBM-88-04_Chr,PDX-88-04_P57. Marking varies across sample/aggregate rows. This recovers previously missed sample membership, not ordered adapter identity. Remaining six result sheets not fully read/excluded."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entire original firstsheet text1–40",
+        "finding": "Independent actual Table1 read confirms source-specific X assignments and variable replicate/aggregate marking. No universal8bpidentifier or unchanged predecessor oligo selection; remaining six sheets not read/excluded by this pass."
+      }
+    },
+    {
+      "id": "wuarin1994",
+      "role": "predecessor",
+      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/PMC359256_PMC359256.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual abstract1052 and fulltext/PDF link inventory1054–1105",
+        "finding": "Original abstract describes chromatin fractionation with engaged complexes versus released-RNA supernatant. This HTML is abstract/page-image entry, not fullMethods. Actual7pagePDF molcellb00011-0193.pdf is linked and requires retrieval/original reading; no inheritance details accepted from abstract alone."
+      }
+    },
+    {
+      "id": "study_geo",
+      "role": "linked_material",
+      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/geo-GSE117832-all-full.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Series1–34; allfour samples405106–405281; two unique extraction/six processing paragraphs and relations",
+        "finding": "FourJurkat records are PRO,ChRO1,ChRO2,leChRO. Extraction refers to Danko2015nuclei,Chu2018chromatin and Kwak2013libraries. NextSeq500,source pipeline link and bigWig output positive. Actual SRX4480699–4480702 and BioSamples linked; ownSRP155663. Largeplatformtable/rawreads not read; no assumption that these four represent allprimaryGBM/PDXlibraries."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "author_pipeline_entry",
+      "role": "linked_material",
+      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/proseq.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual README843–885 and complete displayed file-link inventory",
+        "finding": "Current source entry describes PRO-seq alignment/QC, edit-adapter-if-necessary, GROreverse-complement difference; links examples/proseqMapper and newerproseq2.0. Entry is currentmaster snapshot, not established historical2018 executable identity. Small actual linked README/leChROexample scoped next; no whole-repository absence claim."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "pipeline_readme",
+      "role": "linked_material",
+      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/gh_README.md",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_pipeline_entry",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original27lines; fresh final fullbundle scraper9hits1file",
+        "finding": "Direct README lists dependencies, localpath edits, adapter-as-needed edit and GROreversecomplement distinction. No flag semantics or studyoligo orders inferred."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entire original27lines",
+        "finding": "Independently read all27lines; local paths/adapter edit explicit. GROnotreversecomplemented, but exactPRO/leChROflags not established byREADME."
+      },
+      "version_scope": "Currentmaster retrieved2026-10-16; unpinned original URL, not asserted historical2018version."
+    },
+    {
+      "id": "pipeline_lechro_example",
+      "role": "linked_material",
+      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/gh_example_leChROseq.bsh",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_pipeline_entry",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original12lines; fresh final fullbundle scraper9hits1file",
+        "finding": "Actual currentexample invokes proseqMapper.bsh -G -b6 with wildcardFASTQ and mousereference. Literal flags only: no interpretation or assignment to historical2018humanstudy."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entire original12lines",
+        "finding": "Independently read all12lines; exactcurrentmapper invocation/mouseref confirmed. Flagsemantics awaitmapperbody; currentmaster is not historical2018identity."
+      },
+      "version_scope": "Currentmaster retrieved2026-10-16; unpinned original URL, not asserted historical2018version."
+    },
+    {
+      "id": "wuarin1994_pdf",
+      "role": "predecessor",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC359256/pdf/molcellb00011-0193.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "ActualoriginalPDFanchor retrieved by registeredvendor/Folder paths53873 and67040; both terminal0 record PMCPreparingToDownload gate, no PDFbody read. Earlier HTMLabstract scope is separate, not fullMethods.",
+      "discovered_from": "wuarin1994"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_nanocut_closeout",
+      "date": "2026-10-16",
+      "locations": "Actual main150–158/references27–28/extlinks,Table1,2016PRO-seq original steps/Table1,actualGEO and authorentry",
+      "finding": "Direct source scope recovered; remaining actual original linked documents listed separately. Unidentified manufacturer guide and study oligo/run assignments are open questions, not invented unavailable documents. No blanket missing-information claim accepted."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original main142–165 and original Table1 firstsheet1–40",
+      "finding": "Independent bounded referring-source and sample-table read confirms explicit route and identifier variants; not a completed reading of all linked materials or supplements."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Bounded source-owned route correction in_progress. Actual ChRO operations and sample-specific identifier assignments recovered; exact oligo and run/member assignments remain open model questions. Full source gate not met for actual recorded originals/links; no missing-information claim accepted.",
+  "history": [
+    {
+      "date": "2026-10-16",
+      "reason": "Fresh original-source audit recovers explicit source stages and sample-specific UMI table; removes generic family endpoint and false eight-base affinity-label placeholder. No missing-information gate accepted.",
+      "previous_status": "blocked",
+      "previous_missing_claims": [
+        {
+          "claim": "Exact sequencing-primer sequence or binding site is not recoverable from checked sources.",
+          "disposition": "blocked",
+          "evidence": "Generic PRO-seq adapter/RP1/RPI-n bases are published in cited Mahat 2016 Table 1. Exact use or modification of that family in ChRO remains uncertain; page must reflect inherited source."
+        }
+      ],
+      "previous_conclusion": "Two independent located checks of the cited 2016 PRO-seq Table 1 establish candidate inherited adapter and PCR-primer families, not each ChRO-specific variant. Unidentified Illumina kit/revision and ChRO adapter/UMI variants keep the missing claim blocked."
+    }
+  ],
+  "superseded_source_rows": [
     {
       "id": "supplement",
       "role": "supplement",
@@ -48,48 +270,58 @@
       "relevance": "relevant",
       "reason": "Article JATS line 154 names manufacturer but not exact kit/revision; original guide unverified.",
       "discovered_from": "paper"
-    },
-    {
-      "id": "proseq2016",
-      "role": "predecessor",
-      "locator": "Mahat et al. 2016 Nature Protocols 10.1038/nprot.2016.086; _data/sources/doi_10.1038+nprot.2016.086/nprot.2016.086_PMC5502525.xml.txt:2870-2910",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_2": {
-        "reviewer": "audit_a_h",
-        "date": "2026-10-15",
-        "locations": "Original PMC5502525 JATS Table 1 lines 2870-2910",
-        "finding": "Table 1 prints VRA3 and VRA5 RNA adapters with end modifications, RP1 RT/PCR primer, and RPI-n indexed PCR primer family. ChRO Methods cites this source but does not prove each ChRO variant used these unchanged."
-      },
-      "pass_1": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+nprot.2016.086/nprot.2016.086_PMC5502525.xml.txt Table 1 lines 2870-2905 and read trimming line 2487; ChRO defining JATS lines 154-158; oligo scraper on original DOI bundle, hits at Table 1 lines 2876, 2880, 2883, 2897, 2900-2901",
-        "finding": "Independently checked Mahat et al. 2016 original PRO-seq Table 1. VRA3 is a 5-prime-phosphorylated 3-prime RNA adapter with /Inverted dT/ at its 3-prime end; VRA5 is unphosphorylated at its 5-prime end; RP1 serves both RT and PCR; RPI-n carries six sample-index Ns. PRO-cap RA3/RA5/RTP are separately listed and must not be substituted for PRO-seq. ChRO JATS says its library preparation closely followed this method but also says some ChRO libraries used six-base molecule UMIs in adapters, so Table 1 cannot establish an unchanged oligo variant for every ChRO library."
-      }
     }
   ],
-  "linked_information": {
-    "result": "blocked",
-    "pass_1": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-15",
-      "locations": "ChRO JATS lines 154-158 and reference 28; Mahat 2016 original Table 1 lines 2870-2905; ChRO supplement MANIFEST.tsv",
-      "finding": "Earlier first pass left predecessor ref 28 unreviewed. This follow-up identifies it as Mahat 2016 PRO-seq and reads its original Table 1; the vague predecessor checklist row was removed as a duplicate of proseq2016. The Illumina manufacturer protocol remains unidentified by kit/revision, and ChRO-specific adapter variants remain unresolved."
-    },
-    "pass_2": {
-      "reviewer": "audit_a_h",
-      "date": "2026-10-15",
-      "locations": "ChRO Methods ref 28 mapped to Mahat 2016; cached PMC5502525 original Table 1",
-      "finding": "Followed cited predecessor to original open article; Table 1 prints adaptor and RP1/RPI-n family. ChRO-specific variant mapping remains to resolve."
-    }
-  },
-  "missing_claims": [
+  "linked_scope_queue": [
     {
-      "claim": "Exact sequencing-primer sequence or binding site is not recoverable from checked sources.",
-      "disposition": "blocked",
-      "evidence": "Generic PRO-seq adapter/RP1/RPI-n bases are published in cited Mahat 2016 Table 1. Exact use or modification of that family in ChRO remains uncertain; page must reflect inherited source."
+      "original": "Wuarin1994 actual linked7pagePDF molcellb00011-0193.pdf",
+      "from": "Original PMC359256 fulltext/PDF anchors",
+      "status": "Registered actualPDFroute now tested: PMCPreparingToDownload gate; no originalPDFreading or acceptedabsence. Alternate original route/pageimage reading remains open."
+    },
+    {
+      "original": "Mahat2016 original supplemental NIHMS869228-supplement.docx",
+      "from": "Original predecessor PMC5502525 attachment",
+      "status": "Actual PMCPreparingToDownload gate recorded; contents not read. Alternative original supplement identities/routes not yet reconciled."
+    },
+    {
+      "original": "DankoLab utils/proseq actual README.md and example_leChROseq.bsh/currentmaster",
+      "from": "Article direct repository entry and actual file links",
+      "status": "Current README and leChROexample now read independently twice. Actual nextchildren proseq2.0,align.bsh,preprocess.bsh,proseqMapper.bsh and proseqBamToBigWig.bsh remain pending where relevant. No flagsemantics inferred fromexample; no whole-repositoryabsence or historicalversionidentity accepted."
+    },
+    {
+      "original": "GSE117832 linked SRX4480699–4480702/BioSamples and SRP155663; citedKwak2013/Danko2015",
+      "from": "Original study family metadata extraction/relations405106–405281",
+      "status": "Actual linked metadata and named predecessor scopes remain unfinished; no rawread downloads needed."
+    },
+    {
+      "original": "MOESM1 original30figures/remaining linked studies; MOESM2 remaining reporting body; MOESM3 remaining6result sheets",
+      "from": "Actual supplements/contents/tablelegends",
+      "status": "Not fully dispositioned by fresh originalP1/P2; old scraper-only passes do not meet original-reading gate."
     }
   ],
-  "conclusion": "Two independent located checks of the cited 2016 PRO-seq Table 1 establish candidate inherited adapter and PCR-primer families, not each ChRO-specific variant. Unidentified Illumina kit/revision and ChRO adapter/UMI variants keep the missing claim blocked."
+  "open_model_questions": [
+    "Exact study-specific adapter/RT/PCR oligo orders and first6bpUMI-bearing variants remain unassigned, not confirmed absent.",
+    "Exact final sequencing-primer sites, instrument cycle masks and individual sample indexes remain unassigned.",
+    "Main says manufacturer protocolIllumina without guide identity; source identification question, not an invented unavailable component document."
+  ],
+  "model_corrections": [
+    "Removedrna_cell_assays family imports/custom_library and generic44ntinsert/8ntbiotinUMI placeholders; source-known roles have no fabricated lengths.",
+    "GraphnowownsactualChROisolation/runon/recovery/hydrolysis/threecapture-releases/twoligations/RppH/PNK/RT/PCRorder; localcapture/releasefunction only repeats its own source recipe.",
+    "Source-specificbiotinCTP/UTP+ATP/GTPdeclared; role-leveladapter/PCRgeometry remains explicit rather than filling from predecessor choices.",
+    "Recovered actualTable1 sampleUMImembership; leChROlength-extension/RNasecocktail/nohydrolysis corrects repositorynote, not publicationerror."
+  ],
+  "verification_checkpoints": [
+    {
+      "date": "2026-10-16",
+      "reviewer": "audit_nanocut_closeout",
+      "checks": "Seven source-backed local tests PASS; page builds44,064bytes; pairing zero problems; source guard0concretechecked/0failed/5inputswithout exact states; chemistry18steps/19unresolved/0contradictory; review/docs/scopedwhitespace checks PASS. Direct source tests separately verify displayed predecessor oligos; role-only graph does not select them as exact ChRO inputs.",
+      "independent_review": "Root reviewed full current module against original primaryMethods/Table1 and fresh predecessor originals: sourceorder/threecaptures/ChROvsleChRO/unknownendroles/designated6bpidentifier notice agree bounded source scope. No wholelinked-source gate accepted."
+    },
+    {
+      "date": "2026-10-16",
+      "reviewer": "audit_nanocut_closeout",
+      "checks": "Final fullbundle scraper:9sequencehits1file. Registered fetches53873/67040 and earlier80369/48503 all terminal; WuarinPDFgate and two small current authororiginals recorded. Seven tests, final page44067bytes, pairing/sourceguard/chemistry/review/docs/scopedwhitespace checks passed.",
+      "scope": "No more fetching this batch. Actual nextchildscope remains open; no missing-information acceptance."
+    }
+  ]
 }

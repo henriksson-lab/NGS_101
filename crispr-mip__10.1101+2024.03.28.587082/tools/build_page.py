@@ -152,7 +152,10 @@ reveals GC and oversampling bias in pooled CRISPR screens.</i> bioRxiv 2024.03.2
 <a href="https://doi.org/10.1101/2024.03.28.587082">doi:10.1101/2024.03.28.587082</a>.
 Sequences are from Table S2; every length, position and product below is recomputed from
 the protocol landmarks. Those landmarks are cross-checked against the real lentiCRISPRv2
-map (Addgene #52961) when that optional source file is available.""")}
+map (Addgene #52961) when that optional source file is available. The paper names this
+backbone for the screened Brunello kinome library (#75314; Methods, Plasmids). The
+drawing uses an illustrative 20-base guide plus an added initial G, not a recovered
+sequence of every screened clone.""")}
 
 {legend("""<b>The idea in one line.</b> A padlock probe finds its target with <i>two</i>
 arms instead of one primer, the gap between them is filled and sealed into a circle, and an
@@ -335,9 +338,10 @@ def step_fill() -> str:
     "segment order.")}
 {info(f"""The gap is <b>{cap.gap}&nbsp;nt</b>: the Pol III <b>+1 G</b>, the complete
 <cbc>20-nt spacer</cbc>, the <r2>76-nt scaffold</r2> and 15&nbsp;nt beyond it. A spacer
-that already begins with G gives 111 instead, because the +1 is then supplied by the spacer
-rather than appended &mdash; Brunello spacers are not G-initiated, so 112 is the working
-number.""")}
+that already begins with G gives 111 under the model's alternative cloning convention
+that omits a separately added G. This is a conditional comparison, not a source-verified
+claim about the first base or cloning convention of every Brunello guide. The displayed
+example matches the paper's reported 112-base captured region.""")}
 """
 
 

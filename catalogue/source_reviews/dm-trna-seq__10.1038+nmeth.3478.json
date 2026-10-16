@@ -19,7 +19,21 @@
         "date": "2026-10-15",
         "locations": "PMC4624326 JATS lines 86-94, especially line 90",
         "finding": "Original explicitly prints 41-nt blocked RNA template with both Illumina read-primer binding sites, plus TGIRT template-switch substrate. Scraper detects published oligo; exact separate run primer must be distinguished from binding site."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Original JATS Methods75–90; full bundle scraper before reading, expanded64hits/7files after retrieval.",
+          "finding": "Methods90 specifies blocked RNA41, complementary32P-labeledDNA+single3′T, GsI-IIC MalE rigidfusionRT, NaOH RNAhydrolysis, gelpurifiedssDNA, CircLigaseII and exactPCR primers. Corrected repository RNA-as-cDNA state, omitted hydrolysis, inherited PCR recipe and unsupported6nt index. Forward20nt/reverse21nt PCRsuffixes partition RNA41; other primer bases are5′tails, not a source contradiction."
+        },
+        {
+          "reviewer": "independent_rna_contacts",
+          "date": "2026-10-16",
+          "locations": "Fresh fullbundle scraper55hits/5files; originalJATS90; fresh model/source comparison after correction.",
+          "finding": "Independent original read confirms RNA41/3SpC3, complementary32P-DNA+T, sourceGsI-IICidentity, NaOH→gelssDNA→CircLigaseII→PhusionHF and fullPCR sequences. 32P denotes isotope, not32nt. Corrected model separates inferredDNA from RNA, removes unsupported6nt index and does not infer loadedrunprimer."
+        }
+      ]
     },
     {
       "id": "supplement",
@@ -39,14 +53,6 @@
         "locations": "MOESM324 XLSX lines 1-13; MOESM325 XLSX first rows; MOESM326 PDF lines 1-30",
         "finding": "324/325 are quantitative data tables; 326 is figure caption on AlkB development, not a sequencing-primer list in checked text."
       }
-    },
-    {
-      "id": "illumina",
-      "role": "vendor",
-      "locator": "Illumina HiSeq 2015 sequencing reagent kit guide for the authors' unspecified HiSeq run and flow-cell chemistry",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "reason": "Original paper names HiSeq system but not instrument model, run mode, kit, or revision. Illumina's HiSeq 2500 primers page (https://support.illumina.com/sequencing/sequencing_instruments/hiseq_2500/primer-box.html, lines 1081-1105) names HP6/HP10 and other possible primer mixes but does not identify which the authors used or disclose their bases."
     },
     {
       "id": "nihms_supplement",
@@ -87,29 +93,223 @@
         "finding": "Independent read verifies blocked 41-nt R1R2 RNA, complementary DNA with 3-prime N overhang, same multiplex and barcoded PCR primer family, and CircLigase II completion. It explicitly distinguishes the Read 1 binding site as NEBNext small-RNA primer site. This 2017 alternative uses N overhang while the 2015 paper specifies a T overhang; it neither proves an error nor identifies the original study’s HiSeq run-primer reagent or selected barcode."
       },
       "discovered_from": "article TGIRT template-switch method and later InGex protocol"
+    },
+    {
+      "id": "mohr2013_original",
+      "role": "predecessor",
+      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/PMC3683930_PMC3683930.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original body114–132 and Methods148–150; template-switching and MRFidentity sections.",
+        "finding": "Positive GsI-IIC-MRF/TeI4c-MRF identity distinction and single-base switching mechanics. Fig6 uses a distinct SOLiD adapter context; no wholesale transfer into DM2015. Protein-engineering details do not assign DM oligos. Supplemental-material target remains to be inventoried if chemistry-relevant."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Fresh fullscraper then original74–80,120–132,148–150.",
+        "finding": "Original74–80/148–150 identity and120–132 switch mechanics corroborate MRFfamily/single-base pairing, not a later commercial stock recipe."
+      }
+    },
+    {
+      "id": "katibah2014_main",
+      "role": "predecessor",
+      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/../doi_10.1073+pnas.1412842111/pnas.1412842111_PMC4143023.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original main Methods1862; actual SI href in primaryHTML.",
+        "finding": "TGIRT modifications for Illumina described by reference to SI Methods. MiSeq100/250paired reads/R1analysis belongs to this precursor, not DM run. Actual SI identified, not yet recovered."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Fresh separatebundle scraper1hit; actualmain1862 and rawHTML SIhref.",
+        "finding": "Independent originalMethods1862 confirms explicit SI Methods dependency and actualSIhref; main biological IFIT5results do not establish DMchemistry."
+      }
+    },
+    {
+      "id": "shen2015_supplement",
+      "role": "linked_material",
+      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/cdc_31393_DS2.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original TGIRT-seq Methods72–75; refs9/37 at359/387; originalCDC supporting-file link.",
+        "finding": "Exact same RNA/PCRpositive architecture; complementary42DNA and Noverhang, TeI4c-MRF C-terminal truncation, versus DM2015selectedT/GsI-IIC. NaOH, gelpurification, CircLigaseII and100ntsingle-endMiSeq/HiSeq source-specific."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Own expanded64hitsscraper; actualDOCX72–75; refs9line359/37line387.",
+        "finding": "Independent read confirms42DNA+N/TeI4c-MRF truncation is a distinct prior variant; sameRNA/PCR/NaOH/CircLigaseII positive. Analysis software links in75 identified but not opened."
+      }
+    },
+    {
+      "id": "author_later_protocol",
+      "role": "linked_material",
+      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/small_rna-circligase_protocol_061416_0.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original5pp; oligos p2, template switching p3, CircLigase/PCRpp4–5.",
+        "finding": "Later author comparator; body undated, filename2016-06-14 not independently a printed revision. Explicit42DNA+N and5′PNKlabel, sameRNA/PCR. Preserve DM2015T/GsI-IIC and unassignedlabelposition. Actual referencesKatibah/Mohr/Shen/Zheng identify prior methods."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Full expanded64hitsscraper; entire5pp/191lines.",
+        "finding": "Independent entire5pp/191lines confirms laterstandaloneTGIRTIII+N/explicit5′label comparator, not source2015selection. Filename date only; named references checked within original."
+      }
+    },
+    {
+      "id": "circligase2012_manual",
+      "role": "linked_material",
+      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/Manual_-_circligase-ii-ssdna-ligase.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original5pp; titleLit29812/2012RevA; requirementspp2–3; procedurep4; optionalcleanup p5.",
+        "finding": "OriginalEpicentre manual mirroredbydistributor requires5′monophosphate/3′OHssDNA and supports circularization. DM2015 extends incubation. Does not locate2015radioactive label; optionalExoI/IIIcleanup not imported."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Full expanded64hitsscraper; entire5pp, especiallypp2–5.",
+        "finding": "Independent originalfull5pp confirms Lit29812/2012RevA, substrateend requirements, adenylatedintermediate and optionalcleanup. Does not establish2015labelposition/obligatorycleanup."
+      }
+    },
+    {
+      "id": "hiseq2500_current_primer_page",
+      "role": "linked_material",
+      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/illumina_primer-box.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual body4403–4528 and primaryHTML namedcompatibility/instrumentguide links.",
+        "finding": "CurrentHiSeq2500 page lists alternativeHPmixes. Candidate comparison from olderledger, not authorsactualinstrument/mix identity. Namedcompatibility/cBot/HiSeqguides remain unvisited; no kitabsenceclaim."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Fresh64hitsscraper then body4403–4528.",
+        "finding": "Independent body4403–4528 confirms HP10/HP6 R1,HP12/HP8I1,HP9/RMXI2,HP11/HP7R2; children unvisited. Cannot assign2015DMrun."
+      }
+    },
+    {
+      "id": "katibah2014_si",
+      "role": "linked_material",
+      "locator": "http://www.pnas.org/lookup/suppl/doi:10.1073/pnas.1412842111/-/DCSupplemental/pnas.201412842SI.pdf?targetid=nameddest=STXT",
+      "discovered_from": "katibah2014_main",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Identified actual SI original not retrieved locally: publisher HTTP/HTTPS returned403 in elevated standardfetch; PMCattachment route returned Preparing-to-download gate; PMCCloud no usablefile. Author-copy recovery still pending, so no globalunavailability or absence conclusion.",
+      "next_action": "Check legitimate author repository supplement routes; read actual SI and obtain independent P2."
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "audit_a_h",
-      "date": "2026-10-15",
-      "locations": "Article Methods HiSeq mention and source supplement inventory",
-      "finding": "Checked author oligos and supplement headings; period-specific HiSeq run kit guide remains unresolved."
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "Original2015Methods90refs8–10; original2013/2014/2015predecessor targets; source2012manual; later2016/2017methods; currentHiSeqpageactualbody.",
+      "finding": "Recovered and read the positive linked originals. The actual PNAS SI publisher HTTP/HTTPS routes returned 403 and the PMC route returned a download gate; author-copy recovery is pending. The Shen SI original was recovered from CDC. Current HiSeq guide children and the Mohr supplemental-material target have not been opened. No completed linked-source gate or missing-information acceptance is asserted."
     },
     "pass_2": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-15",
-      "locations": "JATS methods and supplement headers; local MANIFEST",
-      "finding": "Article names read-primer binding sites but no independent Illumina run-oligo document found; keep exact primer claim blocked."
-    }
+      "reviewer": "independent_rna_contacts",
+      "date": "2026-10-16",
+      "locations": "Ownfullbundle55/64hitsscrapers; original2015JATS90/Mohridentity/switchsections; PNASmain1862+SIhref; neworiginalmanualfull5pp,authorprotocolfull5pp,ShenSI72–75,HiSeqbody4403–4528.",
+      "finding": "Independent bounded original reads substantiate the distinct source versions and positive RNA/PCR sequences. The PNAS SI, unvisited HiSeq children and analysis-software links are not represented as completed exclusions from their referring text. No absence is accepted."
+    },
+    "prior_checks": [
+      {
+        "result": "blocked",
+        "pass_1": {
+          "reviewer": "audit_a_h",
+          "date": "2026-10-15",
+          "locations": "Article Methods HiSeq mention and source supplement inventory",
+          "finding": "Checked author oligos and supplement headings; period-specific HiSeq run kit guide remains unresolved."
+        },
+        "pass_2": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-15",
+          "locations": "JATS methods and supplement headers; local MANIFEST",
+          "finding": "Article names read-primer binding sites but no independent Illumina run-oligo document found; keep exact primer claim blocked."
+        }
+      }
+    ]
   },
   "missing_claims": [
+    {
+      "claim": "Distinct sequencing-primer oligo and exact landing site",
+      "disposition": "resolved",
+      "evidence": "WITHDRAWN as a source-absence claim, not a resolution of missing bases. The PCR oligos are positive source facts; the selected run reagent and complete circular PCR assembly remain unassigned model data. The identified predecessor SI remains unread, so no absence is accepted."
+    }
+  ],
+  "conclusion": "The source-led graph corrections are applied: distinct RNA and DNA, the source GsI-IIC enzyme identity, RNA hydrolysis with waste, local exact PCR inputs, and removal of an unsupported 6-nt index width. Positive predecessor, manufacturer and later-protocol originals have bounded independent reads. The unsupported unavailable-HiSeq-guide entry and blanket primer-absence claim are withdrawn. Actual Katibah SI recovery and named linked targets remain pending. No missing claim is accepted and the full linked-source gate remains open.",
+  "prior_source_questions": [
+    {
+      "original_record": {
+        "id": "illumina",
+        "role": "vendor",
+        "locator": "Illumina HiSeq 2015 sequencing reagent kit guide for the authors' unspecified HiSeq run and flow-cell chemistry",
+        "availability": "unavailable",
+        "relevance": "relevant",
+        "reason": "Original paper names HiSeq system but not instrument model, run mode, kit, or revision. Illumina's HiSeq 2500 primers page (https://support.illumina.com/sequencing/sequencing_instruments/hiseq_2500/primer-box.html, lines 1081-1105) names HP6/HP10 and other possible primer mixes but does not identify which the authors used or disclose their bases."
+      },
+      "correction": "The paper does not identify a specific historical HiSeq kit guide. An unassigned run reagent is an open model question, not an identified inaccessible document. The actual current HiSeq2500 page is separately read below."
+    }
+  ],
+  "missing_claim_history": [
     {
       "claim": "Distinct sequencing-primer oligo and exact landing site",
       "disposition": "blocked",
       "evidence": "PCR primers are explicitly published in article Methods, but a distinct run-primer reagent and kit revision are unverified."
     }
   ],
-  "conclusion": "The article, publisher supplements, NIHMS supplement, and later InGex protocol have independent reads. The 2015 paper prints PCR primers; the 2017 vendor method confirms the broader TGIRT/CircLigase family but uses a different overhang. Authors’ HiSeq kit/run primer is still unidentified, so exact run-primer claim stays blocked."
+  "open_model_questions": [
+    "The selected 2015 HiSeq model, flow-cell chemistry, loaded run-primer reagent and acquired cycle lengths.",
+    "The selected barcode, index width and complete circular-to-linear PCR geometry.",
+    "The exact 2015 DNA-starter label position. Full 41-base complementarity is a minimal inferred reconstruction."
+  ],
+  "pending_linked_targets": [
+    {
+      "source": "katibah2014_main",
+      "target": "PNAS SI original pnas.201412842SI.pdf",
+      "next_action": "Author-repository supplement recovery after actualpublisher403/PMCgate."
+    },
+    {
+      "source": "mohr2013_original",
+      "target": "Original journal Supplemental Material link",
+      "next_action": "Inventory actualtarget/chemistry relevance; no completeSI/whole-paperabsence claim."
+    },
+    {
+      "source": "hiseq2500_current_primer_page",
+      "target": "HiSeq2500Requirements&Compatibility,cBot2/cBotSystemGuide,HiSeq2500SystemGuide",
+      "next_action": "Namedcandidatebackgroundchildren unvisited; modeldoesnotassignthisinstrument. Dispositionmustnotbeacceptedfromparentalone."
+    },
+    {
+      "source": "shen2015_supplement",
+      "target": "FastQC/Fastx-Toolkit/Ea-utils analysislinks",
+      "next_action": "Softwareanalysisreferencesidentifiednotopened; no whole-sourceabsenceclaim. Scientificscopecheckneededif excluding for finalacceptance."
+    }
+  ]
 }

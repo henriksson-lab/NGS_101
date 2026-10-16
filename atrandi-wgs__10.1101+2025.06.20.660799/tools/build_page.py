@@ -51,11 +51,16 @@ def preamble() -> str:
 <h1>Atrandi semi-permeable capsules + PTA &mdash; single-microbe whole-genome sequencing</h1>
 
 <p><info>Protocol: <a href="https://doi.org/10.1101/2025.06.20.660799">Gourl&eacute; et al.</a>, using
-the Atrandi Single-Microbe DNA Barcoding Kit with PTA amplification and no debranching step.</info></p>
+the Atrandi Single-Microbe DNA Barcoding Kit with PTA amplification. This declaration omits debranching on its represented PTA path, following the branch-specific Methods description; that omission is an interpretation, not an explicit statement that the experiment did not include it.
+The endpoint shown uses the V3 vendor example adapter and six-base i7 primer; it is not an assertion of the exact custom index or run mask used for every preprint experiment.</info></p>
 
 <div class="caveat">
-<b>Inferred structure.</b> Atrandi does not publish the barcode-cassette strands, linkers or
-Read&nbsp;2 arm. Dotted regions and steps labelled <b>INFERRED</b> show the minimal model used here.
+<b>Inferred structure.</b> The six-base primer, two phosphorothioate linkages and alpha-thio-ddN below illustrate research-grade PTA; their identity in the commercial ResolveDNA kit is unverified here.
+The complete barcode-cassette strand geometry, the assignment of linker bases to the kit
+and part of the Read&nbsp;2 arm are not established in this declaration. V3 Figure&nbsp;6
+contains a base-resolved example, but its readable barcode examples disagree with the
+listed V3 barcode sets (see the source notice below). The recovered manuals also print
+barcode identities, modified ligation adapters and index primers; the remaining source review is open. Dotted regions and steps labelled <b>INFERRED</b> show the minimal model used here.
 </div>
 """
 
@@ -63,9 +68,9 @@ Read&nbsp;2 arm. Dotted regions and steps labelled <b>INFERRED</b> show the mini
 def oligos() -> str:
     rows = [
         oligo("Exo-resistant random primer (PTA)",
-              [seg("", "NpNpNpNpsNpsN", "tso", placeholder=True)],
+              [seg("", "NpNpNpNpsNpsN", "tso", placeholder=True, inferred=True)],
               mods=""),
-        oligo("Terminator (PTA)", [seg("", "alpha-thio-ddNTP", "w1", placeholder=True)], five="", three=""),
+        oligo("Terminator (PTA)", [seg("", "alpha-thio-ddNTP", "w1", placeholder=True, inferred=True)], five="", three=""),
         oligo("Ligation Adapter, top strand (CRP-LGA1)", LIG_TOP, mods="/5Phos/"),
         oligo("Ligation Adapter, bottom strand", LIG_BOT, mods="/5AmMC6/"),
         oligo("Barcode cassette, rounds A-D (CRP-PLT1)",
@@ -83,6 +88,7 @@ def oligos() -> str:
 <seq>
 {chr(10).join(rows)}
 </seq>
+<p>V3 modification transcription: the ligation top strand and both example indexing primers each carry one terminal phosphorothioate linkage. The bottom adapter has a 5′ amino-C6 group; its terminal T is the source-known overhang.</p>
 
 <h3>Indexing primers</h3>
 <seq>
@@ -100,22 +106,22 @@ def step_pta() -> str:
             seg("behind", "XXXXXXXX...XXXXXXXX", **ph)]
     prime = Scene()
     prime.strand("template", tmpl, label="genomic DNA", rev=True)
-    prime.anneal("primer", [seg("primer", "N" * A.PTA_PRIMER_LEN, "tso", **ph)], to="template",
+    prime.anneal("primer", [seg("primer", "N" * A.PTA_PRIMER_LEN, "tso", inferred=True, **ph)], to="template",
                  pair=("primer", "site"), label="primer")
     prime.arrow("primer", "phi29 extends, displacing any downstream strand,", length=12)
     prime.note("primer", "...until an alpha-thio-ddN is incorporated")
     amp = Scene()
-    amp.strand("amplicon", [seg("primer", "N" * A.PTA_PRIMER_LEN, "tso", **ph),
+    amp.strand("amplicon", [seg("primer", "N" * A.PTA_PRIMER_LEN, "tso", inferred=True, **ph),
                             seg("body", "XXXXXXXXXXXX...XXXXXXXXXXXX", **ph),
-                            seg("ddN", "N", "w1", **ph)], label="")
+                            seg("ddN", "N", "w1", inferred=True, **ph)], label="")
     amp.mark("amplicon", "primer", "random primer: 5'-OH, NpNpNpNpsNpsN (two 3' phosphorothioates)")
     amp.mark("amplicon", "ddN", "alpha-thio-ddN: no 3'-OH")
-    p1 = panel(prime.rows(), caption="Random primers anneal across the denatured genome; phi29 "
+    p1 = panel(prime.rows(), caption="INFERRED -- illustrative research-grade PTA molecular details, not verified commercial-kit identities. Random primers anneal; phi29 "
                                      "extends with strand displacement.")
-    p2 = panel(amp.rows(), caption="One amplicon strand as synthesised (displaced, so single-"
+    p2 = panel(amp.rows(), caption="INFERRED -- illustrative research-grade PTA amplicon (displaced, so single-"
                                    "stranded). Both termini are chemically distinctive and both "
                                    "matter downstream.")
-    return f"""<h3>(2) Whole-genome amplification by PTA (BioSkryb ResolveDNA #100954; 30&nbsp;&deg;C
+    return f"""<h3>(2) PTA conditions from the preprint; INFERRED molecular illustration (BioSkryb ResolveDNA #100954; 30&nbsp;&deg;C
 2.5&nbsp;h &rarr; 65&nbsp;&deg;C 5&nbsp;min)</h3>
 {p1}
 {p2}
@@ -127,9 +133,9 @@ def step_endprep() -> str:
     prepared = repair_and_dA_tail(Construct([body], name="extendable PTA product"))
     rows = dA_tailed_scene(prepared, label="").rows()
     dead = Scene()
-    dead.strand("top", [seg("5' end", "N"), body, seg("ddN", "N", "w1")], label="")
+    dead.strand("top", [seg("5' end", "N"), body, seg("ddN", "N", "w1", inferred=True)], label="")
     dead.anneal("bottom", [seg("5' end", "N"), *complement_segments([body]),
-                           seg("ddN", "N", "w1")], to="top", pair=("ddN", "5' end"), label="")
+                           seg("ddN", "N", "w1", inferred=True)], to="top", pair=("ddN", "5' end"), label="")
     dead.mark("top", "ddN", "alpha-thio-ddN: no 3'-OH, cannot be A-tailed")
     dead.mark("bottom", "ddN", "alpha-thio-ddN")
     dead = dead.rows()
@@ -137,7 +143,7 @@ def step_endprep() -> str:
 30&nbsp;min): blunting, 5'-phosphorylation and dA-tailing</h3>
 {panel(rows, caption="Ends carrying a normal 3'-OH are blunted, kinased and dA-tailed, ready for "
                      "T-overhang ligation.")}
-{panel(dead, caption="Ends terminating in the alpha-thio-dideoxynucleotide are not: no 3'-OH to "
+{panel(dead, caption="INFERRED -- research-grade terminator illustration: ends terminating in the alpha-thio-dideoxynucleotide are not: no 3'-OH to "
                      "extend, and the phosphorothioate linkage resists the exonuclease that would "
                      "otherwise trim it back.")}
 """
@@ -171,7 +177,7 @@ def step_barcode_a() -> str:
     joined = joined.rows()
     return f"""<h3>(4) Round A: split into 24 wells and ligate the first barcode</h3>
 {panel(cassette, cls="small",
-       caption="INFERRED -- Atrandi do not publish the barcode cassette design. To join the "
+       caption="INFERRED -- exact cassette strand/end geometry remains a model limitation. To join the "
                "dA-tailed amplicon it must present a 3'-T overhang, and to accept round B it must "
                "leave a fresh overhang behind. Barcodes and linkers are placeholders.")}
 {panel(joined, cls="small",
@@ -225,15 +231,7 @@ def step_release_frag() -> str:
 
 
 def step_adapter() -> str:
-    top = [seg("stem", A.LIGADAPT_STEM, "s5"), seg("arm", A.LIGADAPT_ARM, "s5")]
-    bot = [seg("stem'", A.LIGADAPT_BOT[:-1], "s5"), seg("T", A.LIGADAPT_BOT[-1:])]
-    sc = Scene()
-    sc.strand("top", top, label="", mod5="/5Phos/")
-    sc.anneal("bottom", bot, to="top", pair=("stem'", "stem"), label="", mod5="/5AmMC6/")
-    sc.mark("bottom", "T", "3'-T overhang (the ligation end)")
-    sc.mark("top", "stem", "12-bp stem")
-    sc.mark("top", "arm", "20-nt single-stranded arm = the P5 primer landing site")
-    ad = sc.rows()
+    ad = A.ligation_adapter().rows()
     both = A.adapter_both_ends()
     return f"""<h3>(8) Ligate the Atrandi adapter (20&nbsp;&deg;C, 15&nbsp;min &mdash; no USER step)</h3>
 {panel(ad, cls="small",
@@ -276,7 +274,7 @@ def step_pcr() -> str:
 def step_final() -> str:
     rows = [strand_row(lib, "top"), strand_row(lib, "bottom")] + annotation_rows(lib, prefix_width=PRE)
     return f"""<h3>(10) Final library structure</h3>
-{panel(rows, caption="INFERRED -- the barcode cassette and Read-2 arm are not published; dotted "
+{panel(rows, caption="INFERRED -- complete cassette geometry and part of the Read-2 arm remain unverified in this declaration; dotted "
                      "segments show the modelled portions.")}
 <p><info>Total {len(lib) - len(lib.get("insert"))}&nbsp;bp excluding the insert. There is <b>no UMI</b> in this chemistry, and
 the i5 position carries no index &mdash; Atrandi's P5 primer is the plain universal primer, so i5 is

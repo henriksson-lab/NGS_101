@@ -1,6 +1,6 @@
 {
   "dir": "chec-seq__10.1038+ncomms9733",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "original",
@@ -43,11 +43,22 @@
     {
       "id": "author_detailed",
       "role": "detailed_protocol",
-      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5608238/",
-      "availability": "unavailable",
+      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/55836_PMC5608238.html.txt:1180–1254,1444,1596; doi:10.3791/55836",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Authors’ later detailed ChEC-seq procedure is cited in note but original was not retrieved/read in this first pass.",
-      "discovered_from": "original"
+      "discovered_from": "original",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh 206-hit bundle scraper; actual original detailed procedure1180–1254 and Tables2/4 pointers1444/1596.",
+        "finding": "Later2017 procedure confirms timed calcium cleavage, extraction/RNase and negative SPRI selection retaining supernatant. Library step cites separate Orsi protocol and requests paired reads at least25bases. Tagging/check primers concern strain construction, not library adapters. Video and named tagging-oligo file remain unexamined originals."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Independent fresh206-hit scraper then original1180–1254,1444,1596.",
+        "finding": "Confirms negative prelibrary bead selection and later library-reference boundary. Tables2/4 link yeastgfp.yeastgenome.org/yeastGFPOligoSequence.txt; Table4 prints MNase check primer TTGTGCAGCTTCTTGGTAC. No original2015 library member inferred from2017 procedure."
+      }
     },
     {
       "id": "orsi_library",
@@ -67,16 +78,41 @@
         "date": "2026-10-16",
         "locations": "Henikoff-group linked low-input original PMC4410783 JATS Basic Protocol 3 lines 812–832 and 926–933; scraper",
         "finding": "Procedure prints modified universal/indexed TruSeq adapters, P5/P7 primers and annealing, with a six-base variable index. It is linked method evidence, not by itself proof of exact ChEC index choice."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Fresh206-hit bundle scraper, actual Orsi BasicProtocol3 original812–832,926–1098.",
+          "finding": "Protected58nt Universal, indexed6base adapter, shortP5/P7 primers. Adapter annealing, combined end-polish/T4PNK, phenol/S300, separate A-tail, phenol/S300, ligation and positive bead cleanup. This is separate linked laboratory implementation, not a direct defining2015 citation."
+        },
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Independent actual original812–832,926–1170.",
+          "finding": "Confirms modified ordering strands and combined end repair, downstream positive bead retention and KAPA PCR. This fate is opposite to ChEC negative prelibrary selection; recipes must remain source-qualified locally."
+        }
+      ]
     },
     {
       "id": "geo",
       "role": "linked_material",
-      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE67453",
-      "availability": "unavailable",
+      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/geo-GSE67453-all-full.txt; actual Series82–91 and all unique extraction/library/instrument/processing fields",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Defining assay GEO metadata and sample-specific read layout need an independent check.",
-      "discovered_from": "original"
+      "discovered_from": "original",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual GSE67453 family metadata: series accession, supplemental links and every unique sample extraction/library/instrument/processing field.",
+        "finding": "56 ChEC samples use HiSeq2500, negative2.5:1 prelibrary AMPure selection, cite PMIDs22025700/24144978 with KAPA exception and map paired25base reads. A separate ChIP comparator uses HiSeq2000. Metadata does not select an i7 member or technical-index acquisition recipe. Series names deposited RTF protocol, results RAW archive, BioProject and SRA study."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Independent actual57-sample metadata, unique extraction fields18557/20909 and Series82–91.",
+        "finding": "56 OTHER/HiSeq2500 samples carry ChEC protocol and the same two actual library predecessors; one ChIP-Seq comparator is distinct. Direct child GSE67453_ChEC-seq.rtf.gz is protocol-relevant; RAW archive and SRP056746/PRJNA279980 are data-reference targets, not inspected reads."
+      }
     },
     {
       "id": "ncomms9733_supp_ncomms9733_s2_xls",
@@ -97,29 +133,197 @@
         "locations": "Sheet title and column headers lines 1–4; 29407 extracted lines total",
         "finding": "Abf1 cleavage-peak coordinates and motif scores, not library oligos."
       }
+    },
+    {
+      "id": "henikoff2011",
+      "role": "predecessor",
+      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/PMC3215028_PMC3215028.html.txt:1149–1157,1232",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual original1149–1157 and1232 after fresh bundle scraper; defining2015 Methods135 reference46.",
+        "finding": "2011 method modifies Illumina paired-end PE-930-1001: omits gels/Qiagen, uses phenol/S300/Speedvac and postligation/postPCR AMPure; paired25HiSeq2000. It explicitly delegates detailed steps to SI Experimental Procedures, whose original remains unread."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Independent original1149–1157,1232; actual HTML supplement href inspected.",
+        "finding": "Confirms kit and cleanup route, paired25 and actual detailed SI identity. Does not infer that2011 adapters equal later TruSeq multiplex strands."
+      },
+      "discovered_from": "original"
+    },
+    {
+      "id": "zentner2013",
+      "role": "predecessor",
+      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/PMC3889552_PMC3889552.html.txt:1215–1217",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original ORGANIC profiling/library paragraph1215–1217; defining2015 Methods135 reference58.",
+        "finding": "Uses2011 route with explicit TruSeq adapters for multiplexing and changes both sample:Ampure cleanups from5:9 to1:1; paired25HiSeq2000. This positive original supports TruSeq family but does not assign ChEC index members."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Independent original1215–1217 and actual attached XLS identities.",
+        "finding": "Confirms2013 adapter substitution and both1:1 cleanups. Original XLS supplement children identified, not read or accepted irrelevant."
+      },
+      "discovered_from": "original"
+    },
+    {
+      "id": "corrigendum2015",
+      "role": "linked_material",
+      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/PMC4703876_PMC4703876.xml.txt:whole; doi:10.1038/ncomms10264",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entire original2015 corrigendum after fresh206-hit scraper.",
+        "finding": "Initially published Supplementary Data1 Reb1 columns E/F/G/H/K were sorted independently. Authors replaced file and state incorrect version was not used in analyses. Public graph notice now identifies affected source and correction; no adapter change inferred."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original corrigendum XML independently read.",
+        "finding": "Confirms published-file sorting error and scope, distinct from molecular library chemistry."
+      },
+      "discovered_from": "original"
+    },
+    {
+      "id": "corrigendum2017",
+      "role": "linked_material",
+      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/PMC5465364_PMC5465364.xml.txt:whole; doi:10.1038/ncomms15723",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entire original2017 corrigendum after fresh206-hit scraper.",
+        "finding": "Fig7 used motif-centered high/low sites but uncentered random controls. Corrected analysis cannot establish shape-dependent sequence-independent low-scoring binding. Authors state ChEC site-identification method remains valid. Page records scoped interpretation correction; actual Correspondence/Reply remain linked-analysis obligations."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original corrigendum XML independently read.",
+        "finding": "Confirms corrected random-control comparison and withdrawn inference. Actual linked Correspondence is PMC5465349/doi10.1038/ncomms15643; Reply mentioned without literal link in inspected XML."
+      },
+      "discovered_from": "original"
+    },
+    {
+      "id": "geo_protocol",
+      "role": "detailed_protocol",
+      "discovered_from": "geo",
+      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/GSE67453_ChEC-seq.rtf.gz; decompressed original.rtf and .rtf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entire actual gzip-decompressed1978-byte RTF and full converted text after standard registered recovery; fresh source scraper before related original reads.",
+        "finding": "March2015 GabrielZentner protocol directly confirms negative2.5:1 AMPure selection retaining unbound DNA and library preparation viaPMIDs22025700/24144978 with KAPA exception. No other adapter/index assignment or embedded link/attachment appears in this entire small protocol body."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Independent fresh206-hit bundle scraper then whole actual decompressed1978-byte rawRTF including escapes.",
+        "finding": "Confirms March2015 identity, unbound small-DNA retention and both predecessor PMID citations with KAPA exception. No additional physical library oligo choice is supplied by this body; no all-source absence follows."
+      }
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "second_pass_d_e",
+      "reviewer": "root",
       "date": "2026-10-16",
-      "locations": "Original ChEC Methods; Orsi Basic Protocol 3 lines 812–832; later detailed protocol/GEO identified",
-      "finding": "Oligos are present in linked laboratory method; exact original sample index and detailed-source comparison remain pending."
+      "locations": "Defining Methods135 actualreference46/58; retrieved2011/2013 original library paragraphs; original2017 detailed protocol; all uniqueGEO metadata fields; whole two actual corrigenda; Orsi protocol812–1098.",
+      "finding": "Followed direct library citations rather than treating separate Orsi as the defining recipe. Recovered positive source choices and public corrections. Named SI/XLS/video/tagging-oligo/analysis/protocol children remain explicit pending obligations. No final source gate or missing-information acceptance."
     },
     "pass_2": {
-      "reviewer": "audit_s_z",
+      "reviewer": "audit_tenx_closeout",
       "date": "2026-10-16",
-      "locations": "ChEC original JATS lines 67/133–135 and linked Orsi low-input procedure lines 812–832/926–933",
-      "finding": "Followed linked low-input library preparation; author detailed ChEC and GEO routes still require review, so no absence accepted."
-    }
+      "locations": "Independent actual2011/2013/Orsi/detailed2017/GEO/corrigendum reads with separate fresh bundle scraper; exact locations retained per source.",
+      "finding": "Independently confirms bounded route, bead-fate and source-version distinctions. Actual linked source identities recorded; unread source children remain pending and no whole linked-source absence gate follows."
+    },
+    "prior_checks": [
+      {
+        "result": "blocked",
+        "pass_1": {
+          "reviewer": "second_pass_d_e",
+          "date": "2026-10-16",
+          "locations": "Original ChEC Methods; Orsi Basic Protocol 3 lines 812–832; later detailed protocol/GEO identified",
+          "finding": "Oligos are present in linked laboratory method; exact original sample index and detailed-source comparison remain pending."
+        },
+        "pass_2": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "ChEC original JATS lines 67/133–135 and linked Orsi low-input procedure lines 812–832/926–933",
+          "finding": "Followed linked low-input library preparation; author detailed ChEC and GEO routes still require review, so no absence accepted."
+        }
+      }
+    ]
   },
   "missing_claims": [
+    {
+      "claim": "A published same-laboratory TruSeq adapter family for the ChEC library comparison",
+      "disposition": "resolved",
+      "evidence": "Actual2013 directly cited original explicitly uses multiplex TruSeq; separate Orsi2015 original prints modified adapter and PCR strands. This positive evidence withdraws a broad unpublished-adapters claim, without selecting original ChEC index members."
+    },
+    {
+      "claim": "Exact source-selected original ChEC adapter/index member and complete historical library comparison",
+      "disposition": "blocked",
+      "evidence": "2011 detailed SI and2013 attached supplements remain unread. The separately illustrated Orsi strand list is not proof of an exact2015 index assignment. No absence is accepted."
+    }
+  ],
+  "conclusion": "Recovered actual later detailed ChEC original and deposited study metadata; independently checked both directly cited library predecessors and two published corrigenda. Corrected source scope and rendered publication notices. Exact original library-member/version comparison and named linked-source reads remain open; no missing information accepted.",
+  "missing_claim_history": [
     {
       "claim": "ChEC-seq adapter oligos are unpublished",
       "disposition": "blocked",
       "evidence": "Linked Henikoff method publishes an adapter family; exact member/version and independent check remain blocked."
     }
   ],
-  "conclusion": "Linked Henikoff method publishes an adapter family; exact member/version and independent check remain blocked."
+  "pending_sources": [
+    {
+      "id": "henikoff2011_si",
+      "discovered_from": "henikoff2011",
+      "locator": "Original 1110731108_pnas.201110731SI.pdf (4.3MB); original PNAS lookup/suppl/doi:10.1073/pnas.1110731108/-/DCSupplemental/pnas.201110731SI.pdf?targetid=nameddest=STXT",
+      "state": "Actual main article identifies detailed SI Experimental Procedures. PMC Cloud has no usable object; registered PMC fallback encountered download gate. Alternate legitimate original recovery pending, not confirmed absence."
+    },
+    {
+      "id": "zentner2013_supplements",
+      "discovered_from": "zentner2013",
+      "locator": "Original MCB.01218-13_zmb999100240sd1.xls, sd2.xls, sd3.xls and publisher supplemental index",
+      "state": "Actual original attachments identified; registered PMC paths gated. Not inspected or accepted irrelevant."
+    },
+    {
+      "id": "author_video",
+      "discovered_from": "author_detailed",
+      "locator": "PMC5608238 jove-124-55836.mp4",
+      "state": "Actual source video download gate; no video contents or exclusion claimed."
+    },
+    {
+      "id": "strain_tagging_oligos",
+      "discovered_from": "author_detailed",
+      "locator": "http://yeastgfp.yeastgenome.org/yeastGFPOligoSequence.txt",
+      "state": "Actual Tables2/4 point to tagging/check primers. Original not opened; source question is strain construction, not proof of library-oligo absence."
+    },
+    {
+      "id": "shape_correspondence_reply",
+      "discovered_from": "corrigendum2017",
+      "locator": "PMC5465349, doi10.1038/ncomms15643; authors Reply mentioned by correction",
+      "state": "Named original analysis sources not yet inspected. No chemistry or source-absence conclusion inferred from titles."
+    }
+  ],
+  "model_changes": [
+    "Local Orsi-scoped endpoint preserves complete58nt Universal Adapter, avoiding old duplicatedACAC overlap.",
+    "Removed shared Henikoff/TruSeq endpoint and graph recipe imports; source-owned combined end polishing/PNK, cleanup fractions, A-tail, ligase and KAPA route.",
+    "Retains initial negative ChEC selection separately from positive downstream library cleanups.",
+    "PCR exact initialY-arm relation remains an explicit unconstructed model boundary, not a source absence claim.",
+    "Both published corrigenda appear on the public page; original2015 exact adapter member/acquired index mask remains unassigned."
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "dir": "small-seq__10.1038+nbt.3701",
-  "status": "in_progress",
+  "status": "blocked",
   "source_checklist": [
     {
       "id": "faridani_main",
@@ -184,6 +184,12 @@
         "date": "2026-10-16",
         "locations": "Experimental Procedures lines2707–2721; supplementary file inventory around2939",
         "finding": "Main explicitly describes preadenylated3prime adapter and T4Rnl2(1–249). These are predecessor context, not evidence that Smallseq uses this older enzyme variant. Relevant detailed supplementary procedure NIHMS26851-supplement-32.doc remains gated on PMC route; PMCCloud returned no usable copy. This leaves linked chemistry scope open."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original PMC2681231 HTML Experimental Procedures text2707–2721, especially library preparation2721; original supplementary inventory2939 identifying NIHMS26851-supplement-32.doc; full Small-seq bundle oligo scraper",
+        "finding": "Independent reading confirms the main delegates detailed procedures to Supplemental Experimental Procedures and cites Pfeffer2003/2005. Most libraries used preadenylated3′ adapters and Rnl2(1–249). These are historical predecessor facts, not an instruction to replace Small-seq's ligase. Exact linked supplementary procedures remain unavailable after concrete PMC/publisher attempts; no absence accepted."
       }
     },
     {
@@ -199,6 +205,12 @@
         "date": "2026-10-16",
         "locations": "Introduction line1245; structure-bias discussion; Materials and Methods lines1411–1430",
         "finding": "Original independently identifies ligation/structure bias and compares Rnl2(1–249)K227Q; prints preadenylated3primeadapter and stockRA5RNA body, but its3prime adapter, RT/PCR primers and library-generation conditions differ from Smallseq. Source barcoded3primeadapter branch refers SupplementalTable12; it is not SmallseqH8UMI. No old recipe defaults are imported. Further supplementary/predecessor scope remains open for any absence assertion."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original PMC3162335 HTML Materials and Methods1411–1430; pool/structure-bias comparisons1275–1313; full bundle scraper hits checked against source",
+        "finding": "Independent reading confirms synthetic phosphorylated miRNA/calibrator pools, comparisons of Rnl1/Rnl2(1–249)/K227Q, preadenylated TCGTATGCCGTCTTCTGCTTGT3′ adapter and RNA5′ adapter GUUCAGAGUUCUACAGUCCGACGAUC. SupplementalTable12 supplies barcoded3′ adapter members for a pooled branch; it is distinct from Small-seq H8 molecular identifiers. Ligation and structural bias depend on tested substrates/conditions; no predecessor recipe or loaded Small-seq sequencing primer is established by this reading."
       }
     },
     {
@@ -214,16 +226,35 @@
         "date": "2026-10-16",
         "locations": "Results 2prime-O-methyl comparison lines1214–1223; Materials and Methods oligos/comparison/optimization1290–1326; SupplementalMaterial1396–1398",
         "finding": "Original compares 2primeOH/O-methyl substrates, ligases and PEG-dependent incubation regimes; T4Rnl2tr reduces bias under its tested conditions. It prints explicit modified experimental adapters, including AppLinker, distinct from SmallseqRA3. It does not authorize universal absence of methylation bias or substitute its ligation recipe for Smallseq. Supplemental material remains linked; its relevance and original accessibility need a scoped check before any absence acceptance."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original PMC2995414 HTML results1214–1223; modified RNA/adapter substrates and Materials and Methods1250–1326; Supplemental Material1396–1398; full bundle scraper modifications checked",
+        "finding": "Independent source confirms paired2′OH/2′O-methyl substrates, AppLinker5′rApp-CTGTAGGCACCATCAAT-3′NH2, distinct IRDye-labelled RT assays and PEG/temperature/ligase comparisons. The conclusion is reduced methylation bias under its optimized tested conditions, not universal absence of bias. Adapter/RT assay chemistry differs from Small-seq RA3/RTP and cannot replace its declaration. Supplemental figures and original detailed linked scope remain uninspected, not accepted irrelevant."
       }
     },
     {
       "id": "landgraf_supp_procedure",
       "role": "linked_material",
-      "locator": "NIHMS26851-supplement-32.doc; original PMC2681231 supplementary experimental procedures",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2681231/bin/NIHMS26851-supplement-32.doc (exact original supplement name confirmed in PMC2681231 inventory); Crossref publisher PII S0092867407006046",
       "availability": "unavailable",
       "relevance": "relevant",
       "discovered_from": "landgraf2007",
-      "reason": "Generic PMC attachment route returns Preparing to download/download gate; explicit PMCCloud route returned no usable file. Publisher/author-copy original still needs recovery; no missing claim accepted."
+      "reason": "Exact registered PMC attachment returns1817-byte Preparing-to-download HTML instead of OLE DOC. Explicit PMC OA Cloud list prefixPMC2681231 returns empty256-byte listing; EuropePMC supplementaryFiles returns296-byte XML error, not an archive. Crossref-confirmed publisher CDN candidate mmc1.doc/pdf and mmc32.doc/pdf returnHTTP403; these candidate numbers are not asserted to identify the actual publisher attachment. Elsevier articleAPI returns429. Relevant original procedure remains inaccessible; no reading/absence pass inferred.",
+      "acquisition_attempts": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "routes": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/instance/2681231/bin/NIHMS26851-supplement-32.doc",
+          "https://pmc-oa-opendata.s3.amazonaws.com/?list-type=2&prefix=PMC2681231",
+          "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC2681231/supplementaryFiles",
+          "https://ars.els-cdn.com/content/image/1-s2.0-S0092867407006046-mmc32.doc",
+          "https://ars.els-cdn.com/content/image/1-s2.0-S0092867407006046-mmc1.doc",
+          "https://api.elsevier.com/content/article/pii/S0092867407006046?httpAccept=text/xml"
+        ],
+        "finding": "No validated original attachment recovered; PMC HTML gate, empty OA listing, EuropePMC XML-error response, publisher CDN403 and articleAPI429 are acquisition barriers, not chemistry evidence."
+      }
     },
     {
       "id": "illumina_smallrna_guide",
@@ -237,6 +268,53 @@
         "date": "2026-10-16",
         "locations": "Original15004197v02 title/history; introduction lines302–319; AdditionalResources390–410; Consumables ClusterGeneration1926–1929; index tables2075–2219",
         "finding": "Original describes standard bulk SmallRNA adapterligations, sixbase indexes and clustering compatibility; lists any current Illumina cluster-generation kit. Does not establish which instrument/loadedprimer mixture was used in Smallseq. Its sixbase indexing must not replace2018SRX8base declaration. Instrument-specific sequencing instructions remain a separate open source scope."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Illumina15004197v02 title/revision history; Introduction302–319; Additional Resources390–416; Cluster Generation consumable1926–1929; Index Sequences2075–2219",
+        "finding": "Independent guide reading confirms bulk smallRNA adapter ligation/RT/PCR, six-base RPI index tables and a generic current Illumina cluster-generation-kit entry. RPI1 is listed ATCACG in the sequencing index table, consistent with reverse-complement CGTGAT in the primer notation; this is not a sequence conflict. Additional Resources points to protocol/checklist/custom-selector material, not an identified Small-seq instrument run or loaded primer mixture. The later SRX8-base declaration and distinct manufacturer instrument instructions remain separate."
+      }
+    },
+    {
+      "id": "hafner2011_supplements",
+      "role": "linked_material",
+      "locator": "Hafner2011 original SupplementalTables1–12; Table12 barcoded3′ adapters cited at original PMC3162335 HTML1427–1430. Publisher-index acquisition leads: https://rnajournal.cshlp.org/content/suppl/2011/07/20/rna.2799511.DC1 and https://rnajournal.cshlp.org/content/early/2011/07/20/rna.2799511/suppl/DC1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "hafner2011",
+      "reason": "The original main article positively names Table12, but its supplement is not downloaded or read. Publisher-domain search indexing supplies the dated DC1 landing routes and a listing of Supp Table S1.xls through Supp Table S12.xls; those pointers are not an original-file reading pass. Both listed original publisher routes, the issue-page /content/17/9/1697/suppl/DC1 route, original PDF/full HTML, and original rnajournal.org domain equivalents returnHTTP403 in elevated retrieval. EuropePMC fullTextXML returnsHTTP500 and supplementaryFiles returns296-byte XML error rather than an archive. No author/institutional original attachment was located in the scoped Rockefeller-domain search. Actual attachment hrefs/bytes remain unavailable; no absent-primer or irrelevant-source conclusion follows.",
+      "acquisition_attempts": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "routes": [
+          "https://rnajournal.cshlp.org/content/suppl/2011/07/20/rna.2799511.DC1",
+          "https://rnajournal.cshlp.org/content/early/2011/07/20/rna.2799511/suppl/DC1",
+          "https://rnajournal.cshlp.org/content/17/9/1697/suppl/DC1",
+          "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3162335/fullTextXML",
+          "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3162335/supplementaryFiles"
+        ],
+        "finding": "Publisher403, EuropePMC XML500 / supplemental error response. Corrected previous speculative July12 route to July20 publisher-index leads, without treating indexed content as inspected original."
+      }
+    },
+    {
+      "id": "munafo2010_supplements",
+      "role": "linked_material",
+      "locator": "Munafo2010 original Supplemental Material/Figures S1–S6; original PMC2995414 HTML1396–1398 directs to RNA journal. Publisher-index acquisition lead: https://rnajournal.cshlp.org/content/suppl/2010/09/30/rna.2242610.DC1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "munafo2010",
+      "reason": "Supplementary ligation/optimization/validation figures are named in the original main, but no validated supplementary file or original attachment href was obtained. Publisher-domain original-PDF search indexing supplies a September30 DC1 landing lead; this is not an original source-reading pass. That publisher route, original PDF/full HTML, issue-page /content/16/12/2537/suppl/DC1, and original rnajournal.org equivalents returnHTTP403 in elevated retrieval. EuropePMC fullTextXML returnsHTTP500 and supplementaryFiles returns296-byte XML error, not an archive. Scoped original author NEB-domain search did not locate a supplementary copy. Figures remain relevant/unread because of concrete access barriers, not excluded.",
+      "acquisition_attempts": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "routes": [
+          "https://rnajournal.cshlp.org/content/suppl/2010/09/30/rna.2242610.DC1",
+          "https://rnajournal.cshlp.org/content/16/12/2537/suppl/DC1",
+          "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC2995414/fullTextXML",
+          "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC2995414/supplementaryFiles"
+        ],
+        "finding": "Publisher403, EuropePMC XML500 / supplemental error response. Corrected previous speculative October28 route to September30 publisher-index lead; no attachment identity or content was invented."
       }
     }
   ],
@@ -272,6 +350,18 @@
         "date": "2026-10-16",
         "locations": "Original LandgrafMethods2707–2721; HafnerMaterialsMethods1411–1430; Munafooptimization1290–1326; Illumina15004197v02 AdditionalResources/Consumables",
         "finding": "Recovered all three cited primary ligation papers plus original vendor library-prep guide. Positive chemistry comparisons recorded per source; historical protocols differ and are not inherited as identical. Landgraf detailed supplemental procedure remains gated; instrument-specific sequencing instructions and relevant source-supplement/predecessor scope remain open. No missing claim is accepted."
+      },
+      {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Independent Landgraf/Hafner/Munafo original methods and supplement pointers; Illumina15004197v02 AdditionalResources/cluster-generation/index tables; explicit Landgraf original retrieval attempts",
+        "finding": "Independently followed source references to detailed ligation predecessors and positively read all three main originals and vendor library-prep guide. Historical adapters and ligation conditions differ from Small-seq; none supplies an unqualified replacement recipe. Landgraf exact supplementary procedure remains gated after PMC/Cloud/EuropePMC/publisher attempts. Hafner barcoded-adapter SupplementaryTable12 and Munafo supplemental validation/optimization figures now have explicit pending rows. Platform/revision-specific sequencing instructions remain unresolved; no full linked-inventory completion or missing-primer acceptance is asserted."
+      },
+      {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper83hits/8files; original PMC3162335 HTML supplemental Table12 reference and PMC2995414 SupplementalMaterial pointer; publisher/EuropePMC retrieval routes",
+        "finding": "Actual main-source pointers establish relevant supplements. Publisher-index dated DC1 leads are acquisition pointers, not inspected original evidence. Publisher routes return403; EuropePMC XML/supplement endpoints yield errors. No new evidenced Landgraf route was found and known failed routes were not repeated. No new attachment recovered and no reading pass or source absence inferred."
       }
     ]
   },
@@ -282,7 +372,7 @@
       "evidence": "Current model uses derived UMI-first entry-site geometry, not an identified loaded oligo. Both main texts now available/read; independent new-source passes and manufacturer/predecessor linked scope still pending. This is not an accepted unpublished-information claim."
     }
   ],
-  "conclusion": "2018 adapter/index model verified against recovered detailed protocol; page explicitly distinguishes2016RPI/readlength version. Source-discovery error fixed. No publication error or accepted absence claim; additional independent and linked-source checks remain.",
+  "conclusion": "Main Small-seq and linked predecessor/vendor originals have located readings, but relevant Hafner/Munafo supplements have concrete publisher/EuropePMC access barriers. Landgraf supplementary procedure and platform/revision-specific sequencing instructions remain unresolved. No accepted source absence or complete linked-scope review.",
   "source_recovery_followup": {
     "reviewer": "audit_rna_contacts_closeout",
     "date": "2026-10-16",

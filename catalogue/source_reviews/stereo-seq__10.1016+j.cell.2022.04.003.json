@@ -1,6 +1,6 @@
 {
   "dir": "stereo-seq__10.1016+j.cell.2022.04.003",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "preprint",
@@ -58,33 +58,45 @@
         "date": "2026-10-16",
         "locations": "Original Cambridge repository published Cell PDF download.pdf.txt reagent table lines 1365–1472; STAR Methods lines 1673–1684 and 1696–1725; read parsing lines 1748–1755; scraper run on full source bundle",
         "finding": "Published reagent table prints DNB precursor/oligo2/splint, CID sequencing primer, DNB F/R, phosphorylated N10-T22V capture, TSO with /rG//rG//iXNA_G/, cDNA PCR, Stereo-seq library F/R/splint, and read1/read2 sequences. Methods describe 25N precursor ligation, rolling-circle DNB, CID SE25, capture ligation, RT/ExoI/PCR, in-house Tn5 fragmentation and 13-cycle library PCR. R1 positions 1–25 are CID and 26–35 MID; R2 is cDNA. Thus a blanket absence of downstream oligos is incorrect. Exact in-house Tn5 loading adapter and final junction are not established by these sections."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "Actual download.pdf.txt1365–1472,1676–1725,1748–1755; completebundle scraper42hits/3files",
+          "finding": "Ownsource modifiedprimerstates, SSII/ExoI/KAPA/Tn5/SDS/cleanup order and R1CID1–25/MID26–35/R2cDNA. Sample readlength explicitlyreferencedTableS1. GenericfinalP18/RCAenzyme removed from model."
+        },
+        {
+          "reviewer": "audit_rna_contacts_closeout",
+          "date": "2026-10-16",
+          "locations": "Original reagenttable1412–1422; Methods1676–1725 and readlayout1748–1755 after freshfullbundle scraper42hits/3files",
+          "finding": "Independent reconstructed captureN10T21V, literal TSO rG/rG/iXNA_G, own SSII→tissueremoval→ExoI→KAPA→inhouseTn5→SDSstop→KAPAlibraryPCR→cleanup→DNB. InitialarrayRCA differs finalRNA-libraryDNB; exactfinalcircle/MDAenzyme not established by those sections."
+        }
+      ]
     },
     {
       "id": "published_supp",
       "role": "supplement",
-      "locator": "Cell 2022 supplementary methods/tables attached to published article",
-      "availability": "unavailable",
+      "locator": "Published Cell Supplemental Figures S1–S7 appended to original Cambridge download.pdf pp25–38",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "Published supplements not present locally."
-    },
-    {
-      "id": "dnbseq_guide",
-      "role": "linked_material",
-      "locator": "MGI DNBSEQ library preparation/cPAS adapter and primer component guide",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "Preprint names DNBSEQ workflow but linked platform chemistry was not reviewed.",
-      "discovered_from": "preprint"
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Renderedoriginalpp25–38 surveyed via _data/tmp/stereo-inspection/supplements.jpg; allcaptions1888–end read",
+        "finding": "Originalcontains chipdimensions/performance/counts/spatialexpression/celltype/developmentalresults. This actualfigureappendix is recovered; separateTableS1notyetread. No blanketwhole-supplementabsence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh fullbundle scraper; originalPDFpp25–38 contact sheet _data/tmp/stereo-inspection/supplements.jpg visually surveyed; actualcaptionstext1888–end throughS7 about2074 allread",
+        "finding": "S1chip/performance/QC; S2atlas/counts/anatomy; S3regionalpatterns; S4modules/regulons; S5cellstates; S6E16.5brain; S7dorsalmidbrain/spatialISH. These actualresultfigures support boundedexclusion for adapterrecipe/readlayout; they do not establish TableS1contents or wholelinkedstudies scope."
+      }
     },
     {
       "id": "mosta_protocol",
       "role": "linked_material",
-      "locator": "https://db.cngb.org/stomics/assets/html/stereo.seq.html (author-linked MOSTA step-by-step protocol; scoped extra_sources.tsv route)",
+      "locator": "https://db.cngb.org/stomics/assets/html/stereo.seq.html; original locallyrecovered stereo.seq.html(.txt)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -100,30 +112,238 @@
         "finding": "The detailed protocol prints chip-precursor `...TTGNAA...` at line 5 and in its primer table line 229, agreeing with bioRxiv v3 but differing from published Cell PDF `...TTGAA...` at lines 1365–1369. Line 8 gives short 5′ phosphorylated capture oligo ligated to CID DNB; table line 235 gives the resulting full CID25-N10-T22V capture-probe construct, so these are different molecular states. Lines 236–243 print modified TSO, cDNA PCR, library F/R, DNB splint and sequencing primers. Its named fragmentation enzyme and primer mixes still do not disclose the exact Tn5 loading adapter or full final junction."
       },
       "reason": "Author-linked live detailed protocol is readable in browser; its precursor and full-ligated-capture table differ in scope/version from the published Cell reagent table.",
-      "discovered_from": "published_article"
+      "discovered_from": "published_article",
+      "additional_checks": [
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "OriginalHTMLbody40–60 and primer table1218–1345, RT/ExoI/amplification/fragmentation tables; fullsource scraper first",
+          "finding": "Short phosphorylatedcaptureN10T21V, fulltablecaptureN10T23V; prose22T. Distinctmolecularstates, source taildifference publiclypreserved. TSO and allprintedprimersread; sourcebackedregression compares actualHTMLtable."
+        },
+        {
+          "reviewer": "audit_rna_contacts_closeout",
+          "date": "2026-10-16",
+          "locations": "OriginalHTMLbody40–60/table1276–1340 after fullscraper",
+          "finding": "Independently counted shortT21V at56 vs fullT23V at1279; prose22T. TSO literal iXNA_G kept without assigning further chemicalidentity; proceduralRTEnzymeMix not itself brandedSSII."
+        }
+      ]
+    },
+    {
+      "id": "published_table_s1",
+      "role": "supplement",
+      "locator": "Final Cell Table S1, explicitly cited for sample-specific sequencing readlength at originalMethods1725",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual named TableS1 has not been recovered/inspected; originalpublisherpage403. mmc1.pdf guessedretrievalroute404 does not establish documentidentity or absence. Preprint resultworkbooks are not substitutes for this finaltable."
+    },
+    {
+      "id": "mgi_tx_manual",
+      "role": "linked_material",
+      "discovered_from": "published_article",
+      "locator": "MGI DNBSEQ-Tx sequencer manual, explicitly named at originalMethods1683–1690 for initialarrayRCA/loading and basecalling",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual cited source title is known, historical revision/URL unresolved. Do not substitute a current adaptercomponentguide or assign finalRNA-library chemistry by platformfamily."
+    },
+    {
+      "id": "cambridge_entry",
+      "role": "linked_material",
+      "discovered_from": "published_article",
+      "locator": "https://www.repository.cam.ac.uk/items/bee9af47-0faa-4c0a-826e-fdabac4f63ef; bee9af47-0faa-4c0a-826e-fdabac4f63ef.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original fullvisibleentry, Files/type/DOI/rights; freshfullbundle scraper42hits before reading",
+        "finding": "Identifies publishedCell original and one visibleprimary18.25MBfile matchingdownload.pdf. This repositoryinventory is scoped to this entry, not a claim publisher has no separateTableS1."
+      }
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "audit_s_z",
+      "reviewer": "audit_nanocut_closeout",
       "date": "2026-10-16",
-      "locations": "Published Cell PDF STAR Methods table lines 1365–1472, Methods lines 1676–1725, read parsing 1748–1755; bioRxiv v3 lines 3900–3997 and 4167–4240; four preprint workbooks sheet headings; named MGI DNBSEQ-Tx manual and MOSTA detailed protocol link",
-      "finding": "Recovered published article and its full reagent table via Cambridge author repository. It resolves source-printed TSO, PCR, library and read primer sequences; remaining linked MGI manual and MOSTA detailed procedure/supplement require review for exact Tn5 loading adapter or terminal junction. Independent second pass on new article row pending."
+      "locations": "OriginalCellmethods1676–1755/supplementcaption1888–end, originalMOSTAbodyandfullprimertable, Cambridgeentryfileinventory",
+      "finding": "ActualMOSTA source recovered; publishedS1–S7 alreadyinPDF. ActualTableS1 and namedhistoricalMGIDNBSEQ-Txmanual remain outstanding. OriginalprocessingnamesSAW https://github.com/BGIResearch/SAW and dataCNP0001543/MOSTA; boundedreadout/configsource reviewpending, no sequencingdatasetdownload. STAR/scRNAcomparators are analysisreferences, not inherited adapterchemistry. FailedElsevierXML/suppcandidate/repositoryAPIroutes are retrievalhistoryonly."
     },
     "pass_2": {
-      "reviewer": "audit_a_h",
+      "reviewer": "audit_rna_contacts_closeout",
       "date": "2026-10-16",
-      "locations": "Published Cell PDF reagent table 1365–1472, Methods 1673–1684 and 1696–1725, analysis 1748–1755; bioRxiv v3 3892–3912 and 3937–4001; four bioRxiv XLSX sheet headers listed in preprint_workbooks P2; official MOSTA detailed protocol lines 4–8, 99–112, 172–214, 226–244",
-      "finding": "Independently verified published and preprint oligos/reactions/read facts. Followed original Cell Methods link to official MOSTA detailed protocol; it retains bioRxiv precursor TTGNAA while published table has TTGAA, and its full capture-probe construct differs from the short phosphorylated ligation oligo. Four preprint workbooks are result tables. Published Cell supplement and MGI DNBSEQ-Tx manual remain unavailable; exact Tn5 loading adapter/final junction stays blocked."
+      "locations": "ActualCellreagent/Methods/readlayout and MOSTAbody/table exactsections inadditional_checks",
+      "finding": "Independentprimer/tail/reaction/readrolechecks complete; actualSAW andMGIlinksidentifiedbutnotnewlyopened. This does not complete all linkedsource dispositions."
     }
   },
-  "missing_claims": [
+  "missing_claims": [],
+  "conclusion": "Published article and MOSTA original support ownprotocolprimer/reaction declarations. Published S1–S7 recovered in38pagePDF, oldunavailablewhole-supplementassertion corrected. Publicsourcevariants preserved; finalmoleculargeometry remains explicit modelgap. Fullaudit in_progress for actualTableS1, historicalMGImanual and boundedprocessing/linkscope; no missinginformation accepted.",
+  "history": [
     {
-      "claim": "Exact in-house Tn5 loading adapter and final platform-library junction remain unverified",
-      "evidence": "Published Cell STAR Methods print the cDNA, library and read primers, but call the Tn5 transposase in-house without specifying its loaded adapter in inspected sections. The linked MOSTA detailed protocol prints the same primer family but not that loading geometry; published supplemental information and an exact historical MGI guide remain unreviewed.",
-      "disposition": "blocked"
+      "previous_review": {
+        "dir": "stereo-seq__10.1016+j.cell.2022.04.003",
+        "status": "blocked",
+        "source_checklist": [
+          {
+            "id": "preprint",
+            "role": "defining",
+            "locator": "_data/sources/stereo-seq__10.1016+j.cell.2022.04.003/2021.01.17.427004_v3.full.pdf.txt",
+            "availability": "read",
+            "relevance": "relevant",
+            "pass_1": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "Original bioRxiv v3 Methods extracted lines 3900–3997 and 4167–4240; pdftotext -layout line 1154 confirms GNAA; scraper on full bundle",
+              "finding": "Author preprint prints CID precursor, fixed ligation oligo, splint, CID sequencing primer and capture oligo at extracted lines 3900–3997. Its later library Methods around lines 4167–4240 names cDNA-PCR and Stereo-Library-F/R primers without their bases; this corrects my earlier overly narrow first-pass scope. The preprint CID precursor includes an extra N at TTGNAA versus published TTGAA; the model follows this preprint/MOSTA variant because both author sources print it, while the published experiment remains uncertain."
+            },
+            "pass_2": {
+              "reviewer": "audit_a_h",
+              "date": "2026-10-16",
+              "locations": "Original bioRxiv v3 PDF text lines 3892–3912 (precursor and phosphorylated oligo2), 3937–4001 (splint ligation, DNB sequencing/capture), 4163–4240 (cDNA PCR and library construction); scraper run on full source bundle",
+              "finding": "The precursor string at line 3900 has TTGNAA where the published 2022 Cell reagent table at Cambridge PDF lines 1365–1369 has TTGAA; this is a real preprint-to-publication variant, not a shared 2018 sequence. The preprint details DNB chip preparation and names cDNA-PCR and library primers in later Methods, but the published table is the direct source for full downstream primer bases."
+            }
+          },
+          {
+            "id": "preprint_workbooks",
+            "role": "supplement",
+            "locator": "2021.01.17.427004_media-1 through media-4.xlsx.txt in _data/sources/stereo-seq__10.1016+j.cell.2022.04.003/",
+            "availability": "read",
+            "relevance": "not_relevant",
+            "pass_1": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "media-1 Table S1 E9.5–E16.5 sheet headers; media-2 Table S2 regulon sheet headers; media-3 Table S3 gradient/migration sheet headers; media-4 Table S4 Monogenic/Autism sheet headers; scraper on full bundle",
+              "finding": "Audit-trail correction: four media XLSX sheets contain expression/result matrices, not chemistry or barcode-order tables; original first pass left relevance open."
+            },
+            "pass_2": {
+              "reviewer": "audit_a_h",
+              "date": "2026-10-16",
+              "locations": "Original bioRxiv media-1.xlsx.txt sheet headings/headers lines 1, 5005, 10009, 15013, 20017, 25021, 28827; media-2 lines 1, 559, 1161, 1716, 2222, 2616, 3089; media-3 lines 1, 352, 1036; media-4 lines 1, 2205; scraper run on bundle",
+              "finding": "Four workbooks are result tables: Table S1 developmental gene modules, S2 regulon modules, S3 spatial expression gradients/migration, S4 monogenic disease/autism expression. Their headings and columns do not provide oligo identities, barcode assignment or wet-lab library recipe; exclusion as chemistry evidence is supported."
+            },
+            "reason": "Four original bioRxiv XLSX files are gene/regulon/spatial gradient/disease expression results, not oligo or library chemistry tables."
+          },
+          {
+            "id": "published_article",
+            "role": "defining",
+            "locator": "_data/sources/stereo-seq__10.1016+j.cell.2022.04.003/download.pdf.txt (Cambridge repository published Cell PDF; scoped route in catalogue/extra_sources.tsv)",
+            "availability": "read",
+            "relevance": "relevant",
+            "pass_1": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "Published Cell PDF STAR Methods reagent table lines 1365–1472; chip and library methods lines 1676–1725; read parsing lines 1748–1755; scraper on full bundle",
+              "finding": "Original published article prints DNB oligo1/2, splint, CID sequencing primer, DNB library F/R, capture oligo, TSO with modified tail, cDNA PCR primer, Stereo-seq library F/R/splint, read1/read2 and MDA primer. Tn5 fragmentation and 13-cycle library F/R PCR are stated. Thus blanket downstream oligo absence on the page was false; exact in-house Tn5 loading adapter/junction remains unresolved."
+            },
+            "pass_2": {
+              "reviewer": "audit_a_h",
+              "date": "2026-10-16",
+              "locations": "Original Cambridge repository published Cell PDF download.pdf.txt reagent table lines 1365–1472; STAR Methods lines 1673–1684 and 1696–1725; read parsing lines 1748–1755; scraper run on full source bundle",
+              "finding": "Published reagent table prints DNB precursor/oligo2/splint, CID sequencing primer, DNB F/R, phosphorylated N10-T22V capture, TSO with /rG//rG//iXNA_G/, cDNA PCR, Stereo-seq library F/R/splint, and read1/read2 sequences. Methods describe 25N precursor ligation, rolling-circle DNB, CID SE25, capture ligation, RT/ExoI/PCR, in-house Tn5 fragmentation and 13-cycle library PCR. R1 positions 1–25 are CID and 26–35 MID; R2 is cDNA. Thus a blanket absence of downstream oligos is incorrect. Exact in-house Tn5 loading adapter and final junction are not established by these sections."
+            }
+          },
+          {
+            "id": "published_supp",
+            "role": "supplement",
+            "locator": "Cell 2022 supplementary methods/tables attached to published article",
+            "availability": "unavailable",
+            "relevance": "relevant",
+            "pass_1": null,
+            "pass_2": null,
+            "reason": "Published supplements not present locally."
+          },
+          {
+            "id": "dnbseq_guide",
+            "role": "linked_material",
+            "locator": "MGI DNBSEQ library preparation/cPAS adapter and primer component guide",
+            "availability": "unavailable",
+            "relevance": "relevant",
+            "pass_1": null,
+            "pass_2": null,
+            "reason": "Preprint names DNBSEQ workflow but linked platform chemistry was not reviewed.",
+            "discovered_from": "preprint"
+          },
+          {
+            "id": "mosta_protocol",
+            "role": "linked_material",
+            "locator": "https://db.cngb.org/stomics/assets/html/stereo.seq.html (author-linked MOSTA step-by-step protocol; scoped extra_sources.tsv route)",
+            "availability": "read",
+            "relevance": "relevant",
+            "pass_1": {
+              "reviewer": "root",
+              "date": "2026-10-16",
+              "locations": "Official MOSTA Stereo-seq protocol HTML lines 4–8 (DNB precursor/capture ligation), 99–112 (RT), 172–214 (fragmentation and amplification), 226–244 (full primer table); Stereo source-bundle scraper run first",
+              "finding": "Independently read the linked protocol. DNB oligo1 contains TTGNAA at both line 5 and table line 229, agreeing with the preprint and conflicting with published Cell TTGAA. The short phosphorylated capture oligo at line 8 is ligated onto a CID DNB; the longer table-line-235 sequence is the resulting capture-probe construct. The table also prints TSO, cDNA PCR, library and run primers, while proprietary fragmentation reagent geometry remains unresolved."
+            },
+            "pass_2": {
+              "reviewer": "audit_a_h",
+              "date": "2026-10-16",
+              "locations": "Official MOSTA Stereo-seq protocol HTML lines 4–8 (chip chemistry and short capture oligo), 99–112 (RT), 172–214 (fragmentation/library PCR), 226–244 (complete primer table); original browser URL as locator; Stereo local article bundle scraper run before reading",
+              "finding": "The detailed protocol prints chip-precursor `...TTGNAA...` at line 5 and in its primer table line 229, agreeing with bioRxiv v3 but differing from published Cell PDF `...TTGAA...` at lines 1365–1369. Line 8 gives short 5′ phosphorylated capture oligo ligated to CID DNB; table line 235 gives the resulting full CID25-N10-T22V capture-probe construct, so these are different molecular states. Lines 236–243 print modified TSO, cDNA PCR, library F/R, DNB splint and sequencing primers. Its named fragmentation enzyme and primer mixes still do not disclose the exact Tn5 loading adapter or full final junction."
+            },
+            "reason": "Author-linked live detailed protocol is readable in browser; its precursor and full-ligated-capture table differ in scope/version from the published Cell reagent table.",
+            "discovered_from": "published_article"
+          }
+        ],
+        "linked_information": {
+          "result": "blocked",
+          "pass_1": {
+            "reviewer": "audit_s_z",
+            "date": "2026-10-16",
+            "locations": "Published Cell PDF STAR Methods table lines 1365–1472, Methods lines 1676–1725, read parsing 1748–1755; bioRxiv v3 lines 3900–3997 and 4167–4240; four preprint workbooks sheet headings; named MGI DNBSEQ-Tx manual and MOSTA detailed protocol link",
+            "finding": "Recovered published article and its full reagent table via Cambridge author repository. It resolves source-printed TSO, PCR, library and read primer sequences; remaining linked MGI manual and MOSTA detailed procedure/supplement require review for exact Tn5 loading adapter or terminal junction. Independent second pass on new article row pending."
+          },
+          "pass_2": {
+            "reviewer": "audit_a_h",
+            "date": "2026-10-16",
+            "locations": "Published Cell PDF reagent table 1365–1472, Methods 1673–1684 and 1696–1725, analysis 1748–1755; bioRxiv v3 3892–3912 and 3937–4001; four bioRxiv XLSX sheet headers listed in preprint_workbooks P2; official MOSTA detailed protocol lines 4–8, 99–112, 172–214, 226–244",
+            "finding": "Independently verified published and preprint oligos/reactions/read facts. Followed original Cell Methods link to official MOSTA detailed protocol; it retains bioRxiv precursor TTGNAA while published table has TTGAA, and its full capture-probe construct differs from the short phosphorylated ligation oligo. Four preprint workbooks are result tables. Published Cell supplement and MGI DNBSEQ-Tx manual remain unavailable; exact Tn5 loading adapter/final junction stays blocked."
+          }
+        },
+        "missing_claims": [
+          {
+            "claim": "Exact in-house Tn5 loading adapter and final platform-library junction remain unverified",
+            "evidence": "Published Cell STAR Methods print the cDNA, library and read primers, but call the Tn5 transposase in-house without specifying its loaded adapter in inspected sections. The linked MOSTA detailed protocol prints the same primer family but not that loading geometry; published supplemental information and an exact historical MGI guide remain unreviewed.",
+            "disposition": "blocked"
+          }
+        ],
+        "conclusion": "The published Cell article and linked MOSTA protocol source-print the downstream primers formerly called unavailable. The Cell precursor TTGAA conflicts with preprint/MOSTA TTGNAA; the model uses the latter with the published synthesis uncertain. Exact in-house Tn5 loading adapter and final library junction remain blocked by unavailable published supplement and historical MGI guide."
+      },
+      "reason": "Fresh standardfetch and fullscraper recovered MOSTA locally; existing publishedPDF actually includes S1–S7. Preserve historical checks and supersede broad unavailable supplement/component assertions."
     }
   ],
-  "conclusion": "The published Cell article and linked MOSTA protocol source-print the downstream primers formerly called unavailable. The Cell precursor TTGAA conflicts with preprint/MOSTA TTGNAA; the model uses the latter with the published synthesis uncertain. Exact in-house Tn5 loading adapter and final library junction remain blocked by unavailable published supplement and historical MGI guide."
+  "historical_non_source_rows": [
+    {
+      "row": {
+        "id": "dnbseq_guide",
+        "role": "linked_material",
+        "locator": "MGI DNBSEQ library preparation/cPAS adapter and primer component guide",
+        "availability": "unavailable",
+        "relevance": "relevant",
+        "pass_1": null,
+        "pass_2": null,
+        "reason": "Preprint names DNBSEQ workflow but linked platform chemistry was not reviewed.",
+        "discovered_from": "preprint"
+      },
+      "reason": "Generic desired adapter/component guide was not an identified original. Actual named MGI DNBSEQ-Tx sequencer manual is separately recorded with unresolved historical revision; physicaladapter assignment remains modelquestion."
+    }
+  ],
+  "open_model_questions": [
+    "Source-matched inhouseTn5 loadingadapter and physicalfinalPCR/circle geometry remain unassigned; do not invent a disclosure document for them.",
+    "Preserve publishedTTGAA vs preprint/MOSTATTGNAA precursor and21T/23T/prose22T tail scopes; actualsynthesizedvariants unresolved.",
+    "Construct fullsurfaceDNBcapturejunction and final readprimerbindingsites only once actualsource-matchedstrands are reconciled."
+  ],
+  "retrieval_attempts": [
+    {
+      "url": "https://api.elsevier.com/content/article/pii/S0092867422003993?httpAccept=text/xml",
+      "result": "Standardregisteredfetch returned376character shell, rejected as noarticlecontent; nooriginalread."
+    },
+    {
+      "url": "https://ars.els-cdn.com/content/image/1-s2.0-S0092867422003993-mmc1.pdf",
+      "result": "Candidate publisher supplementroute HTTP404; documentidentity unconfirmed, no scientificabsence conclusion."
+    },
+    {
+      "url": "https://www.repository.cam.ac.uk/server/api/core/bitstreams/1d4e7717-3e50-4448-8bda-a35871dfbfef",
+      "result": "Candidate repositoryAPIroute404; originalentry andpublishedPDF readable through registeredroutes."
+    }
+  ]
 }

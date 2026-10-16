@@ -26,7 +26,7 @@ when it is absent.
 | **What it is** | Supplementary Table S2, "primers & probes": 38 named oligos in three columns (`name`, `sequence (5' -> 3')`, `notes`) — `MIP_probe_1..9`, `P5_tracrRNA_fwd`, `P7_tracrRNA_rev`, the `CRISPR_PCR1/PCR2` primers and the `Brunello-P7-i*` index primers. |
 | **Where to get it** | The preprint's supplementary file **`media-2.xlsx`**, from the bioRxiv page for doi:10.1101/2024.03.28.587082 (Supplementary Material → Table S2). Save it here under this name. |
 | **Needed by** | `tools/selftest.py`, the Table S2 cross-check — the four checks that compare the probe and primer sequences **as assembled from `lib/` constants** against the table verbatim: all nine probes, `P5_tracrRNA_fwd`, `P7_tracrRNA_rev`, and the test that the per-probe variable stretch is 8 nt rather than 6. That last one is why the table matters: it is what caught the i7 index being 8 nt, which the text does not state. Nothing else reads the file — `crisprmip.py` carries the derived constants, and the pages are built from those. |
-| **Also needs** | `openpyxl` (optional, `pip3 install openpyxl`). If the file is present but the module is not, the same checks skip, with that reason. |
+| **Reader** | The standard-library source-document reader in `tools/doctext.py`; no third-party package is needed. The self-test prefers the fetched original `media-2.xlsx` in the protocol source bundle and falls back to this legacy reference copy. |
 
 ### Nothing else
 

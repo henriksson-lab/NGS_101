@@ -9,8 +9,7 @@ from batch_page import render
 from chemdraw import Construct
 from checks import Check
 from protocol_model import molecule, role
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
-from protocol_families.primpol_mda import add_amplification, add_reported_sequencing
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 
 
 PAGE_FILE = "trueprime-single-cell.html"
@@ -25,7 +24,7 @@ CAVEAT = ("The model follows Picher et al., Methods ‘Single-cell WGA’: 10 mi
           "p. 11, instead gives 5 min at room temperature plus 1 min at 95 °C "
           "after L2, then 3 h with 6 h optional. The paper does not state which handbook revision "
           "was used, so the difference remains unresolved. The downstream NEBNext kit and adapter "
-          "sequence are unidentified. The <a href=\"../trueprime__10.1038+ncomms13296/trueprime.html\">purified-DNA WGA branch</a> "
+          "sequence are not resolved in this model. The <a href=\"../trueprime__10.1038+ncomms13296/trueprime.html\">purified-DNA WGA branch</a> "
           "starts instead with Buffer D alkaline denaturation.")
 FINAL_LIBRARY = Construct([role("TruePrime-amplified single-cell genomic DNA")],
                           name="single-cell WGA product")
@@ -39,6 +38,65 @@ SEQUENCING_UNAVAILABLE = "The NEBNext kit generation, adapter bases and sequenci
 
 def oligos():
     return ()
+
+
+# Source-owned Picher 2016 amplification and downstream experiment.
+def add_amplification(graph, template, *, authority: str, duration: str):
+    """Prime exposed DNA de novo, then extend it by strand displacement."""
+    primpol = graph.input("tth_primpol", "TthPrimPol", MaterialKind.CATALYST)
+    primed = graph.product(
+        "primed", "templates bearing de novo 7–9-nt DNA primers",
+        MaterialKind.MOLECULAR,
+        state=molecule("de novo primed template", (
+            role("exposed genomic template"), role("7–9-nt DNA primers"))),
+    )
+    graph.react("prime", "Synthesize short DNA primers directly from dNTPs",
+                StepKind.EXTENSION,
+                ((template, InputRole.TEMPLATE), (primpol, InputRole.CATALYST)),
+                (primed,), source=authority)
+    phi29 = graph.input("phi29", "phi29 DNA polymerase", MaterialKind.CATALYST)
+    amplified = graph.product(
+        "amplified", "branched multiple-displacement WGA product",
+        MaterialKind.MOLECULAR,
+        state=molecule("TruePrime-amplified genomic DNA", (
+            role("long genomic copies"), role("displaced single strands"))),
+    )
+    graph.react("amplify", f"Extend primers by strand displacement at 30 °C for {duration}",
+                StepKind.EXTENSION,
+                ((primed, InputRole.TEMPLATE), (phi29, InputRole.CATALYST)),
+                (amplified,), source=authority)
+    heat = graph.input("inactivation_condition", "65 °C for 10 min", MaterialKind.CONDITION)
+    product = graph.product(
+        "inactivated_wga", "TruePrime-amplified genomic DNA after phi29 inactivation",
+        MaterialKind.MOLECULAR, state=amplified.state)
+    graph.react("inactivate", "Inactivate phi29 at 65 °C for 10 min",
+                StepKind.THERMAL_TREATMENT,
+                ((amplified, InputRole.TEMPLATE), (heat, InputRole.CONDITION)),
+                (product,), source=authority)
+    return product
+
+
+def add_reported_sequencing(graph, amplified, *, authority: str):
+    """Show the reported downstream library without assigning unknown NEBNext oligos."""
+    condition = graph.input("fragmentation_condition", "downstream fragmentation condition",
+                            MaterialKind.CONDITION, inferred=True, source=authority)
+    fragments = graph.product("fragments", "fragmented TruePrime-amplified DNA",
+                              MaterialKind.MOLECULAR, state=amplified.state,
+                              inferred=True, source=authority)
+    graph.react("fragment", "Fragment the amplified DNA for library preparation",
+                StepKind.FRAGMENTATION,
+                ((amplified, InputRole.TEMPLATE), (condition, InputRole.CONDITION)),
+                (fragments,), source=authority + " (reported Covaris experiment; library model unresolved)")
+    library = graph.product("sequencing_library", "NEBNext library with unresolved kit identity",
+                            MaterialKind.LIBRARY, inferred=True, source=authority)
+    graph.react("library_prep", "Prepare the reported NEBNext sequencing library",
+                StepKind.MAGIC, ((fragments, InputRole.TEMPLATE),), (library,),
+                reason="The reported NEBNext preparation is not yet resolved into kit-specific reactions or adapter-end geometry in this model.",
+                source=authority)
+    graph.sequence(library, SequencingPlan(
+        acquired_roles=("Read 1", "Read 2"),
+        limitation="Paired-end HiSeq 2500 was reported; this model has not resolved the NEBNext kit version or primer sites."))
+    return library
 
 
 def protocol_graph() -> ProtocolGraph:

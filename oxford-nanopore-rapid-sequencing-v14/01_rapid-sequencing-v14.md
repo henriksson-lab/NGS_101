@@ -27,11 +27,46 @@ SQK-RAD114 is Oxford Nanopore's PCR-free rapid genomic-DNA workflow: a fragmenta
 🟢 The Chemistry Technical Document publishes the Rapid Adapter strand as
 `CCTGTACTTCGTTCAGTTACGTATTGCT`.
 
-🔴 The Fragmentation Mix tag, complete motor-bearing assembly, attachment chemistry and
-exact motor-bearing strand have not been verified from the checked vendor documents. Those parts remain role-labelled pending a component-level source.
+The Fragmentation Mix tag, complete motor-bearing assembly, attachment chemistry and
+exact motor-bearing strand are not assembled in the current model. These are open
+molecular questions; the old audit row named desired component information rather
+than an identified inaccessible document. This is not a confirmed publication-absence
+claim.
+
+The Rapid Adapter's source-printed strand is a local graph input. Its bases are not
+placed across an unverified attachment junction in the final diagram. Identical
+top-strand sequences printed for other ONT kits do not assign their bottom strands,
+end geometry or motor assembly to SQK-RAD114.
 
 ## 5. Final library and read entry
 
 The sequenceable product is a transposase-tagged genomic fragment bearing a motor-loaded
 Rapid Adapter at the entering end. The adapter-bearing end enters the nanopore first; the
-vendor sources do not support a more detailed base-level orientation.
+current diagram states that relationship at component level. The exact strand layout
+and attachment junction remain unassembled; the known RA strand is shown separately.
+
+## 6. Linked QC and readout sources
+
+The linked Input DNA/RNA QC, Flow Cell Check, Flow Cell Wash Kit, MinKNOW and
+Data Analysis originals have been read separately. Their roles remain distinct:
+input measurement, available-pore checks, removal of a previous library,
+acquisition settings and conversion of current signal into basecalls. The
+wash know-how document explicitly describes a nuclease digesting the existing
+DNA library and its sequencing adapters. That wash is outside the construction
+of the incoming SQK-RAD114 library. Its barcoded demonstration does not assign
+barcodes to this unbarcoded protocol.
+
+The original [Dorado read-trimming documentation](https://software-docs.nanoporetech.com/dorado/latest/basecaller/read_trimming/)
+describes kit-aware removal of adapter or primer sequences from basecalled
+reads. Its primer-based orientation and UMI features apply to specified primer
+contexts; they do not provide a physical sequencing primer or UMI for
+SQK-RAD114. The [basecalling overview](https://software-docs.nanoporetech.com/dorado/latest/basecaller/basecall_overview/)
+also separates raw-signal processing from sequence processing. These software
+snapshots describe processing capabilities; the graph does not choose a Dorado
+version, trimming setting or analysis model.
+
+The displayed RA strand therefore documents a reagent. Retained basecall ends
+depend on processing. The [BAM](https://software-docs.nanoporetech.com/output-specifications/latest/read_formats/bam/)
+and [POD5](https://software-docs.nanoporetech.com/output-specifications/latest/read_formats/pod5/)
+specifications describe output records and raw-signal containers, respectively;
+they are separate from the unresolved physical adapter assembly.

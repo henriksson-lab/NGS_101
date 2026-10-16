@@ -1,25 +1,74 @@
-# TGIRT-seq — source notes
+# TGIRT-seq — original Qin 2016 ligation method
 
-Defining application: Qin et al., *RNA* 2016, [doi:10.1261/rna.054809.115](https://doi.org/10.1261/rna.054809.115). Detailed current protocol and oligo table: Xu et al., *Bio-protocol* 2021, [doi:10.21769/BioProtoc.4239](https://doi.org/10.21769/BioProtoc.4239).
+Defining source: Qin *et al.*, *RNA* 2016,
+[doi:10.1261/rna.054809.115](https://doi.org/10.1261/rna.054809.115).
+The diagram represents this original method, using its Supplemental Figure S1.
 
-## Sources read
+## Original oligos and molecular order
 
-- 🟢 PMC8678547 HTML text, Figure 1 description, procedure, and complete oligonucleotide list.
-- 🟢 PMC4691826 full text for the defining plasma-RNA implementation and its original molecular layout.
+- 🟢 Figure S1 prints the 34-nt blocked R2 RNA and complementary 35-nt R2R DNA
+  with an equimolar single-base DNA overhang. The overhang pairs to the target
+  RNA’s terminal base; it becomes part of the target-derived cDNA, not a UMI.
+- 🟢 The source RNA is
+  `rArGrArUrCrGrGrArArGrArGrCrArCrArCrGrUrCrUrGrArArCrUrCrCrArGrUrCrArC/3’SpC3/`.
+  The figure typesets the spacer as `/3’SpC3/`; Methods names the same C3 spacer
+  `3SpC3`, used as the model’s chemical designation.
+- 🟢 R2R is `GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCTN`.
+- 🟢 Ordered R1R is
+  `/5Phos/GATCGTCGGACTGTAGAACTCTGAACGTGTAG/3SpC3/`.
+- 🟢 The original unindexed P5 PCR primer is
+  `AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGACGATC`.
+  The original P7 primer is
+  `CAAGCAGAAGACGGCATACGAGAT[BARCODE]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT`.
+  The diagram leaves the selected barcode and its width unassigned.
+- 🟢 Methods, “Construction of RNA-seq libraries” (JATS line 191), describe
+  NaOH RNA hydrolysis, neutralization, cDNA cleanup, ligation of **5′-adenylated,
+  3′-blocked** R1R to the cDNA 3′ end, and Phusion PCR. The ligated strand is
+  therefore **5′ R2R — cDNA — R1R 3′**. The source P5 and P7 annealing arms face
+  inward on that pre-PCR template, which the model checks directly.
+- 🟡 Figure S1’s ordered 5′-phosphorylated R1R and Methods’ activated 5′-adenylated
+  input are separate states. The page exposes an unresolved activation step and
+  does not assign a particular adenylation reagent or enzyme to 2016. This is a
+  model boundary, not a demonstrated publication error.
 
-## Evidence trail
+## Enzymes and sequencing scope
 
-- 🟢 A 35-nt, 3′-blocked R2 RNA anneals to a 36-nt R2R DNA primer carrying a mixed one-base 3′ overhang.
-- 🟢 TGIRT-III template switches through the single base pair between the overhang and target-RNA 3′ nucleotide, thereby joining the R2R sequence to the cDNA while reverse transcription proceeds.
-- 🟢 Alkali degrades RNA; the completed cDNA is purified before a 5′-adenylated, 3′-blocked R1R DNA is attached by thermostable 5′ App DNA/RNA ligase.
-- 🟢 An optional six-base random UMI precedes R1R. PCR primers add P5/P7 and optional i5 plus required i7 indices; the protocol recommends dual indices for NovaSeq.
-- 🟢 The current R2 RNA/R2R pair contains the documented extra A/T near the cDNA end to reduce R1R–R2R dimers.
-- 🟢 The final page deliberately selects the printed 6N-UMI R1R option and the protocol's six-base TSBC01-style barcode example on both PCR primers. Other barcode choices and omission of i5 or UMI are also permitted by the protocol but are not silently merged into this construct.
+🟢 The original Methods distinguish TeI4c-ΔEn, TeI4c-MRF and GsI-IIC/TGIRT-III
+across datasets (JATS line 175 and Supplemental Table S4). The graph keeps that
+source variation explicit rather than assigning TGIRT-III to every experiment.
 
-## Oligos as ordered
+🟢 Plasma libraries were sequenced with 100-nt paired HiSeq 2500 reads or
+75-/150-nt paired NextSeq 500 reads (Methods line 191). The page states these
+alternatives. It does not assign one read length to all datasets or infer the
+loaded sequencing-primer oligos from PCR-binding sites. Index-2 acquisition is
+unassigned; absence of an i5 window in the original P5 primer does not by itself
+prove which technical cycles were acquired.
 
-- R2 RNA: `5′-rArArG rArUrC rGrGrA rArGrA rGrCrA rCrArC rGrUrC rUrGrA rArCrU rCrCrA rGrUrC rArC/3SpC3/-3′`
-- R2R DNA: `5′-GTG ACT GGA GTT CAG ACG TGT GCT CTT CCG ATC TTN-3′`
-- 6N UMI R1R: `5′-/5Phos/NNN NNN GAT CGT CGG ACT GTA GAA CTC TGA ACG TGT AG/3SpC3/-3′`
-- P5 PCR primer: `5′-AAT GAT ACG GCG ACC ACC GAG AT BARCODE C TAC ACG TTC AGA GTT CTA CAG TCC GAC GAT C-3′`
-- P7 PCR primer: `5′-CAA GCA GAA GAC GGC ATA CGA GAT BARCODE GTG ACT GGA GTT CAG ACG TGT GCT CTT CCG ATC T-3′`
+## Later versions and predecessors
+
+The [Xu 2021 detailed protocol](https://doi.org/10.21769/BioProtoc.4239) is an
+updated method. Its original oligo section explicitly describes an inserted T in
+R2R and complementary A in R2 RNA to reduce adapter dimers, giving a 35/36-nt
+starter. It also offers an optional 6N UMI and optional i5 index. Those choices
+are not used on this 2016 page. Its explicit E2610 adenylation or purchase of
+preadenylated adapter is later evidence, not identification of the 2016 route.
+
+The 2016 main article contrasts its ligation route with the earlier
+Katibah/Shen/Zheng small-RNA/CircLigase methods. Their combined starter and cDNA
+circularization are not inherited by this graph.
+
+## Source review
+
+The original article, EPS Figure S1 and its five oligos are recovered through
+PMC Cloud. Figure S1 was visually checked and its extracted source text supports
+transcription regressions. Figures S2–S9 show extraction controls and analysis
+results; the data workbook contains five RNA-class count sheets. Their bounded
+source checks and pending independent checks are tracked in the maintainer ledger.
+
+The publisher-linked supplementary legends/Tables DOCX is still a concrete
+retrieval obligation: its publisher route returned 403. The current NEB product and adenylated-linker FAQ have readable scientific
+bodies. The linked ligation protocols currently expose title/footer shells; a
+direct installed-browser attempt reached a challenge page. Their scientific
+bodies remain pending rather than being treated as read from indexed extracts.
+The review remains in progress, with named direct links retained and no accepted
+missing-information claim.

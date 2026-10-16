@@ -8,7 +8,7 @@ import nextera as nx
 import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, oligo, revcomp
-from pcr import PCRGeometry
+from pcr import PCRGeometry, PCRPrimer
 from tagmentation import loaded_tn5_adapter
 from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
@@ -16,10 +16,14 @@ from protocol_model import molecule, role
 
 TITLE = "nano-CUT&Tag — multimodal nanobody–Tn5 chromatin profiling"
 NOTES = "01_nano-cut-tag.html"
-SOURCE = '<a href="https://doi.org/10.1038/s41587-022-01535-4">Bartosovic et al., <i>Nature Biotechnology</i> (2023)</a>.'
+SOURCE = ('<a href="https://doi.org/10.1038/s41587-022-01535-4">Bartosovic et al., <i>Nature Biotechnology</i> (2023)</a>. '
+          'Barcode assignments: <a href="https://github.com/mardzix/bcd_nano_CUTnTag/blob/7657a3a9f15e798b0a8d2ba01ab7f3006a238d21/config/config.yaml">author study configuration</a>.')
 SUMMARY = ("Nanobody–Tn5 fusions first transfer a target-specific MeA adapter. Chromium "
            "linear amplification adds cell identity; a second MeB-only Tn5 installs the "
-           "opposite end before PCR.")
+           "opposite end before PCR. The graph represents the antibody-targeted branch; "
+           "the paper also describes an optional accessibility-tagmentation branch. "
+           "The author study configuration assigns BcdA to ATAC, BcdB to H3K27ac "
+           "and BcdC to H3K27me3; this graph follows the BcdB/H3K27ac arm.")
 CAVEAT = ("The target-specific adapters and Tn5 loading geometry are source-defined. "
           "The linked 10x ATAC v1.1 guide prints gel-bead and SI-PCR oligo "
           "scaffolds; the 16-nt cell barcode and 8-nt sample index vary.")
@@ -37,7 +41,29 @@ CUSTOM_I2 = nx.ME_RC + revcomp(CONNECTOR)
 ATAC_GUIDE = "10x Chromium Next GEM Single Cell ATAC v1.1 guide CG000209 Rev G, Appendix A1"
 GEL_BEAD_FORWARD = il.P5 + "N" * 16 + nx.S5
 SI_PCR_FORWARD = "AATGATACGGCGACCACCGAGA"
-SI_PCR_REVERSE = "CAAGCAGAAGACGGCATACGAGAT" + "N" * 8 + "GTCTCGTGGGCTCGG"
+
+
+def si_pcr_forward():
+    return Construct([seg("partial P5", SI_PCR_FORWARD, "p5")],
+                     name="SI-PCR Primer B")
+
+
+def si_pcr_reverse():
+    return Construct([
+        seg("P7", il.P7, "p7"),
+        seg("sample index", "N" * 8, "cbc", placeholder=True,
+            feature=feature("sample_index_i7", "sample_index", "unknown")),
+        seg("partial Read2N", "GTCTCGTGGGCTCGG", "r2")],
+        name="Single Index N reverse primer")
+
+
+def pcr_geometry():
+    # Appendix A1 gives only 15 template-matching bases on the reverse primer;
+    # its P7 and N8 index are a 5′ tail rather than extra template pairing.
+    return PCRGeometry.exact(
+        PRE_PCR, PCRPrimer("SI-PCR Primer B", SI_PCR_FORWARD),
+        PCRPrimer("Single Index N reverse primer", si_pcr_reverse().top(), anneal_nt=15),
+        statement=ATAC_GUIDE + "; Nano-CT Methods, Single-cell indexing and library prep")
 
 
 def modality_feature():
@@ -45,7 +71,7 @@ def modality_feature():
                    whitelist="Bartosovic et al. Supplementary Table 1")
 
 
-def mea_parts(barcode=BARCODE_A, name="A", stagger=0):
+def mea_parts(barcode=BARCODE_B, name="B", stagger=0):
     parts = [seg("S5", nx.S5, "s5"), seg("outer connector", OUTER),
              seg(f"Bcd{name} modality barcode", barcode, "cbc",
                  feature=modality_feature())]
@@ -67,7 +93,7 @@ def loaded(parts, end, label):
 
 FIRST_TAGGED = Construct([*mea_parts(), seg("targeted genomic DNA", "X" * 38,
                                             placeholder=True)],
-                         name="BcdA-tagged target fragment")
+                         name="BcdB-tagged target fragment")
 
 PRE_PCR = Construct([
     seg("10x gel-bead P5", il.P5, "p5"),
@@ -90,7 +116,7 @@ FINAL_LIBRARY = Construct([
     seg("i7 sample index reverse complement", "I" * 8, "cbc", placeholder=True,
         feature=feature("sample_index_i7", "sample_index", "unknown")),
     seg("P7 reverse complement", il.P7_RC, "p7"),
-], name="nano-CUT&Tag BcdA library")
+], name="nano-CUT&Tag BcdB library")
 
 SEQ_PRIMERS = (
     sp.custom("Read 1", "nano-CT custom Read 1", CUSTOM_R1,
@@ -105,7 +131,8 @@ _problems = sp.verify(FINAL_LIBRARY, SEQ_PRIMERS,
 if _problems:
     raise ValueError("nano-CT final library: " + "; ".join(_problems))
 
-FINAL_CAPTION = ("Representative BcdA product. Custom R1 traverses MeA into genomic DNA; "
+FINAL_CAPTION = ("Representative BcdB_0N/H3K27ac product, following the author study configuration. "
+                 "Custom R1 traverses MeA into genomic DNA; "
                  "custom Index 2 traverses the modality adapter toward the 10x cell barcode.")
 SEQUENCING_INTRO = ("The source specifies a 36-8-48-36 R1-I1-I2-R2 run with custom R1 and "
                     "Index 2 primers; R2 and Index 1 are standard.")
@@ -130,25 +157,20 @@ def oligos():
             feature=feature("cell_barcode", "cell_barcode", "whitelist",
                             whitelist="10x Chromium ATAC whitelist")),
         seg("partial Read1N", nx.S5, "s5")])
-    yield oligo("10x SI-PCR forward (CG000209 A1)",
-                [seg("partial P5", SI_PCR_FORWARD, "p5")])
-    yield oligo("10x indexed PCR reverse (CG000209 A1)", [
-        seg("P7", il.P7, "p7"),
-        seg("sample index", "N" * 8, "cbc", placeholder=True,
-            feature=feature("sample_index_i7", "sample_index", "unknown")),
-        seg("partial Read2N", "GTCTCGTGGGCTCGG", "r2")])
+    yield oligo("10x SI-PCR forward (CG000209 A1)", list(si_pcr_forward()))
+    yield oligo("10x indexed PCR reverse (CG000209 A1)", list(si_pcr_reverse()))
 
 
 def workflow():
     start = Scene.duplex([seg("antibody-targeted chromatin", "X" * 38,
                               placeholder=True)], label="primary-antibody-bound chromatin")
     w = Workflow(MolecularState("Antibody-bound chromatin", tuple(start.rows())))
-    w.react("Anneal BcdA MeA to Tn5_Rev and load nanobody–Tn5",
-            loaded(mea_parts(), "MeA mosaic end", "BcdA nano-Tn5").rows(),
+    w.react("Anneal BcdB MeA to Tn5_Rev and load nanobody–Tn5",
+            loaded(mea_parts(), "MeA mosaic end", "BcdB nano-Tn5").rows(),
             name="target-coded nano-Tn5")
     w.react("Tagment antibody-proximal DNA and fill the staggered gap",
-            Scene.duplex(list(FIRST_TAGGED), label="BcdA-tagged genomic template").rows(),
-            name="BcdA-tagged genomic DNA")
+            Scene.duplex(list(FIRST_TAGGED), label="BcdB-tagged genomic template").rows(),
+            name="BcdB-tagged genomic DNA")
     linear = Construct([seg("10x gel-bead P5", il.P5, "p5"),
                         seg("10x cell barcode", "B" * 16, "cbc", placeholder=True,
                             feature=feature("cell_barcode", "cell_barcode", "whitelist",
@@ -164,9 +186,7 @@ def workflow():
     w.react("Tagment the linear products with MeB-only Tn5",
             Scene.duplex(list(PRE_PCR), label="twice-tagmented nano-CT template").rows(),
             name="PCR-ready nano-CT molecule")
-    geometry = PCRGeometry.unavailable(
-        PRE_PCR,
-        reason="The 10x guide prints primer scaffolds; this representative workflow has not yet reconstructed their strand-resolved PCR binding geometry.")
+    geometry = pcr_geometry()
     w.pcr("Amplify with the 10x scATAC SI-PCR reagents", geometry,
           Scene.duplex(list(FINAL_LIBRARY), label="nano-CT sequencing library").rows(),
           name="nano-CT sequencing library")
@@ -184,8 +204,8 @@ def protocol_graph():
     mea_adapter = graph.input(
         "loaded_mea", "target-coded MeA-loaded nanobody–Tn5",
         MaterialKind.ADAPTER,
-        state=loaded(mea_parts(), "MeA mosaic end", "BcdA nano-Tn5"))
-    nano_tn5 = graph.input("nanobody_tn5", "species-selective nanobody–Tn5 fusion",
+        state=loaded(mea_parts(), "MeA mosaic end", "BcdB nano-Tn5"))
+    nano_tn5 = graph.input("nanobody_tn5", "TP1170 anti-mouse κ / TP897 anti-rabbit Fc nanobody–Tn5",
                            MaterialKind.CATALYST)
     targeted = graph.product("targeted_nuclei", "antibody-bound nano-Tn5 chromatin",
                              MaterialKind.MOLECULAR, state=nuclei.state)
@@ -227,7 +247,7 @@ def protocol_graph():
         MaterialKind.MOLECULAR,
         state=molecule("cell-barcoded linear products", (
             role("10x cell barcode and amplification handle"),
-            role("BcdA-coded MeA genomic fragment"))),
+            role("BcdB-coded MeA genomic fragment"))),
         source=SOURCE + "; " + ATAC_GUIDE)
     graph.react("linear_amplification", "Linearly amplify and cell-barcode in Chromium droplets",
                 StepKind.EXTENSION,
@@ -248,9 +268,9 @@ def protocol_graph():
                  (standard_tn5, InputRole.CATALYST)), (twice_tagged, second_waste))
     graph.discard(second_waste, "does not retain the MeA/MeB PCR-ready configuration")
     forward = graph.input("si_pcr_forward", "10x scATAC SI-PCR forward primer",
-                          MaterialKind.OLIGO, source=ATAC_GUIDE)
+                          MaterialKind.OLIGO, state=si_pcr_forward(), source=ATAC_GUIDE)
     reverse = graph.input("si_pcr_reverse", "10x scATAC SI-PCR reverse primer",
-                          MaterialKind.OLIGO, source=ATAC_GUIDE)
+                          MaterialKind.OLIGO, state=si_pcr_reverse(), source=ATAC_GUIDE)
     polymerase = graph.input("pcr_polymerase", "SI-PCR polymerase", MaterialKind.CATALYST)
     library = graph.product("sequencing_library", FINAL_LIBRARY.name,
                             MaterialKind.LIBRARY, state=FINAL_LIBRARY)
@@ -258,9 +278,7 @@ def protocol_graph():
                 StepKind.PCR,
                 ((twice_tagged, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (library,), geometry=PCRGeometry.unavailable(
-                    PRE_PCR,
-                    reason="The 10x guide prints primer scaffolds; this representative workflow has not yet reconstructed their strand-resolved PCR binding geometry."))
+                (library,), geometry=pcr_geometry())
     graph.sequence(library, SequencingPlan(
         library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
         acquired_roles=tuple(p.role for p in SEQ_PRIMERS), read_lengths=READ_LENGTHS))
@@ -277,8 +295,19 @@ def protocol_graph():
                         "BcdA/B/C oligos omit CCACGC between S5 and each 8-base modality barcode."),
             SourceClaim("Author protocols.io v2, correction lines 271–293; published Supplementary Table 1 rows 3–14",
                         "BcdA/B/C oligos include CCACGC before the modality barcode.")),
-        model_choice="The drawn BcdA adapter includes CCACGC before TATAGCCT.",
+        model_choice="The drawn BcdB adapter includes CCACGC before ATAGAGGC.",
         evidence="The protocol labels the earlier strings erroneous, and the published oligo workbook prints the corrected family.",
         uncertainty="The source does not establish whether any earlier experiment used the erroneous strings.",
+        slot=AnnotationSlot.BEFORE_WORKFLOW))
+    graph.annotate(SourceDiscrepancy(
+        target="nanobody_tn5", title="Fusion-reagent deposit numbers disagree",
+        claims=(
+            SourceClaim("Published Supplementary Table 4, anti-rabbit/anti-mouse Tn5 reagent rows",
+                        "Lists anti-rabbit-Tn5 as Addgene #183637 and anti-mouse-Tn5 as #183638."),
+            SourceClaim("Addgene public deposits #183637 and #183638, names and Purpose fields",
+                        "#183637 is psfaMs-Tn5 (anti-mouse); #183638 is psfaRb-Tn5 (anti-rabbit). Both cite this paper.")),
+        model_choice="The graph identifies anti-mouse and anti-rabbit nano-Tn5 by their reported affinity; it does not assign the conflicting deposit numbers to experimental samples.",
+        evidence="The deposited reagent names and Purpose fields reverse the numbers printed beside the species in Supplementary Table 4.",
+        uncertainty="The current deposits clarify their present identities, but do not independently establish which physical reagent was used in each historical experiment.",
         slot=AnnotationSlot.BEFORE_WORKFLOW))
     return graph.require_publishable()

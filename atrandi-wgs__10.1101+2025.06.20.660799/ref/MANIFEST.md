@@ -24,10 +24,17 @@ have changed between revisions.
 | Single Microbe DNA Barcoding Kit | `DGPM02323198001` **V3** | kit contents, SPC handling, lysis and MDA conditions, barcoding rounds — `01_barcoding_kit.md` |
 | Single Microbe DNA Barcoding Kit — Library Prep for Sequencing | `DGPM02323206001` **V3** | the ligation adapter and indexing primer sequences, fragmentation and PCR programs — `02_library_prep.md`, and `LIGADAPT_*` / `ATRANDI_*` in `tools/atrandi.py` |
 
-The adapter and primer strings quoted from `DGPM02323206001` V3 are reproduced once, as a
-comment in `tools/atrandi.py`, and the self-test parses that comment and compares it to
-the strands the model derives — so the transcription is checked even though the manual
-itself is not here.
+The adapter and primer strings from `DGPM02323206001` V3 are declared in the
+protocol model. The self-test also compares all four complete modified oligos with
+the original extracted source when that manual is present in `$CHEM_DATA/sources/`.
+That source check skips on a fresh clone without the third-party original.
+
+Both original V3 PDFs were recovered from a pre-existing ignored protocol-root cache
+on 2026-10-16. Their original titles, imprints, document numbers and printed revision
+histories validate identity; the old download URLs were not recorded. The source
+bundle manifest records that acquisition limit. The vendor homepage is a contact
+and reacquisition starting point, not an asserted direct PDF URL. No source-backed
+mapping from V3 to the historical review label “v1.3” has been established.
 
 ## Papers
 
@@ -36,5 +43,5 @@ Cited by DOI in the notes, never stored: the Bascet/Zorn preprint
 and the PTA, Atrandi-platform and contaminant references listed in `06_pta.md` and
 `03_our_protocol.md` §10.
 
-No check in this directory reads a third-party file, so `tools/selftest.py` runs in full on
-a fresh clone.
+Most checks run on a fresh clone. Original-source transcription checks use
+`checks.Source` and skip, rather than fail, when the vendor manual is absent.

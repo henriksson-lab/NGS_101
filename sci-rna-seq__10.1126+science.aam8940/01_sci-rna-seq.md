@@ -1,10 +1,11 @@
-# sci-RNA-seq and sci-RNA-seq3: split-pool combinatorial indexing of fixed cells or nuclei
+# sci-RNA-seq (2017): two-level combinatorial indexing of fixed cells or nuclei
 
-> **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
-> published (or not obtainable here). Relationships marked 🟡 *(computed)* were worked out
+> **Evidence marking.** 🟢 read in an original source · 🟡 derived or inferred.
+> An inaccessible source is an open review obligation, not evidence of publication absence. Relationships marked 🟡 *(computed)* were worked out
 > with `lib/` while writing this note.
-> Claims taken only from the upstream scg_lib_structs page are 🟡 *(upstream)*: a
-> secondary source.
+> Upstream drawings are orientation aids, never source evidence. The 2017 public
+> schematic is scoped to the two-level preprint implementation; the linked 2019
+> successor supplies no 2017 oligo or reagent choices.
 
 **sci-RNA-seq**: Cao J, Packer JS, Ramani V, Cusanovich DA, Huynh C, Daza R, Qiu X,
 Lee C, Furlan SN, Steemers FJ, Adey A, Waterston RH, Trapnell C, Shendure J.
@@ -19,27 +20,20 @@ transcriptional landscape of mammalian organogenesis." *Nature* 566:496–502 (2
 doi:[10.1038/s41586-019-0969-x](https://doi.org/10.1038/s41586-019-0969-x), PMC6434952.
 
 Sources read (fetched by `tools/get_sources.py`, into
-`$CHEM_DATA/sources/sci-rna-seq-family__10.1126+science.aam8940/`, never committed):
+`$CHEM_DATA/sources/sci-rna-seq__10.1126+science.aam8940/`, never committed):
 
 | File | What | Used for |
 |---|---|---|
-| `104844_v1.full.pdf` (.txt) | sci-RNA-seq preprint, with Materials & Methods | **all sci-RNA-seq chemistry**: RT primer, PCR primers, conditions, read lengths |
-| `science.aam8940_PMC5894354.html` (.txt) | Science author manuscript on PMC | workflow summary, Fig. 1 legend, the three-level (indexed Tn5) variant; it has **no methods** (they are in the gated supplement) |
-| `s41586-019-0969-x_PMC6434952.xml` (.txt) | sci-RNA-seq3, Europe PMC JATS full text | **all sci-RNA-seq3 methods** |
-| `s41586-019-0969-x_41586_2019_969_MOESM3_ESM.xlsx` (.txt) | Nature Supplementary Tables 1–11 | **Table S11: every sci-RNA-seq3 oligo** (384 RT, 384 ligation, 96 P5, 96 P7) |
-| `s41586-019-0969-x_41586_2019_969_MOESM1_ESM.pdf`, `..._MOESM2_ESM.pdf` | Supplementary Note 1 (Monocle), Reporting Summary | not chemistry |
-| `upstream_sci-RNA-seq_family.html` (.txt) | Teichlab scg_lib_structs page | second source, checked against the above (§7) |
+| `104844_v1.full.pdf` (.txt) | sci-RNA-seq preprint, with Materials & Methods | selected preprint two-level RT/PCR templates, reagents, order and read lengths |
+| `science.aam8940_PMC5894354.html` (.txt) | Science author manuscript on PMC | workflow summary, Fig. 1 legend and the three-level indexed-Tn5 variant; the detailed selected implementation is printed in the preprint |
+| `cao-combinatorial-indexing.pdf` (.txt) | Author-hosted final Science version of record | final Fig. 1, two-level/optional indexed-Tn5 branch, original DC1 supplementary inventory |
 
 Could not be fetched (get by hand and drop in the same directory):
 
 | What | URL | Why it matters |
 |---|---|---|
-| Science supplement (NIHMS956226, Supplementary Materials, 2.2 MB PDF) | https://pmc.ncbi.nlm.nih.gov/articles/instance/5894354/bin/NIHMS956226-supplement-supplement_1.pdf | the **published** sci-RNA-seq methods, the RT barcode list, the i5/i7 list, the **indexed Tn5 adaptors** of the three-level variant, Table S1 (experiments) 🔴 |
-| Science version of record, with supplement | https://www.science.org/doi/10.1126/science.aam8940 | same; Cloudflare / paywall |
-
-`s41586-019-0969-x_PMC6434952.html` is a reCAPTCHA page, not the article, and
-`s41586-019-0969-x_PMC6434952_supplementary.zip` is truncated (no central directory); the
-JATS XML and the Springer supplements replace both.
+| Science supplement (NIHMS956226, Supplementary Materials, 2.2 MB PDF) | https://pmc.ncbi.nlm.nih.gov/articles/instance/5894354/bin/NIHMS956226-supplement-supplement_1.pdf | the actual final Supplementary Materials, named by final-article DC1 inventory; its contents and index assignments remain to inspect, rather than being assumed from the filename (unresolved here) |
+| Science supplementary landing | https://www.science.org/doi/suppl/10.1126/science.aam8940 | publisher route returns 403; historical DC1 also403; supplementary workbook DOI discovered in later bibliography returns404 and is not a validated recovered original; final main is recovered from the authors |
 
 ---
 
@@ -55,20 +49,12 @@ that isolate cells in physical compartments; workflow per Fig. 1A)
   **FACS-sorted** 10–100 per well into a second plate, and given second-strand synthesis,
   Tn5 tagmentation and **indexed PCR** (barcode 2 = i5 + i7 pair). 🟢 An optional third
   level puts a barcode on **indexed Tn5** between RT and PCR (16 × 6 × 16 demonstrated). 🟢
-  (Science main text; adaptor sequences 🔴, in the gated supplement)
-- **sci-RNA-seq3** (2019), three levels: nuclei straight from tissue, PFA-fixed; RT
-  barcode, then a **barcoded hairpin adaptor ligated to the 5' end of the RT primer**
-  (replacing indexed Tn5 as the third level), then second-strand synthesis, tagmentation
-  with **Tn5 loaded only with the N7 (s7) adaptor**, **USER** cleavage, indexed PCR. Sorting
-  is replaced by dilution. 384 × 384 × 768 ≈ 1.1 × 10⁸ combinations. 🟢 (Nature main text
-  and Methods)
+  (Science main text; indexed-Tn5 original supplementary details remain inaccessible)
 
 | | New thing here | Where else it turns up |
 |---|---|---|
 | 1 | **Combinatorial indexing of whole fixed cells**: the first barcode is put on in situ, the cell stays intact through pooling | sci-ATAC-seq, sci-CAR, SPLiT-seq / SHARE-seq (ligation rounds), sci-Plex |
 | 2 | **Read 1 handle on the RT primer, s7 from Tn5 at the other end**: only the 3' end of each cDNA, between the RT primer and the nearest s7 insertion, amplifies | the same 3'-tag logic as CEL-seq / Drop-seq, built from TruSeq + Nextera halves |
-| 3 | (sci3) A **6-nt splint-ligated hairpin** adds a barcode to the 5' end of the RT primer *inside* the nucleus, with a **deoxyuridine** to cut the hairpin open again before PCR | the dU-hairpin trick of the NEBNext adaptor (`illumina.NEBNEXT_HAIRPIN`) |
-| 4 | (sci3) **N7-only Tn5**: every insertion carries s7, so none is wasted on s5 ends | "Tn5 transposomes loaded only with N7 adaptor increased UMI counts by over 50%" (Extended Data Fig. 1b) 🟢 |
 
 Concepts: [reverse transcription](../ref/concepts/reverse-transcription.md) (oligo-dT
 priming, RNase H / Pol I second strand),
@@ -86,91 +72,66 @@ and 922–931; the PDF wraps them, re-joined here). Brackets are the paper's pla
 anchored oligo-dT (RT)  5′-ACGACGCTCTTCCGATCTNNNNNNNN[10bp index]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTVN-3′   (IDT)
 P5 primer               5′-AATGATACGGCGACCACCGAGATCTACAC[i5]ACACTCTTTCCCTACACGACGCTCTTCCGATCT-3′
 P7 primer               5′-CAAGCAGAAGACGGCATACGAGAT[i7]GTCTCGTGGGCTCGG-3′
-Tn5                     Nextera DNA Sample Preparation kit, TDE1 (standard s5/s7 loading)
+Tn5                     Nextera DNA Sample Preparation kit, TDE1 (commercial intermediate structure unassigned)
 ```
 
-"N" is any base, "V" is A, C or G. 🟢 The individual RT barcodes, the i5 / i7 sequences
-and the indexed-Tn5 adaptors of the three-level variant are **not** in the preprint or
-the PMC main text 🔴 (gated Science supplement, see table above). The same RT primer is
-used for the bulk "Tn5-RNA-seq" comparison library (preprint line 1127). 🟢
+"N" is any base, "V" is A, C or G. 🟢 The templates are positively printed in
+preprint Methods; the GEO annotations now positively supply 96/384/96 RT barcode memberships and
+cell-source groups for three experiments. Individual PCR-well i5/i7 assignments and
+comparison with the original final Science supplementary material remain open. This is
+not a claim that the authors failed to publish them. The same RT-primer template is
+printed for the bulk Tn5-RNA-seq comparison (preprint Methods).
 
-### sci-RNA-seq3 (2019) 🟢
+The source-selected two-level model keeps the RT barcode and the PCR-well i5/i7
+pair as **parts of one combinatorial cell identifier**, rather than interpreting i5/i7
+as ordinary sample indexes. The model preserves both V and N of the RT-primer VN
+anchor. The canonical Nextera mosaic-end bases are explicitly inferred; the printed
+PCR-primer arms themselves are source-positive. 🟡 The exact pre-PCR TDE1 substrate,
+gaps and end chemistry are not assigned by this declaration.
 
-Verbatim from Nature Supplementary Table 11 (`..._MOESM3_ESM.xlsx.txt`, sheet "Table S11",
-"RT, ligation and PCR primer sequences for sci-RNA-seq3"). IDT notation as given:
-`/5Phos/` = 5' phosphate, `/ideoxyU/` = internal 2'-deoxyuridine. The P7 table writes
-the i7 in **lower case**.
+The graph now includes the source's DNA-binding-buffer stop and AMPure purification
+before library PCR. Carrier and other tagmentation products remain visible with
+unresolved structures/fates: the source says carrier is **not appreciably amplified**,
+which does not establish an immediate physical discard during tagmentation.
 
-```
-sc_ligation_RT_1     /5Phos/CAGAGCNNNNNNNNTCCTACCAGTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-sc_ligation_RT_384   /5Phos/CAGAGCNNNNNNNNTTGGAGTCGGTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-   ... 384 RT primers (sc_ligation_RT_1..384)
+### Current 2017 source scope (2026-10-16)
 
-sc_ligation_1        GCTCTGACAATCAAGT/ideoxyU/ACGACGCTCTTCCGATCTACTTGATTGT
-sc_ligation_382      GCTCTGATGAGCCAA/ideoxyU/ACGACGCTCTTCCGATCTTTGGCTCAT
-   ... 384 hairpin ligation adaptors (sc_ligation_1..384)
+The full bundle oligo scraper was rerun after retrieval (79 hits across 13 files);
+2019 successor sources in that bundle were excluded from 2017 chemistry assignments.
+The author-hosted final PDF, pp. 1–2/Fig. 1 and final supplementary inventory, and
+preprint Methods lines 899–940/991–992 were read directly. Final supplementary
+inventory names Materials and Methods, Figs. S1–S24, Tables S1–S14 and refs. 57–140
+at `www.sciencemag.org/content/357/6352/661/suppl/DC1`.
 
-P5-1                 AATGATACGGCGACCACCGAGATCTACACCTCCATCGAGACACTCTTTCCCTACACGACGCTCTTCCGATCT
-   ... P5-1..96
-P7-1                 CAAGCAGAAGACGGCATACGAGATccgaatccgaGTCTCGTGGGCTCGG
-   ... P7-1..96
+The registered publisher supplemental landing and Europe PMC original NIHMS956226
+mirror return 403; the original PMC route is a preparing-download gate. PMC Cloud
+lists only three accessible manuscript objects, not the required supplementary PDF.
+The actual author publication page links the final article PDF and Science DOI;
+the inspected GitHub `pdfs/papers` directory inventory names that final PDF, not an
+identified 2017 supplement. The original bioRxiv v1 landing exposes its main PDF and
+article tabs; no supplementary tab was found among the inspected links. These are
+bounded retrieval findings, not evidence of publication absence.
 
-Tn5                  "i7 only TDE1 enzyme (62.5 nM, Illumina)"
-```
+The preprint positively identifies a NEB mRNA Second Strand Synthesis module, Nextera
+DNA Sample Preparation/TDE1, SSIV and NEBNext HiFi PCR. Exact relevant vendor-original
+versions and any further predecessor chemistry in the inaccessible final supplement
+remain unchecked linked-source obligations. GSE98561 is an actual final-article data
+link. Its study metadata, annotation files and ten archive experiment XMLs were
+retrieved and read in this pass; no dataset-wide index-map absence is asserted. The review remains blocked by
+actual final supplementary access, and unassigned model values remain questions.
 
-The Methods text gives the same oligos as templates 🟢 (`..._PMC6434952.xml.txt`, line 47–51):
-RT `5′-/5Phos/CAGAGCNNNNNNNN[10bp barcode]TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-3′`; ligation
-adaptor `5’-GCTCTG[9 bp or 10 bp barcode A]/dideoxyU/ACGACGCTCTTCCGATCT[reverse complement
-of barcode A]-3’`; P5 `5′-AATGATACGGCGACCACCGAGATCTACAC[i5]ACACTCTTTCCCTACACGACGCTCTTCCGATCT-3′`;
-P7 `5′-CAAGCAGAAGACGGCATACGAGAT[i7]GTCTCGTGGGCTCGG-3′`.
+### How the 2017 primers interlock — computed
 
-Note the modification name: the text says **"dideoxyU"**, the oligo table says
-**`/ideoxyU/`** (IDT's internal deoxyuridine). Only a deoxyuridine can sit internally in
-an oligo and be excised by USER; a dideoxy nucleotide has no 3'-OH and could only be
-terminal. The table is right, the text is a slip. 🟡
+The RT handle is `illumina.TRUSEQ_READ1[-18:]`. The P5 PCR primer contains the
+complete TruSeq Read 1 sequence and anneals through its terminal RT handle; PCR
+therefore restores the full Read 1 site. The P7 PCR primer ends in `nextera.S7`.
+The representative amplifiable strand must have the RT handle at one end and the
+opposing s7 site at the other. This sequence relationship is computed locally;
+it does not prove exact commercial transposome intermediates or every byproduct.
 
-### How they interlock — 🟡 (computed with `lib/`, over all 960 rows of Table S11)
-
-**One 18-nt handle, `ACGACGCTCTTCCGATCT`, is the bridge in both versions.** It is
-`illumina.TRUSEQ_READ1[-18:]`, the 3' end of the 33-nt TruSeq Read 1 primer site.
-
-- sci-RNA-seq: the RT primer starts with it. The P5 primer =
-  **`illumina.P5` + [i5] + `illumina.TRUSEQ_READ1`** (33 nt), so the primer's last 18 nt
-  are the handle itself and it primes on the handle's complement in the second strand. The
-  first PCR cycle adds the other 15 nt of Read 1 and P5.
-- sci-RNA-seq3: the handle has moved off the RT primer into the **loop of the hairpin
-  adaptor**; the P5 primers are unchanged. All 96: **`illumina.P5` + 10-nt i5 +
-  `illumina.TRUSEQ_READ1`**, 72 nt.
-- P7 primer (both versions) = **`illumina.P7` + [i7] + `nextera.S7`**: a Nextera N7xx
-  primer with a 10-nt index. Its 3' end is s7 only (15 nt, no ME), so it primes on
-  the s7 complement left by tagmentation and gap fill. All 96 sci3 P7 primers fit this,
-  49 nt, i7 10 nt. Primer-arm Tm (`chemdraw.tm`, 50 mM Na⁺): s7 54.4 °C, the 18-nt
-  handle 55.9 °C, full TruSeq Read 1 66.9 °C; annealing in both papers is 66 °C, which
-  the P7 arm only reaches once the whole primer is incorporated after cycle 1.
-
-sci-RNA-seq3 RT primers (all 384): **`/5Phos/` + `CAGAGC` + N₈ (UMI) + 10-nt RT barcode +
-T₃₀**, 54 nt, **no VN anchor** (the 2017 primer has one), 384 distinct barcodes, minimum
-pairwise Hamming distance 3. 87 of the barcodes end in T, so the oligo-dT run is
-effectively 31–32 T for those; the table and the text agree on T₃₀ after the barcode.
-
-sci-RNA-seq3 hairpin adaptors (all 384): **`GCTCTG` + bcA + `/ideoxyU/` + handle +
-revcomp(bcA)**. In all 384 the 3' arm is exactly the reverse complement of bcA. bcA is
-9 nt in 238 adaptors (43-mer) and 10 nt in 146 (45-mer), and **every bcA starts with A**,
-so every adaptor ends in T. The 384 read-side barcodes (revcomp(bcA)) are distinct.
-
-How the hairpin finds the RT primer:
-
-- `GCTCTG` is the reverse complement of **`CAGAGC`**, the 5' end of every RT primer.
-- Folded, the adaptor is a stem of bcA : revcomp(bcA) closed by a 19-nt loop (dU +
-  handle), with **`GCTCTG` as a 6-nt 5' overhang**.
-- The overhang pairs with the 5'-phosphorylated `CAGAGC` of the first-strand cDNA. That
-  puts the RT primer's 5'-phosphate right against the adaptor's 3'-OH (revcomp(bcA)), a
-  nick that T4 DNA ligase seals. The product is a 15–16 bp stem
-  (GCTCTG-bcA : revcomp(bcA)-CAGAGC) closing over the dU + handle loop, continuous with
-  the cDNA.
-
-That is why the RT primer is phosphorylated and the 2017 handle is gone from it: in sci3
-the RT primer's 5' end is a ligation splint site, not a PCR handle.
+The later [sci-RNA-seq3 note](../sci-rna-seq3__10.1038+s41586-019-0969-x/01_sci-rna-seq3.md)
+owns the distinct 2019 hairpin-ligation chemistry and oligo table. Those sources
+are not evidence for a 2017 index member or transposome choice.
 
 ## 3. Step by step
 
@@ -182,10 +143,9 @@ the RT primer's 5' end is a ligation splint site, not a PCR handle.
    oligo-dT + dNTPs, 55 °C 5 min, ice; SuperScript IV mix; **55 °C 10 min**; stopped with
    2× stop solution (40 mM EDTA, 1 mM spermidine). First strand (🟡):
    `5'- handle · UMI · RT barcode · T30 · V · N · <cDNA, antisense> -3'`.
-3. **Pool, stain DAPI, FACS** 10–100 cells per well (an example range; per-experiment numbers are in Table S1 🔴)
+3. **Pool, stain DAPI, FACS** 10–100 cells per well (an example range; per-experiment numbers are in Table S1 (unresolved here))
    into 5 µL EB; DAPI gating removes doublets.
-4. **Second strand**: NEB mRNA Second Strand Synthesis module (RNase H / *E. coli* Pol I /
-   ligase), 16 °C 150 min, 75 °C 20 min. 🟡 (module contents from NEB, not the paper)
+4. **Second strand**: NEB mRNA Second Strand Synthesis module, 16 °C 150 min, 75 °C 20 min. The declaration does not assign a separate printed random primer.
 5. **Tagment**: + **5 ng human genomic DNA as carrier** (against over-tagmentation and
    loss), Nextera TD buffer, 0.5 µL TDE1, 55 °C 5 min; Zymo DNA binding buffer, AMPure
    (36 µL), elute 16 µL. The methods state that carrier DNA is not appreciably amplified
@@ -195,154 +155,96 @@ the RT primer's 5' end is a ligation splint site, not a PCR handle.
    **75 °C 3 min** (gap fill of the 9-nt Tn5 gap 🟡), 98 °C 30 s, **18–22 ×** (98 °C 10 s,
    66 °C 30 s, 72 °C 1 min), 72 °C 5 min. Pool, AMPure 0.8×, Qubit, 6 % TBE-PAGE.
 
-   Which fragments amplify (🟡 *(computed)*, same as the upstream drawing): only the one
+   Which fragments amplify (🟡 *(computed)* from the two PCR-primer sites): only the one
    from the **RT-primer end to the nearest s7 insertion**. Handle-to-s5 fragments, s5–s5,
    s7–s7 and s5–s7 internal fragments (and all carrier DNA) lack one of the two primer
    sites, since the P5 primer needs the TruSeq handle and does not bind s5.
 7. **Three-level variant** (Science only): after RT and second-strand synthesis, pool,
    split to 6 wells for **indexed Tn5**, pool, sort to 16 wells for PCR. 🟢 Adaptor
    sequences, where the Tn5 barcode lands in the read, and the sequencing recipe are in
-   the Science supplement 🔴. The paper notes fewer UMIs per cell than two-level at equal
+   the Science supplement (unresolved here). The paper notes fewer UMIs per cell than two-level at equal
    depth, possibly from lower efficiency of indexed Tn5. 🟢
 
-### sci-RNA-seq3 (Nature methods) 🟢 unless marked
+## 4. Final library and read layout
 
-The published Methods swap two phrases: the paragraph that **sets up the ligation** begins
-"After ligation reaction…", and the one that **follows the ligation** begins "After RT
-reaction…". The order of the plates (4 RT plates, then 4 ligation plates, then 8 plates for
-second strand / tagmentation / PCR) and the 384 × 384 × 768 arithmetic fix the order as
-RT → ligation → second strand. 🟡 (Upstream has the same order.)
-
-1. **Nuclei**: extracted from minced embryo in cell lysis buffer, fixed in 4 %
-   paraformaldehyde 15 min on ice, flash frozen. Thawed: 0.2 % Triton X-100 3 min,
-   **brief sonication** (12 s, low), Flowmi filtration.
-2. **In situ RT, barcode 1** (4 × 96 wells): 80,000 nuclei (16 µL) + 8 µL 25 µM RT primer
-   + dNTPs, 55 °C 5 min, ice; SuperScript IV mix (14 µL); **gradient 4, 10, 20, 30, 40,
-   50 °C × 2 min each, then 55 °C 10 min**. First strand (🟡):
-   `5'-P · CAGAGC · UMI · RT barcode · T30 · <cDNA, antisense> -3'`.
-3. **Pool**, spin 500 × g, redistribute to 4 × 96 wells.
-4. **Hairpin ligation, barcode 2**: per well 4 µL T4 ligase buffer, 2 µL T4 DNA ligase,
-   4 µL 5 M betaine, 6 µL nuclei, **8 µL 100 µM barcoded hairpin adaptor**, 16 µL 40 %
-   PEG 8000; **16 °C 3 h**. Product (🟡 *(computed)*, written as the continuous ligated
-   strand):
-   `5'- GCTCTG · bcA · dU · handle(18) · revcomp(bcA) · CAGAGC · UMI · RT bc · T30 · <cDNA> -3'`,
-   folded back on itself between GCTCTG-bcA and revcomp(bcA)-CAGAGC.
-5. **Pool, dilute, filter**: 60 µL dilution buffer, pool, 600 × g, Flowmi twice, count,
-   **2,500 nuclei per well** into 8 × 96 wells (5 µL wash buffer + 5 µL EB). No FACS.
-6. **Second strand**: 1.33 µL NEB mRNA Second Strand buffer + 0.66 µL enzyme, 16 °C 180 min.
-   The second strand runs into the hairpin and, by strand displacement, copies it
-   to the end, so the second strand carries the complement of the whole hairpin with an A
-   opposite the dU. 🟡 (inferred; upstream draws the same; the paper does not describe it)
-7. **Tagment**: 11 µL Nextera TD buffer + 1 µL **"i7 only" TDE1** (62.5 nM), 55 °C 5 min;
-   24 µL Zymo DNA binding buffer, 5 min; AMPure 1.5×. Every insertion carries s7-ME.
-8. **USER, on the beads**: elute in 8 µL water + 1 µL 10× USER buffer + 1 µL USER enzyme,
-   37 °C 15 min; +6.5 µL EB; remove beads. USER excises the dU and nicks the first strand
-   there, so the 5' `GCTCTG · bcA` piece (15–16 nt) is cut off the strand that carries the
-   handle. 🟡 Why (most likely so that the handle is no longer locked in a hairpin loop that
-   can snap back, keeping the P5 primer site accessible) is not stated 🔴.
-9. **Indexed PCR, barcode 3**: 16 µL + 2 µL 10 µM P5-n + 2 µL 10 µM P7-n + 20 µL NEBNext
-   HiFi 2×; **72 °C 5 min** (gap fill 🟡), 98 °C 30 s, **12–14 ×** (98 °C 10 s, 66 °C 30 s,
-   72 °C 1 min), 72 °C 5 min. Pool, AMPure 0.8×, Qubit, 6 % TBE-PAGE.
-
-   "768 barcodes introduced by PCR" 🟢 = 8 plates × 96 wells, each well a distinct P5/P7
-   pair; the 96 + 96 primers of Table S11 allow up to 9,216 pairs. Which pairs were used is
-   not given. 🔴
-
-## 4. Final libraries — 🟡 (assembled from the oligos above; agrees with upstream)
-
-Top strand, 5'→3'. The cDNA is the first (antisense) strand, read from the poly(T) inward.
-
-**sci-RNA-seq** (two-level):
+The representative top strand is reconstructed as:
 
 ```
-5'- P5 · i5(10) · TRUSEQ_READ1 [last 18 nt = RT handle] · UMI(8) · RT barcode(10) · T30 · V · <cDNA 3' end, antisense> · ME_RC · S7_RC · i7'(10) · P7_RC -3'
+5′-P5 · i5 · TruSeq R1 · UMI · RT barcode · T30 · V · N · antisense cDNA · inferred ME_RC · S7_RC · i7_RC · P7_RC-3′
 ```
 
-**sci-RNA-seq3** (three-level):
+The exact available RT/PCR templates are source-positive; the intervening canonical
+Nextera mosaic end is inferred. Index placeholders express unassigned members,
+not a claim that all ordered index combinations were used. cDNA length is an
+illustrative display value, not a source-measured insert length.
 
-```
-5'- P5 · i5(10) · TRUSEQ_READ1 [last 18 nt = hairpin loop handle] · revcomp(bcA)(9|10) · CAGAGC · UMI(8) · RT barcode(10) · T30 · <cDNA 3' end, antisense> · ME_RC · S7_RC · i7'(10) · P7_RC -3'
-```
+The preprint explicitly names NextSeq 500 V2, Read 1=18, Index 1=10, Index 2=10,
+Read 2=52 (actual extracted lines 991–992). Read 1 covers UMI8 then RT barcode10.
+Index reads supply the PCR-well pair; Read 2 supplies transcript sequence. The
+model locates each declared primer computationally. This layout is the preprint
+implementation, with no claim that it proves the optional indexed-Tn5 branch's run.
 
-`ME_RC` = `nextera.ME_RC`, `S7_RC` = `nextera.S7_RC`, `P7_RC` = `illumina.P7_RC`; i7' is
-the reverse complement of the i7 as written in the P7 primer. The ME and the part of s7
-beyond the primer come from the Tn5 adaptor; the 10-nt i7 and P7 from the PCR primer.
+## 5. Positive GEO source information
 
-## 5. Read layout / sequencing
+The original Series metadata names three small barcode annotation files. Its
+`GSE98561_README_supplementary_files.txt` explicitly identifies their `barcode`
+column as the **first-round RT barcode** and `source` as the associated cell group.
+These are source annotations, not gene-count matrices or raw sequencing reads.
 
-| | sci-RNA-seq 🟢 | sci-RNA-seq3 🟢 |
+| Original file | RT members | Actual source scope |
 |---|---|---|
-| Instrument | NextSeq 500, V2 75-cycle kit | NovaSeq |
-| Read 1 | 18 cycles | 34 cycles |
-| Index 1 (i7) | 10 | 10 |
-| Index 2 (i5) | 10 | 10 |
-| Read 2 | 52 | 52 |
+| `GSE98561_celegans.barcode.csv.gz` | 96 unique 10-nt barcodes | C. elegans cells |
+| `GSE98561_human.mouse.mix.1.barcode.csv.gz` | 384 unique 10-nt barcodes | pure and mixed cell groups |
+| `GSE98561_human.mouse.mix.2.barcode.csv.gz` | 96 unique 10-nt barcodes | cell groups plus mixed nuclei |
 
-What each read covers, 🟡 *(computed from §4)*:
+Both readers inspected all rows and source-group fields, rather than treating the
+scraper's lack of hits for short 10-nt sequences as absence. The model deliberately
+retains the source's variable index windows; it does not assign a particular RT/PCR
+combination to every experiment.
 
-- **Read 1** is primed by the standard TruSeq Read 1 primer (`illumina.TRUSEQ_READ1`,
-  which the library carries whole) and reads cell barcodes only:
-  - sci-RNA-seq: UMI(8) + RT barcode(10) = 18, exactly the 18 cycles; the preprint Fig. 1b
-    legend says the same 🟢.
-  - sci-RNA-seq3: revcomp(bcA)(10) + `CAGAGC` + UMI(8) + RT barcode(10) = 34. With a 9-nt
-    bcA it is 33 and the 34th cycle reads the first T, so the RT barcode does not sit at a
-    fixed position: the parser must find the ligation barcode first (the paper
-    demultiplexes on "RT index and ligation index", ED < 2 including indels 🟢).
-- **Read 2** is primed by the Nextera Read 2 primer (`nextera.READ2_PRIMER` = s7 + ME,
-  present via the Tn5 adaptor) and reads 52 nt of the transcript in the **sense**
-  orientation, starting at the Tn5 insertion site, which is the UMI-collapsing coordinate
-  ("read 2 end-coordinate" 🟢).
-- **Index 1** reads i7 through `nextera.INDEX1_PRIMER` (ME_RC + S7_RC), giving the
-  **reverse complement** of the i7 written in the P7 primer (P7-1 `ccgaatccga` reads
-  `TCGGATTCGG`).
-- **Index 2** reads i5 next to TruSeq Read 1 (upstream gives the reverse-complement
-  workflow primer `AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT` = `illumina.INDEX2_PRIMER_RC`);
-  orientation depends on the instrument workflow (NextSeq 500 reverse complement;
-  NovaSeq 6000 v1.0 forward).
-- Cell = RT barcode + PCR i5/i7 pair (sci-RNA-seq), plus the ligation barcode (sci3).
-  None of the read primers is custom; the papers name none. 🟡
+All ten GEO sample library/experiment/instrument metadata blocks directly cite the
+2017 preprint protocol. Nine samples name NextSeq 500; the explicitly three-level
+sample GSM2599705 names MiSeq. The ten linked archive experiment XMLs confirm these
+instrument assignments and paired transcriptomic cDNA libraries. They do not assign
+run cycle counts or PCR primer members in the inspected fields. Thus the modeled
+18/10/10/52 run is the **preprint two-level implementation**, not an assertion about
+every final study sample or the MiSeq third-level experiment.
 
-## 6. What upstream (scg_lib_structs) says, checked
+The source's other README maps 1,717 run accessions to paired FASTQ filenames. It
+is a file-access mapping, not the ordered PCR-primer table. The archive XMLs link
+sample/submission records and file reports; these data references have not been
+recursively inspected, and no universal archive absence is inferred.
 
-| Upstream claim | Primary source | Verdict |
-|---|---|---|
-| sci-RNA-seq RT primer `ACGACGCTCTTCCGATCT[8-bp UMI][10-bp RT barcode]T30VN` | preprint, line 899 | **agrees** |
-| P5 / P7 primers, s7, carrier gDNA, read lengths 18/10/10/52 | preprint methods | **agrees** |
-| i5 and i7 drawn as 10 N | 10 index cycles (both); Table S11 (sci3) | **agrees** |
-| sci3 RT primer `/Phos/CAGAGC[8-bp UMI][10-bp RT barcode]` T30 **VN** | Methods text and all 384 rows of Table S11: T30, **no VN** | **disagrees**: upstream adds a VN the sci3 oligos do not have |
-| hairpin `GCTCTG[reverse complement of barcode A]/ddU/ACGACGCTCTTCCGATCT[9-bp or 10-bp barcode A]` | text: `GCTCTG[barcode A]/dideoxyU/…[reverse complement of barcode A]`; table: `/ideoxyU/` | same molecule with the barcode naming swapped; both upstream (`ddU`) and the paper text ("dideoxyU") misname the internal **deoxy**uridine of the oligo table |
-| 384 RT primers, 384 hairpins, 96 P5, 96 P7 | Table S11 | **agrees** |
-| sci3 Read 1 34 cycles = hairpin barcode + `GTCTCG` + UMI + RT barcode | the bases read are `CAGAGC` (top strand); `GTCTCG` is the bottom strand written 3'→5' | wording only |
-| sci3 Tn5 "homodimer with s7-ME oligo" | "i7 only TDE1" | **agrees** |
-| order RT → ligation → second strand → tagment → USER → PCR | Methods (with the swapped phrases) | **agrees** |
-| sci-RNA-seq demonstrated as two-level; three-level by indexed Tn5 "can be used" | Science main text | agrees; upstream does not draw the three-level structure either |
+The recovered Illumina reference guide 15027987 v01, January 2016, positively
+describes the Nextera DNA engineered-transposome and index-PCR family. Its standard
+indexes are 8 nt, whereas the sci-RNA-seq custom primer/run declarations have 10-nt
+index windows. The guide therefore supplies family context, not the authors'
+ordered index members or the selected commercial adapter's exact intermediate.
 
-## 7. Open questions
+## 6. Remaining source and model questions
 
-- 🔴 The sci-RNA-seq RT barcodes, i5/i7 lists and the **indexed Tn5 adaptors** (three-level
-  variant): in the gated Science supplement. Is the Tn5 barcode read in Index 1 or
-  inside Read 2?
-- 🔴 Why sci3 drops the **VN anchor** of the 2017 RT primer.
-- 🔴 Why every hairpin barcode starts with **A** (so the adaptor's 3' end, the ligated
-  base, is always T) and why 9- and 10-nt barcodes are mixed. A staggered length would
-  shift Read 1 phasing on low-diversity cycles; not stated.
-- 🔴 The purpose of **USER** cleavage (step 8): inferred above, not explained in the paper.
-- 🔴 Which 768 of the 9,216 possible P5/P7 pairs were used, and whether i5 is read
-  forward or reverse complement on the NovaSeq run.
-- 🟡 Methods phrase swap ("After ligation" / "After RT") read as an editing slip; the plate
-  arithmetic supports RT → ligation.
+- The final Science supplement is an identified, unrecovered original. Its Methods,
+  Figs. S1–S24, Tables S1–S14 and refs. 57–140 remain to inspect. The actual historical
+  DC1 link and candidate direct publisher file paths return403; the original NIHMS
+  route is gated and the canonical article/bin alternative returns404. A workbook
+  DOI discovered through later bibliography returns404. These route failures do
+  not prove unpublished information or validate a guessed filename.
+- The final-article Waterston data-directory link is problematic: live HTTP and
+  HTTPS downloads return an unrelated EPIC/Lineagomics RNAi page. Both wrong-identity
+  artifacts were quarantined. The browser's cached primary directory lists a 2017
+  vignette, sample description, count data and Monocle software, but the live
+  sample-description CSV request also returns HTML. This is a retrieval/identity
+  barrier, not a claim that the original directory lacked information.
+- Exact historical NEB second-strand and NEBNext PCR vendor originals remain
+  unchecked. The preprint positively names those reagents; no current vendor default
+  fills their unassigned chemistry. The recovered Nextera guide's additional
+  protocol/checklist/low-plex references remain named source-scope questions.
+- The selected endpoint's canonical ME and exact gap-filled intermediate remain
+  inferred. Tagmentation carrier/byproduct structures and physical fates are
+  unresolved, rather than being rendered as a fictitious physical discard.
 
-## 8. How this note was made (tool evaluation)
-
-`tools/get_sources.py` got the bioRxiv preprint (which, unlike the Science PMC
-manuscript, carries Materials & Methods), the Europe PMC XML and all three Springer
-supplements for sci-RNA-seq3, and listed the Science supplement as `(manual)`. The PMC
-HTML for the Nature paper came back as a reCAPTCHA page and the Europe PMC supplementary
-zip was truncated; neither mattered. `tools/scrape_primers.py --max-hits 80` put Table S11
-first and parsed `/5Phos/` and `/ideoxyU/` correctly, but its 80 hits for that file were
-RT, ligation and P5 rows only: **none of the 96 P7 primers** (lower-case i7) was listed,
-and in the text it found the polyT but not the `/5Phos/CAGAGCNNNNNNNN` 5' part of the
-sci3 RT template. All 960 rows of the sheet were therefore parsed by hand with `lib/`.
-`--find` could not confirm sequences containing an `N` run followed by bases, or with a
-lower-case index (`P7-…`); those were confirmed with a plain text search of the `.txt`
-twin (Table S11 rows `sc_ligation_RT_1`, `sc_ligation_RT_384`, `P7-1`).
+The source review remains blocked. Two independent fresh readings confirm the
+preprint's full templates, reagent order and run, the final article's optional
+indexed-Tn5 distinction, and the three GEO RT-membership annotations. This does not
+close the inaccessible final supplement or the remaining linked-source inventory,
+and accepts no claim of publication absence.

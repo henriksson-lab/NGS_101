@@ -1,7 +1,258 @@
 {
   "dir": "cut-run__10.7554+eLife.21856",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/eLife.21856_v3.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Methods346\u2013385; Appendix2 732\u2013835; Appendix3 836\u20131085",
+        "finding": "Selected yeast stop/release/supernatant workflow; optional pellet gel QC; distinct mammalian/total-DNA variants. Library376 no size selection,8+PCR,25 paired HiSeq2500; negative0.5AMPure retains supernatant;14PCR amplification preference."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Methods346\u2013385; Appendix2 732\u2013835; Appendix3 836\u20131085",
+        "finding": "Independently read main346\u2013385, wholeAppendix2 andAppendix3 through1085; confirms selected yeast branch, optional pellet QC, variant separations and library/readout limits."
+      }
+    },
+    {
+      "id": "kasinathan_original_supplement",
+      "role": "predecessor",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/PMC3929178_supp_NIHMS543084-supplement-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "SupplementaryFig1c232\u2013273",
+        "finding": "Original predecessor shows end repair/A-addition/Illumina Tru-seq adapters/PCR/25PEHiSeq2000. Not selected2017 oligo/index assignment."
+      }
+    },
+    {
+      "id": "henikoff_original_main",
+      "role": "predecessor",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/pnas.1110731108_PMC3215028.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "1149\u20131157;1232\u20131234",
+        "finding": "Original names PE-930-1001/modified cleanup/25PEHiSeq2000 and linkedSI. Analysis length filters are computational, not physical fates."
+      }
+    },
+    {
+      "id": "henikoff_original_si",
+      "role": "supplement",
+      "locator": "http://www.pnas.org/lookup/suppl/doi:10.1073/pnas.1110731108/-/DCSupplemental/pnas.201110731SI.pdf?targetid=nameddest=STXT",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Identified actual SI: HTTP and HTTPS publisher routes403; PMC attachment PreparingToDownload. Main recovered; SI unresolved, not accepted scientific absence."
+    },
+    {
+      "id": "kapa_link_identity",
+      "role": "vendor",
+      "locator": "https://www.kapabiosystems.com/product-applications/products/next-generation-sequencing-2/dna-library-preparation/kapa-hyper-prep-kits/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Current target returns unrelated Solix FAST qPCR / AffiPCRBiosystems shop, not KAPA HyperPrep. Response quarantined under _data/tmp/rejected; manifest manual identity failure. Historical kit document/revision not yet identified."
+    },
+    {
+      "id": "geo_metadata",
+      "role": "other",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/geo-GSE84474-all-full.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Series150\u2013170; all126 unique extraction/instrument fields",
+        "finding": "126HiSeq2500 samples;7actualRTFs linked; extraction names include crosslink not yet located; dataset links are not chemistry readouts."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Series150\u2013170; all126 unique extraction/instrument fields",
+        "finding": "Read all unique extraction fields and instrument labels; RTFs require original-content inspection, not title exclusions."
+      }
+    },
+    {
+      "id": "author_profile",
+      "role": "other",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/peteskene.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "1060\u20131130",
+        "finding": "Profile names py_peak_calling and py_meta_analysis analysis repositories; child contents not read."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "1060\u20131130",
+        "finding": "Read actual profile titles/descriptions only, no child-repository contents claimed."
+      }
+    },
+    {
+      "id": "geo_cut-and-run_peg_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut-and-Run_PEG_protocol.rtf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "PEG digestion and negative0.5AMPure retain supernatant. Four yeast bodies cite PMID25827087 for nuclei/library; human/Native bodies have no literal citation/URL."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "PEG digestion and negative0.5AMPure retain supernatant. Independently read complete body; durable twins verified byte-equal to rendered/conversion text."
+      }
+    },
+    {
+      "id": "geo_cut-and-run_extract_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut-and-Run_extract_protocol.rtf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "Soluble branch with separate high-salt option; late spike addition; no negativeAMPure. Four yeast bodies cite PMID25827087 for nuclei/library; human/Native bodies have no literal citation/URL."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "Soluble branch with separate high-salt option; late spike addition; no negativeAMPure. Independently read complete body; durable twins verified byte-equal to rendered/conversion text."
+      }
+    },
+    {
+      "id": "geo_cut-and-run_spike-in_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut-and-Run_spike-in_protocol.rtf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "Spike in STOP, soluble recovery, negative0.5AMPure retain supernatant. Four yeast bodies cite PMID25827087 for nuclei/library; human/Native bodies have no literal citation/URL."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "Spike in STOP, soluble recovery, negative0.5AMPure retain supernatant. Independently read complete body; durable twins verified byte-equal to rendered/conversion text."
+      }
+    },
+    {
+      "id": "geo_cut-and-run_total_dna_protocol",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut-and-Run_total_DNA_protocol.rtf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "Despite total-DNA filename, body collects supernatant before extraction/negativeAMPure; unresolved label/body difference vsarticle total-reaction extraction, not proven typo. Four yeast bodies cite PMID25827087 for nuclei/library; human/Native bodies have no literal citation/URL."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "Despite total-DNA filename, body collects supernatant before extraction/negativeAMPure; unresolved label/body difference vsarticle total-reaction extraction, not proven typo. Independently read complete body; durable twins verified byte-equal to rendered/conversion text."
+      }
+    },
+    {
+      "id": "geo_cut_and_run_human",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut_and_Run_human.rtf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "Human soluble-fragment centrifugation route. Four yeast bodies cite PMID25827087 for nuclei/library; human/Native bodies have no literal citation/URL."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "Human soluble-fragment centrifugation route. Independently read complete body; durable twins verified byte-equal to rendered/conversion text."
+      }
+    },
+    {
+      "id": "geo_cut_and_run_human_size_selection",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut_and_Run_human_size_selection.rtf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "Explicit whole-reaction extraction then0.5AMPure retain unbound below~700bp. Four yeast bodies cite PMID25827087 for nuclei/library; human/Native bodies have no literal citation/URL."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "Explicit whole-reaction extraction then0.5AMPure retain unbound below~700bp. Independently read complete body; durable twins verified byte-equal to rendered/conversion text."
+      }
+    },
+    {
+      "id": "geo_native_chip",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Native_ChIP.rtf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "Distinct nativeChIP comparator; input3.5AMPure selection, not selectedCUTRUN route. Four yeast bodies cite PMID25827087 for nuclei/library; human/Native bodies have no literal citation/URL."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete original RTF body (line1; human/Native line2 blank)",
+        "finding": "Distinct nativeChIP comparator; input3.5AMPure selection, not selectedCUTRUN route. Independently read complete body; durable twins verified byte-equal to rendered/conversion text."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "eLifeMethods376/Appendices; predecessor main/SI links; GEOmetadata; authorprofile",
+      "finding": "Actual source-specific linked scope recorded. HenikoffSI blocked; currentKAPA target unrelated; namedGEOcrosslink method unlocated; actual GitHub children/PMID25827087/comparative datasets remain scoped obligations. No index/adapter absence accepted."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "eLife346\u2013385/732\u20131085; GEO unique metadata fields; all7RTFs; profile1060\u20131130; suppl.html body and filelist362rows",
+      "finding": "Independently read bounded originals. GEOdirectory lists7RTFs+RAWtar/filelist; filelist1TAR+361BED/BEDGRAPH, no crosslink protocol listed HERE. Parentdirectories/aliases not checked. KAPA response wrong identity; no full historical-kit or archive closure."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Source-positive selected yeast graph corrected; no genericTruSeq/index defaults, optional pelletQC preserved and deposited totalDNA label/body discrepancy public. Named linked originals remain open; no accepted absence or whole-review completion.",
+  "historical_source_checklist": [
     {
       "id": "article",
       "role": "defining",
@@ -57,7 +308,7 @@
       }
     }
   ],
-  "linked_information": {
+  "historical_linked_information": {
     "result": "blocked",
     "pass_1": {
       "reviewer": "audit_a_h",
@@ -72,12 +323,15 @@
       "finding": "KAPA kit and predecessor papers are explicit linked chemistry sources and remain unreviewed/unavailable in this pass; absence blocked."
     }
   },
-  "missing_claims": [
-    {
-      "claim": "Selected sample-index member and exact library adapter instance",
-      "disposition": "blocked",
-      "evidence": "Original Methods name KAPA kit and predecessors; historical kit guide and member index remain unverified."
-    }
+  "model_questions": [
+    "Actual2017 ordered library adapters/PCR strands, index acquisition/member, and molecular sequencing-primer sites remain unassigned model data; not confirmed publication absence."
   ],
-  "conclusion": "Primary Methods read, but named vendor/predecessor material remains unresolved."
+  "pending_linked_sources": [
+    "Henikoff2011 actual original SI",
+    "Historical KAPA guide identity/revision (current URL unrelated)",
+    "GEO extraction cross-link filename not listed in inspected directory/filelist; no global absence claim",
+    "Actual peteskene analysis repository children and SupplementarySoftware archive content scope",
+    "PMID25827087 nuclei/library predecessor cited by four yeast RTFs",
+    "Comparative GEO datasets GSE45672/GSE72816 and cited original assay-method source scope"
+  ]
 }

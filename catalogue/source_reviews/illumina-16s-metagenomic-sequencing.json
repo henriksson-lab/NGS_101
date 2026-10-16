@@ -1,6 +1,6 @@
 {
   "dir": "illumina-16s-metagenomic-sequencing",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "vendor_guide",
@@ -42,15 +42,44 @@
       "discovered_from": "vendor_guide"
     },
     {
-      "id": "nextera_xt_index",
-      "role": "linked_material",
-      "locator": "Separate historical Nextera XT Index Kit FC-131-1001/1002 full primer/ordering document, beyond the index-value table already printed in Illumina 16S guide Rev B pp.23–24",
-      "availability": "unavailable",
+      "id": "vendor_indexing_mechanism",
+      "role": "vendor",
+      "locator": "_data/sources/illumina-16s-metagenomic-sequencing/illumina_indexed-sequencing-overview-guide-15057455-08.pdf.txt",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "The defining 16S guide itself prints the complete N701–N712 i7 and S501–S508 i5 eight-base index family (lines 1238–1294), so family values are not unavailable. The guide does not print full index-PCR primer oligos or a sample-to-index pair allocation; a separate matched kit document and experiment-specific sample sheet have not been checked.",
-      "discovered_from": "vendor_guide"
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full bundle scraper12hits/3files after local vendor recovery; actual v08 title1–6/history150–186 and MiSeq p4 body391–418; same exact original previously read during GUIDE-seq audit",
+        "finding": "Actual November2020 original identifies the legacyMiSeq forward-strand workflow: template anneals to graftedP5, extends through7nonimaged chemistry cycles, then imagesIndex2. The 16S model uses a computational post-extension P5 boundary, not an exact29ntphysicalgraftedoligo or a selectedhistoricalrecipe. No vendor whole-primer assignment follows from this document."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual15057455v08 original title/history/p4 independently read previously for GUIDE-seq; new16S source assignment independently reviewed alongside current localmodule",
+        "finding": "Same manufacturer comparator independently establishes MiSeq7darkcycles and effectiveIndex2boundary, not the historical source-selected physicalprimer or recipe. Source300/8/8/300 readout remains the defining16Sguide declaration."
+      }
+    },
+    {
+      "id": "klindworth_figure_captions",
+      "role": "linked_material",
+      "locator": "_data/sources/illumina-16s-metagenomic-sequencing/PMC3592464_supp_supp_gks808_Figures_Supplementary_Fig_description.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "klindworth",
+      "reason": "This specific caption document describes taxonomic-distribution plots, not an Illumina library reagent or adapter original. Its classification does not exclude the uninspected figure images or other supplementary archives.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual entire13-line supplementary figure-description original, independently reported source inventory",
+        "finding": "Captions describe S1–S3 taxonomic distributions and primer-pair comparisons. Figure archive inventory names3BMPs plus this PDF; actual image contents have not been excluded from scope by this caption-only reading."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh12-hit full bundle scraper; actual entire13-line supplementary figure-description text",
+        "finding": "Independently read S1 bacterial taxonomic distribution of0341/0785pyrotags versus metagenomic tags, S2/S3 distributions for0008/0907pair. This caption document is biological comparison context, not the Illumina adapter source. No claim about all other archive contents."
+      }
     }
   ],
   "linked_information": {
@@ -66,7 +95,43 @@
       "date": "2026-10-16",
       "locations": "Illumina guide p.3 Klindworth citation lines 113–125 and Nextera XT indexing sources lines 387–453, 1238–1294; original Klindworth JATS lines 70–72, 82–88 and 170–176; source bundle manifest",
       "finding": "Followed cited Klindworth original and verified gene-specific 341F/785R pair; its Roche/454 library prep is not the Illumina adapter source. Found all N701–N712/S501–S508 index values inside the defining Illumina guide, resolving family availability. Separate version-matched Nextera full primer documentation and actual sample-to-index allocation remain unreviewed, so linked-information result stays blocked."
-    }
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual defining16Sguide, originalKlindworth mainJATS68–89/media inventory, fullcaptionPDF, currentmanufacturerMiSeq comparator and currentlocaldeclaration",
+        "finding": "Source identity is separated from model assignment: historical full-primer/sample-sheet wishes are no longer invented unavailable documents. ActualKlindworth Table archives, figure/script/FASTA originals and arb-silva archive remain identified linked-scope obligations; only directly inspected sections have dispositions. Inherited Roche/454 workflow is not transferred. No missing-information acceptance or whole-link closure."
+      },
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual originalguide/source inventory and fresh rewrittenlocalmodule reviewed independently",
+        "finding": "Model corrections agree with source-positive fullprimers/reagents/cleanups/readout and retain inferredcaps/unassignednativegeometry. ActualKlindworth supplementary Table archives remain newly identified obligations; title or archive inventory alone is not their chemistry exclusion."
+      }
+    ],
+    "pending_scope": [
+      {
+        "source": "klindworth",
+        "identified_original": "supp_gks808_Tables.zip",
+        "state": "Actual original associated-media archive, identified but not retrieved/read in this checkpoint; no access barrier or content exclusion is claimed."
+      },
+      {
+        "source": "klindworth",
+        "identified_original": "supp_gks808_gks808-tables-xlsx.zip",
+        "state": "Actual original associated-media archive, identified but not retrieved/read in this checkpoint; no access barrier or content exclusion is claimed."
+      },
+      {
+        "source": "klindworth",
+        "identified_original": "www.arb-silva.de/download/archive/primer_evaluation",
+        "state": "Actual main-JATS evaluation/script/database archive link; original scope remains to inspect. No large reference datasets fetched."
+      },
+      {
+        "source": "klindworth",
+        "identified_original": "Local Figures/Scripts/twoFASTA archives",
+        "state": "Inventory-only scope except the independently read caption PDF; uninspected contents are not excluded from relevance."
+      }
+    ]
   },
   "missing_claims": [
     {
@@ -75,10 +140,60 @@
       "evidence": "Official Illumina guide Rev B Dual Indexing Principle, extracted lines 1238–1294, prints all 12 i7 and 8 i5 eight-base members."
     },
     {
-      "claim": "Exact N7XX/S5XX index-primer pair assigned to an individual sample and full ordered index-PCR primer strands for this kit generation",
+      "claim": "A source-selected whole index-PCR primer generation or sample-to-index pair is unavailable.",
       "disposition": "blocked",
-      "evidence": "Guide explains plate arrangement (lines 445–453) and family values (1238–1294), but no sample-specific pair or full primer strand is printed there. Separate historical kit source and sample sheet remain unchecked."
+      "evidence": "These remain unassigned model values, not accepted publication absence. The guide positively supplies allN701–N712/S501–S508 eight-base family values; no specific missing historical disclosure document or experiment sample sheet has been established. Actual linked-source obligations remain open."
     }
   ],
-  "conclusion": "The defining Illumina guide has two independent readings. It prints complete V3/V4 tailed PCR1 primers and the full N701–N712/S501–S508 eight-base index families, resolving the old unavailable-family claim. The cited Klindworth primer paper has two independent located readings; it confirms the locus-specific primer pair but uses a distinct Roche/454 library workflow. Exact sample-to-index selection and full version-matched index PCR primer strands remain blocked pending separate kit/sample sources and independent Klindworth second pass."
+  "conclusion": "Local endpoint corrected from actual source-positivePCR1 product, retaining both locus-primer regions, cleanups/aliquot and source-boundedMiSeq readout. Historical full-primer identity and sample selection remain explicit inferred/unassigned model data. ActualKlindworth linked archives remain pending; review staysin_progress and accepts no publication absence.",
+  "historical_identity_questions": [
+    {
+      "previous_record": {
+        "id": "nextera_xt_index",
+        "role": "linked_material",
+        "locator": "Separate historical Nextera XT Index Kit FC-131-1001/1002 full primer/ordering document, beyond the index-value table already printed in Illumina 16S guide Rev B pp.23–24",
+        "availability": "unavailable",
+        "relevance": "relevant",
+        "pass_1": null,
+        "pass_2": null,
+        "reason": "The defining 16S guide itself prints the complete N701–N712 i7 and S501–S508 i5 eight-base index family (lines 1238–1294), so family values are not unavailable. The guide does not print full index-PCR primer oligos or a sample-to-index pair allocation; a separate matched kit document and experiment-specific sample sheet have not been checked.",
+        "discovered_from": "vendor_guide"
+      },
+      "disposition": "Withdrawn as an identified-document row. No specific historical full-primer original or experiment-specific sample sheet was identified. Whole-primer identity and sample selection remain model questions; this supplies no reading pass and accepts no source absence."
+    }
+  ],
+  "additional_checks": [
+    {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Fresh full bundle scraper12hits/3files; actual defining15044223B guide77–79,110–155,190–262,380–557,1238–1294; Klindworth originalJATS68–89; current localmodule and focusedsourceguards",
+      "finding": "Own fresh reading confirms full source primers, KAPAHiFiReadyMix in bothPCRs,25/8cycles, cleanupaftereachPCR and5µltransferwith45µlunused/storable remainder. Local final endpoint now extends actualPCR1 instead of dropping both locus primers. Known-length17/21IUPAC classes use neutral iupac_complement and explicit bottoms; internal role-body length remains unknown. PCR1 native geometry is unassigned; inferredPCR2 caps/wholeprimers defaultinferred with14/15binding sites. Source-positive primers remain explicit whole ordering-string graph inputs."
+    },
+    {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Fresh actual defining15044223B guide110–155,190–262,380–557,1238–1294 and complete rewritten16Smodule, independently reportedP2",
+      "finding": "LiteralFWD/REV source strings and17/21lengths match, with correct reverse-locus class-complement GGATTAGATACCCBDGTAGTC. Endpoint extends actualPCR1 product, preserving both primer regions.25/8cycles,KAPA,twoAMPurecleanups and5+45transfer agree with originals. ConditionalPCR2caps/14–15basebinding are honestly scoped; historicalphysicalprimer identity is not proved. MiSeq effectiveP5 and300/8/8/300 remain source/comparator-bounded."
+    },
+    {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "ActualKlindworth mainJATS associated-media inventory and original archives; reported boundedP1 inventory",
+      "finding": "Two currently unretrieved Table archives are actually identified: supp_gks808_Tables.zip and supp_gks808_gks808-tables-xlsx.zip. Main names S1–S47/oldNARDC1 and arb-silva.de/download/archive/primer_evaluation. FigureZIP inventory has3BMPs pluscaptionPDF; scriptsZIP has9SQL/shell members; twoFASTAarchives have3.fna members each,73/41MBuncompressed. No whole-content absence or exclusion follows from these inventories, and no code was executed."
+    }
+  ],
+  "model_questions": [
+    {
+      "question": "Exact complete index-PCR primer strands and flow-cell caps for a matched historical kit generation",
+      "state": "Unassigned; local canonical construction defaults to inferred. A desired specification is not an identified unavailable original document."
+    },
+    {
+      "question": "Which i5/i7 pair belongs to a particular experimental sample",
+      "state": "Unselected; this is a general vendor protocol and no particular experimental sample is modeled. Printed index families remain positive source data."
+    },
+    {
+      "question": "Native community genomic PCR1 binding coordinates",
+      "state": "Unassigned model template. The tailed PCR1 product is not used as proof of the genomic input."
+    }
+  ]
 }

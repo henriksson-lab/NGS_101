@@ -1,8 +1,8 @@
-"""Composite identifiers and family-level split-pool tag assembly."""
+"""Composite identifier checks and views of explicitly supplied tag parts."""
 from __future__ import annotations
 
 from dataclasses import dataclass
-from batch_ngs import joined_scene, seg, truseq_library
+from batch_ngs import joined_scene, seg
 from chemdraw import Construct, Row, Segment, feature
 
 
@@ -35,10 +35,3 @@ def ligation_round_rows(parts: list[Segment]) -> list[Row]:
     boundaries = tuple((chain[i].name, chain[i + 1].name, f"ligation round {i + 1}")
                        for i in range(len(chain) - 1))
     return joined_scene(chain, boundaries, label="split-pool tag chain", duplex=False).rows()
-
-
-def final_library(parts: list[Segment], name: str):
-    """Place tag parts so R1 sees DPM then genome and R2 sees remaining tags in order."""
-    insert=[parts[0],seg("genomic DNA", "X"*42, placeholder=True),*reversed(parts[1:])]
-    lib,primers=truseq_library(insert,name)
-    return lib,primers

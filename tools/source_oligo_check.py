@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "lib"))
 sys.path.insert(0, str(ROOT / "tools"))
 
-from chemdraw import Construct, Segment  # noqa: E402
+from chemdraw import Construct, Scene, Segment  # noqa: E402
 from protocol_graph import MaterialKind, ProtocolGraph  # noqa: E402
 import scrape_primers  # noqa: E402
 
@@ -39,6 +39,12 @@ def _sequences(state) -> tuple[str, ...]:
         if any(p.placeholder or p.inferred for p in parts):
             return ()
         return _sequences("".join(p.top for p in parts))
+    if isinstance(state, Scene):
+        # Scene keeps the original ordering strands separately from their drawn
+        # orientation and pairing offsets. Never join different reagent strands
+        # or reverse a strand merely because it is drawn antiparallel.
+        return tuple(dict.fromkeys(seq for strand in state.strands.values()
+                                   for seq in _sequences(strand.segs)))
     if isinstance(state, (tuple, list)):
         if all(isinstance(x, Segment) for x in state):
             if any(x.placeholder or x.inferred for x in state):
@@ -58,11 +64,17 @@ def candidates(graph: ProtocolGraph) -> tuple[Candidate, ...]:
 
 
 def unrepresented_input_ids(graph: ProtocolGraph) -> tuple[str, ...]:
-    """Oligo/adapter input IDs without an exact whole-strand state to compare."""
+    """Oligo/adapter inputs with at least one unrepresented whole strand."""
+    def incomplete(state) -> bool:
+        if isinstance(state, Scene):
+            return not state.strands or any(not _sequences(strand.segs)
+                                            for strand in state.strands.values())
+        return not _sequences(state)
+
     return tuple(m.id for m in graph.materials.values()
                  if m.id not in graph._producer
                  and m.kind in {MaterialKind.OLIGO, MaterialKind.ADAPTER}
-                 and not m.inferred and not _sequences(m.state))
+                 and not m.inferred and incomplete(m.state))
 
 
 def unrepresented_inputs(graph: ProtocolGraph) -> int:

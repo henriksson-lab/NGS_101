@@ -56,23 +56,42 @@ note or a protocol module, and mark it 🟢 only once you have read it there.
 | Tool | Does | Typical call |
 |---|---|---|
 | `tools/get_sources.py` | Fetches everything legitimately reachable for a protocol in the catalogue (or a DOI): the upstream scg_lib_structs page (inspiration only, never a source — see below), PMC full text, the **PMC Cloud** bucket (JATS XML, PDF and supplements — also of author manuscripts whose PMC download page is gated), bioRxiv PDF + supplements, Nature-family supplements from Springer; links preprints and published versions both ways; then runs every special-case **fetcher** (below). Into `$CHEM_DATA/sources/<slug>/` with a `MANIFEST.tsv`. Every download is validated by type (a PDF must be a PDF, an XLSX a whole zip, an article page not a challenge page); a failed or invalid one becomes a `(manual)` row with its URL and reason. Skips what is on disk and valid. | `python3 tools/get_sources.py "sci-CAR-seq"` · `--slugs a,b` · `--doi 10.1101/829960` · `--todo` · `--all-ours` · `--revalidate` · `--list` · `--fetchers` |
-| `tools/doctext.py` | PDF / DOCX / XLSX / HTML → a plain-text twin `FILE.txt` beside the original (XLSX as tab-separated rows under `## sheet <name>`). `get_sources.py` runs it on everything it fetches. **Read and cite the `.txt`**: line numbers from the other tools point into it. | `python3 tools/doctext.py DIR` · `FILE --stdout` |
+| `tools/doctext.py` | PDF / DOCX / XLSX / HTML → a plain-text twin `FILE.txt` beside the original (XLSX as tab-separated rows under `## sheet <name>`). EPS figures are converted when Ghostscript is installed; unavailable conversion tools skip that file. `get_sources.py` runs it on everything it fetches. **Read and cite the `.txt`**: line numbers from the other tools point into it. Inspect original figures when layout or graphical marks matter. | `python3 tools/doctext.py DIR` · `FILE --stdout` |
 | `tools/scrape_primers.py` | Lists every oligo-like sequence: the bases (PDF line-wrap rejoined; shorthand like `T30VN` and placeholders like `[8-bp barcode]` kept inside the oligo), the oligo **as written with its modifications** (`/5Phos/`, `rApp`, `-ddC`, `rGrG+G`, `*`, RNA `rN` or U), the parsed modifications, a nearby name, the `lib/` sequences it contains on either strand, other lines with the same oligo, and context. Tuned for **recall**: expect false hits. A family of table rows differing only in an index/barcode window is collapsed into one hit; files are ordered by their most oligo-like hit; `--max-hits` cuts the lowest scorers. `--find` treats N, U and IUPAC letters as base classes and sees through modifications and placeholders. | `python3 tools/scrape_primers.py $CHEM_DATA/sources/<slug>/` · `--tsv` · `--all` · `--known-only` · `--find SEQ` (either strand; `--strict` for letter-equal) |
 
 **Special sources are fetchers, not hand downloads.** A source the generic routes miss
 (a vendor user guide, a GitHub repository, protocols.io, a publisher API) gets either a
 row in `catalogue/extra_sources.tsv` (slug, source, what, why — `source` is a URL or
-`handler:arg`, e.g. `scg:data/BD/*`, `protocolsio:<doi>`, `doi:<doi>`, `pmccloud:<PMCID>`)
+`handler:arg`, e.g. `scg:data/BD/*`, `protocolsio:<doi>`, `doi:<doi>`, `pmccloud:<PMCID>`
+or `pdf:<URL>` for an identified PDF whose URL lacks a PDF suffix)
 or, for a new kind of source, a module in `tools/fetchers/` (how-to in
 `tools/fetchers/__init__.py`; `--fetchers` lists them). For 10x Genomics and BD the
 scg_lib_structs GitHub repo (`scg:` handler) mirrors the vendor guides, oligo tables and
 barcode whitelists; it is fetched automatically for every protocol upstream has drawn.
 Offline checks for all of this: `python3 tools/selftest_sources.py`.
 
+A cached filename is not source identity. The fetcher refuses to reuse or overwrite
+a manifest entry assigned to another URL; fix the filename mapping or declare a
+distinct original, rather than bypassing that check. In particular, GEO accession
+and record scope belong in filenames for its shared `acc.cgi` endpoint. Check the
+manifest URL and original accession before counting a cached document as read.
+
+The protocols.io fetcher follows attachment links in both the PDF and the public
+metadata for the PDF's printed protocol integer ID. Legacy XLS order sheets may be
+linked only in that metadata. A PDF with no attachment annotation is therefore not
+evidence that the named workbook is inaccessible; do not substitute a newer protocol
+revision without checking its identity.
+
 What is still out of reach: Science / Cell / most publisher PDFs and supplements behind
 Cloudflare or a paywall — get those by hand (the manifest has the URL) and drop them in
 the same directory; `--revalidate` then checks them like any download. The scraper
 finds oligos, not reaction order: the methods still have to be **read**.
+
+**Source revisions are part of identity.** Preserve a cited revision in retrieval
+URLs and cache names. Check the returned original's printed revision and exported
+identity before treating it as that source. A current export cannot stand in for
+an earlier cited revision; matching selected components does not prove complete
+revision equivalence. Rejected responses stay outside ordinary source reading.
 
 **Missing-information audit gate.** Do not call a protocol's missing sequence,
 reagent, reaction detail, or read layout confirmed absent merely because a source
@@ -88,6 +107,12 @@ Record the two passes and their source checklist in `catalogue/source_reviews/`.
 The existing oligo audit ledgers are historical work queues, not evidence of this
 two-pass gate by themselves. Show the source checklist and linked-information
 disposition on a public page when that page asserts confirmed missing information.
+
+Each checklist row must identify an original document, repository or file. Keep a
+desired component specification or an unassigned study-specific value as an open
+question; do not invent an unavailable disclosure document for it. A genuinely cited
+source with unresolved identity still blocks the associated absence claim. This
+distinction does not waive source checks or establish that information is absent.
 
 ## Writing up a protocol (notes first)
 
@@ -137,8 +162,22 @@ disposition on a public page when that page asserts confirmed missing informatio
   Read 1/2 + index primers on a library by computation), `mdfacts.py` + `mdrender.py`
   (Markdown with computed facts), `page.py` (shared HTML/CSS), `checks.py` (harness +
   `run_common`, retained for legacy suites; new protocol suites do not repeat it).
-- **`protocol_families/`** — bounded operations shared by a named family, such as
-  Chromium GEM partitioning and PCR. Protocol modules still assemble their own graphs.
+  Some legacy recipes still live here: directory placement does not make them
+  neutral. Check `catalogue/chemistry_decoupling.tsv` and do not add callers to
+  recipes awaiting migration. A readout label check is not reaction validation;
+  distinguish the chemical product from the base reported by sequencing.
+- **`protocol_families/`** — legacy family recipes being migrated to their protocol
+  owners (see `catalogue/chemistry_decoupling.md`). A family name or matching endpoint
+  does not establish shared chemistry. Shared operations must receive the molecular
+  inputs, reagents, geometry and outputs explicitly; they must not supply biological
+  defaults or source conclusions. Protocol modules assemble their own graphs.
+  Sharing an operation does not establish equal substrates, ends, conditions or
+  products. Keep those choices source-qualified locally; derive comparisons from
+  declarations without using apparent similarity to fill gaps in either protocol.
+  A pure function with explicit parameters can still encode a biological assumption.
+  Keep expected products, off-products and physical versus computational fates local;
+  shared checks establish only their stated molecular relation. Unknown values are
+  not evidence that two protocols agree.
 - **`<protocol>__<doi with / → +>/`** — one directory per protocol, named for its defining
   paper. `catalogue/ours.tsv` is the single record mapping protocol → directory, and the
   catalogue self-test rebuilds directory names from it (so renames must go through it).
@@ -147,7 +186,9 @@ disposition on a public page when that page asserts confirmed missing informatio
   one module declaring `PAGE_FILE`, `protocol_graph()`, `render_page()`, and `selftest()`.
   `tools/protocol.py` builds or tests it, and `build_site.py` discovers it automatically.
   Keep that protocol's citations, displayed oligos, read layout and evidence notices in
-  its module; import predecessor molecular constructors when the chemistry is inherited.
+  its module. Import a predecessor molecular constructor only when local evidence
+  establishes inheritance of that specific component and version; record that scope
+  beside the import/use. Similar names or matching sequences alone do not establish it.
   Status `notes` directories hold reference notes only. Scripts bootstrap
   `sys.path` with `HERE` and `HERE.parents[1] / "lib"` (see MAINTAINERS.md "Adding a protocol").
 - **`catalogue/`** — scraped worklist of protocols from scg_lib_structs

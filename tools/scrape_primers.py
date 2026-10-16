@@ -32,7 +32,8 @@ hit back to the original, which is reported "as written"):
     rejoined: lines indented under one another (a drawn duplex), and runs of 3 or more
     lines that are each one sequence of the same length (a barcode list).
   * per-base marks are looked through: RNA rN, 2'-OMe mN, LNA +N, phosphorothioate * or
-    ∗ (also "-s-"), IDT internal /iXxx/ (/ideoxyU/ reads as U), (dU), iso-bases iCiGiC.
+    ∗ (also "-s-"), IDT internal /iXxx/ (/ideoxyU/ reads as U), (dU) or dU,
+    iso-bases iCiGiC.
   * shorthand and placeholders inside an oligo keep it whole: T30, T30VN, dT30, (T)30,
     (dT)30, T(30), N8, N16-N12, (N)8, XXXXX and JJJJJ (one N each), [NNNNNN],
     [8-bp Round1 barcode], [10bp barcode], [UMI10], [BC6], [T30], {UMI}, <cbc> are
@@ -312,13 +313,15 @@ def _pdf(path: Path) -> str | None:
 
 def files(args: list[str]) -> list[Path]:
     """Files to read. In a directory, a document with a converted twin (paper.pdf beside
-    paper.pdf.txt, from tools/doctext.py) is read as the text, so hits cite its lines."""
+    paper.pdf.txt, from tools/doctext.py) is read as the text, so hits cite its lines.
+    Rejected `_invalid` documents are excluded from directory scans; an explicit file
+    argument remains available for deliberate inspection."""
     out = []
     for a in args:
         p = Path(a)
         if p.is_dir():
             found = sorted(f for f in p.rglob("*") if f.is_file() and
-                           f.name != "MANIFEST.tsv" and
+                           f.name != "MANIFEST.tsv" and "_invalid" not in f.parts and
                            f.suffix.lower() in TEXT_EXT | HTML_EXT | OFFICE_EXT | {".pdf"})
             have = {f.name for f in found}
             out += sorted((f for f in found if f.name + ".txt" not in have),
@@ -457,9 +460,12 @@ MOD3 = re.compile(rf"^(?:[ \t]*-?[ \t]*(?:{_MOD})(?![A-Za-z0-9]))+")
 # brackets rather than slashes. Gated on the known modification vocabulary and on hyphens
 # both sides, so ordinary parenthetical prose between two base runs cannot join them.
 _BRACKET_INTERNAL = re.compile(rf"-[\[(](?:[53]['\u2032\u2019]?[ -]?)?(?:{_MODNAME})[\])]-")
-_ANY_MARK = re.compile(r"[rm+*∗(/]|-s-")
+_ANY_MARK = re.compile(r"[rm+*∗(/]|-s-|dU")
 _R_MARK = re.compile(rf"(?<![A-Za-z])r[{BASE}]|(?<=[{BASE}])r[{BASE}]")
 _M_MARK = re.compile(rf"(?<![A-Za-z])m[{BASE}]|(?<=[{BASE}])m[{BASE}]")
+# Explicit dU in a nucleotide run (e.g. NEB's CdUA), including at either end.
+# Require an adjacent base/mark so an isolated prose mention of dU stays prose.
+_DU_MARK = re.compile(rf"(?<=[{BASE}{LOW}])dU|(?<![A-Za-z])dU(?=[{BASE}{LOW}]|dU)")
 _L_MARK = re.compile(rf"\+[{BASE}]")
 _TAG = {"r": "RNA bases", "m": "2'-OMe", "+": "LNA", "*": "phosphorothioate"}
 
@@ -527,6 +533,9 @@ def modifications(orig: str, start: int, end: int, seq: str = "") -> tuple[int, 
         mods += [f"{_TAG[k]} x{n}" for k, n in counts.items() if n]
         mods += [f"internal /{x}/" for x in IDT_INTERNAL.findall(bases)]
         mods += [f"internal {x}" for x in re.findall(r"\(d[UI]\)", bases)]
+        du = len(_DU_MARK.findall(bases))
+        if du:
+            mods.append(f"deoxyuridine x{du}")
     else:
         counts = {"r": 0}
     if (re.search(r"3['′’]\s*[-–]?\s*\Z", orig[max(0, start - 6):start])
@@ -535,6 +544,7 @@ def modifications(orig: str, start: int, end: int, seq: str = "") -> tuple[int, 
     u = seq.count("U") + seq.count("u")
     if u:
         u -= len(re.findall(r"(?i)\(dU\)|/i?(?:deoxy|d)U/", bases))
+        u -= len(_DU_MARK.findall(bases))
     if u and not counts["r"]:
         mods.append("RNA (written with U)" if not re.search("[Tt]", seq) and u >= 2
                     else f"U bases x{u}")
@@ -657,6 +667,8 @@ def scan_copy(orig: str) -> Scan:
             add(m.start(), m.end(), "")
     for m in _PARENS_BASE.finditer(orig):
         add(m.start(), m.end(), "U" if m.group(1) == "U" else "N")
+    for m in _DU_MARK.finditer(orig):
+        add(m.start(), m.end(), "U")
     for m in _BR.finditer(orig):
         r = _bracket(m)
         if r is not None:

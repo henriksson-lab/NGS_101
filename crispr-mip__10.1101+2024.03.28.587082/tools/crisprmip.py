@@ -45,7 +45,7 @@ INDEX_LEN = 8
 PROBE_INDICES = ("ATCACGAC", "ACAGTGGT", "CAGATCCA", "ACAAACGG", "ACCCAGCA",
                  "AACCCCTC", "CCCAACCT", "CACCACAC", "GAAACCCA")
 
-# An example Brunello-style (not G-initiated) spacer, for drawings and tests.
+# Illustrative non-G spacer for drawings and tests; not an actual library member.
 EXAMPLE_SPACER = "ATCGATCGATCGATCGATCG"
 
 CAPTURED_SPAN = 112      # published, and computed from the real vector
@@ -110,8 +110,10 @@ def probe(index: str = PROBE_INDICES[0]) -> Padlock:
 def capture_fill(spacer: str = EXAMPLE_SPACER) -> str:
     """Sequence copied between the two probe arms for a cloned guide.
 
-    U6 contributes a +1 G only when the 20-nt spacer does not already begin with G.
-    The rest is the canonical v1 scaffold and the verified 15-nt vector flank.
+    This illustrative cassette adds a G before a non-G spacer; for a G-starting
+    spacer the alternative model omits that separately added base. This convention
+    is not an observed first-base policy for every guide in the screened library.
+    The scaffold and 15-nt vector flank match the deposited lentiCRISPRv2 source.
     """
     spacer = spacer.upper()
     if len(spacer) != 20 or any(b not in "ACGT" for b in spacer):

@@ -81,10 +81,13 @@ ligation arm and the circle never closes. ✅ Asserted.
 
 The gap-fill is `+1 G` + the 20 nt spacer + the scaffold + terminator.
 
-> ⚠ **The 112 assumes a non-G-initiated spacer.** ✅ A spacer already starting with G gives
-> **111**, because the vector's `+1 G` is then supplied by the spacer itself rather than
-> appended. Brunello spacers are not G-initiated, so 112 is the working value — the same
-> off-by-one recorded in `../lenticrispr-v1-screening__10.1126+science.1247005/90_combined_screen_research.md`.
+> ⚠ **Illustrative cloning convention.** This drawing uses a non-G 20-base
+> example guide with a separately added initial G. It gives the paper's reported
+> 112-base gap. Omitting that separate G for a G-starting guide gives 111 in the
+> alternative modeled cassette. The recovered empty vector and the paper do not
+> establish a universal first-base or cloning convention for every screened
+> Brunello guide. The earlier blanket assertion that Brunello guides never begin
+> with G was an unsupported repository statement, not a publication error.
 
 ## 4. Protocol 🟢
 
@@ -147,3 +150,42 @@ Everything else in the construct is now resolved: Table S2 supplies the full pro
 nine indices and both amplification primers, and `tools/selftest.py` recomputes the probe
 decomposition, the capture, the circle and the 269 bp final library from the real vector on
 every run. `tools/show_probe.py` prints the whole thing to scale.
+
+
+## Deposited target-map source check (2026-10-16)
+
+The paper's Plasmids section explicitly names the Brunello kinome library
+Addgene #75314 and its lentiCRISPRv2 backbone #52961 (original preprint text
+lines390–398). The recovered cached map was exported from Addgene verified
+full-sequence record244694. Fresh downloads of that record's original sequence
+viewer JSON and feature JSON were obtained through the registered source URLs.
+Parsing the main sequence-strand SVG groups reconstructs all14873 bases, exactly
+matching the cached GenBank ORIGIN. Primer-annotation groups are separate SVG
+objects and must not be mistaken for the main strand.
+
+On the deposited empty vector, zero-based half-open coordinates are:
+
+| Landmark | Plus-strand interval |
+|---|---|
+| extension arm |2219–2238|
+| ligation arm |4210–4233|
+| scaffold |4119–4195|
+|15-base post-scaffold flank |4195–4210|
+| P5 primer's18-base captured tail |4191–4209|
+| reverse complement of P7 primer's18-base tail |4151–4169|
+
+Both arm sequences occur once in this orientation; the probe anneals to the
+opposite genomic strand. The empty deposited vector includes the cloning filler:
+its arm-to-arm interval is1972 bases, not the112-base guide-containing gap. An
+explicitly cloned illustrative guide replaces that filler. Its112-base fill is
+initialG +20-baseguide +76-basescaffold +15-baseflank; together with the19- and
+23-base arms, the footprint is154 bases. The126-base probe closes into a238-base
+circle and the printed P5/P7 primers give a269-base inverse-PCR product. Those
+product lengths are computed for the declared illustrative cassette, not measured
+for every original screened clone.
+
+TableS2 remains the authority for the probe's5-prime phosphate, N13 UMI and the
+printed primer sequences. This map check does not change the existing public
+134-versus126 probe-length discrepancy notice. It does not establish that every
+captured circle is necessarily a different cell: repeated capture of a genomic
+molecule or UMI collisions remain outside the simple molecular geometry check.

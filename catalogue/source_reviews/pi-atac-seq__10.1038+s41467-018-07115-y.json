@@ -19,7 +19,23 @@
         "date": "2026-10-15",
         "locations": "Defining PMC JATS extracted lines 195-212, especially Pi-ATAC library preparation",
         "finding": "Independently read single-cell PCR setup, index sorting and the linked stepwise protocol pointer. The article names barcoding primer use but gives no well-to-sequence assignment."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_tenx_closeout",
+            "date": "2026-10-16",
+            "locations": "OriginalJATS188–225; fullMethods and DataAvailability303–305 after fullbundle scraper",
+            "finding": "Fresh original read finds source differences with author protocol:20µl reversebuffer/65°C/25mM primer stock versus25µl/60°C/25µM; articlebuffer5ng/ml proteinaseK differs from protocol step25 internally inconsistent200µg/µl vs1:10020mg/ml. GEO GSE112091 is a substantive newly followed metadata source."
+          },
+          "pass_2": {
+            "reviewer": "independent_rna_contacts",
+            "date": "2026-10-16",
+            "locations": "Original articleJATS188–225 and original protocolPDFpp9–10 independently visually inspected after own bundle scraper25hits/1file; completeAPI13224 top-level and decodedstep entities inspected",
+            "finding": "Confirms article/protocol values differ; step25 internal concentration arithmetic has1000-fold unit mismatch, actualperformed conditions not established. APIversion13224/version0 names overview/header images but contains later metadata; do not date whole API2018. Vendor/material links require source-specific scope checks."
+          }
+        }
+      ]
     },
     {
       "id": "chen_2018_supplementary_figures",
@@ -97,7 +113,23 @@
         "date": "2026-10-15",
         "locations": "Author protocols.io PDF reagent list extracted lines 135-146 and PCR setup lines 350-360",
         "finding": "Independently confirmed the explicit Buenrostro scATAC adapter citation and per-well Ad1/Ad2 volumes and stock concentration; no Ad1/Ad2 base strings or plate assignment are printed in these sections."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_tenx_closeout",
+            "date": "2026-10-16",
+            "locations": "OriginalPDF all11pages; date/footer23Oct2018; steps25,26,32,34; publicAPI13224/version_uri inspected",
+            "finding": "Source date23Oct2018, corrected note24Oct error. Exact dilution math gives200µg/ml versus printed200µg/µl; source differences noted publicly without assigning disputed conditions. API provides overview image; documents=null in inspected response, not proof of an unopened endpoint being empty."
+          },
+          "pass_2": {
+            "reviewer": "independent_rna_contacts",
+            "date": "2026-10-16",
+            "locations": "Original articleJATS188–225 and original protocolPDFpp9–10 independently visually inspected after own bundle scraper25hits/1file; completeAPI13224 top-level and decodedstep entities inspected",
+            "finding": "Confirms article/protocol values differ; step25 internal concentration arithmetic has1000-fold unit mismatch, actualperformed conditions not established. APIversion13224/version0 names overview/header images but contains later metadata; do not date whole API2018. Vendor/material links require source-specific scope checks."
+          }
+        }
+      ]
     },
     {
       "id": "buenrostro_2015_predecessor",
@@ -137,6 +169,570 @@
         "locations": "Original publisher MOESM12 PDF, independently decompressed the Flate XFA streams (final filled dataset 11,638 bytes) after Pi-ATAC source-bundle oligo scraper; checked extracted fields at lines 14–27 and 39–68, especially sampleprep line 63",
         "finding": "Independently read filled reporting summary: fixation/permeabilization, staining, 30-min bulk tagmentation, EDTA quench and index sorting are stated. No Ad1/Ad2 bases or plate assignment appear in its fields; this does not establish their absence from other relevant sources."
       }
+    },
+    {
+      "id": "protocolsio_public_api",
+      "role": "linked_material",
+      "discovered_from": "authors_pi_atac_protocol",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/protocolsio_13224_public.json; https://www.protocols.io/api/v1/protocols/13224?fields%5B%5D=guidelines&fields%5B%5D=documents&fields%5B%5D=description&fields%5B%5D=materials&fields%5B%5D=steps",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Entireprotocol top-level fields; decodedguidelines/steps/entities/materials; mandatoryfullbundle scraper before reading; explicitneutral scan of decompressedSOFT0hits.",
+        "finding": "Version_uri pi-atac-bp2l6jokvqe5/v1, version_class13224. Guidelines link Chang_Lab_Figure.png; separate current header metadata. No document attachment in inspectedresponse; materialnames/sourceNextera URL. Current API carrieslatermetadata, not frozen2018."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Entireprotocol top-level fields and everydecodedstep entityMap after ownbundle scraper",
+        "finding": "Documents/troubleshootingnull in inspectedresponse; currentheader/image metadata includeslaterchanges despiteversion13224/v1. PCRtable contains thermalprogram only. Guidelinesimage andmanufacturer materiallinks are additional actual originals; no unopenedattachmentendpoint absenceclaim."
+      }
+    },
+    {
+      "id": "protocolsio_overview_images",
+      "role": "linked_material",
+      "discovered_from": "protocolsio_public_api",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/z43fw26.png; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/z7y2d6n-43747664687311F08F960A58A9FEAC02.png",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Both complete original images visually inspected; mandatoryfullbundle scraper before reading; explicitneutral scan of decompressedSOFT0hits.",
+        "finding": "Full overview depicts fixedtissue,ATAC/antibody,indexFACS,reversecrosslink/indexPCR,pool,sequence/map; header is cropped staining/FACS view. Namedwellrows/dots are schematic, not literaloligo assignments."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Both complete original PNGs visually inspected after own mandatory bundle scraper",
+        "finding": "Fullimage depicts tissue→ATAC/antibody→indexFACS→reversecrosslink/indexPCR→pool→sequencing; crop showsATAC/FACS only. Coloredwellgrids are conceptual, not printedoligobases or primerassignment; no other-source absence inferred."
+      }
+    },
+    {
+      "id": "geo_family_metadata",
+      "role": "linked_material",
+      "discovered_from": "chen_2018_article",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112091_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112091_family.soft.txt; https://ftp.ncbi.nlm.nih.gov/geo/series/GSE112nnn/GSE112091/soft/GSE112091_family.soft.gz",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Fullfield inventory across2419samples; all7distinctextractionprotocols; library/processing/supplement fields; sampleexamples11105–11130,18745–18765; seriesrelations2445–2460; mandatoryfullbundle scraper before reading; explicitneutral scan of decompressedSOFT0hits.; seventh4T1/splenocyteprotocol3343 independently read after initial six-count corrected.",
+        "finding": "SuperSeries names8SubSeries. Metadata gives samplecell/plate labels and repeated libraryprotocols;6bulk peakfilenames include literal8ntindexes, not complete singlecell primerpair mapping. HTML route returnschallenge but originalfamilySOFT retrieved. Childseries metadata/SRAexperiment indexing scope remains to inspect; no rawreads downloaded."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "All99770lines unique-fieldinventory across2419samples; all7extractionprotocolstrings first2503,3103,3343,11119,18760,34503,46023; all9processingfields and7supplemententries; sample3090–3128,11095–11128; series2452–2459",
+        "finding": "Seven distinct extractionprotocols independently read. Six8ntfilenameindexes belong bulkGMdevelopment samplesGSM3057377–82, notsinglecellpairmap. OnlyoneSERIES record; actual8childSeriesoriginals still need separatechecks. No RAWtar/results/reads downloaded."
+      }
+    },
+    {
+      "id": "geo_gse112089",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112089_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112089_family.soft.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "ActualSeries title/summary/overall_design; allSeries supplementary_file/relation fields; mandatoryneutral oligoscanner0hits before reading; every child sample field compared with root family original, identical after ignoring series membership.",
+        "finding": "Childoriginal names biologicalsamplecondition and processedpeak/BED outputs (GSE112090 RAWtar) plus SRAproject. These inspectedmetadatafields are not a literalwell-to-primerpair map. SRA metadata scope remains an identified next original check, no result-table absence inferred."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Actual SubSeries SOFT original: Series title/summary/design lines7/13/14 and every supplementary/relation field at 48–60, after fresh full Pi-ATAC bundle scraper.",
+        "finding": "Independently read biological context and the listed processed peak/BED files or RAW archive and SRA references. These inspected Series fields do not supply literal Ad1/Ad2 sequences or a well-pair table. This does not inspect archive contents or all SRA children; no broader absence claim follows."
+      }
+    },
+    {
+      "id": "geo_gse112090",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112090_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112090_family.soft.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "ActualSeries title/summary/overall_design; allSeries supplementary_file/relation fields; mandatoryneutral oligoscanner0hits before reading; every child sample field compared with root family original, identical after ignoring series membership.",
+        "finding": "Childoriginal names biologicalsamplecondition and processedpeak/BED outputs (GSE112090 RAWtar) plus SRAproject. These inspectedmetadatafields are not a literalwell-to-primerpair map. SRA metadata scope remains an identified next original check, no result-table absence inferred."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Actual SubSeries SOFT original: Series title/summary/design lines7/13/14 and every supplementary/relation field at 40–46, after fresh full Pi-ATAC bundle scraper.",
+        "finding": "Independently read biological context and the listed processed peak/BED files or RAW archive and SRA references. These inspected Series fields do not supply literal Ad1/Ad2 sequences or a well-pair table. This does not inspect archive contents or all SRA children; no broader absence claim follows."
+      }
+    },
+    {
+      "id": "geo_gse112194",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112194_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112194_family.soft.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "ActualSeries title/summary/overall_design; allSeries supplementary_file/relation fields; mandatoryneutral oligoscanner0hits before reading; every child sample field compared with root family original, identical after ignoring series membership.",
+        "finding": "Childoriginal names biologicalsamplecondition and processedpeak/BED outputs (GSE112090 RAWtar) plus SRAproject. These inspectedmetadatafields are not a literalwell-to-primerpair map. SRA metadata scope remains an identified next original check, no result-table absence inferred."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Actual SubSeries SOFT original: Series title/summary/design lines7/13/14 and every supplementary/relation field at 226–232, after fresh full Pi-ATAC bundle scraper.",
+        "finding": "Independently read biological context and the listed processed peak/BED files or RAW archive and SRA references. These inspected Series fields do not supply literal Ad1/Ad2 sequences or a well-pair table. This does not inspect archive contents or all SRA children; no broader absence claim follows."
+      }
+    },
+    {
+      "id": "geo_gse112195",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112195_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112195_family.soft.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "ActualSeries title/summary/overall_design; allSeries supplementary_file/relation fields; mandatoryneutral oligoscanner0hits before reading; every child sample field compared with root family original, identical after ignoring series membership.",
+        "finding": "Childoriginal names biologicalsamplecondition and processedpeak/BED outputs (GSE112090 RAWtar) plus SRAproject. These inspectedmetadatafields are not a literalwell-to-primerpair map. SRA metadata scope remains an identified next original check, no result-table absence inferred."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Actual SubSeries SOFT original: Series title/summary/design lines7/13/14 and every supplementary/relation field at 225–231, after fresh full Pi-ATAC bundle scraper.",
+        "finding": "Independently read biological context and the listed processed peak/BED files or RAW archive and SRA references. These inspected Series fields do not supply literal Ad1/Ad2 sequences or a well-pair table. This does not inspect archive contents or all SRA children; no broader absence claim follows."
+      }
+    },
+    {
+      "id": "geo_gse112198",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112198_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112198_family.soft.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "ActualSeries title/summary/overall_design; allSeries supplementary_file/relation fields; mandatoryneutral oligoscanner0hits before reading; every child sample field compared with root family original, identical after ignoring series membership.",
+        "finding": "Childoriginal names biologicalsamplecondition and processedpeak/BED outputs (GSE112090 RAWtar) plus SRAproject. These inspectedmetadatafields are not a literalwell-to-primerpair map. SRA metadata scope remains an identified next original check, no result-table absence inferred."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Actual SubSeries SOFT original: Series title/summary/design lines7/13/14 and every supplementary/relation field at 418–424, after fresh full Pi-ATAC bundle scraper.",
+        "finding": "Independently read biological context and the listed processed peak/BED files or RAW archive and SRA references. These inspected Series fields do not supply literal Ad1/Ad2 sequences or a well-pair table. This does not inspect archive contents or all SRA children; no broader absence claim follows."
+      }
+    },
+    {
+      "id": "geo_gse112200",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112200_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112200_family.soft.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "ActualSeries title/summary/overall_design; allSeries supplementary_file/relation fields; mandatoryneutral oligoscanner0hits before reading; every child sample field compared with root family original, identical after ignoring series membership.",
+        "finding": "Childoriginal names biologicalsamplecondition and processedpeak/BED outputs (GSE112090 RAWtar) plus SRAproject. These inspectedmetadatafields are not a literalwell-to-primerpair map. SRA metadata scope remains an identified next original check, no result-table absence inferred."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Actual SubSeries SOFT original: Series title/summary/design lines7/13/14 and every supplementary/relation field at 322–328, after fresh full Pi-ATAC bundle scraper.",
+        "finding": "Independently read biological context and the listed processed peak/BED files or RAW archive and SRA references. These inspected Series fields do not supply literal Ad1/Ad2 sequences or a well-pair table. This does not inspect archive contents or all SRA children; no broader absence claim follows."
+      }
+    },
+    {
+      "id": "geo_gse112245",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112245_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112245_family.soft.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "ActualSeries title/summary/overall_design; allSeries supplementary_file/relation fields; mandatoryneutral oligoscanner0hits before reading; every child sample field compared with root family original, identical after ignoring series membership.",
+        "finding": "Childoriginal names biologicalsamplecondition and processedpeak/BED outputs (GSE112090 RAWtar) plus SRAproject. These inspectedmetadatafields are not a literalwell-to-primerpair map. SRA metadata scope remains an identified next original check, no result-table absence inferred."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Actual SubSeries SOFT original: Series title/summary/design lines7/13/14 and every supplementary/relation field at 418–424, after fresh full Pi-ATAC bundle scraper.",
+        "finding": "Independently read biological context and the listed processed peak/BED files or RAW archive and SRA references. These inspected Series fields do not supply literal Ad1/Ad2 sequences or a well-pair table. This does not inspect archive contents or all SRA children; no broader absence claim follows."
+      }
+    },
+    {
+      "id": "geo_gse112246",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112246_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112246_family.soft.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "ActualSeries title/summary/overall_design; allSeries supplementary_file/relation fields; mandatoryneutral oligoscanner0hits before reading; every child sample field compared with root family original, identical after ignoring series membership.",
+        "finding": "Childoriginal names biologicalsamplecondition and processedpeak/BED outputs (GSE112090 RAWtar) plus SRAproject. These inspectedmetadatafields are not a literalwell-to-primerpair map. SRA metadata scope remains an identified next original check, no result-table absence inferred."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Actual SubSeries SOFT original: Series title/summary/design lines7/13/14 and every supplementary/relation field at 994–1000, after fresh full Pi-ATAC bundle scraper.",
+        "finding": "Independently read biological context and the listed processed peak/BED files or RAW archive and SRA references. These inspected Series fields do not supply literal Ad1/Ad2 sequences or a well-pair table. This does not inspect archive contents or all SRA children; no broader absence claim follows."
+      }
+    },
+    {
+      "id": "buenrostro_full_methods_scope",
+      "role": "linked_material",
+      "discovered_from": "authors_pi_atac_protocol",
+      "locator": "_data/sources/doi_10.1038+nature14590/nature14590_PMC4685948.xml.txt; nature14590_supp_NIHMS694863-supplement-1.docx.txt; doi10.1038/nature14590",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Originalarticle assayparagraph49 andSupplementaryMaterialsMethods2.5–2.6/3.1 lines78–87, originaloligoTable1; mandatoryfullpredecessorbundle scraper before reading",
+        "finding": "Explicit customNextera dualindexedC1 amplification and92x96=8832design,2x8index sequencing. It is a positiveadapterfamily source. C1 loading/preamp is not silently inherited byPiATAC; actualPiATAC wellmap andreported96x90subset remainunassigned."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Actual predecessor Supplementary Methods DOCX text78–87, sections2.5/2.6/3.1, after own full predecessor bundle scraper4hits/1file.",
+        "finding": "Custom dual-index expansion8832plex, C1 nonindexed preamplification then indexed PCR, and50x8x8x50 or76x8x8x76 sequencing supply precursor family/context, not Pi well mapping. Section2.5 cites originalATAC2013 doi10.1038/nmeth.2688; C1 scripts are available upon request, not a Pi-specific script original inspected here."
+      }
+    },
+    {
+      "id": "nextera_official_kit_scope",
+      "role": "linked_material",
+      "discovered_from": "authors_pi_atac_protocol",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_nextera_dna_kit.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Originalsupportpagecatalog4364,documentation4390–4420 andactualHTMLreferenceguide href; fullbundle scraper before reading",
+        "finding": "Officialsupport identifies namedFC1211030andlistsguide15027987. DistinguishesoriginalNexteraDNAfromNexteraXT/Flex; currentcatalogpage is not source for actualcustomPiATACprimerpairs."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Actual official kit HTML text4364 and4396–4412; full-bundle scraper before reading.",
+        "finding": "Official support lists FC-121-1030 and links the reference guide, Consumables & Equipment List and Index Adapters Pooling Guide. The latter two originals were not opened; their source scope remains pending rather than excluded from the referring page."
+      }
+    },
+    {
+      "id": "nextera_legacy_guide",
+      "role": "linked_material",
+      "discovered_from": "nextera_official_kit_scope",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_nextera-dna-library-prep-reference-guide-15027987-01.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original15027987v01Jan2016pp2,12–14,23,28: introduction175–191,amplification650–805,assay1093–1117,index1489–1556; fullbundle scraper before reading; directly rendered original printedp23 (actualPDF29) and visually inspected complete assay diagram.",
+        "finding": "Positiveengineeredtransposome+limitedPCRdualindexarchitecture;12i7/8i5eight-baseindexes. Standardkitplateindexarrangement is not an actualPiATACcustom96x90wellassignment; no vendorPCRrecipeassignedtoPi. Additionalpooling/consumablesdocumentation is a directnamedsource scope question."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Original15027987v01 Jan2016 text175–191,650–805,1093–1117,1489–1556 and visually rendered printedp23 (actualPDF29), after fresh scraper.",
+        "finding": "Positive engineered-transposome/tagmentation to dual-index PCR architecture, two8nt indexes and12i7/8i5 standard indexes. Six bulk GEO filename indexes match N701–706, without establishing Pi custom pairing. Vendor5cycle PCR/12x8 arrangement is not inherited by Pi96x90."
+      }
+    },
+    {
+      "id": "ena_srx3824622",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3824622.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3824622?format=xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete originalXML elementtexts/attributes after expandedbundle scraper; actualexperiment firstsample of linkedSubSeries",
+        "finding": "OriginalpairedIlluminaHiSeq4000/genomicATACexperiment metadata repeats constructionprotocol and identifiesGEOsample/study/submission plus datafilereportlinks. No literalprimer/index sequence in this inspectedrecord. Boundedfirstsample check cannot establish absence across2419experiments. Earlierformatlessroute was type-misnamed/rejected, not inaccessible; explicitformat fetchedactualXML."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Complete original XML node/attribute inventory after fresh full-bundle scraper; construction string compared with independently read GEO protocol.",
+        "finding": "Each inspected experiment identifies paired genomic ATAC-seq, Illumina HiSeq4000 and GEO/sample/study IDs. Construction text matches the GEO source. Attributes are GEO accession and PUBLIC status; links identify sample/submission and file reports. No sequence/well assignment is printed in these eight originals. No conclusion about other2411 experiments, unopened BioSamples/submissions or raw files follows."
+      }
+    },
+    {
+      "id": "ena_srx3824605",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3824605.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3824605?format=xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete originalXML elementtexts/attributes after expandedbundle scraper; actualexperiment firstsample of linkedSubSeries",
+        "finding": "OriginalpairedIlluminaHiSeq4000/genomicATACexperiment metadata repeats constructionprotocol and identifiesGEOsample/study/submission plus datafilereportlinks. No literalprimer/index sequence in this inspectedrecord. Boundedfirstsample check cannot establish absence across2419experiments. Earlierformatlessroute was type-misnamed/rejected, not inaccessible; explicitformat fetchedactualXML."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Complete original XML node/attribute inventory after fresh full-bundle scraper; construction string compared with independently read GEO protocol.",
+        "finding": "Each inspected experiment identifies paired genomic ATAC-seq, Illumina HiSeq4000 and GEO/sample/study IDs. Construction text matches the GEO source. Attributes are GEO accession and PUBLIC status; links identify sample/submission and file reports. No sequence/well assignment is printed in these eight originals. No conclusion about other2411 experiments, unopened BioSamples/submissions or raw files follows."
+      }
+    },
+    {
+      "id": "ena_srx3830420",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3830420.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3830420?format=xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete originalXML elementtexts/attributes after expandedbundle scraper; actualexperiment firstsample of linkedSubSeries",
+        "finding": "OriginalpairedIlluminaHiSeq4000/genomicATACexperiment metadata repeats constructionprotocol and identifiesGEOsample/study/submission plus datafilereportlinks. No literalprimer/index sequence in this inspectedrecord. Boundedfirstsample check cannot establish absence across2419experiments. Earlierformatlessroute was type-misnamed/rejected, not inaccessible; explicitformat fetchedactualXML."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Complete original XML node/attribute inventory after fresh full-bundle scraper; construction string compared with independently read GEO protocol.",
+        "finding": "Each inspected experiment identifies paired genomic ATAC-seq, Illumina HiSeq4000 and GEO/sample/study IDs. Construction text matches the GEO source. Attributes are GEO accession and PUBLIC status; links identify sample/submission and file reports. No sequence/well assignment is printed in these eight originals. No conclusion about other2411 experiments, unopened BioSamples/submissions or raw files follows."
+      }
+    },
+    {
+      "id": "ena_srx3830652",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3830652.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3830652?format=xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete originalXML elementtexts/attributes after expandedbundle scraper; actualexperiment firstsample of linkedSubSeries",
+        "finding": "OriginalpairedIlluminaHiSeq4000/genomicATACexperiment metadata repeats constructionprotocol and identifiesGEOsample/study/submission plus datafilereportlinks. No literalprimer/index sequence in this inspectedrecord. Boundedfirstsample check cannot establish absence across2419experiments. Earlierformatlessroute was type-misnamed/rejected, not inaccessible; explicitformat fetchedactualXML."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Complete original XML node/attribute inventory after fresh full-bundle scraper; construction string compared with independently read GEO protocol.",
+        "finding": "Each inspected experiment identifies paired genomic ATAC-seq, Illumina HiSeq4000 and GEO/sample/study IDs. Construction text matches the GEO source. Attributes are GEO accession and PUBLIC status; links identify sample/submission and file reports. No sequence/well assignment is printed in these eight originals. No conclusion about other2411 experiments, unopened BioSamples/submissions or raw files follows."
+      }
+    },
+    {
+      "id": "ena_srx3830843",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3830843.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3830843?format=xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete originalXML elementtexts/attributes after expandedbundle scraper; actualexperiment firstsample of linkedSubSeries",
+        "finding": "OriginalpairedIlluminaHiSeq4000/genomicATACexperiment metadata repeats constructionprotocol and identifiesGEOsample/study/submission plus datafilereportlinks. No literalprimer/index sequence in this inspectedrecord. Boundedfirstsample check cannot establish absence across2419experiments. Earlierformatlessroute was type-misnamed/rejected, not inaccessible; explicitformat fetchedactualXML."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Complete original XML node/attribute inventory after fresh full-bundle scraper; construction string compared with independently read GEO protocol.",
+        "finding": "Each inspected experiment identifies paired genomic ATAC-seq, Illumina HiSeq4000 and GEO/sample/study IDs. Construction text matches the GEO source. Attributes are GEO accession and PUBLIC status; links identify sample/submission and file reports. No sequence/well assignment is printed in these eight originals. No conclusion about other2411 experiments, unopened BioSamples/submissions or raw files follows."
+      }
+    },
+    {
+      "id": "ena_srx3831241",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3831241.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3831241?format=xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete originalXML elementtexts/attributes after expandedbundle scraper; actualexperiment firstsample of linkedSubSeries",
+        "finding": "OriginalpairedIlluminaHiSeq4000/genomicATACexperiment metadata repeats constructionprotocol and identifiesGEOsample/study/submission plus datafilereportlinks. No literalprimer/index sequence in this inspectedrecord. Boundedfirstsample check cannot establish absence across2419experiments. Earlierformatlessroute was type-misnamed/rejected, not inaccessible; explicitformat fetchedactualXML."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Complete original XML node/attribute inventory after fresh full-bundle scraper; construction string compared with independently read GEO protocol.",
+        "finding": "Each inspected experiment identifies paired genomic ATAC-seq, Illumina HiSeq4000 and GEO/sample/study IDs. Construction text matches the GEO source. Attributes are GEO accession and PUBLIC status; links identify sample/submission and file reports. No sequence/well assignment is printed in these eight originals. No conclusion about other2411 experiments, unopened BioSamples/submissions or raw files follows."
+      }
+    },
+    {
+      "id": "ena_srx3835427",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3835427.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3835427?format=xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete originalXML elementtexts/attributes after expandedbundle scraper; actualexperiment firstsample of linkedSubSeries",
+        "finding": "OriginalpairedIlluminaHiSeq4000/genomicATACexperiment metadata repeats constructionprotocol and identifiesGEOsample/study/submission plus datafilereportlinks. No literalprimer/index sequence in this inspectedrecord. Boundedfirstsample check cannot establish absence across2419experiments. Earlierformatlessroute was type-misnamed/rejected, not inaccessible; explicitformat fetchedactualXML."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Complete original XML node/attribute inventory after fresh full-bundle scraper; construction string compared with independently read GEO protocol.",
+        "finding": "Each inspected experiment identifies paired genomic ATAC-seq, Illumina HiSeq4000 and GEO/sample/study IDs. Construction text matches the GEO source. Attributes are GEO accession and PUBLIC status; links identify sample/submission and file reports. No sequence/well assignment is printed in these eight originals. No conclusion about other2411 experiments, unopened BioSamples/submissions or raw files follows."
+      }
+    },
+    {
+      "id": "ena_srx3835809",
+      "role": "linked_material",
+      "discovered_from": "geo_family_metadata",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3835809.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3835809?format=xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete originalXML elementtexts/attributes after expandedbundle scraper; actualexperiment firstsample of linkedSubSeries",
+        "finding": "OriginalpairedIlluminaHiSeq4000/genomicATACexperiment metadata repeats constructionprotocol and identifiesGEOsample/study/submission plus datafilereportlinks. No literalprimer/index sequence in this inspectedrecord. Boundedfirstsample check cannot establish absence across2419experiments. Earlierformatlessroute was type-misnamed/rejected, not inaccessible; explicitformat fetchedactualXML."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Complete original XML node/attribute inventory after fresh full-bundle scraper; construction string compared with independently read GEO protocol.",
+        "finding": "Each inspected experiment identifies paired genomic ATAC-seq, Illumina HiSeq4000 and GEO/sample/study IDs. Construction text matches the GEO source. Attributes are GEO accession and PUBLIC status; links identify sample/submission and file reports. No sequence/well assignment is printed in these eight originals. No conclusion about other2411 experiments, unopened BioSamples/submissions or raw files follows."
+      }
+    },
+    {
+      "id": "original_atac_2013",
+      "role": "linked_material",
+      "discovered_from": "buenrostro_full_methods_scope",
+      "locator": "doi10.1038/nmeth.2688; _data/sources/doi_10.1038+nmeth.2688/nmeth.2688_PMC3959825.xml.txt; original supplement nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original main article39, OnlineMethods69–101; positive Ad1_noMX/Ad2 entries in original oligo-list supplement; full predecessor bundle scraper2hits/1file before reading.",
+        "finding": "Original bulk ATAC uses custom Nextera PCR primers, single-index34x8x34 or50x8x50 readout and explicitly describes two inserted adapters separated by9bp. Positive precursor context does not establish Pi custom dual-index well pairs or transfer bulk preparation conditions."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Original OnlineMethods65–87, PCR77, primaryprocessing95–101; original primer-list supplement1–103 after own full DOI-bundle scraper.",
+        "finding": "Confirms original single-index readouts and9bp insertion spacing. Original Table1 positively prints unindexed Ad1_noMX plus24indexed Ad2 strands, all53nt with reverse-complement of8nt index label afterP7. This is a precursor family, not Pi96x90 pairing or the2015 dual-index recipe."
+      }
+    },
+    {
+      "id": "nextera_consumables_original",
+      "role": "linked_material",
+      "discovered_from": "nextera_official_kit_scope",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_nextera-dna-library-prep-consumables-equipment-1000000006969.html; registered ZIP illumina_nextera-dna-library-prep-consumables-equipment-list-1000000006969-00.zip; sole PDF member nextera-dna-library-prep-consumables-equipment-list-1000000006969-00.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Recovered original static XFA template values from the intact PDF archive member. Filled datasets packet is empty. Form layout, scripts and user checkbox responses are not evaluated; this scoped read establishes the printed consumables/catalogue content only.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual original PDF decompressed XFA template XML and full recovered three-page text, document1000000006969v00; not merely the original Please wait placeholder.",
+        "finding": "Consumables, equipment, thermal cyclers, kit/index-box catalogue and sequencing-primer-box SKUs are printed. This original is not a Pi-specific96x90 well assignment. Static template extraction does not evaluate form layout/scripts or assign physical oligo sequences from catalogue names."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Independent raw PDF object/stream scan, standard-library zlib decompression and ElementTree inspection: original object3 template114404bytes, all value elements including rich-text paragraphs; original object4 datasets121bytes empty. Compared complete original value text with recovered .pdf.txt after mandatory full-bundle scraper25hits/1file.",
+        "finding": "All three printed pages independently read from the original template: consumables/equipment and thermal-cycler tables, catalogueFC-121-1031/FC-141-1007, index kitsFC-121-1011/1012, fixtureFC-130-1005, sequencing-primer boxesFC-121-1003/PE-121-1003, then signatures. Recovered text agrees with original template values. These positive product IDs do not assign Pi custom primer pairs or sequence bases; no other-source absence conclusion follows. Form layout/scripts not evaluated."
+      }
+    },
+    {
+      "id": "current_pooling_guide_entry",
+      "role": "linked_material",
+      "discovered_from": "nextera_official_kit_scope",
+      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_index-adapters-pooling-guide-1000000041074.html; https://support-docs.illumina.com/SHARE/IndexAdaptersPooling/adapters-pooling.htm; actual loader illumina_HelpSystem.xml and actual content illumina_IndexAdapterPooling.htm; chapters illumina_Overview.htm, illumina_ColorBalance.htm, illumina_SequencingChemistry.htm, illumina_NexteraPoolingGuidelines.htm, illumina_NexteraIndexKit.htm, illumina_RevisionHistory.htm in _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Recovered actual public topics through loader DefaultUrl and TOC; blank loader shell is not source-body evidence. Current document1000000041074v17, July2026. Read scope is the entry and six named relevant chapters, not every unrelated kit chapter or an asserted historical2018 resource.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original loader Data/HelpSystem.xml DefaultUrl/TOC/BuildTime29Jul2026; original TOC/TOCchunk; complete entry; Overview145–252, ColorBalance145–428, SequencingChemistry139–425, NexteraPoolingGuidelines140–339, NexteraIndexKit139–556, RevisionHistory167–1407 in respective .htm.txt twins; mandatory full-bundle scraper25hits/1file before source reading.",
+        "finding": "Actual current body explains color balance, example index strings, channel-dependent readout and standard Nextera tube-kit6i7/4i5 or12i7/8i5 pooling choices. It does not assign these standard vendor combinations to Pi custom96x90 wells. Revision history says Nextera Index Kit guidance addedNov2018; HiSeq references removedDec2025, so v17 is not substituted for the defining study source/version. Named direct Adapter Sequences and Indexed Sequencing originals remain source-scope targets rather than excluded from this referring text. Other kit chapters not read; no full-guide/other-source absence claim."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "All seven actual original topic bodies after fresh full-bundle scraper25hits: entry; Overview145–252, ColorBalance145–428, SequencingChemistry139–425, NexteraPoolingGuidelines140–339, NexteraIndexKit139–556, RevisionHistory167–1407. Actual HTML anchors also inspected independently.",
+        "finding": "Confirms current document1000000041074v17 July2026: low-plex/color-balance and CD/UD context, literal N701/N702/N705/N706 and S502–504 examples, instrument-channel context, modern kit inventory, Nextera tube kits6i7/4i5 or12i7/8i5. Standard recommendations do not assign Pi custom96x90 wells. Revision history v04Nov2018 added Nextera kit pooling guidance; this historical chronology is not proof of exact2018 document identity. Direct AdapterSequences and IndexedSequencing targets are actual links; NextSeq/MiniSeq bulletin link is only the support homepage. External children and instrument guides not opened; no full-guide or source-absence acceptance."
+      },
+      "reacquisition_check": "All seven registered topic URLs correspond to distinct manifest rows; cached bytes match recorded MD5 and root neutral validator revalidates all seven with default content rules. Empty loader shell remains rejected. Retrieval needed no private login or access bypass."
+    },
+    {
+      "id": "adapter_sequences_current_topics",
+      "role": "linked_material",
+      "discovered_from": "current_pooling_guide_entry",
+      "locator": "https://support-docs.illumina.com/SHARE/AdapterSequences/Content/AdapterSeq.htm; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_AdapterSeq.htm; illumina_AdapterSequences_Overview.htm; illumina_AdapterSequences_Nextera_Illumina-Sequences.htm; illumina_AdapterSequences_Nextera-DNAIndexes.htm; illumina_AdapterSequences_Nextera-DNASamplePrepKit.htm",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual entry/loader/TOC; Overview139–328, Nextera_Illumina-Sequences139–205, Nextera-DNAIndexes139–1178, obsolete Epicentre topic137–166 in their original .htm.txt twins; full-bundle scraper39hits/3files before reading.",
+        "finding": "Current document1000000002694v22 positively prints Nextera transposase handles, PCR arms and index tables. Physical i7 adapter bases differ from sample-sheet strings; i5 forward/reverse-complement columns and platform-specific orientation are explicit. HiSeq3000/4000 i5 is read reverse-complement. Obsolete Epicentre Nextera has different physical arms and is not assigned by name alone. These reference families corroborate the conditional model, not actual Pi custom well assignments. No full-guide or publication-wide absence claim."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Independent actual original Overview139–328; Nextera_Illumina-Sequences139–205; all Nextera-DNAIndexes rows139–1178; obsolete Epicentre137–166, after fresh full-bundle scraper39hits/3files.",
+        "finding": "Confirms exact transposase/PCR handles,26i7/18i5 family entries and distinct physical-adapter/sample-sheet orientation columns. ExampleN701 physicalTCGCCTTA versus sampleTAAGGCGA is a specified orientation relationship, not a publication discrepancy. Modern software conventions are not silently assigned historically. Source-positive standard families do not resolve Pi96x90 choices; other kit/instrument/software documents not read by this pass are not universally excluded."
+      }
+    },
+    {
+      "id": "indexed_sequencing_current_topics",
+      "role": "linked_material",
+      "discovered_from": "current_pooling_guide_entry",
+      "locator": "https://support-docs.illumina.com/SHARE/IndexedSeq/; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_IndexedSeq_IndexedSeqIntro.htm; illumina_IndexedSeq_SingleIndexSeq.htm; illumina_IndexedSeq_DualIndexSeq.htm; illumina_IndexedSeq_DualIndexWorkflowPE.htm; illumina_IndexedSeq_RevHist_IndexedSeq.htm; illumina_IndexedSeq_resources_indexseq.htm",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual redirect and public HelpSystem/TOC; complete substantive bodies: Intro94–162,Single94–171,Dual94–128,paired-end workflow94–363,RevisionHistory124–451,Resources94–96; expanded source scraper before reading.",
+        "finding": "Current document15057455v10 Aug2024 distinguishes forward and reverse-complement i5 workflows, primer annealing and Read2 resynthesis. Revision history explicitly removes HiSeq from current body; Feb2015 revisionB entry places HiSeq3000/4000 i5 read after Read2 resynthesis. This supports conditional platform orientation without identifying actual loaded primer oligos or Pi well members. Named kit-support references are generic resources, not additional original Pi assignments."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "All six actual original substantive bodies at the same located sections, after independent fresh full-bundle scraper.",
+        "finding": "Independently confirms currentv10/Aug2024 and actual historical revision entry for HiSeq3000/4000. Readout workflow statements are source-version scoped; exact loaded primer sequence and Pi custom pair identity are not inferred from generic readout. Actual external links inspected identify generic support/legal/contact/SDS; other instrument/software documents were not independently opened or excluded universally."
+      }
+    },
+    {
+      "id": "nextseq_miniseq_pooling_bulletin",
+      "role": "linked_material",
+      "discovered_from": "current_pooling_guide_entry",
+      "locator": "https://support.illumina.com/bulletins/2016/10/library-pooling-guidelines-for-the-nextseq-and-miniseq-systems.html; currently redirects https://knowledge.illumina.com/instrumentation/general/instrumentation-general-reference_material-list/000001241; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_library-pooling-guidelines-for-the-nextseq-and-miniseq-systems.html.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Inspected original current body explicitly addresses NextSeq500/550 and MiniSeq two-channel index-registration recommendations. Pi source uses HiSeq4000; this bulletin does not supply Pi physical oligos or well assignments. Exclusion is limited to that molecular-assignment claim, not a universal assertion about all sequencing contexts or historical bulletin versions.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual redirected KnowledgeArticle1241 body257–322 and canonicalHTMLmetadata after full-bundle scraper39hits/3files.",
+        "finding": "Original two-channel scope and explicit GGACTCCT example read. Registered2016 route now serves a current Knowledge article, not a frozen2016 original. Its three table images are not used to transcribe Pi indexes or support an absence claim; two-channel background link remains an identified unvisited original."
+      },
+      "pass_2": {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Independently read actual redirected source body257–322 and direct child link after own full-bundle scraper39hits.",
+        "finding": "Confirms current NextSeq500/550/MiniSeq two-channel registration context, first-two-cycle constraint and N/H705 example. This does not assign HiSeq4000 molecular geometry or custom Pi indexes. Table images are not sequence-transcription evidence here; actual two-channel technology child remains unopened. No frozen2016 identity or publication absence accepted."
+      }
     }
   ],
   "linked_information": {
@@ -163,7 +759,45 @@
       "reviewer": "root",
       "locations": "Original MOESM12 XFA reporting summary filled dataset, independently decoded and field-scanned",
       "finding": "Second reader confirmed the formerly unreadable reporting summary and its linked data accession. Relevant source checklist elsewhere remains unresolved, so linked-information disposition stays blocked."
-    }
+    },
+    "additional_passes": [
+      {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh mainMethods/DataAvailability; full authorprotocol; API13224guidelines/stepentities; linkedPNG originals; full GEO metadata uniqueprotocol/supplement fieldinventory",
+        "finding": "Located previously unenumerated public protocol figure and actualGEO metadata. Authorprotocol andarticle differ inunits/conditions, now shown publicly. Concrete vendor/predecessor and childmetadata scope checks remain; no absentwellmap accepted."
+      },
+      {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Fresh original API13224, both complete PNGs, all unique rootGEO fields, eight actual SubSeries headers/supplement/relation fields, eight complete ENA experiment XMLs, named manufacturer support/guide and predecessorMethods sections recorded above.",
+        "finding": "Independent original checks confirm explicit scope and positive reference information. Direct manufacturer consumables/pooling originals and originalATAC2013 source remain concrete unread targets. Other data-access children were not independently opened; no source-absence or completed full linked inventory claim is supported."
+      },
+      {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual consumables PDF object3 static template values and empty object4 datasets independently decompressed/read, plus source checklist update.",
+        "finding": "Formerly unread dynamic form now has original-source P1/P2; its printed catalogue/equipment scope is established without assigning Pi custom chemistry. Current pooling guide body remains pending; no full linked-source completion claimed."
+      },
+      {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Recovered actual pooling body topics and independently inspected direct HTML anchors at Overview147 and SequencingChemistry210/415.",
+        "finding": "Pooling-source body now has two actual original reads with exact current-version scope. Named external adapter/readout documents remain unvisited; no classification as irrelevant from referring text alone and no completed full linked-source gate accepted."
+      },
+      {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual adapter/indexed-sequencing loader references and registered topic bodies; actual current named bulletin and canonicalmetadata.",
+        "finding": "Recovered named direct originals, checked positive sequence/orientation relationships and historical/current source boundaries. No inherited old Epicentre or current vendor PCR recipe. Existing inferred schematic remains scientifically scoped; no model/page changes required. Actual two-channel background child remains pending."
+      },
+      {
+        "reviewer": "independent_rna_contacts",
+        "date": "2026-10-16",
+        "locations": "Located original adapter/indexed-sequencing topic sections and bulletinbody; actual HTML external links inspected.",
+        "finding": "Independent source checks confirm bounded standard-kit/readout scope and direct link inventory. Unopened two-channel background and other out-of-scope documents are not claimed universally checked or absent; no full missing-information gate accepted."
+      }
+    ]
   },
   "missing_claims": [
     {
@@ -174,8 +808,25 @@
     {
       "claim": "The Pi-ATAC 96 × 90 well-to-primer assignments are unavailable",
       "disposition": "blocked",
-      "evidence": "Published article, protocols.io protocol and Buenrostro 2015 primer table reviewed; MOESM12 filled XFA reporting summary now read in pass 1 but independent pass 2 remains pending. No checked original maps the 96 × 90 wells to specific oligos."
+      "evidence": "Well-to-primer assignment remains an open model/source question. NewAPI/image/GEO originals and linked-source inventory require scoped independent checks; no absence accepted merely from empty scraper results or original article sections."
     }
   ],
-  "conclusion": "Two independent checks now cover the recovered MOESM12 Adobe XFA reporting summary in addition to the original article and available supplements. MOESM12 supplies sample-preparation conditions but no Ad1/Ad2 bases or plate map. Other relevant source gaps remain, so no missing-information claim is accepted."
+  "conclusion": "Thirty-five inventoried source groups have located independent original-reading passes. Recovered adapter/readout originals positively distinguish physical sequences, sample-sheet orientation, obsolete variants and historical/current instrument workflows. Current named two-channel bulletin is excluded only from assigning Pi HiSeq4000 physical oligos/well pairs after both readers inspected its original body. Its actual two-channel background child remains a concrete pending source. Source audit remains in_progress; no accepted missing-information claim, whole-database absence or invented access barrier. Scientific corrections already published on the page remain unchanged.",
+  "pending_link_checks": [
+    {
+      "source": "Actual current NextSeq/MiniSeq bulletin child",
+      "identified_originals": [
+        "https://www.illumina.com/science/technology/next-generation-sequencing/sequencing-technology/2-channel-sbs.html (actual further background link, plus regional mirror)"
+      ],
+      "next_action": "Original two-channel background page remains unopened by both readers. Keep this bounded source-scope obligation explicit; do not infer exclusion from the referring bulletin alone or accept publication absence."
+    },
+    {
+      "source": "Uninspected breadth beyond the declared molecular claims",
+      "identified_originals": [
+        "Other vendor kit/instrument/software documents outside the inspected topic sections",
+        "Other2411 experiment records and linked sample/study/submission/raw/result resources"
+      ],
+      "next_action": "No whole-guide/database/repository absence or equivalence claim is made. Actual Pi well mapping and loaded primer identity remain unassigned model questions, not invented unavailable documents. Determine further source dependence before broad data retrieval; no raw reads/result tables needed for the current conditional schematic."
+    }
+  ]
 }

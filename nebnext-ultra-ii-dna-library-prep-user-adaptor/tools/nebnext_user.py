@@ -9,7 +9,7 @@ import seqprimers as sp
 from chemdraw import Construct, Segment, feature, revcomp
 from dumbbell import Dumbbell, OpenedDumbbell
 from endprep import dA_tailed_scene, repair_and_dA_tail
-from adapter_ligation import AdapterLigationGeometry
+from adapter_ligation import reported_adapter_end
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
@@ -65,6 +65,18 @@ def hairpin_oligo() -> Construct:
     ], name="NEBNext Adaptor for Illumina")
 
 
+def i5_primer() -> Construct:
+    return Construct([seg("P5", il.P5, "p5"), seg("i501", I5, "cbc",
+        feature=feature("sample_i5", "sample_index", "whitelist", whitelist="NEBNext index set 1")),
+        seg("Read 1 arm", il.TRUSEQ_READ1, "r1")], name="NEBNext i501; terminal *T")
+
+
+def i7_primer() -> Construct:
+    return Construct([seg("P7", il.P7, "p7"), seg("i701", I7_IN_OLIGO, "cbc",
+        feature=feature("sample_i7", "sample_index", "whitelist", whitelist="NEBNext index set 1")),
+        seg("Read 2 arm", il.TRUSEQ_READ2, "r2")], name="NEBNext i701; terminal *T")
+
+
 def final_library() -> Construct:
     lib = Construct([
         seg("P5", il.P5, "p5"),
@@ -112,8 +124,11 @@ def protocol_graph():
                 StepKind.LIGATION,
                 ((tailed,InputRole.TEMPLATE),(adaptor,InputRole.STRUCTURAL),
                  (ligase,InputRole.CATALYST)),(closed,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "The dumbbell model guarantees two dA/dT junctions; the compact reaction geometry does not flatten both hairpins into one Scene."))
+                geometry=reported_adapter_end(
+                    "E7600 hairpin adaptor", kind="cohesive", polarity="3-prime",
+                    terminal_sequence=HAIRPIN.overhang_3, body_sequence=HAIRPIN.sequence[:-1],
+                    substrate_scenes=(end_prep_scene(),),
+                    statement="E7600 v6.0_6/24 p.3 prints the full hairpin oligo with a terminal phosphorothioate-protected 3-prime T; the source-known fold and dA-tailed substrate determine the cohesive junction."))
     user=graph.input("user_enzyme","USER enzyme (UDG plus Endonuclease VIII)",
                      MaterialKind.CATALYST)
     opened=graph.product("opened_adaptor","USER-opened adaptor library molecules",
@@ -124,8 +139,8 @@ def protocol_graph():
                 ((closed,InputRole.TEMPLATE),(user,InputRole.CATALYST)),
                 (opened,cleavage_waste))
     graph.discard(cleavage_waste,"uracil-derived cleavage products do not enter the library")
-    i5=graph.input("i5_primer","NEBNext i501 PCR primer",MaterialKind.OLIGO)
-    i7=graph.input("i7_primer","NEBNext i701 PCR primer",MaterialKind.OLIGO)
+    i5=graph.input("i5_primer","NEBNext i501 PCR primer",MaterialKind.OLIGO,state=i5_primer())
+    i7=graph.input("i7_primer","NEBNext i701 PCR primer",MaterialKind.OLIGO,state=i7_primer())
     polymerase=graph.input("pcr_polymerase","NEBNext library PCR polymerase",MaterialKind.CATALYST)
     final=final_library()
     library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
@@ -141,18 +156,3 @@ def protocol_graph():
       "user_enzyme","user_open","i5_primer","i7_primer","pcr_polymerase",
       "index_pcr","library"),SOURCE)
     return graph.require_publishable()
-
-
-# Withdrawn by the vendor, not silent and not an erratum: NEB prints the hairpin adaptor
-# in no manual it currently ships. Of the three fetched here, the library-prep manual
-# (E7103/E7645) and both oligo-kit manuals (E7600 Dual Index Primers Set 1, E7780 Set 2)
-# describe the hairpin -- "Incorporating a novel hairpin loop structure ... The loop
-# contains a U, which is removed by treatment with USER Enzyme" -- and print only the
-# index primers and the Read 1/Read 2 trimming sequences. lib/illumina.py transcribes the
-# 65-mer from an older E7780 p.2 revision that is no longer served at that URL, so no
-# document on disk can witness it.
-SOURCE_OLIGO_EXCEPTIONS = {
-    "hairpin_adaptor": "Vendor-withdrawn: NEB describes the hairpin in all three fetched "
-                       "manuals but prints its bases in none of them; lib/illumina.py "
-                       "transcribes it from a superseded E7780 p.2 revision.",
-}

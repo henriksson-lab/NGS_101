@@ -1,7 +1,10 @@
-"""Protocol-neutral molecular states and bounded RNA-library operations.
+"""Legacy RNA-library recipes awaiting source-specific caller migration.
 
-Callers provide source choices, final constructs, and the surrounding graph. These
-helpers assemble only the specified operation, never a named protocol route.
+These helpers choose reaction order, unnamed reagents, role lengths, review scope
+and source-absence wording. Supplying a final construct does not make those choices
+neutral or source-verified. Do not add new callers; declare the source-specific
+route locally and use shared molecular operations only with explicit inputs.
+See catalogue/chemistry_decoupling.tsv.
 """
 from __future__ import annotations
 

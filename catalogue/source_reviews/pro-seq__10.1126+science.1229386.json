@@ -11,15 +11,23 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Introduction/results lines 27–49 and supplement pointer",
+        "locations": "Introduction/results lines 27\u201349 and supplement pointer",
         "finding": "Original establishes biotin run-on and base-resolution mapping; original supplementary methods not in bundle."
       },
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Original Kwak 2013 JATS Introduction/Results lines 27–49 and Supplementary Material pointer",
-        "finding": "The defining paper supports single/four biotin-NTP run-on and selective recovery of nascent RNA 3′ ends; the main text does not print the full PRO-seq oligos."
-      }
+        "locations": "Original Kwak 2013 JATS Introduction/Results lines 27\u201349 and Supplementary Material pointer",
+        "finding": "The defining paper supports single/four biotin-NTP run-on and selective recovery of nascent RNA 3\u2032 ends; the main text does not print the full PRO-seq oligos."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Original main JATS Introduction/results, Supplementary Material/Acknowledgements pointers",
+          "finding": "Defining original establishes polymerase3-prime boundary andGSE42117; former source summary that originalSOM was unread/unavailable superseded by source-identified authorcopy."
+        }
+      ]
     },
     {
       "id": "mahat2016",
@@ -30,37 +38,93 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Detailed protocol Table 1 around lines 1215 and 2870–2876; scraper run on bundle",
+        "locations": "Detailed protocol Table 1 around lines 1215 and 2870\u20132876; scraper run on bundle",
         "finding": "Later detailed PRO-seq protocol prints VRA3/VRA5 and PCR primers, but variant identity in original 2013 SI remains unchecked."
       },
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Mahat 2016 original JATS Table 1 lines 1215 onward, and protocol/analysis lines 2870–2876",
+        "locations": "Mahat 2016 original JATS Table 1 lines 1215 onward, and protocol/analysis lines 2870\u20132876",
         "finding": "Detailed PRO-seq protocol prints VRA3/VRA5 RNA adapters, RP1 and other oligos; this is a later protocol and must be cited with its version."
       },
-      "discovered_from": "paper"
+      "discovered_from": "paper",
+      "additional_checks": [
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Original JATS Table1 lines2870\u20132903",
+          "finding": "CompleteVRA3/VRA5/RP1/RPI-n originaltable reread. Source2016RPI family is explicit positive comparator; not experimental assignment of historical2013RPI member/loadedrunprimer."
+        }
+      ]
     },
     {
-      "id": "procap_supp",
-      "role": "linked_material",
-      "locator": "_data/sources/pro-seq__10.1126+science.1229386/594009_926d2d49ebf94caa8e6cf707c2f4846a.pdf.txt",
+      "id": "original_som",
+      "role": "supplement",
+      "locator": "Author original SOM https://www.cecerelab.com/_files/ugd/594009_926d2d49ebf94caa8e6cf707c2f4846a.pdf; local same basename.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_s_z",
+        "reviewer": "audit_tenx_closeout",
         "date": "2026-10-16",
-        "locations": "Author-hosted PRO-cap supplement lines 122–154; scraper hits verified",
-        "finding": "Related PRO-cap procedure prints adapters and GX2/RP1 choices; it is not Kwak PRO-seq original supplement."
+        "locations": "Actual original PDF text1\u201316,95\u2013158,167\u2013180; supplementary reference list4138\u20134147; full-bundle mandatory scraper",
+        "finding": "Original2013SOM identity confirmed. Hydrolysis/P30/capture1\u2192reverse3RNA/T4RNAI\u2192capture2\u2192TAP/PNK\u2192reverse5 alternatives\u2192capture3\u2192GX2/GX1 OR RP1/RPI\u2192Phusion/PAGE. Original reverse3 modified full RNA, TruSeq reverse5 and RP1 checked whole. Run sequencing GA2/HiSeq2000; read reverse-complement orientation. Hsp70 branch separate."
       },
       "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh original title1\u201316/Methods95\u2013158 plus visual PDF page3(printed2) and page4(printed3)",
+        "finding": "Independent complete source identity and chemistry ordering confirmed; exact modified reverse3 and both reverse5 RNAs/GX2/RP1 legible. PRO-cap AP/TAP withoutPNK/nohydrolysis, versusPRO-seqTAP/PNK. Hsp70 specialized primers not standardlibrary. No repository mistake called publication error."
+      },
+      "discovered_from": "paper",
+      "historical_passes": [
+        {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Author-hosted PRO-cap supplement lines 122\u2013154; scraper hits verified",
+          "finding": "Related PRO-cap procedure prints adapters and GX2/RP1 choices; it is not Kwak PRO-seq original supplement."
+        },
+        {
+          "reviewer": "second_pass_d_e",
+          "date": "2026-10-16",
+          "locations": "Author-hosted Kwak 2013 PRO-cap supplement PDF lines 122\u2013154",
+          "finding": "Source prints reverse 3\u2032 and 5\u2032 RNA adapter sequences, TAP/PNK distinction, RT and PCR primers; PRO-cap substitutions must not silently define PRO-seq."
+        }
+      ],
+      "reason": "Original printed title/DOI/date establish this as2013 Science SOM containing PRO-seq AND PRO-cap. Earlier description as separate PRO-cap-only material was a repository classification error."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "OriginalSOM title/contents/Methods95\u2013180/referenceS1\u2013S4; mainSupplementaryMaterial/GSE42117; later2016Table1",
+      "finding": "Available originalSOM recovered by correct sourceidentity. Source alternatives andPRO-cap distinction preserved. Separate analysis-script supplement, remainingSOMfigures/tables andchemistryrelevantnucleuspredecessors namedpending; not excluded by referring description."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "FreshauthorSOM title/95\u2013158 and originalvisualpages3\u20134",
+      "finding": "Independent located original chemistry/variant checks. Not wholeSOM/code/predecessor completeness or informationabsence."
+    },
+    "historical_passes": [
+      {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original JATS and linked detailed 2016 protocol were read; original 2013 supplementary PDF remains inaccessible.",
+        "finding": "Relevant source gaps and independent second reading remain open."
+      },
+      {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Author-hosted Kwak 2013 PRO-cap supplement PDF lines 122–154",
-        "finding": "Source prints reverse 3′ and 5′ RNA adapter sequences, TAP/PNK distinction, RT and PCR primers; PRO-cap substitutions must not silently define PRO-seq."
-      },
-      "discovered_from": "paper"
-    },
+        "locations": "Original Kwak 2013 JATS Introduction/Results lines 27\u201349 and Supplementary Material pointer; Mahat 2016 original JATS Table 1 lines 1215 onward, and protocol/analysis lines 2870\u20132876; Author-hosted Kwak 2013 PRO-cap supplement PDF lines 122\u2013154",
+        "finding": "Opened the accessible original and linked source rows listed above. Any remaining unavailable original supplement stays a blocked relevant source."
+      }
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "In progress. Author-hosted original2013SOM positively identified/read bytwoindependentreaders, withdrawing falsePROcap-only/unavailableSOM classifications. Local graph restoresfragmentation/threecaptures/PAGE andfivecopiedadapterbases; endpointexplicitlyconditionalonRP1option/laterRPIcomparator. Remaining namedoriginalsourcechecks preventfullgate; no missingclaimaccepted.",
+  "source_route_history": [
     {
       "id": "original_si",
       "role": "supplement",
@@ -69,30 +133,47 @@
       "relevance": "relevant",
       "pass_1": null,
       "pass_2": null,
-      "reason": "PMC gate; cannot confirm original oligo and variant choices."
+      "reason": "PMC gate; cannot confirm original oligo and variant choices.",
+      "resolution": "PMC original download gate remains route-specific; accessible author-hosted original SOM now inspected independently. No byte-identity claim between copies is implied."
     }
   ],
-  "linked_information": {
-    "result": "blocked",
-    "pass_1": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-16",
-      "locations": "Original JATS and linked detailed 2016 protocol were read; original 2013 supplementary PDF remains inaccessible.",
-      "finding": "Relevant source gaps and independent second reading remain open."
-    },
-    "pass_2": {
-      "reviewer": "second_pass_d_e",
-      "date": "2026-10-16",
-      "locations": "Original Kwak 2013 JATS Introduction/Results lines 27–49 and Supplementary Material pointer; Mahat 2016 original JATS Table 1 lines 1215 onward, and protocol/analysis lines 2870–2876; Author-hosted Kwak 2013 PRO-cap supplement PDF lines 122–154",
-      "finding": "Opened the accessible original and linked source rows listed above. Any remaining unavailable original supplement stays a blocked relevant source."
-    }
-  },
-  "missing_claims": [
+  "missing_claim_history": [
     {
       "claim": "Original 2013 PRO-seq oligo and library variant identity",
       "evidence": "Original JATS and linked detailed 2016 protocol were read; original 2013 supplementary PDF remains inaccessible.",
       "disposition": "blocked"
     }
   ],
-  "conclusion": "First located source pass only. No missing-information claim accepted; independent pass 2 and listed source gaps remain open."
+  "open_model_questions": [
+    {
+      "question": "Selected original2013 GX versusRP1/RPI variant, exact historical RPI member and acquired loaded run-primer/cycles",
+      "status": "unassigned",
+      "reason": "OriginalSOM supplies alternatives; laterexplicitRPIsequence used onlyasconditionalcomparator. These model fields are not accepted publicationabsence."
+    }
+  ],
+  "pending_sources": [
+    {
+      "source": "Original2013 SOM figuresS1\u2013S10 andTablesS1\u2013S5",
+      "availability": "available",
+      "next_action": "Inspect remaining original chemistry/readout-relevant figures and table scopes; title/Methods readings do not imply whole-supplement exclusion."
+    },
+    {
+      "source": "Original2013 separate source codes for analysis scripts",
+      "next_action": "Identify actual publisher/author attachment route, scope any readout-relevant contents separately from unrelated analysis."
+    },
+    {
+      "source": "SOM S1Core/Waterfall/Lis2008 Science3221845;S2Larschan2011 Nature471115;S3Core2012 CellReports21025",
+      "next_action": "Actual original source checks for cited nuclei/run-on precursor scope; do not silently import conditions or accept exclusions from citations alone."
+    }
+  ],
+  "pending_linked_targets": [
+    {
+      "source": "DefiningGSE42117 metadata and original source-listed reagent instructions",
+      "next_action": "Bound source/readout-dependent metadata and actual direct method instructions; no raw data needed."
+    },
+    {
+      "source": "Later2016 detailedprotocol linked supplements and chemistry/source-version boundaries",
+      "next_action": "Complete bounded original-source inventory if using further detailed2016claims. Current endpoint uses only explicitRPI comparator, no inherited fullrecipe."
+    }
+  ]
 }

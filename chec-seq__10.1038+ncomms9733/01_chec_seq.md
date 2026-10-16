@@ -16,6 +16,33 @@ Zentner et al., *Nature Communications* (2015),
   sample-index member to each published library.
 - 🟢 GEO series GSE67453, including GSM1647311, for the extraction, size-selection and
   25-base paired-end run metadata of the defining data set.
+- 🟢 Its deposited **ChEC-seq Protocol**, dated March 2015, confirms the unbound
+  fraction selection and the two library-method PMIDs with the KAPA exception.
+  The entire small RTF was independently read twice after registered recovery.
+
+## Published corrections and source boundaries
+
+- 🟢 The [2015 corrigendum](https://doi.org/10.1038/ncomms10264), sole correction
+  paragraph, states that columns E, F, G, H and K of the original Supplementary
+  Data 1 **Reb1** sheet were sorted independently. The authors replaced the table
+  and state that the incorrect version was not used for the reported analyses.
+- 🟢 The [2017 corrigendum](https://doi.org/10.1038/ncomms15723), correction
+  paragraphs, identifies mismatched motif-centering of the Fig. 7 random controls.
+  The authors withdraw the conclusion that this analysis establishes
+  shape-dependent, sequence-independent binding at low-scoring sites. They state
+  that this does not invalidate ChEC-seq for identifying binding sites. The public
+  schematic renders both corrections; neither supplies a different library adapter.
+- 🟢 Defining Methods **Library preparation and sequencing** (JATS line 135)
+  cites Henikoff 2011 (reference 46, PMC3215028) and Zentner/Henikoff 2013
+  (reference 58, PMC3889552). Orsi 2015 is a separate same-laboratory protocol,
+  linked by the later detailed ChEC procedure, and must not silently substitute
+  for those two directly cited implementations. Their original comparison remains
+  open in the source checklist.
+- 🟢 Actual GSE67453 family metadata contains 56 ChEC samples with the same
+  extraction/library description and HiSeq 2500, plus a separate ChIP comparator
+  using HiSeq 2000. The ChEC metadata confirms 25-base paired-end mapping and the
+  two directly cited library methods. It does not by itself assign an i7 member
+  or an acquired technical-index cycle recipe.
 
 ## Molecular logic
 
@@ -31,14 +58,18 @@ Zentner et al., *Nature Communications* (2015),
 4. 🟢 Nucleic acid is phenol/chloroform-extracted, ethanol-precipitated and RNase-treated.
    A 2.5:1 AMPure-bead:sample ratio binds large genomic DNA; the unbound fraction carrying
    small ChEC fragments is recovered for library preparation.
-5. 🟢 Ends are repaired with T4 DNA polymerase, Klenow and T4 PNK, then Klenow exo-minus
-   adds one 3′ dA. Annealed single-index TruSeq adapters are ligated and the library is
-   enriched with KAPA polymerase. This end repair removes the biochemical overhang but
-   preserves the genomic coordinate of each MNase boundary.
+5. 🟢 The separately illustrated Orsi library variant combines T4 DNA polymerase,
+   Klenow and T4 PNK in one end-polish incubation, cleans up, then adds 3′ dA with
+   Klenow exo-minus and cleans up again. Its protected Y adapters are ligated,
+   bead-bound ligated DNA is retained, KAPA PCR follows, and bead-bound amplified
+   DNA is retained. These positive library cleanups retain the opposite fraction
+   from the initial ChEC negative selection. The original 2015 experiment names
+   the 2011/2013 library methods; the displayed Orsi member is a scoped
+   illustration while that full historical comparison remains open.
 
 ## Exact library oligos
 
-The cited low-input procedure publishes the ordering forms, including modifications:
+The separate Orsi low-input procedure publishes the ordering forms, including modifications:
 
 - Universal Adapter:
   `5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATC*T-3′`
@@ -48,8 +79,15 @@ The cited low-input procedure publishes the ordering forms, including modificati
 - P7 enrichment primer: `5′-CAAGCAGAAGACGGCATACGAG-3′`
 
 🟢 `*` is the terminal phosphorothioate linkage, `/5Phos/` is the indexed adapter's
-5′ phosphate, and `NNNNNN` is the six-base i7 sample barcode. The defining construct is
-single-indexed; an i5 read is not part of this library.
+5′ phosphate, and `NNNNNN` is the six-base i7 sample barcode in this illustrated
+variant, which has no i5 index. The model preserves the complete 58-base Universal
+Adapter, including its shared P5/Read 1 overlap once. The former shared endpoint
+duplicated four bases at that boundary; this was a repository error.
+
+🟡 The illustration uses six Index 1 cycles to display that variant's barcode.
+This is not a recovered original 2015 acquisition mask or selected barcode member.
+The initial physical Y-arm PCR template is not yet fully constructed; its missing
+model relation is explicit and does not imply that the source omits the primers.
 
 ## Read interpretation and controls
 

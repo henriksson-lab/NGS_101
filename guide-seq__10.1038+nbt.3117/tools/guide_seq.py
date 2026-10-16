@@ -12,7 +12,9 @@ Tsai et al., Nat Biotechnol 33:187-197 (2015), doi:10.1038/nbt.3117
   MiSeq run: custom primers in cartridge positions 13 and 14, cycles
   151 | 8 | 16 | 151 with the paired-end Nextera protocol).
 
-Every oligo below is published verbatim. The written forms keep their
+Every ordered library oligo below is published verbatim. The Index 2 reference is
+an explicitly qualified computational post-dark-cycle anchor, not a physical
+flow-cell oligo ordering sequence. The written forms keep their
 modifications; the base strings used for construction are derived from them and
 from the canonical ``illumina`` constants, and the ``_require`` checks below fail
 at import if a derivation stops agreeing with the printed oligo.
@@ -153,7 +155,8 @@ SUMMARY = ("A protected, phosphorylated blunt dsODN integrates into nuclease-cre
 CAVEAT = ("The two STAT-PCR orientations are parallel libraries built from the two dsODN "
           "strands with the +/- GSP pairs. Everything drawn here is the strand-A "
           "orientation; the mirrored reaction is named explicitly at its step. "
-          "The corrected supplementary file (notice p. 1) says its original Table 4 "
+          "The recovered PMC NIHMS647337 supplement (Table 4, p. 32) retains the older swapped GSP1 labels. "
+          "The corrected publisher supplementary file (notice p. 1) says its original Table 4 "
           "swapped the Nuclease_off_+_GSP1 and Nuclease_off_-_GSP1 labels and omitted "
           "discovery cycling conditions; this model follows the corrected labels and methods. "
           "<b>Published source conflict:</b> the main text, Stage II, says the random "
@@ -162,7 +165,14 @@ CAVEAT = ("The two STAT-PCR orientations are parallel libraries built from the t
           "the NNWNNWNN index in the Y adapter before ligation. This model installs "
           "that degenerate index at adapter ligation because the printed adapter "
           "oligos locate it there. Whether Stage II means amplification of already "
-          "indexed molecules or describes a different step remains unresolved.")
+          "indexed molecules or describes a different step remains unresolved. "
+          "<b>Sequencing-model boundary:</b> the manufacturer’s Indexed Sequencing Overview "
+          "15057455 v08 (November 2020), p. 4, specifies grafted P5 extension through seven "
+          "chemistry-only cycles before the imaged MiSeq Index 2 read. The displayed canonical "
+          "P5 anchor marks that effective read-start boundary; it is not a claimed exact "
+          "physical grafted primer. The historical instrument-recipe revision is unassigned. "
+          "A01 and P701 are printed examples; the final index windows leave experiment-specific "
+          "members unselected.")
 
 # -------------------------------------------------------------- final library
 # Written 5'->3' from P5. The P7-side arm is the GSP2 tail completed by P7_#, so
@@ -198,10 +208,13 @@ SEQ_PRIMERS = (
               "Tsai et al. 2015 Supplementary Table 4; MiSeq cartridge position 13",
               "The exact reverse complement of the GSP2/P7 arm, spiked into the Index "
               "Primer Mix because the stock TruSeq Index 1 primer has no site here."),
-    sp.custom("Index 2 (i5)", "flow-cell P5 oligo (MiSeq forward-strand i5 read)", il.P5,
-              'Illumina "Indexed Sequencing Overview Guide" #15057455',
-              "The protocol adds custom primers only at cartridge positions 13 and 14, so "
-              "the 16-cycle index-2 read of a MiSeq is primed by the grafted P5 oligo."),
+    sp.custom("Index 2 (i5)", "effective P5 read-start anchor after seven dark cycles", il.P5,
+              'Illumina Indexed Sequencing Overview #15057455 v08 (November 2020), p. 4',
+              "MiSeq anneals the template to grafted P5, extends through seven chemistry-only "
+              "cycles without imaging, then images the index. The canonical P5 sequence here "
+              "is a computational post-extension anchor, not the exact physical grafted oligo. "
+              "GUIDE-seq specifies 16 imaged Index 2 cycles; its historical instrument recipe "
+              "revision and physical grafted-primer sequence remain unassigned."),
     sp.custom("Read 2", "GUIDE-seq custom Read 2 primer", READ2_SEQ_PRIMER,
               "Tsai et al. 2015 Supplementary Table 4; MiSeq cartridge position 14",
               "The P7 arm itself; Read 2 therefore starts inside the integrated dsODN and "
@@ -215,7 +228,8 @@ SEQUENCING_INTRO = ("Read 1 enters the sheared end and reads genomic DNA; Read 2
                     "the integrated dsODN and crosses the break junction. The 16-cycle "
                     "index-2 read reports the Y-adapter sample barcode and then the "
                     "degenerate molecular index; the 8-cycle index-1 read reports the P7 "
-                    "barcode.")
+                    "barcode. MiSeq performs seven additional non-imaged chemistry cycles before Index 2; "
+                    "those cycles are not added to the source’s 16-cycle reported index read.")
 
 
 def oligos():
@@ -420,13 +434,13 @@ def protocol_graph():
                             MaterialKind.OLIGO, state=P701_WRITTEN)
     polymerase = graph.input("pcr_polymerase", "Platinum Taq polymerase",
                              MaterialKind.CATALYST)
-    pcr1_reason = ("PCR 1 is drawn as a reaction rather than one fixed duplex: the sheared "
-                   "genomic flank has no fixed length, and the half-functional adapter is "
-                   "ligated at both fragment ends, so P5_1 has no unique site on a single "
-                   "drawn template.")
-    pcr2_reason = ("PCR 2 adds a third primer: P5_2 and GSP2 amplify the PCR 1 product "
-                   "while P7_# completes the arm GSP2 installed, on a template whose "
-                   "genomic flank length still varies with the shear site.")
+    pcr1_reason = ("This declaration does not yet assemble a strand-resolved PCR 1 template "
+                   "and product with both half-functional adapter ends. The source prints the "
+                   "primers; variable genomic flank length is not proof that their geometry "
+                   "cannot be modeled or that source information is absent.")
+    pcr2_reason = ("This declaration does not yet assemble the sequential products of GSP2, "
+                   "P5_2 and P7_# in the three-primer reaction. The ordered primers are "
+                   "source-positive; the unassigned state is a model limitation.")
     amp1_a = graph.product("amp1_a", "strand-A PCR 1 product", MaterialKind.MOLECULAR)
     amp1_b = graph.product("amp1_b", "strand-B PCR 1 product", MaterialKind.MOLECULAR)
     graph.react("stat_pcr1_a", "STAT-PCR 1 from dsODN strand A (GSP1 + P5_1)",

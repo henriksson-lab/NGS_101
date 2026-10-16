@@ -1,6 +1,6 @@
 {
   "dir": "cut-tag__10.1038+s41467-019-09982-5",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "article",
@@ -19,7 +19,21 @@
         "date": "2026-10-16",
         "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_PMC6488672.xml.txt lines 125-153",
         "finding": "Defining paper describes pA-Tn5 with preannealed Tn5MEDS-A/B adapters and i5/i7 index PCR; exact adapter oligos are inherited from Picelli and author protocol."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Original PMC6488672 JATS125\u2013145",
+          "finding": "Bulk universal i5 plus uniquely barcoded i7, NEBNextHiFi/gap filling and AMPure extraction. Separate single-cell72x72 indexing; associated E.coli DNA calibration outside current graph."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original JATS125\u2013145",
+          "finding": "Independent bulk universal-i5/unique-i7 and actual wnufdew detailed-method link confirmed."
+        }
+      ]
     },
     {
       "id": "supp1",
@@ -63,10 +77,10 @@
     {
       "id": "supp3",
       "role": "supplement",
-      "locator": "Original Supplementary File 3 peer review",
+      "locator": "Original Supplementary File3 reporting summary (MOESM3)",
       "availability": "read",
       "relevance": "not_relevant",
-      "reason": "Peer-review correspondence does not specify primer identities.",
+      "reason": "Reporting-summary scope was identified by prior second reader; earlier first-reader description as peer-review material is inconsistent and retained as historical scope. Reconcile full original scope during linked-source audit; no publication-wide absence conclusion.",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -78,7 +92,8 @@
         "date": "2026-10-16",
         "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM3_ESM.pdf.txt lines 1-18",
         "finding": "Reporting summary, no adapter sequence list."
-      }
+      },
+      "scope_issue": "Old pass1 mislabels reporting summary as peer review; not a valid independent exclusion of chemistry-relevant linked content."
     },
     {
       "id": "supp4",
@@ -104,31 +119,63 @@
       "id": "picelli",
       "role": "predecessor",
       "locator": "Picelli et al. Genome Res 2014 doi:10.1101/gr.177881.114 PMC4248319",
-      "availability": "unavailable",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "Original PMC/publisher page blocked in this pass; author detailed CUT&Tag protocol reproduces the Picelli-derived three oligos."
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "PMC4248319_PMC4248319.xml.txt Methods104\u2013118, especially110",
+        "finding": "Complete source MErev19 with 5-prime phosphate, ME-A33 and ME-B34; preannealed equimolar pool. Picelli conditions do not establish CUT&Tag selections."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Same original JATS104\u2013118, fresh332-hit bundle scraper",
+        "finding": "Independently confirms phosphorylated MErev19, ME-A33 and ME-B34. Source assembly does not establish each dimer pairing."
+      },
+      "reason": "Actual PMC Cloud main XML/PDF recovered; former access failure is superseded."
     },
     {
       "id": "protocolsio",
       "role": "detailed_protocol",
-      "locator": "Kaya-Okur and Henikoff 2019 Bench top CUT&Tag v1 doi:10.17504/protocols.io.wnufdew, https://www.protocols.io/view/bench-top-cut-amp-tag-wnufdew.pdf",
+      "locator": "protocolsio_bench-top-cut-amp-tag-kqdg34qdpl25_v1.pdf; wnufdew Version1 March6,2019, integer18868",
       "availability": "read",
       "relevance": "relevant",
-      "reason": "Detailed protocol inaccessible in current local source bundle.",
+      "reason": "Earlier passes referenced different revisions; superseded by independently verified Version1 original.",
       "pass_1": {
-        "reviewer": "audit_s_z",
+        "reviewer": "audit_tenx_closeout",
         "date": "2026-10-16",
-        "locations": "Original author protocol PDF pages 2,4; web extracted lines 74-79,101-103,127-135",
-        "finding": "Prints /5Phos/ mosaic-end reverse and complete ME-A/ME-B sequence; says universal i5 and 16 distinct i7 primers from Buenrostro 2015. No exact sample-to-index assignment."
+        "locations": "Original v1 PDF title1\u201354; materials90\u2013116; DNA extraction323\u2013389; PCR387\u2013411",
+        "finding": "Universal i5/unique i7 and source-allowed Nextera OR Buenrostro indexed primers. v1 phenol/chloroform/ethanol extraction differs from article AMPure; model follows article. Exact universal i5 not assigned by this model."
       },
       "pass_2": {
-        "reviewer": "audit_a_h",
+        "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Official author Bench top CUT&Tag protocol https://www.protocols.io/view/bench-top-cut-amp-tag-z6hf9b6.pdf, web lines 65-105",
-        "finding": "Author protocol explicitly prints phosphorylated mosaic end reverse and adapter A/B sequences, credits Picelli 2014, and says i5 universal plus 16 i7 primers from Buenrostro 2015."
-      }
+        "locations": "Original v1 title1\u201354, materials90\u2013116 andPCR387\u2013411",
+        "finding": "Version1 wnufdew/18868 verified. Universal i5/unique i7 and explicit Nextera OR Buenrostro footnote; not universal dual variable indexing."
+      },
+      "historical_passes": [
+        {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Original author protocol PDF pages 2,4; web extracted lines 74-79,101-103,127-135",
+          "finding": "Prints /5Phos/ mosaic-end reverse and complete ME-A/ME-B sequence; says universal i5 and 16 distinct i7 primers from Buenrostro 2015. No exact sample-to-index assignment."
+        },
+        {
+          "reviewer": "audit_a_h",
+          "date": "2026-10-16",
+          "locations": "Official author Bench top CUT&Tag protocol https://www.protocols.io/view/bench-top-cut-amp-tag-z6hf9b6.pdf, web lines 65-105",
+          "finding": "Author protocol explicitly prints phosphorylated mosaic end reverse and adapter A/B sequences, credits Picelli 2014, and says i5 universal plus 16 i7 primers from Buenrostro 2015."
+        }
+      ],
+      "additional_checks": [
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original v1 PDF323\u2013389; defining s41467-019-09982-5_PMC6488672.xml.txt129\u2013137",
+          "finding": "Independent comparison confirms v1 PCI/phase-lock/chloroform and ethanol precipitation route versus article bulk135 AMPure extraction; post-PCR137 separate AMPure cleanup. Version difference, not a demonstrated publication error."
+        }
+      ]
     },
     {
       "id": "index_predecessor",
@@ -136,7 +183,7 @@
       "locator": "Buenrostro et al Nature 2015 doi:10.1038/nature14590, Supplementary Table workbook MOESM36",
       "availability": "read",
       "relevance": "relevant",
-      "reason": "Cited primer source 33 not yet retrieved.",
+      "reason": "Retrieved original workbook; source family must be distinguished from selected CUT&Tag primer/member.",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -148,30 +195,144 @@
         "date": "2026-10-16",
         "locations": "_data/sources/doi_10.1038+nature14590/nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt lines 1-8 and 99-194",
         "finding": "Buenrostro predecessor workbook publishes i5/i7 index primer families; author protocol cites it for CUT&Tag index PCR."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Actual MOESM36 XLSX rows1\u2013194 and extracted text",
+          "finding": "Two NoMX C1 primers are33/34nt entry arms without P5/P7. Indexed families contain92 i5(61nt) and96 i7(54nt). Source allows family but does not assign model universal i5."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Actual MOESM36 all rows independently parsed",
+          "finding": "Confirms92 i5 and96 i7, no missing numeric labels; NoMX33/34 are C1 PCR rows, not full library primers."
+        }
+      ]
+    },
+    {
+      "id": "picelli_supplement",
+      "role": "supplement",
+      "locator": "PMC4248319_supp_supp_gr.177881.114_Supplemental_Information.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "picelli",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original text inventory1\u201327; vector title41; captions358\u2013366,425\u2013432,1299\u20131310,1444\u20131450; condition table1450\u20131584",
+        "finding": "Inventory and conditions distinguish vector/map, performance plots and Picelli reaction variants. No transfer of KAPA/Nextera conditions to CUT&Tag; no whole-vector/performance-plot absence claim."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original inventory1\u201327; legends358\u2013366,425\u2013432,1299\u20131310,1444\u20131450; entire table1469\u20131584",
+        "finding": "Picelli reaction table distinguishes NT/SDS/columns and KAPA/Nextera PCR variants, not CUT&Tag selections. Positive main triplet resolves adapter question; no whole-SI absence claim."
+      }
+    },
+    {
+      "id": "protocolsio_v2",
+      "role": "detailed_protocol",
+      "locator": "Historical author protocol Version2, z6hf9b6, integer22441",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "protocolsio",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Version2 PDF title/front matter",
+        "finding": "Printed date April21,2019; separate source revision, not cited wnufdew Version1. Only identity scope checked here."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Version2 PDF front matter",
+        "finding": "Independently confirmed April21,2019/z6hf9b6/22441; distinct from v1. No full-body exclusion claimed."
+      }
+    },
+    {
+      "id": "protocolsio_v3",
+      "role": "detailed_protocol",
+      "locator": "Historical author protocol Version3, bcuhiwt6, integer33385",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "protocolsio",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Version3 PDF title/front matter",
+        "finding": "Printed date February25,2020; separate source revision, not cited wnufdew Version1. Only identity scope checked here."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Version3 PDF front matter",
+        "finding": "Independently confirmed February25,2020/bcuhiwt6/33385; distinct from v1. No full-body exclusion claimed."
       }
     }
   ],
   "linked_information": {
-    "result": "blocked",
+    "result": "enumerated",
     "pass_1": {
-      "reviewer": "audit_s_z",
+      "reviewer": "audit_tenx_closeout",
       "date": "2026-10-16",
-      "locations": "CUT&Tag article Methods lines 130-138; protocols.io author PDF pages 2,4; Buenrostro 2015 original supplement workbook lines 1-194; Picelli original direct access blocked.",
-      "finding": "Chemistry-relevant linked sources were enumerated in the checklist; unavailable items remain open. Links judged irrelevant are described with a reason."
+      "locations": "Defining original Methods125\u2013145; Picelli main104\u2013118/SI inventory; authorv1PCRfootnote; Buenrostro original workbook",
+      "finding": "Recovered actual linked Picelli and historical protocol revisions. Source choice is not selected solely from matching endpoints. Further API attachment/link inventory and predecessor scope remain pending; no complete linked-source gate claimed."
     },
     "pass_2": {
-      "reviewer": "audit_a_h",
+      "reviewer": "root",
       "date": "2026-10-16",
-      "locations": "Original JATS lines 125-153; original supplements 1-4; author protocols.io PDF lines 65-105; Buenrostro 2015 index workbook lines 1-194; Picelli 2014 original route blocked",
-      "finding": "Author protocol recovers three Tn5 oligos and links Picelli; Buenrostro table supplies index family. Picelli original remains unavailable and newly converted Supplementary Data 4 exclusion needs independent first pass."
-    }
+      "locations": "Defining125\u2013145; Picelli104\u2013118 and boundedSI inventory/table; historicalv1/v2/v3 fronts and v1PCR; originalBuenrostro workbook",
+      "finding": "Independent positive adapter/primer-family/source-version checks completed. These bounded checks do not establish all linked originals read or absence."
+    },
+    "historical_passes": [
+      {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "CUT&Tag article Methods lines 130-138; protocols.io author PDF pages 2,4; Buenrostro 2015 original supplement workbook lines 1-194; Picelli original direct access blocked.",
+        "finding": "Chemistry-relevant linked sources were enumerated in the checklist; unavailable items remain open. Links judged irrelevant are described with a reason."
+      },
+      {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original JATS lines 125-153; original supplements 1-4; author protocols.io PDF lines 65-105; Buenrostro 2015 index workbook lines 1-194; Picelli 2014 original route blocked",
+        "finding": "Author protocol recovers three Tn5 oligos and links Picelli; Buenrostro table supplies index family. Picelli original remains unavailable and newly converted Supplementary Data 4 exclusion needs independent first pass."
+      }
+    ]
   },
-  "missing_claims": [
+  "missing_claims": [],
+  "conclusion": "In progress: actual Picelli main/supplement and historical protocols.io identities recovered. Exact loaded adapter triplet enters local graph; bulk universal-i5 and source-allowed i7 family are separated from unassigned selected primers. Article versus v1 extraction routes shown publicly. Pending linked-source inventory remains explicit; no missing-information claim accepted.",
+  "missing_claim_history": [
     {
       "claim": "Particular sample-specific i7 index chosen per CUT&Tag library",
       "disposition": "blocked",
       "evidence": "Buenrostro 2015 MOESM36 prints candidate primer family, but CUT&Tag article/protocol gives no sample-to-index assignment or which 16 of 96 i7 members were selected."
     }
   ],
-  "conclusion": "Author protocol prints CUT&Tag Tn5 adapter oligos and cited index table is present. Picelli predecessor remains unavailable; Supplementary Data 4 exclusion needs independent second-reader check before review closes."
+  "open_model_questions": [
+    {
+      "question": "Exact bulk universal-i5 oligo, selected source-allowed i7 family/member, sample-to-index mapping and acquired run primers",
+      "status": "unassigned",
+      "reason": "Positive source family and universal-vs-variable distinction retained. Unassigned model fields do not establish publication-wide absence."
+    }
+  ],
+  "pending_linked_targets": [
+    {
+      "source": "protocolsio public API18868/22441/33385 originals",
+      "next_action": "Inspect original documents, embedded image/file entities and chemistry-relevant outbound links; documents=null observed for18868 only, not a complete attachment endpoint check."
+    },
+    {
+      "source": "Defining original preprint568915_v1.full.pdf and media-1.pdf",
+      "next_action": "Check source-version chemistry scope separately from final publication; originals retrieved, no new reading pass claimed."
+    },
+    {
+      "source": "Buenrostro2015 original main/detailed methods and source-permitted Nextera primer documents",
+      "next_action": "Scope the actual cited PCR variant and relevant linked originals without assigning their conditions or primers automatically."
+    },
+    {
+      "source": "Original final-publication reporting summary MOESM3",
+      "next_action": "Reconcile prior first-reader misidentification and inspect actual chemistry-relevant linked reporting metadata before counting an independent exclusion."
+    }
+  ]
 }

@@ -139,6 +139,88 @@
         "locations": "Independently read author-uploaded original 2022 Nature Protocols full text on ResearchGate, Table 2 web lines 912–1054, TSO mechanism lines 1124–1154, SMRTbell steps 29–30 lines 2659–2669; ran source-bundle oligo scraper first. Direct author-lab PDF attempted and returned 502.",
         "finding": "The 2022 method explicitly prints a 5′ iCiGiC and 3′ /NH2-C3/ blocked TSO with rGrG+G, and specifies SMRTbell template prep kit 1.0-SPv3 for downstream library construction. These are later-version details; they do not identify the 2019 experiment’s kit revision or justify assigning the later TSO modifications to its original library."
       }
+    },
+    {
+      "id": "supplement_ancillary_content",
+      "role": "supplement",
+      "locator": "_data/sources/paiso-seq__10.1038+s41467-019-13228-9/s41467-019-13228-9_supp_41467_2019_13228_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original SupplementaryFigures1–7 captions91–99,172–180,214–220,304–310,364–370,421–435,682–687; Tables2–4 text747–end; main Methods poly(A)spike-ins/PAT148–158; full bundle scraper",
+        "finding": "Figure2 and Table3 define poly(A)-length calibration spike-ins, including complete mCherry control molecules and their PCR oligos; Table2 is an independent PAT validation assay, not library adapter/RT primers. Figures1/3–7 and Table4 report coverage, expression/tail/modification correlations and long-tail gene/read results. All are identified from original headings/captions/content. They do not supply SMRTbell hairpin or loaded sequencing-primer identities. Control oligos remain separate from Table1 library oligos; no source absence accepted."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM1 PDF text: Figure1 caption92–96, Figure2 spike-in sequence illustration/caption before175–179, other result-figure captions218–224/309–312/370–374/428–431/691–695; Tables2 PAT747ff,3 poly(A)spike-ins790ff,4 results848ff (line numbers after latest extraction). Full protocol oligo scraper first",
+        "finding": "Independent content inspection confirms full PAT control oligos and poly(A)-spike-in oligos are positively published; these must not be mistaken for the main library barcode adapters. Figure2 contains the mCherry/poly(A) control model; other figures report capture/correlation/tail results. Table4 is long-tail results, not SMRTbell construction. Ancillary material does not assign the defining experiment to the later 2.0 kit."
+      }
+    },
+    {
+      "id": "express2_overview_comparator",
+      "role": "vendor",
+      "locator": "_data/sources/pacbio-smrtbell-express-template-prep-kit-2-0/SMRTbell-Express-TPK-2.0-Overview-Large-Insert-gDNA-Library-Prep-Customer-Training.pdf.txt; https://www.pacb.com/wp-content/uploads/SMRTbell-Express-TPK-2.0-Overview-Large-Insert-gDNA-Library-Prep-Customer-Training.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original overview pp6–8 kit-configuration/A-T comparison, text210–300; full original comparator bundle scraper",
+        "finding": "Exact public-page comparator identifies Express2.0 kit100-938-900, T-overhang Adapterv3 and SequencingPrimerv4, with A/T versus blunt ligation comparison. This is a separate kit/workflow document, not evidence selecting the unversioned2019 PAIso kit. Generic product/support/large-insert protocol links cannot identify the study-specific kit choice."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original official Express Template Prep2.0 overview, pp6–8 kit configuration and A/T-versus-blunt comparison, local text210–305; full comparator-bundle oligo scraper first",
+        "finding": "Official2.0 overview names kit100-938-900, Overhang Adapterv3 with T overhang and sequencingPrimerv4 diffusion-only compatibility, and explicitly contrasts A/T with blunt ligation. This is useful source evidence that kit choice changes geometry; it cannot identify the unversioned2019 PAIso kit or justify universal blunt/A-tail/hairpin bases for it."
+      }
+    },
+    {
+      "id": "author_analysis_repository",
+      "role": "linked_material",
+      "locator": "_data/sources/paiso-seq__10.1038+s41467-019-13228-9/gh_README.md; gh_run.pl; gh_trim.py; gh_GetCCSpass.pl; gh_basic.pm; gh_README.txt; https://github.com/niehu2018/GV_oocyte_PAIsoSeqAnalysis/tree/ed419f406c35eb6812df10531348631892f85361",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original README full53lines and library structure15–20; trim.py argument/orientation/adapter trimming76–145; GetCCSpass.pl entire file; run.pl dependency60 and analysis options; basic.pm tail/non-A routines; resultsREADME entirefile; full expanded bundle scraper",
+        "finding": "Author-linked original repository positively prints TSO→cDNA→poly(A)→BC3 reverse-complement→RT-primer reverse-complement orientation and examples; trim.py uses caller-supplied barcode/adapter with22-base match and both CCS orientations. These are post-sequencing read adapters, not SMRTbell hairpins. CCS/IsoSeq/minimap2/TAPIS/reference links concern analysis; result archives/exonBED are outputs/reference coordinates, not oligo ordering. At pinned current commit run.pl requires basic.pm20190608 but tree contains basic.pm, and README trim example has an extra sample argument while trim.py accepts four user arguments. These are located author-code packaging/CLI mismatches, not demonstrated chemical/publication-data errors; no reconstruction uses them to assign missing adapter bases."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Pinned original author gh_README.md entire53lines, especially15–20/30–42; gh_trim.py76–145; gh_run.pl60 and analysis dispatch; gh_GetCCSpass.pl entire23lines; gh_README.txt entire21lines; gh_basic.pm CCS/tail routine scope. Full expanded source-bundle oligo scraper first",
+        "finding": "README directly prints forward TSO/cDNA/poly(A)/barcode/adapter and reverse orientation plus BC3 reverse-complement example. trim.py independently orients against both CCS strands, searches the first22barcode-adapter positions and trims the known SMART-derived arm; no SMRTbell hairpin is specified. README extra sample argument disagrees with trim.py four-user-argument contract, and run.pl requires basic.pm20190608 while the supplied member is basic.pm; these are pinned software packaging issues, recorded in notes without treating them as original reaction errors. CCS pass extraction and downstream result fields do not establish physical adapter chemistry. README also links PacificBiosciences IsoSeq3 README_v3.2 as CCS software reference; that linked-source scope remains to classify before full closure."
+      }
+    },
+    {
+      "id": "isoseq_v32_software_reference",
+      "role": "linked_material",
+      "locator": "_data/sources/paiso-seq__10.1038+s41467-019-13228-9/gh_README_v3.2.md; https://raw.githubusercontent.com/PacificBiosciences/IsoSeq/5d5c0f20e9329d98d38fb32c583f5c32bae36a3d/README_v3.2.md",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "author_analysis_repository",
+      "reason": "Author README links this for CCS software calling. Its primer examples are SMARTer/NEB software inputs; it does not identify the defining PAIso experiment's physical SMRTbell kit or hairpin reagent.",
+      "recovery": "Exact author-linked historical IsoSeq3/master/README_v3.2.md raw URL returned HTTP404. Official renamed PacificBiosciences/IsoSeq path-history API identifies removal at commit7a35d68e655a8d274a644b3fd8df1234b2ab447d (Version3.3.0), and preceding file commit5d5c0f20e9329d98d38fb32c583f5c32bae36a3d. Recovered that original via registered extra_sources raw route; no current v4 documentation substituted.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original235lines after expanded full-bundle oligo scraper: scope7–21, CCS55–66, SMARTer/NEB primer examples82–102, refine117–141, real example176–231, embedded/internal/software-link inventory",
+        "finding": "Version3.2 processes polished CCS and recommends CCS4.0+. SMARTer/NEB primer examples name other source workflows, not physical SMRTbell adapters or the PAIso kit. Refine removes poly(A), so must not be inherited into PAIso native-tail measurement. Further links concern CCS/lima/trim/alignment/POA/software installation and demonstration read files. SMRTbell Designs link has no corresponding physical-adapter section in this original. This scoped exclusion does not prove universal reagent nondisclosure."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entire original gh_README_v3.2.md235lines after fresh expanded PAIso scraper:15–21,55–66,82–102,117–141,176–231; internal FAQ/software/example links",
+        "finding": "Independently confirms polished CCS software scope, unrelated SMARTer/NEB primer inputs and poly(A)-trimming refine branch. Linked CCS/lima/trim/minimap2/POA and demo BAMs identify software/examples rather than the defining paper's kit. The internal SMRTbell Designs FAQ link has no physical-adapter section in this historical file. No example primer is assigned to PAIso physical ends."
+      }
     }
   ],
   "linked_information": {
@@ -166,14 +248,38 @@
         "locations": "Author-uploaded original 2022 Table 2, TSO discussion, Steps 29–30; local 2019 original source-bundle oligo scraper run first",
         "finding": "Independently confirmed the later modified TSO and kit 1.0-SPv3; original 2019 kit revision and attachment bases are still unresolved."
       }
-    }
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh original2019 JATS142–160/223–229, all MOESM1 figure/table scope; exact PacBio1.0 insert and Express2overview originals; author-linked repository pinned commit ed419f406c35eb6812df10531348631892f85361",
+        "finding": "Followed previously omitted CodeAvailability link and scoped all original supplemental content, including calibration/PAT controls. Vendor candidate comparison and later2022 kit/TSO remain separate from2019. No identified inaccessible original has been established for selecting the unspecified2019kit; that assignment and exact hairpin junction/read site are unfilled model data, not accepted source absence. New rows need independent second checks before review closure; prior original Smart-seq2 and2022-version readings are retained. Author-lab2022PDF fetch TLS failure does not negate separately read original author-uploaded fulltext."
+      },
+      {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full defining JATS Methods lines132–194, Code/DataAvailability223–229; original XML Methods ext-link and bibliography inventory CR9/43/44; entire author README; newly recovered original IsoSeq3 README_v3.2",
+        "finding": "Core library construction points to own SupplementaryTable1 and Smart-seq2 CR9, already original-checked twice. Other Methods links identify genome/GTF/poly(A)-site reference coordinates; CR43 is a separate PAT validation assay, CR44 TAPIS is downstream analysis, not main PAIso library construction or its SMRTbell kit. Data/CodeAvailability point to deposited results and the now-double-read author repository. Repository CCS reference has now been recovered and independently read twice as software scope. No additional identified original defining the study-specific historical SMRTbell kit was found; unassigned kit choice and physical junction remain model questions, not proof of unavailable disclosure documents or confirmed publication absence. Final root linked-scope assessment remains pending."
+      }
+    ]
   },
   "missing_claims": [
+    {
+      "claim": "Earlier blanket assertion of missing exact oligo, reagent or read-layout information",
+      "disposition": "resolved",
+      "evidence": "Withdrawn as a publication-absence assertion. The page now states that the exact 2019 kit and hairpin junction are unassigned in this model; original main-library oligos and author read orientation are positively available. This correction supplies neither undisclosed bases nor proof of publication absence."
+    }
+  ],
+  "conclusion": "Original main-library oligos, ancillary supplement contents, vendor version comparators, pinned author analysis files and linked historical IsoSeq v3.2 README have independent located readings. Software primer examples and later kit geometry are not assigned to the unversioned 2019 experiment. The prior blanket absence assertion is withdrawn; unknown historical kit/junction remain model questions. Full audit stays in progress pending original-source scope checks for the separate PAT predecessor and any relevant linked material; no absence or unexamined exclusion accepted.",
+  "previous_missing_claims": [
     {
       "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
       "evidence": "Defining article, oligo table, reporting attachment, source-data slides and linked Smart-seq2/vendor candidate were checked twice; the paper does not identify its kit version, so exact hairpin sequence and end geometry cannot be resolved.",
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent readings of the later detailed 2022 author protocol establish its versioned PacBio kit and additional TSO blocking modifications; these cannot be assigned to the 2019 defining experiment. Exact 2019 SMRTbell adapter and junction remain unresolved; no missing claim accepted."
+  "open_model_questions": [
+    "Which physical SMRTbell kit revision and hairpin were used in the 2019 experiments, and how to assemble that source-qualified junction?"
+  ]
 }

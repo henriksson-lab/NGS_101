@@ -163,7 +163,7 @@ def protocol_graph():
                     SMRTBELL,statement="PAIso-seq names an unversioned SMRTbell Template Prep Kit; contemporaneous PacBio 1.0 and Express 2.0 documents describe different adapter ends, so the actual ligating ends are unresolved."))
     graph.sequence(library,smrtbell_sequencing_plan(
         SMRTBELL,circuit,
-        limitation="The PacBio sequencing-primer site lies in a proprietary hairpin adapter."))
+        limitation="The exact hairpin adapter and sequencing-primer binding site are not assigned to the unversioned 2019 kit in this model."))
     graph.declare_reviewed_scope((
         "rna","extension_oligo","extension_polymerase","extend_tail","user","open_du",
         "rt_primer","reverse_transcriptase","reverse_transcribe","tso",

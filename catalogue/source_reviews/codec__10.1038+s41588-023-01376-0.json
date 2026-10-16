@@ -1,41 +1,146 @@
 {
   "dir": "codec__10.1038+s41588-023-01376-0",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "bae2023",
       "role": "defining",
-      "locator": "Bae et al. Nature Genetics 2023 doi:10.1038/s41588-023-01376-0; https://www.nature.com/articles/s41588-023-01376-0",
+      "locator": "_data/sources/codec__10.1038+s41588-023-01376-0/s41588-023-01376-0_PMC10181940.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_a_h",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Official article online lines 94-109 and Methods 212-223; scraper run on empty local bundle",
-        "finding": "Article describes ligated four-part CODEC adapter, phi29 strand-displacement concatemer, relocated read sites and NEBNext Ultra II kit exceptions; explicitly points to Supplementary Table 5 for adapter oligos."
+        "locations": "Original JATS104–114,198–220,294–302,378–384; fullbundle scraper24hits/3files before reading",
+        "finding": "Own fresh original reading confirms inward linker sites/outward reads, E7103L baseline and explicitly modified ligation/deadenylase/phi29/KAPA+xGen amplification; optional repair/enrichment distinct. Named original data/software children identified, not all opened."
       },
       "pass_2": {
-        "reviewer": "audit_s_z",
+        "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Official Nature Genetics article doi:10.1038/s41588-023-01376-0 web Methods lines 214-224 and CODEC adapter Methods lines 212-223; scraper on local bundle (no original local)",
-        "finding": "Authors replace NEB adapter with 500 nM custom CODEC adapter, add 5-prime deadenylase, phi29 strand-displacement then KAPA/xGen PCR. Full adapter oligos delegated to Supplementary Table 5, still inaccessible."
-      }
+        "locations": "Root fresh original JATS104–114,202–220,294–302; final PDFpp14–15 ED1/2 rendered visual; root directly reported independent read",
+        "finding": "Independent original reading confirms linkedWatson+RC(Crick), internal outward sites, actual methods/kits,166or260cycles and conditional expected byproducts. ED1f explicitly shows3NvsNNNA/NNNT variants; set1 representative must not generalize allsets."
+      },
+      "historical_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_a_h",
+            "date": "2026-10-16",
+            "locations": "Official article online lines 94-109 and Methods 212-223; scraper run on empty local bundle",
+            "finding": "Article describes ligated four-part CODEC adapter, phi29 strand-displacement concatemer, relocated read sites and NEBNext Ultra II kit exceptions; explicitly points to Supplementary Table 5 for adapter oligos."
+          },
+          "pass_2": {
+            "reviewer": "audit_s_z",
+            "date": "2026-10-16",
+            "locations": "Official Nature Genetics article doi:10.1038/s41588-023-01376-0 web Methods lines 214-224 and CODEC adapter Methods lines 212-223; scraper on local bundle (no original local)",
+            "finding": "Authors replace NEB adapter with 500 nM custom CODEC adapter, add 5-prime deadenylase, phi29 strand-displacement then KAPA/xGen PCR. Full adapter oligos delegated to Supplementary Table 5, still inaccessible."
+          }
+        }
+      ]
     },
     {
       "id": "supp_table5",
       "role": "supplement",
-      "locator": "Original publisher Supplementary Information Table 5, manifest manual MOESM1 PDF",
-      "availability": "unavailable",
+      "locator": "_data/sources/codec__10.1038+s41588-023-01376-0/s41588-023-01376-0_supp_41588_2023_1376_MOESM1_ESM.pdf.txt",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Curl DNS error 6 and supplement not independently opened; exact eight matched adapter/bridge sets remain unchecked."
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original SupplementaryInformation14–40,484–545 after fullscraper; exact all4 modified set1 oligo source assertions",
+        "finding": "Original Table5 gives all32 CODEC adapter oligos, phosphorothioates/5′phosphates and2C3capture blockers. All4 local modified set1 sequences now equal literal source. Oldsharedbrid7 duplicatedGC(100ntvs98source); corrected12ntspacer+30ntcore locally. Other source demux/NNNA/NNNTvariants remain source-scoped."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Root original MOESM1PDFtext14–40,484–545; later literal exact bridge1 parsing and visualEDFig1f independently reported",
+        "finding": "Root exact check supersedes earlier genericset1 agreement: sourcebrid5-1 andbrid7-1 both98nt; sharedbrid7 was100nt with duplicatedGC at spacer/coreboundary. Sourcecore starts offset68 in both bridges. Confirms local12ntspacer+30ntcore fix is repository correction, not publication error."
+      }
     },
     {
       "id": "neb_kit",
       "role": "vendor",
-      "locator": "NEBNext Ultra II DNA Library Prep Kit and xGen/KAPA primers named in article Methods",
-      "availability": "unavailable",
+      "locator": "_data/sources/codec__10.1038+s41588-023-01376-0/manuale7103-e7645.pdf.txt; official E7103/E7645 Version7.0_9/22",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Original kit generation/manual and commercial oligo arms not independently read."
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Officialmanualtitle/version1–6;70–230; fullbundle scraper26hits/4files before reading",
+        "finding": "Actual E7103L vendor baseline retrieved and inspected. Standard USER conditional for nonindexedNEBadapter is not transferred to customCODEC; paper supplies explicitexceptions. Vendor version not proven exactexperimentalrevision; sourceidentifiedmanual available, orderedxGen1077677strands remain modelassignmentquestion."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual E7103/E7645 instruction manual title/version lines1–12 and protocol70–230; fresh full-bundle oligo scraper.",
+        "finding": "Independently read Version7.0_9/22 end-prep/ligation, separate oligo-option pointer and USER conditional only for nonindexedNEBNextadapter. The CODEC paper replaces that adapter and modifies the workflow; a generic kit USER/adapter recipe is not transferred. Current manual identity does not prove exact experimental revision, and its standard trimming sequences do not establish the custom CODEC junction."
+      }
+    },
+    {
+      "id": "key_metrics_table1",
+      "role": "supplement",
+      "locator": "_data/sources/codec__10.1038+s41588-023-01376-0/s41588-023-01376-0_supp_41588_2023_1376_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "bae2023",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "All4originalworkbook sheetheaders and unique repair/library/instrument/read-lengthfields",
+        "finding": "SeparatesCODEC/CODECv0,commercialER/AT/DuplexRepair/restrictiveddBTP variants,distinctcapture andDupSeq/standardNGScomparator sheets. Metadata supports source-specific versions; performance/results not used as molecular evidence."
+      }
+    },
+    {
+      "id": "reporting_summary",
+      "role": "supplement",
+      "locator": "_data/sources/codec__10.1038+s41588-023-01376-0/s41588-023-01376-0_supp_41588_2023_1376_MOESM2_ESM.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "bae2023",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original MOESM2imagePDFall3pages visually rendered to _data/tmp/codec-reporting/page-{1,2,3}.png after fullbundle scraper",
+        "finding": "Actual2023reportingform: p1statistics/software+Zenodo7705860,p2GIAB/data/studydesign/NA12878QC,p3humanparticipants/ethics. This form is reporting/data/analysis scope, not extra molecular-adapter ordering documentation. Genericpolicy/software/datachildren not opened by this pass; no universal absence from them asserted."
+      },
+      "reason": "All3originalrenderedpages concern statistics/software/data/study-design/humanparticipant reporting rather than molecular adapter/reaction declarations. This source-specific P1 disposition awaits independent P2; external genericpolicy/software/data originals are not declared universally irrelevant.",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "All three original MOESM2 reporting-summary pages visually inspected from local PDF renders; fresh full-bundle scraper accompanies review.",
+        "finding": "Original p1 names Adalsteinsson, March17,2023 and software/Zenodo7705860; p2 identifies study/reference-data and NA12878 design/QC; p3 records human-sample recruitment/ethics. This original is reporting/data/analysis scope, not the molecular adapter Table5. Its actual software/reference links are not asserted opened or irrelevant universally."
+      }
+    },
+    {
+      "id": "peer_review_file",
+      "role": "supplement",
+      "locator": "_data/sources/codec__10.1038+s41588-023-01376-0/s41588-023-01376-0_supp_41588_2023_1376_MOESM3_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "bae2023"
+    },
+    {
+      "id": "preprint2021",
+      "role": "linked_material",
+      "locator": "_data/sources/codec__10.1038+s41588-023-01376-0/2021.06.11.448110_v1.full.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "bae2023"
+    },
+    {
+      "id": "preprint_supplement1",
+      "role": "supplement",
+      "locator": "_data/sources/codec__10.1038+s41588-023-01376-0/2021.06.11.448110_media-1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "bae2023"
+    },
+    {
+      "id": "preprint_supplement2",
+      "role": "supplement",
+      "locator": "_data/sources/codec__10.1038+s41588-023-01376-0/2021.06.11.448110_media-2.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "bae2023"
     }
   ],
   "linked_information": {
@@ -51,14 +156,48 @@
       "date": "2026-10-16",
       "locations": "Original methods and cited supplementary/vendor link locations specified in source rows; named local bundle scraper run",
       "finding": "Followed source-linked leads to available text; remaining relevant supplement/vendor/predecessor documents unresolved, so no absence accepted."
-    }
+    },
+    "fresh_check": {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Original JATS202–220,378–384; validated finalsupplementmanifest; officialNEBmanual70–230",
+      "finding": "Followed actual Table5 and namedE7103Lmanual. CODECsuiteGithub/Zenodo7705860, actualKAPAamplificationmanual/xGen1077677sourceidentity and optionalrepair/enrichment originals remain to classify; reporting/peerreview/preprint originals downloaded but not fully scoped. No relevant unavailable source established by duplicate-only manualmanifestrow."
+    },
+    "pending_originals": [
+      "Actual retrieved image-based reporting summary and peer-review PDF; linked2021preprint with2supplement originals",
+      "Article CODECsuite Zenodo7705860 and https://github.com/broadinstitute/CODECsuite source scope",
+      "Article-named KAPA Library Amplification Kit manual and xGen1077677 ordered-strand identity/version",
+      "Optional DuplexRepair/ddBTP repair and targeted enrichment source scope, distinct from selected commercial baseline"
+    ],
+    "additional_checks": [
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original three-page reporting summary and E7103/E7645 manual70–230.",
+        "finding": "Located actual Zenodo7705860/software/reference-data links in reporting summary and manufacturer oligo options/E7395 conditional in manual. Bounded document scope checked; actual child originals remain a queue, not exclusions based on titles or confirmed absence."
+      }
+    ]
   },
   "missing_claims": [
     {
       "claim": "The exact CODEC adapter/bridge oligo sets are absent from the relevant source set",
-      "disposition": "blocked",
-      "evidence": "Original article explicitly delegates full oligos to unavailable Supplementary Table 5, so absence cannot be accepted."
+      "disposition": "resolved",
+      "evidence": "Withdrawn by positive original Table5 evidence, not absence acceptance: all8matched4oligo sets are available and independently read. Representative set1 modified strands pass full original-source regression. CommercialPCRstrand/product assignments remain model gaps, not proven source omissions."
     }
   ],
-  "conclusion": "Original article explicitly delegates full oligos to unavailable Supplementary Table 5, so absence cannot be accepted."
+  "conclusion": "Table5 access blocker and oligoabsence claim corrected by retrieved positive originals. CODEC-specific constructors/PCR declarations now local; exactsource regression fixed sharedbridge7GCdoublecount. Corearticle/Table5 has fresh2independent readers. Overallreview remainsin_progress for actual retrieved but unscoped originals and namedlinkedmanual/software/optionalbranch sources; no absence accepted.",
+  "additional_checks": [
+    {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Prior ledger statuses and get_sources.py --slugs CODEC refresh; actual MANIFEST.tsv validated sources",
+      "finding": "Previous inaccessible Table5 claim superseded: final original article and all four supplements now retrieved via registered PMCCloud/Springer routes. A duplicate-only PMCCloud manual manifest row is not an actual missing-original barrier. No source absence accepted."
+    },
+    {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Original MOESM3peerreviewfilechemistry contexts103–134,291–345,425–440,590–595,718–744",
+      "finding": "Bounded chemistry-related review correspondence checked: argues recovery/GCbias, updatedbyproductfigures, optionalcaptureblocker discussion with actualTwistuniversalblockerslink727 anddoublecaptureSchmitt2015reference741. Not a full-file original/source exclusion; remaining full peer-review/link scope retained."
+    }
+  ]
 }

@@ -42,6 +42,27 @@ def bead_oligo() -> Construct:
     ], name="Seq-Well S3 bead oligo")
 
 
+def first_strand() -> Construct:
+    return Construct([
+        *bead_oligo(), seg("copied transcript", "X" * 28, placeholder=True),
+    ], name="Seq-Well S3 bead-extended first-strand cDNA")
+
+
+def p5_primer() -> Construct:
+    return Construct([
+        seg("P5", il.P5, "p5"), seg("spacer", P5_SPACER),
+        seg("SMART handle", rt.SMART_HANDLE, "tso"), seg("AC", BEAD_SUFFIX),
+    ], name="P5-SMART hybrid; terminal *A*C phosphorothioate bonds")
+
+
+def n7xx_primer() -> Construct:
+    return Construct([
+        seg("P7", il.P7, "p7", inferred=True),
+        seg("i7 index read", I7_INDEX_READ, "cbc", placeholder=True),
+        seg("s7", nx.S7, "s7", inferred=True),
+    ], name="N7xx library-PCR primer; unassigned eight-base index")
+
+
 def tso_oligo() -> list[Segment]:
     return [seg("SMART handle", rt.SMART_HANDLE, "tso"), seg("GAAT", "GAAT"),
             seg("rGrGrG", "rGrGrG", placeholder=True)]
@@ -93,8 +114,8 @@ def selected_tagmented_strand(insert_nt: int = 28) -> Construct:
         seg("cell barcode","B"*12,"cbc",placeholder=True),
         seg("UMI","N"*8,"umi",placeholder=True),seg("poly(T)","T"*30),
         seg("cDNA","X"*insert_nt,placeholder=True),
-        seg("mosaic end reverse complement",nx.ME_RC,"me"),
-        seg("s7 reverse complement",nx.S7_RC,"s7")],
+        seg("mosaic end reverse complement",nx.ME_RC,"me",inferred=True),
+        seg("s7 reverse complement",nx.S7_RC,"s7",inferred=True)],
         name="Seq-Well S3 selected bead-end fragment")
 
 
@@ -113,10 +134,10 @@ def final_library(insert_nt: int = 28) -> Construct:
         seg("cell barcode", "B" * 12, "cbc", placeholder=True),
         seg("UMI", "N" * 8, "umi", placeholder=True), seg("poly(T)", "T" * 30),
         seg("cDNA", "X" * insert_nt, placeholder=True),
-        seg("mosaic end reverse complement", nx.ME_RC, "me"),
-        seg("s7 reverse complement", nx.S7_RC, "s7"),
+        seg("mosaic end reverse complement", nx.ME_RC, "me", inferred=True),
+        seg("s7 reverse complement", nx.S7_RC, "s7", inferred=True),
         seg("i7 index read", I7_INDEX_READ, "cbc", placeholder=True),
-        seg("P7 reverse complement", il.P7_RC, "p7"),
+        seg("P7 reverse complement", il.P7_RC, "p7", inferred=True),
     ], name="Seq-Well S3 sequencing library")
     problems = sp.verify(lib, SEQ_PRIMERS, required_roles=RUN_ROLES)
     if problems:
@@ -147,7 +168,7 @@ def protocol_graph() -> ProtocolGraph:
     graph.discard(empty,"wells without a productive cell-bead pairing do not yield library")
     rt_enzyme=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
     first=graph.product("first_strand","bead-barcoded first-strand cDNA",
-                        MaterialKind.MOLECULAR,state=bead_oligo())
+                        MaterialKind.MOLECULAR,state=first_strand())
     graph.react("reverse_transcribe","Synthesize bead-barcoded first-strand cDNA",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((captured,InputRole.TEMPLATE),(beads,InputRole.STRUCTURAL),
@@ -194,7 +215,9 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.EXTENSION,
                 ((stripped,InputRole.TEMPLATE),(randomer_input,InputRole.STRUCTURAL),
                  (klenow,InputRole.CATALYST)),(rescued,),source=author_protocol)
-    smart=graph.input("smart_primer","SMART PCR primer",MaterialKind.OLIGO)
+    smart=graph.input("smart_primer","SMART PCR primer",MaterialKind.OLIGO,
+                      state=Construct([seg("SMART handle",rt.SMART_HANDLE,"tso")]),
+                      source="Hughes et al. 2020 Key Resources, SMART PCR Primer")
     preamp_pol=graph.input("preamp_polymerase","WTA PCR polymerase",MaterialKind.CATALYST)
     amplified=graph.product("amplified_cdna","amplified S3 WTA cDNA",MaterialKind.MOLECULAR,
                             state=wta_product())
@@ -210,23 +233,25 @@ def protocol_graph() -> ProtocolGraph:
     tagged=graph.product("selected_tagmented",selected.name,MaterialKind.MOLECULAR,state=selected)
     waste=graph.product("tagment_waste","tagmentation products without the bead end",
                         MaterialKind.WASTE)
-    graph.react("tagment","Tagment amplified cDNA",StepKind.TAGMENTATION,
+    graph.react("tagment","INFERRED — standard Nextera arms on tagmented cDNA",StepKind.TAGMENTATION,
                 ((amplified,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
                  (tn5,InputRole.CATALYST)),(tagged,waste))
     graph.discard(waste,"fragments lacking the bead-derived handle are not PCR-selected")
-    p5=graph.input("p5_primer","P5-SMART selective primer",MaterialKind.OLIGO)
-    p7=graph.input("p7_primer","N7xx indexed primer",MaterialKind.OLIGO)
+    p5=graph.input("p5_primer","P5-SMART selective primer",MaterialKind.OLIGO,
+                   state=p5_primer(),source="Hughes et al. 2020 Key Resources, P5-SMART Hybrid Oligo (*A*C)")
+    p7=graph.input("p7_primer","N7xx indexed primer",MaterialKind.OLIGO,
+                   state=n7xx_primer(),source="Hughes et al. 2020 Sequencing Library Preparation: N700 family; official Illumina Nextera PCR arms")
     library_pol=graph.input("library_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     final=final_library()
     library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
-    graph.react("library_pcr","Select the bead-end/s7 fragment and add P5/P7",StepKind.PCR,
+    graph.react("library_pcr","INFERRED — select the bead-end/standard Nextera fragment and add P5/P7",StepKind.PCR,
                 ((tagged,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
                  (p7,InputRole.STRUCTURAL),(library_pol,InputRole.CATALYST)),(library,),
                 geometry=PCRGeometry.exact(
                     selected,PCRPrimer("P5-SMART",P5_HYBRID,
                                        anneal_nt=len(rt.SMART_HANDLE)+len(BEAD_SUFFIX)),
                     PCRPrimer("N7xx",il.P7+I7_INDEX_READ+nx.S7,anneal_nt=len(nx.S7)),
-                    statement="The Key Resources Table defines the P5-SMART and N7xx primer boundaries."))
+                    statement="Hughes Key Resources prints P5-SMART; Methods names N700. The N7xx boundary uses the official Illumina Nextera PCR arm, with its eight-base member left unassigned."))
     lengths={"Read 1":20,"Index 1 (i7)":8,"Read 2":50}
     graph.sequence(library,SequencingPlan(
         library=final,primers=SEQ_PRIMERS,acquired_roles=RUN_ROLES,read_lengths=lengths,
@@ -291,4 +316,8 @@ def protocol_graph() -> ProtocolGraph:
         evidence="Both source recipes total 20 µL with 5 µL cDNA, but assign different TD and ATM volumes.",
         uncertainty="The authors do not explain whether the split changed between runs or is a transcription error.",
         slot=AnnotationSlot.INTRO))
+    graph.annotate(Highlight(
+        target="library", title="Displayed read configuration and Nextera context",
+        explanation="The displayed 20/8/50 Read 1/Index 1/Read 2 configuration is the June 2019 author guide p. 24 MiSeq/NextSeq option and the 2023 chapter section 3.14 option. The 2019 guide separately lists NovaSeq Read 2 50–80 cycles, optional Index 2, and bead-lot-dependent 21-cycle Read 1. Those variants are not assigned to this single-index construct. The inferred Nextera right arm uses the official vendor family context; the historical kit revision and N700 member remain unassigned.",
+        slot=AnnotationSlot.AFTER_WORKFLOW))
     return graph.require_publishable()

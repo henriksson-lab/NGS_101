@@ -1,71 +1,44 @@
 # ORGANIC profiling — research notes
 
-Kasinathan et al., *Nature Methods* (2014),
-[doi:10.1038/nmeth.2766](https://doi.org/10.1038/nmeth.2766).
+Kasinathan *et al.*, *Nature Methods* (2014), [10.1038/nmeth.2766](https://doi.org/10.1038/nmeth.2766).
 
-## Sources read
+## Sources and selected scope
 
-- 🟢 The defining article and Supplementary Figure 1 workflow (PMCID: PMC3929178).
-- 🟢 Orsi et al., *Mapping regulatory factors by immunoprecipitation from native
-  chromatin*, Current Protocols (2015),
-  [doi:10.1002/0471142727.mb2131s110](https://doi.org/10.1002/0471142727.mb2131s110),
-  PMCID: PMC4410783. This later same-author stepwise ORGANIC procedure publishes a
-  concrete short-insert library oligo implementation. It was **not** cited by the 2014 article.
-- 🔴 The defining article cites Henikoff et al. (2011), [doi:10.1073/pnas.1110731108](https://doi.org/10.1073/pnas.1110731108), reference 19, for its modified library preparation. The predecessor original (PMCID: PMC3215028) and linked 4.3-MB Supporting Information remain unavailable for full independent checking in the current source bundle. Its search-indexed abstract and Results describe short-fragment paired-end library preparation but are not a substitute for reading the Methods and supplement.
+🟢 The defining article's author manuscript (PMC3929178), published Supplementary Figure 1, and original deposited protocol in [GSE45672](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE45672) describe native MNase digestion and affinity purification. The graph selects the yeast 80 mM salt branch. The sources also describe yeast 150/600 mM conditions, fly profiling and mixing experiments; those are separate conditions.
 
-## Protocol boundary
+🟢 The study metadata actually links `GSE45672_ORGANIC_profiling_protocol.rtf.gz`. The recovered author RTF names the study and authors, gives the yeast/fly/mixed-nuclei scope, and inherits yeast native immunoprecipitation from [Zentner *et al.* 2013, PLoS Genetics](https://doi.org/10.1371/journal.pgen.1003317), with the stated salt changes. It is a nuclei/IP procedure, not a library-preparation SOP. Word's `ADDIN EN.CITE` field artifact in the text extraction is not a biological claim.
 
-ORGANIC means *Occupied Regions of Genomes from Affinity-purified Naturally Isolated
-Chromatin*. It is not ChEC-seq: MNase is free in the nuclear digest rather than fused to
-the factor, and the factor–DNA complex is selected afterward by immunoprecipitation.
+🟢 The actual inherited 2013 original (PMC3585014, Methods 150–168) gives native calcium/MNase digestion, EDTA quenching, soluble S1/S2 extraction and pooling, an input aliquot, FLAG affinity purification, RNase A treatment, SDS/Proteinase K treatment, phenol extraction and ethanol DNA recovery. Its separate formaldehyde X-ChIP branch is not transferred to this native model.
 
-1. 🟢 Nuclei are isolated without formaldehyde. Low-salt, cold conditions preserve native
-   noncovalent protein–DNA complexes, and no sonication boundary is introduced.
-2. 🟢 MNase concentration and duration are titrated. The recommended QC ladder is at least
-   roughly 75% mononucleosome-sized DNA with a clear smear of shorter fragments while
-   retaining small amounts of di- and trinucleosomes. Light digestion retains local
-   accessibility and sequence bias; excessive digestion can damage the complex.
-3. 🟢 MNase first nicks/cuts exposed DNA and then trims exonucleolytically until a bound
-   protein blocks it. A single transcription factor commonly protects 20–40 bp, whereas
-   jointly occupied regions can protect 60–80 bp and nucleosomes protect longer fragments.
-4. 🟢 Digested chromatin is solubilized at low ionic strength. The epitope-tagged factor
-   or endogenous target is affinity-purified with its still-associated DNA. Input DNA from
-   the total digest measures MNase/accessibility background.
-5. 🟢 Proteinase treatment and DNA purification recover 3–100 ng of footprint DNA. There
-   is no crosslink-reversal step because the input chromatin was never fixed.
-6. 🟢 End repair, 3′ dA addition, indexed-adapter ligation and KAPA PCR use the authors'
-   low-input paired-end workflow, which deliberately retains very short inserts.
+🟢 Published Supplementary Figure 1 (MOESM254 PDF p. 3, visually inspected) independently shows the yeast and fly workflows. Its panel c gives the common input/IP library path: end repair → phenol/chloroform/S-300 cleanup → 3′ A addition → phenol/chloroform/S-300 cleanup → TruSeq adapter ligation → AMPure cleanup → PCR → AMPure cleanup → 25-cycle paired-end HiSeq 2000 sequencing.
 
-## Exact library oligos
+## Historical library sources
 
-The later 2015 same-author ORGANIC procedure publishes this implementation:
+🟢 The actual [Henikoff 2011 predecessor](https://doi.org/10.1073/pnas.1110731108), PMC3215028, is now recovered. Its Methods names Illumina **PE-930-1001**, omitted gel/Qiagen steps, phenol/chloroform plus S-300 cleanup, and AMPure steps after ligation and PCR. Its Results discuss the short-fragment recovery and older adapter-length contribution. Its directly linked detailed SI still returns a download gate/403 through the attempted original routes. Recovery of the main article does not establish that its older adapter configuration equals the later TruSeq example.
 
-- Universal Adapter:
-  `5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATC*T-3′`
-- Indexed Adapter:
-  `5′-/5Phos/GATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATGCCGTCTTCTGCTT*G-3′`
-- P5 enrichment primer: `5′-AATGATACGGCGACCACCGAG-3′`
-- P7 enrichment primer: `5′-CAAGCAGAAGACGGCATACGAG-3′`
+🟢 [Orsi *et al.* 2015](https://doi.org/10.1002/0471142727.mb2131s110), PMC4410783, Basic Protocol 3, supplies a later same-author ORGANIC library implementation. It was not cited by the 2014 article. The exact oligos and downstream enzyme choices illustrated on this page are attributed to this later procedure, not silently assigned to each 2014 sample.
 
-🟢 `*` is a terminal phosphorothioate linkage, `/5Phos/` is the indexed adapter's 5′
-phosphate, and `NNNNNN` is the six-base i7 sample index. The construct is single-indexed.
-🟡 The 2014 article's Supplementary Fig. 1c names TruSeq adapter ligation, but does not
-print the oligo bases or identify which six-base index was used for each sample. The
-2011 library predecessor cited by that article still needs its own source check before
-these later exact arms can be attributed to the 2014 experiments.
+The later source prints:
 
-## Why paired ends matter
+- Universal Adapter: `5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATC*T-3′`.
+- Indexed Adapter: `5′-/5Phos/GATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATGCCGTCTTCTGCTT*G-3′`.
+- P5 primer: `5′-AATGATACGGCGACCACCGAG-3′`.
+- P7 primer: `5′-CAAGCAGAAGACGGCATACGAG-3′`.
 
-🟢 The defining work used 25-cycle paired-end HiSeq 2000 sequencing. Each pair reconstructs
-the complete MNase-bounded fragment. Analyses that collapse mates into independent read
-starts lose the distinction between compact transcription-factor footprints, co-occupied
-sites and nucleosome-sized fragments. The method paper therefore treats fragment length
-and both endpoints as molecular observations, not merely library QC.
+🟢 The source marks the indexed strand's 5′ phosphate and both terminal phosphorothioate bonds; N6 denotes its multiplexing index. The exact sample-index member remains unassigned.
 
-## Interpretation limits
+🟡 The complete 58-base Universal Adapter already includes the overlapping P5/Read 1 sequence. The local endpoint includes it once, followed by insert, fragment-derived dA and the complete 63-base Indexed Adapter. This corrects the repository's previous duplication of the four-base `ACAC` overlap. The correction concerns the model, not a publication error.
 
-🟢 ORGANIC avoids formaldehyde and sonication artifacts and can give base-pair-scale direct
-binding maps. Its tradeoff is dependence on a complex surviving native preparation and
-affinity purification. Weak/fast-exchanging binding can be lost; MNase base preference,
-digestion depth and incomplete solubilization remain possible biases. Replicates, input
-digests and digestion-series agreement are the appropriate controls.
+The Orsi illustration locally declares combined T4 DNA polymerase/Klenow/PNK end polishing, phenol/S-300 cleanups, M0212M Klenow exo− A-tailing, Rapid DNA ligase, positive bead cleanups and KAPA amplification. It does not introduce a separate kinase incubation. The initial Y-adapter duplex and its unpaired terminal dT are drawn from the source strands. The complete pre-PCR ligated Y molecule is not constructed, so its PCR geometry remains explicitly unresolved rather than substituting the amplified endpoint as a pre-PCR duplex.
+
+## Readout and physical fates
+
+🟢 The defining figure and all 24 instrument fields in the original GEO metadata identify HiSeq 2000; the defining figure specifies 25-cycle paired-end sequencing. The six-position Index 1 view belongs to the illustrated Orsi variant and is not a recovered 2014 instrument mask or sample assignment.
+
+Both repaired fragment boundaries and insert span are useful observations. Soluble fraction selection, affinity capture/washing, DNA recovery and positive library cleanup have explicit physical fates in the graph. RNase/protease action is represented before DNA purification; the enzyme treatment itself is not called a physical discard. Mapping, fragment-length filters and occupancy analyses do not become molecular-removal steps.
+
+## Remaining source review
+
+The local PMC author manuscript lacks the referenced **Online Methods** section: its text 120–160 contains supplementary captions, not Methods. Earlier ledger entries that claimed those lines as Methods reads have been withdrawn and preserved as history. The original publisher entry currently supplies a subscription preview; the deposited RTF resolves the native-protocol inheritance but does not replace the complete published Online Methods or the cited 2011 SI.
+
+The exact 2014 adapter/index assignment remains a model question. The 2011 SI, Online Methods and relevant historical vendor procedures remain outstanding originals; nuclei/fly/predecessor-linked sources have their actual identities and pending scope recorded in the review ledger. No claim that information was unpublished has passed the two-reader gate.

@@ -563,9 +563,8 @@ class ProtocolGraph:
             need(InputRole.TEMPLATE, "needs a substrate")
             need(InputRole.STRUCTURAL, "needs a loaded adapter")
             need(InputRole.CATALYST, "needs a transposase")
-            if n < 2:
-                raise ValueError(
-                    "tagmentation must expose library-eligible and non-library outputs")
+            # Output classes depend on the declared adapter chemistry and source.
+            # Do not invent a discarded class from the operation name alone.
         elif step.kind is StepKind.ADAPTER_ATTACHMENT:
             need(InputRole.TEMPLATE, "needs a tagged molecular substrate")
             need(InputRole.STRUCTURAL, "needs an attaching adapter")
@@ -591,11 +590,11 @@ class ProtocolGraph:
             need(InputRole.STRUCTURAL, "needs a hybridizing reagent")
         elif step.kind is StepKind.BINDING:
             need(InputRole.TEMPLATE, "needs a binding substrate")
-            if not ({InputRole.SELECTION, InputRole.ANALYTE} & set(roles)):
+            if not ({InputRole.STRUCTURAL, InputRole.SELECTION, InputRole.ANALYTE} & set(roles)):
                 raise ValueError(
-                    f"binding step {step.id!r} needs a binding probe or measured analyte")
-            if n < 2:
-                raise ValueError("binding must expose bound and unbound outcomes")
+                    f"binding step {step.id!r} needs an explicit binding partner")
+            # Binding can describe a complex without a physical selection step.
+            # Bound/unbound fates belong to source-specific selection declarations.
         elif step.kind is StepKind.FOLDING:
             need(InputRole.TEMPLATE,"needs a molecule to fold")
             need(InputRole.CONDITION,"needs a folding condition")

@@ -17,8 +17,9 @@ v6.0_6/24**.
 - 🟢 NEB USER Enzyme product documentation.
 - 🟢 Illumina Adapter Sequences, document 1000000002694 v22, September 2025.
 
-The newer indexed UMI adaptor is deliberately out of scope: it does not use USER, and NEB
-now states that its correct sequence is proprietary.
+The indexed UMI adaptor is a separate branch: the main manual specifies that it does
+not require USER. This page selects the non-indexed E7600 hairpin and its Set 1 PCR primers;
+it does not assign that hairpin structure to arbitrary third-party or indexed adaptors.
 
 ## 3. End prep and ligation
 
@@ -53,3 +54,18 @@ i701 (`P7 + CGAGTAAT + TruSeq Read 2`).
 🟡 The finished top strand carries P5, i5 `TATAGCCT`, Read 1, insert, the dA junction,
 the Index 1 / Read 2 side, i7 read `ATTACTCG`, and P7 reverse complement. Read 1, Index 1,
 Index 2 and Read 2 primer sites are located computationally on that final molecule.
+
+
+## 6. Linked FAQ and source correction (16 October 2026)
+
+The [NEB third-party adaptor FAQ](https://www.neb.com/faqs/can-i-use-this-nebnext-kit-with-adaptors-and-primers-from-other-vendors-than-neb)
+says other-vendor T-overhang adaptors may be compatible, with optimization recommended.
+Its E7395 DNA and E7416 RNA links concern separate full-length indexed/UMI-adaptor
+branches; compatibility does not make those adaptors USER-cleavable hairpins.
+
+The original E7600 v6.0_6/24 **p. 3** and E7780 **p. 3** both print the full modified
+NEBNext hairpin oligo. A former repository source-check exception incorrectly claimed
+these manuals omitted the sequence; that exception has been removed. This was a
+repository error, not a vendor publication error or demonstrated sequence withdrawal.
+The adaptor and illustrative i501/i701 primer states are now checked against the actual
+E7600 original, including phosphate, dU and terminal phosphorothioate notation.

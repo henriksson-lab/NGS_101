@@ -6,7 +6,7 @@ Atrandi Biosciences / Droplet Genomics. Research Use Only.
 Kit P/N **CKP-BARK1**. 3 experiments, ~10,000 barcoded cells sequenced per experiment.
 
 > **Evidence marking.** 🟢 = verbatim from the source document · 🟡 = derived or inferred
-> (reasoning given; arithmetic verified where possible) · 🔴 = not published anywhere.
+> (reasoning given; arithmetic verified where possible) · 🔴 = not established in the current declaration; source review remains open.
 > Any claim not marked 🟢 must reach the final page carrying its uncertainty.
 
 > This document ends at barcoding. DNA purification and Illumina library prep are in the
@@ -239,9 +239,11 @@ Thaw the barcode plate at RT, spin 1000 × g for 30 s. Cut the seal only over th
 
 ## 6. Notes and gaps
 
-- Enzyme identities are proprietary throughout (WGA polymerase, primer mix, debranching enzyme,
-  end-prep mix, ligase). Thermal profiles are the only mechanistic clue.
-- **The 4 nt linker sequences are not disclosed** in either Atrandi document.
+- The V3 kit lists WGA polymerase, primer mix, debranching enzyme, end-prep mix and
+  ligase as named vendor components with product numbers. Their molecular identities
+  are not established in this declaration; no broader source-absence conclusion is accepted.
+- **Exact linker bases remain a model limitation.** The checked V3 text gives their
+  length; ordered cassette strand/end evidence is still under review.
 - The barcode plate supplies barcodes as pre-formed ligation-ready adapters; their duplex
   structure (overhang, phosphorylation, blocking) is **not shown** in this guide.
 - Relevant for our protocol: we replace this kit's WGA step with **PTA**, and run **NEBNext

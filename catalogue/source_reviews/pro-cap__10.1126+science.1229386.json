@@ -1,6 +1,6 @@
 {
   "dir": "pro-cap__10.1126+science.1229386",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "kwak_article_jats",
@@ -11,13 +11,13 @@
       "pass_1": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Original Kwak 2013 author-manuscript JATS lines 19, 35, 47–49 and References lines 88–108; source-bundle scraper run",
+        "locations": "Original Kwak 2013 author-manuscript JATS lines 19, 35, 47\u201349 and References lines 88\u2013108; source-bundle scraper run",
         "finding": "Main paper identifies PRO-cap as PRO-seq-derived capped-end assay but defers molecular procedure to supplement. No original oligo bases in main JATS."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "Original Kwak 2013 author-manuscript JATS opening through Supplementary Material link, especially lines 19, 35, 47–49 and cited references 88–108; source-bundle scraper run",
+        "locations": "Original Kwak 2013 author-manuscript JATS opening through Supplementary Material link, especially lines 19, 35, 47\u201349 and cited references 88\u2013108; source-bundle scraper run",
         "finding": "Main article establishes PRO-cap as capped-end derivative of PRO-seq and delegates library preparation to supplement. It does not print original standard adapter/primer bases."
       }
     },
@@ -30,25 +30,35 @@
       "pass_1": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Original author-hosted Science supplement lines 112–147; scraper modified-oligo hits at 122, 135–140 inspected against source",
+        "locations": "Original author-hosted Science supplement lines 112\u2013147; scraper modified-oligo hits at 122, 135\u2013140 inspected against source",
         "finding": "PRO-cap omits PRO-seq RNA fragmentation, ligates standard Illumina 3-prime RNA adapter first, enriches biotin RNA again, applies Antarctic phosphatase before TAP, then ligates standard 5-prime RNA adapter, performs third enrichment, RT and PCR. Printed reverse PRO-seq adapters are expressly for another branch and must not be copied to PRO-cap. It names but does not print the original PRO-cap standard adapter bases."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "Original author-hosted Science supplement extracted lines 105–148, especially run-on 105–111, first pull 112–120, 3-prime ligation 121–124, second pull 129–130, AP/TAP 130–134, 5-prime ligation/third pull 135–142, RT/PCR 143–148; scraper modified-oligo hits verified",
+        "locations": "Original author-hosted Science supplement extracted lines 105\u2013148, especially run-on 105\u2013111, first pull 112\u2013120, 3-prime ligation 121\u2013124, second pull 129\u2013130, AP/TAP 130\u2013134, 5-prime ligation/third pull 135\u2013142, RT/PCR 143\u2013148; scraper modified-oligo hits verified",
         "finding": "Original PRO-cap uses four biotin-NTPs together, omits PRO-seq fragmentation, and has three streptavidin enrichments: after run-on, after 3-prime adapter ligation, and after 5-prime adapter ligation. Antarctic phosphatase precedes TAP; PNK is expressly omitted for PRO-cap. Standard Illumina 3-prime/5-prime adapters and RT/PCR primers are named but not sequenced; adjacent reverse PRO-seq oligos are for a separate branch. Current graph has all three pulls and the correct order. Exact original ligating-end geometry remains unresolved."
-      }
-    },
-    {
-      "id": "kwak_pmc_supp_gate",
-      "role": "supplement",
-      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3974810/bin/NIHMS563579-supplement-supplement.pdf",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "PMC serving gate; author-hosted original supplement has been read but this copy could not be independently compared byte for byte."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Fresh fullbundle scraper, actual original SOM105\u2013148,364\u2013366",
+          "finding": "No PRO-cap fragmentation; three captures; AP before TAP/noPNK; standard adapters/RT named separately from reversePRO-seq oligos. Phusion/PAGE original workflow. Nonreverse-complemented5-prime reads for initiation; lateroligos not historicalselection."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Fresh31-hit scraper, actual original112\u2013148,356\u2013372",
+          "finding": "Independent same original PRO-cap variant/order andread orientation; exact historicalstandardoligo selectedidentity unassigned, not universally absent."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Fresh original SOM112\u2013148/356\u2013372 and current local graph comparison",
+          "finding": "Independent model/source comparison confirms original AP/TAP without PNK, three captures, local RT/Phusion/PAGE and unassigned index/run primers. Possible uncapped 5-prime-OH outcome is inferred/unresolved and not a physical separation. No historical kit assignment from later comparator."
+        }
+      ]
     },
     {
       "id": "maher_2016_protocol",
@@ -59,14 +69,14 @@
       "pass_1": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Later author detailed PRO-seq/PRO-cap protocol JATS lines 162–190, 1569, 1648–1706, 1903 and Table 1 lines 2875–2905; scraper hits checked in source",
+        "locations": "Later author detailed PRO-seq/PRO-cap protocol JATS lines 162\u2013190, 1569, 1648\u20131706, 1903 and Table 1 lines 2875\u20132905; scraper hits checked in source",
         "finding": "Confirms 3-prime adapter before cap enzymology and 5-prime adapter after it. Table 1 prints RA3, RA5, RTP, RP1 and indexed RPI-n for its later implementation; the 2013 paper does not establish exact identity of every later oligo in the original experiment."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "Later author PRO-seq/PRO-cap original PMC5502525 JATS lines 162–192, PRO-cap branch 1648–1706, oligo Table 1 lines 2875–2902; source scraper hits checked against table",
-        "finding": "Later protocol confirms adapter-first and three affinity pulls, and prints RA3, RA5, RTP, RP1 and indexed RPI family for its own implementation. It adds a 5-prime-phosphate-dependent exonuclease before alkaline phosphatase (lines 182–188, 1648–1651), absent from the 2013 supplement; the 2013 page correctly omits that later branch. The later table does not prove exact bases/modifications for the original 2013 lot."
+        "locations": "Later author PRO-seq/PRO-cap original PMC5502525 JATS lines 162\u2013192, PRO-cap branch 1648\u20131706, oligo Table 1 lines 2875\u20132902; source scraper hits checked against table",
+        "finding": "Later protocol confirms adapter-first and three affinity pulls, and prints RA3, RA5, RTP, RP1 and indexed RPI family for its own implementation. It adds a 5-prime-phosphate-dependent exonuclease before alkaline phosphatase (lines 182\u2013188, 1648\u20131651), absent from the 2013 supplement; the 2013 page correctly omits that later branch. The later table does not prove exact bases/modifications for the original 2013 lot."
       }
     },
     {
@@ -78,25 +88,15 @@
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "Original Core et al. 2008 author-hosted supplementary PDF extracted lines 381–410; scraper run on its local GRO-cap source bundle",
+        "locations": "Original Core et al. 2008 author-hosted supplementary PDF extracted lines 381\u2013410; scraper run on its local GRO-cap source bundle",
         "finding": "Core GRO-seq enriches BrU-labelled RNA with antibody beads, repairs hydrolysis ends, and ligates 5-prime adapter before 3-prime adapter, with re-enrichment after each. It is a conceptual predecessor but does not establish PRO-cap 2013 streptavidin chemistry, cap branch, or exact standard Illumina oligo version."
       },
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Original Core 2008 author-hosted Science supplement lines 381–410, after source-bundle scraper run",
+        "locations": "Original Core 2008 author-hosted Science supplement lines 381\u2013410, after source-bundle scraper run",
         "finding": "GRO-seq precedent uses BrUTP/anti-BrU purification and base hydrolysis, then TAP/PNK end repair with 5-prime adapter before 3-prime. This differs from the 2013 PRO-cap 3-prime-first cap-preserving branch and cannot establish original PRO-cap adapters."
       }
-    },
-    {
-      "id": "historical_illumina_small_rna_guide",
-      "role": "vendor",
-      "locator": "Original 2013 supplement calls standard Illumina RNA adapters and RT/PCR primers; exact historical guide and product revision not identified",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "Exact 2013 adapter product, ligating-end modifications, and index set have not been tied to a historical vendor manual or reagent lot."
     },
     {
       "id": "illumina_truseq_small_rna_sequence_table",
@@ -107,34 +107,94 @@
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "Official Illumina TruSeq Small RNA sequence table extracted lines 138–192; scraper run on its local GRO-cap source bundle",
+        "locations": "Official Illumina TruSeq Small RNA sequence table extracted lines 138\u2013192; scraper run on its local GRO-cap source bundle",
         "finding": "Official table prints RA3/RA5, RTP, RP1 and six-base index-primer family matching the later author PRO-cap Table 1 fixed sequences. Page has no historical release date or direct 2013 Kwak product/lot linkage, so it cannot yet prove exact original adapter identity or ligating-end modifications."
       },
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Official Illumina TruSeq Small RNA sequence table in cached HTML lines 138–192; scraper hits at lines 152, 176, 184, 192 checked against original table",
+        "locations": "Official Illumina TruSeq Small RNA sequence table in cached HTML lines 138\u2013192; scraper hits at lines 152, 176, 184, 192 checked against original table",
         "finding": "RA3/RA5/RTP/RP1 and six-base index-primer family are printed, matching later author PRO-cap Table 1 at base level. Table lacks 2013 kit revision and does not prove which products were used in the original 2013 experiment."
       },
       "discovered_from": "historical_illumina_small_rna_guide"
+    },
+    {
+      "id": "dated_vendor_revc2011",
+      "role": "vendor",
+      "discovered_from": "kwak_supp_author_mirror",
+      "locator": "TruSeq_SmallRNA_SamplePrep_Guide_15004197_C.pdf; March2011/15004197RevC/RS9301012; registered BU original mirror",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual title1\u201327,intro86\u2013103,kit392\u2013437,ligation785\u2013911,RT/PCR963\u20131007,index1640\u20131687",
+        "finding": "Dated guide describes 48 six-base indexes and names RA3, RA5, RTP, RP1 and RPI. Its 3-prime reaction uses truncated RNA ligase 2. These are positive vendor claims, not selection of the original 2013 kit or identity to the author-modified 2016 adapters. RPI1 index ATCACG and physical primer barcode CGTGAT are reverse complements, not an established source conflict."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual ownbundle title1\u201327,86\u2013103,392\u2013437,855\u20131007",
+        "finding": "Independently confirms the dated document, 48 six-base indexes and named oligos. The 3-prime reaction uses truncated ligase 2; the 5-prime reaction uses ATP/T4 RNA ligase, followed by RT/index PCR. This does not select a 2013 kit. The whole index table was not independently inspected; no universal absence or exclusion is claimed."
+      }
     }
   ],
   "linked_information": {
-    "result": "blocked",
+    "result": "enumerated",
     "pass_1": {
-      "reviewer": "root",
+      "reviewer": "audit_tenx_closeout",
       "date": "2026-10-16",
-      "locations": "Kwak original JATS Supplementary Material line 47; author-hosted original supplementary Methods lines 112–147; cited Core 2008 in References; later author protocol PMC5502525 Table 1",
-      "finding": "Followed original supplementary-material link through author-hosted mirror and the later author protocol. Inspected every scraper hit in the original context and separated reverse PRO-seq adapters from PRO-cap. The 2008 predecessor and historical Illumina vendor guide still need source checks; thus original exact adapter geometry cannot be accepted as missing."
+      "locations": "OriginalSOM title/105\u2013148/364\u2013366; later2016Table1/1648\u20131706; datedvendorRevC listedsections",
+      "finding": "Original 2013 and comparator sources checked afresh. The generic eight-base index and shared finishing recipe were removed. Remaining SOM, script and precursor scopes are pending; populated historical fields do not establish a complete gate."
     },
     "pass_2": {
-      "reviewer": "audit_a_h",
+      "reviewer": "root",
       "date": "2026-10-16",
-      "locations": "Kwak original JATS supplement pointer and original author-hosted PDF lines 105–148; later Maher author protocol JATS lines 162–192, 1648–1706, 2875–2902; Core 2008 original supplement lines 381–410; official Illumina TruSeq sequence table lines 138–192; independent Core 2008 supplement lines 381–410 and official Illumina sequence table lines 138–192",
-      "finding": "Independently followed the original supplement and later detailed method. The original has three streptavidin pulls and uses all four biotin-NTPs, while later method adds an exonuclease before AP. Newly inspected Core 2008 predecessor and current official Illumina table are recorded as first-pass leads only; Core is a different GRO-seq branch and current vendor table lacks 2013 kit provenance. Exact original adapters remain blocked until a matching historical guide and independent second reads of linked sources. Independently rechecked newly added Core 2008 and official Illumina sequence-table leads; the GRO-seq branch differs and the present vendor sequence table lacks a 2013 revision match."
-    }
+      "locations": "Freshactualoriginal112\u2013148/356\u2013372; actualRevCtitle/reagent/ligation/RT sections",
+      "finding": "Bounded original 2013 cap-branch and dated vendor-route checks, not assignment of an original kit or a complete linked-source gate."
+    },
+    "historical_passes": [
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Kwak original JATS Supplementary Material line 47; author-hosted original supplementary Methods lines 112\u2013147; cited Core 2008 in References; later author protocol PMC5502525 Table 1",
+        "finding": "Followed original supplementary-material link through author-hosted mirror and the later author protocol. Inspected every scraper hit in the original context and separated reverse PRO-seq adapters from PRO-cap. The 2008 predecessor and historical Illumina vendor guide still need source checks; thus original exact adapter geometry cannot be accepted as missing."
+      },
+      {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Kwak original JATS supplement pointer and original author-hosted PDF lines 105\u2013148; later Maher author protocol JATS lines 162\u2013192, 1648\u20131706, 2875\u20132902; Core 2008 original supplement lines 381\u2013410; official Illumina TruSeq sequence table lines 138\u2013192; independent Core 2008 supplement lines 381\u2013410 and official Illumina sequence table lines 138\u2013192",
+        "finding": "Independently followed the original supplement and later detailed method. The original has three streptavidin pulls and uses all four biotin-NTPs, while later method adds an exonuclease before AP. Newly inspected Core 2008 predecessor and current official Illumina table are recorded as first-pass leads only; Core is a different GRO-seq branch and current vendor table lacks 2013 kit provenance. Exact original adapters remain blocked until a matching historical guide and independent second reads of linked sources. Independently rechecked newly added Core 2008 and official Illumina sequence-table leads; the GRO-seq branch differs and the present vendor sequence table lacks a 2013 revision match."
+      }
+    ]
   },
-  "missing_claims": [
+  "missing_claims": [],
+  "conclusion": "In progress. The source-owned original 2013 graph removes an unsupported eight-base index and generic finishing recipe. It preserves AP/TAP without PNK or later exonuclease, three captures, Phusion/PAGE and original read orientation. Possible uncapped biotin-labelled 5-prime-OH material is explicitly inferred and unresolved, without a fictitious physical separation. The available original SOM and dated vendor comparator replace stale unavailable-document assumptions; named source work remains pending and no missing-information claim is accepted.",
+  "withdrawn_source_rows": [
+    {
+      "id": "kwak_pmc_supp_gate",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3974810/bin/NIHMS563579-supplement-supplement.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "PMC serving gate; author-hosted original supplement has been read but this copy could not be independently compared byte for byte.",
+      "resolution": "Author-hosted complete original SOM is independently source-identified/read. Byte comparison to gated PMC mirror is not required to inspect this original copy; retain route failure without inventing a remaining original scientific source."
+    },
+    {
+      "id": "historical_illumina_small_rna_guide",
+      "role": "vendor",
+      "locator": "Original 2013 supplement calls standard Illumina RNA adapters and RT/PCR primers; exact historical guide and product revision not identified",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Exact 2013 adapter product, ligating-end modifications, and index set have not been tied to a historical vendor manual or reagent lot.",
+      "resolution": "Old row named desired historical reagent specification, not an identified unavailable document. Exact original selected kit/oligos remain model questions. Actual dated RevC guide is now a separate positive comparator source."
+    }
+  ],
+  "missing_claim_history": [
     {
       "claim": "The exact 2013 PRO-cap standard adapter and index oligos are confirmed absent from all original and linked relevant sources",
       "disposition": "blocked",
@@ -143,8 +203,34 @@
     {
       "claim": "The reverse PRO-seq adapters printed next to the PRO-cap instructions are PRO-cap reagents",
       "disposition": "resolved",
-      "evidence": "Original supplement lines 121–140 explicitly assigns standard Illumina RNA adapters to PRO-cap instead."
+      "evidence": "Original supplement lines 121\u2013140 explicitly assigns standard Illumina RNA adapters to PRO-cap instead."
     }
   ],
-  "conclusion": "Original three-pull reaction order, four-biotin-NTP run-on and cap branch are checked twice; standard 2013 adapter and index bases remain blocked pending historical vendor/version evidence and independent linked-source review."
+  "open_model_questions": [
+    {
+      "question": "Exact original2013 standard Illumina adapter/RT/PCR selection, ligating ends, indexing and loaded run geometry",
+      "status": "unassigned",
+      "reason": "Positive later 2016 and dated 2011 vendor comparators do not select the original experimental variant. Withdrawing an invented unavailable-guide row neither resolves the bases nor establishes absence."
+    }
+  ],
+  "pending_sources": [
+    {
+      "source": "Original 2013 SOM: remaining figures S1\u2013S10, Tables S1\u2013S5 and separate analysis-code attachment",
+      "next_action": "Inspect bounded chemistry/readout source scope; reading original Methods does not exclude the entire supplement."
+    },
+    {
+      "source": "Original SOM nuclei predecessors: S1 Core2008, S2 Larschan2011 and S3 Core2012",
+      "next_action": "Preserve earlier Core2008 library checks. Inspect actual remaining nuclei/source dependencies without inheriting a recipe automatically."
+    }
+  ],
+  "pending_linked_targets": [
+    {
+      "source": "Defining GSE42117 and source-linked reagent/method metadata",
+      "next_action": "Inspect actual relevant original metadata/source routes; do not download raw reads."
+    },
+    {
+      "source": "Later 2016 supplements, source-specific modifications and current vendor comparator child sources",
+      "next_action": "Inspect bounded version-dependent source scope; these sources do not establish the selected original 2013 variant or publication-wide absence."
+    }
+  ]
 }

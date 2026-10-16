@@ -37,3 +37,23 @@ for the original experiment.
 ## SMRTbell junction evidence
 
 🟢 The 2019 PAIso-seq Online Methods, “PAIso-seq library construction,” identify size-selected amplified cDNA and an unversioned `SMRTbell Template Prep Kit`, followed by sequencing-primer annealing and Sequel sequencing. They do not specify dA tailing or the adapter's ligating end. The 2022 detailed protocol explicitly names `SMRTbell template prep kit 1.0-SPv3` (PacBio 100-991-900) in Materials and step 29; it also uses a modified TSO, so its kit choice cannot automatically be assigned to the 2019 experiment. The official PacBio 1.0 insert lists a Blunt Adapter, whereas the contemporaneous Express 2.0 overview describes T-overhang adapters and A/T ligation. 🟡 The model therefore retains only the source-supported closed SMRTbell topology and records the 2019 end-preparation and ligation geometry as unresolved; it does not draw an A/T or blunt junction for that experiment. Exact hairpin and sequencing-primer bases remain unverified.
+
+## Additional source scope
+
+🟢 Supplementary Figure 2 and Table 3 contain poly(A)-length calibration
+spike-ins; Table 2 contains independent PAT validation primers. They are
+separate from the library oligos in Table 1. The remaining supplementary
+figures and Table 4 concern coverage, correlations and measured tail results.
+
+🟢 The article's linked [author analysis repository](https://github.com/niehu2018/GV_oocyte_PAIsoSeqAnalysis/tree/ed419f406c35eb6812df10531348631892f85361)
+prints the TSO/cDNA/poly(A)/barcode/RT-adapter read orientation in its README.
+Its trimming code matches the supplied barcode-plus-adapter in either CCS
+orientation; these read-side adapters are not SMRTbell hairpins.
+
+The inspected repository revision has two execution inconsistencies: `run.pl`
+requires `scripts/basic.pm20190608` while its tree contains `scripts/basic.pm`,
+and the README trimming example includes an extra `sample` argument that the
+script's argument check does not accept. These are author-code packaging/CLI
+issues in the inspected revision, not demonstrated errors in the original
+2019 chemical protocol or biological data. The schematic does not depend on
+executing that command or guessing the missing module name.

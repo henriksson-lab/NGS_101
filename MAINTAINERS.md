@@ -92,7 +92,7 @@ scheme; `catalogue/scg_lib_structs.tsv` is the worklist of what is out there.
 │   ├── mdfacts.py           {{= ...}} computed facts inside the Markdown notes
 │   ├── page.py              shared stylesheet and page scaffolding
 │   └── checks.py            self-test harness + checks true for every protocol
-├── protocol_families/       bounded family-specific operations (currently Chromium)
+├── protocol_families/       legacy family recipes being migrated to protocol owners
 ├── ref/                     shared reference material
 │   ├── concepts/            chemistry that recurs across protocols, written once
 │   │   ├── tn5-tagmentation.md
@@ -295,8 +295,10 @@ deployment → Source: **GitHub Actions**. The next push to `main` (or a manual 
    declare a literal `PAGE_FILE` and provide `render_page()` and `selftest()`; the central
    `tools/protocol.py` command then builds and tests it. Keep a separate local self-test
    when it makes source review clearer. Keep that protocol's displayed oligos, citations,
-   read layout and evidence notices in its module even when it imports molecular
-   constructors from a published predecessor.
+   read layout and evidence notices in its module. Import a predecessor's molecular
+   constructor only when the local sources establish inheritance of that specific
+   component and version, and record that scope beside the use. Shared helper names,
+   matching endpoints and missing values do not establish chemical equivalence.
 7. Add `catalogue/ours.tsv` and `catalogue/properties.tsv` rows, then run
    `python3 tools/fetch_citations.py` so every defining DOI has a dated snapshot row.
 

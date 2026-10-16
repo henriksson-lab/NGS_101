@@ -50,6 +50,21 @@ def _raise_fact():
 check = Check()
 run_common(check)
 
+check.section("IUPAC nucleotide-class complements")
+from chemdraw import iupac_complement  # noqa: E402
+check("all IUPAC classes complement in place and preserve case",
+      iupac_complement("ACGTURYSWKMBDHVNacgturyswkmbdhvn"),
+      "TGCAAYRSWMKVHDBNtgcaayrswmkvhdbn")
+_iupac = "ACGTRYSWKMBDHVN"
+check("DNA class complement is an involution",
+      iupac_complement(iupac_complement(_iupac)), _iupac)
+check.raises("a schematic placeholder is not a nucleotide class",
+             lambda: iupac_complement("[insert]"))
+check("an explicit IUPAC bottom is preserved by segment complement",
+      Segment("degenerate bases", "HV", placeholder=True, length_bp=2,
+              bottom=iupac_complement("HV")).bottom_text(),
+      "DB")
+
 check.section("sequencing preview across an unknown-length insert")
 import seqprimers as sp  # noqa: E402
 left_site = "ACGTTGCAACGTTGCAAGGA"
@@ -186,11 +201,20 @@ check.raises("source run rows reject a graph without exact sequencing geometry",
 check.raises("offset primers require a declared sequencing-output limitation",
              lambda: OffsetPrimerSection("library", (("N", "ACGT"),),
                  "offsets", "product", "limitation").render(_complete_graph()))
-check.raises("tagmentation cannot hide its non-library output", lambda: ProtocolGraph(
-    "bad", authority="source")._validate_step_shape(Step(
+check("tagmentation permits one source-declared product class without inventing waste", ProtocolGraph(
+    "single-product class", authority="source")._validate_step_shape(Step(
         "tagment", "Tagment", StepKind.TAGMENTATION,
         (Input("sample", InputRole.TEMPLATE), Input("adapter", InputRole.STRUCTURAL),
-         Input("tn5", InputRole.CATALYST)), ("library",), source="source")))
+         Input("tn5", InputRole.CATALYST)), ("library",), source="source")), None)
+check("binding permits a declared structural complex without inventing a separation", ProtocolGraph(
+    "bound complex", authority="source")._validate_step_shape(Step(
+        "bind", "Bind SSB to DNA", StepKind.BINDING,
+        (Input("dna", InputRole.TEMPLATE), Input("ssb", InputRole.STRUCTURAL)),
+        ("complex",), source="source")), None)
+check.raises("binding still requires a declared partner", lambda: ProtocolGraph(
+    "missing partner", authority="source")._validate_step_shape(Step(
+        "bind", "Bind", StepKind.BINDING,
+        (Input("dna", InputRole.TEMPLATE),), ("complex",), source="source")))
 
 
 def _uncovered_source():
@@ -850,6 +874,31 @@ check("upper-case English words and all-lower-case runs are not sequences",
       [h.seq for h in _hits.values() if "CATS" in h.seq or h.seq.islower()], [])
 check("--find matches the reverse strand across a line break",
       spx.find(_doc, "TCGGACTGTAGAACTCTGAACG"), [3, 8])
+
+# NEB E7600 v6.0_6/24 p.3 prints unbracketed CdUA inside a codon-spaced oligo.
+# Keep the complete molecule and its marks, rather than two hits around dU.
+_neb_du = ("NEBNext Adaptor\n"
+           "5´-/5Phos/GAT CGG AAG AGC ACA CGT CTG AAC TCC AGT CdUA CAC TCT TTC "
+           "CCT ACA CGA CGC TCT TCC GAT C-s-T-3´\n")
+_neb_du_hits = spx.scan(Path("original_neb_oligo"), _neb_du, {})
+check("unbracketed internal dU keeps the complete source-printed hairpin",
+      [h.seq for h in _neb_du_hits],
+      ["GATCGGAAGAGCACACGTCTGAACTCCAGTCUACACTCTTTCCCTACACGACGCTCTTCCGATCT"])
+check("internal dU preserves written phosphate, deoxyuridine and phosphorothioate",
+      [h.written for h in _neb_du_hits],
+      ["/5Phos/GATCGGAAGAGCACACGTCTGAACTCCAGTCdUACACTCTTTCCCTACACGACGCTCTTCCGATC-s-T"])
+check("explicit dU is recorded as deoxyuridine rather than RNA",
+      [h.mods for h in _neb_du_hits],
+      [["5' phosphate (/5Phos/)", "phosphorothioate x1", "deoxyuridine x1"]])
+check("--find crosses the internal dU and retains the original source line",
+      spx.find(_neb_du, _neb_du_hits[0].seq), [2])
+check("terminal and consecutive explicit dU keep their nucleotide positions",
+      [(h.seq, h.mods) for h in spx.scan(Path("du_ends"),
+          "start\tdUdUACGTACGTACGT\nend\tACGTACGTACGTdU\n", {})],
+      [("UUACGTACGTACGT", ["deoxyuridine x2"]),
+       ("ACGTACGTACGTU", ["deoxyuridine x1"])])
+check("an isolated prose dU mention is not rewritten as a sequence",
+      spx.scan_copy("the dU lesion").text, "the dU lesion")
 
 _bracketed = ("ME-ddC\t[Phos]CTGTCTCTTATACACATCT[ddc]\n"
               "Blocker\tGTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG-[invdT]\n")

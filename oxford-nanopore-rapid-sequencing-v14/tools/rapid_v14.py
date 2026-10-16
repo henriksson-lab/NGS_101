@@ -5,8 +5,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from chemdraw import Construct, Row, Scene, Segment, annotation_rows
-from nanopore_library import RAPID_ADAPTER, motor_sequencing_plan
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from protocol_model import molecule, role as molecular_role
 
 
@@ -24,18 +23,26 @@ SUMMARY = ("A transposase fragments high-molecular-weight genomic DNA while inst
            "ligase and presents one tagged strand to a nanopore.")
 CAVEAT = ("ONT publishes the Rapid Adapter strand. The transposase tag, complete "
           "motor-bearing assembly, attachment chemistry and exact motor-bearing strand "
-          "have not been verified from the checked vendor documents.")
+          "are not assembled in this model. The endpoint shows component roles, without "
+          "placing the published strand across an unverified attachment junction.")
+# Explicit local assignment from the ONT Chemistry Technical Document,
+# CHTD_500 v1 rev AV (24 July 2026), section 15, Rapid Adapter top strand.
+# Sequence identity with another kit's strand does not assign that kit's assembly.
+RAPID_ADAPTER = "CCTGTACTTCGTTCAGTTACGTATTGCT"
+CHEMISTRY_SOURCE = "https://nanoporetech.com/document/chemistry-technical-document#adapter-sequences"
+
+
+def rapid_adapter_strand() -> Construct:
+    return Construct([Segment("published RA top strand", RAPID_ADAPTER, "r2")],
+                     name="Rapid Adapter: source-printed strand only")
 TAGGED = Construct([role("left transposase tag", "[transposase tag]", "me"),
                     role("genomic DNA", "[genomic DNA fragment]"),
                     role("right transposase tag", "[transposase tag]", "me")],
                    name="transposase-tagged genomic DNA")
 FINAL_LIBRARY = Construct([
-    role("motor-loaded Rapid Adapter assembly", "[motor assembly]", "r2"),
-    Segment("Rapid Adapter published strand", RAPID_ADAPTER, "r2"),
-    role("attachment boundary", "[attachment]", "me"),
-    role("transposase tag", "[transposase tag]", "me"),
-    role("genomic DNA", "[genomic DNA fragment]"),
-], name="SQK-RAD114 sequenceable strand")
+    role("motor-associated Rapid Adapter", "[motor-associated Rapid Adapter]", "r2"),
+    role("tagged genomic DNA", "[transposase-tagged genomic DNA]", "me"),
+], name="SQK-RAD114 logical sequencing endpoint")
 SEQ_PRIMERS = ()
 SEQUENCING_MECHANISM = "nanopore_motor"
 MOTOR_ADAPTER_NAME = "Rapid Adapter"
@@ -44,9 +51,10 @@ SEQUENCING_ENDING = ("No synthesis primer binds. The adapter motor docks at a na
                      "end first.")
 SEQUENCING_UNAVAILABLE = ("SQK-RAD114 uses motor-controlled nanopore translocation, not "
                           "primer extension; the RA strand is published but the complete "
-                          "motor/attachment structure is not.")
-FINAL_CAPTION = ("One sequenceable product. Rapid attachment is non-ligase chemistry, so "
-                 "the boundary is labelled attachment rather than covalent ligation.")
+                          "motor/attachment structure is not assembled in this model.")
+FINAL_CAPTION = ("Logical component relationship only. The source-printed RA strand is "
+                 "shown separately; its physical attachment to the FRA tag and the "
+                 "motor-bearing assembly are not reconstructed here.")
 FRAGMENTATION_PROGRAM = ((30, 2), (80, 2))
 RAPID_ATTACHMENT_MIN = 5
 
@@ -60,11 +68,7 @@ def sections():
          "Fragmentation Mix cuts the input and transfers transposase tags in the same "
          "30 °C reaction; 80 °C ends the two-minute tagmentation."),
         ("Attach the Rapid Adapter", [
-            Row(chunks=[("[motor assembly] ", "r2", False),
-                        (RAPID_ADAPTER, "r2", False),
-                        (" ** attachment ** ", None, False),
-                        ("[transposase tag]", "me", False),
-                        ("[genomic DNA fragment]", None, False)]),
+            Row(chunks=[("Rapid Adapter reagent attaches to the tagged DNA; physical junction not modeled.", None, False)]),
         ], "Diluted RA attaches to a transposase-tagged end for five minutes at room "
            "temperature without a ligation enzyme."),
         ("Enter the nanopore", [
@@ -74,6 +78,13 @@ def sections():
         ], "The motor, rather than a polymerase primer, controls strand motion through "
            "the R10.4.1 nanopore."),
     ]
+
+
+def final_rows():
+    # This is an explicitly incomplete component assembly, not a DNA duplex.
+    sc = Scene()
+    sc.strand("logical endpoint", list(FINAL_LIBRARY), label="component roles")
+    return sc.rows()
 
 
 def protocol_graph():
@@ -96,8 +107,8 @@ def protocol_graph():
              (transposase, InputRole.CATALYST)), (tagged, off_products))
     g.discard(off_products, "does not carry a productive Rapid Adapter attachment end")
     rapid = g.input("rapid_adapter", "motor-loaded Rapid Adapter",
-                    MaterialKind.ADAPTER, inferred=True,
-                    source=SOURCE + f" (RA strand {RAPID_ADAPTER}; motor/attachment unverified)")
+                    MaterialKind.ADAPTER, state=rapid_adapter_strand(),
+                    source=CHEMISTRY_SOURCE + "; source-printed strand only; complete reagent assembly not modeled")
     library = g.product("library", "motor-adapted Nanopore library",
                         MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True,
                         source=SOURCE + " (complete motor-bearing assembly unverified)")
@@ -105,8 +116,9 @@ def protocol_graph():
             StepKind.ADAPTER_ATTACHMENT,
             ((tagged, InputRole.TEMPLATE), (rapid, InputRole.STRUCTURAL)),
             (library,))
-    g.sequence(library, motor_sequencing_plan(
-        FINAL_LIBRARY, limitation=SEQUENCING_UNAVAILABLE))
+    g.sequence(library, SequencingPlan(
+        library=FINAL_LIBRARY, primers=(), acquired_roles=("Nanopore strand",),
+        read_uses={"Nanopore strand": "include"}, limitation=SEQUENCING_UNAVAILABLE))
     g.declare_reviewed_scope(("dna", "tag_complex", "transposase", "tag",
                               "rapid_adapter", "attach", "library"), SOURCE)
     return g.require_publishable()

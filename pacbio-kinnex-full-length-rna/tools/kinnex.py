@@ -4,17 +4,18 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Row, Segment, feature, feature_rows, strand_row
+from chemdraw import Construct, Segment, feature
 from concatemer import SegmentedArray
 from adapter_ligation import AdapterLigationGeometry
 from dumbbell import (Dumbbell, dumbbell_rows, smrtbell_circuit,
                       smrtbell_sequencing_plan)
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, StepKind)
-from rna_special import template_switch_scene
 
 
 def role(name: str, width: int, tag: str | None = None, **kw) -> Segment:
+    kw.setdefault("inferred", True)
+    kw.setdefault("note", "Schematic placeholder width; physical sequence length is not assigned.")
     return Segment(name, "X" * width, tag, placeholder=True, **kw)
 
 
@@ -29,15 +30,19 @@ SUMMARY = ("Full-length cDNA is copied in eight parallel orientation-specific PC
            "form nuclease-resistant SMRTbell templates for HiFi sequencing.")
 CAVEAT = ("PacBio's Kinnex index FASTA confirms the four six-base terminal-adapter barcodes. "
           "The official MAS8 reference FASTA gives nine short segmentation motifs (A–H and Q), "
-          "and the SMRT Link guide prints the Iso-Seq v2 barcoded cDNA primer family. "
+          "and the SMRT Link guide prints Iso-Seq v2 cDNA primer-trimming references. "
           "These analysis references do not establish complete Kinnex PCR primer constructs, "
           "ligation-junction geometry or terminal-adapter arms. Their order and topology remain "
-          "shown as named unknown DNA where the physical construct is unresolved.")
+          "shown as named unknown DNA where the physical construct is unresolved. "
+          "The 3-prime trimming reference excludes poly(T) and is reverse-complemented; "
+          "it is not an oligo ordering sequence. Placeholder widths are schematic, not physical lengths.")
 
 KINNEX_TERMINAL_BARCODES = {"bcM0001": "ACAGTC", "bcM0002": "ATGACG",
                             "bcM0003": "CACGTG", "bcM0004": "CATCGC"}
-ISOSEQ_V2_BC01_5P = "CTACACGACGCTCTTCCGATCTACTACACGCAATGAAGTCGCAGGGTTGGG"
-ISOSEQ_V2_3P = "AAGCAGTGGTATCAACGCAGAGTAC"
+# Analysis-reference sequences, not a physical PCR-primer ordering declaration.
+# SMRT Link v13.1 p100 explicitly excludes Ts and reverse-complements the 3p entry.
+ISOSEQ_V2_BC01_5P_REFERENCE = "CTACACGACGCTCTTCCGATCTACTACACGCAATGAAGTCGCAGGGTTGGG"
+ISOSEQ_V2_3P_REFERENCE = "AAGCAGTGGTATCAACGCAGAGTAC"
 
 # PacBio MAS-Seq Adapter v3 (MAS8) analysis reference, mas8_primers.fasta.
 # These are segmentation recognition motifs, not complete physical PCR oligos.
@@ -70,7 +75,7 @@ ARRAY = SegmentedArray(INSERTS, JUNCTIONS,
                        name="eight-insert Kinnex array")
 SMRTBELL = Dumbbell(ARRAY.core(), "N" * 18, "N" * 18,
                     name="Kinnex array SMRTbell", insert_overhang="",
-                    adapter_overhang="")
+                    adapter_overhang="", junction_unavailable=True)
 KINNEX_PCR_REACTIONS = 8
 ARRAY_FORMATION = (45, 60)
 DNA_REPAIR = (45, 30)
@@ -85,27 +90,6 @@ def polymerase_cycle() -> Construct:
         role("eight cDNA inserts and seven segmentation junctions, reverse", len(core), "r1"),
         role("left terminal adapter / primer site", 18, "r2"),
     ], name="one Kinnex SMRTbell polymerase circuit")
-
-
-def sections():
-    return [
-        ("Make full-length cDNA", template_switch_scene(inferred=True).rows(),
-         "INFERRED — the current kit discloses the poly(A)-primed, template-switch workflow "
-         "but not the oligo bases. Iso-Seq barcode primers are added during cDNA PCR."),
-        ("Install eight orientation-specific segmentation ends", [
-            Row(chunks=[("one cDNA pool → PCR A | B | C | D | E | F | G | HQ", "r3", False)]),
-            strand_row(INSERTS[0]),
-            *feature_rows(INSERTS[0], prefix_width=4),
-        ], "Eight parallel Kinnex PCRs give each copy the end identities needed for ordered "
-           "array formation; the Iso-Seq primer barcode retains sample identity, and equal "
-           "volumes of all eight products are pooled."),
-        ("Assemble the eight-insert array", ARRAY.rows(),
-         "Kinnex enzyme and ligase assemble the eight products between barcoded terminal "
-         "adapters. Every ** is a covalent insert–segmentation-junction boundary."),
-        ("Select complete SMRTbells with nuclease", dumbbell_rows(SMRTBELL),
-         "The terminal adapters close the ordered array. Nuclease removes molecules with "
-         "unprotected ends; a complete closed template survives."),
-    ]
 
 
 def protocol_graph():
@@ -135,11 +119,11 @@ def protocol_graph():
                 ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
                  (reverse_transcriptase, InputRole.CATALYST)), (full_length,))
     isoseq_forward = graph.input(
-        "isoseq_forward", "barcoded Iso-Seq v2 cDNA PCR 5-prime primer",
-        MaterialKind.OLIGO, source="PacBio SMRT Link v13.1 user guide p. 101, Iso-Seq v2 primer FASTA example")
+        "isoseq_forward", "Iso-Seq barcoded cDNA amplification primer (selected member unassigned)",
+        MaterialKind.OLIGO, source=SOURCE + " (kit reagent role; analysis FASTA is not a full physical oligo specification)")
     isoseq_reverse = graph.input(
-        "isoseq_reverse", "Iso-Seq v2 cDNA PCR 3-prime primer",
-        MaterialKind.OLIGO, source="PacBio SMRT Link v13.1 user guide p. 101, Iso-Seq v2 primer FASTA example")
+        "isoseq_reverse", "Iso-Seq cDNA amplification primer (physical oligo sequence unassigned)",
+        MaterialKind.OLIGO, source=SOURCE + " (kit reagent role; analysis FASTA is not a full physical oligo specification)")
     polymerase = graph.input("pcr_polymerase", "Kinnex PCR polymerase",
                              MaterialKind.CATALYST)
     amplified = graph.product(
@@ -151,7 +135,7 @@ def protocol_graph():
                  (isoseq_reverse, InputRole.STRUCTURAL),
                  (polymerase, InputRole.CATALYST)), (amplified,),
                 geometry=PCRGeometry.unavailable(
-                    INSERTS[0], reason="The Iso-Seq v2 primer family is printed, but exact binding geometry on the unrevealed RT and TSO ends is not established."))
+                    INSERTS[0], reason="The source names the cDNA amplification reagents. Primer-trimming references do not establish complete physical PCR oligos or their binding geometry in this declaration."))
 
     aliquots = tuple(graph.product(
         f"aliquot_{i}", f"Kinnex orientation-{i} PCR aliquot",
@@ -180,14 +164,14 @@ def protocol_graph():
             source=SOURCE + " (segmentation-junction bases unverified)")
         step_id = f"orientation_pcr_{i}"
         graph.react(
-            step_id, f"Install orientation-{i} segmentation ends by PCR", StepKind.PCR,
+            step_id, f"INFERRED — install orientation-{i} segmentation ends by PCR", StepKind.PCR,
             ((aliquot, InputRole.TEMPLATE),
              (segmentation_forward, InputRole.STRUCTURAL),
              (segmentation_reverse, InputRole.STRUCTURAL),
              (polymerase, InputRole.CATALYST)), (product,),
             geometry=PCRGeometry.unavailable(
                 INSERTS[i - 1],
-                reason="The kit fixes the eight reaction identities but keeps their primer bases unverified."))
+                reason="The kit fixes the eight reaction identities; their full physical primer sequences are not established in this declaration."))
         oriented.append(product)
         reviewed.append(step_id)
     pooled = graph.product("pooled_products", "equal-volume pool of eight oriented products",
@@ -209,12 +193,12 @@ def protocol_graph():
         MaterialKind.MOLECULAR, state=tuple(dumbbell_rows(SMRTBELL)), inferred=True,
         source=SOURCE + " (junction and terminal-adapter bases unverified)")
     graph.react(
-        "assemble_array", "Assemble the ordered eight-insert array and close its termini",
+        "assemble_array", "INFERRED — assemble the ordered array and close its termini",
         StepKind.LIGATION,
         ((pooled, InputRole.TEMPLATE), (assembly_components, InputRole.STRUCTURAL),
          (assembly_enzyme, InputRole.CATALYST), (ligase, InputRole.CATALYST)), (closed,),
         geometry=AdapterLigationGeometry.unavailable(
-            "The kit specifies array order and covalent closure but keeps segmentation-junction and terminal-adapter bases unverified."))
+            "The kit specifies array order and covalent closure. Full physical junction and terminal-adapter geometry is not established in this declaration; no blunt or cohesive end is assigned."))
     repair = graph.input("repair", "Kinnex DNA-repair mix", MaterialKind.CATALYST)
     repaired = graph.product("repaired", "repaired closed Kinnex arrays",
                              MaterialKind.MOLECULAR, state=tuple(dumbbell_rows(SMRTBELL)),

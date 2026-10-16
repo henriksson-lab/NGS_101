@@ -24,10 +24,10 @@ for name, declared, url in (
           dict(zip((s[1:] for s in lines[::2]), lines[1::2])),declared)
 guide=Source(source_dir/"SMRT-Link-User-Guide-v13.1.pdf.txt",
              "https://www.pacb.com/wp-content/uploads/SMRT-Link-User-Guide-v13.1.pdf")
-if have(c,guide,label="Iso-Seq v2 primer transcription"):
+if have(c,guide,label="Iso-Seq v2 trimming reference transcription"):
     guide_text=guide.path.read_text()
-    c("Iso-Seq v2 bc01 primer matches original guide",
-      f">IsoSeqX_bc01_5p\n{K.ISOSEQ_V2_BC01_5P}" in guide_text)
-    c("Iso-Seq v2 3-prime primer matches original guide",
-      f">IsoSeqX_3p\n{K.ISOSEQ_V2_3P}" in guide_text)
+    c("Iso-Seq v2 bc01 trimming reference matches original guide",
+      f">IsoSeqX_bc01_5p\n{K.ISOSEQ_V2_BC01_5P_REFERENCE}" in guide_text)
+    c("Iso-Seq v2 reverse-complemented 3-prime trimming reference matches original guide",
+      f">IsoSeqX_3p\n{K.ISOSEQ_V2_3P_REFERENCE}" in guide_text)
 c.report()

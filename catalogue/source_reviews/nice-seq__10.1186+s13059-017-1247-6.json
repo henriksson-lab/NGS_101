@@ -1,6 +1,6 @@
 {
   "dir": "nice-seq__10.1186+s13059-017-1247-6",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "article",
@@ -19,7 +19,23 @@
         "date": "2026-10-16",
         "locations": "Original PMC5488340 JATS lines 156–170; scraper",
         "finding": "Nt.CviPII nicking and polymerase I biotin fill precede shearing, NEB E7370 end repair/A tail/ligation, streptavidin enrichment and PCR. The article identifies kit but no particular adapter/index oligo set."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Actual original JATS145–185 and all external-link inventory; full-bundle scraper before reading",
+            "finding": "Read standard/native and25-cell labeling, stop/RNase then SDS/proteinase K and phenol extraction; sonication/endprep/ligation directly into capture and bead-bound PCR. The75-bp statement belongs to the ATAC comparison. No whole-kit oligo transfer selected."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Original JATS145–185",
+            "finding": "Independent full original method read confirms10U standard polymerase, overnight SDS/PK,0.05%wash Triton,ligation→capture without purification→tenPCR; separate25-cell5U and input1ug."
+          }
+        }
+      ]
     },
     {
       "id": "supp_figures",
@@ -33,13 +49,29 @@
         "locations": "supplement opening Figure S1 and following captions",
         "finding": "Additional file 1 contains open-chromatin analysis figures rather than an ordering-level adapter table in inspected sections."
       },
-      "reason": "All 17 figure captions concern peak calling, OCS quality and biological comparisons. There is no construct or oligo detail in this supplement.",
+      "reason": "Two fresh readers inspected original captions and visually surveyed all17 original figure images for source scope; biological/statistical values were not reanalysed.",
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
         "locations": "Original Springer MOESM1 DOCX text lines 1-81, Figure S1-S17 captions; search for primer, adapter, oligo, PCR; scraper on NicE-seq bundle",
         "finding": "All 17 figure captions concern peak calling, OCS quality and biological comparisons. There is no construct or oligo detail in this supplement."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Entire original DOCX extracted captions S1–S17 plus all17 embedded original images visually surveyed at _data/tmp/nice-inspection/contact.jpg",
+            "finding": "Actual figures are software/peak tables, Venn diagrams, genomic tracks, heatmaps and result plots. This bounded source-scope inspection did not identify an ordering table in those actual figures; it is not a statistical audit."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Entire original DOCX captions and all17 figures in contact.jpg",
+            "finding": "Independent visual source-scope survey confirms actual analysis figures/IGV/Venn/software table, not an ordered oligo table. No full numerical-results audit claimed."
+          }
+        }
+      ]
     },
     {
       "id": "neb_manual",
@@ -58,12 +90,28 @@
         "date": "2026-10-16",
         "locations": "Official NEB E7370 manual lines 24–52, 169–171 and 443–507; scraper",
         "finding": "Manual says NEBNext oligo/index kits are separate purchases and lists several configurations; E7370 alone does not determine exact index bases."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Actual manual lines1–60,105–205,440–515 and revision history",
+            "finding": "Version9.1_1/23 later companion. End prep precedes ligation; oligos purchased separately; USER treatment conditional on NEBNext adaptors. Neither this later manual nor the separate WGBS branch assigns NicE-seq adapter/index identity."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Actual manual1–60,175–200,480–510",
+            "finding": "Independent original read confirms2023revision,separate oligo kits and conditional USER treatment; no historical2017 kit-wide oligo assignment."
+          }
+        }
+      ]
     },
     {
       "id": "geo_sample",
       "role": "linked_material",
-      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2579632",
+      "locator": "_data/sources/nice-seq__10.1186+s13059-017-1247-6/geo-GSE97889-all-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -78,8 +126,66 @@
         "date": "2026-10-16",
         "locations": "Original NCBI GEO GSM2579632 accession HTML extraction protocol lines 35–42, compared with original PMC5488340 JATS Methods lines 156–170; full NicE-seq source-bundle scraper run before reading.",
         "finding": "The authors' deposited 250,000-cell sample protocol specifies 2.5 U Nt.CviPII and 50 U DNA polymerase I in 200 µL at 37°C for 2 h; the article's standard recipe specifies 10 U polymerase I. GEO also identifies E7370S ligation and PCR, but gives no purchased index-oligo set. The public model/page already disclose the 10-versus-50-U source difference and avoid choosing one amount."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "All14 sample metadata headers, five unique extraction and seven processing paragraphs405132–405696; series1–45; full-bundle scraper",
+            "finding": "Nine NicE records repeat50U PolI,1h65C SDS/PK and0.005%Triton vs article10U,overnight and0.05%. FourWGBS and oneATAC are distinct branches. NextSeq500 and paired processing positive. All sample SRA/BioSample and series links inventoried; platform annotation table and raw reads not inspected."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Original unique extraction paragraphs405133/471/512/553/594/634 and same9NicE records",
+            "finding": "Independent read confirms allthree source differences. WGBS methylated loop adapter/USER does not assign NicE adapter. Paired processing and NextSeq500 are positive metadata, not an exact run mask."
+          }
+        }
+      ]
     },
+    {
+      "id": "neb_product_page",
+      "role": "vendor",
+      "locator": "https://www.neb.com/en/products/e7370-nebnext-ultra-dna-library-prep-kit-for-illumina",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Registered actual product page returned HTTP403 during2026-10-16 fetch. Original content was not read; this is not a confirmed absence or an invented oligo specification document."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_nanocut_closeout",
+      "date": "2026-10-16",
+      "locations": "Original JATS complete external-link inventory, Methods145–185; vendor manual51/190–192/502; GEO series1–45/sample relations405132–405696",
+      "finding": "Actual source links include ownGSE97889/SRP104141/SRX2741932–45, BioSamples, NEB.com/oligos and conditional corresponding oligo manuals; TrimGalore and analysis packages; comparator ATAC/DNase/WGBS/RNA/chromatin datasets. Actual referring text separates comparison assays and processing from NicE library chemistry, but linked original dispositions remain bounded/open. No missing oligo source invented."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original JATS external-link inventory and Methods145–185; manual1–60/175–200/480–510; GEO unique extraction bodies; DOCX captions/figures",
+      "finding": "Independent original referring-source check agrees with assay and later-manual scope. This is not a claim that all child originals were independently read or excluded."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Bounded local source audit and decoupling complete; full gate remains in_progress for actual linked originals and historical vendor identity. No missing-information claim accepted. The source-positive shared operations are retained, and study-specific index/adapter/read-mask choices remain open.",
+  "history": [
+    {
+      "date": "2026-10-16",
+      "reason": "Actual source audit and removal of repository-selected generic six-base single-index construct; historical reads preserved.",
+      "previous_status": "blocked",
+      "previous_missing_claims": [
+        {
+          "claim": "NicE-seq indexed adapter bases are absent",
+          "disposition": "blocked",
+          "evidence": "E7370 excludes oligo set; exact kit/index choice unresolved and second reader pending."
+        }
+      ],
+      "previous_conclusion": "E7370 excludes oligo set; exact kit/index choice unresolved and second reader pending."
+    }
+  ],
+  "superseded_source_rows": [
     {
       "id": "index_oligo_set",
       "role": "vendor",
@@ -90,27 +196,48 @@
       "discovered_from": "neb_manual"
     }
   ],
-  "linked_information": {
-    "result": "blocked",
-    "pass_1": {
-      "reviewer": "second_pass_d_e",
-      "date": "2026-10-16",
-      "locations": "Original Methods lines 156–170; E7370 manual lines 24–52/169/502; GEO GSM2579632 extraction lines 35–42",
-      "finding": "Published 10-U versus GEO 50-U discrepancy is already disclosed on page; exact separately purchased index set remains unidentified."
-    },
-    "pass_2": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-16",
-      "locations": "Original PMC5488340 Methods lines 156–170 and NEB E7370 manual lines 24–52/169–171/443–507",
-      "finding": "Named vendor kit guide read; separate oligo-set choice and GEO sample details remain unresolved."
-    }
-  },
-  "missing_claims": [
+  "linked_scope_queue": [
     {
-      "claim": "NicE-seq indexed adapter bases are absent",
-      "disposition": "blocked",
-      "evidence": "E7370 excludes oligo set; exact kit/index choice unresolved and second reader pending."
+      "original": "https://www.neb.com/oligos",
+      "from": "Original E7370 manual51 and corresponding oligo-kit manual pointer502",
+      "status": "Actual named vendor hub and historically applicable oligo-manual identity remain to be inspected. The unassigned study oligo choice is an open model question."
+    },
+    {
+      "original": "GSE97889 actual SRA/BioSample records, including SRP104141 and SRX2741932–45",
+      "from": "Original family series44–45 and sample relation fields405153–405696",
+      "status": "Actual metadata child originals unread; library/read-mask scope remains open. No raw sequencing data required."
+    },
+    {
+      "original": "TrimGalore and the explicitly named analysis/comparator links in original article",
+      "from": "Original Methods/data availability and complete external-link inventory",
+      "status": "Referring original text identifies read processing and distinct comparison assays; actual child source dispositions are not complete, no blanket exclusion accepted."
     }
   ],
-  "conclusion": "E7370 excludes oligo set; exact kit/index choice unresolved and second reader pending."
+  "open_model_questions": [
+    "Study-specific adapter/primer identity, index number/width and selected member remain unassigned.",
+    "Exact NicE run-cycle masks remain unassigned pending linked metadata checks.",
+    "Physical pre-PCR adapter geometry remains unavailable; known amplified endpoint roles do not constitute an initial ligation/PCR template.",
+    "Three actual article/deposit differences may be run variants or transcription differences; no author-error attribution made."
+  ],
+  "model_corrections": [
+    "Removed batch_ngs.truseq_library and unused legacy workflow; local role-level endpoint does not select six-base single-i7 shell.",
+    "Separated adapted pool/bead-bound material from amplified endpoint; no PCR-complete endpoint assigned before PCR.",
+    "Source-owned stop/RNase→SDS/proteinaseK→phenol extraction stages, direct ligation→capture route, bead-bound PCR, actual extraction/capture waste retained.",
+    "Allthree article/deposit differences shown publicly. Removed prior repository-inferred adapter family without labelling that modelling error a publication error.",
+    "Root original main168 review identified omitted4-of40µLsampling. Added source-localSAMPLING to4µLPCRaliquot+36µLremainder, UNRESOLVEDfate rather than fabricatedstorage/discard; usual10cyclesqualified and25cellbranchkeptseparate."
+  ],
+  "verification_checkpoints": [
+    {
+      "date": "2026-10-16",
+      "reviewer": "audit_nanocut_closeout",
+      "checks": "Four local checks PASS; schematic builds; pairing lint zero problems; source oligo guard zero concrete oligos checked, zero failures, three inputs without exact states (one graph); chemistry12steps/13unresolved/zero contradictory; review validation/documentation build/scoped whitespace checks PASS.",
+      "limit": "Source guard zero checks does not establish absence or sequence verification. The role-level endpoint deliberately carries no selected study oligos; full linked-source gate remains in_progress."
+    },
+    {
+      "date": "2026-10-16",
+      "reviewer": "audit_nanocut_closeout",
+      "checks": "Root full-bundle scraper83984 completed: one sequence hit in one file. After aliquot correction five local tests pass and schematic builds. Independent root original main168 supplies40µLresuspension→4µLPCR; same original rechecked by local source-backed regression.",
+      "scope": "36µLremainder fate remains unassigned; no source absence accepted."
+    }
+  ]
 }

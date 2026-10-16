@@ -1,73 +1,283 @@
 {
   "dir": "stlfr__10.1101+gr.245126.118",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "original",
       "role": "defining",
-      "locator": "Original Genome Research stLFR article doi:10.1101/gr.245126.118, PMC6499310 https://pmc.ncbi.nlm.nih.gov/articles/PMC6499310/",
+      "locator": "doi:10.1101/gr.245126.118; gr.245126.118_PMC6499310.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_a_h",
+        "reviewer": "audit_nanocut_closeout",
         "date": "2026-10-16",
-        "locations": "Original PMC HTML lines 452-467 and Methods 543-557; scraper run on local bundle (zero because bundle originally only manifest manual rows)",
-        "finding": "Original describes solution Tn5 insertion, capture by 5\u2032-tethered bead oligos, three rounds of split-pool ligation from 1536 barcode oligos per set, UDG/APE1/Exo1 removal of excess capture oligos, and single-transposon 3\u2032 branch ligation versus two-transposon alternatives. It cites Cheng et al. 2018 detailed protocol."
+        "locations": "JATS124,132–142,193–220; mandatory complete scraper43hits before reading",
+        "finding": "Single-transposon branch vs two-transposon routes, probabilistic occupancy and reported BGI PE100/circularization; distinct original linked precursors identified."
       },
       "pass_2": {
-        "reviewer": "audit_s_z",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Original PMC6499310 web article lines 447-464 and 542-557; scraper on local bundle (zero original local)",
-        "finding": "Solution Tn5 inserts hybridization sequence, uracil-bearing bead oligos capture long DNA, three rounds of barcode ligation, DNA nanoballs are sequenced on BGISEQ-500. Original explicitly cites Cheng et al. 2018 for detailed protocol."
+        "locations": "JATS124,132–142",
+        "finding": "Multiple long molecules per barcode retained; source does not physically select one molecule per bead."
       }
     },
     {
       "id": "cheng2018",
       "role": "detailed_protocol",
-      "locator": "Cheng et al. 2018 original detailed stLFR protocols.io x54v9rnqpv3e/v1 cited at original PMC lines 464, 542; manifest manual",
-      "availability": "unavailable",
+      "locator": "doi:10.1038/protex.2018.116; protocols.io122070 attachment5 szaycicn7.pdf, original2018 manuscript",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Original detailed protocol and its attached workbook not fetched locally; web protocol page returned internal error."
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Originalpp5–10/text146–195,255–368; import cover/version and attachment inventory",
+        "finding": "Read original not only imported wrapper. Selected steps61–81 ExoI+III→SDS→UDG+APE1→SSB→branch ligation→PCR1/2; common primer may vary by platform. Demux42positions associated with R1."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Originalpp9–10/text317–354; intro67–84 and194–195",
+        "finding": "Independent selected-route ordering and statistical capture; common adapter primer changes explicitly allowed."
+      }
     },
     {
       "id": "barcode_attachment",
       "role": "linked_material",
-      "discovered_from": "cheng2018",
-      "locator": "Oligo and barcode workbook attached to Cheng et al. protocols.io detailed protocol",
-      "availability": "unavailable",
+      "locator": "Original Supplement_0.xlsx; attachment7, identical bioRxiv324392_324392-2.xlsx",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Linked attachment unavailable until detailed protocol can be opened; exact barcode members cannot be checked."
+      "discovered_from": "cheng2018",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Commonadapter firstsheet; six barcode-sheet headers/alltopcode architecture1536rows per set",
+        "finding": "Modified oligos and branch/BGI/Illumina scopes read directly; explicit[i5] has no assigned width. Workbook common10A+TGTGAGCCAAGGAGTTG matches PCR1."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Firstsheet2–10 and branch/BGI oligo entries",
+        "finding": "Independent common10A variant and PCR1 confirmed; BranchB3′ddG and TransposonB5′P+U verified."
+      }
     },
     {
-      "id": "bgi_dnbseq",
-      "role": "vendor",
-      "locator": "BGISEQ-500 DNA nanoball/cPAS library chemistry described at original PMC line 463",
+      "id": "assembly_figure",
+      "role": "linked_material",
+      "locator": "Original Supplement_0.pdf; attachment6 szazcicn7.pdf Figure1",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "cheng2018",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Rendered original one-page Figure1 _data/tmp/stlfr-original-suppfig1.png",
+        "finding": "8A+CCCGTAGCCATGTCGTTCTG differs from workbook. Explicit unresolved source variant; model uses workbook/matching PCR1."
+      },
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Rendered fulloriginal Figure1 _data/tmp/stlfr-p2/supplement-figure1.png",
+        "finding": "Independent8A/commonregion reading; protocol allows platform variant, so no demonstrated author error."
+      }
+    },
+    {
+      "id": "branch_predecessor",
+      "role": "predecessor",
+      "locator": "doi:10.1093/dnares/dsy037; dnares_dsy037_PMC6379041.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original66–113 including§2.1/2.3 andFig1caption; fresh fullbundle scraper89hits/5files",
+        "finding": "5′P blunt donor→nick/gap/recessed3′OH, no general complementarity requirement; test directional-tagmentation oligos are separate experiments."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original66–113 includingFig1caption/§2.1/2.3 after freshfullbundle scraper",
+        "finding": "Independent mechanism confirmed; theoretical100%templateutilization does not establish actual stLFR100%recovery. Caption read, not Fig1 image."
+      }
+    },
+    {
+      "id": "branch_supplement",
+      "role": "linked_material",
+      "locator": "dnares_dsy037_supp_dsy037_supplementary_information.pdf; TableS1",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "branch_predecessor",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original TableS1 entire extractedtable ON1–31,116–416",
+        "finding": "Separate donor/substrate assays and directionalTn/primer sequences, not automatic stLFR identity."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original TableS1 116–183 and337–416",
+        "finding": "DonorON7/8ddCblocked; ON24–31 belong predecessor experiment, not assigned to stLFR."
+      }
+    },
+    {
+      "id": "demultiplexer",
+      "role": "linked_material",
+      "locator": "https://github.com/stLFR/stLFR_read_demux; master landingREADME fetched2026-10-16",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "cheng2018",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "OriginalHTMLtext728–772 full substantiveREADME",
+        "finding": "PEbarcode appendedR2,42/54architectures and PE54/SE42RC examples. Distinct current processing declaration, not legacyphysicalreadout replacement."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "OriginalHTMLtext728–772 after freshbundle scraper",
+        "finding": "Independently confirms R2 PE and both42/54variants; does not override original2018 R1 declaration."
+      }
+    },
+    {
+      "id": "circle_predecessor",
+      "role": "predecessor",
+      "locator": "doi:10.1126/science.1181498, Drmanac2010",
       "availability": "unavailable",
       "relevance": "relevant",
-      "reason": "Commercial circularization and run-primer source not yet independently matched to this original stLFR generation."
+      "reason": "Actual named circularization predecessor in defining article. Registered standard DOI fetch2026-10-16 returned no openfulltext; relevant original still unread. No scientific absence inferred."
+    },
+    {
+      "id": "final_figures",
+      "role": "supplement",
+      "locator": "gr.245126.118_Supplemental_Figs_S1-S5.pdf",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "final_tables",
+      "role": "supplement",
+      "locator": "gr.245126.118_Supplemental_Tables_S1-5.xlsx",
+      "availability": "available",
+      "relevance": "relevant"
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "audit_a_h",
+      "reviewer": "audit_nanocut_closeout",
       "date": "2026-10-16",
-      "locations": "Original PMC article lines 463-467, 542-557; original local MANIFEST.tsv",
-      "finding": "Identified and attempted linked Cheng 2018 detailed protocol and oligo workbook; both remain inaccessible. Added PMC Cloud route to extra_sources.tsv for repeatable original fetch."
+      "locations": "Actual mainJATS193–220/references; legacyprotocol146–195,356–368; importattachmentinventory; branchstudy66–113/SI; authorREADME728–772",
+      "finding": "Recovered cited detailed originals/workbook. Actual circleprecursor remains unavailable; final supplements still need complete scoped reconciliation. Main additionally cites Fehlmann2016 doi10.1186/s13148-016-0287-1, Huang2017 doi10.1093/gigascience/gix024, Mak2017 doi10.1093/gigascience/gix049 for platform/cPAS and Agilent RecoverEase200600.pdf for extraction; dispositions not accepted unread. Picelli2014 citation is Tn5 preparation provenance, not inherited oligo defaults. Authorrepo scripts/whitelist version still unpinned; no whole-repository absence claim."
     },
     "pass_2": {
-      "reviewer": "audit_s_z",
+      "reviewer": "audit_rna_contacts_closeout",
       "date": "2026-10-16",
-      "locations": "Original methods and cited supplementary/vendor link locations specified in source rows; named local bundle scraper run",
-      "finding": "Followed source-linked leads to available text; remaining relevant supplement/vendor/predecessor documents unresolved, so no absence accepted."
+      "locations": "Originalmain and detailedroute, Figure1/workbook located readings above",
+      "finding": "Independent recovery/variant/route findings recorded; this is not a completed independent linkinventory for all remaining platform/circle/extraction sources."
     }
   },
   "missing_claims": [
     {
       "claim": "stLFR capture/barcode oligo and adapter sequences are absent from relevant published sources",
-      "disposition": "blocked",
-      "evidence": "Original article cites detailed public protocol and workbook, which are unavailable; no second independent pass."
+      "disposition": "resolved",
+      "evidence": "Original protocol Supplement_0.xlsx actually recovered and independently read; local model uses its modifiedoligos and explicitvariant. No acceptedabsence."
     }
   ],
-  "conclusion": "Original main article read online; detailed protocol and workbook still gate molecular sequence audit."
+  "conclusion": "Recovered original detailed protocol, figure and oligo workbook resolve the former sequence-recovery blocker. Source-owned single-transposon branch graph corrected; full source gate remains in_progress for actual circle predecessor and remaining linked/supplement scope. No missinginformation accepted.",
+  "history": [
+    {
+      "previous_review": {
+        "dir": "stlfr__10.1101+gr.245126.118",
+        "status": "blocked",
+        "source_checklist": [
+          {
+            "id": "original",
+            "role": "defining",
+            "locator": "Original Genome Research stLFR article doi:10.1101/gr.245126.118, PMC6499310 https://pmc.ncbi.nlm.nih.gov/articles/PMC6499310/",
+            "availability": "read",
+            "relevance": "relevant",
+            "pass_1": {
+              "reviewer": "audit_a_h",
+              "date": "2026-10-16",
+              "locations": "Original PMC HTML lines 452-467 and Methods 543-557; scraper run on local bundle (zero because bundle originally only manifest manual rows)",
+              "finding": "Original describes solution Tn5 insertion, capture by 5′-tethered bead oligos, three rounds of split-pool ligation from 1536 barcode oligos per set, UDG/APE1/Exo1 removal of excess capture oligos, and single-transposon 3′ branch ligation versus two-transposon alternatives. It cites Cheng et al. 2018 detailed protocol."
+            },
+            "pass_2": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "Original PMC6499310 web article lines 447-464 and 542-557; scraper on local bundle (zero original local)",
+              "finding": "Solution Tn5 inserts hybridization sequence, uracil-bearing bead oligos capture long DNA, three rounds of barcode ligation, DNA nanoballs are sequenced on BGISEQ-500. Original explicitly cites Cheng et al. 2018 for detailed protocol."
+            }
+          },
+          {
+            "id": "cheng2018",
+            "role": "detailed_protocol",
+            "locator": "Cheng et al. 2018 original detailed stLFR protocols.io x54v9rnqpv3e/v1 cited at original PMC lines 464, 542; manifest manual",
+            "availability": "unavailable",
+            "relevance": "relevant",
+            "reason": "Original detailed protocol and its attached workbook not fetched locally; web protocol page returned internal error."
+          },
+          {
+            "id": "barcode_attachment",
+            "role": "linked_material",
+            "discovered_from": "cheng2018",
+            "locator": "Oligo and barcode workbook attached to Cheng et al. protocols.io detailed protocol",
+            "availability": "unavailable",
+            "relevance": "relevant",
+            "reason": "Linked attachment unavailable until detailed protocol can be opened; exact barcode members cannot be checked."
+          },
+          {
+            "id": "bgi_dnbseq",
+            "role": "vendor",
+            "locator": "BGISEQ-500 DNA nanoball/cPAS library chemistry described at original PMC line 463",
+            "availability": "unavailable",
+            "relevance": "relevant",
+            "reason": "Commercial circularization and run-primer source not yet independently matched to this original stLFR generation."
+          }
+        ],
+        "linked_information": {
+          "result": "blocked",
+          "pass_1": {
+            "reviewer": "audit_a_h",
+            "date": "2026-10-16",
+            "locations": "Original PMC article lines 463-467, 542-557; original local MANIFEST.tsv",
+            "finding": "Identified and attempted linked Cheng 2018 detailed protocol and oligo workbook; both remain inaccessible. Added PMC Cloud route to extra_sources.tsv for repeatable original fetch."
+          },
+          "pass_2": {
+            "reviewer": "audit_s_z",
+            "date": "2026-10-16",
+            "locations": "Original methods and cited supplementary/vendor link locations specified in source rows; named local bundle scraper run",
+            "finding": "Followed source-linked leads to available text; remaining relevant supplement/vendor/predecessor documents unresolved, so no absence accepted."
+          }
+        },
+        "missing_claims": [
+          {
+            "claim": "stLFR capture/barcode oligo and adapter sequences are absent from relevant published sources",
+            "disposition": "blocked",
+            "evidence": "Original article cites detailed public protocol and workbook, which are unavailable; no second independent pass."
+          }
+        ],
+        "conclusion": "Original main article read online; detailed protocol and workbook still gate molecular sequence audit."
+      },
+      "reason": "Original manuscript, figure and workbook recovered through standard protocol attachment and bioRxiv routes; old unavailability and anonymous component row are superseded, not absence evidence."
+    }
+  ],
+  "historical_non_source_rows": [
+    {
+      "row": {
+        "id": "bgi_dnbseq",
+        "role": "vendor",
+        "locator": "BGISEQ-500 DNA nanoball/cPAS library chemistry described at original PMC line 463",
+        "availability": "unavailable",
+        "relevance": "relevant",
+        "reason": "Commercial circularization and run-primer source not yet independently matched to this original stLFR generation."
+      },
+      "reason": "Desired source-matched BGI component geometry is an open model question, not an identified original document. Actual named Drmanac predecessor is separately recorded."
+    }
+  ],
+  "open_model_questions": [
+    "Construct source-matched physical capture/branch junction, PCR product and DNB circle; known sequences alone do not prove complete topology.",
+    "Resolve legacy42/R1 versus current authorrepo42/54/R2 version-specific processing identity before assigning one physical run layout."
+  ]
 }

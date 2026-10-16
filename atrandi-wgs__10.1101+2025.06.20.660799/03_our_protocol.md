@@ -9,7 +9,7 @@ Full text: <https://www.biorxiv.org/content/10.1101/2025.06.20.660799v2.full>
 
 
 > **Evidence marking.** 🟢 = verbatim from the source document · 🟡 = derived or inferred
-> (reasoning given; arithmetic verified where possible) · 🔴 = not published anywhere.
+> (reasoning given; arithmetic verified where possible) · 🔴 = not established in the current declaration; source review remains open.
 > Any claim not marked 🟢 must reach the final page carrying its uncertainty.
 
 > **Scope warning.** This is primarily a *bioinformatics* paper. The wet-lab chemistry is ~6
@@ -97,14 +97,14 @@ instructions in the manual."
 3. Aliquot into PCR tubes: **30 °C, 2.5 h → 65 °C, 5 min → 4 °C hold.**
 4. Then "SPCs were processed for **DNA end preparation** as per the instructions in the Atrandi manual."
 
-> ⚠ **Debranching is absent from the PTA arm.** The MDA section names "debranching *and* end
-> preparation"; the PTA section names end preparation only. Chemically coherent — PTA's terminators
-> prevent the hyperbranching that debranching exists to resolve. Quotable deviation.
+> 🟡 **PTA branch interpretation.** The MDA Methods names debranching and end
+> preparation; the PTA paragraph names only end preparation. This supports the
+> represented path but is not an explicit experimental statement that debranching
+> was omitted. The generic Figure 2 caption still describes debranching after WGA.
 >
-> 🟢 **Independently confirmed.** Negreira et al. (*bioRxiv* 2025.09.10.675331) substituted PTA into
-> the same Atrandi SPC + split-pool workflow and state it outright: *"The samples submitted to PTA
-> … **did not require debranching** and were directly submitted to barcoding instead."* They did
-> still run end-prep (20 °C 30 min → 65 °C 30 min). See `06_pta.md` §6.
+> The separate Negreira protocol reports that its PTA samples did not require
+> debranching. That is a different implementation and cannot independently prove
+> the Gourlé experiment's reaction history. See `06_pta.md` §6 for context.
 >
 > Rationale given: "MDA library complexity saturates at 1x coverage… PTA achieved more even genomic
 > coverage… We thus **strongly recommend against MDA for scMetaG**, and instead urge users to adopt
@@ -261,7 +261,8 @@ Contaminant filtering: human T2T-CHM13v2.0; *X. campestris* B-1459 GCF_001372255
 ## 11. Deviations from the stock Atrandi protocol
 
 1. **WGA replaced** — Atrandi MDA → BioSkryb ResolveDNA **PTA** (#100954), 30 °C/2.5 h.
-2. **Debranching omitted** in the PTA arm.
+2. **Debranching omitted in the represented PTA path**, as an interpretation of
+   the branch-specific Methods; the experiment's omission is not explicitly stated.
 3. **Custom lysis R4** — methanol fixation + 4-enzyme cocktail + proteinase K + 4 M GTC;
    Atrandi alkaline lysis dropped.
 4. **Library prep run separately** with NEBNext Ultra II FS (#E7805S) + custom index primers.

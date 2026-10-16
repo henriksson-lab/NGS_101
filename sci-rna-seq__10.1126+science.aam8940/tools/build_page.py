@@ -10,6 +10,8 @@ import sci_rna_seq as S
 import seqprimers as sp
 from chemdraw import oligo, protocol_graph_panels
 from page import head, info, table
+from protocol_graph import AnnotationSlot
+from protocol_views import assemble_page
 
 OUT = HERE.parent / "sci-rna-seq.html"
 
@@ -21,8 +23,8 @@ def oligos() -> str:
     return "<h2>Key oligos</h2>\n<seq>\n" + "\n".join(rows) + "\n</seq>"
 
 
-def construction() -> str:
-    return '<h2>Library construction</h2>\n'+protocol_graph_panels(S.protocol_graph(),cls="long")
+def construction(graph) -> str:
+    return '<h2>Library construction</h2>\n'+protocol_graph_panels(graph,cls="long")
 
 
 def sequencing() -> str:
@@ -41,7 +43,20 @@ def sequencing() -> str:
 
 
 def main() -> None:
-    page="\n".join([head("sci-RNA-seq library chemistry"),'<div class="wrap" data-protocol-complete="true">','<h1>sci-RNA-seq &mdash; two-level combinatorial indexing of fixed cells</h1>',info('Defining source: <a href="https://doi.org/10.1126/science.aam8940">Cao et al., <i>Science</i> (2017)</a>.'),oligos(),construction(),sequencing(),'</div>'])
+    graph = S.protocol_graph()
+    page=assemble_page(graph, [head("sci-RNA-seq library chemistry"),
+        '<div class="wrap" data-protocol-complete="true">',
+        '<h1>sci-RNA-seq &mdash; two-level combinatorial indexing of fixed cells</h1>',
+        info('Defining source: <a href="https://doi.org/10.1126/science.aam8940">Cao et al., <i>Science</i> (2017)</a>. '
+             'The displayed implementation follows the original <a href="https://doi.org/10.1101/104844">2017 preprint Methods</a>, '
+             'which print the RT/PCR primer templates and NextSeq 18/10/10/52 run. The final Science supplement has not yet been recovered, '
+             'so final-version comparison remains an open source-review task. The original <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE98561">GEO annotations</a> supply experiment-specific RT barcode lists; the displayed index placeholders leave individual well assignments unselected. '
+             'The RT barcode and PCR-well i5/i7 pair jointly identify a cell; barcode collisions remain possible. '
+             'INFERRED — the selected gap-filled intermediate uses a canonical Nextera mosaic end; exact TDE1 intermediate structures are unassigned. '
+             'This page models the two-level branch. The final article also tests a third level with indexed Tn5; '
+             'that branch differs from the later 2019 sci-RNA-seq3 ligation workflow.'),
+        AnnotationSlot.INTRO, oligos(), construction(graph), AnnotationSlot.AFTER_WORKFLOW,
+        sequencing(), '</div>'])
     OUT.write_text(page,encoding="utf-8"); print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 
 

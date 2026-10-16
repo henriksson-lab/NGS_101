@@ -32,7 +32,7 @@ def primer_landings():
 
 def protocol_graph():
  source="Defining source: https://doi.org/10.1038/s41467-018-07115-y"
- inferred_source=source+" (Pi-ATAC well-to-primer assignment unavailable; linked Buenrostro Ad1/Ad2 family does not identify the chosen pairs)"
+ inferred_source=source+" (Pi-ATAC well-to-primer assignment unassigned in this model; linked Buenrostro Ad1/Ad2 family does not identify the chosen pairs)"
  graph=ProtocolGraph("Pi-ATAC-seq",authority=source)
  cells=graph.input("cells","fixed cells",MaterialKind.BIOLOGICAL,primary=True)
  antibodies=graph.input("antibodies","fluorescent protein-detection antibodies",MaterialKind.MOLECULAR)

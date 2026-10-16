@@ -19,14 +19,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import pta as pta_chem
 import seqprimers as sp
-from chemdraw import Construct, Segment, feature, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
 from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 TITLE = "Atrandi semi-permeable capsules + PTA — single-microbe WGS"
-SOURCE = 'Defining source: <a href="https://doi.org/10.1101/2025.06.20.660799">Gourlé et al.</a>; Atrandi Single-Microbe DNA Barcoding Kit.'
+SOURCE = 'Defining source: <a href="https://doi.org/10.1101/2025.06.20.660799">Gourlé et al., preprint v2</a>; local PTA implementation with Atrandi DGPM02323198001 and DGPM02323206001, V3 (3 November 2023) source comparison.'
 
 # ------------------------------------------------------- canonical Illumina (by reference)
 # The sequences live once, in lib/illumina.py; these are local aliases, never copies.
@@ -86,6 +86,22 @@ def _seg(name, top, tag=None, **kw) -> Segment:
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
+def ligation_adapter() -> Scene:
+    """The source-known V3 adapter, shared by its graph input and detail view."""
+    sc = Scene()
+    sc.strand("top", [_seg("stem", LIGADAPT_STEM, "s5"),
+                      _seg("arm", LIGADAPT_ARM, "s5",
+                           note="V3 p4: terminal phosphorothioate linkage before the last base")],
+              label="", mod5="/5Phos/")
+    sc.anneal("bottom", [_seg("stem'", LIGADAPT_BOT[:-1], "s5"),
+                          _seg("T", LIGADAPT_BOT[-1:])],
+              to="top", pair=("stem'", "stem"), label="", mod5="/5AmMC6/")
+    sc.mark("bottom", "T", "3'-T overhang (the ligation end)")
+    sc.mark("top", "stem", "12-bp stem")
+    sc.mark("top", "arm", "20-nt single-stranded arm = the P5 primer landing site")
+    return sc
+
+
 def read2_arm_segments() -> list[Segment]:
     """The Read-2 / P7 landing site that the round-D cassette must present."""
     return [
@@ -111,7 +127,7 @@ def barcode_block() -> list[Segment]:
             out.append(_seg(f"{letter}-{chr(ord(letter) - 1)} linker",
                             "L" * LINKER_LEN, "r2", placeholder=True, inferred=True,
                             length_bp=LINKER_LEN,
-                            note="4-nt cohesive overhang, inferred; sequence not published"))
+                            note="4-nt cohesive overhang in this model; exact bases not established by this declaration"))
     return out
 
 
@@ -165,11 +181,11 @@ def pta_amplicon() -> Construct:
         primer_len=PTA_PRIMER_LEN,
         primer_note="5'-OH; last two linkages are phosphorothioate -- needs T4 PNK before ligation")
     return Construct([
-        _seg("random primer", shared.segments[0].top, "tso", placeholder=True,
-             note=shared.segments[0].note),
+        _seg("random primer", shared.segments[0].top, "tso", placeholder=True, inferred=True,
+             note="Illustrative research-grade primer; exact commercial ResolveDNA primer chemistry is not established here. " + shared.segments[0].note),
         _seg("amplified genomic DNA", "XXX...XXX", None, placeholder=True),
-        _seg("terminator", shared.segments[-1].top, "w1", placeholder=True,
-             note="alpha-thio-dideoxy: no 3'-OH, PS linkage; cannot be A-tailed or exo-rescued"),
+        _seg("terminator", shared.segments[-1].top, "w1", placeholder=True, inferred=True,
+             note="Illustrative research-grade alpha-thio-ddN terminator; exact commercial ResolveDNA terminator identity is not established here"),
     ], name="PTA amplicon")
 
 
@@ -213,11 +229,11 @@ def protocol_graph():
                 StepKind.EXTRACTION,
                 ((cells,InputRole.TEMPLATE),(lysis,InputRole.CONDITION)),(genome,debris))
     graph.discard(debris,"solubilized cellular material passes out of the capsule")
-    random_primer=graph.input("pta_primer","exo-resistant random PTA primer",MaterialKind.OLIGO)
-    phi29=graph.input("phi29","phi29 strand-displacing polymerase",MaterialKind.CATALYST)
+    random_primer=graph.input("pta_primer","illustrative exo-resistant random PTA primer",MaterialKind.OLIGO, inferred=True)
+    phi29=graph.input("phi29","illustrative phi29 strand-displacing polymerase",MaterialKind.CATALYST, inferred=True)
     amplified=graph.product("pta_product","terminated PTA amplicons",MaterialKind.MOLECULAR,
-                            state=pta_amplicon())
-    graph.react("pta_amplify","Amplify genomic DNA by primary template-directed amplification",
+                            state=pta_amplicon(), inferred=True, source=SOURCE+"; research-grade molecular illustration, not verified commercial reagent identities")
+    graph.react("pta_amplify","INFERRED molecular illustration: primary template-directed amplification",
                 StepKind.EXTENSION,
                 ((genome,InputRole.TEMPLATE),(random_primer,InputRole.STRUCTURAL),
                  (phi29,InputRole.CATALYST)),(amplified,))
@@ -235,16 +251,16 @@ def protocol_graph():
     for letter in "ABCD":
         cassette=graph.input("barcode_"+letter.lower(),"round "+letter+" barcode cassette",
             MaterialKind.ADAPTER,inferred=True,
-            source=SOURCE+" (cassette strands and linker bases not published)")
+            source=SOURCE+" (cassette strand/end geometry is not established in this declaration)")
         product=graph.product("barcoded_"+letter.lower(),"barcode rounds A–"+letter+" product",
             MaterialKind.MOLECULAR,inferred=True,
-            source=SOURCE+" (cassette strands and linker bases not published)")
+            source=SOURCE+" (cassette strand/end geometry is not established in this declaration)")
         graph.react("ligate_"+letter.lower(),"Ligate split-pool barcode round "+letter,
             StepKind.LIGATION,
             ((current,InputRole.TEMPLATE),(cassette,InputRole.STRUCTURAL),
              (ligase,InputRole.CATALYST)),(product,),
             geometry=AdapterLigationGeometry.unavailable(
-                "The kit establishes sequential ligation but does not publish cassette-end sequences."))
+                "Sequential ligation is source-known; the exact ordered cassette strands and end geometry have not been established in this model."))
         current=product
     release=graph.input("release_condition","capsule release reagent",MaterialKind.CONDITION)
     released=graph.product("released_dna","released four-round-barcoded DNA",MaterialKind.MOLECULAR)
@@ -262,7 +278,8 @@ def protocol_graph():
     graph.react("fs_endprep","End-repair and dA-tail the FS fragments",StepKind.END_REPAIR,
                 ((fragments,InputRole.TEMPLATE),(fs,InputRole.CATALYST)),(fs_tailed,))
     lig_adapter=graph.input("ligation_adapter","Atrandi T-overhang ligation adapter",
-                            MaterialKind.ADAPTER)
+                            MaterialKind.ADAPTER, state=ligation_adapter(),
+                            source="Atrandi DGPM02323206001 V3 p4 adapter table")
     pre=graph.product("pre_pcr",pre_pcr().name,MaterialKind.MOLECULAR,state=pre_pcr(),
                       inferred=True,source=SOURCE+" (barcode-side arm inferred)")
     graph.react("adapter_ligation","Ligate the non-barcode sequencing adapter",
@@ -270,9 +287,18 @@ def protocol_graph():
                 ((fs_tailed,InputRole.TEMPLATE),(lig_adapter,InputRole.STRUCTURAL),
                  (ligase,InputRole.CATALYST)),(pre,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "The adapter is published, but the opposite barcode-cassette end is not."))
-    p5=graph.input("p5_primer","Atrandi P5 library primer",MaterialKind.OLIGO)
-    i7=graph.input("i7_primer","Atrandi indexed P7 library primer",MaterialKind.OLIGO)
+                    "The ligation adapter is source-known; the opposite barcode-cassette end is not established in this model."))
+    p5=graph.input("p5_primer","Atrandi V3 example P5 library primer",MaterialKind.OLIGO,
+        state=Construct([_seg("P5 primer", ATRANDI_P5,
+            note="V3 p4: terminal phosphorothioate linkage before the last base")]),
+        source="Atrandi DGPM02323206001 V3 p4 example primer table")
+    i7=graph.input("i7_primer","Atrandi V3 example indexed P7 library primer",MaterialKind.OLIGO,
+        state=Construct([_seg("P7", P7_SEQ, "p7"),
+            _seg("example i7", ATRANDI_I7_INDEX,
+                 feature=feature("sample_i7", "sample_index", "fixed")),
+            _seg("Read 2 arm", ATRANDI_I7_ANNEAL, "t7",
+                 note="V3 p4: terminal phosphorothioate linkage before the last base")]),
+        source="Atrandi DGPM02323206001 V3 p4 example primer table")
     pcr_pol=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     final=final_library()
     library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,inferred=True,
@@ -281,24 +307,35 @@ def protocol_graph():
                 ((pre,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
                  (i7,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(library,),
                 geometry=PCRGeometry.unavailable(
-                    final,reason="One PCR landing arm is necessarily inferred from the undisclosed cassette."))
+                    final,reason="This declaration infers part of the barcode-side landing arm; exact cassette strand evidence remains under source review."))
     graph.sequence(library,SequencingPlan(library=final,primers=tuple(SEQ_PRIMERS),
         acquired_roles=ACQUIRED_ROLES,read_lengths={"Index 1 (i7)":6}))
     graph.annotate(SourceDiscrepancy(
         target="library", title="Barcode A extraction offset in the published kit PDF",
         claims=(
-            SourceClaim("Atrandi Single-Microbe DNA Barcoding Kit library-prep PDF, barcode extraction pseudocode",
+            SourceClaim("Atrandi DGPM02323206001 V3, 3 November 2023, pp. 13–14 barcode extraction pseudocode",
                         "Barcode A is read[36:42], a six-base slice."),
-            SourceClaim("The same PDF, barcode description and position table",
+            SourceClaim("The same V3 PDF, p. 13 barcode description/Figure 6 and pp. 16–17 barcode tables",
                         "Every barcode round has eight bases; barcode A occupies positions 37–44.")),
         model_choice="The read-layout model uses the eight-base slice read[36:44].",
         evidence="The stated eight-base barcode length and positions 37–44 agree with that slice.",
-        uncertainty="The published pseudocode has not been corrected by its issuer.",
+        uncertainty="The quoted V3 pseudocode conflicts with its eight-base description; a later corrected revision or intended slice has not been established here.",
+        slot=AnnotationSlot.INTRO))
+    graph.annotate(SourceDiscrepancy(
+        target="library", title="V3 Figure 6 example and barcode tables",
+        claims=(
+            SourceClaim("Atrandi DGPM02323206001 V3 (3 November 2023), printed p. 13, Figure 6 image",
+                        "The base-resolved example shows GAACTGGA at barcode D positions 1–8 and ATGCGCCC at barcode C positions 13–20, with intervening linker tracks."),
+            SourceClaim("The same V3 PDF, printed pp. 16–17, Tables 2–3",
+                        "Neither example eight-mer nor its reverse complement occurs among the 96 listed barcode sequences.")),
+        model_choice="Barcode and linker segments remain placeholders; Figure 6 is not used to assign kit-wide linker sequences or ordered cassette strands.",
+        evidence="The two readable example barcode spans were checked directly in the original figure and against all original table entries on both strands.",
+        uncertainty="The relationship of this example to the listed kit barcode sets is unresolved. The example contains bases, but does not establish that its linker bases apply to the represented kit or experiment.",
         slot=AnnotationSlot.INTRO))
     graph.annotate(SourceDiscrepancy(
         target="barcoded_a", title="Round-A barcode whitelist disagreement",
         claims=(
-            SourceClaim("Atrandi kit PDF, Tables 2–3",
+            SourceClaim("Atrandi DGPM02323206001 V3 (3 November 2023), Tables 2–3",
                         "The round-A table contains 24 eight-base sequences, including AGACTCAC, but not GTCCGATT."),
             SourceClaim("Authors' Bascet demultiplexer, crates/bascet-cli/src/barcode/atrandi_barcodes.tsv",
                         "The round-A whitelist contains GTCCGATT, but not AGACTCAC; only 12 of 24 sequences overlap the PDF table, and well mappings also differ.")),

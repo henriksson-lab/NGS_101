@@ -9,6 +9,7 @@ Run:  python3 crispr-mip__10.1101+2024.03.28.587082/tools/selftest.py
 """
 from __future__ import annotations
 
+import os
 import re
 import sys
 from pathlib import Path
@@ -16,6 +17,9 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
+sys.path.insert(0, str(HERE.parents[1] / "tools"))
+
+from doctext import read as read_source_document
 
 import crisprmip as cm
 from checks import Check, Source, have, run_common
@@ -27,11 +31,14 @@ from plasmid import amplify, find_both
 from padlock import Padlock, capture, survives_exonuclease
 from plasmid import Plasmid, read_genbank
 
-VEC = Source(HERE.parents[1] / "lenticrispr-v1-screening__10.1126+science.1247005" /
-             "ref" / "plasmids" / "addgene-52961_lentiCRISPRv2.gb",
-             "Addgene #52961 (lentiCRISPRv2, Zhang lab); that directory's "
-             "ref/plasmids/MANIFEST.md records exactly how the map was obtained")
-XLSX = Source(HERE.parent / "ref" / "TableS2_primers_and_probes.xlsx",
+_source_bundle = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources" / HERE.parent.name
+_source_vector = _source_bundle / "addgene-52961_lentiCRISPRv2.gb"
+_legacy_vector = HERE.parents[1] / "lenticrispr-v1-screening__10.1126+science.1247005" / "ref" / "plasmids" / "addgene-52961_lentiCRISPRv2.gb"
+VEC = Source(_source_vector if _source_vector.exists() else _legacy_vector,
+             "Addgene #52961 verified record244694; registered source URLs and source-bundle MANIFEST.tsv; legacy sibling ref/plasmids/MANIFEST.md records export provenance")
+_source_table = _source_bundle / "2024.03.28.587082_media-2.xlsx"
+_legacy_table = HERE.parent / "ref" / "TableS2_primers_and_probes.xlsx"
+XLSX = Source(_source_table if _source_table.exists() else _legacy_table,
               "Supplementary Table S2 (media-2.xlsx) of doi:10.1101/2024.03.28.587082")
 N_SPACER = cm.EXAMPLE_SPACER             # Brunello spacers are not G-initiated
 G_SPACER = "GTCGCTGAGTACTTCGAAAT"
@@ -67,15 +74,13 @@ check("all indices are 8 nt and distinct",
 _s2 = None
 S2 = "Table S2 cross-check: every probe and primer, verbatim"
 if have(check, XLSX, label=S2):
-    try:
-        import openpyxl
-    except ImportError:
-        check.skip(S2, "openpyxl is not installed, so the .xlsx cannot be read (the file "
-                       "itself is present) -- install it with: pip3 install openpyxl")
-    else:
-        _ws = openpyxl.load_workbook(XLSX.path).active
-        _s2 = {r[0].strip(): r[1].strip()
-               for r in _ws.iter_rows(min_row=2, values_only=True) if r[0]}
+    _table_text = read_source_document(XLSX.path)
+    if _table_text is None:
+        raise ValueError("present original Table S2 could not be read")
+    _s2 = {fields[0].strip(): fields[1].strip()
+           for line in _table_text.splitlines()
+           if len(fields := line.split("\t")) >= 2 and fields[0].strip()}
+
 if _s2:
     check("all nine probes, as assembled, equal Table S2 verbatim (after the 5' phosphate)",
           [cm.probe(i).sequence() for i in cm.PROBE_INDICES],

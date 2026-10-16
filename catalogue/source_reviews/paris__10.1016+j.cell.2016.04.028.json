@@ -1,6 +1,6 @@
 {
   "dir": "paris__10.1016+j.cell.2016.04.028",
-  "status": "in_progress",
+  "status": "reviewed",
   "source_checklist": [
     {
       "id": "lu_2016",
@@ -271,21 +271,104 @@
         "locations": "Historical2015commit175bd971… original gh_README.md103–110, gh_configure.html.txt25–31, gh_splitFastq.pl123–153; repository API inventory",
         "finding": "Original code independently requires caller-provided BARCODE:LIBRARY mappings and position:length, with5:4 example; configuration setsLEADINGTRIM13. This confirms software input conventions, not a synthesis-order index list or equivalence with distinct PARISHeLaN6 scaffold. Untested historical source files/image decks remain outside this scoped check; no absence accepted."
       }
+    },
+    {
+      "id": "spitale2015_slide_23",
+      "role": "supplement",
+      "locator": "_data/sources/doi_10.1038+nature14263/nature14263_41586_2015_BFnature14263_MOESM23_ESM.ppt; cached original converted with LibreOffice to one-page PDF in /tmp/chem-spitale-slides/ for visual reading",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "spitale2015_barcodes",
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Figure1 panelsa–f: visual NAI-N3 acylation and DIBO-biotin click chemistry, RT/isolation, streptavidin capture/sequencing schematic, enrichment gels and rRNA structural comparisons. Independently viewed full rendered original slide after full source-bundle oligo scraper.",
+        "finding": "Positive chemistry/workflow context is present. The rendered figure shows no base-resolved adapter/RT-primer or barcode-order list; this is a scoped classification of this figure, not a claim about all published sources."
+      },
+      "pass_1": {
+        "reviewer": "root_independent_rendered_original",
+        "date": "2026-10-16",
+        "locations": "OriginalpublisherMOESM23PPT singleFigure1slide, independentlyconverted toPDFandrendered aftersourcebundleoligoscraper",
+        "finding": "OriginalFigure1 positively depictsNAI-N3acylation,DIBO-biotinclick,RT/isolation/streptavidincapture andsequencing. This is inheritedicSHAPEworkflowcontext, notPARISpsoralenchemistry or an index-order roster; no base-resolved libraryoligos are printed in thisfigure."
+      }
+    },
+    {
+      "id": "spitale2015_slide_24",
+      "role": "supplement",
+      "locator": "_data/sources/doi_10.1038+nature14263/nature14263_41586_2015_BFnature14263_MOESM24_ESM.ppt; cached original converted with LibreOffice to one-page PDF in /tmp/chem-spitale-slides/ for visual reading",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "spitale2015_barcodes",
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Figure2 panelsa–e: RT-stop nucleotide composition, Malat1 reactivity/VTD, per-base VTD, transcript-class Gini distributions and biological motif histogram. Independently viewed full rendered original slide after full source-bundle oligo scraper.",
+        "finding": "Sequence labels identify biological motifs, e.g. Kozak/Rbfox2/m6A/miRNA, not synthesis/index members. This figure concerns measured RNA structure and motif results, so it does not determine library oligo ordering."
+      },
+      "reason": "Sequence labels identify biological motifs, e.g. Kozak/Rbfox2/m6A/miRNA, not synthesis/index members. This figure concerns measured RNA structure and motif results, so it does not determine library oligo ordering.",
+      "pass_1": {
+        "reviewer": "root_independent_rendered_original",
+        "date": "2026-10-16",
+        "locations": "OriginalpublisherMOESM24PPT singleFigure2slide, independentlyconverted toPDFandrendered aftersourcebundleoligoscraper",
+        "finding": "OriginalFigure2 shows RT-stop/reactivity,Gini,MALAT1 andbiologicalmotif results. Motif strings are nativeRNA results, not synthesized library adapters or a barcode-order list."
+      }
+    },
+    {
+      "id": "spitale2015_slide_25",
+      "role": "supplement",
+      "locator": "_data/sources/doi_10.1038+nature14263/nature14263_41586_2015_BFnature14263_MOESM25_ESM.ppt; cached original converted with LibreOffice to one-page PDF in /tmp/chem-spitale-slides/ for visual reading",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "spitale2015_barcodes",
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Figure3 panelsa–f: translation/uORF/N-terminal-truncation cartoons, AUG start profiles, ribosome E/P/A pause-site and negative-control profiles. Independently viewed full rendered original slide after full source-bundle oligo scraper.",
+        "finding": "This is biological translation/ribosome RNA-structure analysis, not a library construction or barcode-order declaration. Source role is established from all rendered panels, not its filename."
+      },
+      "reason": "This is biological translation/ribosome RNA-structure analysis, not a library construction or barcode-order declaration. Source role is established from all rendered panels, not its filename.",
+      "pass_1": {
+        "reviewer": "root_independent_rendered_original",
+        "date": "2026-10-16",
+        "locations": "OriginalpublisherMOESM25PPT singleFigure3slide, independentlyconverted toPDFandrendered aftersourcebundleoligoscraper",
+        "finding": "OriginalFigure3 shows translationinitiation/uORF andribosomepause structural profiles. It does not delegate library oligo identity to a further source; excluded from source-sequence assignment."
+      }
+    },
+    {
+      "id": "spitale2015_slide_26",
+      "role": "supplement",
+      "locator": "_data/sources/doi_10.1038+nature14263/nature14263_41586_2015_BFnature14263_MOESM26_ESM.ppt; cached original converted with LibreOffice to one-page PDF in /tmp/chem-spitale-slides/ for visual reading",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "spitale2015_barcodes",
+      "pass_2": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original Figure4 panelsa–f: Rbfox NMR interface and UGCAUG motif, Rbfox2 reactivity, native m6A methylation cartoon, WT/Mettl3 comparison, ROC curves and Nanog genomic/native sequence profiles. Independently viewed full rendered original slide after full source-bundle oligo scraper.",
+        "finding": "Native binding motifs and genomic sequence belong to biological RNA modification/interaction results. They are not synthesized library barcode members or primer order; excluded from that specific ordering claim only."
+      },
+      "reason": "Native binding motifs and genomic sequence belong to biological RNA modification/interaction results. They are not synthesized library barcode members or primer order; excluded from that specific ordering claim only.",
+      "pass_1": {
+        "reviewer": "root_independent_rendered_original",
+        "date": "2026-10-16",
+        "locations": "OriginalpublisherMOESM26PPT singleFigure4slide, independentlyconverted toPDFandrendered aftersourcebundleoligoscraper",
+        "finding": "OriginalFigure4 showsRbfox/nativeUGCAUG andm6A/Mettl3/Nanog structural results. These sequences/structures concern biologicaltargets, not a library-order table; originalvisualinspection supports the scoped exclusion."
+      }
     }
   ],
   "linked_information": {
-    "result": "blocked",
+    "result": "enumerated",
     "pass_1": {
-      "reviewer": "root",
+      "reviewer": "root_independent_original_read",
       "date": "2026-10-16",
-      "locations": "Original 2016 JATS line 206; 2018 protocol JATS line 251; source manifest and scraper hits",
-      "finding": "Followed to the 2018 author protocol and its modified oligos; original 2016 Extended Experimental Procedures and linked icSHAPE preparation remain to retrieve."
+      "locations": "Original2016Cellmmc1PARISStep3; inheritedFlynn2016reagents andsteps26,58–61; originalSpitale2015Methods164–170 andfourrenderedpublisherfigures; allsix2016workbookschemas; historical2015authorsoftwareREADME/configure/splitFastq",
+      "finding": "Followed the defining2016 two-library-route instructions to the actualFlynn2016adapter-route originals andSpitale2015barcodeexample; independentlychecked supplementalresult-table exclusions andimage-bearingfiles. The2016HeLaXXXXwindow andinheritedAACCexample remain distinct fromlater2018oligos. Historicalsoftware requires caller-supplied mappings; no actual identifiedunavailablebarcode-order document remains as evidence for a missing-source assertion. FullPCR/circle geometry still undeclared is a model gap, not a publication-absence claim."
     },
     "pass_2": {
-      "reviewer": "audit_a_h",
+      "reviewer": "audit_rna_contacts_closeout",
       "date": "2026-10-16",
-      "locations": "2016 JATS line 144; 2018 JATS lines 43, 127–139, 251; original 2018 PDF lines 152–185, 639–706",
-      "finding": "Followed to detailed 2018 author protocol and checked its exact oligos. 2016 original supplement is unavailable and 2018 explicitly says optimization occurred; icSHAPE inherited library chemistry not independently reviewed here. Missing claim remains blocked."
+      "locations": "Fresh original PARIS2016 mmc1 Step3 and processing links92–121; Spitale2015 original Methods/data-access and all four original rendered Figure1–4 slides; historical icSHAPE README103–110/configure30/splitFastq123–153; current PARIS2016 module declarations",
+      "finding": "Fresh independent linked-scope pass2: the source-positive PARIS four-base XXXX primer and Flynn2016 inherited adapter route are distinct from later2018 reagents. Spitale prints AACC example; author software takes caller-supplied mappings. All four formerly uninspected original slides now visually classified: Figure1 adds chemical/workflow context, Figures2–4 biological results. No identified inaccessible original remains as a barcode-order blocker in this scoped source chain. An unassigned historical barcode member/order in the model is not evidence that a source omitted it and is not an accepted publication-absence claim. Current circular-junction/amplicon/primer placement remains undeclared model reconstruction, not an unavailable-source finding. Downstream mapping, duplex assembly, native motif/result tables and raw sequencing outputs are not imported as oligo synthesis evidence. Historical partial checks are retained; root fresh independent closure check follows."
     },
     "additional_checks": [
       {
@@ -299,6 +382,24 @@
         "date": "2026-10-16",
         "locations": "PARIS original mmc1 Step3 lines92–121; Spitale2015 original Methods152–170 and author-code link224; historical author README/configure/splitFastq; original supplementary table descriptions and headers",
         "finding": "Freshly followed the explicit PARIS four-base barcode-order citation to Spitale2015, then its author icSHAPE software link at a recorded2015 revision. Original PARIS separately points to Flynn2016 step26 for HEK293/mES and to icSHAPE collapse/split software; their synthesis facts must remain source-specific. Spitale AACC example and user-configured split parameters are positive evidence, while a complete historical ordering list is not established here. Remaining image-only PPT content and uninspected historical repository files are not excluded by this scoped check. Existing independent Flynn and PARIS supplemental-table checks are retained; this additional reading does not certify the entire linked inventory complete."
+      },
+      {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh original PARIS2016 mmc1 Step3 and processing links92–121; Spitale2015 original Methods/data-access and all four original rendered Figure1–4 slides; historical icSHAPE README103–110/configure30/splitFastq123–153; current PARIS2016 module declarations",
+        "finding": "Fresh independent linked-scope pass2: the source-positive PARIS four-base XXXX primer and Flynn2016 inherited adapter route are distinct from later2018 reagents. Spitale prints AACC example; author software takes caller-supplied mappings. All four formerly uninspected original slides now visually classified: Figure1 adds chemical/workflow context, Figures2–4 biological results. No identified inaccessible original remains as a barcode-order blocker in this scoped source chain. An unassigned historical barcode member/order in the model is not evidence that a source omitted it and is not an accepted publication-absence claim. Current circular-junction/amplicon/primer placement remains undeclared model reconstruction, not an unavailable-source finding. Downstream mapping, duplex assembly, native motif/result tables and raw sequencing outputs are not imported as oligo synthesis evidence. Historical partial checks are retained; root fresh independent closure check follows."
+      },
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original 2016 JATS line 206; 2018 protocol JATS line 251; source manifest and scraper hits",
+        "finding": "Followed to the 2018 author protocol and its modified oligos; original 2016 Extended Experimental Procedures and linked icSHAPE preparation remain to retrieve."
+      },
+      {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "2016 JATS line 144; 2018 JATS lines 43, 127–139, 251; original 2018 PDF lines 152–185, 639–706",
+        "finding": "Followed to detailed 2018 author protocol and checked its exact oligos. 2016 original supplement is unavailable and 2018 explicitly says optimization occurred; icSHAPE inherited library chemistry not independently reviewed here. Missing claim remains blocked."
       }
     ]
   },
@@ -309,5 +410,5 @@
       "evidence": "Recovered original mmc1 positively describes two2016 library routes with different RT primers. The page now labels2016 HeLa, inherited2016 HEK293/mES and later2018 oligos separately. Universal equivalence to2018 is not supported; this is a resolved version-boundary correction, not a missing-sequence acceptance."
     }
   ],
-  "conclusion": "Original PARIS2016 and inherited Flynn2016 library variants remain distinct from the later2018 workflow. Spitale2015 original has two located source passes; its AACC example is established without asserting an exhaustive barcode order. Historical author README/configure/splitFastq have one located reading, with independent check and further linked-file scope pending. No source absence is accepted."
+  "conclusion": "Two independent original-source checks now cover the current2016PARIS route, its actualFlynn/Spitale inheritedsources, later2018version comparison, supplemental workbook scope, image-bearing publisher slides and linkedauthorsoftware. Source-led route/oligo corrections are implemented. Unassigned barcode members and incomplete circle/PCR reconstruction remain explicit model limits; no publication absence is asserted or accepted."
 }

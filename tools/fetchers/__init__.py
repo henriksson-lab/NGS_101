@@ -60,7 +60,7 @@ from typing import Callable
 from .base import ROOT, Folder, say
 
 EXTRA_SOURCES = ROOT / "catalogue" / "extra_sources.tsv"
-MODULES = ("scg_github", "protocolsio", "vendor", "elife", "pmc_cloud")
+MODULES = ("scg_github", "protocolsio", "vendor", "elife", "pmc_cloud", "pdf_url")
 
 
 @dataclass

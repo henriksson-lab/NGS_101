@@ -1,6 +1,6 @@
 {
   "dir": "nano-cut-tag__10.1038+s41587-022-01535-4",
-  "status": "in_progress",
+  "status": "reviewed",
   "source_checklist": [
     {
       "id": "source_1",
@@ -177,7 +177,21 @@
         "date": "2026-10-16",
         "locations": "Publisher Supplementary Table 1 workbook lines 1-23",
         "finding": "Lists BcdA/B/C four 0N–3N variants, MeA, MeB, 5Phos Tn5_Rev, R1_seq and I2_seq; Table 2 in same workbook starts gene-result lists, not primer values."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "Original MOESM3 workbook all sheet headings; Supplementary Table3 lines322–341; Table4 lines342–408; oligo scraper run on entire Nano-CT bundle before source reading",
+          "finding": "Table3 compares published single-cell methods, not an inherited nano-CT molecular recipe. Table4 gives complete source reagent inventory including anti-rabbit-Tn5 Addgene183637 and anti-mouse-Tn5 Addgene183638, 10xATACv1.1 and Single IndexNSetA. Public deposit landing identity links need explicit reading; old Table1-only passes did not cover Table4."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original published MOESM3 workbook Table4 lines342–408, after fresh full-bundle oligo scraper",
+          "finding": "Independently checked reagent inventory and anti-rabbit183637/anti-mouse183638 deposit labels; fetched original public deposit identities reverse these species-number associations. Both values and unresolved historical physical reagent identity are now public."
+        }
+      ]
     },
     {
       "id": "atac_v1_1_vendor_guide",
@@ -218,35 +232,684 @@
         "locations": "Amini original ng.3119_PMC4409979.xml.txt lines 56–66 and 116–130; publisher Supplementary Table 4 ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt lines 1–32 (correction notice and all oligo headings), especially P5 rows 9–16; Nano-CUT&Tag author protocols.io v2 lines 123–144 and correction lines 271–293; published Nano-CT MOESM3 rows 3–14; scraper run on Amini bundle and Nano-CT bundle",
         "finding": "Independently verified original Amini Supplementary Table 4: its 20 May 2015 correction notice says the first five rows were omitted originally. Current P5 rows 9–11 exactly match the corrected Nano-CUT&Tag BcdA/B/C 0N strings, including CCACGC; rows 12–16 offer five additional P5 index constructs. Nano-CT author method cites Amini for optional extra barcode selection, but the original Nano-CT workbook defines only BcdA/B/C with 0N–3N variants. Amini cannot establish use of its additional five P5 codes in Nano-CT experiments."
       }
+    },
+    {
+      "id": "preprint_driver_gene_csv",
+      "role": "supplement",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_media-3.csv",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "source_3",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original CSV, heading and entire gene list",
+        "finding": "Original title identifies Supplementary Table2 velocity-driver genes; the complete file is a gene list, not oligos or library reaction specifications. No chemistry-relevant external links."
+      },
+      "reason": "Original is an analysis-result gene list, not a library chemistry source.",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete original bioRxiv media3 CSV, heading and entire gene list",
+        "finding": "Independently read as Supplementary Table2 scvelo velocity-driver gene results, not library ordering oligos or reaction chemistry; no chemistry-relevant external links."
+      }
+    },
+    {
+      "id": "preprint_fusion_protein_fasta",
+      "role": "supplement",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_media-4.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_3",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original FASTA, two records headed TP1170-mouse-Tn5 and TP897-rabbit-Tn5",
+        "finding": "Original supplementary FASTA identifies both source fusion reagents and contains protein sequences, not ordering oligos. Confirms identities in published Supplementary Sequences1–2. No external links; expression/vector construction is outside the molecular library model."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete original bioRxiv media4 TXT, both TP1170-mouse-Tn5 and TP897-rabbit-Tn5 FASTA records",
+        "finding": "Both headers and protein alphabet strings identify source fusion proteins rather than missing library-ordering oligos; no external links. Protein identity check does not reconstruct expression vectors."
+      }
+    },
+    {
+      "id": "author_debarcode",
+      "role": "linked_material",
+      "locator": "https://github.com/mardzix/bcd_nano_CUTnTag/blob/master/scripts/debarcode.py; current master retrieved2026-10-16 as _data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_debarcode.py (manifest has rawURL and checksum)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_6",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Article JATS Data analysis / Preprocessing line215; original debarcode.py entire file, especially99–135 and235–267",
+        "finding": "Author source reads its second FASTQ as index content, reverse-complements eight bases immediately before the outer/S5 pattern, and takes next16bases as cell barcode. The default GCGTGGAGACGCTGCCGACGA equals reverse complement of OUTER+S5 in the local declaration. Candidate codes come from detected reads or explicit caller input, not a fixed experimental barcode-to-antibody map. Script not executed or imported; dependency instructions are outside repository code."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original author gh_debarcode.py lines99–135,187–215,235–267, master URL retrieved2026-10-16",
+        "finding": "Independently verified reverse-complement8-base modality extraction before default GCGTGGAGACGCTGCCGACGA spacer and16cellbases after it; second technical FASTQ carries index content while first/third retained genomic. Caller/read-derived barcode choices do not provide experimental barcode-to-antibody map. Article URL unpinned; this current master retrieval is not proof of historic runtime revision."
+      }
+    },
+    {
+      "id": "fusion_deposit_mouse",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/183637.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_9",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original public Addgene183637 names/ID lines3921–3966, Purpose4001–4005, publication4063–4064, citation4728–4755",
+        "finding": "psfaMs-Tn5, #183637, anti-mouse nanobody fused with Tn5; exact Nano-CT defining paper cited. This conflicts with Table4 anti-rabbit label. Followed citation back to defining paper and paired deposit183638; expression/map links not used for library model, which consumes named fusion identity rather than expression-vector internals."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original183637.html.txt names/ID3921–3966, Purpose4001–4005, publication4063–4064",
+        "finding": "Public original names psfaMs-Tn5 and anti-mouse affinity for#183637; cited defining paper matches. Independently compared Table4 anti-rabbit183637 label: genuine source disagreement, no proof of physical historic reagent."
+      }
+    },
+    {
+      "id": "fusion_deposit_rabbit",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/183638.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_9",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original public Addgene183638 names/ID lines3921–3966, Purpose4001–4005, publication4063–4064, citation4725–4753",
+        "finding": "psfaRb-Tn5, #183638, anti-rabbit nanobody fused with Tn5; exact Nano-CT defining paper cited. This conflicts with Table4 anti-mouse label. Followed citation back to defining paper and paired deposit183637; expression/map links not used for library model, which consumes named fusion identity rather than expression-vector internals."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original183638.html.txt names/ID3921–3966, Purpose4001–4005, publication4063–4064",
+        "finding": "Public original names psfaRb-Tn5 and anti-rabbit affinity for#183638; cited defining paper matches. Independently compared Table4 anti-mouse183638 label: genuine source disagreement, no proof of physical historic reagent."
+      }
+    },
+    {
+      "id": "author_protocol_embedded_images",
+      "role": "linked_material",
+      "locator": "Original public protocols.io v2 image attachments linked by its PDF export; exact52filenames and original URLs/checksums in _data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/MANIFEST.tsv",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_4",
+      "files": [
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_10_i44v8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_11_i4438wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_12_i44z8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_13_i44t8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_14_i44r8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_15_i4478wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_16_i4458wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_17_i45b8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_18_i4498wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_1_i44d8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_20_i45f8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_21_i45d8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_22_i45j8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_23_i45h8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_24_i45p8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_25_i45m8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_26_i45t8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_27_i45r8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_28_i45x8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_29_i45v8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_2_i44b8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_30_i4538wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_31_i45z8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_32_i4578wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_33_i4558wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_34_i46b8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_35_i4598wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_36_i46f8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_37_i46d8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_39_i46j8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_3_i43y8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_40_i46h8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_41_i46p8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_42_i46m8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_43_i46t8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_44_i46r8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_45_i4678wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_46_i4658wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_47_i46x8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_48_i46v8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_49_i4638wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_4_i43w8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_50_i46z8wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_5_i4358wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_6_i4338wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_7_i4398wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_8_i4378wpw.jpg",
+        "protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b_attachment_9_i44x8wpw.jpg"
+      ],
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "All52original JPGs visually classified in contact sheet; original42_i46m8wpw.jpg and44_i46r8wpw.jpg directly viewed at native resolution",
+        "finding": "Alternating low-resolution thumbnails and full originals show source workflow/result figures, laboratory equipment, 10xguide procedural screenshots, and sequencing library diagrams. Full42showsP5–N16–S5–TCCACGC–BcdA–connector–ME plus customR1/I2; full44showsP7–N8–S7–ME withstandardR2/I1. Both library diagrams agree published SupplementaryDataFig2 and local molecular declaration. Remaining attachments duplicate figures and procedures embedded in author protocol PDF, not a separate revision or additional oligo table."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original attachment42_i46m8wpw.jpg and44_i46r8wpw.jpg viewed directly; all52original JPGs independently classified using contact sheet /tmp/nanocut-attachments.jpg (derivative reading aid)",
+        "finding": "42printsPN2000210 P5/N16/S5/eightbase modality barcode/ME/customR1andI2;44showsNexteraP7/N8/S7/ME/R2/I1. Both agree local source constructs. Remaining original images classify as equipment, kitprocedural screenshots, QC/results or workflow overview. This does not establish synthesis-end details beyond the supplied figures."
+      }
+    },
+    {
+      "id": "pleiner2018_original",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/PMC5839796_PMC5839796.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_6",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original JATS49–53,71,125–139,187–195; whole supplemental/link inventory",
+        "finding": "Source names TP897 anti-rabbit Fc and TP1170 anti-mouse kappa/Fab and points to originalTableS1. Fullfusion sequences are Nano-CT ownsource. Linked fluorescent/peroxidase labeling, protease/tag production and staining applications are not library molecular operations and are not inherited by this graph. Source reagent identities are checked, not reconstructed or optimized."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original JATS49–53,71 and87; supplemental and reference inventory.",
+        "finding": "Independently verified TP897 and TP1170 identity and cross-reactivity scope. This source documents antibody provenance and assay characterization; its labeling and production references do not supply Nano-CT library adapters and are not imported as molecular construction steps."
+      }
+    },
+    {
+      "id": "pleiner2018_table_s1",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/PMC5839796_supp_JCB_201709115_TableS1.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_6",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "OriginalSheet1 heading and complete nanobody table, especially rows3–6",
+        "finding": "Original protein-sequence table identifies TP897 anti-rabbitFc withGuineapig/weakHuman crossreactivity and TP1170 anti-mousekappa/Fab withweakGuineapig crossreactivity. These support named reagent affinity rather than absolute species exclusivity; no NGSlibrary adapter synthesis sequence supplied or expected from this antibody table."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Table S1 rows5–6 and column headings.",
+        "finding": "TP897 is the rabbit Fc binder with guinea-pig and weak human cross-reactivity; TP1170 is mouse kappa/Fab with weak guinea-pig cross-reactivity. These are source-qualified affinities, not absolute species exclusivity."
+      }
+    },
+    {
+      "id": "pleiner2018_supplement",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/PMC5839796_supp_JCB_201709115_sm.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_6",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original supplementary PDF text: FigS1–S4 captions and finalTableS1pointer/reference",
+        "finding": "S1supports antibody species crossreactivity; S2peroxidase-labeling controls, S3uncropped blots andS4immunofluorescence/affinity variants concern antibody characterization. TableS1original workbook followed. Protease reference is not a librarychemistry predecessor; no expression or labeling operation is imported into Nano-CT molecular construction."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original supplementary PDF, all five pages: FigS1–S4 and reference list.",
+        "finding": "Independently read ordinary affinity, imaging, labeling controls and results. Table S1 is the linked protein-identity source. These application and production references are not core NGS adapter data, and no related operation is inherited into the Nano-CT library model."
+      }
+    },
+    {
+      "id": "omni2017_protocol_exchange",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/d08a2f50-c065-47df-9584-6eb98c6f86fd.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "omni_article",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original5page nprot6107v1 export, title/DOI/date lines1–33, reagents45–60, completeProcedure62–124; originalpage5visually inspected",
+        "finding": "Original authorProtocolExchange dated29Aug2017, DOI10.1038/protex.2017.096. Corroborates Omni accessibility front end and ordinary indexedPCR continuation. Page5has only applications caption in receivedPDF, not an inspected molecular sequence figure; no base claim derived from it. Nano-CT explicitly replaces loaded adapter and library continuation in its ownMethods, so this original does not establish a Nano-CT Ad1/Ad2 endpoint."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Protocol Exchange export, all five pages; published Omni JATS285–320 and MOESM3 Supplementary Protocol1; Nano-CT JATS195 and201–209.",
+        "finding": "Original gives the ordinary Omni accessibility front end and indexed PCR continuation, with Buenrostro2015 reference. Published Omni methods and protocol agree on the front end. Nano-CT explicitly replaces the adapter loading with MeA-only and declares its own Chromium, MeB tagmentation and SI-PCR continuation. Thus ordinary Omni endpoint primers do not establish Nano-CT adapter geometry."
+      }
+    },
+    {
+      "id": "omni_article",
+      "role": "defining",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_PMC5623106.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Online Methods/Omni-ATAC sections lines 128–183",
+        "finding": "Omni changes nuclei lysis, wash and Tn5 reaction while inheriting original ATAC primer architecture."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original PMC5623106 JATS Online Methods Omni-ATAC section, lines ~300–350; scraper",
+        "finding": "Protocol modifies nuclei lysis/wash and transposition conditions while using inherited Ad1/Ad2 amplification."
+      },
+      "discovered_from": "source_6",
+      "source_review_origin": "catalogue/source_reviews/omni-atac__10.1038+nmeth.4396.json; recorded original-file passes retained, not inferred from source bundle presence",
+      "nanoct_scope": "Nano-CT cites Omni-ATAC for its optional accessibility front end. Its own MeA-only and Chromium/MeB instructions define library adapters and endpoint; ordinary Omni PCR and downstream comparison data are not silently inherited."
+    },
+    {
+      "id": "omni_supp_protocol_1",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM3_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Protocol 1 lines 70–106, 130–180",
+        "finding": "Protocol specifies NP40/Tween20/digitonin nuclei preparation, PBS-containing TDE1 reaction and Ad1/Ad2 amplification by name, without their bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer Supplementary Protocol 1 PDF lines 70–106, 130–140; scraper",
+        "finding": "Detailed protocol names Ad1 and Ad2 in PCR setup, while their base strings are supplied by the predecessor ATAC supplement."
+      },
+      "discovered_from": "omni_article",
+      "source_review_origin": "catalogue/source_reviews/omni-atac__10.1038+nmeth.4396.json; recorded original-file passes retained, not inferred from source bundle presence",
+      "nanoct_scope": "Nano-CT cites Omni-ATAC for its optional accessibility front end. Its own MeA-only and Chromium/MeB instructions define library adapters and endpoint; ordinary Omni PCR and downstream comparison data are not silently inherited."
+    },
+    {
+      "id": "omni_supp_protocol_2",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM4_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "opening lines 1–20",
+        "finding": "Supplementary Protocol 2 is nuclei isolation from frozen tissues; no adapter ordering sequence is in inspected opening."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original Springer Supplementary Protocol 2 PDF opening lines 1–20; scraper",
+        "finding": "This document covers frozen-tissue nuclei isolation; no adapter design is in its opening protocol steps."
+      },
+      "discovered_from": "omni_article",
+      "source_review_origin": "catalogue/source_reviews/omni-atac__10.1038+nmeth.4396.json; recorded original-file passes retained, not inferred from source bundle presence",
+      "nanoct_scope": "Nano-CT cites Omni-ATAC for its optional accessibility front end. Its own MeA-only and Chromium/MeB instructions define library adapters and endpoint; ordinary Omni PCR and downstream comparison data are not silently inherited."
+    },
+    {
+      "id": "omni_buenrostro_2015",
+      "role": "predecessor",
+      "locator": "_data/sources/doi_10.1002+0471142727.mb2129s109/0471142727.mb2129s109_PMC4374986.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "PCR setup lines 119–125",
+        "finding": "Current Protocols protocol uses Custom Nextera Primer 1/2 and explicitly delegates the complete primer list to Buenrostro et al."
+      },
+      "discovered_from": "omni_article",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original predecessor Current Protocols PMC4374986 JATS lines 119–125; scraper",
+        "finding": "PCR uses Custom Nextera Primers 1 and 2, with the second barcode-containing; full base list is delegated to 2013 supplement."
+      },
+      "source_review_origin": "catalogue/source_reviews/omni-atac__10.1038+nmeth.4396.json; recorded original-file passes retained, not inferred from source bundle presence",
+      "nanoct_scope": "Nano-CT cites Omni-ATAC for its optional accessibility front end. Its own MeA-only and Chromium/MeB instructions define library adapters and endpoint; ordinary Omni PCR and downstream comparison data are not silently inherited."
+    },
+    {
+      "id": "omni_buenrostro_2013_supp",
+      "role": "predecessor",
+      "locator": "_data/sources/doi_10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "supplement opening lines 1–8 and Ad2 indexed series lines 5–80",
+        "finding": "The original ATAC Supplementary Methods print Ad1_noMX and indexed Ad2 primer family, including Ad2.1_TAAGGCGA; this is the actual base-level ancestor."
+      },
+      "discovered_from": "omni_article",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original 2013 Nature Methods MOESM200 PDF text lines 1–80; scraper",
+        "finding": "Ad1_noMX and indexed Ad2 family are printed; these are source-positive ancestral bases for the named Omni PCR primers."
+      },
+      "source_review_origin": "catalogue/source_reviews/omni-atac__10.1038+nmeth.4396.json; recorded original-file passes retained, not inferred from source bundle presence",
+      "nanoct_scope": "Nano-CT cites Omni-ATAC for its optional accessibility front end. Its own MeA-only and Chromium/MeB instructions define library adapters and endpoint; ordinary Omni PCR and downstream comparison data are not silently inherited."
+    },
+    {
+      "id": "omni_nmeth_4396_41592_2017_bfnmeth4396_moesm1_esm_pdf",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM1 PDF text Supplementary Figures 1–9, lines 3–241",
+        "finding": "Extended figure captions compare library metrics and transposase input; no primer/adapter sequence or new construct assembly detail."
+      },
+      "reason": "Extended figure captions compare library metrics and transposase input; no primer/adapter sequence or new construct assembly detail.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM1 Supplementary Figures 1–9 captions, extracted text lines 1–272",
+        "finding": "Captions show quality-control comparisons, nuclei treatments and assay outputs; the examined supplement contains no primer or adapter sequence table."
+      },
+      "discovered_from": "omni_article",
+      "source_review_origin": "catalogue/source_reviews/omni-atac__10.1038+nmeth.4396.json; recorded original-file passes retained, not inferred from source bundle presence",
+      "nanoct_scope": "Nano-CT cites Omni-ATAC for its optional accessibility front end. Its own MeA-only and Chromium/MeB instructions define library adapters and endpoint; ordinary Omni PCR and downstream comparison data are not silently inherited."
+    },
+    {
+      "id": "omni_nmeth_4396_41592_2017_bfnmeth4396_moesm2_esm_pdf",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "MOESM2 PDF text lines 1–158",
+        "finding": "Life Sciences Reporting Summary, no base-level oligo or reaction detail."
+      },
+      "reason": "Life Sciences Reporting Summary, no base-level oligo or reaction detail.",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Published MOESM2 reporting and review PDF text lines 1–166",
+        "finding": "Reporting forms and submission records; no molecular construction or oligo sequences."
+      },
+      "discovered_from": "omni_article",
+      "source_review_origin": "catalogue/source_reviews/omni-atac__10.1038+nmeth.4396.json; recorded original-file passes retained, not inferred from source bundle presence",
+      "nanoct_scope": "Nano-CT cites Omni-ATAC for its optional accessibility front end. Its own MeA-only and Chromium/MeB instructions define library adapters and endpoint; ordinary Omni PCR and downstream comparison data are not silently inherited."
+    },
+    {
+      "id": "omni_nmeth_4396_41592_2017_bfnmeth4396_moesm5_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Deep sequencing performance metrics for Figure 1, not ordering-level adapter sequences.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM5 workbook Sheet1 heading",
+        "finding": "Deep sequencing performance metrics for Figure 1, not ordering-level adapter sequences."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet title and column headers lines 1–4; 252 extracted lines total",
+        "finding": "Deep-sequencing Figure 1 metrics table; no ordering oligos in the inspected headings."
+      },
+      "discovered_from": "omni_article",
+      "source_review_origin": "catalogue/source_reviews/omni-atac__10.1038+nmeth.4396.json; recorded original-file passes retained, not inferred from source bundle presence",
+      "nanoct_scope": "Nano-CT cites Omni-ATAC for its optional accessibility front end. Its own MeA-only and Chromium/MeB instructions define library adapters and endpoint; ordinary Omni PCR and downstream comparison data are not silently inherited."
+    },
+    {
+      "id": "omni_nmeth_4396_41592_2017_bfnmeth4396_moesm6_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM6_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Clinical brain donor metadata, not library chemistry.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM6 workbook Supplementary Table 2 heading",
+        "finding": "Clinical brain donor metadata, not library chemistry."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet title and column headers lines 1–4; 5 extracted lines total",
+        "finding": "Brain-donor clinical characteristics, not library chemistry."
+      },
+      "discovered_from": "omni_article",
+      "source_review_origin": "catalogue/source_reviews/omni-atac__10.1038+nmeth.4396.json; recorded original-file passes retained, not inferred from source bundle presence",
+      "nanoct_scope": "Nano-CT cites Omni-ATAC for its optional accessibility front end. Its own MeA-only and Chromium/MeB instructions define library adapters and endpoint; ordinary Omni PCR and downstream comparison data are not silently inherited."
+    },
+    {
+      "id": "omni_nmeth_4396_41592_2017_bfnmeth4396_moesm7_esm_xlsx",
+      "role": "supplement",
+      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM7_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "GWAS enrichment result data, not library oligos.",
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original MOESM7 workbook Sheet1 heading",
+        "finding": "GWAS enrichment result data, not library oligos."
+      },
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet title and column headers lines 1–4; 92 extracted lines total",
+        "finding": "GWAS enrichment statistics, not library chemistry."
+      },
+      "discovered_from": "omni_article",
+      "source_review_origin": "catalogue/source_reviews/omni-atac__10.1038+nmeth.4396.json; recorded original-file passes retained, not inferred from source bundle presence",
+      "nanoct_scope": "Nano-CT cites Omni-ATAC for its optional accessibility front end. Its own MeA-only and Chromium/MeB instructions define library adapters and endpoint; ordinary Omni PCR and downstream comparison data are not silently inherited."
+    },
+    {
+      "id": "author_repository_entry",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/bcd_nano_CUTnTag.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "source_6",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original repository entry file inventory, rendered README, embedded application/json payload codeViewRepoRoute.refInfo.currentOid.",
+        "finding": "Original entry identifies master head7657a3a9f15e798b0a8d2ba01ab7f3006a238d21 and actual config, workflow and scripts directories. README gives concrete config/read-processing sources followed below. Dependency, scheduler and downstream-analysis links are not synthesis or adapter declarations; no third-party runtime code executed."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original GitHub entry HTML application/json codeViewRepoRoute.refInfo and top-level tree paths; embedded README; fresh expanded source-bundle oligo scraper run before these original checks",
+        "finding": "Entry reports master commit7657a3a9f15e798b0a8d2ba01ab7f3006a238d21. Top-level config/workflow/scripts/README paths agree with inspected pinned originals. This is current repository provenance, not proof every file was frozen at publication."
+      }
+    },
+    {
+      "id": "author_repository_readme",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_README.md",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_repository_entry",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original README, especially Pipeline, Data availability, Reproducing analysis Steps4–5.",
+        "finding": "README links author nanoscope pipeline and names config/config.yaml plus single-modality workflow. Followed these actual read-decoding/configuration sources. Runtime package, cluster-profile and processed-data instructions are not imported into the molecular construction. Original master README retrieved2026-10-16; repository entry records head identity, while manifest records exact retrieved bytes."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete original gh_README.md, publication/preprint identity, Pipeline and Reproducing the analysis sections; fresh expanded source-bundle oligo scraper run before these original checks",
+        "finding": "README links the actual study config, workflow and nanoscope entry. Followed those small originals. Dependencies, cluster profiles and processed GEO results concern software execution/results and do not supply physical adapter bases. The README code/workflow path differs from the actual workflow directory; no molecular claim is derived from that packaging detail."
+      }
+    },
+    {
+      "id": "author_study_config",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_config.yaml",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_repository_readme",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete pinned config, especially named study samples lines1–38; commit7657a3a9f15e798b0a8d2ba01ab7f3006a238d21.",
+        "finding": "Study samples assign BcdA TATAGCCT to ATAC, BcdB ATAGAGGC to H3K27ac and BcdC CCTATCCT to H3K27me3. This resolves the earlier unassigned-map assumption. Page now uses source-defined BcdB/H3K27ac representative; all family oligos remain. This is a repository model correction, not a publication discrepancy. Assignments belong to named study configurations rather than inherent barcode affinities."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original pinned gh_config.yaml complete sample blocks1–38 and general/result configuration; fresh expanded source-bundle oligo scraper run before these original checks",
+        "finding": "Study configs independently confirm ATAC=TATAGCCT (BcdA), H3K27ac=ATAGAGGC (BcdB), H3K27me3=CCTATCCT (BcdC). Both ATAC and histone samples are explicitly enumerated. These are study assignments, not universal affinities; the local H3K27ac example now uses BcdB."
+      }
+    },
+    {
+      "id": "author_single_modality_workflow",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_Snakefile_single_modality.smk",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_repository_readme",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete pinned workflow inventory, include on line1 and subsequent integration, marker and export rules; same commit as config.",
+        "finding": "Explicitly includes Snakefile_preprocess.smk, followed below. Other rules consume decoded/aligned fragments for downstream analysis and do not define library oligos or synthesis operations. README command adds a code/ path prefix, but actual repository workflow file exists at workflow/Snakefile_single_modality.smk."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Pinned gh_Snakefile_single_modality.smk include on line1; later rule/input/script inventory; fresh expanded source-bundle oligo scraper run before these original checks",
+        "finding": "The entry includes Snakefile_preprocess.smk. Subsequent single-modality integration, clustering, peak and visualization rules act on processed output; they do not change adapter construction or establish additional sequence ordering."
+      }
+    },
+    {
+      "id": "author_preprocess_workflow",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_Snakefile_preprocess.smk",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_single_modality_workflow",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Pinned workflow include line1, demultiplex lines53–67 and Cellranger rules69–90; remaining rule inventory.",
+        "finding": "Includes Snakefile_prep.smk for configuration. Demultiplex invokes the checked scripts/debarcode.py with --single_cell and each configured barcode; resulting R1/R2/R3 files feed Cellranger. Other rules perform downstream peak/QC/fragment analyses rather than adapter construction. No workflow executed."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Pinned gh_Snakefile_preprocess.smk line1 and demultiplex/cellranger rules53–83; subsequent analysis-rule inventory; fresh expanded source-bundle oligo scraper run before these original checks",
+        "finding": "Includes Snakefile_prep.smk; demultiplex calls the already inspected debarcode.py with --single_cell and configured barcode. R1/R2/R3 are named input files; R2 is the technical barcode read in this naming convention. Downstream peak/coverage calculations do not supply oligo synthesis instructions."
+      }
+    },
+    {
+      "id": "author_workflow_prep",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_Snakefile_prep.smk",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_preprocess_workflow",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete pinned original, especially configfile line5, barcodes_dict line14 and FASTQ path/name parsing34–59.",
+        "finding": "Loads ../config/config.yaml and builds barcode dictionaries directly from the named study configuration. Defines technical FASTQ naming helpers; no additional source include or sequence-selection recipe is hidden here."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete pinned gh_Snakefile_prep.smk59lines, configfile5/barcodes_dict14 and FASTQ helpers; fresh expanded source-bundle oligo scraper run before these original checks",
+        "finding": "Loads ../config/config.yaml and directly builds sample barcode mappings from it. Remaining functions name FASTQs and workflow outputs. No further source include or physical adapter recipe is delegated by this prep file."
+      }
+    },
+    {
+      "id": "author_nanoscope_entry_readme",
+      "role": "linked_material",
+      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/nanoscope.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_repository_readme",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original entry/README; technical-read filename conversion1000–1025, modality config1080–1099 and preprocessing instructions1110–1152; entry metadata head2151695df498f1949b7aee738d6484fd6edd0d7b, main.",
+        "finding": "Linked author pipeline corroborates study mapping A=ATAC, B=H3K27ac, C=H3K27me3. Tutorial maps SRA technical files1/2/3/4 to I1/R1/R2/R3 and explicitly runs preprocessing with a config. This explains the debarcode script technical R2 filename versus biological sequencing read roles. Installation/profile, processed-results and downstream-analysis links are not molecular endpoint declarations; no raw data or runtime dependencies downloaded."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original nanoscope entry README text990–1035 technical FASTQ renaming,1070–1105 study configs and complete instructional/header link scope; fresh expanded source-bundle oligo scraper run before these original checks",
+        "finding": "Standalone instructions corroborate A=ATAC/B=H3K27ac/C=H3K27me3. Their SRA example maps technical files1/2/3/4 to I1/R1/R2/R3: FASTQ naming must not be conflated with standard sequencing read names. Runtime/reference/download links concern software/data, not synthesis. No new physical adapter or core decoding-source obligation identified in these instructions."
+      }
     }
   ],
   "linked_information": {
-    "result": "blocked",
+    "result": "enumerated",
     "pass_1": {
-      "reviewer": "audit_s_z",
+      "reviewer": "audit_nanocut_closeout",
       "date": "2026-10-16",
-      "locations": "Nano-CT JATS lines 61, 71, 201-209; protocols.io PDF lines 123-144 and 271-293; original Supplementary Table 1; official 10x CG000209 Rev G Appendix A1 lines 3729-3829; newly followed Amini 2014 JATS lines 118, 130 and corrected Supplementary Table 4 workbook lines 1-32",
-      "finding": "All originally listed paper/preprint/protocol/vendor rows now have two readers. Followed the optional Amini 2014 barcode citation in the author protocols.io method: its corrected Supplementary Table 4 gives the first three nano-CT BcdA/B/C P5 patterns plus more optional indexes. This newly added predecessor row has only my located first pass. Exact experimental choice of any extra member and strand-resolved 10x SI-PCR geometry remain unresolved."
+      "locations": "All original checklist rows, including newly followed complete author README, repository entry, pinned config and workflow include chain; linked nanoscope README. Scraper rerun before each final located source reading.",
+      "finding": "Followed actual adapter, reagent, barcode and read-decoding sources identified by the article, protocol and linked author instructions. Repository configuration resolves the study modality map and corrects the former generic BcdA antibody-targeted example to BcdB/H3K27ac. The preprocessing include chain reaches the checked decoder and named config; linked nanoscope README corroborates the mapping and technical read naming. Pleiner application/production references and ordinary Omni endpoint are scoped from their actual originals rather than imported into Nano-CT. No additional unread chemistry/read-decoding original is identified by these inspected instructions; dependency, scheduler, raw/processed-result and downstream analysis resources are not used as molecular construction evidence. New repository rows still need independent second passes; no absence accepted."
     },
     "pass_2": {
-      "reviewer": "second_pass_d_e",
+      "reviewer": "root",
       "date": "2026-10-16",
-      "locations": "Defining JATS Methods, located original supplementary oligo table, linked bench-top CUT&Tag where applicable, and official 10x CG000209 Rev G Appendix A1",
-      "finding": "The CG000209 guide resolves kit oligo scaffolds, but other relevant original/preprint/supplement rows remain without two located passes; linked information remains blocked."
+      "locations": "Defining article JATS159/171/195/201–215/342–346; original Pleiner article/TableS1/FigsS1–S4, Omni article/ProtocolExchange and inherited located original-source checklist; author repository entry/README to pinned config/workflow/preprocess/prep and linked nanoscope instructions; source oligo/vendor/image rows checked as recorded",
+      "finding": "Independently reconciled identified source inventory and newly followed links. Pleiner supplies reagent identity and cross-reactivity, not NGS adapter synthesis; its production/imaging references are outside the modeled library chemistry. Omni supplies the optional accessibility front end; nano-CT explicitly overrides MeA loading and provides its own Chromium/MeB/SI-PCR continuation. Author read-decoding chain now closes through the actual config/preprocess/prep files and already checked debarcode.py, corroborated by nanoscope. Runtime/profile/genome/result links do not supply physical adapters. Source-known oligos, modifications, representative target assignment and public disagreements are recorded. No identified unread chemistry/read-decoding original remains in this inspected protocol scope; this does not prove every molecular transition."
     },
     "followup": {
       "reviewer": "audit_a_h",
       "date": "2026-10-16",
       "locations": "Nano-CT protocols.io v2 lines 123–144, 271–293; Amini 2014 original JATS lines 116–130 and corrected Supplementary Table 4 lines 1–32; Nano-CT MOESM3 lines 3–14",
       "finding": "Followed the cited Amini barcode source independently. Its first three P5 sequences corroborate Nano-CT corrected BcdA/B/C; five further Amini P5 sequences are optional candidates, not source evidence of actual Nano-CT use. Exact extra-member use and 10x SI-PCR strand geometry remain unresolved."
-    }
+    },
+    "historical_passes": [
+      {
+        "field": "pass_1",
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Nano-CT JATS lines 61, 71, 201-209; protocols.io PDF lines 123-144 and 271-293; original Supplementary Table 1; official 10x CG000209 Rev G Appendix A1 lines 3729-3829; newly followed Amini 2014 JATS lines 118, 130 and corrected Supplementary Table 4 workbook lines 1-32",
+        "finding": "All originally listed paper/preprint/protocol/vendor rows now have two readers. Followed the optional Amini 2014 barcode citation in the author protocols.io method: its corrected Supplementary Table 4 gives the first three nano-CT BcdA/B/C P5 patterns plus more optional indexes. This newly added predecessor row has only my located first pass. Exact experimental choice of any extra member and strand-resolved 10x SI-PCR geometry remain unresolved."
+      },
+      {
+        "field": "pass_2",
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Defining JATS Methods, located original supplementary oligo table, linked bench-top CUT&Tag where applicable, and official 10x CG000209 Rev G Appendix A1",
+        "finding": "The CG000209 guide resolves kit oligo scaffolds, but other relevant original/preprint/supplement rows remain without two located passes; linked information remains blocked."
+      },
+      {
+        "field": "pass_1",
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Defining JATS Methods175–215; author protocols.io optional-ATAC section505ff; all workbook sheet headings and Table4; linked public Addgene183637/183638; complete author debarcode.py",
+        "finding": "Followed original author demultiplexing code, reagent deposit identity pages and embedded protocol images; all now have explicit two-reader records. Discovered and publicly documented reversed Table4 deposit-number labels. Source-defined SI-PCR geometry is implemented locally, and optional extra barcode identity is unassigned experimental metadata, not an invented unavailable document. Article cites Pleiner for nanobody provenance and Omni-ATAC for its combined branch; these original predecessors still need two independent source/scope checks. Drawing a nano-CT-only branch does not by itself establish that the optional branch is irrelevant to the complete protocol audit."
+      },
+      {
+        "field": "pass_1",
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Defining Nano-CT JATS159,171,195,201–215,342–346; author protocol and original oligo workbook; original preprint supplements; official 10x AppendixA1; Amini corrected SupplementaryTable4; author debarcode.py; Addgene deposits; original protocol images; Pleiner original/TableS1/supplement; Omni originals and ProtocolExchange.",
+        "finding": "The identified paper, supplement, detailed-protocol, vendor, barcode-predecessor and nanobody-provenance originals now have independent located source checks. Published sequence and deposit-number discrepancies are public. Pleiner labeling/production applications are not inherited library operations. Nano-CT explicitly overrides the optional Omni branch adapters and endpoint, so no cross-protocol endpoint is inferred. Its article also links the entire author repository for pipeline instructions; the directly linked debarcode.py is checked, but repository-entry README and instruction inventory must still be inspected before source-inventory closure."
+      },
+      {
+        "field": "pass_2",
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Defining original JATS159(step-by-step protocol and Table4),171(Pleiner provenance and own full-fusion sequences),195(optional Omni-ATAC),215(author debarcode decoding),342(deposits/data),346(GitHub); independently read original code, deposits, small supplements and visual attachments as their checklist rows record",
+        "finding": "Independent fresh link inventory confirms the concrete source paths and newly recorded original checks. Code and deposit identities are checked; full-fusion sequences are source-positive. Pleiner and Omni-ATAC original-source scope has not been read twice, so neither source can yet be excluded and full audit remains in progress. Previous SI-PCR geometry and optional unassigned-index labels are not remaining publication-absence claims."
+      }
+    ],
+    "remaining_source_obligations": []
   },
-  "missing_claims": [
-    {
-      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
-      "evidence": "Original Nano-CT article, preprint, oligo workbook, detailed author protocol, official 10x guide and cited Amini original/supplement now each have two located source passes. Amini provides optional barcode candidates, but no source establishes their use beyond Nano-CT BcdA/B/C; strand-resolved SI-PCR geometry also remains unreconciled.",
-      "disposition": "blocked"
-    }
-  ],
-  "conclusion": "Originals, preprint, oligo workbook, detailed protocol, 10x vendor guide and cited Amini 2014 supplement now have two independent located reads. Amini confirms corrected BcdA/B/C and provides optional extra P5 index candidates, but does not show that Nano-CT used them. The author protocol correction is already on the public page; extra-member selection and full SI-PCR geometry remain blocked."
+  "missing_claims": [],
+  "conclusion": "The enumerated original source scope now has two independent located checks, including Pleiner reagent provenance, Omni optional-branch methods, the author repository/config/read-decoding chain and nanoscope instructions. Study configs establish BcdA=ATAC, BcdB=H3K27ac, BcdC=H3K27me3; the representative graph uses BcdB/H3K27ac without treating that mapping as universal. Existing source discrepancies remain public, and model geometry/transition limits remain explicit. No missing-information claim is accepted and this source review does not establish complete biochemical proof.",
+  "previous_missing_claims": []
 }

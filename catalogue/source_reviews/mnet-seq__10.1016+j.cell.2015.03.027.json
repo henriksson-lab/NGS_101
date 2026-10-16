@@ -5,93 +5,342 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "Nojima et al Cell 2015 DOI:10.1016/j.cell.2015.03.027; j.cell.2015.03.027_PMC4410947.xml.txt",
+      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.cell.2015.03.027_PMC4410947.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-15",
-        "locations": "JATS lines 141-153 and 199-215",
-        "finding": "mNET-seq method explicitly says libraries made per TruSeq Small RNA prep kit manual; distinct chromatin RNA control uses NEBNext Ultra Directional RNA kit."
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Results line 83; Methods 199\u2013216; supplementary XML inventory and cited Nojima 2013 reference",
+        "finding": "Read defining route: MNase, EGTA stop, soluble supernatant, Pol II immunoprecipitation, T4 PNK 3-prime phosphatase-minus plus ATP on beads, wash/extract, 35\u2013100-nt gel selection, TruSeq Small RNA kit. First base of Read 2 is informative; Read 1 supplies directionality. Analysis trimming and mapping are not physical molecule removal."
       },
       "pass_2": {
-        "reviewer": "second_pass_d_e",
-        "date": "2026-10-15",
-        "locations": "Original JATS lines 199-215",
-        "finding": "Paper describes mNET RNA recovery and preparation; exact library adapter is delegated to TruSeq small RNA kit."
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Results line 83; Methods 199\u2013216; supplementary XML inventory and cited Nojima 2013 reference",
+        "finding": "Fresh full-bundle scraper then original JATS 83 and 199\u2013216 read. Confirms on-bead kinase before extraction and preserved native 3-prime hydroxyl, source RNA interval and Read 2 interpretation."
       }
     },
     {
       "id": "extended_methods",
       "role": "supplement",
-      "locator": "j.cell.2015.03.027_supp_mmc2.pdf.txt",
+      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.cell.2015.03.027_supp_mmc2.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-15",
-        "locations": "Lines 2275 and 2525; supplementary method context",
-        "finding": "Extended Experimental Procedures repeat TruSeq Small RNA library kit identity for mNET-seq."
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Extended methods 2458\u20132510; processing 2511\u20132545; siRNA/validation RT-PCR 2460\u20132479; ChIP primer table 2585 onward; Figure S1 caption 2823\u20132838",
+        "finding": "Document S1 includes the article and supplemental methods/figures. Read exact selected biochemical route and separate NEBNext chromatin-RNA comparator. siRNAs, validation RT-PCR and ChIP primers have distinct roles, not sequencing-library assignments. Numerical acquisition cycles in Figure S1 top panel belong to ChrRNA comparator, not silently to mNET-seq. Other figure contents still need complete scoped inspection."
       },
       "pass_2": {
-        "reviewer": "second_pass_d_e",
-        "date": "2026-10-15",
-        "locations": "Original mmc2 PDF extracted text lines 2273-2276 and 2522-2526",
-        "finding": "Extended methods specify 35–100-nt RNA selection and TruSeq Small RNA kit; no exact historical kit adapter sequence is stated in these passages."
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Extended methods 2458\u20132510; processing 2511\u20132545; siRNA/validation RT-PCR 2460\u20132479; ChIP primer table 2585 onward; Figure S1 caption 2823\u20132838",
+        "finding": "Independently read actual methods 2497\u20132510 and Figure S1 caption 2823\u20132838. Confirms EGTA/soluble fraction, on-bead phosphatase-minus PNK plus ATP, wash/extract/35\u2013100-nt selection and kit name; processing not conflated with extraction."
       }
     },
     {
       "id": "other_supp",
       "role": "supplement",
-      "locator": "j.cell.2015.03.027_supp_mmc1.pdf.txt",
+      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.cell.2015.03.027_supp_mmc1.pdf.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete 76-line single-page Table S1",
+        "finding": "Original body has six CPA-factor CLIP sense/antisense peak positions relative to transcription start sites. It is a result table with no oligo/library columns; this narrow exclusion does not exclude other supplement contents."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete 76-line single-page Table S1",
+        "finding": "Independent entire 76-line original read confirms six-factor CPA CLIP peak-position table, not oligo table."
+      },
+      "reason": "Both readers inspected complete original result-table fields; source-specific exclusion only."
+    },
+    {
+      "id": "vendor_rev_c",
+      "role": "vendor",
+      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/TruSeq_SmallRNA_SamplePrep_Guide_15004197_C.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-15",
-        "locations": "Header and oligo keyword scan",
-        "finding": "Additional supplement present; sequence relevance not fully excluded."
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Title 1\u201326; overview 75\u2013105; kit contents 392\u2013426; sequential ligation/RT 780\u20131007; index table 1650 onward",
+        "finding": "Actual manufacturer original is March 2011 Rev. C, 15004197. Describes sequential RA3/RA5 ligation, truncated T4 RNA ligase 2, kit ligase/ATP, SuperScript II and six-base RPI family. Its own printed revision does not establish the edition/lot used in 2015. Source-linked vendor/support scope is not fully read."
       },
       "pass_2": {
-        "reviewer": "second_pass_d_e",
+        "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Original j.cell.2015.03.027_supp_mmc1.pdf.txt entire 76-line single-page Table S1; CLIP factor, orientation and TSS-peak-position headings; oligo/primer/adapter keyword scan; source-bundle scraper run",
-        "finding": "This source is Table S1 of CPA-factor CLIP peak positions relative to TSS, without library chemistry or oligo fields. It is an analysis result table, subject to first-reader agreement before the grouped source is excluded."
+        "locations": "Title 1\u201326; overview 75\u2013105; kit contents 392\u2013426; sequential ligation/RT 780\u20131007; index table 1650 onward",
+        "finding": "Read actual printed title and 855\u20131007: truncated ligase 2, RA5/ATP/T4 RNA ligase and SuperScript II. Comparator only, not a selected 2015 kit-lot assignment."
       }
     },
     {
-      "id": "truseq_guide",
-      "role": "linked_material",
-      "locator": "Illumina TruSeq Small RNA Library Preparation Kit manual, historical 2015 revision",
-      "availability": "unavailable",
+      "id": "vendor_current_sequences",
+      "role": "vendor",
+      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/illumina_TruSeq-SmallRNA.htm.txt",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Article expressly delegates library preparation to this manual; exact kit revision and its bases not checked.",
-      "pass_1": null,
-      "pass_2": null,
-      "discovered_from": "paper"
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Current original substantive body 138\u2013210 and document footer v22",
+        "finding": "Read literal RNA RA5, DNA RA3, RTP, RP1 and RPI six-base placeholder template. These positive family references are displayed separately; exact 2015 ordered modifications, primers and selected index are unassigned rather than declared unpublished."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Current original substantive body 138\u2013210 and document footer v22",
+        "finding": "Independently read 138\u2013210: RA5 U bases, RA3 T bases, RTP, RP1 and six-base RPI. Current sequence table does not identify historical study revision."
+      }
+    },
+    {
+      "id": "successor_2016",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/594009_bef6fea20b33444da274369d1a65c41b.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original title; library steps 69\u201395, text 1135\u20131222 and 1260\u20131370; processing links 1378\u20131395",
+        "finding": "Exact successor DOI 10.1038/nprot.2016.012, PMC5152764, independently recovered by DOI and author copy. Describes deletion-mutant ligase for RA3, wild-type ligase for RA5, SuperScript III, RP1/RPI, partial RT transfer with remainder and 150\u2013230-bp final gel excluding 120\u2013125-bp background. These later details are not assigned to defining 2015 experiment. Linked software bodies remain uninspected."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original title; library steps 69\u201395, text 1135\u20131222 and 1260\u20131370; processing links 1378\u20131395",
+        "finding": "Read actual original 1135\u20131222 and 1260\u20131287: ligase variants, partial transfer and retained remainder, SuperScript III, RP1/RPI. Later version does not establish 2015 numerical transfer or gel parameters."
+      }
+    },
+    {
+      "id": "successor_supplement",
+      "role": "supplement",
+      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/nprot.2016.012_41596_2016_BFnprot2016012_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete captions of Supplementary Figures 1 and 2 (two pages)",
+        "finding": "Captions describe mNET/GRO correlation and Pol II specificity distributions, naming GEO datasets GSM1518913 and GSM1155630. Rendered figure bodies and independent relevance reading remain pending; no full exclusion from captions alone."
+      }
+    },
+    {
+      "id": "geo_metadata",
+      "role": "linked_material",
+      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/geo-GSE60358-all-full.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Series title/summary/design, supplementary and relations; all 28 sample instrument/library fields and all unique extract_protocol_ch1 and processing fields",
+        "finding": "Read original metadata: 28 samples with 18 mNET extraction descriptions and ten chromatin/control descriptions; overall 15 HiSeq 2000 and 13 HiSeq 2500 instrument fields. RNA library source transcriptomic. Sample extract fields distinguish mNET kit from NEBNext comparator. Read all unique protocol values including channel suffixes. RAW tar and processed bigWig outputs not downloaded; 28 experiment relations identified, not yet independently read. Confirmed PNKT wash says 0.05% Triton X-100, whereas defining JATS 201 and original Document S1 2502 say 0.1%; public notice records unresolved concentration, not a silent correction."
+      },
+      "discovered_from": "paper",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "GEO original repeated mNET extraction paragraph at 598698 (18 occurrences), TruSeq statement 599828 onward; all instrument/library-strategy counts",
+        "finding": "Independently read primary mNET extraction paragraph and kit statement; confirmed 0.05% Triton PNKT wash versus article/Document S1 0.1%. Confirmed 28 OTHER libraries and 15 HiSeq 2000/13 HiSeq 2500 instrument fields. Does not claim all control paragraphs fully read: output truncation limited that scope. Mixed extracted ml/mg and wash-volume differences require visual checking before interpreting dose changes."
+      }
+    },
+    {
+      "id": "fractionation_2013_main",
+      "role": "predecessor",
+      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.celrep.2013.03.012_PMC3644702.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Nuclear RNA Fractionation section, lines 117\u2013119; original West 2008 reference",
+        "finding": "Fresh full-bundle scraper 145 hits before original reading. Exact fractionation clause delegates to West et al. 2008, DOI 10.1016/j.molcel.2007.12.019 / PMC2288634. This is bounded fractionation reading only; adjacent CstF64/UV/HITS library route is not assigned as mNET-seq Pol II capture or library chemistry. Other source contents and supplements remain uninspected."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh full-bundle scraper terminal 0 (145 hits / 5 files), then original Nojima 2013 JATS 117\u2013123 and bibliography 241\u2013243; original mmc2 text 1134\u20131149",
+        "finding": "Both original nuclear-fractionation clauses explicitly delegate to West et al. 2008, DOI 10.1016/j.molcel.2007.12.019 / PMC2288634; neither clause supplies its detailed recipe. Adjacent UV/CstF64 nucleoplasmic IP belongs to the other study route and is not assigned to mNET-seq Pol II chemistry. This bounded reading does not exclude all 2013 supplements; the West source remains an identified pending child."
+      }
+    },
+    {
+      "id": "fractionation_2013_supp",
+      "role": "supplement",
+      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.celrep.2013.03.012_supp_mmc2.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Nuclear RNA Fractionation clause, lines 1141\u20131143",
+        "finding": "Fresh full-bundle scraper 145 hits before original reading. Exact fractionation clause delegates to West et al. 2008, DOI 10.1016/j.molcel.2007.12.019 / PMC2288634. This is bounded fractionation reading only; adjacent CstF64/UV/HITS library route is not assigned as mNET-seq Pol II capture or library chemistry. Other source contents and supplements remain uninspected."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh full-bundle scraper terminal 0 (145 hits / 5 files), then original Nojima 2013 JATS 117\u2013123 and bibliography 241\u2013243; original mmc2 text 1134\u20131149",
+        "finding": "Both original nuclear-fractionation clauses explicitly delegate to West et al. 2008, DOI 10.1016/j.molcel.2007.12.019 / PMC2288634; neither clause supplies its detailed recipe. Adjacent UV/CstF64 nucleoplasmic IP belongs to the other study route and is not assigned to mNET-seq Pol II chemistry. This bounded reading does not exclude all 2013 supplements; the West source remains an identified pending child."
+      }
+    },
+    {
+      "id": "fractionation_2013_table",
+      "role": "supplement",
+      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.celrep.2013.03.012_supp_mmc1.pdf.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Validated original 2013 RNA-linker/DNA-primer Table S1 recovered. Contents not yet read or independently scoped; not substituted for defining 2015 library or result Table S1."
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-15",
-      "locations": "JATS lines 199-215; supplementary mmc2 lines 2275/2525",
-      "finding": "Followed article into extended method; Illumina kit manual required by article remains unavailable."
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Defining article and Document S1; supplementary XML identities; Nojima 2013 reference; vendor originals; exact 2016 successor and software links; GSE60358 metadata",
+      "finding": "Original defining chemistry and matched named-kit references read without transferring human NET-seq. Specific remaining scope includes Nojima 2013 fractionation predecessor, remaining original figure contents, source-linked vendor/support documents, successor software and GEO experiment metadata. Missing sample/member assignment is not an invented unavailable document."
     },
     "pass_2": {
-      "reviewer": "second_pass_d_e",
-      "date": "2026-10-15",
-      "locations": "Original JATS lines 199-215; mmc2 extended methods lines 2273-2276, 2522-2526",
-      "finding": "Followed paper to extended methods and named TruSeq Small RNA kit. Historical kit guide and its adapter variant remain inaccessible."
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Fresh original JATS 83/199\u2013216, Document S1 2497\u20132510/2823\u20132838, whole Table S1; dated vendor title/855\u20131007, current sequence table138\u2013210; successor1135\u20131222/1260\u20131287",
+      "finding": "Independent bounded source readings confirm corrected capture/kinase order and source-version boundaries. Does not assert all remaining linked children inspected, missing information absent or complete review."
     }
   },
-  "missing_claims": [
+  "missing_claims": [],
+  "conclusion": "Protocol-owned 2015 declaration corrects on-bead kinase order, preserves native RNA end and actual 35\u2013100-nt selection, removes shared eight-base index and generic recipe defaults. Read direction and computational filtering are explicit. Manufacturer family and 2016 successor remain source-positive comparators. Review in progress, no accepted source absence.",
+  "history_before_primary_reaudit_2026_10_16": {
+    "dir": "mnet-seq__10.1016+j.cell.2015.03.027",
+    "status": "in_progress",
+    "source_checklist": [
+      {
+        "id": "paper",
+        "role": "defining",
+        "locator": "Nojima et al Cell 2015 DOI:10.1016/j.cell.2015.03.027; j.cell.2015.03.027_PMC4410947.xml.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-15",
+          "locations": "JATS lines 141-153 and 199-215",
+          "finding": "mNET-seq method explicitly says libraries made per TruSeq Small RNA prep kit manual; distinct chromatin RNA control uses NEBNext Ultra Directional RNA kit."
+        },
+        "pass_2": {
+          "reviewer": "second_pass_d_e",
+          "date": "2026-10-15",
+          "locations": "Original JATS lines 199-215",
+          "finding": "Paper describes mNET RNA recovery and preparation; exact library adapter is delegated to TruSeq small RNA kit."
+        }
+      },
+      {
+        "id": "extended_methods",
+        "role": "supplement",
+        "locator": "j.cell.2015.03.027_supp_mmc2.pdf.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-15",
+          "locations": "Lines 2275 and 2525; supplementary method context",
+          "finding": "Extended Experimental Procedures repeat TruSeq Small RNA library kit identity for mNET-seq."
+        },
+        "pass_2": {
+          "reviewer": "second_pass_d_e",
+          "date": "2026-10-15",
+          "locations": "Original mmc2 PDF extracted text lines 2273-2276 and 2522-2526",
+          "finding": "Extended methods specify 35\u2013100-nt RNA selection and TruSeq Small RNA kit; no exact historical kit adapter sequence is stated in these passages."
+        }
+      },
+      {
+        "id": "other_supp",
+        "role": "supplement",
+        "locator": "j.cell.2015.03.027_supp_mmc1.pdf.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-15",
+          "locations": "Header and oligo keyword scan",
+          "finding": "Additional supplement present; sequence relevance not fully excluded."
+        },
+        "pass_2": {
+          "reviewer": "second_pass_d_e",
+          "date": "2026-10-16",
+          "locations": "Original j.cell.2015.03.027_supp_mmc1.pdf.txt entire 76-line single-page Table S1; CLIP factor, orientation and TSS-peak-position headings; oligo/primer/adapter keyword scan; source-bundle scraper run",
+          "finding": "This source is Table S1 of CPA-factor CLIP peak positions relative to TSS, without library chemistry or oligo fields. It is an analysis result table, subject to first-reader agreement before the grouped source is excluded."
+        }
+      },
+      {
+        "id": "truseq_guide",
+        "role": "linked_material",
+        "locator": "Illumina TruSeq Small RNA Library Preparation Kit manual, historical 2015 revision",
+        "availability": "unavailable",
+        "relevance": "relevant",
+        "reason": "Article expressly delegates library preparation to this manual; exact kit revision and its bases not checked.",
+        "pass_1": null,
+        "pass_2": null,
+        "discovered_from": "paper"
+      }
+    ],
+    "linked_information": {
+      "result": "blocked",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 199-215; supplementary mmc2 lines 2275/2525",
+        "finding": "Followed article into extended method; Illumina kit manual required by article remains unavailable."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-15",
+        "locations": "Original JATS lines 199-215; mmc2 extended methods lines 2273-2276, 2522-2526",
+        "finding": "Followed paper to extended methods and named TruSeq Small RNA kit. Historical kit guide and its adapter variant remain inaccessible."
+      }
+    },
+    "missing_claims": [
+      {
+        "claim": "Which historical TruSeq Small RNA adapter/index variant was used remains unresolved pending original kit manual",
+        "disposition": "blocked",
+        "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
+      }
+    ],
+    "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+  },
+  "historical_identity_questions": [
     {
-      "claim": "Which historical TruSeq Small RNA adapter/index variant was used remains unresolved pending original kit manual",
-      "disposition": "blocked",
-      "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
+      "former_id": "truseq_guide",
+      "question": "The study does not identify one historical guide edition or selected sample-index member. This is a source/model assignment question, not an identified unavailable original document. Actual dated guide and current sequence table have now been recovered and read."
     }
   ],
-  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+  "model_questions": [
+    "Selected 2015 ordered adapters, modifications, RT/PCR strands, sample-index member and acquisition cycles remain unassigned; the positive vendor-family sequences are not unpublished.",
+    "Actual 2015 kit revision and RT/PCR formulation are not identified by the recovered 2011 comparator or later 2016 changes."
+  ],
+  "pending_linked_sources": [
+    "West et al. 2008 fractionation predecessor DOI 10.1016/j.molcel.2007.12.019 / PMC2288634, explicitly delegated by the recovered Nojima 2013 original. Bounded 2013 fractionation clauses read; complete 2013 study/primer table and other supplement contents not yet scoped. No wholesale predecessor library transfer.",
+    "Rendered original Figure S1 and remaining Figures S2\u2013S7/source-specific original contents not completely audited.",
+    "GSE60358 names PRJNA258089, SRP045447 and 28 experiment relations; molecular-library metadata scope pending, no raw-read downloads requested.",
+    "Successor software links: mNET_snr, Cutadapt, FastQC, SAMtools, TopHat and pysam actual originals not yet scoped; original supplementary captions name comparator GEO datasets.",
+    "Named vendor/support source children from dated/current manufacturer originals not fully inventoried/read."
+  ],
+  "published_source_differences": [
+    {
+      "claim": "PNKT bead wash Triton X-100 concentration",
+      "source_a": "Defining 2015 JATS line 201 / Document S1 text 2502: 0.1%",
+      "source_b": "GSE60358 repeated mNET extraction metadata: 0.05%",
+      "model_choice": "Graph preserves wash and on-bead phosphorylation order without selecting concentration; unresolved difference rendered publicly.",
+      "uncertainty": "Actual experimental concentration unassigned; no typographical-error claim. Other unit/volume differences remain unverified visually."
+    }
+  ],
+  "current_model_independent_check": {
+    "reviewer": "root",
+    "date": "2026-10-16",
+    "locations": "Current local chem.py and already independently read 2015 originals",
+    "finding": "Correct specialized on-bead PNK/ATP before extraction; EGTA, supernatant selection, Pol II IP and 35\u2013100-nt RNA gel. Local role endpoint, paired Read 2 semantics and computational filters respect source. Manufacturer and later 2016 comparators stay separate; no eight-base index default. PNKT concentration discrepancy separately rendered without selecting a concentration."
+  }
 }

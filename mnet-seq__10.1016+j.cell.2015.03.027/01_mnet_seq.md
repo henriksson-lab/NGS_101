@@ -1,19 +1,47 @@
 # mNET-seq
 
-**Defining paper:** Nojima et al., *Cell* (2015), doi:10.1016/j.cell.2015.03.027. The open author manuscript and its extended methods were read from PMCID PMC4410947.
+[Nojima et al., Cell (2015)](https://doi.org/10.1016/j.cell.2015.03.027) profiles native Pol II-associated RNA, including cotranscriptional processing intermediates. It is distinct from Mayer's human NET-seq library and does not inherit its linker, UMI, RT primer or circularization route.
 
-## Molecular boundary
+## Selected 2015 chemistry
 
-🟢 Native chromatin is solubilized by MNase, and elongation complexes are immunoprecipitated with antibodies recognizing Pol II or particular CTD phosphorylation states. RNA protected in those complexes is purified and size-selected.
+🟢 The defining main article (JATS lines 83, 199–211) and Extended Experimental Procedures (Document S1, current text lines 2497–2510) specify:
 
-🟢 The informative nucleotide is the RNA 3′ end. It may be the nucleotide in the Pol II active site or a cotranscriptional cleavage intermediate, so the page does not equate every peak with polymerase position.
+1. Digest native chromatin with MNase and stop with EGTA.
+2. Centrifuge and collect soluble chromatin supernatant; immunoprecipitate the selected Pol II CTD state.
+3. Treat the washed immunoprecipitation beads with **T4 PNK, 3′ phosphatase minus**, and ATP. This phosphorylates RNA 5′ ends before extraction while preserving the informative Pol II-protected 3′ hydroxyl.
+4. Wash, extract RNA with Trizol and retain the 35–100-nt denaturing-gel interval.
+5. Prepare libraries using the named TruSeq Small RNA kit and sequence paired reads on HiSeq 2000/2500.
 
-🟢 RNA 5′ ends are phosphorylated before small-RNA adapter ligation. The original implementation used the Illumina TruSeq Small RNA workflow after end repair.
+The former repository model extracted RNA before a generic kinase reaction. It also supplied an eight-base index through a shared helper. These were repository modelling errors, not publication errors. The new graph owns its route and keeps unassigned molecular details as explicit roles.
 
-## Evidence boundary
+## Positive kit-family information and version boundaries
 
-🟡 The paper establishes adapter roles and read direction but does not make one complete adapter/index oligo set an invariant of mNET-seq. Those regions are therefore role-labelled rather than reconstructed from unrelated modern kit sequences.
+🟢 The recovered manufacturer guide is **15004197 Rev. C, March 2011**, mirrored by Boston University. It describes sequential 3′/5′ adapter ligation, truncated T4 RNA ligase 2, kit T4 RNA ligase with ATP, SuperScript II, RT/PCR and a six-base RPI index family. Its title identifies its own edition, not the exact guide or kit lot used in 2015.
 
-## Oligo source audit
+🟢 The current official manufacturer sequence table, document **1000000002694 v22**, prints these family references:
 
-🟢 Checked the defining author manuscript (`j.cell.2015.03.027_PMC4410947.xml.txt`, especially lines 83–85 and 669–671) and its extended methods (`j.cell.2015.03.027_supp_mmc2.pdf.txt`, lines 2500–2510). The mNET-seq library uses the TruSeq Small RNA preparation after 5′ phosphorylation and gel selection; the authors sequence from the reverse primer to expose the RNA 3′ end. The extended methods name the kit but do not print its 5′/3′ RNA adapters, RT primer, PCR/index primers or reverse sequencing primer sequence. The scraper's other oligos are siRNA and locus-specific validation primers, not mNET-seq library reagents. Exact kit-era adapter/index sequences remain unresolved without the corresponding historical Illumina guide or a run-specific reagent record.
+- RA5 (RNA): `GUUCAGAGUUCUACAGUCCGACGAUC`.
+- RA3 (DNA): `TGGAATTCTCGGGTGCCAAGG`.
+- RTP: `GCCTTGGCACCCGAGAATTCCA`.
+- RP1: `AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA`.
+- RPI: `CAAGCAGAAGACGGCATACGAGAT[6 bases]GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA`.
+
+These are source-positive manufacturer-family data, displayed separately from actual 2015 reagent assignment. They do not identify a selected sample index, exact historical modifications or the physical sequencing primers for that experiment. The declaration leaves the ordered 2015 endpoint unassembled; it does not call these sequences unpublished.
+
+🟢 The separately recovered [Nojima et al. 2016 detailed protocol](https://doi.org/10.1038/nprot.2016.012), PMC5152764, is a successor. Its author PDF steps 69–95 names deletion-mutant ligase for RA3, wild-type ligase for RA5, SuperScript III, RP1/RPI, a partial RT transfer with a retained remainder and final gel selection of 150–230-bp product excluding 120–125-bp background. Those enzyme, transfer and gel details are not automatically assigned to the 2015 implementation. The difference from the 2011 manufacturer guide is retained as source-version context, not labelled a publication error.
+
+## Published source difference
+
+The defining article (JATS line 201) and original Document S1 (text line 2502) specify **0.1% Triton X-100** in the PNKT bead wash. The repeated mNET-seq extraction paragraph in the deposited GSE60358 metadata instead specifies **0.05%**. Both original values are retained in a public schematic notice. The graph preserves the physical wash and phosphorylation order without selecting this concentration; the actual experimental value remains unresolved. No typographical error is assumed. Other extracted unit/volume differences require visual confirmation before interpretation as genuine dose changes.
+
+## Readout and molecule fates
+
+🟢 The defining processing section states that **Read 2's first base** marks the RNA 3′ end; Read 1 supplies strand direction. Exact acquisition cycles and index reads remain unassigned in this model. Figure S1's explicit 51-base statement describes the separate ChrRNA-seq panel and is not silently transferred to mNET-seq.
+
+The insoluble chromatin pellet, unbound immunoprecipitation material and excluded RNA gel intervals are physical separations. Adapter trimming, exclusion of short/unpaired reads, mapping and keeping the informative nucleotide are computational operations. They do not imply molecular discard. Signals from processing intermediates are not all equated to polymerase positions.
+
+## Supplement and linked-source scope
+
+The separate original Table S1 is a six-factor CPA CLIP peak-position result table, not an oligo table; both readers inspected its complete body. Document S1 contains the original article, extended methods and Figures S1–S7. Its siRNAs, validation RT-PCR primers and ChIP primers have distinct experimental roles and are not assigned as sequencing-library oligos.
+
+Original GSE60358 metadata contains 28 samples, including 18 mNET-seq extraction descriptions and ten comparator/control descriptions; its instrument fields report HiSeq 2000 and HiSeq 2500. RAW archives and processed bigWig files were not downloaded. Identified linked predecessors, remaining figure contents, experiment-level metadata and software/vendor scope remain explicitly pending in the source review. No source absence is accepted from an unassigned study revision or sample member.

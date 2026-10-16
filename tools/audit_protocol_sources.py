@@ -54,6 +54,10 @@ def validate(name: str, review: object, known: dict[str, dict[str, str]]) -> lis
     if status not in STATUSES:
         issues.append(name + ": invalid review status")
         return issues
+    if status in {"reviewed", "accepted_missing"}:
+        for field in ("pending_sources", "pending_linked_targets"):
+            if review.get(field):
+                issues.append(name + ": " + field + " remains open; review is incomplete")
     sources = review.get("source_checklist")
     if not isinstance(sources, list) or not sources:
         issues.append(name + ": source checklist is empty")

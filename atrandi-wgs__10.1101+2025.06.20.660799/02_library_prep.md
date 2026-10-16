@@ -10,7 +10,7 @@ Atrandi Biosciences / Droplet Genomics. Research Use Only.
 > see [`01_barcoding_kit.md`](01_barcoding_kit.md).
 
 > **Evidence marking.** 🟢 = verbatim from the source document · 🟡 = derived or inferred
-> (reasoning given; arithmetic verified where possible) · 🔴 = not published anywhere.
+> (reasoning given; arithmetic verified where possible) · 🔴 = not established in the current declaration; source review remains open.
 > Any claim not marked 🟢 must reach the final page carrying its uncertainty.
 
 
@@ -121,7 +121,7 @@ Also needed: magnetic rack; 0.2 mL non-stick PCR tubes; LoBind 1.5 mL tubes; Qub
 **Stop point:** −20 °C up to a week.
 
 > 🟡 **INFERRED.** The Release Reagent presumably dissolves the hydrogel shell, freeing barcoded
-> DNA into solution. 🔴 Composition undisclosed.
+> DNA into solution. 🟡 Composition is not established in this declaration.
 
 ### II. Fragmentation (NEBNext Ultra II FS)
 
@@ -238,11 +238,14 @@ Read-2 offsets, **0-based, half-open**, as given in the PDF pseudocode:
 > part comprises 8 nucleotides". Read it as **`read[36:44]`**. The manual is not exact throughout;
 > treat the Bascet source as authoritative for offsets.
 
-> ⚠ The example sequence rendered in Figure 6
-> (`GAACTGGAGAGTATGCGCCCATTCCACCCGTATTCGGGCCGTTGT…`) is **illustrative only** — none of its
-> 8-mers at the barcode offsets match the A/B/C/D whitelists in Tables 2–3. Do **not** read the
-> linker sequences off that figure. **The real linker sequences are not disclosed in either
-> Atrandi document.**
+> ⚠ **Base-bearing example with unresolved kit identity.** The original Figure 6 image on
+> printed p. 13 shows `GAACTGGA` at barcode D positions 1–8 and `ATGCGCCC` at barcode C
+> positions 13–20. Neither eight-mer nor its reverse complement occurs among the 96
+> sequences in the same V3 manual's Tables 2–3 (printed pp. 16–17). The figure also
+> contains bases underneath its linker tracks; it is not evidence that linker bases
+> are absent from the source. The relationship between this example and the listed kit
+> barcode sets is unresolved. **This declaration does not assign the example's linker
+> bases as universal kit oligos or infer the ordered cassette strands from it.**
 
 ## 6. Barcode whitelists (Tables 2 and 3)
 
@@ -319,11 +322,14 @@ All sequences 5'→3', 8 nt. Well position refers to the barcode plate.
 
 ## 9. Notes and gaps
 
-- The 4 nt **linker sequences are not disclosed** — needed to draw the construct base-by-base.
+- The four-base **linker sequences are not assigned to the kit in this declaration**.
+  Figure 6 contains a base-resolved example, but its relationship to the listed kit
+  barcodes is unresolved; source review of exact ordered cassette strands and ends remains open.
 - The **barcode oligo duplex structure** (overhangs, phosphorylation, blocking groups) is not shown;
   only the final barcode 8-mers are given.
 - `read[36:42]` in the PDF pseudocode is wrong; should be `read[36:44]`.
-- The Figure 6 example sequence is not a real barcoded read.
+- The Figure 6 examples `GAACTGGA` (D) and `ATGCGCCC` (C) do not match any of the
+  listed V3 barcode sequences on either strand; the example is not used to assign kit barcode or linker oligos.
 - Relevant for our protocol: we use **PTA** for genome amplification and run **NEBNext library prep
   separately** — the NEBNext hairpin adaptor + USER workflow and the dual-index primer sequences
   differ from the Atrandi example adapter above.
@@ -369,3 +375,33 @@ well, the mapping matters everywhere.
 **Unresolved** — most likely a kit version/lot difference in the round-1 plate, or an error in one
 of the two sources. Do not assume either is authoritative for our page until checked against the
 actual plate used. Resolve by checking observed round-1 8-mers in our own R2 data against both lists.
+
+
+## Independent source reading and version boundary (2026-10-16)
+
+Both cached vendor originals were opened after running the full source-bundle
+oligo scraper. Their printed revision histories identify **V3, 3 November 2023**;
+they do not identify themselves as “v1.3”. No original supporting that legacy
+review label has yet been identified. The V3 documents are compared under their
+own identities; they are not silently substituted for a different requested revision.
+
+The library guide's page 4 directly prints the modified ligation adapters and
+both complete PCR primers, including the six-base `AACCTG` example index. Its
+pages 16–17 print 24 eight-base barcode identities for each of four rounds.
+These source-positive facts are distinct from the complete ordered cassette
+strands and end geometry that the model still infers. The model now checks its
+adapter and PCR-primer bases against the extracted original, when available.
+
+The same guide gives a **128 / 6 / 172** Read 1 / example i7 / Read 2 layout,
+with optional i5 dependent on primer design. Its revision V2 explicitly changed
+the recommended library-PCR enzyme to NEBNext Ultra II Q5; V3 changed the
+multi-barcode demultiplexing section. These are version-specific vendor facts,
+not an assertion that the preprint's custom-index NovaSeq X experiments used
+this exact index, run mask or enzyme revision.
+
+The current preprint v2 (28 September 2026) Methods independently gives the kit
+MDA condition, 45 °C for 15 minutes, and describes debranching on that branch.
+Its separate ResolveDNA PTA branch uses a different amplification and proceeds
+to end preparation without that debranching instruction. The page represents
+the PTA implementation and the V3 example indexed endpoint, with inference
+marked; it does not merge every vendor MDA condition into PTA.

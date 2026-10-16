@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from protocol_specs import Definition, get
 from adapter_ligation import AdapterLigationGeometry
-from duplex_error import nanoseq_restrictive_end_repair
+from nanoseq_chem import nanoseq_restrictive_end_repair
 from protocol_graph import InputRole
 from protocol_graph import MaterialKind
 from protocol_graph import ProtocolGraph
@@ -15,7 +15,7 @@ DEFINITION = Definition("NanoSeq — nanorate duplex sequencing", "10.1038/s4158
 
 
 from protocol_specs import workflow
-from duplex_error import nanoseq_restrictive_end_repair
+from nanoseq_chem import nanoseq_restrictive_end_repair
 
 
 def _source_workflow():

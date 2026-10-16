@@ -1,11 +1,11 @@
 {
   "dir": "tgirt-seq__10.1261+rna.054809.115",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "paper",
       "role": "defining",
-      "locator": "Qin et al RNA 2016 doi:10.1261/rna.054809.115 PMC4691826; original PDF mirror https://pdfs.semanticscholar.org/3c81/f7fd61b44875447ca4d789d2ac9738a30f6b.pdf",
+      "locator": "_data/sources/tgirt-seq__10.1261+rna.054809.115/PMC4691826_PMC4691826.xml.txt:59–77,175–199; original article PDF",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -19,8 +19,260 @@
         "date": "2026-10-16",
         "locations": "Original RNA journal PDF https://rnajournal.cshlp.org/content/22/1/111.full.pdf, page 2 lines 143-149 and 225-233; page 3 lines 257-273; Methods page 13 lines 1202-1219",
         "finding": "Independently confirmed R2 RNA/R2R DNA starter duplex with 1-nt 3′ overhang and 3′ blocked RNA, TGIRT template switching, 5′ adenylated/3′ blocked R1R DNA ligated to cDNA, then P5/P7 PCR. The paper distinguishes this from an older CircLigase route and delegates exact oligo strings to Supplemental Fig. S1."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Fresh full-bundle scraper before original reading; JATS59–77 and175–199; original EPS S1 visually rendered. Expanded EPS scraper24hits/5files.",
+          "finding": "Original RNA34/DNA35 starter and cDNA3-prime R1R ligation are distinct from the later2021 variant. Methods name dataset-specific enzymes and paired100/75/150 cycle alternatives. Corrected repository cDNA orientation, unassigned6nt barcode/UMI/i5 choices, loaded-primer assumptions and PCR geometry checked on a final product."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Fresh independent scraper; original FigS1 visually checked; original Methods191.",
+          "finding": "Independently confirms RNA34/DNA35+terminalN, ordered R1R5Phos/3C3, unindexedP5 and barcodeP7 with unassigned width. Methods uses AppR1R followed by Phusion; ordered5P-to-App is an activation-model gap, not a demonstrated publication error. RNA hydrolysis and100/75/150 paired-end alternatives are positive source facts."
+        }
+      ]
+    },
+    {
+      "id": "original_figure_s1",
+      "role": "supplement",
+      "locator": "_data/sources/tgirt-seq__10.1261+rna.054809.115/PMC4691826_supp_supp_054809.115_FigS1.eps; .eps.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original EPS visual inspection (Ghostscript raster), entire FigureS1; EPS-derived text all five oligo rows.",
+        "finding": "Exact modified RNA34, R2R35 with mixed terminalN, R1R32 ordered5Phos/3SpC3, unindexedP5 and BARCODE-P7 recovered. No barcode width is selected. Figure RNA spacer typography /3’SpC3/ is designated3SpC3 in Methods. This resolves original oligo strings; it does not identify a loaded instrument primer or activated-adapter preparation method."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Own full-bundle scraper; actual originalS1 visual inspection and Methods191.",
+        "finding": "Independent original read confirms all five strands and modifications. RNA34/DNA35 differ from later2021 lengths; no original UMI or i5 window is introduced. Ordered5P and ligationApp are distinct states."
       }
     },
+    {
+      "id": "original_figures_s2_s9",
+      "role": "supplement",
+      "locator": "_data/sources/tgirt-seq__10.1261+rna.054809.115/PMC4691826_supp_supp_054809.115_FigS2.eps through FigS9.eps; their text twins",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire original FiguresS2–S9 independently rendered from EPS and visually inspected; text extraction after full bundle scraper.",
+        "finding": "S2 shows extraction/DNase spike controls; S3 fragment-length distributions; S4 replicate correlations; S5 RNA-class/feature statistics; S6 gene-length coverage; S7 tissue-expression comparisons; S8 miRNA coverage; S9 pre-miRNA target folds and strand read coverage. These inspected figures are results/control displays, not additional adapter ordering tables. No unprinted-base absence conclusion is drawn."
+      },
+      "reason": "Two independent actual original-image reads identify results/control figures rather than additional adapter ordering tables. This scope does not establish absent chemistry in other sources.",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh main-bundle scraper24hits/5files; actual EPS-derived S2–S9 visually inspected individually.",
+        "finding": "S2 spike/DNase electropherograms; S3 fragment length/read gaps; S4 replicate correlations; S5 RNA class/genic/sense; S6 sense versus length; S7 tissue-miRNA heatmap; S8 rank/coverage; S9 precursor folds and miR182 strand coverage. Bounded exclusion as an adapter-order table, not a whole-chemistry absence conclusion."
+      }
+    },
+    {
+      "id": "original_data_workbook",
+      "role": "supplement",
+      "locator": "_data/sources/tgirt-seq__10.1261+rna.054809.115/PMC4691826_supp_supp_054809.115_SuppDataFile.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual ZIP workbook sheet inventory, all sheet headers and relationship XML; text sheet starts1,538,1028,1590,2027.",
+        "finding": "Five sheets miRNA/tRNA/miscRNA/snRNA/snoRNA contain Name/Counts perDS1–19. All external relationship inventories are empty. This is a results-count workbook, not an oligo ordering table. No raw datasets were downloaded."
+      },
+      "reason": "Two independent original ZIP/worksheet-header/external-relationship inspections identify a results-count workbook. No whole-source or database absence is inferred.",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual XLSX ZIP workbook names, first two rows of all five sheets and every .rels entry, after fresh bundle scraper.",
+        "finding": "miRNA/tRNA/miscRNA/snRNA/snoRNA contain DS1–19 Name/Counts pairs. No external relationships are present. Independent exclusion is confined to this results-workbook scope."
+      }
+    },
+    {
+      "id": "neb_m0319_product",
+      "role": "linked_material",
+      "locator": "https://www.neb.com/en/products/m0319-thermostable-5-app-dna-rna-ligase; alternate /en-us/products/ route",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual original NEB browser product body: product information, product notes, references, protocols and FAQ link list. Standard registered canonical/US routes returned403, while the original body is browser-readable.",
+        "finding": "Current official source states preadenylated blocked donor to RNA/ssDNA3-OH, ATP-independent enzyme unable to adenylate5P. It links an ssDNA/RNA protocol, separate E2610 one-step branch, adenylated-linker FAQ and two mechanistic references. This source is readable, not scientifically unavailable; current statements do not identify the actual2016 activation route."
+      },
+      "discovered_from": "paper",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual canonical NEB product original https://www.neb.com/en/products/m0319-thermostable-5-app-dna-rna-ligase scientific body5,33–108 and actual protocol/FAQ links114–139.",
+        "finding": "Independent read confirms preadenylated3-blockedDNA donor to RNA/ssDNA3-OH, ATP independence and inability to adenylate5P. Actual E2610 one-step/ligation/adenylated-linker FAQ and Zhelkovsky2012/Torchia2008 references are identified. This supports current end chemistry, not selection of the2016 activation route; no protocol-body second read is claimed."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Fresh24-hit bundle scraper, then actual canonical English product original body33–108 and protocol/FAQ links114–139.",
+          "finding": "Confirmed full original scientific product body. Regional US browser route may display Japanese content; canonical English original independently re-opened. Product-body source read is distinct from the currently unrecovered linked protocol bodies."
+        }
+      ]
+    },
+    {
+      "id": "neb_m0319_ligation_protocol",
+      "role": "linked_material",
+      "locator": "https://www.neb.com/en-us/protocols/protocol-for-ssdna-rna-ligation-m0319; alternate /en/protocols/ route",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "withdrawn_checks": [
+        {
+          "original": {
+            "reviewer": "audit_tenx_closeout",
+            "date": "2026-10-16",
+            "locations": "Actual browser original protocol entire body/Overview/Protocol; registered direct download routes returned403.",
+            "finding": "Current protocol requires5AppDNA oligonucleotide with RNA/ssDNA substrate, with a distinct ssDNA condition. It does not supply the2016 selected activation identity. Source is browser-readable despite failed cache retrieval."
+          },
+          "correction": "Withdrawn: the earlier entry overstated indexed protocol text as a read of the actual original body. Fresh actual opens show only title/footer shells. No scientific reading pass is retained from that extract."
+        }
+      ],
+      "reason": "Actual canonical/en-us/en-au/en-gb protocol opens currently expose title/footer shells without scientific body; standard registered downloads return403. Installed Chromium direct rendering returned a Just-a-moment challenge, not protocol text. This is a concrete route barrier, not evidence of absent chemistry or an exhaustive all-route conclusion.",
+      "next_action": "Recover actual scientific body through a legitimate public original route; obtain first and independent second readings."
+    },
+    {
+      "id": "later2021_protocol",
+      "role": "linked_material",
+      "locator": "_data/sources/doi_10.21769+BioProtoc.4239/BioProtoc.4239_PMC8678547.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Separate whole-bundle scraper7hits before reading; actual original1145–1171,1378–1450,1647–1688.",
+        "finding": "Explicit35RNA/36DNA variant insertsT/complementaryA to reduce adapter dimers. Optional6N-UMI andi5/UDI choices, TSBC01 barcode examples, E2610 adenylation or purchasedApp adapter are later alternatives. They do not establish Qin2016 selections. All current page oligos now come from original2016S1, not this later recipe."
+      },
+      "discovered_from": "paper",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh separate2021 scraper7hits; original html.txt1145–1171,1378–1450,1647–1688.",
+        "finding": "Original explicitly uses35RNA/36DNA with insertedT/complementaryA, optional6N-UMI andi5/UDI, a P7 reverse-complement barcode example, and E2610 adenylation or purchasedApp. These are later alternatives and do not assign the2016 activation method."
+      }
+    },
+    {
+      "id": "original_legends_tables",
+      "role": "linked_material",
+      "discovered_from": "paper",
+      "locator": "https://rnajournal.cshlp.org/content/suppl/2015/11/03/rna.054809.115.DC1/SuppLegends_Tables.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Identified actual publisher DOCX is not retrieved locally: its registered public route returned HTTP403 in the elevated standard fetcher. The actual publisher SupplementalMaterial index names it, while the recovered PMC Cloud set omits this object. This is a route-specific failure; legitimate author/publisher alternatives remain to be attempted, not a global unavailability or absence finding.",
+      "next_action": "Recover and read actual supplementary legends/TablesS1–S4, then obtain independent P2."
+    },
+    {
+      "id": "neb_adenylated_linker_faq",
+      "role": "linked_material",
+      "discovered_from": "neb_m0319_product",
+      "locator": "https://www.neb.com/en/faqs/how-can-you-synthesize-an-adenylated-dna-linker",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual original browser FAQ, heading4 and complete answer6; related-product/linked E2610 targets8–11.",
+        "finding": "The actual short answer identifies E2610 conversion of pDNA to AppDNA as an efficient option. This is a positive current vendor option, not identification of the2016 authors’ chosen preparation or procurement route. Linked E2610 product remains a named target."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual NEB original FAQ https://www.neb.com/en/faqs/how-can-you-synthesize-an-adenylated-dna-linker, complete answer line6 and related-product links.",
+        "finding": "Current official answer identifies E2610 conversion of pDNA to AppDNA. This establishes a current option only and does not assign the2016 ordered5P-to-App activation route."
+      }
+    },
+    {
+      "id": "neb_one_step_protocol",
+      "role": "linked_material",
+      "discovered_from": "neb_m0319_product",
+      "locator": "https://www.neb.com/en/protocols/protocol-for-one-step-adenylation-and-ligation",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual product-linked protocol opens as a title/footer shell in canonical English and Japanese routes. No scientific body was read. Standard source fetch is registered; recovery remains pending, with no source-absence conclusion."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "Actual original main/FigS1–S9, results workbook, publisher index, current NEB product/FAQ; later2021 original and registered DOCX/protocol recovery routes.",
+      "finding": "Positive original oligos, variant boundaries and named child sources recovered. Current NEB product/FAQ bodies were read; both protocol bodies remain unread shells. Previous indexed-extract protocol reading claim is withdrawn. Named DOCX and linked-source obligations remain open."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Fresh24-hit main/7-hit later2021 scrapers; actual originalS1 and S2–S9 visual reads; full workbook structure/headers/relationship files; later2021 sections1145–1171,1378–1450,1647–1688; current original NEB product scientific body and complete linker FAQ.",
+      "finding": "Independently confirmed original oligos and bounded results-source exclusions, later-version differences and current activation option. Product and FAQ do not assign2016 activation; protocol shells and DOCX have not been read. No full linked-source gate or missing information accepted."
+    },
+    "prior_checks": [
+      {
+        "result": "blocked",
+        "pass_1": {
+          "reviewer": "audit_a_h",
+          "date": "2026-10-16",
+          "locations": "Original Qin PDF web lines 223-232,1182-1200; local MANIFEST manual; Supplemental Fig S1 and NEB ligase named",
+          "finding": "Recovered original full article through an independently indexed PDF mirror, but not its supplementary oligo table; its linked ligase and predecessor methods remain open."
+        },
+        "pass_2": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original RNA journal PDF page 3 lines 257-273 and page 18 lines 1601-1605, checked named older CircLigase method and supplemental link",
+          "finding": "The published article links Supplemental Fig. S1 for exact oligos and an older CircLigase predecessor; both need original-source inspection before a missing-base claim. The current main-paper chemistry is independently verified."
+        }
+      },
+      {
+        "result": "blocked",
+        "pass_1": {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Original main Methods175–199 and Fig1; actual publisher SupplementalMaterial index; original EPS S1–S9; workbook structure/headers; actual NEB browser product/protocol body; later2021 original oligo/activation sections.",
+          "finding": "Recovered positive original oligos and named linked material. Old empty-bundle reasons are withdrawn. Publisher legends/Tables DOCX remains a real pending original; current NEB chemistry is readable through browser, despite downloader403. Required independent source exclusions, later-version P2 and named direct child scope remain pending. No full source gate or missing claim is accepted."
+        },
+        "pass_2": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Fresh scraper; originalS1 visual and originalMethods191; prior retained original main-paper link check.",
+          "finding": "Independent bounded confirmation of original strands/ligating state and paired-read alternatives. This pass does not claim new reads of S2–S9/workbook/later2021/NEB child sources; those checks remain pending and no completed linked-source gate follows."
+        }
+      }
+    ],
+    "additional_checks": [
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh main-bundle24-hit and separate2021 seven-hit scrapers; actualS2–S9 images; actual workbook ZIP/headers/relationships; original2021oligo/activation sections.",
+        "finding": "Independent results-source exclusions and later-version boundary now checked in those exact originals. The legends/Tables DOCX, current NEB sources and named direct children are not resolved by this bounded pass. No accepted absence."
+      },
+      {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh full-bundle24-hit scraper; actual canonical NEB product/FAQ, direct child protocol opens, installed-browser result, EuropePMC response and actual author-publication navigation/metadata API.",
+        "finding": "Product and FAQ original scientific text were read; protocol bodies were not. Withdrew overstated earlier protocol pass instead of treating a search extract or shell as an original. Actual DOCX recovery routes and named child obligations remain open. Independent results/workbook/2021 checks are recorded; no full gate or missing information is accepted."
+      }
+    ]
+  },
+  "missing_claims": [
+    {
+      "claim": "Exact original R2/R2R/R1R and PCR primer strands",
+      "disposition": "resolved",
+      "evidence": "Positive recovery and two original-source reads of SupplementalFigS1 establish all five printed oligos, modifications and sourceBARCODEplaceholder. Selected barcode/width and loaded instrument primers remain unassigned model data, not accepted missing information."
+    }
+  ],
+  "conclusion": "Original2016 oligos, results-source exclusions, later2021 boundaries and current NEB product chemistry have bounded independent checks. Actual legends/Tables DOCX and NEB protocol-body recovery remain open, with route-specific publisher403, EuropePMC API error, author metadata authentication and browser challenge/shell observations recorded honestly. The earlier overstated NEB protocol P1 is withdrawn. No2016 activation route is inferred and no missing information is accepted.",
+  "superseded_source_rows": [
     {
       "id": "supplement",
       "role": "supplement",
@@ -55,27 +307,91 @@
       "discovered_from": "paper"
     }
   ],
-  "linked_information": {
-    "result": "blocked",
-    "pass_1": {
-      "reviewer": "audit_a_h",
-      "date": "2026-10-16",
-      "locations": "Original Qin PDF web lines 223-232,1182-1200; local MANIFEST manual; Supplemental Fig S1 and NEB ligase named",
-      "finding": "Recovered original full article through an independently indexed PDF mirror, but not its supplementary oligo table; its linked ligase and predecessor methods remain open."
+  "pending_sources": [
+    {
+      "id": "original_legends_tables",
+      "locator": "https://rnajournal.cshlp.org/content/suppl/2015/11/03/rna.054809.115.DC1/SuppLegends_Tables.docx",
+      "discovered_from": "Actual publisher SupplementalMaterial index https://rnajournal.cshlp.org/content/22/1/111/suppl/DC1",
+      "state": "Identified original, not retrieved: actual publisher URL returned403; PMC Cloud set contains figures/data but not this DOCX.",
+      "next_action": "Recover legitimate publisher or author-copy original; read legends and TablesS1–S4 and obtain independent P2. Do not classify from referring article alone."
     },
-    "pass_2": {
-      "reviewer": "root",
-      "date": "2026-10-16",
-      "locations": "Original RNA journal PDF page 3 lines 257-273 and page 18 lines 1601-1605, checked named older CircLigase method and supplemental link",
-      "finding": "The published article links Supplemental Fig. S1 for exact oligos and an older CircLigase predecessor; both need original-source inspection before a missing-base claim. The current main-paper chemistry is independently verified."
+    {
+      "id": "mohr2013_predecessor",
+      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/PMC3683930_PMC3683930.xml.txt",
+      "next_action": "Bounded original identity/switching reads exist in DM review; reconcile Qin-specific source scope and actual supplemental target before closing all links."
+    },
+    {
+      "id": "katibah2014_predecessor",
+      "locator": "_data/sources/doi_10.1073+pnas.1412842111/pnas.1412842111_PMC4143023.html.txt; pnas.201412842SI.pdf",
+      "next_action": "Actual main and prior bounded reads exist, but SI recovery is still pending after source-specific publisher403/PMC gate attempts. Keep circularization comparison separate from Qin ligation route."
+    },
+    {
+      "id": "shen2015_predecessor",
+      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/cdc_31393_DS2.docx.txt:72–75",
+      "next_action": "Positive original SI and two bounded reads exist in DM ledger; reconcile linked source scope without importing TeI4c/circle recipe."
+    },
+    {
+      "id": "zheng2015_predecessor",
+      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/nmeth.3478_PMC4624326.xml.txt:90",
+      "next_action": "Positive original and independent source checks exist in DM ledger; source boundary is distinct small-RNA/CircLigase method, not Qin2016 library assembly."
     }
-  },
-  "missing_claims": [
+  ],
+  "pending_linked_targets": [
+    {
+      "source": "neb_m0319_product",
+      "target": "Actual E2610 one-step/ligation protocol bodies, E2610 product linked by FAQ, and Zhelkovsky2012/Torchia2008 mechanistic originals",
+      "disposition": "Product and adenylated-linker FAQ now independently read twice. Named protocol bodies and other child originals remain pending; current options do not identify2016 activation. No absence accepted."
+    },
+    {
+      "source": "paper",
+      "target": "SRP064378 data-access record and named software/resource links in Bioinformaticanalysis/Dataaccess",
+      "disposition": "Identified but not opened; no whole-database, raw-file or complete linked-source absence claim. No read downloads are required by the current base-level claims."
+    }
+  ],
+  "missing_claim_history": [
     {
       "claim": "Exact original R2/R2R/R1R and PCR primer strands",
       "disposition": "blocked",
       "evidence": "Main article specifies roles/modifications, but referenced Supplemental Fig S1 and oligo table have not been inspected."
     }
   ],
-  "conclusion": "Original article first pass read online; supplementary chemistry remains blocked."
+  "open_model_questions": [
+    "The2016 activation or supply route from ordered5P R1R to the Methods5App input. An explicit magic step carries this model warning; no particular later kit is assigned.",
+    "Selected barcode sequence/width and loaded sequencing-primer reagents; exact dataset-specific technical index cycles."
+  ],
+  "source_recovery_attempts": [
+    {
+      "date": "2026-10-16",
+      "locator": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4691826/supplementaryFiles?format=zip",
+      "method": "Registered extra_sources route; standard fetcher after neutral explicitZIP export support.",
+      "result": "HTTP200 returns a271-byte XML errorBean, errCode0, errMsg For input string: \"null\"; not a ZIP. The unqualified endpoint independently returns the same error. No access restriction inferred."
+    },
+    {
+      "date": "2026-10-16",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4691826.1/supp_22_1_111__index.html",
+      "method": "Actual original metadata inspected using standard source HTTP get.",
+      "result": "HTTP200,1510bytes: index lists S1–S9 EPS and the data XLSX, not legends/Tables DOCX. This is distinct from publisherDC1index with11members including DOCX; no content absence inferred."
+    },
+    {
+      "date": "2026-10-16",
+      "locator": "https://sites.utexas.edu/lambowitz/e-analysis-of-extracellular-rnas-rna-diagnostics-and-liquid-biopsy-and-trna-fragments/",
+      "method": "Actual author lab selected-publication page read.",
+      "result": "The Qin2016 entry links NCBI; no author-file link is supplied by that inspected entry. Other author-repository recovery routes remain pending."
+    },
+    {
+      "date": "2026-10-16",
+      "locator": "https://sites.utexas.edu/lambowitz/wp-json/wp/v2/media?search=plasma&per_page=100&_fields=id,date,slug,source_url,title,description",
+      "result": "Publicly addressed author metadata endpoint returns401: rest_cannot_access, Only authenticated users can access the REST API. Qin search returns the same actual response. No credentials requested or restriction bypassed."
+    },
+    {
+      "date": "2026-10-16",
+      "locator": "https://sites.utexas.edu/lambowitz/publications-2-0-draft/",
+      "result": "Actual navigation-linked author Publications page inspected, Qin2016 entry329–337: title and Publisher’s Version both link PubMed. This inspected entry supplies no direct DOCX copy; it does not establish absence from all author material."
+    },
+    {
+      "date": "2026-10-16",
+      "locator": "https://www.neb.com/en/protocols/protocol-for-ssdna-rna-ligation-m0319",
+      "result": "Actual browser-tool opens expose title/footer only; installed Chromium headless direct page returns Just a moment challenge. Former protocol P1 withdrawn; no challenge solved and no scientific source text inferred."
+    }
+  ]
 }

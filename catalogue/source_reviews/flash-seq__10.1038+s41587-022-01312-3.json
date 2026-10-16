@@ -1,6 +1,6 @@
 {
   "dir": "flash-seq__10.1038+s41587-022-01312-3",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "paper",
@@ -19,12 +19,26 @@
         "date": "2026-10-15",
         "locations": "PMC9546769 JATS/paper text lines 52-88",
         "finding": "Original article describes SS2-derived workflow, optional FS-LA branch and Nextera tagmentation; detailed oligos are in author protocols."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original JATS51–91,133–187,277–287; original SupplementFig1 p3 visual; fresh fullbundle scraper before reading.",
+          "finding": "Defining standard recipe has biotinH25-dT30VN/H25-rGrGrG, SSIV+KAPA one-pot, commercialXT/NT/NPM and75/8/8/0. Actual Figure1 crosses out ISPCR; importing SS2 ISPCR/LNA chemistry was a repository error, not a publication discrepancy. Named alternative library/UMI/LA branches and exact v3/data/code source links inspected."
+        },
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "Fresh original JATS133–153,161–187,279–287; original SupplementFig1p3 andNote2p79 visually; fullscraper166hits/12files.",
+          "finding": "Independently confirms separateFS/LA/UMI recipes and commercial/inhouse/plexWell branches; standard75/8/8/0; actual cross-out removesISPCR and Note2 assignsISPCR only to SS2 comparator. Cached standardv4 is later than article-linkedv3, not asserted identical."
+        }
+      ]
     },
     {
       "id": "fs_protocol",
       "role": "linked_material",
-      "locator": "protocols.io FLASH-seq standard kxygxzkrwv8j; local PDF.txt",
+      "locator": "Later author standard protocol v4,12January2023,ID75182; protocolsio_flash-seq-protocol-kxygxzkrwv8j.pdf(.txt). A separate current comparator, not a substitute for the recovered article-linked v3.",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -39,7 +53,33 @@
         "locations": "Author protocols.io FLASH-seq v4 PDF text lines 90-100, 139-153 and 213-228",
         "finding": "Reagent list names Nextera XT/index v2 kits; original protocol prints modified FS oligos and independent N7xx/S5xx primer family table."
       },
-      "discovered_from": "paper"
+      "discovered_from": "fs_protocol_v3",
+      "additional_checks": [
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Actual standardv4PDF140–153,231–237,335–341,466–468,1175–1565,1945–2370,2481–2553.",
+          "finding": "Read own modifiedFSoligos, complete representativeN714/S502 and the stated alternative primer sets, one-potSSIV/KAPA, separateXT/NT/NPMvsinhouse/SDS/KAPA choices, standardSE75recommendation. Exact commercialME geometry and per-well choice remain model questions, not absence conclusions."
+        },
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "Actual standardv4PDF140–153,231–237,335–341,1175–1565,2481–2488.",
+          "finding": "Independent checks confirm biotinH25dT/TSOwithoutISPCR, exactbiotin/terminalPSN714/S502 asillustrativeonly andstandardSE75 recommendation. v3/v4 identity remains unverified."
+        },
+        {
+          "reviewer": "audit_rna_contacts_closeout",
+          "date": "2026-10-16",
+          "locations": "Fresh original article133/141–143/167/183; actual v4orderedtable227–237/334–342/466–468; originalFig1visual; local flashseq.py compared against sources.",
+          "finding": "Independently agrees with local standardcommercial branch, modifiedinputs, declared75/8/8/0 and qualifiedinferredMEreference. Primer-site checks prove endpoint landing, not the entire enzymatictransition. Source addsindexprimerswithNPMbeforeinitialextension; local graph now records that mixture timing."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Actual v4 commercial reagent table/continuation pp21–22, compared with separately recovered v3 and article Methods.",
+          "finding": "Later table retains0.250ATM/2.000TD/0.500water and declared3.000total. Selected index oligos and core route were checked separately, without asserting full-file revision identity. Source discrepancy is displayed publicly."
+        }
+      ]
     },
     {
       "id": "fs_umi_protocol",
@@ -98,6 +138,34 @@
         "date": "2026-10-16",
         "locations": "Publisher MOESM1 extracted lines 58–115 overview and 3272–3417 FS-UMI TSO comparison; MOESM2 all 4 scanned pages independently OCR-inspected; MOESM3 workbook sheets lines 1–174, especially 135–164 FS-UMI cost rows; bioRxiv media-1 full Low-Amplification guidelines and media-2 Extended Information opening plus oligo-dT optimization lines 119–134",
         "finding": "Independently inspected all five files. MOESM1 figure labels an FS-UMI-TSO with N7/rGrGrG and compares TSO/oligo-dT choices, but the graphic is not an ordered full oligo list. MOESM2 is a four-page Nature Reporting Summary without primer assignments. MOESM3 contains timing/cost tables, including a priced TSO-UMI and enrichment primers but no full sequence or per-well index map. BioRxiv media-1 gives Low-Amplification handling and media-2 optimization data; neither establishes exact FS-UMI construct or index assignments."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "MOESM1SupplementaryFig1originalp3visual+caption12–139; Note1text9860–10080; Note2text10190–10275; preprint/supplement/source-fileinventory.",
+          "finding": "Original Fig1strikesoutISPCR and labelsTSO/FSdT, resolving misleading text-only reading. Note2FLASHtablehasjustdT/TSO, whereasISPCRbelongsSS2comparator. This bounded newread does not claim complete freshread of other bundledsupplements or fullvariant reconciliation."
+        }
+      ]
+    },
+    {
+      "id": "fs_protocol_v3",
+      "role": "linked_material",
+      "discovered_from": "paper",
+      "locator": "https://doi.org/10.17504/protocols.io.kxygxzkrwv8j/v3; protocolsio_flash-seq-protocol-kxygxzkrwv8j_v3.pdf(.txt); printed Version3,23March2022,integerID59800; API protocolsio_59800_public.json",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual historical PDF header/ID and pp4–6,14–15,21–22,26–27; API59800 public identity/link data; fresh full-bundle scraper192hits/16files.",
+        "finding": "Verified returned historical original rather than latest export. Exact four modified example oligos match; standard SSIV/KAPA, commercial NT/NPM and SE75 scope agree with article. Visually read p21 table: row sum2.750 differs from p22 total3.000. Actual sample-sheet illustration is an example using other index members, not a well map. Linked cleanup chapter and downstream software remain unexamined children."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual historical PDF header/ID, oligo/index tables pp4–6, RT-PCR pp14–15 and commercial steps pp21–22, SE75 pp27–28; independent visual p21 and full original p22; fresh full-bundle scraper.",
+        "finding": "Independently confirms Version3/ID59800 and selected H25-dT/TSO, complete N714/S502 modifications, combined SSIV/KAPA and separate commercial route. Exact source-derived index tests pass. Actual p21 entries0.250+2.000+0.500 sum2.750, but p22 declares3.000/dispense3 before1cDNA. Paper gives0.5ATM+2TD+1cDNA+water to4. Public discrepancy is recorded without an invented volume correction or blanket revision-equivalence claim."
       }
     }
   ],
@@ -114,14 +182,90 @@
       "date": "2026-10-15",
       "locations": "Original FLASH article Methods and author standard/UMI/LA protocol methods; local MANIFEST.tsv",
       "finding": "Checked author protocol links and their accessible reaction/oligo tables. The supplement and actual run-specific index plate selection remain to be reconciled, so source chain is still incomplete."
-    }
+    },
+    "additional_checks": [
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original JATS149–187,277–287 and reference23identity; originalv4protocolactualreagents/alternatebranchinstructions/data-processingsections.",
+        "finding": "Articlelinksstandard/LA/UMIv3, specificoldb6myrc7w/materials, cleanupchapter10.1007/978-1-4939-9240-9_3, GitHubvincenthahaut/FLASH-seq, PRJNA816486 and Mendeley10.17632/bh47n6fnpd.1. These actualchildren are inventoried but not all opened. Namedkit/internalphysicalgeometry and source-version questions remain open; no missing claim accepted."
+      },
+      {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Original JATS279–287/Methods161–183 plus actualv4protocolsourceidentity.",
+        "finding": "Independently confirms actualv3sourceURLs vs cachedv4 and actual code/data/cleanupchildren, with comparatorE-MTAB8735. No completechild-source reading or availability claim made from titles alone."
+      }
+    ],
+    "remaining_source_obligations": [
+      {
+        "locator": "Article-linked FS-LA yxmvmnod5g3p/v3 and FS-UMI bp2l619rdvqe/v3",
+        "state": "original_revision_identity_verified_but_full_branch_chemistry_reconciliation_pending"
+      },
+      {
+        "locator": "https://doi.org/10.1007/978-1-4939-9240-9_3",
+        "state": "actual_named_cleanup_method_not_yet_read"
+      },
+      {
+        "locator": "https://github.com/vincenthahaut/FLASH-seq; PRJNA816486; doi:10.17632/bh47n6fnpd.1; comparator E-MTAB8735",
+        "state": "actual_linked_code_and_metadata_scope_not_yet_independently_inspected"
+      }
+    ],
+    "obligation_history": [
+      {
+        "date": "2026-10-16",
+        "previous": [
+          {
+            "locator": "https://www.protocols.io/view/flash-seq-protocol-kxygxzkrwv8j/v3; LAyxmvmnod5g3p/v3; UMIbp2l619rdvqe/v3",
+            "state": "article_linked_versions_not_reconciled_with_current_exports"
+          },
+          {
+            "locator": "https://doi.org/10.1007/978-1-4939-9240-9_3",
+            "state": "actual_named_cleanup_method_not_yet_read"
+          },
+          {
+            "locator": "https://github.com/vincenthahaut/FLASH-seq; PRJNA816486; doi:10.17632/bh47n6fnpd.1; comparatorE-MTAB8735",
+            "state": "actual_linked_code_and_metadata_scope_not_yet_independently_inspected"
+          }
+        ],
+        "change": "Source fetcher had stripped explicit revision suffixes. Fixed request/cache identity and verified historical PDFs before reading; standard v3 now has independent original passes. LA/UMI version identity is recovered, not a new chemical reading pass."
+      }
+    ]
   },
-  "missing_claims": [
+  "missing_claims": [],
+  "conclusion": "Fresh independent originals correct the standard-FS inherited SS2 recipe. Historical v3 is recovered with its own identity and two selected-chemistry readings, including a public recipe-volume discrepancy. Named branch, cleanup, code and metadata originals still need reconciliation. No missing-information claim is accepted; the review remains in progress.",
+  "review_history": [
     {
-      "claim": "Per-well FLASH-seq index assignments and separate FS-UMI construct remain unresolved",
-      "disposition": "blocked",
-      "evidence": "Only first source pass completed; unavailable original/vendor or linked material cannot be used to confirm absence."
+      "date": "2026-10-16",
+      "previous_conclusion": "First-pass source review; independent second pass and listed linked originals pending.",
+      "previous_missing_claims": [
+        {
+          "claim": "Per-well FLASH-seq index assignments and separate FS-UMI construct remain unresolved",
+          "disposition": "blocked",
+          "evidence": "Only first source pass completed; unavailable original/vendor or linked material cannot be used to confirm absence."
+        }
+      ],
+      "change": "Fresh independent source reads corrected inheritedrecipe and separated unassigned modelchoices from sourceabsence. Historical heading-only variantpasses retained but not promoted to fullchemicalreconciliation."
     }
   ],
-  "conclusion": "First-pass source review; independent second pass and listed linked originals pending."
+  "open_model_questions": [
+    {
+      "question": "Experimentalwell indexassignments and completeFS-UMI/FS-LA graphs remainunassigned",
+      "evidence": "Authorprotocolprintscompleteindexoptions andsourceknownvariantoligos; localstandardbranchdoesnotchooseexperimentalmembers. This is not evidence of an inaccessibleplate-mapdocument or publicationabsence."
+    },
+    {
+      "question": "CompletecommercialXTtransposome and exact intermediate endgeometry",
+      "evidence": "Local canonicalMEassignmentisexplicitlyinferred. Authorinhouseoligos arenotautomaticallycommercialreagentproof."
+    }
+  ],
+  "model_changes": [
+    {
+      "date": "2026-10-16",
+      "change": "ReplacedSMART/SS2page_parts and sharedtestwrapper with one source-owned flashseq.py. CorrectFSrGrGrG/noISPCR, one-potSSIV+KAPA, localcommercialXT/NT/NPM, illustrativeorderedN714/S502 and75/8/8/0. CanonicalcommercialMEandintermediatesstayexplicitconditionalmodelboundaries."
+    },
+    {
+      "date": "2026-10-16",
+      "change": "Historical standard v3 independently recovered and read; public source now cites it for index example. Added actual recipe arithmetic discrepancy notice. Complete version equivalence is not asserted."
+    }
+  ]
 }

@@ -28,15 +28,17 @@ sys.path.insert(0, str(ROOT / "catalogue" / "tools"))
 from checks import Check  # noqa: E402
 
 import doctext  # noqa: E402
+import scrape_primers  # noqa: E402
 import audit_protocol_sources as source_reviews  # noqa: E402
 import fetchers  # noqa: E402
 import get_sources as gs  # noqa: E402
-from fetchers import base, pmc_cloud, protocolsio, scg_github, vendor  # noqa: E402
+from fetchers import base, pdf_url, pmc_cloud, protocolsio, scg_github, vendor  # noqa: E402
 from source_oligo_check import (_exact_hit, check_graph, declared_locators,
                                 unrepresented_input_ids,
                                 unrepresented_inputs)  # noqa: E402
 from selftest_source_oligos import graph_module_paths  # noqa: E402
 from protocol_graph import MaterialKind, ProtocolGraph  # noqa: E402
+from chemdraw import Scene, Segment  # noqa: E402
 
 check = Check()
 check("a graph owned by a page builder enters the source transcription guard",
@@ -91,6 +93,102 @@ with tempfile.TemporaryDirectory() as folder:
     check("PDF without annotations still fetches the public original workbook",
           ([args.args[1] for args in public_metadata.call_args_list], calls[-1][1]),
           (["51484"], workbook))
+# Explicit historical protocol revisions must not resolve to a newer cached export.
+check("protocols.io explicit view revision survives PDF normalization",
+      protocolsio.resolve("https://www.protocols.io/view/example/v3.pdf"),
+      "https://www.protocols.io/view/example/v3")
+check("protocols.io unversioned view keeps legacy export route",
+      protocolsio.resolve("https://www.protocols.io/view/example.pdf"),
+      "https://www.protocols.io/view/example")
+with patch.object(protocolsio.subprocess, "run", return_value=SimpleNamespace(
+        stdout="https://www.protocols.io/view/example/v4?redirect=true")):
+    check("protocols.io versioned DOI cannot silently select redirected v4",
+          protocolsio.resolve("10.17504/protocols.io.example/v3"),
+          "https://www.protocols.io/view/example/v3")
+check("protocols.io reference discovery preserves explicit DOI and view revisions",
+      protocolsio.find_refs("10.17504/protocols.io.example/v3 and "
+                            "https://www.protocols.io/view/example/v3.pdf)"),
+      ["10.17504/protocols.io.example/v3", "https://www.protocols.io/view/example/v3"])
+check("protocols.io printed revision does not use a latest-version link",
+      protocolsio.protocol_version("Version 3\nLatest version: 4\nProtocol Integer ID: 123"), "3")
+for observed in ("3", "4", ""):
+    with tempfile.TemporaryDirectory() as folder:
+        f = base.Folder(Path(folder), convert=False)
+        current = Path(folder) / "protocolsio_example.pdf"
+        current.write_bytes(b"%PDF-current-v4")
+        calls = []
+        def version_export(name, url, what):
+            calls.append((name, url))
+            pdf = Path(folder) / name
+            pdf.write_bytes(b"%PDF-historical-response")
+            pdf.with_name(pdf.name + ".txt").write_text(
+                ("Version " + observed + "\n" if observed else "") +
+                "Protocol Integer ID: 123\nLatest version: 999")
+            return pdf
+        with patch.object(f, "save", side_effect=version_export), \
+             patch.object(protocolsio, "public_attachments", return_value=[]) as metadata, \
+             patch.dict("os.environ", {}, clear=True):
+            protocolsio.fetch(SimpleNamespace(folder=f), "https://www.protocols.io/view/example/v3")
+        check("protocols.io v3 cache and requested PDF are distinct from current v4: " + (observed or "unlabelled"),
+              (calls[0], current.read_bytes()),
+              (("protocolsio_example_v3.pdf", "https://www.protocols.io/view/example/v3.pdf"), b"%PDF-current-v4"))
+        if observed == "3":
+            check("protocols.io metadata follows the verified historical PDF integer ID",
+                  [call.args[1] for call in metadata.call_args_list], ["123"])
+        else:
+            check("protocols.io wrong or unverified revision cannot supply attachments: " + (observed or "unlabelled"),
+                  (metadata.call_count, (Path(folder) / "protocolsio_example_v3.pdf").exists(),
+                   bool(list((Path(folder) / "_invalid").glob("*.pdf"))),
+                   any("requested revision v3" in row[4] for row in f.rows.values())),
+                  (0, False, True, True))
+            check("mandatory directory scraper excludes the actual rejected revision and text twin: " + (observed or "unlabelled"),
+                  scrape_primers.files([folder]), [current])
+            rejected_twin = next((Path(folder) / "_invalid").glob("*.pdf.txt"))
+            check("explicit rejected-document inspection remains possible: " + (observed or "unlabelled"),
+                  scrape_primers.files([str(rejected_twin)]), [rejected_twin])
+with tempfile.TemporaryDirectory() as folder:
+    f = base.Folder(Path(folder), convert=False)
+    with patch.object(f, "save", return_value=None), \
+         patch.object(protocolsio, "public_attachments") as metadata:
+        protocolsio.fetch(SimpleNamespace(folder=f), "https://www.protocols.io/view/example/v3")
+    check("protocols.io failed or duplicate historical download is not a verified original",
+          (metadata.call_count, any("not substituted" in row[4] for row in f.rows.values())), (0, True))
+for observed in ("3", "4"):
+    with tempfile.TemporaryDirectory() as folder:
+        f = base.Folder(Path(folder), convert=False)
+        current = Path(folder) / "protocolsio_example.pdf"
+        current.write_bytes(b"%PDF-existing-export")
+        current.with_name(current.name + ".txt").write_text(
+            "Version " + observed + "\nProtocol Integer ID: 123")
+        digest = base.md5(current)
+        f.by_md5[digest] = current.name
+        f.rows["(duplicate) protocolsio_example_v3.pdf"] = [
+            "(duplicate) protocolsio_example_v3.pdf", "https://www.protocols.io/view/example/v3.pdf", "", digest, "identical cached original"]
+        with patch.object(f, "save", return_value=None), \
+             patch.object(protocolsio, "public_attachments", return_value=[]) as metadata, \
+             patch.dict("os.environ", {}, clear=True):
+            protocolsio.fetch(SimpleNamespace(folder=f), "https://www.protocols.io/view/example/v3")
+        check("protocols.io duplicate PDF must verify printed historical identity: v" + observed,
+              (metadata.call_count, current.exists(), (Path(folder) / "_invalid").exists()),
+              (1 if observed == "3" else 0, True, False))
+        if observed == "3":
+            check("protocols.io verified duplicate records original filename and revision",
+                  any("Version 3 verified" in row[4] and current.name in row[4] for row in f.rows.values()))
+for returned_id in ("123", "999"):
+    with tempfile.TemporaryDirectory() as folder:
+        f = base.Folder(Path(folder), convert=False)
+        pdf = Path(folder) / "protocolsio_example_v3.pdf"
+        pdf.write_bytes(b"%PDF-historical-export")
+        pdf.with_name(pdf.name + ".txt").write_text("Version 3\nProtocol Integer ID: 123")
+        with patch.object(f, "save", return_value=pdf), \
+             patch.object(f, "keep") as keep, \
+             patch.object(protocolsio, "public_attachments", return_value=[]), \
+             patch.object(protocolsio, "get_json", return_value={"payload": {"id": returned_id}}) as api, \
+             patch.dict("os.environ", {"PROTOCOLS_IO_TOKEN": "offline-test-token"}, clear=True):
+            protocolsio.fetch(SimpleNamespace(folder=f), "https://www.protocols.io/view/example/v3")
+        check("protocols.io authenticated metadata must match historical printed ID: " + returned_id,
+              (api.call_args.args[0], keep.call_count),
+              ("https://www.protocols.io/api/v4/protocols/123?content_format=markdown", 1 if returned_id == "123" else 0))
 check("Research Square", gs.doi_kind("10.21203/rs.3.rs-3210240/v1"), "researchsquare")
 check("Nature journal", gs.doi_kind("10.1038/ncomms14049"), "journal")
 check("doi.org prefix stripped", gs.norm_doi("https://doi.org/10.1038/nmeth.1470"), "10.1038/nmeth.1470")
@@ -149,6 +247,21 @@ with tempfile.TemporaryDirectory() as tmp:
     check("an HTML page with article text passes", v("k.html", ARTICLE), "")
     check("an HTML page with almost no text is rejected",
           "no article content" in v("l.html", b"<html><body>Hi</body></html>"), True)
+    topic_body = b"Actual documented index pooling guidance. " * 5
+    topic_start = b'<html data-mc-runtime-file-type="Topic;Default"><body><div id="mc-main-content">'
+    short_topic = topic_start + b"<h1>Pooling</h1><div><p>" + topic_body + b"</p></div></div></body></html>"
+    check("a short complete documentation topic is accepted",
+          v("short-topic.htm", short_topic), "")
+    check("topic structure cannot stand in for real main text",
+          bool(v("empty-topic.htm", topic_start + b'</div><nav>' + topic_body + b'</nav></body></html>')), True)
+    check("main-content marker alone is not a documentation topic",
+          bool(v("untyped-topic.htm", short_topic.replace(b'Topic;Default',b'WebHelp2'))), True)
+    check("an unclosed short chapter is rejected",
+          bool(v("cut-topic.htm", topic_start + topic_body)), True)
+    check("short documentation cannot bypass a challenge page",
+          bool(v("gated-topic.htm", RECAPTCHA + short_topic)), True)
+    check("short documentation still needs requested source markers",
+          bool(v("wrong-topic.htm", short_topic, need=b"different-source-marker")), True)
     check("Europe PMC errorBean XML is rejected",
           v("m.xml", b'<?xml version="1.0"?><ns4:errorBean><errCode>404</errCode></ns4:errorBean>') != "", True)
     check("JATS without <body> fails when full text is required",
@@ -184,6 +297,32 @@ with tempfile.TemporaryDirectory() as tmp:
           (False, True))
     check("manifest is written as rows arrive",
           (t / "proto" / "MANIFEST.tsv").read_text().count("\n"), 4)
+    check("same source URL reuses its validated cached original",
+          f.save("a.pdf", "https://x/a.pdf", "paper"), t / "proto" / "a.pdf")
+    check("different source URL cannot reuse a cached original by filename",
+          f.save("a.pdf", "https://x/another.pdf", "another paper"), None)
+    check("different source bytes cannot overwrite a registered original",
+          f.keep("a.pdf", PDF + b"\n", "https://x/third.pdf", "third paper"), None)
+    check("source collisions retain original file and provenance",
+          ((t / "proto" / "a.pdf").read_bytes(), f.rows["a.pdf"][1]),
+          (PDF, "https://x/a.pdf"))
+    check("source collision records requested URL and reason",
+          any(row[1] == "https://x/another.pdf" and "cache filename a.pdf" in row[4]
+              for row in f.rows.values()), True)
+    check("duplicate cache row also retains its source identity",
+          f.save("b.pdf", "https://x/different.pdf", "different paper"), None)
+    f.manual("hub.txt", "https://one/hub.txt", "first hub", "HTTP 404")
+    f.manual("hub.txt", "https://two/hub.txt", "second hub", "HTTP 503")
+    f.manual("hub.txt", "https://two/hub.txt", "second hub", "HTTP 404")
+    failures = [row for row in f.rows.values() if row[0].startswith("(manual) hub")]
+    check("failed URLs sharing a basename keep separate retryable manifest entries",
+          sorted((row[1],row[4].split("; ")[-1]) for row in failures),
+          [("https://one/hub.txt","HTTP 404"),("https://two/hub.txt","HTTP 404")])
+    f.keep("hub.txt", b"hub actual_source\n", "https://two/hub.txt", "second hub")
+    check("source recovery clears its own failure without erasing another original's failure",
+          [(row[1],row[4].split("; ")[-1]) for row in f.rows.values()
+           if row[0].startswith("(manual) hub")],
+          [("https://one/hub.txt","HTTP 404")])
 
     # zip expansion pulls documents out into tracked top-level files
     (t / "proto" / "z.zip").write_bytes(zbytes({"S1/Table_S1.xlsx": XLSX, "fig.png": b"\x89PNG",
@@ -267,6 +406,21 @@ check("vendor file name from a URL with %20 and a query",
 check("vendor file name respects an explicit export format",
       vendor.url_filename("https://docs.google.com/spreadsheets/d/example/export?format=xlsx"),
       "export.xlsx")
+check("explicit ZIP export uses archive validation and extraction",
+      vendor.url_filename("https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4691826/supplementaryFiles?format=zip"),
+      "supplementaryFiles.zip")
+check("unknown export formats do not bypass HTML validation",
+      vendor.url_filename("https://example.org/export?format=unknown"), "export.html")
+check("generic documentation chapter filenames retain their project identity",
+      [vendor.url_filename(f"https://support-docs.illumina.com/SHARE/{project}/Content/{name}")
+       for project,name in (("IndexAdaptersPooling","Overview.htm"),
+                            ("AdapterSequences","Overview.htm"),
+                            ("AdapterSequences","RevisionHistory.htm"))],
+      ["IndexAdaptersPooling-Overview.htm", "AdapterSequences-Overview.htm",
+       "AdapterSequences-RevisionHistory.htm"])
+check("descriptive oligo-topic filenames remain stable",
+      vendor.url_filename("https://support-docs.illumina.com/SHARE/AdapterSequences/Content/TruSeq-SmallRNA.htm"),
+      "TruSeq-SmallRNA.htm")
 check("Addgene sequence listings retain distinct plasmid IDs",
       [vendor.url_filename(f"https://www.addgene.org/{plasmid}/sequences/")
        for plasmid in (52963, 196709)],
@@ -274,6 +428,16 @@ check("Addgene sequence listings retain distinct plasmid IDs",
 check("original experiment XML export keeps its type",
       vendor.url_filename("https://www.ebi.ac.uk/ena/browser/api/xml/SRX2134246?format=xml"),
       "SRX2134246.xml")
+check("ENA XML endpoint keeps its type without an export query",
+      vendor.url_filename("https://www.ebi.ac.uk/ena/browser/api/xml/SRX2134246"),
+      "SRX2134246.xml")
+check("GEO records with one CGI path retain distinct accessions and scope",
+      [vendor.url_filename("https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?" + query)
+       for query in ("acc=GSE60456", "acc=GSE43087",
+                     "view=full&form=text&targ=all&acc=GSE60456",
+                     "acc=GSE60456&targ=self&form=text&view=brief")],
+      ["geo-GSE60456-self-full.html", "geo-GSE43087-self-full.html",
+       "geo-GSE60456-all-full.txt", "geo-GSE60456-self-brief.txt"])
 import catalogue as cat  # noqa: E402
 _slugs = cat.source_slugs()
 _real = fetchers.extra_sources()
@@ -363,6 +527,65 @@ check("titles and paragraphs on their own lines; inline markup does not split a 
       _lines, ["A method", "Li Yun", "Methods", "RT primer AAGCAGTGGTATCAACGCAGAGT & 37 °C.", "P5\tAATGATACGG"])
 check(".xml is converted", ".xml" in doctext.CONVERT, True)
 
+check.section("opaque original PDF URLs")
+_pdf_a = "https://example.org/download?artifactId=first"
+_pdf_b = "https://example.org/download?artifactId=second"
+check("opaque PDF query identity survives cache naming",
+      (pdf_url.filename(_pdf_a) != pdf_url.filename(_pdf_b),
+       pdf_url.filename(_pdf_a).endswith(".pdf")), (True, True))
+_pdf_calls = []
+pdf_url.fetch(SimpleNamespace(folder=SimpleNamespace(save=lambda *args: _pdf_calls.append(args))),
+              _pdf_a, "original exhibit")
+check("explicit PDF route preserves the original URL and validation suffix",
+      _pdf_calls, [(pdf_url.filename(_pdf_a), _pdf_a, "original exhibit")])
+check.raises("explicit PDF route rejects a non-HTTP source", lambda: pdf_url.filename("file:///tmp/source.pdf"))
+
+check.section("doctext: optional EPS conversion")
+with tempfile.TemporaryDirectory() as eps_folder:
+    eps = Path(eps_folder) / "source figure.eps"
+    eps.write_bytes(b"%!PS-Adobe-3.0 EPSF-3.0\n%%BoundingBox: 0 0 40 40\nshowpage\n")
+    with patch.object(doctext, "GHOSTSCRIPT", None), contextlib.redirect_stderr(io.StringIO()):
+        check("EPS without optional converter skips without a fake text twin",
+              (doctext.convert(eps), doctext.text_path(eps).exists()), (None, False))
+    with patch.object(doctext, "GHOSTSCRIPT", "gs"), \
+            patch.object(doctext.subprocess, "run", return_value=SimpleNamespace(returncode=1)), \
+            contextlib.redirect_stderr(io.StringIO()):
+        check("failed EPS conversion does not claim a readable original", doctext.read(eps), None)
+    def fake_eps_conversion(args, **kwargs):
+        output = next(arg.split("=", 1)[1] for arg in args if arg.startswith("-sOutputFile="))
+        Path(output).write_bytes(b"%PDF-1.4\nsynthetic converted figure")
+        return SimpleNamespace(returncode=0)
+    with patch.object(doctext, "GHOSTSCRIPT", "gs"), \
+            patch.object(doctext.subprocess, "run", side_effect=fake_eps_conversion) as eps_run, \
+            patch.object(doctext, "_read", return_value="Source figure oligo ACGT\n") as pdf_read:
+        check("EPS text passes through the ordinary PDF reader", doctext.read(eps),
+              "Source figure oligo ACGT\n")
+        check("EPS conversion uses safer mode and absolute source path",
+              ("-dSAFER" in eps_run.call_args.args[0], eps_run.call_args.args[0][-1],
+               pdf_read.call_args.args[0].suffix), (True, str(eps.resolve()), ".pdf"))
+    check("directory conversion discovers EPS originals", doctext.documents([eps_folder]), [eps])
+
+check.section("doctext: optional RTF conversion")
+with tempfile.TemporaryDirectory() as rtf_folder:
+    rtf = Path(rtf_folder) / "source protocol.rtf"
+    rtf.write_bytes(b"{\\rtf1\\ansi Original protocol.}")
+    with patch.object(doctext, "SOFFICE", None), contextlib.redirect_stderr(io.StringIO()):
+        check("RTF without optional converter skips without a fake text twin",
+              (doctext.convert(rtf), doctext.text_path(rtf).exists()), (None, False))
+    def fake_rtf_conversion(args, **kwargs):
+        output_dir = Path(args[args.index("--outdir") + 1])
+        (output_dir / "source protocol.docx").write_bytes(b"converted document fixture")
+        return SimpleNamespace(returncode=0)
+    with patch.object(doctext, "SOFFICE", "soffice"), \
+            patch.object(doctext.subprocess, "run", side_effect=fake_rtf_conversion) as rtf_run, \
+            patch.object(doctext, "_read", return_value="Original protocol.\n") as docx_read:
+        check("RTF uses ordinary DOCX extraction after conversion", doctext.read(rtf),
+              "Original protocol.\n")
+        check("RTF conversion passes a distinct profile and absolute source path",
+              (any(arg.startswith("-env:UserInstallation=file://") for arg in rtf_run.call_args.args[0]),
+               rtf_run.call_args.args[0][-1], docx_read.call_args.args[0].suffix),
+              (True, str(rtf.resolve()), ".docx"))
+
 check.section("doctext: filled XFA PDF form")
 def xfa_stream(number: int, xml: bytes) -> bytes:
     packed = zlib.compress(xml)
@@ -375,6 +598,26 @@ sample_xfa_pdf = b"%PDF-1.7\n" + xfa_stream(2, blank_xfa) + xfa_stream(3, filled
 check("filled XFA dataset chosen over blank template", doctext.xfa_text(sample_xfa_pdf),
       "sampleprep: 30 min tagmentation; 40 mM EDTA\nindex: ACGT\n")
 check("ordinary PDF without XFA has no form text", doctext.xfa_text(PDF), None)
+template_xfa = (b'<template xmlns="http://www.xfa.org/schema/xfa-template/2.8/">'
+                b'<draw><value><text>Consumable: an adapter</text></value></draw>'
+                b'<draw><value><text>/5Phos/ACGTACGTACGT</text></value></draw>'
+                b'<draw><value><exData contentType="text/html"><body><p>Supplier reference</p></body></exData></value></draw>'
+                b'<event><script>not_source_text()</script></event>'
+                b'<draw><value><image>encoded_image</image></value></draw></template>')
+template_pdf = b"%PDF-1.7\n" + xfa_stream(2, template_xfa) + xfa_stream(3, blank_xfa) + b"%%EOF\n"
+template_text = ("## XFA template text (form layout and scripts not evaluated)\n"
+                 "Consumable: an adapter\n/5Phos/ACGTACGTACGT\nSupplier reference\n")
+check("static form template survives an empty XFA dataset; scripts and images excluded",
+      doctext.xfa_text(template_pdf), template_text)
+check("filled dataset takes precedence over static form labels",
+      doctext.xfa_text(template_pdf + xfa_stream(4, filled_xfa)),
+      "sampleprep: 30 min tagmentation; 40 mM EDTA\nindex: ACGT\n")
+with tempfile.TemporaryDirectory() as folder:
+    source = Path(folder) / "dynamic.pdf"
+    source.write_bytes(template_pdf)
+    with patch.object(doctext, "_read", return_value="Please wait...\n"):
+        check("PDF reader replaces placeholder with labelled template content",
+              doctext.read(source), template_text)
 
 check.section("source oligo transcription")
 check("protocols.io source locator retains the accession before /v1",
@@ -384,6 +627,27 @@ check("source match accepts a printed exact oligo",
       _exact_hit("primer 5′-ACGTACGTACGTACGT-3′", "ACGTACGTACGTACGT"), True)
 check("source match rejects a one-base copy error",
       _exact_hit("primer 5′-ACGTACGTACGTACGA-3′", "ACGTACGTACGTACGT"), False)
+with tempfile.TemporaryDirectory() as tmp:
+    folder = Path(tmp)
+    (folder / "paper.pdf.txt").write_text(
+        "first 5′-ACGTACGTAACCGGTT-3′\nsecond 5′-GATTACAGGCTAGCTA-3′\n")
+    scene = Scene()
+    scene.strand("first", [Segment("left", "ACGTACGT"), Segment("right", "AACCGGTT")])
+    scene.strand("second", [Segment("complete", "GATTACAGGCTAGCTA")], rev=True)
+    graph = ProtocolGraph("scene pool")
+    graph.input("adapters", "two independent ordering oligos", MaterialKind.ADAPTER,
+                state=scene)
+    check("scene checks separate whole strands in ordering orientation",
+          check_graph(graph, folder), ([], [], 2))
+    (folder / "paper.pdf.txt").write_text(
+        "first 5′-ACGTACGTAACCGGTT-3′\nsecond 5′-GATTACAGGCTAGCTG-3′\n")
+    check("a scene strand transcription error is detected",
+          (len(check_graph(graph, folder)[0]), check_graph(graph, folder)[2]), (1, 2))
+    scene.strand("unassigned", [Segment("unknown", "[unassigned strand]", placeholder=True)])
+    check("partly represented scene still reports its incomplete input",
+          unrepresented_input_ids(graph), ("adapters",))
+    check("unknown scene strand does not hide the known whole strands",
+          check_graph(graph, folder)[2], 2)
 with tempfile.TemporaryDirectory() as tmp:
     folder = Path(tmp)
     (folder / "paper.pdf.txt").write_text("primer 5′-ACGTACGTACGTACGT-3′")
@@ -422,6 +686,14 @@ _review = {
 _known = {"example": {"dir": "example"}}
 check("two independent source and link checks pass",
       source_reviews.validate("example", _review, _known), [])
+for _pending_field in ("pending_sources", "pending_linked_targets"):
+    _pending_review = copy.deepcopy(_review)
+    _pending_review[_pending_field] = [{"locator": "named original awaiting inspection"}]
+    check("completed review cannot bypass " + _pending_field,
+          bool(source_reviews.validate("example", _pending_review, _known)), True)
+    _pending_review["status"] = "in_progress"
+    check("partial review can retain explicit " + _pending_field,
+          source_reviews.validate("example", _pending_review, _known), [])
 _vendor_review = copy.deepcopy(_review)
 _vendor_review["source_checklist"][0]["role"] = "vendor"
 check("vendor guide defines a DOI-free commercial protocol",

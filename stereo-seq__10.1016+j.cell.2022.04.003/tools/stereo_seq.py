@@ -3,12 +3,8 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from batch_ngs import seg
+from chemdraw import Construct, Segment, feature
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Construct, Row, feature
-from circular import circularize_ssdna, rolling_circle
-from multimodal_spatial import surface_capture_rows
-from circular import CircularizationGeometry
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
@@ -20,20 +16,21 @@ SUMMARY="Spatially indexed DNA nanoballs are arrayed and decoded before receivin
 CAVEAT=("The published Cell STAR Methods print the chip, capture, template-switch, "
         "cDNA-PCR, library-PCR and read-primer oligos listed below. Its Key Resources "
         "Table DNB oligo1 (local text lines 1365–1369) has TTGAACT, while bioRxiv v3 "
-        "Methods line 904 and the linked MOSTA detailed protocol primer table line 229 "
+        "Methods precursor section and the linked MOSTA detailed protocol primer table line 229 "
         "have TTGNAACT (an extra N). This model uses TTGNAACT "
         "because the author preprint and detailed protocol agree on it; which precursor "
         "was synthesized for the published experiment remains uncertain. Cell Methods "
         "(local text line 1684) call the capture tail 22-nt poly(T), but the Key Resources "
         "Table capture oligo (lines 1412–1414) prints 21 T followed by V; the model uses "
-        "the printed oligo. The in-house Tn5 loading "
+        "the printed short oligo. The MOSTA full capture-probe table instead prints 23 T followed by V (local HTML text 1276–1279), while its body prints the same short 21T–V oligo as Cell. Full probe and short ligation input are distinct molecular states; their tail-length difference is unresolved. The in-house Tn5 loading "
         "adapter and exact final junction remain unresolved, so the final construct "
-        "retains inferred placeholders only for those regions.")
+        "is not constructed base by base. Physical circle and primer-binding geometry remain model questions.")
 SPATIAL=feature("coordinate_identifier","spatial_barcode","unknown")
 UMI_FEATURE=feature("molecular_identifier","umi","random")
 SEQ_PRIMERS=()
 FINAL_LIBRARY=None
-SEQUENCING_ENDING="The completed library is circularized and amplified into sequencing DNA nanoballs. The published article prints Stereo-seq-read1 and -read2 primer bases and assigns CID to Read 1 cycles 1–25 and MID to cycles 26–35; Read 2 is cDNA. Their exact sites on a final library strand cannot be drawn base by base while the in-house Tn5 loading adapter and complete junction remain unidentified."
+SEQUENCING_ENDING="The article reports DNB generation and prints library-splint, MDA and read-primer bases. It assigns CID to Read 1 cycles 1–25 and MID to cycles 26–35; Read 2 is cDNA. Sample-specific run lengths refer to its Table S1, which remains under review. Exact physical circle, primer-binding sites and the source-matched Tn5 junction are not constructed here."
+
 
 CID_PRECURSOR=("TGTGAGCCAAGGAGTTGNAACTGCTGACGTACTGAGAGGCATGGCGACCTTATCAG"+
                "N"*25+"TTGTCTTCCTAAGACCG")
@@ -47,9 +44,7 @@ LIBRARY_R="GAGACGTTCTCGACTCAGCAGA"
 LIBRARY_SPLINT="GTACGTCAGCAGGAGACGTTCTCG"
 READ1="CTGCTGACGTACTGAGAGGCATGGCGACCTTATCAG"
 READ2="GCCATGTCGTTCTGTGAGCCAAGGAGTT"
-
-if CID_SPLINT != "TCGGAGGCCAAG"+"CGGTCTTAGGAA":
-    raise ValueError("Stereo-seq splint transcription changed")
+MDA_PRIMER="TCTGCTGAGTCGAGAACGTC"
 
 def oligos():
     return [
@@ -64,136 +59,108 @@ def oligos():
         f"library splint: 5′-{LIBRARY_SPLINT}-3′",
         f"published read 1 primer: 5′-{READ1}-3′",
         f"published read 2 primer: 5′-{READ2}-3′",
+        f"published MDA primer: 5′-{MDA_PRIMER}-3′",
     ]
 
-LINEAR=Construct([seg("DNBSEQ primer site","P"*18,"r1",placeholder=True,inferred=True),seg("coordinate identifier","C"*25,"cbc",placeholder=True,feature=SPATIAL),seg("molecular identifier","M"*10,"umi",placeholder=True,feature=UMI_FEATURE),seg("captured cDNA","X"*38,placeholder=True),seg("distal DNBSEQ adapter","Q"*18,placeholder=True,inferred=True)],name="Stereo-seq ssDNA library")
-CIRCLE=circularize_ssdna(LINEAR,five_prime_phosphate=True)
-RCA=rolling_circle(CIRCLE,"P"*18,copies=3)
 
-def sections():
-    return [
-        ("Pattern and decode coordinate-identifier DNA nanoballs",
-         [Row(chunks=[("DNB array:  ●CID₁  ●CID₂  ●CID₃  …", "cbc", False)]),
-          Row(chunks=[("sequencing-by-synthesis before tissue placement → CID-to-(x,y) map", None, False)])],
-         "Each surface DNB carries many copies of one coordinate identifier; pre-decoding maps molecular barcode to a physical location."),
-        ("Add UMI/oligo-dT and capture tissue RNA",
-         surface_capture_rows("decoded DNB", "coordinate identifier", "tissue mRNA"),
-         "A UMI-bearing poly(dT) capture sequence is ligated onto the decoded chip oligo before tissue RNA capture."),
-        ("Reverse-transcribe, release and amplify spatial cDNA",
-         [Row(chunks=[("surface CID—MID—poly(dT) || RNA → reverse transcription + template switch", "umi", False)]),
-          Row(chunks=[("→ release cDNA → PCR → fragmentation / platform-library conversion", None, False)])],
-         "The coordinate identifier (CID) and molecular identifier (MID) remain attached to the cDNA through bulk library preparation."),
-        ("Circularize the sequencing strand and form library DNBs",
-         CIRCLE.rows(closure_label="splint ligation"),
-         "INFERRED — A platform library strand is splint-ligated into a circle; the printed library primers and splint are listed above, but the in-house Tn5 adapter and final junction remain unresolved."),
-        ("Bind the sequencing primer at every repeat",
-         [Row(chunks=[("…[primer site]—CID—MID—cDNA—[adapter][primer site]—CID—MID—cDNA…", "r1", False)]),
-          Row(chunks=[("   sequencing primer →                    sequencing primer →", "r2", False)])],
-         "INFERRED — The published read primers are listed above; their exact placement on this unresolved final-junction drawing is inferred."),]
+def roles(name):
+    return Construct([Segment(name, "[" + name + "]", placeholder=True)], name=name)
+
+
+def capture_oligo():
+    return Construct([Segment("capture handle", CAPTURE_OLIGO[:15]),
+                      Segment("molecular identifier", "N" * 10, "umi", placeholder=True,
+                              feature=UMI_FEATURE),
+                      Segment("poly(dT)V; short-oligo source", "T" * 21 + "V", placeholder=True)],
+                     name="Short phosphorylated capture oligo; not the full CID construct")
 
 
 def protocol_graph():
-    graph=ProtocolGraph(TITLE,authority=SOURCE)
-    dnb=graph.input("decoded_dnb","decoded coordinate-identifier DNA nanoball array",
-                    MaterialKind.MOLECULAR,
-                    state=(seg("CID precursor",CID_PRECURSOR,"cbc",placeholder=True,
-                               feature=SPATIAL),
-                           seg("fixed ligation oligo",FIXED_LIGATION_OLIGO)),primary=True)
-    capture_extension=graph.input("capture_extension","UMI and oligo-dT capture extension",
-                                  MaterialKind.ADAPTER,
-                                  state=(seg("capture handle",CAPTURE_OLIGO[:15]),
-                                         seg("molecular identifier","N"*10,"umi",placeholder=True,
-                                             feature=UMI_FEATURE),
-                                         seg("poly(dT)V","T"*21+"V",placeholder=True)))
-    ligase=graph.input("surface_ligase","surface capture-oligo ligase",
-                       MaterialKind.CATALYST)
-    capture_surface=graph.product("capture_surface","CID-UMI-oligo-dT capture array",
-                                  MaterialKind.MOLECULAR)
-    graph.react("extend_surface","Ligate UMI/oligo-dT onto decoded chip oligos",
-                StepKind.LIGATION,
-                ((dnb,InputRole.TEMPLATE),(capture_extension,InputRole.STRUCTURAL),
-                 (ligase,InputRole.CATALYST)),(capture_surface,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "The source prints the capture oligo, but the decoded surface DNB's exposed ligation end is not represented as one complete linear strand."))
-    rna=graph.input("tissue_rna","polyadenylated tissue RNA",MaterialKind.MOLECULAR)
-    captured=graph.product("captured","surface-captured tissue mRNA",MaterialKind.MOLECULAR)
-    graph.react("capture_rna","Hybridize tissue mRNA to surface oligo-dT",
-                StepKind.HYBRIDIZATION,
-                ((capture_surface,InputRole.TEMPLATE),(rna,InputRole.STRUCTURAL)),
-                (captured,))
-    rt_primer=graph.input("rt_primer","surface UMI/oligo-dT RT primer",MaterialKind.OLIGO,
-                          state=(seg("capture handle",CAPTURE_OLIGO[:15]),
-                                 seg("molecular identifier","N"*10,"umi",placeholder=True,
-                                     feature=UMI_FEATURE),
-                                 seg("poly(dT)V","T"*21+"V",placeholder=True)))
-    rt=graph.input("reverse_transcriptase","template-switching reverse transcriptase",
-                   MaterialKind.CATALYST)
-    cdna=graph.product("cdna","CID-MID-bearing spatial cDNA",MaterialKind.MOLECULAR)
-    graph.react("reverse_transcribe","Copy captured tissue RNA",StepKind.REVERSE_TRANSCRIPTION,
-                ((captured,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
-                 (rt,InputRole.CATALYST)),(cdna,))
-    tso=graph.input("tso","published Stereo-seq template-switch oligo",MaterialKind.OLIGO,
-                    state=(seg("TSO DNA handle",CDNA_PCR_PRIMER),),
-                    source=SOURCE+" (STAR Methods reagent table; modified terminal rG/rG/iXNA_G tail)")
-    switched=graph.product("switched","template-switched spatial cDNA",
-                           MaterialKind.MOLECULAR)
-    graph.react("template_switch","Install the distal cDNA handle",
-                StepKind.TEMPLATE_SWITCHING,
-                ((cdna,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),
-                 (rt,InputRole.CATALYST)),(switched,))
-    pcr_f=graph.input("pcr_f","published spatial cDNA PCR primer at one end",MaterialKind.OLIGO,
-                      state=(seg("cDNA PCR primer",CDNA_PCR_PRIMER),),source=SOURCE)
-    pcr_r=graph.input("pcr_r","same published cDNA PCR primer at opposite end",MaterialKind.OLIGO,
-                      state=(seg("cDNA PCR primer",CDNA_PCR_PRIMER),),source=SOURCE)
-    polymerase=graph.input("pcr_polymerase","cDNA amplification polymerase",
-                           MaterialKind.CATALYST)
-    amplified=graph.product("amplified","amplified CID-MID-bearing cDNA",
-                            MaterialKind.MOLECULAR)
-    graph.react("amplify","Amplify released spatial cDNA",StepKind.PCR,
-                ((switched,InputRole.TEMPLATE),(pcr_f,InputRole.STRUCTURAL),
-                 (pcr_r,InputRole.STRUCTURAL),
-                 (polymerase,InputRole.CATALYST)),
-                (amplified,),geometry=PCRGeometry.unavailable(
-                    LINEAR,reason="The cDNA PCR primer sequence is printed, but the full amplified duplex is not represented base by base."))
-    platform_adapter=graph.input("platform_adapter","in-house Tn5-loaded platform adapter",
-                                 MaterialKind.ADAPTER,inferred=True,
-                                 source=SOURCE+" (in-house Tn5 loading adapter and junction unresolved)")
-    library_f=graph.input("library_f","published Stereo-seq library forward primer",
-                          MaterialKind.OLIGO,state=(seg("library F",LIBRARY_F),),source=SOURCE)
-    library_r=graph.input("library_r","published Stereo-seq library reverse primer",
-                          MaterialKind.OLIGO,state=(seg("library R",LIBRARY_R),),source=SOURCE)
-    linear=graph.product("linear","linear Stereo-seq sequencing strand",
-                         MaterialKind.MOLECULAR,state=LINEAR,inferred=True,
-                         source=SOURCE+" (platform adapter bases inferred)")
-    graph.react("platform_convert","Tn5-fragment and amplify with published library primers",
-                StepKind.ADAPTER_ATTACHMENT,
-                ((amplified,InputRole.TEMPLATE),(platform_adapter,InputRole.STRUCTURAL),
-                 (library_f,InputRole.STRUCTURAL),(library_r,InputRole.STRUCTURAL)),
-                (linear,))
-    circle_ligase=graph.input("circle_ligase","splint-assisted circle ligase",
-                              MaterialKind.CATALYST)
-    circle=graph.product("circle","circular Stereo-seq sequencing strand",
-                         MaterialKind.MOLECULAR,state=CIRCLE)
-    graph.react("circularize","Splint-ligate the sequencing strand into a circle",
-                StepKind.CIRCULARIZATION,
-                ((linear,InputRole.TEMPLATE),(circle_ligase,InputRole.CATALYST)),
-                (circle,),geometry=CircularizationGeometry.known(
-                    "splinted single-strand ligation",
-                    statement="The platform library strand is splint-ligated into a closed circle before DNB formation."))
-    phi29=graph.input("phi29","rolling-circle amplification polymerase",
-                      MaterialKind.CATALYST)
-    library=graph.product("library","Stereo-seq sequencing DNA nanoballs",
-                          MaterialKind.LIBRARY,state=RCA,inferred=True,
-                          source=SOURCE+" (platform adapter and priming-site bases inferred)")
-    graph.react("form_dnbs","Amplify the circle into sequencing DNA nanoballs",
-                StepKind.EXTENSION,
-                ((circle,InputRole.TEMPLATE),(phi29,InputRole.CATALYST)),(library,))
-    graph.sequence(library,SequencingPlan(
-        limitation="Published read-primer sequences and R1/R2 roles are known, but the in-house Tn5 loading adapter and exact completed-library junction remain unresolved."))
-    graph.declare_reviewed_scope((
-        "decoded_dnb","capture_extension","surface_ligase","extend_surface",
-        "tissue_rna","capture_rna","rt_primer","reverse_transcriptase",
-        "reverse_transcribe","tso","template_switch","pcr_f","pcr_r",
-        "pcr_polymerase","amplify","platform_adapter","library_f","library_r","platform_convert",
-        "circle_ligase","circularize","phi29","form_dnbs","library"),SOURCE)
-    return graph.require_publishable()
+    g = ProtocolGraph(TITLE, authority=SOURCE)
+    dnb = g.input("decoded_dnb", "Predecoded CID DNA-nanoball array", MaterialKind.MOLECULAR,
+                  state=roles("predecoded CID DNB array"), primary=True)
+    capture = g.input("capture_extension", "Short phosphorylated capture oligo", MaterialKind.ADAPTER,
+                      state=capture_oligo())
+    ligase = g.input("surface_ligase", "T4 DNA ligase", MaterialKind.CATALYST)
+    surface = g.product("capture_surface", "CID–MID–poly(dT) capture array", MaterialKind.MOLECULAR,
+                        state=roles("CID-bearing surface with ligated capture oligo"))
+    g.react("extend_surface", "Ligate capture oligo to decoded DNB", StepKind.LIGATION,
+            ((dnb, InputRole.TEMPLATE), (capture, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)),
+            (surface,), geometry=AdapterLigationGeometry.unavailable(
+                "Both source oligos are known, but the exposed surface-DNB strand and complete nick are not constructed here. This is a model limitation."))
+    rna = g.input("tissue_rna", "Polyadenylated tissue RNA", MaterialKind.MOLECULAR)
+    captured = g.product("captured", "Surface-hybridized tissue RNA", MaterialKind.MOLECULAR)
+    g.react("capture_rna", "Hybridize RNA to surface poly(dT)", StepKind.HYBRIDIZATION,
+            ((surface, InputRole.TEMPLATE), (rna, InputRole.STRUCTURAL)), (captured,))
+    rt = g.input("reverse_transcriptase", "SuperScript II", MaterialKind.CATALYST)
+    cdna = g.product("cdna", "Surface-primed cDNA", MaterialKind.MOLECULAR)
+    g.react("reverse_transcribe", "Reverse-transcribe captured RNA", StepKind.REVERSE_TRANSCRIPTION,
+            ((captured, InputRole.TEMPLATE), (surface, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)), (cdna,))
+    tso = g.input("tso", "TSO; source terminal rG/rG/iXNA_G", MaterialKind.OLIGO,
+                  state=Construct([Segment("TSO DNA handle", CDNA_PCR_PRIMER),
+                                   Segment("source modified terminal G residues", "/rG//rG//iXNA_G/",
+                                           placeholder=True, length_bp=3, note="Literal source modification tokens; not an unmodified DNA GGG tail")] ))
+    switched = g.product("switched", "Template-switched cDNA", MaterialKind.MOLECULAR)
+    g.react("template_switch", "Template switch with the published TSO", StepKind.TEMPLATE_SWITCHING,
+            ((cdna, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)), (switched,))
+    removal = g.input("tissue_removal", "Source tissue-removal buffer", MaterialKind.CONDITION)
+    cleaned = g.product("cleaned", "Washed cDNA-containing chip", MaterialKind.MOLECULAR)
+    tissue_waste = g.product("tissue_waste", "Removed tissue and wash material", MaterialKind.WASTE)
+    g.react("remove_tissue", "Remove tissue and wash the cDNA-containing chip", StepKind.CLEANUP,
+            ((switched, InputRole.TEMPLATE), (removal, InputRole.CONDITION)), (cleaned, tissue_waste))
+    g.discard(tissue_waste, "Reported tissue-removal and wash steps.")
+    exo = g.input("exo1", "Exonuclease I", MaterialKind.CATALYST)
+    processed = g.product("processed", "Exonuclease-I-treated cDNA chip", MaterialKind.MOLECULAR)
+    digest = g.product("digest", "Exonuclease-sensitive material", MaterialKind.WASTE)
+    g.react("exo_treatment", "Treat the chip with Exonuclease I", StepKind.DIGESTION,
+            ((cleaned, InputRole.TEMPLATE), (exo, InputRole.CATALYST)), (processed, digest))
+    g.discard(digest, "Source digestion/washes; exact molecular identities are not resolved.")
+    primer = g.input("cdna_primer", "Published cDNA PCR primer", MaterialKind.OLIGO,
+                     state=Construct([Segment("cDNA PCR primer", CDNA_PCR_PRIMER)]))
+    kapa = g.input("kapa", "KAPA HiFi HotStart ReadyMix polymerase", MaterialKind.CATALYST)
+    amplified = g.product("amplified", "Amplified spatial cDNA", MaterialKind.MOLECULAR)
+    g.react("amplify", "Amplify with the cDNA PCR primer", StepKind.PCR,
+            ((processed, InputRole.TEMPLATE), (primer, InputRole.STRUCTURAL),
+             (primer, InputRole.STRUCTURAL), (kapa, InputRole.CATALYST)),
+            (amplified,), geometry=PCRGeometry.unavailable(roles("spatial cDNA duplex"),
+                reason="The source primer is known; its complete duplex binding state remains unconstructed."))
+    tn5 = g.input("tn5", "In-house Tn5 transposase", MaterialKind.CATALYST)
+    loaded = g.input("loaded_adapter", "Source-matched Tn5 loading adapter; identity unassigned", MaterialKind.ADAPTER,
+                     inferred=True)
+    fragmented = g.product("fragmented", "Tn5-fragmented spatial cDNA", MaterialKind.MOLECULAR)
+    g.react("fragment", "Fragment amplified cDNA with in-house Tn5", StepKind.TAGMENTATION,
+            ((amplified, InputRole.TEMPLATE), (loaded, InputRole.STRUCTURAL), (tn5, InputRole.CATALYST)), (fragmented,))
+    sds = g.input("sds", "SDS stop condition", MaterialKind.CONDITION)
+    stopped = g.product("stopped", "Stopped fragmentation reaction", MaterialKind.MOLECULAR)
+    g.react("stop", "Stop fragmentation with SDS", StepKind.QUENCHING,
+            ((fragmented, InputRole.TEMPLATE), (sds, InputRole.CONDITION)), (stopped,))
+    forward = g.input("library_f", "Library F; 5′P and terminal phosphorothioates", MaterialKind.OLIGO,
+                      state=Construct([Segment("library F", LIBRARY_F)]))
+    reverse = g.input("library_r", "Library R", MaterialKind.OLIGO,
+                      state=Construct([Segment("library R", LIBRARY_R)]))
+    linear = g.product("linear", "Amplified platform-library product", MaterialKind.MOLECULAR,
+                       state=roles("amplified platform-library product"))
+    g.react("library_pcr", "Amplify with the published library primers", StepKind.PCR,
+            ((stopped, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+             (reverse, InputRole.STRUCTURAL), (kapa, InputRole.CATALYST)), (linear,),
+            geometry=PCRGeometry.unavailable(roles("fragmented spatial cDNA"),
+                reason="Loaded-adapter identity and complete primer-binding geometry are unassigned in this model; this is not a confirmed publication absence."))
+    beads = g.input("cleanup_beads", "AMPure XP cleanup beads", MaterialKind.SELECTION)
+    purified = g.product("purified", "Purified amplified library", MaterialKind.MOLECULAR)
+    cleanup_waste = g.product("cleanup_waste", "Material excluded by bead cleanup", MaterialKind.WASTE)
+    g.react("cleanup_library", "Purify the amplified library with beads", StepKind.CLEANUP,
+            ((linear, InputRole.TEMPLATE), (beads, InputRole.SELECTION)), (purified, cleanup_waste))
+    g.discard(cleanup_waste, "Source-reported AMPure cleanup; no exact excluded molecular species assigned.")
+    library = g.product("library", "Reported sequencing DNB endpoint", MaterialKind.LIBRARY,
+                        state=roles("sequencing DNB; physical circle unconstructed"))
+    g.react("form_dnbs", "Reported DNB generation", StepKind.MAGIC,
+            ((purified, InputRole.TEMPLATE),), (library,),
+            reason="The published article reports DNB generation and prints a library splint/MDA primer. Complete strand selection, circularization and RCA geometry are not reconstructed; no generic platform adapter or polymerase is assigned by analogy.")
+    g.sequence(library, SequencingPlan(limitation=SEQUENCING_ENDING))
+    g.declare_reviewed_scope((
+        "decoded_dnb", "capture_extension", "surface_ligase", "extend_surface",
+        "tissue_rna", "capture_rna", "reverse_transcriptase", "reverse_transcribe",
+        "tso", "template_switch", "tissue_removal", "remove_tissue", "exo1", "exo_treatment",
+        "cdna_primer", "kapa", "amplify", "tn5", "loaded_adapter", "fragment", "sds", "stop",
+        "library_f", "library_r", "library_pcr", "cleanup_beads", "cleanup_library", "form_dnbs", "library"), SOURCE)
+    return g.require_publishable()

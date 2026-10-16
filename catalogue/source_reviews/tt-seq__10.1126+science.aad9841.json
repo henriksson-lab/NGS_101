@@ -38,7 +38,8 @@
         "date": "2026-10-16",
         "locations": "Author-hosted original Science PDF p.1, web text lines 61–98 and Fig. 1 caption lines 256–259; TT-seq supplementary methods lines 20–32 inspected after source-bundle oligo scraper",
         "finding": "The 2016 original explicitly explains that TT-seq fragments 4sU-labeled RNA before selecting labeled fragments to eliminate the 5′ bias of earlier 4sU-seq. It does not specify the NuGEN library adapter or index-primer sequences in these method sections."
-      }
+      },
+      "local_original": "_data/sources/tt-seq__10.1126+science.aad9841/594009_11de357b920049e591acf3b31623ab1b.pdf"
     },
     {
       "id": "label_capture_predecessor",
@@ -58,7 +59,14 @@
         "locations": "TT-seq original supplementary methods lines 20–32 and reference 26 lines 1114–1117; Dölken 2008 original RNA publisher PDF web text lines 679–713, p.12",
         "finding": "Independently confirmed TT-seq cites Dölken 2008 for purification. Dölken directly specifies 4sU thiol labeling with EZ-Link Biotin-HPDP, excess-biotin removal, capture on µMACS streptavidin beads/columns, washing, and DTT elution. This supports the inherited capture chemistry, not the later NuGEN adapter sequence."
       },
-      "discovered_from": "science_supp"
+      "discovered_from": "science_supp",
+      "local_original": "_data/sources/tt-seq__10.1126+science.aad9841/High_resolution_gene_expression_profiling_for_simultaneous_kinetic_parameter_analysis_of_RNA_synthesis_and_decay.pdf",
+      "followup_2026_10_16_root": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Registered institutional original retrieved and full TT-bundle scraper run; extracted940–974, actual PDFp13 printed1970 visually inspected",
+        "finding": "Confirmed original HPDP cleanup/capture,1MNaCl wash and DTT release. This is the original2008 recipe; later2026SNU/sf4sU supplementary method prints1mMNaCl and other changed conditions, so later choices must remain source-qualified. No new publication-wide absence claim or linked-source exclusion."
+      }
     },
     {
       "id": "nugen_guide",

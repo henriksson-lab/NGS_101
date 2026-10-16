@@ -18,7 +18,7 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import atrandi as A
 import illumina as il
-from checks import Check, run_common
+from checks import Check, Source, have, run_common
 from chemdraw import complement, revcomp, tm
 
 check = Check()
@@ -165,5 +165,23 @@ _r1 = seqprimers.locate(lib, [p for p in A.SEQ_PRIMERS if p.role == "Read 1"][0]
 _r2 = seqprimers.locate(lib, [p for p in A.SEQ_PRIMERS if p.role == "Read 2"][0])
 check("Read 1 enters genomic DNA from the non-barcode adapter", _r1.reads_from, "insert")
 check("Read 2 starts at barcode D", _r2.reads_from, "BC-D")
+
+# Read the actual vendor original when available: a copied citation comment alone
+# cannot guard against source transcription errors.
+import os
+source_root = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data"))
+source = Source(source_root / "sources" / HERE.parent.name /
+    "DGPM02323206001_Single_Microbe_DNA_Barcoding_Kit_Library_Prep_For_Seq_V3.pdf.txt",
+    "Atrandi original DGPM02323206001 V3, 3 November 2023; vendor source reacquisition instructions in ref/MANIFEST.md")
+if have(check, source, label="original V3 adapter/index oligo transcription"):
+    original = re.sub(r"\s+", "", source.path.read_text())
+    check("source original top adapter with phosphate and terminal phosphorothioate",
+          "/5Phos/" + A.LIGADAPT_TOP[:-1] + "*" + A.LIGADAPT_TOP[-1] in original)
+    check("source original bottom adapter with amino-C6 modification",
+          "/5AmMC6/" + A.LIGADAPT_BOT in original)
+    check("source original complete six-base i7 primer",
+          A.ATRANDI_I7[:-1] + "*" + A.ATRANDI_I7[-1] in original)
+    check("source original complete P5 primer",
+          A.ATRANDI_P5[:-1] + "*" + A.ATRANDI_P5[-1] in original)
 
 check.report()

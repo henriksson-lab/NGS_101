@@ -1,25 +1,65 @@
-from nascent_protocols import make_spec, role_library
+from dataclasses import dataclass
+from types import SimpleNamespace
 
 from adapter_ligation import reported_adapter_end
-from chemdraw import Segment
+from chemdraw import Construct, Segment
 from illumina import TRUSEQ_SMALL_RNA_RA3, TRUSEQ_SMALL_RNA_RA5
-from nascent_protocols import Construct, Definition, InputRole, MaterialKind, ProtocolGraph, StepKind, finish_cdna, molecule, role
+import seqprimers as sp
+from pcr import PCRGeometry
+from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
+from protocol_model import molecule, role
 from protocol_model import molecule as drawn_molecule
+
+@dataclass(frozen=True)
+class Definition:
+    title: str
+    doi: str
+    citation: str
+    summary: str
+    endpoint: str
+    notes: str
+    caveat: str = ""
+
+
+def make_spec(d: Definition, final: Construct, *, unavailable: str,
+              oligos=lambda: ()):
+    """Assemble page fields from choices declared by the owning protocol."""
+    return SimpleNamespace(
+        TITLE=d.title, NOTES=d.notes,
+        SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
+        SUMMARY=d.summary, CAVEAT=d.caveat, FINAL_LIBRARY=final, SEQ_PRIMERS=(),
+        FINAL_CAPTION=d.endpoint, SEQUENCING_INTRO=d.endpoint, READ_LENGTHS=None,
+        SEQUENCING_ENDING=d.endpoint, SEQUENCING_UNAVAILABLE=unavailable,
+        oligos=oligos)
+
 
 KRUESI = 'Kruesi et al., eLife 2013, doi:10.7554/eLife.00808, Methods pp. 22–23'
 ILLUMINA = 'Illumina TruSeq Small RNA adapter sequences, document 1000000002694 v22'
 RA3 = TRUSEQ_SMALL_RNA_RA3
 RA5 = TRUSEQ_SMALL_RNA_RA5
-DEFINITION = Definition("GRO-cap — capped global run-on sequencing", "10.1038/ng.3142", "Core et al., Nature Genetics (2014)", "BrUTP-labelled global run-on RNA is subjected to enzymatic cap selection, enriching the capped 5′ ends of nascent promoter and enhancer transcripts.", "The informative base is the first transcribed nucleotide immediately downstream of the ligated 5′ adapter.", "01_gro_cap.html", "Kruesi et al. (2013), explicitly followed by Core et al. (2014), ligate RA3 before cap selection and RA5 afterward. The published no-TAP aliquot measures background; this schematic follows the TAP+ library. Illumina's 2011 guide corroborates Kruesi's RA3 and RA5 part numbers, while its current sequence table prints their bases. Exact 2013 reagent-sequence continuity and the selected 2014 index remain unverified.")
+RT_PROGRAM = ((44, 15), (52, 45))  # Core 2008 original SOM p. 19
+PCR_CYCLES = 15
+PAGE_MIN_NT = 90  # strictly greater than this threshold
+DEFINITION = Definition("GRO-cap — capped global run-on sequencing", "10.1038/ng.3142", "Core et al., Nature Genetics (2014)", "BrUTP-labelled global run-on RNA is subjected to enzymatic cap selection, enriching the capped 5′ ends of nascent promoter and enhancer transcripts.", "The informative base is the first transcribed nucleotide immediately downstream of the ligated 5′ adapter.", "01_gro_cap.html", "Kruesi et al. (2013), explicitly followed by Core et al. (2014), ligate RA3 before cap selection and RA5 afterward. The published no-TAP aliquot measures background; this schematic follows the TAP+ library. Illumina's 2011 guide corroborates Kruesi's RA3 and RA5 part numbers, while its current sequence table prints their bases. Kruesi also prints the RA3 read-through trimming target; this is not a full modified ordering strand. Exact historical reagent-sequence continuity and the 2014 GRO-cap primer/index assignment remain unverified; the adjacent GRO-seq RPI family is not assigned here.")
 
-FINAL_LIBRARY = role_library(DEFINITION.title + " final library", (role("assay-derived cDNA"),),
-                             indexed=True, platform="Illumina-compatible")
+# The GRO-seq paragraph next to GRO-cap prints an RPI six-base-index family.
+# That adjacent method does not assign a primer/index to the GRO-cap library.
+FINAL_LIBRARY = Construct([
+    role("unassembled library left end"), role("GRO-cap assay-derived cDNA"),
+    role("unassembled library right end"),
+], name=DEFINITION.title + " unresolved physical endpoint")
 globals().update(vars(make_spec(DEFINITION, FINAL_LIBRARY,
-    unavailable='The selected six-base index and exact historical primer revision are unresolved; Core et al. 2008 supplementary methods identify the inherited RT and PCR operations.',
+    unavailable='The historical GRO-cap primer pair, indexing assignment and completed molecular endpoint are not assembled. The adjacent GRO-seq RPI family does not establish a GRO-cap index or its length. Core et al. 2008 identifies the inherited RT, RNA digestion, PCR and PAGE operations.',
     oligos=lambda: (
         f'<b>RA3, named by Kruesi; current Illumina kit reference</b> — 5′-<inf>{RA3}</inf>-3′ (RNA 3′ adapter; vendor uses T spelling)',
         f'<b>RA5, named by Kruesi; current Illumina kit reference</b> — 5′-<inf>{RA5.replace("T", "U")}</inf>-3′ (vendor RNA spelling; model uses T for construct arithmetic)',
     ))))
+ACQUIRED_ROLES=("Read 1",)
+READ_SPECS=(sp.read_spec("Read 1", "acquired cycles unassigned",
+    "Deposited GRO-cap experiments declare single-end HiSeq 2000 acquisition; mapped reads are trimmed to 30 bases.",
+    "include"),)
+SEQUENCING_ENDING="GEO-linked SRA experiments SRX682016–SRX682019 declare single-end Illumina HiSeq 2000 acquisition. The 30-base mapped/trimmed length is not an acquired cycle count."
 
 
 def _ligate_named_adapter(graph, prefix, template, position, sequence, reviewed):
@@ -45,7 +85,7 @@ def _ligate_named_adapter(graph, prefix, template, position, sequence, reviewed)
                             MaterialKind.MOLECULAR,
                             state=drawn_molecule(label + '-ligated RNA', parts,
                                                  junctions=junctions))
-    graph.react(prefix + '_ligation', 'Ligate ' + label,
+    graph.react(prefix + '_ligation', 'INFERRED — ligate ' + label + ' using current kit-reference bases',
                 StepKind.LIGATION,
                 ((template, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (product,),
@@ -102,14 +142,56 @@ def _runon_cap_graph(d: Definition, final: Construct) -> ProtocolGraph:
                 (enriched3, rejected3), source=KRUESI, changes_molecule=False)
     graph.discard(rejected3, 'not recovered by the third BrU affinity capture')
     reviewed.extend(('third_capture', 'enrich_after_ra5'))
-    finish_cdna(graph, 'library', enriched3, final, d.endpoint, reviewed,
-                rt_label='TruSeq Small RNA RTP (Core 2008 inherited operation; historical primer revision unresolved)')
+    completion_source = 'Core et al. 2008 original Science SOM pp. 18–19, inherited explicitly by Kruesi GRO-cap'
+    rt_primer = graph.input('library_rt_primer', 'Illumina Small RNA kit RT primer; historical strand unassigned', MaterialKind.OLIGO, source=completion_source)
+    rt_enzyme = graph.input('library_reverse_transcriptase', 'SuperScript III', MaterialKind.CATALYST, source=completion_source)
+    hybrid = graph.product('library_cdna', 'reverse-transcribed RNA/cDNA material', MaterialKind.MOLECULAR,
+                           state=molecule('GRO-cap RT product', (role('RNA template'), role('first-strand cDNA'))))
+    programme = ', then '.join(f'{temperature}°C for {minutes} min' for temperature, minutes in RT_PROGRAM)
+    graph.react('library_rt', 'Reverse-transcribe with the inherited kit primer: ' + programme, StepKind.REVERSE_TRANSCRIPTION,
+                ((enriched3, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL), (rt_enzyme, InputRole.CATALYST)),
+                (hybrid,), source=completion_source)
+    rnases = graph.input('library_rnases', 'RNase cocktail and RNase H', MaterialKind.CATALYST, source=completion_source)
+    cdna = graph.product('library_rna_free_cdna', 'cDNA after RNA-template digestion', MaterialKind.MOLECULAR,
+                         state=molecule('RNA-free cDNA', (role('first-strand cDNA'),)))
+    digested_rna = graph.product('library_digested_rna', 'digested RNA templates', MaterialKind.WASTE)
+    graph.react('library_digest_rna', 'Digest the RNA template before PCR', StepKind.DIGESTION,
+                ((hybrid, InputRole.TEMPLATE), (rnases, InputRole.CATALYST)), (cdna, digested_rna), source=completion_source)
+    graph.discard(digested_rna, 'RNA digestion products are not the amplified cDNA library')
+    forward = graph.input('library_pcr_forward', 'Illumina kit PCR forward primer; historical strand unassigned', MaterialKind.OLIGO, source=completion_source)
+    reverse = graph.input('library_pcr_reverse', 'Illumina kit PCR reverse primer; index assignment unresolved', MaterialKind.OLIGO, source=completion_source)
+    phusion = graph.input('library_pcr_polymerase', 'Phusion high-fidelity DNA polymerase', MaterialKind.CATALYST, source=completion_source)
+    amplified = graph.product('library_amplified', 'PCR-amplified cDNA before PAGE', MaterialKind.MOLECULAR, state=final)
+    graph.react('library_pcr', f'Amplify {PCR_CYCLES} cycles with the inherited kit PCR primers', StepKind.PCR,
+                ((cdna, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL), (reverse, InputRole.STRUCTURAL), (phusion, InputRole.CATALYST)),
+                (amplified,), source=completion_source, geometry=PCRGeometry.unavailable(
+                    cdna.state, reason='The historical GRO-cap primer pair and its precursor binding sites are not assembled in this model.'))
+    selection = graph.input('library_page_selection', f'inherited non-denaturing PAGE selection above {PAGE_MIN_NT} nt', MaterialKind.SELECTION, source=completion_source)
+    library = graph.product('library_library', 'PAGE-purified GRO-cap library', MaterialKind.LIBRARY, state=final)
+    short = graph.product('library_short_products', 'products outside the selected PAGE range', MaterialKind.WASTE)
+    graph.react('library_page', 'PAGE-purify the amplified cDNA', StepKind.SELECTION,
+                ((amplified, InputRole.TEMPLATE), (selection, InputRole.SELECTION)), (library, short),
+                source=completion_source, changes_molecule=False)
+    graph.discard(short, 'products outside the inherited PAGE selection are not sequenced')
+    graph.sequence(library, SequencingPlan(library=final, primers=(), acquired_roles=ACQUIRED_ROLES,
+                                          limitation=SEQUENCING_UNAVAILABLE))
+    graph.annotate(SourceDiscrepancy(
+        target="ra3_ligation",title="Deposited protocol volume units differ from the original paper",
+        claims=(
+            SourceClaim("Kruesi 2013 original PDF Methods pp.22–23, RA3 ligation paragraph",
+                        "Prints 2 microlitres of 50% PEG, bringing the mixture to 14 microlitres."),
+            SourceClaim("GEO GSE60456/GSE43087 GRO-cap sample extraction protocols and Core2014 ENA construction metadata",
+                        "Render the corresponding quantities as 2 ml and 14 ml.")),
+        model_choice="Use the original paper for method interpretation; this model assigns neither of those volumes.",
+        evidence="The deposited paragraphs otherwise reproduce the same named adapters, reagents and reaction order. The original PDF visibly uses the microlitre symbol.",
+        uncertainty="This is an apparent metadata transcription/unit error; no formal source correction is established.",
+        slot=AnnotationSlot.INTRO))
+    reviewed.extend(('library_rt_primer', 'library_reverse_transcriptase', 'library_rt', 'library_rnases',
+                     'library_digest_rna', 'library_pcr_forward', 'library_pcr_reverse', 'library_pcr_polymerase',
+                     'library_pcr', 'library_page_selection', 'library_page', 'library_library'))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 
 
 def protocol_graph():
-    d = DEFINITION
-    final = FINAL_LIBRARY
-    primers = SEQ_PRIMERS
-    return _runon_cap_graph(d, final)
+    return _runon_cap_graph(DEFINITION, FINAL_LIBRARY)

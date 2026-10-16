@@ -63,7 +63,7 @@
     {
       "id": "shalek_web",
       "role": "linked_material",
-      "locator": "https://shaleklab.com/wp-content/uploads/2024/02/Hughes.et_.al_.Master.Protocol.pdf (linked at https://shaleklab.com/resources/protocols/)",
+      "locator": "https://shaleklab.com/wp-content/uploads/2024/02/Hughes.et_.al_.Master.Protocol.pdf (linked at https://shaleklab.com/resources/protocols/); local original _data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/Hughes.et_.al_.Master.Protocol.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_2": {
@@ -78,12 +78,20 @@
         "date": "2026-10-16",
         "locations": "Author protocols index, Seq-Well entry → Download PDF; PDF title page lines 0–10, second-strand synthesis lines 327–346, Nextera XT lines 423–457, printed oligos lines 935–947",
         "finding": "The current index really does link a 39-page author Seq-Well S^3 Master Protocol dated June 2019. It prints full S3 oligos and source reaction order. Prior pass_2 missed the S3 PDF behind the generic Seq-Well index entry; its exclusion is not valid. The PDF is a distinct author version requiring comparison with Document S1."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Fresh original JATS lines491/495 andKeyResources393/409; Hughes.et_.al_.Master.Protocol.pdf.txt730–803,930–970,1068–1100,1895–1925; Chapter3_SeqWell.pdf.txt880–935,1093–1170,1280–1310. Root independently reported actual original reading in collaboration message.",
+          "finding": "Independent fresh original reading confirms real1MTE/1xTE andKAPA5X/2x source conflicts. Guide versions are distinct:2019 TD/ATM11/4 and40µLWTAmix vs2023 TD/ATM10/5 and50µLWTAmix; their readoptions are source-specific. These positive recipe differences are not resolved by assigning the later version to the defining experiment."
+        }
+      ]
     },
     {
       "id": "drake_2023_detailed_protocol",
       "role": "linked_material",
-      "locator": "Drake et al., Methods in Molecular Biology 2584 (2023), doi:10.1007/978-1-0716-2756-3_3; original-author PDF https://shaleklab.com/wp-content/uploads/2024/02/Chapter3_SeqWell.pdf",
+      "locator": "Drake et al., Methods in Molecular Biology 2584 (2023), doi:10.1007/978-1-0716-2756-3_3; original-author PDF https://shaleklab.com/wp-content/uploads/2024/02/Chapter3_SeqWell.pdf; local original _data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/Chapter3_SeqWell.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "shalek_web",
@@ -98,7 +106,15 @@
         "date": "2026-10-16",
         "locations": "Original author PDF https://shaleklab.com/wp-content/uploads/2024/02/Chapter3_SeqWell.pdf, pp.26–27/browser lines 636–660 (second strand and TE-TW/TE wash), p.29/lines 774–793 (Nextera XT 10 µL TD + 5 µL ATM), pp.46–47/lines 1390–1525 (references); full local Seq-Well S3 source-bundle oligo scraper run first",
         "finding": "Independent reading confirms the 2023 recipe washes NaOH-treated beads once with TE-TW and once with TE, then uses 10 µL Nextera TD Buffer and 5 µL ATM. The chapter identifies itself as a later step-by-step Seq-Well S3 protocol and cites the 2020 Hughes article. It does not say which recipe was used in the 2020 experiments or identify a correction. Chemistry-relevant predecessor links to Gierahn 2017 and Hughes 2020 are already separate twice-read checklist rows; other cited application/computation references do not supply adapter/TE/ATM provenance. Its reference 17 is the upstream scg_lib_structs drawing, explicitly excluded as independent source by repository policy."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Fresh original JATS lines491/495 andKeyResources393/409; Hughes.et_.al_.Master.Protocol.pdf.txt730–803,930–970,1068–1100,1895–1925; Chapter3_SeqWell.pdf.txt880–935,1093–1170,1280–1310. Root independently reported actual original reading in collaboration message.",
+          "finding": "Independent fresh original reading confirms real1MTE/1xTE andKAPA5X/2x source conflicts. Guide versions are distinct:2019 TD/ATM11/4 and40µLWTAmix vs2023 TD/ATM10/5 and50µLWTAmix; their readoptions are source-specific. These positive recipe differences are not resolved by assigning the later version to the defining experiment."
+        }
+      ]
     },
     {
       "id": "nextera_xt_vendor",
@@ -118,6 +134,187 @@
         "date": "2026-10-16",
         "locations": "Official Illumina adapter sequences v22 PDF local text, Nextera Transposase Adapters/PCR Primers lines 256–281, Nextera DNA Indexes lines 13318–13344, N701 sample-sheet table lines 18520–18530; original Seq-Well S3 JATS Sequencing Library Preparation line 535",
         "finding": "The official document identifies the N7xx family and maps N701 to TAAGGCGA in the sample sheet (its adapter strand is TCGCCTTA). Seq-Well S3 Methods specifies an N700 Index oligo family, not N701 or a sample-specific member. Thus a fixed TAAGGCGA library index would overstate the defining source; a variable eight-base index is the supported model."
+      }
+    },
+    {
+      "id": "results_workbook_mmc2",
+      "role": "supplement",
+      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc2.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Cell-type comparison statistics, reads, UMIs and genes; no molecular synthesis specification.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "All three comparison sheets; text lines 1–33; original XLSX workbook.xml sheet inventory and every relationship file; full bundle oligo scraper first",
+        "finding": "Cell-type comparison statistics, reads, UMIs and genes; no molecular synthesis specification. No external hyperlink relationships in this original workbook."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Independently inspected original XLSX ZIP workbook/worksheet structures, all sheet names and extracted headers; every relationship part and embedded/external payload inventory; full oligo scraper first",
+        "finding": "Cell-type comparison statistics, reads, UMIs and genes; no molecular synthesis specification. All six result workbooks have no external hyperlinks or embedded source files. mmc3 contains observed twelve-base Barcode identifiers, not ordered oligo/modification specifications. mmc4 TcellClusters, CD8Clusters and CytotoxicClusters are truly empty original worksheets, rather than missing extraction."
+      }
+    },
+    {
+      "id": "results_workbook_mmc3",
+      "role": "supplement",
+      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc3.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Patient and cell metadata, including observed twelve-base cell barcode strings; not an oligo synthesis or sample-index assignment table.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "PatientInformation lines 1–21; CellLevelMetadata headers and records from line 22; original XLSX workbook.xml sheet inventory and every relationship file; full bundle oligo scraper first",
+        "finding": "Patient and cell metadata, including observed twelve-base cell barcode strings; not an oligo synthesis or sample-index assignment table. No external hyperlink relationships in this original workbook."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Independently inspected original XLSX ZIP workbook/worksheet structures, all sheet names and extracted headers; every relationship part and embedded/external payload inventory; full oligo scraper first",
+        "finding": "Patient and cell metadata, including observed twelve-base cell barcode strings; not an oligo synthesis or sample-index assignment table. All six result workbooks have no external hyperlinks or embedded source files. mmc3 contains observed twelve-base Barcode identifiers, not ordered oligo/modification specifications. mmc4 TcellClusters, CD8Clusters and CytotoxicClusters are truly empty original worksheets, rather than missing extraction."
+      }
+    },
+    {
+      "id": "results_workbook_mmc4",
+      "role": "supplement",
+      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc4.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Differential-expression and cluster marker statistics; no oligo recipe.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "All eight named sheets and their column headers: GenericSignatures through FibroblastSignatures; original XLSX workbook.xml sheet inventory and every relationship file; full bundle oligo scraper first",
+        "finding": "Differential-expression and cluster marker statistics; no oligo recipe. No external hyperlink relationships in this original workbook."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Independently inspected original XLSX ZIP workbook/worksheet structures, all sheet names and extracted headers; every relationship part and embedded/external payload inventory; full oligo scraper first",
+        "finding": "Differential-expression and cluster marker statistics; no oligo recipe. All six result workbooks have no external hyperlinks or embedded source files. mmc3 contains observed twelve-base Barcode identifiers, not ordered oligo/modification specifications. mmc4 TcellClusters, CD8Clusters and CytotoxicClusters are truly empty original worksheets, rather than missing extraction."
+      }
+    },
+    {
+      "id": "results_workbook_mmc5",
+      "role": "supplement",
+      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc5.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Cell-population enrichment statistics by condition, not molecular construction.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "T cell, Myeloid, Fibroblast, Endothelial sheets; text lines 1–41; original XLSX workbook.xml sheet inventory and every relationship file; full bundle oligo scraper first",
+        "finding": "Cell-population enrichment statistics by condition, not molecular construction. No external hyperlink relationships in this original workbook."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Independently inspected original XLSX ZIP workbook/worksheet structures, all sheet names and extracted headers; every relationship part and embedded/external payload inventory; full oligo scraper first",
+        "finding": "Cell-population enrichment statistics by condition, not molecular construction. All six result workbooks have no external hyperlinks or embedded source files. mmc3 contains observed twelve-base Barcode identifiers, not ordered oligo/modification specifications. mmc4 TcellClusters, CD8Clusters and CytotoxicClusters are truly empty original worksheets, rather than missing extraction."
+      }
+    },
+    {
+      "id": "results_workbook_mmc6",
+      "role": "supplement",
+      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc6.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Differential expression and gene-set enrichment results.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "LangerhansComparison and Langerhans GSEA sheets; headers at lines 1 and 15582; original XLSX workbook.xml sheet inventory and every relationship file; full bundle oligo scraper first",
+        "finding": "Differential expression and gene-set enrichment results. No external hyperlink relationships in this original workbook."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Independently inspected original XLSX ZIP workbook/worksheet structures, all sheet names and extracted headers; every relationship part and embedded/external payload inventory; full oligo scraper first",
+        "finding": "Differential expression and gene-set enrichment results. All six result workbooks have no external hyperlinks or embedded source files. mmc3 contains observed twelve-base Barcode identifiers, not ordered oligo/modification specifications. mmc4 TcellClusters, CD8Clusters and CytotoxicClusters are truly empty original worksheets, rather than missing extraction."
+      }
+    },
+    {
+      "id": "results_workbook_mmc7",
+      "role": "supplement",
+      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc7.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Keratinocyte results and gene expression statistics, not synthesis instructions.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "All thirteen named sheets; differential expression, pseudotime and cytokine-signature headers; original XLSX workbook.xml sheet inventory and every relationship file; full bundle oligo scraper first",
+        "finding": "Keratinocyte results and gene expression statistics, not synthesis instructions. No external hyperlink relationships in this original workbook."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Independently inspected original XLSX ZIP workbook/worksheet structures, all sheet names and extracted headers; every relationship part and embedded/external payload inventory; full oligo scraper first",
+        "finding": "Keratinocyte results and gene expression statistics, not synthesis instructions. All six result workbooks have no external hyperlinks or embedded source files. mmc3 contains observed twelve-base Barcode identifiers, not ordered oligo/modification specifications. mmc4 TcellClusters, CD8Clusters and CytotoxicClusters are truly empty original worksheets, rather than missing extraction."
+      }
+    },
+    {
+      "id": "combined_article_document_s2",
+      "role": "supplement",
+      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc8.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Complete combined original text headings; Key Resources 1467–1520, Methods and supplement links, duplicated oligo table 6548–6565; full bundle scraper first",
+        "finding": "Combined article and supplement prints the same modified TSO, SMART primer, S3 randomer and P5-SMART strings; no basis to treat this original attachment as an unavailable document. N700 family is named; no experimental index well is assigned here."
+      },
+      "pass_2": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original 79-page mmc8 PDF: Key Resources text1468–1530; STAR Methods1583–1605 and1637–1652; embedded protocol5438–5520/5635–5698/6510–6557. Compared normalized pages to original mmc1",
+        "finding": "Combined article and supplement; all 54 normalized mmc1 text pages occur in mmc8 without unmatched pages. Printed P5-SMART (terminal *A*C), SMART primer, randomer, TSO and custom R1 agree with local source-owned constructors. N700 family is named but full N7xx arms require vendor authority; model geometry statement corrected. Published TE/mastermix/TD-ATM differences remain visible."
+      }
+    },
+    {
+      "id": "author_resource_index",
+      "role": "linked_material",
+      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/protocols.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "shalek_web",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/protocols.html.txt; full bundle scraper275hits/10files completed before original reading",
+        "finding": "Current author index read in full; its actual Seq-Well child is the named legacy resource entry. Other protocol entries describe distinct methods and are not assigned to S3."
+      }
+    },
+    {
+      "id": "author_resource_entry",
+      "role": "linked_material",
+      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/seq-well-portable-low-cost-rna-sequencing-of-single-cells-at-high-throughput_old-2.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "author_resource_index",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/seq-well-portable-low-cost-rna-sequencing-of-single-cells-at-high-throughput_old-2.html; full bundle scraper275hits/10files completed before original reading",
+        "finding": "Actual entry body and all HTML href/src inspected: links the 2017 publication and original2019HughesMasterPDF, plus iframe videos a2NwpisTHBo(BeadLoading) and3HlH2CrlW1k(MembraneSealing). Video contents are not reviewed; titles alone do not support exclusion."
+      }
+    },
+    {
+      "id": "geo_series_gse150672",
+      "role": "linked_material",
+      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/geo-GSE150672-self-full.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/geo-GSE150672-self-full.txt; full bundle scraper275hits/10files completed before original reading",
+        "finding": "All479originalSerieslines read: biological study context,438GSMreferences, countCSV/matrix/RAWtar downloads and BioProjectPRJNA648161/SRPSRP273339. Series-only scope does not contain sample-library construction metadata; sample/SRAoriginals remain to inspect before any broader exclusion. No results/rawdownloads needed for current molecular claims."
       }
     }
   ],
@@ -146,7 +343,39 @@
         "locations": "Drake et al. 2023 author PDF pp.26–29/browser lines 636–660, 774–793; references pp.46–47/lines 1390–1525",
         "finding": "Followed chemistry-relevant references to the already twice-read Gierahn 2017 and Hughes 2020 source rows. Disregarded upstream scg_lib_structs illustration as non-authoritative under repository policy. No linked correction or version explanation appears in this chapter."
       }
-    }
+    },
+    "follow_up_checks": [
+      {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Fresh registered original-author Hughes.et_.al_.Master.Protocol.pdf.txt lines1–12,730–800,930–970,1068–1098,1895–1923; Chapter3_SeqWell.pdf.txt305–330,880–935,1093–1170,1280–1310,2036–2060. Full bundle scraper275hits/10files run before these original reads.",
+        "finding": "Independent fresh local reading confirms exact modified oligos and source-specific TE/KAPA/TD/ATM recipes; later2023recipe is not a retrospective correction. Display now selects explicit2019MiSeq/NextSeq and2023NextSeq20/8/50 option, with separateNovaSeq/read1beadlot variants unassigned. Official standard Nextera family bases remain inferred for an unassigned historical kit revision. Removed upstream drawing agreement as evidence from notes. Original2019guide directly names NextSeq/MiSeq custom-primer guides; laterchapter directly names cluster-density/bcl2fastq/demultiplexing/Cumulus references. Those exact children still need fresh original/link dispositions; no absence or full-scope acceptance."
+      }
+    ],
+    "pending_originals": [
+      {
+        "locator": "https://www.youtube.com/watch?v=a2NwpisTHBo",
+        "source": "author_resource_entry iframe",
+        "scope": "Actual bead-loading procedural video; content/audio unreviewed, no exclusion from title alone."
+      },
+      {
+        "locator": "https://www.youtube.com/watch?v=3HlH2CrlW1k",
+        "source": "author_resource_entry iframe",
+        "scope": "Actual membrane-sealing procedural video; content/audio unreviewed, no exclusion from title alone."
+      },
+      {
+        "locator": "2019HughesMasterProtocol.pdf p24 exact NextSeq15057456-01 and MiSeq15041638-01 custom-primer guide links",
+        "scope": "Actual named instrument/custom-primer guides pending original checks."
+      },
+      {
+        "locator": "2023Drake chapter refs15,16,18,19: original cluster-density, bcl2fastqv2.20,demultiplexing,Cumulus0.12DropSeq documents",
+        "scope": "Actual named sequencing/processing children pending source-specific original checks."
+      },
+      {
+        "locator": "GSE150672 named GSM sample and SRPSRP273339/BioProjectPRJNA648161 metadata; article Alexandria processed-data portal",
+        "scope": "Only parent GEO Series metadata inspected; linked metadata scope pending, no raw data required."
+      }
+    ]
   },
   "missing_claims": [
     {
@@ -155,5 +384,25 @@
       "evidence": "The 2019 original-author S3 Master Protocol was independently read. Its p. 19 1xTE wash and p. 22 11 µL TD + 4 µL ATM agree with published Document S1 (mmc1 lines 3644, 3810), while 2020 STAR Methods JATS lines 491 and 509 print 1 M TE and 10 µL TD + 5 µL ATM. A later original-author 2023 chapter (doi:10.1007/978-1-0716-2756-3_3, pp. 83 and 86) independently prints TE-TW then TE after NaOH and 10 µL TD + 5 µL ATM. This later recipe does not identify which 2020 recipe was used or explicitly explain the discrepancy. The PubMed record PMID 33053333 has no linked erratum/correction, and targeted publisher/DOI searches did not locate one; this is not proof that none exists. The 2023 chapter has two independent original-source reads, but it does not resolve the historical version discrepancy."
     }
   ],
-  "conclusion": "The original paper, Document S1, 2019 author S3 Master Protocol and official Nextera family table have two located readings. The page displays the original recipe discrepancies. A later 2023 original-author protocol supports 10/5 TD/ATM as a later recipe and TE-TW then TE after NaOH, has two independent original-source reads but gives no retrospective version explanation. Its chemistry-relevant predecessor links were followed; the original discrepancy remains blocked. The paper names N700 but does not identify the selected index member, so the final model uses an eight-base placeholder. Historical kit revision and selected member remain unresolved; no absence claim is accepted."
+  "conclusion": "Original article, protocol versions, official Nextera context and now all six result workbooks plus combined article supplement have two located checks. Positive oligos are represented by local graph inputs; the RT output now includes copied transcript. Published recipe differences remain on the page and are not resolved by a later protocol. Overall review stays in progress pending fresh full linked-source inventory; unresolved historical index assignment and recipe explanation are questions, not proof of an unavailable original document or accepted absence. Fresh local author2019/2023 originals now retrieved via registered routes and independently checked again. Exact custom-primer/loading/processing links and named GEO/Alexandria targets require bounded fresh original disposition; neither unexplained positive recipe differences nor unassigned kit/index choices establish publication absence.",
+  "additional_checks": [
+    {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Local seqwell_s3.py and build_page.py against original Document S1 Sequences and Key Resources",
+      "finding": "Added source-known PCR primer graph states from the same local constructors as displayed oligos. The reverse-transcription output now includes copied transcript instead of incorrectly repeating the unextended bead primer. Corrected old note claiming S3 lacked a printed bead architecture; Document S1 prints SeqB. Six result workbooks and combined article supplement now have explicit checklist rows; independent exclusion checks pending."
+    },
+    {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Fresh registered original-author Hughes.et_.al_.Master.Protocol.pdf.txt lines1–12,730–800,930–970,1068–1098,1895–1923; Chapter3_SeqWell.pdf.txt305–330,880–935,1093–1170,1280–1310,2036–2060. Full bundle scraper275hits/10files run before these original reads.",
+      "finding": "Independent fresh local reading confirms exact modified oligos and source-specific TE/KAPA/TD/ATM recipes; later2023recipe is not a retrospective correction. Display now selects explicit2019MiSeq/NextSeq and2023NextSeq20/8/50 option, with separateNovaSeq/read1beadlot variants unassigned. Official standard Nextera family bases remain inferred for an unassigned historical kit revision. Removed upstream drawing agreement as evidence from notes. Original2019guide directly names NextSeq/MiSeq custom-primer guides; laterchapter directly names cluster-density/bcl2fastq/demultiplexing/Cumulus references. Those exact children still need fresh original/link dispositions; no absence or full-scope acceptance."
+    },
+    {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Fresh original JATS lines491/495 andKeyResources393/409; Hughes.et_.al_.Master.Protocol.pdf.txt730–803,930–970,1068–1100,1895–1925; Chapter3_SeqWell.pdf.txt880–935,1093–1170,1280–1310. Root independently reported actual original reading in collaboration message.",
+      "finding": "Independent fresh original reading confirms real1MTE/1xTE andKAPA5X/2x source conflicts. Guide versions are distinct:2019 TD/ATM11/4 and40µLWTAmix vs2023 TD/ATM10/5 and50µLWTAmix; their readoptions are source-specific. These positive recipe differences are not resolved by assigning the later version to the defining experiment."
+    }
+  ]
 }

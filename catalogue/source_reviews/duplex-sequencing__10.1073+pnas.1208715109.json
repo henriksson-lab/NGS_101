@@ -1,6 +1,6 @@
 {
   "dir": "duplex-sequencing__10.1073+pnas.1208715109",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "paper",
@@ -24,16 +24,25 @@
     {
       "id": "si",
       "role": "supplement",
-      "locator": "PNAS SI Materials and Methods 1208715109_pnas.201208715SI.pdf",
-      "availability": "unavailable",
+      "locator": "Original PNAS Supporting Information Corrected March27,2013; publicUSPTO article+SI PDF, source_pdf_837ee6137323e8b633b0.pdf pp7–9",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "PMC supplementary download gate and publisher route returned 403; MANIFEST manual row."
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh sourcebundle scraper; correctedSI1010–1107 and1138–1232",
+        "finding": "Ownoriginal adapterprimer58nt/template5P ACTG+N12+R2RC50nt, Klenowcopy then separateAtail, fragmentendrepair/dT, T4ligase, KAPA and6positionindex. Fresh1138–1232 independentlyprintsCAGTA,12N+5fixed/4genomictrim andworkedreciprocalαβ/βα examples. InitialP1summarymiscountedreverseprimerarm24; actualsource arm23 confirmed by writertranscriptiontest; this is a repositorysummarycorrection, not publicationerror."
+      },
+      "pass_2": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Mandatoryfullscraper13hits/3files before reading; actualSI1010–1107 and1115–1308; originalPDFp7visuallyinspected _data/tmp/duplex-inspection/corrected-si-7.png",
+        "finding": "Independently read exactmodifiedoligos, stagedcopy/Atail, originaldAadapter/dTfragment,21ntforward and23ntreversebindingarm+6index. CAGTA alsoverbatimp8processingoverview; sourceworkedtagpair orientations andp9FigureS1/yieldTableS1text inspected. SourceheaderexplicitcorrectedMarch27,2013; no equivalenceto uncorrectedversion asserted."
+      }
     },
     {
       "id": "kennedy2014",
-      "role": "linked_material",
+      "role": "detailed_protocol",
       "locator": "Kennedy et al Nat Protoc 2014 doi:10.1038/nprot.2014.170",
       "availability": "read",
       "relevance": "relevant",
@@ -49,30 +58,157 @@
         "locations": "_data/sources/doi_10.1038+nprot.2014.170/nprot.2014.170_PMC4271547.xml.txt lines 95-103, 1205-1222",
         "finding": "Later author detailed protocol prints MWS51/MWS55 duplex adapter, N12 tag, MWS13/MWS20/MWS21 PCR primers; successor cannot prove every 2012 oligo identity."
       },
-      "discovered_from": "paper"
+      "discovery_note": "Later author comparator identified by prior audit, not a future2014method cited by the2012article. Explicit redesign/reversedtailpolarity is preserved; no2014oligos transferred."
+    },
+    {
+      "id": "neb_end_repair_protocol",
+      "role": "linked_material",
+      "discovered_from": "si",
+      "locator": "Manufacturer protocol for New England Biolab DNA End Repair kit, explicitly invoked by correctedSISequencingLibraryPreparation1058–1062",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual named manufacturerprocedure is cited, but historicalproduct/revision/URL is not yet identified/read. Graphdeclares onlynamedkit, not individualenzyme recipe imported from currentguides. No scientificabsence inferred."
+    },
+    {
+      "id": "ampure_manufacturer_protocol",
+      "role": "linked_material",
+      "discovered_from": "si",
+      "locator": "Agencourt AMPure XP beads manufacturer protocol, explicitly invoked in correctedSISequencingLibraryPreparation1055–1060",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actualsource mentions manufacturerprotocol; historicalrevision/URL remainsunassigned. CorrectedSI itself statesselectedphysical sizecutoffs/retainedfractions; no universalcurrentguidebehavior assumed."
+    },
+    {
+      "id": "si_results",
+      "role": "supplement",
+      "locator": "Same original correctedSI PDFp9, FigureS1 andTableS1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Originalextractedtext1240–1308, completefigurecaption/yieldtableandfootnote",
+        "finding": "Spike-in control performance andread/SSCS/DCSyieldtable; yieldfootnote discussesminimumduplicates/strandpartnerrecovery. No readcyclemask assigned from nucleotideyieldnumbers. Originalfigure image notvisuallyaudited inthispass."
+      }
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "audit_s_z",
+      "reviewer": "root",
       "date": "2026-10-16",
-      "locations": "Original paper SI pointer; 2014 author successor and its explicit chemistry change.",
-      "finding": "Linked material is itemized below; inaccessible relevant sources remain open."
+      "locations": "Original correctedSI1010–1107,1138–1232 and originalarticleSIpointer",
+      "finding": "Officialpublicexhibit recoveredactualoriginal, not patentcommentary. Sourceownrecipe/oligos andprocessingknown; sourcecorrection/version boundary andactualmanufacturerprotocolscope remainitemized. Later2014redesign cannotbackfill originalgeometry."
     },
     "pass_2": {
-      "reviewer": "audit_a_h",
+      "reviewer": "audit_nanocut_closeout",
       "date": "2026-10-16",
-      "locations": "2012 original HTML lines 1159-1172, 1238-1243; Kennedy 2014 original JATS lines 95-103, 1205-1222; original SI manifest",
-      "finding": "Followed paper to detailed successor, recovering adapter and PCR oligo family; original 2012 SI remains unavailable, so defining-version exact bases are blocked."
+      "locations": "Actual correctedSIallthreepagesextractedtext1010–1308 andrenderedp7; originalmainDataProcessing989–1008",
+      "finding": "SImanufacturerinstructions namedforNEBDNAEndRepairkit andAMPureXP need historicalidentity/relevance checks. SIcitations1–3 concern M13substratepreparation/polymerasefidelity/damageexperiments; citation4(Vermulst2007) concernsmitochondrialDNA isolation. These are scopeleads, not automatically coreadapterrecipes; originalpredecessors notnewlyreadtwice here, no completedexclusion or wholelinkgate asserted. SIFigS1/TableS1results reader2pending."
     }
   },
   "missing_claims": [
     {
       "claim": "2012 adapter and PCR oligo synthesis sequences",
-      "evidence": "The original SI is gated; the 2014 published redesign has reversed tail polarity.",
-      "disposition": "blocked"
+      "disposition": "resolved",
+      "evidence": "Corrected original SI recovered and independently read supplies exactmodifiedadapteroligos/PCRprimers; claimresolvedfor explicitlyMarch27,2013correctedversion. Initialprecorrectionequivalence is a separate openversionquestion, no absenceaccepted."
     }
   ],
-  "conclusion": "Later author protocol publishes duplex adapter and PCR oligos; defining 2012 SI remains unavailable for version-specific verification."
+  "conclusion": "Recovered original correctedSI resolves formeroligoaccess blocker. Localadaptergeometry, sixindexpositions, fixedCAGTAspacers andcopiedPCRsites now source-owned. Audit remains in_progress for actualmanufacturerprocedure/historicalversion and remaininglinked/results scope; no missinginformation accepted.",
+  "history": [
+    {
+      "previous_review": {
+        "dir": "duplex-sequencing__10.1073+pnas.1208715109",
+        "status": "blocked",
+        "source_checklist": [
+          {
+            "id": "paper",
+            "role": "defining",
+            "locator": "Schmitt et al PNAS 2012 doi:10.1073/pnas.1208715109",
+            "availability": "read",
+            "relevance": "relevant",
+            "pass_1": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "_data/sources/doi_10.1073+pnas.1208715109/pnas.1208715109_PMC3437896.html.txt lines 1159-1170,1238-1243; scraper zero",
+              "finding": "Original reports 12 nt tag at both ends and original adapter dA / fragment dT ligation; points to SI for bases."
+            },
+            "pass_2": {
+              "reviewer": "audit_a_h",
+              "date": "2026-10-16",
+              "locations": "_data/sources/doi_10.1073+pnas.1208715109/pnas.1208715109_PMC3437896.html.txt lines 1159-1172 and 1238-1243",
+              "finding": "Defining paper explains randomized duplex tag copied into adaptor and complementary-tag strand pairing; precise 2012 SI oligo table not in article."
+            }
+          },
+          {
+            "id": "si",
+            "role": "supplement",
+            "locator": "PNAS SI Materials and Methods 1208715109_pnas.201208715SI.pdf",
+            "availability": "unavailable",
+            "relevance": "relevant",
+            "pass_1": null,
+            "pass_2": null,
+            "reason": "PMC supplementary download gate and publisher route returned 403; MANIFEST manual row."
+          },
+          {
+            "id": "kennedy2014",
+            "role": "linked_material",
+            "locator": "Kennedy et al Nat Protoc 2014 doi:10.1038/nprot.2014.170",
+            "availability": "read",
+            "relevance": "relevant",
+            "pass_1": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "_data/sources/doi_10.1038+nprot.2014.170/nprot.2014.170_PMC4271547.xml.txt lines 95-103,1209-1218; scraper at 1209",
+              "finding": "Later redesign Table 3 prints MWS51/MWS55 and PCR primers; explicitly changes to adapter dT and fragment dA, so cannot backfill 2012 bases."
+            },
+            "pass_2": {
+              "reviewer": "audit_a_h",
+              "date": "2026-10-16",
+              "locations": "_data/sources/doi_10.1038+nprot.2014.170/nprot.2014.170_PMC4271547.xml.txt lines 95-103, 1205-1222",
+              "finding": "Later author detailed protocol prints MWS51/MWS55 duplex adapter, N12 tag, MWS13/MWS20/MWS21 PCR primers; successor cannot prove every 2012 oligo identity."
+            },
+            "discovered_from": "paper"
+          }
+        ],
+        "linked_information": {
+          "result": "blocked",
+          "pass_1": {
+            "reviewer": "audit_s_z",
+            "date": "2026-10-16",
+            "locations": "Original paper SI pointer; 2014 author successor and its explicit chemistry change.",
+            "finding": "Linked material is itemized below; inaccessible relevant sources remain open."
+          },
+          "pass_2": {
+            "reviewer": "audit_a_h",
+            "date": "2026-10-16",
+            "locations": "2012 original HTML lines 1159-1172, 1238-1243; Kennedy 2014 original JATS lines 95-103, 1205-1222; original SI manifest",
+            "finding": "Followed paper to detailed successor, recovering adapter and PCR oligo family; original 2012 SI remains unavailable, so defining-version exact bases are blocked."
+          }
+        },
+        "missing_claims": [
+          {
+            "claim": "2012 adapter and PCR oligo synthesis sequences",
+            "evidence": "The original SI is gated; the 2014 published redesign has reversed tail polarity.",
+            "disposition": "blocked"
+          }
+        ],
+        "conclusion": "Later author protocol publishes duplex adapter and PCR oligos; defining 2012 SI remains unavailable for version-specific verification."
+      },
+      "reason": "Original article plus corrected SI recovered in public official USPTO exhibit; old gated-source observations preserved, original adapter/PCR recovery blocker superseded for that corrected source version."
+    }
+  ],
+  "open_model_questions": [
+    "Exact changes from initial2012SI to correctedMarch27,2013SI remainuncompared. Modelsourceversion is explicitlycorrected; no originaldate-equivalence claim.",
+    "Historicalkitcomponent identities remain at namedNEBDNAEndRepairkit level pending actualmanufacturerprocedure checks.",
+    "Exactphysicalpre-PCRYarms differ; PCRgeometry is scoped to copiedduplexcore afterfirst reverseprimerextension, not the original unpairedouterarms.",
+    "Sixsample-indexpositions are source-known; actualsampleindexvalues/run-cyclemask remain unassigned, not inferred fromplatform defaults."
+  ],
+  "model_corrections": [
+    "Removed implicit generictruseq_library8positionindex andconventionaldAjunction defaults; now sixsourcepositions andCAGTA/TACTGfixedjunctions.",
+    "Adapter3′dA nowunpaired outside29positionduplexcore; sourceprimer/templateYarms shownexplicitly.",
+    "Klenowcopy andseparateA-tail, namedfragmentendrepair/dT andsourceT4/KAPAreagentsdeclaredlocally.",
+    "Physicalsize-selectionwaste separatedfromcomputationaltag/spacer/consensusfiltering; no sequencing-filterdiscard representedasphysicalselection.",
+    "PCRreverse23baseannealingarm correctedfrominitialrepositorysummary24base count by actualsource-backedtest."
+  ]
 }

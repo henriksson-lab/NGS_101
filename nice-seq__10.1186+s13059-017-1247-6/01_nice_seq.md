@@ -6,11 +6,17 @@ Ponnaluri et al., *Genome Biology* (2017),
 ## Sources read
 
 - 🟢 The defining open-access article and methods (PMCID: PMC5488340).
-- 🟢 The authors' GEO record GSE97889, particularly GSM2579632/SRX2741932, for
-  deposited-library metadata and paired-end run identity.
+- 🟢 Original GSE97889 family metadata: all 14 sample headers and the five unique
+  extraction/seven processing paragraphs were inspected. Nine NicE-seq records share
+  the deposited labeling/library paragraph; four WGBS and one ATAC record describe
+  separate branches. The large platform annotation table was not audited.
 - 🟢 New England Biolabs, *NEBNext Ultra DNA Library Prep Kit for Illumina*, E7370
   manual, for the discontinued commercial end-prep and ligation workflow named by the
-  paper. The paper does not identify which separately sold NEBNext oligo set was used.
+  paper. The fetched manual is **Version 9.1_1/23**, a later companion; it requires
+  separate oligo kits and does not establish which historical oligos the study used.
+- 🟢 All S1–S17 captions and a visual survey of their 17 embedded original figures:
+  peak-caller comparisons, genomic tracks, Venn diagrams, heatmaps and biological
+  results. This was a source-scope inspection, not a statistical reanalysis.
 
 ## What carries the accessibility signal
 
@@ -30,35 +36,62 @@ Ponnaluri et al., *Genome Biology* (2017),
    end-repairs, dA-tails and ligates an Illumina-compatible adapter *before* enrichment.
 6. 🟢 Adapter-ligated DNA is incubated with blocked streptavidin beads for 2 h in 2 M
    NaCl. Four B&W/Triton washes and a TE/Triton wash remove unlabelled molecules. PCR
-   from the bead-bound fraction, usually ten cycles, yields the sequencing library.
+   uses **4 µL of the 40-µL bead suspension**, usually ten cycles. The graph feeds
+   only this aliquot into PCR and marks the remaining 36 µL as unresolved; it does not
+   invent disposal or storage. The 25-cell branch instead sonicates all recovered DNA
+   and uses 10 µL beads; that distinct variant is not merged into the standard aliquot.
 
 This order matters: read endpoints are mechanical shear positions and do not identify
 the original Nt.CviPII nick. Enrichment across the fragment reports proximity to an
 internally biotinylated accessible-chromatin tract.
 
-## Source discrepancy
+## Article/deposit differences
 
-🟢 The article Methods state 10 U DNA polymerase I in the standard labeling reaction,
-whereas the authors' GSM2579632 extraction metadata state 50 U for that deposited sample.
-The public schematic deliberately says “DNA polymerase I” without resolving this conflict
-into a false universal amount. Both sources agree on 2.5 U Nt.CviPII, nucleotide and
-biotin-nucleotide concentrations, temperature, time and mixing.
+🟢 The article Methods and the nine deposited NicE-seq extraction paragraphs differ:
 
-## Commercial-oligo boundary
+| Item | Article Methods | GSE97889 NicE-seq metadata, including GSM2579632 |
+|---|---|---|
+| Standard DNA polymerase I | 10 U | 50 U |
+| SDS/proteinase K treatment at 65 °C | Overnight | 1 h |
+| Triton X-100 in B&W washes | 0.05% | 0.005% |
 
-🟢 E7370 supplies end-repair/dA/ligation/PCR reagents but requires a separately purchased
-NEBNext oligo kit. The article says only “NEB Illumina adaptor (E7370S)” and does not name
-the oligo catalogue number, sample index or whether a later dual-index option was used.
+The public page displays all three differences. It retains the shared operations without
+selecting universal values. The separately described 25-cell branch uses 5 U polymerase I
+in both sources; it is not evidence that either standard-reaction value is a typo. Whether
+the differences represent run variants or transcription errors remains unresolved.
 
-🟡 The schematic consequently shows a compatible historical six-base, single-i7
-TruSeq-shaped NEBNext shell as **inferred**. It does not claim an exact index sequence and
-does not invent an i5 read. The biochemical heart of NicE-seq—accessible-site nicking,
-biotin nick translation, random shearing and internal-label capture—is unaffected by that
-unresolved purchasing choice.
+## Commercial-oligo and model boundaries
+
+🟢 The article names E7370S for end repair, dA tailing, ligation and PCR. Its source-owned
+order is ligation → **capture without further purification** → bead-bound PCR. The model
+keeps that order and does not import the later vendor manual's intervening cleanup.
+The 2023 vendor manual makes USER treatment conditional on use of NEBNext adapters;
+its separate WGBS loop-adapter/USER recipe in GEO does not assign that adapter to NicE-seq.
+
+The current model uses **role-level library ends**. The previous compatible six-base
+single-i7 shell was a repository-selected example, not a recovered study oligo identity;
+it has been removed. No index width, index-read count, exact adapter arms or base-level
+sequencing primer sites are assigned. Adapter ligation and PCR geometry remain explicitly
+unavailable pending reconciliation of the study-specific oligos. These are open model
+questions, not accepted claims that the authors never supplied the information.
+
+The graph serializes nick creation and nick translation to explain molecular roles;
+the original performs them in the same labeling mixture. RNase digestion, protein removal
+and DNA extraction are distinct stages; actual extraction and capture/wash fractions are
+shown as discarded material. The graph does not equate every unbound molecule with an
+experimentally guaranteed absence of biotin.
 
 ## Sequencing
 
-🟢 The deposited NicE-seq data are paired-end NextSeq 500 libraries and were processed as
-read pairs. The article does not state a NicE-seq-specific cycle count (its explicit 75-bp
-statement is for the comparison ATAC-seq library), so no R1/R2 length is assigned on the
-public page. Standard TruSeq-family primers bind a compatible E7370 library shell.
+🟢 The NicE-seq GEO records name NextSeq 500 and paired-end processing. The article's
+explicit 75-bp run statement describes the separate ATAC-seq comparison. A study-specific
+NicE-seq run mask remains unassigned in this model; linked experiment metadata have not
+yet been read. No read-cycle length or index architecture is inferred from the instrument.
+
+## Remaining source obligations
+
+The review remains in progress. The actual linked NEB oligo hub and relevant historical
+manual identity, study experiment metadata, and bounded processing links require their
+own original-source dispositions. The registered E7370 product page returned HTTP 403;
+that is an availability result, not a missing-sequence finding. No blanket absence claim
+is accepted from the scraper's empty article/supplement output.

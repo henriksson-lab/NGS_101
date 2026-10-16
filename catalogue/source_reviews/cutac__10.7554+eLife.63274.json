@@ -1,6 +1,6 @@
 {
   "dir": "cutac__10.7554+eLife.63274",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "article",
@@ -19,7 +19,21 @@
         "date": "2026-10-15",
         "locations": "eLife JATS lines 298-317",
         "finding": "Article distinguishes in-house pA-Tn5 from Epicypher pAG-Tn5 and links protocols.io; post-tagmentation indexed P5/P7 primers are named but no member selected."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Original eLife.63274_v2.xml.txt298–325",
+          "finding": "Separates in-house/commercial transposase; low-salt variants; SDS release/Triton neutralization/NEBNext PCR/SPRI. Generic Nextera endpoint is not a source-specific primer declaration."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original main290–325",
+          "finding": "Independent in-house/commercial distinction, low-salt options, SDS/Triton/P5P7/NEBNext/SPRI confirmed. Actual links include nuclei bcuhiwt6, CUTAC bmbfk2jn, loading8yrhxv6, analysis bjk2kkye and cell culture4DN."
+        }
+      ]
     },
     {
       "id": "cutac_protocol",
@@ -39,7 +53,21 @@
         "date": "2026-10-15",
         "locations": "CUTAC protocols.io extracted PDF lines 138-147",
         "finding": "Protocol says pA(G)-Tn5 loaded with 19-mer mosaic-end duplex adapters and custom i5/i7 primers; explicitly warns against Nextera or NEBNext primers."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Original bmbfk2jn PDF1–70,132–158,492–573",
+          "finding": "Version2 Sep18,2020 ID42055. Custom Buenrostro primers; explicit exclusion of Nextera/NEBNext primers. Universal OR barcoded i5, unique i7; SDS release→Triton→gapfill→PCR."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Same original title1–70,132–158,492–573",
+          "finding": "Independent source/version and primer restriction; release/neutralization/nonhotstartNEBnext/gapfill/PCR order confirmed."
+        }
+      ]
     },
     {
       "id": "patn5_protocol",
@@ -59,8 +87,121 @@
         "date": "2026-10-15",
         "locations": "pATn5 protocols.io PDF table, pdftotext -layout lines 585-624; assembly 629-666",
         "finding": "Read source table visually through layout extraction: Tn5MErev is phosphorylated; A/B top oligos and annealing are shown. Table extraction is fragmented, so this does not identify commercial Epicypher-loaded oligos or selected index."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Original8yrhxv6 PDF1–65,table911–1040; API29425 decoded table cells",
+          "finding": "Nov26,2019 ID29425. ME-A33, ME-B34, [Phos]MErev19. Source API table contains complete strands; not evidence of commercial pAG–Tn5 identity."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original front1–65 and fresh layout585–667",
+          "finding": "Independent original A33/B34/5PhosMErev19 and source identity; Picelli/Addgene124601 links. No commercial sequence assignment."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original protocolsio_29425_public.json $.protocol.steps[46].step decoded.entityMap.0.data.data[1..3][2], adjacent name/length columns",
+          "finding": "Independent whole modified API table cells verified against adjacent strand names and source lengths19/33/34; agrees original fragmented PDF table. Dedicated local five checks cover complete ordering strings/families; generic text-twin guard exception is narrow and is not three generic passing checks."
+        }
+      ]
+    },
+    {
+      "id": "custom_index_table",
+      "role": "predecessor",
+      "discovered_from": "cutac_protocol",
+      "locator": "doi_10.1038+nature14590/nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original workbook all indexed rows; whole family architecture checked",
+        "finding": "i5 P5+N8+TCGTCGGCAGCGTCAGATGTGTAT; i7 P7+N8+GTCTCGTGGGCTCGGAGATGTG. Both exact arms bind conditional in-house A/B template. Source family not selected sample/member."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original MOESM36 all rows6–97 and99–194; whole oligo strings parsed and first/last independently read",
+        "finding": "92i5 and96i7 all match source P5/P7+8base index+24/22nt arms; i5 rowname direct, i7 rowname reverse-complement in physical primer. No source error inferred."
       }
     },
+    {
+      "id": "dataset_workbook",
+      "role": "supplement",
+      "discovered_from": "article",
+      "locator": "eLife.63274_elife-63274-supp1-v2.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual XLSX ZIP workbook sheet inventory/all .rels; extracted headers and sample metadata",
+        "finding": "Three sheets Datasets_by_figure/Datasets in GEO/Other database files; no external relationships. Contains explicit extraction-protocol filenames CnTathome_Protocols_io.pdf and CUTnTag-direct_v2_Protocols.io.pdf, not automatically identified with fetched bmbfk2jn."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual all3sheet headers and unique Extraction/Library columns;190/113/64rows",
+        "finding": "Named protocol files are real metadata, not proof of bmbfk2jn identity. One shifted metadata row still needs scope review; no full chemistry absence/exclusion claimed."
+      }
+    },
+    {
+      "id": "reporting_form",
+      "role": "supplement",
+      "discovered_from": "article",
+      "locator": "eLife.63274_elife-63274-transrepform-v2.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Original DOCX extracted full reporting form",
+        "finding": "Statistical/sample grouping metadata; explicitly links analysis tutorial concept and TableS1. Does not justify excluding tutorial without original inspection."
+      },
+      "pass_2": {
+        "reviewer": "root_independent_source_check",
+        "date": "2026-10-16",
+        "locations": "Entire original extracted eLife.63274_elife-63274-transrepform-v2.docx.txt: sample size, replicates, statistical reporting, group allocation and additional source-data sections",
+        "finding": "Independently read the complete form. It directs replicate/group assignments to Table S1, names public study GSE158327 and points to the analysis tutorial. These are actual linked obligations, not grounds to exclude the tutorial or infer molecular oligos. The named Unique datasets tab differs from the current extracted workbook tab names; no revision equivalence is assumed. No private reviewer access is needed or used."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "audit_tenx_closeout",
+      "date": "2026-10-16",
+      "locations": "Original main Methods; protocols.io original fronts/materials/PCR and API documents fields; original workbook/reporting form",
+      "finding": "Source versions kept separate. PublicAPI29425 documents=[];42055 documents=null, not complete independent attachment-API exclusion. Dataset filename identities and named nuclei/analysis/precursor links remain pending."
+    },
+    "pass_2": {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Original main290–325; author CUTAC1–70/132–158/492–573; loading front/table",
+      "finding": "Bounded chemistry/source-positive checks only. Further named linked originals and workbook protocol-file identities not excluded by these readings."
+    },
+    "historical_passes": [
+      {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "JATS source links to protocols.io 8yrhxv6 and CUTAC direct",
+        "finding": "Both author-linked methods fetched and inspected; commercial Epicypher reagent needs separate validation."
+      },
+      {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "eLife JATS 298-315, protocols.io CUTAC 138-147 and pATn5 PDF oligo table",
+        "finding": "Followed both linked author protocols; commercial Epicypher enzyme/loaded-oligo documentation and selected index remain unavailable."
+      }
+    ]
+  },
+  "missing_claims": [],
+  "conclusion": "In progress. Source-specific custom PCR choice replaces generic Nextera recipe; graph owns conditional in-house adapter/barcoded-i5 branch and direct SDS/Triton route. Unassigned commercial chemistry is not an unavailable invented document. Whole modified adapter/source-family checks pass, but pending source-version/link checks prevent complete gate.",
+  "withdrawn_source_rows": [
     {
       "id": "commercial",
       "role": "vendor",
@@ -70,27 +211,46 @@
       "reason": "Commercial loaded reagent molecular sequence/version is not established by in-house pA-Tn5 protocol."
     }
   ],
-  "linked_information": {
-    "result": "blocked",
-    "pass_1": {
-      "reviewer": "audit_a_h",
-      "date": "2026-10-15",
-      "locations": "JATS source links to protocols.io 8yrhxv6 and CUTAC direct",
-      "finding": "Both author-linked methods fetched and inspected; commercial Epicypher reagent needs separate validation."
-    },
-    "pass_2": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-15",
-      "locations": "eLife JATS 298-315, protocols.io CUTAC 138-147 and pATn5 PDF oligo table",
-      "finding": "Followed both linked author protocols; commercial Epicypher enzyme/loaded-oligo documentation and selected index remain unavailable."
-    }
-  },
-  "missing_claims": [
+  "missing_claim_history": [
     {
       "claim": "Exact loaded commercial pAG-Tn5 oligos and selected index",
       "disposition": "blocked",
       "evidence": "In-house pA-Tn5 oligos are printed in linked author protocol; whether commercial 15-1117 is identical and which indexes were used remain unresolved."
     }
   ],
-  "conclusion": "Defining article and linked author protocols read; commercial reagent identity remains blocked."
+  "open_model_questions": [
+    {
+      "question": "Historical commercial pAG-Tn5 loaded oligos and selected index/run configuration",
+      "status": "unassigned",
+      "reason": "The prior commercial row named a reagent, not an identified unavailable source document. Withdrawing it does not establish molecular identity or information absence."
+    }
+  ],
+  "pending_linked_targets": [
+    {
+      "source": "CnTathome_Protocols_io.pdf and CUTnTag-direct_v2_Protocols.io.pdf",
+      "discovered_from": "dataset_workbook",
+      "next_action": "Resolve actual source identity/route from original metadata; do not equate file names with bmbfk2jn without evidence."
+    },
+    {
+      "source": "Original linked nuclei preparation bcuhiwt6 and CUT&Tag precursor z6hf9b6",
+      "next_action": "Inspect actual version/chemistry scope for CUTAC entry without inheriting precursor extraction/PCR choices."
+    },
+    {
+      "source": "Original linked analysis tutorial bjk2kkye and4DN cell-culture instructions",
+      "next_action": "Original-source scope check needed before exclusions; data access/software scope is not established solely by referring article."
+    },
+    {
+      "source": "Original in-house loading Picelli2014/Addgene124601 children",
+      "next_action": "Bound actual chemistry/provenance dependencies; source-known loading oligos do not identify commercial reagent."
+    },
+    {
+      "source": "Dataset workbook shifted metadata row",
+      "next_action": "Locate/reconcile shifted row before full extraction/library-column inventory is considered complete."
+    },
+    {
+      "source": "Public study GEO GSE158327 and reporting-form workbook tab reference",
+      "discovered_from": "reporting_form",
+      "next_action": "Inspect public study metadata and reconcile the form's Unique datasets tab reference against actual workbook tabs; do not infer source equivalence or molecular absence from a reporting-form title."
+    }
+  ]
 }

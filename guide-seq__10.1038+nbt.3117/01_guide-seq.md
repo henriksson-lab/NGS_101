@@ -1,13 +1,10 @@
 # GUIDE-seq — research notes
 
-## Assay target
+## Assay scope
 
-The sequenced material is human genomic DNA flanking nuclease-induced double-strand breaks
-in living cells. This protocol does not target, amplify or reconstruct a pathogen genome:
-every oligo it uses is a host-genome or library oligo (a non-coding 34-bp tag duplex, a
-half-functional Y adapter and nested Illumina primers). The note is here so that the
-protocol's CRISPR, off-target and double-strand-break vocabulary is not read as pathogen
-work.
+The library captures genomic DNA beside dsODN insertions at nuclease-induced
+breaks. The local declaration covers the tag, half-functional adapter, nested
+library primers and sequencing readout; genomic targets remain schematic.
 
 ## Sources read
 
@@ -136,19 +133,28 @@ AMP-style arm on the P7 side installed by PCR.
   index-1 read reports the P7 barcode. This is why the run is `151 | 8 | 16 | 151` rather
   than `151 | 8 | 8 | 151`. Cycle spans on the page are derived with
   `seqprimers.feature_spans()`, never written out by hand.
-- 🟡 **Index 2 primer.** The protocol spikes custom primers into cartridge positions 13
-  and 14 only, so nothing is added for the i5 read. MiSeq is a forward-strand instrument,
-  where the grafted flow-cell P5 oligo primes the index-2 read (Illumina "Indexed
-  Sequencing Overview Guide" #15057455). The model declares `illumina.P5` for that role.
-  The 16-cycle length and the identifiers it covers are 🟢; the identity of the priming
-  oligo is standard-instrument behaviour rather than a GUIDE-seq statement.
+- **Index 2 mechanism and effective model anchor.** The recovered official
+  *Indexed Sequencing Overview Guide* 15057455 **v08, November 2020**, p. 4
+  (extracted lines 391–418), says MiSeq uses the surface-grafted P5 primer, then
+  **seven chemistry-only cycles without imaging**, before imaging Index 2. The
+  local `illumina.P5` reference marks the computational **post-extension read-start
+  boundary**, not a claimed exact 29-nt physical grafted oligo. Its 16 imaged cycles
+  cover sample barcode8 then molecular index8. The seven dark cycles are additional
+  instrument chemistry, not extra reported index bases.
+- The guide's actual revision history lists initial Rev. A in July 2014 and Rev. B
+  in February 2015. This establishes document lineage, not the authors’ selected
+  historical guide or instrument-recipe revision. The contemporary manufacturer
+  custom-primer bulletin also states that MiSeq has no custom Index 2 primer
+  option because it uses grafted P5. Neither source supplies a selected GUIDE-seq
+  sample's adapter pair merely from the instrument name.
 
-## `NNWNNWNN` is degenerate, not random
+## `NNWNNWNN` is a constrained degenerate molecular index
 
 🟢 Supplementary Methods: "The adapters also contain 8-mer NNWNNWNN (N = A, C, T, or G;
 W = A or T) molecular indexes." Positions 3 and 6 are restricted to A/T, so the index has
 4⁶ × 2² = 16 384 forms, not 4⁸ = 65 536. The molecular feature records
-`encoding="degenerate"`; `"random"` would be wrong.
+`encoding="degenerate"` to preserve those restrictions. The paper’s broader term
+"random" does not imply that all eight positions are unrestricted N bases.
 
 ## Recorded source conflict: where the molecular index is installed
 
@@ -164,7 +170,7 @@ Two statements in the same paper disagree:
   while correctly attributing it to the half-functional adapters.
 
 The protocol and the oligo table win: the index is a synthesized part of the ligated
-adapter, and it is degenerate rather than random. An earlier version of this note and of
+adapter, with the explicitly restricted `NNWNNWNN` alphabet. An earlier version of this note and of
 the model repeated the main text's looser phrasing ("nested amplification installs an 8-bp
 random molecular barcode") and placed the index inside the insert, i.e. inside Read 1.
 That was wrong on both counts.
@@ -174,18 +180,45 @@ That was wrong on both counts.
 GUIDE-seq measures breaks that capture the dsODN in living cells. It is distinct from
 CIRCLE-seq, where purified genomic circles are cut by Cas9 in vitro.
 
-## Open questions
+## Recovered PMC supplement: an older source version
 
-- 🟡 The two discovery orientations are run as separate master mixes with the `+` and `−`
-  GSP pairs; the paper does not say whether the two products are pooled before or after
-  qPCR normalization. The model pools after the nested PCR, which is the only point at
-  which pooling is described ("normalize the total set of libraries").
-- 🔴 Neither PCR is drawn with exact primer-binding coordinates. PCR 1 cannot be: the
-  sheared genomic flank has no fixed length and the half-functional adapter is on *both*
-  fragment ends, so P5_1 has no unique site on one drawn duplex. PCR 2 additionally uses
-  three primers. Both are recorded as structured PCR limitations rather than invented
-  geometry.
-- 🔴 Supplementary Table 4 gives no index-length statement for its own barcodes beyond
-  what the printed oligos show; the 8-nt widths used here are read off the printed
-  sequences (A01 `TAGATCGC`, P701 `TCGCCTTA`), which is also what the 8-cycle index-1 read
-  confirms.
+The actual PMC Cloud object `NIHMS647337-supplement-1.pdf` is 214,485,908 bytes.
+It was publicly accessible; the former unavailable status arose from the generic
+120 MB downloader cap. It was fetched through the standard source `Folder.save`
+API with an explicit 215 MB cap for this identified document and validated as a
+complete PDF. It is retained separately from corrected publisher MOESM21.
+
+Direct text and visual comparison of **PMC p. 32** and **corrected publisher p. 33**
+shows the GSP1 label swap described by the publisher's correction notice. The
+older PMC table labels the GTTTA… GSP1 body `+` and ATACC… `−`; corrected MOESM21
+labels ATACC… `+` and GTTTA… `−`. The two GSP2 rows are unchanged. The corrected
+publisher file also distinguishes discovery and validation cycling, whereas the
+older PMC protocol prints only the validation program. The model uses corrected
+labels and does not substitute the older protocol. This version difference is
+also disclosed on the public schematic.
+
+Both copies print the same 151/8/16/151 sequencing layout and custom Index 1/Read 2
+cartridge positions 13/14. The physical Index 2 mechanism comes from the separately
+versioned manufacturer documentation above.
+
+## Model questions and linked-source scope
+
+- A01 and P701 are source-printed representatives. The completed library retains
+  variable index windows rather than assigning them to an unspecified experimental
+  sample. This is an unselected model value, not an assertion of publication absence.
+- The current declaration does not assemble the strand-resolved PCR 1 template or
+  sequential products of the three-primer PCR 2 reaction. All ordered library
+  primers are source-positive; varying genomic flank lengths do not make their
+  relative binding geometry inherently impossible. The structured PCR limitations
+  describe model work still to do.
+- The two discovery orientations are separate reactions. The graph pools their
+  products after nested PCR, following the protocol's later library-normalization
+  and pooling section; it does not prove an earlier experimental pooling time.
+- The exact physical grafted-primer sequence and authors’ historical instrument
+  recipe remain unassigned. The current computational read-start anchor must not
+  be reinterpreted as an ordered grafted oligo or a 22-nt primer inferred by subtraction.
+- The contemporary manufacturer bulletin links the actual MiSeq Custom Primers
+  Guide15041638 and other platform-specific guides. Their source-specific scope is
+  tracked in the review; a current guide is not automatically the 2015 revision.
+
+The audit accepts no missing-information claim from these model boundaries.

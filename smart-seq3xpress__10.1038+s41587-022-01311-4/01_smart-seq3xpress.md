@@ -26,34 +26,38 @@ doi:[10.1038/s41587-022-01311-4](https://doi.org/10.1038/s41587-022-01311-4)
 - 🟢 **The original protocol-linked `384set_Nextera_BC_order.xls`**, sheets
   `UD_i5_indices` and `UD_i7_indices`: complete ten-base index primers; retrieval
   and the explicit illustrative pair are detailed below.
-- 🟢 **Hagemann-Jensen et al. 2020 Supplementary Table 1** for the shared SMART-seq3 core,
-  recorded in that protocol's note.
-- 🟡 **Illumina adapter-sequence documentation**, via `lib/nextera.py` and
-  `lib/illumina.py`, for ME, s5, s7, P5, P7 and the index-primer architecture.
+- 🟢 **The local core oligos and index workbook** establish the represented handles.
+  Canonical strings in `lib/nextera.py` and `lib/illumina.py` are used for computation;
+  their reuse alone does not establish an xpress reagent assignment.
 
 The RT/TSO bases are transcribed from the sources above. The indexed endpoint is
 now declared in this protocol, using the author-linked order workbook below. No secondary redrawing of the
 SMART-seq family is used as evidence here, and none is needed: the paper and the author
-protocol each print the complete oligo set independently.
+protocol supply the represented core oligos directly. The article prints the TSOs
+and PCR primers; the author protocol supplies the ordered oligo-dT handle and
+the full modification notation.
 
 ## Oligos
 
 ```
 Smartseq3_OligodT30VN  5'- /5BiosG/ ACGAGCATCAGCAGCATACGA TTTTT...TTTTT VN -3'   (30 T)  🟢
-Smartseq3xpress_TSO    5'- /5BiosG/ AGAGACAGATTGCGCAATG [8-bp UMI] WW rGrGrG -3'         🟢
+Smartseq3xpress_TSO    5'- /5BiosG/ AGAGACAGATTGCGCAATG [8 N positions] WW rGrGrG -3'     🟢
 Fwd_PCR_primer         5'- TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGATTGCGCAA*T*G -3'            🟢
 Rev_PCR_primer         5'- ACGAGCATCAGCAGCATAC*G*A -3'                                   🟢
 ```
 
-🟢 The only oligo difference from SMART-seq3 is the **`WW` spacer** between the UMI and the
-G tail — the "Improved TSO" above. `AGAGACAG` is the 3'-terminal 8 nt of the Nextera
+🟢 The final paper distinguishes the original SMART-seq3 TSO from the improved
+xpress TSO by the **`WW` spacer** between the UMI and the G tail.
+`AGAGACAG` is the 3'-terminal 8 nt of the Nextera
 mosaic end, so the stock Read 1 primer (`s5 + ME`) ends exactly where the 11-bp tag
 `ATTGCGCAATG` begins; the forward PCR primer rebuilds the whole s5 arm as it amplifies.
 `W` is A or T, so the spacer is a two-base degenerate window, not a fixed sequence.
 
-🟡 Everything else that differs from SMART-seq3 is reaction engineering rather than
-chemistry: sub-microlitre volumes under an overlay, SeqAmp or NEBNext polymerase options,
-and post-pre-amplification clean-up variants. None of it changes a modelled base.
+The local declaration selects the final improved TSO, Maxima H Minus RT,
+the published SeqAmp pre-amplification option and commercial Nextera tagmentation
+with Phusion index PCR. The paper separately evaluates other pre-amplification
+polymerases and in-house Tn5. These are explicit source variants; matching adapter
+patterns do not make their conditions or reagent assemblies interchangeable.
 
 ## What the page asserts, by role
 
@@ -61,11 +65,11 @@ and post-pre-amplification clean-up variants. None of it changes a modelled base
 |---|---|---|
 | biotinylated oligo-dT with its own handle | 🟢 | protocols.io ordered table; shared with SMART-seq3 |
 | UMI-bearing TSO with `WW` spacer | 🟢 | defining paper's Methods, "Improved TSO"; protocols.io |
-| 8-base UMI | 🟢 | `NNNNNNNN` in both sources |
+| 10-position UMI, comprising 8N + 2W | 🟢 | ordered TSO and deposited annotation `UMIsequence`/`UMIlength`; WW also acts as a spacer |
 | 11-bp 5' tag `ATTGCGCAATG` | 🟢 | both sources, and the read-parsing pattern |
 | forward / reverse PCR primers, incl. terminal phosphorothioates | 🟢 | protocols.io ordered table |
-| Nextera ME / s5 / s7, read and index primer entry | 🟢 | Illumina adapter sequences, via `lib/nextera.py` |
-| P5 / P7 flowcell ends | 🟢 | Illumina adapter sequences, via `lib/illumina.py` |
+| Nextera ME / s5 / s7, read and index primer entry | 🟢/🟡 | own forward primer and complete workbook index oligos; sequencing sites computed on the schematic endpoint |
+| P5 / P7 flowcell ends | 🟢 | complete workbook index oligos match the canonical strings |
 | i5 / i7 index *members* | 🟢 illustrative | original order workbook, A1 on each sheet; no experimental cell assignment |
 
 ## Open roles
@@ -91,11 +95,57 @@ and post-pre-amplification clean-up variants. None of it changes a modelled base
   The defining Methods also reports MGI conversion/circularization and custom
   sequencing primers; that distinct branch is not represented here. A library
   architecture does not by itself establish the run cycle mask of every experiment.
-- 🟡 The drawn tagmentation and gap-fill geometry is the shared Nextera back end from
-  `lib/nextera.py`, not an xpress-specific transcription.
+- 🟡 Exact tagmented-end and extension intermediates remain unassigned molecular
+  states. The declaration represents the commercial Nextera option and the reported
+  initial extension hold; it does not inherit a complete loaded-transposome assembly
+  or a fixed gap geometry from a SMART-family helper. Other tagmentation products
+  remain visible without an absolute claim that they cannot amplify.
 
-## Everything else
+## Processing-example discrepancy
 
-The library architecture, the two fragment classes (5' fragments carrying tag + UMI versus
-internal fragments) and the read layout are identical to SMART-seq3's and are written up
-once, in `01_smart-seq3.md` in the `smart-seq3__10.1038+s41587-020-0497-0` directory.
+🟢 The original author protocol v1 p33 (local text2252) gives the bcl2fastq
+example `--use-bases-mask Y150N,I8,I8,Y150N`. Its adjacent p34 configuration
+(local text2286–2290) requests `BC(1-10)` from both index FASTQ files. The final
+article specifies ten-base dual indexes, and the original order workbook contains
+ten-base indexes. Eight retained index cycles do not supply ten bases to that
+configuration. The protocol also permits eight-base index alternatives, so this
+is an inconsistency between the neighboring examples rather than evidence that
+all eight-base use is wrong. The page displays both source locations and uses the
+ten-base molecular endpoint; it selects no actual run mask and does not silently
+repair the command. The experimental application of these examples remains uncertain.
+
+🟢 The same p34 example extracts `UMI(12-21)` after the eleven-base tag.
+Recovered original annotation tables go further: the v2/v5/v6/v7 TSO-test
+tables label `NNNNNNNNWW` with `UMIlength=10`, and give complexity 262144
+for that design. The represented identifier therefore spans all ten positions,
+while preserving the distinct eight-N region and two-W spacer. There are eight
+fully degenerate N positions, not ten. The MGI configuration repeats the same
+extraction window. The earlier graph labelled only eight positions as UMI;
+the deposited source metadata prompted this repository model correction.
+
+## Recovered study annotations
+
+🟢 The article-linked ArrayExpress records have original IDF/SDRF metadata
+at E-MTAB-11488, E-MTAB-11452 and E-MTAB-11467. The first is explicitly the
+10x v3.1 comparator. The other two name sample-level barcode annotations,
+which were recovered through the current BioStudies file inventories after
+the legacy processed-ZIP URLs failed. They are available originals, not
+confirmed missing information.
+
+The PBMC annotation contains 43,671 records with explicit `cellID`, `run`
+and `barcode` fields. Fifteen optimization annotation files retain distinct
+conditions and TSO designs. The two low-volume files have 16-base read-group
+identifiers, while the other thirteen optimization files have 20-base
+identifiers. These fields must not be converted into a universal ten-plus-ten
+physical primer assignment without orientation and source-version evidence.
+The schematic continues to use its explicit illustrative workbook pair.
+
+## Local declaration boundary
+
+The RT primer, improved TSO, pre-amplification product and selected reactions are
+declared locally from the xpress originals. The amplified product includes the
+source-known s5/ME overhang introduced by the forward primer. The former shared
+helper left that overhang out of its amplified-state drawing; this was a repository
+model error, not a publication error. Final 5′ and internal fragment classes remain
+separate. The endpoint and exact primer-site checks do not prove the complete
+RT, tagmentation or amplification transitions or an experiment-specific cycle recipe.

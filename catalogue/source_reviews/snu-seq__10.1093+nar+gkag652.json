@@ -1,6 +1,6 @@
 {
   "dir": "snu-seq__10.1093+nar+gkag652",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "gerlevik_2026_jats",
@@ -9,10 +9,10 @@
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "root",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Original NAR JATS lines 102–124, 288, 302–314, reference 48 at lines 650–660; scraper run on full bundle",
-        "finding": "States SNU-Seq omits TT-seq sonication, enriches 4sU RNA, polyadenylates intact RNA with bacterial PAP, and delegates library prep to Lexogen. Directly cites original Lorenz 2021 SNU-Seq preprint."
+        "locations": "Original JATS 100–124, 288–314, reference 48 at 650–660 and data availability 326",
+        "finding": "Fresh full-bundle scraper before reading. Source SNU omits intentional sonication, adds bacterial PAP to enriched RNA and uses Lexogen preparation. sf4sU is separate; processing maps aligned-read 3-prime ends and genomic-A masking. Cited preprint DOI has distinct original 2021 v1 and cached 2025 v2; actual source links three GEO series and author GitHub/Zenodo."
       },
       "pass_2": {
         "reviewer": "audit_s_z",
@@ -47,16 +47,16 @@
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "root",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Original supplementary Methods lines 306–390, particularly SNU-Seq lines 362–389; scraper run on full bundle",
-        "finding": "Shows TT-seq-derived 4sU enrichment without sonication, 150 ng RNA bacterial PAP 45 min at 37°C, then QuantSeq 3-prime Ion Torrent or Illumina FWD kit, 13 PCR cycles and SE100 sequencing. No separate RNA-adapter ligation is described. No kit oligo bases printed."
+        "locations": "Original supplement 306–429, especially TT inheritance 323–353 and SNU 360–429; original rendered p18 inspected",
+        "finding": "Read HPDP biotinylation, cleanup, streptavidin capture/washes, DTT release, miRNeasy/DNase; SNU omits sonication. PAP 150 ng / 45 min / 37°C and precipitation, Ion/FWD 13-cycle PCR and SR100. RNA removal/random second strand require actual vendor guides. Genomic-A masking/polyA trimming/bedtools -3 are analysis operations; not all reads proven to reach native RNA end. Printed wash 1 mM NaCl confirmed visually."
       },
       "pass_2": {
-        "reviewer": "audit_s_z",
+        "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Original Supplementary Methods PDF text lines 362–390, especially 375–388",
-        "finding": "After no-sonication TT-seq enrichment, 150 ng RNA is bPAP-tailed for 45 min at 37 C and enters either QuantSeq Ion Torrent or Illumina FWD with 13 PCR cycles and single-end 100 nt reads. No separate RNA adapter ligation is specified in this branch."
+        "locations": "Fresh full-bundle scraper then actual original supplement 297–455; rendered original p18",
+        "finding": "Independently confirms HPDP cleanup/capture/DTT/miRNeasy-DNase inheritance without sonication, optional rRNA-depletion, PAP/precipitation, distinct Ion/FWD, 13-cycle PCR and SR100. Actual printed wash 1 mM NaCl differs from Dölken 1 M; 2026 states modifications, no proven typo."
       }
     },
     {
@@ -66,17 +66,18 @@
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "root",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Original cited bioRxiv v2 introduction lines 215–235 and Methods lines 1560–1587; scraper hits at 2692–2775 examined as spike-in/template primers",
-        "finding": "Defines bacterial PAP followed by oligo(dT) priming and QuantSeq 3-prime kit (Ion Torrent or Illumina FWD), matching the later SNU branch. Scraper hits in late tables concern RNA spike-in/templates, not the proprietary Lexogen library oligos."
+        "locations": "Printed version header 1–4; SNU Methods 1560–1592",
+        "finding": "Verified actual v2 posted October 24, 2025. Main methods give no-sonication SNU, bacterial PAP then Ion/FWD, 13-cycle PCR and SR100. This later version is not proof of original 2021 platform/readout; other appendix contents remain bounded to prior located reads."
       },
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
         "locations": "Cited bioRxiv v2 PDF Methods lines 1560–1587 and ERCC table lines 2684–2778",
         "finding": "Original SNU preprint independently confirms 4sU selection, bacterial PAP, then Lexogen QuantSeq Ion Torrent/FWD. Every oligo scraper hit in the late table is an ERCC spike-in/template PCR or T7 transcription primer, not a QuantSeq kit oligo. This v2 file was posted in 2025 despite the 2021 DOI."
-      }
+      },
+      "scope_correction": "This cache file is actual version 2, printed October 24, 2025. The DOI year 2021 is not its version date; separately recovered version 1 is listed below."
     },
     {
       "id": "schwalb_ttseq_predecessor",
@@ -85,46 +86,36 @@
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "root",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Original TT-seq supplementary Methods lines 20–50; source scraper previously run on TT-seq bundle",
-        "finding": "Describes 4sU pulse-labelled RNA purification/fragmentation framework inherited by SNU-Seq, but does not determine the later Lexogen kit oligos."
+        "locations": "Fresh full TT source-bundle scraper25hits, then actual TT2016 supplement20–50 and reference26 at1114–1117",
+        "finding": "Original TT supplement compares fragmented/non-fragmented RNA and delegates labelled-RNA purification to Dölken2008 DOI10.1261/rna.1136108. Its text does not itself print the full HPDP wash recipe. SNU inherits selection with source-specific modifications, not TT fragmentation or NuGEN library preparation."
       },
       "pass_2": {
-        "reviewer": "audit_s_z",
+        "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Schwalb TT-seq original supplementary PDF text lines 20–50",
-        "finding": "TT-seq performs pulse labeling, RNA extraction, a fragmented/non-fragmented comparison, 4sU affinity purification and NuGEN library prep. SNU inherits the selection route but explicitly omits sonication and substitutes PAP plus Lexogen library preparation."
+        "locations": "Original TT2016 supplement20–50 and ref26 at1114–1117",
+        "finding": "Independent actual reading confirms purification delegates to Dölken2008. Do not attribute all HPDP details to this TT methods clause."
       }
     },
     {
       "id": "geo_gsm5240711",
       "role": "other",
-      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM5240711",
+      "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/geo-GSM5240711-self-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "root",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Original NCBI GEO GSM5240711 SOFT record lines 2, 19–20, 27 and 38–41; fetched independently from the GEO accession endpoint",
-        "finding": "The 2hr_SNU-seq_rep1 record says biotin capture and artificial poly(A) tail, names QuantSeq 3-prime mRNA-seq kit for Ion Torrent, and lists Ion Torrent Proton platform. It does not identify guide revision, selected inline barcode or oligo sequences."
+        "locations": "Complete actual SOFT sample record1–46",
+        "finding": "Original 2hr Hep3B SNU sample states yeast spike, RNA biotinylation/streptavidin capture, artificial PAP, QuantSeq Ion Torrent and Ion Proton. Processing clips polyA/filters alignments/computes bedtools3-prime coverage. No selected guide/member/acquired mask assigned from this metadata."
       },
       "pass_2": {
-        "reviewer": "audit_s_z",
+        "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "GEO GSM5240711 full SOFT sample record, title and !Sample_extract_protocol_ch1 / !Sample_platform_id fields",
-        "finding": "2hr_SNU-seq_rep1 explicitly names QuantSeq 3-prime mRNA-seq library prep kit for Ion Torrent (Lexogen) and platform GPL17303. It does not name a kit revision, barcode well or primer sequences."
+        "locations": "Fresh original SOFT sample1–46",
+        "finding": "Independent entire sample read confirms Ion kit/Proton, yeast spike, bioaffinity/PAP and computational polyA trimming/bedtools3-prime output. Does not assign guide revision, selected index or acquired mask."
       }
-    },
-    {
-      "id": "lexogen_quantseq_ion_illumina",
-      "role": "vendor",
-      "locator": "Lexogen QuantSeq 3-prime mRNA library kits, Ion Torrent and Illumina FWD revisions used by original experiments",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "The exact guide revision and barcode well for each historical sample are not identified by article, supplement, preprint, or the checked GSM5240711 record. Related official dated guides are separately reviewed below."
     },
     {
       "id": "lexogen_ion_2018",
@@ -133,16 +124,16 @@
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "root",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Official Lexogen 012UG036V0130 June 2018 user guide lines 110–128, 529–550, 1423–1444 and 1569–1590; source-bundle scraper rerun and hits checked",
-        "finding": "The oligo(dT) RT primer carries Ion P1 sequence and the random second-strand primer carries A adapter. Appendix D gives 48 possible 9–11 nt inline barcodes; Appendix E prints the full library shell and TCAG–barcode–CGAT read start. The 2018 revision and actual barcode for a given SNU sample are not established."
+        "locations": "Guide110–132,529–650,715–804,1423–1444,1565–1598 and printed revision table1648–1654",
+        "finding": "Actual June13,2018 guide: P1 oligo(dT) RT, RS1/heat/RS2 RNA degradation, A-side random SS primer/inline barcode, E2 synthesis, bead cleanup, PCR and post-PCR purification. AppendixE positive full A/P1 arms and TCAG-BC9–11-CGAT read start. Physical loaded sequencing primer and study barcode not assigned. Reads towards polyA, longer reads may be needed for exact endpoint."
       },
       "pass_2": {
-        "reviewer": "audit_s_z",
+        "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Official Lexogen 012UG036V0130 guide text lines 110–128, 529–617, 1423–1559, 1569–1590",
-        "finding": "June 2018 Ion Torrent QuantSeq guide: oligo(dT) primer carries P1 arm; random second-strand primer carries A arm; Appendix D prints barcode sequences, Appendix E prints full final double-stranded library shell and TCAG–barcode–CGAT read start. This is a plausible historical guide, not proof that this exact revision or barcode was used in a given SNU sample."
+        "locations": "Fresh original guide110–132,529–650 and1555–1605",
+        "finding": "Independent source reading confirms P1/oligo(dT), A/random SS and barcode introduced at SS, RNA removal between strands, cleanup and positive library shell/read-start. Barcode naming conventions are not a publication error; historical study member/revision unassigned."
       }
     },
     {
@@ -152,45 +143,373 @@
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "root",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Official Lexogen 015UG009V0260 August 2021 guide lines 205–232, 661–680 and 2038–2060; scraper hits checked in Appendix G",
-        "finding": "The oligo(dT) first-strand and random second-strand primers bring linker arms; PCR adds i7. Appendix G prints the Illumina P5–Read1–insert–Read2–i7–P7 shell and sequencing primers. It establishes an available FWD implementation, not the selected index or exact service-kit revision for the paper samples."
+        "locations": "Guide205–248,660–816,948–1028,2041–2075; revision table2276–2285; separately numbered front insert015UI092V0322",
+        "finding": "Actual main guide015UG009V0260 is printed Aug16,2021, with separate critical-recommendations insert. FWD oligo(dT) first strand, RS/heat, SS1/E2 random second strand, cleanup/PCR i7/post-PCR purification. AppendixG full source arms and R1/I1/R2 sequencing primers. FWD towards polyA; REV/CSP distinct. Optional UMI/UDI/addons not selected; study revision/member unassigned."
       },
       "pass_2": {
-        "reviewer": "audit_s_z",
+        "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Official Lexogen 015UG009V0260 guide text lines 205–231, 661–768, 2038–2060",
-        "finding": "August 2021 QuantSeq Illumina FWD guide: oligo(dT) first-strand primer and random second-strand primer carry linker arms; PCR introduces i7, Appendix G prints the complete P5–Read1–insert–Read2–i7–P7 shell and sequencing primer sequences. Exact SNU sample index and actual service revision are unreported."
+        "locations": "Fresh actual guide205–235,660–815,2041–2075",
+        "finding": "Independent reading confirms FWD random-SS-side Read1 towards PAP, RNA removal then SS1/E2 and cleanup/PCR-i7. Longer reads may be needed for native-end reach. Exact source architecture/three sequencing primers positive but study-guide assignment conditional; REV/CSP and optional modules not transferred."
+      }
+    },
+    {
+      "id": "lorenz_2021_actual_v1",
+      "role": "predecessor",
+      "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/2021.07.14.452379v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Printed header 1–4 and original methods1310–1388",
+        "finding": "Actual first version July14,2021 recovered separately, verified before chemistry reading after fresh55hit bundle scraper. SNU omits TT sonication, PAP150ng45min37C/isopropanol,13PCR, IonChef/IonProton. No FWD/SR100 in that method. Hep3B12min500uM pulse and yeast spike are version-specific; bedtools-bg-3 is computational. Size-selected branch separate."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Fresh full-bundle scraper55hits, header and entire methods1295–1385",
+        "finding": "Independent original version 1 header July14,2021 and bounded methods read: Ion only,13PCR, no FWD or SR100 claim there. Confirms source PAP, version-specific pulse/spike and aligned-end analysis. Size-selected v1 numerical range is not automatically the2026 branch."
+      }
+    },
+    {
+      "id": "dolken2008_capture",
+      "role": "predecessor",
+      "locator": "_data/sources/tt-seq__10.1126+science.aad9841/High_resolution_gene_expression_profiling_for_simultaneous_kinetic_parameter_analysis_of_RNA_synthesis_and_decay.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Own fresh TT bundle scraper25hits then original text940–974 and rendered originalPDFp13/printed1970; paired2026suppPDFp18",
+        "finding": "Actual HPDP purification original: cleanup before µMACS capture, wash1MNaCl, DTT release and RNeasy recovery. Printed1M confirmed visually versus actual2026p18 1mM. Source explicitlymodified2026 changes capture/recovery context; no dose correction or typo inferred. Other source sections/supplements not fully scoped."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original Dölken localtext940–974 and renderedPDFp13/printed1970, plus original2026suppp18",
+        "finding": "Independent full capture subsection and original-page visual confirm1M versus1mM printed wash concentrations. Qualified source-version difference; do not import Dölken room-temperature capture/100ug/RNeasy into2026 miRNeasy."
+      }
+    },
+    {
+      "id": "geo_gse165251",
+      "role": "linked_material",
+      "discovered_from": "gerlevik_2026_jats",
+      "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/geo-GSE165251-self-full.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Full series title/summary/design, all named sample IDs, supplementary-file and relation fields",
+        "finding": "Nuclear/cytoplasmic polyadenylated-RNA controls; Ion QuantSeq/IonChef/Proton, not universal SNU pulse. Six named samples. RAW archives and result files not downloaded; child sample/experiment bodies remain pending."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual original series title/summary/design/file/relation fields at 2,9–10,27,33–34",
+        "finding": "Independent bounded source-specific metadata read; confirms distinct assay contexts. Does not claim all child sample metadata or archives read."
+      }
+    },
+    {
+      "id": "geo_gse172053",
+      "role": "linked_material",
+      "discovered_from": "gerlevik_2026_jats",
+      "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/geo-GSE172053-self-full.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Full series title/summary/design, all named sample IDs, supplementary-file and relation fields",
+        "finding": "Hep3B mixed SNU/3-prime RNA/ATAC/ChIPmentation/Capture-C context;81 named samples, not all molecular-library sample bodies read. RAW archives and result files not downloaded; child sample/experiment bodies remain pending."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual original series title/summary/design/file/relation fields at 2,9–10,108,115–116",
+        "finding": "Independent bounded source-specific metadata read; confirms distinct assay contexts. Does not claim all child sample metadata or archives read."
+      }
+    },
+    {
+      "id": "geo_gse179306",
+      "role": "linked_material",
+      "discovered_from": "gerlevik_2026_jats",
+      "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/geo-GSE179306-self-full.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Full series title/summary/design, all named sample IDs, supplementary-file and relation fields",
+        "finding": "Mixed SNU, size-selected and TT controls;10 named sample records. Overall design describes Ion SNU and separate ssSNU withoutPAP50–100bp, versus v1 methods70–100bp; no transfer to selected SNU route. RAW archives and result files not downloaded; child sample/experiment bodies remain pending."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual original series title/summary/design/file/relation fields at 2,9–11,38,45–46",
+        "finding": "Independent bounded source-specific metadata read; confirms distinct assay contexts. Does not claim all child sample metadata or archives read."
+      }
+    },
+    {
+      "id": "author_repository_landing",
+      "role": "linked_material",
+      "discovered_from": "gerlevik_2026_jats",
+      "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/SNU-seq.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual repository tree/embedded README699–981, especially preprocessing776–785 and Hep3B862 onward",
+        "finding": "Current article-linked repository landing describes later-study processing, genomic-A masking, adapter/quality trimming, alignment and metagenes; README cites2025preprint. Actual child scripts, archived Zenodo equivalence and historical 2021 code not inspected. No whole-repository exclusion or absence claim."
       }
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "root",
+      "reviewer": "audit_rna_contacts_closeout",
       "date": "2026-10-16",
-      "locations": "Defining article JATS Methods lines 102–124 and ref 48; full original supplement lines 306–390; original Lorenz 2021 preprint Methods lines 1560–1587; cited TT-seq predecessor supplement lines 20–50; GEO GSM5240711 and Lexogen kit names; original GEO GSM5240711 SOFT lines 2/19–20/27/38–41; Lexogen official 2018 Ion and 2021 Illumina FWD guides",
-      "finding": "Followed the direct SNU-Seq predecessor DOI to its original preprint and checked its oligo scraper hits against the text. The preprint confirms PAP-to-oligo(dT) kit path; the original 2026 supplement identifies platform kit branches. The GEO metadata and historical vendor guides still need two independent checks, so exact kit oligo and end geometry claims remain blocked. Independently checked the GEO sample and both dated official guide appendices. The guides provide branch-specific library shells but cannot prove which historical revision or barcode each SNU sample used."
+      "locations": "Actual2026 main/supplement; v1 and v2 version headers/methods; TT delegation and Dölken original capture; dated guides; originalGEO sample/series and authorrepo landing",
+      "finding": "Direct positive chemistry now locally declared. Original2021 Ion-only kept distinct from laterIon/FWD. Actual reference shells shown conditionally, not absent or selected kit identities. Named data children, remaining figures/spike-in tables, author scripts/Zenodo, manufacturer supporting documents and additional cited 3-prime methods remain open."
     },
     "pass_2": {
-      "reviewer": "audit_s_z",
+      "reviewer": "root",
       "date": "2026-10-16",
-      "locations": "Original 2026 article/supplement, Lorenz v2 preprint, Schwalb TT-seq supplement, GSM5240711 SOFT record, official Lexogen 012UG036V0130 and 015UG009V0260 guides",
-      "finding": "All direct chemistry links available in this pass were followed. The 2021 PDF scraper hits are ERCC spike-in/T7 template primers. Official historical guides resolve both platform library shells and Ion barcode possibilities; paper and GEO do not pin exact reagent/guide revision or selected barcode well, so exact kit-oligo absence remains blocked."
+      "locations": "Fresh source-specific2026supp297–455, v1header/methods1295–1385, TT20–50/ref26, Dölken940–974+originalvisuals, Ion110–132/529–650/1555–1605, FWD205–235/660–815/2041–2075, boundedGEO",
+      "finding": "Independent bounded original readings verify selected chemical route and version/readout distinctions. Metadata parents and positive vendor references do not establish whole linked-source closure or an experimental kit/index member."
     }
   },
-  "missing_claims": [
+  "missing_claims": [],
+  "conclusion": "Source-owned SNU capture/release/PAP and two distinct platform reference routes replace genericFourSUReadout/finish_cdna. RNA removal/random second strand/both cleanups explicit; degradation/residual fates unresolved. Reference constructors inferred by default; no sample-index or native-end reach invented. Version-specific wash difference public. In-progress review with explicit remaining source obligations and no accepted missing information.",
+  "historical_identity_questions": [
     {
-      "claim": "The exact SNU-Seq Lexogen adapter and primer bases are confirmed unavailable in original and linked sources",
-      "disposition": "blocked",
-      "evidence": "Original papers do not print kit primer bases, but official 2018 Ion and 2021 Illumina FWD guides print finished library shells and Ion barcode sequences. Internal kit oligo identities and the actual sample-specific guide revision/barcode choice remain unverified."
-    },
-    {
-      "claim": "A separate RNA-adapter ligation occurs before Lexogen reverse transcription in the 2026 SNU-Seq procedure",
-      "disposition": "resolved",
-      "evidence": "Original supplement lines 375–388 puts bPAP-tailed RNA directly into Lexogen QuantSeq kit workflow; separate ligation was an unsupported graph invention and has been removed."
+      "former_id": "lexogen_quantseq_ion_illumina",
+      "question": "Desired experimental kit revision and selected barcode/index member are source/model assignment questions, not an identified unavailable document. Actual dated Ion/FWD guides provide positive architectures and are read above."
     }
   ],
-  "conclusion": "Source-backed bPAP-to-QuantSeq order and both vendor library shells are established. The exact historical kit revision, individual reagent oligos, and sample-specific barcode remain blocked."
+  "published_source_differences": [
+    {
+      "claim": "HPDP capture wash NaCl concentration",
+      "source_a": "Actual 2026 Supplementary Methods p18 / text 338: 1 mM",
+      "source_b": "Dölken 2008 original p1970 / local text 966–968: 1 M",
+      "model_choice": "Capture/wash displayed without selecting salt concentration; both values public in typed source-version notice.",
+      "uncertainty": "2026 explicitly includes modifications; no typographical error or corrected dose assumed."
+    }
+  ],
+  "model_questions": [
+    "Actual study guide revisions, full ordered proprietary reagents, selected barcode/index members and exact primer binding geometry remain unassigned; dated source-positive architecture is conditional study assignment, not accepted absence.",
+    "Native RNA/PAP lengths and endpoint reach from SR100 are unassigned; aligned-read 3-prime coverage is not direct first-base measurement.",
+    "Platform comparison boundary is explicitly MAGIC with warning; sample/aliquot assignment unknown, no physical split proved."
+  ],
+  "pending_linked_sources": [
+    "Remaining 2026 supplementary figures/control/spike-in tables and v1/v2 appendices require complete source-specific scope; prior bounded oligo roles preserved as history.",
+    "Author repository child scripts and actual archived Zenodo 19616293 code equivalence; current landing is not historical 2021 whole-repository evidence.",
+    "Named GEO sample/experiment children beyond GSM5240711 and series metadata; raw/results archives not requested.",
+    "Actual guide supporting documents/optional module source scope and other cited 3-prime predecessor methods not fully inventoried/read.",
+    "Dölken original capture subsection read only; its other assay/supplement/source-linked scope remains bounded, not globally excluded."
+  ],
+  "history_before_primary_reaudit_2026_10_16": {
+    "dir": "snu-seq__10.1093+nar+gkag652",
+    "status": "blocked",
+    "source_checklist": [
+      {
+        "id": "gerlevik_2026_jats",
+        "role": "defining",
+        "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/PMC13309788_PMC13309788.xml.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original NAR JATS lines 102–124, 288, 302–314, reference 48 at lines 650–660; scraper run on full bundle",
+          "finding": "States SNU-Seq omits TT-seq sonication, enriches 4sU RNA, polyadenylates intact RNA with bacterial PAP, and delegates library prep to Lexogen. Directly cites original Lorenz 2021 SNU-Seq preprint."
+        },
+        "pass_2": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Original NAR JATS lines 116–124 and 288–314, reference 48 around 650–660",
+          "finding": "SNU-Seq uses the TT-seq 4sU selection without sonication, then bacterial PAP on intact RNA and delegated Lexogen 3-prime library preparation. The article cites Lorenz as the original SNU source; its sf4sU-Seq branch is distinct."
+        }
+      },
+      {
+        "id": "gerlevik_2026_pdf",
+        "role": "defining",
+        "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/PMC13309788_PMC13309788.pdf.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original article PDF Methods SNU-Seq paragraph, checked against JATS lines 116–124",
+          "finding": "Second format of the defining article; no extra base-level Lexogen oligo table found."
+        },
+        "pass_2": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Original article PDF text lines 147–156 and 280–296",
+          "finding": "The PDF independently confirms the intact-RNA bPAP branch, with Lexogen performing library preparation; no kit primer table appears in this article format."
+        }
+      },
+      {
+        "id": "gerlevik_supp",
+        "role": "supplement",
+        "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/PMC13309788_supp_gkag652_supplemental_file.pdf.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original supplementary Methods lines 306–390, particularly SNU-Seq lines 362–389; scraper run on full bundle",
+          "finding": "Shows TT-seq-derived 4sU enrichment without sonication, 150 ng RNA bacterial PAP 45 min at 37°C, then QuantSeq 3-prime Ion Torrent or Illumina FWD kit, 13 PCR cycles and SE100 sequencing. No separate RNA-adapter ligation is described. No kit oligo bases printed."
+        },
+        "pass_2": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Original Supplementary Methods PDF text lines 362–390, especially 375–388",
+          "finding": "After no-sonication TT-seq enrichment, 150 ng RNA is bPAP-tailed for 45 min at 37 C and enters either QuantSeq Ion Torrent or Illumina FWD with 13 PCR cycles and single-end 100 nt reads. No separate RNA adapter ligation is specified in this branch."
+        }
+      },
+      {
+        "id": "lorenz_2021_preprint",
+        "role": "predecessor",
+        "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/2021.07.14.452379_v2.full.pdf.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original cited bioRxiv v2 introduction lines 215–235 and Methods lines 1560–1587; scraper hits at 2692–2775 examined as spike-in/template primers",
+          "finding": "Defines bacterial PAP followed by oligo(dT) priming and QuantSeq 3-prime kit (Ion Torrent or Illumina FWD), matching the later SNU branch. Scraper hits in late tables concern RNA spike-in/templates, not the proprietary Lexogen library oligos."
+        },
+        "pass_2": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Cited bioRxiv v2 PDF Methods lines 1560–1587 and ERCC table lines 2684–2778",
+          "finding": "Original SNU preprint independently confirms 4sU selection, bacterial PAP, then Lexogen QuantSeq Ion Torrent/FWD. Every oligo scraper hit in the late table is an ERCC spike-in/template PCR or T7 transcription primer, not a QuantSeq kit oligo. This v2 file was posted in 2025 despite the 2021 DOI."
+        }
+      },
+      {
+        "id": "schwalb_ttseq_predecessor",
+        "role": "predecessor",
+        "locator": "_data/sources/tt-seq__10.1126+science.aad9841/aad9841-Schwalb-SM.pdf.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original TT-seq supplementary Methods lines 20–50; source scraper previously run on TT-seq bundle",
+          "finding": "Describes 4sU pulse-labelled RNA purification/fragmentation framework inherited by SNU-Seq, but does not determine the later Lexogen kit oligos."
+        },
+        "pass_2": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Schwalb TT-seq original supplementary PDF text lines 20–50",
+          "finding": "TT-seq performs pulse labeling, RNA extraction, a fragmented/non-fragmented comparison, 4sU affinity purification and NuGEN library prep. SNU inherits the selection route but explicitly omits sonication and substitutes PAP plus Lexogen library preparation."
+        }
+      },
+      {
+        "id": "geo_gsm5240711",
+        "role": "other",
+        "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM5240711",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original NCBI GEO GSM5240711 SOFT record lines 2, 19–20, 27 and 38–41; fetched independently from the GEO accession endpoint",
+          "finding": "The 2hr_SNU-seq_rep1 record says biotin capture and artificial poly(A) tail, names QuantSeq 3-prime mRNA-seq kit for Ion Torrent, and lists Ion Torrent Proton platform. It does not identify guide revision, selected inline barcode or oligo sequences."
+        },
+        "pass_2": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "GEO GSM5240711 full SOFT sample record, title and !Sample_extract_protocol_ch1 / !Sample_platform_id fields",
+          "finding": "2hr_SNU-seq_rep1 explicitly names QuantSeq 3-prime mRNA-seq library prep kit for Ion Torrent (Lexogen) and platform GPL17303. It does not name a kit revision, barcode well or primer sequences."
+        }
+      },
+      {
+        "id": "lexogen_quantseq_ion_illumina",
+        "role": "vendor",
+        "locator": "Lexogen QuantSeq 3-prime mRNA library kits, Ion Torrent and Illumina FWD revisions used by original experiments",
+        "availability": "unavailable",
+        "relevance": "relevant",
+        "pass_1": null,
+        "pass_2": null,
+        "reason": "The exact guide revision and barcode well for each historical sample are not identified by article, supplement, preprint, or the checked GSM5240711 record. Related official dated guides are separately reviewed below."
+      },
+      {
+        "id": "lexogen_ion_2018",
+        "role": "vendor",
+        "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/012UG036V0130_QuantSeq-IonTorrent.pdf.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Official Lexogen 012UG036V0130 June 2018 user guide lines 110–128, 529–550, 1423–1444 and 1569–1590; source-bundle scraper rerun and hits checked",
+          "finding": "The oligo(dT) RT primer carries Ion P1 sequence and the random second-strand primer carries A adapter. Appendix D gives 48 possible 9–11 nt inline barcodes; Appendix E prints the full library shell and TCAG–barcode–CGAT read start. The 2018 revision and actual barcode for a given SNU sample are not established."
+        },
+        "pass_2": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Official Lexogen 012UG036V0130 guide text lines 110–128, 529–617, 1423–1559, 1569–1590",
+          "finding": "June 2018 Ion Torrent QuantSeq guide: oligo(dT) primer carries P1 arm; random second-strand primer carries A arm; Appendix D prints barcode sequences, Appendix E prints full final double-stranded library shell and TCAG–barcode–CGAT read start. This is a plausible historical guide, not proof that this exact revision or barcode was used in a given SNU sample."
+        }
+      },
+      {
+        "id": "lexogen_fwd_2021",
+        "role": "vendor",
+        "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/015UG009V0260_QuantSeq_Illumina_2021-08-16.pdf.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Official Lexogen 015UG009V0260 August 2021 guide lines 205–232, 661–680 and 2038–2060; scraper hits checked in Appendix G",
+          "finding": "The oligo(dT) first-strand and random second-strand primers bring linker arms; PCR adds i7. Appendix G prints the Illumina P5–Read1–insert–Read2–i7–P7 shell and sequencing primers. It establishes an available FWD implementation, not the selected index or exact service-kit revision for the paper samples."
+        },
+        "pass_2": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Official Lexogen 015UG009V0260 guide text lines 205–231, 661–768, 2038–2060",
+          "finding": "August 2021 QuantSeq Illumina FWD guide: oligo(dT) first-strand primer and random second-strand primer carry linker arms; PCR introduces i7, Appendix G prints the complete P5–Read1–insert–Read2–i7–P7 shell and sequencing primer sequences. Exact SNU sample index and actual service revision are unreported."
+        }
+      }
+    ],
+    "linked_information": {
+      "result": "blocked",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Defining article JATS Methods lines 102–124 and ref 48; full original supplement lines 306–390; original Lorenz 2021 preprint Methods lines 1560–1587; cited TT-seq predecessor supplement lines 20–50; GEO GSM5240711 and Lexogen kit names; original GEO GSM5240711 SOFT lines 2/19–20/27/38–41; Lexogen official 2018 Ion and 2021 Illumina FWD guides",
+        "finding": "Followed the direct SNU-Seq predecessor DOI to its original preprint and checked its oligo scraper hits against the text. The preprint confirms PAP-to-oligo(dT) kit path; the original 2026 supplement identifies platform kit branches. The GEO metadata and historical vendor guides still need two independent checks, so exact kit oligo and end geometry claims remain blocked. Independently checked the GEO sample and both dated official guide appendices. The guides provide branch-specific library shells but cannot prove which historical revision or barcode each SNU sample used."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original 2026 article/supplement, Lorenz v2 preprint, Schwalb TT-seq supplement, GSM5240711 SOFT record, official Lexogen 012UG036V0130 and 015UG009V0260 guides",
+        "finding": "All direct chemistry links available in this pass were followed. The 2021 PDF scraper hits are ERCC spike-in/T7 template primers. Official historical guides resolve both platform library shells and Ion barcode possibilities; paper and GEO do not pin exact reagent/guide revision or selected barcode well, so exact kit-oligo absence remains blocked."
+      }
+    },
+    "missing_claims": [
+      {
+        "claim": "The exact SNU-Seq Lexogen adapter and primer bases are confirmed unavailable in original and linked sources",
+        "disposition": "blocked",
+        "evidence": "Original papers do not print kit primer bases, but official 2018 Ion and 2021 Illumina FWD guides print finished library shells and Ion barcode sequences. Internal kit oligo identities and the actual sample-specific guide revision/barcode choice remain unverified."
+      },
+      {
+        "claim": "A separate RNA-adapter ligation occurs before Lexogen reverse transcription in the 2026 SNU-Seq procedure",
+        "disposition": "resolved",
+        "evidence": "Original supplement lines 375–388 puts bPAP-tailed RNA directly into Lexogen QuantSeq kit workflow; separate ligation was an unsupported graph invention and has been removed."
+      }
+    ],
+    "conclusion": "Source-backed bPAP-to-QuantSeq order and both vendor library shells are established. The exact historical kit revision, individual reagent oligos, and sample-specific barcode remain blocked."
+  },
+  "model_scope_clarification_2026_10_16": {
+    "reviewer": "root",
+    "finding": "Dated Ion/FWD guide assignments remain conditional at every branch intermediate and input, with INFERRED captions on every guide step. Source-positive guide operations are not automatically established as the exact study revision or reagent selection. This is a model-scope correction, not an additional source reading or an accepted absence claim."
+  }
 }

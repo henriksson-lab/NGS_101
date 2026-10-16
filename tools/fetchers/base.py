@@ -13,6 +13,7 @@ from __future__ import annotations
 import gzip
 import hashlib
 import html
+from html.parser import HTMLParser
 import json
 import os
 import re
@@ -120,6 +121,50 @@ def visible_text(raw: bytes) -> str:
     return re.sub(r"\s+", " ", html.unescape(t)).strip()
 
 
+def madcap_topic_text(raw: bytes) -> str:
+    """Recognize a complete short documentation topic, excluding its navigation.
+
+    An HTML5 help-system shell is not the chapter it loads. Only a topic document
+    with a closed main-content container and substantive text qualifies here.
+    """
+    class Topic(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.topic = False
+            self.depth = 0
+            self.started = False
+            self.hidden = 0
+            self.parts = []
+
+        def handle_starttag(self, tag, attrs):
+            attrs = dict(attrs)
+            if tag == "html":
+                self.topic = "Topic" in attrs.get("data-mc-runtime-file-type", "").split(";")
+            if tag == "div":
+                if self.depth:
+                    self.depth += 1
+                elif not self.started and attrs.get("id") == "mc-main-content":
+                    self.started = True
+                    self.depth = 1
+            if self.depth and tag in {"script", "style", "noscript", "svg"}:
+                self.hidden += 1
+
+        def handle_endtag(self, tag):
+            if self.depth and tag in {"script", "style", "noscript", "svg"}:
+                self.hidden = max(0, self.hidden - 1)
+            if tag == "div" and self.depth:
+                self.depth -= 1
+
+        def handle_data(self, data):
+            if self.depth and not self.hidden:
+                self.parts.append(data)
+
+    parser = Topic()
+    parser.feed(raw.decode("utf-8", errors="replace"))
+    text = re.sub(r"\s+", " ", " ".join(parser.parts)).strip()
+    return text if parser.topic and parser.started and parser.depth == 0 and len(text) >= 100 else ""
+
+
 def looks_html(head: bytes) -> bool:
     h = head.lstrip()[:1000].lower()
     return h.startswith((b"<!doctype html", b"<html")) or (b"<html" in h and b"<head" in h)
@@ -195,8 +240,9 @@ def validate(path: Path, name: str | None = None, min_text: int = 1500,
     if gate:
         return gate
     if ext in HTML_EXT:
-        n = len(visible_text(head if size <= 65536 else path.read_bytes()))
-        if n < min_text:
+        raw = head if size <= 65536 else path.read_bytes()
+        n = len(visible_text(raw))
+        if n < min_text and not madcap_topic_text(raw):
             return f"no article content ({n} characters of text)"
         if need and not re.search(need, path.read_bytes()):
             return f"expected content missing ({need.decode(errors='replace')})"
@@ -278,11 +324,26 @@ class Folder:
         return (self.path / name).exists() and name in self.rows
 
     def manual(self, name: str, url: str, what: str, reason: str) -> None:
-        if name in self.rows and (self.path / name).exists():
+        if name in self.rows and self.rows[name][1] == url and (self.path / name).exists():
             return
-        self.rows[f"(manual) {name}"] = [f"(manual) {name}", url, "", "", f"{what}; {reason}"]
+        key, alternate = self._manual_keys(name, url)
+        if ((key in self.rows and self.rows[key][1] != url) or alternate in self.rows
+                or (name in self.rows and self.rows[name][1] != url)):
+            key = alternate
+        self.rows[key] = [key, url, "", "", f"{what}; {reason}"]
         say(f"    manual  {name}  ({reason})  <- {url}")
         self.write()
+
+    @staticmethod
+    def _manual_keys(name: str, url: str) -> tuple[str, str]:
+        path = Path(name)
+        tagged = path.stem + "__" + hashlib.sha256(url.encode()).hexdigest()[:12] + path.suffix
+        return f"(manual) {name}", f"(manual) {tagged}"
+
+    def _clear_manual(self, name: str, url: str) -> None:
+        for key in self._manual_keys(name, url):
+            if key in self.rows and self.rows[key][1] == url:
+                self.rows.pop(key)
 
     def note(self, key: str, url: str, what: str) -> None:
         self.rows[f"(note) {key}"] = [f"(note) {key}", url, "", "", what]
@@ -296,23 +357,36 @@ class Folder:
             p.unlink()
             self.rows[f"(duplicate) {name}"] = [f"(duplicate) {name}", url, "", digest,
                                                 f"{what}; identical to {twin}"]
-            self.rows.pop(f"(manual) {name}", None)
+            self._clear_manual(name, url)
             say(f"    dup     {name}  = {twin}")
             self.write()
             return False
         self.by_md5[digest] = name
-        self.rows.pop(f"(manual) {name}", None)
+        self._clear_manual(name, url)
         self.rows[name] = [name, url, str(p.stat().st_size), digest, what]
         self.write()
         return True
 
     # --- fetching
+    def _source_collision(self, name: str, url: str, what: str) -> bool:
+        """A valid file at the same name does not establish source identity."""
+        row = self.rows.get(name) or self.rows.get(f"(duplicate) {name}")
+        if row is None or not row[1] or row[1] == url:
+            return False
+        key = "source-collision-" + name + "-" + hashlib.sha256(url.encode()).hexdigest()[:12]
+        self.manual(key, url, what,
+                    f"cache filename {name} is already assigned to {row[1]}; "
+                    "use a distinct source filename; existing file was not reused or overwritten")
+        return True
+
     def save(self, name: str, url: str, what: str, *, min_text: int = 1500,
              need: bytes | None = None, max_bytes: int = MAX_BYTES,
              retries: int = 2) -> Path | None:
         """Download `url` as `name` unless already here; validate; convert to .txt.
         -> the saved path, or None (then a `(manual)` row says why)."""
         name = safe_name(name)
+        if self._source_collision(name, url, what):
+            return None
         dest = self.path / name
         if self.have(name) and not validate(dest, name, min_text, need):
             return dest
@@ -358,6 +432,8 @@ class Folder:
     def keep(self, name: str, data: bytes, url: str, what: str) -> Path | None:
         """Store bytes we already hold (from a zip, a cache) -- validated like a download."""
         name = safe_name(name)
+        if self._source_collision(name, url, what):
+            return None
         dest = self.path / name
         part = self.path / (name + ".part")
         part.write_bytes(data)

@@ -223,15 +223,36 @@
         "locations": "CG000735 Rev A original PDF kit-component table pp. 9–10, Step 5 GEX adaptor ligation, Oligonucleotide Sequences pp. 113–114",
         "finding": "Independently checked same-kit CRISPR variant. It lists Poly-dT RT Primer B PN-2001110, cDNA Primers PN-2000089 and Ligation Mix PN-2001109. Appendix p. 113 repeats the bead oligo and final GEX product without standalone RT Primer B or GEX ligation-reagent sequence; p. 114 describes the distinct CRISPR library. The shared cDNA-primer PN is traceable to CG000331, but the other current reagent sequences remain unresolved here."
       }
+    },
+    {
+      "id": "cg000791",
+      "role": "linked_material",
+      "locator": "10x CG000791 Rev A, October 2024, Library Construction Kit C Supplemental User Guide; original _data/sources/10x-chromium-gem-x-single-cell-5-ge-v3/CG000791_RevA_kitC.pdf",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "cg000733",
+      "reason": "Separate automated post-cDNA construction branch with Kit C PN-1000774 and Ligation Mix PN-2001317; does not establish manual PN-2001109 oligos or upstream GEM reagent identity.",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete original pp.1–11: title/revision pp.1–3, scope p.5, manual/automated branch diagrams pp.6–7, reagent identities p.8, preparation and linked CG000802 p.9, instrument p.11",
+        "finding": "Manual CG000731/733 cDNA enters the automated Biomek branch. Kit PN-1000774 supplies Ligation Mix PN-2001317, distinct from current manual PN-2001109. CG000802 concerns automated aliquot volumes, not manual reagent identities; no universal absence conclusion follows."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original CG000791 Rev A p.5; pp.6–7 automated diagrams; p.8 reagent table; p.9 handling; p.11 instrument list",
+        "finding": "Independent full-bundle scraper followed by original reading confirms separate automation workflow and Ligation Mix PN-2001317. This is an exclusion by version/branch, not evidence of universal commercial nondisclosure. CG000802 is named for automated volume aliquots."
+      }
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "gemx_first",
+      "reviewer": "audit_tenx_closeout",
       "date": "2026-10-16",
-      "locations": "CG000733 Rev A pp. 11, 26, 29, 38, 85–86, 94; CG000109 References and CG000086 Appendix; CG000748 Readme and Singleplex Overview; official TT Set A CSV",
-      "finding": "Followed CG000748, CG00053, CG000479 and CG000396 named by defining guide, plus predecessor CG000109 to CG000086 and official TT Set A index table. CG000748 links feature-barcoding/VDJ/multiplex variants; these do not define this gene-expression-only construct. Exact v3 RT Primer B identity is not established by predecessor documents. Independent linked-information pass remains open."
+      "locations": "CG000733 RevA text713/1099→CG000748;1130→CG00053;1135/5768→CG000479;1493/2253/5835→CG000396;5438 loading;5536 software; original CG000748 RevB Readme and Singleplex Overview; current/related guide original oligo appendices; CG000791 pp.5–9/11",
+      "finding": "Fresh full-bundle scraper preceded original reading. Confirmed named planner, cell preparation, clogging, instrument, sample-index and predecessor sources. Related same-kit CG000734/CG000735 RevA now has both prior independent original passes, unlike stale summaries. CG000791 is a separately identified automated branch using different reagent PN2001317 and has two original checks. Planner also links optional cell-surface labeling CG000149 and CRISPR planning CG000398 via related variants; their scope is optional by referring originals, but new independent original exclusion checks are not supplied by this pass. Generic Illumina denature/dilute and software guidance do not assign physical kit oligos. Independent fresh linked-scope closeout remains pending; no absence accepted."
     },
     "pass_2": {
       "reviewer": "gemx_second",
@@ -242,9 +263,9 @@
   },
   "missing_claims": [
     {
-      "claim": "Exact GEM-X 5-prime v3 Poly-dT RT Primer B bases and modifications are absent from the available official guide set.",
+      "claim": "Exact GEM-X 5-prime v3 Poly-dT RT Primer B bases and modifications are not established in this declaration.",
       "disposition": "blocked",
-      "evidence": "CG000733 Rev A p. 99 prints bead TSO and product; visually checked p. 100 has V(D)J primers, not PN-2001110. CG000109, CG000086 and CG000331 identify older unlettered RT primer PN-2000007. Same-kit CG000734/735 also omit standalone Primer B in their appendices, pending second reader and remaining support-material scope."
+      "evidence": "CG000733 Rev A p. 99 prints bead TSO and product; visually checked p. 100 has V(D)J primers, not PN-2001110. CG000109, CG000086 and CG000331 identify older unlettered RT primer PN-2000007. Same-kit CG000734/735 also omit standalone Primer B in their appendices, with both prior independent checks recorded; fresh linked-information scope closeout remains pending."
     },
     {
       "claim": "GEM-X 5-prime v3 cDNA-primer sequence is not directly reprinted in its guide, but the exact current primer catalog number is sequenced in the predecessor guide.",
@@ -254,8 +275,19 @@
     {
       "claim": "Exact GEM-X 5-prime v3 ligation-mix oligos and physical adapter-end geometry remain unresolved.",
       "disposition": "blocked",
-      "evidence": "CG000733 Rev A kit contents p. 9 names Ligation Mix PN-2001109; Appendix p. 99 and CG000734/735 appendices pp. 111/113 do not print the mix oligos or physical end geometry. Earlier CG000331 Rev E p. 74 names distinct Adaptor Oligos PN-2000094. The current mix cannot be assumed identical; additional support sources remain to check."
+      "evidence": "CG000733 Rev A kit contents p. 9 names Ligation Mix PN-2001109; Appendix p. 99 and CG000734/735 appendices pp. 111/113 do not print the mix oligos or physical end geometry. Earlier CG000331 Rev E p. 74 names distinct Adaptor Oligos PN-2000094. The current mix cannot be assumed identical; fresh independent linked-information scope closeout remains pending."
     }
   ],
-  "conclusion": "Both readers independently checked the defining guide, older vendor guides, linked planner/input/instrument material and official TT Set A CSV. The bead TSO, final product and index table are source-backed. Related same-kit CG000734/735 and intermediate predecessor CG000331 have only a first pass here; missing current-kit RT primer and adapter claims remain blocked. Both source passes also identify the same cDNA Primers PN-2000089 in the current kit and in a predecessor appendix that prints its primer bases; this is catalog-linked evidence, not a direct current-kit oligo table."
+  "conclusion": "Existing original-source passes cover the defining guide, predecessor, index table and related same-kit guides. A new two-reader branch exclusion covers CG000791 automated Kit C, whose PN-2001317 Ligation Mix is not the manual PN-2001109. Source-known bead and final library transcription and catalog-linked PN-2000089 primers are checked directly against original files. Protocol-owned graphs now retain unresolved current-kit ligation geometry rather than inheriting a known dT end. Overall status remains in_progress for fresh independent linked-scope review; no confirmed publication absence is accepted.",
+  "additional_checks": [
+    {
+      "scope": "Historical linked-information first pass preserved before fresh scope review",
+      "pass_1": {
+        "reviewer": "gemx_first",
+        "date": "2026-10-16",
+        "locations": "CG000733 Rev A pp. 11, 26, 29, 38, 85–86, 94; CG000109 References and CG000086 Appendix; CG000748 Readme and Singleplex Overview; official TT Set A CSV",
+        "finding": "Followed CG000748, CG00053, CG000479 and CG000396 named by defining guide, plus predecessor CG000109 to CG000086 and official TT Set A index table. CG000748 links feature-barcoding/VDJ/multiplex variants; these do not define this gene-expression-only construct. Exact v3 RT Primer B identity is not established by predecessor documents. Independent linked-information pass remains open."
+      }
+    }
+  ]
 }

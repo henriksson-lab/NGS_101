@@ -221,6 +221,14 @@
         "finding": "This later original explicitly labels pLenti-Puro-AU-flip-3xBsmBI as Addgene #196709. It separately Gibson-clones a guide/adapter/random-label insert into that backbone. Its random label is 10 nt in the later experiment, unlike the 2017 protocol’s 6 nt, so its insert cannot substitute for the defining paper’s."
       },
       "discovered_from": "addgene_196709_record"
+    },
+    {
+      "id": "michlits_original_local",
+      "role": "other",
+      "locator": "_data/sources/crispr-umi-schmierer__10.15252+msb.20177834/michlits-nmeth.4466.pdf.txt; doi:10.1038/nmeth.4466",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Original publisher PDF already in ignored pdf/michlits-nmeth.4466.pdf; original first-page title/authors and printed DOI10.1038/nmeth.4466 identify the separate Michlits2017 protocol covered by this directory note03/page. It does not substitute for Schmierer or resolve the gated Addgene196709 map. Exact old acquisition URL unlogged; repeatable DOI source row already exists. Included for the existing separate Michlits note/page and catalogue extra-source row; no claim that the Schmierer article cites this later paper."
     }
   ],
   "linked_information": {
@@ -259,5 +267,15 @@
     ]
   },
   "missing_claims": [],
-  "conclusion": "The defining article, EV1–EV4, original bioRxiv v2 preprint, Addgene #52963 parent map, Chen 2013 original article, Addgene #196709 public deposit record and later PLOS Biology 2025 identification each have two located independent reads. EV2 and EV3 disagree on spelling of 11 NKX guide IDs, while the paper’s 23,279 guide count matches distinct sequences in EV2. The #196709 full verified map exists but requires login, so exact modified-backbone sequence comparison remains blocked. No missing-information claim is accepted."
+  "conclusion": "The defining article, EV1–EV4, original bioRxiv v2 preprint, Addgene #52963 parent map, Chen 2013 original article, Addgene #196709 public deposit record and later PLOS Biology 2025 identification each have two located independent reads. EV2 and EV3 disagree on spelling of 11 NKX guide IDs, while the paper’s 23,279 guide count matches distinct sequences in EV2. The #196709 full verified map exists but requires login, so exact modified-backbone sequence comparison remains blocked. No missing-information claim is accepted.",
+  "source_recovery_followups": [
+    {
+      "reviewer": "audit_editing_closeout",
+      "date": "2026-10-16",
+      "scope": "Acquisition, validation and identity verification only; not an original-chemistry reading pass.",
+      "file": "michlits-nmeth.4466.pdf.txt",
+      "identity": "Original first-page title CRISPR-UMI: single-cell lineage tracing of pooled CRISPR–Cas9 screens, authorsGeorgMichlits etal, printed DOI10.1038/nmeth.4466 and2017 publication date;14-page publisher PDF MD5e5de20a10215556227c6fc38511b3700.",
+      "next_read_scope": "Separate Michlits protocol: modifiedgBlock/P7,10baseUMI,cloning/readout/PacI/custom primers; record independent original/source-link passes. Do not use it as a replacement for Schmierer defining evidence."
+    }
+  ]
 }

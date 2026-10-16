@@ -1,146 +1,154 @@
-"""Local source and reaction model for truseq-stranded-mrna."""
-from chemdraw import Construct, Scene, Segment, Workflow
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
-from endprep import cohesive_ligation_geometry, dA_tailed_scene, ligation_product_scene, repair_and_dA_tail
-from illumina_vendor_workflows import Definition, TRUSEQ_Y_END, _finish_pcr, _single, _truseq_final, _workflow, truseq_final_rows
-from types import SimpleNamespace
+"""TruSeq Stranded mRNA v00 owns its workflow and conditional CD endpoint."""
+import illumina as il
+import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, Scene, Segment, feature
+from endprep import EndPreparedDuplex, dA_tailed_scene
+from pcr import PCRGeometry
+from protocol_graph import (Disposition, Highlight, InputRole, MaterialKind,
+                            ProtocolGraph, SequencingPlan, StepKind, Terminal)
+from protocol_model import role
+
+TITLE = "TruSeq Stranded mRNA"
+NOTES = "01_truseq_stranded_mrna.html"
+GUIDE_URL = "https://emea.support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_truseq/truseq-stranded-mrna-workflow/truseq-stranded-mrna-workflow-reference-1000000040498-00.pdf"
+SOURCE = f'Illumina <a href="{GUIDE_URL}">TruSeq Stranded mRNA Reference Guide 1000000040498 v00</a> (October 2017).'
+SUMMARY = ("Two rounds of poly(A) capture precede random-primed first-strand synthesis, "
+           "dUTP-marked second-strand synthesis, dA-tailing, indexed-adapter ligation and selective PCR.")
+CAVEAT = ("The workflow follows the standard HS handling branch, omitting optional inline DNA controls. "
+          "INFERRED — the final duplex is a source-compatible RNA combinatorial-dual (CD) reference, "
+          "using the later official Adapter Sequences v22 templates. It does not establish a particular 2017 adapter revision or D-index pair. "
+          "The actual PPC primer strands, sequencing platform, physical index-2 priming workflow and acquired cycles remain unassigned model data.")
+PCR_CYCLES = 15
+SEQ_PRIMERS = ()
+READ_SPECS = (
+    sp.read_spec("Read 1", None, "Antisense to the original RNA; acquired length unassigned.", "include"),
+    sp.read_spec("Read 2", None, "Sense to the original RNA if paired-end sequencing is selected; acquisition unassigned.", "include"),
+    sp.read_spec("Index 1 (i7)", None, "CD reference i7 site is 8 nt; actual acquisition and member unassigned.", "extract"),
+    sp.read_spec("Index 2 (i5)", None, "CD reference i5 site is 8 nt; actual acquisition, orientation and member unassigned.", "extract"),
+)
+SEQUENCING_ENDING = ("The v00 guide defines Read 1 as antisense and Read 2 as sense. It delegates cluster generation to the selected instrument guide. "
+                     "No acquisition mask or universal index-2 primer is assigned here; source-compatible adapter sites do not prove an acquired run.")
+SEQUENCING_UNAVAILABLE = "The model has not selected an instrument/run or actual physical sequencing-primer set. This is not a publication-absence claim."
 
 
-def _stranded_mrna_workflow(final: Construct) -> Workflow:
-    selected = _single("RNA", [Segment("fragmented poly(A) RNA", "R" * 36,
-                                       placeholder=True)], label="fragmented poly(A) RNA")
-    first = _single("first strand", [Segment("antisense first-strand cDNA", "N" * 36,
-                                              placeholder=True)], label="first-strand cDNA")
-    marked = Scene.duplex([
-        Segment("antisense first-strand cDNA", "N" * 36, placeholder=True)
-    ], label="dUTP-marked cDNA duplex")
-    marked.mark("bottom", "antisense first-strand cDNA'", "second strand contains dUTP")
-    end_prep = repair_and_dA_tail(Construct([
-        Segment("stranded cDNA insert", "N" * 36, placeholder=True)]))
-    tailed = dA_tailed_scene(end_prep, "dA-tailed stranded cDNA")
-    w = _workflow("total RNA", _single("RNA", [Segment("total RNA", "R" * 40,
-                                                        placeholder=True)], label="total RNA"), (
-        ("Select poly(A) RNA twice and fragment at elevated temperature",
-         "fragmented poly(A) RNA", selected,
-         "Poly-T magnetic beads enrich polyadenylated RNA; divalent cations fragment it."),
-        ("Random-prime first-strand reverse transcription",
-         "antisense first-strand cDNA", first,
-         "Actinomycin D suppresses DNA-dependent synthesis during first-strand synthesis."),
-        ("RNase H / DNA polymerase I second-strand synthesis with dUTP",
-         "dUTP-marked duplex", marked,
-         "Replacing dTTP with dUTP marks the second strand for exclusion during enrichment."),
-        ("End-repair and add one 3-prime dA", "dA-tailed cDNA", tailed,
-         "A-tailed cDNA accepts the complementary T-overhang adapters."),
-    ))
-    w.ligate_adapter(
-        "Ligate TruSeq adapters and selectively PCR-enrich",
-        cohesive_ligation_geometry(end_prep, TRUSEQ_Y_END,
-            statement="The public TruSeq adapter has a 3′-T end complementary to dA-tailed cDNA."),
-        ligation_product_scene(final, "antisense cDNA insert", label="stranded library",
-                               adapter_group="TruSeq adapter").rows(),
-        name="stranded sequencing library",
-        note="The enrichment polymerase does not copy past dUTP, so Read 1 maps antisense and Read 2 sense.")
-    return w
+def state(name, *parts):
+    return Construct([role(p) for p in parts], name=name)
 
-def _stranded_mrna_graph(d, library, primers):
-    source = d.source
-    graph = ProtocolGraph(d.title, authority=source)
-    rna = graph.input("rna", "total RNA", MaterialKind.BIOLOGICAL,
-                      state=_single("RNA", [Segment("total RNA", "R" * 40,
-                                                   placeholder=True)], label="total RNA"),
-                      primary=True)
-    beads = graph.input("polyt_beads", "poly-T RNA-selection beads",
-                        MaterialKind.SELECTION)
-    selected = graph.product("selected", "poly(A)-selected RNA", MaterialKind.MOLECULAR,
-                             state=_single("RNA", [Segment("poly(A) RNA", "R" * 36,
-                                                         placeholder=True)], label="poly(A) RNA"))
-    rejected = graph.product("non_polya", "non-polyadenylated RNA", MaterialKind.WASTE)
-    graph.react("select_polya", "Select poly(A) RNA twice", StepKind.AFFINITY_CAPTURE,
-                ((rna, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
-                (selected, rejected))
-    graph.discard(rejected, "is depleted by the poly-T selection")
-    fragmentation = graph.input("fragmentation_condition", "elevated-temperature divalent-cation fragmentation condition",
-                                MaterialKind.CONDITION)
-    fragmented = graph.product("fragmented", "fragmented poly(A) RNA",
-                               MaterialKind.MOLECULAR, state=selected.state)
-    graph.react("fragment", "Fragment selected poly(A) RNA", StepKind.FRAGMENTATION,
-                ((selected, InputRole.TEMPLATE), (fragmentation, InputRole.CONDITION)),
-                (fragmented,))
-    random_primer = graph.input("rt_primer", "random first-strand RT primer",
-                                MaterialKind.OLIGO)
-    rt = graph.input("reverse_transcriptase", "reverse transcriptase with actinomycin D",
-                     MaterialKind.CATALYST)
-    first = graph.product("first_strand", "antisense first-strand cDNA",
-                          MaterialKind.MOLECULAR,
-                          state=_single("first strand", [Segment("antisense first-strand cDNA",
-                              "N" * 36, placeholder=True)], label="first-strand cDNA"))
-    graph.react("reverse_transcribe", "Random-prime first-strand reverse transcription",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((fragmented, InputRole.TEMPLATE), (random_primer, InputRole.STRUCTURAL),
-                 (rt, InputRole.CATALYST)), (first,))
-    second_polymerase = graph.input("second_strand_polymerase", "RNase H / DNA polymerase I mix",
-                                    MaterialKind.CATALYST)
-    marked = graph.product("marked_duplex", "dUTP-marked cDNA duplex",
-                           MaterialKind.MOLECULAR, state=first.state)
-    graph.react("second_strand", "Synthesize the dUTP-marked second strand",
-                StepKind.EXTENSION,
-                ((first, InputRole.TEMPLATE), (second_polymerase, InputRole.CATALYST)),
-                (marked,))
-    repair = graph.input("repair_enzyme", "cDNA end-repair enzyme mix",
-                         MaterialKind.CATALYST)
-    repaired = graph.product("repaired", "blunt stranded-cDNA duplexes",
-                             MaterialKind.MOLECULAR, state=marked.state)
-    graph.react("end_repair", "End-repair the cDNA duplex", StepKind.END_REPAIR,
-                ((marked, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
-    tailing = graph.input("tailing_enzyme", "single-dA tailing enzyme",
-                          MaterialKind.CATALYST)
-    end_prep = repair_and_dA_tail(Construct([
-        Segment("stranded cDNA insert", "N" * 36, placeholder=True)]))
-    tailed = graph.product("tailed", "dA-tailed stranded cDNA", MaterialKind.MOLECULAR,
-                           state=dA_tailed_scene(end_prep, "dA-tailed stranded cDNA"))
-    graph.react("tail", "Add one 3-prime dA to the cDNA ends", StepKind.TAILING,
-                ((repaired, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
-    adapter = graph.input("adapter", "TruSeq 3-prime-T Y adapters", MaterialKind.ADAPTER)
-    ligase = graph.input("ligase", "TruSeq adapter DNA ligase", MaterialKind.CATALYST)
-    adapted = graph.product("adapted", "adapter-ligated directional cDNA",
-                            MaterialKind.MOLECULAR, state=tailed.state)
-    geometry = cohesive_ligation_geometry(
-        end_prep, TRUSEQ_Y_END,
-        statement="The public TruSeq adapter has a 3′-T end complementary to dA-tailed cDNA.")
-    graph.react("ligate", "Ligate TruSeq adapters", StepKind.LIGATION,
-                ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
-                 (ligase, InputRole.CATALYST)), (adapted,), geometry=geometry)
-    reviewed = ["rna", "polyt_beads", "select_polya", "fragmentation_condition", "fragment",
-                "rt_primer", "reverse_transcriptase", "reverse_transcribe",
-                "second_strand_polymerase", "second_strand",
-                "repair_enzyme", "end_repair", "tailing_enzyme", "tail", "adapter",
-                "ligase", "ligate"]
-    _finish_pcr(graph, "library", adapted, library, primers, d.sequencing_intro,
-                reviewed, label="TruSeq stranded mRNA")
-    graph.declare_reviewed_scope(reviewed, source)
-    return graph.require_publishable()
 
-DEFINITION = Definition(
-        "TruSeq Stranded mRNA", "01_truseq_stranded_mrna.html",
-        'Illumina <a href="https://emea.support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_truseq/truseq-stranded-mrna-workflow/truseq-stranded-mrna-workflow-reference-1000000040498-00.pdf">TruSeq Stranded mRNA Reference Guide 1000000040498 v00</a>.',
-        "Poly(A) RNA is bead-selected and fragmented, random-prime copied, marked with dUTP in the second strand, adapter-ligated and selectively PCR-enriched.",
-        "The guide supports single- and dual-index variants. The schematic uses the dual-index HS architecture and does not assign a particular index identity.",
-        "Directional TruSeq cDNA library: Read 1 derives from antisense cDNA and Read 2 from the sense transcript strand.",
-        "Standard TruSeq primers sequence the antisense-derived insert in Read 1, the sense-derived mate in Read 2 and both sample indexes.",
-        "truseq", "antisense cDNA insert", _stranded_mrna_workflow)
+def cd_library(*, inferred=True):
+    """Positive v22 CD templates; historical reagent assignment is conditional."""
+    return Construct([
+        Segment("P5", il.P5, "p5", inferred=inferred),
+        role("i5 CD member", length_bp=8, inferred=inferred,
+             molecular_feature=feature("sample_i5", "sample_index", "unknown")),
+        Segment("Read 1 adapter arm", il.TRUSEQ_READ1, "r1", inferred=inferred),
+        role("variable antisense-derived cDNA interval"),
+        Segment("insert dA junction", "A"),
+        Segment("i7 adapter arm", il.INDEX1_PRIMER, "r2", inferred=inferred),
+        role("i7 CD member", length_bp=8, inferred=inferred,
+             molecular_feature=feature("sample_i7", "sample_index", "unknown")),
+        Segment("P7 reverse complement", il.P7_RC, "p7", inferred=inferred),
+    ], name="conditional RNA CD library")
+
+
+FINAL_LIBRARY = cd_library()
+FINAL_CAPTION = ("INFERRED — RNA CD reference assembled from the official v22 adapter templates, with a variable cDNA interval. "
+                 "The selected historical adapter revision and individual indexes remain unassigned; no fixed biological insert length is implied.")
+
+
+def final_rows():
+    unknown = tuple(s.name + "'" for s in FINAL_LIBRARY if s.is_role_token())
+    sc = Scene.duplex(list(FINAL_LIBRARY), label=FINAL_LIBRARY.name, unpaired=unknown)
+    sc.junction("top", "Read 1 adapter arm", "variable antisense-derived cDNA interval", "ligation boundary")
+    sc.junction("top", "insert dA junction", "i7 adapter arm", "ligation boundary")
+    return sc.rows()
 
 
 def protocol_graph():
-    return _stranded_mrna_graph(DEFINITION, FINAL_LIBRARY, SEQ_PRIMERS)
+    g = ProtocolGraph(TITLE, authority=SOURCE)
+    reviewed = []
+    def reagent(mid, label, kind):
+        m = g.input(mid, label, kind); reviewed.append(mid); return m
+    def product(mid, label, *, drawing=None, kind=MaterialKind.MOLECULAR):
+        return g.product(mid, label, kind, state=drawing)
+    def react(mid, label, kind, inputs, outputs, **kwargs):
+        reviewed.append(mid); return g.react(mid, label, kind, inputs, outputs, **kwargs)
+    def cleanup(mid, template, label, *, library=False):
+        beads = reagent(mid + "_beads", "AMPure XP beads / wash and elution", MaterialKind.SELECTION)
+        clean = product(mid + "_clean", label, drawing=template.state,
+                        kind=MaterialKind.LIBRARY if library else MaterialKind.MOLECULAR)
+        if library: reviewed.append(clean.id)
+        waste = product(mid + "_waste", "nonretained supernatant and washes; composition unassigned", kind=MaterialKind.WASTE)
+        react(mid, "AMPure purification: " + label, StepKind.CLEANUP,
+              ((template, InputRole.TEMPLATE), (beads, InputRole.SELECTION)), (clean, waste))
+        g.discard(waste, "The source discards nonretained supernatants/washes and elutes retained material; exact excluded species and complete removal are unassigned.")
+        return clean
 
-FINAL_LIBRARY, SEQ_PRIMERS = _truseq_final(DEFINITION.insert_name, DEFINITION.title + " library")
-d = DEFINITION
-SPEC = SimpleNamespace(
-    TITLE=d.title, NOTES=d.notes, SOURCE=d.source, SUMMARY=d.summary,
-    CAVEAT=d.caveat, FINAL_LIBRARY=FINAL_LIBRARY, SEQ_PRIMERS=SEQ_PRIMERS,
-    FINAL_CAPTION=d.final_caption, SEQUENCING_INTRO=d.sequencing_intro,
-    workflow=lambda: _stranded_mrna_workflow(FINAL_LIBRARY),
-    final_rows=lambda: truseq_final_rows(FINAL_LIBRARY),
-    protocol_graph=protocol_graph,
-)
-globals().update(vars(SPEC))
+    rna = g.input("rna", "total RNA", MaterialKind.BIOLOGICAL,
+                  state=state("total RNA", "variable RNA pool"), primary=True)
+    reviewed.append("rna")
+    beads = reagent("polyt_beads", "oligo-dT magnetic beads: two capture rounds", MaterialKind.SELECTION)
+    selected = product("selected", "bead-enriched poly(A) RNA", drawing=state("selected RNA", "variable poly(A)-containing RNA"))
+    rejected = product("selection_waste", "discarded capture supernatants and washes", kind=MaterialKind.WASTE)
+    react("select_polya", "Capture poly(A) RNA twice", StepKind.AFFINITY_CAPTURE,
+          ((rna, InputRole.TEMPLATE), (beads, InputRole.SELECTION)), (selected, rejected))
+    g.discard(rejected, "Two captures discard supernatants/washes. Their composition is not equated to all and only non-polyadenylated RNA.")
+    condition = reagent("fragmentation", "FPF: elevated-temperature, divalent-cation fragmentation and priming", MaterialKind.CONDITION)
+    fragmented = product("fragmented", "fragmented selected RNA", drawing=state("fragmented RNA", "variable selected RNA fragments"))
+    react("fragment", "Fragment and prime during the second elution", StepKind.FRAGMENTATION,
+          ((selected, InputRole.TEMPLATE), (condition, InputRole.CONDITION)), (fragmented,))
+    primer = reagent("rt_primer", "random hexamer first-strand primers; ordered pool unassigned", MaterialKind.OLIGO)
+    rt = reagent("rt", "SuperScript II with FSA / Actinomycin D; selected listed option", MaterialKind.CATALYST)
+    first = product("first", "first-strand cDNA / RNA mixture", drawing=state("first-strand mixture", "antisense first-strand cDNA with RNA template"))
+    react("reverse_transcribe", "Random-prime first-strand cDNA synthesis", StepKind.REVERSE_TRANSCRIPTION,
+          ((fragmented, InputRole.TEMPLATE), (primer, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)), (first,))
+    smm = reagent("smm", "SMM: RNase H, DNA polymerase I and dUTP marking / end repair", MaterialKind.CATALYST)
+    marked = product("marked", "blunt-ended, dUTP-marked cDNA duplex", drawing=state("marked duplex", "first strand plus dUTP-marked second strand; positions unassigned"))
+    degraded = product("removed_rna", "RNA-template degradation products; subsequent recovery unassigned")
+    react("second_strand", "Remove RNA and synthesize the dUTP-marked blunt second strand", StepKind.EXTENSION,
+          ((first, InputRole.TEMPLATE), (smm, InputRole.CATALYST)), (marked, degraded))
+    g.mark_terminal(Terminal(degraded.id, Disposition.UNRESOLVED,
+        "RNA removal occurs during SMM synthesis; downstream cleanup is shown, but the specific degradation products and their individual recovery are unassigned."))
+    clean = cleanup("clean_cdna", marked, "cleaned blunt cDNA")
+    atl = reagent("atl", "ATL A-Tailing Mix", MaterialKind.CATALYST)
+    ends = EndPreparedDuplex(Construct([role("variable marked cDNA interval")]),
+                             five_prime_phosphate=True, three_prime_overhang="A", overhang_inferred=False)
+    tailed = product("tailed", "dA-tailed cDNA", drawing=dA_tailed_scene(ends))
+    react("tail", "Add one 3′ dA to blunt cDNA ends", StepKind.TAILING,
+          ((clean, InputRole.TEMPLATE), (atl, InputRole.CATALYST)), (tailed,))
+    adapter_scene = Scene()
+    adapter_scene.strand("adapter", [role("indexed adapter duplex core"), Segment("3-prime T", "T")], label="source-known 3′-T adapter end")
+    adapter_scene.overhang("adapter", "3-prime T", polarity="3-prime", owner="adapter")
+    adapter = reagent("adapter", "RNA CD indexed adapters; compatible reference family, historical revision/member unassigned", MaterialKind.ADAPTER)
+    ligase = reagent("ligase", "LIG Ligation Mix, followed by STL stop", MaterialKind.CATALYST)
+    adapted = product("adapted", "indexed-adapter-ligated marked cDNA", drawing=state("ligated cDNA", "indexed adapter", "marked cDNA interval", "opposite indexed adapter"))
+    react("ligate", "Ligate indexed adapters and stop ligation", StepKind.LIGATION,
+          ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)), (adapted,),
+          geometry=AdapterLigationGeometry.known("cohesive", tailed.state, adapter_scene,
+              statement="The v00 guide explicitly gives complementary single 3′-A substrate and 3′-T adapter ends. Exact historical adapter-core bases remain unassigned."))
+    clean = cleanup("clean_ligation_1", adapted, "first-round purified ligated cDNA")
+    clean = cleanup("clean_ligation_2", clean, "second-round purified ligated cDNA")
+    ppc = reagent("ppc", "PPC forward primer; ordered strand unassigned", MaterialKind.OLIGO)
+    ppc_reverse = reagent("ppc_reverse", "PPC reverse primer; ordered strand unassigned", MaterialKind.OLIGO)
+    pmm = reagent("pmm", "PMM PCR Master Mix: dUTP-blocking polymerase", MaterialKind.CATALYST)
+    amplified = product("amplified", "PCR-enriched library", drawing=FINAL_LIBRARY)
+    react("pcr", f"INFERRED — selectively enrich the CD reference in {PCR_CYCLES} PCR cycles", StepKind.PCR,
+          ((clean, InputRole.TEMPLATE), (ppc, InputRole.STRUCTURAL), (ppc_reverse, InputRole.STRUCTURAL), (pmm, InputRole.CATALYST)), (amplified,),
+          geometry=PCRGeometry.unavailable(clean.state,
+              reason="The model has not assigned the ordered PPC strands or their exact sites on this ligated historical adapter. The v22 CD endpoint is a conditional source-compatible reference, not evidence that PCR installs its indexes."))
+    library = cleanup("clean_pcr", amplified, "purified stranded RNA CD reference library", library=True)
+    g.sequence(library, SequencingPlan(library=FINAL_LIBRARY, primers=(),
+        limitation="RNA CD reference sites are conditional; no actual platform, physical primers or acquisition mask selected."))
+    g.annotate(Highlight("second_strand", "Marking controls amplification, not immediate physical strand removal",
+        "SMM removes the RNA template and produces blunt-ended cDNA; its dUTP-marked second strand is quenched during later PCR. "
+        "The model assigns no enzyme-based destruction of the entire marked strand and no complete background elimination."))
+    g.annotate(Highlight("adapter", "Index family is a separate choice from HS/LS handling",
+        "The overview illustrates LS single-index and describes HS dual-index libraries; the purchasable components separately include RNA single, CD and UD families. "
+        "This page selects HS handling with a compatible CD reference. It does not assign an individual D index, force UD pairing, or infer acquisition from adapter compatibility."))
+    g.annotate(Highlight("pcr", "Ligation installs the indexes",
+        "PPC anneals to the adapter ends and PCR enriches fragments bearing adapters at both ends. "
+        "The source says zero-adapter fragments do not hybridize to the flow cell and one-adapter fragments cannot form clusters; "
+        "their remaining abundance and molecular fate are unassigned. The two ligation cleanups are physical recovery steps, not proof that every off-product is gone."))
+    g.declare_reviewed_scope(reviewed, SOURCE)
+    return g.require_publishable()

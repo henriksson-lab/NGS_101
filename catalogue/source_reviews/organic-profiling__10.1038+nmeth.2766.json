@@ -1,6 +1,6 @@
 {
   "dir": "organic-profiling__10.1038+nmeth.2766",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "article",
@@ -8,17 +8,31 @@
       "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_PMC3929178.xml.txt",
       "availability": "read",
       "relevance": "relevant",
+      "superseded_reading_claims": {
+        "pass_1": {
+          "reviewer": "second_pass_d_e",
+          "date": "2026-10-16",
+          "locations": "Methods native chromatin profiling and library sections",
+          "finding": "Free MNase digests native nuclei before low-salt affinity enrichment; DNA fragment ends feed low-input adapter ligation and PCR."
+        },
+        "pass_2": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Original PMC3929178 JATS Introduction/Methods around lines 64 and 120–160; scraper",
+          "finding": "Native nuclei undergo MNase digestion, fragment size selection and affinity purification before linked low-input Illumina library preparation."
+        }
+      },
       "pass_1": {
-        "reviewer": "second_pass_d_e",
+        "reviewer": "audit_nanocut_closeout",
         "date": "2026-10-16",
-        "locations": "Methods native chromatin profiling and library sections",
-        "finding": "Free MNase digests native nuclei before low-salt affinity enrichment; DNA fragment ends feed low-input adapter ligation and PCR."
+        "locations": "ActualPMC3929178JATS35,54–74,reference19; XMLbodysectioninventory; completebundlescraper before reading",
+        "finding": "Originalauthor-manuscript abstract/results describe nativeMNase→affinitypurification and reference19Henikoff2011forlibrary. Thisfile doesnot contain the referenced OnlineMethods body;120–160 are supplementalfigurecaptions. PriorMethods-readingclaims withdrawn, not reclassified as completed sectionreads."
       },
       "pass_2": {
-        "reviewer": "audit_s_z",
+        "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Original PMC3929178 JATS Introduction/Methods around lines 64 and 120–160; scraper",
-        "finding": "Native nuclei undergo MNase digestion, fragment size selection and affinity purification before linked low-input Illumina library preparation."
+        "locations": "ActualPMC3929178JATS35/54–74 and sectioninventory; freshfullbundle scraper26232",
+        "finding": "Independentlyreadnativebody/libraryreference andverifiednoOnlineMethodsbodyinthisauthorcopy. Old120–160Methodsclaim is withdrawn; thosearecaptions. ThisdoesnotestablishunpublishedMethods."
       }
     },
     {
@@ -38,7 +52,21 @@
         "date": "2026-10-16",
         "locations": "Supplement PDF lines 5–75 contents; lines 92–273 Supplementary Fig. 1 workflow, especially library-prep panel lines 229–273; Table 1/2 descriptions lines 68–75",
         "finding": "Independently read the supplement. Fig. 1c explicitly gives end repair, dA overhang, TruSeq adapter ligation, PCR and 25-cycle paired-end HiSeq sequencing. It draws adaptor A ends but supplies no ordered base strings or sample-index member. Its listed Supplementary Tables 1–2 are peak calls and motif matrices, unrelated to library oligos. This source is relevant for workflow and does not resolve the exact index."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "PublishedMOESM254PDFp3 fullrender _data/tmp/organic-inspection/source-fig1-03.png; extractedworkflow102–275",
+          "finding": "ActualyeastCa/MNase→EDTA→S1/S2/nativeIP andflydistinctEGTA; RNase/ProteinaseK/DNArecovery. Panelc commonIP/inputendrepair→phenol/S300→Atail→phenol/S300→TruSeq→AMPure→PCR→AMPure→25PEHiSeq2000."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Freshfullbundlescraper started60996; actualwholeMOESM254p3 independentlyvisuallyread",
+          "finding": "Independentyeast/flyquench/fractionation andcommonlibrarysequence confirmed. YeastS1/S2combinedafteradjustingsalt; sourceRTFgovernsnativeinheritance. Thisfiguredoesnotgiveexact2014adapter/memberassignment."
+        }
+      ]
     },
     {
       "id": "orsi_protocol",
@@ -58,7 +86,21 @@
         "locations": "Later same-author low-input protocol PMC4410783 JATS lines 812–832 and 926–933; scraper",
         "finding": "Prints modified universal/indexed TruSeq adapter and P5/P7 primer strings, six-base variable index, and adapter annealing steps."
       },
-      "relationship": "Later same-author stepwise ORGANIC method, published in 2015; it is not a reference cited by the 2014 defining article."
+      "relationship": "Later same-author stepwise ORGANIC method, published in 2015; it is not a reference cited by the 2014 defining article.",
+      "additional_checks": [
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "ActualOrsiPMC4410783XML812–898 and926–1200, originalsourceoligos andwholeend-polish/tail/ligation/PCRworkflow",
+          "finding": "Laterexplicitillustration58ntUniversal/63ntIndexedN6+protectedends,21ntP5/22ntP7; combinedT4pol/Klenow/PNK,organiccleanups, M0212MKlenowexo−,Rapidligase,KAPA,positiveAMPure. No genericfamilychoiceor separatekinaseincubation."
+        },
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "IndependentoriginalOrsiPMC4410783 source812–832/926–1170 read during boundedChECsourceaudit; same original PMCID",
+          "finding": "Exactprotectedoligos andcombinedendpolish→phenol/S300→Atail→phenol/S300→ligation→positiveDNA-boundcleanup→KAPA verified. ScopeisexplicitlaterOrsivariant, notautomatic2014recipe identity."
+        }
+      ]
     },
     {
       "id": "large_data_table",
@@ -177,7 +219,21 @@
         "date": "2026-10-16",
         "locations": "Published MOESM254 PDF text Supplementary Fig. 1c lines 236–278",
         "finding": "The figure explicitly orders end repair, cleanup, addition of 3′ A overhang, Illumina TruSeq adapter ligation and PCR library amplification; it labels 25-cycle paired-end HiSeq 2000, supporting correction of the previously stated HiSeq 2500. The figure does not print adapter bases."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "PublishedMOESM254PDFp3 fullrender _data/tmp/organic-inspection/source-fig1-03.png; extractedworkflow102–275",
+          "finding": "ActualyeastCa/MNase→EDTA→S1/S2/nativeIP andflydistinctEGTA; RNase/ProteinaseK/DNArecovery. Panelc commonIP/inputendrepair→phenol/S300→Atail→phenol/S300→TruSeq→AMPure→PCR→AMPure→25PEHiSeq2000."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Freshfullbundlescraper started60996; actualwholeMOESM254p3 independentlyvisuallyread",
+          "finding": "Independentyeast/flyquench/fractionation andcommonlibrarysequence confirmed. YeastS1/S2combinedafteradjustingsalt; sourceRTFgovernsnativeinheritance. Thisfiguredoesnotgiveexact2014adapter/memberassignment."
+        }
+      ]
     },
     {
       "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm255_esm_xls",
@@ -262,11 +318,22 @@
     {
       "id": "henikoff_2011_predecessor",
       "role": "predecessor",
-      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3215028/ (Henikoff et al., 2011; doi:10.1073/pnas.1110731108; defining ORGANIC article reference 19); original PDF mirror https://courses.cs.duke.edu/spring15/compsci662/pdf/henikoff.2011.pdf",
-      "availability": "unavailable",
+      "locator": "OriginalPMC3215028 article, PMC3215028_PMC3215028.html.txt; additional originalcoursePDFhenikoff.2011.pdf",
+      "availability": "read",
       "relevance": "relevant",
       "discovered_from": "article",
-      "reason": "Full predecessor original was not obtained: pmccloud route returned no file, PMC browser full text served reCAPTCHA, PNAS PDF direct open failed, Duke mirror browser returned HTTP 403 and get_sources.py recorded curl DNS failure. Search-indexed original text confirms a modified short-insert Illumina paired-end library but does not suffice for complete independent original-source review."
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "ActualoriginalHTML1149–1157 and1232; fullbundle scraper6hits/3files before reading",
+        "finding": "PE-930-1001historicalIlluminakit, omittedgel/Qiagencleanups,phenol/S300,AMPurepostligation/PCR; olderadapter-length contribution and25PEHiSeq2000. DetailedSIactuallylinkedSTXT; no laterTruSeqsequenceidentityassigned."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "OriginalPMC3215028main1149–1157/1232 independentlyreadinChECsourceaudit; sourceidentitysamePMCID",
+        "finding": "Originalhistoricalkit andcleanup modifications confirmed. Root/Tenx originalreadsupports boundedinheritancehistory, not unvisited2011SI or2014sample-index assignment."
+      }
     },
     {
       "id": "henikoff_2011_supplement",
@@ -275,30 +342,605 @@
       "availability": "unavailable",
       "relevance": "relevant",
       "discovered_from": "henikoff_2011_predecessor",
-      "reason": "The predecessor links this Supporting Information, which may include detailed library reagents; direct browser open failed and get_sources.py recorded curl DNS failure, leaving it absent from the source bundle and unchecked."
+      "reason": "ActualsourceSIunread: standardPMCinstance route returnsPreparingToDownload gate; both actualPNASlegacyHTTP andHTTPSSTXTanchors return403. Securetransport was checked separately through registeredURL/vendorfetcher. This is a localaccessbarrier, not scientificabsence."
+    },
+    {
+      "id": "study_deposited_protocol",
+      "role": "linked_material",
+      "locator": "ActualGSE45672_ORGANIC_profiling_protocol.rtf.gz, originalGEOseriesline51; decompressedRTFanddoctexttwin",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Complete20-lineRTFtext and underlyingrecoveredoriginal; scraperonnewRTFtext before reading, fullbundle alreadyrun",
+        "finding": "Study/authoridentity verified. Actualnativeyeast80/150/600mMsalt inheritsZentner2013PMID23468649; nucleiFuruyama2007,flyTeves2011. No librarySOPinthisnativeprotocol; WordADDINartifactnot interpretedbiologically."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Completeactual20-lineGEOprotocol.rtf.txt independentlyread afterfreshbundle scraper",
+        "finding": "Confirmsactualnativeinheritance andsaltmodifications; otherreferencesarestrain/tag/antibodycontext. NotalibrarySOP; no childoriginalsreadorexcludedbythispass."
+      }
+    },
+    {
+      "id": "geo_family_metadata",
+      "role": "linked_material",
+      "locator": "Originalgeo-GSE45672-all-full.txt, https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE45672&targ=all&view=full&form=text",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Series1–52; all24sampleidentity/library/instrumentfields26519–end; all15uniqueextractionparagraphs and3uniqueprocessingparagraphs",
+        "finding": "ActualselectedGSM1111706/1707areReb180mMIP/input; 24instrumentfieldsHiSeq2000. SerieslinksauthorRTF; samplesmaptoSRXmetadata. ProcessingNovoalignpaired25bp andfragmentlengthanalysis keptascomputation. No historicalphysicaladapteridentity inferred."
+      }
+    },
+    {
+      "id": "native_2013_predecessor",
+      "role": "predecessor",
+      "locator": "doi:10.1371/journal.pgen.1003317, actualjournal.pgen.1003317_PMC3585014.xml(.txt)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Freshscraper2hits/main+twosmallDOCsupplements; originalMethods150–168",
+        "finding": "Nativebranch Ca/MNase→EDTA→S1/S2→antiFLAG/input→RNaseA→SDS/ProteinaseK→phenol/ethanol. SeparateformaldehydeXChIPbranch notimported. Library168citesHenikoff2011[30],25PEHiSeq2000; noKAPA orspecificTruSeqoligotransfer fromthissource."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "ActualPLoS2013PMC3585014JATS150–168",
+        "finding": "SourceS1/S2pool→antiFLAG/input→RNase→SDS/ProteinaseK supported. SeparateXChIPbranchnottransferred; librarycites2011original. No laterOrsiadapter/memberassignment inferred."
+      }
+    },
+    {
+      "id": "native_2013_strains",
+      "role": "linked_material",
+      "locator": "Originaljournal.pgen.1003317_supp_pgen.1003317.s007.doc, TableS1",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "native_2013_predecessor",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "EntireoriginallegacyDOCtexttable, sixstrainrows/allheaders+footnote, afterscraper",
+        "finding": "Strain/genotype/sourceidentitytable, scopedprovenance; no production/constructengineeringexpanded and no orderedlibraryoligoassigned."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entireactuals007DOCtext, sixstrainrows/allheaders andfootnote",
+        "finding": "Actualgenotype/sourceidentitytable, not adapter/libraryrecipe; boundedoriginalbodyread."
+      }
+    },
+    {
+      "id": "native_2013_yields",
+      "role": "linked_material",
+      "locator": "Originaljournal.pgen.1003317_supp_pgen.1003317.s008.doc, TableS2",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "native_2013_predecessor",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "EntireoriginalDOCtexttable,18sample/resultrows/allcolumns+footnote, afterscraper",
+        "finding": "Mappedpaircounts,supernucleosomal/nucleosomalAUC andChIP/inputratios; not a runmask oractualadapterbindingassignment. Boundedcontentsread, notwholelinkedabsenceclaim."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entireactuals008DOCtext,18mappedpair/AUCrows andallcolumns/footnote",
+        "finding": "Actualmappedpaircounts/AUC andChIP/inputratios; no adapter/libraryrecipe inthisoriginalbody. No universalrunmaskclaim."
+      }
+    },
+    {
+      "id": "srx263794",
+      "role": "linked_material",
+      "locator": "OriginalSRX263794.xml, https://www.ebi.ac.uk/ena/browser/api/xml/SRX263794",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "geo_family_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire2537-byteoriginalXML includingattributes andalllinks; freshselected-originalscraperbefore reading",
+        "finding": "GEOGSM1111706studyGSE45672 identity, PAIRED/MNaseSeq/GENOMIC/HiSeq2000. NextlinksSRSsample,SRA073138submission andFASTQ/submittedfilereports are data/metadata routes; no physicaloligovalue orrunmaskassignedfromthisoriginal."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entireactual2537-byteoriginalexperimentXML, includingattributes andalllinks",
+        "finding": "IndependentselectedsampleGEOidentity, sameSRP020912/GSE45672, MNaseSeq/GENOMIC/MNase/PAIRED/HiSeq2000 confirmed. Filereport/datarefsobserved. TheseareonlyselectedtwoENAexperiments; doesnotcoverallGEOextractionparagraphs oridentifyphysicaloligos."
+      }
+    },
+    {
+      "id": "srx263795",
+      "role": "linked_material",
+      "locator": "OriginalSRX263795.xml, https://www.ebi.ac.uk/ena/browser/api/xml/SRX263795",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "geo_family_metadata",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Entire2537-byteoriginalXML includingattributes andalllinks; freshselected-originalscraperbefore reading",
+        "finding": "GEOGSM1111707studyGSE45672 identity, PAIRED/MNaseSeq/GENOMIC/HiSeq2000. NextlinksSRSsample,SRA073138submission andFASTQ/submittedfilereports are data/metadata routes; no physicaloligovalue orrunmaskassignedfromthisoriginal."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Entireactual2537-byteoriginalexperimentXML, includingattributes andalllinks",
+        "finding": "IndependentselectedsampleGEOidentity, sameSRP020912/GSE45672, MNaseSeq/GENOMIC/MNase/PAIRED/HiSeq2000 confirmed. Filereport/datarefsobserved. TheseareonlyselectedtwoENAexperiments; doesnotcoverallGEOextractionparagraphs oridentifyphysicaloligos."
+      }
+    },
+    {
+      "id": "author_methods_entry",
+      "role": "linked_material",
+      "locator": "Originalhttps://research.fredhutch.org/henikoff/en/methods.html, methods.html(.txt)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "ORGANICentry600–620 andactualanchorinventory",
+        "finding": "CurrentauthorentrylinksOrsi2015 anddefining2014PubMedrecords, plusadjacentmethodsarticles. Itidentifiesauthormethods andversions; not adirect2011SIrecoveryorproofallrecipesmatch."
+      }
+    },
+    {
+      "id": "publisher_entry",
+      "role": "linked_material",
+      "locator": "Originalhttps://www.nature.com/articles/nmeth.2766, nmeth.2766 andMIME-extractednmeth.2766.txt usingstandardhtml_textextractor",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Originalpublisherabstract/preview/refinventory andavailablefilelinks",
+        "finding": "Published2014entryhasabstractandreferenceinventory but presents subscriptionpreview. Manuscriptreference19becomesfinalreference20forHenikoff2011; numberingnotachemistryerror. ThisreadisnotfullOnlineMethods."
+      }
+    },
+    {
+      "id": "published_online_methods",
+      "role": "defining",
+      "locator": "OriginalpublishedOnlineMethods section referencedbydefiningarticle/suppFig1caption; doi:10.1038/nmeth.2766",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "ThelocalPMCmanuscriptbody omits thisnamedsection and publisherentryservessubscriptionpreview. DepositednativeRTF isactualseparateoriginal, notautomaticallytheentireOnlineMethods. Fullsectionremainsunread; no absenceclaim."
+    },
+    {
+      "id": "native_2013_suppfig1",
+      "role": "linked_material",
+      "locator": "OriginalPLoSGenet supplementaryFigure1, pgen.1003317.s001.tif, identifiedbyPMC3585014",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "native_2013_predecessor",
+      "reason": "StandardPMCroutecurrentlydownload-gated; originalpublisherattachmentroute/visualscope notyetchecked. No completedexclusion frommaincaptionalone."
+    },
+    {
+      "id": "native_2013_suppfig2",
+      "role": "linked_material",
+      "locator": "OriginalPLoSGenet supplementaryFigure2, pgen.1003317.s002.tif, identifiedbyPMC3585014",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "native_2013_predecessor",
+      "reason": "StandardPMCroutecurrentlydownload-gated; originalpublisherattachmentroute/visualscope notyetchecked. No completedexclusion frommaincaptionalone."
+    },
+    {
+      "id": "native_2013_suppfig3",
+      "role": "linked_material",
+      "locator": "OriginalPLoSGenet supplementaryFigure3, pgen.1003317.s003.tif, identifiedbyPMC3585014",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "native_2013_predecessor",
+      "reason": "StandardPMCroutecurrentlydownload-gated; originalpublisherattachmentroute/visualscope notyetchecked. No completedexclusion frommaincaptionalone."
+    },
+    {
+      "id": "native_2013_suppfig4",
+      "role": "linked_material",
+      "locator": "OriginalPLoSGenet supplementaryFigure4, pgen.1003317.s004.tif, identifiedbyPMC3585014",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "native_2013_predecessor",
+      "reason": "StandardPMCroutecurrentlydownload-gated; originalpublisherattachmentroute/visualscope notyetchecked. No completedexclusion frommaincaptionalone."
+    },
+    {
+      "id": "native_2013_suppfig5",
+      "role": "linked_material",
+      "locator": "OriginalPLoSGenet supplementaryFigure5, pgen.1003317.s005.tif, identifiedbyPMC3585014",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "native_2013_predecessor",
+      "reason": "StandardPMCroutecurrentlydownload-gated; originalpublisherattachmentroute/visualscope notyetchecked. No completedexclusion frommaincaptionalone."
+    },
+    {
+      "id": "native_2013_suppfig6",
+      "role": "linked_material",
+      "locator": "OriginalPLoSGenet supplementaryFigure6, pgen.1003317.s006.tif, identifiedbyPMC3585014",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "native_2013_predecessor",
+      "reason": "StandardPMCroutecurrentlydownload-gated; originalpublisherattachmentroute/visualscope notyetchecked. No completedexclusion frommaincaptionalone."
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "second_pass_d_e",
+      "reviewer": "audit_nanocut_closeout",
       "date": "2026-10-16",
-      "locations": "Original native MNase Methods; supplementary workflow; linked Orsi Basic Protocol 3",
-      "finding": "The 2014 defining article explicitly cites Henikoff et al. 2011 (reference 19) for modified short-insert library preparation; that predecessor and its linked Supporting Information remain unavailable for full review. A later same-author Orsi 2015 detailed ORGANIC protocol was read and prints modified TruSeq adapters and enrichment primers. Publisher and PMC figure/data supplements were checked for chemistry relevance; the sample-specific index member was not found."
+      "locations": "ActualPMCauthor-manuscriptbody/ref19; publishedsuppFig1p3; recovered2011main1149–1157/1232; wholeGEOprotocol; native2013Methods150–168/DOCtables; selectedENAxml; currentauthor/publisherentries",
+      "finding": "Recoveredactualoriginals replaceprioraccess/Methodsclaims. Actual2011SIandpublishedOnlineMethods stillunread; native2013suppfigs/native-nucleiflyprecursors andhistoricalvendorprocedure scopes remainidentifiedpending. Data/read/cell-output URLsnotdownloaded; no acceptedabsenceorunvisited-sourceexclusion."
     },
     "pass_2": {
-      "reviewer": "audit_s_z",
+      "reviewer": "root",
       "date": "2026-10-16",
-      "locations": "Original PMC3929178 Methods and linked same-author PMC4410783 Basic Protocol 3 lines 812–832/926–933",
-      "finding": "The Orsi 2015 Basic Protocol 3 was read independently (lines 812–832 and 926–933) and prints a variable six-N index and exact fixed oligo arms. This later procedure was previously mislabeled as linked by the 2014 paper; the actual cited 2011 reference 19 and its supplement require separate source checks. The data workbooks do not map sample libraries to concrete six-base index members."
-    }
+      "locations": "ActualpublishedMOESM254p3 andwholeGEOprotocol; bounded2011originalmainread suppliedfromearlierChECaudit",
+      "finding": "Independentnativeworkflow, actualRTFinheritance andoriginalhistoricalkitsequence verified atgivenlocations. ThisisnotcompletedP2onnewGEOallrecords/ENA/native2013children/publishedOnlineMethods; sourcegate remainsin_progress."
+    },
+    "additional_checks": [
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actualprimarybody/sectioninventory; native2013main/DOCtables andselectedtwoENAoriginals, inadditiontopriorRTF/figureP2",
+        "finding": "Freshboundedsourcepositivesconfirmed atchecklistlocations. OldMethodslocationclaimswithdrawn. WholeGEO/allnewlinkedchildren/fullOnlineMethodsstillnotcheckedtwice; noabsenceaccepted."
+      }
+    ]
   },
   "missing_claims": [
     {
       "claim": "ORGANIC library adapter oligos are unpublished",
       "disposition": "resolved",
-      "evidence": "The article-linked Orsi et al. Basic Protocol 3, lines 812–832, prints both modified adapters and P5/P7 enrichment primers; the model and page now show them."
+      "evidence": "LaterOrsi2015actualsourcepublishesamodifiedadapter/PCRimplementation; exact2014sampleassignment is anopenmodelquestion. Orsiisnotarticle-linkedbythe2014publication, andnoabsenceaccepted."
+    }
+  ],
+  "conclusion": "Actual2011main, depositednativeRTF andnative2013originalrecovered. LocalORGANICmodelnowownsselectednativeworkflow andexplicitlaterOrsilibraryillustration, correctingadapteroverlap/genericrecipe assumptions. Fullreview remainsin_progressfor actual2011SI,publishedOnlineMethods anditemizedlinked-scopes; no scientificabsence accepted.",
+  "history": [
+    {
+      "previous_review": {
+        "dir": "organic-profiling__10.1038+nmeth.2766",
+        "status": "blocked",
+        "source_checklist": [
+          {
+            "id": "article",
+            "role": "defining",
+            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_PMC3929178.xml.txt",
+            "availability": "read",
+            "relevance": "relevant",
+            "pass_1": {
+              "reviewer": "second_pass_d_e",
+              "date": "2026-10-16",
+              "locations": "Methods native chromatin profiling and library sections",
+              "finding": "Free MNase digests native nuclei before low-salt affinity enrichment; DNA fragment ends feed low-input adapter ligation and PCR."
+            },
+            "pass_2": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "Original PMC3929178 JATS Introduction/Methods around lines 64 and 120–160; scraper",
+              "finding": "Native nuclei undergo MNase digestion, fragment size selection and affinity purification before linked low-input Illumina library preparation."
+            }
+          },
+          {
+            "id": "supp_figures",
+            "role": "supplement",
+            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-1.pdf.txt",
+            "availability": "read",
+            "relevance": "relevant",
+            "pass_1": {
+              "reviewer": "second_pass_d_e",
+              "date": "2026-10-16",
+              "locations": "supplement opening Contents and Fig. 1–2",
+              "finding": "Supplement documents workflow and MNase/affinity-purification comparisons; detailed oligo rows remain in linked Orsi protocol."
+            },
+            "pass_2": {
+              "reviewer": "audit_a_h",
+              "date": "2026-10-16",
+              "locations": "Supplement PDF lines 5–75 contents; lines 92–273 Supplementary Fig. 1 workflow, especially library-prep panel lines 229–273; Table 1/2 descriptions lines 68–75",
+              "finding": "Independently read the supplement. Fig. 1c explicitly gives end repair, dA overhang, TruSeq adapter ligation, PCR and 25-cycle paired-end HiSeq sequencing. It draws adaptor A ends but supplies no ordered base strings or sample-index member. Its listed Supplementary Tables 1–2 are peak calls and motif matrices, unrelated to library oligos. This source is relevant for workflow and does not resolve the exact index."
+            }
+          },
+          {
+            "id": "orsi_protocol",
+            "role": "detailed_protocol",
+            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/PMC4410783_PMC4410783.xml.txt",
+            "availability": "read",
+            "relevance": "relevant",
+            "pass_1": {
+              "reviewer": "second_pass_d_e",
+              "date": "2026-10-16",
+              "locations": "Basic Protocol 3 oligos lines 812–832 and ligation workflow lines 926–933",
+              "finding": "Author stepwise procedure prints modified TruSeq universal/indexed adapter and P5/P7 enrichment primer strings."
+            },
+            "pass_2": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "Later same-author low-input protocol PMC4410783 JATS lines 812–832 and 926–933; scraper",
+              "finding": "Prints modified universal/indexed TruSeq adapter and P5/P7 primer strings, six-base variable index, and adapter annealing steps."
+            },
+            "relationship": "Later same-author stepwise ORGANIC method, published in 2015; it is not a reference cited by the 2014 defining article."
+          },
+          {
+            "id": "large_data_table",
+            "role": "supplement",
+            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM252_ESM.xlsx",
+            "availability": "read",
+            "relevance": "not_relevant",
+            "reason": "Source-data workbook for Fig. 5a–d contains chromosome positions and normalized coverage/result matrices, not oligo chemistry.",
+            "pass_2": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "Original 64-MB MOESM252 XLSX: xl/workbook.xml sheet names Fig5a–d; xl/sharedStrings.xml complete 36-string inventory",
+              "finding": "Workbook string inventory identifies Fig. 5 result matrices, chromosome/site coordinates, and MNase/Sono-Seq/X-ChIP normalized counts; no oligo name or assembly information. No large text twin was generated."
+            },
+            "pass_1": {
+              "reviewer": "second_pass_d_e",
+              "date": "2026-10-16",
+              "locations": "Original MOESM252 XLSX xl/workbook.xml four Fig5a–d sheet names; xl/sharedStrings.xml complete 35-entry inventory",
+              "finding": "Workbook contains normalized Reb1/Abf1 occupancy and site/coordinate result tables. No oligo/reaction material appears in workbook headings or shared strings; large numerical rows were not fully inspected."
+            }
+          },
+          {
+            "id": "large_xls_table",
+            "role": "supplement",
+            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM251_ESM.xls.txt",
+            "availability": "read",
+            "relevance": "not_relevant",
+            "reason": "Original legacy XLS converted with xls2csv; the workbook contains only Fig. 4a–g DNaseI-seq tag-count/result matrices, not library-preparation reagents or oligos.",
+            "pass_1": {
+              "reviewer": "root",
+              "date": "2026-10-16",
+              "locations": "Original MOESM251 XLS converted with xls2csv, 18,826 rows; figure section headers at converted lines 1, 4388, 6718, 8496, 9049, 11045 and 16418; searched all rows for primer, adapter, ligation and library-prep terms",
+              "finding": "All seven sections are Fig. 4a–g DNaseI-seq tag-count/result matrices. No library-preparation columns or relevant oligo entries appear."
+            },
+            "pass_2": {
+              "reviewer": "second_pass_d_e",
+              "date": "2026-10-16",
+              "locations": "Original converted MOESM251 XLS Fig. 4a–g section headers at lines 1, 4388, 6718, 8496, 9049, 11045 and 16418 (rg physical lines); representative row/column headers in each section; full extracted text keyword scan for primer, adapter, ligation, library prep, oligo and sequence",
+              "finding": "All sections are DNaseI-seq tag-count or related Fig. 4 result matrices indexed by chromosome/site center/relative position. The 18,826-line extracted workbook has no library-preparation or reagent-oligo fields; scraper found no sequences in this converted file. This supports excluding it from chemistry evidence, while other relevant sources remain blocked."
+            }
+          },
+          {
+            "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm249_esm_xls",
+            "role": "supplement",
+            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM249_ESM.xls.txt",
+            "availability": "read",
+            "relevance": "not_relevant",
+            "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
+            "pass_2": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "Original MOESM249 workbook Reb1_ORGANIC_80mM header",
+              "finding": "Figure 1b MNase input/IP signal data, not adapters."
+            },
+            "pass_1": {
+              "reviewer": "second_pass_d_e",
+              "date": "2026-10-16",
+              "locations": "Sheet title and column headers lines 1–4; 24270 extracted lines total",
+              "finding": "Figure 1b MNase occupancy input/IP signal table, not oligos."
+            }
+          },
+          {
+            "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm250_esm_xls",
+            "role": "supplement",
+            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM250_ESM.xls.txt",
+            "availability": "read",
+            "relevance": "not_relevant",
+            "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
+            "pass_2": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "Original MOESM250 workbook Fig3a_Reb1 header",
+              "finding": "Motif score results, not library oligos."
+            },
+            "pass_1": {
+              "reviewer": "second_pass_d_e",
+              "date": "2026-10-16",
+              "locations": "Sheet title and column headers lines 1–4; 3070 extracted lines total",
+              "finding": "Figure 3a Reb1 motif score results, not oligos."
+            }
+          },
+          {
+            "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm253_esm_xls",
+            "role": "supplement",
+            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM253_ESM.xls.txt",
+            "availability": "read",
+            "relevance": "not_relevant",
+            "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
+            "pass_2": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "Original MOESM253 workbook Fig.6b header",
+              "finding": "HOT-region results, not library chemistry."
+            },
+            "pass_1": {
+              "reviewer": "second_pass_d_e",
+              "date": "2026-10-16",
+              "locations": "Sheet title and column headers lines 1–4; 24783 extracted lines total",
+              "finding": "Figure 6b HOT-region occupancy result, not oligos."
+            }
+          },
+          {
+            "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm254_esm_pdf",
+            "role": "supplement",
+            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM254_ESM.pdf.txt",
+            "availability": "read",
+            "relevance": "relevant",
+            "pass_2": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "MOESM254 PDF text lines 102–275, especially Supplementary Fig. 1c lines 233–275",
+              "finding": "Source-positive library workflow: end repair, 3-prime A addition, Illumina TruSeq adapter ligation, AMPure cleanup, PCR and 25-cycle paired-end sequencing. Supplementary figures elsewhere show assay results."
+            },
+            "pass_1": {
+              "reviewer": "second_pass_d_e",
+              "date": "2026-10-16",
+              "locations": "Published MOESM254 PDF text Supplementary Fig. 1c lines 236–278",
+              "finding": "The figure explicitly orders end repair, cleanup, addition of 3′ A overhang, Illumina TruSeq adapter ligation and PCR library amplification; it labels 25-cycle paired-end HiSeq 2000, supporting correction of the previously stated HiSeq 2500. The figure does not print adapter bases."
+            }
+          },
+          {
+            "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm255_esm_xls",
+            "role": "supplement",
+            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM255_ESM.xls.txt",
+            "availability": "read",
+            "relevance": "not_relevant",
+            "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
+            "pass_2": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "Original MOESM255 workbook Abf1 header",
+              "finding": "Occupancy peak results, not library adapters."
+            },
+            "pass_1": {
+              "reviewer": "second_pass_d_e",
+              "date": "2026-10-16",
+              "locations": "Sheet title and column headers lines 1–4; 13319 extracted lines total",
+              "finding": "Abf1 occupancy peak results, not oligos."
+            }
+          },
+          {
+            "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm256_esm_xls",
+            "role": "supplement",
+            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM256_ESM.xls.txt",
+            "availability": "read",
+            "relevance": "not_relevant",
+            "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
+            "pass_2": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "Original MOESM256 workbook Sheet1 header",
+              "finding": "Reb1 motif/position matrix, not library chemistry."
+            },
+            "pass_1": {
+              "reviewer": "second_pass_d_e",
+              "date": "2026-10-16",
+              "locations": "Sheet title and column headers lines 1–4; 11 extracted lines total",
+              "finding": "Reb1 motif-position matrix, not adapter sequence."
+            }
+          },
+          {
+            "id": "nmeth_2766_supp_nihms543084_supplement_2_xls",
+            "role": "supplement",
+            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-2.xls.txt",
+            "availability": "read",
+            "relevance": "not_relevant",
+            "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
+            "pass_2": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "Original NIHMS supplement-2 Abf1 sheet header",
+              "finding": "Occupancy peak data, not adapters."
+            },
+            "pass_1": {
+              "reviewer": "second_pass_d_e",
+              "date": "2026-10-16",
+              "locations": "Sheet title and column headers lines 1–4; 13319 extracted lines total",
+              "finding": "Abf1 occupancy peak results, duplicate of publisher MOESM255."
+            }
+          },
+          {
+            "id": "nmeth_2766_supp_nihms543084_supplement_3_xls",
+            "role": "supplement",
+            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-3.xls.txt",
+            "availability": "read",
+            "relevance": "not_relevant",
+            "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
+            "pass_2": {
+              "reviewer": "audit_s_z",
+              "date": "2026-10-16",
+              "locations": "Original NIHMS supplement-3 Sheet1 header",
+              "finding": "Reb1 motif matrix, not adapter sequence."
+            },
+            "pass_1": {
+              "reviewer": "second_pass_d_e",
+              "date": "2026-10-16",
+              "locations": "Sheet title and column headers lines 1–4; 11 extracted lines total",
+              "finding": "Reb1 motif-position matrix, duplicate of publisher MOESM256."
+            }
+          },
+          {
+            "id": "henikoff_2011_predecessor",
+            "role": "predecessor",
+            "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3215028/ (Henikoff et al., 2011; doi:10.1073/pnas.1110731108; defining ORGANIC article reference 19); original PDF mirror https://courses.cs.duke.edu/spring15/compsci662/pdf/henikoff.2011.pdf",
+            "availability": "unavailable",
+            "relevance": "relevant",
+            "discovered_from": "article",
+            "reason": "Full predecessor original was not obtained: pmccloud route returned no file, PMC browser full text served reCAPTCHA, PNAS PDF direct open failed, Duke mirror browser returned HTTP 403 and get_sources.py recorded curl DNS failure. Search-indexed original text confirms a modified short-insert Illumina paired-end library but does not suffice for complete independent original-source review."
+          },
+          {
+            "id": "henikoff_2011_supplement",
+            "role": "linked_material",
+            "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3215028/bin/1110731108_pnas.201110731SI.pdf (4.3-MB PNAS Supporting Information linked from PMC3215028)",
+            "availability": "unavailable",
+            "relevance": "relevant",
+            "discovered_from": "henikoff_2011_predecessor",
+            "reason": "The predecessor links this Supporting Information, which may include detailed library reagents; direct browser open failed and get_sources.py recorded curl DNS failure, leaving it absent from the source bundle and unchecked."
+          }
+        ],
+        "linked_information": {
+          "result": "blocked",
+          "pass_1": {
+            "reviewer": "second_pass_d_e",
+            "date": "2026-10-16",
+            "locations": "Original native MNase Methods; supplementary workflow; linked Orsi Basic Protocol 3",
+            "finding": "The 2014 defining article explicitly cites Henikoff et al. 2011 (reference 19) for modified short-insert library preparation; that predecessor and its linked Supporting Information remain unavailable for full review. A later same-author Orsi 2015 detailed ORGANIC protocol was read and prints modified TruSeq adapters and enrichment primers. Publisher and PMC figure/data supplements were checked for chemistry relevance; the sample-specific index member was not found."
+          },
+          "pass_2": {
+            "reviewer": "audit_s_z",
+            "date": "2026-10-16",
+            "locations": "Original PMC3929178 Methods and linked same-author PMC4410783 Basic Protocol 3 lines 812–832/926–933",
+            "finding": "The Orsi 2015 Basic Protocol 3 was read independently (lines 812–832 and 926–933) and prints a variable six-N index and exact fixed oligo arms. This later procedure was previously mislabeled as linked by the 2014 paper; the actual cited 2011 reference 19 and its supplement require separate source checks. The data workbooks do not map sample libraries to concrete six-base index members."
+          }
+        },
+        "missing_claims": [
+          {
+            "claim": "ORGANIC library adapter oligos are unpublished",
+            "disposition": "resolved",
+            "evidence": "The article-linked Orsi et al. Basic Protocol 3, lines 812–832, prints both modified adapters and P5/P7 enrichment primers; the model and page now show them."
+          },
+          {
+            "claim": "The 2014 defining experiments used the precise fixed adapter-arm variant printed by Orsi et al. in 2015",
+            "disposition": "blocked",
+            "evidence": "The 2014 Supplementary Fig. 1c names TruSeq adapter ligation, while the exact fixed oligos are printed in a later same-author procedure. The article-cited Henikoff 2011 predecessor and its Supporting Information have not been fully read, so exact historical identity has not been established."
+          },
+          {
+            "claim": "The selected six-base i7 index member for each ORGANIC sample is known",
+            "disposition": "blocked",
+            "evidence": "Orsi 2015 Basic Protocol 3 prints NNNNNN as a variable index, while the checked 2014 article, its figure supplement, and data workbooks do not map each sample to a concrete member. The actual 2011 predecessor and its linked Supporting Information have not been read, so no absence is asserted."
+          }
+        ],
+        "conclusion": "The later same-author ORGANIC protocol resolves a concrete adapter architecture and enrichment-primer implementation. The 2014 defining article cites a different 2011 library predecessor; its original and Supporting Information remain inaccessible for double-checking. The actual index selected for each 2014 study sample is unestablished. No claim that all 2014 library oligos or sample indices were unpublished is accepted."
+      },
+      "reason": "Recovered actual2011main and originalstudyGEOprotocol/native2013precursor. Withdrew mislocated author-manuscriptMethods reads: lines120–160 are supplementarycaptions. Sharedrecipe/overlap assumptions replaced by local explicitlaterOrsiillustration; no2014sampleassignment inferred."
+    }
+  ],
+  "linked_scope_queue": [
+    {
+      "original": "FuruyamaandBiggins2007, Centromereidentityis specifiedbyasinglescentromericnucleosomeinbuddingyeast, PMID17804787",
+      "from": "study_deposited_protocol reference3",
+      "status": "Actualnamednucleipredecessor; originalavailability/linked-scope checksnotyetperformed."
     },
+    {
+      "original": "TevesandHenikoff2011, HeatshockreducesstalledRNApolymeraseIIandnucleosometurnovergenome-wide, PMID22085965",
+      "from": "study_deposited_protocol reference5",
+      "status": "Actualflybranchprecursor; unselectedbranchscopeandoriginalcheckremainpending, not acceptedirrelevance."
+    },
+    {
+      "original": "IlluminaPE-930-1001 historicalpaired-endmanufacturerprotocol",
+      "from": "henikoff_2011_predecessor1232",
+      "status": "Actualnamedkitguidehistoricalidentity/revisionunresolved; notadesiredcomponentdocumentinventedfrommodelgap."
+    }
+  ],
+  "open_model_questions": [
+    "Exact2014studyadapter-arm/memberassignment remainsunreconciled; laterOrsiN6familyisexplicitillustration, notabsenceorhistoricalidentityproof.",
+    "CompleteinitialY-adapterligatedPCRtemplate notconstructed; PCRgeometryexplicitlyunavailabledespiteknownlaterOrsiprimers.",
+    "Yeast80mMrepresentative selected; fly/other-salt/mixednucleiprotocolsretainedasseparatesourcescopes, not merged intooneuniversalrecipe."
+  ],
+  "historical_positive_claims_reclassified": [
     {
       "claim": "The 2014 defining experiments used the precise fixed adapter-arm variant printed by Orsi et al. in 2015",
       "disposition": "blocked",
@@ -310,5 +952,20 @@
       "evidence": "Orsi 2015 Basic Protocol 3 prints NNNNNN as a variable index, while the checked 2014 article, its figure supplement, and data workbooks do not map each sample to a concrete member. The actual 2011 predecessor and its linked Supporting Information have not been read, so no absence is asserted."
     }
   ],
-  "conclusion": "The later same-author ORGANIC protocol resolves a concrete adapter architecture and enrichment-primer implementation. The 2014 defining article cites a different 2011 library predecessor; its original and Supporting Information remain inaccessible for double-checking. The actual index selected for each 2014 study sample is unestablished. No claim that all 2014 library oligos or sample indices were unpublished is accepted."
+  "model_corrections": [
+    "Removedsharedhenikoff_single_index_library/_finish_henikoff_library/truseq_library recipeinheritance.",
+    "Whole58ntUniversalAdapter preservesP5/Read1ACACoverlaponce; complete63ntIndexedAdapterretainedwithN6feature; exactoligoexample attributedtolaterOrsi.",
+    "CombinedOrsiendpolish/PNK ratherthanseparateincubation; ownchemicalreagents/order/positivecleanupfatesdeclaredlocallyforeachIP/inputbranch.",
+    "SourceyeastCa/EDTAquench added; actualRTF-inheritednativeRNase→SDS/ProteinaseK→DNArecovery separatefromlaterlibraryrecipe.",
+    "WithdrawalofmislocatedJATSMethodsreadsisarepositoryauditcorrection, notpublicationerror."
+  ],
+  "verification_checkpoints": [
+    {
+      "date": "2026-10-16",
+      "reviewer": "audit_nanocut_closeout",
+      "independent_verification": "Root final full-bundle oligo scraper (session 26232) completed: 10 sequence hits across 5 files. Root independently reran the six local source-backed tests: all passed. The integrated Scene-aware four-protocol source guard checked 20 source oligos with zero failures and five unrepresented states; that aggregate is not a claim that every source state is represented.",
+      "local_verification": "Six source-backed tests passed; protocol page built; pairing lint reported zero problem duplexes. Local source guard checked four oligos with zero failures and two inputs without exact states. Chemistry validation covered 28 steps with zero contradictory claims. Review validation, documentation build, and scoped git diff whitespace checks passed.",
+      "scope": "Bounded checkpoint only. Review remains in_progress. The actual 2011 Supporting Information, referenced published Online Methods, and recorded linked-source obligations have not been completed. No missing-information claim is accepted."
+    }
+  ]
 }

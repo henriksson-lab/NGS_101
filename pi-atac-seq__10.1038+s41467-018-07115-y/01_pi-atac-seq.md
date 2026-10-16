@@ -16,7 +16,7 @@ quenched with 40 mM EDTA and index sorted. This was read from the original XFA
 data with `tools/doctext.py`; it does not settle the indexed oligo assignments.
 
 The authors' public [Pi-ATAC protocol](https://www.protocols.io/view/pi-atac-q6gdzbw.pdf)
-(doi:10.17504/protocols.io.q6gdzbw, 24 October 2018), pp. 6 and 10, was also
+(doi:10.17504/protocols.io.q6gdzbw, 23 October 2018), pp. 6 and 10, was also
 checked. It specifies Nextera kit FC-121-1030 and adds `Ad1` and `Ad2` as distinct
 25 µM primer stocks during per-well PCR, but prints neither primer sequence nor an
 index-plate table. This confirms the primer roles without resolving their bases or
@@ -31,3 +31,26 @@ It prints unindexed `v2_Ad1_NoMX` and `v2_Ad2_NoMX` at lines 3–4, 92 indexed
 The oligo scraper found these original table rows; the Pi-ATAC protocols.io PDF itself
 has no sequence hits. 🟡 These predecessor primers support the inferred Nextera arms,
 but no checked Pi-ATAC source maps its reported 96 × 90 combinations to those entries.
+
+
+## Published conditions and source boundaries
+
+The article Methods, **Index sorting and library preparation for Pi-ATAC**, states
+20 µl reverse-crosslink buffer, 65°C overnight and 25 mM barcoding-primer stock.
+The original author protocol dated **23 October 2018**, steps 26, 32 and 34, states
+25 µl buffer, 60°C and 25 µM Ad1/Ad2 stocks. These published versions differ; this
+schematic does not choose among their temperatures, volumes or stock concentrations.
+
+The protocol's step 25 literally prints **200 µg/µl** proteinase K and a **1:100**
+dilution of **20 mg/ml** stock. The stated dilution computes to **200 µg/ml**, an
+apparent internal unit discrepancy. The article's reverse-crosslink buffer description
+instead prints **5 ng/ml**. No disputed dose is assigned to the molecular graph.
+These original locations were checked independently by two readers; they do not prove
+which conditions were actually used.
+
+The original public protocols.io API for historical integer ID **13224** exposes
+an overview figure and current header-image metadata. The GEO accession **GSE112091**
+is a SuperSeries with eight SubSeries. Its family SOFT metadata contains sample
+protocols and sample identifiers; bulk peak-file names include some literal indexes,
+which do not establish the single-cell well-to-primer map. Direct source/link inspection
+continues; no publication-wide absence claim is accepted.

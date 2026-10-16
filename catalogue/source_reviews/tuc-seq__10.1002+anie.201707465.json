@@ -19,7 +19,15 @@
         "date": "2026-10-16",
         "locations": "Wiley International Edition indexed original publisher abstract and Supporting Information listing, independent search; PubMed 28817234",
         "finding": "Publisher abstract independently establishes OsO4-mediated 4sU-to-C conversion and seven selected mammalian mRNAs, and lists a 2.3 MB supplement. The available record does not describe exact library prep, primers, or sequencing architecture."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Actual Wiley original article landing web cache: title/authors/date15–18,145–179; SI182–188; references192–280; full link18 and SI22 attempted",
+          "finding": "Fresh original abstract and graphical abstract explicitly support native cytidine, no affinity purification, seven selected mammalian genes and endogenous tRNA4sU. This is original abstract/record reading, not full2017methods or library architecture. SI click cache miss and fulltext403; PubMed direct body only HHS footer. Accessible Wiley landing is distinguished from unavailable full text/SI."
+        }
+      ]
     },
     {
       "id": "riml_2017_full_text",
@@ -29,7 +37,14 @@
       "relevance": "relevant",
       "pass_1": null,
       "pass_2": null,
-      "reason": "Only publisher abstract and metadata accessible; source fetcher records no open full text. Main article may contain further library-method or linked-source detail."
+      "reason": "The original Wiley abstract/landing is accessible and freshly read independently, but the full-article link returned403 and the standard fetcher found no open full text. Exact2017procedural and library contents remain unread.",
+      "availability_attempts": [
+        {
+          "date": "2026-10-16",
+          "route": "Wiley full article; exact English Micura institutional publication entry",
+          "result": "Wiley direct browser full route403; registered standard DOI route found no open full text. Inspected author entry links only Wiley abstract and a 2018 commentary; this is not a site-wide author-copy absence check."
+        }
+      ]
     },
     {
       "id": "international_supplement",
@@ -39,7 +54,14 @@
       "relevance": "relevant",
       "pass_1": null,
       "pass_2": null,
-      "reason": "Original International Edition 2.3 MB supplementary-information PDF listed by the publisher; source fetch returned HTTP 403. It may contain exact targeted primer and library methods."
+      "reason": "Original International Edition 2.3 MB supplementary-information PDF listed by the publisher; source fetch returned HTTP 403. It may contain exact targeted primer and library methods.",
+      "availability_attempts": [
+        {
+          "date": "2026-10-16",
+          "route": "https://onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fanie.201707465&file=anie201707465-sup-0001-misc_information.pdf",
+          "result": "Current elevated registered get_sources route returned HTTP403. No actual SI content read and no scientific reading pass implied."
+        }
+      ]
     },
     {
       "id": "german_supplement",
@@ -49,7 +71,14 @@
       "relevance": "relevant",
       "pass_1": null,
       "pass_2": null,
-      "reason": "Original German Edition supplementary-information route in extra_sources.tsv returned HTTP 403. Cannot verify whether its contents match the International Edition file."
+      "reason": "Original German Edition supplementary-information route in extra_sources.tsv returned HTTP 403. Cannot verify whether its contents match the International Edition file.",
+      "availability_attempts": [
+        {
+          "date": "2026-10-16",
+          "route": "https://onlinelibrary.wiley.com/doi/suppl/10.1002/ange.201707465/supinfo/ange201707465-sup-0001-misc_information.pdf",
+          "result": "Current elevated registered get_sources route returned HTTP403. No actual SI content read and no scientific reading pass implied."
+        }
+      ]
     },
     {
       "id": "lusser_2019_chapter_preview",
@@ -90,8 +119,15 @@
       "relevance": "relevant",
       "pass_1": null,
       "pass_2": null,
-      "reason": "Official Springer chapter page lines 41–42 and 133–137 links a 2024 correction; its content and relevance to library chemistry have not yet been inspected.",
-      "discovered_from": "lusser_2019_chapter_preview"
+      "reason": "Current registered DOI fetch finds no open full text; official Springer content/pdf route returns HTML rather than PDF. Browser chapter/protocol attempts returned tool errors. Actual correction content remains unread; no relevance exclusion is accepted.",
+      "discovered_from": "lusser_2019_chapter_preview",
+      "availability_attempts": [
+        {
+          "date": "2026-10-16",
+          "route": "doi:10.1007/978-1-4939-9822-7_27 and official content/pdf endpoint",
+          "result": "No open fulltext/HTML rather than validated PDF. Scientific content not inspected."
+        }
+      ]
     },
     {
       "id": "tuc_dual_article",
@@ -131,24 +167,106 @@
         "locations": "Original PMC7186826 supplementary PDF section 1.12 extracted lines 440–447, Table 2 lines 621–680, primer extension line 373; source oligo scraper rerun",
         "finding": "The later DUAL workflow uses random-hexamer RT, gene-specific PCR with barcode overhangs, pooled amplicons sent for Eurofins library prep and PE150 sequencing. Its Table 2 primers and fluorescent tRNA extension primer are not established as the 2017 TUC-seq oligos."
       },
-      "discovered_from": "tuc_dual_article"
+      "discovered_from": "tuc_dual_article",
+      "additional_checks": [
+        {
+          "reviewer": "audit_tenx_closeout",
+          "date": "2026-10-16",
+          "locations": "Fresh full-bundle scraper; actual original DUAL SI section1.12 lines440–447 and Table2 lines621–680",
+          "finding": "Reverified later OsO4-hydrazine/GoScript/random-hexamer, target PCR with barcode overhangs, gel purification and Eurofins PE150 workflow. Printed Table2 primer cores exclude barcode overhangs; later source not assigned to original2017."
+        }
+      ],
+      "followup_2026_10_16_root": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual DUAL SI extracted section1.12 lines440–455 and Table2 lines621–675 after mandatory full TUC bundle scraper",
+        "finding": "Independently read later GoScript/random-hexamer RT, barcode-overhang amplicon PCR, gel recovery/pooling and Eurofins HiSeq PE150; Table2 prints target primer sequences while section1.12 excludes barcode overhangs from that table. These are later DUAL facts, not a basis to assign the original2017 RT, primers, indexing or run."
+      }
+    },
+    {
+      "id": "micura_institutional_entry",
+      "role": "linked_material",
+      "discovered_from": "riml_2017_publisher_record",
+      "locator": "publications.html(.txt) from https://www.uibk.ac.at/en/organic/micura/publications/; actual2017 TUC entry text502 and original HTML li",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_tenx_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual original HTML li enclosing2017 TUC title, matching extracted line502",
+        "finding": "Publication entry links http://onlinelibrary.wiley.com/doi/10.1002/anie.201707465/abstract and named commentary https://www.nature.com/articles/nmeth.4608.pdf?origin=ppub. No PDF attached to this inspected entry. This does not inspect or exclude the whole institutional site."
+      },
+      "pass_2": null,
+      "followup_2026_10_16_root": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual institutional publications.html.txt2017entry line502 and independently parsed original HTML links containing201707465/nmeth.4608",
+        "finding": "The specific2017entry links Wiley abstract and the named2018NatureMethods comment PDF. No attached original paper PDF in this entry; this is a bounded link inventory, not a site-wide author-copy exclusion. Comment is an identified remaining source, not inspected here."
+      }
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "audit_s_z",
+      "reviewer": "audit_tenx_closeout",
       "date": "2026-10-16",
-      "locations": "2017 publisher abstract/SI listing; local MANIFEST.tsv manual rows; later Springer chapter preview and correction link; 2020 DUAL article/supplement and cited original DOI",
-      "finding": "Followed accessible publisher records and later same-author open article/supplement. Original full article and both publisher supplements were inaccessible, as was the later chapter procedure. Its 2024 correction remains unread, so linked protocol information is incomplete."
+      "locations": "Fresh registered standard source retrieval, Wiley direct browser checks, actual institutional2017 entry, later DUAL SI1.12/Table2, original named correction routes",
+      "finding": "Native-C original record scope is retained, distinct from TimeLapse C*. Shared population/product recipe removed locally. Original full/SI current access barriers persist; inspected institutional entry is bounded and correction content remains pending. No original full-content or publication-wide absence pass claimed."
     },
-    "pass_2": {
-      "reviewer": "root",
-      "date": "2026-10-16",
-      "locations": "Wiley original publisher abstract and SI listing; Springer same-author chapter preview and correction link; later same-author TUC DUAL PMC article and full supplement; local source manifest and oligo scraper",
-      "finding": "Independent check confirms seven-gene original use and shows later amplicon chemistry cannot be transferred to the 2017 graph. The original full article and both supplements, detailed chapter, and correction remain inaccessible; no absent-oligo or adapter claim can be accepted."
-    }
+    "pass_2": null,
+    "historical_passes": [
+      {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "2017 publisher abstract/SI listing; local MANIFEST.tsv manual rows; later Springer chapter preview and correction link; 2020 DUAL article/supplement and cited original DOI",
+        "finding": "Followed accessible publisher records and later same-author open article/supplement. Original full article and both publisher supplements were inaccessible, as was the later chapter procedure. Its 2024 correction remains unread, so linked protocol information is incomplete."
+      },
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Wiley original publisher abstract and SI listing; Springer same-author chapter preview and correction link; later same-author TUC DUAL PMC article and full supplement; local source manifest and oligo scraper",
+        "finding": "Independent check confirms seven-gene original use and shows later amplicon chemistry cannot be transferred to the 2017 graph. The original full article and both supplements, detailed chapter, and correction remain inaccessible; no absent-oligo or adapter claim can be accepted."
+      }
+    ]
   },
   "missing_claims": [],
-  "conclusion": "Two independent checks of every readable source and its links support 4sU-to-C recoding and selected-gene readout, but not a concrete 2017 library assembly. Original full text and supplements and later detailed chapter remain inaccessible, so exact oligo and read-layout claims stay blocked."
+  "conclusion": "Blocked on actual original 2017 full/SI access, while the original Wiley abstract/landing remains accessible and freshly checked independently. The source-owned graph preserves native cytidine, RNA classes distinguished by pulse-label incorporation and possible unconverted material; original handling/library assembly remain warning steps. Later DUAL facts stay separate. The institutional entry and correction routes have bounded checks with pending original obligations; no missing-information claim accepted.",
+  "source_route_attempts": [
+    {
+      "source": "https://pubmed.ncbi.nlm.nih.gov/28817234/",
+      "date": "2026-10-16",
+      "result": "Registered standard download HTTP203; direct browser result only HHS footer. Indexed primary abstract is visible in search, but no fresh full-original scientific pass is recorded from this short direct response."
+    }
+  ],
+  "open_model_questions": [
+    {
+      "question": "Original2017 RNA handling, selected downstream method, physical library ends, indexing and acquired run geometry",
+      "status": "unassigned",
+      "reason": "Actual original methods/SI remain unread. A later common U-to-C readout or target name does not establish the original physical route."
+    }
+  ],
+  "pending_sources": [
+    {
+      "source": "Original2017 International/German full article and identified SI PDF originals",
+      "next_action": "Continue legitimate publisher/author/institution routes. Current403/no-open-full failures are access evidence, not absence."
+    },
+    {
+      "source": "Later detailed chapter and identified2024 correction",
+      "next_action": "Read actual original procedural/correction contents before accepting any exclusion or inheritance."
+    }
+  ],
+  "pending_linked_targets": [
+    {
+      "source": "Micura entry links NatureMethods2018 commentary nmeth.4608",
+      "locator": "https://www.nature.com/articles/nmeth.4608.pdf?origin=ppub",
+      "next_action": "Actual named commentary source not yet opened; retain as pending bounded chemistry/source comparison, not a substitute for2017SI."
+    },
+    {
+      "source": "Institutional2017 entry independent original check",
+      "next_action": "Second reader must inspect actual saved entry/links; current first pass is not complete site inventory."
+    }
+  ],
+  "model_scope_notes": [
+    "Pulse-incorporated label classifies marked sites, not the age of every transcript base. Elongating molecules can contain pre-existing tracts; no whole-molecule synthesis-time assignment is made."
+  ]
 }

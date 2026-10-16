@@ -9,13 +9,14 @@ once, next to the original, and everything downstream reads the .txt:
     python3 tools/doctext.py paper.pdf supp.docx            # -> paper.pdf.txt, supp.docx.txt
     python3 tools/doctext.py paper.pdf --stdout             # print instead of writing
 
-Formats: .pdf (poppler's pdftotext, reading order; filled XFA form datasets when
+Formats: .eps (via Ghostscript when installed, then the ordinary PDF reader),
+.pdf (poppler's pdftotext, reading order; filled XFA form datasets or static template text when
 the PDF only shows a "Please wait" page), .docx (paragraphs; table cells
 tab-separated), .xlsx (every sheet, tab-separated, under '## sheet <name>'), .html/.htm
 (tags stripped, block elements become line breaks), .xml (JATS full text from PMC /
 Europe PMC / eLife: tags stripped, paragraphs/titles/table rows on their own lines, cells
 tab-separated), and -- when LibreOffice (`soffice`) is installed -- the legacy binary
-.xls/.doc/.ppt (converted to xlsx/docx/pdf first, then read as those). A PDF with no text
+.xls/.doc/.ppt and .rtf documents (converted to xlsx/docx/pdf first, then read as those). A PDF with no text
 layer (a scanned or "Print to PDF" image) is reported on stderr. A .txt is rewritten only
 when its source is newer. tools/get_sources.py runs this on everything it downloads.
 """
@@ -38,9 +39,10 @@ from scrape_primers import HTML_EXT, OFFICE_EXT  # noqa: E402
 from scrape_primers import read as _read  # noqa: E402
 
 XML_EXT = {".xml"}
-LEGACY_EXT = {".xls", ".doc", ".ppt"}
+LEGACY_EXT = {".xls", ".doc", ".ppt", ".rtf"}
 SOFFICE = shutil.which("soffice") or shutil.which("libreoffice")
-CONVERT = {".pdf"} | OFFICE_EXT | HTML_EXT | XML_EXT | (LEGACY_EXT if SOFFICE else set())
+GHOSTSCRIPT = shutil.which("gs")
+CONVERT = {".pdf", ".eps"} | OFFICE_EXT | HTML_EXT | XML_EXT | (LEGACY_EXT if SOFFICE else set())
 
 _BLOCK = ("p|title|article-title|subtitle|label|caption|tr|list-item|ref|abstract|sec|"
           "def-item|term|fn|table-wrap|fig|disp-quote|kwd|contrib|aff|mixed-citation|"
@@ -74,11 +76,11 @@ def jats_text(raw: str) -> str:
 
 
 def _legacy(path: Path) -> str | None:
-    """.xls/.doc/.ppt via LibreOffice -> xlsx/docx/pdf in a scratch dir, then read that."""
+    """Office/RTF via LibreOffice -> xlsx/docx/pdf in a scratch dir, then read that."""
     if not SOFFICE:
         print(f"skip {path}: legacy {path.suffix} needs LibreOffice (soffice)", file=sys.stderr)
         return None
-    target = {".xls": "xlsx", ".doc": "docx", ".ppt": "pdf"}[path.suffix.lower()]
+    target = {".xls": "xlsx", ".doc": "docx", ".ppt": "pdf", ".rtf": "docx"}[path.suffix.lower()]
     with tempfile.TemporaryDirectory() as tmp:
         profile = Path(tmp) / "profile"      # private profile: parallel runs do not collide
         done = subprocess.run([SOFFICE, f"-env:UserInstallation=file://{profile}", "--headless",
@@ -91,15 +93,38 @@ def _legacy(path: Path) -> str | None:
         return _read(out)
 
 
+def _eps(path: Path) -> str | None:
+    """Read an EPS figure through an optional local Ghostscript conversion."""
+    if not GHOSTSCRIPT:
+        print(f"skip {path}: EPS text extraction needs Ghostscript (gs)", file=sys.stderr)
+        return None
+    with tempfile.TemporaryDirectory() as tmp:
+        out = Path(tmp) / "figure.pdf"
+        try:
+            done = subprocess.run([GHOSTSCRIPT, "-dSAFER", "-dBATCH", "-dNOPAUSE",
+                                   "-dEPSCrop", "-sDEVICE=pdfwrite",
+                                   f"-sOutputFile={out}", str(path.resolve())],
+                                  capture_output=True, timeout=90, check=False)
+        except (OSError, subprocess.TimeoutExpired):
+            print(f"skip {path}: EPS conversion did not complete", file=sys.stderr)
+            return None
+        if done.returncode or not out.is_file() or out.stat().st_size == 0:
+            print(f"skip {path}: Ghostscript could not convert EPS", file=sys.stderr)
+            return None
+        return read(out)
+
+
 def xfa_text(raw: bytes) -> str | None:
     """Read filled Adobe LiveCycle form data from Flate-compressed PDF streams.
 
     Ordinary PDF text extraction often sees only the static "Please wait" page. XFA
     may hold both a blank form template and a later filled dataset, so select the
-    dataset with the most nonempty field text. This reads data only; form scripts and
-    presentation markup are not executed.
+    dataset with the most nonempty field text. If there is no filled dataset, retain
+    static text values from the form template, explicitly labelled as such. This
+    reads data only; form scripts and presentation markup are not executed.
     """
     datasets: list[tuple[int, str]] = []
+    templates: list[str] = []
     for match in re.finditer(rb"\b\d+\s+\d+\s+obj\s*<<(.*?)>>\s*stream\r?\n", raw, re.S):
         end = raw.find(b"endstream", match.end())
         if end < 0:
@@ -109,11 +134,30 @@ def xfa_text(raw: bytes) -> str | None:
             decoded = zlib.decompress(body) if b"/FlateDecode" in match.group(1) else body
         except zlib.error:
             continue
-        if b"datasets" not in decoded[:256] or b"xfa-data" not in decoded[:256]:
+        is_dataset = b"datasets" in decoded[:256] and b"xfa-data" in decoded[:256]
+        is_template = b"xfa-template" in decoded[:256]
+        if not (is_dataset or is_template):
             continue
         try:
             tree = ET.fromstring(decoded)
         except ET.ParseError:
+            continue
+        if is_template:
+            values = []
+            for node in tree.iter():
+                if node.tag.rsplit("}", 1)[-1] != "value":
+                    continue
+                for value in node:
+                    tag = value.tag.rsplit("}", 1)[-1]
+                    if tag not in {"text", "exData"}:
+                        continue
+                    if tag == "exData" and value.get("contentType", "").lower() not in {"text/html", "text/plain"}:
+                        continue
+                    text = "".join(value.itertext()).strip()
+                    if text:
+                        values.append(text)
+            if values:
+                templates.append("\n".join(values) + "\n")
             continue
         fields: list[str] = []
 
@@ -130,7 +174,12 @@ def xfa_text(raw: bytes) -> str | None:
         walk(tree, ())
         if fields:
             datasets.append((sum(len(f) for f in fields), "\n".join(fields) + "\n"))
-    return max(datasets)[1] if datasets else None
+    if datasets:
+        return max(datasets)[1]
+    if templates:
+        return ("## XFA template text (form layout and scripts not evaluated)\n"
+                + max(templates, key=len))
+    return None
 
 
 def read(path: Path) -> str | None:
@@ -141,6 +190,8 @@ def read(path: Path) -> str | None:
         return jats_text(path.read_text(encoding="utf-8", errors="replace"))
     if ext in LEGACY_EXT:
         return _legacy(path)
+    if ext == ".eps":
+        return _eps(path)
     text = _read(path)
     if ext == ".pdf" and (text is None or len(text.strip()) < 100
                           or text.lstrip().startswith("Please wait...")):

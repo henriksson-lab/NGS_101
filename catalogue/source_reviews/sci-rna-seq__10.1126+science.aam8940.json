@@ -29,7 +29,7 @@
       "relevance": "relevant",
       "pass_1": null,
       "pass_2": null,
-      "reason": "Original 2017 supplementary PDF is (manual) due PMC download gate in local MANIFEST.tsv.",
+      "reason": "Current standard get_sources retry: PMC preparing-download gate; actual PMCCloud listing contains only3 accessible manuscript objects; registered EuropePMC exact NIHMS supplement mirror403 and Science DOI/suppl landing403. Actual final author PDF links historical sciencemag357/6352/661/suppl/DC1. Relevant final SOM still unrecovered; route barrier, not source absence. Registered final-PDF historical DC1 URL also403. Specific supplementary-workbook DOI found as a bibliographic discovery pointer returns404; original workbook identity/location remains unresolved, not proven absent. Additionalregistered canonicalPMC articles/PMC5894354/bin path404; directScience SOM/workbookcandidatepaths403. Candidate SOM filename is notvalidatedoriginalidentity; actualNIHMS956226 remainsidentifiedsource.",
       "discovered_from": "paper"
     },
     {
@@ -38,15 +38,281 @@
       "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/104844_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": {
-        "reviewer": "second_pass_d_e",
-        "date": "2026-10-15",
-        "locations": "Original Cao et al. bioRxiv 10.1101/104844 preprint extracted lines 1–65, 268–288, 900–925",
-        "finding": "Independently confirmed this is the authors’ preprint of the sci-RNA-seq article. It gives first-round barcoded poly(T)/UMI RT, pooled redistribution, second strand, Tn5 and indexed PCR, but the inspected main preprint text does not give the missing complete primer-table members; the original Science supplement remains unavailable."
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/104844_v1.full.pdf.txt899–940 and991–992; fullbundle scraper79hits/13files before new-original reading",
+        "finding": "Original2017 Methods positively print full RT/P5/P7 templates, SSIV, NEB mRNA Second Strand Synthesis, Nextera DNA Sample Preparation/TDE1, carrier, DNA-binding-buffer stop/AMPure before NEBNext PCR and exact NextSeq500V2 18/10/10/52 run. This is preprint implementation evidence, not proof final unavailable Science supplement is identical. Earlier generic primer-list gap is narrowed to unresolved individual index assignments/final comparison."
       },
-      "reason": "Author preprint is local but its full chemistry and supplement linkage have not yet been reconciled.",
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/104844_v1.full.pdf.txt899–937/991–992; independently reported afterfreshrootfullscraper79hits/13files",
+        "finding": "FullRT N8/index10/T30VN, SSIV, NEB secondstrand,TDE1+carrier,Zymostop/AMPurebeforePCR, completeP5/P7templates, initial75/98PCR,NEBNext and18/10/10/52 explicitlyconfirmed. Earlier no-complete-template suggestion superseded; doesnotestablish finalSOMequivalence."
+      },
+      "reason": "Complete primer templates and source-specific chemistry now positively read; original final Science supplement and individual index assignment comparison remain pending.",
       "discovered_from": "paper"
+    },
+    {
+      "id": "author_final",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/cao-combinatorial-indexing.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/cao-combinatorial-indexing.pdf.txt; fullbundle scraper79hits/13files before new original reads",
+        "finding": "Author-hosted final Science original. Inspected Fig1/main two/three-level discussion and final Supplementary Materials inventory: original DC1 URL, Methods, FigsS1–S24, TablesS1–S14, refs57–140. GSE98561/Science DC1 are actual linked targets; raw data not downloaded."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/cao-combinatorial-indexing.pdf.txt120–220,431–526,944–993,1034–1037; own fresh79hitsscraper beforeoriginals",
+        "finding": "Actual finalFig1 cellindexmeaning, two-levelandindexedTn5third16×6×16(not2019hairpin), GSE98561andactualDC1,Methods/FigsS1–24/TablesS1–14/refs57–140 independentlyread."
+      }
+    },
+    {
+      "id": "author_publication_page",
+      "role": "linked_material",
+      "locator": "https://cole-trapnell-lab.github.io/papers/cao-scrnaseq-combinatorial-indexing/",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "https://cole-trapnell-lab.github.io/papers/cao-scrnaseq-combinatorial-indexing/; fullbundle scraper79hits/13files before new original reads",
+        "finding": "Actual author page inspected in primary web output: final PDF and Science DOI. Standard downloader rejects1468character actualbody at min1500 threshold: downloader limitation, not access barrier. No claim about other author pages."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "https://cole-trapnell-lab.github.io/papers/cao-scrnaseq-combinatorial-indexing/ entire27visiblelines; own fresh79hitsscraper beforeoriginals",
+        "finding": "Actual authorpage confirms2017identity, finalPDF andScienceDOI/articlelinks. NoSOMlink in this actualpage; no website-wideabsence claim."
+      }
+    },
+    {
+      "id": "author_pdf_inventory",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/papers.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/papers.html; fullbundle scraper79hits/13files before new original reads",
+        "finding": "Actual GitHub JSON contents of author pdfs/papers directory inspected by filename/path/download_url: final Cao2017 PDF present alongside distinct2018/2019/2020 papers. No identified2017SOM in this bounded inventory; not whole-repository absence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/papers.html all113filenames plusCao path/downloadURLs; own fresh79hitsscraper beforeoriginals",
+        "finding": "Actualbounded PDFdirectoryinventory independentlyread, originalCao2017PDFalongdistinctlaterpapers; noidentified2017SOM inthisdirectory only, no whole-repositoryabsence."
+      }
+    },
+    {
+      "id": "preprint_landing",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/104844v1.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/104844v1.html; fullbundle scraper79hits/13files before new original reads",
+        "finding": "Actual original bioRxiv v1 landing hrefs inspected: full-text/article-info/article-metrics/fullPDF links. No supplementary tab in inspected href inventory; not proof that supplements are unpublished elsewhere."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "geo_series_metadata",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/geo-GSE98561-self-full.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/geo-GSE98561-self-full.txt; ownfreshfullscraper79hits/13files beforeoriginalreading",
+        "finding": "All 77 Series lines read: ten GSMs, five platforms, two README files, three barcode annotation originals, a count-data RAW tar, and PRJNA385514/SRP106481 references. Named README/barcode children were followed; count matrices and sequencing reads were not downloaded."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/geo-GSE98561-all-full.txt first77Serieslines; freshroot79hits",
+        "finding": "Independently actualSeriesmetadata read, namedGEO/SRArelationsandcountsourceidentity, notabsencefromresultsnotdownloaded."
+      }
+    },
+    {
+      "id": "geo_family_library_metadata",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/geo-GSE98561-all-full.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "geo_series_metadata",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/geo-GSE98561-all-full.txt; ownfreshfullscraper79hits/13files beforeoriginalreading",
+        "finding": "All ten sample metadata blocks and every unique extraction, library, instrument, supplementary-file, relation and processing field were inspected. They cite the 2017 preprint protocol, identify transcriptomic cDNA RNA-Seq, and name nine NextSeq 500 samples plus the three-level MiSeq sample GSM2599705. Processing describes Read 1 UMI8 plus RT10; these inspected fields do not assign a PCR index pair."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/geo-GSE98561-all-full.txt Seriesfirst77+alluniqueextract/library/instrumentfields; freshroot79hits",
+        "finding": "Independent10samplesdirect2017preprint protocol,9NextSeq500/1MiSeq,transcriptomiccDNA; PRJNA385514/SRP106481 actuallinks. No all-SRAabsenceclaim."
+      }
+    },
+    {
+      "id": "geo_file_readme",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_README_supplementary_files.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "geo_series_metadata",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_README_supplementary_files.txt; ownfreshfullscraper79hits/13files beforeoriginalreading",
+        "finding": "The entire 11-line original identifies count matrices separately from the three first-round RT-barcode/source-group CSV annotations. All three annotations were retrieved; expression matrices are unnecessary for current molecular claims."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_README_supplementary_files.txt entire11lines; freshroot79hits",
+        "finding": "Independently confirmsall3CSV designatedfirst-roundRTbarcodes+sourcegroups, notPCRi5/i7pairs."
+      }
+    },
+    {
+      "id": "geo_rt_celegans",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_celegans.barcode.csv.gz",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "geo_file_readme",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_celegans.barcode.csv.gz; ownfreshfullscraper79hits/13files beforeoriginalreading",
+        "finding": "Actualgziporiginal decompressedlocally; entireCSV header(blankrowID,barcode,source) andall96rows inspected. 96distinctACGT10 RTbarcodes; firstGATCAGTCAT,lastCCGTCTCAAT. Allsourcegroupsinspected; notPCRpairmap."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_celegans.barcode.csv(.gzoriginal): allrows/fields andbyteidentitytodecompressedCSV; freshroot79hits",
+        "finding": "Independent all96uniqueACGT10 sequences/header/sourcegroups confirmed,firstGATCAGTCAT,lastCCGTCTCAAT. ExplicitRT-onlymembership,notPCRindexes."
+      }
+    },
+    {
+      "id": "geo_rt_mix1",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_human.mouse.mix.1.barcode.csv.gz",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "geo_file_readme",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_human.mouse.mix.1.barcode.csv.gz; ownfreshfullscraper79hits/13files beforeoriginalreading",
+        "finding": "Actualgziporiginal decompressedlocally; entireCSV header(blankrowID,barcode,source) andall384rows inspected. 384distinctACGT10 RTbarcodes; firstTTCTCGCATG,lastAATCTGGAGT. Allsourcegroupsinspected; notPCRpairmap."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_human.mouse.mix.1.barcode.csv(.gzoriginal): allrows/fields andbyteidentitytodecompressedCSV; freshroot79hits",
+        "finding": "Independent all384uniqueACGT10 sequences/header/sourcegroups confirmed,firstTTCTCGCATG,lastAATCTGGAGT. ExplicitRT-onlymembership,notPCRindexes."
+      }
+    },
+    {
+      "id": "geo_rt_mix2",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_human.mouse.mix.2.barcode.csv.gz",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "geo_file_readme",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_human.mouse.mix.2.barcode.csv.gz; ownfreshfullscraper79hits/13files beforeoriginalreading",
+        "finding": "Actualgziporiginal decompressedlocally; entireCSV header(blankrowID,barcode,source) andall96rows inspected. 96distinctACGT10 RTbarcodes; firstCCGCGGCTCA,lastTATCGTCGGC. Allsourcegroupsinspected; notPCRpairmap."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_human.mouse.mix.2.barcode.csv(.gzoriginal): allrows/fields andbyteidentitytodecompressedCSV; freshroot79hits",
+        "finding": "Independent all96uniqueACGT10 sequences/header/sourcegroups confirmed,firstCCGCGGCTCA,lastTATCGTCGGC. ExplicitRT-onlymembership,notPCRindexes."
+      }
+    },
+    {
+      "id": "geo_run_filename_readme",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_SRA_run_accessions_and_filenames_README.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "geo_series_metadata",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/GSE98561_SRA_run_accessions_and_filenames_README.txt; ownfreshfullscraper79hits/13files beforeoriginalreading",
+        "finding": "The complete 5,151-line structure contains 1,717 SRR identifiers, each followed by two FASTQ filenames. First/last triplets and all filename families were inspected. This is file-access metadata, not sequencing reads, an acquired run mask, or the ordered PCR-primer table. It does not establish absence across all 1,717 runs."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "nextera_2016_reference",
+      "role": "vendor",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/illumina_nextera-dna-library-prep-reference-guide-15027987-01.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/illumina_nextera-dna-library-prep-reference-guide-15027987-01.pdf.txt; ownfreshfullscraper79hits/13files beforeoriginalreading",
+        "finding": "Read the printed v01 January 2016 title, overview175–191, PCR-family640–705, engineered-transposome figure1093–1117, and index family1489–1556. Standard genomic-DNA dual 8-base indexes differ from the custom sci-RNA-seq 10-base PCR windows. The source does not assign the authors’ exact guide revision or disclose a commercial ME intermediate in these inspected sections. Additional Resources names protocol/checklist/custom-selector/low-plex references; those children were identified but not opened."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/illumina_nextera-dna-library-prep-reference-guide-15027987-01.pdf.txt title,175–191,1093–1117,1489–1556; independently read after fresh root bundle scraper",
+        "finding": "Printed v01 January 2016. Generic engineered Tn5 transposome plus PCR with two 8-base indexes is a manufacturer-family comparator; these values cannot replace the explicitly custom sci-RNA-seq 18/10/10/52 recipe. This does not establish the authors’ exact guide revision or all linked instrument documentation."
+      }
+    },
+    {
+      "id": "author_data_directory",
+      "role": "linked_material",
+      "locator": "http://waterston.gs.washington.edu/sci_RNA_seq_gene_count_data and https://waterston.gs.washington.edu/sci_RNA_seq_gene_count_data/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Live downloads of both the actual HTTP link and the HTTPS trailing-slash target return an unrelated Lineagomics/EPIC RNAi site. Both wrong-identity artifacts were quarantined under _invalid. The actual sample-description CSV returns HTML and was rejected. The browser-cached primary directory lists a 2017 vignette, sample description, counts and Monocle files, but the live original target is not recovered. No publication-absence claim is made."
+    },
+    {
+      "id": "archive_experiment_metadata",
+      "role": "linked_material",
+      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/{SRX2784959,SRX2784960,SRX2784961,SRX2784962,SRX2784963,SRX2784964,SRX2784965,SRX2784966,SRX2793634,SRX2793635}.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "geo_family_library_metadata",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/{SRX2784959,SRX2784960,SRX2784961,SRX2784962,SRX2784963,SRX2784964,SRX2784965,SRX2784966,SRX2793634,SRX2793635}.xml; fresh full bundle scraper 79 hits/13 files before reading; every XML node and attribute inspected through deduplicated complete-value enumeration",
+        "finding": "All ten experiment accessions match their GEO samples and identify paired RNA-Seq, transcriptomic cDNA libraries. Their complete construction-protocol text cites the 2017 preprint. SRX2784965/GSM2599705 names the three-level branch and MiSeq; the other nine name NextSeq 500. The inspected XML contains no assigned cycle-length or PCR-primer sequences. Sample/submission IDs and file-report links are recorded as data references, not evidence of archive-wide absence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/{SRX2784959,SRX2784960,SRX2784961,SRX2784962,SRX2784963,SRX2784964,SRX2784965,SRX2784966,SRX2793634,SRX2793635}.xml; independently parsed original XML after fresh full bundle scraper: all accessions/aliases, sample IDs, complete library fields/protocols, instruments and XREF inventory",
+        "finding": "Independent original reading confirms ten paired transcriptomic cDNA RNA-Seq experiments citing the 2017 preprint. The explicitly three-level SRX2784965/GSM2599705 names MiSeq; nine others name NextSeq 500. No additional technical cycle claim is established. This bounded source check does not close the whole archive or uninspected instrument manuals."
+      }
     }
   ],
   "linked_information": {
@@ -62,14 +328,60 @@
       "date": "2026-10-15",
       "locations": "Original Science PMC5894354 JATS lines 83–114 and supplementary link; original same-author bioRxiv 104844 lines 1–65, 268–288, 900–925; source MANIFEST original_supp manual URL",
       "finding": "Followed the defining article to its original Science supplementary PDF, which remains unavailable behind the PMC gate; read the same-author preprint main text as an independent comparison. Main text does not replace the missing original primer-table supplement, so missing claims remain blocked."
-    }
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Final JATS and authorfinalPDF supplementaryinventory; actual originalpreprint Methods and original v1landing; authorpublicationpage and Githubpaperdirectory; currentMANIFEST",
+        "finding": "Actual final SOM remains inaccessible via registered publisher/PMC/EuropePMC routes, so its predecessor/link inventory cannot yet be completed. Printed preprint kit names identify source-positive SSIV/NEBmRNAsecondstrand/TDE1/NEBNext components; exact relevant historical vendor documents remain unchecked. GSE98561 metadata/data links identified, not yet inspected for scoped index assignment. Inspected author/preprint inventories are bounded, not accepted publication absence. Successor2019 bundle originals supply no2017 chemistry."
+      },
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "ActualauthorfinalPDF/authorpage/GitHubPDFdirectory/preprintMethods; GEOallSeriesfirst77 andalluniqueGSMlibraryfields; wholeGEOfileREADME andall3RTannotationCSV, independentlyreportedfreshrootreading",
+        "finding": "Positivefinalmain/sourceidentity/preprintchemistry andstudyRTmembers verified; vendor/sourceversion and finalSOM scope remainopen. Noauthorrepo-wide or allSRAabsence implied."
+      },
+      {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "GSE98561Series+all10GSM libraryscope,2README files,3actualRTannotationoriginals; liveWaterstonHTTP/HTTPSdownloadsversusbrowsercachedindex; finalSOMalternateattempts",
+        "finding": "Freshscopeprogress: individualRTmembers positivelyavailablefor96/384/96experiments, notgenericmissingRTlist. NineNextSeq500andoneMiSeq separate; all10archiveexperimentXMLs nowretrievingthroughactualGSM SRArelations. Waterstonlivewrongbody/sourcebarrier retained, notscientificabsence. ActualfinalScienceSOM stillrouteblocked; Nextera2016manufacturerfamilyiscomparator, notcustom10indexassignment."
+      },
+      {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/{SRX2784959,SRX2784960,SRX2784961,SRX2784962,SRX2784963,SRX2784964,SRX2784965,SRX2784966,SRX2793634,SRX2793635}.xml and original Nextera 15027987 v01 title/overview/figure/index sections, independently reported after fresh bundle scraper",
+        "finding": "The ten actual experiment XMLs and the manufacturer-family comparator are independently checked. Current model cycle counts come from the original preprint, not generic vendor 8-base indexes or archive instrument labels. Further sample/run objects remain named data references unless an actual unresolved chemistry claim requires them; no whole-archive absence or final linked-scope closure is accepted."
+      }
+    ]
   },
   "missing_claims": [
     {
-      "claim": "Exact RT/PCR primer membership and per-experiment index choices cannot be accepted missing before original supplement/preprint comparison.",
+      "claim": "Final2017SOM comparison, actualPCRi5/i7pair assignments and optionalindexedTn5 details remainunresolved. Completepreprinttemplates andGEO RTmembership lists are positivelyavailable, so notmissingclaims.",
       "disposition": "blocked",
-      "evidence": "One located source reading only; additional relevant sources or independent review remain pending."
+      "evidence": "FreshownP1+independentrootP2 originalsresolve RT96/384/96membership andpreprinttemplates/readout. FinalSOM access andremaininglinkedoriginals stillblockabsenceacceptance."
     }
   ],
-  "conclusion": "First source pass only; independent second reading and unchecked linked material remain pending."
+  "conclusion": "Source-positive2017template/readout andRTmembership recovered/checkedtwice; finalScienceSOM andliveauthor-data target remainactualroutebarriers, othernamedchildrenstillpending. Noabsenceaccepted.",
+  "additional_checks": [
+    {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/science.aam8940_PMC5894354.xml.txt84–90,110–114; cao-combinatorial-indexing.pdf.txt Fig1/main opening and final Supplementary Materials inventory",
+      "finding": "Fresh own reading distinguishes base2017 RT+PCR two-level and optional2017 indexed-Tn5 third-level (16RT×6Tn5×16PCR), not2019hairpin ligation. Final author-hosted PDF positively identifies DC1 Materials and Methods, FigsS1–S24, TablesS1–S14 and refs57–140; final main is no longer inaccessible."
+    },
+    {
+      "reviewer": "audit_nanocut_closeout",
+      "date": "2026-10-16",
+      "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/104844_v1.full.pdf.txt899–937,991–992; final JATS84–90,110–114; independent fresh scraper79hits/13files, communicated exact source reading",
+      "finding": "Independent original reading confirms complete RT N8+[10bpindex]+T30VN, full P5/P7 templates, SSIV→NEB secondstrand→TDE1+carrier→cleanup→NEBNext PCR and18/10/10/52 run. Final article two-level vs optional indexedTn5 branch confirmed; no final-SOM equivalence asserted."
+    },
+    {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-15",
+      "locations": "Original Cao et al. bioRxiv 10.1101/104844 preprint extracted lines 1–65, 268–288, 900–925",
+      "finding": "Historical limited reading retained; superseded by fresh source-positive root P2 below. Independently confirmed this is the authors’ preprint of the sci-RNA-seq article. It gives first-round barcoded poly(T)/UMI RT, pooled redistribution, second strand, Tn5 and indexed PCR, but the inspected main preprint text does not give the missing complete primer-table members; the original Science supplement remains unavailable."
+    }
+  ]
 }

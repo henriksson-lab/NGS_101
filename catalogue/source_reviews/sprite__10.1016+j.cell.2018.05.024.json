@@ -19,7 +19,15 @@
         "date": "2026-10-16",
         "locations": "Original PMC6548320 JATS lines 900–1015 and 2325–2350",
         "finding": "DNA end repair/dA tail then five split-pool ligations DPM→Odd→Even→Odd→Terminal; article says original Table S5 has full top/bottom barcoded adaptor sequences but original supplementary file is unavailable."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Fresh full bundle scraper419hits then expanded423hits; JATS Methods960–1010,1090–1260, article supplement descriptions2320–2370, resources protocol.php link2005",
+          "finding": "Five rounds DPM–Odd–Even–Odd–Terminal; DNA and RNA/DNA variants distinct. PCR primers printed literally and at least115x100bp reads. DPM Read2-only prose conflicts explicit R1 barcode extraction/trim5=11. Full physical junction chain is an unassembled local model task, not absent disclosure."
+        }
+      ]
     },
     {
       "id": "preprint",
@@ -44,12 +52,33 @@
     {
       "id": "original_supps",
       "role": "supplement",
-      "locator": "PMC6548320 NIHMS972930 supplements 1–14",
-      "availability": "unavailable",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/PIIS0092867418306366.pdf (original publisher PDF, SupplementalFigures S1–S7, pages28–39); _data/sources/sprite__10.1016+j.cell.2018.05.024/PIIS0092867418306366.pdf.txt lines2576–end",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "Original Cell supplementary PDF/workbooks blocked by PMC download gate; chemistry tables cannot be excluded."
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Fresh expanded fullbundle scraper447hits/9files; visually rendered seven originalfigures onPDFpages28/30/31/33/35/37/39 and readallcaptions includingcontinuations29/32/34/36/38",
+        "finding": "The officialauthor-hosted39pagepublisherPDF contains allseven originalSupplementaryFigures. S1includesbeadcoupling/tag-completion/ligation-QCresults plusgenomecomparisons. S4includesRNA–DNA SPRITEbranchcartoon andstrand-specificityresult plusmicroscopy. S2/S3/S5/S6/S7covercontact/k-mer/hub/compartment/microscopy/laminaresults; noadditionalorderingoligodesignintheinspectedfigures. This positivelyrecoversoriginalfigurecontentratherthanclaimingit absentbecausePMCdownloadsfailed."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher PDF pp28–39: visually inspected figure panels on pp28,30,31,33,35,37,39; captions/continuations incl S1/text2576ff,S2/2780ff,S3/3317ff,S4/3560ff,S5/3884ff,S6/4242ff,S7/4415ff.",
+        "finding": "All seven original figure contents are recovered. S1B gives tag-completion frequencies and an inferred ligation-efficiency summary, not extra ordering oligos. S4A/B concerns the separate RNA/DNA branch and strand specificity. Other panels show contact analyses and FISH/microscopy results. Figures are not excluded because a scraper missed sequence; actual panels were inspected. Their named analysis/comparison studies do not assign an additional DNA-library oligo to the current branch."
+      },
+      "history": [
+        {
+          "locator": "PMC6548320 NIHMS972930 supplements 1–14",
+          "availability": "unavailable",
+          "reason": "Original Cell supplementary PDF/workbooks blocked by PMC download gate; chemistry tables cannot be excluded."
+        },
+        {
+          "locator": "PMC6548320 actual original supplementary PDFs NIHMS972930-supplement-1.pdf through -7.pdf and movie NIHMS972930-supplement-8.mp4 (JATS SD1, SD7–SD13)",
+          "availability": "unavailable",
+          "reason": "Historical generic PMC fetch rows remain gated for these specific original figures/movie. Author Caltech archive recovers all six workbooks separately (new rows), but these original PDF/movie attachments remain uninspected. No source-absence acceptance; availability/alternate-route follow-up remains open."
+        }
+      ]
     },
     {
       "id": "successor_method",
@@ -57,14 +86,28 @@
       "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/s41596-021-00633-y_PMC12145137.xml.txt",
       "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": {
-        "reviewer": "second_pass_d_e",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Published 2021 Nature Protocols PMC12145137 JATS lines 68–70, 144–156, 206–220, 542–552",
-        "finding": "Later detailed SPRITE method gives dA/dT DPM geometry, round order and tag annealing; a successor, not proof of every 2018 member sequence."
+        "locations": "2021 successor JATS68–71,140–158,206–220,542–555; actual MOESM4 Sheet1 all864DNA/index rows compared against original2018TableS5.",
+        "finding": "Relevant successor corroborates DNA tag geometry and sequences. All864 DNA/index sequence and barcode cells match the original row-for-row; one name changes2P_3 to2Ped_3 at indexAACAATGG. Original2018 has two additionalRPM rows. Successor optional extra-round/single-DPM/terminal variants are not assigned to2018."
       },
-      "discovered_from": "paper"
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original successor JATS206–220 and542–555; independently parsed both complete extracted Sheet1 tables:866original rows versus864successor rows, exact cell comparison.",
+        "finding": "Independently confirmed864 matching sequence/barcode row cells; sole common-row difference is primer name2P_3/2Ped_3, with unchanged bases. Original extra rows are modifiedRPM top/bottom. Actual successor text discusses optional single-DPM/Terminal plus additional-round variants and annealed corresponding top/bottom stocks. This positively corroborates shared oligos; equal sequences do not establish that every variant, well or reaction setting was used in2018."
+      },
+      "discovered_from": "paper",
+      "additional_checks": [
+        {
+          "pass": "previous_pass_2",
+          "reviewer": "second_pass_d_e",
+          "date": "2026-10-16",
+          "locations": "Published 2021 Nature Protocols PMC12145137 JATS lines 68–70, 144–156, 206–220, 542–552",
+          "finding": "Later detailed SPRITE method gives dA/dT DPM geometry, round order and tag annealing; a successor, not proof of every 2018 member sequence."
+        }
+      ]
     },
     {
       "id": "successor_barcodes",
@@ -72,37 +115,579 @@
       "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/s41596-021-00633-y_41596_2021_633_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": {
-        "reviewer": "second_pass_d_e",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "2021 successor MOESM4 workbook Sheet1 header and first eight Terminal_Top_LigateOdd_Stagger members",
-        "finding": "Successor table prints explicit modified terminal tag members with barcode and entire sequence columns. Version-specific to 2021 method."
+        "locations": "2021 successor JATS68–71,140–158,206–220,542–555; actual MOESM4 Sheet1 all864DNA/index rows compared against original2018TableS5.",
+        "finding": "Relevant successor corroborates DNA tag geometry and sequences. All864 DNA/index sequence and barcode cells match the original row-for-row; one name changes2P_3 to2Ped_3 at indexAACAATGG. Original2018 has two additionalRPM rows. Successor optional extra-round/single-DPM/terminal variants are not assigned to2018."
       },
-      "discovered_from": "successor_method"
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original successor JATS206–220 and542–555; independently parsed both complete extracted Sheet1 tables:866original rows versus864successor rows, exact cell comparison.",
+        "finding": "Independently confirmed864 matching sequence/barcode row cells; sole common-row difference is primer name2P_3/2Ped_3, with unchanged bases. Original extra rows are modifiedRPM top/bottom. Actual successor text discusses optional single-DPM/Terminal plus additional-round variants and annealed corresponding top/bottom stocks. This positively corroborates shared oligos; equal sequences do not establish that every variant, well or reaction setting was used in2018."
+      },
+      "discovered_from": "successor_method",
+      "additional_checks": [
+        {
+          "pass": "previous_pass_2",
+          "reviewer": "second_pass_d_e",
+          "date": "2026-10-16",
+          "locations": "2021 successor MOESM4 workbook Sheet1 header and first eight Terminal_Top_LigateOdd_Stagger members",
+          "finding": "Successor table prints explicit modified terminal tag members with barcode and entire sequence columns. Version-specific to 2021 method."
+        }
+      ]
+    },
+    {
+      "id": "original_table_s5",
+      "role": "supplement",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/mmc5.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Original whole Sheet1 lines1–868, all96-member DPM/Odd/Even/Terminal Top/Bottom families and indexed primers; representative rows1/99/195/291/387/483/579/675/771; compared old caltech_mmc5 twin",
+        "finding": "Recovered original2018 ordering table supersedes blanket unavailable claim. DPM variable column8 bases plus fixedA in highlighted nine-base region; Odd/Even variable columns16 with invariant flanks; TerminalBottom staggered9–12. All representative oligos retained with modifications. Indexed primer2P_657 BarcodeGCCTAGCC but oligoGGCTAGGC, reverse-complement orientation; article printsGCCTAGCC in primer. Model retains article example rather than normalizing source orientations."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original complete Sheet1 structure and representative modified DPM/Odd/Even/Terminal ordering rows; DPM Top first row and Barcode field; indexed-primer2P_657 row; RPM rows; source article Methods and inline originals u2/u3/u4. Full expanded scraper first",
+        "finding": "Positive original synthesis strings and modifications agree with representative oligos. DPM nine-position highlighted region includes invariant A plus eight variable positions; source-table barcode-column width is not identical to all physical tag/junction bases. Terminal family staggering prevents one universal tag width. Article PCR example GCCTAGCC and Table2P_657 oligo GGCTAGGC/BarcodeGCCTAGCC are distinct source examples; article does not name2P_657, so no same-reagent publication error is established. RNA-related RPM rows are positively present; the current schematic explicitly scopes its model to the DNA branch. Full96-member TerminalBottom Barcode-field inventory has24 members each of lengths9,10,11,12; NYBot49_Stg is CTTGGCGACCAT (12)."
+      },
+      "previous_pass_1_finding": "Recovered original2018 ordering table supersedes blanket unavailable claim. DPM variable column8 bases plus fixedA in highlighted nine-base region; Odd/Even variable columns16 with invariant flanks; TerminalBottom staggered9–11. All representative oligos retained with modifications. Indexed primer2P_657 BarcodeGCCTAGCC but oligoGGCTAGGC, reverse-complement orientation; article printsGCCTAGCC in primer. Model retains article example rather than normalizing source orientations."
+    },
+    {
+      "id": "original_inline_adapter_diagrams",
+      "role": "supplement",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/nihms972930u2.jpg; _data/sources/sprite__10.1016+j.cell.2018.05.024/nihms972930u3.jpg; _data/sources/sprite__10.1016+j.cell.2018.05.024/nihms972930u4.jpg",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Entire three original PMC CDN images rendered visually; actual article JATS graphics P77/P81/P83",
+        "finding": "DPM diagram highlights AAACACCCA including fixedA plus eight-variable barcode and labels3spacer. Terminal firstmember sequence agrees TableS5. FinalDNA diagram shows DPM at both genomic ends with outward tag chains and PCR entry roles. These diagrams support architecture but this model does not reconstruct the complete ligating/PCR template geometry."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Direct visual inspection of original nihms972930u2.jpg, u3.jpg and u4.jpg after full source-bundle scraper; corresponding DPM design and final-library Methods",
+        "finding": "u2 shows 5-prime phosphates, top3-prime spacer and nine highlighted positions AAACACCCA, including fixed A. u3 shows staggered Terminal construction. u4 explicitly includes DPM at both genomic ends and the split-pool tag arms. These figures do not justify a generic dual-index TruSeq shell or exact per-cycle coordinates across unassembled junctions."
+      }
+    },
+    {
+      "id": "accepted_author_pdf",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/nihms972930.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Original accepted author manuscript Methods1143–1161 (printed PCR primer strings and115x100bp minima), fulltext source identity and author archive attachment",
+        "finding": "Author-deposited accepted manuscript corroborates literal article primer/index orientations and read minima. ActualPCRarms locally declared; no inherited duali5 shell."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original accepted author PDF printedp21, text1130–1170, Final Library Amplification Primers and SPRITE Data Processing/Barcode identification; defining JATS1111–1138 and1200–1250; source-bundle scraper first",
+        "finding": "Accepted manuscript corroborates complete source PCR primer strings, paired-read minima115/100 and DPM extraction at beginning of Read1. The earlier DPM-design Read2 statement conflicts with those processing sections. The public page now exposes this located source discrepancy; its index example is separately explained without asserting a publication error."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "original_table_s1",
+      "role": "supplement",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/mmc1.xlsx",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Original XLSX workbook.xml five sheet identities; resolved sharedStrings and first3rows of sheets1–3 plus headers sheets4–5 (1AAll_ScoredKmers_Nmer,1B_3-mers_Acomp_mES,1C_4-mers_Acomp_mES,1D_allGAM_kmers,1E_enriched_GAM_kmers);doctextskips23MB workbook",
+        "finding": "Five tables give genomic region combinations, observed/normalized/permuted scores and coverage, including GAM comparisons. This is downstream contact-result scope, not an ordering-oligo document. Classification rests on original cell headers/rows, not filename."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original XLSX ZIP workbook.xml identities, every sheet header and first three data rows resolved through original sharedStrings/worksheet XML; all relationship files for external targets. Expanded source-bundle oligo scraper run first",
+        "finding": "Independent schema and record inspection corroborates result-table scope: S1 five k-mer/contact/GAM score sheets; S2 five contact/hub-coordinate sheets; S3/S4 nucleolar/active hub k-mers; S6 five read-filtering/FISH-interval/contact-correlation sheets. No external relationship targets in these five originals. FISH chromosome intervals are separate validation metadata, not library adapter bases. Exclusion is based on actual workbook contents, not filename."
+      },
+      "reason": "Five tables give genomic region combinations, observed/normalized/permuted scores and coverage, including GAM comparisons. This is downstream contact-result scope, not an ordering-oligo document. Classification rests on original cell headers/rows, not filename."
+    },
+    {
+      "id": "original_table_s2",
+      "role": "supplement",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/mmc2.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "All five original sheet headers and initial rows, textlines1/13/114/204/491",
+        "finding": "Chromosome/contact/compartment and nucleolar/active hub analyses; no library oligo columns in these table schemas."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original XLSX ZIP workbook.xml identities, every sheet header and first three data rows resolved through original sharedStrings/worksheet XML; all relationship files for external targets. Expanded source-bundle oligo scraper run first",
+        "finding": "Independent schema and record inspection corroborates result-table scope: S1 five k-mer/contact/GAM score sheets; S2 five contact/hub-coordinate sheets; S3/S4 nucleolar/active hub k-mers; S6 five read-filtering/FISH-interval/contact-correlation sheets. No external relationship targets in these five originals. FISH chromosome intervals are separate validation metadata, not library adapter bases. Exclusion is based on actual workbook contents, not filename."
+      },
+      "reason": "Chromosome/contact/compartment and nucleolar/active hub analyses; no library oligo columns in these table schemas."
+    },
+    {
+      "id": "original_table_s3",
+      "role": "supplement",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/mmc3.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Original single sheet mES_nucleolarHub_regions header and first resultrows1–8",
+        "finding": "Interchromosomal nucleolar-hub region k-mers, cluster counts and enrichment scores; downstream results, not ordering oligos."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original XLSX ZIP workbook.xml identities, every sheet header and first three data rows resolved through original sharedStrings/worksheet XML; all relationship files for external targets. Expanded source-bundle oligo scraper run first",
+        "finding": "Independent schema and record inspection corroborates result-table scope: S1 five k-mer/contact/GAM score sheets; S2 five contact/hub-coordinate sheets; S3/S4 nucleolar/active hub k-mers; S6 five read-filtering/FISH-interval/contact-correlation sheets. No external relationship targets in these five originals. FISH chromosome intervals are separate validation metadata, not library adapter bases. Exclusion is based on actual workbook contents, not filename."
+      },
+      "reason": "Interchromosomal nucleolar-hub region k-mers, cluster counts and enrichment scores; downstream results, not ordering oligos."
+    },
+    {
+      "id": "original_table_s4",
+      "role": "supplement",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/mmc4.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Original single sheet mES_activeHub_regions header and first resultrows1–8",
+        "finding": "Interchromosomal active-hub region k-mers, cluster counts and enrichment scores; downstream results, not ordering oligos."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original XLSX ZIP workbook.xml identities, every sheet header and first three data rows resolved through original sharedStrings/worksheet XML; all relationship files for external targets. Expanded source-bundle oligo scraper run first",
+        "finding": "Independent schema and record inspection corroborates result-table scope: S1 five k-mer/contact/GAM score sheets; S2 five contact/hub-coordinate sheets; S3/S4 nucleolar/active hub k-mers; S6 five read-filtering/FISH-interval/contact-correlation sheets. No external relationship targets in these five originals. FISH chromosome intervals are separate validation metadata, not library adapter bases. Exclusion is based on actual workbook contents, not filename."
+      },
+      "reason": "Interchromosomal active-hub region k-mers, cluster counts and enrichment scores; downstream results, not ordering oligos."
+    },
+    {
+      "id": "original_table_s6",
+      "role": "supplement",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/mmc6.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "Original all five sheets S6A–S6E, complete135-line extracted workbook",
+        "finding": "Read-filtering counts for DNA/RNA libraries, FISH probe chromosome intervals and excitation/emission labels, and contact/microscopy correlations; FISH locus intervals are separate assay metadata, not library adapter oligos."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original XLSX ZIP workbook.xml identities, every sheet header and first three data rows resolved through original sharedStrings/worksheet XML; all relationship files for external targets. Expanded source-bundle oligo scraper run first",
+        "finding": "Independent schema and record inspection corroborates result-table scope: S1 five k-mer/contact/GAM score sheets; S2 five contact/hub-coordinate sheets; S3/S4 nucleolar/active hub k-mers; S6 five read-filtering/FISH-interval/contact-correlation sheets. No external relationship targets in these five originals. FISH chromosome intervals are separate validation metadata, not library adapter bases. Exclusion is based on actual workbook contents, not filename."
+      },
+      "reason": "Read-filtering counts for DNA/RNA libraries, FISH probe chromosome intervals and excitation/emission labels, and contact/microscopy correlations; FISH locus intervals are separate assay metadata, not library adapter oligos."
+    },
+    {
+      "id": "original_movie_s1",
+      "role": "supplement",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/1-s2.0-S0092867418306366-mmc7.mp4",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "OriginalpublisherCDN MP4 validated5,692,946bytes;ffprobe738x542/700frames/29.167seconds; visually inspected9framesacross0–24secondsandoriginalarticleMovieS1caption",
+        "finding": "Rotatingthree-dimensionalfluorescencemicroscopyofblueDAPI/rednucleolus/orangeandgreenDNA-FISHloci; matchesoriginalMovieS1caption. This isbiologicalspatialvalidationratherthanalibrarypreparationdemonstration. OriginalPMCmoviegateremainsbutpublicpublisherrouteworks. Thetestedmmc8.mp4route404wasfilename-routingfailure,notaccessbarrierorabsence."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original publisher mmc7.mp4 metadata and contact-sheet samples spanning0–24s of29.167s.",
+        "finding": "Independently visually inspected the original movie samples: rotating microscopy reconstruction with nucleolin/nuclear stain and DNA-FISH loci. This is a result movie, distinct from the author procedural video. Sampled visual scope is recorded; no claim of complete audio/transcript inspection or absence of all possible information."
+      },
+      "reason": "Rotatingthree-dimensionalfluorescencemicroscopyofblueDAPI/rednucleolus/orangeandgreenDNA-FISHloci; matchesoriginalMovieS1caption. This isbiologicalspatialvalidationratherthanalibrarypreparationdemonstration. OriginalPMCmoviegateremainsbutpublicpublisherrouteworks. Thetestedmmc8.mp4route404wasfilename-routingfailure,notaccessbarrierorabsence."
+    },
+    {
+      "id": "author_protocols_page",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/protocols.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "OfficialcurrentGuttmanLab Protocolspage SPRITEsectionandactualoriginalHTMLlinkedPDF/embeddedvideo; linkhttps://guttmanlab.caltech.edu/lab-resources/protocols/",
+        "finding": "TheoldarticlelabprotocolURLhasrelocated. Currentofficialpage directlylinks SPRITE_Protocol_July_2018.pdf andprocedurevideoYouTube6SdWkBxQGlg. DownloadedPDFactualtitlelasteditedAugust9,2018; uploadURL2021isnotrevisiondate. OthersectionsconcernSPIDR/ChIP-DIP/SWIFT/CLAP/RAP/RNAtagandarenotadditionalSPRITEmethods. TheprocedurevideoisdistinctfromMovieS1andrequiresversion/scopefollow-up."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Actual cached official HTML anchor and iframe inventory; extracted SPRITE section168–210.",
+        "finding": "The current author page links the August2018-titled DNA guide despite its2021 upload path and embeds YouTube6SdWkBxQGlg. Followed the PDF as its own original row. The actual procedural-video target remains separately recorded; unrelated SPIDR,ChIP-DIP,SWIFTseq,CLAP/RAP/RNAtagseq resources on this multiprotocol page are not assigned to the SPRITE DNA reaction graph."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "author_protocol_august2018",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/SPRITE_Protocol_July_2018.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "TitlelasteditedAugust9,2018; §§3.1–3.5 pp7–9/text305–435;finalPCR§6.2/text1128–1165;analysis§7pp28–29",
+        "finding": "Actualhistorical2018guideprintsDPM/ligatedOddEven/Terminalduplexexamples, strandselectivefirst-PCRdaughterstrandmechanism,exactfull2P_universal/2P_barcoded_85primersandseparateDPMQCF/Rprimers. BothsourceversionsretainarticleR2primerGCCTAGCCandexplicit11baseRead1DPMtrim. Protocolversionsarenotsubstitutedforsamewellidentity2P_657. Locatedwordinginconsistencies:§3.1says5-primeAoverhang;§3.4saysbothfullprimersaround30ntdespiteprinted58/66ntandremainingfivePCRcycleswhereactual§6.2programhassevenafterfirstfour. Currentmodeldoesnotassigntheseendpolarities/cycleprogram;fullprimerstringsretainedliterally."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original guide title; pp7–10 sections3.1–3.5 (visual pages7,9 and text305–445); DPM QC section5.4 pp20–22/text864–985; final PCR section6.2 pp25–27/text1126–1165; analysis pp28–29.",
+        "finding": "Independently confirmed modified duplex examples, literal 2P_universal/2P_barcoded_85 strands and separate DPMQCprimerF/R. QC is a separate DPM-stage aliquot, released and amplified for size/yield assessment. Added those positive primers and QC terminal locally. The guide names the article reverse primer, so it is not identified as TableS5 2P_657. Visually confirmed5-primeA wording versus figure3-primeA ends and around30nt prose versus literal58/66nt full PCR strands; section3.4 five further cycles differs from section6.2 seven. Public caveats retain literal strands without resolving unsupported polarity or cycle assignments. Analysis explicitly identifies DPM in Read1 and trims11 bases; this processing span is not equated to the barcode-column length."
+      }
+    },
+    {
+      "id": "author_protocol_april2018",
+      "role": "detailed_protocol",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/SPRITE_Protocol.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "source_reaudit_rna",
+        "date": "2026-10-16",
+        "locations": "ENCODE-depositedauthororiginal titlelasteditedApril5,2018;§§3.1–3.5 pp8–10/text314–450;analysispp30–31/text1335–end",
+        "finding": "Actualhistorical2018guideprintsDPM/ligatedOddEven/Terminalduplexexamples, strandselectivefirst-PCRdaughterstrandmechanism,exactfull2P_universal/2P_barcoded_85primersandseparateDPMQCF/Rprimers. BothsourceversionsretainarticleR2primerGCCTAGCCandexplicit11baseRead1DPMtrim. Protocolversionsarenotsubstitutedforsamewellidentity2P_657. Locatedwordinginconsistencies:§3.1says5-primeAoverhang;§3.4saysbothfullprimersaround30ntdespiteprinted58/66ntandremainingfivePCRcycleswhereactual§6.2programhassevenafterfirstfour. Currentmodeldoesnotassigntheseendpolarities/cycleprogram;fullprimerstringsretainedliterally."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Original title April5,2018; sections3.1–3.5 pp8–11/text314–455; analysis pp30–31/text1335ff; full primer and QC sequence comparison with August original.",
+        "finding": "Independently read the historical precursor guide sections and literal full library/QC primers. It gives the same full primer example and distinct QC pair, DPM/Terminal strand-selective amplification explanation, eleven-base Read1 trim and the same located wording conflicts. The publication date and a matching full primer do not assign all later settings or well identities to every2018 experiment."
+      }
+    },
+    {
+      "id": "historical_pipeline",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/fcf7662a6b2f3bba32440fcfd2914665857016bc.zip",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original prepublication commit fcf7662a6b2f3bba32440fcfd2914665857016bc, java/example_config.txt (411lines), Java matcher227–279/322–365; archive README and tag-layout image.",
+        "finding": "All96 DPM sequences equal reverse complements of TableS5 DPMTop Barcode cells; all96Y equal TerminalBottom Barcode cells. ODD/EVEN15mers equal bottom-strand16-base Barcode cells after dropping the first base. Current Java source consumes R1/R2 as supplied; JAR equivalence is not established. This is analysis configuration, not a new synthesis table or exact assignment to every library."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently read pinned archive README, actual Java BarcodeIdentification.java227–279/322–365 and complete extracted example config; independently compared all four96-member families against original TableS5.",
+        "finding": "Confirmed R1=DPM, R2=Y|SPACER|ODD|SPACER|EVEN|SPACER|ODD. All96 sequences in each family match the specified transformations: DPM reverse complement of8-base tableBarcode; Y exact9–12-base TerminalBottom Barcode; ODD/EVEN first base removed from16-base bottomBarcode. Java reads raw FASTQ bases and matches substring lookups, without reverse complement at that point. Parser recognition windows, sticky-end skipping and source ordering-strand lengths are distinct claims. README names downstream adaptor trimming; no bundled JAR/source or universal experiment-configuration identity is asserted."
+      }
+    },
+    {
+      "id": "pipeline_wiki_home",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_Home.md",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "historical_pipeline",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual raw wiki Home, lines1–57.",
+        "finding": "Read the original current wiki source: overview/install requirements; external dependencies are software, not DNA-library recipes. It is analysis documentation, with current settings kept separate from original2018 experiments. Outgoing software dependencies are not imported as new physical oligo sources."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent full reading of cached raw Home and its outgoing links; compare historical README/config where a read-layout claim is made.",
+        "finding": "Confirmed scope: overview/install requirements; external dependencies are software, not DNA-library recipes. These links describe analysis, installation, reference genomes or normalization; they do not assign experimental reagents to2018. Barcode-identification documentation explicitly separates read patterns from sticky ends. No whole-repository sequence absence is claimed."
+      }
+    },
+    {
+      "id": "pipeline_wiki_0",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_0.-Snakemake-Pipeline.md",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "historical_pipeline",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual raw wiki 0.-Snakemake-Pipeline, lines1–118.",
+        "finding": "Read the original current wiki source: workflow installation, sample input naming and later configuration; Bowtie2 indexes and Snakemake documentation are software setup. It is analysis documentation, with current settings kept separate from original2018 experiments. Outgoing software dependencies are not imported as new physical oligo sources."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent full reading of cached raw 0.-Snakemake-Pipeline and its outgoing links; compare historical README/config where a read-layout claim is made.",
+        "finding": "Confirmed scope: workflow installation, sample input naming and later configuration; Bowtie2 indexes and Snakemake documentation are software setup. These links describe analysis, installation, reference genomes or normalization; they do not assign experimental reagents to2018. Barcode-identification documentation explicitly separates read patterns from sticky ends. No whole-repository sequence absence is claimed."
+      }
+    },
+    {
+      "id": "pipeline_wiki_1",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_1.-Barcode-Identification.md",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "historical_pipeline",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual raw wiki 1.-Barcode-Identification, lines1–126.",
+        "finding": "Read the original current wiki source: read-oriented pattern matching, variableY spans, spacer/lookahead behavior and later DPM trimming. It is analysis documentation, with current settings kept separate from original2018 experiments. Outgoing software dependencies are not imported as new physical oligo sources."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent full reading of cached raw 1.-Barcode-Identification and its outgoing links; compare historical README/config where a read-layout claim is made.",
+        "finding": "Confirmed scope: read-oriented pattern matching, variableY spans, spacer/lookahead behavior and later DPM trimming. These links describe analysis, installation, reference genomes or normalization; they do not assign experimental reagents to2018. Barcode-identification documentation explicitly separates read patterns from sticky ends. No whole-repository sequence absence is claimed."
+      }
+    },
+    {
+      "id": "pipeline_wiki_2",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_2.-Alignment.md",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "historical_pipeline",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual raw wiki 2.-Alignment, lines1–34.",
+        "finding": "Read the original current wiki source: only Read1 aligned in the standard ligation scheme; paired-end acquisition does not imply paired-end genomic alignment. It is analysis documentation, with current settings kept separate from original2018 experiments. Outgoing software dependencies are not imported as new physical oligo sources."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent full reading of cached raw 2.-Alignment and its outgoing links; compare historical README/config where a read-layout claim is made.",
+        "finding": "Confirmed scope: only Read1 aligned in the standard ligation scheme; paired-end acquisition does not imply paired-end genomic alignment. These links describe analysis, installation, reference genomes or normalization; they do not assign experimental reagents to2018. Barcode-identification documentation explicitly separates read patterns from sticky ends. No whole-repository sequence absence is claimed."
+      }
+    },
+    {
+      "id": "pipeline_wiki_3",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_3.-Filtering.md",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "historical_pipeline",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual raw wiki 3.-Filtering, lines1–17.",
+        "finding": "Read the original current wiki source: repeat/blacklist alignment filtering. It is analysis documentation, with current settings kept separate from original2018 experiments. Outgoing software dependencies are not imported as new physical oligo sources."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent full reading of cached raw 3.-Filtering and its outgoing links; compare historical README/config where a read-layout claim is made.",
+        "finding": "Confirmed scope: repeat/blacklist alignment filtering. These links describe analysis, installation, reference genomes or normalization; they do not assign experimental reagents to2018. Barcode-identification documentation explicitly separates read patterns from sticky ends. No whole-repository sequence absence is claimed."
+      }
+    },
+    {
+      "id": "pipeline_wiki_4",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_4.-Clustering.md",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "historical_pipeline",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual raw wiki 4.-Clustering, lines1–22.",
+        "finding": "Read the original current wiki source: identical composite barcodes group reads; duplicate genomic positions removed. It is analysis documentation, with current settings kept separate from original2018 experiments. Outgoing software dependencies are not imported as new physical oligo sources."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent full reading of cached raw 4.-Clustering and its outgoing links; compare historical README/config where a read-layout claim is made.",
+        "finding": "Confirmed scope: identical composite barcodes group reads; duplicate genomic positions removed. These links describe analysis, installation, reference genomes or normalization; they do not assign experimental reagents to2018. Barcode-identification documentation explicitly separates read patterns from sticky ends. No whole-repository sequence absence is claimed."
+      }
+    },
+    {
+      "id": "pipeline_wiki_5",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_5.-Heatmaps.md",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "historical_pipeline",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual raw wiki 5.-Heatmaps, lines1–39.",
+        "finding": "Read the original current wiki source: contact-bin normalization, plotting and Hi-Corrector citation. It is analysis documentation, with current settings kept separate from original2018 experiments. Outgoing software dependencies are not imported as new physical oligo sources."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent full reading of cached raw 5.-Heatmaps and its outgoing links; compare historical README/config where a read-layout claim is made.",
+        "finding": "Confirmed scope: contact-bin normalization, plotting and Hi-Corrector citation. These links describe analysis, installation, reference genomes or normalization; they do not assign experimental reagents to2018. Barcode-identification documentation explicitly separates read patterns from sticky ends. No whole-repository sequence absence is claimed."
+      }
+    },
+    {
+      "id": "pipeline_current_configuration",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_config.yaml",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "historical_pipeline",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Current configuration pinned at5e11a588...; whole48lines.",
+        "finding": "Later software example: five tags, mm10/hg38, explicit barcode-config path. Not an experimental well assignment."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independent whole cached config.yaml reading (including barcode path, num_tags and genome/reference settings).",
+        "finding": "This current snapshot declares config.txt, five tags and assembly/mask/downweighting settings. None establishes the exact2018 experimental barcode choice or physical adapter construction. Later software settings remain separate from the prepublication archive."
+      }
+    },
+    {
+      "id": "successor_procedure_video",
+      "role": "linked_material",
+      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/s41596-021-00633-y_41596_2021_633_MOESM2_ESM.mp4",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "successor_method",
+      "pass_1": {
+        "reviewer": "audit_rna_contacts_closeout",
+        "date": "2026-10-16",
+        "locations": "Original publisher SupplementaryVideo1,808.66s/640x360; sampled frames every30s across0–780s; actual successorJATSabstract38 andmethod142 link video scope.",
+        "finding": "Relevant procedure video shows SPRITE overview, NHS coupling/quench, end repair, dA tailing, split-pool rounds1 then2–5, ProteinaseK/reversal/cleanup. This is not original2018 microscopyMovieS1. Audio exists; no full narration/transcript reading or absence claim. DirectYouTube byte equivalence is unverified."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "Independently inspected contact-sheet frames0–780s, original stream metadata(video+AACaudio), source-paper link/version context.",
+        "finding": "Confirmed procedural scope and distinction from microscopyMovieS1. The recovered publisher companion is version-bounded to the successor publication; directYouTube identity is not established. Sampled visual inspection is not complete narration review, so this row cannot support publication absence."
+      }
+    },
+    {
+      "id": "author_procedure_youtube",
+      "role": "linked_material",
+      "locator": "https://www.youtube.com/watch?v=6SdWkBxQGlg",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "author_protocols_page",
+      "availability_checks": [
+        {
+          "reviewer": "audit_rna_contacts_closeout",
+          "date": "2026-10-16",
+          "route": "Registered direct original fetch plus browser",
+          "result": "Direct fetch rejected as272-character/no article content; browser fails. Publisher procedure companion recovered separately; no exact equivalence claimed."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "route": "Independent browser open of actual watch URL",
+          "result": "Browser fetch error; no content reading pass fabricated. Actual publisher companion is separately identified, not silently substituted."
+        }
+      ],
+      "reason": "Direct original watch-URL retrieval and independent browser access failed. A separately recovered publisher procedure video is not established as byte-identical to the YouTube original; no content pass is assigned to the failed URL."
     }
   ],
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "audit_s_z",
+      "reviewer": "source_reaudit_rna",
       "date": "2026-10-16",
-      "locations": "Local MANIFEST.tsv and source methods/supplement references; inspected checklist rows: paper, preprint",
-      "finding": "Relevant source, supplement or predecessor/vendor links remain unread or unavailable; link inventory and independent pass 2 remain open."
+      "locations": "ActualoriginalarticleSupplementaryMaterialandlabprotocol.php links; currentofficiallabprotocolsSPRITEsection; recoveredpublisherPDFallsevenSupplementaryFigures; originalpublicpublisherMovieS1; April/August2018authorprotocoloriginals",
+      "finding": "Previouslyunavailableallsevenfigurecontentsarenowreadintheofficialauthor-hostedoriginalpublisherPDF; allsixoriginalworkbooksandMovieS1alsorecovered. CurrentofficiallabpagepositivelysuppliesAugust2018method;ENCODEsuppliesApril2018version. Source-specificP2neededfornewrows. AuthorprocedureYouTube6SdWkBxQGlgandarticle-linkedGuttmanLab/sprite-pipeline/wiki stillrequirefreshversion/scopeinspection, as doRNAbranchpredecessorsifexpandingthatbranch. Noabsenceclaimaccepted;remainingmodeljunctionquestionsarenotidentifiedunavailablesources."
     },
     "pass_2": {
-      "reviewer": "second_pass_d_e",
+      "reviewer": "root",
       "date": "2026-10-16",
-      "locations": "Original PMC6548320 JATS lines 900–1015 and 2325–2350; Original bioRxiv 219683 v1 PDF text lines 1310–1349, 1764–1781; Published 2021 Nature Protocols PMC12145137 JATS lines 68–70, 144–156, 206–220, 542–552; 2021 successor MOESM4 workbook Sheet1 header and first eight Terminal_Top_LigateOdd_Stagger members",
-      "finding": "Independently inspected listed originals and linked materials. Relevant unavailable primary/supplement/predecessor rows remain blocked pending access."
-    }
+      "locations": "Original publisher figuresS1–S7, movie samples, current author HTML link inventory, April/August2018 guides and successor workbook/text as located per row.",
+      "finding": "Fresh independent originals checks recover positive QC and named full-PCR evidence. Actual source wording conflicts are visible on the affected public page. The procedural video and historical pipeline/wiki are now recovered for additional bounded reading; those new sources and their linked scope still need recorded independent checks. No absence accepted. Independently read historical Java/config and all seven current wiki originals, checked all96 sequence families, and sampled publisher procedure video. Direct YouTube fetch independently fails. Procedure narration/version scope remains open; no full video absence or whole-code-repository absence is claimed."
+    },
+    "previous_checks": [
+      {
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Local MANIFEST.tsv and source methods/supplement references; inspected checklist rows: paper, preprint",
+          "finding": "Relevant source, supplement or predecessor/vendor links remain unread or unavailable; link inventory and independent pass 2 remain open."
+        },
+        "pass_2": {
+          "reviewer": "second_pass_d_e",
+          "date": "2026-10-16",
+          "locations": "Original PMC6548320 JATS lines 900–1015 and 2325–2350; Original bioRxiv 219683 v1 PDF text lines 1310–1349, 1764–1781; Published 2021 Nature Protocols PMC12145137 JATS lines 68–70, 144–156, 206–220, 542–552; 2021 successor MOESM4 workbook Sheet1 header and first eight Terminal_Top_LigateOdd_Stagger members",
+          "finding": "Independently inspected listed originals and linked materials. Relevant unavailable primary/supplement/predecessor rows remain blocked pending access."
+        }
+      },
+      {
+        "pass_1": {
+          "reviewer": "source_reaudit_rna",
+          "date": "2026-10-16",
+          "locations": "Fresh original Methods and source TableS5; CaltechAUTHORS recordxrfk6-20h25 attachment inventory allsixworkbooks+acceptedPDF; actual PMC graphicsCDN source links; article-linked http://www.lncrna.caltech.edu/protocols.php attemptedviaweb inaccessible; successor documents retained separate",
+          "finding": "Recovered allsix original2018 workbooks and accepted manuscript, inspected originals as recorded. Original PDFs1–7/movie8 remain uninspected; author labprotocol page inaccessible through browsing tool thispass and requires legitimate alternate-route follow-up. Author successors are not substituted for original2018 oligos. RNA/DNA branch predecessors Shishkin2015 and Siegfried2014 remain linked obligations if expanding that branch; currentpage explicitly DNA-only. New recovered originals require independent P2. No absence acceptance."
+        },
+        "pass_2": {
+          "reviewer": "second_pass_d_e",
+          "date": "2026-10-16",
+          "locations": "Original PMC6548320 JATS lines 900–1015 and 2325–2350; Original bioRxiv 219683 v1 PDF text lines 1310–1349, 1764–1781; Published 2021 Nature Protocols PMC12145137 JATS lines 68–70, 144–156, 206–220, 542–552; 2021 successor MOESM4 workbook Sheet1 header and first eight Terminal_Top_LigateOdd_Stagger members",
+          "finding": "Independently inspected listed originals and linked materials. Relevant unavailable primary/supplement/predecessor rows remain blocked pending access."
+        },
+        "result": "blocked"
+      },
+      {
+        "pass_2": {
+          "reviewer": "second_pass_d_e",
+          "date": "2026-10-16",
+          "locations": "Original PMC6548320 JATS lines 900–1015 and 2325–2350; Original bioRxiv 219683 v1 PDF text lines 1310–1349, 1764–1781; Published 2021 Nature Protocols PMC12145137 JATS lines 68–70, 144–156, 206–220, 542–552; 2021 successor MOESM4 workbook Sheet1 header and first eight Terminal_Top_LigateOdd_Stagger members",
+          "finding": "Independently inspected listed originals and linked materials. Relevant unavailable primary/supplement/predecessor rows remain blocked pending access."
+        }
+      }
+    ],
+    "remaining_source_obligations": [
+      {
+        "locator": "Actual author YouTube procedural source and publisher successor video",
+        "state": "version_and_narration_scope_open",
+        "required": "Direct YouTube retrieval currently fails; publisher companion has sampled independent visual checks but not full narration inspection or byte identity. Do not accept absence from this scope."
+      }
+    ]
   },
-  "missing_claims": [
+  "missing_claims": [],
+  "conclusion": "All original figure contents, tables and historical author guides are recovered and now independently checked within the recorded scope. The DNA model includes the positive DPM QC primer branch and shows historical-guide discrepancies publicly. Full tag-junction construction remains model work, not publication absence. Historical pipeline/wiki and procedural-video source/version scope remain under review. Historical pipeline/read-pattern and all seven current wiki originals now have located independent checks. Direct procedure-video access and full narration/version scope remain open; source review stays in_progress.",
+  "additional_checks": [
+    {
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "locations": "Local endpoint/graph annotations against original article and three adapter images; shared lib/sprite.py import census",
+      "finding": "Both SPRITE callers now own their endpoints; removed the unused shared final_library recipe after checking all imports. Original SPRITE follows source PCR arms and read minima, with unassembled junctions explicit. Real DPM read-label discrepancy uses typed graph annotation; index example uses a distinct model-choice highlight, since source does not establish identical primer identity."
+    },
+    {
+      "reviewer": "audit_rna_contacts_closeout",
+      "date": "2026-10-16",
+      "locations": "Fresh independent rereading of original TableS5 TerminalBottom lines99–194, especially NYBot49–72 lines147–170",
+      "finding": "Corrected my earlier9–11 range: actual96 original Barcode fields have24 each of9,10,11,12 bases. This was a repository audit-counting error, not a source error. No fixed Terminal width is asserted on the page."
+    }
+  ],
+  "historical_claims": [
     {
       "claim": "Any asserted absence of exact oligo, adapter geometry or read layout beyond the located source rows",
       "evidence": "Inspected source locations above; linked-source inventory incomplete.",
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain."
+  "open_model_questions": [
+    {
+      "question": "Reconstruct full physical DNA tag-junction and PCR precursor geometry from the located original strands; keep RNA/DNA branch separate.",
+      "state": "unassembled_model",
+      "reason": "Positive ordering strands and guide geometry exist; current model incompleteness does not establish source absence."
+    }
+  ]
 }

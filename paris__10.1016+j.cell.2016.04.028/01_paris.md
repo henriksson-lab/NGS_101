@@ -72,6 +72,14 @@ N6-containing scaffold.
 🟡 AACC is a verified example, while a complete historical barcode ordering has
 not been established by these readings. The original PARIS four-base placeholder
 can remain unassigned. No conclusion that the full list is absent is accepted:
-additional historical repository files and image-only figure slides have not
-been exhaustively inspected. Supplementary Tables 1/2 describe RBP motifs and
+the historical member mapping has not been assigned to this model. No specific
+inaccessible original has been identified as a barcode-order blocker. Supplementary Tables 1/2 describe RBP motifs and
 miRNA-seed reactivity results, rather than synthesized library barcodes.
+
+The four original Spitale publisher figure slides were subsequently rendered and
+read visually. Figure 1 contains the NAI-N3/click-biotin/RT/capture workflow;
+Figures 2–4 contain native RNA reactivity, motif, translation and m6A/Rbfox
+results. Their biological motif labels are not library index members. These
+figures do not change the distinction between a printed example, an unassigned
+model index and a claim of absent published information. Exact circular-junction
+and read-entry reconstruction remains work on the model.

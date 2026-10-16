@@ -1,32 +1,42 @@
-# PRO-seq — precision nuclear run-on sequencing
+# PRO-seq — original 2013 source scope
 
-## 1. What it is
+PRO-seq maps engaged RNA polymerases through biotin-labelled nuclear run-on products. Sequencing begins at the reverse-complement nascent-RNA 3′ boundary, which reports the active-site position.
 
-PRO-seq maps the active sites and directions of engaged RNA polymerases by allowing a short nuclear run-on with biotinylated nucleotides and sequencing the marked nascent RNA ends.
+## Sources and original supplement identity
 
-## 2. Sources and evidence
+- 🟢 [Kwak et al., Science (2013)](https://doi.org/10.1126/science.1229386), original author manuscript PMC3974810.
+- 🟢 The [author-hosted original supplementary PDF](https://www.cecerelab.com/_files/ugd/594009_926d2d49ebf94caa8e6cf707c2f4846a.pdf) prints the same paper title, Science 339:950, February 22, 2013 and defining DOI. It contains **both PRO-seq and PRO-cap**, not a separate PRO-cap-only protocol. This resolves the original Methods source through an available author copy; the PMC download route's gate remains a route-specific issue.
+- 🟢 [Mahat et al., Nature Protocols (2016)](https://doi.org/10.1038/nprot.2016.086), Table 1, is a later detailed source. Its explicit RPI-n sequence is retained as a comparator, not silently assigned to every 2013 ordered oligo.
 
-- 🟢 Kwak H et al. *Precise maps of RNA polymerase reveal how promoters direct initiation and pausing.* Science (2013). [doi:10.1126/science.1229386](https://doi.org/10.1126/science.1229386), full author manuscript PMC3974810.
-- 🟢 Mahat DB et al. *Base-pair-resolution genome-wide mapping of active RNA polymerases using precision nuclear run-on (PRO-seq).* Nature Protocols (2016). [doi:10.1038/nprot.2016.086](https://doi.org/10.1038/nprot.2016.086).
-- 🟢 The accessible Kwak et al. author manuscript (PMC3974810) establishes the run-on and 3′-end readout; its original oligo details are in a supplementary PDF that the PMC archive presents behind a download gate. The 2016 author protocol supplies the exact ordered oligos used in this modeled implementation.
-- 🟢 Mahat et al. Table 1 gives VRA3 (`GAUCGUCGGACUGUAGAACUCUGAAC-/Inverted dT/`), VRA5 (`CCUUGGCACCCGAGAAUUCCA`), RP1 (`AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA`) and RPI-n (`CAAGCAGAAGACGGCATACGAGAT NNNNNN GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA`) verbatim. VRA3 is ordered 5′ phosphorylated.
-- 🟢 The detailed protocol specifies TruSeq Small RNA-compatible single-end sequencing. RPI-n carries one six-base i7 barcode; no i5/Index 2 read is present.
-- 🟢 Biotin-NTP run-on marks the nascent RNA 3′ end and permits stringent streptavidin enrichment; RNA end processing and sequential adapter ligations precede RT and PCR.
+## Exact original adapter/RT option
 
-## 3. Molecular path
+The original supplement permits two reverse 5′ adapters with corresponding GX2/GX1 or RP1/RPI choices. The page represents its **TruSeq/RP1 option**. Sequences below use DNA T for computational pairing; the ordered adapters are RNA, printed with `rN` bases in the source.
 
-The information-bearing boundary is the run-on RNA 3′ end. Its genomic coordinate and strand identify an engaged polymerase active site.
+- Reverse 3′ RNA adapter: `5′-p-{{= ''.join('r'+b for b in pro_seq.VRA3.replace('T','U')) }}-/3InvdT/-3′`.
+- TruSeq reverse 5′ RNA option: `5′-{{= ''.join('r'+b for b in pro_seq.VRA5.replace('T','U')) }}-3′`.
+- RP1: `5′-{{= pro_seq.RP1 }}-3′`.
 
-The molecular workflow now retains the two RNA ligations separately. VRA3 is drawn as a
-5′-phosphorylated single-strand adapter whose 5′ end joins the run-on RNA 3′-OH; its
-3′ inverted dT remains visible as the ligation blocker. After biotin selection, decapping
-and 5′-end repair, VRA5's 3′-OH joins the RNA 5′ phosphate. Both covalent junctions are
-marked on the dual-adapter RNA rather than collapsing them into a generic library icon.
+🟢 Original SOM Methods print the complete modified reverse 3′ adapter, both reverse 5′ options and GX2/RP1. They name GX1/RPI PCR choices. 🟡 The displayed endpoint uses the later 2016 Table 1 RPI-n ordering family as an explicitly conditional comparison; the historical selected RPI oligo and sample assignment remain unassigned.
 
-RP1 anneals through its 21-nt 3′ suffix within VRA3 and contributes P5 as a non-annealing
-tail. The RPI-n primer family anneals through the VRA5 sequence and contributes its
-six-base i7 index plus P7. Primer landing, extension direction and amplicon boundaries are
-derived from those exact Table 1 sequences. The final construct is therefore modeled from
-the published PCR primers and adapter-derived landing sites, not as generic dual-index
-TruSeq. Read 1 sequences the reverse complement of nascent RNA beginning at its
-informative 3′ end; the separate index primer reads the six-base RPI-n barcode.
+## Molecular order
+
+The graph now preserves the original PRO-seq sequence:
+
+1. Biotin-NTP run-on, RNA extraction, base hydrolysis and desalting.
+2. First streptavidin enrichment and RNA extraction **before** reverse 3′ adapter ligation.
+3. Reverse 3′ adapter ligation, then second streptavidin enrichment.
+4. TAP and PNK processing of the RNA 5′ end.
+5. Reverse 5′ adapter ligation, then third streptavidin enrichment.
+6. RP1-primed RT, Phusion PCR and PAGE purification.
+
+RP1 anneals through its 21-base suffix within the 26-base reverse 3′ adapter. Extension copies the adapter's remaining five bases before entering the nascent RNA. Those five copied adapter bases are present in the cDNA state. Omitting them was a repository modelling error, not a source discrepancy. RNA and cDNA inserts have unknown-length role tokens, without an invented fragment length.
+
+## PRO-cap boundary and sequencing
+
+PRO-cap omits base-hydrolysis fragmentation, uses standard adapters, and applies Antarctic phosphatase before TAP while omitting PNK. Those steps must not replace the PRO-seq branch. The separate Hsp70 length-measurement experiment also uses specialized GX2short/biotin primers; those are not standard-library primers.
+
+Original SOM sequencing uses GenomeAnalyzer 2 or HiSeq 2000 and describes reverse-complementing reads to recover nascent-RNA sense orientation. Exact loaded run-primer oligos and acquired cycles are not declared here. A PCR-site sequence does not establish a physically loaded sequencing primer. The six-base index belongs to the later explicit RPI comparator; no i5 read is introduced.
+
+## Audit work remaining
+
+The missing-original-supplement claim has been withdrawn. The remaining original SOM figures/tables, separate analysis-code supplement and chemistry-relevant cited precursor methods still need bounded source/link checks. The original supplement's available title and Methods do not by themselves complete every linked-source obligation. No missing-information claim is accepted.
