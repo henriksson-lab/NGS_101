@@ -21,7 +21,7 @@ The schematic selects the standard **HS handling branch**, **SuperScript II** fr
 5. AMPure purification retains cDNA, discards nonretained supernatant/washes and elutes the recovered material.
 6. ATL adds one 3′ dA to the blunt ends. The source describes complementary single 3′-T adapter ends; the model shows that known polarity/base without assigning an exact historical adapter-core sequence.
 7. LIG ligates the separately purchased **indexed adapters**. STL stops the ligation. Two sequential AMPure cleanup rounds precede PCR.
-8. PPC anneals to adapter ends and PMM selectively enriches adapter-bearing fragments in the source's standard {{= chem.PCR_CYCLES }} PCR cycles. Polymerase does not copy past dUTP. Indexes were installed by ligation; this is not an additional generic index-PCR recipe.
+8. PPC anneals to adapter ends and PMM selectively enriches adapter-bearing fragments using the source's standard PCR program. Polymerase does not copy past dUTP. Indexes were installed by ligation; this is not an additional generic index-PCR recipe.
 9. A final AMPure purification recovers the library. Quantification, normalization and pooling follow outside the construct-changing schematic.
 
 The RNA degradation products, residual single-strand/under-adapted material and individual cleanup losses are not assigned complete physical removal. The guide says zero-adapter fragments do not hybridize to flow-cell primers and one-adapter fragments cannot form clusters; that functional exclusion is not a demonstrated physical discard at ligation or PCR. Marking the second strand quenches its amplification; it does not prove immediate destruction of the complete strand.

@@ -29,8 +29,16 @@ Krijger PHL, Geeven G, Bianchi V, Hilvering CRE, de Laat W. *4C-seq from beginni
 
 🟢 The **reading** inverse-PCR primer has the published 5′ tail `TACACGACGCTCTTCCGATCT`, then a 0–5-nt optional spacer and the viewpoint-specific sequence. The **non-reading** primer has the published 5′ tail `ACTGGAGTTCAGACGTGTGCTCTTCCGATCT`, then its viewpoint-specific sequence. Table 1 gives the second-round universal forward primer, 5′-`AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`-3′, and an indexed reverse-primer panel.
 
-🟡 Only the genomic portions of the inverse-PCR primers vary with the chosen viewpoint; their two tails and the universal second-round forward sequence are fixed in this protocol. The particular second-round reverse primer depends on the selected six-base index from Table 1.
+🟢 Table 1 contains 24 named reverse-primer rows. The later rows, numbered 13–27, include two additional bases before the six indexing bases; the caption explicitly says these two bases are not used for indexing. The diagram represents the simpler rows 1–12 family without selecting an actual sample index.
+
+🟡 The diagram uses the published DpnII/Csp6I combination as an illustrative branch: Table 3 uses it for the Sox2 and Mccc1 examples. Enzyme choice and genomic primer arms are experiment-specific. The optional spacer, locus sequence and sample index remain symbolic; their unknown lengths are not replaced by arbitrary biological sequence lengths.
+
+🟢 Section 5.2 uses two PCR stages: 16 cycles, 0.8× AMPure cleanup, then 20 cycles and QIAquick purification. Section 6 describes single-end 50-base HiSeq or 75-base MiniSeq/NextSeq reads with a six-base index. The model does not assign physically loaded sequencing primers from PCR-arm identity alone.
+
+🟢 The paper describes amplified self-ligation and undigested-fragment products (note 12, extracted lines 1226–1234). These are drawn as separate possible amplicon classes. Their exclusion from analytical metrics does not demonstrate physical removal from the library.
 
 ## 4. Open questions
 
-🔴 None affecting the generic topology. A concrete experiment must supply its primary/secondary enzyme pair, viewpoint-specific primer portions and selected index from Table 1.
+🟡 A concrete experiment must supply its enzyme pair, viewpoint-specific primer portions, optional spacer and selected index. These are unassigned model choices, not confirmed omissions from the publication.
+
+The source audit remains in progress. Appendix A identifies publisher-hosted supplementary data (the article also mentions supplementary Fig. 1); its actual attachment has not yet been inspected. The linked pipe4C and peakC repositories also remain pending original-source scope checks. The retrieved Illumina pooling chapter is the current v17 document, a later comparator; the paper does not identify a historical revision to assign. No missing-information claim is accepted from this incomplete linked-source inventory.

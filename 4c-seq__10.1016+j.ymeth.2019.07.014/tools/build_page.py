@@ -6,4 +6,4 @@ import chem
 from protocol_build import build
 
 OUT = HERE.parent / "4c-seq.html"
-build(chem.SPEC, OUT)
+build(chem, OUT)

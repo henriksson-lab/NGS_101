@@ -1,6 +1,6 @@
 {
   "dir": "truseq-stranded-mrna",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "guide",
@@ -9,17 +9,18 @@
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_a_h",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "lines 174–228, 1002–1003, 2554",
-        "finding": "Official guide states poly(A) selection, random-primed first strand, dUTP-marked second strand, A-tail/T-overhang adapter ligation and PCR suppression of dUTP strand. LS is single-index and HS dual-index."
+        "locations": "Original October 2017 v00 text 174\u2013258, 595\u2013615, 855\u20131004, 1005\u20131240, 1245\u20131677, 1775\u20131885, 1900\u20132080, 2099\u20132135 and 2490\u20132567; actual PDF annotation inventory",
+        "finding": "Fresh registered retrieval/full-bundle scraper before reading. SMM removes RNA and generates blunt-ended, dUTP-marked cDNA, including end repair/5-prime phosphorylation as shown by controls. AMPures after SMM, two rounds after ligation and after PCR were omitted by the old model. Indexed adapters ligate before selective PPC/PMM15-cycle PCR; the PCR does not install generic index tails. Selected HS handling/SuperScript II/omitted controls and compatible CD reference are local choices; actual platform/run/member unassigned."
       },
       "pass_2": {
-        "reviewer": "audit_s_z",
+        "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Official Illumina TruSeq Stranded mRNA guide 1000000040498-00 lines 174–228 and index component note lines 157–158; scraper",
-        "finding": "Poly(A) RNA is fragmented and copied; second-strand marking replaces dTTP with dUTP, blocking its amplification. dA-tailed cDNA ligates 3′-T adapters; LS single-index and HS dual-index branches are distinct and adapters are separate purchases."
-      }
+        "locations": "Fresh mandatory full-bundle scraper, actual v00 text 595\u2013615, 1002\u20131090, 1160\u20131255, 1544\u20131678, 1775\u20131885, 2099\u20132135",
+        "finding": "Independently confirms two captures/fragmentation during second elution; SMM RNA removal/dUTP/blunt cDNA, AMPure, A/T ligation/STL, two ligation AMPures, PPC 15-cycle PCR and final AMPure. Components separately list CD/UD/single families. Bounded original reading, not whole linked-scope closure."
+      },
+      "scope": "Fresh reading is bounded to listed sections. Optional supporting documents and platform-specific system guides remain separately inventoried; no whole-manual linked-scope closure."
     },
     {
       "id": "adapter_guide",
@@ -28,37 +29,37 @@
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
-        "reviewer": "audit_a_h",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "TruSeq DNA/RNA CD section lines 21090–21095; TruSeq index headings",
-        "finding": "Current official adapter guide gives adapter/index families; specific LS/HS kit revision mapping needs independent check."
+        "locations": "Original v22 CD section 21090\u201321244, complete i7/i5 templates and D701\u2013D712 / D501\u2013D508 members; PDF annotation inventory",
+        "finding": "Both complete adapter templates positively match the local conditional reference, with 8-nt index families. No specific member is selected. A later v22 template is not proof of an exact 2017 reagent revision or physical index-2 acquisition workflow. No other adapter family is excluded from this bounded CD reading."
       },
       "pass_2": {
-        "reviewer": "audit_s_z",
+        "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Official Illumina Adapter Sequences v22 TruSeq DNA/RNA CD section lines 21090–21095; scraper",
-        "finding": "Current guide prints CD index adapter family; the core Stranded mRNA guide does not fix one specific index member, so example family does not prove sample index choice."
+        "locations": "Actual v22 CD section 21090\u201321170 and 21205\u201321244 after mandatory full-bundle scraper",
+        "finding": "Full source adapter arms and 8-nt D-index families agree with the local conditional reference. Does not assign historical member/revision or physical acquisition workflow."
       },
       "discovered_from": "guide"
     },
     {
       "id": "index_pooling_guide",
       "role": "linked_material",
-      "locator": "Illumina Index Adapters Pooling Guide 1000000041074 v17, TruSeq Kits and TruSeq Single Indexes: https://support-docs.illumina.com/SHARE/IndexAdaptersPooling/Content/TruSeqPoolingGuidelines.htm",
+      "locator": "_data/sources/truseq-stranded-mrna/illumina_TruSeqPoolingGuidelines.htm.txt",
       "availability": "read",
       "relevance": "relevant",
-      "reason": "Official document 1000000040498 v00 links to pooling guide 1000000041074; current v17 is a later compatibility/pooling reference, not the historical sample index assignment. The fetcher rejected the short HTML as no article content, but official web text was read.",
+      "reason": "Registered original topic recovered with elevated network after sandbox DNS failure. Actual body is v17; the prior fetcher-rejected/unretrieved state is superseded. Its current compatibility classification does not establish historical experimental selection.",
       "pass_1": {
-        "reviewer": "audit_s_z",
+        "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "TruSeq workflow reference lines 601 and 2099–2133; official web guide v17 TruSeq Kits lines 3–14 and TruSeq Single Indexes lines 3–33",
-        "finding": "The workflow guide requires a separately ordered index component and lists RNA UD (20020591/20022371), CD (20019792), and RNA Single Set A/B (20020492/20020493). Current official pooling guide confirms these families are compatible with ligation-based TruSeq kits; RNA Single Set A/B have twelve adapters each and example pooling combinations. It does not select which reagent or specific index a study used."
+        "locations": "Actual retrieved original HTML substantive body 135\u2013259 and footer 299 onward; HTML href inventory",
+        "finding": "Full-bundle scraper rerun before reading. Current v17 body identifies RNA UD dual indexing/plates, RNA CD single-or-dual indexing/plates, and single-index tubes as compatible with ligation-based TruSeq. Body has no selected study member/platform/mask. This topic reading does not count unopened sibling topics as read."
       },
       "pass_2": {
-        "reviewer": "audit_a_h",
+        "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Defining Illumina 1000000040498 v00 text lines 595–603 (link) and 2099–2135 (purchasable components); official 1000000041074 v17 HTML TruSeq Kits lines 3–14, TruSeq Single Indexes lines 3–33, Revision History lines 40–41 and 83–85; scraper on local source bundle",
-        "finding": "Independently followed the workflow guide to the official v17 pooling guide. It lists RNA UD, CD and single index adapter families as compatible with ligation-based TruSeq kits, and specifies twelve tube adapters each for RNA Single Set A/B with AR-index pooling examples. It does not select the component or index used for any particular library. The v17 HTML is a later revision (history says v00 October 2017 and v08 corrected a Set B pooling option), so its pooling examples cannot establish the historical choice for the original workflow."
+        "locations": "Actual recovered original pooling HTML 135\u2013259 after mandatory full-bundle scraper",
+        "finding": "Compatible UD/CD/single families confirmed; body does not establish historical member assignment. Sibling/supporting documents remain separate scope."
       },
       "discovered_from": "guide"
     }
@@ -66,18 +67,149 @@
   "linked_information": {
     "result": "blocked",
     "pass_1": {
-      "reviewer": "audit_a_h",
+      "reviewer": "audit_rna_contacts_closeout",
       "date": "2026-10-16",
-      "locations": "Official mRNA workflow guide and adapter sequences reference",
-      "finding": "Followed listed index/adapters to official sequence guide; distinguishing historical LS and HS reagent kits needs second review."
+      "locations": "Original workflow v00 full PDF annotation targets plus additional resources 340\u2013390, pooling 595\u2013603, QC/normalization 1885\u20132080, index reference near 2800\u20132850; v22 CD section and actual pooling v17 topic hrefs",
+      "finding": "Fresh source-specific inventory follows source-positive CD templates and recovered v17 compatible-family body. The actual workflow annotation targets older pooling15042173 while text names1000000041074; other named qPCR, IEM/quickcard, NextSeq/MiniSeq bulletin, customer-sequence-letter and planning/system documentation remain uninspected. Placeholder checklist150XXXXX is not an identified unavailable original. Actual historical adapter/PPC member/platform selections remain model questions, not accepted absence. Old statement that pooling had only one reader is superseded; fresh expanded link scope still needs actual target reads and independent review."
     },
     "pass_2": {
       "reviewer": "audit_s_z",
       "date": "2026-10-16",
-      "locations": "Illumina Stranded mRNA guide lines 174–228/157–158 and adapter guide v22 CD section",
+      "locations": "Illumina Stranded mRNA guide lines 174\u2013228/157\u2013158 and adapter guide v22 CD section",
       "finding": "Workflow and adapter sequence documents followed with LS/HS branch distinction. The workflow explicitly cites separate Index Adapters Pooling Guide 1000000041074, now read once at official v17 web pages; it confirms compatible RNA UD/CD/single families but not a selected component/member. Independent second reading of that linked guide remains pending."
-    }
+    },
+    "pass_2_scope_note": "Historical bounded second pass retained verbatim. Its statement that pooling had only one reader is stale and is not treated as current gate status. Fresh expanded original annotation inventory has not received complete independent target inspection."
   },
   "missing_claims": [],
-  "conclusion": "Guide resolves LS versus HS indexing and names purchasable RNA UD/CD/single adapter components. Official pooling guide now has two independent readings of compatibility and examples, but no source fixes a particular sample index or historical reagent choice. No missing claim accepted."
+  "conclusion": "Local workflow corrected from positive originals and shared source-selecting recipes removed. Review remains in progress for actual identified linked targets and fresh independent scope review; no missing-information claim accepted.",
+  "history_before_primary_reaudit_2026_10_16": {
+    "dir": "truseq-stranded-mrna",
+    "status": "blocked",
+    "source_checklist": [
+      {
+        "id": "guide",
+        "role": "defining",
+        "locator": "_data/sources/truseq-stranded-mrna/illumina_truseq-stranded-mrna-workflow-reference-1000000040498-00.pdf.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "audit_a_h",
+          "date": "2026-10-16",
+          "locations": "lines 174\u2013228, 1002\u20131003, 2554",
+          "finding": "Official guide states poly(A) selection, random-primed first strand, dUTP-marked second strand, A-tail/T-overhang adapter ligation and PCR suppression of dUTP strand. LS is single-index and HS dual-index."
+        },
+        "pass_2": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Official Illumina TruSeq Stranded mRNA guide 1000000040498-00 lines 174\u2013228 and index component note lines 157\u2013158; scraper",
+          "finding": "Poly(A) RNA is fragmented and copied; second-strand marking replaces dTTP with dUTP, blocking its amplification. dA-tailed cDNA ligates 3\u2032-T adapters; LS single-index and HS dual-index branches are distinct and adapters are separate purchases."
+        }
+      },
+      {
+        "id": "adapter_guide",
+        "role": "linked_material",
+        "locator": "_data/sources/truseq-stranded-mrna/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt",
+        "availability": "read",
+        "relevance": "relevant",
+        "pass_1": {
+          "reviewer": "audit_a_h",
+          "date": "2026-10-16",
+          "locations": "TruSeq DNA/RNA CD section lines 21090\u201321095; TruSeq index headings",
+          "finding": "Current official adapter guide gives adapter/index families; specific LS/HS kit revision mapping needs independent check."
+        },
+        "pass_2": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "Official Illumina Adapter Sequences v22 TruSeq DNA/RNA CD section lines 21090\u201321095; scraper",
+          "finding": "Current guide prints CD index adapter family; the core Stranded mRNA guide does not fix one specific index member, so example family does not prove sample index choice."
+        },
+        "discovered_from": "guide"
+      },
+      {
+        "id": "index_pooling_guide",
+        "role": "linked_material",
+        "locator": "Illumina Index Adapters Pooling Guide 1000000041074 v17, TruSeq Kits and TruSeq Single Indexes: https://support-docs.illumina.com/SHARE/IndexAdaptersPooling/Content/TruSeqPoolingGuidelines.htm",
+        "availability": "read",
+        "relevance": "relevant",
+        "reason": "Official document 1000000040498 v00 links to pooling guide 1000000041074; current v17 is a later compatibility/pooling reference, not the historical sample index assignment. The fetcher rejected the short HTML as no article content, but official web text was read.",
+        "pass_1": {
+          "reviewer": "audit_s_z",
+          "date": "2026-10-16",
+          "locations": "TruSeq workflow reference lines 601 and 2099\u20132133; official web guide v17 TruSeq Kits lines 3\u201314 and TruSeq Single Indexes lines 3\u201333",
+          "finding": "The workflow guide requires a separately ordered index component and lists RNA UD (20020591/20022371), CD (20019792), and RNA Single Set A/B (20020492/20020493). Current official pooling guide confirms these families are compatible with ligation-based TruSeq kits; RNA Single Set A/B have twelve adapters each and example pooling combinations. It does not select which reagent or specific index a study used."
+        },
+        "pass_2": {
+          "reviewer": "audit_a_h",
+          "date": "2026-10-16",
+          "locations": "Defining Illumina 1000000040498 v00 text lines 595\u2013603 (link) and 2099\u20132135 (purchasable components); official 1000000041074 v17 HTML TruSeq Kits lines 3\u201314, TruSeq Single Indexes lines 3\u201333, Revision History lines 40\u201341 and 83\u201385; scraper on local source bundle",
+          "finding": "Independently followed the workflow guide to the official v17 pooling guide. It lists RNA UD, CD and single index adapter families as compatible with ligation-based TruSeq kits, and specifies twelve tube adapters each for RNA Single Set A/B with AR-index pooling examples. It does not select the component or index used for any particular library. The v17 HTML is a later revision (history says v00 October 2017 and v08 corrected a Set B pooling option), so its pooling examples cannot establish the historical choice for the original workflow."
+        },
+        "discovered_from": "guide"
+      }
+    ],
+    "linked_information": {
+      "result": "blocked",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official mRNA workflow guide and adapter sequences reference",
+        "finding": "Followed listed index/adapters to official sequence guide; distinguishing historical LS and HS reagent kits needs second review."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Illumina Stranded mRNA guide lines 174\u2013228/157\u2013158 and adapter guide v22 CD section",
+        "finding": "Workflow and adapter sequence documents followed with LS/HS branch distinction. The workflow explicitly cites separate Index Adapters Pooling Guide 1000000041074, now read once at official v17 web pages; it confirms compatible RNA UD/CD/single families but not a selected component/member. Independent second reading of that linked guide remains pending."
+      }
+    },
+    "missing_claims": [],
+    "conclusion": "Guide resolves LS versus HS indexing and names purchasable RNA UD/CD/single adapter components. Official pooling guide now has two independent readings of compatibility and examples, but no source fixes a particular sample index or historical reagent choice. No missing claim accepted."
+  },
+  "pending_linked_targets": [
+    {
+      "source": "guide",
+      "locator": "http://support.illumina.com/downloads/truseq-library-prep-pooling-guide-15042173.html",
+      "question": "Actual pooling annotation target differs from current document number named in workflow text; retrieve/establish version identity before equating guides."
+    },
+    {
+      "source": "guide",
+      "locator": "http://support.illumina.com/downloads/sequencing_library_qpcr_quantification_guide_11322363.html",
+      "question": "Named qPCR quantification method outside current construct-changing schematic; actual body not yet read."
+    },
+    {
+      "source": "guide",
+      "locator": "http://support.illumina.com/downloads/illumina_experiment_manager_user_guide_15031335.html; http://support.illumina.com/downloads/iem_truseq_dna_rna_chip_quick_reference_card_15037152.html",
+      "question": "Planning/sample-sheet scope requires actual original inspection; no inherited acquisition assignment."
+    },
+    {
+      "source": "guide",
+      "locator": "https://support.illumina.com/downloads/illumina-customer-sequence-letter.html",
+      "question": "Actual linked sequence-letter original may bear on adapter/primer declarations; not yet opened."
+    },
+    {
+      "source": "guide",
+      "locator": "NextSeq and MiniSeq pooling bulletin named at workflow text 601; platform-dependent Dilute and Denature/system guides at 1990\u20132080",
+      "question": "Named support scope remains pending without selected platform; no blanket title-based exclusion."
+    },
+    {
+      "source": "guide",
+      "locator": "http://support.illumina.com/custom-protocol-selector.html; https://support.illumina.com/downloads/local-run-manager-software-guide.html; https://help.basespace.illumina.com/",
+      "question": "Actual planning/analysis targets not inspected; no target bodies excluded from link titles alone."
+    }
+  ],
+  "source_identity_questions": [
+    "The original checklist annotation literally contains150XXXXX; no completed checklist identity is inferred.",
+    "A desired historical kit revision/member/PPC sequence is not itself an identified unavailable disclosure document. Actual dated v00 and later source-positive v22/v17 originals remain distinct."
+  ],
+  "model_questions": [
+    "Actual historical adapter revision/member and ordered PPC strands remain unassigned. The page explicitly selects a compatible conditional CD reference, not a universal LS/HS reagent identity.",
+    "Sequencing platform, acquired cycles/single-versus-paired acquisition and physical index-2 mechanism are unassigned; canonical adapter sites do not establish acquisition.",
+    "Biological insert length and individual degradation/cleanup/background recovery are not assigned."
+  ],
+  "current_model_independent_check": {
+    "reviewer": "root",
+    "date": "2026-10-16",
+    "locations": "Full current truseq-stranded-mrna/tools/chem.py and bounded original sections listed in guide/adapter/pooling source checks",
+    "finding": "Local source order, conditional CD reference, unknown physical index-2/cycles and variable biological insert agree with bounded originals. This is model validation, not fresh complete source/link/absence closure."
+  }
 }

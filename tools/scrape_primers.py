@@ -621,6 +621,10 @@ def _bracket(m: re.Match) -> str | None:
     """What a [placeholder] stands for: its bases, N x its length, or "…"; None if it is
     not a placeholder ([1-32], [5Phos], a citation)."""
     body = m.group(1).replace("\n", " ").strip()
+    # A biotinylated thymidine contributes one base, including the notation in
+    # published BLESS tables. Keep the original modification in the written hit.
+    if body == "BtndT":
+        return "T"
     if re.fullmatch(f"[{BASE}]{{3,}}", body) and not canonical(body):
         return body                                 # [NNNNNN]
     h = re.fullmatch(r"(?:poly-?)?d?\(?([ACGTUN])\)?(\d{1,3})", body)

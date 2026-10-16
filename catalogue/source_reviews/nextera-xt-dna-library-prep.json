@@ -59,7 +59,8 @@
         "date": "2026-10-16",
         "locations": "Original Illumina Nextera XT Tips and Troubleshooting PDF pp. 4–6, browser lines 149–200; source-bundle oligo scraper run before reading",
         "finding": "Independently verified that post-PCR-cleanup library is double-stranded and can be the drawn final library; optional bead normalization yields a single-stranded eluted product. The note explains adapter-arm completion through PCR but does not provide a separate loaded-transposome strand inventory."
-      }
+      },
+      "local_original": "_data/sources/nextera-xt-dna-library-prep/illumina_nextera-xt-troubleshooting-technical-note.pdf"
     },
     {
       "id": "index_pooling",
@@ -99,7 +100,8 @@
         "date": "2026-10-16",
         "locations": "Original Illumina Nextera Library Validation technical note 770-2013-003 PDF pp. 1–2, browser lines 0–30, 51–63 and 100–143; source-bundle scraper run first",
         "finding": "Independently verified that XT uses 1 ng input and that the note discusses double-stranded final libraries before normalization, with size/quantification guidance. It contains no loaded-transposome oligo table."
-      }
+      },
+      "local_original": "_data/sources/nextera-xt-dna-library-prep/illumina_technote_nextera_library_validation.pdf"
     },
     {
       "id": "qpcr_quantification",
@@ -120,7 +122,8 @@
         "date": "2026-10-16",
         "locations": "Original Illumina Sequencing Library qPCR Quantification Guide 11322363 Rev C PDF pp. 3 and 6, browser lines 49–64 and 83–111; source-bundle scraper run first",
         "finding": "Independently verified the two printed P5/P7 qPCR primers are used to quantify already prepared sequencing libraries. They are assay primers and do not define the adapter installed in Nextera XT library construction."
-      }
+      },
+      "local_original": "_data/sources/nextera-xt-dna-library-prep/illumina_sequencing-library-qpcr-quantification-guide-11322363-c.pdf"
     }
   ],
   "linked_information": {
@@ -148,7 +151,7 @@
     {
       "claim": "Loaded solution-transposome oligo inventory",
       "disposition": "blocked",
-      "evidence": "The original XT product guide and the linked 2015 troubleshooting and 2014 library-validation notes describe partial-adapter tagmentation but did not print an assembled reagent inventory in the located sections. Those linked notes have only one independent original-source reading so far; absence is not accepted."
+      "evidence": "Original guide and linked technical notes have located independent readings; full linked-source disposition and loaded-reagent model assembly remain unresolved. The historical second-read-pending wording is superseded by the existing pass_2 records. No source absence is accepted."
     },
     {
       "claim": "Exact i5/i7 bases for the illustrated generic XT v2 library",
@@ -156,5 +159,15 @@
       "evidence": "Illumina Adapter Sequences v22 lists N7xx and S5xx index families, and the XT guide and Index Adapters Pooling Guide list compatible combinations. The sample's purchased kit/well is run-specific, not an unknown protocol constant."
     }
   ],
-  "conclusion": "Official guides define tagmentation and index families. The newly followed troubleshooting, pooling, validation and QC-primer documents have one located reading each; independent second readings are pending. The loaded solution-transposome oligo inventory has not been accepted as confirmed missing."
+  "conclusion": "The registered technical-note/QC originals are now captured locally; the existing checklist already records bounded independent readings of all six rows. The earlier wording that four linked sources still lack second reads is stale. Full linked-source scope and the recorded model issues remain unresolved; no transposome-inventory absence is accepted.",
+  "wrapup_2026_10_16": {
+    "reviewer": "root",
+    "source_capture": "Already registered official troubleshooting, library-validation and qPCR originals retrieved and validated locally. Pooling v13 route returned HTTP404; its earlier browser original readings remain recorded. Downloading supplies no additional reading pass.",
+    "located_reading": "Mandatory bundle oligo scraper run. Fresh original v07 guide99–120,430–595,850–1320,1350–1390,1620–1720 and v22 adapter245–320,13300–13390,13505–13555 inspected: 8-base XT v2 versus 10-base UD families, initial72°C incubation,12-cycle PCR, post-PCR IPB cleanup and separately selected normalization are source-positive. This was a bounded read, not a full linked-scope review.",
+    "deferred_model_findings": [
+      "Current endpoint recipe omits the post-PCR cleanup and labels same-end candidates as physically discarded without an identified separation step. These model issues were identified but no Nextera refactor was started before the user stopped the audit.",
+      "The current tagged duplex and fixed insert length derive from shared schematic constructors. Detailed loaded-reagent/end topology remains unassembled; proprietary composition is not established merely by a document footer."
+    ],
+    "scope": "User cleared the audit goal. No source absence or whole-protocol review completion accepted; no further retrieval or refactor started."
+  }
 }

@@ -1,6 +1,6 @@
 {
   "dir": "i-bless__10.1038+s42003-018-0165-9",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "paper",
@@ -19,7 +19,23 @@
         "date": "2026-10-15",
         "locations": "article.xml.txt lines 71, 131 and 135",
         "finding": "Original article describes proximal biotinylated and distal adapters and says terminal libraries used ThruPLEX DNA-seq Kit; no index tube is identified there."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Actual original Methods131,135,139; actual data/code/ref12/15/16 inventory; mandatory full bundle scraper38 hits/3 files, refreshed46 hits/5 files",
+            "finding": "Two sonications separated by Zymoclean recovery; capture, distal repair/ligation, I-SceI, insert PCR, purification, XhoI; final ThruPLEX and2×75. Tag selection is computational. Existing graph omitted insert PCR/recovery and inherited generic kit geometry."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Fresh original131,135,139",
+            "finding": "Independent confirmation of two sonications, insert PCR/purification before XhoI,2×75 and computational tag selection."
+          }
+        }
+      ]
     },
     {
       "id": "supplement",
@@ -38,7 +54,23 @@
         "date": "2026-10-15",
         "locations": "supplement.pdf.txt lines 217-239, Supplementary Table 4",
         "finding": "Table prints phosphorylated proximal and distal adapter oligos, internal biotin modification and PCR primer entries."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Entire extracted supplement including captions/tables; actual Table4 text217–239",
+            "finding": "Four whole oligos and modifications retained as molecular graph inputs. Remaining visual figure scope is not excluded from extracted captions alone."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Actual original Table4 217–239",
+            "finding": "Independently verified both phosphorylated hairpins, internal proximal biotin-dT and both insert-PCR primers."
+          }
+        }
+      ]
     },
     {
       "id": "thruplex2016",
@@ -57,12 +89,28 @@
         "date": "2026-10-15",
         "locations": "QAM-108-003 2016 kit guide text lines 1432-1441, 1764 and 1805",
         "finding": "Guide explicitly says index reagents contain 8-nt Sanger or TruSeq HT indexes; selected tube/well is not known from i-BLESS article."
-      }
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Actual original294–327,608–680,1420–1465 and1710–1775",
+            "finding": "Dated guide defines blocked5′ stem-loop blunt ligation, genomic3′ nick and extension/cleavage/index amplification; both single/dual8nt reagent options. IEM TruSeqLT example reads first6 of8 bases; no study index cycle/configuration inferred."
+          },
+          "pass_2": {
+            "reviewer": "root",
+            "date": "2026-10-16",
+            "locations": "Actual294–327,1695–1775 and single-index context",
+            "finding": "Independent source read confirms blocked5′ stem-loops,3′ nick, extension/cleavage/PCR and both single/dual options. Guide-to-study revision/product assignment remains open."
+          }
+        }
+      ]
     },
     {
       "id": "bless",
       "role": "predecessor",
-      "locator": "_data/sources/bless__10.1038+nmeth.2408/ (see BLESS original article and supplement)",
+      "locator": "_data/sources/bless__10.1038+nmeth.2408/article.xml.txt and nmeth.2408_supp_NIHMS449608-supplement-6.xls.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -77,11 +125,78 @@
         "date": "2026-10-15",
         "locations": "BLESS PMC3651036 JATS lines 131-139; original supplement-5 primer table",
         "finding": "BLESS predecessor defines related proximal-linker chemistry. i-BLESS specific adapter sequences must come from its own Supplementary Table 4."
+      },
+      "additional_checks": [
+        {
+          "pass_1": {
+            "reviewer": "audit_nanocut_closeout",
+            "date": "2026-10-16",
+            "locations": "Original Methods131–141 and whole actual Table5 workbook sheet lines1–10, after fresh92-hit full bundle scraper",
+            "finding": "L1/L3/P1/P3 agree with own i-BLESS table; original Table5 is supplement-6, not old ledger supplement-5 (which is genomic intervals). Predecessor HaeIII/nuclei/TruSeq recipe not assigned to i-BLESS. Actual supporting detailed protocol breakome.eu remains pending/inaccessible in registered route."
+          }
+        }
+      ]
+    },
+    {
+      "id": "mitra2015",
+      "role": "predecessor",
+      "locator": "_data/sources/i-bless__10.1038+s42003-018-0165-9/PMC4393298_PMC4393298.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual original84–112,320 and383–457, plus cited historical-document URL inventory519/523/565 after refreshed whole bundle scraper",
+        "finding": "Low-diversity cluster-template/acquisition scope. Distinct HiSeq2000/TruSeq NCS example is not i-BLESS ThruPLEX reagent identity. Actual InstantSeq and three Illumina technical document children remain open."
+      }
+    },
+    {
+      "id": "overhauser1992",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1385/0-89603-229-9:129",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual referring original CR15 and registered retrieval manifest",
+        "finding": "Identified encapsulation predecessor; registered route found publisher page but no retrieved full original. Availability check only; no source-content reading or absence acceptance."
+      },
+      "reason": "Registered route found publisher page but no open full original."
+    },
+    {
+      "id": "bless_supporting_protocol",
+      "role": "linked_material",
+      "locator": "http://www.breakome.eu",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "bless",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual BLESS Methods131 named supporting-page URL; registered fetch manifest",
+        "finding": "Actual detailed-protocol target; registered route DNS failure. No scientific-content reading or global absence inference."
+      },
+      "reason": "Registered route failed DNS resolution for the actual named supporting URL."
+    },
+    {
+      "id": "later_vendor_faq",
+      "role": "vendor",
+      "locator": "_data/sources/i-bless__10.1038+s42003-018-0165-9/what-are-the-index-adapter-sequences-after-preparation-using-thruplex-dna-libraries.html",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_nanocut_closeout",
+        "date": "2026-10-16",
+        "locations": "Actual landing page title/date2023-09-28 and extracted navigation/body inventory",
+        "finding": "Prior note claimed later final adapter architecture checked, but current inspected extraction establishes title/date/navigation only. Substantive article content and source-child identity remain pending; not evidence for historical2018 geometry."
       }
     }
   ],
   "linked_information": {
-    "result": "enumerated",
+    "result": "blocked",
     "pass_1": {
       "reviewer": "audit_a_h",
       "date": "2026-10-15",
@@ -93,14 +208,79 @@
       "date": "2026-10-15",
       "locations": "i-BLESS article Methods 131,135; Table 4; 2016 ThruPLEX guide; BLESS original",
       "finding": "Followed named ThruPLEX kit and BLESS predecessor. Original 2016 guide is local, but study-specific index tube is not stated."
-    }
+    },
+    "additional_checks": [
+      {
+        "pass_1": {
+          "reviewer": "audit_nanocut_closeout",
+          "date": "2026-10-16",
+          "locations": "Actual original link/ref inventory, BLESS Methods/Table5, guide and Mitra Methods",
+          "finding": "Found genuine previously omitted linked originals and corrected workbook identity. Scope remains open; prior enumerated status was not a full original-source gate."
+        }
+      }
+    ]
   },
-  "missing_claims": [
+  "missing_claims": [],
+  "conclusion": "Bounded source-local correction complete. Original i-BLESS reaction order/whole oligos and conditional ThruPLEX mechanism checked; actual linked originals and unassembled study choices keep review in_progress. No missing-information claim accepted.",
+  "history": [
     {
-      "claim": "Selected ThruPLEX index tube and complete final kit adapter structure",
-      "disposition": "blocked",
-      "evidence": "Original i-BLESS Methods and Table 4 give BLESS tags; 2016 ThruPLEX guide gives possible index architecture but no study sample choice. Independent second check pending."
+      "date": "2026-10-16",
+      "reason": "Fresh original-source audit and protocol-local chemistry correction; selected study indexes are model assignments, not invented unavailable documents.",
+      "previous_status": "blocked",
+      "previous_missing_claims": [
+        {
+          "claim": "Selected ThruPLEX index tube and complete final kit adapter structure",
+          "disposition": "blocked",
+          "evidence": "Original i-BLESS Methods and Table 4 give BLESS tags; 2016 ThruPLEX guide gives possible index architecture but no study sample choice. Independent second check pending."
+        }
+      ],
+      "previous_conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
     }
   ],
-  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+  "open_model_questions": [
+    "Study-specific ThruPLEX product/revision/index member and index cycle mask remain unassigned. These are values to resolve, not identified missing disclosure documents.",
+    "Exact ligation/PCR intermediate assembly, fragment end transformations, kit geometry and binding coordinates remain unassembled; no generic dA/Y endpoint substituted.",
+    "Exact insert polymerase/cleanup implementation and removed fraction composition/fate remain unassigned."
+  ],
+  "linked_scope_queue": [
+    {
+      "original": "Overhauser1992 encapsulation original",
+      "from": "Actual i-BLESS CR15",
+      "status": "Registered no-open-full-text result; actual original remains unread."
+    },
+    {
+      "original": "http://www.breakome.eu detailed BLESS protocol; breakome.utmb.edu/software.html and breakome.eu/software.html",
+      "from": "Actual BLESS Methods and i-BLESS primary analysis/code links",
+      "status": "Detailed-protocol root DNS failure; software children not fully inspected. No availability/irrelevance exclusion accepted."
+    },
+    {
+      "original": "Mitra2015 InstantSeq supporting page and historical Illumina theory-of-operation, low-diversity and PhiX technical notes",
+      "from": "Actual Mitra320/519/523/565",
+      "status": "Original Methods read; linked child scope remains open."
+    },
+    {
+      "original": "SRP125409 study metadata and remaining supplement visual/vendor-linked scope",
+      "from": "Actual i-BLESS data availability, supplement and guide",
+      "status": "Not newly retrieved/read in bounded checkpoint. No raw data needed; no source-complete or absence claim accepted."
+    }
+  ],
+  "model_corrections": [
+    "Removed dsb_capture endpoint/PCR recipe inheritance and generic TruSeq dA/Y final assembly.",
+    "Restored first sonication, DNA recovery, second sonication, insert PCR and PCR cleanup before XhoI.",
+    "All four source-known oligos are local molecular inputs; exact intermediate/PCR geometry remains explicitly unassembled.",
+    "Dated ThruPLEX stem-loop mechanism is conditional; no universal i7-only endpoint/index cycles. Declared positive source2×75 genomic reads only.",
+    "Withdrawn prior broad absence wording and unsupported later-FAQ architecture reading claim; source and model questions remain distinct."
+  ],
+  "verification_checkpoint": {
+    "source_tests": "7 passed",
+    "build_bytes": 78290,
+    "pairing_problems": 0,
+    "chemistry": "16 steps; 18 unresolved claims, 0 contradictory",
+    "source_guard": "4 checked, 3 pass; proximal hairpin has a false negative at source internal [BtndT] notation, despite direct original whole-sequence/modification test passing. Authentic supplement cache provenance repaired from identical-MD5 original Springer URL; no source content changed."
+  },
+  "wrapup_verification_2026_10_16": {
+    "reviewer": "root",
+    "scope": "Fresh original article Methods131/135/139, SupplementaryTable4 text217–239, and ThruPLEX2016 Principle294–327/index1695–1775 read after mandatory scraper; confirms two sonications, recovery, insertPCR/purification beforeXhoI, source2×75, conditional blocked5′stemloop reference and single/dual reagent options. No independent Mitra or entire linked-scope reading claimed.",
+    "source_guard": "All four source-exact oligos pass after neutral scraper normalization of published [BtndT] as one thymidine; original written notation is preserved. Shared regression added; no protocol exception or source-text alteration."
+  }
 }

@@ -989,6 +989,10 @@ check("--find: internal biotin-dT counts as its T base",
       [(strand, exact) for _, strand, exact, _ in spx.find(
           "A1\tGATCGAGCTCGAGAA/iBiodT/T\n", "GATCGAGCTCGAGAATT", detail=True)],
       [("+", "exact")])
+check("--find: bracketed biotin-dT preserves its base and original notation",
+      [(strand, exact, written) for _, strand, exact, written in spx.find(
+          "A1\tGATCGAGCTCGAGAA[BtndT]T\n", "GATCGAGCTCGAGAATT", detail=True)],
+      [("+", "exact", "GATCGAGCTCGAGAA[BtndT]T")])
 check("--find: adjacent (N)10(T)30 shorthands stay one oligo",
       spx.find("E3V6NEXT\tACACTCTTTCCCTACACGACGCTCTTCCGATCT[BC6](N)10(T)30VN\n",
                "ACACTCTTTCCCTACACGACGCTCTTCCGATCT" + "N" * 16 + "T" * 30 + "VN"),
