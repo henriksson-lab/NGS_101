@@ -11,6 +11,7 @@ import contextlib
 import copy
 import gzip
 import io
+import os
 import sys
 import tempfile
 import zipfile
@@ -39,8 +40,22 @@ from source_oligo_check import (_exact_hit, check_graph, declared_locators,
 from selftest_source_oligos import graph_module_paths  # noqa: E402
 from protocol_graph import MaterialKind, ProtocolGraph  # noqa: E402
 from chemdraw import Scene, Segment  # noqa: E402
+from storage import data_root, legacy_reference, sources_root  # noqa: E402
 
 check = Check()
+check.section("External source storage")
+with patch.dict(os.environ):
+    os.environ.pop("CHEM_DATA", None)
+    check("fetcher defaults to the external article collection",
+          base.data_dir(), Path("/husky/henriksson/NGS101_papers/sources"))
+    check("legacy references use external storage without repository fallback",
+          legacy_reference("pdf/paper.pdf"), data_root() / "legacy/pdf/paper.pdf")
+with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"CHEM_DATA": folder}):
+    check("an explicit storage override applies to fetchers and readers together",
+          (base.data_dir(), sources_root(), legacy_reference("ref/paper.pdf")),
+          (Path(folder) / "sources", Path(folder) / "sources", Path(folder) / "legacy/ref/paper.pdf"))
+check.raises("a reference path cannot escape the selected external root",
+             lambda: legacy_reference("../paper.pdf"))
 check("a graph owned by a page builder enters the source transcription guard",
       [path.name for path in graph_module_paths(
           ROOT / "quartz-seq__10.1186+gb-2013-14-4-r31")],

@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/tgirt-seq__10.1261+rna.054809.115/PMC4691826_PMC4691826.xml.txt:59–77,175–199; original article PDF",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tgirt-seq__10.1261+rna.054809.115/PMC4691826_PMC4691826.xml.txt:59–77,175–199; original article PDF",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -38,7 +38,7 @@
     {
       "id": "original_figure_s1",
       "role": "supplement",
-      "locator": "_data/sources/tgirt-seq__10.1261+rna.054809.115/PMC4691826_supp_supp_054809.115_FigS1.eps; .eps.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tgirt-seq__10.1261+rna.054809.115/PMC4691826_supp_supp_054809.115_FigS1.eps; .eps.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -57,7 +57,7 @@
     {
       "id": "original_figures_s2_s9",
       "role": "supplement",
-      "locator": "_data/sources/tgirt-seq__10.1261+rna.054809.115/PMC4691826_supp_supp_054809.115_FigS2.eps through FigS9.eps; their text twins",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tgirt-seq__10.1261+rna.054809.115/PMC4691826_supp_supp_054809.115_FigS2.eps through FigS9.eps; their text twins",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -77,7 +77,7 @@
     {
       "id": "original_data_workbook",
       "role": "supplement",
-      "locator": "_data/sources/tgirt-seq__10.1261+rna.054809.115/PMC4691826_supp_supp_054809.115_SuppDataFile.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tgirt-seq__10.1261+rna.054809.115/PMC4691826_supp_supp_054809.115_SuppDataFile.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -146,7 +146,7 @@
     {
       "id": "later2021_protocol",
       "role": "linked_material",
-      "locator": "_data/sources/doi_10.21769+BioProtoc.4239/BioProtoc.4239_PMC8678547.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.21769+BioProtoc.4239/BioProtoc.4239_PMC8678547.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -317,22 +317,22 @@
     },
     {
       "id": "mohr2013_predecessor",
-      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/PMC3683930_PMC3683930.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dm-trna-seq__10.1038+nmeth.3478/PMC3683930_PMC3683930.xml.txt",
       "next_action": "Bounded original identity/switching reads exist in DM review; reconcile Qin-specific source scope and actual supplemental target before closing all links."
     },
     {
       "id": "katibah2014_predecessor",
-      "locator": "_data/sources/doi_10.1073+pnas.1412842111/pnas.1412842111_PMC4143023.html.txt; pnas.201412842SI.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1073+pnas.1412842111/pnas.1412842111_PMC4143023.html.txt; pnas.201412842SI.pdf",
       "next_action": "Actual main and prior bounded reads exist, but SI recovery is still pending after source-specific publisher403/PMC gate attempts. Keep circularization comparison separate from Qin ligation route."
     },
     {
       "id": "shen2015_predecessor",
-      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/cdc_31393_DS2.docx.txt:72–75",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dm-trna-seq__10.1038+nmeth.3478/cdc_31393_DS2.docx.txt:72–75",
       "next_action": "Positive original SI and two bounded reads exist in DM ledger; reconcile linked source scope without importing TeI4c/circle recipe."
     },
     {
       "id": "zheng2015_predecessor",
-      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/nmeth.3478_PMC4624326.xml.txt:90",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dm-trna-seq__10.1038+nmeth.3478/nmeth.3478_PMC4624326.xml.txt:90",
       "next_action": "Positive original and independent source checks exist in DM ledger; source boundary is distinct small-RNA/CircLigase method, not Qin2016 library assembly."
     }
   ],

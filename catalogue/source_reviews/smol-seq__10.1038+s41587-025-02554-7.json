@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/smol-seq__10.1038+s41587-025-02554-7/s41587-025-02554-7_PMC12807852.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smol-seq__10.1038+s41587-025-02554-7/s41587-025-02554-7_PMC12807852.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "oligo_table",
       "role": "supplement",
-      "locator": "_data/sources/smol-seq__10.1038+s41587-025-02554-7/s41587-025-02554-7_supp_41587_2025_2554_MOESM2_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smol-seq__10.1038+s41587-025-02554-7/s41587-025-02554-7_supp_41587_2025_2554_MOESM2_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_info",
       "role": "supplement",
-      "locator": "_data/sources/smol-seq__10.1038+s41587-025-02554-7/s41587-025-02554-7_supp_41587_2025_2554_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smol-seq__10.1038+s41587-025-02554-7/s41587-025-02554-7_supp_41587_2025_2554_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Three-page Nature Portfolio reporting summary contains statistics, software/data, sample design, organisms and methods checkboxes, but no LBO/SRO sequences, adapter geometry or library assembly details.",

@@ -5,7 +5,7 @@
     {
       "id": "kishi_2022_article",
       "role": "defining",
-      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_PMC9636025.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_PMC9636025.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "moesm1_supplement",
       "role": "supplement",
-      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "moesm2_reporting_summary",
       "role": "supplement",
-      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM2_ESM.pdf, four image-only pages",
+      "locator": "/husky/henriksson/NGS101_papers/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM2_ESM.pdf, four image-only pages",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "moesm3_peer_review",
       "role": "supplement",
-      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -83,7 +83,7 @@
     {
       "id": "moesm4_fish_probes",
       "role": "supplement",
-      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -103,7 +103,7 @@
     {
       "id": "moesm5_results",
       "role": "supplement",
-      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM5_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM5_ESM.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -123,7 +123,7 @@
     {
       "id": "moesm6_results",
       "role": "supplement",
-      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM6_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM6_ESM.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -143,7 +143,7 @@
     {
       "id": "moesm7_results",
       "role": "supplement",
-      "locator": "_data/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM7_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/light-seq__10.1038+s41592-022-01604-1/s41592-022-01604-1_supp_41592_2022_1604_MOESM7_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -163,7 +163,7 @@
     {
       "id": "author_protocolsio",
       "role": "linked_material",
-      "locator": "doi:10.17504/protocols.io.x54v9jno4g3e/v1; _data/sources/light-seq__10.1038+s41592-022-01604-1/protocolsio_light-seq-x54v9jno4g3e.pdf.txt",
+      "locator": "doi:10.17504/protocols.io.x54v9jno4g3e/v1; /husky/henriksson/NGS101_papers/sources/light-seq__10.1038+s41592-022-01604-1/protocolsio_light-seq-x54v9jno4g3e.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

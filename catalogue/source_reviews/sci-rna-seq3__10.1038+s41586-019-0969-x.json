@@ -5,13 +5,13 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_PMC6434952.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_PMC6434952.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_PMC6434952.xml.txt lines 42–52",
+        "locations": "/husky/henriksson/NGS101_papers/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_PMC6434952.xml.txt lines 42–52",
         "finding": "Methods print the /5Phos/ oligo-dT RT architecture, /dideoxyU/ ligation adapter architecture, and indexed P5/P7 amplification primers."
       },
       "pass_2": {
@@ -24,13 +24,13 @@
     {
       "id": "primer_table",
       "role": "supplement",
-      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_41586_2019_969_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_41586_2019_969_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_41586_2019_969_MOESM3_ESM.xlsx.txt sheet Table S11 from line 226564",
+        "locations": "/husky/henriksson/NGS101_papers/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_41586_2019_969_MOESM3_ESM.xlsx.txt sheet Table S11 from line 226564",
         "finding": "Table S11 explicitly contains RT, ligation and PCR primer sequences, starting with named /5Phos/ RT variants. Thus the family is published; actual per-well membership still needs comparison with methods/data."
       },
       "pass_2": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_note",
       "role": "supplement",
-      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_supp_NIHMS1518381-supplement-Supplement_note_1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_supp_NIHMS1518381-supplement-Supplement_note_1.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "si_guide",
       "role": "supplement",
-      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_supp_NIHMS1518381-supplement-SI_Guide.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-rna-seq__10.1126+science.aam8940/s41586-019-0969-x_supp_NIHMS1518381-supplement-SI_Guide.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -84,7 +84,7 @@
     {
       "id": "predecessor_scirna",
       "role": "predecessor",
-      "locator": "_data/sources/sci-rna-seq__10.1126+science.aam8940/science.aam8940_PMC5894354.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-rna-seq__10.1126+science.aam8940/science.aam8940_PMC5894354.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -115,7 +115,7 @@
     {
       "id": "publisher_moesm1",
       "role": "supplement",
-      "locator": "_data/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/s41586-019-0969-x_41586_2019_969_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/s41586-019-0969-x_41586_2019_969_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Supplementary Note 1 concerns Monocle limb-bud trajectory analysis, not library chemistry or index assignment.",
@@ -135,7 +135,7 @@
     {
       "id": "publisher_moesm2",
       "role": "supplement",
-      "locator": "_data/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/s41586-019-0969-x_41586_2019_969_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/s41586-019-0969-x_41586_2019_969_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -155,7 +155,7 @@
       "id": "author_primer_plate",
       "role": "linked_material",
       "discovered_from": "publisher_moesm2",
-      "locator": "_data/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/gh_sci3_primer_sequences_plate.xls.txt; author sci-RNA-seq3_pipeline repository attachment",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/gh_sci3_primer_sequences_plate.xls.txt; author sci-RNA-seq3_pipeline repository attachment",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -175,7 +175,7 @@
       "id": "author_embryo_rt_map",
       "role": "linked_material",
       "discovered_from": "publisher_moesm2",
-      "locator": "_data/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/gh_RT_barcode_embryo_information.csv; author sci-RNA-seq3_pipeline repository",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/gh_RT_barcode_embryo_information.csv; author sci-RNA-seq3_pipeline repository",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -195,7 +195,7 @@
       "id": "author_protocolsio_2020",
       "role": "linked_material",
       "discovered_from": "paper",
-      "locator": "_data/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/protocolsio_sci-rna-seq3-36wgq578ogk5.pdf.txt; author protocols.io doi:10.17504/protocols.io.9yih7ue, 2020 revision",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-rna-seq3__10.1038+s41586-019-0969-x/protocolsio_sci-rna-seq3-36wgq578ogk5.pdf.txt; author protocols.io doi:10.17504/protocols.io.9yih7ue, 2020 revision",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

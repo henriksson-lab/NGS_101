@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_PMC3929178.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_PMC3929178.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "superseded_reading_claims": {
@@ -38,7 +38,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -71,7 +71,7 @@
     {
       "id": "orsi_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/PMC4410783_PMC4410783.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/PMC4410783_PMC4410783.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -105,7 +105,7 @@
     {
       "id": "large_data_table",
       "role": "supplement",
-      "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM252_ESM.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM252_ESM.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Source-data workbook for Fig. 5a–d contains chromosome positions and normalized coverage/result matrices, not oligo chemistry.",
@@ -125,7 +125,7 @@
     {
       "id": "large_xls_table",
       "role": "supplement",
-      "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM251_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM251_ESM.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original legacy XLS converted with xls2csv; the workbook contains only Fig. 4a–g DNaseI-seq tag-count/result matrices, not library-preparation reagents or oligos.",
@@ -145,7 +145,7 @@
     {
       "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm249_esm_xls",
       "role": "supplement",
-      "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM249_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM249_ESM.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
@@ -165,7 +165,7 @@
     {
       "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm250_esm_xls",
       "role": "supplement",
-      "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM250_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM250_ESM.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
@@ -185,7 +185,7 @@
     {
       "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm253_esm_xls",
       "role": "supplement",
-      "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM253_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM253_ESM.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
@@ -205,7 +205,7 @@
     {
       "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm254_esm_pdf",
       "role": "supplement",
-      "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM254_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM254_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_2": {
@@ -238,7 +238,7 @@
     {
       "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm255_esm_xls",
       "role": "supplement",
-      "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM255_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM255_ESM.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
@@ -258,7 +258,7 @@
     {
       "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm256_esm_xls",
       "role": "supplement",
-      "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM256_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM256_ESM.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
@@ -278,7 +278,7 @@
     {
       "id": "nmeth_2766_supp_nihms543084_supplement_2_xls",
       "role": "supplement",
-      "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-2.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-2.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
@@ -298,7 +298,7 @@
     {
       "id": "nmeth_2766_supp_nihms543084_supplement_3_xls",
       "role": "supplement",
-      "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-3.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-3.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
@@ -608,7 +608,7 @@
           {
             "id": "article",
             "role": "defining",
-            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_PMC3929178.xml.txt",
+            "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_PMC3929178.xml.txt",
             "availability": "read",
             "relevance": "relevant",
             "pass_1": {
@@ -627,7 +627,7 @@
           {
             "id": "supp_figures",
             "role": "supplement",
-            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-1.pdf.txt",
+            "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-1.pdf.txt",
             "availability": "read",
             "relevance": "relevant",
             "pass_1": {
@@ -646,7 +646,7 @@
           {
             "id": "orsi_protocol",
             "role": "detailed_protocol",
-            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/PMC4410783_PMC4410783.xml.txt",
+            "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/PMC4410783_PMC4410783.xml.txt",
             "availability": "read",
             "relevance": "relevant",
             "pass_1": {
@@ -666,7 +666,7 @@
           {
             "id": "large_data_table",
             "role": "supplement",
-            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM252_ESM.xlsx",
+            "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM252_ESM.xlsx",
             "availability": "read",
             "relevance": "not_relevant",
             "reason": "Source-data workbook for Fig. 5a–d contains chromosome positions and normalized coverage/result matrices, not oligo chemistry.",
@@ -686,7 +686,7 @@
           {
             "id": "large_xls_table",
             "role": "supplement",
-            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM251_ESM.xls.txt",
+            "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM251_ESM.xls.txt",
             "availability": "read",
             "relevance": "not_relevant",
             "reason": "Original legacy XLS converted with xls2csv; the workbook contains only Fig. 4a–g DNaseI-seq tag-count/result matrices, not library-preparation reagents or oligos.",
@@ -706,7 +706,7 @@
           {
             "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm249_esm_xls",
             "role": "supplement",
-            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM249_ESM.xls.txt",
+            "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM249_ESM.xls.txt",
             "availability": "read",
             "relevance": "not_relevant",
             "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
@@ -726,7 +726,7 @@
           {
             "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm250_esm_xls",
             "role": "supplement",
-            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM250_ESM.xls.txt",
+            "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM250_ESM.xls.txt",
             "availability": "read",
             "relevance": "not_relevant",
             "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
@@ -746,7 +746,7 @@
           {
             "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm253_esm_xls",
             "role": "supplement",
-            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM253_ESM.xls.txt",
+            "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM253_ESM.xls.txt",
             "availability": "read",
             "relevance": "not_relevant",
             "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
@@ -766,7 +766,7 @@
           {
             "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm254_esm_pdf",
             "role": "supplement",
-            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM254_ESM.pdf.txt",
+            "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM254_ESM.pdf.txt",
             "availability": "read",
             "relevance": "relevant",
             "pass_2": {
@@ -785,7 +785,7 @@
           {
             "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm255_esm_xls",
             "role": "supplement",
-            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM255_ESM.xls.txt",
+            "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM255_ESM.xls.txt",
             "availability": "read",
             "relevance": "not_relevant",
             "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
@@ -805,7 +805,7 @@
           {
             "id": "nmeth_2766_41592_2014_bfnmeth2766_moesm256_esm_xls",
             "role": "supplement",
-            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM256_ESM.xls.txt",
+            "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_41592_2014_BFnmeth2766_MOESM256_ESM.xls.txt",
             "availability": "read",
             "relevance": "not_relevant",
             "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
@@ -825,7 +825,7 @@
           {
             "id": "nmeth_2766_supp_nihms543084_supplement_2_xls",
             "role": "supplement",
-            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-2.xls.txt",
+            "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-2.xls.txt",
             "availability": "read",
             "relevance": "not_relevant",
             "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",
@@ -845,7 +845,7 @@
           {
             "id": "nmeth_2766_supp_nihms543084_supplement_3_xls",
             "role": "supplement",
-            "locator": "_data/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-3.xls.txt",
+            "locator": "/husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/nmeth.2766_supp_NIHMS543084-supplement-3.xls.txt",
             "availability": "read",
             "relevance": "not_relevant",
             "reason": "Both readers inspected the source headings and representative result columns: this workbook contains occupancy, motif, or peak-result tables rather than library reagents or oligo specifications.",

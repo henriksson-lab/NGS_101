@@ -48,7 +48,7 @@ have a *per-experiment by design* locus primer with published exemplars, which t
 ledger records as such rather than as unpublished.
 
 What the audit did find is **model fidelity**: pages that disagree with sources our own
-`_data/sources/` already holds. Fixed during the audit:
+`/husky/henriksson/NGS101_papers/sources/` already holds. Fixed during the audit:
 
 - SITE-Seq `SITE_A2_R` was transcribed one base short (`ACTACTAATACGAC` for the published
   `ACTACTAATACGAC*T`), with the phosphorothioate rendered on the wrong base. The dropped

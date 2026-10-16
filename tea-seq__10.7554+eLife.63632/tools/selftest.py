@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import os
 import re
 import sys
 H=Path(__file__).resolve().parent;sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import tea_seq as M
 from checks import Check, Source, have
 c=Check()
-bundle=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"/"tea-seq__10.7554+eLife.63632"
+bundle=data_root()/"sources"/"tea-seq__10.7554+eLife.63632"
 guide=Source(bundle/"CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevA.pdf.txt",M.MULTIOME_GUIDE)
 if have(c,guide,label="complete source-owned Multiome endpoints"):
     text=re.sub(r"\s+","",guide.path.read_text())

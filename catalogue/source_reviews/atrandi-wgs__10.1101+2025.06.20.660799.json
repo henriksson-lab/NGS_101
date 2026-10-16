@@ -58,7 +58,7 @@
     {
       "id": "sequencing_guide",
       "role": "linked_material",
-      "locator": "_data/sources/atrandi-wgs__10.1101+2025.06.20.660799/DGPM02323206001_Single_Microbe_DNA_Barcoding_Kit_Library_Prep_For_Seq_V3.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/atrandi-wgs__10.1101+2025.06.20.660799/DGPM02323206001_Single_Microbe_DNA_Barcoding_Kit_Library_Prep_For_Seq_V3.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "preprint",
@@ -80,7 +80,7 @@
       "id": "kit_protocol_v3_original",
       "role": "linked_material",
       "discovered_from": "preprint",
-      "locator": "_data/sources/atrandi-wgs__10.1101+2025.06.20.660799/DGPM02323198001_Single_Microbe_DNA_Barcoding_Kit_V3.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/atrandi-wgs__10.1101+2025.06.20.660799/DGPM02323198001_Single_Microbe_DNA_Barcoding_Kit_V3.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Original title/imprint/document number and full revision history checked directly; V3dated3November2023. Read as its own source identity, not substituted for unlocatedv1.3.",

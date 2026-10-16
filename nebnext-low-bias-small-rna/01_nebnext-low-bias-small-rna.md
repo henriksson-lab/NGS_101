@@ -6,7 +6,7 @@ A gel-free small-RNA library protocol that uses randomized splint ligation to re
 
 ## 2. Sources and evidence
 
-- 🟢 [NEB E3420 manual v2.0 (May 2026)](https://www.neb.com/en/-/media/nebus/files/manuals/manuale3420.pdf), read from `_data/sources/nebnext-low-bias-small-rna/manuale3420.pdf.txt`, and the [product page](https://www.neb.com/en-us/products/e3420-nebnext-low-bias-small-rna-library-prep-kit).
+- 🟢 [NEB E3420 manual v2.0 (May 2026)](https://www.neb.com/en/-/media/nebus/files/manuals/manuale3420.pdf), read from `/husky/henriksson/NGS101_papers/sources/nebnext-low-bias-small-rna/manuale3420.pdf.txt`, and the [product page](https://www.neb.com/en-us/products/e3420-nebnext-low-bias-small-rna-library-prep-kit).
 - 🟢 Captured RNAs are under 120 nt and require a 5′ monophosphate and 3′ hydroxyl.
 - 🟢 The order is 3′-adaptor ligation, excess-adaptor removal, simultaneous 5′ ligation plus modification of the 3′ adaptor into an RT substrate, RT, bead selection and UDI PCR.
 - 🟢 NEB's [E3420 RT-primer FAQ](https://www.neb.com/en-us/faqs/when-is-the-rt-primer-annealed-during-the-nebnext-low-bias-small-rna-library-prep-workflow-neb-e3420) specifies that the bottom strand of the 3′ adaptor becomes the RT primer during 5′ ligation. The kit does not add a separate RT-primer oligo.

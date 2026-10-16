@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/safe-seqs__10.1073+pnas.1105422108/pnas.1105422108_PMC3111315.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/safe-seqs__10.1073+pnas.1105422108/pnas.1105422108_PMC3111315.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -1,5 +1,7 @@
 # CRISPR-MIP — third-party reference material
 
+Source files formerly stored here now live at `/husky/henriksson/NGS101_papers/legacy/crispr-mip__10.1101+2024.03.28.587082/ref/`. Read and write that external directory directly; this checkout contains only the provenance notes.
+
 **These files are deliberately not committed.** They are other people's copyrighted material —
 a preprint's supplementary table, a plasmid map — and are not ours to redistribute. A fresh
 clone will not have them, and that is expected: `tools/selftest.py` guards every check that
@@ -30,7 +32,7 @@ when it is absent.
 
 ### Nothing else
 
-`ref/` holds only the one file above. Two further sources are used from outside this directory
+The external legacy reference directory holds the one file above. Two further sources are used from outside that directory
 and are listed here because the checks here depend on them:
 
 | Source | Used for | Where to get it |

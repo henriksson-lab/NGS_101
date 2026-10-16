@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/digital-telomere-measurement__10.1038+s41467-024-49007-4/s41467-024-49007-4_PMC11189511.xml.txt:150-160",
+      "locator": "/husky/henriksson/NGS101_papers/sources/digital-telomere-measurement__10.1038+s41467-024-49007-4/s41467-024-49007-4_PMC11189511.xml.txt:150-160",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "capture_table",
       "role": "supplement",
-      "locator": "_data/sources/digital-telomere-measurement__10.1038+s41467-024-49007-4/s41467-024-49007-4_supp_41467_2024_49007_MOESM6_ESM.xlsx.txt:1-23",
+      "locator": "/husky/henriksson/NGS101_papers/sources/digital-telomere-measurement__10.1038+s41467-024-49007-4/s41467-024-49007-4_supp_41467_2024_49007_MOESM6_ESM.xlsx.txt:1-23",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -17,7 +17,7 @@
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Original Macosko 2015 JATS _data/sources/drop-seq__10.1016+j.cell.2015.05.002/j.cell.2015.05.002_PMC4481139.xml.txt lines 180–190 (Experimental Procedures) and 410–428 (Figure 1 legend/read path); source-bundle scraper run",
+        "locations": "Original Macosko 2015 JATS /husky/henriksson/NGS101_papers/sources/drop-seq__10.1016+j.cell.2015.05.002/j.cell.2015.05.002_PMC4481139.xml.txt lines 180–190 (Experimental Procedures) and 410–428 (Figure 1 legend/read path); source-bundle scraper run",
         "finding": "The available main article states ChemGenes split-pool bead synthesis, shared PCR handle, 12-base cell barcode, eight-base UMI and T30; Methods defer reaction conditions and primers to Extended Experimental Procedures and custom Nextera primers to Table S6. It states Nextera XT and NextSeq sequencing, but does not print the ordering oligos in the inspected main text."
       }
     },
@@ -64,7 +64,7 @@
     {
       "id": "inventor_lab_v31",
       "role": "linked_material",
-      "locator": "Macosko and Goldman, Drop-seq lab protocol v3.1, 28 Dec 2015, https://mccarrolllab.org/wp-content/uploads/2015/05/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf; cached original _data/sources/crop-seq__10.1038+nmeth.4177/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf.txt (Drop-seq scoped fetch currently DNS-failed)",
+      "locator": "Macosko and Goldman, Drop-seq lab protocol v3.1, 28 Dec 2015, https://mccarrolllab.org/wp-content/uploads/2015/05/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf; cached original /husky/henriksson/NGS101_papers/sources/crop-seq__10.1038+nmeth.4177/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf.txt (Drop-seq scoped fetch currently DNS-failed)",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "cell_article",

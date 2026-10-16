@@ -36,7 +36,7 @@ Sources read (fetched by `tools/get_sources.py`, into
 | `j.immuni.2020.09.015_supp_mmc2.xlsx` through `mmc7.xlsx` | complete originals recovered through PMC Cloud; workbook sheets inspected | comparison statistics, cell-level metadata (including observed cell barcodes), differential expression and enrichment results; no additional synthesis recipes |
 
 Cross-checked against a sibling protocol's sources (read only):
-`_data/sources/drop-seq-seq-well__10.1016+j.cell.2015.05.002/nmeth.4179_…_MOESM237_ESM.pdf.txt`
+`/husky/henriksson/NGS101_papers/sources/drop-seq-seq-well__10.1016+j.cell.2015.05.002/nmeth.4179_…_MOESM237_ESM.pdf.txt`
 (Seq-Well 2017 Supplementary Table 1) for the predecessor bead architecture.
 The S3 Document S1 itself also prints SeqB in its Sequences section (extracted
 lines 4718–4732); predecessor agreement supplies context rather than replacing

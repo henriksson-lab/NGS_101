@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/nebnext-ultra-ii-directional-rna/manuale7760_e7765.pdf.txt lines 65-66,134,222-234,565,714; scraper line 134",
+        "locations": "/husky/henriksson/NGS101_papers/sources/nebnext-ultra-ii-directional-rna/manuale7760_e7765.pdf.txt lines 65-66,134,222-234,565,714; scraper line 134",
         "finding": "Manual prints trim motifs and reaction order but requires separately chosen oligo kit or user-supplied adapter/primers."
       },
       "pass_2": {

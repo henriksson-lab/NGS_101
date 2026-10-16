@@ -45,7 +45,7 @@
       "id": "nanopore_sensing",
       "role": "linked_material",
       "discovered_from": "protocol",
-      "locator": "_data/sources/oxford-nanopore-ligation-sequencing-v14/nanopore-sensing.html.txt; https://nanoporetech.com/document/nanopore-sensing",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-ligation-sequencing-v14/nanopore-sensing.html.txt; https://nanoporetech.com/document/nanopore-sensing",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

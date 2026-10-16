@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/char-seq__10.7554+eLife.27024/eLife.27024_v2.xml.txt; original eLife 2018 article",
+      "locator": "/husky/henriksson/NGS101_papers/sources/char-seq__10.7554+eLife.27024/eLife.27024_v2.xml.txt; original eLife 2018 article",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "preprint_and_bridge_supp",
       "role": "linked_material",
-      "locator": "_data/sources/char-seq__10.7554+eLife.27024/118786_v1.full.pdf.txt and 118786_118786-1.pdf.txt; original bioRxiv v1 article and supplementary PDF",
+      "locator": "/husky/henriksson/NGS101_papers/sources/char-seq__10.7554+eLife.27024/118786_v1.full.pdf.txt and 118786_118786-1.pdf.txt; original bioRxiv v1 article and supplementary PDF",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -64,7 +64,7 @@
     {
       "id": "author_detailed_2020",
       "role": "detailed_protocol",
-      "locator": "_data/sources/char-seq__10.7554+eLife.27024/PMC7607860_PMC7607860.xml.txt; Limouse et al. Methods Mol Biol 2020 doi:10.1007/978-1-0716-0680-3_10",
+      "locator": "/husky/henriksson/NGS101_papers/sources/char-seq__10.7554+eLife.27024/PMC7607860_PMC7607860.xml.txt; Limouse et al. Methods Mol Biol 2020 doi:10.1007/978-1-0716-0680-3_10",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -84,7 +84,7 @@
     {
       "id": "result_supplements",
       "role": "supplement",
-      "locator": "_data/sources/char-seq__10.7554+eLife.27024/eLife.27024_elife-27024-supp1-v2.xlsx.txt; eLife.27024_elife-27024-supp2-v2.csv; eLife.27024_elife-27024-transrepform-v2.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/char-seq__10.7554+eLife.27024/eLife.27024_elife-27024-supp1-v2.xlsx.txt; eLife.27024_elife-27024-supp2-v2.csv; eLife.27024_elife-27024-transrepform-v2.docx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Supplementary file 1 reports library read counts and lengths, supplementary file 2 is a contact-RNA results table, and the transparent reporting form covers replicates and statistics; no ordered bridge chemistry or index assignment. Read length is separately checked in the source paper and library-metrics supplement.",
@@ -105,7 +105,7 @@
     {
       "id": "nebnext_kit_manuals",
       "role": "vendor",
-      "locator": "Historical NEBNext DNA-library hairpin adapter/index-primer kit generation used by 2018 ChAR remains unidentified. Local later comparator manuals: _data/sources/nebnext-ultra-ii-dna-library-prep-user-adaptor/manuale7600.pdf.txt (E7600 Dual Index Primers Set 1, Version 6.0_6/24); _data/sources/splash__10.1016+j.molcel.2016.04.028/manuale7335_e7500_-e7710_e7730.pdf.txt (E7335 Index Primers Sets 1–4, Version 8.0_6/24).",
+      "locator": "Historical NEBNext DNA-library hairpin adapter/index-primer kit generation used by 2018 ChAR remains unidentified. Local later comparator manuals: /husky/henriksson/NGS101_papers/sources/nebnext-ultra-ii-dna-library-prep-user-adaptor/manuale7600.pdf.txt (E7600 Dual Index Primers Set 1, Version 6.0_6/24); /husky/henriksson/NGS101_papers/sources/splash__10.1016+j.molcel.2016.04.028/manuale7335_e7500_-e7710_e7730.pdf.txt (E7335 Index Primers Sets 1–4, Version 8.0_6/24).",
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Original 2018 ChAR preprint Methods lines 425–429 names NEBNext hairpin adaptors, USER and NEBNext Indexing Primers for Illumina (TruSeq compatible), but gives no kit catalogue/revision or selected index. Later original NEB E7600 and E7335 manuals exist locally and are relevant comparators; their 2024 revisions cannot establish the exact 2018 reagent version or index member. Historical matched kit/manual remains unavailable for this claim.",

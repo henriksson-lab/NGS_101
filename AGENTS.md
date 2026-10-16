@@ -48,6 +48,19 @@ want)`), prints PASS/FAIL/SKIP and exits 1 on failure. To run one check, run its
 
 ## Reading sources: the source tools
 
+All articles, supplements and text conversions live in
+`/husky/henriksson/NGS101_papers/sources/<slug>/`. This is the default in
+`lib/storage.py`; `CHEM_DATA` explicitly overrides the storage root. Read and write
+there directly. Do not recreate local copies or compatibility links in the checkout.
+Older scattered references were moved under that root's `legacy/`, preserving
+their former repository-relative paths. Use `storage.data_root()`,
+`storage.sources_root()` and `storage.legacy_reference()` in Python readers.
+For the shell examples below, set `CHEM_DATA` explicitly:
+
+```sh
+export CHEM_DATA=/husky/henriksson/NGS101_papers
+```
+
 Three standard-library CLIs in `tools/` for turning a paper into reference notes. Every
 one has a full `--help`; this is when to use which. Their output is a **pointer into a
 document, never a fact** — verify against the source text before anything goes into a
@@ -265,7 +278,7 @@ distinction does not waive source checks or establish that information is absent
 ## Never commit
 
 - **Data** — FASTQ/BAM/count tables/derived tables. Downloads go to `$CHEM_DATA` (default
-  `./_data/`, gitignored) via a download script that supports `--max-reads` and writes a
+  `/husky/henriksson/NGS101_papers/`, outside the checkout) via a download script that supports `--max-reads` and writes a
   manifest next to the data.
 - **Third-party source material** — papers, supplements, vendor manuals, extracted text,
   images, plasmid maps (`*.pdf *.xlsx *.txt *.png *.dna *.gb *.fa`, `pdf/`). Each `ref/`

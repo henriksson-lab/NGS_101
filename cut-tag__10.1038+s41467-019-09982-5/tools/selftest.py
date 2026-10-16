@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Check complete loaded oligos against the cited original, including phosphate."""
-import os
 from pathlib import Path
 import re
 import sys
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / 'lib')]
+from storage import data_root
 from checks import Check, Source, have
 import cut_tag
 
 check = Check()
-bundle = Path(os.environ.get('CHEM_DATA', HERE.parents[1] / '_data')) / 'sources' / HERE.parent.name
+bundle = data_root() / 'sources' / HERE.parent.name
 source = Source(bundle / 'PMC4248319_PMC4248319.xml.txt',
                 'Picelli2014 doi:10.1101/gr.177881.114; ref/MANIFEST.md')
 if have(check, source, label='Picelli transposome assembly original'):

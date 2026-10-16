@@ -36,7 +36,7 @@ Related entries in `catalogue/scg_lib_structs.tsv` that cite the same paper or b
   adaptation; separate note.
 
 Sources read (fetched by `tools/get_sources.py malbac__10.1126+science.1229164`, into
-`_data/sources/malbac__10.1126+science.1229164/`, never committed):
+`/husky/henriksson/NGS101_papers/sources/malbac__10.1126+science.1229164/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

@@ -25,7 +25,7 @@ Related papers (from `catalogue/scg_lib_structs.tsv`):
   Genet., 2014".
 
 Sources read (fetched by `tools/get_sources.py`, into
-`_data/sources/snatac-seq__10.1038+s41593-018-0079-3/`, never committed):
+`/husky/henriksson/NGS101_papers/sources/snatac-seq__10.1038+s41593-018-0079-3/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

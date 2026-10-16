@@ -5,7 +5,7 @@
     {
       "id": "oudelaar_article_jats",
       "role": "defining",
-      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_PMC6265079.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_PMC6265079.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "oudelaar_article_pdf",
       "role": "defining",
-      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_PMC6265079.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_PMC6265079.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "publisher_supp_tables",
       "role": "supplement",
-      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_41588_2018_253_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_41588_2018_253_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "publisher_reporting_summary",
       "role": "supplement",
-      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_41588_2018_253_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_41588_2018_253_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "pmc_supp_item_list",
       "role": "supplement",
-      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_supp_NIHMS1506143-supplement-1.doc.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_supp_NIHMS1506143-supplement-1.doc.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -102,7 +102,7 @@
     {
       "id": "pmc_supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_supp_NIHMS1506143-supplement-2.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_supp_NIHMS1506143-supplement-2.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -121,7 +121,7 @@
     {
       "id": "pmc_supp_tables",
       "role": "supplement",
-      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_supp_NIHMS1506143-supplement-3.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tri-c__10.1038+s41588-018-0253-2/s41588-018-0253-2_supp_NIHMS1506143-supplement-3.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -140,7 +140,7 @@
     {
       "id": "oudelaar_preprint",
       "role": "other",
-      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/307405_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tri-c__10.1038+s41588-018-0253-2/307405_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -159,7 +159,7 @@
     {
       "id": "davies_2015_ng_capture_c",
       "role": "predecessor",
-      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_supp_NIHMS65861-supplement-01.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_supp_NIHMS65861-supplement-01.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -207,7 +207,7 @@
     {
       "id": "protex_2018_v1",
       "role": "detailed_protocol",
-      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/305eb587-1929-4194-ae08-2f671e6ca7b6.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tri-c__10.1038+s41588-018-0253-2/305eb587-1929-4194-ae08-2f671e6ca7b6.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -227,7 +227,7 @@
     {
       "id": "protex_2019_v2",
       "role": "detailed_protocol",
-      "locator": "_data/sources/tri-c__10.1038+s41588-018-0253-2/4775ee2d-6cce-43f0-bc35-b2c0f1eb2bf9.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tri-c__10.1038+s41588-018-0253-2/4775ee2d-6cce-43f0-bc35-b2c0f1eb2bf9.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

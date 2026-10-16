@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/uditas__10.1186+s12864-018-4561-9/s12864-018-4561-9_PMC5861650.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/uditas__10.1186+s12864-018-4561-9/s12864-018-4561-9_PMC5861650.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -32,7 +32,7 @@
     {
       "id": "supp_protocol",
       "role": "supplement",
-      "locator": "_data/sources/uditas__10.1186+s12864-018-4561-9/s12864-018-4561-9_supp_12864_2018_4561_MOESM2_ESM.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/uditas__10.1186+s12864-018-4561-9/s12864-018-4561-9_supp_12864_2018_4561_MOESM2_ESM.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

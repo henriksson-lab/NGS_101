@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Source ordering and manufacturer-family transcription regressions."""
 from pathlib import Path
-import os
 import re
 import sys
 H=Path(__file__).resolve().parent
 sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import chem as M
 from checks import Check, Source, have
 c=Check()
-root=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"/H.parent.name
+root=data_root()/"sources"/H.parent.name
 original=Source(root/"j.cell.2015.03.027_PMC4410947.xml.txt","tools/get_sources.py --slugs "+H.parent.name)
 vendor=Source(root/"illumina_TruSeq-SmallRNA.htm.txt","Registered original Illumina TruSeq Small RNA sequence-table topic")
 g=M.protocol_graph()

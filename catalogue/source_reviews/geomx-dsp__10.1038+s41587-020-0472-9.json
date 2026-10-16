@@ -21,7 +21,7 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "_data/sources/geomx-dsp__10.1038+s41587-020-0472-9/559021_v2.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/geomx-dsp__10.1038+s41587-020-0472-9/559021_v2.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -41,7 +41,7 @@
     {
       "id": "springer_supp",
       "role": "supplement",
-      "locator": "_data/sources/geomx-dsp__10.1038+s41587-020-0472-9/MOESM1–6 files in MANIFEST.tsv",
+      "locator": "/husky/henriksson/NGS101_papers/sources/geomx-dsp__10.1038+s41587-020-0472-9/MOESM1–6 files in MANIFEST.tsv",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -60,7 +60,7 @@
     {
       "id": "preprint_supp",
       "role": "supplement",
-      "locator": "_data/sources/geomx-dsp__10.1038+s41587-020-0472-9/559021_media-1/2.xlsx.txt and media-3–16.jpg",
+      "locator": "/husky/henriksson/NGS101_papers/sources/geomx-dsp__10.1038+s41587-020-0472-9/559021_media-1/2.xlsx.txt and media-3–16.jpg",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -80,7 +80,7 @@
     {
       "id": "vendor_guide",
       "role": "linked_material",
-      "locator": "_data/sources/geomx-dsp__10.1038+s41587-020-0472-9/MAN-10153-01-GeoMx-DSP-NGS-Readout-User-Manual.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/geomx-dsp__10.1038+s41587-020-0472-9/MAN-10153-01-GeoMx-DSP-NGS-Readout-User-Manual.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

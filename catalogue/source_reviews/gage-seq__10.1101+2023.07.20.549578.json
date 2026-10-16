@@ -5,7 +5,7 @@
     {
       "id": "source_1",
       "role": "linked_material",
-      "locator": "_data/sources/gage-seq__10.1101+2023.07.20.549578/2023.07.20.549578_media-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gage-seq__10.1101+2023.07.20.549578/2023.07.20.549578_media-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": null,
@@ -15,7 +15,7 @@
     {
       "id": "source_2",
       "role": "linked_material",
-      "locator": "_data/sources/gage-seq__10.1101+2023.07.20.549578/2023.07.20.549578_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gage-seq__10.1101+2023.07.20.549578/2023.07.20.549578_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": null,
@@ -25,7 +25,7 @@
     {
       "id": "source_3",
       "role": "supplement",
-      "locator": "_data/sources/gage-seq__10.1101+2023.07.20.549578/s41588-024-01745-3_41588_2024_1745_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gage-seq__10.1101+2023.07.20.549578/s41588-024-01745-3_41588_2024_1745_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "source_4",
       "role": "supplement",
-      "locator": "_data/sources/gage-seq__10.1101+2023.07.20.549578/s41588-024-01745-3_41588_2024_1745_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gage-seq__10.1101+2023.07.20.549578/s41588-024-01745-3_41588_2024_1745_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": null,
@@ -53,7 +53,7 @@
     {
       "id": "source_5",
       "role": "supplement",
-      "locator": "_data/sources/gage-seq__10.1101+2023.07.20.549578/s41588-024-01745-3_41588_2024_1745_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gage-seq__10.1101+2023.07.20.549578/s41588-024-01745-3_41588_2024_1745_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -72,7 +72,7 @@
     {
       "id": "source_6",
       "role": "defining",
-      "locator": "_data/sources/gage-seq__10.1101+2023.07.20.549578/s41588-024-01745-3_PMC11323187.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gage-seq__10.1101+2023.07.20.549578/s41588-024-01745-3_PMC11323187.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

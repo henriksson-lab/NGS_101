@@ -13,7 +13,7 @@
     {
       "id": "oligo_table",
       "role": "supplement",
-      "locator": "_data/sources/cotech__10.1038+s41592-021-01129-z/s41592-021-01129-z_41592_2021_1129_MOESM3_ESM.xlsx.txt:1-35,67-162",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cotech__10.1038+s41592-021-01129-z/s41592-021-01129-z_41592_2021_1129_MOESM3_ESM.xlsx.txt:1-35,67-162",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -32,7 +32,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/cotech__10.1038+s41592-021-01129-z/s41592-021-01129-z_41592_2021_1129_MOESM1_ESM.pdf.txt and MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cotech__10.1038+s41592-021-01129-z/s41592-021-01129-z_41592_2021_1129_MOESM1_ESM.pdf.txt and MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -51,7 +51,7 @@
     {
       "id": "other_tables",
       "role": "supplement",
-      "locator": "_data/sources/cotech__10.1038+s41592-021-01129-z/*MOESM4-14*",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cotech__10.1038+s41592-021-01129-z/*MOESM4-14*",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Other local workbook sheets are results/barcode-count tables; oligo table is MOESM3."

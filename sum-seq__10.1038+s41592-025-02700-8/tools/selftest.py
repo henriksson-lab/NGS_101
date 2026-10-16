@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Source transcription checks for SUM-seq's published oligo table."""
-import os
 from pathlib import Path
 import sys
 
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
+from storage import data_root
 
 import chem as P
 from checks import Check, Source, have
@@ -15,7 +15,7 @@ check = Check()
 check("sample and droplet identity parts", P.CELL_PARTS,
       (("sample index", 11), ("droplet barcode", 16)))
 
-source_dir = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources" / HERE.parent.name
+source_dir = data_root() / "sources" / HERE.parent.name
 table = Source(source_dir / "s41592-025-02700-8_supp_41592_2025_2700_MOESM3_ESM.xlsx.txt",
                "Llorens-Rico et al. 2025 Supplementary Table 1a–d, MOESM3 workbook; "
                "fetch with tools/get_sources.py and convert with tools/doctext.py")

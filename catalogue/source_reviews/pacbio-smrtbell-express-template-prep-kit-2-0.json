@@ -5,7 +5,7 @@
     {
       "id": "pacbio_2019",
       "role": "defining",
-      "locator": "_data/sources/pacbio-smrtbell-express-template-prep-kit-2-0/1.html.txt (PacBio 101-693-800 Version 01 PDF content)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pacbio-smrtbell-express-template-prep-kit-2-0/1.html.txt (PacBio 101-693-800 Version 01 PDF content)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "product_note",
       "role": "linked_material",
-      "locator": "_data/sources/pacbio-smrtbell-express-template-prep-kit-2-0/product-note-smrtbell-express-template-prep-2-0-for-large-insert-libraries.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pacbio-smrtbell-express-template-prep-kit-2-0/product-note-smrtbell-express-template-prep-2-0-for-large-insert-libraries.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "travers_2010",
       "role": "linked_material",
-      "locator": "_data/sources/pacbio-smrtbell-express-template-prep-kit-2-0/PMC2926623_PMC2926623.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pacbio-smrtbell-express-template-prep-kit-2-0/PMC2926623_PMC2926623.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -65,7 +65,7 @@
       "id": "pacbio_training_2019",
       "role": "linked_material",
       "discovered_from": "pacbio_2019",
-      "locator": "_data/sources/pacbio-smrtbell-express-template-prep-kit-2-0/SMRTbell-Express-TPK-2.0-Overview-Large-Insert-gDNA-Library-Prep-Customer-Training.pdf.txt; PacBio PN 101-742-500 Version 01 (February 2019), PDF pp. 7, 9; https://www.pacb.com/wp-content/uploads/SMRTbell-Express-TPK-2.0-Overview-Large-Insert-gDNA-Library-Prep-Customer-Training.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pacbio-smrtbell-express-template-prep-kit-2-0/SMRTbell-Express-TPK-2.0-Overview-Large-Insert-gDNA-Library-Prep-Customer-Training.pdf.txt; PacBio PN 101-742-500 Version 01 (February 2019), PDF pp. 7, 9; https://www.pacb.com/wp-content/uploads/SMRTbell-Express-TPK-2.0-Overview-Large-Insert-gDNA-Library-Prep-Customer-Training.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

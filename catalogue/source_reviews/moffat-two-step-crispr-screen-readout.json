@@ -5,7 +5,7 @@
     {
       "id": "lab_protocol",
       "role": "defining",
-      "locator": "_data/sources/moffat-two-step-crispr-screen-readout/moffat_lab_crispr_screen_protocol_v2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/moffat-two-step-crispr-screen-readout/moffat_lab_crispr_screen_protocol_v2.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

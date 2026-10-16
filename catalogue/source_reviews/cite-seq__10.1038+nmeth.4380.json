@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_PMC5669064.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_PMC5669064.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -32,7 +32,7 @@
     {
       "id": "supp_protocol",
       "role": "supplement",
-      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_41592_2017_BFnmeth4380_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_41592_2017_BFnmeth4380_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -59,7 +59,7 @@
     {
       "id": "pmc_supp",
       "role": "supplement",
-      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-3.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-3.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -78,7 +78,7 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/113068_v3.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cite-seq__10.1038+nmeth.4380/113068_v3.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -100,7 +100,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "springer_moesm1",
-      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_41592_2017_BFnmeth4380_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_41592_2017_BFnmeth4380_MOESM1_ESM.pdf.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -119,7 +119,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "springer_moesm2",
-      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_41592_2017_BFnmeth4380_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_41592_2017_BFnmeth4380_MOESM2_ESM.pdf.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -138,7 +138,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "pmc_supp1",
-      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-1.pdf.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -165,7 +165,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "pmc_supp2",
-      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-2.doc.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-2.doc.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -184,7 +184,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "pmc_supp4",
-      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-4.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-4.pdf.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -201,7 +201,7 @@
     {
       "id": "dropseq_predecessor",
       "role": "linked_material",
-      "locator": "_data/sources/drop-seq-seq-well__10.1016+j.cell.2015.05.002/j.cell.2015.05.002_PMC4481139.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/drop-seq-seq-well__10.1016+j.cell.2015.05.002/j.cell.2015.05.002_PMC4481139.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -229,7 +229,7 @@
     {
       "id": "tenx_v2_vendor_guide",
       "role": "vendor",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/CG00052_SingleCell3_ReagentKitv2UserGuide_RevD.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/CG00052_SingleCell3_ReagentKitv2UserGuide_RevD.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",

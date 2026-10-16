@@ -5,13 +5,13 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/strt-seq-2i__10.1038+s41598-017-16546-4/s41598-017-16546-4_PMC5703850.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/strt-seq-2i__10.1038+s41598-017-16546-4/s41598-017-16546-4_PMC5703850.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/strt-seq-2i__10.1038+s41598-017-16546-4/s41598-017-16546-4_PMC5703850.xml.txt lines 128–152, 170–174",
+        "locations": "/husky/henriksson/NGS101_papers/sources/strt-seq-2i__10.1038+s41598-017-16546-4/s41598-017-16546-4_PMC5703850.xml.txt lines 128–152, 170–174",
         "finding": "Methods explicitly direct readers to Table 1; Table 1 prints modified RT, RNA TSO, indexed PCR, Tn5, and sequencing oligos, including their 5′ Bio or phosphate marks. Index members are placeholders here, so full well/subarray membership needs separate source tracing."
       },
       "pass_2": {
@@ -24,13 +24,13 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/strt-seq-2i__10.1038+s41598-017-16546-4/s41598-017-16546-4_supp_41598_2017_16546_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/strt-seq-2i__10.1038+s41598-017-16546-4/s41598-017-16546-4_supp_41598_2017_16546_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/strt-seq-2i__10.1038+s41598-017-16546-4/s41598-017-16546-4_supp_41598_2017_16546_MOESM1_ESM.pdf.txt lines 1–100",
+        "locations": "/husky/henriksson/NGS101_papers/sources/strt-seq-2i__10.1038+s41598-017-16546-4/s41598-017-16546-4_supp_41598_2017_16546_MOESM1_ESM.pdf.txt lines 1–100",
         "finding": "Supplementary material is present but figure-only text did not provide the full indexed primer membership in the inspected pages."
       },
       "pass_2": {
@@ -43,7 +43,7 @@
     {
       "id": "author_preprint",
       "role": "linked_material",
-      "locator": "_data/sources/strt-seq-2i__10.1038+s41598-017-16546-4/126268_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/strt-seq-2i__10.1038+s41598-017-16546-4/126268_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "islam_c1",
       "role": "linked_material",
-      "locator": "_data/sources/strt-c1__10.1038+nmeth.2772/nmeth.2772_41592_2014_BFnmeth2772_MOESM268_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/strt-c1__10.1038+nmeth.2772/nmeth.2772_41592_2014_BFnmeth2772_MOESM268_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",

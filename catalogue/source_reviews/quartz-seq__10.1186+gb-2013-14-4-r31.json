@@ -5,13 +5,13 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_PMC4054835.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_PMC4054835.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_PMC4054835.xml.txt lines 220–250",
+        "locations": "/husky/henriksson/NGS101_papers/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_PMC4054835.xml.txt lines 220–250",
         "finding": "Original article table prints WTA RT and tagging primers and TruSeq adapter/PCR oligos, including 5′ phosphate and phosphorothioate marks. The paper is a direct sequence source."
       },
       "pass_2": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_supp_gb-2013-14-4-r31-S1.PDF.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_supp_gb-2013-14-4-r31-S1.PDF.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -45,7 +45,7 @@
     {
       "id": "supp_oligos",
       "role": "supplement",
-      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_supp_gb-2013-14-4-r31-S2.DOCX.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_supp_gb-2013-14-4-r31-S2.DOCX.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -66,7 +66,7 @@
     {
       "id": "non_predecessor_nanocage",
       "role": "other",
-      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/nmeth.1470_PMC2906222.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/quartz-seq__10.1186+gb-2013-14-4-r31/nmeth.1470_PMC2906222.xml.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -87,7 +87,7 @@
     {
       "id": "kurimoto2006",
       "role": "linked_material",
-      "locator": "_data/sources/tang-2009__10.1038+nmeth.1315/nar_gkl050_PMC1409679.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tang-2009__10.1038+nmeth.1315/nar_gkl050_PMC1409679.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",

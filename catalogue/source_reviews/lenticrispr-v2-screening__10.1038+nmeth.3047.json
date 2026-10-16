@@ -93,7 +93,7 @@
     {
       "id": "joung_detailed",
       "role": "linked_material",
-      "locator": "_data/sources/joung-one-pcr-crispr-screen-readout__10.1038+nprot.2017.016/PMC5526071_PMC5526071.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/joung-one-pcr-crispr-screen-readout__10.1038+nprot.2017.016/PMC5526071_PMC5526071.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Recovered later author manuscript; cannot substitute for original 2014 study-specific readout oligos.",

@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_PMC11399327.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_PMC11399327.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -45,7 +45,7 @@
     {
       "id": "source_2",
       "role": "supplement",
-      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "source_3",
       "role": "supplement",
-      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -83,7 +83,7 @@
     {
       "id": "source_4",
       "role": "supplement",
-      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -102,7 +102,7 @@
     {
       "id": "source_5",
       "role": "supplement",
-      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -121,7 +121,7 @@
     {
       "id": "source_6",
       "role": "supplement",
-      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -140,7 +140,7 @@
     {
       "id": "source_7",
       "role": "supplement",
-      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM6_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM6_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -159,7 +159,7 @@
     {
       "id": "source_8",
       "role": "supplement",
-      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM7_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM7_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -178,7 +178,7 @@
     {
       "id": "source_9",
       "role": "supplement",
-      "locator": "_data/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM8_ESM.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrica-seq__10.1038+s41467-024-52335-0/s41467-024-52335-0_supp_41467_2024_52335_MOESM8_ESM.xlsx",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -197,7 +197,7 @@
     {
       "id": "multiome_vendor",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-multiome-atac-gene-expression/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevF.pdf.txt (official 10x CG000338 Rev F, Aug 2022); Rev B and Rev G also locally available",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-multiome-atac-gene-expression/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevF.pdf.txt (official 10x CG000338 Rev F, Aug 2022); Rev B and Rev G also locally available",
       "availability": "read",
       "relevance": "relevant",
       "reason": "The 2024 paper does not identify the guide revision used by its experiment; independent second review remains needed.",
@@ -260,7 +260,7 @@
     {
       "id": "scrcat_supp_info",
       "role": "linked_material",
-      "locator": "_data/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "scrcat_predecessor",
@@ -280,7 +280,7 @@
     {
       "id": "scrcat_reporting_summary",
       "role": "linked_material",
-      "locator": "_data/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM2_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM2_ESM.pdf",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Reporting form covers study design and software/data access, not synthesis chemistry or molecular read geometry; its software link was followed to the publisher archive.",
@@ -301,7 +301,7 @@
     {
       "id": "scrcat_software_description",
       "role": "linked_material",
-      "locator": "_data/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "This source only identifies a downstream TSS/TES analysis package; its attached archive was followed and listed separately.",
@@ -322,7 +322,7 @@
     {
       "id": "scrcat_software_archive",
       "role": "linked_material",
-      "locator": "_data/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM4_ESM_README.txt (from original Supplementary Software 1 ZIP)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM4_ESM_README.txt (from original Supplementary Software 1 ZIP)",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Predecessor peak-classification software processes aligned reads and does not define scRCAT-seq2's cDNA circle, Tn5 or Multiome construct.",
@@ -343,7 +343,7 @@
     {
       "id": "scrcat_source_data",
       "role": "linked_material",
-      "locator": "_data/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scrcat-seq__10.1038+s41467-020-18976-7/s41467-020-18976-7_supp_41467_2020_18976_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "scrcat_predecessor",

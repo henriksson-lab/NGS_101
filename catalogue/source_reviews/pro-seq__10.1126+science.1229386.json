@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/pro-seq__10.1126+science.1229386/science.1229386_PMC3974810.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pro-seq__10.1126+science.1229386/science.1229386_PMC3974810.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -32,7 +32,7 @@
     {
       "id": "mahat2016",
       "role": "linked_material",
-      "locator": "_data/sources/pro-seq__10.1126+science.1229386/PMC5502525_PMC5502525.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pro-seq__10.1126+science.1229386/PMC5502525_PMC5502525.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

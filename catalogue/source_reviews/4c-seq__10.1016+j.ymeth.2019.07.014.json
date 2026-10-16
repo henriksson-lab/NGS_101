@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/4c-seq__10.1016+j.ymeth.2019.07.014/4C-seq-from-beginning-to-end_-A-detailed-protocol-for-sample-preparation-and-data-analysis.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/4c-seq__10.1016+j.ymeth.2019.07.014/4C-seq-from-beginning-to-end_-A-detailed-protocol-for-sample-preparation-and-data-analysis.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -38,7 +38,7 @@
     {
       "id": "viewpoint_examples",
       "role": "linked_material",
-      "locator": "_data/sources/4c-seq__10.1016+j.ymeth.2019.07.014/4C-seq-from-beginning-to-end_-A-detailed-protocol-for-sample-preparation-and-data-analysis.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/4c-seq__10.1016+j.ymeth.2019.07.014/4C-seq-from-beginning-to-end_-A-detailed-protocol-for-sample-preparation-and-data-analysis.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",

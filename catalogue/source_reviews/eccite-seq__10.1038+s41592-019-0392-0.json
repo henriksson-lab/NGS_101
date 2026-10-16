@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/eccite-seq__10.1038+s41592-019-0392-0/s41592-019-0392-0_PMC6557128.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eccite-seq__10.1038+s41592-019-0392-0/s41592-019-0392-0_PMC6557128.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_protocol",
       "role": "supplement",
-      "locator": "_data/sources/eccite-seq__10.1038+s41592-019-0392-0/s41592-019-0392-0_41592_2019_392_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eccite-seq__10.1038+s41592-019-0392-0/s41592-019-0392-0_41592_2019_392_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "other_supp",
       "role": "supplement",
-      "locator": "Springer MOESM1/2 in _data/sources/eccite-seq__10.1038+s41592-019-0392-0/",
+      "locator": "Springer MOESM1/2 in /husky/henriksson/NGS101_papers/sources/eccite-seq__10.1038+s41592-019-0392-0/",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -83,7 +83,7 @@
     {
       "id": "cite_seq_predecessor",
       "role": "predecessor",
-      "locator": "_data/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_PMC5669064.xml.txt and original Springer MOESM1/MOESM3; DOI 10.1038/nmeth.4380",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_PMC5669064.xml.txt and original Springer MOESM1/MOESM3; DOI 10.1038/nmeth.4380",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -143,7 +143,7 @@
     {
       "id": "cg000109_technical_note",
       "role": "vendor",
-      "locator": "_data/sources/10x-chromium-single-cell-5-ge/CG000109_AssayConfiguration_VDJ_RevD.pdf.txt (10x CG000109 Rev D original technical note; identical vendor PDF mirrored by scg)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-ge/CG000109_AssayConfiguration_VDJ_RevD.pdf.txt (10x CG000109 Rev D original technical note; identical vendor PDF mirrored by scg)",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",

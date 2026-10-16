@@ -23,7 +23,7 @@ Other papers:
   *Nat Methods*, doi 10.1038/nmeth.1470).
 
 Sources read (fetched by `tools/get_sources.py`, into
-`_data/sources/itchip-seq__10.1038+s41556-019-0383-5/`, never committed):
+`/husky/henriksson/NGS101_papers/sources/itchip-seq__10.1038+s41556-019-0383-5/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

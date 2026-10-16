@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Transcription guards against the original 2018 article and Table S5."""
 from pathlib import Path
-import os
 import re
 import sys
 H=Path(__file__).resolve().parent;sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import sprite_protocol as M
 from checks import Check,Source,have
 c=Check()
-bundle=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"/"sprite__10.1016+j.cell.2018.05.024"
+bundle=data_root()/"sources"/"sprite__10.1016+j.cell.2018.05.024"
 paper=Source(bundle/"j.cell.2018.05.024_PMC6548320.xml.txt",M.SOURCE)
 if have(c,paper,label="original article PCR primers and read requirements"):
     text=paper.path.read_text()

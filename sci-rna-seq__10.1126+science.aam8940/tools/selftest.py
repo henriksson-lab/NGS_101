@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Check complete sci-RNA-seq templates against the original 2017 preprint."""
 from __future__ import annotations
-import os
 import re
 import sys
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE)); sys.path.insert(0,str(HERE.parents[1]/"lib"))
+from storage import data_root
 import sci_rna_seq as S
 from checks import Check, Source, have
 c=Check(); c.section("Original 2017 preprint oligo templates")
-root=Path(os.environ.get("CHEM_DATA",HERE.parents[1]/"_data"))
+root=data_root()
 source=Source(root/"sources"/HERE.parent.name/"104844_v1.full.pdf.txt",
               "Original 2017 Methods; tools/get_sources.py --slugs "+HERE.parent.name)
 if have(c,source,label="2017 original preprint"):

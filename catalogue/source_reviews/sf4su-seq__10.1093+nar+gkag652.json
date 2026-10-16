@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/PMC13309788_PMC13309788.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sf4su-seq__10.1093+nar+gkag652/PMC13309788_PMC13309788.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -40,7 +40,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/PMC13309788_supp_gkag652_supplemental_file.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sf4su-seq__10.1093+nar+gkag652/PMC13309788_supp_gkag652_supplemental_file.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -75,7 +75,7 @@
     {
       "id": "nebnext_manual",
       "role": "vendor",
-      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/manuale7300_e7330_e7560_e7580.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sf4su-seq__10.1093+nar+gkag652/manuale7300_e7330_e7560_e7580.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -110,7 +110,7 @@
     {
       "id": "snu_predecessor",
       "role": "linked_material",
-      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/2021.07.14.452379_v2.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sf4su-seq__10.1093+nar+gkag652/2021.07.14.452379_v2.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -148,7 +148,7 @@
     {
       "id": "dolken2008_original",
       "role": "predecessor",
-      "locator": "_data/sources/tt-seq__10.1126+science.aad9841/High_resolution_gene_expression_profiling_for_simultaneous_kinetic_parameter_analysis_of_RNA_synthesis_and_decay.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tt-seq__10.1126+science.aad9841/High_resolution_gene_expression_profiling_for_simultaneous_kinetic_parameter_analysis_of_RNA_synthesis_and_decay.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -167,7 +167,7 @@
     {
       "id": "geo_series",
       "role": "linked_material",
-      "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/geo-GSE179306-self-full.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/snu-seq__10.1093+nar+gkag652/geo-GSE179306-self-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "original",
@@ -187,7 +187,7 @@
     {
       "id": "geo_samples",
       "role": "linked_material",
-      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/geo-GSE179306-gsm-full.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sf4su-seq__10.1093+nar+gkag652/geo-GSE179306-gsm-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "geo_series",
@@ -207,7 +207,7 @@
     {
       "id": "preprint_v1",
       "role": "linked_material",
-      "locator": "_data/sources/snu-seq__10.1093+nar+gkag652/2021.07.14.452379v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/snu-seq__10.1093+nar+gkag652/2021.07.14.452379v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "snu_predecessor",
@@ -227,7 +227,7 @@
     {
       "id": "sra_experiment_ena",
       "role": "linked_material",
-      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/SRX11439177.xml",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sf4su-seq__10.1093+nar+gkag652/SRX11439177.xml",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "geo_samples",
@@ -247,7 +247,7 @@
     {
       "id": "sra_run_package",
       "role": "linked_material",
-      "locator": "_data/sources/sf4su-seq__10.1093+nar+gkag652/efetch.fcgi",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sf4su-seq__10.1093+nar+gkag652/efetch.fcgi",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "sra_experiment_ena",

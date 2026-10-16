@@ -40,7 +40,7 @@
     {
       "id": "supplement",
       "role": "supplement",
-      "locator": "_data/sources/cagescan__10.1038+nmeth.1470/nmeth.1470_41592_2010_BFnmeth1470_MOESM315_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cagescan__10.1038+nmeth.1470/nmeth.1470_41592_2010_BFnmeth1470_MOESM315_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -75,7 +75,7 @@
     {
       "id": "online_methods",
       "role": "detailed_protocol",
-      "locator": "_data/sources/cagescan__10.1038+nmeth.1470/nmeth.1470_supp_NIHMS207200-supplement-supplement_1.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cagescan__10.1038+nmeth.1470/nmeth.1470_supp_NIHMS207200-supplement-supplement_1.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

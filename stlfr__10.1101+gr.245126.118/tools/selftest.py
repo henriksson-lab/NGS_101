@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Check local stLFR source choices against the original order workbook."""
 from pathlib import Path
-import os
 import sys
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[1] / 'lib'))
+from storage import data_root
 import stlfr_chem as model
 from checks import Check, Source, have
 
 check = Check()
-data = Path(os.environ.get('CHEM_DATA', HERE.parents[1] / '_data'))
+data = data_root()
 source = Source(data / 'sources' / HERE.parent.name / '324392_324392-2.xlsx.txt',
                 'Original Supplement_0.xlsx, Cheng2018 doi:10.1038/protex.2018.116; recovered protocols.io attachment7 and bioRxiv324392 supplement2')
 if have(check, source, label='Original stLFR order workbook'):

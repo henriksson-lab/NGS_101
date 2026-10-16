@@ -129,7 +129,7 @@ without an exact whole-strand state. These remaining inputs are unspecified
 PCR primer pairs, variable barcode families, iso-base modified strands or
 vendor kit components whose exact oligo was not selected by the paper.
 The cited Quail supplement was already present in the separate
-`_data/sources/doi_10.1038+nmeth.1814/` bundle and was read there. A direct
+`/husky/henriksson/NGS101_papers/sources/doi_10.1038+nmeth.1814/` bundle and was read there. A direct
 Springer supplement URL is now declared for reproducible fetching into the
 scBS bundle; this run's fetch returned a DNS error, recorded as a manual row
 in that local manifest. The matching Quail T1 sequence is also printed in

@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_PMC11222150.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_PMC11222150.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_oligo",
       "role": "supplement",
-      "locator": "_data/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "source_1",
       "role": "supplement",
-      "locator": "_data/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM2_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM2_ESM.pdf",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "source_2",
       "role": "supplement",
-      "locator": "_data/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "source_3",
       "role": "supplement",
-      "locator": "_data/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -102,7 +102,7 @@
     {
       "id": "source_4",
       "role": "supplement",
-      "locator": "_data/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -122,7 +122,7 @@
     {
       "id": "source_5",
       "role": "supplement",
-      "locator": "_data/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM6_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM6_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -142,7 +142,7 @@
     {
       "id": "source_6",
       "role": "supplement",
-      "locator": "_data/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM7_ESM.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM7_ESM.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -162,7 +162,7 @@
     {
       "id": "source_7",
       "role": "supplement",
-      "locator": "_data/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM8_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM8_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -182,7 +182,7 @@
     {
       "id": "source_8",
       "role": "supplement",
-      "locator": "_data/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM9_ESM.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM9_ESM.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -243,7 +243,7 @@
     {
       "id": "spacer_predecessor",
       "role": "linked_material",
-      "locator": "_data/sources/scgro-seq__10.1038+s41586-024-07517-7/zhou-unlabeled-hrm-2004.pdf.txt; original Clinical Chemistry article DOI 10.1373/clinchem.2004.034322 mirrored at https://gene-quantification.de/zhou-unlabeled-hrm-2004.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/zhou-unlabeled-hrm-2004.pdf.txt; original Clinical Chemistry article DOI 10.1373/clinchem.2004.034322 mirrored at https://gene-quantification.de/zhou-unlabeled-hrm-2004.pdf",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -284,7 +284,7 @@
     {
       "id": "click_code_supp",
       "role": "linked_material",
-      "locator": "_data/sources/scgro-seq__10.1038+s41586-024-07517-7/ja8b03715_si_001.pdf.txt; original ACS Figshare Supporting Information DOI 10.1021/jacs.8b03715.s001, https://acs.figshare.com/articles/journal_contribution/Nucleotide-Resolution_Genome-Wide_Mapping_of_Oxidative_DNA_Damage_by_Click-Code-Seq/6869855",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/ja8b03715_si_001.pdf.txt; original ACS Figshare Supporting Information DOI 10.1021/jacs.8b03715.s001, https://acs.figshare.com/articles/journal_contribution/Nucleotide-Resolution_Genome-Wide_Mapping_of_Oxidative_DNA_Damage_by_Click-Code-Seq/6869855",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "click_code_predecessor",

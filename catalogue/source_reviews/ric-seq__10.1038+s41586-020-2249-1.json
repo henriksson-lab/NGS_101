@@ -13,7 +13,7 @@
     {
       "id": "fig_source",
       "role": "supplement",
-      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -33,7 +33,7 @@
     {
       "id": "reporting",
       "role": "supplement",
-      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -53,7 +53,7 @@
     {
       "id": "supp_note",
       "role": "supplement",
-      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -72,7 +72,7 @@
     {
       "id": "supp_table_1",
       "role": "supplement",
-      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM4_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM4_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -92,7 +92,7 @@
     {
       "id": "supp_table_2",
       "role": "supplement",
-      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -112,7 +112,7 @@
     {
       "id": "supp_table_3",
       "role": "supplement",
-      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM6_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM6_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -131,7 +131,7 @@
     {
       "id": "supp_table_4",
       "role": "supplement",
-      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM7_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM7_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -151,7 +151,7 @@
     {
       "id": "supp_table_5",
       "role": "supplement",
-      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM8_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM8_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -171,7 +171,7 @@
     {
       "id": "supp_table_6",
       "role": "supplement",
-      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM9_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM9_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -191,7 +191,7 @@
     {
       "id": "supp_table_7",
       "role": "supplement",
-      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM10_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM10_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -211,7 +211,7 @@
     {
       "id": "supp_table_8",
       "role": "supplement",
-      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM11_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM11_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -231,7 +231,7 @@
     {
       "id": "supp_table_9_oligos",
       "role": "supplement",
-      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM12_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1_41586_2020_2249_MOESM12_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -250,7 +250,7 @@
     {
       "id": "later_2024",
       "role": "detailed_protocol",
-      "locator": "_data/sources/ric-seq__10.1038+s41586-020-2249-1/PMC11245969_PMC11245969.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/PMC11245969_PMC11245969.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

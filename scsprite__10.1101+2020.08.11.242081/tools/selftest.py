@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Source checks for reported read minima and the alternate parser prefix."""
 from pathlib import Path
-import os
 import re
 import sys
 H=Path(__file__).resolve().parent;sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import scsprite as M
 from checks import Check,Source,have
 c=Check()
-bundle=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"/"scsprite__10.1101+2020.08.11.242081"
+bundle=data_root()/"sources"/"scsprite__10.1101+2020.08.11.242081"
 article=Source(bundle/"PMC11588347_PMC11588347.xml.txt",M.SOURCE)
 if have(c,article,label="original published read requirements"):
     source=re.search(r"at least (\d+) bp in Read 1.*?and (\d+) bp in Read 2",article.path.read_text())

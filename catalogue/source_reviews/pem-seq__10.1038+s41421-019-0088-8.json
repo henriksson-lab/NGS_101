@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/pem-seq__10.1038+s41421-019-0088-8/s41421-019-0088-8_PMC6434046.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pem-seq__10.1038+s41421-019-0088-8/s41421-019-0088-8_PMC6434046.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -38,7 +38,7 @@
     {
       "id": "supp_methods_table",
       "role": "supplement",
-      "locator": "_data/sources/pem-seq__10.1038+s41421-019-0088-8/s41421-019-0088-8_supp_41421_2019_88_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pem-seq__10.1038+s41421-019-0088-8/s41421-019-0088-8_supp_41421_2019_88_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -65,7 +65,7 @@
     {
       "id": "star_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/pem-seq__10.1038+s41421-019-0088-8/PMC9019705_PMC9019705.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pem-seq__10.1038+s41421-019-0088-8/PMC9019705_PMC9019705.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -85,7 +85,7 @@
     {
       "id": "star_table2_visual",
       "role": "supplement",
-      "locator": "_data/sources/pem-seq__10.1038+s41421-019-0088-8/PMC9019705_PMC9019705.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pem-seq__10.1038+s41421-019-0088-8/PMC9019705_PMC9019705.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

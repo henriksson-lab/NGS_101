@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.cell.2015.03.027_PMC4410947.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.cell.2015.03.027_PMC4410947.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "extended_methods",
       "role": "supplement",
-      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.cell.2015.03.027_supp_mmc2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.cell.2015.03.027_supp_mmc2.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "other_supp",
       "role": "supplement",
-      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.cell.2015.03.027_supp_mmc1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.cell.2015.03.027_supp_mmc1.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "vendor_rev_c",
       "role": "vendor",
-      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/TruSeq_SmallRNA_SamplePrep_Guide_15004197_C.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mnet-seq__10.1016+j.cell.2015.03.027/TruSeq_SmallRNA_SamplePrep_Guide_15004197_C.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "vendor_current_sequences",
       "role": "vendor",
-      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/illumina_TruSeq-SmallRNA.htm.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mnet-seq__10.1016+j.cell.2015.03.027/illumina_TruSeq-SmallRNA.htm.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -101,7 +101,7 @@
     {
       "id": "successor_2016",
       "role": "detailed_protocol",
-      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/594009_bef6fea20b33444da274369d1a65c41b.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mnet-seq__10.1016+j.cell.2015.03.027/594009_bef6fea20b33444da274369d1a65c41b.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -120,7 +120,7 @@
     {
       "id": "successor_supplement",
       "role": "supplement",
-      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/nprot.2016.012_41596_2016_BFnprot2016012_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mnet-seq__10.1016+j.cell.2015.03.027/nprot.2016.012_41596_2016_BFnprot2016012_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -133,7 +133,7 @@
     {
       "id": "geo_metadata",
       "role": "linked_material",
-      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/geo-GSE60358-all-full.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mnet-seq__10.1016+j.cell.2015.03.027/geo-GSE60358-all-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -153,7 +153,7 @@
     {
       "id": "fractionation_2013_main",
       "role": "predecessor",
-      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.celrep.2013.03.012_PMC3644702.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.celrep.2013.03.012_PMC3644702.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -172,7 +172,7 @@
     {
       "id": "fractionation_2013_supp",
       "role": "supplement",
-      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.celrep.2013.03.012_supp_mmc2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.celrep.2013.03.012_supp_mmc2.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -191,7 +191,7 @@
     {
       "id": "fractionation_2013_table",
       "role": "supplement",
-      "locator": "_data/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.celrep.2013.03.012_supp_mmc1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mnet-seq__10.1016+j.cell.2015.03.027/j.celrep.2013.03.012_supp_mmc1.pdf.txt",
       "availability": "available",
       "relevance": "relevant",
       "reason": "Validated original 2013 RNA-linker/DNA-primer Table S1 recovered. Contents not yet read or independently scoped; not substituted for defining 2015 library or result Table S1."

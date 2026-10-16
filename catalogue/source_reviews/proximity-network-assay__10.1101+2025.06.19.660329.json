@@ -5,7 +5,7 @@
     {
       "id": "karlsson_biorxiv_v3",
       "role": "defining",
-      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/2025.06.19.660329_v3.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-network-assay__10.1101+2025.06.19.660329/2025.06.19.660329_v3.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "pixelgen_um002_v2",
       "role": "vendor",
-      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/um002-user-manual-pixelgen-proxiome-kit-v2-cell-surface-v1.00.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-network-assay__10.1101+2025.06.19.660329/um002-user-manual-pixelgen-proxiome-kit-v2-cell-surface-v1.00.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "pixelator_v2_schema",
       "role": "linked_material",
-      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/gh_proxiome-v2.yaml",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-network-assay__10.1101+2025.06.19.660329/gh_proxiome-v2.yaml",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "pixelator_pid_panel",
       "role": "linked_material",
-      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/gh_proxiome-v2-immuno-155-v2.0.csv",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-network-assay__10.1101+2025.06.19.660329/gh_proxiome-v2-immuno-155-v2.0.csv",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -83,7 +83,7 @@
     {
       "id": "pixelgen_patent",
       "role": "linked_material",
-      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/en.html.txt; https://patents.google.com/patent/WO2025158200A1/en",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-network-assay__10.1101+2025.06.19.660329/en.html.txt; https://patents.google.com/patent/WO2025158200A1/en",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -103,7 +103,7 @@
     {
       "id": "paper_dataset_listing",
       "role": "linked_material",
-      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/pna-methods-paper.html",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-network-assay__10.1101+2025.06.19.660329/pna-methods-paper.html",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -123,7 +123,7 @@
     {
       "id": "supplement_video",
       "role": "supplement",
-      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/2025.06.19.660329_media-1.mp4",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-network-assay__10.1101+2025.06.19.660329/2025.06.19.660329_media-1.mp4",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -155,7 +155,7 @@
       "id": "paper_era_um001_manual",
       "role": "vendor",
       "discovered_from": "karlsson_biorxiv_v3",
-      "locator": "_data/sources/proximity-network-assay__10.1101+2025.06.19.660329/um001-user-manual-proxiome-kit-cell-surface-v.1.01.pdf.txt; https://www.pixelgen.com/wp-content/uploads/2025/12/um001-user-manual-proxiome-kit-cell-surface-v.1.01.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/proximity-network-assay__10.1101+2025.06.19.660329/um001-user-manual-proxiome-kit-cell-surface-v.1.01.pdf.txt; https://www.pixelgen.com/wp-content/uploads/2025/12/um001-user-manual-proxiome-kit-cell-surface-v.1.01.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

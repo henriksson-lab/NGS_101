@@ -5,7 +5,7 @@
     {
       "id": "source_1",
       "role": "linked_material",
-      "locator": "_data/sources/ntt-seq__10.1038+s41587-022-01588-5/2022.03.08.483436_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ntt-seq__10.1038+s41587-022-01588-5/2022.03.08.483436_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -25,7 +25,7 @@
     {
       "id": "source_2",
       "role": "linked_material",
-      "locator": "_data/sources/ntt-seq__10.1038+s41587-022-01588-5/protocolsio_bench-top-cut-amp-tag-kqdg34qdpl25.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ntt-seq__10.1038+s41587-022-01588-5/protocolsio_bench-top-cut-amp-tag-kqdg34qdpl25.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -45,7 +45,7 @@
     {
       "id": "source_3",
       "role": "supplement",
-      "locator": "_data/sources/ntt-seq__10.1038+s41587-022-01588-5/s41587-022-01588-5_41587_2022_1588_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ntt-seq__10.1038+s41587-022-01588-5/s41587-022-01588-5_41587_2022_1588_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -65,7 +65,7 @@
     {
       "id": "source_4",
       "role": "defining",
-      "locator": "_data/sources/ntt-seq__10.1038+s41587-022-01588-5/s41587-022-01588-5_PMC10272075.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ntt-seq__10.1038+s41587-022-01588-5/s41587-022-01588-5_PMC10272075.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -84,7 +84,7 @@
     {
       "id": "atac_v1_1_vendor_guide",
       "role": "vendor",
-      "locator": "_data/sources/scifi-atac-seq__10.1101+2023.09.17.558155/10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scifi-atac-seq__10.1101+2023.09.17.558155/10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -125,7 +125,7 @@
       "id": "asap_bridge_predecessor",
       "role": "predecessor",
       "discovered_from": "source_4",
-      "locator": "_data/sources/asap-seq__10.1038+s41587-021-00927-2/s41587-021-00927-2_PMC8763625.xml.txt; cited ASAP-seq DOI 10.1038/s41587-021-00927-2",
+      "locator": "/husky/henriksson/NGS101_papers/sources/asap-seq__10.1038+s41587-021-00927-2/s41587-021-00927-2_PMC8763625.xml.txt; cited ASAP-seq DOI 10.1038/s41587-021-00927-2",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -145,7 +145,7 @@
       "id": "amini_2014_meds_predecessor",
       "role": "predecessor",
       "discovered_from": "source_4",
-      "locator": "_data/sources/10x-chromium-single-cell-atac/ng.3119_PMC4409979.xml.txt; Amini et al. Nat Genet 2014 DOI 10.1038/ng.3119 cited for barcoded adapters",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-atac/ng.3119_PMC4409979.xml.txt; Amini et al. Nat Genet 2014 DOI 10.1038/ng.3119 cited for barcoded adapters",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -198,7 +198,7 @@
       "id": "amini_2014_supp_table4",
       "role": "linked_material",
       "discovered_from": "amini_2014_meds_predecessor",
-      "locator": "Amini et al. 2014 published Supplementary Table 4, corrected original workbook _data/sources/10x-chromium-single-cell-atac/ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt",
+      "locator": "Amini et al. 2014 published Supplementary Table 4, corrected original workbook /husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-atac/ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

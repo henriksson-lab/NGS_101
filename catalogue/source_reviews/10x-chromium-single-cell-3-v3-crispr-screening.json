@@ -5,13 +5,13 @@
     {
       "id": "cg000184",
       "role": "defining",
-      "locator": "_data/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf.txt appendix lines 6064–6420",
+        "locations": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf.txt appendix lines 6064–6420",
         "finding": "Original Rev A user guide has oligonucleotide sequence appendix and printed TSO plus gene-expression and guide-feature library architecture; scraper hits TSO at 6243 and diagrams from 6313."
       },
       "pass_2": {
@@ -24,13 +24,13 @@
     {
       "id": "cg000197",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000197_GuideRNA_SpecificationsCompatible_withFeatureBarcodingtechnology_forCRISPRScreening_Rev-A.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000197_GuideRNA_SpecificationsCompatible_withFeatureBarcodingtechnology_forCRISPRScreening_Rev-A.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000197_GuideRNA_SpecificationsCompatible_withFeatureBarcodingtechnology_forCRISPRScreening_Rev-A.pdf.txt lines 104–162",
+        "locations": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000197_GuideRNA_SpecificationsCompatible_withFeatureBarcodingtechnology_forCRISPRScreening_Rev-A.pdf.txt lines 104–162",
         "finding": "Original 10x guide-RNA specification explicitly prints engineered sgRNA examples and CS2 gel bead capture sequence, including CS1/CS2 placement and scaffold/stem context."
       },
       "pass_2": {

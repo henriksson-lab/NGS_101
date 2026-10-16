@@ -40,7 +40,7 @@
     {
       "id": "core_2008_supp",
       "role": "supplement",
-      "locator": "_data/sources/gro-seq__10.1126+science.1162228/594009_9144e1ea58ad4573871ec024827290f3.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gro-seq__10.1126+science.1162228/594009_9144e1ea58ad4573871ec024827290f3.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -100,7 +100,7 @@
     {
       "id": "study_geo",
       "role": "linked_material",
-      "locator": "_data/sources/gro-seq__10.1126+science.1162228/geo-GSE13518-all-full.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gro-seq__10.1126+science.1162228/geo-GSE13518-all-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "core_2008",

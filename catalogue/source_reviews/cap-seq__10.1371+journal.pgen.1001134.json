@@ -71,7 +71,7 @@
     {
       "id": "unrelated_capseq_preprint",
       "role": "other",
-      "locator": "_data/sources/cap-seq__10.1371+journal.pgen.1001134/2024.09.10.612220_v3.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cap-seq__10.1371+journal.pgen.1001134/2024.09.10.612220_v3.full.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "A different method with the same short name: 2024/2025 Li et al. single-cell long-read microbiome CAP-seq, not Illingworth 2010 CXXC affinity CAP-seq. This file is present in an older cached source bundle and must not support the 2010 model.",

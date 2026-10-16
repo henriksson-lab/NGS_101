@@ -154,7 +154,7 @@
     {
       "id": "moesm12_xfa",
       "role": "supplement",
-      "locator": "Original MOESM12 reporting-summary PDF; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/s41467-018-07115-y_supp_41467_2018_7115_MOESM12_ESM.pdf.txt (XFA datasets extracted by tools/doctext.py)",
+      "locator": "Original MOESM12 reporting-summary PDF; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/s41467-018-07115-y_supp_41467_2018_7115_MOESM12_ESM.pdf.txt (XFA datasets extracted by tools/doctext.py)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -174,7 +174,7 @@
       "id": "protocolsio_public_api",
       "role": "linked_material",
       "discovered_from": "authors_pi_atac_protocol",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/protocolsio_13224_public.json; https://www.protocols.io/api/v1/protocols/13224?fields%5B%5D=guidelines&fields%5B%5D=documents&fields%5B%5D=description&fields%5B%5D=materials&fields%5B%5D=steps",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/protocolsio_13224_public.json; https://www.protocols.io/api/v1/protocols/13224?fields%5B%5D=guidelines&fields%5B%5D=documents&fields%5B%5D=description&fields%5B%5D=materials&fields%5B%5D=steps",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -194,7 +194,7 @@
       "id": "protocolsio_overview_images",
       "role": "linked_material",
       "discovered_from": "protocolsio_public_api",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/z43fw26.png; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/z7y2d6n-43747664687311F08F960A58A9FEAC02.png",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/z43fw26.png; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/z7y2d6n-43747664687311F08F960A58A9FEAC02.png",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -214,7 +214,7 @@
       "id": "geo_family_metadata",
       "role": "linked_material",
       "discovered_from": "chen_2018_article",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112091_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112091_family.soft.txt; https://ftp.ncbi.nlm.nih.gov/geo/series/GSE112nnn/GSE112091/soft/GSE112091_family.soft.gz",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112091_family.soft.gz; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112091_family.soft.txt; https://ftp.ncbi.nlm.nih.gov/geo/series/GSE112nnn/GSE112091/soft/GSE112091_family.soft.gz",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -234,7 +234,7 @@
       "id": "geo_gse112089",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112089_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112089_family.soft.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112089_family.soft.gz; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112089_family.soft.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -254,7 +254,7 @@
       "id": "geo_gse112090",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112090_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112090_family.soft.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112090_family.soft.gz; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112090_family.soft.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -274,7 +274,7 @@
       "id": "geo_gse112194",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112194_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112194_family.soft.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112194_family.soft.gz; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112194_family.soft.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -294,7 +294,7 @@
       "id": "geo_gse112195",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112195_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112195_family.soft.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112195_family.soft.gz; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112195_family.soft.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -314,7 +314,7 @@
       "id": "geo_gse112198",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112198_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112198_family.soft.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112198_family.soft.gz; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112198_family.soft.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -334,7 +334,7 @@
       "id": "geo_gse112200",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112200_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112200_family.soft.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112200_family.soft.gz; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112200_family.soft.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -354,7 +354,7 @@
       "id": "geo_gse112245",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112245_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112245_family.soft.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112245_family.soft.gz; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112245_family.soft.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -374,7 +374,7 @@
       "id": "geo_gse112246",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112246_family.soft.gz; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112246_family.soft.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112246_family.soft.gz; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/GSE112246_family.soft.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -394,7 +394,7 @@
       "id": "buenrostro_full_methods_scope",
       "role": "linked_material",
       "discovered_from": "authors_pi_atac_protocol",
-      "locator": "_data/sources/doi_10.1038+nature14590/nature14590_PMC4685948.xml.txt; nature14590_supp_NIHMS694863-supplement-1.docx.txt; doi10.1038/nature14590",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nature14590/nature14590_PMC4685948.xml.txt; nature14590_supp_NIHMS694863-supplement-1.docx.txt; doi10.1038/nature14590",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -414,7 +414,7 @@
       "id": "nextera_official_kit_scope",
       "role": "linked_material",
       "discovered_from": "authors_pi_atac_protocol",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_nextera_dna_kit.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_nextera_dna_kit.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -434,7 +434,7 @@
       "id": "nextera_legacy_guide",
       "role": "linked_material",
       "discovered_from": "nextera_official_kit_scope",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_nextera-dna-library-prep-reference-guide-15027987-01.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_nextera-dna-library-prep-reference-guide-15027987-01.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -454,7 +454,7 @@
       "id": "ena_srx3824622",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3824622.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3824622?format=xml",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3824622.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3824622?format=xml",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -474,7 +474,7 @@
       "id": "ena_srx3824605",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3824605.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3824605?format=xml",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3824605.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3824605?format=xml",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -494,7 +494,7 @@
       "id": "ena_srx3830420",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3830420.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3830420?format=xml",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3830420.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3830420?format=xml",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -514,7 +514,7 @@
       "id": "ena_srx3830652",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3830652.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3830652?format=xml",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3830652.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3830652?format=xml",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -534,7 +534,7 @@
       "id": "ena_srx3830843",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3830843.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3830843?format=xml",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3830843.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3830843?format=xml",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -554,7 +554,7 @@
       "id": "ena_srx3831241",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3831241.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3831241?format=xml",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3831241.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3831241?format=xml",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -574,7 +574,7 @@
       "id": "ena_srx3835427",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3835427.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3835427?format=xml",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3835427.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3835427?format=xml",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -594,7 +594,7 @@
       "id": "ena_srx3835809",
       "role": "linked_material",
       "discovered_from": "geo_family_metadata",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3835809.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3835809?format=xml",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/SRX3835809.xml; https://www.ebi.ac.uk/ena/browser/api/xml/SRX3835809?format=xml",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -614,7 +614,7 @@
       "id": "original_atac_2013",
       "role": "linked_material",
       "discovered_from": "buenrostro_full_methods_scope",
-      "locator": "doi10.1038/nmeth.2688; _data/sources/doi_10.1038+nmeth.2688/nmeth.2688_PMC3959825.xml.txt; original supplement nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt",
+      "locator": "doi10.1038/nmeth.2688; /husky/henriksson/NGS101_papers/sources/doi_10.1038+nmeth.2688/nmeth.2688_PMC3959825.xml.txt; original supplement nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -634,7 +634,7 @@
       "id": "nextera_consumables_original",
       "role": "linked_material",
       "discovered_from": "nextera_official_kit_scope",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_nextera-dna-library-prep-consumables-equipment-1000000006969.html; registered ZIP illumina_nextera-dna-library-prep-consumables-equipment-list-1000000006969-00.zip; sole PDF member nextera-dna-library-prep-consumables-equipment-list-1000000006969-00.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_nextera-dna-library-prep-consumables-equipment-1000000006969.html; registered ZIP illumina_nextera-dna-library-prep-consumables-equipment-list-1000000006969-00.zip; sole PDF member nextera-dna-library-prep-consumables-equipment-list-1000000006969-00.pdf",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Recovered original static XFA template values from the intact PDF archive member. Filled datasets packet is empty. Form layout, scripts and user checkbox responses are not evaluated; this scoped read establishes the printed consumables/catalogue content only.",
@@ -655,7 +655,7 @@
       "id": "current_pooling_guide_entry",
       "role": "linked_material",
       "discovered_from": "nextera_official_kit_scope",
-      "locator": "_data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_index-adapters-pooling-guide-1000000041074.html; https://support-docs.illumina.com/SHARE/IndexAdaptersPooling/adapters-pooling.htm; actual loader illumina_HelpSystem.xml and actual content illumina_IndexAdapterPooling.htm; chapters illumina_Overview.htm, illumina_ColorBalance.htm, illumina_SequencingChemistry.htm, illumina_NexteraPoolingGuidelines.htm, illumina_NexteraIndexKit.htm, illumina_RevisionHistory.htm in _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_index-adapters-pooling-guide-1000000041074.html; https://support-docs.illumina.com/SHARE/IndexAdaptersPooling/adapters-pooling.htm; actual loader illumina_HelpSystem.xml and actual content illumina_IndexAdapterPooling.htm; chapters illumina_Overview.htm, illumina_ColorBalance.htm, illumina_SequencingChemistry.htm, illumina_NexteraPoolingGuidelines.htm, illumina_NexteraIndexKit.htm, illumina_RevisionHistory.htm in /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Recovered actual public topics through loader DefaultUrl and TOC; blank loader shell is not source-body evidence. Current document1000000041074v17, July2026. Read scope is the entry and six named relevant chapters, not every unrelated kit chapter or an asserted historical2018 resource.",
@@ -677,7 +677,7 @@
       "id": "adapter_sequences_current_topics",
       "role": "linked_material",
       "discovered_from": "current_pooling_guide_entry",
-      "locator": "https://support-docs.illumina.com/SHARE/AdapterSequences/Content/AdapterSeq.htm; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_AdapterSeq.htm; illumina_AdapterSequences_Overview.htm; illumina_AdapterSequences_Nextera_Illumina-Sequences.htm; illumina_AdapterSequences_Nextera-DNAIndexes.htm; illumina_AdapterSequences_Nextera-DNASamplePrepKit.htm",
+      "locator": "https://support-docs.illumina.com/SHARE/AdapterSequences/Content/AdapterSeq.htm; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_AdapterSeq.htm; illumina_AdapterSequences_Overview.htm; illumina_AdapterSequences_Nextera_Illumina-Sequences.htm; illumina_AdapterSequences_Nextera-DNAIndexes.htm; illumina_AdapterSequences_Nextera-DNASamplePrepKit.htm",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -697,7 +697,7 @@
       "id": "indexed_sequencing_current_topics",
       "role": "linked_material",
       "discovered_from": "current_pooling_guide_entry",
-      "locator": "https://support-docs.illumina.com/SHARE/IndexedSeq/; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_IndexedSeq_IndexedSeqIntro.htm; illumina_IndexedSeq_SingleIndexSeq.htm; illumina_IndexedSeq_DualIndexSeq.htm; illumina_IndexedSeq_DualIndexWorkflowPE.htm; illumina_IndexedSeq_RevHist_IndexedSeq.htm; illumina_IndexedSeq_resources_indexseq.htm",
+      "locator": "https://support-docs.illumina.com/SHARE/IndexedSeq/; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_IndexedSeq_IndexedSeqIntro.htm; illumina_IndexedSeq_SingleIndexSeq.htm; illumina_IndexedSeq_DualIndexSeq.htm; illumina_IndexedSeq_DualIndexWorkflowPE.htm; illumina_IndexedSeq_RevHist_IndexedSeq.htm; illumina_IndexedSeq_resources_indexseq.htm",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -717,7 +717,7 @@
       "id": "nextseq_miniseq_pooling_bulletin",
       "role": "linked_material",
       "discovered_from": "current_pooling_guide_entry",
-      "locator": "https://support.illumina.com/bulletins/2016/10/library-pooling-guidelines-for-the-nextseq-and-miniseq-systems.html; currently redirects https://knowledge.illumina.com/instrumentation/general/instrumentation-general-reference_material-list/000001241; _data/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_library-pooling-guidelines-for-the-nextseq-and-miniseq-systems.html.txt",
+      "locator": "https://support.illumina.com/bulletins/2016/10/library-pooling-guidelines-for-the-nextseq-and-miniseq-systems.html; currently redirects https://knowledge.illumina.com/instrumentation/general/instrumentation-general-reference_material-list/000001241; /husky/henriksson/NGS101_papers/sources/pi-atac-seq__10.1038+s41467-018-07115-y/illumina_library-pooling-guidelines-for-the-nextseq-and-miniseq-systems.html.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Inspected original current body explicitly addresses NextSeq500/550 and MiniSeq two-channel index-registration recommendations. Pi source uses HiSeq4000; this bulletin does not supply Pi physical oligos or well assignments. Exclusion is limited to that molecular-assignment claim, not a universal assertion about all sequencing contexts or historical bulletin versions.",

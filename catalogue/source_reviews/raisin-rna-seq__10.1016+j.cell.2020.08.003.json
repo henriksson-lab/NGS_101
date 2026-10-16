@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/raisin-rna-seq__10.1016+j.cell.2020.08.003/j.cell.2020.08.003_PMC8358727.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/raisin-rna-seq__10.1016+j.cell.2020.08.003/j.cell.2020.08.003_PMC8358727.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "preprint",
       "role": "other",
-      "locator": "_data/sources/raisin-rna-seq__10.1016+j.cell.2020.08.003/746743_v4.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/raisin-rna-seq__10.1016+j.cell.2020.08.003/746743_v4.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "shekhar_2016",
       "role": "predecessor",
-      "locator": "_data/sources/raisin-rna-seq__10.1016+j.cell.2020.08.003/j.cell.2016.07.054_PMC5003425.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/raisin-rna-seq__10.1016+j.cell.2020.08.003/j.cell.2016.07.054_PMC5003425.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "10x_v2",
       "role": "vendor",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/scg_CG000108_AssayConfiguration_SC3v2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/scg_CG000108_AssayConfiguration_SC3v2.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -5,7 +5,7 @@
     {
       "id": "guide",
       "role": "defining",
-      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000674_ChromiumFixedRNAProfiling_SingleplexedSamples_ProteinExpression_BarcodeOligoCapture_UserGuide_Rev_C.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-fixed-rna-profiling-flex/10x_CG000674_ChromiumFixedRNAProfiling_SingleplexedSamples_ProteinExpression_BarcodeOligoCapture_UserGuide_Rev_C.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "probe_set_csv",
       "role": "linked_material",
-      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_Chromium_Human_Transcriptome_Probe_Set_v1.0.1_GRCh38-2020-A.csv; https://cf.10xgenomics.com/supp/cell-exp/probeset/Chromium_Human_Transcriptome_Probe_Set_v1.0.1_GRCh38-2020-A.csv; Cell Ranger 7.2 documentation names this v1.0.1 Flex reference",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-fixed-rna-profiling-flex/10x_Chromium_Human_Transcriptome_Probe_Set_v1.0.1_GRCh38-2020-A.csv; https://cf.10xgenomics.com/supp/cell-exp/probeset/Chromium_Human_Transcriptome_Probe_Set_v1.0.1_GRCh38-2020-A.csv; Cell Ranger 7.2 documentation names this v1.0.1 Flex reference",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "cg000477",
       "role": "linked_material",
-      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000477_ChromiumFixedRNAProfiling_SingleplexedSamples_ProteinExpression_UserGuide_Rev_E.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1694503286/support-documents/CG000477_ChromiumFixedRNAProfiling_SingleplexedSamples_ProteinExpression_UserGuide_Rev_E.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-fixed-rna-profiling-flex/10x_CG000477_ChromiumFixedRNAProfiling_SingleplexedSamples_ProteinExpression_UserGuide_Rev_E.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1694503286/support-documents/CG000477_ChromiumFixedRNAProfiling_SingleplexedSamples_ProteinExpression_UserGuide_Rev_E.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "custom_probe_design",
       "role": "linked_material",
-      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000621_CustomProbeDesign_RevD.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1729114202/support-documents/CG000621_CustomProbeDesign_RevD.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-fixed-rna-profiling-flex/10x_CG000621_CustomProbeDesign_RevD.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1729114202/support-documents/CG000621_CustomProbeDesign_RevD.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -84,7 +84,7 @@
     {
       "id": "protocol_planner_cg000528",
       "role": "linked_material",
-      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000528_Chromium_FixedRNA_Profiling_ProtocolPlanner_RevD_swap.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1694503152/support-documents/CG000528_Chromium_FixedRNA_Profiling_ProtocolPlanner_RevD_swap.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-fixed-rna-profiling-flex/10x_CG000528_Chromium_FixedRNA_Profiling_ProtocolPlanner_RevD_swap.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1694503152/support-documents/CG000528_Chromium_FixedRNA_Profiling_ProtocolPlanner_RevD_swap.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -104,7 +104,7 @@
     {
       "id": "fixation_cg000478",
       "role": "linked_material",
-      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000478_DemonstratedProtocol_Cell_NucleiFixation_Chromium_FixedRNA_Profiling_RevC.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1676674019/support-documents/CG000478_DemonstratedProtocol_Cell_NucleiFixation_Chromium_FixedRNA_Profiling_RevC.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-fixed-rna-profiling-flex/10x_CG000478_DemonstratedProtocol_Cell_NucleiFixation_Chromium_FixedRNA_Profiling_RevC.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1676674019/support-documents/CG000478_DemonstratedProtocol_Cell_NucleiFixation_Chromium_FixedRNA_Profiling_RevC.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -124,7 +124,7 @@
     {
       "id": "protein_labeling_cg000529",
       "role": "linked_material",
-      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000529_DemonstratedProtocol_CellSurfaceProteinLabelingforFixedRNA_RevC.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1719610805/support-documents/CG000529_DemonstratedProtocol_CellSurfaceProteinLabelingforFixedRNA_RevC.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-fixed-rna-profiling-flex/10x_CG000529_DemonstratedProtocol_CellSurfaceProteinLabelingforFixedRNA_RevC.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1719610805/support-documents/CG000529_DemonstratedProtocol_CellSurfaceProteinLabelingforFixedRNA_RevC.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -144,7 +144,7 @@
     {
       "id": "instrument_cg000396",
       "role": "linked_material",
-      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000396_ChromiumX_Instrument_UserGuide_RevM.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1752704824/support-documents/CG000396_ChromiumX_Instrument_UserGuide_RevM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-fixed-rna-profiling-flex/10x_CG000396_ChromiumX_Instrument_UserGuide_RevM.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1752704824/support-documents/CG000396_ChromiumX_Instrument_UserGuide_RevM.pdf",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -165,7 +165,7 @@
     {
       "id": "clog_cg000479",
       "role": "linked_material",
-      "locator": "_data/sources/10x-fixed-rna-profiling-flex/10x_CG000479_TechNote_MinimizingClogs_WettingFailures_RevB.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000479_TechNote_MinimizingClogs_WettingFailures_RevB.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-fixed-rna-profiling-flex/10x_CG000479_TechNote_MinimizingClogs_WettingFailures_RevB.pdf.txt; https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000479_TechNote_MinimizingClogs_WettingFailures_RevB.pdf",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

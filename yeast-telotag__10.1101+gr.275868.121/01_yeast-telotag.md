@@ -6,7 +6,7 @@ Sholes TeloTag marks the physical end of each *S. cerevisiae* telomere with poly
 
 ## 2. Sources read
 
-- 🟢 Sholes et al. (2022), [doi:10.1101/gr.275868.121](https://doi.org/10.1101/gr.275868.121), full text and `_data/sources/doi_10.1101+gr.275868.121/gr.275868.121_supp_supp_gr.275868.121_Supplemental_Material.pdf.txt`, Supplemental Table S5, lines 679–707; the PDF page was checked visually.
+- 🟢 Sholes et al. (2022), [doi:10.1101/gr.275868.121](https://doi.org/10.1101/gr.275868.121), full text and `/husky/henriksson/NGS101_papers/sources/doi_10.1101+gr.275868.121/gr.275868.121_supp_supp_gr.275868.121_Supplemental_Material.pdf.txt`, Supplemental Table S5, lines 679–707; the PDF page was checked visually.
 - 🟡 Makarova et al. (2025), [doi:10.3389/fmolb.2025.1725112](https://doi.org/10.3389/fmolb.2025.1725112), comparison with later long-read methods.
 
 ## 3. Construct and reaction order

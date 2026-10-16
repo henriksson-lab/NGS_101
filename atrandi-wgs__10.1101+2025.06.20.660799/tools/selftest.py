@@ -15,6 +15,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
+from storage import data_root
 
 import atrandi as A
 import illumina as il
@@ -168,8 +169,7 @@ check("Read 2 starts at barcode D", _r2.reads_from, "BC-D")
 
 # Read the actual vendor original when available: a copied citation comment alone
 # cannot guard against source transcription errors.
-import os
-source_root = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data"))
+source_root = data_root()
 source = Source(source_root / "sources" / HERE.parent.name /
     "DGPM02323206001_Single_Microbe_DNA_Barcoding_Kit_Library_Prep_For_Seq_V3.pdf.txt",
     "Atrandi original DGPM02323206001 V3, 3 November 2023; vendor source reacquisition instructions in ref/MANIFEST.md")

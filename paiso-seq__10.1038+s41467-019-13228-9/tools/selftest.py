@@ -2,9 +2,9 @@
 """Source-transcription checks for PAIso-seq."""
 from pathlib import Path
 import sys
-import os
 import re
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import chem as P
 from checks import Check,Source,have
 from dumbbell import smrtbell_hairpin_geometry
@@ -24,7 +24,7 @@ c("unversioned SMRTbell junction stays unresolved",P.SMRTBELL.junction_unavailab
 c("ligating end cannot be presented as a known A/T junction",
   smrtbell_hairpin_geometry(P.SMRTBELL,statement="Kit version unresolved").availability,
   "unavailable")
-bundle=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"/"paiso-seq__10.1038+s41467-019-13228-9"
+bundle=data_root()/"sources"/"paiso-seq__10.1038+s41467-019-13228-9"
 source=Source(bundle/"s41467-019-13228-9_supp_41467_2019_13228_MOESM1_ESM.pdf.txt",P.SOURCE)
 if have(c,source,label="original Supplementary Table1"):
     table=source.path.read_text().split("Supplementary Table 1.",1)[1].split("Supplementary Table 2.",1)[0]

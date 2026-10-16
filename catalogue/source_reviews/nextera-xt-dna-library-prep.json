@@ -5,7 +5,7 @@
     {
       "id": "guide",
       "role": "defining",
-      "locator": "_data/sources/nextera-xt-dna-library-prep/illumina_15031942_07_nextera-xt-product-documentation.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nextera-xt-dna-library-prep/illumina_15031942_07_nextera-xt-product-documentation.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "adapter_guide",
       "role": "linked_material",
-      "locator": "_data/sources/nextera-xt-dna-library-prep/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nextera-xt-dna-library-prep/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -60,7 +60,7 @@
         "locations": "Original Illumina Nextera XT Tips and Troubleshooting PDF pp. 4–6, browser lines 149–200; source-bundle oligo scraper run before reading",
         "finding": "Independently verified that post-PCR-cleanup library is double-stranded and can be the drawn final library; optional bead normalization yields a single-stranded eluted product. The note explains adapter-arm completion through PCR but does not provide a separate loaded-transposome strand inventory."
       },
-      "local_original": "_data/sources/nextera-xt-dna-library-prep/illumina_nextera-xt-troubleshooting-technical-note.pdf"
+      "local_original": "/husky/henriksson/NGS101_papers/sources/nextera-xt-dna-library-prep/illumina_nextera-xt-troubleshooting-technical-note.pdf"
     },
     {
       "id": "index_pooling",
@@ -101,7 +101,7 @@
         "locations": "Original Illumina Nextera Library Validation technical note 770-2013-003 PDF pp. 1–2, browser lines 0–30, 51–63 and 100–143; source-bundle scraper run first",
         "finding": "Independently verified that XT uses 1 ng input and that the note discusses double-stranded final libraries before normalization, with size/quantification guidance. It contains no loaded-transposome oligo table."
       },
-      "local_original": "_data/sources/nextera-xt-dna-library-prep/illumina_technote_nextera_library_validation.pdf"
+      "local_original": "/husky/henriksson/NGS101_papers/sources/nextera-xt-dna-library-prep/illumina_technote_nextera_library_validation.pdf"
     },
     {
       "id": "qpcr_quantification",
@@ -123,7 +123,7 @@
         "locations": "Original Illumina Sequencing Library qPCR Quantification Guide 11322363 Rev C PDF pp. 3 and 6, browser lines 49–64 and 83–111; source-bundle scraper run first",
         "finding": "Independently verified the two printed P5/P7 qPCR primers are used to quantify already prepared sequencing libraries. They are assay primers and do not define the adapter installed in Nextera XT library construction."
       },
-      "local_original": "_data/sources/nextera-xt-dna-library-prep/illumina_sequencing-library-qpcr-quantification-guide-11322363-c.pdf"
+      "local_original": "/husky/henriksson/NGS101_papers/sources/nextera-xt-dna-library-prep/illumina_sequencing-library-qpcr-quantification-guide-11322363-c.pdf"
     }
   ],
   "linked_information": {

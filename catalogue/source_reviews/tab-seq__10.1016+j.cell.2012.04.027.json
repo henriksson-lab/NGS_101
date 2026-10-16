@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/tab-seq__10.1016+j.cell.2012.04.027/j.cell.2012.04.027_PMC3589129.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tab-seq__10.1016+j.cell.2012.04.027/j.cell.2012.04.027_PMC3589129.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -40,7 +40,7 @@
     {
       "id": "detailed_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/tab-seq__10.1016+j.cell.2012.04.027/PMC3641661_PMC3641661.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tab-seq__10.1016+j.cell.2012.04.027/PMC3641661_PMC3641661.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_PMC6884681.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_PMC6884681.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "author_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-2.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_doc",
       "role": "supplement",
-      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-1.doc",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-1.doc",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "published_supp",
       "role": "supplement",
-      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_41592_2019_570_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_41592_2019_570_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Supplementary figure and result captions, not a library-preparation oligo or adapter source.",
@@ -82,7 +82,7 @@
     {
       "id": "reporting",
       "role": "supplement",
-      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_41592_2019_570_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_41592_2019_570_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -102,7 +102,7 @@
     {
       "id": "source_data",
       "role": "supplement",
-      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_41592_2019_570_MOESM11_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_41592_2019_570_MOESM11_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -122,7 +122,7 @@
     {
       "id": "sup_table_1",
       "role": "supplement",
-      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab1.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab1.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -142,7 +142,7 @@
     {
       "id": "sup_table_2",
       "role": "supplement",
-      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -162,7 +162,7 @@
     {
       "id": "sup_table_3",
       "role": "supplement",
-      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab3.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -182,7 +182,7 @@
     {
       "id": "sup_table_4",
       "role": "supplement",
-      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab4.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab4.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -202,7 +202,7 @@
     {
       "id": "sup_table_5",
       "role": "supplement",
-      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab5.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab5.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -222,7 +222,7 @@
     {
       "id": "sup_table_6",
       "role": "supplement",
-      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab6.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab6.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -242,7 +242,7 @@
     {
       "id": "sup_table_7",
       "role": "supplement",
-      "locator": "_data/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab7.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dart-seq__10.1038+s41592-019-0570-0/s41592-019-0570-0_supp_NIHMS1537259-supplement-Sup_Tab7.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

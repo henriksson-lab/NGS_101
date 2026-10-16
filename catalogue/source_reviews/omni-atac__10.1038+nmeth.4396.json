@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_PMC5623106.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_PMC5623106.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_protocol_1",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_protocol_2",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM4_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM4_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "buenrostro_2015",
       "role": "predecessor",
-      "locator": "_data/sources/doi_10.1002+0471142727.mb2129s109/0471142727.mb2129s109_PMC4374986.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1002+0471142727.mb2129s109/0471142727.mb2129s109_PMC4374986.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "buenrostro_2013_supp",
       "role": "predecessor",
-      "locator": "_data/sources/doi_10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -102,7 +102,7 @@
     {
       "id": "nmeth_4396_41592_2017_bfnmeth4396_moesm1_esm_pdf",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {
@@ -122,7 +122,7 @@
     {
       "id": "nmeth_4396_41592_2017_bfnmeth4396_moesm2_esm_pdf",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {
@@ -142,7 +142,7 @@
     {
       "id": "nmeth_4396_41592_2017_bfnmeth4396_moesm5_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Deep sequencing performance metrics for Figure 1, not ordering-level adapter sequences.",
@@ -162,7 +162,7 @@
     {
       "id": "nmeth_4396_41592_2017_bfnmeth4396_moesm6_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM6_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM6_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Clinical brain donor metadata, not library chemistry.",
@@ -182,7 +182,7 @@
     {
       "id": "nmeth_4396_41592_2017_bfnmeth4396_moesm7_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM7_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM7_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "GWAS enrichment result data, not library oligos.",

@@ -190,7 +190,7 @@
       "id": "illumina_rev_c_2011",
       "role": "linked_material",
       "discovered_from": "kruesi_2013",
-      "locator": "_data/sources/gro-cap__10.1038+ng.3142/TruSeq_SmallRNA_SamplePrep_Guide_15004197_C.pdf.txt; Illumina part 15004197 Rev C (2011), original guide mirrored at https://www.bu.edu/iscf/files/2011/05/TruSeq_SmallRNA_SamplePrep_Guide_15004197_C.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gro-cap__10.1038+ng.3142/TruSeq_SmallRNA_SamplePrep_Guide_15004197_C.pdf.txt; Illumina part 15004197 Rev C (2011), original guide mirrored at https://www.bu.edu/iscf/files/2011/05/TruSeq_SmallRNA_SamplePrep_Guide_15004197_C.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_PMC12476631.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_PMC12476631.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "author_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/protocolsio_hybrid-bag-seq-protocol-for-dna-rna-co-assay-rm7vzqr92vx1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/protocolsio_hybrid-bag-seq-protocol-for-dna-rna-co-assay-rm7vzqr92vx1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "author_attachment",
       "role": "supplement",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/protocolsio_hybrid-bag-seq-protocol-for-dna-rna-co-assay-rm7vzqr92vx1_attachment_1_t9bacpj97.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/protocolsio_hybrid-bag-seq-protocol-for-dna-rna-co-assay-rm7vzqr92vx1_attachment_1_t9bacpj97.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "bag_predecessor",
       "role": "linked_material",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/PMC6961581_PMC6961581.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/PMC6961581_PMC6961581.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "bag_predecessor_methods",
       "role": "supplement",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/PMC6961581_supp_supp_gr.253047.119_Supplemental_Methods_.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/PMC6961581_supp_supp_gr.253047.119_Supplemental_Methods_.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "bag_predecessor",
@@ -102,7 +102,7 @@
     {
       "id": "supp_1",
       "role": "supplement",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM10_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM10_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Filtered co-clustering counts, no chemistry.",
@@ -122,7 +122,7 @@
     {
       "id": "supp_2",
       "role": "supplement",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM11_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM11_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Genomic bin boundaries for copy-number analysis, no chemistry.",
@@ -142,7 +142,7 @@
     {
       "id": "supp_3",
       "role": "supplement",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM1_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM1_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Patient metadata table, no reaction/oligo details.",
@@ -162,7 +162,7 @@
     {
       "id": "supp_4",
       "role": "supplement",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM2_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM2_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -181,7 +181,7 @@
     {
       "id": "supp_5",
       "role": "supplement",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Supplementary figure captions document copy-number, clustering and quality outcomes, no additional oligo list in inspected captions.",
@@ -201,7 +201,7 @@
     {
       "id": "supp_6",
       "role": "supplement",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "DNA clone/RNA cluster contingency results, no chemistry.",
@@ -221,7 +221,7 @@
     {
       "id": "supp_7",
       "role": "supplement",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM5_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM5_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Case-by-case tumour interpretation, no library preparation detail in inspected text.",
@@ -241,7 +241,7 @@
     {
       "id": "supp_8",
       "role": "supplement",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM6_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM6_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Differential expression result table, no chemistry.",
@@ -261,7 +261,7 @@
     {
       "id": "supp_9",
       "role": "supplement",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM7_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM7_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Stromal marker result table, no chemistry.",
@@ -281,7 +281,7 @@
     {
       "id": "supp_10",
       "role": "supplement",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM8_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM8_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Crossover counts after filtering, no chemistry.",
@@ -301,7 +301,7 @@
     {
       "id": "supp_11",
       "role": "supplement",
-      "locator": "_data/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM9_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hybrid-bag-seq__10.1186+s13059-025-03790-5/s13059-025-03790-5_supp_13059_2025_3790_MOESM9_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Crossover summary, no chemistry.",

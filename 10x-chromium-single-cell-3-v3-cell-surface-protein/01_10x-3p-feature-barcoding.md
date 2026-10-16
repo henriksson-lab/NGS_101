@@ -27,7 +27,7 @@ cites as background:
   mechanisms of cancer immune evasion." *Nat Genet* 2021. doi:[10.1038/s41588-021-00779-1](https://doi.org/10.1038/s41588-021-00779-1) (preprint doi:10.1101/2020.09.01.267211).
 
 Sources read (fetched by `tools/get_sources.py`, into
-`_data/sources/10x-chromium-single-cell-3-featurebarcoding/`, never committed):
+`/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-featurebarcoding/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

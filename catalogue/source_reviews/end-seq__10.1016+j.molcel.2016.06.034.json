@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/end-seq__10.1016+j.molcel.2016.06.034/j.molcel.2016.06.034_PMC6299834.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/end-seq__10.1016+j.molcel.2016.06.034/j.molcel.2016.06.034_PMC6299834.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

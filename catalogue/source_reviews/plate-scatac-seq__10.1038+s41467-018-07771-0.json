@@ -83,7 +83,7 @@
     {
       "id": "plate_moesm2",
       "role": "supplement",
-      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "This is a short review and rebuttal record without additional wet-lab instructions or oligo sequence table.",
@@ -103,7 +103,7 @@
     {
       "id": "plate_moesm7",
       "role": "supplement",
-      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM7_ESM.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM7_ESM.docx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Data 1–4 are inventoried as QC, cell annotation, marker peak and HOMER motif result tables; no reagent list.",
@@ -123,7 +123,7 @@
     {
       "id": "plate_moesm8",
       "role": "supplement",
-      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM8_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM8_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Nature Research reporting form describes data analysis and study design; it has no library-construction oligo table or additional adapter geometry.",
@@ -143,7 +143,7 @@
     {
       "id": "plate_moesm3",
       "role": "supplement",
-      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM3_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM3_ESM.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Batch-level QC measurements include FRiP, library size, mapping, mitochondrial content and depth; no reagent sequence or construction procedure.",
@@ -163,7 +163,7 @@
     {
       "id": "plate_moesm4",
       "role": "supplement",
-      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM4_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM4_ESM.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Per-cell QC, t-SNE positions, clusters and inferred cell types. Identifiers and values are measured outputs, not barcoding oligos or molecular steps.",
@@ -183,7 +183,7 @@
     {
       "id": "plate_moesm5",
       "role": "supplement",
-      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM5_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM5_ESM.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Marker genomic peaks, coordinates and annotations are results; no adapter or primer fields.",
@@ -203,7 +203,7 @@
     {
       "id": "plate_moesm6",
       "role": "supplement",
-      "locator": "_data/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM6_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/plate-scatac-seq__10.1038+s41467-018-07771-0/s41467-018-07771-0_41467_2018_7771_MOESM6_ESM.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "HOMER motif enrichment results. The DNA-like consensus strings (e.g. CEBP and PU.1 rows 2–3) describe transcription-factor binding motifs, not protocol oligos.",

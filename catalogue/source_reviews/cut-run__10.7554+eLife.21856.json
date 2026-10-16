@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/eLife.21856_v3.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/eLife.21856_v3.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "kasinathan_original_supplement",
       "role": "predecessor",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/PMC3929178_supp_NIHMS543084-supplement-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/PMC3929178_supp_NIHMS543084-supplement-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -37,7 +37,7 @@
     {
       "id": "henikoff_original_main",
       "role": "predecessor",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/pnas.1110731108_PMC3215028.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/pnas.1110731108_PMC3215028.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -66,7 +66,7 @@
     {
       "id": "geo_metadata",
       "role": "other",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/geo-GSE84474-all-full.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/geo-GSE84474-all-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -85,7 +85,7 @@
     {
       "id": "author_profile",
       "role": "other",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/peteskene.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/peteskene.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -104,7 +104,7 @@
     {
       "id": "geo_cut-and-run_peg_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut-and-Run_PEG_protocol.rtf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut-and-Run_PEG_protocol.rtf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -123,7 +123,7 @@
     {
       "id": "geo_cut-and-run_extract_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut-and-Run_extract_protocol.rtf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut-and-Run_extract_protocol.rtf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -142,7 +142,7 @@
     {
       "id": "geo_cut-and-run_spike-in_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut-and-Run_spike-in_protocol.rtf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut-and-Run_spike-in_protocol.rtf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -161,7 +161,7 @@
     {
       "id": "geo_cut-and-run_total_dna_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut-and-Run_total_DNA_protocol.rtf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut-and-Run_total_DNA_protocol.rtf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -180,7 +180,7 @@
     {
       "id": "geo_cut_and_run_human",
       "role": "detailed_protocol",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut_and_Run_human.rtf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut_and_Run_human.rtf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -199,7 +199,7 @@
     {
       "id": "geo_cut_and_run_human_size_selection",
       "role": "detailed_protocol",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut_and_Run_human_size_selection.rtf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/GSE84474_Cut_and_Run_human_size_selection.rtf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -218,7 +218,7 @@
     {
       "id": "geo_native_chip",
       "role": "detailed_protocol",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/GSE84474_Native_ChIP.rtf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/GSE84474_Native_ChIP.rtf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -256,7 +256,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/eLife.21856_v3.xml.txt:374-376",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/eLife.21856_v3.xml.txt:374-376",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -291,7 +291,7 @@
     {
       "id": "supplement",
       "role": "supplement",
-      "locator": "_data/sources/cut-run__10.7554+eLife.21856/eLife.21856_v3.pdf.txt and supplementary inventory",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cut-run__10.7554+eLife.21856/eLife.21856_v3.pdf.txt and supplementary inventory",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

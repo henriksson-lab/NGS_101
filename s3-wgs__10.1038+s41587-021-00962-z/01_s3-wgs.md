@@ -19,7 +19,7 @@ upgrade of the authors' earlier **sci-DNA-seq** (Vitak et al. 2017, *Nat Methods
 paper's ref. 10), whose xSDS nucleosome-depletion step it keeps.
 
 Sources read (fetched by `tools/get_sources.py`, into
-`_data/sources/s3-wgs__10.1038+s41587-021-00962-z/`, never committed):
+`/husky/henriksson/NGS101_papers/sources/s3-wgs__10.1038+s41587-021-00962-z/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

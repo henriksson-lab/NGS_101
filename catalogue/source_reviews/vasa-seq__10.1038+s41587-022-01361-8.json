@@ -92,7 +92,7 @@
     {
       "id": "celseq_plate",
       "role": "linked_material",
-      "locator": "_data/sources/vasa-seq__10.1038+s41587-022-01361-8/j.cels.2016.09.002_supp_mmc9.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/vasa-seq__10.1038+s41587-022-01361-8/j.cels.2016.09.002_supp_mmc9.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Muraro SORT-seq original is local; actual VASA plate barcode mapping is a separate GEO source.",
@@ -113,7 +113,7 @@
     {
       "id": "celseq2_original",
       "role": "linked_material",
-      "locator": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM4_ESM.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM4_ESM.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Original CEL-Seq2 primer table; VASA plate assignment still requires GEO.",
@@ -121,7 +121,7 @@
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM4_ESM.docx.txt",
+        "locations": "/husky/henriksson/NGS101_papers/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM4_ESM.docx.txt",
         "finding": "Supplement lines 29–51 print randomhexRT and 96 barcoded RT primer members."
       },
       "pass_2": {
@@ -145,7 +145,7 @@
     {
       "id": "geo_plate_barcodes",
       "role": "linked_material",
-      "locator": "_data/sources/vasa-seq__10.1038+s41587-022-01361-8/GSM5369495_bc2cellID_vasaplate.tsv.gz.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/vasa-seq__10.1038+s41587-022-01361-8/GSM5369495_bc2cellID_vasaplate.tsv.gz.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Original GSE176588 barcode file fetched from NCBI GEO.",
@@ -153,7 +153,7 @@
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/vasa-seq__10.1038+s41587-022-01361-8/GSM5369495_bc2cellID_vasaplate.tsv.gz.txt",
+        "locations": "/husky/henriksson/NGS101_papers/sources/vasa-seq__10.1038+s41587-022-01361-8/GSM5369495_bc2cellID_vasaplate.tsv.gz.txt",
         "finding": "File has exactly 384 unique eight-base barcodes mapped to IDs 001–384, CGTCTAAT/001 to CTCTGTCT/384. Scraper default length omitted these; read directly."
       },
       "pass_2": {

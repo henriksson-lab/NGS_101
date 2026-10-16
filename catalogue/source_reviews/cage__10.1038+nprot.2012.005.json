@@ -5,7 +5,7 @@
     {
       "id": "protocol",
       "role": "defining",
-      "locator": "_data/sources/cage__10.1038+nprot.2012.005/PMC4094379_PMC4094379.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cage__10.1038+nprot.2012.005/PMC4094379_PMC4094379.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "springer_script",
       "role": "supplement",
-      "locator": "_data/sources/cage__10.1038+nprot.2012.005/nprot.2012.005_41596_2012_BFnprot2012005_MOESM283_ESM.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cage__10.1038+nprot.2012.005/nprot.2012.005_41596_2012_BFnprot2012005_MOESM283_ESM.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

@@ -5,7 +5,7 @@
     {
       "id": "vendor_guide",
       "role": "defining",
-      "locator": "_data/sources/illumina-16s-metagenomic-sequencing/illumina_16s-metagenomic-library-prep-guide-15044223-b.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/illumina-16s-metagenomic-sequencing/illumina_16s-metagenomic-library-prep-guide-15044223-b.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "klindworth",
       "role": "linked_material",
-      "locator": "Klindworth et al., Nucleic Acids Research 2013, doi:10.1093/nar/gks808; original _data/sources/illumina-16s-metagenomic-sequencing/PMC3592464_PMC3592464.xml.txt, cited by Illumina guide p.3",
+      "locator": "Klindworth et al., Nucleic Acids Research 2013, doi:10.1093/nar/gks808; original /husky/henriksson/NGS101_papers/sources/illumina-16s-metagenomic-sequencing/PMC3592464_PMC3592464.xml.txt, cited by Illumina guide p.3",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "vendor_indexing_mechanism",
       "role": "vendor",
-      "locator": "_data/sources/illumina-16s-metagenomic-sequencing/illumina_indexed-sequencing-overview-guide-15057455-08.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/illumina-16s-metagenomic-sequencing/illumina_indexed-sequencing-overview-guide-15057455-08.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "klindworth_figure_captions",
       "role": "linked_material",
-      "locator": "_data/sources/illumina-16s-metagenomic-sequencing/PMC3592464_supp_supp_gks808_Figures_Supplementary_Fig_description.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/illumina-16s-metagenomic-sequencing/PMC3592464_supp_supp_gks808_Figures_Supplementary_Fig_description.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "klindworth",

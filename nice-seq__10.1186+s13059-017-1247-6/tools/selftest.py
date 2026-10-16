@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """Source boundaries and workflow regressions, without selecting an unknown oligo kit."""
-import os
 import re
 import sys
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
+from storage import data_root
 from checks import Check, Source, have
 from protocol_graph import InputRole
 import chem
 
 check = Check()
-data = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources" / HERE.parent.name
+data = data_root() / "sources" / HERE.parent.name
 article = Source(data / "s13059-017-1247-6_PMC5488340.xml.txt", "Ponnaluri2017 original Methods, NicE-seq library construction")
 if have(check, article, label="Original NicE-seq library method"):
     text = article.path.read_text()

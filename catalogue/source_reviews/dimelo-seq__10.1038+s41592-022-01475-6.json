@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_PMC9189060.xml.txt lines 202-224; scraper directory hits author protocols",
+        "locations": "/husky/henriksson/NGS101_papers/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_PMC9189060.xml.txt lines 202-224; scraper directory hits author protocols",
         "finding": "Methods identify antibody-pA-Hia5, SAM marking, native DNA extraction; multiple distinct ONT kits/branch-specific barcoding, plus PacBio comparison."
       },
       "pass_2": {
@@ -30,7 +30,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Supplementary_information.pdf.txt lines 40-116,4118-4140,5245-5255",
+        "locations": "/husky/henriksson/NGS101_papers/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Supplementary_information.pdf.txt lines 40-116,4118-4140,5245-5255",
         "finding": "Tables of conditions and Supplementary Note 15; names EXP-NBD104/114 plus SQK-LSK109 for a subset, not motor oligo bases."
       },
       "pass_2": {
@@ -49,7 +49,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_41592_2022_1475_MOESM2_ESM.pdf.txt first pages",
+        "locations": "/husky/henriksson/NGS101_papers/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_41592_2022_1475_MOESM2_ESM.pdf.txt first pages",
         "finding": "Non-oligo appendix in inspected first pages; full relevance awaits independent check."
       },
       "pass_2": {
@@ -68,7 +68,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/protocolsio_dimelo-seq-directed-methylation-with-long-read-seq-n2bvjxe4wlk5.pdf.txt lines 46-55,94-126,486-500,572 onward",
+        "locations": "/husky/henriksson/NGS101_papers/sources/dimelo-seq__10.1038+s41592-022-01475-6/protocolsio_dimelo-seq-directed-methylation-with-long-read-seq-n2bvjxe4wlk5.pdf.txt lines 46-55,94-126,486-500,572 onward",
         "finding": "Detailed pA-Hia5 binding and activation instructions; identifies SQK-LSK109/110 but not kit adapter oligos."
       },
       "pass_2": {
@@ -87,7 +87,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/2021.07.06.451383_v1.full.pdf.txt Methods and supplement references",
+        "locations": "/husky/henriksson/NGS101_papers/sources/dimelo-seq__10.1038+s41592-022-01475-6/2021.07.06.451383_v1.full.pdf.txt Methods and supplement references",
         "finding": "Earlier author version; published article governs branch identity."
       },
       "pass_2": {
@@ -141,7 +141,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_10b.pdf.txt first page",
+        "locations": "/husky/henriksson/NGS101_papers/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_10b.pdf.txt first page",
         "finding": "Embedded extended-figure image data."
       },
       "pass_2": {
@@ -161,7 +161,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_1abd.pdf.txt first page",
+        "locations": "/husky/henriksson/NGS101_papers/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_1abd.pdf.txt first page",
         "finding": "Embedded extended-figure image data."
       },
       "pass_2": {
@@ -181,7 +181,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_2c_d.pdf.txt first page",
+        "locations": "/husky/henriksson/NGS101_papers/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_2c_d.pdf.txt first page",
         "finding": "Embedded microscopy/source images."
       },
       "pass_2": {
@@ -201,7 +201,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_2e.xlsx.txt sheet extfig_2e_methyladenosine_signa header and first rows",
+        "locations": "/husky/henriksson/NGS101_papers/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_2e.xlsx.txt sheet extfig_2e_methyladenosine_signa header and first rows",
         "finding": "m6A signal measurements, no primer design columns."
       },
       "pass_2": {
@@ -221,7 +221,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_3cd_IF_images.pdf.txt first page",
+        "locations": "/husky/henriksson/NGS101_papers/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Source_data_EDF_3cd_IF_images.pdf.txt first page",
         "finding": "Image-only microscopy source file."
       },
       "pass_2": {
@@ -241,7 +241,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Peer_Review_File.pdf.txt title and first page",
+        "locations": "/husky/henriksson/NGS101_papers/sources/dimelo-seq__10.1038+s41592-022-01475-6/s41592-022-01475-6_supp_NIHMS1792670-supplement-Peer_Review_File.pdf.txt title and first page",
         "finding": "Peer-review correspondence."
       },
       "pass_2": {

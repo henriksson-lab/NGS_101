@@ -3,11 +3,12 @@ from pathlib import Path
 import sys
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
+from storage import data_root
 import chem
 from checks import Check, Source, have
 
 c = Check()
-paper = Source(HERE.parents[1] / "_data/sources/sc-end5-seq__10.1101+2021.04.04.438388"
+paper = Source(data_root() / 'sources/sc-end5-seq__10.1101+2021.04.04.438388'
                / "2021.04.04.438388_v2.full.pdf.txt",
                "bioRxiv doi:10.1101/2021.04.04.438388 v2, Methods pp. 31–32")
 if have(c, paper, label="source transcription of sc-end5 RT primers"):

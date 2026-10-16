@@ -5,7 +5,7 @@
     {
       "id": "kwak_article_jats",
       "role": "defining",
-      "locator": "_data/sources/pro-cap__10.1126+science.1229386/science.1229386_PMC3974810.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pro-cap__10.1126+science.1229386/science.1229386_PMC3974810.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "kwak_supp_author_mirror",
       "role": "supplement",
-      "locator": "_data/sources/pro-cap__10.1126+science.1229386/594009_926d2d49ebf94caa8e6cf707c2f4846a.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pro-cap__10.1126+science.1229386/594009_926d2d49ebf94caa8e6cf707c2f4846a.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "maher_2016_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/pro-cap__10.1126+science.1229386/PMC5502525_PMC5502525.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pro-cap__10.1126+science.1229386/PMC5502525_PMC5502525.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "core_2008_predecessor",
       "role": "predecessor",
-      "locator": "_data/sources/gro-cap__10.1038+ng.3142/594009_9144e1ea58ad4573871ec024827290f3.pdf.txt (Core 2008 original author-hosted Science supplement)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gro-cap__10.1038+ng.3142/594009_9144e1ea58ad4573871ec024827290f3.pdf.txt (Core 2008 original author-hosted Science supplement)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -101,7 +101,7 @@
     {
       "id": "illumina_truseq_small_rna_sequence_table",
       "role": "vendor",
-      "locator": "_data/sources/gro-cap__10.1038+ng.3142/illumina_TruSeq-SmallRNA.htm.txt (official Illumina sequence table mirrored in GRO-cap source bundle)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gro-cap__10.1038+ng.3142/illumina_TruSeq-SmallRNA.htm.txt (official Illumina sequence table mirrored in GRO-cap source bundle)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_PMC5437291.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bliss__10.1038+ncomms15058/ncomms15058_PMC5437291.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supplement_figure",
       "role": "supplement",
-      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -44,7 +44,7 @@
     {
       "id": "supplement_data",
       "role": "supplement",
-      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s2.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -64,7 +64,7 @@
     {
       "id": "supplement_data2",
       "role": "supplement",
-      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s3.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -84,7 +84,7 @@
     {
       "id": "supplement_data3",
       "role": "supplement",
-      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s4.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s4.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "paper",
@@ -105,7 +105,7 @@
     {
       "id": "supplement_data4",
       "role": "supplement",
-      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s5.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s5.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "paper",
@@ -126,7 +126,7 @@
     {
       "id": "supplement_data5",
       "role": "supplement",
-      "locator": "_data/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s6.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bliss__10.1038+ncomms15058/ncomms15058_supp_ncomms15058-s6.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -146,7 +146,7 @@
     {
       "id": "protocol_exchange",
       "role": "linked_material",
-      "locator": "_data/sources/bliss__10.1038+ncomms15058/17ba35a1-4de4-4f0a-8953-6004ecad1900.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bliss__10.1038+ncomms15058/17ba35a1-4de4-4f0a-8953-6004ecad1900.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -175,7 +175,7 @@
     {
       "id": "finishing_kit",
       "role": "linked_material",
-      "locator": "_data/sources/bliss__10.1038+ncomms15058/illumina_TruSeq-SmallRNA.htm.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bliss__10.1038+ncomms15058/illumina_TruSeq-SmallRNA.htm.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "protocol_exchange",
@@ -195,7 +195,7 @@
     {
       "id": "historical_truseq_guide",
       "role": "linked_material",
-      "locator": "_data/sources/bliss__10.1038+ncomms15058/TruSeq_SmallRNA_SamplePrep_Guide_15004197_C.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bliss__10.1038+ncomms15058/TruSeq_SmallRNA_SamplePrep_Guide_15004197_C.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "finishing_kit",

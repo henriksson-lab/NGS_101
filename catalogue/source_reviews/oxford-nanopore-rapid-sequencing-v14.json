@@ -5,7 +5,7 @@
     {
       "id": "protocol",
       "role": "defining",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/rapid-sequencing-sqk-rad114.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/rapid-sequencing-sqk-rad114.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -32,7 +32,7 @@
     {
       "id": "chem_doc",
       "role": "vendor",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/chemistry-technical-document.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/chemistry-technical-document.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -66,7 +66,7 @@
     {
       "id": "input_qc",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/input-dna-rna-qc.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/input-dna-rna-qc.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "protocol",
@@ -86,7 +86,7 @@
     {
       "id": "flow_cell_check",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/flow-cell-check.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/flow-cell-check.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "protocol",
@@ -106,7 +106,7 @@
     {
       "id": "flow_cell_wash",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/flow-cell-wash-kit-exp-wsh004.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/flow-cell-wash-kit-exp-wsh004.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "protocol",
@@ -126,7 +126,7 @@
     {
       "id": "minknow_companion",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/experiment-companion-minknow.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/experiment-companion-minknow.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "protocol",
@@ -146,7 +146,7 @@
     {
       "id": "data_analysis",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/data-analysis.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/data-analysis.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "protocol",
@@ -166,7 +166,7 @@
     {
       "id": "dna_contaminants",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/contaminants.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/contaminants.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "input_qc",
@@ -186,7 +186,7 @@
     {
       "id": "wash_knowhow",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/flow-cell-wash-kit-exp-wsh004-or-exp-wsh004-xl-know-how.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/flow-cell-wash-kit-exp-wsh004-or-exp-wsh004-xl-know-how.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "flow_cell_wash",
@@ -206,7 +206,7 @@
     {
       "id": "dorado_repository",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/dorado.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/dorado.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "data_analysis",
@@ -226,7 +226,7 @@
     {
       "id": "dorado_getting_started",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/index.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/index.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "data_analysis",
@@ -246,7 +246,7 @@
     {
       "id": "dorado_basecalling",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/basecall_overview.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/basecall_overview.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "data_analysis",
@@ -266,7 +266,7 @@
     {
       "id": "dorado_modified_bases",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/mods.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/mods.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "data_analysis",
@@ -286,7 +286,7 @@
     {
       "id": "dorado_models",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/models.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/models.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "minknow_companion",
@@ -306,7 +306,7 @@
     {
       "id": "output_specs_index",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/latest.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/latest.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "data_analysis",
@@ -326,7 +326,7 @@
     {
       "id": "dorado_read_trimming",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/read_trimming.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/read_trimming.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "dorado_repository",
@@ -346,7 +346,7 @@
     {
       "id": "bam_specification",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/bam.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/bam.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "output_specs_index",
@@ -366,7 +366,7 @@
     {
       "id": "pod5_specification",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/pod5.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/pod5.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "output_specs_index",
@@ -386,7 +386,7 @@
     {
       "id": "epi2me_overview",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/about.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/about.html.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "data_analysis",
@@ -407,7 +407,7 @@
     {
       "id": "epi2me_workflow_index",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-rapid-sequencing-v14/wfindex.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-rapid-sequencing-v14/wfindex.html.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "data_analysis",
@@ -481,7 +481,7 @@
     {
       "id": "other_kit_ulk114",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-ultra-long-v14/ultra-long-dna-sequencing-kit-sqk-ulk114.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-ultra-long-v14/ultra-long-dna-sequencing-kit-sqk-ulk114.html.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

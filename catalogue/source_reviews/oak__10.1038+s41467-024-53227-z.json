@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_PMC11499997.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_PMC11499997.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "source_1",
       "role": "linked_material",
-      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/2024.01.23.576918_media-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oak__10.1038+s41467-024-53227-z/2024.01.23.576918_media-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "source_2",
       "role": "linked_material",
-      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/2024.01.23.576918_media-2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oak__10.1038+s41467-024-53227-z/2024.01.23.576918_media-2.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -65,7 +65,7 @@
     {
       "id": "source_3",
       "role": "linked_material",
-      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/2024.01.23.576918_media-3.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oak__10.1038+s41467-024-53227-z/2024.01.23.576918_media-3.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -86,7 +86,7 @@
     {
       "id": "source_4",
       "role": "linked_material",
-      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/2024.01.23.576918_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oak__10.1038+s41467-024-53227-z/2024.01.23.576918_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -106,7 +106,7 @@
     {
       "id": "source_5",
       "role": "supplement",
-      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_supp_41467_2024_53227_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_supp_41467_2024_53227_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -125,7 +125,7 @@
     {
       "id": "source_6",
       "role": "supplement",
-      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_supp_41467_2024_53227_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_supp_41467_2024_53227_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -145,7 +145,7 @@
     {
       "id": "source_7",
       "role": "supplement",
-      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_supp_41467_2024_53227_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_supp_41467_2024_53227_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -164,7 +164,7 @@
     {
       "id": "source_8",
       "role": "supplement",
-      "locator": "_data/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_supp_41467_2024_53227_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oak__10.1038+s41467-024-53227-z/s41467-024-53227-z_supp_41467_2024_53227_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -195,7 +195,7 @@
     {
       "id": "cg000183_reva",
       "role": "vendor",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v3/scg_CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v3/scg_CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -215,7 +215,7 @@
     {
       "id": "cg000338_revf",
       "role": "vendor",
-      "locator": "_data/sources/10x-chromium-single-cell-multiome-atac-gene-expression/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevF.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-multiome-atac-gene-expression/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevF.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",

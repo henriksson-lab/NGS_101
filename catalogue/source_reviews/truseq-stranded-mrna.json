@@ -5,7 +5,7 @@
     {
       "id": "guide",
       "role": "defining",
-      "locator": "_data/sources/truseq-stranded-mrna/illumina_truseq-stranded-mrna-workflow-reference-1000000040498-00.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/truseq-stranded-mrna/illumina_truseq-stranded-mrna-workflow-reference-1000000040498-00.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -25,7 +25,7 @@
     {
       "id": "adapter_guide",
       "role": "linked_material",
-      "locator": "_data/sources/truseq-stranded-mrna/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/truseq-stranded-mrna/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -45,7 +45,7 @@
     {
       "id": "index_pooling_guide",
       "role": "linked_material",
-      "locator": "_data/sources/truseq-stranded-mrna/illumina_TruSeqPoolingGuidelines.htm.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/truseq-stranded-mrna/illumina_TruSeqPoolingGuidelines.htm.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Registered original topic recovered with elevated network after sandbox DNS failure. Actual body is v17; the prior fetcher-rejected/unretrieved state is superseded. Its current compatibility classification does not establish historical experimental selection.",
@@ -89,7 +89,7 @@
       {
         "id": "guide",
         "role": "defining",
-        "locator": "_data/sources/truseq-stranded-mrna/illumina_truseq-stranded-mrna-workflow-reference-1000000040498-00.pdf.txt",
+        "locator": "/husky/henriksson/NGS101_papers/sources/truseq-stranded-mrna/illumina_truseq-stranded-mrna-workflow-reference-1000000040498-00.pdf.txt",
         "availability": "read",
         "relevance": "relevant",
         "pass_1": {
@@ -108,7 +108,7 @@
       {
         "id": "adapter_guide",
         "role": "linked_material",
-        "locator": "_data/sources/truseq-stranded-mrna/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt",
+        "locator": "/husky/henriksson/NGS101_papers/sources/truseq-stranded-mrna/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt",
         "availability": "read",
         "relevance": "relevant",
         "pass_1": {

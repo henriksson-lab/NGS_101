@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_PMC11289786.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_PMC11289786.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "supp_tables",
       "role": "supplement",
-      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "result_counts",
       "role": "supplement",
-      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -102,7 +102,7 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/2020.05.15.098780_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/prox-seq__10.1038+s41592-022-01684-z/2020.05.15.098780_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -122,7 +122,7 @@
     {
       "id": "preprint_supp",
       "role": "supplement",
-      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/2020.05.15.098780_media-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/prox-seq__10.1038+s41592-022-01684-z/2020.05.15.098780_media-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -141,7 +141,7 @@
     {
       "id": "later_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/PMC11715295_PMC11715295.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/prox-seq__10.1038+s41592-022-01684-z/PMC11715295_PMC11715295.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -160,7 +160,7 @@
     {
       "id": "10x_v3_1",
       "role": "vendor",
-      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/CG000315_ChromiumNextGEMSingleCell3-_GeneExpression_v3.1_DualIndex__RevB.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/prox-seq__10.1038+s41592-022-01684-z/CG000315_ChromiumNextGEMSingleCell3-_GeneExpression_v3.1_DualIndex__RevB.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_2": {
@@ -179,7 +179,7 @@
     {
       "id": "preprint_counts",
       "role": "supplement",
-      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/2020.05.15.098780_media-2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/prox-seq__10.1038+s41592-022-01684-z/2020.05.15.098780_media-2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Per-cell protein-pair counts, not reagent oligos.",
@@ -199,7 +199,7 @@
     {
       "id": "supp_big_data",
       "role": "supplement",
-      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM6_ESM.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM6_ESM.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -219,7 +219,7 @@
     {
       "id": "10x_feature_rev_b",
       "role": "vendor",
-      "locator": "_data/sources/prox-seq__10.1038+s41592-022-01684-z/CG000317_ChromiumNextGEMSingleCell3-v3.1_CellSurfaceProtein_RevB.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/prox-seq__10.1038+s41592-022-01684-z/CG000317_ChromiumNextGEMSingleCell3-v3.1_CellSurfaceProtein_RevB.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "supp_methods",
@@ -239,7 +239,7 @@
     {
       "id": "publisher_moesm5",
       "role": "supplement",
-      "locator": "Original Springer MOESM5 ESM CSV, _data/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM5_ESM.csv",
+      "locator": "Original Springer MOESM5 ESM CSV, /husky/henriksson/NGS101_papers/sources/prox-seq__10.1038+s41592-022-01684-z/s41592-022-01684-z_41592_2022_1684_MOESM5_ESM.csv",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "original",

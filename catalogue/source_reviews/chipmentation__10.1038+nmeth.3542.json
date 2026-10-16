@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_PMC4589892.xml.txt lines 64-76,128; scraper zero in named bundle",
+        "locations": "/husky/henriksson/NGS101_papers/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_PMC4589892.xml.txt lines 64-76,128; scraper zero in named bundle",
         "finding": "Online Methods name Nextera Tag DNA Enzyme and custom Nextera PCR primers from Buenrostro 2013; ChIPmentation tags bead-bound immunoprecipitated chromatin."
       },
       "pass_2": {
@@ -30,7 +30,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_supp_NIHMS64423-supplement-1.pdf.txt lines 1-34",
+        "locations": "/husky/henriksson/NGS101_papers/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_supp_NIHMS64423-supplement-1.pdf.txt lines 1-34",
         "finding": "Workflow schematic and library-size comparisons, no separate oligo table in inspected opening pages."
       },
       "pass_2": {
@@ -50,7 +50,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_supp_NIHMS64423-supplement-2.pdf.txt lines 1-25 and ChIP version headings; scraper zero",
+        "locations": "/husky/henriksson/NGS101_papers/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_supp_NIHMS64423-supplement-2.pdf.txt lines 1-25 and ChIP version headings; scraper zero",
         "finding": "Detailed immunoprecipitation variants before Tn5; no new library adapter primer table in inspected sections."
       },
       "pass_2": {
@@ -70,7 +70,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_41592_2015_BFnmeth3542_MOESM628_ESM.csv header and first rows",
+        "locations": "/husky/henriksson/NGS101_papers/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_41592_2015_BFnmeth3542_MOESM628_ESM.csv header and first rows",
         "finding": "Figure/panel/fragment_length normalized read counts, no oligo columns."
       },
       "pass_2": {
@@ -89,7 +89,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_supp_NIHMS64423-supplement-SupTab1.xlsx.txt first rows",
+        "locations": "/husky/henriksson/NGS101_papers/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_supp_NIHMS64423-supplement-SupTab1.xlsx.txt first rows",
         "finding": "Protocol comparison, not primer list."
       },
       "pass_2": {
@@ -109,7 +109,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_supp_NIHMS64423-supplement-SupTab2.xlsx.txt header and rows 1-7; scraper zero",
+        "locations": "/husky/henriksson/NGS101_papers/sources/chipmentation__10.1038+nmeth.3542/nmeth.3542_supp_NIHMS64423-supplement-SupTab2.xlsx.txt header and rows 1-7; scraper zero",
         "finding": "Sequencing Summary table records library run metrics and read lengths, no oligo ordering sequences."
       },
       "pass_2": {
@@ -129,7 +129,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/atac-seq__10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt lines 1-20; scraper Ad1_noMX line 3",
+        "locations": "/husky/henriksson/NGS101_papers/sources/atac-seq__10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt lines 1-20; scraper Ad1_noMX line 3",
         "finding": "Cited original gives Ad1 universal and Ad2 indexed primer family; no novel ChIPmentation-only ordering oligo."
       },
       "pass_2": {

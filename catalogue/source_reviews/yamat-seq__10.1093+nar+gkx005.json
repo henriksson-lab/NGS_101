@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/yamat-seq__10.1093+nar+gkx005/nar_gkx005_PMC5605243.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/yamat-seq__10.1093+nar+gkx005/nar_gkx005_PMC5605243.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supplement",
       "role": "supplement",
-      "locator": "_data/sources/yamat-seq__10.1093+nar+gkx005/nar_gkx005_supp_gkx005_supp.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/yamat-seq__10.1093+nar+gkx005/nar_gkx005_supp_gkx005_supp.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

@@ -5,7 +5,7 @@
     {
       "id": "preprint",
       "role": "defining",
-      "locator": "_data/sources/wellda-seq__10.1101+2024.09.06.611519/2024.09.06.611519_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/wellda-seq__10.1101+2024.09.06.611519/2024.09.06.611519_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "preprint_supp",
       "role": "supplement",
-      "locator": "_data/sources/wellda-seq__10.1101+2024.09.06.611519/2024.09.06.611519_media-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/wellda-seq__10.1101+2024.09.06.611519/2024.09.06.611519_media-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

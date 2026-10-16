@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/hrf-seq__10.1093+nar+gku167/nar_gku167_PMC4005689.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hrf-seq__10.1093+nar+gku167/nar_gku167_PMC4005689.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_oligos",
       "role": "supplement",
-      "locator": "_data/sources/hrf-seq__10.1093+nar+gku167/nar_gku167_supp_supp_gku167_nar-03510-met-f-2013-File009.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hrf-seq__10.1093+nar+gku167/nar_gku167_supp_supp_gku167_nar-03510-met-f-2013-File009.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_dataset",
       "role": "supplement",
-      "locator": "_data/sources/hrf-seq__10.1093+nar+gku167/nar_gku167_supp_supp_gku167_HRF-seq-supplementary-dataset.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hrf-seq__10.1093+nar+gku167/nar_gku167_supp_supp_gku167_HRF-seq-supplementary-dataset.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Position-level termination, priming, effective coverage and reactivity measurements; these are processed outcomes, not reagent oligo sequences.",
@@ -63,7 +63,7 @@
     {
       "id": "shape_predecessor",
       "role": "predecessor",
-      "locator": "_data/sources/shape-seq__10.1073+pnas.1106501108/pnas.1106501108_PMC3131332.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/shape-seq__10.1073+pnas.1106501108/pnas.1106501108_PMC3131332.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

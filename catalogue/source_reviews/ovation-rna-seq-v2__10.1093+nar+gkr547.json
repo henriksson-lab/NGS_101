@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/ovation-rna-seq-v2__10.1093+nar+gkr547/nar_gkr547_PMC3185437.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ovation-rna-seq-v2__10.1093+nar+gkr547/nar_gkr547_PMC3185437.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "paper_pdf",
       "role": "other",
-      "locator": "_data/sources/ovation-rna-seq-v2__10.1093+nar+gkr547/nar_gkr547_PMC3185437.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ovation-rna-seq-v2__10.1093+nar+gkr547/nar_gkr547_PMC3185437.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Same article as paper JATS, not an independent protocol version.",

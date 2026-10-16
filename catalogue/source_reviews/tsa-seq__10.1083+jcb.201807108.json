@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_PMC6219710.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_PMC6219710.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_supp_JCB_201807108_sm.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_supp_JCB_201807108_sm.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "table_s3",
       "role": "supplement",
-      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_supp_JCB_201807108_TablesS3andS4_JCB_201807108_TableS3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_supp_JCB_201807108_TablesS3andS4_JCB_201807108_TableS3.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "table_s4",
       "role": "supplement",
-      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_supp_JCB_201807108_TablesS3andS4_JCB_201807108_TableS4.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_supp_JCB_201807108_TablesS3andS4_JCB_201807108_TableS4.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -83,7 +83,7 @@
     {
       "id": "kapa_manual",
       "role": "vendor",
-      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/03_KAPA_Hyper_Prep_Kit_KR0961-TDSv2.15_final_24_rxn_Reddy_GGR.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tsa-seq__10.1083+jcb.201807108/03_KAPA_Hyper_Prep_Kit_KR0961-TDSv2.15_final_24_rxn_Reddy_GGR.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -102,7 +102,7 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/307892_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tsa-seq__10.1083+jcb.201807108/307892_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -122,7 +122,7 @@
     {
       "id": "jcb_201807108_supp_jcb_201807108_tabless3ands4_zip",
       "role": "supplement",
-      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_supp_JCB_201807108_TablesS3andS4.zip",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tsa-seq__10.1083+jcb.201807108/jcb.201807108_supp_JCB_201807108_TablesS3andS4.zip",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Inspected source header/contents describe assay result or metadata rather than library chemistry; second reader must confirm full-source exclusion.",
@@ -142,7 +142,7 @@
     {
       "id": "preprint_supp_data",
       "role": "supplement",
-      "locator": "_data/sources/tsa-seq__10.1083+jcb.201807108/307892_307892-1.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tsa-seq__10.1083+jcb.201807108/307892_307892-1.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Both sheets list external analysis datasets and genome annotation resources, not TSA-seq library chemistry.",

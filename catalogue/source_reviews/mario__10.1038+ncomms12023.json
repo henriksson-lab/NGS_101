@@ -5,7 +5,7 @@
     {
       "id": "mario_jats",
       "role": "defining",
-      "locator": "_data/sources/mario__10.1038+ncomms12023/ncomms12023_PMC4931010.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mario__10.1038+ncomms12023/ncomms12023_PMC4931010.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "mario_pdf",
       "role": "defining",
-      "locator": "_data/sources/mario__10.1038+ncomms12023/ncomms12023_PMC4931010.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mario__10.1038+ncomms12023/ncomms12023_PMC4931010.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "mario_supp",
       "role": "supplement",
-      "locator": "_data/sources/mario__10.1038+ncomms12023/ncomms12023_supp_ncomms12023-s1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mario__10.1038+ncomms12023/ncomms12023_supp_ncomms12023-s1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

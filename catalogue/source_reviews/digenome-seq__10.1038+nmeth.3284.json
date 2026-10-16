@@ -15,7 +15,7 @@
     {
       "id": "defining_supp",
       "role": "supplement",
-      "locator": "_data/sources/digenome-seq__10.1038+nmeth.3284/41592_2015_BFnmeth3284_MOESM426_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/digenome-seq__10.1038+nmeth.3284/41592_2015_BFnmeth3284_MOESM426_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -34,7 +34,7 @@
     {
       "id": "later_multiplex",
       "role": "linked_material",
-      "locator": "_data/sources/digenome-seq__10.1038+nmeth.3284/PMC4772022_PMC4772022.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/digenome-seq__10.1038+nmeth.3284/PMC4772022_PMC4772022.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -54,7 +54,7 @@
     {
       "id": "illumina_truseq_manual",
       "role": "linked_material",
-      "locator": "_data/sources/digenome-seq__10.1038+nmeth.3284/illumina_truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/digenome-seq__10.1038+nmeth.3284/illumina_truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

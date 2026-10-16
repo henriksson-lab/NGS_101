@@ -18,7 +18,7 @@ upstream cites (Plessy et al., nanoCAGE/CAGEscan, *Nat Methods* 2010,
 doi:10.1038/nmeth.1470). Not fetched; not needed for the chemistry.
 
 Sources read (fetched by `tools/get_sources.py`, into
-`_data/sources/scifi-atac-seq__10.1101+2023.09.17.558155/`, never committed):
+`/husky/henriksson/NGS101_papers/sources/scifi-atac-seq__10.1101+2023.09.17.558155/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

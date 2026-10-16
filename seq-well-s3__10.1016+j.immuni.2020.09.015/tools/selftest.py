@@ -3,19 +3,19 @@
 from __future__ import annotations
 
 import sys
-import os
 import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
+from storage import data_root
 
 import seqwell_s3 as S
 from checks import Check, Source, have
 
 check = Check()
-source_root = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources" / HERE.parent.name
+source_root = data_root() / "sources" / HERE.parent.name
 original = Source(source_root / "j.immuni.2020.09.015_supp_mmc1.pdf.txt",
                   "original Document S1; reacquire with tools/get_sources.py")
 if have(check, original, label="original oligo table"):

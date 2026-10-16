@@ -171,7 +171,7 @@ index1 = `GACGTGTGCTCTTCCGATCTAAAGAAAGATGTGTATAAGAGACAG`. The barcodes, in order
   reverse outer primers; the two "Human/Humane TCR inner" primers are identical to the
   two primers listed under 10x **Mouse T Cell Mix 1 v2** (reverse outer) in the 10x 5' v2
   user guide CG000331 Rev E, not to the human inner (Mix 2) primers — string match against
-  `_data/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevE.pdf.txt` and
+  `/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevE.pdf.txt` and
   `../10x-chromium-single-cell-5-vdj/01_chromium-5-vdj.md`. The methods say the VDJ
   enrichment used the 10x kit; whether these table entries are what was used, or a
   labelling error in the table, is not stated. 🔴

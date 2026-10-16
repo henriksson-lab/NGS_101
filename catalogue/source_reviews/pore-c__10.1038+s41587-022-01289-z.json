@@ -15,7 +15,7 @@
     {
       "id": "supp1",
       "role": "supplement",
-      "locator": "_data/sources/pore-c__10.1038+s41587-022-01289-z/s41587-022-01289-z_41587_2022_1289_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pore-c__10.1038+s41587-022-01289-z/s41587-022-01289-z_41587_2022_1289_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -35,7 +35,7 @@
     {
       "id": "supp2",
       "role": "supplement",
-      "locator": "_data/sources/pore-c__10.1038+s41587-022-01289-z/s41587-022-01289-z_41587_2022_1289_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pore-c__10.1038+s41587-022-01289-z/s41587-022-01289-z_41587_2022_1289_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -103,7 +103,7 @@
     {
       "id": "ont_lsk114",
       "role": "vendor",
-      "locator": "_data/sources/oxford-nanopore-ligation-sequencing-v14/genomic-dna-by-ligation-sqk-lsk114.html.txt and chemistry-technical-document.html.txt (2025/2026 original vendor documents; later comparator only)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-ligation-sequencing-v14/genomic-dna-by-ligation-sqk-lsk114.html.txt and chemistry-technical-document.html.txt (2025/2026 original vendor documents; later comparator only)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

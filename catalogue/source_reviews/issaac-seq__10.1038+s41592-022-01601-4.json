@@ -86,7 +86,7 @@
     {
       "id": "10x_atac",
       "role": "vendor",
-      "locator": "ISSAAC publisher MOESM1 lines 1108–1112, 1178–1241 cites 10x Chromium Next GEM Single Cell ATAC Reagent Kits v1.1 User Guide CG000209; official Rev G original mirrored in _data/sources/scifi-atac-seq__10.1101+2023.09.17.558155/10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt",
+      "locator": "ISSAAC publisher MOESM1 lines 1108–1112, 1178–1241 cites 10x Chromium Next GEM Single Cell ATAC Reagent Kits v1.1 User Guide CG000209; official Rev G original mirrored in /husky/henriksson/NGS101_papers/sources/scifi-atac-seq__10.1101+2023.09.17.558155/10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -106,7 +106,7 @@
     {
       "id": "preprint_supp_methods",
       "role": "supplement",
-      "locator": "Author bioRxiv v2 media-1 Supplementary Information PDF; _data/sources/issaac-seq__10.1038+s41592-022-01601-4/2022.01.16.476488_media-1.pdf.txt",
+      "locator": "Author bioRxiv v2 media-1 Supplementary Information PDF; /husky/henriksson/NGS101_papers/sources/issaac-seq__10.1038+s41592-022-01601-4/2022.01.16.476488_media-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "author_preprint",

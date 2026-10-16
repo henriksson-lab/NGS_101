@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/10x-visium-spatial-gene-expression/CG000239_Rev_F.pdf.txt lines 4960-5115; scraper TSO at 4981 and adapter at 5056",
+        "locations": "/husky/henriksson/NGS101_papers/sources/10x-visium-spatial-gene-expression/CG000239_Rev_F.pdf.txt lines 4960-5115; scraper TSO at 4981 and adapter at 5056",
         "finding": "Appendix prints slide primer N16/N12/poly(dT), TSO rGrGrG, second-strand/cDNA primers, ligation adapter duplex and 10-nt dual-index PCR primer patterns."
       },
       "pass_2": {
@@ -24,7 +24,7 @@
     {
       "id": "tt_index_set",
       "role": "linked_material",
-      "locator": "10x Genomics Visium Sample Index Sets (13 June 2022), https://www.10xgenomics.com/support/spatial-gene-expression-fresh-frozen/documentation/steps/sequencing/sample-index-sets-for-visium-spatial-gene-expression, linking original Dual Index Kit TT Set A JSON https://cdn.10xgenomics.com/raw/upload/v1655151898/support/in-line%20documents/Dual_Index_Kit_TT_Set_A.json; local _data/sources/10x-visium-spatial-gene-expression/10x_Dual_Index_Kit_TT_Set_A.json",
+      "locator": "10x Genomics Visium Sample Index Sets (13 June 2022), https://www.10xgenomics.com/support/spatial-gene-expression-fresh-frozen/documentation/steps/sequencing/sample-index-sets-for-visium-spatial-gene-expression, linking original Dual Index Kit TT Set A JSON https://cdn.10xgenomics.com/raw/upload/v1655151898/support/in-line%20documents/Dual_Index_Kit_TT_Set_A.json; local /husky/henriksson/NGS101_papers/sources/10x-visium-spatial-gene-expression/10x_Dual_Index_Kit_TT_Set_A.json",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "guide",

@@ -1,5 +1,7 @@
 # CRISPR-UMI (Schmierer / Michlits) — reference sequences this directory reads
 
+Source files formerly stored here now live at `/husky/henriksson/NGS101_papers/legacy/crispr-umi-schmierer__10.15252+msb.20177834/ref/`. Read and write that external directory directly; this checkout contains only the provenance notes.
+
 **None of these files is committed.** They are third-party sequence data — Addgene's and the
 depositors' deposits and annotation — and not ours to redistribute, so a fresh clone will not
 have them. Nothing here is lost by that: every fact derived from them lives in
@@ -19,7 +21,7 @@ without the real map would be a guess, so they print one line and exit 1.
 
 ---
 
-## In this directory (`ref/`)
+## In the external legacy reference directory
 
 ### `addgene-222694_pLenti-UMI.fa`
 

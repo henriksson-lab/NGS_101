@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import os
 import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import kinnex as K
 from checks import Check, Source, have
 c=Check(); c.section("Kinnex source transcription")
 c("parallel orientation-specific PCR reactions", K.KINNEX_PCR_REACTIONS, 8)
 c("array-formation incubation", K.ARRAY_FORMATION, (45, 60))
 c("post-array repair incubation", K.DNA_REPAIR, (45, 30))
-source_dir=Path(os.environ.get("CHEM_DATA", H.parents[1]/"_data"))/"sources"/"pacbio-kinnex-full-length-rna"
+source_dir=data_root()/"sources"/"pacbio-kinnex-full-length-rna"
 for name, declared, url in (
     ("mas8_primers.fasta", K.MAS8_REFERENCE_MOTIFS,
      "https://downloads.pacbcloud.com/public/dataset/Kinnex-full-length-RNA/REF-MAS_adapters/MAS-Seq_Adapter_v3/mas8_primers.fasta"),

@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/meta3c__10.7554+eLife.03318/eLife.03318_PMC4381813.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/meta3c__10.7554+eLife.03318/eLife.03318_PMC4381813.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -64,7 +64,7 @@
     {
       "id": "lenticrispr_vector",
       "role": "linked_material",
-      "locator": "_data/sources/crispr-mip__10.1101+2024.03.28.587082/addgene-52961_lentiCRISPRv2.gb and original addgene-plasmid-52961-sequence-244694-sequence-lines.json / -features.json",
+      "locator": "/husky/henriksson/NGS101_papers/sources/crispr-mip__10.1101+2024.03.28.587082/addgene-52961_lentiCRISPRv2.gb and original addgene-plasmid-52961-sequence-244694-sequence-lines.json / -features.json",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -85,7 +85,7 @@
     {
       "id": "broad_pdna_amplification",
       "role": "linked_material",
-      "locator": "_data/sources/crispr-mip__10.1101+2024.03.28.587082/broadgpp-pdna-library-amplification.pdf.txt; original https://media.addgene.org/cms/filer_public/56/71/5671c68a-1463-4ec8-9db5-761fae99265d/broadgpp-pdna-library-amplification.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/crispr-mip__10.1101+2024.03.28.587082/broadgpp-pdna-library-amplification.pdf.txt; original https://media.addgene.org/cms/filer_public/56/71/5671c68a-1463-4ec8-9db5-761fae99265d/broadgpp-pdna-library-amplification.pdf",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "preprint",
@@ -105,7 +105,7 @@
     {
       "id": "broad_sgrna_qc",
       "role": "linked_material",
-      "locator": "_data/sources/crispr-mip__10.1101+2024.03.28.587082/broadgpp-sequencing-protocol.pdf.txt; original https://media.addgene.org/cms/filer_public/61/16/611619f4-0926-4a07-b5c7-e286a8ecf7f5/broadgpp-sequencing-protocol.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/crispr-mip__10.1101+2024.03.28.587082/broadgpp-sequencing-protocol.pdf.txt; original https://media.addgene.org/cms/filer_public/61/16/611619f4-0926-4a07-b5c7-e286a8ecf7f5/broadgpp-sequencing-protocol.pdf",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "preprint",
@@ -165,7 +165,7 @@
       "reviewer": "audit_editing_closeout",
       "date": "2026-10-16",
       "scope": "Acquisition, validation and identity verification only; not an original-chemistry reading pass.",
-      "file": "_data/sources/crispr-mip__10.1101+2024.03.28.587082/addgene-52961_lentiCRISPRv2.gb; original cached export in lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/",
+      "file": "/husky/henriksson/NGS101_papers/sources/crispr-mip__10.1101+2024.03.28.587082/addgene-52961_lentiCRISPRv2.gb; original cached export in lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/",
       "identity": "LOCUS/DEFINITION identify lentiCRISPRv2 Addgene52961; parsed ORIGIN length14873; MD5f79502331b8b10da4005daf303640f86; original acquisition2026-10-03 and source JSONURLs recorded in sibling manifest.",
       "next_read_scope": "Independently read deposited sequence and compare both MIP arms, target orientation/gap and relation to actual screened backbone; no chemistry pass recorded here."
     }
@@ -173,7 +173,7 @@
   "source_access_obligations": [
     {
       "source": "Hardenbol et al.2003, doi10.1038/nbt821, full original article",
-      "locator": "_data/sources/crispr-mip__10.1101+2024.03.28.587082/nbt821.html.txt is a publisher preview only",
+      "locator": "/husky/henriksson/NGS101_papers/sources/crispr-mip__10.1101+2024.03.28.587082/nbt821.html.txt is a publisher preview only",
       "availability_checks": [
         {
           "reviewer": "root",

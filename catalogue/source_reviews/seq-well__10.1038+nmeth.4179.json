@@ -62,7 +62,7 @@
     {
       "id": "large_archive",
       "role": "supplement",
-      "locator": "Original Springer MOESM241 ZIP at _data/sources/seq-well__10.1038+nmeth.4179/nmeth.4179_41592_2017_BFnmeth4179_MOESM241_ESM.zip; member Seq-Well_Gierahn_Supplementary_Table_4.txt",
+      "locator": "Original Springer MOESM241 ZIP at /husky/henriksson/NGS101_papers/sources/seq-well__10.1038+nmeth.4179/nmeth.4179_41592_2017_BFnmeth4179_MOESM241_ESM.zip; member Seq-Well_Gierahn_Supplementary_Table_4.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original archive member was independently streamed in full: one 4,638-sample TBI header and 9,381 gene-expression rows, each with a quoted gene name followed by 4,638 numeric fields. This result matrix is irrelevant to oligo identities or library chemistry.",
@@ -83,7 +83,7 @@
     {
       "id": "other_result_supplements",
       "role": "supplement",
-      "locator": "_data/sources/seq-well__10.1038+nmeth.4179/ Springer MOESM234–236, 239–240, 242–246 (source-data XLSX and result tables; MOESM239 ZIP)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/seq-well__10.1038+nmeth.4179/ Springer MOESM234–236, 239–240, 242–246 (source-data XLSX and result tables; MOESM239 ZIP)",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original JATS labels these as source data for figures and Supplementary Tables 3, 5–10; local workbook headers and MOESM239 ZIP directory show cell barcode/count matrices, cluster/gene-enrichment and expression-result records, not oligo design. Both readers checked their relevance; this is bounded to the inspected headings and headers, not a cell-by-cell read of every result matrix.",
@@ -104,7 +104,7 @@
     {
       "id": "dropseq_predecessor",
       "role": "linked_material",
-      "locator": "Macosko et al. Cell 2015 doi:10.1016/j.cell.2015.05.002, cited as ref. 12 and shared-bead predecessor; _data/sources/drop-seq__10.1016+j.cell.2015.05.002/j.cell.2015.05.002_PMC4481139.xml.txt",
+      "locator": "Macosko et al. Cell 2015 doi:10.1016/j.cell.2015.05.002, cited as ref. 12 and shared-bead predecessor; /husky/henriksson/NGS101_papers/sources/drop-seq__10.1016+j.cell.2015.05.002/j.cell.2015.05.002_PMC4481139.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Original Drop-seq paper describes shared bead architecture but does not by itself establish every Seq-Well processing choice; its defining supplement remains gated.",
@@ -209,7 +209,7 @@
       "id": "later_illumina_adapter_sequences",
       "role": "vendor",
       "discovered_from": "nextera_xt_rev_e",
-      "locator": "_data/sources/nextera-xt-dna-library-prep/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt (later official Illumina adapter-sequence manual)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nextera-xt-dna-library-prep/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt (later official Illumina adapter-sequence manual)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

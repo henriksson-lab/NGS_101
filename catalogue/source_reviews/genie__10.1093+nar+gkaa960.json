@@ -5,7 +5,7 @@
     {
       "id": "cooper2020",
       "role": "defining",
-      "locator": "_data/sources/genie__10.1093+nar+gkaa960/nar_gkaa960_PMC7736817.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/genie__10.1093+nar+gkaa960/nar_gkaa960_PMC7736817.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_tables",
       "role": "supplement",
-      "locator": "_data/sources/genie__10.1093+nar+gkaa960/nar_gkaa960_supp_gkaa960_supplemental_files_GenIE_Supplementary_Tables.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/genie__10.1093+nar+gkaa960/nar_gkaa960_supp_gkaa960_supplemental_files_GenIE_Supplementary_Tables.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/genie__10.1093+nar+gkaa960/nar_gkaa960_supp_gkaa960_supplemental_files_GenIE_supplement.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/genie__10.1093+nar+gkaa960/nar_gkaa960_supp_gkaa960_supplemental_files_GenIE_supplement.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

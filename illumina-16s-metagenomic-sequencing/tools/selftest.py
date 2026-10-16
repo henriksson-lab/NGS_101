@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Original primer transcription and PCR1-to-readout preservation regressions."""
 from pathlib import Path
-import os
 import re
 import sys
 H=Path(__file__).resolve().parent
 sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import illumina_16s as M
 import seqprimers as sp
 from checks import Check, Source, have
 c=Check()
-root=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"/H.parent.name
+root=data_root()/"sources"/H.parent.name
 source=Source(root/"illumina_16s-metagenomic-library-prep-guide-15044223-b.pdf.txt",
               "Defining Illumina15044223B original; tools/get_sources.py --slugs "+H.parent.name)
 c.section("complete source PCR1 primer strings")

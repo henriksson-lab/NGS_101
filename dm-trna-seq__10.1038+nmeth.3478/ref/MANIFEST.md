@@ -4,7 +4,7 @@ Retrieve the defining original and registered linked originals with:
 
 ```sh
 python3 tools/get_sources.py --slugs dm-trna-seq__10.1038+nmeth.3478
-python3 tools/scrape_primers.py _data/sources/dm-trna-seq__10.1038+nmeth.3478/
+python3 tools/scrape_primers.py /husky/henriksson/NGS101_papers/sources/dm-trna-seq__10.1038+nmeth.3478/
 ```
 
 Downloads remain under `$CHEM_DATA/sources/dm-trna-seq__10.1038+nmeth.3478/`;

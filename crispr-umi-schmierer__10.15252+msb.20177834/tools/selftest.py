@@ -20,14 +20,14 @@ import illumina as il
 from illumina import TRUSEQ_READ2
 from chemdraw import Scene, Segment, complement_segments, revcomp
 from plasmid import Plasmid, amplify, find_both, read_genbank
+from storage import legacy_reference
 
 # ------------------------------------------------- third-party material this suite reads
 # None of it is committed (it is Addgene's / the depositors' annotation, not ours to
 # redistribute) -- see ref/MANIFEST.md. Each group of checks that reads one of these files
 # is wrapped in `have(...)`, so on a fresh clone it SKIPS and says where to get the file
 # instead of failing as though the chemistry were wrong. Everything else still runs.
-_SCREEN = (HERE.parents[1] / "lenticrispr-v1-screening__10.1126+science.1247005"
-           / "ref" / "plasmids")
+_SCREEN = legacy_reference("lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids")
 
 # cu.PARENT_MAP is already whichever candidate map is on disk, or the preferred one if none.
 PARENT = Source(cu.PARENT_MAP, cu.PARENT_MAP_ORIGIN)
@@ -39,7 +39,7 @@ SCREEN_MAPS = [
     ("lentiGuide-Puro", Source(_SCREEN / "addgene-52963_lentiGuide-Puro.gb",
                                "Addgene #52963 (lentiGuide-Puro), full sequence")),
 ]
-UMI_FA = {name: Source(HERE.parents[0] / "ref" / f"addgene-{meta['addgene']}_{name}.fa",
+UMI_FA = {name: Source(legacy_reference(HERE.parent.name + f"/ref/addgene-{meta['addgene']}_{name}.fa"),
                        f"Addgene #{meta['addgene']} ({name}), full sequence")
           for name, meta in mi.VECTORS.items()}
 

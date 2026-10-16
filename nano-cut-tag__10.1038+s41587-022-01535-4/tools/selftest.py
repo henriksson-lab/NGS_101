@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """Transcription checks against the original publisher workbook and kit guide."""
 from pathlib import Path
-import os
 import re
 import sys
 H = Path(__file__).resolve().parent
 sys.path[:0] = [str(H), str(H.parents[1] / "lib")]
+from storage import data_root
 import nano_cut_tag as P
 from checks import Check, Source, have
 
 c = Check()
 c.section("nano-CT original oligo transcription")
-data = Path(os.environ.get("CHEM_DATA", H.parents[1] / "_data")) / "sources"
+data = data_root() / "sources"
 workbook = Source(data / H.parent.name /
     "s41587-022-01535-4_supp_41587_2022_1535_MOESM3_ESM.xlsx.txt",
     "doi:10.1038/s41587-022-01535-4, Supplementary Tables 1–4 workbook; tools/get_sources.py")

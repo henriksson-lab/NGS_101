@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/nebnext-single-cell-low-input-rna/manuale6420.pdf.txt lines 77,729,804-844,1840-1860; scraper line 1848",
+        "locations": "/husky/henriksson/NGS101_papers/sources/nebnext-single-cell-low-input-rna/manuale6420.pdf.txt lines 77,729,804-844,1840-1860; scraper line 1848",
         "finding": "Oligo table prints RT primer, TSO including rGrGrG and cDNA PCR primer. Separate adapter/index kit remains unspecified."
       },
       "pass_2": {

@@ -28,7 +28,7 @@ explicitly describes this as an **updated** protocol. It cannot identify which
 index member was used for a Smallwood 2014 cell. 🟢
 
 Sources read (fetched by `tools/get_sources.py "scbs-seq__10.1038+nmeth.3035"`, into
-`_data/sources/scbs-seq__10.1038+nmeth.3035/`, never committed):
+`/husky/henriksson/NGS101_papers/sources/scbs-seq__10.1038+nmeth.3035/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

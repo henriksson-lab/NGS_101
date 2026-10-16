@@ -5,7 +5,7 @@
     {
       "id": "cg000734",
       "role": "defining",
-      "locator": "10x CG000734 Rev A, _data/sources/10x-chromium-single-cell-5-vdj/scg_CG000734_ChromiumGEM-X_SingleCell5_ReagentKitsv3_CellSurfaceProtein_UserGuide_RevA.pdf.txt (original vendor PDF mirrored in scg data)",
+      "locator": "10x CG000734 Rev A, /husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj/scg_CG000734_ChromiumGEM-X_SingleCell5_ReagentKitsv3_CellSurfaceProtein_UserGuide_RevA.pdf.txt (original vendor PDF mirrored in scg data)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "cg000331",
       "role": "linked_material",
-      "locator": "10x CG000331 Rev E, _data/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevE.pdf.txt (vendor original)",
+      "locator": "10x CG000331 Rev E, /husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevE.pdf.txt (vendor original)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

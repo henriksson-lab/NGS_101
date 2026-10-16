@@ -2,11 +2,11 @@
 """Guard Stereo-seq's local oligos against its actual author protocol."""
 from pathlib import Path
 from html.parser import HTMLParser
-import os
 import re
 import sys
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / 'lib')]
+from storage import data_root
 import stereo_seq as model
 from checks import Check, Source, have
 
@@ -25,7 +25,7 @@ class Rows(HTMLParser):
             self.rows.append(self.row); self.row=None
 
 check=Check()
-data=Path(os.environ.get('CHEM_DATA', HERE.parents[1] / '_data'))
+data=data_root()
 source=Source(data/'sources'/HERE.parent.name/'stereo.seq.html',
               'Original MOSTA author-linked protocol https://db.cngb.org/stomics/assets/html/stereo.seq.html')
 if have(check, source, label='Original MOSTA protocol and primer table'):

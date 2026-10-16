@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/dip-c__10.1126+science.aat5641/science.aat5641_PMC6360088.xml.txt:39-81",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dip-c__10.1126+science.aat5641/science.aat5641_PMC6360088.xml.txt:39-81",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

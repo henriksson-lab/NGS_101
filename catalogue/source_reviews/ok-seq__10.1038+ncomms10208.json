@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/ok-seq__10.1038+ncomms10208/ncomms10208_PMC4729899.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ok-seq__10.1038+ncomms10208/ncomms10208_PMC4729899.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "source_1",
       "role": "supplement",
-      "locator": "_data/sources/ok-seq__10.1038+ncomms10208/ncomms10208_supp_ncomms10208-s1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ok-seq__10.1038+ncomms10208/ncomms10208_supp_ncomms10208-s1.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Supplement contains Figures 1–22 and Tables 1–2 about replication-fork directionality, origin calls, chromatin features and read/result statistics; no adapter sequence or index assignment table.",

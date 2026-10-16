@@ -42,7 +42,7 @@ Same-lab papers found while looking for open Methods (not in the catalogue):
   **Microwell-seq 2.0**, a different chemistry (fixed cells, well-specific RT barcodes as
   round 1). Not covered here.
 
-Sources read (in `_data/sources/microwell-seq__10.1016+j.cell.2018.02.001/`, never
+Sources read (in `/husky/henriksson/NGS101_papers/sources/microwell-seq__10.1016+j.cell.2018.02.001/`, never
 committed):
 
 | File | What | Used for |

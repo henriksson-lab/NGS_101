@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/slam-seq__10.1038+nmeth.4435/nmeth.4435_PMC5712218.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slam-seq__10.1038+nmeth.4435/nmeth.4435_PMC5712218.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "bio_supp",
       "role": "supplement",
-      "locator": "_data/sources/slam-seq__10.1038+nmeth.4435/177642_177642-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slam-seq__10.1038+nmeth.4435/177642_177642-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "springer_supp",
       "role": "supplement",
-      "locator": "_data/sources/slam-seq__10.1038+nmeth.4435/nmeth.4435_41592_2017_BFnmeth4435_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slam-seq__10.1038+nmeth.4435/nmeth.4435_41592_2017_BFnmeth4435_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "pmc_tables",
       "role": "supplement",
-      "locator": "PMC5712218 Supplementary Tables 1–3 under _data/sources/slam-seq__10.1038+nmeth.4435/",
+      "locator": "PMC5712218 Supplementary Tables 1–3 under /husky/henriksson/NGS101_papers/sources/slam-seq__10.1038+nmeth.4435/",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/i-bless__10.1038+s42003-018-0165-9/article.xml.txt:71,131,135",
+      "locator": "/husky/henriksson/NGS101_papers/sources/i-bless__10.1038+s42003-018-0165-9/article.xml.txt:71,131,135",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -40,7 +40,7 @@
     {
       "id": "supplement",
       "role": "supplement",
-      "locator": "_data/sources/i-bless__10.1038+s42003-018-0165-9/supplement.pdf.txt:217-239",
+      "locator": "/husky/henriksson/NGS101_papers/sources/i-bless__10.1038+s42003-018-0165-9/supplement.pdf.txt:217-239",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -75,7 +75,7 @@
     {
       "id": "thruplex2016",
       "role": "vendor",
-      "locator": "_data/sources/i-bless__10.1038+s42003-018-0165-9/ThruPLEX-DNA-seq-Kit-Manual-QAM-108-003-updated-9_16_16.pdf.txt:1763-1766,1905",
+      "locator": "/husky/henriksson/NGS101_papers/sources/i-bless__10.1038+s42003-018-0165-9/ThruPLEX-DNA-seq-Kit-Manual-QAM-108-003-updated-9_16_16.pdf.txt:1763-1766,1905",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -110,7 +110,7 @@
     {
       "id": "bless",
       "role": "predecessor",
-      "locator": "_data/sources/bless__10.1038+nmeth.2408/article.xml.txt and nmeth.2408_supp_NIHMS449608-supplement-6.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bless__10.1038+nmeth.2408/article.xml.txt and nmeth.2408_supp_NIHMS449608-supplement-6.xls.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -140,7 +140,7 @@
     {
       "id": "mitra2015",
       "role": "predecessor",
-      "locator": "_data/sources/i-bless__10.1038+s42003-018-0165-9/PMC4393298_PMC4393298.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/i-bless__10.1038+s42003-018-0165-9/PMC4393298_PMC4393298.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -184,7 +184,7 @@
     {
       "id": "later_vendor_faq",
       "role": "vendor",
-      "locator": "_data/sources/i-bless__10.1038+s42003-018-0165-9/what-are-the-index-adapter-sequences-after-preparation-using-thruplex-dna-libraries.html",
+      "locator": "/husky/henriksson/NGS101_papers/sources/i-bless__10.1038+s42003-018-0165-9/what-are-the-index-adapter-sequences-after-preparation-using-thruplex-dna-libraries.html",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

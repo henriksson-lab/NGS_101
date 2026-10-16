@@ -5,7 +5,7 @@ Source
 ------
 Hagemann-Jensen M, Abdullayev I, Sandberg R, Faridani OR.
 "Small-seq for single-cell small-RNA sequencing." Nat Protoc 2018;13(10):2407-2424.
-doi:10.1038/s41596-018-0049-y          (extracted text: pdf/hagemann.txt, gitignored)
+doi:10.1038/s41596-018-0049-y          (extracted text: /husky/henriksson/NGS101_papers/legacy/pdf/hagemann.txt)
 Original method: Faridani OR et al., Nat Biotechnol 2016;34(12):1264-1266.
 
 Why this chemistry is in the repo

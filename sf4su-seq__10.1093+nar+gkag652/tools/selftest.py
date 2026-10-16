@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """Source oligos, anti-dimer handling and sf4sU-specific boundary checks."""
-import os
 import re
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
+from storage import data_root
 from checks import Check, Source, have
 from protocol_graph import Disposition
 import chem
 
 check = Check()
-base = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources"
+base = data_root() / "sources"
 bundle = base / HERE.parent.name
 manual = Source(bundle / "manuale7300_e7330_e7560_e7580.pdf.txt", "Original NEB E7300 manual Version9.0_07/25")
 if have(check, manual, label="Dated original E7300 guide"):

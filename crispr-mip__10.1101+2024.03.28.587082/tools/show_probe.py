@@ -13,8 +13,9 @@ import crisprmip as cm
 from crispr import clone_guide
 from padlock import capture
 from plasmid import read_genbank
+from storage import legacy_reference
 
-VEC = HERE.parents[1] / "lenticrispr-v1-screening__10.1126+science.1247005" / "ref" / "plasmids" / "addgene-52961_lentiCRISPRv2.gb"
+VEC = legacy_reference("lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/addgene-52961_lentiCRISPRv2.gb")
 SPACER = cm.EXAMPLE_SPACER              # a Brunello-style, non-G-initiated spacer
 
 # Everything below is measured on the real vector map, so there is nothing to print without

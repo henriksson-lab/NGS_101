@@ -34,7 +34,7 @@
       "id": "cg000086_revk_comparator",
       "role": "vendor",
       "discovered_from": "preprint",
-      "locator": "_data/sources/10x-chromium-single-cell-5-ge-v1/CG000086_ChromiumSingleCellV_D_J_ReagentKits_UG_RevK.pdf.txt; official 10x CG000086 Rev K 2019 for PN-1000006/1000014",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-ge-v1/CG000086_ChromiumSingleCellV_D_J_ReagentKits_UG_RevK.pdf.txt; official 10x CG000086 Rev K 2019 for PN-1000006/1000014",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

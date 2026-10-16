@@ -104,7 +104,7 @@
     {
       "id": "cel_seq2",
       "role": "predecessor",
-      "locator": "Original Hashimshony et al. CEL-Seq2 JATS _data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_PMC4848782.xml.txt; cited predecessor DOI 10.1186/s13059-016-0938-8",
+      "locator": "Original Hashimshony et al. CEL-Seq2 JATS /husky/henriksson/NGS101_papers/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_PMC4848782.xml.txt; cited predecessor DOI 10.1186/s13059-016-0938-8",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

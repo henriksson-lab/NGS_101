@@ -145,7 +145,7 @@
     {
       "id": "addgene_52963_parent",
       "role": "linked_material",
-      "locator": "lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/addgene-52963_lentiGuide-Puro.gb; Addgene sequence record 331247 (Addgene-Verified Full Sequence), source URL in sibling ref/plasmids/MANIFEST.md lines 112–116, 256–271",
+      "locator": "/husky/henriksson/NGS101_papers/legacy/lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/addgene-52963_lentiGuide-Puro.gb; Addgene sequence record 331247 (Addgene-Verified Full Sequence), source URL in sibling ref/plasmids/MANIFEST.md lines 112–116, 256–271",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -225,10 +225,10 @@
     {
       "id": "michlits_original_local",
       "role": "other",
-      "locator": "_data/sources/crispr-umi-schmierer__10.15252+msb.20177834/michlits-nmeth.4466.pdf.txt; doi:10.1038/nmeth.4466",
+      "locator": "/husky/henriksson/NGS101_papers/sources/crispr-umi-schmierer__10.15252+msb.20177834/michlits-nmeth.4466.pdf.txt; doi:10.1038/nmeth.4466",
       "availability": "available",
       "relevance": "relevant",
-      "reason": "Original publisher PDF already in ignored pdf/michlits-nmeth.4466.pdf; original first-page title/authors and printed DOI10.1038/nmeth.4466 identify the separate Michlits2017 protocol covered by this directory note03/page. It does not substitute for Schmierer or resolve the gated Addgene196709 map. Exact old acquisition URL unlogged; repeatable DOI source row already exists. Included for the existing separate Michlits note/page and catalogue extra-source row; no claim that the Schmierer article cites this later paper."
+      "reason": "Original publisher PDF already in ignored /husky/henriksson/NGS101_papers/legacy/pdf/michlits-nmeth.4466.pdf; original first-page title/authors and printed DOI10.1038/nmeth.4466 identify the separate Michlits2017 protocol covered by this directory note03/page. It does not substitute for Schmierer or resolve the gated Addgene196709 map. Exact old acquisition URL unlogged; repeatable DOI source row already exists. Included for the existing separate Michlits note/page and catalogue extra-source row; no claim that the Schmierer article cites this later paper."
     }
   ],
   "linked_information": {

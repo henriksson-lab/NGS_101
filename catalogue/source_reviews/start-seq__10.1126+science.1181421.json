@@ -5,7 +5,7 @@
     {
       "id": "nechaev_2010_jats",
       "role": "defining",
-      "locator": "_data/sources/start-seq__10.1126+science.1181421/science.1181421_PMC3435875.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/start-seq__10.1126+science.1181421/science.1181421_PMC3435875.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -38,7 +38,7 @@
     {
       "id": "nechaev_geo_series",
       "role": "linked_material",
-      "locator": "_data/sources/start-seq__10.1126+science.1181421/geo-GSE18643-self-full.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/start-seq__10.1126+science.1181421/geo-GSE18643-self-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -58,7 +58,7 @@
     {
       "id": "nechaev_geo_five",
       "role": "linked_material",
-      "locator": "_data/sources/start-seq__10.1126+science.1181421/geo-GSM463298-self-full.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/start-seq__10.1126+science.1181421/geo-GSM463298-self-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -78,7 +78,7 @@
     {
       "id": "nechaev_geo_three",
       "role": "linked_material",
-      "locator": "_data/sources/start-seq__10.1126+science.1181421/geo-GSM463301-self-full.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/start-seq__10.1126+science.1181421/geo-GSM463301-self-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -98,7 +98,7 @@
     {
       "id": "henriques_2013_jats",
       "role": "other",
-      "locator": "_data/sources/start-seq__10.1126+science.1181421/j.molcel.2013.10.001_PMC3845087.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/start-seq__10.1126+science.1181421/j.molcel.2013.10.001_PMC3845087.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -148,7 +148,7 @@
     {
       "id": "illumina_2010_guide",
       "role": "vendor",
-      "locator": "_data/sources/start-seq__10.1126+science.1181421/illumina_SmallRNA_SamplePrep_Guide_1004239_D.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/start-seq__10.1126+science.1181421/illumina_SmallRNA_SamplePrep_Guide_1004239_D.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -200,7 +200,7 @@
       {
         "id": "nechaev_2010_jats",
         "role": "defining",
-        "locator": "_data/sources/start-seq__10.1126+science.1181421/science.1181421_PMC3435875.xml.txt",
+        "locator": "/husky/henriksson/NGS101_papers/sources/start-seq__10.1126+science.1181421/science.1181421_PMC3435875.xml.txt",
         "availability": "read",
         "relevance": "relevant",
         "pass_1": {
@@ -299,7 +299,7 @@
       {
         "id": "henriques_2013_jats",
         "role": "other",
-        "locator": "_data/sources/start-seq__10.1126+science.1181421/j.molcel.2013.10.001_PMC3845087.xml.txt",
+        "locator": "/husky/henriksson/NGS101_papers/sources/start-seq__10.1126+science.1181421/j.molcel.2013.10.001_PMC3845087.xml.txt",
         "availability": "read",
         "relevance": "relevant",
         "pass_1": {
@@ -349,7 +349,7 @@
       {
         "id": "illumina_2010_guide",
         "role": "vendor",
-        "locator": "_data/sources/start-seq__10.1126+science.1181421/illumina_SmallRNA_SamplePrep_Guide_1004239_D.pdf.txt",
+        "locator": "/husky/henriksson/NGS101_papers/sources/start-seq__10.1126+science.1181421/illumina_SmallRNA_SamplePrep_Guide_1004239_D.pdf.txt",
         "availability": "read",
         "relevance": "relevant",
         "pass_1": {

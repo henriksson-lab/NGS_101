@@ -5,7 +5,7 @@
     {
       "id": "wik_article",
       "role": "defining",
-      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_PMC8633680.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_PMC8633680.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "wik_supp_mmc1",
       "role": "supplement",
-      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_supp_mmc1.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_supp_mmc1.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "wik_supp_mmc2",
       "role": "supplement",
-      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_supp_mmc2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_supp_mmc2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Performance and validation result tables, without molecular reagent sections in extracted sheets.",
@@ -63,7 +63,7 @@
     {
       "id": "wik_supp_mmc3",
       "role": "supplement",
-      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_supp_mmc3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_supp_mmc3.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Performance and validation result tables, without molecular reagent sections in extracted sheets.",
@@ -83,7 +83,7 @@
     {
       "id": "wik_supp_mmc4",
       "role": "supplement",
-      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_supp_mmc4.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/olink-explore__10.1016+j.mcpro.2021.100168/j.mcpro.2021.100168_supp_mmc4.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -103,7 +103,7 @@
       "id": "olink_patent",
       "role": "linked_material",
       "discovered_from": "wik_article",
-      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/en.html.txt; WO2021191442A1",
+      "locator": "/husky/henriksson/NGS101_papers/sources/olink-explore__10.1016+j.mcpro.2021.100168/en.html.txt; WO2021191442A1",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -122,7 +122,7 @@
     {
       "id": "olink_software",
       "role": "vendor",
-      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/download.html.txt; https://olink.com/software/download",
+      "locator": "/husky/henriksson/NGS101_papers/sources/olink-explore__10.1016+j.mcpro.2021.100168/download.html.txt; https://olink.com/software/download",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -141,7 +141,7 @@
     {
       "id": "olink_preprocessing",
       "role": "vendor",
-      "locator": "_data/sources/olink-explore__10.1016+j.mcpro.2021.100168/1344-Olink-explore-preprocessing.pdf.txt; https://7074596.fs1.hubspotusercontent-na1.net/hubfs/7074596/01-User%20Manuals%20for%20website/1344-Olink-explore-preprocessing.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/olink-explore__10.1016+j.mcpro.2021.100168/1344-Olink-explore-preprocessing.pdf.txt; https://7074596.fs1.hubspotusercontent-na1.net/hubfs/7074596/01-User%20Manuals%20for%20website/1344-Olink-explore-preprocessing.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

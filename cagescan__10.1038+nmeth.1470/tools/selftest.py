@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """Original CAGEscan table transcription and source-branch regressions."""
-import os
 import re
 from pathlib import Path
 import sys
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
+from storage import data_root
 from checks import Check, Source, have
 from protocol_graph import Disposition, StepKind
 import chem
 
 check = Check()
-bundle = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources" / HERE.parent.name
+bundle = data_root() / "sources" / HERE.parent.name
 table = Source(bundle / "nmeth.1470_41592_2010_BFnmeth1470_MOESM315_ESM.pdf.txt", "Original Supplementary Table8, PDFp26")
 if have(check, table, label="Original CAGEscan oligo table"):
     text = table.path.read_text().split("CAGEscan TS primer", 1)[1]

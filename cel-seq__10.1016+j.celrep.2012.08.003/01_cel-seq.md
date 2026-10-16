@@ -26,7 +26,7 @@ CEL-Seq2 on the Fluidigm C1.
 ## Sources
 
 Fetched by `tools/get_sources.py` into
-`_data/sources/cel-seq-family__10.1016+j.celrep.2012.08.003/`, never committed:
+`/husky/henriksson/NGS101_papers/sources/cel-seq-family__10.1016+j.celrep.2012.08.003/`, never committed:
 
 | File | What | Used for |
 |---|---|---|

@@ -15,7 +15,7 @@
     {
       "id": "aw_2016_supplement",
       "role": "supplement",
-      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -35,7 +35,7 @@
     {
       "id": "aw_2017_jove_pdf",
       "role": "detailed_protocol",
-      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/55255.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/splash__10.1016+j.molcel.2016.04.028/55255.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -54,7 +54,7 @@
     {
       "id": "aw_2017_jove_materials",
       "role": "linked_material",
-      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/mapping-rna-rna-interactions-globally-using-biotinylated-psoralen.html.txt (original https://www.jove.com/t/55255/mapping-rna-rna-interactions-globally-using-biotinylated-psoralen)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/splash__10.1016+j.molcel.2016.04.028/mapping-rna-rna-interactions-globally-using-biotinylated-psoralen.html.txt (original https://www.jove.com/t/55255/mapping-rna-rna-interactions-globally-using-biotinylated-psoralen)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -74,7 +74,7 @@
     {
       "id": "neb_e7335",
       "role": "vendor",
-      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/manuale7335_e7500_-e7710_e7730.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/splash__10.1016+j.molcel.2016.04.028/manuale7335_e7500_-e7710_e7730.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -93,7 +93,7 @@
     {
       "id": "aw_2016_table_s3",
       "role": "supplement",
-      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "TableS3: Gene-pair/region interaction output table, not molecular library recipe or oligo table.",
@@ -114,7 +114,7 @@
     {
       "id": "aw_2016_table_s4",
       "role": "supplement",
-      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc3.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "TableS4: Human snoRNA target-site coordinates/read counts, not library primer specification.",
@@ -135,7 +135,7 @@
     {
       "id": "aw_2016_table_s5",
       "role": "supplement",
-      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc4.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc4.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "TableS5: Yeast snoRNA target-site coordinates/read counts, not library primer specification.",
@@ -156,7 +156,7 @@
     {
       "id": "aw_2016_table_s6",
       "role": "supplement",
-      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc5.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc5.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "TableS6: GO/module enrichment output, not library oligo or reaction specification.",
@@ -177,7 +177,7 @@
     {
       "id": "aw_2016_table_s7",
       "role": "supplement",
-      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc6.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/splash__10.1016+j.molcel.2016.04.028/1-s2.0-S1097276516301046-mmc6.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "TableS7: 5′biotin probes forRNA pull-down validation and target-specific qPCR primer pairs. Source title explicitly says validation/Figure6; these are not SPLASH adapter/RT or sequencing primers. Figure6 validation is separate from modeled genome-wide library.",

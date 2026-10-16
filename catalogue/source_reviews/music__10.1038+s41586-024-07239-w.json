@@ -5,7 +5,7 @@
     {
       "id": "source_1",
       "role": "supplement",
-      "locator": "_data/sources/music__10.1038+s41586-024-07239-w/export.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/music__10.1038+s41586-024-07239-w/export.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "source_2",
       "role": "linked_material",
-      "locator": "_data/sources/music__10.1038+s41586-024-07239-w/s41586-024-07239-w_PMC11023937.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/music__10.1038+s41586-024-07239-w/s41586-024-07239-w_PMC11023937.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "source_3",
       "role": "defining",
-      "locator": "_data/sources/music__10.1038+s41586-024-07239-w/s41586-024-07239-w_PMC11023937.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/music__10.1038+s41586-024-07239-w/s41586-024-07239-w_PMC11023937.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "source_4",
       "role": "supplement",
-      "locator": "_data/sources/music__10.1038+s41586-024-07239-w/s41586-024-07239-w_supp_41586_2024_7239_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/music__10.1038+s41586-024-07239-w/s41586-024-07239-w_supp_41586_2024_7239_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "source_5",
       "role": "supplement",
-      "locator": "_data/sources/music__10.1038+s41586-024-07239-w/s41586-024-07239-w_supp_41586_2024_7239_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/music__10.1038+s41586-024-07239-w/s41586-024-07239-w_supp_41586_2024_7239_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Original S1 transcription checks; molecular invariants live in constructors."""
 from pathlib import Path
-import os
 import re
 import sys
 H = Path(__file__).resolve().parent
 sys.path[:0] = [str(H), str(H.parents[1] / 'lib')]
+from storage import data_root
 import tgirt_seq as M
 from checks import Check, Source, have
 
 check = Check()
-bundle = Path(os.environ.get('CHEM_DATA', H.parents[1] / '_data')) / 'sources' / H.parent.name
+bundle = data_root() / 'sources' / H.parent.name
 source = Source(bundle / 'PMC4691826_supp_supp_054809.115_FigS1.eps.txt',
                 'Original Qin2016 Fig.S1 EPS via pmccloud:PMC4691826; ref/MANIFEST.md describes text extraction.')
 if have(check, source, label='original Supplementary Figure S1 text'):

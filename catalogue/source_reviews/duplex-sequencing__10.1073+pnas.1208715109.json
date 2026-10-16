@@ -11,13 +11,13 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1073+pnas.1208715109/pnas.1208715109_PMC3437896.html.txt lines 1159-1170,1238-1243; scraper zero",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1073+pnas.1208715109/pnas.1208715109_PMC3437896.html.txt lines 1159-1170,1238-1243; scraper zero",
         "finding": "Original reports 12 nt tag at both ends and original adapter dA / fragment dT ligation; points to SI for bases."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1073+pnas.1208715109/pnas.1208715109_PMC3437896.html.txt lines 1159-1172 and 1238-1243",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1073+pnas.1208715109/pnas.1208715109_PMC3437896.html.txt lines 1159-1172 and 1238-1243",
         "finding": "Defining paper explains randomized duplex tag copied into adaptor and complementary-tag strand pairing; precise 2012 SI oligo table not in article."
       }
     },
@@ -49,13 +49,13 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+nprot.2014.170/nprot.2014.170_PMC4271547.xml.txt lines 95-103,1209-1218; scraper at 1209",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nprot.2014.170/nprot.2014.170_PMC4271547.xml.txt lines 95-103,1209-1218; scraper at 1209",
         "finding": "Later redesign Table 3 prints MWS51/MWS55 and PCR primers; explicitly changes to adapter dT and fragment dA, so cannot backfill 2012 bases."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+nprot.2014.170/nprot.2014.170_PMC4271547.xml.txt lines 95-103, 1205-1222",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nprot.2014.170/nprot.2014.170_PMC4271547.xml.txt lines 95-103, 1205-1222",
         "finding": "Later author detailed protocol prints MWS51/MWS55 duplex adapter, N12 tag, MWS13/MWS20/MWS21 PCR primers; successor cannot prove every 2012 oligo identity."
       },
       "discovery_note": "Later author comparator identified by prior audit, not a future2014method cited by the2012article. Explicit redesign/reversedtailpolarity is preserved; no2014oligos transferred."
@@ -130,13 +130,13 @@
             "pass_1": {
               "reviewer": "audit_s_z",
               "date": "2026-10-16",
-              "locations": "_data/sources/doi_10.1073+pnas.1208715109/pnas.1208715109_PMC3437896.html.txt lines 1159-1170,1238-1243; scraper zero",
+              "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1073+pnas.1208715109/pnas.1208715109_PMC3437896.html.txt lines 1159-1170,1238-1243; scraper zero",
               "finding": "Original reports 12 nt tag at both ends and original adapter dA / fragment dT ligation; points to SI for bases."
             },
             "pass_2": {
               "reviewer": "audit_a_h",
               "date": "2026-10-16",
-              "locations": "_data/sources/doi_10.1073+pnas.1208715109/pnas.1208715109_PMC3437896.html.txt lines 1159-1172 and 1238-1243",
+              "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1073+pnas.1208715109/pnas.1208715109_PMC3437896.html.txt lines 1159-1172 and 1238-1243",
               "finding": "Defining paper explains randomized duplex tag copied into adaptor and complementary-tag strand pairing; precise 2012 SI oligo table not in article."
             }
           },
@@ -159,13 +159,13 @@
             "pass_1": {
               "reviewer": "audit_s_z",
               "date": "2026-10-16",
-              "locations": "_data/sources/doi_10.1038+nprot.2014.170/nprot.2014.170_PMC4271547.xml.txt lines 95-103,1209-1218; scraper at 1209",
+              "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nprot.2014.170/nprot.2014.170_PMC4271547.xml.txt lines 95-103,1209-1218; scraper at 1209",
               "finding": "Later redesign Table 3 prints MWS51/MWS55 and PCR primers; explicitly changes to adapter dT and fragment dA, so cannot backfill 2012 bases."
             },
             "pass_2": {
               "reviewer": "audit_a_h",
               "date": "2026-10-16",
-              "locations": "_data/sources/doi_10.1038+nprot.2014.170/nprot.2014.170_PMC4271547.xml.txt lines 95-103, 1205-1222",
+              "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nprot.2014.170/nprot.2014.170_PMC4271547.xml.txt lines 95-103, 1205-1222",
               "finding": "Later author detailed protocol prints MWS51/MWS55 duplex adapter, N12 tag, MWS13/MWS20/MWS21 PCR primers; successor cannot prove every 2012 oligo identity."
             },
             "discovered_from": "paper"

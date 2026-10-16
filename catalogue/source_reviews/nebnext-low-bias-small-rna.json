@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/nebnext-low-bias-small-rna/manuale3420.pdf.txt lines 66,210,883 and ligation/PCR sections; scraper line 883",
+        "locations": "/husky/henriksson/NGS101_papers/sources/nebnext-low-bias-small-rna/manuale3420.pdf.txt lines 66,210,883 and ligation/PCR sections; scraper line 883",
         "finding": "Names LB 3′/5′ adapters and splint, prints trim motifs, and requires separate LV UDI primer set."
       },
       "pass_2": {
@@ -92,7 +92,7 @@
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "_data/sources/nebnext-low-bias-small-rna/nar_gkaa480_PMC7641310.xml.txt lines 39–49 (Methods), 75–79 (library construction); supplementary_material.pdf.txt lines 210–271 and 331–338 (Supplementary Table S2 and legend); source-bundle scraper, hits at supplement lines 249,257,263",
+        "locations": "/husky/henriksson/NGS101_papers/sources/nebnext-low-bias-small-rna/nar_gkaa480_PMC7641310.xml.txt lines 39–49 (Methods), 75–79 (library construction); supplementary_material.pdf.txt lines 210–271 and 331–338 (Supplementary Table S2 and legend); source-bundle scraper, hits at supplement lines 249,257,263",
         "finding": "Maguire research workflow lists oligos 4–7 in Supplementary Table S2: 5′-phosphorylated DNA 3′ adapter, U-containing N6 3′ splint with /3InvdT/, all-RNA 5′ adapter and 5′ splint. Methods specify preadenylation, annealing and sequential 3′ then 5′ ligation. NEB calls this a predecessor with later kit enhancements; these research oligos do not establish E3420 kit identity."
       },
       "pass_2": {
@@ -530,7 +530,7 @@
       "id": "zhuang_2012_supp_tables",
       "role": "supplement",
       "discovered_from": "zhuang_2012",
-      "locator": "Original Zhuang 2012 Supplementary Tables 1–5, _data/sources/nebnext-low-bias-small-rna/PMC3326334_supp_supp_gkr1263_nar-02706-met-2011-File011.pdf.txt; https://pmc-oa-opendata.s3.amazonaws.com/PMC3326334.1/supp_gkr1263_nar-02706-met-2011-File011.pdf",
+      "locator": "Original Zhuang 2012 Supplementary Tables 1–5, /husky/henriksson/NGS101_papers/sources/nebnext-low-bias-small-rna/PMC3326334_supp_supp_gkr1263_nar-02706-met-2011-File011.pdf.txt; https://pmc-oa-opendata.s3.amazonaws.com/PMC3326334.1/supp_gkr1263_nar-02706-met-2011-File011.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -550,7 +550,7 @@
       "id": "zhuang_2012_supp_fig1",
       "role": "supplement",
       "discovered_from": "zhuang_2012",
-      "locator": "Original Zhuang 2012 Supplementary Figure S1, _data/sources/nebnext-low-bias-small-rna/PMC3326334_supp_supp_gkr1263_nar-02706-met-2011-File012.pdf.txt; https://pmc-oa-opendata.s3.amazonaws.com/PMC3326334.1/supp_gkr1263_nar-02706-met-2011-File012.pdf",
+      "locator": "Original Zhuang 2012 Supplementary Figure S1, /husky/henriksson/NGS101_papers/sources/nebnext-low-bias-small-rna/PMC3326334_supp_supp_gkr1263_nar-02706-met-2011-File012.pdf.txt; https://pmc-oa-opendata.s3.amazonaws.com/PMC3326334.1/supp_gkr1263_nar-02706-met-2011-File012.pdf",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original single-page Figure S1 depicts positional sequence entropy in experimental libraries and contains no adapter synthesis strands or kit identity.",
@@ -571,7 +571,7 @@
       "id": "zhuang_2012_supp_fig2",
       "role": "supplement",
       "discovered_from": "zhuang_2012",
-      "locator": "Original Zhuang 2012 Supplementary Figure S2, _data/sources/nebnext-low-bias-small-rna/PMC3326334_supp_supp_gkr1263_nar-02706-met-2011-File013.pdf.txt; https://pmc-oa-opendata.s3.amazonaws.com/PMC3326334.1/supp_gkr1263_nar-02706-met-2011-File013.pdf",
+      "locator": "Original Zhuang 2012 Supplementary Figure S2, /husky/henriksson/NGS101_papers/sources/nebnext-low-bias-small-rna/PMC3326334_supp_supp_gkr1263_nar-02706-met-2011-File013.pdf.txt; https://pmc-oa-opendata.s3.amazonaws.com/PMC3326334.1/supp_gkr1263_nar-02706-met-2011-File013.pdf",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original single-page Figure S2 depicts predicted RNA–adapter cofold class distributions, not adapter ordering sequences or E3420 commercial identities.",

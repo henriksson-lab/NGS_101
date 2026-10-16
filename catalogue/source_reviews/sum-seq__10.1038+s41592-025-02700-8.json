@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_PMC12165849.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_PMC12165849.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "source_1",
       "role": "supplement",
-      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "source_2",
       "role": "supplement",
-      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "source_3",
       "role": "supplement",
-      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM3_ESM.xlsx (original workbook; extracted .xlsx.txt beside it)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM3_ESM.xlsx (original workbook; extracted .xlsx.txt beside it)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "source_4",
       "role": "supplement",
-      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM4_ESM.zip",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM4_ESM.zip",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -102,7 +102,7 @@
     {
       "id": "source_5",
       "role": "supplement",
-      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -122,7 +122,7 @@
     {
       "id": "source_6",
       "role": "supplement",
-      "locator": "_data/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM6_ESM.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sum-seq__10.1038+s41592-025-02700-8/s41592-025-02700-8_supp_41592_2025_2700_MOESM6_ESM.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -149,7 +149,7 @@
       "pass_1": {
         "reviewer": "audit_sci_hic",
         "date": "2026-10-16",
-        "locations": "Repository DOI fetch attempt created _data/sources/doi_10.1534+g3.117.300257/MANIFEST.tsv manual row only; scraper on that unfetched bundle yielded 0 files. Independently opened original OUP published article, web text lines 172-188 (Methods), 222-227 (data/supplement links), 229-241 (protein variant) and original linked File S1 PDF pp. 9-16 (web lines 229-378) plus p. 20 Table S1 (web lines 452-479).",
+        "locations": "Repository DOI fetch attempt created /husky/henriksson/NGS101_papers/sources/doi_10.1534+g3.117.300257/MANIFEST.tsv manual row only; scraper on that unfetched bundle yielded 0 files. Independently opened original OUP published article, web text lines 172-188 (Methods), 222-227 (data/supplement links), 229-241 (protein variant) and original linked File S1 PDF pp. 9-16 (web lines 229-378) plus p. 20 Table S1 (web lines 452-479).",
         "finding": "Original paper details His6-Sumo3-tagged Tn5 E54K/L372P or R27S/E54K/L372P, PEI nucleic-acid removal, SenP2 cleavage and size-exclusion purification of dimer. It loads enzyme with annealed Tn5ME-A/Tn5MErev and Tn5ME-B/Tn5MErev at 23 °C for 30–60 min. File S1 prints those oligo bases and a 5′-phosphorylated MErev (pp. 15–16), plus primer Table S1 (p. 20). This supports the cited in-house Tn5 production/loading method, not SUM-specific barcoded adapter sequences. File S1 follows a relevant original linked by Hennig; Picelli et al. 2014a is cited there as prior linker design and still needs its own relevance audit."
       },
       "pass_2": {
@@ -162,7 +162,7 @@
     {
       "id": "scifi_predecessor",
       "role": "linked_material",
-      "locator": "Datlinger et al., Nature Methods 2021 DOI:10.1038/s41592-021-01153-z, original published JATS _data/sources/scifi-rna-seq__10.1101+2019.12.17.879304/s41592-021-01153-z_PMC7612019.xml.txt; cited ref. 6 in SUM-seq",
+      "locator": "Datlinger et al., Nature Methods 2021 DOI:10.1038/s41592-021-01153-z, original published JATS /husky/henriksson/NGS101_papers/sources/scifi-rna-seq__10.1101+2019.12.17.879304/s41592-021-01153-z_PMC7612019.xml.txt; cited ref. 6 in SUM-seq",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",

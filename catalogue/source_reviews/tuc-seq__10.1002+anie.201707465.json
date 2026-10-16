@@ -132,7 +132,7 @@
     {
       "id": "tuc_dual_article",
       "role": "other",
-      "locator": "_data/sources/tuc-seq__10.1002+anie.201707465/PMC7186826_PMC7186826.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tuc-seq__10.1002+anie.201707465/PMC7186826_PMC7186826.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -152,7 +152,7 @@
     {
       "id": "tuc_dual_supplement",
       "role": "supplement",
-      "locator": "_data/sources/tuc-seq__10.1002+anie.201707465/PMC7186826_supp_ANIE-59-6881-s001.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tuc-seq__10.1002+anie.201707465/PMC7186826_supp_ANIE-59-6881-s001.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

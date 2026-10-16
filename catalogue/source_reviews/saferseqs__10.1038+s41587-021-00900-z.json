@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/saferseqs__10.1038+s41587-021-00900-z/PMC8627329_PMC8627329.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/saferseqs__10.1038+s41587-021-00900-z/PMC8627329_PMC8627329.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/saferseqs__10.1038+s41587-021-00900-z/s41587-021-00900-z_41587_2021_900_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/saferseqs__10.1038+s41587-021-00900-z/s41587-021-00900-z_41587_2021_900_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "reporting",
       "role": "supplement",
-      "locator": "_data/sources/saferseqs__10.1038+s41587-021-00900-z/s41587-021-00900-z_41587_2021_900_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/saferseqs__10.1038+s41587-021-00900-z/s41587-021-00900-z_41587_2021_900_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "supp_tables",
       "role": "supplement",
-      "locator": "_data/sources/saferseqs__10.1038+s41587-021-00900-z/s41587-021-00900-z_41587_2021_900_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/saferseqs__10.1038+s41587-021-00900-z/s41587-021-00900-z_41587_2021_900_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "safe_seqs",
       "role": "predecessor",
-      "locator": "_data/sources/safe-seqs__10.1073+pnas.1105422108/pnas.1105422108_PMC3111315.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/safe-seqs__10.1073+pnas.1105422108/pnas.1105422108_PMC3111315.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_2": {

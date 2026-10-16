@@ -5,7 +5,7 @@
     {
       "id": "rang_article",
       "role": "defining",
-      "locator": "Rang et al. 2022 Cell Mol Cell, PMC9153956 JATS under _data/sources/epidamid__10.1101+2021.10.26.465688/",
+      "locator": "Rang et al. 2022 Cell Mol Cell, PMC9153956 JATS under /husky/henriksson/NGS101_papers/sources/epidamid__10.1101+2021.10.26.465688/",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -122,7 +122,7 @@
     {
       "id": "cel_seq2",
       "role": "linked_material",
-      "locator": "Hashimshony et al. CEL-Seq2 2016 PMC4848782 JATS in _data/sources/cel-seq2__10.1186+s13059-016-0938-8/",
+      "locator": "Hashimshony et al. CEL-Seq2 2016 PMC4848782 JATS in /husky/henriksson/NGS101_papers/sources/cel-seq2__10.1186+s13059-016-0938-8/",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

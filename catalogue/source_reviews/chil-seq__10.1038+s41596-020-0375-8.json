@@ -13,7 +13,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -32,7 +32,7 @@
     {
       "id": "reporting",
       "role": "supplement",
-      "locator": "_data/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -52,7 +52,7 @@
     {
       "id": "raw_figure",
       "role": "supplement",
-      "locator": "_data/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -72,7 +72,7 @@
     {
       "id": "figure3_data",
       "role": "supplement",
-      "locator": "_data/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -92,7 +92,7 @@
     {
       "id": "figure4_data",
       "role": "supplement",
-      "locator": "_data/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chil-seq__10.1038+s41596-020-0375-8/s41596-020-0375-8_41596_2020_375_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

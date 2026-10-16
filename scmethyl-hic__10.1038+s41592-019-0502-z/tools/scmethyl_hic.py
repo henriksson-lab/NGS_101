@@ -2,13 +2,13 @@
 from __future__ import annotations
 
 import html
-import os
 import re
 import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
+from storage import data_root
 
 import seqprimers as sp
 import illumina as il
@@ -271,7 +271,7 @@ def selftest() -> None:
     c.section("scMethyl-HiC source and branch behavior")
     c("four published pool indexes", tuple(INLINE_4PLEX),
       ("AD002", "AD006", "AD008", "AD010"))
-    data = Path(os.environ.get("CHEM_DATA", str(HERE.parents[1] / "_data")))
+    data = data_root()
     original = Source(data / "sources" / HERE.parent.name /
         "s41592-019-0502-z_41592_2019_502_MOESM1_ESM.pdf.txt",
         "Li et al. 2019 Springer Supplementary Protocol, MOESM1; tools/get_sources.py --doi 10.1038/s41592-019-0502-z")

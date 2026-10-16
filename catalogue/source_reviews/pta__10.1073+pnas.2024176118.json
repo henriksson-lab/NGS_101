@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/pta__10.1073+pnas.2024176118/pnas.2024176118_PMC8214697.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pta__10.1073+pnas.2024176118/pnas.2024176118_PMC8214697.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "si_appendix",
       "role": "supplement",
-      "locator": "_data/sources/pta__10.1073+pnas.2024176118/pnas.2024176118_supp_pnas.2024176118.sapp.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pta__10.1073+pnas.2024176118/pnas.2024176118_supp_pnas.2024176118.sapp.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "_data/sources/pta__10.1073+pnas.2024176118/2020.11.20.391961_v3.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pta__10.1073+pnas.2024176118/2020.11.20.391961_v3.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

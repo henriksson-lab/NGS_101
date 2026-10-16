@@ -5,7 +5,7 @@
     {
       "id": "protocol",
       "role": "defining",
-      "locator": "_data/sources/long-read-chia-pet__10.1038+nprot.2017.012/PMC5537732_PMC5537732.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/long-read-chia-pet__10.1038+nprot.2017.012/PMC5537732_PMC5537732.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

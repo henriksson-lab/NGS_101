@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/dms-mapseq__10.1038+nmeth.4057/nmeth.4057_PMC5508988.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dms-mapseq__10.1038+nmeth.4057/nmeth.4057_PMC5508988.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_oligos",
       "role": "supplement",
-      "locator": "_data/sources/dms-mapseq__10.1038+nmeth.4057/nmeth.4057_41592_2017_BFnmeth4057_MOESM168_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dms-mapseq__10.1038+nmeth.4057/nmeth.4057_41592_2017_BFnmeth4057_MOESM168_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

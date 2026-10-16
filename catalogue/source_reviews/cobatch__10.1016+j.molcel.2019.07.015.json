@@ -79,7 +79,7 @@
     {
       "id": "published_supplement_pdf",
       "role": "supplement",
-      "locator": "_data/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -99,7 +99,7 @@
     {
       "id": "published_supplement_workbook_2",
       "role": "supplement",
-      "locator": "_data/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc2.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -119,7 +119,7 @@
     {
       "id": "published_supplement_workbook_3",
       "role": "supplement",
-      "locator": "_data/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc3.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -139,7 +139,7 @@
     {
       "id": "published_supplement_workbook_4",
       "role": "supplement",
-      "locator": "_data/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc4.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc4.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -160,7 +160,7 @@
     {
       "id": "published_supplement_workbook_5",
       "role": "supplement",
-      "locator": "_data/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc5.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cobatch__10.1016+j.molcel.2019.07.015/1-s2.0-S1097276519305453-mmc5.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

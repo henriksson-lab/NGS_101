@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/rampage__10.1101+gr.139618.112/gr.139618.112_PMC3530677.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rampage__10.1101+gr.139618.112/gr.139618.112_PMC3530677.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "detailed",
       "role": "linked_material",
-      "locator": "_data/sources/doi_10.1002+0471142727.mb25b11s104/0471142727.mb25b11s104_PMC4372803.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1002+0471142727.mb25b11s104/0471142727.mb25b11s104_PMC4372803.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "ebi_zip",
       "role": "supplement",
-      "locator": "_data/sources/rampage__10.1101+gr.139618.112/gr.139618.112_PMC3530677_supplementary.zip",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rampage__10.1101+gr.139618.112/gr.139618.112_PMC3530677_supplementary.zip",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

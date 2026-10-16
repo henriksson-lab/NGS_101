@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """Compare local declarations with original source text when available."""
 from pathlib import Path
-import os
 import re
 import sys
 import xml.etree.ElementTree as ET
 
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / 'lib')]
+from storage import data_root
 import chem
 from checks import Check, Source, have
 
 c = Check()
 c.section('GRO-cap source transcription')
-bundle = Path(os.environ.get('CHEM_DATA', HERE.parents[1] / '_data')) / 'sources' / HERE.parent.name
+bundle = data_root() / 'sources' / HERE.parent.name
 
 vendor = Source(bundle / 'illumina_TruSeq-SmallRNA.htm.txt',
                 'https://support-docs.illumina.com/SHARE/AdapterSequences/Content/TruSeq-SmallRNA.htm')

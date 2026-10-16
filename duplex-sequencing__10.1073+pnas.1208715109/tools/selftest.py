@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Check the corrected original SI, rather than generic TruSeq defaults."""
 from pathlib import Path
-import os
 import re
 import sys
 HERE=Path(__file__).resolve().parent
 sys.path[:0]=[str(HERE),str(HERE.parents[1]/'lib')]
+from storage import data_root
 import duplex_seq as model
 from checks import Check, Source, have
 
 check=Check()
-data=Path(os.environ.get('CHEM_DATA', HERE.parents[1]/'_data'))
+data=data_root()
 source=Source(data/'sources'/HERE.parent.name/'source_pdf_837ee6137323e8b633b0.pdf.txt',
     'Original Schmitt2012 article + Supporting Information corrected March27,2013; registered public USPTO exhibit PDF route in catalogue/extra_sources.tsv')
 if have(check, source, label='Corrected original Supporting Information'):

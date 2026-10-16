@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_PMC6436961.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_PMC6436961.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_table_s1",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc2.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "supp_table_s2",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc3.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -81,7 +81,7 @@
     {
       "id": "supp_mmc4",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc4.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc4.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -101,7 +101,7 @@
     {
       "id": "supp_mmc5",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc5.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc5.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -121,7 +121,7 @@
     {
       "id": "supp_mmc6",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc6.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc6.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -141,7 +141,7 @@
     {
       "id": "supp_mmc7",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc7.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc7.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -161,7 +161,7 @@
     {
       "id": "supp_full",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc8.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/j.molcel.2019.01.009_supp_mmc8.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -180,7 +180,7 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_v2.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_v2.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -200,7 +200,7 @@
     {
       "id": "preprint_s1",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-1.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-1.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -219,7 +219,7 @@
     {
       "id": "preprint_s2",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-2.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -238,7 +238,7 @@
     {
       "id": "preprint_media3",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-3.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -258,7 +258,7 @@
     {
       "id": "preprint_media4",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-4.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-4.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -278,7 +278,7 @@
     {
       "id": "preprint_media5",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-5.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-5.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -298,7 +298,7 @@
     {
       "id": "preprint_media6",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-6.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/474734_media-6.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -317,7 +317,7 @@
     {
       "id": "detailed_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_PMC7757016.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_PMC7757016.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -336,7 +336,7 @@
     {
       "id": "detailed_s1",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_supp_mmc2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_supp_mmc2.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -355,7 +355,7 @@
     {
       "id": "detailed_s2",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_supp_mmc3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_supp_mmc3.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -382,7 +382,7 @@
     {
       "id": "detailed_s3",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_supp_mmc4.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_supp_mmc4.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -401,7 +401,7 @@
     {
       "id": "detailed_sfig",
       "role": "supplement",
-      "locator": "_data/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_supp_mmc1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/target-seq__10.1016+j.molcel.2019.01.009/PMC7757016_supp_mmc1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

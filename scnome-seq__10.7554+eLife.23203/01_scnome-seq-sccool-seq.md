@@ -23,7 +23,7 @@ bisulfite sequencing) and, for scCOOL-seq, **scBS-seq / PBAT**
 which scCOOL-seq cites as its ref. 16. The same M.CviPI step is later combined with
 scM&T-seq into scNMT-seq (separate catalogue entry `scnmt-seq__10.1038+s41467-018-03149-4`).
 
-Sources read (in `_data/sources/scnome-seq-sccool-seq__10.7554+eLife.23203/`, never committed):
+Sources read (in `/husky/henriksson/NGS101_papers/sources/scnome-seq-sccool-seq__10.7554+eLife.23203/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

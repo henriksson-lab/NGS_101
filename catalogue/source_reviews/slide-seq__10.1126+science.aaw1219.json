@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/slide-seq__10.1126+science.aaw1219/science.aaw1219_PMC6927209.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slide-seq__10.1126+science.aaw1219/science.aaw1219_PMC6927209.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "_data/sources/slide-seq__10.1126+science.aaw1219/563395_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slide-seq__10.1126+science.aaw1219/563395_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/slide-seq__10.1126+science.aaw1219/563395_media-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slide-seq__10.1126+science.aaw1219/563395_media-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

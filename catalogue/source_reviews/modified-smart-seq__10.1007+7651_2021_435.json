@@ -5,7 +5,7 @@
     {
       "id": "zheng2022",
       "role": "defining",
-      "locator": "_data/sources/modified-smart-seq__10.1007+7651_2021_435/7651_2021_435.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/modified-smart-seq__10.1007+7651_2021_435/7651_2021_435.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "smartseq3",
       "role": "predecessor",
-      "locator": "_data/sources/smart-seq3__10.1038+s41587-020-0497-0/817924_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smart-seq3__10.1038+s41587-020-0497-0/817924_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

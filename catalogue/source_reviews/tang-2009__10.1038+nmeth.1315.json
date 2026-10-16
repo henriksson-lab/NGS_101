@@ -5,7 +5,7 @@
     {
       "id": "main_2009",
       "role": "defining",
-      "locator": "_data/sources/tang-2009__10.1038+nmeth.1315/tang-et-al-solid-nature-methods-2009.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tang-2009__10.1038+nmeth.1315/tang-et-al-solid-nature-methods-2009.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Recovered original publisher PDF, read after full source-bundle scraper (281hits in7files).",
@@ -103,7 +103,7 @@
     {
       "id": "kurimoto2007",
       "role": "linked_material",
-      "locator": "_data/sources/tang-2009__10.1038+nmeth.1315/kurimoto-et-al-single-cell-2007.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tang-2009__10.1038+nmeth.1315/kurimoto-et-al-single-cell-2007.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "main_2009",

@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/imargi__10.1073+pnas.1819788116/pnas.1819788116_PMC6386723.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/imargi__10.1073+pnas.1819788116/pnas.1819788116_PMC6386723.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "source_1",
       "role": "linked_material",
-      "locator": "_data/sources/imargi__10.1073+pnas.1819788116/472019_472019-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/imargi__10.1073+pnas.1819788116/472019_472019-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "source_2",
       "role": "linked_material",
-      "locator": "_data/sources/imargi__10.1073+pnas.1819788116/472019_v3.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/imargi__10.1073+pnas.1819788116/472019_v3.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "source_3",
       "role": "supplement",
-      "locator": "_data/sources/imargi__10.1073+pnas.1819788116/pnas.1819788116_supp_pnas.1819788116.sapp.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/imargi__10.1073+pnas.1819788116/pnas.1819788116_supp_pnas.1819788116.sapp.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -103,7 +103,7 @@
     {
       "id": "detailed_protocol",
       "role": "linked_material",
-      "locator": "_data/sources/doi_10.1038+s41596-019-0229-4/s41596-019-0229-4_PMC7314528.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41596-019-0229-4/s41596-019-0229-4_PMC7314528.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -123,7 +123,7 @@
     {
       "id": "protocol_reporting_summary",
       "role": "supplement",
-      "locator": "_data/sources/doi_10.1038+s41596-019-0229-4/s41596-019-0229-4_41596_2019_229_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41596-019-0229-4/s41596-019-0229-4_41596_2019_229_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Publisher original is a reporting summary of statistics, data and analysis code, not library chemistry.",

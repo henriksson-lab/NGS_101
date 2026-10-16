@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/nmeth.3478_PMC4624326.xml.txt:86-94",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dm-trna-seq__10.1038+nmeth.3478/nmeth.3478_PMC4624326.xml.txt:86-94",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -38,7 +38,7 @@
     {
       "id": "supplement",
       "role": "supplement",
-      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/nmeth.3478_41592_2015_BFnmeth3478_MOESM324-326_ESM.*.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dm-trna-seq__10.1038+nmeth.3478/nmeth.3478_41592_2015_BFnmeth3478_MOESM324-326_ESM.*.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -57,7 +57,7 @@
     {
       "id": "nihms_supplement",
       "role": "supplement",
-      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/nmeth.3478_supp_NIHMS701567-supplement-1.doc.txt:1-18",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dm-trna-seq__10.1038+nmeth.3478/nmeth.3478_supp_NIHMS701567-supplement-1.doc.txt:1-18",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "All four captions concern demethylation experiments and mapping/replicate results; this separate NIHMS document has no library-chemistry methods or primer table.",
@@ -97,7 +97,7 @@
     {
       "id": "mohr2013_original",
       "role": "predecessor",
-      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/PMC3683930_PMC3683930.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dm-trna-seq__10.1038+nmeth.3478/PMC3683930_PMC3683930.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "article",
@@ -117,7 +117,7 @@
     {
       "id": "katibah2014_main",
       "role": "predecessor",
-      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/../doi_10.1073+pnas.1412842111/pnas.1412842111_PMC4143023.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dm-trna-seq__10.1038+nmeth.3478/../doi_10.1073+pnas.1412842111/pnas.1412842111_PMC4143023.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "article",
@@ -137,7 +137,7 @@
     {
       "id": "shen2015_supplement",
       "role": "linked_material",
-      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/cdc_31393_DS2.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dm-trna-seq__10.1038+nmeth.3478/cdc_31393_DS2.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "article",
@@ -157,7 +157,7 @@
     {
       "id": "author_later_protocol",
       "role": "linked_material",
-      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/small_rna-circligase_protocol_061416_0.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dm-trna-seq__10.1038+nmeth.3478/small_rna-circligase_protocol_061416_0.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "article",
@@ -177,7 +177,7 @@
     {
       "id": "circligase2012_manual",
       "role": "linked_material",
-      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/Manual_-_circligase-ii-ssdna-ligase.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dm-trna-seq__10.1038+nmeth.3478/Manual_-_circligase-ii-ssdna-ligase.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "article",
@@ -197,7 +197,7 @@
     {
       "id": "hiseq2500_current_primer_page",
       "role": "linked_material",
-      "locator": "_data/sources/dm-trna-seq__10.1038+nmeth.3478/illumina_primer-box.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dm-trna-seq__10.1038+nmeth.3478/illumina_primer-box.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "article",

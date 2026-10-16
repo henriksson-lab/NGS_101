@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/change-seq__10.1038+s41587-020-0555-7/s41587-020-0555-7_PMC7652380.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/change-seq__10.1038+s41587-020-0555-7/s41587-020-0555-7_PMC7652380.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_protocol",
       "role": "supplement",
-      "locator": "_data/sources/change-seq__10.1038+s41587-020-0555-7/41587_2020_555_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/change-seq__10.1038+s41587-020-0555-7/41587_2020_555_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_info",
       "role": "supplement",
-      "locator": "_data/sources/change-seq__10.1038+s41587-020-0555-7/s41587-020-0555-7_supp_NIHMS1591991-supplement-SuppInfo.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/change-seq__10.1038+s41587-020-0555-7/s41587-020-0555-7_supp_NIHMS1591991-supplement-SuppInfo.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -71,7 +71,7 @@
     {
       "id": "nebnext_e7600_manual_2024",
       "role": "vendor",
-      "locator": "_data/sources/nebnext-ultra-ii-dna-library-prep-user-adaptor/manuale7600.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nebnext-ultra-ii-dna-library-prep-user-adaptor/manuale7600.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "nebnext_dual_index",
@@ -91,7 +91,7 @@
     {
       "id": "41587_2020_555_moesm3_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/change-seq__10.1038+s41587-020-0555-7/41587_2020_555_MOESM3_ESM.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/change-seq__10.1038+s41587-020-0555-7/41587_2020_555_MOESM3_ESM.xlsx",
       "availability": "read",
       "relevance": "relevant",
       "pass_2": {
@@ -110,7 +110,7 @@
     {
       "id": "s41587_020_0555_7_41587_2020_555_moesm2_esm_pdf",
       "role": "supplement",
-      "locator": "_data/sources/change-seq__10.1038+s41587-020-0555-7/s41587-020-0555-7_41587_2020_555_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/change-seq__10.1038+s41587-020-0555-7/s41587-020-0555-7_41587_2020_555_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {

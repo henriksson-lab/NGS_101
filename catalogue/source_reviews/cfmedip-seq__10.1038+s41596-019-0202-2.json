@@ -13,7 +13,7 @@
     {
       "id": "reporting",
       "role": "supplement",
-      "locator": "_data/sources/cfmedip-seq__10.1038+s41596-019-0202-2/s41596-019-0202-2_41596_2019_202_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cfmedip-seq__10.1038+s41596-019-0202-2/s41596-019-0202-2_41596_2019_202_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

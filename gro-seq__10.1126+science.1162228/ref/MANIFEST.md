@@ -4,7 +4,7 @@ Retrieve registered originals without committing them:
 
 ```sh
 python3 tools/get_sources.py --slugs gro-seq__10.1126+science.1162228
-python3 tools/scrape_primers.py _data/sources/gro-seq__10.1126+science.1162228
+python3 tools/scrape_primers.py /husky/henriksson/NGS101_papers/sources/gro-seq__10.1126+science.1162228
 ```
 
 - Defining article: https://doi.org/10.1126/science.1162228 (PMC2833333).

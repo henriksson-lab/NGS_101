@@ -5,7 +5,7 @@
     {
       "id": "current_guide",
       "role": "defining",
-      "locator": "_data/sources/pacbio-isoseq-smrtbell-prep-kit-3-0/Procedure-checklist-_-Preparing-Kinnex-compatible-cDNA-using-Iso-Seq-express-2.0-kit-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pacbio-isoseq-smrtbell-prep-kit-3-0/Procedure-checklist-_-Preparing-Kinnex-compatible-cDNA-using-Iso-Seq-express-2.0-kit-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "primer_fasta",
       "role": "linked_material",
-      "locator": "_data/sources/pacbio-isoseq-smrtbell-prep-kit-3-0/IsoSeq_v2_primers_12.fasta",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pacbio-isoseq-smrtbell-prep-kit-3-0/IsoSeq_v2_primers_12.fasta",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

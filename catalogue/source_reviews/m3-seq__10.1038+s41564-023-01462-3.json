@@ -185,7 +185,7 @@
     {
       "id": "vendor_guide",
       "role": "linked_material",
-      "locator": "10x CG000209 Chromium Next GEM Single Cell ATAC v1.1 Rev G; _data/sources/10x-chromium-single-cell-atac/10x_CG000209...RevG.pdf.txt",
+      "locator": "10x CG000209 Chromium Next GEM Single Cell ATAC v1.1 Rev G; /husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-atac/10x_CG000209...RevG.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/j.cell.2018.05.024_PMC6548320.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/j.cell.2018.05.024_PMC6548320.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -32,7 +32,7 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/219683_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/219683_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -52,7 +52,7 @@
     {
       "id": "original_supps",
       "role": "supplement",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/PIIS0092867418306366.pdf (original publisher PDF, SupplementalFigures S1–S7, pages28–39); _data/sources/sprite__10.1016+j.cell.2018.05.024/PIIS0092867418306366.pdf.txt lines2576–end",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/PIIS0092867418306366.pdf (original publisher PDF, SupplementalFigures S1–S7, pages28–39); /husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/PIIS0092867418306366.pdf.txt lines2576–end",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -83,7 +83,7 @@
     {
       "id": "successor_method",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/s41596-021-00633-y_PMC12145137.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/s41596-021-00633-y_PMC12145137.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -112,7 +112,7 @@
     {
       "id": "successor_barcodes",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/s41596-021-00633-y_41596_2021_633_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/s41596-021-00633-y_41596_2021_633_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -141,7 +141,7 @@
     {
       "id": "original_table_s5",
       "role": "supplement",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/mmc5.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/mmc5.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -161,7 +161,7 @@
     {
       "id": "original_inline_adapter_diagrams",
       "role": "supplement",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/nihms972930u2.jpg; _data/sources/sprite__10.1016+j.cell.2018.05.024/nihms972930u3.jpg; _data/sources/sprite__10.1016+j.cell.2018.05.024/nihms972930u4.jpg",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/nihms972930u2.jpg; /husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/nihms972930u3.jpg; /husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/nihms972930u4.jpg",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -180,7 +180,7 @@
     {
       "id": "accepted_author_pdf",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/nihms972930.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/nihms972930.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -200,7 +200,7 @@
     {
       "id": "original_table_s1",
       "role": "supplement",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/mmc1.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/mmc1.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -220,7 +220,7 @@
     {
       "id": "original_table_s2",
       "role": "supplement",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/mmc2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/mmc2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -240,7 +240,7 @@
     {
       "id": "original_table_s3",
       "role": "supplement",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/mmc3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/mmc3.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -260,7 +260,7 @@
     {
       "id": "original_table_s4",
       "role": "supplement",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/mmc4.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/mmc4.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -280,7 +280,7 @@
     {
       "id": "original_table_s6",
       "role": "supplement",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/mmc6.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/mmc6.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -300,7 +300,7 @@
     {
       "id": "original_movie_s1",
       "role": "supplement",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/1-s2.0-S0092867418306366-mmc7.mp4",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/1-s2.0-S0092867418306366-mmc7.mp4",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -320,7 +320,7 @@
     {
       "id": "author_protocols_page",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/protocols.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/protocols.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -340,7 +340,7 @@
     {
       "id": "author_protocol_august2018",
       "role": "detailed_protocol",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/SPRITE_Protocol_July_2018.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/SPRITE_Protocol_July_2018.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -359,7 +359,7 @@
     {
       "id": "author_protocol_april2018",
       "role": "detailed_protocol",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/SPRITE_Protocol.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/SPRITE_Protocol.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -378,7 +378,7 @@
     {
       "id": "historical_pipeline",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/fcf7662a6b2f3bba32440fcfd2914665857016bc.zip",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/fcf7662a6b2f3bba32440fcfd2914665857016bc.zip",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -398,7 +398,7 @@
     {
       "id": "pipeline_wiki_home",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_Home.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/gh_Home.md",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "historical_pipeline",
@@ -418,7 +418,7 @@
     {
       "id": "pipeline_wiki_0",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_0.-Snakemake-Pipeline.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/gh_0.-Snakemake-Pipeline.md",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "historical_pipeline",
@@ -438,7 +438,7 @@
     {
       "id": "pipeline_wiki_1",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_1.-Barcode-Identification.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/gh_1.-Barcode-Identification.md",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "historical_pipeline",
@@ -458,7 +458,7 @@
     {
       "id": "pipeline_wiki_2",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_2.-Alignment.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/gh_2.-Alignment.md",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "historical_pipeline",
@@ -478,7 +478,7 @@
     {
       "id": "pipeline_wiki_3",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_3.-Filtering.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/gh_3.-Filtering.md",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "historical_pipeline",
@@ -498,7 +498,7 @@
     {
       "id": "pipeline_wiki_4",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_4.-Clustering.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/gh_4.-Clustering.md",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "historical_pipeline",
@@ -518,7 +518,7 @@
     {
       "id": "pipeline_wiki_5",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_5.-Heatmaps.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/gh_5.-Heatmaps.md",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "historical_pipeline",
@@ -538,7 +538,7 @@
     {
       "id": "pipeline_current_configuration",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/gh_config.yaml",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/gh_config.yaml",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "historical_pipeline",
@@ -558,7 +558,7 @@
     {
       "id": "successor_procedure_video",
       "role": "linked_material",
-      "locator": "_data/sources/sprite__10.1016+j.cell.2018.05.024/s41596-021-00633-y_41596_2021_633_MOESM2_ESM.mp4",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sprite__10.1016+j.cell.2018.05.024/s41596-021-00633-y_41596_2021_633_MOESM2_ESM.mp4",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "successor_method",

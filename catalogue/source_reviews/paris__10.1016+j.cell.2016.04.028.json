@@ -5,7 +5,7 @@
     {
       "id": "lu_2016",
       "role": "defining",
-      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/j.cell.2016.04.028_PMC5029792.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paris__10.1016+j.cell.2016.04.028/j.cell.2016.04.028_PMC5029792.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "lu_2016_supplement",
       "role": "supplement",
-      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -57,7 +57,7 @@
     {
       "id": "lu_2018_jats",
       "role": "detailed_protocol",
-      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/PMC5821472_PMC5821472.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paris__10.1016+j.cell.2016.04.028/PMC5821472_PMC5821472.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -76,7 +76,7 @@
     {
       "id": "lu_2018_pdf",
       "role": "detailed_protocol",
-      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/201804_Protocol_Methods_Mol_Biol.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paris__10.1016+j.cell.2016.04.028/201804_Protocol_Methods_Mol_Biol.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -95,7 +95,7 @@
     {
       "id": "icshape_predecessor",
       "role": "linked_material",
-      "locator": "_data/sources/icshape__10.1038+nprot.2016.011/nprot.2016.011_PMC4896316.xml.txt; doi:10.1038/nprot.2016.011",
+      "locator": "/husky/henriksson/NGS101_papers/sources/icshape__10.1038+nprot.2016.011/nprot.2016.011_PMC4896316.xml.txt; doi:10.1038/nprot.2016.011",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -115,7 +115,7 @@
     {
       "id": "lu_2016_table_1",
       "role": "supplement",
-      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "This workbook contains sequencing counts and mapping/duplex-group summary; it does not provide synthesized library oligos or reaction conditions. Sequence-like entries are observed RNA structure outputs. Original headers/schema and first data rows inspected before exclusion.",
@@ -135,7 +135,7 @@
     {
       "id": "lu_2016_table_2",
       "role": "supplement",
-      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc3.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "This workbook contains duplex-group coordinates, RNA consensus sequences and structural/conservation scores; it does not provide synthesized library oligos or reaction conditions. Sequence-like entries are observed RNA structure outputs. Original headers/schema and first data rows inspected before exclusion.",
@@ -155,7 +155,7 @@
     {
       "id": "lu_2016_table_3",
       "role": "supplement",
-      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc4.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc4.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "This workbook contains ultraconserved element gene/coordinate/species assignments; it does not provide synthesized library oligos or reaction conditions. Sequence-like entries are observed RNA structure outputs. Original headers/schema and first data rows inspected before exclusion.",
@@ -175,7 +175,7 @@
     {
       "id": "lu_2016_table_4",
       "role": "supplement",
-      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc5.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc5.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "This workbook contains paired RNA interaction coordinates and group/sample comparisons; it does not provide synthesized library oligos or reaction conditions. Sequence-like entries are observed RNA structure outputs. Original headers/schema and first data rows inspected before exclusion.",
@@ -195,7 +195,7 @@
     {
       "id": "lu_2016_table_5",
       "role": "supplement",
-      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc6.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc6.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "This workbook contains alternative duplex group coordinates, structures, overlap fractions and samples; it does not provide synthesized library oligos or reaction conditions. Sequence-like entries are observed RNA structure outputs. Original headers/schema and first data rows inspected before exclusion.",
@@ -215,7 +215,7 @@
     {
       "id": "lu_2016_table_6",
       "role": "supplement",
-      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc7.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paris__10.1016+j.cell.2016.04.028/1-s2.0-S0092867416304226-mmc7.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "This workbook contains XIST duplex group coordinates, consensus RNA and structural/conservation scores; it does not provide synthesized library oligos or reaction conditions. Sequence-like entries are observed RNA structure outputs. Original headers/schema and first data rows inspected before exclusion.",
@@ -235,7 +235,7 @@
     {
       "id": "spitale2015_barcodes",
       "role": "predecessor",
-      "locator": "_data/sources/doi_10.1038+nature14263/nature14263_PMC4376618.xml.txt; original article PDF and supplementary package",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nature14263/nature14263_PMC4376618.xml.txt; original article PDF and supplementary package",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "lu_2016_supplement",
@@ -255,7 +255,7 @@
     {
       "id": "spitale2015_author_software_2015",
       "role": "linked_material",
-      "locator": "_data/sources/paris__10.1016+j.cell.2016.04.028/gh_README.md; gh_configure.html; gh_splitFastq.pl; https://github.com/qczhang/icSHAPE/tree/175bd97170287d8a34901c85e4e85eaf38754271 (2015-10-01 revision)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paris__10.1016+j.cell.2016.04.028/gh_README.md; gh_configure.html; gh_splitFastq.pl; https://github.com/qczhang/icSHAPE/tree/175bd97170287d8a34901c85e4e85eaf38754271 (2015-10-01 revision)",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "spitale2015_barcodes",
@@ -275,7 +275,7 @@
     {
       "id": "spitale2015_slide_23",
       "role": "supplement",
-      "locator": "_data/sources/doi_10.1038+nature14263/nature14263_41586_2015_BFnature14263_MOESM23_ESM.ppt; cached original converted with LibreOffice to one-page PDF in /tmp/chem-spitale-slides/ for visual reading",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nature14263/nature14263_41586_2015_BFnature14263_MOESM23_ESM.ppt; cached original converted with LibreOffice to one-page PDF in /tmp/chem-spitale-slides/ for visual reading",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "spitale2015_barcodes",
@@ -295,7 +295,7 @@
     {
       "id": "spitale2015_slide_24",
       "role": "supplement",
-      "locator": "_data/sources/doi_10.1038+nature14263/nature14263_41586_2015_BFnature14263_MOESM24_ESM.ppt; cached original converted with LibreOffice to one-page PDF in /tmp/chem-spitale-slides/ for visual reading",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nature14263/nature14263_41586_2015_BFnature14263_MOESM24_ESM.ppt; cached original converted with LibreOffice to one-page PDF in /tmp/chem-spitale-slides/ for visual reading",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "spitale2015_barcodes",
@@ -316,7 +316,7 @@
     {
       "id": "spitale2015_slide_25",
       "role": "supplement",
-      "locator": "_data/sources/doi_10.1038+nature14263/nature14263_41586_2015_BFnature14263_MOESM25_ESM.ppt; cached original converted with LibreOffice to one-page PDF in /tmp/chem-spitale-slides/ for visual reading",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nature14263/nature14263_41586_2015_BFnature14263_MOESM25_ESM.ppt; cached original converted with LibreOffice to one-page PDF in /tmp/chem-spitale-slides/ for visual reading",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "spitale2015_barcodes",
@@ -337,7 +337,7 @@
     {
       "id": "spitale2015_slide_26",
       "role": "supplement",
-      "locator": "_data/sources/doi_10.1038+nature14263/nature14263_41586_2015_BFnature14263_MOESM26_ESM.ppt; cached original converted with LibreOffice to one-page PDF in /tmp/chem-spitale-slides/ for visual reading",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nature14263/nature14263_41586_2015_BFnature14263_MOESM26_ESM.ppt; cached original converted with LibreOffice to one-page PDF in /tmp/chem-spitale-slides/ for visual reading",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "spitale2015_barcodes",

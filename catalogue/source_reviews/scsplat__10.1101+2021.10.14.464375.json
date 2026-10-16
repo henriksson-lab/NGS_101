@@ -5,7 +5,7 @@
     {
       "id": "preprint",
       "role": "defining",
-      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_v2.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_v2.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "published",
       "role": "other",
-      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/s41598-022-09798-2_PMC8986790.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scsplat__10.1101+2021.10.14.464375/s41598-022-09798-2_PMC8986790.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "published_table_s1",
       "role": "supplement",
-      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/s41598-022-09798-2_supp_41598_2022_9798_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scsplat__10.1101+2021.10.14.464375/s41598-022-09798-2_supp_41598_2022_9798_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -70,7 +70,7 @@
     {
       "id": "preprint_data_1",
       "role": "supplement",
-      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-1.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-1.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -89,7 +89,7 @@
     {
       "id": "preprint_data_2",
       "role": "supplement",
-      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -109,7 +109,7 @@
     {
       "id": "preprint_data_3",
       "role": "supplement",
-      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-3.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -129,7 +129,7 @@
     {
       "id": "preprint_data_4",
       "role": "supplement",
-      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-4.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-4.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -149,7 +149,7 @@
     {
       "id": "preprint_data_5",
       "role": "supplement",
-      "locator": "_data/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-5.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scsplat__10.1101+2021.10.14.464375/2021.10.14.464375_media-5.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

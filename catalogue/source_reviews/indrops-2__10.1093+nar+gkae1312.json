@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_PMC11724362.xml.txt:197-263,277-279",
+      "locator": "/husky/henriksson/NGS101_papers/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_PMC11724362.xml.txt:197-263,277-279",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "tables",
       "role": "supplement",
-      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_gkae1312_Supplementary_Tables_Corrected.xlsx.txt:17-57",
+      "locator": "/husky/henriksson/NGS101_papers/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_gkae1312_Supplementary_Tables_Corrected.xlsx.txt:17-57",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "protocol1",
       "role": "supplement",
-      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_Supplementary_Protocol_1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_Supplementary_Protocol_1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "protocol2",
       "role": "supplement",
-      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_Supplementary_Protocol_2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_Supplementary_Protocol_2.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -81,7 +81,7 @@
     {
       "id": "protocol3",
       "role": "supplement",
-      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_Supplementary_Protocol_3.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_Supplementary_Protocol_3.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -100,7 +100,7 @@
     {
       "id": "protocol4",
       "role": "supplement",
-      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_Supplementary_Protocol_4.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/indrops-2__10.1093+nar+gkae1312/nar_gkae1312_supp_gkae1312_supplemental_files_Supplementary_Protocol_4.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -119,7 +119,7 @@
     {
       "id": "biorxiv",
       "role": "other",
-      "locator": "_data/sources/indrops-2__10.1093+nar+gkae1312/2023.09.26.559493_v2.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/indrops-2__10.1093+nar+gkae1312/2023.09.26.559493_v2.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_2": {

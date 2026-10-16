@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Source-transcription checks for scRICA-seq."""
-import os
 import re
 from pathlib import Path
 import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import chem as P
 from checks import Check, Source, have
 c=Check()
@@ -19,7 +19,7 @@ c("source-printed TSS enrichment primer", P.I7_ANTI_TAG1,
 c("source-printed terminal primer pools", (P.INDEX_N7, P.INDEX_N5),
   ("CAAGCAGAAGACGGCATACGAGATNNNNNNNNGTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG",
    "AATGATACGGCGACCACCGAGATCTACACNNNNNNNNTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"))
-source_dir=Path(os.environ.get("CHEM_DATA", H.parents[1]/"_data"))/"sources"/H.parent.name
+source_dir=data_root()/"sources"/H.parent.name
 oligo_table=Source(source_dir/"s41467-024-52335-0_supp_41467_2024_52335_MOESM5_ESM.xlsx.txt",
                    "Jiang et al. 2024 Supplementary Data 2; fetch with tools/get_sources.py")
 if have(c, oligo_table, label="scRICA-seq low-throughput oligo table"):

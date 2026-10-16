@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """Original2008 SOM source-boundary regressions; no later recipe substitution."""
-import os
 import re
 import sys
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
+from storage import data_root
 from checks import Check, Source, have
 from protocol_graph import InputRole, StepKind
 import chem
 
 check = Check()
-root = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources"
+root = data_root() / "sources"
 source = Source(root / HERE.parent.name / "594009_9144e1ea58ad4573871ec024827290f3.pdf.txt",
                 "Original Core2008 Science1162228 Supporting Online Material")
 if have(check, source, label="Original2008 SOM"):

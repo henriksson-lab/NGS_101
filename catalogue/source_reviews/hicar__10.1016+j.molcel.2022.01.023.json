@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/hicar__10.1016+j.molcel.2022.01.023/j.molcel.2022.01.023_PMC8934281.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hicar__10.1016+j.molcel.2022.01.023/j.molcel.2022.01.023_PMC8934281.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -32,7 +32,7 @@
     {
       "id": "expanded_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/hicar__10.1016+j.molcel.2022.01.023/PMC10575683_PMC10575683.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hicar__10.1016+j.molcel.2022.01.023/PMC10575683_PMC10575683.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

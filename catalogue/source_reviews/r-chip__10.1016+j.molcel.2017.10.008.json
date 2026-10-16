@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/r-chip__10.1016+j.molcel.2017.10.008/j.molcel.2017.10.008_PMC5957070.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/r-chip__10.1016+j.molcel.2017.10.008/j.molcel.2017.10.008_PMC5957070.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -32,7 +32,7 @@
     {
       "id": "later_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/r-chip__10.1016+j.molcel.2017.10.008/PMC6604627_PMC6604627.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/r-chip__10.1016+j.molcel.2017.10.008/PMC6604627_PMC6604627.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/pars__10.1038+nature09322/nature09322_PMC3847670.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pars__10.1038+nature09322/nature09322_PMC3847670.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "springer_supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/pars__10.1038+nature09322/nature09322_41586_2010_BFnature09322_MOESM294_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pars__10.1038+nature09322/nature09322_41586_2010_BFnature09322_MOESM294_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "solid_kit_manual",
       "role": "linked_material",
-      "locator": "_data/sources/pars__10.1038+nature09322/cms_054973.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pars__10.1038+nature09322/cms_054973.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

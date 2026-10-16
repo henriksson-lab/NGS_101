@@ -43,7 +43,7 @@
     {
       "id": "supp_table_s2",
       "role": "supplement",
-      "locator": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM5_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM5_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "supp_c1_protocol",
       "role": "supplement",
-      "locator": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM6_ESM.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM6_ESM.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -81,7 +81,7 @@
     {
       "id": "supp_fig1",
       "role": "supplement",
-      "locator": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -100,7 +100,7 @@
     {
       "id": "supp_fig2",
       "role": "supplement",
-      "locator": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -119,7 +119,7 @@
     {
       "id": "supp_table_s1",
       "role": "supplement",
-      "locator": "_data/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cel-seq2__10.1186+s13059-016-0938-8/s13059-016-0938-8_supp_13059_2016_938_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

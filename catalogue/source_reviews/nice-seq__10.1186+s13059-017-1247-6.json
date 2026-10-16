@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/nice-seq__10.1186+s13059-017-1247-6/s13059-017-1247-6_PMC5488340.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nice-seq__10.1186+s13059-017-1247-6/s13059-017-1247-6_PMC5488340.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -40,7 +40,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/nice-seq__10.1186+s13059-017-1247-6/s13059-017-1247-6_supp_13059_2017_1247_MOESM1_ESM.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nice-seq__10.1186+s13059-017-1247-6/s13059-017-1247-6_supp_13059_2017_1247_MOESM1_ESM.docx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -76,7 +76,7 @@
     {
       "id": "neb_manual",
       "role": "vendor",
-      "locator": "_data/sources/nice-seq__10.1186+s13059-017-1247-6/manuale7370.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nice-seq__10.1186+s13059-017-1247-6/manuale7370.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -111,7 +111,7 @@
     {
       "id": "geo_sample",
       "role": "linked_material",
-      "locator": "_data/sources/nice-seq__10.1186+s13059-017-1247-6/geo-GSE97889-all-full.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nice-seq__10.1186+s13059-017-1247-6/geo-GSE97889-all-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

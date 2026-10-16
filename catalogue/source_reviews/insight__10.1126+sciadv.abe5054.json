@@ -5,7 +5,7 @@
     {
       "id": "wu2021",
       "role": "defining",
-      "locator": "_data/sources/insight__10.1126+sciadv.abe5054/sciadv.abe5054_PMC7880595.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/insight__10.1126+sciadv.abe5054/sciadv.abe5054_PMC7880595.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supplement_zip",
       "role": "supplement",
-      "locator": "_data/sources/insight__10.1126+sciadv.abe5054/sciadv.abe5054_PMC7880595_supplementary.zip",
+      "locator": "/husky/henriksson/NGS101_papers/sources/insight__10.1126+sciadv.abe5054/sciadv.abe5054_PMC7880595_supplementary.zip",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/tip-seq__10.1083+jcb.202103078/jcb.202103078_PMC8600797.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tip-seq__10.1083+jcb.202103078/jcb.202103078_PMC8600797.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "oligo_table",
       "role": "supplement",
-      "locator": "_data/sources/tip-seq__10.1083+jcb.202103078/jcb.202103078_supp_JCB_202103078_TableS1.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tip-seq__10.1083+jcb.202103078/jcb.202103078_supp_JCB_202103078_TableS1.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "_data/sources/tip-seq__10.1083+jcb.202103078/2021.03.17.435909_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tip-seq__10.1083+jcb.202103078/2021.03.17.435909_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "cut_tag_protocol",
       "role": "predecessor",
-      "locator": "_data/sources/tip-seq__10.1083+jcb.202103078/protocolsio_bench-top-cut-amptag-bcuhiwt6.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tip-seq__10.1083+jcb.202103078/protocolsio_bench-top-cut-amptag-bcuhiwt6.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -101,7 +101,7 @@
     {
       "id": "jcb_202103078_supp_jcb_202103078_tables2_docx_txt",
       "role": "detailed_protocol",
-      "locator": "_data/sources/tip-seq__10.1083+jcb.202103078/jcb.202103078_supp_JCB_202103078_TableS2.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tip-seq__10.1083+jcb.202103078/jcb.202103078_supp_JCB_202103078_TableS2.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_2": {
@@ -120,7 +120,7 @@
     {
       "id": "jcb_202103078_supp_jcb_202103078_review_history_pdf_txt",
       "role": "detailed_protocol",
-      "locator": "_data/sources/tip-seq__10.1083+jcb.202103078/jcb.202103078_supp_JCB_202103078_review_history.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tip-seq__10.1083+jcb.202103078/jcb.202103078_supp_JCB_202103078_review_history.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {

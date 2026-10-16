@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_PMC8678193.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_PMC8678193.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "springer_supp1",
       "role": "supplement",
-      "locator": "_data/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_41587_2021_966_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_41587_2021_966_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "springer_supp2",
       "role": "supplement",
-      "locator": "_data/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_41587_2021_966_MOESM2_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_41587_2021_966_MOESM2_ESM.pdf",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original 3-page PDF is a Nature Research reporting summary.",
@@ -63,7 +63,7 @@
     {
       "id": "springer_supp3",
       "role": "supplement",
-      "locator": "_data/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_41587_2021_966_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_41587_2021_966_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "springer_supp4",
       "role": "supplement",
-      "locator": "_data/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_41587_2021_966_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/lamp-seq__10.1038+s41587-021-00966-9/s41587-021-00966-9_41587_2021_966_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

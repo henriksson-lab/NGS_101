@@ -164,7 +164,7 @@
     {
       "id": "miura_pbat",
       "role": "linked_material",
-      "locator": "Smallwood 2014 GEO sample extract protocol and Clark 2017 original Development of the protocol cite Miura et al. 2012 PBAT, doi:10.1093/nar/gks454; local _data/sources/pbat__10.1093+nar+gks454/nar_gks454_PMC3458524.xml",
+      "locator": "Smallwood 2014 GEO sample extract protocol and Clark 2017 original Development of the protocol cite Miura et al. 2012 PBAT, doi:10.1093/nar/gks454; local /husky/henriksson/NGS101_papers/sources/pbat__10.1093+nar+gks454/nar_gks454_PMC3458524.xml",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "article",

@@ -27,8 +27,8 @@ zip, an HTML page real text and not a captcha/"Preparing to download" gate); wha
 is recorded in MANIFEST.tsv as `(manual) NAME` with its URL and the reason. Each document
 gets its plain-text twin FILE.txt (tools/doctext.py) as soon as it is saved -- read, grep
 and cite that. Re-running skips what is on disk. Everything lands in
-$CHEM_DATA/sources/<slug>/ (default ./_data, gitignored): third-party material stays out
-of the repository.
+$CHEM_DATA/sources/<slug>/ (default /husky/henriksson/NGS101_papers/sources/<slug>/):
+third-party material stays outside the repository, with text twins beside originals.
 
     python3 tools/get_sources.py "SPLiT-seq / microSPLiT"     # a protocol, by name
     python3 tools/get_sources.py splitseq                     # ...or a fragment of its slug

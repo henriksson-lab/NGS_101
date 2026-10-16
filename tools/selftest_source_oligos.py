@@ -11,13 +11,13 @@ import argparse
 import ast
 import csv
 import importlib.util
-import os
 from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "lib"))
 sys.path.insert(0, str(ROOT / "tools"))
+from storage import data_root
 from source_oligo_check import check_graph, unrepresented_input_ids  # noqa: E402
 
 
@@ -71,7 +71,7 @@ def main() -> int:
     bad = [name for name in names if name not in known]
     if bad:
         parser.error("unknown protocol directory: " + ", ".join(bad))
-    source_root = Path(os.environ.get("CHEM_DATA", ROOT / "_data")) / "sources"
+    source_root = data_root() / "sources"
     failures = skips = checked = graphs = unrepresented = 0
     for name in names:
         for path in graph_module_paths(ROOT / name):

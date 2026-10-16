@@ -5,7 +5,7 @@
     {
       "id": "schofield_jats",
       "role": "defining",
-      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_PMC5831505.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_PMC5831505.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -38,7 +38,7 @@
     {
       "id": "schofield_pdf",
       "role": "defining",
-      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_PMC5831505.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_PMC5831505.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -57,7 +57,7 @@
     {
       "id": "springer_supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -76,7 +76,7 @@
     {
       "id": "springer_reporting",
       "role": "supplement",
-      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -96,7 +96,7 @@
     {
       "id": "springer_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -129,7 +129,7 @@
     {
       "id": "springer_table_s1",
       "role": "supplement",
-      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -162,7 +162,7 @@
     {
       "id": "springer_table_s2",
       "role": "supplement",
-      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_41592_2018_BFnmeth4582_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -182,7 +182,7 @@
     {
       "id": "pmc_supp_note",
       "role": "supplement",
-      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_supp_NIHMS931206-supplement-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_supp_NIHMS931206-supplement-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -201,7 +201,7 @@
     {
       "id": "pmc_supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_supp_NIHMS931206-supplement-2.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_supp_NIHMS931206-supplement-2.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -220,7 +220,7 @@
     {
       "id": "pmc_supp_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_supp_NIHMS931206-supplement-3.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_supp_NIHMS931206-supplement-3.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -239,7 +239,7 @@
     {
       "id": "pmc_supp_reporting",
       "role": "supplement",
-      "locator": "_data/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_supp_NIHMS931206-supplement-4.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/timelapse-seq__10.1038+nmeth.4582/nmeth.4582_supp_NIHMS931206-supplement-4.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

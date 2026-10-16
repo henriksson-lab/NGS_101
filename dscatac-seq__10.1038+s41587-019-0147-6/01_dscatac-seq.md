@@ -20,7 +20,7 @@ Other paper listed for this protocol in `catalogue/scg_lib_structs.tsv`: Plessy 
 *semi-suppressive PCR*; not chemistry of this method, not read.
 
 Sources read (fetched by `tools/get_sources.py`, into
-`_data/sources/dscatac-seq-dsciatac-seq__10.1038+s41587-019-0147-6/`, never committed):
+`/husky/henriksson/NGS101_papers/sources/dscatac-seq-dsciatac-seq__10.1038+s41587-019-0147-6/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

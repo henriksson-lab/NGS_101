@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/smmip__10.1101+gr.147686.112/gr.147686.112_PMC3638140.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smmip__10.1101+gr.147686.112/gr.147686.112_PMC3638140.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "europepmc_zip",
       "role": "supplement",
-      "locator": "_data/sources/smmip__10.1101+gr.147686.112/gr.147686.112_PMC3638140_supplementary.zip",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smmip__10.1101+gr.147686.112/gr.147686.112_PMC3638140_supplementary.zip",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "successor_protocol",
       "role": "linked_material",
-      "locator": "_data/sources/smmip__10.1101+gr.147686.112/978-1-4939-6442-0_6_PMC5484527.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smmip__10.1101+gr.147686.112/978-1-4939-6442-0_6_PMC5484527.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

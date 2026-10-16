@@ -7,7 +7,7 @@ what it is called nearby, and which sequences we already model it contains. Heur
 by design -- a hit is a pointer into the document, never a fact. Verify against the
 source before anything goes into a protocol module.
 
-    python3 tools/scrape_primers.py pdf/hagemann.txt
+    python3 tools/scrape_primers.py /husky/henriksson/NGS101_papers/sources/<slug>/
     python3 tools/scrape_primers.py DIR                     # every readable file under it
     python3 tools/scrape_primers.py doc.pdf --tsv > hits.tsv
     python3 tools/scrape_primers.py doc.pdf --known-only    # only hits containing a lib sequence

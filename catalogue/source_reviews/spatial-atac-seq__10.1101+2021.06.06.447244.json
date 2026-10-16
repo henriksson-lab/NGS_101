@@ -5,7 +5,7 @@
     {
       "id": "deng_preprint",
       "role": "defining",
-      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/2021.06.06.447244_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-seq__10.1101+2021.06.06.447244/2021.06.06.447244_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "deng_published",
       "role": "defining",
-      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_PMC9452302.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_PMC9452302.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "reporting_summary",
       "role": "supplement",
-      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM2_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM2_ESM.pdf",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "diff_expression",
       "role": "supplement",
-      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -102,7 +102,7 @@
     {
       "id": "cell_annotations",
       "role": "supplement",
-      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -122,7 +122,7 @@
     {
       "id": "original_oligos",
       "role": "supplement",
-      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -141,7 +141,7 @@
     {
       "id": "reagent_list",
       "role": "supplement",
-      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM6_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM6_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -160,7 +160,7 @@
     {
       "id": "published_data",
       "role": "supplement",
-      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM7_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM7_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -180,7 +180,7 @@
     {
       "id": "peer_review",
       "role": "supplement",
-      "locator": "_data/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM8_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-seq__10.1101+2021.06.06.447244/s41586-022-05094-1_supp_41586_2022_5094_MOESM8_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -199,7 +199,7 @@
     {
       "id": "farzad_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_PMC13651751.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_PMC13651751.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -218,7 +218,7 @@
     {
       "id": "farzad_supp_figure",
       "role": "supplement",
-      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_41596_2024_1013_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_41596_2024_1013_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Supplementary mouse olfactory bulb validation figure, not the chemistry or oligo table.",
@@ -238,7 +238,7 @@
     {
       "id": "farzad_oligos",
       "role": "supplement",
-      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_41596_2024_1013_MOESM2_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_41596_2024_1013_MOESM2_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/botseqs__10.1073+pnas.1607794113/pnas.1607794113_PMC5024639.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/botseqs__10.1073+pnas.1607794113/pnas.1607794113_PMC5024639.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -40,7 +40,7 @@
     {
       "id": "illumina_guide",
       "role": "vendor",
-      "locator": "_data/sources/truseq-dna-pcr-free/illumina_truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/truseq-dna-pcr-free/illumina_truseq-dna-pcr-free-workflow-reference-1000000039279-00.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

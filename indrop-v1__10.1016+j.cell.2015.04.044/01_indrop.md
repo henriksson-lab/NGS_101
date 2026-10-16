@@ -27,7 +27,7 @@ Later papers in the catalogue that build on it, not covered here: **inDrops-2**
 ## Sources read
 
 Fetched by `tools/get_sources.py "indrop__10.1016+j.cell.2015.04.044"` into
-`_data/sources/indrop__10.1016+j.cell.2015.04.044/` (gitignored):
+`/husky/henriksson/NGS101_papers/sources/indrop__10.1016+j.cell.2015.04.044/` (gitignored):
 
 | File | What | Used for |
 |---|---|---|

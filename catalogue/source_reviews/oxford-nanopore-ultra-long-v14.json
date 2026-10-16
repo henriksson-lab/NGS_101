@@ -5,7 +5,7 @@
     {
       "id": "protocol",
       "role": "defining",
-      "locator": "_data/sources/oxford-nanopore-ultra-long-v14/ultra-long-dna-sequencing-kit-sqk-ulk114.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-ultra-long-v14/ultra-long-dna-sequencing-kit-sqk-ulk114.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "chemistry_doc",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-ultra-long-v14/chemistry-technical-document.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-ultra-long-v14/chemistry-technical-document.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

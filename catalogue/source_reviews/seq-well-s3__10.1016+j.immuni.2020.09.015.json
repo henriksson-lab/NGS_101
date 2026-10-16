@@ -63,7 +63,7 @@
     {
       "id": "shalek_web",
       "role": "linked_material",
-      "locator": "https://shaleklab.com/wp-content/uploads/2024/02/Hughes.et_.al_.Master.Protocol.pdf (linked at https://shaleklab.com/resources/protocols/); local original _data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/Hughes.et_.al_.Master.Protocol.pdf.txt",
+      "locator": "https://shaleklab.com/wp-content/uploads/2024/02/Hughes.et_.al_.Master.Protocol.pdf (linked at https://shaleklab.com/resources/protocols/); local original /husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/Hughes.et_.al_.Master.Protocol.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_2": {
@@ -91,7 +91,7 @@
     {
       "id": "drake_2023_detailed_protocol",
       "role": "linked_material",
-      "locator": "Drake et al., Methods in Molecular Biology 2584 (2023), doi:10.1007/978-1-0716-2756-3_3; original-author PDF https://shaleklab.com/wp-content/uploads/2024/02/Chapter3_SeqWell.pdf; local original _data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/Chapter3_SeqWell.pdf.txt",
+      "locator": "Drake et al., Methods in Molecular Biology 2584 (2023), doi:10.1007/978-1-0716-2756-3_3; original-author PDF https://shaleklab.com/wp-content/uploads/2024/02/Chapter3_SeqWell.pdf; local original /husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/Chapter3_SeqWell.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "shalek_web",
@@ -119,7 +119,7 @@
     {
       "id": "nextera_xt_vendor",
       "role": "vendor",
-      "locator": "_data/sources/nextera-xt-dna-library-prep/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nextera-xt-dna-library-prep/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -139,7 +139,7 @@
     {
       "id": "results_workbook_mmc2",
       "role": "supplement",
-      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc2.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc2.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Cell-type comparison statistics, reads, UMIs and genes; no molecular synthesis specification.",
@@ -159,7 +159,7 @@
     {
       "id": "results_workbook_mmc3",
       "role": "supplement",
-      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc3.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc3.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Patient and cell metadata, including observed twelve-base cell barcode strings; not an oligo synthesis or sample-index assignment table.",
@@ -179,7 +179,7 @@
     {
       "id": "results_workbook_mmc4",
       "role": "supplement",
-      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc4.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc4.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Differential-expression and cluster marker statistics; no oligo recipe.",
@@ -199,7 +199,7 @@
     {
       "id": "results_workbook_mmc5",
       "role": "supplement",
-      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc5.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc5.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Cell-population enrichment statistics by condition, not molecular construction.",
@@ -219,7 +219,7 @@
     {
       "id": "results_workbook_mmc6",
       "role": "supplement",
-      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc6.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc6.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Differential expression and gene-set enrichment results.",
@@ -239,7 +239,7 @@
     {
       "id": "results_workbook_mmc7",
       "role": "supplement",
-      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc7.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc7.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Keratinocyte results and gene expression statistics, not synthesis instructions.",
@@ -259,7 +259,7 @@
     {
       "id": "combined_article_document_s2",
       "role": "supplement",
-      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc8.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/j.immuni.2020.09.015_supp_mmc8.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -278,42 +278,42 @@
     {
       "id": "author_resource_index",
       "role": "linked_material",
-      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/protocols.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/protocols.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "shalek_web",
       "pass_1": {
         "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/protocols.html.txt; full bundle scraper275hits/10files completed before original reading",
+        "locations": "/husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/protocols.html.txt; full bundle scraper275hits/10files completed before original reading",
         "finding": "Current author index read in full; its actual Seq-Well child is the named legacy resource entry. Other protocol entries describe distinct methods and are not assigned to S3."
       }
     },
     {
       "id": "author_resource_entry",
       "role": "linked_material",
-      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/seq-well-portable-low-cost-rna-sequencing-of-single-cells-at-high-throughput_old-2.html",
+      "locator": "/husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/seq-well-portable-low-cost-rna-sequencing-of-single-cells-at-high-throughput_old-2.html",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "author_resource_index",
       "pass_1": {
         "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/seq-well-portable-low-cost-rna-sequencing-of-single-cells-at-high-throughput_old-2.html; full bundle scraper275hits/10files completed before original reading",
+        "locations": "/husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/seq-well-portable-low-cost-rna-sequencing-of-single-cells-at-high-throughput_old-2.html; full bundle scraper275hits/10files completed before original reading",
         "finding": "Actual entry body and all HTML href/src inspected: links the 2017 publication and original2019HughesMasterPDF, plus iframe videos a2NwpisTHBo(BeadLoading) and3HlH2CrlW1k(MembraneSealing). Video contents are not reviewed; titles alone do not support exclusion."
       }
     },
     {
       "id": "geo_series_gse150672",
       "role": "linked_material",
-      "locator": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/geo-GSE150672-self-full.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/geo-GSE150672-self-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
       "pass_1": {
         "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "_data/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/geo-GSE150672-self-full.txt; full bundle scraper275hits/10files completed before original reading",
+        "locations": "/husky/henriksson/NGS101_papers/sources/seq-well-s3__10.1016+j.immuni.2020.09.015/geo-GSE150672-self-full.txt; full bundle scraper275hits/10files completed before original reading",
         "finding": "All479originalSerieslines read: biological study context,438GSMreferences, countCSV/matrix/RAWtar downloads and BioProjectPRJNA648161/SRPSRP273339. Series-only scope does not contain sample-library construction metadata; sample/SRAoriginals remain to inspect before any broader exclusion. No results/rawdownloads needed for current molecular claims."
       }
     }

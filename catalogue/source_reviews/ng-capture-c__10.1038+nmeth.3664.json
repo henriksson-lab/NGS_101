@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_PMC4724891.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_PMC4724891.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_supp_NIHMS65861-supplement-01.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_supp_NIHMS65861-supplement-01.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_supp_NIHMS65861-supplement-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_supp_NIHMS65861-supplement-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "supp_analysis",
       "role": "supplement",
-      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_supp_NIHMS65861-supplement-2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_supp_NIHMS65861-supplement-2.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "publisher_supp_fig",
       "role": "supplement",
-      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_41592_2016_BFnmeth3664_MOESM217_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_41592_2016_BFnmeth3664_MOESM217_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -101,7 +101,7 @@
     {
       "id": "publisher_supp_oligos",
       "role": "supplement",
-      "locator": "_data/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_41592_2016_BFnmeth3664_MOESM218_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ng-capture-c__10.1038+nmeth.3664/nmeth.3664_41592_2016_BFnmeth3664_MOESM218_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

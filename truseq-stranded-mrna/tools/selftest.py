@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Source transcription and local workflow boundaries."""
 from pathlib import Path
-import os
 import re
 import sys
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / 'lib')]
+from storage import data_root
 import chem as m
 from checks import Check, Source, have
 c = Check()
-bundle = Path(os.environ.get('CHEM_DATA', HERE.parents[1] / '_data')) / 'sources' / HERE.parent.name
+bundle = data_root() / 'sources' / HERE.parent.name
 workflow = Source(bundle / 'illumina_truseq-stranded-mrna-workflow-reference-1000000040498-00.pdf.txt', 'Registered v00 workflow original')
 adapters = Source(bundle / 'illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt', 'Registered v22 adapter original')
 if have(c, adapters, label='actual source CD templates'):

@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_PMC10076218.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_PMC10076218.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "original_supp_tables",
       "role": "supplement",
-      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -51,7 +51,7 @@
     {
       "id": "later_oligo_table",
       "role": "supplement",
-      "locator": "_data/sources/spatial-cut-tag-rna-seq__10.1038+s41586-023-05795-1/s41596-025-01145-9_41596_2025_1145_MOESM2_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-cut-tag-rna-seq__10.1038+s41586-023-05795-1/s41596-025-01145-9_41596_2025_1145_MOESM2_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -88,7 +88,7 @@
     {
       "id": "s41596_025_01145_9_41596_2025_1145_moesm1_esm_pdf_txt",
       "role": "supplement",
-      "locator": "_data/sources/spatial-cut-tag-rna-seq__10.1038+s41586-023-05795-1/s41596-025-01145-9_41596_2025_1145_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-cut-tag-rna-seq__10.1038+s41586-023-05795-1/s41596-025-01145-9_41596_2025_1145_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {
@@ -108,7 +108,7 @@
     {
       "id": "s41596_025_01145_9_41596_2025_1145_moesm9_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/spatial-cut-tag-rna-seq__10.1038+s41586-023-05795-1/s41596-025-01145-9_41596_2025_1145_MOESM9_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-cut-tag-rna-seq__10.1038+s41586-023-05795-1/s41596-025-01145-9_41596_2025_1145_MOESM9_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {
@@ -128,7 +128,7 @@
     {
       "id": "original_supp_2",
       "role": "supplement",
-      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {
@@ -148,7 +148,7 @@
     {
       "id": "original_supp_3",
       "role": "supplement",
-      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {
@@ -168,7 +168,7 @@
     {
       "id": "original_supp_4",
       "role": "supplement",
-      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {
@@ -188,7 +188,7 @@
     {
       "id": "original_supp_5",
       "role": "supplement",
-      "locator": "_data/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-atac-rna-seq__10.1038+s41586-023-05795-1/s41586-023-05795-1_supp_41586_2023_5795_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {

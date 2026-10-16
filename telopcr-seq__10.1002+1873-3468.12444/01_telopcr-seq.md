@@ -10,8 +10,8 @@ TeloPCR-seq attaches an anchor to native *S. pombe* chromosome termini, amplifie
 
 ## 2. Sources read
 
-- 🟢 Bennett et al. (2016), [doi:10.1002/1873-3468.12444](https://doi.org/10.1002/1873-3468.12444), PMC5561429 full text, `_data/sources/telopcr-seq__10.1002+1873-3468.12444/1873-3468.12444_PMC5561429.xml.txt` line 48, Materials and Methods. The article itself prints the anchor, its terminal modifications, both subtelomeric primers and the anchor PCR primer.
-- 🟢 The same four oligos in the authors' bioRxiv preprint, [doi:10.1101/047837](https://doi.org/10.1101/047837), `_data/sources/telopcr-seq__10.1002+1873-3468.12444/047837_v1.full.pdf.txt` lines 205 and 213–214 — an independently extracted second copy of the Methods paragraph.
+- 🟢 Bennett et al. (2016), [doi:10.1002/1873-3468.12444](https://doi.org/10.1002/1873-3468.12444), PMC5561429 full text, `/husky/henriksson/NGS101_papers/sources/telopcr-seq__10.1002+1873-3468.12444/1873-3468.12444_PMC5561429.xml.txt` line 48, Materials and Methods. The article itself prints the anchor, its terminal modifications, both subtelomeric primers and the anchor PCR primer.
+- 🟢 The same four oligos in the authors' bioRxiv preprint, [doi:10.1101/047837](https://doi.org/10.1101/047837), `/husky/henriksson/NGS101_papers/sources/telopcr-seq__10.1002+1873-3468.12444/047837_v1.full.pdf.txt` lines 205 and 213–214 — an independently extracted second copy of the Methods paragraph.
 - 🟡 Makarova et al. (2025), [doi:10.3389/fmolb.2025.1725112](https://doi.org/10.3389/fmolb.2025.1725112), method overview.
 
 ## 3. Construct and reaction order

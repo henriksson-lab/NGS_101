@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_PMC11537836.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_PMC11537836.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "supp_fig3_data",
       "role": "supplement",
-      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "supp_fig4_data",
       "role": "supplement",
-      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM6_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM6_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -84,7 +84,7 @@
     {
       "id": "device_dwg_2",
       "role": "supplement",
-      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM2_ESM.dwg",
+      "locator": "/husky/henriksson/NGS101_papers/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM2_ESM.dwg",
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Publisher DWG device drawing is on disk but no compatible first-pass viewer was used; disposition awaits visual/content check."
@@ -92,7 +92,7 @@
     {
       "id": "device_dwg_3",
       "role": "supplement",
-      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM3_ESM.dwg",
+      "locator": "/husky/henriksson/NGS101_papers/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM3_ESM.dwg",
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Publisher DWG device drawing is on disk but no compatible first-pass viewer was used; disposition awaits visual/content check."
@@ -100,7 +100,7 @@
     {
       "id": "device_dwg_4",
       "role": "supplement",
-      "locator": "_data/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM4_ESM.dwg",
+      "locator": "/husky/henriksson/NGS101_papers/sources/find-seq__10.1038+s41596-024-01021-y/s41596-024-01021-y_41596_2024_1021_MOESM4_ESM.dwg",
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Publisher DWG device drawing is on disk but no compatible first-pass viewer was used; disposition awaits visual/content check."

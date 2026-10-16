@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Original library-order and nonphysical-fate regression checks."""
 from pathlib import Path
-import os
 import sys
 H=Path(__file__).resolve().parent
 sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import chem as M
 from checks import Check, Source, have
 from protocol_graph import Disposition, MaterialKind
 c=Check()
-root=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"/H.parent.name
+root=data_root()/"sources"/H.parent.name
 g=M.protocol_graph()
 source_order=("5' polyphosphatase","5' terminator exonuclease","3' small RNA linker","purification on a gel",
               "alkaline phosphatase","tobacco acid pyrophosphatase","5' small RNA linker","reverse transcription","library amplification")

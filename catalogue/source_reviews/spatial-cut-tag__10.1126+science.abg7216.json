@@ -5,7 +5,7 @@
     {
       "id": "source_1",
       "role": "linked_material",
-      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/2021.03.11.434985_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-cut-tag__10.1126+science.abg7216/2021.03.11.434985_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -25,7 +25,7 @@
     {
       "id": "source_2",
       "role": "supplement",
-      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_41596_2024_1013_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_41596_2024_1013_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "The 2024 MOESM1 PDF contains only Supplementary Figure 1, a spatial data analysis figure, and has no protocol chemistry or oligo table; MOESM2 is the separate ordered-oligo workbook.",
@@ -45,7 +45,7 @@
     {
       "id": "source_3",
       "role": "supplement",
-      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_41596_2024_1013_MOESM2_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_41596_2024_1013_MOESM2_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "source_4",
       "role": "linked_material",
-      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_PMC13651751.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-cut-tag__10.1126+science.abg7216/s41596-024-01013-y_PMC13651751.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -84,7 +84,7 @@
     {
       "id": "source_5",
       "role": "defining",
-      "locator": "_data/sources/spatial-cut-tag__10.1126+science.abg7216/science.abg7216_PMC7612972.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spatial-cut-tag__10.1126+science.abg7216/science.abg7216_PMC7612972.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

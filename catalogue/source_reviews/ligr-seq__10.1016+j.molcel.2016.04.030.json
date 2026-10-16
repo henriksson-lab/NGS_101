@@ -5,7 +5,7 @@
     {
       "id": "sharma_2016",
       "role": "defining",
-      "locator": "_data/sources/ligr-seq__10.1016+j.molcel.2016.04.030/Sterne-Weiler_MolCell_2016.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ligr-seq__10.1016+j.molcel.2016.04.030/Sterne-Weiler_MolCell_2016.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "clontech_components",
       "role": "vendor",
-      "locator": "_data/sources/ligr-seq__10.1016+j.molcel.2016.04.030/634836-634837-634838-634839-080213.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ligr-seq__10.1016+j.molcel.2016.04.030/634836-634837-634838-634839-080213.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

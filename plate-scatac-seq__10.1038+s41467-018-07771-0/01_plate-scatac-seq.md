@@ -20,7 +20,7 @@ well and index PCR. Their index-primer evidence differs, so their exact library
 constructs must be evaluated separately.
 
 Sources read (fetched by `tools/get_sources.py`, into
-`_data/sources/plate-scatac-seq-and-pi-atac-seq__10.1038+s41467-018-07771-0/`, never committed):
+`/husky/henriksson/NGS101_papers/sources/plate-scatac-seq-and-pi-atac-seq__10.1038+s41467-018-07771-0/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

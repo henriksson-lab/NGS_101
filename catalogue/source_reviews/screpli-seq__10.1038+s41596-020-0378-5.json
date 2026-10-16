@@ -15,7 +15,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/screpli-seq__10.1038+s41596-020-0378-5/s41596-020-0378-5_41596_2020_378_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/screpli-seq__10.1038+s41596-020-0378-5/s41596-020-0378-5_41596_2020_378_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -36,7 +36,7 @@
     {
       "id": "reporting_summary",
       "role": "supplement",
-      "locator": "_data/sources/screpli-seq__10.1038+s41596-020-0378-5/s41596-020-0378-5_41596_2020_378_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/screpli-seq__10.1038+s41596-020-0378-5/s41596-020-0378-5_41596_2020_378_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -57,7 +57,7 @@
     {
       "id": "software_1",
       "role": "supplement",
-      "locator": "_data/sources/screpli-seq__10.1038+s41596-020-0378-5/s41596-020-0378-5_41596_2020_378_MOESM3_ESM_NP-P190781A_Takebayashi_Supplementary_Software_1.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/screpli-seq__10.1038+s41596-020-0378-5/s41596-020-0378-5_41596_2020_378_MOESM3_ESM_NP-P190781A_Takebayashi_Supplementary_Software_1.md",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -77,7 +77,7 @@
     {
       "id": "software_2",
       "role": "supplement",
-      "locator": "_data/sources/screpli-seq__10.1038+s41596-020-0378-5/s41596-020-0378-5_41596_2020_378_MOESM4_ESM_NP-P190781A_Takebayashi_Supplementary_Software_2.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/screpli-seq__10.1038+s41596-020-0378-5/s41596-020-0378-5_41596_2020_378_MOESM4_ESM_NP-P190781A_Takebayashi_Supplementary_Software_2.md",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -97,7 +97,7 @@
     {
       "id": "software_3",
       "role": "supplement",
-      "locator": "_data/sources/screpli-seq__10.1038+s41596-020-0378-5/s41596-020-0378-5_41596_2020_378_MOESM5_ESM_NP-P190781A_Takebayashi_Supplementary_Software_3.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/screpli-seq__10.1038+s41596-020-0378-5/s41596-020-0378-5_41596_2020_378_MOESM5_ESM_NP-P190781A_Takebayashi_Supplementary_Software_3.md",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -118,7 +118,7 @@
     {
       "id": "software_4",
       "role": "supplement",
-      "locator": "_data/sources/screpli-seq__10.1038+s41596-020-0378-5/s41596-020-0378-5_41596_2020_378_MOESM6_ESM_NP-P190781A_Takebayashi_Supplementary_Software_4.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/screpli-seq__10.1038+s41596-020-0378-5/s41596-020-0378-5_41596_2020_378_MOESM6_ESM_NP-P190781A_Takebayashi_Supplementary_Software_4.md",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -139,7 +139,7 @@
     {
       "id": "updated_protocol",
       "role": "linked_material",
-      "locator": "_data/sources/screpli-seq__10.1038+s41596-020-0378-5/PMC8812816_PMC8812816.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/screpli-seq__10.1038+s41596-020-0378-5/PMC8812816_PMC8812816.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -159,7 +159,7 @@
     {
       "id": "author_github_readme",
       "role": "linked_material",
-      "locator": "_data/sources/screpli-seq__10.1038+s41596-020-0378-5/gh_README.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/screpli-seq__10.1038+s41596-020-0378-5/gh_README.md",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

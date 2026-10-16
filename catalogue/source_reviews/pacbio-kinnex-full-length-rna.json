@@ -5,7 +5,7 @@
     {
       "id": "kit_guide",
       "role": "defining",
-      "locator": "_data/sources/pacbio-kinnex-full-length-rna/Procedure-checklist-Preparing-Kinnex-libraries-using-the-Kinnex-full-length-RNA-kit.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/Procedure-checklist-Preparing-Kinnex-libraries-using-the-Kinnex-full-length-RNA-kit.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "smrt_link_fasta",
       "role": "linked_material",
-      "locator": "PacBio Kinnex barcoded adapter indexes FASTA, linked from https://www.pacb.com/multiplexing/ to https://www.pacb.com/wp-content/uploads/Kinnex_barcoded_adapter_indexes.fasta_.zip; extracted _data/sources/pacbio-kinnex-full-length-rna/Kinnex_barcoded_adapter_indexes.fasta__Kinnex_barcoded_adapter_indexes.fasta",
+      "locator": "PacBio Kinnex barcoded adapter indexes FASTA, linked from https://www.pacb.com/multiplexing/ to https://www.pacb.com/wp-content/uploads/Kinnex_barcoded_adapter_indexes.fasta_.zip; extracted /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/Kinnex_barcoded_adapter_indexes.fasta__Kinnex_barcoded_adapter_indexes.fasta",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -65,7 +65,7 @@
     {
       "id": "isoseq_input",
       "role": "linked_material",
-      "locator": "PacBio Iso-Seq express 2.0 cDNA guide and official primer FASTA in _data/sources/pacbio-isoseq-smrtbell-prep-kit-3-0/",
+      "locator": "PacBio Iso-Seq express 2.0 cDNA guide and official primer FASTA in /husky/henriksson/NGS101_papers/sources/pacbio-isoseq-smrtbell-prep-kit-3-0/",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -197,7 +197,7 @@
     {
       "id": "application_note",
       "role": "linked_material",
-      "locator": "_data/sources/pacbio-kinnex-full-length-rna/Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf.txt; https://www.pacb.com/wp-content/uploads/Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf; document 102-326-591 Rev03 Nov2024",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf.txt; https://www.pacb.com/wp-content/uploads/Application-note-Kinnex-full-length-RNA-kit-for-isoform-sequencing.pdf; document 102-326-591 Rev03 Nov2024",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "public_dataset_readme",
@@ -217,7 +217,7 @@
     {
       "id": "masseq_research_predecessor",
       "role": "predecessor",
-      "locator": "Original AlKhafaji et al doi10.1038/s41587-023-01815-7; PMC12236355 accepted manuscript; _data/sources/pacbio-kinnex-full-length-rna/PMC12236355_PMC12236355.xml.txt",
+      "locator": "Original AlKhafaji et al doi10.1038/s41587-023-01815-7; PMC12236355 accepted manuscript; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/PMC12236355_PMC12236355.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "application_note",
@@ -237,7 +237,7 @@
     {
       "id": "masseq_original_supplement",
       "role": "supplement",
-      "locator": "Publisher original Supplementary Information to doi10.1038/s41587-023-01815-7; _data/sources/pacbio-kinnex-full-length-rna/41587_2023_1815_MOESM1_ESM.pdf.txt",
+      "locator": "Publisher original Supplementary Information to doi10.1038/s41587-023-01815-7; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/41587_2023_1815_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "masseq_research_predecessor",
@@ -257,7 +257,7 @@
     {
       "id": "masseq_reporting_summary",
       "role": "supplement",
-      "locator": "Original publisher reporting summary March4,2023; _data/sources/pacbio-kinnex-full-length-rna/41587_2023_1815_MOESM2_ESM.pdf.txt",
+      "locator": "Original publisher reporting summary March4,2023; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/41587_2023_1815_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "masseq_research_predecessor",
@@ -277,7 +277,7 @@
     {
       "id": "longbow_current_readme",
       "role": "linked_material",
-      "locator": "https://raw.githubusercontent.com/broadinstitute/longbow/248a5ce9ac4c0d2bc803f2b7edcec208a8f0828c/README.rst; _data/sources/pacbio-kinnex-full-length-rna/gh_README.rst",
+      "locator": "https://raw.githubusercontent.com/broadinstitute/longbow/248a5ce9ac4c0d2bc803f2b7edcec208a8f0828c/README.rst; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/gh_README.rst",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "masseq_research_predecessor",
@@ -297,7 +297,7 @@
     {
       "id": "masseq_paper_current_readme",
       "role": "linked_material",
-      "locator": "https://github.com/broadinstitute/mas-seq-paper-data/raw/ae9c079f8d9a54f0ae268f3c2edacc7a515f7bbb/README.md; _data/sources/pacbio-kinnex-full-length-rna/README.md",
+      "locator": "https://github.com/broadinstitute/mas-seq-paper-data/raw/ae9c079f8d9a54f0ae268f3c2edacc7a515f7bbb/README.md; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/README.md",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "masseq_research_predecessor",
@@ -317,7 +317,7 @@
     {
       "id": "longbow_historical_model",
       "role": "linked_material",
-      "locator": "Longbow tag v0.6.4 (official tag resolves to 9844452445cc803f814613e203eaf971814babbc); _data/sources/pacbio-kinnex-full-length-rna/README.rst; _data/sources/pacbio-kinnex-full-length-rna/gh_model.py; _data/sources/pacbio-kinnex-full-length-rna/gh_model_utils.py",
+      "locator": "Longbow tag v0.6.4 (official tag resolves to 9844452445cc803f814613e203eaf971814babbc); /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/README.rst; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/gh_model.py; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/gh_model_utils.py",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "masseq_reporting_summary",
@@ -337,7 +337,7 @@
     {
       "id": "longbow_historical_wdl",
       "role": "linked_material",
-      "locator": "Longbow WDL exact reporting commit9844452445cc803f814613e203eaf971814babbc; _data/sources/pacbio-kinnex-full-length-rna/gh_MasSeqSingleFlowcell.wdl",
+      "locator": "Longbow WDL exact reporting commit9844452445cc803f814613e203eaf971814babbc; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/gh_MasSeqSingleFlowcell.wdl",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "masseq_reporting_summary",
@@ -357,7 +357,7 @@
     {
       "id": "pipelines_historical_processing",
       "role": "linked_material",
-      "locator": "long-read-pipelines exact reporting commit82bfe460778e56ac642942e62638d594f22bd6bf; _data/sources/pacbio-kinnex-full-length-rna/gh_PB10xMasSeqArraySingleFlowcellv5.wdl; _data/sources/pacbio-kinnex-full-length-rna/gh_tag_mas_sirv_umi_positions.py",
+      "locator": "long-read-pipelines exact reporting commit82bfe460778e56ac642942e62638d594f22bd6bf; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/gh_PB10xMasSeqArraySingleFlowcellv5.wdl; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/gh_tag_mas_sirv_umi_positions.py",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "masseq_reporting_summary",
@@ -377,7 +377,7 @@
     {
       "id": "pipelines_research_eight_member_design",
       "role": "linked_material",
-      "locator": "long-read-pipelines exact reporting commit82bfe460778e56ac642942e62638d594f22bd6bf; _data/sources/pacbio-kinnex-full-length-rna/gh_cDNA_array_8x.gb; _data/sources/pacbio-kinnex-full-length-rna/gh_cDNA_array_8x.unique_seqs_for_cartographer.fasta",
+      "locator": "long-read-pipelines exact reporting commit82bfe460778e56ac642942e62638d594f22bd6bf; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/gh_cDNA_array_8x.gb; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/gh_cDNA_array_8x.unique_seqs_for_cartographer.fasta",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "masseq_reporting_summary",
@@ -397,7 +397,7 @@
     {
       "id": "paperdata_historical_analysis",
       "role": "linked_material",
-      "locator": "mas-seq-paper-data exact reporting commit0c166c63ce4d8ee37c835c89c9693bb65becb51c; _data/sources/pacbio-kinnex-full-length-rna/gh_README.md; _data/sources/pacbio-kinnex-full-length-rna/gh_mb_02_long_adata_seurat_sct.R",
+      "locator": "mas-seq-paper-data exact reporting commit0c166c63ce4d8ee37c835c89c9693bb65becb51c; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/gh_README.md; /husky/henriksson/NGS101_papers/sources/pacbio-kinnex-full-length-rna/gh_mb_02_long_adata_seurat_sct.R",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "masseq_reporting_summary",

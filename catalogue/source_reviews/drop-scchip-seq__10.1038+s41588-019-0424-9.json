@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/drop-scchip-seq__10.1038+s41588-019-0424-9/Droplet-Screening-Nature-Genetics-Paper.pdf.txt (published Nature Genetics article hosted by author company; scoped extra_sources route)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/drop-scchip-seq__10.1038+s41588-019-0424-9/Droplet-Screening-Nature-Genetics-Paper.pdf.txt (published Nature Genetics article hosted by author company; scoped extra_sources route)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -85,7 +85,7 @@
     {
       "id": "geo_barcodes",
       "role": "linked_material",
-      "locator": "_data/sources/drop-scchip-seq__10.1038+s41588-019-0424-9/GSE117309_BarcodeLibrary_scChIPseq.fasta.gz (NCBI GEO GSE117309 supplementary file; scoped extra_sources route)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/drop-scchip-seq__10.1038+s41588-019-0424-9/GSE117309_BarcodeLibrary_scChIPseq.fasta.gz (NCBI GEO GSE117309 supplementary file; scoped extra_sources route)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -106,7 +106,7 @@
     {
       "id": "video_pairing",
       "role": "supplement",
-      "locator": "_data/sources/drop-scchip-seq__10.1038+s41588-019-0424-9/s41588-019-0424-9_41588_2019_424_MOESM4_ESM.mp4",
+      "locator": "/husky/henriksson/NGS101_papers/sources/drop-scchip-seq__10.1038+s41588-019-0424-9/s41588-019-0424-9_41588_2019_424_MOESM4_ESM.mp4",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Droplet reinjection and pairing video shows fluidic droplet operation rather than oligo synthesis or library junction bases.",
@@ -127,7 +127,7 @@
     {
       "id": "video_fusion",
       "role": "supplement",
-      "locator": "_data/sources/drop-scchip-seq__10.1038+s41588-019-0424-9/s41588-019-0424-9_41588_2019_424_MOESM5_ESM.mp4",
+      "locator": "/husky/henriksson/NGS101_papers/sources/drop-scchip-seq__10.1038+s41588-019-0424-9/s41588-019-0424-9_41588_2019_424_MOESM5_ESM.mp4",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Droplet fusion video shows fluidic droplet operation rather than oligo synthesis or library junction bases.",

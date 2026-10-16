@@ -1,13 +1,13 @@
 """FLASH-seq standard branch, declared from its own article and author protocol."""
 from __future__ import annotations
 
-import os
 import re
 import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
+from storage import data_root
 
 import illumina as il
 import nextera as nx
@@ -186,7 +186,7 @@ def render_page():
 
 def selftest():
     c = Check()
-    bundle = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources" / HERE.parent.name
+    bundle = data_root() / "sources" / HERE.parent.name
     original = Source(bundle / "s41587-022-01312-3_PMC9546769.xml.txt", "https://doi.org/10.1038/s41587-022-01312-3")
     if have(c, original, label="FLASH defining Methods transcription"):
         text = original.path.read_text()

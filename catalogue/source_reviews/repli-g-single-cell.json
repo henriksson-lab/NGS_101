@@ -5,7 +5,7 @@
     {
       "id": "qiagen_2012_handbook",
       "role": "defining",
-      "locator": "_data/sources/repli-g-single-cell/EN-REPLI-g-Single-Cell-Handbook.pdf.txt; QIAGEN October 2012 original mirrored at https://www.ys-bio.cn/app/wp-content/uploads/2021/12/EN-REPLI-g-Single-Cell-Handbook.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/repli-g-single-cell/EN-REPLI-g-Single-Cell-Handbook.pdf.txt; QIAGEN October 2012 original mirrored at https://www.ys-bio.cn/app/wp-content/uploads/2021/12/EN-REPLI-g-Single-Cell-Handbook.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -67,7 +67,7 @@
       "id": "dean_2002",
       "role": "linked_material",
       "discovered_from": "qiagen_2012_handbook",
-      "locator": "_data/sources/doi_10.1073+pnas.082089499/pnas.082089499_PMC122757.html.txt; Dean et al. 2002 PNAS 99:5261, DOI 10.1073/pnas.082089499",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1073+pnas.082089499/pnas.082089499_PMC122757.html.txt; Dean et al. 2002 PNAS 99:5261, DOI 10.1073/pnas.082089499",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

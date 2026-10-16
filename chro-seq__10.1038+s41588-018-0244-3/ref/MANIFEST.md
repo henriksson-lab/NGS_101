@@ -4,7 +4,7 @@ Re-obtain originals without committing them:
 
 ```sh
 python3 tools/get_sources.py --slugs chro-seq__10.1038+s41588-018-0244-3
-python3 tools/scrape_primers.py _data/sources/chro-seq__10.1038+s41588-018-0244-3
+python3 tools/scrape_primers.py /husky/henriksson/NGS101_papers/sources/chro-seq__10.1038+s41588-018-0244-3
 ```
 
 - Defining article: https://doi.org/10.1038/s41588-018-0244-3 (PMC6204104).

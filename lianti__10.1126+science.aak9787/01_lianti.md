@@ -21,7 +21,7 @@ analyses by Linear Amplification via Transposon Insertion (LIANTI)." *Science* 2
 listed in `catalogue/scg_lib_structs.tsv`.
 
 Sources read (fetched by `tools/get_sources.py`, into
-`_data/sources/lianti__10.1126+science.aak9787/`, never committed):
+`/husky/henriksson/NGS101_papers/sources/lianti__10.1126+science.aak9787/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

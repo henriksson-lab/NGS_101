@@ -25,7 +25,7 @@
     {
       "id": "author_bioprotocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/hires__10.1126+science.adg3797/bio-protocol4886.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hires__10.1126+science.adg3797/bio-protocol4886.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "author_pipeline",
       "role": "linked_material",
-      "locator": "_data/sources/hires__10.1126+science.adg3797/498941193bdb879c68ebb5d11f1157270ffcaf66.zip",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hires__10.1126+science.adg3797/498941193bdb879c68ebb5d11f1157270ffcaf66.zip",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "trueprep_v2",
       "role": "linked_material",
-      "locator": "_data/sources/hires__10.1126+science.adg3797/TD501_TD502_TD503_TruePrep_DNA_Library_Prep_Kit_V2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hires__10.1126+science.adg3797/TD501_TD502_TD503_TruePrep_DNA_Library_Prep_Kit_V2.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -84,7 +84,7 @@
     {
       "id": "illumina_ud_indexes",
       "role": "linked_material",
-      "locator": "_data/sources/hires__10.1126+science.adg3797/illumina_Illumina-UDIndexes.htm.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hires__10.1126+science.adg3797/illumina_Illumina-UDIndexes.htm.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

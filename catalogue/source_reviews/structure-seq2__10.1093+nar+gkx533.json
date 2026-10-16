@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/structure-seq2__10.1093+nar+gkx533/nar_gkx533_PMC5737731.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/structure-seq2__10.1093+nar+gkx533/nar_gkx533_PMC5737731.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/structure-seq2__10.1093+nar+gkx533/nar_gkx533_supp_gkx533_supp_nar-00961-met-z-2017-File006.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/structure-seq2__10.1093+nar+gkx533/nar_gkx533_supp_gkx533_supp_nar-00961-met-z-2017-File006.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_table_s1",
       "role": "supplement",
-      "locator": "_data/sources/structure-seq2__10.1093+nar+gkx533/nar_gkx533_supp_gkx533_supp_nar-00961-met-z-2017-File007.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/structure-seq2__10.1093+nar+gkx533/nar_gkx533_supp_gkx533_supp_nar-00961-met-z-2017-File007.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -4,7 +4,7 @@ No third-party source files are committed. Re-obtain originals with:
 
 ```sh
 python3 tools/get_sources.py --slugs nice-seq__10.1186+s13059-017-1247-6
-python3 tools/scrape_primers.py _data/sources/nice-seq__10.1186+s13059-017-1247-6
+python3 tools/scrape_primers.py /husky/henriksson/NGS101_papers/sources/nice-seq__10.1186+s13059-017-1247-6
 ```
 
 Registered originals include the defining PMC5488340 article and S1–S17 DOCX,

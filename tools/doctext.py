@@ -5,7 +5,7 @@ Reading a paper means grepping it, quoting line numbers and handing it to an LLM
 of that is simpler on text than on PDF, Word, Excel or HTML. So every source is converted
 once, next to the original, and everything downstream reads the .txt:
 
-    python3 tools/doctext.py _data/sources/<slug>/          # a directory: every document in it
+    python3 tools/doctext.py /husky/henriksson/NGS101_papers/sources/<slug>/
     python3 tools/doctext.py paper.pdf supp.docx            # -> paper.pdf.txt, supp.docx.txt
     python3 tools/doctext.py paper.pdf --stdout             # print instead of writing
 

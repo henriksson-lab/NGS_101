@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/gb-2014-15-1-r3_PMC4053792.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/gb-2014-15-1-r3_PMC4053792.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "zheng_predecessor",
       "role": "predecessor",
-      "locator": "_data/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/journal.pgen.1001141_PMC2947979.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/journal.pgen.1001141_PMC2947979.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "zheng_text_s1",
       "role": "supplement",
-      "locator": "_data/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/journal.pgen.1001141_supp_pgen.1001141.s017.doc.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/journal.pgen.1001141_supp_pgen.1001141.s017.doc.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -78,7 +78,7 @@
     {
       "id": "pip_s1",
       "role": "supplement",
-      "locator": "_data/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S1.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S1.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -97,7 +97,7 @@
     {
       "id": "pip_s10",
       "role": "supplement",
-      "locator": "_data/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S10.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S10.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Motif and bound-site result table, no ordering oligo.",
@@ -117,7 +117,7 @@
     {
       "id": "pip_s11",
       "role": "supplement",
-      "locator": "_data/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S11.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pip-seq-protein-interaction-profile__10.1186+gb-2014-15-1-r3/gb-2014-15-1-r3_supp_gb-2014-15-1-r3-S11.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "SNP-to-PPS genomic overlap table, no library adapter or reaction details.",

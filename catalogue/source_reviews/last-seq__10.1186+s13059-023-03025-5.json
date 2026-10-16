@@ -75,7 +75,7 @@
     {
       "id": "additional_file_3",
       "role": "supplement",
-      "locator": "Original Additional file 3 MOESM3 DOCX, _data/sources/last-seq__10.1186+s13059-023-03025-5/s13059-023-03025-5_supp_13059_2023_3025_MOESM3_ESM.docx.txt",
+      "locator": "Original Additional file 3 MOESM3 DOCX, /husky/henriksson/NGS101_papers/sources/last-seq__10.1186+s13059-023-03025-5/s13059-023-03025-5_supp_13059_2023_3025_MOESM3_ESM.docx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Peer-review history and author responses; chemistry details are repeated commentary, not an independent oligo protocol or table.",
@@ -91,7 +91,7 @@
     {
       "id": "nebnext_2024_manual",
       "role": "linked_material",
-      "locator": "_data/sources/splash__10.1016+j.molcel.2016.04.028/manuale7335_e7500_-e7710_e7730.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/splash__10.1016+j.molcel.2016.04.028/manuale7335_e7500_-e7710_e7730.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "nebnext_index",

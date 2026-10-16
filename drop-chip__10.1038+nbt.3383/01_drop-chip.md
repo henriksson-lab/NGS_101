@@ -12,7 +12,7 @@ chart (pubs.broadinstitute.org/drop-chip), which was not fetched. No other paper
 this method are listed in `catalogue/scg_lib_structs.tsv`.
 
 Sources read (fetched by `tools/get_sources.py`, into
-`_data/sources/drop-chip__10.1038+nbt.3383/`, never committed):
+`/husky/henriksson/NGS101_papers/sources/drop-chip__10.1038+nbt.3383/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

@@ -5,13 +5,13 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_PMC5845169.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_PMC5845169.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_PMC5845169.xml.txt lines 72–78, 226–256, 318",
+        "locations": "/husky/henriksson/NGS101_papers/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_PMC5845169.xml.txt lines 72–78, 226–256, 318",
         "finding": "Methods specify 14/15-base cell barcode, 8-base UMI and T24 RT primer architecture, adaptor construction, custom Read1 and cite Additional file 4 for primer sequences."
       },
       "pass_2": {
@@ -24,13 +24,13 @@
     {
       "id": "primer_table",
       "role": "supplement",
-      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_supp_13059_2018_1407_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_supp_13059_2018_1407_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_supp_13059_2018_1407_MOESM5_ESM.xlsx.txt sheets at lines 1, 389 and 1929–1945",
+        "locations": "/husky/henriksson/NGS101_papers/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_supp_13059_2018_1407_MOESM5_ESM.xlsx.txt sheets at lines 1, 389 and 1929–1945",
         "finding": "Workbook has 384/1536 RT primer members and a Quartz-Seq2 oligo DNA sheet; lines 1929–1945 print tagging, rYshape P5/P7, P5-gMac and custom Read1 oligos. The core oligos are published."
       },
       "pass_2": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_supp_13059_2018_1407_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/quartz-seq__10.1186+gb-2013-14-4-r31/s13059-018-1407-3_supp_13059_2018_1407_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": null,
@@ -59,7 +59,7 @@
     {
       "id": "predecessor",
       "role": "linked_material",
-      "locator": "_data/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_PMC4054835.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/quartz-seq__10.1186+gb-2013-14-4-r31/gb-2013-14-4-r31_PMC4054835.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": null,
@@ -75,7 +75,7 @@
     {
       "id": "dropseq_primer",
       "role": "linked_material",
-      "locator": "_data/sources/drop-seq-seq-well__10.1016+j.cell.2015.05.002/j.cell.2015.05.002_PMC4481139.xml.txt; _data/sources/crop-seq__10.1038+nmeth.4177/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/drop-seq-seq-well__10.1016+j.cell.2015.05.002/j.cell.2015.05.002_PMC4481139.xml.txt; /husky/henriksson/NGS101_papers/sources/crop-seq__10.1038+nmeth.4177/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "supp_methods",

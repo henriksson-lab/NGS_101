@@ -5,7 +5,7 @@
     {
       "id": "science_original",
       "role": "defining",
-      "locator": "_data/sources/discover-seq__10.1126+science.aav9023/PMC6589096_PMC6589096.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/discover-seq__10.1126+science.aav9023/PMC6589096_PMC6589096.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "nature_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/discover-seq__10.1126+science.aav9023/PMC7305837_PMC7305837.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/discover-seq__10.1126+science.aav9023/PMC7305837_PMC7305837.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "illumina_guide",
       "role": "vendor",
-      "locator": "_data/sources/discover-seq__10.1126+science.aav9023/illumina_truseq-chip-sample-prep-guide-15023092-b.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/discover-seq__10.1126+science.aav9023/illumina_truseq-chip-sample-prep-guide-15023092-b.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -78,7 +78,7 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "_data/sources/discover-seq__10.1126+science.aav9023/469635_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/discover-seq__10.1126+science.aav9023/469635_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -98,7 +98,7 @@
     {
       "id": "protocolsio_discover_seq_mre11_chip_seq_kqdg349ypl25_pdf",
       "role": "detailed_protocol",
-      "locator": "_data/sources/discover-seq__10.1126+science.aav9023/protocolsio_discover-seq-mre11-chip-seq-kqdg349ypl25.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/discover-seq__10.1126+science.aav9023/protocolsio_discover-seq-mre11-chip-seq-kqdg349ypl25.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

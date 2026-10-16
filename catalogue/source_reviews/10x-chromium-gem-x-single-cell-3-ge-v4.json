@@ -186,7 +186,7 @@
     {
       "id": "cg000791",
       "role": "linked_material",
-      "locator": "10x CG000791 Rev A, October 2024, Library Construction Kit C Supplemental User Guide; original _data/sources/10x-chromium-gem-x-single-cell-5-ge-v3/CG000791_RevA_kitC.pdf",
+      "locator": "10x CG000791 Rev A, October 2024, Library Construction Kit C Supplemental User Guide; original /husky/henriksson/NGS101_papers/sources/10x-chromium-gem-x-single-cell-5-ge-v3/CG000791_RevA_kitC.pdf",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "cg000731",

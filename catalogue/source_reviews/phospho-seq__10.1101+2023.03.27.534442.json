@@ -5,7 +5,7 @@
     {
       "id": "preprint",
       "role": "defining",
-      "locator": "_data/sources/phospho-seq__10.1101+2023.03.27.534442/2023.03.27.534442_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1101+2023.03.27.534442/2023.03.27.534442_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "preprint_methods",
       "role": "supplement",
-      "locator": "_data/sources/phospho-seq__10.1101+2023.03.27.534442/2023.03.27.534442_media-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1101+2023.03.27.534442/2023.03.27.534442_media-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "preprint_barcode_table",
       "role": "supplement",
-      "locator": "_data/sources/phospho-seq__10.1101+2023.03.27.534442/2023.03.27.534442_media-2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1101+2023.03.27.534442/2023.03.27.534442_media-2.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "published",
       "role": "linked_material",
-      "locator": "_data/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_PMC11794950.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_PMC11794950.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "published_antibody_index",
       "role": "supplement",
-      "locator": "_data/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -110,7 +110,7 @@
     {
       "id": "asap_seq",
       "role": "predecessor",
-      "locator": "_data/sources/asap-seq__10.1038+s41587-021-00927-2/s41587-021-00927-2_PMC8763625.xml.txt; supplement s41587-021-00927-2_41587_2021_927_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/asap-seq__10.1038+s41587-021-00927-2/s41587-021-00927-2_PMC8763625.xml.txt; supplement s41587-021-00927-2_41587_2021_927_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Predecessor original independently located after initial unavailable entry; distinct second pass on this new row still needed.",
@@ -140,7 +140,7 @@
     {
       "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm1_esm_pdf_txt",
       "role": "supplement",
-      "locator": "_data/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Local source is present and readable; bounded sections inspected as specified in pass_1. Missing-claim gate remains blocked.",
@@ -160,7 +160,7 @@
     {
       "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm2_esm_pdf_txt",
       "role": "supplement",
-      "locator": "_data/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Local source is present and readable; bounded sections inspected as specified in pass_1. Missing-claim gate remains blocked.",
@@ -180,7 +180,7 @@
     {
       "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm4_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Result or sequencing-metric workbook; Supplementary Data 1 is the relevant index table, reviewed separately.",
@@ -200,7 +200,7 @@
     {
       "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm5_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Result or sequencing-metric workbook; Supplementary Data 1 is the relevant index table, reviewed separately.",
@@ -220,7 +220,7 @@
     {
       "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm6_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM6_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM6_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Result or sequencing-metric workbook; Supplementary Data 1 is the relevant index table, reviewed separately.",
@@ -240,7 +240,7 @@
     {
       "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm7_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM7_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM7_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Result or sequencing-metric workbook; Supplementary Data 1 is the relevant index table, reviewed separately.",
@@ -260,7 +260,7 @@
     {
       "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm8_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM8_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM8_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Result or sequencing-metric workbook; Supplementary Data 1 is the relevant index table, reviewed separately.",
@@ -280,7 +280,7 @@
     {
       "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm9_esm_pdf_txt",
       "role": "supplement",
-      "locator": "_data/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM9_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1101+2023.03.27.534442/s41467-025-56590-7_supp_41467_2025_56590_MOESM9_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Local source is present and readable; bounded sections inspected as specified in pass_1. Missing-claim gate remains blocked.",

@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/shape-map__10.1038+nmeth.3029/nmeth.3029_PMC4259394.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/shape-map__10.1038+nmeth.3029/nmeth.3029_PMC4259394.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "pmc_supp1",
       "role": "supplement",
-      "locator": "_data/sources/shape-map__10.1038+nmeth.3029/nmeth.3029_supp_NIHMS606325-supplement-1.doc.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/shape-map__10.1038+nmeth.3029/nmeth.3029_supp_NIHMS606325-supplement-1.doc.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "pmc_supp2",
       "role": "supplement",
-      "locator": "_data/sources/shape-map__10.1038+nmeth.3029/nmeth.3029_supp_NIHMS606325-supplement-2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/shape-map__10.1038+nmeth.3029/nmeth.3029_supp_NIHMS606325-supplement-2.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "springer_supp",
       "role": "supplement",
-      "locator": "Springer MOESM231–237 files in _data/sources/shape-map__10.1038+nmeth.3029/",
+      "locator": "Springer MOESM231–237 files in /husky/henriksson/NGS101_papers/sources/shape-map__10.1038+nmeth.3029/",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

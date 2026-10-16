@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/doi_10.1038+s41592-024-02239-0/s41592-024-02239-0_PMC11166570.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41592-024-02239-0/s41592-024-02239-0_PMC11166570.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

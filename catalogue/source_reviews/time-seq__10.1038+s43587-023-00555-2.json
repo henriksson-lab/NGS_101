@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/PMC11332592_PMC11332592.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/time-seq__10.1038+s43587-023-00555-2/PMC11332592_PMC11332592.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "preprint",
       "role": "other",
-      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/2021.10.25.465725_v3.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/time-seq__10.1038+s43587-023-00555-2/2021.10.25.465725_v3.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "supp_oligos",
       "role": "supplement",
-      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM7_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM7_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -81,7 +81,7 @@
     {
       "id": "supp_2",
       "role": "supplement",
-      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Nature Portfolio reporting summary gives statistics, code, sample and study-design disclosures; no oligo or reaction recipe.",
@@ -101,7 +101,7 @@
     {
       "id": "supp_3",
       "role": "supplement",
-      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -120,7 +120,7 @@
     {
       "id": "supp_4",
       "role": "supplement",
-      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -139,7 +139,7 @@
     {
       "id": "supp_5",
       "role": "supplement",
-      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -159,7 +159,7 @@
     {
       "id": "supp_6",
       "role": "supplement",
-      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM6_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM6_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Cost/computational table, no additional oligo or reaction chemistry.",
@@ -179,7 +179,7 @@
     {
       "id": "supp_8",
       "role": "supplement",
-      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM8_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM8_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Clock coefficients/target CpG positions, no oligo ordering or wet-lab step.",
@@ -199,7 +199,7 @@
     {
       "id": "supp_9",
       "role": "supplement",
-      "locator": "_data/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM9_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/time-seq__10.1038+s43587-023-00555-2/43587_2023_555_MOESM9_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Figure metrics and sequencing counts, no library oligo or reaction recipe.",

@@ -8,12 +8,12 @@ that the P7 side is deliberately NOT the stock TruSeq arm, and where the 16-cycl
 index-2 read puts the two P5-side identifiers.
 """
 from pathlib import Path
-import os
 import re
 import unicodedata
 import sys
 H = Path(__file__).resolve().parent
 sys.path[:0] = [str(H), str(H.parents[1] / "lib")]
+from storage import data_root
 import guide_seq as M
 import seqprimers as sp
 from checks import Check, Source, have
@@ -67,7 +67,7 @@ c("the library carries exactly one dA/dT junction, beside the Read 1 arm",
   ["adapter 3' dT : fragment dA"])
 
 c.section("complete oligos from the corrected original, not the older PMC labels")
-root=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"/H.parent.name
+root=data_root()/"sources"/H.parent.name
 original=Source(root/"nbt.3117_41587_2015_BFnbt3117_MOESM21_ESM.pdf.txt",
                 "Corrected publisher supplement; tools/get_sources.py --slugs "+H.parent.name)
 if have(c,original,label="corrected publisher Supplementary Table 4"):

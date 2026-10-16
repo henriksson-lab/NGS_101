@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_PMC12510883.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_PMC12510883.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "primer_tables",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -52,7 +52,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm10_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM10_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM10_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
@@ -72,7 +72,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm11_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM11_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM11_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
@@ -92,7 +92,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm12_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM12_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM12_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
@@ -112,7 +112,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm13_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM13_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM13_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
@@ -132,7 +132,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm14_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM14_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM14_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
@@ -152,7 +152,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm15_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM15_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM15_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
@@ -172,7 +172,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm16_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM16_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM16_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
@@ -192,7 +192,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm1_esm_pdf_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Local file readable visually; only first page independently inspected. Remaining pages and relevance pending.",
@@ -212,7 +212,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm2_esm_pdf_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Local source is present and readable; bounded sections inspected as specified in pass_1. Missing-claim gate remains blocked.",
@@ -232,7 +232,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm5_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
@@ -252,7 +252,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm6_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM6_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM6_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
@@ -272,7 +272,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm7_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM7_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM7_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
@@ -292,7 +292,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm8_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM8_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM8_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",
@@ -312,7 +312,7 @@
     {
       "id": "s41592_025_02805_0_supp_41592_2025_2805_moesm9_esm_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM9_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sdr-seq__10.1038+s41592-025-02805-0/s41592-025-02805-0_supp_41592_2025_2805_MOESM9_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Figure-level measurement and analysis tables, not reagent or library-construction instructions; both readers checked sheet headers and content.",

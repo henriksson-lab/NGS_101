@@ -40,7 +40,7 @@
     {
       "id": "proseq2016",
       "role": "predecessor",
-      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/PMC5502525_PMC5502525.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chro-seq__10.1038+s41588-018-0244-3/PMC5502525_PMC5502525.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_2": {
@@ -52,7 +52,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+nprot.2016.086/nprot.2016.086_PMC5502525.xml.txt Table 1 lines 2870-2905 and read trimming line 2487; ChRO defining JATS lines 154-158; oligo scraper on original DOI bundle, hits at Table 1 lines 2876, 2880, 2883, 2897, 2900-2901",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nprot.2016.086/nprot.2016.086_PMC5502525.xml.txt Table 1 lines 2870-2905 and read trimming line 2487; ChRO defining JATS lines 154-158; oligo scraper on original DOI bundle, hits at Table 1 lines 2876, 2880, 2883, 2897, 2900-2901",
         "finding": "Independently checked Mahat et al. 2016 original PRO-seq Table 1. VRA3 is a 5-prime-phosphorylated 3-prime RNA adapter with /Inverted dT/ at its 3-prime end; VRA5 is unphosphorylated at its 5-prime end; RP1 serves both RT and PCR; RPI-n carries six sample-index Ns. PRO-cap RA3/RA5/RTP are separately listed and must not be substituted for PRO-seq. ChRO JATS says its library preparation closely followed this method but also says some ChRO libraries used six-base molecule UMIs in adapters, so Table 1 cannot establish an unchanged oligo variant for every ChRO library."
       },
       "additional_checks": [
@@ -75,7 +75,7 @@
     {
       "id": "supplement_notes_figures",
       "role": "supplement",
-      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/s41588-018-0244-3_41588_2018_244_MOESM1_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chro-seq__10.1038+s41588-018-0244-3/s41588-018-0244-3_41588_2018_244_MOESM1_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -88,7 +88,7 @@
     {
       "id": "reporting_summary",
       "role": "supplement",
-      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/s41588-018-0244-3_41588_2018_244_MOESM2_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chro-seq__10.1038+s41588-018-0244-3/s41588-018-0244-3_41588_2018_244_MOESM2_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -101,7 +101,7 @@
     {
       "id": "supplement_workbook",
       "role": "supplement",
-      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/s41588-018-0244-3_41588_2018_244_MOESM3_ESM.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chro-seq__10.1038+s41588-018-0244-3/s41588-018-0244-3_41588_2018_244_MOESM3_ESM.xlsx",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -120,7 +120,7 @@
     {
       "id": "wuarin1994",
       "role": "predecessor",
-      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/PMC359256_PMC359256.html",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chro-seq__10.1038+s41588-018-0244-3/PMC359256_PMC359256.html",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -133,7 +133,7 @@
     {
       "id": "study_geo",
       "role": "linked_material",
-      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/geo-GSE117832-all-full.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chro-seq__10.1038+s41588-018-0244-3/geo-GSE117832-all-full.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -147,7 +147,7 @@
     {
       "id": "author_pipeline_entry",
       "role": "linked_material",
-      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/proseq.html",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chro-seq__10.1038+s41588-018-0244-3/proseq.html",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -161,7 +161,7 @@
     {
       "id": "pipeline_readme",
       "role": "linked_material",
-      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/gh_README.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chro-seq__10.1038+s41588-018-0244-3/gh_README.md",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "author_pipeline_entry",
@@ -182,7 +182,7 @@
     {
       "id": "pipeline_lechro_example",
       "role": "linked_material",
-      "locator": "_data/sources/chro-seq__10.1038+s41588-018-0244-3/gh_example_leChROseq.bsh",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chro-seq__10.1038+s41588-018-0244-3/gh_example_leChROseq.bsh",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "author_pipeline_entry",

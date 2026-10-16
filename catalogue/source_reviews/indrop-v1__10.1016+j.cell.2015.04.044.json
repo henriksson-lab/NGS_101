@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/indrop__10.1016+j.cell.2015.04.044/j.cell.2015.04.044_PMC4441768.xml.txt:67-69,153,163",
+      "locator": "/husky/henriksson/NGS101_papers/sources/indrop__10.1016+j.cell.2015.04.044/j.cell.2015.04.044_PMC4441768.xml.txt:67-69,153,163",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -52,7 +52,7 @@
     {
       "id": "later2017",
       "role": "linked_material",
-      "locator": "_data/sources/indrop__10.1016+j.cell.2015.04.044/nprot.2016.154_41596_2017_BFnprot2016154_MOESM454_ESM.pdf.txt and MOESM455-457 XLSX text",
+      "locator": "/husky/henriksson/NGS101_papers/sources/indrop__10.1016+j.cell.2015.04.044/nprot.2016.154_41596_2017_BFnprot2016154_MOESM454_ESM.pdf.txt and MOESM455-457 XLSX text",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",

@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import os
 import re
 import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import eccite_seq
 from checks import Check, Source, have
 from multimodal_page import render
 check=Check()
 render(eccite_seq)
 print("PASS  transcript, antibody, hashtag and direct-guide libraries build")
-source_dir=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"/H.parent.name
+source_dir=data_root()/"sources"/H.parent.name
 table=Source(source_dir/"s41592-019-0392-0_41592_2019_392_MOESM1_ESM.pdf.txt",
              "Mimitou et al. 2019 original Springer Supplementary Tables 3–5")
 if have(check,table,label="ECCITE-seq ordered conjugate barcode source"):

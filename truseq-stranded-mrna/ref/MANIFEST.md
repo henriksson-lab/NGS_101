@@ -4,7 +4,7 @@ Retrieve the registered originals with:
 
 ```sh
 TMPDIR="$PWD/_data/tmp" python3 tools/get_sources.py --slugs truseq-stranded-mrna --no-papers
-python3 tools/scrape_primers.py _data/sources/truseq-stranded-mrna
+python3 tools/scrape_primers.py /husky/henriksson/NGS101_papers/sources/truseq-stranded-mrna
 ```
 
 `get_sources.py` validates downloads and creates text twins. Check the returned original's title/revision and `MANIFEST.tsv` URL before reading or attributing it to a historical version.

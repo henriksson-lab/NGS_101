@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/scone-seq__10.1126+sciadv.abp8901/sciadv.abp8901_PMC9812385.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scone-seq__10.1126+sciadv.abp8901/sciadv.abp8901_PMC9812385.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_methods_oligos",
       "role": "supplement",
-      "locator": "_data/sources/scone-seq__10.1126+sciadv.abp8901/sciadv.abp8901_PMC9812385_supplementary_sciadv.abp8901_sm.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scone-seq__10.1126+sciadv.abp8901/sciadv.abp8901_PMC9812385_supplementary_sciadv.abp8901_sm.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

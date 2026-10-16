@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/hichip__10.1038+nmeth.3999/nmeth.3999_PMC5501173.xml.txt lines 87-111; scraper short primers in preprint at 829,838",
+        "locations": "/husky/henriksson/NGS101_papers/sources/hichip__10.1038+nmeth.3999/nmeth.3999_PMC5501173.xml.txt lines 87-111; scraper short primers in preprint at 829,838",
         "finding": "Methods specify in situ Hi-C contact preparation, ChIP, Tn5, biotin capture, Ad1_noMX/Ad2.X PCR and optional short post-pooling primers."
       },
       "pass_2": {
@@ -30,7 +30,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM254_ESM.pdf.txt lines 1-35",
+        "locations": "/husky/henriksson/NGS101_papers/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM254_ESM.pdf.txt lines 1-35",
         "finding": "Supplementary figures, not oligo ordering table in opening sections."
       },
       "pass_2": {
@@ -50,7 +50,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM255_ESM.xlsx.txt first rows",
+        "locations": "/husky/henriksson/NGS101_papers/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM255_ESM.xlsx.txt first rows",
         "finding": "Prior-study contact data; no primer sequences."
       },
       "pass_2": {
@@ -70,7 +70,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM256_ESM.xlsx.txt first rows",
+        "locations": "/husky/henriksson/NGS101_papers/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM256_ESM.xlsx.txt first rows",
         "finding": "Alignment/filtering metrics, not chemistry."
       },
       "pass_2": {
@@ -90,7 +90,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM257_ESM.xlsx.txt first rows",
+        "locations": "/husky/henriksson/NGS101_papers/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM257_ESM.xlsx.txt first rows",
         "finding": "Genomic loop coordinates, not oligo design."
       },
       "pass_2": {
@@ -110,7 +110,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM258_ESM.xlsx.txt lines 1-26; scraper directory family",
+        "locations": "/husky/henriksson/NGS101_papers/sources/hichip__10.1038+nmeth.3999/nmeth.3999_41592_2016_BFnmeth3999_MOESM258_ESM.xlsx.txt lines 1-26; scraper directory family",
         "finding": "Full universal Ad1 and 24 indexed Ad2 primers printed; resolves primer-family disclosure."
       },
       "pass_2": {
@@ -129,7 +129,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/hichip__10.1038+nmeth.3999/073619_v1.full.pdf.txt lines 790-850; scraper short primers 829,838",
+        "locations": "/husky/henriksson/NGS101_papers/sources/hichip__10.1038+nmeth.3999/073619_v1.full.pdf.txt lines 790-850; scraper short primers 829,838",
         "finding": "Earlier author version also gives optional short primers."
       },
       "pass_2": {
@@ -149,7 +149,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/in-situ-hi-c__10.1016+j.cell.2014.11.021/Hi-C_Protocol.pdf.txt lines 48-88; scraper zero",
+        "locations": "/husky/henriksson/NGS101_papers/sources/in-situ-hi-c__10.1016+j.cell.2014.11.021/Hi-C_Protocol.pdf.txt lines 48-88; scraper zero",
         "finding": "Original predecessor specifies MboI digest, Klenow fill-in with biotin-14-dATP, and in-nucleus T4 ligation; HiChIP adds ChIP and bead Tn5 after this contact intermediate."
       },
       "pass_2": {

@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/methylc-seq__10.1038+nprot.2014.114/nprot.2014.114_PMC4465251.xml.txt lines 292-364,750; scraper zero",
+        "locations": "/husky/henriksson/NGS101_papers/sources/methylc-seq__10.1038+nprot.2014.114/nprot.2014.114_PMC4465251.xml.txt lines 292-364,750; scraper zero",
         "finding": "Original specifies methylated NEXTflex Bisulfite-Seq Barcodes–12 cat 511912, end repair/dA ligation, bisulfite then low-cycle PCR. No selected barcode well."
       },
       "pass_2": {

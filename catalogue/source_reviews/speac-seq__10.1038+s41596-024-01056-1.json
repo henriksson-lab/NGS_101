@@ -13,7 +13,7 @@
     {
       "id": "original_study",
       "role": "predecessor",
-      "locator": "_data/sources/speac-seq__10.1038+s41596-024-01056-1/science.abq4822_PMC10066924.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/speac-seq__10.1038+s41596-024-01056-1/science.abq4822_PMC10066924.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

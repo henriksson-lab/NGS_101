@@ -25,7 +25,7 @@ Other records for the same method (from `catalogue/scg_lib_structs.tsv`):
   [HyDrop-RNA](../hydrop-rna__10.7554+eLife.73971/01_hydrop-rna.md).
 
 Sources read (fetched by `tools/get_sources.py`, into
-`_data/sources/hydrop-atac__10.7554+eLife.73971/`, never committed):
+`/husky/henriksson/NGS101_papers/sources/hydrop-atac__10.7554+eLife.73971/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

@@ -15,7 +15,6 @@ import hashlib
 import html
 from html.parser import HTMLParser
 import json
-import os
 import re
 import shutil
 import subprocess
@@ -26,6 +25,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
+sys.path.insert(0, str(ROOT / "lib"))
+from storage import data_root
 
 UA = "Mozilla/5.0 (X11; Linux x86_64) chem-sources/1.0 (research; mailto:he.johan@gmail.com)"
 MAX_BYTES = 120_000_000     # per file; bigger is a data dump (counts, peaks), not a methods source
@@ -58,7 +59,7 @@ def say(*a) -> None:
 
 
 def data_dir() -> Path:
-    return Path(os.environ.get("CHEM_DATA", ROOT / "_data")) / "sources"
+    return data_root() / "sources"
 
 
 def cache_dir() -> Path:

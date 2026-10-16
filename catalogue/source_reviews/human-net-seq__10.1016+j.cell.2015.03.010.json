@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/PMC4528962_PMC4528962.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/PMC4528962_PMC4528962.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "detailed_protocol",
       "role": "linked_material",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/PMC5326677_PMC5326677.xml.txt; actual article-id DOI 10.1038/nprot.2016.047",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/PMC5326677_PMC5326677.xml.txt; actual article-id DOI 10.1038/nprot.2016.047",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -53,7 +53,7 @@
     {
       "id": "cell_supp",
       "role": "supplement",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/594009_59c7fec32bcc42cf8c824804675fe319.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/594009_59c7fec32bcc42cf8c824804675fe319.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -93,7 +93,7 @@
     {
       "id": "churchman2012_author_original",
       "role": "predecessor",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/2012-native-elongating-transcript-sequencing-net-seq.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/2012-native-elongating-transcript-sequencing-net-seq.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -112,7 +112,7 @@
     {
       "id": "ingolia2012_depletion",
       "role": "predecessor",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/nprot.2012.086_PMC3535016.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/nprot.2012.086_PMC3535016.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -125,7 +125,7 @@
     {
       "id": "author_publication_inventory",
       "role": "other",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/publications.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/publications.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -138,7 +138,7 @@
     {
       "id": "churchman2011_main",
       "role": "predecessor",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_PMC3880149.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_PMC3880149.html.txt",
       "availability": "available",
       "relevance": "relevant",
       "reason": "Validated original recovered by registered DOI route; full source/link inspection pending. Not counted as a source pass."
@@ -146,7 +146,7 @@
     {
       "id": "churchman2011_si",
       "role": "supplement",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM288_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM288_ESM.pdf.txt",
       "availability": "available",
       "relevance": "relevant",
       "reason": "Validated original recovered by registered DOI route; full source/link inspection pending. Not counted as a source pass."
@@ -154,7 +154,7 @@
     {
       "id": "churchman2011_moesm282",
       "role": "supplement",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM282_ESM.ppt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM282_ESM.ppt",
       "availability": "available",
       "relevance": "relevant",
       "reason": "Validated original recovered; text extraction insufficient for complete figure inspection, rendered original reading pending."
@@ -162,7 +162,7 @@
     {
       "id": "churchman2011_moesm283",
       "role": "supplement",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM283_ESM.ppt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM283_ESM.ppt",
       "availability": "available",
       "relevance": "relevant",
       "reason": "Validated original recovered; text extraction insufficient for complete figure inspection, rendered original reading pending."
@@ -170,7 +170,7 @@
     {
       "id": "churchman2011_moesm284",
       "role": "supplement",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM284_ESM.ppt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM284_ESM.ppt",
       "availability": "available",
       "relevance": "relevant",
       "reason": "Validated original recovered; text extraction insufficient for complete figure inspection, rendered original reading pending."
@@ -178,7 +178,7 @@
     {
       "id": "churchman2011_moesm285",
       "role": "supplement",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM285_ESM.ppt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM285_ESM.ppt",
       "availability": "available",
       "relevance": "relevant",
       "reason": "Validated original recovered; text extraction insufficient for complete figure inspection, rendered original reading pending."
@@ -186,7 +186,7 @@
     {
       "id": "churchman2011_moesm286",
       "role": "supplement",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM286_ESM.ppt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM286_ESM.ppt",
       "availability": "available",
       "relevance": "relevant",
       "reason": "Validated original recovered; text extraction insufficient for complete figure inspection, rendered original reading pending."
@@ -194,7 +194,7 @@
     {
       "id": "churchman2011_moesm287",
       "role": "supplement",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM287_ESM.ppt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/nature09652_41586_2011_BFnature09652_MOESM287_ESM.ppt",
       "availability": "available",
       "relevance": "relevant",
       "reason": "Validated original recovered; text extraction insufficient for complete figure inspection, rendered original reading pending."
@@ -202,7 +202,7 @@
     {
       "id": "ingolia_moesm443",
       "role": "supplement",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/nprot.2012.086_41596_2012_BFnprot2012086_MOESM443_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/nprot.2012.086_41596_2012_BFnprot2012086_MOESM443_ESM.pdf",
       "availability": "available",
       "relevance": "relevant",
       "reason": "Validated original recovered; source-specific relevance and linked-source reading pending, no exclusion by filename."
@@ -210,7 +210,7 @@
     {
       "id": "ingolia_moesm444",
       "role": "supplement",
-      "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/nprot.2012.086_41596_2012_BFnprot2012086_MOESM444_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/nprot.2012.086_41596_2012_BFnprot2012086_MOESM444_ESM.pdf",
       "availability": "available",
       "relevance": "relevant",
       "reason": "Validated original recovered; source-specific relevance and linked-source reading pending, no exclusion by filename."
@@ -240,7 +240,7 @@
       {
         "id": "paper",
         "role": "defining",
-        "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/PMC4528962_PMC4528962.xml.txt",
+        "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/PMC4528962_PMC4528962.xml.txt",
         "availability": "read",
         "relevance": "relevant",
         "pass_1": {
@@ -259,7 +259,7 @@
       {
         "id": "detailed_protocol",
         "role": "linked_material",
-        "locator": "_data/sources/human-net-seq__10.1016+j.cell.2015.03.010/PMC5326677_PMC5326677.xml.txt",
+        "locator": "/husky/henriksson/NGS101_papers/sources/human-net-seq__10.1016+j.cell.2015.03.010/PMC5326677_PMC5326677.xml.txt",
         "availability": "read",
         "relevance": "relevant",
         "pass_1": {

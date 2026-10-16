@@ -5,7 +5,7 @@
     {
       "id": "circle_guide",
       "role": "defining",
-      "locator": "_data/sources/dnbseq-library-circularization/SOP-013-B02-185-7.0-MGIEasy-Dual-Barcode-Circularization-Kit-User-Manual-2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dnbseq-library-circularization/SOP-013-B02-185-7.0-MGIEasy-Dual-Barcode-Circularization-Kit-User-Manual-2.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_PMC5823944.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_PMC5823944.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "smartseq2",
       "role": "linked_material",
-      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/nmeth.2639_41592_2013_BFnmeth2639_MOESM299_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scnmt-seq__10.1038+s41467-018-03149-4/nmeth.2639_41592_2013_BFnmeth2639_MOESM299_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "scbsseq",
       "role": "linked_material",
-      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/nmeth.3035_PMC4117646.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scnmt-seq__10.1038+s41467-018-03149-4/nmeth.3035_PMC4117646.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -104,7 +104,7 @@
     {
       "id": "author_preprint_v2",
       "role": "other",
-      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/138685_v2.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scnmt-seq__10.1038+s41467-018-03149-4/138685_v2.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Original author preprint version comparison; manuscript does not identify the exact inherited TSO or iTAG well.",
@@ -124,7 +124,7 @@
     {
       "id": "author_preprint_supp",
       "role": "supplement",
-      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/138685_138685-1.pdf.txt and 138685_138685-2/3/4.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scnmt-seq__10.1038+s41467-018-03149-4/138685_138685-1.pdf.txt and 138685_138685-2/3/4.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original preprint supplements are results figures, sequencing QC, molecular association tables and reference dataset inventory; no synthesis table in inspected sections.",
@@ -144,7 +144,7 @@
     {
       "id": "scmtseq_2016_predecessor",
       "role": "linked_material",
-      "locator": "Angermueller et al. 2016 scM&T-seq, doi:10.1038/nmeth.3728; _data/sources/scm-t-seq__10.1038+nmeth.3728/nmeth.3728_PMC4770512.xml.txt",
+      "locator": "Angermueller et al. 2016 scM&T-seq, doi:10.1038/nmeth.3728; /husky/henriksson/NGS101_papers/sources/scm-t-seq__10.1038+nmeth.3728/nmeth.3728_PMC4770512.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -164,7 +164,7 @@
     {
       "id": "gtseq_2015_predecessor",
       "role": "linked_material",
-      "locator": "Macaulay et al. 2015 G&T-seq Nat Methods doi:10.1038/nmeth.3370, author-uploaded original full PDF https://www.researchgate.net/profile/Mubeen-Goolam/publication/275525502_GT-seq_Parallel_sequencing_of_single-cell_genomes_and_transcriptomes/links/5757e80f08ae5c65490724bc/G-T-seq-Parallel-sequencing-of-single-cell-genomes-and-transcriptomes.pdf; related 2016 author detailed protocol in _data/sources/g-t-seq__10.1038+nmeth.3370/",
+      "locator": "Macaulay et al. 2015 G&T-seq Nat Methods doi:10.1038/nmeth.3370, author-uploaded original full PDF https://www.researchgate.net/profile/Mubeen-Goolam/publication/275525502_GT-seq_Parallel_sequencing_of_single-cell_genomes_and_transcriptomes/links/5757e80f08ae5c65490724bc/G-T-seq-Parallel-sequencing-of-single-cell-genomes-and-transcriptomes.pdf; related 2016 author detailed protocol in /husky/henriksson/NGS101_papers/sources/g-t-seq__10.1038+nmeth.3370/",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "scmtseq_2016_predecessor",
@@ -185,7 +185,7 @@
     {
       "id": "publisher_moesm2",
       "role": "supplement",
-      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Publisher peer-review exchange; no evidence about exact scNMT TSO or iTAG selection.",
@@ -205,7 +205,7 @@
     {
       "id": "publisher_moesm3",
       "role": "supplement",
-      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Publisher supplement-file inventory; no evidence about exact scNMT TSO or iTAG selection.",
@@ -225,7 +225,7 @@
     {
       "id": "publisher_moesm4",
       "role": "supplement",
-      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Publisher Supplementary Data 1 sequencing metrics; no evidence about exact scNMT TSO or iTAG selection.",
@@ -245,7 +245,7 @@
     {
       "id": "publisher_moesm5",
       "role": "supplement",
-      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Publisher Supplementary Data 2 association statistics; no evidence about exact scNMT TSO or iTAG selection.",
@@ -265,7 +265,7 @@
     {
       "id": "publisher_moesm6",
       "role": "supplement",
-      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM6_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scnmt-seq__10.1038+s41467-018-03149-4/s41467-018-03149-4_supp_41467_2018_3149_MOESM6_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Publisher Supplementary Data 3 genomic annotations; no evidence about exact scNMT TSO or iTAG selection.",
@@ -285,7 +285,7 @@
     {
       "id": "smartseq2_2013_oligo_table",
       "role": "linked_material",
-      "locator": "_data/sources/scnmt-seq__10.1038+s41467-018-03149-4/nmeth.2639_41592_2013_BFnmeth2639_MOESM301_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scnmt-seq__10.1038+s41467-018-03149-4/nmeth.2639_41592_2013_BFnmeth2639_MOESM301_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "smartseq2",

@@ -38,13 +38,13 @@ doi:[10.1038/nprot.2007.148](https://doi.org/10.1038/nprot.2007.148). That paper
 in the catalogue and was not fetched.
 
 Sources read (fetched by `tools/get_sources.py`, into
-`_data/sources/scdamid__10.1016+j.cell.2015.08.040/`, never committed):
+`/husky/henriksson/NGS101_papers/sources/scdamid__10.1016+j.cell.2015.08.040/`, never committed):
 
 | File | What | Used for |
 |---|---|---|
 | `j.cell.2015.08.040_PMC4583798.html.txt` | PMC full text (author manuscript) | workflow (Results "Single-cell DamID methodology", Experimental Procedures, Fig. 1A and S1 legends), read length, QC numbers |
 | `upstream_scDamID.html.txt` | scg_lib_structs page | **inspiration only, not a source** — nothing is cited from or verified against it |
-| `_data/sources/epidamid__10.1101+2021.10.26.465688/j.molcel.2022.03.009_supp_mmc4.pdf.txt:2206-2224` and `…_PMC9153956.xml.txt:574-583` | EpiDamID (Markodimitraki et al., *Mol Cell* 2022) key-resources oligo table | prints **AdRt** `CTAATACGACTCACTATAGGGCAGCGTGGTCGCGGCCGAGGA`, **AdRb** `TCCTCGGCCGCG` and **AdR_PCR** `GGTCGCGGCCGAGGATC`, each credited to "Vogel et al., 2007" 🟢 — the oligos scDamID says it reuses |
+| `/husky/henriksson/NGS101_papers/sources/epidamid__10.1101+2021.10.26.465688/j.molcel.2022.03.009_supp_mmc4.pdf.txt:2206-2224` and `…_PMC9153956.xml.txt:574-583` | EpiDamID (Markodimitraki et al., *Mol Cell* 2022) key-resources oligo table | prints **AdRt** `CTAATACGACTCACTATAGGGCAGCGTGGTCGCGGCCGAGGA`, **AdRb** `TCCTCGGCCGCG` and **AdR_PCR** `GGTCGCGGCCGAGGATC`, each credited to "Vogel et al., 2007" 🟢 — the oligos scDamID says it reuses |
 | `j.cell.2015.08.040_supp_NIHMS718969-supplement-7.pdf.recaptcha.html` | a reCAPTCHA page saved under a `.pdf` name (renamed by hand) | nothing |
 
 Could not be fetched (PMC download gate; Europe PMC says the article is "not open
@@ -250,6 +250,6 @@ supplementaryFiles API and article-bin URLs were tried by hand: the API says the
 is not open access, and the bin URLs return 403. `tools/scrape_primers.py` found **no
 oligo in the paper** — the scDamID sources that count contain none. The reused
 conventional-DamID oligos were instead read in the EpiDamID key-resources table already
-in `_data/sources/` (`--find GGTCGCGGCCGAGGATC` hits it), which prints them with their
+in `/husky/henriksson/NGS101_papers/sources/` (`--find GGTCGCGGCCGAGGATC` hits it), which prints them with their
 Vogel-2007 attribution; `catalogue/extra_sources.tsv` now declares both that table and
 the Vogel paper for this slug.

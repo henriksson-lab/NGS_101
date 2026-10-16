@@ -5,7 +5,7 @@
     {
       "id": "preprint",
       "role": "defining",
-      "locator": "_data/sources/cropseq-multi__10.1101+2024.03.17.585235/2024.03.17.585235_v2.full.pdf.txt:23-29,70-103",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cropseq-multi__10.1101+2024.03.17.585235/2024.03.17.585235_v2.full.pdf.txt:23-29,70-103",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "oligos",
       "role": "supplement",
-      "locator": "_data/sources/cropseq-multi__10.1101+2024.03.17.585235/2024.03.17.585235_media-1.xlsx.txt:29-30",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cropseq-multi__10.1101+2024.03.17.585235/2024.03.17.585235_media-1.xlsx.txt:29-30",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

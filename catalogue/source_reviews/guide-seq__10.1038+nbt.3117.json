@@ -63,7 +63,7 @@
     {
       "id": "pmc_supp_copy",
       "role": "supplement",
-      "locator": "_data/sources/guide-seq__10.1038+nbt.3117/nbt.3117_supp_NIHMS647337-supplement-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/guide-seq__10.1038+nbt.3117/nbt.3117_supp_NIHMS647337-supplement-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "illumina_guide",
       "role": "vendor",
-      "locator": "_data/sources/guide-seq__10.1038+nbt.3117/illumina_indexed-sequencing-overview-guide-15057455-08.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/guide-seq__10.1038+nbt.3117/illumina_indexed-sequencing-overview-guide-15057455-08.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -101,7 +101,7 @@
     {
       "id": "illumina_custom_spiking",
       "role": "linked_material",
-      "locator": "_data/sources/guide-seq__10.1038+nbt.3117/illumina_000001542.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/guide-seq__10.1038+nbt.3117/illumina_000001542.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "illumina_guide",
@@ -121,7 +121,7 @@
     {
       "id": "illumina_paired_end_overview",
       "role": "linked_material",
-      "locator": "_data/sources/guide-seq__10.1038+nbt.3117/illumina_000002099.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/guide-seq__10.1038+nbt.3117/illumina_000002099.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "illumina_guide",
@@ -141,7 +141,7 @@
     {
       "id": "miseq_custom_primer_landing",
       "role": "linked_material",
-      "locator": "_data/sources/guide-seq__10.1038+nbt.3117/illumina_using_customprimers_miseq_15041638.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/guide-seq__10.1038+nbt.3117/illumina_using_customprimers_miseq_15041638.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "illumina_custom_spiking",
@@ -161,7 +161,7 @@
     {
       "id": "miseq_custom_primer_v01",
       "role": "linked_material",
-      "locator": "_data/sources/guide-seq__10.1038+nbt.3117/illumina_miseq-system-custom-primers-guide-15041638-01.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/guide-seq__10.1038+nbt.3117/illumina_miseq-system-custom-primers-guide-15041638-01.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "miseq_custom_primer_landing",

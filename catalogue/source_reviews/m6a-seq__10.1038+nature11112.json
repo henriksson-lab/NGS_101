@@ -59,7 +59,7 @@
     {
       "id": "moesm77",
       "role": "supplement",
-      "locator": "_data/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM77_ESM.ppt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM77_ESM.ppt",
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Original PowerPoint binary exists locally. catppt and UTF-16 strings expose only the presentation template, not embedded slide image content; LibreOffice headless conversion produced no output in this sandbox. Visual source review remains pending, so this item is unreadable for the two-pass gate despite being downloaded.",
@@ -69,7 +69,7 @@
     {
       "id": "moesm78",
       "role": "supplement",
-      "locator": "_data/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM78_ESM.ppt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM78_ESM.ppt",
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Original PowerPoint binary exists locally. catppt and UTF-16 strings expose only the presentation template, not embedded slide image content; LibreOffice headless conversion produced no output in this sandbox. Visual source review remains pending, so this item is unreadable for the two-pass gate despite being downloaded.",
@@ -79,7 +79,7 @@
     {
       "id": "moesm79",
       "role": "supplement",
-      "locator": "_data/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM79_ESM.ppt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM79_ESM.ppt",
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Original PowerPoint binary exists locally. catppt and UTF-16 strings expose only the presentation template, not embedded slide image content; LibreOffice headless conversion produced no output in this sandbox. Visual source review remains pending, so this item is unreadable for the two-pass gate despite being downloaded.",
@@ -89,7 +89,7 @@
     {
       "id": "moesm80",
       "role": "supplement",
-      "locator": "_data/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM80_ESM.ppt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM80_ESM.ppt",
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Original PowerPoint binary exists locally. catppt and UTF-16 strings expose only the presentation template, not embedded slide image content; LibreOffice headless conversion produced no output in this sandbox. Visual source review remains pending, so this item is unreadable for the two-pass gate despite being downloaded.",
@@ -99,7 +99,7 @@
     {
       "id": "moesm82",
       "role": "supplement",
-      "locator": "_data/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM82_ESM.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM82_ESM.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original source is a genomic peak/result table; no library chemistry columns in inspected headers.",
@@ -119,7 +119,7 @@
     {
       "id": "moesm83",
       "role": "supplement",
-      "locator": "_data/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM83_ESM.xls",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM83_ESM.xls",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original source is a genomic peak/result table; no library chemistry columns in inspected headers.",
@@ -139,7 +139,7 @@
     {
       "id": "moesm84",
       "role": "supplement",
-      "locator": "_data/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM84_ESM.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM84_ESM.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original source is a genomic peak/result table; no library chemistry columns in inspected headers.",
@@ -159,7 +159,7 @@
     {
       "id": "moesm85",
       "role": "supplement",
-      "locator": "_data/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM85_ESM.xls",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM85_ESM.xls",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original source is a genomic peak/result table; no library chemistry columns in inspected headers.",
@@ -179,7 +179,7 @@
     {
       "id": "moesm86",
       "role": "supplement",
-      "locator": "_data/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM86_ESM.xls",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6a-seq__10.1038+nature11112/nature11112_41586_2012_BFnature11112_MOESM86_ESM.xls",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original source is a genomic peak/result table; no library chemistry columns in inspected headers.",

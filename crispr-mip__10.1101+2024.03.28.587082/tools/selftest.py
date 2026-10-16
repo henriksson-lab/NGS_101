@@ -9,7 +9,6 @@ Run:  python3 crispr-mip__10.1101+2024.03.28.587082/tools/selftest.py
 """
 from __future__ import annotations
 
-import os
 import re
 import sys
 from pathlib import Path
@@ -18,6 +17,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 sys.path.insert(0, str(HERE.parents[1] / "tools"))
+from storage import data_root, legacy_reference
 
 from doctext import read as read_source_document
 
@@ -31,13 +31,13 @@ from plasmid import amplify, find_both
 from padlock import Padlock, capture, survives_exonuclease
 from plasmid import Plasmid, read_genbank
 
-_source_bundle = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources" / HERE.parent.name
+_source_bundle = data_root() / "sources" / HERE.parent.name
 _source_vector = _source_bundle / "addgene-52961_lentiCRISPRv2.gb"
-_legacy_vector = HERE.parents[1] / "lenticrispr-v1-screening__10.1126+science.1247005" / "ref" / "plasmids" / "addgene-52961_lentiCRISPRv2.gb"
+_legacy_vector = legacy_reference("lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/addgene-52961_lentiCRISPRv2.gb")
 VEC = Source(_source_vector if _source_vector.exists() else _legacy_vector,
              "Addgene #52961 verified record244694; registered source URLs and source-bundle MANIFEST.tsv; legacy sibling ref/plasmids/MANIFEST.md records export provenance")
 _source_table = _source_bundle / "2024.03.28.587082_media-2.xlsx"
-_legacy_table = HERE.parent / "ref" / "TableS2_primers_and_probes.xlsx"
+_legacy_table = legacy_reference(HERE.parent.name + "/ref/TableS2_primers_and_probes.xlsx")
 XLSX = Source(_source_table if _source_table.exists() else _legacy_table,
               "Supplementary Table S2 (media-2.xlsx) of doi:10.1101/2024.03.28.587082")
 N_SPACER = cm.EXAMPLE_SPACER             # Brunello spacers are not G-initiated

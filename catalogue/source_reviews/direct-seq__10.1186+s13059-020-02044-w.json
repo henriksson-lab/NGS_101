@@ -5,7 +5,7 @@
     {
       "id": "defining2020",
       "role": "defining",
-      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_PMC7278172.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_PMC7278172.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "moesm1",
       "role": "supplement",
-      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "moesm2",
       "role": "supplement",
-      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM2_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM2_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "moesm3",
       "role": "supplement",
-      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "moesm4",
       "role": "supplement",
-      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -101,7 +101,7 @@
     {
       "id": "moesm5",
       "role": "supplement",
-      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -121,7 +121,7 @@
     {
       "id": "moesm6",
       "role": "supplement",
-      "locator": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM6_ESM.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_supp_13059_2020_2044_MOESM6_ESM.docx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -149,7 +149,7 @@
     {
       "id": "tenx_cg000184",
       "role": "vendor",
-      "locator": "_data/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -201,7 +201,7 @@
     {
       "reviewer": "audit_tenx_closeout",
       "date": "2026-10-16",
-      "locations": "_data/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_PMC7278172.xml.txt Methods lines132–144; s13059-020-02044-w_supp_13059_2020_2044_MOESM4_ESM.xlsx.txt TableS3d P5_Read1/tRNA_Read2/P7_Read2_Index1/2 rows; existing CG000184 bead-handle source declaration",
+      "locations": "/husky/henriksson/NGS101_papers/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_PMC7278172.xml.txt Methods lines132–144; s13059-020-02044-w_supp_13059_2020_2044_MOESM4_ESM.xlsx.txt TableS3d P5_Read1/tRNA_Read2/P7_Read2_Index1/2 rows; existing CG000184 bead-handle source declaration",
       "finding": "Read original article scRNA-seq-on10x Methods and TableS3d source primers. Replaced generic Nextera endpoint with local TruSeq assembly consistent with CG000184 bead handle and P5_Read1. Local construction checks source PCR-primer footprints; a Nextera substitution is a failing regression. Removed duplicate copied capture tract after the primer-derivedpolyT30 in the representative guide cDNA."
     }
   ]

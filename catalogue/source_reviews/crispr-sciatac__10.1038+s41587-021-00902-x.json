@@ -118,7 +118,7 @@
       "id": "cusanovich_2015_sciatac",
       "role": "predecessor",
       "discovered_from": "paper",
-      "locator": "Cusanovich et al. sci-ATAC-seq doi:10.1126/science.aab1601; original cached _data/sources/sci-atac-seq-family__10.1126+science.aab1601/science.aab1601_PMC4836442.xml.txt",
+      "locator": "Cusanovich et al. sci-ATAC-seq doi:10.1126/science.aab1601; original cached /husky/henriksson/NGS101_papers/sources/sci-atac-seq-family__10.1126+science.aab1601/science.aab1601_PMC4836442.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

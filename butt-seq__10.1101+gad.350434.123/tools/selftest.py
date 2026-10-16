@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import os
 import sys
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
+from storage import data_root
 import chem
 import seqprimers as sp
 from checks import Check, Source, have
 
 check = Check()
-source_dir = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources" / HERE.parent.name
+source_dir = data_root() / "sources" / HERE.parent.name
 article = Source(source_dir / "gad.350434.123_PMC10270195.xml.txt",
                  "https://pmc.ncbi.nlm.nih.gov/articles/PMC10270195/")
 workbook = Source(source_dir / "gad.350434.123_supp_supp_gad.350434.123_Supplemental_Primers.xlsx.txt",

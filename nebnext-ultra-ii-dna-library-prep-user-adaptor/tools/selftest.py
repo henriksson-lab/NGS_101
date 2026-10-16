@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Source transcription checks against the original selected NEB oligo manual."""
 from __future__ import annotations
-import os
 import re
 import sys
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
+from storage import data_root
 import nebnext_user as N
 from checks import Check, Source, have
 check = Check()
-bundle = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources" / HERE.parent.name
+bundle = data_root() / "sources" / HERE.parent.name
 source = Source(bundle / "manuale7600.pdf.txt", "NEB E7600 v6.0_6/24; ref/MANIFEST.md")
 if have(check, source, label="selected original NEB oligo manual"):
     original = re.sub(r"\s+", "", source.path.read_text())

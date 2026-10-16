@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Original-source checks for i-BLESS declarations and restored reaction order."""
-import os
 import re
 import sys
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
+from storage import data_root
 from checks import Check, Source, have
 import chem
 c = Check()
-bundle = Path(os.environ.get('CHEM_DATA', HERE.parents[1] / '_data')) / 'sources' / HERE.parent.name
+bundle = data_root() / 'sources' / HERE.parent.name
 paper = Source(bundle / 'article.xml.txt', 'Original i-BLESS Methods')
 supp = Source(bundle / 'supplement.pdf.txt', 'Original i-BLESS Supplementary Table 4')
 if have(c, paper, supp, label='Original i-BLESS sources'):

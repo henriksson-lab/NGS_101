@@ -15,7 +15,7 @@
     {
       "id": "supplementary_figures_tables",
       "role": "supplement",
-      "locator": "_data/sources/umi-4c__10.1038+nmeth.3922/nmeth.3922_41592_2016_BFnmeth3922_MOESM330_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/umi-4c__10.1038+nmeth.3922/nmeth.3922_41592_2016_BFnmeth3922_MOESM330_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -35,7 +35,7 @@
     {
       "id": "supplementary_software",
       "role": "supplement",
-      "locator": "_data/sources/umi-4c__10.1038+nmeth.3922/nmeth.3922_41592_2016_BFnmeth3922_MOESM331_ESM_umi4c-usage.html.txt (from the original publisher ZIP)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/umi-4c__10.1038+nmeth.3922/nmeth.3922_41592_2016_BFnmeth3922_MOESM331_ESM_umi4c-usage.html.txt (from the original publisher ZIP)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

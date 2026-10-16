@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/pbat__10.1093+nar+gks454/nar_gks454_PMC3458524.xml.txt lines 50-52,88-90,164; PDF scraper BioPEA2N4 at line 155",
+        "locations": "/husky/henriksson/NGS101_papers/sources/pbat__10.1093+nar+gks454/nar_gks454_PMC3458524.xml.txt lines 50-52,88-90,164; PDF scraper BioPEA2N4 at line 155",
         "finding": "Main Methods print biotin-N4 first primer, PE-reverse-N4 second primer and Primer-3; demonstration is PCR-free and unindexed."
       },
       "pass_2": {
@@ -30,7 +30,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/pbat__10.1093+nar+gks454/nar_gks454_supp_supp_gks454_nar-02274-met-k-2011-File006.pdf.txt lines 1-35 and Supplementary Figure S3; scraper run",
+        "locations": "/husky/henriksson/NGS101_papers/sources/pbat__10.1093+nar+gks454/nar_gks454_supp_supp_gks454_nar-02274-met-k-2011-File006.pdf.txt lines 1-35 and Supplementary Figure S3; scraper run",
         "finding": "Supplement describes controls and plausible opposite-strand products, plus locus qPCR primers. It does not turn qPCR primers into required library steps."
       },
       "pass_2": {

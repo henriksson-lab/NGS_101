@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """Check ORGANIC's later Orsi illustration against its actual source; not a 2014 index assignment."""
-import os
 import re
 import sys
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / 'lib')]
+from storage import data_root
 from checks import Check, Source, have
 from chemdraw import revcomp
 import chem
 
 check = Check()
-data = Path(os.environ.get('CHEM_DATA', HERE.parents[1] / '_data'))
+data = data_root()
 source = Source(data / 'sources' / HERE.parent.name / 'PMC4410783_PMC4410783.xml.txt',
                 'Original Orsi et al. Basic Protocol3, doi:10.1002/0471142727.mb2131s110; PMC4410783, adapter/PCR oligos812–832')
 if have(check, source, label='Original Orsi adapter and PCR oligos'):

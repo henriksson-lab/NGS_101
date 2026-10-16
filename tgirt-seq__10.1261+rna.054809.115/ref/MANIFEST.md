@@ -4,8 +4,8 @@ Third-party originals remain under `$CHEM_DATA/sources/`, never in the repositor
 
 ```sh
 python3 tools/get_sources.py --slugs tgirt-seq__10.1261+rna.054809.115
-python3 tools/doctext.py _data/sources/tgirt-seq__10.1261+rna.054809.115/
-python3 tools/scrape_primers.py _data/sources/tgirt-seq__10.1261+rna.054809.115/
+python3 tools/doctext.py /husky/henriksson/NGS101_papers/sources/tgirt-seq__10.1261+rna.054809.115/
+python3 tools/scrape_primers.py /husky/henriksson/NGS101_papers/sources/tgirt-seq__10.1261+rna.054809.115/
 ```
 
 The registered `pmccloud:PMC4691826` route now recovers the defining article

@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Compare the representative CODEC oligos with original Supplementary Table 5."""
-import os
 import re
 import sys
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
+from storage import data_root
 import chem as C
 from checks import Check, Source, have
 check = Check()
-root = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data"))
+root = data_root()
 src = Source(root / "sources" / HERE.parent.name / "s41588-023-01376-0_supp_41588_2023_1376_MOESM1_ESM.pdf.txt",
              "Original CODEC Supplementary Table 5; tools/get_sources.py --slugs " + HERE.parent.name)
 if have(check, src, label="original Supplementary Table 5"):

@@ -13,7 +13,7 @@
     {
       "id": "supp1",
       "role": "supplement",
-      "locator": "_data/sources/disco__10.1038+s41592-021-01391-1/s41592-021-01391-1_41592_2021_1391_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/disco__10.1038+s41592-021-01391-1/s41592-021-01391-1_41592_2021_1391_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -32,7 +32,7 @@
     {
       "id": "supp2",
       "role": "supplement",
-      "locator": "_data/sources/disco__10.1038+s41592-021-01391-1/s41592-021-01391-1_41592_2021_1391_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/disco__10.1038+s41592-021-01391-1/s41592-021-01391-1_41592_2021_1391_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

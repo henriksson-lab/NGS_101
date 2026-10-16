@@ -5,7 +5,7 @@
     {
       "id": "guide",
       "role": "defining",
-      "locator": "_data/sources/illumina-dna-prep-shotgun-metagenomics/illumina_1000000025416_12_idp.pdf.txt:97-131,295-386,507",
+      "locator": "/husky/henriksson/NGS101_papers/sources/illumina-dna-prep-shotgun-metagenomics/illumina_1000000025416_12_idp.pdf.txt:97-131,295-386,507",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "application_note",
       "role": "linked_material",
-      "locator": "_data/sources/illumina-dna-prep-shotgun-metagenomics/illumina_novaseq-shotgun-metagenomics-app-note-m-na-00010.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/illumina-dna-prep-shotgun-metagenomics/illumina_novaseq-shotgun-metagenomics-app-note-m-na-00010.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "guide",
@@ -44,7 +44,7 @@
     {
       "id": "adapters",
       "role": "linked_material",
-      "locator": "_data/sources/illumina-dna-prep-shotgun-metagenomics/illumina_Nextera_Illumina-Sequences.htm.txt and illumina_IDTIllumina-UDIndexes.htm.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/illumina-dna-prep-shotgun-metagenomics/illumina_Nextera_Illumina-Sequences.htm.txt and illumina_IDTIllumina-UDIndexes.htm.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "guide",

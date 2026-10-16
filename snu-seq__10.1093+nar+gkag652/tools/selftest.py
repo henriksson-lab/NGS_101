@@ -4,11 +4,12 @@ from pathlib import Path
 import os,re,sys
 H=Path(__file__).resolve().parent
 sys.path[:0]=[str(H),str(H.parents[1]/'lib')]
+from storage import data_root
 import chem as M
 from checks import Check,Source,have
 from protocol_graph import StepKind
 c=Check()
-b=Path(os.environ.get('CHEM_DATA',H.parents[1]/'_data'))/'sources'/H.parent.name
+b=data_root()/'sources'/H.parent.name
 ion=Source(b/'012UG036V0130_QuantSeq-IonTorrent.pdf.txt','Registered Lexogen June2018 guide')
 fwd=Source(b/'015UG009V0260_QuantSeq_Illumina_2021-08-16.pdf.txt','Registered Lexogen August2021 FWD guide')
 supp=Source(b/'PMC13309788_supp_gkag652_supplemental_file.pdf.txt','Registered original2026 supplement')

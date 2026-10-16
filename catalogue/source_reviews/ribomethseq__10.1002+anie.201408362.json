@@ -45,7 +45,7 @@
     {
       "id": "later_same_group_supplements",
       "role": "supplement",
-      "locator": "_data/sources/ribomethseq__10.1002+anie.201408362/nar_gkw547_supp_supp_gkw547_nar-00545-met-k-2016-File008.doc.txt and File009.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribomethseq__10.1002+anie.201408362/nar_gkw547_supp_supp_gkw547_nar-00545-met-k-2016-File008.doc.txt and File009.pdf.txt",
       "availability": "available",
       "relevance": "relevant",
       "reason": "Two original supplements of already cited later study recovered by DOI/PMCCloud; original chemistry/relevance reading and independent passes pending. Not substitutes for2015 Wiley original."

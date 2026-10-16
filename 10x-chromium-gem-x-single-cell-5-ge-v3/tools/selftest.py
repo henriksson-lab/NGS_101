@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Check complete source-printed endpoints and catalog-linked primers against originals."""
 from pathlib import Path
-import os
 import re
 import sys
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
+from storage import data_root
 import tenx_5p_v3 as V
 from checks import Check, Source, have
 check = Check()
-source_root = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources" / HERE.parent.name
+source_root = data_root() / "sources" / HERE.parent.name
 
 def normalise(s):
     s = s.replace("rG", "G").replace("cDNA_Insert", "CDNAINSERT")

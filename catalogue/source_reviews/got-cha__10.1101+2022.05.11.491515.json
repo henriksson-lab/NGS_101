@@ -35,7 +35,7 @@
     {
       "id": "10x_cg000209_g",
       "role": "linked_material",
-      "locator": "10x CG000209 Rev G PDF under _data/sources/10x-chromium-single-cell-atac/",
+      "locator": "10x CG000209 Rev G PDF under /husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-atac/",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

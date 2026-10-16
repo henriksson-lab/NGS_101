@@ -29,6 +29,7 @@ sys.path.insert(0, str(_HERE.parents[1] / "lib"))
 sys.path.append(str(_HERE.parents[1] / "crispr-mip__10.1101+2024.03.28.587082" / "tools"))
 
 import crisprmip as cm
+from storage import legacy_reference
 import illumina as il
 import seqprimers as sp
 from chemdraw import Construct, Segment, feature, revcomp
@@ -91,8 +92,7 @@ def insert(spacer: str = "N" * SPACER_LEN, rsl: str = "N" * RSL_LEN) -> str:
 PARENT_MAP_ORIGIN = ("Addgene #52963 (lentiGuide-Puro), full sequence -- see "
                      "ref/MANIFEST.md in this directory")
 PARENT_MAP_CANDIDATES = (
-    _HERE.parents[1] / "lenticrispr-v1-screening__10.1126+science.1247005" / "ref"
-    / "plasmids" / "addgene-52963_lentiGuide-Puro.gb",
+    legacy_reference("lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/addgene-52963_lentiGuide-Puro.gb"),
 )
 
 

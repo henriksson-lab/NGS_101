@@ -5,7 +5,7 @@
     {
       "id": "srivatsan2019",
       "role": "defining",
-      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/science.aax6234_PMC7289078.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-plex__10.1126+science.aax6234/science.aax6234_PMC7289078.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "author_plate1",
       "role": "linked_material",
-      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate1_for_ordering.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-plex__10.1126+science.aax6234/gh_plate1_for_ordering.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "author_plate2",
       "role": "linked_material",
-      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate2_for_ordering.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-plex__10.1126+science.aax6234/gh_plate2_for_ordering.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "author_plate3",
       "role": "linked_material",
-      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate3_for_ordering.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-plex__10.1126+science.aax6234/gh_plate3_for_ordering.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -84,7 +84,7 @@
     {
       "id": "author_plate4",
       "role": "linked_material",
-      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate4_for_ordering.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-plex__10.1126+science.aax6234/gh_plate4_for_ordering.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -104,7 +104,7 @@
     {
       "id": "author_plate5",
       "role": "linked_material",
-      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate5_for_ordering.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-plex__10.1126+science.aax6234/gh_plate5_for_ordering.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -124,7 +124,7 @@
     {
       "id": "author_plate6",
       "role": "linked_material",
-      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate6_for_ordering.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-plex__10.1126+science.aax6234/gh_plate6_for_ordering.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -144,7 +144,7 @@
     {
       "id": "author_plate7",
       "role": "linked_material",
-      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate7_for_ordering.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-plex__10.1126+science.aax6234/gh_plate7_for_ordering.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -164,7 +164,7 @@
     {
       "id": "author_plate8",
       "role": "linked_material",
-      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate8_for_ordering.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-plex__10.1126+science.aax6234/gh_plate8_for_ordering.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -184,7 +184,7 @@
     {
       "id": "author_plate9",
       "role": "linked_material",
-      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate9_for_ordering.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-plex__10.1126+science.aax6234/gh_plate9_for_ordering.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -204,7 +204,7 @@
     {
       "id": "author_plate10",
       "role": "linked_material",
-      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate10_for_ordering.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-plex__10.1126+science.aax6234/gh_plate10_for_ordering.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -224,7 +224,7 @@
     {
       "id": "author_plate11",
       "role": "linked_material",
-      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate11_for_ordering.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-plex__10.1126+science.aax6234/gh_plate11_for_ordering.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -244,7 +244,7 @@
     {
       "id": "author_plate12",
       "role": "linked_material",
-      "locator": "_data/sources/sci-plex__10.1126+science.aax6234/gh_plate12_for_ordering.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-plex__10.1126+science.aax6234/gh_plate12_for_ordering.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

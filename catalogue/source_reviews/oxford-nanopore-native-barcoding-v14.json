@@ -5,7 +5,7 @@
     {
       "id": "protocol",
       "role": "defining",
-      "locator": "_data/sources/oxford-nanopore-native-barcoding-v14/ligation-sequencing-gdna-native-barcoding-v14-sqk-nbd114-24.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-native-barcoding-v14/ligation-sequencing-gdna-native-barcoding-v14-sqk-nbd114-24.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "kit_page",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-native-barcoding-v14/native-barcoding-kit-24-v14.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-native-barcoding-v14/native-barcoding-kit-24-v14.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "chemistry_doc",
       "role": "linked_material",
-      "locator": "_data/sources/oxford-nanopore-native-barcoding-v14/chemistry-technical-document.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxford-nanopore-native-barcoding-v14/chemistry-technical-document.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

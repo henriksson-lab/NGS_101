@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Source readout and optional pellet-fate regressions."""
 from pathlib import Path
-import os
 import re
 import sys
 H=Path(__file__).resolve().parent
 sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import cut_run as M
 from checks import Check, Source, have
 from protocol_graph import Disposition
 c=Check()
-root=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"/H.parent.name
+root=data_root()/"sources"/H.parent.name
 source=Source(root/"eLife.21856_v3.xml.txt","tools/get_sources.py --slugs "+H.parent.name)
 if have(c,source,label="original eLife v3 methods and appendices"):
     text=source.path.read_text()

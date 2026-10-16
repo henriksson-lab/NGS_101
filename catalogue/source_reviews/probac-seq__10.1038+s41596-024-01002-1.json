@@ -5,7 +5,7 @@
     {
       "id": "samanta2024",
       "role": "defining",
-      "locator": "_data/sources/probac-seq__10.1038+s41596-024-01002-1/s41596-024-01002-1_PMC13621791.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/probac-seq__10.1038+s41596-024-01002-1/s41596-024-01002-1_PMC13621791.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "moesm1",
       "role": "supplement",
-      "locator": "_data/sources/probac-seq__10.1038+s41596-024-01002-1/s41596-024-01002-1_41596_2024_1002_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/probac-seq__10.1038+s41596-024-01002-1/s41596-024-01002-1_41596_2024_1002_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "moesm2",
       "role": "supplement",
-      "locator": "_data/sources/probac-seq__10.1038+s41596-024-01002-1/s41596-024-01002-1_41596_2024_1002_MOESM2_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/probac-seq__10.1038+s41596-024-01002-1/s41596-024-01002-1_41596_2024_1002_MOESM2_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "moesm3",
       "role": "supplement",
-      "locator": "_data/sources/probac-seq__10.1038+s41596-024-01002-1/s41596-024-01002-1_41596_2024_1002_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/probac-seq__10.1038+s41596-024-01002-1/s41596-024-01002-1_41596_2024_1002_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -89,7 +89,7 @@
     {
       "id": "tenx_v31",
       "role": "vendor",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049/10x_CG000204_ChromiumNextGEMSingleCell3_v3.1_Rev_D.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049/10x_CG000204_ChromiumNextGEMSingleCell3_v3.1_Rev_D.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -4,7 +4,7 @@ Retrieve originals without committing them:
 
 ```sh
 python3 tools/get_sources.py --slugs cagescan__10.1038+nmeth.1470
-python3 tools/scrape_primers.py _data/sources/cagescan__10.1038+nmeth.1470
+python3 tools/scrape_primers.py /husky/henriksson/NGS101_papers/sources/cagescan__10.1038+nmeth.1470
 ```
 
 - Defining article: https://doi.org/10.1038/nmeth.1470 (PMC2906222).

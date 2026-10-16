@@ -62,7 +62,7 @@
     {
       "id": "springer_moesm75",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM75_ESM.xlsx.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM75_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Result workbook, not library-construction chemistry.",
@@ -82,7 +82,7 @@
     {
       "id": "springer_moesm76",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM76_ESM.xlsx.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM76_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Result workbook, not library-construction chemistry.",
@@ -102,7 +102,7 @@
     {
       "id": "springer_moesm77",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM77_ESM.xlsx.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM77_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Result workbook, not library-construction chemistry.",
@@ -122,7 +122,7 @@
     {
       "id": "springer_moesm81",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM81_ESM.xlsx.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM81_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Result workbook, not library-construction chemistry.",
@@ -142,7 +142,7 @@
     {
       "id": "springer_moesm78",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM78_ESM.pdf.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_41592_2017_BFnmeth4278_MOESM78_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -161,7 +161,7 @@
     {
       "id": "pmc_supp1",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-1.doc.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-1.doc.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Contents/manifest only.",
@@ -181,7 +181,7 @@
     {
       "id": "pmc_supp2",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-2.doc.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-2.doc.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -200,7 +200,7 @@
     {
       "id": "pmc_supp4",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-4.pdf.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-4.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original supplement is a 17-page visualization of genomic off-target site alignments, not reagent or library oligos.",
@@ -220,7 +220,7 @@
     {
       "id": "pmc_supp5",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-5.pdf.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-5.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -239,7 +239,7 @@
     {
       "id": "pmc_table2",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table2.xlsx.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Results or validation material; not the main CIRCLE library construction.",
@@ -259,7 +259,7 @@
     {
       "id": "pmc_table3",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table3.xlsx.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table3.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Results or validation material; not the main CIRCLE library construction.",
@@ -279,7 +279,7 @@
     {
       "id": "pmc_table4",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table4.xlsx.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table4.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Results or validation material; not the main CIRCLE library construction.",
@@ -299,7 +299,7 @@
     {
       "id": "pmc_table5",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table5.xlsx.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table5.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Results or validation material; not the main CIRCLE library construction.",
@@ -319,7 +319,7 @@
     {
       "id": "pmc_table6",
       "role": "supplement",
-      "locator": "Original _data/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table6.xlsx.txt",
+      "locator": "Original /husky/henriksson/NGS101_papers/sources/crispr-circle-seq__10.1038+nmeth.4278/nmeth.4278_supp_NIHMS866510-supplement-supp_table6.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Results or validation material; not the main CIRCLE library construction.",

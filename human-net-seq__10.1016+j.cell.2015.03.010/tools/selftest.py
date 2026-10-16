@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Original modified oligos, retained circle junction and bounded read preview."""
 from pathlib import Path
-import os
 import re
 import sys
 H=Path(__file__).resolve().parent
 sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import human_net_seq as N
 import seqprimers as sp
 from checks import Check, Source, have
 c=Check()
-root=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"/H.parent.name
+root=data_root()/"sources"/H.parent.name
 original=Source(root/"594009_59c7fec32bcc42cf8c824804675fe319.pdf.txt","Registered author-hosted Mayer2015 Cell PDF; tools/get_sources.py --slugs "+H.parent.name)
 predecessor=Source(root/"2012-native-elongating-transcript-sequencing-net-seq.pdf.txt","Registered official Churchman lab 2012 original PDF")
 if have(c,original,label="original 2015 modified oligos and readout"):

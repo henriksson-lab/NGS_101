@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/lianti__10.1126+science.aak9787/science.aak9787_PMC5538131.xml.txt:46-52,76-80",
+      "locator": "/husky/henriksson/NGS101_papers/sources/lianti__10.1126+science.aak9787/science.aak9787_PMC5538131.xml.txt:46-52,76-80",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -32,7 +32,7 @@
     {
       "id": "upstream",
       "role": "other",
-      "locator": "_data/sources/lianti__10.1126+science.aak9787/upstream_LIANTI.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/lianti__10.1126+science.aak9787/upstream_LIANTI.html.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "scg_lib_structs schematic is secondary reconstruction, not an original source for molecular sequences.",

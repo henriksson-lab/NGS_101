@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import os
 import re
 import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import rapid_v14 as M
 from checks import Check, Source, have
 c=Check(); c.section("SQK-RAD114 source transcription")
-bundle=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"/H.parent.name
+bundle=data_root()/"sources"/H.parent.name
 chemistry=Source(bundle/"chemistry-technical-document.html.txt",M.CHEMISTRY_SOURCE)
 if have(c,chemistry,label="original adapter table"):
     match=re.search(r"Rapid Adapter \(RA\)\s+Top strand:\s*5[’′']-([ACGT]+)-3",chemistry.path.read_text())

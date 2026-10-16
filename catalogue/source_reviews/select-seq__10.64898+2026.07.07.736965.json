@@ -5,7 +5,7 @@
     {
       "id": "defining_preprint",
       "role": "defining",
-      "locator": "_data/sources/select-seq__10.64898+2026.07.07.736965/2026.07.07.736965_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/select-seq__10.64898+2026.07.07.736965/2026.07.07.736965_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/select-seq__10.64898+2026.07.07.736965/2026.07.07.736965_media-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/select-seq__10.64898+2026.07.07.736965/2026.07.07.736965_media-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_table_1",
       "role": "supplement",
-      "locator": "_data/sources/select-seq__10.64898+2026.07.07.736965/2026.07.07.736965_media-2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/select-seq__10.64898+2026.07.07.736965/2026.07.07.736965_media-2.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "smartseq3_v3",
       "role": "predecessor",
-      "locator": "_data/sources/select-seq__10.64898+2026.07.07.736965/protocolsio_smart-seq3-protocol-36wgq5rjxgk5.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/select-seq__10.64898+2026.07.07.736965/protocolsio_smart-seq3-protocol-36wgq5rjxgk5.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

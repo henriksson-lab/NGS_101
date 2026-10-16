@@ -5,7 +5,7 @@
     {
       "id": "emp_workbook",
       "role": "defining",
-      "locator": "_data/sources/earth-microbiome-project-its/ITS1f_ITS2_Nov2016.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/earth-microbiome-project-its/ITS1f_ITS2_Nov2016.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -60,7 +60,7 @@
     {
       "id": "caporaso",
       "role": "linked_material",
-      "locator": "Original Caporaso et al 2012 publisher Supplementary Methods DOC, local _data/sources/earth-microbiome-project-its/41396_2012_BFismej20128_MOESM84_ESM.doc.txt (catdoc conversion); publisher URL in catalogue/extra_sources.tsv",
+      "locator": "Original Caporaso et al 2012 publisher Supplementary Methods DOC, local /husky/henriksson/NGS101_papers/sources/earth-microbiome-project-its/41396_2012_BFismej20128_MOESM84_ESM.doc.txt (catdoc conversion); publisher URL in catalogue/extra_sources.tsv",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": null,

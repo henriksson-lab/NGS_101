@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Transcription checks against the defining original, not the rendered model."""
-import os
 from pathlib import Path
 import re
 import sys
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / 'lib')]
+from storage import data_root
 from checks import Check, Source, have
 import chem
 
 check = Check()
-bundle = Path(os.environ.get('CHEM_DATA', HERE.parents[1] / '_data')) / 'sources' / HERE.parent.name
+bundle = data_root() / 'sources' / HERE.parent.name
 source = Source(bundle / 'nmeth.3478_PMC4624326.xml.txt',
                 'doi:10.1038/nmeth.3478; ref/MANIFEST.md')
 if have(check, source, label='defining Methods original'):

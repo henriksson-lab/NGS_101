@@ -5,7 +5,7 @@
     {
       "id": "fu_2022_article",
       "role": "defining",
-      "locator": "_data/sources/pixel-seq__10.1016+j.cell.2022.10.021/j.cell.2022.10.021_PMC9691594.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pixel-seq__10.1016+j.cell.2022.10.021/j.cell.2022.10.021_PMC9691594.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -85,7 +85,7 @@
       "id": "gu_2014_polony_method",
       "role": "predecessor",
       "discovered_from": "fu_2022_article",
-      "locator": "_data/sources/doi_10.1038+nature13761/nature13761_PMC4246050.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nature13761/nature13761_PMC4246050.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": null,

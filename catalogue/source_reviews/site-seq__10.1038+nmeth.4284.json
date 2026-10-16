@@ -15,7 +15,7 @@
     {
       "id": "supp_protocol",
       "role": "supplement",
-      "locator": "_data/sources/site-seq__10.1038+nmeth.4284/nmeth.4284_41592_2017_BFnmeth4284_MOESM94_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/site-seq__10.1038+nmeth.4284/nmeth.4284_41592_2017_BFnmeth4284_MOESM94_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -34,7 +34,7 @@
     {
       "id": "supp_oligos",
       "role": "supplement",
-      "locator": "_data/sources/site-seq__10.1038+nmeth.4284/nmeth.4284_41592_2017_BFnmeth4284_MOESM93_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/site-seq__10.1038+nmeth.4284/nmeth.4284_41592_2017_BFnmeth4284_MOESM93_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

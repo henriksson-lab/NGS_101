@@ -5,6 +5,22 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-16 — Store downloaded originals outside the checkout
+
+**Decision.** Articles, supplements, text conversions and other untracked large
+files live under `/husky/henriksson/NGS101_papers/`. Source bundles retain
+`sources/<slug>/` and their manifests; extracted text stays beside its original.
+`CHEM_DATA` can explicitly select a different storage root. Source tools and readers
+use `lib/storage.py` directly, without repository-local copies, fallback paths or
+compatibility links. Scattered older references retain their original relative
+layout under the external root's `legacy/` directory. Their provenance remains in
+the checked-in reference manifests.
+
+**Why.** The checkout's filesystem filled with downloaded documents and datasets.
+Keeping reads and writes at one external location avoids duplicate collections
+and makes the source location explicit. The migration preserves document content
+and does not supply any source-reading or chemistry-validation evidence.
+
 ## 2026-10-16 — Protocol declarations own their chemistry
 
 **Decision.** Decouple shared protocol recipes across chemistries. Each protocol

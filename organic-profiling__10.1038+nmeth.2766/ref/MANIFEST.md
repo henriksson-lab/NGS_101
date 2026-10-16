@@ -4,7 +4,7 @@ Recover registered originals with:
 
 ```sh
 python3 tools/get_sources.py --slugs organic-profiling__10.1038+nmeth.2766
-python3 tools/scrape_primers.py _data/sources/organic-profiling__10.1038+nmeth.2766/
+python3 tools/scrape_primers.py /husky/henriksson/NGS101_papers/sources/organic-profiling__10.1038+nmeth.2766/
 ```
 
 - Defining source: doi:10.1038/nmeth.2766, PMC3929178. The author manuscript's extracted body omits Online Methods; published MOESM254 p. 3 is the original detailed workflow figure.

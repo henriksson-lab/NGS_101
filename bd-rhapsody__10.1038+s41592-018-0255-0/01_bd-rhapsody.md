@@ -45,7 +45,7 @@ stops: it does not substitute a reconstruction for a vendor statement.
 
 ### Sources read
 
-All in `_data/sources/bd-rhapsody__10.1038+s41592-018-0255-0/` (never committed).
+All in `/husky/henriksson/NGS101_papers/sources/bd-rhapsody__10.1038+s41592-018-0255-0/` (never committed).
 The BD files are on disk under `upstream_data_*` names because they were first fetched by
 hand (curl); `catalogue/extra_sources.tsv` declares them as `scg:data/BD/*`, and the
 manifest's `(duplicate) scg_…` rows record the mirrored copies as md5-identical. Their

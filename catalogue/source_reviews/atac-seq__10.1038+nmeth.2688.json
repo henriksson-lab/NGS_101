@@ -11,7 +11,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/atac-seq__10.1038+nmeth.2688/nmeth.2688_PMC3959825.xml.txt Methods and supplementary references; scraper directory hit supplement",
+        "locations": "/husky/henriksson/NGS101_papers/sources/atac-seq__10.1038+nmeth.2688/nmeth.2688_PMC3959825.xml.txt Methods and supplementary references; scraper directory hit supplement",
         "finding": "Original describes Tn5 tagmentation and indexed library PCR."
       },
       "pass_2": {
@@ -30,7 +30,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/atac-seq__10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt lines 1-20; scraper Ad1_noMX line 3",
+        "locations": "/husky/henriksson/NGS101_papers/sources/atac-seq__10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt lines 1-20; scraper Ad1_noMX line 3",
         "finding": "Table 1 prints universal Ad1 and indexed Ad2 primer sequences; no need to infer these from a successor."
       },
       "pass_2": {

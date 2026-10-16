@@ -5,13 +5,13 @@
     {
       "id": "cg000185_revb",
       "role": "defining",
-      "locator": "_data/sources/10x-chromium-single-cell-3-v3-cell-surface-protein/scg_CG000185_ChromiumSingleCell3__FeatureBarcode_CellSurfaceProtein_Rev_B.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-v3-cell-surface-protein/scg_CG000185_ChromiumSingleCell3__FeatureBarcode_CellSurfaceProtein_Rev_B.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/10x-chromium-single-cell-3-v3-cell-surface-protein/scg_CG000185_ChromiumSingleCell3__FeatureBarcode_CellSurfaceProtein_Rev_B.pdf.txt appendix lines 5819–6060",
+        "locations": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-v3-cell-surface-protein/scg_CG000185_ChromiumSingleCell3__FeatureBarcode_CellSurfaceProtein_Rev_B.pdf.txt appendix lines 5819–6060",
         "finding": "Vendor Rev B guide appendix prints the modified TSO and gel bead/final GEX and Feature Barcode library architectures; oligo scraper points to TSO at line 5901 and architecture from 5985. This is a genuine manufacturer PDF mirrored locally, not the upstream schematic."
       },
       "pass_2": {
@@ -24,13 +24,13 @@
     {
       "id": "cg000185_reva",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-3-v3-cell-surface-protein/scg_CG000185_ChromiumSingleCell3__FeatureBarcode_CellSurfaceProtein_RevA.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-v3-cell-surface-protein/scg_CG000185_ChromiumSingleCell3__FeatureBarcode_CellSurfaceProtein_RevA.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/10x-chromium-single-cell-3-v3-cell-surface-protein/scg_CG000185_ChromiumSingleCell3__FeatureBarcode_CellSurfaceProtein_RevA.pdf.txt lines 1-27, 1445-1475, 5829-5875, 5880-5901, 5965-5985, 6030-6060; scraper hits at 5836, 5856, 5862, 5971-5972, 6055",
+        "locations": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-v3-cell-surface-protein/scg_CG000185_ChromiumSingleCell3__FeatureBarcode_CellSurfaceProtein_RevA.pdf.txt lines 1-27, 1445-1475, 5829-5875, 5880-5901, 5965-5985, 6030-6060; scraper hits at 5836, 5856, 5862, 5971-5972, 6055",
         "finding": "Independently read official 10x CG000185 Rev A (copyright 2018). Its appendix prints the poly(dT) and Capture Seq 1 bead primers with 16-base cell barcode and 12-base UMI, modified TSO, illustrative antibody oligo with N10–feature barcode N15–N9 and Capture Seq 1 reverse complement, GEX ligation adapter duplex, and final feature library. Rev A cites CG000149 for antibody labeling/conjugation (lines 1472-1475). It does not assign a printed feature barcode to any supplier SKU; its representative N15 is a placeholder. Comparison with Rev B source checklist shows the same core v3 Capture Seq 1 geometry, not proof of an exact antibody SKU mapping."
       },
       "pass_2": {

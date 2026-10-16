@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_PMC8021198.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_PMC8021198.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -124,7 +124,7 @@
     {
       "id": "source_6",
       "role": "linked_material",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/2020.08.10.243931_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/2020.08.10.243931_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -144,7 +144,7 @@
     {
       "id": "source_7",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s006.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s006.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -164,7 +164,7 @@
     {
       "id": "source_8",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s007.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s007.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -183,7 +183,7 @@
     {
       "id": "source_9",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s008.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s008.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -203,7 +203,7 @@
     {
       "id": "source_10",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s009.doc.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s009.doc.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -222,7 +222,7 @@
     {
       "id": "source_11",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s010.xlsb",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s010.xlsb",
       "availability": "unavailable",
       "relevance": "relevant",
       "pass_1": {
@@ -242,7 +242,7 @@
     {
       "id": "source_12",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s011.xlsb",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s011.xlsb",
       "availability": "unavailable",
       "relevance": "relevant",
       "pass_1": {
@@ -262,7 +262,7 @@
     {
       "id": "source_13",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s012.xlsb",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s012.xlsb",
       "availability": "unavailable",
       "relevance": "relevant",
       "pass_1": {
@@ -282,7 +282,7 @@
     {
       "id": "source_14",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s013.xlsb",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s013.xlsb",
       "availability": "unavailable",
       "relevance": "relevant",
       "pass_1": {
@@ -302,7 +302,7 @@
     {
       "id": "source_15",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s014.xlsb",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s014.xlsb",
       "availability": "unavailable",
       "relevance": "relevant",
       "pass_1": {
@@ -322,7 +322,7 @@
     {
       "id": "source_16",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s015.xlsb",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s015.xlsb",
       "availability": "unavailable",
       "relevance": "relevant",
       "pass_1": {
@@ -342,7 +342,7 @@
     {
       "id": "source_17",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s016.xlsb",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s016.xlsb",
       "availability": "unavailable",
       "relevance": "relevant",
       "pass_1": {
@@ -362,7 +362,7 @@
     {
       "id": "source_18",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s017.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s017.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -381,7 +381,7 @@
     {
       "id": "source_19",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s018.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s018.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -400,7 +400,7 @@
     {
       "id": "source_20",
       "role": "supplement",
-      "locator": "_data/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s019.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trael-seq__10.1371+journal.pbio.3000886/journal.pbio.3000886_supp_pbio.3000886.s019.docx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

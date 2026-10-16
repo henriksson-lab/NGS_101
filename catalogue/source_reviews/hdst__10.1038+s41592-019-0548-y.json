@@ -5,7 +5,7 @@
     {
       "id": "vickovic_2019_article",
       "role": "defining",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_PMC6765407.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_PMC6765407.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "vickovic_2019_pdf",
       "role": "other",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_PMC6765407.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_PMC6765407.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "vickovic_2019_preprint",
       "role": "other",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/563338_v2.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/563338_v2.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "supplementary_figures",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-1.docx.txt; Springer MOESM1 PDF text",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-1.docx.txt; Springer MOESM1 PDF text",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -83,7 +83,7 @@
     {
       "id": "reporting_summary",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_41592_2019_548_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_41592_2019_548_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -103,7 +103,7 @@
     {
       "id": "supplement_2_results",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -123,7 +123,7 @@
     {
       "id": "supplement_3_results",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-3.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -143,7 +143,7 @@
     {
       "id": "supplement_4_results",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-4.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-4.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -163,7 +163,7 @@
     {
       "id": "supplement_5_results",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-5.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-5.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -183,7 +183,7 @@
     {
       "id": "supplement_6_results",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-6.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-6.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -203,7 +203,7 @@
     {
       "id": "supplement_7_results",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-7.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-7.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -223,7 +223,7 @@
     {
       "id": "supplement_8_results",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-8.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-8.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -243,7 +243,7 @@
     {
       "id": "supplement_9_results",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-9.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-9.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -263,7 +263,7 @@
     {
       "id": "supplement_10_results",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-10.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-10.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -283,7 +283,7 @@
     {
       "id": "supplement_11_results",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-11.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-11.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -303,7 +303,7 @@
     {
       "id": "supplement_12_results",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-12.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-12.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -323,7 +323,7 @@
     {
       "id": "supplement_13_results",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-13.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-13.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -343,7 +343,7 @@
     {
       "id": "supplement_14_results",
       "role": "supplement",
-      "locator": "_data/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-14.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hdst__10.1038+s41592-019-0548-y/s41592-019-0548-y_supp_NIHMS1536533-supplement-14.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -363,7 +363,7 @@
     {
       "id": "jemt_2016_st_library",
       "role": "predecessor",
-      "locator": "_data/sources/doi_10.1038+srep37137/srep37137_PMC5111054.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+srep37137/srep37137_PMC5111054.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": null,
@@ -378,7 +378,7 @@
     {
       "id": "jemt_2016_supp",
       "role": "linked_material",
-      "locator": "_data/sources/doi_10.1038+srep37137/srep37137_supp_srep37137-s1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+srep37137/srep37137_supp_srep37137-s1.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Original Jemt supplement is Magnatrix robot setup/import guide; it does not give library oligos or additional reaction chemistry. Independent first pass remains pending.",

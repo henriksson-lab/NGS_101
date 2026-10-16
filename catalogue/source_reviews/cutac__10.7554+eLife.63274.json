@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/cutac__10.7554+eLife.63274/eLife.63274_v2.xml.txt:298-315,317",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cutac__10.7554+eLife.63274/eLife.63274_v2.xml.txt:298-315,317",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -38,7 +38,7 @@
     {
       "id": "cutac_protocol",
       "role": "linked_material",
-      "locator": "_data/sources/cutac__10.7554+eLife.63274/protocolsio_cut-amp-tag-direct-with-cutac-bmbfk2jn.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cutac__10.7554+eLife.63274/protocolsio_cut-amp-tag-direct-with-cutac-bmbfk2jn.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "article",
@@ -72,7 +72,7 @@
     {
       "id": "patn5_protocol",
       "role": "linked_material",
-      "locator": "_data/sources/cutac__10.7554+eLife.63274/protocolsio_3xflag-patn5-protein-purification-and-meds-loading-j8nlke4e5l5r.pdf.txt:911-1040",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cutac__10.7554+eLife.63274/protocolsio_3xflag-patn5-protein-purification-and-meds-loading-j8nlke4e5l5r.pdf.txt:911-1040",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "article",

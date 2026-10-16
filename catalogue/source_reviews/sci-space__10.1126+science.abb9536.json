@@ -5,7 +5,7 @@
     {
       "id": "srivatsan_2021_article",
       "role": "defining",
-      "locator": "_data/sources/sci-space__10.1126+science.abb9536/science.abb9536_PMC9118175.xml.txt; author PDF srivatsan_regier_scispace_2021.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-space__10.1126+science.abb9536/science.abb9536_PMC9118175.xml.txt; author PDF srivatsan_regier_scispace_2021.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -106,7 +106,7 @@
       "id": "cao_2017_predecessor",
       "role": "predecessor",
       "discovered_from": "srivatsan_2021_article",
-      "locator": "_data/sources/sci-rna-seq-family__10.1126+science.aam8940/science.aam8940_PMC5894354.xml.txt; doi:10.1126/science.aam8940",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-rna-seq-family__10.1126+science.aam8940/science.aam8940_PMC5894354.xml.txt; doi:10.1126/science.aam8940",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Original defining JATS is now local and read for two-level indexing; its original supplementary chemistry and any variant-specific primer families remain to inspect.",

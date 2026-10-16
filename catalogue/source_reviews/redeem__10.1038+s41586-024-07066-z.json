@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_PMC10937407.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_PMC10937407.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "author_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_data1",
       "role": "supplement",
-      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "multiome_rev_a",
       "role": "vendor",
-      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevA.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redeem__10.1038+s41586-024-07066-z/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevA.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "supp_methods",
@@ -82,7 +82,7 @@
     {
       "id": "multiome_rev_b",
       "role": "vendor",
-      "locator": "_data/sources/10x-chromium-single-cell-multiome-atac-gene-expression/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevB.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-multiome-atac-gene-expression/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevB.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -101,7 +101,7 @@
     {
       "id": "xgen",
       "role": "vendor",
-      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/xgen-hybridization-capture-of-dna-libraries-protocol.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redeem__10.1038+s41586-024-07066-z/xgen-hybridization-capture-of-dna-libraries-protocol.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_2": {
@@ -120,7 +120,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -139,7 +139,7 @@
     {
       "id": "supp_figs",
       "role": "supplement",
-      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "MOESM2 is a three-page Nature Portfolio Reporting Summary covering statistics, data availability, participants and antibodies, not supplementary figures or oligo methods.",
@@ -159,7 +159,7 @@
     {
       "id": "peer_review",
       "role": "supplement",
-      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM4_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM4_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -179,7 +179,7 @@
     {
       "id": "data2",
       "role": "supplement",
-      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM6_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM6_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -199,7 +199,7 @@
     {
       "id": "data3",
       "role": "supplement",
-      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM7_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM7_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -219,7 +219,7 @@
     {
       "id": "data4",
       "role": "supplement",
-      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM8_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM8_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -239,7 +239,7 @@
     {
       "id": "data5",
       "role": "supplement",
-      "locator": "_data/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM9_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redeem__10.1038+s41586-024-07066-z/s41586-024-07066-z_supp_41586_2024_7066_MOESM9_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -268,7 +268,7 @@
     {
       "id": "mimitou_dogma",
       "role": "predecessor",
-      "locator": "_data/sources/dogma-seq__10.1038+s41587-021-00927-2/s41587-021-00927-2_PMC8763625.xml.txt (Mimitou et al., doi:10.1038/s41587-021-00927-2)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dogma-seq__10.1038+s41587-021-00927-2/s41587-021-00927-2_PMC8763625.xml.txt (Mimitou et al., doi:10.1038/s41587-021-00927-2)",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "original",
@@ -288,7 +288,7 @@
     {
       "id": "mimitou_dogma_supp",
       "role": "linked_material",
-      "locator": "_data/sources/dogma-seq__10.1038+s41587-021-00927-2/s41587-021-00927-2_41587_2021_927_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dogma-seq__10.1038+s41587-021-00927-2/s41587-021-00927-2_41587_2021_927_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "mimitou_dogma",

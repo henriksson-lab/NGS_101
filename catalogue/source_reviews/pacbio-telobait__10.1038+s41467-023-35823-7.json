@@ -11,13 +11,13 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-023-35823-7/fulltext.xml.txt lines 218-228",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-023-35823-7/fulltext.xml.txt lines 218-228",
         "finding": "Line 224 co-incubates RsaI/HinfI, phased telobaits and ligase overnight, captures on streptavidin, then gap-fills before EcoRI release; original page/model order corrected."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-023-35823-7/fulltext.xml.txt lines 218-228",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-023-35823-7/fulltext.xml.txt lines 218-228",
         "finding": "Defining Methods say six reverse telomeric offsets and 3-prime biotin/5-prime phosphate forward telobaits are synthesized from Supplementary Data 2; PacBio HiFi after capture."
       }
     },
@@ -30,13 +30,13 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-023-35823-7/supp_data_2.xlsx.txt sheets Set 1-12 and Set 13-24, lines 1-100; scraper F010 at line 66",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-023-35823-7/supp_data_2.xlsx.txt sheets Set 1-12 and Set 13-24, lines 1-100; scraper F010 at line 66",
         "finding": "Full /5Phos/ and /3Bio/ forward baits and six reverse phase variants per barcode are printed."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-023-35823-7/supp_data_2.xlsx.txt lines 1-12 and 66-73",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-023-35823-7/supp_data_2.xlsx.txt lines 1-12 and 66-73",
         "finding": "Original author table prints F01-F48 phospho/biotin oligos and six R reverse offsets per set; no need to infer telobait bases."
       }
     },
@@ -50,13 +50,13 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-023-35823-7/supp_data_1.xlsx.txt sheet titles and first rows",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-023-35823-7/supp_data_1.xlsx.txt sheet titles and first rows",
         "finding": "Run and sample data; not an oligo ordering sheet."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-023-35823-7/supp_data_1.xlsx.txt lines 1-6",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-023-35823-7/supp_data_1.xlsx.txt lines 1-6",
         "finding": "Supplementary Data 1 is a ZMW/results sheet, not adapter sequence source."
       }
     },

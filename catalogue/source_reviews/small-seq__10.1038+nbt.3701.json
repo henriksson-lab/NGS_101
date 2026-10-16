@@ -5,7 +5,7 @@
     {
       "id": "faridani_main",
       "role": "defining",
-      "locator": "_data/sources/small-seq__10.1038+nbt.3701/download.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/small-seq__10.1038+nbt.3701/download.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Original publisher PDF recovered from institutional library; read after full bundle oligo scraper.",
@@ -44,10 +44,10 @@
     {
       "id": "hagemann_protocol",
       "role": "linked_material",
-      "locator": "_data/sources/small-seq__10.1038+nbt.3701/hagemann_s41596-018-0049-y.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/small-seq__10.1038+nbt.3701/hagemann_s41596-018-0049-y.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
-      "reason": "Recovered pre-existing ignored original publisher PDF pdf/hagemann s41596-018-0049-y.pdf; title/DOI verified. Acquisition route of old manual file was not logged. Prior unavailable classification was a source-discovery failure.",
+      "reason": "Recovered pre-existing ignored original publisher PDF /husky/henriksson/NGS101_papers/legacy/pdf/hagemann s41596-018-0049-y.pdf; title/DOI verified. Acquisition route of old manual file was not logged. Prior unavailable classification was a source-discovery failure.",
       "discovered_from": "faridani_main",
       "pass_1": {
         "reviewer": "audit_editing_closeout",
@@ -174,7 +174,7 @@
     {
       "id": "landgraf2007",
       "role": "linked_material",
-      "locator": "_data/sources/small-seq__10.1038+nbt.3701/j.cell.2007.04.040_PMC2681231.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/small-seq__10.1038+nbt.3701/j.cell.2007.04.040_PMC2681231.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "hagemann_protocol",
@@ -195,7 +195,7 @@
     {
       "id": "hafner2011",
       "role": "linked_material",
-      "locator": "_data/sources/small-seq__10.1038+nbt.3701/PMC3162335.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/small-seq__10.1038+nbt.3701/PMC3162335.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "hagemann_protocol",
@@ -216,7 +216,7 @@
     {
       "id": "munafo2010",
       "role": "linked_material",
-      "locator": "_data/sources/small-seq__10.1038+nbt.3701/PMC2995414.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/small-seq__10.1038+nbt.3701/PMC2995414.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "hagemann_protocol",
@@ -259,7 +259,7 @@
     {
       "id": "illumina_smallrna_guide",
       "role": "vendor",
-      "locator": "_data/sources/small-seq__10.1038+nbt.3701/illumina_truseq-small-rna-library-prep-kit-reference-guide-15004197-02.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/small-seq__10.1038+nbt.3701/illumina_truseq-small-rna-library-prep-kit-reference-guide-15004197-02.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "hagemann_protocol",

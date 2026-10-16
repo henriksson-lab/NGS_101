@@ -2,13 +2,13 @@
 """Guard the xpress endpoint against its original author-linked order workbook."""
 from pathlib import Path
 import csv
-import os
 import build_page as model
+from storage import data_root
 from checks import Check, Source, have
 from chemdraw import Construct, Segment
 
 check = Check()
-data = Path(os.environ.get("CHEM_DATA", model.HERE.parents[1] / "_data"))
+data = data_root()
 source = Source(data / "sources" / model.HERE.parent.name / "gh7u2zw6.xls.txt",
                 "Original protocol DOI yxmvmk1yng3p/v1; 384set_Nextera_BC_order.xls attachment https://content.protocols.io/files/gh7u2zw6.xls")
 if have(check, source, label="Original custom index order workbook"):

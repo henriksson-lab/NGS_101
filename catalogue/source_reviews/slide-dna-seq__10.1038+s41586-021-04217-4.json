@@ -5,7 +5,7 @@
     {
       "id": "source_1",
       "role": "linked_material",
-      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/protocolsio_frozen-tissue-nuclei-extraction-for-10xv3-snseq-rm7vz861xvx1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slide-dna-seq__10.1038+s41586-021-04217-4/protocolsio_frozen-tissue-nuclei-extraction-for-10xv3-snseq-rm7vz861xvx1.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -26,7 +26,7 @@
     {
       "id": "source_2",
       "role": "supplement",
-      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_41586_2021_4217_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_41586_2021_4217_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -53,7 +53,7 @@
     {
       "id": "source_3",
       "role": "supplement",
-      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_41586_2021_4217_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_41586_2021_4217_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -72,7 +72,7 @@
     {
       "id": "source_4",
       "role": "supplement",
-      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_41586_2021_4217_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_41586_2021_4217_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -91,7 +91,7 @@
     {
       "id": "source_5",
       "role": "supplement",
-      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_41586_2021_4217_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_41586_2021_4217_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -111,7 +111,7 @@
     {
       "id": "source_6",
       "role": "defining",
-      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_PMC9301586.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slide-dna-seq__10.1038+s41586-021-04217-4/s41586-021-04217-4_PMC9301586.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -196,7 +196,7 @@
     {
       "id": "linked_slide_seq_predecessor",
       "role": "predecessor",
-      "locator": "Rodriques et al., Science 2019, DOI 10.1126/science.aaw1219; _data/sources/slide-seq__10.1126+science.aaw1219/science.aaw1219_PMC6927209.xml.txt",
+      "locator": "Rodriques et al., Science 2019, DOI 10.1126/science.aaw1219; /husky/henriksson/NGS101_papers/sources/slide-seq__10.1126+science.aaw1219/science.aaw1219_PMC6927209.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_2",
@@ -211,7 +211,7 @@
     {
       "id": "linked_atac_pcr_predecessor",
       "role": "predecessor",
-      "locator": "_data/sources/doi_10.1002+0471142727.mb2129s109/0471142727.mb2129s109_PMC4374986.xml.txt; DOI 10.1002/0471142727.mb2129s109",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1002+0471142727.mb2129s109/0471142727.mb2129s109_PMC4374986.xml.txt; DOI 10.1002/0471142727.mb2129s109",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_2",
@@ -226,7 +226,7 @@
     {
       "id": "linked_bead_index_code",
       "role": "linked_material",
-      "locator": "https://github.com/broadchenf/Slideseq; cached original gh_ReadMe.txt and gh_BeadSeq.m in _data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/",
+      "locator": "https://github.com/broadchenf/Slideseq; cached original gh_ReadMe.txt and gh_BeadSeq.m in /husky/henriksson/NGS101_papers/sources/slide-dna-seq__10.1038+s41586-021-04217-4/",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_3",
@@ -266,7 +266,7 @@
     {
       "id": "linked_zenodo_archive",
       "role": "linked_material",
-      "locator": "https://doi.org/10.5281/zenodo.5553305; metadata and publication-era ZIP cached as _data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/5553305.html and slide_dna_seq_analysis-v1.0.zip",
+      "locator": "https://doi.org/10.5281/zenodo.5553305; metadata and publication-era ZIP cached as /husky/henriksson/NGS101_papers/sources/slide-dna-seq__10.1038+s41586-021-04217-4/5553305.html and slide_dna_seq_analysis-v1.0.zip",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_3",
@@ -286,7 +286,7 @@
     {
       "id": "linked_sn_rna_nuclei_protocol",
       "role": "linked_material",
-      "locator": "_data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/protocolsio_frozen-tissue-nuclei-extraction-for-10xv3-snseq-bck6iuze.pdf.txt; DOI 10.17504/protocols.io.bck6iuze",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slide-dna-seq__10.1038+s41586-021-04217-4/protocolsio_frozen-tissue-nuclei-extraction-for-10xv3-snseq-bck6iuze.pdf.txt; DOI 10.17504/protocols.io.bck6iuze",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "The cited original v1 is explicitly a frozen-nuclei preparation protocol for 10x v3 single-nucleus RNA sequencing; Zhao places the citation in Supplementary Methods §1.9, its companion snRNA branch. It does not define Slide-DNA-seq bead/Tn5/bridge/PCR chemistry.",
@@ -307,7 +307,7 @@
     {
       "id": "linked_sra_project",
       "role": "linked_material",
-      "locator": "PRJNA768453; _data/sources/slide-dna-seq__10.1038+s41586-021-04217-4/filereport.tsv and SRX12501989.xml.txt (original ENA SRA mirror metadata)",
+      "locator": "PRJNA768453; /husky/henriksson/NGS101_papers/sources/slide-dna-seq__10.1038+s41586-021-04217-4/filereport.tsv and SRX12501989.xml.txt (original ENA SRA mirror metadata)",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_3",

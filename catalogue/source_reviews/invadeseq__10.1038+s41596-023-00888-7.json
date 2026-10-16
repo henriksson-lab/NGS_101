@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/invadeseq__10.1038+s41596-023-00888-7/s41596-023-00888-7_PMC10790651.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/invadeseq__10.1038+s41596-023-00888-7/s41596-023-00888-7_PMC10790651.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -193,7 +193,7 @@
     {
       "id": "tenx_revk",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-5-ge-v1/CG000086_ChromiumSingleCellV_D_J_ReagentKits_UG_RevK.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-ge-v1/CG000086_ChromiumSingleCellV_D_J_ReagentKits_UG_RevK.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -224,7 +224,7 @@
     {
       "id": "author_analysis_code",
       "role": "linked_material",
-      "locator": "_data/sources/invadeseq__10.1038+s41596-023-00888-7/37049d3d8e7f78f09a1f5dc505e5544b9b503434.zip",
+      "locator": "/husky/henriksson/NGS101_papers/sources/invadeseq__10.1038+s41596-023-00888-7/37049d3d8e7f78f09a1f5dc505e5544b9b503434.zip",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

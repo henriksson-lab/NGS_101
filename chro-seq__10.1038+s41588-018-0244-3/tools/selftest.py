@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """Check transcribed predecessor oligos and original ChRO-specific source boundaries."""
-import os
 import re
 import sys
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
+from storage import data_root
 from checks import Check, Source, have
 from protocol_graph import StepKind
 import chem
 
 check = Check()
-base = Path(os.environ.get("CHEM_DATA", HERE.parents[1] / "_data")) / "sources"
+base = data_root() / "sources"
 bundle = base / HERE.parent.name
 original = bundle / "PMC5502525_PMC5502525.xml.txt"
 if not original.exists():

@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_PMC4887338.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_PMC4887338.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_protocol",
       "role": "supplement",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_supp_NIHMS765516-supplement-2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_supp_NIHMS765516-supplement-2.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "encode_sop",
       "role": "linked_material",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/eCLIP_SOP_v1.P_110915.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/eCLIP_SOP_v1.P_110915.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "pmc_supp1",
       "role": "supplement",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_supp_NIHMS765516-supplement-1.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_supp_NIHMS765516-supplement-1.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "supp_processing_protocol2",
       "role": "supplement",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_supp_NIHMS765516-supplement-2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_supp_NIHMS765516-supplement-2.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",
@@ -102,7 +102,7 @@
     {
       "id": "author_pipeline_barcodes",
       "role": "linked_material",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/gh_yeolabbarcodes_20170101.fasta",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/gh_yeolabbarcodes_20170101.fasta",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "supp_processing_protocol2",
@@ -124,7 +124,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm181",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM181_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM181_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -143,7 +143,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm182",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM182_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM182_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -162,7 +162,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm183",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM183_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM183_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -181,7 +181,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm184",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM184_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM184_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -200,7 +200,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm185",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM185_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM185_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -219,7 +219,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm186",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM186_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM186_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -238,7 +238,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm187",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM187_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM187_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -257,7 +257,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm188",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM188_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM188_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -276,7 +276,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm189",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM189_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM189_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -295,7 +295,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm190",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM190_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM190_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -314,7 +314,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm191",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM191_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM191_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -333,7 +333,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm192",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM192_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM192_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -352,7 +352,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm193",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM193_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM193_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -371,7 +371,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm194",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM194_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM194_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -390,7 +390,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm195",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM195_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM195_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -409,7 +409,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm196",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM196_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM196_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -428,7 +428,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm197",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM197_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM197_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -447,7 +447,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm198",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM198_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM198_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -466,7 +466,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm199",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM199_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM199_ESM.pdf.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -485,7 +485,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm200",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM200_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM200_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -504,7 +504,7 @@
       "availability": "read",
       "relevance": "relevant",
       "id": "publisher_moesm201",
-      "locator": "_data/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM201_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3810_41592_2016_BFnmeth3810_MOESM201_ESM.xlsx.txt",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
@@ -541,7 +541,7 @@
     {
       "id": "iclip_konig_2010_supplement",
       "role": "supplement",
-      "locator": "König et al. 2010 original Supplementary Text and Figures, including Supplementary Methods, linked from https://www.nature.com/articles/nsmb.1838; publisher file https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnsmb.1838/MediaObjects/41594_2010_BFnsmb1838_MOESM21_ESM.pdf; recovered original PDF: _data/sources/eclip__10.1038+nmeth.3810/PMC3000544_supp_NIHMS31547-supplement-1.pdf",
+      "locator": "König et al. 2010 original Supplementary Text and Figures, including Supplementary Methods, linked from https://www.nature.com/articles/nsmb.1838; publisher file https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnsmb.1838/MediaObjects/41594_2010_BFnsmb1838_MOESM21_ESM.pdf; recovered original PDF: /husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/PMC3000544_supp_NIHMS31547-supplement-1.pdf",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "iclip_konig_2010",
@@ -581,7 +581,7 @@
     {
       "id": "rnatag_shishkin_supplement",
       "role": "supplement",
-      "locator": "Shishkin et al. 2015 original Supplementary Protocol and Supplementary Tables 1–2, linked from PMCID PMC4712044 Online Methods; CaltechAUTHORS author record https://authors.library.caltech.edu/records/83emc-s1f29 lists nmeth.3313-S1.pdf and nmeth.3313-S2.xlsx; recovered original S1: _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S1.pdf",
+      "locator": "Shishkin et al. 2015 original Supplementary Protocol and Supplementary Tables 1–2, linked from PMCID PMC4712044 Online Methods; CaltechAUTHORS author record https://authors.library.caltech.edu/records/83emc-s1f29 lists nmeth.3313-S1.pdf and nmeth.3313-S2.xlsx; recovered original S1: /husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S1.pdf",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "rnatag_shishkin_2015",
@@ -677,7 +677,7 @@
     {
       "id": "rnatag_shishkin_s3_adapter_inventory",
       "role": "supplement",
-      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S3.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S3.xlsx",
+      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S3.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local /husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S3.xlsx",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "rnatag_shishkin_2015",
@@ -697,7 +697,7 @@
     {
       "id": "rnatag_shishkin_s2_results",
       "role": "supplement",
-      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S2.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S2.xlsx",
+      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S2.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local /husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S2.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "rnatag_shishkin_2015",
@@ -718,7 +718,7 @@
     {
       "id": "rnatag_shishkin_s4_results",
       "role": "supplement",
-      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S4.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S4.xlsx",
+      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S4.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local /husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S4.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "rnatag_shishkin_2015",
@@ -739,7 +739,7 @@
     {
       "id": "rnatag_shishkin_s6_results",
       "role": "supplement",
-      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S6.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S6.xlsx",
+      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S6.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local /husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S6.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "rnatag_shishkin_2015",
@@ -760,7 +760,7 @@
     {
       "id": "rnatag_shishkin_s7_results",
       "role": "supplement",
-      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S7.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S7.xlsx",
+      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S7.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local /husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S7.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "rnatag_shishkin_2015",
@@ -781,7 +781,7 @@
     {
       "id": "rnatag_shishkin_s8_results",
       "role": "supplement",
-      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S8.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local _data/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S8.xlsx",
+      "locator": "Shishkin et al. 2015 original-author attachment nmeth.3313-S8.xlsx at https://authors.library.caltech.edu/records/83emc-s1f29; local /husky/henriksson/NGS101_papers/sources/eclip__10.1038+nmeth.3810/nmeth.3313-S8.xlsx",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "rnatag_shishkin_2015",

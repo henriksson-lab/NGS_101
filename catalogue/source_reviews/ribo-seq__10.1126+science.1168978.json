@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/ribo-seq__10.1126+science.1168978/science.1168978_PMC2746483.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-seq__10.1126+science.1168978/science.1168978_PMC2746483.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "ingolia2012",
       "role": "linked_material",
-      "locator": "_data/sources/ribo-seq__10.1126+science.1168978/PMC3535016_PMC3535016.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribo-seq__10.1126+science.1168978/PMC3535016_PMC3535016.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -59,7 +59,7 @@
     {
       "id": "2012_supp",
       "role": "supplement",
-      "locator": "Nature Protocols 2012 MOESM445_ESM.zip at _data/sources/doi_10.1038+nprot.2012.086/; nested ribosome-footprinting-galaxy.dat tar",
+      "locator": "Nature Protocols 2012 MOESM445_ESM.zip at /husky/henriksson/NGS101_papers/sources/doi_10.1038+nprot.2012.086/; nested ribosome-footprinting-galaxy.dat tar",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

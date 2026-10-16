@@ -5,7 +5,7 @@
     {
       "id": "preprint",
       "role": "defining",
-      "locator": "_data/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "primer_table",
       "role": "supplement",
-      "locator": "_data/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_media-3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_media-3.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "tag_table",
       "role": "supplement",
-      "locator": "_data/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_media-4.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_media-4.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -79,7 +79,7 @@
     {
       "id": "2020_10_01_322420_media_1_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_media-1.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_media-1.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {
@@ -99,7 +99,7 @@
     {
       "id": "2020_10_01_322420_media_2_xlsx_txt",
       "role": "supplement",
-      "locator": "_data/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_media-2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phage-atac__10.1038+s41587-021-01065-5/2020.10.01.322420_media-2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {

@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_PMC5042844.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fast-atac__10.1038+ng.3646/ng.3646_PMC5042844.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM38_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM38_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "supp_note",
       "role": "supplement",
-      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_supp_NIHMS804249-supplement-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fast-atac__10.1038+ng.3646/ng.3646_supp_NIHMS804249-supplement-1.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "motif_logo_zip",
       "role": "supplement",
-      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM46_ESM.zip",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM46_ESM.zip",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -84,7 +84,7 @@
     {
       "id": "buenrostro_2015",
       "role": "predecessor",
-      "locator": "_data/sources/doi_10.1002+0471142727.mb2129s109/0471142727.mb2129s109_PMC4374986.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1002+0471142727.mb2129s109/0471142727.mb2129s109_PMC4374986.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -104,7 +104,7 @@
     {
       "id": "buenrostro_2013_supp",
       "role": "predecessor",
-      "locator": "_data/sources/doi_10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -124,7 +124,7 @@
     {
       "id": "buenrostro_2015_single_cell",
       "role": "linked_material",
-      "locator": "_data/sources/doi_10.1038+nature14590/nature14590_PMC4685948.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nature14590/nature14590_PMC4685948.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "article",
@@ -144,7 +144,7 @@
     {
       "id": "buenrostro_2015_single_cell_supp",
       "role": "supplement",
-      "locator": "_data/sources/doi_10.1038+nature14590/nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nature14590/nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "buenrostro_2015_single_cell",
@@ -164,7 +164,7 @@
     {
       "id": "ng_3646_41588_2016_bfng3646_moesm39_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM39_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM39_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Donor/read metrics, no adapter sequences in inspected sheet header.",
@@ -184,7 +184,7 @@
     {
       "id": "ng_3646_41588_2016_bfng3646_moesm40_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM40_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM40_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Peak coordinate/signature matrix result data, not adapter chemistry.",
@@ -204,7 +204,7 @@
     {
       "id": "ng_3646_41588_2016_bfng3646_moesm41_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM41_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM41_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Transcription factor motif identifiers, not library oligos.",
@@ -224,7 +224,7 @@
     {
       "id": "ng_3646_41588_2016_bfng3646_moesm42_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM42_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM42_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Motif correlation results, not adapter chemistry.",
@@ -244,7 +244,7 @@
     {
       "id": "ng_3646_41588_2016_bfng3646_moesm43_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM43_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM43_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Clinical metadata, not library chemistry.",
@@ -264,7 +264,7 @@
     {
       "id": "ng_3646_41588_2016_bfng3646_moesm44_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM44_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM44_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Enhancer scores, not library oligos.",
@@ -284,7 +284,7 @@
     {
       "id": "ng_3646_41588_2016_bfng3646_moesm45_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM45_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fast-atac__10.1038+ng.3646/ng.3646_41588_2016_BFng3646_MOESM45_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "This is a perturbation shRNA sequence table, not the Fast-ATAC library adapter/primer family. It is source-positive sequence content with a different role.",
@@ -304,7 +304,7 @@
     {
       "id": "ng_3646_supp_nihms804249_supplement_2_doc",
       "role": "supplement",
-      "locator": "_data/sources/fast-atac__10.1038+ng.3646/ng.3646_supp_NIHMS804249-supplement-2.doc.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fast-atac__10.1038+ng.3646/ng.3646_supp_NIHMS804249-supplement-2.doc.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {

@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/ncomms9733_PMC4618392.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chec-seq__10.1038+ncomms9733/ncomms9733_PMC4618392.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/ncomms9733_supp_ncomms9733-s1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chec-seq__10.1038+ncomms9733/ncomms9733_supp_ncomms9733-s1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "author_detailed",
       "role": "detailed_protocol",
-      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/55836_PMC5608238.html.txt:1180–1254,1444,1596; doi:10.3791/55836",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chec-seq__10.1038+ncomms9733/55836_PMC5608238.html.txt:1180–1254,1444,1596; doi:10.3791/55836",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "original",
@@ -63,7 +63,7 @@
     {
       "id": "orsi_library",
       "role": "predecessor",
-      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/PMC4410783_PMC4410783.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chec-seq__10.1038+ncomms9733/PMC4410783_PMC4410783.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -97,7 +97,7 @@
     {
       "id": "geo",
       "role": "linked_material",
-      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/geo-GSE67453-all-full.txt; actual Series82–91 and all unique extraction/library/instrument/processing fields",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chec-seq__10.1038+ncomms9733/geo-GSE67453-all-full.txt; actual Series82–91 and all unique extraction/library/instrument/processing fields",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "original",
@@ -117,7 +117,7 @@
     {
       "id": "ncomms9733_supp_ncomms9733_s2_xls",
       "role": "supplement",
-      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/ncomms9733_supp_ncomms9733-s2.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chec-seq__10.1038+ncomms9733/ncomms9733_supp_ncomms9733-s2.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Inspected source header/contents describe assay result or metadata rather than library chemistry; second reader must confirm full-source exclusion.",
@@ -137,7 +137,7 @@
     {
       "id": "henikoff2011",
       "role": "predecessor",
-      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/PMC3215028_PMC3215028.html.txt:1149–1157,1232",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chec-seq__10.1038+ncomms9733/PMC3215028_PMC3215028.html.txt:1149–1157,1232",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -157,7 +157,7 @@
     {
       "id": "zentner2013",
       "role": "predecessor",
-      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/PMC3889552_PMC3889552.html.txt:1215–1217",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chec-seq__10.1038+ncomms9733/PMC3889552_PMC3889552.html.txt:1215–1217",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -177,7 +177,7 @@
     {
       "id": "corrigendum2015",
       "role": "linked_material",
-      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/PMC4703876_PMC4703876.xml.txt:whole; doi:10.1038/ncomms10264",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chec-seq__10.1038+ncomms9733/PMC4703876_PMC4703876.xml.txt:whole; doi:10.1038/ncomms10264",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -197,7 +197,7 @@
     {
       "id": "corrigendum2017",
       "role": "linked_material",
-      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/PMC5465364_PMC5465364.xml.txt:whole; doi:10.1038/ncomms15723",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chec-seq__10.1038+ncomms9733/PMC5465364_PMC5465364.xml.txt:whole; doi:10.1038/ncomms15723",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -218,7 +218,7 @@
       "id": "geo_protocol",
       "role": "detailed_protocol",
       "discovered_from": "geo",
-      "locator": "_data/sources/chec-seq__10.1038+ncomms9733/GSE67453_ChEC-seq.rtf.gz; decompressed original.rtf and .rtf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chec-seq__10.1038+ncomms9733/GSE67453_ChEC-seq.rtf.gz; decompressed original.rtf and .rtf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

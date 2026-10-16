@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/snmc-seq2__10.1038+s41467-018-06355-2/s41467-018-06355-2_PMC6147798.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/snmc-seq2__10.1038+s41467-018-06355-2/s41467-018-06355-2_PMC6147798.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_methods",
       "role": "supplement",
-      "locator": "_data/sources/snmc-seq2__10.1038+s41467-018-06355-2/s41467-018-06355-2_supp_41467_2018_6355_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/snmc-seq2__10.1038+s41467-018-06355-2/s41467-018-06355-2_supp_41467_2018_6355_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "_data/sources/snmc-seq2__10.1038+s41467-018-06355-2/294355_v2.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/snmc-seq2__10.1038+s41467-018-06355-2/294355_v2.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

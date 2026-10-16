@@ -15,7 +15,7 @@
     {
       "id": "supp1",
       "role": "supplement",
-      "locator": "_data/sources/scribo-seq__10.1038+s41586-021-03887-4/s41586-021-03887-4_41586_2021_3887_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scribo-seq__10.1038+s41586-021-03887-4/s41586-021-03887-4_41586_2021_3887_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -35,7 +35,7 @@
     {
       "id": "supp2",
       "role": "supplement",
-      "locator": "_data/sources/scribo-seq__10.1038+s41586-021-03887-4/s41586-021-03887-4_41586_2021_3887_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scribo-seq__10.1038+s41586-021-03887-4/s41586-021-03887-4_41586_2021_3887_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -55,7 +55,7 @@
     {
       "id": "oligo_table",
       "role": "supplement",
-      "locator": "_data/sources/scribo-seq__10.1038+s41586-021-03887-4/s41586-021-03887-4_41586_2021_3887_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scribo-seq__10.1038+s41586-021-03887-4/s41586-021-03887-4_41586_2021_3887_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

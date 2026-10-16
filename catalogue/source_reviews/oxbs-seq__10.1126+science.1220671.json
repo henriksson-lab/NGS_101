@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/22539555.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxbs-seq__10.1126+science.1220671/22539555.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -32,7 +32,7 @@
     {
       "id": "detailed_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/PMC3919000_PMC3919000.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxbs-seq__10.1126+science.1220671/PMC3919000_PMC3919000.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -51,7 +51,7 @@
     {
       "id": "protocol_table2",
       "role": "supplement",
-      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM16_ESM.pdf (rendered original page1; image-based table)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM16_ESM.pdf (rendered original page1; image-based table)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -70,7 +70,7 @@
     {
       "id": "detailed_protocol_pdf",
       "role": "detailed_protocol",
-      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/24008380.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxbs-seq__10.1126+science.1220671/24008380.pdf.txt",
       "availability": "available",
       "relevance": "relevant",
       "reason": "Validated Babraham institutional PDF of later Nature Protocols original recovered; existing JATS readers remain recorded separately. Full PDF and linked Supplementary Table2 still require located inspection."
@@ -78,7 +78,7 @@
     {
       "id": "supp_figure1",
       "role": "supplement",
-      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM11_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM11_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -97,7 +97,7 @@
     {
       "id": "supp_figure2",
       "role": "supplement",
-      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM12_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM12_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -110,7 +110,7 @@
     {
       "id": "supp_figure3",
       "role": "supplement",
-      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM13_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM13_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -123,7 +123,7 @@
     {
       "id": "supp_figure4",
       "role": "supplement",
-      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM14_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM14_ESM.pdf",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -136,7 +136,7 @@
     {
       "id": "supp_table1",
       "role": "supplement",
-      "locator": "_data/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM15_ESM.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/oxbs-seq__10.1126+science.1220671/nprot.2013.115_41596_2013_BFnprot2013115_MOESM15_ESM.pdf",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

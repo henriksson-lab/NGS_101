@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/plac-seq__10.1038+cr.2016.137/cr.2016.137_PMC5143423.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/plac-seq__10.1038+cr.2016.137/cr.2016.137_PMC5143423.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "_data/sources/plac-seq__10.1038+cr.2016.137/074294_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/plac-seq__10.1038+cr.2016.137/074294_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "preprint_figures",
       "role": "supplement",
-      "locator": "_data/sources/plac-seq__10.1038+cr.2016.137/074294_074294-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/plac-seq__10.1038+cr.2016.137/074294_074294-1.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "preprint_table2",
       "role": "supplement",
-      "locator": "_data/sources/plac-seq__10.1038+cr.2016.137/074294_074294-2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/plac-seq__10.1038+cr.2016.137/074294_074294-2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -84,7 +84,7 @@
     {
       "id": "preprint_table3",
       "role": "supplement",
-      "locator": "_data/sources/plac-seq__10.1038+cr.2016.137/074294_074294-3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/plac-seq__10.1038+cr.2016.137/074294_074294-3.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -136,7 +136,7 @@
     {
       "id": "rao_insitu_hic",
       "role": "linked_material",
-      "locator": "_data/sources/in-situ-hi-c__10.1016+j.cell.2014.11.021/Hi-C_Protocol.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/in-situ-hi-c__10.1016+j.cell.2014.11.021/Hi-C_Protocol.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "preprint",

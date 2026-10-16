@@ -21,7 +21,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM473_ESM.pdf.txt lines 1-8",
+        "locations": "/husky/henriksson/NGS101_papers/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM473_ESM.pdf.txt lines 1-8",
         "finding": "Caption explains P5 adapter five-base deletion and primer roles; diagram bases not reliably extracted as text."
       },
       "pass_2": {
@@ -40,7 +40,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM474_ESM.pdf.txt lines 1-12",
+        "locations": "/husky/henriksson/NGS101_papers/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM474_ESM.pdf.txt lines 1-12",
         "finding": "Library characterization, no ordering oligos in caption."
       },
       "pass_2": {
@@ -60,7 +60,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM475_ESM.pdf.txt first page",
+        "locations": "/husky/henriksson/NGS101_papers/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM475_ESM.pdf.txt first page",
         "finding": "Figure, no extracted chemistry table in first-page text."
       },
       "pass_2": {
@@ -80,7 +80,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM476_ESM.pdf.txt lines 1-8",
+        "locations": "/husky/henriksson/NGS101_papers/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM476_ESM.pdf.txt lines 1-8",
         "finding": "Indexing-cycle qPCR curve, not sequence source."
       },
       "pass_2": {
@@ -100,7 +100,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM477_ESM.pdf.txt lines 1-8",
+        "locations": "/husky/henriksson/NGS101_papers/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM477_ESM.pdf.txt lines 1-8",
         "finding": "Thermomixer settings, no oligos."
       },
       "pass_2": {
@@ -120,7 +120,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM478_ESM.pdf.txt lines 1-12,123-130,308 onward; scraper P5 family line 224",
+        "locations": "/husky/henriksson/NGS101_papers/sources/single-stranded-ancient-dna__10.1038+nprot.2013.038/nprot.2013.038_41596_2013_BFnprot2013038_MOESM478_ESM.pdf.txt lines 1-12,123-130,308 onward; scraper P5 family line 224",
         "finding": "Prints indexed P5/P7 primer families; no single fixed index pair."
       },
       "pass_2": {

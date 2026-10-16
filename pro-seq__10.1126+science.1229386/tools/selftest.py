@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Whole-source transcription checks; construction validates primer landing."""
-import os
 from pathlib import Path
 import re
 import sys
 HERE=Path(__file__).resolve().parent
 sys.path[:0]=[str(HERE),str(HERE.parents[1]/'lib')]
+from storage import data_root
 from checks import Check,Source,have
 import pro_seq
 check=Check()
-bundle=Path(os.environ.get('CHEM_DATA',HERE.parents[1]/'_data'))/'sources'/HERE.parent.name
+bundle=data_root()/'sources'/HERE.parent.name
 source=Source(bundle/'594009_926d2d49ebf94caa8e6cf707c2f4846a.pdf.txt','Original2013 SOM author-hosted copy; ref/MANIFEST.md')
 if have(check,source,label='original2013 SOM'):
     text=re.sub(r'\s+','',source.path.read_text()).replace('′',"'").replace('’',"'")

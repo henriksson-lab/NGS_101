@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """OAK source and branch-order regressions."""
 from pathlib import Path
-import os
 import sys
 
 H=Path(__file__).resolve().parent
 sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import chem as P
 from checks import Check, Source, have
 
@@ -17,7 +17,7 @@ check("Multiome transposition precedes GEM partitioning",
 check("RNA-only branch uses untransposed fixed cells",
       graph.steps["rna_droplet_partition"].inputs[0].material == "fixed_rna")
 
-source_dir=Path(os.environ.get("CHEM_DATA",H.parents[1]/"_data"))/"sources"
+source_dir=data_root()/"sources"
 paper=Source(source_dir/H.parent.name/"s41467-024-53227-z_PMC11499997.xml.txt",
              "Wu et al. OAK original Methods")
 if have(check,paper,label="OAK defining Methods"):

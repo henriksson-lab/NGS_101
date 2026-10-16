@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_PMC9288977.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_PMC9288977.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "preprint",
       "role": "other",
-      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/2021.03.08.434450_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/maester__10.1038+s41587-022-01210-8/2021.03.08.434450_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_2": {
@@ -43,7 +43,7 @@
     {
       "id": "supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "supp_figures_2",
       "role": "supplement",
-      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Three-page Nature Research Reporting Summary, not a library chemistry or oligo supplement.",
@@ -82,7 +82,7 @@
     {
       "id": "table1",
       "role": "supplement",
-      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -102,7 +102,7 @@
     {
       "id": "table2_seqwell",
       "role": "supplement",
-      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -121,7 +121,7 @@
     {
       "id": "table3_10x",
       "role": "supplement",
-      "locator": "_data/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/maester__10.1038+s41587-022-01210-8/s41587-022-01210-8_41587_2022_1210_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

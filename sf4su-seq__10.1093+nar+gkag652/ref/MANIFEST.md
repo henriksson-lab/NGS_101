@@ -2,7 +2,7 @@
 
 ```sh
 python3 tools/get_sources.py --slugs sf4su-seq__10.1093+nar+gkag652
-python3 tools/scrape_primers.py _data/sources/sf4su-seq__10.1093+nar+gkag652
+python3 tools/scrape_primers.py /husky/henriksson/NGS101_papers/sources/sf4su-seq__10.1093+nar+gkag652
 ```
 
 Originals include PMC13309788 and its Supplementary Methods, the official NEB E7300

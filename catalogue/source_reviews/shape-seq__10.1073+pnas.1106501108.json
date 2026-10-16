@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/shape-seq__10.1073+pnas.1106501108/pnas.1106501108_PMC3131332.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/shape-seq__10.1073+pnas.1106501108/pnas.1106501108_PMC3131332.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "caltech_si",
       "role": "supplement",
-      "locator": "_data/sources/shape-seq__10.1073+pnas.1106501108/pnas.1106501108_SI.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/shape-seq__10.1073+pnas.1106501108/pnas.1106501108_SI.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

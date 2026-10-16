@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/icshape__10.1038+nprot.2016.011/nprot.2016.011_PMC4896316.xml.txt:140-206,544-554,866-984",
+      "locator": "/husky/henriksson/NGS101_papers/sources/icshape__10.1038+nprot.2016.011/nprot.2016.011_PMC4896316.xml.txt:140-206,544-554,866-984",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

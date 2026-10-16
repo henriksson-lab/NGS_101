@@ -54,7 +54,7 @@
     {
       "id": "vendor_guide",
       "role": "linked_material",
-      "locator": "10x Chromium Next GEM Single Cell ATAC v1.1 User Guide CG000209 Rev G; local _data/sources/10x-chromium-single-cell-atac guide",
+      "locator": "10x Chromium Next GEM Single Cell ATAC v1.1 User Guide CG000209 Rev G; local /husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-atac guide",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

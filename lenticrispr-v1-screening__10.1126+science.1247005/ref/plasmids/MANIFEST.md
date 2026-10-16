@@ -1,8 +1,10 @@
 # Pooled CRISPR screening vectors — full-length reference sequences
 
+Source files formerly stored here now live at `/husky/henriksson/NGS101_papers/legacy/lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/`. Read and write that external directory directly; this checkout contains only the provenance notes.
+
 Full plasmid maps for checking primer-binding sites *in silico* and deriving expected PCR products.
 
-- **Directory:** `lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids` (repo-relative)
+- **Directory:** `/husky/henriksson/NGS101_papers/legacy/lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/` (external storage)
 - **Downloaded:** 2026-10-03
 - **Format:** GenBank (`.gb`), circular, with the depositor/Addgene feature annotations
 - **Primary files:** 10 plasmids, all verbatim downloads

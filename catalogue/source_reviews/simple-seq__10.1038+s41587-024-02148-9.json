@@ -19,7 +19,7 @@
     {
       "id": "publisher_reporting_summary",
       "role": "supplement",
-      "locator": "Original Springer s41587-024-02148-9_41587_2024_2148_MOESM1_ESM.pdf in _data/sources/simple-seq__10.1038+s41587-024-02148-9/",
+      "locator": "Original Springer s41587-024-02148-9_41587_2024_2148_MOESM1_ESM.pdf in /husky/henriksson/NGS101_papers/sources/simple-seq__10.1038+s41587-024-02148-9/",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Nature Portfolio reporting summary, not a supplementary chemistry protocol.",
@@ -33,7 +33,7 @@
     {
       "id": "publisher_tables",
       "role": "supplement",
-      "locator": "Original Springer s41587-024-02148-9_41587_2024_2148_MOESM2_ESM.xlsx.txt in _data/sources/simple-seq__10.1038+s41587-024-02148-9/",
+      "locator": "Original Springer s41587-024-02148-9_41587_2024_2148_MOESM2_ESM.xlsx.txt in /husky/henriksson/NGS101_papers/sources/simple-seq__10.1038+s41587-024-02148-9/",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -5,7 +5,7 @@
     {
       "id": "sureplex_guide",
       "role": "defining",
-      "locator": "_data/sources/sureplex/illumina_sureplex-protocol-reference-guide-15053626-02.pdf.txt; official Illumina document 15053626 v02 September 2020",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sureplex/illumina_sureplex-protocol-reference-guide-15053626-02.pdf.txt; official Illumina document 15053626 v02 September 2020",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "veriseq_guide",
       "role": "vendor",
-      "locator": "_data/sources/sureplex/illumina_veriseq-pgs-library-prep-reference-guide-15052877-05.pdf.txt; official Illumina document 15052877 v05 August 2021",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sureplex/illumina_veriseq-pgs-library-prep-reference-guide-15052877-05.pdf.txt; official Illumina document 15052877 v05 August 2021",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
       "id": "illumina_indexes",
       "role": "linked_material",
       "discovered_from": "veriseq_guide",
-      "locator": "_data/sources/nextera-xt-dna-library-prep/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt; official Illumina Adapter Sequences document 1000000002694 v22",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nextera-xt-dna-library-prep/illumina_1000000002694_22_ilmn-adapter-sequences.pdf.txt; official Illumina Adapter Sequences document 1000000002694 v22",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -86,7 +86,7 @@
       "id": "bluefuse_workflow",
       "role": "linked_material",
       "discovered_from": "veriseq_guide",
-      "locator": "_data/sources/sureplex/illumina_bwm-qrc-veriseq-pgs-15056206-01.pdf.txt; official Illumina document 15056206 v01",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sureplex/illumina_bwm-qrc-veriseq-pgs-15056206-01.pdf.txt; official Illumina document 15056206 v01",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -106,7 +106,7 @@
       "id": "veriseq_guidance_note",
       "role": "linked_material",
       "discovered_from": "veriseq_guide",
-      "locator": "_data/sources/sureplex/illumina_veriseq-pgs-guidance-note-1000000138837-00.pdf.txt; official Illumina document 1000000138837 v00",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sureplex/illumina_veriseq-pgs-guidance-note-1000000138837-00.pdf.txt; official Illumina document 1000000138837 v00",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

@@ -21,7 +21,7 @@ documentation: *SureCell WTA 3′ Library Prep Reference Guide*, Illumina docume
 *ddSEQ Single-Cell 3′ RNA-Seq Kit*, which is a different chemistry and is not covered
 here.
 
-Sources read (`_data/sources/surecell-3-wta-for-ddseq/`, never committed). Only the
+Sources read (`/husky/henriksson/NGS101_papers/sources/surecell-3-wta-for-ddseq/`, never committed). Only the
 first was fetched by `tools/get_sources.py`; the others were fetched by hand from the
 Illumina support page and the `vals/umis` GitHub repository and added to `MANIFEST.tsv`:
 

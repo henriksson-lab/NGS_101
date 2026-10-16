@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_PMC12791010.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_PMC12791010.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_primers",
       "role": "supplement",
-      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_supp_41592_2025_2907_MOESM3_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_supp_41592_2025_2907_MOESM3_ESM.xls.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/2024.09.16.613345_v2.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tirtl-seq__10.1038+s41592-025-02907-9/2024.09.16.613345_v2.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "preprint_primers",
       "role": "supplement",
-      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/2024.09.16.613345_media-1.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tirtl-seq__10.1038+s41592-025-02907-9/2024.09.16.613345_media-1.xls.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "manual_96well",
       "role": "detailed_protocol",
-      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/protocolsio_tirtl-seq-96-well-kqdg3k6xpv25.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tirtl-seq__10.1038+s41592-025-02907-9/protocolsio_tirtl-seq-96-well-kqdg3k6xpv25.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -110,7 +110,7 @@
     {
       "id": "s41592_025_02907_9_supp_41592_2025_2907_moesm1_esm_pdf_txt",
       "role": "supplement",
-      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_supp_41592_2025_2907_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_supp_41592_2025_2907_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Local file readable visually; only first page independently inspected. Remaining pages and relevance pending.",
@@ -130,7 +130,7 @@
     {
       "id": "s41592_025_02907_9_supp_41592_2025_2907_moesm2_esm_pdf_txt",
       "role": "supplement",
-      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_supp_41592_2025_2907_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_supp_41592_2025_2907_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Local source is present and readable; bounded sections inspected as specified in pass_1. Missing-claim gate remains blocked.",
@@ -150,7 +150,7 @@
     {
       "id": "s41592_025_02907_9_supp_41592_2025_2907_moesm4_esm_xls_txt",
       "role": "supplement",
-      "locator": "_data/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_supp_41592_2025_2907_MOESM4_ESM.xls.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tirtl-seq__10.1038+s41592-025-02907-9/s41592-025-02907-9_supp_41592_2025_2907_MOESM4_ESM.xls.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Paired TCR sequence and clinical/result table, not reagent or library-construction instructions; both readers inspected its columns and rows.",

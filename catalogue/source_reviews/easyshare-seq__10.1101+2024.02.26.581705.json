@@ -43,7 +43,7 @@
     {
       "id": "published_elife",
       "role": "other",
-      "locator": "Published eLife 2025 eLife.110034, local _data/sources/easyshare-seq__10.1101+2024.02.26.581705/elife.110034_PMC13384510.xml.txt",
+      "locator": "Published eLife 2025 eLife.110034, local /husky/henriksson/NGS101_papers/sources/easyshare-seq__10.1101+2024.02.26.581705/elife.110034_PMC13384510.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": null,

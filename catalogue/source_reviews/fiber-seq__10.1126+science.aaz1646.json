@@ -5,7 +5,7 @@
     {
       "id": "science_2020",
       "role": "defining",
-      "locator": "_data/sources/fiber-seq__10.1126+science.aaz1646/2020-single-molecule-regulatory-architectures-captured-by.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/fiber-seq__10.1126+science.aaz1646/2020-single-molecule-regulatory-architectures-captured-by.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

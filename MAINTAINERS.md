@@ -134,6 +134,7 @@ for b in */tools/build_page.py; do python3 "$b"; done
 python3 tools/protocol.py build fisseq__10.1126+science.1250212
 
 # reading sources for a protocol (details: AGENTS.md, "Reading sources")
+export CHEM_DATA=/husky/henriksson/NGS101_papers
 python3 tools/get_sources.py "sci-CAR-seq"    # paper, preprint, supplements -> $CHEM_DATA/sources/<slug>/
 python3 tools/doctext.py DIR                  # PDF/DOCX/XLSX/HTML -> FILE.txt (get_sources does this)
 # Always run this when reading a paper and its supplements for a protocol. It lists every
@@ -445,8 +446,11 @@ What that means in practice:
 - Every external dataset gets a **download script** that fetches it from its accession, and
   that script is the artefact we keep. If a result cannot be regenerated from a script in
   this repo plus a public accession, it is not finished.
-- Downloads go to a directory named by `$CHEM_DATA` (default `./_data/`), which is
-  **gitignored**. The scripts create it; nothing in it is tracked.
+- Downloads go to `$CHEM_DATA` (default `/husky/henriksson/NGS101_papers/`),
+  outside the checkout. `lib/storage.py` supplies this location to fetchers and
+  source readers. Articles and their text conversions remain together in
+  `sources/<slug>/`; older scattered references are under `legacy/<former-relative-path>`.
+  Read and write the external paths directly; do not create local copies or links.
 - Download scripts must support **subsetting** (`--max-reads`), because the real files here
   run to tens of gigabytes and almost every question can be answered on a slice.
 - Scripts record what they fetched — URL, accession, byte count, md5 where the archive

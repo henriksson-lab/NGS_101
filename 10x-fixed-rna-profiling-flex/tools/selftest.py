@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import os
 import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from storage import data_root
 import flex
 from checks import Check, Source, have
 from multimodal_page import render
@@ -18,7 +18,7 @@ print("PASS  adjacent-probe and final-primer geometry build")
 print("PASS  original-guide order: GEM partition, nick sealing, barcode transfer")
 print("PASS  separate antibody capture and protein sequencing branch")
 check = Check()
-source_dir = Path(os.environ.get("CHEM_DATA", H.parents[1] / "_data")) / "sources" / H.parent.name
+source_dir = data_root() / "sources" / H.parent.name
 labeling = Source(source_dir / "10x_CG000529_DemonstratedProtocol_CellSurfaceProteinLabelingforFixedRNA_RevC.pdf.txt",
                   "10x CG000529 Rev C p. 4")
 guide = Source(source_dir / "10x_CG000674_ChromiumFixedRNAProfiling_SingleplexedSamples_ProteinExpression_BarcodeOligoCapture_UserGuide_Rev_C.pdf.txt",

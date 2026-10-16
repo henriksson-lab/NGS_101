@@ -11,13 +11,13 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_PMC6488672.xml.txt lines 125-153; scraper zero hits",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_PMC6488672.xml.txt lines 125-153; scraper zero hits",
         "finding": "Methods specify Tn5MEDS A/B from Picelli, universal i5 and barcoded i7 from cited source 33, and link detailed protocols.io method."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_PMC6488672.xml.txt lines 125-153",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_PMC6488672.xml.txt lines 125-153",
         "finding": "Defining paper describes pA-Tn5 with preannealed Tn5MEDS-A/B adapters and i5/i7 index PCR; exact adapter oligos are inherited from Picelli and author protocol."
       },
       "additional_checks": [
@@ -44,13 +44,13 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM1_ESM.pdf.txt lines 600-640,974; scraper zero hits",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM1_ESM.pdf.txt lines 600-640,974; scraper zero hits",
         "finding": "Figures and references, no adapter oligo table in inspected chemistry sections."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM1_ESM.pdf.txt lines 600-640, 973-977",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM1_ESM.pdf.txt lines 600-640, 973-977",
         "finding": "Original supplementary figure legends and references, not an oligo list; scraper zero relevant hits."
       }
     },
@@ -64,13 +64,13 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM2_ESM.pdf.txt lines 1-25,100-150",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM2_ESM.pdf.txt lines 1-25,100-150",
         "finding": "Peer-review material rather than oligo ordering list."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM2_ESM.pdf.txt lines 1-18",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM2_ESM.pdf.txt lines 1-18",
         "finding": "Reviewer correspondence about performance and reproducibility, no primer table."
       }
     },
@@ -84,13 +84,13 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM3_ESM.pdf.txt header and first pages",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM3_ESM.pdf.txt header and first pages",
         "finding": "Peer-review material rather than oligo list."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM3_ESM.pdf.txt lines 1-18",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM3_ESM.pdf.txt lines 1-18",
         "finding": "Reporting summary, no adapter sequence list."
       },
       "scope_issue": "Old pass1 mislabels reporting summary as peer review; not a valid independent exclusion of chemistry-relevant linked content."
@@ -105,13 +105,13 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM4_ESM.xlsx.txt lines 1\u20135, Fig 2c sheet header and first chromosome rows",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM4_ESM.xlsx.txt lines 1\u20135, Fig 2c sheet header and first chromosome rows",
         "finding": "Original Supplementary Data 4 is CUT&Tag/CUT&RUN/ChIP-seq summit chromosome start/stop result table, not a protocol or oligo table; genomic sequences from scraper are irrelevant."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM4_ESM.xlsx.txt lines 1-5 and sheet headings; scraper hits at 491308 are genomic sequences",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-019-09982-5/s41467-019-09982-5_supp_41467_2019_9982_MOESM4_ESM.xlsx.txt lines 1-5 and sheet headings; scraper hits at 491308 are genomic sequences",
         "finding": "Converted 26 MB workbook is Fig. 2c peak coordinate/result table, not an oligo or methods source; scraper genomic hits are false for primer discovery."
       }
     },
@@ -187,13 +187,13 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+nature14590/nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt lines 1-194; scraper family lines 6 and 99",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nature14590/nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt lines 1-194; scraper family lines 6 and 99",
         "finding": "Original linked source prints full i5 and i7 PCR primer families, including 96 i7 variants. CUT&Tag protocol does not identify which 16 or which sample used which barcode."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "_data/sources/doi_10.1038+nature14590/nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt lines 1-8 and 99-194",
+        "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nature14590/nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt lines 1-8 and 99-194",
         "finding": "Buenrostro predecessor workbook publishes i5/i7 index primer families; author protocol cites it for CUT&Tag index PCR."
       },
       "additional_checks": [

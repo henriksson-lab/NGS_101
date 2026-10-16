@@ -5,7 +5,7 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "_data/sources/cirseq__10.1038+nprot.2014.118/nprot.2014.118_PMC4418788.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cirseq__10.1038+nprot.2014.118/nprot.2014.118_PMC4418788.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "author_pdf",
       "role": "detailed_protocol",
-      "locator": "_data/sources/cirseq__10.1038+nprot.2014.118/qt5tm0q8m0_noSplash_36e73c9d1f9d95ed1131a9aa75c12a23.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cirseq__10.1038+nprot.2014.118/qt5tm0q8m0_noSplash_36e73c9d1f9d95ed1131a9aa75c12a23.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

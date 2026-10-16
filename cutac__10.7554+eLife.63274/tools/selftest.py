@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """Whole original-source oligos, including source modification and family arms."""
 import json
-import os
 from pathlib import Path
 import re
 import sys
 HERE=Path(__file__).resolve().parent
 sys.path[:0]=[str(HERE),str(HERE.parents[1]/'lib')]
+from storage import data_root
 from checks import Check, Source, have
 import cutac
 check=Check()
-base=Path(os.environ.get('CHEM_DATA',HERE.parents[1]/'_data'))/'sources'
+base=data_root()/'sources'
 source=Source(base/HERE.parent.name/'protocolsio_29425_public.json','doi:10.17504/protocols.io.8yrhxv6; ref/MANIFEST.md')
 def source_strings(value):
     if isinstance(value,dict):

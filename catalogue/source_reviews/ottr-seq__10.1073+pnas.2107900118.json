@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/ottr-seq__10.1073+pnas.2107900118/pnas.2107900118_PMC8594491.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ottr-seq__10.1073+pnas.2107900118/pnas.2107900118_PMC8594491.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -34,7 +34,7 @@
     {
       "id": "biorxiv_v1_table_s1",
       "role": "linked_material",
-      "locator": "_data/sources/ottr-seq__10.1073+pnas.2107900118/2021.04.30.442027_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ottr-seq__10.1073+pnas.2107900118/2021.04.30.442027_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

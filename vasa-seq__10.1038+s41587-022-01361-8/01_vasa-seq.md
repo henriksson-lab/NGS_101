@@ -29,7 +29,7 @@ picoinjections, Nextera-style library).
 ## Sources
 
 Fetched by `tools/get_sources.py` into
-`_data/sources/vasa-seq__10.1038+s41587-022-01361-8/`, never committed:
+`/husky/henriksson/NGS101_papers/sources/vasa-seq__10.1038+s41587-022-01361-8/`, never committed:
 
 | File | What | Used for |
 |---|---|---|

@@ -5,7 +5,7 @@
     {
       "id": "source_1",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_media-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_media-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -25,7 +25,7 @@
     {
       "id": "source_2",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_media-2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_media-2.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -45,7 +45,7 @@
     {
       "id": "source_3",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_v2.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_v2.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -65,7 +65,7 @@
     {
       "id": "source_4",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/protocolsio_nano-cut-amp-tag-for-multimodalprofiling-of-the-c-8epv59o8dg1b.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -85,7 +85,7 @@
     {
       "id": "source_5",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_PMC10264246.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_PMC10264246.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -105,7 +105,7 @@
     {
       "id": "source_6",
       "role": "defining",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_PMC10264246.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_PMC10264246.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -124,7 +124,7 @@
     {
       "id": "source_7",
       "role": "supplement",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_supp_41587_2022_1535_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_supp_41587_2022_1535_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -143,7 +143,7 @@
     {
       "id": "source_8",
       "role": "supplement",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_supp_41587_2022_1535_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_supp_41587_2022_1535_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -163,7 +163,7 @@
     {
       "id": "source_9",
       "role": "supplement",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_supp_41587_2022_1535_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/s41587-022-01535-4_supp_41587_2022_1535_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -196,7 +196,7 @@
     {
       "id": "atac_v1_1_vendor_guide",
       "role": "vendor",
-      "locator": "_data/sources/scifi-atac-seq__10.1101+2023.09.17.558155/10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scifi-atac-seq__10.1101+2023.09.17.558155/10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -216,7 +216,7 @@
     {
       "id": "amini_2014_optional_barcodes",
       "role": "linked_material",
-      "locator": "_data/sources/sci-atac-seq-family__10.1126+science.aab1601/ng.3119_PMC4409979.xml.txt and ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt; Amini et al. Nat Genet 2014 doi:10.1038/ng.3119, cited by nano-CT protocols.io PDF lines 143-144 for additional barcode choices",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sci-atac-seq-family__10.1126+science.aab1601/ng.3119_PMC4409979.xml.txt and ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt; Amini et al. Nat Genet 2014 doi:10.1038/ng.3119, cited by nano-CT protocols.io PDF lines 143-144 for additional barcode choices",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_4",
@@ -236,7 +236,7 @@
     {
       "id": "preprint_driver_gene_csv",
       "role": "supplement",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_media-3.csv",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_media-3.csv",
       "availability": "read",
       "relevance": "not_relevant",
       "discovered_from": "source_3",
@@ -257,7 +257,7 @@
     {
       "id": "preprint_fusion_protein_fasta",
       "role": "supplement",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_media-4.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/2022.03.08.483459_media-4.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_3",
@@ -277,7 +277,7 @@
     {
       "id": "author_debarcode",
       "role": "linked_material",
-      "locator": "https://github.com/mardzix/bcd_nano_CUTnTag/blob/master/scripts/debarcode.py; current master retrieved2026-10-16 as _data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_debarcode.py (manifest has rawURL and checksum)",
+      "locator": "https://github.com/mardzix/bcd_nano_CUTnTag/blob/master/scripts/debarcode.py; current master retrieved2026-10-16 as /husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_debarcode.py (manifest has rawURL and checksum)",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_6",
@@ -297,7 +297,7 @@
     {
       "id": "fusion_deposit_mouse",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/183637.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/183637.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_9",
@@ -317,7 +317,7 @@
     {
       "id": "fusion_deposit_rabbit",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/183638.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/183638.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_9",
@@ -337,7 +337,7 @@
     {
       "id": "author_protocol_embedded_images",
       "role": "linked_material",
-      "locator": "Original public protocols.io v2 image attachments linked by its PDF export; exact52filenames and original URLs/checksums in _data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/MANIFEST.tsv",
+      "locator": "Original public protocols.io v2 image attachments linked by its PDF export; exact52filenames and original URLs/checksums in /husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/MANIFEST.tsv",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_4",
@@ -407,7 +407,7 @@
     {
       "id": "pleiner2018_original",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/PMC5839796_PMC5839796.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/PMC5839796_PMC5839796.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_6",
@@ -427,7 +427,7 @@
     {
       "id": "pleiner2018_table_s1",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/PMC5839796_supp_JCB_201709115_TableS1.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/PMC5839796_supp_JCB_201709115_TableS1.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_6",
@@ -447,7 +447,7 @@
     {
       "id": "pleiner2018_supplement",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/PMC5839796_supp_JCB_201709115_sm.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/PMC5839796_supp_JCB_201709115_sm.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_6",
@@ -467,7 +467,7 @@
     {
       "id": "omni2017_protocol_exchange",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/d08a2f50-c065-47df-9584-6eb98c6f86fd.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/d08a2f50-c065-47df-9584-6eb98c6f86fd.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "omni_article",
@@ -487,7 +487,7 @@
     {
       "id": "omni_article",
       "role": "defining",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_PMC5623106.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_PMC5623106.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -509,7 +509,7 @@
     {
       "id": "omni_supp_protocol_1",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM3_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM3_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -531,7 +531,7 @@
     {
       "id": "omni_supp_protocol_2",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM4_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM4_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -553,7 +553,7 @@
     {
       "id": "omni_buenrostro_2015",
       "role": "predecessor",
-      "locator": "_data/sources/doi_10.1002+0471142727.mb2129s109/0471142727.mb2129s109_PMC4374986.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1002+0471142727.mb2129s109/0471142727.mb2129s109_PMC4374986.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -575,7 +575,7 @@
     {
       "id": "omni_buenrostro_2013_supp",
       "role": "predecessor",
-      "locator": "_data/sources/doi_10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nmeth.2688/nmeth.2688_41592_2013_BFnmeth2688_MOESM200_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -597,7 +597,7 @@
     {
       "id": "omni_nmeth_4396_41592_2017_bfnmeth4396_moesm1_esm_pdf",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {
@@ -620,7 +620,7 @@
     {
       "id": "omni_nmeth_4396_41592_2017_bfnmeth4396_moesm2_esm_pdf",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_2": {
@@ -643,7 +643,7 @@
     {
       "id": "omni_nmeth_4396_41592_2017_bfnmeth4396_moesm5_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM5_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM5_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Deep sequencing performance metrics for Figure 1, not ordering-level adapter sequences.",
@@ -666,7 +666,7 @@
     {
       "id": "omni_nmeth_4396_41592_2017_bfnmeth4396_moesm6_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM6_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM6_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Clinical brain donor metadata, not library chemistry.",
@@ -689,7 +689,7 @@
     {
       "id": "omni_nmeth_4396_41592_2017_bfnmeth4396_moesm7_esm_xlsx",
       "role": "supplement",
-      "locator": "_data/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM7_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/omni-atac__10.1038+nmeth.4396/nmeth.4396_41592_2017_BFnmeth4396_MOESM7_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "GWAS enrichment result data, not library oligos.",
@@ -712,7 +712,7 @@
     {
       "id": "author_repository_entry",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/bcd_nano_CUTnTag.html",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/bcd_nano_CUTnTag.html",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "source_6",
@@ -732,7 +732,7 @@
     {
       "id": "author_repository_readme",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_README.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_README.md",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "author_repository_entry",
@@ -752,7 +752,7 @@
     {
       "id": "author_study_config",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_config.yaml",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_config.yaml",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "author_repository_readme",
@@ -772,7 +772,7 @@
     {
       "id": "author_single_modality_workflow",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_Snakefile_single_modality.smk",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_Snakefile_single_modality.smk",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "author_repository_readme",
@@ -792,7 +792,7 @@
     {
       "id": "author_preprocess_workflow",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_Snakefile_preprocess.smk",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_Snakefile_preprocess.smk",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "author_single_modality_workflow",
@@ -812,7 +812,7 @@
     {
       "id": "author_workflow_prep",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_Snakefile_prep.smk",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/gh_Snakefile_prep.smk",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "author_preprocess_workflow",
@@ -832,7 +832,7 @@
     {
       "id": "author_nanoscope_entry_readme",
       "role": "linked_material",
-      "locator": "_data/sources/nano-cut-tag__10.1038+s41587-022-01535-4/nanoscope.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cut-tag__10.1038+s41587-022-01535-4/nanoscope.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "author_repository_readme",

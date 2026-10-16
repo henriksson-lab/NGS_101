@@ -5,13 +5,13 @@
     {
       "id": "cg000331_revf",
       "role": "defining",
-      "locator": "_data/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevF.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevF.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevF.pdf.txt appendix lines 6724–7182",
+        "locations": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevF.pdf.txt appendix lines 6724–7182",
         "finding": "Original 10x Rev F guide appendix prints gel bead primer and cDNA/VDJ library layouts, including modified rGrGrG, 16-base cell barcode and 10-base UMI. Scraper points to line 6804 and final constructs at 7114. The same Rev F appendix also prints species-specific V(D)J outer/inner enrichment primer lists at lines 6865–7010."
       },
       "pass_2": {
@@ -24,7 +24,7 @@
     {
       "id": "cg000331_reve",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000331_ChromiumNextGEMSingleCell5-v2_UserGuide_RevE.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000331_ChromiumNextGEMSingleCell5-v2_UserGuide_RevE.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -45,7 +45,7 @@
     {
       "id": "vdj_enrichment",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevF.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevF.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -65,7 +65,7 @@
     {
       "id": "tt_index_map",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_Dual_Index_Kit_TT_Set_A.csv",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj-v2/10x_Dual_Index_Kit_TT_Set_A.csv",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "cg000331_revf",
@@ -85,7 +85,7 @@
     {
       "id": "cg00053",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000053_CellPrepGuide_RevC.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000053_CellPrepGuide_RevC.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Excluded from fixed-oligo/read-layout omission targets: this guide prepares the input cells and does not define the subsequent assay-specific cDNA construct. Source facts about cell preparation remain available in the original.",
@@ -106,7 +106,7 @@
     {
       "id": "cg000126",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000126_Cell_counting_flowchart_RevA_2.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000126_Cell_counting_flowchart_RevA_2.pdf",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "The document is explicitly a counting/sample-loading flowchart before library chemistry. Excluded from fixed-library-oligo omission targets; partly blank rendering is recorded rather than treated as missing published information.",
@@ -127,7 +127,7 @@
     {
       "id": "cg000123",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/CG000123_SamplePrepDemonstratedProtocol_-_CD3__Enrichment_RevA.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj-v2/CG000123_SamplePrepDemonstratedProtocol_-_CD3__Enrichment_RevA.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Optional biological-input enrichment is outside the defined V(D)J cDNA-library scope; do not conflate it with V(D)J PCR enrichment.",
@@ -148,7 +148,7 @@
     {
       "id": "cg000479",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000479_TechNote_MinimizingClogs_WettingFailures_RevB.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000479_TechNote_MinimizingClogs_WettingFailures_RevB.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Input quality and instrument failure handling; additional example sample workflows are outside the molecular-construct/primer omission targets.",
@@ -169,7 +169,7 @@
     {
       "id": "cg000396",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000396_ChromiumX_Instrument_UserGuide_RevM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG000396_ChromiumX_Instrument_UserGuide_RevM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Instrument-operation scope only; RevM is later than the primary RevF chemistry guide and is not used to assign reagent sequences.",
@@ -190,7 +190,7 @@
     {
       "id": "cg00053_revd",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG00053_Handbook_CellPreparation_SingleCellProtocols_Rev_D.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj-v2/10x_CG00053_Handbook_CellPreparation_SingleCellProtocols_Rev_D.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Sample preparation before cell input, not the fixed cDNA-library chemistry; this newer revision is included to avoid silently substituting the2017RevC for the2024 guide context.",

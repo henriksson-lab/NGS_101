@@ -15,7 +15,7 @@
     {
       "id": "preprint",
       "role": "defining",
-      "locator": "_data/sources/capseq__10.1126+science.ady7227/2025.03.14.642805_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/capseq__10.1126+science.ady7227/2025.03.14.642805_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -34,7 +34,7 @@
     {
       "id": "preprint_supp1",
       "role": "supplement",
-      "locator": "_data/sources/capseq__10.1126+science.ady7227/2025.03.14.642805_media-1.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/capseq__10.1126+science.ady7227/2025.03.14.642805_media-1.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -53,7 +53,7 @@
     {
       "id": "preprint_supp2",
       "role": "supplement",
-      "locator": "_data/sources/capseq__10.1126+science.ady7227/2025.03.14.642805_media-2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/capseq__10.1126+science.ady7227/2025.03.14.642805_media-2.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Thirteen supplementary figures and captions, no oligo inventory.",

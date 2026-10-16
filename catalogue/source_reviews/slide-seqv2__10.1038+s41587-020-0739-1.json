@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/slide-seqv2__10.1038+s41587-020-0739-1/s41587-020-0739-1_PMC8606189.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slide-seqv2__10.1038+s41587-020-0739-1/s41587-020-0739-1_PMC8606189.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp_table6",
       "role": "supplement",
-      "locator": "_data/sources/slide-seqv2__10.1038+s41587-020-0739-1/s41587-020-0739-1_41587_2020_739_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slide-seqv2__10.1038+s41587-020-0739-1/s41587-020-0739-1_41587_2020_739_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "springer_figures",
       "role": "supplement",
-      "locator": "Springer MOESM2–4 Slide-seqV2 PDF files in _data/sources/slide-seqv2__10.1038+s41587-020-0739-1/",
+      "locator": "Springer MOESM2–4 Slide-seqV2 PDF files in /husky/henriksson/NGS101_papers/sources/slide-seqv2__10.1038+s41587-020-0739-1/",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "original_slideseq",
       "role": "predecessor",
-      "locator": "_data/sources/slide-seq__10.1126+science.aaw1219/science.aaw1219_PMC6927209.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/slide-seq__10.1126+science.aaw1219/science.aaw1219_PMC6927209.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "paper",

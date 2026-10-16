@@ -34,7 +34,7 @@
     {
       "id": "cg000086_revk",
       "role": "other",
-      "locator": "_data/sources/10x-chromium-single-cell-5-ge-v1/CG000086_ChromiumSingleCellV_D_J_ReagentKits_UG_RevK.pdf.txt (official 10x later Rev K)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-ge-v1/CG000086_ChromiumSingleCellV_D_J_ReagentKits_UG_RevK.pdf.txt (official 10x later Rev K)",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Later revision of the cited guide, used to compare kit scope only. Official July 2018 CG000086 Rev F→G revision summary explicitly added/reorganized 5-prime GEX workflow; Rev K cannot prove 2017 procedural values.",
@@ -74,7 +74,7 @@
     {
       "id": "cg000331_v2_comparator",
       "role": "other",
-      "locator": "Official 10x CG000331 Rev E, _data/sources/10x-chromium-single-cell-5-ge/10x_CG000331_ChromiumNextGEMSingleCell5-v2_UserGuide_RevE.pdf.txt",
+      "locator": "Official 10x CG000331 Rev E, /husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-ge/10x_CG000331_ChromiumNextGEMSingleCell5-v2_UserGuide_RevE.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Used only to distinguish v2 from v1/v3; not evidence for v1 reaction conditions.",

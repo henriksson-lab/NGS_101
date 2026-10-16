@@ -5,7 +5,7 @@
     {
       "id": "wang_article",
       "role": "defining",
-      "locator": "_data/sources/starmap__10.1126+science.aat5691/science.aat5691_PMC6339868.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/starmap__10.1126+science.aat5691/science.aat5691_PMC6339868.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "wang_nsf_supp",
       "role": "supplement",
-      "locator": "_data/sources/starmap__10.1126+science.aat5691/10063217.html.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/starmap__10.1126+science.aat5691/10063217.html.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -63,7 +63,7 @@
     {
       "id": "family_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/starmap__10.1126+science.aat5691/s41596-025-01248-3_PMC12648639.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/starmap__10.1126+science.aat5691/s41596-025-01248-3_PMC12648639.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -82,7 +82,7 @@
     {
       "id": "family_supp_1",
       "role": "supplement",
-      "locator": "_data/sources/starmap__10.1126+science.aat5691/s41596-025-01248-3_41596_2025_1248_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/starmap__10.1126+science.aat5691/s41596-025-01248-3_41596_2025_1248_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -102,7 +102,7 @@
     {
       "id": "family_supp_2",
       "role": "supplement",
-      "locator": "_data/sources/starmap__10.1126+science.aat5691/s41596-025-01248-3_41596_2025_1248_MOESM2_ESM.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/starmap__10.1126+science.aat5691/s41596-025-01248-3_41596_2025_1248_MOESM2_ESM.xlsx",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -121,7 +121,7 @@
     {
       "id": "family_supp_3",
       "role": "supplement",
-      "locator": "_data/sources/starmap__10.1126+science.aat5691/s41596-025-01248-3_41596_2025_1248_MOESM3_ESM.xlsx",
+      "locator": "/husky/henriksson/NGS101_papers/sources/starmap__10.1126+science.aat5691/s41596-025-01248-3_41596_2025_1248_MOESM3_ESM.xlsx",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

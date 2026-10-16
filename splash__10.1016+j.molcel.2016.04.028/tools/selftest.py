@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Guard the reaction order read from Aw et al. JoVE 2017 sections 5–9."""
 import sys
-import os
 import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
+from storage import data_root
 
 from checks import Check, Source, have
 import chem
@@ -21,7 +21,7 @@ source_order = (
 check = Check()
 check("JoVE end prep, chimera, linker, RT and circle precede PCR",
       tuple(step for step in steps if step in source_order), source_order)
-bundle=Path(os.environ.get("CHEM_DATA",HERE.parents[1]/"_data"))/"sources"/"splash__10.1016+j.molcel.2016.04.028"
+bundle=data_root()/"sources"/"splash__10.1016+j.molcel.2016.04.028"
 source=Source(bundle/"1-s2.0-S1097276516301046-mmc1.pdf.txt",chem.DEFINITION.doi)
 if have(check,source,label="original 2016 supplemental oligos"):
     text=source.path.read_text()

@@ -22,7 +22,7 @@
     {
       "id": "jcm",
       "role": "linked_material",
-      "locator": "_data/sources/lampore__10.1101+2020.08.07.20161737/JCM.03271-20_PMC8315953.xml.txt:218-220",
+      "locator": "/husky/henriksson/NGS101_papers/sources/lampore__10.1101+2020.08.07.20161737/JCM.03271-20_PMC8315953.xml.txt:218-220",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "preprint",

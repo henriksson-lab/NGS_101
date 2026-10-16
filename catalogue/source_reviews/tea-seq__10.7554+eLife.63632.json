@@ -5,7 +5,7 @@
     {
       "id": "swanson2021",
       "role": "defining",
-      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_PMC8034981.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tea-seq__10.7554+eLife.63632/eLife.63632_PMC8034981.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "supp1",
       "role": "supplement",
-      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp1-v2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp1-v2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "supp2",
       "role": "supplement",
-      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp2-v2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp2-v2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "supp3",
       "role": "supplement",
-      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp3-v2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp3-v2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -84,7 +84,7 @@
     {
       "id": "supp4",
       "role": "supplement",
-      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp4-v2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp4-v2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -104,7 +104,7 @@
     {
       "id": "supp5",
       "role": "supplement",
-      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp5-v2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp5-v2.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -123,7 +123,7 @@
     {
       "id": "supp6",
       "role": "supplement",
-      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp6-v2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp6-v2.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -142,7 +142,7 @@
     {
       "id": "supp7",
       "role": "supplement",
-      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp7-v2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tea-seq__10.7554+eLife.63632/eLife.63632_elife-63632-supp7-v2.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -162,7 +162,7 @@
     {
       "id": "bench_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/protocolsio_tea-seq-bqagmsbw.pdf.txt; doi:10.17504/protocols.io.bqagmsbw; Version2, Dec1 2020 (modified Apr21 2021)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tea-seq__10.7554+eLife.63632/protocolsio_tea-seq-bqagmsbw.pdf.txt; doi:10.17504/protocols.io.bqagmsbw; Version2, Dec1 2020 (modified Apr21 2021)",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "swanson2021",
@@ -209,7 +209,7 @@
     {
       "id": "multiome_rev_b_comparator",
       "role": "vendor",
-      "locator": "_data/sources/10x-chromium-single-cell-multiome-atac-gene-expression/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevB.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-multiome-atac-gene-expression/CG000338_ChromiumNextGEM_Multiome_ATAC_GEX_User_Guide_RevB.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -228,7 +228,7 @@
     {
       "id": "multiome_sequencing_note_reva",
       "role": "linked_material",
-      "locator": "_data/sources/tea-seq__10.7554+eLife.63632/10x_CG000373_TechNote_SeqMetrics_MultiomeATACLibrary_RevA.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tea-seq__10.7554+eLife.63632/10x_CG000373_TechNote_SeqMetrics_MultiomeATACLibrary_RevA.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "multiome_rev_a",

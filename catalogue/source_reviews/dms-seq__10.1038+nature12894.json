@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "_data/sources/dms-seq__10.1038+nature12894/nature12894_PMC3966492.xml.txt:50-56,281-289",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dms-seq__10.1038+nature12894/nature12894_PMC3966492.xml.txt:50-56,281-289",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "individual_supp",
       "role": "supplement",
-      "locator": "_data/sources/dms-seq__10.1038+nature12894/nature12894_41586_2014_BFnature12894_MOESM26-29_ESM.ppt.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dms-seq__10.1038+nature12894/nature12894_41586_2014_BFnature12894_MOESM26-29_ESM.ppt.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -51,7 +51,7 @@
     {
       "id": "ingolia",
       "role": "predecessor",
-      "locator": "_data/sources/doi_10.1038+nprot.2012.086/nprot.2012.086_PMC3535016.xml.txt:194-208",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+nprot.2012.086/nprot.2012.086_PMC3535016.xml.txt:194-208",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {

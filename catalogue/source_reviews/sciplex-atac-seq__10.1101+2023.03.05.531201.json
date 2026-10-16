@@ -5,7 +5,7 @@
     {
       "id": "defining_preprint",
       "role": "defining",
-      "locator": "_data/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/2023.03.05.531201_v1.full.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/2023.03.05.531201_v1.full.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "published",
       "role": "linked_material",
-      "locator": "_data/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/s12864-023-09832-1_PMC10696879.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/s12864-023-09832-1_PMC10696879.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "published_supp",
       "role": "supplement",
-      "locator": "_data/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/s12864-023-09832-1_supp_12864_2023_9832_MOESM2_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/s12864-023-09832-1_supp_12864_2023_9832_MOESM2_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "published",
@@ -84,7 +84,7 @@
     {
       "id": "protocol_3level",
       "role": "detailed_protocol",
-      "locator": "_data/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/protocolsio_sciplex-atac3-n2bvj399wlk5.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/protocolsio_sciplex-atac3-n2bvj399wlk5.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "published",
@@ -143,7 +143,7 @@
     {
       "id": "preprint_results",
       "role": "supplement",
-      "locator": "_data/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/2023.03.05.531201_media-1.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/2023.03.05.531201_media-1.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -163,7 +163,7 @@
     {
       "id": "preprint_hash_ids",
       "role": "supplement",
-      "locator": "_data/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/2023.03.05.531201_media-2.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/2023.03.05.531201_media-2.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -182,7 +182,7 @@
     {
       "id": "preprint_tn5_oligos",
       "role": "supplement",
-      "locator": "_data/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/2023.03.05.531201_media-3.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/2023.03.05.531201_media-3.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -201,7 +201,7 @@
     {
       "id": "published_figures",
       "role": "supplement",
-      "locator": "_data/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/s12864-023-09832-1_supp_12864_2023_9832_MOESM1_ESM.docx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/s12864-023-09832-1_supp_12864_2023_9832_MOESM1_ESM.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -220,7 +220,7 @@
     {
       "id": "preprint_figures",
       "role": "supplement",
-      "locator": "_data/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/2023.03.05.531201_media-4.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1101+2023.03.05.531201/2023.03.05.531201_media-4.pdf.txt",
       "availability": "read",
       "pass_1": {
         "reviewer": "second_pass_d_e",

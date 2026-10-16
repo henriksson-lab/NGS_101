@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "_data/sources/pandora-seq__10.1038+s41556-021-00652-7/s41556-021-00652-7_PMC8236090.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pandora-seq__10.1038+s41556-021-00652-7/s41556-021-00652-7_PMC8236090.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "springer_supp_figures",
       "role": "supplement",
-      "locator": "_data/sources/pandora-seq__10.1038+s41556-021-00652-7/s41556-021-00652-7_41556_2021_652_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pandora-seq__10.1038+s41556-021-00652-7/s41556-021-00652-7_41556_2021_652_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -43,7 +43,7 @@
     {
       "id": "springer_supp_moesm2",
       "role": "supplement",
-      "locator": "_data/sources/pandora-seq__10.1038+s41556-021-00652-7/s41556-021-00652-7_41556_2021_652_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pandora-seq__10.1038+s41556-021-00652-7/s41556-021-00652-7_41556_2021_652_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {

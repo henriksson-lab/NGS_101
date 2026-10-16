@@ -5,13 +5,13 @@
     {
       "id": "cg000108",
       "role": "defining",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/scg_CG000108_AssayConfiguration_SC3v2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/scg_CG000108_AssayConfiguration_SC3v2.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-15",
-        "locations": "_data/sources/10x-chromium-single-cell-3-ge-v2/scg_CG000108_AssayConfiguration_SC3v2.pdf.txt lines 1–145",
+        "locations": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/scg_CG000108_AssayConfiguration_SC3v2.pdf.txt lines 1–145",
         "finding": "Original 10x Rev A technical note Figure 4 prints PN-220104 gel bead oligo, PN-310354 modified TSO, cDNA forward/reverse primers, PN-220026 ligation adapter and PN-220111/220103 PCR primer architectures. It explicitly cites CG00052 user guide."
       },
       "pass_2": {
@@ -24,7 +24,7 @@
     {
       "id": "cg00052",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/CG00052_SingleCell3_ReagentKitv2UserGuide_RevD.pdf.txt (official 10x Rev D, 2018)",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/CG00052_SingleCell3_ReagentKitv2UserGuide_RevD.pdf.txt (official 10x Rev D, 2018)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -45,13 +45,13 @@
     {
       "id": "cg000201",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000201_TechNote_Chromium_Single_Cell_3___v3_Reagent__Workflow___Software_Updates_RevA.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000201_TechNote_Chromium_Single_Cell_3___v3_Reagent__Workflow___Software_Updates_RevA.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "_data/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000201_TechNote_Chromium_Single_Cell_3___v3_Reagent__Workflow___Software_Updates_RevA.pdf.txt lines 82–125, 253–277, 311–345",
+        "locations": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000201_TechNote_Chromium_Single_Cell_3___v3_Reagent__Workflow___Software_Updates_RevA.pdf.txt lines 82–125, 253–277, 311–345",
         "finding": "Official CG000201 Rev A explicitly compares CG00052 v2 with CG000183 v3: 737,000 versus 3.5 million gel-bead barcode diversity, 10 versus 12 UMI bases, 67°C versus 63°C cDNA PCR annealing, and v2 26/8/98 versus v3 28/8/91 run. It identifies v3 kit PN-1000075/1000092 and Chip B PN-1000073/1000074. Diversity is not a printed member whitelist."
       },
       "discovered_from": "cg000108",
@@ -86,13 +86,13 @@
     {
       "id": "tenx_supernova_737k",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/gh_737K-august-2016.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/gh_737K-august-2016.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "_data/sources/10x-chromium-single-cell-3-ge-v2/gh_737K-august-2016.txt lines 1–737280; source MANIFEST.tsv route from official 10XGenomics/supernova tenkit repository",
+        "locations": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/gh_737K-august-2016.txt lines 1–737280; source MANIFEST.tsv route from official 10XGenomics/supernova tenkit repository",
         "finding": "Original 10x repository file contains exactly 737,280 newline-delimited 16-base barcode strings. SHA-256 b0dda4b114d8fc7ea8def94fb472e6205c1831a72e3ac245ed13cc332d9f20d1 matches decompressed scg 737K-august-2016.txt.gz byte-for-byte. Official Cell Ranger guide assigns approximately 737,000 inclusion-list barcodes to v2; exact list-to-2017 gel-bead lot correspondence is not asserted."
       },
       "discovered_from": "cellranger_inclusion_guide",
@@ -106,7 +106,7 @@
     {
       "id": "cg00053_cell_preparation",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000053_CellPrepGuide_RevC.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000053_CellPrepGuide_RevC.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Excluded from fixed-oligo/read-layout omission targets: this guide prepares the input cells and does not define the subsequent assay-specific cDNA construct. Source facts about cell preparation remain available in the original.",
@@ -127,7 +127,7 @@
     {
       "id": "cg000126_sample_preparation",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000126_Cell_counting_flowchart_RevA_2.pdf",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000126_Cell_counting_flowchart_RevA_2.pdf",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "The document is explicitly a counting/sample-loading flowchart before library chemistry. Excluded from fixed-library-oligo omission targets; partly blank rendering is recorded rather than treated as missing published information.",
@@ -148,7 +148,7 @@
     {
       "id": "chromium_i7_index_map",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/10x_chromium-shared-sample-indexes-plate.json",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/10x_chromium-shared-sample-indexes-plate.json",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "cg000108",
@@ -168,7 +168,7 @@
     {
       "id": "cg000089",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000089_10x_Technical_Note_Single_Cell3_v2_Sequencing_Metrics_RevB.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000089_10x_Technical_Note_Single_Cell3_v2_Sequencing_Metrics_RevB.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "cg00052",
@@ -188,7 +188,7 @@
     {
       "id": "cg000085",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/CG000085_Technical_Note_Sequencing_Metrics_for_NextSeq_500.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/CG000085_Technical_Note_Sequencing_Metrics_for_NextSeq_500.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "cg00052",
@@ -208,7 +208,7 @@
     {
       "id": "cg000120",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000120_10x_Technical_Note_SequencingMetrics_NovaSeq_SC3v2_RevA.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000120_10x_Technical_Note_SequencingMetrics_NovaSeq_SC3v2_RevA.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "cg00052",
@@ -228,7 +228,7 @@
     {
       "id": "cg000061",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/CG000061_10x_Technical_Note_SPRIadjustment_-_v2.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/CG000061_10x_Technical_Note_SPRIadjustment_-_v2.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "General size-selection explanation using Genome chemistry; no new RNA-library adapter/primer architecture is supplied by its Genome-specific predecessor references.",
@@ -249,7 +249,7 @@
     {
       "id": "cg000080",
       "role": "linked_material",
-      "locator": "_data/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000080_10x_Technical_Note_Base_Composition_SC3_v2_RevB.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2/10x_CG000080_10x_Technical_Note_Base_Composition_SC3_v2_RevB.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "cg000085",

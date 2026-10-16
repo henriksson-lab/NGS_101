@@ -5,7 +5,7 @@
     {
       "id": "published_article",
       "role": "defining",
-      "locator": "Russell et al. Nature 2023 doi:10.1038/s41586-023-06837-4; _data/sources/doi_10.1038+s41586-023-06837-4/s41586-023-06837-4_PMC10764288.xml.txt and .pdf.txt",
+      "locator": "Russell et al. Nature 2023 doi:10.1038/s41586-023-06837-4; /husky/henriksson/NGS101_papers/sources/doi_10.1038+s41586-023-06837-4/s41586-023-06837-4_PMC10764288.xml.txt and .pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -62,7 +62,7 @@
     {
       "id": "published_supp_methods",
       "role": "supplement",
-      "locator": "Russell et al. publisher MOESM1 Supplementary Methods DOCX; _data/sources/doi_10.1038+s41586-023-06837-4/s41586-023-06837-4_supp_41586_2023_6837_MOESM1_ESM.docx.txt",
+      "locator": "Russell et al. publisher MOESM1 Supplementary Methods DOCX; /husky/henriksson/NGS101_papers/sources/doi_10.1038+s41586-023-06837-4/s41586-023-06837-4_supp_41586_2023_6837_MOESM1_ESM.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "published_article",
@@ -498,7 +498,7 @@
     {
       "id": "slideseqv2_predecessor",
       "role": "predecessor",
-      "locator": "Stickels et al. Slide-seqV2 doi:10.1038/s41587-020-0739-1, PMC8606189 JATS; _data/sources/slide-seqv2__10.1038+s41587-020-0739-1/s41587-020-0739-1_PMC8606189.xml.txt",
+      "locator": "Stickels et al. Slide-seqV2 doi:10.1038/s41587-020-0739-1, PMC8606189 JATS; /husky/henriksson/NGS101_papers/sources/slide-seqv2__10.1038+s41587-020-0739-1/s41587-020-0739-1_PMC8606189.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "published_article",

@@ -48,7 +48,7 @@ Other papers:
   scraped from the drawn page's own citation list. Background reading on suppression PCR;
   not fetched, and nothing here rests on it 🟡.
 
-Sources read (in `_data/sources/ch-atac-seq__10.1016+j.devcel.2024.01.015/`, never committed):
+Sources read (in `/husky/henriksson/NGS101_papers/sources/ch-atac-seq__10.1016+j.devcel.2024.01.015/`, never committed):
 
 | File | What | Used for |
 |---|---|---|

@@ -5,7 +5,7 @@
     {
       "id": "frei_original",
       "role": "defining",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_PMC4767631.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/nmeth.3742_PMC4767631.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -24,7 +24,7 @@
     {
       "id": "frei_si",
       "role": "supplement",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_supp_NIHMS747713-supplement-1.doc.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/nmeth.3742_supp_NIHMS747713-supplement-1.doc.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -44,7 +44,7 @@
     {
       "id": "publisher_results_640",
       "role": "supplement",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM640_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM640_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -64,7 +64,7 @@
     {
       "id": "publisher_results_641",
       "role": "supplement",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM641_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM641_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -84,7 +84,7 @@
     {
       "id": "publisher_results_642",
       "role": "supplement",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM642_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM642_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -104,7 +104,7 @@
     {
       "id": "publisher_results_643",
       "role": "supplement",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM643_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM643_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -124,7 +124,7 @@
     {
       "id": "publisher_results_644",
       "role": "supplement",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM644_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM644_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -144,7 +144,7 @@
     {
       "id": "publisher_results_645",
       "role": "supplement",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM645_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM645_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -164,7 +164,7 @@
     {
       "id": "publisher_reporter_table",
       "role": "supplement",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM647_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM647_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -183,7 +183,7 @@
     {
       "id": "playrdesign",
       "role": "linked_material",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM648_ESM_PLAYR_Systems.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM648_ESM_PLAYR_Systems.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -203,7 +203,7 @@
     {
       "id": "playrdesign_readme",
       "role": "linked_material",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM648_ESM_README.md",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM648_ESM_README.md",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -223,7 +223,7 @@
     {
       "id": "detailed_protocol",
       "role": "detailed_protocol",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_PMC7075472.xml.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_PMC7075472.xml.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -242,7 +242,7 @@
     {
       "id": "detailed_supp_1",
       "role": "supplement",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_41596_2018_120_MOESM1_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_41596_2018_120_MOESM1_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -261,7 +261,7 @@
     {
       "id": "detailed_supp_2",
       "role": "supplement",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_41596_2018_120_MOESM2_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_41596_2018_120_MOESM2_ESM.pdf.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -281,7 +281,7 @@
     {
       "id": "detailed_supp_3",
       "role": "supplement",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_41596_2018_120_MOESM3_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_41596_2018_120_MOESM3_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -301,7 +301,7 @@
     {
       "id": "detailed_supp_4",
       "role": "supplement",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_41596_2018_120_MOESM4_ESM.xlsx.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/s41596-018-0120-8_41596_2018_120_MOESM4_ESM.xlsx.txt",
       "availability": "read",
       "relevance": "not_relevant",
       "pass_1": {
@@ -352,7 +352,7 @@
     {
       "id": "publisher_supp_figures_646",
       "role": "supplement",
-      "locator": "_data/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM646_ESM.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/playr__10.1038+nmeth.3742/nmeth.3742_41592_2016_BFnmeth3742_MOESM646_ESM.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
