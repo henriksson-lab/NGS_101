@@ -323,3 +323,11 @@ still lists them as `(manual)` (supp5 came with a reCAPTCHA page saved as
 Supplementary file 4 first and recognised the SMART handle, P5/P7 and s5/s7; the 80-hit
 cap cut most of the 288 plate oligos, which were analysed directly from the sheet. The
 reaction order came from reading the methods and Supplementary file 2.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Original PMC8993220 JATS230–238,404–408,422–424.
+
+No correction identified in inspected scope: bulk Tn5, dissolving beads, in-droplet13-cycle linear amplification, pooled indexed PCR and50/52/10/50 sequencing agree with the current model.
+
+Deferred: Original supplementary molecular file2 and oligo tables; unrepresented recovery details and source support for terminal product dispositions; detailed protocols.io revision. This capped pass does not establish a complete source review or publication-wide absence.

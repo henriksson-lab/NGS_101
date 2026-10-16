@@ -11,16 +11,18 @@ WORKFLOW = ContactWorkflow("snHi-C", DPNII, "before fixation", "none", "MDA")
 TITLE = "snHi-C — DpnII contact ligation followed by MDA"
 NOTES = "01_snhi-c.html"
 CITATION = 'Defining source: <a href="https://doi.org/10.1038/nature21711">Flyamer et al., <i>Nature</i> (2017)</a>.'
-SUMMARY = "Nuclei are isolated before fixation; DpnII contacts are ligated without biotin enrichment and whole molecules are amplified by phi29 MDA."
+SUMMARY = "This view follows the isolated-zygote-pronucleus branch: pronuclei are extracted before fixation; DpnII contacts are ligated without biotin enrichment and whole molecules are amplified by phi29 MDA."
 STEPS = (("Isolate and fix nuclei", "Prepare intact single nuclei before the restriction reaction."),
          ("Digest and ligate", "DpnII cuts GATC; compatible chromatin ends are proximity-ligated without biotin fill-in."),
          ("Reverse crosslinks", "Purify the complete single-nucleus ligation mixture rather than selecting streptavidin-bound junctions."),
          ("MDA then library prep", "Amplify with phi29 multiple-displacement amplification and convert amplified DNA to an indexed sequencing library."))
 READOUT = "Paired reads identify restriction fragments; computational filtering distinguishes contact ligations from other MDA products."
 JUNCTION_CAPTION = "A DpnII-compatible contact product. Unlike biotin Hi-C, this protocol does not select a filled, marked junction. ** marks ligation."
-LIBRARY_CAPTION = "The contact product passes through phi29 MDA before paired-end library conversion. The supplementary methods do not identify the library kit or adapter sequences."
-LIBRARY_CAVEAT = "INFERRED — only the presence of an unspecified Illumina library is established; adapter sequence and index architecture are not reported."
-SEQUENCING_UNAVAILABLE = "The source specifies 2 × 125-bp HiSeq 2500 sequencing but not the library kit or sequencing-primer sequences, so primer binding cannot be placed base by base."
+LIBRARY_CAPTION = "The contact product passes through MDA, AMPure cleanup, sonication and a second AMPure or QIAquick cleanup before VBCF library preparation with 300–1300 bp size selection. Exact adapter assignment remains unresolved."
+LIBRARY_CAVEAT = "INFERRED — the outer library is unresolved in this model; the detailed VBCF preparation and cited GenomiPhi method remain deferred. Whole-zygote preparation is a separate source branch, with nuclei extracted after SDS treatment."
+SEQUENCING_UNAVAILABLE = "The source specifies 2 × 125-bp HiSeq 2500 sequencing ; the exact preparation and primer assignment have not been established in this bounded pass."
+READ_LENGTHS = {"Read 1": 125, "Read 2": 125}
+REQUIRED_ROLES = ("Read 1", "Read 2")
 def contact_product(): return WORKFLOW.junction()
 def final_library(): return unresolved_illumina_library(contact_product(), "snHi-C MDA-derived library", indexed=None)
 
@@ -56,19 +58,37 @@ def protocol_graph() -> ProtocolGraph:
             (contacts,))
     phi29 = g.input("phi29", "phi29 strand-displacing polymerase",
                     MaterialKind.CATALYST)
+    decrosslinking = g.input("decrosslinking", "MDA workflow modified to include overnight 65°C decrosslinking (14–16 h); internal order unassigned", MaterialKind.CONDITION)
     amplified = g.product("amplified", "whole-genome MDA contact mixture",
                           MaterialKind.MOLECULAR, state=contacts.state)
     g.react("mda", "Amplify the entire single-nucleus ligation mixture",
             StepKind.EXTENSION,
-            ((contacts, InputRole.TEMPLATE), (phi29, InputRole.CATALYST)),
+            ((contacts, InputRole.TEMPLATE), (phi29, InputRole.CATALYST),
+             (decrosslinking, InputRole.CONDITION)),
             (amplified,))
+    ampure = g.input("ampure", "AMPure XP post-MDA cleanup", MaterialKind.SELECTION)
+    recovered = g.product("recovered", "cleaned MDA products", MaterialKind.MOLECULAR, state=amplified.state)
+    mda_waste = g.product("mda_waste", "post-MDA cleanup flow-through and washes; composition unassigned", MaterialKind.WASTE)
+    g.react("mda_cleanup", "Clean MDA products with AMPure XP", StepKind.CLEANUP,
+            ((amplified, InputRole.TEMPLATE), (ampure, InputRole.SELECTION)), (recovered, mda_waste), changes_molecule=False)
+    g.discard(mda_waste, "removed during AMPure cleanup")
+    sonication = g.input("sonication", "sonication", MaterialKind.CONDITION)
+    fragmented = g.product("fragmented", "sonicated MDA DNA", MaterialKind.MOLECULAR)
+    g.react("sonicate", "Sonicate cleaned MDA DNA", StepKind.FRAGMENTATION,
+            ((recovered, InputRole.TEMPLATE), (sonication, InputRole.CONDITION)), (fragmented,))
+    cleanup = g.input("cleanup", "AMPure XP or QIAquick cleanup (source alternatives)", MaterialKind.SELECTION)
+    cleaned = g.product("cleaned", "cleaned sonicated DNA", MaterialKind.MOLECULAR)
+    fragment_waste = g.product("fragment_waste", "post-sonication cleanup flow-through and washes; composition unassigned", MaterialKind.WASTE)
+    g.react("fragment_cleanup", "Clean sonicated DNA", StepKind.CLEANUP,
+            ((fragmented, InputRole.TEMPLATE), (cleanup, InputRole.SELECTION)), (cleaned, fragment_waste), changes_molecule=False)
+    g.discard(fragment_waste, "removed during cleanup")
     final = final_library()
     library = g.product("library", final.name, MaterialKind.LIBRARY,
                         state=final, inferred=True, source=LIBRARY_CAVEAT)
     g.react("library_prep", "Convert MDA material to paired-end library",
-            StepKind.MAGIC, ((amplified, InputRole.TEMPLATE),), (library,),
-            reason="The supplementary methods do not identify the library kit or adapter and primer sequences, so the exact library-construction transitions cannot be reconstructed.")
+            StepKind.MAGIC, ((cleaned, InputRole.TEMPLATE),), (library,),
+            reason="VBCF library preparation with 300–1300 bp selection is source-described; exact transition order, adapter and primer assignment remain unverified in this model.")
     g.sequence(library, SequencingPlan(acquired_roles=("Read 1", "Read 2"),
-                                       limitation=SEQUENCING_UNAVAILABLE))
+                                       read_lengths=READ_LENGTHS, limitation=SEQUENCING_UNAVAILABLE))
     g.declare_reviewed_scope(tuple(g.steps) + tuple(g.materials), CITATION)
     return g.require_publishable()

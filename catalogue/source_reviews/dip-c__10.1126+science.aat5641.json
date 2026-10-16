@@ -60,5 +60,20 @@
       "evidence": "Accessible article describes META at role level; original Supplementary Methods and tables remain inaccessible."
     }
   ],
-  "conclusion": "Original author supplementary files unavailable; no source absence accepted."
+  "conclusion": "Bounded original main-source curation confirms META/no biotin and linear/circular possibilities; corrects unsupported physical off-product fate and absence/run assertions. Original detailed source obligations remain; no absence accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC6360088 JATS39–45 and Figure1A caption409–411; mandatory source-bundle scraper reviewed (no primary exact oligo hits).",
+      "findings": "Source-positive META and omission of biotin pulldown retained. Figure1A permits linear and circular ligation products; drawn molecule explicitly representative. Candidate off-products are no longer declared discarded/observed/nonamplifiable; identities and recovery are unresolved. Source absence wording and acquired-run assertion withdrawn pending original detailed methods.",
+      "deferred": [
+        "Original All supplementary attachment and named2021 detailed protocol.",
+        "Exact MboI/sorting/39-base-prefix implementation, physical outer strands, META amplification and actual run geometry."
+      ],
+      "scope": "Primary-layer bounded check only; not a whole protocol review or an absence conclusion."
+    }
+  ]
 }

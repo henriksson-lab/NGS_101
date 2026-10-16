@@ -6,6 +6,8 @@ Kit (ref. 1005709); Illumina publishes that obsolete single-index oligo set.
 from __future__ import annotations
 
 import sys
+from dataclasses import replace
+from protocol_graph import SequencingPlan
 import illumina as il
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature
@@ -103,7 +105,14 @@ def primer_landings():
 
 
 def protocol_graph():
-    return _protocol_graph(
+    g = _protocol_graph(
         sys.modules[__name__], name="scDNase-seq",
         source="Defining source: https://doi.org/10.1038/nature15740",
         nuclease="DNase I", inferred_adapters=False, final_amplification=True)
+
+    g.steps["indexed_pcr"] = replace(g.steps["indexed_pcr"], label="First index PCR:6 cycles")
+    g.steps["size_select"] = replace(g.steps["size_select"], label="Select160–300bp fragments on2% E-gel")
+    g.steps["final_pcr"] = replace(g.steps["final_pcr"], label="Second PCR with P5/P7:22 cycles")
+    g.sequencing["library"] = SequencingPlan(library=final_library(), primers=tuple(SEQ_PRIMERS),
+        limitation="The defining passage specifies HiSeq2500; actual read and index acquisition lengths remain unassigned. Historical kit sites are references, not a verified run mask.")
+    return g.require_publishable()

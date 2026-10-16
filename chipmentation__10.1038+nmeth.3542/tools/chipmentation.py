@@ -5,7 +5,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Row
 from chromatin_epigenetics import antibody_enzyme_rows, tagmented_library, tagmentation_scene
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 from protocol_model import molecule, role
 
@@ -13,7 +13,7 @@ TITLE = "ChIPmentation — tagmentation of bead-bound ChIP DNA"
 NOTES = "01_chipmentation.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/nmeth.3542">Schmidl et al., <i>Nature Methods</i> (2015)</a>.'
 SUMMARY = "Immunoprecipitate crosslinked chromatin first, then let Tn5 fragment and adapter-tag the bead-bound ChIP DNA in a single reaction before indexed PCR."
-CAVEAT = "The defining chemistry uses Nextera reagents; the final molecule is assembled from the repository’s canonical Nextera components."
+CAVEAT = "Original Methods distinguish bead-bound ChIPmentation (37°C, 10 min) from tagmentation of purified ChIP DNA (55°C, 5 min). Enrichment cycles are the rounded-up qPCR Cq; the24-cycle assay is not the final enrichment cycle count. Post-PCR bead size selection remains summarized outside the graph. The defining chemistry uses Nextera reagents; the final molecule is assembled from the repository’s canonical Nextera components."
 FINAL_LIBRARY, SEQ_PRIMERS = tagmented_library("ChIP-selected DNA")
 FINAL_CAPTION = "Indexed Nextera library whose insert was selected by chromatin immunoprecipitation before tagmentation."
 SEQUENCING_INTRO = ("Read primers can enter the immunoprecipitated fragment from either Tn5 insertion site; "
@@ -60,12 +60,12 @@ def protocol_graph():
     tn5 = graph.input("tn5", "Nextera Tn5 transposase", MaterialKind.CATALYST)
     tagged = graph.product("tagmented_chromatin", "bead-bound tagmented ChIP DNA",
                            MaterialKind.MOLECULAR, state=selected.state)
-    tn5_waste = graph.product("tn5_waste", "non-amplifiable tagmentation products",
-                              MaterialKind.WASTE)
-    graph.react("tagment", "Tagment bead-bound ChIP DNA", StepKind.TAGMENTATION,
+    tn5_waste = graph.product("tn5_waste", "candidate non-library tagmentation products",
+                              MaterialKind.MOLECULAR)
+    graph.react("tagment", "Tagment bead-bound ChIP DNA: 37°C for 10 minutes", StepKind.TAGMENTATION,
                 ((selected, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (tagged, tn5_waste))
-    graph.discard(tn5_waste, "does not retain a library-eligible pair of Nextera ends")
+    graph.mark_terminal(Terminal(tn5_waste.id, Disposition.UNRESOLVED, "A productive adapter configuration does not establish physical discard of other insertion products."))
     proteinase = graph.input("proteinase", "proteinase and cross-link reversal condition",
                              MaterialKind.CONDITION)
     released = graph.product("released_tagged_dna", "de-cross-linked tagmented ChIP DNA",
@@ -82,7 +82,7 @@ def protocol_graph():
                              MaterialKind.CATALYST)
     library = graph.product("sequencing_library", FINAL_LIBRARY.name,
                             MaterialKind.LIBRARY, state=FINAL_LIBRARY)
-    graph.react("library_pcr", "Complete and index the ChIPmentation library",
+    graph.react("library_pcr", "Complete and index the ChIPmentation library: cycles determined by qPCR Cq",
                 StepKind.PCR,
                 ((released, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),

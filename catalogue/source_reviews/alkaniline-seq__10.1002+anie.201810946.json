@@ -80,5 +80,19 @@
       "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
     }
   ],
-  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original Marchand2018 author PDF text90–145 and figure1 description658–661; mandatory bundle scraper reviewed.",
+      "findings": "No source-supported correction identified in inspected scope.",
+      "deferred": [
+        "Original supporting methods; exact protocol timings, adapter assignment, run and full library states were not re-verified; main PDF confirms alkaline treatment, background dephosphorylation, aniline cleavage and N+1 selective-ligation principle"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

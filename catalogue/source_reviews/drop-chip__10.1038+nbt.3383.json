@@ -212,5 +212,20 @@
       "evidence": "Methods name generic Illumina adapters/primers; matching vendor chemistry not identified."
     }
   ],
-  "conclusion": "Two independent reads now cover the published inner adapter table and Supplementary Fig. 2 image, including four ligation orientations and read direction. Both readers confirmed that Fig. 2A's lower green priming blocks do not pair with its top strand; the public page prints the exact mismatch and the model uses Table 2 forward strands with computed complements. The outer Illumina adapter and library-primer identities remain unresolved because the paper does not select a vendor product or version. No missing-information claim is accepted while relevant identity evidence is unavailable."
+  "conclusion": "Two independent reads now cover the published inner adapter table and Supplementary Fig. 2 image, including four ligation orientations and read direction. Both readers confirmed that Fig. 2A's lower green priming blocks do not pair with its top strand; the public page prints the exact mismatch and the model uses Table 2 forward strands with computed complements. The outer Illumina adapter and library-primer identities remain unresolved because the paper does not select a vendor product or version. No missing-information claim is accepted while relevant identity evidence is unavailable.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC4636926 JATS155–190; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added deproteinization before SC-PCR, Antarctic Phosphatase before BciVI, repeat PacI after Illumina ligation,14-cycle final PCR and2×60 read specification. Removed unverified index-read acquisition. Existing public BciVI polarity discrepancy retained.",
+      "deferred": [
+        "Full supplementary original oligo tables/figures; precise dark-cycle per-read setup; exact outer adapters; graph currently summarizes RNase, extraction and bead recovery"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

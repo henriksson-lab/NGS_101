@@ -423,3 +423,11 @@ inside the sequence (TRSU, all TRSI-n — it does not bridge the phosphorothioat
 literal `N` (the MDRT / eMDRT rows), or in lower case (P5-gMac_hybrid in Table S4). Each of
 these was confirmed by an exact `grep` of the written form in the `.txt` source instead
 (Table 1 lines 1386–1428 of the 2013 PMC text; Table S4 rows 5, 388, 393, 1928, 1943).
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Original PMC4054835 JATS96,110,216,258–262.
+
+Added 21-cycle suppression PCR; Exonuclease I is digestion with unresolved fragment fate. Public notice qualifies separate RNase H activity drawing: the original adds RNase H in the tailing mixture.
+
+Deferred: Combining RNase H/TdT graph activities; exact oligo table and LIMprep intermediates; supplements. This capped pass does not establish a complete source review or publication-wide absence.

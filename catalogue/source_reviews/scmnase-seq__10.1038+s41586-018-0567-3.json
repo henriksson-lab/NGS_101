@@ -73,5 +73,19 @@
       "evidence": "Original supplement names indexed PCR but the cited predecessor source is not checked."
     }
   ],
-  "conclusion": "Two readers checked original scMNase methods, but the cited Barski adaptor method remains unavailable; exact inherited adaptor oligos are blocked."
+  "conclusion": "Two readers checked original scMNase methods, but the cited Barski adaptor method remains unavailable; exact inherited adaptor oligos are blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 2,
+      "locations": "Original PMC8353605 JATS54–59; original MOESM1 PDF text27–48; mandatory bundle scraper reviewed.",
+      "findings": "Added 23-cycle index PCR, 160–300 bp E-gel selection and source paired-end HiSeq2500 read roles. Removed upstream schematic as adapter evidence and assumed i7 acquisition; canonical geometry and six-base width remain illustrative. Public page records summarized recovery stages.",
+      "deferred": [
+        "Cited adapter method33 (Barski); exact adapter identity, index width and run lengths; graph recovery stages"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

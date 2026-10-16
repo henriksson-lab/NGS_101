@@ -5,6 +5,56 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-16 — Published versions take precedence over preprints
+
+**Decision.** When a protocol has a published paper, curate from the published
+article and its associated supplements. These supersede the preprint and its
+supplements. Do not merge recipes across versions, use a preprint to overrule a
+published value, or present an ordinary preprint-to-publication change as a
+published-source discrepancy or unresolved conflict.
+
+Preprints are normally excluded from active protocol evidence and the primary
+curation pass. Retaining a downloaded copy does not make it an authority. Consult
+one only for a specific necessary detail omitted from the published material or
+an explicitly requested historical variant. Record why this exception is needed,
+verify that the detail remains applicable, label its provenance and uncertainty,
+and keep it subordinate to the published protocol. If applicability is unclear,
+leave the detail unresolved. Preserve historical review records without promoting
+them into current evidence. The two-reader absence gate checks the identity and
+supersession of an excluded preprint; it does not require two full readings of
+superseded chemistry. A conflict within the published article, supplements,
+or applicable authoritative vendor originals must still be documented.
+
+**Why.** Revision differences are expected. Treating superseded preprints as
+coequal sources creates artificial conflicts and distracts from the published
+protocol.
+
+## 2026-10-16 — Curate in capped breadth-first rounds
+
+**Decision.** A curation round names its protocols before reading and processes
+the defining originals and chemistry supplements across that batch before
+following references. The initial round covers 20 protocols outside the recently
+revisited batches. Investigation is capped at 10 minutes and three original
+documents per protocol. This is a search cap; already justified corrections must
+still be left consistent and checked.
+
+Record the exact inspected sections, positive findings, corrections and named
+deferred questions in the round ledger and protocol review. An uninspected
+supplement stays uninspected. A source unavailable within the cap stays unresolved.
+Move to the next protocol instead of building a new fetcher, recursively following
+references or starting an architectural migration. A later follow-up round may
+inspect directly linked documents at depth one; do not follow their references.
+Do not revisit the previous heavily studied protocols within this round.
+
+The existing two-reader and linked-source gate still applies to confirmed absence.
+A completed capped pass means only that its stated source scope was inspected;
+it does not establish a complete protocol review or convert a deferred question
+into published absence.
+
+**Why.** Recursive source discovery kept expanding individual reviews while much
+of the catalogue waited. Bounded breadth-first passes surface straightforward
+source-backed corrections across more protocols before deeper investigations.
+
 ## 2026-10-16 — Store downloaded originals outside the checkout
 
 **Decision.** Articles, supplements, text conversions and other untracked large

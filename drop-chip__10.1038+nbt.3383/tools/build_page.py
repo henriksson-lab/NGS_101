@@ -100,10 +100,9 @@ def reads() -> str:
                             "11 initial dark cycles but does not specify their per-read run setup.")}
 {table(("Read", "Published layout"), rows)}
 {sp.read_spec_table([
-    sp.read_spec("Read 1", None, "8-nt cell barcode at cycles 1–8, TTAA, then genomic DNA", "extract_then_include"),
-    sp.read_spec("Read 2", None, "11-nt constant, 8-nt cell barcode at cycles 12–19, TTAA, then genomic DNA", "extract_then_include"),
-    sp.read_spec("Index 1 (i7)", None, "sample index", "demultiplex"),
-], "Barcode coordinates are published; total read and index lengths and exact primer sequences are not.")}"""
+    sp.read_spec("Read 1", 60, "8-nt cell barcode at cycles 1–8, TTAA, then genomic DNA", "extract_then_include"),
+    sp.read_spec("Read 2", 60, "11-nt constant, 8-nt cell barcode at cycles 12–19, TTAA, then genomic DNA", "extract_then_include"),
+], "Original Sequencing Methods specify 2 × 60 bp and 11 initial dark cycles; their per-read setup and exact outer primer assignments remain unverified. No index-read acquisition is assigned in this pass.")}"""
 
 
 def render() -> str:

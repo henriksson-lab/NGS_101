@@ -5,6 +5,22 @@ not a store for third-party material. Run `python3 tools/audit_protocol_sources.
 for the repository census or `--check <protocol-dir>` for one review. Missing files
 remain pending; historical rows in the older oligo ledgers do not pass this gate.
 
+Curation now proceeds in capped breadth-first rounds recorded in
+`../curation_rounds/`. The primary-source layer is limited to 10 minutes and three
+originals per protocol. Add located bounded checks to an existing review without
+replacing earlier independent readings. Defer uninspected sections and linked
+sources explicitly; reaching the cap supplies neither a reading pass nor evidence
+of absence. Full `reviewed`/`accepted_missing` requirements below still apply.
+
+For a published method, the published article and its supplements are the active
+authorities. A superseded preprint is normally `not_relevant`, with the published
+version named as the reason. Earlier reading passes remain historical. Do not
+turn version changes into published-source discrepancies. For these exclusions,
+each independent reader confirms source identity and supersession rather than
+re-reading the preprint chemistry. Record a specific,
+necessary exception and verify applicability before using preprint-only details;
+see DESIGN.md, “Published versions take precedence over preprints.”
+
 The checklist includes the defining source, every supplement and detailed method
 relevant to a missing claim, vendor documents and predecessor protocols named by
 those sources, and chemistry-relevant linked material. A source can be `available`

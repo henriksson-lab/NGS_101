@@ -247,3 +247,7 @@ prints none. There is therefore nothing for
 `tools/selftest_source_oligos.py` to compare either: every oligo input in the graph is
 `inferred=True`, so the guard reports `0 checked` rather than a false pass. That is the
 honest state of this protocol, and it will change the moment the SOM arrives.
+
+## Bounded primary-source checkpoint, 2026-10-16
+
+The original main article (PMC3600412 text36–42) confirms the27-nt common handle, eight variable bases, 0/65/94/58°C operations and five preamplification cycles before handle PCR. Exact-handle scraper hits in the upstream drawing were not used as evidence. The named original SOM remains uninspected in this pass. The page now distinguishes unassigned handle/library/run choices from published absence and shows an explicit downstream warning without assuming a preparation chemistry. The separate patent comparison and complete molecular topology are deferred.

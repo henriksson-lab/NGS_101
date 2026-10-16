@@ -41,7 +41,7 @@ def products() -> str:
                             "27-nt ends.")
             + M.loop_topology().folded_panel(
                     "At 58 °C the complementary 27-nt ends pair intramolecularly. N marks "
-                    "both the unpublished handle bases and the representative genomic tract; "
+                    "both the unassigned handle bases and the representative genomic tract; "
                     "the fold, lengths and end pairing are defined. The looped product is "
                     "withdrawn from further random priming."))
 
@@ -57,15 +57,7 @@ def render() -> str:
         '<h1>MALBAC &mdash; quasi-linear single-cell whole-genome amplification</h1>',
         info('Defining source: <a href="https://doi.org/10.1126/science.1229164">'
              'Zong et al., Science 2012</a>.'),
-        '<div class="caveat"><b>Sequence boundary.</b> The accessible paper establishes the '
-        'whole architecture &mdash; a common 27-nt handle on an 8-nt random foot, the four '
-        'temperatures, five preamplification cycles, and amplicons that loop because their '
-        'ends are complementary &mdash; but <b>prints no oligo</b>, and its Supplementary '
-        'Online Material is behind the PMC download gate. Every dotted base below is '
-        'therefore unpublished: <code>H</code> is a length-preserving placeholder for the '
-        '27-nt handle, <code>N</code> the random foot, <code>X</code> the genomic insert, '
-        'and no library-prep kit, adapter, sequencing primer or read length is established.'
-        '</div>',
+        '<div class="caveat"><b>Bounded source scope.</b> Original main-article text40 establishes a 27-nt common handle plus eight variable bases, the four temperatures and five preamplification cycles. Exact handle bases, downstream preparation and run layout remain unassigned. The identified Supplementary Online Material is not checked in this capped pass; unassigned regions are not confirmed unpublished. H denotes the handle, N the random foot and X a schematic genomic interval.</div>',
         info('<b>Published-source difference.</b> The <a href="https://pmc.ncbi.nlm.nih.gov/'
              'articles/PMC3600412/">Science author manuscript</a> describes a common '
              '27-nt handle followed by <b>8 variable bases</b>, but does not print the '
@@ -81,11 +73,11 @@ def render() -> str:
         protocol_graph_panels(M.protocol_graph(),cls="long"),
         '<h2>Sequencing library</h2>',
         sp.unavailable_diagram(M.full_amplicon(),
-            'a separate, unspecified library-preparation kit must first add platform adapters',
+            'the downstream preparation and physical sequencing-primer sites remain unassigned',
             roles=('Read 1', 'Read 2'),
             caption='Sequencing primers cannot bind the MALBAC amplification product'),
-        info('MALBAC ends at amplified genomic DNA. A separate standard library-preparation kit '
-             'adds the platform adapters; the accessible defining paper does not identify that kit.'),
+        info('MALBAC ends at amplified genomic DNA. Downstream library preparation '
+             'remains a warning boundary until the original SOM and the study-specific choices are checked.'),
         sp.unresolved_read_content_table(M.full_amplicon(),
             'the defining paper leaves the downstream sequencing-library kit unspecified'),
         '</div>',

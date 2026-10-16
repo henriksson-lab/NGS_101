@@ -7,7 +7,7 @@ import rt
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
+from protocol_graph import (Disposition, Terminal, InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:

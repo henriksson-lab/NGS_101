@@ -12,8 +12,8 @@ TITLE = "superRCA — two-stage rolling-circle mutation detection"
 SOURCE = ('<a href="https://doi.org/10.1038/s41467-022-31397-y">'
           'Chen et al., <i>Nature Communications</i> (2022)</a>, Fig. 1 and Methods.')
 
-# The article establishes roles and order, but the available supplement contains no
-# oligo table. Role tokens carry no invented bases or lengths. These constructors are
+# The article establishes roles and order, while exact oligos remain unassigned in this bounded pass.
+# The original supplementary material remains deferred. Role tokens carry no invented bases or lengths. These constructors are
 # intentionally distinct from the exact-sequence circular.rolling_circle() path.
 TARGET = role("target region containing the candidate allele")
 GENOMIC = Construct((role("genomic flank upstream"), TARGET,
@@ -27,7 +27,7 @@ PADLOCK_CLOSURE = CircularizationGeometry.known(
     "splinted single-strand ligation",
     statement="Fig. 1D–E: matched padlock ends are joined by Ampligase while annealed to the repeated target sequence; no gap-fill step is reported.")
 PCR = PCRGeometry.unavailable(
-    GENOMIC, reason="Targeted forward and reverse primers are used, but their sequences and exact landing sites are absent from the available article and supplement.")
+    GENOMIC, reason="Targeted forward and reverse primers are used, but their sequences and exact landing sites remain unassigned pending the original supplementary material.")
 
 
 def cluster(*, labelled: bool = False) -> Scene:
@@ -49,7 +49,7 @@ def workflow() -> Workflow:
     w = Workflow(MolecularState("patient genomic DNA",
                                 tuple(molecule("patient genomic DNA", tuple(GENOMIC)).rows())),
                  track_graph=False)
-    w.pcr("High-fidelity target PCR", PCR,
+    w.pcr("High-fidelity target PCR: 15 cycles", PCR,
           molecule("target amplicon", AMPLICON).rows(), name="target amplicon",
           note="SuperFi PCR enriches the patient-specific target before circle formation.")
     w.react("Anneal ligation template across the amplicon ends",
@@ -83,7 +83,7 @@ def workflow() -> Workflow:
                 role("opposite padlock arm")),
                 closure_label="allele-specific padlock ligation").rows(),
             name="padlock circles around primary RCA product",
-            note=PADLOCK_CLOSURE.statement + " Exact arms and backbone are not disclosed in the available source files.")
+            note=PADLOCK_CLOSURE.statement + " Exact arms and backbone remain unassigned pending original supplementary material.")
     w.react("Added primers and Phi29 perform secondary RCA",
             cluster().rows(),
             name="superRCA object",

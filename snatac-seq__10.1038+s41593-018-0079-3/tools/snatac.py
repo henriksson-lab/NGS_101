@@ -11,7 +11,7 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from pcr import PCRGeometry
-from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+from protocol_graph import (Disposition, Terminal, AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 
@@ -143,8 +143,8 @@ def protocol_graph() -> ProtocolGraph:
     tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
     tagged_a=graph.product("tagged_a","round-1-indexed nuclei from well A",MaterialKind.MOLECULAR)
     tagged_b=graph.product("tagged_b","round-1-indexed nuclei from well B",MaterialKind.MOLECULAR)
-    waste_a=graph.product("tagment_waste_a","non-library products from well A",MaterialKind.WASTE)
-    waste_b=graph.product("tagment_waste_b","non-library products from well B",MaterialKind.WASTE)
+    waste_a=graph.product("tagment_waste_a","candidate non-library products from well A",MaterialKind.MOLECULAR)
+    waste_b=graph.product("tagment_waste_b","candidate non-library products from well B",MaterialKind.MOLECULAR)
     graph.react("tagment_a","Tagment accessible chromatin with well-A p5/p7 indexes",
                 StepKind.TAGMENTATION,
                 ((well_a,InputRole.TEMPLATE),(transposomes,InputRole.STRUCTURAL),
@@ -153,17 +153,17 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.TAGMENTATION,
                 ((well_b,InputRole.TEMPLATE),(transposomes,InputRole.STRUCTURAL),
                  (tn5,InputRole.CATALYST)),(tagged_b,waste_b))
-    graph.discard(waste_a,"same-ended and otherwise unusable transposition products do not amplify")
-    graph.discard(waste_b,"same-ended and otherwise unusable transposition products do not amplify")
+    graph.mark_terminal(Terminal(waste_a.id,Disposition.UNRESOLVED,"Candidate insertion product classes are not a demonstrated physically discarded fraction."))
+    graph.mark_terminal(Terminal(waste_b.id,Disposition.UNRESOLVED,"Candidate insertion product classes are not a demonstrated physically discarded fraction."))
     pooled=graph.product("pooled_nuclei","pooled round-1-indexed nuclei",MaterialKind.MOLECULAR)
     graph.react("pool","Pool indexed tagmentation wells",StepKind.POOL,
                 ((tagged_a,InputRole.TEMPLATE),(tagged_b,InputRole.TEMPLATE)),(pooled,))
-    sorter=graph.input("pcr_well_sort","one-nucleus-per-PCR-well sorting rule",MaterialKind.SELECTION)
-    wells=graph.product("pcr_wells","single round-1-indexed nuclei in PCR wells",MaterialKind.MOLECULAR)
-    excluded=graph.product("excluded_events","empty and multiplet sorting events",MaterialKind.WASTE)
-    graph.react("sort","Sort individual nuclei into second-index PCR wells",StepKind.SELECTION,
+    sorter=graph.input("pcr_well_sort","sort 25 nuclei per PCR well, combinatorial second indexing",MaterialKind.SELECTION)
+    wells=graph.product("pcr_wells","25 round-1-indexed nuclei per PCR well",MaterialKind.MOLECULAR)
+    excluded=graph.product("excluded_events","events excluded by the sorting gate",MaterialKind.WASTE)
+    graph.react("sort","Sort 25 nuclei into each second-index PCR well",StepKind.SELECTION,
                 ((pooled,InputRole.TEMPLATE),(sorter,InputRole.SELECTION)),(wells,excluded))
-    graph.discard(excluded,"empty and multiplet sorting events are excluded")
+    graph.discard(excluded,"events excluded by the sorting gate are excluded")
     gap_pol=graph.input("gap_fill_polymerase","gap-fill and PCR polymerase",MaterialKind.CATALYST)
     filled=graph.product("gap_filled","gap-filled A-to-B tagmentation fragments",
                          MaterialKind.MOLECULAR,state=tagged_fragment())
@@ -175,7 +175,7 @@ def protocol_graph() -> ProtocolGraph:
                    state=tuple(p7_index_primer()))
     final=final_library()
     library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
-    graph.react("indexed_pcr","Add the second i5/i7 barcode pair by PCR",StepKind.PCR,
+    graph.react("indexed_pcr","Add second i5/i7 barcode pair: 11 PCR cycles (main); 13 for species mix",StepKind.PCR,
                 ((filled,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
                  (i7,InputRole.STRUCTURAL),(gap_pol,InputRole.CATALYST)),(library,),
                 geometry=PCRGeometry.unavailable(final,
@@ -183,6 +183,7 @@ def protocol_graph() -> ProtocolGraph:
     graph.sequence(library,SequencingPlan(
         library=final,primers=SEQ_PRIMERS,acquired_roles=tuple(p.role for p in SEQ_PRIMERS),
         read_lengths={"Read 1":50,"Index 1 (i7)":43,"Index 2 (i5)":37,"Read 2":50},
+        limitation="Main HiSeq run50/43/37/50 is shown; the human–mouse mixture used13 PCR cycles and44/43/37/44 on MiSeq.",
         read_uses={"Read 1":"include","Index 1 (i7)":"extract",
                    "Index 2 (i5)":"extract","Read 2":"include"}))
     graph.declare_reviewed_scope((

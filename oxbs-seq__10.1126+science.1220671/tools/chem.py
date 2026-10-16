@@ -28,7 +28,7 @@ DEFINITION = Definition("oxBS-seq — oxidative bisulfite sequencing",
         "10.1126/science.1220671", "Booth et al., Science (2012)",
         "Potassium perruthenate converts 5hmC to 5fC before bisulfite, so 5hmC and unmodified C read as T while 5mC alone reads as C.",
         ("oxidative-bisulfite-converted insert",), "TruSeq reads interrogate the converted insert; an i7 read identifies the library.", "01_oxbs_seq.html", truseq=True,
-        caveat=("Library implementation: the sonication/TruSeq shell shown here follows the authors’ "
+        caveat=("The 2013 protocol requires removal of Tris/ethanol and alkaline denaturation before oxidation; these preparation details are summarized rather than fully drawn. After bisulfite, original C/5hmC positions are U; T is the PCR readout. Quantifying5hmC requires the nonoxidized BS control as well as oxBS; that parallel branch remains outside this graph. Library implementation: the sonication/TruSeq shell shown here follows the authors’ "
                 "<a href='https://doi.org/10.1038/nprot.2013.115'>2013 detailed protocol</a>; "
                 "the defining 2012 Science study demonstrates an oxRRBS branch. Its original supplementary "
                 "library details remain under review. <b>Published caption discrepancy:</b> 2013 Supplementary "
@@ -63,13 +63,14 @@ def _conversion_graph(definition, final: Construct, primers: tuple) -> ProtocolG
     end_prep = repair_and_dA_tail(Construct([_part('unconverted genomic insert')]))
     geometry = cohesive_ligation_geometry(end_prep, TRUSEQ_Y_END, statement='The protocol specifies TruSeq adapters: their public 3′-T end pairs with the dA-tailed insert.')
     graph.react('adapter_ligation', 'Ligate TruSeq adapters', StepKind.LIGATION, ((tailed, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)), (ligated,), geometry=geometry)
+    denature = graph.input('alkaline_denaturation', 'NaOH denaturation, 37°C for30min followed by snap cooling', MaterialKind.CONDITION)
     oxidant = graph.input('perruthenate', 'potassium perruthenate', MaterialKind.CONDITION)
     oxidized = graph.product('oxidized_dna', 'selectively oxidized adapter-ligated DNA', MaterialKind.MOLECULAR, state=_conversion_scene((('original C', 'C'), ('original 5mC', '5mC'), ('original 5hmC', '5fC')), 'after oxidation'))
-    graph.react('oxidize_5hmc', 'Oxidize 5hmC selectively', StepKind.CHEMICAL_CONVERSION, ((ligated, InputRole.TEMPLATE), (oxidant, InputRole.CONDITION)), (oxidized,))
+    graph.react('oxidize_5hmc', 'Denature adapted DNA, then oxidize 5hmC on ice for60min', StepKind.CHEMICAL_CONVERSION, ((ligated, InputRole.TEMPLATE), (denature, InputRole.CONDITION), (oxidant, InputRole.CONDITION)), (oxidized,))
     conversion_input = oxidized
-    reviewed = ['genomic_dna', 'shearing_condition', 'fragment', 'end_repair_enzymes', 'end_repair', 'a_tailing_enzyme', 'da_tail', 'truseq_adapters', 'dna_ligase', 'adapter_ligation', 'perruthenate', 'oxidize_5hmc']
+    reviewed = ['genomic_dna', 'shearing_condition', 'fragment', 'end_repair_enzymes', 'end_repair', 'a_tailing_enzyme', 'da_tail', 'truseq_adapters', 'dna_ligase', 'adapter_ligation', 'alkaline_denaturation', 'perruthenate', 'oxidize_5hmc']
     bisulfite = graph.input('bisulfite_reagent', 'bisulfite conversion reagent', MaterialKind.CONDITION)
-    converted = graph.product('bisulfite_converted_dna', 'bisulfite-converted library template', MaterialKind.MOLECULAR, state=_conversion_scene(tuple(((base, oxbs_path(base).states[-1]) for base in ('C', '5mC', '5hmC'))), 'converted readout'))
+    converted = graph.product('bisulfite_converted_dna', 'bisulfite-converted library template', MaterialKind.MOLECULAR, state=_conversion_scene(tuple(((base, oxbs_path(base).states[-2]) for base in ('C', '5mC', '5hmC'))), 'after bisulfite, before PCR'))
     graph.react('bisulfite_conversion', 'Bisulfite-convert the treated DNA', StepKind.CHEMICAL_CONVERSION, ((conversion_input, InputRole.TEMPLATE), (bisulfite, InputRole.CONDITION)), (converted,))
     conversion_input = converted
     reviewed.extend(('bisulfite_reagent', 'bisulfite_conversion'))

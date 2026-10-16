@@ -9,7 +9,7 @@ from end_repair import fill_five_prime_overhang
 from single_cell_hic import unresolved_illumina_library
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
 TITLE = "Micro-C — nucleosome-resolution proximity ligation"
@@ -25,6 +25,7 @@ def seg(name, top, tag=None, **kw):
 REPAIR = fill_five_prime_overhang("TAGC", substituted_bases=("A", "C"))
 SIZE_SELECTION_BP = (250, 350)
 PCR_CYCLES = (12, 15)
+READ_LENGTHS = {"Read 1": 50, "Read 2": 50}
 
 
 def mnase_scene():
@@ -94,16 +95,20 @@ def protocol_graph():
     mnase=graph.input("mnase","micrococcal nuclease",MaterialKind.CATALYST)
     mononucleosomes=graph.product("mononucleosomes","mononucleosome-protected chromatin fragments",
                                   MaterialKind.MOLECULAR,state=tuple(mnase_scene().rows()))
-    linker_waste=graph.product("linker_waste","MNase-digested linker DNA",MaterialKind.WASTE)
+    linker_waste=graph.product("linker_waste","MNase linker-digestion products; recovery unassigned",MaterialKind.MOLECULAR)
     graph.react("mnase_digest","Digest linker DNA to mononucleosomes",StepKind.DIGESTION,
                 ((chromatin,InputRole.TEMPLATE),(mnase,InputRole.CATALYST)),
                 (mononucleosomes,linker_waste))
-    graph.discard(linker_waste,"accessible linker DNA is digested away")
+    graph.mark_terminal(Terminal(linker_waste.id,Disposition.UNRESOLVED,"MNase digestion is source-described; individual digestion products and their recovery through concentration/purification are unassigned."))
+    phosphatase=graph.input("phosphatase","Antarctic phosphatase after concentration",MaterialKind.CATALYST)
+    dephosphorylated=graph.product("dephosphorylated","dephosphorylated chromatin ends",MaterialKind.MOLECULAR,state=mononucleosomes.state)
+    graph.react("dephosphorylate","Dephosphorylate before T4 polymerase end processing",StepKind.DEPHOSPHORYLATION,
+                ((mononucleosomes,InputRole.TEMPLATE),(phosphatase,InputRole.CATALYST)),(dephosphorylated,))
     t4pol=graph.input("t4_polymerase","T4 DNA polymerase",MaterialKind.CATALYST)
     resected=graph.product("resected_ends","resected heterogeneous MNase ends",
                            MaterialKind.MOLECULAR,state=tuple(resected_end_scene().rows()))
     graph.react("resect_ends","Create repairable 5′ single-stranded ends",StepKind.END_REPAIR,
-                ((mononucleosomes,InputRole.TEMPLATE),(t4pol,InputRole.CATALYST)),(resected,))
+                ((dephosphorylated,InputRole.TEMPLATE),(t4pol,InputRole.CATALYST)),(resected,))
     labelled=graph.product("labelled_blunt_ends","biotin-filled blunt nucleosomal ends",
                            MaterialKind.MOLECULAR,state=tuple(repaired_end_scene().rows()))
     graph.react("fill_label","Fill ends with biotin-dATP and biotin-dCTP",StepKind.EXTENSION,
@@ -117,10 +122,10 @@ def protocol_graph():
     exo3=graph.input("exonuclease_iii","Exonuclease III",MaterialKind.CATALYST)
     protected=graph.product("protected_contacts","contacts with internal biotin junctions",
                             MaterialKind.MOLECULAR,state=selected_insert())
-    free_ends=graph.product("free_end_waste","unligated terminally labelled ends",MaterialKind.WASTE)
+    free_ends=graph.product("free_end_waste","exonuclease products from terminally labelled ends",MaterialKind.MOLECULAR)
     graph.react("remove_free_ends","Remove unligated labelled ends",StepKind.DIGESTION,
                 ((contacts,InputRole.TEMPLATE),(exo3,InputRole.CATALYST)),(protected,free_ends))
-    graph.discard(free_ends,"terminally labelled unligated ends are exonucleolytically removed")
+    graph.mark_terminal(Terminal(free_ends.id,Disposition.UNRESOLVED,"The source uses exonucleaseIII to eliminate biotinylated unligated termini, not a demonstrated physical discard of every entire unligated molecule; product recovery remains unassigned."))
     reversal=graph.input("crosslink_reversal","crosslink-reversal and proteinase condition",
                          MaterialKind.CONDITION)
     purified=graph.product("purified_contacts","deproteinized Micro-C contact DNA",
@@ -177,9 +182,10 @@ def protocol_graph():
     graph.sequence(library,SequencingPlan(
         acquired_roles=("Read 1","Read 2"),
         read_uses={"Read 1":"include","Read 2":"include"},
-        limitation="The source specifies paired-end Illumina sequencing but not primer sites or cycle counts."))
+        read_lengths=READ_LENGTHS,
+        limitation="Original Sequence analysis and mapping specifies paired50-base reads. Exact ordered primers and their physical sites remain unassembled; original supplements are not checked in this bounded pass."))
     graph.declare_reviewed_scope(("crosslinked_chromatin","mnase","mnase_digest",
-      "t4_polymerase","resect_ends","fill_label","dna_ligase","proximity_ligate",
+      "phosphatase","dephosphorylate","t4_polymerase","resect_ends","fill_label","dna_ligase","proximity_ligate",
       "exonuclease_iii","remove_free_ends","crosslink_reversal","reverse_crosslinks",
       "gel_selection","size_select","library_endprep","library_endprep_step",
       "illumina_adapter","adapter_ligation","streptavidin","capture","pcr_forward",

@@ -21,8 +21,8 @@ def render() -> str:
         f'<h1>{M.TITLE}</h1>',
         '<p class="research-notes"><a href="01_superrca.html">Research notes</a></p>',
         info(M.SOURCE),
-        info("This is a role-level assay schematic. The article and available supplement "
-             "establish the reaction order but do not supply the exact oligo sequences. "
+        info("This is a role-level assay schematic. The inspected main Methods "
+             "establish the reaction order; exact oligo assignment and original supplements remain deferred. "
              "The peer-review response mentions a missing Supplementary Table S2. "
              "Bracketed regions have no asserted sequence or length."),
         '<h2>Molecular workflow</h2>', workflow_panel(M.workflow(), cls="long"),

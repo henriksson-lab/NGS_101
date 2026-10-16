@@ -43,7 +43,7 @@ def preamble(protocol: str, *, complete: bool = False) -> str:
     }[protocol]
     caveat = ""
     if protocol == S.STRT:
-        caveat = '<div class="caveat"><b>Primer sequence unavailable.</b> The defining paper states that Read 1 uses a custom primer but does not print it. Its landing site is reconstructed from the published final construct.</div>'
+        caveat = '<div class="caveat"><b>Inferred primer site.</b> The custom Read 1 primer assignment remains unverified in this capped pass. Its landing site is reconstructed from the published construct; the original supplement is deferred.</div>'
     elif protocol == S.C1:
         caveat = '<div class="caveat"><b>Partial methods.</b> The accessible Supplementary Note defines the molecule and says it is sequenced without library PCR; the paywalled Online Methods contain the unavailable selection details.</div>'
     elif protocol == S.TWO_I:
@@ -256,7 +256,7 @@ def graph_for(protocol: str) -> ProtocolGraph:
     preamp_state = S.strt_preamp_product()
     amplified = graph.product("amplified_cdna", "biotinylated amplified cDNA",
                               MaterialKind.MOLECULAR, state=preamp_state)
-    graph.react("preamp", "Amplify pooled cDNA with the single STRT-PCR primer",
+    graph.react("preamp", "Amplify pooled cDNA: 20 cycles with the single STRT-PCR primer",
                 StepKind.PCR,
                 ((clean, InputRole.TEMPLATE),
                  (preamp_primer, InputRole.STRUCTURAL),
@@ -331,7 +331,7 @@ def graph_for(protocol: str) -> ProtocolGraph:
                                  MaterialKind.CATALYST)
     unselected_library = graph.product("unselected_library", "amplified STRT library",
                                        MaterialKind.MOLECULAR, state=final)
-    graph.react("library_pcr", "Amplify selected TSO-end fragments",
+    graph.react("library_pcr", "Amplify selected TSO-end fragments: 12 cycles",
                 StepKind.PCR,
                 ((selected, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL),
@@ -351,7 +351,8 @@ def graph_for(protocol: str) -> ProtocolGraph:
                  (size_reagent, InputRole.SELECTION)), (library, size_waste))
     graph.discard(size_waste, "outside the reported 200–400 bp library interval")
     graph.sequence(library, SequencingPlan(
-        library=final, primers=(S.STRT_READ1,), acquired_roles=("Read 1",)))
+        library=final, primers=(S.STRT_READ1,), acquired_roles=("Read 1",),
+        read_lengths={"Read 1": 55}, limitation="Custom primer is a derived reference site; original supplement remains deferred."))
     reviewed.extend([
         "cleanup_beads", "pool_cleanup", "preamp_primer", "preamp_polymerase",
         "preamp", "streptavidin_beads", "immobilize", "dnase_i", "fragment",
@@ -375,7 +376,7 @@ def sequencing(protocol: str) -> str:
         primers = (S.STRT_READ1,)
         hit = sp.locate(lib, S.STRT_READ1)
         rows = [("Read 1", "~55", "6-nt cell barcode &middot; GGG &middot; transcript 5' end")]
-        note = "The paper does not publish the custom primer sequence; the drawn landing site ends immediately before the barcode."
+        note = "The custom primer assignment remains unverified; the drawn reference site ends immediately before the barcode. The original article reports 55-base reads and three to six C residues after the barcode; GGG in the opposite construct orientation is representative rather than a fixed-length tail."
     elif protocol == S.C1:
         primers = S.C1_PRIMERS
         hits = [sp.locate(lib, p) for p in S.C1_PRIMERS]

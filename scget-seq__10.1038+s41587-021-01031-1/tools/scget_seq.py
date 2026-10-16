@@ -9,7 +9,7 @@ import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, oligo
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
 from tagmentation import loaded_tn5_adapter
 
@@ -20,7 +20,7 @@ SUMMARY = ("Ordinary Tn5 and HP1α–Tn5 transfer different inline adapter barco
            "Chromium ATAC subsequently adds a shared cell identity.")
 CAVEAT = ("The representative Tn5ME-A.1 and TnHME-A.4 top oligos are exact. Their common "
           "mosaic-end reverse strand follows standard Tn5 loading. Complete 10x gel-bead "
-          "and SI-PCR oligos are proprietary and remain explicit unavailable regions.")
+          "and SI-PCR oligos remain unassigned in this model; vendor originals are deferred, so this is not a confirmed nondisclosure claim.")
 
 CONNECTOR = "TCCGATCT"
 TN5_BARCODE = "CGTACTAG"
@@ -119,10 +119,10 @@ def workflow():
     w.react("INFERRED — linearly amplify and barcode both product classes in Chromium ATAC droplets",
             Scene.duplex(list(PRE_PCR), label="representative cell-barcoded TnH product").rows(),
             name="cell-barcoded linear products",
-            note="The source establishes the 10x workflow and molecule roles, but not the complete gel-bead oligo.")
+            note="The source establishes the 10x workflow and molecule roles, while the complete gel-bead oligo remains unassigned.")
     geometry = PCRGeometry.unavailable(
         PRE_PCR,
-        reason="The source follows the 10x scATAC kit but does not print the complete SI-PCR primer sequences.")
+        reason="The source follows the 10x scATAC kit but the complete SI-PCR primer assignment remains unchecked.")
     w.pcr("PCR-complete the Chromium ATAC library", geometry,
           Scene.duplex(list(FINAL_LIBRARY), label="scGET-seq sequencing library").rows(),
           name="scGET-seq sequencing library")
@@ -131,7 +131,7 @@ def workflow():
 
 def protocol_graph():
     source = "Defining source: https://doi.org/10.1038/s41587-021-01031-1"
-    proprietary = source + " (10x gel-bead and SI-PCR oligos are not disclosed)"
+    proprietary = source + " (10x gel-bead and SI-PCR oligos remain unassigned pending vendor originals)"
     graph = ProtocolGraph("scGET-seq", authority=source)
     nuclei = graph.input("nuclei", "permeabilized nuclear chromatin",
                          MaterialKind.BIOLOGICAL, primary=True)
@@ -143,13 +143,13 @@ def protocol_graph():
                                     "accessible and H3K9me3 modality-coded fragments",
                                     MaterialKind.MOLECULAR)
     tagmentation_waste = graph.product("tagmentation_waste",
-                                       "non-library tagmentation products", MaterialKind.WASTE)
+                                       "candidate non-library tagmentation products", MaterialKind.MOLECULAR)
     graph.react("dual_tagmentation",
                 "Tagment accessible DNA with Tn5 and H3K9me3-associated DNA with HP1α–Tn5",
                 StepKind.TAGMENTATION,
                 ((nuclei, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL),
                  (transposases, InputRole.CATALYST)), (tagged_products, tagmentation_waste))
-    graph.discard(tagmentation_waste, "molecules without usable paired insertions do not amplify")
+    graph.mark_terminal(Terminal(tagmentation_waste.id, Disposition.UNRESOLVED, "Candidate tagmentation product classes and their physical recovery are not resolved by the adapter table."))
     gel_bead = graph.input("gel_bead_oligo", "10x Chromium ATAC gel-bead oligo",
                            MaterialKind.ADAPTER, inferred=True, source=proprietary)
     cell_barcoded = graph.product("cell_barcoded_products",
@@ -172,7 +172,7 @@ def protocol_graph():
                 ((cell_barcoded, InputRole.TEMPLATE), (i5, InputRole.STRUCTURAL),
                  (i7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
                 geometry=PCRGeometry.unavailable(
-                    PRE_PCR, reason="The source follows the 10x scATAC kit but does not print complete SI-PCR primers."),
+                    PRE_PCR, reason="The source follows the 10x scATAC kit but complete SI-PCR primer assignment remains unchecked."),
                 source=proprietary)
     graph.sequence(library, SequencingPlan(
         library=FINAL_LIBRARY, primers=SEQ_PRIMERS,

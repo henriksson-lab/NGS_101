@@ -40,3 +40,11 @@ adapter or PCR-primer sequences, index values or read lengths.
 The page uses canonical TruSeq arm bases, visibly marked inferred, to show how the four
 standard Illumina primers bind. This does not claim a particular IDT index set or index
 value. No genomic read-cycle lengths are asserted.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Original PMC8214697 JATS172–179.
+
+Added source400–700bp gel selection after15-cycle library PCR; retained no-fragmentation PTA branch distinct from SCMDA. Removed unverified8-cycle acquired index mask and publication-wide primer-absence wording; canonical geometry remains inferred.
+
+Deferred: Original SI, random-primer/UDI vendor documents and exact acquisition mask; source lysis/neutralization and post-PTA cleanup represented only at summarized scope. This capped pass does not establish a complete source review or publication-wide absence.

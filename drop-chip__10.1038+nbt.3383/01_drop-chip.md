@@ -265,3 +265,11 @@ The separate Fig. 2A lower-strand priming-site mismatch is documented in §4.
   with an extra BciVI site) were usable.
 - 🔴 Sequencing-primer bases and the exact instrument configuration for the 11 dark
   cycles; Fig. 2 resolves the molecular read boundaries, not those run settings.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Original PMC4636926 JATS155–190.
+
+Added deproteinization before SC-PCR, Antarctic Phosphatase before BciVI, repeat PacI after Illumina ligation,14-cycle final PCR and2×60 read specification. Removed unverified index-read acquisition. Existing public BciVI polarity discrepancy retained.
+
+Deferred: Full supplementary original oligo tables/figures; precise dark-cycle per-read setup; exact outer adapters; graph currently summarizes RNase, extraction and bead recovery. This capped pass does not establish a complete source review or publication-wide absence.

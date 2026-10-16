@@ -93,5 +93,20 @@
       "evidence": "Protocol refers to an attachment; the attachment has not been obtained."
     }
   ],
-  "conclusion": "First original-source reading only; a different reviewer must independently check the sources, source links, and any claimed absence."
+  "conclusion": "First original-source reading only; a different reviewer must independently check the sources, source links, and any claimed absence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC6062574 JATS139–155; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Named Maxima H-minus/7.5% PEG and Terra direct polymerase; added post-pooling SPRI cleanup before Exonuclease I, represented as digestion with unresolved fragments. Source specifies15-cycle preamplification,16/50 reads and optional8-base i7 when multiplexing.",
+      "deferred": [
+        "Detailed protocols.io original and supplement oligos; optional index acquisition representation; size selection and complete intermediate states"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

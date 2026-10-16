@@ -204,5 +204,19 @@
       "evidence": "Smallwood Methods names indexed iPCRTag but no sample-to-member mapping was located; Quail table establishes family, not chosen member."
     }
   ],
-  "conclusion": "Smallwood original and supplements, cited Quail iPCRTag table, later Clark full article/supplement, official GEO family SOFT, and Miura PBAT predecessor now have two independent located reads. The 2017 optimization is not the 2014 chemistry: it changes N9 to N6 and replaces streptavidin capture with SPRI. GEO confirms N9 and generic indexed-iPCRTag workflow but no per-sample member allocation. Exact Smallwood cell-to-index assignment remains blocked; the model uses a variable eight-base member."
+  "conclusion": "Smallwood original and supplements, cited Quail iPCRTag table, later Clark full article/supplement, official GEO family SOFT, and Miura PBAT predecessor now have two independent located reads. The 2017 optimization is not the 2014 chemistry: it changes N9 to N6 and replaces streptavidin capture with SPRI. GEO confirms N9 and generic indexed-iPCRTag workflow but no per-sample member allocation. Exact Smallwood cell-to-index assignment remains blocked; the model uses a variable eight-base member.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC4117646 JATS66,72,76,100–106; mandatory bundle scraper reviewed.",
+      "findings": "Exonuclease I is now digestion, with unresolved digested-primer fate before separate AMPure cleanup. Added 12–13-cycle single-cell PCR label and public distinction between main paired100 and deeper150-base runs. Original oligo1/oligo2/PE1 agree with model.",
+      "deferred": [
+        "Original supplements, cited Quail primer table and historical vendor documents not re-read; exact index acquisition and full intermediates"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

@@ -967,5 +967,20 @@
       "local_verification": "Six source-backed tests passed; protocol page built; pairing lint reported zero problem duplexes. Local source guard checked four oligos with zero failures and two inputs without exact states. Chemistry validation covered 28 steps with zero contradictory claims. Review validation, documentation build, and scoped git diff whitespace checks passed.",
       "scope": "Bounded checkpoint only. Review remains in_progress. The actual 2011 Supporting Information, referenced published Online Methods, and recorded linked-source obligations have not been completed. No missing-information claim is accepted."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 2,
+      "locations": "Published original PMC3929178 JATS106–126; original MOESM254 PDF text174–280, SupplementaryFigure1; mandatory oligo scraper reviewed, original provenance distinguished from upstream.; rendered original SupplementaryFigure1, PDF page3 (yeast/fly panels and library diagram)",
+      "findings": "No correction identified in inspected scope: native extraction/fraction pooling, RNase/proteinase digestion and purification, end repair/dA-tail/TruSeq ligation and25-cycle paired-end readout agree with existing qualified model.",
+      "deferred": [
+        "Missing published Online Methods, exact historical adapter/index assignment and cited procedures; no preprint used."
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
   ]
 }

@@ -335,3 +335,11 @@ xlsx into tab-separated text that was easy to parse. `tools/scrape_primers.py` p
 Supplementary Table 5 first and tagged P7 / S7 / P5 / S5 / ME, but the output repeats a
 long `context` window for every row of a dense table. The methods were read by hand. The
 barcode orientation was settled with the pipeline's barcode files, which no tool looks at.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Original PMC5862073 JATS162–164.
+
+Corrected one nucleus per PCR well to25 nuclei per well for combinatorial indexing; qualified candidate tagmentation product recovery. Main Methods specify11 PCR cycles and50/43/37/50 reads, with13 cycles and44/43/37/44 for species mix.
+
+Deferred: Original Supplementary Table5 oligos; explicit quench, SDS/Triton and recovery graph stages; alternative run representation. This capped pass does not establish a complete source review or publication-wide absence.

@@ -76,7 +76,7 @@ TITLE = 'ChEC-seq — calcium-triggered chromatin endogenous cleavage sequencing
 NOTES = '01_chec_seq.html'
 SOURCE = '<a href="https://doi.org/10.1038/ncomms9733">Zentner et al., Nature Communications (2015)</a>; the exact displayed library oligos come from the Henikoff laboratory’s separate <a href="https://doi.org/10.1002/0471142727.mb2131s110">Orsi et al. stepwise protocol (2015)</a>.'
 SUMMARY = 'A protein of interest is genetically fused to MNase. Digitonin admits calcium into living yeast, activating cleavage beside occupied binding sites; short two-cut fragments are selected and converted into a paired-end Illumina library.'
-CAVEAT = 'ChEC-seq reports calcium-triggered cleavage by a mobile protein–MNase fusion, not an antibody-captured footprint. A free nuclear MNase control and early kinetic samples are essential because slower cleavage contains accessibility, enzyme-bias and transient-collision signal. The exact oligo strings shown here come from a separate same-laboratory Orsi procedure; the defining ChEC article does not itself print a sample-index assignment.'
+CAVEAT = 'ChEC-seq reports calcium-triggered cleavage by a mobile protein–MNase fusion, not an antibody-captured footprint. A free nuclear MNase control and early kinetic samples are essential because slower cleavage contains accessibility, enzyme-bias and transient-collision signal. The defining Methods specify2.5:1 negative AMPure selection: keep the small-DNA supernatant, then re-extract and precipitate it to remove RNase before library preparation; this second recovery is summarized in the graph. The exact oligo strings shown here come from a separate same-laboratory Orsi procedure; the defining ChEC article does not itself print a sample-index assignment.'
 FINAL_CAPTION = 'The selected insert is bounded by two MNase-created ends near a protein-binding event. End repair and dA-tailing erase the original overhang geometry but retain both genomic boundary coordinates; the illustrated Orsi variant has one six-base i7 index and no i5 index. This does not identify the exact adapters/index member in the defining 2015 ChEC experiment.'
 READ_LENGTHS = {'Read 1': 25, 'Index 1 (i7)': 6, 'Read 2': 25}
 SEQUENCING_INTRO = 'The defining data set used 25-base paired-end reads. Standard TruSeq Read 1 and Read 2 sites are computed here on the separately illustrated Orsi-derived construct. Its six-position index is shown with six Index1 cycles; this is not a recovered 2015 instrument mask or sample-index assignment.'
@@ -128,12 +128,16 @@ def protocol_graph() -> ProtocolGraph:
             role("large background genomic DNA"), role("short two-cut protein-site fragment"))))
     graph.react("quench", "Quench each timed digestion aliquot", StepKind.QUENCHING,
                 ((cut, InputRole.TEMPLATE), (quench, InputRole.CONDITION)), (stopped,))
+    proteinase = graph.input("proteinase_k", "proteinase K, 55°C for30min", MaterialKind.CATALYST)
+    deproteinized = graph.product("deproteinized", "deproteinized ChEC digest", MaterialKind.MOLECULAR, state=stopped.state)
+    graph.react("deproteinize", "Digest proteins before nucleic-acid extraction", StepKind.DEPROTEINIZATION,
+                ((stopped, InputRole.TEMPLATE), (proteinase, InputRole.CATALYST)), (deproteinized,))
     extraction = graph.input("extraction_condition", "nucleic-acid extraction and RNase condition",
                              MaterialKind.CONDITION)
     extracted = graph.product("extracted_dna", "extracted ChEC DNA",
                               MaterialKind.MOLECULAR, state=stopped.state)
     graph.react("extract", "Extract nucleic acid and digest RNA", StepKind.EXTRACTION,
-                ((stopped, InputRole.TEMPLATE), (extraction, InputRole.CONDITION)),
+                ((deproteinized, InputRole.TEMPLATE), (extraction, InputRole.CONDITION)),
                 (extracted,))
     beads = graph.input("ampure_selection", "2.5:1 AMPure size-selection rule",
                         MaterialKind.SELECTION)
@@ -149,7 +153,7 @@ def protocol_graph() -> ProtocolGraph:
     graph.discard(large, "binds the AMPure beads while the short ChEC fragments remain in supernatant")
     reviewed = [
         "fusion_cells", "digitonin", "permeabilize", "calcium", "timed_digest",
-        "quench_reagents", "quench", "extraction_condition", "extract",
+        "proteinase_k", "deproteinize", "quench_reagents", "quench", "extraction_condition", "extract",
         "ampure_selection", "size_select",
     ]
     # Source-owned Orsi variant. The 2015 ChEC short-fragment selection above and

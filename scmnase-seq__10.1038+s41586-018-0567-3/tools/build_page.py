@@ -28,11 +28,10 @@ def sequencing(lib) -> str:
                      f"<code>{html.escape(hit.reads)}</code>&hellip;"))
     return "".join([
         '<h2>Sequencing</h2>',
-        info("Paired-end TruSeq reads interrogate the protected fragment from opposite ends; the single i7 read identifies the library."),
+        info("The source specifies paired-end HiSeq 2500 sequencing. The sites below illustrate a conditional TruSeq reference; they do not establish the study adapter or index acquisition."),
         sp.diagram(lib, S.SEQ_PRIMERS),
         table(("Read", "Primer", "Primer site", "First bases"), rows),
-        sp.read_content_table(lib, S.SEQ_PRIMERS,
-                              acquired_roles=tuple(p.role for p in S.SEQ_PRIMERS)),
+        sp.read_spec_table(tuple(sp.read_spec(r, None, "MNase-protected genomic fragment", "include") for r in ("Read 1", "Read 2"))),
     ])
 
 
@@ -43,13 +42,14 @@ def render() -> str:
         head("scMNase-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>scMNase-seq &mdash; MNase-protected DNA from one cell</h1>',
         info('Defining source: <a href="https://doi.org/10.1038/s41586-018-0567-3">Lai et al., <i>Nature</i> (2018)</a>.'),
-        '<div class="caveat"><b>Adapter sequence.</b> The defining paper names universal adapters and indexed primers but does not print their bases. Dotted regions and steps labelled <b>INFERRED</b> use the TruSeq reconstruction recorded by upstream scg_lib_structs.</div>',
+        '<div class="caveat"><b>Adapter sequence.</b> The Supplementary Methods name universal adapters through cited method 33, which remains deferred in this bounded pass. Dotted regions and <b>INFERRED</b> steps are a conditional canonical TruSeq reference, not a verified assignment to this experiment. The illustrated six-base index width is not a study run specification.</div>',
         '<h2>Inferred key oligos</h2><seq>',
         oligo("Y-adapter, 3'-T strand", S.adapter_bottom()),
         oligo("Y-adapter, phosphorylated strand", S.adapter_top(), mods="/5Phos/"),
         oligo("PCR Primer 1.0", S.p5_primer()),
         oligo("indexed multiplexing primer", S.indexed_p7_primer()),
         '</seq>',
+        info('Supplementary Methods pp. 2–3: stop MNase with SDS/EGTA, digest with proteinase K, then phenol–chloroform extraction and ethanol precipitation before adapter ligation. Index PCR uses 23 cycles, followed by 160–300 bp E-gel selection and paired-end HiSeq 2500 sequencing. Post-digest recovery is currently summarized rather than represented as separate graph steps.'),
         '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>Molecular details</h2>',
         '<h3>(1) Digest one lysed cell with micrococcal nuclease</h3>',

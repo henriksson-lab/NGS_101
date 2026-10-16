@@ -108,12 +108,10 @@ the workbook version. 🟡 The article does not explain whether the shorter
 Methods pair was an earlier variant or a textual truncation. The public page
 displays both claims and the model choice.
 
-## Preprint-to-published reagent change
+## Published protocol authority
 
-🟢 The March 2023 bioRxiv v1 Methods (PDF text lines 522–523) specify
-3 µL each of **1.3 M NaOH** and **1.3 M HCl** for RNA hydrolysis and
-neutralization. The published article Materials and Methods (PMC10270195,
-RNA-removal paragraph) and the detailed supplemental protocol (lines 289–301)
-specify 3 µL each of **1 M / 1 N NaOH** and **1 M / 1 N HCl**. The graph uses
-the agreed published concentration. 🟡 The sources do not explain whether the
-preprint concentration was tested or deliberately changed during revision.
+The published article Materials and Methods (PMC10270195, RNA-removal paragraph)
+and its detailed supplemental protocol (lines 289–301) specify 3 µL each of
+1 M / 1 N NaOH and HCl. The model uses these published values. The superseded
+preprint is excluded from current protocol evidence; its revision differences
+are not presented as a published-source discrepancy.

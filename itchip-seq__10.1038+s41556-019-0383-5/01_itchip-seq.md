@@ -384,3 +384,11 @@ appeared only after many hits of upstream's double-strand diagrams; the i5/i7 pr
 were recognised as containing `illumina.P5`, but the truncated s5/s7 tails (14/15 nt)
 were not annotated. The T5/T7 oligos were parsed and checked directly from the table
 text with `lib/`.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Original publisher HTML abstract97; original MOESM1 PDF text24–37,74–79; original MOESM3 XLSX representative Table1 rows4,26–27.
+
+Original T5-1/i5-N501 table rows agree with model; source confirms pre-ChIP tagmentation and custom index architecture. Removed unverified acquired150-base mask and presumed physical disposal of non-library Tn5 classes.
+
+Deferred: Full original main Methods and run mask; remaining oligo-family rows and custom sequencing oligos; recovery and precise reaction ordering. This capped pass does not establish a complete source review or publication-wide absence.

@@ -33,3 +33,7 @@ An inventor-associated [META patent](https://patents.google.com/patent/WO2018217
 sequences and explicitly discusses Dip-C. 🟡 These are candidate source sequences, not
 proof of which members or complete transposomes were used for the 2018 libraries; no
 patent sequence is promoted into the schematic without that cross-check.
+
+## Bounded primary-source checkpoint, 2026-10-16
+
+Original PMC6360088 text39–45 confirms META and omission of biotin pulldown. Figure1A (text409–411) explicitly permits both linear and circular ligation products. The diagram now qualifies its representative molecule and keeps candidate META off-products unresolved rather than claiming physical removal. Exact digestion/sorting implementation, the earlier39-base prefix illustration, complete library strands and acquired run remain deferred to original supplementary/detailed methods. The source search stops here for this layer; it establishes no publication-wide absence.

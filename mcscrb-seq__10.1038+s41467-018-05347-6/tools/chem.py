@@ -9,7 +9,7 @@ import illumina as il
 import nextera as nx
 from chemdraw import Construct, Segment
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind)
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind)
 from scrb_graph import rt_scenes
 
 SOURCE_OLIGO_EXCEPTIONS = {
@@ -38,8 +38,9 @@ def protocol_graph() -> ProtocolGraph:
                                  + "T" * S.DT_LEN + "VN",
                            source=source + "; E3V6NEXT in Supplementary Methods")
     reverse_transcriptase = graph.input("reverse_transcriptase",
-                                       "template-switching reverse transcriptase",
+                                       "Maxima H-minus reverse transcriptase",
                                        MaterialKind.CATALYST)
+    crowding = graph.input("crowding", "7.5% final PEG8000", MaterialKind.CONDITION)
     first = graph.product("first_strand", "barcoded first-strand cDNA",
                           MaterialKind.MOLECULAR, state=prime)
     graph.react("reverse_transcription",
@@ -47,7 +48,7 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((mrna, InputRole.TEMPLATE),
                  (oligo_dt, InputRole.STRUCTURAL),
-                 (reverse_transcriptase, InputRole.CATALYST)), (first,))
+                 (reverse_transcriptase, InputRole.CATALYST), (crowding, InputRole.CONDITION)), (first,))
     tso = graph.input("tso", "E5V6NEXT template-switching oligo",
                       MaterialKind.OLIGO, state=Construct(S.tso_segments(protocol)))
     switched = graph.product("template_switched_cdna",
@@ -65,29 +66,35 @@ def protocol_graph() -> ProtocolGraph:
     graph.react("pool", "Pool wells after cell-barcode installation", StepKind.POOL,
                 ((switched, InputRole.TEMPLATE), (peers, InputRole.TEMPLATE)),
                 (pooled,), changes_molecule=False)
+    spri = graph.input("postpool_spri", "SPRI cleanup beads", MaterialKind.SELECTION)
+    spri_clean = graph.product("postpool_clean", "SPRI-purified pooled cDNA", MaterialKind.MOLECULAR, state=switched_state)
+    spri_waste = graph.product("postpool_waste", "unretained material from pooled cDNA cleanup", MaterialKind.WASTE)
+    graph.react("postpool_cleanup", "SPRI-purify pooled cDNA before Exonuclease I", StepKind.CLEANUP,
+                ((pooled, InputRole.TEMPLATE), (spri, InputRole.SELECTION)), (spri_clean, spri_waste), changes_molecule=False)
+    graph.discard(spri_waste, "removed by pooled cDNA bead cleanup")
     exonuclease = graph.input("exonuclease_i", "exonuclease I",
                               MaterialKind.CATALYST)
     cleaned = graph.product("cleaned_cdna", "pooled cDNA after primer removal",
                             MaterialKind.MOLECULAR, state=switched_state)
     primer_waste = graph.product("unused_primer_waste",
                                  "digested unused primer products",
-                                 MaterialKind.WASTE)
+                                 MaterialKind.MOLECULAR)
     graph.react("remove_unused_primers", "Remove unused primers with exonuclease I",
-                StepKind.CLEANUP,
-                ((pooled, InputRole.TEMPLATE),
+                StepKind.DIGESTION,
+                ((spri_clean, InputRole.TEMPLATE),
                  (exonuclease, InputRole.CATALYST)), (cleaned, primer_waste))
-    graph.discard(primer_waste, "unused primers are digested before preamplification")
+    graph.mark_terminal(Terminal(primer_waste.id, Disposition.UNRESOLVED, "Digestion does not establish physical removal; downstream recovery is unassigned."))
 
     preamp_primer = PCRPrimer("SINGV6", S.PCR_HANDLE)
     preamp_oligo = graph.input("preamp_primer", "SINGV6 preamplification primer",
                                MaterialKind.OLIGO,
                                state=Construct([seg("SINGV6", S.PCR_HANDLE)]))
-    preamp_polymerase = graph.input("preamp_polymerase", "preamplification polymerase",
+    preamp_polymerase = graph.input("preamp_polymerase", "Terra direct polymerase",
                                     MaterialKind.CATALYST)
     preamp_state = S.preamp_product()
     amplified = graph.product("amplified_cdna", "amplified full-length cDNA",
                               MaterialKind.MOLECULAR, state=preamp_state)
-    graph.react("preamp", "Preamplify full-length cDNA with SINGV6",
+    graph.react("preamp", "Preamplify full-length cDNA with SINGV6: 15 cycles",
                 StepKind.PCR,
                 ((cleaned, InputRole.TEMPLATE),
                  (preamp_oligo, InputRole.STRUCTURAL),
@@ -142,9 +149,9 @@ def protocol_graph() -> ProtocolGraph:
     graph.sequence(library, SequencingPlan(
         library=final, primers=S.READ_PRIMERS,
         acquired_roles=tuple(p.role for p in S.READ_PRIMERS),
-        read_lengths=lengths))
+        read_lengths=lengths, limitation="Main Methods specify16-base R1 and50-base R2; the8-base i7 read is acquired when multiplexing libraries, not an unconditional read of every experiment."))
     reviewed = [
-        "mrna", "barcoded_oligo_dt", "reverse_transcriptase",
+        "crowding", "postpool_spri", "postpool_cleanup", "mrna", "barcoded_oligo_dt", "reverse_transcriptase",
         "reverse_transcription", "tso", "template_switch", "peer_wells", "pool",
         "exonuclease_i", "remove_unused_primers", "preamp_primer",
         "preamp_polymerase", "preamp", "transposome", "tn5", "tagment",

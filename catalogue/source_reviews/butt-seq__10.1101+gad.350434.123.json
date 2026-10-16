@@ -83,7 +83,7 @@
       "role": "other",
       "locator": "bioRxiv 10.1101/2023.03.04.531084v1; local 2023.03.04.531084_v1.full.pdf.txt",
       "availability": "read",
-      "relevance": "relevant",
+      "relevance": "not_relevant",
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-15",
@@ -95,7 +95,8 @@
         "date": "2026-10-16",
         "locations": "Original Yu/Rosbash bioRxiv v1 PDF (posted 4 March 2023), text lines 1–13 and BuTT-Seq library-prep lines 480–552",
         "finding": "Original preprint prints the same short 27-nt blocked R1ME RNA and 28-nt R1ME DNA as later article Methods, and the full first-starter/PCR recipe. Its RNA-removal step says 3 µL each of 1.3 M NaOH and HCl (lines 522–523), while later published Methods and detailed protocol specify 1 M/1 N. Preprint does not resolve the workbook full-length second-starter choice."
-      }
+      },
+      "reason": "Superseded by published PMC10270195 and its supplements. Prior reading passes are historical; no necessary preprint-only detail is used by the current model."
     },
     {
       "id": "supplement_index",
@@ -283,5 +284,10 @@
       "evidence": "Article, three supplements, detailed protocol, and pinned author analysis tree were inspected twice; the NextSeq vendor guide states the run-specific primer positions are recorded in Primers.xml, which is not among the linked author files. Vendor guides still need a second independent source check before absence can be accepted. The paper Results first-base interpretation also conflicts with the standard 34-base TruSeq R2 primer geometry: a fixed T would be read first, while a 35-base custom primer could skip it. The official Illumina adapter-sequence guide now has first-pass inspection only."
     }
   ],
-  "conclusion": "The original article, all three publisher supplements, supplement index, pinned full author code, preprint and all three chemistry-linked predecessor sources have two located independent checks. Published oligos resolve the final duplex architecture, exact PCR binding regions and standard-primer-compatible Read 1, UMI/i7, i5 and Read 2 sites; the protocol model and page now render them. NextSeq 500 vendor operation guides have first-pass checks and need independent second passes. The actual run-specific loaded primer oligos are still not established; no absence claim is accepted. The paper's claim that the first Read 2 base reports RNA terminal identity is unresolved under the standard 34-base primer because the published donor has a fixed extra T; a custom 35-base primer could change that but is not recorded."
+  "conclusion": "The original article, all three publisher supplements, supplement index, pinned full author code, preprint and all three chemistry-linked predecessor sources have two located independent checks. Published oligos resolve the final duplex architecture, exact PCR binding regions and standard-primer-compatible Read 1, UMI/i7, i5 and Read 2 sites; the protocol model and page now render them. NextSeq 500 vendor operation guides have first-pass checks and need independent second passes. The actual run-specific loaded primer oligos are still not established; no absence claim is accepted. The paper's claim that the first Read 2 base reports RNA terminal identity is unresolved under the standard 34-base primer because the published donor has a fixed extra T; a custom 35-base primer could change that but is not recorded.",
+  "publication_precedence": {
+    "date": "2026-10-16",
+    "authority": "Published PMC10270195 and associated supplements",
+    "decision": "Removed preprint/publication alkali-concentration comparison from active page discrepancies. Published values govern; article/workbook disagreements remain visible."
+  }
 }

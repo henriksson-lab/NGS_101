@@ -7,15 +7,18 @@ from adapter_ligation import AdapterLigationGeometry
 from chemdraw import MolecularState, Row, Scene, Segment, Workflow
 from end_capture import UserHairpin, captured_break_scene, user_opening_rows
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 from topology import HairpinTopology
+import seqprimers as sp
 
 TITLE = "END-seq — direct capture of DNA double-strand-break ends"
 NOTES = "01_end-seq.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1016/j.molcel.2016.06.034">Canela et al., <i>Molecular Cell</i> (2016)</a>.'
 SUMMARY = "Native DNA ends are blunted and trapped in agarose with a biotinylated P5 hairpin; after shearing and enrichment, a P7 hairpin captures the opposite library end and USER opens both loops for indexed PCR."
-CAVEAT = "Blunting deliberately erases the original overhang chemistry. Read 1 starts at the first base retained at the processed break end."
+PCR_CYCLES = 16
+READ_SPECS = (sp.read_spec("Read 1", "50 (HiSeq2500) or75 (NextSeq500)", "processed break-derived genomic end; source alternative runs", "include"),)
+CAVEAT = "INFERRED reference endpoint — actual index members/widths are unassigned; the source specifies single-end sequencing, not acquired dual-index or paired-end reads. Blunting deliberately erases the original overhang chemistry. Read 1 starts at the first base retained at the processed break end."
 A1 = UserHairpin("ENDseq adaptor 1", "GATCGGAAGAGCGTCGTGTAGGGAAAGAGTGUUTUTUUACACTCTTTCCCTACACGACGCTCTTCCGATCT", (33,35))
 A2 = UserHairpin("ENDseq adaptor 2", "GATCGGAAGAGCACACGTCUUUUUUUUAGACGTGTGCTCTTCCGATCT")
 A1_STEM_NT, A1_LOOP_NT = 31, 8
@@ -26,9 +29,20 @@ A1_TOPOLOGY = HairpinTopology(A1.name, A1.sequence, 0,
 A2_TOPOLOGY = HairpinTopology(A2.name, A2.sequence, 0,
                               A2_STEM_NT + A2_LOOP_NT, A2_STEM_NT,
                               colour="var(--c-r2)")
-FINAL_LIBRARY, SEQ_PRIMERS = truseq_library([seg("break-derived genomic insert", "X"*42, placeholder=True)], "END-seq library", inferred_adapters=False)
-FINAL_CAPTION = "USER-opened hairpin arms are completed by TruSeq index PCR; the captured DSB boundary is adjacent to the Read 1 arm."
+FINAL_LIBRARY, SEQ_PRIMERS = truseq_library([seg("break-derived genomic insert", "X"*42, placeholder=True)], "END-seq library", inferred_adapters=True)
+SEQ_PRIMERS = tuple(p for p in SEQ_PRIMERS if p.role == "Read 1")
+FINAL_CAPTION = "INFERRED reference outer library — USER-opened hairpin arms are completed by TruSeq index PCR; the captured DSB boundary is adjacent to the Read 1 arm."
 SEQUENCING_INTRO = "Single-end END-seq uses Read 1 to enter the captured genomic end; the complete construct also shows the standard TruSeq index and opposite-end primer sites created by PCR."
+
+def oligos():
+    """Source-written phosphate, biotin-dT, U and terminal phosphorothioate retained."""
+    rows=[]
+    for adapter in (A1,A2):
+        written="".join("[Biotin-dT]" if i in adapter.biotin_dt else b
+                        for i,b in enumerate(adapter.sequence))
+        written=written[:-1]+"*"+written[-1]
+        rows.append(adapter.name+" — 5′-Phos-"+written+"-3′; U denotes USER-sensitive deoxyuridine")
+    return tuple(rows)
 
 def hairpin_ligation_geometry(adapter: UserHairpin):
     sc=Scene();sc.strand("prepared DNA",[Segment("DNA duplex","X"*24,placeholder=True),Segment("DNA 3′ dA","A")],label="dA-tailed DNA")
@@ -85,11 +99,16 @@ def protocol_graph():
                 StepKind.LIGATION,
                 ((tailed1,InputRole.TEMPLATE),(a1,InputRole.STRUCTURAL),
                  (ligase1,InputRole.CATALYST)),(tagged,),geometry=hairpin_ligation_geometry(A1))
+    gelase=graph.input("gelase","GELase for agarose digestion",MaterialKind.CATALYST)
+    melting=graph.input("agarose_melting","agarose melting condition",MaterialKind.CONDITION)
+    recovered=graph.product("recovered","DNA recovered from the agarose plug",MaterialKind.MOLECULAR)
+    graph.react("recover_plug","Melt and digest agarose to recover tagged DNA",StepKind.EXTRACTION,
+                ((tagged,InputRole.TEMPLATE),(gelase,InputRole.CATALYST),(melting,InputRole.CONDITION)),(recovered,))
     shear=graph.input("shear_condition","sonication condition",MaterialKind.CONDITION)
     fragments=graph.product("fragments","sheared P5-hairpin-tagged fragments",
                             MaterialKind.MOLECULAR)
     graph.react("shear","Shear distal genomic DNA",StepKind.FRAGMENTATION,
-                ((tagged,InputRole.TEMPLATE),(shear,InputRole.CONDITION)),(fragments,))
+                ((recovered,InputRole.TEMPLATE),(shear,InputRole.CONDITION)),(fragments,))
     streptavidin=graph.input("streptavidin","streptavidin enrichment beads",
                             MaterialKind.SELECTION)
     captured=graph.product("captured","captured P5-hairpin DSB fragments",
@@ -119,27 +138,27 @@ def protocol_graph():
     user=graph.input("user","USER enzyme",MaterialKind.CATALYST)
     opened=graph.product("opened","USER-opened PCR-addressable library precursor",
                          MaterialKind.MOLECULAR)
-    loops=graph.product("loops","excised hairpin loop fragments",MaterialKind.WASTE)
+    loops=graph.product("loops","USER hairpin-cleavage products; recovery unassigned",MaterialKind.MOLECULAR)
     graph.react("open_hairpins","Open both uracil-containing hairpins",
                 StepKind.DIGESTION,
                 ((double_hairpin,InputRole.TEMPLATE),(user,InputRole.CATALYST)),
                 (opened,loops))
-    graph.discard(loops,"excised USER hairpin loops are not part of the library")
+    graph.mark_terminal(Terminal(loops.id,Disposition.UNRESOLVED,"USER opens the hairpins. Products are outside the retained adapter arms, but their subsequent physical removal is not established by cleavage itself."))
     forward=graph.input("pcr_forward","TruSeq PCR forward primer",MaterialKind.OLIGO)
     reverse=graph.input("pcr_reverse","indexed TruSeq PCR reverse primer",MaterialKind.OLIGO)
     polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
-    graph.react("index_pcr","Index-amplify the opened END-seq library",StepKind.PCR,
+    graph.react("index_pcr",f"Amplify the opened END-seq library for {PCR_CYCLES} source cycles",StepKind.PCR,
                 ((opened,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
                  (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
                 (library,),geometry=PCRGeometry.unavailable(
                     FINAL_LIBRARY,reason="The final TruSeq sites are exact; the opened two-hairpin precursor is not reconstructed as a complete duplex."))
     graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
-                                          primers=tuple(SEQ_PRIMERS)))
+                                          primers=tuple(SEQ_PRIMERS), acquired_roles=("Read 1",), limitation="The original reports alternative50-base HiSeq2500 and75-base NextSeq500 single-end runs; exact index-cycle recipe is unassigned. Reference primer geometry does not assign actual loaded oligos."))
     graph.declare_reviewed_scope((
         "genomic_dna","deproteinization_condition","deproteinize","repair_enzymes",
         "blunt","tailing_polymerase","tail_break","a1","ligase1","ligate_a1",
-        "shear_condition","shear","streptavidin","capture","repair_distal",
+        "gelase","agarose_melting","recover_plug","shear_condition","shear","streptavidin","capture","repair_distal",
         "tail_distal","a2","ligase2","ligate_a2","user","open_hairpins",
         "pcr_forward","pcr_reverse","pcr_polymerase","index_pcr","library"),SOURCE)
     return graph.require_publishable()

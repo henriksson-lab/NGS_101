@@ -302,13 +302,18 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((rna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
                  (reverse_transcriptase, InputRole.CATALYST)), (cdna,))
+    rna_digestion = graph.input("rna_digestion", "RNA digestion after reverse transcription", MaterialKind.CONDITION)
+    dna_only = graph.product("rna_depleted_cdna", "cDNA after source-described RNA digestion", MaterialKind.MOLECULAR)
+    graph.react("digest_rna", "Digest RNA before PCR", StepKind.MAGIC,
+                ((cdna, InputRole.TEMPLATE), (rna_digestion, InputRole.CONDITION)), (dna_only,),
+                reason="The inspected Methods specify RNA digestion after RT but its exact reagent and products remain unassigned in this pass.")
     p5 = graph.input("p5_primer", "exact P5 PCR primer", MaterialKind.OLIGO)
     p7 = graph.input("p7_primer", "indexed P7 PCR primer", MaterialKind.OLIGO)
     polymerase = graph.input("pcr_polymerase", "PCR polymerase", MaterialKind.CATALYST)
     library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
                             state=FINAL_LIBRARY)
     graph.react("library_pcr", "PCR with the exact P5 and indexed P7 primers", StepKind.PCR,
-                ((cdna, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+                ((dna_only, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
                  (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
                 geometry=PCRGeometry.unavailable(
                     FINAL_LIBRARY, reason="The final construct is exact, while this page does not expose both PCR-primer landing objects."))
@@ -321,6 +326,6 @@ def protocol_graph() -> ProtocolGraph:
         "barcode_ligation_3", "terminal_flank", "terminal_ligation",
         "droplet_condition", "droplet_barcoding", "antibody", "immunoprecipitation",
         "t7_polymerase", "ivt", "random_rt_primer", "reverse_transcriptase",
-        "reverse_transcription", "p5_primer", "p7_primer", "pcr_polymerase",
+        "reverse_transcription", "rna_digestion", "digest_rna", "p5_primer", "p7_primer", "pcr_polymerase",
         "library_pcr", "library"), source)
     return graph.require_publishable()

@@ -56,3 +56,11 @@ lost by a caller.
 🔴 What would settle it: the 2014 *Nature Protocols* Smart-seq2 paper is not in this
 bundle, and Hu et al. never say which version of "Smart2-seq" they ran. Only a statement
 by these authors would make the linker green for scMT-seq.
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original PMC4858893 JATS74,203–219.
+
+Named Superscript III study substitution; methylome enrichment summarized as 20 then 12 PCR cycles; public 180–500 bp PAGE selection. Candidate Tn5 off-products now unresolved rather than assumed physically discarded.
+
+Deferred: Detailed inherited scRRBS and Smart-seq2 originals; exact study adapter/TSO assignment and acquisition; separate recovery graph stages. This is a capped check, not a full source audit or confirmation of missing information.

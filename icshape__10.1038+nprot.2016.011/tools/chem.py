@@ -1,4 +1,6 @@
-from chemdraw import Workflow
+from chemdraw import Workflow, Segment
+from protocol_model import role
+import illumina as il
 from types import SimpleNamespace
 from rna_cell_assays import CircularizationGeometry, Construct, Definition, InputRole, MaterialKind, PCRGeometry, ProtocolGraph, SequencingPlan, StepKind, reported_adapter_end, single, token
 from rna_cell_assays import custom_library, feature
@@ -20,7 +22,7 @@ def icshape_workflow() -> Workflow:
          single("adapter-ligated selected RNA", (token("RNA fragment"),
                                                   token("3-prime RNA adapter")),
                 junctions=(("RNA fragment", "3-prime RNA adapter", "RNA ligation"),)),
-         "T4 RNL2 truncated K227Q joins the repaired RNA end to the blocked adapter."),
+         "T4 RNA ligase 1 joins the repaired RNA end to the blocked adapter."),
         ("Reverse-transcribe until the adduct stops synthesis",
          single("barcoded truncated cDNA", (token("13-nt experimental barcode + UMI", tag="cbc", length=13),
                                              token("cDNA ending one base before the adduct"))),
@@ -69,8 +71,7 @@ def icshape_graph(definition, final: Construct) -> ProtocolGraph:
                       primary=True)
     nai = graph.input("nai_n3", "NAI-N3 acylation reagent", MaterialKind.CONDITION)
     modified_state = single("chemically probed RNA", (
-        token("RNA upstream"), token("NAI-N3 2-prime-O adduct", tag="umi", length=6),
-        token("RNA downstream")))
+        role("RNA bearing 2-prime-O NAI-N3 substituents; not nucleotide identifiers"),))
     modified = graph.product("modified_rna", "NAI-N3-modified RNA",
                              MaterialKind.MOLECULAR, state=modified_state)
     graph.react("acylate", "Acylate flexible RNA 2-prime-hydroxyls",
@@ -85,8 +86,7 @@ def icshape_graph(definition, final: Construct) -> ProtocolGraph:
         "biotinylated_rna", "DIBO-biotin-tagged modified RNA",
         MaterialKind.MOLECULAR,
         state=single("biotinylated RNA", (
-            token("RNA"), token("NAI-N3 adduct", tag="umi", length=6),
-            token("DIBO-biotin", tag="cbc", length=6))))
+            role("RNA bearing biotin-clicked NAI-N3 substituents; not a barcode"),)))
     graph.react("click_biotin", "Click DIBO-biotin to the NAI-N3 azide",
                 StepKind.CHEMICAL_CONVERSION,
                 ((modified, InputRole.TEMPLATE), (dibo, InputRole.STRUCTURAL),
@@ -109,8 +109,8 @@ def icshape_graph(definition, final: Construct) -> ProtocolGraph:
 
     adapter = graph.input("preadenylated_adapter",
                           "preadenylated blocked 3-prime RNA adapter",
-                          MaterialKind.ADAPTER)
-    ligase = graph.input("t4_rnl2_truncated", "T4 RNL2 truncated K227Q",
+                          MaterialKind.ADAPTER, state=Construct([Segment("published RNA adapter", "AGATCGGAAGAGCGGTTCAG")]))
+    ligase = graph.input("t4_rnl1", "T4 RNA ligase 1",
                          MaterialKind.CATALYST)
     ligated = graph.product(
         "adapter_ligated_rna", "3-prime-adapter-ligated RNA",
@@ -126,45 +126,49 @@ def icshape_graph(definition, final: Construct) -> ProtocolGraph:
                 StepKind.LIGATION,
                 ((repaired, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (ligated,), geometry=adapter_geometry)
-    streptavidin = graph.input("streptavidin", "streptavidin capture reagent",
-                               MaterialKind.SELECTION)
-    selected = graph.product("selected_rna", "streptavidin-selected modified RNA",
-                             MaterialKind.MOLECULAR, state=ligated.state)
-    unselected = graph.product("unselected_rna", "unmodified or uncaptured RNA",
-                               MaterialKind.WASTE)
-    graph.react("streptavidin_capture", "Enrich biotinylated RNA",
-                StepKind.AFFINITY_CAPTURE,
-                ((ligated, InputRole.TEMPLATE),
-                 (streptavidin, InputRole.SELECTION)), (selected, unselected))
-    graph.discard(unselected, "not retained by streptavidin enrichment")
-
     rt_primer = graph.input("rt_primer", "barcoded RT-primer-1",
                             MaterialKind.OLIGO)
     rtase = graph.input("reverse_transcriptase", "reverse transcriptase",
                         MaterialKind.CATALYST)
     truncated = graph.product(
-        "truncated_cdna", "barcoded cDNA ending before the adduct",
+        "truncated_cdna", "RT-stop cDNA with its biotinylated RNA template",
         MaterialKind.MOLECULAR,
         state=single("barcoded truncated cDNA", (
             token("13-nt experimental barcode + UMI", tag="cbc", length=13),
             token("cDNA ending one base before the adduct"))))
     graph.react("reverse_transcription", "Reverse-transcribe until the adduct stops synthesis",
                 StepKind.REVERSE_TRANSCRIPTION,
-                ((selected, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
+                ((ligated, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
                  (rtase, InputRole.CATALYST)), (truncated,))
+    streptavidin = graph.input("streptavidin", "streptavidin capture reagent",
+                               MaterialKind.SELECTION)
+    selected = graph.product("selected_rna", "streptavidin-selected RNA/cDNA hybrids",
+                             MaterialKind.MOLECULAR, state=truncated.state)
+    unselected = graph.product("unselected_rna", "unmodified or uncaptured RNA",
+                               MaterialKind.WASTE)
+    graph.react("streptavidin_capture", "Enrich biotinylated RNA",
+                StepKind.AFFINITY_CAPTURE,
+                ((truncated, InputRole.TEMPLATE),
+                 (streptavidin, InputRole.SELECTION)), (selected, unselected))
+    graph.discard(unselected, "not retained by streptavidin enrichment")
+
+    rnases = graph.input("rna_release", "RNase A/T1/H followed by DMSO/heat elution", MaterialKind.CATALYST)
+    released = graph.product("released_cdna", "cDNA released from selected hybrids", MaterialKind.MOLECULAR, state=truncated.state)
+    graph.react("release_cdna", "Digest RNA and elute cDNA from the beads", StepKind.DIGESTION,
+                ((selected, InputRole.TEMPLATE), (rnases, InputRole.CATALYST)), (released,))
     circligase = graph.input("circligase_ii", "CircLigase II", MaterialKind.CATALYST)
     circular = graph.product("circular_cdna", "circularized RT-stop cDNA",
                              MaterialKind.MOLECULAR, state=truncated.state)
     graph.react("circularize", "Circularize cDNA", StepKind.CIRCULARIZATION,
-                ((truncated, InputRole.TEMPLATE),
+                ((released, InputRole.TEMPLATE),
                  (circligase, InputRole.CATALYST)), (circular,),
                 geometry=CircularizationGeometry.known(
                     "single-strand intramolecular ligation",
                     statement="The icSHAPE workflow circularizes RT-stop cDNA with CircLigase II."))
     forward = graph.input("pcr_forward_primer", "Solexa PCR forward primer",
-                          MaterialKind.OLIGO, inferred=True)
+                          MaterialKind.OLIGO, state=Construct([Segment("published P5-Solexa", il.P5 + il.TRUSEQ_READ1[4:])]))
     reverse = graph.input("pcr_reverse_primer", "Solexa PCR reverse primer",
-                          MaterialKind.OLIGO, inferred=True)
+                          MaterialKind.OLIGO, state=Construct([Segment("published P3-Solexa", il.P7 + "CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT")]))
     polymerase = graph.input("pcr_polymerase", "PCR polymerase", MaterialKind.CATALYST)
     library = graph.product("sequencing_library", "icSHAPE sequencing library",
                             MaterialKind.LIBRARY, state=final, inferred=True)
@@ -173,15 +177,15 @@ def icshape_graph(definition, final: Construct) -> ProtocolGraph:
                  (reverse, InputRole.STRUCTURAL),
                  (polymerase, InputRole.CATALYST)), (library,),
                 geometry=PCRGeometry.unavailable(
-                    final, reason="The exact selected Solexa PCR primer pair is not fixed by the accessible primary text."))
+                    Construct([token("unassembled circular cDNA template")]), reason="Both ordered Solexa PCR primers are printed in the original reagent list. Exact binding geometry on the circular cDNA remains unassembled in this model; this is not a source-absence claim."))
     graph.sequence(library, SequencingPlan(limitation=definition.endpoint))
     graph.declare_reviewed_scope((
         "cellular_rna", "nai_n3", "acylate", "dibo_biotin", "click_condition",
         "click_biotin", "rna_fragmentation_reagent", "fragment_rna",
         "rna_end_repair_enzyme", "repair_rna_end", "preadenylated_adapter",
-        "t4_rnl2_truncated", "adapter_ligation", "streptavidin",
+        "t4_rnl1", "adapter_ligation", "streptavidin",
         "streptavidin_capture", "rt_primer", "reverse_transcriptase",
-        "reverse_transcription", "circligase_ii", "circularize",
+        "reverse_transcription", "rna_release", "release_cdna", "circligase_ii", "circularize",
         "pcr_forward_primer", "pcr_reverse_primer", "pcr_polymerase",
         "library_pcr", "sequencing_library",
     ), source)
@@ -195,3 +199,7 @@ def protocol_graph():
     key = 'icshape'
     return icshape_graph(d, final)
 SPEC.protocol_graph = protocol_graph
+SPEC.CAVEAT += (" This bounded update follows the NAI-N3-treated branch: RT precedes streptavidin capture, followed by RNase/DMSO-heat cDNA release. "
+    "The graph still summarizes gel/column recovery stages and leaves full circular-template/final-library assembly unresolved. "
+    "Published unit discrepancy: Step49 lists 1 µl of 1 µM P3 primer in 50 µl total, but its final-concentration column says 20 mM. "
+    "Those listed volumes imply 20 nM by dilution; the intended value is unresolved and the model assigns no corrected concentration.")

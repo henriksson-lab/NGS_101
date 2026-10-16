@@ -372,3 +372,11 @@ tables and STRT-PCR / adapter / library primers, but missed STRT-V3-T30 (written
 `T30VN` shorthand) and STRT-V2-n (`XXXXXX` placeholder + `rGrGrG`), split
 DI-P1A-idx-P1B at its `XXXXX` placeholder, and did not flag the `U`-containing
 C1-P1-RNA-TSO as RNA. Reaction order had to be read from the methods.
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original PMC3129258 article HTML text1164–1173,1255–1305.
+
+Added 20-cycle preamplification and 12-cycle library PCR labels plus 55-base graph read length. Custom primer site marked derived/unverified rather than asserting published absence; read text distinguishes variable 3–6 C tail from representative GGG construct.
+
+Deferred: Original Supplemental Table1 and other linked supplements; exact custom primer; full intermediate verification. This is a capped check, not a full source audit or confirmation of missing information.

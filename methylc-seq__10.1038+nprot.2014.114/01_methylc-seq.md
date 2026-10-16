@@ -33,3 +33,11 @@ The vendor name matters here: the amplification oligos were the matching **NEXTf
 primers**, not an Illumina-branded TruSeq kit. At the sequence/flow-cell level, however,
 the resulting endpoint uses the ordinary TruSeq primer geometry, so standard TruSeq
 sequencing primers are the correct ones to draw.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Original PMC4465251 JATS326–381, Steps31–37.
+
+Named KAPA HiFi uracil+ and four-cycle library PCR. Source confirms adapter ligation before conversion and two cleanups of ligated DNA; current graph summarizes those recoveries.
+
+Deferred: Earlier exact adapter-table evidence and vendor NEXTflex originals; full source steps outside inspected PCR/conversion section; read/index acquisition. This capped pass does not establish a complete source review or publication-wide absence.

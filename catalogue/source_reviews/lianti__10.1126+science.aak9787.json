@@ -60,5 +60,20 @@
       "evidence": "Main article has reaction architecture but detailed original Supplementary DOCX inaccessible; upstream schematic cannot verify source absence."
     }
   ],
-  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+  "conclusion": "Bounded primary-layer curation confirms amplification chemistry and corrects RNA fate and assumed acquisition. Actual SOM, exact oligos and downstream choices remain unresolved; no absence accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC5538131 JATS48–50,76 and Figure1 caption504–506; mandatory bundle scraper reviewed (no primary exact-oligo hit promoted).",
+      "findings": "Source confirms Tn5/promoter-loop gap fill, IVT, self-primed RT, RNase digestion and barcoded second strands. RNA digestion is now enzymatic digestion with unresolved product recovery, not a strand-separation step and presumed physical discard. Removed invented acquired i5/i7 roles and6-cycle index mask; conditional TruSeq site illustration is distinguished from experimental acquisition.",
+      "deferred": [
+        "Original Supplementary Materials and Methods DOCX and exact oligos; no recursive retrieval in this layer.",
+        "Full verified molecular states, identifier widths and actual library preparation remain unassigned."
+      ],
+      "scope": "Bounded original-source correction; no complete review or publication-wide absence accepted."
+    }
+  ]
 }

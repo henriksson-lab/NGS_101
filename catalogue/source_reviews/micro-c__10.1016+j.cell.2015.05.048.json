@@ -77,5 +77,19 @@
       "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
     }
   ],
-  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC4509605 JATS115–150, especially119–135; mandatory bundle scraper reviewed.",
+      "findings": "Added Antarctic phosphatase before T4-polymerase resection and paired 50-base reads. MNase and exonuclease products remain unresolved molecular products rather than presumed physically discarded molecules.",
+      "deferred": [
+        "Original NIHMS694804 supplement1 DOCX and remaining supplements; exact adapter choice; full terminal chemistry"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

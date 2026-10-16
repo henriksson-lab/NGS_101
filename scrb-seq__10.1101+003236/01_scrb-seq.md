@@ -323,3 +323,11 @@ onto the sequence (`Bioti: nACACT…`), cut the unblocked TSO at the wrap
 phosphorothioate. `--find` ignores wraps but not modification markers, so the unblocked
 TSO (`…CGCrGrGrG`) and the protocols.io P5NEXTPT5 (`…CCG*A*T*C*T`) had to be confirmed
 with grep on the de-wrapped text. Reaction order and conditions were read by hand.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Original 003236 Supplementary PDF text43–81.
+
+No correction identified in inspected scope: pooling, column cleanup, Exonuclease I and biotin SINGV6/P5NEXTPT5 source oligos, 300–800bp selection and17/8/34 read mask agree with the current source-specific view.
+
+Deferred: Full preprint methods; uninspected primer-family rows and variant-specific index assignment; full molecular intermediates. This capped pass does not establish a complete source review or publication-wide absence.

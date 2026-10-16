@@ -325,5 +325,20 @@
     "Retains initial negative ChEC selection separately from positive downstream library cleanups.",
     "PCR exact initialY-arm relation remains an explicit unconstructed model boundary, not a source absence claim.",
     "Both published corrigenda appear on the public page; original2015 exact adapter member/acquired index mask remains unassigned."
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published original PMC4618392 JATS119–135; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added proteinase K deproteinization before extraction. Recorded2.5:1 negative AMPure selection retains short-DNA supernatant, followed by repeated extraction/precipitation; existing model agrees on25-cycle paired reads.",
+      "deferred": [
+        "Cited original library procedures and oligos; second extraction/precipitation graph state and actual sample-index acquisition; detailed kinetic control validation"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
   ]
 }

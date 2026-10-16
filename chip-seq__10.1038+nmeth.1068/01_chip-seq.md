@@ -28,3 +28,11 @@ Illumina adapter, size-selects and PCR-amplifies.
 Prep documentation and adapter-sequence guide publish the corresponding single-read
 oligos. The 2007 experiment produced unindexed single-end reads on the Solexa Genome
 Analyzer; representing it as paired-end, indexed TruSeq would be anachronistic.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Local source bundle MANIFEST.tsv inspected; existing get_sources --slugs chip-seq__10.1038+nmeth.1068 attempted:0 originals returned.
+
+No correction made: defining original and historical vendor originals were not available in this bundle. No source claim was re-verified.
+
+Deferred: Defining Robertson2007 article, Schmidt2009 protocol and archived Illumina original11257047/adapter guide; retrieval yielded no source and remains deferred. This capped pass does not establish a complete source review or publication-wide absence.

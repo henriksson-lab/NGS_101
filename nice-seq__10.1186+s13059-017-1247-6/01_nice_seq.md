@@ -95,3 +95,11 @@ manual identity, study experiment metadata, and bounded processing links require
 own original-source dispositions. The registered E7370 product page returned HTTP 403;
 that is an availability result, not a missing-sequence finding. No blanket absence claim
 is accepted from the scraper's empty article/supplement output.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Published original PMC5488340 JATS160–170.
+
+No correction identified in inspected scope:150bp sonication, NEB E7370S adapters before immediate streptavidin capture,4µL aliquot of40µL beads and usually10 PCR cycles agree with current graph.25-cell branch remains separately qualified.
+
+Deferred: Remaining original Methods/supplements, reagent-specific kinetics and vendor adapter identities; existing article/deposit discrepancy evidence was not independently re-reviewed. This capped pass does not establish a complete source review or publication-wide absence.

@@ -6,7 +6,7 @@ import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, complement_segments, feature
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
 
 
@@ -97,20 +97,20 @@ def protocol_graph() -> ProtocolGraph:
     first_tagged = graph.product("first_tagged", "round-1 r5-tagged accessible DNA",
                                  MaterialKind.MOLECULAR, state=first_tagmented_scene())
     first_waste = graph.product("first_tagmentation_waste",
-                                "non-library first-round tagmentation products",
-                                MaterialKind.WASTE)
+                                "candidate non-library first-round tagmentation products",
+                                MaterialKind.MOLECULAR)
     graph.react("first_tagmentation",
                 "Tagment nuclei with a barcoded T7/r5/s5 homodimer",
                 StepKind.TAGMENTATION,
                 ((nuclei, InputRole.TEMPLATE), (r5_transposome, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (first_tagged, first_waste))
-    graph.discard(first_waste, "molecules without usable first-round insertions do not amplify")
-    sort_rule = graph.input("single_nucleus_sort", "single-nucleus sorting rule",
+    graph.mark_terminal(Terminal(first_waste.id, Disposition.UNRESOLVED, "Insertion classes and physical recovery remain unresolved; the source sorts tagged nuclei rather than these product classes."))
+    sort_rule = graph.input("single_nucleus_sort", "sort 100 nuclei per second-round well",
                             MaterialKind.SELECTION)
-    sorted_tagged = graph.product("sorted_tagged", "single-nucleus r5-tagged DNA",
+    sorted_tagged = graph.product("sorted_tagged", "100-nucleus r5-tagged material per second-round well",
                                   MaterialKind.MOLECULAR)
     excluded = graph.product("sort_excluded", "excluded nuclei", MaterialKind.WASTE)
-    graph.react("sort", "Sort single nuclei", StepKind.SAMPLING,
+    graph.react("sort", "Sort 100 nuclei per second-round well", StepKind.SAMPLING,
                 ((first_tagged, InputRole.TEMPLATE), (sort_rule, InputRole.SELECTION)),
                 (sorted_tagged, excluded), changes_molecule=False)
     graph.discard(excluded, "events outside the single-nucleus gate are not processed")
@@ -135,13 +135,17 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((ivt_rna, InputRole.TEMPLATE), (random_primer, InputRole.STRUCTURAL),
                  (rt, InputRole.CATALYST)), (cdna,))
+    rnase_h = graph.input("rnase_h", "RNase H", MaterialKind.CATALYST)
+    rna_depleted = graph.product("rna_depleted", "cDNA after RNA-hybrid digestion", MaterialKind.MOLECULAR)
+    graph.react("digest_hybrid_rna", "Digest hybrid RNA before second-strand synthesis", StepKind.DIGESTION,
+                ((cdna, InputRole.TEMPLATE), (rnase_h, InputRole.CATALYST)), (rna_depleted,))
     connector_primer = graph.input("connector_primer", "IVT-connector dsDNA primer",
                                    MaterialKind.OLIGO)
     remade = graph.product("remade_dsdna", "connector-primed re-made dsDNA",
                            MaterialKind.MOLECULAR, state=ivt_template())
     graph.react("dsdna_conversion", "Make dsDNA from the IVT connector",
                 StepKind.EXTENSION,
-                ((cdna, InputRole.TEMPLATE), (connector_primer, InputRole.STRUCTURAL),
+                ((rna_depleted, InputRole.TEMPLATE), (connector_primer, InputRole.STRUCTURAL),
                  (polymerase, InputRole.CATALYST)), (remade,))
     s7_transposome = graph.input("s7_transposome", "s7-only second transposome",
                                  MaterialKind.ADAPTER)
@@ -158,7 +162,7 @@ def protocol_graph() -> ProtocolGraph:
     p7 = graph.input("p7_primer", "N701 i7/P7 primer", MaterialKind.OLIGO)
     final = final_library()
     library = graph.product("library", final.name, MaterialKind.LIBRARY, state=final)
-    graph.react("library_pcr", "Add i5/P5 at the connector end and i7/P7 at s7",
+    graph.react("library_pcr", "Add i5/P5 and i7/P7: typically 9–12 qPCR cycles",
                 StepKind.PCR,
                 ((second_tagged, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
                  (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
@@ -169,7 +173,7 @@ def protocol_graph() -> ProtocolGraph:
         read_lengths={"Read 1": 50, "Index 1 (i7)": 8, "Index 2 (i5)": 32},
         read_uses={"Read 1": "include", "Index 1 (i7)": "extract",
                    "Index 2 (i5)": "extract"}))
-    graph.declare_reviewed_scope((
+    graph.declare_reviewed_scope(("rnase_h", "digest_hybrid_rna",
         "nuclei", "r5_transposome", "tn5", "first_tagmentation",
         "single_nucleus_sort", "sort", "polymerase", "gap_fill", "t7_polymerase",
         "ivt", "random_rt_primer", "reverse_transcriptase", "reverse_transcription",

@@ -93,5 +93,20 @@
       "evidence": "Cited predecessor names kit 1005709, but part-specific vendor source has not been checked."
     }
   ],
-  "conclusion": "Two readers checked original paper, supplement and cited Hu method. Exact historical kit oligos remain blocked pending the Illumina 1005709 original guide."
+  "conclusion": "Two readers checked original paper, supplement and cited Hu method. Exact historical kit oligos remain blocked pending the Illumina 1005709 original guide.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published original PMC4697938 JATS117–125; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added6-cycle index PCR,160–300bp E-gel selection and22-cycle P5/P7 PCR labels. Public page records30ng circular carrier, PK/extraction and final repeated160–300bp selection as currently summarized graph scope. Replaced inferred acquired paired/index reads with unassigned HiSeq2500 mask.",
+      "deferred": [
+        "Cited library method29 and original vendor kit; explicit carrier/recovery/final-selection graph stages, exact acquisition and all oligo assignments"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

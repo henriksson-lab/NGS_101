@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import html
+from dataclasses import replace
 import sys
 from pathlib import Path
 
@@ -162,6 +163,7 @@ def protocol_graph() -> ProtocolGraph:
                 geometry=PCRGeometry.exact(
                     final, p5_primer, tpc2_primer,
                     statement="Supplementary Table S4 prints P5-gMac and TPC2."))
+    graph.steps["suppression_pcr"] = replace(graph.steps["suppression_pcr"], label="Suppression-amplify cDNA: 11 cycles")
     graph.sequence(library, SequencingPlan(
         library=final, primers=Q.SEQ_PRIMERS,
         acquired_roles=tuple(p.role for p in Q.SEQ_PRIMERS),
@@ -212,7 +214,7 @@ def main() -> None:
              'also specifies 15 nt for v3.2. This model uses 15 nt. The conflicting '
              '“14 mer” line appears to be a table heading error; no correction notice '
              'was found in the inspected sources.'),
-        oligos(), construction, sequencing(), '</div>'])
+        info('Methods place RNase H in the TdT tailing mixture; separately drawn activities are schematic and do not establish a prior RNase H incubation. Combining those graph activities remains deferred.'), oligos(), construction, sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

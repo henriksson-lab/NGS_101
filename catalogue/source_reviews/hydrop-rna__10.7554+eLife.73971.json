@@ -96,5 +96,20 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Two independent source passes locate the HyDrop-RNA oligo families and reaction order in the original paper, eLife supplements and author protocols; no missing claim accepted."
+  "conclusion": "Two independent source passes locate the HyDrop-RNA oligo families and reaction order in the original paper, eLife supplements and author protocols; no missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC8993220 JATS288–300,410–412,422–426; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Exonuclease primer removal is digestion with unresolved fragment fate; named13-cycle cDNA preamplification. Source confirms50/10/10/58 run. Public page documents Figure7 ATAC heading versus RNA caption/methods and follows the latter.",
+      "deferred": [
+        "Original supplementary molecular file3 and oligo tables; separate recovery steps and hairpin-cleavage product fate; detailed protocols.io revision"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

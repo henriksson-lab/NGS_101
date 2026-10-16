@@ -33,3 +33,11 @@
 🔴 The supplied figure fixes the final barcode and linker dimensions but does not expose, base by base, which residues around the circularized PacI half-sites remain after processing. The page therefore draws the source-resolved 12-bp linker and states this limitation instead of inventing a complete PacI junction.
 
 🟢 The published article's Methods refer to SEQ1 and SEQ2 as “Supplementary Table 4” at local lines 1880–1890, and to SEQ4/SEQ5 the same way at lines 1943–1947. They cite “Supplementary Table 5” for the barcode structure at line 1969. In the original supplementary workbook, Table 4 (lines 4172–4749) holds the A/B/C index plates, whereas Table 5 (lines 4750–4762) holds SEQ1–5. The model follows the workbook for these oligos. The reason for the article's reversed table references is unknown.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Original publisher paper PDF text1860–1900,1938–1954,2500–2511.
+
+Added explicit RNA-digestion boundary between random RT and PCR, with warning because exact reagent/products are unassigned. Source confirmsT7 amplification,50-base genomic R1 and100-cycle barcode R2 with first4dark; existing table-number discrepancy retained.
+
+Deferred: Original Supplementary Tables4/5 and PacI processing details; digestion reagent and exact products; biochemical binding and cleanup transitions. This capped pass does not establish a complete source review or publication-wide absence.

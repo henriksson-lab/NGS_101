@@ -91,5 +91,19 @@
       "evidence": "Author says S2 was added, but it is absent from retrievable attachments."
     }
   ],
-  "conclusion": "Second pass agrees that S2 is an unresolved relevant source; no absence accepted."
+  "conclusion": "Second pass agrees that S2 is an unresolved relevant source; no absence accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC9276831 JATS190–214; mandatory bundle scraper reviewed.",
+      "findings": "Added 15-cycle targeted SuperFi PCR; rephrased unassigned oligos as deferred rather than confirmed absent. Main Methods support circularization, first RCA, padlock ligation, second RCA and cytometry.",
+      "deferred": [
+        "Original MOESM1–4 and mentioned TableS2 disposition; exact oligos and terminal modifications"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

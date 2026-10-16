@@ -100,5 +100,19 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent located reads of accessible 2009 article and 2012 successor identify different library versions. The 2009 original supplement remains unavailable, so exact original oligos and run geometry are blocked."
+  "conclusion": "Two independent located reads of accessible 2009 article and 2012 successor identify different library versions. The 2009 original supplement remains unavailable, so exact original oligos and run geometry are blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC2746483 JATS24–44; mandatory bundle scraper reviewed.",
+      "findings": "Original main article supports nuclease footprinting and avoidance of RNA ligase. Digested RNA is now an unresolved molecular product rather than presumed physical waste; tail length labelled unassigned. Preserved explicit 2009/2012 version boundary.",
+      "deferred": [
+        "Original 2009 SOM remains deferred/inaccessible; exact oligos, route details and run; no later linker route substituted"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

@@ -116,7 +116,7 @@ def sequencing() -> str:
               "there is no i5 index.",
         required_roles=("Read 1", "Index 1 (i7)", "Read 2"))
     return f"""<h2>Sequencing</h2>
-<p><info>100-bp paired-end sequencing. Each read begins with a random N9, which is
+<p><info>Main cohort: 100-bp paired-end sequencing; the original Results also report deeper 150-bp reads for two MII libraries. Each read begins with a random N9, which is
 clipped before non-directional bisulfite alignment; the index read identifies the cell.</info></p>
 {primer_table}
 </div>"""

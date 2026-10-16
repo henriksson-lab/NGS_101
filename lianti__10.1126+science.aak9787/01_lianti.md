@@ -222,3 +222,7 @@ found **no oligo in any source that counts** — the paper contains none — whi
 whole finding for this protocol. Transposon architecture and every derived structure were
 computed with `lib/` (`nextera.ME`, `illumina.*`, `chemdraw.revcomp`,
 `topology.HairpinTopology`).
+
+## Bounded primary-source checkpoint, 2026-10-16
+
+Original main text48–50 and Figure1C (PMC5538131, text504–506) explicitly place RNase digestion between self-primed RT and second-strand synthesis. The graph now distinguishes enzymatic RNA degradation from physical removal; individual digestion products retain an unresolved recovery fate. The diagram no longer promotes illustrative UMI/index widths or reference TruSeq sites into an acquired index mask. Exact library choices and original SOM remain deferred; this capped check cannot establish published absence.

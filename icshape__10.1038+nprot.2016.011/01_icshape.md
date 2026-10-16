@@ -43,3 +43,9 @@ In vivo click selective 2′-hydroxyl acylation and profiling experiment (icSHAP
   page because the final top-strand library has not yet been assembled from
   the source-printed PCR oligos. The uncertainty is in the current model,
   not in availability of the reagent-list bases.
+
+## Bounded curation checkpoint, 2026-10-16
+
+The defining original, including reagent lines140–164/202–206 and procedure Steps26–57, was checked again after the oligo scraper. The graph now uses T4 RNA ligase1 and places RT before streptavidin selection, with the published RNase/DMSO-heat release before circularization. Its adapter and both whole PCR primers are source-positive inputs. Exact template geometry and full gel/column recovery remain unassembled; the cap does not establish source absence.
+
+**Published unit discrepancy:** in Step49's RNase elution table, the P3 primer row lists1µl of1µM stock in50µl total, while the final-concentration column says20mM. Dilution of the listed stock/volumes gives20nM. The page displays this internal inconsistency; the intended value remains unresolved and no corrected concentration is assigned.

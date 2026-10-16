@@ -5,6 +5,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 import pta
+import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Workflow
@@ -20,21 +21,19 @@ SOURCE = ('<a href="https://doi.org/10.1073/pnas.2024176118">Gonzalez-Pena et al
 SUMMARY = ("Random-primed phi29 synthesis is interrupted by exonuclease-resistant "
            "alpha-thio-ddNTPs. Shorter products undergo less daughter-on-daughter "
            "amplification, biasing yield toward repeated copying of the primary genome.")
-CAVEAT = ("The defining paper does not publish the random-primer or IDT UDI adapter "
-          "sequences. Their roles are preserved; canonical TruSeq adapter bases are "
+CAVEAT = ("Exact random-primer and IDT UDI adapter assignments remain unverified in this capped pass. Their roles are preserved; canonical TruSeq adapter bases are "
           "shown as inferred only to locate standard sequencing primers.")
 
 FINAL_LIBRARY, SEQ_PRIMERS = truseq_library(
     [seg("PTA-amplified genomic insert", "X" * 48, placeholder=True)],
     "PTA KAPA HyperPlus library", dual_index=True, inferred_adapters=True)
-READ_LENGTHS = {"Index 1 (i7)": 8, "Index 2 (i5)": 8}
-SHOW_READ_CONTENT = True
+READ_LENGTHS = {}  # source run mask unassigned; illustrative index windows are not acquired cycles
+SHOW_READ_CONTENT = False
 FINAL_CAPTION = ("INFERRED adapter bases: the published KAPA HyperPlus plus IDT UDI route "
                  "fixes a standard dual-index Illumina topology but does not print its "
                  "oligos. The genomic insert was already shortened by PTA, so HyperPlus "
                  "fragmentation is omitted.")
-SEQUENCING_INTRO = ("The study used NovaSeq 6000 but did not report genomic read lengths "
-                    "or exact UDI oligos. Canonical primer sites follow the stated KAPA "
+SEQUENCING_INTRO = ("The study used NovaSeq 6000; genomic read lengths, index widths and exact UDI assignment remain unverified. Canonical primer sites follow the stated KAPA "
                     "HyperPlus/IDT dual-index library geometry.")
 
 
@@ -50,7 +49,7 @@ def _initial_rows():
 
 def workflow():
     wf = Workflow(MolecularState("Denatured single-cell genome", tuple(_initial_rows())))
-    wf.react("Anneal the undisclosed exonuclease-resistant random primer",
+    wf.react("Anneal the exonuclease-resistant random primer (sequence unassigned)",
              pta.priming_rows(), name="Random-primed primary template",
              note="The paper gives 500 µM primer and 15 minutes at 65 °C, but does not disclose its bases, length or modification pattern.")
     wf.react("Extend with phi29 and strand displacement at 30 °C for 8 hours",
@@ -83,7 +82,7 @@ def protocol_graph():
                        MaterialKind.BIOLOGICAL,primary=True)
     primer=graph.input("random_primer","exonuclease-resistant random primer",
                        MaterialKind.OLIGO,inferred=True,
-                       source=source+" (bases, length and modifications not disclosed)")
+                       source=source+" (exact bases, length and modifications unassigned)")
     phi29=graph.input("phi29","phi29 DNA polymerase",MaterialKind.CATALYST)
     terminators=graph.input("terminators","alpha-thio-ddATP/ddCTP/ddGTP/ddTTP",
                             MaterialKind.OLIGO)
@@ -129,15 +128,23 @@ def protocol_graph():
                  (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
                 geometry=PCRGeometry.unavailable(
                     FINAL_LIBRARY,reason="The defining paper does not print the IDT UDI PCR primers."))
-    graph.sequence(library,SequencingPlan(
+    size_matrix=graph.input("size_matrix","1% agarose E-Gel and ZymoClean Gel DNA Recovery",MaterialKind.SELECTION)
+    selected=graph.product("size_selected_library","400–700 bp PTA library",MaterialKind.LIBRARY,state=FINAL_LIBRARY,inferred=True,source=source+" (canonical adapter bases inferred)")
+    rejected=graph.product("size_rejected","library material outside400–700bp",MaterialKind.WASTE)
+    graph.react("size_select","Select400–700bp library fragments after15-cycle PCR",StepKind.SELECTION,
+                ((library,InputRole.TEMPLATE),(size_matrix,InputRole.SELECTION)),(selected,rejected),changes_molecule=False)
+    graph.discard(rejected,"excluded by preparative gel selection")
+    graph.sequence(selected,SequencingPlan(
         library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),
-        acquired_roles=("Read 1","Index 1 (i7)","Index 2 (i5)","Read 2"),
+        acquired_roles=(),
         read_lengths=READ_LENGTHS,
         read_uses={"Read 1":"include","Index 1 (i7)":"demultiplex",
                    "Index 2 (i5)":"demultiplex","Read 2":"include"},
-        limitation="Exact UDI oligos and genomic read lengths are not reported."))
+        limitation="NovaSeq6000 is source-specified; exact read/index mask and UDI assignment remain unverified. Canonical primer sites and eight-base index placeholders are conditional references, not a study acquisition declaration."))
     graph.declare_reviewed_scope((
         "genome","random_primer","phi29","terminators","pta_amplification",
         "end_repair_mix","end_prepare","udi_adapters","ligase","adapter_ligation",
-        "pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","library"),source)
+        "pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","library","size_matrix","size_select","size_selected_library"),source)
     return graph.require_publishable()
+
+READ_SPECS = (sp.read_spec("Sequencing output", None, "NovaSeq6000 genomic reads; read and index acquisition mask unassigned", "include"),)

@@ -106,6 +106,26 @@ identity before treating it as that source. A current export cannot stand in for
 an earlier cited revision; matching selected components does not prove complete
 revision equivalence. Rejected responses stay outside ordinary source reading.
 
+**Published version first.** If a paper is published, use that article and its
+published supplements; normally disregard its preprint and preprint supplements.
+Do not merge versions or treat an ordinary revision change as a published error
+or unresolved source conflict. A preprint may supply a specific necessary detail
+omitted from the publication only with an explicit reason, verified applicability
+and a provenance/uncertainty label; it never overrides a published value. Keep
+historical audits as history, not current authority. For an excluded superseded
+preprint, independent absence-audit readers check its identity and supersession;
+they need not re-read its chemistry. See DESIGN.md.
+
+**Capped breadth-first curation.** Work from the selected round ledger in
+`catalogue/curation_rounds/`. Inspect defining originals and chemistry supplements
+across the batch before following links. Investigation is limited to 10 minutes
+and three originals per protocol; leave justified edits consistent and verified,
+then move on. Record inspected sections and actual deferred targets. Do not
+recursively chase references, build fetchers or expand into an architecture
+migration. Later follow-up rounds stop at directly linked originals, depth one.
+A completed capped pass is not a complete protocol review. The missing-information
+gate below remains unchanged.
+
 **Missing-information audit gate.** Do not call a protocol's missing sequence,
 reagent, reaction detail, or read layout confirmed absent merely because a source
 bundle or scraper returned no hit. Keep a checklist of the defining article,

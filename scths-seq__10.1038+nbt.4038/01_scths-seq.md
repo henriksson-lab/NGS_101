@@ -270,3 +270,11 @@ PDF-to-text separated names from sequences). Relationships across all 430 rows w
 computed with a short script over the Table S12 text and `lib/` (`nextera`, `illumina`,
 `chemdraw.revcomp`); every 🟢 sequence above was confirmed with
 `scrape_primers.py --find`.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Original PMC5951394 JATS156–174.
+
+Corrected single-nucleus second sorting to100 nuclei per second-round well. Added RNase H digestion between RT and second-strand synthesis and source9–12-cycle qPCR label. First-round candidate product fates are unresolved. Source distinguishes50/32/32 MiSeq validation from50/8/32 HiSeq data.
+
+Deferred: Original TableS12 oligos, detailed cleanup states and prior size-selection method; second-tagmentation product recovery. This capped pass does not establish a complete source review or publication-wide absence.

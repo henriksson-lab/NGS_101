@@ -337,5 +337,19 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "The publisher MOESM2–6 attachments and Picelli 2013 Supplementary Table 2 now each have two located independent original-source reads. The attachments do not provide Clark’s selected TSO or iTAG sequence; Picelli’s table documents multiple TSO variants and cannot select one for Clark. The defining paper, preprint and inherited Smart-seq2, scBS-seq, scM&T-seq and G&T-seq sources likewise have two passes. Clark’s Exiqon TSO variant and iTAG well remain unverified; no missing-information claim is accepted."
+  "conclusion": "The publisher MOESM2–6 attachments and Picelli 2013 Supplementary Table 2 now each have two located independent original-source reads. The attachments do not provide Clark’s selected TSO or iTAG sequence; Picelli’s table documents multiple TSO variants and cannot select one for Clark. The defining paper, preprint and inherited Smart-seq2, scBS-seq, scM&T-seq and G&T-seq sources likewise have two passes. Clark’s Exiqon TSO variant and iTAG well remain unverified; no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC5823944 JATS64–76,134–148; mandatory bundle scraper reviewed.",
+      "findings": "Named SuperScript II, 18-cycle RNA preamplification, five DNA first-synthesis rounds and14-cycle DNA PCR. Source names 6NF for both stages: removed false source-exact oligo1/2 assignment and marked inherited N9 scaffold/primer geometry provisional. Added EL16/E14 EB alternative runs, GCG/CCG interpretation exclusions, unresolved Tn5 product fate.",
+      "deferred": [
+        "Exact 6NF identities and potential source wording ambiguity; original supplements and linked protocols; separate recovery states and complete verified DNA assembly"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

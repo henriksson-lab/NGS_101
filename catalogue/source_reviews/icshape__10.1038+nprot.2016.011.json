@@ -1,6 +1,6 @@
 {
   "dir": "icshape__10.1038+nprot.2016.011",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "paper",
@@ -45,12 +45,21 @@
       "finding": "Original author manuscript provides chemistry and primer list. Publisher PDF is gated, so independent publisher-version comparison remains unavailable."
     }
   },
-  "missing_claims": [
+  "missing_claims": [],
+  "conclusion": "Bounded primary-source corrections applied. Published oligos are positive; template/read-geometry and remaining source scope are unresolved model/review questions. No absence accepted.",
+  "bounded_checks": [
     {
-      "claim": "Read placement/adapter structures unresolved",
-      "disposition": "blocked",
-      "evidence": "Source prints all named reaction oligos and read offset; model needs a full source-to-construct comparison. Independent second check pending."
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC4896316 JATS57; reagent140–164,202–206; ligation540–554; gel/recovery560–609; RT/capture/release610–730; processing866–884. Mandatory bundle scraper inspected first.",
+      "findings": "T4 RNA ligase1 (not RNL2 K227Q); RT40–42 precedes streptavidin43 and RNase/DMSO/heat49–50; whole adapter and both published PCR oligos now graph inputs. Geometry is unassembled model data, not absence. Step49 P3 stock/volume and final-concentration columns conflict:1µl1µM/50µl implies20nM, printed20mM; public notice retains both without assigning a correction. NAI-N3 and clicked biotin are represented as RNA substituents, not fabricated six-base UMI/barcode sequences.",
+      "deferred": [
+        "Complete circular-template and final-library molecular assembly, including DDDNN/AACC/NNNN region placement and full gel/column recoveries.",
+        "Uninspected source sections, original application and referenced method/vendor originals; no recursive retrieval this round."
+      ],
+      "scope": "Bounded primary-source curation, not full source review or accepted absence."
     }
-  ],
-  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+  ]
 }

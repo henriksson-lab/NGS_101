@@ -168,5 +168,20 @@
       "evidence": "Supplementary Figure 4 fixes 76-bp barcode and 12-bp linker dimensions; Table 4/5 print input oligos and GEO supplies barcode combinations. Their precise residue fate at the PacI processing junction still needs reconstruction from full defining Methods and independent source checks."
     }
   ],
-  "conclusion": "The original workbook prints full synthesis oligo families and common primers; GEO supplies 884,736 barcode combinations. The author-hosted defining paper is recovered and discloses 4 initial dark R2 cycles and misnumbered supplementary-table citations, now stated on page. Exact PacI junction remains blocked pending independent checks."
+  "conclusion": "The original workbook prints full synthesis oligo families and common primers; GEO supplies 884,736 barcode combinations. The author-hosted defining paper is recovered and discloses 4 initial dark R2 cycles and misnumbered supplementary-table citations, now stated on page. Exact PacI junction remains blocked pending independent checks.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original publisher paper PDF text1860–1900,1938–1954,2500–2511; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added explicit RNA-digestion boundary between random RT and PCR, with warning because exact reagent/products are unassigned. Source confirmsT7 amplification,50-base genomic R1 and100-cycle barcode R2 with first4dark; existing table-number discrepancy retained.",
+      "deferred": [
+        "Original Supplementary Tables4/5 and PacI processing details; digestion reagent and exact products; biochemical binding and cleanup transitions"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

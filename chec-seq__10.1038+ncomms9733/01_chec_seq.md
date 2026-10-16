@@ -99,3 +99,11 @@ not merely local coverage, therefore represents the two-cut ChEC product.
 and accessible-chromatin background. No-calcium and early-time samples distinguish basal
 damage and rapid tether-proximal cleavage. ChEC-seq is antibody-free and unfixed, but it
 requires an expressed fusion whose residence and linker geometry may affect cleavage.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Published original PMC4618392 JATS119–135.
+
+Added proteinase K deproteinization before extraction. Recorded2.5:1 negative AMPure selection retains short-DNA supernatant, followed by repeated extraction/precipitation; existing model agrees on25-cycle paired reads.
+
+Deferred: Cited original library procedures and oligos; second extraction/precipitation graph state and actual sample-index acquisition; detailed kinetic control validation. This capped pass does not establish a complete source review or publication-wide absence.

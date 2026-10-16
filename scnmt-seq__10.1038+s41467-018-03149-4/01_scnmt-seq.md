@@ -68,3 +68,11 @@ The exact scNMT-seq TSO remains inferred.
 name an iTAG index primer but do not identify the selected sequence member in the
 defining Methods or the inspected supplements. The final-library diagram therefore
 shows a variable sample-index window, not an experiment-specific iTAG sequence.
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original PMC5823944 JATS64–76,134–148.
+
+Named SuperScript II, 18-cycle RNA preamplification, five DNA first-synthesis rounds and14-cycle DNA PCR. Source names 6NF for both stages: removed false source-exact oligo1/2 assignment and marked inherited N9 scaffold/primer geometry provisional. Added EL16/E14 EB alternative runs, GCG/CCG interpretation exclusions, unresolved Tn5 product fate.
+
+Deferred: Exact 6NF identities and potential source wording ambiguity; original supplements and linked protocols; separate recovery states and complete verified DNA assembly. This is a capped check, not a full source audit or confirmation of missing information.

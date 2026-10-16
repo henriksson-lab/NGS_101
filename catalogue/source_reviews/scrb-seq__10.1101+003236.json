@@ -162,5 +162,20 @@
       "evidence": "SCRB Supplementary Methods lines 63–70 replace the i5 primer and Fig. S1 lines 276–289 show generic [i7]. Current official sequence table lines 181–205 and original 2012 Illumina guide lines 2173–2274 define family architecture and N701–N712 candidates, but neither chooses the SCRB experiment well. Two independent readers checked the 2012 guide; neither it nor SCRB identifies the selected well."
     }
   ],
-  "conclusion": "Original SCRB preprint, supplements, current official Nextera sequence table and recovered 2012 Illumina guide have two independent located reads. Table S2 publishes both six-base well-barcode sets; the guide lists N701–N712 i7 candidates. No original source selects the experiment-specific N7xx well or proves the 2014 kit lot/revision, so that narrow claim remains blocked."
+  "conclusion": "Original SCRB preprint, supplements, current official Nextera sequence table and recovered 2012 Illumina guide have two independent located reads. Table S2 publishes both six-base well-barcode sets; the guide lists N701–N712 i7 candidates. No original source selects the experiment-specific N7xx well or proves the 2014 kit lot/revision, so that narrow claim remains blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original 003236 Supplementary PDF text43–81; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "No correction identified in inspected scope: pooling, column cleanup, Exonuclease I and biotin SINGV6/P5NEXTPT5 source oligos, 300–800bp selection and17/8/34 read mask agree with the current source-specific view.",
+      "deferred": [
+        "Full preprint methods; uninspected primer-family rows and variant-specific index assignment; full molecular intermediates"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

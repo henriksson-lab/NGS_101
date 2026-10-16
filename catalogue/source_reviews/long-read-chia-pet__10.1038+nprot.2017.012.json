@@ -65,5 +65,19 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "First located reading only. No absence accepted; source gaps and independent second pass remain open."
+  "conclusion": "First located reading only. No absence accepted; source gaps and independent second pass remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC5537732 JATS88–92,120,222,714; mandatory bundle scraper reviewed.",
+      "findings": "Added crosslink reversal/DNA release before tagmentation. Exact bridge bases and internal biotin position agree with original. Candidate Tn5 products now unresolved rather than presumed discarded. Qualified contact inference and recorded alternative paired 150/250-base reads.",
+      "deferred": [
+        "Detailed source steps outside inspected passages; exact selected sequencing/index mask; fuller library states and tagmentation products"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

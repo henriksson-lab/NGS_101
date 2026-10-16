@@ -29,3 +29,11 @@ The final library has canonical Nextera sequencing ends around `genomic tag — 
 genomic tag`. Paired 150- or 250-base reads approach the bridge from the outer Tn5 ends.
 The paper accepts either bridge orientation in a read, trims it, and maps the two flanking
 genomic tags as the contact pair.
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original PMC5537732 JATS88–92,120,222,714.
+
+Added crosslink reversal/DNA release before tagmentation. Exact bridge bases and internal biotin position agree with original. Candidate Tn5 products now unresolved rather than presumed discarded. Qualified contact inference and recorded alternative paired 150/250-base reads.
+
+Deferred: Detailed source steps outside inspected passages; exact selected sequencing/index mask; fuller library states and tagmentation products. This is a capped check, not a full source audit or confirmation of missing information.

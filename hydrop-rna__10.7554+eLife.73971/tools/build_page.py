@@ -46,7 +46,7 @@ def main() -> None:
     page = "\n".join([head("HyDrop-RNA library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>HyDrop-RNA &mdash; droplet single-cell RNA sequencing</h1>',
         info('Defining source: <a href="https://doi.org/10.7554/eLife.73971">De Rop et al., <i>eLife</i> (2022)</a>.'),
-        oligos(), construction(), sequencing(), '</div>'])
+        info('Published caption error: the defining article Figure 7 heading says HyDrop-ATAC, while its caption body and section describe poly(dT), TSO and RNA. This page follows the RNA description and Methods, not that heading.'), oligos(), construction(), sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

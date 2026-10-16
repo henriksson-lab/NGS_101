@@ -9,7 +9,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Construct
 from pcr import PCRGeometry
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_graph import Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from protocol_model import role
 
 TITLE = "Ribo-seq — original 2009 poly(A)-tail workflow"
@@ -51,11 +51,11 @@ def protocol_graph():
                        MaterialKind.BIOLOGICAL, primary=True)
     nuclease = graph.input("nuclease", "footprinting nuclease", MaterialKind.CATALYST)
     protected = graph.product("protected", "ribosome-protected fragments", MaterialKind.MOLECULAR)
-    digested = graph.product("digested", "unprotected RNA digest", MaterialKind.WASTE)
+    digested = graph.product("digested", "unprotected RNA digest", MaterialKind.MOLECULAR)
     graph.react("digest", "Digest RNA outside ribosomes", StepKind.DIGESTION,
                 ((mrna, InputRole.TEMPLATE), (nuclease, InputRole.CATALYST)),
                 (protected, digested))
-    graph.discard(digested, "unprotected RNA is digested")
+    graph.mark_terminal(Terminal(digested.id, Disposition.UNRESOLVED, "Digestion transforms RNA; recovery of the resulting fragments is not separately represented."))
     selection = graph.input("size_selection", "monosome and footprint-size selection",
                             MaterialKind.SELECTION)
     footprint = graph.product("footprint", "selected ribosome footprint RNA",
@@ -74,7 +74,7 @@ def protocol_graph():
     tailed = graph.product("tailed_footprint", "poly(A)-tailed footprint RNA",
                            MaterialKind.MOLECULAR,
                            state=Construct((role("ribosome footprint RNA", length_bp=30),
-                                            role("poly(A) tail, length unreported", inferred=True)),
+                                            role("poly(A) tail, length unassigned", inferred=True)),
                                            name="poly(A)-tailed footprint"))
     graph.react("polyadenylate", "Add a 3-prime poly(A) tail to selected footprints",
                 StepKind.TAILING,

@@ -86,5 +86,20 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Located first pass only; independent pass 2 and inaccessible evidence remain open."
+  "conclusion": "Located first pass only; independent pass 2 and inaccessible evidence remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC4465251 JATS326–381, Steps31–37; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Named KAPA HiFi uracil+ and four-cycle library PCR. Source confirms adapter ligation before conversion and two cleanups of ligated DNA; current graph summarizes those recoveries.",
+      "deferred": [
+        "Earlier exact adapter-table evidence and vendor NEXTflex originals; full source steps outside inspected PCR/conversion section; read/index acquisition"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

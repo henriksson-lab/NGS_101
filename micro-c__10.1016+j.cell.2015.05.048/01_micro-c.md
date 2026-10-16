@@ -73,3 +73,11 @@ The page keeps the two outer arms explicitly unresolved:
 Read 1 and Read 2 begin at opposite genomic ends. They are mapped separately to recover
 the contacting nucleosomes; the variable proximity junction generally lies inside the
 insert rather than defining either read start. 🟢
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original PMC4509605 JATS115–150, especially119–135.
+
+Added Antarctic phosphatase before T4-polymerase resection and paired 50-base reads. MNase and exonuclease products remain unresolved molecular products rather than presumed physically discarded molecules.
+
+Deferred: Original NIHMS694804 supplement1 DOCX and remaining supplements; exact adapter choice; full terminal chemistry. This is a capped check, not a full source audit or confirmation of missing information.

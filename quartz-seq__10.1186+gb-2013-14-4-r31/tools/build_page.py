@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import html
+from dataclasses import replace
 import sys
 from pathlib import Path
 
@@ -17,7 +18,7 @@ from chemdraw import Construct, Segment, oligo, protocol_graph_panels
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from page import head, info, table
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 from rna_amplification import poly_a_tagging_amplification
 
@@ -66,12 +67,12 @@ def protocol_graph() -> ProtocolGraph:
     cleaned = graph.product("primer_cleaned_cdna", "first strand after primer removal",
                             MaterialKind.MOLECULAR, state=Q.first_strand())
     primer_waste = graph.product("primer_waste", "digested unused RT primer",
-                                 MaterialKind.WASTE)
+                                 MaterialKind.MOLECULAR)
     graph.react("remove_unused_primer", "Digest unused RT primer",
-                StepKind.CLEANUP,
+                StepKind.DIGESTION,
                 ((first, InputRole.TEMPLATE),
                  (exonuclease, InputRole.CATALYST)), (cleaned, primer_waste))
-    graph.discard(primer_waste, "unused RT primer is digested before tailing")
+    graph.mark_terminal(Terminal(primer_waste.id, Disposition.UNRESOLVED, "Primer digestion does not physically remove fragments; their downstream fate is unassigned."))
 
     rnase_h = graph.input("rnase_h", "RNase H", MaterialKind.CATALYST)
     rna_removed = graph.product("rna_removed_cdna", "RNA-depleted first-strand cDNA",
@@ -165,6 +166,7 @@ def protocol_graph() -> ProtocolGraph:
                 geometry=PCRGeometry.exact(
                     final, tpc1, tpc2,
                     statement="Table 1 prints TPC1 and TPC2."))
+    graph.steps["suppression_pcr"] = replace(graph.steps["suppression_pcr"], label="Suppression-amplify cDNA: 21 cycles")
     graph.sequence(library, SequencingPlan(
         library=final, primers=Q.SEQ_PRIMERS,
         acquired_roles=tuple(p.role for p in Q.SEQ_PRIMERS),
@@ -205,7 +207,7 @@ def main() -> None:
         '<div class="wrap" data-protocol-complete="true">',
         '<h1>Quartz-Seq &mdash; poly(A)-tagging whole-transcript amplification</h1>',
         info('Defining source: <a href="https://doi.org/10.1186/gb-2013-14-4-r31">Sasagawa et al., <i>Genome Biology</i> (2013)</a>.'),
-        oligos(), construction, sequencing(), '</div>'])
+        info('Methods place RNase H in the TdT tailing mixture; separately drawn activities are schematic and do not establish a prior RNase H incubation. Combining those graph activities remains deferred.'), oligos(), construction, sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 

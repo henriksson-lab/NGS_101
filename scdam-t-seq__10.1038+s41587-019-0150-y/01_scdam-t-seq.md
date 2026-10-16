@@ -35,3 +35,15 @@ fragmented and reverse-transcribed using the exact
 `GCCTTGGCACCCGAGAATTCCA-N6` randomhexRT primer. The printed RNA-PCR1 and indexed reverse
 primer then install P5, the six-base library index and P7; their annealing suffixes and
 resulting amplicon boundaries are computed on the page.
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original PMC6609448 JATS57,99–117; detailed protocol PMC7779467 JATS61,940–975,1102.
+
+Public discrepancy notice compares 2020 overview transcript R1/R2 assignments with 2020 analysis instructions and 2019 Demultiplexing. Model follows RNA R1 identifiers/R2 transcript. Six-base-fork example remains explicitly the 2020 variant, not all 2019 preparations.
+
+Deferred: Original variant oligo tables and supplementary manual; exact run and index acquisition for the selected 2020 example; overview discrepancy remains apparent rather than author-confirmed. This is a capped check, not a full source audit or confirmation of missing information.
+
+2020 original Reagents (PMC7779467 JATS276–302) verifies the adapter strands and randomhexRT. An additional published discrepancy is now shown on the page: DamID oligos and the named barcode are TGCATATG, but the following split-layout example repeats RNA GATGTCAT. The model uses the printed DamID oligos, NNN-TGCA-NNN-TATG. The detailed DOI is registered for the source transcription guard.
+
+The same 2020 original randomhexRT mix table (JATS878–884) lists a 20 µM primer stock and 13.33 mM final concentration, incompatible with dilution. The intended unit is unverified; no corrected concentration is assigned. This apparent published inconsistency is also shown on the public page.

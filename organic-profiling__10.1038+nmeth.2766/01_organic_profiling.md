@@ -42,3 +42,13 @@ Both repaired fragment boundaries and insert span are useful observations. Solub
 The local PMC author manuscript lacks the referenced **Online Methods** section: its text 120–160 contains supplementary captions, not Methods. Earlier ledger entries that claimed those lines as Methods reads have been withdrawn and preserved as history. The original publisher entry currently supplies a subscription preview; the deposited RTF resolves the native-protocol inheritance but does not replace the complete published Online Methods or the cited 2011 SI.
 
 The exact 2014 adapter/index assignment remains a model question. The 2011 SI, Online Methods and relevant historical vendor procedures remain outstanding originals; nuclei/fly/predecessor-linked sources have their actual identities and pending scope recorded in the review ledger. No claim that information was unpublished has passed the two-reader gate.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Published original PMC3929178 JATS106–126; original MOESM254 PDF text174–280, SupplementaryFigure1.
+
+No correction identified in inspected scope: native extraction/fraction pooling, RNase/proteinase digestion and purification, end repair/dA-tail/TruSeq ligation and25-cycle paired-end readout agree with existing qualified model.
+
+Deferred: Rendered original SupplementaryFigure1 for garbled text; missing published Online Methods, exact historical adapter/index assignment and cited procedures; no preprint used. This capped pass does not establish a complete source review or publication-wide absence.
+
+The rendered original Supplementary Figure1 (PDF page3) was also inspected because text extraction is partly garbled; it confirms the yeast/fly fraction handling and end repair → A-tail → TruSeq ligation → cleanup → PCR → cleanup →25-cycle paired sequencing order. Rendering this figure is no longer deferred.

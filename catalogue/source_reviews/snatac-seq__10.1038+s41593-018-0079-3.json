@@ -143,5 +143,20 @@
       "evidence": "Springer Table 5 is available, but PMC alternate copies were not independently compared."
     }
   ],
-  "conclusion": "Two independent readings of available article, published oligo table, figures, preprint and sci-ATAC predecessor. Amini oligo-origin original and alternate PMC supplement mirror remain blocked."
+  "conclusion": "Two independent readings of available article, published oligo table, figures, preprint and sci-ATAC predecessor. Amini oligo-origin original and alternate PMC supplement mirror remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC5862073 JATS162–164; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Corrected one nucleus per PCR well to25 nuclei per well for combinatorial indexing; qualified candidate tagmentation product recovery. Main Methods specify11 PCR cycles and50/43/37/50 reads, with13 cycles and44/43/37/44 for species mix.",
+      "deferred": [
+        "Original Supplementary Table5 oligos; explicit quench, SDS/Triton and recovery graph stages; alternative run representation"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

@@ -93,5 +93,20 @@
       "evidence": "Article Methods specify random hexamers, but neither Table S12 nor available predecessor source provides their composition; historical kit source missing."
     }
   ],
-  "conclusion": "Available defining Methods, oligo table and THS predecessor independently checked; SMART MMLV kit document remains unavailable, so related missing claims stay blocked."
+  "conclusion": "Available defining Methods, oligo table and THS predecessor independently checked; SMART MMLV kit document remains unavailable, so related missing claims stay blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC5951394 JATS156–174; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Corrected single-nucleus second sorting to100 nuclei per second-round well. Added RNase H digestion between RT and second-strand synthesis and source9–12-cycle qPCR label. First-round candidate product fates are unresolved. Source distinguishes50/32/32 MiSeq validation from50/8/32 HiSeq data.",
+      "deferred": [
+        "Original TableS12 oligos, detailed cleanup states and prior size-selection method; second-tagmentation product recovery"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

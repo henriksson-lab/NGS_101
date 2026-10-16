@@ -174,16 +174,6 @@ def protocol_graph() -> ProtocolGraph:
                 (exo_cleaned, primer_fragments))
     graph.discard(primer_fragments, "unused starters are partially digested before second-strand synthesis")
     alkali = graph.input("alkali", "1 N NaOH followed by 1 N HCl neutralization", MaterialKind.CONDITION)
-    graph.annotate(SourceDiscrepancy(
-        "alkali", "Preprint and published alkaline-hydrolysis concentrations differ",
-        (SourceClaim("bioRxiv v1 10.1101/2023.03.04.531084, library-prep Methods lines 522–523",
-                     "3 µL of 1.3 M NaOH followed by 3 µL of 1.3 M HCl."),
-         SourceClaim("Published article PMC10270195 Materials and Methods, RNA-removal paragraph; "
-                     "Supplemental_Detailed_Protocol.docx lines 289–301",
-                     "3 µL of 1 M (1 N) NaOH followed by 3 µL of 1 M (1 N) HCl.")),
-        "Use the published article and detailed-protocol 1 N reagents.",
-        "The published article and its practical protocol agree on 1 N for both reagents.",
-        "The sources do not say whether the earlier 1.3 M condition was tested or changed during revision."))
     dna_only = graph.product("rna_removed", "first-strand cDNA after alkaline RNA removal",
                              MaterialKind.MOLECULAR, state=first.state)
     removed_rna = graph.product("removed_rna", "hydrolyzed RNA and dissociated TGIRT",

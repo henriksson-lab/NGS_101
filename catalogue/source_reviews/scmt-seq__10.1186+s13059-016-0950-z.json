@@ -18,7 +18,7 @@
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
         "locations": "PMC4858893 JATS lines 213-220; scraper on original local source bundle",
-        "finding": "Cytosol RNA branch uses Smart-seq2 with SuperScript III and Nextera; nuclear DNA branch MspI\u2192end repair/dA\u2192adapter ligation\u2192bisulfite\u2192two PCR rounds. Cited predecessor adapter details remain unresolved."
+        "finding": "Cytosol RNA branch uses Smart-seq2 with SuperScript III and Nextera; nuclear DNA branch MspI→end repair/dA→adapter ligation→bisulfite→two PCR rounds. Cited predecessor adapter details remain unresolved."
       }
     },
     {
@@ -68,5 +68,19 @@
       "evidence": "Original explicitly inherits predecessor chemistry, which has not yet been independently read and reconciled."
     }
   ],
-  "conclusion": "Original explicitly inherits predecessor chemistry, which has not yet been independently read and reconciled."
+  "conclusion": "Original explicitly inherits predecessor chemistry, which has not yet been independently read and reconciled.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC4858893 JATS74,203–219; mandatory bundle scraper reviewed.",
+      "findings": "Named Superscript III study substitution; methylome enrichment summarized as 20 then 12 PCR cycles; public 180–500 bp PAGE selection. Candidate Tn5 off-products now unresolved rather than assumed physically discarded.",
+      "deferred": [
+        "Detailed inherited scRRBS and Smart-seq2 originals; exact study adapter/TSO assignment and acquisition; separate recovery graph stages"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

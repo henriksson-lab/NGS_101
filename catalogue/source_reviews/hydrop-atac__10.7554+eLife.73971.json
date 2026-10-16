@@ -116,5 +116,20 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Two readers verified original paper, supplements and linked author protocols; no missing-information claim remains in this scoped HyDrop-ATAC review."
+  "conclusion": "Two readers verified original paper, supplements and linked author protocols; no missing-information claim remains in this scoped HyDrop-ATAC review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC8993220 JATS230–238,404–408,422–424; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "No correction identified in inspected scope: bulk Tn5, dissolving beads, in-droplet13-cycle linear amplification, pooled indexed PCR and50/52/10/50 sequencing agree with the current model.",
+      "deferred": [
+        "Original supplementary molecular file2 and oligo tables; unrepresented recovery details and source support for terminal product dispositions; detailed protocols.io revision"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

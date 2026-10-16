@@ -19,3 +19,11 @@ Flyamer et al.'s single-nucleus Hi-C workflow, designed around whole-genome ampl
 ## 3. Distinguishing chemistry
 
 There is no biotin fill or streptavidin bottleneck. All purified ligation products enter MDA, so the schematic keeps contact formation and the later sequencing-library conversion as separate transformations.
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original PMC5639698 JATS title/abstract; original NIHMS852755 supp_info PDF text18–68.
+
+Selected isolated-pronucleus branch; separated whole-zygote branch. Added decrosslinking condition within MDA workflow without inventing internal order, post-MDA cleanup, sonication, second cleanup and paired 125-base reads. Library boundary names VBCF preparation and 300–1300 bp selection; withdrew unverified absence claims.
+
+Deferred: Cited GenomiPhi method31, manufacturer manual and VBCF detailed preparation; exact adapter assignment. This is a capped check, not a full source audit or confirmation of missing information.

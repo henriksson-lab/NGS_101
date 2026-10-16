@@ -354,3 +354,11 @@ taken as `5' P`), and joined a duplex's two strands into one hit in Supp. 1. Its
 reported **0 locations** for sequences containing `N` and missed the Supp. 4 rows written
 with `*` (phosphorothioate), finding only the unmodified copies elsewhere; those were
 checked by hand with `grep -F`.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Original PMC8993220 JATS288–300,410–412,422–426.
+
+Exonuclease primer removal is digestion with unresolved fragment fate; named13-cycle cDNA preamplification. Source confirms50/10/10/58 run. Public page documents Figure7 ATAC heading versus RNA caption/methods and follows the latter.
+
+Deferred: Original supplementary molecular file3 and oligo tables; separate recovery steps and hairpin-cleavage product fate; detailed protocols.io revision. This capped pass does not establish a complete source review or publication-wide absence.

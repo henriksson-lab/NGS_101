@@ -216,26 +216,34 @@ def protocol_graph() -> ProtocolGraph:
     graph.react("paci_digest", "Remove concatemers and outer adapter halves with PacI",
                 StepKind.DIGESTION,
                 ((ligated, InputRole.TEMPLATE), (paci, InputRole.CATALYST)), (trimmed,))
+    proteinase = graph.input("proteinase_k", "Proteinase K after elution and RNase treatment (recovery summarized)", MaterialKind.CATALYST)
+    recovered = graph.product("recovered_dna", "purified deproteinized barcoded DNA", MaterialKind.MOLECULAR, state=trimmed.state)
+    graph.react("deproteinize", "Elute, remove nucleosomes and recover DNA before SC-PCR", StepKind.DEPROTEINIZATION,
+                ((trimmed, InputRole.TEMPLATE), (proteinase, InputRole.CATALYST)), (recovered,))
     sc1 = graph.input("sc_pcr1", "published SC-PCR1 primer", MaterialKind.OLIGO)
     sc2 = graph.input("sc_pcr2", "published SC-PCR2 primer", MaterialKind.OLIGO)
     polymerase = graph.input("polymerase", "SC-PCR and library PCR polymerase",
                              MaterialKind.CATALYST)
     amplified = graph.product("sc_amplicon", "SC-PCR-amplified barcode-labelled fragment",
                               MaterialKind.MOLECULAR, state=sc_pcr_scene())
-    graph.react("sc_pcr", "Amplify the PacI-trimmed barcode-labelled fragment", StepKind.PCR,
-                ((trimmed, InputRole.TEMPLATE), (sc1, InputRole.STRUCTURAL),
+    graph.react("sc_pcr", "Amplify the PacI-trimmed barcode-labelled fragment: 14 SC-PCR cycles", StepKind.PCR,
+                ((recovered, InputRole.TEMPLATE), (sc1, InputRole.STRUCTURAL),
                  (sc2, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (amplified,),
                 geometry=PCRGeometry.exact(
                     trimmed_construct, PCRPrimer("SC-PCR1", SC_PCR1, 17),
                     PCRPrimer("SC-PCR2", SC_PCR2, 17),
                     statement="The defining source prints both 17-nt SC-PCR primers and the adapter sequence from which their inward landing sites are derived."))
+    phosphatase = graph.input("phosphatase", "Antarctic Phosphatase", MaterialKind.CATALYST)
+    dephosphorylated = graph.product("dephosphorylated", "SC-PCR DNA with background 5-prime phosphates removed", MaterialKind.MOLECULAR, state=amplified.state)
+    graph.react("dephosphorylate", "Dephosphorylate SC-PCR products before BciVI", StepKind.DEPHOSPHORYLATION,
+                ((amplified, InputRole.TEMPLATE), (phosphatase, InputRole.CATALYST)), (dephosphorylated,))
     bcivi = graph.input("bcivi", "BciVI type-IIS restriction enzyme", MaterialKind.CATALYST)
     bcivi_scene, bcivi_construct = bcivi_product()
     da_insert = graph.product("da_insert", bcivi_construct.name, MaterialKind.MOLECULAR,
                               state=bcivi_scene)
     graph.react("bcivi_digest", "Remove SC-PCR ends and expose 3′-A overhangs with BciVI",
                 StepKind.DIGESTION,
-                ((amplified, InputRole.TEMPLATE), (bcivi, InputRole.CATALYST)), (da_insert,))
+                ((dephosphorylated, InputRole.TEMPLATE), (bcivi, InputRole.CATALYST)), (da_insert,))
     illumina_adapter = graph.input("illumina_adapter", "unresolved Illumina adapter",
                                    MaterialKind.ADAPTER, inferred=True,
                                    source=inferred_source)
@@ -249,24 +257,27 @@ def protocol_graph() -> ProtocolGraph:
                 geometry=AdapterLigationGeometry.unavailable(
                     "The source establishes adapter ligation; selected Illumina adapter bases and end geometry remain unresolved from the checked article and supplements."),
                 source=inferred_source)
+    final_paci = graph.product("final_paci", "adapter-ligated DNA after repeat PacI treatment", MaterialKind.MOLECULAR, inferred=True, source=inferred_source)
+    graph.react("repeat_paci", "Repeat PacI digestion after Illumina adapter ligation", StepKind.DIGESTION,
+                ((precursor, InputRole.TEMPLATE), (paci, InputRole.CATALYST)), (final_paci,))
     library_primers = graph.input("library_primers", "unresolved library PCR-primer pair",
                                   MaterialKind.OLIGO, inferred=True, source=inferred_source)
     final = inferred_final_library()
     library = graph.product("library", final.name, MaterialKind.LIBRARY, state=final,
                             inferred=True, source=inferred_source)
-    graph.react("library_pcr", "PCR-complete the Illumina library", StepKind.PCR,
-                ((precursor, InputRole.TEMPLATE), (library_primers, InputRole.STRUCTURAL),
+    graph.react("library_pcr", "PCR-complete the Illumina library: 14 cycles", StepKind.PCR,
+                ((final_paci, InputRole.TEMPLATE), (library_primers, InputRole.STRUCTURAL),
                  (polymerase, InputRole.CATALYST)), (library,),
                 geometry=PCRGeometry.unavailable(
                     final, reason="The selected library PCR-primer bases remain unresolved from the checked article and supplements.",
                     symmetric_species=True), source=inferred_source)
     graph.sequence(library, SequencingPlan(
         limitation="The paper publishes barcode coordinates but not the Illumina adapter or sequencing-primer sequences.",
-        acquired_roles=("Read 1", "Read 2", "Index 1 (i7)"),
+        acquired_roles=("Read 1", "Read 2"), read_lengths={"Read 1":60,"Read 2":60},
         read_uses={"Read 1": "extract_then_include", "Read 2": "extract_then_include",
                    "Index 1 (i7)": "demultiplex"}))
     graph.declare_reviewed_scope((
-        "nucleosomal_dna", "repair_enzymes", "end_repair", "barcode_adapter",
+        "proteinase_k", "deproteinize", "phosphatase", "dephosphorylate", "repeat_paci", "nucleosomal_dna", "repair_enzymes", "end_repair", "barcode_adapter",
         "ligase", "barcode_ligation", "paci", "paci_digest", "sc_pcr1",
         "sc_pcr2", "polymerase", "sc_pcr", "bcivi", "bcivi_digest",
         "illumina_adapter", "illumina_ligation", "library_primers", "library_pcr",

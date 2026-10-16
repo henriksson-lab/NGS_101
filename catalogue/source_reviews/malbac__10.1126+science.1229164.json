@@ -31,17 +31,6 @@
       "pass_1": null,
       "pass_2": null,
       "discovered_from": "paper"
-    },
-    {
-      "id": "library_kit",
-      "role": "linked_material",
-      "locator": "Downstream Illumina library-preparation kit documentation, if identified by source supplement",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "reason": "Identity cannot be resolved until original SOM is available; no kit documentation checked.",
-      "pass_1": null,
-      "pass_2": null,
-      "discovered_from": "paper"
     }
   ],
   "linked_information": {
@@ -66,5 +55,36 @@
       "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
     }
   ],
-  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+  "conclusion": "Bounded main-source curation confirms MALBAC architecture and corrects unsupported publication-absence/run assertions. Original SOM and downstream choices remain unresolved; no absence accepted.",
+  "superseded_source_rows": [
+    {
+      "id": "library_kit",
+      "role": "linked_material",
+      "locator": "Downstream Illumina library-preparation kit documentation, if identified by source supplement",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Identity cannot be resolved until original SOM is available; no kit documentation checked.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "paper"
+    }
+  ],
+  "open_model_questions": [
+    "Which downstream preparation and acquired run were used? No named kit document is established until the original SOM is inspected."
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC3600412 JATS36–42; source-bundle scraper reviewed (all exact-handle hits are upstream drawings, which were not used as evidence).",
+      "findings": "Main original confirms27+8 primer architecture, 0/65/94/58°C operations, five quasi-linear cycles and subsequent handle PCR. Source absence was overstated on the page/model despite an uninspected named SOM. Those statements are now unassigned model fields; downstream conversion is a MAGIC warning without invented kit, adapter-attachment chemistry or acquired paired reads.",
+      "deferred": [
+        "NIHMS445444 supplementary_data.docx original; main-source figures and other uninspected sections.",
+        "Full sequence/end topology and source-specific downstream preparation; existing separate patent comparison not rechecked."
+      ],
+      "scope": "Primary-layer capped check only; no source absence accepted."
+    }
+  ]
 }

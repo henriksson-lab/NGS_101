@@ -133,5 +133,20 @@
       "evidence": "One located source reading only; additional relevant sources or independent review remain pending."
     }
   ],
-  "conclusion": "First source pass only; independent second reading and unchecked linked material remain pending."
+  "conclusion": "First source pass only; independent second reading and unchecked linked material remain pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC4054835 JATS96,110,216,258–262; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added 21-cycle suppression PCR; Exonuclease I is digestion with unresolved fragment fate. Public notice qualifies separate RNase H activity drawing: the original adds RNase H in the tailing mixture.",
+      "deferred": [
+        "Combining RNase H/TdT graph activities; exact oligo table and LIMprep intermediates; supplements"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

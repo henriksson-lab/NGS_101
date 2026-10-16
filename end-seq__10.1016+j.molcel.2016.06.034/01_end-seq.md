@@ -36,3 +36,11 @@ END-seq hairpins.
 🟢 End repair means END-seq maps the processed boundary but does not retain the original
 overhang sequence or chemistry. 🟡 The final PCR-completed library uses the canonical
 TruSeq arm model; variable index bases are structured placeholders.
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original PMC6299834 JATS152–164, especially159,161.
+
+Added source-written modified hairpins, GELase plug recovery, 16-cycle END-seq PCR and alternative 50/75-base single-end runs. Canonical outer library is inferred; index acquisition unassigned. USER fragments remain unresolved rather than presumed discarded.
+
+Deferred: Original NIHMS998981 Supplement1 PDF and Supplement2–6 tables; cited BLESS method; exact index assignment. This is a capped check, not a full source audit or confirmation of missing information.

@@ -9,7 +9,7 @@ from chemdraw import Construct, Row, Scene, Segment
 from proximity_linker import ThreePrimeBridgeLinker
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 from protocol_model import molecule, role
 
@@ -20,7 +20,8 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1038/nprot.2017.012">'
 SUMMARY = ("Protein-associated chromatin fragments are repaired and dA-tailed, joined in "
            "proximity through a double-ended biotin bridge, then tagmented; streptavidin "
            "retains only fragments that still contain the contact junction.")
-CAVEAT = ("The bridge-linker bases and modification are published. The final sequencing "
+CAVEAT = ("Original Methods (PMC5537732, workflow overview) place crosslink reversal and DNA release before Tn5 tagmentation; the graph now includes that transition. "
+          "The bridge-linker bases and modification are published. The final sequencing "
           "ends use the canonical Nextera components supplied by the named Illumina kit.")
 
 BRIDGE_F = "CGCGATATCTTATCTGACT"
@@ -45,9 +46,7 @@ FINAL_LIBRARY, SEQ_PRIMERS = nextera_library(contact_segments(),
                                               "long-read ChIA-PET library")
 FINAL_CAPTION = ("A bridge-containing proximity product after Nextera tagmentation, "
                  "streptavidin selection and indexed PCR.")
-SEQUENCING_INTRO = ("Paired reads enter from the two Tn5 ends. A read reaching either "
-                    "published bridge-linker orientation proves that the selected fragment "
-                    "contains a proximity-ligation junction.")
+SEQUENCING_INTRO = ("Paired reads enter from the two Tn5 ends. The source describes 2 × 150 or 2 × 250 base reads; the exact run and index mask remain unassigned. A bridge sequence identifies a linker-bearing fragment; it does not by itself establish a biological contact.")
 TAGMENTATION = (55, 5)
 MAX_PCR_CYCLES = 13
 
@@ -135,18 +134,22 @@ def protocol_graph():
                 geometry=AdapterLigationGeometry.known(
                     "cohesive", BRIDGE.scene(),
                     statement="The published phosphorylated bridge duplex exposes one 3′ dT at each end for ligation to genomic 3′ dA ends."))
+    decrosslinking = graph.input("decrosslinking", "crosslink-reversal and DNA-release conditions", MaterialKind.CONDITION)
+    released = graph.product("released", "released bridge-ligated DNA", MaterialKind.MOLECULAR, state=contact.state)
+    graph.react("release_dna", "Reverse crosslinks and release bridge-ligated DNA before tagmentation", StepKind.DEPROTEINIZATION,
+                ((contact, InputRole.TEMPLATE), (decrosslinking, InputRole.CONDITION)), (released,))
     loaded_adapter = graph.input("loaded_nextera_adapter", "Nextera adapter-loaded transposome",
                                  MaterialKind.ADAPTER)
     tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
     tagged = graph.product("tagmented_contact", "tagmented bridge-containing contact fragments",
                            MaterialKind.MOLECULAR, state=contact.state)
-    tn5_waste = graph.product("tn5_waste", "non-amplifiable tagmentation products",
-                              MaterialKind.WASTE)
+    tn5_waste = graph.product("tn5_waste", "candidate non-library tagmentation products",
+                              MaterialKind.MOLECULAR)
     graph.react("tagment", "Tagment the bridge-linked contact products",
                 StepKind.TAGMENTATION,
-                ((contact, InputRole.TEMPLATE), (loaded_adapter, InputRole.STRUCTURAL),
+                ((released, InputRole.TEMPLATE), (loaded_adapter, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (tagged, tn5_waste))
-    graph.discard(tn5_waste, "does not retain a library-eligible pair of Tn5 ends")
+    graph.mark_terminal(Terminal(tn5_waste.id, Disposition.UNRESOLVED, "Candidate insertion products and physical recovery have not been resolved; capture is represented separately."))
     streptavidin = graph.input("streptavidin", "streptavidin capture beads",
                                MaterialKind.SELECTION)
     captured = graph.product("captured_contact", "biotin-bridge-bearing tagmented fragments",
@@ -180,7 +183,7 @@ def protocol_graph():
         "crosslinked_chromatin", "sonication", "fragment", "target_antibody",
         "immunoprecipitate", "end_repair_mix", "end_repair", "tailing_polymerase",
         "datp", "da_tail", "bridge_linker", "bridge_ligase", "bridge_ligation",
-        "loaded_nextera_adapter", "tn5", "tagment", "streptavidin",
+        "decrosslinking", "release_dna", "loaded_nextera_adapter", "tn5", "tagment", "streptavidin",
         "capture_bridge", "pcr_forward", "pcr_reverse", "pcr_polymerase",
         "library_pcr", "sequencing_library"), SOURCE)
     return graph.require_publishable()

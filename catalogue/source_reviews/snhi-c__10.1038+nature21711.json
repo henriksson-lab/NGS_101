@@ -72,5 +72,19 @@
       "evidence": "Original supplementary guide points to an unexamined Illumina 2007 protocol."
     }
   ],
-  "conclusion": "Second pass found an unreviewed vendor protocol link; no missing claim accepted."
+  "conclusion": "Second pass found an unreviewed vendor protocol link; no missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 2,
+      "locations": "Original PMC5639698 JATS title/abstract; original NIHMS852755 supp_info PDF text18–68; mandatory bundle scraper reviewed.",
+      "findings": "Selected isolated-pronucleus branch; separated whole-zygote branch. Added decrosslinking condition within MDA workflow without inventing internal order, post-MDA cleanup, sonication, second cleanup and paired 125-base reads. Library boundary names VBCF preparation and 300–1300 bp selection; withdrew unverified absence claims.",
+      "deferred": [
+        "Cited GenomiPhi method31, manufacturer manual and VBCF detailed preparation; exact adapter assignment"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

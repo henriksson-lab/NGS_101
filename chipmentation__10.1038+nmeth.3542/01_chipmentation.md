@@ -27,3 +27,11 @@ releases DNA and reverses crosslinks; indexed PCR completes the flow-cell arms.
 ChIPmentation selects target-associated chromatin before free Tn5 acts. CUT&Tag instead
 tethers Tn5 to the antibody inside permeabilized cells. That difference in targeting
 geometry is why these remain separate protocol pages despite sharing a Nextera endpoint.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Original PMC4589892 JATS58–76.
+
+Added bead-bound37°C/10min tagmentation and qPCR-Cq-dependent enrichment labels. Distinguished purified-DNA55°C/5min variant; candidate Tn5 products have unresolved recovery rather than presumed discard.
+
+Deferred: Original Supplementary Note and sequencing Table2; exact custom primer/index assignment; post-PCR size-selection graph states. This capped pass does not establish a complete source review or publication-wide absence.

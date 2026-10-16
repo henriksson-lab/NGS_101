@@ -28,11 +28,10 @@ def sequencing() -> str:
                      f"<code>{html.escape(hit.reads)}</code>&hellip;"))
     return "".join([
         '<h2>Sequencing</h2>',
-        info("The historical Multiplexing-kit Read 1 and Read 2 primers interrogate the genomic fragment from opposite ends; the single i7 read identifies the library."),
+        info("Historical Multiplexing-kit sites are shown as a reference. The inspected Methods name HiSeq2500, but actual read and index acquisition remains unassigned."),
         sp.diagram(lib, S.SEQ_PRIMERS),
         table(("Read", "Primer", "Primer site", "First bases"), rows),
-        sp.read_content_table(lib, S.SEQ_PRIMERS,
-                              acquired_roles=tuple(p.role for p in S.SEQ_PRIMERS)),
+        sp.read_spec_table((sp.read_spec("Sequencing output", None, "HiSeq2500; read/index mask unassigned", "include"),)),
     ])
 
 
@@ -50,6 +49,7 @@ def render() -> str:
         oligo("PCR Primer 1.0", S.p5_primer()),
         oligo("indexed multiplexing primer", S.indexed_p7_primer()),
         '</seq>',
+        info('Original Methods: DNase digestion is followed by stop buffer, proteinase K and30ng circular plasmid carrier, then phenol–chloroform extraction and ethanol precipitation with glycogen. These recovery/carrier details are not separate graph states. First PCR is6 cycles, followed by160–300bp E-gel selection,22-cycle P5/P7 PCR and a second160–300bp gel selection. The final selection is also currently summarized outside the graph.'),
         '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>Molecular details</h2>',
         '<h3>(1) Digest one lysed cell with DNase I</h3>',

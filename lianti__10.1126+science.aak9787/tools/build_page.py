@@ -99,22 +99,13 @@ def render() -> str:
         '<h1>LIANTI &mdash; linear whole-genome amplification by T7 transcription</h1>',
         info('Defining source: <a href="https://doi.org/10.1126/science.aak9787">Chen et al., '
              '<i>Science</i> (2017)</a>.'),
-        '<div class="caveat"><b>Sequence boundary.</b> The accessible paper establishes the '
-        'hairpin-transposon, gap-fill, IVT, self-primed RT and UMI architecture but prints no '
-        'oligo, and its Supplementary Materials and Methods is behind the PMC download gate. '
-        'Every dotted base is therefore inferred: the canonical Tn5 mosaic end and T7 promoter '
-        'stand in for parts the paper names by role, the transposon spacer, UMI and index are '
-        'placeholders of unverified length. The defining supplementary DOCX remains inaccessible, '
-        'so library-prep kit, adapter geometry, primer and read length are unresolved here.</div>',
+        '<div class="caveat"><b>Bounded primary-source scope.</b> Original main article50 and Figure1C establish Tn5 tagging, promoter-loop gap fill, IVT, self-primed RT, RNase digestion and barcoded second-strand synthesis. The original SOM has not been inspected in this capped pass. Exact oligos, UMI/index widths and downstream kit/run choices remain unassigned model data. The dotted TruSeq reference illustrates a possible endpoint; it is not evidence of the experimental kit, physical index reads or publication absence. Digested RNA is not assigned complete physical removal.</div>',
         oligos(), '<h2>Library construction</h2>',
         protocol_graph_panels(L.protocol_graph(),cls="long"),
         sp.section(L.final_library(), L.SEQ_PRIMERS,
-                   intro="INFERRED — the paper reports Illumina sequencing but neither a "
-                         "library-prep kit nor a read length, so standard single-index TruSeq "
-                         "primer sites are assumed and the 6-nt i7 width is a placeholder.",
+                   intro="INFERRED reference sites only — the actual kit, index widths, physical primers and acquired run remain unassigned pending original SOM review.",
                    required_roles=("Read 1", "Index 1 (i7)", "Read 2"),
-                   read_lengths={"Index 1 (i7)": L.I7_NT},
-                   show_read_content=True),
+                   show_read_content=False),
         '</div>'
     ])
 

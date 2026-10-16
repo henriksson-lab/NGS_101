@@ -15,7 +15,7 @@ import illumina as il
 import seqprimers as sp
 from chemdraw import Construct, Segment, feature, revcomp
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
 
@@ -123,12 +123,12 @@ def protocol_graph() -> ProtocolGraph:
     cleaned = graph.product("primer_cleaned", "oligo1 products after free-primer digestion",
                             MaterialKind.MOLECULAR)
     primer_waste = graph.product("free_oligo1_waste", "digested free oligo1",
-                                 MaterialKind.WASTE)
+                                 MaterialKind.MOLECULAR)
     graph.react("remove_free_oligo1", "Digest unused oligo1 with Exonuclease I",
-                StepKind.CLEANUP,
+                StepKind.DIGESTION,
                 ((first, InputRole.TEMPLATE), (exo, InputRole.CATALYST)),
                 (cleaned, primer_waste))
-    graph.discard(primer_waste, "unused random primer does not enter the captured library")
+    graph.mark_terminal(Terminal(primer_waste.id, Disposition.UNRESOLVED, "Digested primer products are not separately tracked through the subsequent AMPure cleanup."))
     ampure = graph.input("ampure", "AMPure XP cleanup beads", MaterialKind.SELECTION)
     purified = graph.product("purified_oligo1_products", "purified oligo1 extension products",
                              MaterialKind.MOLECULAR)
@@ -168,7 +168,7 @@ def protocol_graph() -> ProtocolGraph:
                              MaterialKind.CATALYST)
     library = graph.product("library", final_library().name, MaterialKind.LIBRARY,
                             state=final_library())
-    graph.react("indexed_pcr", "Add flow-cell arms and the cell index by PCR",
+    graph.react("indexed_pcr", "Add flow-cell arms and the cell index: 12–13 PCR cycles",
                 StepKind.PCR,
                 ((second, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),

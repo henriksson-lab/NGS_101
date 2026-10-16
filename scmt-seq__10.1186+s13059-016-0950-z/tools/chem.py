@@ -6,7 +6,8 @@ from adapter_ligation import AdapterLigationGeometry
 from multimodal_spatial import finish_pcr_branch
 from pcr import PCRGeometry
 from protocol_extensions import analyte_split
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_graph import Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, StepKind
+from dataclasses import replace
 import rrbs
 import rt
 from pathlib import Path
@@ -21,7 +22,8 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1186/s13059-016-0950-z">
           'Hu et al., <i>Genome Biology</i> (2016)</a>.')
 SUMMARY = ("Cytoplasmic RNA and nuclear genomic DNA from one cell are physically "
            "separated for Smart-seq2 transcriptomics and scRRBS methylome sequencing.")
-CAVEAT = ("The defining paper explicitly inherits Smart-seq2/Nextera and scRRBS. "
+CAVEAT = ("Hu et al., Methods: Superscript III replaces Superscript II for RNA RT; methylome enrichment uses 20 then 12 PCR cycles, followed by 180–500 bp PAGE selection. The current graph summarizes both PCR rounds and does not separately draw this recovery. "
+          "The defining paper explicitly inherits Smart-seq2/Nextera and scRRBS. "
           "Their source-described chemistry is reused here, so "
           "the earlier generic random-priming methylome representation is removed. "
           "INFERRED — the inherited scRRBS paper names standard premethylated indexed "
@@ -89,7 +91,7 @@ def protocol_graph():
                seg("oligo-dT linker", s2.DT_LINKER),
                seg("dT30VN", "T" * s2.DT_LEN + s2.DT_ANCHOR,
                    placeholder=True)))
-    rt_enzyme = g.input("rt", "template-switching reverse transcriptase",
+    rt_enzyme = g.input("rt", "Superscript III reverse transcriptase (study substitution)",
                         MaterialKind.CATALYST)
     copied = g.product("copied", "first-strand Smart-seq2 cDNA",
                        MaterialKind.MOLECULAR, state=RNA_PREAMP)
@@ -126,12 +128,12 @@ def protocol_graph():
     rna_tagged = g.product("rna_tagged", "Nextera-tagged Smart-seq2 cDNA",
                            MaterialKind.MOLECULAR, state=RNA)
     tn5_waste = g.product("rna_tn5_waste",
-                          "non-library cDNA tagmentation products", MaterialKind.WASTE)
+                          "candidate non-library cDNA tagmentation products", MaterialKind.MOLECULAR)
     g.react("tagment_rna", "Tagment amplified cDNA with Nextera",
             StepKind.TAGMENTATION,
             ((preamp, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
              (tn5, InputRole.CATALYST)), (rna_tagged, tn5_waste))
-    g.discard(tn5_waste, "does not retain an amplifiable unlike-ended cDNA fragment")
+    g.mark_terminal(Terminal(tn5_waste.id, Disposition.UNRESOLVED, "Candidate tagmentation products are summarized; molecular abundance and physical recovery were not established in this pass."))
 
     mspi = g.input("mspi", "MspI restriction endonuclease", MaterialKind.CATALYST)
     fragments = g.product("mspi_fragments", "MspI-digested nuclear DNA",
@@ -184,5 +186,6 @@ def protocol_graph():
                          "primers. Its canonical final Illumina arms are vendor-derived, "
                          "and the bisulfite-converted pre-PCR intermediate is not "
                          "represented base-for-base.")))
+    g.steps["dna_pcr"] = replace(g.steps["dna_pcr"], label="Methylome enrichment: two PCR rounds, 20 then 12 cycles (summarized)")
     g.declare_reviewed_scope(reviewed, SOURCE)
     return g.require_publishable()

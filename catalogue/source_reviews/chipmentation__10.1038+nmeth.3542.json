@@ -174,5 +174,20 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent reads now cover all accessible article, supplement and ATAC predecessor rows. Original Nextera DNA Sample Prep Kit transposome documentation remains unavailable, so the historical loaded mosaic-end strand identity is blocked rather than confirmed absent."
+  "conclusion": "Two independent reads now cover all accessible article, supplement and ATAC predecessor rows. Original Nextera DNA Sample Prep Kit transposome documentation remains unavailable, so the historical loaded mosaic-end strand identity is blocked rather than confirmed absent.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC4589892 JATS58–76; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added bead-bound37°C/10min tagmentation and qPCR-Cq-dependent enrichment labels. Distinguished purified-DNA55°C/5min variant; candidate Tn5 products have unresolved recovery rather than presumed discard.",
+      "deferred": [
+        "Original Supplementary Note and sequencing Table2; exact custom primer/index assignment; post-PCR size-selection graph states"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

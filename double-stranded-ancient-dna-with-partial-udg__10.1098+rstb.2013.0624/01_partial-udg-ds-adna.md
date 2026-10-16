@@ -26,3 +26,11 @@ supplement, and the Royal Society supplementary-file endpoint currently returns 
 page rather than the PDF. Later papers reproduce parts of this chemistry, but those secondary
 transcriptions are not promoted to exact constants here. The unresolved bases therefore mean
 "original source file presently unavailable", not "the paper omitted the sequences".
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original PMC4275898 article HTML text1147–1184,1219.
+
+Retyped paired inline barcodes as extract/sample identifiers rather than UMIs. Removed false covalent rejoining across an excised internal uracil; cleavage products unresolved. Added UGI inhibition before end repair, named Bst fill-in polymerase and 30-cycle Pfu Turbo Cx PreHyb PCR. Replaced unverified supplement-absence assertions with deferred scope.
+
+Deferred: Original electronic supplementary working protocol/TableS1 and cited predecessor methods; exact adapter-facing ends/index choices and terminal-damage probabilities. This is a capped check, not a full source audit or confirmation of missing information.

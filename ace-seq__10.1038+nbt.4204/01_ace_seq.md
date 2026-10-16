@@ -16,3 +16,11 @@
 ## Final readout
 
 ACE-seq has the same base-call polarity as TAB-seq but achieves it by selective enzymatic deamination after glucosylation, avoiding destructive bisulfite chemistry.
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original PMC6453757 JATS56–64,110,118,130.
+
+Corrected deamination intermediate to U at original C/5mC positions and retained T as PCR readout. Recorded single-end NextSeq500 and 150-cycle kit without inventing acquisition mask. Withdrew unverified proprietary adapter-end claims.
+
+Deferred: Original supplementary protocols/QC table and vendor Accel manual; exact adapter installation and acquisition mask. This is a capped check, not a full source audit or confirmation of missing information.

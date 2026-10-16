@@ -11,3 +11,11 @@ Defining paper: Tedesco et al., *Nature Biotechnology* (2022), [doi:10.1038/s415
 - 🟡 The final panel uses TnHME-A.4 as one representative of the printed barcode families. Tn5ME-A.1 is shown in parallel through transfer; its downstream Chromium processing has the same geometry.
 - 🟡 The page exposes verified genomic Read 1, Index 1 and Read 2 sites.
 - 🔴 The proprietary full 10x gel-bead oligo, dedicated cell-barcode sequencing primer and SI-PCR primers remain unresolved from the checked sources. The defining article and a versioned 10x guide are still unavailable, so absence in the publication is not confirmed; their exact sequences and binding geometry are not reconstructed.
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original Supplementary Table10 XLSX text7–17 (representative adapter rows).
+
+Both representative top adapters match the original table. Candidate tagmentation products now unresolved molecular products; withdrawn unverified proprietary/nondisclosure claims for 10x oligos.
+
+Deferred: Defining full article methods; vendor gel-bead/SI-PCR originals and full sequencing configuration; ME reverse-strand assignment. This is a capped check, not a full source audit or confirmation of missing information.

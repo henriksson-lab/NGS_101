@@ -264,3 +264,11 @@ contain only unrelated Sanger, ChIP-qPCR and EMSA/reporter oligos. Pico-Seq's pr
 rests on the cited Hu method's exact kit reference plus Illumina's vendor sequence table,
 not on sequence text in the paper. scMNase-seq remains 🟡 because that source chain
 does not identify its indexed set.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Published original PMC4697938 JATS117–125.
+
+Added6-cycle index PCR,160–300bp E-gel selection and22-cycle P5/P7 PCR labels. Public page records30ng circular carrier, PK/extraction and final repeated160–300bp selection as currently summarized graph scope. Replaced inferred acquired paired/index reads with unassigned HiSeq2500 mask.
+
+Deferred: Cited library method29 and original vendor kit; explicit carrier/recovery/final-selection graph stages, exact acquisition and all oligo assignments. This capped pass does not establish a complete source review or publication-wide absence.

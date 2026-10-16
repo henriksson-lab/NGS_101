@@ -72,5 +72,19 @@
       "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
     }
   ],
-  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC6453757 JATS56–64,110,118,130; mandatory bundle scraper reviewed.",
+      "findings": "Corrected deamination intermediate to U at original C/5mC positions and retained T as PCR readout. Recorded single-end NextSeq500 and 150-cycle kit without inventing acquisition mask. Withdrew unverified proprietary adapter-end claims.",
+      "deferred": [
+        "Original supplementary protocols/QC table and vendor Accel manual; exact adapter installation and acquisition mask"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

@@ -99,5 +99,20 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Published reaction order resolves the fragmentation distinction; vendor adapter details and a second reader remain pending."
+  "conclusion": "Published reaction order resolves the fragmentation distinction; vendor adapter details and a second reader remain pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC8214697 JATS172–179; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added source400–700bp gel selection after15-cycle library PCR; retained no-fragmentation PTA branch distinct from SCMDA. Removed unverified8-cycle acquired index mask and publication-wide primer-absence wording; canonical geometry remains inferred.",
+      "deferred": [
+        "Original SI, random-primer/UDI vendor documents and exact acquisition mask; source lysis/neutralization and post-PTA cleanup represented only at summarized scope"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

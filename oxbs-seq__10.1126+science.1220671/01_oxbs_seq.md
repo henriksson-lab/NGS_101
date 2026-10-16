@@ -47,3 +47,11 @@ HPLC confirmation of oxidation (Fig. 2), oxidant solution colors (Fig. 3),
 TaqI digestion-control traces (Fig. 4), and a statistical coverage example
 (Table 1). They do not replace Supplementary Table 2's control oligo identities
 or establish the selected genomic-library PCR pair.
+
+## Bounded curation round 2 (2026-10-16)
+
+Inspected: Original detailed2013 protocol PMC3919000 JATS43,55,265–319, Steps8–19.
+
+Added alkaline denaturation before ice-cooled perruthenate oxidation and corrected post-bisulfite state from T to U before PCR. Public notice records contamination-sensitive preparation and need for parallel nonoxidized BS control. Preserved2012oxRRBS versus2013TruSeq distinction.
+
+Deferred: Defining2012original/SOM; full2013supplements and library primers; parallel BS branch, buffer-exchange/recovery graph stages. This capped pass does not establish a complete source review or publication-wide absence.

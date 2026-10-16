@@ -1,18 +1,22 @@
 """Molecular construct model for scMNase-seq.
 
-The paper specifies universal adapters and indexed primers but prints no oligo bases.
-Every adapter-derived segment is therefore constructed through :func:`inferred`.
+The inspected supplement specifies universal adapters through a cited method.
+Their exact study assignment remains unchecked; adapter segments are inferred references.
 """
 from __future__ import annotations
 
 import sys
+from dataclasses import replace
+from protocol_graph import SequencingPlan
 import illumina as il
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from nuclease_accessibility import protocol_graph as _protocol_graph
 
-INDEX_NT = 6
+INDEX_NT = 6  # illustrative reference width, not a verified study index length
+PCR_CYCLES = 23
+SIZE_SELECTION_BP = (160, 300)
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -20,7 +24,7 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 
 
 def inferred(name: str, top: str, tag: str | None = None, **kw) -> Segment:
-    """An adapter region absent from the defining paper, always dotted."""
+    """An unverified adapter reference region, always dotted."""
     return Segment(name=name, top=top, tag=tag, inferred=True, **kw)
 
 
@@ -95,8 +99,17 @@ def final_library(insert_nt: int = 44) -> Construct:
 
 
 def protocol_graph():
-    return _protocol_graph(
+    g = _protocol_graph(
         sys.modules[__name__], name="scMNase-seq",
         source="Defining source: https://doi.org/10.1038/s41586-018-0567-3",
         nuclease="micrococcal nuclease", inferred_adapters=True,
         final_amplification=False)
+
+    g.steps["indexed_pcr"] = replace(g.steps["indexed_pcr"],
+        label=f"Index-amplify adapter-ligated fragments: {PCR_CYCLES} cycles")
+    g.steps["size_select"] = replace(g.steps["size_select"],
+        label="Select 160–300 bp library fragments by E-gel")
+    g.sequencing["library"] = SequencingPlan(
+        library=final_library(), acquired_roles=("Read 1", "Read 2"),
+        limitation="Supplementary Methods specify paired-end HiSeq 2500. Run lengths and index acquisition remain unassigned; the TruSeq structure is an inferred reference pending the cited adapter method.")
+    return g.require_publishable()

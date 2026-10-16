@@ -145,5 +145,19 @@
       "evidence": "Original supplementary tables and later detailed protocol contain these families; precise run-specific member choice remains to map."
     }
   ],
-  "conclusion": "Two independent readers checked the 2019 article, original oligo tables, author preprint, 2020 detailed protocol and CEL-Seq2 predecessor. The page scopes its six-base-fork drawing to the later detailed example and distinguishes the original four-base-fork variant. Exact 2019 experiment-to-primer-member assignments remain unresolved; no absence claim is accepted."
+  "conclusion": "Two independent readers checked the 2019 article, original oligo tables, author preprint, 2020 detailed protocol and CEL-Seq2 predecessor. The page scopes its six-base-fork drawing to the later detailed example and distinguishes the original four-base-fork variant. Exact 2019 experiment-to-primer-member assignments remain unresolved; no absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 2,
+      "locations": "Original PMC6609448 JATS57,99–117; detailed protocol PMC7779467 JATS61,940–975,1102; mandatory bundle scraper reviewed. Original 2020 Reagents JATS276–302.",
+      "findings": "Public discrepancy notice compares 2020 overview transcript R1/R2 assignments with 2020 analysis instructions and 2019 Demultiplexing. Model follows RNA R1 identifiers/R2 transcript. Six-base-fork example remains explicitly the 2020 variant, not all 2019 preparations. Exact adapter strands and randomhexRT verified in 2020 Reagents; registered detailed DOI for source-guard routing. Public notice also documents DamID TGCATATG oligos versus repeated RNA GATGTCAT split-layout prose, adopting the oligos. Also flagged original randomhexRT table JATS878–884: 20µM stock versus printed 13.33mM final, incompatible by dilution; no corrected concentration assigned.",
+      "deferred": [
+        "Original variant oligo tables and supplementary manual; exact run and index acquisition for the selected 2020 example; overview discrepancy remains apparent rather than author-confirmed"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

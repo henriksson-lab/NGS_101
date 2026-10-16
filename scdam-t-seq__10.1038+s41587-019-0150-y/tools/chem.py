@@ -16,7 +16,10 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1038/s41587-019-0150-y">
 SUMMARY = ("One well-specific CEL-seq2 primer labels transcript cDNA while a different "
            "well-specific forked adapter labels DpnI-cut Dam-methylated DNA. Both carry "
            "T7 promoters, so the two branches are pooled and linearly amplified together.")
-CAVEAT = ("<b>Adapter branch shown:</b> the six-base fork and split 8-nt barcode below "
+CAVEAT = ("<b>Published concentration inconsistency.</b> The 2020 randomhexRT mix table (PMC7779467 JATS878–884) lists a 20 µM primer stock and 13.33 mM final concentration. Dilution cannot raise that stock concentration; the intended unit remains unverified. This model assigns no corrected reaction concentration. "
+          "<b>Published barcode-example discrepancy.</b> The 2020 Reagents, DamID adapter example prints TGCATATG in its top/bottom oligos and names that barcode in prose (PMC7779467 JATS284–288), but the following split-layout example repeats NNN-GATG-NNN-TCAT from the RNA primer. The model follows the printed DamID oligos, NNN-TGCA-NNN-TATG; the repeated prose example appears copied from the RNA branch and is not used as a second DamID variant. "
+          "<b>Published read-label discrepancy.</b> Markodimitraki et al. 2020, Introduction/Overview (PMC7779467 JATS61), assigns transcript sequence to R1 and transcript identifiers to R2. Its data-processing instructions (JATS1102, CEL-Seq2 read processing) instead use R2 for transcript alignment, agreeing with Rooijers et al. 2019, Methods, Demultiplexing (PMC6609448 JATS113). This model follows the latter assignment: RNA R1 carries identifiers and RNA R2 supplies the transcript. The overview labels appear reversed; the precise custom run configuration remains to be checked. "
+          "<b>Adapter branch shown:</b> the six-base fork and split 8-nt barcode below "
           "are the example in Markodimitraki et al. 2020, Supplementary Table 2. "
           "Rooijers et al. 2019, Methods ‘DamID adapters’ and Supplementary Table 2, "
           "also describe a four-base-fork adapter for other cells; the Dam-RING1B "

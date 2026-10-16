@@ -36,3 +36,11 @@ currently returns HTTP 403 to the source fetcher.
 The phosphatase step is the selectivity reset: after it, a ligatable 5′ phosphate should
 only arise from aniline cleavage. Consequently the first mapped read base is one nucleotide
 downstream of the responsible modification, a relationship enforced by the shared model.
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original Marchand2018 author PDF text90–145 and figure1 description658–661.
+
+No source-supported correction identified in inspected scope.
+
+Deferred: Original supporting methods; exact protocol timings, adapter assignment, run and full library states were not re-verified; main PDF confirms alkaline treatment, background dephosphorylation, aniline cleavage and N+1 selective-ligation principle. This is a capped check, not a full source audit or confirmation of missing information.

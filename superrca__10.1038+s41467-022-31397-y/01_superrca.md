@@ -26,3 +26,11 @@ The first circle contains one strand of the target amplicon. Primary RCA copies 
 
 - Locate the Supplementary Table S2 mentioned in the peer-review response, or another author-supplied source explicitly identifying the 2022 oligos, before adding base-by-base circles or probe junctions.
 - Establish from the source how the amplicon strand obtains the 5′ phosphate needed for covalent closure; do not infer it from generic padlock chemistry.
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original PMC9276831 JATS190–214.
+
+Added 15-cycle targeted SuperFi PCR; rephrased unassigned oligos as deferred rather than confirmed absent. Main Methods support circularization, first RCA, padlock ligation, second RCA and cytometry.
+
+Deferred: Original MOESM1–4 and mentioned TableS2 disposition; exact oligos and terminal modifications. This is a capped check, not a full source audit or confirmation of missing information.

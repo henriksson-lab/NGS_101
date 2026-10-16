@@ -11,7 +11,7 @@ import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind)
 
 # Verbatim representative oligos from Ai et al., Supplementary Table 1.
@@ -112,12 +112,7 @@ SEQ_PRIMERS = [
     sp.custom("Read 2", "itChIP Read 2", EXTENDED_ME_B,
               "Ai et al. Supplementary Table 1"),
 ]
-READ_LENGTHS = {
-    "Read 1": 150,
-    "Index 1 (i7)": len(T7_BARCODE) + len(CONNECTOR_B) + len(I7_OLIGO_INDEX),
-    "Index 2 (i5)": len(I5_OLIGO_INDEX) + len(CONNECTOR_A) + len(T5_BARCODE),
-    "Read 2": 150,
-}
+READ_LENGTHS = {}  # acquired cycle mask remains unverified in the capped source scope
 
 
 def _validate_model() -> None:
@@ -156,13 +151,12 @@ def protocol_graph() -> ProtocolGraph:
     tagged = graph.product("tagged_chromatin", "T5/T7-tagged chromatin",
                            MaterialKind.MOLECULAR)
     tagmentation_waste = graph.product("tagmentation_waste",
-                                       "non-library tagmentation products", MaterialKind.WASTE)
+                                       "candidate non-library tagmentation products", MaterialKind.MOLECULAR)
     graph.react("tagmentation", "Tagment opened chromatin with one T5/T7 pair per well",
                 StepKind.TAGMENTATION,
                 ((chromatin, InputRole.TEMPLATE), (transposomes, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (tagged, tagmentation_waste))
-    graph.discard(tagmentation_waste,
-                  "fragments without a usable heterotypic T5/T7 pair cannot accept both PCR primers")
+    graph.mark_terminal(Terminal(tagmentation_waste.id, Disposition.UNRESOLVED, "Amplification eligibility does not demonstrate physical discard of candidate insertion products."))
     antibody = graph.input("antibody", "ChIP antibody", MaterialKind.SELECTION)
     selected = graph.product("selected_chromatin", "immunoprecipitated tagged chromatin",
                              MaterialKind.MOLECULAR)
@@ -191,6 +185,7 @@ def protocol_graph() -> ProtocolGraph:
     graph.sequence(library, SequencingPlan(
         library=final, primers=tuple(SEQ_PRIMERS),
         acquired_roles=tuple(p.role for p in SEQ_PRIMERS), read_lengths=READ_LENGTHS,
+        limitation="The bounded original supplement confirms custom indexing architecture; actual cycle mask remains unassigned pending main Methods.",
         read_uses={"Read 1": "include", "Index 1 (i7)": "extract",
                    "Index 2 (i5)": "extract", "Read 2": "include"}))
     graph.declare_reviewed_scope((

@@ -121,5 +121,20 @@
       "evidence": "Only figures and tables are on disk; cached publisher page lacks Methods and detailed Protocol Exchange is absent."
     }
   ],
-  "conclusion": "Two independent readings of available publisher preview and supplements. Main article Methods and Protocol Exchange remain unavailable; reaction-order claims blocked."
+  "conclusion": "Two independent readings of available publisher preview and supplements. Main article Methods and Protocol Exchange remain unavailable; reaction-order claims blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 3,
+      "locations": "Original publisher HTML abstract97; original MOESM1 PDF text24–37,74–79; original MOESM3 XLSX representative Table1 rows4,26–27; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Original T5-1/i5-N501 table rows agree with model; source confirms pre-ChIP tagmentation and custom index architecture. Removed unverified acquired150-base mask and presumed physical disposal of non-library Tn5 classes.",
+      "deferred": [
+        "Full original main Methods and run mask; remaining oligo-family rows and custom sequencing oligos; recovery and precise reaction ordering"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

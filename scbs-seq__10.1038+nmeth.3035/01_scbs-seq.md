@@ -245,3 +245,11 @@ single paragraph of the Online Methods, which `tools/scrape_primers.py` found; i
 the oligo1 hit "Btn" (from the `[Btn]` prefix) without parsing `[Btn]` as a 5'
 modification, whereas the upstream `/Bio/` form was parsed. Smallwood cites Quail 2012
 for the iPCRTag primer; the sequence above was transcribed from that cited supplement.
+
+## Bounded primary-source check (2026-10-16)
+
+Inspected: Original PMC4117646 JATS66,72,76,100–106.
+
+Exonuclease I is now digestion, with unresolved digested-primer fate before separate AMPure cleanup. Added 12–13-cycle single-cell PCR label and public distinction between main paired100 and deeper150-base runs. Original oligo1/oligo2/PE1 agree with model.
+
+Deferred: Original supplements, cited Quail primer table and historical vendor documents not re-read; exact index acquisition and full intermediates. This is a capped check, not a full source audit or confirmation of missing information.

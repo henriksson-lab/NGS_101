@@ -8,7 +8,7 @@ from chemdraw import Construct, Scene, Segment, feature, revcomp
 from adapter_ligation import reported_adapter_end
 from endprep import dA_tailed_scene,repair_and_dA_tail
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
+from protocol_graph import (Disposition, Terminal, InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 
 UMI_FEATURE = feature("umi", "umi", "random")
 I5_FEATURE = feature("sample_index_i5", "sample_index", "fixed")
@@ -205,16 +205,16 @@ def protocol_graph() -> ProtocolGraph:
     exonuclease=graph.input("exonuclease","Exonuclease I",MaterialKind.CATALYST)
     cleaned=graph.product("cleaned_cdna","template-switched cDNA after primer cleanup",
                           MaterialKind.MOLECULAR,state=amplified_cdna())
-    oligo_waste=graph.product("oligo_waste","digested unused bead primers",MaterialKind.WASTE)
-    graph.react("cleanup","Remove unused bead primers",StepKind.CLEANUP,
+    oligo_waste=graph.product("oligo_waste","digested unused bead primers",MaterialKind.MOLECULAR)
+    graph.react("cleanup","Digest unused bead primers",StepKind.DIGESTION,
                 ((switched,InputRole.TEMPLATE),(exonuclease,InputRole.CATALYST)),
                 (cleaned,oligo_waste))
-    graph.discard(oligo_waste,"unused capture primers are removed before cDNA amplification")
+    graph.mark_terminal(Terminal(oligo_waste.id,Disposition.UNRESOLVED,"Exonuclease digestion creates fragments; subsequent physical recovery is not separately represented."))
     tso_p=graph.input("tso_p","TSO-P cDNA-PCR primer",MaterialKind.OLIGO)
     preamp_pol=graph.input("preamp_polymerase","cDNA PCR polymerase",MaterialKind.CATALYST)
     amplified=graph.product("amplified_cdna",amplified_cdna().name,MaterialKind.MOLECULAR,
                             state=amplified_cdna())
-    graph.react("preamp","Amplify SMART-handle-flanked cDNA with TSO-P",StepKind.PCR,
+    graph.react("preamp","Amplify SMART-handle-flanked cDNA with TSO-P: 13 cycles",StepKind.PCR,
                 ((cleaned,InputRole.TEMPLATE),(tso_p,InputRole.STRUCTURAL),
                  (preamp_pol,InputRole.CATALYST)),(amplified,),
                 geometry=PCRGeometry.symmetric(

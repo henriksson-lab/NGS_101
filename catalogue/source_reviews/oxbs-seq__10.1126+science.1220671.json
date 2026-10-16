@@ -176,5 +176,20 @@
       "evidence": "Science original/SOM and detailed-protocol primer table are unexamined."
     }
   ],
-  "conclusion": "Main Science article and later Table2 recovered and independently read twice. Later control-DNA sequences are source-positive; exact genomic-library kit/index remains undeclared. Other recovered supplements have one located read; original Science SOM remainsHTTP403 and linked-source checks incomplete. No absence accepted."
+  "conclusion": "Main Science article and later Table2 recovered and independently read twice. Later control-DNA sequences are source-positive; exact genomic-library kit/index remains undeclared. Other recovered supplements have one located read; original Science SOM remainsHTTP403 and linked-source checks incomplete. No absence accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original detailed2013 protocol PMC3919000 JATS43,55,265–319, Steps8–19; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Added alkaline denaturation before ice-cooled perruthenate oxidation and corrected post-bisulfite state from T to U before PCR. Public notice records contamination-sensitive preparation and need for parallel nonoxidized BS control. Preserved2012oxRRBS versus2013TruSeq distinction.",
+      "deferred": [
+        "Defining2012original/SOM; full2013supplements and library primers; parallel BS branch, buffer-exchange/recovery graph stages"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
+  ]
 }

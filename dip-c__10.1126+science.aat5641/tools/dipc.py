@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from restriction import MBOI
 from chemdraw import Construct, Segment
 from single_cell_hic import ContactWorkflow, unresolved_illumina_library
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_graph import Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from protocol_model import molecule, role
 WORKFLOW = ContactWorkflow("Dip-C", MBOI, "after ligation", "none", "META")
 TITLE = "Dip-C — contact ligation followed by META amplification"
@@ -16,12 +16,12 @@ SUMMARY = "Dip-C omits biotin capture and uses multiplex end-tagging amplificati
 STEPS = (("Digest and ligate", "Process fixed chromatin with a compatible restriction workflow (MboI is drawn) and proximity-ligate without biotin fill-in."),
          ("Isolate one nucleus", "Sort a single ligated nucleus, lyse it and reverse crosslinks."),
          ("META", "Tag many molecule ends by transposition and extend/amplify them as whole-genome material."),
-         ("Sequencing library", "Convert the amplified material to a paired-end indexed library for contact calling and haplotype imputation."))
-READOUT = "Paired reads spanning chimeric products report contacts; dense single-cell coverage supports diploid haplotype reconstruction."
+         ("Sequencing library", "Sequence META-amplified contacts for haplotype imputation; exact preparation and run choices remain unassigned in this bounded pass."))
+READOUT = "Reads spanning proximity-ligated contacts support diploid haplotype reconstruction; exact acquired run layout is deferred to detailed-source review."
 JUNCTION_CAPTION = "Dip-C retains ligation products without a biotin-selected fill junction. ** marks ligation."
-LIBRARY_CAPTION = "A representative contact molecule after META. The defining paper identifies 39 transposon-derived bases at each read start but the accessible text does not disclose their sequence or a complete outer adapter structure."
-LIBRARY_CAVEAT = "INFERRED — the 39-base META read prefixes are source-defined by length and role only; their bases and the complete sequencing shell remain unresolved."
-SEQUENCING_UNAVAILABLE = "Dip-C reports paired-end sequencing and removal of the first 39 transposon-derived bases from both reads, but the defining source available here does not print the primer or transposon oligos needed for base-level placement."
+LIBRARY_CAPTION = "A representative contact molecule after META. Original Figure1A explicitly permits linear and circular ligation products; this drawing illustrates one product. The pre-existing39-base prefix illustration and complete outer adapter state remain pending detailed-source review."
+LIBRARY_CAVEAT = "INFERRED — primary-layer review confirms META and omission of biotin pulldown, not the exact MboI/sorting/39-base-prefix implementation. Those legacy model details and the physical library shell remain unassigned to original detailed methods. Functional library exclusion is not evidence of physical removal of every off-product."
+SEQUENCING_UNAVAILABLE = "Exact study primers, transposon strands and acquisition geometry remain unassembled pending original supplementary/detailed methods. No publication-wide absence is established by this main-article pass."
 def contact_product(): return WORKFLOW.junction()
 META_READ_PREFIX_NT = 39
 def final_library():
@@ -66,20 +66,19 @@ def protocol_graph() -> ProtocolGraph:
                           MaterialKind.CATALYST)
     tagged = g.product("tagged", "META-tagged contact molecules",
                        MaterialKind.MOLECULAR, state=nucleus.state)
-    offproducts = g.product("meta_offproducts", "nonamplifiable META products",
-                            MaterialKind.WASTE)
-    g.react("meta_tag", "Tag and amplify contact DNA by META",
+    offproducts = g.product("meta_offproducts", "candidate META off-products; identities and fate unassigned",
+                            MaterialKind.MOLECULAR, inferred=True, source=LIBRARY_CAVEAT)
+    g.react("meta_tag", "Tag contact DNA as part of META",
             StepKind.TAGMENTATION,
             ((nucleus, InputRole.TEMPLATE), (transposon, InputRole.STRUCTURAL),
              (transposase, InputRole.CATALYST)), (tagged, offproducts))
-    g.discard(offproducts, "does not enter the contact sequencing library")
+    g.mark_terminal(Terminal(offproducts.id, Disposition.UNRESOLVED, "This is a model candidate class, not a source-observed inventory. No physical removal, yield or complete carryover is assigned without the original detailed method."))
     final = final_library()
     library = g.product("library", final.name, MaterialKind.LIBRARY,
                         state=final, inferred=True, source=LIBRARY_CAVEAT)
     g.react("meta_library", "Obtain the paired-end META sequencing library",
             StepKind.MAGIC, ((tagged, InputRole.TEMPLATE),), (library,),
-            reason="The defining source and accessible detailed protocol do not print the complete transposon oligos or outer adapter chemistry; this transition cannot be reconstructed base by base.")
-    g.sequence(library, SequencingPlan(acquired_roles=("Read 1", "Read 2"),
-                                       limitation=SEQUENCING_UNAVAILABLE))
+            reason="The exact transposon strands, amplification/library steps and outer adapter assembly remain unassigned pending the original supplementary and detailed methods; this boundary does not establish that publication lacks them.")
+    g.sequence(library, SequencingPlan(limitation=SEQUENCING_UNAVAILABLE))
     g.declare_reviewed_scope(tuple(g.steps) + tuple(g.materials), CITATION)
     return g.require_publishable()

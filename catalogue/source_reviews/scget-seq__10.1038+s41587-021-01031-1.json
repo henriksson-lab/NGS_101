@@ -102,5 +102,19 @@
       "evidence": "Published assay Tn5 members occur in Table 10, while defining Methods and 10x guide remain unexamined here."
     }
   ],
-  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original Supplementary Table10 XLSX text7–17 (representative adapter rows); mandatory bundle scraper reviewed.",
+      "findings": "Both representative top adapters match the original table. Candidate tagmentation products now unresolved molecular products; withdrawn unverified proprietary/nondisclosure claims for 10x oligos.",
+      "deferred": [
+        "Defining full article methods; vendor gel-bead/SI-PCR originals and full sequencing configuration; ME reverse-strand assignment"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

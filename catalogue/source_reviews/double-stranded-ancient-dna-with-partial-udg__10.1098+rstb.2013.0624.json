@@ -66,5 +66,19 @@
       "evidence": "Defining Methods put sequences in Table S1, currently unavailable; predecessor details unchecked."
     }
   ],
-  "conclusion": "Table S1 and predecessors block sequence acceptance. Independent pass 2 pending; no missing claim accepted."
+  "conclusion": "Table S1 and predecessors block sequence acceptance. Independent pass 2 pending; no missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC4275898 article HTML text1147–1184,1219; mandatory bundle scraper reviewed.",
+      "findings": "Retyped paired inline barcodes as extract/sample identifiers rather than UMIs. Removed false covalent rejoining across an excised internal uracil; cleavage products unresolved. Added UGI inhibition before end repair, named Bst fill-in polymerase and 30-cycle Pfu Turbo Cx PreHyb PCR. Replaced unverified supplement-absence assertions with deferred scope.",
+      "deferred": [
+        "Original electronic supplementary working protocol/TableS1 and cited predecessor methods; exact adapter-facing ends/index choices and terminal-damage probabilities"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }

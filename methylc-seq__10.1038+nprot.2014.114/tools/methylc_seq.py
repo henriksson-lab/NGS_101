@@ -171,12 +171,12 @@ def protocol_graph() -> ProtocolGraph:
                         MaterialKind.OLIGO)
     reverse = add_input("nextflex_reverse_primer", "NEXTflex indexed PCR reverse primer",
                         MaterialKind.OLIGO)
-    polymerase = add_input("uracil_tolerant_polymerase", "uracil-tolerant polymerase",
+    polymerase = add_input("uracil_tolerant_polymerase", "KAPA HiFi uracil+ Readymix",
                            MaterialKind.CATALYST)
     library = Material("methylc_library", "MethylC-seq sequencing library",
                        MaterialKind.LIBRARY, state=FINAL_LIBRARY, source=source)
     graph.add_step(Step(
-        "library_pcr", "Limited uracil-tolerant library PCR", StepKind.PCR,
+        "library_pcr", "Four-cycle uracil-tolerant library PCR", StepKind.PCR,
         (Input(converted.id, InputRole.TEMPLATE),
          Input(forward.id, InputRole.STRUCTURAL),
          Input(reverse.id, InputRole.STRUCTURAL),

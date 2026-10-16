@@ -43,7 +43,7 @@ def construction() -> str:
        caption="PCR-completed custom-Nextera library. The T5/T7 barcode pair identifies "
                "the tagmentation well; i5/i7 index the amplified pool.")}
 {sp.section(final, I.SEQ_PRIMERS, heading="Final library and read layout",
-            intro="Paired-end 150-bp sequencing uses four custom primers. Read 1 and Read "
+            intro="Four custom primer sites are shown; acquisition cycle lengths remain unverified pending the main Methods. Read 1 and Read "
                   "2 enter genomic DNA; Index 1 crosses the T7 barcode and Index 2 crosses "
                   "the T5 barcode. There is no UMI.",
             read_lengths=I.READ_LENGTHS,
@@ -54,7 +54,7 @@ def sequencing() -> str:
     final = I.final_library()
     return sp.section(
         final, I.SEQ_PRIMERS, heading="Final library and read layout",
-        intro="Paired-end 150-bp sequencing uses four custom primers. Read 1 and Read 2 enter genomic DNA; Index 1 crosses the T7 barcode and Index 2 crosses the T5 barcode. There is no UMI.",
+        intro="Four custom primer sites are shown; acquisition cycle lengths remain unverified pending the main Methods. Read 1 and Read 2 enter genomic DNA; Index 1 crosses the T7 barcode and Index 2 crosses the T5 barcode. There is no UMI.",
         read_lengths=I.READ_LENGTHS, show_read_content=True)
 
 
@@ -68,7 +68,7 @@ def render() -> str:
         '<div class="caveat"><b>Source boundary.</b> This page follows the custom-Nextera '
         'library documented by Supplementary Table 1 and Supplementary Fig. 4. The exact '
         'oligos are published; unavailable main-text Methods leave some reaction ordering '
-        'and conditions outside this schematic.</div>',
+        'and conditions outside this schematic. Derived index spans describe molecule structure, not a verified acquisition mask.</div>',
         key_oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         sequencing(), '</div>',
     ])

@@ -239,5 +239,20 @@
       "checks": "Root full-bundle scraper83984 completed: one sequence hit in one file. After aliquot correction five local tests pass and schematic builds. Independent root original main168 supplies40µLresuspension→4µLPCR; same original rechecked by local source-backed regression.",
       "scope": "36µLremainder fate remains unassigned; no source absence accepted."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published original PMC5488340 JATS160–170; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "No correction identified in inspected scope:150bp sonication, NEB E7370S adapters before immediate streptavidin capture,4µL aliquot of40µL beads and usually10 PCR cycles agree with current graph.25-cell branch remains separately qualified.",
+      "deferred": [
+        "Remaining original Methods/supplements, reagent-specific kinetics and vendor adapter identities; existing article/deposit discrepancy evidence was not independently re-reviewed"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    }
   ]
 }

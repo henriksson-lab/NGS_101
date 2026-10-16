@@ -32,7 +32,7 @@ FEATURES = {"UMI": UMI_FEATURE, "i7": I7_FEATURE}
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
-from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
+from protocol_graph import (Disposition,Terminal,InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
 from topology import HairpinTopology
 
 
@@ -236,14 +236,14 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((rna,InputRole.TEMPLATE),(rna,InputRole.SELF_PRIMER),
                  (reverse_transcriptase,InputRole.CATALYST)),(self_primed,))
-    rna_removal=graph.input("rna_removal","RNA-removal condition",MaterialKind.CONDITION)
+    rna_removal=graph.input("rna_removal","RNase digestion reagent; exact study choice unassigned",MaterialKind.CATALYST)
     cleaned=graph.product("cleaned_cdna","RNA-free self-primed cDNA",MaterialKind.MOLECULAR,
                           inferred=True,source=source)
-    rna_waste=graph.product("rna_waste","removed LIANTI RNA",MaterialKind.WASTE)
-    graph.react("remove_rna","Remove the RNA template",StepKind.STRAND_SEPARATION,
-                ((self_primed,InputRole.TEMPLATE),(rna_removal,InputRole.CONDITION)),
+    rna_waste=graph.product("rna_waste","LIANTI RNA digestion products; recovery unassigned",MaterialKind.MOLECULAR)
+    graph.react("remove_rna","Digest the RNA template",StepKind.DIGESTION,
+                ((self_primed,InputRole.TEMPLATE),(rna_removal,InputRole.CATALYST)),
                 (cleaned,rna_waste))
-    graph.discard(rna_waste,"RNA is removed before UMI-bearing second-strand synthesis")
+    graph.mark_terminal(Terminal(rna_waste.id,Disposition.UNRESOLVED,"Original Figure1C describes RNase digestion before second-strand synthesis. Individual digestion products and their recovery/removal are not assigned by this model."))
     umi_primer=graph.input("umi_primer","UMI-bearing second-strand primer",MaterialKind.OLIGO,
                            state=tuple(second_strand_primer_segments()),inferred=True,source=source)
     second_pol=graph.input("second_strand_polymerase","second-strand DNA polymerase",
@@ -268,7 +268,7 @@ def protocol_graph() -> ProtocolGraph:
                  (tailing,InputRole.CATALYST)),(prepared,))
     adapter=graph.input("indexed_adapter","unspecified indexed Illumina adapter",
                         MaterialKind.ADAPTER,inferred=True,
-                        source=source+" (no library-prep kit or adapter is named)")
+                        source=source+" (study-specific kit and adapter remain unassigned; original SOM uninspected)")
     ligase=graph.input("ligase","DNA ligase",MaterialKind.CATALYST)
     opened=graph.product("adapter_ligated","indexed-adapter-ligated LIANTI amplicon",
                          MaterialKind.MOLECULAR,inferred=True,source=source)
@@ -277,13 +277,13 @@ def protocol_graph() -> ProtocolGraph:
                 ((prepared,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
                  (ligase,InputRole.CATALYST)),(opened,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "The paper names no library-prep kit or adapter, so the adapter's end geometry, "
-                    "polarity and bases are not established by any accepted source."))
+                    "Study-specific kit and adapter are unassigned pending original SOM review; the end geometry, "
+                    "polarity and bases have not been assembled in this model."))
     forward=graph.input("pcr_forward","library PCR primer completing the P5 arm",MaterialKind.OLIGO,
-                        inferred=True,source=source+" (no primer is named)")
+                        inferred=True,source=source+" (ordered study primer remains unassigned)")
     reverse=graph.input("pcr_reverse","indexed library PCR primer completing the P7 arm",
                         MaterialKind.OLIGO,inferred=True,
-                        source=source+" (no primer is named)")
+                        source=source+" (ordered study primer remains unassigned)")
     pcr_pol=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     final=final_library()
     library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,
@@ -292,14 +292,10 @@ def protocol_graph() -> ProtocolGraph:
                 ((opened,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
                  (reverse,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(library,),
                 geometry=PCRGeometry.unavailable(
-                    final,reason="The accessible source names no library-prep kit and no PCR primer, so neither primer nor its binding site is established."))
+                    final,reason="The study-specific kit, ordered primers and their template sites remain unassigned pending original SOM review; this is not an absence conclusion."))
     graph.sequence(library,SequencingPlan(
         library=final,primers=tuple(SEQ_PRIMERS),
-        acquired_roles=("Read 1","Index 1 (i7)","Index 2 (i5)","Read 2"),
-        read_lengths={"Index 1 (i7)":I7_NT},
-        read_uses={"Read 1":"include","Index 1 (i7)":"demultiplex",
-                   "Index 2 (i5)":"demultiplex","Read 2":"include"},
-        limitation="No read length, index width or library-prep kit is published; the drawn i7 width and the TruSeq-style arms are modelling assumptions, and every adapter-derived base in the library is inferred."))
+        limitation="The inspected main article and Figure1 establish amplified DNA ready for library preparation. Actual kit, indexing, physical acquisition and read lengths are unassigned pending the original SOM. Drawn TruSeq arms and identifier widths are reference assumptions, not source absence or an acquired run."))
     graph.declare_reviewed_scope((
         "genome","hairpin_transposon","tn5","tagment","gap_fill_polymerase",
         "gap_fill_dntps","gap_fill","t7_polymerase","ivt","reverse_transcriptase",

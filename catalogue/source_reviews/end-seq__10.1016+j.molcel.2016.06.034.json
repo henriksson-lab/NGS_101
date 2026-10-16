@@ -75,5 +75,19 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain."
+  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Original PMC6299834 JATS152–164, especially159,161; mandatory bundle scraper reviewed.",
+      "findings": "Added source-written modified hairpins, GELase plug recovery, 16-cycle END-seq PCR and alternative 50/75-base single-end runs. Canonical outer library is inferred; index acquisition unassigned. USER fragments remain unresolved rather than presumed discarded.",
+      "deferred": [
+        "Original NIHMS998981 Supplement1 PDF and Supplement2–6 tables; cited BLESS method; exact index assignment"
+      ],
+      "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    }
+  ]
 }
