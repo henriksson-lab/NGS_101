@@ -156,5 +156,21 @@
       "evidence": "Two independent reads cover the original article and all cached supplements; the historically applicable InGex TGIRT50 vendor document remains unavailable."
     }
   ],
-  "conclusion": "Two readers covered the original article, all cached supplements, and independently excluded the InGex small-RNA/CircLigase TGIRT protocol as a different RT-initiation branch. Historical InGex TGIRT50 product documentation for the authors’ enzyme lot remains unavailable, so enzyme-dependent claims are blocked; no absence is accepted. The recovered TGIRT50-named vendor PDF is byte-identical to the already excluded TGIRT10 Small RNA/CircLigase protocol; the product-specific historical sheet is still unlocated."
+  "conclusion": "Two readers covered the original article, all cached supplements, and independently excluded the InGex small-RNA/CircLigase TGIRT protocol as a different RT-initiation branch. Historical InGex TGIRT50 product documentation for the authors’ enzyme lot remains unavailable, so enzyme-dependent claims are blocked; no absence is accepted. The recovered TGIRT50-named vendor PDF is byte-identical to the already excluded TGIRT10 Small RNA/CircLigase protocol; the product-specific historical sheet is still unlocated.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-04",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC8062790 JATS376–410, tRNA purification, barcoded adapters, RT and cDNA circularization/PCR",
+      "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
+      "findings": "Corrected the displayed RT primer from invented RNA rNrN to source-written degenerate RN. Changed NaOH RNA hydrolysis from strand separation to chemical conversion; specified CircLigase60°C3h and KAPAHiFi5–6 PCR cycles.",
+      "deferred": [
+        "MethodsS1 extended protocol, adapter preadenylation with Mth ligase, preparative deacylation/PNK/gel stages, RNA-fragment fates and run mask; no universal charging-assay branch substituted"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 1 checked, 3 unrepresented; review schema pass"
+    }
+  ]
 }

@@ -36,3 +36,11 @@ distinct source from the SHAPE-seq predecessor already inspected. Its full
 protocol was unavailable in the followup pass, so the source audit remains
 incomplete. The original oligo-absence claim is resolved by Supplementary Table
 S1; it is not evidence of missing published oligos.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC4005689 JATS38–40, Sequencing library preparation.
+
+Named PrimeScript RT, CircLigase-mediated adapter ligation and Phusion4+20 PCR cycles. Confirmed200–600bp library selection and paired100 reads without changing the existing exact primer declarations.
+
+Deferred: SupplementaryTableS1 complete modified oligos, cDNA-adapter geometry, RT recovery and final gel-selection graph stages; unusual published PCR dwell wording not silently corrected. This pass does not establish a complete source review or publication-wide absence.

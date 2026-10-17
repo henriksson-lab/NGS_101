@@ -18,13 +18,23 @@ NOTES = "01_sci-hi-c.html"
 CITATION = 'Defining source: <a href="https://doi.org/10.1038/nmeth.4155">Ramani et al., <i>Nature Methods</i> (2017)</a>.'
 SUMMARY = "A first well barcode enters through indexed bridge adaptors before proximity ligation; a second well barcode enters through indexed library adaptors after redistribution."
 LIBRARY_CAVEAT = ("<b>Published processing-order conflict.</b> Ramani et al. 2017 main-text overview says pooled dual-barcoded material is captured with streptavidin beads and then restriction-digested. Supplementary Methods steps 8–12 instead place MseI + HaeIII digestion, end repair and dA-tailing in the second-round wells <i>before</i> indexed Y-adaptor ligation, pooling and biotin pull-down. This page's workflow follows the detailed Supplementary Methods; the overview order is not silently treated as equivalent.")
+LIBRARY_CAVEAT += (" <b>Published primer-junction difference.</b> The supplementary protocol p.22 "
+    "(Buffers and Materials) prints Barcoded Illumina R with [10 bp barcode]TGACTGG..., "
+    "whereas the workbook SeqShort_BC1_LO end ...TCCAGTCAC corresponds to a "
+    "GTGACTGG... arm. The diagram retains a standard compatible Read-2 arm as INFERRED; "
+    "the printed PCR primer is not silently repaired. The source does not resolve the "
+    "right-arm junction or establish an acquired index-read recipe. The ten-base PCR "
+    "barcode is separate from inline BC2 and internal BC1.")
+READ_LENGTHS = {"Read 1": 250, "Read 2": 250}
+PCR_FORWARD = il.P5 + il.TRUSEQ_READ1[4:]
+PCR_REVERSE_WRITTEN = il.P7 + "[10 bp barcode]" + "TGACTGGAGTTCAGACGTGTGCT"
 STEPS = (("Digest in 96 wells", "Distribute fixed nuclei and digest chromatin with DpnII."),
          ("Barcode round 1", "Ligate biotinylated indexed bridge adaptors to restriction ends in each first-round well."),
          ("Pool, ligate, redistribute", "Pool nuclei, proximity-ligate bridged ends, then sort a small number of nuclei into second-round wells."),
          ("Barcode round 2 and PCR", "Reverse-crosslink, digest with MseI/HaeIII, end-repair and dA-tail in the second wells; add indexed Illumina Y adaptors, enrich biotin-bearing molecules and PCR-amplify."))
 READOUT = "The first eight bases of each genomic read carry BC2; the two BC1 copies flank the internal bridge. The barcode pair assigns the contact to a nucleus."
 JUNCTION_CAPTION = "The contact junction contains the first-round indexed bridge (BC1); ** marks each ligation boundary."
-LIBRARY_CAPTION = "BC1 remains internal. BC2 is an 8-bp inline barcode at both read starts, followed by the source-printed CGT fixed bases; sci-Hi-C does not use an index read for BC2."
+LIBRARY_CAPTION = "BC1 remains internal. BC2 is an 8-bp inline barcode at both read starts, followed by the source-printed CGT fixed bases; BC2 is not the separate ten-base PCR barcode. INFERRED — the right Read-2 arm is a compatible canonical reconstruction; its junction to the PCR barcode remains unresolved."
 JUNCTIONS = (("locus A", "DpnII end A", "restriction end"),
              ("DpnII end A", "round-1 barcode A", "adapter ligation"),
              ("round-1 barcode B", "DpnII end B", "adapter ligation"))
@@ -110,9 +120,13 @@ def final_library():
         Segment("BC2 A1", BC2_EXAMPLE, "cbc",
                 feature=feature("cell_bc2_a", "cell_barcode", "combinatorial", group="cell_id", part="round 2, end A")), Segment("fixed read prefix", "CGT", "me"),
         *list(contact_product()),
-        Segment("opposite fixed prefix and BC2", revcomp(read_prefix), "cbc",
-                feature=feature("cell_bc2_b_with_prefix", "cell_barcode", "combinatorial", group="cell_id", part="round 2, end B", note="segment also contains the fixed CGT prefix")),
-        Segment("Read 2 site", revcomp(il.TRUSEQ_READ2), "r2"),
+        Segment("opposite fixed prefix", revcomp("CGT"), "me"),
+        Segment("BC2 end B", revcomp(BC2_EXAMPLE), "cbc",
+                feature=feature("cell_bc2_b", "cell_barcode", "combinatorial", group="cell_id", part="round 2, end B")),
+        Segment("Read 2 site", revcomp(il.TRUSEQ_READ2), "r2", inferred=True,
+                note="canonical compatible arm; printed PCR primer junction differs"),
+        Segment("PCR sample barcode", "I" * 10, "cbc", placeholder=True,
+                feature=feature("pcr_sample_index", "sample_index", "unknown")),
         Segment("P7 reverse complement", il.P7_RC, "p7"),
     ], name="sci-Hi-C two-barcode library")
     errors = sp.verify(lib, SEQ_PRIMERS, required_roles=REQUIRED_ROLES)
@@ -147,7 +161,7 @@ def protocol_graph() -> ProtocolGraph:
     bridge = graph.input("bridge_adapter", "A1 indexed biotinylated bridge duplex",
                          MaterialKind.ADAPTER, state=(BRIDGE_F_A1, BRIDGE_R_A1),
                          source=source + " Supplementary Data, MKVII_F_1/MKVII_R_1")
-    bridge_ligase = graph.input("bridge_ligase", "bridge-adaptor DNA ligase",
+    bridge_ligase = graph.input("bridge_ligase", "T4 DNA ligase for bridge-adaptor ligation",
                                 MaterialKind.CATALYST)
     bridged = graph.product("bridged", "first-round indexed restriction fragments",
                             MaterialKind.MOLECULAR)
@@ -179,13 +193,19 @@ def protocol_graph() -> ProtocolGraph:
                  (other_bridged, InputRole.TEMPLATE),
                  (pool_condition, InputRole.CONDITION)), (pooled,),
                 changes_molecule=False)
-    contact_ligase = graph.input("contact_ligase", "proximity DNA ligase",
+    pnk = graph.input("pnk", "T4 polynucleotide kinase", MaterialKind.CATALYST)
+    phosphorylated = graph.product("phosphorylated", "phosphorylated first-round bridge ends",
+                                   MaterialKind.MOLECULAR)
+    graph.react("phosphorylate", "Phosphorylate pooled bridged nuclei before in-situ ligation",
+                StepKind.PHOSPHORYLATION,
+                ((pooled, InputRole.TEMPLATE), (pnk, InputRole.CATALYST)), (phosphorylated,))
+    contact_ligase = graph.input("contact_ligase", "T4 DNA ligase for in-situ ligation",
                                  MaterialKind.CATALYST)
     contacts = graph.product("contacts", "BC1-flanked proximity-ligation products",
                              MaterialKind.MOLECULAR, state=contact_product())
     graph.react("proximity_ligation", "Ligate spatially adjacent bridged fragments",
                 StepKind.PROXIMITY_LIGATION,
-                ((pooled, InputRole.TEMPLATE),
+                ((phosphorylated, InputRole.TEMPLATE),
                  (contact_ligase, InputRole.CATALYST)), (contacts,))
 
     second_plate = graph.input("second_plate", "dilute into second 96-well plate",
@@ -251,7 +271,7 @@ def protocol_graph() -> ProtocolGraph:
     y_adapter = graph.input("y_adapter", "A1 barcoded SeqShort HI/LO Y adapter",
                             MaterialKind.ADAPTER, state=(Y_HI_A1, Y_LO_A1),
                             source=source + " Supplementary Data, SeqShort_BC1 HI/LO")
-    y_ligase = graph.input("y_ligase", "Y-adaptor DNA ligase",
+    y_ligase = graph.input("y_ligase", "T4 DNA ligase for Y-adaptor ligation",
                            MaterialKind.CATALYST)
     adapter_ligated = graph.product("adapter_ligated", "BC2-tagged contact DNA",
                                     MaterialKind.MOLECULAR)
@@ -294,11 +314,11 @@ def protocol_graph() -> ProtocolGraph:
                 (captured, rejected))
     graph.discard(rejected, "lacks a retained biotinylated contact junction")
 
-    forward = graph.input("pcr_forward", "library-PCR forward primer",
+    forward = graph.input("pcr_forward", "published Illumina F PCR primer",
+                          MaterialKind.OLIGO, state=Construct([Segment("Illumina F", PCR_FORWARD)]))
+    reverse = graph.input("pcr_reverse", "barcoded Illumina R; printed right-arm junction unresolved",
                           MaterialKind.OLIGO)
-    reverse = graph.input("pcr_reverse", "library-PCR reverse primer",
-                          MaterialKind.OLIGO)
-    polymerase = graph.input("pcr_polymerase", "library-PCR polymerase",
+    polymerase = graph.input("pcr_polymerase", "KAPA Hi-Fi library-PCR master mix",
                              MaterialKind.CATALYST)
     final = final_library()
     library = graph.product("library", final.name, MaterialKind.LIBRARY,
@@ -312,12 +332,13 @@ def protocol_graph() -> ProtocolGraph:
                 geometry=PCRGeometry.unavailable(
                     final, reason="The post-capture pre-PCR contact ends and primer pair are not printed as one exact molecule."))
     graph.sequence(library, SequencingPlan(
-        library=final, primers=SEQ_PRIMERS, acquired_roles=REQUIRED_ROLES))
+        library=final, primers=SEQ_PRIMERS, acquired_roles=REQUIRED_ROLES,
+        read_lengths=READ_LENGTHS, limitation="The published ten-base PCR barcode has no acquired index-read recipe assigned here; the printed reverse-primer junction differs from the canonical Read-2 arm shown."))
     graph.declare_reviewed_scope((
         "nuclei", "dpnii", "digest", "first_plate", "partition_round1",
         "bridge_adapter", "bridge_ligase", "ligate_bridge", "other_bridges",
         "ligate_other_bridges", "pool_condition",
-        "pool_round1", "contact_ligase", "proximity_ligation", "second_plate",
+        "pool_round1", "pnk", "phosphorylate", "contact_ligase", "proximity_ligation", "second_plate",
         "partition_round2", "y_adapter", "y_ligase", "ligate_y_adapter",
         "other_y_adapters", "ligate_other_y_adapters",
         "pool2_condition", "pool_round2", "streptavidin", "capture",

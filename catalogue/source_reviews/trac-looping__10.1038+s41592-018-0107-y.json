@@ -86,5 +86,24 @@
       "evidence": "Springer Table 2 supplies many exact modified strands; separate Table S3 remains unavailable."
     }
   ],
-  "conclusion": "Two independent reads of the defining JATS and published MOESM1 establish the bivalent linker chemistry and several indexed PCR primer members. Separately named PMC Table S3 primers and full two-reader classification of other supplements remain outstanding. Complete primer inventory stays blocked; no missing claim accepted."
+  "conclusion": "Two independent reads of the defining JATS and published MOESM1 establish the bivalent linker chemistry and several indexed PCR primer members. Separately named PMC Table S3 primers and full two-reader classification of other supplements remain outstanding. Complete primer inventory stays blocked; no missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC7212307 JATS Methods131–163 transposase/assembly/chromatography/TrAC preparation; published MOESM1 Supplementary Table2 text570–607 modified half-linker, Bio67F/67bpR and N5/N7 oligos",
+      "oligo_scraper": "Full bundle scraper run; used hits verified at original published article and table passages. Table target-capture probes beyond inspected rows deferred.",
+      "findings": "Corrected repeated-ME orientation using locally source-enforced Bio67F/67bpR duplex; explicit N501/N701 index endpoint/primer inputs; added release/gap repair/AMPure and restriction split, selected NlaIII trace with MluCI parallel path unresolved, capture elution, Phusion11cycle PCR and final E-gel recovery; candidate Tn5 fate unresolved",
+      "deferred": [
+        "Source sections/figures outside stated scope and linked predecessor/vendor originals",
+        "Complete half-linker/transposome assembly and insertion geometry",
+        "MluCI branch and exact restriction/circle/RCA traversal",
+        "Individual recovery products and acquired run/index mask"
+      ],
+      "scope": "Capped defining-source pass only; local sequence correction does not establish complete insertion/circularization chemistry or source absence.",
+      "verification": "local suite2/2/page/pairing pass; chemistry1 established/3 conditional/13 unresolved/0 contradictory with release_dna/elute_capture MAGIC warnings; source guard4 exact linker/PCR oligos checked,0 unrepresented; Markdown built/checked; review schema pass"
+    }
+  ]
 }

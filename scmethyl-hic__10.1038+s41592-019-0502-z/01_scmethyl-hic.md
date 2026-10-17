@@ -30,7 +30,7 @@ the two located findings for every item are recorded in the repository's
 1. 🟢 DpnII digestion, biotin fill-in and in situ proximity ligation generate contact junctions, as in the bulk branch (original article Results; supplementary protocol, in situ Hi-C procedure).
 2. 🟢 **After proximity ligation**, single nuclei are sorted into individual 96-well bisulfite reactions (MOESM1 lines 640–660). This timing distinguishes the branch from bulk Methyl-HiC.
 3. 🟢 Each well is bisulfite-converted before library construction. One of four P5L random primers, AD002/006/008/010, is used when four-plex pooling is planned (lines 665–668).
-4. 🟢 Klenow exo-minus extends the random primers. Exonuclease I and shrimp alkaline phosphatase treat remaining primers, followed by SPRI cleanup. Four separately indexed plate reactions are combined if multiplexing (lines 671–730).
+4. 🟢 Klenow exo-minus extends the random primers. Exonuclease I and shrimp alkaline phosphatase treat remaining primers/dNTPs. SPRI beads are added, then four solution/bead mixtures are combined if multiplexing, before washing and elution (lines 671–730).
 5. 🟢 Swift Adaptase Module 33096 treats the pooled single-stranded products; selected P5L and P7L primers perform indexing PCR (lines 735–790).
 
 ## Oligos and molecular boundaries
@@ -43,3 +43,51 @@ the two located findings for every item are recorded in the repository's
 ## Readout
 
 🟢 The paper uses paired-end contact reads; its single-cell analysis notes G-to-A treatment for Read 1 and C-to-T treatment for Read 2 (article extracted line 113). The source identifies P5L and P7L indexed PCR families and a four-way inline primer index, but does not assign one member combination to each nucleus in the checked material. The page computes only the representative Read 1 primer site; remaining read placement stays unresolved pending the historical adapter geometry and sample-index assignment.
+
+## Shared-source notice — 2026-10-17
+
+The bulk Methyl-HiC bounded pass inspected the defining article Methods and
+published Supplementary Protocol. The article and protocol reagent list specify
+DpnII, but shared “Biotin Fill-in” step1 says “Inactivate MboI” (protocol
+`supplement-5.pdf.txt`191–192). Both public pages now state this difference,
+retain DpnII as declared in the main Methods, and leave the intended
+heat-inactivation instruction unresolved. This limited notice preceded the branch-specific pass recorded below; it
+alone does not establish equal preparation routes.
+
+## Bounded single-cell source pass — 2026-10-17
+
+Independently read this branch in published PMC6765429 JATS79–93, including
+the bulk-only/WGBS boundaries. Read original published supplementary protocol
+`supplement-5.pdf.txt` single-cell487–634, and four modified random primers
+and representative D501/D701 oligos at58–87. Source manifest identifies the
+PMC original; scraper hits from the publisher duplicate were cross-checked
+in this original. Ran the full bundle oligo scraper. Later IDT successor
+manual hits were not used to replace the 2019 reagent. Remaining family rows
+were not newly read, although the existing source test checks their transcription.
+
+🟢 Exonuclease I digests unused primers and SAP inactivates dNTPs. The
+original graph prematurely treated this as physical removal. It now separates
+enzymatic treatment from SPRI binding and physical wash recovery. For the
+selected four-plex route, the solution/bead mixtures from four plates are
+combined before three ethanol washes and elution, followed by Adaptase.
+No unbound material is declared physically discarded before pooling.
+
+🟢 The graph now includes the sonicated lambda control in the detailed
+protocol's proteinase-containing well mixture, preserves /5SpC3/ in the
+random-primer strand state, specifies 17 index-PCR cycles and adds two final
+0.8x SPRI purifications. Other nuclei outside the traced well have unresolved
+fate instead of an assumed discard. Adaptase-added bases remain unresolved.
+
+🟡 Article single-cell Methods specify 9ul PBS per well, whereas the detailed
+protocol specifies 10ul lysis buffer containing proteinase K and sonicated
+lambda DNA. The public page now states both descriptions and follows the
+detailed well preparation, without claiming equivalence. The existing D5020
+versus D5023 kit-format and DpnII versus MboI instruction notices remain.
+The bulk branch's adapter-ligation and bead/column handoff are not imported
+into this single-cell route.
+
+Deferred: full single-cell precursor/vendor sources, especially the historical
+2019 Swift manual; remaining primer-family rows and source tables/figures;
+complete conversion/recovery/Adaptase molecular products, exact per-well
+primer/index choices and acquired cycle counts. This capped pass neither
+closes those source obligations nor establishes full chemistry validation.

@@ -69,13 +69,13 @@ def construction() -> str:
 def sequencing() -> str:
     return ("<h2>Sequencing</h2>"
             + info("Single-end 51-nt Read 1 (stated by the Figure S1E legend) plus an i7 "
-                   "index whose width is unpublished and drawn as a placeholder. Read 1 "
+                   "index whose width remains unresolved and is drawn as a placeholder. Read 1 "
                    "begins with N4, the DamID stub and the restored GATC before entering "
                    "genomic DNA.")
             + sp.section(D.final_library(), D.SEQ_PRIMERS,
-                         intro="Only the two reads actually used by this single-end, "
-                               "single-index run are declared.",
-                         required_roles=D.RUN_ROLES))
+                         intro="The diagram shows compatible primer sites in the inferred single-index shell; "
+                               "the inspected source states 51-nt reads, while index cycles remain unresolved.",
+                         required_roles=D.RUN_ROLES, read_lengths={"Read 1": 51}))
 
 
 def render() -> str:
@@ -93,7 +93,12 @@ def render() -> str:
         'are the conventional-DamID oligos it says it reuses (published with Vogel et al. '
         '2007), and the outer Illumina arms and index width are canonical parts and '
         'placeholders.</div>',
-        oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        info('The inspected author-manuscript Results specify 26 DamID amplification cycles '
+             'in one well without intermediate purification. Figure S1E and Table S2 are '
+             'unavailable in the located bundle. The exact DamID oligos, library PCR '
+             'catalyst, end preparation and index cycle count remain unresolved; inferred '
+             'steps are a reconstruction, not a verified detailed protocol. The full-GATC fragment panel summarizes motifs rather than validated cleavage coordinates.'),
+        oligos(), '<h2>Reaction workflow</h2>' , protocol_graph_panels(graph, cls="long"),
         sequencing(), '</div>',
     ])
 

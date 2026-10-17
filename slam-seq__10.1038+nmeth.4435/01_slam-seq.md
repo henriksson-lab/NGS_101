@@ -25,3 +25,11 @@ SLAM-seq labels newly synthesized RNA with 4-thiouridine and converts the label 
 🟡 The paper names the commercial kit but does not print its adapter oligos. The schematic therefore marks the Illumina-compatible single-index adapter skeleton as inferred rather than presenting kit bases as published facts.
 
 🟢 Supplementary Table 3 does print the oligos for the **separate synthetic let-7 primer-extension control**: RT primer `GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT`, Solexa_PCR_fwd `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`, and Solexa_IDX_rev `CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT` (`N6` is the index in the table). The same table identifies adapter-flanked synthetic let-7 and its s4U-containing counterpart for that control. These oligos substantiate the control-library construction; they do **not** resolve the QuantSeq kit oligos used for the defining transcriptome experiment.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC5712218 JATS100–138, carboxyamidomethylation, SLAM-seq in mESCs and RNA library preparation.
+
+Added DTT quench to alkylation transition. Corrected acquisition explanation to study SR50 with SR100 for Fig3 transcriptional-output measurements, distinct from later protocol recommendations; no universal run silently assigned.
+
+Deferred: Published linked ProtocolExchange version, original QuantSeq kit primers and end geometry, RNA precipitation/total RNA mixture states and selected library run. This pass does not establish a complete source review or publication-wide absence.

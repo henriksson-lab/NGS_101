@@ -12,8 +12,8 @@ from chemdraw import Construct, Scene, Segment, bases_pair, revcomp
 from adapter_ligation import AdapterLigationGeometry
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, MolecularRelation, ProtocolGraph,
-                            SequencingPlan, StepKind)
+from protocol_graph import (Disposition, InputRole, MaterialKind, MolecularRelation, ProtocolGraph,
+                            SequencingPlan, StepKind, Terminal)
 from protocol_model import molecule, role
 
 WORKFLOW = ContactWorkflow("Nagano single-cell Hi-C", BGLII,
@@ -24,7 +24,7 @@ CITATION = 'Defining source: <a href="https://doi.org/10.1038/nature12593">Nagan
 SUMMARY = "BglII contact ends are biotin-filled and ligated in fixed nuclei; individual nuclei are isolated only after ligation."
 STEPS = (("Crosslink and digest", "Digest fixed chromatin in intact nuclei with BglII."),
          ("Fill and ligate", "Fill the 5′ overhang with biotin-14-dATP, then proximity-ligate."),
-         ("Isolate one nucleus", "Dilute and sort individual ligated nuclei before reversal of crosslinks."),
+         ("Isolate one nucleus", "Pick individual ligated nuclei under a microscope with mouth-controlled glass capillaries before reversal of crosslinks."),
          ("Capture and amplify", "Capture biotin-bearing junctions, cut with AluI, add a 3′ dA, ligate the printed Y-adapter, and PCR-amplify."))
 READOUT = "Each paired read starts with a 3-bp inline identification tag, then reads one genomic fragment flanking the captured contact junction."
 JUNCTION_CAPTION = "BglII-compatible ends form the contact boundary; the experimental junction is selected through the biotin-bearing fill-in. ** marks ligation."
@@ -49,6 +49,18 @@ SEQ_PRIMERS = (
               "Nagano et al. 2013 Supplementary Methods"),
 )
 REQUIRED_ROLES = ("Read 1", "Read 2")
+READ_LENGTHS = {"Read 1": 40, "Read 2": 40}
+PCR_FORWARD = il.P5 + il.TRUSEQ_READ1[4:]
+PCR_REVERSE = il.P7 + HISTORICAL_PE_READ2
+
+
+def pcr_primer_scene(name, sequence):
+    scene = Scene()
+    scene.strand(name, [Segment(name, sequence)], mod3="terminal phosphorothioate")
+    return scene
+
+# Reuse only the endpoint: original 2013 SI pp3–5 independently establishes these
+# CAA-tagged arms and both historical PCR primers; no later reaction settings are inherited.
 def final_library(): return historical_inline_pe_library(contact_product(), "Nagano scHi-C library")
 
 
@@ -97,7 +109,7 @@ def protocol_graph() -> ProtocolGraph:
     g.react("digest", "Digest fixed chromatin with BglII", StepKind.DIGESTION,
             ((sample, InputRole.TEMPLATE), (enzyme, InputRole.CATALYST)), (cut,))
     biotin = g.input("biotin_datp", "biotin-14-dATP", MaterialKind.MOLECULAR)
-    polymerase = g.input("fill_polymerase", "restriction-end fill polymerase",
+    polymerase = g.input("fill_polymerase", "DNA Polymerase I Large (Klenow) Fragment",
                          MaterialKind.CATALYST)
     marked = g.product("marked", "biotin-filled BglII ends", MaterialKind.MOLECULAR,
                        state=cut.state, chemical_state=WORKFLOW.digest().fill_in(biotin_base="A"))
@@ -105,7 +117,7 @@ def protocol_graph() -> ProtocolGraph:
             ((cut, InputRole.TEMPLATE), (biotin, InputRole.STRUCTURAL),
              (polymerase, InputRole.CATALYST)), (marked,),
             relations=(MolecularRelation.RESTRICTION_FILL,))
-    ligase = g.input("contact_ligase", "proximity-ligation DNA ligase",
+    ligase = g.input("contact_ligase", "T4 DNA ligase",
                      MaterialKind.CATALYST)
     contacts = g.product("contacts", "bulk proximity-ligated contacts",
                          MaterialKind.MOLECULAR, state=contact_product())
@@ -113,15 +125,16 @@ def protocol_graph() -> ProtocolGraph:
             StepKind.PROXIMITY_LIGATION,
             ((marked, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)),
             (contacts,), relations=(MolecularRelation.CONTACT_JUNCTION,))
-    isolation = g.input("isolation", "single-nucleus dilution and sorting",
+    isolation = g.input("isolation", "microscope picking with mouth-controlled glass capillaries",
                         MaterialKind.CONDITION)
     nucleus = g.product("nucleus", "one ligated nucleus", MaterialKind.MOLECULAR,
                         state=contacts.state)
-    excluded = g.product("excluded", "other ligated nuclei", MaterialKind.WASTE)
+    excluded = g.product("excluded", "other ligated nuclei", MaterialKind.MOLECULAR)
     g.react("isolate", "Isolate one nucleus after contact ligation", StepKind.SAMPLING,
             ((contacts, InputRole.TEMPLATE), (isolation, InputRole.CONDITION)),
             (nucleus, excluded), changes_molecule=False)
-    g.discard(excluded, "outside the retained single nucleus")
+    g.mark_terminal(Terminal(excluded.id, Disposition.UNRESOLVED,
+        "Other nuclei lie outside this picked-nucleus lineage; their experimental fate is not represented."))
     reversal = g.input("reversal", "crosslink reversal at 65 °C", MaterialKind.CONDITION)
     fragments = g.product("fragments", "crosslink-reversed contact DNA",
                           MaterialKind.MOLECULAR, state=nucleus.state)
@@ -153,7 +166,7 @@ def protocol_graph() -> ProtocolGraph:
              (klenow, InputRole.CATALYST)), (tailed,))
     adapter = g.input("adapter", "3-bp-tagged historical Illumina Y-adapter",
                       MaterialKind.ADAPTER)
-    adapter_ligase = g.input("adapter_ligase", "library-adapter ligase",
+    adapter_ligase = g.input("adapter_ligase", "T4 DNA ligase for adapter ligation",
                              MaterialKind.CATALYST)
     ligated = g.product("ligated", "adapter-ligated contact fragments",
                         MaterialKind.MOLECULAR, state=tailed.state)
@@ -162,18 +175,34 @@ def protocol_graph() -> ProtocolGraph:
             ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
              (adapter_ligase, InputRole.CATALYST)), (ligated,),
             geometry=LIBRARY_ADAPTER_GEOMETRY)
-    forward = g.input("pcr_forward", "library PCR forward primer", MaterialKind.OLIGO)
-    reverse = g.input("pcr_reverse", "library PCR reverse primer", MaterialKind.OLIGO)
-    pcr = g.input("pcr_polymerase", "library PCR polymerase", MaterialKind.CATALYST)
+    forward = g.input("pcr_forward", "source-printed library PCR forward primer", MaterialKind.OLIGO,
+                      state=pcr_primer_scene("PCR forward", PCR_FORWARD))
+    reverse = g.input("pcr_reverse", "source-printed library PCR reverse primer", MaterialKind.OLIGO,
+                      state=pcr_primer_scene("PCR reverse", PCR_REVERSE))
+    pcr = g.input("pcr_polymerase", "Platinum Pfx DNA polymerase", MaterialKind.CATALYST)
     final = final_library()
-    library = g.product("library", final.name, MaterialKind.LIBRARY, state=final)
-    g.react("library_pcr", "Amplify the historical paired-end contact library",
+    library = g.product("amplified", final.name, MaterialKind.MOLECULAR, state=final)
+    g.react("library_pcr", "Amplify for 25 cycles with Platinum Pfx",
             StepKind.PCR,
             ((ligated, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
              (reverse, InputRole.STRUCTURAL), (pcr, InputRole.CATALYST)),
             (library,), geometry=PCRGeometry.unavailable(
                 final, reason="The captured pre-PCR molecule is a heterogeneous contact population."))
-    g.sequence(library, SequencingPlan(library=final, primers=SEQ_PRIMERS,
-                                       acquired_roles=REQUIRED_ROLES))
+    ampure = g.input("ampure", "AMPure XP magnetic beads after removal of streptavidin beads", MaterialKind.SELECTION)
+    cleaned = g.product("cleaned", "AMPure-purified amplified contact library", MaterialKind.MOLECULAR, state=final)
+    cleanup_waste = g.product("cleanup_waste", "material not recovered from post-PCR AMPure purification", MaterialKind.WASTE)
+    g.react("post_pcr_cleanup", "Remove streptavidin beads and purify PCR library with AMPure XP",
+            StepKind.CLEANUP, ((library, InputRole.TEMPLATE), (ampure, InputRole.SELECTION)),
+            (cleaned, cleanup_waste))
+    g.discard(cleanup_waste, "not recovered in the library eluate; exact molecular composition not assigned")
+    gel = g.input("size_gel", "2% agarose gel, 300–700 bp recovery window", MaterialKind.SELECTION)
+    selected = g.product("library", final.name, MaterialKind.LIBRARY, state=final)
+    offsize = g.product("offsize", "products outside the recovered gel interval", MaterialKind.WASTE)
+    g.react("size_selection", "Recover 300–700 bp libraries from 2% agarose gel",
+            StepKind.SELECTION, ((cleaned, InputRole.TEMPLATE), (gel, InputRole.SELECTION)),
+            (selected, offsize))
+    g.discard(offsize, "outside the recovered 300–700 bp gel interval")
+    g.sequence(selected, SequencingPlan(library=final, primers=SEQ_PRIMERS,
+                                       acquired_roles=REQUIRED_ROLES, read_lengths=READ_LENGTHS))
     g.declare_reviewed_scope(tuple(g.steps) + tuple(g.materials), CITATION)
     return g.require_publishable()

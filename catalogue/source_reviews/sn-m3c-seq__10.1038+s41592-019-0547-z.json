@@ -143,5 +143,24 @@
       "evidence": "Luo 2018 Supplementary Methods describes the commercial Adaptase step; complete reagent-derived bases require independent source review before this absence can be accepted."
     }
   ],
-  "conclusion": "Independent second pass confirms source-published inherited random/P5/P7 oligo families and no sample-specific member assignment in inspected Lee supplements; commercial Adaptase composition remains blocked. No missing claim accepted."
+  "conclusion": "Independent second pass confirms source-published inherited random/P5/P7 oligo families and no sample-specific member assignment in inspected Lee supplements; commercial Adaptase composition remains blocked. No missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC6765423 JATS identity/68/80 and Supplemental Methods136–152 (3C/FANS/methylome preparation/data processing); cached supplement1 DOCX initial AOP/Issue capsule only, no chemistry used",
+      "oligo_scraper": "Bundle scraper completed including large workbook extractions;0 hits. Workbook bodies not read as chemistry originals and no-hit result does not establish absence.",
+      "findings": "Added DpnII heat inactivation and sorted-nucleus proteinase digestion; named T4 ligase/FANS gates; source PE150 acquisition separated from computational25/3 trimming; removed unchanged unconverted sequence states after conversion/copying/tagging; provisional inherited endpoint/index geometry and source limits explicit; other nuclei unresolved",
+      "deferred": [
+        "Full Luo2018 linked snmC-seq2 protocol/primer originals",
+        "Original workbook bodies including supplement7 sample metadata",
+        "Hi-C predecessor/vendor originals and Adaptase evidence",
+        "Proteinase/conversion/recovery/priming states and sample-specific primer/index assignments"
+      ],
+      "scope": "Bounded defining-article pass, not complete validation or accepted missing-information review. Inherited endpoint remains provisional and source-specific follow-up is deferred.",
+      "verification": "local suite102/102 includes legacy common checks; page/pairing pass; chemistry1 established/0 conditional/10 unresolved/0 contradictory; source guard0 exact checked (all structural oligos inferred/excluded),0 unrepresented; Markdown built/checked; review schema pass"
+    }
+  ]
 }

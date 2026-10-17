@@ -49,11 +49,43 @@ the remote genomic fragments never become one covalent contact molecule.
 
 ## Sequence boundary
 
-🔴 The defining paper and Supplementary Methods identify both commercial kits and the
-oligo roles, but do not publish the complete Chromium Genome v2 gel-bead oligo or
-manufactured barcode whitelist, nor the PN-120262 ligation adapter and Sample Index PCR primer
-sequences. The public schematic therefore gives exact lengths and structured identifier
-meanings but marks the compatible Illumina adapter arms as inferred. Published FASTQ
-could help recover read-visible sequence boundaries or used sample indexes, but cannot
-establish the ordered oligo ends or modifications. No proprietary base sequence is
-invented.
+🟡 The exact Chromium Genome v2 bead oligo, manufactured barcode whitelist,
+PN-120262 adapter and Sample Index PCR primers remain unresolved in this bounded
+review. Historical vendor originals are deferred. This is not an accepted claim
+that these sequences are absent from all relevant sources. The compatible Illumina
+arms and eight-base sample-index window in the schematic are inferred; acquired
+index cycles have not been established here. Published FASTQ may help characterize
+read-visible sequence, but does not alone establish ordered oligo modifications.
+
+## Bounded source check — 2026-10-17
+
+Read the defining published article's preparation/analysis overview (PMC7001875
+JATS text lines 64–66 and Figure 1 caption line 491) and Supplementary Methods
+pp. 4–6 (text 137–226), plus Supplementary Note 1 pp. 15–17 (920–1002).
+The oligo scraper was run across the bundle. Its example GEMcode at Methods
+lines 952–958 was verified there; observed barcodes are not ordered oligo sequences.
+Other output-table hits were not promoted to reagent facts.
+
+The graph selects the published HindIII branch followed by sonication, with
+MboI and sonication-only preparations retained as alternatives in the caveat.
+Removed illustrative 1/2/3-kb per-fragment assignments: no exact molecular lengths
+are assigned to those symbolic example molecules. Added explicit pooled DNA
+recovery, end repair, A-tailing, adapter ligation, Sample Index PCR and post-PCR
+selection around 600 bp. Exact commercial intermediate ends remain unresolved;
+no adapter end or junction is invented. Library-adapter ligation does not join
+remote contact fragments.
+
+Corrected the former partition waste branch: colliding complexes can be copied
+and sequenced. Their inter-chromosomal reads are subsequently split into
+intra-chromosomal groups; singleton removal is also computational (article line
+66; Supplementary Note pp. 15–17). Neither is a physical separation of GEMs.
+The source acquired 2 × 150 bp but analyzed only R1; R2 was reserved for future
+analysis (Methods lines 963–968). The index-cycle count remains open.
+
+Deferred: historical PN-120258/PN-120262 vendor originals and cited linked
+predecessor methods, exact bead/adapter/PCR oligos and modifications, full
+Figure 1 rendered geometry, other supplements and complete per-product recovery
+mechanisms. Existing GEO-based UMI assignments above are retained as earlier
+provenance, not newly reverified: the generic GSM3347523 endpoint is a manual
+challenge entry in the local manifest. This capped check is not a full protocol
+review or confirmation of missing information.

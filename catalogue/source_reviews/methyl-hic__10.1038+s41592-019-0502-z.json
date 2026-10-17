@@ -329,5 +329,25 @@
       "evidence": "Original Springer MOESM1 lines 212–258 prints them, but they belong to separately documented scMethyl-HiC, not bulk Methyl-HiC."
     }
   ],
-  "conclusion": "Two independent readers checked the official 2007 ChIP guide candidate and found that its unindexed adapter mix cannot identify Rao’s indexed adapter or Li’s bulk selected kit. The precise 2007 reference remains unresolved. Exact strands, geometry and index remain blocked."
+  "conclusion": "Two independent readers checked the official 2007 ChIP guide candidate and found that its unindexed adapter mix cannot identify Rao’s indexed adapter or Li’s bulk selected kit. The precise 2007 reference remains unresolved. Exact strands, geometry and index remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC6765429 JATS79–105 bulk/single-cell/WGBS/sequencing/mapping; MOESM2 reporting summary1–59; original supplementary protocol supplement5.pdf text1–57,191–257,304–347,374–415,437–485",
+      "oligo_scraper": "Full bundle scraper run; hits point to separate single-cell oligo table and do not supply bulk adapter identity. Source passages behind used facts read directly.",
+      "findings": "Added crosslink reversal/ethanol/SPRI recoveries, on-bead end repair/dA tailing, QuickLigase/lambda control/final size selection; retained optional capture supernatant control rather than assumed discard; converted sequence classes inferred; public DpnII/MboI label discrepancy on both pages and unresolved bulk bead/column recovery",
+      "deferred": [
+        "Uninspected protocol sections/source figures and tables",
+        "Rao and vendor originals",
+        "Exact molecular repair/recovery and bead-column handoff",
+        "Protocol biotin0.4nM stock wording",
+        "Bulk adapter/index identities and acquired run lengths"
+      ],
+      "scope": "Capped bulk defining-source pass; counterpart single-cell page receives shared discrepancy notice only and remains pending its own pass. No complete validation or accepted absence.",
+      "verification": "local suite2/2 and page pass; single-cell notice consumer suite5/5 and page pass; pairing0 problems; bulk chemistry0 established/0 conditional/16 unresolved/0 contradictory with conversion_recovery MAGIC warning; source guard0 exact inputs/all structural oligos inferred; Markdown build/check and review schema pass"
+    }
+  ]
 }

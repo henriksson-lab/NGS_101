@@ -1,3 +1,4 @@
+from dataclasses import replace
 """Protocol-owned source, oligos, molecular workflow and reaction graph."""
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Segment, Workflow, feature, revcomp
@@ -101,7 +102,7 @@ def workflow() -> Workflow:
 
 
 
-RECIPE = (('cleave', 'Expose RNA to hydroxyl radicals', StepKind.FRAGMENTATION), ('rt', 'Random-prime reverse transcription to radical-induced breaks', StepKind.REVERSE_TRANSCRIPTION), ('ligate', 'Ligate the molecular-barcode adapter to cDNA', StepKind.LIGATION))
+RECIPE = (('cleave', 'Expose RNA to hydroxyl radicals', StepKind.FRAGMENTATION), ('rt', 'Reverse-transcribe radical-induced breaks with PrimeScript', StepKind.REVERSE_TRANSCRIPTION), ('ligate', 'Ligate molecular-barcode adapter to cDNA with CircLigase', StepKind.LIGATION))
 
 def protocol_graph() -> ProtocolGraph:
     graph = ProtocolGraph(TITLE, authority=SOURCE)
@@ -119,5 +120,6 @@ def protocol_graph() -> ProtocolGraph:
         acquired_roles=ACQUIRED_ROLES,
         read_lengths=READ_LENGTHS,
         read_uses=READ_USES)
+    graph.steps["library_pcr"] = replace(graph.steps["library_pcr"], label="Amplify with Phusion (4 plus 20 cycles)")
     graph.declare_reviewed_scope(reviewed, SOURCE)
     return graph.require_publishable()

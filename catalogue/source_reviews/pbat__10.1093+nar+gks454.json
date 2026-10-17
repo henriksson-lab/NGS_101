@@ -74,5 +74,24 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Located first pass only; independent pass 2 and inaccessible evidence remain open."
+  "conclusion": "Located first pass only; independent pass 2 and inaccessible evidence remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC3458524 JATS identity/Methods28–60,strand interpretation64–66,overview86–90,mouse readout138; File006.pdf.txt S1–S3 captions1–35,qPCR100–108,TableS1 beginning110–138",
+      "oligo_scraper": "Bundle scraper run; original JATS40,48,52 verified complete library primer sequences and BioPEA2N4 biotin; PDF fragments not treated as independent oligos.",
+      "findings": "Separated Klenow random priming, Bst second-strand completion and Phusion Primer-3 extension; added pre-capture two AMPure purifications, Exonuclease I and final two AMPure size fractionations; declared primer strand inputs and displayed biotin; caveat labels S3 opposite-strand mechanism plausible",
+      "deferred": [
+        "Rendered S3 geometry and remaining supplement figures/tables",
+        "Historical kit/instrument originals and DNA preparation predecessor",
+        "Bisulfite desulfonation/purification and complete bead-release states",
+        "Opposite-strand molecular branch and selected dataset acquired cycle declaration"
+      ],
+      "scope": "Capped source pass, not full chemistry validation or a new two-reader absence review.",
+      "verification": "local suite 3/3 and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/15 unresolved/0 contradictory; source guard 3 exact checked, 0 failures/unrepresented; Markdown built/checked; review schema checked"
+    }
+  ]
 }

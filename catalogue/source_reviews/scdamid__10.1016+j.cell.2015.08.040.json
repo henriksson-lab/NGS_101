@@ -90,5 +90,24 @@
       "evidence": "Figure S1/Table S2 and predecessor routes are not locally readable, so only a bounded statement is supported."
     }
   ],
-  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Published Cell archived author manuscript PMC4583798 JATS identity; Results84–90, Experimental Procedures198–204 and FigureS1 legend252",
+      "oligo_scraper": "Bundle scraper run; sequence hits are excluded upstream drawing, not new author-supported library oligos. Rejected supplement HTML not read as an original.",
+      "findings": "Specified source26-cycle same-well amplification; separated unspecified DamID/library PCR catalysts; explicitly inferred reconstructed end preparation/library PCR; removed placeholder index width from acquired cycles and exposed motif-view limitation",
+      "deferred": [
+        "FigureS1E/Extended Experimental Procedures/TableS2 originals unavailable in located bundle",
+        "Vogel2007 and historical Illumina originals",
+        "Exact modified oligos/DpnI cleavage-end geometry/DpnII status",
+        "Library recovery/completion/index acquisition and sorting/lysis states"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local import/construction suite passes (0 explicit checks); page builds; pairing0 problems; chemistry0 established/1 conditional/9 unresolved/0 contradictory; source guard0 exact checked/all candidate oligos inferred and excluded,0 unrepresented; Markdown built/checked; review schema pass"
+    }
+  ]
 }

@@ -9,10 +9,10 @@ from types import SimpleNamespace
 
 import illumina as il
 import seqprimers as sp
-from batch_ngs import truseq_library
 from chemdraw import Construct, Scene, Segment, feature
+from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 from protocol_model import chain, molecule, role
 
@@ -31,7 +31,7 @@ CHIA_UMI = feature(
     note="8-nt random priming sequence retained beside the GEM barcode")
 CHIA_SAMPLE = feature(
     "chia_drop.sample", "sample_index", "unknown",
-    note="library sample index; the defining paper does not publish the oligo set")
+    note="library sample index; exact assigned oligo remains unresolved in this bounded review")
 
 
 
@@ -52,7 +52,7 @@ def grouped_fragments(label: str, *, copied: bool = False) -> Scene:
                      feature=CHIA_UMI),
             ))
         parts.append(_seg(f"genomic fragment {n}", "X" * (26 + n * 4),
-                          placeholder=True, length_bp=1000 * n))
+                          placeholder=True))
         sc.strand(f"fragment {n}", parts, label=f"fragment {n}")
         if copied:
             sc.junction(f"fragment {n}", f"GEM barcode {n}",
@@ -90,7 +90,7 @@ def chia_drop_workflow():
     initial = molecule("formaldehyde-crosslinked nucleus", (
         role("chromatin complex containing spatially associated DNA segments"),))
     return chain(initial, (
-        ("Permeabilize nuclei and digest chromatin in situ",
+        ("Permeabilize nuclei and digest chromatin with HindIII in situ",
          grouped_fragments("restriction-fragmented crosslinked complex"),
          "The defining implementation compared MboI, HindIII and sonication; longer HindIII/sonicated templates gave more mappable reads. Crosslinks preserve association, and there is no fill-in or proximity ligation."),
         ("Release intact crosslinked chromatin complexes by sonication",
@@ -109,7 +109,7 @@ def chia_drop_workflow():
              role("8-nt random-primer UMI", length_bp=8, molecular_feature=CHIA_UMI),
              role("one genomic fragment copy"),
              role("Read 2, sample-index and P7 arm", inferred=True))),
-         "The commercial v2 reagents establish the final flow-cell-compatible molecule, but the defining paper publishes adapter roles rather than the proprietary oligo sequences."),
+         "The source states end repair, A-tailing, PN-120262 adapter ligation, Sample Index PCR and size selection around 600 bp. Exact commercial oligos remain unresolved here; final arms are inferred."),
     ))
 
 
@@ -125,11 +125,10 @@ def _finish_pcr(graph, template, spec, prefix, reviewed, label):
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (library,), geometry=PCRGeometry.unavailable(
                     spec.FINAL_LIBRARY,
-                    reason="The commercial intermediate is not disclosed as an exact Construct; the final primer landing sites are checked independently."))
-    graph.sequence(library, SequencingPlan(library=spec.FINAL_LIBRARY,
-                                           primers=tuple(spec.SEQ_PRIMERS)))
+                    reason="The commercial intermediate and PCR primers are unresolved in this bounded review; the compatible inferred final primer sites are checked independently."))
     reviewed.extend((forward.id, reverse.id, polymerase.id, prefix + "_pcr",
                      library.id))
+    return library
 
 
 def _chia_graph(spec):
@@ -139,11 +138,11 @@ def _chia_graph(spec):
                             MaterialKind.BIOLOGICAL,
                             state=molecule("cross-linked nucleus", (role("multiplex chromatin complexes"),)),
                             primary=True)
-    nuclease = graph.input("restriction_enzyme", "in-situ chromatin fragmentation enzyme",
+    nuclease = graph.input("restriction_enzyme", "HindIII (selected published restriction branch)",
                            MaterialKind.CATALYST)
     digested = graph.product("digested", "restriction-fragmented cross-linked complexes",
                              MaterialKind.MOLECULAR, state=grouped_fragments("digested complexes"))
-    graph.react("digest", "Digest chromatin in situ without proximity ligation",
+    graph.react("digest", "Digest chromatin with HindIII at 37 °C overnight; no proximity ligation",
                 StepKind.DIGESTION,
                 ((chromatin, InputRole.TEMPLATE), (nuclease, InputRole.CATALYST)),
                 (digested,))
@@ -157,32 +156,76 @@ def _chia_graph(spec):
                 (released,))
     gem = graph.input("gem_condition", "Chromium Genome v2 GEM partition condition",
                       MaterialKind.CONDITION)
-    partitioned = graph.product("partitioned", "complex-bearing GEMs",
+    partitioned = graph.product("partitioned", "complex-bearing GEMs, including possible collisions",
                                 MaterialKind.MOLECULAR, state=released.state)
-    empty = graph.product("empty_gems", "empty or collision-unresolved GEM material",
-                          MaterialKind.WASTE)
+    no_template = graph.product("no_template_gems", "candidate GEMs lacking accessible chromatin template",
+                                MaterialKind.MOLECULAR, inferred=True)
     graph.react("partition", "Partition chromatin complexes into GEMs",
                 StepKind.PARTITION,
                 ((released, InputRole.TEMPLATE), (gem, InputRole.CONDITION)),
-                (partitioned, empty))
-    graph.discard(empty, "does not yield an interpretable single-complex partition")
+                (partitioned, no_template))
+    graph.mark_terminal(Terminal(no_template.id, Disposition.UNRESOLVED,
+        "Supplementary Methods p. 5 associates short barcode-only reads with empty or inaccessible-template GEMs. Their detailed downstream products are not traced here; this is not a physical discard. Colliding complexes remain in the main amplification path."))
     bead_oligo = graph.input("bead_oligo", "GemCode barcode/random-primer bead oligo",
                              MaterialKind.OLIGO, inferred=True,
-                             source=source + " (commercial oligo bases not disclosed)")
+                             source=source + " (exact commercial oligo not resolved in this review)")
     polymerase = graph.input("isothermal_polymerase", "isothermal extension polymerase",
                              MaterialKind.CATALYST)
     copied = graph.product("copied", "independent copies sharing one GEM barcode",
                            MaterialKind.MOLECULAR,
                            state=grouped_fragments("barcoded copies", copied=True))
-    graph.react("amplify", "Random-prime isothermal linear amplification",
+    graph.react("amplify", "Random-prime linear amplification at 30 °C overnight",
                 StepKind.EXTENSION,
                 ((partitioned, InputRole.TEMPLATE), (bead_oligo, InputRole.STRUCTURAL),
                  (polymerase, InputRole.CATALYST)), (copied,))
     reviewed = ["chromatin", "restriction_enzyme", "digest", "sonication", "release",
                 "gem_condition", "partition", "bead_oligo", "isothermal_polymerase",
                 "amplify"]
-    _finish_pcr(graph, copied, spec, "library", reviewed,
-                "Pool GEM products and complete the ChIA-Drop library")
+    recovered = graph.product("recovered", "pooled, purified barcoded DNA copies",
+                              MaterialKind.MOLECULAR,
+                              state=grouped_fragments("recovered independent copies", copied=True))
+    recovery = graph.input("gem_recovery", "GEM breakup and DNA purification reagents",
+                           MaterialKind.CONDITION)
+    graph.react("recover", "Release barcoded amplicons from all GEMs and purify DNA",
+                StepKind.MAGIC,
+                ((copied, InputRole.TEMPLATE), (recovery, InputRole.CONDITION)), (recovered,),
+                reason="Supplementary Methods p. 6 states release and purification but the kit-era recovery mechanism and exact termini are not resolved in this bounded review. Copies remain separate molecules; collision filtering occurs after sequencing.")
+    end_reagents = graph.input("end_repair_reagents", "commercial end-repair reagents",
+                               MaterialKind.CATALYST)
+    repaired = graph.product("repaired", "end-repaired barcoded DNA", MaterialKind.MOLECULAR,
+                             state=molecule("end-repaired copies", (role("independent barcoded DNA; exact ends unresolved"),)))
+    graph.react("end_repair", "End-repair purified barcoded DNA", StepKind.END_REPAIR,
+                ((recovered, InputRole.TEMPLATE), (end_reagents, InputRole.CATALYST)), (repaired,))
+    tail_reagents = graph.input("tail_reagents", "commercial A-tailing reagents", MaterialKind.CATALYST)
+    tailed = graph.product("tailed", "A-tailed barcoded DNA", MaterialKind.MOLECULAR,
+                           state=molecule("A-tailed copies", (role("barcoded DNA after source-stated A-tailing; exact ends unresolved"),)))
+    graph.react("a_tail", "A-tail end-repaired DNA", StepKind.TAILING,
+                ((repaired, InputRole.TEMPLATE), (tail_reagents, InputRole.CATALYST)), (tailed,))
+    adapter = graph.input("multiplex_adapter", "Chromium Multiplex PN-120262 adapter", MaterialKind.ADAPTER)
+    ligase = graph.input("multiplex_ligase", "commercial adapter-ligation reagents", MaterialKind.CATALYST)
+    ligated = graph.product("ligated", "adapter-ligated barcoded DNA", MaterialKind.MOLECULAR,
+                            state=molecule("ligated copies", (role("one genomic copy bearing barcode and commercial adapter; exact junction unresolved"),)))
+    graph.react("adapter_ligation", "Ligate library adapter to independent DNA copies", StepKind.LIGATION,
+                ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)),
+                (ligated,), geometry=AdapterLigationGeometry.unavailable(
+                    "PN-120262 ligation is stated in Supplementary Methods p. 6. Exact adapter termini and junction are unresolved here; the historical vendor original is a deferred follow-up. This is library-adapter ligation, not proximity ligation."))
+    amplified = _finish_pcr(graph, ligated, spec, "library", reviewed,
+                            "INFERRED — Sample Index PCR; compatible final arms shown")
+    size_condition = graph.input("size_condition", "post-PCR size selection around 600 bp", MaterialKind.SELECTION)
+    selected = graph.product("selected", "size-selected ChIA-Drop library around 600 bp",
+                             MaterialKind.LIBRARY, state=spec.FINAL_LIBRARY)
+    excluded = graph.product("size_excluded", "material outside the recovered size fraction", MaterialKind.WASTE)
+    graph.react("size_select", "Size-select PCR products around 600 bp", StepKind.SELECTION,
+                ((amplified, InputRole.TEMPLATE), (size_condition, InputRole.SELECTION)),
+                (selected, excluded), changes_molecule=False)
+    graph.discard(excluded, "Excluded by the stated post-PCR size selection around 600 bp; precise cutoffs and composition remain unresolved.")
+    graph.sequence(selected, SequencingPlan(library=spec.FINAL_LIBRARY,
+                                            primers=tuple(spec.SEQ_PRIMERS),
+                                            read_lengths=spec.READ_LENGTHS,
+                                            read_uses={"Read 1": "extract_then_include", "Read 2": "undetermined"}))
+    reviewed.extend(("gem_recovery", "recover", "end_repair_reagents", "end_repair",
+                     "tail_reagents", "a_tail", "multiplex_adapter", "multiplex_ligase",
+                     "adapter_ligation", "size_condition", "size_select", "selected"))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 
@@ -192,16 +235,16 @@ def get():
     spec = SimpleNamespace(
         TITLE="ChIA-Drop — ligation-free droplet mapping of multiplex chromatin complexes",
         NOTES="01_chia_drop.html",
-        SOURCE='<a href="https://doi.org/10.1038/s41586-019-0949-1">Zheng et al., <i>Nature</i> (2019)</a>; Chromium Genome v2 library and deposited read metadata.',
+        SOURCE='<a href="https://doi.org/10.1038/s41586-019-0949-1">Zheng et al., <i>Nature</i> (2019)</a>; Supplementary Methods pp. 4–6 and Supplementary Note 1 pp. 15–17.',
         SUMMARY="Crosslinked chromatin complexes are fragmented but not proximity-ligated. In a Chromium GEM, independent fragments from one physical complex undergo random-primed linear amplification with the same 16-nt barcode; reads are grouped by that shared partition identity.",
-        CAVEAT="A GEM barcode identifies a droplet, not necessarily one biological complex: partition collisions are separated computationally where possible. <inf>The public final molecule uses the compatible standard Illumina arm geometry because the discontinued Chromium Genome v2 oligo sequences were not published in the defining paper.</inf>",
+        CAVEAT="A GEM barcode identifies a droplet, not necessarily one biological complex: partition collisions are separated computationally where possible. <inf>The public final molecule uses the compatible standard Illumina arm geometry as an inferred illustration; exact commercial oligos and the historical kit guides remain unresolved in this bounded review.</inf> The graph selects the published HindIII branch; MboI and sonication-only preparations are alternatives.",
         oligos=lambda: (),
         workflow=chia_drop_workflow,
         FINAL_LIBRARY=final,
         FINAL_CAPTION="One representative copied fragment is shown. The 16-nt barcode is repeated across separate molecules from the same GEM; the random 8-mer both primes copying and supplies a per-copy UMI. <inf>Standard Illumina arm sequences show the compatible v2 geometry, not a claimed transcription of proprietary kit oligos.</inf>",
         SEQ_PRIMERS=primers,
-        READ_LENGTHS={"Read 1": 150, "Index 1 (i7)": 8, "Read 2": 150},
-        SEQUENCING_INTRO="The defining data were sequenced 2 × 150 bp. Read 1 begins with the 16-bp GemCode and 8-bp random-primer UMI before genomic sequence; Read 2 is genomic. The sample index is read separately. Primer landing positions on the compatible Illumina shell are computed below.",
+        READ_LENGTHS={"Read 1": 150, "Read 2": 150},
+        SEQUENCING_INTRO="The defining data were sequenced 2 × 150 bp. Read 1 begins with the 16-bp GemCode and 8-bp random-primer UMI before genomic sequence; Read 2 is genomic. The published analysis used R1 only; R2 was acquired but reserved for future analysis. The sample-index cycle count remains unresolved; the eight-base index drawn here is inferred compatibility geometry. Primer landing positions on the compatible Illumina shell are computed below.",
         SEQUENCING_ENDING="",
         SEQUENCING_UNAVAILABLE=""
     )

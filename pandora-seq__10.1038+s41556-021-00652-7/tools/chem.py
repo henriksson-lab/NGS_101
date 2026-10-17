@@ -1,5 +1,6 @@
 """Source-owned structured-RNA library declaration and reaction graph."""
 from __future__ import annotations
+from dataclasses import replace
 from types import SimpleNamespace
 from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from chemdraw import Construct, Scene, Segment, Workflow, feature
@@ -18,7 +19,7 @@ CITATION = 'Shi et al., Nature Cell Biology (2021)'
 SUMMARY = 'T4 PNK repairs blocked RNA termini and AlkB removes internal methylation barriers before conventional small-RNA adapter ligation.'
 NOTES = '01_pandora_seq.html'
 SEQUENCING_ENDING = 'NEBNext small-RNA libraries were read single-end for 50 or 75 cycles; kit sequencing-primer sequences are not reproduced in the paper.'
-CAVEAT = ''
+CAVEAT = 'The adapter and primer strings below come from a later NEB E7330 manual, not a verified historical 2021 kit revision. They describe that vendor kit family; the experiment-specific index and historical revision remain unassigned.'
 SOURCE = 'Shi et al., Nature Cell Biology (2021); <a href="https://doi.org/10.1038/s41556-021-00652-7">doi:10.1038/s41556-021-00652-7</a>.'
 FINAL_CAPTION = 'Role-level final library. Exact source-published oligos are listed above; undisclosed kit junctions remain role tokens.'
 SEQUENCING_INTRO = ''
@@ -84,7 +85,7 @@ def _pandora_graph(d: Definition, final: Construct) -> ProtocolGraph:
         MaterialKind.MOLECULAR,
         state=molecule("end-repaired small RNA", (
             role("5-prime phosphate"), role("small RNA"), role("3-prime hydroxyl"))))
-    graph.react("end_repair", "Repair blocked RNA termini",
+    graph.react("end_repair", "Repair RNA termini with T4PNK (37°C, 20 min)",
                 StepKind.END_REPAIR,
                 ((rna, InputRole.TEMPLATE), (pnk, InputRole.CATALYST)), (repaired,))
     alkb = graph.input("alkb", "AlkB demethylase", MaterialKind.CATALYST)
@@ -93,7 +94,7 @@ def _pandora_graph(d: Definition, final: Construct) -> ProtocolGraph:
         MaterialKind.MOLECULAR,
         state=molecule("PNK- and AlkB-treated small RNA", (
             role("ligatable demethylated small RNA"),)))
-    graph.react("demethylate", "Demethylate internal RT-blocking bases",
+    graph.react("demethylate", "Demethylate with AlkB (37°C, 30 min)",
                 StepKind.CHEMICAL_CONVERSION,
                 ((repaired, InputRole.TEMPLATE), (alkb, InputRole.CATALYST)),
                 (demethylated,))
@@ -160,6 +161,7 @@ def _pandora_graph(d: Definition, final: Construct) -> ProtocolGraph:
     graph.discard(rejected_library, "falls outside the selected small-RNA library size")
     graph.sequence(selected_library, SequencingPlan(limitation=d.endpoint))
     reviewed.extend(("page_selection", "page_select", "selected_library"))
+    graph.steps["library_pcr"] = replace(graph.steps["library_pcr"], label="Amplify small-RNA cDNA (11–22 cycles)")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 

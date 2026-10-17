@@ -86,9 +86,9 @@ def ligate_and_convert() -> str:
 def amplify_and_sequence() -> str:
     lib = S.final_library()
     sc = Scene.duplex(list(lib))
-    return f"""<h3>(5) Uracil-tolerant PCR, then indexed PCR</h3>
+    return f"""<h3>(5) PfuTurbo Cx PCR, then Phusion PCR and gel recovery</h3>
 {panel([*sc.rows(), *annotation_rows(lib)], cls="long",
-       caption="PCR-completed single-index TruSeq library. "
+       caption="INFERRED — canonical single-index TruSeq illustration after the two source-stated PCR rounds and 200–500 bp native-PAGE recovery. "
                "The six-base i7 identifies the cell; there is no UMI or i5 index.")}
 {sp.section(lib, S.SEQ_PRIMERS, intro="Paired-end TruSeq sequencing. Read 1 starts at the "
             "MspI end; the i7 read identifies the cell. Y denotes a bisulfite call (C/T).",
@@ -111,7 +111,12 @@ def render() -> str:
              'INFERRED — the dotted adapter bases below illustrate a compatible '
              'vendor-published six-base single-index TruSeq design; exact adapter '
              'identity and the i7 member remain unverified. No i5 index is modeled.'),
-        oligos(), '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        info('The 2013 Methods specify on-column desulfonation/purification with tRNA carrier, '
+             '25 PfuTurbo Cx PCR cycles followed by 22 Phusion cycles, then 200–500 bp '
+             'recovery from a native polyacrylamide gel. The exact library primer '
+             'identities and study index acquisition remain unresolved; the schematic '
+             'illustrates compatible primer sites rather than a verified cycle recipe.'),
+        oligos(), '<h2>Reaction workflow</h2>' , protocol_graph_panels(graph, cls="long"),
         '<h2>Molecular details</h2>', digest_and_repair(), ligate_and_convert(),
         amplify_and_sequence(),
         '</div>',

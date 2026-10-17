@@ -31,3 +31,11 @@ The internal `/iSp18/` is a chemical spacer, not eighteen bases. The model keeps
 named junction in the ordering record while constructing the PCR template only from
 polymerase-readable sequence. The six `N` positions in the indexing primer are the
 source-declared sample index, not unknown adapter bases.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC5508988 JATS99–105, genome-wide and targeted library preparation.
+
+Added deadenylase/RecJ excess-linker digestion and RiboZero depletion before RT. Replaced invented RNA-removal enzyme with source NaOH chemical hydrolysis; its fragments stay unresolved until unrepresented recovery. Specified TGIRT57°C1.5h and9–13 PhusionHF cycles.
+
+Deferred: Original SupplementaryTableS1 modified oligos and exact circle/PCR geometry, physical RNA/linker recovery, final gel selections; targeted/UMI branches remain excluded. This pass does not establish a complete source review or publication-wide absence.

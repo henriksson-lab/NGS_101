@@ -6,7 +6,7 @@ from batch_ngs import nextera_library, seg
 from chemdraw import MolecularState, Scene, Segment, Workflow, oligo, revcomp
 from rna_prep import rna_template, rna_dna_hybrid, single_strand
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
 TITLE="RamDA-seq — single-cell full-length total RNA"
@@ -45,6 +45,12 @@ def workflow():
 def protocol_graph():
     graph=ProtocolGraph(TITLE,authority=SOURCE)
     rna=graph.input("rna","single-cell total RNA",MaterialKind.MOLECULAR,primary=True)
+    decontamination=graph.input("initial_dnase","DNase I for genomic-DNA decontamination",MaterialKind.CATALYST)
+    cleaned_rna=graph.product("cleaned_rna","RNA after genomic-DNA digestion",MaterialKind.MOLECULAR)
+    debris=graph.product("gdna_fragments","digested contaminating genomic DNA",MaterialKind.MOLECULAR)
+    graph.react("digest_gdna","Digest contaminating genomic DNA (30°C, 5 min)",StepKind.DIGESTION,
+                ((rna,InputRole.TEMPLATE),(decontamination,InputRole.CATALYST)),(cleaned_rna,debris))
+    graph.mark_terminal(Terminal(debris.id,Disposition.UNRESOLVED,reason="Digestion does not establish physical removal of each DNA fragment."))
     nsr=graph.input("nsr_primers","408-member not-so-random first-strand primer pool",
                     MaterialKind.OLIGO)
     oligo_dt=graph.input("oligo_dt","oligo-dT primer",MaterialKind.OLIGO)
@@ -54,7 +60,7 @@ def protocol_graph():
                          MaterialKind.MOLECULAR,state=tuple(rna_dna_hybrid(length=38)))
     graph.react("reverse_transcribe","Prime total RNA with NSR and oligo-dT pools",
                 StepKind.REVERSE_TRANSCRIPTION,
-                ((rna,InputRole.TEMPLATE),(nsr,InputRole.STRUCTURAL),
+                ((cleaned_rna,InputRole.TEMPLATE),(nsr,InputRole.STRUCTURAL),
                  (oligo_dt,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(hybrid,))
     dnase=graph.input("dnase","DNase I",MaterialKind.CATALYST)
     nicked=graph.product("nicked","DNase-I-nicked cDNA hybrids",MaterialKind.MOLECULAR)
@@ -81,16 +87,16 @@ def protocol_graph():
     tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
     tagged=graph.product("tagged","tagmented RamDA cDNA",MaterialKind.MOLECULAR)
     waste=graph.product("tagment_waste","non-amplifiable tagmentation products",
-                        MaterialKind.WASTE)
+                        MaterialKind.MOLECULAR)
     graph.react("tagment","Tagment double-stranded RamDA product",StepKind.TAGMENTATION,
                 ((duplex,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
                  (tn5,InputRole.CATALYST)),(tagged,waste))
-    graph.discard(waste,"non-amplifiable Tn5 outcomes are not sequenced")
+    graph.mark_terminal(Terminal(waste.id,Disposition.UNRESOLVED,reason="Non-amplification does not prove physical discard of candidate insertion products."))
     i5=graph.input("i5_primer","Nextera i5 indexing primer",MaterialKind.OLIGO)
     i7=graph.input("i7_primer","Nextera i7 indexing primer",MaterialKind.OLIGO)
     polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
-    graph.react("index_pcr","Complete and index the Nextera library",StepKind.PCR,
+    graph.react("index_pcr","Complete/index Nextera library: 13 cycles (standard), 14 (advanced)",StepKind.PCR,
                 ((tagged,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
                  (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
                 (library,),geometry=PCRGeometry.unavailable(
@@ -99,7 +105,7 @@ def protocol_graph():
         library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),read_lengths=READ_LENGTHS,
         acquired_roles=ACQUIRED_ROLES))
     graph.declare_reviewed_scope((
-        "rna","nsr_primers","oligo_dt","reverse_transcriptase","reverse_transcribe",
+        "initial_dnase","digest_gdna","rna","nsr_primers","oligo_dt","reverse_transcriptase","reverse_transcribe",
         "dnase","nick","gp32","displace","second_nsr","klenow",
         "second_strand","transposome","tn5","tagment","i5_primer","i7_primer",
         "pcr_polymerase","index_pcr","library"),SOURCE)

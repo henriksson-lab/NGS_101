@@ -44,7 +44,7 @@ def protocol_graph() -> ProtocolGraph:
                 (prepared,))
     adapters = graph.input("methylated_adapters", "canonical premethylated indexed TruSeq adapter illustration",
                            MaterialKind.ADAPTER, state=adapter_scene(), inferred=True)
-    ligase = graph.input("ligase", "DNA ligase", MaterialKind.CATALYST)
+    ligase = graph.input("ligase", "T4 DNA ligase", MaterialKind.CATALYST)
     ligated = graph.product("ligated_fragments", "adapter-ligated genomic fragments",
                             MaterialKind.MOLECULAR)
     graph.react("adapter_ligation", "INFERRED — ligate a compatible premethylated indexed Y-adapter",
@@ -61,29 +61,64 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.CHEMICAL_CONVERSION,
                 ((ligated, InputRole.TEMPLATE), (bisulfite, InputRole.CONDITION)),
                 (converted,))
-    qp1 = graph.input("p5_arm_pcr_primer", "P5-arm library PCR primer, sequence unpublished",
+    column = graph.input("zymo_column", "Zymo-Spin column with tRNA carrier",
+                         MaterialKind.SELECTION)
+    purified = graph.product("purified_converted", "desulfonated and column-purified converted DNA",
+                             MaterialKind.MOLECULAR)
+    column_waste = graph.product("column_waste", "unrecovered material from column purification",
+                                 MaterialKind.WASTE)
+    graph.react("column_purification", "On-column desulfonation and purification with tRNA carrier",
+                StepKind.CLEANUP,
+                ((converted, InputRole.TEMPLATE), (column, InputRole.SELECTION)),
+                (purified, column_waste))
+    graph.discard(column_waste, "not recovered in the column eluate; composition not represented")
+    qp1 = graph.input("p5_arm_pcr_primer", "P5-arm library PCR primer, identity unresolved",
                       MaterialKind.OLIGO)
-    qp2 = graph.input("p7_arm_pcr_primer", "P7-arm library PCR primer, sequence unpublished",
+    qp2 = graph.input("p7_arm_pcr_primer", "P7-arm library PCR primer, identity unresolved",
                       MaterialKind.OLIGO)
-    polymerase = graph.input("pcr_polymerase", "uracil-tolerant PCR polymerase",
+    polymerase = graph.input("pcr_polymerase", "PfuTurbo Cx polymerase (first PCR)",
                              MaterialKind.CATALYST)
     final = final_library()
-    library = graph.product("library", final.name, MaterialKind.LIBRARY, state=final)
-    graph.react("library_pcr", "Amplify converted molecules and complete flow-cell arms",
+    first = graph.product("first_pcr_product", "first-round PCR product",
+                          MaterialKind.MOLECULAR)
+    reason = ("The inspected 2013 Methods passage does not assign library primer identities; "
+              "linked originals remain uninspected. Pre-PCR molecular states are not reconstructed "
+              "and the illustrated canonical Illumina arms remain inferred for scRRBS.")
+    graph.react("library_pcr", "First PCR: 25 cycles with PfuTurbo Cx",
                 StepKind.PCR,
-                ((converted, InputRole.TEMPLATE), (qp1, InputRole.STRUCTURAL),
+                ((purified, InputRole.TEMPLATE), (qp1, InputRole.STRUCTURAL),
                  (qp2, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (library,), geometry=PCRGeometry.unavailable(
-                    final, reason="The paper names no library PCR primer, and the converted pre-PCR intermediate is not represented base-for-base; the canonical Illumina arms of the illustrated product remain inferred for this protocol."))
+                (first,), geometry=PCRGeometry.unavailable(final, reason=reason))
+    phusion = graph.input("phusion", "Phusion high-fidelity polymerase (second PCR)",
+                         MaterialKind.CATALYST)
+    amplified = graph.product("amplified", "second-round PCR product",
+                              MaterialKind.MOLECULAR, state=final)
+    graph.react("second_pcr", "Second PCR: 22 cycles with Phusion",
+                StepKind.PCR,
+                ((first, InputRole.TEMPLATE), (qp1, InputRole.STRUCTURAL),
+                 (qp2, InputRole.STRUCTURAL), (phusion, InputRole.CATALYST)),
+                (amplified,), geometry=PCRGeometry.unavailable(final, reason=reason))
+    gel = graph.input("size_gel", "12% native polyacrylamide TBE gel, 200–500 bp window",
+                      MaterialKind.SELECTION)
+    library = graph.product("library", final.name, MaterialKind.LIBRARY, state=final)
+    offsize = graph.product("offsize", "products outside the recovered gel-size window",
+                            MaterialKind.WASTE)
+    graph.react("size_selection", "Resolve on native PAGE and recover 200–500 bp products",
+                StepKind.SELECTION,
+                ((amplified, InputRole.TEMPLATE), (gel, InputRole.SELECTION)),
+                (library, offsize))
+    graph.discard(offsize, "not recovered from the selected gel interval")
     graph.sequence(library, SequencingPlan(
         library=final, primers=tuple(SEQ_PRIMERS),
         acquired_roles=("Read 1", "Index 1 (i7)", "Read 2"),
         read_lengths={"Index 1 (i7)": INDEX_NT},
         read_uses={"Read 1": "include", "Index 1 (i7)": "demultiplex",
-                   "Read 2": "include"}))
+                   "Read 2": "include"},
+        limitation="Paired-end HiSeq 2000 is source-stated; the illustrated six-base index design and its acquisition remain unverified for the study."))
     graph.declare_reviewed_scope((
         "genome", "mspi", "mspi_digest", "klenow", "end_prepare",
         "methylated_adapters", "ligase", "adapter_ligation", "bisulfite",
-        "bisulfite_conversion", "p5_arm_pcr_primer", "p7_arm_pcr_primer",
-        "pcr_polymerase", "library_pcr", "library"), source)
+        "bisulfite_conversion", "zymo_column", "column_purification",
+        "p5_arm_pcr_primer", "p7_arm_pcr_primer", "pcr_polymerase", "library_pcr",
+        "phusion", "second_pcr", "size_gel", "size_selection", "library"), source)
     return graph.require_publishable()

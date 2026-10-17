@@ -1,3 +1,4 @@
+from dataclasses import replace
 """Protocol-owned source, oligos, molecular workflow and reaction graph."""
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Segment, Workflow, feature, revcomp
@@ -19,12 +20,12 @@ SOURCE = 'Rouskin et al., Nature (2014); <a href="https://doi.org/10.1038/nature
 SUMMARY = 'DMS marks solvent-accessible A and C in living cells; reverse-transcriptase termination sites report nucleotide accessibility after adapter ligation and cDNA circularization.'
 CAVEAT = ''
 FINAL_LIBRARY = Construct((role('P5'), role('DMS-stop cDNA'), role('sample index', tag='cbc', molecular_feature=feature('sample_index', 'sample_index', 'unknown')), role('P7')), name='DMS-seq library')
-FINAL_CAPTION = 'Role-level PCR product; the paper publishes linker-1 but not the adapter PCR or sequencing-primer oligos.'
+FINAL_CAPTION = 'Role-level PCR product; linker-1 is source-published; selected PCR and sequencing-primer geometry remains unverified.'
 SEQ_PRIMERS = ()
 READ_LENGTHS = None
 SEQUENCING_INTRO = ''
 SEQUENCING_ENDING = 'The defining experiment sequenced RT-termination libraries on an Illumina HiSeq 2000.'
-SEQUENCING_UNAVAILABLE = 'Exact PCR and sequencing-primer oligos are not reproduced in the defining paper.'
+SEQUENCING_UNAVAILABLE = 'PCR and sequencing-primer geometry is not assigned in this role-level model.'
 
 def oligos():
     return ('microRNA cloning linker-1 — 5′-/5rApp/CTGTAGGCACCATCAAT/3ddC/-3′',)
@@ -54,7 +55,7 @@ PCR_GEOMETRY = None
 ACQUIRED_ROLES = ()
 READ_USES = None
 
-RECIPE = (('probe', 'Probe accessible A and C with DMS', StepKind.CHEMICAL_CONVERSION), ('fragment', 'Fragment DMS-modified RNA', StepKind.FRAGMENTATION), ('repair', 'Repair fragmentation-derived RNA ends', StepKind.PHOSPHORYLATION), ('ligate', 'Ligate the preadenylated cloning linker', StepKind.LIGATION), ('rt', 'Reverse-transcribe to DMS-dependent stops', StepKind.REVERSE_TRANSCRIPTION), ('circle', 'Circularize the stop-defined cDNA', StepKind.CIRCULARIZATION))
+RECIPE = (('probe', 'Probe accessible A and C with DMS', StepKind.CHEMICAL_CONVERSION), ('fragment', 'Fragment DMS-modified RNA', StepKind.FRAGMENTATION), ('repair', 'Remove RNA 3-prime phosphates with T4 PNK', StepKind.DEPHOSPHORYLATION), ('ligate', 'Ligate the preadenylated cloning linker', StepKind.LIGATION), ('rt', 'Reverse-transcribe to DMS stops with SuperScript III (52°C)', StepKind.REVERSE_TRANSCRIPTION), ('circle', 'Circularize the stop-defined cDNA', StepKind.CIRCULARIZATION))
 
 def protocol_graph() -> ProtocolGraph:
     graph = ProtocolGraph(TITLE, authority=SOURCE)
@@ -72,5 +73,6 @@ def protocol_graph() -> ProtocolGraph:
         acquired_roles=ACQUIRED_ROLES,
         read_lengths=READ_LENGTHS,
         read_uses=READ_USES)
+    graph.steps["library_pcr"] = replace(graph.steps["library_pcr"], label="Add Illumina adapters by PCR (8–10 cycles)")
     graph.declare_reviewed_scope(reviewed, SOURCE)
     return graph.require_publishable()

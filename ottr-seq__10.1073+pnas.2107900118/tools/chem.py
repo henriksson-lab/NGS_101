@@ -1,3 +1,4 @@
+from dataclasses import replace
 """Protocol-owned source, oligos, molecular workflow and reaction graph."""
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Segment, Workflow, feature, revcomp
@@ -10,28 +11,26 @@ import seqprimers as sp
 from rna_end_readout import (StopReadout, BaseConversionReadout, SelectiveCleavageReadout,
                              _finish_pcr, _apply_linear_step)
 
-OTTR_PRIMER = Segment("universal +1T DNA primer", "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCTT", "r2")
-
-OTTR_DUPLEX_RNA = Segment("blocked RNA complement", "GATCGGAAGAGCACACGTCTGAACTCCAGTC", "r2")
-
-OTTR_ACCEPTOR = Segment("universal adaptor template", "ACACTCTTTCCCTACACGACGCTCTTCCGATCTC", "r1")
+OTTR_PRIMER = role("universal +1Y primer; published sequence unverified")
+OTTR_ACCEPTOR = role("terminating adapter template; published sequence unverified")
 
 
 TITLE = 'OTTR-seq — Ordered Two-Template Relay'
 NOTES = '01_ottr_seq.html'
 SOURCE = 'Upton et al., PNAS (2021); <a href="https://doi.org/10.1073/pnas.2107900118">doi:10.1073/pnas.2107900118</a>.'
 SUMMARY = 'BoMoC standardizes RNA 3′ ends with one ddR, then performs two ordered template jumps to copy the insert and the second adapter in one reverse-transcription reaction.'
-CAVEAT = 'The oligos displayed here are printed in the authors’ bioRxiv v1 Table S1 (PDF text lines 768–1200). The final PNAS article cites its SI Table S1, but that appendix is currently inaccessible; exact agreement between versions remains unresolved.'
+CAVEAT = 'This page uses the published PNAS workflow. Exact oligos previously taken from bioRxiv are withdrawn from the active declaration pending verification against published SI Table S1. The local supplementary ZIP contains article images, not that table. The universal-adapter PCR branch is shown; the full-length adapter branch is PCR-free.'
 FINAL_LIBRARY = Construct((role('P5'), role('i5', tag='cbc', molecular_feature=feature('sample_index', 'sample_index', 'random')), role('R1 adapter'), role('input cDNA'), role('R2 adapter'), role('i7', tag='cbc', molecular_feature=feature('sample_index', 'sample_index', 'random')), role('P7')), name='OTTR-seq library')
 FINAL_CAPTION = 'Universal-adapter branch after indexed PCR; the paper also validates a full-length, PCR-free branch.'
 SEQ_PRIMERS = ()
 READ_LENGTHS = None
 SEQUENCING_INTRO = ''
 SEQUENCING_ENDING = 'The paper sequenced OTTR libraries on an Illumina MiniSeq 75-cycle kit.'
-SEQUENCING_UNAVAILABLE = 'The paper specifies Illumina adapter families but does not publish a distinct custom sequencing primer.'
+SEQUENCING_UNAVAILABLE = 'Selected instrument-primer bases and binding sites remain unassigned in this model.'
 
 def oligos():
-    return ('universal +1T DNA primer — 5′-/5Cy5/GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCTT-3′', 'blocked RNA complement — 5′-rGrArUrCrGrGrArArGrArGrCrArCrArCrGrUrCrUrGrArArCrUrCrCrArGrU/3SpC3/-3′', 'universal adapter template — 5′-/5Cy5/ACACTCTTTCCCTACACGACGCTCTTCCrGrArUrCrUrC-3′')
+    return ()
+
 
 def workflow() -> Workflow:
     return chain(molecule("input small RNA", (role("RNA of any end sequence"),)), (
@@ -55,7 +54,7 @@ PCR_GEOMETRY = None
 ACQUIRED_ROLES = ()
 READ_USES = None
 
-RECIPE = (('cap_end', 'Cap each input 3-prime end with one ddA and/or ddG', StepKind.TAILING), ('first_jump', 'Template-switch from the standardized primer duplex onto input RNA', StepKind.TEMPLATE_SWITCHING), ('second_jump', 'Relay onto the terminating adapter template', StepKind.TEMPLATE_SWITCHING))
+RECIPE = (('cap_end', 'Cap each input 3-prime end with one ddA and/or ddG', StepKind.TAILING), ('deplete_ddntp', 'Deplete free ddNTPs with shrimp alkaline phosphatase', StepKind.DEPHOSPHORYLATION), ('first_jump', 'Template-switch from the standardized primer duplex onto input RNA', StepKind.TEMPLATE_SWITCHING), ('second_jump', 'Relay onto the terminating adapter template', StepKind.TEMPLATE_SWITCHING))
 
 def protocol_graph() -> ProtocolGraph:
     graph = ProtocolGraph(TITLE, authority=SOURCE)
@@ -73,5 +72,6 @@ def protocol_graph() -> ProtocolGraph:
         acquired_roles=ACQUIRED_ROLES,
         read_lengths=READ_LENGTHS,
         read_uses=READ_USES)
+    graph.steps["library_pcr"] = replace(graph.steps["library_pcr"], label="Amplify universal-adapter library with Q5 (4–8 cycles)")
     graph.declare_reviewed_scope(reviewed, SOURCE)
     return graph.require_publishable()

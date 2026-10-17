@@ -99,5 +99,23 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Two independent original-source checks cover the 2013 article and methods supplement, its result-data workbook, and the linked 2015 detailed protocol. The original sources print the adapter family and reaction order; no missing adapter or primer claim is accepted."
+  "conclusion": "Two independent original-source checks cover the 2013 article and methods supplement, its result-data workbook, and the linked 2015 detailed protocol. The original sources print the adapter family and reaction order; no missing adapter or primer claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Original published nature12593-s1.pdf identity/DOI; text15–65 library preparation,67–80 validation context,88–145 all12 modified adapter pairs,153–158 modified PCR primers",
+      "oligo_scraper": "Bundle scraper run; modified adapters and wrapped PCR primers checked at source text pointers. Separate cached article extraction lacks accompanying original/provenance and was not counted as read; 2015 protocol not substituted.",
+      "findings": "Corrected nucleus isolation to microscope/capillary picking; named Klenow/T4ligase/PlatinumPfx and25cycle PCR; source-derived modified primer states; added post-PCR AMPure/300–700bp agarose recovery and2x40 acquisition; other nuclei fate unresolved rather than assumed discarded",
+      "deferred": [
+        "Full defining article original/provenance",
+        "Remaining source figures and linked predecessor/vendor originals; 2015 variant not read",
+        "Individual washes/bead-removal products and full AluI population"
+      ],
+      "scope": "Capped published defining-supplement pass, not full protocol validation or accepted missing-information claim.",
+      "verification": "local suite101/101 (legacy common checks included); page/pairing pass; chemistry4 established/1 conditional/11 unresolved/0 contradictory; source guard2 exact primers checked, adapter unrepresented; Markdown built/checked; review schema pass"
+    }
+  ]
 }

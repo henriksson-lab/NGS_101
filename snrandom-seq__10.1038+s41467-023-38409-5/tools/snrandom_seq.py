@@ -94,13 +94,13 @@ def protocol_graph():
                            MaterialKind.OLIGO)
     rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
     cdna=graph.product("cdna","in-nucleus random/oligo-dT cDNA",MaterialKind.MOLECULAR)
-    graph.react("reverse_transcribe","Copy nuclear RNA across the annealing ramp",
+    graph.react("reverse_transcribe","Copy nuclear RNA: 12 annealing ramps (8–42°C), then 42°C for 30 min",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((blocked,InputRole.TEMPLATE),(rt_primers,InputRole.STRUCTURAL),
                  (rt,InputRole.CATALYST)),(cdna,))
     tdt=graph.input("tdt","terminal deoxynucleotidyl transferase",MaterialKind.CATALYST)
     tailed=graph.product("tailed","poly-dA-tailed cDNA",MaterialKind.MOLECULAR)
-    graph.react("da_tail","Add the homopolymeric dA tail",StepKind.TAILING,
+    graph.react("da_tail","Add homopolymeric dA tail (37°C, 30 min)",StepKind.TAILING,
                 ((cdna,InputRole.TEMPLATE),(tdt,InputRole.CATALYST)),(tailed,))
     bead=graph.input("barcoded_bead","three-round cell-barcode/UMI hydrogel-bead primer",
                      MaterialKind.OLIGO)

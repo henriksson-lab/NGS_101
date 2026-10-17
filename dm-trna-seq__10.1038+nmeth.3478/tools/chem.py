@@ -18,7 +18,11 @@ CAVEAT = ('INFERRED — The complementary DNA starter below is a minimal reconst
           'full pairing to the printed 41-nt RNA plus the source-specified single 3′ T. '
           'Additional DNA extensions and the position of the reported 32P label are not assigned. '
           'The final library remains a role-level endpoint; exact circular-template PCR assembly '
-          'and the authors’ loaded HiSeq sequencing reagents are not declared in this model.')
+          'and the authors’ loaded HiSeq sequencing reagents are not declared in this model. '
+          'Published arithmetic discrepancy: Methods, Demethylation reactions (PDF lines 278–280; JATS86), '
+          'estimates 40 pmol tRNA and calls the total-RNA D135S dose both 4× and 200 pmol. '
+          'Four times that estimate is 160 pmol; the intended ratio or amount is unresolved. '
+          'This model specifies the enzymes and incubation but leaves dose unassigned rather than choosing a correction.')
 SEQUENCING_ENDING = 'The 2015 Methods give both PCR primers and Illumina HiSeq sequencing. The loaded run-primer reagent is not assigned here.'
 SEQUENCING_UNAVAILABLE = 'This model does not declare an exact circular-template PCR product or loaded HiSeq run-primer set; no exact sequencing landing geometry is asserted.'
 SEQUENCING_INTRO = ''
@@ -73,7 +77,7 @@ def protocol_graph():
     demethylated = graph.product('demethylated_trna', 'demethylated tRNA', MaterialKind.MOLECULAR,
         state=molecule('demethylated tRNA', (role('structured tRNA with relieved RT blocks'),
                                            Segment('free 3-prime CCA', 'CCA', 'rna'))))
-    graph.react('demethylate', 'Demethylate m1A, m3C and m1G', StepKind.CHEMICAL_CONVERSION,
+    graph.react('demethylate', 'Demethylate with wt/D135S AlkB (room temperature, 2 h)', StepKind.CHEMICAL_CONVERSION,
                 ((trna, InputRole.TEMPLATE), (alkb, InputRole.CATALYST)), (demethylated,))
     starter = graph.input('starter_duplex', 'blocked RNA / 32P-labeled DNA starter', MaterialKind.OLIGO,
                            state=starter_scene())
@@ -96,7 +100,7 @@ def protocol_graph():
     circle_construct = Construct(dna_parts(), name='minimal single-stranded cDNA')
     circle = graph.product('circular_cdna', 'circular single-stranded cDNA', MaterialKind.MOLECULAR,
                             state=closed_circle('INFERRED — minimal cDNA circle', dna_parts()))
-    graph.react('circularize', 'INFERRED — minimal DNA assembly; source-reported CircLigase II circularization',
+    graph.react('circularize', 'INFERRED — minimal assembly; CircLigase II circularization (60°C, 5 h)',
                 StepKind.CIRCULARIZATION,
                 ((cdna, InputRole.TEMPLATE), (circligase, InputRole.CATALYST)), (circle,),
                 geometry=CircularizationGeometry.known('single-strand intramolecular ligation',
@@ -107,7 +111,7 @@ def protocol_graph():
                            state=molecule('indexed PCR primer; selected barcode unassigned', REVERSE_PARTS))
     polymerase = graph.input('pcr_polymerase', 'Phusion-HF (Thermo Scientific)', MaterialKind.CATALYST)
     library = graph.product('library', 'indexed DM-tRNA library', MaterialKind.LIBRARY, state=FINAL_LIBRARY)
-    graph.react('pcr', 'Amplify circular cDNA with source-published primers', StepKind.PCR,
+    graph.react('pcr', 'Amplify circular cDNA with Phusion HF (12 cycles)', StepKind.PCR,
                 ((circle, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
                 geometry=PCRGeometry.unavailable(circle_construct,

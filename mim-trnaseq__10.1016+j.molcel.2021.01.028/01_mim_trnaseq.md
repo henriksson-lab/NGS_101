@@ -39,3 +39,11 @@ doi:10.1016/j.molcel.2021.01.028. The PMC full text and Supplementary Table S4 w
 
 Unlike DM-tRNA-seq, mim-tRNAseq does not use AlkB: its information includes the
 misincorporation signatures of native modifications.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC8062790 JATS376–410, tRNA purification, barcoded adapters, RT and cDNA circularization/PCR.
+
+Corrected the displayed RT primer from invented RNA rNrN to source-written degenerate RN. Changed NaOH RNA hydrolysis from strand separation to chemical conversion; specified CircLigase60°C3h and KAPAHiFi5–6 PCR cycles.
+
+Deferred: MethodsS1 extended protocol, adapter preadenylation with Mth ligase, preparative deacylation/PNK/gel stages, RNA-fragment fates and run mask; no universal charging-assay branch substituted. This pass does not establish a complete source review or publication-wide absence.

@@ -82,5 +82,21 @@
       "evidence": "Defining paper prints all Y-adapter variants; exact sample index and sequencing primer site remain unresolved."
     }
   ],
-  "conclusion": "Defining paper prints all Y-adapter variants; exact sample index and sequencing primer site remain unresolved."
+  "conclusion": "Defining paper prints all Y-adapter variants; exact sample index and sequencing primer site remain unresolved.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-04",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC5605243 JATS46–60, deacylation, adapter design, ligation, RT and sequencing",
+      "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
+      "findings": "Specified deacylation at pH9/37°C/40min, 37°C1h plus overnight4°C ligation, SuperScriptIII55°C60min and 11-cycle library PCR; recorded single-read100. Printed /3ddC/ and the existing Methods/Results discrepancy notice retained. Corrected the adapter-set state to five separate oligo strands instead of one concatenation, fixing a real source-guard failure.",
+      "deferred": [
+        "Original Results discrepancy reread, selected kit primer geometry, exact acceptor-stem annealing and gel-selection intermediates; not a new publication error finding"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 5 checked, 3 unrepresented; review schema pass"
+    }
+  ]
 }

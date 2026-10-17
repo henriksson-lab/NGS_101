@@ -105,7 +105,7 @@ def protocol_graph():
     tgirt = graph.input('tgirt', 'source dataset-specific TeI4c or GsI-IIC/TGIRT-III RT', MaterialKind.CATALYST)
     extended = graph.product('extended_dna', 'extended R2R DNA with RNA still present', MaterialKind.MOLECULAR,
                               state=starter_scene(extended=True))
-    graph.react('template_switch', 'Template-switch onto the target RNA and extend the DNA primer', StepKind.TEMPLATE_SWITCHING,
+    graph.react('template_switch', 'Template-switch and extend at 60°C for 15 min', StepKind.TEMPLATE_SWITCHING,
                 ((target, InputRole.TEMPLATE), (starter, InputRole.STRUCTURAL), (tgirt, InputRole.CATALYST)), (extended,))
     alkali = graph.input('alkali', 'NaOH hydrolysis followed by HCl neutralization', MaterialKind.CONDITION)
     cdna = graph.product('completed_cdna', 'purified single-stranded R2R-linked cDNA', MaterialKind.MOLECULAR, state=ADAPTER_CDNA)
@@ -133,7 +133,7 @@ def protocol_graph():
                       state=molecule('P7 indexed primer', P7_PARTS))
     polymerase = graph.input('pcr_polymerase', 'Phusion High-Fidelity DNA polymerase', MaterialKind.CATALYST)
     library = graph.product('library', FINAL_LIBRARY.name, MaterialKind.LIBRARY, state=FINAL_LIBRARY)
-    graph.react('index_pcr', 'Amplify with the original P5 and indexed P7 primers', StepKind.PCR,
+    graph.react('index_pcr', 'Amplify with original P5/indexed P7 primers (12 Phusion cycles)', StepKind.PCR,
                 ((dual, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL), (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
                 geometry=PCRGeometry.exact(TWO_ADAPTER_CDNA,
                     PCRPrimer('P7 primer known 3-prime annealing arm; index tail unassigned', il.TRUSEQ_READ2, anneal_nt=len(il.TRUSEQ_READ2)),

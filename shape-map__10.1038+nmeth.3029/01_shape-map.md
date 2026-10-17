@@ -25,3 +25,11 @@ SHAPE-MaP measures RNA structural flexibility by chemically modifying flexible n
 ## 4. Why SHAPE-MaP
 
 This is the foundational general-purpose mutational-profiling workflow with a defining method paper and an authoritative complete protocol. DMS-MaPseq is chemically narrower and should be a separate future page, not folded into this one.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC4259394 JATS103–113, fragmented-sample and targeted-primer SHAPE-MaP library routes.
+
+Corrected graph/endpoint mismatch by choosing fragmented RNA with random nonamers and adding second-strand synthesis, end repair, dA tailing and TruSeq-compatible adapter ligation before30-cycle Q5 emulsion PCR. Targeted two-round PCR is no longer implied by this graph.
+
+Deferred: Full neutral-RNA construct geometry, selected forked adapters, cleanup intermediates and run acquisition; targeted and viral-target-specific branches are outside this pass. This pass does not establish a complete source review or publication-wide absence.

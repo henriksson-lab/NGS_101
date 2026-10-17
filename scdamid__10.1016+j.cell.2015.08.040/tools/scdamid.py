@@ -157,12 +157,12 @@ def protocol_graph() -> ProtocolGraph:
                     "The defining paper establishes adaptor ligation but does not print the adaptor terminal bases."))
     preamp_primer = graph.input("preamp_primer", "single N4-tailed pre-amplification primer",
                                 MaterialKind.OLIGO, inferred=True, source=secondary_source)
-    polymerase = graph.input("polymerase", "pre-amplification and library PCR polymerase",
+    polymerase = graph.input("polymerase", "DamID pre-amplification polymerase, identity unresolved",
                              MaterialKind.CATALYST)
     preamp = graph.product("preamp_product", "single-primer DamID pre-amplification product",
                            MaterialKind.MOLECULAR, state=preamp_product(), inferred=True,
                            source=secondary_source)
-    graph.react("preamp_pcr", "Amplify with the single N4-tailed primer", StepKind.PCR,
+    graph.react("preamp_pcr", "INFERRED — N4-tailed single-primer geometry; source-stated 26 amplification cycles", StepKind.PCR,
                 ((adapted, InputRole.TEMPLATE), (preamp_primer, InputRole.STRUCTURAL),
                  (polymerase, InputRole.CATALYST)), (preamp,),
                 geometry=PCRGeometry.unavailable(
@@ -172,12 +172,12 @@ def protocol_graph() -> ProtocolGraph:
                              MaterialKind.CATALYST)
     repaired = graph.product("repaired_product", "end-repaired DamID amplicon",
                              MaterialKind.MOLECULAR, inferred=True, source=secondary_source)
-    graph.react("end_repair", "End-repair the DamID amplicon", StepKind.END_REPAIR,
+    graph.react("end_repair", "INFERRED — end-repair the DamID amplicon", StepKind.END_REPAIR,
                 ((preamp, InputRole.TEMPLATE), (end_repair, InputRole.CATALYST)), (repaired,))
     tailing = graph.input("tailing_polymerase", "dA-tailing polymerase", MaterialKind.CATALYST)
     tailed = graph.product("da_tailed_product", "dA-tailed DamID amplicon",
                            MaterialKind.MOLECULAR, inferred=True, source=secondary_source)
-    graph.react("da_tailing", "Add 3′ dA overhangs", StepKind.TAILING,
+    graph.react("da_tailing", "INFERRED — add 3′ dA overhangs", StepKind.TAILING,
                 ((repaired, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
     indexed_adapter = graph.input("indexed_adapter", "indexed Illumina adaptor",
                                   MaterialKind.ADAPTER, inferred=True, source=secondary_source)
@@ -189,6 +189,8 @@ def protocol_graph() -> ProtocolGraph:
                  (ligase, InputRole.CATALYST)), (adapter_ligated,),
                 geometry=AdapterLigationGeometry.unavailable(
                     "The accessible defining paper does not print the indexed adapter terminal bases."))
+    library_polymerase = graph.input("library_polymerase", "Illumina library PCR polymerase, identity unresolved",
+                                     MaterialKind.CATALYST)
     p5 = graph.input("p5_primer", "P5 library PCR primer", MaterialKind.OLIGO,
                      inferred=True, source=secondary_source)
     p7 = graph.input("p7_primer", "indexed P7 library PCR primer", MaterialKind.OLIGO,
@@ -196,14 +198,14 @@ def protocol_graph() -> ProtocolGraph:
     final = final_library()
     library = graph.product("library", final.name, MaterialKind.LIBRARY, state=final,
                             inferred=True, source=secondary_source)
-    graph.react("library_pcr", "PCR-complete the indexed Illumina library", StepKind.PCR,
+    graph.react("library_pcr", "INFERRED — PCR-complete the indexed Illumina library", StepKind.PCR,
                 ((adapter_ligated, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
-                 (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
+                 (p7, InputRole.STRUCTURAL), (library_polymerase, InputRole.CATALYST)), (library,),
                 geometry=PCRGeometry.unavailable(
                     final, reason="The paper names no library-prep kit or PCR primer, and Table S2 is unavailable."))
     graph.sequence(library, SequencingPlan(
         library=final, primers=SEQ_PRIMERS, acquired_roles=RUN_ROLES,
-        read_lengths={"Read 1": 51, "Index 1 (i7)": INDEX_NT},
+        read_lengths={"Read 1": 51},
         read_uses={"Read 1": "include", "Index 1 (i7)": "demultiplex"},
         limitation="The 51-nt single-end read is stated by the Figure S1E legend; the index width and every adapter base are inferred, because Figure S1E itself and Table S2 are behind the PMC download gate."))
     graph.declare_reviewed_scope((
@@ -211,5 +213,5 @@ def protocol_graph() -> ProtocolGraph:
         "adaptor_ligation", "preamp_primer", "polymerase", "preamp_pcr",
         "end_repair_enzymes", "end_repair", "tailing_polymerase", "da_tailing",
         "indexed_adapter", "illumina_ligation", "p5_primer", "p7_primer",
-        "library_pcr", "library"), source)
+        "library_polymerase", "library_pcr", "library"), source)
     return graph.require_publishable()

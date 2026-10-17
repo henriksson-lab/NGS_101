@@ -72,3 +72,11 @@ direct installed-browser attempt reached a challenge page. Their scientific
 bodies remain pending rather than being treated as read from indexed extracts.
 The review remains in progress, with named direct links retained and no accepted
 missing-information claim.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC4691826 JATS185–200, RNA treatments and Construction of RNA-seq libraries.
+
+Specified 60°C/15min TGIRT extension and 12-cycle Phusion PCR. Confirmed original blocked RNA starter, preadenylated R1R ligation and dataset-specific paired75/100/150 reads; later dual-index chemistry not substituted.
+
+Deferred: Original SupplementalFigS1 modified oligos and ordered-versus-activated R1R check, individual dataset run/index selection and two MinElute/AMPure recovery states. This pass does not establish a complete source review or publication-wide absence.

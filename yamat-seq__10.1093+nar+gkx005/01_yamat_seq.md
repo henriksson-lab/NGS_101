@@ -39,3 +39,13 @@ The four Y-5′ variants differ only in their terminal ribodinucleotide and coll
 pair with all discriminator-base/NCCA ends. Y-3′-AD is 5′ phosphorylated and 3′ blocked.
 Annealing creates two Rnl2 substrates; amplification is possible only after both relevant
 adapter–tRNA boundaries have been sealed.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC5605243 JATS46–60, deacylation, adapter design, ligation, RT and sequencing.
+
+Specified deacylation at pH9/37°C/40min, 37°C1h plus overnight4°C ligation, SuperScriptIII55°C60min and 11-cycle library PCR; recorded single-read100. Printed /3ddC/ and the existing Methods/Results discrepancy notice retained.
+
+Deferred: Original Results discrepancy reread, selected kit primer geometry, exact acceptor-stem annealing and gel-selection intermediates; not a new publication error finding. This pass does not establish a complete source review or publication-wide absence.
+
+Corrected the adapter-set state to five separate oligo strands instead of one concatenation, fixing a real source-guard failure.

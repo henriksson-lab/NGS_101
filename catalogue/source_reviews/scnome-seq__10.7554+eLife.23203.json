@@ -83,5 +83,24 @@
       "evidence": "Defining paper names proprietary kit and prints only outer amplification primers; historical kit guide unavailable."
     }
   ],
-  "conclusion": "Defining article and author primer supplement independently read; internal-kit chemistry remains blocked by unavailable historical Zymo guide and linked predecessor."
+  "conclusion": "Defining article and author primer supplement independently read; internal-kit chemistry remains blocked by unavailable historical Zymo guide and linked predecessor.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC5487215 JATS432–452 Materials/methods/library/read processing/methylation extraction; published supplementary workbook Table1 lines1–32 and Table2 primer rows33–58",
+      "oligo_scraper": "Bundle scraper run; forward_p5 and indexed primer family verified in workbook Table2. Table3 comparison dataset links deferred.",
+      "findings": "Specified low-input 1:2 random-primer dilution/ten first-amplification cycles; added final1:1 AMPure cleanup; represented source-derived forward_p5 input; corrected computational trimming description for both reads and GM12878 both-end clipping; scCOOL chemistry unchanged",
+      "deferred": [
+        "Pico Methyl-Seq/EZ DNA Methylation Direct historical manuals and Kelly/Miranda predecessors",
+        "Bulk marking/nuclear recovery/G1 FACS/lysis and conversion-purification graph stages",
+        "Full kit-interior states and reverse primer-family graph input",
+        "Table3 external comparison datasets not followed in this capped chemistry pass"
+      ],
+      "scope": "Capped source pass, not full validation or a new two-reader absence acceptance.",
+      "verification": "local suite 1/1 and page pass; scCOOL consumer suite 1/1/page pass; both pages pairing 0 problems; scNOMe chemistry 0 established/0 conditional/6 unresolved/0 contradictory (consumer now10 unresolved after its separate pass); source guard 1 exact checked, indexed_p7 unrepresented; Markdown build/check and review schema pass"
+    }
+  ]
 }

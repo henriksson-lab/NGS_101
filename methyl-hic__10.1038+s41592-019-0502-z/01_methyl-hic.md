@@ -34,3 +34,44 @@ Defining paper: Li et al., *Nature Methods* (2019), [doi:10.1038/s41592-019-0502
   before dual-index PCR. The supplement prints all four P5-tailed random-primer families,
   eight custom P5 indexing primers and twelve custom P7 indexing primers.
 - 🟢 The separately documented [scMethyl-HiC protocol](../scmethyl-hic__10.1038+s41592-019-0502-z/scmethyl-hic.html) models this branch, including its published random-primer and indexing-primer families. This page models only the bulk library.
+
+## Bounded source pass — 2026-10-17
+
+Read published PMC6765429 JATS Methods79–105: bulk Methyl-HiC, separate
+single-cell and WGBS branches, sequencing and mapping. Inspected published
+MOESM2 reporting summary identity/sections1–59 and the original published
+Supplementary Protocol `supplement-5.pdf.txt` reagent list1–57, shared
+fill/ligation191–209 and bulk211–257,304–347,374–415,437–485. Manifest
+identifies all three originals. Ran the full bundle oligo scraper; its hits
+were assigned to the separately headed single-cell oligo table, not used
+as bulk adapter evidence.
+
+🟢 The graph now includes proteinase/reverse crosslinking, ethanol recovery,
+post-sonication SPRI cleanup, on-bead end repair and dA tailing, Quick Ligase,
+same-adapter-ligated lambda control before conversion, and final double AMPure
+selection. The optional capture-supernatant background control is retained
+as a stored branch rather than declared discarded. Its subsequent library
+preparation is outside this graph.
+
+🟡 Source handling differences remain public: shared fill-in step1 names
+MboI although the main Methods and reagent list specify DpnII. Both bulk
+and single-cell pages retain DpnII and display the unresolved label difference.
+The bulk protocol sends converted supernatant to a purification column and
+then says PCR directly on beads; the main article describes purified converted
+DNA. The graph follows that purified-DNA route through a warned unresolved
+recovery boundary, rather than inventing the bead/column mechanism.
+
+🟡 Converted intermediates no longer display the unchanged contact state.
+The final insert uses inferred C/T classes for cytosines after conversion
+and PCR; methylation values remain unassigned. The canonical adapter shell
+is still inferred. Source-specific primer/index identity is not supplied by
+the single-cell oligo table or separate WGBS control.
+
+Deferred: detailed source tables/figures and uninspected protocol parts;
+Rao/vendor originals; explicit crosslink/precipitation/repair and conversion
+recovery molecules; whether the protocol's 0.4 nM biotin stock wording is
+intended; exact bulk adapters/indices and acquired run lengths. The shearing
+recipe's “For PE2x100” is a preparation note, not independently sufficient
+for a study-wide acquired cycle declaration. Counterpart single-cell page
+received only the shared-source discrepancy notice, not its pending full
+bounded pass. No absence claim is accepted or complete validation asserted.

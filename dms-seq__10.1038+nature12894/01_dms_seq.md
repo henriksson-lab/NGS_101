@@ -25,3 +25,11 @@ It also prints a forward library PCR primer, `5′-AATGATACGGCGACCACCGAGATCTACAC
 
 The library preserves a termination coordinate rather than a full RNA fragment. A read end
 immediately before A or C reports a DMS adduct; relative counts measure accessibility.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC3966492 JATS42–60, DMS modification, Library Generation and sequencing.
+
+Changed T4PNK end treatment to 3-prime dephosphorylation rather than phosphorylation; named SuperScriptIII52°C RT and 8–10 PCR cycles. Replaced unsupported broad primer-absence wording with unassigned model geometry.
+
+Deferred: Original predecessor library protocol and source primer list, explicit 60–80nt RNA/25–50nt-above-primer cDNA gel selections, RNA recovery and exact read acquisition. This pass does not establish a complete source review or publication-wide absence.

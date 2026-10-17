@@ -24,3 +24,11 @@ The PCR endpoint is represented as a six-base-index member of the paper's stated
 6–8-base index family. This makes both the custom 150-cycle Read 1 and the multiplexing
 index-primer landing sites exact without pretending that every library used the same
 index length or sequence.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC5737731 JATS63–105, DMS treatment, RT, purification variants, T4DNA ligation and sequencing.
+
+Added RNaseH digestion after SuperScriptIII55°C50min RT. Explicitly selected the PAGE branch and separated biotin/streptavidin and original-Structure-seq comparison variants. Confirmed published hairpin donor and single-read150.
+
+Deferred: Published SupplementaryFigS1 and full primer geometry, two PAGE selection states, selected index width and ligation temperature wording; no new publication error asserted. This pass does not establish a complete source review or publication-wide absence.

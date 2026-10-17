@@ -25,3 +25,11 @@ Acids Research* (2016), doi:10.1093/nar/gkw547. The open full method text was re
 The informative absence is local: protected bonds produce fewer 5′ and 3′ fragment ends.
 End repair must occur after hydrolysis, and direct adapter ligation is essential because
 tailing or template-switching would blur the nucleotide-resolution cleavage coordinate.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Related published Marchand2016 PMC5027498 JATS1–29 (identity),62–78 (fragmentation, end repair, library and reads).
+
+Made explicit that the displayed NEBNext/Illumina recipe is Marchand2016, not a verified reconstruction of the catalogue-defining Birkedal2015 protocol. Named Antarctic-phosphatase3-prime repair followed by T4PNK/ATP5-prime phosphorylation.
+
+Deferred: Defining 2015 article/supplements remain unavailable in this bundle; protocol-boundary/catalogue correction and exact version-specific oligos require a separate pass. This pass does not establish a complete source review or publication-wide absence.

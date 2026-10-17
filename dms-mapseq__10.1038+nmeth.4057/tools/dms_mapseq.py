@@ -10,7 +10,7 @@ import illumina as il
 from rna_special import adapter_ligation_scene, mutational_read_rows
 from adapter_ligation import reported_adapter_end
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 import seqprimers as sp
 
@@ -142,23 +142,36 @@ def protocol_graph():
     graph.react("ligate_linker","Ligate preadenylated linker-2",StepKind.LIGATION,
                 ((dephosphorylated,InputRole.TEMPLATE),(linker,InputRole.STRUCTURAL),
                  (ligase,InputRole.CATALYST)),(linked,),geometry=geometry)
+    deadenylase=graph.input("deadenylase","5-prime deadenylase",MaterialKind.CATALYST)
+    recj=graph.input("recj","RecJ exonuclease",MaterialKind.CATALYST)
+    cleaned=graph.product("linker_depleted","RNA after excess-linker digestion",MaterialKind.MOLECULAR)
+    linker_fragments=graph.product("linker_fragments","digested excess linker",MaterialKind.MOLECULAR)
+    graph.react("digest_linker","Digest excess linker with deadenylase/RecJ (30°C, 1 h)",StepKind.DIGESTION,
+                ((linked,InputRole.TEMPLATE),(deadenylase,InputRole.CATALYST),(recj,InputRole.CATALYST)),(cleaned,linker_fragments))
+    graph.mark_terminal(Terminal(linker_fragments.id,Disposition.UNRESOLVED,reason="Recovery of each digested linker fragment is not represented."))
+    ribozero=graph.input("ribozero","RiboZero rRNA-depletion reagent",MaterialKind.SELECTION)
+    depleted=graph.product("rrna_depleted","rRNA-depleted linker-ligated RNA",MaterialKind.MOLECULAR)
+    rrna=graph.product("rrna_fraction","rRNA-depletion fraction",MaterialKind.MOLECULAR)
+    graph.react("deplete_rrna","Deplete rRNA with RiboZero before RT",StepKind.SELECTION,
+                ((cleaned,InputRole.TEMPLATE),(ribozero,InputRole.SELECTION)),(depleted,rrna))
+    graph.mark_terminal(Terminal(rrna.id,Disposition.UNRESOLVED,reason="Exact capture and recovery fractions are not modeled."))
     rt_primer=graph.input("rt_primer","phosphorylated TGIRT reverse-transcription primer",
                           MaterialKind.OLIGO)
     tgirt=graph.input("tgirt","TGIRT reverse transcriptase",MaterialKind.CATALYST)
     cdna=graph.product("cdna","mutation-bearing phosphorylated cDNA",
                        MaterialKind.MOLECULAR,state=CDNA)
-    graph.react("reverse_transcribe","Read through DMS lesions with TGIRT",
+    graph.react("reverse_transcribe","Read through DMS lesions with TGIRT (57°C, 1.5 h)",
                 StepKind.REVERSE_TRANSCRIPTION,
-                ((linked,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
+                ((depleted,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
                  (tgirt,InputRole.CATALYST)),(cdna,))
-    rnase=graph.input("rnase","RNA-removal enzyme",MaterialKind.CATALYST)
+    rnase=graph.input("rnase","NaOH RNA hydrolysis condition",MaterialKind.CONDITION)
     clean_cdna=graph.product("clean_cdna","RNA-free phosphorylated cDNA",
                              MaterialKind.MOLECULAR,state=CDNA)
-    rna_waste=graph.product("rna_waste","digested RNA template",MaterialKind.WASTE)
-    graph.react("remove_rna","Remove the RNA template",StepKind.DIGESTION,
-                ((cdna,InputRole.TEMPLATE),(rnase,InputRole.CATALYST)),
+    rna_waste=graph.product("rna_waste","hydrolyzed RNA template",MaterialKind.MOLECULAR)
+    graph.react("remove_rna","Hydrolyze RNA with NaOH (95°C, 3 min)",StepKind.CHEMICAL_CONVERSION,
+                ((cdna,InputRole.TEMPLATE),(rnase,InputRole.CONDITION)),
                 (clean_cdna,rna_waste))
-    graph.discard(rna_waste,"the copied RNA template is enzymatically removed")
+    graph.mark_terminal(Terminal(rna_waste.id,Disposition.UNRESOLVED,reason="RNA is chemically hydrolyzed; subsequent precipitation/gel recovery is not represented."))
     circligase=graph.input("circligase","CircLigase",MaterialKind.CATALYST)
     circle=graph.product("circle","circular mutation-bearing cDNA",MaterialKind.MOLECULAR,
                          state=CIRCLE)
@@ -173,7 +186,7 @@ def protocol_graph():
     polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     library=graph.product("library","PCR-completed DMS-MaPseq library",
                           MaterialKind.LIBRARY,state=final_primer_scene())
-    graph.react("library_pcr","Add indexed Illumina arms",StepKind.PCR,
+    graph.react("library_pcr","Add indexed Illumina arms (9–13 Phusion HF cycles)",StepKind.PCR,
                 ((circle,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
                  (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
                 (library,),geometry=PCRGeometry.exact(
@@ -189,6 +202,7 @@ def protocol_graph():
         acquired_roles=ACQUIRED_ROLES, read_lengths=READ_LENGTHS,
         read_uses=READ_USES))
     graph.declare_reviewed_scope((
+        "deadenylase","recj","digest_linker","ribozero","deplete_rrna",
         "rna","dms","modify","zinc","fragment","size_rule","size_select",
         "phosphatase","dephosphorylate","linker","ligase","ligate_linker",
         "rt_primer","tgirt","reverse_transcribe","rnase","remove_rna",

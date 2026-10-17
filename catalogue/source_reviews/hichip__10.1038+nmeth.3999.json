@@ -183,5 +183,25 @@
       "disposition": "resolved"
     }
   ],
-  "conclusion": "Two independent source passes support inherited contact ligation and the published PCR oligo family; no missing-information claim remains."
+  "conclusion": "Two independent source passes support inherited contact ligation and the published PCR oligo family; no missing-information claim remains.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published article archived manuscript PMC5501173 JATS Methods77–111; published Supplementary Table4 MOESM258 workbook heading/representative Ad1_noMX and Ad2.1 rows1–3",
+      "oligo_scraper": "Bundle scraper run; used hits checked against published JATS107–109/Table4 rows2–3. Superseded073619 preprint excluded; no original facts taken from it.",
+      "findings": "Corrected IP elution/reverse-crosslink/column→biotin capture→Tn5 order; single-i7 endpoint from published Ad1_noMX/Ad2.1 replaces shared dual-index endpoint; named Klenow/T4ligase/Phusion, source75bp paired reads and selected PAGE recovery; candidate Tn5 products unresolved rather than physically discarded",
+      "deferred": [
+        "Full published supplementary protocol/figures and remaining primer families",
+        "in situ Hi-C/ATAC predecessors and vendor originals",
+        "Applicability of separate correction to selected revision",
+        "Individual release/column/EDTA/bead-wash molecular states and loaded-end pool geometry",
+        "Selected sample Ad2 and acquired index cycles"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local import/construction suite passes (0 explicit checks); page builds; pairing0 problems; chemistry0 established/0 conditional/12 unresolved/0 contradictory with release_dna MAGIC warning; source guard2 exact checked,loaded_nextera_adapter unrepresented; Markdown built/checked; review schema pass"
+    }
+  ]
 }

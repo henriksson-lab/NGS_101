@@ -81,5 +81,24 @@
       "evidence": "This is one located source-reading pass. An independent second pass is pending; relevant linked information may also be unavailable."
     }
   ],
-  "conclusion": "Original author methods read independently; commercial Genome v2/Multiplex kit guides unavailable, so oligo absence remains blocked."
+  "conclusion": "Original author methods read independently; commercial Genome v2/Multiplex kit guides unavailable, so oligo absence remains blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC7001875 author-manuscript JATS overview64–66/Fig1caption491; Nature MOESM1 Supplementary Methods pp4–6 text137–226 and Supplementary Note1 pp15–17 text920–1002",
+      "oligo_scraper": "Bundle scraper run; Supplementary Note1 example16nt GEMcode verified at952–958. Output-table barcode hits not used as reagent sequences; no absence inferred from no hit.",
+      "findings": "Selected HindIII preparation; removed invented 1/2/3-kb example lengths and false physical collision discard. Collision-bearing GEMs stay in the amplification path; inaccessible-template candidate fate unresolved. Added GEM release/purification warned boundary, end repair, A-tailing, PN-120262 adapter ligation with unavailable geometry, Sample Index PCR and physical size selection around600bp. Declared2x150 in sequencing plan, R1-only published analysis; removed unsupported acquired index-cycle count and narrowed absence language.",
+      "deferred": [
+        "Historical Chromium Genome v2 PN-120258 and Multiplex PN-120262 vendor originals; cited Hi-C/linked predecessor methods",
+        "Exact bead/adapter/PCR oligos, terminal modifications, index assignment and acquired index cycles",
+        "Rendered Figure1 geometry and remaining supplements; complete intermediate/recovery/off-product propagation",
+        "GEO GSM3347523 metadata revalidation: local manifest records a manual challenge, so earlier UMI provenance retained without a new verification claim"
+      ],
+      "scope": "Capped defining-source pass; not complete chemistry validation or missing-information acceptance. Existing independent review history/status preserved.",
+      "verification": "local suite2/2/page build pass; pairing0problems; chemistry0established/0conditional/11unresolved/0contradictory,1warned recovery boundary; source guard0exact checked,0failed,3unrepresented(adapter,two PCR primers),inferred bead excluded; Markdown built/checked; review schema checked"
+    }
+  ]
 }

@@ -114,5 +114,24 @@
       "evidence": "Main scRRBS Methods name generic premethylated indexed Illumina adapters and omit PCR-primer bases; historical adapter/index product choice and bulk predecessor remain unexamined."
     }
   ],
-  "conclusion": "Two independent readings of defining article and available archives. Exact scRRBS adapter/primer claims remain blocked by unavailable publisher supplement, Gu 2011 predecessor and full 2015 detailed protocol."
+  "conclusion": "Two independent readings of defining article and available archives. Exact scRRBS adapter/primer claims remain blocked by unavailable publisher supplement, Gu 2011 predecessor and full 2015 detailed protocol.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Published PMC3847781 JATS identity and Methods103–113: library construction, distinct nested-PCR validation and data processing",
+      "oligo_scraper": "Bundle scraper run; hits occur in excluded upstream schematic, not new primary-source oligos. No-hit search does not establish absence. Published Methods read directly.",
+      "findings": "Split generic PCR into 25-cycle PfuTurbo Cx and 22-cycle Phusion stages; added post-bisulfite desulfonation/column purification and 200–500bp native PAGE recovery; named T4 ligase; narrowed unresolved primer/index claims and corrected stale note graph description",
+      "deferred": [
+        "Publisher Supplemental Material including validation Table5",
+        "Gu2011 bulk predecessor and full2015 detailed protocol",
+        "Historical vendor adapter/primer identity and acquired read/index cycles",
+        "Lysis/lambda graph inputs, between-PCR transfer and complete modified intermediate states"
+      ],
+      "scope": "Capped source pass, not full validation or acceptance of missing information.",
+      "verification": "local import/construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/3 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 2 primers unrepresented; Markdown built/checked; review schema pass"
+    }
+  ]
 }

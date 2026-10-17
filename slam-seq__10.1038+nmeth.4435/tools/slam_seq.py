@@ -26,7 +26,7 @@ FINAL_LIBRARY, SEQ_PRIMERS = truseq_library(
     [seg("INFERRED — QuantSeq 3′-end cDNA", "X" * 42, placeholder=True, inferred=True)],
     "SLAM-seq QuantSeq library", dual_index=False, inferred_adapters=True)
 FINAL_CAPTION = ("INFERRED — a single-index Illumina-compatible QuantSeq endpoint. Within the cDNA insert, IAA-alkylated s4U is reported as C where the reference RNA has U.")
-SEQUENCING_INTRO = ("The inferred QuantSeq FWD adapter skeleton places standard TruSeq Read 1, Index 1 and Read 2 sites. The authors' detailed SLAMseq protocol recommends single-read 100 (SR100) sequencing on a HiSeq 2500; Read 1 is the informative 3′-end read.")
+SEQUENCING_INTRO = ("The inferred QuantSeq FWD adapter skeleton places standard TruSeq Read 1, Index 1 and Read 2 sites. The published study used HiSeq 2500 SR50, with SR100 for transcriptional-output measurements (Fig.3). Read 1 is the informative 3′-end read; these study settings are distinct from later protocol recommendations.")
 
 def sections():
     return [
@@ -49,11 +49,11 @@ def protocol_graph():
                  (rnap,InputRole.CATALYST)),(labelled,))
     iaa=graph.input("iaa","iodoacetamide alkylation condition",MaterialKind.CONDITION)
     alkylated=graph.product("alkylated","IAA-alkylated s4U RNA",MaterialKind.MOLECULAR)
-    graph.react("alkylate","Alkylate s4U thiols with iodoacetamide",
+    graph.react("alkylate","Alkylate s4U (50°C, 15 min), then quench with DTT",
                 StepKind.CHEMICAL_CONVERSION,
                 ((labelled,InputRole.TEMPLATE),(iaa,InputRole.CONDITION)),(alkylated,))
     rt_primer=graph.input("oligo_dt","QuantSeq oligo-dT RT primer",MaterialKind.OLIGO,
-                          inferred=True,source=SOURCE+" (kit oligo sequence undisclosed)")
+                          inferred=True,source=SOURCE+" (kit oligo sequence not assigned in this model)")
     rt=graph.input("reverse_transcriptase","QuantSeq reverse transcriptase",
                    MaterialKind.CATALYST)
     cdna=graph.product("cdna","3-prime-end first-strand cDNA",MaterialKind.MOLECULAR,
@@ -64,7 +64,7 @@ def protocol_graph():
                  (rt,InputRole.CATALYST)),(cdna,))
     second_primer=graph.input("second_primer","QuantSeq second-strand primer/adapter",
                               MaterialKind.OLIGO,inferred=True,
-                              source=SOURCE+" (kit oligo sequence undisclosed)")
+                              source=SOURCE+" (kit oligo sequence not assigned in this model)")
     second_polymerase=graph.input("second_polymerase","second-strand polymerase",
                                   MaterialKind.CATALYST)
     duplex=graph.product("duplex","QuantSeq double-stranded library precursor",
@@ -75,9 +75,9 @@ def protocol_graph():
                 ((cdna,InputRole.TEMPLATE),(second_primer,InputRole.STRUCTURAL),
                  (second_polymerase,InputRole.CATALYST)),(duplex,))
     fwd=graph.input("pcr_forward","QuantSeq PCR forward primer",MaterialKind.OLIGO,
-                    inferred=True,source=SOURCE+" (kit oligo sequence undisclosed)")
+                    inferred=True,source=SOURCE+" (kit oligo sequence not assigned in this model)")
     rev=graph.input("pcr_reverse","QuantSeq indexed PCR reverse primer",MaterialKind.OLIGO,
-                    inferred=True,source=SOURCE+" (kit oligo sequence undisclosed)")
+                    inferred=True,source=SOURCE+" (kit oligo sequence not assigned in this model)")
     polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
                           state=FINAL_LIBRARY,inferred=True,

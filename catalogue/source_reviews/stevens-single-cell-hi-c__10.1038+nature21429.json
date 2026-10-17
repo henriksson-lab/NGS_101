@@ -124,5 +124,24 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Original source bundle and oligo scraper checked in first pass; listed linked material and independent second pass remain pending. No missing-information claim is accepted."
+  "conclusion": "Original source bundle and oligo scraper checked in first pass; listed linked material and independent second pass remain pending. No missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC5385134 JATS identity/intro100–114; Springer MOESM26 PDF text192–219,227–292,294–295,361–410; archived Methods DOCX initial1–5/encoded citation extraction inspected but not used for chemistry",
+      "oligo_scraper": "Bundle scraper run; complete modified CAA adapter and PCR primer rows checked against published PDF. Encoded DOCX citation strings excluded from oligo evidence.",
+      "findings": "Selected standard adapter route; corrected full CAA adapter17bp geometry/modifications and pre-PCR endpoint; added agarose condition and crosslink reversal before capture; named Klenow/T4ligase/PlatinumPfx25cycle PCR; source-derived modified primers,0.7x AMPure/double-size recovery and2x75 reads; other nuclei fate unresolved",
+      "deferred": [
+        "Remaining article and imaging/source sections",
+        "Selection/imaging predecessors and vendor originals",
+        "Full agarose-removal/wash intermediates and forked ligation product",
+        "Population Hi-C and Nextera XT variants excluded from selected graph"
+      ],
+      "scope": "Capped defining-source pass; selected adapter-ligation route, not full validation or accepted absence.",
+      "verification": "local suite101/101 includes legacy common checks; page build/pairing pass; chemistry5 established/1 conditional/11 unresolved/0 contradictory; source guard4 exact adapter/PCR oligos checked,0 unrepresented; Markdown built/checked; review schema pass"
+    }
+  ]
 }

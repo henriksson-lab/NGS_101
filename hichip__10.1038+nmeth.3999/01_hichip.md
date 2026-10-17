@@ -15,8 +15,9 @@ on-bead Tn5 library construction to enrich chromatin contacts involving a chosen
 
 🟢 Crosslinked chromatin is restriction-digested in nuclei, ends are filled with biotin,
 and spatially adjacent ends are ligated. The chromatin is then sheared and
-immunoprecipitated. 🟢 Tn5 tagmentation occurs while the enriched chromatin remains on
-beads. Streptavidin capture retains biotin-containing contact products before PCR.
+immunoprecipitated. 🟢 ChIP DNA is eluted, reverse-crosslinked, column-purified and captured on
+streptavidin beads before Tn5 tagmentation. These beads carry biotin-bearing
+purified DNA rather than the original immunoprecipitated chromatin.
 
 ## 4. Evidence boundary
 
@@ -25,3 +26,40 @@ scar and top-strand biotin coordinate from the shared restriction model. The fin
 architecture is the canonical Nextera molecule implied by Tn5 library construction.
 🟢 Supplementary Table 4 lists the complete Ad2.1–Ad2.24 primer family. The selected
 Ad2.X member varies by sample; the published short-primer pair is fixed across samples.
+
+## 5. Bounded source pass — 2026-10-17
+
+Read published article archived manuscript PMC5501173 JATS Methods77–111:
+fixation, contact generation, IP, elution/reverse crosslinking, biotin capture,
+tagmentation, PCR and size selection. Read published Supplementary Table4
+`MOESM258_ESM.xlsx.txt` heading and representative Ad1_noMX/Ad2.1 rows1–3.
+Manifest identities distinguish these from the excluded superseded 073619
+preprint. Ran the bundle oligo scraper; used hits were verified in published
+JATS107–109/workbook2–3 rather than preprint copies.
+
+🟢 The source order is IP → elution/proteinase K/reverse crosslinking/column
+purification → streptavidin capture → Tn5. The former graph reversed capture
+and tagmentation, incorrectly putting Tn5 on IP chromatin. This is a repository
+correction. Release/recovery is a warned MAGIC boundary; its individual
+molecular products remain unrepresented.
+
+🟢 Table4 publishes unindexed Ad1_noMX and indexed Ad2.X. The local endpoint
+now has no i5, with Ad2.1_TAAGGCGA as a representative member (written primer
+index TCGCCTTA). Exact graph primer inputs derive from canonical arms and the
+inspected sequences. The former shared dual-index endpoint did not match
+this design. Article111 states paired-end 75-base acquisition; compatible
+i7 bases alone do not establish acquired index cycles.
+
+🟢 Fill-in uses Klenow large fragment; proximity ligation uses T4 DNA ligase;
+PCR uses Phusion HF. The graph names these and selects the published 300–700 bp
+PAGE route. The alternative two-sided AMPure route and optional low-input
+pooling/short-primer amplification are not combined with it. Candidate
+library-ineligible Tn5 products have an unresolved fate: non-amplification
+does not establish physical removal or experimental observation.
+
+Deferred: full published supplementary protocol/figures and remaining primer
+family rows; in situ Hi-C/ATAC predecessors and vendor originals; applicability
+of a separate correction to the chosen revision; individual elution, reverse
+crosslink, column, EDTA and bead-wash states; loaded-end pool/off-product
+geometry; sample-specific Ad2/index acquisition. This capped pass does not
+validate complete experimental chemistry or accept source absence.

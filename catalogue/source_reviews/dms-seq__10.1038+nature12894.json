@@ -99,5 +99,21 @@
       "evidence": "Defining paper prints linker but delegates modified workflow to Ingolia 2012, whose primer family is published. Which modifications DMS used and run primer remain unresolved."
     }
   ],
-  "conclusion": "Linked predecessor oligos recovered; DMS-specific usage and run kit remain blocked."
+  "conclusion": "Linked predecessor oligos recovered; DMS-specific usage and run kit remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-04",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC3966492 JATS42–60, DMS modification, Library Generation and sequencing",
+      "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
+      "findings": "Changed T4PNK end treatment to 3-prime dephosphorylation rather than phosphorylation; named SuperScriptIII52°C RT and 8–10 PCR cycles. Replaced unsupported broad primer-absence wording with unassigned model geometry.",
+      "deferred": [
+        "Original predecessor library protocol and source primer list, explicit 60–80nt RNA/25–50nt-above-primer cDNA gel selections, RNA recovery and exact read acquisition"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 4 unrepresented; review schema pass"
+    }
+  ]
 }

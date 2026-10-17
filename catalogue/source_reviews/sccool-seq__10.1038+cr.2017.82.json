@@ -92,5 +92,25 @@
       "evidence": "The paper prints only reagent names at lines 915-916; vendor source and independent review are pending."
     }
   ],
-  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC5539349 JATS143–153 single-cell marking/bulk boundary/library preparation; published DataS1 x22.pdf identity/day-by-day protocol text1–123",
+      "oligo_scraper": "Bundle scraper run; biotin/nonamer oligos checked against original JATS153. Workbook motif hits excluded as library oligos. DataS1 printed pM/nM mixture wording not silently repaired.",
+      "findings": "Named Klenow/KAPA enzymes; represented ExonucleaseI then AMPure before capture and twice AMPure after PCR; locally declared main-article13-cycle finish; graph-owned public discrepancies for13vs12 PCR cycles/primer names and65C20vs25min heat inactivation, with choices and uncertainty",
+      "deferred": [
+        "Remaining rendered supplement figures/tables",
+        "scBS/PBAT predecessor originals and historical kit/primer vendors",
+        "Lysis/lambda/SAM/protease/conversion recovery states",
+        "Repeated first priming, alkaline separation and exact modified intermediates",
+        "Exact PCR primer/index family and repeat-priming mixture units"
+      ],
+      "scope": "Capped source pass; no complete validation or new absence acceptance. Main-article route selected; published settings discrepancy preserved.",
+      "verification": "local suite1/1 and page pass; scNOMe consumer suite1/1/page pass; both pairing0 problems; scCOOL chemistry0 established/0 conditional/10 unresolved/0 contradictory; source guard0 exact checked, random_primer1/random_primer2 unrepresented; Markdown build/check and review schema pass"
+    }
+  ]
 }

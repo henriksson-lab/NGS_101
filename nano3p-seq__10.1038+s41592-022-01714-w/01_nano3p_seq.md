@@ -26,3 +26,11 @@ Defining source: Begik *et al.*, [10.1038/s41592-022-01714-w](https://doi.org/10
 ## Protocol boundary
 
 This is distinct from Oxford Nanopore Direct RNA Sequencing: Nano3P-seq sequences cDNA produced from the RNA 3′ end.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC9834059 JATS241–243, Nano3P-seq library preparation.
+
+Added RNase Cocktail digestion (37°C/10min) and 0.8xAMPure cleanup before CompA annealing. Kept RNA-fragment recovery unresolved; confirmed modified starter/CompA oligos in Methods and PCR-free AMX finish.
+
+Deferred: Supplementary step-by-step protocol and kit-specific motor-adapter end geometry, explicit reagent release and final WSB purification. This pass does not establish a complete source review or publication-wide absence.

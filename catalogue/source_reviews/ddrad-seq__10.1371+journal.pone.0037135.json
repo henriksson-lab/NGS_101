@@ -127,5 +127,26 @@
       "evidence": "Original Sequences S1 workbook sheets adapter_P1-EcoRI lines 1–98 and PCR_primers lines 205–219 publish the 48 P1 barcode pairs and 12 PCR2 primer alternatives. The author-maintained protocol assigns one P1 barcode per sample and one PCR2 index per pool. Its sample-by-sample ledger is a run-specific record, not a missing protocol recipe."
     }
   ],
-  "conclusion": "Defining article, all three publisher supplements, and the author-maintained detailed protocol have two located independent source checks. All generic adapter/barcode/index alternatives required for the modeled EcoRI/MspI method are published; GCATG and ATCACG are explicitly representative choices. No missing protocol-level chemistry is asserted."
+  "conclusion": "Defining article, all three publisher supplements, and the author-maintained detailed protocol have two located independent source checks. All generic adapter/barcode/index alternatives required for the modeled EcoRI/MspI method are published; GCATG and ATCACG are explicitly representative choices. No missing protocol-level chemistry is asserted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC3365034 JATS identity and Methods57–67,indexing113–122; published Protocol S1 s001.doc.txt8–12,18–47,53–115; Sequences S1 s002.xls.txt3,51,101–102,205–219",
+      "oligo_scraper": "Bundle scraper run; modified representative EcoRI/MspI adapters and PCR rows verified at original text pointers. Other family rows and scraper-only contexts not counted as source readings.",
+      "findings": "Removed false physical discard at digestion; same-end ligation products have unresolved downstream fate without optional capture. Named T4 DNA ligase/Phusion and displayed adapter ordering strands with 5-prime phosphates. Generic run compatibility caveat retained.",
+      "deferred": [
+        "Unread Analysis S1 s003.pdf",
+        "linked author live protocol/design/calculator and vendor procedures",
+        "AMPure recovery states",
+        "full adapter/pre-PCR geometry",
+        "same-end downstream propagation",
+        "study-specific acquisition"
+      ],
+      "scope": "Capped source pass; not complete chemistry validation or a new two-reader absence review.",
+      "verification": "local suite 4/4 and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/5 unresolved/0 contradictory; source guard 0 exact checked, 3 unrepresented (adapters,pcr_forward,pcr_reverse); Markdown built/checked; review schema checked"
+    }
+  ]
 }

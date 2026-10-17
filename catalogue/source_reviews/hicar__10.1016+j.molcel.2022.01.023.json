@@ -112,5 +112,23 @@
       "evidence": "Original supplement is unavailable; source-version equivalence and second independent pass remain blocked."
     }
   ],
-  "conclusion": "Original supplement is unavailable; source-version equivalence and second independent pass remain blocked."
+  "conclusion": "Original supplement is unavailable; source-version equivalence and second independent pass remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC8934281 JATS Design84,assembly192,Steps1–5 text198–216,FigS3caption284; later author PMC10575683 Tables1/2 text1388–1446,assembly398–422,overview434,MseI/splint2digest682; manifest original TableS1/manual entries checked",
+      "oligo_scraper": "Bundle scraper run. HiCAR7-i0 ordering string including5Phos and both PCR sequences verified in later author Tables1/2; these later-source facts do not establish2022 source-version equivalence.",
+      "findings": "Added EDTA/wash/SDS–Triton boundary, T4-polymerase heat stop, 0.9X SPRI after NlaIII, circle cleanup and300–750bp gel extraction. Named T4 ligase/Q5; candidate Tn5 products unresolved rather than physical discard. Marked later2023 HiCAR7/PCR oligo provenance and final-arm application to2022 inferred; originalTableS1 gated, no exact equivalence asserted. Removed unsupported splint display/transcription check and150/8/8/150 acquired-cycle assumptions. PCR geometry unavailable on actual PmeI-treated template rather than exact on final amplicon.",
+      "deferred": [
+        "Original2022 TableS1 PDF and other supplement workbooks remain manual/gated; exact variant equivalence with later2023 table unresolved",
+        "Exact original splint/transposome and NlaIII/PmeI junction geometry; complete intermediate/off-product propagation",
+        "Cited Tn5/4C predecessor and vendor originals; selected dataset run/index cycles"
+      ],
+      "scope": "Capped defining-source pass; unavailable chemistry supplement deferred without further pursuit. Not complete chemistry validation or absence acceptance. Historical review passes/status preserved.",
+      "verification": "local suite1/1 and page build pass; pairing0problems; chemistry0established/0conditional/15unresolved/0contradictory,2warned preparation/recovery boundaries; sourceguard2exact later-source PCR oligos checked,0failed,1unrepresented splint,inferred adapter excluded; Markdown built/checked; review schema checked"
+    }
+  ]
 }

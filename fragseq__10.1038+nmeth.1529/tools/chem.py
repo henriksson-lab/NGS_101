@@ -21,7 +21,7 @@ FINAL_CAPTION = 'The informative coordinate is a nuclease-P1-defined RNA fragmen
 SEQ_PRIMERS = ()
 READ_LENGTHS = None
 SEQUENCING_INTRO = ''
-SEQUENCING_ENDING = 'The defining experiment converted treated and control RNA fragments with the SOLiD small-RNA workflow and sequenced their ends.'
+SEQUENCING_ENDING = 'The defining experiment selected 20–100-nt RNA fragments from P1, undigested and PNK-control samples, converted them with the SOLiD small-RNA workflow and sequenced their ends.'
 SEQUENCING_UNAVAILABLE = 'Exact proprietary SOLiD adapter and sequencing-primer sequences are not represented.'
 
 def oligos():
@@ -57,15 +57,19 @@ def protocol_graph():
                             MaterialKind.MOLECULAR, state=rna.state)
     control = graph.product("control_branch", "matched undigested control aliquot",
                             MaterialKind.MOLECULAR, state=rna.state)
-    graph.react("split", "Split treated and undigested-control aliquots",
-                StepKind.SPLIT, ((rna, InputRole.TEMPLATE),), (treated, control),
+    pnk_control = graph.product("pnk_branch", "PNK-treated endogenous-break control", MaterialKind.MOLECULAR, state=rna.state)
+    graph.react("split", "Split P1-treated, undigested and PNK-control aliquots",
+                StepKind.SPLIT, ((rna, InputRole.TEMPLATE),), (treated, control, pnk_control),
                 changes_molecule=False)
     reviewed = ["input", "split"]
     treated = _apply_linear_step(graph, treated, "p1_digest",
                                  "Partially digest accessible RNA with nuclease P1",
                                  StepKind.DIGESTION, reviewed)
+    pnk_control = _apply_linear_step(graph, pnk_control, "pnk_control",
+                                     "Repair control RNA ends with PNK and ATP", StepKind.END_REPAIR, reviewed)
     for prefix, template, label in (("treated", treated, "P1-treated"),
-                                    ("control", control, "undigested control")):
+                                    ("control", control, "undigested control"),
+                                    ("pnk", pnk_control, "PNK control")):
         ligated = _apply_linear_step(graph, template, prefix + "_ligate",
                                      "Ligate small-RNA sequencing adapters to the " + label + " branch",
                                      StepKind.LIGATION, reviewed)

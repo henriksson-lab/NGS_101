@@ -15,7 +15,7 @@ TITLE = 'RiboMethSeq — 2′-O-methylation by protected cleavage'
 NOTES = '01_ribomethseq.html'
 SOURCE = 'Birkedal et al., Angewandte Chemie (2015), <a href="https://doi.org/10.1002/anie.201408362">doi:10.1002/anie.201408362</a>; Illumina implementation: Marchand et al., Nucleic Acids Research (2016), <a href="https://doi.org/10.1093/nar/gkw547">doi:10.1093/nar/gkw547</a>.'
 SUMMARY = 'Partial alkaline hydrolysis avoids phosphodiester bonds immediately 3′ of 2′-O-methylated riboses; depletion of mapped fragment ends identifies and quantifies Nm sites.'
-CAVEAT = ''
+CAVEAT = 'The displayed NEBNext/Illumina workflow is the 2016 Marchand implementation. The catalogue’s defining 2015 Birkedal article has not been checked in this pass; the two implementations must not be assumed to use identical library chemistry.'
 FINAL_LIBRARY = Construct((role('P5'), role('hydrolysis-end cDNA'), role('sample index', tag='cbc', molecular_feature=feature('sample_index', 'sample_index', 'unknown')), role('P7')), name='RiboMethSeq library')
 FINAL_CAPTION = 'Standard small-RNA library retaining the exact alkaline-cleavage endpoints.'
 SEQ_PRIMERS = ()
@@ -48,7 +48,7 @@ PCR_GEOMETRY = None
 ACQUIRED_ROLES = ()
 READ_USES = None
 
-RECIPE = (('hydrolyse', 'Partially hydrolyse RNA under mild alkaline conditions', StepKind.CHEMICAL_CONVERSION), ('dephosphorylate', 'Remove incompatible cyclic-phosphate termini', StepKind.DEPHOSPHORYLATION), ('phosphorylate', 'Create ligatable 5-prime-phosphate termini', StepKind.PHOSPHORYLATION), ('ligate_3', 'Ligate the 3-prime small-RNA adapter', StepKind.LIGATION), ('ligate_5', 'Ligate the 5-prime small-RNA adapter', StepKind.LIGATION), ('rt', 'Reverse-transcribe hydrolysis fragments', StepKind.REVERSE_TRANSCRIPTION))
+RECIPE = (('hydrolyse', 'Partially hydrolyse RNA under mild alkaline conditions', StepKind.CHEMICAL_CONVERSION), ('dephosphorylate', 'Dephosphorylate RNA 3-prime ends with Antarctic phosphatase', StepKind.DEPHOSPHORYLATION), ('phosphorylate', 'Phosphorylate RNA 5-prime ends with T4 PNK and ATP', StepKind.PHOSPHORYLATION), ('ligate_3', 'Ligate the 3-prime small-RNA adapter', StepKind.LIGATION), ('ligate_5', 'Ligate the 5-prime small-RNA adapter', StepKind.LIGATION), ('rt', 'Reverse-transcribe hydrolysis fragments', StepKind.REVERSE_TRANSCRIPTION))
 
 def protocol_graph() -> ProtocolGraph:
     graph = ProtocolGraph(TITLE, authority=SOURCE)

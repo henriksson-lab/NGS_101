@@ -115,5 +115,21 @@
       "evidence": "Paper names kit without identifying one experiment-specific pair; linked guide not reviewed."
     }
   ],
-  "conclusion": "First located pass only; linked predecessors and kit remain blocked."
+  "conclusion": "First located pass only; linked predecessors and kit remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-04",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC5809388 JATS180–204, standard/advanced/C1 RamDA preparation and sequencing",
+      "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
+      "findings": "Added initial DNase I genomic-DNA digestion before RT and explicit unresolved fragments. Specified 13-cycle standard versus 14-cycle advanced library PCR; candidate Tn5 products no longer presumed discarded. Confirmed single-read76 acquisition.",
+      "deferred": [
+        "Original NSR tables, pre-/post-tagmentation cleanup, concurrent nicking/RT representation; C1 variant is separate and its JATS 130°C wording needs PDF verification before interpretation"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 6 unrepresented; review schema pass"
+    }
+  ]
 }

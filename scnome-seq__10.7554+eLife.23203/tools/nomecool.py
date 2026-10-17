@@ -58,10 +58,10 @@ def nome_library() -> Construct:
     con = Construct([
         seg("P5", il.P5, "p5"), seg("Read 1 remainder", il.TRUSEQ_READ1[4:], "r1"),
         seg("kit remnant", "?", inferred=True, placeholder=True,
-            note="Pico Methyl-Seq internal primer sequence and length not published"),
+            note="Pico Methyl-Seq internal primer sequence and length unresolved in this source pass"),
         seg("bisulfite insert", "XXXXXXXX...XXXXXXXX", placeholder=True),
         seg("kit remnant'", "?", inferred=True, placeholder=True,
-            note="Pico Methyl-Seq internal primer sequence and length not published"),
+            note="Pico Methyl-Seq internal primer sequence and length unresolved in this source pass"),
         seg("Read 2 arm'", revcomp(il.TRUSEQ_READ2), "r2"),
         seg("i7'", "I" * INDEX_NT_NOME, "cbc", placeholder=True,
             feature=feature("sample_i7", "sample_index", "unknown")),
@@ -136,12 +136,13 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
         preamp = graph.product("pico_products", "Pico Methyl-Seq preamplified products",
                                MaterialKind.MOLECULAR, inferred=True,
                                source=source + " (internal junction bases unavailable)")
-        graph.react("pico_library_generation", "Random-prime and preamplify converted DNA",
+        graph.react("pico_library_generation", "Pico Methyl-Seq low-input preparation: 1:2 random-primer dilution, 10 first-amplification cycles",
                     StepKind.EXTENSION,
                     ((converted, InputRole.TEMPLATE), (kit, InputRole.STRUCTURAL),
                      (polymerase, InputRole.CATALYST)), (preamp,))
         forward = graph.input("forward_p5", "published P5 forward primer",
-                              MaterialKind.OLIGO)
+                              MaterialKind.OLIGO,
+                              state=Construct([seg("forward_p5", FORWARD_P5)]))
         reverse = graph.input("indexed_p7", "published indexed P7 primer",
                               MaterialKind.OLIGO)
         pcr_template = preamp
@@ -200,7 +201,8 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
     # those in the dedicated final panel rather than asking the graph renderer to invent
     # a complementary base for them.
     graph_state = None if protocol == SCNOME else final
-    out = graph.product("library", final.name, MaterialKind.LIBRARY, state=graph_state,
+    out = graph.product("library", final.name,
+                        MaterialKind.MOLECULAR if protocol == SCNOME else MaterialKind.LIBRARY, state=graph_state,
                         inferred=protocol == SCCOOL,
                         source=(source + " (outer PCR arms inferred from named primers)"
                                 if protocol == SCCOOL else source))
@@ -209,6 +211,20 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
                  (reverse, InputRole.STRUCTURAL), (pcr_pol, InputRole.CATALYST)),
                 (out,), geometry=PCRGeometry.unavailable(
                     final, reason="The low-input intermediate does not disclose enough sequence to locate both PCR sites exactly."))
+    extra_reviewed = ()
+    if protocol == SCNOME:
+        ampure = graph.input("ampure", "Agencourt AMPureXP beads, 1:1 beads:library ratio",
+                             MaterialKind.SELECTION)
+        cleaned = graph.product("cleaned_library", "AMPure-purified scNOMe-seq library",
+                                MaterialKind.LIBRARY)
+        waste = graph.product("ampure_waste", "unrecovered material from AMPure library purification",
+                              MaterialKind.WASTE)
+        graph.react("ampure_cleanup", "Purify amplified libraries with AMPureXP before Bioanalyzer QC and pooling",
+                    StepKind.CLEANUP,
+                    ((out, InputRole.TEMPLATE), (ampure, InputRole.SELECTION)), (cleaned, waste))
+        graph.discard(waste, "not recovered in the library eluate; no exact composition assigned")
+        out = cleaned
+        extra_reviewed = ("ampure", "ampure_cleanup", "cleaned_library")
     graph.sequence(out, SequencingPlan(
         library=final, primers=tuple(SEQ_PRIMERS),
         acquired_roles=("Read 1", "Index 1 (i7)", "Read 2"),
@@ -218,7 +234,7 @@ def protocol_graph(protocol: str) -> ProtocolGraph:
                    {"Read 1": "include", "Index 1 (i7)": "demultiplex",
                     "Read 2": "include"}),
         limitation="Internal commercial-kit junction sequences are unavailable."))
-    graph.declare_reviewed_scope((*reviewed, "pcr_polymerase", pcr_id, "library"), source)
+    graph.declare_reviewed_scope((*reviewed, *extra_reviewed, "pcr_polymerase", pcr_id, "library"), source)
     return graph.require_publishable()
 
 

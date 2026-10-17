@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from protocol_specs import Definition, get
 from adapter_ligation import AdapterLigationGeometry
-from protocol_graph import InputRole
+from protocol_graph import Disposition, Terminal, InputRole
 from protocol_graph import MaterialKind
 from protocol_graph import ProtocolGraph
 from protocol_graph import SequencingPlan
@@ -58,13 +58,25 @@ def _local_graph(d, final):
                 StepKind.TEMPLATE_SWITCHING,
                 ((rna, InputRole.TEMPLATE), (starter, InputRole.STRUCTURAL),
                  (rt, InputRole.CATALYST)), (full,))
+    rnase = graph.input("rnase_cocktail", "RNase Cocktail", MaterialKind.CATALYST)
+    digested = graph.product("digested_cdna", "cDNA after RNA digestion", MaterialKind.MOLECULAR, state=full.state)
+    fragments = graph.product("rna_fragments", "digested RNA products", MaterialKind.MOLECULAR)
+    graph.react("digest_rna", "Digest RNA with RNase Cocktail (37°C, 10 min)", StepKind.DIGESTION,
+                ((full, InputRole.TEMPLATE), (rnase, InputRole.CATALYST)), (digested, fragments))
+    graph.mark_terminal(Terminal(fragments.id, Disposition.UNRESOLVED, reason="Individual RNA-fragment recovery through the subsequent bead cleanup is not assigned."))
+    beads = graph.input("first_cleanup", "0.8x AMPure XP cleanup", MaterialKind.SELECTION)
+    purified = graph.product("purified_cdna", "purified first-strand cDNA", MaterialKind.MOLECULAR, state=full.state)
+    wash = graph.product("first_cleanup_wash", "AMPure supernatant/wash", MaterialKind.WASTE)
+    graph.react("purify_cdna", "Purify cDNA (0.8x AMPure XP)", StepKind.CLEANUP,
+                ((digested, InputRole.TEMPLATE), (beads, InputRole.SELECTION)), (purified, wash), changes_molecule=False)
+    graph.discard(wash, "physical bead purification fraction")
     compa = graph.input("compa", "published CompA_DNA ligation complement",
                         MaterialKind.OLIGO, source=source + "; Methods")
     ready = graph.product("ligation_ready", "CompA-annealed cDNA end with reported A overhang",
                           MaterialKind.MOLECULAR, state=full.state)
     graph.react("anneal_compa", "Anneal CompA_DNA to form the reported A-overhang cDNA end",
                 StepKind.HYBRIDIZATION,
-                ((full, InputRole.TEMPLATE), (compa, InputRole.STRUCTURAL)), (ready,))
+                ((purified, InputRole.TEMPLATE), (compa, InputRole.STRUCTURAL)), (ready,))
     motor = graph.input("motor_adapter", "Nanopore motor sequencing adapter",
                         MaterialKind.ADAPTER)
     ligase = graph.input("adapter_ligase", "Nanopore adapter ligase", MaterialKind.CATALYST)
@@ -78,7 +90,7 @@ def _local_graph(d, final):
                     "Supplementary Protocol section 5 states the CompA-annealed cDNA has an A overhang; the matching SQK-DCS109 AMX motor-adapter end is not established by the checked sources."))
     graph.sequence(library, SequencingPlan(limitation=d.sequencing))
     reviewed = ["rna", "rt_starter", "reverse_transcriptase", "template_switch_rt",
-                "compa", "anneal_compa", "motor_adapter", "adapter_ligase",
+                "rnase_cocktail", "digest_rna", "first_cleanup", "purify_cdna", "compa", "anneal_compa", "motor_adapter", "adapter_ligase",
                 "ligate_motor", "library"]
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

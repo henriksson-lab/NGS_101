@@ -184,5 +184,25 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Two independent checks now cover defining article, publisher supplementary protocol/table, preprint and author code README. The code describes outer and inner barcode parsing, but its inner/outer barcode-list bodies remain inaccessible. Exact list membership and any absence claim stay blocked."
+  "conclusion": "Two independent checks now cover defining article, publisher supplementary protocol/table, preprint and author code README. The code describes outer and inner barcode parsing, but its inner/outer barcode-list bodies remain inaccessible. Exact list membership and any absence claim stay blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC5330809 JATS60–64,86–122; published Springer MOESM254 protocol sections2–5 text435–590 and amplification/primer table755–846; rendered PDFp22 inspected; published workbook representative rows3/101/198/294 and headings",
+      "oligo_scraper": "Bundle scraper run; used hits verified in published protocol/workbook. Superseded065052 preprint excluded. Reverse-primer spelling verified visually in original PDF.",
+      "findings": "Added source PNK phosphorylation before contact ligation; named T4 ligases/KAPA; separated BC2 from fixed prefix feature; represented separate10bp PCR sample index and source2x250 reads; exact IlluminaF graph input; public printed reverse-primer/Y-arm junction discrepancy with canonical right end inferred",
+      "deferred": [
+        "Protocol sections6–12 not newly read",
+        "Remaining barcode families and author code barcode-list originals",
+        "Protocol Exchange revision/predecessor/vendor originals",
+        "Biotin/phosphorylation geometry, carrier and wash/recovery states",
+        "Printed reverse-primer junction and sample-specific PCR index/acquisition"
+      ],
+      "scope": "Capped defining-source pass; not complete chemistry validation or acceptance of missing information.",
+      "verification": "local suite101/101 (includes legacy common checks); page build/pairing pass; chemistry3 established/0 conditional/24 unresolved/0 contradictory; source guard4 exact oligos checked, pcr_reverse unrepresented; Markdown built/checked; review schema pass"
+    }
+  ]
 }

@@ -14,6 +14,8 @@ from chemdraw import (Construct, Scene, Segment, annotation_rows, complement_seg
                       oligo, panel, protocol_graph_panels, strand_row)
 import illumina as il
 from page import head, info, table
+from protocol_graph import AnnotationSlot
+from protocol_views import render_annotations
 import seqprimers as sp
 
 PAPERS = {
@@ -31,7 +33,7 @@ def preamble(protocol: str) -> str:
     notes = ("01_scnome-seq-sccool-seq.html" if protocol == N.SCNOME else
              "../scnome-seq__10.7554+eLife.23203/01_scnome-seq-sccool-seq.html")
     if protocol == N.SCNOME:
-        caveat = '<div class="caveat"><b>Commercial kit interior.</b> Pico Methyl-Seq random primers and internal adapters are proprietary. Dotted question marks preserve the unknown insert junctions; the published P5/P7 amplification primers fix the outer library arms.</div>'
+        caveat = '<div class="caveat"><b>Commercial kit interior.</b> Pico Methyl-Seq internal primer and adapter identities remain unresolved in this bounded source pass. Dotted question marks preserve the unknown insert junctions; the published P5/P7 amplification primers fix the outer library arms.</div>'
     else:
         caveat = '<div class="caveat"><b>PCR-primer sequences unavailable.</b> The paper prints both random primers but only names Forward PE1.0 and the NEB indexed reverse primer. Dotted outer arms show the standard TruSeq-shaped model implied by those reagents.</div>'
     return f'''<div class="wrap"><h1>{title} &mdash; accessibility and DNA methylation from one cell</h1>
@@ -78,7 +80,7 @@ def cool_priming() -> str:
 
 def nome_library_steps() -> str:
     return f'''<h2>Library generation</h2>
-<h3>(3) Build the bisulfite library with Pico Methyl-Seq</h3>{info('The low-input kit random-primes converted single-stranded DNA and pre-amplifies it. Its internal oligo sequences are not published.')}
+<h3>(3) Build the bisulfite library with Pico Methyl-Seq</h3>{info('The low-input kit random-primes converted single-stranded DNA and pre-amplifies it. The article specifies a 1:2 random-primer dilution and ten first-amplification cycles. Internal oligo identities remain unresolved here; amplified libraries undergo AMPureXP purification at a 1:1 bead ratio before QC and pooling.')}
 <h3>(4) Add the published P5 and 6-nt indexed P7 primers</h3>{final_panel(N.SCNOME)}'''
 
 
@@ -98,7 +100,8 @@ def sequencing(protocol: str) -> str:
         return (sp.section(
             lib, N.SEQ_PRIMERS, heading="Read layout",
             intro=("Read 1 and Read 2 report the bisulfite-converted insert; the first "
-                   "six Read 1 bases are clipped. Index 1 identifies the well."),
+                   "six bases of each read are clipped; GM12878 reads are clipped at both ends. "
+                   "These are computational removals after acquisition. Index 1 identifies the well."),
             required_roles=tuple(p.role for p in N.SEQ_PRIMERS),
             read_lengths=N.SCNOME_READ_LENGTHS, read_uses=N.SCNOME_READ_USES,
             show_read_content=True)
@@ -123,10 +126,13 @@ def render_page(protocol: str, out: Path, *, graph_factory=None) -> None:
     graph = graph_factory() if graph_factory else N.protocol_graph(protocol)
     lib_steps = nome_library_steps() if protocol == N.SCNOME else cool_priming() + '<h3>(5) Indexed PCR on the beads</h3>' + final_panel(N.SCCOOL)
     html = "\n".join([head(f"{protocol} library chemistry"), preamble(protocol),
-                       oligos(protocol), '<h2>Reaction workflow</h2>',
+                       oligos(protocol), render_annotations(graph, AnnotationSlot.INTRO),
+                       '<h2>Reaction workflow</h2>',
+                       render_annotations(graph, AnnotationSlot.BEFORE_WORKFLOW),
                        protocol_graph_panels(graph, cls="long"),
+                       render_annotations(graph, AnnotationSlot.AFTER_WORKFLOW),
                        '<h2>Molecular details</h2>', mark_and_convert(), lib_steps,
-                       sequencing(protocol)])
+                       render_annotations(graph, AnnotationSlot.SEQUENCING), sequencing(protocol)])
     html = html.replace('<div class="wrap">',
                         '<div class="wrap" data-protocol-complete="true">', 1)
     out.write_text(html, encoding="utf-8")

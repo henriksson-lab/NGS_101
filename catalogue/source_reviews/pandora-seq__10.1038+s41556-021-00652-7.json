@@ -92,5 +92,21 @@
     "pass_2": null
   },
   "missing_claims": [],
-  "conclusion": "First pass located paper and current vendor sequences. Further supplement inspection and independent reader required; no missing claim accepted."
+  "conclusion": "First pass located paper and current vendor sequences. Further supplement inspection and independent reader required; no missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-04",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 2,
+      "locations": "Published PMC8236090 JATS309–331, AlkB/PNK treatment, ligation capability assay and library preparation; official later NEB E7330 manual PDF1043–1065, fetched with the existing extra-source route",
+      "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
+      "findings": "Specified T4PNK37°C20min and AlkB37°C30min, plus 11–22 library PCR cycles. Kept the Takara ligation-capability test oligo separate from NEBNextE7330S library adapters; confirmed SE50 versus sperm-head SE75. Vendor manual now resides in this protocol source bundle; adapter-source guard passes. Public caveat distinguishes later manual from unverified historical kit revision.",
+      "deferred": [
+        "Original preceding RNA-size-selection/order and Fig1 workflow, manual-version adapter assignments, interposed RT-primer annealing, cleanup states and sample-specific run choice"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 3 checked, 2 unrepresented; review schema pass"
+    }
+  ]
 }

@@ -104,5 +104,21 @@
       "evidence": "SI names Vazyme indexed common primers; chosen index and vendor primer syntheses not established."
     }
   ],
-  "conclusion": "First located pass only; transposome and RT predecessors still need checking."
+  "conclusion": "First located pass only; transposome and RT predecessors still need checking.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-04",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC7022195 JATS175–180, Library preparation and sequencing",
+      "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
+      "findings": "Specified input-dependent gap-extension mixture (SuperScript II/Q5 versus Bst2.0 WarmStart) and 12/15/25 PCR cycles for 200ng/10ng/100pg RNA. Candidate non-amplifiable Tn5 products remain unresolved rather than presumed physically discarded.",
+      "deferred": [
+        "Published supplementary oligos, transfer strand geometry and actual gap-fill products; final 1:1 bead cleanup and read acquisition"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 4 unrepresented; review schema pass"
+    }
+  ]
 }

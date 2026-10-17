@@ -23,3 +23,11 @@ Defining paper: Hayashi et al., *Nature Communications* 2018, [doi:10.1038/s4146
 
 The 408+408 individual NSR sequences are supplied in Supplementary Data 3; the
 full pool is not reproduced as an ordering list here.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC5809388 JATS180–204, standard/advanced/C1 RamDA preparation and sequencing.
+
+Added initial DNase I genomic-DNA digestion before RT and explicit unresolved fragments. Specified 13-cycle standard versus 14-cycle advanced library PCR; candidate Tn5 products no longer presumed discarded. Confirmed single-read76 acquisition.
+
+Deferred: Original NSR tables, pre-/post-tagmentation cleanup, concurrent nicking/RT representation; C1 variant is separate and its JATS 130°C wording needs PDF verification before interpretation. This pass does not establish a complete source review or publication-wide absence.

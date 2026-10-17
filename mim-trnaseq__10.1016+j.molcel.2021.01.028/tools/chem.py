@@ -1,5 +1,6 @@
 """Source-owned structured-RNA library declaration and reaction graph."""
 from __future__ import annotations
+from dataclasses import replace
 from types import SimpleNamespace
 from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from chemdraw import Construct, Scene, Segment, Workflow, feature
@@ -27,7 +28,7 @@ SEQ_PRIMERS = ()
 READ_LENGTHS = None
 oligos = lambda: ('3′ adapter I1 — 5′-/5Phos/GATATCGTCAAGATCGGAAGAGCACACGTCTGAA/ddC/-3′',
  'primer-dependent RT oligo — '
- '5′-/5Phos/rNrNAGATCGGAAGAGCGTCGTGTAGGGAAAGAG/iSp18/GTGACTGGAGTTCAGACGTGTGCTC-3′',
+ '5′-/5Phos/RNAGATCGGAAGAGCGTCGTGTAGGGAAAGAG/iSp18/GTGACTGGAGTTCAGACGTGTGCTC-3′',
  'library forward — 5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCT*C-3′',
  'indexed reverse — 5′-CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCAGACGTGT*G-3′')
 _definition = SimpleNamespace(title=TITLE, doi=DOI, citation=CITATION, endpoint=SEQUENCING_ENDING)
@@ -111,8 +112,8 @@ def _mim_graph(d: Definition, final: Construct) -> ProtocolGraph:
                                MaterialKind.MOLECULAR, state=cdna.state)
     degraded_rna = graph.product("degraded_rna", "hydrolysed RNA fragments",
                                  MaterialKind.WASTE)
-    graph.react("hydrolyse_rna", "Hydrolyse the RNA template",
-                StepKind.STRAND_SEPARATION,
+    graph.react("hydrolyse_rna", "Hydrolyse RNA with NaOH (95°C, 3 min)",
+                StepKind.CHEMICAL_CONVERSION,
                 ((cdna, InputRole.TEMPLATE), (hydrolysis, InputRole.CONDITION)),
                 (clean_cdna, degraded_rna))
     graph.discard(degraded_rna, "the full-length cDNA is the retained library substrate")
@@ -132,7 +133,7 @@ def _mim_graph(d: Definition, final: Construct) -> ProtocolGraph:
         MaterialKind.MOLECULAR,
         state=molecule("circular mim-tRNAseq cDNA", (
             role("circular full-length tRNA cDNA"),)))
-    graph.react("circularize", "Circularize full-length cDNA",
+    graph.react("circularize", "Circularize cDNA with CircLigase (60°C, 3 h)",
                 StepKind.CIRCULARIZATION,
                 ((sized, InputRole.TEMPLATE), (circligase, InputRole.CATALYST)),
                 (circle,), geometry=CircularizationGeometry.known(
@@ -145,6 +146,7 @@ def _mim_graph(d: Definition, final: Construct) -> ProtocolGraph:
         "circularize",
     ]
     _finish_pcr(graph, "library", circle, final, d.endpoint, reviewed)
+    graph.steps["library_pcr"] = replace(graph.steps["library_pcr"], label="Amplify with KAPA HiFi (5–6 cycles)")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 

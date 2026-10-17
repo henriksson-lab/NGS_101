@@ -104,5 +104,21 @@
       "evidence": "Original uses 1D or RAD4 branch without kit molecular manual; base-level adapter remains blocked."
     }
   ],
-  "conclusion": "First located pass only; historical vendor and predecessor chemistry remain blocked."
+  "conclusion": "First located pass only; historical vendor and predecessor chemistry remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-04",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC6166824 JATS143–173, Tn5Prime input, circle preparation, RCA and ONT sequencing",
+      "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
+      "findings": "Selected SIRV E2 for the illustrated ONT1D ligation finish; B-cell RAD4 finish explicitly excluded. Added pre-debranch 0.5xSPRI >2kb selection and specified 0.8xSPRI >500bp circle recovery, 55°C/60min assembly, overnight30°C RCA and 37°C/2h debranching.",
+      "deferred": [
+        "Original SI TableS3/splint strand geometry, historical ONT end sequences and RAD4 branch; no kit absence established"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 2 unrepresented; review schema pass"
+    }
+  ]
 }

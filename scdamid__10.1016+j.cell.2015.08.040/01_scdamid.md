@@ -253,3 +253,36 @@ conventional-DamID oligos were instead read in the EpiDamID key-resources table 
 in `/husky/henriksson/NGS101_papers/sources/` (`--find GGTCGCGGCCGAGGATC` hits it), which prints them with their
 Vogel-2007 attribution; `catalogue/extra_sources.tsv` now declares both that table and
 the Vogel paper for this slug.
+
+## Bounded source pass — 2026-10-17
+
+Read the published article's archived author manuscript PMC4583798 JATS
+identity, Results “Single-cell DamID methodology” lines 84–90, Experimental
+Procedures lines 198–204, and Figure S1 legend at 252. The manifest identifies
+the archived manuscript as the Cell 2015 source; supplements 6–8 remain
+manual/unavailable and the rejected supplement-7 HTML is not an original.
+Ran the bundle oligo scraper: its hits were in the excluded upstream drawing,
+so none supplies new author-supported oligo identities. No supplement or
+predecessor was read during this capped pass.
+
+🟢 Results state 26 amplification cycles after DpnI and ligation in the same
+well, without intermediate purification. Figure S1E's caption states a
+51-nt read and a 5′ NNNN tail, but does not itself supply the oligo image.
+The graph now states the 26-cycle count and separates the unspecified DamID
+and final library PCR catalyst inputs; similarity to conventional DamID does
+not establish equal enzyme assignments. The index placeholder's drawing width
+no longer supplies an exact acquired index-cycle declaration.
+
+🟡 End repair, dA tailing and final library PCR remain reconstructed library
+preparation details rather than verified source-specific settings. Their graph
+labels now explicitly say INFERRED. The published text says indexed-adapter
+ligation and separately refers to indexing primers in Table S2; without that
+original, this pass does not decide the detailed index-installation route.
+
+Deferred: original Figure S1E, Extended Experimental Procedures and Table S2;
+Vogel 2007 and authoritative historical Illumina documents; exact modified
+oligos, DpnI/ligation end geometry, any DpnII stage, library completion and
+recovery, study index width/acquisition and cell sorting/lysis graph states.
+The drawn full-GATC fragment is a summarized motif view, not a validated
+base-resolved DpnI cleavage product. Historical EpiDamID-based oligo inference
+is not a source rereading in this pass. No missing-information claim is accepted.

@@ -133,5 +133,21 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Original authored Protocol Exchange procedure independently read twice; it resolves QuantSeq FWD catalog 015 and SR100. Separate protocol tables and version-matched vendor oligos remain inaccessible; no absence claim accepted."
+  "conclusion": "Original authored Protocol Exchange procedure independently read twice; it resolves QuantSeq FWD catalog 015 and SR100. Separate protocol tables and version-matched vendor oligos remain inaccessible; no absence claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-04",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC5712218 JATS100–138, carboxyamidomethylation, SLAM-seq in mESCs and RNA library preparation",
+      "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
+      "findings": "Added DTT quench to alkylation transition. Corrected acquisition explanation to study SR50 with SR100 for Fig3 transcriptional-output measurements, distinct from later protocol recommendations; no universal run silently assigned.",
+      "deferred": [
+        "Published linked ProtocolExchange version, original QuantSeq kit primers and end geometry, RNA precipitation/total RNA mixture states and selected library run"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 0 unrepresented; review schema pass"
+    }
+  ]
 }

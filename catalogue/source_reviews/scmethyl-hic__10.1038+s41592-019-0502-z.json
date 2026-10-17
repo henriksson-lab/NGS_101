@@ -254,5 +254,24 @@
       "evidence": "Original Springer Supplementary Protocol oligo table lines 212-258 prints four random-primer members plus eight P5L and twelve P7L indexing PCR primer members."
     }
   ],
-  "conclusion": "Original article, supplementary protocol, all listed supplements and official successor/product-lineage documents have two independent checks. The contemporaneous Swift manual remains unavailable, so the historical Adaptase junction and exact sample assignments remain blocked."
+  "conclusion": "Original article, supplementary protocol, all listed supplements and official successor/product-lineage documents have two independent checks. The contemporaneous Swift manual remains unavailable, so the historical Adaptase junction and exact sample assignments remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC6765429 JATS79–93 single-cell/bulk/WGBS boundaries; original published Supplementary Protocol supplement5.pdf.txt single-cell487–634 and modified random/representative PCR oligos58–87",
+      "oligo_scraper": "Full bundle scraper run; used hits checked against published protocol. Successor IDT hits not substituted for2019 reagent; remaining family rows checked by existing transcription test but not counted as new manual readings.",
+      "findings": "Separated ExoI/SAP treatment from SPRI binding/physical recovery; four-plex solution-bead mixtures pool before washes/elution; added lambda/proteinase well condition,5SpC3 strand modification,17cycle indexing PCR and two final0.8x SPRI purifications; public PBS9ul versus lysis10ul source difference; other nuclei unresolved",
+      "deferred": [
+        "Historical2019 Swift manual and linked predecessor/vendor originals",
+        "Remaining primer-family rows, source tables/figures",
+        "Full conversion/recovery/Adaptase products and exact study primer/index assignments",
+        "Acquired run-cycle declarations"
+      ],
+      "scope": "Independent branch-specific capped pass; source discrepancies/Adaptase uncertainty retained, no full validation or accepted absence.",
+      "verification": "local suite5/5/page/pairing pass; chemistry0 established/0 conditional/14 unresolved/0 contradictory; source guard2 exact PCR oligos checked, random_primers symbolic/unrepresented; Markdown built/checked; review schema pass"
+    }
+  ]
 }

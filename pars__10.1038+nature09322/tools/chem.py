@@ -15,13 +15,13 @@ TITLE = 'PARS — parallel analysis of RNA structure'
 NOTES = '01_pars.html'
 SOURCE = 'Kertesz et al., Nature (2010), <a href="https://doi.org/10.1038/nature09322">doi:10.1038/nature09322</a>; detailed protocol: Wan et al., Nature Protocols (2013), <a href="https://doi.org/10.1038/nprot.2013.045">doi:10.1038/nprot.2013.045</a>.'
 SUMMARY = 'Matched RNase V1 and S1 digests expose double- and single-stranded positions; selective capture of nuclease-created 5′ phosphates turns branch-specific read starts into a per-base structure score.'
-CAVEAT = ''
+CAVEAT = 'The defining experiment used SOLiD. Detailed adapter/recovery steps still require verification against its supplementary methods; the later 2013 protocol is not a substitute for that check.'
 FINAL_LIBRARY = Construct((role('SOLiD P1 adapter'), role('V1- or S1-cleavage-defined cDNA'), role('SOLiD P2 adapter')), name='PARS library')
 FINAL_CAPTION = 'One library is made for each nuclease branch; the defining experiment used the SOLiD platform.'
 SEQ_PRIMERS = ()
 READ_LENGTHS = None
 SEQUENCING_INTRO = ''
-SEQUENCING_ENDING = 'The defining libraries were sequenced on Applied Biosystems SOLiD; the vendor guide publishes library PCR primers but not the complete adaptor mix or sequencing primer.'
+SEQUENCING_ENDING = 'The defining libraries used Applied Biosystems SOLiD; reads were truncated to 35 bases for mapping (not an asserted acquisition length); the vendor guide publishes library PCR primers but not the complete adaptor mix or sequencing primer.'
 SEQUENCING_UNAVAILABLE = 'Adaptor Mix A remains a degenerate kit oligo set without complete published bases; the exact sequencing primer is also unresolved.'
 
 def oligos():

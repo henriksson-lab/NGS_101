@@ -18,3 +18,11 @@ doi:10.1038/nmeth.1529. The article and method overview were read.
 FragSeq is the closest direct RNA analogue of a nuclease-accessibility assay: structure
 determines enzyme access, and sequencing locates the resulting molecular ends. Unlike
 ATAC-seq, the enzyme cleaves RNA rather than installing adapters in one reaction.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC3247016 JATS67–75, FragSeq methodology and three parallel treatments.
+
+Added the published PNK/ATP endogenous-break control as a third branch beside P1-treated and undigested samples; recorded20–100nt RNA selection and preserved SOLiD platform.
+
+Deferred: Original supplementary detailed methods, explicit gel-selection steps, P1/PNK end-chemistry geometry, vendor oligos and run acquisition. This pass does not establish a complete source review or publication-wide absence.

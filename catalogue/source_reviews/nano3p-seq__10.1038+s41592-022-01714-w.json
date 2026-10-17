@@ -48,7 +48,7 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Local MOESM1 PDF text lines 75\u2013140 (reagents/oligos), 294\u2013322 (CompA A-overhang ligation substrate), 447\u2013459 (repeated oligos); scraper run on PDF and full fetched bundle",
+        "locations": "Local MOESM1 PDF text lines 75–140 (reagents/oligos), 294–322 (CompA A-overhang ligation substrate), 447–459 (repeated oligos); scraper run on PDF and full fetched bundle",
         "finding": "Supplementary Protocol prints custom /5Phos/ D_DNA, rN-blocked R_RNA and CompA_DNA. Section 5 explicitly says CompA yields a double-stranded cDNA end with an A overhang; the AMX adapter-side end is not printed in inspected sections."
       }
     },
@@ -78,7 +78,7 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Author media-2 DOCX extracted lines 1\u201330 (oligos), 89\u2013115 (CompA anneal and AMX ligation); scraper on full fetched bundle",
+        "locations": "Author media-2 DOCX extracted lines 1–30 (oligos), 89–115 (CompA anneal and AMX ligation); scraper on full fetched bundle",
         "finding": "Preprint protocol independently prints same three custom oligos and explicitly calls the CompA product an A-overhang duplex. It gives AMX kit role and volumes but no adapter-side bases."
       }
     }
@@ -110,5 +110,21 @@
       "evidence": "Historical DCB_9091_v109_revC_04Feb2019 and SQK-DCS109 original kit documents have not been read twice."
     }
   ],
-  "conclusion": "Original Supplementary Protocol and Software now checked by second reader; first pass and ONT kit-specific source still outstanding. No missing sequence accepted."
+  "conclusion": "Original Supplementary Protocol and Software now checked by second reader; first pass and ONT kit-specific source still outstanding. No missing sequence accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-04",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC9834059 JATS241–243, Nano3P-seq library preparation",
+      "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
+      "findings": "Added RNase Cocktail digestion (37°C/10min) and 0.8xAMPure cleanup before CompA annealing. Kept RNA-fragment recovery unresolved; confirmed modified starter/CompA oligos in Methods and PCR-free AMX finish.",
+      "deferred": [
+        "Supplementary step-by-step protocol and kit-specific motor-adapter end geometry, explicit reagent release and final WSB purification"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 3 unrepresented; review schema pass"
+    }
+  ]
 }

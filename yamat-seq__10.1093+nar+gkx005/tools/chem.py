@@ -1,5 +1,6 @@
 """Source-owned structured-RNA library declaration and reaction graph."""
 from __future__ import annotations
+from dataclasses import replace
 from types import SimpleNamespace
 from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from chemdraw import Construct, Scene, Segment, Workflow, feature
@@ -29,7 +30,7 @@ FINAL_CAPTION = 'Role-level final library. Exact source-published oligos are lis
 SEQUENCING_INTRO = ''
 SEQUENCING_UNAVAILABLE = 'The defining source does not publish a distinct sequencing-primer oligo or enough kit sequence to compute its exact landing site.'
 SEQ_PRIMERS = ()
-READ_LENGTHS = None
+READ_LENGTHS = {'Read 1': 100}
 oligos = lambda: ('Y-3′-AD — 5′-/5Phos/GTATCCAGTTGGAATTCTCGGGTGCCAAGG/3ddC/-3′',
  'Y-5′-AD-A — 5′-GTTCAGAGTTCTACAGTCCGACGATCACTGGATACTGga-3′',
  'Y-5′-AD-G — 5′-GTTCAGAGTTCTACAGTCCGACGATCACTGGATACTGgg-3′',
@@ -42,6 +43,15 @@ Y5_A = exact("Y-5-prime-AD-A", "GTTCAGAGTTCTACAGTCCGACGATCACTGGATACTGGA", "r1")
 Y5_G = exact("Y-5-prime-AD-G", "GTTCAGAGTTCTACAGTCCGACGATCACTGGATACTGGG", "r1")
 Y5_C = exact("Y-5-prime-AD-C", "GTTCAGAGTTCTACAGTCCGACGATCACTGGATACTGGC", "r1")
 Y5_U = exact("Y-5-prime-AD-U", "GTTCAGAGTTCTACAGTCCGACGATCACTGGATACTGGT", "r1")
+
+def adapter_set_scene():
+    """Five separate ordered oligos, not one covalent concatenation."""
+    scene = Scene()
+    for name, segment in (("y5_a", Y5_A), ("y5_g", Y5_G), ("y5_c", Y5_C), ("y5_u", Y5_U)):
+        scene.strand(name, [segment], label=segment.name)
+        scene.note(name, "terminal two residues are RNA; see ordered oligo notation")
+    scene.strand("y3", [Y3], label=Y3.name, mod5="/5Phos/", mod3="/3ddC/")
+    return scene
 
 FINAL_LIBRARY = Construct((role("P5 flow-cell end"), *(role("Y-5-prime adapter-derived read entry"), role("mature tRNA cDNA"), role("Y-3-prime adapter-derived end")),
     role("sample index", tag="cbc", length_bp=6,
@@ -85,13 +95,12 @@ def _yamat_graph(d: Definition, final: Construct) -> ProtocolGraph:
         MaterialKind.MOLECULAR,
         state=molecule("deacylated mature tRNA", (
             role("paired acceptor stem"), role("free 3-prime NCCA"))))
-    graph.react("deacylate", "Deacylate mature tRNA at alkaline pH",
+    graph.react("deacylate", "Deacylate mature tRNA (pH9, 37°C, 40 min)",
                 StepKind.CHEMICAL_CONVERSION,
                 ((trna, InputRole.TEMPLATE), (alkaline, InputRole.CONDITION)),
                 (deacylated,))
     y_adapter = graph.input("y_adapter", "Y-3-prime-AD plus four Y-5-prime adapter variants",
-                            MaterialKind.ADAPTER, state=molecule("Y adapter set", (
-                                Y5_A, Y5_G, Y5_C, Y5_U, Y3)))
+                            MaterialKind.ADAPTER, state=adapter_set_scene())
     complex_ = graph.product(
         "y_complex", "annealed Y-adapter–tRNA complex",
         MaterialKind.MOLECULAR,
@@ -106,7 +115,7 @@ def _yamat_graph(d: Definition, final: Construct) -> ProtocolGraph:
         state=molecule("covalently Y-adapted tRNA", (Y5_A, role("mature tRNA"), Y3),
             junctions=(("Y-5-prime-AD-A", "mature tRNA", "Rnl2 nick ligation"),
                        ("mature tRNA", "Y-3-prime-AD", "Rnl2 nick ligation"))))
-    graph.react("seal_nicks", "Seal both Y-adapter nicks", StepKind.NICK_SEALING,
+    graph.react("seal_nicks", "Seal Y-adapter nicks (37°C 1 h, then 4°C overnight)", StepKind.NICK_SEALING,
                 ((complex_, InputRole.TEMPLATE), (y_adapter, InputRole.STRUCTURAL),
                  (rnl2, InputRole.CATALYST)), (adapted,))
     reviewed = [
@@ -115,6 +124,8 @@ def _yamat_graph(d: Definition, final: Construct) -> ProtocolGraph:
     ]
     _finish_rt_pcr(graph, "library", adapted, final, d.endpoint, reviewed,
                    rt_primer_label="Y-adapter reverse-transcription primer")
+    graph.steps["library_rt"] = replace(graph.steps["library_rt"], label="Reverse-transcribe with SuperScript III (55°C, 60 min)")
+    graph.steps["library_pcr"] = replace(graph.steps["library_pcr"], label="Amplify with TruSeq Small RNA primers (11 cycles)")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 

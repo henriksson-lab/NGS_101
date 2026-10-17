@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[2]; sys.path[:0]=[str(ROOT/"lib")]
 from batch_ngs import nextera_library, seg
 from chemdraw import MolecularState, Scene, Segment, Workflow, oligo
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 from rna_prep import rna_template, rna_dna_hybrid
 import nextera as nx
@@ -64,13 +64,13 @@ def protocol_graph():
     tagged=graph.product("tagged_hybrid","adapter-transferred RNA/cDNA fragments",
                          MaterialKind.MOLECULAR,state=tuple(_tagged()))
     nonlibrary=graph.product("nonlibrary_tagmentation","non-amplifiable tagmentation products",
-                             MaterialKind.WASTE)
+                             MaterialKind.MOLECULAR)
     graph.react("tagment","Fragment and tag the RNA/cDNA hybrid",StepKind.TAGMENTATION,
                 ((hybrid,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
                  (tn5,InputRole.CATALYST)),(tagged,nonlibrary))
-    graph.discard(nonlibrary,"homotypic or otherwise non-amplifiable tagmentation products")
+    graph.mark_terminal(Terminal(nonlibrary.id,Disposition.UNRESOLVED,reason="Candidate non-amplifiable insertion outcomes are not proven physical removal fractions."))
     extension_polymerase=graph.input("extension_polymerase",
-                                     "SuperScript II or Bst 2.0 gap-extension enzyme",
+                                     "SuperScript II plus Q5 mix (10/200 ng), or Bst2.0 WarmStart (100 pg)",
                                      MaterialKind.CATALYST)
     extended=graph.product("extended","gap-extended tagmented cDNA",
                            MaterialKind.MOLECULAR)
@@ -82,7 +82,7 @@ def protocol_graph():
     polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
                           state=FINAL_LIBRARY)
-    graph.react("index_pcr","Select S5/S7 products and complete P5/P7 arms",
+    graph.react("index_pcr","Complete P5/P7 arms: 12/15/25 PCR cycles for 200 ng/10 ng/100 pg inputs",
                 StepKind.PCR,
                 ((extended,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
                  (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),

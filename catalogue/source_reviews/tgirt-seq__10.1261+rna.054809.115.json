@@ -393,5 +393,21 @@
       "locator": "https://www.neb.com/en/protocols/protocol-for-ssdna-rna-ligation-m0319",
       "result": "Actual browser-tool opens expose title/footer only; installed Chromium headless direct page returns Just a moment challenge. Former protocol P1 withdrawn; no challenge solved and no scientific source text inferred."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-04",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Published PMC4691826 JATS185–200, RNA treatments and Construction of RNA-seq libraries",
+      "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
+      "findings": "Specified 60°C/15min TGIRT extension and 12-cycle Phusion PCR. Confirmed original blocked RNA starter, preadenylated R1R ligation and dataset-specific paired75/100/150 reads; later dual-index chemistry not substituted.",
+      "deferred": [
+        "Original SupplementalFigS1 modified oligos and ordered-versus-activated R1R check, individual dataset run/index selection and two MinElute/AMPure recovery states"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 4 checked, 1 unrepresented; review schema pass"
+    }
   ]
 }

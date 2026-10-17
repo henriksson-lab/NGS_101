@@ -24,3 +24,40 @@ identification tag, with no separate index read.
 ## 3. Distinguishing chemistry
 
 🟢 BglII digestion and biotinylated fill-in precede proximity ligation. 🟢 Single nuclei are separated after the bulk ligation reaction. 🟢 After crosslink reversal, streptavidin beads select marked contact junctions; AluI then cuts the bead-bound DNA, Klenow fragment (3′→5′ exo−) adds a 3′ dA, and the printed adapter's 3′ dT overhang is ligated before PCR. The published adapter pairs over a 17-bp core, leaving the two sequencing arms unpaired.
+
+## 4. Bounded source pass — 2026-10-17
+
+Read original published `nature12593-s1.pdf.txt` identity/DOI and
+“Preparation of Hi-C library from single cells”15–65; library validation
+context67–80; all twelve modified adapter-pair rows88–145; library PCR
+primer rows153–158. The manifest gives the original publisher PDF URL and
+identity. Ran the source-bundle oligo scraper and checked modifications and
+wrapped primer bases at the original-text pointers. The separate cached
+article text has no accompanying original in this bundle; it was not used
+as a newly inspected defining article. The 2015 protocol was not read or
+used to substitute conditions in this pass.
+
+🟢 Source33–35 specifies picking single nuclei under a microscope with
+mouth-controlled glass capillaries, followed by overnight 65 C crosslink
+reversal. The graph's generic “dilution and sorting” is now corrected to
+that operation. Other nuclei have an unresolved fate outside the picked
+lineage, rather than an assumed physical discard.
+
+🟢 Fill-in uses Klenow large fragment, proximity and adapter ligation use
+T4 DNA ligase, and library amplification uses Platinum Pfx for 25 cycles.
+The two printed library primers, each with a terminal phosphorothioate
+linkage, now have source-derived graph states. PCR is followed by removal
+of streptavidin beads, AMPure XP purification and 300–700 bp recovery from a
+2% agarose gel. The graph now includes these recovery boundaries. Both
+source-stated 40-base reads are declared, with no separate index read.
+
+🟡 The local CAA adapter and historical paired-end shell are unchanged.
+Known adapter geometry does not validate the heterogeneous pre-PCR contact
+population; that PCR relation remains unresolved.
+
+Deferred: full defining article original/provenance; remaining source figures,
+linked predecessor/vendor originals and detailed 2015 variant; wash states,
+precise bead-removal fate and complete AluI fragment population. BglII is
+the selected route; the supplement's “DpnII for some libraries” is not
+silently substituted. This capped published-supplement pass does not establish
+full experimental validation or any accepted absence claim.

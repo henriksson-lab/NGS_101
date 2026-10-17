@@ -1,42 +1,33 @@
 # OTTR-seq
 
 **Defining source:** Upton *et al.*, *PNAS* (2021), doi:10.1073/pnas.2107900118.
-The PMC article and the authors' bioRxiv v1 preprint were read. The preprint appends
-Table S1; the final PNAS SI Appendix could not be retrieved, so its agreement with the
-preprint table remains unverified.
+The published PMC article defines the active workflow. Earlier notes copied oligos
+from bioRxiv v1; those sequences have been withdrawn pending verification against
+published SI Table S1. The locally downloaded supplementary ZIP contains article
+images, not the SI Appendix. This is an unresolved retrieval/checking obligation,
+not a claim that the published oligos are absent.
 
 ## Evidence used
 
-- 🟢 The paper defines the Mn²⁺ ddA/ddG tail, phosphatase cleanup, +1Y first template
-  jump, dG-assisted second jump onto the 3′C adapter template, and PCR versus full-length branches.
-- 🟢 BioRxiv v1 Table S1 gives the primer-duplex and adapter-template sequences and blocks.
-- 🟡 The final construct shows the universal-adapter branch; indexes are variable features.
-
-## Oligos in the universal-adapter branch
-
-The sequences below are printed in the authors' bioRxiv v1 Table S1 (PDF text lines
-768–1200). The final PNAS article cites an SI Table S1 that is currently inaccessible;
-whether it retained all the preprint variants is unresolved. Modifications and RNA
-bases are retained as written; `N` positions are variable index bases.
-
-| Role | Ordered oligo, 5′→3′ | Evidence |
-|---|---|---|
-| +1T DNA primer | `/5Cy5/GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCTT` | 🟢 Table S1, universal duplex v2 |
-| blocked duplex RNA | `rGrArUrCrGrGrArArGrArGrCrArCrArCrGrUrCrUrGrArArCrUrCrCrArGrU/3SpC3/` | 🟢 Table S1, RNA complement v1 |
-| terminating adapter template | `/5Cy5/ACACTCTTTCCCTACACGACGCTCTTCCrGrArUrCrUrC` | 🟢 Table S1 |
-| P7–i7 PCR primer | `CAAGCAGAAGACGGCATACGAGATNNNNNNNNGTGACTGGAGTTCAGACGTG` | 🟢 Table S1 |
-| P5–i5 PCR primer | `AATGATACGGCGACCACCGAGATCTACACNNNNNNNNACACTCTTTCCCTACACGAC` | 🟢 Table S1 |
-
-🟡 The P5 and P7 PCR oligos are intentionally partial: their 3′ ends land in
-the adapter-derived cDNA and polymerase fills in the rest of the standard
-Illumina read-primer regions. The final article states that the resulting libraries
-were run on a MiniSeq 75-cycle kit. The inspected article and preprint do not name a separate *custom*
-sequencing primer. The current role-only final-library drawing therefore
-cannot establish an exact primer landing coordinate, even though the
-adapter and PCR oligos are available.
+- 🟢 Published Methods specify ddA/ddG tailing, shrimp alkaline phosphatase,
+  the primer duplex with +1T/+1C overhangs, terminating template and the two
+  library branches.
+- 🟢 Universal adapters use Q5 PCR (4–8 cycles); full-length adapters use
+  RNase A/H treatment and omit PCR.
+- 🟡 The graph selects the universal-adapter branch. Exact adapter and index
+  sequences remain unassigned; the published MiniSeq 75-cycle kit does not by
+  itself establish the split of acquired reads and indexes.
 
 ## Construct logic
 
 The nonextendable ddR both normalizes heterogeneous input ends and prevents RNA–RNA
 cross-priming. Adapter order is chemical: the initial duplex can accept ddR-tailed input,
 whereas the 3′C template is recruited only after the intermediate cDNA receives dG.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC8594491 JATS192–196; local PMC supplementary ZIP member inventory (article image files, no SI Appendix).
+
+Withdrew active oligos transcribed solely from superseded bioRxiv; published SI TableS1 remains unverified. Added shrimp alkaline phosphatase treatment between ddNTP tailing and relay; specified Q5 4–8 cycles for universal adapters and kept PCR-free full-length branch separate.
+
+Deferred: Published SI TableS1 retrieval/verification, exact template/primer modifications, RNA hydrolysis/recovery and acquired read mask; no absence claim accepted. This pass does not establish a complete source review or publication-wide absence.

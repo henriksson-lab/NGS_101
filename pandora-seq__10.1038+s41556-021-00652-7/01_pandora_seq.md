@@ -30,3 +30,13 @@ and the [NEB E7330 instruction manual](https://www.neb.com/en/-/media/nebus/file
 
 The defining operation is the combination of terminal repair and internal demethylation.
 Neither the untreated small-RNA library nor either single-enzyme control is PANDORA-seq.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC8236090 JATS309–331, AlkB/PNK treatment, ligation capability assay and library preparation.
+
+Specified T4PNK37°C20min and AlkB37°C30min, plus 11–22 library PCR cycles. Kept the Takara ligation-capability test oligo separate from NEBNextE7330S library adapters; confirmed SE50 versus sperm-head SE75.
+
+Deferred: Original preceding RNA-size-selection/order and Fig1 workflow, manual-version adapter assignments, interposed RT-primer annealing, cleanup states and sample-specific run choice. This pass does not establish a complete source review or publication-wide absence.
+
+Vendor manual now resides in this protocol source bundle; adapter-source guard passes. Public caveat distinguishes later manual from unverified historical kit revision.

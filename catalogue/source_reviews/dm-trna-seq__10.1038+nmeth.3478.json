@@ -311,5 +311,21 @@
       "target": "FastQC/Fastx-Toolkit/Ea-utils analysislinks",
       "next_action": "Softwareanalysisreferencesidentifiednotopened; no whole-sourceabsenceclaim. Scientificscopecheckneededif excluding for finalacceptance."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-04",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 2,
+      "locations": "Published PMC4624326 JATS84–94, demethylation and TGIRT template-switching; published PDF272–284, independently checked against JATS86",
+      "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
+      "findings": "Specified 2h room-temperature wt/D135S AlkB treatment, CircLigaseII60°C5h and 12-cycle PhusionHF PCR. Confirmed printed 41nt blocked RNA starter; reconstructed DNA remains inferred. Documented the published D135S discrepancy (4× of estimated40pmol versus200pmol) on schematic and notes; dose remains unassigned.",
+      "deferred": [
+        "Source DNA starter identity and radiolabel position, original supplementary material, deacylation provenance and read acquisition; source total-RNA D135S molar wording not silently corrected"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 2 checked, 2 unrepresented; review schema pass"
+    }
   ]
 }

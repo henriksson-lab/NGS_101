@@ -62,3 +62,19 @@ in the maintainer source checklist; no missing-information claim is accepted.
 ## Boundary
 
 This is the 2015 demethylase/TGIRT protocol. It is not mim-tRNAseq or YAMAT-seq.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC4624326 JATS84–94, demethylation and TGIRT template-switching.
+
+Specified 2h room-temperature wt/D135S AlkB treatment, CircLigaseII60°C5h and 12-cycle PhusionHF PCR. Confirmed printed 41nt blocked RNA starter; reconstructed DNA remains inferred.
+
+Deferred: Source DNA starter identity and radiolabel position, original supplementary material, deacylation provenance and read acquisition; source total-RNA D135S molar wording not silently corrected. This pass does not establish a complete source review or publication-wide absence.
+
+### Published D135S dose inconsistency
+
+The published Methods, “Demethylation reactions”, estimates about 40 pmol tRNA
+in the total-RNA input and gives D135S as both fourfold and 200 pmol
+(PMC4624326 JATS86; PDF278–280). Four times 40 pmol is 160 pmol.
+The intended amount or ratio cannot be selected from this passage; the model
+leaves dose unassigned. This notice is also shown on the schematic page.

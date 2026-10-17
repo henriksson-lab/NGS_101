@@ -298,3 +298,41 @@ read-2 side, which here is the TruSeq arm (scBS-seq used a custom read-2 primer)
   10⁶ intact nuclei, then a second enzyme addition; scCOOL-seq 1 U/µL for 30 min on one
   NP-40-lysed cell. 🟡 (computed from the stated volumes) Whether the shorter scNOMe-seq
   incubation saturates accessible GpCs is not addressed in the methods read here.
+
+## scNOMe-seq bounded pass — 2026-10-17
+
+Read the defining published PMC5487215 JATS Materials and methods lines
+432–452: nuclei preparation and M.CviPI treatment; G1 FACS, lysis and
+bisulfite conversion; library preparation; acquisition, trimming and methylation
+extraction. Also read published Supplementary file 1 Table 1 (library/barcode,
+2x100 and instrument columns, text lines 1–32) and Table 2 primer rows 33–58.
+Manifest identities link the workbook to the published eLife article, not a
+superseded preprint. Ran the bundle oligo scraper; the forward_p5 and indexed
+primer family hits were checked in the workbook. Table 3 contains comparison
+data links and was not followed in this capped pass.
+
+🟢 The local scNOMe graph now states the source's 1:2 random-primer dilution
+and ten first-amplification cycles, represents the 1:1 AMPureXP purification
+before final sequencing and gives forward_p5 an exact source-derived input
+state. Table 2 publishes 24 indexed reverse-primer alternatives; the generic
+six-base index illustration remains, without choosing a particular cell.
+The acquired two 100-base reads are independently supported by article and
+Table 1. The source's trimming applies to both reads; GM12878 reads are
+clipped at both ends. This is computational removal after acquisition.
+
+🟢 The article reports non-directional libraries and excludes GCG positions
+from its methylation interpretation because their cytosine belongs to both
+GpC and CpG contexts. These are analysis rules, not wet-lab purification.
+
+The scCOOL branch and its separate source choices are unchanged by this
+scNOMe-only correction. Shared page helpers received only scNOMe-conditional
+changes; both consumers were built and tested.
+
+Deferred: historical Pico Methyl-Seq and EZ DNA Methylation Direct manuals;
+Kelly/Miranda predecessor originals; explicit bulk marking, intact-nucleus
+recovery, G1 sorting, lysis and post-conversion purification graph stages;
+complete kit-interior molecular states and reverse-primer graph input family.
+The graph still begins at a summarized DNA input rather than representing the
+source's bulk-nuclei-to-single-nucleus handling. Internal primer identities
+are unresolved in this bounded pass, not accepted as absent from all sources.
+This pass does not establish a complete protocol review or a new two-reader gate.

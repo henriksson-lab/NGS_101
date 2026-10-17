@@ -58,7 +58,7 @@ TITLE = 'Structure-seq2 — low-bias in-vivo RNA structure probing'
 NOTES = '01_structure_seq2.html'
 SOURCE = 'Ritchey et al., Nucleic Acids Research (2017); <a href="https://doi.org/10.1093/nar/gkx533">doi:10.1093/nar/gkx533</a>.'
 SUMMARY = 'Random-primed DMS-stop cDNA receives a degenerate hairpin adapter by T4 DNA ligase; PAGE or biotin–streptavidin purification removes the primer–adapter by-product.'
-CAVEAT = ''
+CAVEAT = 'This graph follows the PAGE purification branch. The biotin/streptavidin variation and the original Structure-seq comparison libraries are separate experimental variants.'
 FINAL_LIBRARY = SS2_FINAL_LIBRARY
 PCR_GEOMETRY = SS2_PCR_GEOMETRY
 FINAL_CAPTION = 'Representative six-base-index PCR product. The custom primer abuts the unique insert, bypassing the 22-nt low-diversity prefix.'
@@ -92,7 +92,7 @@ def workflow() -> Workflow:
 
 
 
-RECIPE = (('probe', 'Probe exposed A and C in vivo with DMS', StepKind.CHEMICAL_CONVERSION), ('rt', 'Random-prime reverse transcription to DMS stops', StepKind.REVERSE_TRANSCRIPTION), ('ligate', 'Ligate the degenerate hairpin donor', StepKind.LIGATION))
+RECIPE = (('probe', 'Probe exposed A and C in vivo with DMS', StepKind.CHEMICAL_CONVERSION), ('rt', 'Random-prime DMS-stop cDNA with SuperScript III (55°C, 50 min)', StepKind.REVERSE_TRANSCRIPTION), ('digest_rna', 'Digest residual RNA with RNase H (37°C, 20 min)', StepKind.DIGESTION), ('ligate', 'Ligate the degenerate hairpin donor', StepKind.LIGATION))
 
 def protocol_graph() -> ProtocolGraph:
     graph = ProtocolGraph(TITLE, authority=SOURCE)

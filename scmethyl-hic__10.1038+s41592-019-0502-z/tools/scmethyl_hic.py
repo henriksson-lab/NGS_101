@@ -13,11 +13,11 @@ from storage import data_root
 import seqprimers as sp
 import illumina as il
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Construct, Segment, duplex_rows, feature, junction_row, panel, protocol_graph_panels, revcomp
+from chemdraw import Construct, Scene, Segment, duplex_rows, feature, junction_row, panel, protocol_graph_panels, revcomp
 from checks import Check, Source, have
 from page import head, info
 from pcr import PCRGeometry
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_graph import Disposition, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind, Terminal
 from protocol_model import molecule, role
 from restriction import DPNII
 from single_cell_hic import ContactWorkflow
@@ -109,40 +109,45 @@ def protocol_graph() -> ProtocolGraph:
                     state=sample.state)
     g.react("digest", "Digest chromatin with DpnII", StepKind.DIGESTION,
             ((sample, InputRole.TEMPLATE), (enzyme, InputRole.CATALYST)), (cut,))
-    biotin = g.input("biotin_dntp", "biotinylated fill-in nucleotide", MaterialKind.MOLECULAR)
-    fill = g.input("fill_polymerase", "fill-in polymerase", MaterialKind.CATALYST)
+    biotin = g.input("biotin_dntp", "biotin-14-dATP fill-in nucleotide", MaterialKind.MOLECULAR)
+    fill = g.input("fill_polymerase", "Klenow DNA polymerase I large fragment", MaterialKind.CATALYST)
     marked = g.product("marked", "biotin-filled restriction ends", MaterialKind.MOLECULAR,
                        state=cut.state)
     g.react("fill", "Fill restriction ends with biotin", StepKind.EXTENSION,
             ((cut, InputRole.TEMPLATE), (biotin, InputRole.STRUCTURAL),
              (fill, InputRole.CATALYST)), (marked,))
-    ligase = g.input("contact_ligase", "proximity-ligation DNA ligase", MaterialKind.CATALYST)
+    ligase = g.input("contact_ligase", "T4 DNA ligase", MaterialKind.CATALYST)
     contact = g.product("contact", "proximity-ligated contacts", MaterialKind.MOLECULAR,
                         state=contact_product())
     g.react("proximity_ligate", "Join spatially adjacent restriction fragments",
             StepKind.PROXIMITY_LIGATION,
             ((marked, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)), (contact,))
 
-    sorter = g.input("sorter", "single-nucleus FACS sorting", MaterialKind.SELECTION)
+    sorter = g.input("sorter", "DRAQ7-stained single-nucleus FACS sorting", MaterialKind.SELECTION)
     nucleus = g.product("nucleus", "one sorted contact-bearing nucleus", MaterialKind.MOLECULAR,
                         state=contact.state)
-    excluded = g.product("other_nuclei", "other nuclei outside the traced well", MaterialKind.WASTE)
+    excluded = g.product("other_nuclei", "other nuclei outside the traced well", MaterialKind.MOLECULAR)
     g.react("sort", "Sort one nucleus into each bisulfite well", StepKind.SAMPLING,
             ((contact, InputRole.TEMPLATE), (sorter, InputRole.SELECTION)),
             (nucleus, excluded), changes_molecule=False)
-    g.discard(excluded, "not in the chosen single-nucleus well")
+    g.mark_terminal(Terminal(excluded.id, Disposition.UNRESOLVED, "Other nuclei are outside this traced well; their later disposition is not represented."))
     bisulfite = g.input("bisulfite", "EZ-96 DNA Methylation-Direct conversion",
                         MaterialKind.CONDITION,
                         source="Li 2019 article Methods (D5020); Supplementary Protocol reagent list (D5023)")
+    lambda_control = g.input("lambda_control", "0.5% sonicated unmethylated lambda DNA control", MaterialKind.MOLECULAR)
+    lysis = g.input("lysis", "Zymo lysis buffer containing proteinase K (supplementary route)", MaterialKind.CONDITION)
     converted = g.product("converted", "bisulfite-converted contact DNA", MaterialKind.MOLECULAR,
                           state=molecule("converted single-nucleus contact DNA",
                                          (role("C-to-T-converted contact insert"),)))
     g.react("bisulfite_convert", "Convert cytosines in the sorted nucleus",
             StepKind.CHEMICAL_CONVERSION,
-            ((nucleus, InputRole.TEMPLATE), (bisulfite, InputRole.CONDITION)), (converted,))
+            ((nucleus, InputRole.TEMPLATE), (lambda_control, InputRole.SPIKE_IN),
+             (lysis, InputRole.CONDITION), (bisulfite, InputRole.CONDITION)), (converted,))
 
+    primer_state = Scene()
+    primer_state.strand("P5L_AD002", list(random_primer()), mod5="/5SpC3/")
     primers = g.input("random_primers", "published /5SpC3/ P5L indexed random-primer set",
-                      MaterialKind.OLIGO, state=random_primer())
+                      MaterialKind.OLIGO, state=primer_state)
     klenow = g.input("klenow", "Klenow exo-minus", MaterialKind.CATALYST)
     primed = g.product("primed", "P5-tailed random-primed contact molecules",
                        MaterialKind.MOLECULAR, state=converted.state)
@@ -152,38 +157,45 @@ def protocol_graph() -> ProtocolGraph:
              (klenow, InputRole.CATALYST)), (primed,))
     exo = g.input("exonuclease", "Exonuclease I", MaterialKind.CATALYST)
     sap = g.input("phosphatase", "shrimp alkaline phosphatase", MaterialKind.CATALYST)
-    clean = g.product("clean", "primer-cleaned single-nucleus products",
-                      MaterialKind.MOLECULAR, state=primed.state)
-    removed = g.product("free_primers", "unused random primers", MaterialKind.WASTE)
-    g.react("enzyme_cleanup", "Digest unused primers and dephosphorylate",
-            StepKind.CLEANUP, ((primed, InputRole.TEMPLATE), (exo, InputRole.CATALYST),
-                               (sap, InputRole.CATALYST)), (clean, removed))
-    g.discard(removed, "free primers removed by Exo I/SAP and SPRI cleanup")
+    treated = g.product("enzyme_treated", "products after Exonuclease I/SAP treatment", MaterialKind.MOLECULAR)
+    g.react("enzyme_cleanup", "Digest residual primers with Exonuclease I and inactivate dNTPs with SAP",
+            StepKind.CHEMICAL_CONVERSION,
+            ((primed, InputRole.TEMPLATE), (exo, InputRole.CATALYST), (sap, InputRole.CATALYST)), (treated,))
+    spri = g.input("spri", "0.8x SPRI beads before four-plex pooling", MaterialKind.SELECTION)
+    clean = g.product("clean", "AD002 reaction mixed with SPRI beads before washing", MaterialKind.MOLECULAR)
+    g.react("spri_binding", "Bind treated reaction to 0.8x SPRI beads before pooling",
+            StepKind.BINDING, ((treated, InputRole.TEMPLATE), (spri, InputRole.SELECTION)), (clean,))
     # One AD002 well is traced above. The other three are parallel, separately
     # processed wells; make their material inputs explicit before pooling.
     other_plates = tuple(g.input(
-        "clean_" + member.lower(), f"separately primed and cleaned {member} plate product",
+        "clean_" + member.lower(), f"separately primed {member} reaction mixed with 0.8x SPRI beads",
         MaterialKind.MOLECULAR, state=clean.state,
         source=SUPPLEMENT + " (parallel indexed well population)")
         for member in ("AD006", "AD008", "AD010"))
-    pooled = g.product("pooled", "four indexed plate reactions pooled after SPRI cleanup",
+    pooled = g.product("pooled", "four indexed reaction/bead mixtures pooled before washing",
                        MaterialKind.MOLECULAR, state=clean.state)
     g.react("pool_four", "Combine AD002, AD006, AD008 and AD010 plates for four-plex",
             StepKind.POOL, ((clean, InputRole.TEMPLATE),
                             *((plate, InputRole.TEMPLATE) for plate in other_plates)), (pooled,),
             changes_molecule=False)
 
+    washes = g.input("pool_washes", "three 80% ethanol washes and EB elution for four-plex route", MaterialKind.SELECTION)
+    eluted = g.product("eluted_pool", "washed and eluted four-plex DNA", MaterialKind.MOLECULAR)
+    wash_waste = g.product("pool_wash_waste", "material removed by pooled bead washes", MaterialKind.WASTE)
+    g.react("wash_elute_pool", "Wash pooled beads three times and elute before Adaptase", StepKind.CLEANUP,
+            ((pooled, InputRole.TEMPLATE), (washes, InputRole.SELECTION)), (eluted, wash_waste))
+    g.discard(wash_waste, "removed in pooled bead washes; no exact composition assigned")
     adaptase = g.input("adaptase", "Swift Accel-NGS Adaptase Module 33096",
                        MaterialKind.CATALYST)
     p7_stub = g.input("adaptase_p7_stub", "2019 Adaptase-added P7-side sequence",
                       MaterialKind.ADAPTER, inferred=True,
                       source=SUPPLEMENT + " (exact bases unresolved in checked sources)")
     adapted = g.product("adapted", "Adaptase-treated P7-side products",
-                        MaterialKind.MOLECULAR, state=pooled.state, inferred=True,
+                        MaterialKind.MOLECULAR, inferred=True,
                         source=SUPPLEMENT + " (added bases and attachment chemistry unresolved)")
     g.react("adaptase_attach", "Install the P7-side Adaptase junction",
             StepKind.ADAPTER_ATTACHMENT,
-            ((pooled, InputRole.TEMPLATE), (p7_stub, InputRole.STRUCTURAL),
+            ((eluted, InputRole.TEMPLATE), (p7_stub, InputRole.STRUCTURAL),
              (adaptase, InputRole.CATALYST)), (adapted,))
     p5 = g.input("p5_pcr", "published P5L_D501–D508 PCR primer family",
                  MaterialKind.OLIGO, state=Construct((Segment("P5L_D501", P5_D501),)))
@@ -191,16 +203,22 @@ def protocol_graph() -> ProtocolGraph:
                  MaterialKind.OLIGO, state=Construct((Segment("P7L_D701", P7_D701),)))
     polymerase = g.input("pcr_polymerase", "KAPA HiFi HotStart PCR mix",
                          MaterialKind.CATALYST)
-    library = g.product("library", final_library().name, MaterialKind.LIBRARY,
+    library = g.product("amplified", final_library().name, MaterialKind.MOLECULAR,
                         state=final_library(), inferred=True,
                         source=SUPPLEMENT + " (D501/D701/AD002 are published examples, not an assigned well)")
-    g.react("index_pcr", "Amplify with selected P5L and P7L indexing primers",
+    g.react("index_pcr", "Amplify for 17 cycles with selected P5L and P7L indexing primers",
             StepKind.PCR,
             ((adapted, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
              (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
             (library,), geometry=PCRGeometry.unavailable(
                 final_library(), reason="The checked 2019 sources do not resolve the Adaptase-added junction; exact P7 primer landing cannot be located."))
-    g.sequence(library, SequencingPlan(
+    final_spri = g.input("final_spri", "two rounds of 0.8x SPRI purification", MaterialKind.SELECTION)
+    selected = g.product("library", final_library().name, MaterialKind.LIBRARY, state=final_library(), inferred=True)
+    final_waste = g.product("final_waste", "unrecovered final SPRI material", MaterialKind.WASTE)
+    g.react("final_cleanup", "Purify indexed libraries twice with 0.8x SPRI beads", StepKind.CLEANUP,
+            ((library, InputRole.TEMPLATE), (final_spri, InputRole.SELECTION)), (selected, final_waste))
+    g.discard(final_waste, "not recovered in final library eluate")
+    g.sequence(selected, SequencingPlan(
         acquired_roles=("Read 1", "Index 1 (i7)", "Index 2 (i5)", "Read 2"),
         limitation="The 2019 Adaptase junction and selected PCR index members are unresolved; only Read 1 has a source-derived exact site in this representative shell."))
     g.declare_reviewed_scope(tuple(g.steps) + tuple(g.materials), SOURCE)
@@ -231,6 +249,7 @@ def render_page() -> str:
     return "\n".join((
         head(TITLE), '<div class="wrap" data-protocol-complete="true">',
         f'<h1>{html.escape(TITLE)}</h1>',
+        '<p>Published enzyme-label difference: the main Methods and supplementary reagent list specify DpnII; the shared Biotin Fill-in step1 says Inactivate MboI. The model retains DpnII from the main Methods; the intended heat-inactivation instruction remains unresolved.</p>',
         '<p class="research-notes"><a href="01_scmethyl-hic.html">Research notes</a></p>',
         info(f'Defining source: <a href="{SOURCE}">Li et al., <i>Nature Methods</i> (2019)</a>; '
              'original Supplementary Protocol, single-cell branch and oligo table.'),
@@ -243,6 +262,7 @@ def render_page() -> str:
              "list (MOESM1 lines 202–204) names D5023, deep-well format. The graph "
              "uses their shared EZ-96 DNA Methylation-Direct kit family; the catalogue "
              "number used for each preparation is unresolved."),
+        info("The article single-cell Methods describe 9ul PBS per sorting well; the detailed protocol specifies 10ul Zymo lysis buffer with proteinase K and fragmented lambda DNA. This graph follows the detailed single-cell well preparation, without asserting that these descriptions are equivalent. Enzyme digestion precedes physical SPRI recovery; four-plex reactions are pooled with beads before washing/elution. The source specifies 17 index-PCR cycles and two final 0.8x SPRI purifications."),
         '<h2>Reaction workflow</h2>', protocol_graph_panels(g, cls="long"),
         '<h2>Published oligos</h2>', '<ul>' + oligo_html + '</ul>',
         '<p>The source prints four P5L random-primer members, eight P5L PCR members and '

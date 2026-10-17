@@ -88,5 +88,21 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Original article and preprint Table S1 read; preprint version prints extensive oligos. Final PNAS SI remains inaccessible, so version-specific missing claims remain blocked."
+  "conclusion": "Original article and preprint Table S1 read; preprint version prints extensive oligos. Final PNAS SI remains inaccessible, so version-specific missing claims remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-04",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 2,
+      "locations": "Published PMC8594491 JATS192–196; local PMC supplementary ZIP member inventory (article image files, no SI Appendix)",
+      "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
+      "findings": "Withdrew active oligos transcribed solely from superseded bioRxiv; published SI TableS1 remains unverified. Added shrimp alkaline phosphatase treatment between ddNTP tailing and relay; specified Q5 4–8 cycles for universal adapters and kept PCR-free full-length branch separate.",
+      "deferred": [
+        "Published SI TableS1 retrieval/verification, exact template/primer modifications, RNA hydrolysis/recovery and acquired read mask; no absence claim accepted"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 4 unrepresented; review schema pass"
+    }
+  ]
 }

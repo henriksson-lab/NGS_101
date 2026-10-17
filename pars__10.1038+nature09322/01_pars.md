@@ -31,3 +31,11 @@ Springer Nature's static supplement and the [SOLiD Small RNA Expression Kit guid
 PARS is intrinsically a paired experiment. The molecular endpoint is a cleavage-defined
 read start in each branch; the normalized log₂ V1/S1 ratio assigns double- versus
 single-stranded character to the nucleotide immediately upstream.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC3847670 JATS68–82, Methods Summary and SOLiD mapping.
+
+Made the original SOLiD branch explicit and recorded truncation to35 bases for mapping without inventing acquired cycle count. Added caveat that original supplementary library methods still need checking; later 2013 protocol cannot substitute for that verification.
+
+Deferred: Original supplementary methods, random fragmentation/order, selective adapter capture geometry, SOLiD vendor original and actual acquisition; no source absence accepted. This pass does not establish a complete source review or publication-wide absence.

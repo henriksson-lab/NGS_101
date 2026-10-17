@@ -26,3 +26,11 @@ Defining paper: Xu et al., *Nature Communications* 2023, [doi:10.1038/s41467-023
 - Hydrogel anchor: `/5Acryd/ATTATATATAT U GTG AGT GAT GGT TGA GGA TGT GTG GAGATA`
 - Barcoded bead primer: `[10 bases barcode1] TGGT [10 bases barcode2] GAGA [10 bases barcode3] NNNNNNNN TTTTTTTTTTTTTTTTTTTTT`
 - PCR primers: `GGAGTTGGAGTGAGTGGATGAGTGATG` and `GTGAGTGATGGTTGAGGATGTGTGGAGATA`.
+
+## Bounded curation round 4 (2026-10-16)
+
+Inspected: Published PMC10182092 JATS230–256, DNA block, in-situ RT, dA tailing, barcoding and library preparation.
+
+Specified twelve 8–42°C RT annealing ramps followed by 42°C/30min, and TdT tailing at 37°C/30min. Confirmed droplet extension precedes PFO recovery, preamplification and Vazyme library conversion with paired150 reads.
+
+Deferred: Published SupplementaryTable1 modified primer families, exact droplet-release chemistry, physical wash/PFO/AMPure stages, PCR cycle counts and vendor end geometry. This pass does not establish a complete source review or publication-wide absence.
