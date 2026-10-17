@@ -205,5 +205,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain."
+  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Genome Biology 2025 PMC12359873 JATS Methods lines 132 (FACS lysis buffer), 136 (spike-ins), 144 (Tn5 assembly), 150–158 (scTAPS/scCAPS+ conversion, library construction and sequencing), Results line 90 (120-bp PE); Additional file 5 MOESM5 xlsx.txt Tables S1–S4 (all rows); Additional file list lines 168–180; bioRxiv v1 lines 884–1000 compared for the line-numbered oligo table only (superseded)",
+      "oligo_scraper": "Scraper on MOESM5/JATS/MOESM1/MOESM4 text: 12 collapsed hits, all in MOESM5 (Table S1 spike-in oligos, S3 i5/i7 families, pMENTS, S4 primers); 0 in article JATS/MOESM1/MOESM4. --find on the preprint shows the i5-1 oligo split by printed line number 214.",
+      "findings": "Replaced the generic Nextera S5/S7 shell with Table S3 transposon arms (S5+TCCACGC+i5 bc+C15+ME; S7+CTGTCCCTGTCC+i7 bc+D15+ME, /5Phos/ pMENTS) and the four Table S4 custom primers (C15+ME, D15+ME, ME_RC+D15rc, ME_RC+C15rc); seqprimers derives that index reads cover the Tn5 cell barcodes, not the XT sample indices. XT P5/P7 ends and sample indices shown INFERRED (kit primers/indices not printed); index cycles inferred 8. Added protease lysis, SDS strip/NP-40, Phusion 72C gap fill, 96-well pool with filler/spike-ins and purification, two mTET1 rounds with proteinase K/AMPure, borane + Zymo, KAPA Uracil+ 13-cycle PCR, 0.5x–0.25x AMPure 500–700 bp selection with discard. Fixed note i7-1 transcription that dropped one C (repository error). No published discrepancy found.",
+      "deferred": [
+        "Illumina Nextera XT Index Kit FC-131-1001 original (primer sequences, chosen sample indices)",
+        "Amini 2014 (ref. 28) and Picelli 2014 (ref. 27) transposome predecessors",
+        "TAPS/CAPS+ conversion predecessors (refs. 15, 17) for reaction concentrations not restated",
+        "Acquired index-read cycle counts (not stated; 8 inferred)",
+        "Additional file 6 review history (.odt, not converted)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3 checks pass (TAPS paths + Table S3 20 transfer strands/pMENTS and Table S4 4 primers exact against MOESM5); page builds; pairing 0 problems; chemistry 2 established/8 conditional/11 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 2 inputs excepted (i5/i7 transposons; verified by local selftest because guard's preprint-DOI locator filter excludes MOESM5), 2 XT-primer inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

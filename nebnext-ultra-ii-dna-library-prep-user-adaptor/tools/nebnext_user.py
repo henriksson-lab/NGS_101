@@ -11,12 +11,12 @@ from dumbbell import Dumbbell, OpenedDumbbell
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from adapter_ligation import reported_adapter_end
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from protocol_graph import (AnnotationSlot, Highlight, InputRole, MaterialKind,
+                            ProtocolGraph, SequencingPlan, StepKind)
 from topology import HairpinTopology
 
 TITLE = "NEBNext Ultra II DNA Library Prep — USER-cleavable adaptor"
-SOURCE = "Commercial authority: NEBNext Ultra II DNA Library Prep E7645/E7103 and E7600 adaptor documentation."
+SOURCE = "Commercial authority: NEBNext Ultra II DNA Library Prep E7645/E7103 manual v7.0_9/22 and E7600 Dual Index Primers Set 1 manual v6.0_6/24."
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -49,6 +49,21 @@ END_PREP_TIMES = ((20, 30), (65, 30))
 LIGATION = (20, 15)
 USER = (37, 15)
 MINIMUM_PCR_CYCLES = 3
+PCR_CYCLES = (3, 15)   # E7103/E7645 v7.0_9/22 Step 4.1.3 and Tables 4.1/4.2
+
+
+def _cleanup(graph, reviewed, ident, label, material, beads_label, waste_text,
+             kept_label, *, kind=MaterialKind.MOLECULAR):
+    """A manual-specified SPRIselect / NEBNext Sample Purification Bead cleanup."""
+    beads = graph.input(ident + "_beads", beads_label, MaterialKind.SELECTION)
+    kept = graph.product(ident + "_kept", kept_label, kind, state=material.state)
+    waste = graph.product(ident + "_waste", waste_text, MaterialKind.WASTE)
+    graph.react(ident, label, StepKind.CLEANUP,
+                ((material, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (kept, waste), changes_molecule=False)
+    graph.discard(waste, "bead supernatant removed on the magnet")
+    reviewed.extend((beads.id, ident, kept.id, waste.id))
+    return kept
 
 
 def hairpin_oligo() -> Construct:
@@ -106,53 +121,72 @@ def protocol_graph():
     graph=ProtocolGraph(TITLE,authority=SOURCE)
     dna=graph.input("fragmented_dna","fragmented double-stranded DNA",MaterialKind.MOLECULAR,
                     state=INSERT,primary=True)
-    repair_mix=graph.input("repair_mix","NEBNext end-repair enzymes",MaterialKind.CATALYST)
+    reviewed=[]
+    end_buffer=graph.input("endprep_buffer","NEBNext Ultra II End Prep Reaction Buffer",MaterialKind.CONDITION)
+    repair_mix=graph.input("repair_mix","NEBNext Ultra II End Prep Enzyme Mix (composition not printed)",MaterialKind.CATALYST)
     repaired=graph.product("repaired_dna","blunt phosphorylated DNA",MaterialKind.MOLECULAR)
-    graph.react("end_repair","Repair and phosphorylate fragment ends",StepKind.END_REPAIR,
-                ((dna,InputRole.TEMPLATE),(repair_mix,InputRole.CATALYST)),(repaired,))
-    tailing=graph.input("tailing_polymerase","NEBNext dA-tailing polymerase",MaterialKind.CATALYST)
+    graph.react("end_repair","End Prep: repair fragment ends; 5′ phosphorylation inferred (20 °C 30 min)",StepKind.END_REPAIR,
+                ((dna,InputRole.TEMPLATE),(end_buffer,InputRole.CONDITION),(repair_mix,InputRole.CATALYST)),(repaired,))
     tailed=graph.product("tailed_dna","dA-tailed DNA",MaterialKind.MOLECULAR,
                          state=tuple(end_prep_scene().rows()))
-    graph.react("da_tail","Add one 3′ dA to both insert ends",StepKind.TAILING,
-                ((repaired,InputRole.TEMPLATE),(tailing,InputRole.CATALYST)),(tailed,))
+    graph.react("da_tail","End Prep: add one 3′ dA to both insert ends (then 65 °C 30 min)",StepKind.TAILING,
+                ((repaired,InputRole.TEMPLATE),(repair_mix,InputRole.CATALYST)),(tailed,))
     adaptor=graph.input("hairpin_adaptor","E7600 USER-cleavable hairpin adaptor",
                         MaterialKind.ADAPTER,state=hairpin_oligo())
-    ligase=graph.input("dna_ligase","NEBNext DNA ligase",MaterialKind.CATALYST)
+    enhancer=graph.input("ligation_enhancer","NEBNext Ligation Enhancer",MaterialKind.CONDITION)
+    ligase=graph.input("dna_ligase","NEBNext Ultra II Ligation Master Mix",MaterialKind.CATALYST)
     closed=graph.product("closed_dumbbell","hairpin-ligated closed intermediate",
                          MaterialKind.MOLECULAR,state=PRE_USER)
-    graph.react("hairpin_ligation","Ligate one hairpin adaptor to each dA-tailed end",
+    graph.react("hairpin_ligation","Ligate one hairpin adaptor to each dA-tailed end (20 °C 15 min)",
                 StepKind.LIGATION,
                 ((tailed,InputRole.TEMPLATE),(adaptor,InputRole.STRUCTURAL),
-                 (ligase,InputRole.CATALYST)),(closed,),
+                 (enhancer,InputRole.CONDITION),(ligase,InputRole.CATALYST)),(closed,),
                 geometry=reported_adapter_end(
                     "E7600 hairpin adaptor", kind="cohesive", polarity="3-prime",
                     terminal_sequence=HAIRPIN.overhang_3, body_sequence=HAIRPIN.sequence[:-1],
                     substrate_scenes=(end_prep_scene(),),
                     statement="E7600 v6.0_6/24 p.3 prints the full hairpin oligo with a terminal phosphorothioate-protected 3-prime T; the source-known fold and dA-tailed substrate determine the cohesive junction."))
-    user=graph.input("user_enzyme","USER enzyme (UDG plus Endonuclease VIII)",
+    user=graph.input("user_enzyme","USER Enzyme (UDG plus Endo VIII), 3 µl added to the ligation mixture",
                      MaterialKind.CATALYST)
     opened=graph.product("opened_adaptor","USER-opened adaptor library molecules",
                          MaterialKind.MOLECULAR,state=OPENED_LIBRARY)
     cleavage_waste=graph.product("user_waste","excised uracil-derived adaptor residues",
                                  MaterialKind.WASTE)
-    graph.react("user_open","Remove dU and cleave both hairpin loops",StepKind.DIGESTION,
+    graph.react("user_open","Remove dU and cleave both hairpin loops (37 °C 15 min)",StepKind.DIGESTION,
                 ((closed,InputRole.TEMPLATE),(user,InputRole.CATALYST)),
                 (opened,cleavage_waste))
     graph.discard(cleavage_waste,"uracil-derived cleavage products do not enter the library")
+    opened=_cleanup(graph,reviewed,"ligation_cleanup","Clean up the ligation without size selection (0.9X beads; input ≤ 50 ng, Section 3B)",
+                    opened,"0.9X SPRIselect or NEBNext Sample Purification Beads",
+                    "ligation supernatant (excess adaptor, reagents, small fragments)",
+                    "purified USER-opened adaptor-ligated DNA")
     i5=graph.input("i5_primer","NEBNext i501 PCR primer",MaterialKind.OLIGO,state=i5_primer())
     i7=graph.input("i7_primer","NEBNext i701 PCR primer",MaterialKind.OLIGO,state=i7_primer())
-    polymerase=graph.input("pcr_polymerase","NEBNext library PCR polymerase",MaterialKind.CATALYST)
+    polymerase=graph.input("pcr_polymerase","NEBNext Ultra II Q5 Master Mix",MaterialKind.CATALYST)
     final=final_library()
-    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
-    graph.react("index_pcr","Complete the opened adaptor and install dual indexes",
+    amplified=graph.product("amplified","PCR-amplified dual-index library",MaterialKind.MOLECULAR,state=final)
+    graph.react("index_pcr","Complete the opened adaptor and install dual indexes (98 °C 30 s; 3–15 cycles 98 °C 10 s / 65 °C 75 s; 65 °C 5 min)",
                 StepKind.PCR,
                 ((opened,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
-                 (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
+                 (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(amplified,),
                 geometry=PCRGeometry.unavailable(
                     final,reason="The opened hairpin is represented topologically rather than as a complete PCR duplex."))
+    library=_cleanup(graph,reviewed,"pcr_cleanup","Clean up the PCR reaction (0.9X beads, elute 0.1X TE)",
+                     amplified,"0.9X SPRIselect or NEBNext Sample Purification Beads",
+                     "PCR supernatant (primers and small products)",final.name,
+                     kind=MaterialKind.LIBRARY)
     graph.sequence(library,SequencingPlan(library=final,primers=sequencing_primers()))
+    graph.annotate(Highlight("ligation_cleanup","Input-dependent cleanup branch",
+        "E7103/E7645 v7.0_9/22 Section 3: inputs > 50 ng use double-sided size selection "
+        "(about 0.4X beads, keep the supernatant, then 0.2X more beads, keep the beads) instead of "
+        "this 0.9X cleanup. Either branch acts on the USER-treated ligation (96.5 µl); only the "
+        "≤ 50 ng 0.9X branch is drawn."))
+    graph.annotate(Highlight("index_pcr","Why at least three PCR cycles",
+        "The manual states that NEBNext adaptors have a truncated design and require a minimum of "
+        "3 amplification cycles to add the complete adaptor sequences (Tables 4.1/4.2 footnotes). "
+        "Recommended cycles range from 3 (≥ 100 ng) to 15 (0.5 ng, target-enrichment yield)."))
     graph.declare_reviewed_scope(("fragmented_dna","repair_mix","end_repair",
-      "tailing_polymerase","da_tail","hairpin_adaptor","dna_ligase","hairpin_ligation",
+      "da_tail","hairpin_adaptor","dna_ligase","hairpin_ligation",
       "user_enzyme","user_open","i5_primer","i7_primer","pcr_polymerase",
-      "index_pcr","library"),SOURCE)
+      "index_pcr","endprep_buffer","ligation_enhancer",*reviewed),SOURCE)
     return graph.require_publishable()

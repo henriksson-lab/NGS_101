@@ -167,5 +167,24 @@
       "evidence": "Only TSO/R1 capture PCR primers are source-positive; vendor and custom-probe evidence remains blocked."
     }
   ],
-  "conclusion": "Only TSO/R1 capture PCR primers are source-positive; vendor and custom-probe evidence remains blocked."
+  "conclusion": "Only TSO/R1 capture PCR primers are source-positive; vendor and custom-probe evidence remains blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nat Commun PMC6635368 JATS Results 'RAGE-seq workflow' line72; Methods 10x 166, capture probe design 170, Targeted capture 174, Nanopore sequencing 178, Demultiplexing 192; Supplementary Information MOESM1 Supp Fig1a legend lines75–83 and Supp Table8 lines2244–2310",
+      "oligo_scraper": "Bundle scraper run; TSO/R1 hits at article line174 (PDF 1423) verified; supplement lines108–141 hits are TRAJ/TRBJ/IGHJ/IGLJ result junctions, MOESM4 16-nt hits are cell barcodes; preprint hits ignored (superseded).",
+      "findings": "Replaced placeholder molecule/workflow with an explicit amplicon (R1 primer site–16-nt cell_barcode–10-nt umi features–oligo(dT) role–cDNA–TSO-derived role–TSO site) from printed primers and demultiplexing Methods; added pre-capture KAPA PCR (3 µM, 5/20 cycles) with exact PCR geometry, AMPure cleanup with waste, two 47 °C SeqCap EZ captures (no HE oligos) with wash waste, post-capture PCRs (1 µM, 5 and 20 cycles), SQK-LSK108/LSK308 ligation with unavailable geometry, flow cells and barcode-matching readout. Removed the generic TruSeq expression-library PCR (batch_ngs.truseq_library) in favour of a warned MAGIC boundary to the standard Chromium 3′ v2 library sequenced NextSeq 500 150PE. Reworded 'adapters proprietary/not disclosed by kit documentation' to 'not printed in the paper' (kit documents unread).",
+      "deferred": [
+        "ONT SQK-LSK108/SQK-LSK308 kit protocols (end-prep and adapter-end chemistry)",
+        "NimbleGen SeqCap EZ User's Guide v3.0 and Double Capture Technical Note (cited URLs)",
+        "10x Chromium Single Cell 3′ v2 user guide (oligo(dT), TSO, expression library)",
+        "Individual SeqCap RNA Choice probe sequences"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (comment-only, 0 explicit checks); page builds; pairing 0 problems; chemistry 3 established/9 conditional/9 unresolved/0 contradictory with expression_library_prep MAGIC warning; source guard 6 exact checked (TSO and R1 primer inputs of three PCRs), 0 failed, 1 input without exact state (motor_adapter); Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

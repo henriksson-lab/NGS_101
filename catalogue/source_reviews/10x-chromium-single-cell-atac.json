@@ -78,5 +78,25 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Both readers checked 10x original vendor Rev A and later Rev G guide appendices and Set A index CSV; published architecture and listed sample indexes are recoverable. No missing-information claim was accepted."
+  "conclusion": "Both readers checked 10x original vendor Rev A and later Rev G guide appendices and Set A index CSV; published architecture and listed sample indexes are recoverable. No missing-information claim was accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "10x CG000168 Rev A (local CG000168_..._RevA.pdf.txt) Stepwise Objectives lines 800–935, GEM incubation 2005–2033, Sample Index PCR 2640–2666, Sequencing 2855–2952, Appendix Oligonucleotide Sequences 3343–3441; 10x Single_Index_Kit_N_Set_A.csv rows 1–5",
+      "oligo_scraper": "Bundle scraper run (--max-hits 30); CG000209 Rev G appendix hits match the Rev A Appendix structures read directly; Amini 2014 MOESM2 and nanoCAGE hits are predecessor/concept oligos, not 10x reagents.",
+      "findings": "Model correction: final library carried concrete i7 TAAGGCGA (a Nextera N701-style word absent from every 10x source); replaced by an 8-N sample-index placeholder per Appendix NNNNNNNN and four-word Set A wells. Sample Index PCR primers were marked undisclosed although the Appendix prints them; SI-PCR Primer B PN-2000128 and i7 Set A PN-3000262 now declared with exact inward PCR geometry. 72 C 5 min gap fill labelled INFERRED on graph and page (purpose not stated). s5/s5 and s7/s7 products changed from discard at tagmentation to candidate classes with unresolved fate. Read lengths 50/8/16/50 and bead oligo verified unchanged.",
+      "deferred": [
+        "Tn5 release mechanism inside GEMs and Barcoding Enzyme identity",
+        "CG000169 nuclei-isolation Demonstrated Protocol",
+        "CG000209 v1.1 and CG000496 v2 step differences beyond appendix comparison",
+        "Gel-bead oligo attachment chemistry",
+        "Shared partition_material discard of empty/multiplet GEMs (protocol_families/tenx_graph.py)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 5 established/3 conditional/5 unresolved/0 contradictory; source guard 1 exact checked (SI-PCR Primer B), 0 failed, 3 inputs without exact states (transposome, bead_primer, i7 N8 primer); Markdown built; review schema checked"
+    }
+  ]
 }

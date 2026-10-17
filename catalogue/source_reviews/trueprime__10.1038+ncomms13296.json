@@ -83,10 +83,25 @@
       "role": "vendor",
       "locator": "Picher 2016 Sequencing Methods, “library preparation using NebNext (NEB)” without catalogue number or version",
       "availability": "unavailable",
-      "relevance": "relevant",
-      "reason": "The paper names a vendor family only; the exact GATC Biotech kit/version, selected indexes and corresponding vendor guide cannot be identified from this source.",
+      "relevance": "not_relevant",
+      "reason": "Scope correction (2026-10-17): the NEBNext library preparation and HiSeq 2500 sequencing in the Picher Sequencing Methods apply to the single-cell HEK293 and non-amplified (NA) bulk DNA (Results line 78; Methods line 156), which this directory does not model (see trueprime-single-cell__10.1038+ncomms13296). The only sequencing reported for the purified-DNA branch is Supplementary Fig. 2 (Ion Torrent, library undescribed). The kit identity question belongs to the single-cell review.",
       "pass_1": null,
-      "pass_2": null
+      "pass_2": null,
+      "previous_relevance": "relevant",
+      "previous_reason": "The paper names a vendor family only; the exact GATC Biotech kit/version, selected indexes and corresponding vendor guide cannot be identified from this source.",
+      "scope_pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "PMC5141293 JATS Results lines 72-78, Methods 146-156; supplement ncomms13296-s1 Supplementary Fig. 2 legend lines 211-216; ENA SRX2134246 metadata; bounded check round 2026-10-17-breadth-first-20",
+        "finding": "Results line 78 and the ENA runs tie NEBNext/HiSeq sequencing to single-cell and NA samples; purified-DNA sequencing is only Supplementary Fig. 2 (1 ng/1 pg/1 fg, 6 h, Ion Torrent, library undescribed)."
+      },
+      "scope_pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/trueprime__10.1038+ncomms13296/ncomms13296_PMC5141293.xml.txt Results lines 76-78 (TruePrime WGA yields high-quality genomic sequences), Methods lines 146-157 (Whole genome amplification, Single-cell WGA, Sequencing); /husky/henriksson/NGS101_papers/sources/trueprime__10.1038+ncomms13296/ncomms13296_supp_ncomms13296-s1.pdf.txt Supplementary Fig. 2 legend lines 205-217.",
+        "finding": "Agree with scope_pass_1. Line 78: four single HEK293 cells and NA bulk DNA were sequenced paired-end on Illumina HiSeq (125 bp). Line 156: after amplification, Covaris fragmentation, \"library preparation using NebNext (NEB)\" and HiSeq 2500 at GATC Biotech. Whole genome amplification Methods (line 146, 6 pg or 1 ng-100 ag purified human gDNA) mention no sequencing; Supplementary Fig. 2 states purified-DNA products (1 ng, 1 pg, 1 fg; 6 h) were sequenced on Ion Torrent without library details. NEBNext is therefore outside this purified-DNA protocol."
+      },
+      "question_moved_to": "catalogue/source_reviews/trueprime-single-cell__10.1038+ncomms13296.json, row nebnext_library_guide (scope_transfer) and its NEBNext missing claim; transferred 2026-10-17 by agent-P4-source-reviews."
     },
     {
       "id": "dean_2001_mda",
@@ -166,9 +181,59 @@
     },
     {
       "claim": "The downstream NEBNext adapter and index bases for Picher purified-DNA sequencing are known",
+      "disposition": "resolved",
+      "evidence": "Picher Sequencing Methods gives only “NebNext (NEB)”, with no kit generation, index member or adapter sequence; GATC-specific selection is unidentified.",
+      "previous_disposition": "blocked",
+      "evidence_update": "2026-10-17: resolved as mis-scoped by two readers (root round 20; agent-K-second-reader). NEBNext/HiSeq sequencing applies to the single-cell and NA samples, not to purified-DNA amplification; the question moves to trueprime-single-cell. The purified-DNA sequencing question is recorded as a separate claim."
+    },
+    {
+      "claim": "Ion Torrent library preparation, adapters and read layout for the Supplementary Fig. 2 purified-DNA sequencing",
       "disposition": "blocked",
-      "evidence": "Picher Sequencing Methods gives only “NebNext (NEB)”, with no kit generation, index member or adapter sequence; GATC-specific selection is unidentified."
+      "evidence": "Supplementary Fig. 2 legend names Ion Torrent only; no kit, adapter, barcode or read-length detail was found in the article or supplements read. No identified disclosure document exists yet, so this is an open question rather than an unavailable source; absence is not confirmed."
     }
   ],
-  "conclusion": "Two independent readers checked the original Picher methods, supplements, vendor/predecessor sources and SRA SRP085855 metadata. The original purified-DNA and single-cell branches remain distinct; later V2 lysis and predecessor random primers are not assigned to the study. ENA confirms TruePrime WGA runs but supplies no library-construction protocol. Exact downstream NEBNext kit and adapter identity remain unresolved, so no absence is accepted."
+  "conclusion": "Two independent readers checked the original Picher methods, supplements, vendor/predecessor sources and SRA SRP085855 metadata. The original purified-DNA and single-cell branches remain distinct; later V2 lysis and predecessor random primers are not assigned to the study. ENA confirms TruePrime WGA runs but supplies no library-construction protocol. Exact downstream NEBNext kit and adapter identity remain unresolved, so no absence is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Picher 2016 PMC5141293 JATS (ncomms13296_PMC5141293.xml.txt) Results lines 72–78, Methods 132–156 (primase assay, TruePrime RCA kit 142, Whole genome amplification 146, Single-cell WGA 152, Sequencing 156); supplement ncomms13296-s1.pdf.txt Supplementary Fig. 2 legend lines 211–216; ENA filereport.tsv/SRX2134246 experiment metadata",
+      "oligo_scraper": "Bundle scraper run: 2 hits; Fig. 3a GTCC assay template (article PDF line 632) and Dean 2001 M13 primer (PMC311129) are assay/predecessor reagents, not TruePrime WGA oligos; TthPrimPol cloning primers (Methods line 124) are expression-construct reagents.",
+      "findings": "Model correction: the purified-DNA page attached the Methods NEBNext/HiSeq 2500 sequencing to this branch, but Results line 78 and the ENA runs tie that sequencing to single-cell/NA samples; the only reported purified-DNA sequencing is Supplementary Fig. 2 (1 ng/1 pg/1 fg, 6 h amplification, Ion Torrent, library undescribed). Replaced the inferred Covaris/NEBNext steps with a warned Ion Torrent library MAGIC step and limitation; caveat states the 3 h (Fig. 4 Methods) vs 6 h (Supp. Fig. 2) scope difference. Denaturation now carries source attribution and the 2.5 µl Buffer D 3 min RT / 2.5 µl Buffer N volumes; input labelled 6 pg or 1 ng–100 ag human gDNA. Note records the separate 25 µl M13 RCA kit workflow (not drawn).",
+      "deferred": [
+        "Ion Torrent library preparation and read layout for Supplementary Fig. 2 products",
+        "Contemporaneous SYGNIS TruePrime WGA kit handbook revision used in 2016 (later 4basebio handbook only corroborates)",
+        "TruePrime RCA kit M13 branch not drawn",
+        "Dean 2001 MDA predecessor not re-read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 2/2 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/5 unresolved/0 contradictory with library_prep MAGIC warning; source guard 0 checked, 0 failed, 0 inputs without exact states (no oligo inputs); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "/husky/henriksson/NGS101_papers/sources/trueprime__10.1038+ncomms13296/ncomms13296_PMC5141293.xml.txt lines 76-78, 146-157; /husky/henriksson/NGS101_papers/sources/trueprime__10.1038+ncomms13296/ncomms13296_supp_ncomms13296-s1.pdf.txt lines 205-217",
+      "findings": "Scope re-adjudication of the nebnext_unidentified row: relevance changed to not_relevant with two located readers (root round 20 scope finding as scope_pass_1, this reader as scope_pass_2). The NEBNext missing claim is resolved as mis-scoped and a blocked Ion Torrent purified-DNA sequencing claim is added. Status and linked information unchanged.",
+      "deferred": [
+        "Ion Torrent library preparation for Supplementary Fig. 2 products",
+        "Carry the NEBNext kit-identity question into the trueprime-single-cell review (another file)"
+      ],
+      "scope": "Scope re-adjudication of one checklist row and its missing claim; no accepted missing-information claim.",
+      "verification": "audit_protocol_sources --check passes"
+    },
+    {
+      "round": "2026-10-17-followup-P4-source-reviews",
+      "reviewer": "agent-P4-source-reviews",
+      "date": "2026-10-17",
+      "documents": 0,
+      "scope": "Pointer only: the NEBNext kit-identity question is now owned by the trueprime-single-cell review.",
+      "locations": "row nebnext_unidentified (question_moved_to); trueprime-single-cell review row nebnext_library_guide",
+      "findings": "Deferred item 'Carry the NEBNext kit-identity question into the trueprime-single-cell review' is done; this review keeps its mis-scoped resolution as history.",
+      "deferred": []
+    }
+  ]
 }

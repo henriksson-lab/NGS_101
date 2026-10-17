@@ -42,7 +42,9 @@ captures labelled RNA on µMACS streptavidin columns, washes, then releases it w
 The model follows this inherited capture chemistry without assigning its 2008 reagent
 volumes to the 2016 experiment.
 
-🟢 Captured RNA is DNase-treated and passed to the strand-specific NuGEN kit.
+🟢 Captured RNA is DNase-treated (2 units Turbo DNase) and passed to the strand-specific
+NuGEN kit. The reaction graph carries this as its own digestion step between DTT release
+and the kit's reverse transcription; no separate cleanup is printed before the kit.
 
 🟡 The supplement does not print the NuGEN adapter oligos. The public page therefore marks its
 standard Illumina-compatible final construct and primer landing sites as inferred. The six-base
@@ -59,4 +61,13 @@ single-index and paired-end run structure itself is directly reported.
 
 The exact discontinued Ovation Human Blood RNA-seq adapter and index-primer sequences
 remain unresolved because its relevant original kit guide was unavailable in this audit.
-The inferred Illumina geometry is not an assertion about those historical kit oligos.
+The inferred Illumina geometry is not an assertion about those historical kit oligos;
+in particular its single dA junction base is a TruSeq-style placeholder needed for the
+standard TruSeq Read 2 / Index 1 landing, not an A-tailing step printed by any inspected
+source. The strand read by Read 1 and which index read (i7) carries the six-base barcode
+are likewise not stated in the supplement's processing section.
+
+The 2026-10-17 capped pass (round 21) re-read supplement Materials and Methods lines
+21–49 and the original article p.1 lines 88–103, and checked Dölken 2008 Methods for
+Biotin-HPDP, chloroform/isoamyl-alcohol removal, µMACS capture and DTT release; the
+scraper's supplement hits (lines 202–460) are reporter-cloning primers, not library oligos.

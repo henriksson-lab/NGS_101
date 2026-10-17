@@ -309,5 +309,25 @@
       "evidence": "Author order forms resolve the hash-family bases; inherited transcriptome indexing and Science supplementary methods require source checks."
     }
   ],
-  "conclusion": "Author order forms resolve the hash-family bases; inherited transcriptome indexing and Science supplementary methods require source checks."
+  "conclusion": "Author order forms resolve the hash-family bases; inherited transcriptome indexing and Science supplementary methods require source checks.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Author manuscript PMC7289078 JATS (.xml.txt) Introduction line77, Results lines83–89 (hash lysis/PFA fixation, two-level sci-RNA-seq pilot), data statement line159, Fig.1 legend line432, Fig.3A legend line444 (sci-RNA-seq3 screen); author IDT order forms plates1–12 Sheet1 all 1,152 rows (pattern check), plate1 A1 transcribed",
+      "oligo_scraper": "Bundle scraper run; 12 hash families (96 variants each, variable nt35–44) all contain nextera.ADAPTOR_S7; no RT/ligation/PCR oligos in bundle (Science supplement gated).",
+      "findings": "Replaced unsupported canonical TruSeq dual-index endpoint (dA junction + TruSeq Read2 arm) with hash-derived molecule ending in reverse complement of the order-form Nextera Read2 handle (asserted equal to nextera.READ2_PRIMER); version-specific sci-RNA-seq RT/cell-index/UMI/PCR arms are role tokens. Removed unconditional ligation-index step (sci-RNA-seq3 only; pilot was two-level) in favour of one warned MAGIC sci-RNA-seq boundary; PFA fixation added; free-hash physical discard changed to unresolved; transcript-derived product unresolved. Read 2 computed only; Read1/index reads undetermined. Removed note claim of hash pairs per treatment (not in inspected main text).",
+      "deferred": [
+        "Science Supplementary Materials (Materials and Methods, Tables S1–S8; PMC NIHMS1595611 gate) — RT primer, sci-RNA-seq3 hairpin, P5/P7 primers, enzymes, cycles, run",
+        "GEO GSE139944 sample/library protocols (not fetched; needs extra_sources row)",
+        "Free-hash washing before pooling",
+        "Hashes per treatment population in the large screen",
+        "Meaning of printed B in the order forms"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/2 unresolved/0 contradictory with sci_rna_indexing MAGIC warning; source guard 0 exact checked, 0 failed, 1 input without exact state (hash oligo literal B); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

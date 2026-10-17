@@ -193,5 +193,24 @@
       "evidence": "A mirrored workbook identifying itself as original Science Table S3 is available and gives BC_0243 C*T; its publisher-hosted original cannot be byte-verified, and Science Supplementary.docx/Table_S4.csv remain gated. Earlier preprint and 2024 table do not resolve source-version intent."
     }
   ],
-  "conclusion": "Published-table mirror supports BC_0243 terminal phosphorothioate and has two independent checks. Exact original Science Supplementary.docx, Table_S3.xlsx and Table_S4.csv attachment bytes remain gated; each is now tracked separately. Full published-version chemistry closure remains blocked, and no missing-information claim is accepted."
+  "conclusion": "Published-table mirror supports BC_0243 terminal phosphorothioate and has two independent checks. Exact original Science Supplementary.docx, Table_S3.xlsx and Table_S4.csv attachment bytes remain gated; each is now tracked separately. Full published-version chemistry closure remains blocked, and no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Science author manuscript PMC8269303 JATS Methods lines 149 (fixation/permeabilization), 153 (in-situ PAP polyadenylation), 165 (RT: hexamer+dT15VN 1:2, Maxima H Minus), 169 (T4 ligation rounds), 175 (sublibrary lysis, proteinase K), 763 (Fig1A legend); mirrored 2021 Table S3 (scg_aba5257_table_s3.xlsx.txt) General Oligonucleotides lines 1-19 and Round 1 RT Barcodes lines 22-117; 2024 Nature Protocols PMC11575931 JATS lines 88, 1206 (step 172 read lengths), 1661 (Fig2 legend), 1869, and MOESM2 Table 3 lines 174-176, 224-228; bioRxiv v2 supplement media-1 lines 135-136 for read lengths",
+      "oligo_scraper": "Bundle scraper --find for Round1_49 hexamer: exact in Table S3 mirror line 70 and bioRxiv media-2 line 70; 2024 Table 3 line 176 reuses that barcode on a dT15VN primer (later design).",
+      "findings": "Model correction: graph now starts with the published in-cell E. coli PAP polyadenylation (ATP, 37C 30 min) before RT, adds the Round1_49 random-hexamer barcoded RT primer alongside dT15VN (1:2 per well, Maxima H Minus, 23C 10 min/50C 50 min), names T4 DNA ligase, and inserts sublibrary SDS/proteinase K lysis (55C 2 h) before streptavidin capture. Only the dT-primed first strand is drawn, as in the 2024 Fig 2 legend. 2021 hexamer design (barcode+T+N6, distinct barcode set) differs from the 2024 protocol (shared barcodes, no T); recorded as a later revision, not a discrepancy. Read lengths 74/86/6 traced to bioRxiv supplement and 2024 step 172; published 2021 Supplementary DOCX still gated.",
+      "deferred": [
+        "Published 2021 Science Supplementary.docx, Table S3 and Table S4 originals (PMC download gate; Table S3 only via unverified scg mirror)",
+        "Published 2021 acquired read lengths (74/86/6 from preprint supplement and 2024 protocol)",
+        "SPLiT-seq predecessor (ref 7) ligation/blocking conditions inherited by reference",
+        "Shared page_parts Key-oligos list lacks the hexamer primer and round-2/3 splints (split-seq-owned file)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "split-seq-owned local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 8 established/2 conditional/11 unresolved/0 contradictory; source guard 8 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

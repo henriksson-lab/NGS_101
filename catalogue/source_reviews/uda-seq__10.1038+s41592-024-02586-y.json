@@ -273,5 +273,26 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "First-pass review in progress. No missing claim accepted; relevant source inventory and independent second pass remain open."
+  "conclusion": "First-pass review in progress. No missing claim accepted; relevant source inventory and independent second pass remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-21",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nature Methods PMC12165859 JATS (PMC Cloud) Results lines149–155 (Theory and design), Methods lines321–399 (nuclei isolation, fixation, i7-only Tn5 assembly, sc3'/sc5' RNA UDA-seq, Multiome tagmentation/droplets/release/proteinase K/SILANE/post-indexing PCR/sc-ATAC/cDNA enrichment/sc-RNA library), preprocessing lines433/445 (round-1/round-2 barcodes); Supplementary Table 7 MOESM8 xlsx primer summary lines1–14, Truseq-i5 sheet lines15–114, Nextera-i7 sheet lines115+",
+      "oligo_scraper": "Bundle scraper run; Table 7 primer-summary, T-I5/N-I7 index families checked against MOESM8 lines3–10/18/118; MOESM7 hits are CRISPR sgRNA library oligos (CRISPR route not drawn).",
+      "findings": "Replaced the shared-helper module with a local graph of the Multiome route: chromatin tagmentation (ATAC buffer B/enzyme B, 37C 60 min) now precedes droplet loading (was after in-droplet RT); in-GEM RT+ligation 37C45/25C30 is a warned kit boundary; recovery agent/oil removal, 2 uL/well split, proteinase K 55C10/85C5, SILANE, four-primer well-index PCR (7 cycles), half-plate pool 1.6x XP, ATAC PCR (Partial P5+P7, 0.5–1.4x XP), cDNA biotin PCR/C1 capture/on-bead PCR, i7-only Tn5 cassette annealing and TruePrep coupling, cDNA tagmentation 55C10, RNA library PCR (Partial P5+Nextera-i7, 0.6–0.8x XP). Final constructs now put the round-2 well index in i5 (RNA, Truseq-i5 primer) and i7 (ATAC, Nextera-i7 primer) instead of inside Read 1; 10x barcode/UMI/polyT, bead P5/s5 and kit s7 inferred. Six Table 7 oligos carry exact states. Sequencing MGISeq-T7 PE150/PE100 recorded as a limitation (no conversion/primers/index lengths stated). Page shows published naming discrepancy (Methods Partial P5/TSO-IS/Bio-Tso-ISPCR/TN5_R2_index vs Table 7 P5 primer/Partial TSO/Bio-Partial TSO/Tn5-bottom_Read2N) and i5 primer printed without ACAC.",
+      "deferred": [
+        "protocols.io ref62 sc RNA UDA-seq (10.17504/protocols.io.n2bvjne15gk5/v1) and ref63 Multiome UDA-seq (10.17504/protocols.io.5qpvokd4xl4o/v1) — manual, not fetched",
+        "10x Multiome PN-1000283, 3' PN-1000268, 5' PN-1000263, GEM-X 5' v3 and VDJ user guides (bead oligos, splint, ATAC enzyme B adapters)",
+        "Identity of Methods 'Partial P5' vs Table 7 P5 primer",
+        "MGI library conversion, read primers and index-read lengths",
+        "sc3'/sc5' RNA, VDJ and CRISPR (MOESM7 sgRNA oligos) routes not drawn; ExoSAP/direct-PCR alternatives",
+        "Supplementary Information PDF MOESM1 (image-only text) not inspected"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (6 Table 7 transcription checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/27 unresolved/0 contradictory with gem_rt_ligation MAGIC warning; source guard 6 exact checked (P5, P7, Partial TSO, Bio-Partial TSO, Tn5-top_ME, Tn5-bottom_Read2N), 0 failed, 3 index-primer inputs symbolic (8-N), kit bead/adapters inferred and excluded; Markdown built/checked; review schema checked"
+    }
+  ]
 }

@@ -24,7 +24,29 @@ Defining paper: Song et al., *Genome Biology* (2020), [doi:10.1186/s13059-020-02
 
 🟢 The first enrichment PCR uses `P5_Read1` and `tRNA_Read2`. The 3′ 23 nt of `tRNA_Read2` exactly match bases 25–47 of the human Gln tRNA; its 5′ 34 nt are the TruSeq Read 2 primer site. A third PCR retains `P5_Read1` and replaces the reverse primer with one of two printed P7/index/Read-2 primers.
 
-🟡 The final construct therefore makes its read structure computable: Read 1 is the ordinary 16-nt cell barcode plus 12-nt UMI. With a 90-cycle Read 2, cycles 1–23 are the tRNA primer site, 24–48 the remaining tRNA sequence, 49–68 the guide spacer and 69 onward the programmed scaffold. The guide spacer—not the 8A8G tract—is the perturbation identifier.
+🟡 The final construct therefore makes its read structure computable: Read 1 begins with the ordinary 16-nt cell barcode plus 12-nt UMI. Read 2 positions 1–23 are the tRNA primer site, 24–48 the remaining tRNA sequence, 49–68 the guide spacer and 69 onward the programmed scaffold. The guide spacer—not the 8A8G tract—is the perturbation identifier.
+
+🔴 No sequencing instrument or run lengths are printed in the inspected article Methods or
+supplements. The model previously declared acquired Read 1 = 28 and Read 2 = 90 cycles;
+those were unsourced 10x-default values and were removed in the 2026-10-17 bounded pass.
+Positions above are derived spans, not acquired-cycle claims.
+
+## Library-construction conditions (Methods, 10x 3′ platform)
+
+🟢 PMC7278172 JATS lines 132–144 ("scRNA-seq on the 10 × 3′ RNA-seq platform"):
+Chromium Single-Cell 3′ v3 (PN-1000075), B Chip (PN-1000153) and i7 Multiplex Kit
+(PN-120262); CG000184 followed through cDNA pre-amplification (the 1st PCR). The cDNA is
+divided into two 40 µl aliquots. Aliquot A is size-selected following the 10x protocol:
+the 0.6× left-sided products make the mRNA library and the 0.6–1.2× double-sided products
+(eluted in 25 µl) make index gRNA library I. Aliquot B is purified with 1.2× AMPure (25 µl)
+for index gRNA library II. The 2nd PCR is eight 50 µl reactions per sample (3 µl template,
+NEBNext Ultra II Q5 Master Mix M0544S, 0.5 µM each tRNA_Read2 and P5_read1; 98 °C 30 s,
+14 × [98 °C 10 s, 60 °C 10 s, 72 °C 10 s], 72 °C 2 min), pooled and size-selected
+0.7–1.0× (80 µl). The 3rd PCR is five 50 µl reactions (10 µl 2nd-PCR product,
+P7_Read2_Index1 or Index2 plus P5_read1; 98 °C 30 s, 5 × [98 °C 10 s, 54 °C 15 s,
+65 °C 20 s], 72 °C 2 min), then 0.7–1.0× AMPure XP. The page draws library I; library II
+is a declared unresolved terminal receiving the same PCRs. The detailed Protocol Exchange
+protocol (doi:10.21203/rs.3.pex-952/v1) and the Fluidigm C1/TruePrep branch remain unread.
 
 
 ## Endpoint source correction (2026-10-16)

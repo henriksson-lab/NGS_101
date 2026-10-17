@@ -1,0 +1,108 @@
+{
+  "dir": "got-cha__10.1038+s41586-024-07388-y",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_nature",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/got-cha__10.1038+s41586-024-07388-y/s41586-024-07388-y_PMC11139586.xml.txt (Izzo, Myers et al., Nature 629:1149-1157 (2024), doi:10.1038/s41586-024-07388-y; author manuscript PMC11139586) with Springer ESM 41586_2024_7388_MOESM3_ESM.xlsx (Supplementary Table 1)",
+      "availability": "read",
+      "relevance": "relevant",
+      "note": "Published version of record; defining source since the 2026-10-17 re-anchor. Read in the capped 2026-10-17-breadth-first-10 pass (bounded_checks, then from the md5-identical copy in doi_10.1038+s41586-024-07388-y); no independent two-pass reading is recorded yet."
+    },
+    {
+      "id": "preprint",
+      "role": "other",
+      "locator": "Myers and Izzo et al. 2022 bioRxiv doi:10.1101/2022.05.11.491515; 2022.05.11.491515_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Preprint Methods lines 1575-1644 and Extended Data caption lines 320-325; scraper run on local bundle",
+        "finding": "Prints R1N and IS2 handles on target-specific primers, P5, nested biotinylated handle, RPI-X with sample-index placeholder, and paired-end run lengths. Gene-specific 22-mer choices and sample index vary."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "bioRxiv preprint PDF Methods text lines 1575-1644",
+        "finding": "Source prints P5 handle, biotinylated GoTChA_nested handle with 22-base locus-specific variable part, RPI-X sample-index placeholder and read cycles; specific gene primer choices not fully enumerated here."
+      },
+      "note": "Superseded preprint (catalogue identity re-anchored to the published article on 2026-10-17, DESIGN.md 2026-10-16 published-version-first); retained as history, not active evidence; earlier passes recorded below are historical."
+    },
+    {
+      "id": "10x_cg000209_f",
+      "role": "vendor",
+      "locator": "10x Chromium Next GEM Single Cell ATAC Solution user guide CG000209 Rev F explicitly named in preprint lines 1575-1577",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Exact cited Rev F is not in GoT-ChA bundle. A different Rev G exists elsewhere locally but was not treated as original Rev F.",
+      "pass_1": null,
+      "pass_2": null,
+      "discovered_from": "preprint"
+    },
+    {
+      "id": "10x_cg000209_g",
+      "role": "linked_material",
+      "locator": "10x CG000209 Rev G PDF under /husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-atac/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Rev G PDF extracted text lines 947-1072 and Appendix A1 lines 3729-3811; independently inspected reagent architecture and oligo strings",
+        "finding": "Later Rev G explicitly prints Read 1N/Read 2N primer sequences, a 16-base bead barcode within the P5/Read1N molecule, and indexed PCR primer architecture. This narrows chemistry roles but does not establish that Rev F used identical bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "10x CG000209 Rev G PDF text lines 940-965 and appendix 3729-3747",
+        "finding": "Later vendor guide prints Read1N/Read2N transposition oligos and 16-base barcode/read architecture; Rev G is not proof that 2022 Rev F had identical kit formulation."
+      },
+      "discovered_from": "10x_cg000209_f"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Preprint Methods lines 1575-1644 naming CG000209 Rev F and R1N/IS2/primer steps; inspected available Rev G Appendix A1 lines 3729-3811",
+      "finding": "The defining preprint gives invariant GoT-ChA handles and read cycles. The cited 10x CG000209 Rev F remains unavailable; I inspected local successor Rev G Appendix A1 but did not promote its sequences to Rev F."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "bioRxiv v1 Methods lines 1575-1644; 10x CG000209 Rev G appendix lines 3729-3747",
+      "finding": "Preprint explicitly names 10x single-cell ATAC workflow. Checked later Rev G guide as an architecture lead; named Rev F version is still unavailable."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "One exact final target library/read placement is unresolved",
+      "disposition": "blocked",
+      "evidence": "Target-specific 22-mers and i7 choice vary, and the cited 10x ATAC Rev F guide remains uninspected."
+    }
+  ],
+  "conclusion": "First pass located published invariant handles; source-linked 10x Rev F and independent reading remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nature 2024 doi:10.1038/s41586-024-07388-y author manuscript PMC11139586 JATS (sources/doi_10.1038+s41586-024-07388-y/…PMC11139586.xml.txt) lines205–217 scATAC-seq with GoT-ChA, 219–229 multiplex, 243–245 primer design, 347 ED Fig1 legend; Springer ESM MOESM3 Supplementary Table 1 rows1–34. Superseded bioRxiv v1 not re-read.",
+      "oligo_scraper": "Scraper run on published bundle; R1N/IS2/nested/P5/RPI-X hits checked against xml lines211–223 and Supp Table1 rows5–34; per-locus JAK2/TP53/NRAS/FOXO1 rows checked as examples.",
+      "findings": "Defining source switched to the published article (published-first); repository citation 'Namikawa et al.' and 'detailed protocol' label corrected. Added second in-droplet primer GoT-ChA_Rev (two primers, 1 µL 22.5 µM mix); 5 µL of 45.5 µL post-GEM eluate split; hemi-nested PCR P5 + /5BiosG/ GoT-ChA_nested 15 cycles; 1.2X SPRIselect cleanup with waste; M-280 streptavidin binding and SSPE/Tris washes; explicit on-bead P5/RPI-X indexing PCR 6–10 cycles replacing generic finish; P5 exact (= illumina.P5). Sequencing endpoint Read1N 50/i7 8/i5 16 (cell barcode)/Read2N 50. Page shows published discrepancies: GoT-ChA_Rev handle (Methods single-target none vs Supp Table1 IS2) and P5 29 nt (Methods) vs 22 nt (Supp Table1); model uses Methods. NRAS nested/Rev identical locus portion noted, not modelled. ref/MANIFEST updated.",
+      "deferred": [
+        "10x CG000209 Rev F user guide (gel-bead primer, barcoding polymerase, SI-NA-X ATAC indexing) and CG000169 Rev D",
+        "PCR polymerase for hemi-nested/indexing PCRs not named in inspected passage",
+        "Multiplex-adapted (P5/IS2 preamp), GoT-ChA-ASAP and DOGMA extension not drawn",
+        "Published Supplementary Information MOESM1/MOESM2 (MOESM2 image-only) not read",
+        "NRAS-Q61 nested-primer geometry vs design rule"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local constructor suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 2 exact checked (P5 ×2) against slug bundle, 0 failed, 7 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
+}

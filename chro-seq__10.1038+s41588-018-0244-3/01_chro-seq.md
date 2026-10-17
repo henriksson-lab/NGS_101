@@ -27,10 +27,12 @@ is a reading aid, not proof that source information is absent.
 1. 🟢 NUN isolation retains a chromatin pellet, followed by washes and sonication in
    chromatin storage buffer to suspend the pellet. The source retains engaged polymerases.
 2. 🟢 Run-on supplies ATP and GTP with biotin-11-CTP and biotin-11-UTP in Sarkosyl-containing
-   buffer. The nascent RNA acquires affinity labels during extension; those labels are
+   buffer (2× buffer with 300 mM KCl and 1% Sarkosyl, mixed 1:1 with chromatin; 37 °C,
+   5 min). The nascent RNA acquires affinity labels during extension; those labels are
    not UMIs and have no assigned eight-base length.
-3. 🟢 Trizol LS stops the reaction; GlycoBlue-assisted recovery yields RNA. ChRO then uses
-   base hydrolysis, intended to yield 40–100-base RNA fragments.
+3. 🟢 Trizol LS stops the reaction; GlycoBlue-assisted recovery yields RNA, heat-denatured
+   at 65 °C for 40 s. ChRO then uses base hydrolysis (0.2 N NaOH, on ice, 8 min), intended
+   to yield 40–100-base RNA fragments.
 4. 🟢 First streptavidin capture and Trizol release recover biotin-containing RNA.
 5. 🟢 The 3′ RNA adapter is ligated using the source M0204L reagent.
 6. 🟢 Second streptavidin capture is followed by RppH decapping, PNK 5′ phosphorylation
@@ -77,6 +79,16 @@ The public page lists predecessor sequences without assigning them unchanged to 
 ChRO sample. The endpoint retains molecular roles while exact study-specific adapter arms,
 UMI-bearing variants, primer sites and run masks remain open model questions. This does
 not assert that those details were never published.
+
+## Bounded pass 2026-10-17 (round 08)
+
+Re-read article Methods lines 148–158 and Supplementary Table 1 (MOESM3 sheet 1 header and
+UMI column), and Mahat 2016 procedure steps 55–82 (second/third enrichments repeat steps
+23–48, including the Trizol release from beads; the 5′ ligation reuses the step-52 ligation
+mix). The graph order agreed with these passages. The run-on and hydrolysis condition labels
+were completed from Methods line 154. The ChRO article does not name the 5′-adapter ligase,
+the adapter/primer variants, PCR cycles or read lengths; these remain open model
+questions. This is not a claim that they were never published.
 
 ## Remaining source obligations
 

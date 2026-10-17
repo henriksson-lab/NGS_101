@@ -5,11 +5,15 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "Han et al Cell 2018 DOI:10.1016/j.cell.2018.02.001",
-      "availability": "unavailable",
+      "locator": "Han et al Cell 2018 DOI:10.1016/j.cell.2018.02.001; /husky/henriksson/NGS101_papers/sources/microwell-seq__10.1016+j.cell.2018.02.001/j.cell.2018.02.001.pdf (https://www.cell.com/article/S0092867418301168/pdf), includes correction doi:10.1016/j.cell.2018.05.012",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Defining article full text is manual in MANIFEST and not locally present.",
-      "pass_1": null,
+      "reason": "publisher PDF with STAR Methods hand-downloaded 2026-10-17 (institutional network); printed DOI/title/authors verified; mmc3-mmc7 still not on disk",
+      "pass_1": {
+        "reviewer": "deferred_followup_03",
+        "date": "2026-10-17",
+        "locations": "text twin Key Resources Table lines 2510-2565; Method Details lines 2670-2736; data processing 2816-2820; correction 6335-6355"
+      },
       "pass_2": null
     },
     {
@@ -64,13 +68,28 @@
     {
       "id": "tn5_vendor",
       "role": "linked_material",
-      "locator": "Original Tn5 adaptor/kit identity and vendor guide",
+      "locator": "Vazyme TruePrep DNA Library Prep Kit V2 for Illumina user manual (kit named in Cell 2018 STAR Methods line 2730; catalogue number not printed there)",
       "availability": "unavailable",
       "relevance": "relevant",
-      "reason": "Defining article not available to establish exact Tn5 oligo/kit.",
+      "reason": "Kit identity now established by the STAR Methods ('customized transposase that carries two identical insertion sequences'); vendor manual not on disk, so insertion-sequence bases remain unread.",
       "pass_1": null,
       "pass_2": null,
       "discovered_from": "paper"
+    },
+    {
+      "id": "lab_web_protocol",
+      "role": "detailed_protocol",
+      "locator": "Guo-lab Microwell-seq protocol, https://bis.zju.edu.cn/MCA/ ('Microwell-seq protocol' section) and linked data/Protocol_for_making_microwells_and_barcoded_beads.docx; local lab_MCA_microwell-seq_protocol_page.html(.txt) md5 948a27e8..., lab_Protocol_for_making_microwells_and_barcoded_beads.docx md5 9eecee29...",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Author-lab protocol; undated, version and applicability to the 2018 runs not stated.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "page .txt lines 175-252 (beads, lysis, RT, Exo I, WTA, Nextera XT library PCR, NextSeq 500, Table 1); docx .txt full (bead coupling and extension)",
+        "finding": "Gives reagents/conditions absent from held sources; Table 1 TSO_RT, TSO_PCR, P5 and Read1CustSeq agree with Table S2-derived model; names Nextera XT with N5xx replaced by P5, no Tn5 adapter bases."
+      },
+      "pass_2": null
     }
   ],
   "linked_information": {
@@ -95,5 +114,77 @@
       "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
     }
   ],
-  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining Cell 2018 article not obtained: get_sources manual row (no open full text), cell.com showPdf 403 Cloudflare challenge, Europe PMC core PMID 29474909 inPMC=N/isOpenAccess=N; publisher Supplementary Table S2 mirror upstream_1-s2.0-S0092867418301168-mmc2.xlsx.txt lines 1-9 and N701-N819 rows; same-lab adrenal paper same-lab_PMC7396412.xml.txt lines 3-24 (sequencing platforms)",
+      "oligo_scraper": "Not re-run beyond the prior pass; Table S2 rows compared directly against declared segments (bead seqA/seqB, TSO LNA, TSO-PCR, P5 -s-A-s-C, Read1 SeqA-GT/SeqB-TAC, N701).",
+      "findings": "No sequence change: Table S2 oligos agree with the model. Model correction: graph SequencingPlan declared acquired Read 1 54/Index 8 cycles that are oligo-derived informative minima, not published run lengths; read_lengths removed and the limitation now states the STAR Methods were not obtained; page sequencing intro states the same. Adrenal paper gives only later BGI/HiSeq platform comparison, no 2018 read lengths.",
+      "deferred": [
+        "Cell 2018 STAR Methods (paywall/Cloudflare; manual URL http://www.cell.com/article/S0092867418301168/pdf): bead linker, extension enzyme, lysis, RT, PCR cycles, tagmentation, read lengths",
+        "Publisher mmc3-mmc7 supplements",
+        "Tn5 adaptor identity (inferred symmetric s7)",
+        "Acquired 2018 run lengths",
+        "Exact states for TSO/TSO-PCR/P5/N701 graph inputs (source guard cannot see upstream_-named mmc2)"
+      ],
+      "scope": "Capped pass without the defining article; supplement-only comparison; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 2 established/0 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Defining Cell 2018 re-tried: Unpaywall/OpenAlex bronze OA publisher-only (cell.com/article/S0092867418301168/pdf), no repository copy; cell.com fulltext/showPdf and sciencedirect pii 403 Cloudflare challenge; not in PMC/Europe PMC. GEO GSE108097 series + GSM2889480 sample text (extract protocol one line; HiSeq 2500), SRA SRX3471805/SRR6377012 2x150 deposited spots. Guo-lab MCA web protocol lab_MCA_microwell-seq_protocol_page.html.txt lines 175-252; linked bead docx lab_Protocol_for_making_microwells_and_barcoded_beads.docx.txt lines 1-9.",
+      "oligo_scraper": "Run on both lab files: 4 hits (TSO_RT, TSO_PCR, P5, Read1CustSeq), all equal to microwell_seq TSO/SMART_HANDLE/P5_PRIMER/CUSTOM_R1.",
+      "findings": "No base change. Graph now carries lab-protocol reagents: Phanta extension + EDC coupling, SuperScript II RT (betaine, MgCl2, 42 C 90 min), new Exo I digestion step with unused-bead-oligo waste, KAPA HiFi (WTA 14, library 13-15 cycles), Nextera XT enzyme; Tn5 adapter relabelled from symmetric s7 to s7-ME at the N7xx-selected end (still inferred). Page caveat and sequencing intro state the lab page is undated and give the NextSeq 500 (lab page) vs HiSeq 2500 (GEO) instrument difference; note sections 3, 6 and 9 updated.",
+      "deferred": [
+        "Cell 2018 STAR Methods (bronze OA but Cloudflare; manual URL http://www.cell.com/article/S0092867418301168/pdf): confirm lab-page applicability, read lengths, tagmentation enzyme for 2018",
+        "Publisher mmc3-mmc7",
+        "Tn5 adapter bases",
+        "Exact states for TSO/TSO-PCR/P5/N701 inputs (lab_ files not declared in extra_sources, so the source guard excludes them)"
+      ],
+      "scope": "Capped follow-up; defining article still unread; lab protocol used with undated-version label; no accepted missing-information claim.",
+      "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 3 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-exact-input-states",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Publisher Table S1 workbook scg_1-s2.0-S0092867418301168-mmc1.xlsx.txt rows A-1..A-96, B-1..B-96, C-1..C-96 (lines 2-289); publisher Table S2 workbook scg_1-s2.0-S0092867418301168-mmc2.xlsx.txt rows TSO LNA and N701-N712 (lines 5, 11-22). The mmc1 workbook is Table S1 and mmc2 is Table S2 (sheet names), byte-identical to the upstream_-named copies.",
+      "oligo_scraper": "Not re-run; rows compared directly and through the source-oligo guard (7 exact inputs checked, 0 failed).",
+      "findings": "No base change. Graph inputs tso, p7_primer and barcode_oligos now carry exact states: TSO LNA with its terminal /rG/rG/iXNA_G in source notation; N7xx as P7 + 8-nt i7 window (feature sample_index_i7) + s7; one representative strand per Table S1 family (A: bead head + SMART handle + ACGT + barcode 1 + linker 1; B: linker 2' + barcode 2' + linker 1'; C: A30 + UMI' N6 + barcode 3' + linker 2') with identifier placeholders.",
+      "deferred": [
+        "Cell 2018 STAR Methods (Cloudflare; manual URL http://www.cell.com/article/S0092867418301168/pdf)",
+        "Publisher mmc3-mmc7",
+        "Tn5 adapter bases"
+      ],
+      "scope": "Representation follow-up on already-read supplementary tables; defining article still unread; no accepted missing-information claim.",
+      "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 3 established/0 conditional/9 unresolved/0 contradictory; source guard 7 exact checked, 0 failed, 0 inputs without exact states"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining article now on disk: j.cell.2018.02.001.pdf (hand-downloaded cell.com PDF; printed DOI 10.1016/j.cell.2018.02.001, title 'Mapping the Mouse Cell Atlas by Microwell-Seq', Han...Guo verified; correction Cell 173:1307 doi:10.1016/j.cell.2018.05.012 appended). Text twin: Key Resources Table oligos lines 2510-2565; Method Details lines 2670-2736 (microwell fabrication, synthesis of barcoded beads 2680, cell collection and lysis 2701, reverse transcription 2710, exonuclease I 2716, cDNA amplification 2721, transposase fragmentation and selective PCR 2729); data processing 2816-2820; Figure S1A legend 3108-3115; correction 6335-6355. Table S2 (scg_ mmc2 mirror, md5-identical publisher file) re-checked for seqA/seqB, TSO, TSO-PCR, P5, Read1 SeqA-GT/SeqB-TAC, N7xx.",
+      "oligo_scraper": "Scraper run on the article text: 8 hits (KRT bead seqA line 2519 and seqB 2539 with linkers/poly(T), TSO /rG/rG/iXNA_G line 2548, TSO_PCR 2555) all checked against Table S2 rows; earlier bundle scraper results on Tables S1/S2 stand.",
+      "findings": "STAR Methods now the authority for conditions (previously the undated lab web page): EDC coupling + Phanta extension rounds (48.8 C) + 95 C strand strip; lysis buffer (0.1 M Tris per correction, LiCl/SDS/EDTA/DTT, 12 min); SuperScript II Smart-seq2-style RT 42 C 90 min; Exo I 1 U/ul 37 C 60 min (lab page 45 min); WTA KAPA 4+10-14 cycles; library PCR 72 C 3 min + 14 cycles; Illumina HiSeq. Tagmentation relabelled: customized TruePrep V2 (Vazyme) transposase carrying two identical insertion sequences (not Nextera XT as on the lab page); insertion bases not printed, s7-ME stays INFERRED. Former discarded 'tagmentation waste' replaced by an explicit PCR off-product, self-looped internal fragments (STAR Methods), with unresolved fate (no specific separation). Page caveat/sequencing text and note (new section 10, citation correction) updated; lab-page differences shown on page.",
+      "deferred": [
+        "Vazyme TruePrep V2 (TD503/TD513) insertion-sequence bases (vendor manual not read)",
+        "Acquired read lengths (STAR Methods: Illumina HiSeq only)",
+        "Publisher supplements mmc3-mmc7 (not on disk)",
+        "Bead linker chemistry ('5'-Bead-Linker-')",
+        "i7 index orientation and N8xx duplication in Table S2",
+        "seqB bead branch not drawn"
+      ],
+      "scope": "Capped bounded pass on the defining article STAR Methods/KRT plus Table S2; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 0 explicit checks (import-time construction validation) pass; page builds; pairing 0 problems; chemistry 3 established/0 conditional/9 unresolved/0 contradictory over 7 steps; source guard 7 exact checked, 0 failed, 0 inputs without exact states; Markdown built; audit --check pass"
+    }
+  ]
 }

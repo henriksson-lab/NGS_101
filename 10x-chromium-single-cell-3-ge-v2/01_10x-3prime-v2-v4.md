@@ -450,3 +450,33 @@ for the barcode-bearing library's fixed oligo sequences. Sample-specific
 thawing, counting-instrument and viability-stain manuals were not imported
 into the molecular model. Full source locations and independent-review
 status are recorded in the source-review checklist.
+
+
+## Bounded source pass (2026-10-17, round breadth-first-06)
+
+Re-read CG000108 Rev A Fig. 4 (extracted lines 68–143) and CG00052 Rev D Steps
+2.1–3.6 (TOC lines 140–215; 3.1 program lines 3717–3770; 3.2 lines 3843–3900;
+3.4 lines 4045–4053; 3.6 lines 4295–4330; sequencing table lines 4572–4600),
+with the bundle scraper. Every printed v2 oligo still matches the model (bead,
+TSO, both cDNA primers, both adapter strands, both index-primer architectures
+and the full Sample Index PCR product). Read layout 26/8/0/98 confirmed.
+
+Model corrections:
+
+- 🟢 The v2 graph now carries the bead cleanups printed in CG00052 Rev D:
+  Silane DynaBeads post GEM-RT cleanup (2.1), 0.6X SPRIselect after cDNA PCR
+  (2.3), double-sided 0.6X/0.8X after fragmentation/end repair/A-tailing (3.2),
+  0.8X after ligation (3.4) and double-sided 0.6X/0.8X after sample-index PCR
+  (3.6), each with its removed fraction declared as discarded waste. The
+  sequenced library is the 3.6 size-selected product. These are Rev D (2018)
+  values; CG000108 Rev A (2017) states only that size selection follows
+  fragmentation, so earlier user-guide revisions remain unchecked.
+- 🟢 Published part-number discrepancy now shown on the page: CG000108 Fig. 4
+  labels the cDNA Primer Mix **PN-22016**, whereas CG00052 Rev D kit contents
+  and the Step 2.2 mix table list **PN-220106**. Only the printed sequences are
+  modelled.
+
+Still open: CG00052 revisions before Rev D; the RT primer and TSO graph inputs
+have no exact molecular state (the shared Chromium operation does not accept
+one), so the source-oligo guard reports them as unrepresented; fragmentation and
+end repair/A-tailing are one tube in the guide but two graph steps.

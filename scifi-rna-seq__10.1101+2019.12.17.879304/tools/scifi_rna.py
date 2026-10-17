@@ -1,4 +1,4 @@
-"""Molecular construct model for scifi-RNA-seq (Datlinger et al.)."""
+"""Molecular construct model for scifi-RNA-seq (Datlinger et al., Nature Methods 2021)."""
 from __future__ import annotations
 
 import illumina as il
@@ -30,7 +30,6 @@ RT_BARCODE_EXAMPLE = "AGTGATTAGCA"
 P7_INDEX_READ = "TAAGGCGA"
 BRIDGE = "CGTCGTGTAGGGAAAGAGTGTGACGCTGCCGACGA"
 PARTIAL_P5 = il.P5[:22]
-TSO = rt.SMART_HANDLE + "GAAT" + "GGG"
 
 
 def rt_primer() -> list[Segment]:
@@ -38,7 +37,20 @@ def rt_primer() -> list[Segment]:
             seg("UMI", "N" * 8, "umi", placeholder=True), seg("fixed N", "A"),
             seg("round-1 barcode", "B" * 11, "cbc", placeholder=True),
             seg("fixed V", "A"), seg("poly(T)", "T" * 30),
-            seg("V", "V", placeholder=True), seg("N", "N", placeholder=True)]
+            seg("V", "V", placeholder=True), seg("N", "N")]
+
+
+# The gel-bead oligo appears only in the published article's Extended Data Fig. 3a
+# (article PDF page 16, an image-only page): 5'-AATGATACGGCGACCACCGAGATCTACAC
+# [10x_round2]TCGTCGGCAGCGTC, read from the rendered page. The page's OCR twin garbles
+# the s5 part (e.g. "ICGTCGGCAGCOTC"), so the text guard cannot match it.
+SOURCE_OLIGO_EXCEPTIONS = {
+    "bead_oligo": ("Printed only as an image: published Extended Data Fig. 3a "
+                   "(s41592-021-01153-z.pdf page 16, 'Gel Bead Oligo Primer with 737k "
+                   "possible microfluidic barcodes (16b)') shows 5'-AATGATACGGCGACCACC"
+                   "GAGATCTACAC[10x_round2]TCGTCGGCAGCGTC; verified on the rendered page "
+                   "because the OCR text twin misreads the s5 bases."),
+}
 
 
 def bead_oligo() -> list[Segment]:
@@ -94,10 +106,34 @@ def rt_first_strand(insert_nt: int = 28) -> Construct:
                       seg("untemplated C","CCC")],name="round-1-barcoded first strand")
 
 
+def tso_oligo() -> list[Segment]:
+    """Supplementary Table 1 TSO; its printed rGrGrG kept as three RNA G residues."""
+    return [seg("SMART handle", rt.SMART_HANDLE, "tso"), seg("GAAT", "GAAT"),
+            seg("rGrGrG", "/rG//rG//rG/", placeholder=True, length_bp=3)]
+
+
+def indexed_p7_primer() -> Construct:
+    """Supplementary Table 1 P7-001...P7-016: P7 + 8-nt i7 window + s7."""
+    return Construct([seg("P7", il.P7, "p7"),
+                      seg("i7 index", "N" * len(P7_INDEX_READ), "cbc", placeholder=True,
+                          feature=I7_FEATURE),
+                      seg("s7", nx.S7, "s7")], name="scifi-RNA indexed P7 primer")
+
+
+def i7_transposome_adapter() -> Scene:
+    """Supplementary Table 1 Tn5-bottom_Read2N annealed to [5Phos] Tn5-top_ME."""
+    sc = Scene()
+    sc.strand("Read2N", [seg("s7", nx.S7, "s7"), seg("mosaic end", nx.ME, "me")],
+              label="Tn5-bottom_Read2N")
+    sc.anneal("ME", [seg("mosaic end reverse complement", nx.ME_RC, "me")], to="Read2N",
+              pair=("mosaic end reverse complement", "mosaic end"), label="Tn5-top_ME",
+              mod5="p")
+    return sc
+
+
 def tso_scene(insert_nt: int = 28) -> Scene:
     first = ligated_first_strand(insert_nt)
-    tso = [seg("SMART handle", rt.SMART_HANDLE, "tso"), seg("GAAT", "GAAT"),
-           seg("rGrGrG", "rGrGrG", placeholder=True)]
+    tso = tso_oligo()
     sc = Scene()
     sc.strand("first", list(first), label="first-strand cDNA")
     sc.anneal("TSO", tso, to="first", pair=("rGrGrG", "untemplated C"), label="TSO")
@@ -121,7 +157,7 @@ def final_library(insert_nt: int = 28) -> Construct:
         seg("UMI", "N" * 8, "umi", placeholder=True), seg("fixed N", "A"),
         seg("round-1 barcode", "B" * 11, "cbc", placeholder=True),
         seg("fixed V", "A"), seg("poly(T)", "T" * 30),
-        seg("V", "V", placeholder=True), seg("N", "N", placeholder=True),
+        seg("V", "V", placeholder=True), seg("N", "N"),
         seg("cDNA", "X" * insert_nt, placeholder=True),
         seg("mosaic end reverse complement", nx.ME_RC, "me"),
         seg("s7 reverse complement", nx.S7_RC, "s7"),
@@ -154,8 +190,10 @@ def read1_layout() -> list[tuple[str, str]]:
 
 
 def protocol_graph() -> ProtocolGraph:
-    source=("Defining source: https://doi.org/10.1101/2019.12.17.879304; "
-            "expanded protocol: https://doi.org/10.1038/s41592-021-01153-z")
+    source=("Defining source: Datlinger et al., Nature Methods 18:635 (2021), "
+            "https://doi.org/10.1038/s41592-021-01153-z, Supplementary Table 1 and "
+            "Supplementary Protocol v2021-01-25; gel-bead oligo drawn only in the "
+            "article's Extended Data Fig. 3a (image)")
     graph=ProtocolGraph("scifi-RNA-seq",authority=source)
     cells=graph.input("fixed_cells","fixed permeabilized cells",MaterialKind.BIOLOGICAL,
                       primary=True)
@@ -199,18 +237,24 @@ def protocol_graph() -> ProtocolGraph:
                  (bridge,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(ligated,),
                 geometry=AdapterLigationGeometry.known(
                     "splinted",ligation_ready_scene(),ligation_scene(),
-                    statement="The expanded protocol prints the bridge, bead and phosphorylated RT-primer sequences that align the nick."))
-    tso=graph.input("tso","template-switching oligo",MaterialKind.OLIGO)
+                    statement="Published Supplementary Table 1 prints the 3'-ddC bridge and the 5'-phosphorylated RT primers; the gel-bead oligo (P5 + 16-nt round-2 barcode + TCGTCGGCAGCGTC) is drawn only in the published article's Extended Data Fig. 3a, read from the rendered figure."))
+    oligos="Datlinger et al. 2021 Supplementary Table 1 (scifi-RNA-seq oligos sheet)"
+    tso=graph.input("tso","template-switching oligo",MaterialKind.OLIGO,source=oligos,
+                    state=Construct(tso_oligo(),name="scifi-RNA TSO"))
     switched=graph.product("switched_cdna","template-switched two-level-barcoded cDNA",
                            MaterialKind.MOLECULAR,state=ligated_first_strand())
     graph.react("template_switch","Install the distal SMART amplification handle",
                 StepKind.TEMPLATE_SWITCHING,
                 ((ligated,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),
                  (reverse_transcriptase,InputRole.CATALYST)),(switched,))
-    preamp_forward=graph.input("preamp_forward","bead-end cDNA enrichment primer",
-                               MaterialKind.OLIGO)
+    preamp_forward=graph.input("preamp_forward","bead-end cDNA enrichment primer (Partial-P5)",
+                               MaterialKind.OLIGO,source=oligos,
+                               state=Construct([seg("Partial-P5",PARTIAL_P5,"p5")],
+                                               name="Partial-P5"))
     preamp_reverse=graph.input("preamp_reverse","TSO-handle cDNA enrichment primer",
-                               MaterialKind.OLIGO)
+                               MaterialKind.OLIGO,source=oligos,
+                               state=Construct([seg("TSO_enrichment_primer",rt.SMART_HANDLE,
+                                                    "tso")],name="TSO_enrichment_primer"))
     preamp_pol=graph.input("preamp_polymerase","cDNA enrichment polymerase",
                            MaterialKind.CATALYST)
     amplified=graph.product("amplified_cdna","bulk-enriched full cDNA",MaterialKind.MOLECULAR,
@@ -220,7 +264,8 @@ def protocol_graph() -> ProtocolGraph:
                  (preamp_reverse,InputRole.STRUCTURAL),(preamp_pol,InputRole.CATALYST)),
                 (amplified,),geometry=PCRGeometry.unavailable(
                     ligated_first_strand(),reason="The page model does not establish both bulk-enrichment primer landing scenes."))
-    transposome=graph.input("i7_transposome","i7-only Tn5 transposome",MaterialKind.ADAPTER)
+    transposome=graph.input("i7_transposome","i7-only Tn5 transposome",MaterialKind.ADAPTER,
+                            source=oligos,state=i7_transposome_adapter())
     tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
     selected=selected_tagmented_strand()
     tagged=graph.product("selected_tagmented",selected.name,MaterialKind.MOLECULAR,state=selected)
@@ -230,8 +275,11 @@ def protocol_graph() -> ProtocolGraph:
                 ((amplified,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
                  (tn5,InputRole.CATALYST)),(tagged,tag_waste))
     graph.discard(tag_waste,"fragments lacking the bead end and one s7 end are not PCR-selected")
-    partial_p5=graph.input("partial_p5","partial-P5 selective primer",MaterialKind.OLIGO)
-    indexed_p7=graph.input("indexed_p7","indexed P7/s7 primer",MaterialKind.OLIGO)
+    partial_p5=graph.input("partial_p5","partial-P5 selective primer",MaterialKind.OLIGO,
+                           source=oligos,state=Construct([seg("Partial-P5",PARTIAL_P5,"p5")],
+                                                         name="Partial-P5"))
+    indexed_p7=graph.input("indexed_p7","indexed P7/s7 primer",MaterialKind.OLIGO,
+                           source=oligos,state=indexed_p7_primer())
     library_pol=graph.input("library_polymerase","library PCR polymerase",MaterialKind.CATALYST)
     final=final_library()
     library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
@@ -242,7 +290,7 @@ def protocol_graph() -> ProtocolGraph:
                     selected,PCRPrimer("partial-P5",PARTIAL_P5),
                     PCRPrimer("indexed P7",il.P7+revcomp(P7_INDEX_READ)+nx.S7,
                               anneal_nt=len(nx.S7)),
-                    statement="The expanded protocol defines partial-P5 selection of the bead end and the indexed P7/s7 primer."))
+                    statement="Published Supplementary Table 1 and the Supplementary Protocol library-enrichment step define Partial-P5 and the indexed P7/s7 primers."))
     lengths={"Read 1":21,"Index 1 (i7)":8,"Index 2 (i5)":16,"Read 2":78}
     graph.sequence(library,SequencingPlan(
         library=final,primers=SEQ_PRIMERS,acquired_roles=tuple(lengths),read_lengths=lengths,
@@ -257,7 +305,7 @@ def protocol_graph() -> ProtocolGraph:
     graph.annotate(SourceDiscrepancy(
         target="library_pcr", title="P7 index orientation differs within the published oligo table",
         claims=(
-            SourceClaim("Datlinger et al. 2021 Supplementary oligo table, P7-001–P7-008",
+            SourceClaim("Datlinger et al. 2021 Supplementary Table 1 (oligos sheet), P7-001–P7-008",
                         "The primer contains the reverse complement of the listed P7_index_seq; P7-001 has TCGCCTTA for listed TAAGGCGA."),
             SourceClaim("The same table, P7-009–P7-016",
                         "The primer contains the listed bases as written; P7-009 has AAGAGGCA for listed N711 AAGAGGCA.")),
@@ -268,12 +316,12 @@ def protocol_graph() -> ProtocolGraph:
     graph.annotate(SourceDiscrepancy(
         target="barcode_ligation", title="Thermoligation denaturation temperature",
         claims=(
-            SourceClaim("Datlinger et al. protocol v2021-01-25, round-2 thermoligation",
-                        "Twelve cycles denature at 95 °C for 30 s."),
-            SourceClaim("Datlinger et al. 2019 preprint Methods, round-2 thermoligation",
-                        "Twelve cycles denature at 98 °C for 30 s.")),
+            SourceClaim("Datlinger et al. 2021 Supplementary Protocol v2021-01-25, thermoligation (scATAC v1.0 and v1.1 chips)",
+                        "Twelve cycles of 95 °C for 30 s and 59 °C for 2 min."),
+            SourceClaim("Datlinger et al. 2021 Methods, 'Microfluidic thermoligation barcoding'",
+                        "Twelve cycles of 98 °C for 30 s and 59 °C for 2 min.")),
         model_choice="The graph records thermoligation without fixing a temperature; the note presents both recipes.",
-        evidence="Both documents describe the same round-2 bead barcode ligation with different denaturation settings.",
+        evidence="Both parts of the published article describe the same round-2 bead barcode ligation with different denaturation settings.",
         uncertainty="Whether this was a deliberate protocol revision is not established.",
         slot=AnnotationSlot.INTRO))
     return graph.require_publishable()

@@ -22,8 +22,9 @@ def _pcr_free_workflow(final: Construct) -> Workflow:
     w = _workflow("high-quality genomic DNA", _duplex("high-molecular-weight genomic DNA"), (
         ("Covaris shear", "fragmented DNA", sheared,
          "The guide specifies 350-bp or 550-bp insert workflows."),
-        ("End-repair and bead size-selection", "blunt size-selected DNA", repaired,
-         "End repair removes the 3-prime and 5-prime overhangs made by shearing."),
+        ("End-repair and two-sided SPB size-selection", "blunt size-selected DNA", repaired,
+         "End Repair Mix 2 fills 5-prime overhangs and chews back 3-prime overhangs; diluted "
+         "SPB then removes oversized fragments and undiluted SPB removes small ones."),
         ("Add one 3-prime dA to each end", "dA-tailed DNA", tailed,
          "The complementary adapter overhang is a single 3-prime T."),
     ))
@@ -33,8 +34,9 @@ def _pcr_free_workflow(final: Construct) -> Workflow:
         truseq_pcr_free_rows(final, "genomic DNA insert",
                              label="PCR-free sequencing library"),
         name="PCR-free sequencing library",
-        note="Sealing the adaptor finishes the library: no enrichment PCR follows, and qPCR "
-             "measures the cluster-forming molecules.")
+        note="Sealing the adaptor finishes the library: Stop Ligation Buffer ends the 30 \u00b0C "
+             "10-minute reaction, two SPB rounds clean the product, no enrichment PCR follows, "
+             "and qPCR measures the cluster-forming molecules.")
     return w
 
 def _pcr_free_graph(d, library, primers):
@@ -57,16 +59,31 @@ def _pcr_free_graph(d, library, primers):
                              state=_duplex("blunt size-selected genomic insert"))
     graph.react("end_repair", "End-repair sheared DNA", StepKind.END_REPAIR,
                 ((fragments, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
-    beads = graph.input("size_selection_beads", "size-selection magnetic beads",
+    # The guide size-selects in two sided rounds (Repair Ends and Select Library Size):
+    # diluted SPB first binds the large fragments and the supernatant is kept, then
+    # undiluted SPB binds the target inserts and that supernatant is discarded.
+    diluted_beads = graph.input("diluted_spb", "diluted SPB (Sample Purification Beads)",
+                                MaterialKind.SELECTION)
+    retained_small = graph.product("below_upper_cutoff",
+                                   "supernatant fragments below the upper size cutoff",
+                                   MaterialKind.MOLECULAR, state=repaired.state)
+    too_large = graph.product("large_fragments", "bead-bound oversized DNA fragments",
+                              MaterialKind.WASTE)
+    graph.react("remove_large", "Bind oversized fragments to diluted SPB and keep the supernatant",
+                StepKind.SELECTION,
+                ((repaired, InputRole.TEMPLATE), (diluted_beads, InputRole.SELECTION)),
+                (retained_small, too_large))
+    graph.discard(too_large, "stays on the diluted SPB beads when the supernatant is transferred")
+    beads = graph.input("size_selection_beads", "undiluted SPB (Sample Purification Beads)",
                         MaterialKind.SELECTION)
     selected = graph.product("selected", "size-selected blunt genomic inserts",
                              MaterialKind.MOLECULAR, state=repaired.state)
-    rejected = graph.product("rejected_sizes", "off-size DNA fragments", MaterialKind.WASTE)
-    graph.react("size_select", "Select the requested insert-size range",
+    rejected = graph.product("rejected_sizes", "undersized DNA fragments", MaterialKind.WASTE)
+    graph.react("size_select", "Bind the insert-size range to undiluted SPB and discard the supernatant",
                 StepKind.SELECTION,
-                ((repaired, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                ((retained_small, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
                 (selected, rejected))
-    graph.discard(rejected, "falls outside the selected library insert range")
+    graph.discard(rejected, "remains in the discarded supernatant of the undiluted-SPB round")
     tailing = graph.input("tailing_enzyme", "single-dA tailing enzyme",
                           MaterialKind.CATALYST)
     end_prep = repair_and_dA_tail(Construct([
@@ -79,18 +96,34 @@ def _pcr_free_graph(d, library, primers):
     adapter = graph.input("adapter", "full-length indexed TruSeq 3-prime-T adapters",
                           MaterialKind.ADAPTER)
     ligase = graph.input("ligase", "TruSeq adapter DNA ligase", MaterialKind.CATALYST)
-    final_product = graph.product("library", "PCR-free indexed TruSeq library",
-                                  MaterialKind.LIBRARY, state=library)
+    stop = graph.input("stop_ligation", "STL (Stop Ligation Buffer)", MaterialKind.CONDITION)
+    ligated = graph.product("ligated", "adapter-ligated genomic fragments",
+                            MaterialKind.MOLECULAR, state=library)
     geometry = TRUSEQ_FULL_LENGTH.geometry(
         end_prep, statement=PCR_FREE_LIGATION_STATEMENT)
     graph.react("ligate", "Ligate full-length indexed TruSeq adapters without enrichment PCR",
                 StepKind.LIGATION,
                 ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
-                 (ligase, InputRole.CATALYST)), (final_product,), geometry=geometry)
+                 (ligase, InputRole.CATALYST), (stop, InputRole.CONDITION)),
+                (ligated,), geometry=geometry)
+    # "Clean Up Ligated Fragments": two SPB rounds before quantification; no PCR follows.
+    cleanup_beads = graph.input("cleanup_spb", "SPB for the two ligation-cleanup rounds",
+                                MaterialKind.SELECTION)
+    final_product = graph.product("library", "PCR-free indexed TruSeq library",
+                                  MaterialKind.LIBRARY, state=library)
+    ligation_waste = graph.product("ligation_waste",
+                                   "unbound adapters and ligation reagents",
+                                   MaterialKind.WASTE)
+    graph.react("clean_up_ligation", "Clean up the ligated fragments in two SPB rounds",
+                StepKind.SELECTION,
+                ((ligated, InputRole.TEMPLATE), (cleanup_beads, InputRole.SELECTION)),
+                (final_product, ligation_waste))
+    graph.discard(ligation_waste, "removed in the SPB supernatant and ethanol washes")
     _sequence(graph, final_product, library, primers, d.sequencing_intro)
     reviewed = ["dna", "shear_condition", "shear", "repair_enzyme", "end_repair",
-                "size_selection_beads", "size_select", "tailing_enzyme", "tail",
-                "adapter", "ligase", "ligate", "library"]
+                "diluted_spb", "remove_large", "size_selection_beads", "size_select",
+                "tailing_enzyme", "tail", "adapter", "ligase", "stop_ligation", "ligate",
+                "cleanup_spb", "clean_up_ligation", "library"]
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 

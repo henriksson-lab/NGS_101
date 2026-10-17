@@ -248,5 +248,25 @@
         "finding": "Followed named CG000748, CG00053, CG000479, CG000396 and TT Set A index-table material. CG000748 also lists CG000732 and multiplex/feature variants; their additional chemistry is outside the singleplex GEX scope. Source list extends to generic sample-preparation and sequencer instructions, but no kit-specific supplier disclosure for TSO B or adaptor was found. Independent second pass and any further chemistry-relevant 10x support links remain open."
       }
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "CG000731 Rev A (md5 077492df; CG000731_RevA.pdf.txt) kit contents lines224–320, Introduction pp12–17 incl. rendered figures p14 (GEM primer/TSO) and p16 (library processing), §1.5 GEM-RT lines2073–2118, §2.1–2.3 lines2378–2760, §3.1–3.6 lines3190–3640, Step4 run parameters lines3665–3790, appendix p80 lines4280–4294; CG000731 Rev B appendix lines5060–5067 compared (identical sequences)",
+      "oligo_scraper": "Bundle scraper run; v4 hits are only the appendix bead primer and final library (Rev A/B); TSO, cDNA primer and TT oligo bases appear only in predecessor CG000315 Rev E/F. No TSO B or Ligation Mix bases in CG000731.",
+      "findings": "Bead primer, final library and 28/10/10/90 run parameters confirmed. Added Recovery Agent/oil-phase removal with discarded oil, Dynabeads MyOne SILANE cleanup, SPRIselect 0.6X cDNA cleanup, double-sided 0.6X/0.8X after fragmentation and after sample-index PCR (large/small fractions discarded), 0.8X post-ligation cleanup; fragmentation and ER/A-tailing corrected to one Fragmentation Mix (32°C 5min, 65°C 30min) on 25% of cDNA; step labels carry cDNA PCR conditions with 11–13 total cycles, ligation 20°C 15min, SI PCR 5–16 cycles and Library Amp Mix/Amp Mix choice; sequenced product is the size-selected library. p14 figure shows rGrGrG TSO without bases; TSO stays inferred.",
+      "deferred": [
+        "TSO B PN-2001027 bases and 3' chemistry",
+        "Ligation Mix PN-2001109 strands and ligating ends",
+        "Dual Index TT Set A physical PCR oligos",
+        "Current-kit identity of cDNA Primers PN-2000089 (catalog-linked to CG000315)",
+        "CG000396, CG000479, CG00053, CG000748, CG000791 and Rev B body text not re-read this pass"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 4/4 pass (bead oligo + final library vs CG000731 Rev A appendix; PN-2000089 primers vs predecessor); page builds; pairing 0 problems; chemistry 0 established/0 conditional/16 unresolved/0 contradictory; source guard 2 exact checked (PN-2000089 fwd/rev), 0 failed, 4 inputs without exact states (rt_primer placeholder, read2_adapter, index_forward, index_reverse); Markdown built; review schema (audit --check) pass"
+    }
   ]
 }

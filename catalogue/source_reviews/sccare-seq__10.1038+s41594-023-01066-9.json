@@ -132,13 +132,32 @@
     {
       "id": "manual_14",
       "role": "defining",
-      "locator": "https://doi.org/10.1038/s41594-023-01066-9",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sccare-seq__10.1038+s41594-023-01066-9/s41594-023-01066-9.pdf (https://link.springer.com/content/pdf/10.1038/s41594-023-01066-9.pdf; https://doi.org/10.1038/s41594-023-01066-9)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "journal article; no open full text found (publisher page only)",
+      "reason": "publisher PDF hand-downloaded 2026-10-17 on the institutional network (MANIFEST row); printed DOI/title/authors verified",
       "discovered_from": "MANIFEST.tsv",
-      "pass_1": null,
+      "pass_1": {
+        "reviewer": "deferred_followup_03",
+        "date": "2026-10-17",
+        "locations": "text twin lines 232-250, 2335-2370, 2372-2465, 2467-2485, 2533-2545, 2757 (ED Fig.1 caption)"
+      },
       "pass_2": null
+    },
+    {
+      "id": "geo_gse211395",
+      "role": "linked_material",
+      "discovered_from": "manual_14",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sccare-seq__10.1038+s41594-023-01066-9/geo_GSE211395_acc-targ-gsm_brief.soft.txt (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE211395&targ=gsm&form=text&view=brief)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "deferred_followup_02",
+        "date": "2026-10-17",
+        "locations": "GSM6468394 (2i_H_1) extract_protocol lines 447-448, instrument line 466; CARE_rep1 extract_protocol lines 272-273; HiC_rep1 lines 16-17; series record (targ=self) title/summary/PubMed 37580628",
+        "finding": "Single-cell: 1% formaldehyde 10 min; RT, MboI digestion and ligation in intact nuclei; flow sorting into wells and lysis; Tn5 tagmentation per well; pre-amplification; division into halves for DNA and RNA library amplification with respective primer pairs; NovaSeq 6000. Bulk CARE-seq: oligo-biotin-dT RT, tagmentation after lysis without sorting, biotin enrichment."
+      },
+      "reason": "GEO series linked from the defining article's PubMed record (PMID 37580628 -> GSE211395, NCBI elink); author protocol text substituting for paywalled Methods order. Single pass only."
     }
   ],
   "linked_information": {
@@ -163,5 +182,78 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "First-pass review in progress. No missing-information claim accepted; linked source checks and independent pass 2 remain open."
+  "conclusion": "First-pass review in progress. No missing-information claim accepted; linked source checks and independent pass 2 remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Defining NSMB article unavailable (MANIFEST (manual) https://doi.org/10.1038/s41594-023-01066-9; get_sources re-run found no open copy). Read Supplementary Table 1 MOESM3 xlsx.txt rows 1-84 (Tn5/carrier/PreA primers, Oligo-dT-1..8, biotin-dT note row21, N5xx/N7xx/T5xx headings); Peer Review File MOESM2 pdf.txt lines 133-190 (reviewer method summaries), 377-400 and 474-484 (author responses on fixation/3'-end capture); Reporting Summary MOESM1 rendered pp1-2 (image-only, no chemistry)",
+      "oligo_scraper": "Bundle scraper run (--max-hits 15): Table 1 hits lines4-10, 13, 24, 42, 68 followed to source rows; MOESM5 16-nt hits are published-dataset cell barcodes, not scCARE-seq oligos.",
+      "findings": "Earlier note claimed the article XML and Extended Data Fig.1 were read but no such file exists; note corrected and ED Fig.1 branch-primer assignment marked not re-verified. Graph reordered to fixation -> RT -> proximity ligation -> INFERRED tagmentation -> streptavidin separation, based on reviewer description 'fixation followed by sequential reverse transcription and Hi-C' and the represented DNA library (Tn5 fragment spanning a ligation junction); previous tagment-first order had no readable source. Nuclei labelled 1% formaldehyde-fixed. Biotin modification corrected from 'one dT' to unspecified count/position (Table 1 row21). Page caveat states article unavailability, inferred tagmentation position and undrawn digestion/carrier/PreA pre-amplification.",
+      "deferred": [
+        "Defining article Methods and Extended Data Fig.1 (paywalled; manual fetch https://doi.org/10.1038/s41594-023-01066-9)",
+        "Hi-C restriction digestion/end processing and ligation conditions",
+        "Tagmentation position, carrier ssDNA (LIANTI) role and N7-PreA/N5-PreA/A5-PreA pre-amplification step order relative to separation",
+        "Biotin-dT count/position and streptavidin separation procedure",
+        "Read lengths and acquired index cycles",
+        "Protocol Exchange or cited predecessor (LIANTI, CARE-seq bulk) methods"
+      ],
+      "scope": "Capped supplement-only pass; defining article not read; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 2/2 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 6 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Acquisition routes: MANIFEST (manual) https://doi.org/10.1038/s41594-023-01066-9 unchanged; OpenAlex W4385812298 oa_status closed, no repository copy; Unpaywall closed; Europe PMC PMID 37580628 no PMCID/full text; Europe PMC preprint title search found no preprint. Read GEO GSE211395 SOFT (targ=gsm) GSM6468394 extract_protocol lines 447-448, instrument line 466, CARE_rep1 lines 272-273, HiC_rep1 lines 16-17, and series record (targ=self); both cached by hand with MANIFEST.tsv rows. Re-checked Supplementary Table 1 MOESM3 rows 1-21.",
+      "oligo_scraper": "Scraper run on the GEO series text: 0 sequences; earlier Table 1 scraper result stands.",
+      "findings": "Graph corrected from GEO author protocol: added MboI digestion before in-nucleus ligation; added flow-sort/lysis partition into wells; tagmentation per well after ligation is now source-stated (INFERRED marking removed); streptavidin separation removed (GEO names oligo-biotin-dT and biotin enrichment only for bulk CARE-seq) and replaced by pre-amplification with N7-PreA/N5-PreA/A5-PreA (assignment by name, geometry unavailable) and a split into DNA/RNA halves before the N5xx/N7xx and T5xx/N7xx PCRs. RT barcode feature reclassified from cell_barcode to sample_index (RT precedes sorting); per-cell identity from well i5/i7 labelled inferred. Page summary/caveat and note updated.",
+      "deferred": [
+        "Defining NSMB article Methods and Extended Data Fig.1 (paywalled; manual https://doi.org/10.1038/s41594-023-01066-9)",
+        "Digested-end processing and ligation conditions",
+        "Pre-amplification primer combination/cycling; carrier ssDNA (LIANTI) role",
+        "Whether biotin-dT is used in single-cell scCARE-seq",
+        "ED Fig.1 N5xx vs T5xx branch assignment not re-verified",
+        "Read lengths and acquired index cycles",
+        "GEO checklist row has one pass only"
+      ],
+      "scope": "Deferred follow-up acquisition pass; defining article still unread, so status deferred; GEO author protocol text used as linked original; no accepted missing-information claim.",
+      "verification": "suite 2/2 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/10 unresolved/0 contradictory over 9 steps; source guard 0 exact checked, 0 failed, 9 inputs without exact states; Markdown built; audit --check pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining article now on disk: s41594-023-01066-9.pdf (hand-downloaded publisher PDF; printed doi:10.1038/s41594-023-01066-9, title and Qu/Sun...Ding authors verified, NSMB 30:1393-1402). Text twin lines 232-250 (Results overview), 2335-2370 (Tn5 preparation), 2372-2465 (scCARE-seq experimental procedure: fixation, RT, chromatin digestion, proximity ligation, second strand synthesis, FACS/lysis, tagmentation, preamplification, Hi-C and mRNA library preparation, sequencing), 2467-2485 (bulk CARE-seq), 2533-2545 (preprocessing), 2757 (ED Fig.1 caption, image not inspected). Supplementary Table 1 (MOESM3) re-checked for Tn5/carrier/pre-amplification rows.",
+      "oligo_scraper": "Scraper run on the article text: 3 hits, all the Methods oligo(dT)/oligo-biotin-dT RT primer (lines 2390-2391, 2469) checked; Supplementary Table 1 hits from earlier passes stand.",
+      "findings": "Model corrections: authors were wrong (Deng -> Qu, Sun et al.); A5-PreA RNA primer mis-transcribed (CCCTAACGACGC... missing a C; corrected to printed CCCTACACGACGCTCTTCCGATCT, caught by the source-oligo guard; selftest transcription check added); added second-strand synthesis (E6111, 16 C 180 min) before FACS; separate proteinase K reverse-crosslink lysis step with exact carrier ssDNA input; ExoI primer digestion after pre-amplification with degraded primers left unresolved in the well (not discarded); contact junction drawn as reconstituted GATC (derived; no fill-in in single-cell Methods) instead of a 16-nt placeholder bridge; Oligo-dT annotation: no biotin in scCARE-seq, bulk Oligo-biotin-dT has BiodT at position 8. Conditions (SuperScript IV, SDS/MboI 3 h, T4 ligase 16 C 4 h, TAPS-DMF Tn5 55 C, Q5 12-14 cycles, 4/10 indexing cycles, DCC-5 + 0.8x AMPure) added to labels. Pre-amplification and index primers now exact states. N5xx-DNA / T5xx-RNA branch assignment now verified in Methods text. Wording discrepancy shown on page: Tn5 preparation says 'annealed barcoded adapter' vs unbarcoded Tn5-N5/N7 in Supplementary Table 1; model uses printed adapters.",
+      "deferred": [
+        "Role of LIANTI carrier ssDNA (LIANTI predecessor method not read)",
+        "Barcoded vs unbarcoded Tn5 adapter wording",
+        "Read lengths and acquired index cycles (Methods: Illumina platform only)",
+        "Per-molecule pre-amplification primer pairing (inferred from sequence)",
+        "ED Fig.1 schematic image not inspected",
+        "Predecessor methods refs 34, 46, 55, 56 not followed"
+      ],
+      "scope": "Capped bounded pass on the defining article Methods and Supplementary Table 1; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 3/3 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/13 unresolved/0 contradictory over 12 steps; source guard 8 exact checked, 0 failed (after A5-PreA fix), 2 inputs without exact states; Markdown built; audit --check pass"
+    },
+    {
+      "round": "critical-rereview-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "scope": "Critical diff review; focused source cross-checks and model consistency, not a new complete source audit.",
+      "locations": "Local tagmentation-to-PCR declarations and terminal-fate audit; no new reaction-source assertion.",
+      "findings": "Candidate tagmentation products lacking the selected library ends remain unresolved; no represented separation establishes physical discard or amplification behavior.",
+      "deferred": [
+        "Previous linked-source deferrals and independent absence-audit requirements remain open."
+      ],
+      "verification": "Applicable protocol suite, page build, source guard and scoped chemistry passed (zero contradictions); review schema passed. Shared 1275 and source fetcher 226 checks pass. Whole-site verification is recorded in HANDOVER-REVIEW.md.",
+      "documents": 0
+    }
+  ]
 }

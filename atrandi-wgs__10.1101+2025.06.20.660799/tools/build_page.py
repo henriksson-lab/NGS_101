@@ -222,18 +222,18 @@ def step_release_frag() -> str:
     sc.mark("bottom", "far'", "FS cuts somewhere in here; only the barcode-proximal "
                               "fragment becomes a library molecule")
     frag = sc.rows()
-    return f"""<h3>(6) Release from the capsules, then (7) enzymatic fragmentation
-(NEBNext Ultra II FS, #E7805S; 10&nbsp;min at 37&nbsp;&deg;C &rarr; 300&ndash;700&nbsp;bp)</h3>
+    return f"""<h3>(6) Release from the capsules and 0.8X AMPure XP purification, then (7) enzymatic fragmentation
+(NEBNext Ultra II FS, #E7805S; 10&nbsp;min at 37&nbsp;&deg;C, then 30&nbsp;min at 65&nbsp;&deg;C)</h3>
 {panel(frag, cls="small",
-       caption="The Release reagent dissolves the hydrogel shell; the FS enzyme mix then "
-               "fragments, end-repairs and dA-tails in one tube.")}
+       caption="The Release reagent opens the capsules and the released DNA is purified with "
+               "0.8X AMPure XP; the FS enzyme mix then fragments, end-repairs and dA-tails in one tube.")}
 """
 
 
 def step_adapter() -> str:
     ad = A.ligation_adapter().rows()
     both = A.adapter_both_ends()
-    return f"""<h3>(8) Ligate the Atrandi adapter (20&nbsp;&deg;C, 15&nbsp;min &mdash; no USER step)</h3>
+    return f"""<h3>(8) Ligate the Atrandi adapter (NEBNext Ultra II Ligation Master Mix + Enhancer, 20&nbsp;&deg;C, 15&nbsp;min &mdash; no USER step), then 0.8X AMPure XP</h3>
 {panel(ad, cls="small",
        caption="The Atrandi ligation adapter. This is NOT a forked/Y adapter: the 13-nt bottom "
                "strand pairs over all 12 of its 5'-proximal bases, leaving one arm, not two.")}
@@ -261,8 +261,8 @@ def step_pcr() -> str:
     sc.anneal("P5 primer", P5_PRIMER_ANNEAL, to="top", pair=("P5 anneal", "arm"), above=True)
     sc.arrow("P5 primer", "")
     sc.strands["top"].label, sc.strands["bottom"].label = "top", "bottom"
-    return f"""<h3>(9) Indexing PCR (98&nbsp;&deg;C 20&nbsp;s / 54&nbsp;&deg;C 30&nbsp;s /
-72&nbsp;&deg;C 20&nbsp;s, 8&ndash;14 cycles)</h3>
+    return f"""<h3>(9) Indexing PCR (NEBNext Ultra II Q5 Master Mix; 98&nbsp;&deg;C 20&nbsp;s / 54&nbsp;&deg;C 30&nbsp;s /
+72&nbsp;&deg;C 20&nbsp;s, 8&ndash;14 cycles), then double-sided 0.6X/0.8X AMPure XP</h3>
 {panel(sc.rows(),
        caption="The P5 primer lands on the top strand's 20-nt single-stranded adapter arm with "
                "zero slack -- its 25-nt P5 tail hangs off the end. The i7 primer lands on the "

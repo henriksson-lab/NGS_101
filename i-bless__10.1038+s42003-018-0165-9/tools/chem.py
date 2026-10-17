@@ -44,7 +44,7 @@ def protocol_graph():
                          primary=True)
     current = sample
     deproteinization = graph.input("deproteinization_condition",
-                                   "agarose immobilization, spheroplasting and deproteinization condition",
+                                   "Reducta agarose bead emulsion, lyticase spheroplasting, sarkosyl/EDTA wash and overnight 50 °C proteinase K",
                                    MaterialKind.CONDITION)
     protected = graph.product("protected_dna", "agarose-protected deproteinated yeast DNA",
                               MaterialKind.MOLECULAR, state=sample.state)
@@ -53,16 +53,16 @@ def protocol_graph():
                 ((sample, InputRole.TEMPLATE),
                  (deproteinization, InputRole.CONDITION)), (protected,))
     current = protected
-    repair = graph.input("proximal_repair", "native-break blunting and phosphorylation enzyme mix",
+    repair = graph.input("proximal_repair", "Quick Blunting Kit (NEB), 2 h in beads",
                          MaterialKind.CATALYST)
-    repaired = graph.product("repaired_breaks", "blunt 5-prime-phosphorylated native breaks",
+    repaired = graph.product("repaired_breaks", "blunted native breaks",
                              MaterialKind.MOLECULAR, state=current.state)
-    graph.react("repair_breaks", "Blunt and 5-prime-phosphorylate native breaks",
+    graph.react("repair_breaks", "Blunt native breaks in beads (Quick Blunting Kit)",
                 StepKind.END_REPAIR,
                 ((current, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
     proximal = graph.input("proximal_adapter", "biotinylated proximal hairpin",
                            MaterialKind.ADAPTER, state=Construct([Segment("published proximal hairpin", BLESS_PROXIMAL)]), source="Supplementary Table 4; 5′ phosphate and internal biotin-dT shown in oligo list")
-    proximal_ligase = graph.input("proximal_ligase", "proximal-hairpin DNA ligase",
+    proximal_ligase = graph.input("proximal_ligase", "T4 DNA ligase with 100 nM proximal adapter, up to 2 days at 16 °C",
                                   MaterialKind.CATALYST)
     labelled = graph.product("proximal_labelled", "proximal-hairpin-labelled native breaks",
                              MaterialKind.MOLECULAR,
@@ -78,7 +78,7 @@ def protocol_graph():
                  (proximal_ligase, InputRole.CATALYST)), (labelled,),
                 geometry=reported_adapter_end(
                     "BLESS proximal hairpin", kind="blunt",
-                    statement="The repaired native DSB is blunt and 5′ phosphorylated before proximal-hairpin ligation."))
+                    statement="Methods: in-bead DNA-end blunting with Quick Blunting Kit precedes proximal-adapter ligation; the adapter carries a printed 5′ phosphate. Methods name blunting only for this step (phosphorylation is named for the distal step)."))
     sonication = graph.input("sonication", "Covaris S220 sonication", MaterialKind.CONDITION)
     first = graph.product("initial_sonicated", "initially sonicated encapsulated DNA", MaterialKind.MOLECULAR, state=labelled.state)
     graph.react("initial_sonication", "Initially sonicate encapsulated DNA", StepKind.FRAGMENTATION,
@@ -90,7 +90,7 @@ def protocol_graph():
     fragments = graph.product("fragments", "proximal-labelled fragments after second sonication (~400 bp)", MaterialKind.MOLECULAR, state=extracted.state)
     graph.react("fragment", "Sonicate recovered DNA again to about 400 bp", StepKind.FRAGMENTATION,
                 ((extracted, InputRole.TEMPLATE), (sonication, InputRole.CONDITION)), (fragments,))
-    streptavidin = graph.input("streptavidin", "streptavidin capture beads",
+    streptavidin = graph.input("streptavidin", "streptavidin beads (Invitrogen)",
                                MaterialKind.SELECTION)
     captured = graph.product("captured", "captured proximal-labelled break fragments",
                              MaterialKind.MOLECULAR, state=fragments.state)
@@ -100,17 +100,17 @@ def protocol_graph():
                 ((fragments, InputRole.TEMPLATE), (streptavidin, InputRole.SELECTION)),
                 (captured, rejected))
     graph.discard(rejected, "does not retain the biotinylated native-break adapter")
-    distal_repair = graph.input("distal_repair", "distal-end blunting enzyme mix",
+    distal_repair = graph.input("distal_repair", "Quick Blunting Kit (NEB) blunting and phosphorylation",
                                 MaterialKind.CATALYST)
     distal_ready = graph.product("distal_ready", "blunt captured distal fragment ends",
                                  MaterialKind.MOLECULAR, state=captured.state)
-    graph.react("repair_distal", "Blunt the fragmentation-created distal end",
+    graph.react("repair_distal", "Blunt and phosphorylate the fragmentation-created distal end",
                 StepKind.END_REPAIR,
                 ((captured, InputRole.TEMPLATE), (distal_repair, InputRole.CATALYST)),
                 (distal_ready,))
     distal = graph.input("distal_adapter", "distinct distal hairpin",
                          MaterialKind.ADAPTER, state=Construct([Segment("published distal hairpin", BLESS_DISTAL)]), source="Supplementary Table 4; 5′ phosphate shown in oligo list")
-    distal_ligase = graph.input("distal_ligase", "distal-hairpin DNA ligase",
+    distal_ligase = graph.input("distal_ligase", "distal-adapter DNA ligase (enzyme not named in Methods)",
                                 MaterialKind.CATALYST)
     dual = graph.product("dual", "dual-hairpin break fragments", MaterialKind.MOLECULAR,
                          state=molecule("dual-hairpin break fragment", (
@@ -126,8 +126,8 @@ def protocol_graph():
                  (distal_ligase, InputRole.CATALYST)), (dual,),
                 geometry=reported_adapter_end(
                     "BLESS distal hairpin", kind="blunt",
-                    statement="The fragmentation-created distal end is blunted before the distinct distal hairpin is ligated."))
-    iscei = graph.input("iscei", "I-SceI hairpin-release nuclease", MaterialKind.CATALYST)
+                    statement="Methods: captured fragments are blunted and phosphorylated with Quick Blunting Kit (NEB), then ligated to the 5′-phosphorylated distal adapter."))
+    iscei = graph.input("iscei", "I-SceI (NEB)", MaterialKind.CATALYST)
     released = graph.product("released", "linearized dual-tag break inserts",
                              MaterialKind.MOLECULAR, state=dual.state)
     graph.react("linearize", "Linearize the captured hairpin product with I-SceI",
@@ -150,7 +150,7 @@ def protocol_graph():
     graph.react("purify_insert", "Purify insert PCR products", StepKind.CLEANUP,
                 ((amplicon, InputRole.TEMPLATE), (cleanup, InputRole.CONDITION)), (clean, cleanup_other))
     graph.mark_terminal(Terminal(cleanup_other.id, Disposition.UNRESOLVED, "Source names purified PCR product; removed fraction composition and handling remain unassigned."))
-    xhoi = graph.input("xhoi", "XhoI", MaterialKind.CATALYST)
+    xhoi = graph.input("xhoi", "XhoI (NEB)", MaterialKind.CATALYST)
     trimmed = graph.product("trimmed", "XhoI-treated tagged inserts", MaterialKind.MOLECULAR,
                             state=Construct([role("XhoI-treated BLESS-tagged insert; endpoint assembly unassigned")]))
     graph.react("trim_tags", "XhoI-digest purified PCR products", StepKind.DIGESTION,

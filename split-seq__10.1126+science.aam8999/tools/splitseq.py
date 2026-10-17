@@ -7,7 +7,8 @@ from chemdraw import Construct, Scene, Segment, complement_segments, feature, re
 from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole, MaterialKind, MolecularRelation,
-                            ProtocolGraph, SequencingPlan, StepKind)
+                            ProtocolGraph, SequencingPlan, SourceClaim,
+                            SourceDiscrepancy, StepKind)
 import illumina as il
 import seqprimers as sp
 
@@ -83,6 +84,51 @@ def barcoded_first_strand(protocol: str, through: int) -> Construct:
     if through >= 3:
         segs = [*round3(), *segs]
     return Construct(segs, name=f"{protocol} after barcode round {through}")
+
+def _split_seq_splint_parts(round_no: int):
+    """Table S12 splints: each 30-nt linker spans both full 15-nt arms."""
+    if round_no == 2:
+        adapter, substrate, source = round2(), [_s("round-1 handle", SPLIT_R1_HANDLE)], SPLIT_LINK2
+        arms = [_s("round-2 tail arm", R2_TAIL), substrate[0]]
+    elif round_no == 3:
+        adapter, substrate, source = round3(), [_s("round-2 head", R2_HEAD)], SPLIT_LINK3
+        arms = [_s("round-3 tail arm", R3_TAIL), _s("round-2 head arm", R2_HEAD)]
+    else:
+        raise ValueError(round_no)
+    linker = complement_segments(arms)
+    if "".join(x.top for x in linker) != source:
+        raise ValueError(f"SPLiT-seq round-{round_no} linker no longer bridges its two arms")
+    return adapter, substrate, linker
+
+
+def split_seq_splint_ligation_scene(round_no: int) -> Scene:
+    """The SPLiT-seq barcode oligo and prior-round 5′-phosphate end on its Table S12 linker."""
+    adapter, substrate, linker = _split_seq_splint_parts(round_no)
+    sc = Scene(); sc.strand("linker", linker, label=f"round-{round_no} linker")
+    sc.anneal("substrate", substrate, to="linker",
+              pair=(substrate[0].name, linker[0].name),
+              label="previous-round cDNA", mod5="p")
+    sc.anneal("adapter", adapter, to="linker",
+              pair=(adapter[-1].name, linker[-1].name),
+              label=f"round-{round_no} barcode oligo")
+    sc.ligation_end("substrate", substrate[0].name, kind="splinted",
+                    polarity="5-prime", owner="substrate",
+                    text="5′-phosphate at the ligation nick")
+    sc.ligation_end("adapter", adapter[-1].name, kind="splinted",
+                    polarity="3-prime", owner="adapter",
+                    text="3′-OH at the ligation nick")
+    return sc
+
+
+def split_seq_splint_scene(round_no: int) -> Scene:
+    """The sealed SPLiT-seq junction still held by its Table S12 linker."""
+    adapter, substrate, linker = _split_seq_splint_parts(round_no)
+    sc = Scene(); sc.strand("joined strand", [*adapter, *substrate], label="barcoded cDNA")
+    sc.anneal("linker", linker, to="joined strand",
+              pair=(linker[0].name, substrate[0].name), label="linker")
+    sc.junction("joined strand", adapter[-1].name, substrate[0].name)
+    return sc
+
 
 def splint_scene(round_no: int) -> Scene:
     if round_no == 2:
@@ -166,6 +212,8 @@ def _validate():
     rt_scene("SPLiT-seq").rows(); rt_scene("microSPLiT").rows()
     splint_scene(2).rows(); splint_scene(3).rows()
     splint_ligation_scene(2).rows(); splint_ligation_scene(3).rows()
+    for n in (2, 3):
+        split_seq_splint_ligation_scene(n).rows(); split_seq_splint_scene(n).rows()
 _validate()
 
 
@@ -208,8 +256,13 @@ def graph_for(protocol: str):
                     "splinted",splint_ligation_scene(n),splint_scene(n),
                     statement=f"The microSPLiT oligo table establishes the round-{n} splinted nick.")
                   if protocol=="microSPLiT" else
-                  AdapterLigationGeometry.unavailable(
-                    f"The published SPLiT-seq Table S12 prints the oligos, but this model has not yet reconstructed the round-{n} annealing scene."))
+                  AdapterLigationGeometry.known(
+                    "splinted",split_seq_splint_ligation_scene(n),split_seq_splint_scene(n),
+                    statement=(f"Table S12 prints the 5′-phosphorylated prior-round oligo, the "
+                               f"round-{n} barcode oligo and the 30-nt linker "
+                               f"{'BC_0215' if n==2 else 'BC_0060'}; the linker is computed to pair "
+                               f"with both full 15-nt arms across the nick. Annealing and ligation "
+                               f"conditions are in the unavailable methods supplement.")))
         graph.react(f"ligate_round{n}",f"Ligate split-pool barcode round {n}",
                     StepKind.LIGATION,
                     ((current,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
@@ -320,6 +373,18 @@ def graph_for(protocol: str):
                     statement="Supplementary Table S3 prints the complete terminal PCR pair.")
                     if exact_micro else PCRGeometry.unavailable(
                         final,reason="The published primers are known; their sites on the full SPLiT-seq library have not yet been reconstructed.")))
+    if protocol=="SPLiT-seq":
+        graph.annotate(SourceDiscrepancy(
+            "pcr_reverse","Number of round-4 sublibrary index primers",
+            (SourceClaim("Rosenberg et al. 2018 main text, Introduction (PMC7643870 JATS line 72)",
+                         "the fourth barcoding round uses 24 PCR reactions (96 x 96 x 96 x 24 = 21,233,664)"),
+             SourceClaim("Main text, developing-brain experiment (JATS line 80)",
+                         "four rounds of barcoding were 48 x 96 x 96 x 14"),
+             SourceClaim("Supplementary Table S12, General Oligonucleotides",
+                         "eight indexed Nextera tagmentation PCR primers, BC_0076-BC_0083 (TSBC07-TSBC14), all used with the single forward primer BC_0118 (N501)")),
+            model_choice="The graph draws BC_0076 (TSBC07) as a representative reverse primer and does not choose a full index set.",
+            evidence="Table S12 prints only eight distinct i7 primers and one i5 primer; the main text describes 24 possible and 14 used sublibrary barcodes.",
+            uncertainty="The gated methods supplement may list further index primers or explain the sublibrary indexing; it has not been read."))
     lengths=({"Read 1":74,"Read 2":86,"Index 1 (i7)":6}
              if protocol=="microSPLiT" else {})
     graph.sequence(library,SequencingPlan(
@@ -361,12 +426,13 @@ def start_split_pool(graph: ProtocolGraph, *, protocol: str, source: str):
 
 
 def ligate_split_pool_round(graph: ProtocolGraph, current, ligase, *, n: int,
-                            protocol: str, source: str):
+                            protocol: str, source: str, splint_state):
+    """One splinted barcode round; the caller supplies its source-transcribed splint."""
     adapter = graph.input(f"round{n}_adapter", f"round-{n} split-pool barcode adapter",
                           MaterialKind.ADAPTER,
                           state=tuple(round2() if n == 2 else round3()), source=source)
     splint = graph.input(f"round{n}_splint", f"round-{n} ligation splint",
-                         MaterialKind.ADAPTER, source=source)
+                         MaterialKind.ADAPTER, state=splint_state, source=source)
     product = graph.product(f"round{n}_cdna", f"cDNA after barcode round {n}",
                             MaterialKind.MOLECULAR,
                             state=barcoded_first_strand(protocol, n), source=source)

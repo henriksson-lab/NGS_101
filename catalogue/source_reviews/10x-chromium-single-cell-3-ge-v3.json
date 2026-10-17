@@ -210,5 +210,24 @@
     "locations": "Repository Python/Markdown search for tenx_v3, CG000183, INDEX1_PRIMER[:-1] and literal32-base adapter; inspected tenx_csp.protocol_graph, tenx_crispr.protocol_graph, zipseq.protocol_graph, oak chem.protocol_graph and their library constructors/source authorities.",
     "affected_page": "10x-chromium-single-cell-3-ge-v3/10x-3prime-v3.html",
     "finding": "Only this page constructs the source-specific32-base CG000183 input adapter and its pre-index ligation product. No other protocol imports tenx_v3. Cell Surface Protein (CG000185) and direct CRISPR capture (CG000184) shown branches install the Read2 end through tag copying/PCR rather than this adapter ligation. ZipSeq and OAK cite CG000183 for v3 bead/endpoint context but currently show final-library shells, not the disputed adapter input. Canonical final-library terminalC is compatible with either32/33-base input after index PCR and does not inherit the source disagreement by itself. No additional page notice added."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "10x CG000183 Rev A user guide (scg_CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf.txt TOC lines 98–132, Steps 2.1/2.3 3122–3210/3452, 3.1 program 3750–3800, 3.2 3890–3905, 3.4 4028–4035, 3.6 4225–4235, sequencing table 4370–4392, Appendix oligonucleotide sequences 4868–5016 pp. 54–55)",
+      "oligo_scraper": "Full bundle scraper run; CG000183 Appendix hits lines 4877–5016 (bead, Capture Seq 1 bead primer, TSO, cDNA primers, 32-nt adapter + 13-nt strand, index primers, products) all match the model.",
+      "findings": "No oligo or read-layout change (28/8/0/91 confirmed); existing poly(dT)VN-vs-T30 and 32-nt adapter vs CAGTCAC discrepancy notices rechecked. Added guide bead cleanups: Dynabeads SILANE post GEM-RT (2.1), 0.6X SPRI (2.3), double-sided 0.6X/0.8X (3.2), 0.8X post-ligation (3.4), double-sided 0.6X/0.8X post-index (3.6), removed fractions typed as discarded waste; sequenced library is the 3.6 product. Page shows the printed second gel-bead primer (Nextera Read 1 · N16 · N12 · Capture Sequence 1, 'Primer not used for 3' Gene Expression') with a transcription check.",
+      "deferred": [
+        "Later CG000183 revisions not compared",
+        "RT primer and TSO graph inputs without exact states (shared ChromiumRNAOps)",
+        "Capture Seq 1 bead-primer behaviour in GE GEMs (not stated)",
+        "Cell Ranger 7.2 barcode inclusion-list page (manual, HTTP 429)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 and page build pass; pairing 0 problems; chemistry 14 steps, 2 established/1 conditional/14 unresolved/0 contradictory; source guard 6 exact checked, 0 failed, 2 unrepresented (rt_primer, tso); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

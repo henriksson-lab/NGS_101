@@ -126,5 +126,26 @@
       "evidence": "Additional file 2 contains these oligos; remaining vendor-specific interpretation is open."
     }
   ],
-  "conclusion": "Independent second readings confirm the published LAST hairpin, rU-dT tail, random RT and index oligos. Additional file 3 is peer-review history. A later NEB manual agrees with Table S3 but historical kit/version remains unresolved; a first independent read of file 3 and the NEB manual is also pending. BC5/BC7 barcode collision is source-printed and now disclosed on the page."
+  "conclusion": "Independent second readings confirm the published LAST hairpin, rU-dT tail, random RT and index oligos. Additional file 3 is peer-review history. A later NEB manual agrees with Table S3 but historical kit/version remains unresolved; a first independent read of file 3 and the NEB manual is also pending. BC5/BC7 barcode collision is source-printed and now disclosed on the page.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Genome Biology PMC10413806 JATS xml.txt Methods 'LAST-seq assay' lines 147–167 (barcode design, primer preparation, lysis, RNase H/Klenow + T7 IVT, library preparation) and 'Sequencing' line 191; Additional file 2 (MOESM2 xlsx.txt) Tables S2/S3 lines 7–134; Additional file 1 (MOESM1 docx.txt) Fig. S3/S8 legends.",
+      "oligo_scraper": "Bundle scraper run: 107 hits, all in MOESM2 (Table S2 validation/ERCC/qPCR oligos, Table S3 hairpin family, dTrU tail, RandomRT primer6, P5, P7, NEBNext1-12 and NEBNext Universal lines 118–132). Library-primer hits checked against the xlsx text.",
+      "findings": "Model corrections: final library joined P5 + full TruSeq Read 1 (duplicated ACAC); now P5 + NEBNext Universal remainder. Added rU-dT linker and hairpin closing-arm complements and variable poly(A) between insert and cell barcode, so Read 2 (25 cycles) = UMI 8 + CB 6 + closing arm 11. i7 index corrected from 8 to 6 nt (Table S3 NEBNext index primers). Graph adds ligation conditions and urea-PAGE purification, lysis 65C 5 min, RNase H/Klenow 37C 30 min, pooling with 0.5X beads, on-bead overnight IVT, 0.8X beads, RT temperatures, 8-cycle Q5 PCR, 0.9X beads, second PCR and final bead cleanup with waste terminals. Source ambiguity shown on page: Methods name 'P5/P7 primers' for the 8-cycle PCR but computed Table S3 short P5/P7 3' sites on the RT-product ends are 5/3 nt vs 21/21 nt for NEBNext Universal/index; model assigns PCR1 to NEBNext and PCR2 to P5/P7 as inferred. Table S3 primers added to oligo list with 3' phosphorothioate; selftest transcribes them. Existing BC5/BC7 CAGGAA collision notice retained (lines 48/50 re-checked).",
+      "deferred": [
+        "Second PCR primers and cycle number (not stated)",
+        "Meaning of 'P5/P7 primers' in Methods line 167",
+        "Index-read cycles",
+        "Intended distinct BC5 or BC7 barcode",
+        "Additional file 3 (MOESM3) not inspected within cap",
+        "CEL-seq/SMART-seq comparison branches not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 6/6 pass; page builds; pairing 0 problems; chemistry 7 established/0 conditional/14 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 2 inputs without exact states; Markdown built; audit --check pass"
+    }
+  ]
 }

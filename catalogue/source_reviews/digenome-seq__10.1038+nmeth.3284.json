@@ -88,5 +88,24 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Defining paper unavailable and linked vendor applicability uncertain; all original missing claims blocked."
+  "conclusion": "Defining paper unavailable and linked vendor applicability uncertain; all original missing claims blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Defining Nature Methods 2015 article still paywalled and unread ((manual) row, https://doi.org/10.1038/nmeth.3284). Read: defining supplement 41592_2015_BFnmeth3284_MOESM426_ESM.pdf.txt lines 1-40 (figure legends) and Supplementary Note 1 lines 7250-7265 ('subjected to WGS via Illumina HiSeq X 10'); Genome Research 2016 successor PMC4772022_PMC4772022.xml.txt Methods lines 132/136 (RNase A 50 ug/mL, DNeasy, Covaris 400-500 bp, 1 ug ligated with adaptors using TruSeq DNA library prep kit, HiSeq X Ten 30-40x, adaptor clipping AGATCGGAAGAGC/GCTCTTCCGATCT) and Discussion line 114 (no PCR before WGS); Illumina Adapter Sequences 1000000002694 v22 (TruSeq single indexes are six bases).",
+      "oligo_scraper": "Bundle scraper run. Hits in the 2015 supplement are the targeted-deep-sequencing validation primers (Supplementary Tables 4/6) with TruSeq amplicon tails, not WGS library oligos; the Genome Research hits are the two adapter-clipping stems. No source read here prints a library adapter oligo.",
+      "findings": "No library-chemistry correction was available, but the declared read layout was unsourced: READ_LENGTHS declared Read 1 150 / Index 1 6 / Read 2 150 while neither readable source gives any cycle count. Set READ_LENGTHS = None and rewrote SEQUENCING_INTRO to attribute the instrument to Supplementary Note 1 (HiSeq X 10) and the 2016 Methods (HiSeq X Ten, 30-40x) instead of to the unread defining Methods; the read table now shows 'not fixed' cycles. Confirmed the already-inferred TruSeq shell (inferred_adapters=True, i7_nt=6) against the Illumina adapter document and left it inferred. Rewrote the note's stale 'Unsubstantiated on the page' section as 'Model choices and open questions' with the two resolved items and the new one.",
+      "deferred": [
+        "Defining Nature Methods 2015 Methods (paywalled; (manual) manifest row)",
+        "Kim/Kang/Kim Nature Protocols 2021 doi:10.1038/s41596-020-00453-6 (paywalled, deliberately unregistered)",
+        "Which TruSeq DNA kit (PCR-Free vs Sample Prep/Nano) and its index format",
+        "Acquired read and index-read cycle counts for the HiSeq X runs"
+      ],
+      "scope": "Capped defining-source pass only; the defining Methods remains unread, so no missing-information claim is accepted and the protocol stays blocked.",
+      "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/7 unresolved/0 contradictory; source guard 0 checked, 0 failed, 2 inputs without exact states; Markdown built/checked; review schema (audit --check) pass, protocol still blocked."
+    }
+  ]
 }

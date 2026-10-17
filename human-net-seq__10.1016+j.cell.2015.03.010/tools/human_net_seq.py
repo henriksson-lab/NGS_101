@@ -121,7 +121,7 @@ def protocol_graph():
                 ((fragmented,InputRole.TEMPLATE),(rna_size_rule,InputRole.SELECTION)),
                 (selected_rna,rejected_rna))
     graph.discard(rejected_rna,"RNA outside the 35-to-100-nt interval is excised away")
-    rt_primer=graph.input("rt_primer","published NET-seq reverse-transcription primer",
+    rt_primer=graph.input("rt_primer","published NET-seq reverse-transcription primer oLSC007 (1.9 uM final, lowered from 10.9 uM)",
                           MaterialKind.OLIGO, state=rt_state())
     rt=graph.input("reverse_transcriptase","SuperScript III (inherited 2012 method)",MaterialKind.CATALYST)
     cdna=graph.product("cdna","linker-primed first-strand cDNA",MaterialKind.MOLECULAR,
@@ -151,16 +151,21 @@ def protocol_graph():
                 (circle,),geometry=CircularizationGeometry.known(
                     "single-strand intramolecular ligation",
                     statement="CircLigase joins the phosphorylated cDNA 5-prime end to its 3-prime hydroxyl."))
-    depletion=graph.input("depletion_oligos","biotinylated mature-RNA depletion oligos",
+    depletion=graph.input("depletion_oligos","biotinylated oligos complementary to 3-prime ends of 19 abundant mature RNAs (Table S1; identities route-blocked)",
                           MaterialKind.SELECTION)
-    depleted=graph.product("depleted","mature-RNA-depleted cDNA circles",
+    hybridization=graph.input("depletion_hybridization","2x SSC (1 ul 20x in 10 ul); 99 C 90 s, ramp 0.1 C/s to 37 C, 15 min at 37 C",
+                              MaterialKind.CONDITION)
+    beads=graph.input("streptavidin_beads","MyOne Streptavidin C1 beads in 2x bind/wash buffer, 15 min 37 C",
+                      MaterialKind.SELECTION)
+    depleted=graph.product("depleted","mature-RNA-depleted cDNA circles (recovered supernatant)",
                            MaterialKind.MOLECULAR,state=CIRCLE)
-    abundant=graph.product("abundant_cdna","captured abundant mature-RNA cDNAs",
+    abundant=graph.product("abundant_cdna","bead-bound probe-hybridized abundant mature-RNA cDNAs",
                            MaterialKind.WASTE)
     graph.react("deplete","Remove abundant mature-RNA cDNA circles",StepKind.AFFINITY_CAPTURE,
-                ((circle,InputRole.TEMPLATE),(depletion,InputRole.SELECTION)),
+                ((circle,InputRole.TEMPLATE),(depletion,InputRole.SELECTION),
+                 (hybridization,InputRole.CONDITION),(beads,InputRole.SELECTION)),
                 (depleted,abundant))
-    graph.discard(abundant,"biotinylated depletion probes remove abundant mature-RNA products")
+    graph.discard(abundant,"Probe-hybridized circles stay on the streptavidin beads on the magnet; the supernatant is recovered and isopropanol-precipitated. Complete removal is not assumed.")
     forward=graph.input("index_forward","index-forward PCR strand — actual 2015 ordered member unassigned",
                         MaterialKind.OLIGO, source=SOURCE+" (ordered strand unassigned in this model)")
     reverse=graph.input("reverse_primer","published NET-seq reverse PCR primer",
@@ -183,6 +188,8 @@ def protocol_graph():
     graph.discard(rejected_pcr, "The inherited 2012 procedure physically excludes primer-carryover and undesired PCR gel bands; no complete removal is assumed.")
     graph.annotate(Highlight("library_pcr", "Predecessor primers and background are version-specific",
         "The 2012 original prints oNTI230/oNTI231 and indexed oMHL001/002 alternatives. This does not identify the selected 2015 forward member. "
+        "Its RT primer oLSC003 carried the oNTI230 tract; the 2015 oLSC007 omits it, so oNTI230 alone has no site in the 2015 circle, whereas the oMHL001/002 3-prime ends match the oLSC006 site (sequence comparison, not a source statement). "
+        "The 2016 successor names only an Illumina Index forward primer. "
         "The inherited procedure warns about primer carryover in PCR; the 2016 successor explicitly describes empty-circle products near 120 nt. "
         "That successor size is not assigned to the 2015 branch. The retained ATC before the reverse-primer complement comes from the 2015 RT primer across circle closure."))
     graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
@@ -194,6 +201,6 @@ def protocol_graph():
         "nascent_rna","linker","linker_ligase","ligate_linker",
         "alkaline_hydrolysis","fragment_rna","rna_size_rule","select_rna","rt_primer",
         "reverse_transcriptase","reverse_transcribe","rna_removal","remove_rna","size_rule","size_select",
-        "circligase","circularize","depletion_oligos","deplete","index_forward",
+        "circligase","circularize","depletion_oligos","depletion_hybridization","streptavidin_beads","deplete","index_forward",
         "reverse_primer","pcr_polymerase","library_pcr","final_gel","select_library","library"),SOURCE)
     return graph.require_publishable()

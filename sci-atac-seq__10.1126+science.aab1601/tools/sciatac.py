@@ -78,6 +78,23 @@ TWO_LEVEL_PRIMERS = (
 )
 
 
+# Cusanovich 2015 SM "Sequencing": MiSeq v2 300-cycle kit, custom recipe, paired
+# 51-bp reads, index reads covering Tn5 and PCR barcodes, "custom primers as
+# described in (17, 18)". Amini 2014 (ref 18) prints custom Read 1, Index 1 and
+# Read 2 primers but no Index 2 primer; the 2018 custom Index 2 primer is not
+# imported here. INFERRED: the i5 index read is primed off the flow-cell P5 oligo
+# (forward-strand workflow), reading PCR i5 before the Tn5 i5, consistent with
+# the GEO GSM1647121 barcode order [Tn5 i1][PCR i1][PCR i2][Tn5 i2].
+SCI15_PRIMERS = (
+    TWO_LEVEL_PRIMERS[0], TWO_LEVEL_PRIMERS[1],
+    sp.custom("Index 2 (i5)", "flow-cell P5 oligo (INFERRED forward-strand i5 read)", il.P5,
+              "Cusanovich 2015 SM Sequencing; Amini 2014 Supplementary Table 4 (no Index 2 primer)",
+              "INFERRED — no Index 2 primer is printed for the 2015 MiSeq run; "
+              "GEO barcode order places PCR i5 before Tn5 i5."),
+    TWO_LEVEL_PRIMERS[3],
+)
+
+
 def two_level_library(protocol: str, *, pcr_n: int,
                       inferred: bool) -> Construct:
     """Assemble either published two-round variant from caller-owned index choices."""
@@ -129,6 +146,16 @@ def sci3_library() -> Construct:
     errors = sp.verify(con, SCI3_PRIMERS)
     if errors: raise ValueError("invalid sci-ATAC-seq3 library: " + "; ".join(errors))
     return con
+
+
+def gap_filled_fragment() -> Construct:
+    """Double-stranded T5...T7 fragment after the 9-nt gaps are filled, before PCR."""
+    right = t7()
+    return Construct([
+        *t5(), variable("genomic insert", 19, "X", None),
+        *[Segment(s.name + "'", revcomp(s.top) if not s.placeholder else s.top.lower(),
+                  s.tag, s.placeholder, feature=s.feature) for s in reversed(right)],
+    ], name="gap-filled T5...T7 fragment")
 
 
 def library(protocol: str) -> Construct:

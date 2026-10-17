@@ -4,6 +4,7 @@ import sys
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import rnascope as M
 from branched_dna_page import render
+from page import info
 OUT=HERE.parent/"rnascope.html"
 
 
@@ -17,7 +18,7 @@ def render_page():
                 "two 14-nt Z tails jointly form the preamplifier docking duplex."))
     if heading not in page:
         raise ValueError("branched-DNA page no longer exposes the topology insertion point")
-    return page.replace(heading, fold + heading, 1)
+    return page.replace(heading, fold + heading + "\n" + info(M.HYBRIDIZATION_SERIES), 1)
 
 
 if __name__=="__main__": OUT.write_text(render_page(),encoding="utf-8"); print(f"wrote {OUT}")

@@ -104,5 +104,25 @@
       "evidence": "Original Methods lines 370-375 say the second RT primer complements the ligated adapter, but Table S7 prints TCTAGCCTTCTCGCAGCACATC. The reverse complement of the printed adapter constant AGATCGGAAGAGCGTCGTGTAG is CTACACGACGCTCTTCCGATCT, the later 2.0 RT2. The 2014 site cannot be assigned from the printed sequences."
     }
   ],
-  "conclusion": "Two independent readers checked the 2014 main article, primer tables and coauthor-uploaded full Methods. The original source resolves reaction order and most conditions. The 2014 RT2 landing conflicts with its printed adapter/primer relationship, and the separate PMC figure PDF remains gated; no missing claim is accepted."
+  "conclusion": "Two independent readers checked the 2014 main article, primer tables and coauthor-uploaded full Methods. The original source resolves reaction order and most conditions. The 2014 RT2 landing conflicts with its printed adapter/primer relationship, and the separate PMC figure PDF remains gated; no missing claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Jaitin 2014 PMC4412462 JATS lines 50-52 (three-level barcoding, 384-well FACS, 1536 cells/lane, supplementary-methods pointer); original Science supplement table extract scg_jaitin-sm.pdf.txt lines 1-20 (identity), Table S7 lines 23-46, Table S8 lines 47-67; coauthor ResearchGate full Methods and science.org jaitin-sm.pdf both HTTP 403 this pass (not re-read)",
+      "oligo_scraper": "Bundle scraper run; Table S7 RT1/adapter/RT2/P5_Rd1/P7_Rd2 hits (lines 31-46) and Table S8 family lines 60-67 checked against the extract; Table S9 lines 69-88 are RT-preamplification gene primers, not library oligos; MOESM4/MOESM5 hits belong to MARS-seq2.0.",
+      "findings": "Computed that the printed Table S7 RT2 TCTAGCCTTCTCGCAGCACATC read right-to-left is CTACACGACGCTCTTCCGATCT, exactly revcomp of the printed adapter constant AGATCGGAAGAGCGTCGTGTAG, consistent with the Methods' 'complementary to the adapter' (prior two-reader lines 370-375). Replaced the former 'no contiguous 8-base match' notice with a graph-adjacent published-discrepancy notice naming both values; model keeps the printed string as source value, RT2 step stays INFERRED with no landing chosen (MARS1_RT2_PRINTED_REVERSED / MARS1_RT2_REVERSAL_IS_ADAPTER_COMPLEMENT computed in marsseq.py). Corrected stale note/selftest text that called the 2.0 RT2 upstream-only. Reaction order/Exo I/oligos otherwise unchanged.",
+      "deferred": [
+        "Coauthor-uploaded full Jaitin-SM Methods (HTTP 403 this pass; prior two-reader lines 108-390 not re-read)",
+        "Science/PMC supplementary figures PDF NIHMS666898 (gated)",
+        "2014 RT2 ordered orientation and landing (printed 5'->3' vs reversed reading)",
+        "2014 acquired read lengths/instrument",
+        "Conditions (Zn2+ 70C 3min, T4 RNA ligase I 22C 2h, AffinityScript) not yet attached to graph inputs"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 9 checks pass; page builds; pairing 0 problems; chemistry 0 established/8 conditional/11 unresolved/0 contradictory; source guard 3 exact checked (RT1, pool adapter, printed RT2), 0 failed, PCR primers excepted for PDF line split; MARS-seq2.0 suite (imports marsseq/page_parts) passes; Markdown built/checked; review schema checked"
+    }
+  ]
 }

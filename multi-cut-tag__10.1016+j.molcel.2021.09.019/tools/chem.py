@@ -11,8 +11,7 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import (Construct, MolecularState, Row, Scene, Workflow,
-                      duplex_rows, feature, revcomp)
+from chemdraw import Construct, Scene, feature, revcomp
 from tagmentation import loaded_tn5_adapter
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
@@ -22,7 +21,11 @@ from protocol_model import molecule, role
 TITLE = "Multi-CUT&Tag — antibody-coded targeted transposition"
 NOTES = "01_multi-cut-tag.html"
 SOURCE = ('Defining source: <a href="https://doi.org/10.1016/j.molcel.2021.09.019">'
-          'Gopalan et al., <i>Molecular Cell</i> (2021)</a>.')
+          'Gopalan et al., <i>Molecular Cell</i> (2021)</a>, STAR Methods. Oligo sequences '
+          'are from Supplemental Table 1 of the <a href="https://doi.org/10.1101/2021.04.27.441642">'
+          'bioRxiv preprint</a>, because the published Table S1 (PMC supplement '
+          'NIHMS1743381-supplement-2.pdf) could not be retrieved; the published Methods name the '
+          'same A/B oligo series and custom primers.')
 SUMMARY = ("Each antibody is coupled to pA–Tn5 loaded with a distinct eight-base adapter "
            "code. Both ends of every chromatin fragment consequently report which "
            "antibody-targeted transposomes made it.")
@@ -30,7 +33,10 @@ CAVEAT = ("The exact construct below is the paper’s bulk Multi-CUT&Tag branch.
           "single-cell branch passes the same target-coded fragments into the 10x Chromium "
           "Single Cell ATAC workflow. The 10x CG000209 guide prints its invariant gel-bead "
           "arms, and vendor software distributes its barcode whitelist; the exact barcode "
-          "acquired by a particular cell varies by experiment.")
+          "acquired by a particular cell varies by experiment. INFERRED: the bulk barcoded "
+          "i5/i7 amplification primers are named in the Methods but not printed in the "
+          "inspected sources, so the P5–i5 and i7–P7 arms of the bulk library are inferred; "
+          "only their positions next to the custom Index2/Index1 primer sites are derived.")
 
 # Table S1. The four entries in each family differ only in the antibody barcode.
 READ1 = "TCGTCGGCAGCGTCTCCACGC"
@@ -101,13 +107,13 @@ TRANSFERRED = transferred_fragment()
 
 def _final_library() -> Construct:
     return Construct([
-        seg("P5", il.P5, "p5"),
-        seg("i5", "J" * 8, "cbc", placeholder=True,
+        seg("P5", il.P5, "p5", inferred=True),
+        seg("i5", "J" * 8, "cbc", placeholder=True, inferred=True,
             feature=feature("sample_index_i5", "sample_index", "unknown")),
         *list(TRANSFERRED),
-        seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True,
+        seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True, inferred=True,
             feature=feature("sample_index_i7", "sample_index", "unknown")),
-        seg("P7 reverse complement", il.P7_RC, "p7"),
+        seg("P7 reverse complement", il.P7_RC, "p7", inferred=True),
     ], name="bulk Multi-CUT&Tag library")
 
 
@@ -150,100 +156,120 @@ def oligos():
     return rows
 
 
-def workflow() -> Workflow:
-    start = Scene.duplex([seg("chromatin", "X" * 42, placeholder=True)],
-                         label="native chromatin")
-    wf = Workflow(MolecularState("Antibody-bound native chromatin", tuple(start.rows())))
-    wf.react("Anneal the two target-coded adapter families and load pA–Tn5",
-             [*loaded_adapter_scene(adapter_a(), "adapter A").rows(),
-              *loaded_adapter_scene(adapter_b(), "adapter B").rows()],
-             name="Antibody-specific A/B transposomes",
-             note="Each antibody receives one matched A/B barcode pair; Tn5MErev is 5′-phosphorylated.")
-    wf.react("Tether the loaded pA–Tn5 complexes through their antibodies",
-             [Row(chunks=[("chromatin target ← antibody ← pA–Tn5 [exact A/B duplexes above]", None, False)])],
-             name="Washed, target-bound transposomes")
-    wf.react("Activate tagmentation and fill the 9-bp staggered gaps",
-             duplex_rows(TRANSFERRED, label="target-coded chromatin fragment"),
-             name="Gap-filled antibody-coded fragments",
-             note="The representative has different end codes; same-code products are equally valid.")
-    wf.react("Amplify with indexed i5/i7 primers",
-             duplex_rows(FINAL_LIBRARY, label="bulk sequencing library"),
-             name="Bulk Multi-CUT&Tag library",
-             note="PCR adds P5, P7 and the two 8-cycle sample indexes around the exact target-coded insert.")
-    wf.react("For the single-cell branch, instead enter the 10x scATAC GEM workflow",
-             [Row(chunks=[("same target-coded fragment → 10x gel-bead cell barcode → sample-index PCR", None, False)])],
-             name="Single-cell branch (vendor oligo sequence unavailable)",
-             note="The paper uses 16 Index 2 cycles for the single-cell run; the 10x guide prints the gel-bead architecture, while the cell barcode varies by experiment.")
-    return wf
+PUBLISHED = ("Gopalan et al. 2021 PMC8604773 STAR Methods (pA-Tn5 loading; bulk "
+             "multi-CUT&Tag and library preparation; sequencing; single-cell multi-CUT&Tag)")
+TABLE_S1 = ("bioRxiv 2021.04.27.441642 v1 Supplemental Table 1 (published Table S1, "
+            "NIHMS1743381-supplement-2.pdf, was not retrievable)")
 
 
 def protocol_graph():
     graph = ProtocolGraph(TITLE, authority=SOURCE)
-    nuclei = graph.input(
-        "nuclei", "permeabilized native-chromatin nuclei", MaterialKind.BIOLOGICAL,
-        state=molecule("native chromatin", (role("multiple antibody-defined epitopes"),)),
-        primary=True)
-    antibodies = graph.input("coded_antibodies", "target antibodies assigned matched A/B codes",
-                             MaterialKind.SELECTION)
-    loaded_adapters = graph.input(
-        "loaded_ab_adapters", "published A/B barcode-loaded pA–Tn5 transposomes",
-        MaterialKind.ADAPTER,
+    adapters = graph.input(
+        "loaded_ab_adapters", "Table S1 A/B barcoded oligos each annealed to /5Phos/Tn5MErev "
+        "(45 µM, 95 °C 5 min, 0.1 °C/min to 25 °C)", MaterialKind.ADAPTER,
+        source=TABLE_S1,
         state=(loaded_adapter_scene(adapter_a(), "adapter A"),
                loaded_adapter_scene(adapter_b(), "adapter B")))
-    pa_tn5 = graph.input("pa_tn5", "Protein A–Tn5 transposase", MaterialKind.CATALYST)
-    targeted = graph.product("targeted_nuclei", "washed antibody-coded pA–Tn5 chromatin",
-                             MaterialKind.MOLECULAR, state=nuclei.state)
-    wash = graph.product("unbound_targeting_reagents", "unbound antibodies and transposomes",
+    pa_tn5 = graph.input("pa_tn5", "6-His-tagged Protein A–Tn5 transposase", MaterialKind.CATALYST)
+    antibodies = graph.input("coded_antibodies", "antibody of interest for each barcode pair",
+                             MaterialKind.SELECTION)
+    coupled = graph.product("ab_pa_tn5_crude", "adapter-loaded Ab·pA–Tn5 with free adapters "
+                            "and uncomplexed antibody", MaterialKind.MOLECULAR,
+                            state=adapters.state)
+    graph.react("load_and_couple", "Load each A/B adapter pair onto pA–Tn5 (glycerol, RT 60 min), "
+                "then couple to its antibody (~2:1, 4 °C 4 h/overnight)", StepKind.BINDING,
+                ((adapters, InputRole.TEMPLATE), (pa_tn5, InputRole.CATALYST),
+                 (antibodies, InputRole.SELECTION)), (coupled,), changes_molecule=False)
+    his_beads = graph.input("his_tag_beads", "Dynabeads His-Tag pulldown, 300 mM imidazole "
+                            "elution, Amicon buffer exchange", MaterialKind.SELECTION)
+    complexes = graph.product("ab_pa_tn5", "purified Ab·pA–Tn5 complexes", MaterialKind.MOLECULAR,
+                              state=adapters.state)
+    free = graph.product("free_adapters_antibody", "uncomplexed antibody and free adapters",
                          MaterialKind.WASTE)
-    graph.react("target_chromatin", "Tether coded pA–Tn5 complexes through their antibodies",
-                StepKind.AFFINITY_CAPTURE,
-                ((nuclei, InputRole.TEMPLATE), (antibodies, InputRole.SELECTION),
-                 (loaded_adapters, InputRole.STRUCTURAL), (pa_tn5, InputRole.CATALYST)),
-                (targeted, wash))
+    graph.react("purify_complexes", "His-tag purify Ab·pA–Tn5 complexes", StepKind.CLEANUP,
+                ((coupled, InputRole.TEMPLATE), (his_beads, InputRole.SELECTION)),
+                (complexes, free), changes_molecule=False)
+    graph.discard(free, "is removed by His-tag pulldown before the complexes meet cells")
+    nuclei = graph.input(
+        "nuclei", "cells (bulk: 100,000 on concanavalin A beads; single-cell: 200,000 free)",
+        MaterialKind.BIOLOGICAL,
+        state=molecule("native chromatin", (role("multiple antibody-defined epitopes"),)),
+        primary=True)
+    bound = graph.product("bound_nuclei", "cells with bound and unbound Ab·pA–Tn5 complexes",
+                          MaterialKind.MOLECULAR, state=nuclei.state)
+    graph.react("target_chromatin", "Bind complexes overnight at 4 °C in Dig-wash + 2 mM EDTA",
+                StepKind.BINDING, ((nuclei, InputRole.TEMPLATE), (complexes, InputRole.STRUCTURAL)),
+                (bound,), changes_molecule=False)
+    washes = graph.input("target_washes", "three washes (bulk: Dig-med on magnet; single-cell: "
+                         "Dig-wash, 600 g pelleting)", MaterialKind.SELECTION)
+    targeted = graph.product("targeted_nuclei", "washed cells with bound Ab·pA–Tn5 complexes",
+                             MaterialKind.MOLECULAR, state=nuclei.state)
+    wash = graph.product("unbound_targeting_reagents", "unbound Ab·pA–Tn5 complexes",
+                         MaterialKind.WASTE)
+    graph.react("wash_unbound", "Wash away unbound complexes", StepKind.CLEANUP,
+                ((bound, InputRole.TEMPLATE), (washes, InputRole.SELECTION)),
+                (targeted, wash), changes_molecule=False)
     graph.discard(wash, "is removed before magnesium activation")
-    magnesium = graph.input("magnesium", "magnesium tagmentation condition",
+    magnesium = graph.input("magnesium", "10 mM MgCl2 in Dig-med buffer, 37 °C 1 h",
                             MaterialKind.CONDITION)
-    tagged = graph.product("target_coded_fragments", TRANSFERRED.name,
-                           MaterialKind.MOLECULAR, state=TRANSFERRED)
-    tn5_waste = graph.product("tn5_waste", "non-amplifiable or mistargeted Tn5 products",
-                              MaterialKind.WASTE)
+    tagged = graph.product("target_coded_fragments", "tagmented antibody-coded fragments "
+                           "(9-nt gaps unfilled)", MaterialKind.MOLECULAR, state=TRANSFERRED)
     graph.react("tagment", "Transfer antibody-coded adapters at target-proximal chromatin",
                 StepKind.TAGMENTATION,
-                ((targeted, InputRole.TEMPLATE), (loaded_adapters, InputRole.STRUCTURAL),
+                ((targeted, InputRole.TEMPLATE), (complexes, InputRole.STRUCTURAL),
                  (pa_tn5, InputRole.CATALYST), (magnesium, InputRole.CONDITION)),
-                (tagged, tn5_waste))
-    graph.discard(tn5_waste, "does not retain a productive A/B target-code pair")
-    gap_polymerase = graph.input("gap_fill_polymerase", "Tn5-gap-fill polymerase",
-                                 MaterialKind.CATALYST)
-    filled = graph.product("gap_filled", "gap-filled antibody-coded fragments",
-                           MaterialKind.MOLECULAR, state=TRANSFERRED)
-    graph.react("gap_fill", "Fill the 9-bp staggered Tn5 gaps", StepKind.EXTENSION,
-                ((tagged, InputRole.TEMPLATE), (gap_polymerase, InputRole.CATALYST)),
-                (filled,))
-    bulk = graph.product("bulk_branch", "bulk Multi-CUT&Tag fragments",
+                (tagged,))
+    bulk = graph.product("bulk_branch", "bulk tagmented fragments",
                          MaterialKind.MOLECULAR, state=TRANSFERRED)
-    single_cell = graph.product("single_cell_branch", "single-cell Multi-CUT&Tag fragments",
+    single_cell = graph.product("single_cell_branch", "single-cell tagmentation reaction",
                                 MaterialKind.MOLECULAR, state=TRANSFERRED)
-    graph.react("split_branches", "Route target-coded fragments to bulk or single-cell preparation",
-                StepKind.SPLIT, ((filled, InputRole.TEMPLATE),), (bulk, single_cell),
+    graph.react("split_branches", "Bulk and single-cell experiments are separate preparations",
+                StepKind.SPLIT, ((tagged, InputRole.TEMPLATE),), (bulk, single_cell),
                 changes_molecule=False)
 
-    bulk_forward = graph.input("bulk_forward", "published indexed i5 PCR primer family",
-                               MaterialKind.OLIGO)
-    bulk_reverse = graph.input("bulk_reverse", "published indexed i7 PCR primer family",
-                               MaterialKind.OLIGO)
-    bulk_polymerase = graph.input("bulk_polymerase", "bulk library PCR polymerase",
-                                  MaterialKind.CATALYST)
-    bulk_library = graph.product("bulk_library", FINAL_LIBRARY.name,
-                                 MaterialKind.LIBRARY, state=FINAL_LIBRARY)
-    graph.react("bulk_pcr", "Amplify the bulk target-coded library",
+    extraction = graph.input("stop_extract", "EDTA/SDS/proteinase K 55 °C 1 h; phenol:chloroform, "
+                             "ethanol precipitation", MaterialKind.SELECTION)
+    extracted = graph.product("extracted_dna", "extracted tagmented DNA", MaterialKind.MOLECULAR,
+                              state=TRANSFERRED)
+    protein_waste = graph.product("extraction_waste", "digested protein, beads and phases",
+                                  MaterialKind.WASTE)
+    graph.react("extract_dna", "Stop tagmentation and extract DNA", StepKind.EXTRACTION,
+                ((bulk, InputRole.TEMPLATE), (extraction, InputRole.SELECTION)),
+                (extracted, protein_waste), changes_molecule=False)
+    graph.discard(protein_waste, "phenol phase and supernatants are discarded")
+    hifi = graph.input("nebnext_hifi", "NEBNext HiFi 2x PCR Master Mix", MaterialKind.CATALYST)
+    filled = graph.product("gap_filled", "gap-filled antibody-coded fragments",
+                           MaterialKind.MOLECULAR, state=TRANSFERRED)
+    graph.react("gap_fill", "Fill the 9-nt Tn5 gaps: 72 °C 5 min in the PCR mix", StepKind.EXTENSION,
+                ((extracted, InputRole.TEMPLATE), (hifi, InputRole.CATALYST)), (filled,))
+    bulk_forward = graph.input(
+        "bulk_forward", "barcoded i5 PCR primer (sequence not in inspected sources)",
+        MaterialKind.OLIGO, inferred=True,
+        source="STAR Methods name barcoded i5/i7 primers; preprint Table S1 lists none and the "
+               "published Table S1 was not retrievable")
+    bulk_reverse = graph.input(
+        "bulk_reverse", "barcoded i7 PCR primer (sequence not in inspected sources)",
+        MaterialKind.OLIGO, inferred=True,
+        source="STAR Methods name barcoded i5/i7 primers; preprint Table S1 lists none and the "
+               "published Table S1 was not retrievable")
+    amplified = graph.product("bulk_amplified", FINAL_LIBRARY.name + " (in PCR mix)",
+                              MaterialKind.MOLECULAR, state=FINAL_LIBRARY)
+    graph.react("bulk_pcr", "INFERRED — barcoded i5/i7 primer arms not printed; PCR: 98 °C 30 s; 17 cycles 98 °C 10 s / 63 °C 30 s; 72 °C 1 min",
                 StepKind.PCR,
-                ((bulk, InputRole.TEMPLATE), (bulk_forward, InputRole.STRUCTURAL),
-                 (bulk_reverse, InputRole.STRUCTURAL),
-                 (bulk_polymerase, InputRole.CATALYST)), (bulk_library,),
+                ((filled, InputRole.TEMPLATE), (bulk_forward, InputRole.STRUCTURAL),
+                 (bulk_reverse, InputRole.STRUCTURAL), (hifi, InputRole.CATALYST)), (amplified,),
                 geometry=PCRGeometry.unavailable(
                     TRANSFERRED,
-                    reason="Table S1 prints the indexed primer families, but a representative fixed i5/i7 pair is not selected for this population graph."))
+                    reason="The barcoded i5/i7 amplification primers are not printed in the inspected "
+                           "sources; the P5/i5 and i7/P7 arms are inferred from the custom index primers."))
+    ampure = graph.input("ampure_bulk", "1.1x AMPure XP, two 80% ethanol washes", MaterialKind.SELECTION)
+    bulk_library = graph.product("bulk_library", FINAL_LIBRARY.name,
+                                 MaterialKind.LIBRARY, state=FINAL_LIBRARY)
+    pcr_waste = graph.product("bulk_pcr_waste", "PCR mix and unbound primers", MaterialKind.WASTE)
+    graph.react("bulk_cleanup", "Clean up the PCR with 1.1x AMPure XP", StepKind.CLEANUP,
+                ((amplified, InputRole.TEMPLATE), (ampure, InputRole.SELECTION)),
+                (bulk_library, pcr_waste), changes_molecule=False)
+    graph.discard(pcr_waste, "bead supernatant and washes are discarded")
     graph.sequence(bulk_library, SequencingPlan(
         library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
         acquired_roles=tuple(p.role for p in SEQ_PRIMERS), read_lengths=READ_LENGTHS,
@@ -253,7 +279,7 @@ def protocol_graph():
         "gel_bead_oligo", "10x scATAC gel-bead cell-barcode oligo",
         MaterialKind.OLIGO, inferred=True,
         source="10x CG000209 v1.1 guide and Cell Ranger ATAC barcode whitelist; experiment-specific barcode assignment")
-    sc_polymerase = graph.input("single_cell_polymerase", "Chromium amplification polymerase",
+    sc_polymerase = graph.input("single_cell_polymerase", "Chromium barcoding master mix polymerase",
                                 MaterialKind.CATALYST)
     cell_barcoded = graph.product(
         "cell_barcoded", "10x-cell-barcoded target-coded fragments",
@@ -261,38 +287,62 @@ def protocol_graph():
         state=molecule("single-cell Multi-CUT&Tag product", (
             role("10x cell barcode"), role("A/B antibody-coded chromatin fragment"))),
         inferred=True, source="10x CG000209 v1.1 guide; experiment-specific barcode assignment")
-    graph.react("cell_barcode", "Linearly amplify and cell-barcode in Chromium GEMs",
+    graph.react("cell_barcode", "In GEMs: 72 °C 5 min, then only 1 cycle of 98/59/72 °C (vendor: >10)",
                 StepKind.EXTENSION,
                 ((single_cell, InputRole.TEMPLATE), (gel_bead, InputRole.STRUCTURAL),
                  (sc_polymerase, InputRole.CATALYST)), (cell_barcoded,))
+    silane = graph.input("silane_ampure", "Dynabeads MyOne SILANE and AMPure XP (vendor protocol)",
+                         MaterialKind.SELECTION)
+    gem_clean = graph.product("gem_cleaned", "post-GEM purified cell-barcoded fragments",
+                              MaterialKind.MOLECULAR, state=cell_barcoded.state, inferred=True,
+                              source="10x CG000209 v1.1 guide; experiment-specific barcode assignment")
+    gem_waste = graph.product("gem_waste", "GEM oil, reagents and bead supernatants", MaterialKind.WASTE)
+    graph.react("post_gem_cleanup", "Post-GEM cleanup", StepKind.CLEANUP,
+                ((cell_barcoded, InputRole.TEMPLATE), (silane, InputRole.SELECTION)),
+                (gem_clean, gem_waste), changes_molecule=False)
+    graph.discard(gem_waste, "is discarded")
     sc_forward = graph.input("sc_forward", "10x scATAC SI-PCR forward primer",
                              MaterialKind.OLIGO, inferred=True,
                              source="10x CG000209 v1.1 guide, Appendix A; SI-PCR Primer B forward arm")
-    sc_reverse = graph.input("sc_reverse", "10x scATAC SI-PCR reverse primer",
+    sc_reverse = graph.input("sc_reverse", "10x Single Index Kit reverse primer",
                              MaterialKind.OLIGO, inferred=True,
                              source="10x CG000209 v1.1 guide, Appendix A; variable-index SI-PCR reverse arm")
     sc_pcr_polymerase = graph.input("sc_pcr_polymerase", "single-cell library PCR polymerase",
                                     MaterialKind.CATALYST)
+    sc_amplified = graph.product(
+        "single_cell_amplified", "amplified single-cell library before size selection",
+        MaterialKind.MOLECULAR, inferred=True,
+        source="10x CG000209 v1.1 guide, Appendix A; index and cell barcode vary by experiment")
+    graph.react("single_cell_pcr", "Sample-index PCR, 14 cycles", StepKind.PCR,
+                ((gem_clean, InputRole.TEMPLATE), (sc_forward, InputRole.STRUCTURAL),
+                 (sc_reverse, InputRole.STRUCTURAL),
+                 (sc_pcr_polymerase, InputRole.CATALYST)), (sc_amplified,),
+                geometry=PCRGeometry.unavailable(
+                    TRANSFERRED,
+                    reason="The paper uses the 10x scATAC workflow. Its CG000209 guide prints the invariant gel-bead and SI-PCR arms; this graph has not yet assembled the kit's variable barcode and index choices."))
+    double_select = graph.input("ampure_double", "AMPure XP double size selection (vendor protocol)",
+                                MaterialKind.SELECTION)
     sc_library = graph.product(
         "single_cell_library", "single-cell Multi-CUT&Tag sequencing library",
         MaterialKind.LIBRARY, inferred=True,
         source="10x CG000209 v1.1 guide, Appendix A; index and cell barcode vary by experiment")
-    graph.react("single_cell_pcr", "PCR-complete the single-cell Multi-CUT&Tag library",
-                StepKind.PCR,
-                ((cell_barcoded, InputRole.TEMPLATE), (sc_forward, InputRole.STRUCTURAL),
-                 (sc_reverse, InputRole.STRUCTURAL),
-                 (sc_pcr_polymerase, InputRole.CATALYST)), (sc_library,),
-                geometry=PCRGeometry.unavailable(
-                    TRANSFERRED,
-                    reason="The paper uses the 10x scATAC workflow. Its CG000209 guide prints the invariant gel-bead and SI-PCR arms; this graph has not yet assembled the kit's variable barcode and index choices."))
+    size_waste = graph.product("size_selection_waste", "fragments outside the double size window",
+                               MaterialKind.WASTE)
+    graph.react("single_cell_size_selection", "Double-sided AMPure size selection",
+                StepKind.CLEANUP, ((sc_amplified, InputRole.TEMPLATE),
+                                   (double_select, InputRole.SELECTION)),
+                (sc_library, size_waste), changes_molecule=False)
+    graph.discard(size_waste, "is discarded with the bead fractions")
     graph.sequence(sc_library, SequencingPlan(
         acquired_roles=("Read 1", "Index 1 (i7)", "Index 2 (i5)", "Read 2"),
-        limitation="The paper establishes the run roles and the 10x CG000209 guide prints the kit architecture; this model has not yet assembled its variable barcode and index choices."))
+        limitation="The paper establishes the run roles (72/8/16/72 cycles) and the 10x CG000209 guide prints the kit architecture; this model has not yet assembled its variable barcode and index choices."))
     graph.declare_reviewed_scope((
-        "nuclei", "coded_antibodies", "loaded_ab_adapters", "pa_tn5",
-        "target_chromatin", "magnesium", "tagment", "gap_fill_polymerase",
-        "gap_fill", "split_branches", "bulk_forward", "bulk_reverse",
-        "bulk_polymerase", "bulk_pcr", "bulk_library", "gel_bead_oligo",
-        "single_cell_polymerase", "cell_barcode", "sc_forward", "sc_reverse",
-        "sc_pcr_polymerase", "single_cell_pcr", "single_cell_library"), SOURCE)
+        "loaded_ab_adapters", "pa_tn5", "coded_antibodies", "load_and_couple",
+        "his_tag_beads", "purify_complexes", "nuclei", "target_chromatin", "target_washes",
+        "wash_unbound", "magnesium",
+        "tagment", "split_branches", "stop_extract", "extract_dna", "nebnext_hifi",
+        "gap_fill", "bulk_forward", "bulk_reverse", "bulk_pcr", "ampure_bulk", "bulk_cleanup", "bulk_library",
+        "gel_bead_oligo", "single_cell_polymerase", "cell_barcode", "silane_ampure",
+        "post_gem_cleanup", "sc_forward", "sc_reverse", "sc_pcr_polymerase", "single_cell_pcr", "ampure_double",
+        "single_cell_size_selection", "single_cell_library"), PUBLISHED)
     return graph.require_publishable()

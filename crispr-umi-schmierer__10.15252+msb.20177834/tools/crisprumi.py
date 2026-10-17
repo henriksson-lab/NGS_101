@@ -371,16 +371,34 @@ def protocol_graph():
     pcr3f=graph.input("pcr3_forward","indexed PCR3-F primer",MaterialKind.OLIGO)
     pcr3r=graph.input("pcr3_reverse","P7-bearing PCR3-R primer",MaterialKind.OLIGO)
     final=final_library()
-    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    pcr3prod=graph.product("pcr3_product",
+                           f"unpurified PCR3 reaction containing the {LIBRARY_LEN_PUBLISHED}-bp product",
+                           MaterialKind.MOLECULAR,state=final)
     graph.react("pcr3","Install P5, sample i5 and P7 by PCR3",StepKind.PCR,
                 ((pcr2,InputRole.TEMPLATE),(pcr3f,InputRole.STRUCTURAL),
-                 (pcr3r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(library,),
+                 (pcr3r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(pcr3prod,),
                 geometry=PCRGeometry.unavailable(
                     final,reason="PCR3 primer tails define the exact final construct, while the intermediate duplex is not separately reconstructed."))
+    # "The resulting product of 288 bp was gel purified" (Methods, "Preparation of the
+    # sequencing library from genomic DNA"). A real physical separation, so the
+    # off-size material leaves the library rather than being filtered later.
+    gel=graph.input("gel_purification",
+                    f"preparative gel, {LIBRARY_LEN_PUBLISHED}-bp band excised",
+                    MaterialKind.SELECTION)
+    offsize=graph.product("gel_rejects",
+                          f"PCR3 species outside the {LIBRARY_LEN_PUBLISHED}-bp band",
+                          MaterialKind.WASTE)
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    graph.react("gel_purify",f"Gel purify the {LIBRARY_LEN_PUBLISHED}-bp PCR3 product",
+                StepKind.CLEANUP,
+                ((pcr3prod,InputRole.TEMPLATE),(gel,InputRole.SELECTION)),
+                (library,offsize),changes_molecule=False)
+    graph.discard(offsize,"not excised from the gel; the paper does not itemise the "
+                          "off-size species")
     graph.sequence(library,SequencingPlan(library=final,primers=RUN_PRIMERS,
                                           read_lengths=READ_LENGTHS))
     graph.declare_reviewed_scope(("transduced_cells","screen_selection","screen",
       "dna_extraction","extract","pcr1_forward","pcr1_reverse","polymerase","pcr1",
       "pcr2_forward","pcr2_reverse","pcr2","pcr3_forward","pcr3_reverse","pcr3",
-      "library"),SOURCE)
+      "pcr3_product","gel_purification","gel_purify","gel_rejects","library"),SOURCE)
     return graph.require_publishable()

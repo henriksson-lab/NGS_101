@@ -2,8 +2,32 @@
 
 ## Sources read
 
-- 🟢 Arrastia et al. preprint, DOI [10.1101/2020.08.11.242081](https://doi.org/10.1101/2020.08.11.242081), defining source used by the catalogue.
-- 🟢 Arrastia et al. 2022, DOI [10.1038/s41587-021-00998-1](https://doi.org/10.1038/s41587-021-00998-1), PMC11588347, published full text, Methods and supplements.
+- 🟢 Authority: Arrastia et al., *Nature Biotechnology* 40:64–73 (2022), DOI
+  [10.1038/s41587-021-00998-1](https://doi.org/10.1038/s41587-021-00998-1), PMC11588347 author
+  manuscript JATS (text twin lines 147–207: crosslinking, nuclei preparation, in-nuclei barcoding,
+  sonication, NHS coupling, spatial barcoding, library preparation, data generation, pipeline).
+  Published supplements: MOESM1 Supplementary Notes (analysis notes), MOESM2 Reporting Summary,
+  MOESM3 analysis tables — none carries library oligos or reaction conditions.
+- The catalogue directory is named for the superseded preprint
+  [10.1101/2020.08.11.242081](https://doi.org/10.1101/2020.08.11.242081); it is not used for active claims.
+
+## Published reaction order (Methods)
+
+🟢 Cells: 2 mM DSG 45 min RT, glycine; 1% formaldehyde 10 min RT, glycine. Lysis buffers #1/#2,
+1.2× CutSmart, 0.3% SDS 37 °C 60 min, Triton X-100 quench 60 min. In-nuclei HpyCH4V digestion
+(4 h 37 °C; blunt cutter at TGCA, chosen because it "eliminated the need to perform any additional
+DNA strand repair steps"; mean 823 bp). NEBNext dA-Tailing Module (Klenow fragment) 37 °C 90 min.
+Three in-nucleus split-pool ligations (2.4 µl of 45 µM tag per well; Instant Sticky-end Ligase
+Master Mix + Quick Ligase Buffer + 1,2-propanediol; 20 °C 3 h; EDTA/EGTA stop; pool). 10 µm mesh
+filtration; lysis buffer #3 washes; 1,500 nuclei withdrawn; Covaris M220 sonication 2 min. NHS
+magnetic-bead coupling overnight 4 °C, Tris quench, RLT2+/M2 washes. Three on-bead ligations
+(4.5 µM tags, 60 min). Proteinase K in MyK 60 °C overnight; Zymo Clean & Concentrator-5; Q5 Hot
+Start + EvaGreen with 25 µM indexed Illumina primers, 14 cycles; 1% E-gel 300–1,000 bp excision;
+Zymo gel purification. 🟢 Read 1 is trimmed to 100 bp before alignment (computational).
+
+Model correction (2026-10-17): the graph previously had a generic "DNA end-repair" step; the
+published Methods instead use blunt HpyCH4V digestion with no repair. The graph now follows the
+Methods, including filtration, column cleanup and gel size selection.
 
 ## Molecular order
 

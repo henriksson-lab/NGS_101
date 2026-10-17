@@ -8,18 +8,24 @@
 - 🟢 Pixelgen Technologies. **Method for spatial mapping of cell targets.** [WO2025158200A1](https://patents.google.com/patent/WO2025158200A1/en). The patent documents the same two-conjugate, two-padlock, RCA and proximity-linking topology and identifies an incorporated sequence-listing file.
 - 🟢 Pixelgen's open-source [Pixelator](https://github.com/PixelgenTechnologies/pixelator) software contains machine-readable `proxiome-v1` and `proxiome-v2` assay definitions, public PID panels, and real paired FASTQ test data. The values below use the Proxiome v2 definition at commit `20b5e4d2f16a7bc3afb7d133fc94b575d754b6b5`.
 
+## Bounded pass 2026-10-17 (round breadth-first-15)
+
+Read: preprint v3 PDF text lines 105–125 (Results, assay design), 178–187 (Figure 1 legend) and 598–620 (Methods, Proximity Network Assay and sequencing); UM002 v1.00 text Table of contents, Introduction lines 255–275, STEP 3–5 (barcoded/2nd antibody binding through indexing PCR clean-up) and STEP 6.1–6.3 (271-bp size, Table 16); UM001 v1.01 RCA step (line 1609) only for the RCA-time comparison. The scraper found no printed kit oligo sequences in these texts. Manual Figure 2a/2b (molecular description) and the patent sequence listing were not inspected in this pass.
+
 ## What the assay is
 
 🟢 PNA is the method underlying the Pixelgen Proxiome Kit. It is related to PLA, but it does not use a separately designed reporter pair for every protein pair. Each targeted protein is represented by many copies of an antibody-derived PID–UMI address in a localized rolling-circle product; generic linker molecules then capture edges between nearby type-1 and type-2 nodes.
 
 ## Molecular sequence of operations
 
-1. 🟢 PFA-fix cells, bind sample hashtags, pool eight samples, then bind the barcoded antibody panel and a second antibody reagent.
+1. 🟢 PFA-fix cells, bind sample hashtags, pool eight samples, then bind the barcoded antibody panel overnight (16–20 h, 4 °C), wash four times, and stabilize it with the kit 2nd Antibody (10 min, 4 °C) followed by washes (UM002 STEP 3.1–3.2).
 2. 🟢 Every antibody target has type-1 and type-2 oligo-conjugate forms. Each carries a protein ID (PID) and UMI.
-3. 🟢 Hybridize the corresponding padlock probe. Polymerase copies PID and UMI across the gap and ligase closes the padlock.
-4. 🟢 Short in-situ RCA produces a localized repeated PID–UMI node at each bound antibody.
-5. 🟢 A proximity oligo hybridizes to one type-1 and one type-2 RCP. The second gap-fill/ligation copies both PID–UMI addresses into one linker amplicon. The type split prevents one RCP from supplying both sides of a link.
-6. 🟢 Digest the cell/RCP scaffold, pre-amplify for four cycles, clean with SPRI beads, and add unique dual indexes in a second PCR.
+3. 🟢 Hybridize the corresponding padlock probe (Padlock Oligos, 30 min at 45 °C, then washes). In Gap-fill 1 (30 min at 25 °C) polymerase copies PID and UMI across the gap and ligase closes the padlock (UM002 STEP 4.1–4.2).
+4. 🟢 Short in-situ RCA produces a localized repeated PID–UMI node at each bound antibody: UM002 STEP 4.3 E (and UM001 v1.01) gives 15 min at 30 °C.
+   ⚠️ Discrepancy, shown on the page: the preprint v3 Methods ("Proximity Network Assay") say RCA ran for 10 minutes while stating that the manufacturer's instructions were followed. The model uses the UM002 value for the drawn v2 kit; which manual revision the paper experiments followed is not stated.
+5. 🟢 Proximity Oligos are added directly to the RCA reaction and hybridized for 30 min at 45 °C, then washed; each linker binds one type-1 and one type-2 RCP. Gap-fill 2 (30 min at 25 °C) copies both PID–UMI addresses into one linker amplicon (UM002 STEP 4.3 G–P, 4.4). The type split prevents one RCP from supplying both sides of a link.
+6. 🟢 Count cells, digest 8,000 cells per pool with the kit Digestion program, pre-amplify for four cycles, clean with 1:1 SPRI/AMPure XP beads, add unique dual indexes in a second PCR (8, 6 or 5 cycles for 1,000, 4,000 or 8,000 cells), and clean again with 1:1 beads. The final library is approximately 271 bp (UM002 STEP 5.1–5.6, 6.1).
+7. 🟡 Unclosed padlocks, unlinked RCPs and digested cell material are not described as physically removed; the page keeps them as unresolved fates rather than discards.
 
 ## Library and reads
 

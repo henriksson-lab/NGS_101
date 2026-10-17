@@ -24,11 +24,16 @@
     {
       "id": "published_supp",
       "role": "supplement",
-      "locator": "Science Supplemental Material NIHMS2109074",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/telomere-profiling__10.1126+science.ado0431/science.ado0431_sm.pdf.txt (https://www.science.org/doi/suppl/10.1126/science.ado0431/suppl_file/science.ado0431_sm.pdf)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "PMC instance returns preparing-to-download gate.",
-      "pass_1": null,
+      "reason": "Hand-placed by the maintainer 2026-10-17 (printed title/DOI/authors verified); one bounded pass only.",
+      "pass_1": {
+        "reviewer": "deferred_followup_03",
+        "date": "2026-10-17",
+        "locations": "Materials and Methods lines 77-147; basecalling 205-213; fig. S1A 262-281 and legend 454-456; fig. S5 legend 977-981; Table S3 p.20 lines 2295-2357",
+        "finding": "Prints TeloTag annealing, ClaI digestion, HiFi Taq ligation, SPRI, C1 capture/washes, PvuI release, SQK-LSK110/R9.4.1; 14 TeloTag top strands with /5Phos/ /3BioTEG/; only NB50 splints (fig. S1A, written 3'->5'). No ONT motor-adapter assembly."
+      },
       "pass_2": null
     },
     {
@@ -49,7 +54,8 @@
         "date": "2026-10-16",
         "locations": "/husky/henriksson/NGS101_papers/sources/telomere-profiling__10.1126+science.ado0431/2023.12.21.572870_v2.full.pdf.txt lines 408-428, 1865-1885, 3278-3420",
         "finding": "Author preprint and extended data print /5Phos/ and /3BioTEG/ TeloTag family and complementary telomere splints; source is earlier version, so published-variant identity still needs supplement."
-      }
+      },
+      "reason": "Superseded by the published Supplementary Materials read 2026-10-17; no longer supplies modelled values."
     },
     {
       "id": "ont_kit",
@@ -90,5 +96,62 @@
       "evidence": "Manufacturer kit sequence not cached."
     }
   ],
-  "conclusion": "Author preprint prints TeloTag/splint oligos, but the published Science supplement and ONT kit are unavailable; published-version and kit-specific missing claims remain blocked."
+  "conclusion": "Author preprint prints TeloTag/splint oligos, but the published Science supplement and ONT kit are unavailable; published-version and kit-specific missing claims remain blocked. 2026-10-17 deferred-followup-03: published Supplementary Materials read once and now the model source; ONT kit document still unread; no second independent pass.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Science author manuscript PMC12425158 JATS (science.ado0431_PMC12425158.xml.txt) Results lines122–138, Supplementary Material listing lines182–186; published Supplementary Material PDF (Materials and Methods, figs S1–S6, tables S1/S3) manual: PMC 'Preparing to download' gate (https://pmc.ncbi.nlm.nih.gov/articles/instance/12425158/bin/NIHMS2109074-supplement-Supplemental_Material.pdf), Science suppl 403. bioRxiv v2 10.1101/2023.12.21.572870 (2023.12.21.572870_v2.full.pdf.txt) Methods lines1857–2149 and Extended Data Table 2 lines3275–3446 read as the only readable disclosure, labelled preprint provenance.",
+      "oligo_scraper": "Bundle scraper run; hits are preprint ED Table 2 TeloTag/splint rows (lines3278ff); all 6 TeloTags and 36 splint rows compared programmatically with the model.",
+      "findings": "Replaced shared lib/telomere recipe graph with a protocol-owned graph (preprint-provenance labels): TeloTag duplex annealing (HiFi Taq buffer, 99C −1C/min, 1:100), ClaI/AsiSI/PmeI/BamHI digest 37C 2h/65C 20min, HiFi Taq ligase 65C 5min + 15x(65C 1min/45C 3min), 0.45x SPRI removing excess TeloTag, MyOne C1 streptavidin capture/washes with unbound waste, PvuI/PacI/EcoRI release with bead-stub waste, ONT ligation kit (inferred). Restriction-site segments now labelled from bases (NB01/NB70 are PvuI-then-EcoRI; were mislabelled EcoRI/PvuI). Corrected note/page claim that six splint families are published and modeled exactly: preprint ED Table 2 NB68 splints differ by one barcode base, NB70/N01 splints carry a 12-nt forward-complement window, N01 labels C1,C2,C3,C3,C4,C5; NB50/NB65/NB88 match. Page shows provenance caveat, published-Results ligation-before-digestion vs preprint digest-first order, LSK114/R9.4.1 and 5mM/30mM/0.3uM printed inconsistencies. Note's earlier claim that the preprint table is 'linked to the published article' removed.",
+      "deferred": [
+        "Published Supplementary Material PDF (Materials and Methods, tables S1/S3; PMC gate) — defining chemistry not read",
+        "Reaction order ligation-vs-digestion pending published Methods",
+        "Preprint ED Table 2 NB68/NB70/NB01 splint rows vs published table",
+        "ONT SQK-LSK114 kit document and LSK114/R9.4.1 identity",
+        "TeloTag annealing concentration units"
+      ],
+      "scope": "Capped pass; defining published Methods unavailable, so only partial (deferred). No full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 101 checks pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 2 inputs excepted (NB50 TeloTag and NB50.C1–C6 verified by hand in preprint lines3278–3302; guard excludes undeclared preprint), 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Retrieval routes for the published Supplementary Material: PMC instance/12425158/bin/NIHMS2109074-supplement-Supplemental_Material.pdf and PMC manuscript PDF pdf/nihms-2109074.pdf both 'Preparing to download' gate (not bypassed); PMC non-instance bin/ paths 404; Europe PMC supplementaryFiles 'not open access', europepmc.org bin/ 403, fullTextXML 500; Science suppl_file/science.ado0431_sm.pdf 403; PMC Cloud bucket PMC12425158.1 holds only json/txt/xml; Unpaywall/OpenAlex list only bioRxiv and PMC manuscript; protocols.io API requires token; Europe PMC search found no protocol deposit. Read: Dryad doi:10.5061/dryad.dz08kps5d metadata and file list (named in published Data availability, JATS line 212): FASTQ only, one-sentence method. Published JATS line 207 (patent) and 212 re-checked.",
+      "findings": "No chemistry change: no new defining disclosure obtained; note and ref/MANIFEST.md record the attempted routes, the Science supplement manual URL and the unread patent/2026-preprint leads. Earlier preprint-provenance model unchanged.",
+      "deferred": [
+        "Published Supplementary Material PDF (manual https://pmc.ncbi.nlm.nih.gov/articles/instance/12425158/bin/NIHMS2109074-supplement-Supplemental_Material.pdf or https://www.science.org/doi/suppl/10.1126/science.ado0431/suppl_file/science.ado0431_sm.pdf): Materials and Methods, tables S1/S3",
+        "Reaction order ligation-vs-digestion pending published Methods",
+        "Preprint ED Table 2 NB68/NB70/NB01 splint rows vs published table",
+        "Patent PCT/US2023/073375 (lead, unread)",
+        "2026 preprint protocol doi:10.64898/2026.08.15.745035 (lead, not directly linked, unread)",
+        "ONT SQK-LSK114 kit document and LSK114/R9.4.1 identity",
+        "TeloTag annealing concentration units"
+      ],
+      "scope": "Capped retrieval follow-up; published Methods still unread, status remains deferred. No absence accepted.",
+      "verification": "local suite 101 checks pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/8 unresolved/0 contradictory; source guard 0 checked, 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Hand-placed science.ado0431_sm.pdf (Science Supplementary Materials; printed title/DOI/'Karimian et al.' verified, MANIFEST md5 ff94c1ae matches): Materials and Methods .pdf.txt lines 77-147, basecalling 205-213, fig. S1A 262-281 (legend 454-456), fig. S5 legend 977-981, Table S3 lines 2295-2357; author-manuscript JATS Results line 122 re-read for order.",
+      "findings": "Provenance moved from superseded bioRxiv v2 to the published SM. Corrections: internal digest ClaI only (preprint ClaI/AsiSI/PmeI/BamHI); release PvuI only (preprint PvuI/PacI/EcoRI); C1 washes 2x kilobaseBINDER/1x EB/1x rCutSmart/1x EB; ONT kit SQK-LSK110 with R9.4.1 FLO-MIN106D (preprint LSK114 inconsistency resolved); MinKNOW 5.7.5, Guppy v6 SUP, 3 loads x ~16 h with EXP-WSH004. Table S3 prints 14 TeloTags: all six modelled tops match exactly; eight more (NB02, NB15, NB19, NB20, NB66, NB67, NB69, NB72) added. Fig. S1A NB50 splints (3'->5') equal the six derived splints. Preprint ED Table 2 splint-row inconsistencies demoted to history (published SM prints no such rows). Page shows three published discrepancies: Results order (ligate then digest) vs SM Methods (ClaI then ligate; model follows Methods); 5mM/30 mM vs 0.3 uM units; Methods cite 'table S2' for sequences that are in Table S3/fig. S1A. Selftest gains two source-transcription checks (skip if SM absent); telotag_top guard exception removed.",
+      "deferred": [
+        "ONT SQK-LSK110 kit document (motor-adapter assembly, kit reaction steps)",
+        "TeloTag annealing unit inconsistency unresolved",
+        "Splint families for 13 non-NB50 TeloTags not printed (derived)",
+        "Fig. S5 AsiSI/PvuI and BamHI/EcoRI branches not drawn",
+        "Patent PCT/US2023/073375 and 2026 preprint protocol unread",
+        "Second independent reader for the two-pass gate"
+      ],
+      "scope": "Bounded deferred follow-up; defining supplement now read; capped pass, not full acceptance; no missing-information claim accepted.",
+      "verification": "selftest 103 checks pass (incl. Table S3 14 rows and fig. S1A splints); page builds; pairing 0 problems; chemistry 2 established/0 conditional/8 unresolved/0 contradictory over 7 steps; source guard 1 exact checked (NB50 TeloTag), 0 failed, 6 splint strands exempted (fig. S1A prints 3'->5'), 0 inputs without exact states; Markdown built; audit --check pass"
+    }
+  ]
 }

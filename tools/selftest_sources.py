@@ -124,6 +124,16 @@ check("protocols.io reference discovery preserves explicit DOI and view revision
       protocolsio.find_refs("10.17504/protocols.io.example/v3 and "
                             "https://www.protocols.io/view/example/v3.pdf)"),
       ["10.17504/protocols.io.example/v3", "https://www.protocols.io/view/example/v3"])
+check("Nature article and figure pages are named by article id with an .html suffix",
+      [vendor.url_filename("https://www.nature.com/articles/" + a) for a in (
+          "nprot.2013.038", "s41596-019-0202-2/figures/2", "s41586-020-1234-5.pdf")],
+      ["nprot.2013.038.html", "s41596-019-0202-2-figure-2.html", "s41586-020-1234-5.pdf"])
+check("protocols.io unlabelled export takes its revision only from its own printed DOI",
+      [protocolsio.printed_revision(t, "abc123") for t in (
+          "DOI: https://dx.doi.org/10.17504/protocols.io.abc123/v1",
+          "DOI: https://dx.doi.org/10.17504/protocols.io.other9/v1",
+          "Version 2\nDOI: https://dx.doi.org/10.17504/protocols.io.abc123/v1",
+          "cites https://dx.doi.org/10.17504/protocols.io.abc123/v1")], ["1", "", "", ""])
 check("protocols.io printed revision does not use a latest-version link",
       protocolsio.protocol_version("Version 3\nLatest version: 4\nProtocol Integer ID: 123"), "3")
 for observed in ("3", "4", ""):
@@ -275,6 +285,9 @@ with tempfile.TemporaryDirectory() as tmp:
           bool(v("cut-topic.htm", topic_start + topic_body)), True)
     check("short documentation cannot bypass a challenge page",
           bool(v("gated-topic.htm", RECAPTCHA + short_topic)), True)
+    check("a publisher 'Client Challenge' interstitial is reported as a gate",
+          base.gate_reason(b"<html><head><title>Client Challenge</title></head>"),
+          "challenge/gate page (Client Challenge)")
     check("short documentation still needs requested source markers",
           bool(v("wrong-topic.htm", short_topic, need=b"different-source-marker")), True)
     check("Europe PMC errorBean XML is rejected",
@@ -314,8 +327,10 @@ with tempfile.TemporaryDirectory() as tmp:
           (t / "proto" / "MANIFEST.tsv").read_text().count("\n"), 4)
     check("same source URL reuses its validated cached original",
           f.save("a.pdf", "https://x/a.pdf", "paper"), t / "proto" / "a.pdf")
-    check("different source URL cannot reuse a cached original by filename",
-          f.save("a.pdf", "https://x/another.pdf", "another paper"), None)
+    _offline = patch.object(base, "download", return_value=(0, "offline test: no network"))
+    with _offline:
+        check("different source URL cannot reuse a cached original by filename",
+              f.save("a.pdf", "https://x/another.pdf", "another paper"), None)
     check("different source bytes cannot overwrite a registered original",
           f.keep("a.pdf", PDF + b"\n", "https://x/third.pdf", "third paper"), None)
     check("source collisions retain original file and provenance",
@@ -324,8 +339,9 @@ with tempfile.TemporaryDirectory() as tmp:
     check("source collision records requested URL and reason",
           any(row[1] == "https://x/another.pdf" and "cache filename a.pdf" in row[4]
               for row in f.rows.values()), True)
-    check("duplicate cache row also retains its source identity",
-          f.save("b.pdf", "https://x/different.pdf", "different paper"), None)
+    with _offline:
+        check("duplicate cache row also retains its source identity",
+              f.save("b.pdf", "https://x/different.pdf", "different paper"), None)
     f.manual("hub.txt", "https://one/hub.txt", "first hub", "HTTP 404")
     f.manual("hub.txt", "https://two/hub.txt", "second hub", "HTTP 503")
     f.manual("hub.txt", "https://two/hub.txt", "second hub", "HTTP 404")
@@ -379,6 +395,46 @@ with tempfile.TemporaryDirectory() as tmp:
     check("a fetched supplement does not count as fetched article full text",
           migrated.rows[f"(manual) {tag} full text"][1],
           f"https://doi.org/10.1038/{tag}")
+
+    # An article saved under another name (Elsevier mmcN) counts as the full text only
+    # when it prints its DOI at the start and is article-length; a correction does not.
+    other = t / "other_name"
+    other.mkdir()
+    doi = "10.1016/j.molcel.2019.07.015"
+    files = {"1-s2.0-S1-mmc7.pdf": "Article\nhttps://doi.org/" + doi + "\n" + "x" * 25000,
+             "correction.pdf": "Correction to https://doi.org/" + doi + "\n",
+             "1-s2.0-S1-mmc1.pdf": "Supplemental Information\n" + "y" * 25000 + doi}
+    rows = ""
+    for name, text in files.items():
+        (other / name).write_bytes(PDF)
+        (other / (name + ".txt")).write_text(text)
+        rows += f"{name}\thttps://x/{name}\t1\tabc\tfile\n"
+    (other / "MANIFEST.tsv").write_text(base.Folder.HEADER + rows)
+    found = base.Folder(other, convert=False)
+    check("an article-length original printing the DOI first is its full text; a correction is not",
+          gs.article_printing_doi(found, doi), "1-s2.0-S1-mmc7.pdf")
+    (other / "1-s2.0-S1-mmc7.pdf.txt").unlink()
+    check("...and without it the DOI-citing correction or late mention does not count",
+          gs.article_printing_doi(found, doi), "")
+    for name, own, text in (("pre.xml", "10.1101/2025.03.14.642805", "bioRxiv 10.1101/2025.03.14.642805 published as " + doi),
+                            ("pre.pdf", "", "doi: 10.1101/2025.03.14.642805 now published in " + doi)):
+        (other / name).write_bytes(f'<article><article-id pub-id-type="doi">{own}</article-id>'.encode()
+                                   if own else PDF)
+        (other / (name + ".txt")).write_text(text + "\n" + "w" * 25000)
+        found.rows[name] = [name, "https://x/" + name, "1", "abc", "file"]
+    check("a preprint that prints its published version's DOI is not that article's full text",
+          gs.article_printing_doi(found, doi), "")
+    rs = "10.21203/rs.3.pex-1/v1"
+    (other / "asset.pdf").write_bytes(PDF)
+    (other / "asset.pdf.txt").write_text("DOI: https://doi.org/" + rs + "\n" + "z" * 25000)
+    found.rows["asset.pdf"] = ["asset.pdf", "https://assets/asset.pdf", "1", "abd", "asset"]
+    found.rows["(manual) rs.3.pex-1_v1"] = ["(manual) rs.3.pex-1_v1", "https://doi.org/" + rs, "", "",
+                                             "hand annotation"]
+    with contextlib.redirect_stdout(io.StringIO()):
+        gs.settle_researchsquare(found, rs)
+    check("a Research Square document on disk replaces its manual row by a note keeping the annotation",
+          ("(manual) rs.3.pex-1_v1" in found.rows, found.rows.get("(note) rs.3.pex-1_v1", [""] * 5)[4]),
+          (False, "hand annotation; on disk as asset.pdf, which prints this DOI on its first pages"))
 
 # ------------------------------------------------------------------------------
 check.section("extra sources table")
@@ -775,5 +831,303 @@ _unrendered["source_checklist"].append({**copy.deepcopy(_accepted["source_checkl
 check("accepted absence page must enumerate every checked source",
       any("public page omits source unrendered_checked_source" in issue for issue in
           source_reviews.validate(_accepted_path.stem, _unrendered, _known_protocols)), True)
+
+check.section("stalled downloads")
+with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stdout(io.StringIO()):
+    folder = base.Folder(Path(tmp), convert=False)
+    stalled = []
+    def _stall(args):
+        stalled.append(args)
+        return SimpleNamespace(returncode=28, stdout=b"200", stderr=b"")
+    with patch.object(base, "_curl", side_effect=_stall), patch.object(base.time, "sleep"), \
+         patch.dict(os.environ, {"CHEM_DATA": tmp}):
+        got = folder.save("manual.pdf", "https://vendor.example/manual.pdf", "vendor manual")
+    check("a stalled vendor download is tried once and becomes a (manual) row",
+          (got, len(stalled), folder.rows.get("(manual) manual.pdf", [""] * 5)[4].endswith("stalled (download incomplete)"),
+           "--speed-time" in stalled[0], list(Path(tmp).glob("*.part"))),
+          (None, 1, True, True, []))
+
+check.section("source identity: mirrors, back-fill, repository mirrors, same URL")
+def _serve(data: bytes):
+    """A fake curl download writing `data`; records each requested URL."""
+    calls = []
+    def fake(url, dest, max_bytes=base.MAX_BYTES, max_time=900):
+        calls.append(url)
+        Path(dest).write_bytes(data)
+        return 200, ""
+    return fake, calls
+with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stdout(io.StringIO()):
+    folder = base.Folder(Path(tmp), convert=False)
+    static = "https://static-content.springer.com/esm/x/MOESM3_ESM.xlsx"
+    media = "https://media.springernature.com/original/springer-static/esm/x/MOESM3_ESM.xlsx"
+    folder.keep("t_MOESM3_ESM.xlsx", XLSX, static, "Springer supplementary file")
+    fake, calls = _serve(XLSX)
+    with patch.object(base, "download", side_effect=fake):
+        got = folder.save("t_MOESM3_ESM.xlsx", media, "Springer supplementary file")
+        again = folder.save("t_MOESM3_ESM.xlsx", media, "Springer supplementary file")
+    check("a byte-identical mirror download returns the registered original",
+          (got, again, len(calls)), (Path(tmp) / "t_MOESM3_ESM.xlsx",) * 2 + (1,))
+    check("...records the alternate URL, not a source collision",
+          ([r[1] for k, r in folder.rows.items() if k.startswith("(duplicate) t_MOESM3")],
+           any("source-collision" in k for k in folder.rows), folder.rows["t_MOESM3_ESM.xlsx"][1]),
+          ([media], False, static))
+    other = zbytes({"xl/workbook.xml": b"<workbook>other</workbook>"})
+    fake, calls = _serve(other)
+    with patch.object(base, "download", side_effect=fake):
+        first = folder.save("t_MOESM3_ESM.xlsx", "https://elsewhere/MOESM3_ESM.xlsx", "other")
+        second = folder.save("t_MOESM3_ESM.xlsx", "https://elsewhere/MOESM3_ESM.xlsx", "other")
+    check("different content at another URL keeps the identity guard (checked once)",
+          (first, second, len(calls), (Path(tmp) / "t_MOESM3_ESM.xlsx").read_bytes() == XLSX,
+           any("content differs" in r[4] for r in folder.rows.values())),
+          (None, None, 1, True, True))
+    # a hand-placed original without a URL gets its URL from a byte-identical download
+    folder2 = base.Folder(Path(tmp) / "b", convert=False)
+    (folder2.path / "hand_table.xlsx").write_bytes(XLSX)
+    folder2.rows["hand_table.xlsx"] = ["hand_table.xlsx", "", "1", base.md5(folder2.path / "hand_table.xlsx"),
+                                       "(on disk, not fetched by get_sources: added by hand?)"]
+    folder2.by_md5[folder2.rows["hand_table.xlsx"][3]] = "hand_table.xlsx"
+    folder2.keep("pmc_supp_Table_5.xlsx", XLSX, "https://pmc/Table_5.xlsx", "PMC supplement")
+    check("a URL-less hand row is back-filled from an identical download",
+          (folder2.rows["hand_table.xlsx"][1], "(duplicate) pmc_supp_Table_5.xlsx" in folder2.rows,
+           (folder2.path / "pmc_supp_Table_5.xlsx").exists()),
+          ("https://pmc/Table_5.xlsx", True, False))
+    # repository mirrors of vendor originals stay visible under scg_ names
+    folder3 = base.Folder(Path(tmp) / "c", convert=False)
+    (folder3.path / "upstream_data_Guide.pdf").write_bytes(PDF)
+    folder3.rows["upstream_data_Guide.pdf"] = ["upstream_data_Guide.pdf", "", "1", base.md5(folder3.path / "upstream_data_Guide.pdf"),
+                                               "(on disk, not fetched by get_sources: added by hand?)"]
+    folder3.by_md5[folder3.rows["upstream_data_Guide.pdf"][3]] = "upstream_data_Guide.pdf"
+    folder3.rows["(duplicate) scg_Guide.pdf"] = ["(duplicate) scg_Guide.pdf", "https://raw/data/Guide.pdf", "",
+                                                 folder3.rows["upstream_data_Guide.pdf"][3], "identical to upstream_data_Guide.pdf"]
+    fake, calls = _serve(PDF)
+    with patch.object(base, "download", side_effect=fake):
+        kept = folder3.save("scg_Guide.pdf", "https://raw/data/Guide.pdf", "scg_lib_structs repo file")
+    folder3.keep("scg_docs_ge_Guide.md", b"same bytes\n", "https://raw/docs/Guide.md", "repo markdown")
+    folder3.keep("upstream_page.html", ARTICLE, "https://page", "scg_lib_structs method page")
+    folder3.keep("scg_page_copy.html", ARTICLE, "https://raw/page", "repo copy of a page")
+    check("an scg_ repository mirror of an upstream_* vendor file is kept under its scg_ name",
+          (kept, "(duplicate) scg_Guide.pdf" in folder3.rows, (folder3.path / "upstream_data_Guide.pdf").exists()),
+          (folder3.path / "scg_Guide.pdf", False, True))
+    check("...but never for the drawn page itself",
+          ((folder3.path / "scg_page_copy.html").exists(), "(duplicate) scg_page_copy.html" in folder3.rows),
+          (False, True))
+    check("mirror-name rule excludes the repository's own docs and adapters",
+          [base.Folder.mirror_name_kept(n, "upstream_data_x", "")
+           for n in ("scg_x.pdf", "scg_docs_ge_x.md", "scg_adapters_x.fa")], [True, False, False])
+    # the same URL requested under a second name is not a second original
+    folder4 = base.Folder(Path(tmp) / "d", convert=False)
+    folder4.keep("p_v1.full.pdf", PDF, "https://biorxiv/p.v1.full.pdf", "biorxiv full text")
+    fake, calls = _serve(PDF + b"% stamped differently\n%%EOF\n")
+    with patch.object(base, "download", side_effect=fake):
+        folder4.save("pv1.full.pdf", "https://biorxiv/p.v1.full.pdf", "extra source")
+    check("a second name for an already saved URL becomes a (duplicate) row without a download",
+          (calls, (folder4.path / "pv1.full.pdf").exists(), folder4.rows["(duplicate) pv1.full.pdf"][3]),
+          ([], False, folder4.rows["p_v1.full.pdf"][3]))
+    check("held() resolves a (duplicate) name to the file holding its bytes",
+          (folder4.held("pv1.full.pdf"), folder4.held("absent.pdf")), (folder4.path / "p_v1.full.pdf", None))
+
+with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stdout(io.StringIO()):
+    folder = base.Folder(Path(tmp), convert=False)
+    folder.manual("PMC4224642 PMC Cloud source", f"{pmc_cloud.BUCKET}/?list-type=2&prefix=PMC4224642.",
+                  "defining manuscript", "no usable file returned")
+    folder.manual("PMC5024639 PMC Cloud source", f"{pmc_cloud.BUCKET}/?list-type=2&prefix=PMC5024639.",
+                  "other manuscript", "no usable file returned")
+    folder.keep("nature13802_PMC4224642.pdf", PDF, f"{pmc_cloud.BUCKET}/PMC4224642.1/PMC4224642.1.pdf",
+                "article PDF (PMC Cloud)")
+    check("a stale PMC Cloud manual row goes once that article's bucket file is on disk",
+          (pmc_cloud.settle_manual_rows(folder), "(manual) PMC4224642 PMC Cloud source" in folder.rows,
+           "(manual) PMC5024639 PMC Cloud source" in folder.rows), (1, False, True))
+
+check.section("legacy Office content, error bodies, HTTP/2 fallback")
+OLE = base.OLE_MAGIC + b"\0" * 600
+with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stdout(io.StringIO()):
+    t = Path(tmp)
+    (t / "w.docx").write_bytes(OLE)
+    (t / "z.zip").write_bytes(OLE)
+    check("an OLE2 Word file under a .docx name is a genuine Office file; a .zip is not",
+          (base.validate(t / "w.docx"), bool(base.validate(t / "z.zip"))), ("", True))
+    check("content name gives OLE2 bytes their legacy suffix",
+          (base.content_name("supp.docx", t / "w.docx"), base.content_name("supp.pdf", t / "w.docx")),
+          ("supp.doc", "supp.pdf"))
+    folder = base.Folder(t / "o", convert=False)
+    stored = folder.keep("supp_R2.docx", OLE, "https://pmc/supp_R2.docx", "supplementary file")
+    check("a legacy .doc served as .docx is stored as .doc with a (duplicate) row for the served name",
+          (stored, folder.rows["(duplicate) supp_R2.docx"][3] == folder.rows["supp_R2.doc"][3],
+           folder.held("supp_R2.docx")),
+          (folder.path / "supp_R2.doc", True, folder.path / "supp_R2.doc"))
+    (t / "expired.html").write_bytes(b"<html><body>PDF link has expired or is invalid" + b" x" * 1000 + b"</body></html>")
+    check("a Europe PMC 'PDF link has expired or is invalid' body is no document",
+          "expired" in base.validate(t / "expired.html", min_text=10), True)
+runs = []
+def _curl92(args, **kwargs):
+    runs.append(args)
+    return SimpleNamespace(returncode=92 if len(runs) == 1 else 0, stdout=b"200", stderr=b"")
+with tempfile.TemporaryDirectory() as tmp, patch.object(base.subprocess, "run", side_effect=_curl92), \
+        patch.object(base.time, "sleep"), patch.dict(os.environ, {"CHEM_DATA": tmp}):
+    base.download("https://vendor.example/manual.pdf", Path(tmp) / "m.pdf")
+check("curl HTTP/2 stream error (92) is retried once over HTTP/1.1",
+      (len(runs), "--http1.1" in runs[0], "--http1.1" in runs[1]), (2, False, True))
+
+check.section("protocols.io: cited DOI answered by a cached export")
+_export = ("Version 2\nDiMeLo-seq V.2\nDOI\nhttps://dx.doi.org/10.17504/protocols.io.b2u8qezw\n"
+           "DOI: https://dx.doi.org/10.17504/protocols.io.b2u8qezw\nExternal link: https://doi.org/10.1038/x\n"
+           "see also dx.doi.org/10.17504/protocols.io.zcpf2vn\nProtocol Integer ID: 55936\n")
+check("printed DOI is the export's own 'DOI:' line, not a DOI it cites",
+      protocolsio.printed_doi(_export), "10.17504/protocols.io.b2u8qezw")
+check("cited export identity: accession and revision",
+      [protocolsio.cited_export(c, p, v) for c, p, v in (
+          ("10.17504/protocols.io.b2u8qezw", "10.17504/protocols.io.b2u8qezw", "2"),
+          ("10.17504/protocols.io.rm7vzqr92vx1/v1", "10.17504/protocols.io.rm7vzqr92vx1/v1", ""),
+          ("10.17504/protocols.io.dm6gp3o68vzp", "10.17504/protocols.io.dm6gp3o68vzp/v1", ""),
+          ("10.17504/protocols.io.abc/v3", "10.17504/protocols.io.abc/v4", ""),
+          ("10.17504/protocols.io.abc/v3", "10.17504/protocols.io.abc", "4"),
+          ("10.17504/protocols.io.zcpf2vn", "10.17504/protocols.io.b2u8qezw", "2"))],
+      [True, True, True, False, False, False])
+check("a cached export with conflicting DOI/Version labels answers neither citation",
+      [protocolsio.cited_export(c, "10.17504/protocols.io.abc/v1", "2")
+       for c in ("10.17504/protocols.io.abc/v1", "10.17504/protocols.io.abc")],
+      [False, False])
+with patch.object(base, "cooling_down", return_value=""), \
+     patch.object(base, "throttle"), \
+     patch.object(base, "_curl", return_value=SimpleNamespace(
+         stdout=b"<html><title>Just a moment</title></html>\n200")), \
+     patch.object(base, "mark_blocked") as blocked:
+    base.get("https://publisher.example/api")
+    check("small API/HTML requests also put a challenged host in cool-down",
+          (blocked.call_count, blocked.call_args.args[0]), (1, "https://publisher.example/api"))
+with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stdout(io.StringIO()):
+    f = base.Folder(Path(tmp), convert=False)
+    pdf = Path(tmp) / "protocolsio_wrong_v1.pdf"
+    pdf.write_bytes(PDF)
+    pdf.with_name(pdf.name + ".txt").write_text(
+        "Version 1\nDOI: https://doi.org/10.17504/protocols.io.wrong/v1\n"
+        "Protocol Integer ID: 123\n")
+    with patch.object(protocolsio, "resolve", return_value="https://www.protocols.io/view/wrong/v1"), \
+         patch.object(f, "save", return_value=pdf), \
+         patch.object(protocolsio, "public_attachments") as metadata:
+        protocolsio.fetch(SimpleNamespace(folder=f), "10.17504/protocols.io.expected/v1")
+    check("matching revision of a different protocol cannot supply attachments",
+          (metadata.call_count, pdf.exists(), (Path(tmp) / "_invalid" / pdf.name).exists()),
+          (0, False, True))
+with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stdout(io.StringIO()):
+    f = base.Folder(Path(tmp), convert=False)
+    pdf = Path(tmp) / "protocolsio_dimelo-seq-n2bvjxe4wlk5.pdf"
+    pdf.write_bytes(PDF)
+    pdf.with_name(pdf.name + ".txt").write_text(_export)
+    f.rows[pdf.name] = [pdf.name, "https://www.protocols.io/view/dimelo-seq-n2bvjxe4wlk5.pdf", "1", base.md5(pdf), "protocol"]
+    f.manual("protocolsio_b2u8qezw.pdf", "https://doi.org/10.17504/protocols.io.b2u8qezw", "cited", "DOI did not resolve")
+    with patch.object(protocolsio, "resolve", side_effect=AssertionError("no network")):
+        protocolsio.fetch(SimpleNamespace(folder=f), "10.17504/protocols.io.b2u8qezw")
+    check("a cited DOI printed by a cached export clears its stale manual row without a request",
+          ("(manual) protocolsio_b2u8qezw.pdf" in f.rows,
+           any(pdf.name in r[4] for k, r in f.rows.items() if k == "(note) protocols.io b2u8qezw")),
+          (False, True))
+    check("an export printing another DOI does not answer a citation",
+          protocolsio.cached_export(f, "10.17504/protocols.io.zcpf2vn"), None)
+    _original_bytes = pdf.read_bytes()
+    pdf.write_bytes(_original_bytes + b"changed")
+    check("a cached export with changed bytes does not clear an unavailable citation",
+          protocolsio.cached_export(f, "10.17504/protocols.io.b2u8qezw"), None)
+    pdf.write_bytes(_original_bytes)
+    f.manual("protocolsio_b2u8qezw.pdf", "https://doi.org/10.17504/protocols.io.b2u8qezw", "cited", "DOI did not resolve")
+    f.manual("protocolsio_zcpf2vn.pdf", "https://doi.org/10.17504/protocols.io.zcpf2vn", "cited", "DOI did not resolve")
+    check("a sweep clears only manual DOI rows that a cached export answers",
+          (protocolsio.settle_manual_rows(f), "(manual) protocolsio_b2u8qezw.pdf" in f.rows,
+           "(manual) protocolsio_zcpf2vn.pdf" in f.rows), (1, False, True))
+
+check.section("doctext: legacy Word, streamed XLSX, OCR fallback")
+with tempfile.TemporaryDirectory() as tmp:
+    t = Path(tmp)
+    doc = t / "supp.docx"
+    doc.write_bytes(OLE)
+    with patch.object(doctext, "_legacy", return_value="legacy text\n") as legacy:
+        check("an OLE2 Word file under a .docx name is read as legacy .doc",
+              (doctext.read(doc), legacy.call_args.args[1]), ("legacy text\n", ".doc"))
+    with patch.object(doctext, "SOFFICE", None), patch.object(doctext, "CATDOC", "catdoc"), \
+            patch.object(doctext.subprocess, "run",
+                         return_value=SimpleNamespace(returncode=0, stdout=b"Primer ACGT\n")) as run:
+        check("catdoc reads a .doc when LibreOffice is absent",
+              (doctext._legacy(doc, ".doc"), run.call_args.args[0][0]), ("Primer ACGT\n", "catdoc"))
+    with patch.object(doctext, "SOFFICE", None), patch.object(doctext, "CATDOC", None), \
+            contextlib.redirect_stderr(io.StringIO()):
+        check("without converters a .doc is skipped, not faked", doctext._legacy(doc, ".doc"), None)
+    sheet = (b'<worksheet><sheetData><row r="1"><c r="A1" t="s"><v>0</v></c><c r="B1" t="inlineStr">'
+             b'<is><t>ACGT &amp; T</t></is></c></row>' + b'<row r="2" s="3" customFormat="1"/>' * 3000 +
+             b'<row r="3001"><c r="A3001"><v>42</v></c></row></sheetData></worksheet>')
+    book = t / "big.xlsx"
+    book.write_bytes(zbytes({"xl/workbook.xml": b'<workbook><sheets><sheet name="Oligos" sheetId="1"/></sheets></workbook>',
+                             "xl/sharedStrings.xml": b"<sst><si><t>Name</t></si></sst>",
+                             "xl/worksheets/sheet1.xml": sheet}))
+    check("streamed XLSX skips self-closing empty rows and keeps cell content",
+          doctext.xlsx_text(book), "## sheet Oligos\nName\tACGT & T\n42\n")
+    with patch.object(doctext, "_read", side_effect=AssertionError("unstreamed")):
+        check(".xlsx goes through the streamed reader", doctext.read(book).splitlines()[0], "## sheet Oligos")
+    pdf = t / "scan.pdf"
+    pdf.write_bytes(PDF)
+    with patch.object(doctext, "TESSERACT", None), contextlib.redirect_stderr(io.StringIO()):
+        check("without OCR tools an empty text layer is returned unchanged", doctext.with_ocr(pdf, "\f\f"), "\f\f")
+    with patch.object(doctext, "TESSERACT", "tesseract"), patch.object(doctext, "PDFTOPPM", "pdftoppm"), \
+            patch.object(doctext, "_page_sizes", return_value={}), \
+            patch.object(doctext, "ocr_page", side_effect=lambda p, n, longest=792: f"page {n} 5'-ACGT-3'\n"):
+        full = doctext.with_ocr(pdf, "\f\f")
+        layer = "Real text layer " * 40 + "\f" + "Header only\f"
+        with patch.object(doctext, "raster_pages", return_value=[2]) as raster:
+            partial = doctext.with_ocr(pdf, layer)
+    check("an image-only PDF twin starts with the OCR header, then page text",
+          (full.splitlines()[0].startswith("## OCR TEXT"), "page 1 5'-ACGT-3'" in full, "page 2" in full),
+          (True, True, True))
+    check("an image-only page in a text PDF is appended after the unchanged text layer",
+          (partial.startswith(layer.rstrip("\n")), "## OCR TEXT of image-only page 2" in partial,
+           raster.call_args.args[1]),
+          (True, True, [2]))
+
+check.section("catalogue paper linking")
+_cap2010 = {"title": ["Orphan CpG Islands Identify Numerous Conserved Promoters in the Mammalian Genome"],
+            "author": [{"family": "Illingworth"}, {"family": "Bird"}], "issued": {"date-parts": [[2010]]}}
+_cap2024 = {"title": ["Large-scale single-cell long-read genomics enables high-resolution microbiome profiling"],
+            "author": [{"family": "Li"}, {"family": "Zheng"}], "posted": {"date-parts": [[2024]]}}
+_science = {"title": ["Droplet-based forward genetic screening of astrocyte-microglia cross-talk"],
+            "author": [{"family": "Wheeler"}, {"family": "Quintana"}], "issued": {"date-parts": [[2023]]}}
+_protocol = {"title": ["SPEAC-seq: a protocol for screening astrocyte-microglia interactions"],
+             "author": [{"family": "Lee"}, {"family": "Wheeler"}, {"family": "Quintana"}],
+             "issued": {"date-parts": [[2024]]}}
+check("a shared method name with no shared title or authors is no link",
+      gs.works_agree(_cap2010, _cap2024), "")
+check("a companion paper with shared senior author within three years is linked",
+      bool(gs.works_agree(_protocol, _science)), True)
+check("unknown metadata never establishes a link", gs.works_agree({}, _science), "")
+check("the defining DOI itself needs no lookup",
+      gs.linked_to_defining("10.1371/journal.pgen.1001134", "https://doi.org/10.1371/JOURNAL.PGEN.1001134"),
+      "defining DOI")
+check("first-author agreement for title-matched preprints",
+      [gs._same_first_author(a, b) for a, b in (("Li", "Li Y"), ("Illingworth", "Li Y"), ("", "Li"))],
+      [True, False, True])
+
+check.section("Polite access: per-host interval and challenge cool-down")
+with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {"CHEM_DATA": folder}):
+    check("publisher hosts get the slow interval, others the default",
+          (base.host_interval("link.springer.com"), base.host_interval("www.ncbi.nlm.nih.gov")),
+          (base.SLOW_INTERVAL, base.HOST_INTERVAL))
+    slept = []
+    with patch.object(base.time, "sleep", side_effect=slept.append):
+        base.throttle("https://link.springer.com/a.pdf")
+        base.throttle("https://link.springer.com/b.pdf")
+    check("a second request to the same host waits for the interval", bool(slept) and slept[-1] > 7, True)
+    base.mark_blocked("https://www.science.org/doi/pdf/x", "challenge/gate page (Just a moment)")
+    with patch.object(base, "_curl") as curl:
+        code, problem = base.download("https://www.science.org/doi/suppl/y", Path(folder) / "y.pdf")
+    check("a host in cool-down is not requested again", (curl.called, "cool-down" in problem), (False, True))
+    check("cool-down is per host", base.cooling_down("https://www.ncbi.nlm.nih.gov/x"), "")
+    with patch.object(base.time, "time", return_value=base.time.time() + base.COOLDOWN_SECONDS + 1):
+        check("cool-down expires", base.cooling_down("https://www.science.org/doi/z"), "")
+    fold = base.Folder(Path(folder) / "sources" / "slug", convert=False, expand=False)
+    for reason, url in (("PMC 'Preparing to download' gate", "https://pmc.ncbi.nlm.nih.gov/a.pdf"),
+                        ("challenge/gate page (Client Challenge)", "https://link.springer.com/c.pdf")):
+        with patch.object(base, "download", return_value=(200, "")) as dl, \
+             patch.object(base, "validate", return_value=reason), \
+             patch.object(base.time, "sleep"):
+            fold._fetch(url, Path(folder) / "part", "c.pdf", 1500, None, base.MAX_BYTES, 2)
+        check(f"{reason.split()[0]} gate: fetched once, host cool-down {'pmc' not in url}",
+              (dl.call_count, bool(base.cooling_down(url))), (1, "pmc" not in url))
 
 check.report()

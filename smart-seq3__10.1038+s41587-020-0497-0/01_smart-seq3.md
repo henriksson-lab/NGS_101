@@ -41,7 +41,9 @@ secondary redrawing of this family is used as evidence anywhere in this protocol
 
 🟢 SMART-seq3 is a redesign of the oligos, not an optimisation. Four changes:
 
-1. **Maxima H− reverse transcriptase** instead of MMLV — RNase H−, more thermostable, more processive.
+1. **Maxima H− reverse transcriptase** (an MMLV-derived RNase H− enzyme) instead of
+   Superscript II; Supplementary Note I reports that swapping Superscript II for Maxima H−
+   under Smart-seq2 conditions did not help, so the buffer was re-optimised with it.
 2. **NaCl instead of KCl** during reverse transcription.
 3. **5% PEG** as a crowding reagent, as in mcSCRB-seq.
 4. **An 11-bp tag and an 8-bp UMI in the TSO**, so that a 5' read can be distinguished from
@@ -92,16 +94,24 @@ FLASH-seq note and must not be substituted for SMART-seq3 oligos.
 
 ## 3. Steps
 
-| # | Step | Note |
+🟢 From the author protocol V.3 (protocols.io DOI `10.17504/protocols.io.bcq4ivyw`,
+PDF pp5–19; the version on disk is dated 19–20 Feb 2020). The published Methods are
+not readable here (subscription preview), so the article's own wording of these
+conditions was not compared.
+
+| # | Step | Source conditions |
 |---|---|---|
-| 1 | Anneal Smartseq3_OligodT30VN; reverse transcribe with **Maxima H− MMLV** | NaCl, 5% PEG |
-| 2 | Terminal transferase adds untemplated **CCC** | |
-| 3 | TSO anneals to the CCC; template switch copies tag + UMI onto the cDNA | the UMI is now attached, pre-amplification |
-| 4 | PCR with **Fwd_PCR_primer and Rev_PCR_primer** | two different primers — not single-primer |
-| 5 | Purify amplified cDNA | |
-| 6 | **Nextera tagmentation** | 9-bp gap |
-| 7 | **72 °C gap fill-in** | first cycle of the Nextera PCR |
-| 8 | PCR with N/S5xx and N7xx index primers | |
+| 1 | Sort into 3 µL lysis; lyse 72 °C 10 min | 0.1% Triton X-100, 5% PEG 8000, 0.5 mM dNTP each, 0.5 µM oligo-dT30VN, RNase inhibitor (concentrations given for the 4 µL RT) |
+| 2 | Add 1 µL RT mix; reverse transcribe with **Maxima H−** | 25 mM Tris-HCl pH 8.3, 30 mM NaCl, 2.5 mM MgCl2, 1 mM GTP, 8 mM DTT, 2 µM TSO, 2 U/µL RT; 42 °C 90 min, 10×(50 °C 2 min, 42 °C 2 min), 85 °C 5 min |
+| 3 | Untemplated C addition and template switch onto the TSO in the same reaction | tag + UMI now attached, before amplification (🟡 CCC drawn as the conventional model) |
+| 4 | Pre-amplify in 6 µL **KAPA HiFi HotStart** mix with **Fwd_PCR_primer (0.5 µM) and Rev_PCR_primer (0.1 µM)** | 98 °C 3 min; input-dependent cycles of 98 °C 20 s / 65 °C 30 s / 72 °C 4 min; 72 °C 5 min |
+| 5 | Purify cDNA with 0.6:1 22% PEG / Sera-Mag beads ("preferable but optional") | elute 12 µL |
+| 6 | Quantify (QuantiFluor) and normalise to 100 pg/µL | optional but recommended |
+| 7 | **Tagment** 1 µL cDNA with 1 µL mix (0.08 µL Nextera XT Amplicon Tagment Mix, 1× home-made TD buffer: 10 mM Tris pH 7.5, 5 mM MgCl2, 5% DMF) | 55 °C 10 min; TDE1 stated to work as well |
+| 8 | Strip Tn5 with 0.5 µL 0.2% SDS | 5 min |
+| 9 | Add custom S50X/N70X index primers (0.1 µM each) and Phusion HF mix | |
+| 10 | **72 °C 3 min gap fill**, then index PCR | 98 °C 3 min; 12×(98 °C 10 s, 55 °C 30 s, 72 °C 30 s); 72 °C 5 min |
+| 11 | Pool wells; 0.6:1 PEG-bead cleanup | optional E-Gel size selection 550 bp–2 kb not drawn |
 
 ## 4. Two kinds of fragment
 
@@ -157,3 +167,18 @@ is that paper's own two sets of 96 eight-base indexes, not a Smart3 order roster
 Additional file 1 concerns index swapping. These linked originals were checked
 for their actual scope. No categorical absence of a selected Smart3 pair is
 claimed while the published Methods remain inaccessible.
+
+
+## Bounded pass 2026-10-17 (round breadth-first-18)
+
+Read: Supplementary Table 1 (`MOESM3` xlsx, all 96 condition rows; final Smart-seq3
+conditions carry the four oligos above), Supplementary Note I (`MOESM1`, design and
+additive rationale), author protocol V.3 PDF pp2–20 (oligo table, index design,
+lysis, RT, pre-amplification, bead cleanup, tagmentation, index PCR, cleanup,
+sequencing/bcl2fastq example `Y150N,I8,I8,Y150N`). The publisher HTML (line 627)
+remains a subscription preview. The schematic graph is now declared in
+`tools/build_page.py` with these reagents, conditions, both PEG-bead cleanups and
+the SDS strip; molecular states still come from the shared SMART-seq helpers.
+Open: the published Methods text; the acquired cycle counts of the published runs
+(the bcl2fastq line is a protocol example, not a run record); which index length
+and members each experiment used.

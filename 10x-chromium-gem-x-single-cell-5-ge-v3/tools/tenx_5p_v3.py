@@ -29,6 +29,14 @@ def capture_scene():
 def first_strand(): return Construct([*inferred_rt_primer(),seg("antisense cDNA","X"*36,placeholder=True),inferred("CCC","CCC","tso")],name="v3 first strand")
 def switch_scene():
     first=first_strand(); sc=Scene(); sc.strand("first",list(first),label="first strand"); sc.anneal("bead TSO",bead_tso(),to="first",pair=("rGrGrG","CCC"),label="barcoded bead TSO",above=True,mod5="bead"); sc.arrow("first","RT switches template"); return sc
+def _copied(part):
+    """The first-strand copy of one bead-TSO part; placeholders are never complemented."""
+    if part.name=="rGrGrG": return inferred("CCC","CCC","tso")
+    return replace(part,name=part.name+" reverse complement",top=part.top if part.placeholder else revcomp(part.top))
+def switched_strand():
+    """Single-stranded template-switched first strand (before cDNA PCR makes a duplex)."""
+    first=[*inferred_rt_primer(),seg("antisense cDNA","X"*40,placeholder=True),*[_copied(part) for part in reversed(bead_tso())]]
+    sc=Scene(); sc.strand("switched",first,label="template-switched first-strand cDNA"); return sc
 def amplified_cdna(): return Construct([*bead_tso(),seg("5-prime cDNA","X"*40,placeholder=True),*[replace(part, name=part.name + " reverse complement", top=part.top if part.placeholder else revcomp(part.top)) for part in reversed(inferred_rt_primer())]],name="v3 amplified cDNA")
 SEQ_PRIMERS=(sp.TRUSEQ["R1"],sp.TRUSEQ["I1"],sp.TRUSEQ["I2"],sp.TRUSEQ["R2"])
 def final_library(insert_nt=38):
@@ -70,53 +78,97 @@ def protocol_graph():
                       state=Construct(bead_tso(), name="template-switch oligo"),
                       inferred=False, source=authority)
     switched = graph.product("switched", "template-switched cDNA", MaterialKind.MOLECULAR,
-                             state=amplified_cdna(), inferred=True, source=authority + "; conditional end reconstruction")
+                             state=switched_strand(), inferred=True, source=authority + "; conditional end reconstruction")
     graph.react("template_switch", "INFERRED — copy the template-switch oligo", StepKind.TEMPLATE_SWITCHING,
                 ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL), (enzyme, InputRole.CATALYST)), (switched,))
-    recovery = graph.input("gem_recovery", "GEM break and Dynabeads cleanup", MaterialKind.CONDITION)
-    recovered = graph.product("recovered", "recovered cDNA", MaterialKind.MOLECULAR, state=switched.state, inferred=True)
-    graph.react("recover", "Break GEMs and recover cDNA", StepKind.EXTRACTION,
-                ((switched, InputRole.TEMPLATE), (recovery, InputRole.CONDITION)), (recovered,), changes_molecule=False)
+    recovery = graph.input("gem_recovery", "Recovery Agent (GEM break)", MaterialKind.CONDITION)
+    broken = graph.product("broken_gems", "aqueous post-GEM-RT phase", MaterialKind.MOLECULAR, state=switched.state, inferred=True)
+    oil = graph.product("recovery_oil", "Recovery Agent/Partitioning Oil phase", MaterialKind.WASTE)
+    graph.react("recover", "Break GEMs with Recovery Agent; remove the oil phase (§2.1a–b)", StepKind.EXTRACTION,
+                ((switched, InputRole.TEMPLATE), (recovery, InputRole.CONDITION)), (broken, oil), changes_molecule=False)
+    graph.discard(oil, "pink Recovery Agent/Partitioning Oil phase aspirated from the tube bottom")
+    recovered = cleanup(graph, broken, "dynabeads_cleanup", "Dynabeads MyOne SILANE cleanup (§2.1)",
+                        "recovered", "bead-purified post-GEM-RT cDNA",
+                        "leftover GEM-RT reagents and primers in the bead supernatant")
     forward, reverse = cdna_primers()
     pf = graph.input("preamp_forward", "cDNA Primers PN-2000089 forward (catalog-linked)", MaterialKind.OLIGO,
                      state=forward, source=authority + "; predecessor appendix with same catalog number")
     pr = graph.input("preamp_reverse", "cDNA Primers PN-2000089 reverse (catalog-linked)", MaterialKind.OLIGO,
                      state=reverse, source=authority + "; predecessor appendix with same catalog number")
-    pol = graph.input("preamp_polymerase", "Amp Mix", MaterialKind.CATALYST)
+    pol = graph.input("preamp_polymerase", "Amp Mix PN-2000047/2000103 (not Library Amp Mix)", MaterialKind.CATALYST)
     amplified = graph.product("amplified", "amplified cDNA", MaterialKind.MOLECULAR, state=amplified_cdna(), inferred=True)
-    graph.react("preamp", "INFERRED — amplify recovered cDNA", StepKind.PCR,
+    graph.react("preamp", "INFERRED — amplify recovered cDNA (98/63/72 °C, 12–17 total cycles by targeted cell recovery; §2.2)", StepKind.PCR,
                 ((recovered, InputRole.TEMPLATE), (pf, InputRole.STRUCTURAL), (pr, InputRole.STRUCTURAL), (pol, InputRole.CATALYST)),
                 (amplified,), geometry=PCRGeometry.unavailable(amplified.state,
                     reason="PN-2000089 primer sequences are catalog-linked; complete current-kit cDNA ends are not established in this model."))
-    fragmentation = graph.input("fragmentase", "Fragmentation Enzyme", MaterialKind.CATALYST)
+    cleaned = cleanup(graph, amplified, "cdna_cleanup", "SPRIselect 0.6X cDNA cleanup (§2.3)",
+                      "cleaned_cdna", "SPRIselect-purified amplified cDNA",
+                      "unbound short products and PCR reagents in the 0.6X supernatant")
+    fragmentation = graph.input("fragmentase", "Fragmentation Mix: Fragmentation Enzyme PN-2000090 + Buffer PN-2000091", MaterialKind.CATALYST)
     fragments = graph.product("fragments", "fragmented cDNA", MaterialKind.MOLECULAR)
-    graph.react("fragment", "Fragment amplified cDNA", StepKind.FRAGMENTATION,
-                ((amplified, InputRole.TEMPLATE), (fragmentation, InputRole.CATALYST)), (fragments,))
-    end_mix = graph.input("end_mix", "Fragmentation Enzyme mix during end repair/A-tailing", MaterialKind.CATALYST)
+    graph.react("fragment", "Fragment 10 µl (25%) of purified cDNA at 32 °C, 5 min (§5.1)", StepKind.FRAGMENTATION,
+                ((cleaned, InputRole.TEMPLATE), (fragmentation, InputRole.CATALYST)), (fragments,))
+    end_mix = graph.input("end_mix", "same Fragmentation Mix, no reagent added", MaterialKind.CATALYST)
     tailed = graph.product("tailed", "end-repaired A-tailed cDNA", MaterialKind.MOLECULAR)
-    graph.react("end_prep", "End-repair and A-tail cDNA fragments", StepKind.END_REPAIR,
+    graph.react("end_prep", "End-repair and A-tail in the same tube at 65 °C, 30 min (§5.1)", StepKind.END_REPAIR,
                 ((fragments, InputRole.TEMPLATE), (end_mix, InputRole.CATALYST)), (tailed,))
+    sized = double_sided(graph, tailed, "fragment_size_selection",
+                         "Double-sided SPRIselect 0.6X/0.8X (§5.2)", "sized_fragments",
+                         "size-selected A-tailed fragments")
     adapter = graph.input("read2_adapter", "Ligation Mix PN-2001109", MaterialKind.ADAPTER)
-    ligase = graph.input("ligase", "DNA Ligase", MaterialKind.CATALYST)
+    ligase = graph.input("ligase", "DNA Ligase PN-220110/220131", MaterialKind.CATALYST)
     adapted = graph.product("adapted", "adapter-ligated cDNA", MaterialKind.MOLECULAR)
-    graph.react("ligate", "Ligate adapters", StepKind.LIGATION,
-                ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)), (adapted,),
+    graph.react("ligate", "Ligate adapters at 20 °C, 15 min (§5.3)", StepKind.LIGATION,
+                ((sized, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)), (adapted,),
                 geometry=AdapterLigationGeometry.unavailable(
                     "The current Ligation Mix PN-2001109 oligos and physical ligating ends are not established in this declaration; the final library alone does not establish reagent geometry."))
+    ligated = cleanup(graph, adapted, "ligation_cleanup", "SPRIselect 0.8X post-ligation cleanup (§5.4)",
+                      "ligated", "purified adapter-ligated cDNA",
+                      "unligated adapter and ligation reagents in the 0.8X supernatant")
     index_f = graph.input("index_forward", "Dual Index Kit TT Set A forward oligo", MaterialKind.OLIGO)
     index_r = graph.input("index_reverse", "Dual Index Kit TT Set A reverse oligo", MaterialKind.OLIGO)
-    index_pol = graph.input("index_polymerase", "Library Amp Mix", MaterialKind.CATALYST)
+    index_pol = graph.input("index_polymerase", "Library Amp Mix PN-2000531 or Amp Mix PN-2000047/2000103", MaterialKind.CATALYST)
     final = final_library()
-    library = graph.product("library", "dual-index GEX library", MaterialKind.LIBRARY, state=final)
-    graph.react("index_pcr", "Select the barcode-bearing end and add sample indexes", StepKind.PCR,
-                ((adapted, InputRole.TEMPLATE), (index_f, InputRole.STRUCTURAL), (index_r, InputRole.STRUCTURAL),
-                 (index_pol, InputRole.CATALYST)), (library,), geometry=PCRGeometry.unavailable(final,
+    indexed = graph.product("indexed", "sample-index PCR product", MaterialKind.LIBRARY, state=final)
+    graph.react("index_pcr", "Select the barcode-bearing end and add sample indexes (98/54/72 °C, 5–16 total cycles by cDNA input; §5.5)", StepKind.PCR,
+                ((ligated, InputRole.TEMPLATE), (index_f, InputRole.STRUCTURAL), (index_r, InputRole.STRUCTURAL),
+                 (index_pol, InputRole.CATALYST)), (indexed,), geometry=PCRGeometry.unavailable(final,
                     reason="The TT table supplies index pairs, not full physical PCR oligos; exact primer geometry is not declared."))
+    library = double_sided(graph, indexed, "library_size_selection",
+                           "Post-sample-index double-sided SPRIselect 0.6X/0.8X (§5.6)", "library",
+                           "dual-index GEX library", kind=MaterialKind.LIBRARY, state=final)
     graph.sequence(library, SequencingPlan(library=final, primers=SEQ_PRIMERS,
                    acquired_roles=tuple(p.role for p in SEQ_PRIMERS),
                    read_lengths={"Read 1":28,"Index 1 (i7)":10,"Index 2 (i5)":10,"Read 2":90}))
     graph.declare_reviewed_scope(["cells", "gems", "partition", "rt_primer", "rt", "reverse_transcribe",
-        "tso", "template_switch", "gem_recovery", "recover", "preamp_forward", "preamp_reverse",
-        "preamp_polymerase", "preamp", "fragmentase", "fragment", "end_mix", "end_prep",
-        "read2_adapter", "ligase", "ligate", "index_forward", "index_reverse", "index_polymerase", "index_pcr", "library"], authority)
+        "tso", "template_switch", "gem_recovery", "recover", "dynabeads_cleanup", "dynabeads_cleanup_beads", "preamp_forward", "preamp_reverse",
+        "preamp_polymerase", "preamp", "cdna_cleanup", "cdna_cleanup_beads", "fragmentase", "fragment", "end_mix", "end_prep",
+        "fragment_size_selection", "fragment_size_selection_beads", "read2_adapter", "ligase", "ligate", "ligation_cleanup", "ligation_cleanup_beads",
+        "index_forward", "index_reverse", "index_polymerase", "index_pcr", "library_size_selection", "library_size_selection_beads", "library"], authority)
     return graph.require_publishable()
+
+
+def cleanup(graph, substrate, step_id, label, kept_id, kept_label, waste_label):
+    """One bead cleanup: retained bead eluate plus the discarded supernatant."""
+    beads = graph.input(step_id + "_beads", label, MaterialKind.SELECTION)
+    kept = graph.product(kept_id, kept_label, MaterialKind.MOLECULAR, state=substrate.state,
+                         inferred=substrate.inferred, source=substrate.source)
+    waste = graph.product(step_id + "_waste", waste_label, MaterialKind.WASTE)
+    graph.react(step_id, label, StepKind.CLEANUP,
+                ((substrate, InputRole.TEMPLATE), (beads, InputRole.SELECTION)), (kept, waste))
+    graph.discard(waste, "removed with the supernatant and ethanol washes")
+    return kept
+
+
+def double_sided(graph, substrate, step_id, label, kept_id, kept_label, *,
+                 kind=MaterialKind.MOLECULAR, state=None):
+    """Source double-sided SPRIselect: 0.6X binds large species, 0.8X (cumulative) keeps the middle."""
+    beads = graph.input(step_id + "_beads", label, MaterialKind.SELECTION)
+    kept = graph.product(kept_id, kept_label, kind, state=substrate.state if state is None else state)
+    large = graph.product(step_id + "_large", "large fragments bound at 0.6X", MaterialKind.WASTE)
+    small = graph.product(step_id + "_small", "small fragments left in the 0.8X supernatant", MaterialKind.WASTE)
+    graph.react(step_id, label, StepKind.SELECTION,
+                ((substrate, InputRole.TEMPLATE), (beads, InputRole.SELECTION)), (kept, large, small))
+    graph.discard(large, "first-bead pellet is discarded; the supernatant is carried forward")
+    graph.discard(small, "second-bead supernatant is removed; the bead-bound middle fraction is eluted")
+    return kept

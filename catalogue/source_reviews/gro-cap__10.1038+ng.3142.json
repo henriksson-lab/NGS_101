@@ -715,5 +715,24 @@
       "change": "Declared source-positive single-end Read1 acquisition from all four Core2014 SRA experiment originals; added original-source XML transcription checks. Added public metadata-unit discrepancy notice (GEOml versus originalPDFmicrolitres), assigning no model volumes.",
       "evidence": "Both readers inspected sample methods and actual XML; 14 local source checks pass."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Core2014 PMC4254663 JATS Methods 'Preparation of GRO-cap, PRO-seq and GRO-seq libraries' lines534–543 and mapping544–549; Kruesi2013 eLife original PDF text Methods pp21–23 lines1080–1203 (NRO reaction1080–1093, bead pre-wash/enrichment1095–1125, GRO-cap preparation1163–1203, mapping1205–1211)",
+      "oligo_scraper": "Bundle scraper run; Kruesi hits at lines1139 (GRO-seq RT primer), 1158–1159 (GRO-seq RP1/RPI) and 1209 (cutadapt RA3 target), GEO metadata RP1/RPI/RTP repeats and the Illumina reference page entries; none assigns a GRO-cap PCR/index primer.",
+      "findings": "No change to reaction order: RA3 ligation (T4 Rnl1, 22C 4–6h) after first anti-BrU capture, second capture, Terminator, Antarctic phosphatase, split/TAP, RA5 ligation, third capture, Core2008 RT/PCR/PAGE confirmed. Label refinements from Kruesi p21–22: run-on input now Br-UTP+ATP/GTP+limiting CTP, 1% sarkosyl, 5 min 30C; capture reagent anti-deoxyBrU agarose beads (Santa Cruz sc-32323-ac); GRO-cap RNA not base-hydrolysed (caveat, step label, note). GEO/ENA ml-vs-µl discrepancy notice retained.",
+      "deferred": [
+        "Historical GRO-cap PCR primer pair and index identity/length (Core2008 SOM kit primers; adjacent GRO-seq RPI family not assigned)",
+        "Complete historical RA3/RA5 ordered strands and terminal modifications",
+        "No-TAP control branch not drawn",
+        "Acquired read cycles for HiSeq2000 single-end runs (30-nt trim is processing)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 14 checks pass; page builds; pairing 0 problems; chemistry 13 steps 0 established/0 conditional/14 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states (inferred kit adapters, unassigned RT/PCR primers); Markdown built; review schema checked"
+    }
   ]
 }

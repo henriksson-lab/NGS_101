@@ -5,20 +5,50 @@
     {
       "id": "takara_manual",
       "role": "defining",
-      "locator": "https://takara.co.kr/file/manual/pdf/PicoPLEX-DNA-seq-Manual-QAM-106-002-updated%28RB3381%29.pdf",
-      "availability": "unavailable",
+      "locator": "https://takara.co.kr/file/manual/pdf/PicoPLEX-DNA-seq-Manual-QAM-106-002-updated%28RB3381%29.pdf ; cached /husky/henriksson/NGS101_papers/sources/picoplex-dna-seq/PicoPLEX-DNA-seq-Manual-QAM-106-002-updated_RB3381_.pdf(.txt)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Official QAM-106-002 manual is listed in extra_sources.tsv but no source bundle was cached before downloads paused.",
-      "pass_1": null,
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Text twin lines 59-938 (all sections: Principle/Fig1, Starting Material, Dual Index Plate, Cell Lysis, Pre-Amplification, Library Amplification, pooling/AMPure, quantification, sequencing recommendations, read analysis, Appendices 1-2); rendered PDF pp3/7/17 for Fig1/Fig2/Fig7",
+        "finding": "Rubicon Genomics manual QAM-106-002 (Cat# R300381). Prints 8-nt i5 D501-D508 and i7 D701-D706 sequences, lysis/pre-amp/amplification conditions and 11 quasi-random read cycles (trim 14); withholds quasi-random primer, common tail, full index primer and adapter bases; does not name the Pre-Amp Enzyme or state strand displacement."
+      },
       "pass_2": null
     },
     {
       "id": "index_plate",
       "role": "linked_material",
-      "locator": "QAM-106-002 Figure 4 i5/i7 well map and any named index-plate guide",
+      "locator": "QAM-106-002 Figure 4 (p7) and Figure 7 (Appendix 2, p17) i5/i7 well map and sequence table",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "takara_manual",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Text twin lines 271-301 and 796-908; rendered PDF page 20 (manual p17) Figure 7",
+        "finding": "Rows A-H = D501-D508 (TATAGCCT ATAGAGGC CCTATCCT GGCTCTGA AGGCGAAG TAATCTTA CAGGACGT GTACTGAC), columns 1-6 = D701-D706 (ATTACTCG TCCGGAGA CGCTCATT GAGATTCC ATTCAGAA GAATTCGT); A7-H12 blank. Strand/orientation of the printed sequences is not stated."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "us_patent_8206913",
+      "role": "linked_material",
+      "locator": "US Patent 8,206,913 cited on QAM-106-002 back page (Product Use Limitations)",
       "availability": "unavailable",
       "relevance": "relevant",
-      "reason": "Potential source-positive index table is in the inaccessible defining manual.",
+      "reason": "Not fetched within the bounded 2026-10-17 pass; may describe quasi-random primer/common-tail design.",
+      "discovered_from": "takara_manual",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "illumina_pooling_guide",
+      "role": "linked_material",
+      "locator": "Illumina TruSeq Sample Preparation Pooling Guide Part#15042173 Rev A (2013), cited QAM-106-002 pp7/16",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Cited for index-compatibility selection; not fetched within the bounded pass; may bear on index orientation.",
       "discovered_from": "takara_manual",
       "pass_1": null,
       "pass_2": null
@@ -41,5 +71,26 @@
       "evidence": "Relevant source files and independent second pass remain outstanding."
     }
   ],
-  "conclusion": "Source review blocked: no original protocol/guide source was available in the local cache during storage-limited pass."
+  "conclusion": "Source review blocked: defining manual QAM-106-002 read once (2026-10-17 bounded pass); index sequences are published, quasi-random/common-tail/adapter bases are withheld by the manual; linked patent and Illumina pooling guide unread and no independent second pass.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Rubicon Genomics PicoPLEX DNA-seq Instruction Manual QAM-106-002 (Takara-hosted RB3381 PDF, fetched via extra_sources.tsv) text twin lines 59-938: Principle/Fig1 137-152, Starting Material 228-241, Dual Index Plate 271-301, Cell Lysis 315-390, Pre-Amplification 392-468, Library Amplification 470-590, pooling/AMPure 592-681, Quantification 687-706, Sequencing Recommendations 718-729, Analysis of reads 731-734, Appendix 2/Fig7 766-908, patent/© 919-922; rendered pp3 (Fig1), 7 (Fig2), 17 (Fig7 table)",
+      "oligo_scraper": "Bundle scraper run: 0 hits (only 8-nt index sequences printed); Figure 7 index table verified on the rendered page.",
+      "findings": "Defining manual obtained for the first time (previous review had no original). Added the printed D501-D508/D701-D706 index table (transcription self-test against source text) without assigning strand; lysis, 12-cycle pre-amp and 4+7-cycle amplification conditions; Pre-Amp Enzyme renamed and strand displacement marked unstated (note no longer marks it green); 11-nt quasi-random primer-derived regions at both insert ends; equal-volume pooling and single 1:1 AMPure XP cleanup with supernatant waste; ~300-1000 bp size, MiSeq v3 16 pM/5% PhiX, no read lengths. Corrected publisher to Rubicon Genomics (Takara-hosted). Removed unused SurePlex/legacy imports. Page shows two within-manual discrepancies: 11 quasi-random cycles vs 14-base trim (p15) and DNA input 'less than 6 pg to 60 pg' (p6) vs '6-60 pg' (p8).",
+      "deferred": [
+        "US Patent 8,206,913 (quasi-random primer/common-tail design)",
+        "Illumina TruSeq Pooling Guide 15042173 Rev A (index orientation/compatibility)",
+        "Takara-era QAM revisions of this manual",
+        "Strand/orientation of printed i5/i7 sequences",
+        "Pre-Amp Enzyme identity/strand displacement",
+        "Reason for 14-base trim vs 11 quasi-random cycles"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 pass (publishable + 2 index-table source transcription checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed (all oligo inputs proprietary/inferred); Markdown built; review schema checked"
+    }
+  ]
 }

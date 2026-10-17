@@ -261,5 +261,25 @@
       "evidence": "The publisher original Supplementary Table 5 (MOESM7) prints methylated/phosphorylated Tn5 adaptors, TS301–TS364 barcode family, indexed PCR and custom sequencing primers; both reviewers located these in the same source. A blanket absence claim is false."
     }
   ],
-  "conclusion": "The claimed missing TIME-seq Tn5/primer sequences are resolved by publisher Table 5. Review remains blocked on two PMC manuscript adjunct links (methods and Table 1) whose equivalence to the publisher versions is not yet independently established; no absence is accepted."
+  "conclusion": "The claimed missing TIME-seq Tn5/primer sequences are resolved by publisher Table 5. Review remains blocked on two PMC manuscript adjunct links (methods and Table 1) whose equivalence to the publisher versions is not yet independently established; no absence is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nature Aging author manuscript PMC11332592 JATS lines117 (overview), 189–201 (TIME-seq library preparation: tagmentation, lambda spike, STOP, pooling/C&C-25, Klenow methyl-dCTP end repair, Cot-1/blocker hybridization, streptavidin capture/NaOH elution, EpiTect Fast bisulfite, Q5U 19-cycle PCR, 1.8x SPRI), 205 (Sequencing), 281 (ED Fig2 legend); publisher MOESM1 Supplementary Note II lines79–100 (adaptor annealing/transposome loading) and IV lines152–163 (read protocol); MOESM7 Supplementary Table 5 sheets TN5 Adaptors lines1–75, Hyb Blocking Oligos, Indexed PCR Primers, Sequencing Primers",
+      "oligo_scraper": "Bundle scraper run (200 MOESM7 hits, 2 article, 12 superseded preprint); Table 5 Tn5 reverse, methylated adaptor A, TS301/TS302, both blockers, N501/N701 and both custom sequencing primers verified against the declaration; bait sequences not used as key oligos.",
+      "findings": "Added lambda conversion-control spike-in to pooling; STOP buffer and loaded-Tn5 conditions; Zymo C&C-25 cleanup after pooling and after end repair (with waste); Klenow exo-/NEBuffer2/37C30min and 5 mM methyl-dCTP dNTP labels; Cot-1, 95C denaturation and Table 5 A/B blocking oligos as exact-state hybridization inputs; streptavidin washes and 0.1 M NaOH ssDNA elution; EpiTect Fast kit; Q5U 19-cycle PCR followed by 1.8x SPRI cleanup; exact Table 5 states on adapter (TS301 sample A, TS302 sample B), N501 and N701 inputs. No sequence or read-layout change; oligos, custom R2/I1 primers and 145/8/8/5 read protocol match sources. Note records derived C-free barcode/B-prefix observation and undrawn B-top-strand-derived product (one unmethylated ME C).",
+      "deferred": [
+        "Supplementary Note III bait design/production and Supplementary Tables 2–4 (bait pools, sequencing platforms)",
+        "Tn5 purification predecessor protocol ref 49 (Picelli 2014)",
+        "PMC NIHMS2011027 Supplementary Note/Table 1 author-manuscript copies (gated; publisher MOESM originals read instead)",
+        "B-adaptor-top-strand-derived product with converted mosaic-end C (derived, undrawn)",
+        "NovaSeq 200-cycle and MiSeq Micro standard read programs not modelled"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 3 checks pass; page builds; pairing 0 problems; chemistry 1 established/0 conditional/12 unresolved/0 contradictory; source guard 6 exact checked, 0 failed, 1 input without exact state (biotin-RNA baits); Markdown built; review schema checked"
+    }
+  ]
 }

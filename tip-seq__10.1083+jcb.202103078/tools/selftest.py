@@ -14,5 +14,10 @@ c("ME-scT7-r5001", chem.ME_SC_R5001,
   "GAATTTAATACGACTCACTATAGGGAGATCCACGCGCTCTAATTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG")
 c("ME reverse", chem.ME_REV, "CTGTCTCTTATACACATCT")
 c("second-strand primer", chem.SSS_SCI, "GGGAGATCCACGCGC")
+import seqprimers as sp
+spans = {f.feature.id: (f.cycle_start, f.cycle_end) for f in
+         sp.feature_spans(chem.FINAL_LIBRARY, chem.SEQ_PRIMERS, chem.READ_LENGTHS)}
+c("Methods: r5 at index-2 cycles 1-6", spans["scitip_r5"], (1, 6))
 chem.workflow()
+chem.protocol_graph()
 c.report()

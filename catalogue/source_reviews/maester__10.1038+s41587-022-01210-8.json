@@ -176,5 +176,25 @@
       "evidence": "Source-positive MAESTER primer families are available, but inherited cDNA shells and the image-only supplement remain unreviewed."
     }
   ],
-  "conclusion": "Source-positive MAESTER primer families are available, but inherited cDNA shells and the image-only supplement remain unreviewed."
+  "conclusion": "Source-positive MAESTER primer families are available, but inherited cDNA shells and the image-only supplement remain unreviewed.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published article PMC9288977 JATS Methods lines133 (10x library/sequencing), 139–153 (Seq-Well MAESTER, skimmed), 157–171 (MAESTER 10x PCR1/cleanup/PCR2/sequencing), 193 (MAESTER data processing); Supplementary Table 3 MOESM5 sheet MAESTER 10x lines4–8, 11–77 (65 primers, 12 mixes), 78–125 (GoT-P7-i7/GoT-P5-i5 BC01–24, footnotes); MOESM1 Supplementary Figure 3 rendered p3 (10x final product); MOESM4 Table 2 universal/first rows only",
+      "oligo_scraper": "Bundle scraper run; Table 3 universal, mitochondrial and index hits checked against MOESM5 lines4–125; Table 2 /5Biosg/ TyM Seq-Well primers confirmed at MOESM4 line9; bioRxiv preprint hits ignored (superseded).",
+      "findings": "Replaced shared generic dual-index TruSeq shell (TruSeq Read 2 arm where the GoT-P7 small-RNA-type arm is) with a library assembled from Table 3: P5-generic/GoT-P5-i5 (13-nt overlap with PartialRead1 rebuilding Read 1 arm), 16-nt CB/12-nt UMI per Fig S3, poly(dT), mt target, GoT-P7 arm+handle, i7, P7. Graph now PCR1 (12 mixes, KAPA, 6 cycles, regional geometry with named 65-primer pool), pooling + 1x AMPure, PCR2 (P5-generic + GoT-P7-i7, KAPA 6 cycles 60C, exact geometry), 0.8x AMPure; sample-index/CB/UMI features. Sequencing NovaSeq SP 28/8/8/256; 10x-Ci7P/Ci5P declared as printed reverse-complement-workflow index primers; Read 2 primer recorded as not printed. Page-visible discrepancy: Methods/Fig S3 XV-P7-i7 (and XV-P5-i5) names vs Table 3 GoT series; model uses Table 3. Note rewritten with verbatim oligos and step conditions.",
+      "deferred": [
+        "Read 2 sequencing primer for the GoT-P7 arm (NovaSeq forward-strand standard mix)",
+        "10x Genomics 3' v3 user guide (parent cDNA ends, poly(dT) length, CB/UMI lengths)",
+        "Nam/Landau 2019 GoT Table S5 (P5-generic origin)",
+        "Seq-Well/Drop-seq branch beyond Table 2 first rows (biotin capture, SMART-AC, CR1P) not drawn",
+        "TCR-seq add-on (Table 3 TCR sheet) not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest comment-only (0 explicit checks, exit 0); page builds; pairing 0 problems; chemistry 0 established/1 conditional/5 unresolved/0 contradictory; source guard 3 exact checked (GoT-P5-i5, P5-generic, GoT-P7-i7), 0 failed, 1 input without exact state (mt primer pool); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

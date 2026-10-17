@@ -20,10 +20,15 @@ Zhang L-F, Loh Y-H. "Parallel bimodal single-cell sequencing of transcriptome an
 chromatin accessibility." *bioRxiv* 2019. doi:[10.1101/829960](https://doi.org/10.1101/829960)
 (v1, 4 Nov 2019; CC-BY-NC 4.0). Data: GEO GSE113418.
 
-Published as: Xing QR *et al.* "Diversification of reprogramming trajectories revealed by
+**Published version (authoritative):** Xing QR *et al.* "Diversification of reprogramming trajectories revealed by
 parallel single-cell transcriptome and chromatin accessibility sequencing." *Genome
 Research* 30:1027–1039 (2020).
 doi:[10.1101/gr.257840.119](https://doi.org/10.1101/gr.257840.119) · PMC7397874.
+The published article and its Supplemental Table 5 are the authority. Its main
+Methods (JATS lines 162–166) give only the on-/off-IFC step list and sequencing; the
+detailed Supplemental Methods PDF it cites could not be retrieved, so exact reaction
+conditions below come from the bioRxiv v1 supplement (`media-6`) and are labelled
+as preprint values. 🟡 (explicit preprint use for omitted detail)
 
 Sources read (fetched by `tools/get_sources.py astar-seq`, into
 `$CHEM_DATA/sources/astar-seq__10.1101+829960/`, never committed):
@@ -139,12 +144,12 @@ is stated. Full published off-IFC methods still need a direct check.
    5 × (98 °C 20 s, 58 °C 4 min, 68 °C 6 min); 72 °C 10 min. Every cDNA strand now has a
    5' biotin. The ATAC fragments are **not** amplified: no primer matches s5/s7. 🟡
 6. **Harvest**: preprint Supplementary Experimental Procedures lines 1603–1605
-   print **5.5 µL** C1 Harvest Reagent per cell and lines 1612–1615 mix 5.5 µL
-   harvested sample with 5.5 µL washed streptavidin beads. The indexed text of
-   the publisher's later `Supplemental_Material.pdf`, Part 1 on-IFC procedure,
-   instead says **approximately 3.5 µL** C1 Harvest Reagent per cell. The current
-   model follows the later published value provisionally; the complete publisher
-   PDF could not be inspected, so whether the bead-mix volume also changed is open.
+   print a total of **5.5 µL** C1 Harvest Reagent and lines 1612–1615 mix 5.5 µL
+   harvested sample with 5.5 µL washed streptavidin beads. 🟢 (preprint) An earlier
+   audit recorded **approximately 3.5 µL** from a search-index snippet of the
+   publisher's later `Supplemental_Material.pdf`; that PDF returned HTTP 404/403 on
+   2026-10-17, so the later value is **unverified** and no model state depends on
+   either volume. Whether any volume changed on publication remains open.
 
 Off chip:
 
@@ -155,13 +160,21 @@ check of whether those exact off-IFC conditions changed on publication.
 
 7. **Separate**: MyOne Streptavidin C1 beads retain biotinylated cDNA while the
    supernatant contains ATAC-DNA. The preprint Methods lines 1618–1621 specify
-   elution of cDNA in water at 90 °C for 10 min. The model's assignment of the
-   released molecule specifically to the **non-biotinylated strand** remains 🟡
-   inferred: neither the preprint passage nor the accessible published main Methods
-   names which strand is recovered.
-8. **cDNA, second PCR**: C1-P2-PCR2 (now given without "Bio-"), 9 + 11 cycles, AMPure 1×.
+   elution of cDNA in 10 µL water at 90 °C for 10 min and transfer of the eluate. 🟢
+   After on-chip PCR with the biotinylated primer both cDNA strands carry a 5'
+   biotin, and the source names neither the release mechanism nor the strand form
+   of the eluate; the model draws the eluted cDNA as inferred, without a strand
+   assignment. (Corrected 2026-10-17: an earlier model released a
+   "non-biotinylated strand", which on-chip PCR with one biotinylated primer would
+   not leave.) 🟡
+8. **cDNA, second PCR**: 15 µL Q5 Ultra II mix with 1.6 µM C1-P2-PCR2 (now given
+   without "Bio-") on the 10 µL eluate; 9 cycles (64 °C 30 s, 68 °C 6 min) then 11
+   cycles (68 °C 7 min) 🟢 (lines 1622–1628); then 20 µL AMPure XP, eluted in 10 µL
+   🟢 (lines 1629–1632) — about 0.8× of the 25 µL reaction 🟡 (computed; the
+   earlier "1×" in this note was not supported).
 9. **RNA library**: standard C1 / Nextera XT on 0.15–0.2 ng/µL cDNA — tagment 55 °C 10 min,
-   Nextera XT index PCR, 22 cycles. Only fragments with s5 at one end and s7 at the
+   Nextera XT index PCR, 72 °C 5 min then 22 cycles; pooled (~1.1 mL) and purified
+   twice with 0.75× AMPure XP 🟢 (lines 1636–1648). Only fragments with s5 at one end and s7 at the
    other amplify ([Tn5](../ref/concepts/tn5-tagmentation.md)); fragments that kept the
    C1 handle at one end and Tn5 at the other carry the handle **inside** the read, not
    as a primer site, because no handle-specific primer is used here. 🟡

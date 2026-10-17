@@ -76,9 +76,9 @@
       "id": "science_2020_supplement",
       "role": "supplement",
       "locator": "https://www.science.org/doi/suppl/10.1126/science.aaz1646/suppl_file/aaz1646_stergachis_sm.pdf",
-      "availability": "unavailable",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Original article explicitly links DC1 containing Materials and Methods, Figs S1–S9 and refs48–54. Direct current Science supplementary URL returns HTTP403 even with working network; full original supplementary methods remain uninspected."
+      "reason": "Publisher HTTP 403 to the fetcher; hand-downloaded by the maintainer 2026-10-17 (aaz1646_stergachis_sm.pdf, 22 pages, md5 50e5730597e6a21b038d35a110572f3d; printed DOI/title/authors checked) and read in bounded pass deferred-followup-03 (not an independent pass)."
     }
   ],
   "linked_information": {
@@ -109,5 +109,59 @@
       "evidence": "Current vendor guide names reagents but no bases in inspected passages; 2020 primary source and matched kit manual are still absent."
     }
   ],
-  "conclusion": "Defining 2020 article recovered and first-read from authorized coauthor PDF. Independent second read and original supplementary methods remain required before historical kit identity or absent sequences can be accepted."
+  "conclusion": "Defining 2020 article recovered and first-read from authorized coauthor PDF. Independent second read and original supplementary methods remain required before historical kit identity or absent sequences can be accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Science 368:1449 author-hosted PDF text lines90–146 (MTase titration, Hia5, PCR-free HMW library, PacBio CCS), 214–232 (fiber lengths), 425–445 (K562), 665–749 (data availability, SM pointer); current author bench protocol fiberseq.github.io Parts 2–5 (nuclei, Hia5/SAM 25C 10 min, SDS quench, HMW extraction, Megaruptor/g-TUBE shear, SPK 3.0, Revio ABC); Science SM PDF re-fetch HTTP 403, no PMC copy (Europe PMC: not in EPMC)",
+      "oligo_scraper": "Bundle scraper run: 2 hits, both a genomic sequence from a main-text figure (line398), no oligo; PacBio hairpin/primer bases proprietary.",
+      "findings": "Main text supports Hia5 marking of S2/K562 nuclei, PCR-free HMW library, PacBio CCS; AdMTase-seq is a separate validation assay. Added SDS quench step from the current bench protocol, labelled extraction and shearing inputs with current-protocol kits, and rewrote the page caveat to say quench/extraction/shearing/SMRTbell steps follow the later bench protocol because the 2020 SM was unavailable. Note records 2020 statements vs current values. No published discrepancy identified.",
+      "deferred": [
+        "Science Supplementary Materials aaz1646_stergachis_sm.pdf (manual, HTTP 403): original Hia5 conditions, extraction, shearing, SMRTbell kit and Sequel chemistry",
+        "Bio-protocol linked from the article",
+        "GEO GSE146942 sample records (library kit fields)",
+        "Current bench protocol not cached under sources; PacBio SPK 3.0 procedure original not re-read this pass"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 1/1 pass; page builds; pairing 0 problems; chemistry 7 steps 0 established/1 conditional/7 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Science SM retrieval routes retried: science.org suppl URL HTTP 403 (manual https://www.science.org/doi/suppl/10.1126/science.aaz1646/suppl_file/aaz1646_stergachis_sm.pdf); Stergachis lab Science referrer rapidpdf ijkey link HTTP 403; PMC idconv 'not found in PMC'; Europe PMC subscription only; OpenAlex closed, no repository full text; Harvard DASH search 0 records; Churchman lab publications page hosts only the article PDF; no bioRxiv preprint (Crossref posted-content search); article Zenodo ref 47 (10.5281/zenodo.3743228) is analysis code. Read instead: GEO GSE146942 all 32 GSM records (SOFT brief text, saved with MANIFEST row), Fiber-seq samples GSM4411218-GSM4411225 lines 1151-1490 (treatment, characteristics, extract protocols, instrument); article acknowledgements and data-availability lines 669-689.",
+      "oligo_scraper": "Not applicable to the GEO records (no oligos); bundle scraper unchanged from prior pass (2 genomic-figure hits, no oligo); PacBio hairpin/primer bases proprietary.",
+      "findings": "GEO sample protocols give the 2020 conditions: nuclei in 0.05% IGEPAL, 50 mM Tris-HCl pH 8, 100 mM NaCl, 1 mM DTT, 10 min 4 C; Hia5 500 U (or 20 U) for 10 min at 37 C; gDNA extracted, sheared, PCR-free PacBio library 'standard protocol', HiFi/CCS on Sequel or Sequel II. Article acknowledgements: Hia5 FPLC-purified in house. Corrections: nuclei, Hia5 and shearing inputs labelled with 2020 GEO values; authority cites GEO; page caveat states the 37 C (2020) vs 25 C (current bench protocol) version difference. Quench, extraction kit, shearing device and SMRTbell kit remain current-protocol values.",
+      "deferred": [
+        "Science Supplementary Materials aaz1646_stergachis_sm.pdf (manual, HTTP 403): original SAM concentration, stop, extraction, shearing size, SMRTbell kit and Sequel chemistry",
+        "Bio-protocol linked from the article",
+        "PacBio SPK 3.0 procedure original not re-read"
+      ],
+      "scope": "Capped retrieval pass; defining SM still unread, partial only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 1/1 pass; page builds; pairing 0 problems; chemistry 7 steps 0 established/1 conditional/7 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states; Markdown built (note, ref manifest); review schema (audit --check) pass"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "scope": "Bounded pass on the newly obtained Science Supplementary Materials, cross-checked against the GEO GSE146942 records; not an independent two-pass review and no missing-information claim accepted.",
+      "locations": "aaz1646_stergachis_sm.pdf.txt (identity lines 1-14: title, authors, DOI 10.1126/science.aaz1646): Materials and Methods MTase cloning/production lines 20-60; AdMTase-seq nuclei + MTase reaction + extraction lines 76-150; Fiber-seq lines 185-231 (200 U Hia5, 10 min, SDS 1%, RNase A/ProtK 50 C, PCI/EtOH x2, AMPure, Megaruptor 10-15 kb, Sequel II System 2.0; untreated control Covaris ~1 kb, Sequel Sequencing Kit 3.0, BluePippin; deproteinized control 500 U). geo_GSE146942_gsm_brief.txt GSM4411218-GSM4411225 lines 1151-1513 (titles, MTase characteristics).",
+      "oligo_scraper": "scrape_primers on the SM .txt: 2 hits; line 127 AdMTase-seq blocking oligo AGATCGGAAGAGCGTC (Illumina validation assay, not Fiber-seq); line 301 figure sequence. No Fiber-seq oligo (PCR-free, proprietary hairpins).",
+      "findings": "Graph inputs relabelled from the 2020 SM: nuclei (2.5 M S2 / 300k K562, 0.05% IGEPAL on ice 10 min), Hia5 in-house 10 min 37 C, SAM 0.8 mM, SDS 1% stop (same as current protocol), RNase A/proteinase K + two phenol-chloroform/ethanol precipitations + AMPure extraction (replacing current-protocol kit label), Megaruptor 10-15 kb shearing; page caveat rewritten (SMRTbell steps still follow current SPK 3.0 because the SM names no prep kit). New graph SourceDiscrepancy: SM 'Fiber-seq' 200 U (2.5 ul) Hia5 vs GEO titles/characteristics 500 U for GSM4411218/4411222-4411224; model lists both.",
+      "deferred": [
+        "Publisher copy of the main article (manual https://doi.org/10.1126/science.aaz1646) not in the bundle; the author-hosted PDF of the published article stands in for it",
+        "2020 SMRTbell template prep kit and Sequel II binding/sequencing kits not named in SM (version-matched PacBio manuals unavailable)",
+        "K562 nuclei isolation method 'as previously described (2)' (SM ref 2) not followed",
+        "Which Hia5 amount (200 U vs 500 U) was used for the main libraries",
+        "Bio-protocol linked from article not read",
+        "Second independent reader for the two-pass gate"
+      ],
+      "verification": "selftest 1/1 pass; page builds; pairing 0 problems; chemistry 7 steps 0 established/1 conditional/7 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (PCR-free, no printed oligo); Markdown built (note, ref manifest); audit --check pass"
+    }
+  ]
 }

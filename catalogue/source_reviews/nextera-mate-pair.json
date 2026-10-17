@@ -75,5 +75,25 @@
       "evidence": "Vendor tech note prints motifs but does not identify experiment-specific index member or all kit oligo strands."
     }
   ],
-  "conclusion": "First located pass only; exact kit member remains open."
+  "conclusion": "First located pass only; exact kit member remains open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Illumina Nextera Mate Pair Library Prep Reference Guide 15035209 v02 (Jan 2016) txt lines 237-340 (features, gel-free/gel-plus, Table 1), 521-666 (Tagment 55C 30min, Zymo), 672-881 (Strand Displacement 20C 30min; 0.4x AMPure <1500 bp), 888-1231 (gel-plus size selection, skimmed), 1239-1375 (Circularize 30C overnight, Remove Linear DNA exonuclease 37/70C), 1376-1600 (Covaris shear, M-280 streptavidin bind/washes), 1600-1960 (End Repair, A-Tailing, Ligate Adapters), 1990-2140 (Amplify 10/15 cycles on bead, AMPure cleanup <300 bp), 2901-2970 (TruSeq DNA LT Set A 6-base indexes, single-index workflow); Illumina technote Nextera Mate Pair data processing txt lines 25-122 (biotinylated junction adapter, RF/FR orientation, incomplete enrichment), 159-200 (Table 1 junction/external adapter sequences, adapter trimming)",
+      "oligo_scraper": "Bundle scraper run: technote Table 1 duplicate junction (76-nt hit at line171 is a line-wrap join of the 38-nt duplicate junction with the single-junction rows), Read 1/Read 2 external adapters; guide 6-base index table not reported (too short), verified by reading lines 2917-2970.",
+      "findings": "Removed unsupported 'nine-base gap' wording (guide: short single-stranded gap). Moved short-fragment removal from tagmentation to an explicit 0.4x AMPure step after strand displacement (<1500 bp). Shear now yields one mixed product consumed by M-280 streptavidin capture (previous graph discarded a parallel non-junction output never sent to capture). Added final AMPure cleanup (<300 bp) after on-bead PCR. Named reagents/conditions (Mate Pair Tagment Enzyme biotinylated junction adapter per technote, Circularization Ligase 30C overnight, exonuclease 37/70C, Covaris 40 s, End Repair/A-Tailing/Ligation Mix, Enhanced PCR Mix, PCR Primer Cocktail 10 or 15 cycles). Graph highlights: technote incomplete-enrichment FR carryover (<1 kb peak), single-junction and shear-inside-junction products; gel-plus branch not drawn.",
+      "deferred": [
+        "Historical TruSeq DNA LT Library Prep guide (PCR Primer Cocktail and full adapter sequences)",
+        "Biotin position and full Mate Pair Tagment adapter structure",
+        "Gel-plus Pippin/agarose branch not drawn",
+        "Nebulizer and AMPure tagmentation-purification alternative procedures not read",
+        "Acquired read lengths (user-defined)"
+      ],
+      "scope": "Capped vendor-guide pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1 check passes; page builds; pairing 0 problems; chemistry 0 established/2 conditional/13 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

@@ -251,5 +251,25 @@
       "locations": "Original SEC article JATS258–274; CG000317RevE pp71–72 lines6360–6560, full-guide oligo scrape reviewed before source reading; MultiomeCG000338RevA p80",
       "finding": "Independent main-human-ASC scope check confirms CG000317, 28/10/10/90 run and dual-index GEX/CaptureSequence1 feature architecture. The separate mixed-species validation uses5primev2/TotalSeqC and cannot supply this endpoint. CG000317RevE TT primer/product uses29-base prefix; named sameTTkit/plate in MultiomeRevA prints25. Public notices correctly preserve qualified choices without asserting a proven variant."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC10272111 JATS (sec-seq__10.1101+2022.08.25.505190/s41467-023-39367-8_PMC10272111.xml.txt) Methods lines228–272 (coating, cell loading, incubation, staining, Chip G, mixed-species validation, human ASC preparation/sequencing) and320–326 (data/code availability); MOESM1 Supplementary Table 2 (text lines185–385; rendered PDF table rows 'SEC-seq') and Supplementary Fig. 8 caption lines528–536",
+      "oligo_scraper": "Bundle scraper run; hits only in CG000317 Rev E Appendix (bead primers, TSO, products, PN-2000094 adaptor), already source-checked by the suite; no oligo bases in article or MOESM1.",
+      "findings": "Front end corrected: biotinylated anti-IgG/anti-CD27 or CD45 nanovial coat and 25 µg/mL anti-IgG blocking at loading; 1 h ice loading with strainer removal of unbound cells (discard); separate 37 °C 30 min secretion accumulation; staining with PE anti-IgG (BD 555787) then TotalSeq-B0911 anti-PE (BioLegend 408113, PE001) named from Supplementary Table 2; added SYTOX Green-negative WOLF sort of live cell-loaded nanovials (independent of secretion) with sort-rejected waste; Chip G 2,500–10,000 per lane. Library endpoints, 28/10/10/90 run and CG000317 TT-prefix notice unchanged.",
+      "deferred": [
+        "BioLegend TotalSeq-B0911 (408113) barcode/product sheet",
+        "Author repository github.com/Rene2718/SEC-seq_plasma-cell_nanovial",
+        "10x 5′ v2 feature guide for the mixed-species validation branch",
+        "80:20 RNA:tag pooling not drawn as a graph pool",
+        "Exact CG000317 revision and selected i5/i7 members"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 5/5 pass; page builds; pairing 0 problems; chemistry 0 contradictory (2 established/3 conditional/15 unresolved); source guard 0 exact checked, 11 inputs without exact states; Markdown built; review schema checked"
+    }
   ]
 }

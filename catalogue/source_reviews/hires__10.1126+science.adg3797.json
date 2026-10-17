@@ -124,5 +124,42 @@
       "evidence": "Bio-protocol and TD501 manual establish four HiRES primers and the standard finished TruePrep shell; loaded adapter oligos, source-specific junction and exact selected i5/i7 wells remain open. Defining Science full text/supplement unavailable."
     }
   ],
-  "conclusion": "Two independent passes cover the readable detailed protocol, author pipeline and kit/index references. Defining Science article/supplement and exact HiRES adapter/index choices remain blocked; no missing claim accepted."
+  "conclusion": "Two independent passes cover the readable detailed protocol, author pipeline and kit/index references. Defining Science article/supplement and exact HiRES adapter/index choices remain blocked; no missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Defining Science 10.1126/science.adg3797 full text/supplement unavailable (manifest (manual) row, https://doi.org/10.1126/science.adg3797); authors' Bio-protocol 10.21769/BioProtoc.4886 bio-protocol4886.pdf.txt lines41 (implements Science 2023), Materials lines136–147 (TD501, KAPA, UD index kits, four PAGE primers), procedure C–H lines392–700; Vazyme TD501–503 TruePrep V2 manual pdf.txt lines145–178 (adapter mechanism) and295–311 (library structure)",
+      "oligo_scraper": "Scraper run on the Bio-protocol text: four hits GAT5-RT, GAT5-7N, GAT5, RNA-P7 (no modifications printed), matching the model; TruePrep manual prints only the finished library structure with 8-nt index windows.",
+      "findings": "Graph previously started at RT on fixed nuclei, omitted the single-nucleus sort and protease lysis, merged the RNA-P7/i5 enrichment with i7 indexing and had no pooling/size selection. Added fixation/SDS permeabilization, FACS partition (with discarded unsorted material), Qiagen protease lysis with GAT5, two-stage PCR (72C 3 min + 5 cycles RNA-P7 + i5 only; then add i7, 5 cycles) and pooled 0.6x/0.15x AMPure selection with waste; reagent labels carry the printed conditions (SSIV 55C 15 min, MboI overnight/65C, T4 ligase 16C 4h, 9 stepped + 14 preamp cycles). Primer inputs now carry exact source states (GAT5, RNA-P7 checked; GAT5-RT/GAT5-7N as fixed+degenerate runs). Note records derived fact that RNA-P7's 5' arm is the revcomp of the TruePrep i7-side arm.",
+      "deferred": [
+        "Science 2023 article and supplementary materials (paywalled; manual URL in manifest)",
+        "TruePrep loaded Adapter 1/2 oligo bases and terminal geometry",
+        "Selected Illumina UD index members per well and acquired index cycles",
+        "Meaning of the GAT5-RT 8-nt random tract (UMI vs priming) beyond pipeline filter",
+        "Authors' GitHub pipeline rules beyond prior HiRES_split.rules reading"
+      ],
+      "scope": "Capped pass; defining Science original unread, so this is not a defining-source review and makes no missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/15 unresolved/0 contradictory; source guard 2 exact checked (GAT5, RNA-P7), 0 failed, 2 inputs with degenerate placeholders not exact; Markdown built/checked; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Retrieval routes for Science 10.1126/science.adg3797: OpenAlex/Unpaywall closed, no repository copy; science.org suppl_file science.adg3797_sm.pdf HTTP 403 (not circumvented); Europe PMC search no PMC copy or preprint record; manual URL https://doi.org/10.1126/science.adg3797. Read instead authors' GEO GSE223917 series record and sample GSM6998595 brief SOFT text (GEO_GSM6998595_self_brief.txt lines 15-18 extract protocol, 19-21 data processing).",
+      "oligo_scraper": "Scraper on GEO_GSM6998595_self_brief.txt: RNA-P7 (line 18) identical to Bio-protocol value and model; GAT5-RT arm GGTTGAGGTAGTATTGCGCAATG (line 19) as Read 2 RNA-classification motif.",
+      "findings": "GEO text repeats Bio-protocol library stage (TTE Mix V50 55C 10 min, 0.2% SDS, 72C 3 min + 5 cycles i5/RNA-P7, add i7 + 5 cycles, 0.6x/0.15x AMPure, PE150 NovaSeq 6000) and adds cortex-nuclei input (~250k in 500 ul storage buffer) and RNA read classification by GAT5-RT arm at Read 2 5' end with UMI-tools deduplication. Cell input label now names embryo cells and cortex nuclei; caveat/source cite GEO; note records GEO passages and failed routes. No sequence change.",
+      "deferred": [
+        "Science 2023 article and supplementary materials (paywalled/403; manual URL https://doi.org/10.1126/science.adg3797)",
+        "TruePrep loaded Adapter 1/2 oligo bases and terminal geometry",
+        "Selected Illumina UD index members per well and acquired index cycles",
+        "Base-for-base definition of the GAT5-RT 8-nt tract as UMI (GEO states UMI dedup only)"
+      ],
+      "scope": "Bounded follow-up; defining Science original still unread, so not a defining-source review and no missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/15 unresolved/0 contradictory; source guard 2 checked, 0 failed, 2 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

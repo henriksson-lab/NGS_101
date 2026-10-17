@@ -64,5 +64,25 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Two independent checks of the vendor workflow and its linked adapter document support the PCR-free reaction order and the representative TruSeq DNA CD adapter family. The guide also offers UD and single-index components; no run-specific index well is asserted or treated as missing chemistry."
+  "conclusion": "Two independent checks of the vendor workflow and its linked adapter document support the PCR-free reaction order and the representative TruSeq DNA CD adapter family. The guide also offers UD and single-index components; no run-specific index well is asserted or treated as missing chemistry.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "round20_worker",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "TruSeq DNA PCR-Free Reference Guide 1000000039279 v00 (.txt): cover/revision line 4, Introduction and DNA input lines 112-140, Fragment DNA with Covaris 350/550-bp tables lines 604-700, Repair Ends and Select Library Size lines 817-1126 (Remove Large DNA Fragments lines 979-1060, Remove Small DNA Fragments lines 1062-1126), Adenylate 3-prime Ends lines 1127-1232, Ligate Adapters and Clean Up Ligated Fragments lines 1235-1470, Check Libraries lines 1526-1660, Product Contents lines 1890-1925, Index Adapter Sequences lines 2480-2483, Acronyms lines 2490-2560. Illumina Adapter Sequences 1000000002694 v22 (.txt) scanned via the scraper.",
+      "oligo_scraper": "Bundle scraper run (6 top hits, 1 file): all hits are historical/small-RNA adapter listings in the adapter document (lines 21474, 22642, 22663, 22683, 22753); the workflow guide prints no bases and delegates to 1000000002694 (lines 2480-2483).",
+      "findings": "Reaction order, reagents and conditions confirmed: ERP 2/ERP 3 30 C 30 min; two-sided SPB size selection; CTA + ATL/ATL 2 37 C 30 min then 70 C 5 min; CTL + LIG 2 + separately purchased DNA adapters 30 C 10 min; 5 ul STL stop; two-round SPB cleanup; qPCR quantification because non-qPCR methods count molecules that cannot cluster (lines 1537-1539). Corrections to the graph: the single generic size-selection step is replaced by the two documented rounds with distinct waste terminals - oversized fragments leave bound to diluted SPB while the 250 ul supernatant is kept, undersized fragments leave in the discarded supernatant of the undiluted-SPB round; STL is declared as the ligation stop condition; a Clean Up Ligated Fragments selection step with an unbound-adapter/reagent waste terminal now stands between ligation and the sequenced library. Workflow captions and the note record the same passages, with exact line locators, catalogue numbers for the four index-adapter options (lines 1905-1925) and new open questions for insert length, index member and later guide revisions. No published discrepancy found between the workflow guide and the adapter document.",
+      "deferred": [
+        "Illumina Adapter Sequences 1000000002694 v22 TruSeq DNA CD section re-read (relied on the earlier passes and lib/illumina.py)",
+        "Later TruSeq DNA PCR-Free guide revisions and the IDT-UD-only repackaging",
+        "Index Adapter Pooling Guide 1000000041074 and the low-plexity pooling tables",
+        "Inline Control DNA (CTL/CTE/CTA control spikes) not represented in the graph",
+        "Covaris 350 vs 550 bp branch drawn as one placeholder insert"
+      ],
+      "scope": "Capped vendor-manual pass on revision v00 only; no new missing-information claim.",
+      "verification": "local suite 5/5 pass; page builds; pairing 0 problems; chemistry 7 steps, established=1/conditional=7/unresolved=7/contradictory=0; source guard 0 exact checked, 0 failed, 1 input without exact state (purchased index adapter); Markdown built/checked; review schema (audit --check) pass, status reviewed"
+    }
+  ]
 }

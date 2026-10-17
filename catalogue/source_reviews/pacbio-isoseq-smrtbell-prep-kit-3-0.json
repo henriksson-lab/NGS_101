@@ -115,5 +115,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent reads verify accessible cDNA and primer sources; official kit3 training has one located pass. Kit-specific original procedure remains inaccessible and ligation-end/undisclosed oligo claims are blocked."
+  "conclusion": "Two independent reads verify accessible cDNA and primer sources; official kit3 training has one located pass. Kit-specific original procedure remains inaccessible and ligation-end/undisclosed oligo claims are blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "PacBio 102-396-000 Rev10 Sep2026 pdf.txt lines9–26 (overview; monomer route = amplicon guide), 191–194 (bc01–12 + amplification primer), 242–289 (kit components), 328–580 (RT primer anneal 70C5min, RT 42C45min, TSO 2.0 42C15min), 582–656 (1.3X cleanup), 665–770 (PCR, 12 cycles SPK3.0), 779–955 (1.1X/0.9X cleanup, 47uL elution, yields, pooling ≤500ng), 1013–1079 (revision history: Rev09 Jul2026 'Remove SPK3 library preparation'); PacBio 102-359-000 Rev08 Aug2026 pdf.txt sections1–5 (1.3X input cleanup, repair & A-tailing 37C30/65C5, ligation 20C30 + 1.3X, nuclease 37C15 + 1.3X, ABC standard sequencing primer); training PN 102-393-400 v01 Apr2022 pdf.txt pp5,12–16 (earlier NEB-based express workflow, downstream order). IsoSeq_v2_primers_12.fasta 13 sequences re-compared to the module (all equal).",
+      "oligo_scraper": "Bundle scraper run after fetching the training and amplicon PDFs: 3 hits — FASTA bc01 and IsoSeqX_3p (match module), training line491 oligo-dT30VN (NEB RT primer of the earlier workflow, not the express 2.0 RT primer mix). No adapter, TSO 2.0 or sequencing-primer bases in any inspected text.",
+      "findings": "Identity correction: Rev10 pp1/13 names 102-359-000 (multiplexed amplicon SPK3.0) as the monomer SMRTbell route, and its revision history shows SPK3 prep was removed from 102-396-000 at Rev09; the 404 URL is the earlier Rev07 of the same document number, not a separate kit-specific guide. The 2022 training overview describes the earlier NEBNext/express-oligo-kit cDNA version and is now cited only as historical order corroboration. Graph now follows the sources: RT primer annealing and 42C RT, separate TSO 2.0 addition, 1.3X cleanup, 12-cycle PCR with the published bc01–12/amplification primers, 1.1X/0.9X cleanup, Repair buffer/End repair/DNA repair 37C30/65C5, ligation mix+enhancer 20C30, 1.3X cleanup, nuclease treatment 37C15 and 1.3X cleanup (digestion fragments leave with the supernatant; no physical discard claimed at digestion). Hairpin ligating end stays unavailable (amplicon guide prints no overhang; sister WGS T-overhang not imported). No published discrepancy found.",
+      "deferred": [
+        "102-396-000 Rev07 Iso-Seq SMRTbell 3.0 section (HTTP 404; adapter overhang, cleanup ratios specific to cDNA)",
+        "SMRTbell adapter bases/ligating end and standard sequencing-primer bases",
+        "Iso-Seq RT primer mix and TSO 2.0 bases",
+        "Nuclease-mix substrate specificity",
+        "Equal-mass pooling of barcoded cDNA not drawn as a separate step"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1 assertion block passes; page builds; pairing 0 problems; chemistry 1 established/0 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 2 primer inputs without exact states (FASTA-only bases, no .txt twin for the guard); Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

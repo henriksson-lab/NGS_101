@@ -35,8 +35,16 @@ LAMP_PCR_REV_ARM = "TGACTGGAGTTCAGACGTGTGCTCTTCCGATCT"
 LAMP_PCR_REV = LAMP_PCR_REV_ARM + LAMP_PCR_REV_SITE
 LAMP_POOL_I5 = "TCGTGGAGCG"
 LAMP_POOL_I7 = "CGCTCAGTTC"
-LAMP_POOL_FWD = il.P5 + LAMP_POOL_I5 + il.TRUSEQ_READ1
-LAMP_POOL_REV = il.P7 + LAMP_POOL_I7 + il.TRUSEQ_READ2
+# Supplementary Data 1 "Pool barcoding primers" (row Pool_fwd_1/Pool_rev_1) and the
+# Methods two-step PCR print 23- and 24-nt partial sequencing-primer tails, not full
+# TruSeq arms: the first PCR supplies the remaining Read 1 / Read 2 bases.
+LAMP_POOL_FWD_TAIL = il.TRUSEQ_READ1[:23]   # ACACTCTTTCCCTACACGACGCT
+LAMP_POOL_REV_TAIL = il.TRUSEQ_READ2[:24]   # GTGACTGGAGTTCAGACGTGTGCT
+LAMP_POOL_FWD = il.P5 + LAMP_POOL_I5 + LAMP_POOL_FWD_TAIL
+LAMP_POOL_REV = il.P7 + LAMP_POOL_I7 + LAMP_POOL_REV_TAIL
+# The 5' G of the pool reverse tail completes canonical GTGACT on the TGACT first-PCR arm.
+if LAMP_POOL_REV_TAIL[1:] != LAMP_PCR_REV_ARM[:len(LAMP_POOL_REV_TAIL) - 1]:
+    raise ValueError("pool reverse tail does not overlap the first-PCR reverse arm")
 
 LAMP_BARCODE_FEATURE = feature(
     "lamp_seq_fip_barcode", "sample_index", "whitelist",
@@ -77,29 +85,39 @@ def _lamp_oligos():
     yield oligo("N-LB", [Segment("loop backward", LAMP_LB)])
     yield oligo("PCR-N-fwd-10", [Segment("Read 1 tail + N target", LAMP_PCR_FWD)])
     yield oligo("PCR-N-rev-11", [Segment("Read 2 tail + N target", LAMP_PCR_REV)])
-    yield oligo("Pool_fwd_1", [Segment("P5 + 10-nt i5 + Read 1", LAMP_POOL_FWD)])
-    yield oligo("Pool_rev_1", [Segment("P7 + 10-nt i7 + Read 2", LAMP_POOL_REV)])
+    yield oligo("Pool_fwd_1", [Segment("P5", il.P5, "p5"),
+                               Segment("i5 pool index", LAMP_POOL_I5, "cbc"),
+                               Segment("partial Read 1 tail", LAMP_POOL_FWD_TAIL, "r1")])
+    yield oligo("Pool_rev_1", [Segment("P7", il.P7, "p7"),
+                               Segment("i7 pool index", LAMP_POOL_I7, "cbc"),
+                               Segment("partial Read 2 tail", LAMP_POOL_REV_TAIL, "r2")])
 
 
 def _lamp_graph(source: str) -> ProtocolGraph:
     g = ProtocolGraph("LAMP-Seq", authority=source)
-    sample = g.input("sample", "swab lysate containing SARS-CoV-2 RNA",
+    sample = g.input("sample", "oropharyngeal swab in QuickExtract (+2 ng/µl pX330 carrier DNA)",
                      MaterialKind.BIOLOGICAL,
                      state=molecule("swab lysate", (role("viral RNA"),)), primary=True)
-    heat = g.input("heat", "95 °C lysis and inactivation condition", MaterialKind.CONDITION)
+    heat = g.input("heat", "≥10 min room temperature, then 95 °C 5 min", MaterialKind.CONDITION)
     lysate = g.product("heated_lysate", "heat-inactivated RNA-containing lysate",
                        MaterialKind.MOLECULAR, state=sample.state)
-    g.react("inactivate", "Heat-inactivate the swab lysate", StepKind.THERMAL_TREATMENT,
+    g.react("inactivate", "Heat-inactivate the swab lysate (then 30 min carbon/ion-exchange beads and HCl pH adjustment, not drawn separately)", StepKind.THERMAL_TREATMENT,
             ((sample, InputRole.TEMPLATE), (heat, InputRole.CONDITION)), (lysate,))
 
-    primers = g.input("lamp_primers", "six-primer set with barcoded FIP",
-                      MaterialKind.OLIGO, state=LAMP_PCR_TEMPLATE)
-    bst = g.input("bst", "strand-displacing Bst polymerase", MaterialKind.CATALYST)
+    fip = g.input("lamp_fip", "barcoded C-FIP (representative Tier-1 barcode AGCAAACTAC)",
+                  MaterialKind.OLIGO, state=LAMP_FIP)
+    lnas = g.input("lamp_outer", "C-F3-LNA and C-B3-LNA outer primers (LNA residues not drawn)",
+                   MaterialKind.OLIGO)
+    others = g.input("lamp_bip_loops", "C-BIP, C-LF and C-LB",
+                     MaterialKind.OLIGO, state=(LAMP_BIP, LAMP_LF, LAMP_LB))
+    bst = g.input("bst", "NEB LAMP master mix (E1700L) plus Bst 3.0 (M0374L), 65 °C 80 min",
+                  MaterialKind.CATALYST)
     lamp = g.product("lamp_product", "barcoded branched RT-LAMP products",
                      MaterialKind.MOLECULAR, state=lamp_product("SARS-CoV-2 N-gene DNA"))
     g.react("rt_lamp", "Reverse-transcribe and amplify by loop-mediated strand displacement",
             StepKind.EXTENSION,
-            ((lysate, InputRole.TEMPLATE), (primers, InputRole.STRUCTURAL),
+            ((lysate, InputRole.TEMPLATE), (fip, InputRole.STRUCTURAL),
+             (lnas, InputRole.STRUCTURAL), (others, InputRole.STRUCTURAL),
              (bst, InputRole.CATALYST)), (lamp,))
 
     dilution = g.input("dilution", "1:100,000 pre-PCR dilution (1:1,000,000 in first PCR)",
@@ -111,9 +129,11 @@ def _lamp_graph(source: str) -> ProtocolGraph:
             ((lamp, InputRole.TEMPLATE), (dilution, InputRole.CONDITION)), (pooled,),
             changes_molecule=False)
 
-    pcr_f = g.input("pcr_f", "PCR-N-fwd-10", MaterialKind.OLIGO)
-    pcr_r = g.input("pcr_r", "PCR-N-rev-11", MaterialKind.OLIGO)
-    polymerase = g.input("pcr_polymerase", "NEBNext PCR master mix", MaterialKind.CATALYST)
+    pcr_f = g.input("pcr_f", "PCR-N-fwd-10 (Methods: PCR-C-fwd)", MaterialKind.OLIGO,
+                    state=LAMP_PCR_FWD)
+    pcr_r = g.input("pcr_r", "PCR-N-rev-11 (Methods: PCR-C-rev)", MaterialKind.OLIGO,
+                    state=LAMP_PCR_REV)
+    polymerase = g.input("pcr_polymerase", "NEBNext 2× Master Mix", MaterialKind.CATALYST)
     preamp = g.product("preamp", "first-stage LAMP-Seq amplicon",
                        MaterialKind.MOLECULAR, state=LAMP_PREAMP)
     geometry1 = PCRGeometry.exact(
@@ -127,20 +147,32 @@ def _lamp_graph(source: str) -> ProtocolGraph:
              (pcr_r, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
             (preamp,), geometry=geometry1)
 
-    pool_f = g.input("pool_f", "Pool_fwd_1 representative indexed primer", MaterialKind.OLIGO)
-    pool_r = g.input("pool_r", "Pool_rev_1 representative indexed primer", MaterialKind.OLIGO)
-    final = g.product("library", "dual-index LAMP-Seq library", MaterialKind.LIBRARY,
-                      state=LAMP_LIBRARY)
+    pool_f = g.input("pool_f", "Pool_fwd_1 representative indexed primer", MaterialKind.OLIGO,
+                     state=LAMP_POOL_FWD)
+    pool_r = g.input("pool_r", "Pool_rev_1 representative indexed primer", MaterialKind.OLIGO,
+                     state=LAMP_POOL_REV)
+    indexed = g.product("indexed_pcr", "pool-indexed LAMP-Seq PCR product", MaterialKind.LIBRARY,
+                        state=LAMP_LIBRARY)
     geometry2 = PCRGeometry.exact(
         LAMP_PREAMP,
-        PCRPrimer("Pool_fwd_1", LAMP_POOL_FWD, anneal_nt=len(il.TRUSEQ_READ1)),
-        PCRPrimer("Pool_rev_1", LAMP_POOL_REV, anneal_nt=len(LAMP_PCR_REV_ARM)),
+        PCRPrimer("Pool_fwd_1", LAMP_POOL_FWD, anneal_nt=len(LAMP_POOL_FWD_TAIL)),
+        PCRPrimer("Pool_rev_1", LAMP_POOL_REV, anneal_nt=len(LAMP_POOL_REV_TAIL) - 1),
         statement="Supplementary Data 1 publishes 192 pairs of 10-nt pool-index primers; pair 1 is shown.")
     g.react("index_pcr", "Install pool indexes by a second 18-cycle PCR",
             StepKind.PCR,
             ((preamp, InputRole.TEMPLATE), (pool_f, InputRole.STRUCTURAL),
              (pool_r, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-            (final,), geometry=geometry2)
+            (indexed,), geometry=geometry2)
+    gel = g.input("gel_columns", "2% agarose E-gel band excision, two Qiagen silica spin columns",
+                  MaterialKind.SELECTION)
+    final = g.product("library", "dual-index LAMP-Seq library", MaterialKind.LIBRARY,
+                      state=LAMP_LIBRARY)
+    rejected = g.product("gel_rejects", "off-size gel material, column flow-through and washes",
+                         MaterialKind.WASTE)
+    g.react("gel_purify", "Pool PCR products, cut the library band and column-purify twice",
+            StepKind.SELECTION, ((indexed, InputRole.TEMPLATE), (gel, InputRole.SELECTION)),
+            (final, rejected))
+    g.discard(rejected, "outside the excised library band or not retained by the columns")
     g.sequence(final, SequencingPlan(
         LAMP_LIBRARY, tuple(LAMP_SEQ_PRIMERS),
         ("Read 1", "Index 1 (i7)", "Index 2 (i5)"),
@@ -148,9 +180,10 @@ def _lamp_graph(source: str) -> ProtocolGraph:
         {"Read 1": "extract_then_include", "Index 1 (i7)": "demultiplex",
          "Index 2 (i5)": "demultiplex"}))
     g.declare_reviewed_scope((
-        "sample", "heat", "inactivate", "lamp_primers", "bst", "rt_lamp",
-        "dilution", "pool_dilute", "pcr_f", "pcr_r", "pcr_polymerase",
-        "target_pcr", "pool_f", "pool_r", "index_pcr", "library"), source)
+        "sample", "heat", "inactivate", "lamp_fip", "lamp_outer", "lamp_bip_loops", "bst",
+        "rt_lamp", "dilution", "pool_dilute", "pcr_f", "pcr_r", "pcr_polymerase",
+        "target_pcr", "pool_f", "pool_r", "index_pcr", "indexed_pcr", "gel_columns",
+        "gel_purify", "library"), source)
     return g.require_publishable()
 
 
@@ -181,8 +214,11 @@ spec = SimpleNamespace(
     READ_LENGTHS={"Read 1": 100, "Index 1 (i7)": 8, "Index 2 (i5)": 8},
     READ_USES={"Read 1": "extract_then_include", "Index 1 (i7)": "demultiplex",
                "Index 2 (i5)": "demultiplex"},
-    SEQUENCING_INTRO=("The published MiSeq/iSeq run acquires 100 cycles of Read 1 and "
-                      "8 cycles for each pool index; no Read 2 is acquired."))
+    SEQUENCING_INTRO=("The MiSeq Nano and iSeq runs printed in the open-source protocol acquire "
+                      "100 cycles of Read 1 and 8 cycles for each pool index, so only the first "
+                      "8 nt of each 10-nt pool index are read; no Read 2 is acquired. The "
+                      "commercial two-step branch drawn here names MiSeq or iSeq without "
+                      "separate cycle numbers."))
 
 
 def protocol_graph() -> ProtocolGraph:

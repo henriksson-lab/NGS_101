@@ -275,5 +275,25 @@
       "evidence": "Original prints protocol-specific primers; later official Rev K prints 5-prime bead architecture, but cited Rev J and v2 guide/version mapping and sample index choice remain unresolved."
     }
   ],
-  "conclusion": "Two independent passes cover readable originals, supplements, later 10x comparator and author code. Cited Rev J, v2 version match and selected index member remain blocked; exact kit-internal absence is not established."
+  "conclusion": "Two independent passes cover readable originals, supplements, later 10x comparator and author code. Cited Rev J, v2 version match and selected index member remain blocked; exact kit-internal absence is not established.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nature Protocols author manuscript PMC10790651 JATS Materials lines154–168 (kits, 1100R, enrichment primers), Equipment setup lines304–310 (HiSeq4000 PE75 GEX; MiSeq v3 PE300), Steps 70–84 lines694–732 (GEX index PCR 14–16 cycles, double-sided SPRI, sequencing), Steps 85–121 lines758–920 (35-cycle enrichment 1, single-sided SPRI, BluePippin 955–1,215 bp Tight, 20-cycle enrichment 2, 50 ng into 15-cycle TT Set A index PCR, repeated BluePippin, MiSeq PE300), analysis lines1005–1050 and 1234; 2022 Nature application MOESM1 Methods lines645–692",
+      "oligo_scraper": "Bundle scraper run: 1100R and both enrichment primers (MOESM1 650/670–671; JATS 166–168) match the model verbatim incl. IUPAC R; other hits are TaqMan qPCR primers/probes (MOESM1 308–321, not library) and false hits in analysis CSVs.",
+      "findings": "Added the bacterial post-index BluePippin re-selection (Step 119 repeats Steps 92–102) as a graph-owned selection with off-size waste between the 15-cycle TT Set A PCR and MiSeq sequencing; index-PCR cycle numbers (GEX 14–16, bacterial 15) added to the caption. GEX 26×10×10×90 read lengths scoped on the page/note to the 2022 MOESM1 NextSeq 2000 run (lines663–664), contrasted with the protocol's HiSeq4000 PE75 Equipment text (line306) and user-chosen Step 84 (line732). Enrichment cycles 35/20, 67°C, primer sequences and MiSeq v3 PE300 confirmed unchanged.",
+      "deferred": [
+        "10x CG000086 Rev J user guide (cited revision; Rev K equivalence unproven)",
+        "Next GEM 5′ v2 user guide for the v2 alternative",
+        "Dual Index Kit TT Set A primer sequences and selected well",
+        "Post-index amplicon length against the unchanged 955–1,215-bp window",
+        "Authors' INVADEseq code repository raw-versus-processed read handling"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest (render) pass; page builds; pairing 0 problems; chemistry 2 established/2 conditional/14 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

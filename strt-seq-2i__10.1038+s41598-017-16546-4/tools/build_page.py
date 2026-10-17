@@ -12,4 +12,3 @@ import strt
 OUT = HERE.parent / "strt-seq-2i.html"
 if __name__ == "__main__":
     render_page(strt.TWO_I, OUT, graph=protocol_graph())
-

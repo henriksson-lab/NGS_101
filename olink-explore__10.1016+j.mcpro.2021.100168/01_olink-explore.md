@@ -26,10 +26,27 @@ reverse preamplification site. Both carry assay-specific barcodes and complement
 hybridization arms. Co-binding to the same protein raises their effective local
 concentration, allowing the arms to hybridize.
 
-🟢 PCR1 begins with 20 minutes at 50 °C for polymerase extension across the paired
-arms, followed by 25 cycles with universal primers. Products from four concentration
-blocks are pooled for each sample. PCR2 uses the same forward primer and one of 96
-reverse primers to add an inline sample index and P7 during ten cycles.
+🟢 Samples are used undiluted and at 1:10, 1:100 and 1:1000; 0.2 µl sample is mixed
+with 0.6 µl block incubation mix (80 µl incubation solution + 10 µl forward + 10 µl
+reverse probes) and incubated at 4 °C for 16–24 h (PMC8633680 JATS lines 162–164).
+
+🟢 PCR1 mix (Olink PCR1 solution, PCR1 enhancer, PCR1 Enzyme and IDT universal
+primers) is added; PCR1 begins with 20 minutes at 50 °C for polymerase extension
+across the paired arms, then 95 °C 5 min and 25 cycles (95 °C 30 s, 54 °C 1 min,
+60 °C 1 min). Products from four concentration blocks are pooled for each sample.
+PCR2 uses the same forward primer and one of 96 reverse primers to add an inline
+sample index and P7 during ten cycles (95 °C 30 s, 68 °C 1 min). All PCR2 samples
+of a panel are pooled into one of four libraries, and each library (50 µl) is
+purified with 80 µl AMPure XP beads to remove primers, primer dimers and dNTPs,
+then sized on a Bioanalyzer HS chip (JATS lines 168–172). The patent's worked
+example names Pwo polymerase for extension/PCR1 (line 4135); the article names only
+"PCR1 Enzyme", so the model does not assign the enzyme identity.
+
+🟢/🟡 Apparent wording discrepancy, shown on the schematic: the article calls the
+PCR1 forward primer "complementary to Illumina's P5 adapter sequence" (JATS line
+168), whereas the patent says the forward common primer "comprises" the P5 adapter
+(SEQ ID NO: 1; lines 4135–4171). The model uses the P5-sense identity, which the
+article's own probe design (forward probe carries P5 and Rd1SP) requires.
 
 🟢 The finished amplicon is 148 bp. Its published element order is P5, Rd1SP,
 forward assay barcode, hybridization-derived junction, reverse assay barcode,
@@ -72,3 +89,11 @@ availability statement; this absence claim also remains under review.
 66-cycle Read 1 covers both assay barcodes and the inline sample index. There are no
 separate index reads: exact barcode combinations are counted to estimate protein
 abundance after control normalization.
+
+## Review trail
+
+- 2026-10-17 bounded pass (round 2026-10-17-breadth-first-14): re-read JATS lines
+  150–176 and patent lines 1746–1753, 4135–4195; added the 4 °C incubation
+  condition, PCR1-mix extension catalyst, panel pooling and AMPure XP cleanup with
+  its discarded supernatant, and the forward-primer wording discrepancy. Not
+  re-read: supplements mmc1–mmc4, the 2026 preprocessing guide, `combine-olink`.

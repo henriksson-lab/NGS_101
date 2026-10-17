@@ -8,9 +8,20 @@ import seqprimers as sp
 
 
 def render(module) -> str:
+    """Render a branched-DNA page.
+
+    ``module.TREE_MULTIPLICITY_SOURCE`` must say which tree multiplicities the
+    source publishes, so a schematic factorization is never captioned as published.
+    """
     model = module.MODEL
+    if not getattr(module, "TREE_MULTIPLICITY_SOURCE", "").strip():
+        raise ValueError(f"{module.TITLE}: declare TREE_MULTIPLICITY_SOURCE")
     lo, hi = model.labels_per_target
     total = f"{lo:,}" if lo == hi else f"{lo:,}–{hi:,}"
+    levels = ("arm labels give the modelled per-level multiplicities."
+              if model.has_level_factors else
+              "only the total per tree is modelled, so the arm and label counts drawn "
+              "are representative, not per-level multiplicities.")
     boundary = getattr(
         module, "SEQUENCE_BOUNDARY",
         "Target, preamplifier, amplifier and label-probe sequences are proprietary. "
@@ -35,7 +46,8 @@ def render(module) -> str:
               '<h2>(3) Assemble the branched-DNA signal tree</h2>',
               tree_panel(model,
                          f"Five representative amplifier arms are drawn without crossings; "
-                         f"labels give the published multiplicities. One tree carries "
+                         f"{levels} "
+                         f"{module.TREE_MULTIPLICITY_SOURCE} The modelled tree carries "
                          f"{model.labels_per_tree} label-probe sites, and the documented "
                          f"target-probe range gives {total} theoretical label sites per "
                          "target RNA."),

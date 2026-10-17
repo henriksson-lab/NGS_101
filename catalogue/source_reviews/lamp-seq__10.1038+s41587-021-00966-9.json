@@ -157,5 +157,26 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Printed source supports primer and branch model; linked materials and second read remain open. No missing oligo claim is accepted."
+  "conclusion": "Printed source supports primer and branch model; linked materials and second read remain open. No missing oligo claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nat Biotechnol author manuscript PMC8678193 (PMC Cloud JATS): Results lines 177-195, two-step commercial-reagent Methods lines 205-291, one-step open-source Methods lines 299-363, run cycle numbers lines 365-385; Supplementary Data 1 (MOESM3 xlsx) sheets 'Primer List' lines 1-38, 'N-FIP barcode primers TIER-1' line 65, 'Pool barcoding primers' lines 4100-4102",
+      "oligo_scraper": "Bundle scraper run (224 hits, dominated by FIP-barcode and pool-primer families). N-gene primer set, PCR-N-fwd-10/PCR-N-rev-11 and Pool_fwd_1/Pool_rev_1 verified in the two sheets; ACTB/E1 multiplex rows and iSeq-N100 rows are outside the drawn branch.",
+      "findings": "Model correction: the pool-barcoding primers were modelled with full 33/34-nt TruSeq arms (72/68 nt); both the Methods text and Supplementary Data 1 print 23/24-nt partial tails (62/58 nt). Corrected, with the index-PCR annealing lengths adjusted and the pool-tail/first-PCR-arm overlap now raised at import. The first-PCR reverse tail printed as TGACT is completed to canonical GTGACT by the pool primer's 5' G: a design, not a source error. Graph now carries exact states for the barcoded FIP, BIP, LF, LB and all four PCR primers (LNA-modified F3/B3 left unrepresented), names the reagents and 65 C / 80 min isothermal step of the commercial branch, and adds the final pooling, band excision and double silica-column recovery with its waste output. Read layout 100 + 8 + 8 verified; the 10-nt pool indexes are therefore read only over their first 8 nt. Methods PCR-C-fwd/rev and Supplementary PCR-N-fwd-10/rev-11 are the same sequences under two names. No published discrepancy found.",
+      "deferred": [
+        "Open-source one-step 25-cycle branch and its Ultramer primers / Bst-LF-Idaho reagent are not drawn",
+        "ACTB and E1 multiplex control primer sets are not drawn",
+        "Bead and pH pre-treatment of the lysate is folded into the heat step",
+        "Supplementary Information PDF (MOESM1) notes and MOESM2 (empty text extraction) not read in this pass",
+        "Broughton et al. predecessor N-gene primer design",
+        "LAMP-Seq-Inspector analysis software"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 3 checks pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/6 unresolved/0 contradictory; source guard 8 exact checked, 0 failed, 1 input without exact state (LNA outer primers); Markdown built; review schema checked"
+    }
+  ]
 }

@@ -45,6 +45,22 @@ TRIM_SEEN_IN_READ2 = "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 TRUSEQ_SMALL_RNA_RA5 = "GTTCAGAGTTCTACAGTCCGACGATC"
 TRUSEQ_SMALL_RNA_RA3 = "TGGAATTCTCGGGTGCCAAGG"
 
+# Historical (Genome Analyzer-era) paired-end oligos. Illumina Adapter Sequences,
+# Document # 1000000002694 v22, "Oligonucleotide Sequences for Paired End (PE) DNA
+# (Obsolete)":
+#   PE PCR Primer 2.0            5' CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT
+#   PE Read 2 Sequencing Primer  5' CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT
+# (PE PCR Primer 1.0 and PE Read 1 Sequencing Primer are TRUSEQ_P5_FULL and TRUSEQ_READ1.)
+# Not the current TruSeq Read 2 arm.
+PE_READ2_PRIMER = "CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT"            # 37 nt
+PE_PCR_PRIMER_2 = P7 + PE_READ2_PRIMER
+# The 3'-terminal 32 nt of PE Read 2 Sequencing Primer / PE PCR Primer 2.0. Illumina
+# prints this shorter arm only inside those two oligos; it is the form amplicon primer
+# tails carry (for example GenIE / GenIE-ATAC, after Kozarewa & Turner 2011).
+PE_READ2_ARM = PE_READ2_PRIMER[5:]                                     # 32 nt
+if PE_READ2_ARM != "TCGGCATTCCTGCTGAACCGCTCTTCCGATCT":
+    raise AssertionError("PE Read 2 arm is not the 3' end of PE Read 2 Sequencing Primer")
+
 # The 12-bp duplex core shared by both arms of a TruSeq-style adapter.
 STEM = "GATCGGAAGAGC"
 STEM_COMPLEMENT = "GCTCTTCCGATC"

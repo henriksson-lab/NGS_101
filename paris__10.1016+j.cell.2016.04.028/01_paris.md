@@ -83,3 +83,27 @@ results. Their biological motif labels are not library index members. These
 figures do not change the distinction between a printed example, an unassigned
 model index and a claim of absent published information. Exact circular-junction
 and read-entry reconstruction remains work on the model.
+
+## Bounded pass 2026-10-17 (round breadth-first-15)
+
+🟢 Reaction conditions now named in the graph, from the original `mmc1.pdf.txt`
+Steps 1–3 (lines 25–110): AMT 0.5 mg/ml with UV365 nm for 30 min on ice; S1 nuclease
+in the urea/SDS lysate, proteinase K (50 °C, 30 min) and TRIzol; ShortCut RNase III
+(MnCl2, 37 °C, 20 min); 12% native then 20% urea 2D gel with the region above the
+diagonal excised; T4 RNA ligase 1 (NEB M0437M) for 16–20 h at room temperature,
+stopped by boiling for 2 min; and UV254 nm for 15 min on ice.
+
+🟢 The inherited Flynn 2016 steps 26–61 (PMC4896316 lines 532–800) supply the
+adapter-route conditions. T4 RNA ligase 1 (high concentration) with 15% PEG8000 ligates
+the preadenylylated 3′-blocked linker `/5rApp/AGATCGGAAGAGCGGTTCAG/` at 25 °C for 3 h.
+Urea PAGE then size-selects the product; PARIS says >40-nt inserts were kept. RT uses
+SuperScript III, followed by denaturing PAGE to separate cDNA from unextended RT primer.
+CircLigase II with MnCl2 runs at 60 °C for 2 h, and qPCR-monitored Phusion HF PCR uses
+the P5/P3-Solexa primers. The graph now includes the two gel size selections and their
+discarded linker/primer waste.
+
+🟡 Open: Flynn uses a 3′-biotin linker for DMSO samples and a 3′-ddC linker for NAI-N3
+samples. It then performs streptavidin capture and RNase/biotin elution in steps 43–50.
+The PARIS supplement does not say which linker variant it used. Whether that capture
+applies is therefore not modelled, and the linker's 3′ block is left unassigned. The
+read length is not given in Step 3; only NextSeq is stated.

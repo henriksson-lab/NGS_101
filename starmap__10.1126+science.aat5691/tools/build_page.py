@@ -11,7 +11,8 @@ OUT=HERE.parent/"starmap.html"
 def render():
     return "\n".join([head("STARmap chemistry"), '<div class="wrap" data-protocol-complete="true">',
       '<h1>STARmap</h1>', '<p class="research-notes"><a href="01_starmap.html">Research notes</a></p>',
-      info('Defining source: <a href="https://doi.org/10.1126/science.aat5691">Wang et al., <i>Science</i> (2018)</a>. Its supplementary methods cite sequence Tables S1 and S2, but the available public PDF stops before those tables. Symbolic bases mark original-panel sequences that remain unverified until the tables are recovered.'),
+      info('Defining source: <a href="https://doi.org/10.1126/science.aat5691">Wang et al., <i>Science</i> (2018)</a>. Its supplementary methods cite sequence Tables S1 and S2, but the available public PDF stops before those tables. Symbolic bases mark original-panel sequences that remain unverified until the tables are recovered. The workflow follows the supplement&#8217;s thin-section/cell-culture procedure (hybridize, ligate, amplify, acrylate, embed, clear); its thick-tissue procedure embeds and digests before ligation and RCA, uses 5&#8242;-amino primer probes and 1-base decoders, and is not drawn separately.'),
+      info('Published discrepancy: the supplement&#8217;s probe-design methods split each 40&#8211;46-nt target into halves of 20&#8211;25 nt, whereas its Fig. S1A legend gives 19&#8211;25 nt per primer or padlock target arm. The drawn target arms are symbolic placeholders of schematic width, not a chosen length; the exact arms await the original Table S1.'),
       '<h2>Paired SNAIL recognition</h2>', panel(M.snail_scene().rows(), cls="long"),
       '<h3>Nucleotide-resolved SNAIL fold</h3>', M.SNAIL_TOPOLOGY.folded_panel(
         'The same complex with every modelled nucleotide shown. N denotes panel-specific '

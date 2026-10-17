@@ -109,3 +109,24 @@ No large reference sequences or count datasets were fetched in this model-fix ba
 The review remains in progress. No missing-information claim is accepted from the
 unselected sample, inferred caps, unassembled genomic template, or unchecked
 linked originals.
+
+## 8. Bounded pass 2026-10-17 (round breadth-first-11)
+
+- 🟢 Re-read guide 15044223 B Workflow Summary (text 58–80), Amplicon Primers
+  (105–150), Amplicon PCR (180–262), PCR Clean-Up (266–385), Index PCR (388–524),
+  PCR Clean-Up 2 (530–639), Validate Library (640–648) and Dual Indexing Principle
+  (1238–1294). The graph now carries the printed reaction inputs and programs: 2.5 µl
+  microbial DNA at 5 ng/µl, 5 µl of each 1 µM PCR1 primer, 12.5 µl 2x KAPA HiFi
+  HotStart ReadyMix in 25 µl, 95 °C 3 min / 25 × (95, 55, 72 °C 30 s) / 72 °C 5 min;
+  20 µl AMPure XP with 52.5 µl elution; 5 µl Nextera XT N7XX and S5XX tubes, 25 µl
+  ReadyMix in 50 µl, same program with 8 cycles; 56 µl AMPure XP, 27.5 µl elution and
+  25 µl transfer.
+- 🟢 The first clean-up's waste is now the source-named free primers and primer-dimer
+  species (guide p. 8, text 271–272), not an anonymous fraction.
+- 🟢 Guide size checkpoints: ~460 bp locus amplicon (text 62; Klindworth JATS text 84
+  gives 464 bp), ~550 bp PCR1 Bioanalyzer trace (262), ~630 bp final library (648);
+  ≥ 5% PhiX on MiSeq v3. These are expected sizes, not a fixed biological interval.
+- 🟢 Klindworth JATS text 84 re-checked: S-D-Bact-0341-b-S-17 and S-D-Bact-0785-a-A-21
+  equal the two PCR1 locus portions.
+- Open: complete Nextera XT index-primer strands, the Klindworth Tables archives and
+  the SILVA primer-evaluation archive (section 7) stay deferred.

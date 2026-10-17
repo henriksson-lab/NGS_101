@@ -35,6 +35,13 @@ def url_filename(url: str) -> str:
             form = query.get("form", "html").lower()
             suffix = "txt" if form == "text" else "html"
             return f"geo-{accession}-{target}-{view}.{suffix}"
+    # Nature article ids contain dots (nprot.2013.038), and figure pages end in a bare
+    # number shared by every article: name both pages by the article id.
+    if parsed.netloc.lower() in {"nature.com", "www.nature.com"} and parts[0] == "articles":
+        if len(parts) == 2 and not parts[1].lower().endswith(".pdf"):
+            return parts[1] + ".html"
+        if len(parts) == 4 and parts[2] == "figures":
+            return f"{parts[1]}-figure-{parts[3]}.html"
     name = urllib.parse.unquote(path.rstrip("/").rsplit("/", 1)[-1]) or "index.html"
     # Documentation projects reuse these generic chapter names. Preserve their
     # project identity while keeping established descriptive oligo filenames stable.

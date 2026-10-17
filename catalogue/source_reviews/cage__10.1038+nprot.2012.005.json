@@ -85,5 +85,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "First located reading only. No absence accepted; source gaps and independent second pass remain open."
+  "conclusion": "First located reading only. No absence accepted; source gaps and independent second pass remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "PMC4094379 author-manuscript JATS (PMC4094379_PMC4094379.xml.txt) Introduction/Experimental design lines59–89, Materials149–209, Procedure steps1–61 lines400–912, Table1 lines1328–1507, Box1 lines1567–1593; nprot.2012.005_PMC4094379.html.txt Table1 lines1307–1310/1455/1640 compared; Springer ESM MOESM283 (mapping shell script) and MOESM282 (image) identified",
+      "oligo_scraper": "Bundle scraper run; RT-N15-EcoP, 15 barcoded 5′SOL N6/GN5/lower families, 2nd SOL, 3′ upper/lower, PCR forward/reverse and sequencing primer hits checked against Table1 lines1334–1505 (Phos/NH2 modifications on wrapped lines); ACTB/ribosome qPCR primers are QC oligos.",
+      "findings": "Model correction: final construct was 98 bp (7-nt P5 prefix + 27-nt tag + 2 extra NN) while labelled 96 bp; now 13-nt forward-primer tail + 26-nt 5′ linker handle + barcode + EcoP15I site + 25 tag bases + 3′-linker NN at tag positions 26–27 + 21-nt linker = 96 bp (placement derived, DetailView). PCR geometry changed from unavailable to exact on a separate pre-PCR dual-linker state. Added RNase ONE digestion, NaOH release of cap-selected ss-cDNA, double AMPure linker removal/pooling, post-3′-ligation MPG streptavidin removal of 3′-linker dimers and the non-biotinylated distal EcoP15I fragment, Exonuclease I/QIAquick; named PrimeScript, NaIO4/biotin hydrazide, MPG Streptavidin, Mighty Mix, LA Taq, sinefungin, T4 DNA ligase and Phusion. Graph-owned published discrepancy: GN5:N6 5:1 (Introduction) vs N6:GN5 1:4 (Box1); Table1 duplicate '5′SOL-lower-AGT' label for the ACT lower strand shown in caveat.",
+      "deferred": [
+        "PMC supplementary PDF NIHMS595870-supplement (PMC download gate, manual)",
+        "Predecessor SSLLM/cap-trapper methods refs 22, 23, 28",
+        "Illumina GAIIx/HiSeq cluster and multi-hybridization documents",
+        "EcoP15I 25/27 cut placement (derived from 96 bp, not stated)",
+        "N6:GN5 ratio used for reported libraries"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 9/9 pass; page builds; pairing 0 problems; chemistry 3 established/0 conditional/14 unresolved/0 contradictory; source guard 4 exact checked, 0 failed, 2 inputs (linker scenes) without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

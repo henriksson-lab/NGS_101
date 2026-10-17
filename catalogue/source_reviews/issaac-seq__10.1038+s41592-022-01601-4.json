@@ -230,5 +230,24 @@
       "evidence": "Publisher MOESM4 prints plate/droplet oligo families and 10x CG000209 Rev G prints the v1.1 bead scaffold, narrowing the gap. Exact historical kit revision, selected index/barcode members and details hidden in inaccessible private assembly protocol remain unresolved."
     }
   ],
-  "conclusion": "Independent checks now cover the author preprint supplement and every available publisher attachment; their detailed protocols establish distinct droplet S5/S5 and plate S7/S7 second transposomes, now stated on the page. MOESM2/3/5/6 are reporting, review, and quantitative figure data, with no library-oligo ordering table. Published main article, private Tn5 assembly protocol, exact historical 10x guide revision, and selected index/barcode members remain unresolved. No missing claim accepted."
+  "conclusion": "Independent checks now cover the author preprint supplement and every available publisher attachment; their detailed protocols establish distinct droplet S5/S5 and plate S7/S7 second transposomes, now stated on the page. MOESM2/3/5/6 are reporting, review, and quantitative figure data, with no library-oligo ordering table. Published main article, private Tn5 assembly protocol, exact historical 10x guide revision, and selected index/barcode members remain unresolved. No missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nature Methods main article not readable (manual: https://doi.org/10.1038/s41592-022-01601-4); published MOESM1 Supplementary Protocol 2 (plate) lines1794–2386: transposome assembly 1–6, lysis-plate preparation 7–10, tagmentation/RT/hybrid tagmentation 19–36, EXO I + gap fill-in 37–39, FACS 43–45, in-well lysis and RNA/ATAC+RNA pre-PCR 46–52, pooling/Zymo 53–56, Exo I + 1.2x beads 57–60, final PCR 61–63, sequencing 67; published MOESM4 Supplementary Table 4 lines10381–10816 (ME oligos, capture oligos, illumina P5/P7, Truseq_S5_short, Nextra_S5_short, N7xxx, RNA_plate_S5xx, ATAC_plate_SS5xx)",
+      "oligo_scraper": "Scraper (--known-only) on MOESM1/MOESM4: all plate oligos match the model verbatim, incl. ME_bottom Phos/phosphorothioate/iInvdT; RNA_plate_S5xx ends ...CTACACGACGCTCTTCCG (TruSeq Read 1 prefix), not the full 22-nt capture arm.",
+      "findings": "Model correction: plate graph rewritten to the published order — in-nucleus Maxima H Minus RT + Exo I gap fill-in (37°C 15 min); DAPI sort into lysis wells pre-loaded with Truseq_S5_short and N7xxx; 65°C SDS lysis/Tween quench; 72°C gap fill + 4 RNA pre-PCR cycles; +Nextra_S5_short 6 ATAC+RNA cycles (i7 added in-well); plate pooling/Zymo; Exo I residual-primer digestion; one 8-cycle final PCR with ATAC_plate_SS5xx + RNA_plate_S5xx + illumina P7 (drawn as two primer-pair readings of one tube, no physical split). RNA_plate primer corrected to its published TruSeq Read 1 prefix with 18-nt 3′ anneal; illumina P7 added to oligo list; page caveat states the model correction. Read layout 150×8×8×150 NovaSeq unchanged.",
+      "deferred": [
+        "Published main article Methods (paywalled; manual DOI URL)",
+        "Supplementary Protocol 1 droplet branch and 10x scATAC v1.1 CG000209 revision actually used",
+        "Plate-based scATAC predecessor protocol (Nat Protoc PMID 34282334) for i7 index plate",
+        "Which i7/i5 family members were used per experiment"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 11/11 pass; page builds; pairing 0 problems; chemistry 2 established/4 conditional/11 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 8 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

@@ -110,5 +110,73 @@
       "evidence": "The supplementary Materials and Methods prints them; publication versus preprint and inherited bead chemistry need second-pass review."
     }
   ],
-  "conclusion": "The supplementary Materials and Methods prints them; publication versus preprint and inherited bead chemistry need second-pass review."
+  "conclusion": "The supplementary Materials and Methods prints them; publication versus preprint and inherited bead chemistry need second-pass review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published author manuscript PMC6927209 JATS (science.aaw1219_PMC6927209.xml.txt) lines64–70 (bead puck, SOLiD decoding, 3' barcoded libraries) and 137 (methods delegated to supplement); bioRxiv 563395 v1 Supplementary Materials and Methods (563395_media-1.pdf.txt) Beads7–19, Puck Sequencing41–67, Library preparation97–179, Table S1 lines569–591 with rendered PDF p.22. Published Science supplement aaw1219_Rodriques_SM.pdf (HTTP 403) and PMC NIHMS1036108-supplement-1.docx (download gate) not obtainable; manual URLs in MANIFEST.tsv.",
+      "oligo_scraper": "Bundle scraper run: 6 hits, all in media-1 (bead Sequences 1/2, Truseq5, SMART PCR primer, Truseq_PCR_handle, TSO with 3' rG+GrG); each verified at its source line and the TSO/SMART rows on the rendered page.",
+      "findings": "Graph previously went RT directly to tagmentation. Added template-switch oligo to on-puck Maxima H- RT (1 h 42C), proteinase K/SDS tissue digestion, bead release/wash cleanup with discarded glass/tissue waste, 4+9-cycle KAPA HiFi cDNA PCR with Truseq_PCR_handle and SMART primers (geometry unavailable), 0.6x AMPure, 600 pg Nextera XT tagmentation, 12-cycle Truseq5+N7xx PCR; decoding step now names primer hybridization/two ligations/buffer C-B cleavage/formamide stripping. Page caveat and note record that all wet-lab detail is from the bioRxiv v1 supplement because the published supplement is inaccessible. Displayed discrepancy: Table S1 TSO AAGCTGGTATCAACGCAGAGTGAATrG+GrG lacks the AG at positions 5–6 of the SMART PCR primer AAGCAGTGGTATCAACGCAGAGT; TSO shown as printed, not repaired; same Qiagen order #339414YCO0076714 is printed as AAGCAGTGG... in Slide-seqV2 Supplementary Table 6 (listed as third claim).",
+      "deferred": [
+        "Published Science supplement aaw1219_Rodriques_SM.pdf and PMC NIHMS1036108 supplement-1.docx (identity of bead oligos, TSO and conditions)",
+        "Drop-seq bead synthesis predecessor (Macosko 2015)",
+        "SOLiD SR-75 vendor chemistry and decoding primer sequences/ligation-cycle layout",
+        "TSO/SMART 5' mismatch: typo versus intended sequence"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite (workflow construction, no explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory; source guard 0 exact checked, 8 oligo inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 0,
+      "locations": "No new defining original obtained. Routes tried: get_sources --slugs (same 3 manual rows); Science supplement https://science.sciencemag.org/content/sci/suppl/2019/03/27/363.6434.1463.DC1/aaw1219_Rodriques_SM.pdf and https://www.science.org/doi/suppl/10.1126/science.aaw1219/suppl_file/aaw1219_rodriques_sm.pdf HTTP 403 (Cloudflare); PMC https://pmc.ncbi.nlm.nih.gov/articles/instance/6927209/bin/NIHMS1036108-supplement-1.docx proof-of-work download gate (not circumvented); Europe PMC supplementaryFiles REST 'not open access', europepmc.org bin and ?pdf=render HTTP 403; Unpaywall/OpenAlex list only bioRxiv 563395 and PMC; Broad Single Cell Portal SCP354 links only the Science supplement; GitHub broadchenf/Slideseq has code, no protocol document; no GEO/SRA links from PMID 30923225; no protocols.io entry for original Slide-seq found.",
+      "oligo_scraper": "Not re-run (no new document); earlier 6 media-1 hits stand.",
+      "findings": "No change; model, page and note keep the bioRxiv v1 supplement labelled as lead for wet-lab detail and the TSO/SMART discrepancy.",
+      "deferred": [
+        "Published Science supplement aaw1219_Rodriques_SM.pdf (manual URL above, Cloudflare)",
+        "PMC NIHMS1036108 supplement-1.docx (PMC download gate)",
+        "Drop-seq bead synthesis predecessor (Macosko 2015)",
+        "SOLiD SR-75 vendor chemistry and decoding primer layout",
+        "TSO/SMART 5' mismatch: typo versus intended sequence"
+      ],
+      "scope": "Capped retrieval follow-up only; no chemistry re-review or accepted missing-information claim.",
+      "verification": "local suite exit 0 (workflow construction, no explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory; source guard 0 exact checked, 8 inputs without exact states; audit --check blocked 1; Markdown built; review schema checked"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "agent-deferred-followup-03",
+      "date": "2026-10-17",
+      "documents": 1,
+      "scope": "Capped pass of the hand-placed published author-manuscript Supplementary Materials; no vendor or predecessor documents fetched; no accepted missing-information claim.",
+      "identity": "science.aaw1219_supp_NIHMS1036108-supplement-1.docx (md5 d113845feb5260bbd77af1a299240750): 'Supplementary Materials for Slide-seq: A Scalable Technology for Measuring Genome-Wide Expression at High Spatial Resolution', Rodriques, Stickels, ... Chen, Macosko; Materials and Methods, Figs S1-S15, Tables S1-S3. Matches the defining article (PMC6927209 author manuscript); the Science-hosted aaw1219_Rodriques_SM.pdf remains unobtained.",
+      "locations": "supplement-1.docx.txt lines 22-31 (bead Sequences 1/2), 39-51 (Puck Sequencing, ligation mix), 64-129 (library preparation: hybridization, RT, digestion, bead washes, cDNA PCR, AMPure, Nextera XT, 12-cycle PCR, sequencing 42/8/50 NovaSeq S2), 310-326 (Table S1); word-level comparison of lines 63-131 with bioRxiv v1 media-1 lines 97-182.",
+      "oligo_scraper": "Not re-run as a bundle; Table S1 read directly in the docx text layer (15 rows); selftest now checks the ten /5Phos/ decoding primers against it.",
+      "findings": "Provenance corrected: page caveat, graph source and note now cite the published supplement instead of the bioRxiv v1 lead; library conditions unchanged (only unit formatting/one Bioanalyzer sentence differ). Published Table S1 adds ten 5'-phosphorylated SOLiD decoding primers (Truseq/-1..-4, UP/-1..-4), now in the decoder input and oligo list. New graph-owned discrepancy: Truseq -1 printed GATCGGAAGAGCGTCGTCTAG vs computed recessed series GATCGGAAGAGCGTCGTGTAG (others match); displayed as printed. TSO/SMART discrepancy retained, now citing the published Table S1 (same value as preprint). Bead Sequence 1 photocleavable-linker wording follows the published text.",
+      "deferred": [
+        "Science-hosted supplement aaw1219_Rodriques_SM.pdf (Cloudflare 403; identity with the PMC supplement unchecked)",
+        "Drop-seq bead synthesis predecessor (Macosko 2015)",
+        "SOLiD SR-75 vendor chemistry and primer/ligation-to-barcode-position layout",
+        "TSO and Truseq -1: typo versus intended sequence"
+      ],
+      "verification": "local suite 1/1 pass (Table S1 decoding-primer transcription); page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory; source guard 0 exact checked, 8 inputs without exact states; Markdown built; slide-seqv2 suite unaffected (pass)"
+    },
+    {
+      "round": "critical-rereview-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "scope": "Critical diff review; focused source cross-checks and model consistency, not a new complete source audit.",
+      "locations": "Local tagmentation, PCR and AMPure declarations and terminal-fate audit; no new reaction-source assertion.",
+      "findings": "Candidate internal/SMART-end tagmentation fragments remain unresolved. The represented PCR and AMPure steps do not demonstrate class-specific physical removal.",
+      "deferred": [
+        "Previous linked-source deferrals and independent absence-audit requirements remain open."
+      ],
+      "verification": "Applicable protocol suite, page build, source guard and scoped chemistry passed (zero contradictions); review schema passed. Shared 1275 and source fetcher 226 checks pass. Whole-site verification is recorded in HANDOVER-REVIEW.md.",
+      "documents": 0
+    }
+  ]
 }

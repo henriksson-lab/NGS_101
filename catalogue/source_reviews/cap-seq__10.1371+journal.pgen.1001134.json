@@ -111,5 +111,24 @@
       "evidence": "Two independent reads of the 2010 paper, its supplements, and the cited MAP predecessor article find no exact adapter bases there. The predecessor's own Supplemental Data is unavailable and could contain them."
     }
   ],
-  "conclusion": "Both reads locate a predecessor supplement controlling the library-prep detail. Missing adapter-bases claim remains blocked."
+  "conclusion": "Both reads locate a predecessor supplement controlling the library-prep detail. Missing adapter-bases claim remains blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC2944787 JATS Results line 79 (600 to 560 mM NaCl wash optimisation), Methods lines 218 (CAP: CXXC DNaseI pretreatment, Ni-Sepharose 50 mg/ml, 0.1 M NaCl binding, 600/560 mM wash, 1 M elution, pool/concentrate/precipitate as for MAP) and 224-226 (adaptor ligation before purification, libraries as ref 57, Sanger single-end Solexa, MAQ score>=30); Table S1 (s010.xls.txt) header rows; predecessor Skene 2010 PMC4338610 JATS lines 113-135 and supplementary-material href NIHMS62106-supplement-01.pdf",
+      "oligo_scraper": "Bundle scraper run; single hit (GTCTCGTGGGCTCGG) is from the unrelated cached 2025 bioRxiv 2024.09.10.612220 long-read microbiome preprint, not evidence for this method. No adaptor or primer bases in the 2010 article, supplements or predecessor article text.",
+      "findings": "Graph previously began at an adapter-ligated library. Added source-ordered upstream operations: warned delegated DNA preparation as for MAP-seq (MAGIC with reason) and Solexa adaptor ligation before CXXC purification with AdapterLigationGeometry.unavailable; binding condition 0.1 M NaCl and DNaseI-treated CXXC on Ni-Sepharose 50 mg/ml; species wash values on the condition; elution split from the source pool/concentrate/precipitate step (cleanup with supernatant waste); highlight that post-elution amplification/size selection is delegated and not drawn; sequencing text names Sanger, MAQ score>=30 computational filter and unstated read length. Workflow kept consistent.",
+      "deferred": [
+        "Skene 2010 Supplemental Data NIHMS62106-supplement-01.pdf (MAP DNA preparation, Solexa adaptor/library protocol): listed in PMC4338610 XML, absent from PMC Cloud (TDM-only), PMC page https://pmc.ncbi.nlm.nih.gov/articles/instance/4338610/bin/NIHMS62106-supplement-01.pdf returns HTML; manual",
+        "Illingworth 2008 PLoS Biol reference 7 (CXXC expression/purification and CAP column details)",
+        "Input fragmentation method, adaptor bases/ends and any post-elution PCR",
+        "Acquired single-end read length"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim. Missing adapter-bases claim remains blocked.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory with prepare_dna MAGIC warning; source guard 0 exact checked, 0 failed, 1 input without exact state (Solexa adaptors); Markdown built; review schema checked"
+    }
+  ]
 }

@@ -74,5 +74,25 @@
       "evidence": "Original oligo workbook exists; variant-specific read mapping and an independent check remain."
     }
   ],
-  "conclusion": "Original preprint and oligo workbook available. No source-absence claim accepted after one pass."
+  "conclusion": "Original preprint and oligo workbook available. No source-absence claim accepted after one pass.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "bioRxiv v2 (13 July 2025) full text 2024.03.17.585235_v2.full.pdf.txt Methods lines 735-754 (plasmid-library single-step PCR, MiSeq 300- vs 150-cycle kits, custom read primers), 814-823 (gDNA screen libraries, 24-cycle PCR, MiSeq 75+75, 8-cycle indexes), 842-874 (5-prime direct capture, CG000735/CG000733, custom RT primers, dial-out PCR, NovaSeq X 28/10/10/90); supplementary workbook 2024.03.17.585235_media-1.xlsx.txt oligos sheet lines 15-46 (oRW1220/1221 RT primers with terminal phosphorothioate, oRW1223/1226/1227 dial-out primers, biotinylated in-situ RT primers, phosphorylated padlocks, dye-labelled SBS primers)",
+      "oligo_scraper": "Bundle scraper run (--max-hits 60); oRW1220/1221/1223/1226/1227 hits followed back to the oligos sheet rows and matched to the Methods text; indexed P5/P7 family (oRW1213+, 55 variants) and padlock/SBS families left as library members.",
+      "findings": "Replaced the generic shared RT+PCR stub of the direct-capture branch with the branch the Methods actually describe: custom oRW1220/oRW1221 capture RT primers added to the 10x GEM-X 5-prime v3 RT mastermix (kit CRISPR Poly-dT Primer Mix B is not complementary to both CSM scaffolds), warned kit cDNA amplification, SPRIselect size split into sgRNA and gene-expression fractions, a declared CG000733 gene-expression partner library terminal, the single 11-cycle three-primer dial-out PCR (oRW1223 + oRW1226/oRW1227, NEBNext Ultra II Q5) and the commercial dual-index sample-indexing PCR. Recorded the acquired read layout (NovaSeq X 28/10/10/90, libraries pooled 10:1) on the page sequencing notice and in the note, together with the separate plasmid/gDNA screen readouts (MiSeq 300-cycle for deletion scoring, otherwise 150-cycle with custom read primers, 75 cycles per read and 8-cycle indexes). mRNA and T7-IVT branches left at role level; no sequence columns were drawn because spacers and iBARs are library members.",
+      "deferred": [
+        "10x Genomics CG000735 (GEM-X Single Cell 5-prime v3, CRISPR Screening) and CG000733 user guides - still absent from the bundle; kit cDNA amplification, bead cleanups and indexing geometry remain warned boundaries",
+        "In-situ padlock/RCA and T7-IVT branches: oRW893/887/965/967 RT primers, oRW963 padlock family and SBS primers not modelled as molecules",
+        "github.com/rtwalton/CROPseq-multi library-design and NGS analysis code (read placement of custom read primers)",
+        "Supplementary Table 2 custom Illumina read primers for screen libraries",
+        "CSMv2 vector map (media-2 .gb) not re-read in this pass"
+      ],
+      "scope": "Capped defining-source pass on the preprint Methods and oligo workbook; no full chemistry validation and no accepted missing-information claim.",
+      "verification": "local suite passes (constructor-only, 0 explicit checks); page builds; pairing 0 problems; chemistry 14 steps, 0 established/0 conditional/18 unresolved/0 contradictory with two MAGIC warnings (kit cDNA amplification, CG000733 gene-expression library); source guard 0 exact checked, 0 failed, 13 inputs without exact states; Markdown built; review schema (audit_protocol_sources --check) pass"
+    }
+  ]
 }

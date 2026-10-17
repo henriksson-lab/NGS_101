@@ -75,5 +75,24 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent readers verified the defining article's exact adapter and primer oligos and run layout. The supplementary figures and two result tables received two independent reads and are result-only; the version-specific historical TruSeq reference remains uninspected. A related October 2013 TruSeq ChIP guide is cached under DISCOVER-seq, but its different kit identity cannot establish the OK-seq adapter/index choice. No remaining absence claim is accepted."
+  "conclusion": "Two independent readers verified the defining article's exact adapter and primer oligos and run layout. The supplementary figures and two result tables received two independent reads and are result-only; the version-specific historical TruSeq reference remains uninspected. A related October 2013 TruSeq ChIP guide is cached under DISCOVER-seq, but its different kit identity cannot establish the OK-seq adapter/index choice. No remaining absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC4729899 JATS (.xml.txt) Methods lines122–158 (EdU labelling, gDNA, isolation/biotinylation, adaptor ligation/capture, amplification/sequencing); typeset PMC PDF text lines1658–1670 for the printed primers; supplement s1 keyword search (no methods/oligo passages; line490 RFD only)",
+      "oligo_scraper": "Bundle scraper run; JATS lines138–156 and PDF lines1636–1669 hits (A1/A2 Watson/Crick, forward primer, split reverse primer, custom Read1) verified against the passages.",
+      "findings": "Graph now has gDNA extraction, 94C denaturation, sucrose-gradient selection with discarded long strands, click conditions, alkaline RNA-primer hydrolysis and P-30 cleanup (previously absent), PNK with inactivation, ligation conditions, streptavidin capture/washes removing unligated adaptors, the repeated on-bead annealing/ligation and rewash, Phusion 12-cycle PCR, MinElute and 4% gel 150–400 bp selection. Adapters and PCR primers given exact states (reverse index placeholder with sample_index feature). Model corrections: adapters/primers were attributed to the uninspected Nat Protoc 2023 protocol; asserted 6-cycle index read removed (not printed). Page shows published discrepancy: 'PE PCR Primer 1.0 truncated by 5 bases' vs printed primer also missing the 5' A; model uses printed sequence.",
+      "deferred": [
+        "Nat. Protocols 2023 detailed OK-seq protocol (10.1038/s41596-022-00793-5), not on disk",
+        "Illumina PE PCR Primer 1.0 / TruSeq Index primer originals (forward-primer 5' A discrepancy, index identities)",
+        "Ref.68 (A1 truncation/custom sequencing primer predecessor)",
+        "Acquired index-read cycle count"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 3/3 pass; page builds; pairing 0 problems; chemistry 4 established/1 conditional/15 unresolved/0 contradictory; source guard 9 exact checked, 0 failed, 1 input without exact state (indexed reverse primer); Markdown built; review schema checked"
+    }
+  ]
 }

@@ -163,9 +163,18 @@ The Methods *do* give the primers. Verbatim from "Library preparation and sequen
 | `PCR3_REV` | `CAAGCAGAAGACGGCATACGAGATCTGCCATTTG` | |
 | `CRIPSRSEQ` | `CGATCTCTTGTGGAAAGGACGAAACACCG` | custom read primer |
 
-(`CRIPSRSEQ` is the paper's own spelling.) 200 µg of gDNA is split across **40 parallel PCR1
+🟢 `CRIPSRSEQ` is the spelling in the paper's own primer table; the Methods sentence two
+paragraphs earlier calls the same oligo `CRISPRSeq`. The bases are given only once, so this
+is a naming inconsistency inside one paper, not two different primers. The model keeps the
+primer-table spelling and says so on the page.
+
+200 µg of gDNA is split across **40 parallel PCR1
 reactions** of 5 µg each, pooled after 14 cycles; PCR2 runs off 5 µl of the pool, PCR3 off
-2 µl of PCR2. KAPA HiFi HotStart throughout. The product is gel purified.
+2 µl of PCR2. KAPA HiFi HotStart throughout. 🟢 "The resulting product of 288 bp was gel
+purified" — the reaction workflow on the page now carries that gel purification as a real
+physical separation, with the off-size PCR3 species leaving the library there rather than
+being filtered computationally. 🔴 The paper does not itemise what those off-size species
+are.
 
 ✅ Rebuilding the vector and running all three PCRs in `tools/selftest.py` gives **288 bp** —
 exactly the figure the paper quotes. That is the strongest single validation of the

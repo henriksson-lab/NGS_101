@@ -52,6 +52,9 @@ OVERHANG_REMOVAL = (37, 15)
 DAMAGE_REPAIR = (37, 30)
 END_PREP_PROGRAM = ((20, 10), (65, 30))
 LIGATION = (20, 60)
+# Procedure 101-693-800 v01 p. 15: 44 µL (0.45X) AMPure PB beads to the 97 µL
+# Reaction Mix 4; no exonuclease step follows ligation in this kit version.
+POST_LIGATION_BEADS = (44, 97)
 HAIRPIN_END = smrtbell_hairpin_geometry(
     SMRTBELL, statement="PacBio training PN 101-742-500 v01 p. 7 states that Overhang "
     "Adapter v3 has a T overhang; p. 9 specifies A/T ligation. Procedure 101-693-800 "
@@ -70,15 +73,17 @@ def sections():
     return [
         ("Remove single-stranded overhangs and repair damage",
          [Row(chunks=[("sheared long duplex  -- overhang removal -->  repaired blunt duplex", None, False)])],
-         "DNA Prep Enzyme: 37 °C for 15 min; DNA Damage Repair Mix v2: 37 °C for 30 min."),
+         "DNA Prep Enzyme with diluted DNA Prep Additive and NAD: 37 °C for 15 min; DNA Damage Repair Mix v2: 37 °C for 30 min."),
         ("End-repair and dA-tail", dA_tailed_scene(END_PREP).rows(),
          "End Prep Mix: 20 °C for 10 min, then 65 °C for 30 min."),
         ("Ligate Overhang Adapter v3 hairpins", dumbbell_rows(SMRTBELL),
          "Overhang Adapter v3 is ligated for 60 min at 20 °C. PacBio training "
          "PN 101-742-500 v01 pp. 7, 9 identifies the T overhang and A/T ligation; "
          "the full hairpin sequence remains undisclosed."),
-        ("Remove molecules with free ends", dumbbell_rows(SMRTBELL),
-         "Bead cleanup and nuclease treatment enrich completely closed SMRTbells."),
+        ("Purify SMRTbell templates", dumbbell_rows(SMRTBELL),
+         "0.45X AMPure PB beads (44 µL to the 97 µL ligation); optional BluePippin "
+         "size selection followed by 1X AMPure PB. Procedure 101-693-800 v01 has "
+         "no post-ligation nuclease step."),
         ("Anneal sequencing primer and bind polymerase", primer_path,
          "The proprietary primer site is present in each hairpin; the path shown is computed from the closed template."),
     ]
@@ -106,19 +111,24 @@ def protocol_graph():
             StepKind.LIGATION,
             ((tailed, InputRole.TEMPLATE), (hairpins, InputRole.STRUCTURAL),
              (ligase, InputRole.CATALYST)), (closed,), geometry=HAIRPIN_END)
-    nuclease = g.input("nuclease", "free-end nuclease", MaterialKind.CATALYST)
-    library = g.product("library", "nuclease-resistant closed SMRTbell library",
+    beads = g.input("ampure", "0.45X AMPure PB beads", MaterialKind.CONDITION)
+    library = g.product("library", "purified SMRTbell library",
                         MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True,
                         source=SOURCE + " (hairpin bases proprietary)")
-    linear = g.product("linear", "molecules retaining a free DNA end",
-                       MaterialKind.WASTE)
-    g.react("remove_linear", "Digest molecules that retain a free end",
-            StepKind.DIGESTION,
-            ((closed, InputRole.TEMPLATE), (nuclease, InputRole.CATALYST)),
-            (library, linear), changes_molecule=False)
-    g.discard(linear, "not a completely closed SMRTbell")
+    unbound = g.product("unbound", "supernatant not retained by 0.45X beads",
+                        MaterialKind.WASTE)
+    g.react("purify", "Purify SMRTbell templates with 0.45X AMPure PB",
+            StepKind.CLEANUP,
+            ((closed, InputRole.TEMPLATE), (beads, InputRole.CONDITION)),
+            (library, unbound), changes_molecule=False,
+            reason="Procedure 101-693-800 v01 p. 15; the supernatant is saved as a "
+                   "backup but not carried forward. Optional BluePippin size "
+                   "selection and 1X AMPure PB (pp. 17-18) are not drawn. Unlike "
+                   "TPK 1.0, no ExoIII/ExoVII step removes molecules with free ends "
+                   "(training PN 101-742-500 v01 workflow comparison).")
+    g.discard(unbound, "not retained by the 0.45X AMPure PB bead cleanup")
     g.sequence(library, smrtbell_sequencing_plan(
         SMRTBELL, FINAL_LIBRARY, limitation=SEQUENCING_UNAVAILABLE))
     g.declare_reviewed_scope(("dna", "repair", "end_prep", "hairpins", "ligase",
-                              "ligate", "nuclease", "remove_linear", "library"), SOURCE)
+                              "ligate", "ampure", "purify", "library"), SOURCE)
     return g.require_publishable()

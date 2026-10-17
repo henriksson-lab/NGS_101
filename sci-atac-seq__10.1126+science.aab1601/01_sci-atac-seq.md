@@ -2,8 +2,9 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published, or not available to us. Relationships marked 🟡 *(computed)* were worked out
-> with `lib/` while writing this note. They are not yet asserted in a self-test, because
-> this protocol has no `tools/` module yet (status `notes`).
+> with `lib/` while writing this note. The 2015 and 2018 schematics now assemble their
+> libraries from `tools/sciatac.py`; the 2018 module is
+> `../sci-atac-seq-2018__10.1038+nature25981/tools/chem.py`.
 
 This note covers three variants. They share one idea and differ in how the barcodes
 get in:
@@ -41,12 +42,17 @@ Other papers in the family:
 ## Sources read
 
 Fetched by `tools/get_sources.py` into
-`$CHEM_DATA/sources/sci-atac-seq-family__10.1126+science.aab1601/` (never committed):
+`$CHEM_DATA/sources/sci-atac-seq__10.1126+science.aab1601/` (never committed; the 2018
+bundle is `sources/sci-atac-seq-2018__10.1038+nature25981/`, whose Table S12 is
+`nature25981_supp_NIHMS76153-supplement-Supplementary_tables_Table_S12.xlsx.txt`):
 
 | File | What | Used for |
 |---|---|---|
 | `upstream_sci-ATAC-seq_family.html.txt` | scg_lib_structs page (both variants) | orientation only; not source evidence |
 | `science.aab1601_PMC4836442.html.txt` | 2015 *Science* main text (author manuscript) | design, nuclei numbers, collision rate |
+| `science.aab1601_supp_NIHMS776051-supplement-Supplementary_Material.pdf.txt` | 2015 *Science* Supplementary Materials (hand-downloaded PMC copy; printed DOI 10.1126/science.aab1601), Materials and Methods lines 22–75, Fig. S1 legend 249–259, refs 17–18 lines 594–600 | **2015 lysis, tagmentation, sort, PCR cycles/barcodes, MiSeq recipe** |
+| `science.aab1601_supp_NIHMS776051-supplement-Table_S2.txt` | 2015 Table S2 (hand-downloaded), header line 1 | differential-accessibility table; no oligos |
+| `geo-GSE67446-all-full.txt` | 2015 GEO GSE67446 family record (author-deposited), sample records GSM1647121–26 at lines 49720–50030 | 8-bp Tn5 and PCR barcode lengths, four-part barcode order, nuclei per well, MiSeq |
 | `ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt` | Amini 2014 Supplementary Table 4 (oligos) | **transposon oligos, sequencing primers** |
 | `ng.3119_PMC4409979.html.txt` | Amini 2014 Online Methods | transposome assembly, PCR, sequencing |
 | `ng.3119_41588_2014_BFng3119_MOESM1_ESM.pdf.txt` | Amini 2014 Supplementary Figs. | Supp. Fig. 4: order of index cycles |
@@ -66,11 +72,12 @@ bases. 🟡 This model uses Amini's common indexed-Tn5 architecture and an
 unspecified first-well index; it does not assign those five members to the 2015
 sci-ATAC experiment because that protocol's own oligo table remains gated.
 
-Could not be fetched (PMC download gate). The URLs are in `MANIFEST.tsv`:
+Could not be fetched (PMC download gate). The URLs are in `MANIFEST.tsv`. The 2015
+Supplementary Materials and Table S2 were later hand-downloaded and read (2026-10-17);
+they contain no oligo table:
 
 | Missing | Why it matters |
 |---|---|
-| 2015 *Science* Supplementary Material (`NIHMS776051-supplement-Supplementary_Material.pdf`) and `Table_S2.txt` | **the 2015 methods and its own oligo/primer list**. 🔴 The 2015 PCR primers (8 or 10 nt indices?) are therefore unknown to us |
 | sci-ATAC-seq3 supplementary PDF (`NIHMS1652075-supplement-manuscript_supplementary.pdf`) | figures and prose remain gated; the separate original Table S7 workbook is available and read |
 | Amini 2014 `Figures___Tables.doc` | duplicate of the Springer supplement, probably |
 | 2018 `Supplementary_tables.zip`, `Supplementary_table_4.zip` (PMC copies) | the Springer copy `MOESM2_ESM.zip` was obtained instead |
@@ -164,9 +171,14 @@ P7_1_PCR_Primer   CAAGCAGAAGACGGCATACGAGATCCGAATCCGAGTCTCGTGGGCTCGG        Barco
 There are 96 P5 primers (`P5_1..96`) and 96 P7 primers (`P7_1..96`). The full list is in
 the source file. It is not copied here.
 
-🔴 The 2015 paper's own PCR primers are in its gated supplement. Amini 2014 used the
-**Illumina Nextera index kit** (FC-121-1012, 8 i5 × 12 i7) 🟢. Whether 2015 used that kit
-or the 10-nt set is not known to us.
+🟢 2015 Supplementary Materials, "Sample Processing" (lines 49–53): libraries "were
+amplified 20 cycles while incorporating standard Nextera library barcodes following the
+protocol described in (17, 18)"; "After the initial three experiments described in the
+paper, we switched to a set of 10bp library barcodes that were otherwise identical to the
+standard Nextera library adapters". No primer bases are printed. Amini 2014 (ref 18) used
+the **Illumina Nextera index kit** (FC-121-1012, 8 i5 × 12 i7) 🟢. The schematic draws the
+8-nt standard-Nextera variant of the first three experiments; the 10-nt set is not
+drawn and its bases are not in the 2015 sources read.
 
 ### 2.4 How they interlock: 🟡 (computed against `lib/`)
 
@@ -232,9 +244,28 @@ In 2018 the complexes were "custom and uniquely indexed Tn5 Transposomes (Illumi
 8. **Pool** all wells, clean up on 4 × Zymo DCC-5 columns and then AMPure, and run
    Bioanalyzer QC.
 
-The 2015 main text gives only the outline 🟢: 96 barcoded-Tn5 wells; pool; dilute; 15–25
-nuclei per second-round well by FACS; lyse; PCR with indexed primers; pool; sequence.
-The 2015 tagmentation and PCR conditions are in the gated supplement 🔴.
+The 2015 main text gives only the outline 🟢 (PMC4836442 JATS line 45). The 2015
+Supplementary Materials, "Sample Processing" (lines 31–56) 🟢: cells lysed in cold lysis
+buffer (10 mM Tris-HCl pH 7.4, 10 mM NaCl, 3 mM MgCl₂, 0.1 % IGEPAL CA-630, protease
+inhibitors), 2,500 cells per tagmentation reaction; nuclei resuspended in Nextera TD
+buffer and distributed into 96 wells with 2.5 µM barcoded Tn5; 37 °C for 30 min; stopped
+with 40 mM EDTA and incubated 15 min at 37 °C; pooled; FACSAria II sort of 15 nuclei
+(FSC/SSC) per well into 20 µl EB (human/mouse) or 25 DAPI-positive nuclei (3 µM DAPI;
+human mixtures); "Tn5 was released from the DNA" and 20 PCR cycles following refs 17/18;
+pooled, Zymo Clean & Concentrator, Qubit, 6 % PAGE. 🟡 The Tn5-release and PCR conditions
+are inherited by citation: Amini 2014 Online Methods use 0.1 % SDS at 55 °C for 15 min,
+then NPM with 72 °C 3 min, 98 °C 30 s and 98/63/72 °C cycles. The graph labels them as
+cited-protocol conditions. Sequencing (lines 57–61) 🟢: MiSeq, v2 300-cycle kit, custom
+recipe, "paired end 51bp reads with index reads that covered both the Tn5 barcode and the
+library amplification barcode", custom primers as in refs 17/18, 15 pM.
+
+Bounded pass 2026-10-17: the 2015 graph now draws the re-sort into second-round wells
+(with unsorted nuclei as waste) and an unconditioned lysis step before gap fill and PCR.
+The 2018 graph now draws steps 3–8 above: tagmentation conditions, EDTA/spermidine stop,
+re-sort of 25 nuclei per well, proteinase K/SDS reverse cross-linking, the 72 °C 3 min
+NPM opening step as gap fill 🟡, the PCR programme, and Zymo-column plus AMPure cleanup.
+Both gap-filled states are now the T5…T7 fragment before PCR. Earlier they used the final
+P5/P7 library.
 
 Plate bookkeeping 🟡 *(from the "Note" column of Table S12)*: every P5 primer is used on
 **one** plate (8 per plate, 12 plates). The P7 sets of 12 are reused between some plates,
@@ -387,7 +418,7 @@ How samples map to plates is in Table S1 / S7 🔴.
 | Barcoded Tn5 s5/s7 templates, ME bottom `/Phos/CTGTCTCTTATACACATCT` | Amini Table 4 = 2018 Table S12 (`5Phos/…`) | **agrees** |
 | Read 1, Read 2, Index 1, Index 2 primers (two-level) | 2018 Table S12 | **agrees** (Index 2 is not in Amini 2014) |
 | P5 index primer ends `…TCGTCGGCAGCGTCTCCACGC` (21 nt); P7 ends `…GTCTCGTGGGCTCGGCTGTCCCTGTCC` (27 nt) | 2018 Table S12: P5 ends `TCGTCGGCAGCGTC` (14), P7 ends `GTCTCGTGGGCTCGG` (15); Amini used Nextera-kit primers (also 14/15) | **disagrees**: upstream extends the PCR primers over the whole connector. The final library is the same either way, because the rest of the connector comes from the transposon |
-| i5/i7 are 10 nt | 2018 Table S12: 10 nt; Amini 2014: Nextera kit (8 nt) | agrees for 2018. 2015 unknown 🔴 |
+| i5/i7 are 10 nt | 2018 Table S12: 10 nt; Amini 2014: Nextera kit (8 nt); 2015 SM: standard Nextera barcodes for the first three experiments, then 10 bp | agrees for 2018 and later 2015 experiments |
 | Index 1 = 45 cycles (8 + 27 dark + 10), Index 2 = 39 (8 + 21 dark + 10) | not stated in the papers | consistent with the computed gaps 🟡 |
 | Same-end products not amplifiable ("semi-suppressive PCR") | not stated in the fetched papers | upstream interpretation 🟡 |
 | sci-ATAC-seq3: PNK, N5 then N7 splint ligation, 384 × 4 plates, reverse crosslink, indexed PCR, 10+15+10 index reads, 50-cycle reads | 2020 methods: same steps. Reads are **51** cycles each; upstream says 50 | agrees, except the 50/51 read length |
@@ -395,8 +426,25 @@ How samples map to plates is in Table S1 / S7 🔴.
 
 ## 8. Open questions
 
-- 🔴 The 2015 *Science* supplement (methods and Table S2): its tagmentation conditions,
-  PCR primers (Nextera kit, 8 nt, or the 10-nt set?), cycle numbers and sequencer.
+- 🟢 The 2015 *Science* supplement is now read (see §3.2): it gives tagmentation, sort,
+  20 PCR cycles and 51 + 51 MiSeq reads, but prints no PCR-primer or index bases; it
+  refers to refs 17/18 for primers. The 10-nt "library barcodes" of later experiments
+  and the Illumina Nextera index-kit vendor sequences remain unread.
+- 🟡 Index 2 on the 2015 MiSeq run: Amini 2014 prints no Index 2 primer, and the 2018
+  custom Index 2 primer is not assumed. The schematic draws the i5 read off the flow-cell
+  P5 oligo (forward-strand workflow), reading PCR i5 before the Tn5 i5, consistent with
+  the GEO barcode order. Index-read cycle numbers are not stated.
+- 🟢 GEO GSE67446, sample GSM1647121 (`geo-GSE67446-all-full.txt` lines 49741 and 49753):
+  "Nuclei tagged with 1 of 96 barcodes (8 base pairs (bp)) were pooled and then
+  redistributed into wells of a PCR plate (15 nuclei per well) using a cell sorter. A
+  second 8 base pair barcode was introduced during library amplification". The full
+  32-bp barcode is "[8bp transposome index 1][8bp PCR index 1][8bp PCR index 2][8bp
+  transposome index 2]". GSM1647122–26 give 15–25 nuclei per well, and every sample was
+  run on an Illumina MiSeq. The GEO record is author-deposited, not the published
+  supplement. It supports the 8-nt PCR-index length drawn in the model, but the primer
+  sequences and index bases are still unavailable. 🟡 SRA SRP056738 runs are paired with
+  102 bases per spot, which would fit 51 + 51 genomic reads. Treat this as an inference,
+  not a stated read length.
 - 🟡 Barcode orientation in the reads: whether i5 is read as written in the primer or
   as its reverse complement depends on the instrument's i5 workflow. This was not
   checked against demultiplexing code (github shendurelab/human-atac;

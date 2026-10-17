@@ -27,6 +27,13 @@ library primers and sequencing readout; genomic targets remain schematic.
     MiSeq run.
 - 🟢 Springer supplementary file MOESM22 — off-target site tables; contains no oligos.
 
+2026-10-17 bounded re-reading (round 2026-10-17-breadth-first-11): Online Methods
+"Isolation and preparation of genomic DNA for GUIDE-Seq" (JATS lines 129–131) and the
+corrected MOESM21 Supplementary Methods protocol steps 1–12 (extracted lines 33074–33262),
+including the equipment list (line 33026). The four AMPure XP SPRI cleanups, the DNAdvance
+genomic-DNA isolation, the on-bead PCR 2 input and the qPCR normalization to 1.2 × 10¹⁰
+molecules are now represented in `protocol_graph()` with their removed fractions.
+
 Nothing in this note or in `tools/guide_seq.py` is taken from a secondary schematic.
 
 ## Oligos, verbatim with their modifications
@@ -96,18 +103,30 @@ cannot be built if one stops holding.
 2. **dsODN capture.** The blunt, 5′-phosphorylated 34-bp dsODN with phosphorothioate
    linkages at both the 5′ and 3′ ends of both strands is nucleofected with the RGN
    components and captured at on- and off-target breaks by NHEJ.
-3. **Shearing.** 400 ng genomic DNA, Covaris S2, average length 500 bp.
-4. **End repair and A-tailing** — one tube: end-repair mix plus non-hot-start Taq, with
+3. **Genomic DNA isolation.** 🟢 Online Methods: solid-phase reversible immobilization
+   magnetic beads (Agencourt DNAdvance). The graph now carries this bead isolation as an
+   explicit extraction with its unbound fraction, ahead of shearing.
+4. **Shearing and cleanup.** 400 ng genomic DNA in 120 µl, sheared to an average length of
+   500 bp, then a 1X AMPure XP SPRI cleanup eluted in 15 µl.
+   🟡 **Published source conflict:** the Online Methods name a "Covaris S200"; the
+   Supplementary Methods protocol and equipment list name the Covaris S2 (S-2 Focused
+   Ultra-sonicator). The model declares only the ~500 bp target, not an instrument model.
+5. **End repair and A-tailing** — one tube: end-repair mix plus non-hot-start Taq, with
    12 °C / 37 °C / 72 °C steps. The 72 °C step is the dA addition.
-5. **Adapter ligation.** Annealed Y adapter plus T4 DNA ligase, 16 °C then 22 °C. The
+6. **Adapter ligation.** Annealed Y adapter plus T4 DNA ligase, 16 °C then 22 °C. The
    adapter's 3′ dT pairs with the fragment's 3′ dA, so both ends of every fragment receive
    the adapter — but only one tail exists, so nothing is amplifiable without the tag.
-6. **PCR 1** — GSP1 + P5_1, touchdown programme. For discovery, separate master mixes and
-   separate reactions for the `+` (sense) and `−` (antisense) GSP sets.
-7. **PCR 2** — nested GSP2 + P5_2 + P7_#, same programme. GSP2 installs the P7 arm;
+   A 0.9X SPRI cleanup (eluted in 12 µl) follows, removing unligated adapter.
+7. **PCR 1** — GSP1 + P5_1, touchdown programme. For discovery, separate master mixes and
+   separate reactions for the `+` (sense) and `−` (antisense) GSP sets. Deep-sequencing
+   validation instead uses one master mix with a normalized primer pool and the
+   non-touchdown validation programme; that branch is not drawn.
+   A 1.2X SPRI cleanup (eluted in 15 µl) follows; 🟢 the PCR 2 recipe takes "DNA sample
+   with beads (from Step 8)", so the cleanup beads are carried into the nested reaction.
+8. **PCR 2** — nested GSP2 + P5_2 + P7_#, same programme. GSP2 installs the P7 arm;
    P7_# completes it and adds the 8-nt P7 barcode. At least four different P7_# are used
-   per run for image registration.
-8. **Sequencing.** qPCR quantification, normalization to 1.2 × 10¹⁰ molecules, MiSeq
+   per run for image registration. A 0.7X SPRI cleanup (eluted in 30 µl) follows.
+9. **Sequencing.** qPCR quantification, normalization to 1.2 × 10¹⁰ molecules, MiSeq
    Reagent Kit v2 300-cycle, **3 µl of 100 µM custom Index 1 primer into cartridge
    position 13 and 3 µl of 100 µM custom Read 2 primer into position 14**, cycles
    **151 | 8 | 16 | 151** "with the paired-end Nextera sequencing protocol".

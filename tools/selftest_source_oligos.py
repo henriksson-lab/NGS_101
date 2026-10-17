@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "lib"))
 sys.path.insert(0, str(ROOT / "tools"))
 from storage import data_root
-from source_oligo_check import check_graph, unrepresented_input_ids  # noqa: E402
+from source_oligo_check import candidates, check_graph, unrepresented_input_ids  # noqa: E402
 
 
 def graph_module_paths(directory: Path) -> list[Path]:
@@ -72,7 +72,7 @@ def main() -> int:
     if bad:
         parser.error("unknown protocol directory: " + ", ".join(bad))
     source_root = data_root() / "sources"
-    failures = skips = checked = graphs = unrepresented = 0
+    failures = skips = checked = graphs = unrepresented = exempted = 0
     for name in names:
         for path in graph_module_paths(ROOT / name):
             try:
@@ -86,9 +86,14 @@ def main() -> int:
                 unrepresented += len(missing)
                 if args.details and missing:
                     print(f"UNREPRESENTED {name}: {', '.join(missing)}")
+                exceptions = getattr(module, "SOURCE_OLIGO_EXCEPTIONS", {})
+                for material in sorted({c.material for c in candidates(graph)} & set(exceptions)):
+                    strands = sum(c.material == material for c in candidates(graph))
+                    exempted += strands
+                    print(f"EXEMPT {name}: {material} ({strands} strand(s)): {exceptions[material]}")
                 problems, omitted, count = check_graph(
                     graph, source_root / name,
-                    getattr(module, "SOURCE_OLIGO_EXCEPTIONS", {}), known[name]["doi"])
+                    exceptions, known[name]["doi"])
             except Exception as exc:
                 problems, omitted, count = [f"{name}/{path.name}: {type(exc).__name__}: {exc}"], [], 0
             finally:
@@ -102,6 +107,7 @@ def main() -> int:
             for issue in omitted:
                 print("SKIP", issue)
     print(f"Source oligos: {checked} checked, {failures} failed, {skips} source bundles skipped, "
+          f"{exempted} strands exempted from text matching, "
           f"{unrepresented} inputs without exact states, {graphs} graphs")
     return bool(failures)
 

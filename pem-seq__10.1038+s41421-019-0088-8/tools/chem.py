@@ -10,7 +10,6 @@ from circular import CircularizationGeometry
 from pcr import PCRGeometry
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from protocol_model import chain, closed_circle, da_tailed, molecule, role
-from editing_outcomes import _finish_pcr
 
 # Yin et al. 2019 Supplementary Table S11 has 14 random bases in four tracts
 # separated by fixed T/A/T. Liu et al. 2022 STAR Protocols Table 2 prints a
@@ -23,6 +22,21 @@ PEM_BA_LOWER = "TGTAGAGCACGCGTGGNNNNNN"
 PEM_P5_I5 = "AATGATACGGCGACCACCGAGATCTACACACACTCTTTCCCTACACGACGC"
 
 PEM_P7 = il.P7
+
+# The printed P5-I5 primer is the full P5 (ending ACAC) followed directly by the Read 1
+# arm (starting ACAC): an i5-style adapter with no index between them.  The library
+# therefore carries ACAC twice at the P5 | Read 1 boundary, as printed.
+if PEM_P5_I5 != il.P5 + il.TRUSEQ_READ1[:len(PEM_P5_I5) - len(il.P5)]:
+    raise AssertionError("P5-I5 tagging primer is not P5 followed by the Read 1 arm")
+
+# Read by tools/lint_p5_read1.py: the duplicated ACAC is the published primer, not a
+# modelling error.
+P5_READ1_JUNCTION_EXCEPTIONS = {
+    "PEM-seq library": (
+        "Yin et al. 2019 Supplementary Table S11 (MOESM1 p. 27, 'Oligos for tagging PCR', "
+        "P5-I5) prints AAT GAT ACG GCG ACC ACC GAG ATC TAC ACA CAC / TCT TTC CCT ACA CGA "
+        "CGC: full P5 followed by the Read 1 arm, so ACAC occurs twice as printed."),
+}
 
 PEM_I7_B01 = "CAGAAGACGGCATACGAGATCGTGATGTGACTGGAGTTCAGACGTGTGC"
 
@@ -130,13 +144,14 @@ def protocol_graph():
                       MaterialKind.BIOLOGICAL,
                       state=molecule("repaired genomic DNA", (role("bait locus and repair junction"),)),
                       primary=True)
-    shear = graph.input("shear_condition", "sonication condition", MaterialKind.CONDITION)
+    shear = graph.input("shear_condition", "sonication to 0.3–2 kb (20 µg input per library)", MaterialKind.CONDITION)
     fragments = graph.product("fragments", "0.3–2-kb repair products",
                               MaterialKind.MOLECULAR, state=dna.state)
     graph.react("sonicate", "Sonicate repaired genomic DNA to 0.3–2 kb", StepKind.FRAGMENTATION,
                 ((dna, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
-    bait = graph.input("bait_primer", "5-prime-biotinylated bait primer", MaterialKind.OLIGO)
-    extension_enzyme = graph.input("extension_enzyme", "single-extension polymerase",
+    bait = graph.input("bait_primer", "5-prime-biotinylated bait primer within 200 bp of the cut site; five anneal/denature cycles at a length-dependent Ta",
+                       MaterialKind.OLIGO)
+    extension_enzyme = graph.input("extension_enzyme", "Bst polymerase 3.0 (NEB), 65 °C 10 min then 80 °C 5 min",
                                    MaterialKind.CATALYST)
     extended = graph.product("extended", "single-copy biotinylated extension strands",
                              MaterialKind.MOLECULAR, state=fragments.state)
@@ -144,17 +159,28 @@ def protocol_graph():
                 StepKind.EXTENSION,
                 ((fragments, InputRole.TEMPLATE), (bait, InputRole.STRUCTURAL),
                  (extension_enzyme, InputRole.CATALYST)), (extended,))
-    beads = graph.input("streptavidin", "streptavidin beads", MaterialKind.SELECTION)
+    cleanup = graph.input("primer_cleanup", "1.2× AxyPrep Mag bead clean-up, then 95 °C 5 min and ice to denature",
+                          MaterialKind.SELECTION)
+    denatured = graph.product("denatured", "denatured single-stranded extension products",
+                              MaterialKind.MOLECULAR, state=extended.state)
+    free_bait = graph.product("free_bait_primer", "excess biotinylated bait primer", MaterialKind.WASTE)
+    graph.react("deplete_primer", "Remove excess bait primer and denature the extension products",
+                StepKind.CLEANUP,
+                ((extended, InputRole.TEMPLATE), (cleanup, InputRole.SELECTION)),
+                (denatured, free_bait))
+    graph.discard(free_bait, "removed with the bead clean-up supernatant")
+    beads = graph.input("streptavidin", "Dynabeads MyOne Streptavidin C1, B&W-buffer washes",
+                        MaterialKind.SELECTION)
     captured = graph.product("captured", "bead-bound bait extensions",
                              MaterialKind.MOLECULAR, state=extended.state)
     rejected = graph.product("uncaptured", "uncaptured extension material", MaterialKind.WASTE)
     graph.react("capture", "Capture biotinylated extension strands", StepKind.AFFINITY_CAPTURE,
-                ((extended, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                ((denatured, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
                 (captured, rejected))
     graph.discard(rejected, "lacks a captured biotinylated bait extension")
     bridge = graph.input("bridge_adapter", "blocked random-molecular-barcode bridge adapter",
                          MaterialKind.ADAPTER)
-    ligase = graph.input("bridge_ligase", "single-strand bridge ligase",
+    ligase = graph.input("bridge_ligase", "T4 DNA ligase (Thermo Fisher) on beads in 15% PEG8000, room temperature overnight",
                          MaterialKind.CATALYST)
     tagged = graph.product("tagged", "RMB-tagged captured strands",
                            MaterialKind.MOLECULAR, state=captured.state)
@@ -166,7 +192,7 @@ def protocol_graph():
                     "The source gives the bridge oligos and blocking groups, but this graph does not yet reconstruct the on-bead single-strand ligation substrate as a Scene."))
     nested_f = graph.input("nested_forward", "nested bait-side PCR primer", MaterialKind.OLIGO)
     nested_r = graph.input("nested_reverse", "bridge-side indexed PCR primer", MaterialKind.OLIGO)
-    nested_polymerase = graph.input("nested_polymerase", "nested-PCR polymerase",
+    nested_polymerase = graph.input("nested_polymerase", "Taq (Transgen), on-bead nested PCR, 16 cycles",
                                     MaterialKind.CATALYST)
     nested = graph.product("nested", "nested target-enriched PEM-seq amplicons",
                            MaterialKind.MOLECULAR, state=tagged.state)
@@ -177,10 +203,42 @@ def protocol_graph():
                 geometry=PCRGeometry.unavailable(
                     FINAL_LIBRARY, reason="Nested amplification precedes the exact final tagging-PCR construct."))
     reviewed = ["dna", "shear_condition", "sonicate", "bait_primer", "extension_enzyme",
-                "extend", "streptavidin", "capture", "bridge_adapter", "bridge_ligase",
+                "extend", "primer_cleanup", "deplete_primer", "denatured",
+                "streptavidin", "capture", "bridge_adapter", "bridge_ligase",
                 "ligate_bridge", "nested_forward", "nested_reverse", "nested_polymerase",
                 "nested_pcr"]
-    _finish_pcr(graph, "tagging", nested, FINAL_LIBRARY, SEQ_PRIMERS,
-                SEQUENCING_INTRO, reviewed, label="PEM-seq tagging")
+    size_beads = graph.input("size_selection", "Axygen size-selection bead recovery of the nested product",
+                             MaterialKind.SELECTION)
+    sized = graph.product("sized_nested", "size-selected nested amplicons",
+                          MaterialKind.MOLECULAR, state=nested.state)
+    short_products = graph.product("short_products", "short nested-PCR products and primers",
+                                   MaterialKind.WASTE)
+    graph.react("size_select", "Recover the nested product on size-selection beads",
+                StepKind.SELECTION,
+                ((nested, InputRole.TEMPLATE), (size_beads, InputRole.SELECTION)),
+                (sized, short_products))
+    graph.discard(short_products, "removed with the size-selection supernatant")
+    # Table S11 prints P5-I5 split across two table cells ("...TAC ACA CAC" and
+    # "TCT TTC CCT ACA CGA CGC"), so no contiguous source line carries the whole
+    # oligo; it is declared by name here and transcribed in the selftest instead.
+    tag_f = graph.input("tagging_forward", "P5-I5 tagging primer (Table S11, printed in two cells)",
+                        MaterialKind.OLIGO)
+    tag_r = graph.input("tagging_reverse", "P7 tagging primer", MaterialKind.OLIGO,
+                        state=Construct([Segment("P7 tagging primer", PEM_P7)]),
+                        source="Yin 2019 Supplementary Table S11")
+    tag_pol = graph.input("tagging_polymerase", "FastPfu (Transgen) tagging PCR",
+                          MaterialKind.CATALYST)
+    library = graph.product("tagging_library", "PEM-seq sequencing library",
+                            MaterialKind.LIBRARY, state=FINAL_LIBRARY)
+    graph.react("tagging_pcr", "Tagging PCR adds the Illumina P5 and P7 ends", StepKind.PCR,
+                ((sized, InputRole.TEMPLATE), (tag_f, InputRole.STRUCTURAL),
+                 (tag_r, InputRole.STRUCTURAL), (tag_pol, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,
+                    reason="Both tagging primers are exact source sequences; the nested template is not represented as an exact Construct, so binding is not computed."))
+    graph.sequence(library, SequencingPlan(library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
+                                           limitation=""))
+    reviewed.extend(("size_selection", "size_select", "tagging_forward", "tagging_reverse",
+                     "tagging_polymerase", "tagging_pcr", "tagging_library"))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

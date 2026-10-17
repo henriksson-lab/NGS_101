@@ -5,12 +5,17 @@
     {
       "id": "miura_2020",
       "role": "defining",
-      "locator": "https://doi.org/10.1038/s41596-020-0378-5",
-      "availability": "unavailable",
+      "locator": "https://doi.org/10.1038/s41596-020-0378-5 (publisher PDF on disk: /husky/henriksson/NGS101_papers/sources/screpli-seq__10.1038+s41596-020-0378-5/s41596-020-0378-5.pdf.txt)",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Publisher PDF of record (printed doi verified), .txt lines 570-590, 853-866, 1160-1170, 1462-1483 (Reagents incl. TPC1/TPC2), Procedure Steps 17-79 lines 1715-2143, Step 82 2340-2425, Step 88 2500-2515, Troubleshooting 3240-3280",
+        "finding": "Article gives the full wet-lab route (lysis/heat fragmentation, SeqPlex DOP-PCR-based WGA 24 cycles, Eco57I adaptor digestion and 1.8x AMPure removal, KAPA LTP end repair/A-tailing/NEXTflex adaptor ligation, 5-7-cycle TPC1/TPC2 PCR, 0.9x AMPure) and HiSeq 1500 80-bp single reads; prints TPC1/TPC2 with phosphorothioate but not SeqPlex primer, SEQXE adaptor or NEXTflex adaptor sequences, nor index read length."
+      },
       "pass_2": null,
-      "reason": "Publisher article/complete original procedure is gated; the source bundle contains only its supplements."
+      "reason": "Defining article obtained 2026-10-17 by hand (institutional network); one pass only."
     },
     {
       "id": "supp_figures",
@@ -215,5 +220,59 @@
       "evidence": "Published software reports a predicted read pattern, but original wet-lab procedure and kit documentation remain to be independently checked."
     }
   ],
-  "conclusion": "The source-observed trimming patterns are recorded as analysis evidence, not substituted for a synthesized SeqPlex primer. Missing reagent geometry remains blocked."
+  "conclusion": "The source-observed trimming patterns are recorded as analysis evidence, not substituted for a synthesized SeqPlex primer. Missing reagent geometry remains blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Defining Nature Protocols article paywalled (manual https://doi.org/10.1038/s41596-020-0378-5; get_sources re-run, no open full text). Read: publisher MOESM1 Supplementary Figs 1-3 and Supplementary Note lines 15-82 (25%-S/mid-S/75%-S PI gates line 17-20, 43-52; Illumina/SEQXE trimming line 75); MOESM3 Supplementary Software 1 steps 82-83 lines 356-440 (5-prime SEQXE, single 6-nt index trim pattern 386, predicted SEQXE 423) and step 88 lines 606-616 (R1-only bwa aln/samse); WGA bias lines 925-949; MOESM4 Software 2 lines 81-82; PMC8812816 header/lines 53, 89, 808-820 identity check only",
+      "oligo_scraper": "Bundle scraper: 5 hits (Software 1 lines 386/423, Software 2 lines 81/82, PMC8812816 line 89), all checked in source; no synthesized SeqPlex primer or adapter bases.",
+      "findings": "Read layout corrected: published pipeline maps Read 1 only (bwa aln/samse, Software 1 step 88) after trimming Illumina adapter and 5-prime SEQXE handle; R2 optional; single 6-nt index trim example; read length not stated. Final insert role now notes Read 1 may begin in a SEQXE handle. Page caveat and workflow now say fragmentation/end-repair/dA/ligation/index-PCR is a generic route and the library kit (KAPA LTP/NEBNext Ultra II in earlier notes) is unverified because the article is paywalled; SeqPlex kit name not printed in inspected supplements. Note corrected: PMC8812816 is Bartlett/Dileep/Baslan/Gilbert Curr Protoc 2022, not a Miura review; claims dependent only on the gated article downgraded to inferred.",
+      "deferred": [
+        "Defining Nature Protocols 2020 article full text (paywalled; wet-lab procedure, kit names, library prep, sequencing read length)",
+        "SeqPlex Enhanced DNA Amplification kit manual of the cited generation (primer/end geometry)",
+        "Whether a fragmentation step precedes library prep",
+        "Selected library kit and index set, acquired read length"
+      ],
+      "scope": "Capped supplement-only pass; defining original unavailable; no missing-information claim accepted.",
+      "verification": "local suite comment-only (0 explicit checks) pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/17 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 8 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Defining Nature Protocols article still unobtainable: Unpaywall is_oa false, OpenAlex only doi.org/PubMed, Europe PMC PMID 33230331 without PMCID, Crossref links nature.com only, PMC Cloud no record (manual https://doi.org/10.1038/s41596-020-0378-5). Read: authors' GEO series GSE138634 (PubMed 33230331) SOFT record and all 26 GSM records (geo_GSE138634_samples-gsm.txt): Sample_extract_protocol_ch1 paragraphs 1-2 (identical in all 26), Sample_data_processing lines, Sample_instrument_model (24 HiSeq 1500, 2 Ion Torrent Proton).",
+      "oligo_scraper": "Not separately needed: GEO SOFT text contains no oligo sequences; prior bundle scrape (5 hits) unchanged.",
+      "findings": "WGA kit now sourced: SeqPlex (Sigma SEQXE) for FACS-sorted cells (WGA4 for micromanipulated cells, not drawn). Replaced the generic sonication step with AMPure XP purification/size selection and Eco57I SEQXE primer-removal digestion (150-200 bp peak, MultiNA), drawn with possible residual SEQXE handle. Library kit now KAPA LTP KK8232 (unstated modifications after Kadota 2017) with indexed SeqCap adapter kit A/B or NEXTflex barcode adapters; index carried by the ligated adapter; library PCR primers marked inferred and PCR not stated. HiSeq 1500 80/84/127 nt single-read or paired-end recorded (no per-sample length assigned); Ion Proton variant noted, not drawn. Removed unsupported 'DOP-PCR' description of SeqPlex.",
+      "deferred": [
+        "Defining Nature Protocols 2020 full text (paywalled; conditions, KAPA modifications, PCR, read lengths)",
+        "SeqPlex Enhanced DNA Amplification kit technical bulletin of the cited generation (primer/end geometry, Eco57I step)",
+        "SeqCap adapter kit A/B and NEXTflex DNA barcode adapter sequences",
+        "Kadota et al. Sci. Rep. 2017 library modifications; Baslan et al. Genome Res. 2015 sample preparation"
+      ],
+      "scope": "Capped follow-up; defining article still unread, deposited GEO protocol text used as a labelled secondary original; no accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks) pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/19 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Defining Nature Protocols article, publisher PDF s41596-020-0378-5.pdf (hand-placed; printed doi:10.1038/s41596-020-0378-5, title, authors Miura...Hiratani, Takebayashi, Nat Protoc 15:4058-4100 verified; MANIFEST row). .txt lines 570-590 (WGA overview), 853-866 (library prep and sequencing), 1160-1170, 1462-1483 (Reagents, TPC1/TPC2), 1715-2143 (Procedure Steps 17-79), 2340-2425 (Step 82), 2500-2515 (Step 88), 3240-3280 (Troubleshooting). Steps 1-16 and 89-95 not re-read.",
+      "oligo_scraper": "scrape_primers on the article .txt: 3 hits - TPC1 AATGATACGGCGACCACCGA*G (line 1480, contains P5 nt1-21), TPC2 CAAGCAGAAGACGGCATACGA*G (line 1482, contains P7 nt1-22), Step 82 Illumina single-index trimming pattern (line 2350); all verified in text.",
+      "findings": "Library PCR now drawn: TPC1/TPC2 (phosphorothioate) with KAPA HiFi HotStart ReadyMix, 5-7 cycles by real-time PCR (published 5-6), exact geometry computed on inferred TruSeq-type ends; 0.9x AMPure dimer-removal cleanup added. Lysis/proteinase K + 99 C heat-fragmentation step added before WGA; SeqPlex restored as DOP-PCR-based (article lines 574-575) with pre-amplification and 24-cycle conditions. Eco57I now yields digested ~40-bp SEQXE adaptors removed by a represented 1.8x AMPure separation. Adaptor corrected to NEXTflex DNA Barcodes - 48 (Step 58; dual-index allowed); SeqCap only in GEO. Final library adaptors marked inferred, 6-nt i7. Read layout: HiSeq 1500 80-bp single read, Read 1 + Index 1 acquired (index length unstated). TPC oligos shown verbatim on page and given exact states.",
+      "deferred": [
+        "SeqPlex Enhanced DNA Amplification Kit technical bulletin (SeqPlex primer and SEQXE adaptor sequences, Eco57I site geometry)",
+        "NEXTflex DNA Barcodes - 48 (Bioo 514104) adaptor sequences and end structure",
+        "Index read length of the 80-bp single-read HiSeq runs",
+        "Kadota 2017 Sci Rep (ref. 43) KAPA LTP modification; Sasagawa 2013 Quartz-seq (ref. 64) TPC primer origin",
+        "Second independent reader of the article row"
+      ],
+      "scope": "Capped bounded pass on the newly obtained defining article; one reader; no accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks) pass; page builds; pairing 0 problems; chemistry 0 established/2 conditional/23 unresolved/0 contradictory; source guard 4 exact checked (TPC1/TPC2 x S-phase/G1), 0 failed, 4 inputs without exact states (SeqPlex primers); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

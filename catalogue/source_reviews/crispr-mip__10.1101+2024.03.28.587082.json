@@ -190,5 +190,24 @@
       ],
       "state": "full_original_access_unresolved"
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "bioRxiv v1 2024.03.28.587082_v1.full.pdf.txt lines118–136 (design overview, P5/P7 in captured sequence, 60/15 read profile), 458–493 (probe design; Steps1–4 reaction conditions, KAPA PCR, AMPure XP, Qubit/Bioanalyzer), 494–523 (PCR comparator, R1/R2 positional extraction); Table S2 media-2.xlsx.txt primers & probes rows1–40",
+      "oligo_scraper": "Bundle scraper run (31 TSV rows); text hits for extension/ligation arms at lines461–462 match EXT_ARM/LIG_ARM; Table S2 MIP_probe_1–9 and P5_tracrRNA_fwd/P7_tracrRNA_rev rows re-read against the module (already transcription-checked by the local suite).",
+      "findings": "Probe/primer sequences, 5'-phosphate, N13 UMI, 8-nt i7 set, 112 gap and 60/15 read profile agree with the module. Corrected missing reaction details in PROTOCOL, page and note: 20 µl hybridisation, 10 µl pre-heated mix with 5 U Ampligase, single 100 µl KAPA HiFi HotStart ReadyMix PCR of the whole 31 µl reaction with 95C3min/n×(98C20s,60C15s,72C30s)/72C30s, n by qPCR, post-PCR AMPure XP cleanup and Qubit/Bioanalyzer QC. Scoped the earlier 'no bead cleanup' statement to the selection steps. Existing 134 (Methods text) vs 126 nt (Table S2) discrepancy notice retained.",
+      "deferred": [
+        "Published peer-reviewed version not searched in this capped pass (preprint v1 used)",
+        "Hardenbol2003/Akhras2007/Li2009 MIP predecessor methods (cached, not re-read)",
+        "AMPure XP ratio and i7 index-read cycle count (not stated in passages read)",
+        "Broad GPP pDNA amplification/sequencing protocols (comparator PCR only)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 178 passed; page builds; pairing 0 problems; check_chemistry not applicable (no protocol_graph declaration: 'expected one graph declaration, found 0'); source guard 0 checked/0 failed/0 graphs; dependent crispr-umi-schmierer suite 206 passed; Markdown built; review schema (audit --check) pass"
+    }
   ]
 }

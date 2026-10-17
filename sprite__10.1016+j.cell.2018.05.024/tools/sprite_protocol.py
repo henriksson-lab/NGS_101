@@ -93,7 +93,7 @@ INITIAL_NAME="Native multi-molecule chromatin complex"
 
 def sections(): return [
  ("Crosslink, isolate and fragment chromatin",COMPLEX.complex().rows(),"DSG and formaldehyde preserve separate molecules in one multiway complex; sonication and DNase make sequenceable fragments."),
- ("Immobilize intact complexes and repair DNA ends",COMPLEX.complex().rows(),"The drawn members remain separate molecules in one bead-bound complex. Low complex loading and detergent washes reduce accidental co-barcoding; repair creates a common ligation substrate."),
+ ("Immobilize intact complexes and repair DNA ends",COMPLEX.complex().rows(),"The drawn members remain separate molecules in one bead-bound complex. Low complex loading and detergent washes reduce accidental co-barcoding. T4 PNK, NEBNext End Repair and Klenow exo− dA-tailing create a common ligation substrate."),
  ("Perform five split-pool tag ligations",ligation_round_rows(TAGS),"The published order is DPM, Odd, Even, Odd, Terminal. Original Table S5 supplies the actual ordering oligos; barcode-column lengths and invariant flanks must be distinguished from complete tag lengths."),
  ("Reverse crosslinks and PCR-complete the library",[Row(chunks=[("PCR arm → DPM → genomic DNA → opposite DPM → Odd → Even → Odd → Terminal → PCR arm",None,False)])],"Terminal and DPM arms provide the two library-PCR entry sites; molecules are grouped after sequencing by the full tag combination."),
 ]
@@ -161,13 +161,28 @@ def protocol_graph():
                 ((fragmented,InputRole.TEMPLATE),(nhs,InputRole.SELECTION)),
                 (immobilized,unbound))
     graph.discard(unbound,"complexes not immobilized on the sparsely loaded beads are washed away")
-    end_enzyme=graph.input("end_repair_enzymes","DNA end-repair and dA-tailing enzymes",
+    # 2018 Methods "DNA Repair" (JATS lines 953-967): three bead-bound enzymatic
+    # steps, each quenched with Modified RLT and buffer-exchanged.
+    pnk=graph.input("t4_pnk","T4 Polynucleotide Kinase (NEB), 37 °C 1 h",MaterialKind.CATALYST)
+    phosphorylated=graph.product("phosphorylated_complex","immobilized complex with 5′-phosphorylated DNA ends",
+                                 MaterialKind.MOLECULAR)
+    graph.react("phosphorylate","Phosphorylate DNA ends with T4 PNK",StepKind.PHOSPHORYLATION,
+                ((immobilized,InputRole.TEMPLATE),(pnk,InputRole.CATALYST)),(phosphorylated,))
+    end_enzyme=graph.input("end_repair_enzymes","NEBNext End Repair Enzyme cocktail (T4 DNA polymerase, T4 PNK), 20 °C 1 h",
                            MaterialKind.CATALYST)
-    repaired=graph.product("repaired_complex","immobilized complex with ligatable DNA ends",
+    blunted=graph.product("blunted_complex","immobilized complex with blunt, phosphorylated DNA ends",
+                          MaterialKind.MOLECULAR)
+    graph.react("end_repair","Blunt and phosphorylate DNA ends",StepKind.END_REPAIR,
+                ((phosphorylated,InputRole.TEMPLATE),(end_enzyme,InputRole.CATALYST)),(blunted,))
+    klenow=graph.input("klenow_exo_minus","Klenow fragment 3′→5′ exo− (NEBNext dA-tailing Module), 37 °C 1 h",
+                       MaterialKind.CATALYST)
+    repaired=graph.product("repaired_complex","immobilized complex with dA-tailed DNA ends",
                            MaterialKind.MOLECULAR)
-    graph.react("end_repair","Repair, phosphorylate and dA-tail DNA ends",StepKind.END_REPAIR,
-                ((immobilized,InputRole.TEMPLATE),(end_enzyme,InputRole.CATALYST)),(repaired,))
-    ligase=graph.input("dna_ligase","DNA ligase",MaterialKind.CATALYST)
+    graph.react("da_tail","dA-tail DNA ends",StepKind.TAILING,
+                ((blunted,InputRole.TEMPLATE),(klenow,InputRole.CATALYST)),(repaired,))
+    ligase=graph.input("dna_ligase","2X Instant Sticky End Ligation Master Mix (NEB), 20 °C 1 h per round",MaterialKind.CATALYST)
+    wash=graph.input("tag_wash","Modified RLT inactivation, pooling and three 45 °C SPRITE Wash Buffer washes",
+                     MaterialKind.SELECTION)
     current=repaired
     round_ids=("dpm","odd_1","even","odd_2","terminal")
     round_labels=("DPM","Odd 1","Even","Odd 2","Terminal")
@@ -183,10 +198,16 @@ def protocol_graph():
                      (ligase,InputRole.CATALYST)),(product,),
                     geometry=AdapterLigationGeometry.unavailable(
                         "The source establishes the ordered covalent tag ligation but the compact module does not encode the junction-end geometry."))
-        current=product
+        washed=graph.product(identifier+"_washed",label+"-tagged complexes after pooling and washes",
+                             MaterialKind.MOLECULAR,state=product.state)
+        free=graph.product(identifier+"_free_tags","unligated "+label+" tags",MaterialKind.WASTE)
+        graph.react("wash_"+identifier,"Inactivate ligase, pool and wash away free "+label+" tags",
+                    StepKind.CLEANUP,((product,InputRole.TEMPLATE),(wash,InputRole.SELECTION)),(washed,free))
+        graph.discard(free,"Methods: free tags are removed by three 45 °C SPRITE Wash Buffer washes after each round")
+        current=washed
         if identifier=="dpm":
             current=_dpm_qc_branch(graph,current)
-    reversal=graph.input("crosslink_reversal","crosslink-reversal and protein-digestion condition",
+    reversal=graph.input("crosslink_reversal","Proteinase K (NEB) 50 °C 1 h, then crosslink reversal overnight at 65 °C",
                          MaterialKind.CONDITION)
     released=graph.product("released_tagged_dna","released five-part-tagged DNA",
                            MaterialKind.MOLECULAR,
@@ -194,15 +215,29 @@ def protocol_graph():
     graph.react("reverse_crosslinks","Reverse crosslinks and release tagged DNA",
                 StepKind.DEPROTEINIZATION,
                 ((current,InputRole.TEMPLATE),(reversal,InputRole.CONDITION)),(released,))
+    zymo=graph.input("zymo_column","Zymo DNA Clean and Concentrator, 7x Binding Buffer",MaterialKind.SELECTION)
+    purified=graph.product("purified_tagged_dna","column-purified five-part-tagged DNA",
+                           MaterialKind.MOLECULAR,state=released.state)
+    zymo_flow=graph.product("zymo_flowthrough","column flow-through and washes",MaterialKind.WASTE)
+    graph.react("column_cleanup","Isolate released DNA on Zymo columns",StepKind.CLEANUP,
+                ((released,InputRole.TEMPLATE),(zymo,InputRole.SELECTION)),(purified,zymo_flow))
+    graph.discard(zymo_flow,"unbound digestion material removed by the column")
+    released=purified
     fwd=graph.input("dpm_pcr_primer","DPM-arm library PCR primer",MaterialKind.OLIGO, state=Segment("PCR forward",PCR_FORWARD))
     rev=graph.input("terminal_pcr_primer","Terminal-arm library PCR primer",MaterialKind.OLIGO, state=Segment("PCR reverse",PCR_REVERSE))
-    pol=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
-    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+    pol=graph.input("pcr_polymerase","Q5 Hot-Start Mastermix (NEB)",MaterialKind.CATALYST)
+    amplified=graph.product("amplified_library","amplified SPRITE library before bead cleanup",MaterialKind.LIBRARY,state=FINAL_LIBRARY)
     graph.react("library_pcr","PCR-complete the SPRITE library",StepKind.PCR,
                 ((released,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),
-                 (rev,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(library,),
+                 (rev,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(amplified,),
                 geometry=PCRGeometry.unavailable(
                     FINAL_LIBRARY,reason="The compact model does not reconstruct both PCR-primer binding states."))
+    spri=graph.input("spri_beads","0.7X SPRI (AMPure XP), performed twice",MaterialKind.SELECTION)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+    spri_waste=graph.product("spri_supernatant","excess primers and adaptors in SPRI supernatants",MaterialKind.WASTE)
+    graph.react("spri_cleanup","Clean up the library twice with 0.7X SPRI",StepKind.CLEANUP,
+                ((amplified,InputRole.TEMPLATE),(spri,InputRole.SELECTION)),(library,spri_waste))
+    graph.discard(spri_waste,"Methods: two 0.7X SPRI cleanups remove excess primers and adaptors")
     graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
                                           primers=tuple(SEQ_PRIMERS),
                                           read_lengths=READ_LENGTHS))
@@ -233,15 +268,16 @@ def protocol_graph():
         uncertainty="The shorter length wording may refer to a primer subregion, but the guide does not identify one. No source correction is established.",
         slot=AnnotationSlot.INTRO))
     graph.annotate(Highlight(
-        target="end_repair",title="Historical guide overhang wording remains qualified",
+        target="da_tail",title="Historical guide overhang wording remains qualified",
         explanation="Both 2018 DNA guides, section 3.1, call the target end a 5-prime A overhang, while their diagram places A at the genomic 3-prime ends. This page records the stated dA-tailing operation without resolving the physical DPM junction or silently adopting the conflicting polarity label.",
         slot=AnnotationSlot.INTRO))
     scope=["chromatin_complex","crosslinkers","crosslink","fragmentation_condition",
-           "fragment","nhs_beads","immobilize","end_repair_enzymes","end_repair",
-           "dna_ligase"]
+           "fragment","nhs_beads","immobilize","t4_pnk","phosphorylate",
+           "end_repair_enzymes","end_repair","klenow_exo_minus","da_tail","dna_ligase","tag_wash"]
     for identifier in round_ids:
-        scope.extend((identifier+"_adapter","ligate_"+identifier))
-    scope.extend(("crosslink_reversal","reverse_crosslinks","dpm_pcr_primer",
-                  "terminal_pcr_primer","pcr_polymerase","library_pcr","library"))
+        scope.extend((identifier+"_adapter","ligate_"+identifier,"wash_"+identifier,identifier+"_free_tags"))
+    scope.extend(("crosslink_reversal","reverse_crosslinks","zymo_column","column_cleanup",
+                  "zymo_flowthrough","dpm_pcr_primer","terminal_pcr_primer","pcr_polymerase",
+                  "library_pcr","amplified_library","spri_beads","spri_cleanup","spri_supernatant","library"))
     graph.declare_reviewed_scope(scope,SOURCE)
     return graph.require_publishable()

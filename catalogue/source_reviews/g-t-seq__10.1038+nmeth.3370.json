@@ -187,5 +187,44 @@
       "evidence": "The original 2015 Online Methods lines 612-623 choose MDA or PicoPLEX and Nextera XT, but do not choose individual index members or disclose proprietary WGA primer compositions; contemporaneous vendor documents have not yet been independently checked."
     }
   ],
-  "conclusion": "The original 2015 Methods are recovered and establish the defining capture, TSO and PCR oligos. The two-base TSO difference from the 2016 author protocol is disclosed on the page. Downstream vendor kit identity and selected index members remain blocked; no missing information is accepted."
+  "conclusion": "The original 2015 Methods are recovered and establish the defining capture, TSO and PCR oligos. The two-base TSO difference from the 2016 author protocol is disclosed on the page. Downstream vendor kit identity and selected index members remain blocked; no missing information is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining 2015 Online Methods PDF not readable this pass (ResearchGate HTTP 403 via get_sources; Europe PMC PMID 25915121 has no open copy). Read: 2015 figure supplement MOESM222 legends (lines 1–141); 2016 Nat Protoc author manuscript (Edinburgh Research Explorer) oligo list lines 640–658, separation steps 17–28 lines 782–884, RT step 29, ISPCR/KAPA WTA steps 31–34, AMPure cleanups steps 35–54 (lines 1032–1092), WGA paths lines 1092–1270",
+      "oligo_scraper": "Not productive for the unreadable 2015 Methods; 2016 oligo list read directly at lines 644–658 (Biotin-TEG dT30VN, TSO ...ACATrGrG+G, ISPCR).",
+      "findings": "Model correction: the template-switch panel/graph state used the shared rna_special.template_switch_scene with a symbolic 14-nt handle, dT14 and an rGrGrG TSO end, contradicting the printed rGrG+G end (2016 lines 652–653; 2015 lines 597–599 per earlier reading). Replaced with a local scene from the printed capture oligo and 2015 TSO; untemplated C additions are an inferred segment with INFERRED caption and caveat. Existing 2015/2016 TSO AT difference notice retained. MOESM222 is figure legends only.",
+      "deferred": [
+        "Re-read 2015 Online Methods lines 554–623 once a copy is in the bundle (manual URL: ResearchGate author upload, HTTP 403)",
+        "2016-only details (wash pooling into gDNA plate, AMPure 1:1/0.75:1, KAPA HiFi, RT temperatures) not imported into 2015 graph",
+        "Nextera XT index members and historical Nextera XT guide",
+        "GenomiPhi V2 / PicoPLEX kit primers",
+        "Picelli 2014 Smart-seq2 predecessor",
+        "Tagmentation waste discard fate relies on non-amplification via shared finish_pcr_branch route"
+      ],
+      "scope": "Capped pass; defining Online Methods unavailable, partial only; no accepted missing-information claim.",
+      "verification": "local suite 1 check passes; page builds; pairing 0 problems; chemistry 3 established/0 conditional/15 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 7 inputs without exact states (capture_oligo VN, transposomes, index primers); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Obtained defining 2015 accepted author manuscript (Zenodo record 895966 article.pdf, md5 677a83c8..., linked by Europe PMC as free full text for PMID 25915121; OpenAlex/PMC: no other open copy) and placed in bundle with MANIFEST row. Read Online Methods extracted lines 309-367: capture oligo 318-324, washes pooled into gDNA 325-332, RT mastermix/TSO/temperatures 333-340, KAPA HiFi PCR primer 18 cycles 341-345, AMPure 1:1 cDNA, 0.6x gDNA into GenomiPhi V2 or PicoPlex, WGA 1:1 345-356, Nextera XT 358-360. 2016 Nat Protoc oligo list 644-658 rechecked for the TSO AT difference.",
+      "oligo_scraper": "Scraper on the manuscript: 3 hits, capture oligo line319 (T30VN), TSO line336 (rGrG+G), PCR primer line342; all verified in the text.",
+      "findings": "2015 values previously resting on a web-viewer reading are confirmed verbatim: biotin-TEG AAGCAGTGGTATCAACGCAGAGTAC-T30VN, TSO AAGCAGTGGTATCAACGCAGAGTACrGrG+G, PCR primer AAGCAGTGGTATCAACGCAGAGT. Corrected source locators in module and note to the bundled manuscript; RT, WTA PCR and WGA enzyme inputs now name SuperScript II, KAPA HiFi HotStart (18 cycles) and GenomiPhi V2/PicoPlex; removed the TSO source-oligo exception (now 3 exact inputs verified). 2015/2016 TSO AT difference retained on page as a version difference.",
+      "deferred": [
+        "Typeset 2015 article not compared against the accepted manuscript (publisher paywall, https://doi.org/10.1038/nmeth.3370)",
+        "Nextera XT index members and historical Nextera XT guide",
+        "GenomiPhi V2 / PicoPlex kit primers",
+        "Picelli 2014 Smart-seq2 predecessor",
+        "WTA PCR binding geometry not placed in generic cDNA state"
+      ],
+      "scope": "Capped pass; defining Online Methods now read from the accepted manuscript; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1 check passes; page builds; pairing 0 problems; chemistry 3 established/0 conditional/15 unresolved/0 contradictory; source guard 3 exact checked, 0 failed, 7 inputs without exact states (TSO exception removed); Markdown built (note, ref manifest); review schema (audit --check) pass"
+    }
+  ]
 }

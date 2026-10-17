@@ -210,5 +210,25 @@
     "Klenowcopy andseparateA-tail, namedfragmentendrepair/dT andsourceT4/KAPAreagentsdeclaredlocally.",
     "Physicalsize-selectionwaste separatedfromcomputationaltag/spacer/consensusfiltering; no sequencing-filterdiscard representedasphysicalselection.",
     "PCRreverse23baseannealingarm correctedfrominitialrepositorysummary24base count by actualsource-backedtest."
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PNAS PMC3437896 article html.txt Results1159/1167 (Fig1 legend), Methods Adapter Synthesis1238–1240 and library prep1243; USPTO exhibit PDF of article+SI 'Supporting Information Corrected March 27, 2013' text1010–1107 (Adapter Synthesis, Sequencing Library Preparation, PCR Amplification and DNA Sequencing, Data Processing) and processing overview/tag examples1138–1232",
+      "oligo_scraper": "Bundle scraper run: corrected-SI hits lines1017 (58-nt primer strand, /5phos/ 50-nt template) and1078 (21-nt forward, P7+XXXXXX+23-nt reverse) match the module; nprot2014 MWS51/MWS55/MWS13/MWS20/MWS21 hits are the later redesign and were not transferred; MOESM449 hits are target primers.",
+      "findings": "Oligos, adapter copy/blunt-plus-dA mixture then dATP-only Klenow tailing, fragment dT-tailing, T4 ligation, KAPA PCR, CAGTA spacer and αβ/βα processing re-verified unchanged. Added the source AMPure purifications missing from the graph: 2 vol after shearing, two-sided 0.7 + 0.65 vol selection with both >500 bp (bound, discarded) and sub-~200 bp (unbound) fractions, 1.2 vol after dT-tailing, 0.8 vol after 25 °C 15 min ligation; waste typed as bead supernatant/washes without itemized species. PCR step now shows 40 amol input and 18–20 cycles (SI and article1243 agree). No published discrepancy found.",
+      "deferred": [
+        "Historical NEB DNA End Repair kit and AMPure XP manufacturer protocols (revision unidentified)",
+        "Pre-correction 2012 SI comparison",
+        "Adapter-synthesis ethanol precipitations not drawn as steps",
+        "Acquired HiSeq 2000 read/index cycle counts (not stated)",
+        "SI Fig S1/Table S1 figure image not visually audited"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 6 checks passed; page builds; pairing 0 problems; chemistry 11 steps 0 established/3 conditional/11 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 2 placeholder inputs (N12 template, XXXXXX reverse) without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
   ]
 }

@@ -547,5 +547,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent source passes now cover all 26 checklist entries. Readable originals and NEB E7335 establish single i7 indexing and the molecular workflow; exact selected index numbers remain blocked. Five original figure TIFFs, seven XLSB cell sets and three linked author DOCs are still unavailable, so no missing-information claim is accepted."
+  "conclusion": "Two independent source passes now cover all 26 checklist entries. Readable originals and NEB E7335 establish single i7 indexing and the molecular workflow; exact selected index numbers remain blocked. Five original figure TIFFs, seven XLSB cell sets and three linked author DOCs are still unavailable, so no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PLOS Biol PMC8021198 JATS Results lines 62-71 (TdT 1-4 rA tailing, Fig 1A legend, adapter roles, read polarity) and Methods 'TrAEL-seq library preparation and sequencing' lines 199-225 (adapter 1/2 preparation 203-211, tailing/ligation 217, DNA processing/Bst/sonication/C1 capture 219, on-bead Ultra II end prep/adapter 2/USER 221, PCR/AMPure 223, sequencing 225); S2 File detailed protocol pbio.3000886.s009.doc.txt lines 20-289",
+      "oligo_scraper": "Bundle scraper run; adapter 1/2 hits verified at JATS lines 205/211 and S2 File lines 224/231; Index 1/2 barcoded adapter-1 variants (lines 231-233) are the quantitative-comparison variant, not modelled; lines 245/249 are END-seq comparison adapters.",
+      "findings": "Corrected repository modelling errors: added TdT tailing with ATP (1-4 rA) before adapter-1 ligation with T4 RNA ligase 2 truncated KQ/PEG; added plug washes removing unligated adapter 1 and beta-agarase release; reordered streptavidin C1 capture before on-bead Ultra II End Prep and adapter-2 ligation, with bead washes removing adapter-2 homodimers and two USER elutions; adapter 2 geometry changed from blunt to its published single 3-prime T overhang (31-bp stem), dA junction marked inferred and page notice shows the source 'blunting' wording vs adapter structure; final library now UMI(8)+T tract+genomic complement after the Read 1 arm; Read 2 no longer acquired (50 SR MiSeq / 75 SE NextSeq); E7335S qualified as the paper's example index set; PCR polymerase/cycling and two AMPure cleanups added.",
+      "deferred": [
+        "NEBNext Ultra II E7645 vendor manual (End Prep dA-tailing, adapter-2 TA junction)",
+        "NEBNext Multiplex Oligos set and index actually used per library; index-read length",
+        "Houseley lab website up-to-date protocols and Canela END-seq predecessor",
+        "Barcoded adapter-1 (Index 1/2) quantitative variant with phosphatase step not drawn",
+        "Exact rA tail length distribution (1-4 nt) per end"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/1 conditional/13 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

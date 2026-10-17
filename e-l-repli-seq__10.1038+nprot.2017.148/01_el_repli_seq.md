@@ -6,7 +6,7 @@ Marchal C et al. *Genome-wide analysis of replication timing by next-generation 
 
 ## Sources read
 
-- 🟢 The complete defining protocol in [PMC6044726](https://pmc.ncbi.nlm.nih.gov/articles/PMC6044726/).
+- 🟢 The complete defining protocol in [PMC6044726](https://pmc.ncbi.nlm.nih.gov/articles/PMC6044726/) (PMC Cloud JATS; PROCEDURE Steps 1–81 re-read 2026-10-17).
 - 🟢 Its publisher Supplementary Data 1 and 2 (MOESM34) print the NEBNext adaptor, index-primer families, BrdU-IP qPCR primers and re-amplification primers. The oligo scraper was run on the original article and supplements; relevant hits were checked against those source lines.
 
 ## 1. What it is
@@ -15,20 +15,31 @@ Marchal C et al. *Genome-wide analysis of replication timing by next-generation 
 
 ## 2. Construct-changing steps
 
-1. 🟢 Pulse actively cycling cells for 2 h with 100 μM BrdU.
-2. 🟢 Ethanol-fix and sort early- and late-S fractions by DNA content.
-3. 🟢 Purify genomic DNA and sonicate it. The protocol processes the two fractions separately.
-4. 🟢 End-repair the DNA, dA-tail it and ligate universal Illumina adapters before BrdU immunoprecipitation.
-5. 🟢 Denature the adapter-ligated DNA and immunoprecipitate BrdU-containing nascent strands.
-6. 🟢 Add indices by PCR, pool and sequence.
+Article PROCEDURE step numbers (PMC6044726 JATS lines 306–601):
+
+1. 🟢 Add BrdU to 100 μM and incubate 2 h at 37 °C (Steps 1–2).
+2. 🟢 Fix in 75% ethanol, stain with PI/RNase A and sort 120,000 early- and 120,000 late-S cells (Steps 3–18).
+3. 🟢 Lyse in SDS-PK buffer (0.2 mg/ml proteinase K, 56 °C 2 h) and purify on a Zymo Quick-DNA Microprep column (Steps 19–24).
+4. 🟢 Covaris sonication to ~200 bp (175 W, 10% duty, 200 cycles/burst, 120 s; Steps 25–28).
+5. 🟢 One NEBNext Ultra End Prep reaction (End Prep Enzyme Mix, 20 °C 30 min then 65 °C 30 min; Steps 30–32). 🟡 The single 3′ dA is the kit's dA-tailing design; the article does not print it.
+6. 🟢 Ligate the NEBNext Adaptor (0.45 μM; diluted 1:10 below 100 ng) with Blunt/TA Ligase Master Mix plus Ligation Enhancer, 20 °C 15 min (Steps 33–34). 🟡 The adaptor's 12-bp terminal stem and 3′-T overhang are computed from the printed oligo (`lib/illumina.NEBNEXT_HAIRPIN_MODEL`, checked equal to the Supplementary Data 1 transcription at construction).
+7. 🟢 Add 3 μl USER, 37 °C 15 min (Steps 35–36), opening the deoxyU loop; then DNA Clean & Concentrator-5 (Step 37).
+8. 🟢 Library construction precedes the IP. Denature at 95 °C 5 min, ice 2 min; IP with mouse anti-BrdU then rabbit anti-mouse IgG, pellet at 16,000 g without beads, wash in IP buffer; the supernatant is removed (Steps 38–51).
+9. 🟢 Proteinase K overnight at 37 °C plus 60 min at 56 °C; DNA Clean & Concentrator-5 into 16 μl (Steps 52–55).
+10. 🟢 Optional adaptor qPCR (Step 56). Dual-index PCR with NEBNext Q5 Hot Start HiFi Master Mix and one unique i5/i7 pair per library: 98 °C 30 s; 14 cycles of 98 °C 10 s / 65 °C 75 s; 65 °C 5 min (Steps 57–58). Box 1 re-amplification uses TS-Oligo 1/2 when yield is low.
+11. 🟢 AMPure XP 90 μl per 100 μl PCR (0.9×), three 80% ethanol washes, elute in 33 μl (Steps 60–72); QC, pool at 10 nM (Steps 73–80).
 
 ## 3. Final library and reads
 
-🟢 These are conventional indexed Illumina genomic libraries. Normalized coverage is calculated separately for early and late fractions and reported as an early/late ratio.
+🟢 These are conventional dual-indexed Illumina genomic libraries. Step 81: sequence the pool on a HiSeq; "Generally, 50bp single-end reads is sufficient", and longer reads may be needed for SNP phasing. The analysis pipeline accepts single- or paired-end data. The model records Read 1 = 50 cycles plus both index reads. 🟡 Both index reads are required by the unique-i5/i7 design (Step 57); their acquired cycle counts are not printed, although the Supplementary Data 1 indexes are 8 nt.
 
-🟢 Supplementary Data 1 prints the NEBNext Adaptor for Illumina as `5′-/5Phos/GATCGGAAGAGCACACGTCTGAACTCCAGTC/ideoxyU/ACACTCTTTCCCTACACGACGCTCTTCCGATC*T-3′`, with an internal deoxyU and terminal phosphorothioate bond. It lists i5 and i7 index-primer families. Supplementary Methods print BrdU-IP adaptor qPCR primers `ACACTCTTTCCCTACACGACGC` and `GACTGGAGTTCAGACGTGTGC`; Supplementary Data 2 prints the two short re-amplification oligos.
+🟢 Supplementary Data 1 prints the NEBNext Adaptor for Illumina as `5′-/5Phos/GATCGGAAGAGCACACGTCTGAACTCCAGTC/ideoxyU/ACACTCTTTCCCTACACGACGCTCTTCCGATC*T-3′`, with an internal deoxyU and terminal phosphorothioate bond. It lists i5 (i501–i508) and i7 (i701–i712) index-primer families. Supplementary Methods 1 and Step 56 print BrdU-IP adaptor qPCR primers `ACACTCTTTCCCTACACGACGC` and `GACTGGAGTTCAGACGTGTGC`; Supplementary Data 2 prints the two short re-amplification oligos.
 
-🟡 The page uses a canonical Illumina library endpoint while keeping the annealed adaptor-end ligation geometry unresolved pending direct molecular pairing review. The source-printed adapter and primers are shown separately on the public page.
+🟡 The page uses a canonical TruSeq-type endpoint for the final library. Hairpin-ligated, USER-opened and IP intermediates are drawn as labelled regions rather than base-resolved duplexes.
+
+## Bounded pass 2026-10-17 (round breadth-first-09)
+
+Corrected the graph from the article's PROCEDURE: combined End Prep reaction, hairpin adaptor end geometry, the missing USER step and column cleanups, both denatured strands entering the IP (the unlabelled strand was previously discarded at denaturation), proteinase K release, the Q5 14-cycle PCR, AMPure cleanup, and 50-bp single-end reads (Read 2 no longer marked as acquired). Open questions: acquired index-read cycles; the NEB E7370 manual (End Prep composition and adaptor dU geometry beyond the printed oligo) was not read; Box 2 / Ryba et al. enrichment primer sets were not followed.
 
 ## 4. Boundary
 

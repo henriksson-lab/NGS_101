@@ -465,7 +465,7 @@ def protocol_graph() -> ProtocolGraph:
              (rtase, InputRole.CATALYST)), (copied,))
 
     redistribution = g.input("redistribution",
-                             "pooling and 15-20-nuclei-per-well redistribution",
+                             "pooling and ~20-nuclei-per-well redistribution (2 ul at 10 nuclei/ul)",
                              MaterialKind.CONDITION)
     redistributed = g.product("redistributed", "nuclei assigned a second plate coordinate",
                               MaterialKind.MOLECULAR, state=copied.state)

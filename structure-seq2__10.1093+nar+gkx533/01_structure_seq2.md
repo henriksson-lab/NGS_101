@@ -32,3 +32,16 @@ Inspected: Published PMC5737731 JATS63–105, DMS treatment, RT, purification va
 Added RNaseH digestion after SuperScriptIII55°C50min RT. Explicitly selected the PAGE branch and separated biotin/streptavidin and original-Structure-seq comparison variants. Confirmed published hairpin donor and single-read150.
 
 Deferred: Published SupplementaryFigS1 and full primer geometry, two PAGE selection states, selected index width and ligation temperature wording; no new publication error asserted. This pass does not establish a complete source review or publication-wide absence.
+
+## Reagent states (2026-10-17)
+
+- 🟢 RT primer `rt_primer`: 5′-CAGACGTGTGCTCTTCCGATCNNNNNN-3′, read from the rendered
+  Supplementary Figure S1 (File006 p. S2, step 1A, drawn 3′→5′); the extracted text has
+  no bases, so the source-oligo guard carries a declared figure-only exception.
+- 🟢 Hairpin donor `ligate_adapter`: Methods print
+  5′-pTGAAGAGCCTAGTCGCTGTTCANNNNNNCTGCCCATAGAG-3′-Spacer (C3); the same donor is drawn in
+  Figure S1 step 3A.
+- 🟢/🟡 Indexed reverse primer `library_reverse`: Methods print
+  5′-CAAGCAGAAGACGGCATACGAGAT-barcode-GTGACTGGAGTTCAGACGTGTGCTCTTCCGATC-3′ with a 6–8-nt
+  barcode. The fixed arms are verbatim; the six-base barcode window is the representative
+  member already used for the final library, not a source-fixed length.

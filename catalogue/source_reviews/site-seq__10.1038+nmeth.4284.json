@@ -86,5 +86,25 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Core detailed method and oligo table read, but unavailable defining article and second reader prevent acceptance of missing claims."
+  "conclusion": "Core detailed method and oligo table read, but unavailable defining article and second reader prevent acceptance of missing claims.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Supplementary Protocol (March 2017) MOESM94 pdf.txt lines 33-105 (reagents + oligo table), 163-202 (C: RNP 0.25-1024nM, 37C 4h), 203-287 (D-F: SPRI1, Klenow dA-tailing 37C 30min, Adapter 1 anneal 95C->RT, Quick Ligase 20C 30min then 16C overnight, SPRI2 adapter-dimer removal), 288-339 (G-H: Fragmentase 37C 1h + EDTA, SPRI3), 341-383 (I: NEBNext Ultra End Repair/dA-tailing 20C 30min/65C 30min, Adapter 2 anneal, Blunt/TA Ligase + enhancer), 384-411 (J: Dynabeads M-280, B&W washes), 412-463 (K: on-bead recovery PCR Q5 Hot Start 12 cycles 61C, 1:50 dilution, indexing PCR 12 cycles 60C), 464-515 (L-O: pooling, 0.7x SPRI, 2-3 million 150bp single-end reads); Supplementary Table 26 MOESM93 xlsx.txt sheet Table26_SITE-Seq Oligos lines 12-27 (AS1A/AS1B, AS2A-D, RF/RR, IF/IR and the modification key)",
+      "oligo_scraper": "Bundle scraper run as a reading aid; all ten library oligos verified in both MOESM94 lines 86-105 and MOESM93 lines 14-23. MOESM86-92 hits are target/validation tables, MOESM95 is analysis code.",
+      "findings": "Corrected the final library's distal end: it is now sliced from the published oligos (Adapter 2 N7 Forward plus the reverse complement of Index Reverse) instead of the canonical INDEX1_PRIMER constant. Index Reverse (CAAGCAGAAGACGGCATACGAGAT-TA-N8-GACTGGAGTTCAGACGTGTGCTC, identical in both supplements) primes on its 3' 19 bases, so the top strand reads ...GAACTCCAGTC-[i7]-TA-P7' and the i7 index sits two bases closer to the Read 2 arm than in a stock TruSeq library; the stock TruSeq Index 1 primer therefore has no exact site, now declared via seqprimers.mismatching with that reason and shown as a page Highlight, a CAVEAT and a note section. Added the previously missing 15-base Adapter 2 constant arm (GTCGTATTAGTAGTA) to the library. Adapter 2 ligation geometry changed from blunt to a derived 3'-T cohesive end (the 15-nt Reverse strand pairs with the first 14 bases of each Forward strand, leaving its phosphorothioate T unpaired), scoped as derived and consistent with the named Blunt/TA Ligase and End Repair/dA-tailing module. Added the Proteinase K/RNase A termination step and the SPRI 2 cleanup with its residual-Adapter-1 waste branch (the protocol states this prevents adapter dimer). Named the actual reagents and conditions (Klenow, Quick Ligase, NEBNext dsDNA Fragmentase, Ultra End Repair/dA-tailing mix, Blunt/TA Ligase + enhancer, Dynabeads M-280, Q5 Hot Start, 12+12 cycles, on-bead recovery PCR). Gave the oligo/adapter inputs their published sequences so the source guard can check them.",
+      "deferred": [
+        "Defining Nature Methods article full text (paywalled; manual URL https://doi.org/10.1038/nmeth.4284, author mirror https://rnajc.ucsf.edu/sites/rnajc.ucsf.edu/files/nmeth.4284.pdf returns HTTP 403)",
+        "The i7 index-read primer and the acquired index cycle counts are not printed in either supplement",
+        "Whether the end-repair step also dA-tails (inferred from the NEBNext module name, not stated)",
+        "MOESM86-92 result tables and MOESM95 analysis code beyond their headings",
+        "Study-specific sgRNA sequences remain unassigned"
+      ],
+      "scope": "Capped defining-source pass over the two published supplements only; no full chemistry validation and no accepted missing-information claim.",
+      "verification": "local suite 3 checks pass; page builds; pairing 0 problems; chemistry 11 steps, 0 established/0 conditional/13 unresolved/0 contradictory; source guard 10 exact oligos checked, 0 failed, 1 input without an exact state (study-specific sgRNA); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

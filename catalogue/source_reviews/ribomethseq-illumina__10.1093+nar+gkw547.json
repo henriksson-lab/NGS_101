@@ -1,0 +1,166 @@
+{
+  "dir": "ribomethseq-illumina__10.1093+nar+gkw547",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "doi:10.1002/anie.201408362",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Original Wiley paper not locally obtainable through DOI route."
+    },
+    {
+      "id": "wiley_si",
+      "role": "supplement",
+      "locator": "https://onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fanie.201408362&file=anie_201408362_sm_miscellaneous_information.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Hand-placed anie_201408362_sm_miscellaneous_information.pdf.txt (identity: Wiley-VCH SI header, title and six authors match Birkedal 2015) lines 1-175 (Materials and Methods through read mapping) and 455-495 (Figure S2-S5 legends)",
+        "finding": "Gives alkaline hydrolysis (50 mM Na2CO3 pH 9.0 final, 90 C 1-10 min), 20-40-nt PAGE selection, AtRNL S701A kinase-dead ligase, 3' adaptors CR30/CR35 and 5' adaptor P1 IVT verbatim, T4 PNK between ligations, FastAP, RT with barcoded short Ion A primer (bases not printed), emulsion PCR and Ion Torrent/Proton. P1 IVT printed with T (line 108) and U (line 137) at one position."
+      },
+      "pass_2": null,
+      "reason": "Obtained by hand 2026-10-17 (institutional network); one pass only. Describes the undrawn original Ion Torrent chemistry."
+    },
+    {
+      "id": "later_same_group",
+      "role": "linked_material",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5027498/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Same-group 2016 NAR PMC5027498 web article Materials and Methods lines 125–137; comparison to original lines 157–160",
+        "finding": "The later implementation uses alkaline/metal cleavage, Antarctic Phosphatase 3′ dephosphorylation, T4 PNK 5′ phosphorylation and NEBNext Small RNA E7330S library preparation. Its authors explicitly contrast the original RiboMethSeq direct ligation from 2′,3′ cyclic-phosphate/5′OH fragments using mutant RNA ligase and specially prepared 5′ adapter. This successor must not be substituted for the unavailable 2015 original protocol."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Same-group 2016 NAR PMC5027498 browser Methods lines 130–137",
+        "finding": "Successor treats fragments with Antarctic Phosphatase then PNK and uses NEBNext Small RNA E7330S (or Illumina equivalent), 50-bp single-end or MiSeq paired-end. This does not establish the original 2015 Wiley kit revision or primer/index choice."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "later_same_group_supplements",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribomethseq-illumina__10.1093+nar+gkw547/nar_gkw547_supp_supp_gkw547_nar-00545-met-k-2016-File008.doc.txt and File009.pdf.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Two original supplements of already cited later study recovered by DOI/PMCCloud; original chemistry/relevance reading and independent passes pending. Not substitutes for2015 Wiley original."
+    },
+    {
+      "id": "geo_gse54655",
+      "role": "linked_material",
+      "discovered_from": "paper",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribomethseq-illumina__10.1093+nar+gkw547/geo_GSE54655_series-family_full.soft(.txt) (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE54655&targ=all&form=text&view=full; Series_pubmed_id 25417815)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Series header (title, summary, overall_design, pubmed_id, contributors); sample blocks GSM1321380-85 lines 853-1116 (extract protocols 868-869, 912-913, 956-957, 1001-1002, 1045-1046, 1088-1089; instrument, data_processing); SRA SRP036188 experiment 642770 LIBRARY_CONSTRUCTION_PROTOCOL identical",
+        "finding": "Denaturing degradation to 20-40-nt fragments; ligation to RNA oligos with kinase-dead mutant tRNA ligase; RT; Ion Torrent PGM/Proton; 4-nt barcode and 3' adaptor trimmed (Cutadapt v1.2). No adapter, primer, ligase or hydrolysis-condition values."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Original DOI, Wiley SI URL in source manifest, later same-group 2016 method lead",
+      "finding": "Defining original and supporting information inaccessible. Scraper run on empty local bundle cannot support absence."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original Wiley DOI and SI access attempts; same-group PMC5027498 Methods lines 130–137",
+      "finding": "A later related original was read, but defining 2015 Wiley article and SI remain inaccessible. Missing chemistry claims remain blocked."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "No original methods read; review blocked without accepting any missing claim.",
+  "source_recovery_followup": {
+    "reviewer": "audit_rna_contacts_closeout",
+    "date": "2026-10-16",
+    "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
+    "finding": "Original Wiley article and both action/downloadSupplement and direct doi/suppl supporting-information routes return403 with working network. RTH author news links only DOI. Existing later gkw547 DOI now recovers original main and two supplements from PMCCloud, distinct from unavailable defining Wiley paper."
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-04",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 1,
+      "locations": "Related published Marchand2016 PMC5027498 JATS1–29 (identity),62–78 (fragmentation, end repair, library and reads)",
+      "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
+      "findings": "Made explicit that the displayed NEBNext/Illumina recipe is Marchand2016, not a verified reconstruction of the catalogue-defining Birkedal2015 protocol. Named Antarctic-phosphatase3-prime repair followed by T4PNK/ATP5-prime phosphorylation.",
+      "deferred": [
+        "Defining 2015 article/supplements remain unavailable in this bundle; protocol-boundary/catalogue correction and exact version-specific oligos require a separate pass"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 5 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining Birkedal2015 retrieval retried (get_sources DOI + two Wiley SI routes HTTP 403; Europe PMC PMID25417815 no PMC; Unpaywall/OpenAlex/Semantic Scholar closed incl. ange.201408362; KU research portal record without file). Read Marchand2016 PMC5027498 JATS lines 40-44, 58-78, 94, 104, 198; Supplementary Data File008 Tables S2 and S4 (File009 figure panels only)",
+      "oligo_scraper": "Scraper run on the bundle: three hits (39-nt synthetic 2'-OMe quantification RNA in JATS/PDF; 50-nt oligo25S-Cm2197/Am2220 capture DNA in File008), none a library oligo; source lines verified. No-hit results do not establish absence.",
+      "findings": "Defining article/SI remain unobtained. Marchand Table S4 and main text describe Birkedal2015 as PAGE-purified 20-40-nt fragments, no end repair, proprietary direct ligation to 5'-OH/2',3'-cyclic-phosphate ends with mutant ligase and specially prepared 5' adapter, Ion Torrent; page caveat now shows this as second-hand. Note no longer marks the defining principle green from an unread article. Graph adds RNeasy MinElute cleanup with discarded flow-through after T4 PNK; MiSeq runs stated 2x75 (Table S2).",
+      "deferred": [
+        "Birkedal2015 Angewandte article doi:10.1002/anie.201408362 and Wiley SI anie_201408362_sm_miscellaneous_information.pdf: manual retrieval (publisher 403)",
+        "Original Ion Torrent adapters, mutant ligase and primers",
+        "NEBNext E7330S manual for kit oligos other than the 3' adapter",
+        "Catalogue identity: displayed chemistry is Marchand2016 Illumina RiboMethSeq, not Birkedal2015; boundary decision for maintainers"
+      ],
+      "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
+      "verification": "local suite/page pass; pairing 0 problems; chemistry 9 unresolved/0 contradictory; source guard 0 checked, 5 without exact states; Markdown built; review schema pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Retrieval re-checked: Europe PMC PMID25417815 subscription only; PMC idconv not in PMC; OpenAlex closed (DOI, PubMed, KU portal record without file); Wiley article/SI manual (https://doi.org/10.1002/anie.201408362; https://onlinelibrary.wiley.com/doi/suppl/10.1002/anie.201408362/supinfo/anie_201408362_sm_miscellaneous_information.pdf). New route: GEO GSE54655 full SOFT (linked PMID 25417815; newly placed with MANIFEST row) series header and sample blocks GSM1321380-85 lines 853-1116; SRA SRP036188 experiment 642770 library protocol (same text).",
+      "oligo_scraper": "GEO record is prose; no oligo sequences. Earlier bundle scraper result (3 non-library hits) unchanged.",
+      "findings": "Defining-article-linked GEO text corroborates Marchand's second-hand description: denaturing degradation to 20-40 nt, ligation to RNA oligos with kinase-dead mutant tRNA ligase, RT, Ion Torrent PGM/Proton, 4-nt barcode, 3' adaptor trimming. Page caveat and note now cite GSE54655; no defining construct drawn because no sequences or conditions are given. Displayed Marchand2016 workflow unchanged.",
+      "deferred": [
+        "Birkedal2015 article Methods and Wiley SI anie_201408362_sm_miscellaneous_information.pdf (publisher 403; manual)",
+        "Original Ion Torrent adapters, ligase identity/sequence, hydrolysis conditions, RT/PCR primers",
+        "NEBNext E7330S manual for kit oligos beyond the 3' adapter",
+        "Catalogue identity Marchand2016 vs Birkedal2015 (maintainers)",
+        "Second independent reader for the GEO checklist row"
+      ],
+      "scope": "Capped retrieval-focused follow-up; defining article still unread; no accepted missing-information claim.",
+      "verification": "local suite/page pass; pairing 0 problems; chemistry 9 unresolved/0 contradictory; source guard 0 checked/0 failed, 5 without exact states, 1 graph; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Birkedal 2015 Wiley SI anie_201408362_sm_miscellaneous_information.pdf (hand-placed; identity verified by printed Wiley-VCH SI header, title 'Profiling of Ribose Methylations in RNA by High-Throughput Sequencing', authors Birkedal...Nielsen, anie_201408362 filename; MANIFEST row) .txt lines 1-175 and 455-495; scraper hits verified at lines 95-137.  Compared with the Marchand Table S4 summary as recorded in the earlier pass (not re-opened). Birkedal article main text still not obtained (manual https://doi.org/10.1002/anie.201408362).",
+      "oligo_scraper": "scrape_primers on SI .txt: 26 hits; library-relevant CR30/CR35 3' adaptors (line 126) and P1 IVT 5' adaptor (lines 108, 137) verified; C813-C818 mutagenesis, C894/C887/C895 IVT-template and qPCR/primer-extension primers (lines 380-445) are not library parts.",
+      "findings": "Page caveat replaces Marchand's second-hand account with the first-hand SI description of the undrawn original (hydrolysis conditions, PAGE 20-40 nt, AtRNLdeltaPNK S701A, CR30/CR35 and P1 IVT adaptors verbatim, PNK and FastAP steps, barcoded Ion A RT primer, emulsion PCR, Ion Torrent/Proton 250/500 flows). Displays the SI-internal P1 IVT T/U inconsistency (lines 108 vs 137) and the model reading (U, from the IVT template). Notes Marchand Table S4 'no end repair' as a summary difference, not an error. Drawn Marchand 2016 graph unchanged.",
+      "deferred": [
+        "Birkedal 2015 Angewandte article main text (manual DOI)",
+        "Birkedal RT primer bases (not printed in SI)",
+        "Schutz et al. tRNA-ligase cloning predecessor (SI ref. 7)",
+        "NEBNext E7330S manual for drawn kit oligos beyond the 3' adapter",
+        "Catalogue identity Marchand2016 vs Birkedal2015 (maintainers)",
+        "Second independent reader for the Wiley SI and GEO checklist rows"
+      ],
+      "scope": "Capped bounded pass; defining source remains Marchand 2016; Birkedal SI used only for the undrawn-original description; no accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks) pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
+}

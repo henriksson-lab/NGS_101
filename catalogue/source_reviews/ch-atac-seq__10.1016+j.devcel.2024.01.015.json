@@ -1,15 +1,26 @@
 {
   "dir": "ch-atac-seq__10.1016+j.devcel.2024.01.015",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "main",
       "role": "defining",
-      "locator": "Zhang et al Developmental Cell 2024 doi:10.1016/j.devcel.2024.01.015 main article/STAR Methods",
-      "availability": "unavailable",
+      "locator": "Zhang et al., Developmental Cell 59:793-811.e1-e8 (25 March 2024), doi:10.1016/j.devcel.2024.01.015, PII S1534580724000352; published article PDF with supplemental information j.devcel.2024.01.015_1-s2.0-S1534580724000352-mmc3.pdf (.txt twin), MANIFEST row 22 (ars.els-cdn.com, hand-fetched on institutional network)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Journal full text and STAR Methods are subscription-only in MANIFEST; no open preprint was obtained.",
-      "pass_2": null
+      "pass_2": {
+        "reviewer": "agent-pkg6-source-review-followups",
+        "date": "2026-10-17",
+        "locations": "mmc3.pdf.txt Figure 1A legend lines 136-141 (p. 794); Results lines 172-192 (p. 795); Key resources lines 1470-1508 (critical commercial assays) and 1645-1692 (oligonucleotides, all 'Table S1'); STAR Methods 'Library construction of CH-ATAC-seq' lines 1834-1863 (p. e4, also inspected as the rendered PDF page because the text twin renders mu as 'm'); 'TSS benchmark' lines 1864-1883; 'MGI library preparation and sequencing' lines 1884-1888 (p. e5); 'Preprocessing' lines 1889-1891; references 17 and 28 (lines 1019-1020, 1080-1083); scrape_primers over mmc3/mmc1 text twins (0 sequences)",
+        "finding": "Agree with pass_1 on every printed item: Tn5 loading (25 pM primer C, 50 pM ME, 25 pM barcoded primer as printed; Vazyme S111; 30 C 60 min; 40 ng/ul), tagmentation in four 96-well plates (23 ul nuclei + 2 ul Tn5, 55 C 30 min); hybridization in eight 96-well plates (2 ul of 25 uM pre-annealed HY head + barcoded HY, 37 C 90 min); 0.5 ul of 100 uM block tail oligo 30 min 37 C per well, then pool; pooled T4 PNK + ATP 37 C 30 min; re-split into one or more 96-well plates; gap-fill mix (Ampligase buffer, 0.3 ul Ampligase, 0.5 ul 10 mM dNTP, 0.2 ul T4 DNA polymerase) 37 C 60 min; proteinase K/SDS lysis 55 C 15 min; Tween quench; KAPA HiFi PCR 72 C 5 min, 98 C 3 min, 12 cycles 98/65/72 C, 72 C 5 min; 0.5-1.0x VAHTS beads; VAHTS Circularization Kit for MGI, DNBSEQ DNB kit, DNBSEQ-T7 with custom TM primers, read 1 100 cycles dark 11-33 and 44-62, read 2 100 cycles. Small corrections: the Methods name the ligase vendor 'Lucigen' while Key resources list 'Biosearch Cat# A8101' (same product line, no chemistry conflict). New: an apparent published discrepancy pass_1 did not record, Results line 185 '384 indexed P7 adapters' versus Table S1's sheet '96 MGI P7 indexed primers' (96 rows) and the Methods' 'one or more 96-well plates'; now shown on the page and in the note. Not printed: custom TM sequencing primer bases, index-read length, size selection beyond the bead ratio, circularization kit catalogue number."
+      },
+      "previous_state": "unavailable: journal full text and STAR Methods subscription-only/Cloudflare-blocked before 2026-10-17.",
+      "pass_1": {
+        "reviewer": "agent-P4-source-reviews",
+        "date": "2026-10-17",
+        "locations": "mmc3.pdf.txt title/authors lines 1-12; Results lines 172-192 (split-pool overview); Figure 1A legend lines 136-141; Key resources table lines 1460-1500 and 1660-1700 (Vazyme S111 TruePrep Tagment Enzyme, NEB M0201S T4 PNK, Biosearch A8101 Ampligase, NEB M0203S T4 DNA polymerase, KAPA HiFi; oligos all 'Table S1'); STAR Methods 'Library construction of CH-ATAC-seq' lines 1834-1863, 'TSS benchmark' lines 1865-1883, 'MGI library preparation and sequencing' lines 1884-1888, 'Preprocessing' lines 1889-1891",
+        "finding": "Printed: Tn5 loading (Tn5 primer C 25 pM, ME 50 pM, barcoded Tn5 primer 25 pM annealed 95 C to 10 C at 0.1 C/s; Vazyme S111, 30 C 60 min); tagmentation 55 C 30 min in four 96-well plates; pool, wash; HY head oligo + barcoded HY primer pre-annealed and hybridized in eight 96-well plates 37 C 90 min; block tail primer oligo 30 min 37 C per well before pooling; pooled T4 PNK + ATP 37 C 30 min; re-split into 96-well plates, then gap-fill mix (Ampligase DNA ligase + buffer, dNTP, T4 DNA polymerase) 37 C 60 min in the final wells; proteinase K/SDS lysis 55 C 15 min, Tween quench; KAPA HiFi PCR with P5 and indexed MGI P7 primer, 72 C 5 min, 98 C 3 min, 12 cycles (98/65/72 C), 0.5-1.0x VAHTS bead cleanup; VAHTS Circularization Kit for MGI, DNBSEQ DNB kit; DNBSEQ-T7 with custom TM sequencing primers, '100 cycles of read1 with dark reaction from 11-33, 44-62, 100 cycles of read2'; two FASTQs, one carrying the Tn5 (384) and HY (768) indexes. This answers the blocked claim's cycle counts and reaction order (gap fill after re-split, matching the model's previously inferred placement). No sequences in the article body; all oligos refer to Table S1. Size selection beyond the bead ratio is not printed. Single first-reader pass; needs an independent second reader."
+      }
     },
     {
       "id": "original_oligos",
@@ -53,12 +64,67 @@
     {
       "id": "research_square",
       "role": "linked_material",
-      "locator": "Research Square preprint doi:10.21203/rs.3.rs-960203/v1",
+      "locator": "Research Square preprint doi:10.21203/rs.3.rs-960203/v1, \"The single-cell transcriptional landscape of the axolotl\" (Ye, Zhang, E, Chen et al., posted 13 Oct 2021) = CH-RNA-seq preprint, not a CH-ATAC-seq version",
       "availability": "unavailable",
-      "relevance": "relevant",
-      "reason": "Research Square download blocked by Cloudflare; source version and Methods unreviewed.",
+      "relevance": "not_relevant",
+      "reason": "Identity correction (2026-10-17): Crossref records this preprint as is-preprint-of 10.1038/s41467-022-31879-z, the published CH-RNA-seq article (row ch_rna, PMC9307617, already read by two readers). It is a superseded preprint of the sibling method and supplies no CH-ATAC-seq source. No CH-ATAC-seq preprint is known.",
       "pass_2": null,
-      "discovered_from": "main"
+      "discovered_from": "main",
+      "previous_locator": "Research Square preprint doi:10.21203/rs.3.rs-960203/v1",
+      "previous_relevance": "relevant",
+      "previous_state": "unavailable: Research Square download blocked by Cloudflare; source version and Methods unreviewed.",
+      "identity_pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Crossref metadata for doi:10.21203/rs.3.rs-960203/v1; bounded check round 2026-10-17-deferred-followup-02",
+        "finding": "Title \"The single-cell transcriptional landscape of the axolotl\", is-preprint-of 10.1038/s41467-022-31879-z: the CH-RNA-seq preprint, superseded by PMC9307617, not a CH-ATAC route."
+      },
+      "identity_pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "Crossref works/10.21203/rs.3.rs-960203/v1 (title, relation, posted, authors); local MANIFEST.tsv row 14 \"(manual) rs.3.rs-960203_v1\"; PMC9307617 JATS article-title in s41467-022-31879-z_PMC9307617.xml",
+        "finding": "Agree. Crossref: posted 2021-10-13, authors Ye, Zhang, E, Chen, Yu, Li ..., relation is-preprint-of 10.1038/s41467-022-31879-z (\"Construction of the axolotl cell landscape using combinatorial hybridization sequencing at single-cell resolution\", Nat Commun 2022). The MANIFEST manual row attributes this preprint to CH-ATAC-seq; that attribution is wrong. Chemistry not re-read (superseded preprint of a different, already-read publication)."
+      }
+    },
+    {
+      "id": "mmc2_tables",
+      "role": "supplement",
+      "locator": "j.devcel.2024.01.015_1-s2.0-S1534580724000352-mmc2.zip (MANIFEST row 21): tables/Supplementary Table 1, 3, 5, 6, 7 .xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "agent-P4-source-reviews",
+        "date": "2026-10-17",
+        "locations": "zip listing; md5 of tables/Supplementary Table 1.xlsx",
+        "finding": "Supplementary Table 1.xlsx in the publisher zip has md5 712d8483abf30555808a8acdd5225a80, identical to scg_CH-ATAC-seq_SupplementaryTable1.xlsx (row original_oligos), so that mirror is the published Table S1. Tables 3, 5, 6, 7 by name are analysis tables (not opened for chemistry; Methods cite only Table S1 for oligos)."
+      },
+      "pass_2": {
+        "reviewer": "agent-pkg6-source-review-followups",
+        "date": "2026-10-17",
+        "locations": "mmc2.zip listing; md5 of tables/Supplementary Table 1.xlsx (712d8483abf30555808a8acdd5225a80, equal to scg_CH-ATAC-seq_SupplementaryTable1.xlsx); Tables 3, 5, 6, 7 extracted to scratch and converted with tools/doctext.py: all sheet names and first rows",
+        "finding": "Agree: Table S1 in the publisher zip is the scg mirror byte for byte. Table 3 sheets = lineages/annotation/markers for zebrafish, Drosophila, Eisenia; Table 5 = human/monkey/mouse subcluster annotation; Table 6 = lineage TF lists for six species; Table 7 = eRegulon TF/region/gene tables for six species. None holds library chemistry; the open note on Tables 3/5/6/7 is closed."
+      },
+      "note": "Tables 3/5/6/7 sheet names and headers inspected by pass_2: analysis tables only."
+    },
+    {
+      "id": "mmc1_figures",
+      "role": "supplement",
+      "locator": "j.devcel.2024.01.015_1-s2.0-S1534580724000352-mmc1.pdf (.txt), MANIFEST row 20: Supplemental information (figures)",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "First-reader skim of the text twin (4583 lines): supplementary figure panels on cell types and cCRE analysis; grep for primer/oligo/Table S found only cell-type labels. No library chemistry. Exclusion needs a second reader.",
+      "pass_1": {
+        "reviewer": "agent-P4-source-reviews",
+        "date": "2026-10-17",
+        "locations": "mmc1.pdf.txt header lines 1-5; grep primer|oligo|Figure S|Table S over the whole file",
+        "finding": "No chemistry content found in the text twin; rendered figures not inspected."
+      },
+      "pass_2": {
+        "reviewer": "agent-pkg6-source-review-followups",
+        "date": "2026-10-17",
+        "locations": "mmc1.pdf.txt lines 1-15 (title page), every legend heading: SFig. 1 (line 509, related to figure 2), SFig. 2 (1212, figure 2), SFig. 3 (1669, figure 3), SFig. 4 (2546, figure 4), SFig. 5 (3058, figure 4), SFig. 6 (4078, figure 6), SFig. 7 (4411, figure 7), Supplementary Table 2 (4487, animals) and Table 4 (4581, collected datasets); grep primer|oligo|hybridiz|Tn5|PCR|barcode|index; scrape_primers (0 sequences)",
+        "finding": "Agree with the exclusion: no supplemental figure or table relates to Figure 1 (method design); all legends cover atlases, cCREs, cross-species TFs and GRNs. Rendered figure pages were not inspected; the legends establish their subject, so exclusion stands."
+      }
     }
   ],
   "linked_information": {
@@ -74,14 +140,121 @@
       "date": "2026-10-16",
       "locations": "CH-ATAC publisher Table S1 mirror lines 1-17, 397-400, 1167-1170; CH-RNA original JATS lines 111-125 and Table S1 lines 1-10; main/Research Square manifest",
       "finding": "Original supplementary oligos were verified and RNA predecessor compared, but CH-ATAC main STAR Methods and related preprint remain unavailable. Reaction order cannot be certified from the table alone."
-    }
+    },
+    "update_2026-10-17": "First reader (agent-P4-source-reviews) followed the article's chemistry links: Table S1 (published copy in mmc2 = the scg mirror by md5), mmc1 (figures, no chemistry), Key resources vendor items (Vazyme S111 Tn5, Ampligase, T4 PNK/T4 DNA polymerase, KAPA HiFi, VAHTS Circularization Kit for MGI, DNBSEQ DNB kit; catalogue numbers only), sci-ATAC-seq3 refs 17/28 (cited for split-pool and fixation, not for CH-ATAC oligos). Result left 'blocked' pending a second reader of these links.",
+    "pass_3_second_reader_2026-10-17": {
+      "reviewer": "agent-pkg6-source-review-followups",
+      "date": "2026-10-17",
+      "locations": "mmc3.pdf.txt Key resources lines 1470-1508 and 1645-1692; Methods lines 1835-1888; references 17 (Domcke et al. 2020 Science 370:eaba7612, line 1019) and 28 (Zhang H et al. 2022 BMC Genomics 23:214, lines 1080-1083) with their citation contexts lines 177, 187 and 1869; mmc2 and mmc1 as in their rows",
+      "finding": "Independent check of the linked material named by pass_1. Table S1 (mmc2) and mmc1 confirmed as in their rows. Refs 17 and 28 are cited only for the split-pool idea, the contrast with sci-ATAC-seq3 ligation indexing, and the formaldehyde fixation of the TSS benchmark; their texts were not re-read and CH-ATAC takes no oligo or reaction from them. Vendor items (Vazyme S111, NEB M0201S, Biosearch A8101, NEB M0203S, KAPA KK2602, VAHTS N411-03 beads) are cited by catalogue number only; the VAHTS Circularization Kit for MGI and the MGI DNB kit carry no catalogue number, so their manuals cannot be identified and were not read. Those kits act after the modelled linear-library endpoint. Result kept 'blocked' because the circularization kit document's identity is unresolved and refs 17/28 were checked for citation context only; no missing-information claim depends on them."
+    },
+    "update_2026-10-17_pkg6": "Second reader (agent-pkg6-source-review-followups) recorded above as pass_3_second_reader_2026-10-17; pass_1/pass_2 slots hold the earlier audit_s_z/audit_a_h passes and are kept as history."
   },
   "missing_claims": [
     {
       "claim": "CH-ATAC-specific sequencing cycle counts and full reaction order",
-      "disposition": "blocked",
-      "evidence": "STAR Methods not available; sibling CH-RNA cannot establish ATAC-specific details."
+      "disposition": "resolved",
+      "evidence": "Resolved 2026-10-17 by two readers of the defining article (row main pass_1 agent-P4-source-reviews, pass_2 agent-pkg6-source-review-followups): STAR Methods mmc3.pdf.txt lines 1834-1863 (p. e4) print the reaction order, enzymes and 12-cycle PCR; lines 1884-1888 (p. e5) print the DNBSEQ-T7 recipe (read 1 100 cycles with dark 11-33 and 44-62; read 2 100 cycles). Still not printed (open questions, not absence claims): custom TM sequencing primer bases and the index-read length. Earlier: STAR Methods not available; sibling CH-RNA cannot establish ATAC-specific details."
     }
   ],
-  "conclusion": "Two readers verified CH-ATAC published oligo table and CH-RNA predecessor. Main CH-ATAC Methods and its preprint are unavailable; reaction detail remains blocked."
+  "conclusion": "Two readers verified CH-ATAC published oligo table and CH-RNA predecessor. Main CH-ATAC Methods and its preprint are unavailable; reaction detail remains blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining Dev Cell 2024 article not obtained (Europe PMC subscription-only; Crossref lists Elsevier open-archive VOR licence from 2025-03-25, PII S1534580724000352; cell.com/ScienceDirect return Cloudflare 403). Read CH-ATAC Supplementary Table 1 (publisher workbook mirrored as scg_CH-ATAC-seq_SupplementaryTable1.xlsx.txt) lines1-16 (common primers incl. 5'Phos ME and PCR P5, Block_tail 'Block free annealing hybridization primers'), 394-402, 780, 1164-1172, 1262; sibling CH-RNA-seq PMC9307617 JATS s41467-022-31879-z_PMC9307617.xml.txt lines117, 255 (hybridization/block/pool/PNK/second-strand/PCR order), 259 (DNBSEQ dark-cycle recipe).",
+      "oligo_scraper": "Bundle scraper run: hits in Supplementary Table 1 and CH-RNA MOESM4 (same shared oligos), MOESM7 = CH-RNA ISH probes (irrelevant); upstream_* ignored.",
+      "findings": "All modelled CH-ATAC bases re-verified against Supplementary Table 1. Added the table's Block_tail_primer_oligo as an exact-state graph input with per-HY-well blocking before pooling (order from CH-RNA-seq); moved the unpublished gap fill from the HY wells to the final split wells after pooling, marked inferred with a reason (CH-RNA-seq runs PNK/second-strand after pooling); tagmentation waste reason now states no physical separation is represented. Page shows blocking and an INFERRED fill-placement caption; note updated.",
+      "deferred": [
+        "Dev Cell STAR Methods (open archive; hand download from https://www.sciencedirect.com/science/article/pii/S1534580724000352)",
+        "CH-ATAC fill/join enzyme and ligation, Tn5 loading, PCR cycles, size selection",
+        "CH-ATAC acquired read lengths and second dark window 44-62",
+        "Identity of Research Square doi:10.21203/rs.3.rs-960203/v1 (CH-ATAC or CH-RNA preprint)"
+      ],
+      "scope": "Capped pass on the readable defining supplement and sibling article only; defining article unread; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 5/5; page builds; pairing 0 problems; chemistry 2 established/0 conditional/15 unresolved/0 contradictory; source guard 3 exact checked (P5, MGI P7 index, block tail), 0 failed, 2 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining Dev Cell article still not obtained. Routes 2026-10-17: OpenAlex/Unpaywall bronze, publisher location only, no repository copy; Europe PMC MED 38330939 'Subscription required', not in PMC; cell.com fulltext/showPdf/pdf URLs and ScienceDirect pdfft Cloudflare 403; Elsevier article API metadata openArchiveArticle=true but full text needs an API key; no CH-ATAC preprint in Europe PMC/Crossref searches. Manual: https://www.sciencedirect.com/science/article/pii/S1534580724000352. Read: Crossref metadata for doi:10.21203/rs.3.rs-960203/v1 (title 'The single-cell transcriptional landscape of the axolotl', is-preprint-of 10.1038/s41467-022-31879-z); GEO GSM7324821 SOFT (geo_GSM7324821_self_brief.soft.txt lines 17-22, 33-37), GSE232162/GSE232271 series summary/design lines 8-9.",
+      "oligo_scraper": "Scraper rerun on the bundle; no hits in the new GEO text files; earlier Supplementary Table 1 hits unchanged.",
+      "findings": "Research Square rs-960203 resolved as the CH-RNA-seq (axolotl) preprint, superseded by PMC9307617, not a CH-ATAC route; note's 'could not be fetched' row and open question corrected. GEO confirms DNBSEQ-T7 and that one of two FASTQs carries the HY (768) and Tn5 (384) indices, consistent with the modelled Read 1; no reaction conditions or read lengths. No model change.",
+      "deferred": [
+        "Dev Cell STAR Methods (open archive; hand download from https://www.sciencedirect.com/science/article/pii/S1534580724000352 or Elsevier API key)",
+        "CH-ATAC fill/join enzyme and ligation, Tn5 loading, PCR cycles, size selection",
+        "CH-ATAC acquired read lengths and second dark window 44-62 (SRA run metadata for SAMN35037562 not returned by ENA/E-utilities)"
+      ],
+      "scope": "Deferred follow-up limited to obtaining the defining article; GEO and Crossref metadata read; defining article unread; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 5/5; page builds; pairing 0 problems; chemistry 2 established/0 conditional/15 unresolved/0 contradictory; source guard 3 exact checked, 0 failed, 2 inputs without exact states; audit_protocol_sources --check ok; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 0,
+      "locations": "Crossref record for doi:10.21203/rs.3.rs-960203/v1; local MANIFEST.tsv row 14; PMC9307617 JATS article title",
+      "findings": "Label correction: research_square row re-identified as the superseded CH-RNA-seq preprint (identity passes by root, follow-up 02, and this reader) and set not_relevant; conclusion_update records that CH-ATAC has no known preprint. The main article row stays unavailable; status and missing claim unchanged.",
+      "deferred": [
+        "Dev Cell STAR Methods (open archive; publisher routes behind Cloudflare)",
+        "get_sources/MANIFEST relabelling of the rs-960203 manual row as a CH-RNA-seq preprint (tooling outside this package)"
+      ],
+      "scope": "Identity/label correction only; no source-content reading pass.",
+      "verification": "audit_protocol_sources --check passes"
+    },
+    {
+      "round": "2026-10-17-followup-P4-source-reviews",
+      "reviewer": "agent-P4-source-reviews",
+      "date": "2026-10-17",
+      "documents": 3,
+      "scope": "Defining article now available: first independent reading pass of its Methods and supplement identity; no model or note change (outside this package).",
+      "locations": "mmc3.pdf.txt lines 1-12, 136-141, 172-192, 1460-1500, 1660-1700, 1812-1891; mmc2.zip listing and Table S1 md5; mmc1.pdf.txt grep",
+      "findings": "Reaction order, enzymes, 12-cycle PCR and DNBSEQ-T7 read recipe printed; gap fill (Ampligase + T4 DNA polymerase) occurs after PNK and re-split, matching the model's inferred placement; Table S1 mirror is the published file.",
+      "deferred": [
+        "Independent second reader for rows main, mmc2_tables, mmc1_figures and linked information",
+        "ch-atac-seq note/model update from STAR Methods (PCR cycles, gap-fill enzymes, read recipe; fill placement no longer inferred)"
+      ],
+      "verification": "audit_protocol_sources --check run after edit"
+    },
+    {
+      "round": "2026-10-17-followup-pkg6-source-review-followups",
+      "reviewer": "agent-pkg6-source-review-followups",
+      "date": "2026-10-17",
+      "documents": 3,
+      "scope": "Second reading pass of the defining article, mmc1 and mmc2; note/model/page update from the STAR Methods; no linked-reference texts re-read.",
+      "locations": "mmc3.pdf.txt lines 136-141, 172-192, 1019-1020, 1080-1083, 1470-1508, 1645-1692, 1834-1891, rendered PDF page 24 (p. e4); mmc2.zip tables 1/3/5/6/7; mmc1.pdf.txt legend headings",
+      "oligo_scraper": "scrape_primers on mmc3 and mmc1 text twins: 0 sequences (article body prints no bases; all oligos refer to Table S1).",
+      "findings": "STAR Methods confirmed; added PNK, lysis and explicit T4 DNA polymerase/Ampligase/KAPA catalysts to the graph; fill placement no longer inferred; sequencing limitation now quotes the printed recipe; page shows the 384-vs-96 PCR-index discrepancy.",
+      "deferred": [
+        "VAHTS Circularization Kit for MGI document (no catalogue number printed; identity unresolved)",
+        "Bases of the custom TM sequencing primers and index-read length (not printed in the inspected sources)",
+        "Texts of refs 17 and 28 (cited for split-pool context and fixation only)"
+      ],
+      "verification": "see report: selftest, build_page, lint_pairing, check_chemistry, selftest_source_oligos, audit_protocol_sources --check"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root-worker-deferred-followup-03",
+      "date": "2026-10-17",
+      "documents": 2,
+      "scope": "Third independent reading of the hand-placed defining article (identity re-confirmed) and mmc2 listing; finishes the deferred pass; small note/page additions.",
+      "locations": "mmc3.pdf.txt lines 1-12 (title, authors, Dev Cell 59:793-811, doi:10.1016/j.devcel.2024.01.015), 172-192 (Results), 1825-1895 (cell-line nuclei prep, Library construction of CH-ATAC-seq, TSS benchmark incl. bulk and mixed-species variants, MGI library preparation and sequencing, Preprocessing); mmc1.pdf.txt lines 1-20 (title/authors match); mmc2.zip listing (Supplementary Tables 1,3,5,6,7; Table 1 45293 bytes = scg mirror); MANIFEST.tsv rows for mmc1/2/3 (ars.els-cdn.com, PII S1534580724000352)",
+      "oligo_scraper": "not re-run; prior run on mmc3/mmc1 twins gave 0 sequences (article prints no bases, all oligos refer to Table S1)",
+      "findings": "Hand-placed mmc1/mmc2/mmc3 are the correct CH-ATAC Dev Cell originals. Agree with pkg6 pass on reaction order, conditions, 12-cycle PCR and DNBSEQ-T7 recipe; model unchanged. Added: page+note published discrepancy Results 3,000-6,000 vs Methods 3,000-10,000 nuclei per final well; reduced-index mixed-species variant (96 Tn5/384 HY/32 PCR) and bulk benchmark noted as not drawn; printed 'Tween-10' quench recorded verbatim, not modelled.",
+      "deferred": [
+        "VAHTS Circularization Kit for MGI document (no catalogue number printed; identity unresolved)",
+        "Bases of custom TM sequencing primers and index-read length (not printed in inspected sources)",
+        "Results '384 indexed P7 adapters' vs 96 printed MGI P7 primers (published discrepancy, unresolved)",
+        "Texts of refs 17 and 28 (citation context only)"
+      ],
+      "verification": "selftest 5 checks pass; build_page writes ch-atac-seq.html; lint_pairing 0 problems; check_chemistry 18 steps established=2/conditional=0/unresolved=18/contradictory=0; source guard 3 exact checked, 0 failed, 2 inputs without exact states; build_docs note rebuilt; audit_protocol_sources --check pass"
+    }
+  ],
+  "conclusion_update": "2026-10-17 (agent-K-second-reader): label correction. The conclusion above calls the Research Square item \"its preprint\"; rs-960203 is the CH-RNA-seq preprint (Crossref is-preprint-of 10.1038/s41467-022-31879-z), and no CH-ATAC-seq preprint is known. The CH-ATAC Developmental Cell main article and STAR Methods remain unavailable, so reaction detail stays blocked. The conclusion text is kept as the earlier state.",
+  "conclusion_update_2": "2026-10-17 (agent-P4-source-reviews): the defining Dev Cell article is now on disk (mmc3) and was read once (row main pass_1). It prints the previously blocked reaction order, enzymes, PCR cycles and read recipe. Status is in_progress: the next action is an ordinary independent second reading of row main (and mmc2/mmc1 rows). The repository note and model have not yet been updated from these Methods (outside this package).",
+  "conclusion_update_3": "2026-10-17 (agent-pkg6-source-review-followups): second reader agrees with pass_1 for rows main, mmc2_tables and mmc1_figures, and found one additional published discrepancy (Results '384 indexed P7 adapters' vs 96 printed MGI P7 primers). Note, model and page now follow the STAR Methods: pooled T4 PNK step, gap fill with T4 DNA polymerase + Ampligase in the final wells (no longer inferred), proteinase K/SDS lysis, 12-cycle KAPA HiFi PCR, printed read 1/read 2 lengths and dark windows in the sequencing plan, VAHTS MGI circularization stated. The missing claim is resolved. Status stays in_progress: linked information remains blocked on the unidentified circularization-kit document and context-only checks of refs 17/28."
 }

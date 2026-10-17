@@ -24,7 +24,7 @@ The old local claim that the adapter/PCR bases could not be recovered is superse
 
 ## 4. Molecular path and junctions
 
-🟢 Corrected SI specifies shearing, NEB DNA End Repair kit treatment, two-stage AMPure size selection, fragment dT-tailing with Klenow exo−, T4 DNA ligase adapter attachment and KAPA HiFi PCR. Adapter dA pairs with fragment dT. The later [Kennedy 2014 protocol](https://doi.org/10.1038/nprot.2014.170) explicitly redesigns the polarity to adapter dT/fragment dA; its oligos are not assigned to this corrected-original model.
+🟢 Corrected SI specifies shearing, NEB DNA End Repair kit treatment, two-stage AMPure size selection, fragment dT-tailing with Klenow exo−, T4 DNA ligase adapter attachment and KAPA HiFi PCR. The 2026-10-17 bounded pass re-read SI page 1 (text 1048–1093) and added the source's bead purifications to the graph: 2 volumes AMPure XP after Covaris shearing, the two-sided 0.7 + 0.65-volume selection (>500 bp bound and discarded; ~200 bp or greater retained), 1.2 volumes after dT-tailing and 0.8 volumes after the 15 min, 25 °C ligation. The SI does not itemize what each cleanup removes, so the graph names only bead supernatant/wash waste. PCR amplified 40 attomoles of adapter-ligated DNA for 18–20 cycles; the SI says input and cycle number must be titrated to give at least three duplicates per tag family. The two ethanol precipitations in adapter synthesis are not drawn as separate steps. Adapter dA pairs with fragment dT. The later [Kennedy 2014 protocol](https://doi.org/10.1038/nprot.2014.170) explicitly redesigns the polarity to adapter dT/fragment dA; its oligos are not assigned to this corrected-original model.
 
 🟡 A top-strand library has the sequence roles:
 

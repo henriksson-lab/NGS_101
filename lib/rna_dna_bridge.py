@@ -1,9 +1,13 @@
 """Bivalent bridges that covalently join an RNA end to a nearby DNA end.
 
 The bridge is deliberately more structured than a generic adapter: one oligo has a
-single-stranded RNA ligation arm followed by a DNA duplex arm, while its partner is DNA.
-Construction validates the duplex, the pre-adenylated RNA end, and the positions of the
-internal molecular barcode and biotinylated base.
+single-stranded RNA ligation arm followed by a duplex arm, while its partner is DNA.
+The duplex arm is DNA unless the caller declares ``duplex_rna_positions``: 0-based
+offsets of ribonucleotides inside it (printed rN in a mixed oligo). ``duplex_arm`` keeps
+the base identities in DNA letters so pairing is checked on identity; declared
+positions are drawn as RNA (T as U). Construction validates the duplex, the
+pre-adenylated RNA end, and the positions of the internal molecular barcode,
+biotinylated base and any declared ribonucleotides.
 """
 from __future__ import annotations
 
@@ -23,6 +27,7 @@ class BivalentRNADNABridge:
     biotin_offset: int
     preadenylated_rna_5: bool
     barcode_id: str
+    duplex_rna_positions: tuple[int, ...] = ()
 
     def __post_init__(self) -> None:
         if (not is_real_dna(self.dna_strand) or not is_real_dna(self.duplex_arm)
@@ -41,29 +46,51 @@ class BivalentRNADNABridge:
             raise ValueError("bridge biotin position lies outside the duplex arm")
         if self.duplex_arm[self.biotin_offset] != "T":
             raise ValueError("the structured internal biotin must modify a thymidine")
+        rna = self.duplex_rna_positions
+        if tuple(sorted(set(rna))) != tuple(rna):
+            raise ValueError("duplex ribonucleotide positions must be unique and ascending")
+        if any(not 0 <= i < len(self.duplex_arm) for i in rna):
+            raise ValueError("a duplex ribonucleotide position lies outside the duplex arm")
+        if self.biotin_offset in rna:
+            raise ValueError("the internal biotin-dT is a deoxyribonucleotide, not RNA")
+
+    def _duplex_runs(self) -> list[tuple[str, str, bool]]:
+        """(segment name, bases, is RNA) runs of the duplex arm, split at the biotin."""
+        rna = set(self.duplex_rna_positions)
+        runs: list[tuple[str, str, bool]] = []
+        for i, base in enumerate(self.duplex_arm):
+            if i == self.biotin_offset:
+                runs.append(("internal biotin-dT", base, False))
+                continue
+            side = "before" if i < self.biotin_offset else "after"
+            is_rna = i in rna
+            name = f"duplex {'ribonucleotides ' if is_rna else ''}{side} biotin"
+            if runs and runs[-1][0].startswith(name) and runs[-1][2] == is_rna:
+                runs[-1] = (runs[-1][0], runs[-1][1] + base, is_rna)
+            else:
+                count = sum(r[0].startswith(name) for r in runs)
+                runs.append((name if not count else f"{name} {count + 1}", base, is_rna))
+        return runs
 
     def _hybrid_segments(self) -> list[Segment]:
-        before, bio, after = (self.duplex_arm[:self.biotin_offset],
-                              self.duplex_arm[self.biotin_offset],
-                              self.duplex_arm[self.biotin_offset + 1:])
         out = [Segment("RNA-arm fixed bases", self.rna_fixed_5, "me"),
                Segment("RNA-arm molecular barcode", "N" * self.barcode_length, "umi",
                        placeholder=True,
                        feature=feature(self.barcode_id, "umi", "random")),
                Segment("RNA-arm terminal bases", self.rna_terminal, "me")]
-        if before:
-            out.append(Segment("duplex before biotin", before, "me"))
-        out.append(Segment("internal biotin-dT", bio, "me",
-                           note="internal biotinylated thymidine"))
-        if after:
-            out.append(Segment("duplex after biotin", after, "me"))
+        for name, bases, is_rna in self._duplex_runs():
+            if name == "internal biotin-dT":
+                out.append(Segment(name, bases, "me", note="internal biotinylated thymidine"))
+            elif is_rna:
+                out.append(Segment(name, bases.replace("T", "U"), "me",
+                                   note="ribonucleotides paired in the duplex arm"))
+            else:
+                out.append(Segment(name, bases, "me"))
         return out
 
     @property
     def duplex_names(self) -> tuple[str, ...]:
-        return tuple(x for x in ("duplex before biotin", "internal biotin-dT",
-                                 "duplex after biotin")
-                     if any(s.name == x for s in self._hybrid_segments()))
+        return tuple(name for name, _, _ in self._duplex_runs())
 
     def scene(self, *, at: int = 0) -> Scene:
         """The free bridge, with the entire mixed strand pairing-validated."""

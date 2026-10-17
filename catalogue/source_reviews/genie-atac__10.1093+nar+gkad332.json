@@ -93,5 +93,25 @@
       "evidence": "The paper prints GenIE-specific oligos but identifies indexing as a second PCR following a cited scheme; the selected sample-specific pair is not fixed by checked source lines."
     }
   ],
-  "conclusion": "First pass confirms source oligos; indexing-citation inspection and independent reading pending."
+  "conclusion": "First pass confirms source oligos; indexing-citation inspection and independent reading pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC10287956 JATS lines 63-166 (Experimental design, Tn5 production with MEDS-A/MEDS-REV, ATAC assay/linear PCR/nested PCR cycling, gDNA extraction and PCR, Barcoding and sequencing, Sequencing and read alignment); author Supplementary Tables 1-4 workbook sheets '1-Oligos for het experiments' lines 1-12 (Tn5A primer, biotinylated/forward/reverse oligos incl. reverse-direction experiments) and '2-Oligos and guides for editing' lines 13-41",
+      "oligo_scraper": "Scraper used as a reading aid; the MEDS oligos, Tn5A primer and the rs12269414 oligo set were verified in the JATS and workbook .txt.",
+      "findings": "Corrected the drawn final library: every nested forward oligo's printed 5' tail TCGGCATTCCTGCTGAACCGCTCTTCCGATCT is the Illumina PE/Genome-Analyzer arm of the cited barcoding method (ref 31), so the earlier TruSeq amplicon shell drew a Read 1 arm the source never installs. The library now shows that exact tail next to the nested locus primer, the MEDS-A/Tn5A end unchanged, and an inferred P5/i5/i7/P7 shell; Read 1 is the tail primer and Read 2 the MEDS-A handle primer, 150 cycles each, with index cycles no longer claimed as acquired. Recorded that the TruSeq Read 1 tail belongs to the matched gDNA-branch reverse oligos only, and added the cycling/reagent detail (KAPA HotStart 50+50 linear cycles, MyOne Streptavidin C1 overnight capture, PowerUp SYBR 35-cycle nested PCR, 400-800 bp product).",
+      "deferred": [
+        "Kozarewa & Turner 2011 (ref 31) barcoding primers and index-read lengths",
+        "Picelli 2014 (ref 32) Tn5 purification predecessor",
+        "Supplementary Figures/Note PDFs beyond earlier passes",
+        "Which amplicon end receives P5",
+        "Reverse-direction (rev exp) primer variants and the gDNA tagmentation control branch, named but not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation and no accepted missing-information claim.",
+      "verification": "local suite 7 checks pass (MEDS-A, MEDS-REV, Tn5A, rs12269414 biotin/nested oligos, gDNA-branch TruSeq tail, no dA junction); page builds; pairing 0 problems; chemistry 1 established/3 conditional/8 unresolved/0 contradictory; source guard 5 exact checked, 0 failed, 1 input without exact state; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

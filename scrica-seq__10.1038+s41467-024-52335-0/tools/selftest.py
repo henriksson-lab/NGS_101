@@ -28,7 +28,7 @@ if have(c, oligo_table, label="scRICA-seq low-throughput oligo table"):
     match=re.search(r"\(N\)(\d+)\(N\)(\d+)",oligo_row)
     c("printed low-throughput barcode and UMI lengths",
       tuple(map(int,match.groups())) if match else None,
-      (len(P.CIRCLE_TEMPLATE.get("cell barcode")),len(P.CIRCLE_TEMPLATE.get("UMI"))))
+      (len(P.LABELLED_CDNA.get("cell barcode")),len(P.LABELLED_CDNA.get("UMI"))))
 c("low-throughput ATAC branch has no molecular cell barcode",
   any(seg.feature and seg.feature.role=="cell_barcode" for seg in P.ATAC.segments),False)
 c.report()

@@ -126,6 +126,14 @@ def protocol_graph():
         "The model uses the ordered workbook variant and its matching PCR1.",
         "The workbook supplies explicit oligo order sequences and a self-consistent primer pair; the protocol also allows changing the common-primer sequence for different sequencing technologies.",
         "The figure and workbook do not explain which physical preparations used each variant. This is an unresolved source variant, not a demonstrated author error."))
+    g.annotate(SourceDiscrepancy("pcr", "Published branch-route PCR programme",
+        (SourceClaim("Wang2019 Methods, 'stLFR with 3′ branched adapter ligation' (JATS line 212) referring to the two-transposon PCR (line 208)",
+                     "PCR mix and conditions 'the same as the two-transposon process': PfuCx, 400 pmol each primer, 10 min at 72°C then 12 cycles of 95°C 10 s / 58°C 30 s / 72°C 2 min."),
+         SourceClaim("Cheng2018 original manuscript step 80 (p. 9), single-transposon 3′ branch route",
+                     "95°C 3 min, then 95°C 10 s / 58°C 30 s / 72°C 2 min repeated 10–12 times; no initial 72°C 10 min step (that step appears in the two-transposon step 58).")),
+        "The model draws one PCR with source PCR1/PCR2 and does not select either programme or a cycle number.",
+        "Both are authoritative originals for the selected route; the primers, enzyme scale and annealing/extension cycle agree, while the initial step and cycle count differ.",
+        "The sources do not state which programme was used for libraries stLFR-1–3 or whether a 72°C extension before denaturation is needed after 3′ branch ligation."))
     return g.require_publishable()
 
 

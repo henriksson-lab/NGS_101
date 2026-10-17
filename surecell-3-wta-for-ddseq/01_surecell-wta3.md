@@ -55,7 +55,7 @@ A **droplet** single-cell 3′ RNA-seq kit. The ddSEQ cartridge co-encapsulates 
 chamber, 1200 per cartridge) 🟢 (Reference Guide, Introduction). Lysis and
 **reverse transcription happen inside the droplet** from a bead-borne oligo-dT primer
 carrying a cell barcode and a UMI; the emulsion is then broken and everything after
-that is bulk: second strand by nick translation, **tagmentation** of the
+that is bulk: a single-reaction RNA removal/second strand (enzymes not named), **tagmentation** of the
 double-stranded cDNA, and a PCR that keeps only the fragments carrying the bead end
 🟢 ("How does the SureCell WTA 3′ Assay Work?", Appendix A).
 
@@ -161,7 +161,7 @@ molecular interpretation of each step 🟡 *(computed from the guide's reagent r
    point 🟡.
 7. **Second strand**: + 12 µL master mix (SSB 36 + SSE 18 µL per cartridge), **16 °C
    2 h**, lid off. The guide says it "removes the RNA template and synthesizes a
-   replacement strand" 🟢 — which is the Gubler–Hoffman nick-translation operation, but
+   replacement strand" 🟢 — consistent with a Gubler–Hoffman-type replacement reaction 🟡 (inferred), but
    Illumina names neither enzyme 🔴. Safe stopping point.
 8. **cDNA clean-up**: 44 µL SPB (0.55× on 80 µL) 🟡 *(ratio computed)*, elute 11 µL,
    keep 10 µL. QC: Bioanalyzer HS, **>2 ng** cDNA needed (less over-tagments); typical
@@ -182,9 +182,12 @@ molecular interpretation of each step 🟡 *(computed from the guide's reagent r
     strands of a bead-end fragment, the one that Tn5 joined to s7-ME at its 5′ end
     ends at its 3′ end in the complement of the bead handle, so TPP1 primes on it in
     cycle 1 and copies s7-ME, creating the N7xx site; the gapped strand is simply lost.
-11. **Library clean-up, double-sided**: 58 µL SPB (0.58×) → elute 51 µL, keep 50 µL; then
-    add 30 µL SPB (0.6× on 50 µL) → elute 22 µL, keep 20 µL 🟢 volumes; ratios 🟡
-    *(computed)*. Expected 2–10 nM, typical size ~300–1000 bp; normalise to 2 nM.
+11. **Library clean-up, two sequential bead clean-ups**: 58 µL SPB (0.58×) → bind, discard
+    supernatant, elute 51 µL, keep 50 µL; then a "Second Bind" with 30 µL SPB (0.6× on
+    50 µL) → discard supernatant, elute 22 µL, keep 20 µL 🟢 volumes (Reference Guide,
+    Clean Up Libraries); ratios 🟡 *(computed)*. Both binds keep the bead-bound DNA, so
+    this is not a double-sided (supernatant-retaining) size selection; an earlier
+    wording here was a note error. Expected 2–10 nM, typical size ~300–1000 bp; normalise to 2 nM.
 
 ### Variants (demonstrated protocols) 🟢
 
@@ -196,6 +199,19 @@ molecular interpretation of each step 🟡 *(computed from the guide's reagent r
   Tris-HCl pH 7.4, 10 mM NaCl, 3 mM MgCl₂, 0.1 % IGEPAL CA-630, SUPERase-In 0.2 U/µL,
   BSA 10 mg/mL; washed in PBS + 1 % DEPC and in storage buffer (same without IGEPAL);
   loaded at 2500 nuclei/µL. Chemistry otherwise unchanged.
+
+### 2026-10-17 bounded pass (round 2026-10-17-breadth-first-20)
+
+Re-read Reference Guide 1000000021452 v01 text: Introduction (lines 163–195), Before
+you begin/custom primer (290–375), RT program (1389–1396), Break Emulsion and Clean Up
+First Strand Synthesis (1409–1660), Synthesize Second Strand cDNA (1750–1862), Clean Up
+cDNA (1865–2000), Tagment cDNA (2088–2222), Amplify Tagmented cDNA (2223–2330), Clean Up
+Libraries incl. Second Bind (2330–2600), Prepare for Sequencing (2650–2730). Graph
+corrections: the separate "RNA removal" step and invented second-strand primer were
+replaced by the guide's single SSB/SSE reaction; the cDNA clean-up, Tagment Stop Buffer,
+both library clean-ups and the Droplet Disruptor were added; "not amplified" and
+"empty droplet" outcomes are no longer drawn as physical discards (unresolved fate). The
+guide still gives no run lengths and no SP/TPP1/bead bases.
 
 ## 4. Final library — 🟡 role-level layout, 🔴 most bases unresolved
 

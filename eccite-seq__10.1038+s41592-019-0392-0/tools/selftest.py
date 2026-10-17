@@ -26,4 +26,17 @@ if have(check,table,label="ECCITE-seq ordered conjugate barcode source"):
     barcode_rows=[line for line in antibody.splitlines() if re.fullmatch("[ACGT]{12,15}",line)]
     check("Table 3 antibody barcode lengths",(sum(map(lambda s:len(s)==15,barcode_rows)),
                                               sum(map(lambda s:len(s)==12,barcode_rows))),(49,3))
+protocol=Source(source_dir/"s41592-019-0392-0_41592_2019_392_MOESM3_ESM.pdf.txt",
+                "Mimitou et al. 2019 MOESM3 supplementary protocol oligonucleotide list")
+if have(check,protocol,label="ECCITE-seq supplementary protocol oligo list"):
+    text=re.sub(r"\s+","",protocol.path.read_text(encoding="utf-8")).replace("*","")
+    x8="x"*8
+    for name,oligo in (
+        ("protein-tag example",eccite_seq.PROTEIN_TAG_HANDLE+x8+eccite_seq.TAG_TSO_END),
+        ("hashtag example",eccite_seq.HASHTAG_HANDLE+x8+eccite_seq.TAG_TSO_END),
+        ("RPI1",eccite_seq.RPI1_P7+x8+eccite_seq.RPI1_HANDLE),
+        ("D701_s",eccite_seq.D701S_P7+x8+eccite_seq.D701S_HANDLE),
+        ("Next_nst_x",eccite_seq.NEXT_NST_P7+x8+eccite_seq.NEXT_NST_HANDLE+eccite_seq.NEXT_NST_SCAFFOLD),
+        ("SI-PCR",eccite_seq.SI_PCR)):
+        check(f"{name} bases transcribed from MOESM3",oligo in text)
 check.report()

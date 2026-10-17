@@ -26,11 +26,14 @@ def oligos() -> str:
         oligo("Round-1 barcoded RT primer", S.rt_primer(), mods="/5Phos/"),
         oligo("10x scATAC gel-bead oligo", S.bead_oligo(), five="bead-|-5'-"),
         oligo("Bridge oligo", S.bridge_oligo(), three="-[ddC]-3'"),
-        oligo("Template-switching oligo", [S.seg("SMART handle + GAAT", S.TSO[:-3], "tso"),
-                                             S.seg("rGrGrG", "rGrGrG", placeholder=True)]),
+        oligo("Template-switching oligo", S.tso_oligo()),
+        oligo("TSO_enrichment_primer", [S.seg("SMART handle", S.rt.SMART_HANDLE, "tso")]),
         oligo("Partial-P5", [S.seg("partial P5", S.PARTIAL_P5, "p5")]),
-        oligo("i7-only Tn5 adaptor", [S.seg("s7", nx.S7, "s7"),
-                                       S.seg("mosaic end", nx.ME, "me")]),
+        oligo("i7-only Tn5 adaptor (Tn5-bottom_Read2N)", [S.seg("s7", nx.S7, "s7"),
+                                                          S.seg("mosaic end", nx.ME, "me")]),
+        oligo("Tn5-top_ME", [S.seg("mosaic end reverse complement", nx.ME_RC, "me")],
+              mods="/5Phos/"),
+        oligo("Indexed P7 primer (P7-001 to P7-016)", list(S.indexed_p7_primer())),
     ]
     return "<h2>Key oligos</h2><seq>" + "".join(rows) + "</seq>"
 
@@ -61,7 +64,7 @@ def main() -> None:
     graph = S.protocol_graph()
     page = assemble_page(graph, [head("scifi-RNA-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>scifi-RNA-seq &mdash; combinatorial fluidic indexing</h1>',
-        info('Defining source: <a href="https://doi.org/10.1101/2019.12.17.879304">Datlinger et al., bioRxiv (2019)</a>; expanded protocol: <a href="https://doi.org/10.1038/s41592-021-01153-z">Nature Methods (2021)</a>.'),
+        info('Defining source: <a href="https://doi.org/10.1038/s41592-021-01153-z">Datlinger et al., Nature Methods (2021)</a>, its Supplementary Table 1 and Supplementary Protocol v2021-01-25. The gel-bead oligo is printed in no table; it is drawn only in the published Extended Data Fig. 3a (an image) and read from that rendered figure.'),
         AnnotationSlot.INTRO, oligos(), construction(graph), sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")

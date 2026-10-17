@@ -9,6 +9,7 @@ Genotyping of Transcriptomes (GoT) adds targeted genotyping to a 10x single-cell
 ## Sources read
 
 - 🟢 The defining paper's “Genotyping of Transcriptomes (GoT)” and “Circularization GoT” Methods, run configurations and supplementary-primer descriptions were read.
+- 🟢 2026-10-17 bounded pass: PMC6782071 JATS `xml.txt` line 196 (GoT Methods), lines 200–202 (Circularization GoT), line 216 (read screening); `sup_tab_5.xlsx.txt` lines 1–74. Supplementary Information Guide confirms Table 5 is the primer list.
 - The source fetch command is `python3 tools/get_sources.py --doi 10.1038/s41586-019-1367-0`; the open manuscript is the readable primary source.
 
 ## Protocol variants kept explicit
@@ -24,7 +25,7 @@ The defining article's [Supplementary Table 5](https://www.nature.com/articles/s
 | Primer | Printed sequence, 5′→3′ |
 |---|---|
 | Forward #1 | `AGGUCAGTCU-[50bp-upstream-locus-specific]` |
-| Reverse #1 | `AGACUGACCUCTACACGACGCTCTTCCGATCT` |
+| Reverse #1 | `AGACUGACCUCTACACGACGCTCTTCCGATCT` (Table 5 row 21 prints `…CCGATC*T`) |
 | Forward #2 | `AGGUCAGTCU[3’end-locus-specific]` |
 | Reverse #2 | `AGACUGACCU[10bp-downstream-locus-specific]` |
 
@@ -46,14 +47,19 @@ The defining article's [Supplementary Table 5](https://www.nature.com/articles/s
 
 🟢 Each named linear target primer is a staggered handle plus the printed target portion. `XXXXXXXX` is the variable sample index, not eight known bases. The table also prints the 5′-kit SpikeIn Guide RT handle `AGCAAGTGAGAAGCATCGTGTC-[Gene Specific Primer]` and additive primer `AGCAAGTGAGAAGCATCGTG*T*C`; the two terminal `*` marks are phosphorothioate linkages. It gives locus-specific circularization primers and alternative Gibson handles as separate rows. Thus the GoT-specific oligos are largely recovered, while the upstream 10x kit oligos and a concrete choice of index/target remain implementation-dependent.
 
+### Published handle discrepancy (circularization GoT)
+
+🟢 Methods (xml.txt line 200) give Fw-primer#2 `AGGUCAGTCU[3’end-locus-specific]` and Rv-primer#2 `AGACUGACCU[10bp-downstream-locus-specific]`; Supplementary Table 5 rows 24–25 list Handle PCR2_fw – Uhang `AGACUGACCU` and Handle PCR2_ rv – Uhang `AGGUCAGTCU`, the opposite assignment. Methods also print Rv-primer#1 without the 3′ phosphorothioate that Table 5 row 21 shows. The circularization branch is not drawn and no choice is modelled; the page caveat records both values.
+
 ## Construct-changing steps
 
-1. 🟢 Target PCR starts about 50 bases upstream of the variant and amplifies toward the 10x end, thereby preserving cell barcode and UMI.
-2. 🟢 Further amplification/indexing makes the genotype library. It may be sequenced alone or spiked into the expression library.
+0. 🟢 After SPRIselect cleanup of amplified cDNA, 3 µL (3′ v2) or 10 µL (3′ v3, 5′) is set aside for GoT. For 3′ v2 only, cDNA amplification gets one extra cycle and the GoT aliquot is re-amplified 3–4 cycles with KAPA HiFi HotStart ReadyMix and 10x primer mix (not drawn).
+1. 🟢 Target PCR (linear GoT): the generic forward SI-PCR oligo (10x Genomics; sequence not printed) anneals partial Read 1 and preserves cell barcode and UMI; a locus-specific reverse primer carries a partial Read 2 handle, a stagger and the gene-specific region. Cycle number is set experimentally (10 for CALR). The “about 50 bases upstream” wording belongs to circularization PCR#1, not the linear primers.
+2. 🟢 SPRI purification removes unincorporated primers; a second PCR with P5_generic (= `illumina.P5`, {{= len(illumina.P5) }} nt) and RPI-x completes P7 and adds the sample index. The library is spiked into the 10x library (HiSeq 2500) or sequenced separately (MiSeq).
 3. 🟢 “Circularization GoT” is an explicitly named alternative amplification strategy in the same paper; it is noted but not silently substituted in the main linear schematic.
 
 ## Final library and read layout
 
-- 🟢 For 3′ v3: Read 1 is 28 cycles, Read 2 is 98 or 130 cycles, and the sample-index read is 8 cycles. The exact barcode/UMI split follows the chosen 10x chemistry.
+- 🟢 Read 1 is 26 cycles (3′ v2 and 5′) or 28 cycles (3′ v3); Read 2 is 98 or 130 cycles; the sample-index read is 8 cycles. Circularization GoT was sequenced PE150 on MiSeq. The exact barcode/UMI split follows the chosen 10x chemistry.
 - 🟢 The cell barcode and UMI are the molecular join key to the parent expression profile.
 - 🟡 Exact 10x primer bases are not retyped from a secondary source; the final page records the barcode, UMI, target and read direction by role.

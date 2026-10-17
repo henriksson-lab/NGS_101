@@ -179,5 +179,26 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two passes now cover the published PDF and reporting summary. A source-positive 15-vs-14-bp linker duplex discrepancy is documented on the page. Version-matched 10x guide and author code links require independent follow-up; full supplementary tables/notes are incompletely checked. No missing claim accepted."
+  "conclusion": "Two passes now cover the published PDF and reporting summary. A source-positive 15-vs-14-bp linker duplex discrepancy is documented on the page. Version-matched 10x guide and author code links require independent follow-up; full supplementary tables/notes are incompletely checked. No missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC11023937 JATS (s41586-024-07239-w_PMC11023937.xml.txt) Critical reagents l.169-203, procedure l.221-258 (RNA-linker ligation through Sequencing), computational l.266; Supplementary Note 2 (MOESM1 pdf.txt l.100-200); Supplementary Table 2 public sheet export.xlsx.txt Linkers and Adaptors rows l.1-15 and member 1 of BC1/BC2/BC3 top/bottom sheets",
+      "oligo_scraper": "Not re-run separately; Supplementary Table 2 sheet read directly and the linker/primer/barcode-member transcriptions checked by the new selftest; earlier pass scraper runs over the bundle recorded.",
+      "findings": "Repository modelling corrections: graph reordered to the published route (T4 PNK RNA 5'-P, RNA linker/T4 RNA ligase 1, HpyCH4V digestion, Klenow dA-tailing, Y DNA linker/Instant Sticky-end ligase, PNK linker phosphorylation, three 96-well split-pool barcode ligations with quench, PNK 3' dephosphorylation, E. coli PAP tailing, 5,000-nucleus sampling, Covaris release, 10x GEM RT, proteinase K reverse crosslinking, Monarch column, Bst 3.0, 1.8x RNAClean, Q5 PCR with Universal + eight index adaptors 13-14 cycles, 1.2x AMPure pool, 300 bp-1.2 kb E-gel); previously the DNA linker was ligated before the RNA linker and those steps were absent. RNA-linker single-strand junction now declared (linker 3'-OH RNA to PNK 5'-P RNA) instead of an inferred unavailable ligation. Separate RNA- and DNA-derived final molecules per Supplementary Note 2 (DNA linker on both sides of DNA insert) with linker UMI features. Transcription error fixed: DNA linker top strand has A30 after NB (Methods l.177, Supp Table 2), model had A31. Legacy finish_pcr_branch call removed; exact Universal/index A1 primer inputs. Existing 15 vs 14 bp DNA-linker published discrepancy retained on the page.",
+      "deferred": [
+        "10x CG000315 Rev E guide (manual URL in MANIFEST; curl DNS error) for gel-bead oligo and partial Read 1 bases, hence pre-PCR primer geometry",
+        "Purpose/mechanism of the Bst 3.0 incubation",
+        "Strand-resolved barcode-set overhang junctions (Extended Data Fig. 2d,i)",
+        "Exact linker-derived bases in the final molecules (role placeholders)",
+        "MUSIC-docker documentation (unavailable) and remaining barcode-sheet members",
+        "MOESM2 (no text layer)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 11 passed (Supplementary Table 2 transcriptions; caught the A31 error); page builds; pairing 0 problems; chemistry 0 established/0 conditional/23 unresolved/0 contradictory (22 steps); source guard 2 checked, 2 failed (universal_adaptor, index_adaptor absent only because the sheet's text twin export.xlsx.txt has no manifest URL row and is excluded by the locator filter; selftest verifies both), 3 inputs without exact states (N-bearing linkers, 10x oligo); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

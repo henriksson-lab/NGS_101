@@ -160,5 +160,25 @@
       "evidence": "Illumina 11 January 2011 original letter, p. 6, prints PE Read 1 and PE Read 2; the latter reverse-complements to the first 37 bases of the SHAPE-Seq A_adapter_b in defining SI p. 1. The page and model now show this source-supported primer. Run-specific reagent lot remains unspecified and is not asserted missing."
     }
   ],
-  "conclusion": "Historical sequencing-primer sequence claim resolved by two independent reads of the original 2011 Illumina letter and defining SI pairing. Kozarewa 2009 original manuscript and author-uploaded supplement now have independent original-source reads; their adapter difference is recorded in the SHAPE-Seq note. Mortimer 2009 original RT protocol is still inaccessible for a full read, and Bentley/Quail originals linked by the Kozarewa supplement remain to be inspected, so linked-source review remains blocked. No residual absence claim accepted."
+  "conclusion": "Historical sequencing-primer sequence claim resolved by two independent reads of the original 2011 Illumina letter and defining SI pairing. Kozarewa 2009 original manuscript and author-uploaded supplement now have independent original-source reads; their adapter difference is recorded in the SHAPE-Seq note. Mortimer 2009 original RT protocol is still inaccessible for a full read, and Bentley/Quail originals linked by the Kozarewa supplement remain to be inspected, so linked-source review remains blocked. No residual absence claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PNAS PMC3131332 HTML text Results lines1268–1272 (bar code near RNA 3′ end, handles, CircLigase ss-ligation, nine PCR rounds, 2×50 GAIIx, opposite-end information), Methods1362–1365; CaltechAUTHORS mirror of PNAS SI pdf.txt lines1–90 (RNA synthesis/bar-code position, 1M7, RT primers, NaOH hydrolysis, CircLigase, AMPure, 9 or 12 PCR cycles, sequencing, read processing), Fig. S1 lines140–188, Fig. S9 438–441, Table S1 450–505",
+      "oligo_scraper": "Bundle scraper run: A_adapter_t SI line39 and A_adapter_b line46 verified; line457 hit is Table S1 RNA sequences (bar codes CTTG/NNNN, TCAC, GCTA, CAGT, GCAA, AGAT, TACG), not oligos. No RT-primer or PCR-primer bases printed.",
+      "findings": "Model corrections: A_adapter_t was P5+TruSeq Read1 with duplicated ACAC (62 nt), now the 58-nt SI sequence; RNA bar code moved from the A_adapter_b end to between RT primer and 3′ linker cDNA (SI p.1 text, Fig. S1, Table S1), so Read 1 = handle+RT primer+bar code and Read 2 reports the stop; treatment handle feature now inline degenerate tag; added NaOH hydrolysis step; workflow/caption/sequencing ending carry 1M7 6.5 mM, CircLigase 68 °C 6 h with 3′-C3 block, separate (+)/(−) ligations, AMPure, 9 or 12 PCR cycles (main text nine), no size selection. 5′ phosphate on A_adapter_b remains inferred.",
+      "deferred": [
+        "Mortimer & Weeks 2009 Nat Protoc primer-extension protocol (target-specific RT-primer bases, RT enzyme/conditions)",
+        "Ingolia 2009 PCR primers (bases of the adapter-binding PCR primers)",
+        "Kozarewa 2009 adapter supplement beyond prior passes",
+        "Merino 2005 structure-cassette original",
+        "Ligation-end geometry and oligo exact states not attached to the shared role-level graph inputs"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

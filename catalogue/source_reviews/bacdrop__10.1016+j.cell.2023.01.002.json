@@ -210,5 +210,25 @@
       "evidence": "Official CG000209 Rev G gives the variable position, and Cell Ranger ATAC whitelist sources appear to exist. The version-matched original whitelist has not yet been inspected; do not call these bases proprietary or unpublished."
     }
   ],
-  "conclusion": "First pass corrected diagram order and lengths and recovered official bead-primer constant arms. Original supplementary Table S1 and linked whitelist/vendor material remain blocked; no missing-information claim is accepted."
+  "conclusion": "First pass corrected diagram order and lengths and recovered official bead-primer constant arms. Original supplementary Table S1 and linked whitelist/vendor material remain blocked; no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Cell author manuscript PMC10014032 JATS txt STAR Methods 177–217 (fixation, permeabilization, rRNA/gDNA depletion, in-cell RT, TdT, droplet generation, second strand/round 2, cleanup, enrichment, Nextera XT, NovaSeq), Figure 1 legend 825–827, Key Resources Table 1018–1083; Figure 1 image nihms-1869349-f0002.jpg panel B (rendered and viewed; PMC instance bin URL); 10x CG000209 Rev G txt (now fetched via extra_sources) bead oligo 3766, Read 1N/2N 3737–3781",
+      "oligo_scraper": "Bundle scraper run; KRT lines 1018/1020/1022 SMRT_dT/SMRT_PCR/P5 partial verified (printed with spaces); lines 1024–1030 and 251 are promoter-cloning primers; 10x lines 3739–3825 bead oligo, Read 1N/2N and ATAC index primers (ATAC i7 primer not used by BacDrop, which uses Nextera N7).",
+      "findings": "Model corrections: Figure 1B 'For Sequencing' order P5–CB2–PBS1–UMI–CB1–cDNA–PBS2–Index1–P7 contradicted the model's CB1-before-UMI; Read 1 now UMI 1–8, CB1 9–21 (selftest updated). Final library was a batch_ngs TruSeq ligation endpoint with a dA junction; replaced by a local Nextera XT endpoint (P5+16-nt CB2+S5 from bead oligo; inferred PBS1 remainder of the Read 1 site on the RT primer; Nextera ME/S7 tagmentation end; N7 i7) and removed the batch_ngs import. Graph added DNase I gDNA removal, SMRT_dT second-strand step separate from four bead-capture cycles, emulsion break/Dynabeads/0.6X AMPure cleanup, P5/SMRT_PCR enrichment, Nextera XT tagmentation, P5/N7 PCR and 0.6X cleanup; named reagents and conditions; SMRT_dT, SMRT_PCR and P5 partial given source-printed states.",
+      "deferred": [
+        "Table S1 (384 RT primers, PBS1 handle) and supplements 1–14 behind the PMC download gate",
+        "Nextera XT kit/N7 index primer original (FC-131-1096/FC-131-2001)",
+        "NEB E7850 rRNA depletion guide",
+        "Version-matched 10x ATAC barcode whitelist",
+        "Tagmentation off-products (fragments lacking the bead P5 end) not represented"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2 passed; page builds; pairing 0 problems; chemistry 0 established/0 conditional/17 unresolved/0 contradictory (15 steps); source guard 2 exact checked (P5 partial, SMRT_PCR), 0 failed, 3 inputs without exact states (rRNA probes, Table S1 RT primers, SMRT_dT with VN placeholder); Markdown built; review schema checked"
+    }
+  ]
 }

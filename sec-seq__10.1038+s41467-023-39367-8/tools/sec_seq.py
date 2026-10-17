@@ -20,8 +20,10 @@ GUIDE = "10x CG000317, Appendix pp71–72 (Rev E): https://www.10xgenomics.com/s
 CAVEAT = ("This schematic represents the main human ASC experiment: Chromium 3′ v3.1 with "
           "CG000317 and 28/10/10/90 sequencing. The paper’s mixed-species validation uses a "
           "distinct 5′ v2/TotalSeq-C branch. The <a href='https://cdn.10xgenomics.com/image/upload/v1660261285/support-documents/CG000317_ChromiumNextGEMSingleCell3_v3.1_CellSurfaceProtein_RevE.pdf'>public CG000317 Rev E guide</a> supplies the dual-index "
-          "GEX and Capture Sequence 1 feature architectures shown here; the exact guide revision, "
-          "anti-PE barcode member and selected sample-index pair remain unassigned in this model.")
+          "GEX and Capture Sequence 1 feature architectures shown here. Supplementary Table 2 names the "
+          "secretion tag as TotalSeq-B0911 anti-PE (BioLegend 408113, clone PE001) after PE anti-IgG "
+          "(BD 555787); its 15-base barcode is not printed in the inspected originals. The exact guide "
+          "revision, anti-PE barcode bases and selected sample-index pair remain unassigned in this model.")
 CAVEAT += (" <strong>Apparent vendor-guide inconsistency:</strong> CG000317 Rev E p.72 prints "
            "the TT forward primer and GEX product with the 29-base P5-side prefix "
            "AATGATACGGCGACCACCGAGATCTACAC before the i5 index; "
@@ -64,7 +66,7 @@ def secretion_precursor():
                       *_identity_segments("secretion"),
                       Segment("Capture Sequence 1", CAPTURE_SEQ1),
                       Segment("feature upstream N9", "N" * 9, placeholder=True, length_bp=9),
-                      Segment("anti-PE feature barcode", "N" * 15, "cbc", placeholder=True,
+                      Segment("TotalSeq-B0911 anti-PE barcode", "N" * 15, "cbc", placeholder=True,
                               feature=feature("sec_antibody", "feature_barcode", "unknown")),
                       Segment("feature downstream N10", "N" * 10, placeholder=True, length_bp=10),
                       Segment("TruSeq Read 2 arm", revcomp(il.TRUSEQ_READ2), "r2")),
@@ -158,30 +160,41 @@ def oligos():
         "CG000317 GEX bead-primer family — 5′-" + GEX_BEAD_HANDLE + "-N16-N12-" + "T" * 30 + "VN-3′",
         "CG000317 feature bead-primer family — 5′-" + FEATURE_AMPLIFICATION_HANDLE[5:] + "-N16-N12-" + CAPTURE_SEQ1 + "-3′",
         "CG000317 template-switch oligo — 5′-" + TSO + "rGrGrG-3′",
-        "The N15 secretion-antibody barcode and selected ten-base i5/i7 members remain symbolic; these are guide families, not complete ordering sequences for the SEC-seq anti-PE conjugate.",
+        "The N15 secretion-antibody barcode and selected ten-base i5/i7 members remain symbolic; these are guide families, not complete ordering sequences for the TotalSeq-B0911 anti-PE conjugate (BioLegend 408113).",
     )
 
 def sections(): return [
  ("Capture one cell in a nanovial",[Row(chunks=[("antibody-coated cavity ← cell",None,False)])],"The cavity retains the cell and concentrates secreted protein on its surface."),
- ("Label captured secretion",[Row(chunks=[("nanovial — secreted IgG — detection antibody — DNA feature barcode","cbc",False)])],"An oligo-barcoded secondary antibody converts secretion into a sequenceable feature."),
+ ("Label captured secretion",[Row(chunks=[("nanovial — secreted IgG — detection antibody — DNA feature barcode","cbc",False)])],"PE anti-IgG followed by TotalSeq-B0911 anti-PE converts captured IgG into a sequenceable feature; live cell-loaded nanovials are then sorted (SYTOX Green-negative)."),
  ("Partition cell-loaded nanovials",[Row(chunks=[("one GEM barcode → cellular mRNA + nanovial antibody tags","cbc",False)])],"The nanovial fits through the Chromium microfluidic channel and does not replace the standard bead chemistry."),
  ("Amplify two libraries",[Row(chunks=[("barcoded cDNA ├─ gene expression\n              └─ secretion feature tags",None,False)])],"The paper pools 80% RNA and 20% antibody-tag library for sequencing."),]
 
 def protocol_graph():
  g=ProtocolGraph(TITLE,authority=SOURCE)
  cells=g.input("cells","cells containing poly(A) RNA and secreted protein analytes",MaterialKind.BIOLOGICAL,state=molecule("SEC-seq cells",(role("poly(A) RNA"),role("secreted proteins"))),primary=True)
- nanovials=g.input("nanovials","capture-antibody-coated nanovials",MaterialKind.SELECTION)
- loaded=g.product("loaded","cell-loaded nanovials retaining secreted protein",MaterialKind.MOLECULAR,state=molecule("loaded nanovial",(role("cell"),role("captured secretion"),role("poly(A) RNA"))))
- uncaptured=g.product("uncaptured","uncaptured secretion and empty nanovials",MaterialKind.WASTE)
- g.react("capture","Capture cells and their secretion in antibody-coated nanovials",StepKind.BINDING,((cells,InputRole.TEMPLATE),(nanovials,InputRole.SELECTION)),(loaded,uncaptured)); g.discard(uncaptured,"does not associate secretion with a retained cell-loaded nanovial")
- detection=g.input("detection_antibody","oligo-barcoded secretion-detection antibody",MaterialKind.SELECTION,inferred=True,source=SOURCE+" (selected anti-PE conjugate sequence not declared in this model)")
+ # Published Methods ("Methods of coating nanovials", "...cell loading", "...incubation",
+ # "SEC-seq human ASCs sample preparation and sequencing") and MOESM1 Supplementary Table 2.
+ nanovials=g.input("nanovials","streptavidin nanovials coated with biotinylated anti-IgG (Southern Biotech 2014-08) and anti-CD27 or anti-CD45 capture antibodies",MaterialKind.SELECTION)
+ blocking=g.input("blocking_antibody","anti-IgG blocking antibody added to cells before loading (25 µg/mL)",MaterialKind.CONDITION)
+ loaded=g.product("loaded","cell-loaded nanovials",MaterialKind.MOLECULAR,state=molecule("loaded nanovial",(role("cell"),role("poly(A) RNA"))))
+ unloaded=g.product("unloaded","background cells not bound to nanovials",MaterialKind.WASTE)
+ g.react("load","Load cells into antibody-coated nanovials (1 h on ice) and strain away unbound cells",StepKind.BINDING,((cells,InputRole.TEMPLATE),(nanovials,InputRole.SELECTION),(blocking,InputRole.CONDITION)),(loaded,unloaded)); g.discard(unloaded,"passes the cell strainer while cell-loaded nanovials are retained and recovered")
+ incubation=g.input("secretion_incubation","37 °C, 30 min rotating incubation in medium",MaterialKind.CONDITION)
+ captured=g.product("captured","cell-loaded nanovials retaining secreted IgG",MaterialKind.MOLECULAR,state=molecule("loaded nanovial",(role("cell"),role("captured secretion"),role("poly(A) RNA"))))
+ g.react("capture","Incubate at 37 °C so secreted IgG accumulates on the nanovial anti-IgG",StepKind.THERMAL_TREATMENT,((loaded,InputRole.TEMPLATE),(incubation,InputRole.CONDITION)),(captured,))
+ primary_ab=g.input("pe_anti_igg","PE mouse anti-human IgG (BD 555787, clone G18-145)",MaterialKind.SELECTION,source=SOURCE+" Supplementary Table 2")
+ detection=g.input("detection_antibody","TotalSeq-B0911 anti-PE antibody (BioLegend 408113, clone PE001)",MaterialKind.SELECTION,source=SOURCE+" Supplementary Table 2 (barcode bases not printed in the inspected originals)")
  labelled=g.product("labelled","nanovials bearing sequenceable secretion tags",MaterialKind.MOLECULAR,state=molecule("labelled nanovial",(role("cell"),role("poly(A) RNA"),role("secretion antibody tag"))))
- unbound=g.product("unbound","unbound detection-antibody tags",MaterialKind.WASTE)
- g.react("label","Label captured secretion with oligo-barcoded antibodies",StepKind.BINDING,((loaded,InputRole.TEMPLATE),(detection,InputRole.SELECTION)),(labelled,unbound)); g.discard(unbound,"does not report nanovial-captured secretion")
- droplets=g.input("droplets","10x Chromium GEM partitioning condition",MaterialKind.CONDITION)
+ unbound=g.product("unbound","unbound PE and oligo-barcoded antibodies",MaterialKind.WASTE)
+ g.react("label","Stain captured IgG with PE anti-IgG and the oligo-barcoded anti-PE antibody",StepKind.BINDING,((captured,InputRole.TEMPLATE),(primary_ab,InputRole.SELECTION),(detection,InputRole.SELECTION)),(labelled,unbound)); g.discard(unbound,"removed by the two post-staining washes (general staining Methods)")
+ sytox=g.input("sytox","SYTOX Green viability stain and Nanocellect WOLF sorter gate",MaterialKind.SELECTION)
+ sorted_=g.product("sorted","sorted live-cell-loaded nanovials (collected independent of secretion amount)",MaterialKind.MOLECULAR,state=labelled.state)
+ rejected=g.product("sort_rejected","SYTOX Green-positive or cell-free nanovial events",MaterialKind.WASTE)
+ g.react("sort","Sort SYTOX Green-negative cell-loaded nanovials",StepKind.SELECTION,((labelled,InputRole.TEMPLATE),(sytox,InputRole.SELECTION)),(sorted_,rejected),changes_molecule=False); g.discard(rejected,"falls outside the live-cell-loaded nanovial sort gate (Supplementary Fig. 8a)")
+ droplets=g.input("droplets","10x Chromium Chip G GEM partitioning, 2,500–10,000 cell-loaded nanovials per lane",MaterialKind.CONDITION)
  occupied=g.product("occupied","cell-barcoded transcript and secretion-tag products",MaterialKind.MOLECULAR,state=labelled.state)
  failed=g.product("failed","empty or unresolved GEM products",MaterialKind.WASTE)
- g.react("partition","Partition cell-loaded nanovials with barcoded beads",StepKind.PARTITION,((labelled,InputRole.TEMPLATE),(droplets,InputRole.CONDITION)),(occupied,failed),changes_molecule=False); g.discard(failed,"does not retain a resolvable nanovial-associated cell barcode")
+ g.react("partition","Partition cell-loaded nanovials with barcoded beads",StepKind.PARTITION,((sorted_,InputRole.TEMPLATE),(droplets,InputRole.CONDITION)),(occupied,failed),changes_molecule=False); g.discard(failed,"does not retain a resolvable nanovial-associated cell barcode")
  rna=g.product("rna_branch","gene-expression branch",MaterialKind.MOLECULAR,state=occupied.state); sec=g.product("sec_branch","secretion-tag branch",MaterialKind.MOLECULAR,state=occupied.state)
  g.react("split","Separate transcript and secretion-tag products",StepKind.SPLIT,((occupied,InputRole.TEMPLATE),),(rna,sec),changes_molecule=False)
  bead=g.input("bead_primer","CG000317 TruSeq-handle cell-barcode/UMI oligo(dT) bead primer",MaterialKind.OLIGO,source=GUIDE)
@@ -192,7 +205,7 @@ def protocol_graph():
  tagpol=g.input("tag_extension","secretion-tag barcode-transfer polymerase",MaterialKind.CATALYST)
  copied=g.product("copied","cell-barcoded secretion-antibody tags",MaterialKind.MOLECULAR,state=Construct((Segment("GEM feature handle", FEATURE_AMPLIFICATION_HANDLE[5:], "r1"), *secretion_precursor().segments[1:]), name="CG000317 secretion GEM product"))
  g.react("copy_tags","Transfer cell identity to secretion-antibody tags",StepKind.EXTENSION,((sec,InputRole.TEMPLATE),(tagprimer,InputRole.STRUCTURAL),(tagpol,InputRole.CATALYST)),(copied,))
- reviewed=["cells","nanovials","capture","detection_antibody","label","droplets","partition","split","bead_primer","rt","reverse_transcribe","tag_primer","tag_extension","copy_tags"]
+ reviewed=["cells","nanovials","blocking_antibody","load","secretion_incubation","capture","pe_anti_igg","detection_antibody","label","sytox","sort","droplets","partition","split","bead_primer","rt","reverse_transcribe","tag_primer","tag_extension","copy_tags"]
  amplified_rna = _amplify_capture(g,"gex",cdna,cdna.state,GEX_BEAD_HANDLE,TSO[:22],reviewed)
  amplified_sec = _amplify_capture(g,"feature",copied,secretion_precursor(),FEATURE_AMPLIFICATION_HANDLE,il.TRUSEQ_READ2[:21],reviewed)
  fragmentation = g.input("fragmentation", "CG000317 cDNA fragmentation enzymes", MaterialKind.CATALYST)

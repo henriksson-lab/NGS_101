@@ -6,10 +6,10 @@
 
 🟢 The defining main article (JATS lines 83, 199–211) and Extended Experimental Procedures (Document S1, current text lines 2497–2510) specify:
 
-1. Digest native chromatin with MNase and stop with EGTA.
-2. Centrifuge and collect soluble chromatin supernatant; immunoprecipitate the selected Pol II CTD state.
+1. Wash isolated chromatin (from ~1.6 × 10^8 cells) in 1× MNase buffer, digest with MNase (40 U/µl, 37 °C, 90 s, 1,400 rpm) and stop immediately with 25 mM EGTA.
+2. Centrifuge (13,000 rpm, 5 min) and collect the soluble chromatin supernatant; dilute in 9 ml NET-2 and immunoprecipitate the selected Pol II CTD state with antibody-conjugated beads (40 µg antibody, 4 °C, 1 h); wash six times with NET-2 and once with PNKT.
 3. Treat the washed immunoprecipitation beads with **T4 PNK, 3′ phosphatase minus**, and ATP. This phosphorylates RNA 5′ ends before extraction while preserving the informative Pol II-protected 3′ hydroxyl.
-4. Wash, extract RNA with Trizol and retain the 35–100-nt denaturing-gel interval.
+4. Wash once with NET-2, extract RNA with Trizol, resolve on an 8% acrylamide/7 M urea gel, elute the 35–100-nt interval (1 M NaOAc, 1 mM EDTA) and ethanol-precipitate.
 5. Prepare libraries using the named TruSeq Small RNA kit and sequence paired reads on HiSeq 2000/2500.
 
 The former repository model extracted RNA before a generic kinase reaction. It also supplied an eight-base index through a shared helper. These were repository modelling errors, not publication errors. The new graph owns its route and keeps unassigned molecular details as explicit roles.
@@ -32,7 +32,9 @@ These are source-positive manufacturer-family data, displayed separately from ac
 
 ## Published source difference
 
-The defining article (JATS line 201) and original Document S1 (text line 2502) specify **0.1% Triton X-100** in the PNKT bead wash. The repeated mNET-seq extraction paragraph in the deposited GSE60358 metadata instead specifies **0.05%**. Both original values are retained in a public schematic notice. The graph preserves the physical wash and phosphorylation order without selecting this concentration; the actual experimental value remains unresolved. No typographical error is assumed. Other extracted unit/volume differences require visual confirmation before interpretation as genuine dose changes.
+The defining article (JATS line 201) and original Document S1 (text line 2502) specify **0.1% Triton X-100** in the PNKT bead wash. The repeated mNET-seq extraction paragraph in the deposited GSE60358 metadata instead specifies **0.05%**. Both original values are retained in a public schematic notice. The graph preserves the physical wash and phosphorylation order without selecting this concentration; the actual experimental value remains unresolved. No typographical error is assumed.
+
+The same sources also differ in the MNase-buffer chromatin wash: **100 µl** in the article (JATS line 201) and Document S1 (text line 2498), **1 ml** in the GEO paragraph repeated for 18 samples. This is also shown on the schematic; the graph selects no wash volume. The GEO paragraph renders several other microlitre/microgram amounts as ml/mg (500 ml PNKT, 100 ml PNK mix, 40 mg antibody, 40 u/mL MNase), so those unit renderings are not interpreted as dose changes. The PNK amount printed in the article (0.05 U/ml) is transcribed but not assigned as a model concentration.
 
 ## Readout and molecule fates
 

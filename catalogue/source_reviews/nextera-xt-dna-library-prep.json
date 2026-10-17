@@ -169,5 +169,25 @@
       "The current tagged duplex and fixed insert length derive from shared schematic constructors. Detailed loaded-reagent/end topology remains unassembled; proprietary composition is not established merely by a document footer."
     ],
     "scope": "User cleared the audit goal. No source absence or whole-protocol review completion accepted; no further retrieval or refactor started."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Illumina Nextera XT Product Documentation 15031942 v07 .pdf.txt lines 99-180 (assay/input), 917-1023 (Tagment: TD/ATM/NT, TAG 55C 5min, NT at 10C then 5min RT), 1025-1170 (Amplify: 5ul i7+5ul i5, 15ul NPM, NXT PCR 72C3min/95C30s/12 cycles/72C5min), 1175-1313 (IPB single-sided cleanup 3:2, amplicon ratios); Illumina Adapter Sequences 1000000002694 v22 lines 249-283 (Nextera transposase adapters, Index1/Index2 PCR primers), 13318-13345 and 13505-13521 (N7xx/S5xx 8-base tables); Nextera XT Tips and Troubleshooting 770-2015-015 lines 1-32 and 345-360 (partial adapters; <200 bp, adapter and primer dimers removed at PCR cleanup)",
+      "oligo_scraper": "Bundle scraper run (--max-hits 15); product guide and tech note give 0 sequence hits; adapter-guide hits at lines 270, 18080, 18193 checked; line 18080/18193 full-length adapters are in the AmpliSeq section, the Nextera PCR primers used are at lines 281-283.",
+      "findings": "Replaced the shared generic PCR with a local exact PCR geometry using the adapter guide's printed Index 1 (P7-[i7]-S7) and Index 2 (P5-[i5]-S5) primers, 8-N windows; added NPM, NXT program and a represented IPB single-sided cleanup with <200 bp/adapter/primer-dimer waste discarded; tagment/neutralize steps carry TD/ATM 55C 5 min and immediate NT, 5 min RT; transposome input keeps inferred status but carries the generic Nextera Read 1/Read 2 transposase adapters (S5+ME, S7+ME) as a loaded-end pool; caveat states the ATM strands and non-transferred strand are not printed and the tagmented intermediate is drawn closed although the guide opens PCR with 72C 3 min without naming gap fill; note corrected ('15 minutes' is the headline, the TAG incubation is 55C 5 min). No published discrepancy found.",
+      "deferred": [
+        "Index Adapters Pooling Guide 1000000041074 v13 (manual, HTTP 404)",
+        "ATM loaded-strand identity and non-transferred strand; transposition gap geometry and 72C gap fill",
+        "Bead-based normalization (LNA1/LNB1) single-stranded endpoint not drawn",
+        "IDT/UD 10-base index alternatives and run-specific read lengths",
+        "Sequencing Library qPCR Quantification Guide 11322363 not re-read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/4 conditional/4 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 2 inputs without exact states (placeholder-index PCR primers); Markdown built; review schema checked"
+    }
+  ]
 }

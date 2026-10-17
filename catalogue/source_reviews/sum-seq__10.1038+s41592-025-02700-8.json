@@ -356,5 +356,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent readers checked the defining article, all six 2025 publisher attachments, the Datlinger indexing predecessor, Hennig Tn5 article and File S1, both candidate 10x guides, and the later Nature Protocols preview and supplementary PDF. Original MOESM3 Table 1 prints modified general oligos and 96-member ATAC/RNA pre-index families; Table 13 contains distinct perturbation constructs. Hennig's 5′-phosphorylated MErev lacks SUM's published 3′ ddC termination and is not substituted for it. The later protocol confirms a reverse-complement ATAC sample-index example and read parsing but does not establish the 2025 experiment's 10x kit revision. Picelli 2014a original, full later article and its XLSX tables, author pipeline contents, and a version-matched 2025 10x guide remain open. No residual missing-information claim is accepted."
+  "conclusion": "Two independent readers checked the defining article, all six 2025 publisher attachments, the Datlinger indexing predecessor, Hennig Tn5 article and File S1, both candidate 10x guides, and the later Nature Protocols preview and supplementary PDF. Original MOESM3 Table 1 prints modified general oligos and 96-member ATAC/RNA pre-index families; Table 13 contains distinct perturbation constructs. Hennig's 5′-phosphorylated MErev lacks SUM's published 3′ ddC termination and is not substituted for it. The later protocol confirms a reverse-complement ATAC sample-index example and read parsing but does not establish the 2025 experiment's 10x kit revision. Picelli 2014a original, full later article and its XLSX tables, author pipeline contents, and a version-matched 2025 10x guide remain open. No residual missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC12165849 JATS (s41592-025-02700-8_PMC12165849.xml.txt) line224 overview; lines398-427 Transposome generation, DNA transposition, In situ RT, cDNA/mRNA hybrid tagmentation, Gap fill and ExoI, GEM generation, Pre- and final library amplification, Sequencing; MOESM3 Supplementary Table 1a-d (workbook text lines42-262)",
+      "oligo_scraper": "Run on the article text and MOESM1 (0 hits; sequences only in workbook) and on the extracted Table 1 sheets (11 general/index hits with [Phos], [ddc], [invdT] and PTO * modifications); every graph oligo verified against Table 1b-d rows.",
+      "findings": "Graph corrected from a pre-RT RNA/ATAC split to the published single-nucleus order: barcoded-Tn5 transposition, EDTA stop, in situ oligo(dT) RT, pooling, Read1N-only hybrid tagmentation, Maxima/Thermolabile ExoI gap fill, 10x GEM linear barcoding (4-12 cycles) with invdT blocker, Silane/1.4x SPRI, 3-primer pre-amplification (5 cycles, 1.2x SPRI), split, modality PCR and 0.72x/1.2x SPRI. Representative shells replaced by constructs assembled from Table 1 oligos with identifiers on their correct ends (RNA UMI+sample index in Read 2; ATAC sample index in Index 1; droplet barcode Index 2). Illumina run lengths declared (ATAC 55/11/16/55, RNA 95/6/16/21); Aviti lengths shown. Exact Table 1 states attached to transposome, RT, blocker and PCR primer inputs.",
+      "deferred": [
+        "10x scATAC gel-bead oligo and kit revision (10x user guide; bead P5 remainder and 16-nt droplet barcode drawn inferred)",
+        "[library_index] length/sequences and ATAC library-index readout beyond 11 Index 1 cycles",
+        "Datlinger 2021 (ref. 6) and Hennig 2018 (ref. 84) predecessor methods",
+        "Author SUMseq repository (manual; git.embl.org archive unreachable)",
+        "PCR primer landing geometry for pre-amplification and final PCR"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 13/13 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/17 unresolved/0 contradictory; source guard 12 exact checked, 0 failed, 1 input without exact state (10x bead oligo); Markdown built; review schema checked"
+    }
+  ]
 }

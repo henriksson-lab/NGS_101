@@ -26,9 +26,21 @@ Corces et al., *Nature Genetics* (2016),
    2.5 µl TDE1, 0.5 µl 1% digitonin and 22 µl nuclease-free water. Digitonin therefore
    permeabilizes the plasma membrane while Tn5 enters and fragments accessible chromatin.
 3. 🟢 The one-tube permeabilization/transposition is incubated for 30 min at 37 °C with
-   mixing at 300 r.p.m., then stopped by MinElute purification.
-4. 🟢 The defining workflow uses five initial amplification cycles and an aliquot qPCR
-   curve to select the remaining cycles rather than applying one fixed PCR count.
+   mixing at 300 r.p.m. (TD buffer/TDE1 Illumina FC-121-1030; digitonin Promega G9441),
+   then purified with a QIAGEN MinElute Reaction Cleanup kit (Cat# 28204) and eluted in
+   10 µl elution buffer (10 mM Tris-HCl, pH 8).
+4. 🟢 The article itself says only that transposed fragments "were amplified and
+   purified as described previously" (its ref. 48, Buenrostro et al. 2015 *Curr Protoc
+   Mol Biol*) "with modified primers" (its ref. 23, Buenrostro et al. 2015 *Nature*), and
+   that libraries were quantified by qPCR before sequencing.
+5. 🟡 Inherited from ref. 48 (PMC4374986 Basic Protocol, PCR Amplification; read
+   2026-10-17), not restated in the Fast-ATAC Methods: 10 µl transposed DNA with 2.5 µl
+   each 25 µM primer in NEBNext High-Fidelity 2× PCR Master Mix; 72 °C 5 min gap-fill
+   then 98 °C 30 s; five cycles of 98 °C 10 s, 63 °C 30 s, 72 °C 1 min; a 5 µl SYBR
+   Green I qPCR side reaction picks the extra cycles N at ¼ of maximum fluorescence; the
+   remaining 45 µl is cycled N more times and purified on a MinElute PCR Purification
+   column (20 µl elution). The page shows this as the cited workflow, not as an
+   independently reported Fast-ATAC parameter set.
 
 Fast-ATAC is therefore a sample-preparation variant, not a new adapter family. It is kept
 as its own protocol page because simultaneous digitonin permeabilization and tagmentation
@@ -48,3 +60,21 @@ particular Fast-ATAC sample.
 dual-index `76×8×8×76` sequencing. Read 1 and Read 2 enter accessible
 genomic DNA from opposite Tn5 mosaic ends; the eight-base i7 and i5 reads
 identify the selected sample indexes. No molecular UMI or cell barcode is present.
+
+## Open questions
+
+- 🔴 The per-sample v2_Ad1/v2_Ad2 index pairs are not assigned in the inspected article
+  text or supplements; both indexes stay placeholders.
+- Whether every Fast-ATAC library followed the ref. 48 cycling exactly (for example
+  the post-transposition MinElute Reaction Cleanup kit here versus the MinElute PCR
+  Purification kit in ref. 48) is not stated; these are different protocol texts, not
+  a published discrepancy.
+
+## Review trail
+
+- 2026-10-17 bounded pass (round 2026-10-17-breadth-first-10): re-read PMC5042844
+  Online Methods "Fast-ATAC sequencing" (JATS text lines 194–198) and references 23/48;
+  read ref. 48 PCR Amplification (PMC4374986 text lines 103–169); verified v2_Ad1.1 and
+  v2_Ad2.1 against Buenrostro 2015 *Nature* MOESM36 Sheet1 lines 6 and 99. The graph now
+  shows the cold pellet as a cleanup (not a separate permeabilization), digitonin in the
+  transposition step, the qPCR-chosen extra cycles and the final MinElute cleanup.

@@ -9,6 +9,27 @@
 - 🟢 [PacBio SMRTbell Template Prep Kit 1.0 insert](https://www.pacb.com/wp-content/uploads/2015/09/Insert-SMRTbell-Template-Prep-Kit-1.0.pdf), p. 1, component list: `Blunt Adapter` PN 100-348-100 and End Repair Mix.
 - 🟢 [PacBio SMRTbell Express Template Prep Kit 2.0 overview](https://www.pacb.com/wp-content/uploads/SMRTbell-Express-TPK-2.0-Overview-Large-Insert-gDNA-Library-Prep-Customer-Training.pdf), pp. 6 and 8: Overhang Adapter v3 has a T overhang and the kit uses A/T ligation instead of blunt ligation. These are kit-version comparators; neither is identified as the kit used in the PAIso-seq experiment.
 
+## 2026-10-17 bounded pass
+
+Re-read the published PMC6876564 JATS Results line 54 (Fig. 1a design paragraph) and
+Online Methods lines 142–148 (bulk and single-oocyte library construction), Supplementary
+Information PDF Supplementary Table 1 (text lines 688–745), and the article PDF text line
+158 for the guide-oligo 3′ end. Reaction details now in the graph, all 🟢 from Methods
+line 144: end extension with dNTP and Klenow fragment (exo−, NEB) on the BC3-2dU template
+at 37 °C for 1 h; USER (NEB) at 37 °C for 30 min; RNA Clean & Concentrator-5 cleanup of
+end-extended RNA (>200 nt), which is the represented separation of the short cleaved
+guide fragments; KAPA HiFi HotStart ReadyMix PCR; Pure PB size selection at 1× (>200 bp)
+and 0.4× (>2 kb) with the two fractions combined equimolar before SMRTbell preparation.
+
+Published discrepancies (shown on the page):
+
+- 🟢 Results (JATS line 54; PDF text line 158) prints the guide 3′ end as
+  `5′-dUTTTTTTTdUTTTTTTT-3′` (seven T after each dU); every 2dU-BC row of
+  Supplementary Table 1 prints `dUTTTTTTTTdUTTTTTTTT` (eight T). The model uses the table.
+- 🟢 Results describes the guide, RT and PCR primers as "TSO minus triple G", but the
+  table RT primer ends `…GAGTAC` and PCR primer `…GAGT`, not the `…GAGTACAT` left by
+  removing `rGrG+G`. The exact table primers are drawn.
+
 ## Construct path
 
 🟢 A barcoded oligo containing strategically placed deoxyuridines supports end extension over the RNA poly(A) tail. USER cleavage removes that oligo before reverse transcription. Template switching adds the opposite PCR handle, and full-length cDNA is converted to a PacBio SMRTbell. This preserves tail length and internal non-A residues in the same CCS read as the transcript isoform.

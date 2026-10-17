@@ -89,5 +89,24 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Located first pass only; independent pass 2 and inaccessible evidence remain open."
+  "conclusion": "Located first pass only; independent pass 2 and inaccessible evidence remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "PMC3959825 author-manuscript JATS Online Methods lines 71-85 (nuclei prep, transposition, MinElute, PCR/qPCR cycle choice, low-cell-number variant, library QC) and Primary data processing line 99 (read configurations); publisher MOESM200 Supplementary Data and Methods pdf.txt Supplementary Table 1 lines 1-103",
+      "oligo_scraper": "Bundle scraper run; Ad1_noMX (line 3) and Ad2.1 (line 7) hits checked against Table 1; Ad2.2-Ad2.24 family collapsed and inspected in lines 9-99; no modifications printed.",
+      "findings": "Model oligos Ad1_noMX and Ad2.1 match Table 1 exactly and now carry exact graph states. Added source-stated MinElute purification after transposition (with the 500/5,000-cell skip in the label) and Qiagen PCR cleanup with discarded flow-through; PCR step now names NEBNext master mix, 72 C 5 min extension and 5 + qPCR-chosen cycles (10-12 total). Read lengths 50x8x50 (HiSeq) declared with MiSeq 34x8x34 named on the page; single i7 index read confirmed by Ad1_noMX lacking an index. Note rewritten with citation/version, sections read, verbatim oligos, steps, reads and open questions; ref MANIFEST locator corrected to the publisher ESM.",
+      "deferred": [
+        "Publisher typeset article (https://www.nature.com/articles/nmeth.2688, paywalled); author manuscript used",
+        "Illumina Nextera DNA Sample Prep kit guide (loaded Tn5 adapter sequences, TD buffer)",
+        "PMC NIHMS554473 supplement copy (download gate; publisher ESM read instead)",
+        "Ad2.N index identity with Illumina Nextera i7 set"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks) passes; page builds; pairing 0 problems; chemistry 1 established/0 conditional/5 unresolved/0 contradictory; source guard 2 exact checked (ad1_nomx, ad2_indexed), 0 failed, 1 input without exact state (loaded_mosaic_end); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

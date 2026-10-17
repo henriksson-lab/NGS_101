@@ -70,7 +70,7 @@ indrop-v1__10.1016+j.cell.2015.04.044	inDrop v1	10.1016/j.cell.2015.04.044	docum
 indrop-v2__10.1038+nprot.2016.154	inDrop v2	10.1038/nprot.2016.154	documented	published	RNA	Nature Protocols 2017 inDrop chemistry with PE2-N6 conversion and flipped biological/metadata reads.
 sci-atac-seq__10.1126+science.aab1601	sci-ATAC-seq	10.1126/science.aab1601	documented	published	DNA	Original two-level sci-ATAC-seq; combined research provenance for later variants remains with this protocol.
 sci-atac-seq-2018__10.1038+nature25981	sci-ATAC-seq (2018)	10.1038/nature25981	documented	published	DNA	Improved two-level protocol with authoritative 10-nt PCR-index oligos from Supplementary Table S12.
-sci-atac-seq3__10.1126+science.aba7612	sci-ATAC-seq3	10.1126/science.aba7612	documented	published	DNA	Three-level N5/N7 splint-ligation protocol from Domcke et al. 2020; unavailable Table S7 oligo regions are marked inferred.
+sci-atac-seq3__10.1126+science.aba7612	sci-ATAC-seq3	10.1126/science.aba7612	documented	published	DNA	Three-level N5/N7 splint-ligation protocol from Domcke et al. 2020, all drawn oligo bases from author Table S7; only the gap fill-in role of the initial 72 °C PCR step is inferred.
 plate-scatac-seq__10.1038+s41467-018-07771-0	Plate_scATAC-seq	10.1038/s41467-018-07771-0	documented	published	DNA	Bulk tagmentation followed by single-nucleus sorting and per-well Nextera index PCR.
 pi-atac-seq__10.1038+s41467-018-07115-y	Pi-ATAC-seq	10.1038/s41467-018-07115-y	documented	published	DNA	Protein-indexed FACS with bulk tagmentation and per-well ATAC library PCR.
 10x-chromium-single-cell-atac	10x Chromium Single Cell ATAC v1		documented	published	DNA	Commercial protocol documented from 10x CG000168: bulk tagmentation, droplet barcode extension and dual-index Nextera readout.
@@ -80,7 +80,7 @@ scdnase-seq__10.1038+nature15740	scDNase-seq	10.1038/nature15740	documented	publ
 scmnase-seq__10.1038+s41586-018-0567-3	scMNase-seq	10.1038/s41586-018-0567-3	documented	published	DNA	Single-cell MNase digestion followed by inferred TruSeq-style ligation-library construction.
 scifi-atac-seq__10.1101+2023.09.17.558155	scifi-ATAC-seq	10.1101/2023.09.17.558155	documented	published	DNA	Two-sided plate-barcoded Tn5 followed by overloaded 10x scATAC v1.1 droplet barcoding and four custom sequencing primers.
 txci-atac-seq__10.1101+2023.05.11.540245	txci-ATAC-seq	10.1101/2023.05.11.540245	documented	published	DNA	Diagram and research notes from the defining preprint and published paper.
-ch-atac-seq__10.1016+j.devcel.2024.01.015	CH-ATAC-seq	10.1016/j.devcel.2024.01.015	documented	published	DNA	Conservative inferred diagram plus research notes; defining oligo table remains unavailable.
+ch-atac-seq__10.1016+j.devcel.2024.01.015	CH-ATAC-seq	10.1016/j.devcel.2024.01.015	documented	published	DNA	Combinatorial-hybridization split-pool scATAC with Tn5, ligation and DNBSEQ readout; diagram from the Dev Cell STAR Methods and Table S1.
 hydrop-atac__10.7554+eLife.73971	HyDrop-ATAC	10.7554/eLife.73971	documented	published	DNA	Dissolvable split-pool-barcoded hydrogel beads for droplet scATAC-seq.
 snatac-seq__10.1038+s41593-018-0079-3	snATAC-seq	10.1038/s41593-018-0079-3	documented	published	DNA	Two-level combinatorial ATAC schematic from the defining paper and its Supplementary Table 5 oligos.
 scths-seq__10.1038+nbt.4038	scTHS-seq	10.1038/nbt.4038	documented	published	DNA	Barcoded T7/s5 tagmentation, per-insertion IVT, connector-primed dsDNA and s7-only second tagmentation with single-end readout.
@@ -121,7 +121,7 @@ methylc-seq__10.1038+nprot.2014.114	MethylC-seq	10.1038/nprot.2014.114	documente
 pbat__10.1093+nar+gks454	PBAT	10.1093/nar/gks454	documented	published	DNA	Post-bisulfite adaptor tagging by two ordered N4 random-primer extensions, demonstrated without global library PCR.
 hichip__10.1038+nmeth.3999	HiChIP	10.1038/nmeth.3999	documented	published	DNA	Protein-directed in situ chromatin contacts enriched by immunoprecipitation and on-bead Tn5 library construction.
 dimelo-seq__10.1038+s41592-022-01475-6	DiMeLo-seq	10.1038/s41592-022-01475-6	documented	published	DNA	Antibody-tethered Hia5 deposits m6A near a chromatin target for native, amplification-free long-read detection.
-chip-seq__10.1038+nmeth.1068	ChIP-seq	10.1038/nmeth.1068	documented	published	DNA	Conventional sonication, chromatin immunoprecipitation and ligation-based Illumina library construction.
+chip-seq__10.1038+nmeth1068	ChIP-seq	10.1038/nmeth1068	documented	published	DNA	Conventional sonication, chromatin immunoprecipitation and ligation-based Illumina library construction.
 chipmentation__10.1038+nmeth.3542	ChIPmentation	10.1038/nmeth.3542	documented	published	DNA	Tn5 fragments and adapter-tags immunoprecipitated chromatin directly on beads.
 cutac__10.7554+eLife.63274	CUTAC	10.7554/eLife.63274	documented	published	DNA	Low-salt antibody-tethered pA/G-Tn5 preferentially tags accessible DNA beside transcription-associated nucleosomes.
 strand-seq__10.1038+nmeth.2206	Strand-seq	10.1038/nmeth.2206	documented	published	DNA	BrdU/Hoechst/UV selection retains parental template strands and preserves chromosome-wide read orientation in single cells.
@@ -174,7 +174,7 @@ scribo-seq__10.1038+s41586-021-03887-4	scRibo-seq	10.1038/s41586-021-03887-4	doc
 miclip__10.1038+nmeth.3453	miCLIP	10.1038/nmeth.3453	documented	published	RNA	Antibody crosslink-induced reverse-transcription signatures map m6A and m6Am at nucleotide resolution.
 airr-umi-5-race__10.1007+978-1-0716-2115-8_19	AIRR UMI 5' RACE	10.1007/978-1-0716-2115-8_19	documented	published	RNA	UMI-bearing SMART reverse transcription and semi-nested constant-region PCR recover B-cell receptor repertoires.
 sctaps__10.1101+2024.02.12.579864	scTAPS	10.1101/2024.02.12.579864	documented	published	DNA	Single-cell TAPS reports 5mC plus 5hmC after TET oxidation, pyridine-borane reduction and combinatorial indexing.
-sccaps__10.1101+2024.02.12.579864	scCAPS+	10.1101/2024.02.12.579864	documented	published	DNA	Single-cell CAPS+ selectively reports 5hmC after βGT protection, chemical conversion and combinatorial indexing.
+sccaps__10.1101+2024.02.12.579864	scCAPS+	10.1101/2024.02.12.579864	documented	published	DNA	Single-cell CAPS+ selectively reports 5hmC after ACT+BF4− and Pinnick oxidation, borane reduction and combinatorial indexing.
 fiber-seq__10.1126+science.aaz1646	Fiber-seq	10.1126/science.aaz1646	documented	published	DNA	Hia5 adenine-methyltransferase footprinting of native chromatin followed by PCR-free PacBio HiFi sequencing.
 end-seq__10.1016+j.molcel.2016.06.034	END-seq	10.1016/j.molcel.2016.06.034	documented	published	DNA	In-plug capture of processed double-strand-break ends with biotinylated USER-openable hairpin adapters.
 dms-mapseq__10.1038+nmeth.4057	DMS-MaPseq	10.1038/nmeth.4057	documented	published	RNA	DMS probing and TGIRT mutational read-through followed by cDNA circularization and custom-primer sequencing.
@@ -256,7 +256,7 @@ spatial-atac-seq__10.1101+2021.06.06.447244	Spatial-ATAC-seq	10.1101/2021.06.06.
 simple-seq__10.1038+s41587-024-02148-9	SIMPLE-seq	10.1038/s41587-024-02148-9	notes	published	DNA	Joint single-cell measurement of 5mC and 5hmC.
 scrcat-seq__10.1038+s41467-020-18976-7	scRCAT-seq	10.1038/s41467-020-18976-7	documented	published	RNA	Single-cell RNA cap-and-tail sequencing for paired transcript-end information.
 snaptotal-seq__10.1038+s41467-024-50291-3	snapTotal-seq	10.1038/s41467-024-50291-3	documented	published	RNA	Single-cell total-RNA sequencing designed to retain non-polyadenylated RNA.
-easyshare-seq__10.1101+2024.02.26.581705	easySHARE-seq	10.1101/2024.02.26.581705	documented	published	multi	Joint combinatorial-index profiling of gene expression and chromatin accessibility.
+easyshare-seq__10.7554+eLife.110034	easySHARE-seq	10.7554/eLife.110034	documented	published	multi	Joint combinatorial-index profiling of gene expression and chromatin accessibility.
 codec__10.1038+s41588-023-01376-0	CODEC	10.1038/s41588-023-01376-0	documented	published	DNA	Physically concatenates both strands of one original duplex for single-cluster error correction.
 nanoseq__10.1038+s41586-021-03477-4	NanoSeq	10.1038/s41586-021-03477-4	documented	published	DNA	Restriction fragmentation and restrictive end repair for ultralow-error duplex sequencing.
 stlfr__10.1101+gr.245126.118	stLFR	10.1101/gr.245126.118	documented	published	DNA	Bead co-barcoding reconnects short reads to their original long DNA molecule.
@@ -314,16 +314,16 @@ sdr-seq__10.1038+s41592-025-02805-0	SDR-seq	10.1038/s41592-025-02805-0	documente
 smol-seq__10.1038+s41587-025-02554-7	smol-seq	10.1038/s41587-025-02554-7	documented	published	DNA	Structure-switching aptamers release analyte-identity DNA barcodes for sequencing.
 sccc__10.1016+j.cell.2020.06.037	scCC	10.1016/j.cell.2020.06.037	documented	published	multi	Self-reporting transposon junctions retain droplet cell barcodes and UMIs alongside gene expression.
 cotech__10.1038+s41592-021-01129-z	CoTECH	10.1038/s41592-021-01129-z	documented	published	multi	Combinatorial co-indexing of antibody-targeted chromatin and poly(A) transcriptomes.
-got-cha__10.1101+2022.05.11.491515	GoT-ChA	10.1101/2022.05.11.491515	documented	published	multi	Targeted genomic-variant enrichment retaining the parent scATAC cell barcode.
+got-cha__10.1038+s41586-024-07388-y	GoT-ChA	10.1038/s41586-024-07388-y	documented	published	multi	Targeted genomic-variant enrichment retaining the parent scATAC cell barcode.
 scone-seq__10.1126+sciadv.abp8901	scONE-seq	10.1126/sciadv.abp8901	documented	published	multi	One-tube DNA and total-RNA amplification with explicit branch barcodes and UMIs.
 scito-seq__10.1038+s41592-021-01222-3	SCITO-seq	10.1038/s41592-021-01222-3	documented	published	multi	Antibody and staining-pool splint barcodes combined with droplet barcodes for cytometry sequencing.
-phospho-seq__10.1101+2023.03.27.534442	Phospho-seq	10.1101/2023.03.27.534442	documented	published	multi	Intracellular antibody tags captured alongside single-cell ATAC fragments.
+phospho-seq__10.1038+s41467-025-56590-7	Phospho-seq	10.1038/s41467-025-56590-7	documented	published	multi	Intracellular antibody tags captured alongside single-cell ATAC fragments.
 cropseq-multi__10.1101+2024.03.17.585235	CROPseq-multi	10.1101/2024.03.17.585235	documented	published	multi	Multiplexed tRNA-processed guide arrays with internal barcodes for several readout modes.
 chair__10.1038+s41592-025-02658-7	ChAIR	10.1038/s41592-025-02658-7	documented	published	multi	Single-cell chromatin accessibility, proximity contacts and RNA from one 10x Multiome barcode.
 spatial-atac-rna-seq__10.1038+s41586-023-05795-1	spatial-ATAC-RNA-seq	10.1038/s41586-023-05795-1	documented	published	multi	Orthogonal in-tissue barcodes join accessible chromatin and RNA to the same tissue pixel.
 spatial-cut-tag-rna-seq__10.1038+s41586-023-05795-1	spatial-CUT&Tag-RNA-seq	10.1038/s41586-023-05795-1	documented	published	multi	Orthogonal in-tissue barcodes join antibody-targeted histone-mark DNA and RNA to the same tissue pixel.
 slide-seq__10.1126+science.aaw1219	Slide-seq	10.1126/science.aaw1219	documented	published	RNA	Pre-decoded 10-micrometre bead pucks capture spatially registered 3-prime transcriptomes.
-sciplex-atac-seq__10.1101+2023.03.05.531201	sciPlex-ATAC-seq	10.1101/2023.03.05.531201	documented	published	DNA	Absorbed ssDNA sample hashes accompany combinatorially indexed single-nucleus ATAC profiles.
+sciplex-atac-seq__10.1186+s12864-023-09832-1	sciPlex-ATAC-seq	10.1186/s12864-023-09832-1	documented	published	DNA	Absorbed ssDNA sample hashes accompany combinatorially indexed single-nucleus ATAC profiles.
 wellda-seq__10.1101+2024.09.06.611519	wellDA-seq	10.1101/2024.09.06.611519	documented	published	multi	Single-cell whole-genome and chromatin-accessibility branches retain a shared well identity.
 easysci__10.1038+s41588-023-01572-y	EasySci	10.1038/s41588-023-01572-y	documented	published	RNA	Three-round combinatorial nuclear RNA indexing with matched oligo(dT) and random-hexamer RT.
 indrops-2__10.1093+nar+gkae1312	inDrops-2	10.1093/nar/gkae1312	documented	published	RNA	Droplet 3-prime RNA capture with alternative IVT-linear and template-switching PCR branches.
@@ -345,7 +345,7 @@ ottr-seq__10.1073+pnas.2107900118	OTTR-seq	10.1073/pnas.2107900118	documented	pu
 pseudo-seq__10.1038+nature13802	Pseudo-seq	10.1038/nature13802	documented	published	RNA	CMC-dependent reverse-transcription stops map pseudouridine at nucleotide resolution.
 dms-seq__10.1038+nature12894	DMS-seq	10.1038/nature12894	documented	published	RNA	DMS-dependent reverse-transcription stops report solvent-accessible A and C in cellular RNA.
 structure-seq2__10.1093+nar+gkx533	Structure-seq2	10.1093/nar/gkx533	documented	published	RNA	Low-bias hairpin ligation and PAGE or biotin purification improve DMS-stop structure libraries.
-ribomethseq__10.1002+anie.201408362	RiboMethSeq	10.1002/anie.201408362	documented	published	RNA	Protection from alkaline cleavage maps and quantifies RNA 2-prime-O-methylation.
+ribomethseq-illumina__10.1093+nar+gkw547	RiboMethSeq (Illumina)	10.1093/nar/gkw547	documented	published	RNA	Illumina RiboMethSeq: protection from alkaline cleavage maps and quantifies RNA 2-prime-O-methylation (Marchand 2016; original Ion Torrent method Birkedal 2015).
 pars__10.1038+nature09322	PARS	10.1038/nature09322	documented	published	RNA	Matched RNase V1 and S1 cleavage libraries measure double- and single-stranded RNA positions.
 glori__10.1038+s41587-022-01487-9	GLORI	10.1038/s41587-022-01487-9	documented	published	RNA	Glyoxal-assisted nitrite conversion leaves m6A as A while unmodified adenosine is read as G.
 alkaniline-seq__10.1002+anie.201810946	AlkAniline-Seq	10.1002/anie.201810946	documented	published	RNA	Aniline cleavage creates selectively ligatable 5-prime phosphates at alkali-labile RNA modifications.
@@ -401,7 +401,7 @@ lamp-seq__10.1038+s41587-021-00966-9	LAMP-Seq	10.1038/s41587-021-00966-9	documen
 lampore__10.1101+2020.08.07.20161737	LamPORE	10.1101/2020.08.07.20161737	documented	published	RNA	Multiplexed RT-LAMP repeatedly copies a sample-specific FIP barcode before column pooling, rapid transposase barcoding and motor-driven Nanopore classification.
 ovation-rna-seq-v2__10.1093+nar+gkr547	Ovation RNA-Seq V2	10.1093/nar/gkr547	documented	published	RNA	Chimeric DNA/RNA priming, RNase H and strand-displacing polymerase produce linearly amplified whole-transcriptome cDNA for a separate sequencing-library workflow.
 repli-g-single-cell	REPLI-g Single Cell		documented	published	DNA	Commercial random-hexamer phi29 multiple-displacement amplification of single-cell genomic DNA followed by an official Nextera library-preparation workflow.
-picoplex-dna-seq	PicoPLEX DNA-seq		documented	published	DNA	Commercial single-cell displacement DOP-PCR with proprietary quasi-random priming and integrated 8-nt dual-index Illumina library amplification.
+picoplex-dna-seq	PicoPLEX DNA-seq		documented	published	DNA	Commercial single-cell whole-genome amplification library: proprietary quasi-random priming with linear pre-amplification, then exponential 8-nt dual-index Illumina library amplification.
 sureplex	SurePlex		documented	published	DNA	Commercial single-cell whole-genome amplification followed by the named VeriSeq PGS tagmentation, index-PCR and single-read MiSeq workflow.
 invadeseq__10.1038+s41596-023-00888-7	INVADEseq	10.1038/s41596-023-00888-7	documented	published	RNA	A bacterial 16S RT-primer spike-in and nested enrichment branch preserve 10x cell barcodes while pairing bacterial identity with the host-cell transcriptome.
 trip__10.1038+nprot.2014.072	TRIP	10.1038/nprot.2014.072	documented	published	multi	A random 16-nt piggyBac reporter barcode links expression and genomic-normalization counts to an inverse-PCR-mapped genomic integration site.

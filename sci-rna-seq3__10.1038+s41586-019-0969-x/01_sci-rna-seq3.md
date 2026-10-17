@@ -44,6 +44,25 @@ workbook print `/ideoxyU/`. The model follows the two explicit oligo lists and t
 subsequent USER cleavage step. The intended chemical specification behind the Methods
 wording remains uncertain; the public schematic identifies both source values.
 
+## Bounded Methods pass, 2026-10-17
+
+The 2019 Methods section "sci-RNA-seq3 library preparation and sequencing"
+(PMC6434952 JATS lines 176–190) was reread against the graph. The model now names
+SuperScript IV RT (4–55 °C gradient), T4 DNA ligase with betaine and PEG 8000
+(16 °C, 3 h), the NEB mRNA Second Strand Synthesis buffer and enzyme (16 °C,
+180 min), i7-only TDE1 (55 °C, 5 min), the Zymo binding-buffer stop and 1.5× AMPure
+cleanup, on-bead USER elution (37 °C, 15 min), NEBNext High-Fidelity 2× PCR Master
+Mix (72 °C 5 min, then 12–14 cycles) and the pooled 0.8× AMPure cleanup. The
+earlier "random second-strand primer" input was a model assumption: the Methods
+name only the NEB module, so no primer is declared. Fragments lacking the hairpin
+end and the USER-released hairpin arm are not physically removed (only the beads
+are removed after USER), so their fates are unresolved rather than discarded.
+
+The Methods paragraph opening "After ligation reaction" (line 180) describes the
+ligation itself, and the one opening "After RT reaction" (line 182) describes the
+step after ligation. The openings appear transposed; the model keeps RT →
+ligation → second strand, and the schematic shows both locations.
+
 The source checklist and two-reader status are in
 `catalogue/source_reviews/sci-rna-seq3__10.1038+s41586-019-0969-x.json`. The cited
 2017 predecessor's supplement is still inaccessible from the current source routes,

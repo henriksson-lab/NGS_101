@@ -6,7 +6,7 @@ that the bottom oligo is 5-prime phosphorylated at that blunt end.
 """
 from chemdraw import Scene, Segment, feature, oligo, revcomp
 
-T7_END = "CGATTGAGGCCGGTAATACGACTCACTATAGGGG"
+T7_END = "CGATTGAGGCCGGTAATACGACTCACTATAGGG"  # + RA5 G gives the printed GGGG
 RA5 = "GTTCAGAGTTCTACAGTCCGACGATC"
 A1_BARCODE = "CATCACGC"
 A1_TOP = T7_END + RA5 + "N" * 8 + A1_BARCODE

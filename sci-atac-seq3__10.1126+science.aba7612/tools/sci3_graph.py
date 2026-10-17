@@ -11,7 +11,7 @@ import illumina as il
 import nextera as nx
 from sciatac import pool_indexed_nuclei
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Construct, Scene, Segment, revcomp
+from chemdraw import Construct, Scene, Segment, oligo, revcomp
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 
@@ -20,17 +20,68 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
     return Segment(name=name, top=top, tag=tag, **kw)
 
 
+PROTOCOLS_IO = "https://dx.doi.org/10.17504/protocols.io.be8mjhu6"
+
+
+def splint_segments(which: str) -> list[Segment]:
+    """Table S7 3LV2 splint, 5'->3': the s-end arm then the ligation-oligo tail arm.
+
+    Table S7 (sheet 3lv2_splintandseqprimers) prints both splints with a 3'-ddC.
+    """
+    tail, s_end, tag = ((S.N5_TAIL, nx.S5, "r2") if which == "N5"
+                        else (S.N7_TAIL, nx.S7, "r3"))
+    return [seg("splint s-arm", revcomp(s_end[:8]), tag),
+            seg("splint tail arm", revcomp(tail), tag)]
+
+
+def splint_sequence(which: str) -> str:
+    return "".join(s.top for s in splint_segments(which))
+
+
+CAVEAT = ('<div class="caveat"><b>Inferred step role.</b> All drawn oligo bases are from '
+          'Domcke et al. Supplementary Table S7. The authors\' protocols.io procedure (step 11) '
+          'starts the index PCR with 72 °C for 5 min before the first 98 °C denaturation; that '
+          'this step fills the 9-nt Tn5 gaps is inferred, not stated, and the corresponding '
+          'workflow step is captioned INFERRED.</div>')
+
+# Table S7 sheet 3lv2_splintandseqprimers names for the four sequencing primers.
+TABLE_S7_SEQ_PRIMER_NAMES = {"Read 1": "3lv2_seq_R1", "Index 1 (i7)": "3lv2_seq_IDX1",
+                             "Index 2 (i5)": "3lv2_seq_IDX2", "Read 2": "3lv2_seq_R2"}
+
+
+def key_oligos() -> str:
+    """Table S7 oligo families, splints (3'-ddC) and custom sequencing primers."""
+    rows = [
+        oligo("3LV2_N5_Oligo (N5 ligation oligo)", [seg("head", S.N5_HEAD, "r2"), seg("N5 barcode", "A" * 10, "cbc", placeholder=True), seg("tail", S.N5_TAIL, "r2")]),
+        oligo("3LV2_N7_Oligo (N7 ligation oligo)", [seg("head", S.N7_HEAD, "r3"), seg("N7 barcode", "B" * 10, "cbc", placeholder=True), seg("tail", S.N7_TAIL, "r3")]),
+    ]
+    for which, tag in (("N5", "r2"), ("N7", "r3")):
+        splint = splint_sequence(which)
+        if not splint.endswith("C"):
+            raise ValueError(f"3LV2_{which}_Splint no longer ends in its 3'-ddC residue")
+        rows.append(oligo(f"3LV2_{which}_Splint", [seg("splint", splint[:-1], tag)],
+                          three="/3ddC/ -3'"))
+    rows += [
+        oligo("3LV2_P5_PCR", [seg("P5", il.P5, "p5"), seg("i5", "I" * 10, "cbc", placeholder=True), seg("N5 head", S.N5_HEAD, "r2")]),
+        oligo("3LV2_P7_PCR", [seg("P7", il.P7, "p7"), seg("i7", "I" * 10, "cbc", placeholder=True), seg("N7 head", S.N7_HEAD, "r3")]),
+    ]
+    rows += [oligo(f"{TABLE_S7_SEQ_PRIMER_NAMES[p.role]} ({p.role} sequencing primer)",
+                   [seg(p.role, p.seq)]) for p in S.SCI3_PRIMERS]
+    return "<h2>Key oligos</h2><seq>" + "".join(rows) + "</seq>"
+
+
 def ligation_scene(which: str) -> Scene:
     if which == "N5":
         joined = [seg("head", S.N5_HEAD, "r2"), seg("barcode", "A" * 10, "cbc", placeholder=True), seg("tail", S.N5_TAIL, "r2"), seg("s5 first 8", nx.S5[:8], "s5"), seg("s5 rest", nx.S5[8:], "s5"), seg("ME", nx.ME, "me")]
-        bridge = [seg("splint", revcomp(S.N5_TAIL + nx.S5[:8]), "r2")]
-        pair = ("splint", "tail")
+        s_first = "s5 first 8"
     else:
         joined = [seg("head", S.N7_HEAD, "r3"), seg("barcode", "B" * 10, "cbc", placeholder=True), seg("tail", S.N7_TAIL, "r3"), seg("s7 first 8", nx.S7[:8], "s7"), seg("s7 rest", nx.S7[8:], "s7"), seg("ME", nx.ME, "me")]
-        bridge = [seg("splint", revcomp(S.N7_TAIL + nx.S7[:8]), "r3")]
-        pair = ("splint", "tail")
-    sc = Scene(); sc.strand("joined strand", joined); sc.anneal("splint", bridge, to="joined strand", pair=pair, unpaired=())
-    sc.mark("joined strand", "tail", "ligation nick", through=("s5 first 8" if which == "N5" else "s7 first 8"))
+        s_first = "s7 first 8"
+    sc = Scene(); sc.strand("joined strand", joined)
+    sc.anneal("splint", splint_segments(which), to="joined strand",
+              pair=("splint tail arm", "tail"), mod3="ddC",
+              label=f"3LV2_{which}_Splint")
+    sc.mark("joined strand", "tail", "ligation nick", through=s_first)
     return sc
 
 
@@ -41,9 +92,14 @@ def ligation_reagent_scene(which: str) -> Scene:
                seg(f"{which} barcode", "N" * 10, "cbc", placeholder=True),
                seg(f"{which} tail", tail)]
     sc = Scene(); sc.strand("adapter", adapter, label=f"{which} ligation oligo")
+    sc.anneal("splint", splint_segments(which), to="adapter",
+              pair=("splint tail arm", f"{which} tail"),
+              unpaired=("splint s-arm",), mod3="ddC",
+              label=f"3LV2_{which}_Splint")
     sc.ligation_end("adapter", f"{which} tail", kind="splinted",
                     polarity="3-prime", owner="adapter")
-    sc.note("adapter", "end-specific splint aligns this 3′ end to the phosphorylated Tn5 end")
+    sc.note("adapter", "Table S7 splint (3′-ddC): its 8-nt overhang captures the "
+            "phosphorylated Tn5 s-end beside this 3′ end")
     return sc
 
 
@@ -55,12 +111,15 @@ def protocol_graph() -> ProtocolGraph:
         state=Construct([seg("genomic DNA", "X" * 40, placeholder=True)]),
         primary=True)
     reviewed = ["nuclei"]
-    plain_adapter = Construct([
-        seg("s5", nx.S5, "s5"), seg("ME", nx.ME, "me"),
-        seg("s7", nx.S7, "s7"), seg("ME-2", nx.ME, "me")])
-    transposome = graph.input("plain_transposome", "plain Nextera transposome",
-                              MaterialKind.ADAPTER, state=plain_adapter)
-    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    # The Nextera v2 enzyme is a vendor-loaded mixture of s5-ME and s7-ME
+    # transposons; its adapter oligos are not printed in the inspected sources,
+    # so no single concatenated strand is declared as an exact reagent state.
+    transposome = graph.input(
+        "plain_transposome",
+        "Nextera v2 transposome (vendor-loaded s5-ME and s7-ME adapters)",
+        MaterialKind.ADAPTER)
+    tn5 = graph.input("tn5", "Nextera v2 enzyme (Illumina FC-121-1031), 2.5 µl/well",
+                      MaterialKind.CATALYST)
     tagged_state = Construct([
         seg("s5", nx.S5, "s5"), seg("ME", nx.ME, "me"),
         seg("genomic insert", "X" * 30, placeholder=True),
@@ -69,21 +128,29 @@ def protocol_graph() -> ProtocolGraph:
                            MaterialKind.MOLECULAR, state=tagged_state)
     tagment_waste = graph.product("tagment_waste", "non-library tagmentation products",
                                   MaterialKind.WASTE)
-    graph.react("tagment", "Tagment nuclei with plain Nextera Tn5",
+    graph.react("tagment", "Tagment nuclei with plain Nextera Tn5 (55 °C 30 min; EDTA/spermidine stop)",
                 StepKind.TAGMENTATION,
                 ((nuclei, InputRole.TEMPLATE),
                  (transposome, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (tagged, tagment_waste))
     graph.discard(tagment_waste, "does not retain the heterologous s5/s7 topology")
-    pnk = graph.input("pnk", "T4 polynucleotide kinase", MaterialKind.CATALYST)
+    pnk = graph.input("pnk", "T4 polynucleotide kinase (NEB M0201) with 1 mM rATP",
+                      MaterialKind.CATALYST)
     phosphorylated = graph.product("phosphorylated_fragments",
                                    "5′-phosphorylated tagmented fragments",
                                    MaterialKind.MOLECULAR, state=tagged_state)
-    graph.react("phosphorylate", "Phosphorylate transferred 5′ ends",
+    graph.react("phosphorylate", "Phosphorylate transferred 5′ ends (pooled nuclei, 37 °C 30 min)",
                 StepKind.PHOSPHORYLATION,
                 ((tagged, InputRole.TEMPLATE), (pnk, InputRole.CATALYST)),
                 (phosphorylated,))
-    ligase = graph.input("dna_ligase", "DNA ligase", MaterialKind.CATALYST)
+    ligase = graph.input("dna_ligase", "T7 DNA ligase (NEB M0318) in 1X T7 ligase buffer",
+                         MaterialKind.CATALYST)
+    n5_splint = graph.input("n5_splint", "3LV2_N5_Splint (3′-ddC), in ligation master mix",
+                            MaterialKind.OLIGO,
+                            state=Construct(splint_segments("N5")))
+    n7_splint = graph.input("n7_splint", "3LV2_N7_Splint (3′-ddC), in ligation master mix",
+                            MaterialKind.OLIGO,
+                            state=Construct(splint_segments("N7")))
     n5_state = Construct([
         seg("N5 head", S.N5_HEAD), seg("N5 barcode", "N" * 10,
                                        placeholder=True), seg("N5 tail", S.N5_TAIL)])
@@ -92,14 +159,15 @@ def protocol_graph() -> ProtocolGraph:
     first_ligated = graph.product("n5_ligated", "N5-barcoded s5 fragments",
                                   MaterialKind.MOLECULAR,
                                   state=ligation_scene("N5"))
-    graph.react("n5_ligation", "Ligate the first-round N5 barcode through its splint",
+    graph.react("n5_ligation", "Ligate the first-round N5 barcode through its splint (25 °C 1 h; EDTA/spermidine stop)",
                 StepKind.LIGATION,
                 ((phosphorylated, InputRole.TEMPLATE),
                  (n5, InputRole.STRUCTURAL),
+                 (n5_splint, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (first_ligated,),
                 geometry=AdapterLigationGeometry.known(
                     "splinted", ligation_reagent_scene("N5"),
-                    statement="Table S7 prints the N5 oligo and its end-specific splint."))
+                    statement="Table S7 prints the N5 oligo and the 3′-ddC N5 splint; the splint pairs 8 nt of the oligo tail and 8 nt of s5."))
     pooled1, pool1_reviewed = pool_indexed_nuclei(
         graph, first_ligated, prefix="n5_round", state=ligation_scene("N5"),
         label="N5-barcoded fragments from other first-round wells")
@@ -111,24 +179,41 @@ def protocol_graph() -> ProtocolGraph:
     final = S.sci3_library()
     second_ligated = graph.product("n7_ligated", "N5/N7-barcoded fragments",
                                    MaterialKind.MOLECULAR, state=final)
-    graph.react("n7_ligation", "Ligate the second-round N7 barcode through its splint",
+    graph.react("n7_ligation", "Ligate the second-round N7 barcode through its splint (25 °C 1 h; EDTA/spermidine stop)",
                 StepKind.LIGATION,
                 ((pooled1, InputRole.TEMPLATE),
                  (n7, InputRole.STRUCTURAL),
+                 (n7_splint, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (second_ligated,),
                 geometry=AdapterLigationGeometry.known(
                     "splinted", ligation_reagent_scene("N7"),
-                    statement="Table S7 prints the N7 oligo and its end-specific splint."))
+                    statement="Table S7 prints the N7 oligo and the 3′-ddC N7 splint; the splint pairs 8 nt of the oligo tail and 8 nt of s7."))
     pooled2, pool2_reviewed = pool_indexed_nuclei(
         graph, second_ligated, prefix="n7_round", state=final,
         label="N5/N7-barcoded fragments from other second-round wells")
-    gap_polymerase = graph.input("gap_polymerase", "gap-fill DNA polymerase",
-                                 MaterialKind.CATALYST)
+    reversal = graph.input("reverse_crosslink_mix",
+                           "EB buffer, Proteinase K and 1% SDS; 65 °C 16 h",
+                           MaterialKind.CONDITION, source=PROTOCOLS_IO)
+    released = graph.product("released_fragments",
+                             "N5/N7 fragments released from 1,000–3,000 nuclei per PCR well",
+                             MaterialKind.MOLECULAR, state=final)
+    graph.react("reverse_crosslink",
+                "Redistribute 1,000–3,000 nuclei per well and reverse cross-links",
+                StepKind.DEPROTEINIZATION,
+                ((pooled2, InputRole.TEMPLATE), (reversal, InputRole.CONDITION)),
+                (released,))
+    polymerase = graph.input("pcr_polymerase",
+                             "NEBNext High-Fidelity 2X PCR Master Mix (NEB M0541) with BSA",
+                             MaterialKind.CATALYST)
     filled = graph.product("gap_filled_fragments", "gap-filled N5/N7 fragments",
-                           MaterialKind.MOLECULAR, state=final)
-    graph.react("gap_fill", "Fill tagmentation gaps", StepKind.EXTENSION,
-                ((pooled2, InputRole.TEMPLATE),
-                 (gap_polymerase, InputRole.CATALYST)), (filled,))
+                           MaterialKind.MOLECULAR, state=final, inferred=True,
+                           source=PROTOCOLS_IO + " (step 11 prints 72 °C 5 min before "
+                           "98 °C; its fill-in role is inferred)")
+    graph.react("gap_fill",
+                "INFERRED — gap fill-in role of the initial 72 °C 5 min of the PCR "
+                "program, before the first denaturation", StepKind.EXTENSION,
+                ((released, InputRole.TEMPLATE),
+                 (polymerase, InputRole.CATALYST)), (filled,), source=PROTOCOLS_IO)
     p5_sequence = il.P5 + "N" * 10 + S.N5_HEAD
     p7_sequence = il.P7 + "N" * 10 + S.N7_HEAD
     p5_primer = PCRPrimer("P5/N5 index primer", p5_sequence,
@@ -141,27 +226,38 @@ def protocol_graph() -> ProtocolGraph:
     p7 = graph.input("p7_index_primer", p7_primer.name, MaterialKind.OLIGO,
                      state=Construct([seg(p7_primer.name, p7_sequence,
                                           placeholder=True)]))
-    polymerase = graph.input("pcr_polymerase", "PCR polymerase",
-                             MaterialKind.CATALYST)
-    library = graph.product("library", "sci-ATAC-seq3 sequencing library",
-                            MaterialKind.LIBRARY, state=final)
-    graph.react("index_pcr", "Add the third-round P5/P7 indices by PCR",
+    amplified = graph.product("amplified_library", "indexed PCR products",
+                              MaterialKind.MOLECULAR, state=final)
+    graph.react("index_pcr", "Add the third-round P5/P7 indices by PCR (98/63/72 °C; cycle number from a SYBR test PCR)",
                 StepKind.PCR,
                 ((filled, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
                  (p7, InputRole.STRUCTURAL),
-                 (polymerase, InputRole.CATALYST)), (library,),
+                 (polymerase, InputRole.CATALYST)), (amplified,),
                 geometry=PCRGeometry.exact(
                     final, p5_primer, p7_primer,
                     statement="Table S7 prints both third-round PCR primers."))
+    cleanup = graph.input("zymo_ampure", "Zymo DNA Clean & Concentrator-5, then 1X AMPure",
+                          MaterialKind.SELECTION)
+    library = graph.product("library", "sci-ATAC-seq3 sequencing library",
+                            MaterialKind.LIBRARY, state=final)
+    cleanup_waste = graph.product("pcr_cleanup_waste",
+                                  "primers, master-mix components and column/bead flow-through",
+                                  MaterialKind.WASTE)
+    graph.react("cleanup", "Pool PCR wells and purify (Zymo DCC-5, then 1X AMPure)",
+                StepKind.CLEANUP,
+                ((amplified, InputRole.TEMPLATE), (cleanup, InputRole.SELECTION)),
+                (library, cleanup_waste))
+    graph.discard(cleanup_waste, "removed in column flow-through, washes and bead supernatant")
     graph.sequence(library, SequencingPlan(
         library=final, primers=S.SCI3_PRIMERS,
         acquired_roles=tuple(p.role for p in S.SCI3_PRIMERS)))
     reviewed.extend([
         "plain_transposome", "tn5", "tagment", "pnk", "phosphorylate",
-        "dna_ligase", "n5_adapter", "n5_ligation", *pool1_reviewed,
-        "n7_adapter", "n7_ligation", *pool2_reviewed, "gap_polymerase",
-        "gap_fill", "p5_index_primer", "p7_index_primer", "pcr_polymerase",
-        "index_pcr", "library",
+        "dna_ligase", "n5_splint", "n7_splint", "n5_adapter", "n5_ligation", *pool1_reviewed,
+        "n7_adapter", "n7_ligation", *pool2_reviewed, "reverse_crosslink_mix",
+        "reverse_crosslink", "gap_fill", "p5_index_primer", "p7_index_primer", "pcr_polymerase",
+        "index_pcr", "amplified_library", "zymo_ampure", "cleanup",
+        "pcr_cleanup_waste", "library",
     ])
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

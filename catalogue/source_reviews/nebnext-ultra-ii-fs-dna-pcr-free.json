@@ -75,5 +75,25 @@
       "evidence": "Cited revision absent; older and newer web revisions do not establish it."
     }
   ],
-  "conclusion": "Two readers checked available official kit and adaptor manuals, including 12-nt UMI and i7/i5 read lengths. The specific cited September 2025 kit revision remains unavailable; historical-variant claims stay blocked."
+  "conclusion": "Two readers checked available official kit and adaptor manuals, including 12-nt UMI and i7/i5 read lengths. The specific cited September 2025 kit revision remains unavailable; historical-variant claims stay blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "NEB E7430/E7435 manual Version 2.0_6/25 PDF text lines 1-1040 (kit contents, trimming sequences 80-81, Section 1 high-input 1.1-1.3.26, Figure 1 caption, Section 2 low-input 2.1-2.3.15, Revision History 985-995); NEB E7395/E7874/E7876/E7878 manual Version 4.0_6/26 (hand-fetched .pdf URL) text lines 1-100 (contents, Workflow, trimming sequences), rendered p2 Figure 1, Sequencing run-segment table p23 (lines 6846-6862), kit components (20 uM plate), Revision History (3.0 9/25 adaptor sequence withdrawn)",
+      "oligo_scraper": "Bundle scraper run: only Read 1/Read 2 trimming sequences (both manuals) plus collapsed index-table families; no adaptor body sequence printed.",
+      "findings": "Cited E7430 v3.0 9/25 not located; NEB serves Version 2.0_6/25 (history 1.0 9/21, 2.0 6/25), so source citation corrected to the inspected revision. Single size-select step split into 50 ul bead cleanup (+40 ul 0.1X TE, elute 102 ul) and 65/58 ul bead size selection (elute 22 ul) with discarded supernatants; ligation reagents/conditions named (Master Mix + Enhancer, 20 C 15 min). Graph highlight: PCR-free product keeps single-stranded forked adaptor regions (E7430 Fig1/2 captions, UDI Fig1) and the final duplex drawing is a simplification. Graph highlight: low-input branch (20 min 37 C, 300 bp, adaptor 1:10 to 2 uM, single cleanup) not drawn; FS end-repair/dA split is a model decomposition. Readout text now states that i7-before-UMI order within the 20-cycle Index 1 read is inferred; only the cycle total is printed.",
+      "deferred": [
+        "E7430 'v3.0 9/25' revision identity (not located)",
+        "Proprietary adaptor sequence and fork geometry",
+        "Order of i7 and UMI within Index 1",
+        "High-input adaptor working concentration",
+        "Low-input branch not drawn"
+      ],
+      "scope": "Capped vendor-manual pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 102 checks pass; page builds; pairing 0 problems; chemistry 0 established/2 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (adaptor proprietary/inferred); Markdown built; review schema checked"
+    }
+  ]
 }

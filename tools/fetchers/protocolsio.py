@@ -103,6 +103,87 @@ def protocol_version(text: str) -> str:
     return match.group(1) if match else ""
 
 
+PRINTED_DOI_RE = re.compile(
+    r"^\s*DOI:\s*https?://(?:dx\.)?doi\.org/(10\.17504/protocols\.io\.[a-z0-9]+(?:/v\d+)?)",
+    re.I | re.M)
+
+
+def printed_doi(text: str) -> str:
+    """The export's own DOI (its 'DOI: ...' header line), not a DOI it cites."""
+    match = PRINTED_DOI_RE.search(text)
+    return match.group(1).lower() if match else ""
+
+
+def printed_revision(text: str, accession: str = "") -> str:
+    """The export's own revision: its printed Version label or, when it prints none, the /vN
+    of its own printed DOI -- only when that DOI names `accession`, so a cited or
+    latest-version DOI of another protocol cannot supply the revision."""
+    label = protocol_version(text)
+    doi = printed_doi(text)
+    doi_version = requested_version(doi)
+    if label and doi_version and label != doi_version:
+        return ""  # contradictory identity is not a verified revision
+    if label or not accession or re.sub(r"/v\d+$", "", doi) != f"10.17504/protocols.io.{accession.lower()}":
+        return label
+    return requested_version(doi)
+
+
+def cited_export(cited: str, printed: str, version: str) -> bool:
+    """Does an export printing DOI `printed` (and Version label `version`) identify the
+    cited DOI? The accession must match; a cited /vN must match the printed /vN or Version
+    label -- a printed different revision is not the cited one. An unversioned citation
+    names no revision, so the export of that accession answers it."""
+    split = lambda d: (re.sub(r"/v\d+$", "", d.lower()), requested_version(d))  # noqa: E731
+    (c_acc, c_ver), (p_acc, p_ver) = split(cited), split(printed)
+    if p_ver and version and p_ver != version:
+        return False
+    return bool(p_acc) and c_acc == p_acc and (not c_ver or c_ver == (p_ver or version))
+
+
+def cached_export(folder, cited: str):
+    """A protocols.io PDF already in the folder whose printed identity is the cited DOI."""
+    for name in sorted(getattr(folder, "rows", {})):
+        if not (name.startswith("protocolsio_") and name.endswith(".pdf")):
+            continue
+        pdf = folder.path / name
+        twin = pdf.with_name(name + ".txt")
+        if not (pdf.is_file() and twin.is_file()):
+            continue
+        row = folder.rows[name]
+        if not row[3] or md5(pdf) != row[3]:
+            continue
+        text = twin.read_text(errors="replace")
+        if cited_export(cited, printed_doi(text), protocol_version(text)):
+            return pdf
+    return None
+
+
+def _answered(folder, short: str, version: str, doi_url: str):
+    """Record that the folder's cached export answers a cited DOI; clear its manual row."""
+    cited = f"10.17504/protocols.io.{short}{version}"
+    cached = cached_export(folder, cited)
+    if not cached:
+        return None
+    text = cached.with_name(cached.name + ".txt").read_text(errors="replace")
+    folder._clear_manual(f"protocolsio_{short}.pdf", doi_url)
+    folder.note(f"protocols.io {short}{version}", doi_url,
+                f"cited DOI answered by {cached.name}, which prints DOI {printed_doi(text)}"
+                + (f", Version {protocol_version(text)}" if protocol_version(text) else ""))
+    folder.write()
+    return cached
+
+
+def settle_manual_rows(folder) -> int:
+    """Clear '(manual) protocolsio_<accession>.pdf' rows of earlier runs whose DOI is now
+    answered by an export on disk (fetched under its view-URL name). -> rows cleared."""
+    cleared = 0
+    for key, row in list(getattr(folder, "rows", {}).items()):
+        m = DOI_RE.search(row[1]) if key.startswith("(manual) protocolsio_") else None
+        if m and key == f"(manual) protocolsio_{m.group(1).lower()}.pdf":
+            cleared += bool(_answered(folder, m.group(1).lower(), m.group(2) or "", row[1]))
+    return cleared
+
+
 def _normalized_view(url: str, version: str = "") -> str:
     url = url.split("?")[0].split("#")[0].rstrip("/")
     url = re.sub(r"(?:\.pdf|\.html)$", "", url)
@@ -137,7 +218,8 @@ def _duplicate_pdf(folder, name: str):
     return path if path.is_file() and md5(path) == row[3] else None
 
 
-def _reject_revision(folder, pdf, url: str, desc: str, requested: str, observed: str) -> None:
+def _reject_revision(folder, pdf, url: str, desc: str, requested: str, observed: str,
+                     *, identity_problem: str = "") -> None:
     """Retain a misidentified response outside the accepted original cache."""
     invalid = pdf.parent / "_invalid"
     invalid.mkdir(exist_ok=True)
@@ -155,8 +237,10 @@ def _reject_revision(folder, pdf, url: str, desc: str, requested: str, observed:
         for digest, name in list(folder.by_md5.items()):
             if name == pdf.name:
                 folder.by_md5.pop(digest)
+    problem = identity_problem or (
+        f"requested revision v{requested}, but printed Version is {observed or 'unverified'}")
     folder.manual(pdf.name, url, desc,
-                  f"requested revision v{requested}, but printed Version is {observed or 'unverified'}; "
+                  problem + "; "
                   f"response retained at {target.relative_to(pdf.parent)}; attachments not followed")
 
 
@@ -174,12 +258,16 @@ def fetch(job, arg: str, what: str = "") -> None:
         f.manual("protocolsio_" + safe_name(arg.rsplit("/", 1)[-1]), arg, what or "protocols.io",
                  "private protocols.io link: needs a browser session")
         return
-    view = resolve(arg)
     m = DOI_RE.search(arg)
     short = m.group(1).lower() if m else ""
+    doi_url = arg if arg.startswith("http") else f"https://doi.org/{arg}"
+    cached = _answered(f, short, m.group(2) or "", doi_url) if m else None
+    if cached:      # the DOI's own export is already here (fetched under its view-URL slug)
+        say(f"  protocols.io {short}: already here as {cached.name}")
+        return
+    view = resolve(arg)
     if not view:
-        f.manual(f"protocolsio_{short or safe_name(arg)}.pdf", arg if arg.startswith("http")
-                 else f"https://doi.org/{arg}", what or "protocols.io protocol",
+        f.manual(f"protocolsio_{short or safe_name(arg)}.pdf", doi_url, what or "protocols.io protocol",
                  "DOI did not resolve to a protocols.io page")
         return
     version = requested_version(arg)
@@ -201,19 +289,37 @@ def fetch(job, arg: str, what: str = "") -> None:
             # --no-text still needs the exported ID to find missing attachment links.
             import doctext
             text = doctext.read(pdf) or ""
-        if version and protocol_version(text) != version:
+        accession = short or re.sub(r"/v\d+$", "", view.split("/view/", 1)[-1]).rsplit("-", 1)[-1]
+        observed = printed_revision(text, accession)
+        export_doi = printed_doi(text)
+        identity_problem = ""
+        label = protocol_version(text)
+        doi_version = requested_version(export_doi)
+        if label and doi_version and label != doi_version:
+            identity_problem = (f"export prints contradictory DOI {export_doi} "
+                                f"and Version {label}")
+        elif short and export_doi and not cited_export(
+                f"10.17504/protocols.io.{short}" + (f"/v{version}" if version else ""),
+                export_doi, protocol_version(text)):
+            identity_problem = (f"requested {arg}, but export prints DOI {export_doi} "
+                                f"and Version {protocol_version(text) or 'unlabelled'}")
+        if identity_problem or (version and observed != version):
             if duplicate:
                 f.manual(f"protocolsio_{slug}_revision_identity", view + ".pdf", desc,
-                         f"requested revision v{version}, but identical cached payload prints "
-                         f"Version {protocol_version(text) or 'unverified'}; original cache retained; attachments not followed")
+                         (identity_problem or f"requested revision v{version}, but identical cached payload prints "
+                          f"Version {observed or 'unverified'}")
+                         + "; original cache retained; attachments not followed")
             else:
-                _reject_revision(f, pdf, view + ".pdf", desc, version, protocol_version(text))
+                _reject_revision(f, pdf, view + ".pdf", desc, version, observed,
+                                 identity_problem=identity_problem)
             return
         ident = protocol_integer_id(text)
         if version and hasattr(f, "note"):
             f._clear_manual(f"protocolsio_{slug}_revision_identity", view + ".pdf")
+            how = (f"printed Version {version}" if protocol_version(text)
+                   else f"printed DOI {printed_doi(text)} (no Version label)")
             f.note(cache_name + " revision", view + ".pdf",
-                   f"printed Version {version} verified; exported integer ID {ident or 'not printed'}; local original {pdf.name}")
+                   f"{how} verified; exported integer ID {ident or 'not printed'}; local original {pdf.name}")
             f.write()
         if ident:
             urls.extend(public_attachments(f, ident))

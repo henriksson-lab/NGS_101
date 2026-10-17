@@ -66,6 +66,19 @@ New-P5-SMART hybrid: AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGC
 Custom Read 1:       GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC
 ```
 
+🟢 Section 10.3 ("SMART PCR to enrich cDNA library") runs the bead cDNA amplification with
+**one** oligo — the SMART PCR primer at 0.8 µM in 2× KAPA HiFi HotStart ReadyMix, 4 cycles
+at 65 °C annealing then 10 at 67 °C. Both ends of the template-switched cDNA carry the same
+handle, so no second primer exists; an earlier version of the model declared a
+forward/reverse pair, which has been corrected to a single symmetric primer species.
+
+🟢 Section 11.1 tagments at 55 °C for 5 min and then stops the reaction with Nextera XT
+Neutralization Buffer (5 min, room temperature) before the enrichment PCR; the graph now
+carries that quench as its own step. 🟢 Section 11.2's enrichment master mix pairs the
+New-P5-SMART hybrid oligo with the indexed Nextera N70X oligo in Nextera PCR mix.
+🟡 The hybrid oligo's two 3'-terminal phosphorothioate linkages (`…AGT*A*C`) are recorded in
+the module comment; the model string carries bases only.
+
 🟢 The run is 20 bases Custom Read 1, 8 bases Index 1, and 64 bases Read 2. Read 1 is
 the 12-base cell barcode plus 8-base UMI. Read 2 supplies transcript sequence and identifies
 guide-bearing molecules when it crosses the guide.

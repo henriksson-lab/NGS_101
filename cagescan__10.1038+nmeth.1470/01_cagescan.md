@@ -15,6 +15,8 @@ The earlier note's PMC2900199 citation was a repository error.
   oligos, including the custom paired-end sequencing primers. Both source text and the
   rendered original table were inspected independently twice.
 - 🟢 Rendered original Online Methods printed p.17 (PDF p.3) was checked for primer units.
+- Round 2026-10-17-breadth-first-07 re-read Online Methods text 1–118 and 225–241,
+  Table 8 text 5134–5170 and author-manuscript JATS Results line 115 / Fig. 1 legend 324.
 
 The oligo scraper was run before reading the full source bundle. Remaining supplements,
 linked references and vendor instructions are not all dispositioned; this is a bounded audit.
@@ -31,7 +33,9 @@ The source then specifies two PCR stages, each with a pilot quantitative PCR:
 1. A 1.2-µL pilot aliquot of the named 30-µL first-strand pool informs cycle selection;
    a 3-µL aliquot goes to Ex Taq HS semi-suppressive amplification. The model computes
    the residual pool and leaves its later handling unresolved.
-2. AMPure XP cleanup is followed by an 8-ng adapter-PCR pilot and the remaining 20-ng
+2. AMPure XP cleanup and a 1% agarose purity check of the recovered DNA (Methods text
+   92–94; aliquot volume not stated, modelled as a QC aliquot since round 07) are followed
+   by an 8-ng adapter-PCR pilot and the remaining 20-ng
    production reaction. This PCR introduces the paired-end sequencing ends and replaces
    the interfering semi-suppressive reverse end.
 3. A second AMPure XP cleanup precedes the source 5-of-30-µL agarose-gel check and
@@ -58,6 +62,19 @@ Both custom sequencing primers are source-positive. Their complete assembled lan
 geometry, exact study barcode members and instrument cycle counts remain model questions.
 The unassembled initial PCR-template geometry is explicitly separate from the amplified
 library endpoint. This limitation is not evidence that primer sequences were unpublished.
+
+## Derived primer landings (🟡, round 07)
+
+Computed with `lib/` from the Table 8 strings (not yet assembled as model states): the
+forward sequencing primer equals the full 24-nt TSO handle, so Read 1 would start at the
+inline Xn barcode followed by the rGrGrG-derived G run and the cap-proximal cDNA. The
+reverse PCR and reverse sequencing primers share only their 3′-terminal 18 nt
+(`GAACCGCTCTTCCGATCT`) with the RT-primer handle (its positions 20–37), so Read 2 would
+start at the N6-primed downstream end, and the RT/semi-reverse 5′ segment upstream of that
+match is dropped, consistent with the source's statement that this PCR removes the reverse
+semi-suppressive adapter. The final forward primer's 3′-terminal 16 nt also occur inside the
+semi-suppressive reverse primer; any P5-ended product from that end is only a
+sequence-computed candidate, not a source observation, and is not drawn.
 
 ## Apparent source concentration-unit issue
 

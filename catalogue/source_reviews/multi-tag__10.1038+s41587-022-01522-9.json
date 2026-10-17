@@ -221,5 +221,26 @@
       "evidence": "Published Supplementary Table 1 gives sequences, but representative choices and predecessor inheritance require second-reader review."
     }
   ],
-  "conclusion": "Published Supplementary Table 1 gives sequences, but representative choices and predecessor inheritance require second-reader review."
+  "conclusion": "Published Supplementary Table 1 gives sequences, but representative choices and predecessor inheritance require second-reader review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC10188359 JATS (s41587-022-01522-9_PMC10188359.xml.txt) Fig.1a legend l.49, Results l.53, Discussion l.85, Methods l.105-121 (CUT&Tag, Conjugates for MulTI-Tag, Bulk, Single-cell, Sequencing); Supplementary Table 1 = published MOESM2, MD5-identical local 2021.07.08.451691_media-2.xlsx.txt README l.1-3, P5_i5 l.4-11, P7_i7 l.12-121, i5 primers l.122-195, i7 primers l.196-269",
+      "oligo_scraper": "Not re-run as a separate pass; Supplementary Table 1 workbook text read directly row by row (all P5_i5/P7_i7/i5/i7 families) and the earlier passes' scraper runs over the bundle recorded; example rows verified verbatim by the new selftest.",
+      "findings": "Model corrected from a generic primary-antibody-then-barcoded-pA-Tn5 route to the published one: Tn5MErev annealing, amine conjugation of annealed P5_i5 adapters to primary antibodies, conjugate transposome (conjugate + free same-sequence adapter + pA-Tn5) bind/wash/Mg2+ tagment/EDTA rounds, secondary antibody, i7-only transposome tagmentation split over 96 barcoded wells, pooling, RQ1 DNase, 20um strainers, ICELL8 dispense, SDS/Triton, nanowell PCR with 72x72 i5/i7 primers, 2x1.3x HighPrep, HiSeq PE 25x25. Graph inputs now carry exact example rows (Tn5MErev, P5_i5_1, P7_i7_13, sci_Ad1.1, sci_Ad2.1); final library role order and three cell-barcode features plus target barcode replace the generic sample index. Note no longer cites preprint for active claims and drops an unsupported protocols.io 6qpvr4bezgmk DOI not found in any inspected text. No published discrepancy found.",
+      "deferred": [
+        "Published Supplementary Information PDF MOESM1 (no text layer; render/OCR)",
+        "ICELL8 ref. 62 single-cell denaturation/amplification conditions and PCR mix",
+        "Sequencing primers and index-read lengths reading the target and cell barcodes",
+        "Bulk 'repeat steps 4-5 14 times' total cycle count",
+        "Bulk branch (12 bulk P7_i7 rows, tube PCR primer pairs) not drawn",
+        "CUT&Tag protocols.io bcuhiwt6 (on disk, not re-read)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 5 passed (Supplementary Table 1 transcriptions); page builds; pairing 0 problems; chemistry 0 established/0 conditional/18 unresolved/0 contradictory (17 steps); source guard 6 checked, 4 failed (P5_i5_1, P7_i7_13, sci_Ad1.1, sci_Ad2.1 absent only because the published MOESM2 is on disk solely as MD5-identical preprint media-2.xlsx, excluded by the locator filter; selftest verifies all four), 0 without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

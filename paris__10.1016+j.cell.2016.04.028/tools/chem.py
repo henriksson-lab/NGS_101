@@ -52,7 +52,7 @@ def _local_graph(d, final, primers, *, reagent: str,
     rna = graph.input("rna", "cellular RNA containing paired regions",
                       MaterialKind.BIOLOGICAL,
                       state=molecule("cellular RNA", ("RNA molecules",)), primary=True)
-    crosslinker = graph.input("crosslinker", reagent + " and long-wave UV condition",
+    crosslinker = graph.input("crosslinker", reagent + " 0.5 mg/ml in PBS; UV365 nm, 30 min on ice (mmc1 Step 1)",
                               MaterialKind.CONDITION)
     crosslinked = graph.product("crosslinked", reagent + "-crosslinked RNA duplexes",
                                 MaterialKind.MOLECULAR,
@@ -61,13 +61,21 @@ def _local_graph(d, final, primers, *, reagent: str,
                 StepKind.CROSS_LINKING,
                 ((rna, InputRole.TEMPLATE), (crosslinker, InputRole.CONDITION)),
                 (crosslinked,))
-    fragmentation = graph.input("fragmentation_condition", "RNA fragmentation condition",
-                                MaterialKind.CONDITION)
+    s1 = graph.input("s1_nuclease", "S1 nuclease in urea/SDS lysate, room temperature 10 min (mmc1 Step 1)",
+                     MaterialKind.CATALYST)
+    extracted = graph.product("extracted", "S1-digested, proteinase K/TRIzol-purified crosslinked RNA",
+                              MaterialKind.MOLECULAR, state=crosslinked.state)
+    graph.react("s1_extract", "S1 digestion, proteinase K (50 °C 30 min) and TRIzol extraction",
+                StepKind.DIGESTION,
+                ((crosslinked, InputRole.TEMPLATE), (s1, InputRole.CATALYST)), (extracted,))
+    fragmentation = graph.input("fragmentation_condition",
+                                "ShortCut RNase III with MnCl2, 37 °C 20 min (mmc1 Step 2)",
+                                MaterialKind.CATALYST)
     fragments = graph.product("fragments", "fragmented crosslinked RNA duplexes",
                               MaterialKind.MOLECULAR, state=crosslinked.state)
-    graph.react("fragment", "Fragment the crosslinked RNA", StepKind.FRAGMENTATION,
-                ((crosslinked, InputRole.TEMPLATE),
-                 (fragmentation, InputRole.CONDITION)), (fragments,))
+    graph.react("fragment", "Fragment the crosslinked RNA with RNase III", StepKind.FRAGMENTATION,
+                ((extracted, InputRole.TEMPLATE),
+                 (fragmentation, InputRole.CATALYST)), (fragments,))
     selector = graph.input("selector", selection_label, MaterialKind.SELECTION)
     selected = graph.product("selected", "enriched crosslinked RNA duplexes",
                              MaterialKind.MOLECULAR, state=fragments.state)
@@ -77,13 +85,14 @@ def _local_graph(d, final, primers, *, reagent: str,
                 ((fragments, InputRole.TEMPLATE), (selector, InputRole.SELECTION)),
                 (selected, rejected))
     graph.discard(rejected, "does not retain the selected crosslinked duplex population")
-    ligase = graph.input("proximity_ligase", "RNA proximity ligase", MaterialKind.CATALYST)
+    ligase = graph.input("proximity_ligase", "T4 RNA ligase 1 (NEB M0437M), room temperature 16–20 h; boiled 2 min to stop (mmc1 Step 3)",
+                         MaterialKind.CATALYST)
     chimera = graph.product("chimera", "proximity-ligated RNA chimera",
                             MaterialKind.MOLECULAR, state=topology.chimera())
     graph.react("proximity_ligation", "Proximity-ligate the paired RNA fragments",
                 StepKind.PROXIMITY_LIGATION,
                 ((selected, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)), (chimera,))
-    reversal = graph.input("photoreversal", reagent + " photoreversal condition",
+    reversal = graph.input("photoreversal", "UV254 nm, 15 min on ice (mmc1 Step 3)",
                            MaterialKind.CONDITION)
     reversed_chimera = graph.product("reversed_chimera", "photoreversed RNA chimera",
                                      MaterialKind.MOLECULAR, state=chimera.state)
@@ -91,11 +100,12 @@ def _local_graph(d, final, primers, *, reagent: str,
                 StepKind.CHEMICAL_CONVERSION,
                 ((chimera, InputRole.TEMPLATE), (reversal, InputRole.CONDITION)),
                 (reversed_chimera,))
-    reviewed = ["rna", "crosslinker", "crosslink", "fragmentation_condition", "fragment",
+    reviewed = ["rna", "crosslinker", "crosslink", "s1_nuclease", "s1_extract", "extracted",
+                "fragmentation_condition", "fragment",
                 "selector", "select_duplexes", "proximity_ligase", "proximity_ligation",
                 "photoreversal", "photoreverse"]
-    adapter = graph.input("rna_adapter", "2016 HEK293/mES barcoded RNA-library adapter", MaterialKind.ADAPTER)
-    adapter_ligase = graph.input("adapter_ligase", "RNA adapter ligase", MaterialKind.CATALYST)
+    adapter = graph.input("rna_adapter", "Flynn 2016 preadenylylated 3′-blocked RNA linker /5rApp/AGATCGGAAGAGCGGTTCAG/ (3′-biotin or 3′-ddC variant not assigned for PARIS)", MaterialKind.ADAPTER)
+    adapter_ligase = graph.input("adapter_ligase", "T4 RNA ligase 1 high concentration, 15% PEG8000, 25 °C 3 h (Flynn step 26)", MaterialKind.CATALYST)
     tagged = graph.product("tagged_rna", "adapter-tagged PARIS RNA chimera", MaterialKind.MOLECULAR,
                            state=molecule("adapter-tagged chimera", ("RNA chimera", "RNA library adapter")))
     graph.react("ligate_adapter", "Ligate the RNA-library adapter (2016 HEK293/mES route)", StepKind.LIGATION,
@@ -103,19 +113,38 @@ def _local_graph(d, final, primers, *, reagent: str,
                  (adapter_ligase, InputRole.CATALYST)), (tagged,),
                 geometry=AdapterLigationGeometry.unavailable(
                     "The original supplement inherits Flynn 2016 step 26 onward; adapter chemistry is source-located, but this graph has not reconstructed the ligation-end Scene."))
+    rna_gel = graph.input("rna_gel", "denaturing urea PAGE; PARIS keeps >40-nt inserts (mmc1 Step 3; Flynn steps 27–39)",
+                          MaterialKind.SELECTION)
+    sized_rna = graph.product("sized_tagged_rna", "size-selected adapter-tagged chimera",
+                              MaterialKind.MOLECULAR, state=tagged.state)
+    free_linker = graph.product("free_linker", "unligated RNA linker and short products", MaterialKind.WASTE)
+    graph.react("rna_size_select", "Gel-purify the adapter-ligated RNA", StepKind.SELECTION,
+                ((tagged, InputRole.TEMPLATE), (rna_gel, InputRole.SELECTION)), (sized_rna, free_linker))
+    graph.discard(free_linker, "left in the excluded gel region")
     rt_primer = graph.input("library_rt_primer", "Flynn 2016 adapter-annealing RT-primer-1", MaterialKind.OLIGO)
-    rt = graph.input("library_rt_enzyme", "reverse transcriptase", MaterialKind.CATALYST)
+    rt = graph.input("library_rt_enzyme", "SuperScript III (Flynn step 42)", MaterialKind.CATALYST)
     cdna = graph.product("library_cdna", "PARIS first-strand cDNA", MaterialKind.MOLECULAR,
                          state=molecule("PARIS cDNA", ("RT primer and chimera cDNA",)))
     graph.react("library_rt", "Reverse-transcribe the adapter-tagged RNA", StepKind.REVERSE_TRANSCRIPTION,
-                ((tagged, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)), (cdna,))
-    circle_ligase = graph.input("circle_ligase", "CircLigase II", MaterialKind.CATALYST)
+                ((sized_rna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)), (cdna,))
+    # Flynn steps 43-50 (streptavidin capture of the 3'-biotin linker, RNase/biotin
+    # elution) are not drawn: the PARIS supplement does not say which blocked
+    # linker variant it used, so whether this capture applies is unresolved.
+    cdna_gel = graph.input("cdna_gel", "denaturing PAGE, cDNA above unextended RT primer (Flynn steps 52–57)",
+                           MaterialKind.SELECTION)
+    sized_cdna = graph.product("sized_cdna", "gel-purified PARIS cDNA", MaterialKind.MOLECULAR, state=cdna.state)
+    free_primer = graph.product("free_rt_primer", "unextended RT primer", MaterialKind.WASTE)
+    graph.react("cdna_size_select", "Gel-purify cDNA away from unextended RT primer", StepKind.SELECTION,
+                ((cdna, InputRole.TEMPLATE), (cdna_gel, InputRole.SELECTION)), (sized_cdna, free_primer))
+    graph.discard(free_primer, "left in the excluded gel region")
+    circle_ligase = graph.input("circle_ligase", "CircLigase II with MnCl2, 60 °C 2 h (Flynn step 58)", MaterialKind.CATALYST)
     circle = graph.product("cdna_circle", "circularized PARIS cDNA", MaterialKind.MOLECULAR, state=cdna.state)
     graph.react("circularize_cdna", "Circularize the cDNA before library PCR", StepKind.CIRCULARIZATION,
-                ((cdna, InputRole.TEMPLATE), (circle_ligase, InputRole.CATALYST)), (circle,),
+                ((sized_cdna, InputRole.TEMPLATE), (circle_ligase, InputRole.CATALYST)), (circle,),
                 geometry=CircularizationGeometry.known("single-strand intramolecular ligation",
                     statement="Inherited Flynn 2016 icSHAPE step 58 circularizes purified cDNA with CircLigase II; exact circular junction is not yet reconstructed in this model."))
-    reviewed.extend(("rna_adapter", "adapter_ligase", "ligate_adapter", "library_rt_primer",
+    reviewed.extend(("rna_gel", "rna_size_select", "cdna_gel", "cdna_size_select",
+                     "rna_adapter", "adapter_ligase", "ligate_adapter", "library_rt_primer",
                      "library_rt_enzyme", "library_rt", "circle_ligase", "circularize_cdna"))
     # Original PARIS explicitly inherits Flynn 2016 step 26 onward, including
     # its step 60 Solexa primer pair. This assignment belongs to this route.
@@ -126,9 +155,9 @@ def _local_graph(d, final, primers, *, reagent: str,
     p3 = graph.input("library_reverse", "Flynn 2016 P3-Solexa PCR primer",
                      MaterialKind.OLIGO,
                      state=Construct([Segment("P7", il.P7),
-                         Segment("P3-Solexa arm", "CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT")]),
+                         Segment("P3-Solexa arm", il.PE_READ2_PRIMER)]),
                      source="Flynn 2016 doi:10.1038/nprot.2016.011 reagent list and step 60")
-    polymerase = graph.input("library_polymerase", "Phusion HF PCR master mix",
+    polymerase = graph.input("library_polymerase", "Phusion HF PCR master mix, qPCR-monitored cycles (Flynn steps 60–61)",
                              MaterialKind.CATALYST)
     library = graph.product("library_library", "PARIS sequencing library",
                             MaterialKind.LIBRARY, state=final)

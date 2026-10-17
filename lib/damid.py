@@ -27,12 +27,3 @@ class DamMarkedGATC:
     @property
     def selective_enzyme(self) -> str:
         return "DpnI"
-
-
-def damid_adapter(top: str, bottom: str) -> Construct:
-    """Keep source-transcribed DamID adapter strands coupled as one validated object."""
-    if not top or not bottom or "TAATACGACTCACTATA" not in top:
-        raise ValueError("DamID adapter top must contain its T7 promoter")
-    return Construct([
-        Segment("T7-bearing AdRt", top, "t7", bottom=" " * (len(top)-len(bottom)) + bottom),
-    ], name="DamID adapter")

@@ -115,7 +115,7 @@ def protocol_graph():
     beads = graph.input("beads", "SeraMag cleanup beads", MaterialKind.SELECTION)
     clean = graph.product("clean", "Purified cDNA for QC and normalization", MaterialKind.MOLECULAR, state=preamp)
     rejected = graph.product("cleanup_waste", "Material outside the retained cDNA fraction", MaterialKind.WASTE)
-    graph.react("cleanup", "Clean up, quantify and normalize standard FS cDNA", StepKind.CLEANUP,
+    graph.react("cleanup", "Clean up (0.8:1 SeraMag beads), PicoGreen-quantify and normalize standard FS cDNA to 100–200 pg/µl", StepKind.CLEANUP,
                 ((amplified, InputRole.TEMPLATE), (beads, InputRole.SELECTION)), (clean, rejected))
     graph.discard(rejected, "Removed in the standard-FS cDNA cleanup; no quantitative recovery is asserted.")
     adapter = graph.input("transposome", "Commercial Nextera XT ATM transposome", MaterialKind.ADAPTER)
@@ -143,7 +143,7 @@ def protocol_graph():
                  (reverse, InputRole.STRUCTURAL), (npm, InputRole.CATALYST)), (library,), geometry=index_geometry(final))
     pooled = graph.product("pooled_library", "Pooled and bead-purified FS sequencing library", MaterialKind.LIBRARY, state=final)
     final_waste = graph.product("final_waste", "Material removed in pooled-library cleanup", MaterialKind.WASTE)
-    graph.react("pool_cleanup", "Pool cells and clean the indexed library", StepKind.CLEANUP,
+    graph.react("pool_cleanup", "Pool cells and clean the indexed library (0.8:1 SeraMag beads)", StepKind.CLEANUP,
                 ((library, InputRole.TEMPLATE), (beads, InputRole.SELECTION)), (pooled, final_waste))
     graph.discard(final_waste, "Removed during the source pooled-library bead cleanup.")
     graph.sequence(pooled, SequencingPlan(library=final, primers=SEQ_PRIMERS,

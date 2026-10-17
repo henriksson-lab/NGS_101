@@ -47,6 +47,35 @@ exactly to the first 37 bases of `A_adapter_b`. These are source-supported bindi
 sites for the contemporary paired-end primer family; the paper does not state the
 specific reagent lot used for its sequencing run.
 
+## RNA bar-code position and read layout (2026-10-17 bounded pass)
+
+🟢 SI "Synthesis of … RNAs" (SI p.1) states that every RNA except the non-bar-coded
+RNase P RNA carries "a four nucleotide degenerate bar code between the reverse
+transcriptase primer binding site and the 3′ linker region within the 3′ flanking
+structure cassette". Fig. S1 draws the bar code between the two cassette hairpins, and
+Table S1 shows each RNA ending `…GAUCCGCUUCGGCGGAUCC[NNNN]AAAUCGGGCUUCGGUCCGGUUC-3′`.
+The RT primer therefore extends directly into the bar code.
+
+🟡 Read 1 consequently reads the treatment handle, the target-specific RT-primer bases,
+then the cDNA copy of the RNA bar code; the SHAPE stop lies at the A_adapter_b junction
+and is reported by Read 2. This agrees with the main text ("the SHAPE modification
+position and the RNA identity (bar code)—are on opposite ends of the cDNA molecules").
+**Model correction:** the earlier schematic drew the bar code beside A_adapter_b.
+
+🔴 The target-specific RT-primer bases are not printed in the SHAPE-Seq SI; the primer
+extension procedure is cited to Mortimer & Weeks 2009 (*Nat Protoc* 4:1413), not read
+in this pass. The PCR primers are described only as binding "the Illumina adapter
+sequences" (SI p.1, citing Ingolia 2009); their bases are not printed there.
+
+🟢 Other SI p.1 steps now in the model: 1M7 at 6.5 mM with a solvent (−) control; RT
+with 9 pmol primer after a 95 °C step; RNA hydrolysis with 1 µL 4 M NaOH, 95 °C, 5 min;
+CircLigase ligation of A_adapter_b (5 µM, 68 °C, 6 h, separate (+) and (−) reactions,
+80 °C 10 min stop); AMPure XP removal of excess adapter; 9 or 12 PCR cycles (the main
+text reports nine) and AMPure cleanup; no size selection.
+
+**Model correction:** `A_adapter_t` was assembled as `P5 + Read 1 site`, duplicating the
+shared `ACAC` (62 nt). It is now the 58-nt SI sequence.
+
 ## Construct logic
 
 The original protocol is a multiplexed in-vitro accessibility assay for defined RNA

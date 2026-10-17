@@ -178,5 +178,26 @@
       "locations": "Source-known V3 p4 adapter and primer tables; local ligation_adapter() and protocol_graph() declarations",
       "finding": "The known two-strand adapter and both complete example PCR primers now enter the graph as molecular states, using the same adapter constructor as the detail view. Pairing is checked during construction. The opposite barcode-end and PCR precursor geometry remain explicitly unassembled; source-known input states do not prove those transitions. Four direct original-file transcription/modification checks pass; the generic source guard still filters these manually recovered originals because their historical PDF URLs were not logged, so no synthetic retrieval URL was added to force a pass."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Preprint v2 (latest; bioRxiv details/pubs API: versions 1 and 2, no published version) 2025.06.20.660799_v2.full.pdf.txt Methods 1322–1404 (encapsulation, lysis R4, MDA, PTA, cell barcoding, library prep/NovaSeq X) and Bascet trimming 897–902; Atrandi DGPM02323198001 V3 txt steps 1–44 (lines 270–569) and revision table 679–703; Atrandi DGPM02323206001 V3 txt adapter/primer table 161–204, sections I–VI 224–619, sequencing table 628–663",
+      "oligo_scraper": "Bundle scraper run; V3 library guide lines 177/183/193/195 hits are the modelled adapter strands and example primers; supplement media-1 lines 656–725 are species PCR primers (target gene/amplicon table), v1 line 341 and v2 line 357 are k-mer/adapter-count figure text, media-1 lines 92–98 are toy cell sequences; none are library oligos.",
+      "findings": "Model corrections: added 0.8X AMPure XP purification after Release (preprint v2 Methods; library guide section I) before FS fragmentation; separated NEBNext Ultra II Ligation Master Mix + Enhancer (section III, 20 C 15 min, 2.5 uL 1.5 uM adapter) from the kit barcode Ligation Enzyme CRP-LGE1 (steps 31–43, 22 C 15 min); added post-ligation 0.8X AMPure XP (section IV); named NEBNext Ultra II Q5 Master Mix and cycling (section V); added double-sided 0.6X/0.8X AMPure XP with both discarded fractions (section VI; preprint 'double-sided AMPure'); kit End Prep is one Enzyme Mix (steps 25–30) so the repair/dA-tail steps now share one catalyst and are labelled an inferred activity split. Page step headings/captions updated. Lysis R4, PTA conditions and adapter/primer transcription agree with the inspected passages.",
+      "deferred": [
+        "BioSkryb ResolveDNA #100954 manual (PTA primer/terminator identities)",
+        "NEBNext E7805 manual beyond the existing note",
+        "Acquired read lengths for the preprint NovaSeq X runs (guide 128/172 is a recommendation)",
+        "Custom 10-nt i7 primers vs V3 six-base example endpoint",
+        "Barcode cassette strand/end geometry and linker bases",
+        "Legacy v1.3 kit identity check"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 183 passed; page builds; pairing 0 problems; chemistry 1 established/0 conditional/17 unresolved/0 contradictory (16 steps); source guard 4 checked, 3 failed (ligation_adapter, p5_primer, i7_primer: vendor V3 txt excluded by locator filter, not declared in extra_sources.tsv; pre-existing; selftest verifies them against the V3 original); Markdown built; review schema checked"
+    }
   ]
 }

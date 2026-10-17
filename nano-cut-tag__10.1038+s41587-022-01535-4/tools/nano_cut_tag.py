@@ -39,6 +39,9 @@ CUSTOM_I2 = nx.ME_RC + revcomp(CONNECTOR)
 
 
 ATAC_GUIDE = "10x Chromium Next GEM Single Cell ATAC v1.1 guide CG000209 Rev G, Appendix A1"
+GEM_PROGRAM = ("CG000209 Rev G Step 2.5 GEM incubation: 72 °C 5 min, then 12 cycles of "
+               "98 °C/59 °C/72 °C; the guide prints the program, while assigning the "
+               "initial 72 °C hold to gap filling is this model's reading")
 GEL_BEAD_FORWARD = il.P5 + "N" * 16 + nx.S5
 SI_PCR_FORWARD = "AATGATACGGCGACCACCGAGA"
 
@@ -221,18 +224,20 @@ def protocol_graph():
                                  MaterialKind.MOLECULAR, state=FIRST_TAGGED)
     first_waste = graph.product("mea_tn5_waste", "non-amplifiable first-tagmentation products",
                                 MaterialKind.WASTE)
-    graph.react("mea_tagment", "Transfer the target-coded MeA adapter",
+    graph.react("mea_tagment", "Transfer the target-coded MeA adapter (10 mM MgCl2, 1 h 37 °C; EDTA stop)",
                 StepKind.TAGMENTATION,
                 ((targeted, InputRole.TEMPLATE), (mea_adapter, InputRole.STRUCTURAL),
                  (nano_tn5, InputRole.CATALYST)), (first_tagged, first_waste))
     graph.discard(first_waste, "does not retain the target-coded MeA end")
-    gap_polymerase = graph.input("gap_fill_polymerase", "Tn5-gap-fill polymerase",
-                                 MaterialKind.CATALYST)
+    gem_enzyme = graph.input(
+        "barcoding_enzyme", "10x Barcoding Enzyme in GEM incubation",
+        MaterialKind.CATALYST, source=ATAC_GUIDE + "; " + GEM_PROGRAM)
     filled = graph.product("gap_filled_mea", "gap-filled MeA-tagged genomic DNA",
                            MaterialKind.MOLECULAR, state=FIRST_TAGGED)
-    graph.react("gap_fill", "Fill the first staggered Tn5 gap", StepKind.EXTENSION,
+    graph.react("gap_fill", "Fill the first staggered Tn5 gap in GEMs (initial 72 °C, 5 min)",
+                StepKind.EXTENSION,
                 ((first_tagged, InputRole.TEMPLATE),
-                 (gap_polymerase, InputRole.CATALYST)), (filled,))
+                 (gem_enzyme, InputRole.CATALYST)), (filled,))
     gel_bead = graph.input(
         "gel_bead_oligo", "10x scATAC gel-bead amplification oligo",
         MaterialKind.OLIGO, state=Construct([seg("P5", il.P5, "p5"),
@@ -240,19 +245,29 @@ def protocol_graph():
                 feature=feature("cell_barcode", "cell_barcode", "whitelist",
                                 whitelist="10x Chromium ATAC whitelist")),
             seg("partial Read1N", nx.S5, "s5")]), source=ATAC_GUIDE)
-    linear_polymerase = graph.input("linear_polymerase", "Chromium linear-amplification polymerase",
-                                    MaterialKind.CATALYST)
+    linear_state = molecule("cell-barcoded linear products", (
+        role("10x cell barcode and amplification handle"),
+        role("BcdB-coded MeA genomic fragment")))
     linear = graph.product(
         "cell_barcoded", "cell-barcoded MeA-tagged linear products",
-        MaterialKind.MOLECULAR,
-        state=molecule("cell-barcoded linear products", (
-            role("10x cell barcode and amplification handle"),
-            role("BcdB-coded MeA genomic fragment"))),
+        MaterialKind.MOLECULAR, state=linear_state,
         source=SOURCE + "; " + ATAC_GUIDE)
-    graph.react("linear_amplification", "Linearly amplify and cell-barcode in Chromium droplets",
+    graph.react("linear_amplification",
+                "Linearly amplify and cell-barcode in Chromium droplets (12 cycles)",
                 StepKind.EXTENSION,
                 ((filled, InputRole.TEMPLATE), (gel_bead, InputRole.STRUCTURAL),
-                 (linear_polymerase, InputRole.CATALYST)), (linear,))
+                 (gem_enzyme, InputRole.CATALYST)), (linear,))
+    post_gem_beads = graph.input("post_gem_beads", "Dynabeads MyOne SILANE and SPRIselect",
+                                 MaterialKind.SELECTION, source=ATAC_GUIDE + " Steps 3.0–3.2")
+    recovered = graph.product("recovered_linear", "recovered cell-barcoded linear products",
+                              MaterialKind.MOLECULAR, state=linear_state)
+    gem_waste = graph.product("post_gem_waste", "GEM reaction reagents and bead supernatants",
+                              MaterialKind.WASTE)
+    graph.react("post_gem_cleanup", "Recover DNA with SILANE and SPRIselect beads",
+                StepKind.CLEANUP,
+                ((linear, InputRole.TEMPLATE), (post_gem_beads, InputRole.SELECTION)),
+                (recovered, gem_waste))
+    graph.discard(gem_waste, "is removed by the post-GEM bead cleanups")
     meb_adapter = graph.input("loaded_meb", "MeB-loaded standard Tn5 adapter",
                               MaterialKind.ADAPTER,
                               state=loaded(meb_parts(), "MeB mosaic end", "MeB-only Tn5"))
@@ -264,30 +279,54 @@ def protocol_graph():
                                  MaterialKind.WASTE)
     graph.react("meb_tagment", "Install the opposite MeB end on linear products",
                 StepKind.TAGMENTATION,
-                ((linear, InputRole.TEMPLATE), (meb_adapter, InputRole.STRUCTURAL),
+                ((recovered, InputRole.TEMPLATE), (meb_adapter, InputRole.STRUCTURAL),
                  (standard_tn5, InputRole.CATALYST)), (twice_tagged, second_waste))
     graph.discard(second_waste, "does not retain the MeA/MeB PCR-ready configuration")
+    zymo = graph.input("zymo_dcc5", "Zymo DNA Clean & Concentrator-5", MaterialKind.SELECTION,
+                       source=SOURCE)
+    pcr_template = graph.product("purified_twice_tagged", "column-purified twice-tagmented DNA",
+                                 MaterialKind.MOLECULAR, state=PRE_PCR)
+    zymo_waste = graph.product("zymo_flowthrough", "Tn5 reaction components and column washes",
+                               MaterialKind.WASTE)
+    graph.react("zymo_cleanup", "Purify the second-tagmentation reaction on a Zymo column",
+                StepKind.CLEANUP,
+                ((twice_tagged, InputRole.TEMPLATE), (zymo, InputRole.SELECTION)),
+                (pcr_template, zymo_waste))
+    graph.discard(zymo_waste, "is removed by the column")
     forward = graph.input("si_pcr_forward", "10x scATAC SI-PCR forward primer",
                           MaterialKind.OLIGO, state=si_pcr_forward(), source=ATAC_GUIDE)
     reverse = graph.input("si_pcr_reverse", "10x scATAC SI-PCR reverse primer",
                           MaterialKind.OLIGO, state=si_pcr_reverse(), source=ATAC_GUIDE)
-    polymerase = graph.input("pcr_polymerase", "SI-PCR polymerase", MaterialKind.CATALYST)
+    polymerase = graph.input("pcr_polymerase", "10x Amp Mix polymerase", MaterialKind.CATALYST)
     library = graph.product("sequencing_library", FINAL_LIBRARY.name,
                             MaterialKind.LIBRARY, state=FINAL_LIBRARY)
-    graph.react("library_pcr", "Amplify with the 10x scATAC SI-PCR reagents",
+    graph.react("library_pcr", "Amplify with the 10x scATAC SI-PCR reagents (11–15 cycles)",
                 StepKind.PCR,
-                ((twice_tagged, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                ((pcr_template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (library,), geometry=pcr_geometry())
-    graph.sequence(library, SequencingPlan(
+    spri = graph.input("double_sided_spri", "SPRIselect 0.4× / 1.2× double-sided selection",
+                       MaterialKind.SELECTION, source=SOURCE + "; " + ATAC_GUIDE + " Step 4.2")
+    selected = graph.product("size_selected_library", "size-selected nano-CT library",
+                             MaterialKind.LIBRARY, state=FINAL_LIBRARY)
+    spri_waste = graph.product("spri_rejected", "long fragments (0.4× bound) and short fragments/primers (1.2× unbound)",
+                               MaterialKind.WASTE)
+    graph.react("double_sided_spri_cleanup", "Size-select the PCR product with 0.4× and 1.2× SPRIselect",
+                StepKind.CLEANUP,
+                ((library, InputRole.TEMPLATE), (spri, InputRole.SELECTION)),
+                (selected, spri_waste))
+    graph.discard(spri_waste, "is removed by the two-sided bead selection")
+    graph.sequence(selected, SequencingPlan(
         library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
         acquired_roles=tuple(p.role for p in SEQ_PRIMERS), read_lengths=READ_LENGTHS))
     graph.declare_reviewed_scope((
         "nuclei", "primary_antibodies", "loaded_mea", "nanobody_tn5",
-        "target_chromatin", "mea_tagment", "gap_fill_polymerase", "gap_fill",
-        "gel_bead_oligo", "linear_polymerase", "linear_amplification", "loaded_meb",
-        "standard_tn5", "meb_tagment", "si_pcr_forward", "si_pcr_reverse",
-        "pcr_polymerase", "library_pcr", "sequencing_library"), SOURCE)
+        "target_chromatin", "mea_tagment", "barcoding_enzyme", "gap_fill",
+        "gel_bead_oligo", "linear_amplification", "post_gem_beads",
+        "post_gem_cleanup", "loaded_meb", "standard_tn5", "meb_tagment", "zymo_dcc5",
+        "zymo_cleanup", "si_pcr_forward", "si_pcr_reverse", "pcr_polymerase",
+        "library_pcr", "double_sided_spri", "double_sided_spri_cleanup",
+        "size_selected_library"), SOURCE)
     graph.annotate(SourceDiscrepancy(
         target="loaded_mea", title="Corrected MeA barcode-adapter sequence",
         claims=(

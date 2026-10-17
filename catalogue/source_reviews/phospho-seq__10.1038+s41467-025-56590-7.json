@@ -1,0 +1,384 @@
+{
+  "dir": "phospho-seq__10.1038+s41467-025-56590-7",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "preprint",
+      "role": "other",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1038+s41467-025-56590-7/2023.03.27.534442_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Introduction and Methods pp. 1–12; PDF lines 18–21, 92–135",
+        "finding": "Defining preprint describes home-conjugated antibody tag oligos integrated into 10x scATAC v1.1, with parallel ATAC and tag library products."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Defining preprint PDF lines 92–135, including ATAC/tag chemistry and conjugation",
+        "finding": "Original preprint defines intracellular antibody-tag + 10x scATAC capture, with bridge oligos for TotalSeq A/B; separate tag PCR and index work are detailed in its supplement."
+      },
+      "note": "Superseded preprint (catalogue identity re-anchored to the published article on 2026-10-17, DESIGN.md 2026-10-16 published-version-first); retained as history, not active evidence; earlier passes recorded below are historical."
+    },
+    {
+      "id": "preprint_methods",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1038+s41467-025-56590-7/2023.03.27.534442_media-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplemental Methods lines 18–27, 124–154",
+        "finding": "Prints modified TotalSeq-A/B-style oligo families, 10x v1.1/ASAP-Seq bridge-oligo capture and separate P7 indexed PCR primers for tags."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint Supplemental Methods PDF lines 124–155",
+        "finding": "Custom bridge A/B enters barcoding; captured tags are recovered from SPRI supernatant, then separate TotalSeq-A/B PCR with printed P5/P7 scaffolds and i7 window; 34/8/16/34 read recipe printed."
+      },
+      "note": "Superseded preprint (catalogue identity re-anchored to the published article on 2026-10-17, DESIGN.md 2026-10-16 published-version-first); retained as history, not active evidence; earlier passes recorded below are historical."
+    },
+    {
+      "id": "preprint_barcode_table",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1038+s41467-025-56590-7/2023.03.27.534442_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Table S1 lines 1–4 and barcode columns",
+        "finding": "Antibody inventory associates reagents with explicit 15-base TSB indexes."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint media-2 Table S1 sheet lines 1–9 and antibody index columns",
+        "finding": "Prints antibody identity and TSB barcode member examples across pilot and organoid experiments. These are target-specific panel members, not a universal tag oligo."
+      },
+      "note": "Superseded preprint (catalogue identity re-anchored to the published article on 2026-10-17, DESIGN.md 2026-10-16 published-version-first); retained as history, not active evidence; earlier passes recorded below are historical."
+    },
+    {
+      "id": "published",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1038+s41467-025-56590-7/s41467-025-56590-7_PMC11794950.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Methods and supplementary-link sections",
+        "finding": "Later 2025 published version retains custom antibody tag and 10x ATAC/multiome branches; source versions should be compared, not conflated."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published JATS lines 241–281, especially author protocol links at 245 and 281",
+        "finding": "Published version specifies ATAC tag branch plus later Multiome tag branch; Multiome omits bridge A and has printed HTO/ADT additive oligos. It links two step-by-step author PDFs absent from initial checklist."
+      },
+      "note": "Published version of record; defining source since the 2026-10-17 re-anchor."
+    },
+    {
+      "id": "published_antibody_index",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1038+s41467-025-56590-7/s41467-025-56590-7_supp_41467_2025_56590_MOESM3_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "sheet header and rows 1–4",
+        "finding": "Published Supplementary Data 1 identifies antibodies and TSB index assignments."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published MOESM3 XLSX sheet lines 1–8 and experiment headings",
+        "finding": "Published antibody/index workbook provides experiment-specific TSB members, not one fixed barcode. Panel scope differs across five experiments."
+      }
+    },
+    {
+      "id": "10x_atac_v1_1",
+      "role": "vendor",
+      "locator": "https://www.10xgenomics.com/support/single-cell-atac/documentation/steps/library-prep/chromium-next-gem-single-cell-atac-reagent-kits-v1-1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "The preprint Methods specifically inherit 10x ATAC v1.1 and catalog number 100175; revision-matched official guide remains to be checked.",
+      "discovered_from": "preprint_methods"
+    },
+    {
+      "id": "asap_seq",
+      "role": "predecessor",
+      "locator": "/husky/henriksson/NGS101_papers/sources/asap-seq__10.1038+s41587-021-00927-2/s41587-021-00927-2_PMC8763625.xml.txt; supplement s41587-021-00927-2_41587_2021_927_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Predecessor original independently located after initial unavailable entry; distinct second pass on this new row still needed.",
+      "discovered_from": "preprint_methods",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "ASAP defining JATS line 234 and original MOESM1 supplement lines 250–258; scraper hit checked",
+        "finding": "The predecessor prints BOA N9V-poly(T)-/3InvdT/ and BOB fixed strand-/3InvdT/ exactly as transcribed on the Phospho page; bridge A/B inheritance is supported for the ATAC branch. Exact kit capture remains separate."
+      },
+      "pass_2": {
+        "reviewer": "root",
+        "date": "2026-10-16",
+        "locations": "ASAP original JATS line 234 and original MOESM1 protocol lines 250–260; oligo scraper hit at supplement lines 253 and 256",
+        "finding": "Independently checked both BOA and BOB strings and their /3InvdT/ blocks against the original ASAP paper and supplement. The displayed Phospho inherited bridge strings match; this does not establish the historical 10x kit adapter geometry."
+      }
+    },
+    {
+      "id": "cite_seq_conjugation",
+      "role": "linked_material",
+      "locator": "https://citeseq.files.wordpress.com/2019/03/citeseq_hyper_conjugation_190321.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Preprint Methods lines 18–21 directly delegate antibody conjugation to this protocol; source has not yet been read.",
+      "discovered_from": "preprint_methods"
+    },
+    {
+      "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm1_esm_pdf_txt",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1038+s41467-025-56590-7/s41467-025-56590-7_supp_41467_2025_56590_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Local source is present and readable; bounded sections inspected as specified in pass_1. Missing-claim gate remains blocked.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41467-025-56590-7_supp_41467_2025_56590_MOESM1_ESM.pdf.txt lines 1–17",
+        "finding": "Local supplementary figure captions include gel/cleanup of free antibody-bound oligos (lines 1–6); relevant physical cleanup evidence but not a member sequence table."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Fig. 1 caption lines 2–14 and remaining captions through line 161",
+        "finding": "Figure 1d documents free antibody-conjugated oligo remaining at cleanup stages; other figures are assay measurements. The captions do not print member oligo sequences."
+      }
+    },
+    {
+      "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm2_esm_pdf_txt",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1038+s41467-025-56590-7/s41467-025-56590-7_supp_41467_2025_56590_MOESM2_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Local source is present and readable; bounded sections inspected as specified in pass_1. Missing-claim gate remains blocked.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41467-025-56590-7_supp_41467_2025_56590_MOESM2_ESM.pdf.txt lines 1–17",
+        "finding": "Local supplement inventory maps Supplementary Data 1 to antibody/index identities and Data 2–6 to downstream result/metrics tables; inspect Data 1 for exact index mapping."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary inventory lines 1–15",
+        "finding": "Data 1 is explicitly the antibody and associated sequencing-index table; Data 2–6 are downstream expression, regulatory, metric and ontology workbooks. This inventory points to Data 1 but is not itself an oligo table."
+      }
+    },
+    {
+      "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm4_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1038+s41467-025-56590-7/s41467-025-56590-7_supp_41467_2025_56590_MOESM4_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Result or sequencing-metric workbook; Supplementary Data 1 is the relevant index table, reviewed separately.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41467-025-56590-7_supp_41467_2025_56590_MOESM4_ESM.xlsx.txt: line 1 ## sheet Sheet1",
+        "finding": "Local Supplementary Data 2 workbook contains downstream differential-expression, regulatory-element, sequencing-metric or ontology results (per MOESM2 inventory), not a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 2, Sheet1 lines 1–4 and column headers; searched full extracted sheet for primer/adapter/oligo/reagent/protocol fields",
+        "finding": "This workbook contains Wilcoxon differential-expression results, not the antibody index inventory (which is Supplementary Data 1) or library-construction oligos."
+      }
+    },
+    {
+      "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm5_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1038+s41467-025-56590-7/s41467-025-56590-7_supp_41467_2025_56590_MOESM5_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Result or sequencing-metric workbook; Supplementary Data 1 is the relevant index table, reviewed separately.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41467-025-56590-7_supp_41467_2025_56590_MOESM5_ESM.xlsx.txt: line 1 ## sheet Sheet1",
+        "finding": "Local Supplementary Data 3 workbook contains downstream differential-expression, regulatory-element, sequencing-metric or ontology results (per MOESM2 inventory), not a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 3, Sheet1 lines 1–4 and column headers; searched full extracted sheet for primer/adapter/oligo/reagent/protocol fields",
+        "finding": "This workbook contains gene differential-expression results, not the antibody index inventory (which is Supplementary Data 1) or library-construction oligos."
+      }
+    },
+    {
+      "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm6_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1038+s41467-025-56590-7/s41467-025-56590-7_supp_41467_2025_56590_MOESM6_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Result or sequencing-metric workbook; Supplementary Data 1 is the relevant index table, reviewed separately.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41467-025-56590-7_supp_41467_2025_56590_MOESM6_ESM.xlsx.txt: line 1 ## sheet Sheet1",
+        "finding": "Local Supplementary Data 4 workbook contains downstream differential-expression, regulatory-element, sequencing-metric or ontology results (per MOESM2 inventory), not a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 4, Sheet1 lines 1–4 and column headers; searched full extracted sheet for primer/adapter/oligo/reagent/protocol fields",
+        "finding": "This workbook contains peak correlation and cis-regulatory-element results, not the antibody index inventory (which is Supplementary Data 1) or library-construction oligos."
+      }
+    },
+    {
+      "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm7_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1038+s41467-025-56590-7/s41467-025-56590-7_supp_41467_2025_56590_MOESM7_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Result or sequencing-metric workbook; Supplementary Data 1 is the relevant index table, reviewed separately.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41467-025-56590-7_supp_41467_2025_56590_MOESM7_ESM.xlsx.txt: line 1 ## sheet Sheet1",
+        "finding": "Local Supplementary Data 5 workbook contains downstream differential-expression, regulatory-element, sequencing-metric or ontology results (per MOESM2 inventory), not a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 5, Sheet1 lines 1–4 and column headers; searched full extracted sheet for primer/adapter/oligo/reagent/protocol fields",
+        "finding": "This workbook contains 10x ATAC/Multiome sequencing metrics, not the antibody index inventory (which is Supplementary Data 1) or library-construction oligos."
+      }
+    },
+    {
+      "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm8_esm_xlsx_txt",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1038+s41467-025-56590-7/s41467-025-56590-7_supp_41467_2025_56590_MOESM8_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Result or sequencing-metric workbook; Supplementary Data 1 is the relevant index table, reviewed separately.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41467-025-56590-7_supp_41467_2025_56590_MOESM8_ESM.xlsx.txt: line 1 ## sheet Sheet1",
+        "finding": "Local Supplementary Data 6 workbook contains downstream differential-expression, regulatory-element, sequencing-metric or ontology results (per MOESM2 inventory), not a reagent oligo list."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Supplementary Data 6, Sheet1 lines 1–4 and column headers; searched full extracted sheet for primer/adapter/oligo/reagent/protocol fields",
+        "finding": "This workbook contains gene ontology and Fisher-test results, not the antibody index inventory (which is Supplementary Data 1) or library-construction oligos."
+      }
+    },
+    {
+      "id": "s41467_025_56590_7_supp_41467_2025_56590_moesm9_esm_pdf_txt",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phospho-seq__10.1038+s41467-025-56590-7/s41467-025-56590-7_supp_41467_2025_56590_MOESM9_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Local source is present and readable; bounded sections inspected as specified in pass_1. Missing-claim gate remains blocked.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "s41467-025-56590-7_supp_41467_2025_56590_MOESM9_ESM.pdf.txt lines 1–17, 27 and 99",
+        "finding": "Local peer-review file includes discussion of ADT read and UMI counts; reviewed bounded sections only, with no basis to declare sequence absence."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Peer-review file lines 1–50 and 80–110",
+        "finding": "Review and response discuss antibody detection, ADT UMI counts and Phospho-seq-Multi read complexity; inspected passages contain no reagent oligo sequence and do not resolve historical author protocol links."
+      }
+    },
+    {
+      "id": "author_atac_protocol",
+      "role": "linked_material",
+      "discovered_from": "published",
+      "locator": "https://phospho-seq.com/post/protocol_2/PhosphoSeq_Protocol.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published JATS line 245",
+        "finding": "Published authors directly link this step-by-step procedure. The article provides summary steps, but the linked full guide must be read before asserting missing details."
+      },
+      "pass_2": null,
+      "reason": "Web rendering fails (author host timeout/404), and local source fetch is pending; no verified PDF text."
+    },
+    {
+      "id": "author_multiome_protocol",
+      "role": "linked_material",
+      "discovered_from": "published",
+      "locator": "https://phospho-seq.com/post/protocol_3/PhosphoseqMulti_Protocol.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published JATS line 281",
+        "finding": "Published authors directly link this step-by-step procedure. The article provides summary steps, but the linked full guide must be read before asserting missing details."
+      },
+      "pass_2": null,
+      "reason": "Web rendering fails (author host timeout/404), and local source fetch is pending; no verified PDF text."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "Preprint supplemental Methods lines 18–27, 124–154; later published workbook header",
+      "finding": "The preprint gives full custom tag oligo families and index data, but inherits ASAP-Seq, 10x v1.1 and a conjugation protocol that remain to be checked."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Defining preprint Methods 92–135, media-1 124–155, published JATS 241–281, antibody workbooks",
+      "finding": "Independently followed published Methods links and found two omitted author step-by-step PDF procedures; both local fetches failed. The ASAP-seq original JATS and supplement were recovered and independently checked for BOA/BOB, while vendor and published supplemental blockers remain. No absence claim can be accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Phospho-seq tag and inherited bridge oligos are unavailable",
+      "disposition": "resolved",
+      "evidence": "Preprint Methods prints tag PCR arms and published ASAP-seq JATS line 234 plus MOESM1 lines 250–258 print BOA/BOB with 3-prime inverted dT."
+    },
+    {
+      "claim": "The complete kit-derived cell-barcode end and all Phospho-seq branch geometry are confirmed absent",
+      "disposition": "blocked",
+      "evidence": "10x v1.1 vendor details, several published supplements, and the two author-linked step-by-step PDFs remain unavailable; exact sample/member choice also varies."
+    }
+  ],
+  "conclusion": "Multiple exact tag and inherited BOA/BOB oligo families are printed. Kit-derived cell-barcode geometry and source-version comparison remain blocked by relevant unavailable guides, supplements and author protocols.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nat Commun 16:1346 (2025) PMC11794950 JATS Methods text lines213–217 (conjugation/pooling, tag oligos), 241–245 (Phospho-seq staining, 10x scATAC v1.1 changes, bridge oligos, supernatant split, tag PCR), 255 (sequencing), 281–287 (Phospho-seq-multi); article PDF text line1948 (hash poly(A) cross-check); cited ASAP-seq PMC8763625 JATS line234 and MOESM1 lines253–256 (BOA/BOB)",
+      "oligo_scraper": "Scraper run on the published JATS text; --find BOA (strict) and BOB in the ASAP-seq bundle: 3 exact hits each (JATS234, MOESM1 253/256, preprint).",
+      "findings": "Corrected hash-tag poly(A) from 30A+*A*A to published 28A+*A*A, blocking oligo from N30 to published N29/3ddC/, and citation first author Chung -> Blair (preprint and published both list Blair). Active claims moved to the published article. Replaced shared _finish_pcr recipe with local graph: blocking/hashing, staining, 10x tagmentation, BOA/BOB addition with 5 min 40C step, GEM barcoding, 43.5 µl silane elution with 3 µl set-aside, first-SPRI supernatant saved (ATAC on beads), 32 µl SPRI, combine and split into TSA/TSB PCRs (KAPA, P5 + indexed P7, 14–18 cycles), 1.6x SPRI; ATAC branch attributed to the unread 10x kit. Read layout 34/8/16/34 recorded; BOB source-guard exception names the ASAP-seq locator. Multi variant described in note only.",
+      "deferred": [
+        "10x Chromium Single Cell ATAC v1.1 user guide (bead oligo, steps 3.1o/3.2d, ATAC library PCR)",
+        "Author step-by-step PDFs phospho-seq.com protocol_2 and protocol_3 (curl error 6)",
+        "CITE-seq hyper-conjugation PDF",
+        "Bridge-capture junction geometry with the bead oligo",
+        "Phospho-seq-multi (Multiome) branch not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (workflow construction, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/18 unresolved/0 contradictory; source guard 2 exact checked (P5 ×2), 0 failed, BOB excepted (ASAP-seq source), 8 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
+}

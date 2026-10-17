@@ -127,17 +127,24 @@ def final_library() -> Construct:
 def protocol_graph() -> ProtocolGraph:
     """Rao's bulk-nucleus MboI route, including the source-limited library shell."""
     g = ProtocolGraph(TITLE, authority=CITATION)
-    sample = g.input("sample", "fixed intact nuclei", MaterialKind.BIOLOGICAL,
+    sample = g.input("sample", "1% formaldehyde-crosslinked, glycine-quenched cells",
+                     MaterialKind.BIOLOGICAL,
                      state=molecule("fixed chromatin", (role("chromosomal DNA"),)),
                      primary=True)
-    mboi = g.input("mboi", "MboI restriction enzyme", MaterialKind.CATALYST)
+    lysis = g.input("lysis_sds", "Hi-C lysis buffer (0.2% Igepal), then 0.5% SDS at 62 °C quenched with Triton X-100",
+                    MaterialKind.CONDITION)
+    nuclei = g.product("nuclei", "permeabilized intact nuclei", MaterialKind.BIOLOGICAL,
+                       state=molecule("fixed chromatin", (role("chromosomal DNA"),)))
+    g.react("lyse_permeabilize", "Lyse cells and permeabilize nuclei", StepKind.PERMEABILIZATION,
+            ((sample, InputRole.TEMPLATE), (lysis, InputRole.CONDITION)), (nuclei,))
+    mboi = g.input("mboi", "MboI (100 U, NEB R0147), heat-inactivated at 62 °C", MaterialKind.CATALYST)
     cut = g.product("cut", "MboI-cut chromatin", MaterialKind.MOLECULAR,
                     state=cleavage_scene(), chemical_state=DEMO)
     g.react("digest", "Digest chromatin in intact nuclei with MboI", StepKind.DIGESTION,
-            ((sample, InputRole.TEMPLATE), (mboi, InputRole.CATALYST)), (cut,))
+            ((nuclei, InputRole.TEMPLATE), (mboi, InputRole.CATALYST)), (cut,))
 
-    biotin = g.input("biotin_datp", "biotin-14-dATP", MaterialKind.MOLECULAR)
-    klenow = g.input("klenow", "Klenow fill-in polymerase", MaterialKind.CATALYST)
+    biotin = g.input("biotin_datp", "biotin-14-dATP with dCTP, dGTP, dTTP", MaterialKind.MOLECULAR)
+    klenow = g.input("klenow", "DNA polymerase I Large (Klenow) Fragment", MaterialKind.CATALYST)
     filled = g.product("filled", "biotin-filled MboI ends", MaterialKind.MOLECULAR,
                        state=filled_left_scene(), chemical_state=FILLED)
     g.react("fill", "Fill MboI ends with biotin-dATP", StepKind.EXTENSION,
@@ -145,7 +152,7 @@ def protocol_graph() -> ProtocolGraph:
              (klenow, InputRole.CATALYST)), (filled,),
             relations=(MolecularRelation.RESTRICTION_FILL,))
 
-    ligase = g.input("contact_ligase", "proximity-ligation DNA ligase",
+    ligase = g.input("contact_ligase", "T4 DNA ligase (NEB M0202), 4 h room temperature",
                      MaterialKind.CATALYST)
     contacts = g.product("contacts", "biotin-marked contact junctions",
                          MaterialKind.MOLECULAR, state=contact_junction())
@@ -154,14 +161,34 @@ def protocol_graph() -> ProtocolGraph:
             ((filled, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)),
             (contacts,), relations=(MolecularRelation.CONTACT_JUNCTION,))
 
-    shear = g.input("shear", "fragmentation to 300–500 bp", MaterialKind.CONDITION)
-    fragments = g.product("fragments", "sheared contact fragments",
-                          MaterialKind.MOLECULAR, state=sheared_insert())
-    g.react("fragment", "Reverse crosslinks and shear contact DNA",
+    protease = g.input("proteinase_k", "proteinase K + SDS at 55 °C, then NaCl at 68 °C",
+                       MaterialKind.CATALYST)
+    reversed_dna = g.product("decrosslinked", "deproteinized, crosslink-reversed contact DNA",
+                             MaterialKind.MOLECULAR, state=contact_junction())
+    g.react("reverse_crosslinks", "Degrade protein and reverse crosslinks",
+            StepKind.DEPROTEINIZATION,
+            ((contacts, InputRole.TEMPLATE), (protease, InputRole.CATALYST)), (reversed_dna,))
+    ethanol = g.input("ethanol_precipitation", "ethanol/sodium acetate precipitation, 70% ethanol washes",
+                      MaterialKind.CONDITION)
+    purified = g.product("purified_dna", "purified contact DNA", MaterialKind.MOLECULAR,
+                         state=contact_junction())
+    g.react("precipitate", "Ethanol-precipitate and redissolve the DNA", StepKind.EXTRACTION,
+            ((reversed_dna, InputRole.TEMPLATE), (ethanol, InputRole.CONDITION)), (purified,))
+    shear = g.input("shear", "Covaris LE220 shearing to 300–500 bp", MaterialKind.CONDITION)
+    sheared = g.product("sheared", "sheared contact DNA",
+                        MaterialKind.MOLECULAR, state=sheared_insert())
+    g.react("fragment", "Shear contact DNA",
             StepKind.FRAGMENTATION,
-            ((contacts, InputRole.TEMPLATE), (shear, InputRole.CONDITION)),
-            (fragments,))
-    beads = g.input("streptavidin", "streptavidin beads", MaterialKind.SELECTION)
+            ((purified, InputRole.TEMPLATE), (shear, InputRole.CONDITION)),
+            (sheared,))
+    fragments = g.product("fragments", "300–500 bp sheared contact fragments",
+                          MaterialKind.MOLECULAR, state=sheared_insert())
+    off_size = g.product("off_size", "fragments above ~500 bp, short DNA and degraded RNA",
+                         MaterialKind.WASTE)
+    g.react("size_select", "Double-sided AMPure XP size selection (0.55×, then +30 µl)",
+            StepKind.CLEANUP, ((sheared, InputRole.TEMPLATE),), (fragments, off_size))
+    g.discard(off_size, "first-cut beads and second-cut supernatant discarded")
+    beads = g.input("streptavidin", "Dynabeads MyOne Streptavidin T1, 55 °C TWB washes", MaterialKind.SELECTION)
     selected = g.product("selected", "biotin-enriched contact fragments",
                          MaterialKind.MOLECULAR, state=sheared_insert())
     unbound = g.product("unbound", "fragments without a captured biotin junction",
@@ -174,28 +201,49 @@ def protocol_graph() -> ProtocolGraph:
 
     adapter = g.input("adapter", "source-unspecified indexed Illumina adapter",
                       MaterialKind.ADAPTER, inferred=True, source=LIBRARY_CAVEAT)
-    adapter_ligase = g.input("adapter_ligase", "adapter ligase", MaterialKind.CATALYST)
+    repair = g.input("end_repair_enzymes", "T4 PNK, T4 DNA polymerase and Klenow with dNTPs",
+                     MaterialKind.CATALYST)
+    repaired = g.product("repaired", "bead-bound end-repaired fragments; biotin removed from unligated ends",
+                         MaterialKind.MOLECULAR, state=sheared_insert())
+    g.react("end_repair", "Repair sheared ends and remove biotin from unligated ends on beads",
+            StepKind.END_REPAIR,
+            ((selected, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
+    exo_minus = g.input("klenow_exo_minus", "Klenow exo minus (NEB M0212) with dATP",
+                        MaterialKind.CATALYST)
+    tailed = g.product("tailed", "bead-bound 3′-dA-tailed fragments",
+                       MaterialKind.MOLECULAR, state=sheared_insert())
+    g.react("da_tail", "Add 3′ dA on beads", StepKind.TAILING,
+            ((repaired, InputRole.TEMPLATE), (exo_minus, InputRole.CATALYST)), (tailed,))
+    adapter_ligase = g.input("adapter_ligase", "NEB Quick ligase (M2200), 15 min", MaterialKind.CATALYST)
     ligated = g.product("ligated", "adapter-ligated contact DNA",
                         MaterialKind.MOLECULAR, state=sheared_insert())
-    g.react("adapter_ligation", "Repair, dA-tail and ligate indexed adapters",
+    g.react("adapter_ligation", "Ligate an Illumina indexed adapter on beads",
             StepKind.LIGATION,
-            ((selected, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+            ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
              (adapter_ligase, InputRole.CATALYST)), (ligated,),
             geometry=AdapterLigationGeometry.unavailable(LIBRARY_CAVEAT))
     forward = g.input("pcr_forward", "Illumina PCR forward primer", MaterialKind.OLIGO,
                       inferred=True, source=SEQUENCING_UNAVAILABLE)
     reverse = g.input("pcr_reverse", "Illumina PCR reverse primer", MaterialKind.OLIGO,
                       inferred=True, source=SEQUENCING_UNAVAILABLE)
-    polymerase = g.input("pcr_polymerase", "library PCR polymerase", MaterialKind.CATALYST)
+    polymerase = g.input("pcr_polymerase", "Illumina (2007) PCR protocol polymerase", MaterialKind.CATALYST)
     final = final_library()
+    amplified = g.product("amplified", "amplified in situ Hi-C library (before cleanup)",
+                          MaterialKind.LIBRARY, state=final, inferred=True,
+                          source=LIBRARY_CAVEAT)
+    g.react("library_pcr", "PCR-amplify off the T1 beads (4–12 cycles)", StepKind.PCR,
+            ((ligated, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+             (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+            (amplified,), geometry=PCRGeometry.unavailable(
+                final, reason="Rao et al. do not print the PCR primers or adapter bases."))
     library = g.product("library", "indexed in situ Hi-C library",
                         MaterialKind.LIBRARY, state=final, inferred=True,
                         source=LIBRARY_CAVEAT)
-    g.react("library_pcr", "PCR-amplify the captured contact library", StepKind.PCR,
-            ((ligated, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
-             (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-            (library,), geometry=PCRGeometry.unavailable(
-                final, reason="Rao et al. do not print the PCR primers or adapter bases."))
+    short = g.product("short_products", "streptavidin beads, primers and short products",
+                      MaterialKind.WASTE)
+    g.react("final_cleanup", "Remove T1 beads; AMPure XP 0.7× then 70 µl re-cleanup",
+            StepKind.CLEANUP, ((amplified, InputRole.TEMPLATE),), (library, short))
+    g.discard(short, "magnet-removed T1 beads and AMPure supernatants")
     g.sequence(library, SequencingPlan(acquired_roles=REQUIRED_ROLES,
                                        limitation=SEQUENCING_UNAVAILABLE))
     g.declare_reviewed_scope(tuple(g.steps) + tuple(g.materials), CITATION)

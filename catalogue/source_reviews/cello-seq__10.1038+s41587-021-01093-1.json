@@ -61,5 +61,25 @@
       "evidence": "This is one located source-reading pass. An independent second pass is pending; relevant linked information may also be unavailable."
     }
   ],
-  "conclusion": "Author oligos are published, but defining article and ONT adapter specification unavailable."
+  "conclusion": "Author oligos are published, but defining article and ONT adapter specification unavailable.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Europe PMC author manuscript PMC7614850 (newly fetched via pmccloud:PMC7614850) JATS xml.txt Methods 'CELLO-seq' lines176–181 (RT, ExoI, splint annealing/ligation, ProtK, AMPure, qPCR/PCR), 'ONT sequencing' line207, sarlacc line219, Results line89; PDF p35 Fig. 1A rendered; Supplementary Table 5 xlsx.txt lines1–108 (oligo_dT, TSO_RNA_Amine, splint_top, splintlig idx1–96, NexteR1/R2) compared programmatically with the model",
+      "oligo_scraper": "Bundle scraper run: 9 hits, all in Table S5 (i7/i5, Tn5 ME RC, NexteR1/R2, oligo_dT, TSO, bottom-splint families); no oligo bases in the manuscript text; MOESM1 Supplementary Information PDF is image-only.",
+      "findings": "Model transcription errors corrected: oligo(dT) T30VN -> T25VN and bottom-splint 3' tail T14 -> T15 (Table S5 verbatim; selftest now compares verbatim strings). Added SuperScript IV 57/42 °C RT, ExoI/95 °C, splint pre-annealing, HiFi Taq ligase+NAD+ 55 °C, ProtK/0.5x AMPure, KAPA HiFi Uracil+ 25–29-cycle PCR, SQK-LSK109/LSK110 and MinION R9.4.1. PCR primer identity marked inferred (Methods say only 'forward and reverse PCR primers'); nick template for splint-to-cDNA ligation not described in Methods, drawn junction labelled a model interpretation of Fig. 1A on page caveat and note. Recorded PMC Cloud URL for the hand-added Table S5 in sources MANIFEST.tsv (md5-identical), so the source guard sees it.",
+      "deferred": [
+        "Springer Supplementary Information PDF MOESM1 (image-only; needs rendered reading)",
+        "ONT SQK-LSK109/LSK110 guides (end-prep/dA-tailing, motor-adapter geometry)",
+        "2025 Nature Protocols detailed procedure (version boundary; nick geometry)",
+        "Splint-to-cDNA nick template",
+        "CELLO-seq PCR primer identity"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 5/5 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/6 unresolved/0 contradictory; source guard 1 exact checked (top splint), 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

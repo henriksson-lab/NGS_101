@@ -14,7 +14,7 @@ c("ME_bottom bases", P.ME_BOTTOM, "CTGTCTCTTATACACATCT")
 c("plate capture handle", P.TRUSEQ_R1_SHORT, "CTACACGACGCTCTTCCGATCT")
 c("droplet capture handle", P.TRUSEQ_R2_SHORT, "CAGACGTGTGCTCTTCCGATCT")
 c("capture UMI length", P.UMI_LENGTH, 10)
-c("capture oligo(dT) length", P.DT_LENGTH, 32)
+c("capture oligo(dT) length (MOESM4 T30VN)", P.DT_LENGTH, 30)
 c("plate run", P.PLATE_READ_LENGTHS,
   {"Read 1": 150, "Index 1 (i7)": 8, "Index 2 (i5)": 8, "Read 2": 150})
 c("ATAC primer sites", seqprimers.verify(P.ATAC, P.ATAC_PRIMERS), [])

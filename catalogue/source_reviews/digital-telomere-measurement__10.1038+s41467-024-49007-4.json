@@ -91,5 +91,25 @@
       "evidence": "Capture/tether oligos are published in author Data 3, but the changing ONT adapter reagent internals remain unverified."
     }
   ],
-  "conclusion": "Capture and tether oligos are source-backed; ONT motor adapter generations remain blocked."
+  "conclusion": "Capture and tether oligos are source-backed; ONT motor adapter generations remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published article s41467-024-49007-4_PMC11189511.xml.txt: Methods 'Whole-genome sequencing nanopore library preparation' and 'Telomere capture sequencing nanopore library preparation' lines 154-160 (LSK-110, NEBNext E7180L end prep, ProNex 1.6x/1.1x, AMXF/AMII/NA adapters, R9.4.1 and R10.4 PromethION; capture duplexing 95 C 2 min, T4 ligase overnight 37 C in rCutSmart + ATP, 65 C 10 min, Sulfolobus Pol IV 56 C 2 min /72 C 15 min, ProNex 1.6x, Quick T4 adapter ligation 1 h RT, 8-sample pooling to 1000 ng) and Results line 92 (TSQ variant TTGCGG capture). Supplementary Data 3 MOESM6_ESM.xlsx.txt all 16 rows; MOESM3 supplementary-file descriptions. Fig. 1a inspected in the rendered PDF (page 3) because the schematic is image-only.",
+      "oligo_scraper": "Bundle scraper run: three hits in Supplementary Data 3 (collapsed capture-oligo families) and three in the superseded bioRxiv supplement; seqTether and the capture oligos verified directly in the MOESM6 table.",
+      "findings": "Two repository errors corrected. (1) The capture-oligo partition was modelled as 22 + 25 + 6 with a 'CTAACC' arm; the Supplementary Data 3 rows give 22 + 24 + 7 ('CCTAACC'): the eight canonical oligos share 22 nt of prefix and 7 nt of suffix, and the seven TSQ variants share 46 nt with p-t3-nb01 and differ only in the last 7. selftest.py now derives that partition from the table (skips if the source is absent). (2) The capture panel claimed ligase 'joins the capture 5-prime phosphate at the native C-rich terminus', which is impossible for an oligo annealed to the G-rich overhang via its 3-prime arm; the panel now draws capture oligo + seqTether on the telomere end and states that the Methods do not identify the sealed nick, with the graph's ligation geometry an explicit unavailable(). Added the source-stated T4 ligase conditions, the Pol IV gap-fill conditions and the ProNex 1.6x cleanup (retained post-capture library plus discarded supernatant/ethanol washes) to the graph and captions; adapter caption now names AMII/NA plus Quick T4 ligase. Note rewritten with the verbatim Methods order and the corrected derivation; the supplement is Supplementary Data 3, not 5.",
+      "deferred": [
+        "Author bench protocol TelometerLibraryPrep.docx (raw GitHub fetch failed, curl error 6)",
+        "ONT LSK-110 / AMII / NA motor-adapter assemblies (proprietary, not printed)",
+        "Multiplex ONT barcode ligation branch (NEB Blunt/TA) and 8-sample pooling, not drawn",
+        "Which nick T4 ligase seals at the annealed telomere end",
+        "Makarova 2025 fmolb comparison paper beyond this pass"
+      ],
+      "scope": "Capped defining-source pass only; ONT adapter composition stays blocked and no missing-information claim is accepted.",
+      "verification": "local suite passes (104 checks incl. 4 new Supplementary Data 3 derivations); page builds; pairing 0 problems; chemistry 0 established/0 conditional/5 unresolved/0 contradictory; source guard 0 checked, 0 failed, 1 input without exact states; Markdown built/checked; review schema (audit --check) pass, protocol still blocked."
+    }
+  ]
 }

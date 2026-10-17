@@ -149,5 +149,24 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "EMP workbook and Smith–Peay 2014 support 12-base Golay indexing; EMP site and 2018 protocols.io reverse-primer placeholder print 10 N, documented on public page. Caporaso 2012 Supplementary Methods is now read as a historical 16S instrument example, not a selected ITS run. Exact ITS run settings remain blocked; several newly read linked rows need independent first passes and two relevant supplements are unread."
+  "conclusion": "EMP workbook and Smith–Peay 2014 support 12-base Golay indexing; EMP site and 2018 protocols.io reverse-primer placeholder print 10 N, documented on public page. Caporaso 2012 Supplementary Methods is now read as a historical 16S instrument example, not a selected ITS run. Exact ITS run settings remain blocked; several newly read linked rows need independent first passes and two relevant supplements are unread.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "EMP ITS Illumina Amplicon Protocol web page (re-fetched 2026-10-17, its.html.txt lines 151-403: constructs 179/195, PCR mix 202-264, thermocycler 270-338, Amplification protocol 350-364, sequencing primers 379/391/403); protocols.io doi:10.17504/protocols.io.pa7dihn Apr 14 2018 PDF pp.4-13 (txt lines 61-93, 118-123, 187, 198-293; thermocycler table image not transcribed); Nov 2016 workbook Forward and Sequencing Primers sheet rows 1-9 and Reverse Primer Constructs header/first rows",
+      "oligo_scraper": "Bundle scraper run; web page hits 179/195/379/391/403, protocols.io hits 77/93/266/273 plus index primer at txt 281 and workbook rows 3-9 checked against model constants; Golay family rows not re-enumerated.",
+      "findings": "Graph corrected: Platinum Hot Start PCR Master Mix (0.8x) and 0.2 uM primers named; cycling 94C 1 min, 35x(94/52/68C 30 s), 68C 10 min added; triplicate 25 ul PCRs pooled per sample; equal 240 ng per-sample pooling after gel check/PicoGreen; MoBio UltraClean clean-up with waste discard; optional gel extraction noted; 5-10% PhiX noted. Forward fusion primer now carries an exact state. Repository sheet citations corrected to the actual workbook sheet 'Forward and Sequencing Primers'. New published discrepancy shown on page: current web page amplicon size ~250-600 bp vs ~230 bp expected band (step 3; protocols.io 2018 ~230 bp in both). 10-N vs 12-nt Golay discrepancy unchanged and still displayed.",
+      "deferred": [
+        "Acquired cycle counts for EMP ITS runs (page defers to Caporaso 2012 historical 16S 151x12x151)",
+        "10-N web/protocols.io placeholder vs 12-nt workbook Golay barcodes",
+        "Smith & Peay 2014 Figure S1 and Walters et al. 2016 Table S1 (not re-checked)",
+        "protocols.io thermocycler table image (only current web table transcribed)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (1 construction check); page builds; pairing 0 problems; chemistry 0 established/0 conditional/4 unresolved/0 contradictory; source guard 1 exact checked (forward fusion primer), 0 failed, 1 input without exact state (Golay reverse family); Markdown built; review schema checked"
+    }
+  ]
 }

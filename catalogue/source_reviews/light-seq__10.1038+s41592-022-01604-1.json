@@ -228,5 +228,26 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Independent pass confirms source-printed library oligos, parser read order and the Nextera kit-list discrepancy. Vendor XT manual remains unavailable; no missing claim accepted."
+  "conclusion": "Independent pass confirms source-printed library oligos, parser read order and the Nextera kit-list discrepancy. Vendor XT manual remains unavailable; no missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nat Methods PMC9636025 JATS Methods lines 200–248 (in situ RT, A-tailing, barcoding, RNase H displacement, cross-junction synthesis, qPCR/bulk PCR, library preparation, sequencing); Supplementary Information MOESM1 Supplementary Table 6 text lines 1100–1340; protocols.io v1 (10.17504/protocols.io.x54v9jno4g3e/v1) resource list lines 82–105, library-preparation/tagmentation/indexing-PCR/sequencing sections lines 2270–2770",
+      "oligo_scraper": "Bundle scraper run; RT.5N.3G, GATE.D12.B1–B3 (cnvK/Cy5/Cy3/Fl), GATC.20T, GATE, GATC, S502–S508.GATE, N701–N706, P5.GATE, GATE*.P5* verified in MOESM1 lines 1146–1331 and protocols.io table; line-1306 78-nt hit is a merge of Next.N706 and P5.GATE; D0*.7N.30A.bio (3' biotin) is the in vitro slide-labeling strand, not a library oligo.",
+      "findings": "Oligos and asymmetric S50X.GATE/N7XX library unchanged. Corrected note's 'Bst 2.0 WarmStart' to Bst DNA polymerase large fragment (M0275L) per Methods/protocols.io; named Maxima H Minus RT, TdT with dATP+ddATP, RNase H with 75C inactivation, KAPA HiFi HotStart qPCR-gated PCR, Nextera XT ATM/NPM 12-cycle indexing in graph inputs and note. New graph-owned published discrepancy: Methods names GATE*.P5* as the indexing-PCR i5 primer whereas Supplementary Table 6 and protocols.io step 2c use S50X.GATE (GATE*.P5* is the i5 sequencing primer and lacks P5); model uses S50X.GATE. Moved the existing FC-121-1030 vs FC-131-1096 kit discrepancy from caveat prose into a graph-owned SourceDiscrepancy.",
+      "deferred": [
+        "Primer Exchange Reaction predecessor (ref. 35) for cross-junction mechanism",
+        "cnvK photocrosslinking chemistry references",
+        "lightseq.io updated protocols and later protocols.io revisions",
+        "Acquired read lengths/cycles per HiSeq/NovaSeq/MiSeq run (not stated in inspected Methods)",
+        "Exact oligo states for the 8 graph oligo inputs (source guard cannot check them)",
+        "Whether the Methods GATE*.P5* PCR sentence is a naming slip"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 5/5 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 8 oligo inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

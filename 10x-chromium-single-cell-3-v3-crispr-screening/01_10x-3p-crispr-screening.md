@@ -72,6 +72,26 @@ as TruSeq Read 2 + the partial TSO primer.
 5. 🟢 Feature SI PCR adds P5/full Read 1N and a TruSeq Read 2 end. Sample-index PCR adds
    P7 and the i7 index in the v3 workflow.
 
+🟢 CG000184 Rev A detail (bounded pass 2026-10-17; txt lines): GEM-RT 53 °C 45 min,
+85 °C 5 min (3282–3310); Recovery Agent + Dynabeads MyOne SILANE cleanup (2.1); cDNA
+amplification with Feature cDNA Primers 1 PN-2000096, 98 °C 15 s / 63 °C 20 s / 72 °C 1 min,
+11–13 total cycles (3769–3860); 0.6X SPRIselect, 150 µl supernatant kept for the CRISPR
+library and pellet for 3′ GEX (3960–4000); supernatant 1.2X cleanup, 50 µl eluate
+(4000–4060); step 4.1 1.0X Guide RNA cDNA Cleanup, 30 µl (5025–5060); step 4.2 Feature PCR
+on 5 µl with Feature SI Primers 1 PN-2000098, 98 °C 20 s / 60 °C 5 s / 72 °C 5 s, 15 cycles
+(5080–5170); 4.3 1.0X cleanup; 4.4 Sample Index PCR on 5 µl with Feature SI Primers 2
+PN-2000099 + Chromium i7, 98 °C 20 s / 54 °C 30 s / 72 °C 20 s, 5 cycles (5240–5330);
+4.5 0.7X/1.0X double-sided selection (5349–5380).
+
+Published discrepancies (shown on the schematic):
+
+- Appendix p.70 heads the Step 4.2 Feature PCR primers "Feature SI Primers 2 PN-2000099"
+  while the step 4.2 reaction table uses Feature SI Primers 1 PN-2000098; the printed pair
+  (P5/Read 1N + Read 2/partial TSO) is used and named PN-2000098 in the model.
+- Appendix p.70 Step 4.4 product omits the 30 TSO-derived bases that its Step 4.2 product
+  contains (its label row still lists "TS0"). Neither 4.4 primer removes them, so the
+  model keeps them; the 4.4 drawing is read as an abbreviation.
+
 ## 6. Final library and reads
 
 🟡 For the representative CS1 3′-end guide:
@@ -83,6 +103,9 @@ P5 · Nextera Read 1 · CBC16 · UMI12 · CS1 · CR1' · protospacer' · TSO' ·
 - 🟢 Read 1 bases 1–16: cell barcode; 17–28: UMI.
 - 🟡 Read 2 first traverses 30 TSO-derived bases, then bases 31–50 identify the
   protospacer, followed by the scaffold.
+- 🟢 CG000184 Rev A step 5 (txt 1455–1463, 5540–5580): recommended 28/8/0/91 cycles
+  (Read 1/i7/i5/Read 2); minimum Read 2 for CRISPR Screening libraries 70 bp. The model now
+  acquires 91 Read 2 cycles (it previously used 50, which is below the stated minimum).
 - 🟢 Index 1 identifies the sample in the v3 single-index workflow.
 
 ## 7. Version boundary

@@ -113,7 +113,18 @@ def protocol_graph() -> ProtocolGraph:
     ]
     _rt_then_pcr(graph, "rna", rna, rna_final,
                  "matched RNA branch: Smart-seq-type full-length transcript reads",
-                 reviewed, rt_primer_label="Smart-seq-type oligo(dT) RT primer",
-                 label="scTEM transcriptome")
+                 reviewed,
+                 rt_primer_label="SMART-seq2 oligo(dT) RT primer (cited protocol; not printed)",
+                 rt_enzyme_label="SMART-seq2 reverse transcriptase (cited protocol)",
+                 label="scTEM transcriptome",
+                 between_rt_and_pcr=(
+                     "Methods: gDNA and RNA are separated by G&T-seq (ref. 45), and matched "
+                     "scRNA-seq libraries are prepared 'using the SMART-seq2 protocol' (refs 17 "
+                     "and 19). The paper prints no RNA-branch oligos or conditions. The cited "
+                     "SMART-seq2 route (template switching, cDNA pre-amplification and "
+                     "tagmentation) is not redrawn here."),
+                 step_label="Final library PCR of the SMART-seq2 transcriptome library (cited protocol)",
+                 forward_label="SMART-seq2 library forward PCR primer (cited protocol; not printed)",
+                 reverse_label="SMART-seq2 library reverse PCR primer (cited protocol; not printed)")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

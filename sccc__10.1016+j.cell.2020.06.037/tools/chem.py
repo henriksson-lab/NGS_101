@@ -1,8 +1,10 @@
+from chemdraw import Construct, Segment
+import seqprimers as sp
 from pcr import PCRGeometry
 from adapter_ligation import AdapterLigationGeometry
 from types import SimpleNamespace
 from protocol_model import chain, role_library
-from multimodal_protocols import CELL, CircularizationGeometry, Definition, InputRole, MaterialKind, ProtocolGraph, SAMPLE, StepKind, UMI, _finish_pcr, molecule, role, role_library
+from multimodal_protocols import CELL, CircularizationGeometry, Definition, InputRole, MaterialKind, ProtocolGraph, SAMPLE, StepKind, UMI, _finish_pcr, _unmodelled_boundary, molecule, role, role_library
 DEFINITION = Definition("scCC — single-cell calling cards", "10.1016/j.cell.2020.06.037",
         "Moudgil et al., Cell (2020)", "Self-reporting transposons encode their genomic insertion flank in RNA; circularization brings droplet identifiers next to that junction so TF-binding history can be joined to gene expression.",
         "The calling-card read resolves the insertion flank and retains the same cell barcode and UMI as the parent 10x cDNA.", "01_sccc.html")
@@ -52,19 +54,37 @@ def _sccc_graph(d, final):
                 ((expression, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
                  (expression_rt, InputRole.CATALYST)), (switched,))
     reviewed.extend(("expression_tso", "expression_rt", "restore_expression_tso"))
-    _finish_pcr(graph, "expression", switched, expression_final,
+    expression_template = _unmodelled_boundary(
+        graph, "expression", switched, "scCC expression",
+        "Methods ('Single cell RNA-seq library preparation'): after the Silane cleanup, "
+        "'the remainder of the single cell RNA-seq protocol, including purification, "
+        "amplification, fragmentation, and final library amplification, followed "
+        "manufacturer's instructions' (10x Chromium Single Cell 3' kit). The paper does "
+        "not detail these vendor steps, so cDNA amplification, fragmentation and adaptor "
+        "ligation are not modelled here.", reviewed)
+    _finish_pcr(graph, "expression", expression_template, expression_final,
                 "Expression branch: droplet transcriptome reads linked by cell barcode.",
-                reviewed, label="scCC expression")
-    junction_forward = graph.input("srt_enrich_forward", "Bio_Illumina_Seq1_scCC_10X_3xPT", MaterialKind.OLIGO)
-    junction_reverse = graph.input("srt_enrich_reverse", "Bio_Long_PB_LTR_3xPT", MaterialKind.OLIGO)
-    junction_polymerase = graph.input("srt_enrich_polymerase", "SRT-enrichment PCR polymerase", MaterialKind.CATALYST)
+                reviewed, label="scCC expression",
+                step_label="Final library amplification per the 10x Single Cell 3' manufacturer instructions",
+                forward_label="10x Single Cell 3' library forward PCR primer (vendor kit; not printed)",
+                reverse_label="10x Single Cell 3' sample-index PCR primer (vendor kit; not printed)",
+                polymerase_label="10x Single Cell 3' library PCR mix (vendor kit)")
+    junction_forward = graph.input("srt_enrich_forward",
+        "Bio_Illumina_Seq1_scCC_10X_3xPT (5′ phosphate, internal biotin-dT, three 3′ phosphorothioates)",
+        MaterialKind.OLIGO,
+        state=Construct((Segment("Bio_Illumina_Seq1_scCC_10X_3xPT", "ACACTCTTTCCCTACACGACGCTCTTCCGATCT"),)))
+    junction_reverse = graph.input("srt_enrich_reverse",
+        "Bio_Long_PB_LTR_3xPT (5′ phosphate, internal biotin-dT, three 3′ phosphorothioates)",
+        MaterialKind.OLIGO,
+        state=Construct((Segment("Bio_Long_PB_LTR_3xPT", "GCGTCAATTTTACGCAGACTATCTTTCTAG"),)))
+    junction_polymerase = graph.input("srt_enrich_polymerase", "Kapa HiFi HotStart ReadyMix, 20–22 cycles (98 °C 20 s / 67 °C 30 s / 72 °C 5 min)", MaterialKind.CATALYST)
     amplicon = graph.product("junction_amplicon", "phosphorylated internally biotinylated SRT amplicons", MaterialKind.MOLECULAR, state=junction.state)
-    graph.react("amplify_junction", "Amplify the SRT junction with phosphorylated biotinylated primers", StepKind.PCR,
+    graph.react("amplify_junction", "Amplify the SRT junction from 9 µl RT product with the two phosphorylated biotinylated primers; 0.6x AMPure clean-up", StepKind.PCR,
                 ((junction, InputRole.TEMPLATE), (junction_forward, InputRole.STRUCTURAL),
                  (junction_reverse, InputRole.STRUCTURAL), (junction_polymerase, InputRole.CATALYST)), (amplicon,),
                 geometry=PCRGeometry.unavailable(final, reason="Original Table S4 publishes both primers; their source-exact cDNA binding geometry has not yet been assembled in this graph."))
     reviewed.extend(("srt_enrich_forward", "srt_enrich_reverse", "srt_enrich_polymerase", "amplify_junction"))
-    circle_ligase = graph.input("circle_ligase", "SRT amplicon circularization ligase",
+    circle_ligase = graph.input("circle_ligase", "Nextera Mate Pair Circularization Ligase, 1 nM final in Circularization Buffer (300 fmol DNA in 300 µl, 30 °C for 12–16 h)",
                                 MaterialKind.CATALYST)
     circle = graph.product("circle", "circular SRT amplicon", MaterialKind.MOLECULAR,
                            state=amplicon.state)
@@ -78,20 +98,20 @@ def _sccc_graph(d, final):
     cleaned = graph.product("clean_circle", "exonuclease-resistant SRT circles",
                             MaterialKind.MOLECULAR, state=circle.state)
     linear_waste = graph.product("linear_waste", "digested linear DNA", MaterialKind.WASTE)
-    graph.react("remove_linear", "Remove residual linear DNA", StepKind.DIGESTION,
+    graph.react("remove_linear", "Remove residual linear DNA (Nextera Mate Pair exonuclease step)", StepKind.DIGESTION,
                 ((circle, InputRole.TEMPLATE), (exonuclease, InputRole.CATALYST)),
                 (cleaned, linear_waste))
     graph.discard(linear_waste, "does not contain retained circular SRT junction molecules")
-    shear = graph.input("shear_condition", "DNA shearing condition", MaterialKind.CONDITION)
+    shear = graph.input("shear_condition", "Covaris E220 shearing: peak power 200, duty factor 20%, 200 cycles/burst, 40 s at 6 °C", MaterialKind.CONDITION)
     fragments = graph.product("junction_fragments", "junction-proximal circle fragments",
                               MaterialKind.MOLECULAR, state=cleaned.state)
-    graph.react("shear", "Shear the circularized product", StepKind.FRAGMENTATION,
+    graph.react("shear", "Shear the circularized product on a Covaris E220", StepKind.FRAGMENTATION,
                 ((cleaned, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
-    capture = graph.input("capture_probe", "junction capture reagent", MaterialKind.SELECTION)
+    capture = graph.input("capture_probe", "streptavidin-coated magnetic beads binding the internal biotin of the enrichment primers", MaterialKind.SELECTION)
     captured = graph.product("captured_junction", "captured insertion-junction fragments",
                              MaterialKind.MOLECULAR, state=fragments.state)
     uncaptured = graph.product("uncaptured", "uncaptured circle fragments", MaterialKind.WASTE)
-    graph.react("capture_junction", "Capture the junction-bearing branch",
+    graph.react("capture_junction", "Capture the biotinylated junction-bearing fragments on streptavidin beads",
                 StepKind.AFFINITY_CAPTURE,
                 ((fragments, InputRole.TEMPLATE), (capture, InputRole.SELECTION)),
                 (captured, uncaptured))
@@ -100,21 +120,28 @@ def _sccc_graph(d, final):
                      "shear_condition", "shear", "capture_probe", "capture_junction"))
     endrepair = graph.input("end_repair_enzyme", "end-repair enzyme mixture", MaterialKind.CATALYST)
     repaired = graph.product("repaired_junction", "end-repaired captured junction fragments", MaterialKind.MOLECULAR, state=captured.state)
-    graph.react("end_repair", "End-repair captured junction fragments on beads", StepKind.END_REPAIR,
+    graph.react("end_repair", "End-repair captured junction fragments on the streptavidin beads", StepKind.END_REPAIR,
                 ((captured, InputRole.TEMPLATE), (endrepair, InputRole.CATALYST)), (repaired,))
     tailase = graph.input("tailing_enzyme", "A-tailing enzyme mixture", MaterialKind.CATALYST)
     tailed = graph.product("tailed_junction", "A-tailed captured junction fragments", MaterialKind.MOLECULAR, state=repaired.state)
     graph.react("a_tail", "A-tail the captured junction fragments", StepKind.TAILING,
                 ((repaired, InputRole.TEMPLATE), (tailase, InputRole.CATALYST)), (tailed,))
-    adapters = graph.input("custom_adapters", "preannealed scCC P5/P7 adapters", MaterialKind.ADAPTER)
-    ligase = graph.input("adapter_ligase", "adapter ligase", MaterialKind.CATALYST)
+    adapters = graph.input("custom_adapters", "1 µl preannealed scCC_P5_adapter + scCC_P7_adapter (95 °C 5 min, 70 °C 15 min, 1% ramp to 25 °C) used in place of the kit DNA Adaptor Index", MaterialKind.ADAPTER)
+    ligase = graph.input("adapter_ligase", "Nextera Mate Pair on-bead adapter ligase", MaterialKind.CATALYST)
     tagged = graph.product("adapter_tagged_junction", "custom-adapter-tagged junction fragments", MaterialKind.MOLECULAR, state=tailed.state)
     graph.react("ligate_custom_adapters", "Ligate the custom scCC P5/P7 adapters", StepKind.LIGATION,
                 ((tailed, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)), (tagged,),
                 geometry=AdapterLigationGeometry.unavailable("Original Table S4 prints the custom adapters and the Methods specify annealing; this graph has not yet assembled the adapter-end Scene."))
     reviewed.extend(("end_repair_enzyme", "end_repair", "tailing_enzyme", "a_tail", "custom_adapters", "adapter_ligase", "ligate_custom_adapters"))
+    # The sample index is on the scCC_P7_adapter; this PCR adds none.
     _finish_pcr(graph, "junction", tagged, final, d.endpoint, reviewed,
-                label="scCC insertion junction")
+                label="scCC insertion junction",
+                step_label="Amplify the bead-bound library with scCC_P5_primer and scCC_P7_primer (15 cycles); 0.7x AMPure",
+                forward_label="scCC_P5_primer", reverse_label="scCC_P7_primer",
+                polymerase_label="Enhanced PCR Mix",
+                forward_state=Construct((Segment("scCC_P5_primer", "AATGATACGGCGACCACCGAGATC", "p5"),), name="scCC_P5_primer"),
+                reverse_state=Construct((Segment("scCC_P7_primer", "CAAGCAGAAGACGGCATACGAGAT", "p7"),), name="scCC_P7_primer"),
+                primer_source=source + " (Methods, single cell calling card library preparation; Table S4)")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 
@@ -163,7 +190,14 @@ OLIGOS = (
     "<b>scCC custom Read 2 primer</b> — 5′-CGTGTAGGGAAAGAGTGTGCGTCAATTTTACGCAGACTATCTTTCTAG-3′",
     "<b>scCC custom Index 1 primer</b> — 5′-GAGACTGGCAAGTACACGTCGCACTCACCATGA-3′",
 )
+READ_SPECS = (
+    sp.read_spec("Read 1", None, "standard Illumina BP10 primer; 10x cell barcode and UMI of the self-reporting transcript", "extract"),
+    sp.read_spec("Index 1 (i7)", None, "custom scCC_CustomIndex1 primer; sample index carried on the scCC_P7 adapter", "demultiplex"),
+    sp.read_spec("Index 2 (i5)", None, "standard Illumina BP14 primer; reads into the piggyBac terminal repeat (GCGTCAAT) and so reports successful circularization; a fallback demultiplexing read", "technical"),
+    sp.read_spec("Read 2", None, "custom scCC_PB_CustomRead2 primer annealing at the end of the piggyBac 5′ TR; begins GGTTAA (TR end plus TTAA insertion-site tetramer), then genomic sequence", "extract_then_include"),
+)
 SPEC = SimpleNamespace(
+    READ_SPECS=READ_SPECS,
     TITLE=d.title,
     NOTES=d.notes,
     SOURCE=(f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>; '
@@ -176,7 +210,7 @@ SPEC = SimpleNamespace(
     SEQUENCING_INTRO=d.endpoint,
     READ_LENGTHS=None,
     SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE="Final Cell Table S4 prints custom PCR and sequencing oligos, but their binding sites are not yet assembled in this role-level library model; index members vary by library.",
+    SEQUENCING_UNAVAILABLE="Article Methods (sequencing and analysis: scCC libraries) and the author protocol give the run layout shown below: NextSeq 500, v2 cartridge, 50% PhiX, standard BP10/BP14 for Read 1 and Index 2 and the two custom Table S4 primers for Read 2 and Index 1. No cycle counts are given, and this role-level library model does not yet assemble base-exact adapter ends, so no primer landing is computed; the sample index window varies by library.",
     workflow=_sccc,
     oligos=lambda: OLIGOS,
 )

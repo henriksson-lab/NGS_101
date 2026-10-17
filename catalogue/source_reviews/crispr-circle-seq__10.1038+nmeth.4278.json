@@ -383,5 +383,25 @@
       "evidence": "The protocol names a dual-index primer kit but no particular pair; NEB prints a family. Historic kit version and experiment metadata have not been fully audited."
     }
   ],
-  "conclusion": "Two located independent passes on the available original, protocol and individually checked supplements. NEB revision history shows its adapter sequence was corrected in November 2017; the physical lot used for the earlier study and chosen i5/i7 pair remain unverified, so missing claims stay blocked."
+  "conclusion": "Two located independent passes on the available original, protocol and individually checked supplements. NEB revision history shows its adapter sequence was corrected in November 2017; the physical lot used for the earlier study and chosen i5/i7 pair remain unverified, so missing claims stay blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Original PMC5924695 JATS Methods lines 115-116 and Figure 1 legend lines 450-451; Springer Supplementary Protocol MOESM84 PDF text lines 141-200 (Lambda Exonuclease/Exonuclease I, USER/T4 PNK, intramolecular circularization 16 C 16 h, Plasmid-Safe) and 296-320 (USER, NEBNext i5/i7 primers, KAPA HiFi HotStart, 22 cycles).",
+      "oligo_scraper": "Scraper hits for oSQT1288 and the step-21 E7601A transcription followed to their source lines; the earlier E7601A discrepancy finding is unchanged.",
+      "findings": "Added the missing Lambda Exonuclease/E. coli Exonuclease I selection step between stem-loop ligation and USER/T4 PNK, with its digested free-end waste. Named the actual reagents and conditions: USER + T4 PNK opening exposing the 4-nt palindromic overhangs (Fig. 1 legend), T4 DNA ligase at 5 ng/ul (16 C, 16 h), Plasmid-Safe ATP-dependent DNase with ATP, 90 nM SpCas9 with 90 nM in-vitro-transcribed gRNA on 250 ng DNA, NEBNext i5/i7 primers and KAPA HiFi HotStart for 22 cycles. Declared oSQT1288 as an exact input state (5'-P-CGGTGGACCGATGATCUATCGGTCCACCG*T-3'), now covered by the source-transcription guard. Sequencing plan records 150-bp paired-end MiSeq reads with index-read lengths explicitly unstated. The published E7601A 64-nt vs NEB-manual 65-nt discrepancy notice on the page is unchanged.",
+      "deferred": [
+        "NEB E7600 Set 1 manual revision actually used in 2017 (physical kit lot unverified)",
+        "Selected NEBNext i5/i7 index pair per library",
+        "Index read lengths on the MiSeq run",
+        "SPRI cleanup ratios and elution volumes not represented as steps",
+        "Supplementary Note optimization experiments and the stem-loop-only comparison arm"
+      ],
+      "scope": "Capped pass on the defining article and its supplementary protocol; no accepted missing-information claim.",
+      "verification": "local suite 1 check passes; page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard 1 exact checked (oSQT1288), 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

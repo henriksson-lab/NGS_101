@@ -124,5 +124,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "The published paper, publisher Table S1 workbook and author preprint each have independent located second reads. Preprint Methods disagree with final article about the round-1 linker label and incoming overhang polarity; the public page records the final article/table values and remaining interpretive limit. The preprint supplemental PDF only names Table S1 without its oligo body, and ten PMC attachments remain gated, so completeness/version claims remain blocked."
+  "conclusion": "The published paper, publisher Table S1 workbook and author preprint each have independent located second reads. Preprint Methods disagree with final article about the round-1 linker label and incoming overhang polarity; the public page records the final article/table values and remaining interpretive limit. The preprint supplemental PDF only names Table S1 without its oligo body, and ten PMC attachments remain gated, so completeness/version claims remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Cell author manuscript PMC7669735 JATS (PMC Cloud) STAR Methods lines211–215 (oligo preparation, blocking), 223–249 (transposition, RT, hybridization/ligation, reverse crosslinking/pull-down, scATAC library, cDNA library, tagmentation/scRNA library, sequencing), 251/261 (ATAC/RNA pre-processing: four 8-nt index barcodes, TTTTTT at Read 2 11–16); publisher Table S1 mmc1.xlsx (mirrored via scg: handler, manifest-identified publisher supplement) sheets bulk oligos lines1–15, Ad1 16–109, Plate_R1/R2/R3 first rows 110/208/306",
+      "oligo_scraper": "Bundle scraper run; all bulk-oligo, Ad1 and round-plate hits checked against mmc1 rows and match the model (linkers, blockers=revcomp(linker), Read1, phosphorylated Read2, RT primer, TSO, RNA PCR, P7, round barcode arms); upstream_* hits ignored as non-evidence.",
+      "findings": "Model corrections: final RNA and ATAC libraries were generic TruSeq/Nextera dual-index constructs with the cell barcodes inside the insert; now P5–Ad1 8-nt i5–S5–ME–insert–ME_RC–S7 anchor–round1/2/3 barcode chain–P7 (round 3 outgoing arm) per STAR Methods Ad1/P7 PCR and Table S1. Computed Index 1 span is exactly 99 cycles (matches published Index 1 99); RNA Read 2 = UMI then dT (matches TTTTTT at 11–16). NextSeq 30/99/8/30 drawn, NovaSeq 50/99/8/50 stated. Added on-bead P7/RNA-PCR-primer KAPA PCR (exact geometry) and Read1-only Tn5 cDNA tagmentation to the RNA branch; Tn5 off-products changed from physical discard to unresolved fates. Note no longer cites scg agreement or protocols.io v2.2 as evidence.",
+      "deferred": [
+        "PMC NIHMS1632906 supplements 1–10 (gated; published Figure S1 and supplementary PDFs)",
+        "protocols.io SHARE-seq v2.2 (later revision, not defining)",
+        "Sequencing-primer identity (standard Nextera assumed)",
+        "Ad1 PCR exact geometry, MinElute/AMPure/Zymo cleanups and Tn5 72 °C gap fill not represented",
+        "Preprint vs published linker/overhang wording discrepancy (retained from earlier pass)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite pass (1 render check); page builds; pairing 0 problems; chemistry 1 established/0 conditional/21 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 19 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

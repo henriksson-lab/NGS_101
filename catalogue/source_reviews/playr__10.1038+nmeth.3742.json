@@ -386,5 +386,25 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Source-positive reporter systems found; first pass recorded and second reader pending."
+  "conclusion": "Source-positive reporter systems found; first pass recorded and second reader pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Frei 2016 author manuscript PMC4767631 JATS (nmeth.3742_PMC4767631.xml.txt) Results 'Overview of the technology' lines52\u201358, Online Methods 'PLAYR protocol' and 'Preparation of metal-conjugated detection oligonucleotides' lines94\u2013122, Fig.1a legend line434; Springer MOESM647 Supplementary Table 1 sheet 'PLAYR sequences' lines1\u2013116; Nature Protocols PMC7075472 JATS Reagent setup lines241\u2013315, Procedure 'PLAYR and intracellular antibody staining' lines379\u2013435, Table 1 and footnote lines720\u2013781",
+      "oligo_scraper": "Bundle scraper run (12 top sequences, MOESM647 inserts with 5' P); system-1 probe tails, insert, backbone and Z-detection verified in MOESM647 lines5/32/60/61/90 and Nature Protocols Table1 line725/779.",
+      "findings": "System-1 probe tails, P-insert and P-backbone match both tables; RCA priming by probe 3'-OH and insert-complementary detection confirmed (lines54, 434). Corrections: insert/backbone hybridization (100 nM, 1x SSC, 37 C 30 min) now a separate ligation-ready state before T4 ligation (RT/21 C 30 min); phi29 30 C 2 h flow/4 h mass and detection 37 C 30 min added to step labels; detection oligo now shown with its 5'-Z modification (C6-thiol for metal X8 conjugation or fluorophore, Nature Protocols Table1 footnote); MOESM647 Backbone Detection oligo listed (not drawn); note's 'Supplementary Table 3' corrected to Supplementary Table 1/Nature Protocols Table 1. Detection concentration Nature Methods 5/10 nM vs Nature Protocols 1 nM recorded in note as later protocol revision, not modelled.",
+      "deferred": [
+        "Nature Protocols Box 1 metal labelling and Experimental design sections beyond lines241\u2013435",
+        "Gated PMC7075472 Supplemental Figures/Tables packages and live PLAYRDesign GitHub",
+        "Nature Methods MOESM646 Supplementary Figure PDF (probe-design commentary, Supplementary Fig.2)",
+        "Probe-hybridization and fixation steps drawn only as the starting topology state",
+        "protocol_graph declaration absent (Workflow track_graph=False), so check_chemistry has no graph to audit"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2/2 pass; page builds; pairing 0 problems; check_chemistry not applicable (no graph declaration; tool raises 'expected one graph declaration, found 0'); source guard 0 checked/0 failed/0 graphs; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

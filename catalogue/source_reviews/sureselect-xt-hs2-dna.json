@@ -19,18 +19,32 @@
         "date": "2026-10-16",
         "locations": "Official G9957-90000 B0 PDF pp. 22–29 (web lines 721–779 and following), pp. 46–50 (1516–1540), pp. 61–70 (1951–2337)",
         "finding": "Independently read the kit workflow, MBC/read structure, and Tables 61–68. The manual identifies T4 ligase and adaptor mix, standard Illumina paired-end sequencing, five-base MBCs at read starts, and 384 paired eight-base indexes, but prints neither the full adaptor nor full index-primer arms. Selected index pair is user-specific."
+      },
+      "previous_state": "read (2026-10-16 passes used a web-tool/browser extraction of the official PDF; page and \"web/browser line\" locators refer to that extraction)",
+      "previous_reason": "No validated original is on disk: /husky/henriksson/NGS101_papers/sources/sureselect-xt-hs2-dna/MANIFEST.tsv lists G9957-90000.pdf only as a (manual) row, and https://www.agilent.com/cs/library/ returned HTTP 403 (Akamai) to tools/get_sources.py and to a direct browser-agent request on 2026-10-17. The earlier passes are kept as history, but their reading cannot be re-verified against a local original, its revision cannot be checked, and the source guard cannot use it. A manual browser download into the bundle followed by get_sources --revalidate is needed before this row can return to read.",
+      "local_original": "/husky/henriksson/NGS101_papers/sources/sureselect-xt-hs2-dna/G9957-90000.pdf (.txt twin); md5 b01721aabacc184e39066d5ead4886ea; printed Version B0, May 2026",
+      "located_reading": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "G9957-90000.pdf.txt title/edition 1-40, What's New 144-148, Ch.3 library prep 1413-2090, Ch.4 pooling/hyb/capture/post-capture PCR 2225-3060, Ch.5 Tables 46-47 and Step 4 read processing 3405-3567, Table 61 header",
+        "finding": "Located reading of the validated original confirms the earlier web-extraction findings: T4 ligase, XT HS2/MBC-Free Adaptor Oligo Mixes, Herculase II, index primer pairs (8-nt i7/i5 only), Blocker Mix, Post-Capture Primer Mix, standard Illumina primers, no adaptor/primer arm bases (no >=12-nt A/C/G/T run in the text). Adds: MBC read start is 5 bases, one approach keeps first 3 as MBC and discards 2 (lines 3565-3567)."
       }
     },
     {
       "id": "index_sequence_resource",
       "role": "linked_material",
       "discovered_from": "agilent_guide",
-      "locator": "https://www.agilent.com/cs/library/instructionsheet/public/XTHS2_Index_Sequence_Resource.xlsx (linked from official Agilent Magnis XT HS2 product page, Instruction Sheets, 15 Feb 2024)",
-      "availability": "unavailable",
+      "locator": "https://www.agilent.com/cs/library/instructionsheet/public/XTHS2_Index_Sequence_Resource.xlsx (linked from official Agilent Magnis XT HS2 product page, Instruction Sheets, 15 Feb 2024); local /husky/henriksson/NGS101_papers/sources/sureselect-xt-hs2-dna/XTHS2_Index_Sequence_Resource.xlsx (.txt twin), PN G9983-90600 version A.0",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Official XLSX link identified, but repository fetch and direct curl fail DNS; web tool cannot inspect XLSX content. The workbook is described as containing index sequences, but its cells have not been checked.",
-      "pass_1": null,
-      "pass_2": null
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "XTHS2_Index_Sequence_Resource.xlsx.txt sheets Start Here, XTHS2_P7Fwd_P5Fwd, XTHS2_P7Fwd_P5Rev (pairs 1, 25, 384 compared with G9957 Table 61-68)",
+        "finding": "384 index pairs, P7 forward and P5 in forward or reverse-complement orientation; spot-checked pairs equal the manual tables. Index bases only; no adaptor or primer arm sequences."
+      },
+      "pass_2": null,
+      "previous_reason": "Official XLSX link identified, but repository fetch and direct curl fail DNS; web tool cannot inspect XLSX content. The workbook is described as containing index sequences, but its cells have not been checked."
     },
     {
       "id": "bravo_option_b_guide",
@@ -50,6 +64,15 @@
         "date": "2026-10-16",
         "locations": "Official Agilent G9985-90011 A2 PDF pp. 10–12, 60–62 and 156–159 (browser lines 275–334, 1887–2007, 4857–4940); local SureSelect source-bundle scraper run first, but source fetch returned no files due DNS",
         "finding": "Independently verified that the related automated HS2 kits offer MBC-tagged and MBC-free adaptor mix options, end repair/dA tailing followed by T4 ligase adaptor ligation, and 8-base paired indexes read with standard Illumina primers. The manual names proprietary adaptor mixes but does not print their constituent strand bases or identify a selected index pair for the B0 workflow."
+      },
+      "previous_state": "read (2026-10-16 passes used a web-tool/browser extraction of the official PDF; page and \"web/browser line\" locators refer to that extraction)",
+      "previous_reason": "No validated original is on disk: /husky/henriksson/NGS101_papers/sources/sureselect-xt-hs2-dna/MANIFEST.tsv lists G9985-90011.pdf only as a (manual) row, and https://www.agilent.com/cs/library/ returned HTTP 403 (Akamai) to tools/get_sources.py and to a direct browser-agent request on 2026-10-17. The earlier passes are kept as history, but their reading cannot be re-verified against a local original, its revision cannot be checked, and the source guard cannot use it. A manual browser download into the bundle followed by get_sources --revalidate is needed before this row can return to read.",
+      "local_original": "/husky/henriksson/NGS101_papers/sources/sureselect-xt-hs2-dna/G9985-90011.pdf (.txt twin); md5 7a4b3d46f700b9435d9080059e683136; printed Version A2, October 2023",
+      "located_reading": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "G9985-90011.pdf.txt title/edition 1-54; troubleshooting line 20077; full-text grep for >=12-nt A/C/G/T runs",
+        "finding": "Identity and revision confirmed; spot-check only (automation variant, not the manual workflow). Troubleshooting names 'The RNA Probe'; no adaptor or primer bases found."
       }
     }
   ],
@@ -71,9 +94,91 @@
   "missing_claims": [
     {
       "claim": "Exact SureSelect XT HS2 B0 adaptor and index-primer arm sequences are established",
-      "evidence": "G9957 B0 and related G9985 A2 identify adaptor mixes and print paired 8-base indexes, but not full arm oligos in inspected sections; linked official XLSX remains unread.",
+      "evidence": "Validated local originals G9957-90000 B0 and G9985-90011 A2 and the XTHS2 index workbook read 2026-10-17 (one located reader): adaptor mixes, index primer pairs and Post-Capture Primer Mix named, only 8-base indexes printed; no adaptor or primer arm bases found.",
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent readings of G9957 B0 confirm index sequences and workflow. A related A2 guide is first-read, while the official index workbook and complete kit oligo identity remain unresolved; absence is not accepted."
+  "conclusion": "Two independent readings of G9957 B0 confirm index sequences and workflow. A related A2 guide is first-read, while the official index workbook and complete kit oligo identity remain unresolved; absence is not accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 0,
+      "locations": "No original readable this pass: tools/get_sources.py --slugs sureselect-xt-hs2-dna returned HTTP 403 for G9957-90000.pdf (B0 guide), G9985-90011.pdf (Bravo Option B A2) and XTHS2_Index_Sequence_Resource.xlsx; source dir holds only MANIFEST.tsv (manual rows); no copy under legacy/ or other source bundles.",
+      "oligo_scraper": "Bundle scraper run: 0 sequences in 0 files (no originals on disk).",
+      "findings": "No change. Existing declaration (fragmentation, end repair/dA-tailing, HS2 adaptor ligation with unavailable end geometry, pre-capture indexing PCR, biotinylated RNA bait hybridization, streptavidin capture with discarded unbound library, post-capture PCR, inferred TruSeq arms, 5-base duplex MBC features) could not be re-verified against an original in this pass; earlier 2026-10-16 two-pass checklist readings stand as history.",
+      "deferred": [
+        "Agilent G9957-90000 B0 manual (manual download: https://www.agilent.com/cs/library/usermanuals/public/G9957-90000.pdf, HTTP 403)",
+        "Agilent G9985-90011 A2 Bravo Option B guide (HTTP 403)",
+        "XTHS2 Index Sequence Resource xlsx (HTTP 403)",
+        "HS2 adaptor/indexing/post-capture primer arms",
+        "Enzymatic vs mechanical fragmentation branch, blocker and cleanup steps not re-read"
+      ],
+      "scope": "Capped pass deferred for lack of a readable original; no chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 98/98 pass; page builds; pairing 0 problems; chemistry 7 steps 0 established/0 conditional/9 unresolved/0 contradictory; source guard 0 checked, 0 failed, 4 inputs without exact states; Markdown built (unchanged); audit --check pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 0,
+      "locations": "No original readable. get_sources --slugs re-run: G9957-90000.pdf, G9985-90011.pdf and XTHS2_Index_Sequence_Resource.xlsx HTTP 403; plain curl of those plus agilent.com (no www) host, G9956-90000 and G9985-90000 PDFs HTTP 403 (Akamai Access Denied); WebFetch G9957-90000 HTTP 403; web search found only agilent.com-hosted manuals and Agilent Japan chem-agilent.com lsca-booth PDFs (TES_XTHS2_Illumina_vF0, SureSelect_XTHS2_DNA_auto_jp_B2) which return HTTP 401 (login) and are other documents; no legitimate third-party mirror of the B0 guide found.",
+      "oligo_scraper": "Bundle scraper run: 0 sequences in 0 files (no originals on disk).",
+      "findings": "No change. Earlier 2026-10-16 two-pass readings of G9957-90000 B0 and G9985-90011 A2 remain history; declaration not re-verified this pass.",
+      "deferred": [
+        "Agilent G9957-90000 B0 manual (manual download: https://www.agilent.com/cs/library/usermanuals/public/G9957-90000.pdf, HTTP 403)",
+        "Agilent G9985-90011 A2 Bravo Option B guide (https://www.agilent.com/cs/library/usermanuals/public/G9985-90011.pdf, HTTP 403)",
+        "XTHS2 Index Sequence Resource xlsx (https://www.agilent.com/cs/library/instructionsheet/public/XTHS2_Index_Sequence_Resource.xlsx, HTTP 403)",
+        "HS2 adaptor/indexing/post-capture primer arms",
+        "Enzymatic vs mechanical fragmentation branch, blocker and cleanup steps not re-read"
+      ],
+      "scope": "Source-recovery follow-up only; no readable original; no chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 98/98 pass; page builds; pairing 0 problems; chemistry 7 steps 0 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states; Markdown not changed; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 0,
+      "locations": "/husky/henriksson/NGS101_papers/sources/sureselect-xt-hs2-dna/MANIFEST.tsv; direct request to https://www.agilent.com/cs/library/usermanuals/public/G9957-90000.pdf (HTTP 403)",
+      "findings": "Availability correction: agilent_guide (G9957-90000 B0) and bravo_option_b_guide (G9985-90011 A2) were marked read from web-tool extractions, but no validated original exists in the source bundle and agilent.com still returns 403 from this host. Both rows are now unavailable with that reason; their 2026-10-16 passes are kept unchanged as history. Missing claim and blocked status unchanged.",
+      "deferred": [
+        "Manual browser download of G9957-90000.pdf, G9985-90011.pdf and XTHS2_Index_Sequence_Resource.xlsx into the bundle, then get_sources --revalidate and fresh located passes"
+      ],
+      "scope": "Availability correction only; no source-content reading pass.",
+      "verification": "audit_protocol_sources --check passes"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Hand-downloaded G9957-90000.pdf (printed Version B0, May 2026) .txt 1-40, 144-148, 1413-2090 (end repair/dA 20C15/72C15, ligation 20C30, AMPure 80uL, pre-capture PCR Tables 23-24, AMPure 50uL), 2225-3060 (pooling Table 30, blocker/hyb Tables 32-33 16-24h, streptavidin capture and washes, on-bead post-capture PCR Tables 39-41, AMPure Table 42), 3405-3567 (Tables 46-47, MBC read processing); G9985-90011.pdf (printed Version A2, Oct 2023) title 1-54, line 20077; XTHS2_Index_Sequence_Resource.xlsx (PN G9983-90600 A.0) pairs 1/25/384 vs Table 61-68",
+      "oligo_scraper": "Bundle scraper run: 0 hits (8-nt indexes below threshold); grep for >=12-nt A/C/G/T runs in both manuals finds none; no adaptor, index-primer or post-capture primer bases printed.",
+      "findings": "Corrections: MBC modelled as 3-nt MBC + 2 discarded read-start bases per end (manual lines 3565-3567) instead of 5-nt MBC; Read 2 site terminal A labelled an inferred arm base, not insert dA; named T4 ligase, Herculase II, XT HS2 Blocker Mix, Post-Capture Primer Mix (two end members inferred); added AMPure clean-ups with discards, pre-capture pooling (8/16 indexes, 4 ug), on-bead PCR then bead removal; temperatures, 8-14 pre-capture and 10-16 post-capture cycles; fixed 8-cycle index reads, Read1/2 length user-chosen (2x100/2x150 examples). MBC-free branch not drawn.",
+      "deferred": [
+        "HS2 adaptor, index-primer and Post-Capture Primer Mix bases and adaptor end geometry (not printed in inspected originals)",
+        "Whether the 2 discarded read-start bases include the ligation T",
+        "MBC-free adaptor branch drawing",
+        "Fast-Hyb workflow G9985-90000 not read",
+        "Second located reader for the two-pass gate"
+      ],
+      "scope": "Capped vendor-manual pass; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite (run_common) 98/98 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/12 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 oligo inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "critical-rereview-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "scope": "Critical diff review; focused source cross-checks and model consistency, not a new complete source audit.",
+      "locations": "G9957 manual .txt 3565–3567; existing source-qualified molecular-barcode/read-start declaration.",
+      "findings": "The source-supported two non-MBC read-start bases now have explicit length_bp=2; unknown base identities no longer make their known read span variable.",
+      "deferred": [
+        "Previous linked-source deferrals and independent absence-audit requirements remain open."
+      ],
+      "verification": "Applicable protocol suite, page build, source guard and scoped chemistry passed (zero contradictions); review schema passed. Shared 1275 and source fetcher 226 checks pass. Whole-site verification is recorded in HANDOVER-REVIEW.md.",
+      "documents": 1
+    }
+  ]
 }

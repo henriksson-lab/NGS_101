@@ -2,13 +2,12 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test, because this protocol has
-> no `tools/` module yet (status `notes` in `catalogue/ours.tsv`). Claims taken only from
+> writing this note; the schematic model in `tools/scifi_rna.py` now constructs them. Claims taken only from
 > the upstream scg_lib_structs page are 🟡 *(upstream)*: a secondary source.
 
 **scifi-RNA-seq** (single-cell combinatorial fluidic indexing RNA-seq) —
 
-- Preprint (defining, used for the directory name): Datlinger P\*, Rendeiro AF\*,
+- Preprint (used for the directory name; superseded by the journal version below): Datlinger P\*, Rendeiro AF\*,
   Boenke T, Krausgruber T, Barreca D, Bock C. "Ultra-high throughput single-cell RNA
   sequencing by combinatorial fluidic indexing." *bioRxiv* 2019.
   doi:[10.1101/2019.12.17.879304](https://doi.org/10.1101/2019.12.17.879304) (v1, posted
@@ -135,10 +134,11 @@ P7-016  CAAGCAGAAGACGGCATACGAGATCGGAGCCTGTCTCGTGGGCTCGG  NexteraXTv2_N720  CGGAG
 P7-001 … P7-008 are also printed in the step-by-step protocol (MOESM5, step 10A) with
 the same sequences 🟢.
 
-**Not in any table — the 10x scATAC gel-bead oligo.** Shown only in Supp. Fig. 2
-(an image; "Gel Bead Oligo Primer with 737k possible microfluidic barcodes (16b)") and on
-the upstream page, which agree 🟡 (read from the figure image + upstream; not
-text-verifiable):
+**Not in any table — the 10x scATAC gel-bead oligo.** 🟢 Drawn in the published
+article's Extended Data Fig. 3a (s41592-021-01153-z.pdf page 16, an image-only page;
+"Gel Bead Oligo Primer with 737k possible microfluidic barcodes (16b)"), read from the
+rendered page on 2026-10-17; the preprint Supp. Fig. 2 shows the same drawing. The page's
+OCR twin garbles the s5 bases, so the source-oligo guard carries a reasoned exception:
 
 ```
 gel bead oligo   bead-|-5'- AATGATACGGCGACCACCGAGATCTACAC <16-nt bead barcode> TCGTCGGCAGCGTC -3'
@@ -231,7 +231,8 @@ Volumes and conditions 🟢 from the preprint Online Methods and the step-by-ste
    mix (Ampligase buffer, 230 U Ampligase, Reducing Agent B, **2.3 µL of 100 µM bridge
    oligo**) to 80 µL (v1.0, Chip E) or 75 µL (v1.1 Next GEM, Chip H), load with **scATAC
    gel beads**, run the Controller. Emulsion: **12 × (95 °C 30 s, 59 °C 2 min)** in the
-   protocol — **98 °C 30 s** in the preprint Methods. Cells lyse in the droplet; the bead
+   Supplementary Protocol — **98 °C 30 s** in the published Methods ("Microfluidic
+   thermoligation barcoding", JATS line 197) and the preprint Methods. Cells lyse in the droplet; the bead
    oligo is released (Reducing Agent B dissolves the bead 🟡) and is ligated to the RT
    primer's 5′-phosphate across the bridge 🟢 (mechanism, main text). Thermocycling
    denatures each product off the bridge so a bridge can template the next ligation 🟡.
@@ -360,14 +361,47 @@ the bridge minus its first 10 nt and ddC doubles as this primer.
   an orientation. An observed index would support the read-facing sequence only;
   it would not establish any unreported synthesis modification.
 - 🔴 Purpose of the **row-wise fixed1 base** and the **`GAAT`** spacer in the TSO.
-- 🔴 Thermoligation denaturation **95 °C** (protocol v2021-01-25) vs **98 °C** (preprint).
+- 🔴 Thermoligation denaturation **95 °C** (Supplementary Protocol v2021-01-25, lines 266–268
+  and 363–365) vs **98 °C** (published Methods, JATS line 197): a discrepancy inside the
+  published article, shown on the schematic page; no temperature is chosen.
 - 🟡 That the mRNA is gone (or irrelevant) by the time of bulk template switching — the
   12 thermoligation cycles at ≥ 95 °C and the silane/SPRI cleanups suggest the cDNA is
   single-stranded; not stated.
 - 🔴 The journal Methods do not explain the P7-009 … P7-016 table orientation
   discrepancy or disclose the 10x gel-bead barcode list.
 
-## 8. How this note was made (tool evaluation)
+## 8. Bounded pass 2026-10-17 (round breadth-first-17)
+
+Read the published JATS (`s41592-021-01153-z_PMC7612019.xml.txt` lines 53, 59–61,
+181–217), Supplementary Protocol v2021-01-25 (`MOESM5_ESM.pdf.txt` lines 255–268,
+355–365, 627–946) and published Supplementary Table 1 (`MOESM2_ESM.xlsx.txt` oligos sheet
+lines 1–20, "384 RT primers" sheet lines 34–37 and the fixed-base columns); scraper run on
+the bundle (104 hits; Table 1 oligos and P7 family verified). Model corrections:
+
+- The page and graph authority cited the preprint as the defining source; they now cite
+  the Nature Methods article and its supplements, and (since 2026-10-17) the
+  published Extended Data Fig. 3a for the gel-bead oligo.
+- The thermoligation discrepancy compared the protocol with the superseded preprint. The
+  published Methods themselves print 98 °C, so the page now shows a discrepancy inside
+  the published article (Methods 98 °C vs Supplementary Protocol 95 °C).
+- The bridge-ligation geometry statement said the protocol prints the bead oligo; it does
+  not. The statement now names Supplementary Table 1 for the bridge and RT primers and the
+  preprint figure for the bead oligo.
+
+The representative RT primer is SCIFI_LIG384_001 (fixed bases A/A); other wells use the
+fixed-base pairs in the table (A/A, C/C, C/G, G/G, T/A, T/C). Published Extended Data Fig. 3a was
+inspected on 2026-10-17 and now sources the gel-bead oligo. Still open: the 10x scATAC v1.0/v1.1
+vendor guide for the bead oligo, the P7-009–P7-016 orientation, and the reason for the
+GAAT spacer and row-wise fixed1 base.
+
+Follow-up (exact input states, 2026-10-17): the graph inputs TSO, both cDNA-enrichment
+primers (Partial-P5, TSO_enrichment_primer), the i7-only transposome (Tn5-bottom_Read2N
+annealed to [5Phos] Tn5-top_ME), Partial-P5 and the indexed P7 family (P7 + 8-nt i7
+window + s7) now carry the Supplementary Table 1 oligos above 🟢. The TSO's printed
+`rGrGrG` is kept as three RNA G residues; the RT primer's 3′ N is a concrete synthesized
+N and its V stays a degenerate placeholder.
+
+## 9. How this note was made (tool evaluation)
 
 `tools/get_sources.py` fetched the preprint, both preprint supplements, the journal
 supplements, Europe PMC journal XML and the upstream page; the PMC HTML route returned

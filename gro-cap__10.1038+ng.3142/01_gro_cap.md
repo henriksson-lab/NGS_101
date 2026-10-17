@@ -74,3 +74,17 @@ The article separately cites Kwak for PRO-seq and Wang for GRO-seq.
 Kruesi's Ingolia poly(A)/circularization reference belongs to its adjacent
 GRO-seq method; its GRO-cap completion explicitly points to Core2008.
 Those neighboring recipes are not assigned to this declaration.
+
+## Bounded pass 2026-10-17
+
+🟢 Re-read Core2014 Methods (local JATS534–549) and Kruesi2013 original
+Methods pp21–23 (local text1080–1203). Kruesi's NRO reaction uses 500 µM
+ATP, GTP and Br-UTP, 2 µM CTP plus α-32P-CTP and 1% sarkosyl for 5 min at
+30 °C; enrichment uses anti-deoxyBrU agarose beads (Santa Cruz sc-32323-ac).
+GRO-cap uses those NRO and bead steps except that its RNA is **not base
+hydrolysed**, and it does not repeat the GRO-seq 3′ end repair, poly(A) or
+circularization steps. The model labels now carry the run-on composition and
+bead identity; the graph order (RA3 → second capture → Terminator → Antarctic
+phosphatase → split/TAP → RA5 → third capture → Core2008 RT/PCR/PAGE) was
+confirmed unchanged. The no-TAP control branch remains undrawn, and the
+historical primer/index assignment remains an open model question.

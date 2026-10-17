@@ -1,6 +1,8 @@
-"""GenIE targeted cDNA readout."""
-from batch_ngs import seg, truseq_library
-from chemdraw import Row
+"""GenIE targeted cDNA readout (Cooper et al., NAR 2020, doi:10.1093/nar/gkaa960)."""
+import illumina as il
+import seqprimers as sp
+from batch_ngs import seg
+from chemdraw import Construct, feature, revcomp
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
@@ -8,78 +10,177 @@ from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPl
 TITLE = "GenIE — endogenous variant editing with targeted cDNA sequencing"
 NOTES = "01_genie.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1093/nar/gkaa960">Cooper et al., <i>Nucleic Acids Research</i> (2020)</a>.'
-SUMMARY = "Arrayed CRISPR editing creates endogenous alleles; locus-specific RT-PCR measures each allele's effect on transcript abundance or splicing."
-FINAL_LIBRARY, SEQ_PRIMERS = truseq_library(
-    [seg("locus-specific cDNA amplicon", "X" * 56, placeholder=True)],
-    "GenIE targeted cDNA library")
-FINAL_CAPTION = "The insert is the locus-specific cDNA amplicon spanning the edited variant and the transcript feature being measured."
-SEQUENCING_INTRO = "Standard paired-end Illumina primers read the indexed targeted amplicon."
+SUMMARY = ("Arrayed CRISPR editing creates endogenous alleles; a gene-specific RT-PCR "
+           "amplicon from RNA and a matched genomic-DNA amplicon from the same cells are "
+           "barcoded and sequenced, and their allele ratios are compared.")
 
-def sections():
-    return [
-        ("Create an allelic series at the endogenous locus", [Row(chunks=[("arrayed guide + HDR donor → edited cell population", "cbc", False)])], "Each well contains one designed edit or control."),
-        ("Reverse-transcribe cellular RNA", [Row(chunks=[("RNA → locus-containing cDNA", "r1", False)])], "The molecular readout is RNA, rather than genomic editing frequency alone."),
-        ("Amplify the locus from cDNA", [Row(chunks=[("outer locus PCR → nested allele-spanning amplicon", "r2", False)])], "Primer pairs are locus-specific and are tabulated in the paper's supplement."),
-        ("Install indexes and sequence", [Row(chunks=[("P5—index—read arm—target cDNA—read arm—index—P7", "cbc", False)])], "Indexed amplicons from the arrayed experiment are pooled for Illumina sequencing."),
-    ]
+# Supplementary Table 3 prints one common tail per primer orientation, "added to the 5'
+# end of the forward and reverse primers respectively".  The forward tail is the TruSeq
+# Read 1 primer; the reverse tail is the Illumina paired-end / Genome-Analyzer-era arm of
+# the cited 96-plex barcoding method (ref 8, Kozarewa & Turner 2011), NOT the current
+# TruSeq Read 2 arm.
+FORWARD_TAIL = "ACACTCTTTCCCTACACGACGCTCTTCCGATCT"
+REVERSE_TAIL = il.PE_READ2_ARM
+assert FORWARD_TAIL == il.TRUSEQ_READ1 and REVERSE_TAIL != il.TRUSEQ_READ2
+
+# One complete locus from Supplementary Table 3 keeps the drawn molecule concrete; every
+# genomic part is an experiment-specific parameter.
+TARGET = "MUL1_rs6700034"
+RT_PRIMER = "CTTGAGCTCTTGGGAGACC"
+FORWARD_LOCUS = "GAGGATGAACTGGCACAGC"
+REVERSE_LOCUS = "CTGGGCGACTGATTTCGAG"
+# Table 3 prints tails and locus primers in separate cells; the ordered oligo is their
+# documented concatenation, so the graph states keep the verbatim locus halves.
+FORWARD_OLIGO = FORWARD_TAIL + FORWARD_LOCUS
+REVERSE_OLIGO = REVERSE_TAIL + REVERSE_LOCUS
+
+CAVEAT = ("The adaptor tails, the gene-specific RT primer and the amplicon primers above "
+          "are verbatim from Supplementary Table 3 for one locus; every locus has its own "
+          "set. The paper delegates the barcoding PCR to ref 8 and prints neither its "
+          "primers nor which amplicon end receives P5, so only the outer flow-cell and "
+          "index shell is inferred.")
+
+_UNPRINTED = ("the second PCR adds the MiSeq barcodes of ref 8 (Kozarewa & Turner 2011); "
+              "the paper prints neither those primers nor which amplicon end receives P5")
+
+
+def _library(insert_name: str, name: str) -> Construct:
+    """Indexed amplicon: exact primer-installed arms, inferred terminal shell."""
+    return Construct([
+        seg("P5", il.P5, "p5", inferred=True),
+        seg("i5", "J" * 8, "cbc", placeholder=True, inferred=True,
+            feature=feature("sample_index_i5", "sample_index", "unknown")),
+        seg("forward adaptor tail (TruSeq Read 1 arm)", FORWARD_TAIL, "r1"),
+        seg(f"{TARGET} forward primer", FORWARD_LOCUS),
+        seg(insert_name, "X" * 56, placeholder=True),
+        seg(f"{TARGET} reverse primer complement", revcomp(REVERSE_LOCUS)),
+        seg("reverse adaptor tail complement (Illumina PE arm)", revcomp(REVERSE_TAIL), "r2"),
+        seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True, inferred=True,
+            feature=feature("sample_index_i7", "sample_index", "unknown")),
+        seg("P7 reverse complement", il.P7_RC, "p7", inferred=True),
+    ], name=name)
+
+
+FINAL_LIBRARY = _library("edited-locus cDNA interval", "GenIE targeted cDNA library")
+GDNA_LIBRARY = _library("edited-locus genomic interval", "GenIE matched gDNA library")
+SEQ_PRIMERS = (
+    sp.custom("Read 1", "forward adaptor tail primer (TruSeq Read 1 arm)", FORWARD_TAIL,
+              "Cooper et al. 2020 Supplementary Table 3 'Forward primer adaptor sequence'"),
+    sp.custom("Read 2", "reverse adaptor tail primer (Illumina PE arm)", REVERSE_TAIL,
+              "Cooper et al. 2020 Supplementary Table 3 'Reverse primer adaptor sequence'",
+              note="Printed as the common reverse-primer tail; the matching sequencing "
+                   "primer itself is delegated to ref 8."),
+)
+FINAL_CAPTION = ("Representative " + TARGET + " cDNA amplicon. Both internal boundaries and "
+                 "both adaptor tails are source-exact; the flow-cell and index shell is "
+                 "inferred because " + _UNPRINTED + ".")
+EXTRA_MOLECULAR_STATES = ((
+    "Matched genomic-DNA library",
+    GDNA_LIBRARY,
+    "The same primer pair amplifies the locus from MagAttract-purified gDNA of the same "
+    "cell pellets; cDNA and gDNA allele ratios are compared. For SDF4 only, Supplementary "
+    "Table 3 gives a separate spliced cDNA forward primer."),)
+READ_LENGTHS = {"Read 1": 150, "Read 2": 150}
+SEQUENCING_INTRO = ("Amplicons are kept below 295 bp so that a 150-base paired-end MiSeq "
+                    "run reads across the edited site from both ends.")
+
+
+def oligos():
+    return (
+        f"<b>Forward primer adaptor tail</b> — 5′-{FORWARD_TAIL}-3′",
+        f"<b>Reverse primer adaptor tail</b> — 5′-{REVERSE_TAIL}-3′",
+        f"<b>{TARGET} gene-specific RT primer</b> — 5′-{RT_PRIMER}-3′",
+        f"<b>{TARGET} forward oligo</b> — 5′-{FORWARD_OLIGO}-3′",
+        f"<b>{TARGET} reverse oligo</b> — 5′-{REVERSE_OLIGO}-3′",
+    )
+
 
 def protocol_graph():
     source="Defining source: https://doi.org/10.1093/nar/gkaa960"
+    inferred_source=source+" (barcoding PCR delegated to ref 8)"
     graph=ProtocolGraph("GenIE",authority=source)
-    cells=graph.input("cells","arrayed cell population",MaterialKind.BIOLOGICAL,primary=True)
-    guide=graph.input("guide","arrayed CRISPR guide RNA",MaterialKind.OLIGO)
-    donor=graph.input("hdr_donor","designed HDR donor",MaterialKind.OLIGO)
-    editor=graph.input("editor","CRISPR genome-editing nuclease",MaterialKind.CATALYST)
-    edited=graph.product("edited_cells","endogenous allelic-series cell population",
+    cells=graph.input("cells","arrayed hiPSC population",MaterialKind.BIOLOGICAL,primary=True)
+    guide=graph.input("guide","full-length synthetic modified sgRNA (Synthego)",MaterialKind.OLIGO)
+    donor=graph.input("hdr_donor","100-nt ssODN HDR template (IDT Ultramer)",MaterialKind.OLIGO)
+    editor=graph.input("editor","purified SpCas9 or VRQR SpCas9 RNP",MaterialKind.CATALYST)
+    edited=graph.product("edited_cells","nucleofected endogenous allelic-series population",
                          MaterialKind.BIOLOGICAL)
-    graph.react("edit","Create the endogenous allelic series",StepKind.GENOME_EDITING,
+    graph.react("edit","Nucleofect Cas9 RNP with the ssODN donor",StepKind.GENOME_EDITING,
                 ((cells,InputRole.TEMPLATE),(guide,InputRole.STRUCTURAL),
                  (donor,InputRole.STRUCTURAL),(editor,InputRole.CATALYST)),(edited,))
-    extraction=graph.input("rna_extraction","RNA extraction conditions",MaterialKind.CONDITION)
-    rna=graph.product("rna","RNA from the edited cell population",MaterialKind.MOLECULAR)
-    graph.react("extract_rna","Extract cellular RNA",StepKind.EXTRACTION,
-                ((edited,InputRole.TEMPLATE),(extraction,InputRole.CONDITION)),(rna,))
-    rt_primer=graph.input("rt_primer","locus-compatible reverse-transcription primer",
-                          MaterialKind.OLIGO,inferred=True,
-                          source=source+" (experiment-specific primer choice)")
-    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
-    cdna=graph.product("cdna","locus-containing cDNA",MaterialKind.MOLECULAR)
-    graph.react("reverse_transcription","Reverse-transcribe cellular RNA",
+    # The same frozen cell pellets feed two parallel branches.
+    rna_extraction=graph.input("rna_extraction",
+                               "Direct-zol/TRI-Reagent extraction with in-column and TURBO DNase",
+                               MaterialKind.CONDITION)
+    rna=graph.product("rna","DNase-treated total RNA including nascent transcripts",
+                      MaterialKind.MOLECULAR)
+    graph.react("extract_rna","Extract RNA with a Trizol-based kit",StepKind.EXTRACTION,
+                ((edited,InputRole.TEMPLATE),(rna_extraction,InputRole.CONDITION)),(rna,))
+    gdna_extraction=graph.input("gdna_extraction","MagAttract HMW kit with proteinase K lysis",
+                                MaterialKind.CONDITION)
+    gdna=graph.product("gdna","genomic DNA from the same edited pellets",MaterialKind.MOLECULAR)
+    graph.react("extract_gdna","Purify genomic DNA from matched pellets",StepKind.EXTRACTION,
+                ((edited,InputRole.TEMPLATE),(gdna_extraction,InputRole.CONDITION)),(gdna,))
+    rt_primer=graph.input("rt_primer",f"gene-specific RT primer ({TARGET}, 0.1 µM)",
+                          MaterialKind.OLIGO,state=RT_PRIMER)
+    rt=graph.input("reverse_transcriptase","SuperScript IV reverse transcriptase",
+                   MaterialKind.CATALYST)
+    cdna=graph.product("cdna","locus-containing first-strand cDNA",MaterialKind.MOLECULAR)
+    graph.react("reverse_transcription",
+                "Reverse-transcribe with a gene-specific primer 30-50 bp outside the amplicon",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((rna,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
                  (rt,InputRole.CATALYST)),(cdna,))
-    outer_f=graph.input("outer_forward","outer locus PCR forward primer",MaterialKind.OLIGO)
-    outer_r=graph.input("outer_reverse","outer locus PCR reverse primer",MaterialKind.OLIGO)
-    polymerase=graph.input("polymerase","amplicon PCR polymerase",MaterialKind.CATALYST)
-    outer=graph.product("outer_amplicon","outer locus cDNA amplicon",MaterialKind.MOLECULAR)
-    graph.react("outer_pcr","Amplify the edited locus from cDNA",StepKind.PCR,
-                ((cdna,InputRole.TEMPLATE),(outer_f,InputRole.STRUCTURAL),
-                 (outer_r,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(outer,),
+    fwd=graph.input("forward_primer",f"tailed {TARGET} forward amplicon primer",
+                    MaterialKind.OLIGO,state=FORWARD_LOCUS)
+    rev=graph.input("reverse_primer",f"tailed {TARGET} reverse amplicon primer",
+                    MaterialKind.OLIGO,state=REVERSE_LOCUS)
+    polymerase=graph.input("polymerase","PowerUp SYBR Green master mix",MaterialKind.CATALYST)
+    cdna_amplicon=graph.product("cdna_amplicon","tailed cDNA amplicon across the edited site",
+                                MaterialKind.MOLECULAR)
+    graph.react("cdna_pcr","Amplify the edited locus from cDNA (PCR1, 30 cycles)",StepKind.PCR,
+                ((cdna,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),
+                 (rev,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(cdna_amplicon,),
                 geometry=PCRGeometry.unavailable(FINAL_LIBRARY,
-                    reason="Primer pairs are locus-specific; the final page represents their amplicon generically."))
-    nested_f=graph.input("nested_forward","nested allele-spanning forward primer",MaterialKind.OLIGO)
-    nested_r=graph.input("nested_reverse","nested allele-spanning reverse primer",MaterialKind.OLIGO)
-    nested=graph.product("nested_amplicon","nested allele-spanning cDNA amplicon",MaterialKind.MOLECULAR)
-    graph.react("nested_pcr","Generate the nested allele-spanning amplicon",StepKind.PCR,
-                ((outer,InputRole.TEMPLATE),(nested_f,InputRole.STRUCTURAL),
-                 (nested_r,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(nested,),
-                geometry=PCRGeometry.unavailable(FINAL_LIBRARY,
-                    reason="The represented insert is a generic locus-specific nested amplicon."))
-    i5=graph.input("index_forward","indexed Illumina forward primer",MaterialKind.OLIGO)
-    i7=graph.input("index_reverse","indexed Illumina reverse primer",MaterialKind.OLIGO)
-    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
-    graph.react("index_pcr","Install indexes and flow-cell arms",StepKind.PCR,
-                ((nested,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
+                    reason="The amplified genomic interval is locus-specific; the drawn molecule keeps one tabulated primer pair and a placeholder interval."))
+    gdna_amplicon=graph.product("gdna_amplicon","tailed genomic amplicon across the edited site",
+                                MaterialKind.MOLECULAR)
+    graph.react("gdna_pcr","Amplify the same locus from genomic DNA (PCR1, 30 cycles)",
+                StepKind.PCR,
+                ((gdna,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),
+                 (rev,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(gdna_amplicon,),
+                geometry=PCRGeometry.unavailable(GDNA_LIBRARY,
+                    reason="Same tailed primer pair as the cDNA branch, except for SDF4 where the supplement gives a separate spliced cDNA forward primer."))
+    i5=graph.input("index_forward","MiSeq barcoding forward primer",MaterialKind.OLIGO,
+                   inferred=True,source=inferred_source)
+    i7=graph.input("index_reverse","MiSeq barcoding reverse primer",MaterialKind.OLIGO,
+                   inferred=True,source=inferred_source)
+    library=graph.product("cdna_library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
+                          state=FINAL_LIBRARY,inferred=True,source=inferred_source)
+    graph.react("cdna_barcoding_pcr","Add MiSeq barcodes to the cDNA amplicon (PCR2)",
+                StepKind.PCR,
+                ((cdna_amplicon,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
                  (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
                 geometry=PCRGeometry.unavailable(FINAL_LIBRARY,
-                    reason="The final standard Illumina shell is exact; the locus-specific pre-index amplicon is generic."))
-    graph.sequence(library,SequencingPlan(
-        library=FINAL_LIBRARY,primers=SEQ_PRIMERS,
-        acquired_roles=tuple(p.role for p in SEQ_PRIMERS),
-        read_uses={p.role:("demultiplex" if "Index" in p.role else "include") for p in SEQ_PRIMERS}))
+                    reason="The barcoding primers are delegated to ref 8, so only the terminal shell is inferred."))
+    gdna_library=graph.product("gdna_library",GDNA_LIBRARY.name,MaterialKind.LIBRARY,
+                               state=GDNA_LIBRARY,inferred=True,source=inferred_source)
+    graph.react("gdna_barcoding_pcr","Add MiSeq barcodes to the genomic amplicon (PCR2)",
+                StepKind.PCR,
+                ((gdna_amplicon,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
+                 (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(gdna_library,),
+                geometry=PCRGeometry.unavailable(GDNA_LIBRARY,
+                    reason="The barcoding primers are delegated to ref 8, so only the terminal shell is inferred."))
+    plan=dict(primers=SEQ_PRIMERS,acquired_roles=tuple(p.role for p in SEQ_PRIMERS),
+              read_lengths=READ_LENGTHS,read_uses={"Read 1":"include","Read 2":"include"},
+              limitation=("The terminal MiSeq index shell is inferred: "+_UNPRINTED+
+                          ". Index cycles are therefore not represented as acquired reads."))
+    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,**plan))
+    graph.sequence(gdna_library,SequencingPlan(library=GDNA_LIBRARY,**plan))
     graph.declare_reviewed_scope((
         "cells","guide","hdr_donor","editor","edit","rna_extraction","extract_rna",
-        "rt_primer","reverse_transcriptase","reverse_transcription","outer_forward",
-        "outer_reverse","polymerase","outer_pcr","nested_forward","nested_reverse",
-        "nested_pcr","index_forward","index_reverse","index_pcr","library"),source)
+        "gdna_extraction","extract_gdna","rt_primer","reverse_transcriptase",
+        "reverse_transcription","forward_primer","reverse_primer","polymerase",
+        "cdna_pcr","gdna_pcr","index_forward","index_reverse","cdna_barcoding_pcr",
+        "gdna_barcoding_pcr","cdna_library","gdna_library"),source)
     return graph.require_publishable()

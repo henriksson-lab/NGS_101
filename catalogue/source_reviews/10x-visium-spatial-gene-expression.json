@@ -114,5 +114,25 @@
       "evidence": "The official TT Set A JSON publishes all 96 well-specific i7/i5 pairs; the Rev F guide specifies the kit but not the well selected in a particular experiment. This is run-specific, not an undisclosed kit sequence."
     }
   ],
-  "conclusion": "The official Rev F guide establishes the Visium construct. Two independent readers verified the original 10x TT Set A JSON with all 96 i7/i5 pairs; a chosen well remains experiment-specific. Official Space Ranger docs locate the 4,992-spot inclusion list and per-slide layout, but the actual bundle files and a run serial remain uninspected. No absence is accepted."
+  "conclusion": "The official Rev F guide establishes the Visium construct. Two independent readers verified the original 10x TT Set A JSON with all 96 i7/i5 pairs; a chosen well remains experiment-specific. Official Space Ranger docs locate the 4,992-spot inclusion list and per-slide layout, but the actual bundle files and a run serial remain uninspected. No absence is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "10x CG000239 Rev F (local CG000239_Rev_F.pdf.txt; MANIFEST duplicate of 10x CDN Rev F PDF) Introduction workflow pp. 16–17 lines 1230–1403 (Steps 1–5, library figure Read1:28/i5:10/i7:10/Read2:90), step timetable lines 1096–1145, Step 2.1–2.2 Second Strand Synthesis and Denaturation lines 2960–3045, Step 4 contents p. 49 lines 3611–3630, Appendix Oligonucleotide Sequences pp. 69–70 lines 4955–5112",
+      "oligo_scraper": "Bundle scraper run (--max-hits 15); slide primer, TSO, second-strand/cDNA primers, adaptor strands, SI-PCR patterns and printed intermediates at lines 4969–5110 checked against the appendix.",
+      "findings": "Repository correction: SLIDE_READ1 sliced 23 nt (extra 5' C) from TruSeq Read 1; appendix p. 69 prints 22-nt CTACACGACGCTCTTCCGATCT for slide primer and cDNA forward primer; fixed and added two source-transcription checks. Reordered graph to source order: on-slide second-strand synthesis (Step 2.1) then 0.08 M KOH denaturation/transfer into Tris (Step 2.2) replacing an unsourced release-before-second-strand step; released strand labelled inferred (slide attachment chemistry not printed); slide residue discarded per 2.2h. Added SPRIselect cDNA cleanup (3.3), post-fragmentation double-sided size selection (4.2) and post-ligation cleanup (4.4) with waste fates. Final library shell, adaptor 3'-T geometry, TSO rGrGrG and 28/10/10/90 read layout unchanged and consistent with the appendix.",
+      "deferred": [
+        "Slide attachment chemistry and identity of the surface-retained strand",
+        "qPCR cycle-number determination (3.1) and post-SI-PCR double-sided size selection (4.6) not drawn",
+        "Base-level cDNA states for cDNA PCR primer binding (WTA geometry unavailable)",
+        "Space Ranger slide/barcode documentation pages (HTTP 429, manual rows) not re-read this pass",
+        "Tissue-optimization and fixation/staining guides linked from CG000239"
+      ],
+      "scope": "Capped vendor-manual pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 104 checks pass (2 new source-transcription checks); page builds; pairing 0 problems; chemistry 1 established/0 conditional/15 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 7 oligo inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

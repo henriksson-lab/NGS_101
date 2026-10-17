@@ -45,13 +45,16 @@ import time
 import urllib.parse
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import paper_overrides  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "catalogue" / "scg_lib_structs.tsv"
 OURS = ROOT / "catalogue" / "ours.tsv"
 README_URL = "https://raw.githubusercontent.com/Teichlab/scg_lib_structs/master/README.md"
 PAGE_BASE = "https://teichlab.github.io/scg_lib_structs/methods_html/"
 REPO = "https://github.com/Teichlab/scg_lib_structs"
-UA = "chem-catalogue/1.0 (+https://github.com/henriksson-lab; mailto:he.johan@gmail.com)"
+UA = "chem-catalogue/1.0 (+https://github.com/henriksson-lab)"
 
 # Earlier names of protocols that were renamed for journal publication.  These are
 # aliases, not a second chemistry page.  The mapping participates in the catalogue join
@@ -253,7 +256,7 @@ def doi_from_pii(url: str, cache: Path, offline: bool) -> str:
         return ""
     pii = re.sub(r"[^A-Za-z0-9]", "", m.group(1)).upper()
     q = (f"https://api.crossref.org/works?filter=alternative-id:{pii}"
-         "&select=DOI&rows=1&mailto=he.johan%40gmail.com")
+         "&select=DOI&rows=1")
     try:
         items = json.loads(fetch(q, cache, offline))["message"]["items"]
     except Exception:                                    # noqa: BLE001
@@ -272,7 +275,7 @@ def pmid_from_citation(url: str, cache: Path, offline: bool) -> str:
         return ""
     term = urllib.parse.quote(f'"{journal}"[jour] AND {vol}[volume] AND {page}[page]')
     q = ("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json"
-         "&tool=chem-catalogue&email=he.johan%40gmail.com&term=" + term)
+         "&tool=chem-catalogue&term=" + term)
     try:
         ids = json.loads(fetch(q, cache, offline))["esearchresult"]["idlist"]
     except Exception:                                    # noqa: BLE001
@@ -285,7 +288,7 @@ def pmid_of_doi(doi: str, cache: Path, offline: bool) -> str:
     records, so this catches everything else that is in PubMed at all."""
     term = urllib.parse.quote(f"{doi}[doi]")
     q = ("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json"
-         "&tool=chem-catalogue&email=he.johan%40gmail.com&term=" + term)
+         "&tool=chem-catalogue&term=" + term)
     try:
         ids = json.loads(fetch(q, cache, offline))["esearchresult"]["idlist"]
     except Exception:                                    # noqa: BLE001
@@ -299,7 +302,7 @@ def doi_of_pmids(pmids: list[str], cache: Path, offline: bool) -> dict[str, str]
     uniq = sorted({str(p) for p in pmids if p})
     for i in range(0, len(uniq), 200):
         q = ("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed"
-             "&retmode=json&tool=chem-catalogue&email=he.johan%40gmail.com&id="
+             "&retmode=json&tool=chem-catalogue&id="
              + ",".join(uniq[i:i + 200]))
         try:
             res = json.loads(fetch(q, cache, offline)).get("result", {})
@@ -335,7 +338,7 @@ def resolve_dois(dois: list[str], cache: Path, offline: bool) -> dict[str, dict]
     for i in range(0, len(uniq), 200):
         chunk = uniq[i:i + 200]
         url = ("https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?format=json"
-               "&tool=chem-catalogue&email=he.johan%40gmail.com&ids="
+               "&tool=chem-catalogue&ids="
                + urllib.parse.quote(",".join(chunk)))
         try:
             data = json.loads(fetch(url, cache, offline))
@@ -415,7 +418,7 @@ def esummary(pmids: list[str], cache: Path, offline: bool) -> dict[str, dict]:
     for i in range(0, len(uniq), 200):
         chunk = uniq[i:i + 200]
         url = ("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed"
-               "&retmode=json&tool=chem-catalogue&email=he.johan%40gmail.com&id="
+               "&retmode=json&tool=chem-catalogue&id="
                + ",".join(chunk))
         try:
             res = json.loads(fetch(url, cache, offline)).get("result", {})
@@ -820,12 +823,17 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
             r["note"] = m["note"]
     hit = ({m["dir"] for m in matched_protocols.values()}
            | {m["dir"] for m in matched_rows.values()})
-    for m in mine:
-        if m["dir"] in hit:
-            continue
+    ours_only = [m for m in mine if m["dir"] not in hit]
+    ours_ids = resolve_dois([m["doi"] for m in ours_only if m["doi"]], cache, offline)
+    stray = set(paper_overrides.CATALOGUE_FIELDS) - {m["dir"] for m in ours_only}
+    if stray:
+        raise ValueError(f"catalogue overrides for no ours-only row: {sorted(stray)}")
+    for m in ours_only:
         url = f"https://doi.org/{m['doi']}" if m["doi"] else ""
-        if url in known and known[url]["doi"] == m["doi"]:
-            meta, pm = known[url], known[url]["pmid"]
+        # A previous run's identifiers are kept when the converter is unreachable.
+        prior = known.get(url, {}) if url and known.get(url, {}).get("doi") == m["doi"] else {}
+        if prior:
+            meta, pm = prior, prior["pmid"]
         else:
             meta = crossref(m["doi"], cache, offline) if m["doi"] else {}
             pm = ((pmid_of_doi(m["doi"], cache, offline)
@@ -835,10 +843,21 @@ def build(cache: Path, offline: bool, known: dict[str, dict] | None = None) -> l
                 meta = esummary([pm], cache, offline).get(pm, {})
             if not meta.get("title"):
                 meta = KNOWN_DOI_METADATA.get(m["doi"].casefold(), {})
+        got = ours_ids.get(m["doi"].lower(), {}) if m["doi"] else {}
+        fields = {"citation_text": "",
+                  "pmcid": got.get("pmcid", "") or prior.get("pmcid", "")}
+        for col, value in paper_overrides.CATALOGUE_FIELDS.get(m["dir"], {}).items():
+            if col not in fields:
+                raise ValueError(f"{m['dir']}: no catalogue override for column {col!r}")
+            if fields[col] and fields[col] != value:
+                raise ValueError(f"{m['dir']}: {col} override {value!r} disagrees with "
+                                 f"resolved {fields[col]!r}; remove the override")
+            fields[col] = value
         rows.append({"source": "ours", "category": "Ours, not in scg_lib_structs",
                      "protocol": m["protocol"], "family_members": "", "documented": "ours",
                      "role": "primary", "scg_page": "", "paper_url": url,
-                     "citation_text": "", "doi": m["doi"], "pmid": pm, "pmcid": "",
+                     "citation_text": fields["citation_text"], "doi": m["doi"], "pmid": pm,
+                     "pmcid": fields["pmcid"],
                      "title": meta.get("title", ""),
                      "first_author": meta.get("first_author", ""),
                      "journal": meta.get("journal", ""),

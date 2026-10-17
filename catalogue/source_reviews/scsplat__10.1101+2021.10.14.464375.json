@@ -189,5 +189,26 @@
       "evidence": "Published Methods names ss2b while Table S1 prints ss1b; earlier SPLAT source has not yet resolved the identity."
     }
   ],
-  "conclusion": "Published Methods names ss2b while Table S1 prints ss1b; earlier SPLAT source has not yet resolved the identity."
+  "conclusion": "Published Methods names ss2b while Table S1 prints ss1b; earlier SPLAT source has not yet resolved the identity.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Sci Rep PMC8986790 JATS text twin lines 59 (Results scSPLAT overview), 63 (Fig. 1 legend), 131 (Methods scWGBS library preparation and sequencing, adapter preparation, oligo list), 135 (demultiplexing/trimming); MOESM1 Table S1 lines 1-150 (SSO_H_1-32, ss1a, ss1b)",
+      "oligo_scraper": "Bundle scraper run; SSO_H family (32 variants, MOESM1 lines 17-141, variable nt 27-32), ss1a and ss1b hits checked against MOESM1 lines 145/149 and JATS line 131; preprint duplicates not used.",
+      "findings": "Replaced the role-level graph and shared finish_pcr caller with a source-owned graph: EZ Methylation Direct conversion, 384 spin-plate desulphonation with SSO_H_X elution, Klenow exo- strand synthesis (SSO_H_1 drawn with 5AmMC6), Exo I digestion (degraded oligo discarded at SPRI), pool up to 32 + 1.2x SPRI, 95C/ET-SSB strand separation (released original strand left unresolved), SPLAT ligation with exact ss1a/ss1b splinted adapter geometry (T4 ligase HC + PNK + PEG, 20C 1h), 1:1 SPRI, NEBNext/KAPA 12-16 cycle PCR (primers inferred, geometry unavailable), 2x0.8x SPRI. Final library corrected: removed the TruSeq 'dA junction' (no A-tailing; the A is ss1b's first base), added H8 random-primer copy, cell_barcode whitelist feature; reads PE150, first six Read 1 bases cell barcode; index cycles unstated. ss1a/ss2b vs ss1b published name discrepancy kept on page with model choice.",
+      "deferred": [
+        "Original SPLAT method Raine 2017 NAR doi:10.1093/nar/gkw1110 (adapter sequences/naming, ss2b identity)",
+        "snmC-seq2 low-volume conversion protocol (ref 5)",
+        "NEBNext dual index primer document (i5/i7 sequences and lengths)",
+        "Zymo EZ Methylation Direct manual",
+        "Index-read cycle counts",
+        "Fate of released original strand in bulk SPLAT"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks) passes; page builds; pairing 0 problems; chemistry 2 established/3 conditional/11 unresolved/0 contradictory; source guard 2 exact checked (ss1a, ss1b), 0 failed, SSO_H symbolic (H8); Markdown built; review schema checked"
+    }
+  ]
 }

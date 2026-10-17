@@ -59,18 +59,24 @@ manifest's `(duplicate) scg_…` rows record the mirrored copies as md5-identica
 | `s41592-018-0255-0_41592_2018_255_MOESM3_ESM.xlsx.txt` | Supplementary Table 3 (sample sheet) | nothing chemical |
 | `upstream_BD_Rhapsody.html.txt` | scg_lib_structs method page | **inspiration only, not a source** — nothing is cited from or verified against it |
 | `upstream_data_GMX_BD-Rhapsody-WTA-alpha-Protocol_UG_EN.pdf.txt` | BD "Whole transcriptome analysis alpha protocol", 23-21179-00, 12/2018 | **Randomer sequence**, RPE, RPE PCR, index PCR, cleanups |
-| `upstream_data_GMX_BD-Rhapsody-Single-Cell-Analysis-System-Instrument_UG_EN.pdf.txt` | BD Rhapsody instrument user guide, Doc ID 214062 Rev. 2.0, 02/2019 | lysis, bead retrieval, RT mix, Exonuclease I; bead-oligo cartoon |
+| `upstream_data_GMX_BD-Rhapsody-Single-Cell-Analysis-System-Instrument_UG_EN.pdf.txt` | BD Rhapsody instrument user guide, Doc ID 214062 Rev. 2.0, 02/2019 | lysis, bead retrieval, RT mix, Exonuclease I; bead-oligo cartoon (text lines 4680–4710). **Revision caveat:** the alpha protocol (lines 21, 269) cites Doc ID 214062 **Rev. 1.0**; the Rev. 2.0 copy on disk is later, so its step conditions are not proven identical to those the alpha protocol assumed (Rev. 1.0 not fetched) |
 | `scg_BD_CLS1.txt`, `_CLS2.txt`, `_CLS3.txt` (on disk as `upstream_data_BD_CLS*.txt`) | three 97-member 9-mer lists kept in the scg_lib_structs `data/BD/` mirror | **provenance not established** 🔴: unlike the two PDFs these are bare sequence lists with no vendor document around them, so this note does not treat them as a BD publication and no length or base from them enters the model |
 
-Not obtained (PMC download gate; the Springer copies above cover the same supplements
-except possibly the figure DOCX):
+The PMC author-manuscript supplements are now on disk from the PMC Cloud bucket
+(`s41592-018-0255-0_supp_NIHMS1511424-supplement-*`): Supplementary Figures (DOCX),
+Supplementary Tables 1, 2, 4 (PDF) and Table 3 (XLSX). Round 2026-10-17-breadth-first-07
+read them: Supplementary Table 1 lists "Single-cell BD Rhapsody" only as an assay column
+(PDF text line 139), and the one primer table (line 222) is the qPCR primer set of
+Fig. 1 / Supplementary Fig. 1; the scraper's hits in this bundle are those qPCR primers
+only. None of them carries Rhapsody chemistry.
+
+Not obtained:
 
 | File | URL |
 |---|---|
-| Supplementary Figures (DOCX) | https://pmc.ncbi.nlm.nih.gov/articles/instance/6677388/bin/NIHMS1511424-supplement-Supplementary_Figures.docx |
-| Supplementary Tables 1, 2, 4 (PDF) | https://pmc.ncbi.nlm.nih.gov/articles/instance/6677388/bin/NIHMS1511424-supplement-Supplementary_Tables_1__2__4.pdf |
-| Supplementary Table 3 / Reporting Summary (PMC copies) | same `/bin/` directory |
 | Fan et al. 2015 (Science; Cloudflare/paywall) | https://doi.org/10.1126/science.1258367 |
+| BD Rhapsody instrument user guide Doc ID 214062 **Rev. 1.0** (the revision cited by the alpha protocol, line 21) | not fetched |
+| BD Rhapsody Express instrument guide, Doc ID 214063 (the alternative named by the alpha protocol, line 270) | not fetched |
 | BD's own bead-oligo bases and lengths, Universal Oligo, AbSeq Primer, Library Forward/Reverse primers and sequencing-primer sites | 🔴 unresolved in the BD guides checked so far; additional relevant kit documents remain unavailable |
 
 ---
@@ -166,12 +172,13 @@ BD WTA alpha protocol; conditions 🟢 unless marked. Strand bookkeeping 🟡.
    🟢) into the cartridge microwells by limiting dilution, then load **Cell Capture
    Beads** to saturation, image with the scanner.
 2. **Lyse**: 550 µL Lysis Buffer + DTT (75 µL 1 M DTT per 15 mL), room temperature
-   **2 min**. Poly(A) RNA anneals to the bead `(T)18` 🟡 (the paper says only that poly(A)
-   RNA hybridises to the beads).
+   **2 min**. Poly(A) RNA anneals to the bead oligo-dT 🟡 (the paper says only that poly(A)
+   RNA hybridises to the beads; the dT length is 🔴 unresolved, and the model's 15 T are a
+   drawn tract only).
 3. **Retrieve beads** magnetically into a 5 mL tube with 4,950 µL lysis buffer; wash.
 4. **RT on beads**, 200 µL cDNA mix (RT buffer, dNTP, 0.1 M DTT, Bead RT/PCR Enhancer,
    RNase inhibitor, reverse transcriptase), **37 °C 20 min, 1,200 rpm** ("shaking is
-   critical"). First strand: `|--bead oligo · (T)18 · cDNA →`, the cDNA covalently on the
+   critical"). First strand: `|--bead oligo · poly(T) · cDNA →`, the cDNA covalently on the
    bead with cell label and UMI at its 5' end 🟢 (paper: tagged on the cDNA 5' end =
    mRNA 3' end).
 5. **Exonuclease I**, 200 µL, **37 °C 30 min**, then **80 °C 20 min** to inactivate.
@@ -184,9 +191,12 @@ BD WTA alpha protocol; conditions 🟢 unless marked. Strand bookkeeping 🟡.
    along the bead-bound cDNA.
 8. **Extension (RPE)**: + 26 µL (dNTP, Bead RT/PCR Enhancer, **Klenow exo⁻**), 37 °C
    **30 min**, 1,200 rpm. The randomer extends toward the bead and copies the bead oligo,
-   so the new strand is `5'- R2 handle(23) · N₉-insert … · (A)18 · UMI' · CLS3' … CLS1' ·
-   R1-handle' · AGAGAGAGGGGGG -3'` (complement written 5'→3') 🟡. Only extensions that
-   reach the bead oligo carry the Read 1 handle.
+   so the new strand is `5'- R2 handle(23) · N₉-insert … · poly(A) copy · UMI' · cell label' ·
+   universal-oligo complement -3'` (complement written 5'→3') 🟡. Only extensions that
+   reach the bead oligo carry the bead's universal handle. (An earlier revision wrote this
+   strand with an `(A)18`, three `CLS` blocks, a Read 1 handle and an `AGAGAGAGGGGGG`
+   end; those came from the withdrawn reconstruction and are removed, round
+   2026-10-17-breadth-first-07.)
 9. **Release**: wash, resuspend in 200 µL Tris-Tween20, **95 °C 2 min**, magnet, keep the
    **supernatant = RPE product** (beads can be stored). Clean up with **1.6× SPRIselect**
    (320 µL to 200 µL), elute 30 µL.
@@ -228,8 +238,10 @@ source and are withdrawn.
 - 🟢 Paper: HiSeq 2500, **101 × 2**; ~38,000 reads/cell; molecular index coverage 3.2–3.5.
 - 🟢 BD alpha protocol: NextSeq / MiniSeq High or Mid output, load 1–1.2 pM with **20 %
   PhiX**; 10,000 / 50,000 / 100,000 reads per cell for shallow / moderate / deep.
-- 🟢 Paper: "Cell labels and molecular indices were identified" from the reads, i.e.
-  Read 1 carries the cell label and UMI and Read 2 the cDNA. Which primer site each read
+- 🟢 Paper: "Cell labels and molecular indices were identified" from the reads. That
+  Read 1 carries the cell label and UMI and Read 2 the cDNA is 🟡 inferred from the bead
+  cartoon order and the Randomer's TruSeq Read 2 handle; no checked source assigns reads
+  to features. Which primer site each read
   starts from is 🔴 — the checked guides provide no sequencing-primer sequence, so the page renders
   `seqprimers.unavailable_diagram(...)` and declares the run layout rather than computing
   it.

@@ -114,5 +114,25 @@
       "evidence": "CG000109 Rev D cites CG000086 for procedure. Rev K is read only as a later comparator, and official July 2018 F→G summary documents 5-prime GEX scope expansion; a contemporaneous guide remains unlocated."
     }
   ],
-  "conclusion": "CG000109 and later v2/v3 comparators have independent readings. CG000086 Rev K is newly available but later than the 2017 defining note; its 5-prime GEX content cannot establish 2017 v1 reaction conditions. Exact contemporaneous CG000086 remains blocked."
+  "conclusion": "CG000109 and later v2/v3 comparators have independent readings. CG000086 Rev K is newly available but later than the 2017 defining note; its 5-prime GEX content cannot establish 2017 v1 reaction conditions. Exact contemporaneous CG000086 remains blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "10x CG000109 Rev D Technical Note (/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-ge/CG000109_AssayConfiguration_VDJ_RevD.pdf.txt) lines1–70 (introduction, Fig.1/2 captions, protocol options), 100–115 and 288–312 (Table 1/2A Step 1.5; Table 2A Protocol 4.1 cDNA Primer Mix), 490–590 (Table 2B Step 1.5, Protocol 4.1, 6.3 adaptor ligation, 6.5 sample-index PCR); later official CG000086 Rev K text lines6875–6895 (Protocol Step 3.1 cDNA Primer Mix) as revision context only",
+      "oligo_scraper": "Scraper run on CG000109 Rev D: bead TSO with 3' rGrGrG, Poly-dT RT primer, RT product, Table 1/2A TCR/BCR enrichment primers and P5/P7 primers found; Table 2B cDNA, adaptor and index oligos verified line by line in the .txt.",
+      "findings": "protocol_graph moved off legacy ChromiumRNAOps to a local graph: printed Table 2B oligos declared as reagent states (PN-2000007, PN-220112, PN-220106 fwd/rev, PN-220026, PN-220111, PN-220103) replacing 'commercial primer bases not asserted' inputs; exact PCRGeometry for cDNA amplification and sample-index PCR (on the printed Table 2B ligation product); Read 2 adaptor single 3'-T cohesive end declared from Protocol 6.3; template-switch product is the printed Reverse Transcript Product (pre-switch CCC intermediate inferred); Fig.2 Read 2 98 cycles added to sequencing plan; enzymes/conditions left unnamed. Published discrepancy displayed: PN-220106 reverse primer 22 nt (Table 2A line312) vs 20 nt (Table 2B line526); model uses Table 2B; Rev K line6892 22-nt form cited as later-revision context only.",
+      "deferred": [
+        "Revision-matched 2017 CG000086 user guide (v1 reaction conditions, enzymes, cleanups)",
+        "Which PN-220106 reverse primer length the v1 kit contains",
+        "Adaptor 5' phosphorylation and oligo 5' blocks/bead attachment",
+        "Fate of bead-proximal and handle-end fragments during A-tailing/ligation (no off-product declared)",
+        "Selected single-index T Set A well"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 8/8 pass; page builds; pairing 0 problems; chemistry 3 established/1 conditional/9 unresolved/0 contradictory; source guard 6 exact checked, 0 failed, 2 inputs without exact states (rt_primer VN, tso N16/N10) — slug bundle holds only CG000086 Rev K, so the guard matched against Rev K, not CG000109; Markdown built; review schema checked"
+    }
+  ]
 }

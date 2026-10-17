@@ -23,7 +23,17 @@ SUMMARY = ("Antibody-tethered pA–Tn5 inserts a T7 promoter beside targeted chr
            "T7 transcription linearly amplifies that one-ended insertion before random-hexamer "
            "reverse transcription, second-strand synthesis, MeB tagmentation and indexed PCR.")
 CAVEAT = ("The workflow draws the published representative sciTIP r5001/S502/N701 branch. "
-          "Table S1 supplies 384 r5 transposons and the full i5/i7 PCR-index families.")
+          "Table S1 supplies 384 r5 transposons and the full i5/i7 PCR-index families. "
+          "Bulk TIP-seq (ME-T7-bulk, sss_bulk-nXT, standard Nextera index PCR) is not drawn. "
+          "Published discrepancy in the Index 2 read: Table S1 lists nXTv2_i5_index_read as the "
+          "P5 sequence AATGATACGGCGACCACCGAGATCTACAC, a forward-strand primer that would read i5 "
+          "first (cycles 1-8) and r5 last (24-29). The Methods sciTIP-seq library note instead "
+          "states r5 at index-2 positions 1-6 and the 8-bp i5 at 21-29, separated by a 15-bp "
+          "spacer, for the NovaSeq 6000 SP v1.5 run. The page models the acquired run with a "
+          "reverse-complement-workflow Index 2 primer, which places r5 at 1-6 and i5 at 22-29; "
+          "the printed 21-29 span (9 positions for an 8-bp index) and the role of the Table S1 "
+          "P5-sequence primer remain unexplained. "
+          "SPRI cleanups, GuHCl Tn5 stripping and the final 0.85x size selection are not drawn.")
 
 ME_T7_BULK = "GAATTTAATACGACTCACTATAGGGTAGATCGCTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
 ME_SC_R5001 = "GAATTTAATACGACTCACTATAGGGAGATCCACGCGCTCTAATTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
@@ -122,8 +132,10 @@ SEQ_PRIMERS = (
     sp.custom("Read 1", "nXTv2 Read 1", NXT_R1, "Bartlett et al. Table S1"),
     sp.custom("Index 1 (i7)", "nXTv2 i7 index read", NXT_I7,
               "Bartlett et al. Table S1"),
-    sp.custom("Index 2 (i5)", "nXTv2 i5 index read", NXT_I5,
-              "Bartlett et al. Table S1"),
+    sp.custom("Index 2 (i5)", "reverse-complement-workflow Index 2 primer (NovaSeq v1.5)",
+              nx.INDEX2_PRIMER, "Bartlett et al. Methods sciTIP-seq: r5 at index-2 cycles 1-6",
+              "Table S1 instead prints the P5-sequence nXTv2_i5_index_read; see the "
+              "published-discrepancy notice."),
     sp.NEXTERA["R2"],
 )
 _problems = sp.verify(FINAL_LIBRARY, SEQ_PRIMERS,
@@ -133,8 +145,9 @@ if _problems:
 
 FINAL_CAPTION = ("Representative sciTIP molecule: r5-001 records the targeted-Tn5 well; "
                  "the S502 i5 and N701 i7 indexes record the second combinatorial well.")
-SEQUENCING_INTRO = ("The published modified run acquires 51-cycle paired genomic reads, "
-                    "8-cycle i7 and 29-cycle i5+r5 structure.")
+SEQUENCING_INTRO = ("The published modified NovaSeq 6000 SP v1.5 run (Table S2 RunInfo) "
+                    "acquires 51-cycle paired genomic reads, an 8-cycle i7 read and a "
+                    "29-cycle index 2 read covering r5, the 15-bp spacer and i5.")
 READ_LENGTHS = {"Read 1": 51, "Index 1 (i7)": 8,
                 "Index 2 (i5)": 29, "Read 2": 51}
 SHOW_READ_CONTENT = True
@@ -150,6 +163,8 @@ def oligos():
                                  seg("annealing region", SSS_SCI, "r1")])
     yield oligo("N701", [seg("P7", il.P7, "p7"), seg("i7", "TCGCCTTA", "cbc"),
                           seg("annealing region", nx.S7, "s7")])
+    yield oligo("nXTv2_i5_index_read (Table S1; P5 sequence, forward-strand)",
+                [seg("P5", NXT_I5, "p5")])
 
 
 def _rna_rows():
@@ -236,13 +251,14 @@ def protocol_graph():
                 ((chromatin, InputRole.TEMPLATE), (promoter_transposome, InputRole.STRUCTURAL),
                  (pa_tn5, InputRole.CATALYST)), (tagged, first_losses))
     graph.discard(first_losses, "does not retain the promoter-bearing target-proximal insertion")
-    fill = graph.input("gap_fill_polymerase", "Tn5-gap-fill DNA polymerase",
+    fill = graph.input("gap_fill_polymerase", "Taq 5X Master Mix (72 C, 3 min gap fill)",
                        MaterialKind.CATALYST)
     filled = graph.product("filled_tagged_dna", "gap-filled promoter-tagged genomic DNA",
                            MaterialKind.MOLECULAR, state=tagged.state)
     graph.react("gap_fill", "Fill the staggered Tn5 gap", StepKind.EXTENSION,
                 ((tagged, InputRole.TEMPLATE), (fill, InputRole.CATALYST)), (filled,))
-    t7 = graph.input("t7_polymerase", "T7 RNA polymerase", MaterialKind.CATALYST)
+    t7 = graph.input("t7_polymerase", "HiScribe T7 high-yield kit T7 RNA polymerase mix",
+                     MaterialKind.CATALYST)
     rna = graph.product("t7_rna", "linearly amplified target-proximal RNA",
                         MaterialKind.MOLECULAR,
                         state=MolecularState("T7 RNA copy", tuple(_rna_rows())))
@@ -251,7 +267,7 @@ def protocol_graph():
                 ((filled, InputRole.TEMPLATE), (t7, InputRole.CATALYST)), (rna,))
     random_hexamer = graph.input("random_hexamer", "random-hexamer RT primer",
                                  MaterialKind.OLIGO)
-    mmlv = graph.input("mmlv", "MMLV reverse transcriptase", MaterialKind.CATALYST)
+    mmlv = graph.input("mmlv", "SMART MMLV reverse transcriptase", MaterialKind.CATALYST)
     first_cdna = graph.product("first_cdna", "random-hexamer first-strand cDNA",
                                MaterialKind.MOLECULAR,
                                state=MolecularState("RNA/cDNA", tuple(
@@ -260,12 +276,13 @@ def protocol_graph():
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((rna, InputRole.TEMPLATE), (random_hexamer, InputRole.STRUCTURAL),
                  (mmlv, InputRole.CATALYST)), (first_cdna,))
-    hydrolysis = graph.input("rna_removal", "RNA-removal condition", MaterialKind.CONDITION)
+    hydrolysis = graph.input("rna_removal", "RNase H (diluted), 37 C 20 min",
+                             MaterialKind.CATALYST)
     clean_cdna = graph.product("clean_cdna", "RNA-free first-strand cDNA",
                                MaterialKind.MOLECULAR, state=first_cdna.state)
     degraded_rna = graph.product("degraded_rna", "removed RNA fragments", MaterialKind.WASTE)
-    graph.react("remove_rna", "Remove the RNA template", StepKind.STRAND_SEPARATION,
-                ((first_cdna, InputRole.TEMPLATE), (hydrolysis, InputRole.CONDITION)),
+    graph.react("remove_rna", "Degrade RNA in RNA–cDNA hybrids with RNase H", StepKind.DIGESTION,
+                ((first_cdna, InputRole.TEMPLATE), (hydrolysis, InputRole.CATALYST)),
                 (clean_cdna, degraded_rna))
     graph.discard(degraded_rna, "the cDNA strand is retained for second-strand synthesis")
     second_primer = graph.input("second_strand_primer", "published sss_sci-nXTv2 primer",
@@ -293,7 +310,7 @@ def protocol_graph():
     graph.discard(second_losses, "does not retain the amplifiable two-ended sciTIP configuration")
     s502 = graph.input("s502", "published sciTIP S502 indexed primer", MaterialKind.OLIGO)
     n701 = graph.input("n701", "published N701 indexed primer", MaterialKind.OLIGO)
-    pcr_polymerase = graph.input("pcr_polymerase", "indexed library PCR polymerase",
+    pcr_polymerase = graph.input("pcr_polymerase", "NEBNext High-Fidelity 2X PCR Master Mix",
                                  MaterialKind.CATALYST)
     library = graph.product("sequencing_library", "sciTIP sequencing library",
                             MaterialKind.LIBRARY, state=FINAL_LIBRARY)

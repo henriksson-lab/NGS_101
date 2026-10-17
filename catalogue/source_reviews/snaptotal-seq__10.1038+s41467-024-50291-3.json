@@ -79,5 +79,25 @@
       "evidence": "Original Methods prints PCR primer strings; complete adapter/read architecture still requires supplement reconciliation."
     }
   ],
-  "conclusion": "Original Methods prints PCR primer strings; complete adapter/read architecture still requires supplement reconciliation."
+  "conclusion": "Original Methods prints PCR primer strings; complete adapter/read architecture still requires supplement reconciliation.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nat Commun 15:5941 PMC11251146 JATS .xml.txt Methods lines246–270 (lysis/RT/TS, GAT27 PCR, DSC barcoding, design rationale254, library construction258–266 incl. DSN262, sequencing268–270), Results62; Supplementary Data 12 (MOESM15 xlsx Table S12, all rows); MOESM3 description of supplementary files",
+      "oligo_scraper": "Bundle scraper run; hits are in the superseded bioRxiv media-2 workbook (rows19032–19037); every used oligo was transcribed from published MOESM15 Table S12 and Methods instead.",
+      "findings": "Corrected final library order (Read 2 primer now reads 8-nt cell barcode, 35-nt GAT27/AGGAG spacer, then 5-nt UMI at 44–48 as Methods state; the old model put the UMI next to Read 2) and removed the false dA junction at the tag end; cell barcode no longer claims a whitelist (Supp Data 12 prints NNNNNNNN); i5 marked as library barcode. Removed undescribed end-repair step; second DSC is now an extension (not a physical selection/discard). Added GAT27 (not MALBAC pool) GoTaq PCR, MALBAC primers as the TSO, Deep Vent/Klenow exo-/Quick Ligase, Adapter-PCR+P5 10-cycle post-ligation PCR, DSN digestion with waste fate, enrichment PCR, exact Truseq-P7/P5 final PCR geometry; all Supp Data 12 oligos verbatim on page with exact states. Published discrepancy on page: custom Read 2/i7 primers' 8 nt (AGAGGTGA) differ from the cell barcode primer's AGGAGAGT before GAT27. Note author corrected (Niu, not Salmen).",
+      "deferred": [
+        "Supplementary Information MOESM1 (Supp Figs 1–2 chemistry schematic)",
+        "MALBAC (ref15) and template-switching predecessor methods",
+        "Custom Read 2/i7 primer vs cell-barcode primer sequence (which is intended; custom-run layout not drawn)",
+        "Acquired read lengths and cell-barcode list",
+        "Fate of untagged/Y-adapter-only fragments during PCRs not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 0 explicit checks passes; page builds; pairing 0 problems; chemistry 2 established/2 conditional/15 unresolved/0 contradictory; source guard 11 exact checked, 0 failed, 0 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

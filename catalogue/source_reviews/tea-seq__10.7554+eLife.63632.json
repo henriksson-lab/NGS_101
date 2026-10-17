@@ -293,5 +293,25 @@
       "locations": "Article Methods745–767 and sequencing817–829; original Table5 all primer rows; CG000338RevA p80 lines5634–5685; CG000373RevA pp2–3; author bench step80; CG000317RevE pp71–72",
       "finding": "Source-owned full GEX/ATAC endpoints, forward joint-run versus demultiplexing masks, Table5 whole ADT primers and shared preamplification chronology independently inspected. Exact ADT loaded R2/I1 remains unverified, not confirmed absent. CG000338RevA and CG000317RevE name the same TT kit/plate but differ by terminal ACAC before i5; both public pages now retain their named guide choice with explicit apparent inconsistency and historical-prefix uncertainty."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC8034981 JATS Methods TEA-seq library preparation lines 745–763, sequencing 765–767, data processing masks line 771; Supplementary file 5 Table 5 (SI-PCR-Oligo, ADT-Rev-AMP, ADT-i7); cited protocols.io TEA-seq V.2 (dx.doi.org/10.17504/protocols.io.bqagmsbw, Dec 01 2020) pdf.txt steps 45–49 (pre-amp, lines 965–1078), 61–64 (ADT indexing, lines 1356–1467)",
+      "oligo_scraper": "Bundle scraper run; Table 5 and CG000338 Rev A product hits already transcribed by the selftest; no new oligo identities.",
+      "findings": "Existing Multiome/ADT construction and masks confirmed against Methods. Added the post-preamplification 2.0x SPRIselect cleanup as a graph step with waste fate; recorded GEM 37C 45 min/25C 30 min + Quenching Agent, joint fragmentation/end-repair/A-tailing 32C 5 min/65C 30 min, ligation 20C 15 min, and index-PCR cycles/cleanups (ATAC 9 cycles 0.6x/1.6x, GEX TT 14 cycles 0.6x/0.8x, ADT KAPA 15 cycles 1.6x) in step labels. Page shows article vs protocols.io discrepancy: 5 uL vs 4 uL Pre-Amp Primers (step 46), model independent of volume; article 'dual-sided 1.6x' ADT cleanup vs single 1.6x (step 64).",
+      "deferred": [
+        "Mulqueen et al. 2019 Tn5 predecessor (not used by Multiome branch)",
+        "Loaded ADT Read 2/Index 1 sequencing primers",
+        "Commercial Pre-Amp/cDNA/TT primer states and PN-2000094 adapter ligation geometry",
+        "CG000338 Rev A vs CG000317 Rev E P5 prefix (historical reagent unverified)",
+        "TotalSeq-A member and bead-barcode sequences"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 9/9 pass; page builds; pairing 0 problems; chemistry 0 established/1 conditional/21 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 4 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
   ]
 }

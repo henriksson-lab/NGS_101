@@ -47,7 +47,7 @@ OLIGOS = (
             "<b>3′ adapter</b> — 5′-/5rApp/AGATCGGAAGAGCGGTTCAG/3ddC/-3′",
             "<b>RT-primer-1 architecture</b> — 5′-/5Phos/DDDNN AACC NNNN AGATCGGAAGAGCGTCGTGGA /iSp18/ GGATCC /iSp18/ TACTGAACCGC-3′",
             "<b>P5-Solexa PCR primer</b> — 5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-3′",
-            "<b>P3-Solexa PCR primer</b> — 5′-CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT-3′",
+            f"<b>P3-Solexa PCR primer</b> — 5′-{il.PE_PCR_PRIMER_2}-3′",
         )
 workflow_fn = icshape_workflow
 SPEC = SimpleNamespace(
@@ -168,7 +168,7 @@ def icshape_graph(definition, final: Construct) -> ProtocolGraph:
     forward = graph.input("pcr_forward_primer", "Solexa PCR forward primer",
                           MaterialKind.OLIGO, state=Construct([Segment("published P5-Solexa", il.P5 + il.TRUSEQ_READ1[4:])]))
     reverse = graph.input("pcr_reverse_primer", "Solexa PCR reverse primer",
-                          MaterialKind.OLIGO, state=Construct([Segment("published P3-Solexa", il.P7 + "CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT")]))
+                          MaterialKind.OLIGO, state=Construct([Segment("published P3-Solexa", il.PE_PCR_PRIMER_2)]))
     polymerase = graph.input("pcr_polymerase", "PCR polymerase", MaterialKind.CATALYST)
     library = graph.product("sequencing_library", "icSHAPE sequencing library",
                             MaterialKind.LIBRARY, state=final, inferred=True)

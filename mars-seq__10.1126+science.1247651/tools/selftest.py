@@ -14,8 +14,8 @@ check = Check()
 # during MARS-seq library construction" -- the publisher's own PDF, on disk as
 # scg_jaitin-sm.pdf.  These three primers are assembled from illumina constants, so a
 # change there would silently alter what this page presents as verbatim.  The scg_lib_structs
-# page is not evidence for any of them and the oligo it calls MARS-seq2.0's RT2
-# (CTACACGACGCTCTTCCGATCT) is deliberately absent from the model.
+# page is not evidence for any of them.  MARS2_RT2 (CTACACGACGCTCTTCCGATCT) belongs to
+# the separate MARS-seq2.0 author protocol and is not used by the 2014 graph.
 check("Table S7 barcoded RT primer (XXXXXX/NNNN modelled as N)", M.MARS1_RT1,
       "CGATTGAGGCCGGTAATACGACTCACTATAGGGGCGACGTGTGCTCTTCCGATCT"
       + "N" * 10 + "T" * 20 + "N")

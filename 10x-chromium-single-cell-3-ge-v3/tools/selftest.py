@@ -13,4 +13,7 @@ check("CG000183 appendix gel-bead oligo transcription", got, want)
 check("vendor overview/appendix conflict is attached to the bead primer",
       any(isinstance(note, SourceDiscrepancy) and note.target == "rt_primer"
           for note in V.protocol_graph().annotations), True)
+check("CG000183 appendix Capture Seq 1 bead oligo transcription",
+      "".join(s.top for s in V.capture_seq1_bead_oligo()).replace("B","N").replace("U","N"),
+      "GTCAGATGTGTATAAGAGACAG"+"N"*16+"N"*12+"TTGCTAGGACCGGCCTTAAAGC")
 check.report()

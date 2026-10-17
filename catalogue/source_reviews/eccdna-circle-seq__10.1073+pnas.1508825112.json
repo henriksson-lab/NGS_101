@@ -51,11 +51,17 @@
     {
       "id": "si",
       "role": "supplement",
-      "locator": "pnas.201508825SI.pdf; MANIFEST.tsv",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eccdna-circle-seq__10.1073+pnas.1508825112/pnas.1508825112_pnas.201508825si.pdf.txt:1-147 (PNAS suppl_file/pnas.201508825si.pdf, hand-downloaded 2026-10-17)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "PMC instance supplement endpoint gated.",
-      "pass_2": null
+      "pass_2": null,
+      "previous_reason": "PMC instance supplement endpoint gated.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Whole SI Appendix (10 pp.): Figs. S1-S10 legends, Dataset S1-S3 legends, lines 1-147",
+        "finding": "Identity printed 'Supporting Information Møller et al. 10.1073/pnas.1508825112'. Figure legends and dataset descriptions only; no adapter, index, Apollo kit or library-PCR information. Fig. S5 legend restates plasmid spike-in ratios; Fig. S7 inverse PCR on pre- and post-phi29 samples."
+      }
     },
     {
       "id": "apollo",
@@ -65,6 +71,20 @@
       "relevance": "relevant",
       "reason": "Historical vendor guide not located in local source bundle.",
       "pass_2": null
+    },
+    {
+      "id": "paper_pdf",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/eccdna-circle-seq__10.1073+pnas.1508825112/pnas.1508825112.pdf.txt:270-327,687-788,894-913 (published PNAS PDF, hand-downloaded 2026-10-17)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Results Circle-Seq section 280-327; Fig.1 legend 270-271; Materials and Methods Strains and Plasmids through Mapping of Reads 700-788; PCR 771-777, 894-913",
+        "finding": "Printed doi matches; same Methods text as the PMC page. Apollo 324 adapters and 6-base barcode index oligos named without bases, kit or joining chemistry; single-end HiSeq 2000, 141-nt reads, 215-nt reads trimmed."
+      }
     }
   ],
   "linked_information": {
@@ -86,8 +106,64 @@
     {
       "claim": "Apollo 324 adapter bases and selected six-base sample indexes",
       "disposition": "blocked",
-      "evidence": "Named in Methods but original supplements and vendor guide unavailable."
+      "evidence": "Named in Methods; SI Appendix read 2026-10-17 (no adapter/index information); Apollo 324 vendor guide and Datasets S1-S3 still unavailable; one reader only."
     }
   ],
-  "conclusion": "Validation primers source-backed; sequencing adapter composition blocked by supplements/vendor. Independent pass 2 pending; no missing claim accepted."
+  "conclusion": "Validation primers source-backed; sequencing adapter composition blocked by supplements/vendor. Independent pass 2 pending; no missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "PMC4475933 article page text (pnas.1508825112_PMC4475933.html.txt): Results 'Circle-Seq, A Method...' lines1164-1166; Methods Purification 1258-1265, Digestion of linear DNA 1267, Amplification 1270, PCR 1273-1275, Sequencing 1278, Mapping of Reads 1281",
+      "oligo_scraper": "Bundle scraper run: 18 hits, all ACT1 PCR/qPCR and inverse-PCR validation primers (lines1273-1275), none library oligos; no Apollo adapter/index bases in the article text.",
+      "findings": "Removed model-inserted explicit adapter ligation, ligase and library-PCR primers/polymerase; replaced with one warned Apollo 324 boundary (adapters plus 6-base barcode index labels, mechanism and PCR not described). Inferred single-index shell index window set to 6 nt (was 8). Named Plasmid Mini AX alkaline/ion-exchange column, NotI 17 h/80C, Plasmid-Safe 24 h replenishment over 130 h/70C 30 min, REPLI-g Mini 30C 16 h, Covaris ~300 nt. Sequencing text records 141-nt SE reads and 215-nt trimmed reads (S2/Z4/R1). Graph-owned published discrepancy: Methods 'up to 100 Mb' vs Results 40-100 million reads; no depth chosen. Removed dead sections()/workflow() drawing code superseded by the graph.",
+      "deferred": [
+        "SI Appendix PDF and Datasets S1-S3 (PMC download gate; manual URLs in MANIFEST.tsv)",
+        "IntegenX Apollo 324 adapter/index kit documentation (adapter bases, joining chemistry, PCR)",
+        "REPLI-g Mini and Plasmid Mini AX vendor protocols",
+        "Refs 26/27 plasmid-purification predecessors",
+        "How the 6-base index was read (inline vs index read)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory with apollo_library MAGIC warning; source guard 0 checked, 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 0,
+      "locations": "No new defining original read. Retrieval routes: PMC bin/pnas.201508825SI.pdf and sd01-sd03.xlsx (JS 'Preparing to download' gate); PMC Cloud listing for PMC4475933 (no keys); Europe PMC supplementaryFiles (empty), fullTextXML (HTTP 500), europepmc.org bin/ (HTTP 403); PNAS suppl_file/pnas.201508825si.pdf (Cloudflare HTTP 403); OpenAlex/Unpaywall (only PMC plus KU research-portal record without file); ENA PRJEB6368 read_run metadata (library_construction_protocol 'eccDNA purification' only)",
+      "oligo_scraper": "Not re-run: no new source text; previous 18 hits were ACT1/qPCR/inverse-PCR validation primers.",
+      "findings": "Defining SI Appendix and Datasets S1-S3 remain unobtainable by legitimate routes. Takara PrepX DNA Library Protocol-At-A-Glance documents (2018/2019 revisions) are reachable, but the paper names no Apollo 324 kit and those revisions postdate the 2014-2015 work, so they were not used as evidence. Note records the attempted routes and the manual URL; model and page unchanged.",
+      "deferred": [
+        "SI Appendix PDF and Datasets S1-S3 (manual https://www.pnas.org/doi/suppl/10.1073/pnas.1508825112/suppl_file/pnas.201508825si.pdf or PMC bin/ URLs in MANIFEST.tsv)",
+        "IntegenX Apollo 324 kit identity and contemporaneous adapter/index documentation",
+        "REPLI-g Mini and Plasmid Mini AX vendor protocols",
+        "Refs 26/27 plasmid-purification predecessors",
+        "How the 6-base index was read"
+      ],
+      "scope": "Capped retrieval follow-up only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 checked, 0 failed; Markdown built; audit --check pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Hand-downloaded published PNAS PDF pnas.1508825112.pdf (printed doi:10.1073/pnas.1508825112, Møller et al.) .txt Results 280-327, Fig.1 legend 270-271, Methods 687-788 (strains/plasmids, purification and enrichment, NotI/Plasmid-Safe digestion, REPLI-g amplification, PCR, Sequencing, Mapping of Reads), PCR 894-913; SI Appendix pnas.201508825si.pdf (header 'Supporting Information Møller et al. 10.1073/pnas.1508825112', 10 pp.) .txt lines 1-147 in full",
+      "oligo_scraper": "Bundle scraper run: 18 hits, all ACT1 PCR/qPCR and inverse-PCR validation primers (PDF lines 774, 906-909; PMC copy); no hits in the SI Appendix; no adapter or index bases.",
+      "findings": "SI Appendix holds only figure and dataset legends, no further library chemistry. Corrections: plasmid spike-ins (pBR322 1:1, pUC19 1:50, pUG72 1:2,500 per cell, before the column) added as purification input; glass-bead disruption, TE elution and 6-16 ug yield in labels; native circle no longer built with the ssDNA circularisation helper (implied ligation), declared pre-existing with one strand drawn; phi29 priming site labelled representative (REPLI-g primers not described). Existing 100 Mb vs 40-100 million reads discrepancy re-verified (Methods 783 vs Results 310-312).",
+      "deferred": [
+        "Datasets S1-S3 xlsx (PMC bin/ gate; analysis outputs per SI legends, not chemistry)",
+        "IntegenX Apollo 324 kit identity and contemporaneous adapter/index documentation",
+        "REPLI-g Mini and Plasmid Mini AX vendor protocols",
+        "Refs 26/27 plasmid-purification predecessors",
+        "How the 6-base index was read"
+      ],
+      "scope": "Capped defining-source pass; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory (Apollo MAGIC warning); source guard 0 checked, 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

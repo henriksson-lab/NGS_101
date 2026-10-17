@@ -28,10 +28,10 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 def preamble() -> str:
     return f'''<div class="wrap" data-protocol-complete="true">
 <h1>ASTAR-seq &mdash; chromatin accessibility and transcriptome from one cell</h1>
-{info('Defining source: <a href="https://doi.org/10.1101/829960">Xing et al., 2019</a>.')}
+{info(A.SOURCE)}
 {info('Tagment genomic DNA first, then reverse-transcribe RNA in the same Fluidigm C1 chamber. Biotin separates the two products before their final library reactions.')}
-{info(f'Source-version discrepancy: the original <a href="https://www.biorxiv.org/content/10.1101/829960v1">bioRxiv v1 supplement</a>, Supplementary Experimental Procedures lines 1603–1615, prints {A.HARVEST_UL_PREPRINT:g} µL C1 Harvest Reagent per cell and mixes {A.HARVEST_UL_PREPRINT:g} µL sample with {A.HARVEST_UL_PREPRINT:g} µL beads. The indexed text of the later <a href="https://genome.cshlp.org/content/suppl/2020/07/22/gr.257840.119.DC1/Supplemental_Material.pdf">Genome Research Supplemental Methods</a>, Part 1 on-IFC procedure, prints approximately {A.HARVEST_UL_PUBLISHED:g} µL harvest per cell. This page follows the later published value provisionally; the full publisher PDF could not be inspected, so any downstream bead-volume change is unresolved.')}
-{info('The preprint Supplementary Experimental Procedures lines 1618–1655 confirm heat elution and later PCR cycles. Which cDNA strand leaves the beads after heating remains inferred.')}
+{info(f'Unverified source-version difference: the <a href="https://www.biorxiv.org/content/10.1101/829960v1">bioRxiv v1 supplement</a>, Supplementary Experimental Procedures (media-6 lines 1603–1615), prints a total of {A.HARVEST_UL_PREPRINT:g} µL C1 Harvest Reagent and mixes {A.HARVEST_UL_PREPRINT:g} µL sample with {A.HARVEST_UL_PREPRINT:g} µL beads. An earlier audit recorded approximately {A.HARVEST_UL_PUBLISHED:g} µL from a search-index snippet of the later <a href="https://genome.cshlp.org/content/suppl/2020/07/22/gr.257840.119.DC1/Supplemental_Material.pdf">Genome Research Supplemental Methods</a>; that PDF could not be retrieved (HTTP 404/403, 2026-10-17), so the published value is not verified. No modelled molecule depends on either volume.')}
+{info('The preprint Supplementary Experimental Procedures (media-6 lines 1618–1655) give heat elution (water, 90 °C, 10 min), the 9 + 11-cycle cDNA re-amplification and the library PCRs. Both cDNA strands carry 5\' biotin after on-chip PCR, and the source does not state the release mechanism or the strand form of the eluate; the eluted cDNA is drawn as inferred.')}
 '''
 
 

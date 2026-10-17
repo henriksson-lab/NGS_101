@@ -123,5 +123,24 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent located reads now cover the original Science article, supplement and cited Dölken 2008 capture method. HPDP-biotin/streptavidin capture with DTT release is supported; the relevant historical NuGEN kit guide is unavailable, so its adapter/index bases remain blocked and no absence claim is accepted."
+  "conclusion": "Two independent located reads now cover the original Science article, supplement and cited Dölken 2008 capture method. HPDP-biotin/streptavidin capture with DTT release is supported; the relevant historical NuGEN kit guide is unavailable, so its adapter/index bases remain blocked and no absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-21",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Schwalb 2016 Science supplement (aad9841-Schwalb-SM.pdf.txt) Materials and Methods lines 21–49 (RNA-seq, spike-in mix, sequencing data processing); author-hosted original Science PDF p.1 lines 88–103 (fragment-before-isolation rationale); Dölken 2008 RNA publisher PDF Methods lines 942–971 (Biotin-HPDP, chloroform/isoamyl-alcohol removal, µMACS streptavidin, DTT release)",
+      "oligo_scraper": "Bundle scraper run; supplement hits lines 202–460 are Control/C3AN8T4/C7AN8T4 reporter inserts and their cloning primers (pCMV-GLuc 2), not library oligos; no NuGEN adapter or index-primer bases found.",
+      "findings": "Pulse (500 µM 4sU, 5 min), spike-ins with TRIzol, split, BioRuptor fragmentation of one arm before labelled-RNA purification, ref.26 capture chemistry, NuGEN Ovation Human Blood RNA-seq kit, HiSeq 1500 and PE50 + 6-base barcode read verified against the declaration. Correction: the printed 2 U Turbo DNase treatment was missing from the graph; added as a digestion step between DTT release and kit RT with its DNA digest waste. The final library's dA junction is kept but recorded as a TruSeq-style inferred placeholder required for the standard Read 2/Index 1 landing, not a printed A-tailing step.",
+      "deferred": [
+        "NuGEN Ovation Human Blood RNA-seq kit user guide (adapter, strand-selection, PCR/index oligos, end geometry)",
+        "Which cDNA strand Read 1 reports and which index read carries the six-base barcode",
+        "Excess Biotin-HPDP chloroform removal not drawn as a separate cleanup",
+        "4sU-seq, RNA-seq and fragmented RNA-seq control arms not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (1 PASS); page builds; pairing 0 problems; chemistry 9 steps 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 checked, 0 failed (all kit oligos inferred and excluded); audit --check in_progress; Markdown built; review schema checked"
+    }
+  ]
 }

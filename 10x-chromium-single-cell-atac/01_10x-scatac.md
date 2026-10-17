@@ -266,3 +266,24 @@ upstream line 67 it joined the two strands of a double-strand drawing into a 38-
 any query containing N (e.g. the bead oligo with its 16 N), so the N-containing oligos
 were checked by their fixed segments with `--find` and by reading the Appendix lines
 directly.
+
+## 9. Bounded source pass 2026-10-17 (round breadth-first-06)
+
+Re-read CG000168 Rev A Stepwise Objectives (txt lines 800–935), Appendix
+"Oligonucleotide Sequences" (lines 3343–3441) and Sequencing (lines 2855–2952), plus the
+Set A CSV rows. Model corrections made against those passages:
+
+- The final library had carried the concrete i7 word `TAAGGCGA`, which appears in no
+  10x source (it is a Nextera N701-style index). CG000168 prints `NNNNNNNN` and each Set A
+  well is a four-word mix, so the model now uses an 8-nt sample-index placeholder. 🟢
+- The Sample Index PCR no longer marks its primers as undisclosed: SI-PCR Primer B
+  (PN-2000128) and the i7 Set A primer (PN-3000262) are declared from the Appendix with
+  checked inward primer geometry on the final library. 🟢
+- The 72 °C, 5 min gap-fill step is labelled inferred on the graph and page (the guide
+  does not state its purpose). 🟡
+- s5/s5 and s7/s7 products are now candidate classes with an unresolved physical fate
+  rather than being discarded at tagmentation; no separation of them is described. 🟡
+
+Still open: Tn5 release mechanism in GEMs; Barcoding Enzyme identity; v1.1 (CG000209)
+and v2 differences beyond the Appendix comparison; Demonstrated Protocol for nuclei
+isolation (CG000169) not read.

@@ -169,5 +169,25 @@
       "locations": "Costello2018 Supplementary Table2 complete sheet, Supplementary design-guidance DOCX references and main JATS availability/method references",
       "finding": "Linked-information disposition: Table2 links Illumina adapter-sequence letter1000000002694-02 for generic adapter/primer architecture, not a Smart3 ordered index member or cell assignment. Its base transcription is not used to assert a Smart3 selected pair; the recovered xpress complete ordered primers supply their own source bases. Guidance references Levenshtein/mFold/IDT computational-design tools, not protocol-specific oligo order records. Main gnomAD/restricted dataset links are performance/contamination data from Costello study and not Smart3 source assignments; excluded from selected Smart3/xpress pair recovery. No raw reads or physical vendor lot records are required by the schematic claims."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nat Biotechnol 2020 publisher HTML line 627 (subscription preview; Methods not readable, identity only); published Supplementary Table 1 MOESM3 xlsx all 96 condition rows (final Smart-seq3 oligo-dT, N8 TSO, Fwd/Rev PCR oligos, KAPA preamp program); Supplementary Note I MOESM1 pdf.txt lines 14-50 (TSO UMI design, Maxima H- vs Superscript II, PEG/additive rationale); author protocol V.3 protocols.io DOI 10.17504/protocols.io.bcq4ivyw PDF pp2-20 (pdf.txt lines 50-145 oligo table/index design; 225-320 lysis; 390-560 RT; 560-760 KAPA preamp; 760-900 PEG-bead cleanup; 949-1280 tagmentation, SDS strip, custom index primers, Phusion index PCR; 1357-1475 pooled cleanup, optional gel, sequencing/bcl2fastq example)",
+      "oligo_scraper": "Bundle scraper run (--known-only); Smartseq3 oligo-dT/TSO/Fwd/Rev hits in protocolsio_33276 metadata and preprint checked against protocol oligo table and MOESM3 rows; protocolsio_12300 hits are the linked mcSCRB-seq protocol, not Smart-seq3 oligos.",
+      "findings": "Replaced the shared generic SMART graph with a local protocol_graph in tools/build_page.py (molecular states still from shared helpers): Maxima H Minus RT with source lysis (72C 10 min) and RT buffer/program (30 mM NaCl, 1 mM GTP, 2.5 mM MgCl2, 8 mM DTT; 42C 90 min, 10x 50/42C, 85C 5 min); KAPA HiFi preamp with Fwd 0.5 uM/Rev 0.1 uM and exact primer states; 0.6:1 22% PEG-bead cDNA cleanup; Nextera XT ATM tagmentation 55C 10 min in home-made TD; 0.2% SDS strip; Phusion 72C 3 min gap fill and 12-cycle index PCR with custom S50X/N70X primers (member unassigned); pooled 0.6:1 bead cleanup before sequencing. Note: corrected 'Maxima instead of MMLV' to 'instead of Superscript II' (MOESM1) and replaced step table with protocol conditions. No published-source discrepancy found; bcl2fastq Y150N,I8,I8,Y150N and zUMIs BC(1-8) are protocol examples consistent with the 8-bp option.",
+      "deferred": [
+        "Published Methods text (subscription preview; manual URL https://www.nature.com/articles/s41587-020-0497-0.pdf)",
+        "Acquired read/index cycles of the published runs",
+        "Index length and members used per experiment",
+        "Exact CCC/terminal-transferase geometry (conventional model)",
+        "Optional gel size selection and QuantiFluor normalisation not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "shared SMART-seq suite 197 checks pass; page builds; pairing 0 problems; chemistry 9 steps 6 established/7 conditional/9 unresolved/0 contradictory; source guard 2 exact checked (Fwd/Rev PCR), 0 failed, 5 inputs without exact states; Markdown built; review schema checked"
+    }
   ]
 }

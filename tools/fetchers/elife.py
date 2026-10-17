@@ -26,6 +26,7 @@ def fetch(job, arg: str, what: str = "") -> None:
     v = art.get("version", "")
     say(f"  eLife {n} v{v}")
     f = job.folder
+    f._clear_manual(f"eLife.{n}_supplementary", f"https://elifesciences.org/articles/{n}")
     tag = f"eLife.{n}"
     if art.get("pdf"):
         f.save(f"{tag}_v{v}.pdf", art["pdf"], f"eLife article PDF, v{v}")

@@ -11,7 +11,8 @@ from isothermal import (lamp_product, lamp_topology, mda_product, proximity_exte
 from nanopore_library import (motor_library, motor_sequencing_plan, no_primer_ending,
                               role as nanopore_role)
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            SourceClaim, SourceDiscrepancy, StepKind)
 from protocol_model import molecule, role
 import seqprimers as sp
 from proximity_topology import ProximityExtensionTopology
@@ -70,7 +71,7 @@ OLINK_SEQ_PRIMERS = (sp.TRUSEQ["R1"],)
 
 def _olink_graph(source: str) -> ProtocolGraph:
     g = ProtocolGraph("Olink Explore / NGS-PEA", authority=source)
-    sample = g.input("sample", "serially diluted plasma or serum sample",
+    sample = g.input("sample", "plasma sample, undiluted or diluted 1:10, 1:100 or 1:1000",
                      MaterialKind.BIOLOGICAL,
                      state=molecule("sample", (role("target proteins"),)), primary=True)
     antibodies = g.input("antibody_probes", "matched antibody probe pair",
@@ -81,13 +82,22 @@ def _olink_graph(source: str) -> ProtocolGraph:
                       MaterialKind.MOLECULAR, state=proximity_extension_pair())
     unbound = g.product("unbound_probes", "unbound and mismatched probe population",
                         MaterialKind.WASTE)
+    # Wik et al. Experimental Procedures (PMC8633680 JATS line 164): 0.2 ul sample
+    # plus 0.6 ul block incubation mix, sealed and incubated at 4 C for 16-24 h.
+    incubation = g.input("immuno_incubation",
+                         "0.6 µl block incubation mix + 0.2 µl sample, 4 °C for 16–24 h",
+                         MaterialKind.CONDITION)
     g.react("bind", "Bind matched oligo-antibody probes to the same protein",
             StepKind.BINDING,
             ((sample, InputRole.TEMPLATE), (antibodies, InputRole.SELECTION),
-             (probe_oligos, InputRole.STRUCTURAL)), (bound, unbound))
+             (probe_oligos, InputRole.STRUCTURAL), (incubation, InputRole.CONDITION)),
+            (bound, unbound))
     g.discard(unbound, "Only correctly proximal probe pairs generate amplifiable reporters.")
 
-    polymerase = g.input("extension_polymerase", "PEA extension polymerase",
+    # JATS line 168: the PCR1 mix (Olink PCR1 solution, enhancer, PCR1 Enzyme and the
+    # universal primers) is added and an initial 50 C, 20 min extension precedes PCR1.
+    polymerase = g.input("extension_polymerase",
+                         "polymerase in the Olink PCR1 mix (initial extension 50 °C, 20 min)",
                          MaterialKind.CATALYST)
     reporter = g.product("reporter", "proximity-extension reporter",
                          MaterialKind.MOLECULAR, state=proximity_extension_product())
@@ -120,22 +130,61 @@ def _olink_graph(source: str) -> ProtocolGraph:
                      MaterialKind.OLIGO)
     pcr2_r = g.input("pcr2_r", "sample-indexed P7 reverse primer", MaterialKind.OLIGO)
     pcr2_enzyme = g.input("pcr2_enzyme", "Olink PCR2 enzyme", MaterialKind.CATALYST)
-    library = g.product("library", "148-bp Olink Explore sequencing library",
-                        MaterialKind.LIBRARY, state=OLINK_LIBRARY)
+    library = g.product("library", "148-bp PCR2 amplicons of one sample",
+                        MaterialKind.MOLECULAR, state=OLINK_LIBRARY)
     g.react("pcr2", "Add the inline sample index and P7 end in ten PCR cycles",
             StepKind.PCR,
             ((pooled, InputRole.TEMPLATE), (pcr2_f, InputRole.STRUCTURAL),
              (pcr2_r, InputRole.STRUCTURAL), (pcr2_enzyme, InputRole.CATALYST)),
             (library,), geometry=PCRGeometry.unavailable(
                 OLINK_LIBRARY, reason="Olink publishes PCR2 architecture but not index-primer bases."))
-    g.sequence(library, SequencingPlan(
+    panel_rule = g.input("panel_pooling", "pool all PCR2 samples of one panel (epMotion)",
+                         MaterialKind.CONDITION)
+    panel_pool = g.product("panel_pool", "unpurified panel library pool",
+                           MaterialKind.MOLECULAR, state=OLINK_LIBRARY)
+    g.react("pool_panel", "Pool every PCR2 sample of a panel into one of four libraries",
+            StepKind.GENERIC,
+            ((library, InputRole.TEMPLATE), (panel_rule, InputRole.CONDITION)), (panel_pool,),
+            changes_molecule=False)
+    # JATS line 172: 50 ul unpurified library with 80 ul AMPure XP beads, eluted in 50 ul.
+    ampure = g.input("ampure", "AMPure XP beads, 80 µl per 50 µl library",
+                     MaterialKind.SELECTION)
+    purified = g.product("purified_library", "bead-purified 148-bp Olink Explore library",
+                         MaterialKind.LIBRARY, state=OLINK_LIBRARY)
+    bead_waste = g.product("bead_supernatant",
+                           "primers, primer dimers, dNTPs and other unbound contaminants",
+                           MaterialKind.WASTE)
+    g.react("bead_cleanup", "Purify each panel library with AMPure XP beads",
+            StepKind.CLEANUP,
+            ((panel_pool, InputRole.TEMPLATE), (ampure, InputRole.SELECTION)),
+            (purified, bead_waste))
+    g.discard(bead_waste, "Removed in the bead supernatant before sequencing.")
+    g.sequence(purified, SequencingPlan(
         OLINK_LIBRARY, OLINK_SEQ_PRIMERS, ("Read 1",), {"Read 1": 66},
         {"Read 1": "extract_and_demultiplex"}))
     g.declare_reviewed_scope((
         "sample", "antibody_probes", "probe_oligos", "bind",
         "extension_polymerase", "extend", "pcr1_f", "pcr1_r", "pcr1_enzyme",
         "pcr1", "block_pooling", "pool_blocks", "pcr2_f", "pcr2_r",
-        "pcr2_enzyme", "pcr2", "library"), source)
+        "pcr2_enzyme", "pcr2", "library", "immuno_incubation", "panel_pooling",
+        "panel_pool", "pool_panel", "ampure", "purified_library", "bead_supernatant",
+        "bead_cleanup"), source)
+    g.annotate(SourceDiscrepancy(
+        "pcr1", "Wording of the common forward-primer identity differs",
+        (SourceClaim("Wik et al. 2021, Experimental Procedures, PCR Amplification "
+                     "(PMC8633680 JATS line 168)",
+                     "forward PCR1 primer \"complementary to Illumina's P5 adapter sequence\""),
+         SourceClaim("Olink patent WO2021191442A1, worked PCR1/PCR2 example "
+                     "(Google Patents text lines 4135–4171)",
+                     "forward common primer \"comprises the Illumina P5 sequencing adapter "
+                     "sequence (SEQ ID NO: 1)\"")),
+        "The model gives the forward primer the P5 sense sequence, as the patent states "
+        "and as the article's probe design requires (the forward probe itself carries P5 "
+        "and Rd1SP).",
+        "Both statements come from Olink originals; the article also calls the reverse "
+        "primer \"complementary\" to a common probe sequence, suggesting loose wording.",
+        "Neither source prints the complete forward-primer bases, so its full sequence "
+        "and any 5' extension beyond the 20-nt P5 portion remain unverified."))
     return g.require_publishable()
 
 

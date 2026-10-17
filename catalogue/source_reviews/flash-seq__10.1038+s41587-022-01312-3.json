@@ -267,5 +267,25 @@
       "date": "2026-10-16",
       "change": "Historical standard v3 independently recovered and read; public source now cites it for index example. Added actual recipe arithmetic discrepancy notice. Complete version equivalence is not asserted."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC9546769 JATS Methods lines 133–182 (FS/FS-UMI lysis, RT-PCR, 0.8:1 cleanup, PicoGreen QC, 100–200 pg/µl normalization, Nextera XT 0.5 µl ATM/2 µl TD/NT/3 µl NPM+2 µl custom N7xx/S5xx, 14 cycles, materials link line 167, pooled 0.8:1 cleanup, NextSeq550 75-8-8-0); Supplementary Note 2 (MOESM1 text lines 10200–10215) FS dT30VN/FS TSO; author standard protocol v3 (23 Mar 2022, ID 59800) step 10.1 lines 1960–2075 and pooling/sequencing lines 2400–2490; protocols.io public metadata 59800",
+      "oligo_scraper": "Bundle scraper run (192 hit rows); FS-dT30VN, FS-TSO, STRT-dT31, TSO-UMI, Tn5-ISPCR, DI-PCR-P1A hits checked at JATS lines 133–147; Supplementary Note 2 FS rows checked at MOESM1 lines 10208–10215; SS3/ISPCR hits belong to comparator tables.",
+      "findings": "No chemistry contradiction found. Article materials link protocols.io/view/flash-seq-protocol-b6myrc7w is the URI that public metadata ID 59800 assigns to DOI kxygxzkrwv8j/v3, confirming v3 as the article-cited index-adapter source. Re-verified the v3 tagmentation table 0.250+2.000+0.500 vs declared 3.000 µl and the article 0.5 µl ATM/4 µl recipe; existing discrepancy notice retained. Added source-stated 0.8:1 SeraMag ratios, PicoGreen QC and 100–200 pg/µl normalization to the cleanup step labels and note.",
+      "deferred": [
+        "FS-LA and FS-UMI v3 chemical reconstructions",
+        "Commercial Nextera XT transposome/ME end geometry (vendor original)",
+        "Enrichment cycle number (article 14; v3 12–14) not modelled",
+        "Cleanup-method chapter (ref 23), code repository and PRJNA816486 metadata",
+        "Research Square protocol rs.3.rs-715504/v1 (manual, Cloudflare)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "protocol test 5 checks pass; page builds; pairing 0 problems; chemistry 1 established/1 conditional/9 unresolved/0 contradictory; source guard 3 exact checked, 0 failed, dt (VN) and transposome unrepresented; Markdown built; review schema checked"
+    }
   ]
 }

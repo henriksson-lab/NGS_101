@@ -514,5 +514,25 @@
       "method": "Re-fetched exact registered manifestURL for each through standardfetchers.base.get;HTTP200,byte-identicaltoactualcachedfile andMD5equalmanifest.12PASS. Current/historicaldifferentnames+hashes verified; no filenamecollisionfound.",
       "limitation": "Content/provenance check only; does not supply another independent source-content reading or close direct-child source obligations."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "PacBio 103-238-700 Rev09 Aug2026 pdf.txt (nonblank-line view) pp1–7 reagent lists (Kinnex PCR 8-fold kit primer mixes A–G, HQ; concatenation kit enzyme/ligase/array and repair buffer/DNA repair mix/nuclease; adapter bc01–04; Kinnex sequencing primer), sections2–7: RT 70C5/42C45 + TSO 2.0 42C15, 1.3X cleanup, cDNA PCR 10 cycles, 0.9X cleanup/55 ng, Kinnex PCR raw lines1038–1077 (98C3min; 9×[98C20s,68C30s,72C4min]; 72C5min), 23 µL pool + 1.05X, step5.1 'Kinnex primer digestion/ligation' 45C60 + DNA repair 45C30, 1X cleanup, nuclease 37C15, final 1X (raw line1454), ABC; revision history lines1759–1819; application note 102-326-591 Rev03 pp2–3 (MAS-Seq attribution, Fig3 workflow: 5' cDNA barcodes, partial arrays removed by nuclease, 4-plex adapters); Kinnex_barcoded_adapter_indexes.fasta bcM0001–4 re-compared.",
+      "oligo_scraper": "Bundle scraper run: 48 hits (MOESM1 research Table1, SMRT Link trimming references, mas8 and research cartographer FASTAs); 0 oligo hits in the Rev09 procedure and the application note. No commercial primer-mix, adapter or sequencing-primer bases found in the inspected texts.",
+      "findings": "Graph corrected to the Rev09 procedure: named Iso-Seq RT enzyme/TSO 2.0 reagents and RT/TS conditions; added 1.3X post-RT, 0.9X post-cDNA-PCR, 1.05X post-pool, 1X post-array and final 1X bead cleanups with discarded supernatants; cDNA PCR uses Iso-Seq cDNA PCR mix (10 cycles) and Kinnex PCR uses Kinnex PCR mix (9 cycles) with one named primer mix A–G/HQ per reaction (upstream/downstream split labelled inferred); assembly named as the source's 'Kinnex primer digestion/ligation' 45C60 linear-array formation with bc01–04 adapter, product relabelled full and partial arrays; repair added directly 45C30; nuclease digestion no longer discards at the digestion step—digested partial arrays are removed by the final 1X cleanup (application note p3). Sequencing primer corrected to the kit-specific Kinnex sequencing primer (section 7) on graph, page caption and note. No published discrepancy found.",
+      "deferred": [
+        "Kinnex primer mix A–G/HQ composition and bases; junction/terminal-adapter end geometry; Kinnex enzyme activity",
+        "Kinnex sequencing primer bases and binding site",
+        "Procedure conceptual figures (Rev04) not inspected as rendered images",
+        "Newer Kinnex 8-fold/12-fold prep kits and concatenation kit 2.0 named by 102-396-000 Rev10 (version boundary, not read)",
+        "Iso-Seq RT primer mix and TSO 2.0 bases"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 7/7 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/30 unresolved/0 contradictory; source guard 0 exact checked, 2 Iso-Seq primer inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
   ]
 }

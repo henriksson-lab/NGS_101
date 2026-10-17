@@ -286,13 +286,18 @@ def protocol_graph():
                     "Both readers inspected the actual original PDFs; each value is visibly printed, not a text-extraction substitution.",
                     "The 2026 method explicitly uses modifications. Whether the difference is intentional or a transcription error is unresolved; other ancestor conditions are not transferred."))
     graph.annotate(SourceDiscrepancy("select_size", "Size-selection windows differ across source records",
-                    (SourceClaim("GSE179306 series Overall Design, line11", "50–100 bp"),
-                     SourceClaim("GSM5452295 extraction protocol, line70; SRX11439177 construction protocol", "70–100 bp"),
-                     SourceClaim("bioRxiv version1, 14 July2021, Methods1370–1385", "70–100 bp"),
-                     SourceClaim("bioRxiv version2, 24 October2025, Methods1664–1680", "50–100 bp")),
+                    (SourceClaim("2026 article Fig.2D legend (JATS line168); Methods and Supplementary Methods p.21", "size-fractionated (≈ 100 nt) RNA; the methods name only the small thio-labelled RNA gel region"),
+                     SourceClaim("GSE179306 series Overall Design, line11", "50–100 bp"),
+                     SourceClaim("GSM5452295 extraction protocol, line70; SRX11439177 construction protocol", "70–100 bp")),
                     "Keep the exact excision interval unassigned; the 2026 method describes the small-RNA region.",
-                    "Original versioned methods and deposited series/sample records contain these distinct values.",
-                    "Whether this reflects protocol revision, specific-library choices or a transcription difference remains unresolved; no typo or universal interval is assumed."))
+                    "The published article and the deposited series/sample records contain these distinct statements; superseded bioRxiv versions are not used as competing authorities.",
+                    "Whether the deposited records reflect specific-library choices or a transcription difference remains unresolved; no typo or universal interval is assumed."))
+    graph.annotate(SourceDiscrepancy("library_pcr", "Read-end wording versus deposited layout",
+                    (SourceClaim("2026 article Results, JATS line178", "short transcripts were \"sequenced from both ends (Supplementary Fig. S4C)\""),
+                     SourceClaim("SRX11439177 ENA/NCBI SRA metadata; runs SRR15130590–SRR15130593 read statistics", "LIBRARY_LAYOUT SINGLE; read index 0 average 75 nt, read index 1 count 0")),
+                    "Model the deposited GSM5452295 library as one 75-nt Read 1; derive 5′ and 3′ transcript ends computationally as the Supplementary Methods describe.",
+                    "Both original records were inspected; the SRA statistics explicitly show an empty second read slot.",
+                    "The article phrase may describe recovery of both transcript ends from one read after adapter trimming rather than paired-end acquisition; other undeposited sf4sU runs are not assigned."))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 

@@ -57,97 +57,145 @@ CAVEAT = 'The paper identifies custom dual-index duplex-UMI adapters but does no
 FINAL_CAPTION = 'Published roles of the custom duplex-UMI library; exact adapter bases are unavailable.'
 READ_LENGTHS = None
 SEQUENCING_INTRO = ''
-SEQUENCING_ENDING = 'The authors sequenced custom duplex-UMI libraries on HiSeq 2500 or HiSeq X in paired-end mode.'
+SEQUENCING_ENDING = 'After two rounds of hybrid selection and amplification, the authors sequenced custom duplex-UMI libraries on a HiSeq 2500 rapid run (100 bp paired-end) or HiSeq X (151 bp paired-end).'
 SEQUENCING_UNAVAILABLE = 'The custom dual-index duplex-UMI adapter and primer oligos are not given in the accessible paper or supplement.'
 def oligos():
     return ()
+
+def _cleanup(graph, ident, label, material, kept_label, reviewed, *, state=None):
+    """A source-named AMPure cleanup; the article does not itemize removed species."""
+    beads = graph.input(ident + "_beads", "Ampure beads", MaterialKind.SELECTION)
+    kept = graph.product(ident + "_kept", kept_label, MaterialKind.MOLECULAR,
+                         state=material.state if state is None else state)
+    waste = graph.product(ident + "_waste", "Bead supernatant and washes", MaterialKind.WASTE)
+    graph.react(ident, label, StepKind.CLEANUP,
+                ((material, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (kept, waste), changes_molecule=False)
+    graph.discard(waste, "Removed from the bead-bound DNA; the source does not list the removed species.")
+    reviewed.extend((beads.id, ident, kept.id, waste.id))
+    return kept
+
 
 def protocol_graph():
     final = FINAL_LIBRARY
     source = "Xiong et al., Nucleic Acids Research (2022); doi:10.1093/nar/gkab855"
     graph = ProtocolGraph("Duplex-Repair", authority=source)
+    reviewed = []
     damaged = graph.input(
-        "damaged_dna", "damaged or nicked DNA duplex",
+        "damaged_dna", "10–20 ng cfDNA or sheared FFPE/buffy-coat gDNA (damaged or nicked duplexes)",
         MaterialKind.BIOLOGICAL,
         state=molecule("damaged or nicked DNA duplex", (
             role("damaged duplex with ragged ends"),)), primary=True)
     lesion_enzymes = graph.input(
-        "lesion_enzymes", "EndoIV/Fpg/UDG/T4-PDG/EndoVIII/ExoVII repair cocktail",
+        "lesion_enzymes", "EndoIV/Fpg/UDG/T4-PDG/EndoVIII/ExoVII cocktail in NEBuffer 2 + BSA, 37°C 30 min",
         MaterialKind.CATALYST)
     excised = graph.product(
         "excised_dna", "lesion-excised duplex with trimmed overhangs",
         MaterialKind.MOLECULAR,
         state=molecule("lesion-excised duplex", (role("short gaps"), role("trimmed overhangs"))))
     graph.react(
-        "lesion_excision", "Excise damaged bases and remove single-stranded overhangs",
+        "lesion_excision", "Step 1: excise damaged bases and remove single-stranded overhangs",
         StepKind.CHEMICAL_CONVERSION,
         ((damaged, InputRole.TEMPLATE), (lesion_enzymes, InputRole.CATALYST)),
         (excised,))
-    blunting = graph.input("blunting_enzymes", "T4 PNK and T4 DNA polymerase",
+    blunting = graph.input("blunting_enzymes", "T4 PNK and T4 DNA polymerase (added to step 1 mix)",
                            MaterialKind.CATALYST)
+    fill_mix = graph.input("atp_dntps", "0.8 mM ATP and 0.5 mM each dNTP, 37°C 30 min",
+                           MaterialKind.CONDITION)
     blunt = graph.product(
         "blunt_dna", "blunt repaired duplex with restricted fill-in",
         MaterialKind.MOLECULAR,
         state=molecule("blunt repaired duplex", (
             role("restricted fill-in"), role("remaining nicks"))))
-    graph.react("blunt_ends", "Blunt ends and restrict fill-in", StepKind.END_REPAIR,
-                ((excised, InputRole.TEMPLATE), (blunting, InputRole.CATALYST)),
+    graph.react("blunt_ends", "Step 2: blunt ends and fill remaining short gaps/overhangs", StepKind.END_REPAIR,
+                ((excised, InputRole.TEMPLATE), (blunting, InputRole.CATALYST),
+                 (fill_mix, InputRole.CONDITION)),
                 (blunt,))
-    nick_ligase = graph.input("nick_ligase", "HiFi Taq DNA ligase",
+    nick_ligase = graph.input("nick_ligase", "HiFi Taq DNA ligase + buffer (added to step 2 mix), 35→65°C over 45 min",
                               MaterialKind.CATALYST)
     sealed = graph.product(
         "sealed_dna", "nick-sealed repaired duplex", MaterialKind.MOLECULAR,
         state=molecule("nick-sealed duplex", (role("original duplex interior"),)))
-    graph.react("seal_nicks", "Seal nicks before tailing", StepKind.NICK_SEALING,
+    graph.react("seal_nicks", "Step 3: seal nicks before tailing", StepKind.NICK_SEALING,
                 ((blunt, InputRole.TEMPLATE), (nick_ligase, InputRole.CATALYST)),
                 (sealed,))
+    sealed_clean = _cleanup(graph, "sealed_cleanup", "3X Ampure cleanup; elute in 17 µL 10 mM Tris",
+                            sealed, "purified nick-sealed duplex", reviewed)
     tailing = graph.input(
-        "restricted_tailing_enzyme", "Klenow fragment exo-minus and Taq polymerase",
+        "restricted_tailing_enzyme", "Klenow fragment exo-minus and Taq polymerase in NEBuffer 2",
         MaterialKind.CATALYST)
-    datp = graph.input("datp_only", "dATP as the only tailing nucleotide",
-                       MaterialKind.MOLECULAR)
+    datp = graph.input("datp_only", "0.2 mM dATP as the only nucleotide; RT 30 min then 65°C 30 min",
+                       MaterialKind.CONDITION)
     tailed = graph.product(
         "tailed_dna", "restricted dA-tailed repaired duplex",
         MaterialKind.MOLECULAR,
         state=molecule("dA-tailed duplex", (
             role("original duplex interior"), role("3-prime dA", length_bp=1))))
-    graph.react("restricted_a_tail", "Restricted dA-tail with dATP only",
+    graph.react("restricted_a_tail", "Step 4: restricted dA-tail with dATP only",
                 StepKind.TAILING,
-                ((sealed, InputRole.TEMPLATE), (datp, InputRole.STRUCTURAL),
+                ((sealed_clean, InputRole.TEMPLATE), (datp, InputRole.CONDITION),
                  (tailing, InputRole.CATALYST)), (tailed,))
-    adapters = graph.input("duplex_umi_adapters", "custom dual-index duplex-UMI adapters",
+    adapters = graph.input("duplex_umi_adapters", "custom dual-index duplex-UMI adapters (IDT)",
                            MaterialKind.ADAPTER)
-    adapter_ligase = graph.input("adapter_ligase", "DNA adapter ligase",
+    adapter_ligase = graph.input("adapter_ligase", "T4 DNA ligase (1000 U) and 5′-deadenylase",
                                  MaterialKind.CATALYST)
+    peg = graph.input("ligation_peg", "10% (w/v) PEG 8000 in the step 4 mix (55 µL), RT 1 h",
+                      MaterialKind.CONDITION)
     adapted = graph.product("adapted_dna", "duplex-UMI adapter-ligated DNA",
                             MaterialKind.MOLECULAR, state=final)
-    graph.react("adapter_ligation", "Ligate custom duplex-UMI adapters",
+    graph.react("adapter_ligation", "Ligate custom duplex-UMI adapters in the step 4 mix",
                 StepKind.LIGATION,
                 ((tailed, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL),
-                 (adapter_ligase, InputRole.CATALYST)), (adapted,),
+                 (adapter_ligase, InputRole.CATALYST), (peg, InputRole.CONDITION)), (adapted,),
                 geometry=AdapterLigationGeometry.unavailable(
                     "The paper identifies custom duplex-UMI adapters but does not publish their ligating-end sequences."))
+    adapted_clean = _cleanup(graph, "ligation_cleanup", "1.2X Ampure cleanup after ligation",
+                             adapted, "purified adapter-ligated DNA", reviewed)
     forward = graph.input("pcr_forward", "custom duplex-library PCR forward primer",
                           MaterialKind.OLIGO)
     reverse = graph.input("pcr_reverse", "custom duplex-library PCR reverse primer",
                           MaterialKind.OLIGO)
     polymerase = graph.input("pcr_polymerase", "library PCR polymerase",
                              MaterialKind.CATALYST)
-    library = graph.product("sequencing_library", "Duplex-Repair sequencing library",
-                            MaterialKind.LIBRARY, state=final)
+    amplified = graph.product("amplified_library", "amplified pre-capture duplex-UMI library",
+                              MaterialKind.MOLECULAR, state=final)
     graph.react("library_pcr", "PCR-amplify the duplex-UMI library", StepKind.PCR,
-                ((adapted, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                ((adapted_clean, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (library,), geometry=PCRGeometry.unavailable(
+                (amplified,), geometry=PCRGeometry.unavailable(
                     final,
                     reason="The accessible source does not disclose the custom duplex-library primer sequences."))
+    panel = graph.input("capture_panel", "IDT pan-cancer hybrid-selection panel; xGen hybridization and wash kit with xGen Universal blockers",
+                        MaterialKind.SELECTION)
+    captured = graph.product("captured_library", "library after two rounds of hybrid selection",
+                             MaterialKind.MOLECULAR, state=final)
+    off_target = graph.product("off_target", "uncaptured library molecules", MaterialKind.WASTE)
+    graph.react("hybrid_selection", "Two rounds of hybrid selection (between-round handling not stated in this article)",
+                StepKind.AFFINITY_CAPTURE,
+                ((amplified, InputRole.TEMPLATE), (panel, InputRole.SELECTION)), (captured, off_target))
+    graph.discard(off_target, "Molecules not retained by the hybrid-selection capture are washed away.")
+    post_forward = graph.input("post_capture_forward", "post-capture PCR forward primer (not specified in this article)",
+                               MaterialKind.OLIGO)
+    post_reverse = graph.input("post_capture_reverse", "post-capture PCR reverse primer (not specified in this article)",
+                               MaterialKind.OLIGO)
+    post_polymerase = graph.input("post_capture_pcr", "post-capture PCR polymerase (not specified in this article)",
+                                  MaterialKind.CATALYST)
+    library = graph.product("sequencing_library", "Duplex-Repair sequencing library",
+                            MaterialKind.LIBRARY, state=final)
+    graph.react("post_capture_pcr_step", "Amplify after the second hybrid selection", StepKind.PCR,
+                ((captured, InputRole.TEMPLATE), (post_forward, InputRole.STRUCTURAL),
+                 (post_reverse, InputRole.STRUCTURAL), (post_polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    final,
+                    reason="The article states that libraries were amplified after the second hybrid selection but gives no primers."))
     graph.sequence(library, SequencingPlan(
-        limitation="Paired-end HiSeq 2500 or HiSeq X sequencing is reported, but custom adapter and sequencing-primer bases are unavailable."))
+        limitation="HiSeq 2500 rapid run (100 bp paired-end) or HiSeq X (151 bp paired-end) is reported, but custom adapter and sequencing-primer bases are unavailable, so read starts and UMI cycles are not derived."))
     graph.declare_reviewed_scope((
-        "damaged_dna", "lesion_enzymes", "lesion_excision", "blunting_enzymes",
+        "damaged_dna", "lesion_enzymes", "lesion_excision", "blunting_enzymes", "atp_dntps",
         "blunt_ends", "nick_ligase", "seal_nicks", "restricted_tailing_enzyme",
-        "datp_only", "restricted_a_tail", "duplex_umi_adapters", "adapter_ligase",
-        "adapter_ligation", "pcr_forward", "pcr_reverse", "pcr_polymerase",
-        "library_pcr", "sequencing_library",
+        "datp_only", "restricted_a_tail", "duplex_umi_adapters", "adapter_ligase", "ligation_peg",
+        "adapter_ligation", "pcr_forward", "pcr_reverse", "pcr_polymerase", "amplified_library",
+        "library_pcr", "capture_panel", "captured_library", "off_target", "hybrid_selection",
+        "post_capture_forward", "post_capture_reverse", "post_capture_pcr", "post_capture_pcr_step", "sequencing_library", *reviewed,
     ), source)
     return graph.require_publishable()

@@ -117,5 +117,25 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Two independent readings of the defining preprint and linked published oligo/protocol sources find the relevant oligos published; no accepted missing claim."
+  "conclusion": "Two independent readings of the defining preprint and linked published oligo/protocol sources find the relevant oligos published; no accepted missing claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nature Methods PMC7612019 JATS lines53 (ATAC bead PBS), 59-61 (design, Extended Data Fig.3a/Table 1 pointers), 181-217 (RT, pooling, v1.0/v1.1 thermoligation incl. line197 12x[98C 30s, 59C 2min], TSO, cDNA enrichment, Tn5, P7 library PCR, 21/8/16/78 NovaSeq standard primers); Supplementary Protocol v2021-01-25 MOESM5 lines255-268 and 355-365 (12x[95C 30s, 59C 2min] both chips), 627-946 (enrichment primers, P7-001-008, read structure); published Supplementary Table 1 MOESM2 oligos sheet lines1-20 and 384 RT primers sheet lines34-37 plus fixed-base columns",
+      "oligo_scraper": "Bundle scraper run (104 hits): Tn5-top_ME, Tn5-bottom_Read2N, 3'-ddC bridge, TSO, Partial-P5, TSO enrichment primer, P7 family and SCIFI_LIG384 RT primers verified at MOESM2 lines3-20/36 and MOESM5 lines777-1019; pUC19 primers are Tn5 activity-test only.",
+      "findings": "Graph authority and page info named the superseded preprint as defining source; now Nature Methods 2021 with Supplementary Table 1 and Protocol, preprint retained only for the gel-bead oligo in Supp. Fig. 2. Thermoligation discrepancy compared the protocol with the preprint; published Methods line197 itself prints 98C, so the page now shows a within-publication discrepancy (Methods 98C vs Supplementary Protocol 95C), no temperature chosen. Bridge-ligation geometry statement wrongly said the protocol prints the bead oligo; corrected. Final library, 21/8/16/78 read layout, P7-001 representative and P7-009-016 orientation discrepancy verified unchanged.",
+      "deferred": [
+        "Published Extended Data Fig.3a (bead oligo/bridge register; preprint Supp. Fig.2 used)",
+        "10x scATAC v1.0/v1.1 vendor guide for the gel-bead oligo",
+        "P7-009-P7-016 index orientation (sample sheets/GEO Index 1 reads)",
+        "Purpose of GAAT TSO spacer and row-wise fixed1 base",
+        "Representative RT primer fixed bases A/A (well A01) vs per-well pairs not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 2 established/0 conditional/9 unresolved/0 contradictory; source guard 1 exact checked (bridge oligo), 0 failed, 8 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

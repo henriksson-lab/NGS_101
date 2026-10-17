@@ -18,6 +18,42 @@ SS2_FORWARD_SEQUENCE = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGAT
 
 SS2_REVERSE_SEQUENCE = "CAAGCAGAAGACGGCATACGAGAT" + "N" * 6 + "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATC"
 
+# Reagent states for the graph inputs.  The RT primer is drawn only in Supplementary
+# Figure S1 (step 1A, 3'-NNNNNNCTAGCCTTCTCGTGTGCAGAC-5', 27 nt as stated in Figure S4);
+# the hairpin donor and both PCR primers are printed in the Methods.
+SS2_RT_PRIMER = Construct((
+    Segment("RT-primer fixed handle", SS2_RT_SEQUENCE[:-6], "r2"),
+    Segment("random hexamer", SS2_RT_SEQUENCE[-6:],
+            note="degenerate priming bases; they anneal at random RNA positions"),
+), name="Structure-seq2 RT primer")
+
+SS2_HAIRPIN_DONOR = Construct((
+    Segment("hairpin 5' arm and loop", "TGAAGAGCCTAGTCGCTGTTCA", "r1",
+            note="5' phosphate (Methods: '5'-p')"),
+    Segment("degenerate six-base region", "NNNNNN",
+            note="pairs with diverse cDNA 3' ends"),
+    Segment("hairpin 3' arm", "CTGCCCATAGAG", "r1",
+            note="3' C3 spacer (Methods: '3'-Spacer')"),
+), name="Structure-seq2 hairpin donor")
+
+SS2_REVERSE_PRIMER = Construct((
+    Segment("P7", il.P7, "p7"),
+    Segment("sample barcode", "NNNNNN", "cbc", placeholder=True,
+            feature=feature("sample_index", "sample_index", "unknown",
+                            note="Methods state a 6-8-nt barcode; the six-base member is shown")),
+    Segment("TruSeq Read 2 / Index 1 arm", SS2_REVERSE_SEQUENCE[-33:], "r2"),
+), name="Structure-seq2 indexed reverse primer (six-base member)")
+
+if SS2_REVERSE_PRIMER.top() != SS2_REVERSE_SEQUENCE:
+    raise AssertionError("indexed reverse primer state differs from its printed sequence")
+
+# Read by tools/selftest_source_oligos.py.
+SOURCE_OLIGO_EXCEPTIONS = {
+    "rt_primer": ("Printed only as artwork in Supplementary Figure S1 (File006 p. S2, "
+                  "step 1A/1B: 3'-NNNNNNCTAGCCTTCTCGTGTGCAGAC-5'); the extracted text "
+                  "has no bases, so it was transcribed from the rendered figure."),
+}
+
 SS2_FORWARD = Segment("Structure-seq2 TruSeq forward", SS2_FORWARD_SEQUENCE, "p5")
 
 SS2_REVERSE = Segment("Structure-seq2 indexed reverse", SS2_REVERSE_SEQUENCE, "p7", placeholder=True,
@@ -92,6 +128,15 @@ def workflow() -> Workflow:
 
 
 
+REAGENTS = {
+    "rt": dict(reagent_label="RT primer: TruSeq handle plus random hexamer",
+               reagent_state=SS2_RT_PRIMER,
+               reagent_source="Ritchey et al. (2017) Supplementary Figure S1, step 1A"),
+    "ligate": dict(reagent_label="Structure-seq2 hairpin donor (5'-phosphate, 3'-C3 spacer)",
+                   reagent_state=SS2_HAIRPIN_DONOR,
+                   reagent_source="Ritchey et al. (2017), Methods, hairpin ligation (PMC5737731)"),
+}
+
 RECIPE = (('probe', 'Probe exposed A and C in vivo with DMS', StepKind.CHEMICAL_CONVERSION), ('rt', 'Random-prime DMS-stop cDNA with SuperScript III (55°C, 50 min)', StepKind.REVERSE_TRANSCRIPTION), ('digest_rna', 'Digest residual RNA with RNase H (37°C, 20 min)', StepKind.DIGESTION), ('ligate', 'Ligate the degenerate hairpin donor', StepKind.LIGATION))
 
 def protocol_graph() -> ProtocolGraph:
@@ -101,10 +146,19 @@ def protocol_graph() -> ProtocolGraph:
     reviewed = ["input"]
     current = start
     for identifier, label, kind in RECIPE:
-        current = _apply_linear_step(graph, current, identifier, label, kind, reviewed)
+        current = _apply_linear_step(graph, current, identifier, label, kind, reviewed,
+                                     **REAGENTS.get(identifier, {}))
     _finish_pcr(
         graph, "library", current, FINAL_LIBRARY,
         SEQUENCING_ENDING or FINAL_CAPTION, reviewed, label=TITLE,
+        step_label="Amplify and index with Illumina TruSeq forward and barcoded reverse primers (Q5)",
+        forward_label="Illumina TruSeq forward primer",
+        reverse_label="Illumina TruSeq reverse primer with 6–8-nt sample barcode",
+        polymerase_label="Q5 High-Fidelity DNA polymerase (NEB)",
+        forward_state=SS2_FORWARD,
+        reverse_state=SS2_REVERSE_PRIMER,
+        primer_source=("Ritchey et al. (2017), Methods, 'Library amplification by PCR' "
+                       "(PMC5737731)."),
         geometry=PCR_GEOMETRY,
         primers=SEQ_PRIMERS,
         acquired_roles=ACQUIRED_ROLES,

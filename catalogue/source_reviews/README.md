@@ -2,7 +2,8 @@
 
 One `<protocol-dir>.json` per audited protocol. This is a source-reading record,
 not a store for third-party material. Run `python3 tools/audit_protocol_sources.py`
-for the repository census or `--check <protocol-dir>` for one review. Missing files
+for the repository census or `--check DIR [DIR ...]` to validate one or more named
+reviews (the command fails if any named review file is absent). Missing files
 remain pending; historical rows in the older oligo ledgers do not pass this gate.
 
 Curation now proceeds in capped breadth-first rounds recorded in
@@ -11,6 +12,14 @@ originals per protocol. Add located bounded checks to an existing review without
 replacing earlier independent readings. Defer uninspected sections and linked
 sources explicitly; reaching the cap supplies neither a reading pass nor evidence
 of absence. Full `reviewed`/`accepted_missing` requirements below still apply.
+
+Capped passes go in an optional top-level `bounded_checks` list. They never count
+as `pass_1` or `pass_2`. Each entry is an object with non-empty strings `round`,
+`reviewer`, `date`, `scope`, `locations` and `findings`; `documents` (a
+non-negative integer: originals inspected); and `deferred` (a list of non-empty
+strings naming actual deferred targets, possibly empty). Optional `verification`
+and `oligo_scraper` must be non-empty strings when present. Other keys, such as
+`attempted_routes`, are kept as recorded and are not validated.
 
 For a published method, the published article and its supplements are the active
 authorities. A superseded preprint is normally `not_relevant`, with the published

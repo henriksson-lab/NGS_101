@@ -149,5 +149,26 @@
     ]
   },
   "missing_claims": [],
-  "conclusion": "Core UDiTaS oligos are source-located. Additional linked Tn5/QC sources, author code sample metadata and visual supplement review remain open; no missing-information claim is accepted."
+  "conclusion": "Core UDiTaS oligos are source-located. Additional linked Tn5/QC sources, author code sample metadata and visual supplement review remain open; no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-21",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published BMC Genomics PMC5861650 JATS (PMC Cloud .1) lines 70–113 Background/Results/Methods, Table 2 lines 155–231, Bioinformatics pipeline lines 235–259; Additional file 2 (MOESM2 DOCX text) UDiTaS protocol sections 3–13 (annealing, transposome, tagmentation, PCR1/2, AMPure, BluePippin, KAPA, MiSeq run sheet) and Appendix A oligo/barcode-read tables",
+      "oligo_scraper": "Bundle scraper re-run (49 TSV hits); Table 2 and Appendix A oligos read directly (OLI6380–6387, Tn5-A bottom, OLI5589, OLI5639–5650, OLI6062/6256/6253/6259); model N501/N701/OLI6062 match; AMP-seq OLI2909/2910 and amplicon-seq OLI4610/4611 are comparison assays.",
+      "findings": "Corrected repository read layout: Additional file 2 section 13 run sheet specifies Read 1 300, Index 1 8, Read 2 300, Index 2 18 (the model/note had no Read 2), and article pipeline aligns paired reads; added TruSeq Read 2 from the anchor tail. Appendix A 'i5 Barcode READ (Tx10 for UMI)' prints barcode then UMI (e.g. TAGATCGC+T10), so Index 2 is now an explicit grafted-P5 forward-strand (MiSeq) primer giving barcode cycles 1–8 and UMI 9–18, replacing the reverse-complement Nextera I2 (UMI-first) description. Read uses declared. Note gains source reaction details (annealing, Tn5 assembly, 55C 7min TAPS-DMF, PCR1 12 cycles with TMAC, PCR2 15 cycles, AMPure 0.9x, BluePippin 400–850 bp) and corrected the oligo-table citation (article Table 2/Appendix A, not 'Supplementary Table 1'). Typo UMi fixed.",
+      "deferred": [
+        "Cleanups and BluePippin 400–850 bp size selection not drawn as graph separations",
+        "Round-1 target-anchored intermediate not an exact Construct (PCRGeometry.unavailable)",
+        "Picelli 2014 Tn5 expression/Addgene 60240 original",
+        "MOESM3 Supplementary Figure 2 image content (primer/guide positions) not visually re-inspected",
+        "Modifications for T-cell TRAC/B2M and plasmid experiments; AMP-seq comparison protocol not modelled",
+        "editasmedicine/uditas analysis code (UMI/barcode parsing) not read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/5 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

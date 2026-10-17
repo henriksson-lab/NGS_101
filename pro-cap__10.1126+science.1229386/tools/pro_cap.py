@@ -31,9 +31,9 @@ RTP_2016 = 'G' + revcomp(il.TRUSEQ_SMALL_RNA_RA3)
 RP1_2016 = il.P5 + il.TRUSEQ_SMALL_RNA_RA5[:21]
 RPI_2016 = il.P7 + 'N'*6 + 'GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA'
 
-def _ligate_adapter(graph, end, template, state):
-    adapter = graph.input(end + '_adapter', end + ' RNA adapter', MaterialKind.ADAPTER)
-    ligase = graph.input(end + '_ligase', end + ' RNA ligase', MaterialKind.CATALYST)
+def _ligate_adapter(graph, end, template, state, adapter_label, ligase_label):
+    adapter = graph.input(end + '_adapter', adapter_label, MaterialKind.ADAPTER)
+    ligase = graph.input(end + '_ligase', ligase_label, MaterialKind.CATALYST)
     product = graph.product(end + '_product', end + '-adapter-ligated nascent RNA',
                             MaterialKind.MOLECULAR, state=state)
     graph.react(end + '_ligation', 'Ligate the ' + end + ' RNA adapter',
@@ -70,7 +70,9 @@ def protocol_graph():
     ligated3 = _ligate_adapter(graph, 'three_prime', enriched,
                               molecule('3-prime-adapter-ligated capped-or-uncapped RNA',
                                        (role('capped or uncapped nascent 5-prime end'), role('nascent RNA body'),
-                                        role('3-prime RNA adapter'))))
+                                        role('3-prime RNA adapter'))),
+                              'standard Illumina 3-prime RNA adapter (SOM; sequence/modifications unassigned)',
+                              'T4 RNA ligase I (NEB), 6 h 20C in the SOM first-ligation passage; PRO-cap changes only the adapter')
     enriched3 = graph.product('enriched_three_prime_ligated_rna', 'biotin-enriched 3-prime-adapter-ligated RNA', MaterialKind.MOLECULAR, state=ligated3.state)
     rejected3 = graph.product('rejected_three_prime_ligated_rna', 'unlabelled RNA removed after 3-prime ligation', MaterialKind.WASTE)
     graph.react('enrich_three_prime_ligated_rna', 'Re-enrich biotin-labelled RNA after 3-prime ligation', StepKind.AFFINITY_CAPTURE, ((ligated3, InputRole.TEMPLATE), (capture, InputRole.SELECTION)), (enriched3, rejected3))
@@ -89,23 +91,24 @@ def protocol_graph():
     ligated5 = _ligate_adapter(graph, 'five_prime', cap_selected,
                               molecule('PRO-cap RNA with both adapters',
                                        (role('5-prime RNA adapter'), role('nascent RNA body'),
-                                        role('3-prime RNA adapter'))))
+                                        role('3-prime RNA adapter'))),
+                              'standard Illumina 5-prime RNA adapters (SOM; sequence unassigned)',
+                              '5-prime ligation enzyme; not named in the original SOM')
     enriched5 = graph.product('enriched_five_prime_ligated_rna', 'biotin-enriched RNA with both adapters', MaterialKind.MOLECULAR, state=ligated5.state)
     rejected5 = graph.product('rejected_five_prime_ligated_rna', 'unlabelled RNA removed after 5-prime ligation', MaterialKind.WASTE)
     graph.react('enrich_five_prime_ligated_rna', 'Re-enrich biotin-labelled RNA after 5-prime ligation', StepKind.AFFINITY_CAPTURE, ((ligated5, InputRole.TEMPLATE), (capture, InputRole.SELECTION)), (enriched5, rejected5))
     graph.discard(rejected5, 'lacks the run-on biotin label')
-    rt_primer = graph.input('rt_primer', 'original standard Illumina RT primer; exact sequence unassigned', MaterialKind.OLIGO)
+    rt_primer = graph.input('rt_primer', 'original standard Illumina RT primer (25 pmol); exact sequence unassigned; excess also primes PCR', MaterialKind.OLIGO)
     rt = graph.input('reverse_transcriptase', 'source reverse-transcription enzyme', MaterialKind.CATALYST)
     cdna = graph.product('cdna', 'reverse-transcribed PRO-cap RNA', MaterialKind.MOLECULAR,
         state=Construct((role('original primer-derived region unassigned'),role('reverse-transcribed nascent RNA'),role('copied opposite adapter region unassigned')), name='PRO-cap first-strand cDNA'))
     graph.react('reverse_transcribe', 'Reverse-transcribe with original standard Illumina primer', StepKind.REVERSE_TRANSCRIPTION,
         ((enriched5,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(cdna,))
-    pcr_forward = graph.input('pcr_forward', 'original library PCR forward oligo; exact identity unassigned', MaterialKind.OLIGO)
-    pcr_reverse = graph.input('pcr_reverse', 'original library PCR reverse/index option; exact identity unassigned', MaterialKind.OLIGO)
+    pcr_reverse = graph.input('pcr_reverse', 'second PCR primer for PRO-cap; SOM names GX1 or RPI-index for PRO-seq, PRO-cap identity unassigned', MaterialKind.OLIGO)
     polymerase = graph.input('pcr_polymerase', 'Phusion polymerase (original SOM)', MaterialKind.CATALYST)
     library = graph.product('library', final.name, MaterialKind.LIBRARY, state=final)
-    graph.react('library_pcr', 'Amplify the original PRO-cap library', StepKind.PCR,
-        ((cdna,InputRole.TEMPLATE),(pcr_forward,InputRole.STRUCTURAL),(pcr_reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
+    graph.react('library_pcr', 'Amplify 12-18 cycles (trial PCR on an RT portion sets cycles); excess RT primer is one PCR primer', StepKind.PCR,
+        ((cdna,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),(pcr_reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
         geometry=PCRGeometry.unavailable(cdna.state,reason='The exact original standard Illumina RT/PCR oligos and selected indexing variant are unassigned; later comparator sequences are not substituted.'))
     page = graph.input('page_selection','source PAGE library purification',MaterialKind.SELECTION)
     purified = graph.product('purified_library',final.name,MaterialKind.LIBRARY,state=final)
@@ -119,5 +122,5 @@ def protocol_graph():
         'three_prime_adapter','three_prime_ligase','three_prime_ligation','enrich_three_prime_ligated_rna',
         'phosphatase','dephosphorylate','tap','decap','five_prime_adapter','five_prime_ligase','five_prime_ligation',
         'enrich_five_prime_ligated_rna','rt_primer','reverse_transcriptase','reverse_transcribe',
-        'pcr_forward','pcr_reverse','pcr_polymerase','library_pcr','library','page_selection','purified_library','purify_library'),source)
+        'pcr_reverse','pcr_polymerase','library_pcr','library','page_selection','purified_library','purify_library'),source)
     return graph.require_publishable()

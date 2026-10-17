@@ -346,5 +346,24 @@
       "evidence": "Defining article JATS Online Methods line 196 reports dual-index NextSeq 76×8×8×76 and cites 2015 modified primers; MOESM36 lists the v2 Ad1/Ad2 families, independently checked twice, but does not assign a barcode pair to any Fast-ATAC sample. The present source checklist does not establish a complete sample-to-index mapping."
     }
   ],
-  "conclusion": "Corrected prior repository transcription: Fast-ATAC used dual-index NextSeq 76×8×8×76 and the cited 2015 v2 Ad1/Ad2 primer families, not the previously drawn single-index 50-bp HiSeq construct. The exact sample-to-index assignments remain unresolved; no absence claim is accepted."
+  "conclusion": "Corrected prior repository transcription: Fast-ATAC used dual-index NextSeq 76×8×8×76 and the cited 2015 v2 Ad1/Ad2 primer families, not the previously drawn single-index 50-bp HiSeq construct. The exact sample-to-index assignments remain unresolved; no absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published-article PMC5042844 JATS text Online Methods 'Fast-ATAC sequencing' lines194–198 and refs 23/48 (lines436–438, 586–588); cited ref48 Buenrostro 2015 Curr Protoc PMC4374986 text lines100–169 (MinElute, PCR Amplification, qPCR side reaction, final MinElute); cited ref23 Buenrostro 2015 Nature MOESM36 Sheet1 lines6 (v2_Ad1.1) and 99 (v2_Ad2.1)",
+      "oligo_scraper": "Fast-ATAC bundle scraper run: 8 hits, all MOESM45 sgRNA spacers (HOXA9/non-targeting) or MOESM43 mutation names; no library oligo. v2_Ad1.1/v2_Ad2.1 page sequences matched letter-for-letter to ref23 MOESM36.",
+      "findings": "Corces Methods state only pellet (500 RCF 5 min 4C), 50 ul TD/TDE1/0.5 ul 1% digitonin, 37C 30 min 300 rpm, MinElute Reaction Cleanup (28204) 10 ul EB, amplification 'as described previously48 with modified primers23', qPCR quantification and NextSeq 76x8x8x76. Model corrected: cold pellet is a cleanup with supernatant discard rather than a separate permeabilization; digitonin/TD buffer is a tagmentation input; gap-fill/5 cycles/qPCR-chosen N/NEBNext HiFi/final MinElute now attributed to cited ref48 and drawn as qPCR side-sample, N-cycle continuation and final cleanup; caveat and note distinguish article statements from inherited workflow. No published discrepancy found (Reaction Cleanup vs PCR Purification kit is a protocol difference, not an error).",
+      "deferred": [
+        "Per-sample v2_Ad1/v2_Ad2 index assignment (not in inspected article/supplement text)",
+        "Whether Fast-ATAC libraries followed ref48 cycling exactly",
+        "Ref48 Basic Protocol transposition/lysis sections beyond PCR (not Fast-ATAC chemistry)",
+        "NIHMS804249 supplement-2.doc and MOESM39–44 tables beyond prior passes"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 2/2 pass; page builds; pairing 0 problems; chemistry 7 steps 0 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

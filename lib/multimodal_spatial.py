@@ -5,7 +5,8 @@ from dataclasses import dataclass
 
 from chemdraw import MolecularFeature, Row, Scene, Segment, feature, revcomp
 from pcr import PCRGeometry
-from protocol_graph import InputRole, MaterialKind, SequencingPlan, StepKind
+from protocol_graph import (Disposition, InputRole, MaterialKind, SequencingPlan,
+                            StepKind, Terminal)
 
 
 def overload_carriers(graph, template, *, prefix, state, bead_label,
@@ -42,11 +43,16 @@ def overload_carriers(graph, template, *, prefix, state, bead_label,
 
 
 def recover_and_redistribute_carriers(graph, template, *, prefix,
-                                      recovered_state, aliquoted_state):
+                                      recovered_state, aliquoted_state,
+                                      aliquot_remainder=None):
     """Break droplets, retain intact carriers, then repartition them into wells.
 
-    Cleanup and repartition each expose their rejected material rather than allowing it
-    to disappear from the protocol graph.
+    The emulsion-breaking cleanup exposes its rejected material.  Redistribution
+    returns one representative aliquot; the other aliquots are a second partition
+    output whose fate the helper does not invent.  By default they are recorded as
+    unfollowed molecular material with an unresolved terminal.  A caller whose source
+    states their fate passes ``aliquot_remainder=(label, disposition, reason)`` with a
+    :class:`protocol_graph.Disposition`; only ``Disposition.DISCARD`` makes them waste.
     """
     recovery_condition = graph.input(
         prefix + "_recovery_condition",
@@ -68,6 +74,15 @@ def recover_and_redistribute_carriers(graph, template, *, prefix,
         recovery_waste,
         "emulsion and bead material removed during intact-carrier recovery")
 
+    remainder_label, disposition, remainder_reason = aliquot_remainder or (
+        "other indexed aliquots (not followed in this representation)",
+        Disposition.UNRESOLVED,
+        "The model follows one representative aliquot; the fate of the other "
+        "aliquots is not asserted here.")
+    if not remainder_label or not str(remainder_reason).strip():
+        raise ValueError("an aliquot remainder needs a label and a reason")
+    if disposition not in (Disposition.DISCARD, Disposition.STORED, Disposition.UNRESOLVED):
+        raise ValueError("an aliquot remainder is discarded, stored or unresolved")
     aliquot_condition = graph.input(
         prefix + "_aliquot_condition", "aliquot redistribution condition",
         MaterialKind.CONDITION)
@@ -75,20 +90,19 @@ def recover_and_redistribute_carriers(graph, template, *, prefix,
         prefix + "_aliquoted",
         "droplet-barcoded carriers redistributed to indexed aliquots",
         MaterialKind.MOLECULAR, state=aliquoted_state)
-    aliquot_waste = graph.product(
-        prefix + "_aliquot_waste",
-        "carrier material outside the retained aliquot representation",
-        MaterialKind.WASTE)
+    discarded = disposition is Disposition.DISCARD
+    remainder = graph.product(
+        prefix + ("_aliquot_waste" if discarded else "_other_aliquots"), remainder_label,
+        MaterialKind.WASTE if discarded else MaterialKind.MOLECULAR,
+        state=None if discarded else aliquoted_state)
     graph.react(
         prefix + "_redistribute",
         "Mix recovered carriers and redistribute them into indexed aliquots",
         StepKind.PARTITION,
         ((recovered, InputRole.TEMPLATE),
          (aliquot_condition, InputRole.CONDITION)),
-        (aliquoted, aliquot_waste), changes_molecule=False)
-    graph.discard(
-        aliquot_waste,
-        "not represented among retained aliquot-indexed carrier molecules")
+        (aliquoted, remainder), changes_molecule=False)
+    graph.mark_terminal(Terminal(remainder.id, disposition, remainder_reason))
     reviewed = [
         recovery_condition.id, prefix + "_recover", aliquot_condition.id,
         prefix + "_redistribute",
@@ -99,24 +113,38 @@ def recover_and_redistribute_carriers(graph, template, *, prefix,
 def finish_pcr_branch(graph, prefix, template, final, primers, reviewed, *, label,
                       read_lengths=None, read_uses=None, inferred_primers=False,
                       limitation="The source defines the finished library but not one universal PCR-primer pair.",
-                      geometry=None):
+                      geometry=None, step_label=None,
+                      forward_label=None, reverse_label=None, polymerase_label=None,
+                      forward_state=None, reverse_state=None, primer_source=None):
     """PCR-complete and sequence one branch without duplicating endpoint logic.
 
     The caller remains responsible for every upstream molecular operation.  This helper
     centralizes the invariant common to multimodal protocols: each physical branch gets
     its own primer inputs, typed PCR step, library terminal and primer-derived readout.
+
+    The defaults name only roles ("forward PCR primer", "PCR-amplify ...") and claim
+    neither indexing nor a particular primer.  Callers name what their source prints
+    with ``step_label`` and the ``*_label`` arguments, and pass a printed primer as an
+    exact ``forward_state`` / ``reverse_state`` (with ``primer_source`` locating it)
+    so the source-oligo guard can check it.  An exact state contradicts
+    ``inferred_primers`` and is rejected.
     """
+    if inferred_primers and (forward_state is not None or reverse_state is not None):
+        raise ValueError(f"{prefix}: exact PCR primer states contradict inferred_primers=True")
     source = graph.authority + (" (endpoint primer sequence not declared in this model)" if inferred_primers else "")
-    forward = graph.input(prefix + "_forward", label + " forward PCR primer",
-                          MaterialKind.OLIGO, inferred=inferred_primers, source=source)
-    reverse = graph.input(prefix + "_reverse", label + " reverse PCR primer",
-                          MaterialKind.OLIGO, inferred=inferred_primers, source=source)
-    polymerase = graph.input(prefix + "_polymerase", label + " PCR polymerase",
+    primer_src = primer_source or source
+    forward = graph.input(prefix + "_forward", forward_label or label + " forward PCR primer",
+                          MaterialKind.OLIGO, state=forward_state,
+                          inferred=inferred_primers, source=primer_src)
+    reverse = graph.input(prefix + "_reverse", reverse_label or label + " reverse PCR primer",
+                          MaterialKind.OLIGO, state=reverse_state,
+                          inferred=inferred_primers, source=primer_src)
+    polymerase = graph.input(prefix + "_polymerase", polymerase_label or label + " PCR polymerase",
                              MaterialKind.CATALYST)
     library = graph.product(prefix + "_library", label + " sequencing library",
                             MaterialKind.LIBRARY, state=final,
                             inferred=inferred_primers, source=source)
-    graph.react(prefix + "_pcr", "Amplify and index the " + label + " branch",
+    graph.react(prefix + "_pcr", step_label or "PCR-amplify the " + label + " branch",
                 StepKind.PCR,
                 ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
@@ -244,7 +272,15 @@ def modality_split(*names: str) -> list[Row]:
 
 
 def adjacent_probe_scene() -> Scene:
-    """Adjacent probe halves on fixed RNA; Scene enforces the duplex geometry."""
+    """Generic adjacent two-half probe pair on fixed RNA; Scene enforces the duplex.
+
+    This is a schematic of the shared idea only: placeholder target arms with a
+    placeholder barcode on each half and no sequence constants.  It is not the
+    architecture of any particular assay (10x Flex, for example, carries its probe
+    barcode on one half only, beside printed constant regions; see that protocol's
+    local Scene).  A protocol that needs its real probe layout builds its own Scene
+    from its source.
+    """
     target = [Segment("target RNA left", "X" * 18, placeholder=True),
               Segment("target RNA right", "X" * 18, placeholder=True)]
     left = [Segment("left probe barcode", "L" * 12, "cbc", placeholder=True,

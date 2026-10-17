@@ -55,7 +55,7 @@ def tsa_workflow():
          "Stringent washes enrich fragments in proportion to their direct tyramide-biotin labelling; pulldown coverage is compared with the matched input."),
         ("Blunt-end and add one 3-prime dA to each end",
          da_tailed("dA-tailed TSA-seq pulldown DNA", "biotin-enriched genomic insert"),
-         "The dA-tailed pulldown fragment is the substrate for indexed-adapter ligation."),
+         "KAPA HyperPrep performs end repair and A-tailing in one reaction; the dA-tailed fragment is the substrate for indexed-adapter ligation."),
         ("Ligate six-base-indexed adapters and PCR for 8–16 cycles",
          molecule("single-index TSA-seq library", (
              role("P5 and Read 1 arm", inferred=True),
@@ -75,8 +75,18 @@ def tsa_protocol_graph(final, primers) -> ProtocolGraph:
         state=molecule("formaldehyde-fixed, permeabilized cells", (
             role("target nuclear compartment"), role("chromosomes at varying distances"))),
         primary=True)
+    peroxide = graph.input(
+        "peroxidase_quench", "1.5% H2O2 in CMF-PBS, 1 h RT; endogenous-peroxidase quench",
+        MaterialKind.CONDITION)
+    quenched = graph.product(
+        "quenched_cells", "fixed, permeabilized, peroxidase-quenched cells",
+        MaterialKind.MOLECULAR, state=cells.state)
+    graph.react(
+        "quench_peroxidase", "Quench endogenous peroxidases before immunostaining",
+        StepKind.QUENCHING,
+        ((cells, InputRole.TEMPLATE), (peroxide, InputRole.CONDITION)), (quenched,))
     antibody_hrp = graph.input(
-        "antibody_hrp", "compartment-specific primary antibody detection complex",
+        "antibody_hrp", "IgG block, primary antibody 20–24 h 4 °C, HRP-conjugated secondary 20–24 h 4 °C",
         MaterialKind.SELECTION)
     hrp = graph.input("hrp_catalyst", "antibody-localized horseradish peroxidase",
                       MaterialKind.CATALYST)
@@ -91,11 +101,11 @@ def tsa_protocol_graph(final, primers) -> ProtocolGraph:
     graph.react(
         "immunostain", "Immunostain the compartment marker and recruit HRP",
         StepKind.BINDING,
-        ((cells, InputRole.TEMPLATE), (antibody_hrp, InputRole.SELECTION)),
+        ((quenched, InputRole.TEMPLATE), (antibody_hrp, InputRole.SELECTION)),
         (localized, unstained))
     graph.discard(unstained, "does not carry the localized HRP source used for TSA labelling")
 
-    tyramide = graph.input("tyramide_biotin", "tyramide-biotin labelling reagent",
+    tyramide = graph.input("tyramide_biotin", "tyramide-biotin (8 mM stock diluted 1:5,000) with 0.003% H2O2, 10 min",
                            MaterialKind.MOLECULAR)
     labelled = graph.product(
         "labelled_chromatin", "distance-dependently biotin-labelled chromatin",
@@ -109,7 +119,7 @@ def tsa_protocol_graph(final, primers) -> ProtocolGraph:
         ((localized, InputRole.TEMPLATE), (tyramide, InputRole.STRUCTURAL),
          (hrp, InputRole.CATALYST)), (labelled,))
 
-    reversal = graph.input("crosslink_reversal", "cross-link reversal and DNA-purification condition",
+    reversal = graph.input("crosslink_reversal", "SDS/proteinase K lysis 55 °C 8–12 h; 0.2 M NaCl 65 °C 20–24 h; phenol–chloroform, RNase A, ethanol precipitation",
                            MaterialKind.CONDITION)
     purified = graph.product("purified_dna", "purified biotin-labelled genomic DNA",
                              MaterialKind.MOLECULAR, state=labelled.state)
@@ -135,7 +145,7 @@ def tsa_protocol_graph(final, primers) -> ProtocolGraph:
     graph.react("split_input", "Retain matched input before affinity purification",
                 StepKind.SPLIT, ((sheared, InputRole.TEMPLATE),),
                 (input_aliquot, capture_aliquot))
-    streptavidin = graph.input("streptavidin_beads", "streptavidin affinity beads",
+    streptavidin = graph.input("streptavidin_beads", "Dynabeads M-270 streptavidin in W&B buffer; stringent washes; proteinase K digestion with free biotin, phenol–chloroform, glycogen-carrier precipitation",
                               MaterialKind.SELECTION)
     captured = graph.product(
         "captured_dna", "streptavidin-enriched TSA-labelled DNA",
@@ -143,7 +153,7 @@ def tsa_protocol_graph(final, primers) -> ProtocolGraph:
         state=molecule("TSA-seq pulldown DNA", (
             role("random sonication end"), role("biotin-enriched genomic fragment"),
             role("random sonication end"))))
-    unbound = graph.product("unbound_dna", "unbound weakly labelled DNA", MaterialKind.WASTE)
+    unbound = graph.product("unbound_dna", "unbound DNA, predominantly unlabelled (paper estimates ~0.002–0.15% of fragments biotinylated)", MaterialKind.WASTE)
     graph.react(
         "streptavidin_capture", "Capture biotinylated fragments and release DNA",
         StepKind.AFFINITY_CAPTURE,
@@ -155,29 +165,21 @@ def tsa_protocol_graph(final, primers) -> ProtocolGraph:
         final, tuple(primers), tuple(p.role for p in primers),
         {"Read 1": 100, "Index 1 (i7)": 6})
     reviewed = [
-        "fixed_cells", "antibody_hrp", "hrp_catalyst", "immunostain", "tyramide_biotin",
+        "fixed_cells", "peroxidase_quench", "quench_peroxidase", "antibody_hrp", "hrp_catalyst", "immunostain", "tyramide_biotin",
         "tyramide_labelling", "crosslink_reversal", "reverse_crosslinks",
         "sonication", "sonicate", "split_input", "streptavidin_beads",
         "streptavidin_capture",
     ]
 
     def prepare(prefix: str, template, label: str):
-        repair = graph.input(prefix + "_repair_mix", label + " blunt-end repair mix",
-                             MaterialKind.CATALYST)
-        repaired = graph.product(prefix + "_repaired", label + " blunt-ended DNA",
-                                 MaterialKind.MOLECULAR, state=template.state)
-        graph.react(prefix + "_repair", "Blunt-end " + label + " DNA",
-                    StepKind.END_REPAIR,
-                    ((template, InputRole.TEMPLATE), (repair, InputRole.CATALYST)),
-                    (repaired,))
-        tailing = graph.input(prefix + "_tailing_enzyme", label + " dA-tailing enzyme",
-                              MaterialKind.CATALYST)
-        tailed = graph.product(prefix + "_tailed", label + " dA-tailed DNA",
+        erat = graph.input(prefix + "_erat_mix", label + " KAPA HyperPrep end repair and A-tailing enzyme mix",
+                           MaterialKind.CATALYST)
+        tailed = graph.product(prefix + "_tailed", label + " blunt-ended, 3-prime dA-tailed DNA",
                                MaterialKind.MOLECULAR,
                                state=da_tailed(label + " dA-tailed DNA", label + " genomic insert"))
-        graph.react(prefix + "_tail", "Add one 3-prime dA to each end",
+        graph.react(prefix + "_erat", "Blunt-end and 3-prime dA-tail " + label + " DNA in one ER & AT reaction",
                     StepKind.TAILING,
-                    ((repaired, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)),
+                    ((template, InputRole.TEMPLATE), (erat, InputRole.CATALYST)),
                     (tailed,))
         adapters = graph.input(prefix + "_adapters", label + " six-base-indexed adapters of unidentified supplier",
                                MaterialKind.ADAPTER, inferred=True)
@@ -190,25 +192,24 @@ def tsa_protocol_graph(final, primers) -> ProtocolGraph:
                     ((tailed, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL),
                      (ligase, InputRole.CATALYST)), (adapted,),
                     geometry=AdapterLigationGeometry.unavailable(
-                        "KAPA HyperPrep supplied the ligation chemistry but not adapters; the paper does not identify the adapter supplier, sequences or ligation geometry."))
+                        "KAPA HyperPrep supplied the ligation chemistry but not adapters; the kit sheet describes 3'-dTMP-overhang adapters generically, but the paper does not identify the adapter supplier, sequences or exact end geometry."))
         forward = graph.input(prefix + "_pcr_forward", label + " library PCR forward primer",
                               MaterialKind.OLIGO, inferred=True)
         reverse = graph.input(prefix + "_pcr_reverse", label + " library PCR reverse primer",
                               MaterialKind.OLIGO, inferred=True)
-        polymerase = graph.input(prefix + "_pcr_polymerase", label + " library PCR polymerase",
+        polymerase = graph.input(prefix + "_pcr_polymerase", label + " KAPA HiFi polymerase",
                                  MaterialKind.CATALYST)
         library = graph.product(prefix + "_library", label + " TSA-seq library",
                                 MaterialKind.LIBRARY, state=final, inferred=True)
-        graph.react(prefix + "_pcr", "PCR-amplify the " + label + " library",
+        graph.react(prefix + "_pcr", "PCR-amplify the " + label + " library for 8–16 cycles",
                     StepKind.PCR,
                     ((adapted, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                      (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                     (library,), geometry=PCRGeometry.unavailable(
-                        final, reason="The compatible Illumina endpoint is known, but the KAPA amplification-primer mix sequences are not printed in the paper or kit sheet."))
+                        final, reason="The paper names KAPA HiFi and 8–16 cycles but not the amplification primers; their sequences and binding sites are unassigned in this model."))
         graph.sequence(library, plan)
         reviewed.extend((
-            prefix + "_repair_mix", prefix + "_repair", prefix + "_tailing_enzyme",
-            prefix + "_tail", prefix + "_adapters", prefix + "_ligase",
+            prefix + "_erat_mix", prefix + "_erat", prefix + "_adapters", prefix + "_ligase",
             prefix + "_ligation", prefix + "_pcr_forward", prefix + "_pcr_reverse",
             prefix + "_pcr_polymerase", prefix + "_pcr", prefix + "_library",
         ))
@@ -233,7 +234,7 @@ def get():
         FINAL_CAPTION="One enriched genomic fragment inside a compatible single-index Illumina shell. Biotin enabled pulldown before library construction and is not a sequenced base. <inf>Adapter bases show compatible geometry; the actual ordered adapter oligos remain unidentified.</inf>",
         SEQ_PRIMERS=primers,
         READ_LENGTHS={"Read 1": 100, "Index 1 (i7)": 6},
-        SEQUENCING_INTRO="The defining libraries were sequenced for 101 instrument cycles and yielded 100-nt single-end genomic reads plus a six-base sample index. Read density in streptavidin pulldown versus input supplies the distance-dependent signal.",
+        SEQUENCING_INTRO="The paper reports 101 sequencing cycles on HiSeq 2000/2500/4000 and 100-nt reads per sample. INFERRED — a single-end genomic read and a 6-cycle index read are model choices from those counts and the 6-nt adaptor barcodes; the paper does not state the read mode or index-read cycles. Read density in streptavidin pulldown versus input supplies the distance-dependent signal.",
         SEQUENCING_ENDING="",
         SEQUENCING_UNAVAILABLE="",
     )

@@ -72,5 +72,25 @@
       "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
     }
   ],
-  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Crosetto et al. 2013 PMC3651036 JATS Results line 91, Online Methods lines 125 (linkers from Sigma, annealed in T4 ligase buffer), 131 (Quick Blunting, in situ T4 ligation, gDNA extraction, HaeIII fragmentation), 133 (MyOne C1 capture, distal ligation, I-SceI), 135 (Phusion P1/P3 PCR 18 cycles Ta55, gel purification, XhoI), 139 (TruSeq DNA Sample Prep Kit v2 without fragmentation/size selection, HiSeq 2000 TruSeq v3), 153 (read filtering), Fig. 1 legend line 443; published Springer Supplementary Information MOESM325 Supplementary Table 1 (text lines 455-690) and Supplementary Table 5 (page 12, text lines 1126-1199; rendered page inspected for cyan biotin and barcode/XhoI/I-SceI colouring)",
+      "oligo_scraper": "Bundle scraper run: L1/L2/L3 hits at MOESM325 lines 1137-1155 and NIHMS supplement-6 XLS lines 3-10 checked against the rendered published Table 5; line-1184 'P5' hit is a false concatenation of the P1-P5 column; lines 1215+ are Supplementary Table 6 ChIP/qPCR validation primers. L1/L3/P1/P3 match the model; biotin marked only by cyan on the 46th L1 base; no phosphate printed.",
+      "findings": "Corrected the graph: fragmentation is HaeIII digestion (catalyst), not a generic condition; removed the unsourced distal blunting step (distal linker added directly to captured beads; HaeIII cuts blunt); inserted the P1/P3 Phusion PCR (18 cycles, Ta 55 C) with exact primer states between I-SceI release and XhoI digestion (earlier graph cut with XhoI before PCR and used a generic amplify-and-index step); TruSeq DNA Sample Prep Kit v2 now a warned MAGIC kit boundary producing the inferred outer shell. Removed unsourced 75+6+75 read lengths; sequencing intro now states Supplementary Table 1 GAII SE / HiSeq PE modes with read lengths and index reads unstated. Removed /5Phos/ from displayed L1/L3 (not printed; linker phosphorylation not stated). Note corrected ([BtndT] wording was not in the source; published Springer supplement now the cited version).",
+      "deferred": [
+        "Illumina TruSeq DNA Sample Preparation Kit v2 original (end processing of XhoI-cut ends, adapters, PCR, index member)",
+        "Linker 5-prime phosphorylation and biotin linkage chemistry",
+        "Read lengths and index reads for GAII/HiSeq runs",
+        "L2 initial distal linker and Roche 454 P4/P5 branch not drawn",
+        "Exact I-SceI-cut linker remnants on the released template (PCR geometry unavailable)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 2/2 passed; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory with truseq_prep MAGIC warning; source guard 2 exact checked (P1, P3), 0 failed, 2 inputs without exact states; source audit check 1 blocked; Markdown built; review schema checked"
+    }
+  ]
 }

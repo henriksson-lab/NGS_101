@@ -129,15 +129,23 @@ def _gam_graph(spec):
                 ((profile, InputRole.TEMPLATE), (cap, InputRole.SELECTION)),
                 (isolated, rejected))
     graph.discard(rejected, "is not part of the individually indexed nuclear profile")
-    wga4 = graph.input("wga4_reagent", "Sigma WGA4 preparation reagent",
+    lysis = graph.input("wga4_lysis", "WGA4 proteinase K in single cell lysis and fragmentation buffer",
+                        MaterialKind.CATALYST)
+    lysed = graph.product("lysed", "deproteinized, fragmented nuclear-profile DNA",
+                          MaterialKind.MOLECULAR, state=profile.state)
+    graph.react("lyse", "Proteinase K lysis in the cap (50 °C, 4 h), then 99 °C for 4 min",
+                StepKind.DEPROTEINIZATION,
+                ((isolated, InputRole.TEMPLATE), (lysis, InputRole.CATALYST)), (lysed,))
+    wga4 = graph.input("wga4_reagent", "WGA4 library preparation buffer, stabilisation solution and library preparation enzyme",
                        MaterialKind.CONDITION, inferred=True,
                        source=source + " (commercial composition not disclosed)")
     prepared = graph.product("prepared", "WGA4-prepared nuclear-profile DNA",
                              MaterialKind.MOLECULAR,
                              state=nuclear_profile_scene("WGA4-prepared profile", amplified=True))
-    graph.react("prepare", "Lyse and prepare profile DNA with WGA4",
-                StepKind.EXTRACTION,
-                ((isolated, InputRole.TEMPLATE), (wga4, InputRole.CONDITION)), (prepared,))
+    graph.react("prepare", "WGA4 library preparation: 95 °C 4 min, then enzyme at 16/24/37 °C (20 min each) and 75 °C 5 min",
+                StepKind.MAGIC,
+                ((lysed, InputRole.TEMPLATE), (wga4, InputRole.CONDITION)), (prepared,),
+                reason="Methods give the reagent names, temperatures and times; the kit's adapter-attachment chemistry and adapter bases are proprietary, and only the 30-bp adaptor length at both ends is stated.")
     wga_f = graph.input("wga_forward", "WGA4 amplification primer", MaterialKind.OLIGO,
                         inferred=True, source=source + " (sequence proprietary)")
     wga_r = graph.input("wga_reverse", "WGA4 opposing amplification primer",
@@ -154,7 +162,7 @@ def _gam_graph(spec):
                 geometry=PCRGeometry.unavailable(
                     spec.FINAL_LIBRARY, reason="WGA4 adapter and primer sequences are proprietary."))
     reviewed = ["nucleus", "cryosection", "section", "capture_cap", "microdissect",
-                "wga4_reagent", "prepare", "wga_forward", "wga_reverse",
+                "wga4_lysis", "lyse", "wga4_reagent", "prepare", "wga_forward", "wga_reverse",
                 "wga_polymerase", "wga"]
     _finish_pcr(graph, amplified, spec, "library", reviewed,
                 "Build the indexed TruSeq GAM library")
@@ -169,15 +177,17 @@ def get():
         NOTES="01_gam.html",
         SOURCE='<a href="https://doi.org/10.1038/nature21411">Beagrie et al., <i>Nature</i> (2017)</a>; original WGA4 and TruSeq implementation.',
         SUMMARY="A random 220-nm cryosection through one fixed nucleus is laser-microdissected, whole-genome amplified and sequenced as its own indexed library. Loci that repeatedly occur in the same thin profiles are inferred to have been close in three-dimensional space.",
-        CAVEAT="GAM has no contact junction and no molecule-level complex barcode: association is statistical co-segregation across many separately indexed nuclear-profile libraries. <inf>The WGA4 adapter is known to occupy 30 bases at each genomic end, but its proprietary bases are not published.</inf>",
+        CAVEAT=("GAM has no contact junction and no molecule-level complex barcode: association is statistical co-segregation across many separately indexed nuclear-profile libraries. <inf>The WGA4 adapter is known to occupy 30 bases at each genomic end, but its proprietary bases are not published.</inf> "
+                "Read length: Methods say each pool was sequenced &ldquo;single end 100 bp&rdquo; with the first 30 cycles not imaged (dark cycles); they do not say whether the 30 dark cycles are inside or in addition to the 100. The model uses the printed 100-cycle Read 1 and does not decide how many genomic bases were imaged. "
+                "Published discrepancy (positive control only): the Isolation of nuclear profiles paragraph names WGA-amplified E14 mESC genomic DNA, while the Whole genome amplification paragraph adds 1 &micro;l human genomic DNA to an empty lid. The NP libraries modelled here are unaffected; the control's species is not resolved here."),
         oligos=lambda: (),
         workflow=gam_workflow,
         FINAL_LIBRARY=final,
         FINAL_CAPTION="A representative genomic piece from one nuclear profile, flanked by two proprietary 30-base WGA4 adapters inside a dual-index TruSeq library. The sample-index pair identifies the profile; it does not label contacts within a molecule. <inf>WGA4 adapter bases are undisclosed.</inf>",
         SEQ_PRIMERS=primers,
-        READ_LENGTHS={"Read 1": 130, "Index 1 (i7)": 8,
+        READ_LENGTHS={"Read 1": 100, "Index 1 (i7)": 8,
                           "Index 2 (i5)": 8},
-        SEQUENCING_INTRO="The original study used single-end sequencing: 30 initial Read 1 cycles traversing the known-length WGA4 adapter were run as dark cycles, followed by 100 imaged genomic cycles. Index reads demultiplex the nuclear-profile libraries; Read 2 was not used.",
+        SEQUENCING_INTRO="The original study sequenced pools of 96 libraries single-end 100 bp in HiSeq rapid-run mode; the first 30 Read 1 cycles, which traverse the known-length WGA4 adapter, were not imaged (dark cycles; whether they count within the 100 is not stated). Supplementary Table 1 lists 8-nt i7 and i5 indexes for every NP and negative-control library (TruSeq HT or Nano; acquired index cycles are not stated). Read 2 was not used.",
         SEQUENCING_ENDING="",
         SEQUENCING_UNAVAILABLE=""
     )

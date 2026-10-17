@@ -1,11 +1,11 @@
-"""Molecular construct model for scifi-ATAC-seq (Wang et al.)."""
+"""Molecular construct model for scifi-ATAC-seq (Zhang et al., Genome Biology 2024)."""
 from __future__ import annotations
 
 import illumina as il
 import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
-from pcr import PCRGeometry
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
@@ -18,22 +18,31 @@ SPACER_A = "GATATGTGATAATGAGGAC"
 SPACER_B = "TGAATGTGTAGAAGACAGA"
 BC_A_EXAMPLE = "CGTAT"
 BC_B_EXAMPLE = "TCGGA"
-I7_INDEX_READ = "TAAGGCGA"
+# The paper names no i7 set; CG000209 (Rev G inspected) says each Single Index Kit N
+# Set A well is a mix of four 8-nt index oligos, so the read is an unassigned placeholder.
+I7_INDEX_NT = 8
 R1_SEQ = nx.S5 + SPACER_A
 R2_SEQ = nx.S7 + SPACER_B
 I1_SEQ = revcomp(R2_SEQ)
 I2_SEQ = revcomp(R1_SEQ)
+TN5_A = feature("cell_tn5_a", "cell_barcode", "combinatorial", group="cell_id", part="Tn5 A")
+TN5_B = feature("cell_tn5_b", "cell_barcode", "combinatorial", group="cell_id", part="Tn5 B")
+SAMPLE_I7 = feature("sample_i7", "sample_index", "whitelist",
+                    whitelist="10x Single Index Kit N Set A (well not stated; four-oligo mix per well)")
+# CG000209 Rev G, Appendix oligo sequences, Step 4.1: SI-PCR Primer B is the 5'
+# 22 nt of P5; the Single Index N primer is P7 + 8-nt i7 + s7 (as printed).
+SI_PCR_PRIMER_B = il.P5[:22]
 
 
 def adapter_a() -> list[Segment]:
     return [seg("s5", nx.S5, "s5"), seg("spacer A", SPACER_A),
-            seg("Tn5 barcode A", "A" * 5, "cbc", placeholder=True),
+            seg("Tn5 barcode A", "A" * 5, "cbc", placeholder=True, feature=TN5_A),
             seg("mosaic end", nx.ME, "me")]
 
 
 def adapter_b() -> list[Segment]:
     return [seg("s7", nx.S7, "s7"), seg("spacer B", SPACER_B),
-            seg("Tn5 barcode B", "B" * 5, "cbc", placeholder=True),
+            seg("Tn5 barcode B", "B" * 5, "cbc", placeholder=True, feature=TN5_B),
             seg("mosaic end", nx.ME, "me")]
 
 
@@ -48,17 +57,18 @@ def bead_oligo() -> list[Segment]:
 def indexed_fragment(insert_nt: int = 28) -> Construct:
     return Construct([*adapter_a(), seg("accessible DNA", "X" * insert_nt, placeholder=True),
                       seg("opposite ME reverse complement", nx.ME_RC, "me"),
-                      seg("Tn5 barcode B reverse complement", "B" * 5, "cbc", placeholder=True),
+                      seg("Tn5 barcode B reverse complement", "B" * 5, "cbc", placeholder=True,
+                          feature=TN5_B),
                       seg("spacer B reverse complement", revcomp(SPACER_B)),
                       seg("s7 reverse complement", nx.S7_RC, "s7")],
                      name="A/B-indexed accessible fragment")
 
 
 SEQ_PRIMERS = (
-    sp.custom("Read 1", "scifi 1_Read1", R1_SEQ, "Wang et al. Table S1"),
-    sp.custom("Index 1 (i7)", "scifi 2_Index1(i7)", I1_SEQ, "Wang et al. Table S1"),
-    sp.custom("Index 2 (i5)", "scifi 3_Index2(i5)", I2_SEQ, "Wang et al. Table S1"),
-    sp.custom("Read 2", "scifi 4_Read2", R2_SEQ, "Wang et al. Table S1"),
+    sp.custom("Read 1", "scifi 1_Read1", R1_SEQ, "Zhang et al. 2024 Additional file 2 Table S1"),
+    sp.custom("Index 1 (i7)", "scifi 2_Index1(i7)", I1_SEQ, "Zhang et al. 2024 Additional file 2 Table S1"),
+    sp.custom("Index 2 (i5)", "scifi 3_Index2(i5)", I2_SEQ, "Zhang et al. 2024 Additional file 2 Table S1"),
+    sp.custom("Read 2", "scifi 4_Read2", R2_SEQ, "Zhang et al. 2024 Additional file 2 Table S1"),
 )
 
 
@@ -66,16 +76,16 @@ def final_library(insert_nt: int = 28) -> Construct:
     lib = Construct([
         *bead_oligo(), seg("spacer A", SPACER_A),
         seg("Tn5 barcode A", "A" * 5, "cbc", placeholder=True,
-            feature=feature("cell_tn5_a", "cell_barcode", "combinatorial", group="cell_id", part="Tn5 A")),
+            feature=TN5_A),
         seg("mosaic end", nx.ME, "me"),
         seg("accessible genomic DNA", "X" * insert_nt, placeholder=True),
         seg("opposite ME reverse complement", nx.ME_RC, "me"),
         seg("Tn5 barcode B reverse complement", "B" * 5, "cbc", placeholder=True,
-            feature=feature("cell_tn5_b", "cell_barcode", "combinatorial", group="cell_id", part="Tn5 B")),
+            feature=TN5_B),
         seg("spacer B reverse complement", revcomp(SPACER_B)),
         seg("s7 reverse complement", nx.S7_RC, "s7"),
-        seg("i7 sample index read", I7_INDEX_READ, "cbc",
-            feature=feature("sample_i7", "sample_index", "whitelist", whitelist="published i7 primer set")),
+        seg("i7 sample index read", "N" * I7_INDEX_NT, "cbc", placeholder=True,
+            feature=SAMPLE_I7),
         seg("P7 reverse complement", il.P7_RC, "p7"),
     ], name="scifi-ATAC-seq sequencing library")
     problems = sp.verify(lib, SEQ_PRIMERS)
@@ -88,14 +98,26 @@ def droplet_indexed_fragment(insert_nt: int = 28) -> Construct:
     return Construct([
         *bead_oligo(),seg("spacer A",SPACER_A),
         seg("Tn5 barcode A","A"*5,"cbc",placeholder=True,
-            feature=feature("cell_tn5_a","cell_barcode","combinatorial",group="cell_id",part="Tn5 A")),
+            feature=TN5_A),
         seg("mosaic end",nx.ME,"me"),seg("accessible genomic DNA","X"*insert_nt,placeholder=True),
         seg("opposite ME reverse complement",nx.ME_RC,"me"),
         seg("Tn5 barcode B reverse complement","B"*5,"cbc",placeholder=True,
-            feature=feature("cell_tn5_b","cell_barcode","combinatorial",group="cell_id",part="Tn5 B")),
+            feature=TN5_B),
         seg("spacer B reverse complement",revcomp(SPACER_B)),
         seg("s7 reverse complement",nx.S7_RC,"s7")],
         name="GEM-indexed scifi-ATAC fragment")
+
+
+def si_pcr_forward() -> Construct:
+    return Construct([seg("SI-PCR Primer B (P5 5' 22 nt)", SI_PCR_PRIMER_B, "p5")],
+                     name="10x SI-PCR Primer B")
+
+
+def si_pcr_reverse() -> Construct:
+    return Construct([seg("P7", il.P7, "p7"),
+                      seg("i7 sample index", "N" * I7_INDEX_NT, "cbc", placeholder=True,
+                          feature=SAMPLE_I7),
+                      seg("s7", nx.S7, "s7")], name="10x Single Index N i7 primer")
 
 
 def final_scene() -> Scene:
@@ -103,8 +125,9 @@ def final_scene() -> Scene:
 
 
 def protocol_graph() -> ProtocolGraph:
-    source=("Defining source: https://doi.org/10.1101/2023.09.17.558155; "
-            "droplet chemistry: 10x scATAC v1.1 guide")
+    source=("Defining source: Zhang et al., Genome Biology 25:90 (2024), "
+            "https://doi.org/10.1186/s13059-024-03235-5 (Additional files 1-2); "
+            "droplet chemistry: 10x CG000209 v1.1 guide (Rev E cited; Rev G inspected)")
     graph=ProtocolGraph("scifi-ATAC-seq",authority=source)
     nuclei=graph.input("nuclei","permeabilized nuclei",MaterialKind.BIOLOGICAL,primary=True)
     adapter_a_input=graph.input("adapter_a","Tn5 A barcode adapter",MaterialKind.ADAPTER,
@@ -150,9 +173,11 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.EXTENSION,
                 ((productive,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),
                  (polymerase,InputRole.CATALYST)),(extended,))
-    forward=graph.input("pcr_forward","P5-side sample-index PCR primer",MaterialKind.OLIGO)
-    reverse=graph.input("pcr_reverse","indexed P7-side sample-index PCR primer",
-                        MaterialKind.OLIGO)
+    vendor_oligos="10x CG000209 Rev G, Appendix oligo sequences, Protocol Step 4.1"
+    forward=graph.input("pcr_forward","P5-side sample-index PCR primer (SI-PCR Primer B)",
+                        MaterialKind.OLIGO,source=vendor_oligos,state=si_pcr_forward())
+    reverse=graph.input("pcr_reverse","indexed P7-side sample-index PCR primer (Single Index N)",
+                        MaterialKind.OLIGO,source=vendor_oligos,state=si_pcr_reverse())
     pcr_pol=graph.input("pcr_polymerase","sample-index PCR polymerase",MaterialKind.CATALYST)
     final=final_library()
     library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
@@ -160,8 +185,16 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.PCR,
                 ((extended,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
                  (reverse,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(library,),
-                geometry=PCRGeometry.unavailable(
-                    extended_state,reason="The page model establishes the P5 and s7 selection boundaries but does not transcribe both sample-index PCR oligos."))
+                geometry=PCRGeometry.exact(
+                    extended_state,
+                    PCRPrimer("SI-PCR Primer B",SI_PCR_PRIMER_B),
+                    PCRPrimer("Single Index N i7 primer",
+                              "".join(x.top for x in si_pcr_reverse()),
+                              anneal_nt=len(nx.S7)),
+                    statement=("CG000209 Rev G prints SI-PCR Primer B and the Single Index N "
+                               "primer; Primer B primes from the bead-added P5 and the i7 "
+                               "primer's s7 3' end anneals to the B-end s7, so only "
+                               "GEM-indexed A/B fragments are amplified.")))
     graph.sequence(library,SequencingPlan(
         library=final,primers=SEQ_PRIMERS,
         acquired_roles=("Read 1","Index 1 (i7)","Index 2 (i5)","Read 2"),
@@ -175,9 +208,9 @@ def protocol_graph() -> ProtocolGraph:
     graph.annotate(SourceDiscrepancy(
         target="tagment", title="A/B plate axes in the published Methods",
         claims=(
-            SourceClaim("Wang et al. main and Supplementary Methods, plate description",
+            SourceClaim("Zhang et al. Methods 'Indexed Tn5 tagmentation and pooling' and Supplementary Methods III.5-6",
                         "Place 12 A adapters by rows and 8 B adapters by columns."),
-            SourceClaim("Wang et al. Results, 96-well layout",
+            SourceClaim("Zhang et al. Results, two-sided barcode rationale",
                         "The plate has 8 rows by 12 columns, with 15 µL in 8 rows and 10 µL in 12 columns.")),
         model_choice="Twelve A adapters occupy columns and eight B adapters occupy rows.",
         evidence="That orientation fits the 8-by-12 plate and the published adapter counts.",

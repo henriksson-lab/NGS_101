@@ -160,5 +160,24 @@
       "evidence": "The original supplementary PDF cites Tables S1/S2 but ends before them; exact files and independent second reader remain outstanding."
     }
   ],
-  "conclusion": "Original-panel sequence absence cannot be accepted until original Tables S1/S2 are located and checked twice."
+  "conclusion": "Original-panel sequence absence cannot be accepted until original Tables S1/S2 are located and checked twice.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "NSF public manuscript bundle par.nsf.gov 10063217 (10063217.html.txt): main text 104-150, STARmap probe design 1113-1127, thin-section procedure 1128-1180, thick-tissue procedure 1240-1270, Fig. S1 legend 1386-1391, Fig. S3 legend 1437-1449, Fig. S16 text 1624-1626; PMC6339868 JATS checked only for identity/scraper",
+      "oligo_scraper": "Scraper on the defining JATS and NSF bundle: 0 sequences (Tables S1/S2 absent from the recovered files). Full-bundle run: 457 hits, all in the 2025 successor (PMC12648639 JATS, MOESM2/MOESM3), not used for the 2018 panel.",
+      "findings": "Split SNAIL step into hybridization (2X SSC/10% formamide, 40C overnight, unbound-probe waste) and T4 DNA ligase (Thermo EL0011, 1:50, RT 2h) circularization; named Phi29 (EP0094) 30C 2h with 250uM dNTP and 20uM aminoallyl-dUTP; separated 20mM AA-NHS acrylation from 4%/0.2% acrylamide/bis APS/TEMED embedding; Proteinase K 0.2mg/ml 37C 1h. Corrected rolony to primer-initiated circle-complement repeats (was labelled circle repeats), input RNA state without probes, SEDAL reading probe 5'P/3' InvT, decoder 8-nt 3'-OH and 2-base (sixteen decoders; four 1-base only in the 28-gene large-volume variant), and attached feature_barcode to the 5-base gene code. Page shows published discrepancy probe-design 20-25-nt halves (line 1118) vs Fig. S1A 19-25 nt, and states the thick-tissue route (embed/digest before ligation/RCA, 5'-amino primers, BSPEG9) is not drawn.",
+      "deferred": [
+        "Original Science Tables S1 (SNAIL probes) and S2 (SEDAL probes); manual URL https://pmc.ncbi.nlm.nih.gov/articles/instance/6339868/bin/NIHMS1001922-supplement-supplement.pdf (PMC gate) and the Science publisher supplement",
+        "Thick-tissue / 28-gene large-volume branch not drawn",
+        "1-nt flanking base of the 17-nt SEDAL unit and per-cycle dinucleotide assignment",
+        "Target-arm length (20-25 vs 19-25 nt)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2 checks pass; page builds; pairing 0 problems; chemistry 0 established/2 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 1 symbolic probe input without exact state; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

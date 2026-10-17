@@ -11,7 +11,7 @@ from __future__ import annotations
 import illumina as il
 import seqprimers as sp
 from batch_ngs import seg
-from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, revcomp
+from chemdraw import Construct, Scene, Segment, feature, revcomp
 
 
 UMI = feature("geomx_umi", "umi", "random")
@@ -64,13 +64,6 @@ def library():
     return lib, primers
 
 
-def _single_rows(con: Construct, label: str):
-    sc = Scene()
-    sc.strand("tag", list(con), label=label)
-    sc.labels("tag")
-    return sc.rows()
-
-
 def probe_rows():
     sc = Scene()
     sc.strand("probe", [
@@ -87,19 +80,3 @@ def final_rows(lib: Construct):
     sc = Scene.duplex(list(lib), label="GeoMx DSP library")
     sc.labels("top")
     return sc.rows()
-
-
-def workflow() -> Workflow:
-    wf = Workflow(MolecularState("Probe bound in fixed tissue", tuple(probe_rows())))
-    wf.react("Image the tissue, select an AOI and cleave its tags with patterned UV",
-             _single_rows(photocleaved_tag(), "collected AOI tag"),
-             name="Photocleaved tag in one collection well",
-             note="The 66-nt product retains SPR1(20), UMI(14), RTS ID(12) and SPR2(20); its i5/i7 spatial address is added per collection well, not in tissue.")
-    lib, _ = library()
-    wf.react("INFERRED — amplify 18 cycles with the well-specific GeoMx Seq Code pair",
-             final_rows(lib), name="Unique-dual-index library",
-             note="The manual establishes every region length and the standard Illumina run geometry. Canonical TruSeq bases are shown as inferred because the proprietary Seq Code and tag sequences are not printed.")
-    wf.react("Pool the plate and perform two successive 1.2× AMPure XP cleanups",
-             final_rows(lib), name="Purified pooled library",
-             note="Each unique i5+i7 pair retains the AOI/collection-well identity; the 12-nt RTS ID retains target identity and the 14-nt UMI supports molecule counting.")
-    return wf

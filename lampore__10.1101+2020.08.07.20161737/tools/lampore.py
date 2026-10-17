@@ -38,10 +38,16 @@ def _lampore_graph(source: str) -> ProtocolGraph:
     sample = g.input("sample", "extracted sample RNA", MaterialKind.BIOLOGICAL,
                      state=molecule("sample RNA", (role("viral and human RNA"),)),
                      primary=True)
-    primers = g.input("lamp_primers", "four multiplexed six-primer sets with one FIP barcode",
-                      MaterialKind.OLIGO)
-    enzymes = g.input("lamp_enzymes", "reverse transcriptase and strand-displacing polymerase",
-                      MaterialKind.CATALYST)
+    primers = g.input("lamp_primers",
+                      "10x pool of four six-primer sets with one barcoded FIP per target "
+                      "(HPLC-purified; actin primers at lower concentration)",
+                      MaterialKind.OLIGO, source=PREPRINT)
+    enzymes = g.input("lamp_enzymes", "2x LAMP Master Mix (NEB E1700)",
+                      MaterialKind.CATALYST, source=PREPRINT)
+    lamp_condition = g.input("lamp_condition",
+                             "25 µl 2x mix + 5 µl primer pool + 20 µl RNA; 65 °C for 35 min, then 80 °C "
+                             "for 5 min (JCM summarises 65–80 °C, 40 min)",
+                             MaterialKind.CONDITION, source=PREPRINT)
     lamp = g.product("lamp_product", "sample-barcoded multiplex RT-LAMP concatemers",
                      MaterialKind.MOLECULAR,
                      state=lamp_product("ORF1a, E, N or ACTB target-derived DNA",
@@ -49,18 +55,26 @@ def _lampore_graph(source: str) -> ProtocolGraph:
     g.react("rt_lamp", "Amplify four targets and repeatedly copy the FIP barcode",
             StepKind.EXTENSION,
             ((sample, InputRole.TEMPLATE), (primers, InputRole.STRUCTURAL),
-             (enzymes, InputRole.CATALYST)), (lamp,))
-    pool_condition = g.input("pool_condition", "pool eight FIP-barcoded reactions by column",
-                             MaterialKind.CONDITION)
+             (enzymes, InputRole.CATALYST), (lamp_condition, InputRole.CONDITION)), (lamp,),
+            source=PREPRINT)
+    pool_condition = g.input("pool_condition",
+                             "pool the eight FIP-barcoded reactions of each plate column "
+                             "(12 column pools)",
+                             MaterialKind.CONDITION, source=PREPRINT)
     pooled = g.product("pooled_lamp", "column pool of eight FIP-barcoded reactions",
                        MaterialKind.MOLECULAR, state=lamp.state)
     g.react("pool", "Pool the eight FIP-barcoded reactions in each column", StepKind.GENERIC,
             ((lamp, InputRole.TEMPLATE), (pool_condition, InputRole.CONDITION)), (pooled,),
             changes_molecule=False)
-    rapid = g.input("rapid_barcode_adapter", "one of twelve loaded rapid barcode transposomes",
+    rapid = g.input("rapid_barcode_adapter",
+                    "one of twelve SQK-RBK004 rapid barcodes (2.5 µl with 1 µl column pool "
+                    "in 10 µl)",
                     MaterialKind.ADAPTER, inferred=True,
-                    source=source + " (commercial barcode and tag bases not disclosed)")
-    transposase = g.input("transposase", "rapid-barcode transposase", MaterialKind.CATALYST)
+                    source=PREPRINT + " (commercial barcode and tag bases not disclosed)")
+    transposase = g.input("transposase", "rapid-barcode transposase (in the kit barcode)",
+                          MaterialKind.CATALYST, source=PREPRINT)
+    rapid_condition = g.input("rapid_condition", "30 °C for 2 min, then 80 °C for 2 min",
+                              MaterialKind.CONDITION, source=PREPRINT)
     tagged = g.product("tagged", "rapid-barcoded LAMP fragments", MaterialKind.MOLECULAR,
                        state=molecule("rapid-barcoded LAMP fragment", (
                            role("rapid barcode", tag="cbc", molecular_feature=LAMPORE_RAPID_FEATURE),
@@ -72,31 +86,66 @@ def _lampore_graph(source: str) -> ProtocolGraph:
     g.react("rapid_barcode", "Fragment and add the second, rapid barcode",
             StepKind.TAGMENTATION,
             ((pooled, InputRole.TEMPLATE), (rapid, InputRole.STRUCTURAL),
-             (transposase, InputRole.CATALYST)), (tagged, waste))
+             (transposase, InputRole.CATALYST), (rapid_condition, InputRole.CONDITION)),
+            (tagged, waste))
     g.discard(waste, "does not carry the productive rapid-adapter attachment end")
-    motor = g.input("motor_adapter", "motor-loaded rapid sequencing adapter",
+    pooled_all = g.product("pooled_library", "single pool of all rapid-barcoded columns",
+                           MaterialKind.MOLECULAR, state=tagged.state, inferred=True,
+                           source=PREPRINT)
+    g.react("pool_all", "Pool all rapid-barcoded columns into one library without normalization",
+            StepKind.GENERIC, ((tagged, InputRole.TEMPLATE),), (pooled_all,),
+            changes_molecule=False, source=PREPRINT + "; " + JCM)
+    beads = g.input("bead_cleanup",
+                    "0.8x AMPure beads, fresh 80% ethanol wash, elution in 15 µl EB",
+                    MaterialKind.CONDITION, source=PREPRINT)
+    cleaned = g.product("cleaned_library", "bead-purified pooled library",
+                        MaterialKind.MOLECULAR, state=tagged.state, inferred=True,
+                        source=PREPRINT)
+    cleanup_waste = g.product("cleanup_waste", "material not retained by the bead cleanup",
+                              MaterialKind.WASTE, source=PREPRINT)
+    g.react("cleanup", "0.8x AMPure cleanup of the pooled library", StepKind.CLEANUP,
+            ((pooled_all, InputRole.TEMPLATE), (beads, InputRole.CONDITION)),
+            (cleaned, cleanup_waste), source=PREPRINT)
+    g.discard(cleanup_waste, "not retained by the magnetic bead cleanup")
+    motor = g.input("motor_adapter", "1 µl rapid adapter (RAP) with 11 µl eluate",
                     MaterialKind.ADAPTER, inferred=True,
-                    source=source + " (motor-adapter bases not disclosed)")
+                    source=PREPRINT + " (motor-adapter bases not disclosed)")
+    motor_condition = g.input("motor_condition", "5 min at room temperature",
+                              MaterialKind.CONDITION, source=PREPRINT)
     library = g.product("library", "motor-adapted LamPORE library", MaterialKind.LIBRARY,
                         state=LAMPORE_LIBRARY, inferred=True,
                         source=source + " (commercial adapter bases not disclosed)")
     g.react("attach_motor", "Attach the motor-loaded sequencing adapter",
             StepKind.ADAPTER_ATTACHMENT,
-            ((tagged, InputRole.TEMPLATE), (motor, InputRole.STRUCTURAL)), (library,))
+            ((cleaned, InputRole.TEMPLATE), (motor, InputRole.STRUCTURAL),
+             (motor_condition, InputRole.CONDITION)), (library,),
+            source=PREPRINT,
+            reason=("Preprint Methods add RAP after the AMPure cleanup; the attachment "
+                    "chemistry and adapter bases are commercial and not disclosed."))
     g.sequence(library, motor_sequencing_plan(
         LAMPORE_LIBRARY,
-        limitation="Commercial rapid barcode, attachment tag and motor-adapter bases are unpublished.",
+        limitation=("Commercial rapid barcode, attachment tag and motor-adapter bases are "
+                    "unpublished. Preprint Methods: one MinION flow cell, 1 h (JCM: on a "
+                    "GridION, 60 min). Calls: invalid <50 classified reads; negative <20, "
+                    "inconclusive 20–49, positive >=50 SARS-CoV-2 reads."),
         read_uses={"Nanopore strand": "extract_then_include"}))
     g.declare_reviewed_scope((
-        "sample", "lamp_primers", "lamp_enzymes", "rt_lamp", "pool_condition", "pool",
-        "rapid_barcode_adapter", "rapid_barcode", "transposase", "motor_adapter",
+        "sample", "lamp_primers", "lamp_enzymes", "lamp_condition", "rt_lamp",
+        "pool_condition", "pool", "rapid_barcode_adapter", "rapid_barcode", "transposase",
+        "rapid_condition", "pool_all", "bead_cleanup", "cleanup", "motor_adapter",
+        "motor_condition",
         "attach_motor", "library"), source)
     return g.require_publishable()
 
 
 
+PREPRINT = ('<a href="https://doi.org/10.1101/2020.08.07.20161737">James et al., '
+            '<i>medRxiv</i> (2020) v3</a>, Methods 1')
+JCM = ('<a href="https://doi.org/10.1128/JCM.03271-20">Peto et al., <i>J Clin Microbiol</i> '
+       '(2021)</a>, Methods (LamPORE protocol 1 July 2020, v1 rev4)')
 source = ('<a href="https://doi.org/10.1101/2020.08.07.20161737">'
-          'James et al., <i>medRxiv</i> (2020)</a>.')
+          'James et al., <i>medRxiv</i> (2020)</a> (defining preprint v3, Methods 1–2) and '
+          + JCM + '.')
 spec = SimpleNamespace(
     TITLE="LamPORE — barcoded RT-LAMP with Nanopore readout",
     NOTES="01_lampore.html", SOURCE=source,

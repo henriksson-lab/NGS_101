@@ -133,5 +133,25 @@
       "discovered_from": "paper analysis discussion",
       "next_action": "Original linked repository scope check pending; not excluded from referring article alone."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Methods 170 (2020) author-hosted PDF (journal VoR header) .pdf.txt lines 300\u2013330 (\u00a72.3\u20132.4 enzymes/software links), 470\u2013845 (\u00a74.1\u20134.8 fixation, lysis, RE1 digest, first ligation, Prot K reversal/P-bead purification, RE2 digest, dilute second ligation, template purification; \u00a75.1\u20135.2 primer test, 16-cycle PCR1 with Expand Long Template, pooled 50-\u00b5l aliquot 0.8x AMPure, 20-cycle 60\u00b0C PCR2 on 5 \u00b5l, QIAquick; \u00a76 sequencing/pooling), 1220\u20131240 (\u00a78 self-ligation/undigested byproducts), 1516\u20131518 (Appendix A); Appendix A supplementary data from Elsevier CDN for PII S1046202318304742: mmc2.pdf (Supplemental figure 1) and mmc3.pdf (Supplemental figure 2), rendered text read whole",
+      "oligo_scraper": "Fresh bundle scraper: 3 hits (reading tail line391, non-reading tail line436 wrapped at TCT, Table 3 Mccc1 viewpoint primer pair line950); supplementary figures have no oligo hits. Table 1 remains raster (prior visual reads retained, not repeated).",
+      "findings": "No chemistry change: declared step order, enzymes (DpnII/Csp6I example), T4 ligase, Prot K reversal, P-bead purifications, Expand Long Template two-stage PCR (16 then 20 cycles), 0.8x AMPure and QIAquick cleanups, source tails/universal forward and single-read 50/75 nt with 6-nt index agree with \u00a74\u20136. Appendix A supplement (previously pending, not reached by get_sources) obtained by hand: Supplemental figures 1 (pipe4C vs 4Cseqpipe modules) and 2 (read-depth coverage/correlation) are data-analysis only, with no oligos, conditions or library structure. Note and ref/MANIFEST updated to record the inspected supplement.",
+      "deferred": [
+        "pipe4C repository (github.com/deLaatLab/pipe4C) \u2014 demultiplex/trim rules beyond paper \u00a77",
+        "peakC repository (github.com/deWitLab/peakC)",
+        "Historical Illumina Index Adapters Pooling Guide revision (current v17 only)",
+        "PCR1 pooled-remainder storage (\u221220\u00b0C) and PCR2 5-\u00b5l input fraction not drawn as fates",
+        "Selected viewpoint arms, spacer and sample index (experiment-specific)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2/2 pass; page build pass; pairing 0 problems; chemistry 0 established/1 conditional/12 unresolved/0 contradictory; source guard 0 exact checked, 2 oligo inputs without exact states; Markdown built (note+MANIFEST); review schema checked"
+    }
   ]
 }

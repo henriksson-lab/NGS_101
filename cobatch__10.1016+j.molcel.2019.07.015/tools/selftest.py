@@ -16,4 +16,9 @@ if have(c,source,label="original published Table S1 oligos"):
     c("source-modified common ME bottom", "5Phos/"+M.TN5_ME_REV,rows["common annealing primer"])
     c("i5 PCR endpoint arms",M.il.P5+"TAGATCGC"+M.nx.S5,rows["i5-N501"])
     c("i7 PCR endpoint arms",M.il.P7+"TCGCCTTA"+M.nx.S7,rows["i7-N701"])
+geo=Source(bundle/"geo-GSM3705255-self-quick.txt","GEO GSM3705255 sample record (acc.cgi?acc=GSM3705255&targ=self&form=text&view=quick)")
+if have(c,geo,label="author-deposited GEO split cycles"):
+    text=geo.path.read_text()
+    c("GEO split cycles transcribed",
+      f"cut the first {M.GEO_SPLIT_CYCLES['Read 1']} bp of the read1 and the first {M.GEO_SPLIT_CYCLES['Read 2']} bp of the read2" in text)
 c.report()

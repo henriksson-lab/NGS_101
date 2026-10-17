@@ -139,5 +139,25 @@
       "evidence": "EF147/EF91 and tag members are printed in supplement; vendor kit oligos remain unresolved."
     }
   ],
-  "conclusion": "EF147/EF91 and tag members are printed in supplement; vendor kit oligos remain unresolved."
+  "conclusion": "EF147/EF91 and tag members are printed in supplement; vendor kit oligos remain unresolved.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nat Biotechnol author manuscript PMC10549956 JATS (PMC Cloud) Methods text lines106–108 (PAC-tag/RD1 cloning, EF79 PDT handle), 136–148 (staining/fixation/lysis, 10x loading, linear PCR, MyOne silane cleanup, 5/35 µl split, PDT PCR, double-sided SPRI, indexing PCR, 2×34 NextSeq 550), 154–156 (PDT processing); published MOESM1 Supplementary Table 1 lines10–193 (EF147 l.77, EF91 l.81, EF77–79, EF170) and Supplementary Table 4 lines1174–1246 (CDR3 barcodes, R1/R3)",
+      "oligo_scraper": "Scraper run on MOESM1 text; --find EF91 1 exact hit at MOESM1 line81; Table 4 R3 barcodes (15) all begin with the EF91 3' handle, PH-C/PH-D (R1) do not.",
+      "findings": "Published article and supplements fetched (get_sources --doi) and moved into the slug source dir; active claims moved off the superseded preprint. Replaced the shared _finish_pcr role recipe with local branches: MyOne silane cleanup, 5 µl PDT / 35 µl ATAC split, PDT PCR EF147+EF91 (KAPA, 20 cycles) with explicit oligo states, double-sided SPRIselect 65/192 µl with waste fates, indexing PCR (10x Amp-Mix, SI-PCR Primer B, i7; 6 cycles), 120 µl SPRIselect; ATAC branch PCR attributed to the unread 10x vendor protocol. Removed the shared fixed 8-nt SAMPLE role; local i7 sample-index feature without length. Read layout 2×34 (Read 1/Read 2) recorded; index cycles not stated. PDT library role order marked inferred. EF91 is uppercase in the published table (preprint lower-case tract is a revision difference, not a discrepancy).",
+      "deferred": [
+        "Chromium Single Cell ATAC Solution guide (version-matched bead oligo, SI-PCR Primer B, i7 primers, ATAC library steps)",
+        "PMC NIHMS Integrated supplementary information PDF (download-gated; publisher MOESM1 read instead)",
+        "MOESM2/MOESM3 image-only source-data PDFs",
+        "Exact PDT template junctions after bead capture of PAC-tag RD1",
+        "Acquired index-read cycles"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (workflow construction, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory; source guard 2 exact checked (EF147, EF91), 0 failed, 6 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

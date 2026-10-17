@@ -17,7 +17,7 @@
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Author 2018 bioRxiv preprint PDF lines 53–57, 106–143, 154–166",
+        "locations": "Author 2018 bioRxiv preprint PDF lines 53\u201357, 106\u2013143, 154\u2013166",
         "finding": "TAPS oxidizes 5mC/5hmC to 5caC with TET then reduces with pic-borane to a thymine-read form; not a bisulfite degradation route."
       }
     },
@@ -30,13 +30,13 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Supplement oligo table around lines 489–514 and methods around 524–588; scraper source hits verified",
+        "locations": "Supplement oligo table around lines 489\u2013514 and methods around 524\u2013588; scraper source hits verified",
         "finding": "Publisher supplement prints uracil linker and TruSeq universal/index 6 adapter sequences."
       },
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Published supplementary PDF Methods/oligos lines 489–588",
+        "locations": "Published supplementary PDF Methods/oligos lines 489\u2013588",
         "finding": "Prints modified model DNA, TruSeq adapter/index-6 oligos, P5/P7 primers and spike-in construction; test oligos are distinct from any undisclosed genomic library adapter member choice."
       }
     },
@@ -74,7 +74,7 @@
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Author bioRxiv supplement PDF early Methods lines 1–90 and Table S2/S3 references",
+        "locations": "Author bioRxiv supplement PDF early Methods lines 1\u201390 and Table S2/S3 references",
         "finding": "Preprint supplement has control/spike-in methods and directs to Table S2/S3 oligos; publisher supplement is the later source version."
       }
     },
@@ -87,7 +87,7 @@
       "pass_1": {
         "reviewer": "audit_vendor_links",
         "date": "2026-10-16",
-        "locations": "Whole TAPS source-bundle oligo scraper; direct publisher article URL returned identity-provider authorization; PubMed PMID 30804537 abstract and metadata; original Springer MOESM1 methods/oligo table text lines 489–588; Oxford ORA accepted-manuscript record UUID 91d3f09f-9c55-497b-9dc2-103420db9343",
+        "locations": "Whole TAPS source-bundle oligo scraper; direct publisher article URL returned identity-provider authorization; PubMed PMID 30804537 abstract and metadata; original Springer MOESM1 methods/oligo table text lines 489\u2013588; Oxford ORA accepted-manuscript record UUID 91d3f09f-9c55-497b-9dc2-103420db9343",
         "finding": "Original supplements print specific adapter and substrate oligos, but the published main article full text remains unread. PubMed abstract and author preprint do not prove that all final publication wording or variant choices match the preprint."
       },
       "pass_2": {
@@ -102,20 +102,20 @@
       "id": "oxford_accepted_manuscript",
       "role": "linked_material",
       "discovered_from": "published_article",
-      "locator": "University of Oxford ORA record https://ora.ox.ac.uk/objects/uuid%3A91d3f09f-9c55-497b-9dc2-103420db9343, file listed as “TAPS nbt final.pdf” (accepted manuscript, 3.3 MB)",
+      "locator": "University of Oxford ORA record https://ora.ox.ac.uk/objects/uuid%3A91d3f09f-9c55-497b-9dc2-103420db9343, file listed as \u201cTAPS nbt final.pdf\u201d (accepted manuscript, 3.3 MB)",
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Institutional record and file title are indexed, but the record returns HTTP 403 to the web reader and no file URL/content could be obtained; local fetcher DNS is unavailable. It is an accepted manuscript, not the version of record.",
       "pass_1": {
         "reviewer": "audit_vendor_links",
         "date": "2026-10-16",
-        "locations": "Oxford ORA indexed record title, file listing “TAPS nbt final.pdf”, copyright/version note, UUID and DOI; direct ORA web open HTTP 403; ORA OAI-PMH record URL inaccessible; title/file search produced no direct PDF URL",
+        "locations": "Oxford ORA indexed record title, file listing \u201cTAPS nbt final.pdf\u201d, copyright/version note, UUID and DOI; direct ORA web open HTTP 403; ORA OAI-PMH record URL inaccessible; title/file search produced no direct PDF URL",
         "finding": "Author institutional archive lists a 3.3 MB accepted manuscript deposited 2019-01-22, but its actual PDF could not be read. It remains a recovery lead, not evidence for final published chemistry."
       },
       "pass_2": {
         "reviewer": "audit_sci_hic",
         "date": "2026-10-16",
-        "locations": "Whole TAPS source-bundle oligo scraper first; ORA indexed record UUID 91d3f09f-9c55-497b-9dc2-103420db9343 and its Access Document file listing “TAPS nbt final.pdf” (3.3 MB, accepted manuscript) inspected; direct ORA record opened independently 2026-10-16, HTTP 403; independent exact-title/file search found no retrievable PDF.",
+        "locations": "Whole TAPS source-bundle oligo scraper first; ORA indexed record UUID 91d3f09f-9c55-497b-9dc2-103420db9343 and its Access Document file listing \u201cTAPS nbt final.pdf\u201d (3.3 MB, accepted manuscript) inspected; direct ORA record opened independently 2026-10-16, HTTP 403; independent exact-title/file search found no retrievable PDF.",
         "finding": "ORA record confirms an accepted-manuscript PDF exists but its actual pages and chemistry cannot be inspected. It is a linked recovery lead, not proof of the version-of-record wording; absence/variant claims remain blocked."
       }
     }
@@ -131,7 +131,7 @@
     "pass_2": {
       "reviewer": "second_pass_d_e",
       "date": "2026-10-16",
-      "locations": "Author 2018 bioRxiv preprint PDF lines 53–57, 106–143, 154–166; Published supplementary PDF Methods/oligos lines 489–588; Published MOESM2 PDF first pages and reporting-summary headings; Author bioRxiv supplement PDF early Methods lines 1–90 and Table S2/S3 references",
+      "locations": "Author 2018 bioRxiv preprint PDF lines 53\u201357, 106\u2013143, 154\u2013166; Published supplementary PDF Methods/oligos lines 489\u2013588; Published MOESM2 PDF first pages and reporting-summary headings; Author bioRxiv supplement PDF early Methods lines 1\u201390 and Table S2/S3 references",
       "finding": "Independently read accessible defining/linked sources. Remaining listed original supplements, predecessors or detailed protocols are unavailable and keep missing-information claims blocked."
     },
     "followup_2026_10_16": {
@@ -148,5 +148,23 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Original Springer supplements and author preprint are readable; the Nature Biotechnology version-of-record full text remains inaccessible. Oxford ORA lists an author accepted manuscript but its file cannot be read here. Final article/supplement variant agreement remains blocked; no missing-information claim is accepted."
+  "conclusion": "Original Springer supplements and author preprint are readable; the Nature Biotechnology version-of-record full text remains inaccessible. Oxford ORA lists an author accepted manuscript but its file cannot be read here. Final article/supplement variant agreement remains blocked; no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Supplementary Information s41587-019-0041-2 MOESM1 pdf.txt Supplementary Note 7 lines924-1059 (reagents, sample prep, KAPA Hyper library prep with adapter oligos 985-997, mTet1 oxidation, pyridine borane, library amplification) and Supplementary Note 2 lines474-590; Oxford ORA accepted manuscript 'TAPS nbt final.pdf' (hand-fetched to ora_TAPS_nbt_final_AAM.pdf, md5 612215f6..., manifest row added) Methods lines1845-1920 (mTet1 oxidation, pic-/pyridine borane) and 2240-2350 (whole-genome, low-input, cfDNA TAPS; PE80 NextSeq 500). Scraper run on bundle incl. AAM: hits are Supplementary Note 2/3 model/spike-in/qPCR oligos; genomic adapter pair read directly in Note 7 text. Published typeset article paywalled, not read; preprint superseded, not used.",
+      "findings": "Ligated state corrected: previously drawn as the final P5/P7 library; now the forked Note 7 adapter (top 33-nt oligo with 3'-T, /5Phos/ 20-nt bottom, 12-bp stem, unpaired forks) on both ends with exact ligation junctions; adapter input drawn with full oligos and 5'-phosphate. Final library P5, i7-side extension, i7 and P7 marked INFERRED (NEBNext primers unprinted) with caveat and step caption. Added Covaris sonication with spike-ins, 0.55-1X AMPure 200-400 bp selection, KAPA Hyper KK8504 end-repair/A-tailing, 30-min ligation and post-ligation clean-up, two-round mTet1CD oxidation with proteinase K and P-30/1.8X AMPure, 1 M pyridine borane 16 h with Zymo-IC, 5-cycle KAPA HiFi HotStart Uracil+ PCR and 1X AMPure, all waste fates; reads PE80 (index cycles not stated). Page shows discrepancy: AAM Methods 'KAPA HyperPlus' vs published Note 7 'KAPA Hyper Prep KK8504'; model uses Note 7.",
+      "deferred": [
+        "NEBNext Multiplex Oligos for Illumina E7335S original (universal/index primer sequences, chosen indices)",
+        "Typeset published Methods (paywalled; whether 'HyperPlus' wording is retained)",
+        "KAPA Hyper Prep KK8504 technical data sheet (end-repair/A-tailing/ligation chemistry)",
+        "Acquired index-read cycles"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1 check pass; page builds; pairing 0 problems; chemistry 2 established/7 conditional/12 unresolved/0 contradictory; source guard 2 exact checked (Note 7 adapter oligos), 0 failed, PCR primers inferred without exact states; sctaps selftest 3 pass; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

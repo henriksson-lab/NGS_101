@@ -150,5 +150,25 @@
       "evidence": "Custom Tn5 ends are printed, commercial index choice needs versioned vendor source and second reader."
     }
   ],
-  "conclusion": "Custom Tn5 ends are printed, commercial index choice needs versioned vendor source and second reader."
+  "conclusion": "Custom Tn5 ends are printed, commercial index choice needs versioned vendor source and second reader.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC7652380 JATS CHANGE-seq Methods line 172 (tagmentation to 400 bp, Kapa HiFi Uracil+ gap repair, USER/T4 PNK, T4 ligase circularization at 5 ng/ul, exonuclease cocktail, 90 nM Cas9 + 270 nM sgRNA on 125 ng circles, proteinase K, A-tailing, NEB hairpin adapter, USER, Kapa HiFi PCR, 150 bp PE on MiSeq or NextSeq 550); Supplementary Protocol MOESM1 text reagent setup lines 100-130 (oCRL225/oCRL226, annealing, transposome assembly), procedure steps 1-30 lines 155-500, sequencing step 40 line 589 (MiSeq 600-cycle v3, 150 bp PE, 8 bp dual index)",
+      "oligo_scraper": "Bundle scraper hits re-checked against MOESM1 lines 102-105 (the two custom transposon oligos) and the MOESM3 workbook target/validation primer families; no further assay-library oligo is printed.",
+      "findings": "No sequence change needed: oCRL225 /5Phos/ACG/ideoxyU/AGATGTGTATAAGAGACAG and oCRL226 /5Phos/CTGTCTCTTATACACATCTACGT remain verbatim. Corrected reagent identity in the graph and workflow captions from generic labels to the source reagents (Kapa HiFi HotStart Uracil+ Ready Mix with Taq DNA ligase at 72 C/30 min; combined USER/T4 PNK 37 C/1 h; T4 DNA ligase 16 C/16 h at 5 ng/ul; ExoI + lambda exonuclease + Plasmid-Safe DNase; Kapa A-tailing enzyme; Kapa DNA ligase from the HTP PCR-free kit, not an NEB ligase; USER supplied with the NEBNext Dual Index Primers Set 1 kit). Added the missing proteinase K deproteinization step (step 17) between Cas9 cleavage and dA tailing, which now feeds the tailing reaction. Sequencing text now distinguishes the protocol's MiSeq 600-cycle v3 run (150 bp PE, 8 bp dual index) from the article's MiSeq-or-NextSeq-550 statement. Note records the step numbers and two open questions (unassigned commercial index pair; derived four-base 3' ACGT overhang).",
+      "deferred": [
+        "Version-matched 2020 NEBNext E7600S manual (only the 2024 v6.0 revision has been read)",
+        "Kapa HTP Library Preparation Kit PCR-free manual (A-tailing/ligation buffer chemistry)",
+        "Piccelli et al. Tn5 expression/purification predecessor method",
+        "Selected NEBNext Set 1 i5/i7 index pair per library (not printed in article or supplements)",
+        "qPCR quantification steps 29-35 and pooling/denaturation steps 36-39 not modelled"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation and no accepted missing-information claim.",
+      "verification": "local suite 2 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

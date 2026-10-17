@@ -27,7 +27,7 @@ def render():
     parts.extend(['<h2>Reaction workflow</h2>',
                   protocol_graph_panels(graph, cls="long")])
     parts.extend(['<h2>Sequencing-primer and polymerase binding</h2>',
-        panel(dumbbell_rows(K.SMRTBELL),cls="long",caption="INFERRED — the sequencing primer anneals in a terminal adapter whose bases have not been verified from the checked guide. Its exact binding site and extension direction remain unresolved."),
+        panel(dumbbell_rows(K.SMRTBELL),cls="long",caption="INFERRED — the Kinnex sequencing primer (103-238-700 Rev09 section 7) anneals in a terminal adapter whose bases have not been verified from the checked guide. Its exact binding site and extension direction remain unresolved."),
         '<h2>HiFi passes and segmentation</h2>',
         panel([strand_row(cycle),*annotation_rows(cycle)],cls="long",caption="INFERRED — one schematic polymerase circuit traverses the eight-insert array in both orientations. Consensus is formed first; the seven ordered segmentation junctions then delimit the eight original cDNAs."),
         sp.read_spec_table([sp.read_spec('Sequencing output',None,

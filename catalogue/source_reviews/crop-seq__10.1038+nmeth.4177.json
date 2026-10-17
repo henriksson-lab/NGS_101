@@ -1,137 +1,157 @@
 {
-  "dir": "crop-seq__10.1038+nmeth.4177",
-  "status": "blocked",
-  "source_checklist": [
-    {
-      "id": "paper",
-      "role": "defining",
-      "locator": "Datlinger et al Nature Methods 2017 doi:10.1038/nmeth.4177; PMC5334791 JATS",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-15",
-        "locations": "Main method and supplement pointer; guide-capture/drop-seq paragraphs",
-        "finding": "Original distinguishes lentiviral guide barcode transcript and Drop-seq bead capture; supplemental protocol gives detailed oligos."
-      },
-      "pass_2": {
-        "reviewer": "audit_a_h",
-        "date": "2026-10-15",
-        "locations": "PMC5334791 JATS Methods and Drop-seq/capture paragraphs",
-        "finding": "Original CROP-seq article couples polyadenylated guide reporter to Drop-seq capture; bead architecture is inherited from Macosko."
-      }
-    },
-    {
-      "id": "supp_protocol",
-      "role": "supplement",
-      "locator": "PMC Supplementary_Protocol.pdf.txt",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-15",
-        "locations": "Lines 28-40, 230-250, 533-550",
-        "finding": "Original protocol prints TSO, SMART PCR, guide enrichment and custom Read1 oligos; relies on prepared Drop-seq beads for cellular barcode/UMI."
-      },
-      "pass_2": {
-        "reviewer": "audit_a_h",
-        "date": "2026-10-15",
-        "locations": "NIHMS71051 Supplementary Protocol text lines 28-42, 230-250 and 532-551",
-        "finding": "Original supplementary protocol prints cloning and library QC primer families; its Drop-seq section begins from prepared barcoded beads."
-      }
-    },
-    {
-      "id": "supp_tables",
-      "role": "supplement",
-      "locator": "PMC Supplementary Tables 1-3 XLSX and Springer MOESM267 XLSX",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-15",
-        "locations": "Table headings and oligo keyword scan",
-        "finding": "Source tables available; variant/vector panel not exhaustively checked in this pass."
-      },
-      "pass_2": {
-        "reviewer": "audit_a_h",
-        "date": "2026-10-16",
-        "locations": "Original PMC Table 1 XLSX text lines 1–end (CROPseq-Guide-Puro construction/validation oligos), Table 2 header and guide rows, Table 3 header and sample/flow readout rows; Springer MOESM267 same content as PMC Table 1",
-        "finding": "Independently inspected all three published tables. Table 1 gives guide-vector cloning and validation oligos, including phospho bridge oligos; Table 2 gives gRNA targets and ordering strings; Table 3 maps samples to gRNAs and flow readouts. Springer MOESM267 duplicates Table 1. None gives Drop-seq bead RT-primer members or a prepared-bead barcode whitelist, so those must be assessed from linked Drop-seq sources."
-      }
-    },
-    {
-      "id": "dropseq_paper",
-      "role": "linked_material",
-      "locator": "Macosko et al Cell 2015 doi:10.1016/j.cell.2015.05.002; local JATS in drop-seq-seq-well source bundle",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-15",
-        "locations": "JATS lines 96-104 and Figure 1 caption lines 410-416",
-        "finding": "Primary Drop-seq article establishes 12-base cell barcode, 8-base UMI and 30-base poly(T) bead primer architecture, but accessible text does not print full commercial bead/linker oligo."
-      },
-      "pass_2": {
-        "reviewer": "audit_a_h",
-        "date": "2026-10-15",
-        "locations": "Macosko PMC4481139 JATS Figure 1 caption lines 407-419",
-        "finding": "Primary Drop-seq article specifies common PCR handle, 12-cycle cell barcode, 8-cycle UMI and 30-base poly(dT) bead primer; primer family sequence is in inventor lab guide."
-      },
-      "discovered_from": "paper"
-    },
-    {
-      "id": "dropseq_methods",
-      "role": "linked_material",
-      "locator": "Original Drop-seq detailed bead synthesis supplement/ordered oligo source",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "reason": "Exact original bead/linker ordered sequence remains unverified; local upstream drawing is not evidence.",
-      "pass_1": null,
-      "pass_2": null,
-      "discovered_from": "dropseq_paper"
-    },
-    {
-      "id": "dropseq_lab_v31",
-      "role": "linked_material",
-      "locator": "Macosko and Goldman Drop-seq lab protocol v3.1, https://mccarrolllab.org/wp-content/uploads/2015/05/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf; fetched under CROP-seq bundle",
-      "availability": "read",
-      "relevance": "relevant",
-      "discovered_from": "dropseq_paper",
-      "pass_1": {
-        "reviewer": "audit_a_h",
-        "date": "2026-10-15",
-        "locations": "Original PDF p. 3, extracted lines 117-150; oligo scraper lines 120-150",
-        "finding": "Inventor lab prints SeqB bead family with seven T, shared AAGCAGTGGTATCAACGCAGAGTAC handle, twelve J barcode, eight N UMI and 30 T, plus TSO/SMART PCR/custom Read1. CROP-seq prepared bead batch barcode members remain unspecified."
-      },
-      "pass_2": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-16",
-        "locations": "Drop-seq v3.1 PDF extracted lines 117–150, independently read; primer scraper rerun",
-        "finding": "SeqB bead oligo has seven leading T, AAGCAGTGGTATCAACGCAGAGTAC, 12 J barcode bases, 8 N UMI bases and T30. Also lists TSO and custom Read1. It establishes the inventor lab design, but does not identify CROP-seq bead barcode members."
-      }
-    }
-  ],
-  "linked_information": {
-    "result": "blocked",
-    "pass_1": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-15",
-      "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
-      "finding": "Followed CROP supplementary protocol to primary Drop-seq paper; detailed bead source remains unavailable, upstream schematic deliberately excluded."
-    },
-    "pass_2": {
-      "reviewer": "audit_a_h",
-      "date": "2026-10-15",
-      "locations": "Datlinger Supplementary Protocol; Macosko 2015 original Fig. 1 and Macosko/Goldman lab protocol v3.1 lines 117–150",
-      "finding": "The original inventor lab protocol was recovered and prints SeqB bead primer architecture, TSO, SMART PCR and custom Read1. The original Drop-seq supplement remains gated, and exact CROP-seq bead batch barcode membership is not established."
-    }
+ "dir": "crop-seq__10.1038+nmeth.4177",
+ "status": "blocked",
+ "source_checklist": [
+  {
+   "id": "paper",
+   "role": "defining",
+   "locator": "Datlinger et al Nature Methods 2017 doi:10.1038/nmeth.4177; PMC5334791 JATS",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "audit_s_z",
+    "date": "2026-10-15",
+    "locations": "Main method and supplement pointer; guide-capture/drop-seq paragraphs",
+    "finding": "Original distinguishes lentiviral guide barcode transcript and Drop-seq bead capture; supplemental protocol gives detailed oligos."
+   },
+   "pass_2": {
+    "reviewer": "audit_a_h",
+    "date": "2026-10-15",
+    "locations": "PMC5334791 JATS Methods and Drop-seq/capture paragraphs",
+    "finding": "Original CROP-seq article couples polyadenylated guide reporter to Drop-seq capture; bead architecture is inherited from Macosko."
+   }
   },
-  "missing_claims": [
-    {
-      "claim": "Drop-seq bead primer architecture is absent from linked original sources",
-      "disposition": "blocked",
-      "evidence": "False as a blanket statement: the inventor lab v3.1 protocol prints the family; its exact variable barcode members for CROP-seq remain unresolved. New lab source has one located check only."
-    }
-  ],
-  "conclusion": "CROP-seq/Drop-seq source chain independently checked; inventor lab primer family recovered and page corrected. Exact prepared-bead members and original Drop-seq supplement remain blocked."
+  {
+   "id": "supp_protocol",
+   "role": "supplement",
+   "locator": "PMC Supplementary_Protocol.pdf.txt",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "audit_s_z",
+    "date": "2026-10-15",
+    "locations": "Lines 28-40, 230-250, 533-550",
+    "finding": "Original protocol prints TSO, SMART PCR, guide enrichment and custom Read1 oligos; relies on prepared Drop-seq beads for cellular barcode/UMI."
+   },
+   "pass_2": {
+    "reviewer": "audit_a_h",
+    "date": "2026-10-15",
+    "locations": "NIHMS71051 Supplementary Protocol text lines 28-42, 230-250 and 532-551",
+    "finding": "Original supplementary protocol prints cloning and library QC primer families; its Drop-seq section begins from prepared barcoded beads."
+   }
+  },
+  {
+   "id": "supp_tables",
+   "role": "supplement",
+   "locator": "PMC Supplementary Tables 1-3 XLSX and Springer MOESM267 XLSX",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "audit_s_z",
+    "date": "2026-10-15",
+    "locations": "Table headings and oligo keyword scan",
+    "finding": "Source tables available; variant/vector panel not exhaustively checked in this pass."
+   },
+   "pass_2": {
+    "reviewer": "audit_a_h",
+    "date": "2026-10-16",
+    "locations": "Original PMC Table 1 XLSX text lines 1–end (CROPseq-Guide-Puro construction/validation oligos), Table 2 header and guide rows, Table 3 header and sample/flow readout rows; Springer MOESM267 same content as PMC Table 1",
+    "finding": "Independently inspected all three published tables. Table 1 gives guide-vector cloning and validation oligos, including phospho bridge oligos; Table 2 gives gRNA targets and ordering strings; Table 3 maps samples to gRNAs and flow readouts. Springer MOESM267 duplicates Table 1. None gives Drop-seq bead RT-primer members or a prepared-bead barcode whitelist, so those must be assessed from linked Drop-seq sources."
+   }
+  },
+  {
+   "id": "dropseq_paper",
+   "role": "linked_material",
+   "locator": "Macosko et al Cell 2015 doi:10.1016/j.cell.2015.05.002; local JATS in drop-seq-seq-well source bundle",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "audit_s_z",
+    "date": "2026-10-15",
+    "locations": "JATS lines 96-104 and Figure 1 caption lines 410-416",
+    "finding": "Primary Drop-seq article establishes 12-base cell barcode, 8-base UMI and 30-base poly(T) bead primer architecture, but accessible text does not print full commercial bead/linker oligo."
+   },
+   "pass_2": {
+    "reviewer": "audit_a_h",
+    "date": "2026-10-15",
+    "locations": "Macosko PMC4481139 JATS Figure 1 caption lines 407-419",
+    "finding": "Primary Drop-seq article specifies common PCR handle, 12-cycle cell barcode, 8-cycle UMI and 30-base poly(dT) bead primer; primer family sequence is in inventor lab guide."
+   },
+   "discovered_from": "paper"
+  },
+  {
+   "id": "dropseq_methods",
+   "role": "linked_material",
+   "locator": "Original Drop-seq detailed bead synthesis supplement/ordered oligo source",
+   "availability": "unavailable",
+   "relevance": "relevant",
+   "reason": "Exact original bead/linker ordered sequence remains unverified; local upstream drawing is not evidence.",
+   "pass_1": null,
+   "pass_2": null,
+   "discovered_from": "dropseq_paper"
+  },
+  {
+   "id": "dropseq_lab_v31",
+   "role": "linked_material",
+   "locator": "Macosko and Goldman Drop-seq lab protocol v3.1, https://mccarrolllab.org/wp-content/uploads/2015/05/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf; fetched under CROP-seq bundle",
+   "availability": "read",
+   "relevance": "relevant",
+   "discovered_from": "dropseq_paper",
+   "pass_1": {
+    "reviewer": "audit_a_h",
+    "date": "2026-10-15",
+    "locations": "Original PDF p. 3, extracted lines 117-150; oligo scraper lines 120-150",
+    "finding": "Inventor lab prints SeqB bead family with seven T, shared AAGCAGTGGTATCAACGCAGAGTAC handle, twelve J barcode, eight N UMI and 30 T, plus TSO/SMART PCR/custom Read1. CROP-seq prepared bead batch barcode members remain unspecified."
+   },
+   "pass_2": {
+    "reviewer": "audit_s_z",
+    "date": "2026-10-16",
+    "locations": "Drop-seq v3.1 PDF extracted lines 117–150, independently read; primer scraper rerun",
+    "finding": "SeqB bead oligo has seven leading T, AAGCAGTGGTATCAACGCAGAGTAC, 12 J barcode bases, 8 N UMI bases and T30. Also lists TSO and custom Read1. It establishes the inventor lab design, but does not identify CROP-seq bead barcode members."
+   }
+  }
+ ],
+ "linked_information": {
+  "result": "blocked",
+  "pass_1": {
+   "reviewer": "audit_s_z",
+   "date": "2026-10-15",
+   "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
+   "finding": "Followed CROP supplementary protocol to primary Drop-seq paper; detailed bead source remains unavailable, upstream schematic deliberately excluded."
+  },
+  "pass_2": {
+   "reviewer": "audit_a_h",
+   "date": "2026-10-15",
+   "locations": "Datlinger Supplementary Protocol; Macosko 2015 original Fig. 1 and Macosko/Goldman lab protocol v3.1 lines 117–150",
+   "finding": "The original inventor lab protocol was recovered and prints SeqB bead primer architecture, TSO, SMART PCR and custom Read1. The original Drop-seq supplement remains gated, and exact CROP-seq bead batch barcode membership is not established."
+  }
+ },
+ "missing_claims": [
+  {
+   "claim": "Drop-seq bead primer architecture is absent from linked original sources",
+   "disposition": "blocked",
+   "evidence": "False as a blanket statement: the inventor lab v3.1 protocol prints the family; its exact variable barcode members for CROP-seq remain unresolved. New lab source has one located check only."
+  }
+ ],
+ "conclusion": "CROP-seq/Drop-seq source chain independently checked; inventor lab primer family recovered and page corrected. Exact prepared-bead members and original Drop-seq supplement remain blocked.",
+ "bounded_checks": [
+  {
+   "round": "2026-10-17-breadth-first-08",
+   "reviewer": "root",
+   "date": "2026-10-17",
+   "documents": 1,
+   "locations": "Published Nat Methods 2017 supplement nmeth.4177_supp_NIHMS71051-supplement-Supplementary_Protocol.pdf.txt: section 10.3 SMART PCR master mix and cycling lines 825-899; section 11.1 tagmentation/neutralization lines 955-977; section 11.2 Nextera XT PCR enrichment master mix lines 978-1000; final-library QC and 12.2/12.3 sequencing setup lines 1100-1130; oligonucleotide order table lines 1455-1482",
+   "oligo_scraper": "Scraper used as a reading aid on the bundle; the four printed oligos (TSO AAGCAGTGGTATCAACGCAGAGTGAATrGrGrG, SMART PCR primer AAGCAGTGGTATCAACGCAGAGT, New-P5-SMART hybrid AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C, Custom Read1 GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC) were verified at the printed table before use.",
+   "findings": "Corrections: the SMART cDNA amplification was modelled as a forward/reverse primer pair, but section 10.3's master mix contains only the SMART PCR primer (0.8 uM, 2x KAPA HiFi HotStart ReadyMix, 4+10 cycles) acting on both ends of the template-switched cDNA; replaced by one symmetric primer species with that polymerase named. Added the section 11.1 neutralization quench (Nextera XT Neutralize Tagment Buffer, 5 min RT) as its own step between tagmentation and enrichment, and named the 55 degC 5 min tagmentation. Gave exact source states to the TSO, SMART PCR primer and New-P5-SMART hybrid oligo (phosphorothioate marks recorded in comments and note), raising the source-transcription guard from 0 to 3 exact oligos checked. Enrichment reagents renamed to the printed New-P5-SMART hybrid oligo, Nextera N70X oligo and Nextera PCR mix. Read layout 20/8/64 reconfirmed at section 12.3.",
+   "deferred": [
+    "Drop-seq bead barcode members of the prepared bead batch (MACOSKO-2011-10) - still a family, no whitelist in any inspected original",
+    "Drop-seq lab protocol v3.1 bead synthesis chemistry beyond the primer table already read in earlier passes",
+    "Nextera XT kit document for the transposome/N70X index sequences and the NT buffer composition",
+    "Guide-pool QC amplicon readout (section with the staggered i5-side primer) is documented in the note but not drawn",
+    "Bioanalyzer ~575 bp average library size and the larger-input tagmentation tuning are not represented as a size distribution"
+   ],
+   "scope": "Capped defining-source pass only; no full chemistry validation and no accepted missing-information claim. The earlier 'blocked' status for the bead-barcode absence claim stands unchanged.",
+   "verification": "local suite 2 checks pass; page builds; pairing 0 problems; chemistry 8 steps, 0 established/0 conditional/10 unresolved/0 contradictory; source guard 3 exact checked, 0 failed, 3 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+  }
+ ]
 }

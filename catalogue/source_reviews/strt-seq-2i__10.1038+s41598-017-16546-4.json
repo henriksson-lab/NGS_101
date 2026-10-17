@@ -104,5 +104,25 @@
       "evidence": "One located source reading only; additional relevant sources or independent review remain pending."
     }
   ],
-  "conclusion": "First source pass only; independent second reading and unchecked linked material remain pending."
+  "conclusion": "First source pass only; independent second reading and unchecked linked material remain pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Sci Rep 7:16327 PMC5703850 JATS Methods 'Lysis and reverse transcription' + Table 1 (lines 128–158), 'Indexed PCR and extraction' (166), 'Tagmentation and isolation of 5′ fragments' (170), 'Illumina high-throughput sequencing' (174), Data analysis (178); Supplementary Information PDF text line 45 (48 bp Read 1)",
+      "oligo_scraper": "Bundle scraper run (max 20 hits); all eleven Table 1 rows (JATS 136–156, PDF 275–315) checked; modifications 5′Bio (STRT-P1-T31, TSO, DI-PCR-P1A, DI-P1A-idx), all-ribo TSO and 5′PHO STRT-TN5-U agree with strt.py; preprint hits not used (published version first).",
+      "findings": "Added source-ordered 1.5X AMPure binding with on-bead second PCR, the 0.7X post-PCR cleanup and the 0.5X/1X double selection (previously one size-selection step); named MyOne Streptavidin C1 capture. Added an unresolved candidate output at capture: oligo-dT-end fragments also carry 5′ biotin (STRT-P1-T31 and DI-PCR-P1A in Table 1); no physical removal claimed. New page-rendered published discrepancy: Table 1 P1_2nd_PCR/P2_2nd_PCR vs Methods '200 mM 4K-P1_2ndPCR, 200 nM P2_4K_2ndPCR'; model uses Table 1 sequences. build_page.py now renders graph annotations (shared render_page did not). Existing 45 vs 48 bp and 6N Read-1 primer notices retained.",
+      "deferred": [
+        "Well-index (32×5 nt) and subarray-index (96×8 nt) members: not printed in Table 1; source not identified this pass",
+        "P2_2nd_PCR 3-nt overlap with the subarray barcode and P1_2nd_PCR 4-nt 3′ mismatch on oligo-dT-end fragments under KAPA HiFi proofreading",
+        "Indexed PCR drawn as graft + P1A amplification although run as one PCR with both primers (5 cycles 67°C + 15 cycles 68°C)",
+        "Shared strt-seq note 01_strt-seq.md and page_parts.py (other protocol directory) not edited: tagmentation-step discard of unbiotinylated fragments precedes the capture that removes them",
+        "Supplementary Fig. S1 alternatives beyond the read-length passage not re-read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3 graph checks + 1 shared source check pass; page builds; pairing 0 problems; chemistry 5 established/2 conditional/13 unresolved/0 contradictory; source guard 5 exact checked, 0 failed, tso/indexed_p1b_primer/indexed_transposome without exact states; no Markdown changed; review schema (audit --check) pass"
+    }
+  ]
 }

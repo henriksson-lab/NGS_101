@@ -39,6 +39,26 @@
         "date": "2026-10-15",
         "locations": "MANIFEST.tsv manual row; original JATS line 269",
         "finding": "Original zipped supplement remains unavailable; do not infer sequence absence from transcription."
+      },
+      "scope_note": "2026-10-17: the Extended Experimental Procedures text that the zip is expected to carry was read by two readers from the mirrored published PDF (row published_extended_mirror). The zip itself remains unretrieved, so whether it holds further files (for example other Data S1 sections or tables) is unchecked; availability stays unavailable."
+    },
+    {
+      "id": "published_extended_mirror",
+      "role": "supplement",
+      "locator": "Rao et al., Cell 159:1665-1680 (2014), doi:10.1016/j.cell.2014.11.021, published typeset article with Extended Experimental Procedures (Stanford GENE211 course mirror https://web.stanford.edu/class/gene211/pdfs/Rao-3D-map-human-genome-cell-2014-extended.pdf), local /husky/henriksson/NGS101_papers/sources/in-situ-hi-c__10.1016+j.cell.2014.11.021/Rao-3D-map-human-genome-cell-2014-extended.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Extended Experimental Procedures I.a.1 steps 1-70 lines 6632-6802, I.a.10 sequencing and I.a.11 no-ligation control lines 6888-6896; recorded in bounded check round 2026-10-17-breadth-first-11",
+        "finding": "Mirrored published PDF carries the Cell DOI and the Extended Experimental Procedures. Step 54 ligates \"an Illumina indexed adapter\" and step 60 amplifies 4-12 cycles \"using Illumina primers and protocol (Illumina, 2007)\"; no adapter, PCR primer or sequencing-primer bases are printed (scraper hits are CTCF motifs only)."
+      },
+      "pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/in-situ-hi-c__10.1016+j.cell.2014.11.021/Rao-3D-map-human-genome-cell-2014-extended.pdf.txt: title/authors lines 1-12, DOI line 20, Cell 159:1665-1680 running heads (lines 81, 131), Supplemental Information statement line 1394; Extended Experimental Procedures I.a intro and I.a.1 steps 1-11 (lines 6625-6660), steps 45-70 (lines 6760-6805), I.a.10-I.a.11 (lines 6885-6898).",
+        "finding": "Agree with pass 1. Identity: published Cell typeset article with Extended Experimental Procedures. Step 48 dA-tailing with Klenow exo- (M0212); steps 52-54 NEB Quick ligation (B6058/M2200) with 3 ul \"of an Illumina indexed adapter\", recording the sample index; step 60 4-12 PCR cycles off T1 beads \"using Illumina primers and protocol (Illumina, 2007)\"; steps 61-70 AMPure 0.7x plus 70 ul cleanup; I.a.10 paired-end on MiSeq, HiSeq 2000 and 2500 with no cycle counts. No adapter, index, PCR-primer or sequencing-primer bases are printed in these passages."
       }
     },
     {
@@ -86,5 +106,39 @@
       "evidence": "Original zipped Methods inaccessible and transcribed procedure delegates indexed adapter/primers to Illumina 2007 guide, not yet verified."
     }
   ],
-  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Cell article with Extended Experimental Procedures (course mirror carrying Cell DOI and S-page pagination) Rao-3D-map-human-genome-cell-2014-extended.pdf.txt I.a.1 steps 1–70 lines 6632–6802, I.a.10 sequencing and I.a.11 no-ligation control lines 6888–6896; PMC5635824 JATS Experimental Procedures checked for scraper hits only",
+      "oligo_scraper": "Bundle scraper run; only hits are CTCF motif strings (Extended pdf lines 890–980, JATS line 187), not library oligos. No adapter, PCR primer or sequencing-primer bases in the inspected originals.",
+      "findings": "Graph expanded from 7 to 14 steps: lysis/0.5% SDS permeabilization; named MboI R0147 with 62 °C inactivation; Klenow fill-in with biotin-14-dATP plus dCTP/dGTP/dTTP; T4 DNA ligase M0202; proteinase K/NaCl reversal split from ethanol precipitation and Covaris shearing; double-sided AMPure XP 300–500 bp selection before T1 capture (waste declared); on-bead end repair (T4 PNK/T4 DNA pol/Klenow, removes biotin from unligated ends) and Klenow exo− dA tailing split from NEB Quick ligase adapter ligation; 4–12 PCR cycles off beads; final bead removal and AMPure 0.7×+70 µl cleanup (waste declared). Page captions and sequencing text updated (MiSeq/HiSeq 2000/2500 PE; no cycle counts stated). Adapter identity, PCR primers and read/index cycles remain unavailable in these passages.",
+      "deferred": [
+        "Illumina (2007) Preparing Samples for Sequencing Genomic DNA (cited PCR primers/protocol)",
+        "Gated PMC supplement zip NIHMS649130 (Extended procedures read via mirrored published PDF instead)",
+        "Variant sections I.a.2–I.a.9 beyond headings",
+        "Read and index cycle counts per run"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 101/101 pass; page builds; pairing 0 problems; chemistry 14 steps 3 established/2 conditional/13 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (exit 0); audit --check pass; Markdown built"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "/husky/henriksson/NGS101_papers/sources/in-situ-hi-c__10.1016+j.cell.2014.11.021/Rao-3D-map-human-genome-cell-2014-extended.pdf.txt lines 1-20, 81, 131, 1394, 6625-6660, 6760-6805, 6885-6898",
+      "findings": "Added checklist row published_extended_mirror for the mirrored published Cell PDF with Extended Experimental Procedures (pass_1 root round 11, pass_2 this reader); both agree that the adapter is named only as \"an Illumina indexed adapter\" and the PCR primers as \"Illumina primers and protocol (Illumina, 2007)\". supp_zip remains unavailable with a scope note. The missing claim stays blocked because the Illumina 2007 protocol (illumina2007) is unread.",
+      "deferred": [
+        "Illumina (2007) Preparing Samples for Sequencing Genomic DNA",
+        "PMC supplement zip NIHMS649130 (contents beyond the Extended Experimental Procedures)",
+        "Extended Experimental Procedures I.a.2-I.a.9 variants"
+      ],
+      "scope": "Second reading of the mirrored published Extended Experimental Procedures; no accepted missing-information claim.",
+      "verification": "audit_protocol_sources --check passes"
+    }
+  ]
 }

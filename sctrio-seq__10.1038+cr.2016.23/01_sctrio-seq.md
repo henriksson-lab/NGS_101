@@ -21,3 +21,13 @@
 ## DNA branch
 
 🟢 The nuclear fraction follows scRRBS: MspI digestion, recessed-end fill/dA-tailing, premethylated indexed Illumina adapter ligation, bisulfite conversion, and PCR. 🟡 The shared scRRBS model illustrates a canonical TruSeq adapter; neither the scRRBS source nor the scTrio paper prints the exact ligation-facing oligos or proves that adapter geometry. Its final-library arms and sequencing-primer positions are conditional on that inferred design.
+
+🟢 scTrio Methods ("Single-cell segregation…", PMC JATS line 154): the bottom 3 µl nuclear fraction receives protease and 60 fg unmethylated lambda DNA before scRRBS digestion and bisulfite conversion; the 4 µl supernatant goes into a tube pre-loaded with ERCC spike-in RNA and reverse transcriptase. 🟢 Guo et al. 2013 Methods ("Construction of single-cell RRBS sequencing libraries", JATS line 105): Klenow exo– fill-in/dA-tailing, "Illumina standard premethylated indexed adaptors" with T4 DNA ligase, MethylCode bisulfite conversion with on-column desulfonation and tRNA carrier, then two PCR rounds (PfuTurbo Cx, 25 cycles; Phusion, 22 cycles) and 200–500-bp native PAGE size selection. The graph now shows the protease/lambda release step and the two PCR rounds; the round-1 primer sequences were not in the inspected passage and are inferred inputs.
+
+## Cleanup and read layout
+
+🟢 scTrio Methods ("Sample quality control and library construction", JATS line 158): amplified cDNA is purified with DNA Clean & Concentrator 5 and gel-selected at 500–3,000 bp, which the paper says removes the amplification primers; the graph shows this selection and its discarded gel waste before Covaris S2 shearing. 🟢 All constructed libraries were sequenced 100-bp paired-end on HiSeq 2000 or HiSeq 2500; the model declares Read 1 and Read 2 as 100 cycles. 🔴 Index-read cycle counts are not stated in the inspected passages.
+
+## Bounded pass 2026-10-17 (round 17)
+
+Inspected: Hou et al. 2016 PMC4783472 JATS Methods lines 152–168 and Supplementary Tables S1/S2 captions (lines 525–531); Guo et al. 2013 PMC3847781 JATS Methods lines 103–107; scraper run over the bundle (only hits outside Tang/Guo tables are the four bisulfite-qPCR QC primers, lines 160–166, which do not enter the library). Deferred: Guo 2013 supplementary zip (round-1/round-2 primer identities, QP1/QP2), Tang 2009/2010 re-read, NEBNext E7370 revision contemporary with 2016, and index-read cycles.

@@ -228,3 +228,14 @@ selects Illumina endpoint roles, and `da_tailed` uses an implicit end
 representation. These are separately queued for their actual caller paths and
 source-defined topology. The generic module name does not establish neutrality;
 `role`, supplied-part drawing and graph continuity remain useful shared operations.
+
+A 2026-10-17 caller check retired shared code that no protocol still imported:
+`lib/spatial_epigenome.py` (its tagged fragment omitted the Tn5 transferred strand),
+`lib/antibody_tags.py`, `damid.damid_adapter`, `rare_cell_and_affinity._finish_pcr`,
+`crispr.SCAFFOLD_FE` with its unused `scaffold_of`, the shared ONT cDNA primers,
+`molecular_consensus.SingleStrandUID`, the two-step `pooled_crispr` intermediate and
+graph, the legacy ATAC and GeoMx `workflow()` recipes, and seven uncalled telomere
+graph recipes. Spatial-epigenome and the rare-cell PCR finish are resolved. SPATAC now
+supplies its GEO nuclei route and PE150 acquisition to the split-pool graph. The
+telomere adapter drawing now marks the adapter 3-prime end at the native C-rich
+5-prime end. Removing dead code does not complete any caller's source audit.

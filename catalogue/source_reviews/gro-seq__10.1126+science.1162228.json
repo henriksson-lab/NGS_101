@@ -202,5 +202,25 @@
       "checks": "Fresh own-bundle full scraper completed: four hits in one file. Independent original GEO P2 and final incorporated-tracer/structured33-cycle declarations reviewed.",
       "scope": "Bounded P2 only; source questions and listed actual child obligations remain open."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Original 2008 SOM PDF text (594009_9144e1ea58ad4573871ec024827290f3.pdf.txt) overview 381-410 and Methods 629-714, read processing 715-746; defining article JATS science.1162228_PMC2833333.xml.txt lines 28-32",
+      "oligo_scraper": "Full bundle scraper: four hits, all NTI223/NTI200/NTI201/NTI202 in the later PMC5880289 implementation; no 2008 oligo bases printed in any available original text.",
+      "findings": "Re-read confirms the declared reaction order, both DNase treatments, three anti-BrU capture/elution/extraction rounds, 5'-then-3' adapter order, two 10 uL RT reactions, 15-cycle Phusion PCR and >90 nt PAGE selection. Corrections: run-on inputs now carry the source concentrations (500 uM ATP/GTP/BrUTP, 2 uM CTP) and conditions (1% sarkosyl, 300 mM KCl, 5 min at 30 C); a graph-owned annotation and final caption record the SOM-reported ~100-base average library (~190 base minus ~90 base adapters) and the 1e9 pre-amplification complexity estimate, noting that the ~90-base adapter figure bounds but does not identify the unassigned historical adapter bases. The overview 1 uM CTP versus Methods 2 uM is the same value before and after the equal-volume nuclei mix, not a published discrepancy; this is stated in the note rather than displayed as a conflict.",
+      "deferred": [
+        "Historical Illumina Small RNA Isolation Kit guide identity/revision and its ordered adapter/RT/PCR bases",
+        "Strobl and Eick 1992 nuclei-isolation predecessor (SOM ref 39)",
+        "Cameron and Uhlenbeck 1977 PNK 3'-phosphatase provenance (SOM ref 21)",
+        "GSE13518 child sample/SRX metadata",
+        "Remaining SOM result figures/tables beyond Figure S1/S15/S16 and the read-processing section"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation and no missing-information claim accepted.",
+      "verification": "local suite 7/7 PASS; page builds (57,762 bytes); pairing 0 problems; chemistry 27 steps, 0 established/0 conditional/28 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
   ]
 }

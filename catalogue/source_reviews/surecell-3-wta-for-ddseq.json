@@ -181,5 +181,25 @@
       "evidence": "Vendor guide names the components; instrument guides remain unchecked."
     }
   ],
-  "conclusion": "Two independent readers checked the defining Illumina guide, kit checklist, later Bio-Rad kit, two official instrument Custom Primer Guides and both specimen-handling variants. Other instrument guides and historical kit-specific sequences remain unresolved. Exact SureCell bead, TPP1 and SP bases remain blocked; the page uses inferred placeholders."
+  "conclusion": "Two independent readers checked the defining Illumina guide, kit checklist, later Bio-Rad kit, two official instrument Custom Primer Guides and both specimen-handling variants. Other instrument guides and historical kit-specific sequences remain unresolved. Exact SureCell bead, TPP1 and SP bases remain blocked; the page uses inferred placeholders.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Illumina SureCell WTA 3' Library Prep Reference Guide 1000000021452 v01 (surecell-wta3-library-prep-reference-guide-1000000021452-01.pdf.txt) lines163-195 Introduction; 290-375 Before you begin/custom Read 1 primer; 1389-1396 RT program; 1409-1660 Break Emulsion and Clean Up First Strand Synthesis; 1750-1862 Synthesize Second Strand cDNA; 1865-2000 Clean Up cDNA; 2088-2222 Tagment cDNA; 2223-2330 Amplify Tagmented cDNA (LA program); 2330-2600 Clean Up Libraries incl. Second Bind; 2650-2730 Prepare for Sequencing",
+      "oligo_scraper": "Run on the Reference Guide and checklist text: 0 sequences; the guide prints reagent names only (bead mix, TPP1, N7xx, SP).",
+      "findings": "Graph corrected: separate RNA-removal step and invented second-strand primer replaced by the guide's single SSB/SSE reaction (removes RNA template and synthesizes replacement strand, 16 C 2 h); added Droplet Disruptor emulsion breaking, 44 ul SPB cDNA clean-up, Tagment Stop Buffer, and both library clean-ups (58 ul bind then 30 ul Second Bind); RT program 37/50/85 C; tagmentation 55 C 5 min; 15 PCR cycles. Empty droplets and fragments lacking the TPP1-selected end changed from physical discards to unresolved fates. Note: 'double-sided' clean-up wording corrected to two sequential binds; nick-translation identity marked inferred.",
+      "deferred": [
+        "Sequencing Primer SP, TPP1, bead-oligo and transposome adapter bases (not printed in the guide)",
+        "NovaSeq, HiSeq and MiniSeq Custom Primers Guides",
+        "Run lengths (not given in the guide)",
+        "SSE / Enhancer Enzyme identities",
+        "PBMC and nuclei demonstrated protocols not re-read this pass"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 0 checks (1 documented skip: no vendor oligo sequences); page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory; source guard 0 exact checked, 0 inputs without exact states (all kit oligos inferred); Markdown built; review schema checked"
+    }
+  ]
 }

@@ -76,5 +76,43 @@
       "evidence": "Only first source pass completed; unavailable original/vendor or linked material cannot be used to confirm absence."
     }
   ],
-  "conclusion": "First-pass source review; independent second pass and listed linked originals pending."
+  "conclusion": "First-pass source review; independent second pass and listed linked originals pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining Shalem Science 2014 author manuscript science.1247005_PMC4089965.xml.txt (abstract line42, Results lines53-69, Supplementary Material pointer lines71-73, Fig2/Fig3 captions lines255-267); source bundle MANIFEST.tsv re-fetched with get_sources.py; PMC Cloud bucket listing PMC4089965.1/ enumerated (JSON/TXT/XML only, no supplement object)",
+      "oligo_scraper": "scrape_primers.py on the whole bundle returned 0 sequences in 0 files: the bundle holds only the Methods-free author manuscript, so this is an empty extraction, not evidence that the study published no oligos.",
+      "findings": "No chemistry correction was possible or needed: the accessible defining text has no Methods. Added the construction parameters it does state to page and note - GeCKO library 64,751 guides against 18,080 genes at 3-4 guides per gene (lines42,59), MOI 0.3 into A375 and HUES62, guide distributions at 3 and 14 days with a 14-day vemurafenib arm (lines57,61,63,255-261). Puromycin selection is stated only for the EGFP pilot (line57), so no selection operation was added to the graph. Added a public source-availability caveat on the schematic naming the gated PMC supplementary PDF and the dead genome-engineering.org workbook route, and stating the nested primer pair, barcodes and read lengths remain unverified rather than unpublished. Graph, cloning scene and the separately cited Joung one-PCR example are unchanged.",
+      "deferred": [
+        "Shalem 2014 Supplementary Information (NIHMS609112-supplement-Supplementary_Information.pdf) - PMC 'Preparing to download' gate; publisher Science SOM paywalled; manual URL recorded in MANIFEST.tsv",
+        "GeCKO-plasmid-readout-primers-July2014.xlsx and genome-engineering.org/gecko/ - both timed out again on 2026-10-17 (route failure, not absence)",
+        "Original nested two-PCR readout primers, barcode scheme and acquired read lengths",
+        "Addgene #49535 v1 map re-verification against the drawn cassette",
+        "Whether the pooled screen (not only the EGFP pilot) used puromycin selection"
+      ],
+      "scope": "Capped defining-source pass; defining supplement unobtainable, so partial. No missing-information claim accepted.",
+      "verification": "local suite 1/1 check passes; page builds; pairing 0 problem duplexes; chemistry 5 steps, 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 checked, 0 failed, 3 inputs without exact states; Markdown rebuilt (01_lenticrispr-v1.html + notes.html); audit_protocol_sources --check passes (status stays blocked)"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining-original retrieval pass. Routes tried: Europe PMC supplementaryFiles for PMC4089965 -> errorBean 'not open access'; PMC/pmc.ncbi bin/ NIHMS609112-supplement-Supplementary_Information.pdf -> 403/404 and the 'Preparing to download' gate; OpenAlex locations -> MIT DSpace 1721.1/111576 submittedVersion, fetched via the DSpace REST item API (bitstream 5e458163 TEXT + 43451e68 PDF) and read: same Methods-free author manuscript (Supplementary Material line 173-174 'Refer to Web version on PubMed Central'); live genome-engineering.org workbook URL timed out again. OBTAINED: Zhang-lab GeCKO-plasmid-readout-primers-July2014.xlsx from the Internet Archive snapshot 20141106225441 of the author-hosted URL, stored as GeCKO-plasmid-readout-primers-July2014_web20141106225441.xlsx with a MANIFEST.tsv row; read sheet 'GeCKO plasmid readout' header notes lines 2-4, forward F01-F12 lines 6-18, reverse R01-R12 lines 19-32, v2 adaptor pair lines 33-36.",
+      "oligo_scraper": "scrape_primers.py re-run on the bundle now returns the workbook primer families (F01-F12 collapsed, R01-R12 collapsed): P5/TruSeq Read 1 + 1-9 nt stagger + 8-nt inline barcode + 24-nt hU6/+1G site (matches pooled_crispr.MOFFAT_PCR2_SITE_F), and P7 + 8-nt inline barcode + TruSeq Read 2 + stagger + 25-nt site TCTACTATTCTTTCCCCTGCACTGT. Each hit verified in the .txt rows. The author manuscript itself still yields no oligos (no Methods).",
+      "findings": "Upgraded from deferred: an author original for the v1-compatible readout was obtained and read, though the defining Supplementary Methods remain gated. Corrections: the page no longer asserts flatly that 'the original Shalem screen used a nested two-PCR readout' (that claim rests on the unread SOM); it now says the gDNA readout is described only in the unreachable Supplementary Methods. Added a page caveat and a note section recording the workbook verbatim-derived structure: single PCR for lentiCRISPR v1 / lentiGuide-Puro with staggered forward primers, an extra adaptor PCR only for v2; both sample barcodes are 8 nt and inline (read inside Read 1/Read 2), unlike the i7-indexed Joung library drawn on the page; the reverse priming site is computed (against crispr.SCAFFOLD_V1, 76 nt) not to lie in the scaffold but downstream in the vector (cPPT, which follows the cassette in v1 only). Scope limits stated on the page: the sheet is headed plasmid readout and refers gDNA readout back to the Supplementary Methods, and prints no read lengths or cycling. No drawn construct or graph change: the workbook primer set is a compatible alternative, not the screen's transcribed protocol.",
+      "deferred": [
+        "Shalem 2014 Supplementary Information (NIHMS609112-supplement-Supplementary_Information.pdf) - PMC download gate, Europe PMC 'not open access', Science SOM paywalled; manual URL in MANIFEST.tsv",
+        "The screen's own genomic-DNA amplification (cycle numbers, gDNA input, whether it was nested) and acquired read lengths",
+        "Addgene #49535 v1 map re-verification of the workbook reverse priming site in cPPT",
+        "Whether the pooled screen (not only the EGFP pilot) used puromycin selection",
+        "Drawing the workbook primer set as its own scene (left out: compatible set, not the defining protocol)"
+      ],
+      "scope": "Capped deferred-followup pass; defining supplement still unobtainable, one author original newly obtained and read. No missing-information claim accepted.",
+      "verification": "local suite 1/1 check passes; page builds (44,921 bytes); pairing 0 problem duplexes; chemistry 5 steps, 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 checked, 0 failed, 3 inputs without exact states; build_docs rebuilt 01_lenticrispr-v1.html + notes.html; audit_protocol_sources --check passes (status stays blocked)"
+    }
+  ]
 }

@@ -71,6 +71,7 @@ def render() -> str:
         panel([strand_row(lib), *annotation_rows(lib)], cls="long",
               caption="The finished PCR3 product. The vector-templated Index 1 site places the RSL in the i7 read."),
         '<h3>Custom Read 1 primer</h3>',
+        '<p>Naming discrepancy inside the defining paper: the Methods sentence on library preparation calls the custom Read 1 oligo <code>CRISPRSeq</code>, while the primer table printed immediately below it heads the same oligo <code>CRIPSRSEQ</code>. Only one sequence is given (<code>' + C.CUSTOM_SEQ_PRIMER + '</code>), so these are one primer under two spellings; this page uses the primer-table spelling. Which spelling the authors intended is unknown.</p>',
         panel(read1_scene().rows(), cls="small",
               caption="The paper’s CRIPSRSEQ primer ends on the U6 +1 G, so Read 1 starts at guide base 1."),
         sp.section(lib, C.SEQ_PRIMERS,

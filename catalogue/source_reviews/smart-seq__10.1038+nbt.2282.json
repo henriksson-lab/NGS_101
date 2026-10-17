@@ -78,5 +78,24 @@
       "evidence": "Contemporaneous kit manual is a relevant cited source not fully checked."
     }
   ],
-  "conclusion": "Second pass found a linked contemporaneous kit manual; no missing claim accepted."
+  "conclusion": "Second pass found a linked contemporaneous kit manual; no missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "PMC3467340 JATS xml.txt Results line 73, Methods lines 111-121 (cDNA generation/amplification; library construction and sequencing); published Springer MOESM11 Supplementary Fig. 1 schematic and legend (pdf.txt lines 1-80); MOESM12 Supplementary Table 1 columns read length/library method/platform (all 119 rows)",
+      "oligo_scraper": "Bundle scraper run; only article hit is the CDS primer (xml.txt line 113, pdf.txt line 435), verified; MOESM15 hits are gene-table noise; upstream_* hits ignored.",
+      "findings": "Tn5 branch is a modified Epicentre Nextera DNA sample prep protocol, not Nextera XT: added preamp cycle numbers (12/15/18), tagmentation 55C 5 min with 0.25 ul transposase and 5x HMW buffer, new PB strip + 88 ul SPRI XP (1:1.6) cleanup with discarded waste, 9 cycles standard Nextera PCR; Nextera PCR primer set marked as not printed (canonical N5xx/N7xx shown as representative) in graph labels, oligo list and caveat; gap-fill hold marked as not printed. Page Highlight records PE (Covaris/ligation) branch not drawn, figure data from PE, and that Supplementary Table 1 gives only read length (Tn5: 50 GAIIx x41, 40 MiSeq x2) without read mode or index reads. Note updated (back end, steps, sequencing, open questions).",
+      "deferred": [
+        "Clontech SMARTer Ultra Low RNA Kit manual PT5163-1 (SMARTer II A / IS PCR bases)",
+        "Epicentre Nextera DNA sample preparation guide 2011/2012 (PCR primers, index lengths, gap-fill hold)",
+        "Read mode and index reads actually acquired (four-read layout still drawn as canonical geometry)",
+        "PE (Covaris/end-repair/A-tail/PE-adaptor) branch not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 197/197 pass; page builds; pairing 0 problems; chemistry 4 established/9 conditional/7 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 6 inputs without exact states; dependents smart-seq3/3xpress/flash-seq/scm-t/scmt/scnmt/sccat/paiso suites pass and ss3/xpress/flash pages render; Markdown built; review schema checked"
+    }
+  ]
 }

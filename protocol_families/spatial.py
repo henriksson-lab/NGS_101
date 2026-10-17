@@ -1,21 +1,15 @@
 """Bounded molecular constructors for spatial capture and sample hashing."""
 from __future__ import annotations
 
-from dataclasses import dataclass
-from types import SimpleNamespace
-
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from adapter_ligation import AdapterLigationGeometry
 from batch_ngs import joined_scene, seg, truseq_library
-from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow, duplex_rows,
-                      feature, oligo, revcomp)
+from chemdraw import Construct, Scene, feature, revcomp
 from multimodal_spatial import HybridizationLigationRound
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
-from protocol_model import chain, molecule, role, role_library
+from protocol_graph import InputRole, MaterialKind, SequencingPlan, StepKind
+from protocol_model import role
 
 
 def ident(name, identifier, kind, *, length=None, tag="cbc"):
@@ -47,9 +41,15 @@ SLIDE_TSO_WRITTEN = "AAGCTGGTATCAACGCAGAGTGAATrG+GrG"
 SLIDE_TRUSEQ5 = il.TRUSEQ_P5_FULL
 
 
-# Li et al., Nat Protoc 2025 Supplementary Table 1.  The first member of each
+# Zhang et al., Nature 2023 (doi:10.1038/s41586-023-05795-1): Methods
+# ("Preparation of transposome") for Tn5ME-A/Tn5ME-B/Tn5MErev, Supplementary
+# Table 4 for the RT primer, ligation linkers and N501/N701, and Supplementary
+# Tables 5 and 6 for the barcode A/B plates.  The first member of each
 # 100-oligo pool is retained as a representative; the molecular feature records
-# the full published plate as the identifier source.
+# the full published plate as the identifier source.  The letters are identical
+# to the later Li et al. 2025 Nature Protocols Supplementary Table 1.  The RT
+# primer's internal /iBiodT/ is the first T after the UMI; SPATIAL_RT_POLYT is
+# the remaining T15VN.
 SPATIAL_RT_HANDLE = "CATCGGCGTACGACT"
 SPATIAL_RT_UMI = "N" * 10
 SPATIAL_RT_POLYT = "T" * 15 + "VN"
@@ -69,10 +69,10 @@ SPATIAL_N701 = "CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGGAGATGTGTATAAGAGAC
 
 _SPATIAL_A_FEATURE = feature(
     "spatial_a", "spatial_barcode", "whitelist",
-    whitelist="100-member barcode A plate (Li et al. Supplementary Table 1)")
+    whitelist="100-member barcode A plate (Zhang et al. 2023 Supplementary Table 5)")
 _SPATIAL_B_FEATURE = feature(
     "spatial_b", "spatial_barcode", "whitelist",
-    whitelist="100-member barcode B plate (Li et al. Supplementary Table 1)")
+    whitelist="100-member barcode B plate (Zhang et al. 2023 Supplementary Table 6)")
 
 SPATIAL_A_ROUND = HybridizationLigationRound(
     "barcode A", SPATIAL_RT_HANDLE, SPATIAL_A_PREFIX, SPATIAL_A_SUFFIX,
@@ -83,16 +83,29 @@ SPATIAL_B_ROUND = HybridizationLigationRound(
     SPATIAL_LINKER_2, _SPATIAL_B_FEATURE, barcode_length=8)
 
 
-def _spatial_branch_scene(kind: str, stage: int) -> Scene:
-    """Representative source-exact strand after RT/tagmentation and A/B ligation."""
+def _spatial_branch_scene(kind: str, stage: int, *,
+                          template_switched: bool | None = None) -> Scene:
+    """Representative source-exact strand after RT/tagmentation and A/B ligation.
+
+    ``stage`` counts completed in-situ barcode ligations (0, 1 or 2).  The RNA
+    branch carries a TSO-derived end only after the separate on-bead template
+    switch, so an RNA caller must say explicitly whether that step has happened.
+    """
     if kind == "RNA":
+        if template_switched is None:
+            raise ValueError("the RNA branch needs an explicit template_switched stage")
         core = [seg("RT handle", SPATIAL_RT_HANDLE, "r1"),
                 seg("10-nt UMI", "U" * 10, "umi", placeholder=True,
                     feature=feature("spatial_rna_umi", "umi", "random")),
+                seg("internal biotin-dT (/iBiodT/)", "T"),
                 seg("poly(dT)VN", SPATIAL_RT_POLYT, placeholder=True),
-                seg("transcript cDNA", "X" * 28, placeholder=True),
-                seg("TSO-derived end", "CCCATTC ACTCTGCGTTGATACCACTGCTT".replace(" ", ""))]
+                seg("transcript cDNA", "X" * 28, placeholder=True)]
+        if template_switched:
+            # Zhang et al. 2023 Methods TSO, DNA letters of AAGCAGTGGTATCAACGCAGAGTGAATrGrG+G.
+            core.append(seg("TSO-derived end", revcomp("AAGCAGTGGTATCAACGCAGAGTGAATGGG")))
     else:
+        if template_switched is not None:
+            raise ValueError("template switching applies only to the RNA branch")
         core = [seg("Tn5ME-B RT handle", SPATIAL_RT_HANDLE, "r1"),
                 seg("Tn5ME-B mosaic end", "AGATGTGTATAAGAGACAG", "me"),
                 seg(f"{kind} genomic DNA", "X" * 30, placeholder=True),
@@ -119,11 +132,6 @@ def _spatial_branch_scene(kind: str, stage: int) -> Scene:
     return joined_scene(parts, tuple(junctions), label=f"{kind} branch", duplex=False)
 
 
-def _spatial_rows(stage: int, dna_kind: str) -> list:
-    return [*_spatial_branch_scene(dna_kind, stage).rows(),
-            *_spatial_branch_scene("RNA", stage).rows()]
-
-
 def _spatial_dna_libraries(dna_kind: str):
     """Exact representative DNA branch before and after N501/N701 PCR.
 
@@ -132,9 +140,9 @@ def _spatial_dna_libraries(dna_kind: str):
     the B/A/RT chain on the right side of the insert.
     """
     i5 = feature("spatial_i5", "sample_index", "whitelist",
-                 whitelist="N501 index from Li et al. Supplementary Table 1")
+                 whitelist="N501 index from Zhang et al. 2023 Supplementary Table 4")
     i7 = feature("spatial_i7", "sample_index", "whitelist",
-                 whitelist="N701 index from Li et al. Supplementary Table 1")
+                 whitelist="N701 index (of N701-N707) from Zhang et al. 2023 Supplementary Table 4")
     insert = [
         seg("Tn5ME-A outer arm", nx.S5, "s5"),
         seg("Tn5ME-A mosaic end", nx.ME, "me"),
@@ -164,7 +172,7 @@ def _spatial_dna_libraries(dna_kind: str):
         template,
         PCRPrimer("N501", SPATIAL_N501, anneal_nt=len(nx.ADAPTOR_S5)),
         PCRPrimer("N701", SPATIAL_N701, anneal_nt=len(SPATIAL_B_PREFIX)),
-        statement="The 2025 protocol oligo table gives the complete N501 and N701 primers; their 3′ arms land exactly on Tn5ME-A and the barcode-B PCR arm.")
+        statement="Zhang et al. 2023 Supplementary Table 4 gives the complete N501 and N701 primers; their 3′ arms land exactly on Tn5ME-A and the barcode-B PCR arm.")
     primers = sp.standard_primers(final)
     return template, final, geometry, primers
 
@@ -202,38 +210,6 @@ def slide_seq_library():
     return lib, primers
 
 
-def sci_space_library():
-    """Representative spatial-hash molecule in the sci-RNA-seq hybrid shell."""
-    def s(name, top, tag=None, **kw):
-        return Segment(name, top, tag, **kw)
-    grid = feature("sci_space.grid", "spatial_barcode", "whitelist",
-                   whitelist="sci-Space printed coordinate-hash panel",
-                   note="printed coordinate-hash identity registered by fluorescent fiducials")
-    cell = feature("sci_space.rt", "cell_barcode", "combinatorial",
-                   group="cell_barcode", part="RT round")
-    umi = feature("sci_space.umi", "umi", "random")
-    i5 = feature("sci_space.i5", "sample_index", "unknown")
-    i7 = feature("sci_space.i7", "sample_index", "unknown")
-    lib = Construct([
-        s("P5", il.P5, "p5"),
-        s("i5", "I" * 10, "cbc", placeholder=True, feature=i5),
-        s("TruSeq Read 1", il.TRUSEQ_READ1, "r1"),
-        role("UMI", tag="umi", molecular_feature=umi),
-        role("RT-well cell barcode", tag="cbc", molecular_feature=cell),
-        role("copied printed spatial hash", tag="cbc", molecular_feature=grid),
-        s("mosaic end reverse complement", nx.ME_RC, "me"),
-        s("S7 reverse complement", nx.S7_RC, "s7"),
-        s("i7 reverse complement", "J" * 10, "cbc", placeholder=True, feature=i7),
-        s("P7 reverse complement", il.P7_RC, "p7"),
-    ], name="representative sci-Space spatial-hash library molecule")
-    primers = (sp.TRUSEQ["R1"], sp.NEXTERA["I1"],
-               sp.TRUSEQ["I2"], sp.NEXTERA["R2"])
-    problems = sp.verify(lib, primers, required_roles=tuple(p.role for p in primers))
-    if problems:
-        raise ValueError("sci-Space library: " + "; ".join(problems))
-    return lib, primers
-
-
 HDST_PRECURSOR_WRITTEN = (
     "/AmC6/UUUUUGACTCGTAATACGACTCACTATAGGGACACGACGCTCTTCCGATCT-"
     "Spatial_barcode_Pool1-Bridge1"
@@ -266,11 +242,13 @@ def hdst_library():
 
 
 def _finish_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *, label,
-                geometry=None):
+                geometry=None, forward_state=None, reverse_state=None):
+    """PCR to the sequenced library. Primer states are the caller's source-exact
+    reagents; None leaves that primer without an exact state."""
     forward = graph.input(prefix + "_forward", label + " forward PCR primer",
-                          MaterialKind.OLIGO)
+                          MaterialKind.OLIGO, state=forward_state)
     reverse = graph.input(prefix + "_reverse", label + " reverse PCR primer",
-                          MaterialKind.OLIGO)
+                          MaterialKind.OLIGO, state=reverse_state)
     polymerase = graph.input(prefix + "_polymerase", label + " PCR polymerase",
                              MaterialKind.CATALYST)
     library = graph.product(prefix + "_library", label + " sequencing library",

@@ -263,5 +263,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Independent original-source reads confirm CG000674/CG000477 guide order, CG000621 custom physical probe architecture, and the official human v1.0.1 WTA reference CSV. The CSV resolves 50-nt target-region sequences for this kit version; it does not establish the physical commercial LHS/RHS ordering oligos, their modifications, or an experiment-specific target subset. Independent reads also covered the linked CG000528 planner, CG000478 fixation, CG000529 antibody labeling, CG000396 instrument and CG000479 clogging documents; the latter two were excluded only from missing molecular-oligo claims with reasons. CG000529 adds a source-backed protein branch with /5AmMC12/ TotalSeq-C oligo and Nextera Read 2; the AB attachment transition remains unresolved and warned. No remaining missing-information claim is accepted."
+  "conclusion": "Independent original-source reads confirm CG000674/CG000477 guide order, CG000621 custom physical probe architecture, and the official human v1.0.1 WTA reference CSV. The CSV resolves 50-nt target-region sequences for this kit version; it does not establish the physical commercial LHS/RHS ordering oligos, their modifications, or an experiment-specific target subset. Independent reads also covered the linked CG000528 planner, CG000478 fixation, CG000529 antibody labeling, CG000396 instrument and CG000479 clogging documents; the latter two were excluded only from missing molecular-oligo claims with reasons. CG000529 adds a source-backed protein branch with /5AmMC12/ TotalSeq-C oligo and Nextera Read 2; the AB attachment transition remains unresolved and warned. No remaining missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "10x CG000674 Rev C PDF.txt workflow overview pp. 14–19 lines 1040–1290 (hybridization, post-hybridization wash, in-GEM ligation, gel-bead extension, barcode oligo capture, recovery/pre-amplification/SPRIselect, Sample Index PCR, sequencing), Step 6 sequencing pp. 72–73 lines 4850–4945, Appendix p. 85 Oligonucleotide Sequences lines 5480–5525; CG000529 Rev C p. 4 lines 470–545 (TotalSeq-C Barcode Oligo Capture vs TotalSeq-B pCS1 conjugates); CG000621 Rev D Table 7 lines 1120–1140 via scraper hits 201/1126/1553",
+      "oligo_scraper": "Bundle scraper run (--max-hits 40); CG000621 LHS/RHS constants and EGFP/RFP rows, CG000529 TotalSeq-C and TotalSeq-B pCS1 patterns, CG000477 Rev E appendix shell hits checked against originals; the TotalSeq-B pCS1 oligo belongs to the CG000477 workflow and is not used.",
+      "findings": "Replaced the generic truseq_library RNA endpoint (TruSeq Read 2 arm plus an invented dA junction) with the CG000674 Rev C p. 85 shell: P5-i5(10)-TruSeq Read 1-N16-N12-TTGCTAGGACCG-BC8-NN-TACGTGCTAACCGCGT-50-nt insert-Small RNA Read 2 arm-i7(10)-P7; Read 2S and i7-read primer sites derived from the printed constant and labelled derived. Replaced the generic shared adjacent-probe scene with a local LHS/RHS Scene from CG000621 Table 7 (LHS constant = rc of RA3, 5'-phosphorylated RHS, NN, BC8 probe barcode as sample_index feature, capture sequence pairing with the gel-bead terminus). Added the post-hybridization wash removing unbound probes (p. 15). Declared 28/10/10/90 acquired cycles from p. 73 for both libraries. Reporter states now name LHS/RHS segments. Added one source-transcription check of the modeled RNA reporter/Read 2S arm against p. 85.",
+      "deferred": [
+        "Commercial WTA physical LHS/RHS oligos and four-sequence BC mixtures (CG000621 statement; not reconstructed)",
+        "Physical AB001–AB016 oligo and its in-GEM attachment geometry (attach_ab MAGIC)",
+        "Pre-amplification and Sample Index PCR primer sequences (Dual Index Kit TS Set A); two PCRs collapsed into one per branch",
+        "Small RNA Read 2 / Index 1 sequencing-primer originals (Illumina) — sites derived from library constant",
+        "Probe ligase identity and GEM thermal programme detail in CG000674 steps 2.x"
+      ],
+      "scope": "Capped vendor-manual pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 5 checks pass; page builds; pairing 0 problems; chemistry 0 established/6 conditional/13 unresolved/0 contradictory with attach_ab MAGIC warning; source guard 0 exact checked, 0 failed, 1 input without exact state; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

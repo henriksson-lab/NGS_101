@@ -67,23 +67,33 @@ def render(m) -> str:
             limitations.get(heading, "") if isinstance(limitations, dict) else limitations)
         if not primers and not (limitation and specs):
             raise ValueError(f"{m.TITLE}: {heading} needs sequencing primers or a limitation and source-declared reads")
+        # Bracketed role tokens stand for undisclosed sequence; they are placed by the
+        # Scene but are not base-paired as if "[adapter]" had a complement.
+        unknown = tuple(s.name + "'" for s in library if s.is_role_token())
         parts.extend([f'<h2>{heading}</h2>',
-                      panel(duplex_rows(library, label="library"),
+                      panel(duplex_rows(library, label="library", unpaired=unknown),
                             cls="long", caption=caption)])
+        exact_plan = plan is not None and bool(plan.primers)
         if primers:
             parts.append(sp.section(library, primers, intro=intro,
-                                 required_roles=(plan.acquired_roles if plan is not None and
-                                                 plan.acquired_roles else tuple(p.role for p in primers)),
+                                 required_roles=(plan.required_roles if exact_plan
+                                                 else tuple(p.role for p in primers)),
                                  read_lengths=(plan.read_lengths if plan is not None and
                                                plan.read_lengths else
                                                getattr(m, "READ_LENGTHS", {}).get(heading)),
                                  read_uses=(plan.read_uses if plan is not None and
                                             plan.read_uses else
                                             getattr(m, "READ_USES", {}).get(heading)),
-                                 show_read_content=not specs and getattr(m, "SHOW_READ_CONTENT", True)))
+                                 show_read_content=not specs and getattr(m, "SHOW_READ_CONTENT", True),
+                                 unplaced_reads=plan.unplaced_reads if exact_plan else (),
+                                 acquisition_unspecified=bool(exact_plan and
+                                                              plan.acquisition_unspecified)))
         if limitation:
             parts.append(sp.unavailable_diagram(library, limitation))
         if specs:
-            parts.append(sp.read_spec_table(specs))
+            notes = getattr(m, "READ_SPECS_NOTE", {})
+            note = (notes.get(heading, "") if isinstance(notes, dict) else notes) or (
+                sp.PARTIAL_GEOMETRY_NOTE if primers else "")
+            parts.append(sp.read_spec_table(specs, note))
     parts.append('</div>')
     return "\n".join(parts)

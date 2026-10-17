@@ -79,5 +79,24 @@
       "evidence": "Main article and supplements are available but full chemistry sections and Smart-seq2 predecessor not yet checked twice."
     }
   ],
-  "conclusion": "Main article and supplements are available but full chemistry sections and Smart-seq2 predecessor not yet checked twice."
+  "conclusion": "Main article and supplements are available but full chemistry sections and Smart-seq2 predecessor not yet checked twice.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Published Nat. Commun. PMC7555861 JATS Results line65, Fig. 1a legend line71, Results line113 (10x application), Methods line149 (library construction), line165 (10x dissociation/kits), lines169-171 (TSS/TES read processing); rendered Fig. 1a PDF p3; MOESM1 Supplementary Table 7 lines3085-3131 and MOESM5 Fig. 4b sheet classified from scraper hits",
+      "oligo_scraper": "Bundle scraper run; library hits are Methods line149 RT/P5/P7 primers and line169 TSS tag/TSO part (PDF lines1583-1641 copies); MOESM1 Table 7 hits are novel-gene cloning primers; MOESM5 Fig. 4b 16-nt hits are 10x-style cell barcodes, not oligos.",
+      "findings": "Replaced separate inferred TSS and TES PCR branches with the source single end-capture PCR: Methods prints one tag-specific P5 index primer (3' GTGGTATCAACGCAGAGT = RT-handle/TSO tag) and one Nextera P7 index primer; TSS/TES are split computationally (lines169-171). Graph now: SuperScript III RT with the printed RT primer, TSO template switch (TSO inferred; only read part GTGGTATCAACGCAGAGTACAT printed), Smart-seq2 preamplification as warned MAGIC (ref21 unavailable), unspecified purification, Nextera XT tagmentation of 0.1 ng (kit adaptors inferred), exact-geometry end-capture PCR on primer 3' portions, internal-fragment candidate unresolved, 1.8x AMPure, E-Gel 2% 200-300 bp selection, X Ten PE150. Derived TES-end and TSS-end molecules from printed primers/TSS tag with UMI/cell-barcode/index features; P7-side ME marked inferred; standard Nextera primers computed. Graph-owned discrepancy: Results/Fig. 1a tag with UMI+CI on both ends vs Methods TSS tag without random/barcode positions.",
+      "deferred": [
+        "Smart-seq2 Nat. Protoc. ref21 (TSO, ISPCR primer, cycling): no open full text",
+        "Nextera XT kit adaptor original",
+        "End-capture PCR polymerase/cycles, index-read cycles, 16-bp cell-barcode list",
+        "10x Chromium 3' v3/5' application not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (graph construction, 0 explicit checks); page builds; pairing 0 problems; chemistry 1 established/0 conditional/8 unresolved/0 contradictory with preamplify MAGIC warning; source guard 0 exact checked, 0 failed, 3 inputs without exact states (RT primer and both index primers carry symbolic windows); Markdown built; review schema checked"
+    }
+  ]
 }

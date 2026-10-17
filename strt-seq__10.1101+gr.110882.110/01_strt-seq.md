@@ -125,7 +125,12 @@ DI_idxP1A-Seq          AATGATACGGCGACCACCGAGATCTACAC
 Preprint and published table agree base for base; they differ only in hyphenation (the
 preprint drops the separator hyphen in five oligos). 🟢
 Names drift in the methods prose: "STRT-P1T31" / "STRT-P1-T31"; the second-PCR primers
-appear as "4K-P1_2ndPCR" and "P2_4K_2ndPCR", the former at "200mM" (surely 200 nM). 🟡
+appear as "4K-P1_2ndPCR" and "P2_4K_2ndPCR", the former at "200 mM" and the latter at
+"200 nM" (Sci Rep Methods, "Tagmentation and isolation of 5′ fragments"). The paper never
+defines "4K"; reading these as the Table 1 P1_2nd_PCR/P2_2nd_PCR oligos and "200 mM" as
+200 nM is an interpretation, not a printed fact. 🟡 The 2i page shows this as a source
+discrepancy (graph annotation on `p1_second_pcr`) and draws the Table 1 sequences with no
+concentration.
 Upstream calls the oligo-dT "C1-P1-T31" — it is the same sequence as C1's (computed). 🟡
 
 ### How they interlock — 🟡 (computed with `lib/`)
@@ -179,13 +184,19 @@ Upstream calls the oligo-dT "C1-P1-T31" — it is the same sequence as C1's (com
   the TSO handle minus its last `T`) = 55 nt. It primes only on the TSO end.
 - DI-PCR-P1A = `illumina.P5[:20]`: it primes the oligo-dT end (which starts with the same
   20 nt) and, once the index primer has run, the TSO end too. **Both** PCR primers are
-  biotinylated, so both ends of the amplified cDNA carry biotin. 🟡
+  biotinylated, so both ends of the amplified cDNA carry biotin. 🟡 Consequently the
+  oligo-dT-end tagmentation fragments are also 5′-biotinylated and are candidates for
+  co-capture on streptavidin; the inspected Methods describe no step that separates them
+  at capture. The 2i graph records them as an **unresolved candidate** capture output
+  (no sequence state), not as a removed or a sequenced product. 🟡
 - STRT-Tn5-Idx and STRT-TN5-U have the same layout as C1-TN5-x / C1-TN5-U.
 - P1_2nd_PCR = `illumina.P5[:24]`, P2_2nd_PCR = `illumina.P7` (24 nt).
   - P1_2nd_PCR matches the 5' (TSO-end) fragments over all 24 nt, but on the 3' (oligo-dT)
     fragments only the first 20 nt match: its last 4 nt `GATC` face `TCGT` — a 4-nt 3'
-    mismatch. This, plus the absence of the P1B read-1 site, is what excludes 3'
-    fragments in 2i; the methods mention **no PvuI step** (see §6). 🟡
+    mismatch. This, plus the absence of the P1B read-1 site and the analysis filter that
+    discards reads ending in poly(A) with <25 remaining bases, may limit 3'-fragment
+    reads in 2i, but none of these establishes their physical removal; the methods
+    mention **no PvuI step** (see §6). 🟡
   - P2_2nd_PCR's last 3 nt (`GAT`) sit where the Tn5 adapter has the first 3 barcode bases
     (adapter = `P7[:21]` + `YYYYYYYY`). Only barcodes beginning `GAT` match fully; in the
     C1 set (if reused — unknown 🔴) 1/96 does, 14 have 1, 42 have 2 and 39 have 3
@@ -264,11 +275,18 @@ The source of the Tn5 enzyme is not stated in our sources. 🔴
    subarray, i.e. pooled by subarray.
 6. **Tagment** each subarray pool with its own STRT-Tn5-Idx transposome (6.25 µM adapter +
    6.25 µM Tn5, 37 °C 1 h): 3 µL + 2 µL cDNA in 20 µL CutSmart, 55 °C 20 min.
-7. **Streptavidin** (MyOne C1 in 0.5 % SDS binding buffer) 15 min, pool all 96,
-   wash; **ExoSAP-IT** 37 °C 15 min removes leftover adapters; elute the **single-stranded
-   library** in water, 70 °C 10 min. No PvuI step is described. 🟢
-8. **PCR 2, 8 cycles**: P1_2nd_PCR + P2_2nd_PCR, KAPA HiFi; 98 °C 30 s, 65 °C 10 s, 72 °C
-   20 s. AMPure 0.7×, then 0.5×/1× double size selection.
+7. **Streptavidin** (MyOne C1 diluted 1:20 in BB buffer with 0.5 % SDS, added 1:1 to each
+   tagmentation reaction) 15 min at room temperature, then pool all 96 and wash twice in
+   TNT; **ExoSAP-IT** 37 °C 15 min removes leftover adapters; two more TNT washes and one EB
+   wash; elute the **single-stranded library** in water, 70 °C 10 min. No PvuI step is
+   described. 🟢 Unbiotinylated fragments leave in these washes; this is where the 2i
+   graph discards them (the shared tagmentation step no longer discards anything). 🟡
+8. **AMPure order around PCR 2** (Sci Rep Methods, same paragraph): bind the eluate to
+   **1.5×** AMPure, remove the supernatant and resuspend the beads directly in the second-PCR
+   mix (PCR on beads); **PCR 2, 8 cycles**: P1_2nd_PCR + P2_2nd_PCR, KAPA HiFi Ready Mix;
+   95 °C 2 min; 8 × (98 °C 30 s, 65 °C 10 s, 72 °C 20 s); 72 °C 5 min. Transfer the
+   supernatant, clean with **0.7×** AMPure and elute; bind the eluate to **0.5×** AMPure and
+   keep the supernatant, bind that to **1×** AMPure and elute in EB. 🟢
 
 ## 4. Final libraries — 🟡 (assembled from the oligos above; strand shown = Read-1 sense)
 
@@ -354,8 +372,9 @@ Disagreements:
   whether PvuI is used. If it is, 6.25 % of UMIs (those starting `CG`) are lost. 🟡
 - 🔴 2i well-index (32 × 5 nt) and subarray-index (96 × 8 nt) sequences; whether the
   subarray set is the C1 barcode set.
-- 🟡 2i: how cleanly a 4-nt 3' mismatch on P1_2nd_PCR, with a proofreading polymerase,
-  excludes the oligo-dT-end fragments (they cannot be read by DI-Read1-Seq anyway).
+- 🟡 2i: whether the biotinylated oligo-dT-end fragments are co-captured and carried into
+  PCR 2, and how cleanly a 4-nt 3' mismatch on P1_2nd_PCR, with a proofreading polymerase,
+  limits their amplification (they cannot be read by DI-Read1-Seq anyway).
 - 🟡 2i DI-Read1-Seq has 6 N over a 5-nt index — a typo in both versions, or a deliberate
   bulge?
 - 🔴 Why DI-Read1-Seq omits the first `A` of P5.

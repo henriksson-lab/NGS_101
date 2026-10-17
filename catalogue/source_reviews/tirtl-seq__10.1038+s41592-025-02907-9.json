@@ -238,5 +238,25 @@
       "evidence": "Published Supplementary Data 1 contains them; predecessor and protocol versions still need two-reader review."
     }
   ],
-  "conclusion": "Published primer family and dual-index workflow independently checked. Linked 96-well manual names further primer workbooks and Smart-seq3xpress index predecessor not yet obtained; review remains blocked."
+  "conclusion": "Published primer family and dual-index workflow independently checked. Linked 96-well manual names further primer workbooks and Smart-seq3xpress index predecessor not yet obtained; review remains blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nat Methods PMC12791010 JATS Methods 'TIRTL-seq library preparation' lines 214-226 (RT/lysis 218, PCR I 220, PCR II/pool/AMPure/NovaSeq 222, manual 96-well 226), single-cell sorting 204; Supplementary Data 1 MOESM3 xls.txt sheets Vmix_PCRI_forward 1-90, C_PCRI_reverse 91-116, i5_PCRII_forward 117-502, i7_PCRII_reverse 503+; protocols.io TIRTL-seq 96-well V.2 (10.17504/protocols.io.kqdg3k6xpv25/v2) steps 49-50 for the manual variant only",
+      "oligo_scraper": "Bundle scraper run; V/C primer families checked against published MOESM3 rows; preprint media-1 rows (e.g. alpha ID01 ATCCTTC) disregarded in favour of the published supplement; MOESM1 is a related-manuscript print (no chemistry).",
+      "findings": "Corrected repository orientation error: C-segment primers carry the Nextera Read 1 arm and plate barcode, V primers the Read 2 arm, so the final library is P5-i5-Read1 arm-plate barcode-C site-antisense V(D)J-V site-Read2 arm-i7-P7; split the single well-UDI role into grouped i5/i7 features; replaced legacy role_library with an explicit Construct. Added source reagents/conditions (Maxima H Minus, random hexamer+oligo(dT), KAPA2G Fast Multiplex 20 cycles, Q5 Hot Start 15 cycles, ~1:10 dilution) and the pooled 1X AMPure XP cleanup with discarded waste. Plate-ID display now marks the computed variable window (positions 34-40, both pools) because the 6-or-8-nt barcode boundary is not marked. Sequencing endpoint states NovaSeq 300,000 reads/well with read lengths unassigned (2x150 only in the 96-well protocols.io).",
+      "deferred": [
+        "Read lengths and index-read cycles for the 384-well protocol",
+        "Plate-barcode boundary (6 vs 8 nt) within the 7-position variable window",
+        "RT primer (random hexamer/oligo(dT)) sequences and oligo(dT) length",
+        "protocols.io 96-well V.2 full reagent comparison beyond steps 49-50",
+        "Selected panel row for an exact primer-binding/read-cycle view"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest passes (construction only, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

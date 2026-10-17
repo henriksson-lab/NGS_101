@@ -1,0 +1,183 @@
+{
+  "dir": "chip-seq__10.1038+nmeth1068",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "Robertson et al. Nat Methods 4:651-657 (2007), doi:10.1038/nmeth1068 (Crossref-verified; dotted nmeth.1068 does not resolve), PMID 17558387, not in PMC",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Publisher PDF hand-downloaded by the maintainer on the institutional network 2026-10-17 and placed as nmeth1068.pdf; identity checked (printed DOI 10.1038/NMETH1068, title, authors); read in one capped single-reader pass (deferred-followup-03). Not an independent two-pass check.",
+      "acquisition": {
+        "date": "2026-10-17",
+        "reviewer": "maintainer (hand download); identity checked by root",
+        "route": "https://doi.org/10.1038/nmeth1068 (institutional network)",
+        "result": "Valid 17-page article PDF (Nature Methods 4:651-657)."
+      }
+    },
+    {
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "Robertson et al. 2007 Supplementary Information PDF, Springer 41592_2007_BFnmeth1068_MOESM305_ESM.pdf, sources/chip-seq__10.1038+nmeth1068/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "MOESM305 text lines 1-33 (contents) and 545-566 (Supplementary Methods, STAT1 ChIP DNA)",
+        "finding": "Gives fixation, lysis, sonication, anti-STAT1 sc-345/Protein A agarose IP, TE/1% SDS elution, 65 C reversal, RNase A/proteinase K/phenol-chloroform/ethanol purification. No library-construction, adapter or read-length text in the supplement."
+      },
+      "pass_2": null,
+      "discovered_from": "paper"
+    },
+    {
+      "id": "schmidt2009",
+      "role": "detailed_protocol",
+      "locator": "Schmidt et al., Methods 48:240-248 (2009) doi:10.1016/j.ymeth.2009.03.001, PMC4052679.1 author-manuscript JATS XML (PMC Cloud), sources/chip-seq__10.1038+nmeth1068/j.ymeth.2009.03.001_PMC4052679.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "PMC4052679 XML text lines 192-340 (sections 2.2.7-2.2.11, end repair through gel purification and reamplification) and 456-460 (reamplification primer list)",
+        "finding": "Uses Illumina Genomic Adapter Oligo mix (40-fold diluted) and Genomic PCR primers 1.1/2.1 without printing their bases; PCR precedes 200-300 bp gel selection. Prints reamplification Primer 1.2 and 2.2 bases, citing a UConn core wiki."
+      },
+      "pass_2": null,
+      "reason": "Later (2009) detailed ChIP-seq protocol from a different laboratory; not evidence cited by Robertson 2007. Retrieved via PMC Cloud on 2026-10-17."
+    },
+    {
+      "id": "illumina_archived",
+      "role": "linked_material",
+      "locator": "Illumina ChIP-Seq Sample Prep Guide, 2007, https://support.illumina.com/content/dam/illumina-support/documents/documentation/system_documentation/cluster_station/11257047_ChIP_Sample_Prep.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Vendor original PDF pp.3–4, 8, 11 (web-extracted lines 54–98, 166–185, 232–259); guide uses Adapter Oligo Mix part 1000521 and PCR Primers 1.1/2.1 parts 1000537/1000538.",
+        "finding": "The guide confirms end repair, dA tailing, adapter ligation, and single-read PCR kit parts, but prints no complete oligo bases."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Official Illumina 2007 ChIP-Seq Sample Prep Guide Rev A PDF https://support.illumina.com/content/dam/illumina-support/documents/documentation/system_documentation/cluster_station/11257047_ChIP_Sample_Prep.pdf, web lines 42-68, 79-98, 111-185",
+        "finding": "Guide specifies blunt end repair, Klenow exo- dA tailing and 3′ T-overhang adapters. It names Adapter Oligo Mix 1000521 and primers 1000537/1000538 but does not print their bases."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "illumina_adapter_sequences",
+      "role": "linked_material",
+      "locator": "Illumina Adapter Sequences document 1000000002694, historical kit-specific sequence table",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Specific adapter sequence document not obtained or inspected; 2007 guide names parts but does not print bases.",
+      "discovered_from": "illumina_archived"
+    },
+    {
+      "id": "uconn_wiki",
+      "role": "linked_material",
+      "locator": "http://intron.ccam.uchc.edu/groups/tgcore/wiki/013c0/Solexa_Library_Primer_Sequences.html (cited by Schmidt 2009 for oligonucleotide sequences)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": null,
+      "reason": "Host did not respond on 2026-10-17 and the Wayback availability API reported no snapshot.",
+      "discovered_from": "schmidt2009"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Protocol note citation audit exposed a false DOI/author association; PMC4052679 is Schmidt et al., not Park. Defining Robertson source and historical Illumina guides remain unavailable. Illumina 2007 ChIP-Seq Sample Prep Guide pp.3–4, 8, 11 was independently read online; adapter-sequences document remains to be found.",
+      "finding": "Linked material is itemized below; inaccessible relevant sources remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "PubMed PMID 17558387 Robertson article identity/DOI; PubMed PMID 19275939 and PMC4052679 Schmidt 2009 identity; Illumina 2007 Rev A guide web lines 42-185",
+      "finding": "Verified Schmidt 2009 is a later detailed protocol, not a predecessor linked by Robertson 2007. Read original Illumina guide; defining Robertson text and historical adapter-sequence table remain unavailable, so missing adapter bases are blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "Historical 2007 single-read Illumina adapter synthesis sequence",
+      "evidence": "The 2007 Illumina sample prep guide confirms kit part numbers but does not print bases; defining paper and historical adapter-sequences document remain unavailable.",
+      "disposition": "blocked"
+    }
+  ],
+  "conclusion": "Defining article (incl. library Methods), its Supplementary Methods, the 2007 Illumina guide and Schmidt 2009 read in capped single-reader passes; the graph follows the article order. Adapter/primer bases are inferred; no missing-information claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-02",
+      "reviewer": "root",
+      "date": "2026-10-16",
+      "documents": 0,
+      "locations": "Local source bundle MANIFEST.tsv inspected; existing get_sources --slugs chip-seq__10.1038+nmeth1068 attempted:0 originals returned; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "No correction made: defining original and historical vendor originals were not available in this bundle. No source claim was re-verified.",
+      "deferred": [
+        "Defining Robertson2007 article, Schmidt2009 protocol and archived Illumina original11257047/adapter guide; retrieval yielded no source and remains deferred"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); sourceguard skipped: dedicated source bundle absent/empty"
+    },
+    {
+      "round": "2026-10-17-deferred-followup",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Robertson2007 Supplementary MOESM305 text1-33,545-566; Illumina11257047 RevA guide text1-494 (whole); Schmidt2009 PMC4052679 XML text192-340,456-460. Main article paywalled (abstract only).",
+      "oligo_scraper": "Run on the assembled bundle and both DOI bundles: 0 hits in Robertson supplement and Illumina guide; Schmidt2009 hits Primer1.2/2.2 (lines456,460) verified in text. upstream/scg material not used.",
+      "findings": "Defining DOI corrected to10.1038/nmeth1068 (dotted DOI unresolvable; catalogue/directory still use it). Chromatin conditions from Supplementary Methods; library enzymes/conditions, 200+-25bp gel removing unligated adapter and Phusion18-cycle PCR from the2007 guide, marked as assumed-applicable. Adapter/PCR1.1/2.1/sequencing-primer bases now inferred (only Schmidt reamplification primers1.2/2.2 printed); read length27 unverified; constant-restating selftest check removed; RNA/protein extraction waste added.",
+      "deferred": [
+        "Robertson2007 main-article Methods (library kit, gel range, PCR cycles, read length): paywalled",
+        "Historical Illumina oligonucleotide sequence document for parts1000521/1000537/1000538",
+        "UConn core wiki cited by Schmidt2009: host dead, no Wayback snapshot",
+        "Catalogue/directory DOI correction (shared files)"
+      ],
+      "scope": "Capped defining-source pass, single reader; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite import/construction passes (0 explicit checks); page builds; pairing0 problems; chemistry0 established/3 conditional/10 unresolved/0 contradictory; source guard0 exact checked, 2 primer inputs without exact states (adapter inferred); Markdown built; review schema pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Robertson2007 Supplementary Data 1 (Springer MOESM306 zip, fetched by get_sources --slugs) README.txt lines1-60 (read length lines18-21). Main article retrieval attempts: OpenAlex/Unpaywall closed, no repository copy; Europe PMC subscription only (no PMCID); nature.com /articles/nmeth1068 and .pdf return abstract + institutional access only (manual https://doi.org/10.1038/nmeth1068).",
+      "oligo_scraper": "Rerun on bundle: no new oligo hits in MOESM306 README/peak tables; Schmidt2009 primer2.2 hit unchanged (line460). upstream/scg material not used.",
+      "findings": "Read length27 bases now sourced: README lines18-21 'the number of27 bp Illumina reads in the peak'. Caveat, sequencing intro, note section6 and graph read length (FINAL_READ_LENGTH) updated; single-end/unindexed acquisition still inferred. Selftest gains one README transcription check (skips if absent). No other change.",
+      "deferred": [
+        "Robertson2007 main-article Methods (library kit, gel, PCR cycles, run configuration): paywalled, no OA location",
+        "Historical Illumina oligonucleotide sequence document for parts1000521/1000537/1000538",
+        "UConn core wiki cited by Schmidt2009 (dead host)",
+        "Catalogue/directory DOI correction (shared files)"
+      ],
+      "scope": "Capped deferred follow-up, single reader; main article still unread, so partial; no accepted missing-information claim.",
+      "verification": "local suite1/1 pass; page builds; pairing0 problems; chemistry0 established/3 conditional/10 unresolved/0 contradictory (9 steps); source guard0 exact checked,0 failed,2 inputs without exact states; Markdown built; review schema pass"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Robertson2007 publisher PDF nmeth1068.pdf.txt (identity verified: printed DOI 10.1038/NMETH1068, title, authors): abstract/intro lines1-75, results read counts 144-157, read-length discussion 727-729, Methods 'Illumina library construction and sequencing' 750-786, 'Processing 1G data' 787-815, ChIP/Additional methods 849-855; compared with Illumina 11257047 gel (lines345-390) and PCR sections.",
+      "oligo_scraper": "Bundle scraper rerun incl. article twin: 2 hits, both Schmidt2009 reamplification primers 1.2/2.2 (xml.txt456/460); none in the article.",
+      "findings": "Graph reordered to article: 12% PAGE 100-300 bp size selection of 5-50 ng IP DNA (LoTE/NH4OAc overnight elution, QIAquick) before end repair; T4:Klenow 1:5 30min 20C then phenol-chloroform/EtOH-glycogen; Klenow exo- 37C 30min then extraction/precipitation, 70% washes, LoTE; adapter mix 1/10, QIAquick 50C EB; post-ligation 2% agarose gel removed (not in article); Phusion primers 1.1/2.1 separate 10- and 15-cycle reactions, MinElute, Agilent DNA1000; 27 cycles cluster station/1G. Single-end now sourced (27 cycles; read = one fragment end); no index stays inferred. Graph-owned discrepancy article vs guide (gel position/range, 10/15 vs 18 cycles). Reviewed scope moved to article; guide keeps dATP/PNK/buffer detail. Caveat, sequencing intro and note updated.",
+      "deferred": [
+        "Historical Illumina sequence document for Adapter Oligo Mix part1000521 and PCR primers 1.1/2.1 parts1000537/1000538",
+        "Whether a post-ligation gel was also run and which 10/15-cycle PCR product was sequenced (article silent)",
+        "Predecessor ChIP method ref.30 beyond the Supplementary Methods",
+        "UConn core wiki cited by Schmidt2009 (dead host)"
+      ],
+      "scope": "Capped deferred follow-up, single reader; defining article Methods now read. No full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/3 conditional/10 unresolved/0 contradictory (9 steps); source guard 0 exact checked, 0 failed, 2 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
+}

@@ -79,5 +79,25 @@
       "evidence": "The preprint prints the sc-end5 RT primers and says initial 5-prime kit, but no revision or i7 well. Two independent readers inspected later CG000086 Rev K for same product numbers and its bead/Read 2 architecture; later guide does not establish the historical lot/revision or sample assignment."
     }
   ],
-  "conclusion": "Two independent checks cover the preprint and later same-kit CG000086 Rev K comparator. The source-published sc-end5 RT primers are displayed; general 5-prime bead architecture is known from Rev K, but the original kit revision and selected i7 well remain blocked. No missing-information claim is accepted."
+  "conclusion": "Two independent checks cover the preprint and later same-kit CG000086 Rev K comparator. The source-published sc-end5 RT primers are displayed; general 5-prime bead architecture is known from Rev K, but the original kit revision and selected i7 well remain blocked. No missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "bioRxiv v2 (posted 2021-04-21) PDF text Methods lines 1380-1460 (sc-end3/sc-end5 library prep, PBMC sc-end5-dT), 1740-1815 (unencoded-G, strand-invader filtering), Fig.1a legend 2780-2795; comparator CG000086 Rev K PDF text bead TSO/RT product lines 6857/6904 checked for the TS 3' sequence only",
+      "oligo_scraper": "Bundle scraper run (4 hits): control 3' TSO line1401, dT handle line1417, random primer line1421, 13-nt TS-oligo analysis sequence TTTCTTATATGGG line1810; all followed to original lines.",
+      "findings": "Added preprint-printed details: random primer 17 uM, droplet RT 53C 45 min, separate kit cDNA PCR (12 cycles dT, 14 cycles rand) with inferred two-component primer mix, warned MAGIC boundary for the undisclosed 'standard steps' before index PCR, HiSeq 2500 75PE. Recorded the preprint's 13-nt TS-oligo 3' sequence TTTCTTATATGGG (DNA read form) used for strand-invader/unencoded-G analysis; consistent with CG000086 Rev K bead TSO 3' end; strand-invader removal noted as computational only. No published version identified (tCRE atlas is a separate study).",
+      "deferred": [
+        "Initial Chromium Single Cell 5' kit guide revision actually used (cDNA primer bases, fragmentation/adapter steps, cleanups)",
+        "Chosen i7 sample-index wells and acquired index-read cycles",
+        "Full sc-end5 bead TSO sequence and ribonucleotide 3' end in a version-matched original",
+        "10x technical note on strand invasion (permalink in Methods) not followed",
+        "Published-version search beyond one web query"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 4/4 pass (new TS-sequence transcription check); page builds; pairing 0 problems; chemistry 0 established/0 conditional/15 unresolved/0 contradictory with 2 kit_steps MAGIC warnings; source guard 0 exact checked, 0 failed, 8 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

@@ -410,5 +410,24 @@
       "evidence": "Recovered original mmc1 positively describes two2016 library routes with different RT primers. The page now labels2016 HeLa, inherited2016 HEK293/mES and later2018 oligos separately. Universal equivalence to2018 is not supported; this is a resolved version-boundary correction, not a missing-sequence acceptance."
     }
   ],
-  "conclusion": "Two independent original-source checks now cover the current2016PARIS route, its actualFlynn/Spitale inheritedsources, later2018version comparison, supplemental workbook scope, image-bearing publisher slides and linkedauthorsoftware. Source-led route/oligo corrections are implemented. Unassigned barcode members and incomplete circle/PCR reconstruction remain explicit model limits; no publication absence is asserted or accepted."
+  "conclusion": "Two independent original-source checks now cover the current2016PARIS route, its actualFlynn/Spitale inheritedsources, later2018version comparison, supplemental workbook scope, image-bearing publisher slides and linkedauthorsoftware. Source-led route/oligo corrections are implemented. Unassigned barcode members and incomplete circle/PCR reconstruction remain explicit model limits; no publication absence is asserted or accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Cell PMC5029792 JATS line144 (methods summary); publisher mmc1.pdf.txt Extended Experimental Procedures PARIS Steps1–3 lines25–110; cited Flynn2016 Nat Protoc PMC4896316 JATS reagents lines132–206 and Procedure steps26–66 lines532–800",
+      "oligo_scraper": "Bundle scraper run; Flynn linker (lines140/144), RT-primer-1 (164), P5/P3-Solexa (204/206) and Spitale2015 hits rechecked against source lines; mmc3 hits are observed RNA duplex sequences, not oligos.",
+      "findings": "Graph conditions made source-specific: AMT 0.5mg/ml UV365 30min on ice; S1 nuclease in urea/SDS lysate + proteinase K/TRIzol added as its own step before ShortCut RNase III (MnCl2, 37C 20min); T4 RNA ligase 1 (M0437M) 16–20h RT, boiled; UV254 15min. Inherited Flynn route: linker /5rApp/AGATCGGAAGAGCGGTTCAG/ with unassigned 3' block, T4 Rnl1 HC + 15% PEG8000 25C 3h, added urea-PAGE RNA size selection (>40-nt inserts) and cDNA PAGE selection with discarded free linker/unextended RT primer, SuperScript III, CircLigase II 60C 2h, qPCR-monitored Phusion. P5/P3-Solexa graph inputs equal Flynn lines204/206. No published discrepancy found.",
+      "deferred": [
+        "Which Flynn linker 3' block (biotin vs ddC) PARIS used and whether Flynn steps43–50 streptavidin capture applies",
+        "Circular-cDNA junction, PCR binding sites and read entry reconstruction",
+        "Acquired NextSeq read length/cycles for the 2016 libraries",
+        "HeLa random-hexamer route not drawn as a graph branch"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/4 conditional/13 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 2 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

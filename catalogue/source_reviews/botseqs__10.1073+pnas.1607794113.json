@@ -79,5 +79,66 @@
       "evidence": "PNAS supplementary files inaccessible; 2017 kit revision cannot fix exact 2016 member."
     }
   ],
-  "conclusion": "Two readers checked the defining article and a later Illumina guide. The article-linked PNAS SI Appendix and data workbook remain inaccessible through tested routes; exact experiment-specific index assignment is unverified and no absence claim is accepted."
+  "conclusion": "Two readers checked the defining article and a later Illumina guide. The article-linked PNAS SI Appendix and data workbook remain inaccessible through tested routes; exact experiment-specific index assignment is unverified and no absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC5024639 article HTML text lines 1243, 1246–1256 (library generation, Watson/Crick, HiSeq 2500 rapid 2x100, Fig. 1 legend), 1460–1463 (Methods DNA prep, BioRuptor shearing, TruSeq PCR-Free low-input ligation with 350-bp selection, 10^5-fold dilution); TruSeq DNA PCR-Free Reference Guide 1000000039279 v00 (Oct 2017) workflow contents lines 55–66 for step order only",
+      "oligo_scraper": "Bundle scraper run: 0 oligo hits; the article prints no oligos.",
+      "findings": "Added source shearing settings (BioRuptor high, 15 s on/90 s off, 7 cycles, 3 °C), AllPrep DNA input, kit reagent identities, 10-fold MiSeq dilution-series basis for the dilution, and an inferred 350-bp size-selection step (placement from the 2017 guide, caveated on page). Model correction: post-dilution PCR primers were labelled TruSeq indexed reverse primer; article names no PCR primers/polymerase/cycles and the index is carried by the PCR-free adapter, so they are now marked unidentified (SI Appendix). Acquired roles limited to Read 1/Read 2 x100; index read not stated.",
+      "deferred": [
+        "PNAS SI Appendix PDF (PMC download gate; pnas.org 403; PMC Cloud 404) — dilution, PCR and sequencing details",
+        "Dataset S1 XLSX (same gates)",
+        "2016 TruSeq DNA PCR-Free kit revision: adapter index length/arrangement and size-selection placement",
+        "8-nt i7 placeholder of the canonical drawn library unchecked"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2/2 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 3 inputs without exact states (no printed oligos); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "US 12,359,250 B2 'Bottleneck sequencing' (Johns Hopkins; PCT/US2017/015229; provisional 62/288,869, 29 Jan 2016), USPTO image PDF https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/12359250, tesseract OCR twin US12359250B2.pdf.txt: Example 1 Methods col. 12-13 (OCR lines 2488-2620: Y-adapter ligation, serial dilution, PCR amplification, MiSeq dilution test, WGS branch); primer bases checked on the rendered page-19 image. Patent states its supplementary tables are those of Hoang et al. PNAS 113(35) (OCR lines 1765, 3315). Labelled lead, not the defining SI.",
+      "attempted_routes": [
+        "get_sources.py --slugs: PMC bin sapp.pdf/sd01.xlsx return proof-of-work 'Preparing to download' page (not solved); Europe PMC fullTextXML HTTP 500; PMC Cloud PMC5024639.* 404",
+        "Europe PMC REST supplementaryFiles: 'not open access'; europepmc.org bin URL Cloudflare 403",
+        "pnas.org doi/suppl/10.1073/pnas.1607794113/suppl_file/pnas.1607794113.sapp.pdf: Cloudflare 403",
+        "Unpaywall/OpenAlex: only PMC (submittedVersion label) and publisher locations",
+        "labs.pathology.jhu.edu/larman/?p=323: 403; patents.justia.com: 403",
+        "Illumina support guessed URLs for TruSeq DNA PCR-Free guide 15036187 (2016 revisions): 404"
+      ],
+      "manual_url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5024639/bin/pnas.1607794113.sapp.pdf",
+      "oligo_scraper": "Bundle scraper: 2 hits, both in the patent OCR twin (TS-PCR Oligo1 = illumina.P5 nt 1-22, TS-PCR Oligo2 = illumina.P7 nt 1-22, phosphorothioate x1 each); verified on page image.",
+      "findings": "Model correction: the post-dilution PCR inputs, previously unidentified, are now inferred patent-sourced inputs TS-PCR Oligo1 5'-AATGATACGGCGACCACCGAG*A and Oligo2 5'-CAAGCAGAAGACGGCATACGA*G (HPLC, 0.5 uM), Q5 Hot Start 2x, 98C 30s, 18x(98C 10s/69C 30s/72C 30s), 72C 2 min; PCR geometry is now exact (inward P5/P7 sites computed). Dilution input gains the patent serial-dilution scheme (2 uL into 18 uL TE + 1 ng/uL pBlueScript). Page caveat and note state these come from the patent, not the PNAS SI. 1.0x AMPure cleanup and the WGS branch recorded in the note only.",
+      "deferred": [
+        "PNAS SI Appendix PDF (PMC proof-of-work gate, pnas.org/Europe PMC 403; manual URL above)",
+        "Dataset S1 XLSX (same gates)",
+        "2016 TruSeq DNA PCR-Free kit guide 15036187 revision (adapter index, size-selection placement)",
+        "Index-read acquisition; 8-nt i7 placeholder of canonical library unchecked"
+      ],
+      "scope": "Capped follow-up; defining SI still unread, patent used only as a labelled lead; no accepted missing-information claim.",
+      "verification": "local suite 2/2 pass; page builds; pairing 0 problems; chemistry 1 established/0 conditional/7 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 1 input without exact state (patent primers are inferred and excluded by the guard); Markdown built; audit --check pass"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "agent-deferred-followup-03",
+      "date": "2026-10-17",
+      "documents": 2,
+      "scope": "Capped pass of the hand-placed PNAS SI Appendix and Dataset S1; no vendor documents fetched; no accepted missing-information claim.",
+      "identity": "pnas.1607794113.sapp.pdf (md5 b5e810dd65302d81abb77ea0ffcb4dd6): first page 'Supporting Information Appendix / Hoang et al., PNAS 2016', footer 'SI Appendix for BotSeqS'; pnas.1607794113.sd01.xlsx (md5 a6cb0c624722ea2bc45eb3392d835cf4): Table S1-S9, Table S1 'Human samples, bottleneck sequencing library preparation, and sequencing information' with Bot01-Bot44 library IDs matching the article. Both accepted as the defining supplements.",
+      "locations": "sapp.pdf.txt lines 1-61 (SI Materials and Methods: dilution 4-17, PCR 18-28, MiSeq run 29-50, WGS 51-61), 368-380 (Fig. S1 legend); sd01.xlsx.txt Table S1 lines 1-53 (43 libraries: dilution factor, PCR cycles, platform, run type).",
+      "oligo_scraper": "Bundle scraper: SI line 19 TS-PCR Oligo1/Oligo2 (also patent OCR lines 2075, 2077); SI line 1955 a genomic sequence in an analysis listing, not an oligo.",
+      "findings": "Model correction: TS-PCR Oligo1/Oligo2, Q5 Hot Start and the cycling are now sourced to the published SI (inferred/patent-lead marking removed); cycles 18 or 20 per Dataset S1; 1.0x AMPure XP post-PCR cleanup added with waste; dilution input cites SI serial scheme and Dataset S1 factors (35 libraries 10^5/18 cycles, six 10^7/20, two 10-fold/20). Caveat, oligos() and note updated. Run type PE 2x100 HiSeq 2500 Rapid confirmed. No published discrepancy: Dataset S1 10-fold entries vs SI 10^3-10^7 serial scheme noted neutrally in the note.",
+      "deferred": [
+        "2016 TruSeq DNA PCR-Free guide 15036187 revision (adapter index set/length, size-selection placement)",
+        "Index-read acquisition (SI names 'well-barcoded' MiSeq samples, no index set)"
+      ],
+      "verification": "local suite 2/2 pass; page builds; pairing 0 problems; chemistry 1 established/0 conditional/8 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 1 input without exact state; Markdown built"
+    }
+  ]
 }

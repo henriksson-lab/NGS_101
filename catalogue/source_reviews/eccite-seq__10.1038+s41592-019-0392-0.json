@@ -236,5 +236,27 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "The defining article, three Springer supplements, original CITE-seq and Cell Hashing predecessors, author Protocol Exchange update, early 10x CG000109 note and two revision summaries now have two located reads. MOESM1 exposes 49 15-base and three 12-base antibody barcodes plus 12-base hashtags; the page shows these and the MOESM3 eight-x/12nt discrepancy. Full historical CG000086 guide, PMC attachment identity and linked Cell Hashing/conjugation materials remain unresolved. No absence claim is accepted."
+  "conclusion": "The defining article, three Springer supplements, original CITE-seq and Cell Hashing predecessors, author Protocol Exchange update, early 10x CG000109 note and two revision summaries now have two located reads. MOESM1 exposes 49 15-base and three 12-base antibody barcodes plus 12-base hashtags; the page shows these and the MOESM3 eight-x/12nt discrepancy. Full historical CG000086 guide, PMC attachment identity and linked Cell Hashing/conjugation materials remain unresolved. No absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC6557128 JATS text Results lines70-72, Methods lines96-114 (staining, 10x V(D)J modifications, additives, 0.6X/2.0X SPRI, tag/guide PCRs, sequencing recipes); MOESM3 supplementary protocol (Version March 2019) RT line104, tag/guide PCR recipes lines205-310, oligo list lines383-429; MOESM1 Supplementary Tables 3-5 lines219-460 via self-test",
+      "oligo_scraper": "Bundle scraper run: Protocol Exchange PDF lines33-49 and MOESM3 hits (tag examples, SI-PCR, additives, RPI1, D701_s, Next_nst_x, gd/sg_RT_v4, TCR gamma/delta primers) verified at MOESM3 lines389-429 and Methods lines106-112; MOESM1 lines169-216 are sgRNA spacer tables, lines336+ antibody barcodes (Table 3); new self-test transcribes the library oligos against MOESM3.",
+      "findings": "Repository modelling error corrected: tag/guide final libraries had tag handles on the P5 side and TruSeq Read 2 arms; rebuilt from printed SI-PCR, tag (handle-barcode-CCCATATAAGAAA), RPI1, D701_s and Next_nst_x bases with computed TSO complement, small-RNA RA3 arm (ADT), TruSeq Read 2 arm (HTO) and Nextera Read 2 arm plus scaffold GTTTTAGAGCTAGAAATA (guide); bead last-9 Read 1 bases inferred; ADT Index1/Read2 primers derived from the RPI1 handle. Graph now follows the Methods: one GEM RT (tags extend on bead TSO, no separate tag primer), pooled RT products, cDNA amplification with 1/1/2 pmol additives, 0.6X SPRI beads/supernatant selection, two 2.0X SPRI cleanups discarding excess oligos, separate tag/guide PCR aliquots, MOESM3 guide enrichment PCR (SI-PCR + gd_add_v4, 8-10 cycles) before Next_nst_x indexing. Read 1 26 / index 8 declared; Read 2 39 (HiSeq) or 91 (NovaSeq) recorded unfixed. gd_RT_v4 (Methods) vs sg_RT_v4 (MOESM3 line399) naming noted. Transcript library adapters marked inferred.",
+      "deferred": [
+        "10x CG000086 V(D)J user guide revision used (bead oligo, TSO, cDNA primers, transcript library adapters, CB/UMI lengths)",
+        "Protocol Exchange protex.2019.025 PDF not re-read this pass",
+        "Identity of gd_add_v4 (not in MOESM3 oligo list)",
+        "Sequencing primer mix for the small-RNA-handle protein-tag library",
+        "TCR alpha/beta and gamma/delta enrichment branches not drawn",
+        "CITE-seq and Cell Hashing predecessor methods",
+        "Eight-x versus 12-nt tag-example barcode caption"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 10/10 pass (adds MOESM3 oligo transcription checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/24 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 14 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

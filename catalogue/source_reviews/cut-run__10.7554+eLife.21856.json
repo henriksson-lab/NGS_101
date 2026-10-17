@@ -11,14 +11,14 @@
       "pass_1": {
         "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Methods346\u2013385; Appendix2 732\u2013835; Appendix3 836\u20131085",
+        "locations": "Methods346–385; Appendix2 732–835; Appendix3 836–1085",
         "finding": "Selected yeast stop/release/supernatant workflow; optional pellet gel QC; distinct mammalian/total-DNA variants. Library376 no size selection,8+PCR,25 paired HiSeq2500; negative0.5AMPure retains supernatant;14PCR amplification preference."
       },
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Methods346\u2013385; Appendix2 732\u2013835; Appendix3 836\u20131085",
-        "finding": "Independently read main346\u2013385, wholeAppendix2 andAppendix3 through1085; confirms selected yeast branch, optional pellet QC, variant separations and library/readout limits."
+        "locations": "Methods346–385; Appendix2 732–835; Appendix3 836–1085",
+        "finding": "Independently read main346–385, wholeAppendix2 andAppendix3 through1085; confirms selected yeast branch, optional pellet QC, variant separations and library/readout limits."
       }
     },
     {
@@ -30,7 +30,7 @@
       "pass_1": {
         "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "SupplementaryFig1c232\u2013273",
+        "locations": "SupplementaryFig1c232–273",
         "finding": "Original predecessor shows end repair/A-addition/Illumina Tru-seq adapters/PCR/25PEHiSeq2000. Not selected2017 oligo/index assignment."
       }
     },
@@ -43,7 +43,7 @@
       "pass_1": {
         "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "1149\u20131157;1232\u20131234",
+        "locations": "1149–1157;1232–1234",
         "finding": "Original names PE-930-1001/modified cleanup/25PEHiSeq2000 and linkedSI. Analysis length filters are computational, not physical fates."
       }
     },
@@ -72,13 +72,13 @@
       "pass_1": {
         "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "Series150\u2013170; all126 unique extraction/instrument fields",
+        "locations": "Series150–170; all126 unique extraction/instrument fields",
         "finding": "126HiSeq2500 samples;7actualRTFs linked; extraction names include crosslink not yet located; dataset links are not chemistry readouts."
       },
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Series150\u2013170; all126 unique extraction/instrument fields",
+        "locations": "Series150–170; all126 unique extraction/instrument fields",
         "finding": "Read all unique extraction fields and instrument labels; RTFs require original-content inspection, not title exclusions."
       }
     },
@@ -91,13 +91,13 @@
       "pass_1": {
         "reviewer": "audit_rna_contacts_closeout",
         "date": "2026-10-16",
-        "locations": "1060\u20131130",
+        "locations": "1060–1130",
         "finding": "Profile names py_peak_calling and py_meta_analysis analysis repositories; child contents not read."
       },
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "1060\u20131130",
+        "locations": "1060–1130",
         "finding": "Read actual profile titles/descriptions only, no child-repository contents claimed."
       }
     },
@@ -246,7 +246,7 @@
     "pass_2": {
       "reviewer": "root",
       "date": "2026-10-16",
-      "locations": "eLife346\u2013385/732\u20131085; GEO unique metadata fields; all7RTFs; profile1060\u20131130; suppl.html body and filelist362rows",
+      "locations": "eLife346–385/732–1085; GEO unique metadata fields; all7RTFs; profile1060–1130; suppl.html body and filelist362rows",
       "finding": "Independently read bounded originals. GEOdirectory lists7RTFs+RAWtar/filelist; filelist1TAR+361BED/BEDGRAPH, no crosslink protocol listed HERE. Parentdirectories/aliases not checked. KAPA response wrong identity; no full historical-kit or archive closure."
     }
   },
@@ -333,5 +333,24 @@
     "Actual peteskene analysis repository children and SupplementarySoftware archive content scope",
     "PMID25827087 nuclei/library predecessor cited by four yeast RTFs",
     "Comparative GEO datasets GSE45672/GSE72816 and cited original assay-method source scope"
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Published eLife v3 PDF twin eLife.21856_v3.pdf.txt: Methods 'CUT&RUN for yeast' lines 781-797 (2 mM CaCl2 at 0C, 2XSTOP composition 200 mM NaCl/20 mM EDTA/4 mM EGTA/50 ug/ml RNase A/40 ug/ml glycogen with 5-50 pg/ml Drosophila spike-in, 37C 20 min, 5 min 13,000 rpm 4C spin plus magnet, SDS/ProtK 70C 10 min, phenol-chloroform-isoamyl in phase-lock, chloroform re-extraction, glycogen + 2-2.5 vol ethanol, 25 uL 0.1xTE8; high-salt variant omitting RNase), 'Library preparation, sequencing and data processing' lines 839-846 (no size-selection, KAPA kit, eight or more cycles, half-volume AMPure depletion for total DNA, 14 cycles with adapter concentrations increased accordingly, 25-cycle paired-end HiSeq 2500); Appendix 2 lines 1427-1470 (digestion/STOP, total-DNA extraction, isolating excised fragments, pellet gel-QC route)",
+      "oligo_scraper": "No new scraper run was needed for an edit touching only reagents and conditions; the 2017 article still publishes no library oligo sequences, and the earlier bundle scrape of the article, predecessors and deposited RTFs stands. No absence claim is made from that.",
+      "findings": "No chemistry error found; the declared branch matches the article. Made the reagent and condition labels source-exact instead of generic: calcium becomes 2 mM CaCl2 at 0C, the STOP input carries the printed 2XSTOP composition, the spike-in records that it rides in 2XSTOP at 5-50 pg/ml as crosslinked MNase-treated Drosophila chromatin DNA, release becomes 37C for 20 min, fractionation becomes the 5 min 13,000 rpm 4C spin plus magnet stand, and extraction names SDS/Proteinase K 70C 10 min, phase-lock phenol-chloroform-isoamyl, chloroform re-extraction and glycogen-carried ethanol precipitation into 0.1xTE8. The pellet-QC terminal now states the 1XSTOP (no RNase or glycogen) resuspension and the final 10 min clarifying spin, and the amplification-preference notice now includes the article's 'adapter concentrations were increased accordingly' clause for the 14-cycle total-DNA route. Library ends, adapters, PCR strands and index acquisition remain deliberately unassigned; the deposited total-DNA filename/body discrepancy notice is unchanged.",
+      "deferred": [
+        "Kasinathan 2014 PMC3929178 supplement and Henikoff 2011 PNAS SI (download-gated) not re-read in this pass; the 2017 adapter/index assignment stays open",
+        "KAPA DNA polymerase library preparation kit protocol of the cited revision: the linked URL still resolves to an unrelated product page, so the kit's adapter and PCR-primer chemistry is unread",
+        "Appendix 3 mammalian, high-salt and total-DNA branches remain undrawn",
+        "github.com/peteskene analysis repository children and the GEO cross-link sample GSM2413655 (reCAPTCHA) still unread"
+      ],
+      "scope": "Capped re-read of the defining article's yeast Methods, library paragraph and Appendix 2 only; no full chemistry validation and no accepted missing-information claim.",
+      "verification": "local suite 5/5 checks pass; page builds; pairing 0 problems; chemistry 11 steps, 0 established/0 conditional/12 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema (audit_protocol_sources --check) pass"
+    }
   ]
 }

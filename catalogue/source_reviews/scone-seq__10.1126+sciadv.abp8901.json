@@ -81,5 +81,26 @@
       "evidence": "Original supplementary Table S2 provides them; predecessor/detailed-protocol coverage and second pass remain open."
     }
   ],
-  "conclusion": "Original supplementary Table S2 provides them; predecessor/detailed-protocol coverage and second pass remain open."
+  "conclusion": "Original supplementary Table S2 provides them; predecessor/detailed-protocol coverage and second pass remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Sci. Adv. PMC9812385.1 JATS Results line111, Materials and Methods lines211 (adaptor annealing/Tn5 loading), 215 (standard preamplification), 221 (low-volume), 225 (Tn5 titration), 229 (library construction/sequencing); published supplement sciadv.abp8901_sm.pdf.txt Supplementary Text lines15-60, Fig. S1C legend lines72-77, Table S2 lines382-545, Table S3 line732",
+      "oligo_scraper": "Bundle scraper run; supplement hits lines401-534 are the Table S2 rows; article hits (xml lines215/229, pdf lines660/733) are the One-Tn5 and P5-Tn5 adaptors repeated in Methods and agree with Table S2.",
+      "findings": "Replaced the role-only split/pool graph with the source single-tube order: PK lysis, One-Tn5/Mosaic tagmentation with KAPA (55C then 72C; gap-fill reading marked as derived), PK, SuperScript III internal RT with the 1.5:5:5 RT-polyT/GGG/TTT mix, thermolabile Exo I + RNase If/H (in-tube degradation), TdT dCTP tailing, 3' adaptor second strand (10 non-denaturing cycles), Exo I, single Amp-primer co-PCR 18-22 cycles, AMPure, P5-Tn5 second tagmentation (internal P5-only candidate left unresolved), P5/P7 index PCR 10-11 cycles, AMPure, scDASH as warned MAGIC, NextSeq500. Removed the invented non-library tagmentation discard. Branch tags are now fixed printed TCATG/AACTT features (were unknown 6-nt tokens); exact One-Tn5, P5-Tn5, Mosaic and Amp-primer states. Derived DNA-branch final library from Table S2 oligos with computed custom primer landings. Graph-owned discrepancies: Table S2 'ONE-Illu Read 2' and 'ONE-Illu I7 Index Primer' are exact reverse complements whose computed landings are i7 and Read 2 respectively (Supplementary Text says Read 2 includes the barcodes); Results 6-nt barcodes vs five-base printed tag groups.",
+      "deferred": [
+        "Linked Bio-protocol detailed procedure (not on disk)",
+        "scDASH predecessor method (refs 33, 58): reagents and depleted-molecule fate",
+        "MATQ-seq (ref 27) and poly(C)/3'-adaptor predecessor (ref 28)",
+        "ONE-Illu i5 primer (manufacturer), index lengths and acquired read lengths",
+        "Fate of internal P5-Tn5-only fragments",
+        "MGI conversion route and ONE-MGI primers not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (graph construction, 0 explicit checks); page builds; pairing 0 problems; chemistry 2 established/0 conditional/16 unresolved/0 contradictory with scdash_deplete MAGIC warning; source guard 5 exact checked, 0 failed, 4 inputs without exact states (degenerate RT mix/3' adaptor, index-primer families); Markdown built; review schema checked"
+    }
+  ]
 }

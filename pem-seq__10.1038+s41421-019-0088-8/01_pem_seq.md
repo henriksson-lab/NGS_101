@@ -75,3 +75,26 @@ PEM-seq quantifies outcomes recovered from the chosen bait side. A repair produc
 ## Source audit correction (2026-10-16)
 
 🟢 The defining 2019 article, Methods → Primer extension, specifies sonicated genomic DNA of **0.3–2 kb**. The previous 300–700-bp description was a repository transcription error and has been corrected in the page workflow and graph. The subsequent 2022 STAR Protocols procedure is a separately dated implementation.
+
+## Bounded pass 2026-10-17 (round breadth-first-15)
+
+🟢 Reagents and conditions read in the defining article's Materials and methods
+(`s41421-019-0088-8_PMC6434046.xml.txt` lines 131–173) and now named in the graph:
+sonication to 0.3–2 kb from 20 µg genomic DNA; a biotinylated bait primer placed within
+200 bp of the cut site, annealed over five anneal/denature cycles at a length-dependent
+annealing temperature (50–60 °C for 20–50-nt primers); extension with Bst polymerase 3.0
+(65 °C 10 min, 80 °C 5 min); 1.2× AxyPrep Mag bead removal of excess bait primer followed
+by 95 °C denaturation on ice; capture on Dynabeads MyOne Streptavidin C1 with B&W washes;
+on-bead bridge-adapter ligation with T4 DNA ligase in 15% PEG8000 at room temperature
+overnight; on-bead nested PCR with Taq for 16 cycles; size-selection bead recovery; and a
+tagging PCR with FastPfu that adds the P5 and P7 ends, sequenced 2 × 150 bp on HiSeq.
+
+🟢 The graph now draws the primer-depletion/denaturation step and the post-nested size
+selection explicitly, each with its discarded material, and declares the tagging PCR
+locally (P7 as an exact source Construct) instead of using the shared generic finisher.
+
+🟡 Table S11 prints the P5-I5 tagging primer across two table cells, so no contiguous
+source line carries the whole oligo; it stays a named input whose transcription is
+checked in the selftest. The bridge-ligation substrate geometry and the nested-PCR
+amplicon are still not reconstructed as Scenes, and the 2019 vs 2022 random-barcode
+conflict remains displayed on the page unchanged.

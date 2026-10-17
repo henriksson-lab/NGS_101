@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Source-transcription checks for meta3C."""
+"""Construction enforces graph provenance; exact adapter transcription uses the source guard."""
 from pathlib import Path
 import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
-import chem as P
-from checks import Check
-c=Check(); c("shotgun endpoint has only sample indexes",[s.feature.role for s in P.FINAL_LIBRARY if s.feature],["sample_index","sample_index"]); c.report()
+import chem
+chem.protocol_graph()
+print("PASS meta3C graph construction; source transcription checked separately")

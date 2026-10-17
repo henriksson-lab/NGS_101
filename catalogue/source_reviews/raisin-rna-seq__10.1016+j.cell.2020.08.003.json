@@ -314,5 +314,25 @@
       "evidence": "The generic v2 vendor guide does not identify study-specific members."
     }
   ],
-  "conclusion": "First-pass source audit; relevant linked material or independent source checks remain outstanding."
+  "conclusion": "First-pass source audit; relevant linked material or independent source checks remain outstanding.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Cell PMC8358727 JATS STAR Methods lines 1032-1039 (CST/TST), 1041-1054 (FACS into TCL/1% beta-ME), 1056-1072 (SMART-seq2 modifications, Nextera XT custom adapters on request, 384-well pooling, NextSeq 500), Key Resources 2915-2972 and 3030-3041 (Oligonucleotides); cited Shekhar et al. 2016 PMC5003425 JATS Plate-based RNA-seq experiments lines 288-294",
+      "oligo_scraper": "Bundle scraper run; RT primer, LNA TSO and PCR primer hits verified at PMC8358727 lines 3034-3040; lines 3225-3246 are Cell KRT template placeholders (siRNA/morpholino/GFP primer), not RAISIN oligos; Shekhar lines 276-284 are Drop-seq oligos.",
+      "findings": "Added RNAClean XP RNA cleanup before RT and double AMPure XP cDNA cleanup before tagmentation with waste fates; reverse transcriptase named Maxima H Minus EP0753 (KRT) and polymerase KAPA HiFi HotStart ReadyMix; replaced queued shared _finish_pcr with a local custom-barcode-adapter index PCR whose reason cites the 'available upon request' passage; caveat/note record NextSeq 500 75-cycle v2 kit with no printed read configuration; Shekhar-inherited 2.2x RNAClean, 0.075 ng input and 1/4 Nextera XT volumes recorded as citation-inherited (yellow), not RAISIN-confirmed.",
+      "deferred": [
+        "Custom Nextera XT barcode-adapter sequences (stated available upon request)",
+        "Picelli 2014 SMART-seq2 and Kowalczyk RT modification cited by Shekhar (depth two, not followed)",
+        "Figures S1-S7 and Tables S1-S6 (PMC download-gated; Table S1 buffer screen)",
+        "Acquired plate read configuration",
+        "Droplet RAISIN arm drawn only on MIRACL-seq page"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

@@ -6,9 +6,9 @@
       "id": "main",
       "role": "defining",
       "locator": "Zilionis et al Nature Protocols 2017 doi:10.1038/nprot.2016.154 full article",
-      "availability": "unavailable",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Main Nature Protocols text is paywalled in source manifest; supplementary procedure is available.",
+      "reason": "Publisher PDF (link.springer.com, 30 pages, printed doi:10.1038/nprot.2016.154, md5 1ff0ff8cab387e7bc85ed4240c07f686) obtained 2026-10-17 on the institutional network; read in bounded pass deferred-followup-03 (not an independent pass).",
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
@@ -122,5 +122,73 @@
     "date": "2026-10-16",
     "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
     "finding": "Harvard ICCB original PDF search lead tested: www.iccb.med.harvard.edu has TLS hostname mismatch (curl60); correctly certified non-www hostname returns403. Certificate verification not disabled. Original remains unavailable via these routes."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Nat Protoc MOESM454 Supplementary Method 1 (AMPure), Supplementary Method 2 procedure steps 2-9 and Anticipated result, Supplementary Table 1; MOESM455 oligos_except_barcodes rows 1-36; MOESM460 README lines 1-35 (pipeline, barcode-abundance threshold)",
+      "oligo_scraper": "Bundle scraper run (213 hits); MOESM455 lines 3-10/34-36 checked for acrydite primer, BA19, FAM probes, PE2-N6, PE2, PE1 index 1-24 and custom read primers; MOESM456/457 plate families collapsed.",
+      "findings": "Main text still unavailable (doi landing manual; ICCB mirror HTTP 403). Corrections: bead synthesis now ends in Exonuclease I clean-up (SM2) with shorter species as unresolved-fate waste; 102 vs 101 nt bead-QC discrepancy moved to graph-owned SourceDiscrepancy (hand-written page caveat removed); empty/multiplet droplets changed from physical discard to unresolved fate with computational barcode-threshold exclusion (README step 2); upstream-only Read 2 51-cycle and Index 6-cycle acquired lengths removed; page read table states cycles not given in inspected supplements. Oligo bases, PE1 index orientation and PCR primer composition re-verified unchanged.",
+      "deferred": [
+        "Nature Protocols main text doi:10.1038/nprot.2016.154 (RT/IVT/fragmentation/PE2-N6 RT/PCR conditions, sequencing recipe and cycles) - paywall; https://iccb.med.harvard.edu/files/iccb/files/zilionis_et_al-2016-nature_protocols.pdf 403",
+        "ExoI clean-up mechanism and removal of digestion products",
+        "Whether aRNA is fragmented before PE2-N6 RT",
+        "MOESM459 Hamilton robot methods not read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/9 unresolved/0 contradictory; source guard 4 exact checked (acrydite primer, PE2-N6, PE2 PCR, PE1 index 1), 0 failed, 1 input without exact state (barcode plates); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 0,
+      "locations": "No new original read; acquisition-only follow-up for the Nature Protocols main text doi:10.1038/nprot.2016.154.",
+      "oligo_scraper": "Not re-run: no new document obtained; previous bundle scraper result (213 hits) stands.",
+      "acquisition": "Unpaywall: is_oa false, closed, no OA locations. OpenAlex W2564176045: closed, any_repository_has_fulltext false. Europe PMC MED 27929523: no PMCID, not in EPMC. PubMed->GEO elink: none. Harvard DASH REST search (title, DOI): no deposit. Klein lab site kleinlab.bio publications/resources: DOI link only. ICCB mirror https://iccb.med.harvard.edu/files/iccb/files/zilionis_et_al-2016-nature_protocols.pdf: HTTP 403 again. 1cell-bio.com: HTTP 404. protocols.io API: requires token, not searched. Web search: no legitimate open copy. Manual URL: https://doi.org/10.1038/nprot.2016.154.",
+      "findings": "Defining main text still unobtainable; no model or page change. Note records the attempted routes.",
+      "deferred": [
+        "Nature Protocols main text doi:10.1038/nprot.2016.154 (RT/IVT/fragmentation/PE2-N6 RT/PCR conditions, sequencing recipe and cycles) - paywall; manual https://doi.org/10.1038/nprot.2016.154; ICCB mirror 403",
+        "ExoI clean-up mechanism and removal of digestion products",
+        "Whether aRNA is fragmented before PE2-N6 RT",
+        "MOESM459 Hamilton robot methods not read"
+      ],
+      "scope": "Acquisition-only follow-up; no chemistry reading pass or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/9 unresolved/0 contradictory; source guard 4 exact checked, 0 failed, 1 input without exact state; Markdown built; audit --check pass"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "scope": "Bounded pass on the newly obtained defining main text; not an independent two-pass review and no missing-information claim accepted.",
+      "locations": "nprot.2016.154.pdf.txt (identity: printed title/authors/doi lines 3-15): Fig. 3 + legend lines 550-652; Materials oligos 700-748; Reagent Setup 940-1016 (BA19, FAM probes, PE2-N6, PE1/PE2 PCR primers, custom Read 1/Index/Read 2); Steps 43-79 lines 1357-1615 (Bst 2.0, STOP-25, NaOH, HinfI, BA19, ExoI, BA19 removal); Fig. 6 legend 1655-1678; Steps 126-166 lines 2012-2505; Table 1 lines 2432-2490.",
+      "oligo_scraper": "scrape_primers on nprot.2016.154.pdf.txt: 19 hits (lines 339-1628); materials/reagent oligos at 705-748 verified against model by computation (all 9 equal; PE1 index1 = CGTGAT window); figure-text hits 339/571/1566-1628 are drawings.",
+      "findings": "Oligos unchanged (all match). Graph now follows main text: Bst 2.0 extension; bead HinfI (Step 66); BA19 hybridization; ExoI removes primers missing poly-T (Step 74), intermediates discarded as hydrolysed (Fig. 6) instead of unresolved; BA19 alkaline removal; SuperScript III in-drop RT 50 C 2 h; new post-RT ExoI+HinfI digestion with filter-discarded beads and unresolved digested primers/dimers; NEBNext SSS; HiScribe IVT; new zinc-ion aRNA fragmentation step before PE2-N6 PrimeScript RT; Kapa PCR 2 + qPCR-set cycles, 0.7x AMPure. Page read table replaced by main-text Table 1 examples and Step 166 Read 2 >=50 bp (local build_page override of the shared v1 renderer). New SourceDiscrepancy: Reagent Setup names indexed primer 'PE1 primer' but cites '24 PE2 primer variants'; Supplementary Table 2 names PE1. 102 vs 101 nt discrepancy kept, main-text context added.",
+      "deferred": [
+        "Purpose of the bead HinfI digestion (Step 66) not stated in the inspected passages",
+        "Whether AMPure clean-ups remove ExoI/HinfI digestion products (not stated)",
+        "MOESM459 Hamilton robot methods not read",
+        "Combined inDrop note indrop-v1__10.1016+j.cell.2015.04.044/01_indrop.md section 10 still says the main text is unavailable (other protocol directory, not edited)",
+        "Second independent reader for the two-pass gate"
+      ],
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 13 steps 0 established/0 conditional/14 unresolved/0 contradictory; source guard 5 exact checked, 0 failed, 1 input without exact state; Markdown built (01_indrop-v2.md); audit --check pass"
+    },
+    {
+      "round": "critical-rereview-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "scope": "Critical diff review; focused source cross-checks and model consistency, not a new complete source audit.",
+      "locations": "nprot.2016.154.pdf.txt Fig. 6 and Procedure Steps 74–76; existing source-qualified bead-primer graph.",
+      "findings": "ExoI hydrolysis is distinguished from physical discard. Short-primer hydrolysis products remain unresolved because soluble versus bead-attached products and later wash partition are not reconstructed.",
+      "deferred": [
+        "Previous linked-source deferrals and independent absence-audit requirements remain open."
+      ],
+      "verification": "Applicable protocol suite, page build, source guard and scoped chemistry passed (zero contradictions); review schema passed. Shared 1275 and source fetcher 226 checks pass. Whole-site verification is recorded in HANDOVER-REVIEW.md.",
+      "documents": 1
+    }
+  ]
 }

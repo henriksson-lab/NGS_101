@@ -65,7 +65,7 @@
       "locator": "https://doi.org/10.1016/j.celrep.2011.10.002",
       "availability": "unavailable",
       "relevance": "relevant",
-      "reason": "Cited Cell Reports predecessor remains unavailable."
+      "reason": "Cited Cell Reports predecessor (ref 29) remains unavailable: Europe PMC 2026-10-17 shows PMID 22832108 with no PMCID; publisher page only."
     },
     {
       "id": "illumina_smallrna_v15",
@@ -197,6 +197,16 @@
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Original figure supplement PMC-gated; relevance not yet excluded."
+    },
+    {
+      "id": "cpmb21_protocol",
+      "role": "detailed_protocol",
+      "locator": "https://doi.org/10.1002/cpmb.21 (Current Protocols in Molecular Biology PIP-seq protocol listed in ref/MANIFEST.md)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Not in the cached source bundle; not fetched within the bounded 2026-10-17 pass.",
+      "pass_1": null,
+      "pass_2": null
     }
   ],
   "linked_information": {
@@ -221,5 +231,26 @@
       "evidence": "The defining article delegates strand-specific library prep to two papers; one cited predecessor and historical vendor guide remain unavailable."
     }
   ],
-  "conclusion": "First-pass source audit; relevant linked material or independent source checks remain outstanding."
+  "conclusion": "First-pass source audit; relevant linked material or independent source checks remain outstanding.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Genome Biology PMC4053792 JATS Results overview 61-71 (Figure 1A legend 65), Methods Cell lines/Cross-linking/PIP-seq library preparation 155-171, refs 29/30 lines 409-413; Additional file 1 S1.xlsx.txt Supplemental Table 1 lines 1-28; Zheng 2010 Text S1 (pgen.1001141.s017.doc.txt) dsRNA-seq library preparation 58-59",
+      "oligo_scraper": "Bundle scraper run: article hits are T7/SNP probe oligos for the UV-cross-linking validation assay (JATS line 203), Zheng S16 hits are qPCR/genotyping primers; no library oligos.",
+      "findings": "Rewrote the graph locally (dropped rna_end_readout _apply_linear_step/_finish_pcr callers): formaldehyde/UV/no cross-linking, RIP lysis + DNase, four-way split, RNaseONE 100 U/mL 1 h RT or RNaseV1 2.5 U/mL 1 h 37C, control SDS/PK + ethanol precipitation before RNase, post-digestion SDS/PK and 65C 2 h (FA) or SDS/1 mg/mL PK (UV) reversal for both branch types (control reversal was missing), miRNeasy, warned MAGIC strand-specific library prep per refs 29/30, DSN normalization (95C, 68C 5 h, 2 uL DSN) after library, HiSeq2000 50-bp single read. Removed unsupported sample-index/P5/P7 endpoint and invented indexed reverse PCR primer; removed dead workflow(). Page shows published discrepancy: Results line 71 '31 to 60 million raw reads per library' vs S1 raw reads 24,604,010-103,702,805.",
+      "deferred": [
+        "Li et al. 2012 Cell Reports (ref 29; not in PMC, publisher-only)",
+        "Illumina Small RNA Sample Prep v1.5 historical guide",
+        "Current Protocols cpmb.21 detailed protocol",
+        "PMC-gated Additional files 2-9",
+        "Which predecessor library route (Li 2012 vs Zheng 2010 v1.5) PIP-seq actually used",
+        "Indexing/multiplexing of the 50-bp SR runs"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass (publishable); page builds; pairing 0 problems; chemistry 0 established/0 conditional/25 unresolved/0 contradictory with four libprep MAGIC warnings; source guard 0 exact checked, 0 failed, no exact oligo inputs; Markdown built; review schema checked"
+    }
+  ]
 }

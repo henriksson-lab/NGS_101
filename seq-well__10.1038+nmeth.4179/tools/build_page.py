@@ -21,7 +21,8 @@ def oligos()->str:
           oligo("SMART PCR primer",[sg("SMART handle",S.SMART_PCR,"tso")]),
           oligo("P5-SMART selective PCR primer",S.p5_hybrid(),three="-3' (two terminal phosphorothioates)"),
           oligo("Custom Read 1 primer",[sg("spacer + handle + AC",S.CUSTOM_R1,"r1")])]
-    return "<h2>Key oligos</h2>\n<seq>\n"+"\n".join(rows)+"\n</seq>"
+    note=info('Source difference &mdash; P5-SMART modifications: Supplementary Table 1 prints the primer ending <code>&hellip;CAGAGT*A*C</code>, with phosphorothioate bonds before the last two bases. The Protocol Exchange protocol (doi:10.1038/protex.2017.006a) gives the same bases. Its protocols.io import (Version 1, reagent list) prints no <code>*</code>, and the Exchange&rsquo;s own export prints the end as <code>&hellip;CAGAGT**A**C</code> in a reagent list that shows raw formatting marks throughout. The page follows Supplementary Table 1. The Exchange copies are taken to have lost the marks in formatting, which is not confirmed.')
+    return "<h2>Key oligos</h2>\n<seq>\n"+"\n".join(rows)+"\n</seq>\n"+note
 
 
 def construction()->str:

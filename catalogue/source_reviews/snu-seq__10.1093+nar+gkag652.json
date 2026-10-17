@@ -511,5 +511,25 @@
   "model_scope_clarification_2026_10_16": {
     "reviewer": "root",
     "finding": "Dated Ion/FWD guide assignments remain conditional at every branch intermediate and input, with INFERRED captions on every guide step. Source-positive guide operations are not automatically established as the exact study revision or reagent selection. This is a model-scope correction, not an additional source reading or an accepted absence claim."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC13309788 JATS Methods 118–120 and Results 174–176; original Supplementary Methods text 306–429 (TT-seq capture 317–341, SNU/bPAP/precipitation/QuantSeq Ion or FWD/13 cycles/SR100 342–372); Lexogen Ion guide 012UG036V0130 Appendix E lines 1434–1609 and FWD guide 015UG009V0260 Appendix G lines 2046–2059",
+      "oligo_scraper": "Bundle scraper run: hits only in Lexogen guides (4 Ion, 12 FWD) and bioRxiv v1/v2; none in the published article or supplement. Ion A/P1 arms and TCAG–barcode–CGAT layout (lines 1579–1587) and FWD Read 1/Read 2 strings (2046–2059) match chem.py.",
+      "findings": "Removed superseded bioRxiv v1/v2 as page authorities (SOURCE, polyadenylate highlight, sequencing ending) under the published-version-first rule; every displayed value (150 ng, PAP 45 min 37°C, Ion/FWD, 13 cycles, SR100, Ion Proton/NextSeq 2000) is now cited to the 2026 Methods/Supplementary Methods. Post-PAP cleanup now names the published 1/10 volume sodium acetate and GlycoBlue. Note restructured with preprint identity kept as history only. Capture/DTT/miRNeasy route, Dölken wash-salt discrepancy and conditional kit architectures verified unchanged.",
+      "deferred": [
+        "Study QuantSeq Ion/FWD guide revisions, ordered primers and barcode/index members",
+        "Per-sample platform assignment (comparison boundary remains MAGIC)",
+        "Native-end reach of SR100 reads",
+        "GEO child sample/experiment records and author repository scripts",
+        "TT-seq 2016/Dölken 2008 predecessor chain beyond prior passes"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 14 checks pass; page builds; pairing 0 problems; chemistry 20 steps 0 established/0 conditional/22 unresolved/0 contradictory with platform_variants MAGIC warning; source guard 0 exact checked, 0 failed, 0 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

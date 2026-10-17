@@ -1,10 +1,11 @@
 """Local source and reaction model for miracl-seq."""
 from chemdraw import Construct, Scene, Segment, Workflow, feature
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from protocol_model import role
+from pcr import PCRGeometry
 import illumina as il
 import seqprimers as sp
-from rare_cell_and_affinity import _finish_pcr, _scene, _workflow
+from rare_cell_and_affinity import _scene, _workflow
 from types import SimpleNamespace
 
 TRANSCRIPT = role("transcript-derived insert")
@@ -81,10 +82,15 @@ SPEC = SimpleNamespace(
     NOTES="01_miracl_seq.html",
     SOURCE='Defining source: <a href="https://doi.org/10.1016/j.cell.2020.08.003">Drokhlyansky et al., Cell (2020)</a>.',
     SUMMARY="MIRACL-seq deliberately overloads GemCode v2 droplets with unsorted RAISIN nuclei, increasing rare-cell recovery while computationally removing heterotypic multiplets.",
-    CAVEAT="MIRACL-seq changes partition loading, not the GemCode v2 oligo chemistry; the final construct therefore uses the standard v2 molecular endpoint.",
+    CAVEAT=("MIRACL-seq changes partition loading, not the GemCode v2 oligo chemistry; the final construct therefore uses the standard v2 molecular endpoint "
+            "from the 10x CG000108 technical note. The paper states only that the kits were used \"following the manufacturer’s protocol\"; "
+            "the kit steps between barcoded RT and sample-index PCR are a warned boundary, the study's sample-index members are unassigned, "
+            "and no droplet read lengths are printed (NextSeq 500, Cell Ranger v2.0)."),
     FINAL_LIBRARY=final,
     SEQ_PRIMERS=primers,
-    READ_LENGTHS={"Read 1": 26},
+    # The defining paper prints NextSeq 500 and Cell Ranger v2.0 for the droplet arm but
+    # no acquired read configuration, so no cycle counts are declared here.
+    READ_LENGTHS=None,
     FINAL_CAPTION="GemCode v2 3′ gene-expression library from overloaded RAISIN partitions.",
     SEQUENCING_INTRO="Read 1 records the 16-nt bead barcode and 10-nt UMI; Read 2 interrogates the transcript-derived insert.",
     SEQUENCING_ENDING="",
@@ -122,10 +128,34 @@ def _miracl_graph(spec):
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((occupied, InputRole.TEMPLATE), (bead_primer, InputRole.STRUCTURAL),
                  (rtase, InputRole.CATALYST)), (cdna,))
+    kit = graph.input("gemcode_v2_kit", "GemCode v2 Chip and Library kit reagents (manufacturer's protocol)",
+                      MaterialKind.CONDITION)
+    ligated = graph.product("adapter_ligated", "amplified, fragmented, Read 2 adapter-ligated barcoded cDNA",
+                            MaterialKind.MOLECULAR)
+    graph.react("kit_processing", "Template switching, cDNA amplification, fragmentation, size selection and Read 2 adapter ligation",
+                StepKind.MAGIC, ((cdna, InputRole.TEMPLATE), (kit, InputRole.CONDITION)), (ligated,),
+                reason="The paper names only amplification, shearing and 5′ adaptor attachment following the manufacturer's "
+                       "protocol; the applicable CG00052 user-guide revision was not read in this pass, so these kit "
+                       "intermediates are not reconstructed.")
+    forward = graph.input("library_forward", "P5 – partial Read 1 sample-index PCR primer (vendor kit)",
+                          MaterialKind.OLIGO)
+    reverse = graph.input("library_reverse", "P7 – sample index – partial Read 2 primer (study member unassigned)",
+                          MaterialKind.OLIGO)
+    polymerase = graph.input("library_polymerase", "sample-index PCR polymerase (vendor kit)",
+                             MaterialKind.CATALYST)
+    library = graph.product("library_library", "MIRACL-seq GemCode-v2 sequencing library",
+                            MaterialKind.LIBRARY, state=spec.FINAL_LIBRARY)
+    graph.react("library_pcr", "Sample-index PCR adds P5, P7 and the i7 sample index", StepKind.PCR,
+                ((ligated, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    spec.FINAL_LIBRARY, reason="The adapter-ligated substrate is behind an unreconstructed kit boundary "
+                    "and the study's sample-index members are not printed."))
+    graph.sequence(library, SequencingPlan(library=spec.FINAL_LIBRARY, primers=tuple(spec.SEQ_PRIMERS)))
     reviewed = ["raisin_particles", "overload_condition", "partition", "bead_primer",
-                "reverse_transcriptase", "reverse_transcribe"]
-    _finish_pcr(graph, "library", cdna, spec.FINAL_LIBRARY, spec.SEQ_PRIMERS,
-                spec.SEQUENCING_INTRO, reviewed, label="MIRACL-seq GemCode-v2")
+                "reverse_transcriptase", "reverse_transcribe", "gemcode_v2_kit", "kit_processing",
+                "library_forward", "library_reverse", "library_polymerase", "library_pcr",
+                "library_library"]
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 

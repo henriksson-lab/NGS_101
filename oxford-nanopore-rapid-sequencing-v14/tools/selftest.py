@@ -24,4 +24,7 @@ if have(c,protocol,label="original Rapid V14 protocol"):
     attachment=re.search(r"Incubate the reaction for (\d+) minutes at room temperature",text)
     c("attachment source entry located",attachment is not None)
     if attachment:c("Rapid Adapter attachment minutes follow source",M.RAPID_ATTACHMENT_MIN,int(attachment[1]))
+    dilution=re.search(r"dilute the Rapid Adapter \(RA\).*?Rapid Adapter \(RA\)\s+([\d.]+) [µμ]l\s+Adapter Buffer \(ADB\)\s+([\d.]+) [µμ]l",text,re.S)
+    c("RA dilution source entry located",dilution is not None)
+    if dilution:c("RA:ADB dilution follows source",M.RA_DILUTION_UL,(float(dilution[1]),float(dilution[2])))
 c.report()

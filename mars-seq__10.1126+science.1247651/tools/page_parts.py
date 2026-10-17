@@ -10,7 +10,8 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import marsseq as M
 import seqprimers as sp
-from chemdraw import Construct, Segment, oligo, panel, protocol_graph_panels, strand_row
+from chemdraw import (Construct, Segment, oligo, panel, protocol_graph_panels, revcomp,
+                      strand_row)
 from page import head, info, table
 
 
@@ -53,21 +54,22 @@ def render_page(protocol: str, *, graph=None) -> str:
         oligos.extend([
             oligo("representative pool ligation adapter",
                   [seg("pool barcode", M.POOL_ORDERED, "cbc"),
-                   seg("random diversity", "N" * M.MARS1_POOL_RANDOM_NT,
-                       placeholder=True),
+                   seg("random diversity", "N" * M.MARS1_POOL_RANDOM_NT),
                    seg("ligation/RT2 handle", M.LIG_CONSTANT, "r1")],
                   mods="/5Phos/ … /3SpC3/"),
             oligo("P5_Rd1 PCR", [seg("P5 + Read 1", M.MARS1_P5_PCR, "r1")]),
             oligo("P7_Rd2 PCR", [seg("P7 + Read 2", M.MARS1_P7_PCR, "r2")]),
         ])
     final = M.final_library(protocol)
+    plan = graph.sequencing.get("library")
+    lengths = dict(plan.read_lengths) if plan is not None else {}
     if exact:
         r1 = Construct([seg("random diversity", "N" * 5, placeholder=True),
                         seg("pool barcode", M.POOL_READ, "cbc"),
                         seg("cDNA", "XXXXXXXX...", placeholder=True)])
+        # Author procedure Step 80 acquires rd2 = 15 cycles: well barcode + UMI only.
         r2 = Construct([seg("well barcode", "N" * 7, "cbc", placeholder=True),
-                        seg("UMI", "N" * 8, "umi", placeholder=True),
-                        seg("poly(T), ignored", "TTTTT")])
+                        seg("UMI", "N" * 8, "umi", placeholder=True)])
         # The Supplementary Information's read-design fields print the worked example
         # R1_design = 3I.4P.50M with R2_design = 7W.8R.5I.  Read 1's 3I matches the
         # MARS-seq1 N3 adapter, so 5I is what the 2.0 N5 adapter implies -- derived here,
@@ -77,9 +79,13 @@ def render_page(protocol: str, *, graph=None) -> str:
                         "and 7W.8R.5I, whereas Supplementary Table 2 (MOESM5, ligation "
                         "adapter rows) prints N5 before the 4-nt pool barcode. "
                         "DERIVED — this model uses the table's N5 adapter, so Read 1 "
-                        "starts 5I.4P; whether 3I is a v1 carryover remains uncertain.")
+                        "starts 5I.4P; whether 3I is a v1 carryover remains uncertain. "
+                        "Acquired cycles follow the author procedure (protocols.io, Step 80: "
+                        "rd1 = 75 bp, rd2 = 15 bp, no indices); the MOESM1 example's "
+                        "57 + 20 cycles describe a different configuration, so the 5I "
+                        "poly(T) cycles of 7W.8R.5I are not drawn.")
         read_rows = [("Read 1", "N5, 4-nt pool barcode, sense cDNA"),
-                     ("Read 2", "7-nt well barcode, 8-nt UMI, poly(T)")]
+                     ("Read 2", "7-nt well barcode, 8-nt UMI")]
     else:
         r1 = Construct([seg("random diversity", "N" * 3, placeholder=True),
                         seg("pool barcode", M.POOL_READ, "cbc"),
@@ -104,11 +110,19 @@ def render_page(protocol: str, *, graph=None) -> str:
               'coauthor-uploaded Supplementary Methods</a> (lines 370–375) call RT2 '
               'complementary to the ligated adapter, '
               'while Supplementary Table S7 prints RT2 '
-              '<code>TCTAGCCTTCTCGCAGCACATC</code>. The reverse complement of the '
-              'printed adapter constant <code>AGATCGGAAGAGCGTCGTGTAG</code> is '
-              '<code>CTACACGACGCTCTTCCGATCT</code>; these strings have no contiguous '
-              '8-base match. The model retains the printed RT2 and adapter; its exact '
-              'landing cannot be verified from these printed sequences.') if not exact else ''),
+              f'<code>{M.MARS1_RT2_PRINTED}</code>. The reverse complement of the '
+              f'printed adapter constant <code>{M.LIG_CONSTANT}</code> is '
+              f'<code>{revcomp(M.LIG_CONSTANT)}</code>. Read right to left, the printed '
+              f'RT2 is <code>{M.MARS1_RT2_PRINTED_REVERSED}</code>'
+              + (', exactly that complement: the table entry appears to be written '
+                 '3′→5′.' if M.MARS1_RT2_REVERSAL_IS_ADAPTER_COMPLEMENT else '.')
+              + ' This is an apparent published typographical discrepancy, not a '
+              'verified correction. The model keeps the printed RT2 as the source '
+              'value, marks the RT2 step INFERRED and does not choose a landing; '
+              'whether the ordered primer was the reversed string remains uncertain. '
+              'The later MARS-seq2.0 author protocol prints the complement 5′→3′ as '
+              'its own RT2, which is a separate source and does not settle the 2014 '
+              'order.') if not exact else ''),
         f'<h2>Key oligos</h2><seq>{"".join(oligos)}</seq>',
         '<h2>Library construction</h2>', protocol_graph_panels(graph),
         sp.diagram(final, M.SEQ_PRIMERS),
@@ -118,8 +132,11 @@ def render_page(protocol: str, *, graph=None) -> str:
               caption=read_caption),
         table(("Read", "Reports"), read_rows),
         sp.read_spec_table([
-            sp.read_spec("Read 1", None, read_rows[0][1], "extract_then_include"),
-            sp.read_spec("Read 2", None, read_rows[1][1], "extract"),
-        ], "Read contents are source-declared; the defining sources do not fix a complete run recipe."),
+            sp.read_spec("Read 1", lengths.get("Read 1"), read_rows[0][1],
+                         "extract_then_include"),
+            sp.read_spec("Read 2", lengths.get("Read 2"), read_rows[1][1], "extract"),
+        ], ("Read contents are source-declared; cycles are the author procedure's Step 80 "
+            "run (NextSeq 500 High Output v2, no index reads)." if exact else
+            "Read contents are source-declared; the defining sources do not fix a complete run recipe.")),
         '</div>',
     ])

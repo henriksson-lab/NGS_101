@@ -211,5 +211,24 @@
     "date": "2026-10-16",
     "locations": "Full current truseq-stranded-mrna/tools/chem.py and bounded original sections listed in guide/adapter/pooling source checks",
     "finding": "Local source order, conditional CD reference, unknown physical index-2/cycles and variable biological insert agree with bounded originals. This is model validation, not fresh complete source/link/absence closure."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-21",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Illumina TruSeq Stranded mRNA Reference Guide 1000000040498 v00 (Oct 2017) text twin: overview 174\u2013258, Elution 2-Frag-Prime 716\u2013719, first strand 884\u2013990, SMM 1118\u20131147 and AMPure 1156\u20131165, A-tailing 1226\u20131342, ligation 1353\u20131574 and cleanup Round 2 1579\u20131662, PCR 1669\u20131801 and final AMPure 1820\u20131830, inline-control Table 2 2490\u20132567; Illumina Adapter Sequences 1000000002694 v22 CD section 19675\u201319688/21090\u201321244 via scraper hits",
+      "oligo_scraper": "Full-bundle scraper run; hits are adapter-guide templates (CD i7/i5 arms, Nextera, small RNA, legacy PE); workflow guide prints no oligo sequences in the inspected sections; PPC strands not printed there.",
+      "findings": "Existing workflow order (two poly(A) captures, fragment/prime in second elution, FSA+SuperScript II RT, SMM RNA removal/dUTP/blunt end repair, AMPure, ATL, LIG+STL, two ligation AMPures, PPC/PMM 15-cycle PCR, final AMPure) and CD reference endpoint confirmed. Added source-printed reaction conditions to graph reagents and note: 94C 8 min fragmentation; 25C10/42C15/70C15 RT; SMM 16C 1h; ATL 37C 30min then 70C 5min; LIG 30C 10min; PCR 98C30s, 15x(98C10s/60C30s/72C30s), 72C 5min. No published discrepancy found.",
+      "deferred": [
+        "Exact PPC strand sequences and historical adapter revision/D member",
+        "Older pooling guide 15042173 linked target and other supporting guides (IEM 15031335, qPCR 11322363, quick card 15037152)",
+        "Sequencing platform, acquired cycles and index-2 workflow",
+        "Appendix B alternate fragmentation and LS branch not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 10/10 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

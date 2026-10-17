@@ -23,9 +23,12 @@ it does not assign that hairpin structure to arbitrary third-party or indexed ad
 
 ## 3. End prep and ligation
 
-🟢 End prep acts at 20 °C for 30 min and 65 °C for 30 min, repairing ends,
-phosphorylating 5′ ends and adding single 3′ dA overhangs. Hairpin ligation is 20 °C for
-15 min.
+🟢 End Prep (Ultra II End Prep Reaction Buffer + Enzyme Mix) runs 20 °C for 30 min and
+65 °C for 30 min (E7103/E7645 Step 1.3). The E7103/E7645 manual does not describe the
+mix's activities; E7600 p. 2 says the adaptor ligates to "end-repaired, dA-tailed DNA".
+🟡 5′ phosphorylation of the insert is inferred, not printed in the manuals read.
+🟢 Ligation adds the adaptor, Ultra II Ligation Master Mix and Ligation Enhancer directly to
+the End Prep mixture, 20 °C for 15 min (Steps 2.2–2.4).
 
 🟢 The E7600 adaptor is printed as
 `/5Phos/GATCGGAAGAGCACACGTCTGAACTCCAGTC[dU]ACACTCTTTCCCTACACGACGCTCTTCCGATC-s-T`.
@@ -38,9 +41,13 @@ and the four insert–adaptor junctions.
 
 ## 4. USER opening
 
-🟢 USER combines UDG and Endonuclease VIII. UDG removes the loop dU base and Endonuclease
-VIII removes the abasic residue, leaving a one-nucleotide gap with a 3′ phosphate on the
-left arm and 5′ phosphate on the right arm. Treatment is 37 °C for 15 min.
+🟢 USER Enzyme (3 µl) is added to the ligation mixture and incubated at 37 °C for 15 min
+(E7103/E7645 Steps 2.5–2.6); these steps are only for the non-indexed NEBNext Adaptor, and
+the indexed UMI adaptor needs no USER. E7600 p. 2 states that USER is "a combination of
+UDG and Endo VIII" that removes the loop U "to open up the loop and make it available as
+a substrate for PCR". The gap-end chemistry (3′ phosphate on the left arm, 5′ phosphate on
+the right arm, one-nucleotide gap) comes from the USER Enzyme product documentation, which
+was not re-read in the 2026-10-17 pass.
 
 🟡 Both displayed arms come from `Hairpin.user_open_at()`; their sequences are not copied
 independently from the intact adaptor.
@@ -69,3 +76,17 @@ these manuals omitted the sequence; that exception has been removed. This was a
 repository error, not a vendor publication error or demonstrated sequence withdrawal.
 The adaptor and illustrative i501/i701 primer states are now checked against the actual
 E7600 original, including phosphate, dU and terminal phosphorothioate notation.
+
+## 7. Cleanups and PCR (bounded pass, 17 October 2026)
+
+🟢 E7103/E7645 v7.0_9/22: after USER, inputs > 50 ng are size-selected with about 0.4X
+beads (keep supernatant) then 0.2X (keep beads) (Section 3A); inputs ≤ 50 ng get a 0.9X
+cleanup (Section 3B); both elute 17 µl and take 15 µl into PCR. PCR uses Ultra II Q5
+Master Mix with one i7/Index primer and one i5 (or Universal, for single-index kits) primer:
+98 °C 30 s; 3–15 cycles of 98 °C 10 s and 65 °C 75 s; 65 °C 5 min (Step 4.1.3, Tables
+4.1/4.2). A 0.9X cleanup follows (Section 5). The graph draws the ≤ 50 ng 0.9X branch and
+names the size-selection alternative in a page note.
+
+Open: the USER gap-end chemistry and Illumina adapter document were not re-read; the
+End Prep mix composition is not printed.
+

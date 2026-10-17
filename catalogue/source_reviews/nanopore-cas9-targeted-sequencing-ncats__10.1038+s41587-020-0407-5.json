@@ -104,5 +104,24 @@
       "evidence": "Original/author protocol name reagent without full vendor synthesis; historical guide unavailable."
     }
   ],
-  "conclusion": "First located pass only; ONT source and remainder of supplements blocked."
+  "conclusion": "First located pass only; ONT source and remainder of supplements blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC7145730 JATS Results line 58 (Cas9 remains bound 5' of gRNA; complementary-strand flanking cuts); Online Methods Guide RNA design, RNP assembly, Cas9 Cleavage and Library Prep, Sequencing (lines 102-118); NIHMS1548342 Sup_Tab1.xlsx.txt TableS1_GuideRNASequences header and rows; cited protocols.io 10.17504/protocols.io.68ihhue V.2 (10 Sep 2019) pdf.txt steps 7-21 (lines 120-260)",
+      "oligo_scraper": "Bundle scraper run: 63 Sup_Tab1 hits are locus crRNA spacers (not library oligos); 5 Sup_Tab8 hits are BRCA1 variant-call strings; no adapter bases (LSK109 AMX proprietary).",
+      "findings": "Added the source-stated 0.3x AMPure XP cleanup (TE dilution, two LFB washes, 15 uL EB elution) between adapter ligation and sequencing, with waste discard. Named reagents/conditions: Quick CIP M0508 37 C 10 min + 80 C 2 min, IDT crRNA:tracrRNA duplexes with HiFi Cas9 V3 RNP, Taq M0267 + dATP 72 C 5 min same tube, Quick Ligase M2200 in LNB. Corrected the outward-flank discard reason: exclusion relies on Cas9 remaining bound 5' of the gRNA (preferential 3'-side ligation), not only on old dephosphorylated ends. Graph-owned published discrepancy on the page: article 37 C 20 min vs protocols.io V.2 step 9 37 C 15 min Cas9 cleavage; no time is fixed.",
+      "deferred": [
+        "ONT SQK-LSK109 historical guide/AMX adapter structure (proprietary; unavailable locally)",
+        "Sup Tables 2-7 run configurations not re-read",
+        "Cas9 retention on PAM-side fragment not modelled as a bound-protein state",
+        "Off-target/one-sided cut products and AMPure size-selection fate not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 2 checks pass; page builds; pairing 0 problems; chemistry 0 established/2 conditional/5 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 1 input without exact state (guides; LSK109 adapter inferred role token); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

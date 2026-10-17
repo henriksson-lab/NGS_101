@@ -175,5 +175,25 @@
       "source": "Later2016 detailedprotocol linked supplements and chemistry/source-version boundaries",
       "next_action": "Complete bounded original-source inventory if using further detailed2016claims. Current endpoint uses only explicitRPI comparator, no inherited fullrecipe."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Original author-hosted 2013 SOM (594009_926d\u2026pdf, printed title/DOI 10.1126/science.1229386) lines 1\u201320 identity, 105\u2013148 library preparation (four single-biotin-NTP or 4NTP run-on 106\u2013112, Trizol/NaOH hydrolysis/P-30 112\u2013116, first pull 116\u2013120, reverse 3\u2032 adapter/T4 RNA ligase I 6 h 20C 121\u2013124, second pull 129\u2013130, TAP+PNK 130\u2013132, reverse 5\u2032 adapter options 135\u2013137, third pull 138\u2013139, GX2/RP1 RT 139\u2013142, trial PCR, GX1/RPI + excess RT primer Phusion 12\u201318 cycles PAGE 143\u2013148), Hsp70 GX2short branch 150\u2013166, read processing 168\u2013180; Mahat2016 PMC5502525 Table1 lines 2870\u20132903 for RPI comparator",
+      "oligo_scraper": "Bundle scraper run (31 hits); SOM 122 VRA3 with 5\u2032p/3\u2032InvdT, 135\u2013137 both reverse 5\u2032 options, 140 RP1 verified in text; 154\u2013156 Hsp70 GX2short/biotin primer separate branch; 423\u2013472 mutagenesis/qPCR primers not library oligos.",
+      "findings": "Order, reagents and RP1/RPI option match SOM. Model corrections: VRA5 ligation-geometry statement previously cited the 2016 protocol and T4 RNA ligase; now cites the 2013 SOM and records that the 5\u2032-ligation enzyme is not named; ligase5 relabelled; T4 RNA ligase I 10 pmol adapter 6 h 20C, 25 pmol RP1, trial PCR and 12\u201318 cycles added to labels. Note records SOM read processing (fastx clip, first-26-base trim, <16 b removed). Repository attribution error, not publication error.",
+      "deferred": [
+        "Historical selected RPI index oligo and sample assignment (2016 RPI-n comparator kept INFERRED)",
+        "GX2/GX1 alternative option not drawn",
+        "5\u2032-ligation enzyme (not named in SOM)",
+        "Acquired cycles and loaded run primers",
+        "Cited predecessor methods (SOM refs 1\u20134) and analysis-code supplement"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite all 4 checks passed (SOM VRA3/VRA5/RP1, Mahat2016 RPI-n); page builds; pairing 0 problems; chemistry 0 established/1 conditional/11 unresolved/0 contradictory; source guard 3 exact checked, 0 failed, 1 input without exact state (RPI comparator); Markdown built; review schema checked"
+    }
   ]
 }

@@ -144,15 +144,35 @@ def _local_graph(d, final, primers):
                          MaterialKind.BIOLOGICAL,
                          state=molecule("original genomic duplex", ("Watson strand", "Crick strand")),
                          primary=True)
-    repair = graph.input("end_repair_enzyme", "end-repair enzyme mix", MaterialKind.CATALYST)
-    repaired = graph.product("repaired", "end-repaired genomic duplex", MaterialKind.MOLECULAR,
-                             state=duplex.state)
+    methods = source + "; Methods 'DNA samples' and 'CODEC' (PMC10181940 JATS lines 202, 210)"
+    covaris = graph.input("covaris", "Covaris ultrasonication to a mean of 150 bp (not cfDNA)",
+                          MaterialKind.CONDITION, source=methods)
+    sheared = graph.product("sheared", "sheared genomic duplex", MaterialKind.MOLECULAR,
+                            state=duplex.state)
+    graph.react("shear", "Shear genomic DNA (2.5-20 ng input to CODEC)", StepKind.FRAGMENTATION,
+                ((duplex, InputRole.TEMPLATE), (covaris, InputRole.CONDITION)), (sheared,),
+                source=methods)
+    repair = graph.input("end_repair_enzyme", "NEBNext Ultra II End Prep (E7103L)", MaterialKind.CATALYST,
+                         source=methods)
+    end_prepped = graph.product("end_prepped", "end-repaired, dA-tailed genomic duplex",
+                                MaterialKind.MOLECULAR, state=duplex.state)
     graph.react("end_repair", "End-repair and dA-tail the original duplex", StepKind.END_REPAIR,
-                ((duplex, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
-    adapter = graph.input("codec_adapter", "preassembled four-oligo CODEC adapter quadruplex",
+                ((sheared, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (end_prepped,))
+    pre_beads = graph.input("pre_ligation_ampure", "1.8x AMPure XP, elute in 40 µl low TE",
+                            MaterialKind.SELECTION, source=methods + " exception (1)")
+    repaired = graph.product("repaired", "purified end-prepped duplex", MaterialKind.MOLECULAR,
+                             state=duplex.state)
+    end_prep_waste = graph.product("end_prep_waste", "End Prep reaction components",
+                                   MaterialKind.WASTE)
+    graph.react("pre_ligation_cleanup", "AMPure cleanup before ligation (CODEC exception 1)",
+                StepKind.CLEANUP,
+                ((end_prepped, InputRole.TEMPLATE), (pre_beads, InputRole.SELECTION)),
+                (repaired, end_prep_waste), source=methods)
+    graph.discard(end_prep_waste, "removed in the 1.8x bead supernatant")
+    adapter = graph.input("codec_adapter", "four-oligo CODEC adapter quadruplex (annealed 85 °C 3 min, -1 °C/min to 20 °C, 12 h RT; 500 nM in ligation)",
                           MaterialKind.ADAPTER, state=codec_adapter_scene(),
                           source=source + "; Supplementary Table 5")
-    ligase = graph.input("ligase", "NEBNext Ultra II ligation mix", MaterialKind.CATALYST)
+    ligase = graph.input("ligase", "NEBNext Ultra II ligation mix (ligation extended to 1 h)", MaterialKind.CATALYST)
     deadenylase = graph.input("deadenylase", "5′-deadenylase added to ligation", MaterialKind.CATALYST,
                              source="Bae et al. 2023 CODEC Methods; NEB M0331S")
     adapted = graph.product("adapted", "CODEC-adapter-bound duplex", MaterialKind.MOLECULAR,
@@ -182,8 +202,8 @@ def _local_graph(d, final, primers):
                                "terminal phosphorothioate-linked T on each ligating adapter arm.")))
     graph.discard(blank, "Extended Data Fig. 2b proposes insert-free T/T mismatched ligation; this is a likely mechanism, not a proved exact product.")
     graph.discard(double, "Extended Data Fig. 2b proposes double ligation involving T/T mismatch; the product is shown by role only.")
-    strand_polymerase = graph.input("strand_polymerase", "phi29 strand-displacing polymerase",
-                                    MaterialKind.CATALYST)
+    strand_polymerase = graph.input("strand_polymerase", "phi29 DNA polymerase (M0269L), 0.2 mM dNTP, 30 °C 20 min",
+                                    MaterialKind.CATALYST, source=methods + " exception (4)")
     linked = graph.product("linked", "physically linked copies of both original complements",
                            MaterialKind.MOLECULAR, state=codec_linked_duplex())
     intermolecular = graph.product("intermolecular", "Putative intermolecular-extension byproduct", MaterialKind.WASTE)
@@ -192,25 +212,45 @@ def _local_graph(d, final, primers):
                 ((adapted, InputRole.TEMPLATE), (strand_polymerase, InputRole.CATALYST)),
                 (linked, intermolecular))
     graph.discard(intermolecular, "Extended Data Fig. 2b proposes extension on another ligation product rather than the opposite strand; no exact sequence is assigned.")
-    reviewed = ["duplex", "end_repair_enzyme", "end_repair", "codec_adapter", "ligase",
-                "ligate", "strand_polymerase", "link_duplex"]
+    ext_beads = graph.input("extension_ampure", "0.75x AMPure XP", MaterialKind.SELECTION,
+                            source=methods + " exception (4)")
+    linked_clean = graph.product("linked_clean", "purified linked-duplex products", MaterialKind.MOLECULAR,
+                                 state=codec_linked_duplex())
+    ext_waste = graph.product("extension_waste", "extension reaction components and short material",
+                              MaterialKind.WASTE)
+    graph.react("extension_cleanup", "0.75x AMPure cleanup after strand-displacing extension",
+                StepKind.CLEANUP, ((linked, InputRole.TEMPLATE), (ext_beads, InputRole.SELECTION)),
+                (linked_clean, ext_waste), source=methods)
+    graph.discard(ext_waste, "removed in the 0.75x bead supernatant")
+    reviewed = ["duplex", "covaris", "shear", "end_repair_enzyme", "end_repair",
+                "pre_ligation_ampure", "pre_ligation_cleanup", "codec_adapter", "ligase",
+                "ligate", "strand_polymerase", "link_duplex", "extension_ampure", "extension_cleanup"]
     amplification_primers = graph.input("amplification_primers", "xGen Library Amplification Primer Mix (IDT 1077677)", MaterialKind.OLIGO,
                                         source="Bae et al. 2023 CODEC Methods")
     amplification_partner = graph.input("amplification_partner", "xGen Library Amplification Primer Mix partner (IDT 1077677)", MaterialKind.OLIGO,
                                         source="Bae et al. 2023 CODEC Methods; ordered strands unassigned")
-    pcr_enzyme = graph.input("pcr_enzyme", "KAPA HiFi HotStart ReadyMix", MaterialKind.CATALYST,
+    pcr_enzyme = graph.input("pcr_enzyme", "KAPA HiFi HotStart ReadyMix (KAPA Library Amplification manual, 2 min extension)", MaterialKind.CATALYST,
                              source="Bae et al. 2023 CODEC Methods; Roche 07958935001")
-    library = graph.product("library", "CODEC linked-duplex sequencing library", MaterialKind.LIBRARY, state=final)
+    amplified = graph.product("amplified", "amplified CODEC library before cleanup", MaterialKind.MOLECULAR, state=final)
     graph.react("library_pcr", "Amplify the concatenated library with xGen primers", StepKind.PCR,
-                ((linked, InputRole.TEMPLATE), (amplification_primers, InputRole.STRUCTURAL),
-                 (amplification_partner, InputRole.STRUCTURAL), (pcr_enzyme, InputRole.CATALYST)), (library,),
+                ((linked_clean, InputRole.TEMPLATE), (amplification_primers, InputRole.STRUCTURAL),
+                 (amplification_partner, InputRole.STRUCTURAL), (pcr_enzyme, InputRole.CATALYST)), (amplified,),
                 geometry=PCRGeometry.unavailable(final,
                     reason="The model has not assigned the ordered xGen 1077677 primer strands or a contiguous post-extension amplicon; the original CODEC Methods names the commercial mix. This is undeclared model data, not accepted source absence."))
+    post_beads = graph.input("post_pcr_ampure", "two 0.65x AMPure XP cleanups (cfDNA: second as 0.5x/0.65x double-sided)",
+                             MaterialKind.SELECTION, source=methods + " exception (6)")
+    library = graph.product("library", "CODEC linked-duplex sequencing library", MaterialKind.LIBRARY, state=final)
+    pcr_waste = graph.product("pcr_waste", "PCR reaction components and short products", MaterialKind.WASTE)
+    graph.react("post_pcr_cleanup", "Two 0.65x AMPure cleanups after PCR", StepKind.CLEANUP,
+                ((amplified, InputRole.TEMPLATE), (post_beads, InputRole.SELECTION)),
+                (library, pcr_waste), source=methods)
+    graph.discard(pcr_waste, "removed in the 0.65x bead supernatants")
     graph.sequence(library, SequencingPlan(library=final, primers=tuple(primers),
                     acquired_roles=("Read 1", "Read 2"),
                     read_lengths={"Read 1":166,"Read 2":166},
                     read_uses={"Read 1":"extract_then_include", "Read 2":"extract_then_include"}))
-    reviewed.extend(("deadenylase", "amplification_primers", "amplification_partner", "pcr_enzyme", "library_pcr", "library"))
+    reviewed.extend(("deadenylase", "amplification_primers", "amplification_partner", "pcr_enzyme", "library_pcr", "amplified",
+                     "post_pcr_ampure", "post_pcr_cleanup", "library"))
     graph.annotate(Highlight(target="library", title="Representative adapter set and sequencing run",
         explanation="Supplementary Table 5 prints eight matched four-oligo sets; this page displays set 1. Extended Data Fig. 1f and Supplementary Text also describe NNNA/NNNT read-start variants; the fixed three-position UMI model applies to set 1. The original Methods reports NovaSeq 6000 paired 166- or 260-cycle CODEC runs; the read spans shown select the 166-cycle option. Sample indices are inline within Read 1/Read 2, rather than separately acquired index reads. The concatenated endpoint remains a region-level model, not a source-printed contiguous strand.",
         slot=AnnotationSlot.AFTER_WORKFLOW))

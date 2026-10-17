@@ -94,5 +94,24 @@
       "evidence": "Article names SMRTbell Express Template Prep Kit 2.0; historical guide unavailable."
     }
   ],
-  "conclusion": "Telobait oligos are source-backed in Supplementary Data 2; PacBio kit internals remain blocked on absent vendor original."
+  "conclusion": "Telobait oligos are source-backed in Supplementary Data 2; PacBio kit internals remain blocked on absent vendor original.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Tham et al. Nat Commun 14:281 PMC9845338 JATS (sources/<slug>/s41467-023-35823-7_PMC9845338.xml.txt, identical to earlier hand-added doi_ fulltext.xml.txt) Results line128, Methods Synthesis of barcoded Telobaits lines218-220, Telomere enrichment line224, read analysis lines230-232; Supplementary Information MOESM3 Fig. S2a drawing/legend lines155-330; Supplementary Data 2 MOESM5 (md5 = supp_data_2.xlsx) Set1-12 F01/R01-1..6 lines1-9",
+      "oligo_scraper": "Bundle scraper run on doi_ and refreshed slug bundles; F001-F048 /5Phos/.../3Bio/ family hits checked against Supplementary Data 2; R partners = revcomp(F)+3-prime phase arm verified for F01/R01-1..6.",
+      "findings": "Slug source dir held only the Makarova 2025 review; get_sources --slugs now fetched the published article, PMC PDF and MOESM1-10 there. Corrected the telobait geometry: F01 and the phase arm were modelled as one strand ligated to a C-rich 3-prime end (not printed, guard failure); now the F01/R01-1 duplex with the R 3-prime arm on the G-rich overhang and ligation of the G-rich 3-prime end to the F01 5-prime phosphate (Fig. S2a). Added ligated and on-bead gap-filled states, EcoRI release leaving the biotin stub on beads and a 5-prime AATT overhang, 0.45x AMPure PB cleanup, Methods reagent amounts/conditions, inferred AATT fill-in before SMRTbell dA-tailing. Graph-owned published discrepancy: Results line128 gap fill before streptavidin purification vs Methods line224 on-bead gap fill after capture; model follows Methods. Page now renders graph annotations.",
+      "deferred": [
+        "PacBio SMRTbell Express Template Prep Kit 2.0 guide (end repair of EcoRI overhang, hairpin/primer bases)",
+        "Sequencer/chemistry version not in inspected Methods passages",
+        "Nick sealing after gap fill not stated",
+        "Cited G-overhang profiling predecessor (refs 8,45) not followed"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 101 checks pass; page builds; pairing 0 problems; chemistry 0 contradictory (5 established/6 conditional/8 unresolved); source guard 2 exact checked (F01, R01-1), 0 failed, 0 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

@@ -243,5 +243,25 @@
   ],
   "conclusion": "Two independent readings cover the article, preprint, all listed supplements, vendor guide and whitelist. Barcode members and UMI variants are printed; a complete synthesized v1 bead oligo was not found in that source set. Linked information was enumerated and followed.",
   "public_page": "10x-chromium-single-cell-3-ge-v1__10.1038+ncomms14049/10x-chromium-single-cell-3-ge-v1.html",
-  "public_checklist_marker": "Source review scope: two independent readers checked"
+  "public_checklist_marker": "Source review scope: two independent readers checked",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC5241818 JATS text lines25-32 (Results workflow) and 252 (Methods library preparation/sequencing); 10x CG00026 Rev B original (upstream_-named copy, md5 b1b063a6, identical to scg mirror row) lines960-994 overview, 399-520 kit contents, 2196-2238 GEM-RT, 2343-2535 post-GEM cleanup, 2612-2735 cDNA amplification, 2814-2851 library tips, 2933-2977 shearing/size selection, 3070-3100 end repair/A-tailing, 3117-3250 adaptor ligation/cleanups, 3304-3480 SI-PCR/cleanups",
+      "oligo_scraper": "Bundle scraper run; article hits (JATS/PDF line262) are ddPCR validation primers/FAM probes, not library oligos; workbook hits are 14-nt barcodes; scg_adapters/upstream hits excluded as non-sources.",
+      "findings": "Model correction: the graph used shared ChromiumRNAOps, which drew enzymatic 'cDNA fragmentation enzyme' and ligation of a cohesive 3'-dT Read-2 adapter; the paper (line252) and guide (2933-2943) shear with Covaris M220 to ~200 bp and the guide ligates the R1 Adaptor Mix (3117-3158) with P7/R2 bead-derived (972-975). Replaced with a local graph: Recovery Agent break, Silane and 0.6x SPRIselect, cDNA PCR with two unprinted cDNA Primer Mix components (unavailable geometry), Covaris shearing, double-sided post-shear SPRIselect, ER/A-tail 20C30min/65C30min, R1 Adaptor ligation 20C15min with AdapterLigationGeometry.unavailable, two post-ligation and two post-SI-PCR cleanups, SI-PCR Primer plus Sample Index Plate well (10 cycles), separate kit RT Primer input of unstated identity. Read layout 98/14/8/10 confirmed (line252). Kit PNs paper 120230/120231/120232 vs guide 120233/120232 noted, not resolved (packaging, not chemistry).",
+      "deferred": [
+        "R1 Adaptor Mix oligos and ligating end geometry",
+        "SI-PCR Primer and the four Sample Index sequences per set",
+        "cDNA Primer Mix and kit RT Primer identities",
+        "Complete v1 bead oligo/TSO bases (prior two-reader scope unchanged)",
+        "Paper vs guide kit part numbers"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation; prior accepted_missing two-reader record unchanged.",
+      "verification": "suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/19 unresolved/0 contradictory (17 steps); source guard 0 exact checked, 0 failed, 0 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

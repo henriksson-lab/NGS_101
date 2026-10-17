@@ -232,5 +232,25 @@
       "source": "Later 2016 supplements, source-specific modifications and current vendor comparator child sources",
       "next_action": "Inspect bounded version-dependent source scope; these sources do not establish the selected original 2013 variant or publication-wide absence."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Original author-hosted 2013 SOM (594009_926d\u2026pdf, printed title/DOI 10.1126/science.1229386) lines 1\u201320 identity, 105\u2013148 PRO-seq/PRO-cap library preparation (run-on 106\u2013112, no fragmentation 114, 3\u2032 ligation 121\u2013124, AP/TAP no PNK 129\u2013134, standard 5\u2032 adapters/third pull 135\u2013139, RT/trial PCR/Phusion 12\u201318 cycles/PAGE 139\u2013148), 168\u2013172 read processing, 364\u2013366 PRO-cap analysis; Kwak 2013 PMC3974810 JATS checked for supplement pointer only",
+      "oligo_scraper": "Bundle scraper run (31 hits); SOM 122/135\u2013140/154\u2013156 are PRO-seq/Hsp70 oligos, 423\u2013427 Hsp70 mutagenesis and 466\u2013472 qPCR primers, none PRO-cap library oligos; Mahat2016 Table1 hits are later comparators.",
+      "findings": "Kept original branch order (no fragmentation, three streptavidin pulls, AP before TAP, no PNK, non-reverse-complemented 5\u2032 reads). Model corrections: PCR now reuses the excess standard RT primer as one PCR primer (SOM 146\u2013147) instead of a separate forward oligo; 3\u2032 ligase named T4 RNA ligase I 6 h 20C (SOM 121\u2013124, PRO-cap changes only the adapter); 5\u2032-ligation enzyme labelled not named in SOM; 25 pmol RT primer, trial PCR and 12\u201318 cycles added to labels; second PCR primer for PRO-cap labelled unassigned (GX1/RPI named for PRO-seq only). Note updated. Repository gaps, not publication errors.",
+      "deferred": [
+        "Identity/modifications of 2013 standard Illumina 3\u2032/5\u2032 RNA adapters, RT primer and second PCR primer for PRO-cap",
+        "5\u2032-ligation enzyme and conditions (not named in SOM)",
+        "Acquired read length and loaded run primers (GA2/HiSeq2000)",
+        "TruSeq Small RNA guide 15004197 Rev C applicability to 2013 kit not re-read this round",
+        "Cited nuclei-isolation predecessors (SOM refs 1\u20133)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite all 5 checks passed (Mahat2016 comparator transcriptions); page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states (standard oligos unassigned); Markdown built; review schema checked"
+    }
   ]
 }

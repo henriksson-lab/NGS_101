@@ -13,7 +13,6 @@ from protocol_model import role
 TITLE="SNU-Seq — single-nucleotide-resolution 4sU sequencing"
 NOTES="01_snu_seq.html"
 SOURCE=('Defining source: <a href="https://doi.org/10.1093/nar/gkag652">Gerlevik et al., NAR (2026)</a>, original Supplementary Methods; '
-        '<a href="https://doi.org/10.1101/2021.07.14.452379">Lorenz et al. preprint</a>, original July 2021 v1 distinguished from October 2025 v2; '
         '<a href="https://www.lexogen.com/wp-content/uploads/2018/06/012UG036V0130_QuantSeq-IonTorrent.pdf">2018 Ion guide</a> and '
         '<a href="https://www.lexogen.com/wp-content/uploads/2021/08/015UG009V0260_QuantSeq_Illumina_2021-08-16.pdf">2021 FWD guide</a>, conditional references.')
 SUMMARY=("RNA containing pulse-incorporated 4sU is enriched using reversible HPDP-biotin capture, recovered with DTT and polyadenylated with bacterial PAP. "
@@ -29,8 +28,7 @@ SEQ_PRIMERS=()
 FINAL_LIBRARY=None
 READ_SPECS=(sp.read_spec("Read 1",READ_CYCLES,"Ion reference: TCAG–inline barcode–CGAT then RNA; FWD reference: RNA towards poly(A). Native endpoint reach is conditional.","include"),
             sp.read_spec("Index 1 (i7)",None,"Ion has no separate index read in the dated guide; FWD study index acquisition/member unassigned","undetermined"))
-SEQUENCING_ENDING=("The 2026 supplement reports single-end 100-nt sequencing: Ion Chef/Ion Proton or Lexogen Illumina NextSeq 2000. "
-                   "The original 2021 v1 reports Ion Chef/Ion Proton and 13 PCR cycles without giving SR100 in that method. "
+SEQUENCING_ENDING=("The 2026 supplement reports single-end 100-nt sequencing (SR100): Ion Chef/Ion Proton or Lexogen Illumina NextSeq 2000. "
                    "Poly(A) trimming and aligned-read 3′ coverage are computational operations; they do not establish that every acquired read reaches a native RNA end.")
 ION_A="CCATCTCATCCCTGCGTGTCTCCGACTCAG"
 ION_P1="ATCACCGACTGCCCATAGAGAGGAAAGCGGAGGCGTAGTGG"
@@ -118,7 +116,7 @@ def protocol_graph():
     tailed=prod('tailed','bPAP-tailed source RNA',state=state('PAP-tailed RNA','variable source RNA with retained native 3-prime boundary','artificial poly(A) tail, unknown length'))
     react('polyadenylate','Add artificial poly(A) tails to enriched RNA',StepKind.TAILING,
           ((recovered,InputRole.TEMPLATE),(pap,InputRole.CATALYST),(atp,InputRole.STRUCTURAL)),(tailed,))
-    precipitation=inp('post_pap_cleanup','post-PAP isopropanol precipitation and RNA resuspension',MaterialKind.CONDITION)
+    precipitation=inp('post_pap_cleanup','post-PAP isopropanol precipitation with 1/10 volume sodium acetate and GlycoBlue; pellet resuspended in water',MaterialKind.CONDITION)
     pap_rna=prod('pap_rna','recovered PAP-tailed RNA',state=tailed.state)
     pap_waste=prod('post_pap_waste','non-retained post-PAP precipitation supernatant',kind=MaterialKind.WASTE)
     react('recover_tailed','Recover polyadenylated RNA before kit preparation',StepKind.CLEANUP,
@@ -186,9 +184,10 @@ def protocol_graph():
                    'Ion guide RNA Removal Solution 1, heat, then Solution 2')
     library_branch('fwd',fwd_rna,FWD_LIBRARY,'Illumina Read-2-side oligo(dT) primer','FWD Read-1-side random second-strand primer',
                    'FWD guide RNA Removal Solution with heat')
-    g.annotate(Highlight('polyadenylate','Published version and control choices',
-        'The original July 2021 preprint v1 reports the Ion route, 150 ng RNA, 45 min at 37°C for PAP, and 13 PCR cycles. '
-        'October 2025 v2 and the 2026 supplement name both Ion and Illumina FWD; the latter reports SR100. '
+    g.annotate(Highlight('polyadenylate','Published route and control choices',
+        'The 2026 article Methods and Supplementary Methods report 150 ng thio-labelled RNA polyadenylated with E. coli PAP for 45 min at 37°C, '
+        'Lexogen QuantSeq Ion Torrent or FWD-for-Illumina preparation with 13 PCR cycles, and SR100 sequencing. '
+        'Superseded bioRxiv versions are not used as authorities. '
         'No-bPAP, no-4sU, optional rRNA-depleted and size-fractionated workflows remain distinct source variants.'))
     g.annotate(Highlight('platform_variants','Platform variants are declarations of separate implementations',
         'The branch point compares source-reported platform routes; it is not evidence that a particular experimental sample was split between platforms. '

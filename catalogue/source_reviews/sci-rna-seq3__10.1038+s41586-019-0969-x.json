@@ -259,5 +259,25 @@
       "evidence": "The author workbook prints all primer variants and the embryo CSV maps RT barcodes. GEO cell annotation records observed PCR-group labels plus ligation and RT barcode combinations for cells, so these combinations are not missing. The PCR group label-to-ordered P5/P7 pair has not been verified, and the cited predecessor supplement remains inaccessible."
     }
   ],
-  "conclusion": "Two readers checked the defining 2019 article, supplements and linked author sources. The author CSV resolves embryo-to-RT-group identity; GEO cell annotation also records observed PCR-group, ligation and RT barcode combinations, with an independent GEO and pipeline second check completed. The 2020 protocol has distinct RT incubation, ligation and Read 2 length, so the page keeps the 2019 run. Exact PCR-group-to-P5/P7 primer selection remains unverified, and inherited-only claims remain blocked by the unavailable 2017 predecessor supplement."
+  "conclusion": "Two readers checked the defining 2019 article, supplements and linked author sources. The author CSV resolves embryo-to-RT-group identity; GEO cell annotation also records observed PCR-group, ligation and RT barcode combinations, with an independent GEO and pipeline second check completed. The 2020 protocol has distinct RT incubation, ligation and Read 2 length, so the page keeps the 2019 run. Exact PCR-group-to-P5/P7 primer selection remains unverified, and inherited-only claims remain blocked by the unavailable 2017 predecessor supplement.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC6434952 JATS Methods 'sci-RNA-seq3 library preparation and sequencing' lines 174-190 (RT, hairpin ligation, second strand, tagmentation/AMPure/USER, PCR, pooling, NovaSeq 34/52/10/10); Table S11 (MOESM3 sheet, sc_ligation_RT_1 line 5, P5-1 line 777, P7-1 line 875); author sci3_primer_sequences_plate.xls sc_ligation_plate_1 line 3, sc_RT_plate_1 line 395",
+      "oligo_scraper": "Bundle scraper run; RT primer, hairpin (/dideoxyU/ Methods vs /ideoxyU/ workbook and protocols.io), P5/P7 architecture hits checked against the JATS lines 178/180/186 and the table rows; protocols.io hits not used as evidence for the 2019 run.",
+      "findings": "Removed unsupported 'random second-strand primer' input (Methods name only NEB mRNA Second Strand Synthesis buffer/enzyme). Named SuperScript IV gradient RT, T4 DNA ligase+betaine+PEG8000 16C 3h, NEB second strand 16C 180min, i7-only TDE1 55C 5min, added Zymo stop+1.5x AMPure cleanup, on-bead USER 37C 15min, NEBNext HF 2x PCR 72C 5min+12-14 cycles, pooled 0.8x AMPure cleanup. Tagmentation by-products and USER-released hairpin arm changed from discard to unresolved (no physical separation; arm stays in eluate). /dideoxyU/ vs /ideoxyU/ discrepancy moved into graph-owned SourceDiscrepancy; new graph-owned discrepancy for transposed Methods paragraph openings ('After ligation reaction' line 180 / 'After RT reaction' line 182).",
+      "deferred": [
+        "2017 sci-RNA-seq predecessor supplement (inaccessible)",
+        "PCR-group label to ordered P5/P7 pair mapping (GEO GSE119945 second read)",
+        "protocols.io 36wgq578ogk5 later run setup (Read 2 100) not used for the 2019 run",
+        "Second-strand module mechanism/primer composition (NEB original not read)",
+        "Tn5 gap fill at 72C 5min not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 4/4 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/8 unresolved/0 contradictory; source guard 2 exact checked (P5-1, P7-1), 0 failed, 3 inputs without exact states (rt_primer, hairpin_adapter, n7_transposome); Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

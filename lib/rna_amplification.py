@@ -14,22 +14,43 @@ from protocol_graph import InputRole, MaterialKind, StepKind
 def barcoded_ivt_front(graph, primary, *, rt_primer_label, rt_state,
                        first_state, duplex_state, arna_state, prefix="",
                        pool_before_second=False, exonuclease_when=None,
-                       final_pool_after_exonuclease=False):
+                       final_pool_after_exonuclease=False, reagents=None):
     """Build a source-selected well-barcoded RT and T7-IVT provenance path.
 
     One representative well is modelled from its primary RNA.  ``peer_wells`` is an
     explicit second pooled template, so pooling cannot be represented as a cosmetic
     label on one molecule.  The helper stops at amplified RNA because ligation versus
-    random-primed second RT is protocol-specific.
+    random-primed second RT (and any post-IVT DNase step) is protocol-specific.
+
+    ``rt_state`` is the state of the RT-primer input: pass the primer molecule itself
+    (a ``Construct`` or 5'->3' string), not a scene of the primer annealed to RNA, so
+    its printed bases can be checked.  ``reagents`` maps any of ``reverse_transcriptase``,
+    ``exonuclease_i``, ``second_strand_polymerase`` and ``t7_polymerase`` to a source
+    label or a ``(label, source)`` pair; unnamed reagents keep role-level labels.
     """
     def key(name: str) -> str:
         return f"{prefix}_{name}" if prefix else name
 
+    defaults = {
+        "reverse_transcriptase": "reverse transcriptase",
+        "exonuclease_i": "Exonuclease I",
+        "second_strand_polymerase": "second-strand DNA polymerase",
+        "t7_polymerase": "T7 RNA polymerase",
+    }
+    unknown = set(reagents or ()) - set(defaults)
+    if unknown:
+        raise ValueError(f"unknown barcoded IVT reagent(s): {sorted(unknown)}")
+
+    def reagent(name: str):
+        given = (reagents or {}).get(name)
+        if given is None:
+            return graph.input(key(name), defaults[name], MaterialKind.CATALYST)
+        label, source = (given, None) if isinstance(given, str) else given
+        return graph.input(key(name), label, MaterialKind.CATALYST, source=source)
+
     rt_primer = graph.input(key("rt_primer"), rt_primer_label,
                             MaterialKind.OLIGO, state=rt_state)
-    reverse_transcriptase = graph.input(
-        key("reverse_transcriptase"), "reverse transcriptase",
-        MaterialKind.CATALYST)
+    reverse_transcriptase = reagent("reverse_transcriptase")
     first = graph.product(key("first_strand"), "well-barcoded first-strand cDNA",
                           MaterialKind.MOLECULAR, state=first_state)
     free_primers = (graph.product(key("free_rt_primers"),
@@ -55,8 +76,7 @@ def barcoded_ivt_front(graph, primary, *, rt_primer_label, rt_state,
                 key("reverse_transcription")]
 
     def remove_primers(template, leftover_primers):
-        exonuclease = graph.input(key("exonuclease_i"), "Exonuclease I",
-                                  MaterialKind.CATALYST)
+        exonuclease = reagent("exonuclease_i")
         cleaned = graph.product(key("exo_cleaned"),
                                 "barcoded cDNA after unincorporated-primer removal",
                                 MaterialKind.MOLECULAR, state=first_state)
@@ -123,9 +143,7 @@ def barcoded_ivt_front(graph, primary, *, rt_primer_label, rt_state,
             reviewed.extend((key("peer_pools"), key("pool_after_exonuclease")))
             first = final_pool
 
-    second_polymerase = graph.input(
-        key("second_strand_polymerase"), "second-strand DNA polymerase",
-        MaterialKind.CATALYST)
+    second_polymerase = reagent("second_strand_polymerase")
     duplex = graph.product(key("duplex"), "double-stranded barcoded T7 template",
                            MaterialKind.MOLECULAR, state=duplex_state)
     graph.react(key("second_strand"), "Synthesize the second cDNA strand",
@@ -148,8 +166,7 @@ def barcoded_ivt_front(graph, primary, *, rt_primer_label, rt_state,
                     (pooled,), changes_molecule=False)
         reviewed.extend((key("peer_wells"), key("pool")))
 
-    t7 = graph.input(key("t7_polymerase"), "T7 RNA polymerase",
-                     MaterialKind.CATALYST)
+    t7 = reagent("t7_polymerase")
     arna = graph.product(key("arna"), "linearly amplified antisense RNA",
                          MaterialKind.MOLECULAR, state=arna_state)
     graph.react(key("ivt"), "Linearly amplify pooled barcoded cDNA by T7 IVT",

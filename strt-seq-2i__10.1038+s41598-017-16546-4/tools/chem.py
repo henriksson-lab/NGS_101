@@ -8,7 +8,9 @@ import strt as S
 import illumina as il
 from chemdraw import Construct
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind)
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind,
+                            Terminal)
 from page_parts import _front, _pool, _tagment, seg
 
 
@@ -48,17 +50,32 @@ def protocol_graph() -> ProtocolGraph:
         label="other well-indexed cDNA from the subarray")
     reviewed.extend(pool_reviewed)
     tagged = _tagment(graph, pooled, S.two_i_library(), reviewed)
-    capture = graph.input("streptavidin_beads", "streptavidin beads",
+    capture = graph.input("streptavidin_beads", "Dynabeads MyOne Streptavidin C1 in BB buffer",
                           MaterialKind.SELECTION)
     captured = graph.product("captured_cdna", "captured biotinylated tagmented cDNA",
                              MaterialKind.MOLECULAR, state=S.two_i_library())
-    capture_waste = graph.product("capture_waste", "unbound tagmented cDNA",
+    capture_waste = graph.product("capture_waste",
+                                  "unbound tagmented fragments without a biotinylated end",
                                   MaterialKind.WASTE)
-    graph.react("capture", "Capture biotinylated tagmented cDNA",
+    # Table 1 prints 5'Bio on STRT-P1-T31 and DI-PCR-P1A as well as on the
+    # TSO-end primers, so oligo-dT-end terminal fragments are also candidates
+    # for streptavidin capture.  No sequence state is claimed for them.
+    dt_end = graph.product("captured_dt_end_fragments",
+                           "candidate co-captured biotinylated oligo-dT-end fragments",
+                           MaterialKind.MOLECULAR, inferred=True,
+                           source=source + " Table 1 (5′Bio on STRT-P1-T31 and DI-PCR-P1A)")
+    graph.react("capture", "Capture biotinylated tagmented cDNA (RT 15 min)",
                 StepKind.AFFINITY_CAPTURE,
                 ((tagged, InputRole.TEMPLATE),
-                 (capture, InputRole.SELECTION)), (captured, capture_waste))
-    graph.discard(capture_waste, "not retained by streptavidin capture")
+                 (capture, InputRole.SELECTION)), (captured, dt_end, capture_waste))
+    graph.discard(capture_waste, "fragments without a 5′-biotinylated end are not retained "
+                                 "by streptavidin capture and are removed in the TNT washes")
+    graph.mark_terminal(Terminal(dt_end.id, Disposition.UNRESOLVED,
+        "Candidate only: both cDNA ends carry 5′ biotin in Table 1, and the inspected "
+        "Methods describe no separation of oligo-dT-end fragments at capture. P1_2nd_PCR "
+        "differs from the oligo-dT-end AATGATACGGCGACCACCGATCG sequence in its last four "
+        "3′ bases, and analysis discards reads ending in poly(A) with <25 remaining bases; "
+        "neither establishes physical removal or carryover."))
     exosap = graph.input("exosap", "ExoSAP-IT", MaterialKind.CATALYST)
     cleaned = graph.product("adapter_cleaned_cdna", "adapter-cleaned captured cDNA",
                             MaterialKind.MOLECULAR, state=S.two_i_library())
@@ -83,6 +100,20 @@ def protocol_graph() -> ProtocolGraph:
                 ((cleaned, InputRole.TEMPLATE),
                  (heat, InputRole.CONDITION)), (ss_template, strand_waste))
     graph.discard(strand_waste, "remains bead-associated after heat elution")
+    bind_beads = graph.input("ampure_binding_beads", "1.5X AMPure beads",
+                             MaterialKind.SELECTION)
+    bound_template = graph.product("bead_bound_template",
+                                   "AMPure-bound single-stranded library template",
+                                   MaterialKind.MOLECULAR, state=S.two_i_library(),
+                                   inferred=True,
+                                   source=source + " (P2/barcode junction unresolved)")
+    bind_waste = graph.product("ampure_binding_supernatant",
+                               "unbound supernatant", MaterialKind.WASTE)
+    graph.react("ampure_bind", "Bind the eluate to 1.5X AMPure beads; PCR on beads",
+                StepKind.CLEANUP,
+                ((ss_template, InputRole.TEMPLATE),
+                 (bind_beads, InputRole.SELECTION)), (bound_template, bind_waste))
+    graph.discard(bind_waste, "supernatant removed before resuspending beads in second-PCR mix")
     final = S.two_i_library()
     p1_primer = PCRPrimer("P1 second-PCR", il.P5[:24])
     p2_primer = PCRPrimer("P2 second-PCR", il.P7)
@@ -96,24 +127,38 @@ def protocol_graph() -> ProtocolGraph:
         "unselected_library", "amplified STRT-seq-2i library",
         MaterialKind.MOLECULAR, state=final, inferred=True,
         source=source + " (P2/barcode junction unresolved)")
-    graph.react("second_pcr", "Amplify the selected strand with P1/P2",
+    graph.react("second_pcr", "Amplify the selected strand with P1/P2 (8 cycles)",
                 StepKind.PCR,
-                ((ss_template, InputRole.TEMPLATE), (p1, InputRole.STRUCTURAL),
+                ((bound_template, InputRole.TEMPLATE), (p1, InputRole.STRUCTURAL),
                  (p2, InputRole.STRUCTURAL),
                  (second_polymerase, InputRole.CATALYST)), (unselected_library,),
                 geometry=PCRGeometry.exact(
                     final, p1_primer, p2_primer,
                     statement="Table 1 prints both second-PCR primers."))
-    beads = graph.input("size_selection_beads", "AMPure size-selection beads",
+    cleanup_beads = graph.input("pcr_cleanup_beads", "0.7X AMPure beads",
+                                MaterialKind.SELECTION)
+    cleaned_library = graph.product(
+        "pcr_cleaned_library", "0.7X-cleaned STRT-seq-2i library",
+        MaterialKind.MOLECULAR, state=final, inferred=True,
+        source=source + " (P2/barcode junction unresolved)")
+    pcr_cleanup_waste = graph.product("pcr_cleanup_waste",
+                                      "unbound primers and short products",
+                                      MaterialKind.WASTE)
+    graph.react("pcr_cleanup", "Clean the transferred PCR supernatant with 0.7X AMPure",
+                StepKind.CLEANUP,
+                ((unselected_library, InputRole.TEMPLATE),
+                 (cleanup_beads, InputRole.SELECTION)), (cleaned_library, pcr_cleanup_waste))
+    graph.discard(pcr_cleanup_waste, "not retained by 0.7X AMPure binding")
+    beads = graph.input("size_selection_beads", "0.5X then 1X AMPure size-selection beads",
                         MaterialKind.SELECTION)
     library = graph.product("library", "size-selected STRT-seq-2i library",
                             MaterialKind.LIBRARY, state=final, inferred=True,
                             source=source + " (P2/barcode junction unresolved)")
     size_waste = graph.product("size_waste", "rejected library sizes",
                                MaterialKind.WASTE)
-    graph.react("size_select", "Double-size-select the final library",
+    graph.react("size_select", "Double-size-select the final library (0.5X, then 1X)",
                 StepKind.SELECTION,
-                ((unselected_library, InputRole.TEMPLATE),
+                ((cleaned_library, InputRole.TEMPLATE),
                  (beads, InputRole.SELECTION)), (library, size_waste))
     graph.discard(size_waste, "outside the retained AMPure size interval")
     graph.sequence(library, SequencingPlan(
@@ -125,7 +170,18 @@ def protocol_graph() -> ProtocolGraph:
         "remove_adapters", "heat_elution", "strand_elution", "p1_second_pcr",
         "p2_second_pcr", "second_pcr_polymerase", "second_pcr",
         "size_selection_beads", "size_select", "library",
+        "captured_dt_end_fragments", "ampure_binding_beads", "ampure_bind",
+        "pcr_cleanup_beads", "pcr_cleanup",
     ])
+    graph.annotate(SourceDiscrepancy(
+        "p1_second_pcr", "Second-PCR primer names and concentration",
+        (SourceClaim("Sci Rep 2017 Table 1, PCR 2",
+                     "P1_2nd_PCR AATGATACGGCGACCACCGAGATC and P2_2nd_PCR CAAGCAGAAGACGGCATACGAGAT."),
+         SourceClaim("Sci Rep 2017 Methods, 'Tagmentation and isolation of 5′ fragments'",
+                     "Second PCR mix with '200 mM 4K-P1_2ndPCR, 200 nM P2_4K_2ndPCR'.")),
+        "The model uses the Table 1 sequences for both second-PCR primers and does not draw a concentration.",
+        "Table 1 is the paper's only printed sequence for each primer, and the Methods state that primer sequences for these steps are given in Table 1.",
+        "The paper does not define the '4K' names; that they denote the Table 1 oligos and that '200 mM' means 200 nM are readings, not printed facts."))
 
 
     graph.declare_reviewed_scope(reviewed, source)

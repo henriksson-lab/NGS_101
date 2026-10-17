@@ -21,6 +21,16 @@ UDITAS_ANCHOR_CEP290 = "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCTGGACCATGGATGCACTCTGTAA
 UDITAS_P7_N701 = "CAAGCAGAAGACGGCATACGAGATAGCGGAATGTGACTGGAGTTCAGACGTGT"
 
 
+# Additional file 2 section 13 run sheet: MiSeq (a forward-strand instrument). Its
+# Appendix A "i5 Barcode READ (Tx10 for UMI)" column prints the Index 2 read as the
+# i5 barcode as written in the top oligo followed by the ten UMI cycles
+# (e.g. TAGATCGC + T10 for N501), i.e. primed from the grafted P5 oligo.
+INDEX2_FROM_P5 = sp.custom(
+    "Index 2 (i5)", "flow-cell P5 oligo (MiSeq forward-strand workflow)", il.P5,
+    "Giannoukos et al. 2018, Additional file 2 section 13 and Appendix A",
+    "The 18-cycle i5 read reports the 8-nt pooling barcode, then the 10-nt UMI.")
+
+
 def uditas_library() -> tuple[Construct, tuple]:
     """Published asymmetric UDiTaS library; primer landing sites validate at construction."""
     lib = Construct([
@@ -39,7 +49,7 @@ def uditas_library() -> tuple[Construct, tuple]:
                                 whitelist="UDiTaS N701-N715 subset")),
         Segment("P7 reverse complement", il.P7_RC, "p7"),
     ], name="UDiTaS library")
-    primers = (sp.NEXTERA["R1"], sp.TRUSEQ["I1"], sp.NEXTERA["I2"])
+    primers = (sp.NEXTERA["R1"], sp.TRUSEQ["I1"], INDEX2_FROM_P5, sp.TRUSEQ["R2"])
     problems = sp.verify(lib, primers, required_roles=tuple(p.role for p in primers))
     if problems:
         raise ValueError("UDiTaS final library: " + "; ".join(problems))
@@ -67,8 +77,13 @@ SOURCE = '<a href="https://doi.org/10.1186/s12864-018-4561-9">Giannoukos et al.,
 SUMMARY = 'A single custom Tn5 adapter gives every genomic fragment a random endpoint, a 10-nt UMI and an i5 pooling index; locus-specific PCR then captures indels, deletions, inversions and translocation junctions from one anchor.'
 CAVEAT = ''
 FINAL_CAPTION = 'N501/N701 example. The left custom Tn5 arm carries the UMI and pooling index; the right end is created from the locus-specific anchor by two PCR rounds.'
-READ_LENGTHS = {'Index 1 (i7)': 8, 'Index 2 (i5)': 18}
-SEQUENCING_INTRO = 'The published MiSeq run uses a 300-base Read 1 from the random Tn5 end, an 8-base Index 1, and an 18-base reverse-complement Index 2 that traverses the 10-nt UMI followed by the 8-nt i5 pooling barcode.'
+READ_LENGTHS = {'Read 1': 300, 'Index 1 (i7)': 8, 'Index 2 (i5)': 18, 'Read 2': 300}
+READ_USES = {'Read 1': 'include', 'Index 1 (i7)': 'demultiplex',
+             'Index 2 (i5)': 'extract_and_demultiplex', 'Read 2': 'include'}
+SEQUENCING_INTRO = ('Additional file 2 (section 13) gives the MiSeq run sheet: Read 1 300 bases from the random Tn5 end, '
+                    'Index 1 8 bases, Read 2 300 bases from the anchor-primer Read 2 tail, and Index 2 18 bases. '
+                    'Its Appendix A prints each Index 2 read as the 8-nt i5 pooling barcode followed by the 10 UMI cycles, '
+                    'the forward-strand order primed from the grafted P5 oligo; the article pipeline aligns the paired reads.')
 SEQUENCING_ENDING = ''
 SEQUENCING_UNAVAILABLE = ''
 FINAL_LIBRARY, SEQ_PRIMERS = uditas_library()
@@ -88,7 +103,7 @@ def protocol_graph():
                            MaterialKind.MOLECULAR, state=dna.state)
     waste = graph.product("tn5_waste", "Tn5 off-products and unusable fragments",
                           MaterialKind.WASTE)
-    graph.react("tagment", "Tagment with the custom UMi/index-bearing adapter",
+    graph.react("tagment", "Tagment with the custom UMI/index-bearing adapter",
                 StepKind.TAGMENTATION,
                 ((dna, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (tagged, waste))

@@ -38,6 +38,18 @@ methods and sequencing instructions.
   have not all been assembled in this model. Those are model limitations, not
   accepted claims of missing publication information.
 
+- 🟢 2026-10-17 bounded re-read (article Methods lines 745–767; protocols.io
+  TEA-seq V.2, DOI 10.17504/protocols.io.bqagmsbw, steps 45–49, 61–64): the GEM
+  incubation is 37°C 45 min then 25°C 30 min followed by Quenching Agent; the
+  preamplification (7 cycles) is followed by a 2.0× SPRIselect cleanup, now a
+  separate graph step; the GEX fragmentation, end repair and A-tailing are one joint
+  reaction (32°C 5 min, 65°C 30 min); ATAC indexing is 9 cycles (0.6×/1.6× SPRI),
+  GEX TT indexing 14 cycles (0.6×/0.8× SPRI) and ADT indexing 15 cycles with KAPA HiFi.
+- 🟢 Source discrepancy shown on the page: article Methods use 5 µL Pre-Amp
+  Primers; protocols.io V.2 step 46 lists 4 µL. The model does not depend on the
+  volume. The article's "dual-sided 1.6×" ADT cleanup names one ratio; protocols.io
+  step 64 gives a single 1.6× cleanup.
+
 ## Sequencing
 
 - 🟢 The raw joint run is R1/I1/I2/R2 = 50/10/16/90. The original article's masks

@@ -55,5 +55,24 @@
       "evidence": "Manual requires a separately chosen oligo kit; choice and guide unresolved."
     }
   ],
-  "conclusion": "Two readers checked the official kit manual and its printed read trim motifs. Separately selected oligo/index kit original is unavailable; member-specific details remain blocked."
+  "conclusion": "Two readers checked the official kit manual and its printed read trim motifs. Separately selected oligo/index kit original is unavailable; member-specific details remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "NEB E7760/E7765 manual v7.0_4/25 (manuale7760_e7765.pdf.txt, md5 382bb43f): kit contents lines 39-62, required materials/oligo kit 63-71, trimming sequences 130-135, Section 4 purified-RNA protocol lines 3129-3780 (4.1 fragmentation/priming, 4.2 first strand, 4.3 second strand, 4.4 1.8X cleanup, 4.5 end prep, 4.6 ligation + USER 4.6.5, 4.7 0.9X, 4.8 PCR Tables 4.8.3A/B, 4.9 0.9X, 4.10 QC), Appendix 6.2 size-selection note line 4389, revision history 5184-5230; Section 1A/2/3/5 USER steps (lines 606/2066/2862/4092) compared",
+      "oligo_scraper": "Bundle scraper run: only the Read 1/Read 2 adapter-trimming sequences (lines 134-135); no adaptor, random-primer or PCR-primer bases in this manual.",
+      "findings": "Graph now follows Section 4: 94 C fragmentation in First Strand buffer, RT with Strand Specificity Reagent (25/42/70 C), dUTP-Mix second strand 16 C 1 h, 1.8X cleanup, End Prep 20/65 C, ligation with Ligation Enhancer 20 C 15 min, USER added to the ligation mixture 37 C 15 min, 0.9X cleanup, Ultra II Q5 PCR 6-13 cycles, 0.9X cleanup. Corrected unsupported claims: the manual does not state that USER excises the dU second strand (now labelled inferred) and gives no basis for Strand Specificity Reagent 'reinforcing' USER selection (it is a first-strand reagent). Graph highlights state that sections specify a non-indexed adaptor with USER in the ligation tube (adaptor action not drawn) and that the dual-index layout is one oligo-kit configuration. No published discrepancy found.",
+      "deferred": [
+        "Selected NEBNext oligo kit manual (adaptor structure, USER action on the adaptor, index layout)",
+        "Official NEB RNA workflow/product page for the stated strand-selection mechanism",
+        "Random primer, second-strand priming and Strand Specificity Reagent composition",
+        "Sections 1A/1B/2/3/5 enrichment, depletion and FFPE branches not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 100 checks pass; page builds; pairing 0 problems; chemistry 0 established/2 conditional/12 unresolved/0 contradictory; source guard 0 exact checked, 0 failed (all oligo inputs inferred/unprinted); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

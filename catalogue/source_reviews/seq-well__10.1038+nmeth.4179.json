@@ -224,6 +224,28 @@
         "locations": "Official Illumina Adapter Sequences 1000000002694 v22 extracted PDF lines 13328–13345, N7xx Nextera XT Index Kit v2/Nextera Index Kit section; Seq-Well Master Protocol p. 36; Nextera XT source-bundle oligo scraper run before reading",
         "finding": "Later official guide lists N7xx index family and distinct N701/N702 etc members. It helps define the family but does not select the Seq-Well N70X used. It is later than the 2017 source and cannot replace the cited historical Rev E guide."
       }
+    },
+    {
+      "id": "protocol_exchange",
+      "role": "detailed_protocol",
+      "locator": "Gierahn, Wadsworth, Hughes, Bryson, Butler, Satija, Fortune, Love, Shalek, 'Seq-Well: portable, low-cost RNA sequencing of single cells at high throughput', Nature Protocol Exchange doi:10.1038/protex.2017.006a (Crossref issued 2017-03-14; DOI now resolves to protocols.io .../seq-well-portable-low-cost-rna-sequencing-of-singl-261gerbjdl47/v1); local protocolsio_seq-well-portable-low-cost-rna-sequencing-of-singl-261gerbjdl47_v1.pdf(.txt) (printed 'Version 1', 'Imported from Protocols Exchange', 48 pp.), protocolsio_121878_public.json and attachments (MANIFEST rows)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "nature_article",
+      "identity_pass_1": {
+        "reviewer": "agent-P4-source-reviews",
+        "date": "2026-10-17",
+        "locations": "nmeth.4179.pdf.txt reference 21 (lines 1096-1097) and Erratum (lines 1108-1121); NIHMS843531 supplement-1.docx.txt lines 22, 28 and 232 (author-manuscript Online Methods citation 'SeqWell Protocol, Nature Protocol Exchange, doi:Pending (2016)'); Crossref works/10.1038/protex.2017.006a (title, authors, issued, resource URL); doi.org redirect; local protocols.io PDF header lines 1-40 and steps 153-155 (lines 1253-1266) and Appendix B chitosan recipe (lines 1421-1428)",
+        "finding": "Identity confirmed. The 'DOI pending, 2016' citation appears only in the NIHMS author-manuscript supplement. The published article's reference 21 cites 'Gierahn, T. et al. Seq-Well protocol. Protocol Exchange http://dx.doi.org/10.1038/protex.2017.006a (2017)', and the publisher's Erratum (corrected after print 21 June 2017) states that the doi, link and date of 'the Seq-Well protocol in the Protocol Exchange' were corrected from protex.2017.006 to protex.2017.006a and from 2016 to 2017. Crossref protex.2017.006a: same nine authors as the manuscript citation (Gierahn, Wadsworth II, Hughes, Bryson, Butler, Satija, Fortune, Love, Shalek), issued 2017-03-14, resource URL = the protocols.io v1 record on disk. Printed content agrees with the Online Methods' use of it: the protocols.io import contains the chitosan functionalization followed by poly(glutamic) acid treatment that the Online Methods cite as 'step 8' and 'step 10' (the import renumbers them as steps 153 and 155 in one flat list). The basis is the publisher erratum plus authors, title, date and content, not authors and year alone."
+      },
+      "previous_state": "available; Identity resolved (below); chemistry content not yet read for this review, so no reading pass is recorded.",
+      "pass_1": {
+        "reviewer": "agent-pkg6-source-review-followups",
+        "date": "2026-10-17",
+        "locations": "protocols.io import protocolsio_seq-well-portable-low-cost-rna-sequencing-of-singl-261gerbjdl47_v1.pdf.txt: header lines 1-40; reagent list lines 225-275; Procedure steps 80-131 lines 803-1145 (RT, Exo I, WTA, SPRI, Nextera XT tagmentation, library PCR, sequencing). Protocol Exchange export ..._attachment_31_syjpcicn7.pdf(.txt): lines 5-30 (authors, 'Posted Date: March 14th, 2017', DOI protex.2017.006a), reagent list lines 80-100, rendered page 3. scrape_primers on both text twins (8 hits, all the four oligos below).",
+        "finding": "Oligos: TSO AAGCAGTGGTATCAACGCAGAGTGAATrGrGrG; 'IS PCR Primer' AAGCAGTGGTATCAACGCAGAGT; P5-SMART hybrid AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC; custom Read 1 GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC. Bases equal Supplementary Table 1 (MOESM237). Bead oligo not printed; beads are Chemgenes MACOSKO-2011-10 (import line 274). Modification difference: Supplementary Table 1 prints P5-SMART '...CAGAGT*A*C'; the import prints no '*', and the export prints '...CAGAGT**A**C' inside a reagent list with raw Markdown marks throughout (rendered page 3), so the marks were probably lost in formatting; model keeps Table 1's modifications, and the page shows the difference. Reaction order agrees with the Master Protocol (MOESM238) already modelled: RT (Maxima H-, TSO 5 ul 100 uM per array; RT 30 min then 52 C 90 min) -> TE-TW/TE-SDS washes -> Exo I 37 C 5 + 45 min -> WTA KAPA HiFi with SMART primer, 95 C 3 min, 4 cycles 98/65/72, 9 cycles 98/67/72, 72 C 5 min (13 total for cell lines, 16 for primary cells) -> 0.6x SPRI -> Nextera XT 750 pg 55 C 5 min, NT -> Nextera PCR mix + P5-SMART + N70X, 95 C 30 s, 12 cycles 95/55/72, 72 C 5 min -> 0.6x SPRI -> Read 1 20 (custom primer), Read 2 50, Index 8 when multiplexing; links NextSeq 15057456-01 and MiSeq 15041638-01 custom-primer guides. First reader only; an independent second pass is open."
+      },
+      "pass_2": null
     }
   ],
   "linked_information": {
@@ -248,5 +270,51 @@
       "evidence": "Original MOESM241 Table 4 ZIP member was streamed in full by both reviewers: 4,638 TBI sample columns and 9,381 gene rows of numeric expression values, with no chemistry or oligo fields. Seq-Well source-exact five oligos are in original Supplementary Table 1 (MOESM237 lines 264–300)."
     }
   ],
-  "conclusion": "The 2017 oligos are in Supplementary Table 1. Two readers checked official MiSeq 2016 custom-primer loading; the later Illumina manual confirms N7xx alternatives. Exact NextSeq 2015 and Nextera XT Rev E guides remain inaccessible, and no sample-specific N70X member is selected. Review stays in progress; no missing claim is accepted."
+  "conclusion": "The 2017 oligos are in Supplementary Table 1. Two readers checked official MiSeq 2016 custom-primer loading; the later Illumina manual confirms N7xx alternatives. Exact NextSeq 2015 and Nextera XT Rev E guides remain inaccessible, and no sample-specific N70X member is selected. Review stays in progress; no missing claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Supplementary Table 1 (MOESM237 pdf.txt lines 260–300); Seq-Well Master Protocol V1.0 2/13/2017 (MOESM238 pdf.txt lines 470–560 membrane sealing, lysis/hybridization, bead removal; 560–760 RT, Exo I, WTA PCR, SPRI; 760–860 Nextera XT tagmentation, library PCR, purification, sequencing specifications); Supplementary Online Methods (NIHMS843531 supplement-1.docx.txt lines 17–23, defers to the Seq-Well Protocol)",
+      "oligo_scraper": "Scraper run on MOESM237; hits at lines 270 (bead oligo), 276 (TSO), 280 (SMART), 284 (P5-SMART), 289 (custom Read 1) match the module and suite transcriptions.",
+      "findings": "No oligo transcription change. Graph extended with Master Protocol steps: membrane sealing (37 °C 30 min), GTC/Sarkosyl/BME lysis 20 min, hybridization 40 min, membrane removal/bead spin-off, Maxima H− RT with TSO (RT 30 min then 52 °C 90 min) as array-primed RT plus template switch, TE-TW/TE-SDS washes, Exo I 37 °C 5+45 min removing unextended bead oligos, KAPA HiFi WTA 4 + 9–12 cycles, 0.6× SPRI, Nextera XT tagmentation 750 pg 55 °C 5 min, Nextera PCR mix 12 cycles with New-P5-SMART/N70X, 0.6× SPRI. Model correction: non-bead-end tagmented fragments were 'discarded' at tagmentation without a separation; now an explicit UNRESOLVED terminal citing Supplementary Table 1 note 4 (selective P5-SMART priming). Reads unchanged: R1 20 custom, I1 8 (multiplexing only), R2 50.",
+      "deferred": [
+        "Nature Protocol Exchange 'Seq-Well Protocol' (Gierahn et al. 2016) cited by the Online Methods",
+        "Macosko 2015 bead synthesis (Drop-seq predecessor)",
+        "Illumina Nextera XT guide 15031942 Rev E (transposome adapters, N70X sequences; MANIFEST manual row)",
+        "Illumina NextSeq custom-primer guide 15057456-01 (MANIFEST manual row)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 5/5 pass; seq-well-s3 dependent suite 4/4 pass and page builds; page builds; pairing 0 problems; chemistry 3 established/1 conditional/13 unresolved/0 contradictory; source guard 3 exact checked (TSO, SMART PCR, P5-SMART), 0 failed, 3 symbolic inputs (barcoded beads, transposome, N70X); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-followup-P4-source-reviews",
+      "reviewer": "agent-P4-source-reviews",
+      "date": "2026-10-17",
+      "documents": 3,
+      "scope": "Identity of the Protocol Exchange citation only; no chemistry reading and no model change.",
+      "locations": "nmeth.4179.pdf.txt lines 1096-1121; NIHMS843531 supplement-1.docx.txt lines 22, 28, 232; protocols.io v1 PDF lines 1-40, 1253-1266, 1421-1428; Crossref and doi.org records for 10.1038/protex.2017.006a",
+      "findings": "The 2016 'DOI pending' citation is the Protocol Exchange record protex.2017.006a, per the published reference list and the Nature Methods erratum (2016 -> 2017; protex.2017.006 -> .006a), with matching authors, title and content. Added checklist row protocol_exchange (available, reading pending).",
+      "deferred": [
+        "Two chemistry reading passes of protex.2017.006a (protocols.io v1 PDF and attachments) against the 2017 Master Protocol (MOESM238)"
+      ]
+    },
+    {
+      "round": "2026-10-17-followup-pkg6-source-review-followups",
+      "reviewer": "agent-pkg6-source-review-followups",
+      "date": "2026-10-17",
+      "documents": 2,
+      "scope": "First chemistry reading pass of the identity-resolved Protocol Exchange protocol (protocols.io import and the Exchange's own export); no second pass; no model change.",
+      "locations": "protocols.io import lines 1-40, 225-275, 803-1145; export attachment_31 lines 5-30, 80-100 and rendered page 3",
+      "oligo_scraper": "scrape_primers on both copies: 8 hits, all the TSO, SMART/IS PCR primer, P5-SMART hybrid and custom Read 1 primer.",
+      "findings": "Bases and reaction order agree with Supplementary Table 1 and the Master Protocol; the P5-SMART phosphorothioate marks are absent or show up as formatting residue in the Exchange copies. Page now shows that modification difference; note gains a Protocol Exchange section.",
+      "deferred": [
+        "Independent second chemistry reading pass of protex.2017.006a (needs a different reader)"
+      ],
+      "verification": "see report: selftest, build_page, lint_pairing, selftest_source_oligos, audit_protocol_sources --check"
+    }
+  ],
+  "identity_note_2026-10-17": "Bounded-check deferred item 'Nature Protocol Exchange Seq-Well Protocol (Gierahn et al. 2016)' is now identified as doi:10.1038/protex.2017.006a (row protocol_exchange, identity_pass_1). Its chemistry content still needs two reading passes; a second identity reader is also welcome but the publisher erratum is direct evidence."
 }

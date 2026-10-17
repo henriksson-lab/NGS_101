@@ -19,7 +19,10 @@ class Dumbbell:
     while traversing the closed strand: top insert -> right hairpin -> reverse-complement
     insert -> left hairpin.  The resulting molecule has no free DNA ends. Set
     ``junction_unavailable`` with empty overhangs when the closed topology is known
-    but the kit-specific ligating ends have not been established.
+    but the kit-specific ligating ends have not been established. Set
+    ``overhang_inferred`` when the adapter's terminal base is derived (for example from
+    pairing with a dA-tailed insert) rather than printed by the authoritative source;
+    rendered adapter ends then mark that base as inferred.
     """
     insert: Construct
     left_adapter: str
@@ -30,6 +33,7 @@ class Dumbbell:
     left_stem_length: int = 0
     right_stem_length: int = 0
     junction_unavailable: bool = False
+    overhang_inferred: bool = False
 
     def __post_init__(self) -> None:
         if not len(self.insert):
@@ -38,6 +42,8 @@ class Dumbbell:
             raise ValueError("both insert ends need a hairpin adapter")
         if self.junction_unavailable and (self.insert_overhang or self.adapter_overhang):
             raise ValueError("unknown hairpin junction cannot declare an overhang")
+        if self.overhang_inferred and not self.adapter_overhang:
+            raise ValueError("only a declared adapter overhang can be marked inferred")
         if bool(self.insert_overhang) != bool(self.adapter_overhang):
             raise ValueError("insert and hairpin must either both declare an overhang or neither")
         if self.insert_overhang and not bases_pair(self.insert_overhang,
@@ -92,8 +98,9 @@ def dumbbell_rows(molecule: Dumbbell) -> list[Row]:
                     "chemistry unavailable")
         title = Segment(f"{side} hairpin adapter", sequence).hover_text()
         if molecule.adapter_overhang:
-            return (title + f"; {molecule.adapter_overhang} overhang pairs with insert "
-                    + molecule.insert_overhang)
+            status = " (inferred, not source-printed)" if molecule.overhang_inferred else ""
+            return (title + f"; {molecule.adapter_overhang} overhang{status} pairs with "
+                    "insert " + molecule.insert_overhang)
         return title + "; direct repaired junction to insert"
     top.visual = (
         top.visual,
@@ -201,9 +208,11 @@ def smrtbell_hairpin_geometry(molecule: Dumbbell, *, statement: str
     """
     if molecule.junction_unavailable:
         return AdapterLigationGeometry.unavailable(statement)
+    # A derived overhang becomes an inferred segment, so every rendering marks it.
     return reported_adapter_end(
         f"{molecule.name} hairpin", kind="cohesive", polarity="3-prime",
-        terminal_sequence=molecule.adapter_overhang, statement=statement)
+        terminal_sequence=molecule.adapter_overhang, statement=statement,
+        inferred=molecule.overhang_inferred)
 
 
 def smrtbell_sequencing_plan(molecule: Dumbbell, circuit: Construct, *,

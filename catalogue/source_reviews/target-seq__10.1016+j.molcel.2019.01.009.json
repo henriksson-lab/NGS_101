@@ -449,5 +449,25 @@
       "evidence": "Original Key Resources and Supplementary Table S2 publish numerous oligos; linked version-specific material remains open."
     }
   ],
-  "conclusion": "Original Key Resources and Supplementary Table S2 publish numerous oligos; linked version-specific material remains open."
+  "conclusion": "Original Key Resources and Supplementary Table S2 publish numerous oligos; linked version-specific material remains open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC6436961 JATS Key Resources lines 433–500, STAR Methods cDNA Synthesis/Targeted NGS Single-Cell Genotyping/Nextera XT lines 593–611; Table S1b workbook (mmc2, lysis/RT/PCR reagents and programs); Supplemental Experimental Procedures mmc1 materials lines 6800–6828 and full-length protocol steps 24–46 lines 7140–7434",
+      "oligo_scraper": "Bundle scraper run; Key Resources hits lines 477–500 (OligodT-ISPCR, TSO-LNA, ISPCR, P5_index, P5_SEQ, CS1/CS2-seq, CS1rc/CS2rc-seq) checked in JATS; Table S2 target primers and bioRxiv/STAR Protocols hits not re-transcribed.",
+      "findings": "Model placed the cell index on the P5 side without source support; arms are now neutral PE1/PE2 tokens and the CS1rc/CS2rc index read is recorded as a caveat. Graph now has protease lysis plus 72 °C 15 min inactivation with ERCC spike-in, SMARTScribe RT (oligo(dT)-ISPCR plus mRNA primers) and a separate TSO-LNA template-switching step, SeqAmp pre-amplification (ISPCR+gDNA+cDNA primers, 20/22 cycles), 0.6:1 AMPure before tagmentation, Nextera XT 700 pg/55 °C/NT, 14-cycle NPM PCR and 0.6:1 post-PCR cleanup, KAPA 2G Robust PCR1 (20 cycles), FastStart HF PCR2 with Access Array PE1/PE2 primers (10 cycles), and 0.8:1 pooled cleanup. This replaces one shared polymerase. Transcriptome read is 75 nt single-end. Graph-owned published discrepancy: Key Resources Nextera XT Index Kit v2 Sets A/C vs supplemental step 25 FC-131-1001.",
+      "deferred": [
+        "Fluidigm Access Array Barcode Library original (PE1/PE2 sequences, barcode arm, index-read primer)",
+        "STAR Protocols 2020 detailed method (PMC7757016)",
+        "Table S2A/S2B target-primer transcription",
+        "Nextera XT index kit per plate; transcriptome index-read cycles",
+        "3′-TARGET-seq branch not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/17 unresolved/0 contradictory; source guard 0 exact checked, 13 oligo inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

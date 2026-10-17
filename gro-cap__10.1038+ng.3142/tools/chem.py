@@ -41,7 +41,7 @@ RA5 = TRUSEQ_SMALL_RNA_RA5
 RT_PROGRAM = ((44, 15), (52, 45))  # Core 2008 original SOM p. 19
 PCR_CYCLES = 15
 PAGE_MIN_NT = 90  # strictly greater than this threshold
-DEFINITION = Definition("GRO-cap — capped global run-on sequencing", "10.1038/ng.3142", "Core et al., Nature Genetics (2014)", "BrUTP-labelled global run-on RNA is subjected to enzymatic cap selection, enriching the capped 5′ ends of nascent promoter and enhancer transcripts.", "The informative base is the first transcribed nucleotide immediately downstream of the ligated 5′ adapter.", "01_gro_cap.html", "Kruesi et al. (2013), explicitly followed by Core et al. (2014), ligate RA3 before cap selection and RA5 afterward. The published no-TAP aliquot measures background; this schematic follows the TAP+ library. Illumina's 2011 guide corroborates Kruesi's RA3 and RA5 part numbers, while its current sequence table prints their bases. Kruesi also prints the RA3 read-through trimming target; this is not a full modified ordering strand. Exact historical reagent-sequence continuity and the 2014 GRO-cap primer/index assignment remain unverified; the adjacent GRO-seq RPI family is not assigned here.")
+DEFINITION = Definition("GRO-cap — capped global run-on sequencing", "10.1038/ng.3142", "Core et al., Nature Genetics (2014)", "BrUTP-labelled global run-on RNA is subjected to enzymatic cap selection, enriching the capped 5′ ends of nascent promoter and enhancer transcripts.", "The informative base is the first transcribed nucleotide immediately downstream of the ligated 5′ adapter.", "01_gro_cap.html", "Kruesi et al. (2013), explicitly followed by Core et al. (2014), ligate RA3 before cap selection and RA5 afterward. Unlike Kruesi's GRO-seq, the GRO-cap run-on RNA is not base-hydrolysed before the first anti-BrU bead enrichment. The published no-TAP aliquot measures background; this schematic follows the TAP+ library. Illumina's 2011 guide corroborates Kruesi's RA3 and RA5 part numbers, while its current sequence table prints their bases. Kruesi also prints the RA3 read-through trimming target; this is not a full modified ordering strand. Exact historical reagent-sequence continuity and the 2014 GRO-cap primer/index assignment remain unverified; the adjacent GRO-seq RPI family is not assigned here.")
 
 # The GRO-seq paragraph next to GRO-cap prints an RPI six-base-index family.
 # That adjacent method does not assign a primer/index to the GRO-cap library.
@@ -98,15 +98,17 @@ def _runon_cap_graph(d: Definition, final: Construct) -> ProtocolGraph:
     graph = ProtocolGraph(d.title, authority=source)
     nuclei = graph.input('nuclei', 'isolated nuclei containing engaged RNA polymerases', MaterialKind.BIOLOGICAL, state=molecule('isolated nuclei', (role('engaged RNA polymerase'), role('nascent RNA'))), primary=True)
     label_name = 'BrUTP'
-    label = graph.input('labelled_ntp', label_name + ' run-on nucleotide', MaterialKind.MOLECULAR)
+    # Kruesi 2013 Methods p.21 'NRO reaction': 500 uM ATP/GTP/Br-UTP, 2 uM CTP (+32P-CTP),
+    # 1% sarkosyl, 5 min at 30 C; GRO-cap RNA is then NOT base-hydrolysed (p.22).
+    label = graph.input('labelled_ntp', 'Br-UTP with ATP, GTP and limiting CTP (1% sarkosyl run-on, 5 min, 30 °C)', MaterialKind.MOLECULAR, source=KRUESI)
     polymerase = graph.input('engaged_polymerase', 'engaged endogenous RNA polymerase', MaterialKind.CATALYST)
     runon = graph.product('runon_rna', 'affinity-labelled nuclear run-on RNA', MaterialKind.MOLECULAR, state=molecule('labelled run-on RNA', (role('capped nascent 5-prime end'), role('labelled run-on 3-prime end'))))
     graph.react('run_on', 'Extend engaged polymerases with ' + label_name, StepKind.RUN_ON, ((nuclei, InputRole.TEMPLATE), (label, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (runon,))
-    capture_label = 'anti-BrdU affinity reagent'
+    capture_label = 'anti-deoxyBrU agarose beads (Santa Cruz sc-32323-ac)'  # Kruesi p.21 'Bead pre-wash'
     capture = graph.input('runon_capture', capture_label, MaterialKind.SELECTION)
     enriched = graph.product('enriched_runon', 'affinity-enriched run-on RNA', MaterialKind.MOLECULAR, state=runon.state)
     unlabelled = graph.product('unlabelled_rna', 'RNA not extended in the run-on', MaterialKind.WASTE)
-    graph.react('enrich_runon', 'Affinity-enrich labelled run-on RNA', StepKind.AFFINITY_CAPTURE, ((runon, InputRole.TEMPLATE), (capture, InputRole.SELECTION)), (enriched, unlabelled))
+    graph.react('enrich_runon', 'Affinity-enrich full-length (not base-hydrolysed) run-on RNA', StepKind.AFFINITY_CAPTURE, ((runon, InputRole.TEMPLATE), (capture, InputRole.SELECTION)), (enriched, unlabelled))
     graph.discard(unlabelled, 'did not acquire the run-on affinity label')
     reviewed = ['nuclei', 'labelled_ntp', 'engaged_polymerase', 'run_on', 'runon_capture', 'enrich_runon']
     ligated3 = _ligate_named_adapter(graph, 'ra3', enriched, '3-prime', RA3, reviewed)

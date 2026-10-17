@@ -28,7 +28,10 @@ READ_LENGTHS = {"Read 1": 33}
 ACQUIRED_ROLES = tuple(READ_LENGTHS)
 READ_SPECS = (sp.read_spec("Read 1", READ_LENGTHS["Read 1"],
                            "5′ end of fragmented BrU-containing RNA; historical primer site unassigned", "include"),)
-FINAL_CAPTION = "Role-level amplified historical library. No modern canonical arms, sample index or fixed insert length are selected."
+FINAL_CAPTION = ("Role-level amplified historical library. No modern canonical arms, sample index or fixed insert "
+                 "length are selected. The original supplement reports the amplified library averaging about 100 bases "
+                 "(~190-base product minus ~90 bases of adapter), which bounds but does not identify the unassigned "
+                 "historical adapter bases.")
 SEQUENCING_INTRO = ""
 SEQUENCING_ENDING = ("The original study obtained 33-base reads on the Illumina 1G Genome Analyzer, "
                      "sequencing from the 5′ end of fragmented BrU-containing RNA. The read 5′ coordinate "
@@ -84,10 +87,10 @@ def protocol_graph():
     graph.react("isolate_nuclei", "Isolate and wash nuclei", StepKind.EXTRACTION,
                 ((cells, InputRole.TEMPLATE), (isolation, InputRole.CONDITION)), (nuclei, supernatant))
     graph.discard(supernatant, "is removed during source nuclei preparation")
-    ntps = graph.input("run_on_ntps", "ATP, GTP, BrUTP and limiting CTP", MaterialKind.MOLECULAR)
+    ntps = graph.input("run_on_ntps", "500 µM ATP, GTP and BrUTP with limiting 2 µM CTP in the reaction buffer", MaterialKind.MOLECULAR)
     tracer = graph.input("ctp_tracer", "source α-32P-CTP tracer", MaterialKind.MOLECULAR)
     polymerase = graph.input("polymerase", "already-engaged RNA polymerases", MaterialKind.CATALYST)
-    run_condition = graph.input("run_condition", "source Sarkosyl-containing run-on buffer", MaterialKind.CONDITION)
+    run_condition = graph.input("run_condition", "source 1% Sarkosyl, 300 mM KCl run-on buffer; 5 min at 30 °C", MaterialKind.CONDITION)
     labelled = graph.product("labelled_rna", "run-on-labelled nuclear RNA", MaterialKind.MOLECULAR,
                              state=_state("run-on RNA", "pre-existing nascent RNA", "extension containing BrU"))
     graph.react("run_on", "Extend already-engaged transcripts", StepKind.RUN_ON,
@@ -179,6 +182,11 @@ def protocol_graph():
                                           read_lengths=READ_LENGTHS, limitation=SEQUENCING_ENDING))
     graph.annotate(Highlight("ligate5", "Original 2008 adapter order",
                             "The original SOM overview and Figure S1 specify 5′ adapter first, then 3′ adapter, with immunopurification after each. No later poly(A)/circularization recipe is imported."))
+    graph.annotate(Highlight("size_select", "Reported library length",
+                            "Original SOM overview p.10: after amplification and PAGE purification the library averages "
+                            "about 100 bases (~190-base product minus ~90 bases of adapter), with a pre-amplification "
+                            "complexity of 1x10^9 molecules estimated by re-amplification of a known aliquot. Those "
+                            "quality-control measurements are not separate library-construction reactions here."))
     graph.annotate(Highlight("library", "Physical library versus computational read filtering",
                             "Original reads were 33 bases. Iterative 3′ trimming to 29 and rRNA alignment removal occur after sequencing; they do not discard molecules during this preparation.", slot=AnnotationSlot.SEQUENCING))
     targets = ["cells", "isolation", "isolate_nuclei", "run_on_ntps", "ctp_tracer", "polymerase", "run_condition", "run_on", "dnase_first", "digest_dna_first", "protein_removal", "remove_proteins", "hydrolysis", "hydrolyse", "p30", "p30_cleanup", "dnase_second", "edta", "digest_dna_second", "tap", "decap", "pnk_low", "repair3", "pnk_high", "repair5", "adapter5", "ligase5", "ligate5", "adapter3", "ligase3", "ligate3", "rt_primer", "rtase", "reverse_transcribe", "rnases", "digest_rna", "pcr_forward", "pcr_reverse", "phusion", "pcr", "gel", "size_select", "library"]

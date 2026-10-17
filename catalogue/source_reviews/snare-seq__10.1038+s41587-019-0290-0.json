@@ -126,5 +126,25 @@
       "evidence": "Original oligo workbook explicitly prints those exact modified oligos; remaining linked chemistry documents are open."
     }
   ],
-  "conclusion": "Two independent readers checked the 2019 defining article, original oligo Table S4, misreferenced result Table S3 and Drop-seq main predecessor. The page correctly discloses the published S3/S4 cross-reference error and uses S4 bases. Drop-seq extended methods and historical Nextera XT guide remain unavailable, and sample-specific index selection is unresolved; no absence claim is accepted."
+  "conclusion": "Two independent readers checked the 2019 defining article, original oligo Table S4, misreferenced result Table S3 and Drop-seq main predecessor. The page correctly discloses the published S3/S4 cross-reference error and uses S4 bases. Drop-seq extended methods and historical Nextera XT guide remain unavailable, and sample-specific index selection is unresolved; no absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nat Biotechnol 37:1452 (PMC6893138 author-manuscript JATS .xml.txt) Methods lines56–76 (tagmentation60, nuclei barcoding64, library preparation68, NGS sequencing72, preprocessing76) and refs1/3; Supplementary Table 4 sup_tab4.xlsx (=MOESM6) all rows; MOESM2 rendered (Reporting Summary, irrelevant); MOESM1/NIHMS docx legends; Drop-seq PMC4481139 main text lines100/190/412–414 for bead/Nextera XT pointers",
+      "oligo_scraper": "Table S4 rows read directly (all 27 lines); scraper not needed beyond prior run; source guard checks splint, blockers, TSO, Tso-PCR, Nextera-R2, P501-Tso, Ad2.1 against local text.",
+      "findings": "Model correction: splint is 63 nt (33-nt arm + A30), the old model had an extra A (64 nt), now guarded by selftest and source guard. Graph restructured to the source order: 72 C droplet lysis/capture, 6X SSC blocking-oligo wash, one RT/ligation mix (TSO, Hemo KlenTaq, T7 ligase, RT) producing both branches, Exo I, 16-cycle Nextera-R2/Tso-PCR on 10,000 beads, physical split into halves, cDNA 0.6X/Tso-PCR enrichment/0.6X then Nextera XT, chromatin P5XX-Tso/Ad2.X exact-geometry PCR and PAGE 225–1000 bp selection with waste fates; removed false pre-RT analyte split. Replaced generic illumina_branch libraries: chromatin library derived exactly from Table S4 primers (P5-i5-GCCTGTCCGCGG-SMART-BC12-UMI8-dT30-S5-ME-gDNA-ME-S7-i7-P7); RNA library with inferred P5/linker/ME/S7/i7 ends (Nextera XT primers not printed). Reads per Methods: Read1CustSeqB 30 for both, cDNA HP11 80, chromatin HP10 Index1 75 + HP11 75 + 8-bp Index 2 (source-declared read table; HP10/HP11 sites inferred). Cell barcode feature no longer claims a whitelist (combinatorial split-pool). Note corrected: no Supplementary Protocol exists.",
+      "deferred": [
+        "Drop-seq Extended Experimental Procedures and Table S6 (bead sequence, 8-T spacer, Nextera XT custom P5 primer) – (manual) in manifest",
+        "Illumina Nextera XT guide and HiSeq HP10/HP11 primer contents",
+        "Index 2 priming route on HiSeq 2500 (shared seqprimers cannot mark an acquired read without a site)",
+        "Blocking-oligo purpose; PCR polymerase; per-library index members",
+        "Lake 2018 droplet modifications (ref1) not followed"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2 checks pass (splint transcription, two outputs); page builds; pairing 0 problems; chemistry 4 established/2 conditional/13 unresolved/0 contradictory; source guard 8 exact checked, 0 failed, 4 inputs without exact states (bead oligo, Nextera XT, XT primers, loaded Tn5); Markdown built; review schema checked"
+    }
+  ]
 }

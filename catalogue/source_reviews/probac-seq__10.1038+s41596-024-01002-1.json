@@ -89,7 +89,7 @@
     {
       "id": "tenx_v31",
       "role": "vendor",
-      "locator": "/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-ge-v2-v4__10.1038+ncomms14049/10x_CG000204_ChromiumNextGEMSingleCell3_v3.1_Rev_D.pdf.txt",
+      "locator": "/husky/henriksson/NGS101_papers/sources/probac-seq__10.1038+s41596-024-01002-1/10x_CG000204_ChromiumNextGEMSingleCell3_v3.1_Rev_D.pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -103,7 +103,8 @@
         "date": "2026-10-16",
         "locations": "Official CG000204 Rev D PDF lines 5132-5141, 5179-5191, 5276",
         "finding": "Appendix prints 3′ v3.1 N16/N12/poly(T)30VN gel-bead construct and library shell; original ProBac reagent list gives V3.1 cat. no. 2000164, so guide chemistry is relevant but historical Rev D may differ from exact study lot."
-      }
+      },
+      "note": "Fetched into the ProBac bundle on 2026-10-17 by the catalogue/extra_sources.tsv row for the 10x CDN URL (md5 b94a92c33e08e0535c05bc9fce57b7de, identical to the copy the two passes read in the 10x 3' v2-v4 bundle)."
     },
     {
       "id": "hormoz_code",
@@ -137,5 +138,40 @@
       "evidence": "The original prints custom probe and PCR oligos, including an internal one-T arm discrepancy; inherited 10x shell remains open."
     }
   ],
-  "conclusion": "The original prints custom probe and PCR oligos, including an internal one-T arm discrepancy; inherited 10x shell remains open."
+  "conclusion": "The original prints custom probe and PCR oligos, including an internal one-T arm discrepancy; inherited 10x shell remains open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Samanta et al. Nat Protoc 2024 (PMC13621791 author-manuscript JATS) s41596-024-01002-1_PMC13621791.xml.txt lines 58 (50 bp binding design), 80-82 (probe handles, RCA, gel purification, UMI/poly-A), 100-114 (encapsulation, PCR-1/2/3, NextSeq 8+119 cycles, analysis), 324-390 (Step 1 PNK phosphorylation, RCA-1 annealing/ligation/phi29), 414-556 (RCA-2/3, HindIII), 540-610 (final nicking-primer HindIII digestion, 15% TBE-urea gel, Klenow UMI/poly-A extension, fixation start), 672-812 (PCR-1 mix and 6-cycle program, PCR-2 Q5, PCR-3 primers and 6-cycle program); Supplementary Table 1 MOESM2 xlsx.txt (all 29,765 probe rows, flank prefix/suffix computed); Supplementary Table 2 MOESM3 xlsx.txt rows 1-23",
+      "oligo_scraper": "Bundle scraper run (--max-hits 40): hits are Supplementary Table 2 primers rows 1-11+ (RCA-1/2, blocked extension primer, 10X forward, InDrop, 1-step forward, PCR3 R1...) and Supplementary Table 1 probe rows; all followed to the xlsx text twins, and all 29,765 probe rows parsed for the common 23-nt/18-nt flanks.",
+      "findings": "PCR handle corrected from 17 nt GTATGGACCGGGTCATC to the 18-nt common 3' flank TGTATGGACCGGGTCATC of every Table 1 probe, the exact InDrop reverse-primer complement (now enforced in construction). Added Step 1 T4 PNK phosphorylation of the crude Twist pool, two 15% TBE-urea gel selections with discarded short HindIII products/nicking primers and unextended blocked primer, and Klenow fragment as the extension polymerase. Page displays published discrepancy: article text 23 bp PCR handle (5') / 17 bp HindIII extension handle (3') vs Table 1 23-nt HindIII 5' flank / 18-nt InDrop 3' flank; and Table 1 55-60 nt variable regions vs stated 50 bp binding length (schematic 50-nt placeholder kept).",
+      "deferred": [
+        "Original ProBac-seq research report (predecessor) not read",
+        "10x CG000204 v3.1 guide not re-read for bead oligo architecture",
+        "Hormoz-lab GitLab read-splitting/UMI-swap code",
+        "Nature-hosted Supplementary Figures PDF (MOESM1) not re-read",
+        "Identity of the extra 5-10 nt between Table 1 flanks vs 50 bp binding design",
+        "Exact HindIII cut ends/released unit boundaries and PCR-1 annealing geometry"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 7 checks pass; page builds; pairing 0 problems; chemistry 19 steps 2 established/1 conditional/22 unresolved/0 contradictory; source guard 0 exact checked/0 failed, 9 inputs without exact states, 1 graph; Markdown built/checked; review schema checked"
+    },
+    {
+      "round": "2026-10-17-followup-r3",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "scope": "Bounded follow-up: identify the vendor guide for the kit ProBac-seq names and verify the gel-bead oligo segments; not a full chemistry review or missing-information acceptance.",
+      "locations": "ProBac PMC13621791 JATS lines 102 (overview: V3 chemistry), 214 (Next GEM chip G kit PN-1000128), 216 (10x V3.1 single cell reagent kit 2000164); bundle 10x_CG000204_ChromiumNextGEMSingleCell3_v3.1_Rev_D.pdf.txt lines 1 (CG000204 Rev D), 11 and 330 (GEM, Library & Gel Bead Kit v3.1, 4 rxns PN-1000128), 308 and 422 (v3.1 Gel Beads PN 2000164), 5135-5139 (Appendix Oligonucleotide Sequences, Protocol Step 1.5 Gel Bead Primers 5'-CTACACGACGCTCTTCCGATCT-N16-N12-T30VN-3').",
+      "findings": "The kit named by ProBac-seq is the Next GEM 3' v3.1 kit documented by CG000204, not the v3 (Chip B) guide CG000183 suggested in a follow-up lead. CG000204 Rev D prints the 16-nt barcode, 12-nt UMI and T30VN gel-bead primer; the model's bead segments are now transcribed from it and no longer marked inferred. ProBac-seq names no guide revision, so Rev D is an explicit choice; the VN anchor is not drawn separately.",
+      "deferred": [
+        "Original ProBac-seq research report (predecessor) not read",
+        "Hormoz-lab GitLab read-splitting/UMI-swap code"
+      ],
+      "verification": "local suite 8 checks pass; page builds; lint_pairing 0 problems; check_chemistry 19 steps established=1 conditional=1 unresolved=22 contradictory=0; selftest_source_oligos 10 checked 0 failed"
+    }
+  ]
 }

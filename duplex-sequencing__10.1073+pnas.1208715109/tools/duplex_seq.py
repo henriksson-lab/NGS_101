@@ -131,24 +131,47 @@ def oligos():
             f"PCR reverse family (source XXXXXX = six-position fixed multiplexing index): 5′-{il.P7}[XXXXXX]{il.TRUSEQ_READ2[:23]}-3′"]
 
 
+cleanup_ids = []
+
+
+def bead_cleanup(g, ident, label, material, kept_label, *, state=None):
+    """A corrected-SI AMPure XP purification; the source does not itemize removed species."""
+    beads = g.input(ident + "_beads", "Agencourt AMPure XP beads", MaterialKind.SELECTION)
+    kept = g.product(ident + "_kept", kept_label, MaterialKind.MOLECULAR, state=state)
+    waste = g.product(ident + "_waste", "Bead supernatant and washes (unbound reaction components)", MaterialKind.WASTE)
+    g.react(ident, label, StepKind.CLEANUP, ((material, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+            (kept, waste), changes_molecule=False)
+    g.discard(waste, "Removed from the magnet-held AMPure XP beads; the source does not list the removed species.")
+    cleanup_ids.extend((beads.id, ident, kept.id, waste.id))
+    return kept
+
+
 def protocol_graph():
+    cleanup_ids.clear()
     g = ProtocolGraph(TITLE, authority=SOURCE)
-    dna = g.input("dna", "Sheared genomic DNA", MaterialKind.MOLECULAR, primary=True)
+    dna = g.input("dna", "Covaris-sheared genomic DNA (3 µg in 130 µL TE)", MaterialKind.MOLECULAR, primary=True)
+    sheared = bead_cleanup(g, "shear_cleanup", "Purify sheared DNA with 2 volumes AMPure XP", dna,
+                           "Sheared DNA retained on beads")
     end_repair = g.input("end_repair_kit", "NEB DNA End Repair kit", MaterialKind.CATALYST)
     repaired = g.product("repaired", "End-repaired DNA", MaterialKind.MOLECULAR)
     g.react("end_repair", "Repair sheared DNA ends", StepKind.END_REPAIR,
-            ((dna, InputRole.TEMPLATE), (end_repair, InputRole.CATALYST)), (repaired,))
-    size_beads = g.input("size_beads", "AMPure XP beads", MaterialKind.SELECTION)
-    selected = g.product("selected", "Size-selected fragments", MaterialKind.MOLECULAR)
-    size_waste = g.product("size_waste", "Fragments excluded by source size selection", MaterialKind.WASTE)
-    g.react("size_select", "Select the source fragment-size interval", StepKind.SELECTION,
-            ((repaired, InputRole.TEMPLATE), (size_beads, InputRole.SELECTION)), (selected, size_waste))
-    g.discard(size_waste, "Source bead selection physically excludes large and small fragments; this is not consensus filtering.")
+            ((sheared, InputRole.TEMPLATE), (end_repair, InputRole.CATALYST)), (repaired,))
+    size_beads = g.input("size_beads", "AMPure XP beads, 0.7 then an additional 0.65 volumes", MaterialKind.SELECTION)
+    selected = g.product("selected", "Size-selected fragments (~200–500 bp)", MaterialKind.MOLECULAR)
+    large_waste = g.product("size_waste", "Fragments >500 bp bound at 0.7 volumes", MaterialKind.WASTE)
+    small_waste = g.product("size_waste_small", "Supernatant after the additional 0.65 volumes (fragments below ~200 bp)",
+                            MaterialKind.WASTE)
+    g.react("size_select", "Two-sided AMPure size selection", StepKind.SELECTION,
+            ((repaired, InputRole.TEMPLATE), (size_beads, InputRole.SELECTION)), (selected, large_waste, small_waste))
+    g.discard(large_waste, "Source: fragments larger than 500 bp bind to the 0.7-volume beads and are discarded; the supernatant is transferred.")
+    g.discard(small_waste, "Source: the additional 0.65 volumes binds fragments of ~200 bp or greater, which are washed and eluted; the unbound remainder is not retained.")
     klenow = g.input("klenow", "Klenow exo− DNA polymerase", MaterialKind.CATALYST)
     dttp = g.input("dttp", "dTTP-only tailing condition", MaterialKind.CONDITION)
     t_tailed = g.product("t_tailed", "dT-tailed genomic duplexes", MaterialKind.MOLECULAR)
     g.react("tail_insert", "Add fragment 3′ dT tails", StepKind.TAILING,
             ((selected, InputRole.TEMPLATE), (klenow, InputRole.CATALYST), (dttp, InputRole.CONDITION)), (t_tailed,))
+    t_clean = bead_cleanup(g, "tail_cleanup", "Purify dT-tailed DNA with 1.2 volumes AMPure XP", t_tailed,
+                           "Purified dT-tailed genomic duplexes")
     adapter_primer = g.input("adapter_primer", "Source adapter primer strand", MaterialKind.OLIGO,
                             state=Construct([Segment("adapter primer strand", PRIMER_STRAND)]))
     adapter_template = g.input("adapter_template", "Source 5′-phosphorylated adapter template", MaterialKind.OLIGO,
@@ -172,8 +195,10 @@ def protocol_graph():
     tagged = g.product("tagged", "Original duplex with ligated Y adapters", MaterialKind.MOLECULAR,
                        state=ligated_y_scene().rows())
     g.react("ligate_tags", "Ligate dA adapters to dT-tailed fragment ends", StepKind.LIGATION,
-            ((t_tailed, InputRole.TEMPLATE), (ready_adapter, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)),
+            ((t_clean, InputRole.TEMPLATE), (ready_adapter, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)),
             (tagged,), geometry=ligation_geometry())
+    tagged_clean = bead_cleanup(g, "ligation_cleanup", "Purify ligation with 0.8 volumes AMPure XP", tagged,
+                                "Purified adapter-ligated DNA", state=ligated_y_scene().rows())
     forward = g.input("pcr_forward", "Source 21-base PCR forward primer", MaterialKind.OLIGO,
                        state=Construct([Segment("PCR forward", PCR_FORWARD)]))
     reverse = g.input("pcr_reverse", "Source six-index PCR reverse primer", MaterialKind.OLIGO,
@@ -181,12 +206,12 @@ def protocol_graph():
                          placeholder=True, feature=SAMPLE_INDEX), Segment("source 23-base read2 arm", il.TRUSEQ_READ2[:23])]))
     kapa = g.input("kapa", "KAPA HiFi PCR polymerase", MaterialKind.CATALYST)
     library = g.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY, state=FINAL_LIBRARY)
-    g.react("library_pcr", "PCR-copy the Y arms and amplify strand families", StepKind.PCR,
-            ((tagged, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+    g.react("library_pcr", "PCR-copy the Y arms and amplify strand families (40 amol template, 18–20 cycles)", StepKind.PCR,
+            ((tagged_clean, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
              (reverse, InputRole.STRUCTURAL), (kapa, InputRole.CATALYST)),
             (library,), geometry=PCR_GEOMETRY)
     g.sequence(library, SequencingPlan(library=FINAL_LIBRARY, primers=SEQ_PRIMERS))
-    g.declare_reviewed_scope(("dna", "end_repair_kit", "end_repair", "size_beads", "size_select",
+    g.declare_reviewed_scope(("dna", *cleanup_ids, "size_waste_small", "end_repair_kit", "end_repair", "size_beads", "size_select",
         "klenow", "dttp", "tail_insert", "adapter_primer", "adapter_template", "anneal_adapter",
         "dntps", "copy_adapter", "datp", "tail_adapter", "ligase", "ligate_tags", "pcr_forward",
         "pcr_reverse", "kapa", "library_pcr", "library"), SOURCE)

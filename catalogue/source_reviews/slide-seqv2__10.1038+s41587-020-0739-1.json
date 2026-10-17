@@ -133,5 +133,26 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent located reads now cover the V2 article and Table 6. The public page displays all three source-printed bead versions and selects the Chemgenes core for its schematic. PMC Sup_info and supplementary tables, plus the cited Hughes second-strand predecessor, remain unavailable/unread; no missing-information claim accepted."
+  "conclusion": "Two independent located reads now cover the V2 article and Table 6. The public page displays all three source-printed bead versions and selects the Chemgenes core for its schematic. PMC Sup_info and supplementary tables, plus the cited Hughes second-strand predecessor, remain unavailable/unread; no missing-information claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published author manuscript PMC8606189 JATS (s41587-020-0739-1_PMC8606189.xml.txt) Results line59 (second-strand rationale), Online Methods Barcoded beads95–107, Bead synthesis109–111, Puck Sequencing119–158, Slide-seqV2 library preparation195–333; Springer MOESM1 Supplementary Table 6 (MOESM1_ESM.pdf.txt lines123–203). Publisher full text and PMC Sup_info/Sup_Tab_3–5/Sup_Dataset_1–2 remain manual (gated).",
+      "oligo_scraper": "Bundle scraper run: 13 hits in 2 files (MOESM1 Table 6 TSO rG+GrG, dN-SMRT, Truseq P5, /5phos/ TruSeq/UP decoding families with /3InvdT/, monobase oligos; JATS bead oligos); hits used were checked at their source lines.",
+      "findings": "Model corrections: final library was a TruSeq-both-ends construct with all 15 J before the bead constant and Nextera i5/i7 index PCR; now the Methods-defined Truseq5 x Nextera N7xx endpoint with Chemgenes J8-TCTTCAGCGTTCCCGAGA-J7-UMI8-T30 layout, TruSeq R1/Nextera I1/Nextera R2 and declared 42/8/50 reads. Graph now includes puck decoding (8 five-prime/3 three-prime/3 SEDAL ligations), 30 min hybridization, Maxima H- RT 1.5h 52C with TSO, proteinase K digestion, bead wash cleanup, Exonuclease I 37C 50min, 0.1N NaOH denaturation with released-strand waste, Klenow (M0210) dN-SMRT second strand, Terra PCR Direct 4+9 cycles, double 0.6x AMPure, Nextera XT 600pg, Truseq P5+N7xx 12 cycles, 0.6x AMPure. Displayed discrepancy: custom vs2 bead oligo prints 8+6 J (line105) vs 15 split-pool cycles in blocks of 8 and 7 (line111); Chemgenes modelled.",
+      "deferred": [
+        "Publisher full text/PDF and PMC Sup_info.pdf, Sup_Tab_3/4/5.xlsx, Sup_Dataset_1/2.zip",
+        "Supplementary Figure 1 decoding-primer geometry (not drawn)",
+        "Rodriques 2019 puck preparation predecessor and Hughes 2020 second-strand reference",
+        "ExoI purpose and NaOH product scope not stated in Methods",
+        "vs2 J-count: typo versus 14-cycle design",
+        "Nextera XT kit original and N700 index identities"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1 PASS and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/16 unresolved/0 contradictory; source guard 0 exact checked, 9 oligo inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

@@ -19,6 +19,27 @@
         "date": "2026-10-15",
         "locations": "XML lines 149, 221-223 and 459-465",
         "finding": "Illumina library: KAPA Hyper prep with substituted SureSelectXT2 indexing adapters; no oligo bases printed in these passages."
+      },
+      "superseded_by": "published_article",
+      "version_note": "PMC5902022 is the NIHMS author manuscript (PMC licence note: author manuscript True). Its line numbers and wording (for example SQK-NSK007 at XML line 149) are historical; the published typeset article row published_article is the active authority (added 2026-10-17)."
+    },
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "Quick et al., Nature Protocols 12:1261-1276 (2017), doi:10.1038/nprot.2017.066, published typeset PDF (co-author Bedford-lab mirror https://bedford.io/pdfs/papers/quick-multiplex-zika-sequencing.pdf), local /husky/henriksson/NGS101_papers/sources/artic-tiled-amplicon-sequencing__10.1038+nprot.2017.066/quick-multiplex-zika-sequencing.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Experimental design primer design line 359 (p.1263), library preparation lines 970-992 (p.1266), Fig. 3 legend 956, Materials 1109-1160 (p.1267), Procedure Steps 4-12 lines 1286-1550 (pp.1268-1272); recorded in bounded check round 2026-10-17-breadth-first-06",
+        "finding": "Published typeset article obtained. Library construction relies on ONT native barcoding kits (EXP-NBD002/SQK-LSK208, EXP-NBD103/SQK-LSK108) and KAPA Hyper Prep with SureSelectXT2 indexing adaptors; no library adapter, index or kit primer bases are printed."
+      },
+      "pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/artic-tiled-amplicon-sequencing__10.1038+nprot.2017.066/quick-multiplex-zika-sequencing.pdf.txt: title/byline and \"Published online 24 May 2017; doi:10.1038/nprot.2017.066\" lines 1-23; library-preparation design text lines 960-995; Materials lines 1140-1160; Procedure Step 12A(vi)-(x) and 12B(i)-(v) lines 1495-1535. Bundle scraper result from pass 1 checked against these passages (no adapter or kit-primer hits in the article).",
+        "finding": "Agree with pass 1. The article names EXP-NBD002/SQK-LSK208 (development) and EXP-NBD103/SQK-LSK108 (current) for MinION, says it avoids kit component names because kits are revised (lines 982-985), and for MiSeq uses KAPA Hyper Prep (07962363001) substituting SureSelectXT2 indexing adaptors (G9622A) at ligation (line 1528-1529). No adapter, barcode, index or library-PCR primer bases are printed. The author manuscript wording SQK-NSK007/SQK-LSK208 differs from the published kit names."
       }
     },
     {
@@ -47,7 +68,9 @@
       "availability": "unavailable",
       "relevance": "relevant",
       "discovered_from": "paper",
-      "reason": "Named in paper XML lines 221,459; guide unavailable locally."
+      "reason": "Named in the published article (quick-multiplex-zika-sequencing.pdf.txt lines 1154 and 1527-1530); guide not retrieved locally, so its adapter, index and library-primer content is unchecked.",
+      "previous_state": "unavailable: Named in paper XML lines 221,459; guide unavailable locally.",
+      "discovered_from_published": "published_article"
     },
     {
       "id": "agilent_guide",
@@ -56,16 +79,21 @@
       "availability": "unavailable",
       "relevance": "relevant",
       "discovered_from": "paper",
-      "reason": "Named in paper XML lines 223,461; guide unavailable locally."
+      "reason": "Named in the published article (quick-multiplex-zika-sequencing.pdf.txt lines 988-991, 1155 and 1528-1529); guide not retrieved locally, so its adapter, index and library-primer content is unchecked.",
+      "previous_state": "unavailable: Named in paper XML lines 223,461; guide unavailable locally.",
+      "discovered_from_published": "published_article"
     },
     {
       "id": "ont_guide",
       "role": "linked_material",
-      "locator": "ONT SQK-NSK007/SQK-LSK208 original kit instructions",
+      "locator": "ONT native barcoding and ligation kit protocols EXP-NBD002/SQK-LSK208 (2D, used in development) and EXP-NBD103/SQK-LSK108 (1D, listed in Materials)",
       "availability": "unavailable",
       "relevance": "relevant",
       "discovered_from": "paper",
-      "reason": "Named in paper XML line 149; guide unavailable locally."
+      "reason": "Named in the published article (quick-multiplex-zika-sequencing.pdf.txt lines 979-981 and 1148-1150; the author manuscript instead names SQK-NSK007/SQK-LSK208). Version-matched ONT protocols not retrieved locally.",
+      "previous_locator": "ONT SQK-NSK007/SQK-LSK208 original kit instructions",
+      "previous_state": "unavailable: Named in paper XML line 149; guide unavailable locally.",
+      "discovered_from_published": "published_article"
     },
     {
       "id": "artic_site",
@@ -99,5 +127,42 @@
       "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
     }
   ],
-  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nature Protocols 12:1261-1276 typeset PDF (doi printed; co-author mirror bedford.io, quick-multiplex-zika-sequencing.pdf.txt): Experimental design primer design line359 (p1263), library preparation lines970-992 (p1266), Fig3 legend956, Materials1109-1160 (p1267), Procedure Steps4-12 lines1286-1550 (pp1268-1272); published Springer ESM Supplementary Table1 lines3-26 (ZIKA_400_1 pair, pool1). PMC5902022 identified as NIHMS author manuscript (line351 0.02 uM prose) and not used for active claims.",
+      "oligo_scraper": "Bundle scraper run: 158 scheme-primer hits in the published ESM (and the same 158 in the superseded bioRxiv v1); no library/adapter oligo hits in the published article; --find confirms ZIKA_400_1_LEFT in the ESM.",
+      "findings": "Obtained published typeset article (previously only author manuscript). Removed the note's 0.015 vs 0.02 uM 'discrepancy' (0.02 is author-manuscript-only; published Step6 table and critical step both 0.015). Graph corrected: pools are no longer pooled before platform split; each pool gets its own AMPure cleanup (waste typed), MinION per-pool Ultra II end prep and NB01-NB12 native-barcode ligation with Blunt/TA ligase, pooling+SPRI, then kit adapter ligation; MiSeq per-pool KAPA Hyper end prep, SureSelectXT2 ligation, PCR, 0.8x SPRI with candidate adaptor-dimer discard, equimolar pooling. Q5 Hot Start, Step8 cycling, MiSeq v2 500-cycle 2x250 recorded. Graph-owned published discrepancy: design text 95C vs Step8 98C denaturation (model uses 98C).",
+      "deferred": [
+        "KAPA Hyper Prep 07962363001 original (end prep, ligase, library PCR primers)",
+        "Agilent SureSelectXT2 G9622A index/adapter original (adapter bases, index read layout)",
+        "ONT EXP-NBD103/SQK-LSK108 and EXP-NBD002/SQK-LSK208 kit protocols",
+        "ARTIC protocol site versions",
+        "95C vs 98C denaturation unresolved",
+        "Single-barcode-per-sample MinION option not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (1 smoke check, 0 transcription checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/26 unresolved/0 contradictory over 22 steps; source guard 0 exact checked, 0 failed, 4 symbolic primer-pool inputs without exact states; audit_protocol_sources --check passes; Markdown built/checked; review schema checked"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "/husky/henriksson/NGS101_papers/sources/artic-tiled-amplicon-sequencing__10.1038+nprot.2017.066/quick-multiplex-zika-sequencing.pdf.txt lines 1-23, 960-995, 1140-1160, 1495-1535",
+      "findings": "Locator correction plus second reading of the published typeset article. Added checklist row published_article (pass_1 root from round 06, pass_2 this reader); both agree no library adapter, index or kit primer bases are printed. The paper row (PMC author manuscript) is kept with its historical passes and marked superseded_by published_article. Kit-guide rows now cite published-article lines; ont_guide locator changed from the author-manuscript kit name SQK-NSK007/SQK-LSK208 to the published EXP-NBD002/SQK-LSK208 and EXP-NBD103/SQK-LSK108. Kit guides and the ARTIC site remain unavailable, so the missing claim and linked information stay blocked.",
+      "deferred": [
+        "KAPA Hyper Prep 07962363001 guide",
+        "Agilent SureSelectXT2 G9622A guide",
+        "ONT EXP-NBD002/SQK-LSK208 and EXP-NBD103/SQK-LSK108 protocols",
+        "ARTIC protocol site versions"
+      ],
+      "scope": "Locator correction and second reading of the published article only; no accepted missing-information claim.",
+      "verification": "audit_protocol_sources --check passes"
+    }
+  ]
 }

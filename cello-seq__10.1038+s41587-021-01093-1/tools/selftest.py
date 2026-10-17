@@ -7,14 +7,13 @@ import chem as P
 from checks import Check
 c=Check()
 c("phosphorylated oligo(dT) transcription", P.DT_OLIGO,
-  "TGGCGTAGCGGGTTCGAGCGCACCGCAGGGTATCCGGCTA" + "T" * 30 + "VN")
+  "TGGCGTAGCGGGTTCGAGCGCACCGCAGGGTATCCGGCTATTTTTTTTTTTTTTTTTTTTTTTTTVN")  # Table S5 oligo_dT verbatim
 c("top splint transcription", P.TOP_SPLINT,
   "TAGCCGGATACCCTGCGGTGCGCTCGAACCCGCTACGCCATGTAAAACGACGGCCAGT")
 c("bottom splint idx1 transcription", P.BOTTOM_SPLINT,
   "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"
   "AAGAAAGTTGTCGGTGTCTTTGTGAGTGGTATC" + "NRY" * 7 + "N"
-  "ACTGGCCGTCGTTTTACATGGCGTAGCGGGTTCGAGCGCACCGCAGGGTATCCGGCTA"
-  + "T" * 14)
+  "ACTGGCCGTCGTTTTACATGGCGTAGCGGGTTCGAGCGCACCGCAGGGTATCCGGCTATTTTTTTTTTTTTTT")  # Table S5 idx1 verbatim
 c("patterned UMI length",
   next(len(s.top) for s in P.FINAL_LIBRARY if s.feature and s.feature.role=="umi"), 22)
 c("cell barcode length", len(P.BARCODE_1), 24)

@@ -51,11 +51,47 @@
     {
       "id": "epfl",
       "role": "linked_material",
-      "locator": "Author EPFL DisCo_protocol detailed methods (exact URL to recover)",
-      "availability": "unavailable",
+      "locator": "https://www.epfl.ch/labs/deplanckelab/wp-content/uploads/2021/09/DisCo_protocol.pdf (local /husky/henriksson/NGS101_papers/sources/disco__10.1038+s41592-021-01391-1/DisCo_protocol.pdf.txt, md5 f5aabf009740e60a56932941235d31ec)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Old ledger identifies an author protocol, but local source bundle has no original copy/URL; it cannot be a completed source check.",
-      "discovered_from": "article"
+      "reason": "Retrieved 2026-10-17 through the existing extra_sources.tsv row; read by one bounded reader only (pass_2 still required).",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "round6_worker_disco",
+        "date": "2026-10-17",
+        "locations": "Whole 15-page text twin: Required primers (lines 94-122), Preparing cells and beads (389-406), Droplet recovery, Reverse transcription, Exonuclease I and bead elution, cDNA amplification, Tn5 tagmentation, library purification, Sequencing Strategy (478-694); scraper 4 hits verified.",
+        "finding": "Prints TSO (rGrGrG), SMART PCR, P5 SMART PCR (*A*C) and custom SeqB; RT/TSO, Exo I, SMART PCR, p7|ME Tn5, P5 SMART + i7 PCR, 0.6x/0.7x cleanups, R1 20/R2 50. Bead oligo, Tn5 adapter, i7 primer bases and Read 2/index primers not printed; i7 primers only cited (Buenrostro 2013)."
+      }
+    },
+    {
+      "id": "preprint_v3",
+      "role": "other",
+      "locator": "https://www.biorxiv.org/content/10.1101/2020.05.19.103812v3.full.pdf (local /husky/henriksson/NGS101_papers/sources/doi_10.1101+2020.05.19.103812/2020.05.19.103812_v3.full.pdf.txt)",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Superseded preprint of the defining article (v3, 9 Nov 2020); fetched only as labelled fallback because the published full text is subscription-gated. Not adopted into the model.",
+      "discovered_from": "article",
+      "pass_1": {
+        "reviewer": "round6_worker_disco",
+        "date": "2026-10-17",
+        "locations": "Title/version header; keyword search for bead, ChemGenes, Tn5, NextSeq, primer; main text has no Methods (in supplement).",
+        "finding": "Main PDF identity confirmed; library Methods are in media-1."
+      }
+    },
+    {
+      "id": "preprint_v3_media1",
+      "role": "other",
+      "locator": "https://www.biorxiv.org/content/biorxiv/early/2020/11/09/2020.05.19.103812/DC1/embed/media-1.pdf (local /husky/henriksson/NGS101_papers/sources/doi_10.1101+2020.05.19.103812/2020.05.19.103812_media-1.pdf.txt)",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Superseded-preprint supplementary Materials and Methods; lead only, not adopted.",
+      "discovered_from": "preprint_v3",
+      "pass_1": {
+        "reviewer": "round6_worker_disco",
+        "date": "2026-10-17",
+        "locations": "cDNA generation and library preparation (lines 135-152); Material and reagent list items 2-7 (lines 320-360).",
+        "finding": "Beads Chemgenes lot 051917 Macosko-2011-10; same TSO/SMART PCR/P5 SMART PCR; custom Nextera index oligos; cDNA PCR 18-23 cycles, library PCR 15 cycles, CleanPCR 0.6x; NextSeq 20/50. Differs from the later author protocol by version; no bead oligo sequence."
+      }
     }
   ],
   "linked_information": {
@@ -77,10 +113,10 @@
     {
       "claim": "Exact capture-bead and sequencing-primer site for DisCo",
       "disposition": "blocked",
-      "evidence": "Defining article and author detailed protocol are unavailable; supplementary PDFs do not establish exact universal site."
+      "evidence": "Defining article Methods remain unavailable (subscription-gated; not in PMC/Europe PMC). The author protocol now read prints the SeqB read primer and P5 SMART PCR, so the Read 1 site is resolved from that protocol; the capture-bead oligo, Tn5 p7|ME adapter, i7 primer and Read 2/index primers are not printed in the three inspected originals. No absence accepted."
     }
   ],
-  "conclusion": "Defining and author-linked methods are unavailable; no missing claim accepted.",
+  "conclusion": "Author protocol now read (one reader); defining article Methods still unavailable; no missing claim accepted.",
   "bounded_checks": [
     {
       "round": "2026-10-16-breadth-first-03",
@@ -94,6 +130,21 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 0 checked, 3 unrepresented"
+    },
+    {
+      "round": "2026-10-17-deferred-followup",
+      "reviewer": "round6_worker_disco",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Author DisCo_protocol.pdf (EPFL, 14 Sep 2021) whole text: Required primers, bead prep, droplet recovery, RT, Exo I/elution, cDNA PCR, Tn5 tagmentation, library PCR/purification, Sequencing Strategy; superseded bioRxiv v3 main PDF header/keyword search and media-1 library Methods + reagent list items 2-7 (lead only). nature.com article page checked: paywalled (abstract/legends only); PMC idconv and Europe PMC: not deposited. Scraper run; 4 hits verified in the protocol.",
+      "findings": "Replaced generic RT-then-single-PCR route with protocol-owned graph: cp-chip capture, Maxima H- RT + rGrGrG TSO template switching, washes, Exo I with wash removal, bead elution, SMART PCR (single primer), bead removal, 0.6x AMPure, p7|ME Tn5, SDS stop, P5 SMART + i7 PCR, 0.7x AMPure. Displays four printed oligos with modifications; Read 1 custom SeqB landing computed on printed P5 SMART end, 20 cycles; removed false no-universal-primer statement, shared 8-nt sample-index role and legacy role_library. Preprint differences (cycles, cleanup ratio, bead lot) recorded as version leads, not adopted or treated as published discrepancy.",
+      "deferred": [
+        "Defining Nature Methods article Methods (manual: https://doi.org/10.1038/s41592-021-01391-1) remain unread; equivalence of the 2021 author protocol with published experiments unverified",
+        "Capture-bead oligo sequence/lengths (ChemGenes Macosko-2011-10 named only in superseded preprint), Tn5 p7|ME adapter, Buenrostro i7 primers, Read 2/index primers and index-read length",
+        "Second independent reader for the author protocol; no missing-information claim accepted"
+      ],
+      "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
+      "verification": "local suite (workflow + graph) and page pass; pairing 0 problems; chemistry 17 unresolved, 0 contradictory; source guard 3 checked (TSO, SMART PCR, P5 SMART PCR), 0 failed, 3 unrepresented (bead oligo, Tn5 p7|ME, i7 primer); review schema pass; Markdown built"
     }
   ]
 }

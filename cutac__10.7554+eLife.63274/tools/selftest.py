@@ -28,7 +28,7 @@ if have(check,source,label='original loading protocol API table'):
     check('complete source ME-A table cell',cutac.ME_A in strings,True)
     check('complete source ME-B table cell',cutac.ME_B in strings,True)
     check('complete source phosphorylated MErev table cell','[Phos]'+cutac.ME_REVERSE in strings,True)
-source=Source(base/'doi_10.1038+nature14590'/'nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt','doi:10.1038/nature14590 original MOESM36')
+source=Source(base/HERE.parent.name/'41586_2015_BFnature14590_MOESM36_ESM.xlsx.txt','doi:10.1038/nature14590 original MOESM36; catalogue/extra_sources.tsv')
 if have(check,source,label='cited original custom-primer workbook'):
     rows=[line.split('\t') for line in source.path.read_text().splitlines()]
     for prefix,pool in [('v2_Ad1.',cutac.P5_POOL),('v2_Ad2.',cutac.P7_POOL)]:

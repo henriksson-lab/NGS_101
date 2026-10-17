@@ -16,19 +16,14 @@ Full plasmid maps for checking primer-binding sites *in silico* and deriving exp
 SnapGene under their own terms — none of it is ours.** It is kept out of the repository's
 own content for that reason, and a fresh clone may legitimately have an empty (or absent)
 `ref/plasmids/`. Nothing is reconstructed from memory if a file is missing; it simply is not
-there, and the tooling says so:
+there, and the tooling says so.
 
-- **`tools/selftest.py` skips the checks that need a map.** Each file is declared as a
-  `checks.Source` with its Addgene ID, and the groups that read it sit behind `have(...)`.
-  Without the maps the suite still **passes**, prints one `SKIP` line per missing file naming
-  it and where to download it, and still runs every map-independent check (the overhang and
-  guide-oligo arithmetic, the "nothing is retyped" checks, the stagger ladders). The
-  `alt-snapgene/` comparisons are guarded one pair at a time, so one missing cross-check map
-  costs that one comparison and nothing else.
-- **`tools/build_page.py` refuses to build.** `crisprscreen.html` is computed from the maps
-  end to end — every amplicon size, every segment length — so there is no honest page to
-  emit without them. It prints one line per missing file, naming the file and the Addgene
-  page to get it from, and exits 1. It does not fall back to quoted numbers.
+**This protocol's own `tools/` no longer reads these maps.** The former map-driven
+`crisprscreen.html` builder and its map checks were retired; the current
+`tools/selftest.py` and `tools/build_page.py` use only `lib/pooled_crispr` and
+`lib/crispr` constants. Two other protocols still read a few maps, each behind a
+`checks.Source` guard that skips, not fails, when the file is absent (see the
+dependency table below).
 
 To restore the directory, re-download the files from the URLs in the tables below (the
 Addgene route needs a login now — see immediately below).
@@ -129,8 +124,7 @@ where a source was unavailable it is recorded as unavailable in "Not obtained".
 Four maps SnapGene builds from the depositors' data rather than copying from Addgene, so
 agreement with the Addgene files above is meaningful. Converted from SnapGene's public
 `.dna` set with Biopython's SnapGene reader. **Cross-checks only** — no page or computed
-claim depends on them, and each comparison in `tools/selftest.py` is skipped individually
-if its file is absent.
+claim depends on them, and no current repository tool reads them.
 
 Source for all four: `https://www.snapgene.com/local/fetch.php?set=crispr_plasmids&plasmid=<name>`,
 where `<name>` is the SnapGene map name in the last column.
@@ -144,26 +138,24 @@ where `<name>` is the SnapGene map name in the last column.
 
 ### What depends on each file
 
-So you can tell at a glance what breaks — or rather, what skips — when a file is missing.
+Current readers only (re-checked 2026-10-17 by grepping every `*.py`). The table
+records which tools open a file, not which claims it once supported.
 
-| File | Addgene | Needed by |
+| File | Addgene | Read by |
 |---|---|---|
-| `addgene-49535_lentiCRISPRv1.gb` | #49535 | **`tools/build_page.py`** (the primer/vector size table) and **`tools/selftest.py`** (BsmBI site + overhangs + filler length, v1 scaffold identity, KERMIT and Shalem amplicon sizes, U6 stretch present once) |
-| `addgene-52961_lentiCRISPRv2.gb` | #52961 | **`tools/build_page.py`** (every figure in parts 2–3, both readout rounds, the sizing tables) and **`tools/selftest.py`** (the published 285 nt BEAKER product, the 287/2148 bp step-1 pair, the +1 G shift, the KERMIT wrap-around, round-1/round-2 geometry) |
-| `addgene-52963_lentiGuide-Puro.gb` | #52963 | **`tools/build_page.py`** (the second backbone in every table and the round-1/2 figures) and **`tools/selftest.py`** (the 556/2417 bp and 316/2177 bp step-1 sizes, the 269 bp round-1 difference, BEAKER's site being present but unusable) |
-| `addgene-52962_lentiCas9-Blast.gb` | #52962 | **`tools/selftest.py`** only — the two negative controls: zero BsmBI sites and no sgRNA scaffold |
-| `addgene-59702_pXPR_011.gb` | #59702 | **`tools/selftest.py`** only — the F+E scaffold check that makes the v1-vs-F+E distinction real |
-| `addgene-66217_CRISPRi-library-backbone_pU6-sgRNA-EF1Alpha-puro-T2A-BFP.gb` | #66217 | **`tools/selftest.py`**, optional pair with `alt-snapgene/snapgene-62217_*`: same length, the N20 guide slot, and that the N run is the *only* difference |
+| `addgene-49535_lentiCRISPRv1.gb` | #49535 | `crispr-umi-schmierer__10.15252+msb.20177834/tools/selftest.py` (guarded) |
+| `addgene-52961_lentiCRISPRv2.gb` | #52961 | `crispr-umi-schmierer__10.15252+msb.20177834/tools/selftest.py` (guarded); `crispr-mip__10.1101+2024.03.28.587082/tools/selftest.py` and `show_probe.py` (fallback when the source-bundle copy is absent) |
+| `addgene-52963_lentiGuide-Puro.gb` | #52963 | `crispr-umi-schmierer__10.15252+msb.20177834/tools/crisprumi.py` (parent-map candidate) and `tools/selftest.py` (guarded) |
+| `addgene-52962_lentiCas9-Blast.gb` | #52962 | nothing computed — reference only |
+| `addgene-59702_pXPR_011.gb` | #59702 | nothing computed — reference only (no F+E scaffold check exists in any current suite) |
+| `addgene-66217_CRISPRi-library-backbone_pU6-sgRNA-EF1Alpha-puro-T2A-BFP.gb` | #66217 | nothing computed — reference only |
 | `addgene-86708_CROPseq-Guide-Puro.gb` | #86708 | nothing computed — reference only (minus-strand cassette example in the motif table) |
 | `addgene-60955_pU6-sgRNA-EF1Alpha-puro-T2A-BFP.gb` | #60955 | nothing computed — reference only (BstXI/BlpI cloning, mouse U6, Chen 2013 scaffold) |
 | `addgene-98293_lentiCRISPRv2-Blast.gb` | #98293 | nothing computed — reference only (marker swap, minus-strand cassette) |
 | `addgene-193588_pXPR_003-sgMSLN.gb` | #193588 | nothing computed — reference only (stand-in for the undeposited empty pXPR_003) |
-| `alt-snapgene/snapgene-52961_lentiCRISPRv2.gb` | #52961 (SnapGene's own map) | **`tools/selftest.py`**, optional: exact circular rotation of the Addgene map at offset 14256 |
-| `alt-snapgene/snapgene-52962_lentiCas9-Blast.gb` | #52962 (SnapGene's own map) | **`tools/selftest.py`**, optional: exact circular rotation at offset 4315 — also the second source confirming 12859 bp, not Addgene's stated 12860 |
-| `alt-snapgene/snapgene-52963_lentiGuide-Puro.gb` | #52963 (SnapGene's own map) | **`tools/selftest.py`**, optional: exact circular rotation at offset 2593 |
-| `alt-snapgene/snapgene-62217_pCRISPRia-v2.gb` | #62217 (SnapGene's own map) | **`tools/selftest.py`**, optional: the #66217 comparison above |
+| `alt-snapgene/*.gb` (four maps) | #52961, #52962, #52963, #62217 | nothing computed — manual cross-checks only |
 
-Nothing outside this directory's own `MANIFEST` depends on the four reference-only files;
+Nothing outside this directory's own `MANIFEST` depends on the reference-only files;
 they are kept because they are what makes the motif table a survey rather than three
 examples.
 

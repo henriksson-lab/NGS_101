@@ -227,5 +227,25 @@
       "evidence": "Main article is sequence-positive, but publisher supplements and later detailed methods are unreviewed."
     }
   ],
-  "conclusion": "Main article is sequence-positive, but publisher supplements and later detailed methods are unreviewed."
+  "conclusion": "Main article is sequence-positive, but publisher supplements and later detailed methods are unreviewed.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Published author manuscript PMC8238917 JATS XML twin: STAR Methods lines 211–285 (seed library 213–225, 1st-Seq 227–239, HDMI-array processing 243, disassembly 247, tissue/release 251–255, RT 259, tissue digestion 263, second strand/elution/AMPure 267–275, library PCR 279–281), UMI-encoded array 289–323, analysis 341–343, Discussion 173, Figure 1 legend 803–809",
+      "oligo_scraper": "Scraper run on the published JATS twin; hits at lines 221/225 (seeds), 233 (Read1-DraI), 271 (N9 random primer), 279/281 (PCR primers), 299/309/319 (EcoRI seed, Read1-EcoRI, UMI-oligo) all match module transcriptions.",
+      "findings": "Replaced the generic dual-index TruSeq shell (with UMI placed beside the HDMI and a dA junction) by a final library computed from the printed oligos: P5–TR1–HDMI20–HR1–30T (27T + DraI TTT, derived)–transcript–N9–TR2–i7–P7, single-indexed (printed P5 forward primer has no i5). Rebuilt the graph with source steps: MiSeq clustering (warned MAGIC), 1st-Seq with Read1-DraI (25 cycles), DraI, Exo I, NaOH removal of Read1-DraI, tissue release (collagenase/pepsin), oligo-dT capture, Maxima H− RT self-primed by the array, Exo I, proteinase K, NaOH RNA strip, Klenow exo− N9 second strand, washes, NaOH elution, AMPure 1.8×, PCR1 13–15 cycles (exact geometry), AMPure 1.2×, PCR2 8–9 cycles (exact geometry), gel 400–850 bp, AMPure 0.6–0.7×; waste fates declared. Read uses: R1 HDMI (20/30 bp), R2 first 9 = UMI then transcript. Graph-owned discrepancy: backbone labels seed 5′/3′ ends 'P5'/'P7' (line 217) but printed bases are Illumina P7 and revcomp(P5) (lines 221–225); segments renamed by bases.",
+      "deferred": [
+        "Published supplements NIHMS1704034 supplements 1–12 (PMC download gate; manual URLs in MANIFEST.tsv)",
+        "MiSeq on-instrument bridge amplification/linearization chemistry",
+        "i7 index-read length and per-dataset acquired read lengths (only 100–150 bp PE stated)",
+        "HDMI32-DraI analysis using 30 of 32 HDMI bases (line 341) — reason not stated",
+        "Salmen et al. 2018 cited predecessor for RNA release/cDNA labelling"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 1 established/1 conditional/20 unresolved/0 contradictory with cluster MAGIC warning; source guard 4 exact checked (Read1-DraI, PCR1 F/R, PCR2 F), 0 failed, 3 symbolic inputs (seed HDMI window, N9 primer, i7 reverse primer); Markdown built; review schema checked"
+    }
+  ]
 }

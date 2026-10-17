@@ -21,7 +21,7 @@ from batch_ngs import seg
 from chemdraw import Construct, Segment, feature, inline_sequence, oligo, revcomp
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+                            SourceClaim, SourceDiscrepancy, StepKind)
 from protocol_model import chain, molecule, role
 
 
@@ -123,7 +123,7 @@ def workflow():
              role("ROI barcode", length_bp=6, molecular_feature=spatial),
              role("12-nt UMI", length_bp=12, molecular_feature=umi),
              role("GATE handle"))),
-         "Bst extends to the crosslink, then the shared P domain forms a three-way junction and branch-migrates onto the barcode template. The new product contains barcode and cDNA on one uncrosslinked strand."),
+         "Bst DNA polymerase large fragment extends to the crosslink, then the shared P domain forms a three-way junction and branch-migrates onto the barcode template. The new product contains barcode and cDNA on one uncrosslinked strand."),
         ("Amplify with GATE and GATC primers",
          molecule("Light-Seq amplicon", (
              role("GATE"), role("12-nt UMI", length_bp=12, molecular_feature=umi),
@@ -136,7 +136,7 @@ def workflow():
              role("12-nt UMI", length_bp=12, molecular_feature=umi),
              role("ROI barcode", length_bp=6, molecular_feature=spatial),
              role("captured transcript cDNA"), role("Nextera S7, i7 and P7"))),
-         "Unlike ordinary Nextera XT, the custom i5-side primer anchors PCR at the original GATE end. The opposite end is a random Nextera tagmentation boundary."),
+         "Unlike ordinary Nextera XT, the custom S50X.GATE i5-side primer anchors PCR at the original GATE end (12 cycles with NPM). The opposite end is a random Nextera tagmentation boundary. 0.9× AMPure cleanup follows."),
     ))
 
 
@@ -162,6 +162,16 @@ def oligos():
     )
 
 
+# Supplementary Information oligo table (MOESM1, extracted lines 1145-1265); the
+# authors' protocols.io procedure prints the same RT, GATC.20T, GATE/GATC and S502.GATE bases.
+OLIGO_TABLE = "Kishi et al. 2022 Supplementary Information oligo table"
+
+
+def _printed(name: str, sequence: str) -> Construct:
+    """A whole oligo exactly as printed (no modifications in the table)."""
+    return Construct([Segment(name, sequence)])
+
+
 def _graph(spec):
     source = spec.SOURCE
     graph = ProtocolGraph(spec.TITLE, authority=source)
@@ -169,8 +179,9 @@ def _graph(spec):
                       MaterialKind.BIOLOGICAL,
                       state=molecule("fixed tissue RNA", (role("RNA templates in situ"),)),
                       primary=True)
-    rt_primer = graph.input("rt_primer", "RT.5N.3G random RT primer", MaterialKind.OLIGO)
-    rt_enzyme = graph.input("reverse_transcriptase", "reverse transcriptase",
+    rt_primer = graph.input("rt_primer", "RT.5N.3G random RT primer", MaterialKind.OLIGO,
+                            state=_printed("RT.5N.3G", RT_5N_3G), source=OLIGO_TABLE)
+    rt_enzyme = graph.input("reverse_transcriptase", "Maxima H Minus reverse transcriptase (22 °C, 12-cycle 8–42 °C ramp, 42 °C 30 min)",
                             MaterialKind.CATALYST)
     cdna = graph.product("cdna", "RNA–cDNA hybrids carrying the docking site",
                          MaterialKind.MOLECULAR, state=rna.state)
@@ -178,7 +189,7 @@ def _graph(spec):
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((rna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
                  (rt_enzyme, InputRole.CATALYST)), (cdna,))
-    tdt = graph.input("tdt", "terminal deoxynucleotidyl transferase", MaterialKind.CATALYST)
+    tdt = graph.input("tdt", "terminal transferase with 1 mM dATP and 25 µM ddATP (37 °C, 45 min)", MaterialKind.CATALYST)
     tailed = graph.product("tailed", "poly(dA)-tailed RNA–cDNA hybrids",
                            MaterialKind.MOLECULAR, state=cdna.state)
     graph.react("tail", "Add a 3-prime poly(dA) tail to cDNA", StepKind.TAILING,
@@ -191,21 +202,24 @@ def _graph(spec):
                 StepKind.HYBRIDIZATION,
                 ((tailed, InputRole.TEMPLATE), (barcode, InputRole.STRUCTURAL),
                  (uv, InputRole.CONDITION)), (linked,))
-    rnase = graph.input("rnase_h", "RNase H", MaterialKind.CATALYST)
+    rnase = graph.input("rnase_h", "RNase H in ThermoPol buffer (37 °C), then 75 °C heat inactivation with GATC.20T", MaterialKind.CATALYST)
     released = graph.product("released", "released cross-linked DNA complexes",
                              MaterialKind.MOLECULAR, state=linked.state)
     graph.react("remove_rna", "Digest RNA and release selected cDNA", StepKind.DIGESTION,
                 ((linked, InputRole.TEMPLATE), (rnase, InputRole.CATALYST)), (released,))
-    gatc = graph.input("gatc_20t", "GATC.20T cross-junction primer", MaterialKind.OLIGO)
-    bst = graph.input("bst", "Bst strand-displacing polymerase", MaterialKind.CATALYST)
+    gatc = graph.input("gatc_20t", "GATC.20T cross-junction primer", MaterialKind.OLIGO,
+                       state=_printed("GATC.20T", GATC_20T), source=OLIGO_TABLE)
+    bst = graph.input("bst", "Bst DNA polymerase large fragment (37 °C 30 min, 80 °C inactivation)", MaterialKind.CATALYST)
     stitched = graph.product("stitched", "single stitched barcode–cDNA readout strands",
                              MaterialKind.MOLECULAR, state=released.state)
     graph.react("stitch", "Extend GATC.20T across the cross-junction", StepKind.EXTENSION,
                 ((released, InputRole.TEMPLATE), (gatc, InputRole.STRUCTURAL),
                  (bst, InputRole.CATALYST)), (stitched,))
-    gate = graph.input("gate_primer", "GATE PCR primer", MaterialKind.OLIGO)
-    gatc_pcr = graph.input("gatc_primer", "GATC PCR primer", MaterialKind.OLIGO)
-    pcr_enzyme = graph.input("pcr_polymerase", "Light-Seq PCR polymerase",
+    gate = graph.input("gate_primer", "GATE PCR primer", MaterialKind.OLIGO,
+                       state=_printed("GATE", GATE), source=OLIGO_TABLE)
+    gatc_pcr = graph.input("gatc_primer", "GATC PCR primer", MaterialKind.OLIGO,
+                           state=_printed("GATC", GATC), source=OLIGO_TABLE)
+    pcr_enzyme = graph.input("pcr_polymerase", "KAPA HiFi HotStart (SYBR qPCR aliquot sets bulk cycle number)",
                              MaterialKind.CATALYST)
     amplicon = graph.product("amplicon", "GATE-to-GATC Light-Seq amplicons",
                              MaterialKind.MOLECULAR, state=stitched.state)
@@ -214,7 +228,7 @@ def _graph(spec):
                  (gatc_pcr, InputRole.STRUCTURAL), (pcr_enzyme, InputRole.CATALYST)),
                 (amplicon,), geometry=PCRGeometry.unavailable(
                     spec.FINAL_LIBRARY, reason="Cross-junction amplification precedes the exact asymmetric Nextera product."))
-    tn5_adapter = graph.input("tn5_adapter", "Nextera XT transposome adapters",
+    tn5_adapter = graph.input("tn5_adapter", "Nextera XT Amplicon Tagment Mix adapters (2 ng input, 55 °C 5 min)",
                               MaterialKind.ADAPTER)
     tn5 = graph.input("tn5", "Nextera XT Tn5", MaterialKind.CATALYST)
     tagged = graph.product("tagged", "tagmented Light-Seq amplicons",
@@ -225,9 +239,11 @@ def _graph(spec):
                 ((amplicon, InputRole.TEMPLATE), (tn5_adapter, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (tagged, tn5_waste))
     graph.discard(tn5_waste, "lacks the GATE-to-Nextera orientation selected by PCR")
-    s5 = graph.input("s5_gate", "S5XX.GATE custom primer", MaterialKind.OLIGO)
-    n7 = graph.input("n7_primer", "N7XX Nextera primer", MaterialKind.OLIGO)
-    index_polymerase = graph.input("index_polymerase", "indexing-PCR polymerase",
+    s5 = graph.input("s5_gate", "S5XX.GATE custom primer (S502.GATE drawn)", MaterialKind.OLIGO,
+                     state=_printed("S502.GATE", S502_GATE), source=OLIGO_TABLE)
+    n7 = graph.input("n7_primer", "N7XX Nextera primer (Next.N701 drawn)", MaterialKind.OLIGO,
+                     state=_printed("Next.N701", N701), source=OLIGO_TABLE)
+    index_polymerase = graph.input("index_polymerase", "Nextera XT NPM PCR master mix (12 cycles)",
                                    MaterialKind.CATALYST)
     library = graph.product("library", "indexed asymmetric Light-Seq library",
                             MaterialKind.LIBRARY, state=spec.FINAL_LIBRARY)
@@ -238,6 +254,24 @@ def _graph(spec):
                 (library,), geometry=PCRGeometry.unavailable(
                     spec.FINAL_LIBRARY,
                     reason="The completed construct has checked sequencing sites; the pre-PCR tagmented population contains multiple orientations."))
+    graph.annotate(SourceDiscrepancy(
+        "index_pcr", "i5-side primer named for the indexing PCR",
+        (SourceClaim("Published Methods, ‘Library preparation and sequencing’ (PMC9636025)",
+                     "1.75 µl of custom i5 primer (GATE*.P5* in Supplementary Table 6) is added to the Nextera XT indexing PCR."),
+         SourceClaim("Supplementary Table 6 (MOESM1) and protocols.io v1 ‘Sample indexing PCR’ step 2c",
+                     "S50X.GATE (P5–i5–CGCC–GATE) is the i5-side library-prep primer; GATE*.P5* (CATCACTCATCC…CCGGCG) is the custom i5 index sequencing primer.")),
+        "The graph uses S50X.GATE for indexing PCR and GATE*.P5* only as the Index 2 sequencing primer.",
+        "GATE*.P5* is the reverse complement of the custom Read 1 primer and carries no P5 sequence, so it cannot add the P5 flow-cell end; Supplementary Table 6 and the step-by-step protocol both assign S50X.GATE to this PCR.",
+        "The source does not state whether the Methods sentence is a naming slip; this repository has not seen a correction notice."))
+    graph.annotate(SourceDiscrepancy(
+        "tagment", "Nextera kit catalogue number",
+        (SourceClaim("protocols.io v1 resource list (PDF text line 105)",
+                     "Nextera DNA kit FC-121-1030."),
+         SourceClaim("protocols.io v1 ‘Perform Nextera tagmentation’ (PDF text lines 2580–2582) and published Methods",
+                     "Nextera XT Library Preparation Kit FC-131-1096 (TD, ATM, NT, NPM).")),
+        "The graph uses Nextera XT FC-131-1096.",
+        "The tagmentation procedure and the defining article agree on XT and its ATM/NPM reagents.",
+        "Whether the resource-list entry describes an alternate kit version remains unresolved."))
     graph.sequence(library, SequencingPlan(library=spec.FINAL_LIBRARY,
                                            primers=tuple(spec.SEQ_PRIMERS)))
     graph.declare_reviewed_scope([
@@ -256,7 +290,7 @@ def get():
         NOTES="01_light_seq.html",
         SOURCE='<a href="https://doi.org/10.1038/s41592-022-01604-1">Kishi et al., <i>Nature Methods</i> (2022)</a>; detailed workflow and oligos in <a href="https://doi.org/10.17504/protocols.io.x54v9jno4g3e/v1">the authors\' protocol</a>.',
         SUMMARY="A random-primed cDNA docking site receives a cnvK-bearing barcode only where UV illuminates the specimen. Cross-junction synthesis converts the covalently linked barcode and cDNA into one strand; a custom asymmetric Nextera XT PCR preserves the GATE end so Read 1 reports UMI, ROI and transcript.",
-        CAVEAT="The final molecule is one informative S502/N701 example. S503 and S505–S508 change only the i5 sample index; N702–N706 change only i7. The protocols.io v1 resource list (PDF text line 105) names Nextera DNA kit FC-121-1030, whereas its actual tagmentation procedure (lines 2580–2582) and the published Methods (JATS line 244) specify Nextera XT FC-131-1096. The model follows the matching procedure and published Methods; whether the resource-list entry describes an alternate version remains unresolved. The protocol reports weak custom-i5 sequencing on NovaSeq and recommends unique i7 indexes for demultiplexing.",
+        CAVEAT="The final molecule is one informative S502/N701 example. S503 and S505–S508 change only the i5 sample index; N702–N706 change only i7. Two source discrepancies (i5-side indexing primer name; Nextera kit catalogue number) are shown below. The protocol reports weak custom-i5 sequencing on NovaSeq and recommends unique i7 indexes for demultiplexing.",
         oligos=oligos, workflow=workflow,
         FINAL_LIBRARY=final,
         FINAL_CAPTION="Representative S502/N701 Light-Seq molecule. The custom Read 1 primer ends immediately before the 12-base UMI; the authors' parser then recognizes the six-base ROI code, fixed TGAGTTAT and eight-base P domain before transcript sequence. The right boundary is random Nextera tagmentation.",

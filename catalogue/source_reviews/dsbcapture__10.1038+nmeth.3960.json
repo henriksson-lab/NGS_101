@@ -107,5 +107,25 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Both readers located authors’ detailed source and its P5/P7/PCR oligos; cited vendor pooling guide remains unavailable. No missing claim accepted."
+  "conclusion": "Both readers located authors’ detailed source and its P5/P7/PCR oligos; cited vendor pooling guide remains unavailable. No missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Lensing2016 PMC5045719 JATS article.xml.txt lines37/43 (EcoRV pilot, negative controls), 61 (BLESS comparison), 65 (adapter annealing), 73 (DSBCapture Online Methods: fixation to sequencing), 85 (2x50 MiSeq EcoRV, 2x75 NextSeq NHEK/U2OS), 289 (Fig1a workflow); Protocol Exchange doi:10.1038/protex.2016.52 supplement_0.pdf.txt lines176–240 (reagents), 413–507 (steps42–98 in situ blunting/A-tailing/P5 ligation/lambda exo/extraction), 507–583 (steps99–131 sonication, C1 capture, distal repair/A-tail/P7 ligation, on-bead PCR, size selection), 600–653 (oligonucleotide list)",
+      "oligo_scraper": "Bundle scraper run; modified P5 (Btn, 2 PS), control P5, modified P7 complement (PS), PCR F and AD-indexed PCR R hits checked against protocol lines608–653; AD19 prints an eight-base window CGTTTCAC versus six for AD01–AD12 (source detail, AD06 modelled).",
+      "findings": "All six modelled oligo states re-verified base-for-base. Graph corrections: named source reagents/conditions on every step (Quick Blunting, Klenow exo-/dATP, T4 ligase 16C 15–20h with no-ligase control, lambda exo 50U 37C 30min, Bioruptor 200–500bp, C1 beads 4C 45min, NEBNext HF 15 cycles 65C on beads); added lambda-exo digested-adapter waste with wash discard; added proteinase K cross-link reversal/isopropanol extraction step with waste; added bead discard after PCR and MinElute+BluePippin 250–1200bp size-selection step with off-size waste; replaced shared _finish_pcr (generic kit-revision geometry reason) with a local PCR finish whose unavailable-geometry reason states the printed PCR F/PCR R annealing relation. No published discrepancy found.",
+      "deferred": [
+        "Illumina TruSeq Library Prep Pooling Guide 15042173-01 (cited for barcode combinations; sequences already printed)",
+        "Instrument index-read acquisition settings (six-base single index stated; acquisition unstated)",
+        "EcoRV pilot branch (10 min fixation, NEBuffer4/CutSmart EcoRV digestion, 2x50 MiSeq) not drawn",
+        "No-ligase and non-biotinylated-P5 negative-control branches not drawn",
+        "Paper predecessor BLESS (Crosetto2013) not re-read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 7/7 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard 6 exact checked, 0 failed, 0 inputs without exact states; Markdown built; audit --check pass"
+    }
+  ]
 }

@@ -95,5 +95,26 @@
       "evidence": "The original SI with Table S4 is linked by the article and a facsimile is located, but its table cells could not yet be read or independently checked. The PMC publisher attachment and index remain gated; the capture predecessor has not been fully examined."
     }
   ],
-  "conclusion": "Two independent readers located SI Table S4 in original-facsimile exhibits; indexed text confirms published primer/adapter rows, but conflicting extracted bases and inaccessible page images prevent reliable transcription. Publisher SI and cited capture predecessor remain blocked; exact oligos are not confirmed absent."
+  "conclusion": "Two independent readers located SI Table S4 in original-facsimile exhibits; indexed text confirms published primer/adapter rows, but conflicting extracted bases and inaccessible page images prevent reliable transcription. Publisher SI and cited capture predecessor remain blocked; exact oligos are not confirmed absent.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PNAS PMC3111315 full text lines1283 (Fig. 3 strategy) and 1652-1655 (Methods endogenous/exogenous UIDs); PTAB exhibit facsimile download-documents.pdf (now fetched, 16 pp, md5 in MANIFEST.tsv): SI Materials and Methods .txt lines894-1035 (exogenous UID PCR, ExoI, library PCR, purification, sequencing filters, Safe-SeqS analysis), SI Table S4 rendered exhibit pages 0015-0016 at 150/400 dpi (polymerase-fidelity and CTNNB1 blocks read; other blocks orientation only)",
+      "oligo_scraper": "Bundle scraper/--find give no Table S4 bases: the table is an image (text layer holds caption and colour legend only, .txt lines1875-1895). CTNNB1 rows transcribed visually; N-run measured as 14 characters by pixel span; one reading only.",
+      "findings": "Replaced the INFERRED TruSeq-compatible shell with the Table S4 CTNNB1 exogenous-UID library: P5 graft + forward tag CGACGTAAAACGACGGCCAGT + N14 + CTNNB1 arm GCAGCAACAGTCTTACCTGGACT ... CTNNB1 rev arm TCCACATCCTCTTCCTCAGGATT + tag CACACAGGAAACAGCTATGACCATG (rc) + 6-nt index (rc, rev-1..10 listed) + P7 graft; library primers with two 3' phosphorothioates; custom sequencing primer (= forward tag) and index primer (= rc reverse tag) checked at import and landed by seqprimers; UMI and fixed sample-index features. Graph now carries SI conditions (Phusion Hot Start II 2 cycles 98/61 120 s/72; ExoI 60 U 37C 1 h, 98C 5 min; 0.5 uM library primers 25 cycles 98/72 without purification) and an added QIAquick + 10% TBE PAGE size-selection step with gel-waste fate. No Read 2 and no cycle count asserted (SI gives 36-73 bases across experiments). Oligo graph inputs kept stateless because the image-only table is outside the text guard.",
+      "deferred": [
+        "Second independent visual reading of Table S4 (bases, N-run length, phosphorothioate positions)",
+        "Publisher/PMC SI PDF (PMC download gate) for identity comparison with the PTAB facsimile",
+        "CTNNB1 amplicon interior/length and acquired read length",
+        "Fresh vs carried-over polymerase for the 25-cycle library PCR",
+        "Endogenous capture/inverse-PCR libraries and polymerase-fidelity/mtDNA/oligo-composition assays not drawn",
+        "Herman et al. capture predecessor"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks), passes; page builds; pairing 0 problems; chemistry 1 established/1 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 oligo inputs without exact states (image-only Table S4); Markdown built (01_safe_seqs.html); review schema (audit --check) pass"
+    }
+  ]
 }

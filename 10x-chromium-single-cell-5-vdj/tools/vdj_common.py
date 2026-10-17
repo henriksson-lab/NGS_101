@@ -36,12 +36,26 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
 class VDJChemistry:
     """A complete versioned chemistry; construction validates every molecular interlock."""
 
-    def __init__(self, *, version: str, umi_nt: int, guide: str) -> None:
+    def __init__(self, *, version: str, umi_nt: int, guide: str,
+                 cdna_pcr_statement: str, vdj_pcr_statement: str,
+                 index_pcr_statement: str) -> None:
+        """Each caller states where its own guide prints (or omits) each PCR primer.
+
+        ``vdj_pcr_statement`` may contain ``{stage}`` ("outer Mix 1" / "inner Mix 2").
+        """
         if umi_nt not in (10, 12):
             raise ValueError("supported 10x 5' V(D)J UMI lengths are 10 (v2) and 12 (v3)")
+        for name, text in (("cdna_pcr_statement", cdna_pcr_statement),
+                           ("vdj_pcr_statement", vdj_pcr_statement),
+                           ("index_pcr_statement", index_pcr_statement)):
+            if not text.strip():
+                raise ValueError(f"{name} must state the caller's source evidence")
         self.version = version
         self.umi_nt = umi_nt
         self.guide = guide
+        self.cdna_pcr_statement = cdna_pcr_statement
+        self.vdj_pcr_statement = vdj_pcr_statement
+        self.index_pcr_statement = index_pcr_statement
         self._validate()
 
     def gel_bead_segments(self) -> list[Segment]:
@@ -114,7 +128,7 @@ class VDJChemistry:
         return PCRGeometry.exact(
             self.cdna_template(), PCRPrimer("cDNA Forward", CDNA_FORWARD),
             PCRPrimer("cDNA Reverse", CDNA_REVERSE),
-            statement=f"{self.guide} prints both cDNA-primer sequences.")
+            statement=self.cdna_pcr_statement)
 
     def vdj_template(self, *, inner: bool = False) -> Construct:
         return Construct([
@@ -134,9 +148,7 @@ class VDJChemistry:
             PCRPrimer("V(D)J universal forward", VDJ_FORWARD, anneal_nt=11),
             reverse_pool=f"{stage} constant-region primer pool",
             reverse_region="constant region",
-            statement=(f"{self.guide} prints every {stage} reverse-primer sequence and "
-                       "states that the pool binds constant regions, but does not map "
-                       "each oligo to a transcript coordinate."))
+            statement=self.vdj_pcr_statement.format(stage=stage))
 
     def pre_index_library(self) -> Construct:
         return Construct([
@@ -156,7 +168,7 @@ class VDJChemistry:
         return PCRGeometry.exact(
             self.pre_index_library(), PCRPrimer("TT i5 / P5 primer", forward),
             PCRPrimer("TT i7 / P7 primer", reverse),
-            statement=f"{self.guide} prints both Dual Index TT Set A primer structures.")
+            statement=self.index_pcr_statement)
 
     def adapter_top(self) -> list[Segment]:
         return [seg("Read 2 adapter", il.INDEX1_PRIMER, "r2")]

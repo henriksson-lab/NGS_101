@@ -39,7 +39,13 @@ def workflow(initial: Scene, steps: tuple[tuple[str, Scene, str], ...]) -> Workf
 
 
 def psoralen_workflow(reagent: str, selection: str) -> Workflow:
-    """Construct the shared crosslink, selection and proximity-ligation workflow."""
+    """Crosslink -> fragment and enrich duplexes -> proximity-ligate -> photoreverse.
+
+    This fixed order (duplex enrichment before proximity ligation) is the PARIS and
+    SPLASH route.  It is not a general psoralen recipe: a protocol that ligates
+    before selecting (e.g. LIGR-seq: circRNA ligase, then RNase R) or installs
+    library ends differently must declare its own ordered reactions.
+    """
     x = ReversibleDuplexCrosslink(reagent, selection)
     return workflow(molecule("cellular RNA", ("RNA molecules",)), (
         (f"Cross-link paired RNA with {reagent} and long-wave UV", x.duplex(), selection),
@@ -53,6 +59,15 @@ def psoralen_workflow(reagent: str, selection: str) -> Workflow:
 
 @dataclass(frozen=True)
 class Definition:
+    """Page text plus a ``library`` shell selector for :func:`get`.
+
+    ``"truseq"`` builds the canonical dual-index TruSeq adapter-ligation endpoint
+    with a dA/T ligation junction; ``"nextera"`` the canonical Tn5 endpoint.  These
+    are platform defaults, not source facts: do not select them for random-primed,
+    template-switching or PCR-added libraries (pass ``final_override`` instead), and
+    pass ``inferred_adapters=True`` to :func:`get` when the source does not print
+    the adapters.
+    """
     title: str
     doi: str
     source_label: str
@@ -69,6 +84,11 @@ DEFS = {
 
 
 def _payload(d: Definition) -> list[Segment]:
+    """Role placeholders for ``d.payload``; identifier meaning is read from the names.
+
+    The name matching is a legacy convenience: a caller with source-declared
+    features should build its own segments and pass ``final_override``.
+    """
     out = []
     for name in d.payload:
         kwargs = {}
@@ -94,8 +114,13 @@ def get(key: str, *, definition: Definition | None = None,
         final_override=None, primers_override=None, oligos_fn=None,
         sequencing_unavailable: str | None = None,
         sequencing_mechanism: str | None = None,
-        motor_adapter_name: str | None = None):
-    """Assemble a page from caller-owned source choices and shared library shapes."""
+        motor_adapter_name: str | None = None,
+        inferred_adapters: bool = False):
+    """Assemble a page from caller-owned source choices and shared library shapes.
+
+    ``inferred_adapters`` marks every platform-shell segment (adapters, index
+    windows, junction) as inferred, for sources that do not print them.
+    """
     d = definition if definition is not None else DEFS[key]
     primers = ()
     if final_override is not None:
@@ -104,17 +129,21 @@ def get(key: str, *, definition: Definition | None = None,
         else:
             final = final_override
     elif d.library == "truseq":
-        final, primers = truseq_library(_payload(d), d.title + " final library")
+        final, primers = truseq_library(_payload(d), d.title + " final library",
+                                        inferred_adapters=inferred_adapters)
     elif d.library == "nextera":
-        final, primers = nextera_library(_payload(d), d.title + " final library")
+        final, primers = nextera_library(_payload(d), d.title + " final library",
+                                         inferred_adapters=inferred_adapters)
     elif d.library == "nanopore":
         final = Construct([role(name) for name in d.payload], name=d.title + " final molecule")
     elif d.library == "dnb":
-        final = Construct([role("DNBSEQ adapter"), *_payload(d), role("DNBSEQ adapter reverse complement")],
+        final = Construct([role("DNBSEQ adapter", inferred=inferred_adapters), *_payload(d),
+                           role("DNBSEQ adapter reverse complement", inferred=inferred_adapters)],
                           name=d.title + " final library")
     else:
-        final = Construct([role("Illumina-compatible left adapter"), *_payload(d),
-                           role("Illumina-compatible right adapter")],
+        final = Construct([role("Illumina-compatible left adapter", inferred=inferred_adapters),
+                           *_payload(d),
+                           role("Illumina-compatible right adapter", inferred=inferred_adapters)],
                           name=d.title + " final library")
     if primers_override == "standard":
         primers = sp.standard_primers(final, ("Read 1", "Read 2"))

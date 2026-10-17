@@ -35,6 +35,13 @@ MARS2_P7_PCR = il.P7 + il.TRUSEQ_READ2
 MARS1_RT1 = (SPACER + T7 + MARS2_TRANSCRIBED_LEADER + MARS2_RT_HANDLE
              + "N" * MARS1_WELL_NT + "N" * MARS1_UMI_NT + "T" * POLYT_NT + "N")
 MARS1_RT2_PRINTED = "TCTAGCCTTCTCGCAGCACATC"
+# Table S7's printed RT2, read right-to-left.  Computed, not printed: it equals the
+# reverse complement of the printed adapter constant (the strand the Methods call
+# complementary to the ligated adapter), so the table string may be written 3'->5'.
+# The model keeps the printed string as the source value and does not repair it.
+MARS1_RT2_PRINTED_REVERSED = MARS1_RT2_PRINTED[::-1]
+MARS1_RT2_REVERSAL_IS_ADAPTER_COMPLEMENT = (
+    MARS1_RT2_PRINTED_REVERSED == revcomp(LIG_CONSTANT))
 MARS1_P5_PCR = il.TRUSEQ_P5_FULL
 MARS1_P7_PCR = il.P7 + il.TRUSEQ_READ2
 
@@ -62,7 +69,7 @@ def rt1_segments(protocol: str) -> list[Segment]:
             _seg("well barcode", "N" * MARS2_WELL_NT, "cbc", placeholder=True),
             _seg("UMI", "N" * MARS2_UMI_NT, "umi", placeholder=True),
             _seg("oligo-dT", "T" * POLYT_NT),
-            _seg("N anchor", "N", placeholder=True),
+            _seg("N anchor", "N"),
         ]
     if protocol == "MARS-seq":
         return [
@@ -72,7 +79,7 @@ def rt1_segments(protocol: str) -> list[Segment]:
             _seg("well barcode", "N" * MARS1_WELL_NT, "cbc", placeholder=True),
             _seg("UMI", "N" * MARS1_UMI_NT, "umi", placeholder=True),
             _seg("oligo-dT", "T" * POLYT_NT),
-            _seg("N anchor", "N", placeholder=True),
+            _seg("N anchor", "N"),
         ]
     raise ValueError(f"unknown MARS-seq protocol: {protocol!r}")
 
@@ -110,7 +117,7 @@ def amplified_rna(protocol: str) -> Construct:
 def mars2_ligation_adapter() -> Construct:
     return Construct([
         _seg("ordered pool barcode", POOL_ORDERED, "cbc"),
-        _seg("random diversity", "N" * POOL_RANDOM_NT, placeholder=True),
+        _seg("random diversity", "N" * POOL_RANDOM_NT),
         _seg("ligation/RT2 handle", LIG_CONSTANT, "r1"),
     ], name="MARS-seq2.0 ligation adapter")
 
@@ -120,8 +127,7 @@ def ligated_arna(protocol: str) -> Construct:
         adaptor = list(mars2_ligation_adapter())
     elif protocol == "MARS-seq":
         adaptor = [_seg("ordered pool barcode", POOL_ORDERED, "cbc"),
-                   _seg("random diversity", "N" * MARS1_POOL_RANDOM_NT,
-                        placeholder=True),
+                   _seg("random diversity", "N" * MARS1_POOL_RANDOM_NT),
                    _seg("ligation/RT2 handle", LIG_CONSTANT, "r1")]
     else:
         raise ValueError(f"unknown MARS-seq protocol: {protocol!r}")
@@ -135,7 +141,7 @@ def ligated_arna(protocol: str) -> Construct:
 def final_library(protocol: str) -> Construct:
     if protocol == "MARS-seq2.0":
         middle = [
-            _seg("random diversity", "N" * POOL_RANDOM_NT, placeholder=True),
+            _seg("random diversity", "N" * POOL_RANDOM_NT),
             _seg("pool barcode", POOL_READ, "cbc"),
             _seg("sense cDNA", "XXXXXXXX...XXXXXXXX", placeholder=True),
             _seg("poly(A)", "AAA", placeholder=True),
@@ -144,7 +150,7 @@ def final_library(protocol: str) -> Construct:
         ]
     elif protocol == "MARS-seq":
         middle = [
-            _seg("random diversity", "N" * MARS1_POOL_RANDOM_NT, placeholder=True),
+            _seg("random diversity", "N" * MARS1_POOL_RANDOM_NT),
             _seg("pool barcode", POOL_READ, "cbc"),
             _seg("sense cDNA", "XXXXXXXX...XXXXXXXX", placeholder=True),
             _seg("poly(A)", "AAA", placeholder=True),

@@ -127,14 +127,21 @@ def protocol_graph():
                  (tn5, InputRole.CATALYST), (magnesium, InputRole.CONDITION)), (tagged, same))
     graph.mark_terminal(Terminal(same.id, Disposition.UNRESOLVED,
         'Same-end products are shown explicitly. Their abundance and physical fate are unassigned; absence of both distinct library ends is not proof that single-primer amplification is impossible.'))
-    release = graph.input('sds_release', 'source SDS release followed by Triton neutralization', MaterialKind.CONDITION)
+    taps = graph.input('taps_edta_wash', '50 µL 10 mM TAPS pH 8.5, 0.2 mM EDTA bead wash', MaterialKind.CONDITION)
+    washed = graph.product('washed_beads', 'bead-bound tagmented chromatin after TAPS wash', MaterialKind.MOLECULAR, state=tagged.state)
+    taps_waste = graph.product('tagmentation_liquid', 'removed tagmentation solution and TAPS wash', MaterialKind.WASTE,
+                               state=molecule('withdrawn liquid', (role('tagmentation solution and wash; composition not characterized'),)))
+    graph.react('taps_wash', 'Chill, magnetize, remove liquid and wash beads in TAPS/EDTA', StepKind.CLEANUP,
+                ((tagged, InputRole.TEMPLATE), (taps, InputRole.CONDITION)), (washed, taps_waste))
+    graph.discard(taps_waste, 'Article Methods and bmbfk2jn steps35–36 withdraw the tagmentation liquid and the TAPS wash.')
+    release = graph.input('sds_release', '5 µL 0.1% SDS + 10 µL TAPS at 58 °C, then 15 µL 0.67% Triton X-100 neutralization', MaterialKind.CONDITION)
     recovered = graph.product('released_dna', 'released tagmented DNA in neutralized reaction', MaterialKind.MOLECULAR, state=tagged.state)
-    graph.react('release_dna', 'SDS release then Triton neutralization before direct PCR', StepKind.DEPROTEINIZATION,
-                ((tagged, InputRole.TEMPLATE), (release, InputRole.CONDITION)), (recovered,))
-    mix = graph.input('pcr_mix', 'NEBNext 2X PCR Master Mix', MaterialKind.CATALYST)
+    graph.react('release_dna', 'SDS release at 58 °C then Triton neutralization before direct PCR', StepKind.DEPROTEINIZATION,
+                ((washed, InputRole.TEMPLATE), (release, InputRole.CONDITION)), (recovered,))
+    mix = graph.input('pcr_mix', 'NEBNext 2X PCR Master Mix (non-hot-start)', MaterialKind.CATALYST)
     filled = graph.product('gap_filled', 'INFERRED — gap-filled A/B template', MaterialKind.MOLECULAR,
                             state=PREAMP_TEMPLATE, inferred=True, source='Derived A/B fragment assembly; CUTAC detailed protocol reports gap filling before denaturation')
-    graph.react('gap_fill', 'INFERRED — A/B assembly after source-reported gap filling', StepKind.EXTENSION,
+    graph.react('gap_fill', 'INFERRED — A/B assembly after source-reported gap filling (bmbfk2jn: 58 °C 5 min, 72 °C 5 min)', StepKind.EXTENSION,
                 ((recovered, InputRole.TEMPLATE), (mix, InputRole.CATALYST)), (filled,))
     i5 = graph.input('barcoded_i5', 'Buenrostro barcoded i5 option; member unassigned', MaterialKind.OLIGO,
                      state=P5_POOL, source='bmbfk2jn PCR universal OR barcoded i5; represented barcoded branch uses original Buenrostro family')
@@ -142,10 +149,10 @@ def protocol_graph():
                      source='Buenrostro2015 MOESM36 indexed Ad2 family; CUTAC Version2 explicitly requires custom family, excludes Nextera/NEBNext primers')
     library = graph.product('library', FINAL_LIBRARY.name, MaterialKind.LIBRARY, state=FINAL_LIBRARY,
                             inferred=True, source='Conditional in-house A/B and custom barcoded-i5/i7 endpoint')
-    graph.react('pcr', 'INFERRED — 12-cycle PCR of the represented A/B branch with custom barcoded i5/i7 option', StepKind.PCR,
+    graph.react('pcr', 'INFERRED — 12-cycle PCR (98 °C 30 s; 98 °C 10 s / 60 °C 10 s) of the represented A/B branch with custom barcoded i5/i7 option', StepKind.PCR,
                 ((filled, InputRole.TEMPLATE), (i5, InputRole.STRUCTURAL), (i7, InputRole.STRUCTURAL), (mix, InputRole.CATALYST)), (library,),
                 geometry=pcr_geometry())
-    clean = graph.input('spri_cleanup', 'source post-PCR SPRI cleanup', MaterialKind.CONDITION)
+    clean = graph.input('spri_cleanup', '65 µL (1.3 vol) SPRI bead slurry, 80% ethanol washes, elution in 20 µL 1 mM Tris-HCl pH 8, 0.1 mM EDTA', MaterialKind.CONDITION)
     ready = graph.product('sequencing_library', FINAL_LIBRARY.name, MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True)
     wash = graph.product('pcr_cleanup_wash', 'post-PCR cleanup wash material', MaterialKind.WASTE)
     graph.react('cleanup_library', 'Clean up the amplified CUTAC library', StepKind.CLEANUP,
@@ -153,5 +160,5 @@ def protocol_graph():
     graph.discard(wash, 'Source post-PCR cleanup removes wash material; exact molecular recovery is not quantified here.')
     graph.sequence(ready, SequencingPlan(library=FINAL_LIBRARY, limitation=SEQUENCING_UNAVAILABLE))
     graph.declare_reviewed_scope(
-        ('target_chromatin', 'tagment', 'release_dna', 'gap_fill', 'pcr', 'cleanup_library', 'cells', 'primary_antibody', 'secondary_antibody', 'loaded_adapter_pool', 'pa_tn5', 'targeted_cells', 'unbound_reagents', 'magnesium', 'gapped_ab', 'same_end_possibilities', 'sds_release', 'released_dna', 'pcr_mix', 'gap_filled', 'barcoded_i5', 'barcoded_i7', 'library', 'spri_cleanup', 'sequencing_library', 'pcr_cleanup_wash'), graph.authority)
+        ('target_chromatin', 'tagment', 'release_dna', 'gap_fill', 'pcr', 'cleanup_library', 'cells', 'primary_antibody', 'secondary_antibody', 'loaded_adapter_pool', 'pa_tn5', 'targeted_cells', 'unbound_reagents', 'magnesium', 'gapped_ab', 'same_end_possibilities', 'taps_wash', 'washed_beads', 'tagmentation_liquid', 'taps_edta_wash', 'sds_release', 'released_dna', 'pcr_mix', 'gap_filled', 'barcoded_i5', 'barcoded_i7', 'library', 'spri_cleanup', 'sequencing_library', 'pcr_cleanup_wash'), graph.authority)
     return graph.require_publishable()

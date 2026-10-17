@@ -33,4 +33,8 @@ if have(check, labeling, guide, label="Flex antibody and protein library source 
     for name in ("protein constant 1", "protein constant 2", "Nextera Read 2 reverse-complement arm"):
         segment = next(s for s in flex.PROTEIN_LIB.segments if s.name == name)
         check(f"source prints modeled {name}", segment.top in text)
+    ge = {s.name: s.top for s in flex.LIB.segments}
+    written = (f"{ge['gel-bead capture terminus']}-BC8-NN-{ge['RHS constant complement']}"
+               f"-Ligated_Probe_insert{ge['Small RNA Read 2 arm']}-N10-{ge['P7 reverse complement']}")
+    check("source prints the modeled gene-expression reporter and Read 2S arm", written in text)
 check.report()

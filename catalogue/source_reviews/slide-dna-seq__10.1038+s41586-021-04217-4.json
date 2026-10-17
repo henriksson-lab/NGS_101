@@ -419,5 +419,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Independent source checks now cover exact cited nuclei protocol (companion snRNA), author bead-indexing and analysis code, Zenodo v1.0, ENA PRJNA768453 metadata and Broad SCP1278 sample inventory. These corroborate sample/barcode handling without resolving the physical index-primer sites. Raw reads, portal downloads, gated PMC mirrors and other checklist passes remain open. No missing-information claim is accepted."
+  "conclusion": "Independent source checks now cover exact cited nuclei protocol (companion snRNA), author bead-indexing and analysis code, Zenodo v1.0, ENA PRJNA768453 metadata and Broad SCP1278 sample inventory. These corroborate sample/barcode handling without resolving the physical index-primer sites. Raw reads, portal downloads, gated PMC mirrors and other checklist passes remain open. No missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Supplementary Information MOESM1 pdf.txt Supplementary Methods 1.5 lines 100-117 (Triton-X/0.1N HCl, tagmentation 37C 1h and the 4x variant, bridge oligo 10uM 37C 2h in 4x SSC, 365nm 3min photocleavage, T4 ligase 12 U/uL 1h RT, Proteinase K 55C overnight, NucleoSpin cleanup, Buenrostro 2015 PCR with 65C annealing, 0.9x AMPure, read structure 57/57/8/44) and 1.6 lines 118-131 (bulk WGS controls, bulk PCR forward primer, 40/40/8/8); Supplementary Table 1 = MOESM3 xlsx.txt sheet1 lines 3-18 (bead oligo, bridge oligo, mosaic end, bulk and slide-DNA-seq PCR forward primers, PCR reverse primer, read 1/read 2/index 1/index 2 sequencing primers, Tn5 adapters 1 and 2, modification key)",
+      "oligo_scraper": "Bundle scraper run as a reading aid; every modelled oligo verified in MOESM3 lines 3-14. The PMC JATS, ENA/SRA metadata and the Slide-seq BeadSeq code carry no additional library oligo.",
+      "findings": "Resolved the protocol's standing open question (index-primer binding sites). The final strand is now assembled from the printed oligos instead of partly retyped, which exposed two gaps: the Tn5 adapter 1 handle starts GAGCTTTGCTAACGGTCGAG while the Read 1 primer starts GCTTTG..., so three bases were missing from the library, and the PCR reverse primer contributes twelve further bases (GTTGGCACCAGG) beyond the Tn5 adapter 2 arm. With both restored, index 1 (GCTGGTGCAACATCCGTAAGCCTGGTGCCAAC) is the exact reverse complement of the PCR reverse arm and reads the 8-cycle i7 sample index, and index 2 (CTCGACCGTTAGCAAAGCTCCGCCCATGTGTC) matches the bead-handle/Tn5-adapter-1 junction and reads backwards across the spatial barcode - which accounts exactly for the published 44-cycle index 2 read (5 bead-handle + 7 block B + 18 linker + 7 block A + 7 into the Read 1 arm). Index 2 is declared as a spatial-barcode read (read_use extract), not a sample index; all four custom primers now land exactly and the SEQUENCING_UNAVAILABLE limitation was removed. Bead ligation geometry changed from unavailable to splinted: the bridge oligo's two halves are complementary to the bead 3' handle and to the 5'-phosphorylated Tn5 adapter 1 handle (derived by pairing printed strands). Added the bridge oligo as a declared reagent, the bead oligo to the displayed oligos, and the source conditions (HCl, tagmentation, hybridization, photocleavage, T4 ligase, 65C-annealing PCR). Oligo/adapter inputs carry their printed sequences; the two PCR primers use SOURCE_OLIGO_EXCEPTIONS because the table prints them around a bracketed index placeholder.",
+      "deferred": [
+        "Buenrostro 2015 ATAC-seq PCR cycle number and qPCR side reaction (predecessor method, read in an earlier pass, not re-read here)",
+        "i5/i7 sample index bases are not published",
+        "The bead oligo's 5' TTTT-PCT spacer is represented as a modification note only",
+        "MOESM2 reporting summary, MOESM4-7 tables and the Zenodo analysis archive beyond earlier passes",
+        "PMC-gated NIHMS supplement copies (publisher ESM used instead)"
+      ],
+      "scope": "Capped pass over the published supplementary methods and oligo table; no full chemistry validation and no accepted missing-information claim.",
+      "verification": "local suite 3 checks pass (2 added: custom index primers, bead oligo as printed); page builds; pairing 0 problems; chemistry 5 steps, 0 established/0 conditional/6 unresolved/0 contradictory; source guard 5 exact oligos checked, 0 failed, 0 inputs without exact states, 2 declared exceptions (PCR primers printed around a bracketed index placeholder); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

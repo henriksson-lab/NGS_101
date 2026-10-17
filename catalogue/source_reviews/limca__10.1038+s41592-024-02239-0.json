@@ -79,5 +79,25 @@
       "evidence": "A relevant detailed protocol is unavailable; inherited chemistry must be checked before accepting absence."
     }
   ],
-  "conclusion": "A relevant detailed protocol is unavailable; inherited chemistry must be checked before accepting absence."
+  "conclusion": "A relevant detailed protocol is unavailable; inherited chemistry must be checked before accepting absence.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nature Methods PMC11166570 (PMC Cloud JATS/PDF, copied into the slug source dir from cached doi_10.1038+s41592-024-02239-0) Methods xml.txt lines179–203 (LiMCA protocol, nucleus–cytoplasm separation, Smart-seq2, single-nucleus 3C, single-cell WGA, library construction, sequencing); MOESM2 Peer Review File grep (line720 NlaIII vs MboI only); MOESM3 cell tables (no oligos); MOESM1 reporting summary image-only",
+      "oligo_scraper": "Bundle scraper run: only dT30VN shorthand (xml.txt189) and cutadapt Nextera ME trimming strings (xml.txt217, analysis); no library oligo bases printed.",
+      "findings": "Replaced generic shared _rt_then_pcr/_finish_pcr scaffold (indexed PCR directly on RT product, no TSO, no tagmentation) with a source-ordered local graph: soft lysis/500g split, oligo-dT30VN RT with SSII, template switching, single-species ISPCR 21-cycle preamp, 0.7x AMPure, TD502 Tn5 tagmentation of 1–5 ng, kit index PCR (inferred), pooling, 0.6x then 0.2x SPRI; nuclear PFA fix/glycine, SDS/Triton, NlaIII, T4 ligation, Qiagen-protease lysis (no purification), META Tn5 S111-01 transposition with 20 tags, then warned MAGIC META amplification/gDNA library boundary. Replaced false cell_barcode role with an inferred per-cell library index; both libraries PE 2x150 recorded. 'NIAIII' noted as source typography for NlaIII, not a chemistry discrepancy.",
+      "deferred": [
+        "Author protocol Research Square doi:10.21203/rs.3.pex-2423/v1 (ref. 44; Cloudflare, manual)",
+        "META refs 18/26 (Tan 2018/2021: tag sequences, amplification, gDNA library)",
+        "Smart-seq2 ref. 24 oligo sequences/modifications",
+        "Vazyme TD502/S111-01 kit adapters and index primers",
+        "SPRI 0.6x/0.2x fraction kept"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (workflow construction, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/19 unresolved/0 contradictory with meta_amplify_library MAGIC warning; source guard 0 checked, 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

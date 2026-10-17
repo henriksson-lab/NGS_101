@@ -34,7 +34,11 @@ The IUPAC `R` in 1061R is retained verbatim. The forward primer is canonical P5 
 
 ## Read layout
 
-🟢 The bacterial enrichment library is sequenced on MiSeq v3 with paired 300-base reads. The GEX library follows the 10x 5′ workflow and is sequenced separately on an Illumina high-throughput instrument.
+🟢 The bacterial enrichment library is sequenced on MiSeq v3 with paired 300-base reads (2023 protocol Step 121, JATS line 920; 2022 MOESM1 Methods lines 691–692). The GEX library follows the 10x 5′ workflow and is sequenced separately on an Illumina high-throughput instrument.
+
+🟢 Host GEX acquired cycles are source-specific: the 2022 application supplement (MOESM1 lines 663–664) sequenced GEX on a NextSeq 2000 P3-100 flow cell at 26 × 10 × 10 × 90, which the page uses. The 2023 protocol's Equipment setup (JATS line 306) instead says HiSeq 4000 paired-end 75-bp reads, and Step 84 (line 732) leaves NextSeq 2000/NovaSeq read lengths to the user. 🟡 The page therefore treats 26/10/10/90 as one application's run, not a protocol requirement.
+
+🟢 Library completion (2023 JATS lines 694–712 and 866–916; 2022 MOESM1 lines 683–690): GEX sample-index PCR uses 14–16 cycles depending on input; the bacterial branch takes 50 ng of second-enrichment product into a 15-cycle Dual Index TT Set A PCR, a single-sided SPRIselect cleanup, and then a repeat of the same 955–1,215-bp BluePippin program (Step 119). The model now shows that post-index selection as its own graph step. 🟡 The post-index length change against an unchanged collection window is not computed, because the TT Set A primer sequences are not printed.
 
 🟡 For the bacterial branch, raw Read 1 contains the 16-base cell barcode and 10-base UMI first, followed by the template-switch sequence and 16S-derived sequence. Read 2 enters the 16S amplicon from the nested 1061R end. Both biological reads are retained; the two index reads demultiplex the sample.
 

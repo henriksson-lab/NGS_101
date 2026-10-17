@@ -8,8 +8,8 @@ from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
 from endprep import LigationJunction, dA_tailed_scene, repair_and_dA_tail
 from selective_ligation import dephosphorylate_then_cut
 from adapter_ligation import reported_adapter_end
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 def seg(name, top, tag=None, **kw): return Segment(name, top, tag, **kw)
 
@@ -84,14 +84,15 @@ def protocol_graph():
     graph=ProtocolGraph("nCATS",authority=source)
     genome=graph.input("genome","high-molecular-weight genomic DNA",MaterialKind.BIOLOGICAL,
                        state=GENOME,primary=True)
-    cip=graph.input("cip","Quick CIP phosphatase",MaterialKind.CATALYST)
+    cip=graph.input("cip","Quick CIP phosphatase (NEB M0508) in CutSmart",MaterialKind.CATALYST)
     blocked=graph.product("dephosphorylated_genome","genomic DNA with blocked pre-existing ends",
                           MaterialKind.MOLECULAR,state=DEPHOSPHORYLATED)
-    graph.react("dephosphorylate","Dephosphorylate all pre-existing DNA ends",
+    graph.react("dephosphorylate","Dephosphorylate all pre-existing DNA ends (37 °C 10 min; 80 °C 2 min inactivation)",
                 StepKind.DEPHOSPHORYLATION,
                 ((genome,InputRole.TEMPLATE),(cip,InputRole.CATALYST)),(blocked,))
-    guides=graph.input("guides","target-flanking Cas9 guide RNAs",MaterialKind.OLIGO)
-    cas9=graph.input("cas9","Cas9 nuclease",MaterialKind.CATALYST)
+    guides=graph.input("guides","pooled IDT crRNA:tracrRNA duplexes on complementary strands flanking the target (Supplementary Table 1)",
+                       MaterialKind.OLIGO)
+    cas9=graph.input("cas9","HiFi Cas9 Nuclease V3 (IDT) preassembled as RNP",MaterialKind.CATALYST)
     target=graph.product("cut_target","target fragment with fresh phosphorylated Cas9 ends",
                          MaterialKind.MOLECULAR,state=SELECTIVE_ENDS.selected_fragment)
     flanks=graph.product("blocked_flanks","off-target and old-ended genomic material",
@@ -99,15 +100,17 @@ def protocol_graph():
     graph.react("cas9_cut","Cut around the target with Cas9-guide RNPs",StepKind.DIGESTION,
                 ((blocked,InputRole.TEMPLATE),(guides,InputRole.STRUCTURAL),
                  (cas9,InputRole.CATALYST)),(target,flanks))
-    graph.discard(flanks,"old genomic ends remain dephosphorylated and do not efficiently ligate adapters")
-    taq=graph.input("taq","Taq polymerase with dATP",MaterialKind.CATALYST)
+    graph.discard(flanks,"old genomic ends remain dephosphorylated; at each cut Cas9 stays bound on the 5′ side of the gRNA, so ligation is preferential on the 3′ side (Results)")
+    taq=graph.input("taq","Taq DNA polymerase (NEB M0267) with dATP, added with the RNP",MaterialKind.CATALYST)
     tailed=graph.product("a_tailed_target","dA-tailed Cas9 target fragment",MaterialKind.MOLECULAR,
                          state=dA_tailed_scene(DA_TARGET))
-    graph.react("da_tail","Add one 3-prime dA to newly cut target ends",StepKind.TAILING,
+    graph.react("da_tail","Add one 3-prime dA to newly cut target ends (72 °C 5 min, same tube)",StepKind.TAILING,
                 ((target,InputRole.TEMPLATE),(taq,InputRole.CATALYST)),(tailed,))
     adapter=graph.input("ont_adapter","LSK109 motor-loaded ONT adapter",MaterialKind.ADAPTER,
                         inferred=True,source=source+" (adapter body sequence proprietary)")
-    ligase=graph.input("ligase","Quick Ligase",MaterialKind.CATALYST)
+    ligase=graph.input("ligase","Quick Ligase (NEB M2200) in LSK109 ligation buffer",MaterialKind.CATALYST)
+    ligated=graph.product("ligated",FINAL_LIBRARY.name+" in ligation reaction",MaterialKind.MOLECULAR,inferred=True,
+                          source=source+" (terminal ONT adapter roles are proprietary)")
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,inferred=True,
                           source=source+" (terminal ONT adapter roles are proprietary)")
     geometry=reported_adapter_end(
@@ -117,12 +120,31 @@ def protocol_graph():
     graph.react("adapter_ligation","Ligate LSK109 adapters preferentially to fresh Cas9 ends",
                 StepKind.LIGATION,
                 ((tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
-                 (ligase,InputRole.CATALYST)),(library,),geometry=geometry)
+                 (ligase,InputRole.CATALYST)),(ligated,),geometry=geometry)
+    beads=graph.input("ampure","0.3× AMPure XP with two LSK109 Long Fragment Buffer washes; Elution Buffer",
+                      MaterialKind.SELECTION)
+    bead_waste=graph.product("bead_supernatant","unbound adapters, short fragments and ligation reagents",
+                             MaterialKind.WASTE)
+    graph.react("bead_cleanup","Recover adapted DNA on 0.3× AMPure XP and elute",StepKind.CLEANUP,
+                ((ligated,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(library,bead_waste))
+    graph.discard(bead_waste,"is removed with the bead supernatant and LFB washes")
     graph.sequence(library,SequencingPlan(
         limitation="Nanopore sequencing is primer-free and the LSK109 motor-adapter bases are proprietary.",
         acquired_roles=("Sequencing output",),
         read_uses={"Sequencing output":"include"}))
     graph.declare_reviewed_scope((
         "genome","cip","dephosphorylate","guides","cas9","cas9_cut","taq",
-        "da_tail","ont_adapter","ligase","adapter_ligation","library"),source)
+        "da_tail","ont_adapter","ligase","adapter_ligation","ampure","bead_cleanup",
+        "library"),source)
+    graph.annotate(SourceDiscrepancy(
+        target="cas9_cut",title="Cas9 cleavage time differs between article and detailed protocol",
+        claims=(
+            SourceClaim("Published article Online Methods, Cas9 Cleavage and Library Prep (PMC7145730)",
+                        "Incubated at 37 °C for 20 min for Cas9 cleavage, then 72 °C 5 min."),
+            SourceClaim("Cited protocols.io dx.doi.org/10.17504/protocols.io.68ihhue V.2 (10 Sep 2019), step 9",
+                        "+37 °C for 15 min (Cas9 cleavage), then +72 °C 5 min.")),
+        model_choice="The graph draws the cleavage and A-tailing order only and does not fix a cleavage time.",
+        evidence="Both are the authors' own documents; the protocol revision predates the published article.",
+        uncertainty="Neither source says which time was used for each reported experiment.",
+        slot=AnnotationSlot.BEFORE_WORKFLOW))
     return graph.require_publishable()

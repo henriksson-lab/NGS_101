@@ -91,5 +91,26 @@
       "evidence": "At least one relevant named original source is unavailable or unreviewed; absence cannot be confirmed."
     }
   ],
-  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted."
+  "conclusion": "Independent source review found unresolved relevant source access or identity; no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Yoon et al. 2019 PMC6677388 JATS Methods 'Single-cell gene expression (BD Rhapsody system)' lines 418-447; BD WTA alpha protocol 23-21179-00 (12/2018) text lines 1-29 (cited documents), 78-86 (Randomer, Klenow exo-), 264-370 (instrument-guide hand-off, subsample, 95C bead step), 575-630 (RPE PCR Universal Oligo/BD AbSeq Primer, 13 cycles), 803-868 (index PCR primers), 1040-1062 (final trace, sequencing recommendations); BD instrument guide Doc ID 214062 Rev. 2.0 bead cartoon lines 4680-4710 and Exonuclease I lines 4905-4995; PMC Cloud supplements Supplementary Tables 1/2/4 lines 130-145 and 222-233, Supplementary Figures DOCX captions",
+      "oligo_scraper": "Bundle scraper run; only hits are the Fig. 1 qPCR primers (Springer MOESM1 lines 298-352, Supplementary Tables 1/2/4 lines 231+); --find confirms the codon-spaced Randomer at alpha protocol line 78 (upstream_* filename, excluded by the source guard).",
+      "findings": "No change to oligo, workflow or graph topology. Removed leftover withdrawn-reconstruction details from the note (bead (T)18, (A)18, three CLS blocks, Read 1 handle, AGAGAGAGGGGGG end in the RPE strand). Added a graph-owned SourceDiscrepancy rendered on the page: paper Methods ligation/22-cycle universal amplification plus random-priming PCR versus the alpha protocol RPE/13-cycle RPE PCR/8-9-cycle index PCR; model draws the vendor RPE route. Read-to-feature assignment relabelled as inferred (paper says only that cell labels and molecular indices were identified). Recorded revision caveat: the alpha protocol cites instrument guide 214062 Rev. 1.0 (line 21), the on-disk copy is Rev. 2.0. Note updated: PMC Cloud supplements are on disk and carry no Rhapsody chemistry.",
+      "deferred": [
+        "Instrument guide Doc ID 214062 Rev. 1.0 (revision cited by the alpha protocol)",
+        "BD Rhapsody Express guide Doc ID 214063 and Targeted Library Preparation guide Doc ID 47395 (cited by alpha protocol lines 25-29)",
+        "Fan et al. 2015 Science CytoSeq predecessor (paywall)",
+        "Bead oligo bases/lengths, Universal Oligo, BD AbSeq Primer, Library Forward/Reverse primers and sequencing-primer sites",
+        "Which library route Yoon et al. actually ran (ligation vs RPE)",
+        "Re-fetch of BD PDFs through the scg: handler so the source guard sees them"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/1 conditional/8 unresolved/0 contradictory; source guard 0 checked, 0 failed, 1 input without exact state (Randomer N9; vendor PDF under upstream_* name excluded); source audit check 1 blocked; Markdown built; review schema checked"
+    }
+  ]
 }

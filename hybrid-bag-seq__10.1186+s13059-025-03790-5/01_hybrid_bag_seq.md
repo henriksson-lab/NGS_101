@@ -18,8 +18,9 @@
 - 🟢 The complete BAG barcode is 17 nt (5 + 6 + 6). The 12-nt varietal tag comprises 4 + 4 random bases plus four genomic bases two bases from the CATG cut site.
 - 🟢 Pooled amplicons are tagmented, then amplified with P5-Adapter3 and one Nextera_N70x indexed primer (author protocol step 38). The libraries are sequenced 2 × 150 bp on NovaSeq 6000. Read 1 begins with an 80-base tag/adapter region; Read 2 starts from a random tagmentation end.
 - 🟢 The author-deposited protocol supplies exact barcode-family and primer
-  sequences, though the current schematic has not yet assembled them into a
-  final base-level construct.
+  sequences. Since the 2026-10-17 bounded pass the schematic assembles the
+  tag-bearing end from their common arms; barcodes, varietal tags and the
+  round-3 stagger remain placeholders and the Tn5/N7/P7 end remains a role.
 - 🟢 The original BAG predecessor's linked Supplemental Methods also print
   its earlier Acrydite capture primer and adapter arms. Those differ from the
   hybrid-specific primers and do not fill any hybrid source gap.
@@ -59,3 +60,25 @@ These are observed adapter-related read motifs, not separately ordered
 oligos. 🟡 Exact pairing, strand orientation and sequencing-primer landing
 should be computed from the published oligos in a molecular model rather
 than copied from the trimming rules. 🔴 The local protocol model still draws only roles for the final library.
+
+## Bench operations added in the 2026-10-17 bounded pass
+
+🟢 From the protocols.io v1 PDF (text lines 340–840, steps 14–41):
+
+- RT and DNA extension in one tube (step 15): Maxima H− RT 15 min at room temperature, TSO added for 15 min more, 42 °C for 1 h; then Klenow (M0210M) at 42 °C for 30 min.
+- Exonuclease I plus RNase H, 37 °C for 1.5 h, then STOP-buffer washes (steps 17–19). The protocol does not state which molecules these enzymes remove; the graph shows the step without assigning targets.
+- Two sequential NlaIII reactions (steps 21–22).
+- Round 1 (steps 25–26): Adapter1-BC1-vt1-X hybridized in Quick Ligase buffer, then Klenow exo− plus Quick Ligase.
+- NaOH/Brij-35 denaturation (three washes) and Tris/NaCl/EDTA/Tween neutralization before round 2 (steps 29–30). 🟡 Which strands leave is inferred from the covalent Acrydite anchor.
+- Round 2 (steps 31–32): Adapter2-BC2-vt2-Adapter1-Y hybridized at 75 °C then 57 °C, then Bst 2.0 extension at 57 °C for 40 min.
+- 150 µm strainer removes fused BAGs (step 34). Round 3 (step 35): TG primer `TGTGTTGGGTGTGTTT*G*G` plus Adapter3-BC3-Adapter2-Z with KAPA HiFi, 10 cycles.
+- Pooled 0.8× AMPure XP cleanups, twice (step 36); about 1.5 ng tagmented with Amplicon Tagment enzyme at 55 °C for 5 min (step 38). Then 10 cycles with P5-Adapter3, Nextera_N70x and Nextera PCR mix, 0.8× AMPure (step 39). The run uses the custom Read1-Adapter3 primer (step 41).
+
+## Read 1 order (model correction)
+
+🟡 Derived from oligo polarity: Adapter3's 3′ arm equals Adapter2's 5′ arm, and Adapter2's 3′ arm (`ACGCAGAGTCCGCTC`) equals Adapter1's 5′ arm. Read 1 from Read1-Adapter3 therefore reads BAG barcode 3, the 2N/3N stagger, Adapter2, barcode 2 and varietal tag 2, Adapter1, barcode 1 and varietal tag 1, then CATG. The article (PMC12476631 Step 2 of data processing) places the four template varietal bases two bases *beyond* CATG. The earlier role-only model put those bases before CATG and omitted both common arms. This was a repository modelling error, now corrected. The Read 1 and Read 2 trimming motifs are consistent with this order: they are the reverse complements of UP1 and Adapter1.
+
+## Open questions
+
+- 🟡 For cDNA, a cut at the TSO-encoded CATG would place TSO bases (`AAGGATAG` then the rG-derived Gs) after CATG, not transcript bases. The article's description of the varietal bases as "genomic" was not reconciled with this inside the bounded pass. This is a sequence comparison, not a source statement.
+- The Nextera Tn5 adapter and Read 2/index primers are not printed in the hybrid sources, and the index-read cycle count was not found in the passages inspected.

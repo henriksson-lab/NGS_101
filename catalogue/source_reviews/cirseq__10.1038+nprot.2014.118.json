@@ -98,5 +98,24 @@
       "evidence": "Original protocol names FC-121-4001 but does not assign a Set A member. The vendor guide enumerates twelve six-base possibilities. Original 2014 predecessor and supplement are still unavailable, and new sources await independent second check."
     }
   ],
-  "conclusion": "Original, author manuscript and Illumina Nano guide now have two reads. The guide identifies FC-121-4001 as LT Set A and its 12 possible six-cycle index tags, but the selected CirSeq member remains blocked because the original predecessor article/supplement is inaccessible."
+  "conclusion": "Original, author manuscript and Illumina Nano guide now have two reads. The guide identifies FC-121-4001 as LT Set A and its 12 possible six-cycle index tags, but the selected CirSeq member remains blocked because the original predecessor article/supplement is inaccessible.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "PMC4418788 author-manuscript JATS text (nprot.2014.118_PMC4418788.xml.txt) Overview lines28–30, Experimental design line46, Reagents lines60–138, Procedure Steps1–56 lines200–565; eScholarship author PDF qt5tm0q8m0 .pdf.txt spot-checked lines787/923/991/1111/1188 (Step18 PNK, Step25 second-strand mix, Step31 Klenow, Step43 450–600 band, Step47 cycles2–16)",
+      "oligo_scraper": "Bundle scraper run: 0 sequences in both documents; the protocol prints no oligo sequences (TruSeq FC-121-4001 adapters/PCR cocktail by catalogue number only).",
+      "findings": "Step18 PNK and T4 RNA ligase 1 act in one ATP mix (labelled one-pot). Named SuperScript III/random hexamers and added RNase H to RT. Removed unsupported 'random second-strand primer'; second strand is the NEBNext E6111 module with priming mechanism unstated. Named NEBNext end repair, Klenow exo−, NEBNext Quick T4 ligase. Added missing 10% urea-PAGE 450–600-nt ligated-library excision with gel waste, 15-cycle Phusion PCR with the FC-121-4001 primer cocktail (unavailable geometry; P5/P7 split inferred) and 7.5% PAGE purification. Read layout reworded: protocol recommends 300-nt reads (MiSeq v2 300-cycle; HiSeq Rapid SR alternative); single read derived. Open: drawn canonical TruSeq adapters total fewer than the 135 adapter bases stated at Step43.",
+      "deferred": [
+        "Illumina TruSeq FC-121-4001 kit original (adapter and PCR primer-cocktail sequences, 135-base adapter count)",
+        "NEBNext E6111 second-strand module original (priming mechanism)",
+        "Acevedo 2014 Nature predecessor and its Supplementary Information (paywalled)",
+        "Selected Set A index member and acquired index/read cycles for any run"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (workflow build, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory over 12 steps; source guard 0 exact checked, 0 failed, 2 inputs without exact states (FC-121-4001 primer-cocktail members); Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

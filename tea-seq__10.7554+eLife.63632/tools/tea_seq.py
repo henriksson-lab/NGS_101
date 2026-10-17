@@ -99,6 +99,11 @@ CAVEAT += (" <strong>Apparent vendor-guide inconsistency:</strong> CG000338 Rev 
            "prints AATGATACGGCGACCACCGAGATCTACAC (29 bases) in both the TT forward primer and GEX product. "
            "Both guides name TT kit PN-1000215 and plate PN-3000431. This model follows the cited Multiome Rev A layout; "
            "the actual historical TEA-seq prefix remains unverified. The difference does not establish a reagent variant.")
+CAVEAT += (" <strong>Article vs bench protocol:</strong> the article Methods (TEA-seq library preparation) use "
+           "5 µL Pre-Amp Primers per 100 µL preamplification; the authors' protocols.io TEA-seq V.2 step 46 lists 4 µL. "
+           "The model does not depend on the volume and does not choose between them. The article calls the final ADT cleanup "
+           "a \"dual-sided 1.6×\" SPRIselect cleanup but gives one ratio; protocols.io step 64 gives a single 1.6× cleanup, "
+           "which the model labels.")
 
 FINAL_LIBRARIES=(("RNA library",RNA,SEQ_PRIMERS,"Poly(A) RNA captured by the Multiome bead.","Read 1 carries cell barcode and UMI; Read 2 reports cDNA."),("ATAC library",ATAC,ATAC_P,"Tagmented accessible chromatin carrying the same cell identity.","Paired genomic reads use Nextera sites."),("Antibody-tag library",ADT,ADT_P,"Polyadenylated antibody tags selectively amplified from the shared product.","Barcode and UMI identify the epitope observation."))
 READ_LENGTHS={"RNA library":{"Read 1":28,"Index 1 (i7)":10,"Index 2 (i5)":10,"Read 2":90},"ATAC library":{"Read 1":50,"Index 1 (i7)":8,"Index 2 (i5)":16,"Read 2":50},"Antibody-tag library":{"Read 1":28,"Index 1 (i7)":8,"Read 2":90}}
@@ -125,7 +130,7 @@ def adt_precursor():
 
 
 def _index_library(g,prefix,template,final,primers,lengths,reviewed,*,geometry,
-                   forward_state=None,reverse_state=None,limitation=""):
+                   forward_state=None,reverse_state=None,limitation="",conditions=""):
     """Declare this protocol's indexing step with explicit endpoint and geometry."""
     forward=g.input(prefix+"_forward",prefix+" indexing forward primer",MaterialKind.OLIGO,
                     state=forward_state,inferred=forward_state is None)
@@ -133,7 +138,7 @@ def _index_library(g,prefix,template,final,primers,lengths,reviewed,*,geometry,
                     state=reverse_state,inferred=reverse_state is None)
     polymerase=g.input(prefix+"_polymerase",prefix+" indexing polymerase",MaterialKind.CATALYST)
     final_material=g.product(prefix+"_library",final.name,MaterialKind.LIBRARY,state=final)
-    g.react(prefix+"_pcr","Index and amplify the "+prefix+" library",StepKind.PCR,
+    g.react(prefix+"_pcr","Index and amplify the "+prefix+" library"+(" ("+conditions+")" if conditions else ""),StepKind.PCR,
         ((template,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
          (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(final_material,),geometry=geometry)
     g.sequence(final_material,SequencingPlan(library=final,primers=tuple(primers),
@@ -166,7 +171,7 @@ def protocol_graph():
  barcoding=g.input("barcoding_enzyme","Multiome Barcoding Enzyme Mix PN-2000266",MaterialKind.CATALYST)
  pool_state=molecule("barcoded TEA-seq mixture",(role("cell-barcoded transcript cDNA"),role("cell-barcoded ATAC DNA"),role("cell-barcoded ADT cDNA")))
  barcoded=g.product("barcoded_pool","barcoded GEX, ATAC and ADT molecules in one pool",MaterialKind.MOLECULAR,state=pool_state)
- g.react("reverse_transcribe","GEM reverse transcription, template switching and ATAC barcoding",StepKind.REVERSE_TRANSCRIPTION,
+ g.react("reverse_transcribe","GEM reverse transcription, template switching and ATAC barcoding (37°C 45 min, 25°C 30 min; then Quenching Agent)",StepKind.REVERSE_TRANSCRIPTION,
      ((occupied,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(atac_bead,InputRole.STRUCTURAL),
       (tso,InputRole.STRUCTURAL),(rt,InputRole.CATALYST),(barcoding,InputRole.CATALYST)),(barcoded,))
  cleanup=g.input("gem_cleanup","SILANE and 2.0x SPRI cleanup conditions",MaterialKind.SELECTION)
@@ -180,11 +185,17 @@ def protocol_graph():
  adt_amp=g.input("adt_rev_amp","ADT-Rev-AMP",MaterialKind.OLIGO,
      state=Construct([Segment("ADT-Rev-AMP",ADT_CAPTURE[:-1])]))
  preamp_pol=g.input("preamp_polymerase","Pre-Amp Mix PN-2000270",MaterialKind.CATALYST)
- preamplified=g.product("preamplified_pool","preamplified ATAC, GEX and ADT mixture",MaterialKind.MOLECULAR,state=pool_state)
- g.react("preamp","Preamplify the shared molecules with added ADT-Rev-AMP",StepKind.PCR,
+ amplified=g.product("preamp_products","preamplified ATAC, GEX and ADT mixture before cleanup",MaterialKind.MOLECULAR,state=pool_state)
+ g.react("preamp","Preamplify the shared molecules with added ADT-Rev-AMP (7 cycles)",StepKind.PCR,
      ((recovered,InputRole.TEMPLATE),(preamp,InputRole.STRUCTURAL),(adt_amp,InputRole.STRUCTURAL),
-      (preamp_pol,InputRole.CATALYST)),(preamplified,),
+      (preamp_pol,InputRole.CATALYST)),(amplified,),
      geometry=PCRGeometry.unavailable(pool_state,reason="The source describes shared ATAC/cDNA preamplification; the commercial primer mixture and multiple precursor duplexes are not assembled in this model."))
+ preamp_spri=g.input("preamp_spri","2.0× SPRIselect cleanup",MaterialKind.SELECTION)
+ preamplified=g.product("preamplified_pool","purified preamplified ATAC, GEX and ADT mixture",MaterialKind.MOLECULAR,state=pool_state)
+ preamp_waste=g.product("preamp_spri_waste","unbound primers and reagents",MaterialKind.WASTE)
+ g.react("preamp_cleanup","Purify the preamplified mixture (2.0× SPRIselect)",StepKind.CLEANUP,
+     ((amplified,InputRole.TEMPLATE),(preamp_spri,InputRole.SELECTION)),(preamplified,preamp_waste),changes_molecule=False)
+ g.discard(preamp_waste,"removed in the 2.0× SPRIselect supernatant")
  atac=g.product("atac_branch","aliquot for ATAC sample-index PCR",MaterialKind.MOLECULAR,state=pool_state)
  cdna_aliquot=g.product("cdna_aliquot","aliquot for cDNA and ADT amplification",MaterialKind.MOLECULAR,state=pool_state)
  g.react("allocate","Allocate preamplified material to ATAC and cDNA workflows",StepKind.SPLIT,
@@ -206,11 +217,11 @@ def protocol_graph():
      ((expanded,InputRole.TEMPLATE),(selection,InputRole.SELECTION)),(cdna,copied),changes_molecule=False)
  reviewed=["cells","antibodies","stain","transposome","tn5","tagment","droplets","partition",
      "bead_primer","rt","tso","atac_bead_primer","barcoding_enzyme","reverse_transcribe","gem_cleanup","recover",
-     "preamp_primers","adt_rev_amp","preamp_polymerase","preamp","allocate","cdna_primers",
+     "preamp_primers","adt_rev_amp","preamp_polymerase","preamp","preamp_spri","preamp_cleanup","allocate","cdna_primers",
      "cdna_polymerase","amplify_cdna","cdna_size_selection","separate_cdna"]
  fragmentation=g.input("rna_fragmentation_enzyme","GEX fragmentation enzyme",MaterialKind.CATALYST)
  fragments=g.product("rna_fragments","retained GEX fragments",MaterialKind.MOLECULAR,state=cdna.state)
- g.react("rna_fragment","Fragment amplified GEX cDNA",StepKind.FRAGMENTATION,
+ g.react("rna_fragment","Fragment amplified GEX cDNA (joint fragmentation/end-repair/A-tailing reaction: 32°C 5 min, 65°C 30 min)",StepKind.FRAGMENTATION,
          ((cdna,InputRole.TEMPLATE),(fragmentation,InputRole.CATALYST)),(fragments,))
  endrepair=g.input("rna_end_repair","GEX end-repair enzyme mixture",MaterialKind.CATALYST)
  repaired=g.product("rna_repaired","end-repaired GEX fragments",MaterialKind.MOLECULAR,state=fragments.state)
@@ -223,18 +234,21 @@ def protocol_graph():
  adapter=g.input("rna_adapter","GEX Adapter Oligos PN-2000094",MaterialKind.ADAPTER)
  ligase=g.input("rna_ligase","GEX DNA ligase",MaterialKind.CATALYST)
  adapted=g.product("rna_adapted","adapter-ligated GEX fragments",MaterialKind.MOLECULAR,state=tailed.state)
- g.react("rna_ligate","Ligate the GEX sequencing adapter",StepKind.LIGATION,
+ g.react("rna_ligate","Ligate the GEX sequencing adapter (after 0.6×/0.8× SPRI; 20°C 15 min)",StepKind.LIGATION,
          ((tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(adapted,),
          geometry=AdapterLigationGeometry.unavailable("The article names PN-2000094 and the guide prints the finished library; its ligation-ready end geometry is not assembled in this model."))
  reviewed.extend(("rna_fragmentation_enzyme","rna_fragment","rna_end_repair","rna_repair",
                   "rna_a_tailing","rna_tail","rna_adapter","rna_ligase","rna_ligate"))
  _index_library(g,"rna",adapted,RNA,SEQ_PRIMERS,READ_LENGTHS["RNA library"],reviewed,
+     conditions="after 0.8× SPRI; Dual Index TT Set A, 14 cycles; 0.6×/0.8× SPRI",
      geometry=PCRGeometry.unavailable(adapted.state,reason="The completed GEX product is printed in CG000338 Rev A; a selected TT primer pair and its precursor sites have not been declared in this graph."))
  _index_library(g,"atac",atac,ATAC,ATAC_P,READ_LENGTHS["ATAC library"],reviewed,
+     conditions="SI-PCR Primer B + Sample Index Plate N Set A, 9 cycles; 0.6×/1.6× SPRI",
      geometry=PCRGeometry.unavailable(atac.state,reason="The completed ATAC product is printed in CG000338 Rev A; the barcoded pre-index duplex and selected sample-index primer pair are not yet assembled in this graph."))
  adt_forward=PCRPrimer("SI-PCR-Oligo",ADT_P5_PRIMER,anneal_nt=13)
  adt_reverse=PCRPrimer("ADT-i7 primer",il.P7+"N"*8+ADT_I7_ARM,anneal_nt=len(ADT_CAPTURE))
  _index_library(g,"adt",copied,ADT,ADT_P,READ_LENGTHS["Antibody-tag library"],reviewed,
+     conditions="KAPA HiFi, 15 cycles; 1.6× SPRI",
      forward_state=Construct([Segment(adt_forward.name,adt_forward.sequence)]),
      reverse_state=Construct([Segment("P7",il.P7),Segment("i7 index","N"*8,placeholder=True,feature=ADT_I7),Segment("ADT binding arm",ADT_I7_ARM)]),
      geometry=PCRGeometry.exact(copied.state,adt_forward,adt_reverse,

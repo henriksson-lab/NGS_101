@@ -97,5 +97,25 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Two independent readers located 2018 Tn5, PCR and sequencing oligos in the original Table S12; no missing-information claim remains for the 2018 version. Earlier 2015 supplement is unavailable and not used to establish 2018 sequences."
+  "conclusion": "Two independent readers located 2018 Tn5, PCR and sequencing oligos in the original Table S12; no missing-information claim remains for the 2018 version. Earlier 2015 supplement is unavailable and not used to establish 2018 sequences.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nature 2018 PMC5866720 JATS Online Methods lines115–137 (nuclei sort 2,500/well, TD buffer, 2.5 µM indexed Tn5 55°C 30min, EDTA/spermidine stop, re-sort 25 nuclei into proteinase K/SDS reverse-crosslinking buffer 65°C overnight, Table S12 primers 0.5µM, NPM+BSA, 72°C3min/98°C30s/15–25 cycles, Zymo DCC-5 then AMPure, NextSeq 300-cycle custom primers/recipe, 50bp each end, four barcode components); Supplementary Table S12 .xlsx.txt lines1–5, 99–105, 201–231 (P5/P7 layouts with 10-nt barcodes, sequencing primers, C15/D15 transposon oligos, 5Phos pMENTS).",
+      "oligo_scraper": "Run on Table S12, JATS, MOESM1 and Tables Guide (11 hits, all in Table S12: P5/P7 layouts, P5_1/P7_1, four sequencing primers, P5_i5_1, P7_i7_1, pMENTS) and checked against the sheet.",
+      "findings": "Added source-stated tagmentation conditions, EDTA/spermidine quench, DAPI re-sort of 25 nuclei per well with unsorted-nuclei waste, proteinase K/SDS reverse cross-linking, NPM master mix as the 72°C 3 min gap-fill catalyst (gap-fill reading inferred), PCR programme/BSA/primer concentration, and Zymo-column plus AMPure cleanup with waste before the sequencing terminal. Corrected gap-filled state to the T5...T7 fragment before PCR (previously the final library). Read-layout note now states that 50+50 bp and the four barcode components are source-stated while the barcode+dark+index splits are derived from Table S12 geometry (custom recipe not printed). Oligos, 10-nt indices and primer sites unchanged and verified.",
+      "deferred": [
+        "Custom NextSeq recipe (ref35) and acquired index-read cycle counts",
+        "Same-end T5/T5 and T7/T7 products are discarded at tagmentation rather than carried through PCR (fate representation)",
+        "Plate/primer assignment by Table S12 Note column (P7 sets reused across plates) not modelled",
+        "Embryo fixation/nuclear isolation predecessor (ref11, ref33) not read",
+        "bioRxiv 166066 preprint disregarded (published version governs)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "module selftest 3/3 pass; page builds; pairing 0 problems; chemistry 18 established/9 conditional/7 unresolved/0 contradictory (8 steps); source guard 1 exact checked, 0 failed, 3 inputs without exact states (indexed_transposomes, p5_index_primer, p7_index_primer families); Markdown built; audit --check pass (reviewed 1)"
+    }
+  ]
 }

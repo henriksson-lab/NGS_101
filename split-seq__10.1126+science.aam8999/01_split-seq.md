@@ -23,7 +23,7 @@ Preprint: *bioRxiv* 2019, doi:[10.1101/869248](https://doi.org/10.1101/869248) (
 2019, CC-BY-NC-ND 4.0). A later step-by-step protocol, *Nature Protocols* 2024,
 doi:10.1038/s41596-024-01007-w, is catalogued separately and was **not** read for this note.
 
-Sources read (in `$CHEM_DATA/sources/split-seq-microsplit__10.1126+science.aam8999/`,
+Sources read (in `$CHEM_DATA/sources/split-seq__10.1126+science.aam8999/`,
 never committed):
 
 | File | What | Used for |
@@ -197,6 +197,16 @@ T15VN (32 nt); 48 hexamer primers = `ACTGTGG` + 8-nt barcode + **`T`** + N6 (22 
 two sets share **no** 8-mer, and neither shares one with the round-2/3 set; the round-2 and
 round-3 plates use the **same 96 8-mers** in the same well order. 🟡 (computed from the table)
 
+**2026-10-17 bounded pass.** Table S12 (`scg_aam8999_tables12.xlsx.txt`, General
+Oligonucleotides lines 3–18 and plate sheets lines 21–268) names BC_0062/BC_0108 "PCR primer,
+used after template switching", BC_0127 "Template switching primer", BC_0118 "Nextera
+Tagmentation PCR primer N501" and BC_0076–0083 "Nextera Tagmentation PCR primer (TSBC07–14)".
+These names, not the upstream page, support the SPLiT-seq cDNA PCR, tagmentation and
+sublibrary PCR steps below 🟢 (names). The round-2 and round-3 splinted junctions are now
+built on the schematic from the Table S12 bases (each 30-nt linker pairs with both full
+15-nt arms; prior-round oligos are `/5Phos/`) 🟡 (computed); annealing and ligation
+conditions remain in the unavailable methods supplement.
+
 ## 3. Step by step
 
 microSPLiT conditions 🟢 from the preprint Supplementary Materials (and identical where
@@ -350,8 +360,12 @@ Disagreements and gaps:
 - 🔴 Whether the unavailable 2021 published microSPLiT supplement used the same
   adapter-ligation preparation as the preprint and the authors' 2024 detailed protocol.
 - 🔴 When the template-switch `CCC` is added (in-cell RT vs on-bead RT).
-- 🟢 The later detailed protocol resolves the "24 PCR reactions" question with
-  BC_0076–BC_0083 and BC_0246–BC_0261; only the first eight appear in the earlier table.
+- 🔴 SPLiT-seq sublibrary indices: the main text gives a fourth round of 24 PCR reactions
+  (JATS line 72) and 48 × 96 × 96 × 14 for the brain experiment (line 80), while Table S12
+  prints only eight indexed primers, BC_0076–BC_0083, with the single forward primer BC_0118.
+  The later microSPLiT protocol's 24 primers (BC_0076–BC_0083, BC_0246–BC_0261) belong to
+  that separate implementation and do not establish the 2018 SPLiT-seq index set. The
+  schematic shows this as a published discrepancy; the gated methods supplement may resolve it.
 - 🟡 Identity of TSBC07–14 with TruSeq LT indices 7–14 — unchecked.
 
 ## 9. How this note was made (tool evaluation)

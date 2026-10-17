@@ -44,15 +44,16 @@ def library() -> str:
     insert, lib = H.sheared_insert(), H.final_library()
     return f'''<h2>Enrich contact junctions and make the sequencing library</h2>
 <h3>(5) Reverse crosslinks, shear, and capture biotin</h3>
-{panel([strand_row(insert), *annotation_rows(insert)], cls="small", caption="DNA is sheared to 300–500 bp. Streptavidin retains fragments containing the internal biotin-marked contact junction.")}
-<h3>(6) Repair ends, add dA, ligate an indexed Illumina adapter, and PCR</h3>
+{panel([strand_row(insert), *annotation_rows(insert)], cls="small", caption="After proteinase K/NaCl crosslink reversal and ethanol precipitation, DNA is sheared to 300–500 bp and double-sided AMPure XP size-selected (0.55×, then +30 µl) before MyOne Streptavidin T1 beads retain fragments carrying a biotin mark (Extended Experimental Procedures I.a.1 steps 18–41).")}
+<h3>(6) On beads: repair ends, add dA, ligate an indexed Illumina adapter, and PCR</h3>
+<p>End repair (T4 PNK, T4 DNA polymerase, Klenow) also removes biotin from unligated ends; Klenow exo minus adds dA; NEB Quick ligase attaches the adapter; 4–12 PCR cycles off the beads are followed by AMPure XP 0.7× and a second 70 µl cleanup (steps 42–70).</p>
 {panel(AdapterLigationGeometry.unavailable("Rao et al. name an indexed Illumina adapter but do not identify the kit or report its ligation-ready end geometry.").rows(), cls="small", caption="Source limitation before adapter ligation.")}
 {panel([*Scene.duplex(list(lib), label="library").rows(), *annotation_rows(lib)], cls="small", caption="PCR-completed paired-end library. The protocol says only ‘Illumina indexed adapter’; it does not identify a kit generation, index count, or adapter bases.")}
 '''
 
 
 def sequencing() -> str:
-    return ('<h2>Sequencing</h2><p>Paired reads begin in the two genomic loci at opposite ends of the selected molecule.</p>' +
+    return ('<h2>Sequencing</h2><p>Paired reads begin in the two genomic loci at opposite ends of the selected molecule. Rao et al. report paired-end sequencing on Illumina MiSeq, HiSeq 2000 and HiSeq 2500 (Extended Experimental Procedures I.a.10) without stating read or index cycle counts.</p>' +
         '<div class="info">Primer placement unavailable: Rao et al. name an Illumina indexed adapter and Illumina PCR primers but do not print or identify the sequencing-primer set.</div>' +
         sp.read_spec_table([
             sp.read_spec("Read 1", None, "genomic locus on one side of the contact junction", "include"),

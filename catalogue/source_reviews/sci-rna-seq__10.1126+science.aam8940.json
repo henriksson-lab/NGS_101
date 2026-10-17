@@ -383,5 +383,25 @@
       "locations": "Original Cao et al. bioRxiv 10.1101/104844 preprint extracted lines 1–65, 268–288, 900–925",
       "finding": "Historical limited reading retained; superseded by fresh source-positive root P2 below. Independently confirmed this is the authors’ preprint of the sci-RNA-seq article. It gives first-round barcoded poly(T)/UMI RT, pooled redistribution, second strand, Tn5 and indexed PCR, but the inspected main preprint text does not give the missing complete primer-table members; the original Science supplement remains unavailable."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Author-hosted final Science PDF (cao-combinatorial-indexing.pdf.txt) Overview lines78–135 (steps i–v incl. iv 'transposition…lysis, and PCR'), Fig.1 text lines140–190; bioRxiv 104844v1 preprint Methods lines895–940 (RT primer/SSIV/stop solution/DAPI sort/second strand/TDE1+carrier/Zymo+AMPure/P5,P7 PCR/0.8x AMPure, Qubit, PAGE) and 991–992 (NextSeq 18/52/10/10); final supplement re-fetch attempted (PMC 404, Science 403)",
+      "oligo_scraper": "Bundle scraper rerun (79 hits); 2017 RT/P5/P7 templates only in preprint lines899/922/931 and match the module (selftest 3/3); 2019 sci-RNA-seq3 and upstream/scg_* hits excluded.",
+      "findings": "Templates, reagents, order and run re-verified against preprint. Added RT 2X stop solution (40 mM EDTA, 1 mM spermidine) condition, DAPI staining before FACS, 75C 20 min second-strand stop in label, and post-PCR pooling + 0.8 vol AMPure XP cleanup (Qubit/6% TBE-PAGE) with discarded unrecovered material before sequencing. Page Highlight: final overview lists a lysis step between transposition and PCR whereas the selected preprint stops with Zymo binding buffer + AMPure; recorded as preprint-to-publication difference with unread final supplement, not a published discrepancy.",
+      "deferred": [
+        "Final Science Supplementary Materials (NIHMS956226 supplement_1.pdf, PMC 404; aam8940_cao_sm.pdf / tables S1–S14, Science 403)",
+        "Published lysis step before PCR vs preprint Zymo/AMPure stop",
+        "Historical NEB second-strand module and NEBNext HiFi PCR vendor originals",
+        "Exact TDE1 intermediate / canonical ME and carrier-fragment fates",
+        "PCR-well i5/i7 member assignments; indexed-Tn5 three-level branch not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 0 established/2 conditional/7 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states (RT/P5/P7 index placeholders); Markdown built; review schema (audit --check) pass"
+    }
   ]
 }

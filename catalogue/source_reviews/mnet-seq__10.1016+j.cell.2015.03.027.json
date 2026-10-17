@@ -342,5 +342,25 @@
     "date": "2026-10-16",
     "locations": "Current local chem.py and already independently read 2015 originals",
     "finding": "Correct specialized on-bead PNK/ATP before extraction; EGTA, supernatant selection, Pol II IP and 35\u2013100-nt RNA gel. Local role endpoint, paired Read 2 semantics and computational filters respect source. Manufacturer and later 2016 comparators stay separate; no eight-base index default. PNKT concentration discrepancy separately rendered without selecting a concentration."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Cell PMC4410947 JATS Methods 195\u2013211 (ChrRNA comparator 197; mNET-seq Method and RNA Library Preparation 201; Data Pre-Processing 207); original Document S1 (mmc2) text 2495\u20132525 (mNET-seq method 2497\u20132506, pre-processing 2513\u20132520); GSE60358 family soft text GSM1474225 record 598682\u2013598728 and extract_protocol_ch1 paragraph (18 occurrences)",
+      "oligo_scraper": "Bundle scraper run (145 hits): defining JATS/mmc2 hits are siRNAs (JATS 165\u2013173) and validation RT-PCR/ChIP primers (181 onward), GEO hits the same siRNAs, vendor table hits RA5/RA3/RTP/RP1/RPI comparators; no 2015 library oligo assigned.",
+      "findings": "Route, on-bead phosphatase-minus PNK before Trizol, 35\u2013100-nt gel window, TruSeq Small RNA kit and Read 2 first-base readout reconfirmed. Added source conditions to graph inputs (MNase 40 U/\u00b5l 37C 90s; 25 mM EGTA; 13,000 rpm 5 min; 40 \u00b5g antibody beads, 9 ml NET-2, 4C 1h, six NET-2 + one PNKT washes; post-kinase NET-2 wash; 8% acrylamide/7 M urea gel, NaOAc/EDTA elution, ethanol precipitation). New graph-owned published discrepancy: MNase-buffer chromatin wash 100 \u00b5l (JATS 201, Document S1 2498) vs 1 ml (GEO extraction paragraph); no volume selected; GEO ml/mg renderings of other \u00b5l/\u00b5g amounts not interpreted as doses. Note updated.",
+      "deferred": [
+        "Nojima 2016 Nat Protoc successor (PMC5152764/author PDF) not re-read this pass",
+        "TruSeq Small RNA guide revision actually used in 2015 and ordered adapter/primer/index members",
+        "Acquired read cycles and index reads (not in inspected passages)",
+        "Nuclear/chromatin fractionation upstream of MNase (cited, drawn only as input)",
+        "SRA run-level metadata (SRX675974 etc.) not downloaded"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 8/8 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/12 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; audit --check pass (in_progress 1)"
+    }
+  ]
 }

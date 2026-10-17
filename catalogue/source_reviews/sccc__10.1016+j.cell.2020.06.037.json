@@ -260,5 +260,25 @@
       "evidence": "Recovered final CellTableS4 independently prints all eight displayed scCC capture/PCR/adapter/sequencing oligos with the same bases and modifications as author-protocol/preprint transcriptions. No universal equivalence for unrelated bulk primers or every supplementary oligo is claimed."
     }
   ],
-  "conclusion": "Two independent original-source checks cover the defining article, final supplemental oligos/MethodsS1, author protocols including source-specific readout instructions and the previously omitted visualization protocol, and inherited vendor operation scope. Source-led missing-stage/oligo provenance corrections are implemented. No publication absence is accepted; exact molecular geometry not assembled by the model remains explicit."
+  "conclusion": "Two independent original-source checks cover the defining article, final supplemental oligos/MethodsS1, author protocols including source-specific readout instructions and the previously omitted visualization protocol, and inherited vendor operation scope. Source-led missing-stage/oligo provenance corrections are implemented. No publication absence is accepted; exact molecular geometry not assembled by the model remains explicit.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC7510185 JATS Methods lines220–234 (scRNA-seq library preparation; single cell calling cards library preparation) and line300 (sequencing and analysis: scCC libraries); final publisher companion 1-s2.0-S009286742030814X-mmc2.pdf lines183–199; author protocols.io library protocol doi:10.17504/protocols.io.xwifpce (export Apr 3 2019) Covaris table lines535–556 and sequencing steps78–79 lines865–905",
+      "oligo_scraper": "Bundle scraper re-run as a reading aid; Table S4 oligo hits already transcribed in earlier passes. Used --find-free review of the enrichment primer lines before giving them exact graph states.",
+      "findings": "No source contradiction found. Reaction detail promoted from generic labels into the graph: Kapa HiFi 20–22-cycle enrichment PCR with 0.6x AMPure; 300 fmol/300 µl circularization with 1 nM Circularization Ligase 30 °C 12–16 h; Covaris E220 settings; streptavidin-bead capture of the internal biotin; on-bead end repair/A-tail and 1 µl preannealed scCC_P5/P7 adapter in place of the kit DNA Adaptor Index. The two biotinylated enrichment primers became exact oligo states (source-guard checked, 2 exact). Added a structured read table (BP10 Read1 barcode/UMI; custom Index1 sample index; BP14 Index2 reading the piggyBac TR, GCGTCAAT, as a circularization report; custom Read2 beginning GGTTAA) replacing an unexplained unavailable notice; no cycle counts are published. Author-protocol Covaris settings agree with the article.",
+      "deferred": [
+        "Base-exact adapter-end Scene and circle/junction geometry",
+        "Nextera Mate Pair reference guide 15035209 v02 end-repair/A-tail/ligation chemistry",
+        "10x v2 gel-bead primer and 10x_TSO bases (CG00052)",
+        "Bulk calling-cards library protocol and peak-calling protocols",
+        "Run cycle counts for the four reads"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite (constructor-only, no explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/17 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 7 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

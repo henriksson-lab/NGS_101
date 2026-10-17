@@ -119,6 +119,8 @@ SEQUENCING_INTRO = ("The first index acquisition is an eight-cycle UMI read, out
                    "as FASTQ R2 after the author changes RunInfo.xml to non-indexed. "
                    "The second index acquisition reads the Ad1 i5 sample index. "
                    "Biological Read 1 and Read 2 are FASTQ R1 and R3, respectively. "
+                   "The detailed protocol reports a 75-cycle NextSeq 500 kit; the "
+                   "biological read lengths are not stated. "
                    "The table places standard primer sequences on the constructed "
                    "duplex; the paper does not name the physical instrument oligos.")
 READ_LENGTHS = {"Index 1 (i7)": 8, "Index 2 (i5)": 8}
@@ -183,6 +185,17 @@ def protocol_graph() -> ProtocolGraph:
                 ((exo_cleaned, InputRole.TEMPLATE), (alkali, InputRole.CONDITION)),
                 (dna_only, removed_rna))
     graph.discard(removed_rna, "RNA is removed before the second TGIRT reaction")
+    etoh_beads = graph.input("etoh_ampure", "24 µL 95% EtOH plus 24 µL AMPure XP beads",
+                             MaterialKind.SELECTION)
+    cdna_clean = graph.product("cdna_recovered", "bead-recovered first-strand cDNA",
+                               MaterialKind.MOLECULAR, state=first.state)
+    cdna_sup = graph.product("cdna_supernatant", "bead supernatant and 80% EtOH washes",
+                             MaterialKind.WASTE)
+    graph.react("cdna_cleanup", "Recover single-stranded cDNA on EtOH-supplemented AMPure beads",
+                StepKind.CLEANUP,
+                ((dna_only, InputRole.TEMPLATE), (etoh_beads, InputRole.SELECTION)),
+                (cdna_clean, cdna_sup))
+    graph.discard(cdna_sup, "unbound material removed with the bead supernatant and washes")
     second_primer = graph.input("second_strand_primer", "R1MER blocked RNA/DNA starter; A/T/C/G overhang pool",
                                 MaterialKind.OLIGO, state=second_starter())
     graph.annotate(DetailView(
@@ -206,37 +219,98 @@ def protocol_graph() -> ProtocolGraph:
         state=pre_pcr_library())
     graph.react("second_strand", "Second TGIRT template switch and strand synthesis",
                 StepKind.TEMPLATE_SWITCHING,
-                ((dna_only, InputRole.TEMPLATE), (second_primer, InputRole.STRUCTURAL),
+                ((cdna_clean, InputRole.TEMPLATE), (second_primer, InputRole.STRUCTURAL),
                  (tgirt, InputRole.CATALYST)), (double,))
+    graph.annotate(DetailView(
+        "double_stranded", "Second-strand product before PCR",
+        "The detailed protocol states that the first 72 °C PCR incubation fills in the "
+        "single-stranded meR1R adapter region, so that region of the drawn duplex is "
+        "completed only at the start of PCR."))
+    sds = graph.input("sds", "1 µL 0.2% SDS, 55 °C 5 min", MaterialKind.CONDITION)
+    sds_treated = graph.product("tgirt_dissociated", "second-strand product after TGIRT dissociation",
+                                MaterialKind.MOLECULAR, state=double.state)
+    graph.react("dissociate_tgirt", "Dissociate TGIRT with SDS", StepKind.DEPROTEINIZATION,
+                ((double, InputRole.TEMPLATE), (sds, InputRole.CONDITION)), (sds_treated,))
+    ss_beads = graph.input("ss_ampure", "AMPure XP beads (article 30 µL; detailed protocol 25 µL)",
+                           MaterialKind.SELECTION)
+    ds_clean = graph.product("ds_cdna", "bead-recovered double-stranded cDNA",
+                             MaterialKind.MOLECULAR, state=double.state)
+    ds_sup = graph.product("ds_supernatant", "bead supernatant and 80% EtOH washes",
+                           MaterialKind.WASTE)
+    graph.react("ds_cleanup", "Recover ds-cDNA on AMPure beads; elute in 9 µL",
+                StepKind.CLEANUP,
+                ((sds_treated, InputRole.TEMPLATE), (ss_beads, InputRole.SELECTION)),
+                (ds_clean, ds_sup))
+    graph.discard(ds_sup, "unbound material removed with the bead supernatant and washes")
+    graph.annotate(SourceDiscrepancy(
+        "ds_cleanup", "Published post-second-strand bead volume differs",
+        (SourceClaim("Article Materials and Methods, PMC10270195 paragraph ending 'eluted in 9 µL of H2O'",
+                     "30 µL AMPure XP beads."),
+         SourceClaim("Supplemental Detailed Protocol, step after the SDSDenature program",
+                     "25 µL AMPure XP beads (2.27x); resuspend in 9.1 µL.")),
+        "Name both volumes; the model does not choose one.",
+        "Both are published by the authors and the bead ratio does not change the drawn molecules.",
+        "Which volume was used for the reported libraries is not stated."))
     reviewed = ["nascent_rna", "starter_duplex", "tgirt", "template_switch",
                 "exonuclease_iii", "digest_unused_starters", "alkali", "remove_rna",
-                "second_strand_primer", "second_strand"]
+                "etoh_ampure", "cdna_cleanup", "second_strand_primer", "second_strand",
+                "sds", "dissociate_tgirt", "ss_ampure", "ds_cleanup"]
     forward = graph.input("pcr_forward", "SCP7 universal PCR primer", MaterialKind.OLIGO,
                           state=SCP7)
     reverse = graph.input("pcr_reverse", "v2_Ad1 indexed PCR primer family (Ad1.60 shown)",
                           MaterialKind.OLIGO, state=AD1_60)
-    polymerase = graph.input("pcr_polymerase", "library PCR polymerase", MaterialKind.CATALYST)
+    polymerase = graph.input("pcr_polymerase", "NEBNext Ultra II Q5 2x master mix",
+                             MaterialKind.CATALYST)
     amplified = graph.product("amplified_library", "amplified Butt-seq library",
                               MaterialKind.MOLECULAR, state=final)
-    graph.react("library_pcr", "PCR-amplify and index", StepKind.PCR,
-                ((double, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+    graph.react("library_pcr", "72 °C fill-in, then PCR-amplify and index", StepKind.PCR,
+                ((ds_clean, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (amplified,), geometry=PCRGeometry.exact(
-                    double.state, PCRPrimer("v2_Ad1.60", AD1_60, anneal_nt=24),
+                    ds_clean.state, PCRPrimer("v2_Ad1.60", AD1_60, anneal_nt=24),
                     PCRPrimer("SCP7", SCP7),
                     statement="Primer binding is derived from the published workbook; "
                               "Ad1.60 is one member of the 25-member index panel, and "
                               "both one-base TGIRT overhangs vary by molecule."))
-    size_rule = graph.input("size_selection", "Butt-seq library-size selection rule",
+    graph.annotate(SourceDiscrepancy(
+        "library_pcr", "Published PCR programs differ",
+        (SourceClaim("Article Materials and Methods, PCR paragraph",
+                     "3 min 72 °C, 30 s 98 °C, 9–15 cycles of 15 s 98 °C / 30 s 65 °C, 2 min 72 °C."),
+         SourceClaim("Supplemental Detailed Protocol, ButtQ5 PCR program",
+                     "2 min 72 °C, 2 min 98 °C, 8–15 cycles of 10 s 98 °C / 10 s 65 °C, 1 min 72 °C.")),
+        "Draw the shared primer geometry and 72 °C fill-in; no program is chosen.",
+        "Both programs use the same primers and initial 72 °C extension.",
+        "Which program and cycle number produced each reported library is not stated."))
+    pcr_beads = graph.input("pcr_ampure", "65 µL AMPure XP beads (1.3x)", MaterialKind.SELECTION)
+    pcr_clean = graph.product("pcr_recovered", "bead-purified PCR product",
+                              MaterialKind.MOLECULAR, state=final)
+    pcr_sup = graph.product("pcr_supernatant", "PCR bead supernatant and 80% EtOH washes",
+                            MaterialKind.WASTE)
+    graph.react("pcr_cleanup", "Purify PCR products on AMPure beads", StepKind.CLEANUP,
+                ((amplified, InputRole.TEMPLATE), (pcr_beads, InputRole.SELECTION)),
+                (pcr_clean, pcr_sup))
+    graph.discard(pcr_sup, "unbound PCR-reaction material removed with the supernatant")
+    size_rule = graph.input("size_selection",
+                            "8% TBE PAGE, SYBR Gold; excise smear above 150 (to ~700) bp",
                             MaterialKind.SELECTION)
-    library = graph.product("sequencing_library", "size-selected Butt-seq library",
-                            MaterialKind.LIBRARY, state=final)
-    rejected = graph.product("rejected_sizes", "off-size Butt-seq products",
+    gel_lib = graph.product("gel_slice", "excised 150–700 bp library smear",
+                            MaterialKind.MOLECULAR, state=final)
+    rejected = graph.product("rejected_sizes", "gel outside the excised region, including ~140 bp adapter products",
                              MaterialKind.WASTE)
-    graph.react("select_size", "Size-select the indexed library", StepKind.SELECTION,
-                ((amplified, InputRole.TEMPLATE), (size_rule, InputRole.SELECTION)),
-                (library, rejected))
-    graph.discard(rejected, "falls outside the selected nascent-RNA library size")
+    graph.react("select_size", "Size-select the indexed library by PAGE excision", StepKind.SELECTION,
+                ((pcr_clean, InputRole.TEMPLATE), (size_rule, InputRole.SELECTION)),
+                (gel_lib, rejected))
+    graph.discard(rejected, "left in the unexcised gel")
+    elution = graph.input("crush_soak", "crush and soak in 300 mM NaCl; Spin-X; isopropanol/GlycoBlue",
+                          MaterialKind.SELECTION)
+    library = graph.product("sequencing_library", "gel-extracted Butt-seq library",
+                            MaterialKind.LIBRARY, state=final)
+    gel_waste = graph.product("gel_debris", "gel fragments retained by the Spin-X filter",
+                              MaterialKind.WASTE)
+    graph.react("gel_extract", "Recover DNA from the gel slice", StepKind.EXTRACTION,
+                ((gel_lib, InputRole.TEMPLATE), (elution, InputRole.SELECTION)),
+                (library, gel_waste))
+    graph.discard(gel_waste, "filter and gel debris are discarded")
     graph.sequence(library, SequencingPlan(limitation=d.endpoint))
     graph.annotate(SourceDiscrepancy(
         "sequencing_library", "First Read 2 base depends on an unreported run primer",
@@ -254,6 +328,7 @@ def protocol_graph() -> ProtocolGraph:
         "interpretation cannot be confirmed from the available run records.",
         slot=AnnotationSlot.SEQUENCING))
     reviewed.extend(("pcr_forward", "pcr_reverse", "pcr_polymerase", "library_pcr",
-                     "size_selection", "select_size", "sequencing_library"))
+                     "pcr_ampure", "pcr_cleanup", "size_selection", "select_size",
+                     "crush_soak", "gel_extract", "sequencing_library"))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

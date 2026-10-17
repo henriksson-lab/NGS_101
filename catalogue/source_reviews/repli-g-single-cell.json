@@ -111,5 +111,25 @@
       "evidence": "Full 2014 QIAGEN and cited October 2012 Illumina originals not yet available for two reads."
     }
   ],
-  "conclusion": "The 2012 named-kit handbook and Dean 2002 predecessor establish phi29 MDA and a historical protected N6 primer pattern, but not the commercial kit primer bases/modifications. The historical 2014 QIAGEN Nextera link is only partially indexed. Current handbook, full RG35 and linked Nextera originals remain blocked; no absence accepted."
+  "conclusion": "The 2012 named-kit handbook and Dean 2002 predecessor establish phi29 MDA and a historical protected N6 primer pattern, but not the commercial kit primer bases/modifications. The historical 2014 QIAGEN Nextera link is only partially indexed. Current handbook, full RG35 and linked Nextera originals remain blocked; no absence accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "QIAGEN REPLI-g Single Cell Handbook 10/2012 (supplier mirror, md5 6411c5e2) EN-REPLI-g-Single-Cell-Handbook.pdf.txt Introduction/Principle and procedure lines224–315; Protocol: Amplification of Genomic DNA from Single Cells lines477–640 (pp.12–14: Buffer D2 Table4, steps1–11, Table5 master mix, no-template-control note); current 2024 handbook route re-tried (HTTP 200 redirect to QIAGEN search page, no PDF)",
+      "oligo_scraper": "Bundle scraper run: 0 sequences in 0 files; handbook prints no primer bases (not evidence of absence).",
+      "findings": "Graph previously collapsed lysis/denaturation/neutralization and omitted conditions. Added Buffer D2 (DLB+DTT) 10 min 65°C, Stop Solution neutralization step, master-mix components (H2O sc, REPLI-g sc Reaction Buffer, REPLI-g sc DNA Polymerase), 8 h 30°C MDA and 65°C 3 min polymerase inactivation before tagmentation. Removed unsupported 'alkaline' and 'proprietary random hexamers' wording from page summary; primer input now states kit component/bases/protection not printed.",
+      "deferred": [
+        "Current QIAGEN 2024 handbook hb-1306-003 (route redirects to search SPA)",
+        "Full August 2014 RG35 Nextera protocol PDF",
+        "Illumina Nextera DNA Sample Preparation Guide 15027987 Rev B (Oct 2012): adapter arms, index primers, PCR enzyme",
+        "Kit primer bases/protection and which component carries them",
+        "Acquired read lengths (2×150/8+8 remains an illustrative plan)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/9 unresolved/0 contradictory over 8 steps; source guard 0 exact checked, 0 failed, 3 inputs without exact states; Markdown built; audit --check pass (blocked status unchanged)"
+    }
+  ]
 }

@@ -364,5 +364,24 @@
       "evidence": "Published branches differ; a universal geometry is unsupported, and linked-source review remains incomplete."
     }
   ],
-  "conclusion": "Published Drop-seq, 10x cDNA, 10x PLA and plate readout branches have distinct source-printed primer/cycle recipes, now stated on the page; there is no universal sequencing geometry. The original PMC author-manuscript links four supplementary files whose identity against the publisher bundle remains unverified, and one publisher result CSV was newly inventoried. Those unresolved links keep the missing-information audit blocked."
+  "conclusion": "Published Drop-seq, 10x cDNA, 10x PLA and plate readout branches have distinct source-printed primer/cycle recipes, now stated on the page; there is no universal sequencing geometry. The original PMC author-manuscript links four supplementary files whose identity against the publisher bundle remains unverified, and one publisher result CSV was newly inventoried. Those unresolved links keep the missing-information audit blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nature Methods author manuscript PMC11289786 JATS .txt lines 53 (probe design, 119 bases/20 connector-paired, unligated-probe statement), 131 (DBCO/azide conjugation), 145-157 (probe binding, washes, ligase solution with connector, T4 ligase 3 h/30 min 37C), 165-173 (Drop-seq/Smart-seq2/10x branches, sequencing); publisher Supplementary Information MOESM1 .txt lines 233-345 (Drop-seq RT/ExoI/U_fwd+TSO_PCR, 0.6x/1.8x AMPure split, P5_TSO/P7_N7XX_Custom2 PCR; 10x branch) and 393-415 (UMI from probe A, connector-region read check); MOESM3 XLSX Supplementary Tables 7-10 lines 138-296",
+      "oligo_scraper": "Bundle scraper run (preprint supplement hits ignored as superseded); published Table 7-10 rows checked in MOESM3 .txt; Table 10 A/B probe pairs verified line by line (fixed parts identical across pairs).",
+      "findings": "Corrected model: Table 10 rows are the azide PLA probe oligos (A 5'AzideN, B 5'Phos/3'AzideN), not bead oligos; UMI window HHHHACHHHHACHHHN and U_fwd site are on probe A (model had UMI on probe B); probes drawn with printed fixed sequence and N barcodes. Connector geometry made exact: 26-nt connector pairs probe A 3' arm CTAAATCGTG and probe B 5'-p arm TCGTGTCGTG (20 bp, agrees with article), shown as a checked detail view. T4 ligase/rATP conditions, wash-based unbound-probe discard and unresolved unligated-probe off-product added; connector input has an exact state. Graph-owned published discrepancy: article 119-base PLA product vs Table 10 probes 70+59 = 129 nt; model draws printed sequences.",
+      "deferred": [
+        "Nature Protocols 2024 detailed protocol (10.1038/s41596-024-01030-x) not re-read",
+        "10x CG000315/CG000317 Rev B guides and Drop-seq bead oligo (Macosko 2015) for a branch-specific final library",
+        "Basis of the article's 119-base product length",
+        "Platform-specific PLA indexing PCR geometry and read landing (Drop-seq, Smart-seq2, 10x) not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 2 established/0 conditional/9 unresolved/0 contradictory; source guard 1 exact checked (connector), 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

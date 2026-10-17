@@ -1,8 +1,8 @@
 """Reusable molecular states for UMI-family and strand-aware consensus methods.
 
-The constructors keep two meanings separate: a single-strand UID identifies one
-amplified template strand, whereas a duplex UID is copied into both strands before
-amplification and can therefore reconnect Watson and Crick families.
+A duplex UID is copied into both strands before amplification and can therefore
+reconnect Watson and Crick families; a single-strand UID (identifying one amplified
+template strand) is declared by its protocol owner.
 """
 from __future__ import annotations
 
@@ -19,40 +19,6 @@ def uid_segment(name: str, length: int, identity: str, *, group: str | None = No
         raise ValueError("a molecular UID must contain at least one base")
     return seg(name, "N" * length, "umi", placeholder=True,
                feature=feature(identity, "umi", "random", group=group, part=part))
-
-
-@dataclass(frozen=True)
-class SingleStrandUID:
-    """A primer-borne UID assigned before redundant target amplification."""
-
-    length: int = 14
-
-    def assignment(self) -> Scene:
-        target = [seg("target body", "X" * 20, placeholder=True),
-                  seg("target-primer site", "T" * 12)]
-        primer = [seg("universal PCR handle", "H" * 14, placeholder=True),
-                  uid_segment("random UID", self.length, "safe_seqs_uid"),
-                  seg("target-specific primer", "A" * 12, placeholder=True)]
-        sc = Scene(); sc.strand("template", target, label="one target strand")
-        sc.anneal("UID primer", primer, to="template",
-                  pair=("target-specific primer", "target-primer site"),
-                  label="UID-assignment primer",
-                  unpaired=("universal PCR handle", "random UID"))
-        sc.arrow("UID primer", "limited-cycle UID assignment")
-        sc.mark("UID primer", "random UID", "one UID defines one strand family")
-        sc.labels("UID primer")
-        return sc
-
-    def family(self) -> Scene:
-        parts = [seg("universal PCR handle", "H" * 14, placeholder=True),
-                 uid_segment("copied UID", self.length, "safe_seqs_uid"),
-                 seg("target amplicon", "X" * 32, placeholder=True),
-                 seg("opposite universal handle", "K" * 14, placeholder=True)]
-        sc = Scene.duplex(parts, label="redundant copies in one UID family")
-        sc.mark("top", "copied UID", "group reads before family consensus")
-        sc.note("top", "a variant is accepted only when it dominates the UID family")
-        sc.labels("top")
-        return sc
 
 
 @dataclass(frozen=True)

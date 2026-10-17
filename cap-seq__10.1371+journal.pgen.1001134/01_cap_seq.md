@@ -9,12 +9,23 @@ This page covers **CXXC Affinity Purification plus sequencing**, the named DNA m
 - 🟢 Illingworth *et al.*, “Orphan CpG islands identify numerous conserved promoters in the mammalian genome,” *PLOS Genetics* (2010), DOI `10.1371/journal.pgen.1001134`, PMCID `PMC2944787` (defining paper and methods).
 - 🟢 Earlier MAP/CAP preparation methods cited by the defining paper were used only to interpret the named chromatography steps; no unprinted oligo was imported from them.
 
+- Round 2026-10-17-breadth-first-07 re-read PMC2944787 JATS Methods lines 218 (CAP) and
+  224–226 (library preparation and Solexa sequencing), Results line 79 (600→560 mM wash
+  optimisation), Table S1 (s010) header rows, and the predecessor PMC4338610 JATS lines
+  113–135 (its Supplemental Data pointer; `NIHMS62106-supplement-01.pdf` is listed in the
+  XML but is absent from PMC Cloud and the PMC page returns HTML, so it stays unread).
+  The cached bioRxiv `2024.09.10.612220_v3` file in the source bundle is an unrelated
+  2025 long-read microbiome method and is not used.
+
 ## Molecular interpretation
 
 - 🟢 CAP enriches genomic fragments containing clusters of **unmethylated CpGs** by binding them to recombinant CXXC immobilized on nickel-charged Sepharose.
 - 🟢 The sequencing adapters are ligated to input DNA **before** affinity purification. This matters: selection acts on an already sequenceable library rather than on naked DNA followed by a separate library build.
 - 🟢 Binding occurs in column buffer containing 0.1 M NaCl. Human libraries are washed at 600 mM NaCl; the optimized mouse workflow uses 560 mM because mouse CpG islands are, on average, less CpG-dense. Bound material is eluted at 1 M NaCl.
-- 🟢 The enriched libraries were sequenced single-end on the Solexa platform.
+- 🟢 Recombinant CXXC (expressed as in reference 7) was pretreated with DNaseI to remove bacterial DNA and bound to nickel-charged Sepharose at 50 mg/ml bead volume (Methods line 218).
+- 🟢 Input DNA was "prepared as for MAP-seq" (reference 57). The page shows this as a warned delegated step; fragmentation and fragment ends are not assigned.
+- 🟢 Eluted fractions were pooled, concentrated and precipitated as for MAP; CAP was performed once per sample, with at least two technical replicates per DNA sample. Whether any amplification or size selection followed elution is delegated to reference 57 and not drawn.
+- 🟢 The enriched libraries were sequenced single-end on the Solexa platform at the Wellcome Trust Sanger Institute; reads were mapped with MAQ and retained at mapping score ≥30 (a computational filter). Read length is not stated in the inspected Methods.
 - 🔴 The defining paper's “Library preparation and Illumina Solexa sequencing”
   section delegates the library recipe to its reference 57, Skene *et al.*,
   *Molecular Cell* (2010), PMCID `PMC4338610`. That open author manuscript

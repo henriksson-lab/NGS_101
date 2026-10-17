@@ -19,18 +19,20 @@ Other paper listed for this protocol in `catalogue/scg_lib_structs.tsv`: Plessy 
 *Nat Methods* 2010, doi:10.1038/nmeth.1470 — cited by upstream only for the term
 *semi-suppressive PCR*; not chemistry of this method, not read.
 
-Sources read (fetched by `tools/get_sources.py`, into
-`/husky/henriksson/NGS101_papers/sources/dscatac-seq-dsciatac-seq__10.1038+s41587-019-0147-6/`, never committed):
+Sources read (fetched by `tools/get_sources.py` into this protocol's slug bundle
+`/husky/henriksson/NGS101_papers/sources/dscatac-seq__10.1038+s41587-019-0147-6/`, never committed;
+the dsciATAC-seq page reads the same originals, by md5, from `dsciatac-seq__10.1038+s41587-019-0147-6/`.
+An older combined directory `dscatac-seq-dsciatac-seq__…` holds duplicate copies and is not cited):
 
 | File | What | Used for |
 |---|---|---|
-| `s41587-019-0147-6_PMC10299900.html.txt` | full text (PMC author manuscript) | **all methods**: tagmentation, droplet PCR programme, Tn5 assembly, sequencing |
+| `s41587-019-0147-6_PMC10299900.xml.txt` | full text (PMC author manuscript, JATS XML from PMC Cloud) | **all methods**: tagmentation, droplet PCR programme, Tn5 assembly, sequencing |
 | `s41587-019-0147-6_41587_2019_147_MOESM1_ESM.pdf.txt` | Supplementary Information (figures, Supplementary Note) | bead oligo cleaved off and primes at the fragment's 5' end; BAP logic |
 | `s41587-019-0147-6_41587_2019_147_MOESM8_ESM.xlsx.txt` | **Supplementary Table 6** (the paper calls it Table 6) | **every published oligo**: bead structure, 96 Tn5 oligos, ME complement, N7 primers, spike-in oligo |
 | `s41587-019-0147-6_41587_2019_147_MOESM7_ESM.xlsx.txt` | Supplementary Table 5 | donor / catalogue numbers only |
 | `..._MOESM3..6_ESM.xlsx.txt`, `..._MOESM2_ESM.pdf.txt` | Tables 1–4 (marker genes, peaks), Reporting Summary | not chemistry |
 | `upstream_dscATAC.html.txt` | scg_lib_structs page | second account: bead oligo incl. linker, kit primers, step-by-step, read layout |
-| `upstream_dscATAC_dsciATAC_bead_structures_Bio-Rad_Update.xlsx.txt` | Bio-Rad bead barcode list linked from the upstream page (fetched by hand with curl) | the 192 barcodes per position and phase-block assignment |
+| `scg_dscATAC_dsciATAC_bead_structures_Bio-Rad_Update.xlsx.txt` | Bio-Rad bead barcode list linked from the upstream page (fetched through the `scg:` repository handler; same md5 as the earlier hand-fetched copy) | the 192 barcodes per position and phase-block assignment |
 
 Not obtained / not needed:
 
@@ -197,8 +199,12 @@ User Guide (🔴 not obtained).
      (1–6, 13–18, …, 85–90), or 96-plex (1–96; 20 µL, 4 µL Tn5, 8,000 BMMCs per well).
      Wells pooled, washed in buffer without Tn5.
 3. **Droplets**: tagmented cells/nuclei + PCR mix + beads on the ddSEQ Single-Cell
-   Isolator; beads super-loaded (200–5,000 beads/µL tested). Index kit 12009360 supplies
-   one N7xx per sample.
+   Isolator; beads super-loaded (800 and 5,000 beads/µL named in the Methods λ estimate;
+   5,000 beads/µL for mouse brain). Droplets with more than one bead are **kept**: their
+   barcodes are merged computationally by BAP (Results; Methods "Identification of
+   multiple beads per droplet"), not removed experimentally. The Methods name the
+   SureCell ATAC-Seq Index Kit 12009360 for "bead barcoding and sample indexing"; that
+   the kit primers are the Table 6 N70X primers is plausible, not stated 🟡.
 4. **In-droplet programme** (C1000 Touch, deep-well module):
    37 °C 30 min → 85 °C 10 min → 72 °C 5 min → 98 °C 30 s → 8 × (98 °C 10 s, 55 °C 30 s,
    72 °C 60 s) → 72 °C 5 min. 🟢
@@ -209,7 +215,13 @@ User Guide (🔴 not obtained).
    get the bead primer at both ends (P5 only) and s7/s7 the N7 primer at both ends
    (P7 only), so neither forms a clusterable library. 85 °C 10 min: purpose not stated 🔴
    (USER inactivation and/or Tn5 release are plausible 🟡).
-5. **Break emulsion**, AMPure XP clean-up.
+   Graph order (2026-10-17 correction): the 37 °C / 85 °C bead-release interval and
+   the 72 °C 5 min step happen **inside the droplets**, after partition. Earlier
+   versions of the model filled gaps before encapsulation and discarded multi-bead
+   droplets; both were repository modelling errors. The release step is a warned
+   boundary; s5/s5 and s7/s7 products are an inferred, unresolved off-product (not
+   physically separated by any represented step).
+5. **Break emulsion** (pools cell-containing and cell-free droplets), AMPure XP clean-up.
 6. **Second PCR**: 98 °C 30 s → 7–9 cycles (by cell input) of 98 °C 10 s, 55 °C 30 s,
    72 °C 60 s → 72 °C 5 min. Primers not named in the paper; upstream: the kit's ATAC
    Primer Mix (P5[:17] / P7[:17]) 🟡. AMPure XP, Bioanalyzer HS.
@@ -260,7 +272,18 @@ mismatch 🟢 — consistent with the minimum Hamming distance 3 of both lists �
 - 🟡 Whether the 24 N7xx primers of Table 6 are identical to the ddSEQ Index Kit
   (12009360) content: plausible, not stated.
 
-## 7. How this note was made (tool evaluation)
+## 7. Bounded pass 2026-10-17 (round breadth-first-09)
+
+Originals read (capped at three): author manuscript PMC10299900 JATS text lines
+153–179 (tagmentation, droplet library preparation and sequencing, indexed Tn5 assembly,
+24/48-plex wells), 83/87/99 (super-loading, cell loading above Poisson), 195–237
+(multi-bead identification, bead concentrations); Supplementary Table 6 (MOESM8) all
+sheets; Supplementary Note (MOESM1) lines 136–149. Scraper run on both bundles.
+Bio-Rad guide 10000106678 (2024 revision on disk) and M12173L were not re-read in this
+pass; the publication-era 2018 guide remains unavailable. No missing-information claim
+is accepted by this pass.
+
+## 8. How this note was made (tool evaluation)
 
 `get_sources.py` got the PMC full text and all eight Springer supplements; the PMC
 copies of the supplements came back as reCAPTCHA HTML pages saved under `.pdf`/`.xlsx`

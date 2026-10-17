@@ -233,5 +233,25 @@
       "evidence": "Two independent reads of the iMARGI detailed author protocol and the current original NEB E7335 manual establish a six-base indexed primer family with twelve Set 1 members, but the experiment does not identify its selected member. The current v8.0 manual records index-table changes in 2018 and 2022. A contemporaneous 2018–2019 NEB manual was not located, so exact historical member bases and the claimed absence across all linked originals cannot be accepted."
     }
   ],
-  "conclusion": "Defining, detailed author, MARGI predecessor and current E7335 vendor originals have two independent reads. The E7335 vendor original resolves the available twelve-member index family and universal PCR primer, while the author protocol retains only a six-base sample-index slot. The historical 2018–2019 NEB manual is unavailable; v8 revision history notes later index-table edits, and no selected index member or lot is stated. The source checklist and linked-information disposition remain blocked, and no missing-information claim is accepted."
+  "conclusion": "Defining, detailed author, MARGI predecessor and current E7335 vendor originals have two independent reads. The E7335 vendor original resolves the available twelve-member index family and universal PCR primer, while the author protocol retains only a six-base sample-index slot. The historical 2018–2019 NEB manual is unavailable; v8 revision history notes later index-table edits, and no selected index member or lot is stated. The source checklist and linked-information disposition remain blocked, and no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PNAS PMC6386723 JATS 'Constructing iMARGI Sequencing Libraries' lines 197–207 (nuclei/AluI/RNase I, ligations, library construction) and read processing line 213; cited Wu et al. 2019 Nat Protoc PMC7314528 JATS reagents lines 195–259, linkers/primers 273–297, Procedure Steps 66–114 lines 900–1240",
+      "oligo_scraper": "Run on defining bundle (hits only in NEB E7335 manual adaptor/index family) and on detailed-protocol bundle (Cut_oligo line 285, index primer lines 293/295); linker strands and universal primer read directly at lines 277–289 and match oligos().",
+      "findings": "Graph expanded from 5 coarse steps to 20 source-ordered steps: AluI digestion and RNase I fragmentation; T4 PNK pH 6.5 RNA 3′ dephosphorylation; Klenow exo− dA tailing; T4 RNL2tr KQ RNA ligation and free-linker wash (waste); T4 DNA ligase proximity ligation; proteinase K reversal and phenol extraction; ExoI/T4 DNA polymerase biotin removal; streptavidin C1 capture (unbound waste); on-bead SuperScript III RT from linker bottom strand; T4 PNK 5′ phosphorylation; NaOH strand release (bead strand waste); 98 °C RNA hydrolysis/SILANE cleanup; CircLigase single-strand circularization; Cut_oligo annealing; BamHI relinearization; NEBNext HF PCR (12 cycles); MinElute/250–1000 bp E-gel size selection; PE100 HiSeq 4000. Page shows new within-source discrepancy Wu Step 104 'NEBNext HC' vs Step 106/reagent list High-Fidelity M0541; model uses High-Fidelity.",
+      "deferred": [
+        "Sridhar 2017 MARGI Document S1 library steps not re-read against the expanded graph (PNAS defers library construction to MARGI)",
+        "Strand-resolved post-BamHI and PCR landing junction states (compact final library inferred)",
+        "Selected NEBNext Set 1 index member and acquired index cycles",
+        "iMARGI_methods GitHub pipeline (read trimming/filtering)",
+        "Historical NEB E7335 v5 manual"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 2/2 pass; page builds; pairing 0 problems; chemistry 20 steps 1 established/1 conditional/21 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states (exit 0, within 600 s); audit --check pass; Markdown built"
+    }
+  ]
 }

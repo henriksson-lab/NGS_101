@@ -80,6 +80,31 @@ the reverse-complement i5 workflow for NextSeq systems. Those guides
 support the run orientation, while Butt's oligos establish the library's
 primer-site sequences.
 
+## Reaction steps and cleanups (2026-10-17 bounded pass)
+
+🟢 Article Materials and Methods (PMC10270195 XML lines 183–195) and the
+Supplemental Detailed Protocol (DOCX text lines 289–420, 570–600):
+after the NaOH/HCl step the single-stranded cDNA is recovered with 24 µL
+95% EtOH plus 24 µL AMPure XP beads; after the second TGIRT reaction
+1 µL 0.2% SDS (55 °C, 5 min) dissociates TGIRT before an AMPure cleanup
+and 9 µL elution. PCR uses NEBNext Ultra II Q5 2x master mix with SCP7
+and one Ad1 primer; the detailed protocol states the initial 72 °C step
+fills in the single-stranded meR1R adapter region. The PCR is cleaned with
+65 µL AMPure (1.3x), run on an 8% TBE gel, the smear from 150 to ~700 bp
+is excised (adapter products are ~140 bp) and recovered by crush and soak
+in 300 mM NaCl, Spin-X filtration and isopropanol/GlycoBlue precipitation.
+The detailed protocol (line 730) reports a 75-cycle NextSeq 500 kit;
+biological read lengths are not stated.
+
+🟢 Published differences between the article and the detailed protocol,
+both shown on the page without choosing one: post-second-strand beads
+30 µL (article) vs 25 µL, 2.27x (detailed protocol); PCR program
+3 min 72 °C, 30 s 98 °C, 9–15 × (15 s 98 °C / 30 s 65 °C), 2 min 72 °C
+(article) vs 2 min 72 °C, 2 min 98 °C, 8–15 × (10 s 98 °C / 10 s 65 °C),
+1 min 72 °C (detailed protocol). The optional reconditioning PCR in the
+detailed protocol is not drawn (the authors state it was not used for the
+paper's libraries).
+
 ## Read 2 first-base interpretation
 
 🟢 The article's Results paragraph beginning “To analyze transcriptional

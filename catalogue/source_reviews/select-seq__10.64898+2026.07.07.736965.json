@@ -107,5 +107,25 @@
       "evidence": "The paper says tagmentation and index PCR follow Smart-seq3 V.3; the cited protocol allows custom Nextera indexes, but neither inspected source assigns a member to each study well."
     }
   ],
-  "conclusion": "Two independent checks of the original paper, both supplements, and cited Smart-seq3 V.3 protocol resolve the primer, crRNA, reporter and inherited RT/WTA oligos. Exact per-well Nextera index assignment remains unresolved; no absence claim is accepted."
+  "conclusion": "Two independent checks of the original paper, both supplements, and cited Smart-seq3 V.3 protocol resolve the primer, crRNA, reporter and inherited RT/WTA oligos. Exact per-well Nextera index assignment remains unresolved; no absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Defining bioRxiv v1 PDF (2026.07.07.736965_v1.full.pdf.txt) Methods lines615–813: 'SELECT-seq workflow'/multiplex PCR619–679, Cas12a detection, 'Purification and library preparation', 'Genotyping of Cas12a-positive single cells', 'Genotyping of pooled edited cells', 'Library purification and sequencing'; Supplementary Table 1 (media-2.xlsx.txt) sheets primers lines1–107, crRNA108–114, pegRNA115–117, probes118–124; cited Smart-seq3 v3 protocols.io PDF 'List of oligos' lines70–125",
+      "oligo_scraper": "Scraper previously run on this bundle; this pass read the workbook sheets and the Smart-seq3 oligo table directly in the .txt originals.",
+      "findings": "Notes-only entry extended with verified reaction detail: WTA primers reduced to 0.05 µM with 0.1 µM SNP-specific primers and 35 cycles; Cas12a mix 50 nM NEB M0653, 100 nM crRNA, 1 µM FAM/ZEN/IBFQ reporter, 1× NEBuffer r2.1, 37 °C 30 min then 65 °C 10 min inactivation on unpurified PCR product; AMPure 10+30+24 µL, Qubit, dilution to 100 pg/µL, tagmentation stopped with 0.1 % SDS, 14-cycle index PCR, Element Aviti PE150. Smart-seq3 v3 oligos recorded verbatim with /5Biosg/, rGrGrG and phosphorothioate marks. Supplementary Table 1 structure recorded (four allele variants per SNP target plus reverse primer, shared 21-base Cas12a direct repeat, six reporter variants). Separated the three-step Nextera-tailed genotyping amplicon libraries and the pooled-gDNA genotyping library from the single-cell SELECT-seq library. No schematic (notes status).",
+      "deferred": [
+        "Smart-seq3 v3 protocols.io body steps beyond the oligo list",
+        "Hagemann-Jensen Smart-seq3 publication",
+        "NEB M0653 Cas12a and IDT reporter product documentation",
+        "Code Availability repository",
+        "Per-well Nextera index member assignment"
+      ],
+      "scope": "Capped defining-source pass on a notes-only entry; no schematic, no full chemistry validation, no accepted missing-information claim.",
+      "verification": "notes-only: no module/page/suite exists (check_chemistry reports 0 graph declarations; source guard 0 checked/0 graphs); Markdown rebuilt with build_docs.py; review schema checked with audit_protocol_sources --check"
+    }
+  ]
 }

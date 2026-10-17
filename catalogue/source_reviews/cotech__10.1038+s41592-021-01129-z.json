@@ -79,5 +79,26 @@
       "evidence": "MOESM3 publishes oligo families, but defining text and target-panel/version-specific linkage remain unavailable."
     }
   ],
-  "conclusion": "Author oligo table recovered; inaccessible defining article prevents a complete source review."
+  "conclusion": "Author oligo table recovered; inaccessible defining article prevents a complete source review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Supplementary Table 1 (Springer MOESM3 XLSX text): Custom_primers lines 1-11, PA-Tn5_barcodes 12-63, barcoded_oligo_dT 64-162, Nextera_index 163-188, Truseq_index 189-; bioRxiv 10.1101/2020.10.15.339226v1 PDF text Results lines 150-172 and Figure 1 legend 347-358. Published article text remains a (manual) manifest row (publisher page only) and was not read.",
+      "oligo_scraper": "Bundle scraper re-run: 16 hits in 2 files; every Table S1 hit followed to its workbook line and transcribed verbatim. The two preprint hits (lines 236, 241) are poly-A/T figure artefacts, not oligos.",
+      "findings": "Replaced the role-only declaration with the Table S1 oligos and the preprint's step order. Second combinatorial coordinate corrected: it is the secondary well's library-PCR index (TruSeq i5/i7 for DNA, Nextera i5 + TruSeq i7 for RNA), added in the library PCR, not at redistribution; it is now a cell-barcode feature instead of a sample index. First-round chromatin identity is the T5+T7 barcode pair (separate features) and the RT branch carries its own 8-nt barcode and 8-nt UMI. Added preamplification, AMPure purification with waste, the half split, cDNA Tn5 tagmentation and the two-round DNA PCR. Removed the invented physically-discarded barcode-collision waste (collisions are a computational exclusion). Preamplification primers and cDNA-branch Tn5 loading are declared INFERRED. Page caveat states that the published text was unavailable and the step order is provisional from the preprint.",
+      "deferred": [
+        "Published Nature Methods Methods section (paywalled; manifest URL https://doi.org/10.1038/s41592-021-01129-z)",
+        "Preamplification primer identity and cycling",
+        "Tn5 loading for the cDNA branch (MEA + common annealing primer inferred)",
+        "Which of i5/i7 carries the second-round RNA index, and the index pair per secondary well",
+        "Read lengths and which reads cover T5/T7, RT barcode and UMI",
+        "CoBATCH (Wang et al. 2019) predecessor pA-Tn5 assembly"
+      ],
+      "scope": "Capped pass; preprint used provisionally for order only; no accepted missing-information claim.",
+      "verification": "local suite 12 checks pass (Table S1 transcription of 12 displayed oligos); page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 9 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

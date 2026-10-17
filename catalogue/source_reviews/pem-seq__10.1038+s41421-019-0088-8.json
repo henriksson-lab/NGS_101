@@ -165,5 +165,24 @@
       "evidence": "Original Supplementary TableS11 prints the bridge, nested and index families; prior independent table checks and present rereading agree. The page represents a labelled RAG1A/B I5-R1/I7-B01 example, without claiming historical sample allocation."
     }
   ],
-  "conclusion": "Blanket unpublished-oligo claim is resolved by original TableS11. Corrected defining-source sonication range. Full source audit remains in progress for newly enumerated author-code, predecessor and later-protocol resource links; no missing information accepted."
+  "conclusion": "Blanket unpublished-oligo claim is resolved by original TableS11. Corrected defining-source sonication range. Full source audit remains in progress for newly enumerated author-code, predecessor and later-protocol resource links; no missing information accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining Cell Discovery PMC6434046 JATS Materials and methods lines131–173 (primer extension, bridge-adapter ligation, PCR amplification for Illumina sequencing) and line59 figure legend; publisher supplement 41421_2019_88_MOESM1 pdf.txt TableS11 lines7085–7130 (BA-up/BA-lower, tagging and nested PCR oligos)",
+      "oligo_scraper": "Bundle scraper plus --find on the P5-I5 sequence: 0 contiguous hits, because TableS11 prints that oligo across two table cells; BA-up/BA-lower, P7 and I7-B01 hits verified at their supplement lines.",
+      "findings": "Added source reagents/conditions to the graph: sonication 0.3–2kb from 20µg DNA; bait primer within 200bp with five anneal/denature cycles at length-dependent Ta; Bst polymerase 3.0 65C 10min/80C 5min; new explicit 1.2x AxyPrep primer-depletion plus 95C denaturation step with discarded free bait primer; Dynabeads MyOne Streptavidin C1 with B&W washes; T4 DNA ligase in 15% PEG8000 on beads overnight at RT; Taq on-bead nested PCR 16 cycles; new size-selection bead step with discarded short products; tagging PCR declared locally with FastPfu and the exact P7 primer instead of the shared generic finisher. P5-I5 left as a named input (split table cells) with its transcription checked in the selftest.",
+      "deferred": [
+        "Bridge-ligation substrate and nested amplicon as exact Scenes/Constructs",
+        "LAM-HTGTS predecessor (doi:10.1038/nbt.3101) remains unavailable",
+        "STAR Protocols linked vendor guide and PEM-Q repository still unavailable",
+        "2019 TableS11 vs 2022 TableS2 random-barcode conflict unresolved (displayed on the page)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 1 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

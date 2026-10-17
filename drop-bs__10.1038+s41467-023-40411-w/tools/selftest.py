@@ -4,4 +4,4 @@ import sys
 H=Path(__file__).resolve().parent;sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
 import drop_bs as P
 from checks import Check
-c=Check();c.section("Drop-BS source transcription");c("N9 random primer",P.RANDOM_PRIMER,"TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGNNNNNNNNN");c("cell barcode length",P.CELL_LEN,15);c.report()
+c=Check();c.section("Drop-BS source transcription");c("N9 random primer",P.RANDOM_PRIMER,"TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGNNNNNNNNN");c("cell barcode length",P.CELL_LEN,15);c("converted ligation-arm complement matches Fig. S1 copy strand",P.CONVERTED_ARM_RC,"CTATCTCTTATACACATCTCCAAACCCACAAAAC");c("converted bead PCR-site complement matches Fig. S1 copy strand",P.CONVERTED_PCR_SITE_RC,"ATCTCATATACCATCTTCTACTTA");c.report()

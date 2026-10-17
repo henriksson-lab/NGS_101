@@ -323,5 +323,25 @@
       "checks": "Final fullbundle scraper:9sequencehits1file. Registered fetches53873/67040 and earlier80369/48503 all terminal; WuarinPDFgate and two small current authororiginals recorded. Seven tests, final page44067bytes, pairing/sourceguard/chemistry/review/docs/scopedwhitespace checks passed.",
       "scope": "No more fetching this batch. Actual nextchildscope remains open; no missing-information acceptance."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published author manuscript PMC6204104 JATS .txt Methods Chromatin isolation148–150, ChRO-seq library preparation152–154, Mapping156–158; publisher MOESM3 Supplementary Table 1 sheet header/UMI column (xlsx.txt lines1–40); cited predecessor Mahat 2016 PMC5502525 .txt procedure steps55–82 (lines1618–1950) and Table 1 oligos lines2876–2901",
+      "oligo_scraper": "Bundle scraper run: 9 hits, all in Mahat 2016 Table 1 (VRA3/VRA5/RP1/RPI-n/RA3/RA5/RTP); no oligo sequences printed in the ChRO article or its supplement text.",
+      "findings": "No change to reaction order: NUN isolation/washes/sonication, biotin-CTP/UTP run-on, Trizol LS stop, heat denaturation and NaOH hydrolysis (ChRO only), three streptavidin enrichments with Trizol release (predecessor steps 23–48 repeated at 56 and 82), 3′ ligation (M0204L), RppH/PNK/Trizol, 5′ ligation, RT (18080-044), PCR (M0491L) all agree. Completed run-on (2× buffer 300 mM KCl, 1% Sarkosyl, 37 °C 5 min) and hydrolysis (65 °C 40 s, 0.2 N NaOH on ice 8 min) condition labels from Methods line154. Role-level endpoint and sample-specific UMI annotation retained.",
+      "deferred": [
+        "Study-specific 3′/5′ adapter, RT and PCR primer variants (UMI-bearing adapters) and 5′-ligase identity",
+        "PCR cycles and acquired NextSeq 500 read lengths/run mask",
+        "Wuarin & Schibler 1994 (ref 27) original PDF behind PMC download gate",
+        "GSE117832 sample records and Danko-Lab proseq pipeline adapter settings not re-read",
+        "Supplementary figures/result tables visual audit"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 7/7 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/19 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states (role-level adapters/primers); Markdown built; review schema checked"
+    }
   ]
 }

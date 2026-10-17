@@ -9,10 +9,12 @@
 The page follows the original PRO-cap branch:
 
 1. Four-biotin-NTP run-on, RNA extraction/desalting and first streptavidin enrichment, **without** PRO-seq fragmentation.
-2. Standard Illumina 3′ RNA-adapter ligation and second streptavidin enrichment.
-3. Antarctic phosphatase before TAP; PNK is expressly omitted.
-4. Standard 5′ RNA-adapter ligation and third streptavidin enrichment.
-5. Standard Illumina RT/PCR, Phusion amplification and PAGE library purification.
+2. Standard Illumina 3′ RNA-adapter ligation and second streptavidin enrichment. The SOM first-ligation passage uses T4 RNA ligase I (NEB), 6 h at 20 °C; for PRO-cap it changes only the adapter (SOM lines 121–124).
+3. Antarctic phosphatase before TAP; PNK is expressly omitted. Each enzyme reaction is followed by ethanol precipitation.
+4. Standard 5′ RNA-adapter ligation and third streptavidin enrichment. The SOM does not name the 5′-ligation enzyme.
+5. RT with 25 pmol standard Illumina RT primer; a portion of the RT product sets the PCR cycle number by trial amplification; Phusion PCR for 12–18 cycles in which excess RT primer serves as one PCR primer; PAGE library purification (SOM lines 139–148). The second PCR primer is named only for PRO-seq (GX1 or RPI-index); the PRO-cap choice is unassigned.
+
+Round 2026-10-17-breadth-first-15 model corrections: the graph previously declared a separate PCR forward oligo and generic ligases. It now reuses the RT primer in PCR, names T4 RNA ligase I for the 3′ ligation, and labels the 5′-ligation enzyme as not named. These were repository modelling gaps, not publication errors.
 
 The adjacent reverse PRO-seq adapters are assigned to the other branch. They are not silently used as PRO-cap reagents.
 

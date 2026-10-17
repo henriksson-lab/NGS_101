@@ -179,5 +179,25 @@
       "evidence": "The original Supplementary Table 1 prints target regions rather than full manufactured probes, and the reviewed 2022 guide gives architecture rather than nucleotide sequences. The exact historical 2014 manual and ViewRNA predecessors have not completed the two-reader audit."
     }
   ],
-  "conclusion": "Original 2014 article, its source PDF supplement and the 2022 PrimeFlow guide were read; the article/table description and 2014/2022 probe-type differences are displayed on the page. No missing-information claim is accepted while linked historical documents remain under review."
+  "conclusion": "Original 2014 article, its source PDF supplement and the 2022 PrimeFlow guide were read; the article/table description and 2014/2022 probe-type differences are displayed on the page. No missing-information claim is accepted while linked historical documents remain under review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Thermo Fisher MAN0019788 Rev B.0 (22 Feb 2022) MAN0019788_PrimeFlowRNAAssay_UG.pdf.txt lines 1-25 (identity/revision), 131-146 (product description), 160-170 (Fig.1 four-type example), 296-330 (workflow figure), 395-405 (assay guidelines Type 1/4/6/10 dyes), 640-870 (Day 1 staining/fixation/permeabilization/target hybridization; Day 2 PreAmp/Amp/Label), 2470-2640 (positive-control table); Porichis 2014 PMC4256720 JATS lines 77, 79, 81, 137 (Methods flow-FISH procedure), 147, 159; Supplementary Information MOESM1192 pdf.txt lines 775-803 (Supplementary Table 1 IL-2 rows)",
+      "oligo_scraper": "Bundle scraper run (--max-hits 15); hits are Supplementary Table 1 target-region bases only (IL-2 2-24, 25-52, ...); the two modelled IL-2 regions match lines 775/777. No tail, preamplifier, amplifier or label-probe bases in inspected sections.",
+      "findings": "Preparation corrected to include the second fixation (guide Fixation Buffer 2 60 min RT; Porichis second 4% PFA) after optional intracellular staining; captions now give guide/article hybridization conditions (probes 1:20 2h 40C; PreAmp and Amp 1.5h 40C with washes; label probes 1:100 1h 40C) and Type 1/4/6/10 dyes. Removed unsupported claim that Types 1/4/6/10 use four distinct amplification structures; page now displays the guide's internal inconsistency (p.5 'three different amplification structures' for up to four targets vs p.9/workflow four types). Page states that only 400 label sites per tree is published and the drawn 20x20 split is a schematic factorization. Note records the positive-control table 'Type 2' header over Type 4 catalogue numbers.",
+      "deferred": [
+        "Original vendor-hosted QuantiGene FlowRNA P/N 19221 Rev A manual (dead eBioscience URL; mirror provenance unresolved)",
+        "Player et al. 2001 bDNA predecessor",
+        "ViewRNA ISH P/N 18801 manual not re-read this round",
+        "Universal tail, preamplifier, amplifier and label-probe sequences and the amplifier/label multiplicity split (open; no absence claim)",
+        "Porichis Results line 77 'methanol-based reagent before permeabilization' vs Methods PFA/methanol/PFA wording not reconciled"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 98 checks pass; page builds; pairing 0 problems; check_chemistry not applicable (legacy branched-DNA renderer has no protocol_graph declaration: ValueError found 0); source guard 0 checked/0 failed/0 graphs; Markdown built/checked; review schema checked"
+    }
+  ]
 }

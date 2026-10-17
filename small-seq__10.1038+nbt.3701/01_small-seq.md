@@ -259,3 +259,22 @@ manual PDF; earlier audit statements that it was unavailable were repository
 source-discovery errors. Its oligos and reaction order have now been read in the
 source bundle. Instrument-specific loaded-primer identity remains outside the
 model evidence; no unpublished-information claim is accepted.
+
+## Bounded pass 2026-10-17 (round breadth-first-18)
+
+🟢 Re-read the 2016 Online Methods (`download.pdf.txt` lines 810–885) and Supplementary
+Table 2 (`nbt.3701_..._MOESM4_ESM.pdf.txt` lines 6060–6331), and compared them with the
+2018 Reagent setup (lines 642–684), Steps 10–16 (lines 817–960) and Steps 36–38
+(lines 1280–1292). The 2016 3′ adapter, 5′ adapter, RT primer, 5.8S mask and RP1 bases and
+modifications equal the 2018 Reagent setup, except that 2016 writes the mask's 3′ label as
+`-TEG-biotin`. The 2016 index family is 48 `INDEX-RPI` primers
+(`CAAGCAGAAGACGGCATACGAGAT`-6-nt index-`GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA`), which share
+the 2018 SRX common link and RTP foot. The 2016 Methods pool the PCR products and purify
+them with a Zymo DNA Clean & Concentrator-5 column; they describe no size selection. These
+are published-version differences, not source discrepancies.
+
+🟡 Step 38 asks for "a single read of 51 bp or longer"; the model uses the 51-cycle
+minimum. The 8-cycle Index 1 length is the SRX barcode length from Supplementary Table 1;
+the protocol does not print an acquired index-cycle count. The sequencing-plan limitation
+on the page now says so.
+

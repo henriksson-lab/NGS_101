@@ -162,5 +162,43 @@
       "evidence": "The cited grid ordering workbook and original supplementary methods are inaccessible in the source bundle, and the linked sci-RNA-seq guide does not print complete panels. This is an unresolved source-access task, not an accepted absence."
     }
   ],
-  "conclusion": "Two independent readers verified the available sci-Space article and all three linked author protocols. A first located read of Cao 2017 predecessor is now recorded; its original supplement, sci-Space published supplement and named ordering workbook still need source review. In particular the available text does not establish the slide-specific hash tail. No missing claim is accepted."
+  "conclusion": "Two independent readers verified the available sci-Space article and all three linked author protocols. A first located read of Cao 2017 predecessor is now recorded; its original supplement, sci-Space published supplement and named ordering workbook still need source review. In particular the available text does not establish the slide-specific hash tail. No missing claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC9118175 JATS main text lines 93-97 and refs 37-38; two-level sci-RNA-seq guide doi:10.17504/protocols.io.bquamwse (PDF dated 13 Feb 2021, printed DOI matches cited v1, no version label) steps 15-20, 37-59 (lines 280-300, 337-350, 461-480, 495-662); transfer guide btw5npg6 v2 steps 1.3 (lines 170-177) and 8-10 (lines 337-372); grid guide step 7.1 line 122 re-confirmed only for the earlier-cited hash structure",
+      "oligo_scraper": "Bundle scraper not separately needed beyond the pointed passages: hash structure (grid guide line 122) and P5/P7 architectures (two-level guide lines 592-601, P5 3' TCT continues after the page break) read directly; no RT-primer sequence found in the guide text read.",
+      "findings": "Note had dropped the P5 primer's final TCT across a page break (repository transcription error, corrected). Removed unsupported second-strand primer input (NEBNext Ultra II Non-Directional module only, 16C 150min). Section oligo now enters by permeabilization in indexed cold lysis buffer and grid hashes by diffusion (GENERIC, non-changing) instead of hybridization; added 5% PFA fixation, Zymo stop + SPRI per-well cleanup, named in-house N7 or dual-loaded Illumina Tn5 55C 5min, NEBNext HF 2x PCR 72C 5min+18-22 cycles, pooled 1x AMPure. Replaced shared _finish_pcr and sci_space_library imports with a local graph tail and local final library that adds the oligo(dT) copy of the hash poly(A) (derived: step-7.1 hash carries S7+ME so its RT copy ends in the P7 site). Tagmentation by-products discard -> unresolved. Guide read lengths 18/10/10/52 shown as a guide recommendation, not acquired cycles.",
+      "deferred": [
+        "Supplemental Materials and Methods PDF and Files S1-S3 (PMC download gate: https://pmc.ncbi.nlm.nih.gov/articles/instance/9118175/bin/NIHMS1801003-supplement-Supplemental_Material_and_Methods.pdf)",
+        "all_plates_for_ordering.xlsx hash panel (protocols.io attachment metadata not checked)",
+        "Two-level sci-RNA-seq RT primer sequence and index members (Cao 2017 predecessor not read)",
+        "Slide-specific section oligo sequence/tail",
+        "Acquired sci-Space read cycles"
+      ],
+      "scope": "Capped defining-source pass only; partial because the supplementary methods are gated; no accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 6 inputs without exact states (section_hash, grid_hash, rt_primer, transposome, library_forward, library_reverse); Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Published Science Supplementary Materials abb9536-Srivatsan-SM.pdf ('Published 2 July 2021, Science 373, 111', DOI 10.1126/science.abb9536) from CaltechAUTHORS record zd6v5-5nb93 (https://authors.library.caltech.edu/records/zd6v5-5nb93): Materials and Methods pp. 1-5, extracted lines 25-245 (grid printing, hash tests, transfer, library preparation, sequencing) and refs 36-39 (lines 1320-1331); Data Files S1 and S3 opened and identified as gene tables (not chemistry).",
+      "acquisition": "PMC supplement URL still returns the 'Preparing to download' gate (not circumvented); Europe PMC supplementaryFiles: 'not open access'; PMC Cloud bucket PMC9118175.1 holds only JSON/TXT/XML; Unpaywall/OpenAlex listed the CaltechAUTHORS repository record, which hosts the published Science supplement files.",
+      "oligo_scraper": "scrape_primers.py on the SM text: 0 sequences; no oligo tables in the Materials and Methods.",
+      "findings": "Conditions corrected to the study-specific SM: 15 uM spot + 2.5 uM sector oligo, 0.5% glycerol; slide hash 5 uL 10 uM in 500 uL permeabilization buffer (composition added); 4% PFA fixation (transfer guide and SM hash-test section use 5%; shown as a source difference); added thaw/0.25% Triton permeabilization/12 s sonication/5000 nuclei per RT well step; indexed oligo(dT) 25 uM (guide 10 uM); SSIV ramp from 10 C (guide 4 C); NEB mRNA second strand synthesis module after 200/well sort or 250/well dilution; only custom n7-loaded Tn5 0.01 uL in 2x Nextera TD; 12 uL Zymo binding buffer, 36 uL AMPure, 17 uL EB; PCR 75 C 3 min + 18 cycles 1-min extension (guide 72 C 5 min, 18-22 cycles); Zymo Clean & Concentrator + 0.8x AMPure (guide 1x); acquired run NextSeq 500 R1 18 (8 UMI + 10 RT barcode) / I1 10 / I2 10 / R2 52 now declared as read lengths. Page caveat lists every SM-vs-guide difference. Note no longer claims Cao 2017 was read.",
+      "deferred": [
+        "Cao 2017 (doi:10.1126/science.aam8940; SM ref. 39) for indexed oligo(dT) RT primer, Tn5 n7 adapter and indexed P5/P7 members",
+        "Slide-specific section hash sequence/tail",
+        "all_plates_for_ordering.xlsx hash panel (protocols.io attachment metadata not checked)",
+        "Data File S2 zip (not fetched; listed in SM as other supplementary material)"
+      ],
+      "scope": "Capped follow-up obtaining the previously gated supplementary methods; defining article and supplement now read; no accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 6 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

@@ -95,12 +95,13 @@ The source window varies:
 
 | Original record | Stated window |
 |---|---|
+| 2026 article Fig. 2D legend (JATS line 168) | size-fractionated (≈ 100 nt) RNA |
 | GSE179306 series Overall Design, line 11 | 50–100 bp |
 | GSM5452295 extraction, line 70; SRA construction protocol | 70–100 bp |
-| bioRxiv version 1, 14 July 2021, Methods 1370–1385 | 70–100 bp |
-| bioRxiv version 2, 24 October 2025, Methods 1664–1680 | 50–100 bp |
 
-The 2026 published paragraph describes the small-RNA region without repeating an interval.
+The 2026 published Methods paragraph describes the small-RNA region without repeating an
+interval. Round 18 removed the superseded bioRxiv v1/v2 values from this comparison: under
+the published-version-first rule an ordinary preprint revision is not a competing source.
 The public page now shows this discrepancy and leaves the exact gel window unassigned.
 A protocol revision, specific-library choice or transcription difference remains possible;
 none is silently selected as the explanation.
@@ -112,3 +113,10 @@ read-statistics index 0 has average 75, standard deviation 0, and count equal to
 the other statistics slot has count 0. The page now declares this sample's **Read 1 = 75**.
 This is the deposited genomic read length, not a recovered complete instrument/index mask.
 No raw reads were downloaded. Alignment `-5`/`-3` operations remain separate from acquisition.
+
+🟡 The 2026 Results (JATS line 178) say the short transcripts were "sequenced from both
+ends (Supplementary Fig. S4C)". The deposited layout above is SINGLE with an empty second
+read slot. The page shows both statements; the model keeps one 75-nt Read 1 for
+GSM5452295 and treats 5′/3′ ends as computed from alignments. Whether the phrase means
+paired-end acquisition of other, undeposited runs or end recovery after adapter trimming
+remains open.

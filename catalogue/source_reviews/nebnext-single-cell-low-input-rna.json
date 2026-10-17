@@ -55,5 +55,23 @@
       "evidence": "cDNA-stage oligos are published; separate indexed DNA library kit remains unselected."
     }
   ],
-  "conclusion": "Core NEB cDNA primers are published in E6420 manual and independently verified. Separate adapter/index kit original is unavailable; member-specific details remain blocked."
+  "conclusion": "Core NEB cDNA primers are published in E6420 manual and independently verified. Separate adapter/index kit original is unavailable; member-specific details remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "NEB E6420 manual version 6.0_01/24 manuale6420.pdf.txt: Kit contents and Required Materials (lines 1-60), Section 1 steps 1.2-1.13 (lysis, RT primer annealing, RT/template switching, cDNA PCR and cycle table, 1.6 double cleanup, 1.8 FS, 1.9 ligation+USER, 1.10/1.12 cleanups, 1.11 PCR options A/B and cycle table, 1.13 QC), Section 2.2 annealing (parallel), Oligo Sequences / Adaptor Trimming / Read Length and Depth lines 1840-1870, Revision History",
+      "oligo_scraper": "Scraper on the bundle: TSO (line 1848), RT primer (lines 1853-1854, wrap truncates the T30V tail; 30 T and terminal V counted from the original), cDNA PCR primer (1859), trim motifs (1863-1864); all verified in the original.",
+      "findings": "Fixed amplified-cDNA orientation: the RT-primer handle was written in primer orientation on the sense strand, leaving no reverse site; it now follows a poly(A) copy as its reverse complement, and the cDNA PCR uses one primer reagent with exact PCRGeometry.symmetric landing (TSO 12-nt 5' extension kept only on the template-switched template, absent from products; GGG and V-pairing base marked derived). Added 0.6X+reconstitution double cDNA cleanup, USER treatment in the ligation (mechanism not drawn; manual does not state it), 0.8X and 0.9X cleanups with waste fates; named Ultra II ligation/Q5 reagents and conditions; source-exact states for TSO and cDNA PCR primer; final library marked inferred, read lengths 2x75 from manual, readout notes oligo-kit-dependent single- or dual-index layout.",
+      "deferred": [
+        "Chosen NEBNext oligo kit manual (adaptor body, USER site, index primers; kit and well are user choices)",
+        "RT and cDNA PCR enzyme identities (not named)",
+        "RT primer exact-state guard blocked by line-wrapped spaced-triplet text (tool limitation)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 102 checks pass (shared run_common plus 4 local transcription checks); page builds; pairing 0 problems; chemistry 1 established/2 conditional/13 unresolved/0 contradictory; source guard 2 exact checked (TSO, cDNA PCR primer), 0 failed, 1 input without exact state (RT primer, wrapped text); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

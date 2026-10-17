@@ -6,7 +6,9 @@ Defining paper: Cheng et al., *Nature Communications* (2023), [doi:10.1038/s4146
 - 🟢 Antibody-coated 55-µm nanovials retain cells and capture secreted IgG; PE anti-IgG followed by a barcoded anti-PE antibody reports the captured secretion in the main human B-cell experiment.
 - 🟢 Cell-loaded nanovials enter a standard 10x Chromium 3′ v3.1 workflow. Transcript and antibody-derived-tag libraries are pooled 80:20 and sequenced 28-bp Read 1, 10-bp i7, 10-bp i5 and 90-bp Read 2.
 - 🟢 The paper also describes a separate Raji/hybridoma compatibility experiment using TotalSeq-C streptavidin (BioLegend 405271) and anti-IgG1 (406636) with the Chromium 5′ v2 kit. Those reagents and that kit should not be conflated with the main 3′ v3.1 anti-PE readout.
-- 🟡 The main experiment’s selected anti-PE barcode member and full conjugate remain unassigned in the model. The vendor guide below supplies the capture and library families; it does not establish the study’s selected barcode/index members.
+- 🟢 Supplementary Table 2 (MOESM1; rendered PDF table, `SEC-seq` rows) names the main-experiment reagents: PE Mouse Anti-Human IgG (BD 555787, clone G18-145) and TotalSeq™-B0911 anti-phycoerythrin (PE) Antibody (BioLegend 408113, clone PE001). The nanovial capture coat is streptavidin plus biotinylated goat anti-human IgG Fc (Southern Biotech 2014-08) and biotinylated anti-CD27 or anti-CD45; the same anti-IgG is the 25 µg/mL blocking antibody added to cells before loading (Methods "coating", "cell loading").
+- 🟢 Front-end order (Methods "cell loading", "incubation", "SEC-seq human ASCs"): load cells 1 h on ice, strain away unbound cells, incubate 30 min at 37 °C to accumulate secretion, stain PE anti-IgG then barcoded anti-PE, sort SYTOX Green-negative cell-loaded nanovials on a Nanocellect WOLF (collected independent of secretion amount, Supplementary Fig. 8a), load 2,500–10,000 per Chip G lane.
+- 🟡 The 15-base TotalSeq-B0911 barcode is not printed in the inspected article or supplement; the BioLegend product documentation is a deferred original, so the feature barcode stays symbolic. The vendor guide below supplies the capture and library families; it does not establish the selected index members.
 - 🟡 Raw reads are listed under GEO `GSE229042` and BioProject `PRJNA953084`. A feature-barcode consensus from those reads could help identify a used barcode after comparison with a vendor reference, but would not establish the complete antibody-conjugated oligo or its chemical modifications.
 
 ## Source-specific library correction
@@ -53,3 +55,13 @@ the CG000317 Rev E 29-base prefix, supported by its printed forward primer
 and PCR product; TEA's distinct declaration follows its cited Multiome Rev A.
 The historical physical prefix used in SEC-seq remains unverified. The public
 page displays this disagreement and source choice.
+
+## Bounded pass 2026-10-17 (round breadth-first-18)
+
+Re-read the published JATS Methods (coating, loading, incubation, staining,
+mixed-species and human ASC paragraphs) and MOESM1 Supplementary Table 2 and
+Fig. 8 caption. The graph now separates loading/strainer wash, 37 °C secretion
+accumulation, two-antibody staining and the SYTOX Green live-nanovial sort, and
+names TotalSeq-B0911 anti-PE. Still deferred: BioLegend 408113 barcode sheet,
+the author analysis repository, the 5′ v2 guide for the validation branch, and
+the 80:20 pool (described in prose, not drawn as a graph pool).

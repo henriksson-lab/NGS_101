@@ -94,5 +94,25 @@
       "evidence": "Published Science supplement remains gated; preprint bases cannot alone certify published version."
     }
   ],
-  "conclusion": "Two independent readings of the available main article and earlier author preprint/workbook establish their respective workflows and preprint oligo families. Published Science supplemental methods and Table S12 remain inaccessible, so version identity and any missing-information claim remain blocked."
+  "conclusion": "Two independent readings of the available main article and earlier author preprint/workbook establish their respective workflows and preprint oligo families. Published Science supplemental methods and Table S12 remain inaccessible, so version identity and any missing-information claim remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Rosenberg 2018 PMC7643870 JATS lines 68–72 (four-round workflow, 24 PCR reactions), 76, 80 (48×96×96×14 brain run), 284 (methods in supplement); original Table S12 workbook mirrored as scg_aam8999_tables12.xlsx.txt General Oligonucleotides lines 1–19 and Round1/2/3 sheets lines 21–268. Published Supp_Combined.pdf/Table S12 PMC originals re-tried: Europe PMC supplementaryFiles 'not open access', europepmc.org bin URL HTTP 403; MANIFEST manual rows unchanged.",
+      "oligo_scraper": "Bundle scraper run (12 Table S12 hit families checked against General/plate sheets; bioRxiv/microSPLiT workbook hits belong to other versions; upstream_*/scg_docs_*/scg_adapters_* excluded).",
+      "findings": "Replaced unavailable SPLiT-seq round-2/3 ligation geometry with Table S12-derived splinted scenes: BC_0215 and BC_0060 each computed to pair with both full 15-nt arms, prior-round /5Phos/ 5′ end and barcode-oligo 3′-OH at the nick; scenes rendered on the page. Graph-owned published discrepancy: main text 24 round-4 PCR reactions (line 72) and 14 brain sublibraries (line 80) vs eight Table S12 i7 primers BC_0076–0083 with one N501 forward primer; BC_0076 kept as representative. Note: corrected source directory path, removed cross-protocol claim that the 2024 microSPLiT 24-primer set resolves SPLiT-seq indexing, and tied cDNA PCR/tagmentation/sublibrary PCR to Table S12 oligo names instead of upstream.",
+      "deferred": [
+        "Published Science supplement Supp_Combined.pdf (manual: https://pmc.ncbi.nlm.nih.gov/articles/instance/7643870/bin/NIHMS1581077-supplement-Supp_Combined.pdf) — RT/ligation/blocking/lysis/TSO/PCR conditions and read lengths",
+        "Publisher Table S12 attachment byte comparison against the scg mirror",
+        "Sublibrary index set (24 vs 14 vs 8 primers)",
+        "Tagmentation product geometry, BC_0118/BC_0076 landing and acquired read cycles",
+        "Template-switch CCC timing (in-cell vs on-bead RT)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 0 explicit checks (construction validation passes); page builds; pairing 0 problems; chemistry 6 established/1 conditional/9 unresolved/0 contradictory; source guard 8 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass; dependent microsplit suite/page/pairing pass"
+    }
+  ]
 }

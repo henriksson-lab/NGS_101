@@ -1062,5 +1062,26 @@
         }
       ]
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC9546772 JATS text lines 70-100 (Low-volume Smart-seq3 and Smart-seq3xpress library preparation; SeqAmp paragraph; After pre-amplification workflow; Sequence library preparation for Smart-seq3xpress; Sequencing incl. MGI branch); author protocol v1 DOI 10.17504/protocols.io.yxmvmk1yng3p/v1 (May 30 2022) pdf.txt lines 690-960 (RT and SeqAmp tables/programs), 1130-1290 (tagmentation, SDS stop, index primers, Phusion mix with Tween-20), 1990-2025 (spin-out pooling, 0.7:1 PEG beads)",
+      "oligo_scraper": "Bundle scraper run (--known-only); Methods hits at JATS lines 74 (Smart-seq3 Fwd/Rev PCR primers) and 98 (MGI custom sequencing/RCA primers) and protocol table hits checked against the passages; no new oligo used.",
+      "findings": "Declared lysis and RT conditions (0.5 mM GTP, 30 mM NaCl; 72C lysis; 42C 90 min + 10x 50/42C), SeqAmp program (0.025 U/uL, 95C 1 min, 6-18x 98/65/68C, 72C 10 min), new dilution/transfer SAMPLING step (9 uL water, 1 uL transferred, remainder stored outside the library; no bead cleanup), tagmentation buffer and ATM-or-TDE1 option label (replacing 'Nextera NT/TDE1'), SDS strip, 72C 3 min hold and 12-14 cycle index PCR program, and pooled spin-out 0.7:1 PEG-bead cleanup before sequencing. Graph-owned discrepancy: Methods SeqAmp '0.5 uM/1 uM forward and reverse primer' vs protocol v1 step 9 0.5 uM each; no concentration selected. Protocol Tween-20 in index PCR noted, not selected.",
+      "deferred": [
+        "Experiment-specific preamp and index-PCR cycle counts",
+        "Tagmentation enzyme and amount per data set",
+        "Exact tagmented-end/extension geometry",
+        "KAPA, Q5, SuperFi II, Platinum II and in-house Tn5 branches not drawn",
+        "MGI conversion/circularization branch outside schematic",
+        "Supplementary figure PDFs MOESM1/2 not re-read this round"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 8 checks pass; page builds; pairing 0 problems; chemistry 9 steps 2 established/0 conditional/9 unresolved/0 contradictory; source guard 4 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    }
   ]
 }

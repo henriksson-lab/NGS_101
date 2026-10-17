@@ -18,6 +18,11 @@ doi:[10.1016/j.cell.2014.11.021](https://doi.org/10.1016/j.cell.2014.11.021).
 - 🟢 Extended Experimental Procedures I.a.1 through the ENCODE transcription of the Rao
   supplement. ENCODE says it is a transcription and marks its own deviations; only the
   undeviated Rao procedure is used here.
+- 🟢 Bounded pass 2026-10-17 (round 11): the published Cell article with its Extended
+  Experimental Procedures (non-publisher course mirror carrying the Cell DOI and S-page
+  pagination; `Rao-3D-map-human-genome-cell-2014-extended.pdf.txt` lines 6632–6802,
+  section I.a.1 steps 1–70, and lines 6888–6890, I.a.10). This is the original behind the
+  ENCODE transcription; the gated PMC supplement zip itself remains unread.
 - 🔴 The Rao procedure specifies an “Illumina indexed adapter” and Illumina PCR primers
   but does not identify a kit generation, index count, or oligo sequences. The final
   adapter regions therefore remain role-labelled unknowns rather than canonical TruSeq.
@@ -59,6 +64,28 @@ ends; Klenow exo-minus then adds 3′ dA.
 🟢 An Illumina indexed adapter is ligated, and the library is amplified from the beads with
 Illumina primers. The paper reports paired-end sequencing. The reads start at opposite
 genomic ends of the sheared molecule, while the selected contact junction is internal.
+
+## 5a. Step order from the published Extended Experimental Procedures
+
+🟢 I.a.1 (lines 6632–6802) gives this order, now declared in the protocol graph:
+lysis in 0.2% Igepal buffer and 0.5% SDS permeabilization at 62 °C quenched by Triton X-100
+(steps 7–11); 100 U MboI (NEB R0147) overnight or ≥2 h, 62 °C inactivation (12–13);
+Klenow fill-in with biotin-14-dATP and dCTP/dGTP/dTTP (14–15); T4 DNA ligase (NEB M0202)
+4 h at room temperature (16–17); proteinase K/SDS 55 °C then NaCl 68 °C (18–19); ethanol
+precipitation (21–25); Covaris LE220 shearing to 300–500 bp (26); **double-sided AMPure XP
+size selection before pull-down** (0.55×, then +30 µl; 28–36; optionally moved to final
+amplicons for <2×10⁶ cells); MyOne Streptavidin T1 capture with 55 °C TWB washes (37–41);
+on-bead end repair with T4 PNK, T4 DNA polymerase and Klenow, which also removes biotin
+from unligated ends (43–44); Klenow exo minus dA-tailing (48–49); NEB Quick ligase with
+3 µl “Illumina indexed adapter”, recording the sample index (53–55); 4–12 PCR cycles off
+the beads with “Illumina primers and protocol (Illumina, 2007)”, optionally after 98 °C
+release (60); bead removal and AMPure XP 0.7× plus a 70 µl re-cleanup (61–70).
+Sequencing used MiSeq, HiSeq 2000 and HiSeq 2500 paired-end runs (I.a.10, line 6890);
+read and index cycle counts are not stated in these passages.
+
+Not inspected in this capped pass: the cited Illumina (2007) genomic-DNA sample-prep
+guide, the gated PMC supplement zip, and dilution/variant sections I.a.2–I.a.9 beyond
+headings.
 
 ## 6. Scope
 

@@ -75,5 +75,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Accessible source rows have two located independent reads; unavailable relevant source rows keep missing-information claims blocked."
+  "conclusion": "Accessible source rows have two located independent reads; unavailable relevant source rows keep missing-information claims blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "ONT SQK-PCS114 protocol PCS_9200_v114_revF_31Mar2026 local HTML text line249 (version), overview254-288, reagent lists312-339/488-507, RT and strand switching640-1000 (CRTA line676, Lambda exo/USER line747, RTP line848, SSPII line888, RT cycling919-935), PCR1040-1283, adapter addition1336-1392; ONT CHTD_500_v1_revAV_24July2026 line164, cDNA-PCR V14 workflow467-474, section15 adapter sequences2069-2112, section16 reagent roles from2119",
+      "oligo_scraper": "Bundle scraper run on both documents; --find TTTCTGTTGGTGCTGATATTGC located CHTD lines2095/2110/2115; cPRM forward/reverse verified at CHTD lines2108/2110, RTP/SSPII/CRTA/RA at2087-2104.",
+      "findings": "Model correction: shared lib CDNA_PRIMER_REVERSE omits the published 7-nt CTTTGTG (repository transcription error, not a vendor discrepancy); module now declares both cPRM sequences from CHTD2108/2110 and the source guard checks them. Graph rebuilt to Rev F order: CRTA (ds, poly(T) overhang) annealing 60C 5min with AB, T3 ligation (unavailable geometry), Lambda exo+USER bottom-strand digestion, RNAClean XP/SFB, RTP + Maxima H Minus RT, SSPII strand switch 42C 30min, 85C 5min inactivation, AMPure XP, 4x50ul TaKaRa Ex Premier PCR 5+17 cycles, Thermolabile ExoI, pooled AMPure 140ul, 50fmol RA+ADB 5min. PCR now lands on a strand-switched cDNA substrate with computed anneal lengths (21/22 nt); UMI polarity corrected to the complement of SSPII on the drawn top strand; derived CRTA-copy, poly(T) and non-templated C segments marked inferred; shared 39-nt cPRM 5' tag computed. Highlight records vendor phrase 'deoxycytidines at the 5' end of the first cDNA strand' (line888) vs 3' placement in the model.",
+      "deferred": [
+        "CRTA poly(T)-overhang strand bases, uracils and phosphorylation",
+        "Rapid-attachment chemistry of the cPRM 5' tags and complete motor-bearing Rapid Adapter assembly (component-level ONT source)",
+        "Which/how many PCR ends are adapted (both carry the same 39-nt tag)",
+        "Pre-March-2026 SQK-PCS114 revisions (different reagents/PCR) not modelled",
+        "Shared lib nanopore_library.CDNA_PRIMER_REVERSE transcription fix (outside protocol directory)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite pass (1 construction/render check); page builds; pairing 0 problems; chemistry 1 established/0 conditional/12 unresolved/0 contradictory; source guard 3 exact checked (RTP, cPRM forward, cPRM reverse), 0 failed, 2 inputs without exact states (CRTA partial duplex, SSPII degenerate/modified), RA inferred; Markdown built/checked; review schema checked"
+    }
+  ]
 }

@@ -145,5 +145,25 @@
       "evidence": "Tang UP1/UP2 and amine-blocked derivatives were recovered from the original 2009 supplementary table and the full article is browser-readable. Exact scTrio-selected NEBNext oligo kit/index and scRRBS premethylated adapter still require two complete source passes and historical kit evidence."
     }
   ],
-  "conclusion": "The defining paper, publisher supplement set, scRRBS predecessor, Tang 2009 original and Table 9, Tang 2010 detailed protocol, and later E7370 manual have independent source passes where recorded. Tang’s historical SOLiD adapter is not scTrio’s later Illumina adapter; exact NEBNext oligo kit/index and scRRBS premethylated adapter remain blocked."
+  "conclusion": "The defining paper, publisher supplement set, scRRBS predecessor, Tang 2009 original and Table 9, Tang 2010 detailed protocol, and later E7370 manual have independent source passes where recorded. Tang’s historical SOLiD adapter is not scTrio’s later Illumina adapter; exact NEBNext oligo kit/index and scRRBS premethylated adapter remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Hou et al. 2016 PMC4783472 JATS Methods 'Single-cell segregation for DNA methylome and transcriptome sequencing' line154 and 'Sample quality control and library construction' lines156-168, Supp. Table S1/S2 captions lines525-531 (supplement PDFs x1-x13 are data tables/figures); inherited scRRBS Guo et al. 2013 PMC3847781 JATS Methods 'Construction of single-cell RRBS sequencing libraries' lines103-107",
+      "oligo_scraper": "Bundle scraper run; scTrio article hits are only the four bisulfite-qPCR QC primers (Chr3/Chr17, lines160-166; not library oligos); other hits are the Tang 2009 UP1/UP2/NH2 table already used. No adapter, scRRBS PCR or NEBNext bases in inspected originals.",
+      "findings": "Added ERCC spike-in to RT, DNA Clean&Concentrator 5 plus 2% agarose 500-3,000-bp gel selection (primer-removal waste discarded) before Covaris S2 shearing; protease release with 60 fg unmethylated lambda spike-in before MspI; scRRBS two-round PCR (PfuTurbo Cx 25 cycles with inferred round-1 primers, then Phusion 22 cycles) and 200-500-bp PAGE selection noted; MethylCode/Zymo-Spin desulfonation named; Read 1/Read 2 declared 100 cycles (100-bp PE HiSeq2000/2500). No published discrepancy found.",
+      "deferred": [
+        "Guo 2013 supplementary zip (round-1/round-2 PCR primer identities, QP1/QP2)",
+        "Tang 2009/2010 re-read beyond prior passes",
+        "NEBNext E7370 manual revision contemporary with 2016 and chosen oligo kit",
+        "Index-read cycles",
+        "Premethylated adapter end geometry"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 2 established/2 conditional/22 unresolved/0 contradictory; source guard 4 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

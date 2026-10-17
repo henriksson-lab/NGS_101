@@ -120,6 +120,21 @@ link. Its study metadata, annotation files and ten archive experiment XMLs were
 retrieved and read in this pass; no dataset-wide index-map absence is asserted. The review remains blocked by
 actual final supplementary access, and unassigned model values remain questions.
 
+### Bounded pass 2026-10-17
+
+Re-read the preprint Methods (`104844_v1.full.pdf.txt` lines 895–940, 991–992) and
+the author-hosted final article overview and Fig. 1 (`cao-combinatorial-indexing.pdf.txt`
+lines 78–135, 140–190); bundle scraper rerun (79 hits, 2017 hits only in the preprint).
+The graph now also shows the RT stop solution (40 mM EDTA, 1 mM spermidine), DAPI
+staining before sorting, the 75 °C 20 min second-strand stop, and the post-PCR
+pooling with 0.8 volumes AMPure XP (then Qubit and 6% TBE-PAGE) before sequencing.
+🟢 The final overview step (iv) lists "second-strand synthesis, transposition with
+Tn5 transposase, lysis, and PCR amplification"; the selected preprint Methods instead
+stop tagmentation with Zymo DNA binding buffer and AMPure XP, with no separate lysis
+step. This is a preprint-to-publication difference, not a published discrepancy;
+the final supplementary Methods are unread, so the page notes that the published
+procedure may differ.
+
 ### How the 2017 primers interlock — computed
 
 The RT handle is `illumina.TRUSEQ_READ1[-18:]`. The P5 PCR primer contains the

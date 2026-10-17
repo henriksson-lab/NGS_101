@@ -180,5 +180,25 @@
       "evidence": "The 2012 article calls its own sequences proprietary, but that does not establish absence from its supplements, patents, predecessor material or current vendor sources. The page now limits itself to the reviewed article and a historical patent example."
     }
   ],
-  "conclusion": "Two independent readings of original article and historical patent example; current-kit missing-sequence claim remains blocked by five unavailable supplements, vendor documentation and predecessor methods."
+  "conclusion": "Two independent readings of original article and historical patent example; current-kit missing-sequence claim remains blocked by five unavailable supplements, vendor documentation and predecessor methods.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Wang 2012 J Mol Diagn PMC3338343 full text (j.jmoldx.2011.08.002_PMC3338343.html.txt) Materials and Methods: RNAscope Design Strategy lines1199-1207, Figure 1 legend, RNAscope Assay Procedure for RNA Detection lines1211-1222; US7709198B2 (en.html.txt) Table 2 GAPD217/GAPD218 lines5497-5545 and SEQ ID NO:1 line4667",
+      "oligo_scraper": "Bundle scraper run (23 hits, all patent); --find confirmed preamplifier SEQ ID NO:1 amplifier-site repeat at lines4667/5232; GAPD217/218 rows read directly in Table 2 (target arm + T3|T2 split across table cells = T5 spacer + 14-nt tail). Article carries no bases (sequences declared proprietary, line1213).",
+      "findings": "Target-probe pair range corrected from fixed 20 to the article's 10-20 pairs (BranchModel 10-20; 4,000-8,000 theoretical labels). Added source-specific specimen preparation (cells: 4% formaldehyde 60 min, protease 2.5 ug/mL 23-25C; FFPE: xylene/ethanol, citrate pH6 100-103C 15 min, protease 10 ug/mL 40C 30 min), 40C hybridization series with buffers A/B/C, concentrations, times and 0.1x SSC/0.03% LDS washes, labels (Alexa Fluor 488/546/647/750 or HRP/DAB with hematoxylin; AP/Fast Red named in design section) and UBC/dapB controls to page and note. Page shows the printed '10 nmol/L' citrate concentration as an apparent unit error without asserting 10 mmol/L. Patent GAPD double-Z sequences re-verified; no change.",
+      "deferred": [
+        "Five PMC supplements mmc1-mmc5 (PMC download gate)",
+        "Bio-Techne Cat. 322310 and 323100 manuals and technology page (curl error 92; current-kit pretreatment/AMP steps)",
+        "Player 2001 and Collins 1997 bDNA predecessors (HTTP 403 / PMC gate)",
+        "'Blocking reagents' compositions and cell-line protease identity",
+        "Current commercial probe/amplifier sequences (missing-information claim remains blocked)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 98 passed; page builds; pairing 0 problems; check_chemistry not applicable (no protocol_graph declaration: 'expected one graph declaration, found 0'); source guard 0 checked/0 failed/0 graphs; Markdown built (01_rnascope.html); review schema (audit --check) pass"
+    }
+  ]
 }

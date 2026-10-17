@@ -429,5 +429,25 @@
     "date": "2026-10-16",
     "locations": "Final local chem.py versus freshly read original GEO series 1\u201344 and both sample records 1\u201343",
     "finding": "Independent final declaration review confirms distinct deposited input samples, source-specific processing order and unresolved degradation-product recovery/fate. Separate library branches preserve standard/custom adapter and RT distinctions. No further model edits requested; source review remains open for identified original and linked obligations."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Science PMC3435875 author-manuscript JATS main text lines 36\u201360 (line 38 two biological replicates/GA; line 44 custom 3\u2032 adapters, libraries from same RNA samples); GEO GSM463298 and GSM463301 sample SOFT lines 1\u201343 (extraction line 21, processing line 22)",
+      "oligo_scraper": "Full-bundle scraper run: 0 sequences in 0 files; no linker, RT or PCR bases available from the inspected originals.",
+      "findings": "Existing two-branch graph (gel 25\u2013100 nt, polyphosphatase, Terminator, 3\u2032 linker, gel, AP, TAP, 5\u2032 linker, RT, PCR) matches GEO extraction order. Added source input scope: 10 \u00b5g Trizol nuclear RNA from hypotonic-lysis/2 M sucrose-cushion nuclei. Page highlight now cites the article statement that 3\u2032-read libraries were prepared from the same RNA samples as 5\u2032-read libraries, while the displayed GEO pair (untreated 5\u2032 vs LacZ-dsRNA 3\u2032) keeps two independent inputs. GSM463298 merges rep1+rep2. 26-nt trimming remains computational.",
+      "deferred": [
+        "NIHMS401007 original SOM (PMC gate, Science DC1 HTTP 403, ResearchGate request-only)",
+        "Seven unread GSE18643 sample records, processing README and SRA experiment metadata",
+        "Ordered 3\u2032/5\u2032 linkers, custom RT primer, kit PCR primers and their end geometry",
+        "Historical Illumina small RNA kit edition used in 2009 (Rev D guide is Aug 2010)",
+        "Acquired read length / cycles on Genome Analyzer II"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 14/14 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/22 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 10 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

@@ -5,10 +5,16 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "https://doi.org/10.1038/s41586-020-2249-1",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41586-020-2249-1.pdf.txt (https://doi.org/10.1038/s41586-020-2249-1)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "2020 Nature article full Methods inaccessible through fetcher and browser redirect; must read before accepted audit."
+      "reason": "Publisher PDF hand-placed 2026-10-17 (printed DOI verified); one bounded pass only.",
+      "pass_1": {
+        "reviewer": "deferred_followup_03",
+        "date": "2026-10-17",
+        "locations": "Methods 'Construction of RIC-seq libraries' lines 2067-2195; 'RIC-seq data processing' 2372-2380",
+        "finding": "Prints pCp-biotin/T4 RNA ligase, FastAP, PNK and proximity-ligation conditions; adapters named only as 'Illumina Y-shaped adaptors (2 pmol)' with no bases; paired-end at Novogene, no read length printed in these sections."
+      }
     },
     {
       "id": "fig_source",
@@ -269,10 +275,31 @@
     {
       "id": "cao_2021",
       "role": "predecessor",
-      "locator": "https://doi.org/10.1038/s41596-021-00524-2",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/s41596-021-00524-2.pdf.txt (https://doi.org/10.1038/s41596-021-00524-2)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "2021 detailed RIC-seq protocol cited by 2024 table; full original not checked."
+      "reason": "Publisher PDF hand-placed 2026-10-17 (printed DOI verified); one bounded pass only.",
+      "pass_1": {
+        "reviewer": "deferred_followup_03",
+        "date": "2026-10-17",
+        "locations": "Overview lines 355-365; Table 1 lines 510-534; Adapter preparation 1547-1580; Step 174 lines 2770-2771",
+        "finding": "Table 1 prints PEI adapter A (/5Phos/) and B, PE 1.0 and 6-N index primer, identical to the 2024 PMC11245969 table; HiSeq X Ten paired-end mode, no read length; applicability to 2020 libraries not stated."
+      }
+    },
+    {
+      "id": "geo_gse127188",
+      "role": "linked_material",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ric-seq__10.1038+s41586-020-2249-1/geo_GSE127188_acc-targ-gsm_brief.soft.txt (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE127188&targ=gsm&form=text&view=brief)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "deferred_followup_02",
+        "date": "2026-10-17",
+        "locations": "GSM3629915 treatment_protocol line 13, extract_protocol lines 16-17, data_processing lines 18-22, instrument line 35; series record (targ=self) title/design/PubMed 32499643",
+        "finding": "Author-deposited reaction text: 1% formaldehyde, permeabilization, in-situ MNase, pCp-biotin labelling and proximity ligation (conditions not given), proteinase K/TRIzol LS, DNase I, optional Ribo-off, 94 C Mg2+ fragmentation, C1 enrichment, N6/SSII RT, dUTP second strand, end repair, A-tailing, Quick T4 adapter ligation (adapter sequence not given), USER+Pfx PCR 11-13 cycles with PE1.0/index primer, 200-450 bp gel; HiSeq X Ten paired-end."
+      },
+      "reason": "GEO series named in the Reporting Summary (MOESM2) and linked to PubMed 32499643; author protocol text substituting for paywalled Methods steps. Single pass only.",
+      "discovered_from": "reporting"
     }
   ],
   "linked_information": {
@@ -297,11 +324,66 @@
       "evidence": "2020 index primers are verified; precise adapter attribution remains blocked by full original and 2021 protocol."
     }
   ],
-  "conclusion": "2020 index primers are verified; precise adapter attribution remains blocked by full original and 2021 protocol.",
+  "conclusion": "2020 Methods and the 2021 protocol are now read once; 2020 index primers verified; 2020 Y-adaptor bases are not printed in the inspected Methods and 2021 PEI adapter applicability to 2020 is unestablished; no second independent pass yet.",
   "source_recovery_followup": {
     "reviewer": "audit_rna_contacts_closeout",
     "date": "2026-10-16",
     "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
     "finding": "Detailed2021 original protocol DOI route still reports unavailable fulltext and discovers no publisher supplements. Explicit defining2020 Nature PDF returns HTML instead of PDF. Existing supplementary originals remain source-positive; both main protocol sources remain uninspected."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Nature publisher page https://www.nature.com/articles/s41586-020-2249-1 (subscription preview, accessed 2026-10-17; not cached in sources): Abstract and Extended Data Fig. 1 legend (a–c: rRNA depletion, fragmentation, C1 pull-down, gel-purified library, −pCp controls); Supplementary Table 9 MOESM12_ESM.xlsx.txt lines250–262 (PE1.0, Index primers 1–12); Reporting Summary MOESM2_ESM.pdf.txt line36 (HiSeq X Ten). Defining Methods/PDF paywalled (manual row in MANIFEST.tsv).",
+      "oligo_scraper": "Bundle scraper (--known-only) run: hits are 2024 PMC11245969 Cao-attributed adapters/primers and Supplementary Table 9 PE1.0/index primers; Table 9 primers re-verified by splitting at shared arms.",
+      "findings": "Model correction: note listed index windows 9–11 as 7 nt (GATCTGG, TTGACTG, GGAACTG); as printed they are 6 nt (GATCTG, TTGACT, GGAACT); primers 1–7 carry 8-nt windows. Graph extended from ED Fig.1 legend: pCp–biotin labelling (warned MAGIC boundary), rRNA depletion with discarded rRNA, fragmentation of recovered RNA, C1 streptavidin pull-down with discarded unbound fraction, RT, warned adapter-installation boundary, PCR with Supplementary Table 9 PE1.0/Index 1–12 primers, gel purification with discarded off-size fraction. HiSeq X Ten acquisition recorded; read lengths not chosen. Page caveat states unread Methods, index-length asymmetry and that 2024 protocol adapters are not assumed for 2020.",
+      "deferred": [
+        "Defining Nature 2020 Methods/PDF (paywalled): in-situ fragmentation, pCp–biotin labelling enzyme, proximity ligase, crosslink reversal, RT primer, adapter step, read lengths",
+        "Cao et al. 2021 Nature Protocols 10.1038/s41596-021-00524-2 (paywalled)",
+        "Applicability of 2024 PMC11245969 PEI adapters to the 2020 library",
+        "Final library still role-level custom construct; TruSeq-type arms from Table 9 not drawn"
+      ],
+      "scope": "Capped defining-source pass only; defining Methods unread, so status deferred; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (constructor invariants) pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory over 12 steps with label_ends and library_adapter_install MAGIC warnings; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; audit --check pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Acquisition routes: get_sources/MANIFEST manual rows (https://doi.org/10.1038/s41586-020-2249-1; https://www.nature.com/articles/s41586-020-2249-1.pdf; https://doi.org/10.1038/s41596-021-00524-2) unchanged; OpenAlex W3022604539 and W3162763704 oa_status closed, no repository copy; Unpaywall closed (both); Europe PMC PMID 32499643/34021296 no PMCID or full text; Europe PMC preprint search (title/author) found no RIC-seq preprint. Read GEO GSE127188 SOFT (targ=gsm) GSM3629915 treatment_protocol line 13, extract_protocol lines 16-17, data_processing 18-22, instrument line 35, and series record (targ=self) (GSE127188 named in Reporting Summary MOESM2 line 55); both cached by hand with MANIFEST.tsv rows.",
+      "oligo_scraper": "Scraper run on the GEO text: 0 sequences (adapter oligos not printed). Earlier Table 9 scraper result stands.",
+      "findings": "Graph corrected from GEO protocol text: crosslink conditions; added permeabilization; in-situ fragmentation is micrococcal nuclease (catalyst), not an unspecified condition; proteinase K/TRIzol LS recovery; added DNase I digestion that discards RNA-DNA ligation by-products; rRNA depletion marked optional (Ribo-off N406-01; Total and rRNA_depleted libraries); 94 C Mg2+ fragmentation; MyOne C1 enrichment/elution; RT primer N6 with SuperScript II; MAGIC adapter-installation boundary replaced by dUTP second strand, end repair, Klenow exo- A-tailing and Quick T4 adapter ligation (AdapterLigationGeometry.unavailable: 2020 adapter oligos/ends not given); USER enzyme added to Pfx PCR; gel 200-450 bp. Proximity ligase labelled T4 RNA ligase as inferred from the DNase rationale. Page caveat and note updated.",
+      "deferred": [
+        "Defining Nature 2020 Methods/PDF (paywalled; manual https://www.nature.com/articles/s41586-020-2249-1.pdf): pCp-biotin labelling enzyme, proximity-ligation conditions, adapter oligos, read lengths",
+        "Cao et al. 2021 Nature Protocols 10.1038/s41596-021-00524-2 (paywalled; OA closed)",
+        "Applicability of 2024 PMC11245969 PEI adapters to the 2020 library",
+        "Final library still role-level; Table 9 TruSeq-type arms not drawn",
+        "GEO checklist row has one pass only"
+      ],
+      "scope": "Deferred follow-up acquisition pass; defining Methods still unread, so status deferred; GEO author protocol text used as a linked original; no accepted missing-information claim.",
+      "verification": "local suite comment-only pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/18 unresolved/0 contradictory over 17 steps (label_ends MAGIC warning only); source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; audit --check pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Hand-placed publisher PDFs, identity checked (printed DOI/title/authors; MANIFEST md5 matches): s41586-020-2249-1.pdf (Cai 2020 Nature) Methods 'Construction of RIC-seq libraries' .pdf.txt lines 2067-2195 and 'RIC-seq data processing' 2372-2380; s41596-021-00524-2.pdf (Cao 2021 Nat Protoc) overview lines 355-365, Table 1 lines 510-534, Reagents/primers 1310, Adapter preparation 1547-1580, Step 174 lines 2770-2771, Step 177 2794-2807.",
+      "oligo_scraper": "Scraper on both new texts: 3 hits; Nat Protoc Table 1 adapters/primers (line 519); Nature lines 2307 (irCLIP linker, not RIC-seq library) and 3588 (genomic sequence). No 2020 adaptor bases printed.",
+      "findings": "Defining Methods replace the pCp-biotin MAGIC boundary with FastAP (3' phosphate removal) -> T4 RNA ligase pCp-biotin ligation (overnight 16 C, PEG 20000; unavailable end geometry, random MNase ends) -> second FastAP -> T4 PNK/ATP -> T4 RNA ligase EL0021 proximity ligation (overnight 16 C, BSA); proximity ligase no longer inferred. Glycine quench 0.125 M; adapters 'Illumina Y-shaped adaptors (2 pmol)' without bases; MinElute gel extraction; paired-end at Novogene, no read lengths. Step purposes for second FastAP/PNK taken from Nat Protoc overview (labelled derived). Nat Protoc Table 1 PEI adapter A/B, PE1.0, 6-N index primer transcribed verbatim in note as 2021-protocol-scoped; not assumed for 2020 (Supp Table 9 index windows 8/6 nt). Caveat, note updated.",
+      "deferred": [
+        "2020 Y-shaped adaptor bases/ends (not printed in Methods; 2021 PEI A/B applicability unestablished)",
+        "Acquired read lengths (Methods and Nat Protoc step 174 give paired-end only)",
+        "Final library still role-level; Table 9 arms not drawn",
+        "Nat Protoc Procedure steps 1-173 conditions not compared line by line with 2020 Methods",
+        "GEO checklist row has one pass only"
+      ],
+      "scope": "Bounded deferred follow-up; defining Methods now read; capped pass, not full acceptance; no missing-information claim accepted.",
+      "verification": "local suite comment-only pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/21 unresolved/0 contradictory over 20 steps (no MAGIC); source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; audit --check pass"
+    }
+  ]
 }

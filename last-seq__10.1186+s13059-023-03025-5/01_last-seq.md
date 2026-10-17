@@ -9,8 +9,10 @@ synthesis.” *Genome Biology* 24, 184 (2023).
 
 Sources read from `$CHEM_DATA/sources/last-seq__10.1186+s13059-023-03025-5/`:
 
-- 🟢 PMC full text/JATS: reaction order, identifier lengths, sequencing.
-- 🟢 Supplementary Tables S2 and S3: synthetic validation oligos in S2; 80 hairpin barcode entries, dTrU tail, RandomRT and P5/P7 library primers in S3, including modifications.
+- 🟢 PMC10413806 JATS (`.xml.txt`): Methods "LAST-seq assay" lines 147–167 and
+  "Sequencing" line 191 — reaction order, conditions, identifier lengths, sequencing
+  (re-read 2026-10-17).
+- 🟢 Additional file 2 (`MOESM2_ESM.xlsx.txt`) Tables S2 and S3 (lines 7–134): synthetic validation oligos in S2; 80 hairpin barcode entries, dTrU tail, RandomRT and P5/P7 library primers in S3, including modifications.
 - 🟢 Supplementary protocol and figures: construction of the hairpin/rU-dT primer.
 
 ## Molecular mechanism
@@ -25,9 +27,33 @@ placing a short duplex T7 promoter beside the otherwise single-stranded original
 T7 RNA polymerase then transcribes directly along that original ssRNA, producing hundreds
 of antisense-RNA copies without initial RT or second-strand synthesis.
 
-🟢 The pooled aRNA is random-primed with
-`TACACGACGCTCTTCCGATCTNNNNNN`, reverse-transcribed, and amplified with P5/P7 primers.
-Sequencing used NextSeq 550, Read 1 = 50 and Read 2 = 25.
+🟢 (JATS Methods "Linear amplification…", `.xml.txt` line 163) Lysates are evaporated
+and treated with RNase H and Klenow exo− in NEBuffer2 (37 °C, 30 min); 10 or 80 lysates
+are pooled and purified with 0.5X beads; the beads are rehydrated in T7 IVT mix and
+incubated at 37 °C overnight (up to 16 h); aRNA is purified with 0.8X beads. Lysis
+(line 159) is in 2 µl buffer containing 2 nM LAST-seq primer, 65 °C for 5 min. Primer
+assembly (line 155): E. coli DNA ligase, 16 °C, 30 min, then 10% urea PAGE purification.
+
+🟢 (line 167) The pooled aRNA is random-primed with `TACACGACGCTCTTCCGATCTNNNNNN`
+(70 °C 2 min), reverse-transcribed with SuperScript IV (23 °C 10 min, 50 °C 15 min,
+80 °C 10 min), PCR-amplified for 8 cycles with Q5 and "P5/P7 primers", purified with
+0.9X beads, "further PCR amplified" and bead-purified (11 µl 0.1× TE).
+Sequencing (line 191): NextSeq 550, High Output v2.5, Read 1 = 50 and Read 2 = 25;
+index-read cycles are not stated.
+
+🟡 Source ambiguity, shown on the page: Table S3 prints both short P5 (29 nt) and P7
+(24 nt) "library enrichment" primers and NEBNext Universal / NEBNext1–9, 12 index
+primers (3′ phosphorothioate, printed `C*T`). Computed in the model, the short primers'
+3′ ends match only {{= last_seq.SHORT_SITE_NT }} nt of the RandomRT handle and hairpin PCR
+handle, while the NEBNext primers have {{= last_seq.NEB_SITE_NT }}-nt sites. The model
+therefore assigns the 8-cycle PCR to the NEBNext primers and the unnamed second PCR to
+P5/P7; both are inferred. The NEBNext index is 6 nt (previous model drew 8).
+
+🟡 Read layout derived from the hairpin sequence: Read 2 (25 cycles) reads UMI (8), cell
+barcode (6) and the 11-nt hairpin closing arm `TCGTATTAGAG`; the rU-dT linker and
+poly(A) follow beyond cycle 25. The final construct now includes the linker and
+closing-arm complements and joins P5 to the Read 1 arm without the duplicated `ACAC`
+that the earlier P5 + full TruSeq Read 1 concatenation introduced (model correction).
 
 ## Oligos retained in the model
 
@@ -41,3 +67,9 @@ a source-table collision, not a model-derived barcode whitelist correction.
 🟡 The public final construct is assembled from the printed RandomRT, P5/P7 and hairpin
 regions. It shows the barcode/UMI end as the Read-2-facing end and preserves the stated
 lengths as structured features.
+
+## Open questions
+
+- Which primers and how many cycles were used for the second ("further") PCR.
+- Whether "P5/P7 primers" in the Methods means the P5/P7-tailed NEBNext primers.
+- Index-read cycles and the intended BC5/BC7 distinct barcode.

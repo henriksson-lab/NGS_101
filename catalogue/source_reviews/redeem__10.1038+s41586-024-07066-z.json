@@ -338,5 +338,26 @@
       "evidence": "Exact ReDeeM-specific junction geometry is not reconstructed from the printed 10x shells and ReDeeM indexing primers. The retrieved IDT guide is a 2025 revision and does not establish the 2024 version; the cited mtscATAC predecessor and its links still need complete original-source checks."
     }
   ],
-  "conclusion": "The defining article, relevant supplements, probe workbook, cited 10x Rev A/Rev B guides, current IDT guide, and DOGMA predecessor resolve the published probe inventory and inherited fixed 10x shells. Published probe specifications still disagree and are disclosed on the page. The exact ReDeeM junction model, historical IDT revision, and full cited mtscATAC predecessor review remain blocked; no claim of unpublished fixed oligos is accepted."
+  "conclusion": "The defining article, relevant supplements, probe workbook, cited 10x Rev A/Rev B guides, current IDT guide, and DOGMA predecessor resolve the published probe inventory and inherited fixed 10x shells. Published probe specifications still disagree and are disclosed on the page. The exact ReDeeM junction model, historical IDT revision, and full cited mtscATAC predecessor review remain blocked; no claim of unpublished fixed oligos is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "breadth_first_16",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Weng 2024 Nature Supplementary Information MOESM1 Supplementary Methods 'ReDeeM Method' extracted lines 414-478 (fixation/permeabilization, GDN tagmentation, CG000338 Rev A Steps 2-4/6-7, 35 ul RNA aliquot, 8x50 ul N70X + SI PCR Primer B ATAC PCR 6-12 cycles, SPRI 0.4x-1.55x, four 500 ng xGen captures with Cot DNA/Universal Blockers NXT, 95C 30 s/65C 16 h, Dynabeads, 3-5 cycle KAPA P5/P7 bead PCR, 1.6x SPRI, NovaSeq 149/8/24/149); Supplementary Data 1 MOESM5 Primers sheet lines 1-11; CG000338 Rev A Appendix Sequences extracted lines 5633-5686 (ATAC bead oligo, ATAC and GEX library layouts); supplementary protocol MOESM3 (2023-11-20) oligo list and steps 16-37 compared",
+      "oligo_scraper": "Bundle scraper run; Supplementary Data 1 Primers rows (N701-N706, P5, P7, Hash-Spikin) and protocol oligo list checked; --find GTCTCGTGGGCTCGG locates the N70X family; MitoProbe sheet hits are capture probes, not library primers.",
+      "findings": "Model corrections: all three final libraries were generic shells; the mtDNA library was a TruSeq shell with dA junction and a 10-base barcode in the insert. The ATAC and captured mtDNA libraries now use the CG000338 Rev A ATAC layout (P5-N16-CGCGTCTG spacer-Read1N/ME-insert-ME/Read2N-N8-P7), with the i7 assigned to the Supplementary Data 1 Nextera N70X whitelist and Nextera R1/I1/I2/R2 primers (i5 24 cycles = spacer + barcode). The RNA library uses the Rev A GEX layout (truncated P5 arm, N10 i5, TruSeq R1, N16, N12, T30VN, TruSeq R2, N10 i7). Graph adds fixation/permeabilization, GDN tagmentation, pre-amp (warned boundary), 35 ul RNA aliquot (warned Steps 6-7 boundary), N70X/SI-PCR-B ATAC PCR, 0.4x-1.55x SPRI, capture with blockers, P5/P7 bead PCR with exact Data 1 primer states, and 1.6x SPRI with waste fates. New graph-owned published discrepancy: Supplementary Methods 149/8/24/149 for all libraries vs protocol 150/8/24/150 (ATAC/mt) and 28/10/10/90 (RNA); ATAC/mt use 149/8/24/149 and RNA cycles stay unassigned. Existing probe-length and Rev A/Rev B notices retained.",
+      "deferred": [
+        "10x SI PCR Primer B (PN-2000128) sequence and ATAC PCR geometry",
+        "10x Pre-Amp primer and GEX Steps 6-7 oligos (TSO, cDNA primers, adaptor, SI-TT) - warned boundaries",
+        "ATAC Enzyme B transposon adapter sequences",
+        "Acquired RNA-library cycles (149/8/24/149 vs 28/10/10/90)",
+        "Lareau mtscATAC-seq predecessor (manual, curl error 6)",
+        "IDT xGen hybridization guide revision used in 2024"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 2 checks pass (N701-N706 and P5/P7 vs Supplementary Data 1) plus construction/primer landing for ATAC, mtDNA and GEX libraries; page builds; pairing 0 problems; chemistry 12 steps 0 established/0 conditional/14 unresolved/0 contradictory with preamplify and rna_library_steps MAGIC warnings; source guard 2 exact checked (P5, P7), 0 failed, tn5_adapters/SI PCR Primer B/N70X symbolic; Markdown built; review schema checked"
+    }
+  ]
 }

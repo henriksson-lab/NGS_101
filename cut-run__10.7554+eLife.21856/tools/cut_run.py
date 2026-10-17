@@ -62,36 +62,36 @@ def protocol_graph() -> ProtocolGraph:
                 ((nuclei,InputRole.TEMPLATE),(beads,InputRole.SELECTION),(antibody,InputRole.SELECTION),
                  (secondary,InputRole.SELECTION),(mnase,InputRole.CATALYST)),(tethered,wash))
     graph.discard(wash,"The selected targeted branch washes before activation; the free-MNase control is a separate source branch.")
-    calcium=graph.input("calcium","calcium activation on ice",MaterialKind.CONDITION)
+    calcium=graph.input("calcium","2 mM CaCl2 added at 0°C in ice-water (Appendix 2 digestion step)",MaterialKind.CONDITION)
     cut=graph.product("cleaved_nuclei","digested nuclei before stopping/release",MaterialKind.MOLECULAR)
     graph.react("targeted_cleavage","Activate antibody-tethered MNase",StepKind.DIGESTION,
                 ((tethered,InputRole.TEMPLATE),(mnase,InputRole.CATALYST),(calcium,InputRole.CONDITION)),(cut,))
-    stop=graph.input("stop_buffer","EDTA/EGTA STOP buffer",MaterialKind.CONDITION)
+    stop=graph.input("stop_buffer","equal-volume 2XSTOP: 200 mM NaCl, 20 mM EDTA, 4 mM EGTA, 50 ug/ml RNase A, 40 ug/ml glycogen",MaterialKind.CONDITION)
     rnase=graph.input("rnase_a","RNase A in the selected yeast STOP workflow",MaterialKind.CATALYST)
-    spike=graph.input("spike_in_dna","optional heterologous DNA spike-in (shown)",MaterialKind.MOLECULAR,
+    spike=graph.input("spike_in_dna","heterologous spike-in carried in 2XSTOP: 5-50 pg/ml mononucleosome-sized DNA from crosslinked MNase-treated Drosophila chromatin (optional)",MaterialKind.MOLECULAR,
                        state=state("optional spike-in","heterologous DNA fragments"))
     stopped=graph.product("stopped_nuclei","quenched digest with optional DNA spike-in",MaterialKind.MOLECULAR)
     graph.react("stop_digest","Stop MNase with chelators; optional heterologous DNA is added here",StepKind.QUENCHING,
                 ((cut,InputRole.TEMPLATE),(stop,InputRole.CONDITION),(rnase,InputRole.CATALYST),
                  (spike,InputRole.SPIKE_IN)),(stopped,))
-    release=graph.input("release_condition","37°C release in the yeast soluble branch",MaterialKind.CONDITION)
+    release=graph.input("release_condition","37°C for 20 min to let excised fragments leave the nuclei",MaterialKind.CONDITION)
     slurry=graph.product("released_slurry","released fragments plus residual nuclei",MaterialKind.MOLECULAR)
     graph.react("release","Allow excised fragments to enter the soluble phase",StepKind.THERMAL_TREATMENT,
                 ((stopped,InputRole.TEMPLATE),(release,InputRole.CONDITION)),(slurry,),changes_molecule=False)
-    separator=graph.input("fractionation","centrifugation and magnetic separation",MaterialKind.SELECTION)
+    separator=graph.input("fractionation","5 min 13,000 rpm spin at 4°C, then magnet stand",MaterialKind.SELECTION)
     soluble=graph.product("soluble_fraction","recovered supernatant",MaterialKind.MOLECULAR,state=RELEASED_DNA)
     pellet=graph.product("residual_pellet","residual bead/nuclear pellet",MaterialKind.MOLECULAR)
     graph.react("fractionate","Recover supernatant; retain the separate pellet for optional QC",StepKind.SELECTION,
                 ((slurry,InputRole.TEMPLATE),(separator,InputRole.SELECTION)),(soluble,pellet),changes_molecule=False)
     pk=graph.input("proteinase_k","Proteinase K",MaterialKind.CATALYST)
-    extraction=graph.input("extraction_conditions","SDS, phenol/chloroform and ethanol recovery",MaterialKind.CONDITION)
+    extraction=graph.input("extraction_conditions","0.1% SDS with Proteinase K at 70°C for 10 min, phenol-chloroform-isoamyl in phase-lock tubes, chloroform re-extraction, glycogen-carried ethanol precipitation into 0.1xTE8",MaterialKind.CONDITION)
     recovered=graph.product("recovered_dna","deproteinized supernatant DNA",MaterialKind.MOLECULAR,state=RELEASED_DNA)
     graph.react("recover_dna","Deproteinize and extract supernatant DNA for library preparation",StepKind.DEPROTEINIZATION,
                 ((soluble,InputRole.TEMPLATE),(pk,InputRole.CATALYST),(extraction,InputRole.CONDITION)),(recovered,))
     qc=graph.product("pellet_qc","optional extracted pellet DNA for gel analysis",MaterialKind.QC)
     graph.react("pellet_qc_extraction","Optional — extract pellet DNA for gel QC",StepKind.DEPROTEINIZATION,
                 ((pellet,InputRole.TEMPLATE),(pk,InputRole.CATALYST),(extraction,InputRole.CONDITION)),(qc,))
-    graph.mark_terminal(Terminal(qc.id,Disposition.QC,"Appendix 2 explicitly offers pellet-fraction gel analysis; this optional branch is not mandatory physical discard."))
+    graph.mark_terminal(Terminal(qc.id,Disposition.QC,"Appendix 2 explicitly offers pellet-fraction gel analysis: the bead pellet is taken up in 1XSTOP without RNase or glycogen, extracted, dissolved in 0.1xTE8 and spun 10 min to pellet insoluble bead material. This optional branch is not mandatory physical discard."))
     repair=graph.input("end_repair_enzymes","source-referenced library end-repair enzymes",MaterialKind.CATALYST)
     repaired=graph.product("end_repaired_dna","end-repaired DNA; exact end chemistry unassigned",MaterialKind.MOLECULAR)
     graph.react("end_repair","Perform source-referenced library end repair",StepKind.END_REPAIR,
@@ -121,7 +121,7 @@ def protocol_graph() -> ProtocolGraph:
         "Its Option B and the yeast total-DNA route use 0.5× AMPure, retain the SUPERNATANT and exclude bead-bound large DNA. "
         "Those physical-selection variants are not applied to this selected soluble yeast route."))
     graph.annotate(Highlight("library_pcr","Amplification preference is not physical discard",
-        "Methods line 376 names 14 PCR cycles for total-DNA samples to favor short-fragment amplification. "
+        "The Methods library paragraph raises total-DNA samples to 14 PCR cycles, with adapter concentrations increased accordingly, to favor short-fragment amplification. "
         "Appendix 2 also notes some soluble high-MW DNA is not appreciably amplified. "
         "Neither statement proves physical removal of every long or background fragment; no analysis length bin is modeled as a discarded molecule."))
     graph.annotate(SourceDiscrepancy("fractionate", "Deposited total-DNA protocol label and body differ",

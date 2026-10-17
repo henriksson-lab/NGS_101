@@ -88,7 +88,9 @@ def graph_for(protocol: str) -> ProtocolGraph:
         "pcr_template", "second-strand library-PCR template",
         MaterialKind.MOLECULAR, state=final, source=source, inferred=True)
     graph.react("second_reverse_transcription",
-                "INFERRED — reverse-transcribe adapter-ligated RNA with printed RT2; exact landing unresolved",
+                ("INFERRED — reverse-transcribe adapter-ligated RNA with the printed "
+                 "Table S7 RT2; the printed string is the adapter complement only "
+                 "when read 3′→5′, so its orientation and landing stay unresolved"),
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((ligated, InputRole.TEMPLATE), (rt2, InputRole.STRUCTURAL),
                  (reverse_transcriptase, InputRole.CATALYST)), (pcr_template,))

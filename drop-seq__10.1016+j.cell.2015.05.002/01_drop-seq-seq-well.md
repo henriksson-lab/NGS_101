@@ -8,15 +8,14 @@
 > sequence, length or reaction in this note or in the model is taken from it, and
 > agreement with it is not verification. Nothing it alone asserts is treated as published.
 >
-> **Where the bases come from.** The available Drop-seq main article gives bead geometry
-> but sends exact primers to Extended Experimental Procedures/Table S6, which remains
-> behind the PMC download gate 🔴. The inventor-lab [Drop-seq protocol v3.1](https://mccarrolllab.org/wp-content/uploads/2015/05/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf)
-> by Macosko and Goldman (28 Dec 2015, p. 3 required-primer table) prints the bead,
-> TSO, SMART PCR, P5 hybrid and custom Read 1 oligos and maps their names to Macosko et al. 🟢
-> The later **Seq-Well Supplementary Table 1** corroborates the same mRNA capture bead
-> family 🟢. Assigning the later printed strands to the original Cell experiment remains
-> an **inference** until its Table S6 is checked
-> 🟡, and every segment it supplies is created `inferred=True` and drawn dotted.
+> **Where the bases come from.** Since 2026-10-17 the Drop-seq bases come from the
+> defining paper's own **Supplemental Information** (Elsevier
+> `1-s2.0-S0092867415005498-mmc1.pdf`, Table S6 p. 29 and Supplemental Experimental
+> Procedures pp. 3–5) 🟢. Earlier revisions assigned the later inventor-lab v3.1 and
+> Seq-Well tables to the Cell experiment by inference; Table S6 now confirms the SeqB bead,
+> TSO, TSO_PCR, P5-TSO_Hybrid and Read1CustomSeqB base for base, and adds a second bead
+> batch (SeqA, handle + `ACGT`) with its own Read 1 primer. Only the untemplated `CCC`
+> at the template-switch junction remains inferred 🟡.
 
 **Drop-seq** — Macosko EZ, Basu A, Satija R, Nemesh J, Shekhar K, Goldman M, Tirosh I,
 Bialas AR, Kamitaki N, Martersteck EM, Trombetta JJ, Weitz DA, Sanes JR, Shalek AK,
@@ -39,6 +38,8 @@ Sources read (cached under `$CHEM_DATA/sources/`, never committed):
 | File | What | Used for |
 |---|---|---|
 | `j.cell.2015.05.002_PMC4481139.html.txt` | Drop-seq full text (PMC author manuscript) | concept, bead synthesis, Experimental Procedures (short form), read layout in Fig. 2C legend |
+| `j.cell.2015.05.002_1-s2.0-S0092867415005498-mmc1.pdf.txt` | **Drop-seq Cell Supplemental Information** (published version, Elsevier CDN `mmc1.pdf`, hand-fetched 2026-10-17) | Supplemental Experimental Procedures (beads, droplets, breakage, RT, Exo I, PCR, Nextera, sequencing; lines 75–170), note on bead surface primers (lines 615–624), **Table S6** (lines 752–790, checked against the rendered p. 29) |
+| `j.cell.2015.05.002_1-s2.0-S0092867415005498-mmc2/3/4.xlsx`, `mmc6.zip`, `mmc7.pdf` | Cell Tables S2–S4 (gene lists), Data S1 device file, article plus SI PDF | not chemistry; not read for this pass beyond identity |
 | `crop-seq__10.1038+nmeth.4177/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf.txt` | **Macosko and Goldman inventor-lab Drop-seq protocol v3.1**, 28 Dec 2015 (the scoped Drop-seq route currently fails DNS; identical original cached in the CROP-seq source bundle) | p. 3 maps exact bead, TSO, PCR and custom Read 1 primer names to Macosko et al.; pp. 18–20 give Nextera N70X PCR and read settings. Its opening notice says the optimized protocol does not precisely match the experiments in the defining Cell paper. |
 | `nmeth.4179_..._MOESM237_ESM.pdf.txt` | Seq-Well Supplementary Figures + **Supplementary Table 1** | **every oligo** (Seq-Well) |
 | `nmeth.4179_..._MOESM238_ESM.pdf.txt` | **Seq-Well Master Protocol v1.0** (Shalek & Love labs, 13 Feb 2017) | **all Seq-Well conditions**: arrays, sealing, lysis, RT, ExoI, WTA, Nextera, sequencing, buffers |
@@ -49,7 +50,7 @@ Could not be fetched (🔴 for everything only they contain):
 
 | What | URL | Why it matters |
 |---|---|---|
-| Drop-seq **Supplemental Information** (Extended Experimental Procedures; contains Table S6, the primers) | https://pmc.ncbi.nlm.nih.gov/articles/instance/4481139/bin/NIHMS687993-supplement-supp_data_1.pdf | the exact defining-paper oligos and reaction conditions — the main text defers details to it; the later inventor-lab protocol is corroboration, not this original table |
+| Drop-seq Supplemental Information via PMC (author-manuscript copy) | https://pmc.ncbi.nlm.nih.gov/articles/instance/4481139/bin/NIHMS687993-supplement-supp_data_1.pdf | still behind the PMC download gate; superseded by the published Cell copy above |
 | Drop-seq Fig. S1, S6, Tables S2/S3 | `.../NIHMS687993-supplement-Figure_S1.pdf`, `..._Figure_S6.pdf`, `..._supp_data_2.xlsx`, `..._supp_data_3.xlsx` | bead QC; not chemistry |
 | Drop-seq Fig. S2–S5, Table S4, Movie S1, DataFile 1 (device .dwg) | `.../NIHMS687993-supplement-Figure_S2.pdf` … `..._supp_data_6.dwg` | saved by the tool, but each file is a ~21 kB reCAPTCHA page, not the file |
 | Seq-Well old HTML route | https://pmc.ncbi.nlm.nih.gov/articles/PMC5376227/ (saved file was a reCAPTCHA page) | full-text JATS is now cached as `nmeth.4179_PMC5376227.xml.txt`; it explicitly compares with Drop-seq using the same mRNA capture beads (line 76) |
@@ -72,7 +73,7 @@ The two differ only in **the compartment**:
 | | Drop-seq | Seq-Well |
 |---|---|---|
 | Compartment | ~1 nL aqueous droplet in oil, made on a co-flow microfluidic device 🟢 | PDMS array of microwells; beads and cells pipetted dropwise onto the array and allowed to settle (array rocked) 🟢, then **sealed with a plasma-treated polycarbonate membrane** (37 °C 30 min in a clamp) 🟢 |
-| Lysis | lysis buffer flows in with the beads, so lysis starts at droplet formation 🟢 (buffer composition 🔴, in the unfetched supplement) | after sealing: 5 M guanidine thiocyanate, 1 mM EDTA, 0.5 % Sarkosyl, 1 % β-ME, 20 min, with the membrane still on 🟢 (that the buffer reaches the cells through the 0.01 µm membrane is our inference 🟡) |
+| Lysis | lysis buffer flows in with the beads, so lysis starts at droplet formation 🟢 (DLB: 200 mM Tris pH 7.5, 6 % Ficoll PM-400, 0.2 % Sarkosyl, 20 mM EDTA + 50 mM DTT 🟢 Cell SI) | after sealing: 5 M guanidine thiocyanate, 1 mM EDTA, 0.5 % Sarkosyl, 1 % β-ME, 20 min, with the membrane still on 🟢 (that the buffer reaches the cells through the 0.01 µm membrane is our inference 🟡) |
 | Hybridisation | inside the droplet; droplets then broken with perfluorooctanol in 30 mL 6× SSC — the large volume slows re-hybridisation to the wrong bead 🟢 | 2 M NaCl, 3 mM MgCl₂, 0.5 % Tween-20, 40 min, still sealed 🟢 |
 | Bead recovery | from the broken emulsion 🟢 | array inverted onto lifter slips and spun 1000 × g 5 min 🟢 |
 | Beads | made by ChemGenes (reverse-direction phosphoramidite synthesis, split-and-pool) 🟢 | the same beads, ChemGenes cat. no. MACOSKO-2011-10 🟢 |
@@ -109,23 +110,43 @@ Protocol's shopping list: **Nextera N70X Oligo** (Illumina, i.e. the Nextera XT 
 primers). 🟢 Their sequence is not given; the standard form is `nextera.n7xx_primer()` =
 `CAAGCAGAAGACGGCATACGAGAT <i7> GTCTCGTGGGCTCGG`. 🟡
 
-### Drop-seq's own oligo table — 🔴 not obtained
+### Drop-seq — 🟢 verbatim from Cell Table S6 (`mmc1.pdf` p. 29)
 
-The paper's Table S6 ("custom primers that enabled the specific amplification of only the
-3' ends" 🟢, main text) sits in the Supplemental Information behind the PMC download gate.
-The inventor-lab v3.1 required-primer table **does** print the SeqB bead constant `AC`,
-TSO, P5 hybrid with two terminal phosphorothioates, and custom Read 1 primer, using
-Macosko et al. names. It is a later original from the inventors, not the defining
-paper's Table S6. Therefore, for the **original experiment**, still unresolved:
+```
+Barcoded Bead SeqA     5'–Bead–Linker-TTTTTTTAAGCAGTGGTATCAACGCAGAGTACGTJJJJJJJJJJJJNNNNNNNNTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-3'
+Barcoded Bead SeqB     5'–Bead–Linker-TTTTTTTAAGCAGTGGTATCAACGCAGAGTACJJJJJJJJJJJJNNNNNNNNTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-3'
+Template_Switch_Oligo  AAGCAGTGGTATCAACGCAGAGTGAATrGrGrG
+TSO_PCR                AAGCAGTGGTATCAACGCAGAGT
+P5-TSO_Hybrid          AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C
+Nextera_N701           CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGG
+Nextera_N702           CAAGCAGAAGACGGCATACGAGATCTAGTACGGTCTCGTGGGCTCGG
+Nextera_N703           CAAGCAGAAGACGGCATACGAGATTTCTGCCTGTCTCGTGGGCTCGG
+Read1CustomSeqA        GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGT
+Read1CustomSeqB        GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC
+```
 
-- 🔴 whether the defining 2015 Table S6 used the v3.1 SeqB bead constant `AC` or another revision;
-- 🔴 whether the defining Table S6's P5-SMART hybrid had the v3.1 two 3′ phosphorothioates;
-- 🔴 the exact Drop-seq Read 1, index and Read 2 primers.
+(Bead lines wrap in the PDF; joined here. 7 T linker, 12 `J`, 8 `N`, 30 `T` counted in the
+text and the rendered page. Table S6 also prints QC oligos not in the library path:
+synRNA, P7-TSO_Hybrid, TruSeq_F, CustSynRNASeq, UMI_SMARTdT.) 🟢
 
-An earlier revision of this note reproduced a second bead batch ("seqA", handle + `ACGT`)
-and a matching Read 1 primer, plus pre-amp and library primers, from the scg_lib_structs
-page. None of that has a primary source, so none of it is asserted any more, and
-`tools/drop_seq.py` no longer models a second bead batch. 🔴
+The note "Bead Surface Primers and Custom Sequencing Primers" (lines 615–624) says SeqA
+beads were used for the human-mouse experiments and retina replicates 1–3, SeqB for
+replicates 4–7; each library is read with the matching Read1CustSeq primer, and ChemGenes
+would manufacture SeqB. The SeqB oligos are base-for-base those of the later inventor-lab
+v3.1 table and Seq-Well Supplementary Table 1 🟡 *(compared)*. The model draws SeqB and
+also builds the SeqA library (`final_library(variant="SeqA")`), on which Read1CustomSeqA
+lands before the barcode 🟡 *(computed)*.
+
+**Published discrepancies (shown on the page).** (1) The sequencing paragraph says
+Read1CustSeqA/B prime "read 1" (line 164), but the bead note says "to prime read 2 for
+Drop-Seq libraries produced using Barcoded Bead SeqB beads, Read1CustSeqB was used"
+(line 621). Read1CustomSeqB lands immediately before the cell barcode, so the model uses
+it for Read 1; the "read 2" wording is treated as a slip (unconfirmed). (2) The procedures
+name oligos Template_Switch_PCR primer, P5_TSO_Hybrid and Read1CustSeqA/B; Table S6 heads
+them TSO_PCR, P5-TSO_Hybrid and Read1CustomSeqA/B — one sequence per pair.
+
+An earlier revision of this note dropped the SeqA bead as seen only on the scg_lib_structs
+page; it is now restored from Table S6, the primary source.
 
 ### How the oligos interlock — 🟡 (computed)
 
@@ -213,18 +234,36 @@ The consequences:
     tagmentation's 9-nt gap is presumably filled in the first extension. 🟡
 13. **Sequence** (§5).
 
-### Drop-seq — differences
+### Drop-seq — 🟢 from the Cell Supplemental Experimental Procedures (`mmc1.pdf` lines 75–170)
 
-From the main text only 🟢: droplets ~1 nL, cells and beads co-flowed at equal rates;
-droplets broken with perfluorooctanol in 30 mL 6× SSC; beads washed; RT in bulk;
-exonuclease I; beads counted, aliquoted into PCR tubes, PCR-amplified; cDNA quantified on
-a BioAnalyzer; Nextera XT with "custom primers" (Table S6); sequenced on a NextSeq 500.
-Lysis buffer, RT mix, cycle numbers, beads per PCR and Nextera input are in the unfetched
-Extended Experimental Procedures 🔴. Seq-Well uses the same bead and oligos (§2), so the
-molecular steps 8–12 above are the same chemistry; the published Drop-seq conditions may
-differ in detail. 🟡
+1. **Beads** washed in EtOH and TE/TW, then in Drop-Seq Lysis Buffer (DLB: 200 mM Tris pH
+   7.5, 6 % Ficoll PM-400, 0.2 % Sarkosyl, 20 mM EDTA) and resuspended in DLB + 50 mM DTT at
+   ~120 beads/µL.
+2. **Droplets**: cell and bead suspensions at 4.1 mL/h each, oil 14 mL/h, 125 µm co-flow
+   device, ~125 µm (~1 nL) drops; > 95 % of bead-occupied drops had one bead.
+3. **Breakage**: oil removed, 30 mL 6× SSC, 600 µL perfluoro-1-octanol, shake, spin; kept on
+   ice; washes in 6× SSC and 5× Maxima H⁻ RT buffer.
+4. **RT with template switching** (200 µL per ≤ 90,000 beads): 1× Maxima RT buffer, 4 %
+   Ficoll PM-400, 1 mM dNTPs, 1 U/µL RNase inhibitor, 2.5 µM Template_Switch_Oligo,
+   10 U/µL Maxima H⁻ RT; room temperature 30 min, then **42 °C** 90 min (Seq-Well: 52 °C).
+5. **Exonuclease I**: 1× buffer, 1 U/µL, 37 °C 45 min; washes TE/SDS, TE/TW, water.
+6. **PCR** on 1,000-bead aliquots in 50 µL Kapa HiFi HotStart ReadyMix + 0.8 µM TSO_PCR:
+   95 °C 3 min; 4 × (98 °C 20 s, 65 °C 45 s, 72 °C 3 min); X × (98 °C 20 s, 67 °C 20 s,
+   72 °C 3 min), X = 8 (human-mouse) or 9 (retina); 72 °C 5 min. 0.6× AMPure.
+7. **Nextera XT**: four × 600 pg cDNA, 200 nM P5_TSO_Hybrid + Nextera_N701 instead of kit
+   oligos; 95 °C 30 s; 11 × (95 °C 10 s, 55 °C 30 s, 72 °C 30 s); 72 °C 5 min; 0.6×
+   AMPure; libraries 450–650 bp. (Species-contamination libraries: N701/N702/N703, 12
+   cycles, MiSeq.)
+8. **Sequencing**: NextSeq 500, 3 mL of 0.3 µM Read1CustSeqA/B as custom Read 1 primer;
+   Read 1 20 bp (bases 1–12 cell barcode, 13–20 UMI); Read 2 50 bp (human-mouse) or 60 bp
+   (retina). The index-read length is not stated.
 
-## 4. Final library — 🟡 (assembled from the Seq-Well oligos above)
+The model (`protocol_graph()`) draws these steps with their Table S6 oligos as exact
+states; the exonuclease digest of unextended bead primers is a waste output removed by
+the washes. The untemplated `CCC` at the template-switch junction is the only inferred
+segment 🟡.
+
+## 4. Final library — 🟡 (assembled from the Cell Table S6 oligos; SeqB bead)
 
 Top strand, 5'→3' (read 1 reads this strand's sequence; read 2 reads its reverse complement — see §5):
 
@@ -251,8 +290,8 @@ Segment by segment:
 
 The 5' end is exactly `illumina.P5` + the Custom Read 1 primer, and the 3' end exactly
 `nextera.ME_RC` + `nextera.S7_RC` + 8 index bases + `illumina.P7_RC`. 🟡 *(computed from
-the Seq-Well oligo table and the `lib/` constants; the whole construct is an inference for
-Drop-seq, which publishes no library structure.)*
+Cell Table S6 and the `lib/` constants; Drop-seq publishes no drawn library structure.
+A SeqA library carries `ACGT` instead of `AC`.)*
 
 The library has **no i5 index**: the P5 end is the custom hybrid primer, identical for all
 samples. Samples are multiplexed on i7 only.
@@ -266,27 +305,24 @@ second, paired read gives cDNA, typically 50 bp.
 
 | Read | Primer | Reads | Length |
 |---|---|---|---|
-| Read 1 | custom: spacer + handle + `AC` 🟢 (Seq-Well Table 1), 🟡 for Drop-seq | 12 cell barcode + 8 UMI 🟡 (computed from the primer ending on the last constant base) | 20 🟢 |
-| Index 1 (i7) | `nextera.INDEX1_PRIMER` 🟡 *(derived: no custom index primer is named, so the stock Nextera one is implied)* | i7 | 8 🟢 |
-| Read 2 | `nextera.READ2_PRIMER` 🟡 *(derived, as above)* | cDNA, sense strand of the mRNA, starting at the Tn5 cut | 50 🟢 |
+| Read 1 | Read1CustomSeqB: spacer + handle + `AC` 🟢 (Cell Table S6; Read1CustomSeqA + `ACGT` for SeqA beads) | 12 cell barcode + 8 UMI 🟡 (computed from the primer ending on the last constant base) | 20 🟢 |
+| Index 1 (i7) | `nextera.INDEX1_PRIMER` 🟡 *(derived: no custom index primer is named, so the stock Nextera one is implied)* | i7 (N701 `TAAGGCGA` as read 🟡 computed) | 8 (v3.1/Seq-Well; Cell SI does not state it) |
+| Read 2 | `nextera.READ2_PRIMER` 🟡 *(derived, as above)* | cDNA, sense strand of the mRNA, starting at the Tn5 cut | 50 human-mouse / 60 retina 🟢 (Cell SI) |
 
 A read 1 longer than 20 would run into T30. 🟡 (computed)
 
 ## 6. Open questions
 
-- 🔴 The original Drop-seq Table S6/Extended Procedures: whether its bead, TSO and P5
-  hybrid are base-for-base the later inventor-lab v3.1 primer table and Seq-Well oligos,
-  and which original RT, PCR, Nextera and sample-index settings were used. Obtain
-  `NIHMS687993-supplement-supp_data_1.pdf` for the direct comparison. Until then the
-  model assigns later source-positive oligos to the defining experiment by inference.
+- Resolved 2026-10-17: the published Cell Supplemental Information (`mmc1.pdf`, Elsevier
+  CDN) was obtained and read; Table S6 matches the v3.1/Seq-Well SeqB oligos and adds
+  SeqA. The PMC author-manuscript copy (`NIHMS687993-supplement-supp_data_1.pdf`) is
+  still behind the PMC download gate and is no longer needed.
+- 🔴 The index-read length of the original NextSeq runs is not stated in the Cell SI.
 - 🔴 The purpose of the 7-T linker and of the `GCCTGTCCGCGG` spacer; the purpose of `GAAT`
   between the handle and `rGrGrG` in the TSO (computed effect: it makes the TSO end
   differ from the bead end right after the handle, §2).
-- 🔴 Whether Drop-seq used more than one bead design. The paper describes one bead; no
-  primary source we hold mentions a second batch, so none is modelled.
-- 🟡 Read 2 and index primers: inventor-lab v3.1 gives 20-base Read 1, 50-base Read 2
-  and optional eight-base Index 1, and names the Nextera N70X oligo without assigning a
-  particular index member. Exact original Cell run settings still require Table S6.
+- 🔴 Why two bead batches (SeqA `ACGT`, SeqB `AC`) were made; the SI states only which
+  experiments used which.
 - 🔴 Seq-Well Online Methods (main paper) were not obtained; array geometry (number and
   size of wells) and the array functionalisation chemistry beyond Appendix A were not
   checked.
@@ -300,5 +336,5 @@ reCAPTCHA pages — several were saved and listed as fetched although they are ~
 at its line wraps (it reported the 23-nt "linker" and T30 separately, missing `J`/`N`),
 and cut the P5 hybrid at `GCAGAGT*`, losing the phosphorothioate `*A*C` tail; `--find`
 does not match across the `*`. It found nothing in the Drop-seq full text, correctly: the
-sequences are only in the unfetched supplement. The Master Protocol has no sequences;
+sequences are only in the supplement (Table S6, obtained 2026-10-17 from the Elsevier CDN). The Master Protocol has no sequences;
 its conditions had to be read.

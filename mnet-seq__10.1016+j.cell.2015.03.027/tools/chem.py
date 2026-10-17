@@ -59,21 +59,21 @@ def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE)
     chromatin=g.input("native_chromatin","native chromatin containing Pol II/RNA complexes",MaterialKind.BIOLOGICAL,
                       primary=True,state=state("native chromatin","chromatin","Pol II-protected RNA"))
-    mnase=g.input("mnase","micrococcal nuclease",MaterialKind.CATALYST)
+    mnase=g.input("mnase","micrococcal nuclease (NEB) in 1× MNase buffer, 40 U/µl, 37 °C, 90 s, 1,400 rpm",MaterialKind.CATALYST)
     digest=g.product("digest","digested chromatin mixture",MaterialKind.MOLECULAR)
     g.react("mnase_digest","Digest native chromatin with MNase",StepKind.DIGESTION,
             ((chromatin,InputRole.TEMPLATE),(mnase,InputRole.CATALYST)),(digest,))
-    egta=g.input("egta","EGTA to stop MNase",MaterialKind.CONDITION)
+    egta=g.input("egta","25 mM EGTA added immediately to stop MNase",MaterialKind.CONDITION)
     stopped=g.product("stopped_digest","MNase-inactivated mixture",MaterialKind.MOLECULAR)
     g.react("stop_mnase","Stop digestion with EGTA",StepKind.QUENCHING,
             ((digest,InputRole.TEMPLATE),(egta,InputRole.CONDITION)),(stopped,))
-    spin=g.input("fractionation","centrifugation",MaterialKind.SELECTION)
+    spin=g.input("fractionation","13,000 rpm centrifugation, 5 min",MaterialKind.SELECTION)
     soluble=g.product("soluble_chromatin","soluble chromatin supernatant",MaterialKind.MOLECULAR)
     pellet=g.product("insoluble_pellet","insoluble chromatin pellet",MaterialKind.WASTE)
     g.react("recover_soluble","Collect the soluble supernatant",StepKind.SELECTION,
             ((stopped,InputRole.TEMPLATE),(spin,InputRole.SELECTION)),(soluble,pellet),changes_molecule=False)
     g.discard(pellet,"The selected mNET-seq route proceeds with the soluble chromatin supernatant.")
-    antibodies=g.input("polii_beads","Pol II antibody-conjugated beads",MaterialKind.SELECTION)
+    antibodies=g.input("polii_beads","Pol II antibody-conjugated beads (40 µg antibody) in 9 ml NET-2, 4 °C 1 h; six 1-ml NET-2 washes and one PNKT wash",MaterialKind.SELECTION)
     selected=g.product("polii_ip","washed Pol II/RNA immunoprecipitate on beads",MaterialKind.MOLECULAR)
     unbound=g.product("unbound","unbound and washed material",MaterialKind.WASTE)
     g.react("immunoprecipitate","Capture the selected Pol II CTD state and wash",StepKind.AFFINITY_CAPTURE,
@@ -84,11 +84,11 @@ def protocol_graph():
     phosphorylated=g.product("phosphorylated_ip","on-bead RNA with phosphorylated 5-prime ends",MaterialKind.MOLECULAR)
     g.react("phosphorylate","Phosphorylate RNA 5′ ends on the IP beads",StepKind.PHOSPHORYLATION,
             ((selected,InputRole.TEMPLATE),(kinase,InputRole.CATALYST),(atp,InputRole.CONDITION)),(phosphorylated,))
-    extraction=g.input("rna_extraction","post-kinase wash and Trizol RNA extraction",MaterialKind.CONDITION)
+    extraction=g.input("rna_extraction","one 1-ml NET-2 wash after the kinase, then Trizol RNA extraction",MaterialKind.CONDITION)
     rna=g.product("extracted_rna","extracted immunoprecipitated RNA",MaterialKind.MOLECULAR,state=RNA)
     g.react("extract_rna","Wash the beads, then extract RNA",StepKind.EXTRACTION,
             ((phosphorylated,InputRole.TEMPLATE),(extraction,InputRole.CONDITION)),(rna,))
-    size=g.input("rna_size_rule","35–100-nt denaturing RNA gel-selection interval",MaterialKind.SELECTION)
+    size=g.input("rna_size_rule","35–100-nt interval from an 8% acrylamide/7 M urea gel; elution in 1 M NaOAc/1 mM EDTA and ethanol precipitation",MaterialKind.SELECTION)
     sized=g.product("sized_rna","35–100-nt protected RNA",MaterialKind.MOLECULAR,state=RNA)
     excluded=g.product("excluded_rna","gel-excluded RNA sizes",MaterialKind.WASTE)
     g.react("select_rna","Gel-select the source 35–100-nt RNA interval",StepKind.SELECTION,
@@ -137,6 +137,12 @@ def protocol_graph():
         "The graph preserves the wash and on-bead phosphorylation order without selecting a Triton concentration.",
         "Defining article, original supplemental methods and deposited GEO extraction metadata, independently read.",
         "The actual experimental wash concentration is unresolved; no typographical error or dose correction is assumed."))
+    g.annotate(SourceDiscrepancy("mnase_digest", "MNase-buffer chromatin wash volume differs between deposited sources",
+        (SourceClaim("2015 article JATS line 201 and original Document S1 text line 2498", "Isolated chromatin was washed in 100 µl of 1× MNase buffer."),
+         SourceClaim("GSE60358 original extraction metadata, repeated mNET-seq paragraph (18 samples)", "Isolated chromatin was washed in 1 ml of 1× MNase buffer.")),
+        "The graph keeps MNase digestion in MNase buffer without selecting a wash volume.",
+        "Defining article JATS, original supplemental methods PDF text and deposited GEO extraction metadata.",
+        "The actual wash volume is unresolved. The GEO paragraph also writes other microlitre/microgram amounts as ml/mg (for example 500 ml PNKT, 40 mg antibody), so its unit rendering is not used to infer any reaction dose."))
     g.declare_reviewed_scope(("native_chromatin","mnase","mnase_digest","egta","stop_mnase","fractionation","recover_soluble",
         "polii_beads","immunoprecipitate","rna_kinase","atp","phosphorylate","rna_extraction","extract_rna","rna_size_rule","select_rna",
         "adapter3","ligase3","ligate3","adapter5","ligase5","ligate5","rt_primer","rt_enzyme","reverse_transcribe",

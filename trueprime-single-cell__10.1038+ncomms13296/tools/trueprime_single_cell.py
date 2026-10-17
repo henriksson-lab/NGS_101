@@ -32,7 +32,7 @@ FINAL_CAPTION = "Amplified single-cell genomic DNA, before sequencing adapters."
 SEQ_PRIMERS = ()
 READ_LENGTHS = None
 SEQUENCING_INTRO = ""
-SEQUENCING_ENDING = "The paper reports downstream Covaris fragmentation, NEBNext library preparation and paired-end HiSeq 2500 sequencing."
+SEQUENCING_ENDING = "The paper reports ethanol precipitation, Covaris fragmentation, NEBNext library preparation and paired-end HiSeq 2500 v4 sequencing (125 bp reads) at GATC Biotech."
 SEQUENCING_UNAVAILABLE = "The NEBNext kit generation, adapter bases and sequencing-primer landing sites are unresolved."
 
 
@@ -77,25 +77,37 @@ def add_amplification(graph, template, *, authority: str, duration: str):
 
 
 def add_reported_sequencing(graph, amplified, *, authority: str):
-    """Show the reported downstream library without assigning unknown NEBNext oligos."""
-    condition = graph.input("fragmentation_condition", "downstream fragmentation condition",
-                            MaterialKind.CONDITION, inferred=True, source=authority)
-    fragments = graph.product("fragments", "fragmented TruePrime-amplified DNA",
-                              MaterialKind.MOLECULAR, state=amplified.state,
-                              inferred=True, source=authority)
-    graph.react("fragment", "Fragment the amplified DNA for library preparation",
+    """Methods 'Sequencing': precipitation, Covaris and NEBNext at GATC; unknown oligos stay unassigned."""
+    seq_src = authority + " Methods, Sequencing"
+    ethanol = graph.input("ethanol_precipitation", "ethanol precipitation (conditions not reported)",
+                          MaterialKind.SELECTION, source=seq_src)
+    precipitated = graph.product("precipitated_wga", "ethanol-precipitated TruePrime-amplified DNA",
+                                 MaterialKind.MOLECULAR, state=amplified.state, source=seq_src)
+    supernatant = graph.product("precipitation_supernatant",
+                                "ethanol supernatant (buffer components, unincorporated dNTPs)",
+                                MaterialKind.WASTE, inferred=True, source=seq_src)
+    graph.react("precipitate", "Ethanol-precipitate the amplified DNA", StepKind.CLEANUP,
+                ((amplified, InputRole.TEMPLATE), (ethanol, InputRole.SELECTION)),
+                (precipitated, supernatant), changes_molecule=False, source=seq_src)
+    graph.discard(supernatant, "supernatant removed from the DNA pellet")
+    condition = graph.input("fragmentation_condition", "Covaris shearing (settings not reported)",
+                            MaterialKind.CONDITION, source=seq_src)
+    fragments = graph.product("fragments", "Covaris-fragmented TruePrime-amplified DNA",
+                              MaterialKind.MOLECULAR, state=amplified.state, source=seq_src)
+    graph.react("fragment", "Fragment the amplified DNA (Covaris) at GATC Biotech",
                 StepKind.FRAGMENTATION,
-                ((amplified, InputRole.TEMPLATE), (condition, InputRole.CONDITION)),
-                (fragments,), source=authority + " (reported Covaris experiment; library model unresolved)")
+                ((precipitated, InputRole.TEMPLATE), (condition, InputRole.CONDITION)),
+                (fragments,), source=seq_src)
     library = graph.product("sequencing_library", "NEBNext library with unresolved kit identity",
-                            MaterialKind.LIBRARY, inferred=True, source=authority)
+                            MaterialKind.LIBRARY, inferred=True, source=seq_src)
     graph.react("library_prep", "Prepare the reported NEBNext sequencing library",
                 StepKind.MAGIC, ((fragments, InputRole.TEMPLATE),), (library,),
-                reason="The reported NEBNext preparation is not yet resolved into kit-specific reactions or adapter-end geometry in this model.",
-                source=authority)
+                reason="The paper names only 'NebNext (NEB)'; kit generation, end repair/adapter geometry, indexes and PCR are not reported.",
+                source=seq_src)
     graph.sequence(library, SequencingPlan(
         acquired_roles=("Read 1", "Read 2"),
-        limitation="Paired-end HiSeq 2500 was reported; this model has not resolved the NEBNext kit version or primer sites."))
+        limitation=("Paired-end HiSeq 2500 v4 chemistry (Methods) with 125 bp reads (Results); the NEBNext "
+                    "kit version, adapter bases and primer sites are not reported, so read cycles are not drawn.")))
     return library
 
 
@@ -122,7 +134,8 @@ def protocol_graph() -> ProtocolGraph:
     add_reported_sequencing(graph, amplified, authority=SOURCE)
     graph.declare_reviewed_scope([
         "single_cell", "buffer_l2", "lyse", "buffer_n", "neutralize",
-        "tth_primpol", "prime", "phi29", "amplify", "inactivation_condition", "inactivate", "fragmentation_condition",
+        "tth_primpol", "prime", "phi29", "amplify", "inactivation_condition", "inactivate",
+        "ethanol_precipitation", "precipitate", "precipitated_wga", "precipitation_supernatant", "fragmentation_condition",
         "fragment", "library_prep",
         "sequencing_library"], SOURCE)
     return graph.require_publishable()

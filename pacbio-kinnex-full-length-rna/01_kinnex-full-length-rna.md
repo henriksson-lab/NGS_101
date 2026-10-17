@@ -15,14 +15,15 @@ kit*, document 103-238-700 Rev09, August 2026.
 
 ## 3. Construct-changing operations
 
-1. 🟢 Poly(A)-primed, template-switch cDNA synthesis is followed by Iso-Seq barcode PCR.
-2. 🟢 Eight parallel Kinnex PCRs add orientation-specific segmentation sequences.
-3. 🟢 Equal volumes of the eight products are pooled.
-4. 🟢 Kinnex enzyme, ligase and a barcoded Kinnex terminal adapter assemble the cDNA
-   segments into a linear array at 45 °C for 60 min; DNA repair follows for 30 min.
-5. 🟢 Nuclease treatment removes incomplete molecules with exposed ends. The recovered
-   product is the SMRTbell library used for sequencing-primer annealing and polymerase
-   binding.
+Conditions are from 103-238-700 Rev09, sections 2–7 (round 2026-10-17-breadth-first-14 re-read).
+
+1. 🟢 Mix 300 ng total RNA with the Iso-Seq RT primer mix and heat 70 °C for 5 min. Add the RT buffer and RT enzyme mix and incubate 42 °C for 45 min. Then add Iso-Seq Express TSO 2.0 and incubate 42 °C for 15 min. Clean up with 1.3X SMRTbell beads.
+2. 🟢 Run Iso-Seq barcode PCR with the Iso-Seq cDNA PCR mix, the cDNA amplification primer and one bc01–12 primer: {{= kinnex.ISOSEQ_PCR_CYCLES }} cycles of 98 °C 10 s, 60 °C 15 s, 72 °C 3 min. Clean up with 0.9X beads (0.86X for longer cDNA). Barcoded cDNAs may be pooled by equal mass to 55 ng.
+3. 🟢 Run {{= kinnex.KINNEX_PCR_REACTIONS }} parallel Kinnex PCRs on aliquots of one master mix (Kinnex PCR mix + 55 ng cDNA). Each tube receives one of primer mixes A, B, C, D, E, F, G or HQ and runs {{= kinnex.KINNEX_PCR_CYCLES }} cycles of 98 °C 20 s, 68 °C 30 s, 72 °C 4 min. 🟡 The model splits each mix into upstream and downstream priming members because a PCR needs both; the mix composition is not printed.
+4. 🟢 Pool exactly 23 µL of each of the eight products. Clean up with 1.05X beads.
+5. 🟢 Combine 5 µg of the pool with one Kinnex adapter bc01–04 mix, Kinnex array and repair buffer, Kinnex enzyme and Kinnex ligase. The "Kinnex primer digestion/ligation" program (45 °C for 60 min) assembles the cDNA segments into a linear array. Add DNA repair mix directly and incubate 45 °C for 30 min. Clean up with 1X beads.
+6. 🟢 Nuclease treatment (37 °C for 15 min) digests partial arrays (application note p. 3). A final 1X bead cleanup removes the digestion products with the supernatant. The model therefore records physical removal at the cleanup, not at the digestion.
+7. 🟢 Section 7 anneals the **Kinnex sequencing primer**, a kit-specific reagent distinct from the standard primer, before polymerase binding.
 
 ## 4. Evidence boundary
 
@@ -110,6 +111,6 @@ scope checks; the historical file reads do not complete the linked-source audit.
 
 ## 5. Read layout
 
-The PacBio sequencing primer binds a terminal-adapter site whose bases remain unverified. Polymerase circles
+The Kinnex sequencing primer binds a terminal-adapter site whose bases remain unverified. Polymerase circles
 the closed array repeatedly to produce HiFi sequence; ordered segmentation junctions split
 that consensus molecule back into its eight full-length cDNA segments.

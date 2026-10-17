@@ -209,7 +209,7 @@ def checks(d: str) -> tuple[int, bool]:
         return 0, False
     r = subprocess.run(command, capture_output=True, text=True)
     m = re.search(r"all (\d+) checks passed", r.stdout)
-    if m:
+    if m and r.returncode == 0:
         return int(m.group(1)), True
     m = re.search(r"(\d+) of (\d+) checks FAILED", r.stdout)
     return (int(m.group(2)) if m else 0), False

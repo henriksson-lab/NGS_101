@@ -1,80 +1,130 @@
-"""sci-Plex nuclear-hashing model."""
+"""sci-Plex nuclear-hashing model.
+
+Source scope (bounded pass 2026-10-17): Srivatsan et al. Science 2020 author
+manuscript PMC7289078 main text and figure legends, plus the authors' twelve IDT
+hash-oligo order forms.  The Science Supplementary Materials (Materials and
+Methods, Tables S1-S8) are gated and were not read, so the version-specific
+sci-RNA-seq RT, ligation and PCR oligos are not drawn here.
+"""
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from batch_ngs import seg,truseq_library
-from chemdraw import Row, Segment, feature, oligo
-from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
-                            SequencingPlan, StepKind)
+import nextera as nx
+import seqprimers as sp
+from chemdraw import Construct, Segment, feature, oligo, revcomp
+from protocol_graph import (Disposition, Highlight, InputRole, MaterialKind,
+                            ProtocolGraph, SequencingPlan, StepKind, Terminal,
+                            AnnotationSlot)
 
-FINAL_LIBRARY,SEQ_PRIMERS=truseq_library([
- seg("sci-RNA cell barcode combination","C"*20,"cbc",placeholder=True,feature=feature("sciplex_cell","cell_barcode","combinatorial",group="cell",part="sci-RNA rounds")),
- seg("UMI","U"*8,"umi",placeholder=True,feature=feature("sciplex_umi","umi","random")),
- seg("hash barcode or cDNA insert","X"*36,placeholder=True),
-],"sci-Plex library",dual_index=True)
+# Author IDT plate-1 order form, well A1 (sciPlex_0), transcribed 5'->3'.
+HASH_HANDLE="GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"
+HASH_BARCODE="TTCTCGCATG"
+if HASH_HANDLE!=nx.READ2_PRIMER:
+    raise AssertionError("the order form's 'Nextera Read2' arm must equal nextera.READ2_PRIMER")
+HASH_FEATURE=feature("sciplex_hash","sample_index","whitelist",
+                     whitelist="author IDT hash oligo plates 1-12 (1,152 rows)")
+CELL_FEATURE=feature("sciplex_cell","cell_barcode","combinatorial",group="cell",
+                     part="version-specific sci-RNA-seq index rounds")
+UMI_FEATURE=feature("sciplex_umi","umi","random")
+
+
+def hash_oligo():
+    return [Segment("Nextera Read 2 handle",HASH_HANDLE,"r2"),
+            Segment("10-base hash",HASH_BARCODE,"cbc",feature=HASH_FEATURE),
+            Segment("B as printed in IDT form","B",placeholder=True),
+            Segment("poly(A)32","A"*32)]
+
+
+def hash_library():
+    """Hash-derived molecule: oligo-dT-primed copy of the hash, P5 side left.
+
+    The right-hand arm is the reverse complement of the order-form hash oligo; the
+    sci-RNA-seq RT primer, cell-index rounds and both outer PCR arms are role tokens
+    because the inspected sci-Plex sources do not print them.
+    """
+    return Construct([
+        Segment("P5-side sci-RNA-seq arm","[P5 · i5 · Read 1 site]",placeholder=True),
+        Segment("cell index rounds","[sci-RNA-seq cell indexes]",placeholder=True,
+                feature=CELL_FEATURE),
+        Segment("UMI","[UMI]",placeholder=True,feature=UMI_FEATURE),
+        Segment("oligo-dT copy of hash poly(A)","[oligo-dT · poly(T)]",placeholder=True),
+        Segment("complement of printed B","[B complement]",placeholder=True),
+        Segment("hash barcode (reverse complement)",revcomp(HASH_BARCODE),"cbc",
+                feature=HASH_FEATURE),
+        Segment("Nextera Read 2 handle (reverse complement)",revcomp(HASH_HANDLE),"r2"),
+        Segment("P7-side sci-RNA-seq arm","[i7 · P7]",placeholder=True),
+    ],name="hash-derived sci-Plex library molecule")
+
+
+FINAL_LIBRARY=hash_library()
+SEQ_PRIMERS=(sp.NEXTERA["R2"],)
 TITLE="sci-Plex — nuclear hashing before combinatorial RNA indexing"
 NOTES="01_sci-plex.html"
-SOURCE='<a href="https://doi.org/10.1126/science.aax6234">Srivatsan et al., <i>Science</i> (2020)</a>.'
-SUMMARY="Each treated sample is labeled with a well-specific polyadenylated ssDNA hash oligo. Pooled nuclei then undergo sci-RNA-seq, so hash oligos and endogenous transcripts receive the same combinatorial cell indexes."
-FINAL_CAPTION="A sci-RNA-seq product representing either endogenous cDNA or a captured nuclear-hash oligo; both retain the same cell barcode combination and UMI."
-SEQUENCING_INTRO="The combinatorial index combination identifies a nucleus; hash-derived reads recover treatment/sample identity and transcript-derived reads measure expression."
-SHOW_READ_CONTENT=True
+SOURCE='<a href="https://doi.org/10.1126/science.aax6234">Srivatsan et al., <i>Science</i> 367:45–51 (2020)</a>; hash oligos from the authors\' IDT order forms (github.com/cole-trapnell-lab/sci-plex).'
+SUMMARY="Each treated sample is lysed in the presence of a well-specific polyadenylated ssDNA hash oligo and the nuclei are fixed. Pooled nuclei then undergo sci-RNA-seq (two-level in the barnyard pilot, sci-RNA-seq3 in the 188-compound screen), so hash oligos and endogenous mRNAs receive the same combinatorial cell indexes."
+CAVEAT="Only the hash oligo is drawn base by base. The sci-RNA-seq RT primer, cell-index rounds, UMI and outer PCR arms differ between the two sci-RNA-seq versions used and are in the Science Supplementary Materials, which were not available to this review; they appear as bracketed role tokens."
+FINAL_CAPTION="Hash-derived molecule: the right-hand arm is the reverse complement of the order-form hash oligo, so its Nextera Read 2 handle supplies the Read 2 site without tagmentation. Bracketed regions are version-specific sci-RNA-seq parts that are not drawn. Transcript-derived molecules share the left-hand arm but are not drawn."
+SEQUENCING_INTRO="Read 2 is computed from the hash oligo's Nextera Read 2 handle and reads the hash barcode as printed. Read 1 and the index reads come from the version-specific sci-RNA-seq arms and carry the cell index combination and UMI; their primers and cycle counts are not drawn here."
+SHOW_READ_CONTENT=False
+READ_SPECS=(
+    sp.read_spec("Read 1",None,"P5-side sci-RNA-seq arm (cell-index/UMI content); version-specific primer and layout not printed in the inspected sources","undetermined"),
+    sp.read_spec("Index 1 (i7)",None,"P7-side sci-RNA-seq arm; primer, index content and cycles not printed in the inspected sources","undetermined"),
+    sp.read_spec("Index 2 (i5)",None,"P5-side sci-RNA-seq arm; primer, index content and cycles not printed in the inspected sources","undetermined"),
+    sp.read_spec("Read 2",None,"hash-derived molecules: computed Nextera Read 2 entry reads the 10-base hash as printed, then B and poly(A); transcript-derived molecules: cDNA (not drawn)","extract_then_include"),
+)
+
+
 def oligos():
     """Author IDT plate-1 ordering form, well A1 (sciPlex_0)."""
-    yield oligo("sciPlex_0 nuclear hash", [
-        Segment("Nextera Read 2 handle","GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"),
-        Segment("10-base hash","TTCTCGCATG","cbc",feature=feature("sciplex_hash_0","sample_index","whitelist",whitelist="author IDT hash oligo plates")),
-        Segment("B as printed in IDT form","B",placeholder=True),
-        Segment("poly(A)32","A"*32)])
-def sections(): return [
- ("Treat samples in separate wells",[Row(chunks=[("sample 1 | sample 2 | … | sample 4992",None,False)])],"Perturbation identity initially exists as physical well identity."),
- ("Hash permeabilized nuclei",[Row(chunks=[("well-specific ssDNA hash barcode — poly(A) → nucleus", "cbc",False)])],"Unmodified polyadenylated DNA associates with exposed nuclei and is fixed in place."),
- ("Pool and perform sci-RNA-seq",[Row(chunks=[("hash oligo + endogenous mRNA → same RT/ligation/PCR index combination",None,False)])],"The poly(A) tail makes the hash compatible with the transcript workflow."),]
+    yield oligo("sciPlex_0 nuclear hash",hash_oligo())
+
 
 def protocol_graph():
- source="Defining source: https://doi.org/10.1126/science.aax6234"
- graph=ProtocolGraph("sci-Plex",authority=source)
- nuclei=graph.input("nuclei","permeabilized nuclei from treated samples",
-                    MaterialKind.BIOLOGICAL,primary=True)
- hash_oligo=graph.input("hash_oligo","well-specific polyadenylated ssDNA hash",
-                        MaterialKind.MOLECULAR)
- hashed=graph.product("hashed_nuclei","hash-labelled nuclei",MaterialKind.BIOLOGICAL)
- unbound=graph.product("unbound_hash","unbound hash oligo",MaterialKind.WASTE)
- graph.react("hash_binding","Associate and fix the well-specific hash to nuclei",
-             StepKind.BINDING,
-             ((nuclei,InputRole.TEMPLATE),(hash_oligo,InputRole.ANALYTE)),(hashed,unbound))
- graph.discard(unbound,"unbound hash oligo is removed before pooling")
- rt_primer=graph.input("indexed_rt_primer","sci-RNA-seq indexed RT primer",MaterialKind.OLIGO)
- rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
- cdna=graph.product("indexed_cdna","hash- and transcript-derived indexed cDNA",
-                    MaterialKind.MOLECULAR)
- graph.react("reverse_transcription","Pool nuclei and reverse-transcribe hashes and mRNA",
-             StepKind.REVERSE_TRANSCRIPTION,
-             ((hashed,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
-              (rt,InputRole.CATALYST)),(cdna,))
- ligation_index=graph.input("ligation_index","sci-RNA-seq ligation-round index oligo",
-                            MaterialKind.ADAPTER)
- indexed=graph.product("combinatorial_cdna","combinatorially indexed cDNA and hash products",
-                       MaterialKind.MOLECULAR)
- graph.react("ligation_indexing","Add the split-pool ligation index",
-             StepKind.ADAPTER_ATTACHMENT,
-             ((cdna,InputRole.TEMPLATE),(ligation_index,InputRole.STRUCTURAL)),(indexed,))
- p5=graph.input("p5_primer","P5 library PCR primer",MaterialKind.OLIGO)
- p7=graph.input("p7_primer","indexed P7 library PCR primer",MaterialKind.OLIGO)
- polymerase=graph.input("polymerase","library PCR polymerase",MaterialKind.CATALYST)
- library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
- graph.react("library_pcr","PCR-complete the sci-Plex library",StepKind.PCR,
-             ((indexed,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
-              (p7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
-             geometry=PCRGeometry.unavailable(
-                 FINAL_LIBRARY,reason="The compact sci-RNA branch model records the completed library rather than separate primer landing objects."))
- graph.sequence(library,SequencingPlan(
-     library=FINAL_LIBRARY,primers=SEQ_PRIMERS,
-     acquired_roles=tuple(p.role for p in SEQ_PRIMERS),
-     read_uses={p.role:("demultiplex" if "Index" in p.role else "extract_then_include") for p in SEQ_PRIMERS}))
- graph.declare_reviewed_scope((
-     "nuclei","hash_oligo","hash_binding","indexed_rt_primer","reverse_transcriptase",
-     "reverse_transcription","ligation_index","ligation_indexing","p5_primer",
-     "p7_primer","polymerase","library_pcr","library"),source)
- return graph.require_publishable()
+    source=("Srivatsan2020 author manuscript PMC7289078 Results/Fig. 1 and Fig. 3 legends; "
+            "hash oligo from author IDT plate-1 order form well A1")
+    graph=ProtocolGraph("sci-Plex",authority=source)
+    nuclei=graph.input("nuclei","treated cells, one perturbation per well",
+                       MaterialKind.BIOLOGICAL,primary=True)
+    hash_in=graph.input("hash_oligo","well-specific polyadenylated ssDNA hash (sciPlex_0 shown)",
+                        MaterialKind.OLIGO,state=tuple(hash_oligo()))
+    pfa=graph.input("paraformaldehyde","paraformaldehyde fixation",MaterialKind.CONDITION)
+    hashed=graph.product("hashed_nuclei","hash-labelled fixed nuclei",MaterialKind.BIOLOGICAL)
+    unbound=graph.product("unbound_hash","hash oligo not associated with nuclei",
+                          MaterialKind.MOLECULAR)
+    graph.react("hash_lysis_fixation",
+                "Lyse cells in the presence of the well-specific hash oligo, then fix nuclei",
+                StepKind.BINDING,
+                ((nuclei,InputRole.TEMPLATE),(hash_in,InputRole.STRUCTURAL),
+                 (pfa,InputRole.CONDITION)),(hashed,unbound),
+                source="PMC7289078 Results ¶3 (nuclear lysis with 96 well-specific hash oligos, paraformaldehyde fixation) and Fig. 1B legend")
+    graph.mark_terminal(Terminal(unbound.id,Disposition.UNRESOLVED,
+        "The inspected main text does not describe washing or removal of free hash oligo; "
+        "the supplementary Materials and Methods were not read."))
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+    transcripts=graph.product("transcript_library","transcript-derived sci-RNA-seq molecules",
+                              MaterialKind.MOLECULAR)
+    graph.react("sci_rna_indexing",
+                "Pool hashed nuclei and run sci-RNA-seq (two-level pilot; sci-RNA-seq3 screen)",
+                StepKind.MAGIC,((hashed,InputRole.TEMPLATE),),(library,transcripts),
+                reason=("The main text states only that pooled hashed nuclei undergo a two-level "
+                        "sci-RNA-seq experiment (barnyard pilot) or sci-RNA-seq3 (large screen) and "
+                        "that the polyadenylated hash is indexed like mRNA. RT primer, ligation and "
+                        "PCR oligos, enzymes and conditions are in the unread Science supplement."),
+                source="PMC7289078 Results ¶3 and Fig. 3A legend")
+    graph.mark_terminal(Terminal(transcripts.id,Disposition.UNRESOLVED,
+        "Sequenced in the same pool, but their version-specific structure (Tn5-derived Read 2 end) "
+        "is not drawn from the inspected sci-Plex sources."))
+    graph.sequence(library,SequencingPlan(
+        library=FINAL_LIBRARY,primers=SEQ_PRIMERS,acquired_roles=("Read 2",),
+        read_uses={"Read 2":"extract"},
+        limitation=("Read 1 and index-read primers, cycle counts and instrument are not printed in "
+                    "the inspected main text; only the Read 2 site carried by the hash is computed.")))
+    graph.annotate(Highlight("library","Model correction (2026-10-17)",
+        "An earlier model drew a TruSeq Read 2 arm after a dA junction. The author hash oligo "
+        "instead carries the Nextera Read 2 handle (s7 + mosaic end), so the hash-derived "
+        "molecule ends in that handle; a TruSeq Read 2 arm is not supported.",
+        slot=AnnotationSlot.SEQUENCING))
+    graph.declare_reviewed_scope((
+        "nuclei","hash_oligo","paraformaldehyde","hash_lysis_fixation","unbound_hash",
+        "sci_rna_indexing","transcript_library","library"),source)
+    return graph.require_publishable()

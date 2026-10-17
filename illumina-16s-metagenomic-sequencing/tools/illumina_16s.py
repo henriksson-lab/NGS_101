@@ -114,25 +114,25 @@ def oligos():
 
 def protocol_graph():
     graph=ProtocolGraph(TITLE,authority=SOURCE)
-    dna=graph.input("community_dna","community genomic DNA",MaterialKind.BIOLOGICAL,
+    dna=graph.input("community_dna","microbial genomic DNA, 2.5 µl at 5 ng/µl in 10 mM Tris pH 8.5",MaterialKind.BIOLOGICAL,
                     state=GENOMIC_TEMPLATE,primary=True)
-    fwd=graph.input("v3_forward","full source V3 forward primer",MaterialKind.OLIGO,
+    fwd=graph.input("v3_forward","full source V3 forward primer, 5 µl at 1 µM",MaterialKind.OLIGO,
                     state=FWD)
-    rev=graph.input("v4_reverse","full source V4 reverse primer",MaterialKind.OLIGO,
+    rev=graph.input("v4_reverse","full source V4 reverse primer, 5 µl at 1 µM",MaterialKind.OLIGO,
                     state=REV)
-    pol1=graph.input("pcr1_polymerase","KAPA HiFi HotStart ReadyMix",MaterialKind.CATALYST)
+    pol1=graph.input("pcr1_polymerase","2x KAPA HiFi HotStart ReadyMix, 12.5 µl in 25 µl",MaterialKind.CATALYST)
     product=graph.product("pcr1_product",PCR1_PRODUCT.name,MaterialKind.MOLECULAR,state=PCR1_PRODUCT)
-    graph.react("pcr1","Amplify V3–V4 and install overhangs (25 cycles)",StepKind.PCR,
+    graph.react("pcr1","Amplify V3–V4 and install overhangs (95 °C 3 min; 25 × 95/55/72 °C 30 s; 72 °C 5 min)",StepKind.PCR,
                 ((dna,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),(rev,InputRole.STRUCTURAL),
                  (pol1,InputRole.CATALYST)),(product,),
                 geometry=PCRGeometry.unavailable(GENOMIC_TEMPLATE,
                   reason="Both full primers are printed, but this declaration does not select a native community template or its binding coordinates. The PCR1 product is not substituted as the genomic input."))
-    beads1=graph.input("cleanup1_beads","AMPure XP beads for PCR1 cleanup",MaterialKind.SELECTION)
+    beads1=graph.input("cleanup1_beads","20 µl AMPure XP on the 25 µl PCR1 reaction, two 80% ethanol washes, 52.5 µl 10 mM Tris pH 8.5 elution",MaterialKind.SELECTION)
     clean1=graph.product("clean_pcr1","50 µl purified PCR1 product",MaterialKind.MOLECULAR,state=PCR1_PRODUCT)
-    waste1=graph.product("cleanup1_waste","material not recovered by cleanup1",MaterialKind.WASTE)
+    waste1=graph.product("cleanup1_waste","free primers and primer-dimer species (source-named) with other unrecovered material",MaterialKind.WASTE)
     graph.react("cleanup1","Purify the amplicon PCR product",StepKind.CLEANUP,
                 ((product,InputRole.TEMPLATE),(beads1,InputRole.SELECTION)),(clean1,waste1),changes_molecule=False)
-    graph.discard(waste1,"Cleanup wash/excluded material; exact molecular composition unassigned.")
+    graph.discard(waste1,"Guide p.8: the bead step purifies the amplicon away from free primers and primer-dimer species; remaining composition unassigned.")
     aliquot=graph.product("pcr2_aliquot","5 µl PCR1 aliquot for index PCR",MaterialKind.MOLECULAR,state=PCR1_PRODUCT)
     remainder=graph.product("pcr1_remainder","45 µl PCR1 remainder not used in this workflow",MaterialKind.MOLECULAR,state=PCR1_PRODUCT)
     transfer=graph.input("transfer_volume","source-specified 5 µl of 50 µl transfer",MaterialKind.CONDITION)
@@ -140,20 +140,20 @@ def protocol_graph():
                 ((clean1,InputRole.TEMPLATE),(transfer,InputRole.CONDITION)),(aliquot,remainder),changes_molecule=False)
     graph.mark_terminal(Terminal(remainder.id,Disposition.STORED,
         "The guide states the remaining 45 µl is not used in this protocol and can be stored for other uses; storage here is optional, not a molecular rejection."))
-    i5=graph.input("i5_primer","INFERRED canonical S5XX index primer",MaterialKind.OLIGO,
+    i5=graph.input("i5_primer","INFERRED canonical S5XX index primer (Nextera XT Index Kit FC-131-1001/-1002 tube, 5 µl; whole sequence not printed)",MaterialKind.OLIGO,
                    state=tuple(index_primer("i5")),inferred=True)
-    i7=graph.input("i7_primer","INFERRED canonical N7XX index primer",MaterialKind.OLIGO,
+    i7=graph.input("i7_primer","INFERRED canonical N7XX index primer (Nextera XT Index Kit FC-131-1001/-1002 tube, 5 µl; whole sequence not printed)",MaterialKind.OLIGO,
                    state=tuple(index_primer("i7")),inferred=True)
-    pol2=graph.input("pcr2_polymerase","KAPA HiFi HotStart ReadyMix",MaterialKind.CATALYST)
+    pol2=graph.input("pcr2_polymerase","2x KAPA HiFi HotStart ReadyMix, 25 µl in 50 µl",MaterialKind.CATALYST)
     amplified=graph.product("indexed_amplicon",FINAL_LIBRARY.name,MaterialKind.MOLECULAR,state=FINAL_LIBRARY)
     geometry=PCRGeometry.exact(PCR1_PRODUCT,
         PCRPrimer("inferred S5XX full primer",index_template("i5"),anneal_nt=len(nx.S5)),
         PCRPrimer("inferred N7XX full primer",index_template("i7"),anneal_nt=len(nx.S7)),
         statement="Conditional canonical whole-primer model: S5/S7 terminal 14/15-base arms bind the actual PCR1 overhangs. Full historical primer/cap identity and a sample pair are unassigned; this is not their source verification.")
-    graph.react("pcr2","INFERRED — extend the actual PCR1 product with dual indexes and caps (8 cycles)",StepKind.PCR,
+    graph.react("pcr2","INFERRED — extend the actual PCR1 product with dual indexes and caps (95 °C 3 min; 8 × 95/55/72 °C 30 s; 72 °C 5 min)",StepKind.PCR,
                 ((aliquot,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),(i7,InputRole.STRUCTURAL),
                  (pol2,InputRole.CATALYST)),(amplified,),geometry=geometry)
-    beads2=graph.input("cleanup2_beads","AMPure XP beads for index-PCR cleanup",MaterialKind.SELECTION)
+    beads2=graph.input("cleanup2_beads","56 µl AMPure XP on the 50 µl index PCR, two 80% ethanol washes, 27.5 µl elution, 25 µl transferred",MaterialKind.SELECTION)
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
     waste2=graph.product("cleanup2_waste","material not recovered by cleanup2",MaterialKind.WASTE)
     graph.react("cleanup2","Purify the indexed library before quantification/pooling",StepKind.CLEANUP,

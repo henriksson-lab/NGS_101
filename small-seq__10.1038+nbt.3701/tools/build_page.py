@@ -83,8 +83,11 @@ end, so no adapter can be ligated there. Written up once in
 
 {info("""<b>Implementation shown: the 2018 detailed protocol.</b> Its Supplementary
 Table 1 supplies the 192 eight-base SRX index primers; SR001 is the representative here.
-The 2016 defining paper instead used six-base RPI indexes and 43- or 51-base single reads
-(Online Methods, library preparation). The 2018 protocol recommends at least 51 bases
+The 2016 defining paper instead used 48 six-base INDEX-RPI primers (Supplementary Table 2)
+and 43- or 51-base single reads, and pooled and purified the libraries with a Zymo DNA Clean
+&amp; Concentrator-5 column without a described size selection (Online Methods, library
+preparation). Its adapter, RT primer, RP1 and mask sequences match the 2018 Reagent setup;
+it writes the mask's 3&prime; label as TEG-biotin. The 2018 protocol recommends at least 51 bases
 (Steps 37–38). These are published versions, not contradictory source values.""")}
 {caveat("""<b>Read 1 is represented by its derived entry site.</b> The displayed RA5
 binding span puts the first read base on the UMI, as specified by the detailed protocol.
@@ -511,7 +514,8 @@ def sequencing() -> str:
             UMI before CA and the RNA insert. Steps 37–38 refer instrument operation to
             the manufacturer's protocol and recommend a single read of at least
             {sm.READ_LEN} bases. Supplementary Table 1 prints the complete SRX index
-            primers and the reported eight-base indexes. The binding calculations below
+            primers and the reported eight-base indexes; the Index 1 length used below is
+            that barcode length, not a printed acquired index-cycle count. The binding calculations below
             establish compatibility with the declared library; they do not establish which
             sequencing-primer mixture the authors loaded.""")
             + sp.section(lib, sm.SEQ_PRIMERS, intro=f"""Single-read, single-indexed

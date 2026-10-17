@@ -6,11 +6,16 @@
       "id": "paper",
       "role": "defining",
       "locator": "Gansauge and Meyer Nat Protoc 2013 doi:10.1038/nprot.2013.038",
-      "availability": "unavailable",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "nprot.2013.038.pdf.txt lines 1-11 (identity, corrected after print 15 May 2013), 85-105, 270-290, 450-463, 541-748 (Reagent setup, Table 1; rendered p.741 inspected), 749-1110 (Procedure Steps 1-34), 1222-1232, 1352-1366 (Corrigendum)",
+        "finding": "Table 1 prints CL9, CL53 (3' ddC), CL73 (5' phosphate, 4 phosphothioates), corrected CL78, IS4, CL72 and qPCR oligos; Procedure gives enzymes/conditions for every step; Step 34 replaces the first-read primer by CL72 and defers other sequencing primers to Illumina instructions."
+      },
       "pass_2": null,
-      "reason": "Publisher full article paywall; MANIFEST manual row."
+      "reason": "Earlier passes: publisher paywall. Maintainer hand-downloaded the corrected-after-print article PDF (nprot.2013.038.pdf, 13 pages) on 2026-10-17; printed title/authors/DOI checked."
     },
     {
       "id": "supp_fig1",
@@ -134,22 +139,32 @@
       "id": "corrigendum",
       "role": "linked_material",
       "locator": "Nature Protocols correction of 15 May 2013 for CL78 5-prime phosphate",
-      "availability": "unavailable",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "nprot.2013.038.pdf.txt lines 1352-1366",
+        "finding": "Initially published CL78 lacked [Phosphate]; corrected sequence [Phosphate]AGATCGGAAG[C3Spacer]10[TEG-biotin]; corrected in HTML and PDF."
+      },
       "pass_2": null,
-      "reason": "Publisher article page redirects to inaccessible IdP; correction text only in search excerpt and later author source.",
+      "reason": "Corrigendum page is appended to the hand-downloaded corrected article PDF (nprot.2013.038.pdf.txt lines 1352-1366).",
       "discovered_from": "paper"
     },
     {
       "id": "gansauge2017",
       "role": "linked_material",
-      "locator": "Gansauge et al 2017 supplementary Table 2, pure.mpg.de author file",
-      "availability": "unavailable",
+      "locator": "Gansauge et al 2017 supplementary Table 2, pure.mpg.de author file ; read as PMC5449542 gkx033_supp.pdf (Europe PMC supplementaryFiles), NAR 45(10):e79",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "PMC5449542_gkx033_supp.pdf.txt Supplementary Table 2 lines 1364-1479 (CL9, CL53, CL73, CL78, CL104 rows and dagger footnote)",
+        "finding": "CL9/CL53/CL73/CL78 bases and modifications printed and marked as already published in Gansauge & Meyer 2013; CL78 carries 5-prime phosphate."
+      },
       "pass_2": null,
-      "reason": "Linked author 2017 PDF not fetched in this pass; prior notes quote CL9/CL53/CL73 but cannot count as original reading.",
+      "reason": "Read in round 2026-10-17-breadth-first-18 from the PMC5449542 supplement (Europe PMC); pure.mpg.de author file returned an HTML page. Only one independent pass so far.",
       "discovered_from": "paper"
     }
   ],
@@ -175,5 +190,73 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Original supplements print P5/P7 index primer families and describe five-base P5 deletion; defining main Methods, corrigendum and later protocol remain unavailable."
+  "conclusion": "Original supplements print P5/P7 index primer families and describe five-base P5 deletion; defining main Methods, corrigendum and later protocol remain unavailable.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "2013 MOESM473 Supplementary Fig. 1 rendered page (four library panels, caption pdf.txt lines1-7); 2013 MOESM478 Supplementary Table 2 pdf.txt lines1-63, 224-264 (P5 families), 329-347, 434-495, 578-592 (P7 families); Gansauge 2017 NAR PMC5449542 gkx033_supp.pdf.txt Supplementary Table 2 lines1364-1479; main 2013 article not available (manual https://doi.org/10.1038/nprot.2013.038, not in PMC)",
+      "oligo_scraper": "Bundle scraper run; P5/P7 indexing-primer families verified at MOESM478 lines 9, 224, 329, 434, 578; --find CL72 region and index-2 primer: 0 hits (bases only in Fig. 1 drawing).",
+      "findings": "Replaced misleading 'dA junction' with CL78-derived AGATCGGAAG + CL9-complement arm (construction check CL78/CL9/INDEX1); CL53/CL73 ligation geometry now uses 2017 Table 2 bases (CL53 pairs CL73 5' 12 nt, blunt CL73 5'-p / CL53 3'-ddC end); removed FINAL_LIBRARY state from pre-PCR dual-adapter product (it lacked P5/i5/i7/P7); renamed index-2 primer to Fig. 1 'Read 4 seq' and marked it and CL72 as inferred from Fig. 1 (prior note claimed CL72 verbatim and 'Gesaffelstein'); PCR primers named as Supplementary Table 2 P5/P7 families; added Key oligos list; graph-owned CL78 phosphate-correction discrepancy (correction notice not retrieved, 2017 table agrees). Note rewritten with source labels.",
+      "deferred": [
+        "Gansauge & Meyer 2013 main article Procedure/Reagent setup (paywalled; manual https://doi.org/10.1038/nprot.2013.038)",
+        "15 May 2013 Nature Protocols correction notice text",
+        "Exact CL72 and Read 4 (index 2) sequencing primer oligos",
+        "Reaction conditions/enzymes (CircLigase II, phosphatase/UDG, copying polymerase, T4 ligase), bead washes, cycle numbers",
+        "Ref. 21 Meyer & Kircher 2010 IS primers and ref. 22 double-index setup"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 98 common checks pass; page builds; pairing 0 problems; chemistry 1 established/0 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 5 inputs without exact states (timeout not hit); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Publisher public article page https://www.nature.com/articles/nprot.2013.038 (nprot.2013.038_article_page.html.txt line 683 Figure 1 caption, lines 813-815 Change history 15 May 2013, lines 1060-1110 supplementary captions incl. Suppl. Fig. 4 cycle example) and public Figure 1 image 41596_2013_Article_BFnprot2013038_Fig1_HTML.jpg (rendered, Steps 1-32 and legend); Figure 2 image glanced (CL104 qPCR control). Main article text still paywalled.",
+      "oligo_scraper": "Scraper run on article_page.html.txt: 0 hits (CL78 10-nt quotation below threshold); CL78 correction text read directly.",
+      "findings": "Change history read verbatim: original Table 1 CL78 'AGATCGGAAG[C3Spacer]10[TEG-biotin]' corrected to '[Phosphate]AGATCGGAAG...'; discrepancy now cites both quoted values (was 'text not retrieved'). Fig. 1 step map added: Steps 1-4 drawn removing 5'-phosphate and breaking the strand at deoxyuracil before separation (new DEPHOSPHORYLATION step, enzymes unnamed); Steps 8-15 copy ends in 3' A, blunt after Steps 16-19 (new END_REPAIR step before blunt ligation, enzyme unnamed); Step 25 bead release, 26-29 qPCR, 30-32 indexing (Fig. 1 draws index on P7-side primer only). Caveat and note updated; sources saved with MANIFEST.tsv rows.",
+      "attempted_routes": "OpenAlex/Unpaywall closed (no OA location); not in PMC/Europe PMC; MPG PuRe item_1737661 has no files; EVA/protocols.io host only the 2017/2020 successor protocols (not the 2013 CircLigase method); Crossref lists no separate correction DOI.",
+      "deferred": [
+        "Gansauge & Meyer 2013 main Procedure/Reagent setup/Table 1 (paywalled; manual https://doi.org/10.1038/nprot.2013.038)",
+        "Enzymes and conditions for Steps 1-4, 16-19, CircLigase, copying, blunt ligation and Step 25 release",
+        "Exact CL72 and Read 4 (index 2) sequencing primer oligos",
+        "Ref. 21 Meyer & Kircher 2010 IS primers and ref. 22 double-index setup"
+      ],
+      "scope": "Capped defining-source follow-up only; main article still unread; no accepted missing-information claim.",
+      "verification": "selftest 98 common checks pass; page builds; pairing 0 problems; chemistry 1 established/0 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 5 inputs without exact states (timeout not hit); audit --check blocked 1; Markdown built; review schema checked"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Hand-downloaded Gansauge & Meyer 2013 Nat Protoc 8:737-748 corrected-after-print PDF (nprot.2013.038.pdf; 13 pages; printed title/authors/DOI checked) nprot.2013.038.pdf.txt lines 1-11 (identity, corrected after print 15 May 2013), 85-105, 270-290, 450-463, 541-748 (Reagent setup, Table 1; rendered p.741 inspected), 749-1110 (Procedure Steps 1-34), 1222-1232, 1352-1366 (Corrigendum)",
+      "oligo_scraper": "scrape_primers on nprot.2013.038.pdf.txt: 11 hits (CL9 l583, CL73 l599, CL104 l620, IS4 l630, CL105/CL106 l646/655, CL107/CL108/IS7/IS8 l665-689, CL72 l693), all checked against Table 1; CL53 and CL78 (short) verified on the rendered p.741 table.",
+      "findings": "CL72 now source-verified (Table 1; Step 34 replaces first-read primer) with unchanged bases; IS4 (Table 1 P5 primer without index) added, derived from P5 + P5 arm and transcription-checked. Graph rebuilt from Procedure: Endo VIII (+optional Afu UDG) 37C 1h split from FastAP 37C 10min; 95C 2min denaturation; CircLigase II 5 U/ul, 20% PEG, 0.125 uM CL78, 60C 1h; MyOne C1 capture with 95C pre-heat and washes; CL9 2 uM + Bst 2.0 ramp 15-37C with excess-primer stringency-wash waste; T4 DNA polymerase 25C 15min; T4 ligase 10 U, 5% PEG, 2.5 uM CL53/CL73 1h RT with excess-adapter waste; new heat-release step (95C 1min) with bead-retained waste and released template strands as an amplification-only fate; AccuPrime Pfx PCR 95C 2min, 95/60/68C cycles chosen by qPCR; new MinElute/AMPure cleanup. CL73-only ligation now source-stated (Introduction). CL78 discrepancy gains the corrected Table 1 claim. Selftest gains six Table 1 transcription checks (skip if absent). Source guard now checks CL9, CL53, CL73.",
+      "deferred": [
+        "Index-2 sequencing primer oligo (Supplementary Fig. 1 'Read 4 seq'; protocol defers to Illumina instructions) and acquired read/index lengths",
+        "Meyer & Kircher 2010 IS primers (ref. 21) and ref. 22 double-index setup",
+        "qPCR quantification branch (Steps 26-29) and CL104 positive control not drawn",
+        "Initially published uncorrected Table 1 (known only from the Corrigendum quotation)"
+      ],
+      "scope": "Capped deferred follow-up, single reader; defining article now read; no accepted missing-information claim.",
+      "verification": "local suite 104/104 pass (6 new Table 1 transcription checks); page builds; pairing 0 problems; chemistry 1 established/0 conditional/13 unresolved/0 contradictory (12 steps); source guard 3 exact checked (CL9, CL53, CL73), 0 failed, 3 inputs without exact states (cl78 spacer/biotin, P5/P7 index families); Markdown built; review schema pass"
+    },
+    {
+      "round": "critical-rereview-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "scope": "Critical diff review; focused source cross-checks and model consistency, not a new complete source audit.",
+      "locations": "Existing source-qualified Introduction and Procedure Steps 24–25 declarations; no new reaction-source assertion.",
+      "findings": "Released original template strands travel with the supernatant into PCR. The source-supported absence of amplification sites is distinguished from physical discard; later recovery remains unresolved.",
+      "deferred": [
+        "Previous linked-source deferrals and independent absence-audit requirements remain open."
+      ],
+      "verification": "Applicable protocol suite, page build, source guard and scoped chemistry passed (zero contradictions); review schema passed. Shared 1275 and source fetcher 226 checks pass. Whole-site verification is recorded in HANDOVER-REVIEW.md.",
+      "documents": 0
+    }
+  ]
 }

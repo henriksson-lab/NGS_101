@@ -14,16 +14,22 @@ from protocol_graph import (Disposition, Input, InputRole, Material, MaterialKin
 TITLE = "TRIP — Thousands of Reporters Integrated in Parallel"
 NOTES = "01_trip.html"
 SOURCE = ('Defining source: <a href="https://doi.org/10.1038/nprot.2014.072">'
-          'Akhtar et al., <i>Nature Protocols</i> (2014)</a>; exact indexed primers and '
-          'library structures are in Supplementary Table 1 and Supplementary Figure 3.')
+          'Akhtar et al., <i>Nature Protocols</i> (2014)</a>. The drawn libraries follow '
+          'Supplementary Figure 3 and the indexed forward primer follows Supplementary '
+          'Table 1; the main article text, which carries the remaining reagent-list '
+          'oligos and the cycling conditions, is behind the publisher paywall and was '
+          'not re-read for this pass.')
 SUMMARY = ("A random 16-nt barcode identifies each piggyBac reporter. Barcode counts from "
            "reporter cDNA measure expression, counts from genomic DNA normalize reporter "
            "abundance, and DpnII circularization plus inverse PCR maps each barcode to its "
            "genomic integration site.")
 CAVEAT = ("The reporter and primer sequences below are published. Genomic flanks are "
-          "variable biological sequence, represented as placeholders rather than bases.")
+          "variable biological sequence, represented as placeholders rather than bases. "
+          "The indexed forward primer is verified against Supplementary Table 1 and the "
+          "two library structures against Supplementary Figure 3; the other primers are "
+          "transcriptions of the paywalled reagent list and remain unverified here.")
 
-# Nature Protocols 9, 1760–1769 (2014), reagent list and Supplementary Table 1.
+# Akhtar et al. 2014, doi:10.1038/nprot.2014.072: reagent list and Supplementary Table 1.
 BARCODE_LONG = "GTGACACCTGCAGGATCA" + "N" * 16 + "CTCGAGTTGTGGCCGGCCCTTGTGACTG"
 BSSH2_A = "AAAAGCGCGCATACTAGATTAACCCTAGAAAGATAATCATATTG"
 INDEX_EXAMPLE = "ACGAGTGCGT"
@@ -39,8 +45,16 @@ EGFP_INT3 = "TCAAGGTGAACTTCAAGATCCG"
 LEFT_SITE = "GTCACAAGGGCCGGCCACAA"
 REPORTER_LEFT = "CTCGAG"
 REPORTER_RIGHT = "TGATCCTGCAGTGTCACCTAAATCGTATGCGGCCGCGAATTCTTACTT"
+# Supplementary Figure 3a prints the counting amplicon continuously: after the reporter
+# right constant it runs through the 3-prime end of eGFP before the PB-cDNA-reverse
+# annealing site, which itself lies inside eGFP.
+EGFP_3END = "GTACAGCTCGTCCATGCCGAGA" + "GTGATCCCGGCGGCGGTCACG"
 CDNA_R_SITE = "GATCACATGGTCCTGCTGGAGTT"
-PB_3TR_TOP = revcomp("GTACGTCACAATATGATTATCTTTCTAG")
+# Supplementary Figure 3b prints TTAACC between the genomic flank and the inverse-PCR
+# primer site: the duplicated TTAA piggyBac target site, then the CC that starts the
+# 3-prime terminal repeat.
+PB_TTAA = "TTAA"
+PB_3TR_TOP = "CC" + revcomp("GTACGTCACAATATGATTATCTTTCTAG")
 
 
 def seg(name: str, bases: str, tag: str | None = None, **kwargs) -> Segment:
@@ -71,9 +85,11 @@ def barcode_payload(*, mapping: bool = False) -> list[Segment]:
         parts.extend([seg("reporter sequence before DpnII site", "T", "me"),
                       seg("restored DpnII junction", "GATC", "me"),
                       seg("genomic integration flank", "X" * 42, placeholder=True),
+                      seg("TTAA piggyBac target-site duplication", PB_TTAA, "me"),
                       seg("piggyBac 3-prime terminal repeat", PB_3TR_TOP, "w1")])
     else:
-        parts.append(seg("reporter right constant", REPORTER_RIGHT, "me"))
+        parts.extend([seg("reporter right constant", REPORTER_RIGHT, "me"),
+                      seg("3-prime end of eGFP", EGFP_3END, "me")])
     return parts
 
 
@@ -82,6 +98,7 @@ def count_template(name: str) -> Construct:
                       seg("reporter left constant", REPORTER_LEFT, "me"),
                       reporter_barcode(),
                       seg("reporter right constant", REPORTER_RIGHT, "me"),
+                      seg("3-prime end of eGFP", EGFP_3END, "me"),
                       seg("PB-cDNA-reverse site", revcomp(CDNA_R_SITE), "r2")], name=name)
 
 
@@ -109,6 +126,7 @@ def mapping_template() -> Construct:
                       seg("reporter sequence before DpnII site", "T", "me"),
                       seg("DpnII ligation junction", "GATC", "me"),
                       seg("genomic integration flank", "X" * 42, placeholder=True),
+                      seg("TTAA piggyBac target-site duplication", PB_TTAA, "me"),
                       seg("piggyBac 3-prime terminal repeat", PB_3TR_TOP, "w1")],
                      name="opened self-ligated DpnII mapping template")
 
@@ -209,6 +227,7 @@ def _mapping_circle_rows() -> list[Row]:
     circle = Construct([seg("barcoded reporter fragment", "X" * 34, placeholder=True),
                         seg("DpnII junction", "GATC", "me"),
                         seg("genomic integration flank", "X" * 42, placeholder=True),
+                        seg("TTAA piggyBac target-site duplication", PB_TTAA, "me"),
                         seg("piggyBac 3-prime terminal repeat", PB_3TR_TOP, "w1")],
                        name="self-ligated DpnII fragment")
     return circle_rows(circle, "dilute T4-ligase closure")
@@ -284,8 +303,17 @@ def protocol_graph() -> ProtocolGraph:
           Input("reverse_transcriptase", InputRole.CATALYST)),
          (expression_template,))
 
+    # Supplementary Table 1 prints all 48 indexed forward primers verbatim, so that
+    # reagent carries an exact state (index 1 shown). The remaining primers are printed
+    # in the main-article reagent list, which is paywalled and absent from the local
+    # bundle; they stay identity-only rather than carrying unverified bases.
+    g.add_input(Material("count_forward", "PB-cDNA-forward-1-BC (Supplementary Table 1, index 1)",
+                         MaterialKind.OLIGO, source=source,
+                         state=Construct([seg("Read 1", il.TRUSEQ_READ1, "r1"),
+                                          sample_index(),
+                                          seg("reporter annealing site", LEFT_SITE)],
+                                         name="PB-cDNA-forward-1-BC-1")))
     for key, label in (
-            ("count_forward", "PB-cDNA-forward-1-BC"),
             ("count_reverse", "PB-cDNA-reverse"),
             ("mapping_reverse", "InvPCR-F-TruSeqPE2"),
             ("p5_primer", "Solexa-Adapter-SE1"),

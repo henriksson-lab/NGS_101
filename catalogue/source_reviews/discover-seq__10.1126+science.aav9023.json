@@ -185,5 +185,25 @@
       "evidence": "The named TruSeq ChIP guide has index families; exact experiment member and inaccessible original supplements remain blocked."
     }
   ],
-  "conclusion": "The named TruSeq ChIP guide has index families; exact experiment member and inaccessible original supplements remain blocked."
+  "conclusion": "The named TruSeq ChIP guide has index families; exact experiment member and inaccessible original supplements remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Science author manuscript PMC6589096 JATS (searched whole extract for TruSeq/library/paired-end/index: no library-prep text; Methods are in the gated supplement); authors' Nature Protocols PMC7305837 JATS lines 67,113,185–257,679–687,707–729,765–791,795–849,994–998; authors' protocols.io 'DISCOVER-Seq: MRE11 ChIP Seq' V.2 (30 Mar 2023, dx.doi.org/10.17504/protocols.io.kqdg349ypl25/v2, integer ID 69486) lines 57–58,170–186,208–236,282–294,331–441",
+      "oligo_scraper": "Bundle scraper run over the whole source directory: 0 sequences in 0 files. No adapter, index or primer bases appear in the defining article, the Nature Protocols procedure or the protocols.io version; the only published index bases remain the Illumina TruSeq ChIP guide's six-base table (read in an earlier pass).",
+      "findings": "No sequence change. Added source-specific reaction detail: 1% formaldehyde 15 min RT quenched with 125 mM glycine, Covaris S2 shearing, cross-reactive anti-MRE11 antibody (Novus NB100-142 / Abcam ab208020) pre-bound to Protein A Dynabeads, 65 °C ≥6 h cross-link reversal then RNase A (37 °C) and proteinase K (55 °C) with Qiagen MinElute recovery, equal-amount pooling and 0.8x AMPure XP adapter-dimer cleanup with 300–500 bp expected pooled-library size, and 100-bp paired-end sequencing on HiSeq4000/NovaSeq at 30–40 M read pairs per ChIP. Published discrepancy now shown on the page: the same Nature Protocols article gives ~150–500 bp (sonication overview line113) and median 200–500 bp (Anticipated results line994; protocols.io v2 line292 agrees with 200–500 bp); the model leaves the shearing window unassigned. Removed the hard-coded 150–500 bp fragment label from the drawn state.",
+      "deferred": [
+        "Science supplementary materials NIHMS1030113-supplement-1.pdf and Tables S1–S8 (PMC download gate; manual URLs in MANIFEST.tsv)",
+        "Illumina TruSeq ChIP guide Rev B re-read for the supplied adapter/PCR oligo inventory (read in an earlier pass only)",
+        "Selected AR index per library and actual acquired index cycles",
+        "Covaris S2 duty/intensity settings and per-cell-type optimization as used for the published libraries",
+        "protocols.io v1 versus v2 differences"
+      ],
+      "scope": "Capped defining-source pass only; absence of published adapter oligos is not asserted as confirmed (gated Science supplement remains unread).",
+      "verification": "local suite 2 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

@@ -95,5 +95,25 @@
       "evidence": "The defining article is source-positive for its main oligos; linked detailed sources are blocked."
     }
   ],
-  "conclusion": "The defining article is source-positive for its main oligos; linked detailed sources are blocked."
+  "conclusion": "The defining article is source-positive for its main oligos; linked detailed sources are blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Published PMC7880595 JATS .txt: Methods line155 (beacon annealing), Table1 reagents lines190-229 (ProtoScript II RT, RNase H, T7 RNA polymerase, AMPure XP, MiSeq v2 300-cycle kit), Table2 lines235-266, Steps1-2 lines268-365 (QuickExtract lysis, Tables3/4 reaction mixtures, 41C 90-120min, 25nM primers), Step3 lines369-406 (pooling, QIAquick purification, Table5 15-cycle KAPA HiFi PCR, 0.55x/0.75x AMPure, 150bp PE MiSeq, 30% PhiX), Step4 line410 (80-nt trimming, 102-nt reference).",
+      "oligo_scraper": "Bundle scraper run; Table2 hits (P8 forward/reverse, barcoded forward/reverse, P5/P7 end primers, custom T7 NGS primer, toehold beacon, PCRD probes A/B) checked against PDF .txt lines693-712 and JATS lines237-266.",
+      "findings": "Corrections: removed the invented 'NASBA DNA polymerase' input (Table1 lists only ProtoScript II RT, RNase H and T7 RNA polymerase) and gave second-strand synthesis to the RT; named QIAquick column, KAPA HiFi HotStart ReadyMix (15 cycles, long elongation against barcode hopping); added the 0.55x/0.75x AMPure double size selection as a selection step with its rejected off-size fraction before the sequencing terminal; replaced the 46-nt placeholder amplicon with the 92-nt published S-gene region from the Step4 102-nt reference; relabelled the downstream barcode segment as the left barcode's reverse complement; declared 150bp paired-end reads and recorded the MiSeq v2 300-cycle kit, 30% PhiX and 80-nt trimming. Selftest now pins the 102-nt reference transcription and that the amplicon ends/starts at the forward/reverse primer sites. Page shows the Table2 discrepancy: the barcoded forward primer handle is 33 nt (tgactggagtt...), one base short of the 34-nt TruSeq Read2 arm inside the same table's P7 end primer; the model draws the full-length arm restored by that P7 primer.",
+      "deferred": [
+        "Science Advances DC1 supplement (table S1 in-house mixture composition, note S2 barcode-hopping model) still 403/unavailable",
+        "protocols.io bjrikm4e detailed protocol unavailable (JS-gated, redirects to v2)",
+        "Index-read cycle counts not stated by the source; i5/i7 drawn as 8-nt windows from the N8 primer windows",
+        "Lateral-flow/beacon stage-1 readouts remain outside the drawn sequencing path",
+        "Barcode whitelist / 48 barcoded primer pairs not enumerated"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 4 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states; Markdown built; audit --check pass"
+    }
+  ]
 }

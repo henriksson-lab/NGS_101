@@ -248,3 +248,28 @@ Thaw the barcode plate at RT, spin 1000 × g for 30 s. Cut the seal only over th
   structure (overhang, phosphorylation, blocking) is **not shown** in this guide.
 - Relevant for our protocol: we replace this kit's WGA step with **PTA**, and run **NEBNext
   library prep separately** — see the project notes.
+
+## 7. Bounded source pass, 2026-10-17 (round breadth-first-07)
+
+Re-read: preprint v2 (latest; bioRxiv API reports no published version) Methods lines
+1322–1393 (encapsulation, lysis R4, MDA, PTA, barcoding, library prep); Bascet trimming
+lines 897–902; this kit guide V3 steps 1–44 (lines 270–569) and revision table; library
+guide DGPM02323206001 V3 sections I–VI and sequencing table (lines 161–663).
+
+Model corrections (declaration graph and page):
+
+- 🟢 Release is followed by **0.8X AMPure XP** (preprint v2 Methods; library guide section I,
+  80 µL beads to 100 µL). The graph now purifies before FS fragmentation.
+- 🟢 Adapter ligation uses **NEBNext Ultra II Ligation Master Mix + Ligation Enhancer**
+  (library guide section III), not the kit's barcode Ligation Enzyme (CRP-LGE1, steps 31–43);
+  the two catalysts are now separate graph inputs. The ligation is followed by **0.8X AMPure
+  XP** (section IV).
+- 🟢 Library PCR uses **NEBNext Ultra II Q5 Master Mix** (section V), followed by
+  **double-sided 0.6X/0.8X AMPure XP** (section VI; preprint "double-sided AMPure").
+- 🟡 The kit uses a single End Prep Enzyme Mix (20 °C 30 min → 65 °C 30 min). The graph keeps
+  separate repair and dA-tail steps as an **inferred activity split** driven by one catalyst
+  input; the guide does not name the activities.
+
+Still open: preprint read lengths on NovaSeq X are not stated in the inspected v2 Methods lines (the guide's
+128/172 is a recommendation); the custom 10-nt i7 primers versus the V3 six-base example;
+cassette strand geometry; BioSkryb ResolveDNA kit manual not inspected in this pass.

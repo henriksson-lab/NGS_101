@@ -79,3 +79,21 @@ Defining paper: Bartosovic et al., *Nature Biotechnology* (2023), [doi:10.1038/s
   repository drawing used BcdA as a generic antibody-targeted example. It
   now draws BcdB/H3K27ac to agree with the source-defined study branch. This
   was a repository modeling correction, not a publication error.
+
+- 🟢 **Bounded pass 2026-10-17 (round 13), library-preparation steps:**
+  Published PMC10264246 Methods “nano-CT”, “Single-cell indexing and library
+  prep” and “Sequencing setup” (JATS text lines 189–209) and published
+  Supplementary Data Fig. 2 (MOESM1 lines 134–181) were re-read. The graph now
+  draws the source-stated post-GEM SILANE/SPRIselect recovery (CG000209 Steps
+  3.0–3.2), the Zymo DNA Clean & Concentrator-5 column after the 30 min, 37 °C
+  MeB-only tagmentation, 10x Amp Mix SI-PCR for 11–15 cycles, and the 0.4×/1.2×
+  two-sided SPRIselect selection before sequencing. First tagmentation is
+  10 mM MgCl2, 1 h at 37 °C, stopped with EDTA in DNB/BSA. Supplementary Data
+  Fig. 2 draws the same P5–N16–S5–CCACGC–barcode–connector–ME read-1 side,
+  custom R1/I2 and 36-8-48-36 layout as the model (it uses BcdA as its example).
+- 🟡 **Repository correction:** the earlier graph drew a separate pre-partition
+  gap-fill polymerase. The paper does not describe one; it delegates GEM
+  incubation to CG000209 Step 2.5, whose program is 72 °C for 5 min then 12
+  cycles of 98/59/72 °C. The model now assigns gap filling to that initial
+  72 °C GEM hold with the 10x Barcoding Enzyme; that role assignment is our
+  reading of the printed program, not a sentence in either source.

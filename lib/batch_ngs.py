@@ -20,24 +20,66 @@ def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
     return Segment(name, top, tag, **kw)
 
 
+# Pass as ``i5_nt``/``i7_nt`` when the authoritative source does not state an index
+# length: the window is drawn as a bracketed role token, which carries no molecular
+# length, instead of an assumed run of index letters.
+UNASSIGNED_LENGTH = None
+
+
+def _check_index_lengths(*lengths: int | None, what: str) -> None:
+    if any(n is not UNASSIGNED_LENGTH and n < 1 for n in lengths):
+        raise ValueError(f"{what} needs positive (or explicitly unassigned) index lengths")
+
+
+def _p5_segment(next_arm: str, dual_index: bool, inferred: bool) -> Segment:
+    """The P5 end of a PCR-installed left arm.
+
+    With an i5 window the primer is P5 + i5 + arm.  Without one, P5 and the following
+    arm are a single primer sequence, so any bases they share (P5's ACAC and TruSeq
+    Read 1's leading ACAC) occur once, not twice.  The joined TruSeq arm is checked
+    against the canonical 58-nt universal primer.
+    """
+    p5 = il.P5 if dual_index else il.P5[:len(il.P5) - _overlap(il.P5, next_arm)]
+    if (not dual_index and next_arm == il.TRUSEQ_READ1
+            and p5 + next_arm != il.TRUSEQ_P5_FULL):
+        raise AssertionError("single-index TruSeq left arm differs from TRUSEQ_P5_FULL")
+    return seg("P5", p5, "p5", inferred=inferred)
+
+
+def index_window(name: str, letter: str, nt: int | None, identifier: str, *,
+                 inferred: bool = False, sample_feature=None) -> Segment:
+    """A sample-index window of ``nt`` placeholder bases, or of unassigned length."""
+    if nt is UNASSIGNED_LENGTH:
+        return seg(name, f"[{name.split()[0]} index; length not stated]", "cbc",
+                   placeholder=True,
+                   inferred=inferred,
+                   feature=sample_feature or feature(identifier, "sample_index", "unknown",
+                                                     note="index length not stated by the source"))
+    return seg(name, letter * nt, "cbc", placeholder=True, inferred=inferred,
+               feature=sample_feature or feature(identifier, "sample_index", "unknown"))
+
+
 def truseq_library(insert: list[Segment], name: str, *, dual_index: bool = True,
                     inferred_adapters: bool = False,
-                    i5_nt: int = 8, i7_nt: int = 8,
+                    inferred_junction: bool = False,
+                    i5_nt: int | None = 8, i7_nt: int | None = 8,
                     i5_feature=None, i5_name: str = "i5") -> tuple[Construct, tuple]:
-    """Canonical TruSeq library with validated R1/I1/(I2)/R2 sites."""
-    if i5_nt < 1 or i7_nt < 1:
-        raise ValueError("a TruSeq indexed library needs positive index lengths")
-    left = [seg("P5", il.P5, "p5", inferred=inferred_adapters)]
+    """Canonical TruSeq library with validated R1/I1/(I2)/R2 sites.
+
+    ``inferred_junction`` marks only the single dA junction base as inferred, for
+    callers whose source establishes the adapters but not the insert tailing.
+    """
+    _check_index_lengths(i5_nt, i7_nt, what="a TruSeq indexed library")
+    left = [_p5_segment(il.TRUSEQ_READ1, dual_index, inferred_adapters)]
     if dual_index:
-        left.append(seg(i5_name, "J" * i5_nt, "cbc", placeholder=True,
-                        feature=i5_feature or feature("sample_index_i5", "sample_index", "unknown"),
-                        inferred=inferred_adapters))
+        left.append(index_window(i5_name, "J", i5_nt, "sample_index_i5",
+                                 inferred=inferred_adapters, sample_feature=i5_feature))
     left.append(seg("Read 1 arm", il.TRUSEQ_READ1, "r1", inferred=inferred_adapters))
-    lib = Construct([*left, *insert, seg("dA junction", "A", inferred=inferred_adapters),
+    lib = Construct([*left, *insert,
+        seg("dA junction", "A", inferred=inferred_adapters or inferred_junction),
         seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2", inferred=inferred_adapters),
-        seg("i7 reverse complement", "I" * i7_nt, "cbc", placeholder=True,
-            feature=feature("sample_index_i7", "sample_index", "unknown"),
-            inferred=inferred_adapters),
+        index_window("i7 reverse complement", "I", i7_nt, "sample_index_i7",
+                     inferred=inferred_adapters),
         seg("P7 reverse complement", il.P7_RC, "p7", inferred=inferred_adapters)], name=name)
     primers = ((sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["I2"], sp.TRUSEQ["R2"])
                if dual_index else (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"]))
@@ -51,20 +93,19 @@ def truseq_library(insert: list[Segment], name: str, *, dual_index: bool = True,
 def truseq_amplicon_library(insert: list[Segment], name: str, *,
                              dual_index: bool = True,
                              inferred_adapters: bool = False,
-                             i5_nt: int = 8, i7_nt: int = 8) -> tuple[Construct, tuple]:
+                             i5_nt: int | None = 8,
+                             i7_nt: int | None = 8) -> tuple[Construct, tuple]:
     """TruSeq-compatible PCR amplicon, without inventing a dA-ligation junction.
 
     Amplicon workflows install the terminal sequencing shell through tailed primers.
     Keeping this constructor distinct from :func:`truseq_library` prevents those
     protocols from inheriting the single dA base that belongs only to adapter ligation.
     """
-    if i5_nt < 1 or i7_nt < 1:
-        raise ValueError("a TruSeq indexed amplicon needs positive index lengths")
-    left = [seg("P5", il.P5, "p5", inferred=inferred_adapters)]
+    _check_index_lengths(i5_nt, i7_nt, what="a TruSeq indexed amplicon")
+    left = [_p5_segment(il.TRUSEQ_READ1, dual_index, inferred_adapters)]
     if dual_index:
-        left.append(seg("i5", "J" * i5_nt, "cbc", placeholder=True,
-                        feature=feature("sample_index_i5", "sample_index", "unknown"),
-                        inferred=inferred_adapters))
+        left.append(index_window("i5", "J", i5_nt, "sample_index_i5",
+                                 inferred=inferred_adapters))
     left.append(seg("Read 1 arm", il.TRUSEQ_READ1, "r1",
                     inferred=inferred_adapters))
     lib = Construct([*left, *insert,
@@ -73,9 +114,8 @@ def truseq_amplicon_library(insert: list[Segment], name: str, *,
         # dA junction; an amplicon has no such junction and must carry all 34 bases here.
         seg("Index 1 / Read 2 arm", revcomp(il.TRUSEQ_READ2), "r2",
             inferred=inferred_adapters),
-        seg("i7 reverse complement", "I" * i7_nt, "cbc", placeholder=True,
-            feature=feature("sample_index_i7", "sample_index", "unknown"),
-            inferred=inferred_adapters),
+        index_window("i7 reverse complement", "I", i7_nt, "sample_index_i7",
+                     inferred=inferred_adapters),
         seg("P7 reverse complement", il.P7_RC, "p7",
             inferred=inferred_adapters)], name=name)
     primers = ((sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["I2"], sp.TRUSEQ["R2"])
@@ -217,21 +257,22 @@ class FullLengthAdapter:
                 *self.indexed]
 
 
-def truseq_full_length_adapter(*, dual_index: bool = True, i5_nt: int = 8, i7_nt: int = 8,
+def truseq_full_length_adapter(*, dual_index: bool = True, i5_nt: int | None = 8,
+                                i7_nt: int | None = 8,
                                 i5_feature=None, i5_name: str = "i5",
                                 inferred: bool = False,
                                 name: str = "full-length TruSeq adaptor") -> FullLengthAdapter:
     """The indexed TruSeq adaptor as ordered: P5/i5/Read 1 arm plus Read 2 arm/i7/P7."""
-    if i7_nt < 1 or (dual_index and i5_nt < 1):
-        raise ValueError("a full-length indexed adaptor needs positive index lengths")
+    _check_index_lengths(i7_nt, *((i5_nt,) if dual_index else ()),
+                         what="a full-length indexed adaptor")
     carried = "carried by the ligated full-length adaptor, not by a PCR primer"
     universal = [seg("P5", il.P5, "p5", inferred=inferred)]
     if dual_index:
         read1 = il.TRUSEQ_READ1
-        universal.append(seg(i5_name, "J" * i5_nt, "cbc", placeholder=True,
-                             feature=i5_feature or feature("sample_index_i5", "sample_index",
-                                                           "unknown", note=carried),
-                             inferred=inferred))
+        universal.append(index_window(
+            i5_name, "J", i5_nt, "sample_index_i5", inferred=inferred,
+            sample_feature=i5_feature or feature("sample_index_i5", "sample_index",
+                                                 "unknown", note=carried)))
     else:
         # One oligo, so P5 and the Read 1 arm share their ACAC overlap instead of
         # repeating it the way a two-primer PCR shell does.
@@ -242,16 +283,17 @@ def truseq_full_length_adapter(*, dual_index: bool = True, i5_nt: int = 8, i7_nt
                   seg(DT_JUNCTION, read1[-1], "r1", inferred=inferred,
                       note="the adaptor's ligating 3′ dT; its partner is the insert's 3′ dA")]
     indexed = [seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2", inferred=inferred),
-               seg("i7 reverse complement", "I" * i7_nt, "cbc", placeholder=True,
-                   feature=feature("sample_index_i7", "sample_index", "unknown", note=carried),
-                   inferred=inferred),
+               index_window("i7 reverse complement", "I", i7_nt, "sample_index_i7",
+                            inferred=inferred,
+                            sample_feature=feature("sample_index_i7", "sample_index",
+                                                   "unknown", note=carried)),
                seg("P7 reverse complement", il.P7_RC, "p7", inferred=inferred)]
     return FullLengthAdapter(name, tuple(universal), tuple(indexed), TRUSEQ_STEM_NT, inferred)
 
 
 def truseq_pcr_free_library(insert: list[Segment], name: str, *, dual_index: bool = True,
                              inferred_adapters: bool = False,
-                             i5_nt: int = 8, i7_nt: int = 8,
+                             i5_nt: int | None = 8, i7_nt: int | None = 8,
                              i5_feature=None, i5_name: str = "i5",
                              insert_overhang: str = "A",
                              adapter: FullLengthAdapter | None = None,
@@ -293,26 +335,23 @@ def truseq_pcr_free_rows(library: Construct, insert_first: str, *, label: str = 
 
 def nextera_library(insert: list[Segment], name: str, *,
                     inferred_adapters: bool = False, dual_index: bool = True,
-                    i7_nt: int = 8, i5_nt: int = 8) -> tuple[Construct, tuple]:
+                    i7_nt: int | None = 8,
+                    i5_nt: int | None = 8) -> tuple[Construct, tuple]:
     """Heterologous S5/S7 Tn5 product after indexed PCR, with validated run sites."""
-    if i7_nt < 1:
-        raise ValueError("a Nextera indexed library needs a positive i7 length")
-    if dual_index and i5_nt < 1:
-        raise ValueError("a Nextera dual-indexed library needs a positive i5 length")
-    left = [seg("P5", il.P5, "p5", inferred=inferred_adapters)]
+    _check_index_lengths(i7_nt, *((i5_nt,) if dual_index else ()),
+                         what="a Nextera indexed library")
+    left = [_p5_segment(nx.S5, dual_index, inferred_adapters)]
     if dual_index:
-        left.append(seg("i5", "J" * i5_nt, "cbc", placeholder=True,
-                        feature=feature("sample_index_i5", "sample_index", "unknown"),
-                        inferred=inferred_adapters))
+        left.append(index_window("i5", "J", i5_nt, "sample_index_i5",
+                                 inferred=inferred_adapters))
     left.append(seg("S5", nx.S5, "s5", inferred=inferred_adapters))
     lib = Construct([*left,
         seg("left mosaic end", nx.ME, "me", inferred=inferred_adapters), *insert,
         seg("right mosaic end reverse complement", nx.ME_RC, "me",
             inferred=inferred_adapters),
         seg("S7 reverse complement", nx.S7_RC, "s7", inferred=inferred_adapters),
-        seg("i7 reverse complement", "I" * i7_nt, "cbc", placeholder=True,
-            feature=feature("sample_index_i7", "sample_index", "unknown"),
-            inferred=inferred_adapters),
+        index_window("i7 reverse complement", "I", i7_nt, "sample_index_i7",
+                     inferred=inferred_adapters),
         seg("P7 reverse complement", il.P7_RC, "p7", inferred=inferred_adapters)], name=name)
     primers = ((sp.NEXTERA["R1"], sp.NEXTERA["I1"], sp.NEXTERA["I2"], sp.NEXTERA["R2"])
                if dual_index else (sp.NEXTERA["R1"], sp.NEXTERA["I1"], sp.NEXTERA["R2"]))

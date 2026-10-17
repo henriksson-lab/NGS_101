@@ -85,7 +85,7 @@ def protocol_graph():
                 ((chromatin, InputRole.TEMPLATE), (sonication, InputRole.CONDITION)), (suspended,), changes_molecule=False)
     polymerase = graph.input("engaged_polymerase", "already-engaged RNA polymerase", MaterialKind.CATALYST)
     ntps = graph.input("run_on_ntps", "ATP, GTP, biotin-11-CTP and biotin-11-UTP", MaterialKind.MOLECULAR)
-    run_condition = graph.input("run_condition", "chromatin run-on buffer including Sarkosyl", MaterialKind.CONDITION)
+    run_condition = graph.input("run_condition", "2× chromatin run-on buffer (300 mM KCl, 1% Sarkosyl, SUPERase In), 37 °C 5 min", MaterialKind.CONDITION)
     labelled = graph.product("labelled_rna", "run-on-labelled chromatin-associated RNA", MaterialKind.MOLECULAR,
                              state=_state("run-on RNA", "pre-existing nascent RNA", "run-on extension containing biotin nucleotides"))
     graph.react("run_on", "Extend already-engaged nascent transcripts", StepKind.RUN_ON,
@@ -97,7 +97,7 @@ def protocol_graph():
     graph.react("recover_rna", "Stop run-on and recover RNA", StepKind.EXTRACTION,
                 ((labelled, InputRole.TEMPLATE), (trizol, InputRole.CONDITION)), (recovered, removed))
     graph.discard(removed, "is removed during source RNA extraction/precipitation")
-    base = graph.input("hydrolysis_base", "NaOH RNA hydrolysis after heat denaturation", MaterialKind.CONDITION)
+    base = graph.input("hydrolysis_base", "65 °C 40 s heat denaturation, then 0.2 N NaOH on ice 8 min", MaterialKind.CONDITION)
     fragments = graph.product("rna_fragments", "hydrolysed RNA pool", MaterialKind.MOLECULAR,
                               state=_state("RNA fragments", "RNA fragments, including biotin-containing run-on ends"))
     graph.react("hydrolyse", "Fragment RNA by base hydrolysis (ChRO branch)", StepKind.FRAGMENTATION,

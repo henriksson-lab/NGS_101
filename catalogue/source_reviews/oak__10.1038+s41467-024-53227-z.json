@@ -255,5 +255,24 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent reads cover the defining paper, eight preprint/publisher source files and original 10x CG000183 Rev A and CG000338 Rev F guides. The graph now puts Multiome transposition before GEM formation, uses 12-base RNA UMIs, and separates RNA-only from paired Multiome branches. Exact historical OAK 10x kit revisions/lots and full custom primer family remain unresolved, so no missing claim is accepted."
+  "conclusion": "Two independent reads cover the defining paper, eight preprint/publisher source files and original 10x CG000183 Rev A and CG000338 Rev F guides. The graph now puts Multiome transposition before GEM formation, uses 12-base RNA UMIs, and separates RNA-only from paired Multiome branches. Exact historical OAK 10x kit revisions/lots and full custom primer family remain unresolved, so no missing claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Published PMC11499997 JATS (.xml.txt) Methods OAK scRNA-Seq lines185–191, OAK paired snRNA-Seq/snATAC-Seq lines193–201, read processing203–205; raw JATS XML <underline> markup for both example index primers; lineage-barcode/TraCe passages lines242/246 identified only",
+      "oligo_scraper": "Bundle scraper run; JATS line190 hits (TSO, aliquot i5, partial P5, i7) verified; lines242/246 are GFP lineage-barcode and TraCe RT primers (application branches, not drawn); MOESM4 workbook hits are cell-barcode tables; preprint hits disregarded (published version used).",
+      "findings": "Example i7 index is underlined as 10-base CGCATGTTAC (note had truncated it to CGCATGTT). Graph now has RT 53C 45min, 80C 5min release, Dynabeads Silane cleanups (both branches), exact cDNA PCR geometry (aliquot i5 primer 3' end on CG000183 Rev A bead partial Read1, TSO primer on template-switch end), warned standard-Chromium library-construction boundary, partial P5 + i7 library PCR with exact-state primers, Multiome 10-cycle pre-amp (warned: PN 20002714 primers unprinted), 1.6X SPRI, 10uL ATAC split, ATAC partial P5 + Sample Index N PCR program and double-sided size selection; declared read lengths RNA 28/10/8/90, ATAC 50/8/24/49.",
+      "deferred": [
+        "10x Chromium 3' v3 / Multiome user-guide revisions used by OAK (library construction, pre-amp primers PN 20002714, Sample Index N PN 1000212)",
+        "OAK-era Multiome GEX bead partial Read1 (drawn as v3 bead)",
+        "Lineage-barcode (GFP semi-nested) and TraCe branches not drawn",
+        "Cell hashing HTO/TotalSeqA branch not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 8/8 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/29 unresolved/0 contradictory with 5 MAGIC warnings; source guard 9 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

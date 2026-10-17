@@ -132,5 +132,25 @@
       "evidence": "Later guide may show same layout, but source revision continuity is not established."
     }
   ],
-  "conclusion": "Two independent source passes locate the eight B adapter family and the published 18-versus-eight discrepancy, already shown publicly. Historical 10x Rev E guide remains unavailable, so vendor-specific claims remain blocked."
+  "conclusion": "Two independent source passes locate the eight B adapter family and the published 18-versus-eight discrepancy, already shown publicly. Historical 10x Rev E guide remains unavailable, so vendor-specific claims remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Genome Biology PMC11003106 JATS Results line51 (8x12 layout), Methods lines83 (adapter annealing/1:1 mix), 91 (rows/columns plating, stop), 95 (CG000209 Rev E, NovaSeq S4 dual-index custom primers), 99/107 (bead i5 extract, cell barcode); Additional file 1 Supplementary Methods lines5-48 and 142-209; Additional file 2 Table S1 sheet lines1-31; CG000209 Rev G (not the cited Rev E) Tips & Best Practices Sample Indices line1468",
+      "oligo_scraper": "Run on MOESM1 text, JATS text and the extracted Table S1 sheet (full 64 MB workbook twin excluded as before): 13 hits, all A/B adapter families, Tn5MErev, qPCR and four custom read primers at Table S1 lines4-29 / MOESM1 lines7-23, matching the declaration.",
+      "findings": "Page info and graph authority cited the superseded preprint under a wrong author (Wang et al.); now Zhang et al. Genome Biology 2024 with preprint marked superseded and CG000209 Rev E cited vs Rev G inspected. Final library had an unsourced concrete i7 read TAAGGCGA labelled as a published set; replaced with an unassigned 8-nt placeholder because the paper names no index well and Rev G states each Set A well is a four-oligo mix. Adapters, ME bottom, custom primers, plating/18-B/mixed-loading discrepancies verified unchanged.",
+      "deferred": [
+        "CG000209 Rev E as cited (Rev G read)",
+        "SI-PCR primer pair geometry in the graph (kept unavailable)",
+        "qPCR side reaction not drawn",
+        "Acquired Read 1/Read 2 cycles",
+        "19-nt spacer origin in Tu et al. 2022 predecessor"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 oligo inputs without exact states (placeholder barcodes); Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

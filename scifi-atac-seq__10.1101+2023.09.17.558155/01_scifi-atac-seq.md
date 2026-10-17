@@ -2,8 +2,7 @@
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test, because this protocol has
-> no `tools/` module yet (status `notes`).
+> writing this note; the schematic model in `tools/scifi_atac.py` now constructs them.
 
 **scifi-ATAC-seq** — Zhang X, Marand AP, Yan H, Schmitz RJ. "scifi-ATAC-seq:
 massive-scale single-cell chromatin accessibility sequencing using combinatorial fluidic
@@ -244,7 +243,34 @@ barcode.
   genotype SNPs (e.g. 1.93 % in the eight-sample multiplex) 🟢; the molecular mechanism is
   not spelled out.
 
-## 7. How this note was made (tool evaluation)
+## 7. Bounded pass 2026-10-17 (round breadth-first-17)
+
+Re-read the published Genome Biology JATS (`s13059-024-03235-5_PMC11003106.xml.txt`
+Results line 51, Methods lines 83, 91, 95, 99, 107), Supplementary Methods
+(`MOESM1_ESM.pdf.txt` lines 5–48 and 142–209) and Table S1 (`MOESM2_ESM.xlsx.txt`
+sheet "Table S1" lines 1–31); scraper run on those three texts (13 hits, all the
+Table S1 / Supplementary Methods oligos above). Model corrections:
+
+- The schematic page and graph authority cited the superseded preprint under a wrong
+  author ("Wang et al."); they now cite Zhang et al., *Genome Biology* 2024, with the
+  preprint named as superseded.
+- The final library carried a concrete i7 read `TAAGGCGA` with a "published i7 primer
+  set" label. The paper names no index well, and CG000209 Rev G ("Tips & Best Practices",
+  Sample Indices) says each Single Index Kit N Set A well is a mix of four oligos. The i7
+  read is now an unassigned 8-nt placeholder.
+
+Follow-up (exact input states, 2026-10-17): the graph's sample-index PCR inputs now
+carry the CG000209 Rev G Appendix oligos (SI-PCR Primer B `AATGATACGGCGACCACCGAGA`;
+Single Index N `P7-N8-GTCTCGTGGGCTCGG` with the i7 window as a sample-index feature)
+🟢 for Rev G, and the library PCR uses exact primer geometry (Primer B on the bead P5;
+the i7 primer's 15-nt s7 3' end on the B-end s7) 🟡 *(computed)*. The Tn5 A and B
+barcode windows now carry their cell-barcode features in the adapter states.
+
+Still open: the cited CG000209 Rev E itself (Rev G read instead; continuity of the
+bead and SI-PCR oligos with Rev E remains 🟡), the qPCR side reaction (not drawn),
+acquired Read 1/Read 2 cycles, and the spacer origin in Tu et al. 2022.
+
+## 8. How this note was made (tool evaluation)
 
 `tools/get_sources.py` had already fetched the preprint, its supplement, the PMC full
 text and the Europe PMC supplementary zip. The oligo table is the first sheet of a 46 MB

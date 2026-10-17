@@ -94,16 +94,16 @@ def protocol_graph():
     react("select_polya", "Capture poly(A) RNA twice", StepKind.AFFINITY_CAPTURE,
           ((rna, InputRole.TEMPLATE), (beads, InputRole.SELECTION)), (selected, rejected))
     g.discard(rejected, "Two captures discard supernatants/washes. Their composition is not equated to all and only non-polyadenylated RNA.")
-    condition = reagent("fragmentation", "FPF: elevated-temperature, divalent-cation fragmentation and priming", MaterialKind.CONDITION)
+    condition = reagent("fragmentation", "FPF: divalent-cation fragmentation and priming, Elution 2-Frag-Prime 94 °C 8 min", MaterialKind.CONDITION)
     fragmented = product("fragmented", "fragmented selected RNA", drawing=state("fragmented RNA", "variable selected RNA fragments"))
     react("fragment", "Fragment and prime during the second elution", StepKind.FRAGMENTATION,
           ((selected, InputRole.TEMPLATE), (condition, InputRole.CONDITION)), (fragmented,))
     primer = reagent("rt_primer", "random hexamer first-strand primers; ordered pool unassigned", MaterialKind.OLIGO)
-    rt = reagent("rt", "SuperScript II with FSA / Actinomycin D; selected listed option", MaterialKind.CATALYST)
+    rt = reagent("rt", "SuperScript II with FSA / Actinomycin D; selected listed option; 25 °C 10 min, 42 °C 15 min, 70 °C 15 min", MaterialKind.CATALYST)
     first = product("first", "first-strand cDNA / RNA mixture", drawing=state("first-strand mixture", "antisense first-strand cDNA with RNA template"))
     react("reverse_transcribe", "Random-prime first-strand cDNA synthesis", StepKind.REVERSE_TRANSCRIPTION,
           ((fragmented, InputRole.TEMPLATE), (primer, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)), (first,))
-    smm = reagent("smm", "SMM: RNase H, DNA polymerase I and dUTP marking / end repair", MaterialKind.CATALYST)
+    smm = reagent("smm", "SMM: RNase H, DNA polymerase I and dUTP marking / end repair; 16 °C 1 h", MaterialKind.CATALYST)
     marked = product("marked", "blunt-ended, dUTP-marked cDNA duplex", drawing=state("marked duplex", "first strand plus dUTP-marked second strand; positions unassigned"))
     degraded = product("removed_rna", "RNA-template degradation products; subsequent recovery unassigned")
     react("second_strand", "Remove RNA and synthesize the dUTP-marked blunt second strand", StepKind.EXTENSION,
@@ -111,7 +111,7 @@ def protocol_graph():
     g.mark_terminal(Terminal(degraded.id, Disposition.UNRESOLVED,
         "RNA removal occurs during SMM synthesis; downstream cleanup is shown, but the specific degradation products and their individual recovery are unassigned."))
     clean = cleanup("clean_cdna", marked, "cleaned blunt cDNA")
-    atl = reagent("atl", "ATL A-Tailing Mix", MaterialKind.CATALYST)
+    atl = reagent("atl", "ATL A-Tailing Mix; 37 °C 30 min, then 70 °C 5 min", MaterialKind.CATALYST)
     ends = EndPreparedDuplex(Construct([role("variable marked cDNA interval")]),
                              five_prime_phosphate=True, three_prime_overhang="A", overhang_inferred=False)
     tailed = product("tailed", "dA-tailed cDNA", drawing=dA_tailed_scene(ends))
@@ -121,7 +121,7 @@ def protocol_graph():
     adapter_scene.strand("adapter", [role("indexed adapter duplex core"), Segment("3-prime T", "T")], label="source-known 3′-T adapter end")
     adapter_scene.overhang("adapter", "3-prime T", polarity="3-prime", owner="adapter")
     adapter = reagent("adapter", "RNA CD indexed adapters; compatible reference family, historical revision/member unassigned", MaterialKind.ADAPTER)
-    ligase = reagent("ligase", "LIG Ligation Mix, followed by STL stop", MaterialKind.CATALYST)
+    ligase = reagent("ligase", "LIG Ligation Mix, 30 °C 10 min, followed by STL stop", MaterialKind.CATALYST)
     adapted = product("adapted", "indexed-adapter-ligated marked cDNA", drawing=state("ligated cDNA", "indexed adapter", "marked cDNA interval", "opposite indexed adapter"))
     react("ligate", "Ligate indexed adapters and stop ligation", StepKind.LIGATION,
           ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)), (adapted,),
@@ -131,7 +131,7 @@ def protocol_graph():
     clean = cleanup("clean_ligation_2", clean, "second-round purified ligated cDNA")
     ppc = reagent("ppc", "PPC forward primer; ordered strand unassigned", MaterialKind.OLIGO)
     ppc_reverse = reagent("ppc_reverse", "PPC reverse primer; ordered strand unassigned", MaterialKind.OLIGO)
-    pmm = reagent("pmm", "PMM PCR Master Mix: dUTP-blocking polymerase", MaterialKind.CATALYST)
+    pmm = reagent("pmm", "PMM PCR Master Mix: polymerase does not incorporate past dUTP; 98 °C 30 s, cycles of 98 °C 10 s / 60 °C 30 s / 72 °C 30 s, 72 °C 5 min", MaterialKind.CATALYST)
     amplified = product("amplified", "PCR-enriched library", drawing=FINAL_LIBRARY)
     react("pcr", f"INFERRED — selectively enrich the CD reference in {PCR_CYCLES} PCR cycles", StepKind.PCR,
           ((clean, InputRole.TEMPLATE), (ppc, InputRole.STRUCTURAL), (ppc_reverse, InputRole.STRUCTURAL), (pmm, InputRole.CATALYST)), (amplified,),

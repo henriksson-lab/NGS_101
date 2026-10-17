@@ -74,5 +74,25 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Accessible defining JATS and later author detailed protocol have two original-source reads. The 2014 Science supplement remains relevant and unread despite three exact locators; missing-information claims remain blocked."
+  "conclusion": "Accessible defining JATS and later author detailed protocol have two original-source reads. The 2014 Science supplement remains relevant and unread despite three exact locators; missing-information claims remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Science 2014 PMC4140943 JATS abstract 76, Results 95–160, Fig.1–2 legends 372–393; Nature Protocols 2015 PMC4327781 html.txt procedure overview/Fig.1 legend 1286–1330, Box 1 1745–1765, reagent oligos 2035–2083, Steps 2–17 and 22–28 lines 2334–2860",
+      "oligo_scraper": "Bundle scraper run; RT primer, RCA primer, sequencing primers N..N-4, adapter probes and rRNA biotin primers (NP lines 2035–2083) checked against source; none in the Science JATS.",
+      "findings": "Model correction: the sequencing scene drew a 3'-extension arrow on primer N; Fig.1b legend (cleavage leaves a 5'-phosphorylated ligation complex) plus /5phos/ primers whose offsets are 5' truncations with a shared 3' end mean probes ligate at the 5'-phosphate end, toward the transcript copy (consistent with the Science mCherry TSS reads); arrow replaced by a typed note. Step labels gained source conditions (RT 4 °C then 37 °C, BS(PEG)9 1 h + Tris quench, RNase/RNase H 1 h 37 °C, CircLigase II MnCl2/betaine 60 °C 1 h, 500 nM RCA primer 60 °C 1 h, Phi29 30 °C overnight); sequencing limitation names seven T4-ligase SOLiD ToP cycles per primer and 27-base Science reads without choosing acquired length. Graph-owned published discrepancy: Box 1 positions 1-6-11-16-20-26-31 (N) and 2-7-12-16-22-27-32 (N-4) break the stated five-base stride (21/17 expected; 20 duplicates N-1). Note records Science abstract 30-base vs Results 27-base reads as possibly different datasets.",
+      "deferred": [
+        "Science 2014 supplementary material (figs. S1–S10, methods; PMC NIHMS574721 docx gated)",
+        "Partition sequencing pre-extended sequencing primers (Science Fig. 2A) not modelled",
+        "Applied Biosystems SOLiD ToP sequencing kit probe structure and cleavage chemistry",
+        "Acquired read length (27 vs 30 bases) and Box 1 position-list values",
+        "Mitra/Church earlier in situ RCA sequencing predecessor methods"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "protocol.py test 101 checks pass; protocol.py build page builds; pairing 0 problems; chemistry 0 established/5 conditional/4 unresolved/0 contradictory; source guard 1 exact checked, 0 failed, 1 input without exact state; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

@@ -91,12 +91,16 @@ The gap-fill is `+1 G` + the 20 nt spacer + the scaffold + terminator.
 
 ## 4. Protocol 🟢
 
+bioRxiv v1 Methods, "CRISPR-MIP sgRNA abundance quantification" (extracted text lines 471–493).
+
+
 | Step | Conditions |
 |---|---|
-| **1. denature & hybridise** | 1–10 µg gDNA, 0.2–0.002 µM probe, 1.5× Ampligase buffer. 94 °C 5 min → ramp to 60 °C at −0.1 °C/s → hybridise **overnight at 60 °C** |
-| **2. extend & ligate** | add Ampligase + 4 U Phusion HF + 0.2 mM dNTPs, pre-heated to 60 °C. **60 °C, 1 h** |
+| **1. denature & hybridise** | 20 µl: 1–10 µg gDNA, 0.2–0.002 µM probe, 1.5× Ampligase buffer. 94 °C 5 min → ramp to 60 °C at −0.1 °C/s → hybridise **overnight at 60 °C** |
+| **2. extend & ligate** | add 10 µl mix of 5 U Ampligase + 4 U Phusion HF + 0.2 mM dNTPs, pre-heated to 60 °C. **60 °C, 1 h** |
 | **3. exonuclease** | **37 °C, 45 min**: 10 U Exonuclease I (removes un-circularised probe) + 50 U Exonuclease III (removes genomic DNA). Inactivate 80 °C, 20 min |
-| **4. PCR** | amplify the whole reaction |
+| **4. PCR** | whole 31 µl reaction in one 100 µl KAPA HiFi HotStart ReadyMix PCR with `P5_tracrRNA_fwd` + `P7_tracrRNA_rev`: 95 °C 3 min; *n* × (98 °C 20 s, 60 °C 15 s, 72 °C 30 s), *n* set by qPCR per screen; 72 °C 30 s |
+| **5. cleanup & QC** | AMPure XP beads after the PCR (ratio not stated); Qubit + Bioanalyzer 2100 |
 
 ## 5. Four independent selection steps — none of them a cleanup
 
@@ -110,7 +114,9 @@ physical:
 4. 🟢 the **P5/P7 primer sites lie within the captured sequence**, not the backbone, so only
    a probe that was both extended *and* ligated can amplify.
 
-No gel, no size selection, no bead cleanup decides what gets sequenced.
+No gel or size selection decides what gets sequenced. 🟢 An AMPure XP cleanup follows the
+PCR (Methods step 4), but it comes after the selection and is not one of these steps; the
+preprint does not state its bead ratio or what it is meant to remove.
 
 ## 6. Amplification off the circle ✅
 
@@ -135,9 +141,9 @@ removes the sequencing-depth bias.
 
 ## 8. Screen context 🟢
 
-Brunello **kinome** library (Addgene #75314), backbone **lentiCRISPRv2** (#52961) — the map
-in `../lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/`, which is what all the ✅ values above are computed
-against. Library amplified per the Broad "Amplification of pDNA Libraries" protocol and QC'd
+Brunello **kinome** library (Addgene #75314), backbone **lentiCRISPRv2** (#52961) — the Addgene record244694 map now kept in
+`$CHEM_DATA/sources/crispr-mip__10.1101+2024.03.28.587082/` (see the deposited-map check
+below), which is what all the ✅ values above are computed against. Library amplified per the Broad "Amplification of pDNA Libraries" protocol and QC'd
 by the Broad "PCR of sgRNAs for Illumina Sequencing" protocol — i.e. the GPP ARGON/BEAKER
 scheme documented in `../lenticrispr-v1-screening__10.1126+science.1247005/90_combined_screen_research.md`. GFP-targeting sgRNA from
 LentiGuide-Puro-GFPg1 (BB09).
@@ -189,3 +195,17 @@ printed primer sequences. This map check does not change the existing public
 134-versus126 probe-length discrepancy notice. It does not establish that every
 captured circle is necessarily a different cell: repeated capture of a genomic
 molecule or UMI collisions remain outside the simple molecular geometry check.
+
+
+## Bounded source pass (2026-10-17, round breadth-first-08)
+
+Re-read the bioRxiv v1 text lines 118–136 (design overview, 60/15 read profile),
+458–493 (probe design and the four reaction steps) and 494–523 (PCR comparator and
+read extraction), plus Table S2 (`media-2.xlsx.txt` rows 1–40). Model corrections:
+the extension/ligation mix amount (5 U Ampligase, 10 µl into 20 µl), the KAPA HiFi
+HotStart ReadyMix PCR with its cycling, and the post-PCR AMPure XP cleanup with Qubit /
+Bioanalyzer QC were missing from the note, the module's `PROTOCOL` and the page; the
+earlier "no bead cleanup" statement is now scoped to the selection steps. No sequence,
+length or read-layout change. Still open: a published (peer-reviewed) version was not
+searched for in this capped pass; the i7 index-read cycle count and AMPure ratio are
+not stated in the text read.

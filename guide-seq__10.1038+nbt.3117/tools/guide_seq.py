@@ -172,7 +172,12 @@ CAVEAT = ("The two STAT-PCR orientations are parallel libraries built from the t
           "P5 anchor marks that effective read-start boundary; it is not a claimed exact "
           "physical grafted primer. The historical instrument-recipe revision is unassigned. "
           "A01 and P701 are printed examples; the final index windows leave experiment-specific "
-          "members unselected.")
+          "members unselected. "
+          "<b>Published source conflict (instrument):</b> the Online Methods name a "
+          "\u201cCovaris S200\u201d shearing instrument, while the Supplementary Methods protocol and "
+          "its equipment list name the Covaris S2 (S-2 Focused Ultra-sonicator). The model declares "
+          "only the source-stated ~500 bp shearing target and does not select an instrument model; "
+          "which designation is the typographic error is unresolved here.")
 
 # -------------------------------------------------------------- final library
 # Written 5'->3' from P5. The P7-side arm is the GSP2 tail completed by P7_#, so
@@ -358,6 +363,20 @@ def ligation_product_scene() -> Scene:
 
 
 # ------------------------------------------------------------- protocol graph
+def _spri(graph, prefix, label, template, beads_label, reason):
+    """One source-specified AMPure XP SPRI cleanup with its removed fraction."""
+    beads = graph.input(prefix + "_beads", beads_label, MaterialKind.SELECTION)
+    kept = graph.product(prefix + "_kept", "SPRI-retained DNA", MaterialKind.MOLECULAR,
+                         state=template.state)
+    removed = graph.product(prefix + "_removed", "SPRI-removed fraction",
+                            MaterialKind.WASTE)
+    graph.react(prefix, label, StepKind.CLEANUP,
+                ((template, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (kept, removed))
+    graph.discard(removed, reason)
+    return kept
+
+
 def protocol_graph():
     graph = ProtocolGraph(TITLE, authority=SOURCE)
     cells = graph.input("cells", "living cells with genomic targets",
@@ -378,18 +397,32 @@ def protocol_graph():
     graph.react("integrate", "Capture the dsODN at cellular DSBs", StepKind.INTEGRATION,
                 ((cut, InputRole.TEMPLATE), (dsodn, InputRole.STRUCTURAL),
                  (nhej, InputRole.CATALYST)), (tagged,))
+    dnadvance = graph.input("gdna_beads",
+                            "Agencourt DNAdvance solid-phase reversible immobilization beads",
+                            MaterialKind.SELECTION)
+    gdna = graph.product("genomic_dna", "isolated dsODN-tagged genomic DNA",
+                         MaterialKind.MOLECULAR, state=tagged.state)
+    cell_debris = graph.product("gdna_removed", "cell lysate fraction not bound to the beads",
+                                MaterialKind.WASTE)
+    graph.react("isolate_gdna", "Isolate genomic DNA on SPRI beads", StepKind.EXTRACTION,
+                ((tagged, InputRole.TEMPLATE), (dnadvance, InputRole.SELECTION)),
+                (gdna, cell_debris))
+    graph.discard(cell_debris, "is separated from the bead-bound genomic DNA during isolation")
     shear = graph.input("shear_condition", "Covaris shearing to ~500 bp",
                         MaterialKind.CONDITION)
     fragments = graph.product("fragments", "sheared dsODN-tagged genomic fragments",
                               MaterialKind.MOLECULAR, state=sheared_fragment())
-    graph.react("shear", "Shear extracted genomic DNA", StepKind.FRAGMENTATION,
-                ((tagged, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
+    graph.react("shear", "Shear 400 ng of genomic DNA", StepKind.FRAGMENTATION,
+                ((gdna, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
+    cleaned = _spri(graph, "shear_cleanup", "Clean the sheared DNA (1X SPRI, elute 15 µL)",
+                    fragments, "AMPure XP SPRI beads, 1X ratio",
+                    "is removed with the 1X SPRI supernatant after shearing")
     repair_mix = graph.input("end_repair_mix", "end-repair enzyme mix",
                              MaterialKind.CATALYST)
     repaired = graph.product("repaired", "blunt, 5'-phosphorylated fragments",
                              MaterialKind.MOLECULAR)
     graph.react("end_repair", "End-repair the sheared fragments", StepKind.END_REPAIR,
-                ((fragments, InputRole.TEMPLATE), (repair_mix, InputRole.CATALYST)),
+                ((cleaned, InputRole.TEMPLATE), (repair_mix, InputRole.CATALYST)),
                 (repaired,))
     taq = graph.input("taq_polymerase", "non-hot-start Taq polymerase (72 C A-tailing)",
                       MaterialKind.CATALYST)
@@ -417,12 +450,16 @@ def protocol_graph():
                 ((tailed, InputRole.TEMPLATE), (y_adapter, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (adapted,),
                 geometry=adapter_geometry())
+    ligated_clean = _spri(graph, "ligation_cleanup",
+                          "Clean the ligation (0.9X SPRI, elute 12 µL)", adapted,
+                          "AMPure XP SPRI beads, 0.9X ratio",
+                          "removes unligated adapter and short products with the 0.9X SPRI supernatant")
     flank_a = graph.product("flank_a", "aliquot for the dsODN strand-A (+) reactions",
                             MaterialKind.MOLECULAR)
     flank_b = graph.product("flank_b", "aliquot for the dsODN strand-B (-) reactions",
                             MaterialKind.MOLECULAR)
     graph.react("split_orientations", "Split into the two junction orientations",
-                StepKind.SPLIT, ((adapted, InputRole.TEMPLATE),), (flank_a, flank_b),
+                StepKind.SPLIT, ((ligated_clean, InputRole.TEMPLATE),), (flank_a, flank_b),
                 changes_molecule=False)
     p5_1 = graph.input("p5_1", "P5_1 adapter primer", MaterialKind.OLIGO, state=P5_1)
     p5_2 = graph.input("p5_2", "P5_2 nested adapter primer", MaterialKind.OLIGO, state=P5_2)
@@ -455,12 +492,20 @@ def protocol_graph():
                  (p5_1, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (amp1_b,), geometry=PCRGeometry.unavailable(FINAL_LIBRARY,
                                                             reason=pcr1_reason))
+    clean1_a = _spri(graph, "pcr1_cleanup_a",
+                     "Clean strand-A PCR 1 (1.2X SPRI, elute 15 µL; beads carried into PCR 2)",
+                     amp1_a, "AMPure XP SPRI beads, 1.2X ratio",
+                     "is removed with the 1.2X SPRI supernatant after PCR 1")
+    clean1_b = _spri(graph, "pcr1_cleanup_b",
+                     "Clean strand-B PCR 1 (1.2X SPRI, elute 15 µL; beads carried into PCR 2)",
+                     amp1_b, "AMPure XP SPRI beads, 1.2X ratio",
+                     "is removed with the 1.2X SPRI supernatant after PCR 1")
     amp2_a = graph.product("amp2_a", "strand-A nested library", MaterialKind.MOLECULAR,
                            state=FINAL_LIBRARY)
     amp2_b = graph.product("amp2_b", "strand-B nested library", MaterialKind.MOLECULAR)
     graph.react("stat_pcr2_a",
                 "Nested STAT-PCR 2 from dsODN strand A (GSP2 + P5_2 + P7_#)", StepKind.PCR,
-                ((amp1_a, InputRole.TEMPLATE), (gsp2_a, InputRole.STRUCTURAL),
+                ((clean1_a, InputRole.TEMPLATE), (gsp2_a, InputRole.STRUCTURAL),
                  (p5_2, InputRole.STRUCTURAL), (p7_primer, InputRole.STRUCTURAL),
                  (polymerase, InputRole.CATALYST)),
                 (amp2_a,), geometry=PCRGeometry.unavailable(FINAL_LIBRARY,
@@ -468,16 +513,24 @@ def protocol_graph():
     graph.react("stat_pcr2_b",
                 "Nested STAT-PCR 2 from dsODN strand B (mirrored GSP2 + P5_2 + P7_#)",
                 StepKind.PCR,
-                ((amp1_b, InputRole.TEMPLATE), (gsp2_b, InputRole.STRUCTURAL),
+                ((clean1_b, InputRole.TEMPLATE), (gsp2_b, InputRole.STRUCTURAL),
                  (p5_2, InputRole.STRUCTURAL), (p7_primer, InputRole.STRUCTURAL),
                  (polymerase, InputRole.CATALYST)),
                 (amp2_b,), geometry=PCRGeometry.unavailable(FINAL_LIBRARY,
                                                             reason=pcr2_reason))
+    clean2_a = _spri(graph, "pcr2_cleanup_a",
+                     "Clean the strand-A nested library (0.7X SPRI, elute 30 µL)",
+                     amp2_a, "AMPure XP SPRI beads, 0.7X ratio",
+                     "is removed with the 0.7X SPRI supernatant after PCR 2")
+    clean2_b = _spri(graph, "pcr2_cleanup_b",
+                     "Clean the strand-B nested library (0.7X SPRI, elute 30 µL)",
+                     amp2_b, "AMPure XP SPRI beads, 0.7X ratio",
+                     "is removed with the 0.7X SPRI supernatant after PCR 2")
     library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
                             state=FINAL_LIBRARY)
-    graph.react("pool", "Normalize and pool both captured break orientations",
-                StepKind.POOL,
-                ((amp2_a, InputRole.TEMPLATE), (amp2_b, InputRole.TEMPLATE)), (library,),
+    graph.react("pool", "Quantify by qPCR, normalize to 1.2e10 molecules and pool both "
+                "captured break orientations", StepKind.POOL,
+                ((clean2_a, InputRole.TEMPLATE), (clean2_b, InputRole.TEMPLATE)), (library,),
                 changes_molecule=False)
     graph.sequence(library, SequencingPlan(library=FINAL_LIBRARY,
                                            primers=tuple(SEQ_PRIMERS),
@@ -490,5 +543,9 @@ def protocol_graph():
         "anneal_adapter", "adapter_ligase", "ligate_adapter", "split_orientations",
         "p5_1", "p5_2", "gsp1_a", "gsp1_b", "gsp2_a", "gsp2_b", "p7_index_primer",
         "pcr_polymerase", "stat_pcr1_a", "stat_pcr1_b", "stat_pcr2_a", "stat_pcr2_b",
-        "pool", "library"), SOURCE)
+        "pool", "library", "gdna_beads", "isolate_gdna",
+        "shear_cleanup", "shear_cleanup_beads", "ligation_cleanup", "ligation_cleanup_beads",
+        "pcr1_cleanup_a", "pcr1_cleanup_a_beads", "pcr1_cleanup_b", "pcr1_cleanup_b_beads",
+        "pcr2_cleanup_a", "pcr2_cleanup_a_beads", "pcr2_cleanup_b", "pcr2_cleanup_b_beads"),
+        SOURCE)
     return graph.require_publishable()

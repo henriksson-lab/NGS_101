@@ -205,5 +205,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain."
+  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Genome Biology 2025 PMC12359873 JATS Methods lines 132 (FACS lysis buffer), 136 (spike-ins), 144 (Tn5 assembly), 150–158 (scTAPS/scCAPS+ conversion, library construction and sequencing), Results line 90 (120-bp PE); Additional file 5 MOESM5 xlsx.txt Tables S1–S4 (all rows); Additional file list lines 168–180; bioRxiv v1 lines 884–1000 compared for the line-numbered oligo table only (superseded)",
+      "oligo_scraper": "Scraper on MOESM5/JATS/MOESM1/MOESM4 text: 12 collapsed hits, all in MOESM5 (Table S1 spike-in oligos, S3 i5/i7 families, pMENTS, S4 primers); 0 in article JATS/MOESM1/MOESM4. --find on the preprint shows the i5-1 oligo split by printed line number 214.",
+      "findings": "Same front end/readout correction as scTAPS via import of the joint-paper Table S3/S4 declarations (scope recorded in module docstring): Table S3 transposon arms and pMENTS, Table S4 custom primers, XT ends/indices INFERRED, index cycles inferred 8, lysis/strip/gap-fill/pool/purify/PCR/size-selection steps. Conversion kept local and verified: ACT+BF4- 25C 16h + 1.8x AMPure, Pinnick NaClO2/2-methyl-2-butene 25C 16h, pyridine-borane + Zymo; published Methods have no beta-GT step (catalogue ours.tsv 'βGT protection' description is a repository error, reported). Fixed note i7-1 transcription dropping one C. No published discrepancy found.",
+      "deferred": [
+        "Illumina Nextera XT Index Kit FC-131-1001 original (primer sequences, chosen sample indices)",
+        "Amini 2014 (ref. 28) and Picelli 2014 (ref. 27) transposome predecessors",
+        "TAPS/CAPS+ conversion predecessors (refs. 15, 17) for reaction concentrations not restated",
+        "Acquired index-read cycle counts (not stated; 8 inferred)",
+        "Additional file 6 review history (.odt, not converted)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3 checks pass (TAPS paths + Table S3 20 transfer strands/pMENTS and Table S4 4 primers exact against MOESM5); page builds; pairing 0 problems; chemistry 2 established/9 conditional/12 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 2 inputs excepted (i5/i7 transposons; verified by local selftest because guard's preprint-DOI locator filter excludes MOESM5), 2 XT-primer inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

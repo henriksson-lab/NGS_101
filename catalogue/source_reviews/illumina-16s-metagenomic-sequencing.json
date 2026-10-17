@@ -195,5 +195,24 @@
       "question": "Native community genomic PCR1 binding coordinates",
       "state": "Unassigned model template. The tailed PCR1 product is not used as proof of the genomic input."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Illumina 15044223 B guide .pdf.txt Workflow Summary58–80, Amplicon Primers105–150, Amplicon PCR180–262, PCR Clean-Up266–385, Index PCR388–524, PCR Clean-Up2 530–639, Validate Library640–648, Library Denaturing/PhiX760–960, Dual Indexing Principle1238–1294; Klindworth2013 PMC3592464 JATS line84 (primer pair, 464 bp)",
+      "oligo_scraper": "Guide scraper run: forward/reverse PCR1 primers (lines123/125) and overhangs (131/133) verified; --find CCTACGGGNGGCWGCAG hits guide and Klindworth JATS; index-family table lines1249–1294 read directly.",
+      "findings": "No sequence change. Graph now carries printed reaction inputs/programs: 2.5 ul DNA at 5 ng/ul, 5 ul each 1 uM PCR1 primer, 12.5 ul KAPA HiFi HotStart ReadyMix in 25 ul, 95C3min/25x(95/55/72C 30s)/72C5min; 20 ul AMPure XP, 52.5 ul elution; Nextera XT FC-131-1001/-1002 N7XX/S5XX tubes 5 ul, 25 ul ReadyMix in 50 ul, 8 cycles; 56 ul AMPure XP, 27.5 ul elution/25 ul transfer. Cleanup1 waste now source-named free primers and primer-dimer species (p.8). Note records ~460/~550/~630 bp size checkpoints and >=5% PhiX. 300/8/8/300 read layout and 45 ul stored remainder confirmed.",
+      "deferred": [
+        "Complete Nextera XT index-primer strands/caps (inferred canonical)",
+        "Klindworth supp_gks808_Tables.zip and tables-xlsx.zip (>120 MB, not fetched)",
+        "SILVA primer-evaluation archive",
+        "Historical MiSeq instrument-recipe revision (15057455 v08 comparator only)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 10/10 pass; page builds; pairing 0 problems; chemistry 0 established/1 conditional/6 unresolved/0 contradictory; source guard 2 exact checked (FWD, REV), 0 failed, 0 inputs without exact states; Markdown built; review schema checked"
+    }
   ]
 }

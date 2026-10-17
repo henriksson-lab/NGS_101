@@ -8,7 +8,8 @@ from chemdraw import (Construct, MolecularState, Row, Scene, Workflow,
 from multibranch import illumina_branch
 from multimodal_spatial import finish_pcr_branch
 from pcr import PCRGeometry
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_graph import (Highlight, InputRole, MaterialKind, ProtocolGraph,
+                            SourceClaim, SourceDiscrepancy, StepKind)
 
 TITLE = "DR-seq — genome and transcriptome without physical separation"
 NOTES = "01_dr-seq.html"
@@ -20,7 +21,9 @@ SUMMARY = ("A cell-barcoded oligo(dT) first makes cDNA in the same lysate as gen
 CAVEAT = ("The checked DR-seq paper prints P1, P2 and P3, but not the complete Ad-1x "
           "or Ad-2 oligos. Its cited CEL-Seq source has not been reviewed, so their full "
           "working sequences are inferred. RNA library finishing follows CEL-Seq and DNA "
-          "library finishing names NEBNext Ultra; their outer oligos also remain inferred.")
+          "library finishing names NEBNext Ultra; their outer oligos also remain inferred. "
+          "The article gives Ad-2 eight random 3′ nucleotides, while the supplement says "
+          "its 3′ end is GGG or TTT; see the source discrepancy below.")
 
 AD1_SPACER = "CGATTGAGGCCGG"
 T7_PROMOTER = "TAATACGACTCACTATAGGG"
@@ -28,7 +31,9 @@ RA5 = "GTTCAGAGTTCTACAGTCCGACGATC"
 CELL_BARCODE_NT = 8
 POLYT_NT = 24
 AD2_HANDLE = "GTGAGTGATGGTTGAGGTAGTGTGGAG"
-AD2_RANDOM_NT = 8
+AD2_RANDOM_NT = 8          # article line 77: 27-nt defined sequence + 8 random nt
+AD2_TERMINAL = "NNN"       # supplement Fig. 3 legend / Note: 3' end GGG or TTT (placeholder)
+AD2_VARIABLE_NT = AD2_RANDOM_NT - len(AD2_TERMINAL)
 P1 = "CGATTGAGGCCGGTAATAC"
 P2 = AD2_HANDLE
 P3 = "GTGAGCTGGAGTTGAGGTAGTGTGGAG"
@@ -46,8 +51,15 @@ def ad1_segments():
 
 def ad2_segments():
     return [seg("Ad-2 common handle", AD2_HANDLE, "tso", inferred=True),
-            seg("Ad-2 random N8", "N" * AD2_RANDOM_NT, placeholder=True,
+            seg("Ad-2 random N5", "N" * AD2_VARIABLE_NT, placeholder=True,
+                inferred=True),
+            seg("Ad-2 3' GGG or TTT end", AD2_TERMINAL, placeholder=True,
                 inferred=True)]
+
+
+def p3_mismatch_positions() -> list[int]:
+    """1-based positions where printed P3 differs from printed P2 (Ad-2 handle)."""
+    return [i + 1 for i, (a, b) in enumerate(zip(P2, P3)) if a != b]
 
 
 def rt_scene() -> Scene:
@@ -65,10 +77,11 @@ def rt_scene() -> Scene:
 
 def ad2_priming_scene(template_name: str) -> Scene:
     template = [seg(template_name, "X" * 40, placeholder=True),
-                seg("random priming site", "NNNNNNNN", placeholder=True)]
+                seg("CCC or AAA priming site", "NNN", placeholder=True),
+                seg("random priming site", "N" * AD2_VARIABLE_NT, placeholder=True)]
     sc = Scene(); sc.strand("template", template, label=template_name)
     sc.anneal("Ad-2", ad2_segments(), to="template",
-              pair=("Ad-2 random N8", "random priming site"), label="Ad-2 random primer")
+              pair=("Ad-2 random N5", "random priming site"), label="Ad-2 random primer")
     sc.arrow("Ad-2", "strand-displacing extension")
     sc.labels("Ad-2")
     return sc
@@ -94,6 +107,18 @@ def cdna_amplicon() -> Construct:
 
 GDNA_AMPLICON = gdna_amplicon()
 CDNA_AMPLICON = cdna_amplicon()
+
+
+def p3_amplicon() -> Construct:
+    # Methods lines 402-404 list one primer, 5'-biotin P3, so both ends of the
+    # re-amplified genomic products carry P3; the internal genomic copy is symbolic.
+    p3 = [seg("5'-biotin P3", P3, "tso")]
+    return Construct([*p3, seg("genomic copy", "X" * 40, placeholder=True),
+                      *complement_segments(p3, suffix=" right complement")],
+                     name="biotin-P3/P3 genomic amplicon")
+
+
+P3_AMPLICON = p3_amplicon()
 
 
 def arna_product() -> Construct:
@@ -134,7 +159,7 @@ FINAL_LIBRARIES = (
 def oligos():
     return (
         f"<b>INFERRED — Ad-1x working model</b> — 5′-<inf>{AD1_SPACER}{T7_PROMOTER}{RA5}[8-nt cell barcode]{'T' * POLYT_NT}V</inf>-3′",
-        f"<b>INFERRED — Ad-2 working model</b> — 5′-<inf>{AD2_HANDLE}[8 random nt]</inf>-3′",
+        f"<b>INFERRED — Ad-2 working model</b> — 5′-<inf>{AD2_HANDLE}[5 random nt]GGG or TTT</inf>-3′",
         f"<b>P1</b> — 5′-{P1}-3′",
         f"<b>P2</b> — 5′-{P2}-3′",
         f"<b>5′-biotin P3</b> — 5′-biotin-{P3}-3′",
@@ -188,7 +213,8 @@ def protocol_graph():
 
     ad1 = g.input("ad1", "cell-barcoded Ad-1x oligo(dT)24V primer",
                   MaterialKind.OLIGO, state=rt_scene())
-    rt = g.input("rt", "reverse transcriptase", MaterialKind.CATALYST)
+    rt = g.input("rt", "ArrayScript reverse transcriptase (MessageAmp II), 42 °C then 80 °C 10 min",
+                 MaterialKind.CATALYST)
     copied = g.product(
         "copied", "Ad-1x-tagged cDNA beside genomic DNA",
         MaterialKind.MOLECULAR,
@@ -204,7 +230,8 @@ def protocol_graph():
     ad2 = g.input("ad2", "Ad-2 common-handle random-N8 primer",
                   MaterialKind.OLIGO)
     strand_polymerase = g.input(
-        "strand_polymerase", "strand-displacing DNA polymerase",
+        "strand_polymerase",
+        "Bst large fragment + Pyrophage 3173 exo- (fresh mix before each cycle)",
         MaterialKind.CATALYST)
     primed = g.product(
         "ad2_primed", "Ad-2-primed genomic DNA and cDNA copies",
@@ -237,16 +264,16 @@ def protocol_graph():
             changes_molecule=False)
 
     p2_forward = g.input("p2_forward", "P2 genome-amplification primer",
-                         MaterialKind.OLIGO)
+                         MaterialKind.OLIGO, state=Construct([seg("P2", P2)], name="P2"))
     p2_reverse = g.input("p2_reverse", "opposing P2 genome-amplification primer",
-                         MaterialKind.OLIGO)
-    p2_polymerase = g.input("p2_polymerase", "P2 PCR polymerase",
+                         MaterialKind.OLIGO, state=Construct([seg("P2", P2)], name="P2"))
+    p2_polymerase = g.input("p2_polymerase", "Deep VentR (exo-) DNA polymerase",
                             MaterialKind.CATALYST)
     p2_product = g.product(
         "p2_product", "P2-amplified genomic products", MaterialKind.MOLECULAR,
         state=GDNA_AMPLICON)
     g.react(
-        "p2_pcr", "Amplify the genome aliquot with P2", StepKind.PCR,
+        "p2_pcr", "Amplify the genome aliquot with P2 (21 cycles), column clean-up", StepKind.PCR,
         ((dna, InputRole.TEMPLATE), (p2_forward, InputRole.STRUCTURAL),
          (p2_reverse, InputRole.STRUCTURAL),
          (p2_polymerase, InputRole.CATALYST)), (p2_product,),
@@ -254,27 +281,29 @@ def protocol_graph():
             GDNA_AMPLICON,
             reason="The source gives one P2 sequence for the repeated Ad-2 handles; this representative construct does not assert a unique oriented primer pair."))
 
-    p3 = g.input("p3_biotin", "5-prime-biotin P3 primer", MaterialKind.OLIGO)
-    p3_partner = g.input("p3_partner", "opposing genome PCR primer",
-                         MaterialKind.OLIGO, inferred=True,
-                         source=SOURCE + " (opposing primer identity not resolved in this page model)")
+    p3 = g.input("p3_biotin", "5-prime-biotin P3 primer", MaterialKind.OLIGO,
+                 state=Construct([seg("5'-biotin P3", P3)], name="5'-biotin P3"))
+    p3_partner = g.input("p3_partner", "the same 5-prime-biotin P3 primer at the opposing end",
+                         MaterialKind.OLIGO,
+                         state=Construct([seg("5'-biotin P3", P3)], name="5'-biotin P3"))
     p3_product = g.product(
-        "p3_product", "biotin-P3-amplified genomic products",
-        MaterialKind.MOLECULAR, state=GDNA_AMPLICON, inferred=True,
-        source=SOURCE + " (opposing primer identity not resolved in this page model)")
+        "p3_product", "biotin-P3/P3 genomic amplicons",
+        MaterialKind.MOLECULAR, state=P3_AMPLICON)
     g.react(
-        "p3_pcr", "Amplify the genome branch with 5-prime-biotin P3",
+        "p3_pcr", "Re-amplify 80 ng with 5-prime-biotin P3 (4 cycles 46 °C, 9 cycles 59 °C)",
         StepKind.PCR,
         ((p2_product, InputRole.TEMPLATE), (p3, InputRole.STRUCTURAL),
          (p3_partner, InputRole.STRUCTURAL),
          (p2_polymerase, InputRole.CATALYST)), (p3_product,),
         geometry=PCRGeometry.unavailable(
             GDNA_AMPLICON,
-            reason="The source prints biotin-P3, but this page has not resolved a unique opposing primer landing site."))
+            reason="The Methods list only biotin-P3, which differs from the Ad-2 handle at positions "
+                   + ", ".join(map(str, p3_mismatch_positions()))
+                   + "; the priming geometry of the mismatched first cycles is not modelled."))
     shear = g.input("shearing", "sonication condition", MaterialKind.CONDITION)
     fragmented = g.product("fragmented_dna", "sonicated genome amplicons",
                            MaterialKind.MOLECULAR, state=p3_product.state)
-    g.react("sonicate", "Sonicate the biotin-labelled genome amplicons",
+    g.react("sonicate", "Sonicate (Bioruptor, low, 15 cycles) to ~300 bp and column-purify",
             StepKind.FRAGMENTATION,
             ((p3_product, InputRole.TEMPLATE), (shear, InputRole.CONDITION)),
             (fragmented,))
@@ -306,14 +335,15 @@ def protocol_graph():
         (dna_adapted,), geometry=AdapterLigationGeometry.unavailable(
             "The paper names NEBNext Ultra but does not print its lot-specific adapter-end geometry."))
 
-    p1 = g.input("p1", "P1 transcript-branch primer", MaterialKind.OLIGO)
+    p1 = g.input("p1", "P1 transcript-branch primer", MaterialKind.OLIGO,
+                 state=Construct([seg("P1", P1)], name="P1"))
     second_polymerase = g.input("second_polymerase", "second-strand polymerase",
                                 MaterialKind.CATALYST)
     t7_template = g.product(
         "t7_template", "P1-completed cell-barcoded T7 template",
         MaterialKind.MOLECULAR, state=CDNA_AMPLICON)
     g.react(
-        "second_strand", "Select transcript-derived products with P1 and make second strand",
+        "second_strand", "P1 second strand (one PCR cycle); pool non-overlapping barcodes; column-purify",
         StepKind.EXTENSION,
         ((rna, InputRole.TEMPLATE), (p1, InputRole.STRUCTURAL),
          (second_polymerase, InputRole.CATALYST)), (t7_template,))
@@ -321,7 +351,7 @@ def protocol_graph():
                             MaterialKind.CATALYST)
     arna = g.product("arna", "cell-barcoded antisense RNA copies",
                      MaterialKind.MOLECULAR, state=ARNA)
-    g.react("ivt", "Amplify the transcript branch by T7 transcription",
+    g.react("ivt", "T7 IVT 37 °C 13 h (MessageAmp II), aRNA column clean-up without fragmentation",
             StepKind.TRANSCRIPTION,
             ((t7_template, InputRole.TEMPLATE),
              (t7_polymerase, InputRole.CATALYST)), (arna,))
@@ -329,16 +359,28 @@ def protocol_graph():
         "cel_adapter", "CEL-Seq small-RNA finishing adapter",
         MaterialKind.ADAPTER, inferred=True,
         source=SOURCE + " (workflow referenced; outer oligos not printed)")
-    rna_adapted = g.product(
-        "rna_adapted", "CEL-Seq-finished antisense-RNA library template",
+    rna_ligated = g.product(
+        "rna_ligated", "3-prime-adapter-ligated antisense RNA",
         MaterialKind.MOLECULAR, state=RNA, inferred=True,
         source=SOURCE + " (outer small-RNA shell inferred from the referenced workflow)")
     g.react(
         "adapt_rna", "Attach the referenced CEL-Seq small-RNA finishing adapter",
         StepKind.LIGATION,
         ((arna, InputRole.TEMPLATE), (cel_adapter, InputRole.STRUCTURAL)),
-        (rna_adapted,), geometry=AdapterLigationGeometry.unavailable(
+        (rna_ligated,), geometry=AdapterLigationGeometry.unavailable(
             "The defining paper refers to the CEL-Seq finishing workflow without printing its outer adapter oligos."))
+    rna_rt_primer = g.input(
+        "rna_rt_primer", "CEL-Seq library RT primer", MaterialKind.OLIGO, inferred=True,
+        source=SOURCE + " (main text line 89-90 names reverse transcription; primer not printed)")
+    rna_adapted = g.product(
+        "rna_adapted", "reverse-transcribed CEL-Seq library template",
+        MaterialKind.MOLECULAR, state=RNA, inferred=True,
+        source=SOURCE + " (outer small-RNA shell inferred from the referenced workflow)")
+    g.react(
+        "rna_library_rt", "Reverse-transcribe the adapter-ligated aRNA",
+        StepKind.REVERSE_TRANSCRIPTION,
+        ((rna_ligated, InputRole.TEMPLATE), (rna_rt_primer, InputRole.STRUCTURAL),
+         (rt, InputRole.CATALYST)), (rna_adapted,))
 
     reviewed = [
         "cell_lysate", "ad1", "rt", "reverse_transcribe", "ad2",
@@ -347,6 +389,7 @@ def protocol_graph():
         "p3_partner", "p3_pcr", "shearing", "sonicate", "streptavidin",
         "deplete_ad2", "neb_adapter", "adapt_dna", "p1", "second_polymerase",
         "second_strand", "t7_polymerase", "ivt", "cel_adapter", "adapt_rna",
+        "rna_ligated", "rna_rt_primer", "rna_library_rt",
     ]
     finish_pcr_branch(
         g, "dna_final", dna_adapted, DNA, DP, reviewed,
@@ -355,6 +398,21 @@ def protocol_graph():
     finish_pcr_branch(
         g, "rna_final", rna_adapted, RNA, RP, reviewed,
         label="DR-seq transcriptome", inferred_primers=True,
+        read_lengths={"Read 1": 100, "Read 2": 100},
         limitation="The defining paper refers to CEL-Seq finishing without printing the outer PCR-primer pair.")
+    g.annotate(SourceDiscrepancy(
+        "ad2", "Ad-2 3′ end: eight random nucleotides or GGG/TTT?",
+        (SourceClaim("Article main text p.2 (PMC PDF text line 77)",
+                     "Ad-2 has a defined 27-nt 5′ sequence followed by 8 random nucleotides"),
+         SourceClaim("Supplementary Fig. 3 legend and Supplementary Note (publisher supplement text lines 268, 1404)",
+                     "the 3′ end of Ad-2 has the sequence GGG or TTT (citing Zong et al. MALBAC)")),
+        "Draw the 8-nt variable region as 5 random nt plus a named terminal GGG-or-TTT placeholder triplet; total length 8 nt.",
+        "Both statements are printed in the published article and its supplement; the supplement also reports GGG/TTT as the dominant observed 3-mer binding sites (~70% of reads).",
+        "The complete Ad-2 primer mix is not printed in DR-seq; whether the 8 variable positions include the fixed triplet is taken from the supplement, not from an order sheet."))
+    g.annotate(Highlight(
+        "p3_pcr", "Biotin-P3 is not identical to P2",
+        "Printed P3 differs from printed P2 (the Ad-2 handle) at positions "
+        + ", ".join(map(str, p3_mismatch_positions()))
+        + "; the first four cycles anneal at 46 °C. The Methods do not explain the difference, so the page keeps both printed sequences."))
     g.declare_reviewed_scope(reviewed, SOURCE)
     return g.require_publishable()

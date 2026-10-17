@@ -1,9 +1,11 @@
 """Construct model shared by the individual CEL-Seq and CEL-Seq2 pages.
 
-The primer designs are transcribed from Table S2 of the CEL-Seq2 paper.  That table is
-also the accessible primary source for the original CEL-Seq primer design; exact TruSeq
-Small RNA library oligos are not present in either accessible primary-source package and
-are deliberately not supplied here.
+The CEL-Seq2 designs are transcribed from Table S2 of the CEL-Seq2 paper.  The original
+CEL-Seq design (13-nt spacer, T7 promoter, RA5, 8-nt barcode, T24V) is printed for all 40
+primers in the 2012 detailed "CEL-Seq Protocol" (Cell Reports Supplemental Information,
+mmc4) and agrees with Table S2.  That protocol names the Illumina TruSeq Small RNA kit
+reagents (RA3, RTP, RP1, RPIX) but does not print their bases, so exact library oligos are
+deliberately not supplied here.
 """
 from __future__ import annotations
 
@@ -138,9 +140,11 @@ def cel1_ligated_arna() -> Construct:
 
 def cel1_adapter_geometry() -> AdapterLigationGeometry:
     return AdapterLigationGeometry.unavailable(
-        "The original CEL-Seq paper establishes 3′-adapter ligation to fragmented aRNA, "
-        "but neither accessible primary-source package prints the adapter bases, terminal "
-        "modifications or ligation-facing end geometry.")
+        "The 2012 CEL-Seq detailed protocol ligates the Illumina TruSeq Small RNA kit 3′ "
+        "adapter (RA3, diluted 5-fold) to phosphatase- and PNK-treated fragmented aRNA with "
+        "T4 RNA ligase 2, truncated (28 °C, 1 h), but prints neither the RA3 bases nor its "
+        "terminal modifications or ligation-facing end geometry (\"sequences available from "
+        "Illumina\").")
 
 
 def final_library(protocol: str, design: PrimerDesign | None = None) -> Construct:

@@ -156,5 +156,26 @@
       "evidence": "Publisher Supplementary Data workbook prints capture probe sequences and 5-prime biotin modification."
     }
   ],
-  "conclusion": "Publisher Supplementary Data workbook prints capture probe sequences and 5-prime biotin modification."
+  "conclusion": "Publisher Supplementary Data workbook prints capture probe sequences and 5-prime biotin modification.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Accepted-manuscript Online Methods PMC4724891 NIHMS65861-supplement-01.pdf.txt lines1–271 (3C prep13–59, controls60–75, adaptors80–103, capture104–156, multiplex157–178, sequencing179–188, low-cell189–208, analysis209–271); PMC4724891 JATS Results49–59 and Fig.1a/2a legends320–330; publisher MOESM218 workbook Oligonucleotide sequences rows94–106 (scraper pointers)",
+      "oligo_scraper": "Bundle scraper run; hits are /5Biosg/ 120-nt capture probes (workbook rows94–106) and qPCR digestion-control primers (Methods70–75), the latter QC-only. No adapter, index or post-capture PCR oligo sequences returned or seen in Methods text.",
+      "findings": "Restriction enzyme narrowed from 'DpnII or NlaIII' to DpnII; named Thermo high-concentration T4 ligase, ProteinaseK/RNase/phenol-chloroform recovery, Covaris S220, NEBNext end-repair/dA/ligation with TruSeq adapters and AMPure 1:1.8, Herculase II 6–8 cycles. Added hybridization (COT DNA, NimbleGen HE blockers, 47C 64–72h / 24h) and M270 streptavidin capture per round, plus missing post-capture PCR from beads (SeqCap EZ LM-PCR x18 or KAPA x14) after each round; uncaptured library discarded with wash supernatants. Acquisition (150-nt MiSeq PE, one 100-nt HiSeq PE) and computational duplicate removal (identical sub-fragment coordinates after in silico DpnII digestion) stated. Results 1,000,000-fold vs Fig.1a/2a 3,000,000-fold enrichment shown as page discrepancy. Index-on-adapter vs index-by-PCR wording kept unresolved. Removed unused 4C/UMI-4C/Tri-C branches from the local graph builder.",
+      "deferred": [
+        "Paywalled publisher-version Online Methods (doi:10.1038/nmeth.3664) not compared",
+        "Illumina TruSeq adapter/index and NEBNext kit vendor originals",
+        "Roche NimbleGen SeqCap EZ HE blocker, hybridization and Post LM-PCR oligo originals",
+        "Index-read and acquired cycles of GEO GSE67959 runs",
+        "Capture-C predecessor (Hughes 2014) and CapSequm/captureC linked tools",
+        "Remaining publisher supplementary figure pages MOESM217 beyond Fig.1 caption"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite (import/construction, 0 explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/17 unresolved/0 contradictory; source guard 0 exact checked, 6 unrepresented (index PCR x2, post-capture PCR x2, capture-oligo pools x2); Markdown built/checked; review schema pass"
+    }
+  ]
 }

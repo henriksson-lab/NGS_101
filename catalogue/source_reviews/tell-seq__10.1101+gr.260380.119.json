@@ -24,12 +24,12 @@
     {
       "id": "published",
       "role": "defining",
-      "locator": "Chen et al Genome Res 2020 doi:10.1101/gr.260380.119 PMC7370886",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tell-seq__10.1101+gr.260380.119/PMC7370886_PMC7370886.xml.txt (Chen et al Genome Res 2020;30:898-909 doi:10.1101/gr.260380.119 PMC7370886; PDF PMC7370886_PMC7370886.pdf)",
+      "availability": "read",
       "relevance": "relevant",
       "pass_1": null,
       "pass_2": null,
-      "reason": "Publisher/PMC full text not available in local bundle; official publisher PDF route still manual.",
+      "reason": "Fetched 2026-10-17 from PMC Cloud (CC BY-NC); read in the 2026-10-17-breadth-first-20 bounded check only, so no independent two-pass record yet.",
       "discovered_from": "author_preprint"
     },
     {
@@ -96,5 +96,25 @@
       "evidence": "Preprint gives architecture and read lengths, but commercial kit synthesis source unavailable."
     }
   ],
-  "conclusion": "First located pass only; published original and vendor source still blocked."
+  "conclusion": "First located pass only; published original and vendor source still blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC7370886 JATS Results 'Clonal barcoding with simultaneous capture and strand transfer reactions' and Figure 1 legend lines 80–88, Methods 'TELL-seq library construction and sequencing'/'Primary sequencing data processing' lines 178–188; rendered PDF p899 Figure 1A/B; Supplemental Fig S1 (rendered); Supplemental Code Tell-Read user guide 'Sample index names' pp11–12 (txt lines 517–590)",
+      "oligo_scraper": "Bundle scraper run on the refetched bundle: 0 hits, which is not evidence of absence. The articles print no library oligos; the Tell-Read guide's 8-nt T500–T524 I2 index list (too short for the scraper) was read directly.",
+      "findings": "Published version fetched (PMC Cloud) and used in place of the bioRxiv preprint. Final construct corrected to Figure 1B: P5·8-nt sample index·Read1 region·100–400bp insert·Read2 region·18-nt barcode·P7. The earlier model placed the sample index on the P7 side with invented I1/I2 primer sites, and swapped the Read1/Read2 roles of the two transposon ends; the bead-joined first end is the Read2 region. Supplemental Fig S1A Method1 ligase added to the simultaneous barcoding step, scoped by the Results mapping. Spacer beads/viscosity added as a condition. STC disruption now keeps fragments on beads, followed by a represented magnetic wash with waste. The false discard of second-transfer like-ended products is now an unresolved candidate. PCR cycles 8 human/13–14 microbial. The vendor custom-primer claim is marked as not re-read.",
+      "deferred": [
+        "TELL-Seq WGS Library Prep Kit user guide (STC disruption, wash, polymerase, PCR primers)",
+        "TELL-Seq Library Sequencing User Guide Rev B (custom-primer requirements per instrument)",
+        "Ligase identity and bead-junction geometry (Supplemental Fig S1 names 'ligase' only)",
+        "Bead adaptor/transposon-end/primer sequences; I2 index orientation of T501–T524",
+        "stLFR/CPT-seq predecessor methods"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 inputs without exact states (all oligos inferred/unpublished); Markdown built; review schema checked"
+    }
+  ]
 }

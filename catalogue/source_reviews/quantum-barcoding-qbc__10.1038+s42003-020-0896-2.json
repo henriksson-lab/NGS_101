@@ -50,5 +50,25 @@
       "evidence": "Relevant source files and independent second pass remain outstanding."
     }
   ],
-  "conclusion": "Source review blocked: no original protocol/guide source was available in the local cache during storage-limited pass."
+  "conclusion": "Source review blocked: no original protocol/guide source was available in the local cache during storage-limited pass.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Commun Biol PMC7205613 (CC BY) JATS s42003-020-0896-2_PMC7205613.xml.txt Methods lines216-258 (La4FB conjugation, cell prep, in-cell RT/aminoallyl-dUTP, DTSSP crosslink, AHCA staining/refix, split-pool with Splint6 and T4 DNA ligase, RNase H/proteinase K, second-strand synthesis, NEBNext E7600S/E7335 PCR, primer design) and 286-292 (SNAIL prep, sequencing 151-258 SE/PE, FLASH); Supplementary Data workbook MOESM3 sheet1 (alignments, generic ordering forms) and sheet2 (60 AHCA sequences); MOESM2 supplementary item list. Sources fetched this pass via get_sources (PMC Cloud).",
+      "oligo_scraper": "Bundle scraper run: Supplementary Data 1 SC3/TotalSeq-B linker and Supplementary Data 8-10 second-strand primers (5' GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT + gene-specific) hit in MOESM3.xlsx.txt; Splint6, AHCA and subcode arms verified against sheet1 and Methods line238/234.",
+      "findings": "RNA amplicon right arm corrected to the reverse complement of the second-strand primer Illumina tail (previously inherited AHCA GAACTCCATCAGC tail); added RNA second-strand synthesis step (Herculase II, 1-20 cycles, optional thermolabile ExoI); SC3 input no longer called phosphorylated (generic form lacks 5' p); ligation geometry now uses each subcode's 3' arm splinted onto the reporter 5' phosphate; Splint6 scene docking labels corrected and 3' C3 spacer added; capture step names ProtoScript II/aminoallyl-dUTP/DTSSP/La4FB-AHCA hybrid. Graph-owned published discrepancies: AHCA anchor CTCCCTGTCTGACG (Methods line234) vs GCTCCCTGTCTGACG (Supp Data 1/2, Primer design; model uses latter, splint complement derived); Splint6 5' p in Supp Data 1 vs none in Methods line238 (unresolved).",
+      "deferred": [
+        "NEBNext E7335 and E7600S vendor index layouts (both libraries drawn with placeholder dual 8-nt indices)",
+        "Supplementary Data 3-11 (subcode lists, RT and second-strand primer panels, SNAIL probes) not transcribed",
+        "TotalSeq-B linker/Phi29 extension and SNAIL in-situ amplification variants not drawn",
+        "Author Correction doi:10.1038/s42003-020-1019-9 (PMC7260357)",
+        "Supplementary Information PDF MOESM1 and GEO GSE130784 run metadata (acquired cycles)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page build pass; pairing 0 problems; chemistry 0 established/2 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 10 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

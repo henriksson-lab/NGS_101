@@ -1,7 +1,9 @@
 """GenIE-ATAC single-adapter targeted accessibility readout."""
+import illumina as il
 import nextera as nx
-from batch_ngs import seg, truseq_amplicon_library
-from chemdraw import MolecularState, Scene, Segment, Workflow
+import seqprimers as sp
+from batch_ngs import seg
+from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow, feature)
 from tagmentation import loaded_tn5_adapter
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
@@ -15,9 +17,12 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1093/nar/gkad332">'
 SUMMARY = ("Tn5 loaded only with MEDS-A creates one universal transposon-primer end. "
            "A locus-specific biotinylated linear extension and streptavidin capture enrich "
            "one accessible locus before nested amplification and MiSeq sequencing.")
-CAVEAT = ("MEDS-A/MEDS-REV and the rs12269414 example primers are source-exact. Locus "
-          "primers are experiment-specific. The paper refers to a published MiSeq barcoding "
-          "PCR without printing the selected index-primer pair, so only that terminal shell is inferred.")
+CAVEAT = ("MEDS-A/MEDS-REV, the Tn5A primer and the rs12269414 example primers are "
+          "source-exact. Locus primers are experiment-specific. The nested forward oligo's "
+          "printed 5′ tail is the Illumina paired-end/Genome-Analyzer adaptor arm, not the "
+          "current TruSeq Read 2 arm. Only the outer flow-cell and index shell is inferred: "
+          "the paper refers to a published MiSeq barcoding PCR without printing its primers "
+          "or which amplicon end receives P5.")
 
 MEDS_HANDLE = nx.S5
 MEDS_ME = nx.ME
@@ -30,22 +35,52 @@ TN5A_PRIMER = "TCGTCGGCAGCGTCAG"
 # in a real experiment; retaining one complete example makes the molecular path concrete.
 TARGET = "rs12269414"
 BIOTIN_LINEAR = "CCAGGAGTTGGAACCTGC"
-NESTED_TAIL = "TCGGCATTCCTGCTGAACCGCTCTTCCGATCT"
+# Supplementary Tables 1-2 print this tail on every nested forward oligo. It is the
+# Illumina paired-end / Genome-Analyzer-era adaptor arm used by the cited 96-plex
+# barcoding method (ref 31), NOT the current TruSeq Read 2 arm
+# (illumina.TRUSEQ_READ2); the second GenIE-ATAC amplicon end carries no adaptor tail
+# at all because it is the tagmentation-installed MEDS-A handle.
+NESTED_TAIL = il.PE_READ2_ARM
+assert NESTED_TAIL not in (il.TRUSEQ_READ1, il.TRUSEQ_READ2)
 NESTED_LOCUS = "CCTCTTGCCTTGGCTGTG"
 NESTED_FORWARD = NESTED_TAIL + NESTED_LOCUS
+# Supplementary Table 1/2 reverse (gDNA-amplicon) oligos instead carry the TruSeq Read 1
+# tail; that primer belongs to the matched gDNA branch, not to the ATAC amplicon.
+GDNA_REVERSE_TAIL = il.TRUSEQ_READ1
 
-FINAL_LIBRARY, SEQ_PRIMERS = truseq_amplicon_library([
-    seg("nested rs12269414 locus primer-derived end", NESTED_LOCUS),
+_UNPRINTED = ("the second PCR adds the barcodes of ref 31 (Kozarewa & Turner 2011); "
+              "the defining paper prints neither those primers nor which amplicon end "
+              "receives P5")
+FINAL_LIBRARY = Construct([
+    seg("P5", il.P5, "p5", inferred=True),
+    seg("i5", "J" * 8, "cbc", placeholder=True, inferred=True,
+        feature=feature("sample_index_i5", "sample_index", "unknown")),
+    seg("nested-forward adaptor tail (Illumina PE arm)", NESTED_TAIL, "r1"),
+    seg("nested rs12269414 locus primer", NESTED_LOCUS),
     seg("targeted accessible-DNA amplicon", "X" * 80, placeholder=True),
     seg("MEDS mosaic end reverse complement", nx.ME_RC, "me"),
     seg("MEDS-A primer-entry complement", nx.S5_RC, "s5"),
-], "GenIE-ATAC targeted accessibility amplicon", inferred_adapters=True)
-FINAL_CAPTION = ("Representative rs12269414 amplicon. One biological boundary is fixed by "
-                 "the nested locus primer and the other by a nearby MEDS-A insertion. The "
-                 "terminal MiSeq index shell is inferred because the selected barcoding "
-                 "primer pair is not printed in the defining paper.")
-READ_LENGTHS = {"Read 1": 150, "Index 1 (i7)": 8,
-                "Index 2 (i5)": 8, "Read 2": 150}
+    seg("i7 reverse complement", "I" * 8, "cbc", placeholder=True, inferred=True,
+        feature=feature("sample_index_i7", "sample_index", "unknown")),
+    seg("P7 reverse complement", il.P7_RC, "p7", inferred=True),
+], name="GenIE-ATAC targeted accessibility amplicon")
+SEQ_PRIMERS = (
+    sp.custom("Read 1", "nested-forward adaptor tail primer (Illumina PE arm)",
+              NESTED_TAIL,
+              "Cooper et al. 2023 Supplementary Tables S1-S2 nested forward oligos",
+              note="Printed as the 5′ tail of every nested forward oligo; the matching "
+                   "sequencing primer itself is delegated to ref 31."),
+    sp.custom("Read 2", "MEDS-A handle primer (Tn5A side)", MEDS_HANDLE + MEDS_ME,
+              "Cooper et al. 2023 Methods 'Tn5 production' (MEDS-A) and 'ATAC assay, "
+              "linear PCR and nested PCR' (Tn5A primer)",
+              note="The tagmentation-installed MEDS-A handle is the only adaptor at this "
+                   "end; the paper does not print the primer loaded for this read."),
+)
+FINAL_CAPTION = ("Representative rs12269414 amplicon. One boundary is fixed by the nested "
+                 "locus primer and its source-exact Illumina PE adaptor tail, the other by "
+                 "a nearby MEDS-A insertion. The flow-cell/index shell is inferred: " +
+                 _UNPRINTED + ".")
+READ_LENGTHS = {"Read 1": 150, "Read 2": 150}
 SHOW_READ_CONTENT = True
 SEQUENCING_INTRO = ("The reported 2 × 150-base MiSeq reads approach the locus-defined "
                     "amplicon from both ends and were merged when their inserts overlapped.")
@@ -58,6 +93,7 @@ def oligos():
         f"<b>Tn5A PCR primer</b> — 5′-{TN5A_PRIMER}-3′",
         f"<b>{TARGET} biotinylated linear-PCR primer</b> — 5′-/5Biosg/{BIOTIN_LINEAR}-3′",
         f"<b>{TARGET} nested forward oligo</b> — 5′-{NESTED_FORWARD}-3′",
+        f"<b>{TARGET} reverse oligo (matched gDNA amplicon branch)</b> — 5′-{GDNA_REVERSE_TAIL}GCAGACATCCAAATTGCTGC-3′",
     )
 
 
@@ -107,7 +143,7 @@ def _linear_product_scene() -> Scene:
 
 def _nested_scene() -> Scene:
     sc = Scene.duplex([
-        Segment("nested-primer sequencing tail", NESTED_TAIL, "r1"),
+        Segment("nested-forward adaptor tail (Illumina PE arm)", NESTED_TAIL, "r1"),
         Segment("nested locus primer", NESTED_LOCUS),
         Segment("targeted accessible-DNA interval", "X" * 54, placeholder=True),
         Segment("MEDS mosaic end reverse complement", nx.ME_RC, "me"),
@@ -143,7 +179,7 @@ def workflow() -> Workflow:
                          unpaired=tuple(s.name + "'" for s in FINAL_LIBRARY if s.inferred))
     w.react("Add MiSeq barcodes by a second PCR",
             final.rows(), name="Indexed GenIE-ATAC library",
-            note="The selected index-primer pair is not printed in the paper, so its standard sequencing shell is visibly inferred.")
+            note="The barcoding primers are delegated to ref 31, so the flow-cell and index shell is visibly inferred while the nested adaptor tail and MEDS-A end are source-exact.")
     return w
 
 
@@ -169,7 +205,7 @@ def protocol_graph() -> ProtocolGraph:
     graph.react("gap_fill","Fill the 9-base Tn5 gaps",StepKind.EXTENSION,
                 ((tagged,InputRole.TEMPLATE),(polymerase,InputRole.CATALYST)),(filled,))
     linear_primer=graph.input("biotin_linear_primer",f"biotinylated {TARGET} linear-extension primer",
-                              MaterialKind.OLIGO)
+                              MaterialKind.OLIGO,state=BIOTIN_LINEAR)
     linear=graph.product("linear_products","biotinylated locus-to-MEDS-A extension products",
                          MaterialKind.MOLECULAR,state=_linear_product_scene())
     graph.react("linear_extension",f"Linearly extend from the biotinylated {TARGET} primer",
@@ -182,8 +218,10 @@ def protocol_graph() -> ProtocolGraph:
     graph.react("capture","Capture biotinylated targeted extension products",StepKind.AFFINITY_CAPTURE,
                 ((linear,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(captured,uncaptured))
     graph.discard(uncaptured,"fragments lacking locus-primer-derived biotin wash away")
-    nested=graph.input("nested_locus_primer",f"nested {TARGET} locus primer",MaterialKind.OLIGO)
-    tn5a=graph.input("tn5a_primer","common Tn5A PCR primer",MaterialKind.OLIGO)
+    nested=graph.input("nested_locus_primer",f"nested {TARGET} forward oligo",
+                       MaterialKind.OLIGO,state=NESTED_FORWARD)
+    tn5a=graph.input("tn5a_primer","common Tn5A PCR primer",MaterialKind.OLIGO,
+                     state=TN5A_PRIMER)
     amplicon=graph.product("target_amplicon","semi-nested targeted accessibility amplicon",
                            MaterialKind.MOLECULAR,state=_nested_scene())
     graph.react("nested_pcr","Amplify with the nested locus and common Tn5A primers",
@@ -202,13 +240,13 @@ def protocol_graph() -> ProtocolGraph:
                 ((amplicon,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
                  (i7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
                 geometry=PCRGeometry.unavailable(FINAL_LIBRARY,
-                    reason="The paper cites a barcoding PCR but does not print the selected index-primer pair."))
+                    reason="The paper cites a barcoding PCR (ref 31) but prints neither its primers nor which amplicon end receives P5."))
     graph.sequence(library,SequencingPlan(
         library=FINAL_LIBRARY,primers=SEQ_PRIMERS,
         acquired_roles=tuple(p.role for p in SEQ_PRIMERS),read_lengths=READ_LENGTHS,
-        read_uses={"Read 1":"include","Index 1 (i7)":"demultiplex",
-                   "Index 2 (i5)":"demultiplex","Read 2":"include"},
-        limitation="The terminal MiSeq index shell is inferred because the selected primer pair is not printed."))
+        read_uses={"Read 1":"include","Read 2":"include"},
+        limitation=("The terminal MiSeq index shell is inferred: "+_UNPRINTED+
+                    ". Index cycles are therefore not represented as acquired reads.")))
     graph.declare_reviewed_scope((
         "chromatin","meds_a_transposome","tn5","tagment","polymerase","gap_fill",
         "biotin_linear_primer","linear_extension","streptavidin_beads","capture",

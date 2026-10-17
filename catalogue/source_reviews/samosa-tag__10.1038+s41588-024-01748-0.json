@@ -111,5 +111,24 @@
       "evidence": "The paper and Supplementary Table 5 give adapter hairpins, but a specific instrument primer and vendor kit/revision need independent checking."
     }
   ],
-  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC11176058 JATS Methods lines 177–185 (hairpin annealing, Tn5 loading), 195 (SMRT-Tag tagmentation/Repair Mix/ExoDigest), 207 (AMPure PB size selection), 213–225 (nuclei, SAMOSA footprinting, in situ and ex situ SAMOSA-Tag), 249 (QC, Sequel II sequencing); MOESM7 Supp_Table_5 rows 1–8; MOESM1 Supplementary Fig. 1 legend lines 366–374",
+      "oligo_scraper": "Bundle scraper run (54 TSV rows); --find CGGAAGAAAGATGTGTATAAGAGACAG hit MOESM5 barcode metadata rows; SMRT-A_bc001 in MOESM7 row 4 matches the modelled 99-nt /5Phos/ hairpin base for base.",
+      "findings": "Hairpin oligo, barcode and ME arms verified unchanged. Graph corrected: added the missing exonuclease III digestion (ExoDigest Mix) that enriches closed templates, Taq DNA ligase beside Phusion-HF in gap repair, RNase A/proteinase K/SDS/EDTA termination, 2x + 0.6x SPRI (>500 bp) and final 2x SPRI cleanups with discarded supernatant wastes; removed the tagmentation-step discard of non-SMRTbell products (removal is by exo digestion plus bead cleanup, not at tagmentation). Labels now carry EcoGII 250 U/SAM replenishment, triple-mutant Tn5 loading, 9.4–18.8 pmol 55 C 45–60 min in situ tagmentation and Sequel II 8M/polymerase 2.1–2.2 sequencing.",
+      "deferred": [
+        "GitHub RamaniLab/SMRT-Tag step-by-step protocols and Zenodo 10.5281/zenodo.10933181",
+        "Unmethylated control, ex situ and PDX branches and optional AMPure PB size selection not drawn",
+        "PacBio sequencing primer/binding kit identity (vendor documents)",
+        "Supplementary Note 1 hairpin-design passages beyond prior passes"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/7 unresolved/0 contradictory; source guard 1 exact checked (SMRT-A_bc001), 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

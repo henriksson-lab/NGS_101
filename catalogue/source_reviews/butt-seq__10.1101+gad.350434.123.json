@@ -289,5 +289,25 @@
     "date": "2026-10-16",
     "authority": "Published PMC10270195 and associated supplements",
     "decision": "Removed preprint/publication alkali-concentration comparison from active page discrepancies. Published values govern; article/workbook disagreements remain visible."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Genes Dev PMC10270195 JATS Materials and Methods 'Butt-seq library preparation' lines175–195; Supplemental_Detailed_Protocol.docx.txt lines13–18 (reagents), 289–420 (alkali, EtOH/AMPure, second strand, SDSDenature, PCR, 1.3x cleanup), 570–600 (8% TBE gel/crush and soak), 725–739 (75-cycle NextSeq 500, RunInfo.xml); Supplemental_Primers.xlsx.txt TGIRT/PCR rows",
+      "oligo_scraper": "Bundle scraper run; SCR2R/SCR2/R1ME/R1MER/SCP7/Ad1 hits checked against article lines179/181/195 and workbook rows4–19; fastp adapter strings (line203) are trimming parameters; preprint and predecessor hits not used.",
+      "findings": "Added EtOH-supplemented AMPure recovery of ss-cDNA after NaOH/HCl, SDS (0.2%, 55 °C) TGIRT dissociation and AMPure recovery after second strand, named NEBNext Ultra II Q5 PCR master mix and the detailed protocol's 72 °C meR1R fill-in (DetailView on the pre-PCR product), 65 µL AMPure PCR cleanup, 8% TBE PAGE excision 150–~700 bp (adapters ~140 bp) and crush-and-soak/isopropanol recovery with waste fates; 75-cycle kit added to sequencing text. Graph-owned published discrepancies: post-second-strand beads 30 µL (article) vs 25 µL 2.27x (detailed protocol); PCR program article 3 min 72/30 s 98/9–15×(15 s 98, 30 s 65)/2 min 72 vs detailed 2 min 72/2 min 98/8–15×(10 s 98, 10 s 65)/1 min 72; no program chosen. Existing R1ME and Read 2 first-base discrepancies retained.",
+      "deferred": [
+        "Biological Read 1/Read 2 acquired cycle split within the 75-cycle kit",
+        "Physical NextSeq run primers / Primers.xml (Read 2 first-base question)",
+        "Optional reconditioning PCR (not used for paper libraries) not drawn",
+        "Predecessor TGIRT/Mohr2013 and Buenrostro2015 primer sources beyond prior passes",
+        "Second independent pass of NextSeq vendor guides"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 16/16 pass; page builds; pairing 0 problems; chemistry 3 established/0 conditional/11 unresolved/0 contradictory; source guard 5 exact checked, 0 failed, 1 input without exact state; Markdown built; review schema checked"
+    }
+  ]
 }

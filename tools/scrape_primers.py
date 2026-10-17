@@ -32,14 +32,18 @@ hit back to the original, which is reported "as written"):
     rejoined: lines indented under one another (a drawn duplex), and runs of 3 or more
     lines that are each one sequence of the same length (a barcode list).
   * per-base marks are looked through: RNA rN, 2'-OMe mN, LNA +N, phosphorothioate * or
-    ∗ (also "-s-"), IDT internal /iXxx/ (/ideoxyU/ reads as U), (dU) or dU,
-    iso-bases iCiGiC.
+    ∗ (also "-s-"), IDT internal /iXxx/ (a modified nucleotide keeps its base:
+    /iBiodT/, /iAmMC6T/, /iFluorT/ read as T, /i5MedC/ as C, /ideoxyU/ as U, /ideoxyI/
+    as N; a spacer or dye such as /iSp18/ or /iCy3/ adds none), (dU) or dU, iso-bases
+    iCiGiC, and a dye or quencher glued to the bases (FAM-..., ...CCAGTMGBNHQ-3').
+  * a run of 4+ asterisks between bases is an index placeholder, one N each (also
+    "...GAGAT-3'******5'-GTGAC..."); a single * is a phosphorothioate.
   * shorthand and placeholders inside an oligo keep it whole: T30, T30VN, dT30, (T)30,
     (dT)30, T(30), N8, N16-N12, (N)8, XXXXX and JJJJJ (one N each), [NNNNNN],
     [8-bp Round1 barcode], [10bp barcode], [UMI10], [BC6], [T30], {UMI}, <cbc> are
     expanded to that many bases in `sequence`; a placeholder without a length ([i7],
-    [barcode], XXX...XXX, NNNN...NNNN, (dT), (A)n, cDNA_Insert) becomes "…" in
-    `sequence` and the hit's length is shown as "N+ nt".
+    [barcode], -barcode-, -index-, -UMI-, XXX...XXX, NNNN...NNNN, (dT), (A)n,
+    cDNA_Insert) becomes "…" in `sequence` and the hit's length is shown as "N+ nt".
 
 Each hit lists: the bases; the oligo as written with its modifications; the parsed
 modifications, named the same way however they are written ("5' biotin (/5Biosg/)",
@@ -58,8 +62,14 @@ their `MANIFEST.tsv` provenance first, then their most oligo-like hit. The manif
 `what` field labels upstream schematic content regardless of filename; a genuine
 supplement mirrored under an `upstream_` name remains visible. Each hit has a `score`;
 `--max-hits` (default 200 per file,
-counted after collapsing) keeps the highest scorers and says how many it cut. A 30 MB
-table text takes a few seconds, a 100 MB guide library about a minute.
+counted after collapsing) keeps the highest scorers and says how many it cut. A file over
+10 MB (a barcode whitelist, a guide library or a data table; a 25 MB whitelist of 16-mers
+takes minutes) is not scanned unless --include-large or --all is given; each skipped file
+is named on stderr and in the closing summary. --find always reads every file.
+
+Not rejoined: an oligo whose pieces a PDF table puts in separate cells with other cells
+between them (e.g. a primer continued under a "Hiseq tail" label cell); join those by hand
+from the rendered table, then confirm with --find.
 
 --find SEQ (repeatable) lists where SEQ occurs. The query may be pasted as written:
 5'/3' ends, /mods/, rN/mN/+N/* marks, spaces, hyphens, shorthand and placeholders are
@@ -104,6 +114,7 @@ HARD_NL = "\v"      # a line break the scan must not join across (scan copy only
 # a false hit in a second, whereas a missed oligo is never seen at all.
 MIN_UPPER = 6
 MIN_LEN = 12
+LARGE_BYTES = 10e6       # scan mode skips (and reports) bigger files unless --include-large
 MIN_CONCRETE = 8         # A/C/G/T/U bases; a run of N alone is not an oligo
 MIN_ACGT = 0.6           # of the letters outside N placeholders: motifs (TATGCWAATBAV) are not
 
@@ -235,7 +246,9 @@ def xlsx_text(path: Path) -> str:
         for i, n in enumerate(sheets):
             out.append(f"## sheet {html.unescape(titles[i]) if i < len(titles) else i + 1}")
             xml = z.read(n).decode("utf-8", "replace")
-            for row in re.findall(r"<row\b[^>]*>(.*?)</row>", xml, re.S):
+            # a self-closing <row/> is an empty row; it must not swallow the next one
+            for row in re.findall(r"<row\b[^>]*?(?:/>|>(.*?)</row>)", xml, re.S):
+                row = row or ""
                 cells = []
                 for attrs, body in re.findall(r"<c\b([^>]*?)(?:/>|>(.*?)</c>)", row, re.S):
                     v = re.search(r"<v>(.*?)</v>", body or "", re.S)
@@ -450,7 +463,8 @@ IDT_INTERNAL = re.compile(rf"(?<=[{BASE}{LOW}\]])/(i?[A-Za-z][\w-]*)/(?=[{BASE}{
 _MODNAME = (r"/[5-9i]?[\w-]+/|rApp|App|NH2|Amino(?:\s?C\d+|-?linker)?|Am(?:MC6|C6)|"
             r"[Bb]iotin(?:-?TEG|ylated)?|Bio(?:sg|TEG)?|Btn|[Pp]hosphat(?:e|ed)|[Pp]hosphorylated|Phos|Pho|P|FAM|HEX|ROX|TAMRA|Cy[35](?:\.5)?|"
             r"DBCO|Acrydite|Acryd|Azide|PC[ -]?[Ss]pacer|Spacer\s?C\d+|SpC\d+|C3|C6|"
-            r"[Dd][Dd][ACGTNacgtn]|[Ii]nvd[Tt]|idT|BHQ-?[12]|SH|Thiol|OH|(?:i[CG]){2,}")
+            r"[Dd][Dd][ACGTNacgtn]|[Ii]nvd[Tt]|idT|BHQ-?[123]|MGB-?N[FH]Q|IABkFQ|IBFQ|VIC|"
+            r"SH|Thiol|OH|(?:i[CG]){2,}")
 _MOD = rf"[\[(](?:[53]['′’]?[ -]?)?(?:{_MODNAME})[\])]|{_MODNAME}|(?:[rm+][ACGUTN][*∗]?)+|[*∗]"
 # a modification starts a token: "TSO-P AAGC..." is a name, not a 5' phosphate
 MOD5 = re.compile(rf"(?:5['′’][ \t]*-?[ \t]*)?(?:(?<![A-Za-z0-9])(?<![A-Za-z0-9]-)(?:{_MOD})"
@@ -529,9 +543,11 @@ def modifications(orig: str, start: int, end: int, seq: str = "") -> tuple[int, 
     if _ANY_MARK.search(bases):
         counts = {"r": len(_R_MARK.findall(bases)), "m": len(_M_MARK.findall(bases)),
                   "+": len(_L_MARK.findall(bases)),
-                  "*": bases.count("*") + bases.count("∗") + bases.count("-s-")}
+                  "*": len(re.findall(r"(?<![*∗])[*∗](?![*∗])", bases)) + bases.count("-s-")}
         mods += [f"{_TAG[k]} x{n}" for k, n in counts.items() if n]
         mods += [f"internal /{x}/" for x in IDT_INTERNAL.findall(bases)]
+        mods += [f"3' modified base /{x}/" for m in _IDT_TAIL.finditer(bases)
+                 for x in re.findall(r"[^/]+", m.group(0)) if x[0] == "i"]
         mods += [f"internal {x}" for x in re.findall(r"\(d[UI]\)", bases)]
         du = len(_DU_MARK.findall(bases))
         if du:
@@ -599,6 +615,11 @@ _BR_WORD = re.compile(r"(?i)barcode|\bbc\d*\b|\bcbc\b|\bubc\b|umi|index|\bidx|\b
                       r"\bn-?mer\b|\d\s*-?\s*(?:bp|nt|bases?|mer)\b")
 # (the patterns below start with a character, not a look-behind, so that re can skip
 # ahead fast in a 50 MB table; what must not precede a match is checked in scan_copy)
+# "...CATACGAGAT-barcode-GTGACTGG...": a bare placeholder word set off by hyphens inside
+# an oligo. Only a small identifier vocabulary, so ordinary hyphenated words stay prose;
+# its length is never stated in the word, so it is an uncounted gap.
+_WORD_GAP = re.compile(r"-[ ]?['‘’\"]?(?:(?:sample[ _])?(?:barcode|index)|umi|bc|cbc|"
+                       r"i[57](?:[ _](?:index|barcode))?)['‘’\"]?[ ]?-", re.I)
 _HOMO_PAREN = re.compile(r"\(d?([ACGTUN])\)[ ]?(\d{1,3})(?![0-9])")       # (T)30, (dT)30
 _HOMO = re.compile(r"([ACGTUN])(?:\((\d{1,3})\)|(\d{1,3})(?![0-9]))")       # T(30), T30, N8
 _PAREN_GAP = re.compile(r"\((?:d|p|poly)?[ACGTU]\)n?|\((?:d|p)?[ACGTU]\)[ ]?n\b|poly-?\(?[AT]\)?n\b")
@@ -608,8 +629,60 @@ _ELLIPSIS = re.compile(rf"\.\.\.(?=[{BASE}])|…(?=[{BASE}])")
 _GLUED_DNA = re.compile(rf"[cgm](?:DNA|RNA)(?:_?[Ii]nsert)?")
 _ISO = re.compile(r"i[CG]i[CG](?:i[CG])*")
 _THIO_FAST = re.compile(r"[*∗]|-s-")
-_IDT_FAST = re.compile(r"/(i?[A-Za-z][\w-]*)/")
+# zero-width, so "/5Phos/ACGT/iBiodT/..." cannot pair the slash after Phos with the one
+# before iBiodT and hide the real token inside "/ACGT/"
+_IDT_FAST = re.compile(r"(?=/(i?[A-Za-z][\w-]*)/)")
+# Internal modified nucleotides keep their base: iBiodT, iFAMdT, i5MedC, iMe-dC, iBiodG,
+# i5OctdU (a trailing d+base) and IDT CamelCase codes whose last capital is the base after
+# a lower-case letter or digit (iAmMC6T, iFluorT, i2OMeA). Spacers (iSp18, iSpC3, iSp9,
+# iSpPC), dyes and quenchers (iCy3, iBHQ1, iTAMRA) carry no nucleotide.
+# A 3' run of slash-delimited modified nucleotides closing an oligo ("...GAAT/rG/rG/iXNA_G",
+# "...GGC/rG//rG//iXNA_G/"). Each token is a marked base, an internal /i.../ code or a /3ddC/-style terminal nucleotide; the
+# run counts only when every token carries a nucleotide, so a 3' spacer or dye stays an
+# end modification and a bare "A/G" alternative is never read as bases.
+_IDT_TAIL = re.compile(rf"(?<=[{BASE}{LOW}])(?:/{{1,2}}(?:[rm+][ACGTU]|i[A-Za-z0-9][\w-]*|3dd[ACGTU]))+/?(?![\w/])")
+_INTERNAL_DBASE = re.compile(r"(?:.*[^\W_])?d-?([ACGTU])", re.I)
+# A modification family name joined to its base by an underscore (iXNA_G, iLNA_T).
+# Only an i-prefixed code with an upper-case family name, so "[Index_A]" stays a label.
+_INTERNAL_JOINED = re.compile(r"[A-Z][A-Z0-9-]*_([ACGTU])")
+_INTERNAL_CAMEL = re.compile(r".*[a-z0-9]([ACGTU])")
+
+
+def internal_base(name: str) -> str:
+    """The nucleotide an internal or terminal modification token stands for, or ''."""
+    low = name.lower()
+    if re.fullmatch(r"3dd[acgtu]", low):
+        return low[-1].upper()  # a terminal dideoxynucleotide still carries a base
+    key = name[1:] if name[:1] in "iI" and len(name) > 1 else name
+    if re.search(r"deoxyu|^i?du$", low):
+        return "U"
+    if re.search(r"deoxyi|^i?di$|inosine|nitind", low):
+        return "N"
+    if low.startswith(("isp", "sp")):
+        return ""
+    m = ((name[:1] == "i" and _INTERNAL_JOINED.fullmatch(key)) or _INTERNAL_DBASE.fullmatch(key)
+         or _INTERNAL_CAMEL.fullmatch(key))
+    return m.group(1).upper() if m else ""
+
+
 _PARENS_BASE = re.compile(r"\(d([UI])\)")
+# "...GTCAC(NNNNNN)ATCTC...": a parenthesised run of N is a placeholder written inline;
+# IDT custom mixed bases "(N1:25252525)" and ribo "r(N1)" are one N each.
+_PAREN_NRUN = re.compile(r"\((N{3,})\)")
+_IDT_MIX = re.compile(r"r?\(N\d{1,2}(?::\d{8})?\)")
+# A run of four or more asterisks between bases is an index placeholder ("(* indicates
+# Illumina index)"), one N per asterisk, even when the source closes and reopens the
+# strand ends around it (OK-seq: "...GAGAT-3'******5'-GTGAC..."). A single "*" between
+# bases stays a phosphorothioate mark.
+_STARS = re.compile(r"(?:-?[ \t]*3['′’´ʹ][ \t]*)?([*∗]{4,})(?:[ \t]*5['′’´ʹ][ \t]*-?)?")
+# A dye or quencher printed glued to the bases ("5'-FAM-...CCAGTMGBNHQ-3'"). Its letters
+# (M, G, B, N, H) are IUPAC codes, so without this the probe is never a run at all.
+# Only the dye/quencher vocabulary, and only against bases with no letter or digit on
+# the far side, so a word that merely contains these letters stays prose.
+_FUSED_3 = re.compile(r"(?<=[ACGTU])(?:MGB-?N[FH]Q|BHQ-?[123]|IABkFQ|IBFQ|FAM|HEX|ROX|"
+                      r"TAMRA|Cy[35](?:\.5)?)(?![A-Za-z0-9])")
+_FUSED_5 = re.compile(r"(?<![A-Za-z0-9])(?:6-?FAM|FAM|HEX|ROX|VIC|TAMRA|Cy[35](?:\.5)?)"
+                      r"(?=[ACGTU]{8})")
 _LINENO = re.compile(rf"\n[ \t\f]*\n[ \t\f]*\d{{1,4}}[ \t]*\n[ \t\f]*\n[ \t\f]*"
                      rf"(?=[{BASE}{LOW}]{{4}})")
 _WRAP = re.compile(rf"[{BASE}{LOW}][ ]*\n ?(?=[{BASE}{LOW}])")
@@ -658,17 +731,33 @@ def scan_copy(orig: str) -> Scan:
         return orig[a - 1] if a else ""
 
     for m in _IDT_FAST.finditer(orig):
+        end = m.start() + len(m.group(1)) + 2
         if not (prev(m.start()) in BASE + LOW + "]" and prev(m.start())
-                and orig[m.end():m.end() + 1] in tuple(BASE + LOW + "[")):
+                and orig[end:end + 1] in tuple(BASE + LOW + "[")):
             continue
-        name = m.group(1).lower()
-        add(m.start(), m.end(), "T" if name == "ibiodt" else
-            "U" if re.search(r"deoxyu|^i?du$", name) else
-            "N" if re.search(r"deoxyi|^i?di$|inosine", name) else "")
+        add(m.start(), end, internal_base(m.group(1)))
+    for m in _IDT_TAIL.finditer(orig):
+        tokens = re.findall(r"[^/]+", m.group(0))
+        bases = [t[-1] if t[0] in "rm+" else internal_base(t) for t in tokens]
+        if all(bases):
+            add(m.start(), m.end(), "".join(bases))
+    for m in _STARS.finditer(orig):
+        a, b = m.start(), m.end()
+        if prev(a) and prev(a) in BASE + LOW and orig[b:b + 1] and orig[b] in BASE + LOW:
+            add(a, b, "N" * len(m.group(1)))
+    for rx in (_FUSED_3, _FUSED_5):
+        for m in rx.finditer(orig):
+            add(m.start(), m.end(), "")
     for m in _BRACKET_INTERNAL.finditer(orig):
         if prev(m.start()) in BASE + LOW + "]" and prev(m.start()) \
                 and orig[m.end():m.end() + 1] in tuple(BASE + LOW + "["):
             add(m.start(), m.end(), "")
+    for m in _PAREN_NRUN.finditer(orig):
+        a, b = m.start(), m.end()
+        if (prev(a) and prev(a) in BASE + LOW) or (orig[b:b + 1] and orig[b] in BASE + LOW):
+            add(a, b, m.group(1))
+    for m in _IDT_MIX.finditer(orig):
+        add(m.start(), m.end(), "N")
     for m in _PARENS_BASE.finditer(orig):
         add(m.start(), m.end(), "U" if m.group(1) == "U" else "N")
     for m in _DU_MARK.finditer(orig):
@@ -677,6 +766,10 @@ def scan_copy(orig: str) -> Scan:
         r = _bracket(m)
         if r is not None:
             add(m.start(), m.end(), r)
+    for m in _WORD_GAP.finditer(orig):
+        a, b = m.start(), m.end()
+        if prev(a) and prev(a) in BASE + LOW and orig[b:b + 1] and orig[b] in BASE + LOW:
+            add(a, b, GAP)
     for m in _XRUN.finditer(orig):
         g = m.group(0)
         if re.match(r"[EFILOPQZa-z]", prev(m.start())):
@@ -700,7 +793,8 @@ def scan_copy(orig: str) -> Scan:
         a0 = m.start() - (not paren and prev(m.start()) == "d")     # dT30, dT(30)
         p = prev(a0)
         if p and (p.isdigit() or p.islower() or p in "EFIJLOPQXZ" if bare else
-                  p.isalnum() and not re.search(r"\([ACGTUN]\)\d{1,3}$", orig[:a0])):
+                  p.isalnum() and p not in BASE
+                  and not re.search(r"\([ACGTUN]\)\d{1,3}$", orig[:a0])):
             continue
         least = 10 if bare and base != "N" else 3      # bare "T7", "U6" are names
         if bare and base == "U":
@@ -801,9 +895,12 @@ _SEP = r"(?:[ \t]*\n ?| |-)"
 _FIRST = (rf"[{BASE}{LOW}{GAP}](?<![A-Z0-9{GAP}].)"
           rf"(?:(?<=[{BASE}{GAP}])(?<![^A-Za-z][{LOW}].)|(?<![a-z].))")
 _FIRST_UP = rf"[{BASE}](?<![A-Z0-9{GAP}].)(?<![^A-Za-z][{LOW}].)"
-_END = r"(?=[ \t]*(?:[\t\n\v]|$)|[rm+*∗/]|\s*[-–]\s*[35]['′’])"
+_END = r"(?=[ \t]*(?:[\t\n\v]|$)|[rm+*∗/]|\s*[-–]\s*[35]['′’´ʹ])"
+# A codon triplet continues a run when another base follows it ("...TTT\nTTT TTT TV-3'":
+# triplets wrapped over a line), so the short piece before the 3' end is not orphaned.
 RUN = re.compile(rf"(?:{_FIRST_UP}[{BASE}]{{0,2}} (?:[{BASE}]{{3}} ){{3,}}{_L}+|{_FIRST}{_L}{{3,}})"
-                 rf"(?:{_SEP}(?:{_L}{{4,}}|{_UP}{{1,3}}(?={_SEP}{_L}{{4}}|{_END})))*"
+                 rf"(?:{_SEP}(?:{_L}{{4,}}|{_UP}{{3}}(?={_SEP}{_UP})|"
+                 rf"{_UP}{{1,3}}(?={_SEP}{_L}{{4}}|{_END})))*"
                  rf"(?![A-Z0-9{LOW}])")
 
 _NAME = re.compile(r"[A-Za-z0-9](?:[\w.+/'′–-]|\[[\w.,–-]{1,12}\])*")
@@ -1021,7 +1118,8 @@ _TRIM_GAP = re.compile(rf"(.*[{BASE}{LOW}{GAP}])(?:{_FIND_GAP})", re.S)
 def _letters(q: str) -> str:
     """The bases of a query as pasted: ends, /mods/, marks, shorthand and placeholders
     handled like the text; raises ValueError on letters that are not bases."""
-    q = re.sub(rf"(?:(?<=[{BASE}*∗ '′’-])|^)(?:\+[rm]|[rm+])(?=[{BASE}])", "", q.strip())  # rG, +G, +rG
+    # rG, +G, +rG; also after an XXXX/JJJJ or [bracketed] placeholder ("...XXXXXXrGrGrG")
+    q = re.sub(rf"(?:(?<=[{BASE}XJ\]{GAP}*∗ '′’-])|^)(?:\+[rm]|[rm+])(?=[{BASE}])", "", q.strip())
     sc = scan_copy(" " + q + " ")
     runs = list(RUN.finditer(sc.text))
     if not runs:
@@ -1111,11 +1209,19 @@ def find(text: str, query: str, strict: bool = False, sc: Scan | None = None,
 
 # ------------------------------------------------------------------------ main
 
-def _read_all(paths: list[str]):
-    """(path, text) for every readable file, skipping one whose content was already read."""
+def _read_all(paths: list[str], max_bytes: float = 0, skipped: list | None = None):
+    """(path, text) for every readable file, skipping one whose content was already read.
+    With max_bytes, a larger file is not read; it is reported and added to `skipped`."""
     have: dict[str, Path] = {}
     for path in files(paths):
         size = path.stat().st_size
+        if max_bytes and size > max_bytes:
+            print(f"skip {path}: {size / 1e6:.0f} MB is over the {max_bytes / 1e6:.0f} MB "
+                  f"scan limit (a barcode whitelist or data table?) -- --include-large "
+                  f"or --find reads it", file=sys.stderr)
+            if skipped is not None:
+                skipped.append(path)
+            continue
         if size > 20e6:
             print(f"reading {path} ({size / 1e6:.0f} MB) ...", file=sys.stderr)
         text = read(path)
@@ -1149,6 +1255,9 @@ def main(argv: list[str]) -> int:
                          "shown; the rest are counted. 0 = no limit")
     ap.add_argument("--all", action="store_true",
                     help="list every hit: no family collapsing and no --max-hits cut")
+    ap.add_argument("--include-large", action="store_true",
+                    help=f"also scan files over {LARGE_BYTES / 1e6:.0f} MB (skipped and reported "
+                         "by default; --all includes them too; --find always reads them)")
     ap.add_argument("--context", type=int, default=300, metavar="CHARS",
                     help="context characters either side of a hit outside a table (300)")
     a = ap.parse_args(argv)
@@ -1196,7 +1305,9 @@ def main(argv: list[str]) -> int:
     # Read everything first: original documents precede upstream reconstructions,
     # then primer tables precede lower-scoring material within each provenance class.
     per_file = []
-    for path, text in _read_all(a.paths):
+    skipped: list[Path] = []
+    cap = 0 if (a.all or a.include_large) else LARGE_BYTES
+    for path, text in _read_all(a.paths, cap, skipped):
         hits = [h for h in scan(path, text, known, a.min_len, a.context)
                 if (h.known or not a.known_only) and (h.keyword or not a.keyword_only)]
         if not a.all:
@@ -1246,7 +1357,9 @@ def main(argv: list[str]) -> int:
         if dropped and not a.tsv:
             print(f"{path}: ... {dropped} lower-scoring sequences not shown -- often a motif "
                   f"table or a sequence library; --max-hits 0 or --all shows them\n")
-    print(f"{sum(len(t[3]) for t in per_file)} sequence(s) in {len(per_file)} file(s)",
+    print(f"{sum(len(t[3]) for t in per_file)} sequence(s) in {len(per_file)} file(s)"
+          + (f"; {len(skipped)} large file(s) not scanned: "
+             + ", ".join(str(x) for x in skipped) if skipped else ""),
           file=sys.stderr)
     return 0
 

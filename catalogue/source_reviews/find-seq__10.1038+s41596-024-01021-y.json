@@ -154,5 +154,25 @@
       "evidence": "The original lists demonstrated capture, RT, amplification and marker-detection oligos; linked coverage remains incomplete."
     }
   ],
-  "conclusion": "The original lists demonstrated capture, RT, amplification and marker-detection oligos; linked coverage remains incomplete."
+  "conclusion": "The original lists demonstrated capture, RT, amplification and marker-detection oligos; linked coverage remains incomplete.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Published Nature Protocols 2024 PMC11537836 JATS text: Experimental design 87–115, Materials Oligonucleotides 155–183, drop breaking/RT/bead counting/validation WTA 600–727, bead re-injection/TaqMan cycling/droplet sorting 733–861, WTA calibration/WTA of sorted material/Nextera XT library 863–931, Anticipated results 979–987",
+      "oligo_scraper": "Bundle scraper run: 13 hits, all in JATS Materials 157–181, checked against source lines; Ψ FAM probe at line 183 missed by the scraper (MGBNHQ fused to bases) and read directly.",
+      "findings": "Added cold PFO drop-breaking/high-salt wash cleanup with removed lysis reagents; RT now includes the TSO (Smart-seq3 biotin-TSO in demonstrated run) and Maxima H Minus, 30 min RT + 90 min 42 °C, EDTA stop; TaqMan step now names the IPDA Ψ-FAM/env-VIC multiplex, TaqPath ProAmp, 55 cycles 88 °C, double-positive gate; recovery is freeze then 60 °C agarose melt and aqueous transfer; WTA uses published Smart-seq3 forward/reverse primers (no longer inferred) with KAPA HiFi, followed by 0.8x AMPure XP cleanup that removes agarose-attached template; tagmentation named Nextera XT per manufacturer. Displayed oligos now include Smart PCR, Smart-seq3 WTA primers and both TaqMan sets with the printed MGBNHQ label. Graph-owned published discrepancy: Materials lists acrydited Smart-seq3 oligo(dT) separately from the Smart-seq3 forward primer, while Anticipated results line 981 calls the agarose oligo the 'Smart-seq3 forward primer'; model uses the acrydited oligo(dT). Note no longer claims the 2023 Nature Methods were read. No sequencer, read lengths or UMI read layout found in inspected sections; endpoint keeps standard Nextera ends without acquired cycles.",
+      "deferred": [
+        "Clark et al. 2023 Nature (10.1038/s41586-022-05613-0) FIND-seq Methods and supplements",
+        "Smart-seq2 (nprot.2014.006) and Smart-seq3 (s41587-020-0497-0) predecessor protocols: cDNA end states and 5' UMI read structure",
+        "Illumina Nextera XT kit guide (tagmentation/index PCR conditions, index primers)",
+        "Sequencer, read lengths and UMI read layout for FIND-seq libraries",
+        "Publisher DWG device drawings MOESM2–4"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks) passes; page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 7 oligo inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

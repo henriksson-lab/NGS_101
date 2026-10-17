@@ -38,7 +38,8 @@ Create tools/fetchers/<name>.py:
     def fetch(job, arg: str, what: str = "") -> None:
         # job.folder.save(filename, url, what) downloads, validates, converts, records;
         # a failed/invalid download becomes a '(manual)' manifest row by itself.
-        # job.paper(doi) fetches another paper the generic way; job.rows are the
+        # job.paper(doi) fetches another paper the generic way (not its linked
+        # preprint/published versions); job.rows are the
         # protocol's catalogue rows; job.slug its directory name.
         ...
 

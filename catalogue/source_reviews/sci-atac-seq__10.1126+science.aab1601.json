@@ -93,5 +93,60 @@
       "evidence": "The defining paper’s original Supplementary Material and Table S2 are gated; later versions cannot certify them."
     }
   ],
-  "conclusion": "Two independent located reads now cover the 2015 main article and the 2018 successor Table S12. The defining 2015 Science supplementary methods and Table S2 remain inaccessible, so later oligo families cannot establish the exact 2015 sequences; no missing-information claim is accepted."
+  "conclusion": "Two independent located reads now cover the 2015 main article and the 2018 successor Table S12. The defining 2015 Science supplementary methods and Table S2 remain inaccessible, so later oligo families cannot establish the exact 2015 sequences; no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining Science 2015 PMC4836442 JATS line45 (integrated method: 96 barcoded-Tn5 wells, pool/dilute, cell-sorter redistribution of 15–25 nuclei, lysis, indexed PCR), lines155–165 (refs17–19: Adey2014, Amini2014, supplement); predecessor Amini 2014 MOESM2 oligo sheet lines1–32 (correction notice, C15/D15 transposon oligos, sequencing primers, pMENTS) for the inherited Tn5 architecture. Science SM PDF and Table S2 rechecked: get_sources still (manual) behind the PMC download gate; science.org cusanovich.sm.pdf returns a Cloudflare challenge (HTTP 403).",
+      "oligo_scraper": "Run on the 2015 JATS/HTML (0 hits) and Amini MOESM2 (6 hits: P5_i5_1, P7_i7_1, Read1/Read2/Index1 primers, pMENTS at lines9–32), all checked in the sheet.",
+      "findings": "Graph now draws the source-stated re-sort of 15–25 pooled nuclei per second-plate well (unsorted nuclei as waste) and a nuclear lysis step whose conditions are in the gated supplement, before gap fill and indexed PCR. Corrected the gap-filled state to the T5...T7 fragment before PCR (previously the final P5/P7 library). Note: stale source-dir path and 'no tools module' sentence corrected. Inferred 8-nt PCR indices, Amini-architecture caveat and predecessor correction notice unchanged.",
+      "deferred": [
+        "2015 Science Supplementary Material PDF and Table S2 (PMC/Science manual URLs; tagmentation, lysis, PCR primers/index length, cycles, sequencer, read lengths)",
+        "Gap-fill catalyst/conditions for 2015 (not in main text)",
+        "Same-end T5/T5 and T7/T7 products are discarded at tagmentation rather than carried through PCR (fate representation)",
+        "Adey 2014 predecessor methods (ref17) not read"
+      ],
+      "scope": "Capped defining-source pass only; defining supplement unavailable; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass (T5_1 transcription); page builds; pairing 0 problems; chemistry 11 established/5 conditional/7 unresolved/0 contradictory (6 steps); source guard 0 exact checked, 0 failed (PCR/Tn5 inputs inferred and excluded); dependent sci-atac-seq3 suite 1/1 and render, crispr-sciatac 11/11 pass; Markdown built; audit --check pass (blocked 1)"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Routes for gated 2015 Science SM PDF + Table S2 (NIHMS776051): PMC instance URL (download gate), www.ncbi.nlm.nih.gov/pmc bin URL (404), europepmc.org bin URL (403 HTML), Europe PMC REST supplementaryFiles ('not open access'), OpenAlex open locations (PMC author manuscript only); science.org already Cloudflare 403. Read instead: GEO GSE67446 family metadata (geo-GSE67446-all-full.txt, author-deposited) sample records GSM1647121-26 lines 49720-50030 (extract protocol lines 49740-49741, barcode note line 49753); SRA SRP056738 runinfo (paired, 102 bases/spot, MiSeq) as lead only.",
+      "oligo_scraper": "Not re-run on GEO (no sequences in GSE67446 sample text); earlier 2015 JATS 0 hits and Amini MOESM2 6 hits stand.",
+      "findings": "GEO GSM1647121: 1 of 96 8-bp Tn5 barcodes, redistribution 15 nuclei/well (GSM1647122-26: 15-25) by cell sorter, second 8-bp barcode at amplification, 32-bp barcode order [Tn5 index 1][PCR index 1][PCR index 2][Tn5 index 2], MiSeq. Supports the 8-nt PCR-index length already drawn; primer sequences/bases still unavailable. Page caveat and note now cite the GEO scope; no model geometry change.",
+      "deferred": [
+        "2015 Science Supplementary Material PDF (manual: https://pmc.ncbi.nlm.nih.gov/articles/instance/4836442/bin/NIHMS776051-supplement-Supplementary_Material.pdf; PMC gate; science.org Cloudflare)",
+        "2015 Table S2 (manual: https://pmc.ncbi.nlm.nih.gov/articles/instance/4836442/bin/NIHMS776051-supplement-Table_S2.txt; PMC gate)",
+        "2015 PCR primer sequences, tagmentation/lysis/gap-fill conditions, cycles, read lengths",
+        "Same-end T5/T5,T7/T7 fate representation",
+        "Adey 2014 predecessor (ref17)"
+      ],
+      "scope": "Capped follow-up; defining supplement still unavailable (deferred); GEO used as author-deposited, provenance-labelled source; no accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 11 established/5 conditional/7 unresolved/0 contradictory (6 steps); source guard 0 checked, 0 failed, 0 inputs without exact states; dependents sci-atac-seq3 1/1 + render, crispr-sciatac 11/11 + render, sci-atac-seq-2018 3/3 + build; Markdown built; audit --check pass (blocked 1)"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Hand-placed 2015 Science Supplementary Materials science.aab1601_supp_NIHMS776051-supplement-Supplementary_Material.pdf (md5 88d50148d56841f10fd2d5210e858ef6; identity checked: printed title, authors Cusanovich...Shendure, DOI 10.1126/science.aab1601, text lines 1-11): Materials and Methods Sample Processing lines 33-56, Sequencing 57-66, collision-rate text 83-136, Fig. S1 legend 249-259, Table S1 468-500, refs 17-18 lines 594-600. Table S2 (science.aab1601_supp_NIHMS776051-supplement-Table_S2.txt, md5 1fb2080a7ce862c8adc2bc64c113fdad) header line 1: differential-accessibility table, no oligos. Cited protocol ref 18 Amini 2014 Online Methods (ng.3119_PMC4409979.html.txt lines 1595-1601: SDS Tn5 release, NPM PCR programme, custom seq primers).",
+      "oligo_scraper": "Run on SM PDF text and Table S2: 0 hits each; SM prints no oligo or primer bases (verified by reading Sample Processing/Sequencing).",
+      "findings": "2015 SM: 2,500 cells/tagmentation, Nextera TD, 2.5 uM Tn5, 37 C 30 min, 40 mM EDTA stop 15 min 37 C, FACSAria II 15 FSC/SSC or 25 DAPI+ nuclei into 20 ul EB, Tn5 release + 20 PCR cycles with standard Nextera barcodes per refs 17/18, later experiments 10-bp library barcodes, MiSeq v2 300-cycle PE 51 bp custom recipe/primers per refs 17/18. Corrections: tagmentation/sort/release/gap-fill/PCR labels now source- or citation-qualified; read rows 51+51; 2015 sequencing primer set no longer imports the 2018 custom Index 2 primer (Amini prints none) and instead draws an INFERRED flow-cell P5 forward-strand i5 read (PCR i5 before Tn5 i5, matching GEO barcode order); caveat states 8-nt standard-Nextera variant drawn, 10-nt later variant not drawn. Note updated.",
+      "deferred": [
+        "Illumina Nextera Index Kit (FC-121-1012) vendor index sequences for the first three experiments",
+        "10-bp library-barcode set used after the first three 2015 experiments (no bases in SM)",
+        "Adey 2014 Genome Research predecessor (ref 17) custom primers/recipe",
+        "Index-read cycle numbers of the 2015 MiSeq recipe",
+        "Same-end T5/T5,T7/T7 fate representation (shared convention)"
+      ],
+      "scope": "Capped bounded pass on the defining supplement; not a full protocol review; no accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 11 established/5 conditional/7 unresolved/0 contradictory (6 steps); source guard 0 checked, 0 failed, 0 inputs without exact states; dependents sci-atac-seq3 1/1 + render, sci-atac-seq-2018 3/3 + build; Markdown built; audit --check pass (blocked 1); review schema preserved (append only)"
+    }
+  ]
 }

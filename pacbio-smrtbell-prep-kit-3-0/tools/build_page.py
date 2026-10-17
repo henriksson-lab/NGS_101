@@ -10,7 +10,7 @@ import smrtbell as S
 import seqprimers as sp
 from chemdraw import Row, annotation_rows, panel, protocol_graph_panels, strand_row
 from dumbbell import dumbbell_rows
-from page import head, info
+from page import caveat, head, info
 
 OUT = HERE.parent / "smrtbell-prep-kit-3-0.html"
 
@@ -27,14 +27,16 @@ def render() -> str:
         '<h1>PacBio SMRTbell prep kit 3.0 &mdash; closed dumbbell libraries</h1>',
         '<p class="research-notes"><a href="01_smrtbell-prep-kit-3-0.html">Research notes</a></p>',
         info('Commercial protocol: PacBio WGS/metagenome procedure <a href="https://www.pacb.com/wp-content/uploads/Procedure-checklist-Preparing-whole-genome-and-metagenome-libraries-using-SMRTbell-prep-kit-3.0.pdf">102-166-600 Rev09</a>.'),
+        caveat('The adapter terminal T drawn at the four junctions is inferred from the dA-tailed insert and PacBio&rsquo;s &ldquo;Overhang&rdquo; adapter design; procedure 102-166-600 Rev09 and training 102-390-900 Rev03 do not print it. Hairpin, adapter-index and sequencing-primer bases are proprietary placeholders.'),
         '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>Prepare the insert and close both ends</h2>',
-        '<h3>(1) Shear, repair damage and ends, phosphorylate, and dA-tail</h3>',
-        panel(S.end_prep_scene().rows(), cls="small", caption="The recommended WGS insert is 15–20 kb. Repair produces 5′ phosphates and one 3′ dA on both ends."),
-        '<h3>(2) Ligate a T-overhang hairpin adapter to each end</h3>',
-        panel(dumbbell_rows(S.SMRTBELL), cls="small", caption="The ds insert plus two hairpins is one covalently closed ssDNA path. ** marks the four sealed insert–adapter junctions. Adapter bases are proprietary, so the loops are structural labels rather than invented sequence."),
+        '<h3>(1) Shear, repair damage and ends, and dA-tail</h3>',
+        panel(S.end_prep_scene().rows(), cls="small", caption="The recommended WGS insert is 15–20 kb. Repair and A-tailing leaves one 3′ dA on both ends; 5′ phosphorylation is inferred from ligation competence, not stated by the procedure."),
+        '<h3>(2) Ligate an overhang hairpin adapter to each end</h3>',
+        panel(dumbbell_rows(S.SMRTBELL), cls="small", caption="INFERRED — the adapter's 3′ T is inferred from the dA-tailed insert and PacBio's “Overhang” adapter design; the inspected sources do not print it. The ds insert plus two hairpins is one covalently closed ssDNA path. ** marks the four sealed insert–adapter junctions. Adapter bases are proprietary, so the loops are structural labels rather than invented sequence. Optional SMRTbell adapter index plate 96A adapters replace the standard adapter in the ligation."),
+        info('The ligation is purified with 1X (95 µL) SMRTbell cleanup beads before nuclease treatment.'),
         '<h3>(3) Nuclease removes every molecule that still has a free end</h3>',
-        info('The 37 °C nuclease treatment removes unligated DNA and leftover adapters. A completely closed SMRTbell has no free 5′ or 3′ end and survives.'),
+        info('The 37 °C, 15 min nuclease treatment removes unligated DNA fragments and leftover SMRTbell adapter. A completely closed SMRTbell has no free 5′ or 3′ end and survives. A 3.1X (155 µL) cleanup with 35% v/v AMPure PB beads then removes the nucleases and progressively depletes fragments shorter than 5 kb (libraries &lt;10 kb use a 1X SMRTbell bead cleanup instead).'),
         '<h2>Sequencing-primer and polymerase binding</h2>',
         panel(primer_rows, cls="long", caption="Both identical hairpin adapters contain a standard sequencing-primer site. The current adapter and primer sequences are not published; both possible sites are shown without fabricated bases."),
         '<h3>One productive polymerase trajectory</h3>',

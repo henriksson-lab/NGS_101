@@ -75,5 +75,25 @@
       "evidence": "Only one located original-source reading and/or chemistry-relevant linked guide remains unchecked."
     }
   ],
-  "conclusion": "Manufacturer original documents read once; independent second pass and linked source comparison pending."
+  "conclusion": "Manufacturer original documents read once; independent second pass and linked source comparison pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "10x CG000184 Rev A user guide (scg_ mirror of vendor PDF) txt read-structure/run parameters 1392-1463 and 5540-5660, GEM-RT 3282-3310, steps 2.2-2.3 3769-4075, 4.1 5025-5060, 4.2-4.3 5080-5200, 4.4-4.5 5240-5380, appendix compatible sgRNA 6100-6200 and oligo appendix 6200-6491 (p.66-70); CG000197 Rev A intro lines 1-90",
+      "oligo_scraper": "Bundle scraper run (46 hits); CG000184 hits 6117-6484 and CG000197 hits 94-185 all within appendix/spec passages read; Feature cDNA Primers 1, Feature SI Primers 1/2 and Chromium i7 strings verified at appendix p.68-70.",
+      "findings": "Feature SI PCR product now carries P5/Read 1N and the TruSeq Read 2 arm (was the unchanged feature cDNA state); sample-index PCR declares printed Feature SI Primers 2 + Chromium i7 with exact geometry instead of inferred primers; amplified cDNA carries the 27-nt Partial Read 1N; added GEM recovery/Dynabeads, 0.6X split with stored GEX pellet, 1.2X, 1.0X (4.1), 1.0X (4.3) and 0.7X/1.0X (4.5) cleanups with cycle counts; Read 2 acquisition corrected from 50 (below stated 70-bp minimum) to recommended 91. Graph-owned published discrepancies: appendix p.70 Step 4.2 label PN-2000099 vs step 4.2 table PN-2000098 (model uses printed pair as PN-2000098); appendix Step 4.4 product omits TSO bases present in Step 4.2 product (model keeps them).",
+      "deferred": [
+        "CG000316 v3.1 successor and later CG000184 revisions",
+        "TSO residue identity as an exact source-guard state (rGrGrG not represented)",
+        "Hairpin and CS2 guide configurations not drawn",
+        "Experiment-specific protospacer library/lot assignment",
+        "CG000183 GEX branch reagent identities"
+      ],
+      "scope": "Capped vendor-guide pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 5/5 and page build pass; pairing 0 problems; chemistry 2 established/1 conditional/12 unresolved/0 contradictory; source guard 5 exact checked, 0 failed, 3 unrepresented (bead_primer, tso, index_pcr_reverse); Markdown built; review schema checked"
+    }
+  ]
 }

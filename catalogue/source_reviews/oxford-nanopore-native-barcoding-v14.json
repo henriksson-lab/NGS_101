@@ -78,5 +78,24 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Current official sequence table provides adapter and barcode families; proprietary assembly claims remain blocked."
+  "conclusion": "Current official sequence table provides adapter and barcode families; proprietary assembly claims remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "SQK-NBD114.24 protocol NBE_9169_v114_revX_15Jul2026 ligation-sequencing-gdna-native-barcoding-v14-sqk-nbd114-24.html.txt lines 100/187 (revision), 642–777 (end-prep, 15 µl AXP + ethanol, Qubit, equimolar mass into barcoding), 781–998 (Blunt/TA 20 min RT, EDTA stop, pool all, 0.4X AXP, SFB washes, 37 °C water elution), 1002–1214 (NA + Quick Ligation buffer + Quick T4 20 min RT, 20 µl AXP, LFB/SFB, EB 37 °C), barcode table 452–549 (all 24 forward/reverse pairs match by script); CHTD_500 v1 revAV chemistry-technical-document.html.txt section 14 lines 1139–1145 (native-barcode flanks), section 15 lines 2074–2081 (NA strands), 1095 (MLK cohesive hook wording); kit page native-barcoding-kit-24-v14.html.txt lines 258/290 (dT-tailed barcode adapter, cohesive hook)",
+      "oligo_scraper": "Bundle scraper run; NA strands (CHTD 2074–2081), NB01–NB24 table and the section-14 flank line hit and were checked against the source lines; other hits are other-kit oligos.",
+      "findings": "Corrected step order to revision X: equimolar normalisation occurs after the end-prep cleanup and before barcode ligation, and all barcoded samples are pooled whole after an EDTA stop (model had cleanup/equimolar pooling after barcoding). Added the three AMPure cleanups with waste outputs, the EDTA quench and a two-template pool. Replaced the placeholder barcode-adapter flanks with the CHTD section-14 published flanks (AAGGTTAA / CAGCACCT; reverse GGTGCTG / TTAACCTTAGCAAT) and removed the spurious [cohesive hook] token; derived (construction-checked) that the final forward-flank T is the dT tail and that the NA top 6-nt 3-prime overhang ATTGCT pairs with the reverse-flank 3-prime AGCAAT; hook geometry kept unavailable with the derived candidate stated; caveat/caption mark placement as derived. Selftest gains the flank transcription. Note revision corrected to revX.",
+      "deferred": [
+        "Barcode-adapter oligo inventory (5-prime phosphorylation, exact duplex) beyond analysis-context flanks",
+        "Complete motor-bearing Native Adapter assembly and motor attachment",
+        "Whether the CHTD flank interpretation applies to SQK-NBD114.96/EXP-NBA114 variants",
+        "NEB Blunt/TA and Quick Ligation module documents"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (7 checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (adapter/barcode inputs carry no exact graph oligo state); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

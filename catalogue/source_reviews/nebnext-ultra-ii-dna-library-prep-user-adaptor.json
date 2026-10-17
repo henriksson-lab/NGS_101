@@ -172,5 +172,24 @@
         "finding": "Followed NEB kit manual to both original oligo-set manuals. Third-party adaptor FAQ is still unavailable."
       }
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "NEB E7103/E7645 manual v7.0_9/22 (manuale7103-e7645.pdf.txt, md5 89cefa3b): trimming sequences lines 69-72, Step 1 End Prep 84-127, Step 2 ligation/USER 128-224 (2.5 note: USER only for non-indexed adaptor), Section 3A size selection and 3B 0.9X cleanup 300-460, Step 4.1 PCR and Tables 4.1/4.2 480-690 (minimum 3 cycles, truncated-adaptor footnote), Section 5 PCR cleanup 695-760; NEB E7600 manual v6.0_6/24 (manuale7600.pdf.txt, md5 9e04bf99): workflow p2 lines 64-72 (hairpin, USER = UDG + Endo VIII), adaptor p3 line 86, i501/i701 lines 465/585-588",
+      "oligo_scraper": "Bundle scraper run: E7600 hairpin line 86, trim arms 88-89, i501 line 465, i701 line 585 (E7780 duplicates hairpin line 84 and Set 2 i5xx family); exact hairpin/i501/i701 matched by suite and source guard.",
+      "findings": "Verified adaptor, USER timing and minimum-3-cycle claims. Corrected the graph: End Prep is one Ultra II End Prep Enzyme Mix plus Reaction Buffer (the separate 'dA-tailing polymerase' catalyst was not a source reagent); added Ligation Enhancer, named Ultra II Ligation Master Mix and Ultra II Q5 Master Mix, step conditions (20/65 C, 20 C 15 min, 37 C 15 min, 3-15 cycles), the Section 3B 0.9X post-USER cleanup and Section 5 0.9X PCR cleanup with waste fates; page now renders graph highlights for the >50 ng 0.4X/0.2X size-selection branch and the truncated-adaptor minimum-cycle rule. Note: 5-prime phosphorylation by End Prep is not printed in the manuals read (now marked inferred); USER gap-end chemistry attributed to the unre-read USER product page. No published discrepancy found.",
+      "deferred": [
+        "NEB USER Enzyme M5505 product documentation (gap-end phosphate chemistry)",
+        "Illumina Adapter Sequences document 1000000002694",
+        "Ultra II End Prep Enzyme Mix composition",
+        "Section 3A >50 ng size-selection branch not drawn as a graph path"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 4 checks pass; page builds; pairing 0 problems; chemistry 0 established/1 conditional/8 unresolved/0 contradictory; source guard 3 exact checked (hairpin, i501, i701), 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
   ]
 }

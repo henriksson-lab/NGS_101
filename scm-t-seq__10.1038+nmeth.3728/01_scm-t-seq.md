@@ -60,3 +60,33 @@ caption, and `<inf>` around `AC` in the oligo list and the drawn cDNA state.
 🔴 The G&T S1 supplement and historical Nextera XT guide still need review before
 the linked-source checklist can be closed. The direct scM&T source does not verify
 whether its laboratory used any undocumented TSO change from the cited G&T method.
+
+## Bounded source pass (2026-10-17, round breadth-first-17)
+
+Read: PMC4770512 JATS (`nmeth.3728_PMC4770512.xml.txt`) Results lines 66–68 and Online
+Methods lines 80–94 ("Sample collection & Single-cell sequencing", "BS-seq read
+alignment"); Springer `MOESM608` Supplementary Fig. 3 caption lines 20–32. The bundle
+scraper finds no oligo printed by nmeth.3728 itself; its hits are the Smallwood
+scBS-seq and Picelli Smart-seq2 tables already used above.
+
+🟢 Cells are sorted into RLT Plus lysis buffer with 1 U/µl SUPERase-In and processed by
+G&T-seq; after physical mRNA/gDNA separation the DNA is eluted into 10 µl H₂O.
+
+🟢 Bisulfite conversion uses EZ Methylation Direct (Zymo) on purified DNA with AMPure XP
+beads present; desulphonation and purification are on Zymo magnetic beads, eluting into
+the first-strand mastermix. First- and second-strand primers carry 3′ random hexamers,
+biotin capture of first-strand products is **omitted**, and an extra 0.8× AMPure XP
+purification is done between second-strand synthesis and PCR. The graph now draws that
+cleanup and its discarded supernatant before the DNA library PCR.
+
+🟢 Nextera XT is used at one-fifth volumes. Both libraries are sequenced on a HiSeq2000
+with 125-bp paired-end reads; the model now declares 125 cycles for Read 1 and Read 2 of
+each library. Index-read cycles are not stated and remain unfixed.
+
+🟢 Reads are trimmed by 6 bases (the 6N random-priming portion) and aligned as
+non-directional, "due to multiple rounds of random priming with oligo 1".
+
+Open: G&T-seq S1 supplement, Smallwood binary Word supplement and historical Nextera XT
+guide (unchanged deferrals); number of oligo1 priming rounds and strand-synthesis
+polymerase/conditions (delegated to scBS-seq, not re-read in this pass); index sequences
+and index-read cycles.

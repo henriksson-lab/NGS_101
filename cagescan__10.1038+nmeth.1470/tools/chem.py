@@ -15,9 +15,9 @@ CAGE_OLIGOS = (
     "5′-TAGTCGAACTGAAGGTCTCCAGC-3′ — CAGEscan semi-suppressive PCR forward primer",
     "5′-TGACGTCGTCTAGTCGAACTGAAGGTCTCCGAACC-3′ — CAGEscan semi-suppressive PCR reverse primer",
     "5′-AATGATACGGCGACCACCGAGATCTACACTAGTCGAACTGAAGG-3′ — CAGEscan forward PCR primer",
-    "5′-CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT-3′ — CAGEscan reverse PCR primer",
+    f"5′-{il.PE_PCR_PRIMER_2}-3′ — CAGEscan reverse PCR primer",
     "5′-TAGTCGAACTGAAGGTCTCCAGCA-3′ — CAGEscan forward paired-end sequencing primer",
-    "5′-CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT-3′ — CAGEscan reverse paired-end sequencing primer",
+    f"5′-{il.PE_READ2_PRIMER}-3′ — CAGEscan reverse paired-end sequencing primer",
 )
 ORDERED_OLIGOS = tuple(row.split("5′-", 1)[1].split("-3′", 1)[0] for row in CAGE_OLIGOS)
 FINAL_FORWARD = il.P5 + ORDERED_OLIGOS[4][len(il.P5):]
@@ -59,7 +59,7 @@ TITLE = "CAGEscan — paired-end cap-to-transcript sequencing"
 NOTES = "01_cagescan.html"
 SOURCE = '<a href="https://doi.org/10.1038/nmeth.1470">Plessy et al., Nature Methods (2010)</a>; original Online Methods pp.16–18 and Supplementary Table 8.'
 SUMMARY = ("Random-primed reverse transcription and preferential template switching at capped RNA "
-           "are followed by RNAClean, pilot qPCR, semi-suppressive PCR, AMPure, a second pilot qPCR, "
+           "are followed by RNAClean, pilot qPCR, semi-suppressive PCR, AMPure and an agarose purity check, a second pilot qPCR, "
            "adapter-replacement PCR and a second AMPure cleanup. CAGEscan does not use the separate nanoCAGE EcoP15I route.")
 CAVEAT = ("All eight source oligos, including custom paired-end sequencing primers, are published below. "
           "This model leaves their complete molecular assembly and initial PCR binding geometry unassembled; "
@@ -139,7 +139,13 @@ def protocol_graph():
     semi_r = graph.input("semi_reverse", "Table 8 semi-suppressive reverse primer", MaterialKind.OLIGO, state=oligo_state("semi-suppressive reverse", ORDERED_OLIGOS[3]))
     _pcr(graph, "pilot_semi", pilot1, semi_f, semi_r, "SYBR Premix Ex Taq", "Pilot qPCR for semi-suppressive cycle selection", qc=True)
     semi = _pcr(graph, "semi_pcr", production1, semi_f, semi_r, "TaKaRa Ex Taq HS", "Semi-suppressive second-strand synthesis/amplification")
-    cleaned_semi = _cleanup(graph, "ampure_first", semi, "Agencourt AMPure XP")
+    cleaned_ampure = _cleanup(graph, "ampure_first", semi, "Agencourt AMPure XP")
+    gel1_rule = graph.input("semi_gel_rule", "source 1% agarose purity check of recovered DNA; aliquot volume not stated", MaterialKind.CONDITION)
+    gel1 = graph.product("semi_gel_qc", "gel-check aliquot of cleaned semi-suppressive product (volume not stated)", MaterialKind.QC, state=cleaned_ampure.state)
+    cleaned_semi = graph.product("semi_after_gel", "cleaned semi-suppressive product after gel check", MaterialKind.MOLECULAR, state=cleaned_ampure.state)
+    graph.react("sample_semi_gel", "Check purity of recovered DNA by 1% agarose gel", StepKind.SAMPLING,
+                ((cleaned_ampure, InputRole.TEMPLATE), (gel1_rule, InputRole.CONDITION)), (gel1, cleaned_semi), changes_molecule=False)
+    graph.mark_terminal(Terminal(gel1.id, Disposition.QC, "source 1% agarose (SeaKem GTG) purity check after the first AMPure cleanup; not preparative selection"))
     sampling2 = graph.input("second_sampling_rule", "source 8-ng pilot and remaining 20-ng production split", MaterialKind.CONDITION)
     pilot2 = graph.product("pilot2", "8-ng adapter-PCR pilot aliquot", MaterialKind.MOLECULAR, state=cleaned_semi.state)
     production2 = graph.product("production2", "remaining 20-ng adapter-PCR production aliquot", MaterialKind.MOLECULAR, state=cleaned_semi.state)
@@ -167,7 +173,7 @@ def protocol_graph():
                             "The source describes shorter/homoadapter templates as less efficiently amplified. They are not declared a discarded physical fraction at PCR; cleanup fates are represented separately."))
     graph.annotate(Highlight("library", "Published custom primers; unfinished molecular assembly",
                             "Both sequencing primers and all RT/PCR oligos are source-positive. The RT and semi-reverse sequences differ upstream of a shorter exact 3′ match; this is retained without claiming a proven oligo typo. Exact initial PCR geometry remains a model question.", slot=AnnotationSlot.SEQUENCING))
-    targets = ["rna", "rt_primer", "rtase", "reverse_transcribe", "tso", "template_switch", "first_sampling_rule", "sample_first", "remainder1", "semi_forward", "semi_reverse", "second_sampling_rule", "sample_second", "forward", "reverse", "final_sampling_rule", "sample_final", "gel_qc", "library"]
+    targets = ["rna", "rt_primer", "rtase", "reverse_transcribe", "tso", "template_switch", "first_sampling_rule", "sample_first", "remainder1", "semi_forward", "semi_reverse", "second_sampling_rule", "sample_second", "semi_gel_rule", "sample_semi_gel", "semi_gel_qc", "forward", "reverse", "final_sampling_rule", "sample_final", "gel_qc", "library"]
     for prefix in ("rna_clean", "ampure_first", "ampure_final"):
         targets.extend((prefix, prefix + "_beads"))
     for prefix in ("pilot_semi", "semi_pcr", "pilot_final", "adapter_pcr"):

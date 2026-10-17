@@ -235,5 +235,25 @@
       "evidence": "Published primer workbook and author README support separate P5-barcode and P7-index read roles. Publication-era Zenodo processing archive and GEO run metadata remain uninspected, and exact primer positions/cycle counts are not established."
     }
   ],
-  "conclusion": "Published RNA oligo families and author RNA reaction order have two independent checks; author ATAC materials are verified as a distinct branch. MOESM2 was independently inspected and its GitHub/GEO links followed. Current and preprint pipeline READMEs agree on R1/Read1, R2/P5 barcode, R3/Read2, I1/P7 barcode, but the distinct publication-era Zenodo archive and GEO metadata remain inaccessible, so exact original read-cycle geometry stays blocked. No missing claim accepted."
+  "conclusion": "Published RNA oligo families and author RNA reaction order have two independent checks; author ATAC materials are verified as a distinct branch. MOESM2 was independently inspected and its GitHub/GEO links followed. Current and preprint pipeline READMEs agree on R1/Read1, R2/P5 barcode, R3/Read2, I1/P7 barcode, but the distinct publication-era Zenodo archive and GEO metadata remain inaccessible, so exact original read-cycle geometry stays blocked. No missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nature Genetics PMC10703679 JATS Methods 'EasySci-RNA library preparation' line190–192 (defers to Supplementary Protocol 1), Fig.1 legend line83, computational procedures line198; publisher MOESM1 Supplementary Protocol 1 text lines21–515 (materials 96–129, steps13–17 249–283, steps30–71 377–515); MOESM3 Supplementary Tables 16–19 lines103049–104212 (all rows counted)",
+      "oligo_scraper": "Scraper run on MOESM1: shortdT/randomN (98–101), ligation primer (106), Ligation Adaptor Primer with PS/3ddC (108–111), Universal P5 (122), indexed P7 (125–129), Tn5-ME-B/ME-rev (275–276) hits checked against the text; Tables 16–19 rows read directly.",
+      "findings": "Replaced the role-token final library (which had a spurious extra 8-nt sample index and misordered roles) with a source-sequence construct: P5–ligation bc–TruSeq R1 arm+RT head–N8 UMI–RT bc–T15/N6–insert–ME–S7–i7–P7. Ligation now a checked splinted geometry (Ligation Adaptor Primer bridges ligation-primer 3'-OH and /5Phos/ RT primer; derived). Removed invented second-strand primer input (NEBNext non-directional module only); added in-well 0.8x AMPure cleanup with waste; Tn5 loaded ME-B/ME-rev only; PCR exact geometry with Universal P5 and indexed P7 (72C 5min taken as gap fill, derived); ME-B/ME-B candidate off-product. Read lengths R1 100/R2 100/I1 10/I2 10 from step71. Graph-owned published discrepancies: protocol materials T16 vs Table16 (192/192 rows) and Fig1d legend T15 (model T15); Fig1d legend randomN '8 random nucleotides' vs Table17 N8 UMI + 3' N6 (model Table17). Oligo list on page.",
+      "deferred": [
+        "Sequencing-primer reagents and exact read starts (not stated; TruSeq-R1/Nextera-R2 landing derived)",
+        "Zenodo 8395492 publication-era pipeline archive and GEO GSE212606 run metadata",
+        "Hennig et al. 2018 Tn5 production/loading predecessor",
+        "NEBNext Ultra II non-directional second-strand module mechanism (vendor manual)",
+        "Fate of ME-B/ME-B internal fragments (candidate, no separation described)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest passes (workflow + graph construction); page builds; pairing 0 problems; chemistry 2 established/1 conditional/7 unresolved/0 contradictory; source guard 4 exact checked (Ligation Adaptor Primer, Tn5-ME-B, Tn5-ME-rev, Universal P5), 0 failed, 4 barcoded inputs symbolic; audit check passes; Markdown built"
+    }
+  ]
 }

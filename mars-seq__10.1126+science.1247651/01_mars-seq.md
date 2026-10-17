@@ -185,9 +185,18 @@ The 2014 Table S7 instead prints `TCTAGCCTTCTCGCAGCACATC`. The later authors'
 reagent setup p. 29, independently prints `CTACACGACGCTCTTCCGATCT` as **its** RT2.
 That sequence equals `revcomp(AGATCGGAAGAGCGTCGTGTAG)`, the reverse complement of the
 ligation-adapter constant, and the 3′ 22 nt of `illumina.TRUSEQ_READ1` (🟡 computed,
-§3). The 2.0 model holds the author-published RT2 and enrichment primers; the 2014
-model retains its distinct printed RT2, whose landing conflicts with the 2014 Methods'
-description of a primer complementary to the adapter.
+§3). The 2.0 model holds the author-published RT2 and enrichment primers.
+
+**Published discrepancy in the 2014 RT2 (🟡 computed, round 12).** The printed 2014
+string `TCTAGCCTTCTCGCAGCACATC`, read right to left, is
+`{{= marsseq.MARS1_RT2_PRINTED_REVERSED }}` — exactly `revcomp(AGATCGGAAGAGCGTCGTGTAG)`
+(relation holds: {{= marsseq.MARS1_RT2_REVERSAL_IS_ADAPTER_COMPLEMENT }}). The 2014
+Methods (coauthor-uploaded Supplementary Methods, lines 370–375) call RT2 complementary
+to the ligated adapter, so Table S7 appears to list the primer 3′→5′. This is an apparent
+typographical discrepancy in the published table, not a verified correction: the 2014
+model keeps the printed string as its source value, marks the RT2 step INFERRED and
+chooses no landing, and the public page shows both values. The 2.0 author protocol
+printing the complement 5′→3′ is a separate source and does not prove the 2014 order.
 
 ## 3. How the oligos interlock — 🟡 (computed with `lib/`)
 
@@ -214,10 +223,11 @@ by the primer. No i7 index in it: the library has no sample index read. 🟡
 `illumina.INDEX2_PRIMER_RC` (= the TruSeq Read 1 site, as it appears on the bottom
 strand). Its reverse complement is `CTACACGACGCTCTTCCGATCT`, which is the 3' 22 nt of
 `illumina.TRUSEQ_READ1`. 🟡 (computed) So the adapter *presents* a TruSeq Read 1 site that
-a primer of that sequence would bind — but **the authors' Second RT primer is
-`TCTAGCCTTCTCGCAGCACATC`** (🟢 Table S7), which is not it. Where RT2 binds in the 2014
-chemistry is therefore not established by this identity; the sequence
-`CTACACGACGCTCTTCCGATCT` is an upstream claim about MARS-seq2.0 only (🔴, §2.3).
+a primer of that sequence would bind — but **the authors' printed Second RT primer is
+`TCTAGCCTTCTCGCAGCACATC`** (🟢 Table S7), which is that sequence written in reverse
+(3′→5′) order (🟡 computed, §2.3). Where RT2 binds in the 2014 chemistry is therefore
+not established from the printed 5′→3′ string; `CTACACGACGCTCTTCCGATCT` is printed
+5′→3′ as RT2 only by the separate MARS-seq2.0 author protocol (🟢, §2.3).
 
 - The 5' phosphate makes the adapter the **donor** for ligation onto the 3'-OH of an aRNA
   fragment; the 3' C3 spacer stops it acting as an acceptor, so adapters cannot
@@ -277,8 +287,9 @@ The later MARS-seq2.0 notes below are identified separately.
     `TCTAGCCTTCTCGCAGCACATC` 🟢 (Table S7); the product is
     `5'-<RT2 end>-<N3'>-<pool bc'>-<sense cDNA>-A20-<UMI'>-<well bc'>-AGATCGGAAGAGCACACGTCGCCCC-3'`
     🟡 (computed; the 3' end is the complement of the aRNA 5' end, so it ends in `CCCC`).
-    🟢 Enzyme and timing from 2014 Methods, source page lines 370–377. 🔴 Which part of the ligated adapter that primer anneals to is not stated, and it is
-    not the adapter's own reverse complement (§3). MARS-seq2.0 uses the distinct RT2
+    🟢 Enzyme and timing from 2014 Methods, source page lines 370–377. 🔴 Which part of the ligated adapter that primer anneals to is not stated; the
+    printed string is the adapter's reverse complement only when read 3′→5′ (§2.3), an
+    apparent published typographical discrepancy shown on the page. MARS-seq2.0 uses the distinct RT2
     published in its later author protocols.io procedure (§2.3).
 11. **PCR** with P5_Rd1_PCR `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`
     and P7_Rd2_PCR `CAAGCAGAAGACGGCATACGAGATGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT` 🟢
@@ -310,7 +321,11 @@ MARS-seq (2014): same, with N3 instead of N5, a 6-nt well barcode and 4-nt UMI �
   (sense strand, near the 3' end of the transcript). MARS-seq1 is 🟢 from Tables S7–S8;
   the 2.0 placement is 🟡 derived from its published adapter table.
 - Read 2 (TruSeq Read 2 primer): MARS-seq1 reports the 6-nt well barcode, 4-nt UMI, then
-  poly(T) 🟢; MARS-seq2.0 analogously uses 7 + 8 nt 🟡.
+  poly(T) 🟢; MARS-seq2.0 uses 7 + 8 nt 🟡.
+- MARS-seq2.0 acquired cycles 🟢: author procedure (protocols.io 7hkhj4w) Step 80,
+  "rd1 = 75 bp, rd2 = 15 bp, no indices", on a NextSeq 500 High Output v2 flow cell
+  (Step 79; equipment list: 75-cycle kit). Read 2 therefore stops after well barcode +
+  UMI; the read-design example below (57 + 20 cycles) is a different configuration.
 - No index reads are needed: demultiplexing is by inline pool and well barcodes. 🟢 for
   the 2014 construct.
 - The pipeline's read-design syntax 🟢 (Supp. Manual 2): fields `R1_design`, `I5_design`,
@@ -351,9 +366,10 @@ silent, the row stays 🔴 and the model asserts nothing.
 - 🔴 What the 13-nt leader `CGATTGAGGCCGG` is for, and why the 3' anchor is a single `N`.
 - 🔴 Purpose of the N5 / N3 random bases next to the pool barcode (diversity for the first
   sequencing cycles? an extra UMI?). The pipeline ignores them.
-- 🔴 Why the 2014 Second RT primer differs from the 2.0 primer, and where the 2014 primer
-  `TCTAGCCTTCTCGCAGCACATC` anneals on the ligated adapter — the supplement prints the
-  oligo, while its Methods describe a primer complementary to the adapter.
+- 🔴 Whether the 2014 Table S7 RT2 `TCTAGCCTTCTCGCAGCACATC` was ordered as printed or is
+  a 3′→5′ listing of `CTACACGACGCTCTTCCGATCT` (its exact reversal, the adapter
+  complement that the Methods describe). The reversal is computed; no 2014 source
+  states the orientation, so the landing stays unresolved.
 - 🟡 "Template switching errors" are a QC category (Supp. Fig. 6G) although the chemistry
   has no TSO: presumably RT1-primed chimeras; not defined in the fetched text.
 

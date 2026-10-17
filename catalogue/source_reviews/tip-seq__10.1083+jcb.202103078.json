@@ -160,5 +160,26 @@
       "evidence": "Table S1 is source-positive; ancestry and selected barcode member remain to be verified."
     }
   ],
-  "conclusion": "Table S1 is source-positive; ancestry and selected barcode member remain to be verified."
+  "conclusion": "Table S1 is source-positive; ancestry and selected barcode member remain to be verified.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published JCB PMC8600797 JATS xml.txt Results97/102 (sciTIP overview, Fig3 legend), Methods165/169 (ME-T7/ME-rev annealing, transposome loading), 177 bulk TIP-seq (Taq gap fill, HiScribe IVT, SPRI, random hexamer SMART MMLV RT, RNase H, sss second strand + Taq, MeB-only Tn5 55C/GuHCl, NEBNext HF PCR, 0.85x SPRI, NovaSeq), 187 sciTIP (sss_sci-nXTv2, scT7_S5XX, index-2 r5 1-6/i5 21-29, NovaSeq SP v1.5 51/8/29/51), 195 demultiplexing; Table S1 xlsx.txt lines6-20,38,64; Table S2 docx.txt lines1-37",
+      "oligo_scraper": "Bundle scraper run (17 hits); Table S1 ME-T7-bulk, ME-rev, ME-B, sss_sci-nXTv2, sss_bulk-nXT, nXTv2 read/index primers, sciTIP_S502, N701, ME-scT7_r5001 verified against model constants; protocols.io hits are CUT&Tag ME-A/ME-B/ME-rev; preprint hit ignored (published version used).",
+      "findings": "Published discrepancy: Table S1 nXTv2_i5_index_read is the P5 sequence (forward-strand read: i5 cycles1-8, r5 24-29) whereas Methods line187 gives r5 at index-2 positions 1-6 and i5 at 21-29 (9 positions for 8 bp) on NovaSeq SP v1.5. Model Index 2 primer changed from the P5 sequence to the reverse-complement-workflow Nextera Index 2 primer, giving r5 1-6 and i5 22-29; Table S1 primer kept as a listed source oligo; discrepancy shown on page and note; selftest checks the derived r5 span. RNA removal corrected from generic condition/strand separation to RNase H digestion (line177); enzymes named (Taq 5X gap fill, HiScribe T7, SMART MMLV, NEBNext HF). Note now records Methods line locations, step conditions and open questions.",
+      "deferred": [
+        "protocols.io Bench-top CUT&Tag (pre-purification steps)",
+        "Review history PDF",
+        "Lake2018 / Kaya-Okur2019 predecessors",
+        "Bulk TIP-seq branch (ME-T7-bulk, sss_bulk-nXT vs Methods sss_scnXTv2 naming)",
+        "SPRI cleanups, GuHCl Tn5 stripping and 0.85x size selection not drawn",
+        "Role of the Table S1 P5-sequence i5 primer and the 21-29 span"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 5/5 pass; page builds; pairing 0 problems; chemistry 3 established/3 conditional/8 unresolved/0 contradictory; source guard 4 exact checked, 0 failed, 4 inputs without exact states; Markdown built; audit --check pass"
+    }
+  ]
 }

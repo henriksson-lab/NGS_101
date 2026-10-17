@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Scene, Segment, circle_rows
+from chemdraw import Construct, Scene, Segment, circle_rows, feature
 from circular import CircularizationGeometry, circularize_ssdna
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from topology import PrimerTemplatedPadlockTopology
@@ -24,13 +24,24 @@ PADLOCK_ARM_5 = "N" * 6
 PADLOCK_ARM_3 = "N" * 6
 GENE_CODE = "B" * 5
 DOCK = "N" * 11
+# Main text (NSF manuscript text line 128): a 5-base gene-unique barcode from a 1,024-code
+# library is built into each padlock; the per-gene codes are in original Table S1.
+GENE_CODE_FEATURE = feature("snail_gene_code", "feature_barcode", "whitelist",
+                            whitelist="original Table S1 SNAIL 5-base gene codes (not recovered)")
 
-def snail_scene() -> Scene:
-    sc = Scene()
+def _target_rna(sc: Scene) -> None:
     sc.strand("RNA", [seg("left RNA target", TARGET_LEFT, placeholder=True),
                       seg("0–2-nt target gap", "N" * 2, placeholder=True),
                       seg("right RNA target", TARGET_RIGHT, placeholder=True)],
               label="target RNA")
+
+
+def target_rna_scene() -> Scene:
+    sc = Scene(); _target_rna(sc); return sc
+
+
+def snail_scene() -> Scene:
+    sc = Scene(); _target_rna(sc)
     sc.anneal("primer probe", [seg("primer target arm", TARGET_LEFT, placeholder=True),
                                seg("primer 12-nt splint / RCA primer", PRIMER_SPLINT,
                                    placeholder=True)],
@@ -40,7 +51,7 @@ def snail_scene() -> Scene:
                                     placeholder=True),
                                 seg("padlock target arm", TARGET_RIGHT, placeholder=True),
                                 seg("SEDAL docking region", DOCK, placeholder=True),
-                                seg("5-base gene code", GENE_CODE, "cbc", placeholder=True),
+                                seg("5-base gene code", GENE_CODE, "cbc", placeholder=True, feature=GENE_CODE_FEATURE),
                                 seg("padlock 3-prime 6-nt assembly arm", PADLOCK_ARM_3,
                                     placeholder=True)],
               to="RNA", pair=("padlock target arm", "right RNA target"),
@@ -55,7 +66,7 @@ def circle_template() -> Construct:
     return Construct([seg("padlock 5-prime assembly arm", PADLOCK_ARM_5, placeholder=True),
                       seg("padlock target arm", TARGET_RIGHT, placeholder=True),
                       seg("SEDAL docking region", DOCK, placeholder=True),
-                      seg("5-base gene code", GENE_CODE, "cbc", placeholder=True),
+                      seg("5-base gene code", GENE_CODE, "cbc", placeholder=True, feature=GENE_CODE_FEATURE),
                       seg("padlock 3-prime assembly arm", PADLOCK_ARM_3,
                           placeholder=True)],
                      "closed SNAIL circle")
@@ -73,57 +84,79 @@ SNAIL_TOPOLOGY = PrimerTemplatedPadlockTopology(
 )
 
 def rolony() -> Construct:
-    return Construct([seg(f"SNAIL circle repeat {i}", CIRCLE.sequence, placeholder=True)
-                      for i in range(1, 4)], "three repeats of one STARmap rolony")
+    # Phi29 extends the RNA-bound primer probe around the circle, so each repeat is the
+    # complement of the circle (the reading-probe docking site and gene code included).
+    return Construct([seg("SNAIL primer probe (RCA primer)", "N" * 6, placeholder=True)] +
+                     [seg(f"circle-complement repeat {i}", "N" * len(CIRCLE), placeholder=True)
+                      for i in range(1, 4)],
+                     "STARmap rolony: primer-probe-initiated tandem circle complements")
 
 def sedal_scene() -> Scene:
     sc = Scene(); sc.strand("rolony", [seg("reading-probe docking site", "N" * 11,
                                                      placeholder=True),
-                                      seg("gene-code interrogation base", "B", "cbc",
-                                          placeholder=True),
-                                      seg("remaining gene-code bases", "B" * 4, "cbc",
-                                          placeholder=True)], label="one rolony repeat")
+                                      seg("5-base gene code (complement)", "B" * 5, "cbc",
+                                          placeholder=True, feature=GENE_CODE_FEATURE)],
+              label="one rolony repeat")
     sc.anneal("reading probe", [seg("11-nt partly degenerate reading probe", "N" * 11,
                                     placeholder=True)], to="rolony",
               pair=("11-nt partly degenerate reading probe", "reading-probe docking site"),
-              label="5′-phosphorylated SEDAL reading probe", mod5="p")
-    sc.strand("decoder", [seg("fluorescent decoding probe", "N" * 8,
-                              placeholder=True)], label="one of four fluorescent decoders")
-    sc.arrow("reading probe", "T4 ligase retains the matched decoder; image, strip, shift")
+              label="SEDAL reading probe (5′-phosphate, 3′ inverted dT)", mod5="p", mod3="InvT")
+    sc.strand("decoder", [seg("8-nt fluorescent decoding probe", "N" * 8,
+                              placeholder=True)],
+              label="one of sixteen 2-base fluorescent decoders (four 1-base decoders in the 28-gene large-volume variant)",
+              mod3="OH")
+    sc.arrow("reading probe", "T4 ligase joins the matched decoder 3′-OH to the reading-probe 5′-phosphate; image, strip with 60% formamide, shift one base")
     return sc
 
 def protocol_graph() -> ProtocolGraph:
     g = ProtocolGraph(TITLE, authority=SOURCE)
     rna = g.input("fixed_rna", "RNA in fixed, permeabilized tissue", MaterialKind.BIOLOGICAL,
-                  state=snail_scene(), primary=True)
-    probes = g.input("snail_probes", "paired target-specific SNAIL probes",
+                  state=target_rna_scene(), primary=True)
+    # NSF manuscript supplement, "STARmap procedure for cell culture and thin tissue
+    # sections", Library construction (text lines 1147-1168).
+    probes = g.input("snail_probes", "paired target-specific SNAIL probes (100 nM each; heated 90 °C, cooled)",
                      MaterialKind.OLIGO)
-    ligase = g.input("t4_ligase", "T4 DNA ligase", MaterialKind.CATALYST)
+    hyb = g.input("hybridization_buffer", "2X SSC, 10% formamide, 1% Tween-20, RVC, salmon sperm DNA; 40 °C overnight",
+                  MaterialKind.CONDITION)
+    hybridized = g.product("hybridized_probes", "SNAIL primer and padlock probes hybridized to adjacent RNA",
+                           MaterialKind.MOLECULAR, state=snail_scene())
+    unbound = g.product("unbound_probes", "unhybridized SNAIL probes", MaterialKind.WASTE)
+    g.react("hybridize", "Hybridize SNAIL probe pairs to cellular RNA", StepKind.HYBRIDIZATION,
+            ((rna, InputRole.TEMPLATE), (probes, InputRole.STRUCTURAL), (hyb, InputRole.CONDITION)),
+            (hybridized, unbound))
+    g.discard(unbound, "PBSTR and 4X SSC washes remove unhybridized probes")
+    ligase = g.input("t4_ligase", "T4 DNA ligase (Thermo EL0011), 1:50, RT 2 h", MaterialKind.CATALYST)
     circle = g.product("snail_circle", "target-coded DNA circle assembled on RNA",
                        MaterialKind.MOLECULAR,
                        state=tuple(circle_rows(circle_template(), "one T4-ligase junction")))
     g.react("snail_ligation", "Adjacent SNAIL probes assemble and close into a circle",
             StepKind.CIRCULARIZATION,
-            ((rna, InputRole.TEMPLATE), (probes, InputRole.STRUCTURAL),
-             (ligase, InputRole.CATALYST)), (circle,),
+            ((hybridized, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)), (circle,),
             geometry=CircularizationGeometry.known(
                 "splinted single-strand ligation",
                 statement="Adjacent RNA-bound primer and padlock probes create one T4-ligase junction."))
-    phi29 = g.input("phi29", "phi29 DNA polymerase", MaterialKind.CATALYST)
-    aadutp = g.input("aminoallyl_dutp", "5-(3-aminoallyl)-dUTP", MaterialKind.MOLECULAR)
+    phi29 = g.input("phi29", "Phi29 DNA polymerase (Thermo EP0094), 1:50, 30 °C 2 h", MaterialKind.CATALYST)
+    dntp = g.input("dntps", "250 µM dNTPs", MaterialKind.MOLECULAR)
+    aadutp = g.input("aminoallyl_dutp", "20 µM 5-(3-aminoallyl)-dUTP", MaterialKind.MOLECULAR)
     product = g.product("rolony", "aminoallyl-bearing SNAIL rolling-circle product",
                         MaterialKind.MOLECULAR, state=rolony())
-    g.react("rca", "Rolling-circle amplification in place", StepKind.EXTENSION,
+    g.react("rca", "Rolling-circle amplification primed by the primer probe", StepKind.EXTENSION,
             ((circle, InputRole.TEMPLATE), (phi29, InputRole.CATALYST),
-             (aadutp, InputRole.STRUCTURAL)), (product,))
-    gel = g.input("hydrogel", "acrylamide/bis-acrylamide hydrogel and AA-NHS anchoring chemistry",
+             (dntp, InputRole.STRUCTURAL), (aadutp, InputRole.STRUCTURAL)), (product,))
+    aanhs = g.input("aa_nhs", "20 mM acrylic acid NHS ester in PBST, RT 2 h", MaterialKind.CONDITION)
+    acrylated = g.product("acrylated_rolony", "acrylamide-functionalized rolony",
+                          MaterialKind.MOLECULAR, state=rolony())
+    g.react("acrylate", "Convert aminoallyl groups to polymerizable acrylamide moieties",
+            StepKind.CHEMICAL_CONVERSION,
+            ((product, InputRole.TEMPLATE), (aanhs, InputRole.CONDITION)), (acrylated,))
+    gel = g.input("hydrogel", "4% acrylamide, 0.2% bis-acrylamide, 2X SSC; APS/TEMED, RT 1 h",
                   MaterialKind.CONDITION)
     anchored = g.product("anchored_rolony", "hydrogel-anchored STARmap rolony",
                          MaterialKind.MOLECULAR, state=rolony())
-    g.react("anchor", "Covalently anchor rolonies in hydrogel and clear proteins",
+    g.react("anchor", "Copolymerize rolonies into the tissue hydrogel",
             StepKind.CROSS_LINKING,
-            ((product, InputRole.TEMPLATE), (gel, InputRole.CONDITION)), (anchored,))
-    protease = g.input("proteinase_k", "proteinase K", MaterialKind.CATALYST)
+            ((acrylated, InputRole.TEMPLATE), (gel, InputRole.CONDITION)), (anchored,))
+    protease = g.input("proteinase_k", "Proteinase K 0.2 mg/ml, 37 °C 1 h", MaterialKind.CATALYST)
     library = g.product("cleared_rolony", "cleared, hydrogel-anchored STARmap rolony",
                         MaterialKind.LIBRARY, state=rolony())
     waste = g.product("digested_proteins", "digested tissue proteins", MaterialKind.WASTE)
@@ -135,7 +168,9 @@ def protocol_graph() -> ProtocolGraph:
     g.sequence(library, SequencingPlan(
         acquired_roles=("Spatial gene code",),
         limitation="SEDAL is six cycles of ligation imaging in situ, not R1/I1/I2/R2 sequencing."))
-    g.declare_reviewed_scope(("fixed_rna", "snail_probes", "t4_ligase", "snail_ligation",
-                              "phi29", "aminoallyl_dutp", "rca", "hydrogel", "anchor",
-                              "proteinase_k", "clear_tissue", "cleared_rolony"), SOURCE)
+    g.declare_reviewed_scope(("fixed_rna", "snail_probes", "hybridization_buffer", "hybridize",
+                              "unbound_probes", "t4_ligase", "snail_ligation",
+                              "phi29", "dntps", "aminoallyl_dutp", "rca", "aa_nhs", "acrylate",
+                              "hydrogel", "anchor", "proteinase_k", "clear_tissue",
+                              "cleared_rolony"), SOURCE)
     return g.require_publishable()

@@ -343,5 +343,27 @@
       "evidence": "The author protocols.io PDF Primers section lines 77–89 and attached workbook lines 1–406 print the hybrid capture primers, three barcode families, P5-Adapter3, N701–N712 and custom Read1 primer. The remaining role-level final library is a model gap, not evidence of publication absence."
     }
   ],
-  "conclusion": "Two independent checks of the defining article, its author protocol/workbook, the original BAG predecessor and Supplemental Methods, and all listed publisher supplements found the hybrid-specific oligo and indexed PCR families. The final duplex still needs model assembly; no source-missing claim is accepted."
+  "conclusion": "Two independent checks of the defining article, its author protocol/workbook, the original BAG predecessor and Supplemental Methods, and all listed publisher supplements found the hybrid-specific oligo and indexed PCR families. The final duplex still needs model assembly; no source-missing claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Genome Biology 2025 PMC12476631 JATS Methods 'Hybrid BAG generation' lines283–293 and 'Initial data processing' Steps1–2 lines295–302; author protocols.io rm7vzqr92vx1 v1 PDF text Primers lines77–89 and steps14–41 lines340–840 (RT/Klenow, ExoI+RNaseH, NlaIII×2, round1 Klenow exo−+Quick Ligase, NaOH denaturation/neutralization, round2 Bst2.0, 150µm filtration, round3 KAPA HiFi 10 cycles, AMPure 0.8×, Amplicon Tagment, N70x/P5-Adapter3 10 cycles, Read1-Adapter3); attached XLSX sheets 1st/2nd/3rd(2N)/N70x first rows",
+      "oligo_scraper": "Bundle scraper run (36 top hits); hybrid capture/TSO/adapter/primer families verified against the author PDF Primers list and workbook; BAG 2020 predecessor hits not used.",
+      "findings": "Model correction: role-only final library put the four template varietal bases before CATG and omitted the Adapter2/Adapter1 common arms; rebuilt tag-bearing end from source-printed arms (P5, CGCTGTCC, Adapter3, BC3, 2N stagger, Adapter2, BC2/vt2, Adapter1, BC1/vt1, CATG, 2 template bases, 4 varietal bases) with construction-time overlap checks; custom Read1-Adapter3 primer now placed and lands at BC3. Graph adds ExoI+RNaseH step (targets not stated), two NlaIII reactions, NaOH denaturation/neutralization before round 2 (released-strand fate inferred), 150µm fused-BAG filtration, KAPA HiFi round 3, pooled 0.8× AMPure cleanups, Amplicon Tagment conditions, final 10-cycle PCR and 0.8× AMPure; Tn5 non-tag fragments now non-amplified candidate rather than physical discard. Read specs: R1/R2 150, index cycles undetermined.",
+      "deferred": [
+        "Nextera XT Tn5 adapter, Read 2 and index primer originals (Illumina kit documentation)",
+        "Index-read cycle counts",
+        "Article Fig. 1C read-structure figure (rendered) to confirm derived Read 1 order",
+        "TSO-cut cDNA: bases after CATG come from TSO vs article 'genomic' varietal bases",
+        "Exo I/RNase H molecular targets",
+        "3N round-3 family usage and per-well barcode assignment",
+        "Article Additional files MOESM3/MOESM5 supplementary methods"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 6/6 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/16 unresolved/0 contradictory; source guard 5 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

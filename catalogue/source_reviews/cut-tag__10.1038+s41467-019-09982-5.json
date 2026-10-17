@@ -180,7 +180,7 @@
     {
       "id": "index_predecessor",
       "role": "predecessor",
-      "locator": "Buenrostro et al Nature 2015 doi:10.1038/nature14590, Supplementary Table workbook MOESM36",
+      "locator": "Buenrostro et al. Nature 2015 doi:10.1038/nature14590 Supplementary Table MOESM36; in-bundle cut-tag__10.1038+s41467-019-09982-5/41586_2015_BFnature14590_MOESM36_ESM.xlsx (declared in catalogue/extra_sources.tsv)",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Retrieved original workbook; source family must be distinguished from selected CUT&Tag primer/member.",
@@ -208,6 +208,12 @@
           "date": "2026-10-16",
           "locations": "Actual MOESM36 all rows independently parsed",
           "finding": "Confirms92 i5 and96 i7, no missing numeric labels; NoMX33/34 are C1 PCR rows, not full library primers."
+        },
+        {
+          "reviewer": "pkg2_followup",
+          "date": "2026-10-17",
+          "locations": "$CHEM_DATA/sources/cut-tag__10.1038+s41467-019-09982-5/MANIFEST.tsv MOESM36 row; md5 comparison with the former doi_10.1038+nature14590 copy",
+          "finding": "Identical copy (xlsx md5 ef73ec390f5db2cae54a6692184cb0e9; text twin md5 b6164110aa5ba605987833e3cfe763b7) is now held in this protocol's own source bundle through the catalogue/extra_sources.tsv media.springernature.com MOESM36 row (MANIFEST.tsv: 41586_2015_BFnature14590_MOESM36_ESM.xlsx). The out-of-bundle SOURCE_OLIGO_EXCEPTIONS were removed; the generic source-oligo guard and the local selftest now read the in-bundle text twin. Earlier passes apply unchanged to this byte-identical file."
         }
       ]
     },
@@ -333,6 +339,27 @@
     {
       "source": "Original final-publication reporting summary MOESM3",
       "next_action": "Reconcile prior first-reader misidentification and inspect actual chemistry-relevant linked reporting metadata before counting an independent exclusion."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nat Commun PMC6488672 JATS Methods transposome preparation lines128\u2013130, bench-top CUT&Tag134\u2013140, sequencing148, single-cell156, ref33 lines381\u2013385; cited Picelli2014 PMC4248319 JATS 'Transposome assembly in solution' lines107\u2013111; protocols.io wnufdew v1 (ID18868) public JSON PCR footnote, cycling and Post-PCR Clean-up step43",
+      "oligo_scraper": "Bundle scraper run; Tn5MErev/Tn5ME-A/Tn5ME-B hits in Picelli JATS111 and bench-top protocol PDFs verified; MOESM4 hits are genomic result rows; XBATN5/SMARTer hits are Picelli cloning/other-method oligos.",
+      "findings": "Loaded ME-A/ME-B/[phos]MErev, equimolar preannealed pool, 1:200 pA-Tn5, 10 mM MgCl2 activation, EDTA/SDS/ProteinaseK then 122 \u00b5L AMPure extraction, universal i5 + barcoded i7 (ref33 Buenrostro2015) and NEBNext HiFi 72\u00b0C gap fill confirmed. Added the article's post-PCR 1.1x AMPure XP clean-up (step, condition, discarded supernatant) so the library is no longer the raw PCR product; PCR caption now carries the article cycling (98\u00b0C30s; 14x 98\u00b0C10s/63\u00b0C30s; 72\u00b0C1min). Note updated. No published discrepancy beyond the existing article-AMPure vs v1 phenol extraction notice.",
+      "deferred": [
+        "Exact universal i5 oligo and Nextera vs Buenrostro family choice",
+        "Selected i7 members/sample mapping and acquired bulk index cycles",
+        "E. coli carry-over calibration branch",
+        "Single-cell ICELL8 72x72 branch (25x8x8x25) not drawn",
+        "protocols.io z6hf9b6 v2 and bcuhiwt6 v3 revisions",
+        "High-throughput 96-well variant"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/7 unresolved/0 contradictory; source guard 3 exact checked, 0 failed, 2 inputs without exact states; Markdown built; review schema checked"
     }
   ]
 }

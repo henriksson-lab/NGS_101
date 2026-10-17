@@ -243,5 +243,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent passes now cover the bioRxiv preprint and reporting summary. Author NTT structure page and ASAP/Amini predecessors add source-positive detail but await independent second checks; scCUT&Tag-pro and TotalSeq-A panel remain open. The public page now scopes its chromatin-only molecule and acknowledges the separate ADT product. No missing claim accepted."
+  "conclusion": "Two independent passes now cover the bioRxiv preprint and reporting summary. Author NTT structure page and ASAP/Amini predecessors add source-positive detail but await independent second checks; scCUT&Tag-pro and TotalSeq-A panel remain open. The public page now scopes its chromatin-only molecule and acknowledges the separate ADT product. No missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nat Biotechnol author manuscript PMC10272075 JATS .xml.txt Methods lines 100 (MEDS annealing with pMENT, 1:1 mix, nb-Tn5 loading), 120-126 (antibody/nb-Tn5 binding, washes, 10 mM MgCl2 37C 1h tagmentation; bulk PCR '72C for 5 min (gap filling)'), 130-140 (single-cell loading into 10x, ASAP bridge oligo, modified linear amplification, ADT library), 144 (custom primers, i5 38/i7 8/R1 60/R2 60), Extended Data Table 2 lines 278-300; 10x CG000209 Rev G (scifi-atac-seq bundle) GEM Incubation lines 2286-2350 and workflow overview 975-1000",
+      "oligo_scraper": "Bundle scraper run (--max-hits 12); MEDSA_1/MEDSB/Custom R1/Custom i5 hits checked against Extended Data Table 2 lines 284-300; bridge oligo A /3InvdT/, RPI-x and P5 hits at JATS lines 130-140 belong to the undrawn ADT branch; bioRxiv v1 hits not used (published version first).",
+      "findings": "Removed a model-invented separate bulk gap-fill step before droplet loading (single-cell Methods line 130 load tagmented cells directly into 10x); gap fill now belongs to the GEM incubation 72C 5 min opening step, labelled inferred from the 10x program and the bulk PCR's own gap-filling label; added Mg2+ tagmentation-buffer condition and source conditions on antibody/nb-Tn5 binding and washes; workflow loading caption corrected (separate annealing to pMENT, 1:1 mix, 1 h RT load); SI-PCR geometry changed from unavailable to exact using CG000209 Rev G Appendix A1 partial-P5 forward and P7-N8-partial Read2N reverse at the MEDSB S7 site; note records that pMENT is not printed in Extended Data Table 2 and its sequence comes from Amini 2014 corrected Supp Table 4. No published discrepancy found.",
+      "deferred": [
+        "protocols.io bcuhiwt6 Kaya-Okur CUT&Tag predecessor (manual, DOI unresolved)",
+        "scCUT&Tag-pro predecessor and TotalSeq-A panel",
+        "Historical 10x scATAC kit revision actually used (Rev G applicability)",
+        "10x post-GEM Dynabeads/SPRI cleanups and their fates not represented",
+        "Separate ADT (TotalSeq-A) library molecule; Tn5 9-nt gap geometry of the transferred intermediate"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 3/3 pass; page builds; pairing 0 problems; chemistry 0 established/1 conditional/4 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

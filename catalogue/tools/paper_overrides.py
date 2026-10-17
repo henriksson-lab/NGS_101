@@ -19,9 +19,18 @@ class PaperReference:
 
 
 BY_DIRECTORY = {
-    "chip-seq__10.1038+nmeth.1068": PaperReference(
+    "chip-seq__10.1038+nmeth1068": PaperReference(
         "Robertson", "2007", "Nature Methods", "https://doi.org/10.1038/nmeth1068"),
     "proximity-network-assay__10.1101+2025.06.19.660329": PaperReference(
         "Karlsson", "2025", "bioRxiv",
         "https://doi.org/10.1101/2025.06.19.660329"),
+}
+
+
+# Catalogue fields for an ours-only row (a protocol upstream does not list) that no
+# resolver supplies. fetch_scg_lib_structs.py fills these into scg_lib_structs.tsv after
+# NCBI's ID converter has run; a value here never replaces a resolved one, and a
+# resolved value that disagrees with it stops the build. Keyed by protocol directory.
+CATALOGUE_FIELDS = {
+    "chip-seq__10.1038+nmeth1068": {"citation_text": "ChIP-seq"},
 }

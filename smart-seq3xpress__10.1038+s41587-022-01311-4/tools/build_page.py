@@ -20,7 +20,7 @@ import seqprimers as sp
 from chemdraw import Construct, Segment, Scene, feature, oligo, panel, protocol_graph_panels, revcomp
 from page import head, info
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, SequencingPlan, StepKind,
+from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, SequencingPlan, StepKind,
                             AnnotationSlot, SourceClaim, SourceDiscrepancy)
 from protocol_views import assemble_page
 
@@ -127,13 +127,24 @@ def index_pcr(graph, filled, polymerase):
     reverse = graph.input("index_reverse", "Custom i7 A1 primer (illustrative)", MaterialKind.OLIGO,
                           state=Construct([Segment("ordered i7 A1", INDEX_REVERSE)]))
     five, internal = final_library(), final_library(five_prime=False)
-    library = graph.product("library", "5-prime library, illustrative A1/A1", MaterialKind.LIBRARY, state=five)
-    other = graph.product("internal_library", "Internal library, illustrative A1/A1", MaterialKind.LIBRARY, state=internal)
-    graph.react("index_pcr", "Index PCR: source 10-base dual indexes; illustrative A1/A1", StepKind.PCR,
+    library = graph.product("indexed_library", "5-prime library, illustrative A1/A1", MaterialKind.LIBRARY, state=five)
+    other = graph.product("indexed_internal", "Internal library, illustrative A1/A1", MaterialKind.LIBRARY, state=internal)
+    graph.react("index_pcr", "Index PCR, 10-base dual indexes (illustrative A1/A1): 95 C 30 s, "
+                "12-14x(95 C 10 s, 55 C 30 s, 72 C 30-60 s), 72 C 5 min", StepKind.PCR,
                 ((filled, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (library, other), geometry=require_index_sites(five))
-    for material, construct in ((library, five), (other, internal)):
+    # Final Methods: plates spun out into a reservoir; pool purified with 22% PEG beads 1:0.7.
+    beads = graph.input("library_beads", "Homemade 22% PEG bead suspension, 0.7:1", MaterialKind.SELECTION)
+    pooled = graph.product("library", "Pooled, bead-purified 5-prime library", MaterialKind.LIBRARY, state=five)
+    pooled_internal = graph.product("internal_library", "Pooled, bead-purified internal library",
+                                    MaterialKind.LIBRARY, state=internal)
+    supernatant = graph.product("library_supernatant", "Bead supernatant and washes", MaterialKind.WASTE)
+    graph.react("library_cleanup", "Spin-out pooling of plates and 0.7:1 PEG-bead cleanup", StepKind.CLEANUP,
+                ((library, InputRole.TEMPLATE), (other, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (pooled, pooled_internal, supernatant), changes_molecule=False)
+    graph.discard(supernatant, "Removed on the magnet; removal of primers and short products is not quantified.")
+    for material, construct in ((pooled, five), (pooled_internal, internal)):
         graph.sequence(material, SequencingPlan(library=construct, primers=SEQ_PRIMERS,
                        acquired_roles=tuple(p.role for p in SEQ_PRIMERS)))
 
@@ -151,7 +162,7 @@ def render_page():
     return assemble_page(graph, [head("SMART-seq3xpress library chemistry"),
         '<div class="wrap" data-protocol-complete="true"><h1>SMART-seq3xpress — full-length single-cell mRNA</h1>',
         info('Defining source: <a href="https://doi.org/10.1038/s41587-022-01311-4">Hagemann-Jensen et al.2022</a>; original <a href="https://doi.org/10.17504/protocols.io.yxmvmk1yng3p/v1">author protocol v1</a>.'),
-        info("This declaration selects the final published improved WW TSO, Maxima H Minus RT, the SeqAmp pre-amplification option, and the commercial Nextera NT/TDE1 tagmentation route with Phusion index PCR. The paper also tests other pre-amplification enzymes and in-house Tn5; their choices are not silently inherited. Tagmented-end and extension intermediates remain role-level states here: their exact covalent geometry is not established by drawing the final library. Stock Nextera sequencing-primer sites are computed on that endpoint; no experiment-specific run cycle recipe is selected."),
+        info("This declaration selects the final published improved WW TSO, Maxima H Minus RT, the SeqAmp pre-amplification option, dilution of the cDNA without bead cleanup, the commercial ATM (Nextera XT) or TDE1 tagmentation route with SDS stop, Phusion index PCR, and the pooled 0.7:1 PEG-bead cleanup. The paper also tests other pre-amplification enzymes and in-house Tn5; their choices are not silently inherited. Tagmented-end and extension intermediates remain role-level states here: their exact covalent geometry is not established by drawing the final library. Stock Nextera sequencing-primer sites are computed on that endpoint; no experiment-specific run cycle recipe is selected."),
         info("This page represents the Illumina-compatible dual-index library before any MGI conversion. The defining paper also reports MGI adapter conversion/circularization and custom sequencing primers; that branch is outside this schematic."),
         AnnotationSlot.INTRO, ordered,
         "<h2>Step-by-step library generation</h2>", protocol_graph_panels(graph, cls="long"),
@@ -173,10 +184,16 @@ def protocol_graph() -> ProtocolGraph:
                          Segment("polyA", "A" * DT_LENGTH)]), primary=True)
     primer = graph.input("rt_primer", "Biotinylated anchored oligo(dT)30VN", MaterialKind.OLIGO,
                          state=rt_primer())
-    enzyme = graph.input("reverse_transcriptase", "Maxima H Minus reverse transcriptase", MaterialKind.CATALYST)
+    enzyme = graph.input("reverse_transcriptase", "Maxima H Minus reverse transcriptase (2 U/uL)", MaterialKind.CATALYST)
+    # Final Methods, "Low-volume Smart-seq3 and Smart-seq3xpress library preparation".
+    lysis = graph.input("lysis", "Lysis under 3 uL overlay: 0.1% Triton X-100, 5% PEG8000, 0.5 mM dNTP each, "
+                        "RNase inhibitor; 72 C 10 min", MaterialKind.CONDITION)
+    rt_buffer = graph.input("rt_buffer", "RT mix: 25 mM Tris-HCl pH 8.3, 30 mM NaCl, 0.5 mM GTP, 2.5 mM MgCl2, "
+                            "8 mM DTT; 42 C 90 min, 10x(50 C 2 min, 42 C 2 min)", MaterialKind.CONDITION)
     first = graph.product("first_strand", "First-strand cDNA; terminal addition not resolved base by base", MaterialKind.MOLECULAR)
     graph.react("reverse_transcription", "Reverse-transcribe from anchored oligo(dT)", StepKind.REVERSE_TRANSCRIPTION,
-                ((mrna, InputRole.TEMPLATE), (primer, InputRole.STRUCTURAL), (enzyme, InputRole.CATALYST)), (first,))
+                ((mrna, InputRole.TEMPLATE), (primer, InputRole.STRUCTURAL), (lysis, InputRole.CONDITION),
+                 (rt_buffer, InputRole.CONDITION), (enzyme, InputRole.CATALYST)), (first,))
     tso = graph.input("tso", "Biotinylated improved WW template-switch oligo", MaterialKind.OLIGO,
                       state=Construct(tso_segments()))
     switched = graph.product("switched", "Template-switched full-length cDNA", MaterialKind.MOLECULAR,
@@ -187,29 +204,50 @@ def protocol_graph() -> ProtocolGraph:
                           state=Construct([Segment("forward PCR", FORWARD_PCR)]))
     reverse = graph.input("preamp_reverse", "Phosphorothioate-protected reverse PCR primer", MaterialKind.OLIGO,
                           state=Construct([Segment("reverse PCR", REVERSE_PCR)]))
-    polymerase = graph.input("preamp_polymerase", "SeqAmp polymerase (represented published option)", MaterialKind.CATALYST)
+    polymerase = graph.input("preamp_polymerase", "SeqAmp polymerase, 0.025 U/uL in 0.6 uL (represented published option); 95 C 1 min, "
+                             "6-18 cycles of 98 C 10 s / 65 C 30 s / 68 C 2-6 min, 72 C 10 min", MaterialKind.CATALYST)
     preamp = switched_cdna(amplified=True)
     amplified = graph.product("amplified", "Amplified cDNA including the forward-primer s5/ME overhang", MaterialKind.MOLECULAR, state=preamp)
     graph.react("preamp", "Pre-amplify with the published asymmetric primer pair", StepKind.PCR,
                 ((switched, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (amplified,),
                 geometry=require_preamp_sites(preamp))
-    transposome = graph.input("transposome", "Commercial Nextera NT/TDE1 loaded transposome (published option)", MaterialKind.ADAPTER)
+    diluted = graph.product("diluted_cdna", "Diluted cDNA; 1 uL of the well transferred", MaterialKind.MOLECULAR,
+                            state=preamp)
+    water = graph.input("dilution_water", "9 uL water added per well (no bead cleanup)", MaterialKind.CONDITION)
+    remainder = graph.product("cdna_remainder", "Diluted cDNA remaining in the pre-amplification well",
+                              MaterialKind.MOLECULAR, state=preamp)
+    graph.react("dilute", "Dilute pre-amplified cDNA and transfer 1 uL into tagmentation", StepKind.SAMPLING,
+                ((amplified, InputRole.TEMPLATE), (water, InputRole.CONDITION)), (diluted, remainder),
+                changes_molecule=False)
+    graph.mark_terminal(Terminal(remainder.id, Disposition.STORED,
+                                 "Not carried into this library; its later use is not represented."))
+    transposome = graph.input("transposome", "Commercial ATM (Nextera XT) or TDE1 loaded transposome (published options)", MaterialKind.ADAPTER)
     tn5 = graph.input("tn5", "Tn5 activity in the commercial transposome", MaterialKind.CATALYST)
+    td = graph.input("td_buffer", "1x tagmentation buffer: 10 mM Tris pH 7.5, 5 mM MgCl2, 5% DMF; 55 C 10 min",
+                     MaterialKind.CONDITION)
     tagged = graph.product("tagmented", "Tagmented cDNA fragments; exact end geometry unassigned", MaterialKind.MOLECULAR)
     other = graph.product("tagment_waste", "Other tagmentation products outside the represented endpoint", MaterialKind.WASTE)
     graph.react("tagment", "Tagment amplified cDNA using the commercial Nextera option", StepKind.TAGMENTATION,
-                ((amplified, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL), (tn5, InputRole.CATALYST)), (tagged, other))
+                ((diluted, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL), (td, InputRole.CONDITION),
+                 (tn5, InputRole.CATALYST)), (tagged, other))
     graph.discard(other, "Outside the represented final-library classes; no absolute amplification exclusion or product frequency is asserted.")
-    index_polymerase = graph.input("index_polymerase", "Phusion DNA polymerase in the index-PCR mix", MaterialKind.CATALYST)
+    sds = graph.input("sds", "0.5 uL 0.2% SDS per well", MaterialKind.CONDITION)
+    released = graph.product("tn5_released", "Tn5-stripped tagmented fragments; exact end geometry unassigned",
+                             MaterialKind.MOLECULAR)
+    graph.react("strip_tn5", "Stop tagmentation and strip Tn5 with SDS", StepKind.DEPROTEINIZATION,
+                ((tagged, InputRole.TEMPLATE), (sds, InputRole.CONDITION)), (released,), changes_molecule=False)
+    index_polymerase = graph.input("index_polymerase", "Phusion DNA polymerase, 0.01 U/uL in the index-PCR mix", MaterialKind.CATALYST)
     filled = graph.product("gap_filled", "Extension intermediate before index PCR; exact end state unassigned", MaterialKind.MOLECULAR)
-    graph.react("gap_fill", "Initial extension hold before index PCR", StepKind.EXTENSION,
-                ((tagged, InputRole.TEMPLATE), (index_polymerase, InputRole.CATALYST)), (filled,))
+    graph.react("gap_fill", "Initial 72 C 3 min extension hold before index PCR", StepKind.EXTENSION,
+                ((released, InputRole.TEMPLATE), (index_polymerase, InputRole.CATALYST)), (filled,))
     index_pcr(graph, filled, index_polymerase)
     graph.declare_reviewed_scope(("mrna", "rt_primer", "reverse_transcriptase", "reverse_transcription",
         "tso", "template_switch", "preamp_forward", "preamp_reverse", "preamp_polymerase", "preamp",
         "transposome", "tn5", "tagment", "gap_fill", "index_forward", "index_reverse",
-        "index_polymerase", "index_pcr", "library", "internal_library"), SOURCE)
+        "index_polymerase", "index_pcr", "library", "internal_library", "lysis", "rt_buffer",
+        "diluted_cdna", "cdna_remainder", "dilution_water", "dilute", "td_buffer", "sds", "tn5_released", "strip_tn5",
+        "indexed_library", "indexed_internal", "library_beads", "library_cleanup"), SOURCE)
     graph.annotate(SourceDiscrepancy(
         "index_pcr", "Index length and the published processing example",
         (SourceClaim("Author protocol v1, p33, bcl2fastq example",
@@ -219,6 +257,15 @@ def protocol_graph() -> ProtocolGraph:
         "The molecular endpoint uses source-known ten-base indexes, with A1/A1 explicitly illustrative; no run mask is selected.",
         "Complete ordered primers and the final article independently support the ten-base molecular architecture.",
         "The eight-cycle example does not supply ten index bases for its adjacent configuration. The sources do not establish which example or run mask applied to every experiment; the page does not silently repair the command."))
+    graph.annotate(SourceDiscrepancy(
+        "preamp", "SeqAmp primer concentrations",
+        (SourceClaim("Final paper Methods, SeqAmp paragraph",
+                     "PCR mastermix contains '0.5 uM/1 uM Smartseq3 forward and reverse primer'."),
+         SourceClaim("Author protocol v1, step 9 PCR table (p14)",
+                     "Forward and reverse primers are each listed at 0.5 uM reaction concentration.")),
+        "The graph names the asymmetric primer pair and does not select a concentration.",
+        "Both sources agree on primer identity, SeqAmp polymerase at 0.025 U/uL and a 0.6 uL mix.",
+        "The article's '0.5 uM/1 uM' may denote forward/reverse values or tested alternatives; the sources do not establish which concentration each experiment used."))
     return graph.require_publishable()
 
 

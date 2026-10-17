@@ -67,5 +67,25 @@
       "evidence": "Vendor guide names Bead-Linked Transposomes but does not specify complete molecular composition; one relevant adapter reference unavailable and independent second review pending."
     }
   ],
-  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Illumina DNA Prep Reference Guide 1000000025416 v12 PDF (md5 badd46af…, fetched into sources/illumina-dna-prep) text lines 97–211 (workflow, input recommendations, Table 1), 295–330/505–520 (product contents, index kits), 1530–1980 (Tagment Genomic DNA TAG 55C 15min; Post Tagmentation Clean Up TSB/PTC 37C 15min, TWB washes; Amplify Tagmented DNA BLT PCR program, cycle table, 10 bp UD note), 1980–2215 (double-sided IPB cleanup, pooling, library QC); Illumina Prep and Nextera adapter page lines 130–210 and IDT for Illumina UD Indexes page lines 135–200 (shotgun bundle).",
+      "oligo_scraper": "Run on sources/illumina-dna-prep: 0 hits (guide prints no oligo bases). Shotgun-bundle hits (Nextera page trimming/transposase adapters; UD-index i7/i5 arms lines 191/195) checked against the original pages.",
+      "findings": "Unbound excess DNA was discarded at binding 'by finite BLT capacity'; corrected: saturation limits yield, physical removal is the post-tagmentation supernatant/TWB wash. Added TB1, TAG 55C 15min, separate TSB stop (PTC 37C 15min), 3x TWB wash, EPM + pre-paired i7/i5 index adapters, BLT PCR program with input-dependent cycle table, and the double-sided IPB cleanup with both discarded fractions. Endpoint index windows changed from shared 8-nt default to 10-nt UD windows built locally (dropped _finish_pcr/_nextera_final imports); graph Highlight shows the 8 bp Nextera DNA CD index variant listed on p.5. Note rewritten with exact steps; initial 68C 3min left uninterpreted.",
+      "deferred": [
+        "Illumina Adapter Sequences umbrella document 1000000002694 (bulletin URL HTTP 404; child pages only)",
+        "BLT reagent composition (proprietary)",
+        "Paired read lengths (not set by the guide)",
+        "Blood/dried-blood-spot/saliva lysis and <500 bp amplicon branches not drawn",
+        "Purpose of the initial 68C 3min PCR step"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 1/1 passed; page builds; pairing 0 problems; chemistry 0 established/4 conditional/7 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 2 inputs without exact states (i7/i5 adapters, well unassigned); audit_protocol_sources --check ok; Markdown built; review schema checked"
+    }
+  ]
 }

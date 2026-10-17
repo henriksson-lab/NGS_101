@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "Pierce et al. Nat Methods 2021 doi:10.1038/s41587-021-00902-x; PMC8516442",
+      "locator": "Liscovitch-Brauer et al., Nat Biotechnol 39:1270-1277 (2021), doi:10.1038/s41587-021-00902-x; PMC8516442 (NIHMS1743004 author manuscript)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -19,7 +19,9 @@
         "date": "2026-10-16",
         "locations": "Original Pierce et al. 2021 PMC8516442 JATS Methods lines 132–156 and citations lines 296–310; source-bundle scraper",
         "finding": "Methods explicitly anneal MEDS A from T5 tagmentation oligo+pMENT and MEDS B from each barcoded T7 oligo+pMENT, match RT-primer barcode to MEDS B by plate orientation, then amplify ATAC and gRNA in separate PCR paths. The original cites Datlinger CROP-seq for its guide vector, Rubin Perturb-ATAC as comparator and Cusanovich 2015 sci-ATAC for combinatorial indexing."
-      }
+      },
+      "previous_locator": "Pierce et al. Nat Methods 2021 doi:10.1038/s41587-021-00902-x; PMC8516442",
+      "locator_note": "Label correction 2026-10-17: earlier locator text and historical passes/conclusion name \"Pierce et al. Nat Methods 2021\"; the article at this DOI and PMCID is Liscovitch-Brauer et al., Nature Biotechnology (PMC8516442 JATS front matter: volume 39, pages 1270-1277). Historical passes are left unchanged; read \"Pierce\" in them as this article."
     },
     {
       "id": "publisher_si",
@@ -157,5 +159,36 @@
       "evidence": "Publisher oligo workbook includes many exact bases; some PMC copies and variant mapping remain open."
     }
   ],
-  "conclusion": "Independent readers verified Pierce original methods, supplement and publisher oligo workbook, and corrected three linked-source identities: Datlinger CROP-seq guide-vector predecessor, Rubin Perturb-ATAC comparator, and Cusanovich 2015 true sci-ATAC predecessor. Inaccessible PMC supplement copies and experiment-specific variant mapping remain open; no missing-information claim is accepted."
+  "conclusion": "Independent readers verified Pierce original methods, supplement and publisher oligo workbook, and corrected three linked-source identities: Datlinger CROP-seq guide-vector predecessor, Rubin Perturb-ATAC comparator, and Cusanovich 2015 true sci-ATAC predecessor. Inaccessible PMC supplement copies and experiment-specific variant mapping remain open; no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Liscovitch-Brauer et al. Nat Biotechnol 2021 author manuscript PMC8516442 JATS text lines134 (MEDS A/B annealing, TnY assembly), 146–158 (glyoxal fixation, tagmentation/EDTA/MgCl2, RT and Stop-and-Stain, ~20-nuclei redistribution, proteinase K/PMSF, PCR1/PCR2 conditions, column/0.9X Ampure, E-gel ~250 bp, MiSeq), 160 (K562: ATAC HiSeq 2500, gRNA MiSeq); Supplementary Information MOESM1 text lines20–60 (Supp. Fig. 1 legend); Supplementary Table 1 MOESM3 (cells per well per step); Supplementary Table 2 MOESM4 lines4–21,119,217,363,461,559 via scraper",
+      "oligo_scraper": "MOESM4 scraper run (200 TSV rows); common oligos, spike-ins and first member of each barcoded family agree with the note's verbatim oligo block and the 10 exact source-guard oligos.",
+      "findings": "Corrected redistribution density from '15-20' to ~20 nuclei per well (Methods 2 µl at 10 nuclei/µl; Supp. Table 1 2x10^1) in the graph input and note; added RT Stop-and-Stain step and Supp. Table 1 plate counts to the note; rescoped the spike-in 'never mentioned' statement as a search result rather than an absence claim. Reaction order, MEDS annealing, PCR1/PCR2 cycling, cleanups and sequencer assignment agree with the model. Earlier checklist locator 'Pierce et al. Nat Methods' mislabels this Liscovitch-Brauer et al. Nat Biotechnol paper (historical entry preserved).",
+      "deferred": [
+        "Supp. Fig. 1d,e read lengths (graphical; not re-inspected in this pass)",
+        "U6 outer PCR1 primer one-base mismatch to CROPseq-Guide-Puro (table typo vs vector variant) unresolved",
+        "Spike-in purpose/ratio/step (not stated in passages read; two-pass gate not run)",
+        "Datlinger CROP-seq, Cusanovich sci-ATAC and Perturb-ATAC predecessors not re-read",
+        "Bioanalyzer/size of ATAC library and per-library actual cycle counts"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 11 passed; page builds; pairing 0 problems; chemistry 0 established/2 conditional/14 unresolved/0 contradictory; source guard 10 exact checked, 0 failed, 0 inputs without exact states, 1 graph; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "/husky/henriksson/NGS101_papers/sources/crispr-sciatac__10.1038+s41587-021-00902-x/s41587-021-00902-x_PMC8516442.xml front matter (journal, title, first author, volume, fpage/lpage)",
+      "findings": "Pure locator/label correction: paper row now names Liscovitch-Brauer et al., Nat Biotechnol 39:1270-1277 (2021). Historical passes, conclusion and earlier bounded checks that say \"Pierce et al.\" are preserved unchanged and refer to this same article. No availability or disposition changed.",
+      "deferred": [],
+      "scope": "Label correction only; no source-content reading pass.",
+      "verification": "audit_protocol_sources --check passes"
+    }
+  ]
 }

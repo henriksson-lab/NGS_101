@@ -20,6 +20,9 @@ These model limits do not assert that information is absent from the publication
 - Recovered article-linked author standard protocol **v3, 23 March 2022**, printed
   integer ID59800: oligos pp4–6, RT-PCR pp14–15, commercial library preparation
   pp21–22, sequencing/data processing pp26–29. Both readers checked its originals.
+  The article's materials link (`protocols.io/view/flash-seq-protocol-b6myrc7w`, JATS
+  line 167) is the URI that the integer-59800 public metadata assigns to the
+  `kxygxzkrwv8j/v3` DOI, so this v3 is the article-cited index-adapter source.
   The later **v4, 12 January 2023**, remains a separate comparator. Matching selected
   components does not establish complete equivalence between revisions.
 - The separate FS-UMI protocol and article identify its distinct oligos, primers and
@@ -49,8 +52,9 @@ extension, every first-cycle intermediate or the suppressive folding mechanism.
 The RT/terminal-addition/template-switch intermediates remain explicitly unresolved.
 
 The local graph selects **standard FS with commercial Nextera XT, NT neutralization
-and NPM enrichment**. It retains pre-tagmentation cDNA cleanup/QC/normalization and
-pooled-library cleanup. Index primers are already present in the initial NPM extension
+and NPM enrichment**. It retains pre-tagmentation cDNA cleanup (0.8:1 SeraMag), PicoGreen QC and
+normalization to 100–200 pg/µl, and the pooled-library 0.8:1 cleanup (JATS lines
+155–161, 182). Index primers are already present in the initial NPM extension
 mixture, and the same mixture continues through index PCR. The in-house Tn5/KAPA,
 plexWell, FS-LA and FS-UMI routes are not mixed into this branch.
 

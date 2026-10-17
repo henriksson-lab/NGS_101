@@ -33,13 +33,13 @@ def workflow():
          "Tn5 installs the same 23-base duplex at both fragment ends; its 19-base mosaic end performs strand transfer and its four-base palindrome is the future ligation end."),
         ("Gap-repair the staggered transposition products",
          molecule("fully duplex tagmented fragments", (role("copied custom end"), role("duplex genomic insert"), role("copied custom end"))),
-         "Uracil-tolerant polymerase and Taq ligase fill and seal the Tn5 gaps before the engineered ends are opened."),
+         "Kapa HiFi HotStart Uracil+ Ready Mix and Taq DNA ligase (72 °C, 30 min) fill and seal the Tn5 gaps before the engineered ends are opened."),
         ("Open dU with USER and phosphorylate with T4 PNK",
          molecule("ligation-ready linear fragments", (role("four-base cohesive end"), role("duplex genomic insert"), role("four-base cohesive end"))),
-         "USER cleaves at the internal deoxyuridine and PNK supplies ligatable 5-prime phosphates."),
+         "A single USER/T4 PNK reaction (37 °C, 1 h) cleaves at the internal deoxyuridine and supplies ligatable 5-prime phosphates."),
         ("Circularize by dilute intramolecular ligation",
          closed_circle("covalently closed genomic circles", (role("genomic insert"), role("custom circle-closing junction")), closure_label="T4 DNA ligase closure"),
-         "The complementary four-base ends close each fragment; low DNA concentration favours intramolecular ligation."),
+         "The complementary four-base ends close each fragment; T4 DNA ligase at 5 ng/ul for 16 h at 16 C favours intramolecular ligation."),
         ("Digest every molecule that still has a free end",
          closed_circle("exonuclease-purified DNA circles", (role("closed genomic circle"),), closure_label="no free DNA end"),
          "Exonuclease I, lambda exonuclease and Plasmid-Safe DNase remove residual linear or incompletely closed DNA."),
@@ -48,13 +48,13 @@ def workflow():
          "Only a circle containing a sequence cleaved by the programmed RNP acquires the free ends needed for library construction."),
         ("Add one 3-prime dA to each Cas9-cleaved end",
          da_tailed("dA-tailed Cas9 cleavage product", "Cas9-to-Cas9 genomic fragment"),
-         "The newly exposed Cas9 ends are shown before the hairpin adapter is introduced."),
+         "Proteinase K first strips the RNP; the Kapa A-tailing enzyme then adds the dA before the hairpin adapter is introduced."),
         ("Ligate the NEBNext hairpin adapter",
          molecule("hairpin-adapter-ligated cleavage products", (role("NEBNext hairpin"), role("Cas9-to-Cas9 genomic fragment"), role("NEBNext hairpin"))),
-         "A-tailing and the NEBNext adapter preserve each newly exposed Cas9 end as a sequencing boundary."),
+         "Kapa DNA ligase joins the NEBNext hairpin adapter to the dA-tailed ends, preserving each newly exposed Cas9 end as a sequencing boundary."),
         ("Open the hairpins with USER and PCR with dual indexes",
          molecule("dual-index CHANGE-seq library", (role("P5 + i5 + Read 1 arm"), role("genomic DNA starting at a Cas9 cut"), role("Read 2 arm + i7 + P7"))),
-         "USER makes the commercial adapter PCR-addressable; twenty cycles with NEBNext i5 and i7 primers complete the Illumina library."),
+         "USER makes the commercial adapter PCR-addressable; twenty Kapa HiFi cycles with NEBNext i5 and i7 primers complete the Illumina library."),
     ))
 
 
@@ -77,7 +77,7 @@ SUMMARY = 'A dU-bearing custom Tn5 transposome converts genomic DNA into exonucl
 CAVEAT = 'The two custom Tn5 oligos are paper-specific. The downstream NEBNext adapter and example Set 1 index primers are canonical vendor sequences for the commercial products named by the protocol.'
 FINAL_CAPTION = 'One strand of the symmetric Cas9-linearized product is shown. Read 1 and Read 2 both enter genomic DNA from newly exposed nuclease-cleavage ends; the custom Tn5 circle-closing junction is internal to the selected insert rather than a sequencing adapter.'
 READ_LENGTHS = {'Read 1': 150, 'Index 1 (i7)': 8, 'Index 2 (i5)': 8, 'Read 2': 150}
-SEQUENCING_INTRO = 'The defining protocol uses 150-bp paired-end MiSeq or NextSeq sequencing. Standard TruSeq primers bind the NEBNext-derived final construct; the paired genomic reads begin at the two Cas9-cleaved ends and point inward.'
+SEQUENCING_INTRO = 'The Supplementary Protocol sequences the pooled library on a MiSeq 600-cycle v3 kit with 150-bp paired-end reads and 8-bp dual-index reads; the article also reports NextSeq 550 runs with 150-bp paired-end reads. Standard TruSeq primers bind the NEBNext-derived final construct; the paired genomic reads begin at the two Cas9-cleaved ends and point inward.'
 SEQUENCING_ENDING = ''
 SEQUENCING_UNAVAILABLE = ''
 FINAL_LIBRARY, SEQ_PRIMERS = change_library()
@@ -101,7 +101,8 @@ def protocol_graph():
                 ((dna, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (tagged, tn5_waste))
     graph.discard(tn5_waste, "does not yield a recoverable custom-end genomic circle")
-    repair = graph.input("repair_mix", "gap-repair polymerase/ligase mix", MaterialKind.CATALYST)
+    repair = graph.input("repair_mix", "Kapa HiFi HotStart Uracil+ Ready Mix with Taq DNA ligase",
+                         MaterialKind.CATALYST)
     repaired = graph.product("repaired", "fully duplex custom-end fragments",
                              MaterialKind.MOLECULAR, state=tagged.state)
     graph.react("gap_repair", "Fill and seal the staggered transposition products",
@@ -118,7 +119,7 @@ def protocol_graph():
     graph.react("phosphorylate", "Phosphorylate the opened ligation ends",
                 StepKind.PHOSPHORYLATION,
                 ((opened, InputRole.TEMPLATE), (pnk, InputRole.CATALYST)), (phosphorylated,))
-    circle_ligase = graph.input("circle_ligase", "circle-closing DNA ligase",
+    circle_ligase = graph.input("circle_ligase", "T4 DNA ligase (circularization at 5 ng/ul)",
                                MaterialKind.CATALYST)
     circles = graph.product("circles", "covalently closed genomic circles",
                             MaterialKind.MOLECULAR, state=phosphorylated.state)
@@ -129,7 +130,7 @@ def protocol_graph():
                 geometry=CircularizationGeometry.known(
                     "double-strand intramolecular ligation",
                     statement="CHANGE-seq dilute-ligates the USER-opened ACGT cohesive ends of tagmented genomic fragments into covalently closed circles."))
-    exonuclease = graph.input("exonuclease", "linear-DNA exonuclease mixture",
+    exonuclease = graph.input("exonuclease", "Exonuclease I, lambda exonuclease and Plasmid-Safe ATP-dependent DNase",
                               MaterialKind.CATALYST)
     purified = graph.product("purified_circles", "exonuclease-purified genomic circles",
                              MaterialKind.MOLECULAR, state=circles.state)
@@ -145,13 +146,18 @@ def protocol_graph():
                 StepKind.GENOME_EDITING,
                 ((purified, InputRole.TEMPLATE), (sgrna, InputRole.STRUCTURAL),
                  (cas9, InputRole.CATALYST)), (linear,))
-    tailing = graph.input("tailing_enzyme", "single-dA tailing enzyme", MaterialKind.CATALYST)
+    protk = graph.input("proteinase_k", "proteinase K", MaterialKind.CATALYST)
+    deproteinized = graph.product("deproteinized", "RNP-free Cas9-linearized DNA",
+                                  MaterialKind.MOLECULAR, state=linear.state)
+    graph.react("strip_rnp", "Strip the Cas9 RNP with proteinase K", StepKind.DEPROTEINIZATION,
+                ((linear, InputRole.TEMPLATE), (protk, InputRole.CATALYST)), (deproteinized,))
+    tailing = graph.input("tailing_enzyme", "Kapa A-tailing enzyme", MaterialKind.CATALYST)
     tailed = graph.product("tailed", "dA-tailed Cas9-linearized products",
-                           MaterialKind.MOLECULAR, state=linear.state)
+                           MaterialKind.MOLECULAR, state=deproteinized.state)
     graph.react("tail", "Add one 3-prime dA to Cas9-cleaved ends", StepKind.TAILING,
-                ((linear, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
+                ((deproteinized, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
     hairpin = graph.input("nebnext_adapter", "NEBNext hairpin adapter", MaterialKind.ADAPTER)
-    ligase = graph.input("adapter_ligase", "NEBNext adapter ligase", MaterialKind.CATALYST)
+    ligase = graph.input("adapter_ligase", "Kapa DNA ligase (HTP PCR-free kit)", MaterialKind.CATALYST)
     ligated = graph.product("ligated", "hairpin-adapter-ligated cleavage products",
                             MaterialKind.MOLECULAR, state=tailed.state)
     graph.react("ligate_adapter", "Ligate the NEBNext hairpin adapter", StepKind.LIGATION,
@@ -161,7 +167,7 @@ def protocol_graph():
                     "NEBNext hairpin adapter", kind="cohesive", polarity="3-prime",
                     terminal_sequence="T",
                     statement="The NEBNext hairpin adapter presents the T end used with dA-tailed Cas9 products."))
-    opener = graph.input("hairpin_user", "USER enzyme for the hairpin adapter",
+    opener = graph.input("hairpin_user", "USER enzyme supplied with NEBNext Dual Index Primers Set 1",
                          MaterialKind.CATALYST)
     addressable = graph.product("addressable", "USER-opened PCR-addressable molecules",
                                 MaterialKind.MOLECULAR, state=ligated.state)
@@ -171,7 +177,7 @@ def protocol_graph():
     reviewed = ["dna", "tn5_adapter", "tn5", "tagment", "repair_mix", "gap_repair",
                 "user_enzyme", "open_du", "pnk", "phosphorylate", "circle_ligase",
                 "circularize", "exonuclease", "remove_linear", "sgrna", "cas9",
-                "cas9_cut", "tailing_enzyme", "tail", "nebnext_adapter",
+                "cas9_cut", "proteinase_k", "strip_rnp", "tailing_enzyme", "tail", "nebnext_adapter",
                 "adapter_ligase", "ligate_adapter", "hairpin_user", "open_hairpin"]
     _finish_pcr(graph, "index", addressable, FINAL_LIBRARY, SEQ_PRIMERS,
                 SEQUENCING_INTRO, reviewed, label="CHANGE-seq dual-index")

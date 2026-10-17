@@ -16,15 +16,18 @@
 > publisher's own supplement wherever they are read from, and `mmc2` is titled
 > "Supplementary table 2  Oligonucleotide sequences used in library construction". The
 > rest of the model is canonical `lib/illumina.py` / `lib/nextera.py` constants and
-> placeholders. The paper's **STAR Methods could not be fetched** (Cloudflare/Elsevier),
-> so reaction order below is derived from the oligo architecture 🟡 or missing 🔴, and the
-> Tn5 adaptor is an explicit inference drawn dotted on the page.
+> placeholders. The paper's **STAR Methods were read on 2026-10-17** (hand-downloaded
+> `j.cell.2018.02.001.pdf`, see §10); they supply reaction order and conditions. The
+> Tn5 insertion sequence is still not printed, so the s7-ME end is an explicit inference
+> drawn dotted on the page. Sections 2–6 below predate that reading; §10 records what
+> the STAR Methods confirm or change, and the model follows §10.
 
 **Microwell-seq** — Han X, Wang R, Zhou Y, Fei L, Sun H, Lai S, … Orkin SH, Yuan G-C,
 Chen M, Guo G. "Mapping the Mouse Cell Atlas by Microwell-Seq." *Cell* 2018;172:1091–1107.
 doi:[10.1016/j.cell.2018.02.001](https://doi.org/10.1016/j.cell.2018.02.001), PMID
-29474909. A published correction may exist; its DOI was not found in any fetched source and
-is not given here 🔴.
+29474909. Correction: *Cell* 2018;173:1307, doi:10.1016/j.cell.2018.05.012 🟢 (appended to
+the PDF; fixes an author name, the bead supplier and the lysis-buffer Tris concentration,
+0.1 M not 1 M).
 Data: GEO GSE108097 (as cited by the same lab's adrenal paper, below 🟡).
 
 Other papers listed for this method in `catalogue/scg_lib_structs.tsv`:
@@ -54,13 +57,14 @@ committed):
 | `same-lab_PMC7396412.xml` | adrenal paper, Europe PMC full text | transposase identity, "agarose" device |
 | `same-lab_PMC6028447.xml`, `same-lab_PMC8575926.xml` | Cell Discov letter; Microwell-seq 2.0 | nothing chemical for 1.0 |
 | `nmeth.1470_PMC2906222.xml` | nanoCAGE paper | what "semi-suppressive PCR" means |
+| `lab_MCA_microwell-seq_protocol_page.html` | Guo-lab "Microwell-seq protocol" section of https://bis.zju.edu.cn/MCA/ (undated web page, retrieved 2026-10-17; §9) | lysis, RT, Exo I, WTA and library PCR conditions, Nextera XT, NextSeq 500, Table 1 primers 🟢 (lab protocol; version not stated) |
+| `j.cell.2018.02.001.pdf` (+ `.txt`) | the defining *Cell* article PDF with STAR Methods and the appended correction (hand-downloaded from cell.com on the institutional network, 2026-10-17; printed DOI/title/authors checked) | Key Resources Table oligos (lines 2510–2565), Method Details (lines 2670–2740), data processing (2815–2820), correction (6335–6355) 🟢 |
+| `lab_Protocol_for_making_microwells_and_barcoded_beads.docx` | Guo-lab docx linked from the same page (undated; §9) | microwell geometry, EDC coupling, Phanta extension rounds, 95 °C strand stripping 🟢 (lab protocol) |
 
 Not obtained 🔴 (Cloudflare / Elsevier block from this host; fetch by hand):
 
 | URL | Why it matters |
 |---|---|
-| https://www.cell.com/cell/fulltext/S0092-8674(18)30116-8 | STAR Methods: array fabrication, bead synthesis, lysis, RT, exonuclease, PCR cycles, tagmentation, sequencing read lengths |
-| http://www.cell.com/article/S0092867418301168/pdf | same, as PDF |
 | https://www.sciencedirect.com/science/article/pii/S0092867418301168 | supplements mmc3–mmc7 direct from the publisher (mmc1 and mmc2, the two oligo tables, are on disk via the scg_lib_structs mirror of `data/Microwell-seq/`; `catalogue/extra_sources.tsv` now declares that mirror so `get_sources.py` fetches them as `scg_*` rather than by hand) |
 
 ---
@@ -270,12 +274,17 @@ Library:
    single primer on two identical ends is nanoCAGE's **semi-suppressive PCR**: when both ends carry the same sequence, short
    products fold into intramolecular panhandles and are amplified poorly, while long cDNA
    amplifies (nanoCAGE Fig. 1b, read 🟢 for the principle). Purify.
-8. **Tagment** the purified cDNA. The same lab later names the enzyme: a "customized
+8. **Tagment** the purified cDNA. The Guo-lab web protocol (§9) says "Nextera XT
+   tagmentation reactions (Illumina, cat#FC-131-1096)" with the kit's N5xx primers
+   replaced by the P5 primer 🟢 (lab protocol, undated). The same lab's 2020 adrenal paper
+   instead names: a "customized
    transposase" from the **Vazyme TruePrep DNA Library Prep Kit V2 (TD513)**, "which
    carries two identical insertion sequences" (🟢 adrenal paper, 2020 — for 2018 🟡).
-   With identical adapters, and with the only Tn5-side primer being an N7xx (s7) primer,
-   the insertion sequence must be **s7-ME** (`nextera.ADAPTOR_S7`).
-   🟡 (inferred; adapter not published 🔴)
+   Under either reading, the only Tn5-side primer is an N7xx (s7) primer, so the library's
+   cDNA-side end is **s7-ME** (`nextera.ADAPTOR_S7`). With Nextera XT the s5-ME
+   insertions present in that kit give no product with these primers. Which enzyme the
+   2018 runs used is 🔴 (STAR Methods unread).
+   🟡 (inferred; adapter bases not printed in any source held 🔴)
 9. **Library PCR with P5 + one N7xx.** Three fragment classes 🟡 *(computed from the two
    printed primers and the inferred symmetric adaptor)*:
    - **bead end** (`SMART_HANDLE · AC · barcodes · UMI · T30 · insert · ME' · s7'`):
@@ -324,8 +333,9 @@ libraries in the adrenal paper (🟡); read lengths used in the 2018 paper 🔴.
 - 🔴 Origin of the 12-nt `GCCTGTCCGCGG` spacer and of the I-SceI site in the bead head.
 - 🟡 The P5 3'-mismatch / phosphorothioate discrimination of the TSO end is inferred from
   sequence alone.
-- 🟡 Tn5 adapter = s7-ME homodimer: supported by the later same-lab statement of "two
-  identical insertion sequences" and by the printed primers, not stated for 2018. This is
+- 🟡 Tn5 adapter at the library end = s7-ME: follows from the printed N7xx primers. The
+  undated lab web protocol names Nextera XT, while the 2020 adrenal paper names a TruePrep
+  enzyme with "two identical insertion sequences". Neither is stated for 2018. This is
   the one inferred region on the public page, and it carries all three required signals
   (page caveat, `INFERRED — …` step caption, dotted bases).
 - 🟡 `L1 = CGACTCACTACAGGG` differs from the T7 promoter tail `CGACTCACTATAGGG` by one
@@ -343,3 +353,111 @@ paper came from Europe PMC. `tools/doctext.py` copied the Europe PMC XML through
 the `.xml.txt` twins were re-made by stripping tags. `tools/scrape_primers.py` found all
 Table S2 and Table S1 rows, but joined the one-sequence-per-line barcode text files into a
 single 5472-nt "sequence".
+
+## 8. Bounded pass 2026-10-17 (round breadth-first-12)
+
+- Defining *Cell* article re-tried: `get_sources.py` still records it as a manual row
+  (no open full text); a direct cell.com PDF request returned a Cloudflare 403 challenge,
+  and Europe PMC core metadata for PMID 29474909 reports `inPMC=N`, `isOpenAccess=N`
+  (full-text links: cell.com PDF and the DOI only). STAR Methods remain unread 🔴.
+- Supplementary Table S2 (`upstream_1-s2.0-S0092867418301168-mmc2.xlsx.txt`, lines 1–9
+  and the N701–N819 rows) re-compared with the model: bead seqA/seqB, TSO LNA, TSO-PCR,
+  P5 `…GCAGAGT-s-A-s-C`, Read1 SeqA-GT/SeqB-TAC and N701 agree with the declared
+  segments 🟢. No sequence change.
+- Model correction: the graph's sequencing plan previously declared acquired cycle
+  counts (Read 1 54, Index 1 8). Those are informative minima computed from the oligos
+  (§5), not published run lengths, so the plan now declares none and states why; the page
+  sequencing intro says the same.
+- The same-lab adrenal paper (`same-lab_PMC7396412.xml.txt`, lines 3–24) only reports
+  BGI MGISEQ2000 versus Illumina HiSeq sequencing of a later library; it does not state
+  2018 read lengths.
+
+## 9. Follow-up pass 2026-10-17 (round deferred-followup-02)
+
+- Defining *Cell* article re-tried by every legitimate route. Unpaywall/OpenAlex: bronze
+  open access at the publisher only (`https://www.cell.com/article/S0092867418301168/pdf`),
+  no repository copy. cell.com fulltext/showPdf and ScienceDirect return Cloudflare 403
+  challenge pages. Not in PMC or Europe PMC. Manual URL:
+  http://www.cell.com/article/S0092867418301168/pdf. STAR Methods remain unread 🔴.
+- GEO GSE108097 series and sample GSM2889480 (text view): the extraction protocol says only
+  "Library preparations were performed with the Microwell-seq protocol". Instrument: HiSeq
+  2500. SRA SRX3471805 run SRR6377012 has 2 × 150 nt deposited spots. These are deposit
+  records, not a stated read design.
+- **New original found: the Guo lab's own protocol** on the Mouse Cell Atlas website
+  (https://bis.zju.edu.cn/MCA/, section "Microwell-seq protocol";
+  `lab_MCA_microwell-seq_protocol_page.html.txt` lines 175–252) plus the linked docx
+  `data/Protocol_for_making_microwells_and_barcoded_beads.docx`. Neither is dated or tied
+  to a version, so applicability to the 2018 runs is 🟡. Read 🟢 (lab protocol):
+  - beads: 28 µm × 35 µm microwells; carboxyl magnetic beads (20–25 µm); round-1
+    amino-oligos coupled with EDC; rounds 2 and 3 by Phanta Master Mix (Vazyme) extension
+    (5 cycles, then 1 cycle); complementary strands stripped at 95 °C (docx).
+  - lysis 0.1 M Tris pH 7.5, 0.5 M LiCl, 1% LiSDS, 10 mM EDTA, 5 mM DTT, 10 min (line 193).
+  - RT: SuperScript II, 1 M betaine, 6 mM MgCl2, 1 µM TSO_RT primer, 42 °C 90 min (line 199).
+  - Exonuclease I (NEB), 1 U/µl, 37 °C 45 min, "to remove oligonucleotides which did not
+    capture mRNA" (line 205).
+  - WTA: KAPA HiFi HotStart ReadyMix + 0.4 µM TSO_PCR, 14 cycles (line 209).
+  - "Nextera XT tagmentation … We replace the index 2 primers (N5xx) in the kit with our P5
+    primer", 13–15 cycles, 0.6× AMPure, 400–700 bp peak; "sequenced on the Illumina
+    NextSeq 500 using … Read1CustSeq" (line 213).
+  - Table 1 (lines 229–252): TSO_RT `AAGCAGTGGTATCAACGCAGAGTGAAT/rG/rG/iXNA_G`, TSO_PCR,
+    P5 `…GCAGAGT*A*C` and Read1CustSeq `GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTACGT`. All
+    four agree with the Table S2-derived model (checked against `microwell_seq.TSO`,
+    `P5_PRIMER` and `CUSTOM_R1`). Scraper run on both files: those 4 sequences only.
+- Model changes: the graph now names SuperScript II, Exo I as its own digestion step, the
+  KAPA PCR, the Phanta extension and the Nextera XT enzyme, all with lab-protocol
+  provenance. The Tn5 adapter is relabelled from "symmetric s7" to "s7-ME at the
+  N7xx-selected end" (still inferred). The page caveat and sequencing intro now give the
+  NextSeq 500 (lab page) versus HiSeq 2500 (GEO) instrument difference. Construct bases are
+  unchanged.
+- Still deferred: the *Cell* STAR Methods (whether the lab page matches the 2018 runs), the
+  2018 read lengths, publisher mmc3–mmc7, and the bases of the Tn5 adapter.
+
+## 10. STAR Methods reading (deferred follow-up 03, 2026-10-17)
+
+Source: `j.cell.2018.02.001.pdf.txt` (Cell 172:1091–1107.e1–e7). Verified as the defining
+article (printed DOI 10.1016/j.cell.2018.02.001, title, Han … Guo). Line numbers below
+point into the `.txt` twin.
+
+- 🟢 Key Resources Table (lines 2510–2565): bead seqA/seqB as in Table S2; "Primer for
+  Reverse transcription: AAGCAGTGGTATCAACGCAGAGTGAAT/rG/rG/iXNA_G"; "Primer for cDNA
+  amplification: AAGCAGTGGTATCAACGCAGAGT"; library/sequencing primers "see Table S2".
+- 🟢 Bead synthesis (lines 2680–2700): 20–25 µm carboxyl magnetic beads; round 1
+  EDC coupling of amino-modified A oligos (50 µM) in 0.1 M MES in a 96-well plate;
+  rounds 2 and 3 by PCR in 1× Phanta Master Mix with 5 µM B or C oligos (round 2:
+  94 °C 5 min, 5 cycles 94 °C 15 s / 48.8 °C 4 min / 72 °C 4 min; round 3: 48.8 °C 20 min,
+  72 °C 4 min); complementary chains removed at 95 °C for 6 min with magnetic separation,
+  twice. This confirms step 4's strand stripping (§3).
+- 🟢 Cell collection and lysis (lines 2701–2709): 100,000 cells/ml, 1,000,000 beads/ml;
+  doublets blown out by capillary; beads loaded on a magnet; cold lysis buffer (0.1 M
+  Tris-HCl pH 7.5 per correction, 0.5 M LiCl, 1% SDS, 10 mM EDTA, 5 mM DTT) 12 min; 6× SSC
+  and Tris washes; 50,000 beads per tube.
+- 🟢 RT (lines 2710–2715): "the instructions from the Smart-seq2 protocol were followed";
+  200 U SuperScript II, 1 M betaine, 6 mM MgCl2, 2.5 mM DTT, 1 mM dNTP, TSO; 42 °C 90 min;
+  TE-SDS wash.
+- 🟢 Exonuclease I (lines 2716–2720): 1 U/µl, 37 °C **60 min** "to remove oligonucleotides
+  that did not capture mRNA" (the lab web page says 45 min).
+- 🟢 cDNA amplification (lines 2721–2727): four tubes, KAPA HiFi HotStart ReadyMix,
+  0.1 µM TSO_PCR; 98 °C 3 min; 4 cycles (65 °C anneal) + 10–14 cycles (67 °C anneal);
+  AMPure XP.
+- 🟢 Transposase fragmentation and selective PCR (lines 2729–2736): "fragmented by a
+  customized transposase that carries two identical insertion sequences … from TruePrep
+  DNA Library Prep Kit V2 for Illumina (Vazyme)"; "We replaced the index 2 primers (N5xx)
+  in the kit with our P5 primer … to specifically amplify fragments that contain the 3′ end
+  of transcripts. Other fragments will form self-loops, which impede their binding to PCR
+  primers." PCR 72 °C 3 min, 98 °C 30 s, 14 cycles (60 °C), AMPure XP; 400–700 bp peak;
+  "sequencing on an Illumina Hiseq system". So the 2018 enzyme is the TruePrep V2
+  single-insertion-sequence transposase, not Nextera XT; the insertion-sequence bases are
+  not printed and s7-ME stays inferred 🟡.
+- 🟢 Data processing (lines 2816–2820): reads lacking both linkers or poly(T) filtered;
+  cell barcode and UMI from Read One. No read lengths are printed.
+- Model corrections: conditions and sources moved from the undated lab web page to the
+  STAR Methods (Exo I 60 min, WTA 4 + 10–14 cycles, library PCR 14 cycles, lysis buffer,
+  bead synthesis); tagmentation relabelled TruePrep V2 with identical insertion sequences;
+  the former discarded "tagmentation waste" replaced by a PCR off-product, the self-looped
+  internal fragments, left unresolved (not physically removed); page caveat and
+  sequencing text updated. Earlier statements in §§2d, 3, 5 and 6 that conditions are
+  "unfetched" are superseded by this section.
+- Still open 🔴 (not confirmed absent): insertion-sequence bases of the Vazyme TruePrep V2
+  transposase (vendor document not read); acquired read lengths; publisher supplements
+  mmc3–mmc7 (not on disk; mmc1/mmc2 are the scg-mirrored publisher files); bead linker
+  chemistry ("5′-Bead-Linker-"); i7 index orientation question in §2c.

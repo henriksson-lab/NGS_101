@@ -14,6 +14,8 @@ import txci_atac as T
 import seqprimers as sp
 from chemdraw import Scene, annotation_rows, oligo, panel, protocol_graph_panels
 from page import head, info, table
+from protocol_graph import AnnotationSlot
+from protocol_views import render_annotations
 
 OUT = HERE.parent / "txci-atac-seq.html"
 
@@ -29,6 +31,7 @@ def render() -> str:
     oligos = "\n".join([
         oligo("Tn5ME-A", T.tn5_a()),
         oligo("Tn5ME-B (one representative barcode)", T.tn5_b()),
+        oligo("Tn5ME-B as printed (Table S4)", T.tn5_b_template()),
         oligo("Tn5MErev", T.tn5_bottom(), mods="/5Phos/"),
         oligo("10x bead oligo", T.bead_oligo()),
         oligo("Short SBS", [T.seg("partial TruSeq Read 2", T.SHORT_SBS, "r2")]),
@@ -46,13 +49,14 @@ def render() -> str:
         '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
         '<h2>Molecular details</h2>',
         '<h3>(1) Pre-index nuclei in a 96-well Tn5 plate</h3>',
-        info('Each well has one 8-nt Tn5 barcode. Nuclei are pooled after tagmentation and overloaded into the Chromium ATAC workflow.'),
+        info('Each well has one 8-nt Tn5 barcode. 20,000 nuclei per well are tagmented at 37 &deg;C for 1 h and chilled on ice without a stop buffer; nuclei are then pooled, washed in TMG and overloaded (100,000&ndash;200,000 per lane) into the Chromium ATAC workflow.'),
         '<h3>(2) Add GEM barcode and suppress barcode swapping</h3>',
-        info('The P5&ndash;GEM barcode&ndash;s5 bead oligo primes the A end. Short SBS primes the B end, making amplification exponential within each droplet.'),
+        info('The P5&ndash;GEM barcode&ndash;s5 bead oligo primes the A end. Short SBS (5 &micro;M in the loading buffer) primes the B end, making amplification exponential within each droplet: 72 &deg;C 5 min, 98 &deg;C 30 s, then 8 cycles. Optionally 10% of the GEMs are taken for a QC library before cleanup.'),
         '<h3>(3) Add the lane index and flow-cell ends</h3>',
         panel([*duplex.rows(), *annotation_rows(lib)], cls="small", caption="INFERRED — final library, P5 to P7\'. Only the dotted 10x bead-derived end remains source-unresolved; the custom Tn5 and i7 regions are published."),
         '<h2>Sequencing</h2>',
         info('Read 1: 51 cycles; i7: 8 usable cycles; i5: 16 cycles; Read 2: 78 cycles. Standard Illumina primer mixes are used.'),
+        render_annotations(graph, AnnotationSlot.SEQUENCING),
         sp.diagram(lib, T.SEQ_PRIMERS),
         table(("Read", "Standard primer", "Primer site", "First bases"), landings),
         '<h3>Read 2 before genomic DNA</h3>',

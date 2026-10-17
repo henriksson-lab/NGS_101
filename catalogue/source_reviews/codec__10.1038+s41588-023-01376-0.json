@@ -199,5 +199,25 @@
       "locations": "Original MOESM3peerreviewfilechemistry contexts103–134,291–345,425–440,590–595,718–744",
       "finding": "Bounded chemistry-related review correspondence checked: argues recovery/GCbias, updatedbyproductfigures, optionalcaptureblocker discussion with actualTwistuniversalblockerslink727 anddoublecaptureSchmitt2015reference741. Not a full-file original/source exclusion; remaining full peer-review/link scope retained."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Final Nature Genetics PMC10181940 JATS (s41588-023-01376-0_PMC10181940.xml.txt) Fig.1 legend/Results104-112, Methods DNA samples202, End-repair/dA-tailing206, CODEC210 (exceptions 1-6), Enrichment216, Sequencing220; Supplementary Information MOESM1 Table5 lines484-500 (adap5/adap7 sets)",
+      "oligo_scraper": "Bundle scraper run; LD4-adap5-1 hit followed to Table5; set-1 adap5/adap7/brid5/brid7 complete modified sequences re-checked by selftest (4/4) against original Table5 text.",
+      "findings": "Oligos agree with Table5. Graph lacked source-stated steps: added Covaris shearing to mean 150 bp (2.5-20 ng input; not cfDNA), 1.8x AMPure before ligation with 40 ul low-TE elution, 0.75x AMPure after phi29, and two 0.65x AMPure after PCR (cfDNA 0.5x/0.65x double-sided), each with discarded outputs. Labels now carry adapter annealing 85 C 3 min/-1 C per min/12 h RT, 500 nM adapter, 1 h ligation, E7103L End Prep, phi29 M0269L 30 C 20 min 0.2 mM dNTP, KAPA HiFi 2 min extension. No published discrepancy found in inspected lines.",
+      "deferred": [
+        "KAPA Library Amplification manual (cycle number not stated in Methods; unassigned)",
+        "IDT xGen 1077677 primer-strand identity and contiguous amplified product",
+        "Supplementary Text demultiplexing NNNA/NNNT variants beyond set 1",
+        "Optional Duplex-Repair, ddBTP-blocked ER/AT and xGen enrichment branches not drawn",
+        "Peer-review file and CODECsuite/Zenodo scope"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 4/4 pass; page builds; pairing 0 problems; chemistry 1 established/0 conditional/9 unresolved/0 contradictory (8 steps); source guard 2 exact checked, 0 failed, 2 inputs without exact states (xGen primer mix strands); Markdown built; review schema checked"
+    }
   ]
 }

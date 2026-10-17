@@ -1,333 +1,353 @@
 {
-  "dir": "scgro-seq__10.1038+s41586-024-07517-7",
-  "status": "in_progress",
-  "source_checklist": [
-    {
-      "id": "paper",
-      "role": "defining",
-      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_PMC11222150.xml.txt",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-16",
-        "locations": "Methods lines 187–193 and 227–233",
-        "finding": "Article defines three 5′ azide single-cell barcode/UMI adaptor designs, a self-folded 86-nt hairpin and a 43-nt spacer-blocked alternative; Supplementary Table 7 is the source for ordering strings."
-      },
-      "pass_2": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Original PMC Cloud JATS text lines 187–195 and 227–247; references 50–53 at lines 753–776; scraper hits at line 247",
-        "finding": "Methods independently show the three 5′-azide adaptor designs, spacer-blocked ACAGG option, 6-cycle pre-amplification, Cas9–gRNA DASH after pre-amplification, second PCR and NovaSeq 64+43+8+8 run. Ref. 50 (Click-Code-Seq) and ref. 52 (3′ blocker) are additional chemistry-relevant originals that require checklist rows."
-      }
-    },
-    {
-      "id": "supp_oligo",
-      "role": "supplement",
-      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM1_ESM.pdf.txt",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-16",
-        "locations": "Supplementary Table 7 extracted lines 131–162",
-        "finding": "Three ordered azide adaptor strings are printed, including ten/twelve-base cell barcodes, four/six/five-base UMIs, and [SpC3] for design 3."
-      },
-      "pass_2": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Original MOESM1 PDF text Supplementary Table 7 lines 131–164 and Tables 8–9 lines 166–222; scraper hits at lines 146, 155, 162",
-        "finding": "Table 7 explicitly prints all three modified adaptor design templates, including [azideT], [azide86 nt T], J/N windows and design-3 [SpC3]. Tables 8–9 give PCR programs. This source does not disclose the 96 individually chosen barcode strings or scGRO-specific guide sequence."
-      }
-    },
-    {
-      "id": "source_1",
-      "role": "supplement",
-      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM2_ESM.pdf",
-      "availability": "read",
-      "relevance": "not_relevant",
-      "pass_1": {
-        "reviewer": "close_scsprite_seqwell",
-        "date": "2026-10-16",
-        "locations": "Original MOESM2 PDF, visual pages 1–3; extracted .txt contains only a form feed",
-        "finding": "Nature Reporting Summary: sample sizes, replication, data/software availability and cell-line disclosures. No reaction ordering, oligo, index or guide design. The cited public software/data links are analysis outputs, not chemistry sources."
-      },
-      "pass_2": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Original publisher MOESM2 Nature Reporting Summary PDF, visually inspected pages 1–3; text extraction only form feeds",
-        "finding": "Reporting Summary covers statistics, data/code availability, sample size and cell-line disclosures. Page 1 says NextSeq 5000/NovaSeq basecalling used, but provides no read-cycle recipe, oligo list or molecular reaction details; page 2 GEO and script links are analysis resources. Not relevant to missing chemistry facts."
-      },
-      "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
-    },
-    {
-      "id": "source_2",
-      "role": "supplement",
-      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM3_ESM.pdf.txt",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "close_scsprite_seqwell",
-        "date": "2026-10-16",
-        "locations": "Original MOESM3 peer-review PDF text lines 1000–1044 and 1100–1121; sequence-term scan throughout",
-        "finding": "Author response describes a 5′ adaptor attached through template switching in comparison PRO-seq and an optimized CuAAC test (>95% coupling with 100-fold azide DNA, 2 h at 50 °C and 15% PEG 8000). It does not print scGRO-seq ordering oligos. Relevant experimental context; no additional linked oligo source identified."
-      },
-      "pass_2": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Original publisher MOESM3 peer-review PDF text lines 1000–1044, 1100–1121 and 1296–1321; sequence/oligo/guide term scan across text",
-        "finding": "Reviewer response documents a comparison PRO-seq template-switching adaptor and >95% CuAAC coupling in the optimized 100-fold azide-DNA, 2 h, 50 °C, 15% PEG 8000 condition. Referee explicitly identifies Click-Code-Seq as chemical predecessor and author response says it was added to final references (ref. 50). It supplies no scGRO ordering oligos; linked original requires its own row."
-      }
-    },
-    {
-      "id": "source_3",
-      "role": "supplement",
-      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM4_ESM.xlsx.txt",
-      "availability": "read",
-      "relevance": "not_relevant",
-      "pass_1": {
-        "reviewer": "close_scsprite_seqwell",
-        "date": "2026-10-16",
-        "locations": "MOESM4 workbook text sheet Table-1_scGROv2p8_max10kbp_max5, header and first records; article Supplementary Table 1 description lines 345–346",
-        "finding": "Burst kinetics by genomic feature: chromosome/start/end, reads, bursts, frequency and size. Analysis table, not an oligo or reaction source."
-      },
-      "pass_2": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Original MOESM4 workbook text sheet Table-1_scGROv2p8_max10kbp_max5, header line 2 and rows 3–11; defining article Supplementary Table 1 description lines 345–346",
-        "finding": "Columns feature/chromosome/start/end/length/expression/reads/bursts/burst rate/burst size are burst-analysis output, not oligo or reaction declarations. No external chemistry links in workbook."
-      },
-      "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
-    },
-    {
-      "id": "source_4",
-      "role": "supplement",
-      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM5_ESM.xlsx.txt",
-      "availability": "read",
-      "relevance": "not_relevant",
-      "pass_1": {
-        "reviewer": "close_scsprite_seqwell",
-        "date": "2026-10-16",
-        "locations": "MOESM5 workbook four original sheets GSEA of Burst Frequency, GSEA of Burst Size, AFF4_Genes, MYC_Genes; GSEA headers and first records; article Supplementary Table 2 description lines 347–348",
-        "finding": "Gene-set enrichment and transcription-factor target analysis. No chemistry or construct records in sheet structure."
-      },
-      "pass_2": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Original MOESM5 workbook text sheets GSEA of Burst Frequency lines 1–3, GSEA of Burst Size line 1775, AFF4_Genes line 1822, MYC_Genes line 2089; article Table 2 description lines 347–348",
-        "finding": "Four sheets hold gene-set enrichment and target gene statistics. Header and representative rows are analysis results without molecular reaction or library-layout fields; no linked chemistry materials."
-      },
-      "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
-    },
-    {
-      "id": "source_5",
-      "role": "supplement",
-      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM6_ESM.xlsx.txt",
-      "availability": "read",
-      "relevance": "not_relevant",
-      "pass_1": {
-        "reviewer": "close_scsprite_seqwell",
-        "date": "2026-10-16",
-        "locations": "MOESM6 workbook Table-3_CellCycle_genes_discove header and first records; article Supplementary Table 3 description lines 349–350",
-        "finding": "Cell-cycle differential-expression gene list and statistics. No chemistry or construct records in sheet structure."
-      },
-      "pass_2": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Original MOESM6 workbook text sheet Table-3_CellCycle_genes_discove header line 2 and rows 3–11; article Table 3 description lines 349–350",
-        "finding": "Gene/cell-state/log fold change/p-value columns identify differential-expression results. No oligo, reagent, reaction or sequencing recipe; no linked chemistry materials."
-      },
-      "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
-    },
-    {
-      "id": "source_6",
-      "role": "supplement",
-      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM7_ESM.xlsx",
-      "availability": "read",
-      "relevance": "not_relevant",
-      "pass_1": {
-        "reviewer": "close_scsprite_seqwell",
-        "date": "2026-10-16",
-        "locations": "Original 100 MB MOESM7 XLSX workbook.xml sheet scGROv2p8_GxG_co-transcribed_pa and sheet1.xml first 8 KB; article Supplementary Table 4 description lines 351–352",
-        "finding": "Gene-pair co-transcription correlation/statistics table. Large workbook was inspected by metadata and first worksheet rows, not fully extracted. No indication of chemistry/oligo content; classification remains provisional until independent pass."
-      },
-      "pass_2": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Original 96 MB MOESM7 XLSX xl/workbook.xml sole sheet scGROv2p8_GxG_co-transcribed_pa; xl/worksheets/sheet1.xml rows 1–3 decoded through sharedStrings; article Table 4 description lines 351–352",
-        "finding": "Header geneA/geneB/correlation/p-value/empirical p-value and first records are pairwise co-transcription output. Independent bounded workbook inspection supports not_relevant; full 531 MB XML worksheet was not scanned, so classification rests on source description plus sheet schema/records. No linked chemistry items in workbook metadata."
-      },
-      "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
-    },
-    {
-      "id": "source_7",
-      "role": "supplement",
-      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM8_ESM.xlsx.txt",
-      "availability": "read",
-      "relevance": "not_relevant",
-      "pass_1": {
-        "reviewer": "close_scsprite_seqwell",
-        "date": "2026-10-16",
-        "locations": "MOESM8 workbook Table-5_scGROv2p8_GxGmodules_ma header and first records; article Supplementary Table 5 description lines 353–354",
-        "finding": "Gene ontology and transcription module results. No chemistry/construct columns."
-      },
-      "pass_2": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Original MOESM8 workbook text sheet Table-5_scGROv2p8_GxGmodules_ma header line 2 and rows 3–11; article Table 5 description lines 353–354",
-        "finding": "Ontology, GO term, enrichment p/q, geneID and count columns are co-transcription module analysis. No molecular recipe or linked chemistry material."
-      },
-      "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
-    },
-    {
-      "id": "source_8",
-      "role": "supplement",
-      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM9_ESM.xlsx",
-      "availability": "read",
-      "relevance": "not_relevant",
-      "pass_1": {
-        "reviewer": "close_scsprite_seqwell",
-        "date": "2026-10-16",
-        "locations": "Original 47 MB MOESM9 XLSX workbook.xml sheet scGROv2p8_ExG_co-transcription_ and sheet1.xml first 8 KB; article Supplementary Table 6 description lines 355–356",
-        "finding": "Enhancer–gene co-transcription correlation/statistics table. Large workbook was inspected by metadata and first worksheet rows, not fully extracted. No indication of chemistry/oligo content; classification remains provisional until independent pass."
-      },
-      "pass_2": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Original 46 MB MOESM9 XLSX xl/workbook.xml sole sheet scGROv2p8_ExG_co-transcription_; xl/worksheets/sheet1.xml rows 1–3 decoded through sharedStrings; article Table 6 description lines 355–356",
-        "finding": "Header Gene/Enhancer/correlation/p-values/empirical p-values/class and first records are enhancer–gene co-transcription output. Independent bounded workbook inspection supports not_relevant; full 282 MB XML worksheet was not scanned, so classification rests on source description plus sheet schema/records. No linked chemistry items in workbook metadata."
-      },
-      "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
-    },
-    {
-      "id": "azide_predecessor",
-      "role": "linked_material",
-      "locator": "Miller & Kool, J Org Chem 2004, DOI 10.1021/jo035765e (Mahat Methods ref. 51); https://pubs.acs.org/doi/10.1021/jo035765e",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "reason": "ACS article full text purchase-gated; automated source fetcher resolved only DOI/manual URL. PubMed/ACS abstract is not a full original-source read.",
-      "discovered_from": "paper",
-      "pass_1": {
-        "reviewer": "close_scsprite_seqwell",
-        "date": "2026-10-16",
-        "locations": "Mahat Methods ref. 51 (paper text lines 189–190, references 756–762); ACS DOI page and PubMed abstract inspected; tools/get_sources.py --doi result",
-        "finding": "Miller & Kool 2004 DOI 10.1021/jo035765e is the explicitly cited 5′-azide synthetic chemistry predecessor. ACS full text is purchase-gated; source fetcher obtained only manual link. Abstract confirms on-column iodinated-to-azide conversion but cannot verify original reaction details or sequence. Relevant original remains unavailable."
-      },
-      "pass_2": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Mahat original article ref. 51 lines 759–762; ACS DOI 10.1021/jo035765e page and PDF route tested 2026-10-16 (HTTP 403); Stanford author publication/profile route and PubMed abstract checked",
-        "finding": "Relevant Miller–Kool full original could not be read independently. Publisher PDF returned 403; author pages and search found bibliographic entries only. The abstract is not enough to verify source synthesis details or absence of a sequence. Keep unavailable and missing claim blocked."
-      }
-    },
-    {
-      "id": "dash_predecessor",
-      "role": "linked_material",
-      "locator": "Gu et al., Genome Biol 2016, DOI 10.1186/s13059-016-0904-5 (Mahat Methods ref. 53), https://link.springer.com/article/10.1186/s13059-016-0904-5; linked Additional file 1 https://media.springernature.com/original/springer-static/esm/art:10.1186%2Fs13059-016-0904-5/MediaObjects/13059_2016_904_MOESM1_ESM.pdf",
-      "availability": "read",
-      "relevance": "relevant",
-      "discovered_from": "paper",
-      "pass_1": {
-        "reviewer": "close_scsprite_seqwell",
-        "date": "2026-10-16",
-        "locations": "Gu et al. Genome Biol 2016 DOI 10.1186/s13059-016-0904-5 original publisher article Methods and Fig. 1; original Additional file 1 Table S1 pages 1; Mahat Methods ref. 53 lines 195, 235–241",
-        "finding": "DASH applies Cas9/sgRNA cleavage to undesired dsDNA after adapters and before final amplification. Original Table S1 lists mitochondrial/KRAS/control guides, not Mahat’s ACAGG-specific guide; no scGRO guide can be imported. Linked Table S1 was followed and judged unrelated to exact scGRO guide."
-      },
-      "pass_2": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Gu et al. original publisher article DOI 10.1186/s13059-016-0904-5, Fig. 1 and Materials and methods (publisher HTML lines 89–103, 201 onward); original Additional file 1 Table S1 PDF page 1, extracted lines 1–31, oligo scraper run",
-        "finding": "DASH cuts selected dsDNA library targets after adapter placement and before final amplification. The linked table has 54 mitochondrial guide targets plus KRAS WT and non-human control, no ACAGG-specific scGRO guide. Direct original PDF supplement independently checked; source provides mechanism but not scGRO guide sequence."
-      }
-    },
-    {
-      "id": "spacer_predecessor",
-      "role": "linked_material",
-      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/zhou-unlabeled-hrm-2004.pdf.txt; original Clinical Chemistry article DOI 10.1373/clinchem.2004.034322 mirrored at https://gene-quantification.de/zhou-unlabeled-hrm-2004.pdf",
-      "availability": "read",
-      "relevance": "relevant",
-      "discovered_from": "paper",
-      "pass_1": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Mahat original Methods line 193 and ref. 52 lines 764–768; exact DOI-matched original Zhou et al. article PDF mirrored at gene-quantification.de, page 2 (extracted lines 130–137) and discussion page 6 (lines 424–433); oligo scraper run 2026-10-16",
-        "finding": "Original article uses 3′-phosphorylated nonextendable probes experimentally and explicitly states in discussion that a 3′-spacer C3 is another nonextendable termination that prevents polymerase extension. It supports the general blocking rationale, not an experiment with scGRO’s own spacer-blocked adaptor. Publisher route returned 403, but an exact original-article mirror was read."
-      },
-      "pass_2": {
-        "reviewer": "grid_source_recovery",
-        "date": "2026-10-16",
-        "locations": "Exact 2004 Clinical Chemistry original PDF mirror https://gene-quantification.de/zhou-unlabeled-hrm-2004.pdf, page 2 Methods lines 108–141 (printed oligos/probes, 3-prime phosphate), page 6 Discussion lines 369–378 (why block polymerase extension and spacer C3 named); publisher OUP article route independently checked",
-        "finding": "The original uses 3-prime phosphorylated probes in PCR and explicitly lists 3-prime spacer C3 among nonextendable terminations that prevent polymerase extension. This supports the generic blocking mechanism only; it does not prove scGRO adaptor performance or its exact sequence."
-      }
-    },
-    {
-      "id": "click_code_predecessor",
-      "role": "linked_material",
-      "locator": "Wu et al., JACS 2018 Click-Code-Seq, DOI 10.1021/jacs.8b03715 (Mahat ref. 50 and MOESM3 peer-review discussion); https://pubs.acs.org/doi/10.1021/jacs.8b03715",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "discovered_from": "source_2",
-      "reason": "ACS main article is purchase-gated and official PDF returned HTTP 403; a free publisher-hosted original Supporting Information PDF is inventoried separately and read, but does not substitute for the main article.",
-      "pass_1": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Mahat original ref. 50 lines 753–757; original MOESM3 peer-review PDF lines 1296–1321; ACS PDF route tested 2026-10-16; ETH Sturla lab publication page; ACS Figshare SI metadata article 6869855",
-        "finding": "Referee and authors identify Click-Code-Seq as related propargyl/azide click-chemistry predecessor. Main ACS article remains inaccessible; publisher-hosted original Supporting Information was subsequently recovered and inventoried separately."
-      },
-      "pass_2": {
-        "reviewer": "grid_source_recovery",
-        "date": "2026-10-16",
-        "locations": "Original ACS article https://pubs.acs.org/doi/10.1021/jacs.8b03715 and PDF https://pubs.acs.org/doi/pdf/10.1021/jacs.8b03715 tested independently (publisher returns 403/purchase gate); exact DOI-matched ACS Figshare SI retrieved separately as file 12533270",
-        "finding": "The main JACS publication is still inaccessible. Its publisher abstract confirms click DNA ligation of a locator code, but does not supply original article reaction details; the original experimental SI is separately inspectable. Keep main article relevant/unavailable and any absence claim blocked."
-      }
-    },
-    {
-      "id": "click_code_supp",
-      "role": "linked_material",
-      "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/ja8b03715_si_001.pdf.txt; original ACS Figshare Supporting Information DOI 10.1021/jacs.8b03715.s001, https://acs.figshare.com/articles/journal_contribution/Nucleotide-Resolution_Genome-Wide_Mapping_of_Oxidative_DNA_Damage_by_Click-Code-Seq/6869855",
-      "availability": "read",
-      "relevance": "relevant",
-      "discovered_from": "click_code_predecessor",
-      "pass_1": {
-        "reviewer": "scgro_second_pass",
-        "date": "2026-10-16",
-        "locations": "Original SI PDF pages S5–S9 (extracted lines 112–197), Table S1 page S20 (lines 406–492), Fig. S3 page S12 (lines 302–312); oligo scraper run 2026-10-16",
-        "finding": "Original supplement documents 3′-O-propargyl-dGTP incorporation into DNA, CuAAC to 5′-azide code oligonucleotide, triazole bypass tests and Table S1 sequence list. It establishes related click-ligation chemistry but is a DNA-damage workflow with its own distinct oligos; none may be imported as scGRO-specific adapters or guide."
-      },
-      "pass_2": {
-        "reviewer": "grid_source_recovery",
-        "date": "2026-10-16",
-        "locations": "Original ACS Figshare file 12533270 / DOI 10.1021/jacs.8b03715.s001, 28-page ja8b03715_si_001.pdf; local extracted text lines 112–197 (Methods), 302–312 (Fig. S3), 410–493 (Table S1); oligo scraper run on local SI text before reading; PDF title/author page checked",
-        "finding": "Independent original SI inspection confirms prop-dGTP insertion at an 8-oxoG-derived DNA gap, CuAAC with a 5-prime azido oligo, a triazole junction that Vent exo-minus polymerase bypasses, and a distinct Table S1 oligo set. This supports related click chemistry but cannot source scGRO-specific barcode adapters, blockers, or Cas9 guides."
-      }
-    }
-  ],
-  "linked_information": {
-    "result": "blocked",
-    "pass_1": {
-      "reviewer": "close_scsprite_seqwell",
-      "date": "2026-10-16",
-      "locations": "Defining article Methods refs. 51, 53 and Supplementary Tables 1–9; publisher peer-review file and Reporting Summary; Gu DASH original and linked Table S1; ACS/PubMed Miller-Kool abstract and fetcher failure",
-      "finding": "Followed the cited DASH original and its guide supplement; neither identifies this protocol’s ACAGG-specific guide. The Miller-Kool original full text remains gated. Other linked supplements were categorized individually; two large workbooks received bounded sheet/header review and await second reader."
-    },
-    "pass_2": {
-      "reviewer": "scgro_second_pass",
-      "date": "2026-10-16",
-      "locations": "Mahat article refs. 50–53 and Supplementary Tables 1–9; MOESM2 pages 1–3, MOESM3 lines 1296–1321, MOESM4–9 sheet headers; Gu DASH publisher original and linked Additional file 1; ACS Miller–Kool PDF HTTP 403; OUP Zhou and ACS Click-Code original routes HTTP 403",
-      "finding": "Independently checked all listed supplements and followed DASH to its original guide table. Found two omitted linked chemistry originals: Click-Code-Seq ref. 50 and blocking-probe ref. 52, now checklist rows. The exact Zhou original was subsequently obtained from a mirror and read for pass 1, with independent pass 2 pending. Miller–Kool and Click-Code-Seq main articles remain unavailable through checked publisher/author routes; the Click-Code-Seq original Supporting Information was subsequently retrieved from ACS Figshare for pass 1; no missing-information claim accepted."
-    },
-    "followup_2026_10_16_root": {
-      "reviewer": "root",
-      "locations": "Source checklist rows spacer_predecessor, click_code_predecessor, click_code_supp after independent grid_source_recovery P2",
-      "finding": "The Zhou original and Click-Code-Seq supporting information now have independent second checks. Their chemistry is relevant but does not establish scGRO-specific oligo identities. The Click-Code-Seq main article and Miller–Kool original remain inaccessible, so linked-source disposition remains blocked."
-    }
+ "dir": "scgro-seq__10.1038+s41586-024-07517-7",
+ "status": "in_progress",
+ "source_checklist": [
+  {
+   "id": "paper",
+   "role": "defining",
+   "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_PMC11222150.xml.txt",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "audit_s_z",
+    "date": "2026-10-16",
+    "locations": "Methods lines 187–193 and 227–233",
+    "finding": "Article defines three 5′ azide single-cell barcode/UMI adaptor designs, a self-folded 86-nt hairpin and a 43-nt spacer-blocked alternative; Supplementary Table 7 is the source for ordering strings."
+   },
+   "pass_2": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Original PMC Cloud JATS text lines 187–195 and 227–247; references 50–53 at lines 753–776; scraper hits at line 247",
+    "finding": "Methods independently show the three 5′-azide adaptor designs, spacer-blocked ACAGG option, 6-cycle pre-amplification, Cas9–gRNA DASH after pre-amplification, second PCR and NovaSeq 64+43+8+8 run. Ref. 50 (Click-Code-Seq) and ref. 52 (3′ blocker) are additional chemistry-relevant originals that require checklist rows."
+   }
   },
-  "missing_claims": [
-    {
-      "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
-      "evidence": "The defining article, nine publisher supplements, DASH source and guide, Zhou original, and Click-Code-Seq supporting information have two located reads. Relevant Miller–Kool and Click-Code-Seq main articles remain inaccessible, so no absence claim can be accepted.",
-      "disposition": "blocked"
-    }
-  ],
-  "conclusion": "Two independent readers inspected the defining article, publisher supplements, original DASH article/guide table, Zhou ref. 52 original, and Click-Code-Seq supporting information. Zhou supports 3′ spacer C3 as a nonextendable terminator but tested 3′ phosphate in its own experiments; the Click-Code-Seq supplement describes a related click/triazole method with its own oligos. Miller–Kool and the Click-Code-Seq main articles remain inaccessible. No missing-information claim is accepted; scGRO review remains in progress and blocked on relevant originals."
+  {
+   "id": "supp_oligo",
+   "role": "supplement",
+   "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM1_ESM.pdf.txt",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "audit_s_z",
+    "date": "2026-10-16",
+    "locations": "Supplementary Table 7 extracted lines 131–162",
+    "finding": "Three ordered azide adaptor strings are printed, including ten/twelve-base cell barcodes, four/six/five-base UMIs, and [SpC3] for design 3."
+   },
+   "pass_2": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Original MOESM1 PDF text Supplementary Table 7 lines 131–164 and Tables 8–9 lines 166–222; scraper hits at lines 146, 155, 162",
+    "finding": "Table 7 explicitly prints all three modified adaptor design templates, including [azideT], [azide86 nt T], J/N windows and design-3 [SpC3]. Tables 8–9 give PCR programs. This source does not disclose the 96 individually chosen barcode strings or scGRO-specific guide sequence."
+   }
+  },
+  {
+   "id": "source_1",
+   "role": "supplement",
+   "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM2_ESM.pdf",
+   "availability": "read",
+   "relevance": "not_relevant",
+   "pass_1": {
+    "reviewer": "close_scsprite_seqwell",
+    "date": "2026-10-16",
+    "locations": "Original MOESM2 PDF, visual pages 1–3; extracted .txt contains only a form feed",
+    "finding": "Nature Reporting Summary: sample sizes, replication, data/software availability and cell-line disclosures. No reaction ordering, oligo, index or guide design. The cited public software/data links are analysis outputs, not chemistry sources."
+   },
+   "pass_2": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Original publisher MOESM2 Nature Reporting Summary PDF, visually inspected pages 1–3; text extraction only form feeds",
+    "finding": "Reporting Summary covers statistics, data/code availability, sample size and cell-line disclosures. Page 1 says NextSeq 5000/NovaSeq basecalling used, but provides no read-cycle recipe, oligo list or molecular reaction details; page 2 GEO and script links are analysis resources. Not relevant to missing chemistry facts."
+   },
+   "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
+  },
+  {
+   "id": "source_2",
+   "role": "supplement",
+   "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM3_ESM.pdf.txt",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "close_scsprite_seqwell",
+    "date": "2026-10-16",
+    "locations": "Original MOESM3 peer-review PDF text lines 1000–1044 and 1100–1121; sequence-term scan throughout",
+    "finding": "Author response describes a 5′ adaptor attached through template switching in comparison PRO-seq and an optimized CuAAC test (>95% coupling with 100-fold azide DNA, 2 h at 50 °C and 15% PEG 8000). It does not print scGRO-seq ordering oligos. Relevant experimental context; no additional linked oligo source identified."
+   },
+   "pass_2": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Original publisher MOESM3 peer-review PDF text lines 1000–1044, 1100–1121 and 1296–1321; sequence/oligo/guide term scan across text",
+    "finding": "Reviewer response documents a comparison PRO-seq template-switching adaptor and >95% CuAAC coupling in the optimized 100-fold azide-DNA, 2 h, 50 °C, 15% PEG 8000 condition. Referee explicitly identifies Click-Code-Seq as chemical predecessor and author response says it was added to final references (ref. 50). It supplies no scGRO ordering oligos; linked original requires its own row."
+   }
+  },
+  {
+   "id": "source_3",
+   "role": "supplement",
+   "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM4_ESM.xlsx.txt",
+   "availability": "read",
+   "relevance": "not_relevant",
+   "pass_1": {
+    "reviewer": "close_scsprite_seqwell",
+    "date": "2026-10-16",
+    "locations": "MOESM4 workbook text sheet Table-1_scGROv2p8_max10kbp_max5, header and first records; article Supplementary Table 1 description lines 345–346",
+    "finding": "Burst kinetics by genomic feature: chromosome/start/end, reads, bursts, frequency and size. Analysis table, not an oligo or reaction source."
+   },
+   "pass_2": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Original MOESM4 workbook text sheet Table-1_scGROv2p8_max10kbp_max5, header line 2 and rows 3–11; defining article Supplementary Table 1 description lines 345–346",
+    "finding": "Columns feature/chromosome/start/end/length/expression/reads/bursts/burst rate/burst size are burst-analysis output, not oligo or reaction declarations. No external chemistry links in workbook."
+   },
+   "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
+  },
+  {
+   "id": "source_4",
+   "role": "supplement",
+   "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM5_ESM.xlsx.txt",
+   "availability": "read",
+   "relevance": "not_relevant",
+   "pass_1": {
+    "reviewer": "close_scsprite_seqwell",
+    "date": "2026-10-16",
+    "locations": "MOESM5 workbook four original sheets GSEA of Burst Frequency, GSEA of Burst Size, AFF4_Genes, MYC_Genes; GSEA headers and first records; article Supplementary Table 2 description lines 347–348",
+    "finding": "Gene-set enrichment and transcription-factor target analysis. No chemistry or construct records in sheet structure."
+   },
+   "pass_2": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Original MOESM5 workbook text sheets GSEA of Burst Frequency lines 1–3, GSEA of Burst Size line 1775, AFF4_Genes line 1822, MYC_Genes line 2089; article Table 2 description lines 347–348",
+    "finding": "Four sheets hold gene-set enrichment and target gene statistics. Header and representative rows are analysis results without molecular reaction or library-layout fields; no linked chemistry materials."
+   },
+   "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
+  },
+  {
+   "id": "source_5",
+   "role": "supplement",
+   "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM6_ESM.xlsx.txt",
+   "availability": "read",
+   "relevance": "not_relevant",
+   "pass_1": {
+    "reviewer": "close_scsprite_seqwell",
+    "date": "2026-10-16",
+    "locations": "MOESM6 workbook Table-3_CellCycle_genes_discove header and first records; article Supplementary Table 3 description lines 349–350",
+    "finding": "Cell-cycle differential-expression gene list and statistics. No chemistry or construct records in sheet structure."
+   },
+   "pass_2": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Original MOESM6 workbook text sheet Table-3_CellCycle_genes_discove header line 2 and rows 3–11; article Table 3 description lines 349–350",
+    "finding": "Gene/cell-state/log fold change/p-value columns identify differential-expression results. No oligo, reagent, reaction or sequencing recipe; no linked chemistry materials."
+   },
+   "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
+  },
+  {
+   "id": "source_6",
+   "role": "supplement",
+   "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM7_ESM.xlsx",
+   "availability": "read",
+   "relevance": "not_relevant",
+   "pass_1": {
+    "reviewer": "close_scsprite_seqwell",
+    "date": "2026-10-16",
+    "locations": "Original 100 MB MOESM7 XLSX workbook.xml sheet scGROv2p8_GxG_co-transcribed_pa and sheet1.xml first 8 KB; article Supplementary Table 4 description lines 351–352",
+    "finding": "Gene-pair co-transcription correlation/statistics table. Large workbook was inspected by metadata and first worksheet rows, not fully extracted. No indication of chemistry/oligo content; classification remains provisional until independent pass."
+   },
+   "pass_2": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Original 96 MB MOESM7 XLSX xl/workbook.xml sole sheet scGROv2p8_GxG_co-transcribed_pa; xl/worksheets/sheet1.xml rows 1–3 decoded through sharedStrings; article Table 4 description lines 351–352",
+    "finding": "Header geneA/geneB/correlation/p-value/empirical p-value and first records are pairwise co-transcription output. Independent bounded workbook inspection supports not_relevant; full 531 MB XML worksheet was not scanned, so classification rests on source description plus sheet schema/records. No linked chemistry items in workbook metadata."
+   },
+   "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
+  },
+  {
+   "id": "source_7",
+   "role": "supplement",
+   "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM8_ESM.xlsx.txt",
+   "availability": "read",
+   "relevance": "not_relevant",
+   "pass_1": {
+    "reviewer": "close_scsprite_seqwell",
+    "date": "2026-10-16",
+    "locations": "MOESM8 workbook Table-5_scGROv2p8_GxGmodules_ma header and first records; article Supplementary Table 5 description lines 353–354",
+    "finding": "Gene ontology and transcription module results. No chemistry/construct columns."
+   },
+   "pass_2": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Original MOESM8 workbook text sheet Table-5_scGROv2p8_GxGmodules_ma header line 2 and rows 3–11; article Table 5 description lines 353–354",
+    "finding": "Ontology, GO term, enrichment p/q, geneID and count columns are co-transcription module analysis. No molecular recipe or linked chemistry material."
+   },
+   "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
+  },
+  {
+   "id": "source_8",
+   "role": "supplement",
+   "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/s41586-024-07517-7_supp_41586_2024_7517_MOESM9_ESM.xlsx",
+   "availability": "read",
+   "relevance": "not_relevant",
+   "pass_1": {
+    "reviewer": "close_scsprite_seqwell",
+    "date": "2026-10-16",
+    "locations": "Original 47 MB MOESM9 XLSX workbook.xml sheet scGROv2p8_ExG_co-transcription_ and sheet1.xml first 8 KB; article Supplementary Table 6 description lines 355–356",
+    "finding": "Enhancer–gene co-transcription correlation/statistics table. Large workbook was inspected by metadata and first worksheet rows, not fully extracted. No indication of chemistry/oligo content; classification remains provisional until independent pass."
+   },
+   "pass_2": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Original 46 MB MOESM9 XLSX xl/workbook.xml sole sheet scGROv2p8_ExG_co-transcription_; xl/worksheets/sheet1.xml rows 1–3 decoded through sharedStrings; article Table 6 description lines 355–356",
+    "finding": "Header Gene/Enhancer/correlation/p-values/empirical p-values/class and first records are enhancer–gene co-transcription output. Independent bounded workbook inspection supports not_relevant; full 282 MB XML worksheet was not scanned, so classification rests on source description plus sheet schema/records. No linked chemistry items in workbook metadata."
+   },
+   "reason": "Original source is a reporting/analysis artifact; inspected page(s) or sheet title, headers and representative records contain no protocol chemistry, oligos, reactions or sequencing-layout data."
+  },
+  {
+   "id": "azide_predecessor",
+   "role": "linked_material",
+   "locator": "Miller & Kool, J Org Chem 2004, DOI 10.1021/jo035765e (Mahat Methods ref. 51); https://pubs.acs.org/doi/10.1021/jo035765e",
+   "availability": "unavailable",
+   "relevance": "relevant",
+   "reason": "ACS article full text purchase-gated; automated source fetcher resolved only DOI/manual URL. PubMed/ACS abstract is not a full original-source read.",
+   "discovered_from": "paper",
+   "pass_1": {
+    "reviewer": "close_scsprite_seqwell",
+    "date": "2026-10-16",
+    "locations": "Mahat Methods ref. 51 (paper text lines 189–190, references 756–762); ACS DOI page and PubMed abstract inspected; tools/get_sources.py --doi result",
+    "finding": "Miller & Kool 2004 DOI 10.1021/jo035765e is the explicitly cited 5′-azide synthetic chemistry predecessor. ACS full text is purchase-gated; source fetcher obtained only manual link. Abstract confirms on-column iodinated-to-azide conversion but cannot verify original reaction details or sequence. Relevant original remains unavailable."
+   },
+   "pass_2": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Mahat original article ref. 51 lines 759–762; ACS DOI 10.1021/jo035765e page and PDF route tested 2026-10-16 (HTTP 403); Stanford author publication/profile route and PubMed abstract checked",
+    "finding": "Relevant Miller–Kool full original could not be read independently. Publisher PDF returned 403; author pages and search found bibliographic entries only. The abstract is not enough to verify source synthesis details or absence of a sequence. Keep unavailable and missing claim blocked."
+   }
+  },
+  {
+   "id": "dash_predecessor",
+   "role": "linked_material",
+   "locator": "Gu et al., Genome Biol 2016, DOI 10.1186/s13059-016-0904-5 (Mahat Methods ref. 53), https://link.springer.com/article/10.1186/s13059-016-0904-5; linked Additional file 1 https://media.springernature.com/original/springer-static/esm/art:10.1186%2Fs13059-016-0904-5/MediaObjects/13059_2016_904_MOESM1_ESM.pdf",
+   "availability": "read",
+   "relevance": "relevant",
+   "discovered_from": "paper",
+   "pass_1": {
+    "reviewer": "close_scsprite_seqwell",
+    "date": "2026-10-16",
+    "locations": "Gu et al. Genome Biol 2016 DOI 10.1186/s13059-016-0904-5 original publisher article Methods and Fig. 1; original Additional file 1 Table S1 pages 1; Mahat Methods ref. 53 lines 195, 235–241",
+    "finding": "DASH applies Cas9/sgRNA cleavage to undesired dsDNA after adapters and before final amplification. Original Table S1 lists mitochondrial/KRAS/control guides, not Mahat’s ACAGG-specific guide; no scGRO guide can be imported. Linked Table S1 was followed and judged unrelated to exact scGRO guide."
+   },
+   "pass_2": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Gu et al. original publisher article DOI 10.1186/s13059-016-0904-5, Fig. 1 and Materials and methods (publisher HTML lines 89–103, 201 onward); original Additional file 1 Table S1 PDF page 1, extracted lines 1–31, oligo scraper run",
+    "finding": "DASH cuts selected dsDNA library targets after adapter placement and before final amplification. The linked table has 54 mitochondrial guide targets plus KRAS WT and non-human control, no ACAGG-specific scGRO guide. Direct original PDF supplement independently checked; source provides mechanism but not scGRO guide sequence."
+   }
+  },
+  {
+   "id": "spacer_predecessor",
+   "role": "linked_material",
+   "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/zhou-unlabeled-hrm-2004.pdf.txt; original Clinical Chemistry article DOI 10.1373/clinchem.2004.034322 mirrored at https://gene-quantification.de/zhou-unlabeled-hrm-2004.pdf",
+   "availability": "read",
+   "relevance": "relevant",
+   "discovered_from": "paper",
+   "pass_1": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Mahat original Methods line 193 and ref. 52 lines 764–768; exact DOI-matched original Zhou et al. article PDF mirrored at gene-quantification.de, page 2 (extracted lines 130–137) and discussion page 6 (lines 424–433); oligo scraper run 2026-10-16",
+    "finding": "Original article uses 3′-phosphorylated nonextendable probes experimentally and explicitly states in discussion that a 3′-spacer C3 is another nonextendable termination that prevents polymerase extension. It supports the general blocking rationale, not an experiment with scGRO’s own spacer-blocked adaptor. Publisher route returned 403, but an exact original-article mirror was read."
+   },
+   "pass_2": {
+    "reviewer": "grid_source_recovery",
+    "date": "2026-10-16",
+    "locations": "Exact 2004 Clinical Chemistry original PDF mirror https://gene-quantification.de/zhou-unlabeled-hrm-2004.pdf, page 2 Methods lines 108–141 (printed oligos/probes, 3-prime phosphate), page 6 Discussion lines 369–378 (why block polymerase extension and spacer C3 named); publisher OUP article route independently checked",
+    "finding": "The original uses 3-prime phosphorylated probes in PCR and explicitly lists 3-prime spacer C3 among nonextendable terminations that prevent polymerase extension. This supports the generic blocking mechanism only; it does not prove scGRO adaptor performance or its exact sequence."
+   }
+  },
+  {
+   "id": "click_code_predecessor",
+   "role": "linked_material",
+   "locator": "Wu et al., JACS 2018 Click-Code-Seq, DOI 10.1021/jacs.8b03715 (Mahat ref. 50 and MOESM3 peer-review discussion); https://pubs.acs.org/doi/10.1021/jacs.8b03715",
+   "availability": "unavailable",
+   "relevance": "relevant",
+   "discovered_from": "source_2",
+   "reason": "ACS main article is purchase-gated and official PDF returned HTTP 403; a free publisher-hosted original Supporting Information PDF is inventoried separately and read, but does not substitute for the main article.",
+   "pass_1": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Mahat original ref. 50 lines 753–757; original MOESM3 peer-review PDF lines 1296–1321; ACS PDF route tested 2026-10-16; ETH Sturla lab publication page; ACS Figshare SI metadata article 6869855",
+    "finding": "Referee and authors identify Click-Code-Seq as related propargyl/azide click-chemistry predecessor. Main ACS article remains inaccessible; publisher-hosted original Supporting Information was subsequently recovered and inventoried separately."
+   },
+   "pass_2": {
+    "reviewer": "grid_source_recovery",
+    "date": "2026-10-16",
+    "locations": "Original ACS article https://pubs.acs.org/doi/10.1021/jacs.8b03715 and PDF https://pubs.acs.org/doi/pdf/10.1021/jacs.8b03715 tested independently (publisher returns 403/purchase gate); exact DOI-matched ACS Figshare SI retrieved separately as file 12533270",
+    "finding": "The main JACS publication is still inaccessible. Its publisher abstract confirms click DNA ligation of a locator code, but does not supply original article reaction details; the original experimental SI is separately inspectable. Keep main article relevant/unavailable and any absence claim blocked."
+   }
+  },
+  {
+   "id": "click_code_supp",
+   "role": "linked_material",
+   "locator": "/husky/henriksson/NGS101_papers/sources/scgro-seq__10.1038+s41586-024-07517-7/ja8b03715_si_001.pdf.txt; original ACS Figshare Supporting Information DOI 10.1021/jacs.8b03715.s001, https://acs.figshare.com/articles/journal_contribution/Nucleotide-Resolution_Genome-Wide_Mapping_of_Oxidative_DNA_Damage_by_Click-Code-Seq/6869855",
+   "availability": "read",
+   "relevance": "relevant",
+   "discovered_from": "click_code_predecessor",
+   "pass_1": {
+    "reviewer": "scgro_second_pass",
+    "date": "2026-10-16",
+    "locations": "Original SI PDF pages S5–S9 (extracted lines 112–197), Table S1 page S20 (lines 406–492), Fig. S3 page S12 (lines 302–312); oligo scraper run 2026-10-16",
+    "finding": "Original supplement documents 3′-O-propargyl-dGTP incorporation into DNA, CuAAC to 5′-azide code oligonucleotide, triazole bypass tests and Table S1 sequence list. It establishes related click-ligation chemistry but is a DNA-damage workflow with its own distinct oligos; none may be imported as scGRO-specific adapters or guide."
+   },
+   "pass_2": {
+    "reviewer": "grid_source_recovery",
+    "date": "2026-10-16",
+    "locations": "Original ACS Figshare file 12533270 / DOI 10.1021/jacs.8b03715.s001, 28-page ja8b03715_si_001.pdf; local extracted text lines 112–197 (Methods), 302–312 (Fig. S3), 410–493 (Table S1); oligo scraper run on local SI text before reading; PDF title/author page checked",
+    "finding": "Independent original SI inspection confirms prop-dGTP insertion at an 8-oxoG-derived DNA gap, CuAAC with a 5-prime azido oligo, a triazole junction that Vent exo-minus polymerase bypasses, and a distinct Table S1 oligo set. This supports related click chemistry but cannot source scGRO-specific barcode adapters, blockers, or Cas9 guides."
+   }
+  }
+ ],
+ "linked_information": {
+  "result": "blocked",
+  "pass_1": {
+   "reviewer": "close_scsprite_seqwell",
+   "date": "2026-10-16",
+   "locations": "Defining article Methods refs. 51, 53 and Supplementary Tables 1–9; publisher peer-review file and Reporting Summary; Gu DASH original and linked Table S1; ACS/PubMed Miller-Kool abstract and fetcher failure",
+   "finding": "Followed the cited DASH original and its guide supplement; neither identifies this protocol’s ACAGG-specific guide. The Miller-Kool original full text remains gated. Other linked supplements were categorized individually; two large workbooks received bounded sheet/header review and await second reader."
+  },
+  "pass_2": {
+   "reviewer": "scgro_second_pass",
+   "date": "2026-10-16",
+   "locations": "Mahat article refs. 50–53 and Supplementary Tables 1–9; MOESM2 pages 1–3, MOESM3 lines 1296–1321, MOESM4–9 sheet headers; Gu DASH publisher original and linked Additional file 1; ACS Miller–Kool PDF HTTP 403; OUP Zhou and ACS Click-Code original routes HTTP 403",
+   "finding": "Independently checked all listed supplements and followed DASH to its original guide table. Found two omitted linked chemistry originals: Click-Code-Seq ref. 50 and blocking-probe ref. 52, now checklist rows. The exact Zhou original was subsequently obtained from a mirror and read for pass 1, with independent pass 2 pending. Miller–Kool and Click-Code-Seq main articles remain unavailable through checked publisher/author routes; the Click-Code-Seq original Supporting Information was subsequently retrieved from ACS Figshare for pass 1; no missing-information claim accepted."
+  },
+  "followup_2026_10_16_root": {
+   "reviewer": "root",
+   "locations": "Source checklist rows spacer_predecessor, click_code_predecessor, click_code_supp after independent grid_source_recovery P2",
+   "finding": "The Zhou original and Click-Code-Seq supporting information now have independent second checks. Their chemistry is relevant but does not establish scGRO-specific oligo identities. The Click-Code-Seq main article and Miller–Kool original remain inaccessible, so linked-source disposition remains blocked."
+  }
+ },
+ "missing_claims": [
+  {
+   "claim": "Any asserted absence of exact oligo, reagent, reaction detail or read-layout information",
+   "evidence": "The defining article, nine publisher supplements, DASH source and guide, Zhou original, and Click-Code-Seq supporting information have two located reads. Relevant Miller–Kool and Click-Code-Seq main articles remain inaccessible, so no absence claim can be accepted.",
+   "disposition": "blocked"
+  }
+ ],
+ "conclusion": "Two independent readers inspected the defining article, publisher supplements, original DASH article/guide table, Zhou ref. 52 original, and Click-Code-Seq supporting information. Zhou supports 3′ spacer C3 as a nonextendable terminator but tested 3′ phosphate in its own experiments; the Click-Code-Seq supplement describes a related click/triazole method with its own oligos. Miller–Kool and the Click-Code-Seq main articles remain inaccessible. No missing-information claim is accepted; scGRO review remains in progress and blocked on relevant originals.",
+ "bounded_checks": [
+  {
+   "round": "2026-10-17-breadth-first-16",
+   "reviewer": "root",
+   "date": "2026-10-17",
+   "documents": 2,
+   "locations": "Published Mahat et al. 2024 Nature (PMC11222150 JATS .txt): discussion of capture efficiency line145; Methods from line149 - propargyl nucleotides and the three 5'-AzScBc designs, hairpin RT priming, EagI site, C3 spacer, ACAGG/DASH rationale lines185-195; cell line, culture and nuclei/permeabilization sample preparation lines197-215; nuclear run-on buffer line217; FACS sorting into 96 wells with 8 M urea line219; CuAAC composition, quench, TRIzol/Amicon cleanup and ZnCl2 fragmentation lines221-227; RT through the triazole, PAGE size selection and 6-cycle pre-amplification lines229-233; DASH lines235-237; final PCR and NovaSeq SP100 64/43/8/8 lines241-243; Cutadapt/Flexbar/UMI-tools read handling line247. Supplementary Information MOESM1 .txt: Supplementary Table 7 adaptor sequences lines131-150, Supplementary Table 8 pre-amplification program lines167-200, Supplementary Table 9 DASHed-library program lines220-240.",
+   "oligo_scraper": "Earlier bundle scrapes already resolved the only printed oligos to Supplementary Table 7; this pass re-read Table 7 directly and confirmed the three designs transcribed in the note and the page (10/6, 12/4 and 10/5 barcode/UMI, [azideT] 5' and [SpC3] 3'). The TSO, RT primer, dual-index PCR primers and DASH gRNA are named but not printed anywhere in the article or MOESM1.",
+   "findings": "Graph corrections, all from the Methods passages above: added nuclei isolation/permeabilization before the run-on; named the run-on buffer (400 mM KCl, 0.05% Sarkosyl, 5 min 37 C) and the four 50 uM 3'-O-propargyl NTPs; added the FACS partition of single cells into 96 urea wells, which is where the cell barcode is assigned; gave CuAAC its catalyst (CuSO4/sodium ascorbate/BTTAA) and conditions (15% PEG 8000, 2.66 M urea, 2 h 50 C) and added the EDTA quench, TRIzol and 3 kDa Amicon cleanup with its discarded reagents; ZnCl2 now carries 10 mM/5 min/65 C; RT names RNase H- M-MuLV (Thermo EP0751, 16% PEG, 2 h 50 C) and gains the 1 uM RT primer that the hairpin design omits. Added the missing 10% denaturing-PAGE size selection that physically removes unclicked adaptor and empty cDNA before pre-amplification, keeping a residual empty-cDNA branch so DASH remains a cleavage that blocks amplification rather than a physical removal. Both PCRs now name NEBNext Ultra II Q5 (M0544) and the split P5-/P7-side 0.5 uM dual-index primers, with the Supplementary Table 8 six-cycle 98/60/72 C program. Page shows a source discrepancy: the Methods call the final PCR 'two-step' while Supplementary Table 9 reprints the same six-cycle program, so the model asserts no final cycle count.",
+   "deferred": [
+    "Ref. 51 (Miller & Kool azide synthesis) - purchase-gated; iodo-dT to azide conditions are restated in the Methods",
+    "Ref. 52 (3' C3-spacer blocker) and ref. 53 (DASH, Gu et al.) originals",
+    "TSO, RT primer, dual-index PCR primer and DASH gRNA ordering sequences: named but not printed; GEO GSE242176 metadata not inspected",
+    "The 3 x 96 cell-barcode (J) inventories from GeneLink",
+    "Final-library PCR cycle count and the complete strand-resolved Illumina junction"
+   ],
+   "scope": "Capped defining-source pass on the published article and MOESM1 only; no predecessor or GEO reading, no full chemistry validation and no accepted missing-information claim.",
+   "verification": "local suite 1 check passes; page build passes; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory over 11 steps; source guard 0 exact oligos checked, 0 failed, 1 input without an exact state (the modified azide adaptors stay in the key-oligo list); Markdown built/checked; review schema (audit --check) pass"
+  }
+ ]
 }

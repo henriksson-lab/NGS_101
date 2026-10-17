@@ -226,5 +226,24 @@
       "evidence": "The protocol and chemistry document were checked by two readers; historical sensing explanation was checked independently by two readers and its section links inspected. Page now states only that these properties are unverified in inspected sources."
     }
   ],
-  "conclusion": "Two independent checks establish the SQK-LSK114 adapter DNA duplex, dA/dT ligation workflow, and the historical sensing explanation. NEB E7672, ONT loading know-how, input QC and protocol-version history now each have two located reads; they do not define the current full leader/motor/tether details or definitive strand polarity. Those properties remain unverified; no absence claim is accepted. The linked-source inventory and review status remain blocked pending any version-specific molecular documentation beyond the inspected originals."
+  "conclusion": "Two independent checks establish the SQK-LSK114 adapter DNA duplex, dA/dT ligation workflow, and the historical sensing explanation. NEB E7672, ONT loading know-how, input QC and protocol-version history now each have two located reads; they do not define the current full leader/motor/tether details or definitive strand polarity. Those properties remain unverified; no absence claim is accepted. The linked-source inventory and review status remain blocked pending any version-specific molecular documentation beyond the inspected originals.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "SQK-LSK114 protocol GDE_9161_v114_revAC_24Sep2025 genomic-dna-by-ligation-sqk-lsk114.html.txt lines 166/249 (revision), 490–611 (end-prep 20/65 °C, 60 µl AXP, ethanol washes, 61 µl elution), 615–800 (LA/LNB/Salt-T4 10 min RT, 40 µl AXP, LFB/SFB washes, 15 µl EB, loading amounts), 817–931 (FCT priming), 1207–1212 (ethanol denatures motor; tether added at priming); CHTD_500 v1 revAV chemistry-technical-document.html.txt lines 248, 345, 770, 813, 2067–2081 (LA strands), 2122–2134 (LA motor, EB keeps motor on Y-shaped adapter); nanopore-sensing.html.txt not re-read beyond prior passes",
+      "oligo_scraper": "Bundle scraper run; LA top/bottom hits at CHTD line 2074 match the model; other hits are other-kit adapters/barcodes, not SQK-LSK114 library oligos.",
+      "findings": "LA strands, 27-bp duplex plus 3-prime dT, and 20 °C/65 °C end-prep verified. Added both AMPure XP cleanups to the graph (end-prep 60 µl AXP with 80% ethanol; post-ligation 40 µl AXP with LFB/SFB washes and EB elution) with discarded supernatant outputs; named the reagents (FFPE Repair Mix/Buffer v2, Ultra II End-prep, LNB, Salt-T4) and the 10 min RT ligation; note records input amounts, both-ends potency (CHTD 813) and the no-ethanol motor constraint. No published discrepancy found.",
+      "deferred": [
+        "Complete motor/leader (Y-adapter) structure, motor identity and attachment chemistry",
+        "Flow Cell Tether structure and library binding mode",
+        "NEBNext Companion Module v2 component documents (enzyme composition)",
+        "Nanopore sensing explanation onward links (beyond prior two passes)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (101 checks incl. run_common); page builds; pairing 0 problems; chemistry 0 established/0 conditional/4 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (adapter/barcode inputs carry no exact graph oligo state); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

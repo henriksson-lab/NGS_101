@@ -236,5 +236,25 @@
       "locations": "Fresh198-hit bundle scraper; definingJATS125–133, actualPMC/tablevisualp32 versuscorrectedpublisherp33, correctedTable4/Methods, actualvendorv08 andtwo manufacturerbulletins/linkedMiSeqguide",
       "finding": "All modifiedsourceoligos andcorrected GSP labels are regressionchecked againstoriginals:13newsourcechecks,28totalPASS. PhysicalIndex2P5claimcorrected to computationalpost-darkcycleanchor;7darkcyclesexplicit without changing16imagedcycles. PCRlimitationsnowdeclare unassembledmodelstates ratherthanclaimingvariableflanksmakegeometry impossible orsourceinformationmissing. ExistingJune2015correction andmain-versus-adapterindex-timingnotice remain public."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining article PMC4320685 JATS lines 125-131 ('dsODN for GUIDE-Seq' and 'Isolation and preparation of genomic DNA for GUIDE-Seq'); corrected publisher MOESM21 text lines 1-10 (25 June 2015 correction notice), 33026 (equipment list) and 33074-33262 (Protocol for GUIDE-seq Library Preparation steps 1-12)",
+      "oligo_scraper": "Bundle scraper hits previously followed to Supplementary Table 4; this pass re-read the protocol steps rather than the oligo table, whose transcription the local guard re-checks (11 exact oligos).",
+      "findings": "Corrections to protocol_graph(): added the Online Methods Agencourt DNAdvance SPRI genomic-DNA isolation ahead of shearing with its unbound fraction; added the four source-specified AMPure XP cleanups (1X after shearing eluted 15 uL, 0.9X after ligation eluted 12 uL, 1.2X after each PCR 1 eluted 15 uL, 0.7X after each PCR 2 eluted 30 uL), each with its removed fraction; shearing step now names the 400 ng input; pooling step now names the qPCR quantification and normalization to 1.2e10 molecules. Page caveat and note record a published source conflict: Online Methods name a 'Covaris S200' while the Supplementary Methods protocol and equipment list name the Covaris S2 (S-2 Focused Ultra-sonicator); the model declares only the ~500 bp shearing target. Note also records that PCR 2 takes the PCR 1 sample with beads, and that the deep-sequencing validation primer-pool branch is not drawn. The existing June 2015 correction notice and the main-text-versus-adapter molecular-index timing notice remain displayed.",
+      "deferred": [
+        "Deep-sequencing validation large primer pool (composition not printed in the inspected supplement)",
+        "Strand-resolved PCR 1 / three-primer PCR 2 geometry assembly (model limitation, primers are source-positive)",
+        "Historical 2015 MiSeq instrument recipe revision and physical grafted-primer sequence",
+        "Named PhiX control guide and remaining linked manufacturer documents",
+        "MOESM22 off-target workbook beyond its header/initial rows"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation and no missing-information claim accepted.",
+      "verification": "local suite 28/28 PASS; page builds; pairing 0 problems; chemistry 20 steps, 2 established/6 conditional/24 unresolved/0 contradictory; source guard 11 exact checked, 0 failed, 1 input without exact state; Markdown built/checked; review schema (audit --check) pass"
+    }
   ]
 }

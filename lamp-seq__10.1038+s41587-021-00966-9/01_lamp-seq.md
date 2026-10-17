@@ -29,6 +29,26 @@ P7 and standard TruSeq sequencing arms. Supplementary Data 1 publishes every
 primer; the schematic uses the first validated FIP barcode (`AGCAAACTAC`) and
 Pool_fwd_1/Pool_rev_1 as representatives.
 
+🟢 The pool-barcoding primers carry only partial sequencing-primer tails
+(Supplementary Data 1 `Pool barcoding primers` row 1; Methods two-step PCR, PMC8678193 text line 277–279):
+Pool_fwd_1 is P5 + `TCGTGGAGCG` + `{{= lamp_seq.LAMP_POOL_FWD_TAIL }}` ({{= len(lamp_seq.LAMP_POOL_FWD) }} nt) and Pool_rev_1 is
+P7 + `CGCTCAGTTC` + `{{= lamp_seq.LAMP_POOL_REV_TAIL }}` ({{= len(lamp_seq.LAMP_POOL_REV) }} nt). The first PCR supplies the rest of
+both arms. PCR-N-rev-11 prints its tail as `TGACTGG…` in both the Methods and
+Supplementary Data 1; the 5' G of the pool reverse tail completes canonical `GTGACT`,
+so this is a design, not a source error. *Model correction (2026-10-17):* earlier
+versions appended full 33/34-nt TruSeq arms to the pool primers (72/68 nt).
+The full-arm forms belong to the open-source one-step Ultramer primers (Methods, line 353–355).
+
+🟢 The two-step branch drawn is the commercial-reagent protocol (Methods lines 205–289):
+QuickExtract lysis with pX330 carrier DNA, ≥10 min RT then 95 °C 5 min; 30 min
+activated-carbon/ion-exchange bead treatment and HCl pH adjustment; NEB LAMP master mix
+E1700L plus Bst 3.0; C-F3-LNA, C-B3-LNA, C-BIP, C-LF, C-LB and barcoded C-FIP; 65 °C
+80 min; pooling on ice; 1:100,000 dilution; two 18-cycle NEBNext 2× PCRs (98 °C 20 s,
+65 °C 20 s, 72 °C 30 s); pooling, 2% E-gel band excision, two silica spin columns,
+NanoDrop. The Methods call the target primers PCR-C-fwd/PCR-C-rev; Supplementary
+Data 1 prints the identical sequences as PCR-N-fwd-10/PCR-N-rev-11. The commercial
+master mix also contains an ACTB control primer set and barcoded ACTB-FIP, not drawn.
+
 🟡 LAMP does not yield a unique linear intermediate. It yields stem-looped,
 branched concatemers containing repeated and inverted target segments. The final
 PCR selects compatible units from that population. Consequently, the page preserves
@@ -38,6 +58,8 @@ universal order or length for the intervening LAMP-derived sequence.
 ## Sequencing
 
 🟢 The MiSeq Nano and iSeq runs use Read 1 100 cycles, Index 1 8 cycles and Index 2
-8 cycles; Read 2 is not acquired. Read 1 is retained after extracting the embedded
+8 cycles (Methods lines 365–385, open-source section); Read 2 is not acquired. Only
+the first 8 nt of each 10-nt pool index are therefore read. 🟡 The commercial branch
+names MiSeq or iSeq without its own cycle numbers; the page applies these values. Read 1 is retained after extracting the embedded
 FIP barcode and confirming non-primer viral sequence. The two index reads identify
 the post-pooling PCR group.

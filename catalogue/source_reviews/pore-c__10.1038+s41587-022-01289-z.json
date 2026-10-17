@@ -1,16 +1,28 @@
 {
   "dir": "pore-c__10.1038+s41587-022-01289-z",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "paper",
       "role": "defining",
-      "locator": "https://doi.org/10.1038/s41587-022-01289-z",
-      "availability": "unavailable",
+      "locator": "Deshpande et al., Nature Biotechnology 40:1488-1499 (2022), doi:10.1038/s41587-022-01289-z; publisher PDF placed by hand 2026-10-17 through institutional subscription access, local /husky/henriksson/NGS101_papers/sources/pore-c__10.1038+s41587-022-01289-z/s41587-022-01289-z.pdf(.txt) (MANIFEST row)",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "Publisher main article is absent from local bundle; only two Springer supplements are cached."
+      "pass_1": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/pore-c__10.1038+s41587-022-01289-z/s41587-022-01289-z.pdf.txt: title/author block lines 1-12, running head (line 74: Nature Biotechnology vol 40, October 2022, 1488-1499), enzyme-choice Results lines 120-131, Methods lines 2525-2600 (Cell culture, Cross-linking, Restriction enzyme digest, Proximity ligation and reverse cross-linking, Protein degradation and DNA purification, Nanopore sequencing). Scraper on the article text: 0 sequences.",
+        "finding": "Published Methods match the GEO GSE149117 protocols: formaldehyde 1% 10 min, glycine quench; IGEPAL permeabilization, 0.1% final SDS 65 C 10 min with Triton X-100 quench; DpnII, NlaIII or HindIII 1 U/ul 37 C 18 h; DpnII/NlaIII heat-inactivated 65 C 20 min, HindIII inactivated with 0.1% SDS 65 C 20 min and Triton quench; T4 ligase (M0202L) 16 C 6 h in 1 ml; proteinase K/SDS/Tween-20 56 C 18 h; phenol-chloroform and ethanol; SPRI >1.5 kb; ONT SQK-LSK109 on MinION, GridION or PromethION. No adapter, primer or other oligo bases are printed; the adapter is named only by kit (SQK-LSK109)."
+      },
+      "pass_2": {
+        "reviewer": "agent-P4-source-reviews",
+        "date": "2026-10-17",
+        "locations": "s41587-022-01289-z.pdf.txt title/author block lines 1-12; Results lines 99-131 (size-selected >1.5 kb libraries; NlaIII preferred over DpnII/HindIII); Methods lines 2525-2600 (Cell culture, Cross-linking, Restriction enzyme digest, Proximity ligation and reverse cross-linking, Protein degradation and DNA purification, Nanopore sequencing); Data/Code availability lines 3171-3182; scrape_primers on the article text: 0 sequences",
+        "finding": "Agree with pass 1, read independently. 1% formaldehyde 10 min, 125 mM glycine; IGEPAL CA-630 permeabilization; SDS to ~0.1% at 65 C exactly 10 min, Triton X-100 quench to 1%; DpnII, NlaIII or HindIII 1 U/ul in 450 ul, 37 C 18 h; DpnII/NlaIII heat-inactivated 65 C 20 min, HindIII 0.1% SDS 65 C 20 min plus Triton; T4 ligase NEB M0202L, 1 ml, 16 C 6 h; proteinase K/SDS/Tween-20 56 C 18 h; phenol-chloroform/ethanol; 'SPRI size selected for fragments >1.5 kb and prepared for sequencing using ONT SQK-LSK109' on MinION/GridION/PromethION; run details deferred to Supplementary Tables 1 and 2 (row supp1). No oligo, adapter or end-prep detail printed; the kit is named only. Data in GEO GSE149117; code links only."
+      },
+      "previous_state": "unavailable: Publisher main article is absent from local bundle; only two Springer supplements are cached.",
+      "previous_locator": "https://doi.org/10.1038/s41587-022-01289-z",
+      "reading_note": "Two independent readings (agent-K-second-reader, agent-P4-source-reviews) on 2026-10-17."
     },
     {
       "id": "supp1",
@@ -55,12 +67,24 @@
     {
       "id": "preprint",
       "role": "predecessor",
-      "locator": "https://www.biorxiv.org/content/10.1101/833590v1 (Ulahannan et al. 2019, cited by ONT info sheet)",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "bioRxiv full text/PDF returns 403 and the DOI source fetcher found no API PDF; abstract alone is insufficient for molecular claims."
+      "locator": "Ulahannan, Pendleton, Deshpande et al., bioRxiv 10.1101/833590 v1 (posted 7 Nov 2019), \"Nanopore sequencing of DNA concatemers reveals higher-order features of chromatin structure\"; local /husky/henriksson/NGS101_papers/sources/pore-c__10.1038+s41587-022-01289-z/833590_v1.full.pdf(.txt)",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "833590_v1.full.pdf.txt Methods lines 552-640, used as provenance only; bounded check round 2026-10-17-breadth-first-15",
+        "finding": "Fetched the bioRxiv v1 PDF; treated it as a superseded preprint whose Methods (SPRI >1.5 kbp, SQK-LSK109) are provenance only because the published Methods were then unread and the publication adds LNCaP samples."
+      },
+      "pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/pore-c__10.1038+s41587-022-01289-z/833590_v1.full.pdf.txt header and title/author block lines 1-20; /husky/henriksson/NGS101_papers/sources/pore-c__10.1038+s41587-022-01289-z/s41587-022-01289-z.pdf.txt title/author block lines 1-12 and reference list (no citation of the preprint).",
+        "finding": "Identity and supersession confirmed, chemistry not re-read. The preprint (Ulahannan, Pendleton, Deshpande ... Harrington, Imielinski; 18 authors) and the published article (Deshpande, Ulahannan, Pendleton ... Harrington, Imielinski) describe the same Pore-C method and all 18 preprint authors appear in the published author list; the published version retitles the study, adds Chromunity and LNCaP samples, and its Methods agree with GEO GSE149117. The published article does not cite the preprint explicitly; supersession rests on that author, method and data overlap."
+      },
+      "previous_state": "unavailable: bioRxiv full text/PDF returns 403 and the DOI source fetcher found no API PDF; abstract alone is insufficient for molecular claims.",
+      "previous_locator": "https://www.biorxiv.org/content/10.1101/833590v1 (Ulahannan et al. 2019, cited by ONT info sheet)",
+      "reason": "Earlier preprint version of the same Pore-C study, superseded by the published Nature Biotechnology article (row paper), which is now retrieved and is the active authority. Readers check identity and supersession only (DESIGN.md)."
     },
     {
       "id": "ont_extraction",
@@ -118,6 +142,26 @@
         "locations": "Cached ONT genomic-dna-by-ligation-sqk-lsk114.html.txt lines 619–703; chemistry-technical-document.html.txt lines 345–365 and 2072–2130; scraper on complete local V14 bundle",
         "finding": "Independently verified later V14 guide uses LA plus Salt-T4 DNA ligase after end preparation. Chemistry document describes 5-prime-phosphorylated, 3-prime dA-tailed DNA ligated to complementary dT adapter, prints LA duplex 27-base strands and says motor loads onto ligation adapter. These 2025/2026 originals establish later-branch geometry only, not the adapter or enzyme used by the 2022 paper."
       }
+    },
+    {
+      "id": "geo_gse149117",
+      "role": "linked_material",
+      "locator": "/husky/henriksson/NGS101_papers/sources/pore-c__10.1038+s41587-022-01289-z/geo_GSE149117_series-family_full.soft(.txt) (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE149117&targ=all&form=text&view=full; cited in the published article's public Data availability section)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Series header lines 1-30 (Series_pubmed_id 35637420); sample blocks GSM4490689 lines 5293-5340 (treatment protocol 5307, extract protocols 5310-5311), GSM4490690 5421-5425, GSM4490691 5482-5486, GSM5923734 5548-5552, GSM5923735 5601-5605",
+        "finding": "All five samples (GM12878, HCC1954, HG002, LNCaP vehicle/DHT) carry identical protocols: crosslinking, digest with DpnII/NlaIII/HindIII 1 U/ul 37 C 18 h, heat (DpnII/NlaIII) or SDS (HindIII) inactivation, T4 ligation 16 C 6 h, proteinase K/SDS/Tween 56 C 18 h, phenol-chloroform/ethanol, SPRI selection >1.5 kb, ONT SQK-LSK109. No adapter or oligo sequence."
+      },
+      "discovered_from": "paper",
+      "pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/pore-c__10.1038+s41587-022-01289-z/geo_GSE149117_series-family_full.soft.txt series header lines 1-12 (Series_pubmed_id 35637420); sample blocks GSM4490689 (lines 5293-5334), GSM4490690 (5407-5448), GSM4490691 (5468-5509), GSM5923734 (5535-5574), GSM5923735 (5588-5627): titles, treatment protocol, extract protocols and instrument model; compared the five treatment and extract protocol lines programmatically (one distinct text each).",
+        "finding": "Agree with pass 1. All five samples (GM12878, HCC1954, HG002, LNCaP vehicle, LNCaP DHT) carry identical cross-linking, digestion (DpnII/NlaIII heat or HindIII SDS inactivation 65 C 20 min), T4 ligation 16 C 6 h, proteinase K reversal, phenol-chloroform, SPRI >1.5 kb and SQK-LSK109 text; instruments MinION or PromethION. No adapter or oligo sequence. The protocol wording matches the published Methods (row paper)."
+      }
     }
   ],
   "linked_information": {
@@ -133,14 +177,99 @@
       "date": "2026-10-16",
       "locations": "ONT extraction protocol web lines 137–153, 271–408; linked info sheet web lines 154–194, 233–253, 307–324; cached V14 guide lines 619–703 and chemistry technical document lines 345–365, 2072–2130; published MOESM1/2 earlier independent review",
       "finding": "Independently followed extraction protocol to info sheet, then to later SQK-LSK114 vendor kit/chemistry originals. Checked optional size selection/native versus PCR branches and later adapter/ligase geometry. Info sheet also cites Ulahannan 2019, whose full text remains inaccessible. Defining 2022 article remains unavailable, so kit revision and adapter in that experiment remain blocked."
-    }
+    },
+    "update_2026-10-17": "Published article now read by two readers. Its chemistry-relevant links are Supplementary Tables 1-2 (row supp1, read twice), GEO GSE149117 (row geo_gse149117, read twice) and the named ONT kit SQK-LSK109 (kit document not on disk; not yet a checklist row). Code links (GitHub pore-c, Pore-C-Snakemake, chromunity, gGnome) are analysis software, not chemistry. Result stays 'blocked' until the SQK-LSK109 document is obtained and read."
   },
   "missing_claims": [
     {
       "claim": "Exact adapter sequence and kit revision used by Deshpande 2022 Pore-C",
       "disposition": "blocked",
-      "evidence": "Later SQK-LSK114 vendor documentation prints an adapter duplex, so universal proprietary/undisclosed claims are unsound. The original paper and preprint are not yet available for the historical kit identity and original-era kit guide has not been double-checked."
+      "evidence": "The published article Methods (two readers, 2026-10-17) name ONT SQK-LSK109 but print no adapter sequence or end/adapter geometry; GEO GSE149117 agrees. Later SQK-LSK114 vendor documentation prints an adapter duplex, so universal proprietary/undisclosed claims are unsound. Still blocked: the original-era SQK-LSK109 kit document has not been read by two readers."
     }
   ],
-  "conclusion": "Published supplements and later ONT extraction, info-sheet, V14 kit and chemistry originals have two located independent readings. Later kit establishes an example dA/dT ligation, Salt-T4 ligase and published LA duplex, but original 2022 article and 2019 preprint are unavailable, leaving historical kit identity and adapter unresolved; no absence claim accepted."
+  "conclusion": "Published supplements and later ONT extraction, info-sheet, V14 kit and chemistry originals have two located independent readings. Later kit establishes an example dA/dT ligation, Salt-T4 ligase and published LA duplex, but original 2022 article and 2019 preprint are unavailable, leaving historical kit identity and adapter unresolved; no absence claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published article full text unavailable (paywall; manual URL https://doi.org/10.1038/s41587-022-01289-z). Published Springer MOESM1 Supplementary Information pdf.txt lines1–1506 (Supplementary Tables 1–5 headings/sample-enzyme rows lines10–130, 376, 1132, 1337, 1442; Supplementary Fig.1 caption 1486–1506); MOESM2 2-page image-only PDF, no text. Superseded bioRxiv 10.1101/833590 v1 (newly fetched 833590_v1.full.pdf.txt) Methods lines552–640 as provenance only. ONT Restriction Pore-C extraction protocol (restriction-pore-c.html.txt, newly fetched; change log v5 2 Mar 2022 lines650–670) Day1 lines285–440, Day2 lines443–592, Day3 lines593–620.",
+      "oligo_scraper": "Bundle scraper run on fetched originals: 0 oligo-like hits; no adapter or primer bases in the inspected originals.",
+      "findings": "NlaIII CATG/3' overhang digest, in-nucleus T4 ligation and proteinase K release confirmed in ONT v5 and preprint. Corrections: added missing NlaIII heat inactivation (65 C 20 min, Proximity ligation A) before ligation; step labels now carry SDS 65 C/detergent quench, 1 U/ul NlaIII 37 C 18 h, ligation 16 C 6 h, proteinase K/SDS 56 C 18 h and phenol:chloroform/ethanol precipitation in both workflow and protocol_graph. Preprint Methods (SPRI >1.5 kbp, SQK-LSK109) recorded in note and as a labelled page provenance notice only, because published Methods are unread and the publication adds LNCaP samples; drawn kit choice unchanged.",
+      "deferred": [
+        "Published Nature Biotechnology article Methods (paywalled; manual)",
+        "SQK-LSK109/SQK-PRC109 kit documents (historical adapter and ligation geometry)",
+        "ONT Restriction Enzyme Pore-C info sheet beyond prior passes (re-fetched, not re-read)",
+        "Published-version library kit and size-selection threshold",
+        "DpnII and HindIII branches (HindIII chemical inactivation) not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 0 established/2 conditional/6 unresolved/0 contradictory; source guard 0 checked/0 failed/1 graph (no exact oligo inputs); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Retrieval retried for published Methods: Europe PMC PMID35637420 subscription only, no PMC/AAM; PMC idconv not in PMC; OpenAlex closed (doi + PubMed locations only); Semantic Scholar CLOSED; bioRxiv API 833590 v1 only, no published link; protocols.io search no hit; NCBI BioProject search no author record. Read publicly visible Nature article page (manual URL https://doi.org/10.1038/s41587-022-01289-z) Data availability (GSE149117) and Extended Data Fig.1 caption (NlaIII/DpnIII/HindIII comparison). Read GEO GSE149117 full SOFT (newly placed with MANIFEST row) series header, all 5 sample treatment/extract protocols (lines 5307-5311, 5421-5425, 5482-5486, 5548-5552, 5601-5605).",
+      "oligo_scraper": "GEO record is protocol prose; no oligo-like sequences (only adapter kit name). Earlier bundle scraper result (0 hits) unchanged.",
+      "findings": "Published-version-linked GEO protocols (incl. LNCaP samples added in the publication) confirm the drawn digestion/inactivation/ligation/reverse-crosslink conditions and supply SPRI >1.5 kb and SQK-LSK109. Corrections: size-selection input/step now SPRI >1.5 kb (GEO) instead of optional 0.85X; workflow notes, adapter geometry statement, sequencing limitation, page intro and provenance notice now state GEO's SQK-LSK109 and keep the drawn dA/dT/Salt-T4 attachment as the labelled later LSK114 example because the LSK109 document is unread. Note adds the GEO paragraph; preprint no longer the only source for these values.",
+      "deferred": [
+        "Published Nature Biotechnology Methods text (paywalled; manual https://doi.org/10.1038/s41587-022-01289-z)",
+        "SQK-LSK109 kit document (historical adapter, end-prep and ligase geometry)",
+        "DpnII and HindIII branches not drawn",
+        "Second independent reader for the GEO checklist row"
+      ],
+      "scope": "Capped retrieval-focused follow-up; defining article Methods still unread; no accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 0 established/2 conditional/6 unresolved/0 contradictory; source guard 0 checked/0 failed/1 graph (no exact oligo inputs); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "/husky/henriksson/NGS101_papers/sources/pore-c__10.1038+s41587-022-01289-z/s41587-022-01289-z.pdf.txt lines 1-12, 74, 120-131, 2525-2600; /husky/henriksson/NGS101_papers/sources/pore-c__10.1038+s41587-022-01289-z/833590_v1.full.pdf.txt lines 1-20; /husky/henriksson/NGS101_papers/sources/pore-c__10.1038+s41587-022-01289-z/geo_GSE149117_series-family_full.soft.txt lines 1-12 and the five sample blocks",
+      "findings": "Retrieved the published Nature Biotechnology article (vol 40, 1488-1499) by hand through institutional subscription access and added it to the bundle with a MANIFEST row. paper row: unavailable to read, first pass only (second reader pending); its Methods print no oligo bases and name SQK-LSK109. preprint row: read and not_relevant as a superseded preprint, identity and supersession checked by root (round 15) and this reader. geo_gse149117 row: second independent pass added; both readers agree. Missing claim and linked information stay blocked (SQK-LSK109 kit document unread; paper needs a second reader). Review status changed from blocked to in_progress: the paywall that blocked the defining article is resolved, and the remaining actions are an independent reading and retrieval of the kit document.",
+      "deferred": [
+        "Second independent reader for the published article (row paper)",
+        "SQK-LSK109 kit document (historical adapter, end-prep and ligase geometry)",
+        "catalogue/extra_sources.tsv row for the GEO SOFT and a note that the publisher PDF needs institutional access (another package owns that file)"
+      ],
+      "scope": "Retrieval plus first reading of the published article and second readings of the preprint-identity and GEO rows; no accepted missing-information claim.",
+      "verification": "audit_protocol_sources --check passes"
+    },
+    {
+      "round": "2026-10-17-followup-P4-source-reviews",
+      "reviewer": "agent-P4-source-reviews",
+      "date": "2026-10-17",
+      "documents": 1,
+      "scope": "Second independent reading of the published article Methods; note, page provenance text and model provenance strings updated so they no longer call the published Methods unread. No chemistry change.",
+      "locations": "s41587-022-01289-z.pdf.txt lines 1-12, 99-131, 2525-2600, 3171-3182",
+      "oligo_scraper": "scrape_primers on s41587-022-01289-z.pdf.txt: 0 sequences.",
+      "findings": "Published Methods confirm every drawn condition (NlaIII 1 U/ul 37 C 18 h; 65 C 20 min heat inactivation; T4 ligase 16 C 6 h; proteinase K 56 C 18 h; phenol-chloroform/ethanol; SPRI >1.5 kb; SQK-LSK109). No discrepancy with GEO or the model; the LSK114 adapter example remains labelled inferred.",
+      "deferred": [
+        "SQK-LSK109 kit document (historical adapter, end-prep and ligase geometry)",
+        "DpnII and HindIII branches not drawn"
+      ],
+      "verification": "see package report: selftest, build_page, lint_pairing, check_chemistry, source-oligo guard, audit --check"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Hand-placed published Nature Biotechnology 40:1488-1499 article PDF (s41587-022-01289-z.pdf; printed DOI/title/authors checked, MANIFEST row) .txt lines1-12 (identity), 99-131 (Results: >1.5 kb size selection, NlaIII preferred over DpnII/HindIII), 2525-2600 (Methods: Cell culture, Cross-linking, Restriction enzyme digest, Proximity ligation and reverse cross-linking, Protein degradation and DNA purification, Nanopore sequencing); MOESM1 Supplementary Tables (.txt, samples/enzymes); MOESM2 rendered pp.1-2",
+      "oligo_scraper": "scrape_primers on article and MOESM1 .txt: 0 sequences (none expected; no adapter/primer bases printed).",
+      "findings": "Defining article confirmed as the published version. Methods agree with every drawn condition (SDS 65C 10 min/Triton quench; NlaIII 1 U/ul 37C 18 h; 65C 20 min heat inactivation; T4 ligase M0202L 1 ml, 16C 6 h; proteinase K/SDS/Tween-20 56C 18 h; phenol-chloroform/ethanol; SPRI >1.5 kb; SQK-LSK109; MinION/GridION/PromethION). No model change. MOESM2 identified by rendering as the Nature Research Reporting Summary (no library chemistry); note corrected from 'image-only without text'. Later LSK114 adapter example stays labelled inferred.",
+      "deferred": [
+        "SQK-LSK109 kit document (historical end-prep, adapter and ligase geometry; ONT login-gated)",
+        "DpnII and HindIII (SDS-inactivation) branches not drawn",
+        "Supplementary Tables 1-2 per-run kit/flow-cell detail beyond enzyme/sample columns not re-read"
+      ],
+      "scope": "Capped deferred follow-up confirming the hand-placed published article; single reader this round; no accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 0 established/2 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states, 1 graph; Markdown built; review schema pass"
+    }
+  ],
+  "conclusion_update": "2026-10-17 (agent-P4-source-reviews): the published Nature Biotechnology article is retrieved and its Methods have two independent readings (row paper); they agree with GEO GSE149117 and with the modelled step conditions. The preprint is excluded as superseded (identity checked twice). The historical SQK-LSK109 adapter/end geometry remains blocked pending that kit document; no absence claim accepted. The earlier conclusion text is kept as history."
 }

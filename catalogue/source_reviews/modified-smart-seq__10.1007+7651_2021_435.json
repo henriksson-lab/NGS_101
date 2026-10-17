@@ -79,5 +79,25 @@
       "evidence": "Zheng Table 1 prints custom primers, Table 2 well barcode members, and Table 3 Nextera plate index members; vendor TDE1 reagent internals and selected sample-to-index assignments still need source check."
     }
   ],
-  "conclusion": "All custom RT/TSO/cDNA primers are printed; commercial TDE1/Nextera source versions remain open."
+  "conclusion": "All custom RT/TSO/cDNA primers are printed; commercial TDE1/Nextera source versions remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Author-hosted Zheng et al. 2022 Methods Mol Biol 2520:233-259 PDF text: Introduction 88-104; Materials 2.2 lysis/RT/cDNA/TD buffers 130-420 with Table 1 152-205; Table 2 ~512 and Table 3 1985 identified; Methods 3.5 sorting 2177-2210, 3.6 cDNA amplification 2211-2407, 3.7 pooling/QIAquick/ExoI/SPRI 2408-2560, 3.8 tagmentation/library PCR/sequencing table 2563-2735; Notes 1-16 2790-2925",
+      "oligo_scraper": "Bundle scraper run (6 hits): Table 1 RT primer, TSO, cDNA PCR Fwd/Rev, Library Universal and Index primers at lines 165-199, each verified in Table 1; Table 2/3 8-mer barcodes below scraper threshold, inspected in text, not transcribed.",
+      "findings": "Repository modelling errors corrected: Exonuclease I moved after per-plate pooling and QIAquick column (3.7 steps 1-9, Note 6), with 0.7x/0.8x/0.8x SPRI cleanups and discarded supernatants; TSO-derived end removed from final 3-prime library; oligo(dT) T25 and VN added after UMI; universal-primer tail between P5 and RT handle derived from Table 1 primer/RT-handle overlap; index-primer arms checked as revcomp of Nextera i7 adapter and P7 at construction. Lysis 72C, RT/TSO program, Maxima H-minus, KAPA 16-cycle cDNA PCR, Tn5 55C 5 min/SDS stop, 8-cycle library PCR recorded. Tagmentation off-products lacking the RT handle marked unresolved, not discarded. Sequencing intro now records Index 2 8 cycles N/A/optional (Note 13); dead legacy sections() removed. Selftest now checks placeholder-bearing Table 1 primers against source text.",
+      "deferred": [
+        "Tn5 transposome adapter oligos (TDE1 20034197 / Fapon / Vazyme / Picelli 2014 in-house; Note 10) not inspected",
+        "Illumina Nextera XT Index PCR primer original (Note 11)",
+        "Table 2 well barcodes and Table 3 plate indices not transcribed into the model",
+        "SMART-seq3 (Hagemann-Jensen 2020) predecessor not re-read",
+        "Publisher (Springer) version not obtained; author-hosted copy used"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/12 unresolved/0 contradictory; source guard 3 exact checked (cDNA PCR Fwd, Rev, Library Universal), 0 failed, 4 inputs without exact states; Markdown built; audit --check pass (blocked 1)"
+    }
+  ]
 }

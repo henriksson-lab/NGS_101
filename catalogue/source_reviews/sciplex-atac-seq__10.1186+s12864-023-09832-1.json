@@ -1,0 +1,288 @@
+{
+  "dir": "sciplex-atac-seq__10.1186+s12864-023-09832-1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "defining_preprint",
+      "role": "other",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1186+s12864-023-09832-1/2023.03.05.531201_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "bioRxiv v1 Methods lines 640–690 and 717–745",
+        "finding": "Defining preprint prints hash oligo with 10-nt sample ID and A30, and two-level capture primer with N8 UMI, 10-nt well barcode and unmodified T30VN. Three-level branch uses LNA-marked capture oligo."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "bioRxiv v1 PDF lines 642–673 and 717–745",
+        "finding": "Preprint prints sample-hash, two-level plain-T capture and three-level LNA capture with modified enhanced variant; versions must remain distinct."
+      },
+      "note": "Superseded preprint (catalogue identity re-anchored to the published article on 2026-10-17, DESIGN.md 2026-10-16 published-version-first); retained as history, not active evidence; earlier passes recorded below are historical."
+    },
+    {
+      "id": "published",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1186+s12864-023-09832-1/s12864-023-09832-1_PMC10696879.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "BMC Genomics JATS Results lines 113–124; Methods lines 175–205",
+        "finding": "Published original prints hash A30 sequence and two-level capture primer with plus-marked LNA bases in its poly(T) tract, unlike bioRxiv v1 two-level plain T30; three-level branch remains distinct."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "BMC JATS lines 175–205",
+        "finding": "Published two-level capture shows locked T bases unlike preprint/protocols.io plain T; published three-level route uses PNK, indexed N7 and N5 splint ligations. Public source-version discrepancy is correctly shown."
+      },
+      "note": "Published version of record; defining source since the 2026-10-17 re-anchor."
+    },
+    {
+      "id": "published_supp",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1186+s12864-023-09832-1/s12864-023-09832-1_supp_12864_2023_9832_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "published workbook sheets Supp_Table3 lines 294–302 and Supp_Table4 lines 779–803",
+        "finding": "Published workbook prints hash barcode assignments and indexed Tn5 adapter oligos."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published MOESM2 Supp_Table3 lines 294–302 and Supp_Table4 lines 779–803",
+        "finding": "Table 3 lists experiment/sample hash barcode members; Table 4 lists eight P5 and twelve P7 indexed Tn5 oligos and mosaic-reverse strand, concordant with preprint class."
+      }
+    },
+    {
+      "id": "protocol_2level",
+      "role": "detailed_protocol",
+      "locator": "https://www.protocols.io/view/sciplex-atac-2-level-cz56x89e.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "author protocols.io PDF pp. 3–5, web lines 96–148",
+        "finding": "The 2023 two-level protocol prints the hash A30 and plain T30VN capture primer plus 8 N5/12 N7 indexed Tn5 oligo design. The plain-T capture agrees with bioRxiv v1 and differs from published BMC LNA notation."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author protocols.io two-level PDF pp.3–5, web-rendered lines 96–148",
+        "finding": "Author detailed protocol prints hash oligo, plain-T capture oligo, 8+12 indexed Tn5 families; supports preprint two-level form rather than published LNA formatting."
+      }
+    },
+    {
+      "id": "protocol_3level",
+      "role": "detailed_protocol",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1186+s12864-023-09832-1/protocolsio_sciplex-atac3-n2bvj399wlk5.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "published",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "author protocols.io three-level PDF lines 112–149, 199, 309–381",
+        "finding": "Separate three-level protocol prints hash, LNA-marked capture oligo, Illumina Tn5 and subsequent N7/N5 splint/ligation oligos; its added indexing round is outside the two-level page boundary."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author protocols.io three-level PDF lines 112–149, 309–315, 374–382",
+        "finding": "Three-level detailed protocol prints LNA capture and N7/N5 ligation oligo plus splints; molecularly distinct from two-level indexed-Tn5 workflow."
+      }
+    },
+    {
+      "id": "sciplex_rna",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1126/science.aax6234",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Published Introduction lines 169–170 inherits unmodified ssDNA hash-label uptake from sciPlex RNA; predecessor should be checked.",
+      "discovered_from": "published"
+    },
+    {
+      "id": "sci_atac",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1126/science.aab1601",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Published Results lines 179–181 explicitly modifies sciATAC-seq; original barcoding/tagmentation source needs check.",
+      "discovered_from": "published"
+    },
+    {
+      "id": "author_code",
+      "role": "linked_material",
+      "locator": "https://github.com/gregtbooth/sciPlex-ATAC",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "discovered_from": "published",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "GitHub author README lines 198–223",
+        "finding": "README describes separate hash FASTQs for two-level and combined hash/ATAC reads for three-level; no reagent oligo table on README."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author GitHub README web lines 198–223 and repository top-level inventory 181–190",
+        "finding": "Repository states its scope is analysis/figure scripts; it documents distinct hash-read handling for two- and three-level libraries but does not serve as a wetlab primer table."
+      },
+      "reason": "Author README and repository root inventory identify an analysis/figure code repository rather than a wetlab oligo or protocol source; read-layout notes were checked separately."
+    },
+    {
+      "id": "preprint_results",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1186+s12864-023-09832-1/2023.03.05.531201_media-1.xlsx.txt",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet1 header and rows 1–4",
+        "finding": "Experimental QC metrics, not oligo design."
+      },
+      "reason": "QC result metrics only.",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint media-1 workbook Sheet1 header and rows 1–4",
+        "finding": "Workbook holds cell/fragment/TSS/hash summary metrics, no ordered wetlab oligo sequences; exclusion agrees."
+      },
+      "note": "Superseded preprint (catalogue identity re-anchored to the published article on 2026-10-17, DESIGN.md 2026-10-16 published-version-first); retained as history, not active evidence; earlier passes recorded below are historical."
+    },
+    {
+      "id": "preprint_hash_ids",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1186+s12864-023-09832-1/2023.03.05.531201_media-2.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet1 header and rows 1–4",
+        "finding": "Table links 10-nt hash barcodes to experiment and sample IDs."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint media-2 workbook Sheet1 first header and rows 1–4",
+        "finding": "Experiment/sample-specific 10-base hash barcode whitelist is present; variable members, not a universal fixed ID."
+      },
+      "note": "Superseded preprint (catalogue identity re-anchored to the published article on 2026-10-17, DESIGN.md 2026-10-16 published-version-first); retained as history, not active evidence; earlier passes recorded below are historical."
+    },
+    {
+      "id": "preprint_tn5_oligos",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1186+s12864-023-09832-1/2023.03.05.531201_media-3.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Sheet1 oligo names and rows 1–22",
+        "finding": "Supplementary Table 4 prints 8 P5 and 12 P7 indexed transferred-strand Tn5 oligos with full arm sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint media-3 workbook Sheet1 lines 1–25",
+        "finding": "Eight P5 and twelve P7 transferred strands plus phosphorylated mosaic reverse are printed; inspected actual rows after scraper."
+      },
+      "note": "Superseded preprint (catalogue identity re-anchored to the published article on 2026-10-17, DESIGN.md 2026-10-16 published-version-first); retained as history, not active evidence; earlier passes recorded below are historical."
+    },
+    {
+      "id": "published_figures",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1186+s12864-023-09832-1/s12864-023-09832-1_supp_12864_2023_9832_MOESM1_ESM.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "published Supplementary Figure 13 caption lines 137–141",
+        "finding": "Supplementary figure compares increased-affinity hash/capture oligo variants; its cartoon needs visual review for exact labels."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Published MOESM1 DOCX Figure 13 caption lines 135–137",
+        "finding": "Figure caption explicitly compares modified hash/capture oligos for three-level capture; no new oligo sequence beyond Methods/table."
+      }
+    },
+    {
+      "id": "preprint_figures",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sciplex-atac-seq__10.1186+s12864-023-09832-1/2023.03.05.531201_media-4.pdf.txt",
+      "availability": "read",
+      "pass_1": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "preprint Supplementary Figure 13 caption lines 95–100",
+        "finding": "Earlier figure likewise compares hash/capture oligo variants; schematic image requires visual check."
+      },
+      "relevance": "relevant",
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Preprint media-4 Fig. 13 caption around lines 95–100",
+        "finding": "Earlier figure caption corroborates enhanced capture comparison; sequence definitions are in preprint Methods."
+      },
+      "note": "Superseded preprint (catalogue identity re-anchored to the published article on 2026-10-17, DESIGN.md 2026-10-16 published-version-first); retained as history, not active evidence; earlier passes recorded below are historical."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "second_pass_d_e",
+      "date": "2026-10-16",
+      "locations": "bioRxiv Methods lines 640–745; linked author protocols.io pp. 3–5; BMC JATS Methods lines 175–205",
+      "finding": "Defining preprint, published original, both author detailed protocols and author code README are read. SciPlex RNA/sciATAC ancestors and figure schematics remain to be fully reviewed; no missing claim is accepted."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Preprint Methods 642–745; published JATS 175–205; preprint media-1/2/3 and published MOESM1/2; author protocols.io two-/three-level PDFs; GitHub README 198–223",
+      "finding": "Independently followed both detailed protocols and author code; the two-level preprint/protocols.io plain-T capture differs from published LNA tract, already documented on page. Cited sciPlex RNA and sci-ATAC predecessors remain unavailable, so review stays blocked."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "The sciPlex-ATAC hash oligo sequence and capture handle are undisclosed",
+      "disposition": "blocked",
+      "evidence": "Source-positive hash, capture and indexed Tn5 oligos exist in the defining preprint and supplements. A real source-version difference in two-level capture oligo LNA notation is documented; remaining linked sources and second pass keep audit blocked."
+    }
+  ],
+  "conclusion": "Source-positive hash, capture and indexed Tn5 oligos exist in the defining preprint and supplements. A real source-version difference in two-level capture oligo LNA notation is documented; remaining linked sources and second pass keep audit blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published BMC Genomics 24:737 PMC10696879 JATS Methods Hash labeling175, two-level co-capture179–197, Sequencing249–263, hash preprocessing273; published MOESM2 Supp_Table4 lines779–803; article-linked protocols.io sciplex-atac-2-level PDF text lines94–274 (hash/fix, capture, indexed tagmentation, FACS, PCR, gel extraction, custom primers)",
+      "oligo_scraper": "Scraper run on published JATS, MOESM2 and protocols.io text; hash (175), capture (179), three-level oligos (201–209) and sequencing primers (251–257) checked against the source lines; Supp_Table4 P5_i5_1/P7_i7_1/Tn5ME_Rev verified at lines781/789/803.",
+      "findings": "Page and graph moved from preprint to published authority (Published-version-first): displayed capture oligo now the published LNA-marked form; P5/P7 indexed-Tn5 examples and /5Phos/Tn5ME_Rev from published Supp_Table4 (P7 index window corrected to 8 nt). Graph corrected: absorption is binding not hybridization; added formaldehyde fixation/pool/freeze, named NEBNext HiFi 55C capture extension, Diagenode Tn5 55C 15min tagmentation with EDTA/spermidine stop, FACS sort with unsorted fate, proteinase K/SDS 65C 13.5h reversal, a single 22-cycle indexed-Nextera PCR on both readouts (previously two separate PCRs after the split), Zymo concentration and 1% gel split (199 bp hash / ~200–3000 bp ATAC). Published read layout (custom primers, 51/51/8+27dark+10/10+21dark+8; hash 18/>=16/10/10) recorded as sequencing limitation. Page discrepancies: published LNA vs protocols.io plain T30VN capture; published gel windows vs protocols.io 300–1200 bp; apparent hash-read assignment inconsistency (Read 1 18 cycles by sequence covers UMI+capture barcode, text says UMI+P5 PCR barcode) with no cycles assigned.",
+      "deferred": [
+        "Indexed Nextera P5/P7 PCR primer sequences for the two-level route (not located in inspected sections)",
+        "Hash-read Read1/Index2 barcode assignment inconsistency",
+        "Three-level sciPlex-ATAC3 branch (TDE1, PNK, splinted N7/N5 ligations, indexed PCR) not drawn",
+        "sciPlex-RNA hash predecessor (Srivatsan 2020) and indexed-Tn5 sci-ATAC predecessors (refs 23,53)",
+        "Exact primer-landing library for one hash/Tn5/PCR index combination"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 oligo inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
+}

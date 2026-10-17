@@ -59,7 +59,7 @@ def protocol_graph():
         def react(name,label,step_kind,inputs,outputs,**kw):
             reviewed.append(mid(name))
             g.react(mid(name),label,step_kind,inputs,outputs,**kw)
-        rna=g.input(mid('nuclear_rna'),f"nuclear RNA from {source_sample}: {condition}",MaterialKind.BIOLOGICAL,
+        rna=g.input(mid('nuclear_rna'),f"10 µg Trizol nuclear RNA (hypotonic lysis, 2 M sucrose cushion) from {source_sample}: {condition}",MaterialKind.BIOLOGICAL,
                     primary=True,source=f"GEO {source_sample}, original extraction protocol",
                     state=state('nuclear RNA','short capped and other nuclear RNAs'))
         reviewed.append(rna.id)
@@ -125,7 +125,8 @@ def protocol_graph():
     branch('five','GSM463298','untreated 5-prime-read sample','standard Illumina small-RNA',FIVE_LIBRARY)
     branch('three','GSM463301','LacZ-depleted 3-prime-read sample','custom',THREE_LIBRARY)
     g.annotate(Highlight('five_library_pcr','Separate source preparations, not a paired-end run',
-        'The displayed 5′ and 3′ libraries come from different deposited sample conditions. No literal split of one physical RNA sample is asserted. '
+        'The displayed 5′ and 3′ libraries come from different deposited sample conditions. No literal split of one physical RNA sample is asserted for this displayed pair; '
+        'the article (main text, 3′-adapter paragraph) states its 3′-read libraries were prepared from the same RNA samples as its 5′-read libraries, which the unread GEO children may match. '
         'Both records report Genome Analyzer II; their 26-nt trimming rule is computational, not proof of acquisition length or a sample-index read.'))
     g.annotate(Highlight('three_ligate3','Historical kit and custom branch remain distinct',
         'The August 2010 manufacturer Rev. D guide is later than the original experiment and uses standard 5′-then-3′ ligation. '

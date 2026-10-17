@@ -49,12 +49,16 @@
     {
       "id": "international_supplement",
       "role": "supplement",
-      "locator": "https://onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fanie.201707465&file=anie201707465-sup-0001-misc_information.pdf",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tuc-seq__10.1002+anie.201707465/anie201707465-sup-0001-misc_information.pdf (https://onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fanie.201707465&file=anie201707465-sup-0001-misc_information.pdf)",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
+      "pass_1": {
+        "reviewer": "deferred_followup_03",
+        "date": "2026-10-17",
+        "locations": "text twin lines 674-748 (labelling, RNA isolation, conversion pointer 694, tRNA RT/cloning, amplicon sequencing, data analysis), 801-810 (Supporting Fig.1 legend), 27434-27490 (Supporting Table 4)"
+      },
       "pass_2": null,
-      "reason": "Original International Edition 2.3 MB supplementary-information PDF listed by the publisher; source fetch returned HTTP 403. It may contain exact targeted primer and library methods.",
+      "reason": "hand-downloaded 2026-10-17 on the institutional network (MANIFEST row); printed title/authors and internal file name anie_201707465_sm_miscellaneous_information.pdf match the defining article",
       "availability_attempts": [
         {
           "date": "2026-10-16",
@@ -108,18 +112,22 @@
       "relevance": "relevant",
       "pass_1": null,
       "pass_2": null,
-      "reason": "Official Springer preview labels the procedural text subscription content; get_sources.py records no open full text. Later detailed protocol may clarify amplicon or RNA-seq branch, but neither is verified here.",
+      "reason": "Official Springer preview labels the procedural text subscription content; get_sources.py records no open full text. Later detailed protocol may clarify amplicon or RNA-seq branch, but neither is verified here. | 2026-10-17: revised chapter PDF 978-1-4939-9822-7_10.pdf now on disk (MANIFEST row); not read in the capped follow-up-03 pass",
       "discovered_from": "lusser_2019_chapter_preview"
     },
     {
       "id": "lusser_2024_correction",
       "role": "linked_material",
-      "locator": "https://doi.org/10.1007/978-1-4939-9822-7_27",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tuc-seq__10.1002+anie.201707465/978-1-4939-9822-7_27.pdf (https://doi.org/10.1007/978-1-4939-9822-7_27)",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
+      "pass_1": {
+        "reviewer": "deferred_followup_03",
+        "date": "2026-10-17",
+        "locations": "whole one-page correction (text twin lines 1-22)"
+      },
       "pass_2": null,
-      "reason": "Current registered DOI fetch finds no open full text; official Springer content/pdf route returns HTML rather than PDF. Browser chapter/protocol attempts returned tool errors. Actual correction content remains unread; no relevance exclusion is accepted.",
+      "reason": "official Springer PDF on disk; author-name correction only (Jeffrey M. Bhasin), no chemistry change",
       "discovered_from": "lusser_2019_chapter_preview",
       "availability_attempts": [
         {
@@ -236,13 +244,58 @@
       "source": "https://pubmed.ncbi.nlm.nih.gov/28817234/",
       "date": "2026-10-16",
       "result": "Registered standard download HTTP203; direct browser result only HHS footer. Indexed primary abstract is visible in search, but no fresh full-original scientific pass is recorded from this short direct response."
+    },
+    {
+      "source": "https://api.unpaywall.org/v2/10.1002/anie.201707465 (and 10.1002/ange.201707465)",
+      "date": "2026-10-17",
+      "result": "is_oa false, oa_status closed, no OA locations; original remains manual at https://doi.org/10.1002/anie.201707465"
+    },
+    {
+      "source": "https://api.openalex.org/works/doi:10.1002/anie.201707465 (and ange edition)",
+      "date": "2026-10-17",
+      "result": "closed; any_repository_has_fulltext false; only DOI landing page and PubMed locations"
+    },
+    {
+      "source": "Europe PMC REST search DOI:10.1002/anie.201707465 and EXT_ID:31768978",
+      "date": "2026-10-17",
+      "result": "PMID 28817234 and 31768978 indexed without PMCID, not in EPMC full text, no author manuscript"
+    },
+    {
+      "source": "https://onlinelibrary.wiley.com/doi/pdf/10.1002/anie.201707465",
+      "date": "2026-10-17",
+      "result": "HTTP 403 (publisher gate; not circumvented); Wiley TDM API requires a subscriber token, none available"
+    },
+    {
+      "source": "https://api.unpaywall.org/v2/10.1007/978-1-4939-9822-7_27",
+      "date": "2026-10-17",
+      "result": "2024 correction listed as bronze OA at https://link.springer.com/content/pdf/10.1007/978-1-4939-9822-7_27.pdf; PDF and chapter page both return a JavaScript client challenge (not circumvented); correction text unread"
+    },
+    {
+      "source": "https://api.unpaywall.org/v2/10.1007/978-1-4939-9822-7_10 + OpenAlex",
+      "date": "2026-10-17",
+      "result": "Lusser 2019 MMB chapter closed, no repository full text"
+    },
+    {
+      "source": "NCBI GEO esearch 'TUC-seq OR (osmium AND thiouridine)' and elink pubmed 28817234->gds",
+      "date": "2026-10-17",
+      "result": "no GEO series linked to the 2017 article; hits GSE253169 (2024 TUC-seq vs SLAM-seq) and GSE149551 (Long-TUC-seq 2020) are later, different studies, not used"
+    },
+    {
+      "source": "https://www.uibk.ac.at/en/organic/micura/publications/ (bundled publications.html.txt line 502)",
+      "date": "2026-10-17",
+      "result": "2017 entry lists citation and Nat Methods comment only; no author copy linked"
+    },
+    {
+      "source": "tools/get_sources.py --slugs tuc-seq__10.1002+anie.201707465 (re-run)",
+      "date": "2026-10-17",
+      "result": "no new files; 7 manual rows unchanged (article, both SI routes HTTP 403, chapter and correction)"
     }
   ],
   "open_model_questions": [
     {
-      "question": "Original2017 RNA handling, selected downstream method, physical library ends, indexing and acquired run geometry",
+      "question": "Original 2017 cellular-RNA OsO4 concentration, pH and post-conversion purification; barcode overhang sequences; GATC Biotech library ends, indexing and acquired run geometry",
       "status": "unassigned",
-      "reason": "Actual original methods/SI remain unread. A later common U-to-C readout or target name does not establish the original physical route."
+      "reason": "The SI defers conversion to the unread main-text Experimental Section and prints neither barcode overhangs nor service-library details. Later DUAL/chapter routes do not establish the original physical route."
     }
   ],
   "pending_sources": [
@@ -268,5 +321,61 @@
   ],
   "model_scope_notes": [
     "Pulse-incorporated label classifies marked sites, not the age of every transcript base. Elongating molecules can contain pre-existing tracts; no whole-molecule synthesis-time assignment is made."
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-21",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Original Riml 2017 Angew. Chem. PubMed abstract PMID 28817234 (NCBI efetch text, now pubmed_28817234_abstract.txt in the source bundle); TUC-seq DUAL 2020 PMC7186826 JATS text lines 105, 127, 140, 165, 183 (retrospective description of TUC-seq conditions, refs 17/18); DUAL supplement scraper hits lines 373–675 identified as later DUAL oligos. Original 2017 full text (https://doi.org/10.1002/anie.201707465) and both SI routes (Wiley downloadSupplement anie201707465-sup-0001, ange201707465-sup-0001; HTTP 403) remain manual/unread.",
+      "oligo_scraper": "Bundle scraper run; all hits are in the later DUAL supplement (Supporting Table primer cores, tRNA primer-extension primer), not original 2017 oligos; none used.",
+      "findings": "Abstract confirms OsO4-mediated 4sU-to-cytosine conversion, endogenous tRNA 4sU verification and pulse-labelled mRNA of seven selected genes, consistent with the declared boundary. Correction: the recoding condition now names osmium tetroxide in ammonium chloride buffer with explicit provenance (same authors' DUAL retrospective description, line 140) and leaves original concentrations, pH, time and temperature unassigned; page caveat states the provenance. DUAL 6sG test conditions and 'quantitative' yield not assigned to the original. RNA preparation and library assembly remain warned MAGIC boundaries.",
+      "deferred": [
+        "Original 2017 full article methods (Wiley, paywalled; manual URL https://doi.org/10.1002/anie.201707465)",
+        "Original International and German supporting information (Wiley SI routes HTTP 403)",
+        "Lusser 2019 Methods Mol Biol TUC-seq chapter and 2024 correction full text",
+        "Original conversion concentrations/pH/time/temperature, RT/amplicon primers, library assembly and read layout"
+      ],
+      "scope": "Capped pass; defining original only partially available (abstract), so status deferred; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (graph builds, 0 explicit checks); page builds; pairing 0 problems; chemistry 4 steps 0 established/0 conditional/4 unresolved/0 contradictory with 2 MAGIC warnings; source guard 0 checked, 0 failed (no exact oligo inputs); audit --check blocked (unchanged); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 0,
+      "locations": "Route-recovery pass only; no new original obtained. Prior abstract (pubmed_28817234_abstract.txt) and PMC7186826 lines already recorded in 2026-10-17-breadth-first-21 not re-read. Routes tried: Unpaywall and OpenAlex (anie/ange article, MMB chapter, 2024 correction), Europe PMC, Wiley PDF/TDM, Springer correction PDF and chapter page, NCBI GEO, Micura publication index, get_sources.py re-run.",
+      "oligo_scraper": "Not re-run: bundle unchanged since prior pass (no new files fetched).",
+      "findings": "No legitimate open copy of the 2017 original article or its SI exists in Unpaywall/OpenAlex/Europe PMC/institutional index; Wiley returns HTTP 403. The 2024 correction is flagged bronze OA but Springer serves a JavaScript client challenge to the PDF and chapter routes, so its contents remain unread. No GEO record for the 2017 study. No model, page or note change: the existing boundary (OsO4/NH4Cl provenance from DUAL retrospective, unassigned conditions, MAGIC library warnings) stands.",
+      "deferred": [
+        "Original 2017 full article methods (Wiley HTTP 403; manual URL https://doi.org/10.1002/anie.201707465)",
+        "Original International/German SI (manual URLs https://onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fanie.201707465&file=anie201707465-sup-0001-misc_information.pdf and https://onlinelibrary.wiley.com/doi/suppl/10.1002/ange.201707465/supinfo/ange201707465-sup-0001-misc_information.pdf; HTTP 403)",
+        "2024 correction PDF (bronze OA, Springer client challenge; manual URL https://link.springer.com/content/pdf/10.1007/978-1-4939-9822-7_27.pdf)",
+        "Lusser 2019 MMB chapter (closed; manual URL https://doi.org/10.1007/978-1-4939-9822-7_10)",
+        "Original conversion conditions, RT/amplicon primers, library assembly and read layout"
+      ],
+      "scope": "Deferred follow-up route pass; defining original still only partially available (abstract), status remains deferred; no missing-information claim accepted.",
+      "verification": "local construction suite passes (graph builds, 0 explicit checks); page builds; pairing 0 problems; chemistry 4 steps 0 established/0 conditional/4 unresolved/0 contradictory with 2 MAGIC warnings; source guard 0 checked, 0 failed (no exact oligo inputs); audit --check blocked (unchanged); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Original International Edition SI now on disk: anie201707465-sup-0001-misc_information.pdf (hand-downloaded Wiley SI; printed title, Riml/Amort/Rieder/Gasser/Lusser/Micura and internal name anie_201707465_sm_miscellaneous_information.pdf verified against PubMed 28817234). Text twin lines 674-680 (metabolic labelling), 681-684 (RNA isolation), 694 (4sU-to-C conversion: 'See Experimental Section in the main text'), 703-714 (tRNA-Val stem-loop RT/cloning), 716-724 (amplicon sequencing), 726-748 (data analysis), 801-810 (Supporting Fig.1 legend: OsO4 450 uM, NH4Cl 180 mM), 27434-27490 (Supporting Table 4 primers); Supporting Tables 1-3 headers (856, 11090, 27206). Also read: pubmed_28817234_abstract.txt; 978-1-4939-9822-7_27.pdf correction (author name only).",
+      "oligo_scraper": "Scraper run on the SI text: 26 hits; Supporting Table 4 tRNA-Val RT/stem-loop/PCR primers (27439-27446), eGFP/GAPDH qPCR primers (27451-27457) and the 14 amplicon-sequencing primers (27462-27488) checked against the rendered table text; Fig.S1 synthetic RNA oligos (803, 807) are conversion substrates, not library oligos.",
+      "findings": "Model upgraded from the abstract-only boundary: sourced HEK293 4sU pulse (0.05/0.1 mM, 1 h, Dox at 30 min); TRIzol/DNase I/phenol-chloroform extraction replaces a MAGIC step; conversion step carries SI conditions (Fig.S1 450 uM OsO4 in 180 mM NH4Cl for synthetic RNAs; 3 h RT for cellular RNA) with pH/cellular concentration/purification unassigned; added GoScript random-hexamer RT, barcoded gene-specific PCR with the seven Table 4 primer pairs (overhangs as role tokens; landing unavailable), 2% gel purification and equimolar pooling with gel waste discarded; GATC Biotech library preparation remains one warned MAGIC boundary; Table 4 primers shown as key oligos. OsO4/NH4Cl provenance now from the original SI instead of the DUAL retrospective. Published cross-reference discrepancy shown on page: SI amplicon section says primers are in 'Supporting Table S1' but Table 1 is T-to-C mutation frequencies and the primers are in Supporting Table 4; model uses Table 4. tRNA-Val clone-sequencing branch noted, not drawn. 2024 chapter correction is author-name only.",
+      "deferred": [
+        "Main article Angew. Chem. Int. Ed. 56:13479 Experimental Section (conversion protocol; manual https://doi.org/10.1002/anie.201707465)",
+        "Barcode overhang sequences of the amplicon primers",
+        "GATC Biotech library preparation, indices and read lengths",
+        "Revised MMB chapter 978-1-4939-9822-7_10 procedure (on disk, unread in this pass)",
+        "German SI ange201707465 not compared",
+        "Nature Methods 2018 commentary nmeth.4608"
+      ],
+      "scope": "Capped bounded pass on the original SI plus abstract and chapter correction; main article still unread, so status remains deferred; no accepted missing-information claim.",
+      "verification": "suite (graph construction) pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory over 7 steps with library_preparation MAGIC warning; source guard 0 exact checked, 0 failed, 3 inputs without exact states (hexamers; fw/rv primers carry unprinted overhang role tokens); Markdown built; audit --check pass"
+    }
   ]
 }

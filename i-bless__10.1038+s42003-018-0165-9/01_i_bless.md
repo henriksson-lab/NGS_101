@@ -72,3 +72,20 @@ remain actual targets, alongside deposited study SRP125409. Remaining original
 supplement visual scope and vendor-linked documents have not passed a complete
 independent two-reader gate. These are concrete obligations, not evidence that an
 unassigned study value was unpublished.
+
+## Bounded pass 2026-10-17 (round breadth-first-11)
+
+- 🟢 Re-read Methods "i-BLESS labeling" (article text 131) and "Library preparation
+  and sequencing" (135). Reagent identities now declared in the graph: Reducta agarose
+  bead emulsion, lyticase spheroplasting, sarkosyl/EDTA and overnight 50 °C proteinase K;
+  Quick Blunting Kit (NEB) for 2 h in beads; T4 ligase with 100 nM proximal adapter for
+  up to 2 days at 16 °C; streptavidin beads (Invitrogen); Quick Blunting Kit blunting and
+  phosphorylation of the distal end; I-SceI (NEB); XhoI (NEB).
+- 🟡 Model correction: the proximal step was labelled "blunting and phosphorylation";
+  Methods name only blunting there (phosphorylation is stated for the distal step). The
+  label now follows the source wording. The distal ligase is not named and stays unassigned.
+- 🟢 Supplementary Table 4 (text 217–239) re-checked: all four oligos and the `[Phos]`,
+  `[BtndT]` positions match the declarations.
+- Open: the optional in-bead restriction-enzyme branch (BamHI, NotI, SrfI, AsiSI or
+  I-SceI, 1 h at 37 °C, before blunting) is not drawn; the guide's statement that free
+  stem-loop adaptors are destroyed is not modelled as an off-product.

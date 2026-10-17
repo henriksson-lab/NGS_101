@@ -149,5 +149,59 @@
       "evidence": "Oligos are source-positive in supplementary methods; defining full article and predecessor are still blocked."
     }
   ],
-  "conclusion": "Oligos are source-positive in supplementary methods; defining full article and predecessor are still blocked."
+  "conclusion": "Oligos are source-positive in supplementary methods; defining full article and predecessor are still blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Publisher MOESM1 Supplementary Information .txt Tables 2–4 lines193–445 (Table 4 checked against rendered PDF p6), Supplementary Fig. 1–7 captions lines683–788; defining Nature Protocols article and Harada 2019 NCB predecessor not in PMC/Europe PMC (checked 2026-10-17), manual URL https://doi.org/10.1038/s41596-020-0375-8",
+      "oligo_scraper": "Bundle scraper run: 19 hits; Table 4 probe strands appear as one wrapped 448-nt run (line383) and Read2+N11/Ad1_noMX as one 95-nt run (line362), resolved against the rendered table; Table 2/3 hits are transposition genomic-PCR and T7 RT-qPCR QC primers, not library oligos.",
+      "findings": "Verified ChILv1-Fw/Rv, MEDSB-Fw/Rv, Read2+N11, Ad1_noMX, Ad2_index and modifications. Removed unsourced EXTENSION step and invented extension-oligo input; integration-to-T7 interval now a warned MAGIC boundary. Transposome declared as MEDS-B + ChIL-DNA ends (Supp Fig 2a); antibody as primary + secondary ChIL probe (azido ChIL-DNA on DBCO-IgG, Supp Figs 1b/2). Final insert: removed stray 'ChIL-probe end' placeholder, added N11 random-priming site (no UMI feature). Added v3.1/v3.2 probes and Ad1_mt as listed, undrawn mtChIL-seq oligos. Page caveat records source scope and two supplement caption slips (Fig 4e cites Table 4 for Table 3 primers; Fig 2 'in situ transcription' for transposition PCR).",
+      "deferred": [
+        "Defining Nature Protocols article (paywalled): post-transposition processing, T7/RT/PCR conditions, cleanups, cycle numbers",
+        "Harada 2019 Nat Cell Biol predecessor (10.1038/s41556-018-0248-3, paywalled)",
+        "Acquired read lengths/index cycles",
+        "mtChIL-seq branch final library and probe-index readout not drawn"
+      ],
+      "scope": "Capped supplement-only pass; defining article unavailable; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (construction-only, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/1 conditional/6 unresolved/0 contradictory with post_transposition MAGIC warning; source guard 3 exact checked, 0 failed, 2 inputs without exact states (Read2+N11, Ad2_index N-windows); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Defining Nature Protocols article still not obtained (routes 2026-10-17: OpenAlex/Unpaywall closed, no repository copy; Europe PMC not in PMC, no author manuscript; nature.com paywall; protocols.io search no hit; manual https://doi.org/10.1038/s41596-020-0375-8). Read: Author Correction doi:10.1038/s41596-023-00940-6 (Fig. 2c image only); Harada 2019 NCB predecessor Supplementary Information MOESM1 .txt lines 25-56, 91-94, 142-163 and Supplementary Table 4 MOESM6 .xlsx.txt lines 1-17 (Springer supplement URLs, hand-placed with MANIFEST rows). NCB MOESM2-5, 7-9 judged non-chemistry from legends; NCB main text paywalled.",
+      "oligo_scraper": "Scraper rerun on the bundle; no oligo hits in the new predecessor/correction files; earlier MOESM1 Table 4 hits unchanged.",
+      "findings": "Predecessor context recorded in note and page caveat as predecessor-only (DBCO-(PEG)5-NHS IgG + 5'-azide pre-annealed ChIL DNA, 1-4 DNA/IgG; default 0.1 ul Tn5, 37 C integration, 0.5 M NaCl probe incubation; ~300 bp libraries). Not drawn as Nature Protocols values; correction has no chemistry impact. No graph change.",
+      "deferred": [
+        "Defining Nature Protocols article (paywalled): post-transposition processing, T7/RT/PCR conditions, cleanups, cycle numbers",
+        "Harada 2019 Nat Cell Biol main text (10.1038/s41556-018-0248-3, paywalled)",
+        "Acquired read lengths/index cycles",
+        "mtChIL-seq branch final library and probe-index readout not drawn"
+      ],
+      "scope": "Deferred follow-up; supplement-and-predecessor-supplement pass; defining article unavailable; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (construction-only); page builds; pairing 0 problems; chemistry 0 established/1 conditional/6 unresolved/0 contradictory with post_transposition MAGIC warning; source guard 3 exact checked, 0 failed, 2 inputs without exact states; audit_protocol_sources --check ok; Markdown built; review schema checked"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Defining Nature Protocols publisher PDF s41596-020-0375-8.pdf (hand-placed; printed doi:10.1038/s41596-020-0375-8, title and authors verified; 30 pp.) .txt Fig.1 legend 500-555, Fig.2a legend 705-707, library/sequencing overview 943-953, Reagent setup 1192-1310, Procedure Steps 7-84 lines 1500-1990 (Boxes 1-2 797-917 QC context only); Harada 2019 NCB publisher PDF s41556-018-0248-3.pdf (hand-placed; printed doi verified) Methods 2505-2630, sequencing 2673/3080; Nat Protoc MOESM1 Supplementary Table 4 re-checked via scraper (lines 341-429).",
+      "oligo_scraper": "Bundle scraper rerun: Nat Protoc main text yields no new library oligo (line 963 is a 12-nt non-oligo hit); Harada 2019 Methods lines 2515-2626 print ChIL forward/reverse, Read2 (N11), Ad1 and Ad2 [8mer_index] identical to Supplementary Table 4 incl. 5'-azido, 5'-Ph and 3'-TAMRA.",
+      "findings": "Defining Procedure replaces MAGIC post_transposition with in situ fill-in (T4 DNA polymerase 0.015 U/ul + T4 DNA ligase 2 U/ul + 0.1 mM dNTPs, RT 30 min, Steps 18-22). Tn5 (90 ng/well) loaded before 20 nM MEDS-B; TAPS-DMF 37C 1 h; SDS stop. Added DNase I and RNeasy MinElute RNA recovery (Steps 26-41), SMART-Seq v4 template-switching oligonucleotide (proprietary, no exact state) and SMARTScribe 42C 90 min at first strand, SeqAmp PCR 12-17 cycles (98/65/68C), two 1:1 AMPure cleanups, E-Gel 250-350 bp + MinElute. Sequencing declared: Read 1 51 cycles SE (Step 84), Index 1 acquired with unprinted cycle count, Read 2 not acquired. Harada 2019 sealing mix lacks listed dNTPs: predecessor version, not a discrepancy. Overview 250-400 bp (Supp Fig 5) vs Step 72 250-350 bp recovery judged post-selection profile, not a conflict.",
+      "deferred": [
+        "SMART-Seq v4 Ultra Low Input kit manual (template-switching oligonucleotide identity; not read)",
+        "Integration-junction gap/overhang geometry before fill-in (not printed)",
+        "Index-read cycle count for 8-nt Ad2 index",
+        "Protocol Exchange step-by-step protocol cited by Harada 2019 ref. 36",
+        "mtChIL-seq branch (v3 probes, Ad1_mt, dual-index, deML) final library not drawn; optional MinElute pooling not drawn"
+      ],
+      "scope": "Capped defining-source pass; defining article now read; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (construction-only, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/1 conditional/10 unresolved/0 contradictory, no MAGIC warning; source guard 3 exact checked, 0 failed, 3 inputs without exact states (Read2+N11, Ad2_index N-windows, SMART-Seq v4 oligo); audit_protocol_sources --check ok; Markdown built; review schema checked"
+    }
+  ]
 }

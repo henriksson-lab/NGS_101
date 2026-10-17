@@ -107,5 +107,26 @@
       "evidence": "The versioned inDrops source and linked GitHub repository need independent follow-up."
     }
   ],
-  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Raj & Gagnon 2018 Nat. Protoc. (PMC6279253 JATS .txt): experimental design lines117-121; reagents/equipment lines160-217; primer table lines259-273; R1-PCRix/R2-PCR primer-mix setup lines391-393; Procedure Steps 83-104 lines741-941 (IVT 1.3x AMPure, 9ul fragmentation split, PrimeScript random-hexamer RT, Q5 PCR round 1, Phusion PCR round 2, KAPA HiFi final PCR, 0.6x cleanups, MiSeq/NextSeq runs); anticipated library size line1043; Fig.3b/3c legends lines1788-1790. Supplementary Information MOESM1 .txt: Table 1 sgRNA target sites lines60-85, Table 2 R1-PCR-ix1-ix24 lines88-112.",
+      "oligo_scraper": "Bundle scraper run; article hits are the primer-table rows (GP6, PE1Sa, GP12, PE1Sb, R1-PCRix with 'xref' index slot, R2-PCR, scGESTALT F/R) and MOESM1 Table 2 members; the remaining high-count hits are analysis-archive barcode/HMID data files (MOESM6), not oligos. Each used hit verified in the .txt source lines above.",
+      "findings": "Transcribed the six lineage/library oligos into the graph as exact states (GP6, PE1Sa, GP12 with its nine N, PE1Sb, R1-PCR-ix1 as one of 24 indexed members, R2-PCR) and rendered them as key oligos. Removed an unsupported transcriptome RNA-adapter ligation step: Fig.3b states a random-hexamer+PE2 RT then P5/P7 PCR, and the primer table assigns R1-PCRix/R2-PCR to both libraries, so both branches now share those primers and the KAPA HiFi catalyst. Added the named enzymes (PrimeScript, Q5 with enhancer, Phusion, KAPA HiFi) and conditions (61 C/15 cycles round 1, 60 C round 2, 55 C x2 then 65 C x6-8 final), the 1.3x post-IVT, 1.2x RT and three 0.6x AMPure cleanups as CLEANUP steps with discarded supernatants, and the 9ul/remainder split. Transcriptome terminal now carries the NextSeq 75-cycle plan (61/8/8/14). Two source discrepancies displayed on the page: Supplementary Table 1 vs Table 2 for the R1-PCRix list, and the round-2 thermocycler row numbering (2-9 then 16) giving 8 or 14 cycles - the model states no count.",
+      "deferred": [
+        "inDrops V3 protocol ref. 73 (Zilionis et al. 2017): bead primer bases, PE1/PE2 adaptors, second-strand and fragmentation chemistry, transcriptome library steps",
+        "github.com/indrops barcode whitelists and V3 oligo versions",
+        "Defining study Raj et al. 2018 Nat. Biotechnol. 10.1038/nbt.4103 (cassette and DsRed sequence)",
+        "scGESTALT cassette/target-array sequence, so no primer landing can be assembled",
+        "MOESM3 analysis workbook and MOESM5-8 code/data archives (analysis, not chemistry)",
+        "Round-2 PCR cycle count and the Supplementary Table 1/2 label conflict remain open"
+      ],
+      "scope": "Capped defining-source pass on the Nature Protocols article and its MOESM1 supplement only; no inDrops predecessor reading, no full chemistry validation and no accepted missing-information claim. The protocol's existing blocked status for inDrops capture oligos is unchanged.",
+      "verification": "local suite (comment-only, no explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/22 unresolved/0 contradictory over 18 steps; source guard 6 exact oligos checked, 0 failed, 3 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

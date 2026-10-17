@@ -4,26 +4,45 @@ from __future__ import annotations
 from dataclasses import dataclass
 import html
 
-from chemdraw import Row, Scene, Segment, revcomp
+from chemdraw import Scene, Segment, revcomp
 
 
 @dataclass(frozen=True)
 class BranchModel:
-    """Published multiplicities for one target RNA and one amplification tree."""
+    """Published multiplicities for one target RNA and one amplification tree.
+
+    A source may publish the tree only as a total number of label sites, or as
+    amplifiers per preamplifier and labels per amplifier.  Give either
+    ``labels_per_tree`` alone or both per-level factors (optionally with a matching
+    total); a total is never factorized into invented per-level counts.
+    """
     target_pairs_min: int
     target_pairs_max: int
-    amplifiers_per_preamp: int
-    labels_per_amplifier: int
+    labels_per_tree: int | None = None
+    amplifiers_per_preamp: int | None = None
+    labels_per_amplifier: int | None = None
 
     def __post_init__(self) -> None:
-        values = (self.target_pairs_min, self.target_pairs_max,
-                  self.amplifiers_per_preamp, self.labels_per_amplifier)
+        factors = (self.amplifiers_per_preamp, self.labels_per_amplifier)
+        if (factors[0] is None) != (factors[1] is None):
+            raise ValueError("give both per-level tree factors or neither")
+        if factors[0] is not None:
+            product = factors[0] * factors[1]
+            if self.labels_per_tree is None:
+                object.__setattr__(self, "labels_per_tree", product)
+            elif self.labels_per_tree != product:
+                raise ValueError(f"labels_per_tree {self.labels_per_tree} != "
+                                 f"{factors[0]} x {factors[1]}")
+        if self.labels_per_tree is None:
+            raise ValueError("branched-DNA tree needs labels_per_tree or per-level factors")
+        values = (self.target_pairs_min, self.target_pairs_max, self.labels_per_tree,
+                  *(f for f in factors if f is not None))
         if any(n <= 0 for n in values) or self.target_pairs_min > self.target_pairs_max:
             raise ValueError(f"invalid branched-DNA multiplicities: {values}")
 
     @property
-    def labels_per_tree(self) -> int:
-        return self.amplifiers_per_preamp * self.labels_per_amplifier
+    def has_level_factors(self) -> bool:
+        return self.amplifiers_per_preamp is not None
 
     @property
     def labels_per_target(self) -> tuple[int, int]:
@@ -128,22 +147,6 @@ def target_scene() -> Scene:
     return sc
 
 
-def tree_rows(model: BranchModel) -> list[Row]:
-    """One representative signal tree, annotated with model-derived multiplicities."""
-    a, l = model.amplifiers_per_preamp, model.labels_per_amplifier
-    return [
-        Row(chunks=[(f"label probes       {l} per amplifier", "umi", True)]),
-        Row(chunks=[("                    | | | | |", None, False)]),
-        Row(chunks=[(f"amplifiers         {a} branches per preamplifier", "r2", True)]),
-        Row(chunks=[("                    \\ | | /", None, False)]),
-        Row(chunks=[("preamplifier   ===== signal-amplification trunk =====", "r1", True)]),
-        Row(chunks=[("                          ||", None, False)]),
-        Row(chunks=[("paired tails       [Z-left][Z-right]", "cbc", True)]),
-        Row(chunks=[("                          ||", None, False)]),
-        Row(chunks=[("target RNA     5'-...adjacent target region...-3'", None, False)]),
-    ]
-
-
 def tree_svg(model: BranchModel) -> str:
     """Render the amplification hierarchy as a molecular graph, not ASCII punctuation."""
     width, height = 860, 430
@@ -170,11 +173,21 @@ def tree_svg(model: BranchModel) -> str:
             parts.append(f'<line x1="{x}" y1="145" x2="{x+dx}" y2="88" '
                          'stroke="var(--c-umi)" stroke-width="3"/>')
             parts.append(f'<circle cx="{x+dx}" cy="82" r="5" fill="var(--c-umi)"/>')
+    if model.has_level_factors:
+        parts += [
+            f'<text x="430" y="215" text-anchor="middle" class="topology-label">'
+            f'{model.amplifiers_per_preamp} amplifier branches per preamplifier</text>',
+            f'<text x="430" y="54" text-anchor="middle" class="topology-label">'
+            f'{model.labels_per_amplifier} label probes per amplifier</text>',
+        ]
+    else:
+        parts += [
+            '<text x="430" y="215" text-anchor="middle" class="topology-label">'
+            'amplifier branches (per-level count not modelled)</text>',
+            '<text x="430" y="54" text-anchor="middle" class="topology-label">'
+            'label probes (per-amplifier count not modelled)</text>',
+        ]
     parts += [
-        f'<text x="430" y="215" text-anchor="middle" class="topology-label">'
-        f'{model.amplifiers_per_preamp} amplifier branches per preamplifier</text>',
-        f'<text x="430" y="54" text-anchor="middle" class="topology-label">'
-        f'{model.labels_per_amplifier} label probes per amplifier</text>',
         f'<text x="430" y="26" text-anchor="middle" class="topology-heading">'
         f'{model.labels_per_tree} potential labels per signal tree</text>',
         '</svg>',

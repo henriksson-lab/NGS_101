@@ -10,12 +10,9 @@ from __future__ import annotations
 import crispr
 import illumina as il
 import seqprimers as sp
-from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Scene, Segment, feature, revcomp
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
-from protocol_model import molecule, role
+from protocol_graph import InputRole, MaterialKind, SequencingPlan, StepKind
 
 
 def seg(name: str, seq: str, tag: str | None = None, *, placeholder: bool = False,
@@ -99,26 +96,10 @@ def one_pcr_sequencing_primers():
 
 
 # Moffat Lab TKOv3 two-step readout (2019 protocol, LCV2::TKOv3 branch).
-MOFFAT_PCR1_F = "GAGGGCCTATTTCCCATGATTC"
-MOFFAT_PCR1_R = "GTTGCGAAAAAGAACGTTCACGG"
 MOFFAT_PCR2_SITE_F = "TTGTGGAAAGGACGAAACACCG"
 MOFFAT_PCR2_SITE_R = "ACTTGCTATTTCTAGCTCTAAAAC"
 MOFFAT_I5 = il.NEBNEXT_I5_SET1["i501"]
 MOFFAT_I7 = il.NEBNEXT_I7_SET1["i701"]
-
-
-def two_step_intermediate() -> Construct:
-    """PCR1 enrichment product; distal genomic/vector sequence is intentionally schematic."""
-    return Construct([
-        seg("PCR1 forward site", MOFFAT_PCR1_F, "s5"),
-        seg("left vector / genomic flank", "X" * 12, "w1", placeholder=True),
-        seg("hU6", crispr.U6_3PRIME + crispr.U6_PLUS1, "s5"),
-        seg("20-nt guide", SPACER, "cbc", placeholder=True,
-            feature=feature("guide", "guide_barcode", "unknown")),
-        seg("scaffold", crispr.SCAFFOLD_V1[:24], "r2"),
-        seg("right vector / genomic flank", "X" * 12, "w1", placeholder=True),
-        seg("PCR1 reverse site", revcomp(MOFFAT_PCR1_R), "r2"),
-    ], name="PCR1 enriched guide locus (~600 bp)")
 
 
 def two_step_library() -> Construct:
@@ -163,91 +144,3 @@ def _pcr(graph, prefix, template, final, primers, label, reviewed):
     graph.sequence(library, SequencingPlan(library=final, primers=tuple(primers)))
     reviewed.extend((forward.id, reverse.id, polymerase.id, prefix + "_pcr", library.id))
     return library
-
-
-def one_pcr_graph(authority: str, *, name: str = "Joung one-PCR CRISPR screen readout"):
-    graph = ProtocolGraph(name, authority=authority)
-    gdna = graph.input("genomic_dna", "genomic DNA from the pooled screen",
-                       MaterialKind.BIOLOGICAL,
-                       state=molecule("screen genomic DNA", (role("integrated guide cassette"),)),
-                       primary=True)
-    reviewed = ["genomic_dna"]
-    _pcr(graph, "readout", gdna, one_pcr_library(), one_pcr_sequencing_primers(),
-         "One-PCR guide-cassette readout", reviewed)
-    graph.declare_reviewed_scope(reviewed, authority)
-    return graph.require_publishable()
-
-
-def two_step_graph(authority: str, *, name: str = "Moffat two-step CRISPR screen readout"):
-    graph = ProtocolGraph(name, authority=authority)
-    gdna = graph.input("genomic_dna", "genomic DNA from the LCV2::TKOv3 screen",
-                       MaterialKind.BIOLOGICAL,
-                       state=molecule("screen genomic DNA", (role("integrated guide cassette"),)),
-                       primary=True)
-    pcr1_f = graph.input("pcr1_forward", "PCR1 locus forward primer", MaterialKind.OLIGO)
-    pcr1_r = graph.input("pcr1_reverse", "PCR1 locus reverse primer", MaterialKind.OLIGO)
-    pcr1_pol = graph.input("pcr1_polymerase", "PCR1 polymerase", MaterialKind.CATALYST)
-    intermediate = graph.product("pcr1_product", "approximately 600-bp guide-locus enrichment product",
-                                 MaterialKind.MOLECULAR, state=two_step_intermediate())
-    graph.react("pcr1", "PCR1 enriches the integrated guide locus", StepKind.PCR,
-                ((gdna, InputRole.TEMPLATE), (pcr1_f, InputRole.STRUCTURAL),
-                 (pcr1_r, InputRole.STRUCTURAL), (pcr1_pol, InputRole.CATALYST)),
-                (intermediate,), geometry=PCRGeometry.unavailable(
-                    two_step_intermediate(), reason="The surrounding integrated-vector/genomic template is schematic."))
-    reviewed = ["genomic_dna", "pcr1_forward", "pcr1_reverse", "pcr1_polymerase", "pcr1"]
-    _pcr(graph, "pcr2", intermediate, two_step_library(), two_step_sequencing_primers(),
-         "PCR2 adds the dual-index sequencing arms", reviewed)
-    graph.declare_reviewed_scope(reviewed, authority)
-    return graph.require_publishable()
-
-
-def vector_screen_graph(version: str, authority: str, *, name: str):
-    graph = ProtocolGraph(name, authority=authority)
-    vector = graph.input("vector", f"lentiCRISPR {version} transfer vector",
-                         MaterialKind.MOLECULAR,
-                         state=molecule(f"lentiCRISPR {version} plasmid", (role("BsmBI cloning cassette"),)),
-                         primary=True)
-    guide = graph.input("guide_duplex", "annealed BsmBI-compatible guide oligos",
-                        MaterialKind.OLIGO)
-    ligase = graph.input("cloning_ligase", "guide-cloning DNA ligase",
-                         MaterialKind.CATALYST)
-    cloned = graph.product("cloned_vector", "guide-bearing transfer vector",
-                           MaterialKind.MOLECULAR, state=cloned_guide_cassette())
-    graph.react("clone_guide", "Ligate the guide duplex into the BsmBI-opened cassette",
-                StepKind.LIGATION,
-                ((vector, InputRole.TEMPLATE), (guide, InputRole.STRUCTURAL),
-                 (ligase, InputRole.CATALYST)), (cloned,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "The two BsmBI-directed seams are checked in cloning_scene; a single adapter-end object does not represent a two-ended plasmid insertion."))
-    packaging = graph.input("packaging_system", "lentiviral packaging system",
-                            MaterialKind.CONDITION)
-    virus = graph.product("virus", "guide-library lentiviral particles",
-                          MaterialKind.MOLECULAR, state=cloned.state)
-    graph.react("package", "Package the pooled transfer-vector library",
-                StepKind.GENERIC,
-                ((cloned, InputRole.TEMPLATE), (packaging, InputRole.CONDITION)),
-                (virus,), changes_molecule=False)
-    cells = graph.input("cells", "screen target-cell population", MaterialKind.BIOLOGICAL,
-                        state=molecule("screen cells", (role("cellular genomes"),)), primary=True)
-    integration = graph.input("integration_catalyst", "lentiviral integration machinery",
-                              MaterialKind.CATALYST)
-    screened = graph.product("screened_cells", "selected cells carrying integrated guides",
-                             MaterialKind.MOLECULAR, state=cells.state)
-    graph.react("integrate", "Transduce cells and integrate one guide cassette",
-                StepKind.INTEGRATION,
-                ((cells, InputRole.TEMPLATE), (virus, InputRole.STRUCTURAL),
-                 (integration, InputRole.CATALYST)), (screened,))
-    extraction = graph.input("extraction_condition", "genomic-DNA extraction condition",
-                             MaterialKind.CONDITION)
-    gdna = graph.product("genomic_dna", "screen genomic DNA containing guide cassettes",
-                         MaterialKind.MOLECULAR, state=screened.state)
-    graph.react("extract", "Extract genomic DNA after pooled selection",
-                StepKind.EXTRACTION,
-                ((screened, InputRole.TEMPLATE), (extraction, InputRole.CONDITION)), (gdna,))
-    reviewed = ["vector", "guide_duplex", "cloning_ligase", "clone_guide",
-                "packaging_system", "package", "cells", "integration_catalyst",
-                "integrate", "extraction_condition", "extract"]
-    _pcr(graph, "readout", gdna, one_pcr_library(), one_pcr_sequencing_primers(),
-         "Compatible one-PCR guide-cassette readout", reviewed)
-    graph.declare_reviewed_scope(reviewed, authority)
-    return graph.require_publishable()

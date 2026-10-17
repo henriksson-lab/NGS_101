@@ -7,7 +7,7 @@ from chemdraw import Construct, Segment, feature, revcomp
 from pcr import PCRGeometry
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from protocol_model import chain, da_tailed, molecule, role
-from dsb_capture import BreakCaptureDesign, _illumina_break_library, _finish_pcr
+from dsb_capture import BreakCaptureDesign, _illumina_break_library
 from topology import HairpinTopology
 
 BLESS_PROXIMAL = "TACTACCTCGAGAGTTACGCTAGGGATAACAGGGTAATATAGTTTTTTTCTATATTACCCTGTTATCCCTAGCGTAACTCTCGAGGTAGTA"
@@ -42,20 +42,20 @@ def workflow():
          molecule("proximal-labelled break", (role("biotinylated proximal hairpin"), role("break-adjacent genomic DNA")),
                   junctions=(("biotinylated proximal hairpin", "break-adjacent genomic DNA", "T4 DNA ligase"),)),
          "The proximal barcode marks the end that existed in the cell before extraction."),
-        ("Fragment DNA and capture proximal-labelled molecules on streptavidin",
+        ("Fragment DNA with HaeIII and capture proximal-labelled molecules on streptavidin",
          molecule("captured break fragment", (role("biotinylated proximal hairpin"), role("break-to-random genomic fragment"), role("fragmentation-created free end"))),
-         "Fragmentation creates the distal end only after the native break has already been labelled."),
-        ("Blunt the free end and ligate the distal hairpin",
+         "HaeIII fragmentation creates the distal end only after the native break has already been labelled."),
+        ("Ligate the distal hairpin to the HaeIII end of captured fragments",
          molecule("dual-hairpin break fragment", (role("proximal hairpin"), role("break-to-random genomic fragment"), role("distal hairpin")),
                   junctions=(("proximal hairpin", "break-to-random genomic fragment", "native-break ligation"),
                              ("break-to-random genomic fragment", "distal hairpin", "distal ligation"))),
          "Different proximal and distal barcodes preserve which end is the native DSB."),
-        ("Linearize with I-SceI, PCR-amplify, then cut with XhoI",
+        ("Release with I-SceI, PCR-amplify with P1/P3, then cut with XhoI",
          molecule("barcoded BLESS insert", (role("proximal 11-nt tag"), role("break-to-random genomic DNA"), role("distal 11-nt tag"))),
          "I-SceI releases the captured molecule from its hairpins; XhoI leaves the short end-identifying tags."),
         ("INFERRED — install the sequencing-kit ends",
          molecule("Illumina-compatible break library", (role("Illumina left end", inferred=True), role("proximal or distal tag"), role("genomic insert"), role("Illumina right end", inferred=True))),
-         "The paper names TruSeq DNA Sample Preparation Kit v2 (Methods, Next-generation sequencing) but does not print its complete adapter construct."),
+         "The paper names TruSeq DNA Sample Preparation Kit v2, used without fragmentation or size selection (Methods, Next-generation sequencing), but does not print its complete adapter construct."),
     ))
 
 
@@ -65,13 +65,37 @@ SOURCE = 'Crosetto et al., Nature Methods (2013); <a href="https://doi.org/10.10
 SUMMARY = 'A barcoded biotin hairpin labels repaired DSBs in fixed nuclei before fragmentation; streptavidin capture and a differently barcoded distal hairpin preserve the native-break end.'
 CAVEAT = "The proximal/distal tags are exact. The paper names TruSeq DNA Sample Preparation Kit v2 (Methods, Next-generation sequencing) but does not print its complete adapter geometry or selected index member; those outer regions are marked inferred."
 FINAL_CAPTION = 'One insert orientation is shown. Proximal and distal 11-nt tags identify which genomic end was the native break; inferred outer sequencing-kit regions are shaded.'
-READ_LENGTHS = {'Read 1': 75, 'Index 1 (i7)': 6, 'Read 2': 75}
-SEQUENCING_INTRO = 'BLESS used paired-end Illumina sequencing; either end can carry the proximal tag, which is selected computationally.'
+# Supplementary Table 1 (published Springer supplement) lists GAII single-end runs for most
+# BLESS samples and HiSeq 2000 paired-end runs for N1/N2; no read length or index read is
+# stated, so no cycle counts are declared here.
+SEQUENCING_INTRO = ('Supplementary Table 1 lists Illumina GAII single-end runs for most BLESS samples and HiSeq 2000 '
+                    'paired-end runs (TruSeq PE Cluster Kit v3, TruSeq SBS Kit v3-HS) for the neocarzinostatin samples; '
+                    'read lengths and any index read are not stated, so no cycle counts are drawn. Either end can carry the '
+                    'proximal tag; reads are scanned for the exact proximal or distal barcode (Methods, Illumina data analysis).')
 SEQUENCING_ENDING = ''
 SEQUENCING_UNAVAILABLE = ''
-FINAL_LIBRARY, SEQ_PRIMERS = _illumina_break_library('BLESS library', inferred=True, tagged=True, proximal_tag=BLESS_PROXIMAL_READ_TAG, distal_tag=BLESS_DISTAL_READ_TAG, index_length=6)
+# INFERRED outer ends: the BLESS sources name the TruSeq DNA Sample Preparation Kit v2
+# but print no adapter, index primer or junction; canonical TruSeq single-index bases
+# (Illumina Adapter Sequences) and the kit's dA/T ligation junction are drawn as inferred.
+FINAL_LIBRARY, SEQ_PRIMERS = _illumina_break_library(
+    'BLESS library', inferred=True, tagged=True,
+    p5_arm=il.TRUSEQ_P5_FULL, junction="A", index_arm=il.INDEX1_PRIMER, p7_end=il.P7_RC,
+    proximal_tag=BLESS_PROXIMAL_READ_TAG, distal_tag=BLESS_DISTAL_READ_TAG, index_length=6)
+# Supplementary Table 5 marks the biotinylated base by cyan highlighting only (46th base,
+# in the T7 loop); it prints no 5'-phosphate on L1/L3, and the Methods do not say whether
+# the annealed linkers were phosphorylated, so no /5Phos/ is displayed.
+BIOTIN_INDEX = 45
+
+
 def oligos():
-    return (f'proximal hairpin — 5′-/5Phos/{BLESS_PROXIMAL[:45]}/iBiodT/{BLESS_PROXIMAL[46:]}-3′', f'distal hairpin — 5′-/5Phos/{BLESS_DISTAL}-3′', f'proximal PCR primer — 5′-{BLESS_PCR_PROXIMAL}-3′', f'distal PCR primer — 5′-{BLESS_PCR_DISTAL}-3′')
+    return (f'L1 proximal hairpin — 5′-{BLESS_PROXIMAL[:BIOTIN_INDEX]}/iBiodT/{BLESS_PROXIMAL[BIOTIN_INDEX + 1:]}-3′ (5′-phosphate not stated)',
+            f'L3 distal hairpin — 5′-{BLESS_DISTAL}-3′ (5′-phosphate not stated)',
+            f'P1 proximal PCR primer — 5′-{BLESS_PCR_PROXIMAL}-3′',
+            f'P3 distal PCR primer — 5′-{BLESS_PCR_DISTAL}-3′')
+
+
+def _primer(name, bases):
+    return (Segment(name, bases),)
 
 def protocol_graph():
     key = 'bless'
@@ -121,13 +145,13 @@ def protocol_graph():
                 geometry=reported_adapter_end(
                     "BLESS proximal hairpin", kind="blunt",
                     statement="The repaired native DSB is blunt and 5′ phosphorylated before proximal-hairpin ligation."))
-    fragmentation = graph.input("fragmentation_condition", "genomic DNA fragmentation condition",
-                                MaterialKind.CONDITION)
-    fragments = graph.product("fragments", "proximal-labelled break-to-random fragments",
+    fragmentation = graph.input("fragmentation_enzyme", "HaeIII (6 U per million fixed cells, 18-20 h, 16 °C)",
+                                MaterialKind.CATALYST)
+    fragments = graph.product("fragments", "proximal-labelled break-to-HaeIII-site fragments",
                               MaterialKind.MOLECULAR, state=labelled.state)
-    graph.react("fragment", "Fragment DNA after proximal break labelling",
-                StepKind.FRAGMENTATION,
-                ((labelled, InputRole.TEMPLATE), (fragmentation, InputRole.CONDITION)),
+    graph.react("fragment", "Extract gDNA and fragment it with HaeIII after proximal break labelling",
+                StepKind.DIGESTION,
+                ((labelled, InputRole.TEMPLATE), (fragmentation, InputRole.CATALYST)),
                 (fragments,))
     streptavidin = graph.input("streptavidin", "streptavidin capture beads",
                                MaterialKind.SELECTION)
@@ -139,14 +163,6 @@ def protocol_graph():
                 ((fragments, InputRole.TEMPLATE), (streptavidin, InputRole.SELECTION)),
                 (captured, rejected))
     graph.discard(rejected, "does not retain the biotinylated native-break adapter")
-    distal_repair = graph.input("distal_repair", "distal-end blunting enzyme mix",
-                                MaterialKind.CATALYST)
-    distal_ready = graph.product("distal_ready", "blunt captured distal fragment ends",
-                                 MaterialKind.MOLECULAR, state=captured.state)
-    graph.react("repair_distal", "Blunt the fragmentation-created distal end",
-                StepKind.END_REPAIR,
-                ((captured, InputRole.TEMPLATE), (distal_repair, InputRole.CATALYST)),
-                (distal_ready,))
     distal = graph.input("distal_adapter", "distinct distal hairpin",
                          MaterialKind.ADAPTER)
     distal_ligase = graph.input("distal_ligase", "distal-hairpin DNA ligase",
@@ -159,32 +175,55 @@ def protocol_graph():
                                          "native-break ligation"),
                                         ("break-to-random genomic DNA", "distal hairpin",
                                          "distal ligation"))))
-    graph.react("ligate_distal", "Ligate the distinct distal hairpin",
+    graph.react("ligate_distal", "Ligate the distinct distal hairpin on the beads",
                 StepKind.LIGATION,
-                ((distal_ready, InputRole.TEMPLATE), (distal, InputRole.STRUCTURAL),
+                ((captured, InputRole.TEMPLATE), (distal, InputRole.STRUCTURAL),
                  (distal_ligase, InputRole.CATALYST)), (dual,),
                 geometry=reported_adapter_end(
                     "BLESS distal hairpin", kind="blunt",
-                    statement="The fragmentation-created distal end is blunted before the distinct distal hairpin is ligated."))
+                    statement="The distal hairpin is ligated directly to the HaeIII-created end of captured fragments; the Methods describe no separate distal blunting step, and HaeIII (GG^CC) cuts blunt."))
     iscei = graph.input("iscei", "I-SceI hairpin-release nuclease", MaterialKind.CATALYST)
     released = graph.product("released", "linearized dual-tag break inserts",
                              MaterialKind.MOLECULAR, state=dual.state)
     graph.react("linearize", "Linearize the captured hairpin product with I-SceI",
                 StepKind.DIGESTION,
                 ((dual, InputRole.TEMPLATE), (iscei, InputRole.CATALYST)), (released,))
+    p1 = graph.input("bless_p1", "P1 proximal PCR primer (Supplementary Table 5)",
+                     MaterialKind.OLIGO, state=_primer("P1", BLESS_PCR_PROXIMAL))
+    p3 = graph.input("bless_p3", "P3 distal PCR primer (Supplementary Table 5)",
+                     MaterialKind.OLIGO, state=_primer("P3", BLESS_PCR_DISTAL))
+    phusion = graph.input("phusion", "Phusion polymerase (18 cycles, Ta 55 °C)",
+                          MaterialKind.CATALYST)
+    amplified = graph.product("amplified", "P1/P3-amplified BLESS fragments (gel-purified)",
+                              MaterialKind.MOLECULAR, state=released.state)
+    graph.react("bless_pcr", "Amplify released fragments with linker-specific primers P1/P3",
+                StepKind.PCR,
+                ((released, InputRole.TEMPLATE), (p1, InputRole.STRUCTURAL),
+                 (p3, InputRole.STRUCTURAL), (phusion, InputRole.CATALYST)), (amplified,),
+                geometry=PCRGeometry.unavailable(
+                    released.state, reason="The released template is drawn as roles; the exact I-SceI-cut linker remnant on each end is not modelled base by base."))
     xhoi = graph.input("xhoi", "XhoI tag-trimming nuclease", MaterialKind.CATALYST)
     trimmed = graph.product("trimmed", "break inserts retaining proximal/distal tags",
                             MaterialKind.MOLECULAR, state=released.state)
-    graph.react("trim_tags", "Cut with XhoI while retaining end-identifying tags",
+    graph.react("trim_tags", "Cut with XhoI while retaining end-identifying tags, then gel-purify",
                 StepKind.DIGESTION,
-                ((released, InputRole.TEMPLATE), (xhoi, InputRole.CATALYST)), (trimmed,))
+                ((amplified, InputRole.TEMPLATE), (xhoi, InputRole.CATALYST)), (trimmed,))
+    kit = graph.input("truseq_kit", "TruSeq DNA Sample Preparation Kit v2 reagents",
+                      MaterialKind.CONDITION)
+    library = graph.product("library_library", TITLE + " sequencing library",
+                            MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True)
+    graph.react("truseq_prep", "INFERRED — TruSeq DNA Sample Preparation Kit v2 library preparation without fragmentation or size selection",
+                StepKind.MAGIC, ((trimmed, InputRole.TEMPLATE), (kit, InputRole.CONDITION)),
+                (library,),
+                reason="The paper names TruSeq DNA Sample Preparation Kit v2 but the kit original (end processing, adapter ligation, PCR primers, index member) remains uninspected; the outer adapter shell is drawn inferred.")
+    graph.sequence(library, SequencingPlan(library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
+                                           acquired_roles=("Read 1", "Read 2")))
     reviewed.extend(("proximal_repair", "repair_breaks", "proximal_adapter",
-                     "proximal_ligase", "ligate_proximal", "fragmentation_condition",
-                     "fragment", "streptavidin", "capture", "distal_repair",
-                     "repair_distal", "distal_adapter", "distal_ligase",
-                     "ligate_distal", "iscei", "linearize", "xhoi", "trim_tags"))
-    _finish_pcr(graph, "library", trimmed, FINAL_LIBRARY, SEQ_PRIMERS,
-                SEQUENCING_INTRO, reviewed, label=TITLE)
+                     "proximal_ligase", "ligate_proximal", "fragmentation_enzyme",
+                     "fragment", "streptavidin", "capture", "distal_adapter", "distal_ligase",
+                     "ligate_distal", "iscei", "linearize", "bless_p1", "bless_p3", "phusion",
+                     "bless_pcr", "xhoi", "trim_tags", "truseq_kit", "truseq_prep",
+                     "library_library"))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 

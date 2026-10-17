@@ -131,5 +131,25 @@
       "evidence": "MOESM1 seq_batches.txt field description prints 3I.4P.50M; MOESM5 ligation-adapter rows print five random bases before the four-base pool barcode. The public page identifies both, models N5, and leaves the carryover explanation uncertain."
     }
   ],
-  "conclusion": "Pass 1 corrected the missing RT2/PCR claim; pass 2 and an inaccessible linked resource remain pending."
+  "conclusion": "Pass 1 corrected the missing RT2/PCR claim; pass 2 and an inaccessible linked resource remain pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Author protocols.io 7hkhj4w PDF text: Reagent setup lines 1395-1421 (QC primers, adapter, RT2, enrichment primers), equipment 1335-1336, Steps 29-40 lines 1930-2240 (RT, in-well Exo I, two-step pooling, 0.9x AMPure), Steps 42-49 2271-2524, 51-61 2524-2714, 62-72 2714-2960, 73-80 2960-3030; MOESM4/MOESM5 xlsx RT1/adapter rows (prior); MOESM1 seq_batches example (prior); Nature Protocols journal text paywalled (manual)",
+      "oligo_scraper": "Bundle scraper run; protocols.io hits at lines 1375 (RT1 form), 1395/1399 (ActB/GAPDH qPCR QC primers, not library), 1404 (adapter), 1416 (RT2), 1420-1421 (enrichment primers) checked against the text.",
+      "findings": "Confirmed graph order RT -> Exo I per well (37C 30min, 80C 10min) -> pooling -> second strand -> IVT. Step 80 prints 'rd1 = 75 bp, rd2 = 15 bp, no indices': declared read_lengths 75/15 and acquired roles in the sequencing plan, rendered cycles in the read table, and removed the drawn poly(T) cycles from Read 2; page caption states the MOESM1 3I.4P.50M/7W.8R.5I example (57+20) is a different configuration. Named source reagents/conditions on graph inputs: Zn2+ fragmentation 3min 70C, T4 RNA ligase 1 + DMSO/ATP/PEG 2h 22C, AffinityScript RT2 (72C anneal; 42/45/85C), KAPA HiFi HotStart ReadyMix (example 2+12 cycles, 11-17). Note gains a Steps 31-80 section.",
+      "deferred": [
+        "Nature Protocols journal main text (paywalled; protocols.io identity vs journal not compared)",
+        "Tanay page_id=672 linked oligo list (inaccessible)",
+        "AMPure cleanups (0.9x/1.4x/1.2x/2x/1.5x/1.5x/0.7x) and Turbo DNase as separate graph steps",
+        "Second-strand module enzymes and IVT kit identity on graph inputs (shared front helper labels)",
+        "Instrument sequencing-primer oligos; 3I vs N5 read-design carryover"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 5 checks + embedded MARS-seq 9 checks pass; page builds; pairing 0 problems; chemistry 1 established/6 conditional/9 unresolved/0 contradictory; source guard 3 exact checked (RT2, P5/P7 enrichment), 0 failed, 2 inputs without exact states (rt_primer, pool_adapter placeholders); Markdown built/checked; review schema checked"
+    }
+  ]
 }

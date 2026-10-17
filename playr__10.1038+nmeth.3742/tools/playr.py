@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from chemdraw import Construct, MolecularState, Row, Scene, Segment, Workflow, revcomp
+from chemdraw import Construct, MolecularState, Row, Scene, Segment, Workflow, revcomp, strand_row
 from circular import circularize_ssdna, rolling_circle
 from topology import ProximityCircleTopology, ProximityProbe
 
@@ -23,6 +23,16 @@ INSERT="ACGACTGAGTTTGGTCACGAT"
 BACKBONE="ATTAGCGTCCAGTGAATGCGAGTCCGTCTAGGAGAGTAGTACAGCAGCCGTCAAGAGTGTC"
 INSERT_SPACER=INSERT[len(PROBE1_INSERT_SITE):-len(PROBE2_INSERT_SITE)]
 DETECTION=INSERT
+# Nature Methods Supplementary Table 1 (MOESM647 "PLAYR sequences") and Nature
+# Protocols Table 1 write every detection oligo as "Z-" + the insert sequence; the
+# Nature Protocols footnote defines Z as a 5'-C6-thiol (mass cytometry, metal X8
+# polymer conjugate) or a fluorophore (flow cytometry).
+DETECTION_5PRIME_MOD="Z (5′-C6-thiol for metal conjugation, or fluorophore)"
+# MOESM647 also lists a universal "Backbone Detection" oligo.  It is not used in the
+# drawn system-1 workflow.
+BACKBONE_DETECTION="CAGTGAATGCGAGTCCGTCT"
+if BACKBONE_DETECTION not in BACKBONE:
+  raise AssertionError("backbone detection oligo must share the circle's sense to bind the RCA product")
 
 def seg(name,seq,tag=None,**kw): return Segment(name,seq,tag,**kw)
 
@@ -50,6 +60,14 @@ RCA_PRIMER=Construct([
   seg("Probe 1 backbone-binding 3'-OH",PROBE1_BACKBONE_SITE,"r3"),
 ],"Probe 1 RCA-priming 3' tail")
 RCA=rolling_circle(CIRCLE,RCA_PRIMER.top(),copies=3)
+
+def hybridized_reporter_rows() -> list[Row]:
+  """The two phosphorylated oligos docked on the probe tails, before T4 ligation."""
+  return [
+    strand_row(Construct([seg("target-specific insert",INSERT,"cbc")]),prefix="Insert 1  5′-p-",suffix="-3′"),
+    strand_row(Construct([seg("universal backbone",BACKBONE,"r3")]),prefix="Backbone  5′-p-",suffix="-3′"),
+    Row(chunks=[("Both oligos are docked on the probe tails as in the topology panel above; two nicks remain (one insert/backbone junction on each probe).",None,False)]),
+  ]
 
 def rca_priming_scene() -> Scene:
   """Draw the circular template opened away from Probe 1's exact landing site."""
@@ -113,8 +131,11 @@ def detection_scene() -> Scene:
 def workflow() -> Workflow:
   w=Workflow(MolecularState("adjacent PLAYR probes on target RNA",
     (Row(chunks=[("Topology above: Probe 2 and Probe 1 expose the complete split docking platform",None,False)]),)),track_graph=False)
-  w.react("Hybridize phosphorylated insert and universal backbone; T4 ligase closes the reporter circle",CIRCLE.rows("closed reporter circle"),name="RNA-templated reporter circle",note="Both circle oligos and their probe-tail docking sequences are published.")
+  w.react("Hybridize the phosphorylated insert and universal backbone to the probe tails (100 nM each, 1× SSC, 37 °C, 30 min; wash twice)",
+    hybridized_reporter_rows(),name="ligation-ready insert/backbone on the probe pair",
+    note="Frei 2016 Online Methods 'PLAYR protocol'; Nature Protocols reagent setup and Steps 23–24. Insert/backbone hybridization is a separate incubation before ligation.")
+  w.react("T4 DNA ligase seals both nicks (room temperature/21 °C, 30 min; wash twice)",CIRCLE.rows("closed reporter circle"),name="RNA-templated reporter circle",note="Both circle oligos and their probe-tail docking sequences are published.")
   w.react("Position a probe-pair member's 3'-OH as the RCA primer",rca_priming_rows(),name="Probe-primed reporter circle (Probe 1 shown)",note="The return path above is the covalently closed circle; the lower expansion shows its exact primer-binding junction. No separate RCA primer is added.")
-  w.react("Phi29 rolling-circle amplification",rolony_scene().rows(),name="single-stranded reporter RCA concatemer",note="Phi29 extends the bound probe around the circle into complementary tandem repeats in the fixed cell.")
-  w.react("Hybridize the labelled detection oligo",detection_scene().rows(),name="cytometry-ready PLAYR signal",note="The detection oligo reports the insert identity; no nucleotide sequencing follows.")
+  w.react("Phi29 rolling-circle amplification (30 °C, ≥2 h flow cytometry, ≥4 h mass cytometry)",rolony_scene().rows(),name="single-stranded reporter RCA concatemer",note="Phi29 extends the bound probe around the circle into complementary tandem repeats in the fixed cell.")
+  w.react("Hybridize the 5′-Z-labelled detection oligo (37 °C, 30 min)",detection_scene().rows(),name="cytometry-ready PLAYR signal",note="Z is a 5′-C6-thiol (metal-polymer conjugate, mass cytometry) or a fluorophore (flow cytometry). The detection oligo reports the insert identity; no nucleotide sequencing follows.")
   return w

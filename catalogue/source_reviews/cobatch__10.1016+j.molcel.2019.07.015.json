@@ -6,9 +6,15 @@
       "id": "published_article",
       "role": "defining",
       "locator": "Wang et al. Molecular Cell 2019 doi:10.1016/j.molcel.2019.07.015 and original supplements",
-      "availability": "unavailable",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Cell originalPDF andScienceDirect fullarticle both403; OpenAlex lists CellPDF andalready-readauthorpreprint, nofinalauthorcopy. Pekinginstitutionalannouncement links DOI only. OriginalpublisherTablesS1–S4 recovered separately; finalSTARMethods remains uninspected."
+      "reason": "Earlier passes: Cell PDF and ScienceDirect 403. 2026-10-17 the maintainer hand-fetched the published article-plus-SI PDF (1-s2.0-S1097276519305453-mmc7.pdf) and Methods S1 (mmc6.pdf) from ars.els-cdn.com; identity checked against printed title/authors/DOI.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "mmc7.pdf.txt STAR Methods lines1346-1348 (Oligonucleotides: see Table S1), 1418-1528 (PAT assembly QC, low-input in situ ChIP, Nextera library/sequencing strategy, fixed and native single-cell CoBATCH), 1605-1610; mmc6.pdf.txt Methods S1 steps1-27",
+        "finding": "Published conditions agree with the preprint; Methods S1 step24 adds pooling of PCR wells and TIANGEN column purification before AMPure; PE150 HiSeq X Ten/NovaSeq6000; i5/i7 PCR primers printed with bracketed index windows; no loaded sequencing primers or index-read lengths printed."
+      }
     },
     {
       "id": "author_preprint",
@@ -218,6 +224,75 @@
       "date": "2026-10-16",
       "locations": "Authorpreprint423–452; originalpublishedTableS1 all109lines andTablesS2–S4; supplementFigsS1–S4captions; Cell/ScienceDirect/OpenAlex/Pekinginstitutionalroutes",
       "finding": "Publishedoligos agree with originalpreprintfamily. Prior50bp genomicreads and custominnerconnector+ME sequencingprimer declarations were unsupported repositoryassignments: removed; PE150 now explicitlyqualified toauthorpreprint. Finalmainaccessblocked403, institutionalnewsDOIonly; no exact-loaded-primer absence claim accepted. Predecessororiginals andtheir links stillneedfullindependentmapping."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Final Molecular Cell main article/STAR Methods not read (paywalled; manual https://doi.org/10.1016/j.molcel.2019.07.015, https://www.cell.com/article/S1097276519305453/pdf). Original publisher Table S1 mmc2.xlsx.txt sheets Mosaic-A&B lines1-6, PA-Tn5_barcodes (T5-1..24, T7-1..25), Nextera_index (i5 N501-N526, i7 N701-N742), with raw xlsx cell refs B3-B5/C4-C6; Tables S2-S4 headers (mmc3/4/5); author preprint 10.1101/590661v1 Methods lines340-375 (PAT assembly), 423-452 (Nextera PCR, PE150), 470-495 (fixed single-cell CoBATCH), 497-499 (native variant)",
+      "oligo_scraper": "Scraper run on whole bundle and on mmc2.xlsx.txt; Mosaic-A/B, 5Phos common annealing primer and T5/T7/i5/i7 families checked against the original rows; local T5-1/T7-2/common/i5-N501/i7-N701 arms equal source (selftest).",
+      "findings": "Model adapters and PCR arms agree with original Table S1. Graph corrected from preprint-scoped Methods (final STAR Methods inaccessible): gap fill moved from before pooling to the 72 C 5 min step of the in-well KAPA PCR; added EDTA stop/pool/DAPI/sort 20-25 cells per second-plate well, SDS/proteinase K lysis (65 C, 85 C inactivation, Triton quench), 10-18 cycle PCR, 1X AMPure then 0.5X/0.5X 200-1000 bp selection with discarded outputs; tagmentation waste reason no longer implies physical removal. Graph-owned published discrepancy: Table S1 equivalence notes in cells C4-C6 are offset one row from sequences B3-B5 (Mosaic-B labelled Tn5ME-A, common primer labelled Tn5ME-B); model uses printed sequences.",
+      "deferred": [
+        "Final Molecular Cell main article and STAR Methods (paywall; whether preprint conditions changed)",
+        "Loaded sequencing primers, index-read lengths and inline-barcode cycle spans",
+        "CUT&Tag/Picelli Tn5 assembly predecessors not re-read",
+        "Exact-state source-guard inputs for transposome/i5/i7 families (3 symbolic inputs)",
+        "Low-input in situ ChIP and native single-cell branches not drawn"
+      ],
+      "scope": "Capped defining-source pass only; final article unavailable, so partial; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 5/5 pass; page builds; pairing 0 problems; chemistry 0 established/1 conditional/7 unresolved/0 contradictory (6 steps); source guard 0 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Final Mol Cell article retrieval: Unpaywall/OpenAlex bronze OA at http://www.cell.com/article/S1097276519305453/pdf (HTTP403 Cloudflare; cell.com fulltext and ScienceDirect article/pdfft also 403); Elsevier article API without key metadata only; Europe PMC subscription only, no PMCID; get_sources --slugs rerun (same 403). Read instead: author-deposited GEO GSE129327 series record (geo-GSE129327-self-quick.txt: summary, overall design, relations SubSeries of GSE129335/PMID31471188) and GSM3705255 sample record (geo-GSM3705255-self-quick.txt lines14-27,37).",
+      "oligo_scraper": "Run on the GEO sample record: 0 oligo hits (none expected); earlier Table S1 verification unchanged. upstream/scg material not used.",
+      "findings": "GSM3705255 data processing: 'cut the first21 bp of the read1 and the first27 bp of the read2' for single-cell splitting; library text '2X KAPA master mix ... AMPure XP beads for200-1000 bp' agrees with the preprint-scoped conditions; NovaSeq6000. Added GEO_SPLIT_CYCLES with derived split_overrun() (6/7 nt into inner connectors if reads start 3' of S5/S7, inference only, no primer declared); caveat, read specs and note updated; selftest gains a GEO transcription check (skips if absent).",
+      "deferred": [
+        "Final Molecular Cell main article and STAR Methods (Cloudflare 403 on bronze-OA publisher copy; manual https://www.cell.com/article/S1097276519305453/pdf)",
+        "Loaded sequencing primers and read entry points; index-read lengths",
+        "Whether other GEO sub-series (native GSE129328, GSE132844/132846) used the same split",
+        "CUT&Tag/Picelli Tn5 assembly predecessors",
+        "Exact-state source-guard inputs for transposome/i5/i7 families (3 symbolic inputs)",
+        "Low-input in situ ChIP and native single-cell branches not drawn"
+      ],
+      "scope": "Capped deferred follow-up, single reader; final article still unread, so partial; no accepted missing-information claim.",
+      "verification": "local suite6/6 pass; page builds; pairing0 problems; chemistry0 established/1 conditional/7 unresolved/0 contradictory (6 steps); source guard0 exact checked,0 failed,3 inputs without exact states; Markdown built; review schema pass"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Wang et al. 2019 Mol Cell 76:206-216 article+SI PDF (1-s2.0-S1097276519305453-mmc7.pdf, hand-fetched Elsevier CDN; title/authors/DOI checked) .txt lines1346-1348 Key Resources Oligonucleotides, 1418-1528 STAR Methods (PAT assembly QC p.e4, low-input in situ ChIP, Nextera library preparation and sequencing strategy, fixed and native single-cell CoBATCH pp.e4-e5), 1605-1610 data/Methods S1 pointer; Methods S1 bench protocol (mmc6.pdf) steps1-27 and troubleshooting",
+      "oligo_scraper": "Run on mmc7/mmc6 .txt: 4 hits, all the i5 AATGATACGGCGACCACCGAGATCTACAC[i5]TCGTCGGCAGCGTC and i7 CAAGCAGAAGACGGCATACGAGAT[i7]GTCTCGTGGGCTCGG PCR primers (mmc7 lines1506-1507; mmc6 lines89/97), matching the modelled P5/S5 and P7/S7 arms; no sequencing-primer hits. upstream/scg material not used.",
+      "findings": "Published STAR Methods reproduce the preprint fixed single-cell conditions (lysis 65C 5-6h/85C 15min/Triton, KAPA 72C 5min then 10-18 cycles 98C15s/63C30s/72C1min, 1X AMPure + 0.5X/0.5X 200-1000 bp, PE150 HiSeq X Ten/NovaSeq6000). Source labels moved from preprint to published STAR Methods/Methods S1. Added Methods S1 step24 pooling of all second-plate wells with TIANGEN column purification (cleanup step with discarded flow-through) before AMPure. Added STAR Methods transposome annealing (95C 5min, 0.1C/s to 75C, cool) and PAT loading (37.5uM, 25C 60min) to the adapter input and workflow label; lysis/PCR labels carry published conditions. Caveat/sequencing text: published sources print no loaded sequencing primers or index-read lengths (bounded observation, not an absence claim). Table S1 offset discrepancy kept; STAR Methods do not restate equivalences.",
+      "deferred": [
+        "Loaded sequencing primers, read entry points and index-read lengths (not printed in published STAR Methods or Methods S1)",
+        "Chen et al. 2016 / Picelli et al. 2014 Tn5 assembly predecessors",
+        "Whether other GEO sub-series (native GSE129328, GSE132844/132846) used the same 21/27-bp split",
+        "Low-input in situ ChIP (PAT-MEA/B) and native single-cell branches not drawn"
+      ],
+      "scope": "Capped deferred follow-up, single reader; defining published article now read; no accepted missing-information claim.",
+      "verification": "local suite 6/6 pass; page builds; pairing 0 problems; chemistry 0 established/1 conditional/8 unresolved/0 contradictory (7 steps); source guard 5 exact checked, 0 failed, 0 inputs without exact states; Markdown built; review schema pass"
+    },
+    {
+      "round": "critical-rereview-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "scope": "Critical diff review; focused source cross-checks and model consistency, not a new complete source audit.",
+      "locations": "Local tagmentation-to-PCR declarations and terminal-fate audit; no new reaction-source assertion.",
+      "findings": "Non-library tagmentation end-class candidates remain unresolved. PCR selectivity is not a represented physical separation.",
+      "deferred": [
+        "Previous linked-source deferrals and independent absence-audit requirements remain open."
+      ],
+      "verification": "Applicable protocol suite, page build, source guard and scoped chemistry passed (zero contradictions); review schema passed. Shared 1275 and source fetcher 226 checks pass. Whole-site verification is recorded in HANDOVER-REVIEW.md.",
+      "documents": 0
     }
   ]
 }

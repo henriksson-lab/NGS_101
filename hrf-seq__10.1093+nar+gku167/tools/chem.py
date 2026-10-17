@@ -1,4 +1,3 @@
-from dataclasses import replace
 """Protocol-owned source, oligos, molecular workflow and reaction graph."""
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import Construct, Segment, Workflow, feature, revcomp
@@ -115,11 +114,18 @@ def protocol_graph() -> ProtocolGraph:
     _finish_pcr(
         graph, "library", current, FINAL_LIBRARY,
         SEQUENCING_ENDING or FINAL_CAPTION, reviewed, label=TITLE,
+        step_label="Amplify and index with PCR_forward and PCR_REVERSE_INDEX primers (Phusion, 4 plus 20 cycles)",
+        forward_label="PCR_forward primer",
+        reverse_label=("PCR_REVERSE_INDEX indexed reverse primer "
+                       "(one of four; representative PCR_REVERSE_INDEX.14_AGTTCC)"),
+        polymerase_label="Phusion polymerase",
+        forward_state=HRF_PCR_FORWARD, reverse_state=_hrf_reverse(HRF_INDEXES[0]),
+        primer_source=("Kielpinski and Vinther (2014), Supplementary Table S1 and "
+                       "Methods, 'Sequencing library preparation' (PMC4005689)."),
         geometry=PCR_GEOMETRY,
         primers=SEQ_PRIMERS,
         acquired_roles=ACQUIRED_ROLES,
         read_lengths=READ_LENGTHS,
         read_uses=READ_USES)
-    graph.steps["library_pcr"] = replace(graph.steps["library_pcr"], label="Amplify with Phusion (4 plus 20 cycles)")
     graph.declare_reviewed_scope(reviewed, SOURCE)
     return graph.require_publishable()

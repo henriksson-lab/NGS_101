@@ -297,5 +297,25 @@
       "evidence": "Published Supplementary Table 3 (MOESM5), detailed protocol oligo workbook and author code print linker, primer and A/B barcode families and raw-read placement."
     }
   ],
-  "conclusion": "Two independent readers checked the preprint, published article, each unique publisher supplement, detailed follow-up and author code. The claimed missing adapter and barcode information is resolved by original source tables and code; no missing-information assertion is accepted."
+  "conclusion": "Two independent readers checked the preprint, published article, each unique publisher supplement, detailed follow-up and author code. The claimed missing adapter and barcode information is resolved by original source tables and code; no missing-information assertion is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Deng et al. Nature 2022 PMC9452302 JATS s41586-022-05094-1_PMC9452302.xml.txt lines213\u2013235 (Preparation of the transposome line215; oligo/barcode pointer217\u2013219; Spatial-ATAC-seq profiling223\u2013231; Data preprocessing235); Supplementary Table 3 MOESM5 workbook sheets 'DNA oligos' (lines3\u201317) and 'DNA barcode sequences' (lines20\u2013122); Supplementary Table 4 MOESM6 reagents; Farzad et al. Nat Protoc 2024 MOESM2 Supp_Table 1\u20133 and PMC13651751 JATS Reagents lines225\u2013260, Reagent setup410\u2013424, Procedure Steps 16\u201324 lines516\u2013560 (files in the spatial-cut-tag source bundle)",
+      "oligo_scraper": "Bundle scraper run (24 hits across preprint, article PDF/JATS and MOESM5); --find confirms Tn5ME-A exact at JATS line215 and article PDF line1898; MOESM5 hits are the Table 3 linkers, PCR primers, custom Read 1 and barcode plates.",
+      "findings": "Model correction: the shared spatial_epigenome construct placed revcomp(linker 1) directly against genomic DNA and omitted the Tn5ME-A transferred strand. Linker 1 is computed to be the exact splint of the barcode-A 3' mosaic end and the 15-nt Tn5ME-A 5' extension, so the read strand carries barcode-A ME + CATCGGCGTACGACT + Tn5ME-A ME before gDNA; Read 1 genomic start corrected from cycle 81 to 100 (barcode B 1\u20138, A 39\u201346 unchanged). Construct now built locally from Deng 2022 values (no longer Farzad-sourced), adding fixation/permeabilization, EDTA stop, T4 ligase conditions, proteinase K reversal, Zymo DCC-5 cleanup, exact New-P5-SMART/Ad2 PCR geometry with 72C gap fill and qPCR-determined cycles, 1x AMPure cleanup, unresolved same-adapter candidate products and exact oligo input states. Published discrepancy displayed: Deng 2022 Methods Tn5ME-A CATCGGCGTACGACT-ME vs Farzad 2024 Supp Table 1 TCGTCGGCAGCGTC-ME (Steps 16\u201324); model uses 2022, linker 1 pairs only with it.",
+      "deferred": [
+        "dyxmvp/Spatial_ATAC-seq preprocessing repository (raw Read 1 barcode coordinates) not re-read",
+        "Diagenode C01070010 transposome loading guideline",
+        "Farzad 2024 Supp Table 1 Tn5ME-A intent (different experiment or table error)",
+        "Ad2 index assignment per sample and acquired index-read cycles",
+        "Single-stranded Tn5ME-A extension and Tn5 9-nt gaps not drawn in the tagmented state"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 4/4 pass; page builds; pairing 0 problems; chemistry 1 established/0 conditional/9 unresolved/0 contradictory; source guard 9 exact checked, 0 failed, 0 inputs without exact states; Markdown built/checked; review schema checked"
+    }
+  ]
 }

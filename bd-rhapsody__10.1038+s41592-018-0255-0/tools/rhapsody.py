@@ -26,7 +26,8 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from chemdraw import Construct,Scene,Segment,feature
 from pcr import PCRGeometry
-from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
+from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,SourceClaim,
+                            SourceDiscrepancy,StepKind)
 
 CELL_LABEL=feature("cell_label","cell_barcode","whitelist",whitelist="bd-rhapsody-cell-label-set")
 UMI_FEATURE=feature("umi","umi","random")
@@ -185,6 +186,15 @@ def protocol_graph():
         read_lengths={"Read 1":101,"Read 2":101},
         read_uses={"Read 1":"extract","Index 1 (i7)":"demultiplex","Read 2":"include"},
         limitation="The checked BD sources do not establish the sequencing-primer sites."))
+    graph.annotate(SourceDiscrepancy(
+        "library_pcr","The paper and BD's WTA alpha protocol describe different library routes",
+        (SourceClaim("Yoon et al. 2019 Methods, 'Single-cell gene expression (BD Rhapsody system)' (PMC6677388 JATS lines 437-443)",
+                     "beads subjected to second strand cDNA synthesis, adaptor ligation and universal amplification with 22 PCR cycles; sequencing libraries then made by random priming PCR"),
+         SourceClaim("BD WTA alpha protocol 23-21179-00 (12/2018), RPE, RPE PCR and WTA Index PCR sections",
+                     "random priming and extension on the beads with the Randomer and Klenow exo-, 13-cycle RPE PCR, 8-9-cycle index PCR; no ligation step")),
+        "The page draws BD's documented RPE route because it is the only route with a printed oligo (the Randomer).",
+        "Both are published descriptions of BD Rhapsody whole-transcriptome library preparation; neither prints the bead, adaptor or library-primer bases.",
+        "Which route Yoon et al. actually ran, and the ligation route's adaptors, remain unresolved. The capture/RT/Exonuclease I steps come from instrument guide Doc ID 214062 Rev. 2.0, whereas the alpha protocol cites Rev. 1.0."))
     graph.declare_reviewed_scope((
         "cells","capture_beads","microwells","partition_capture","reverse_transcriptase",
         "reverse_transcribe","exonuclease","rna_removal","cleanup","randomer","klenow",

@@ -641,5 +641,24 @@
       "evidence": "Official E3420 manual names separately purchased NEBNext LV UDI primer sets; the linked original index manual prints the i5/i7 pair for each well. A generic protocol has no fixed purchased kit/well, so no universal pair is missing."
     }
   ],
-  "conclusion": "Commercial E3420 LB adaptor/splint strand identity remains unresolved. Patent examples cannot be assigned to the kit because NEB describes later enhancements including a novel splint adaptor. Two newly opened FAQ originals still need independent first checks, and the release-linked 2012 study plus supplements require original-source review. No missing-information claim is accepted."
+  "conclusion": "Commercial E3420 LB adaptor/splint strand identity remains unresolved. Patent examples cannot be assigned to the kit because NEB describes later enhancements including a novel splint adaptor. Two newly opened FAQ originals still need independent first checks, and the release-linked 2012 study plus supplements require original-source review. No missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "NEB E3420 manual v2.0_5/26 manuale3420.pdf.txt: Overview and Figure 1 legend, steps 1-8 (denaturation, 3' ligation, adaptor removal, 5' ligation, RT, RT bead selection 6.1-6.19, PCR 7.1-7.3/Tables 7.1-7.2, post-PCR 8A/8B), Sequencing and Data Processing lines 875-890; NEB LV UDI manual v2.0_6/26 Overview (8-base premixed i5/i7 wells, set pooling); Maguire 2020 Supplementary Table S2 lines 240-290 (prototype oligos 4-7)",
+      "oligo_scraper": "Scraper on manuale3420.pdf.txt: only the two Read 1/Read 2 trim motifs (lines 883-884), verified in the original; Maguire S2 oligos read directly.",
+      "findings": "Corrected the RT bead step: manual step 6 is a 1X/1X+isopropanol selection that discards large cDNA and non-ligated adaptor, not the miRNA-versus-broad choice; added PCR-product state and the post-PCR 8A (1.2X/0.8X, <50 nt inserts) or 8B (2X, <120 nt) purification with waste fates. Removed the unsupported 8-nt kit-remnant placeholders flanking the insert: the printed trim motifs equal A+TruSeq Index 1 arm and revcomp(TruSeq Read 1 arm), and final_library() now raises if its read-through differs. Named Ultra II Q5 Master Mix and conditions; read text now matches the manual (single 56-base read typical, 8-base LV UDI indices). Removed dead legacy STEPS/Row splint text. Derived note: the Maguire prototype RNA 5' adapter would not give the E3420 Read 2 trim motif, so it is not the kit adapter.",
+      "deferred": [
+        "Kit adaptor, splint, UDI primer strands and modifications (not printed in E3420 manual)",
+        "Adaptor Removal Enzyme Mix and 3'-adaptor-to-RT-primer modification enzyme identities",
+        "NEB E3420 supplemental-data page and product page (HTTP 403 in manifest), remaining NEB FAQs, patent predecessors",
+        "Zhuang 2012 predecessor PDF (publisher 403; PMC copy not read this pass)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 100 checks pass (shared run_common; no new checks, invariant enforced in final_library()); page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (all ligation/PCR oligos inferred, undisclosed); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

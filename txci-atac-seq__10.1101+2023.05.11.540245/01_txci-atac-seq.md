@@ -1,9 +1,12 @@
 # txci-ATAC-seq — Tn5 pre-indexing on a 96-well plate, then overloading the 10x scATAC chip
 
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
-> published. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
-> writing this note; they are not yet asserted in a self-test, because this protocol has
-> no `tools/` module yet (status `notes` in `catalogue/ours.tsv`).
+> published. Relationships marked 🟡 *(computed)* were worked out with `lib/`; the
+> construction model is `tools/txci_atac.py` (status `documented`).
+>
+> **Authority.** The published *Genome Biology* article (PMC10958877) and its Additional
+> file 5 are the defining sources; the preprint is superseded and is kept below only as
+> history. The authors' protocols.io PDF supplies bench programmes the article delegates.
 
 **txci-ATAC-seq** (10X-compatible combinatorial indexing ATAC-seq) — Zhang H\*, Mulqueen RM\*,
 Iannuzo N, Farrera DO, Polverino F, Galligan JJ, Ledford JG, Adey AC, Cusanovich DA.
@@ -31,6 +34,7 @@ Sources read (in `$CHEM_DATA/sources/txci-atac-seq__10.1101+2023.05.11.540245/`,
 | `2023.05.11.540245_v1.full.pdf.txt` | preprint, incl. Supplementary Tables 4, 7, 8 printed at the end (lines ~2050–2215) | methods, oligos, cycle numbers |
 | `PMC10958877.xml.txt` | Genome Biology full text (Europe PMC) | checking what changed on publication |
 | `13059_2023_3150_MOESM5_ESM.xlsx.txt` | Additional file 5: Tables S4–S8 | **every oligo**, the 96 Tn5 barcodes, plate design |
+| `s13059-023-03150-1_PMC10958877.xml.txt` | published JATS (PMC Cloud), Methods lines 189–221 | 2026-10-17 bounded pass: Sample multiplexing, Optimization, brain, lung/liver standard protocol, Phased |
 | `13059_2023_3150_MOESM1_ESM.docx.txt` | Additional file 1: supplementary figure legends | Fig. S1/S2/S18 (barcode swapping, PCR efficiency) |
 | `13059_2023_3150_MOESM6_ESM.docx.txt` | Additional file 6: review history | skimmed; nothing new on chemistry |
 | `upstream_txci-ATAC-seq.html.txt` | scg_lib_structs page | second source, checked below |
@@ -208,7 +212,7 @@ On library day: thaw on ice, + 13.7 µL transposition buffer (12.5 µL 2× Tagme
 48 Tn5 barcodes; 50,000 or 100,000 nuclei/lane (i7 S705, S706). The rename "Fast" → "Phased"
 is the only difference between preprint and published method text found for this section 🟡.
 
-## 5. Final library — 🟡 (computed; matches upstream exactly)
+## 5. Final library — 🟡 (computed with `lib/`)
 
 Only A/B fragments carry both P5 (via the bead) and P7 (via the SBS handle). A/A gets P5 at
 both ends, B/B the SBS/i7 at both ends; neither clusters, and upstream adds that both are
@@ -248,11 +252,17 @@ Blocking test: 50/10/16/92. Brain: NextSeq 500 Mid or NovaSeq 6000 S4 (cycles no
 🟢 The analysis takes the first 8 bp of Read 2 as the Tn5 barcode and trims 27 bp (8 + 19 ME),
 correcting barcodes within edit distance 2. Bases 9–27 of Read 2 are the fixed ME, so the
 authors **spike 5 % bulk ATAC** for base diversity and recommend PhiX or **dark cycles 9–27**
-when sequenced alone 🟢. Read primers are the instrument's standard mixes — "to avoid
+when sequenced alone 🟢. The authors' protocols.io run sheet (step 52) gives 51/8/16/78; the
+published lung/liver run acquired 10 i7 cycles only to accommodate a co-pooled bulk
+library (Methods line 217) — not a source conflict. The model acquires 8 i7 cycles.
+Read primers are the instrument's standard mixes — "to avoid
 sequencing with a custom recipe" is the stated reason for the B-adaptor design 🟢; which
 standard primer mix covers both Nextera Read 1 and TruSeq Read 2 is 🟡.
 
-## 7. Upstream (scg_lib_structs) checked against the paper
+## 7. Upstream (scg_lib_structs) compared — historical orientation only
+
+The upstream page is not a source; agreement below is not verification. Every fact the
+model uses was re-read in the published article, Additional file 5 or protocols.io.
 
 | Upstream claim | Paper | Verdict |
 |---|---|---|
@@ -291,3 +301,22 @@ linker, i7 and blocker oligos with `illumina.P7` / `TRUSEQ_READ2` / `nextera.ME`
 recognised. `--find` does not match a query containing `N` (Tn5ME-B had to be checked in
 two halves) and missed the lowercase-barcode Full SBS rows of Table S8 (it reported only the
 identical P7.S701 rows).
+
+## 10. Bounded source pass, 2026-10-17 (round breadth-first-21)
+
+Read: published JATS Methods lines 189–221 (Sample multiplexing; Optimization;
+brain; lung/liver standard protocol; Phased); Additional file 5 Tables S4, S5 (A1),
+S7, S8; protocols.io PDF steps 1–7 (linker annealing 95 °C 5 min, −0.1 °C/s to 65 °C,
+65 °C 5 min, −0.1 °C/s to 4 °C; 1 µL each annealed linker to 20 µL 0.3 mg/mL Tn5,
+23 °C 30 min), LBS recipe (5 µM SBS), steps 50–52 (GEM and SI-PCR programmes, run sheet).
+Model changes: the graph now starts from the three Table S4 oligos (Tn5ME-B with its
+printed 8-N barcode placeholder) through annealing and Tn5 loading; the Short SBS input
+carries its exact Table S8 sequence; tagmentation, GEM PCR and SI-PCR carry the
+published/protocols.io conditions; kit post-GEM cleanup and double-sided size selection
+are explicit; A/A·B/B and empty/multiplet-GEM fates are described as non-separated
+(non-amplified or computationally filtered) rather than physically discarded. The
+published iTSM plate was pre-loaded by Illumina; the protocols.io loading recipe is the
+authors' own substitute.
+Deferred: 10x CG000209 Rev D (bead oligo, kit SI-PCR P5 primer, cleanup and size
+selection details); Fig. S1c swapping mechanism; brain/pilot/blocking/Phased branches not
+drawn; Decoy dU purpose and blocking-oligo `CTATGATG` remain open.

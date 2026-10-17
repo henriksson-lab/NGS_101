@@ -10,7 +10,8 @@ sys.path.insert(0, str(HERE.parents[1] / "lib"))
 
 import direct_capture as C
 from chemdraw import Scene, annotation_rows, oligo, panel
-from page import head, info
+from page import caveat, head, info
+from protocol_graph import AnnotationSlot
 from protocol_views import assemble_page, WorkflowSection, PrimerBindingSection
 
 OUT = HERE.parent / "5-direct-capture-perturb-seq.html"
@@ -24,14 +25,16 @@ def render() -> str:
         "<h1>5′ direct-capture Perturb-seq</h1>",
         '<p class="research-notes"><a href="01_5p-direct-capture-perturb-seq.html">Research notes</a></p>',
         info('Defining source: <a href="https://doi.org/10.1038/s41587-020-0470-y">Replogle et al., <i>Nature Biotechnology</i> (2020)</a>. This is the standard, unmodified sgRNA-CR1 branch of the 5′ protocol.'),
+        caveat(C.BEAD_CAVEAT),
+        AnnotationSlot.INTRO,
         "<h2>Key oligos</h2>",
         f'<seq>{oligo("oJR160", C.ojr160_segments())}</seq>',
         f'<seq>{oligo("oJR163 (forward)", C.ojr163_segments())}\n\n{oligo("oJR165 (indexed reverse)", C.ojr165_segments())}</seq>',
         WorkflowSection("Reaction workflow"),
         "<h2>Final guide library</h2>",
         panel(C.final_scene().rows(), cls="small",
-              caption=f"Final guide library: {len(C.final_library())} bp for the printed AGGAGTCC example index (reported as approximately 250 bp)."),
-        PrimerBindingSection("library", "Sequencing", "Sequencing",
+              caption=f"Final guide library: {len(C.final_library())} bp for the printed AGGAGTCC example index (reported as approximately 250 bp). INFERRED — bead-derived partial Read 1, switch spacer and GGG bases follow the 10x kit design, not the inspected sources."),
+        PrimerBindingSection("purified_library", "Sequencing", "Sequencing",
                              intro_html=("Read 1 records cell barcode and UMI. Read 2 "
                                          "crosses the constant region before reaching the "
                                          "protospacer; the protocol recommends 98 Read 2 cycles.")),

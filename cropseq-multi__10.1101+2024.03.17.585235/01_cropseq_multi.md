@@ -20,4 +20,20 @@
 
 🟡 The current schematic is role-level across several demonstrated detection modes. An exact final construct/read layout needs a selected mode, vector version, guide/barcode member and indexing primer. The source does not justify combining the in-situ padlock path with the 5′ capture or direct NGS path into one molecule.
 
+## 5′ direct-capture branch (read 2026-10-17)
+
+🟢 Methods, "Direct-capture single-cell RNA sequencing with 10X Genomics 5' capture" (v2 preprint lines 842–874, HeLa cells): the workflow follows 10x Genomics CG000735 (Chromium GEM-X Single Cell 5′ Reagent Kits v3 with Feature Barcode technology for CRISPR Screening) with two substitutions. The RT mastermix (RT Reagent E 2001106, Poly-dT RT Primer B 2001110, Reducing Agent B 2000087, RT Enzyme E 2001105/2001146; 27.5 µL) receives 0.5 µL each of 10 µM `oRW1220` and `oRW1221`, because the kit's CRISPR Poly-dT Primer Mix B (2001145) "does not have perfect complementarity to both sgRNAs". After GEM generation, RT and cDNA amplification, SPRIselect size-separates the cDNA; the large fraction goes to the standard gene-expression protocol (10x CG000733) and the small fraction carries the sgRNA products.
+
+🟢 The sgRNA fraction is dialled out in one reaction with three primers — universal forward `oRW1223` plus `oRW1226` (sgRNA 1) and `oRW1227` (sgRNA 2) — in 1X NEBNext Ultra II Q5, 98 °C 1 min, 11 × (98 °C 10 s, 67 °C 10 s, 72 °C 15 s), 72 °C 1 min, then 1X SPRIselect and the commercial CG000735 sample-indexing PCR. Gene-expression and sgRNA libraries are pooled 10:1 and sequenced on an Illumina NovaSeq X with 28 cycles read 1, 10 cycles per index and 90 cycles read 2.
+
+🟡 The graph now declares these named oligos, the SPRIselect split with its gene-expression partner library and the indexing PCR; the kit-internal cDNA amplification and gene-expression library construction remain warned "magic happens" boundaries because CG000735/CG000733 are not reproduced in the preprint.
+
+🟢 Screen-library (not single-cell) readouts are separate: plasmid and genomic-DNA libraries are single-step PCRs with NEBNext Ultra II Q5 + EvaGreen (10 cycles for plasmid, 24 for gDNA), purified on AMPure XP or QIAquick, and sequenced on MiSeq — 300-cycle kit (MS-102-2002) when primers flank both scaffolds to score deletion recombination, otherwise a 150-cycle kit (MS-102-3001) with custom read primers and 75 cycles per read, 8 cycles per index (lines 735–754, 814–823).
+
 🔴 For the 5′ direct-capture mode, the preprint Methods ("Direct-capture single-cell RNA sequencing with 10X Genomics 5’ capture") explicitly follow 10x guide CG000735 with custom primers and amplification conditions. That vendor guide is absent from the local source bundle and remains unreviewed, so the 10x-derived parts of this branch cannot yet be certified from the preprint alone.
+
+## In situ mRNA and T7-IVT branches (read 2026-10-17)
+
+🟢 The v2 preprint's Methods ('In situ amplification - mRNA protocol', lines 876–912; 'In situ amplification - T7 IVT protocol', lines 914–937; 'Sequencing by synthesis', lines 939–953) read both branches optically, not by PCR. The mRNA protocol runs RevertAid H minus RT with 1 µM of each biotinylated RT primer, then streptavidin binding and post-fixation in 3% formaldehyde and 0.1% glutaraldehyde. Padlock gap fill and ligation follow (0.1 µM of each padlock, RNase H, TaqIT, Ampligase), then 16 h Phi29 RCA, SBS-primer hybridization and in situ SBS with MiSeq Nano v2 reagents. The T7-IVT protocol first transcribes in situ with T7 RNA Polymerase Mix (NEB E2040L, usually 0.2X), post-fixes, and then follows the mRNA protocol from RT onwards. The workbook names the RT primers (oRW893 for iBAR 1; oRW887, oRW965 and oRW967 for iBAR 2 by tRNA), the padlocks (oRW963; oRW968, oRW964 and oRW966) and the SBS primers.
+
+🟡 The graph now models these branches with the in situ steps. Earlier it wrongly sent them through an endpoint PCR. Padlock arm landing and the gap-filled span are not assembled, so gap fill, ligation and RCA form one unmodelled step.

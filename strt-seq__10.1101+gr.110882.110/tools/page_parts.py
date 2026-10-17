@@ -18,8 +18,9 @@ import illumina as il
 import nextera as nx
 from page import head, info, table
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from protocol_graph import (AnnotationSlot, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind)
+from protocol_views import assemble_page
 import seqprimers as sp
 
 
@@ -76,13 +77,19 @@ def oligos(protocol: str) -> str:
             oligo("C1-TN5-U", [seg("paired tail'", S.TN5_U, "me")], mods="5Phos"),
         ]
     else:
+        read1 = [seg("P5 minus first base", il.P5[1:], "p5"),
+                 seg("degenerate", "N" * 6, placeholder=True), seg("P1B", S.P1B, "r1")]
+        if "".join(s.top for s in read1) != S.TWO_I_READ1:
+            raise ValueError("displayed DI-Read1-Seq differs from the declared Read 1 primer")
         rows = [
             oligo("STRT-P1-T31", [seg("C1 handle", S.C1_HANDLE, "p5"), seg("CG", S.C1_DT_LINK), seg("T31", "T" * S.C1_DT_LEN)], mods="Bio"),
             oligo("P1B-UMI-RNA-TSO", [seg("P1B", S.P1B, "r1"), seg("UMI", "N" * 6, "umi", placeholder=True), seg("rGrGrG", "rGrGrG", placeholder=True)], mods="Bio; all-ribo"),
+            oligo("DI-PCR-P1A", [seg("P5 fragment", il.P5[:20], "p5")], mods="Bio"),
             oligo("DI-P1A-idx-P1B", [seg("P5", il.P5, "p5"), seg("well index", "W" * 5, "cbc", placeholder=True), seg("P1B minus terminal T", S.P1B[:-1], "r1")], mods="Bio"),
             oligo("STRT-Tn5-Idx", S.tn5_indexed_top()),
             oligo("STRT-TN5-U", [seg("paired tail'", S.TN5_U, "me")], mods="5Phos"),
             oligo("P1/P2 second-PCR primers", [seg("P5 fragment", il.P5[:24], "p5"), seg(" / ", "", placeholder=True), seg("P7", il.P7, "p7")]),
+            oligo("DI-Read1-Seq", read1),
         ]
     return "<h2>Key oligos</h2>\n<seq>\n" + "\n".join(rows) + "\n</seq>"
 
@@ -210,18 +217,18 @@ def _tagment(graph: ProtocolGraph, template, state, reviewed, *, inferred=False,
                       inferred=inferred,
                       source=(source + " (transposase source unavailable)"
                               if inferred else None))
-    tagged = graph.product("tagmented_cdna", "indexed tagmented cDNA",
+    # Every tagmentation product stays in the tube; the caller's later selection
+    # step (if its source describes one) owns the physical removal of the others.
+    tagged = graph.product("tagmented_cdna",
+                           "indexed tagmented cDNA (transcript-5′ product drawn)",
                            MaterialKind.MOLECULAR, state=state, inferred=inferred,
                            source=(source + " (selected tagmentation product reconstructed)"
                                    if inferred else None))
-    waste = graph.product("tagment_waste", "other tagmentation products",
-                          MaterialKind.WASTE)
     graph.react("tagment", "Tagment amplified cDNA with the indexed adapter",
                 StepKind.TAGMENTATION,
                 ((template, InputRole.TEMPLATE),
                  (transposome, InputRole.STRUCTURAL),
-                 (tn5, InputRole.CATALYST)), (tagged, waste))
-    graph.discard(waste, "does not retain the selected transcript-5′ topology")
+                 (tn5, InputRole.CATALYST)), (tagged,))
     reviewed.extend(("indexed_transposome", "tn5", "tagment"))
     return tagged
 
@@ -415,7 +422,8 @@ def render_page(protocol: str, out: Path, *, graph=None) -> None:
     title = PAPERS[protocol][1]
     graph = graph if graph is not None else graph_for(protocol)
     workflow = "<h2>Library generation</h2>\n" + protocol_graph_panels(graph)
-    out.write_text("\n".join([head(f"{title} library chemistry"),
-                              preamble(protocol, complete=True), oligos(protocol),
-                              workflow, sequencing(protocol)]), encoding="utf-8")
+    out.write_text(assemble_page(graph, [
+        head(f"{title} library chemistry"), preamble(protocol, complete=True),
+        AnnotationSlot.INTRO, oligos(protocol), workflow,
+        AnnotationSlot.AFTER_WORKFLOW, sequencing(protocol)]), encoding="utf-8")
     print(f"wrote {out}  ({out.stat().st_size:,} bytes)")

@@ -6,7 +6,7 @@
 
 The graph represents the original **K562 four-hour total-RNA experiment**, without affinity enrichment. It distinguishes RNA classes by pulse incorporation. A transcript containing a pulse-labelled tract may also contain a pre-existing 5′ tract; the classification does not date every base of the molecule. A representative converted site does not mean every labelled molecule or site converted; possible unconverted pulse-labelled RNA remains explicit.
 
-The original Supplementary Protocol gives this order: modified RNeasy extraction; NaIO4/TFEA recoding; RNAClean purification; DTT reducing treatment; a second RNAClean purification; named SMARTer Pico kit entry. The graph now preserves those stages.
+The original Supplementary Protocol gives this order: modified RNeasy extraction; NaIO4/TFEA recoding; RNAClean purification; DTT reducing treatment; a second RNAClean purification; named SMARTer Pico kit entry. The graph now preserves those stages. The main article's K562 mRNA paragraph uses 10 ng of total RNA per library and paired-end 150 bp HiSeq 4000 reads; the Supplementary Protocol recoding example (step 13) starts from 2 µg RNA.
 
 The targeted Actb/Gapdh/MYC assays, transcriptome-wide MEF experiments and enriched TT-TimeLapse experiments are distinct source branches. Targeted primers and their TruSeq adapter completion are not imported into this total-RNA graph.
 

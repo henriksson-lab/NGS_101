@@ -28,7 +28,9 @@ CAVEAT = ("The paper names the NuGEN Ovation Human Blood RNA-seq kit but does no
           "which specifies EZ-Link Biotin-HPDP, streptavidin capture and DTT release.")
 
 FINAL_LIBRARY = Construct([
-    seg("P5", il.P5, "p5", inferred=True),
+    # Single-index adapter: P5 and the Read 1 arm are one oligo, so their shared ACAC
+    # occurs once (canonical universal adapter, illumina.TRUSEQ_P5_FULL).
+    seg("P5", il.TRUSEQ_P5_FULL[:-len(il.TRUSEQ_READ1)], "p5", inferred=True),
     seg("Read 1 arm", il.TRUSEQ_READ1, "r1", inferred=True),
     seg("strand-specific cDNA from captured RNA", "X" * 38, placeholder=True),
     seg("dA junction", "A", inferred=True),
@@ -110,6 +112,15 @@ def protocol_graph():
                          MaterialKind.MOLECULAR)
     graph.react("release","Release captured RNA with DTT",StepKind.CHEMICAL_CONVERSION,
                 ((captured,InputRole.TEMPLATE),(dtt,InputRole.CONDITION)),(eluted,))
+    dnase=graph.input("turbo_dnase","2 U Turbo DNase",MaterialKind.CATALYST,source=SOURCE)
+    dnase_treated=graph.product("dnase_treated","DNase-treated labelled RNA fragments",
+                                MaterialKind.MOLECULAR)
+    dna_digest=graph.product("dna_digest","digested contaminating DNA",MaterialKind.WASTE)
+    graph.react("dnase","Treat purified labelled RNA with Turbo DNase",StepKind.DIGESTION,
+                ((eluted,InputRole.TEMPLATE),(dnase,InputRole.CATALYST)),
+                (dnase_treated,dna_digest))
+    graph.discard(dna_digest,"digested DNA is not carried as library substrate; no separate "
+                  "cleanup is printed before the commercial kit")
     rt_primer=graph.input("rt_primer","NuGEN strand-specific RT primer",MaterialKind.OLIGO,
                           inferred=True,source=SOURCE+" (kit oligo unverified in checked sources)")
     rt=graph.input("reverse_transcriptase","NuGEN reverse transcriptase",
@@ -119,7 +130,7 @@ def protocol_graph():
                        source=SOURCE+" (commercial kit construct)")
     graph.react("reverse_transcribe","Convert captured RNA to strand-specific cDNA",
                 StepKind.REVERSE_TRANSCRIPTION,
-                ((eluted,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
+                ((dnase_treated,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
                  (rt,InputRole.CATALYST)),(cdna,))
     adapter=graph.input("adapter","NuGEN Illumina-compatible library adapter",
                         MaterialKind.ADAPTER,inferred=True,
@@ -148,7 +159,7 @@ def protocol_graph():
     graph.declare_reviewed_scope((
         "cells","s4u","rna_polymerase","pulse_label","fragmentation_condition",
         "fragment","biotin_reagent","biotinylate","streptavidin","capture",
-        "dtt","release",
+        "dtt","release","turbo_dnase","dnase",
         "rt_primer","reverse_transcriptase","reverse_transcribe","adapter",
         "attach_adapter","pcr_forward","pcr_reverse","pcr_polymerase",
         "library_pcr","library"),SOURCE)

@@ -50,6 +50,13 @@ def _raise_fact():
 check = Check()
 run_common(check)
 
+from unittest.mock import patch
+import build_index
+with patch.object(build_index.subprocess, "run", return_value=type("FailedSuite", (), {
+        "stdout": "all 3 checks passed\n", "returncode": 1})()):
+    check("a successful check banner cannot hide a failing suite exit status",
+          build_index.checks("char-seq__10.7554+eLife.27024"), (0, False))
+
 check.section("IUPAC nucleotide-class complements")
 from chemdraw import iupac_complement  # noqa: E402
 check("all IUPAC classes complement in place and preserve case",
@@ -90,7 +97,76 @@ check("first-bases table renders one unknown-region marker",
       (preview_html.count("<code>AG…</code> (from"),
        "<code>AG…</code>&hellip;" in preview_html), (2, False))
 
+check.section("read contents across an index window of unstated length")
+import illumina as il  # noqa: E402
+from chemdraw import feature  # noqa: E402
+unstated_i7_lib = Construct([
+    Segment("P5", il.P5[:-4]), Segment("Read 1", il.TRUSEQ_READ1),
+    Segment("insert", "ACGTACGTAC"), Segment("Read 2 arm", il.INDEX1_PRIMER),
+    Segment("i7 index", "[i7 index; length not stated]", placeholder=True,
+            feature=feature("i7", "sample_index", "unknown")),
+    Segment("P7", il.P7_RC)], "unstated i7 window")
+unstated_rows = {r.read: r for r in sp.read_contents(
+    unstated_i7_lib, (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"]))}
+check("a featured role-token index window stops Index 1 without a cycle count",
+      (unstated_rows["Index 1 (i7)"].cycles, unstated_rows["Index 1 (i7)"].content),
+      ("not fixed", "sample index (from cycle 1; length not stated)"))
+unknown_insert_lib = Construct([
+    Segment("Read 1", il.TRUSEQ_READ1),
+    Segment("variable insert", "X" * 20, placeholder=True),
+    Segment("downstream identifier", "NNNN", placeholder=True,
+            feature=feature("downstream", "umi", "random"))], "unknown insert length")
+check("identifier cycles cannot be placed beyond a variable-length insert",
+      sp.feature_spans(unknown_insert_lib, (sp.TRUSEQ["R1"],), {"Read 1": 100}), [])
+known_insert_lib = Construct([
+    unknown_insert_lib.segments[0],
+    Segment("fixed insert", "X" * 20, placeholder=True, length_bp=40),
+    unknown_insert_lib.segments[2]], "known insert length")
+check("a source-known insert length allows downstream identifier placement",
+      [(s.cycle_start, s.cycle_end) for s in sp.feature_spans(
+          known_insert_lib, (sp.TRUSEQ["R1"],), {"Read 1": 100})], [(41, 44)])
+check("read content uses molecular length rather than compressed drawing width",
+      "UMI (cycles 41–44)" in sp.read_contents(
+          known_insert_lib, (sp.TRUSEQ["R1"],), {"Read 1": 100})[0].content, True)
+
 check.section("restriction adapter compatibility")
+branch_graph = ProtocolGraph("two contributing preparations", authority="test source")
+branch_sample = branch_graph.input("sample", "input DNA", MaterialKind.BIOLOGICAL, primary=True)
+branch_condition = branch_graph.input("condition", "physical fragmentation condition", MaterialKind.CONDITION)
+branch_a = branch_graph.product("a", "first aliquot", MaterialKind.MOLECULAR,
+                                state=Construct([Segment("first sequence", "ACGTACGTACGT")]))
+branch_b = branch_graph.product("b", "second aliquot", MaterialKind.MOLECULAR,
+                                state=Construct([Segment("second sequence", "TTGCTTGCTTGC")]))
+branch_graph.react("prep_a", "Prepare first aliquot", StepKind.FRAGMENTATION,
+                   ((branch_sample, InputRole.TEMPLATE), (branch_condition, InputRole.CONDITION)), (branch_a,))
+branch_graph.react("prep_b", "Prepare second aliquot", StepKind.FRAGMENTATION,
+                   ((branch_sample, InputRole.TEMPLATE), (branch_condition, InputRole.CONDITION)), (branch_b,))
+branch_library = branch_graph.product("library", "pooled library", MaterialKind.LIBRARY,
+                                      state=branch_a.state)
+branch_graph.react("pool", "Pool preparations", StepKind.POOL,
+                   ((branch_a, InputRole.TEMPLATE), (branch_b, InputRole.TEMPLATE)), (branch_library,))
+branch_graph.sequence(branch_library, SequencingPlan(limitation="Test endpoint; primer sites unresolved"))
+branch_graph.declare_reviewed_scope(("sample", "condition", "prep_a", "prep_b", "pool", "library"), "test source")
+check("matching the displayed output to one input must not hide another input's preparation",
+      "Prepare second aliquot" in protocol_graph_panels(branch_graph), True)
+from types import SimpleNamespace
+from batch_page import _render_terminal_sequencing
+mixed_graph = ProtocolGraph("mixed read plans", authority="test source")
+mixed_graph.input("known", "represented branch", MaterialKind.LIBRARY, state=known_insert_lib)
+mixed_graph.input("unknown", "unresolved branch", MaterialKind.LIBRARY)
+mixed_parts = []
+_render_terminal_sequencing(
+    SimpleNamespace(TITLE="mixed read plans"), mixed_graph,
+    [(["known"], SequencingPlan(library=known_insert_lib, primers=(sp.TRUSEQ["R1"],),
+                              acquired_roles=("Read 1",), read_lengths={"Read 1":100})),
+     (["unknown"], SequencingPlan(limitation="Branch-specific primer identity unresolved"))],
+    mixed_parts, lambda slot: None)
+mixed_html = "\n".join(mixed_parts)
+check("mixed exact/unresolved plans retain both terminal sections and the local limitation",
+      ("Final sequencing library: represented branch" in mixed_html,
+       "Final sequencing library: unresolved branch" in mixed_html,
+       "Branch-specific primer identity unresolved" in mixed_html), (True, True, True))
+
 from restriction import ECORI, MSPI  # noqa: E402
 check("cohesive ends are derived from cut coordinates",
       (ECORI.overhang, MSPI.overhang), ("AATT", "CG"))
@@ -777,6 +853,18 @@ for _p in _withfacts:
     check(f"{_rel}: every {{{{fact}}}} resolves", _err, None)
 check("a fact naming something that no longer exists is an error, not silent",
       any("failed" in str(_e) for _e in [_raise_fact()]))
+# Many protocols name their module `chem`; a note must reach its own, never another's.
+_chem_dirs = sorted(p.parent.parent for p in ROOT.glob("*/tools/chem.py"))[:2]
+check("a note's bare module name resolves to its own protocol's tools/ module",
+      [expand("{{= chem.__file__ }}", f"{d.name}/01_note.md") for d in _chem_dirs],
+      [str(d / "tools" / "chem.py") for d in _chem_dirs])
+try:
+    expand("{{= chem.ANY_NAME }}", "README.md")
+    _amb = None
+except ValueError as e:
+    _amb = str(e)
+check("a protocol module name shared by several directories is an error outside them",
+      "ambiguous module name 'chem'" in (_amb or ""), True)
 
 # ---------------------------------------------------- drawn duplexes must base-pair
 check.section("every generated page: drawn duplex columns base-pair (tools/lint_pairing.py)")
@@ -927,8 +1015,16 @@ _d2 = ("STRT-V3-T30 (5'-biotin-AAGCAGTGGTATCAACGCAGAGTCGACT30VN-3')\n"
        "TSO AAGCAGTGGTATCAACGCAG\nAG TGAATrGrGrG\n"
        "S-P7\tCAAGCAGAAGACGGCATACGAGAT[NNNNNN]GTGACTGGAGTTCAGACGTGTGCTCTTCCGATC-s-T\n"
        "oligo1 ([Btn]CTACACGACGCTCTTCCGATCTNNNNNNNNN) and E5V6NEXT 5'-iCiGiCACACTCTTTCCCTACACGACGCrGrGrG-3'\n"
-       "TTTCTTATATGGGcDNA (101 nt) and T30 oligo in prose\n")
+       "TTTCTTATATGGGcDNA (101 nt) and T30 oligo in prose\n"
+       "RevBC 5'-CAAGCAGAAGACGGCATACGAGAT-barcode-GTGACTGGAGTTCAGACGTGTGCTCTTCCGATC-3'\n"
+       "UMIhy ACACTCTTTCCCTACACGACGCTCTTCCGATCT-UMI-TTTTTTTTTTTTTTTTTTTTVN\n"
+       "Neg GTGACTGGAGTTCAGACGTGTGC-barcoded-CAAGCAGAAGACGGCATACGAGAT\n")
 _h2 = {h.label: h for h in spx.scan(Path("doc"), _d2, spx.known_sequences())}
+check("a hyphen-delimited bare placeholder word (-barcode-, -UMI-) is an uncounted gap",
+      [(_h2[k].seq.count(spx.GAP), _h2[k].length_text) for k in ("RevBC", "UMIhy")],
+      [(1, "57+ nt"), (1, "55+ nt")])
+check("an ordinary hyphenated word ('-barcoded-') is not a placeholder",
+      (_h2["Neg"].seq, spx.GAP in _h2["Neg"].seq), ("GTGACTGGAGTTCAGACGTGTGC", False))
 check("T30VN shorthand expands inside the oligo; written stays as in the source",
       (_h2["STRT-V3-T30"].seq.count("T") >= 30, _h2["STRT-V3-T30"].seq.endswith("VN"),
        _h2["STRT-V3-T30"].written), (True, True, "5'-biotin-AAGCAGTGGTATCAACGCAGAGTCGACT30VN"))
@@ -1004,9 +1100,163 @@ check("--find: a strand written 3'->5' is found as 'rev'",
       [t[1] for t in spx.find("3'-TCTCTTACTCCTTGGGCCCCGTC-5'\n", "CTGCCCCGGGTTCCTCATTCTCT",
                               detail=True)], ["rev"])
 from source_oligo_check import _exact_hit  # noqa: E402
+check("terminal biotin-dT and blocked ddC retain all three nucleotide positions",
+      spx._letters("/5App/CTGACNNNNNNNNNNNNNNNTGGAATTCTCGGGTGCCAAGGC/iBiodT//iBiodT//3ddC/"),
+      "CTGAC" + "N"*15 + "TGGAATTCTCGGGTGCCAAGGCTTC")
 check("source guard accepts a printed 3'-to-5' strand as an ordered 5'-to-3' input",
       _exact_hit("P2 lower,3'-TCT CTT ACT CCT TGG GCC CCG TC-5'\n",
                  "CTGCCCCGGGTTCCTCATTCTCT"), True)
+
+# Source forms found by curation rounds 7-20 (ChAIR, easySHARE, FIND-seq, NEBNext E6420,
+# OK-seq, UMI-4C, scRibo-seq, RAMPAGE, STRT-seq, sci-RNA-seq).
+check("internal modified nucleotides keep their base; spacers and dyes add none",
+      [spx.internal_base(x) for x in ("iBIOdT", "iAmMC6T", "iFluorT", "i5MedC", "iMe-dC",
+                                      "iBiodG", "ideoxyU", "ideoxyI", "iSp18", "iSpC3",
+                                      "iSpPC", "iCy3", "iBHQ1")],
+      ["T", "T", "T", "C", "C", "G", "U", "N", "", "", "", "", ""])
+check("an internal token after a 5' /mod/ is not hidden inside a slash-delimited base run",
+      spx.scan_copy("5'-/5Phos/CGTGATATT/iBIOdT/CACGACTCT-3'").text,
+      "5'-/5Phos/CGTGATATTTCACGACTCT-3'")
+check("source guard reads internal biotin-dT and amino-dT as their T",
+      [_exact_hit("x\t/5Phos/GGGCTCGGAGATGTGTATAAGAGACAGNNNNNNNNNNT/iBiodT/TTTTTTTTTTTTTTTTTTTTTTTTVN\n",
+                  "GGGCTCGGAGATGTGTATAAGAGACAGNNNNNNNNNN" + "T" * 26 + "VN"),
+       _exact_hit("bridge CGTGATATT/iAmMC6T/CACGACTCT here", "CGTGATATTTCACGACTCT")],
+      [True, True])
+check("a quencher glued to the 3' base is a modification; the probe bases are kept",
+      [(h.seq, h.mods) for h in spx.scan(Path("find"),
+          "probe: 5′-FAM-TTTTGGCGTACTCACCAGTMGBNHQ-3′; 6,000\n", {})],
+      [("TTTTGGCGTACTCACCAGT", ["5' FAM", "3' MGBNHQ"])])
+check("codon triplets wrapped over a line stay one oligo up to the 3' end",
+      [h.seq for h in spx.scan(Path("neb"), "5´-AAG CAG TGG TAT CAA CGC AGA GTA CTT TTT TTT "
+                               "TTT TTT TTT TTT TTT\nTTT TTT TV-3´\n", {})],
+      ["AAGCAGTGGTATCAACGCAGAGTAC" + "T" * 30 + "V"])
+check("a run of asterisks between bases is an index placeholder, not phosphorothioates",
+      [(h.seq, h.mods) for h in spx.scan(Path("okseq"), "5′-CAAGCAGAAGACGGCATACGAGAT-3′******"
+                                         "5′-GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT-3′\n", {})],
+      [("CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT", [])])
+check("(NNNNNN), IDT r(N1:...) mixes, base(N)15 and XXXXXXrGrGrG are variable windows",
+      [_exact_hit("(PO4)-GATCGGAAGAGCACACGTCTGAACTCCAGTCAC(NNNNNN)ATCTCGTATG\n",
+                  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATG"),
+       _exact_hit("X\trCrUrArCrArCrGrArCrGrCrUrCrUrUrCrCrGrArUrCrUr(N1:25252525)r(N1)r(N1)\n",
+                  "CUACACGACGCUCUUCCGAUCUNNN"),
+       _exact_hit("RT: 5 -TAGTCGAACGAAGGTCTCCGAACCGCTCTTCCGATCT(N)15\n",
+                  "TAGTCGAACGAAGGTCTCCGAACCGCTCTTCCGATCT" + "N" * 15),
+       _exact_hit("TSO 5'-AAGCAGTGGTATCAACGCAGAGTGCAGTGCTXXXXXXrGrGrG-3'\n",
+                  "AAGCAGTGGTATCAACGCAGAGTGCAGTGCTNNNNNNGGG")],
+      [True, True, True, True])
+check("a printed [i7] of unstated length stands only for a model N window",
+      [_exact_hit("P7 CAAGCAGAAGACGGCATACGAGAT[i7]GTCTCGTGGGCTCGG\n",
+                  "CAAGCAGAAGACGGCATACGAGAT" + "N" * 10 + "GTCTCGTGGGCTCGG"),
+       _exact_hit("P7 CAAGCAGAAGACGGCATACGAGAT[i7]GTCTCGTGGGCTCGG\n",
+                  "CAAGCAGAAGACGGCATACGAGATNNNNACGTNNGTCTCGTGGGCTCGG")],
+      [True, False])
+
+check("a 3' run of slash-delimited modified bases reads as bases; A/G stays an alternative",
+      [spx.internal_base("iXNA_G"), spx.internal_base("Index_A"),
+       _exact_hit("TSO LNA\t AAGCAGTGGTATCAACGCAGAGTGAAT/rG/rG/iXNA_G \t\n",
+                  "AAGCAGTGGTATCAACGCAGAGTGAATGGG"),
+       _exact_hit("x CTGCTGACGTACTGAGAGGC/rG//rG//iXNA_G/ y\n", "CTGCTGACGTACTGAGAGGCGGG"),
+       spx.scan_copy("x GCTAGCTAGCTAGCTA/G y").text],
+      ["G", "", True, True, "x GCTAGCTAGCTAGCTA/G y"])
+import zipfile  # noqa: E402
+with TemporaryDirectory() as _xtmp:
+    _xl = Path(_xtmp) / "rows.xlsx"
+    with zipfile.ZipFile(_xl, "w") as _z:
+        _z.writestr("xl/worksheets/sheet1.xml",
+                    '<worksheet><sheetData><row r="1"/><row r="2"><c t="inlineStr"><is><t>A</t>'
+                    '</is></c></row><row r="3"><c t="inlineStr"><is><t>B</t></is></c></row>'
+                    '</sheetData></worksheet>')
+    check("xlsx: a self-closing empty <row/> does not swallow the next row",
+          spx.xlsx_text(_xl).splitlines()[1:], ["A", "B"])
+
+from chemdraw import Construct as _GC, Scene as _GS, Segment as _GSeg, feature as _gfeat  # noqa: E402
+from source_oligo_check import _sequences, manifest_locators, source_texts  # noqa: E402
+import source_oligo_check as source_guard  # noqa: E402
+_bc = _gfeat("probe_bc", "sample_index", "unknown")
+_scenes = []
+for _top in ("TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG", "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"):
+    _s = _GS()
+    _s.strand("top", [_GSeg("adapter", _top)])
+    _scenes.append(_s)
+check("a tuple of loaded-adapter Scenes yields every strand of every Scene",
+      _sequences(tuple(_scenes)),
+      ("TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG", "GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"))
+check("identifier and IUPAC-class placeholders are variable; other stand-ins are not",
+      [_sequences(_GC([_GSeg("P7", "CAAGCAGAAGACGGCATACGAGAT"),
+                       _GSeg("i7", "XXXXXXXX", placeholder=True, feature=_bc),
+                       _GSeg("arm", "GTCTCGTGGGCTCGG")])),
+       _sequences(_GC([_GSeg("dT", "T" * 20), _GSeg("end", "VN", placeholder=True)])),
+       _sequences(_GC([_GSeg("handle", "AAGCAGTGGTATCAACGCAGAGT"),
+                       _GSeg("insert", "NNNNNNNNNN", placeholder=True)])),
+       _sequences(_GC([_GSeg("handle", "AAGCAGTGGTATCAACGCAGAGT"),
+                       _GSeg("guess", "ACGT", inferred=True)]))],
+      [("CAAGCAGAAGACGGCATACGAGATNNNNNNNNGTCTCGTGGGCTCGG",), ("T" * 20 + "NN",), (), ()])
+check("a placeholder in source modification notation contributes its nucleotides only",
+      [_sequences(_GC([_GSeg("arm", "CGTCAGACAGGGAGCG"), _GSeg("C3", "[C3]", placeholder=True),
+                       _GSeg("arm 2", "GGAAGTCGCC"), _GSeg("end", "[3SpC3]", placeholder=True)])),
+       _sequences(_GC([_GSeg("handle", "CTGCTGACGTACTGAGAGGC"),
+                       _GSeg("ends", "/rG//rG//iXNA_G/", placeholder=True, length_bp=3)])),
+       _sequences(_GC([_GSeg("handle", "CTGCTGACGTACTGAGAGGC"),
+                       _GSeg("ends", "/rG//rG//iXNA_G/", placeholder=True, length_bp=2)])),
+       _sequences(_GC([_GSeg("handle", "CTGCTGACGTACTGAGAGGC"),
+                       _GSeg("bead", "[bead]", placeholder=True)]))],
+      [("CGTCAGACAGGGAGCGGGAAGTCGCC",), ("CTGCTGACGTACTGAGAGGCGGG",), (), ()])
+with TemporaryDirectory() as temp:
+    _bundle = Path(temp) / "proto"
+    _bundle.mkdir()
+    _bundle.joinpath("MANIFEST.tsv").write_text(
+        "file\turl\tbytes\tmd5\twhat\n"
+        "preprint_media-2.xlsx\thttps://biorxiv.example/media-2.xlsx\t\t\tbiorxiv supplementary file\n"
+        "(duplicate) s99999-000-0001-x_MOESM2_ESM.xlsx\thttps://springer.example/MOESM2.xlsx"
+        "\t\t\tSpringer supplementary file; identical to preprint_media-2.xlsx\n"
+        "vendor_primers.fasta\thttps://vendor.example/primers.fasta\t\t\tvendor primer FASTA\n")
+    _bundle.joinpath("preprint_media-2.xlsx.txt").write_text("P1\tACGTACGTACGTACGT\n")
+    _bundle.joinpath("vendor_primers.fasta").write_text(">fwd\nACGTTGCAACGTTGCA\n")
+    _bundle.joinpath("scg_derived.fa").write_text(">x\nACGTTGCAACGTTGCA\n")
+    _bundle.joinpath("MANIFEST.tsv").write_text(
+        _bundle.joinpath("MANIFEST.tsv").read_text()
+        + "repository-full.txt\thttps://repo.example/s99999-000-0001-x/full.txt\t\t\tdeposited text\n")
+    _bundle.joinpath("repository-full.txt").write_text("RT\tACGTTGCAACGTTGCAAC\n")
+    check("a (duplicate) manifest row lends its published name and URL to the on-disk twin",
+          "s99999-000-0001-x_moesm2_esm.xlsx" in " ".join(
+              manifest_locators(_bundle / "MANIFEST.tsv")["preprint_media-2.xlsx"]).lower(), True)
+    check("the guard reads a published supplement's twin and a plain-text original by its own manifest URL",
+          sorted(p.name for p, _ in source_texts(_bundle, "10.1038/s99999-000-0001-x")),
+          ["preprint_media-2.xlsx.txt", "repository-full.txt"])
+    check("a declared FASTA original is read; an scg_ FASTA is not",
+          sorted(p.name for p, _ in source_texts(_bundle, "")),
+          ["preprint_media-2.xlsx.txt", "repository-full.txt", "vendor_primers.fasta"])
+    from unittest.mock import patch
+    _catalogue = Path(temp) / "catalogue"
+    _catalogue.mkdir()
+    _catalogue.joinpath("scg_lib_structs.tsv").write_text(
+        "our_dir\trole\tdoi\n"
+        "proto\tprimary\t10.1101/123456\n"
+        "proto\tprimary\t10.1038/s99999-000-0001-x\n")
+    check("Genome Research DOIs are published articles, not bioRxiv identifiers",
+          source_guard._biorxiv_doi("10.1101/gr.161679.113"), False)
+    _bundle.joinpath("123456_v1.full.pdf.txt").write_text("Preprint oligo\tACGTTGCAACGTTGCA\n")
+    with patch.object(source_guard, "ROOT", Path(temp)):
+        check("linked preprints do not validate a published protocol's oligos",
+              sorted(p.name for p, _ in source_texts(_bundle, "10.1038/s99999-000-0001-x")),
+              ["preprint_media-2.xlsx.txt", "repository-full.txt"])
+        check("a preprint-named directory uses its linked publication as authority",
+              sorted(p.name for p, _ in source_texts(_bundle, "10.1101/123456")),
+              ["preprint_media-2.xlsx.txt", "repository-full.txt"])
+    _big = Path(temp) / "big"
+    _big.mkdir()
+    _big.joinpath("table.txt").write_text("P1\tACGTACGTACGTACGTAC\n")
+    _big.joinpath("whitelist.csv").write_text("x" * 64)
+    _saved = spx.LARGE_BYTES
+    spx.LARGE_BYTES = 32
+    _err, _out = StringIO(), StringIO()
+    from contextlib import redirect_stderr
+    with redirect_stdout(_out), redirect_stderr(_err):
+        spx.main([str(_big), "--tsv"])
+    spx.LARGE_BYTES = _saved
+    check("scan mode skips an over-size file and names it rather than ignoring it",
+          ("whitelist.csv" in _err.getvalue().splitlines()[-1], "table.txt" in _out.getvalue()),
+          (True, True))
 
 check.section("documents to text (tools/doctext.py)")
 import tempfile  # noqa: E402

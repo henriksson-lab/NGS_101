@@ -105,5 +105,25 @@
       "evidence": "The original article, supplement and preprint have independent reads, but original 10x CG000086 and PN-220106 specifications remain unavailable. Exact historical kit oligo absence cannot be accepted."
     }
   ],
-  "conclusion": "The original article, supplement and linked preprint now have two independent source checks. Public guide-capture and amplification oligos are verified; the historical 10x kit guide and full proprietary primer specifications remain unavailable, so missing-information claims stay blocked."
+  "conclusion": "The original article, supplement and linked preprint now have two independent source checks. Public guide-capture and amplification oligos are verified; the historical 10x kit guide and full proprietary primer specifications remain unavailable, so missing-information claims stay blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC7416462 JATS (.xml.txt) Methods lines 113–117 (UPR 5' lanes, 5 pmol oJR160/oJR161, ~100 pmol 10x RT oligo), 133–137 (Sequencing library preparation, incl. 5' branch and cs1 '0.6 mM oJR163 and oJR166'), 145 (26/125/8 sequencing); Springer Supplementary Information MOESM1 .pdf.txt lines 185–302 (Supplementary Notes 1–2, CR1 definition) and 304–425 (Supplementary Note 3 steps 1–8, primer table, PCR table); PMC supplement-3.xlsx Supplementary Table 1 rows pBA900/pBA904 (printed guide scaffolds)",
+      "oligo_scraper": "Full-bundle scraper run (preprint media-1 dominates; excluded). Published-only scrape: MOESM1 lines 326–331 oJR160/oJR163/oJR165 (oJR165 wrapped), JATS lines 117/133/137 oJR160, oJR161, 052-P5, 055-N708, oJR166; xlsx Supp Table 1 pBA900/pBA904 scaffolds found by text search (scaffold column).",
+      "findings": "Corrections: CR1 bases replaced by published Supp Table 1 pBA900 scaffold upstream of cs2 (86 nt; A not T at position 13 vs the Chen F+E scaffold previously imported from lib/crispr — repository modelling error); bead oligo partial Read 1/CBC/UMI/switch spacer/rGrGrG now drawn INFERRED with preamble caveat (not printed in inspected sources; 10x CG000086 not inspected); added 0.8x SPRI library cleanup with discarded supernatant, sequencing now from purified library; step/input labels carry 5 pmol oJR160, 11-cycle cDNA PCR, 0.6x/0.6–1.2x SPRI, 4x5 ng 12-cycle KAPA HiFi 98/70 °C, 0.6 µM primers. Published discrepancy displayed: Supp Note 3 step 5 '0.6 uM' (table 3 µL of 10 µM per 50 µL) vs Methods cs1 sentence '0.6 mM oJR163 and oJR166'; model uses 0.6 µM. Note retraced oligo/PCR claims from the unbundled Adamson lab protocol to Supplementary Note 3; CBC16/UMI10 split downgraded to derived.",
+      "deferred": [
+        "10x Chromium Single Cell V(D)J User Guide CG000086 (bead/TSO, Non-Poly(dT) primer, cDNA PCR, gene-expression library)",
+        "10x PN-2000007 / PN-220106 oligo specifications",
+        "Adamson lab 5' Perturb-seq Direct Capture Protocols PDF (not in bundle)",
+        "Supplementary Fig. 1g rendered schematic",
+        "Selected i7 per lane beyond printed AGGAGTCC example"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 103/103 pass; page build pass; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 3 exact checked/0 failed, 3 inputs without exact states; Markdown built (note+MANIFEST); review schema checked"
+    }
+  ]
 }

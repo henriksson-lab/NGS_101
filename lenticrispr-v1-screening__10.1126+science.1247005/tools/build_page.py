@@ -62,12 +62,44 @@ def protocol_graph() -> ProtocolGraph:
 
 def render() -> str:
     source = SOURCE
-    body = f'''<h2>Transfer vector</h2>
+    body = f'''<h2>The screen the vector was built for</h2>
+<p>Shalem et al. deliver the GeCKO library — 64,751 unique guide sequences against 18,080
+genes, 3–4 guides per gene — as lentiCRISPR particles at a multiplicity of infection of
+0.3, so that most transduced cells carry a single integrated cassette, and read the guide
+distribution out of genomic DNA 3 and 14 days after transduction (A375 melanoma and
+HUES62 cells; the vemurafenib arm adds 14 days of drug). Those are the only construction
+parameters the accessible article text states.</p>
+<h2>Transfer vector</h2>
 {P.map_panel("v1")}
 <p>The guide cassette is upstream of cPPT/CTS in v1. That order matters when a reverse readout primer is placed in cPPT.</p>
 {P.cloning()}
 {P.one_pcr_readout("Compatible one-PCR genomic readout")}
-<p>The original Shalem screen used a nested two-PCR readout; its details remain in the research notes and are not blended into the compatible Joung one-PCR example above.</p>'''
+<p>The readout the original screen ran on genomic DNA is described only in the paper's
+Supplementary Methods, which are not reachable here; its details are kept in the research
+notes and are not blended into the compatible Joung one-PCR example above.</p>
+<p class="caveat"><b>Source availability.</b> Everything this paper publishes about how the
+screen libraries were amplified and sequenced sits in its Supplementary Information. The
+only full text reachable here is the PubMed Central author manuscript (PMC4089965), which
+carries the Results but no Methods and no supplement; the PMC supplementary PDF is behind
+a download gate, Europe PMC rejects the record as not open access, and the live
+<code>genome-engineering.org/gecko/</code> host still does not respond. The Shalem
+Methods' own readout primer pair, its barcodes and the acquired read lengths therefore
+remain unverified here, rather than established as unpublished.</p>
+<p class="caveat"><b>The author-hosted GeCKO primer workbook (recovered 2026-10-17).</b>
+The Zhang-lab workbook <code>GeCKO-plasmid-readout-primers-July2014.xlsx</code> was
+recovered from the Internet Archive copy of that page and read. It states that
+lentiCRISPR&nbsp;v1 (and lentiGuide-Puro) are amplified in a <b>single PCR</b> with its
+forward and reverse Illumina primers — a mix of forward primers supplying the stagger —
+while lentiCRISPRv2 needs an extra adaptor PCR first. Its twelve forward primers carry
+P5, TruSeq Read&nbsp;1, a 1–9&nbsp;nt stagger, an <b>8-nt inline barcode</b> and the hU6
+3′ priming site used by the drawn forward primer; its reverse primers carry P7, a second
+8-nt inline barcode, TruSeq Read&nbsp;2, a stagger and a 25-nt site downstream of the
+guide scaffold (in cPPT, which sits after the cassette in v1 only). Sample identity is
+therefore read inside Read&nbsp;1/Read&nbsp;2 rather than as the i7 index of the library
+drawn above. Two limits: the workbook is headed <i>plasmid</i> readout and refers
+genomic-DNA readout back to the gated Supplementary Methods, and it prints no read
+lengths or cycling conditions — so it is a v1-compatible primer set, not a transcript of
+the 2014 screen's own protocol.</p>'''
     return P.page("lentiCRISPR v1 screening", "01_lenticrispr-v1.html", source, body,
                   graph=protocol_graph())
 

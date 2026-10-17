@@ -204,5 +204,24 @@
       "locations": "/husky/henriksson/NGS101_papers/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_PMC7278172.xml.txt Methods lines132–144; s13059-020-02044-w_supp_13059_2020_2044_MOESM4_ESM.xlsx.txt TableS3d P5_Read1/tRNA_Read2/P7_Read2_Index1/2 rows; existing CG000184 bead-handle source declaration",
       "finding": "Read original article scRNA-seq-on10x Methods and TableS3d source primers. Replaced generic Nextera endpoint with local TruSeq assembly consistent with CG000184 bead handle and P5_Read1. Local construction checks source PCR-primer footprints; a Nextera substitution is a failing regression. Removed duplicate copied capture tract after the primer-derivedpolyT30 in the representative guide cDNA."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Genome Biology PMC7278172 JATS Methods '10x 3-prime platform' lines132-144 and C1 lines148-150, cross-checked against PMC PDF .txt lines460-505; Additional file 4 Table S3d xlsx.txt rows45-48; Additional file 3 Table S2 row7 (Tail-8A8G)",
+      "oligo_scraper": "Bundle scraper run: Table S3d P5_Read1/tRNA_Read2/P7_Read2_Index1/2 and Table S2 Tail-8A8G hits verified against model constants; other hits are locus/qPCR/spacer primers outside the library.",
+      "findings": "Added CG000184 cDNA pre-amplification (1st PCR; inferred 10x primer roles, unavailable geometry); two 40ul aliquots; aliquot A 0.6x left-sided (mRNA) and 0.6-1.2x double-sided (gRNA library I) selection with discarded unbound material; aliquot B 1.2x AMPure for gRNA library II as declared unresolved terminal; 2nd PCR NEBNext Ultra II Q5 8x50ul 14 cycles 60C plus 0.7-1.0x selection; 3rd PCR 5x50ul 5 cycles 54C/65C plus 0.7-1.0x AMPure XP. Removed unsourced acquired read lengths (Read1 28, Read2 90); no run lengths printed in inspected originals.",
+      "deferred": [
+        "Protocol Exchange detailed protocol doi:10.21203/rs.3.pex-952/v1",
+        "10x CG000184 cDNA primer species and mRNA-library steps beyond the gel-bead appendix",
+        "Fluidigm C1 / TruePrep V2 branch and 10x 5-prime branch (MOESM1 Fig S3)",
+        "Sequencing instrument and acquired read lengths"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 5 checks pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/13 unresolved/0 contradictory; source guard 3 exact checked, 0 failed, 1 input without exact state; Markdown built; review schema checked"
+    }
   ]
 }

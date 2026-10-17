@@ -22,6 +22,8 @@ TIME_METHYLATED_A = "T/iMe-dC/GT/iMe-dC/GG/iMe-dC/AG/iMe-dC/GT/iMe-dC/AGATGTGTAT
 
 TIME_B_TS301 = TIME_B_PREFIX + TIME_BARCODE + nx.ME
 
+TIME_B_TS302 = TIME_B_PREFIX + "AAGTA" + nx.ME   # second published member, used for sample B
+
 TIME_BLOCK_B = "CTGTCTCTTATACACATCTHHHHHCCACCCTCCACCCA"
 
 TIME_BLOCK_A = "CTGTCTCTTATACACATCTCCGAGCCCACGAGAC"
@@ -133,13 +135,17 @@ def protocol_graph():
                 changes_molecule=False)
     reviewed = ["sample_batch", "separate_samples"]
 
-    def tagment(prefix: str, sample, barcode_label: str):
+    def tagment(prefix: str, sample, barcode_label: str, adaptor_b: str, member: str):
         adapters = graph.input(
             prefix + "_adapters",
-            "methylated A and indexed B transposome adapters (" + barcode_label + ")",
-            MaterialKind.ADAPTER)
-        tn5 = graph.input(prefix + "_tn5", "Tn5 transposase for " + barcode_label,
-                          MaterialKind.CATALYST)
+            "Tn5 reverse annealed separately to methylated adaptor A and indexed adaptor B " + member
+            + " (" + barcode_label + ")",
+            MaterialKind.ADAPTER, state=(TIME_TN5_REVERSE, TIME_METHYLATED_A, adaptor_b),
+            source=source + " (Supplementary Table 5, TIME-Seq TN5 Adaptors; Supplementary Note II)")
+        tn5 = graph.input(
+            prefix + "_tn5",
+            "in-house Tn5 loaded with these adaptors, 2× TD buffer, 55 °C 15 min; STOP buffer 55 °C 5 min ("
+            + barcode_label + ")", MaterialKind.CATALYST)
         tagged = graph.product(
             prefix + "_tagged", barcode_label + " tagmented genomic DNA",
             MaterialKind.MOLECULAR,
@@ -161,42 +167,83 @@ def protocol_graph():
         reviewed.extend((prefix + "_adapters", prefix + "_tn5", prefix + "_tagment"))
         return tagged
 
-    tagged_a = tagment("a", sample_a, "sample A")
-    tagged_b = tagment("b", sample_b, "sample B")
+    tagged_a = tagment("a", sample_a, "sample A", TIME_B_TS301, "TS301")
+    tagged_b = tagment("b", sample_b, "sample B", TIME_B_TS302, "TS302")
     pooled = graph.product(
         "pooled_samples", "pooled pre-indexed TIME-seq DNA",
         MaterialKind.MOLECULAR,
         state=molecule("pooled indexed DNA", (role("many Tn5-barcoded samples"),)))
+    lambda_dna = graph.input(
+        "lambda_spike", "100 ng unmethylated lambda DNA tagmented with each pool (conversion-efficiency control)",
+        MaterialKind.MOLECULAR,
+        state=molecule("tagmented lambda DNA", (role("unmethylated lambda fragments"),)),
+        source=source + " (Methods, TIME-seq library preparation)")
     graph.react("pool_samples", "Pool samples after Tn5 barcode installation",
                 StepKind.POOL,
-                ((tagged_a, InputRole.TEMPLATE), (tagged_b, InputRole.TEMPLATE)),
+                ((tagged_a, InputRole.TEMPLATE), (tagged_b, InputRole.TEMPLATE),
+                 (lambda_dna, InputRole.SPIKE_IN)),
                 (pooled,), changes_molecule=False)
-    reviewed.append("pool_samples")
+    pool_column = graph.input(
+        "pool_column", "Zymo DNA binding buffer (118 µL/sample) and Clean & Concentrator-25 column, 41 µL elution",
+        MaterialKind.SELECTION)
+    pooled_clean = graph.product("pooled_clean", "column-purified tagmented pool",
+                                 MaterialKind.MOLECULAR, state=pooled.state)
+    pool_flow = graph.product("pool_flowthrough", "Tn5, STOP buffer and column washes",
+                              MaterialKind.WASTE)
+    graph.react("pool_cleanup", "Purify each stopped pool on a column", StepKind.CLEANUP,
+                ((pooled, InputRole.TEMPLATE), (pool_column, InputRole.SELECTION)),
+                (pooled_clean, pool_flow), changes_molecule=False)
+    graph.discard(pool_flow, "denatured transposase, buffer and unbound material removed by the column")
+    reviewed.extend(("lambda_spike", "pool_samples", "pool_column", "pool_cleanup"))
 
-    repair = graph.input("methylated_repair_enzymes", "methylated end-repair enzyme mix",
+    repair = graph.input("methylated_repair_enzymes",
+                         "Klenow fragment (3′→5′ exo−), NEBuffer 2, 37 °C 30 min",
                          MaterialKind.CATALYST)
-    methylated_dctp = graph.input("methylated_dctp", "5-methyl-dCTP repair nucleotide",
+    methylated_dctp = graph.input("methylated_dctp",
+                                  "5 mM dNTP mix with 5-methyl-dCTP replacing dCTP",
                                   MaterialKind.MOLECULAR)
     repaired = graph.product("repaired_pool", "methylated-end-repaired indexed DNA pool",
                              MaterialKind.MOLECULAR, state=pooled.state)
     graph.react("methylated_end_repair", "Perform methylated end repair",
                 StepKind.END_REPAIR,
-                ((pooled, InputRole.TEMPLATE), (methylated_dctp, InputRole.STRUCTURAL),
+                ((pooled_clean, InputRole.TEMPLATE), (methylated_dctp, InputRole.STRUCTURAL),
                  (repair, InputRole.CATALYST)), (repaired,))
-    baits = graph.input("biotin_rna_baits", "biotinylated target-locus RNA baits",
+    repair_column = graph.input(
+        "repair_column", "Clean & Concentrator-25 column, double elution, SpeedVac to 5 µL",
+        MaterialKind.SELECTION)
+    repaired_clean = graph.product("repaired_clean", "purified, concentrated end-repaired pool",
+                                   MaterialKind.MOLECULAR, state=pooled.state)
+    repair_flow = graph.product("repair_flowthrough", "Klenow reaction components and column washes",
+                                MaterialKind.WASTE)
+    graph.react("repair_cleanup", "Purify and concentrate the end-repaired pool", StepKind.CLEANUP,
+                ((repaired, InputRole.TEMPLATE), (repair_column, InputRole.SELECTION)),
+                (repaired_clean, repair_flow), changes_molecule=False)
+    graph.discard(repair_flow, "enzyme, nucleotides and buffer removed by the column")
+    baits = graph.input("biotin_rna_baits",
+                        "750 ng in-house biotin-16-UTP IVT RNA baits (target-set specific, Supplementary Table 5)",
                         MaterialKind.OLIGO)
+    blockers = graph.input(
+        "hyb_blockers", "TIME-seq adaptor A and adaptor B hybridization blocking oligos (0.6 µL of 100 µM)",
+        MaterialKind.OLIGO, state=(TIME_BLOCK_A, TIME_BLOCK_B),
+        source=source + " (Supplementary Table 5, Hyb Blocking Oligos)")
+    cot1 = graph.input(
+        "hyb_conditions", "mouse or human Cot-1 DNA; 95 °C 5 min denaturation; SSPE/Denhardt's/SDS/EDTA, SUPERase•In, 65 °C 4 h",
+        MaterialKind.CONDITION)
     hybrids = graph.product(
         "bait_hybrids", "DNA hybridized to biotinylated target baits",
         MaterialKind.MOLECULAR,
         state=molecule("target-bait hybrids", (role("biotin-RNA bait"), role("target loci"))))
     graph.react("bait_hybridization", "Hybridize biotinylated RNA baits",
                 StepKind.HYBRIDIZATION,
-                ((repaired, InputRole.TEMPLATE), (baits, InputRole.STRUCTURAL)),
+                ((repaired_clean, InputRole.TEMPLATE), (baits, InputRole.STRUCTURAL),
+                 (blockers, InputRole.STRUCTURAL), (cot1, InputRole.CONDITION)),
                 (hybrids,))
-    capture = graph.input("capture_beads", "streptavidin target-capture beads",
-                          MaterialKind.SELECTION)
+    capture = graph.input(
+        "capture_beads",
+        "streptavidin magnetic beads; 1× SSC/0.1% SDS wash, three 65 °C 0.1× SSC/0.1% SDS washes; 0.1 M NaOH elution",
+        MaterialKind.SELECTION)
     captured = graph.product(
-        "captured_pool", "hybrid-captured target DNA", MaterialKind.MOLECULAR,
+        "captured_pool", "NaOH-eluted single-stranded captured target DNA", MaterialKind.MOLECULAR,
         state=molecule("hybrid-captured pool", (role("biotin-RNA bait"), role("target loci"))))
     uncaptured = graph.product("uncaptured_pool", "uncaptured off-target DNA",
                                MaterialKind.WASTE)
@@ -204,8 +251,9 @@ def protocol_graph():
                 ((hybrids, InputRole.TEMPLATE), (capture, InputRole.SELECTION)),
                 (captured, uncaptured))
     graph.discard(uncaptured, "does not hybridize to the target-locus bait panel")
-    bisulfite = graph.input("bisulfite", "bisulfite conversion condition",
-                            MaterialKind.CONDITION)
+    bisulfite = graph.input(
+        "bisulfite", "EpiTect Fast Bisulfite Conversion Kit (DNA protect buffer, carrier RNA, kit cleanup, 23 µL elution)",
+        MaterialKind.CONDITION)
     converted = graph.product(
         "converted_pool", "bisulfite-converted captured DNA", MaterialKind.MOLECULAR,
         state=molecule("bisulfite-converted captured DNA", (role("converted target loci"),)))
@@ -214,20 +262,32 @@ def protocol_graph():
                 ((captured, InputRole.TEMPLATE), (bisulfite, InputRole.CONDITION)),
                 (converted,))
     n501 = graph.input("n501_primer", "published indexed PCR primer N501",
-                       MaterialKind.OLIGO)
+                       MaterialKind.OLIGO, state=TIME_N501,
+                       source=source + " (Supplementary Table 5, Indexed PCR Primers)")
     n701 = graph.input("n701_primer", "published indexed PCR primer N701",
-                       MaterialKind.OLIGO)
-    polymerase = graph.input("pcr_polymerase", "bisulfite-library PCR polymerase",
-                             MaterialKind.CATALYST)
-    final = graph.product("sequencing_library", "final TIME-seq library",
-                          MaterialKind.LIBRARY, state=library)
+                       MaterialKind.OLIGO, state=TIME_N701,
+                       source=source + " (Supplementary Table 5, Indexed PCR Primers)")
+    polymerase = graph.input(
+        "pcr_polymerase", "NEB Q5U 2× Master Mix; 19 cycles (98 °C 30 s, 65 °C 30 s, 72 °C 1 min)",
+        MaterialKind.CATALYST)
+    amplified = graph.product("amplified_pool", "indexed PCR product of one pool",
+                              MaterialKind.MOLECULAR, state=library)
     geometry = PCRGeometry.exact(
         library, PCRPrimer("N501", TIME_N501), PCRPrimer("N701", TIME_N701),
         statement="Griffin et al. Supplementary Table 5 publishes both indexed PCR primers.")
     graph.react("indexed_pcr", "PCR with indexed P5 and P7 primers", StepKind.PCR,
                 ((converted, InputRole.TEMPLATE), (n501, InputRole.STRUCTURAL),
                  (n701, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (final,), geometry=geometry)
+                (amplified,), geometry=geometry)
+    spri = graph.input("spri_beads", "1.8× CleanNGS SPRI beads", MaterialKind.SELECTION)
+    final = graph.product("sequencing_library", "final TIME-seq library",
+                          MaterialKind.LIBRARY, state=library)
+    spri_waste = graph.product("spri_supernatant", "SPRI supernatant and ethanol washes",
+                               MaterialKind.WASTE)
+    graph.react("pcr_cleanup", "Clean the PCR with 1.8× SPRI beads", StepKind.CLEANUP,
+                ((amplified, InputRole.TEMPLATE), (spri, InputRole.SELECTION)),
+                (final, spri_waste), changes_molecule=False)
+    graph.discard(spri_waste, "primers and reaction components not retained by 1.8× SPRI")
     graph.sequence(final, SequencingPlan(
         library, tuple(primers), tuple(p.role for p in primers),
         {"Read 1": 145, "Index 1 (i7)": 8, "Index 2 (i5)": 8, "Read 2": 5},
@@ -235,9 +295,10 @@ def protocol_graph():
          "Index 2 (i5)": "demultiplex", "Read 2": "extract"}))
     reviewed.extend((
         "methylated_repair_enzymes", "methylated_dctp", "methylated_end_repair",
+        "repair_column", "repair_cleanup", "hyb_blockers", "hyb_conditions",
         "biotin_rna_baits", "bait_hybridization", "capture_beads", "target_capture",
         "bisulfite", "bisulfite_conversion", "n501_primer", "n701_primer",
-        "pcr_polymerase", "indexed_pcr", "sequencing_library",
+        "pcr_polymerase", "indexed_pcr", "spri_beads", "pcr_cleanup", "sequencing_library",
     ))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

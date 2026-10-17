@@ -6,11 +6,16 @@ epigenetic clock construction,” *Nature Aging* (2024),
 
 ## Sources read
 
-- 🟢 The author manuscript, especially “TIME-seq library preparation,” “Sequencing,”
-  and Extended Data Figure 2.
-- 🟢 The detailed Supplementary Information, sections II and IV.
-- 🟢 Supplementary Table 5, including the Tn5 adaptors, hybridization blockers,
-  indexed PCR primers and custom sequencing primers.
+- 🟢 The author manuscript (PMC11332592), especially “TIME-seq library preparation”
+  (`PMC11332592_PMC11332592.xml.txt` lines 189–201), “Sequencing” (line 205), the
+  Results overview (line 117) and Extended Data Figure 2 legend (line 281).
+- 🟢 The publisher Supplementary Information (`43587_2023_555_MOESM1_ESM.pdf.txt`),
+  sections II (adaptor annealing and transposome loading, lines 79–100) and IV
+  (sequencing, lines 152–163).
+- 🟢 Supplementary Table 5 (`43587_2023_555_MOESM7_ESM.xlsx.txt`), including the Tn5
+  adaptors (TS301–TS364), hybridization blockers, indexed PCR primers and custom
+  sequencing primers.
+- The bioRxiv v3 preprint is superseded by the publication and is not used for values.
 
 ## Construct-changing steps
 
@@ -18,14 +23,18 @@ epigenetic clock construction,” *Nature Aging* (2024),
    indexed TIME-seq transposome. Adaptor B carries a five-base internal sample barcode;
    methylated adaptor A and indexed adaptor B are separately annealed to the
    5′-phosphorylated reverse mosaic-end oligo when transposomes are assembled.
-2. 🟢 Samples are stopped, combined by pool and purified. Klenow fragment (3′→5′ exo−)
+   100 ng unmethylated lambda DNA is tagmented with each pool as a bisulfite-conversion
+   control. STOP buffer (guanidine thiocyanate) is added and incubated 5 min at 55 °C.
+2. 🟢 Samples are combined by pool with Zymo DNA binding buffer and purified on a Clean &
+   Concentrator-25 column. Klenow fragment (3′→5′ exo−) in NEBuffer 2
    performs 30 min of end repair at 37 °C using a dNTP mix in which 5-methyl-dCTP replaces
-   dCTP. This protects newly copied adapter/gap cytosines against bisulfite conversion.
-3. 🟢 Blocking oligos suppress adapter capture while biotinylated RNA baits hybridize to
-   target loci for 4 h at 65 °C. RNA:DNA hybrids are captured on streptavidin beads,
+   dCTP; a second column and SpeedVac concentrate the pool to 5 µL. 🟡 Methyl-dCTP
+   protects newly copied adapter/gap cytosines against bisulfite conversion.
+3. 🟢 DNA with Cot-1 DNA and the A/B blocking oligos is denatured 5 min at 95 °C;
+   biotinylated RNA baits (750 ng) hybridize to target loci for 4 h at 65 °C. RNA:DNA hybrids are captured on streptavidin beads,
    stringently washed and eluted as single-stranded DNA with NaOH.
 4. 🟢 Captured DNA is converted with the EpiTect Fast Bisulfite kit, then amplified for
-   19 cycles with Q5U and indexed P5/P7 primers. The PCR indices distinguish pools; the
+   19 cycles with Q5U and indexed P5/P7 primers, then cleaned with 1.8× SPRI beads. The PCR indices distinguish pools; the
    five-base transposome index distinguishes samples within a pool.
 
 ## Oligos and read layout
@@ -38,6 +47,20 @@ indices. It preserves `/5Phos/` and `/iMe-dC/` exactly as written in the source.
 Index 2 use the corresponding Nextera sites. The economical MiSeq/NextSeq program is
 Read 1 145–153 cycles, i7 8 cycles, optional i5 8 cycles and Read 2 5 cycles. Thus the
 short Read 2 reports the internal Tn5 sample barcode.
+
+## Derived observations and open questions
+
+- 🟡 Computed from Supplementary Table 5: none of the 64 five-base TS301–TS364 barcodes
+  contains C, nor does the 14-base B prefix, so the Tn5 sample barcode read by the
+  5-cycle Read 2 is unaffected by bisulfite. Adaptor B is listed without `/iMe-dC/`;
+  its mosaic-end segment contains one C. The schematic draws the product whose B-side
+  mosaic end and barcode complement were copied by Klenow with 5-methyl-dCTP; the
+  complementary strand-of-origin product (B adaptor top strand converted at that C) is
+  not drawn. Neither source discusses this strand.
+- Sample B in the graph uses TS302 only to show two distinct published barcodes; actual
+  barcode-to-sample assignments are study specific.
+- Bait sequences, bait production (Supplementary Note III) and Supplementary Tables 2–4
+  were not re-read in this capped pass.
 
 ## Scope
 

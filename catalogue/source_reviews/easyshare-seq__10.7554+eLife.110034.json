@@ -1,0 +1,112 @@
+{
+  "dir": "easyshare-seq__10.7554+eLife.110034",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "author_preprint",
+      "role": "other",
+      "locator": "Original bioRxiv v7 2024.02.26.581705_v7.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Author preprint Methods lines 2755-2780 and 2845-2855; scraper run on bundle",
+        "finding": "Describes phosphorylated split-pool barcode oligos, barcoded Tn5-B2S and biotinylated RT primer with 10-nt UMI, and explicitly points to Supplementary Table 1."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Author 2024.02.26.581705_v7.full.pdf.txt Methods lines 2755-2780 and 2845-2855; scraper on local source bundle",
+        "finding": "Preprint names phosphorylated barcoding oligos, Tn5-B2S, modified RT and TSO and points to Table 1."
+      },
+      "note": "Superseded preprint (catalogue identity re-anchored to the published article on 2026-10-17, DESIGN.md 2026-10-16 published-version-first); retained as history, not active evidence; earlier passes recorded below are historical."
+    },
+    {
+      "id": "author_table1",
+      "role": "supplement",
+      "locator": "Original author 2024.02.26.581705_media-6.xlsx.txt, Supplementary Table 1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-16",
+        "locations": "Original workbook PCR oligos sheet lines 1-13; scraper verified modified RT/TSO hits",
+        "finding": "Prints /5Phos/ Tn5 reverse and B2S, /5Phos/ RT primer with /iBiodT/, rUrUrU...rGrGrG TSO, PCR/index oligos and barcode sheets."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Original author 2024.02.26.581705_media-6.xlsx.txt PCR oligos sheet rows 1-13; scraper on bundle",
+        "finding": "Prints /5Phos/ Tn5 reverse/B2S, /iBiodT/ RT primer, rUrUrU…rGrGrG TSO, and indexing oligos."
+      }
+    },
+    {
+      "id": "published_elife",
+      "role": "defining",
+      "locator": "Published eLife 2025 eLife.110034, local /husky/henriksson/NGS101_papers/sources/easyshare-seq__10.7554+eLife.110034/elife.110034_PMC13384510.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": null,
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Published eLife JATS lines 286-297 (oligo table), 414-428 (Tn5 assembly and tagmentation), 97-99 (barcode design); scraper on local bundle",
+        "finding": "Published version is locally present and directly prints Tn5-B2S and modified RT primer in reagent table. Former unavailable status was wrong; full appendix and published supplement inventory still need independent review."
+      },
+      "note": "Published version of record; defining source since the 2026-10-17 re-anchor."
+    },
+    {
+      "id": "share_predecessor",
+      "role": "predecessor",
+      "locator": "SHARE-seq predecessor explicitly named by easySHARE author",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Predecessor design and changed barcode/read sites not independently reconciled."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-16",
+      "locations": "Author preprint Methods 2755-2780 and original Table 1 workbook lines 1-13; published eLife version identified in manifest",
+      "finding": "Followed original Supplementary Table 1 and verified modified oligos; final eLife revision and SHARE-seq inheritance remain open."
+    },
+    "pass_2": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-16",
+      "locations": "Original article Methods and source-reference locations in source rows; local MANIFEST.tsv and scraper result for named bundle",
+      "finding": "Confirmed listed source and linked-material leads independently. Relevant linked documents still unavailable or unreviewed; no missing claim is accepted."
+    }
+  },
+  "missing_claims": [
+    {
+      "claim": "easySHARE custom RT/Tn5/barcode oligos are unpublished",
+      "disposition": "blocked",
+      "evidence": "Author Supplementary Table 1 prints modified oligos; final eLife version and predecessor changes still require independent comparison."
+    }
+  ],
+  "conclusion": "Author Supplementary Table 1 prints modified oligos; final eLife version and predecessor changes still require independent comparison.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published eLife version of record (PMC13384510.1 JATS XML) Key resources table lines269–303, Results barcode design97, Methods404–470 (barcoding oligos, Tn5 preparation, fixation, tagmentation, RT, single-cell barcoding, reverse crosslinking, streptavidin pull-down, scATAC/cDNA/scRNA library preparation, sequencing), Appendix 1 lines2162–2164; eLife v1 XML line257 compared for the Key resources Tn5-B2S row; Supplementary file 1 (md5 ec0bcfbd… identical to bioRxiv media-6) sheets PCR oligos rows1–20, BC oligos R1 lines108–118, BC oligos R2 lines306–316",
+      "oligo_scraper": "Scraper run on the PMC XML (Key resources hits 284–303, Appendix hits 2158/2172) and --find on the RT primer across the bundle; workbook PCR/BC rows read directly.",
+      "findings": "Defining source switched from the superseded preprint to the published eLife VOR (note had a wrong 'Ma et al.' attribution). Corrected graph order: tagmentation with pooled Tn5-A + Tn5-B2S duplexes before in-nucleus biotin-RT (model had RT first and B2S-only Tn5). Split ligation into round 1 (cohesive 8-nt GGGCTCGG/CCGAGCCC, Appendix 1) and round 2 (TCT/AGA) with Scene-checked duplexes, plus pool/redistribute. Added reverse crosslinking, streptavidin split, MinElute, on-bead template switching, cDNA PCR, Tn5-A-only tagmentation and final 5-cycle PCR with exact templates. Final libraries: TCT linker literal (was placeholder), RNA library now carries A26 + 10-nt UMI read first by Read 2; read lengths R1 150/I1 17/I2 8/R2 150 now on the page. Graph-owned published discrepancy: Key resources table Tn5-B2S CAGGGCATTTGCACCCCATGCC vs Supplementary file 1 /5Phos/GGGCTCGGAGATGTGTATAAGAGACAG (model uses workbook).",
+      "deferred": [
+        "SHARE-seq predecessor (Ma et al. 2020) comparison of inherited steps",
+        "Picelli et al. 2014 Tn5 production",
+        "Author GitHub vosoltys/easySHARE_seq and GEO GSE256434 run metadata",
+        "Origin of the Key resources Tn5-B2S value (no correction notice checked)",
+        "Fate of Tn5-A/A and B2S/B2S ATAC fragments and non-barcoded RNA fragments (candidates only)",
+        "Directory/catalogue DOI still names the preprint"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (0 explicit checks; workflow + graph construction); page builds; pairing 0 problems; chemistry 13 established/0 conditional/13 unresolved/0 contradictory; source guard 12 exact checked, 0 failed, 7 inputs symbolic (RT primer withheld: scraper drops /iBiodT/ base); audit check passes; Markdown built"
+    }
+  ]
+}

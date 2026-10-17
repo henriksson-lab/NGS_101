@@ -92,5 +92,25 @@
       "evidence": "The blanket absence claim is false for Multiome bead/final-library constant shells, printed in CG000338 Appendix pp. 80-81. ChAIR-specific missing details remain blocked by inaccessible NIHMS supplements."
     }
   ],
-  "conclusion": "Multiome guide supplies published bead and final-library structures; original ChAIR NIHMS supplements remain blocked."
+  "conclusion": "Multiome guide supplies published bead and final-library structures; original ChAIR NIHMS supplements remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC12955729 JATS Methods 'ChAIR' line179 and 'ChAIR data processing' line187; Springer Supplementary Information MOESM1 (fetched 2026-10-17 by get_sources; 'A step-by-step ChAIR protocol', 9.30.2024) materials list, steps1-82 and Addendum 'Bridge linker preparation'; 10x CG000338 Rev G appendix 'Sequences' p80 (10x-chromium-single-cell-multiome-atac-gene-expression bundle lines5880-5935).",
+      "oligo_scraper": "Bundle scraper/--find run: bottom bridge strand exact in JATS line179; top strand CGTGATATT/iBIOdT/CACGACTCT found only with the biotin-T dropped (shared scraper treats /iBIOdT/ as a non-base modification), recorded as a module source-guard exception. Kit oligo sequences are not printed in the ChAIR originals.",
+      "findings": "Replaced generic shared-recipe graph (multimodal_protocols _finish_pcr/_finish_rt_pcr, role_library) with a protocol-owned graph: SDS permeabilization/Triton quench, AluI(+HpyCH4V) digestion, Klenow exo- dA-tailing + 65C stop, bridge-linker annealing (computed 18-bp duplex with 3'-T overhangs) and T4 ligation, wash/sonicate/20um filter, kit Tn5 tagmentation, warned 10x GEM boundary, Recovery Agent, proteinase K decrosslinking, Dynabeads cleanup, M-280 streptavidin split into DNA (beads) and cDNA (supernatant), pre-amp/index PCRs and SPRI selections, warned GEX library boundary. Corrected three separately amplified RNA/ATAC/PET libraries to two physical libraries (ChAIR-DNA, ChAIR-RNA); ATAC vs PET is computational linker trimming. Final ChAIR-DNA contact molecule drawn in the CG000338 Rev G ATAC shell with computed dA+linker junction. Page shows three Methods-vs-SI discrepancies (permeabilization 2h vs 1.5h; quench 20 vs 15 min; sonication 1s vs 43% 1.5s).",
+      "deferred": [
+        "PMC NIHMS supplement tables 1-5 and Supplement_and_Figures (PMC download gate); identity vs Springer SI not compared",
+        "CG000338 revision actually used; 10x kit oligos, sample indices and acquired read lengths",
+        "Fate of non-biotinylated DNA in the M-280 supernatant and half-ligated linker products",
+        "ChIATAC predecessor (ref.11) and Wang 2021 Current Protocols linker source",
+        "Springer MOESM2 (image-only PDF) not inspected"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 3/3 (bridge transcription + computed ends); page builds; pairing 0 problems; chemistry 0 established/0 conditional/26 unresolved/0 contradictory with gem_barcoding and gex_library MAGIC warnings; source guard 1 exact checked (bridge bottom), 0 failed, 1 declared exception (bridge top biotin-dT), 10 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

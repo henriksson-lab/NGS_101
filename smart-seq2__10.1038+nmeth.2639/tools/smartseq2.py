@@ -15,9 +15,9 @@ from pcr import PCRGeometry, PCRPrimer
 import rt
 import seqprimers as sp
 from page import head, info
-from protocol_graph import (AnnotationSlot, Highlight, InputRole, MaterialKind, MolecularRelation,
+from protocol_graph import (AnnotationSlot, Disposition, Highlight, InputRole, MaterialKind, MolecularRelation,
                             ProtocolGraph, SequencingPlan, SourceClaim,
-                            SourceDiscrepancy, StepKind)
+                            SourceDiscrepancy, StepKind, Terminal)
 from protocol_views import (OligoEntry, OligoSection, PrimerBindingSection,
                             WorkflowSection, assemble_page)
 
@@ -98,22 +98,34 @@ def protocol_graph() -> ProtocolGraph:
                        state=initial, primary=True)
 
     priming, first_scene, switch_scene = ss2_rt(protocol)
-    rt_label = "anchored oligo-dTVN with SMART handle"
-    tso_label = "SMART-seq2 LNA template-switch oligo"
+    rt_label = ("anchored oligo-dT30VN primer, 1 ul of 10 uM (Biomers; printed in Online "
+                "Methods), denatured with 1 ul 10 mM dNTPs at 72 degrees C for 3 min")
+    tso_label = ("SMART-seq2 LNA template-switch oligo rGrG+G, 1 ul of 10 uM "
+                 "(Supplementary Table 4)")
     preamp_template = drawn_preamp_template(BODY, POLYA)
 
     rt_primer = graph.input("rt_primer", rt_label, MaterialKind.OLIGO,
                             state=priming)
+    # Online Methods "Reverse transcription" (deferred-followup-03) with Supplementary
+    # Tables 3-5: SSRTII (Invitrogen 18064-014), 1 M betaine, 0.9 ul of 100 mM MgCl2
+    # added (Table 3 column: 12 mM), no purification after RT.
     reverse_transcriptase = graph.input(
-        "reverse_transcriptase", "MMLV-derived template-switching reverse transcriptase",
+        "reverse_transcriptase", "SuperScript II reverse transcriptase (MMLV-derived)",
         MaterialKind.CATALYST)
+    rt_conditions = graph.input(
+        "rt_conditions",
+        ("SuperScript II first-strand buffer, 0.25 ul 100 mM DTT, 2 ul 5 M betaine, 0.9 ul of 100 mM "
+         "MgCl2 added (Supplementary Table 3: 12 mM); 42 degrees C 90 min, then 10 x "
+         "(50 degrees C 2 min, 42 degrees C 2 min), 70 degrees C 15 min"),
+        MaterialKind.CONDITION)
     first = graph.product("first_strand", "first-strand cDNA with untemplated CCC",
                           MaterialKind.MOLECULAR, state=first_scene)
     graph.react("reverse_transcription",
                 "Reverse-transcribe from the anchored poly(dT) primer",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((mrna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
-                 (reverse_transcriptase, InputRole.CATALYST)), (first,))
+                 (reverse_transcriptase, InputRole.CATALYST),
+                 (rt_conditions, InputRole.CONDITION)), (first,))
 
     tso = graph.input("tso", tso_label, MaterialKind.OLIGO, state=switch_scene)
     switched = graph.product("switched", "template-switched full-length cDNA",
@@ -124,10 +136,13 @@ def protocol_graph() -> ProtocolGraph:
                 ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
                  (reverse_transcriptase, InputRole.CATALYST)), (switched,))
 
-    preamp_polymerase = graph.input("preamp_polymerase", "full-length cDNA PCR polymerase",
-                                    MaterialKind.CATALYST)
-    ispcr = graph.input("ispcr", "ISPCR primer used at both cDNA ends",
-                        MaterialKind.OLIGO)
+    preamp_polymerase = graph.input(
+        "preamp_polymerase",
+        ("KAPA HiFi HotStart ReadyMix added directly to the RT; 98 degrees C 3 min, 18 cycles "
+         "for cells (98 degrees C 15 s, 67 degrees C 20 s, 72 degrees C 6 min), 72 degrees C 5 min"),
+        MaterialKind.CATALYST)
+    ispcr = graph.input("ispcr", "ISPCR primer (1 ul of 10 uM; Online Methods) at both cDNA ends",
+                        MaterialKind.OLIGO, state=ISPCR)
     preamp_geometry = PCRGeometry.symmetric(
         preamp_template, PCRPrimer("ISPCR", rt.SMART_HANDLE),
         statement=("The source-defined SMART handle occurs in opposite orientations "
@@ -136,23 +151,41 @@ def protocol_graph() -> ProtocolGraph:
                      (ispcr, InputRole.STRUCTURAL),
                      (preamp_polymerase, InputRole.CATALYST))
     primer_reviewed = ["ispcr"]
-    amplified = graph.product("amplified", "amplified full-length cDNA",
+    preamplified = graph.product("preamplified", "amplified full-length cDNA",
+                                 MaterialKind.MOLECULAR, state=preamp_template)
+    graph.react("preamp", ("PCR-amplify full-length cDNA without bead purification "
+                           "after RT"), StepKind.PCR,
+                preamp_inputs, (preamplified,), geometry=preamp_geometry)
+    preamp_beads = graph.input("preamp_beads", "AMPure XP beads 1:1; elution in 15 ul EB",
+                               MaterialKind.SELECTION)
+    amplified = graph.product("amplified", "AMPure-purified full-length cDNA",
                               MaterialKind.MOLECULAR, state=preamp_template)
-    graph.react("preamp", "PCR-amplify full-length cDNA", StepKind.PCR,
-                preamp_inputs, (amplified,), geometry=preamp_geometry)
+    preamp_waste = graph.product("preamp_supernatant",
+                                 "bead supernatant: primers, TSO and short products",
+                                 MaterialKind.WASTE)
+    graph.react("preamp_cleanup", "Purify pre-amplified cDNA with 1:1 AMPure XP",
+                StepKind.CLEANUP,
+                ((preamplified, InputRole.TEMPLATE), (preamp_beads, InputRole.SELECTION)),
+                (amplified, preamp_waste))
+    graph.discard(preamp_waste, "bead supernatant removed (Online Methods, PCR preamplification)")
 
     index_f_primer = PCRPrimer("N5xx", nx.n5xx_primer("N" * 8), anneal_nt=len(nx.S5))
     index_r_primer = PCRPrimer("N7xx", nx.n7xx_primer("N" * 8), anneal_nt=len(nx.S7))
-    transposome = graph.input("transposome", "s5/s7-loaded Nextera transposome",
+    transposome = graph.input("transposome",
+                              "s5/s7-loaded transposome, Nextera DNA sample preparation kit "
+                              "(FC-121-1031)",
                               MaterialKind.ADAPTER, chemical_state=LoadedEndPool(
                                   (LoadedEnd("s5", nx.ADAPTOR_S5),
                                    LoadedEnd("s7", nx.ADAPTOR_S7)), nx.ME))
-    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tn5 = graph.input("tn5", ("Tagment DNA Enzyme 5 ul with 25 ul 2x Tagment DNA Buffer, "
+                              "5 ng cDNA in 50 ul, 55 degrees C 5 min"), MaterialKind.CATALYST)
     tagmented_product = graph.product(
         "tagmented", "heterologous s5/s7-tagmented cDNA fragments",
         MaterialKind.MOLECULAR, state=tagmented("s5", "s7"))
+    # Legacy end-class validation uses WASTE for non-selected end pairs;
+    # the terminal below independently declares physical recovery unresolved.
     tagment_waste = graph.product(
-        "tagment_waste", "s5/s5, s7/s7 and other non-library Tn5 products",
+        "tagment_waste", "candidate s5/s5, s7/s7 and other non-library Tn5 products",
         MaterialKind.WASTE)
     graph.react("tagment", "Tagment amplified cDNA with Nextera s5/s7 adapters",
                 StepKind.TAGMENTATION,
@@ -166,66 +199,122 @@ def protocol_graph() -> ProtocolGraph:
                                      (("s5", "s5"), ("s7", "s7")))),
                     "index_pcr"),
                 relations=(MolecularRelation.END_COMBINATIONS,))
-    graph.discard(tagment_waste,
-                  "lacks the heterologous s5/s7 end combination required for amplification")
+    graph.mark_terminal(Terminal(tagment_waste.id, Disposition.UNRESOLVED,
+        "Candidate classes lack the intended heterologous P5/P7 library ends. "
+        "The two-primer end-class check does not establish failure to amplify or "
+        "physical removal by the column or later AMPure cleanup."))
 
-    gap_polymerase = graph.input("gap_polymerase", "Nextera nine-base gap-fill polymerase",
+    zymo = graph.input("zymo", "DNA Clean & Concentrator-5 column; elution in 20 ul RSB",
+                       MaterialKind.SELECTION)
+    tagmented_clean = graph.product("tagmented_clean", "column-purified tagmented cDNA",
+                                    MaterialKind.MOLECULAR, state=tagmented("s5", "s7"))
+    zymo_waste = graph.product("zymo_flowthrough", "column flow-through and washes",
+                               MaterialKind.WASTE)
+    graph.react("tagment_cleanup", "Purify tagmented cDNA on a Zymo DCC-5 column",
+                StepKind.CLEANUP,
+                ((tagmented_product, InputRole.TEMPLATE), (zymo, InputRole.SELECTION)),
+                (tagmented_clean, zymo_waste))
+    graph.discard(zymo_waste, "column flow-through and washes discarded")
+
+    gap_polymerase = graph.input("gap_polymerase",
+                                 "Nextera PCR Master Mix (NPM, 15 ul) polymerase",
                                  MaterialKind.CATALYST)
     filled = graph.product("gap_filled", "gap-filled heterologous Nextera fragments",
                            MaterialKind.MOLECULAR, state=gap_filled())
-    graph.react("gap_fill", "Fill both nine-base Tn5 gaps at 72 degrees C",
+    graph.react("gap_fill", ("Fill both nine-base Tn5 gaps: 72 degrees C 3 min opening "
+                             "the enrichment PCR program"),
                 StepKind.EXTENSION,
-                ((tagmented_product, InputRole.TEMPLATE),
+                ((tagmented_clean, InputRole.TEMPLATE),
                  (gap_polymerase, InputRole.CATALYST)), (filled,))
 
     final = final_library()
-    index_forward = graph.input("index_forward", "Nextera N5xx index primer",
+    index_forward = graph.input("index_forward",
+                                "Nextera Index Kit (FC-121-1011) N5xx index 2 primer, 5 ul",
                                 MaterialKind.OLIGO)
-    index_reverse = graph.input("index_reverse", "Nextera N7xx index primer",
+    index_reverse = graph.input("index_reverse",
+                                "Nextera Index Kit (FC-121-1011) N7xx index 1 primer, 5 ul",
                                 MaterialKind.OLIGO)
-    index_polymerase = graph.input("index_polymerase", "Nextera index-PCR polymerase",
-                                   MaterialKind.CATALYST)
+    ppc = graph.input("ppc", "Nextera PCR Primer Cocktail (PPC), 5 ul (kit primers; bases not printed)",
+                      MaterialKind.OLIGO)
+    index_polymerase = graph.input(
+        "index_polymerase",
+        "NPM; 98 degrees C 30 s, then 5 cycles (98 degrees C 10 s, 63 degrees C 30 s, 72 degrees C 3 min)",
+        MaterialKind.CATALYST)
     index_geometry = PCRGeometry.exact(
         final, index_f_primer, index_r_primer,
         statement=("The canonical N5xx and N7xx primers face inward from the s5 and s7 "
                    "entry points and install the indexed P5/P7 ends."))
-    primers = SEQ_PRIMERS
-    main_library = graph.product("library", protocol + " sequencing-library molecules",
-                                 MaterialKind.LIBRARY, state=final)
+    # Supplementary Table 5 costs a "TruSeq Dual Index sequencing primer kit for
+    # Single Read runs" per Smart-seq2 sample: Read 1 plus both index reads.
+    primers = tuple(sp.NEXTERA[k] for k in ("R1", "I1", "I2"))
+    pcr_library = graph.product("pcr_library", protocol + " enrichment-PCR product",
+                                MaterialKind.LIBRARY, state=final)
     graph.react("index_pcr", "Amplify and install indexed P5/P7 ends",
                 StepKind.PCR,
                 ((filled, InputRole.TEMPLATE),
                  (index_forward, InputRole.STRUCTURAL),
                  (index_reverse, InputRole.STRUCTURAL),
+                 (ppc, InputRole.STRUCTURAL),
                  (index_polymerase, InputRole.CATALYST)),
-                (main_library,), geometry=index_geometry)
+                (pcr_library,), geometry=index_geometry)
+    final_beads = graph.input("final_beads", "AMPure XP beads 1:1", MaterialKind.SELECTION)
+    main_library = graph.product("library", protocol + " sequencing-library molecules",
+                                 MaterialKind.LIBRARY, state=final)
+    final_waste = graph.product("final_supernatant", "bead supernatant after enrichment PCR",
+                                MaterialKind.WASTE)
+    graph.react("final_cleanup", "Purify the library with 1:1 AMPure XP", StepKind.CLEANUP,
+                ((pcr_library, InputRole.TEMPLATE), (final_beads, InputRole.SELECTION)),
+                (main_library, final_waste))
+    graph.discard(final_waste, "bead supernatant removed")
+    # Online Methods "Read alignments": Nextera dual indexes (i7+i5), HiSeq 2000,
+    # "43bp reads after demultiplexing"; index cycle counts are not printed.
     graph.sequence(main_library, SequencingPlan(
         library=final, primers=primers,
-        acquired_roles=tuple(p.role for p in primers)))
+        acquired_roles=tuple(p.role for p in primers),
+        limitation="The article reports 43-base reads after demultiplexing, and the deposit "
+                   "contains 43-base single reads. Acquired Read 1 and index cycle counts "
+                   "are not established by those processed/deposited lengths."))
 
     reviewed = [
-        "mrna", "rt_primer", "reverse_transcriptase", "reverse_transcription",
+        "mrna", "rt_primer", "reverse_transcriptase", "rt_conditions",
+        "reverse_transcription",
         "tso", "template_switch", *primer_reviewed, "preamp_polymerase", "preamp",
-        "transposome", "tn5", "tagment", "gap_polymerase", "gap_fill",
-        "index_forward", "index_reverse", "index_polymerase", "index_pcr",
-        "library",
+        "preamp_beads", "preamp_cleanup", "transposome", "tn5", "tagment",
+        "zymo", "tagment_cleanup", "gap_polymerase", "gap_fill",
+        "index_forward", "index_reverse", "ppc", "index_polymerase", "index_pcr",
+        "final_beads", "final_cleanup", "library",
     ]
     graph.declare_reviewed_scope(reviewed, source)
     graph.annotate(SourceDiscrepancy(
         "template_switch", "Two published TSO linkers",
         (SourceClaim("Picelli et al. 2013, Supplementary Tables 2 and 4",
                      "The selected TSO is the 23-nt handle + AC + rGrG+G."),
-         SourceClaim("Nature Protocols form, transcribed in Hagemann-Jensen "
-                     "et al. 2020, Supplementary Table 1, condition 1",
-                     "The Smart-seq2 TSO has ACAT before rGrG+G.")),
+         SourceClaim("Picelli et al. 2014 Nature Protocols (doi:10.1038/nprot.2014.006), "
+                     "Reagent Setup",
+                     "The Smart-seq2 TSO is 5'-AAGCAGTGGTATCAACGCAGAGTACATrGrG+G-3'.")),
         "The drawn TSO uses ACAT.",
-        "The later protocol's oligo table explicitly prints this longer form.",
+        ("The 2013 Online Methods print the oligo-dT and ISPCR primer but refer to a "
+         "supplementary table for the TSO; the 2014 Nature Protocols Reagent Setup prints the "
+         "longer form, which descendant protocols use. The 2013 article's pointer names "
+         "Supplementary Table 1, while the TSO sequences are in Supplementary Table 2."),
         "The added AT is absent from the defining paper and is drawn inferred."))
+    graph.annotate(Highlight(
+        "index_pcr", "Kit identities and read plan",
+        "The Online Methods use the Nextera DNA Sample Preparation kit (5 ng cDNA, 55 &deg;C "
+        "5 min), a Zymo DNA Clean &amp; Concentrator-5 column, then enrichment PCR with "
+        "NPM, N7xx, N5xx and PPC (72 &deg;C 3 min, 98 &deg;C 30 s, 5 cycles) and a 1:1 "
+        "AMPure XP cleanup. Libraries were sequenced &ldquo;with Nextera dual indexes "
+        "(i7+i5) on Illumina HiSeq 2000, giving 43bp reads after demultiplexing&rdquo;. "
+        "Supplementary Table 5 costs a TruSeq Dual Index sequencing primer kit for Single "
+        "Read runs, and all 76 GSE49321 runs (ENA PRJNA213629) are SINGLE-layout 43-base "
+        "reads. This supports single-read acquisition with both indexes and no Read 2, "
+        "but does not establish the acquired Read 1 cycle count. Index "
+        "lengths of the Nextera 24-index kit are not printed in the sources read."))
     graph.annotate(Highlight(
         "tagment", "Selection after Tn5",
         "Heterologous s5/s7 fragments have both index-PCR sites. Same-end s5/s5 "
-        "and s7/s7 products are represented as discarded products and checked "
-        "against the declared primer pair."))
+        "and s7/s7 candidate products are checked against the declared primer pair; "
+        "their amplification and physical recovery fates remain unresolved."))
     return graph.require_publishable()
 
 def preamp_template(insert_nt: int = 36, *, linker_inferred: bool = True) -> Construct:
@@ -282,10 +371,10 @@ def oligo_section() -> OligoSection:
         OligoEntry("Nextera mosaic end (ME)", (seg(nx.ME, "me"),)),
         OligoEntry("Nextera N/S5xx entry point (s5)", (seg(nx.S5, "s5"),)),
         OligoEntry("Nextera N7xx entry point (s7)", (seg(nx.S7, "s7"),)),
-        OligoEntry("Nextera (XT) N/S5xx index primer",
+        OligoEntry("Nextera Index Kit N/S5xx index primer",
                    (seg(P5, "p5"), seg("[8-bp i5]", placeholder=True),
                     seg(nx.S5, "s5"))),
-        OligoEntry("Nextera (XT) N7xx index primer",
+        OligoEntry("Nextera Index Kit N7xx index primer",
                    (seg(P7, "p7"), seg("[8-bp i7]", placeholder=True),
                     seg(nx.S7, "s7"))),
     ]
@@ -300,17 +389,20 @@ def final_section(graph: ProtocolGraph) -> str:
     duplex = Scene.duplex(con.segments)
     duplex.strands["top"].label = duplex.strands["bottom"].label = ""
     rows = duplex.rows() + annotation_rows(con, prefix_width=4)
-    return ("<h3>(7&ndash;8) Index PCR, and the final library</h3>\n"
+    return ("<h3>Index PCR, AMPure cleanup and the final library</h3>\n"
             + panel(rows, cls="long")
             + info(f"{len(con)}&nbsp;bp excluding the insert; no UMI or cell barcode."))
 
 
 def source_section() -> str:
     read = [
+        "Picelli et al. 2013 Online Methods: reverse transcription, PCR preamplification, "
+        "tagmentation and enrichment PCR conditions, oligo-dT30VN and ISPCR bases, read length",
+        "Picelli et al. 2014 <i>Nature Protocols</i> Reagent Setup: the TSO, oligo-dT30VN and "
+        "ISPCR bases of that version",
         "Picelli et al. 2013 Supplementary Tables 2 and 4: every TSO tested, and which one "
         "<i>Smart-seq2</i> uses (<code>rGrG+G</code>)",
-        "Picelli et al. 2013 Supplementary Tables 1 and 3: the oligo-dT named as the "
-        "commercial <i>SMARTer dT30VN</i>, and the ISPCR primer named but not printed",
+        "Picelli et al. 2013 Supplementary Tables 1 and 3: per-library reaction variables",
         "Hagemann-Jensen et al. 2020 Supplementary Table 1, condition 1: the Nature "
         "Protocols Smart-seq2 oligo-dT, TSO and forward PCR primer, printed in full",
         "Hahaut et al. 2022 Supplementary Note 2: the same handle oligo-dT and the "
@@ -343,8 +435,8 @@ def render_page() -> str:
                                  PrimerBindingSection(
                                      "library", "Library sequencing",
                                      "Sequencing primers: SMART-seq2",
-                                     """All four reads use the stock Nextera sequencing primers. Primer
-            positions and the first bases read are shown below.""",
+                                     """Read 1 and both index reads use the stock Nextera
+            sequencing primers (43-base reads after demultiplexing with i7+i5 indexes, Online Methods; acquired cycle counts unspecified). Primer positions and the first bases read are shown below.""",
                                      info("The i5 + i7 index pair identifies the source well.")
                                      + source_section() + '</div>')])
 

@@ -911,5 +911,24 @@
   },
   "missing_claims": [],
   "conclusion": "The enumerated original source scope now has two independent located checks, including Pleiner reagent provenance, Omni optional-branch methods, the author repository/config/read-decoding chain and nanoscope instructions. Study configs establish BcdA=ATAC, BcdB=H3K27ac, BcdC=H3K27me3; the representative graph uses BcdB/H3K27ac without treating that mapping as universal. Existing source discrepancies remain public, and model geometry/transition limits remain explicit. No missing-information claim is accepted and this source review does not establish complete biochemical proof.",
-  "previous_missing_claims": []
+  "previous_missing_claims": [],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC10264246 JATS text Results line 61 and Discussion 149; Methods Tn5 loading 177-181, nano-CT 187-191, nano-CT with ATAC 193-197, Single-cell indexing and library prep 199-205, Sequencing setup 207-209; published Supplementary Information MOESM1 Supplementary Data Fig. 2 (lines 134-181); linked 10x CG000209 Rev G Step 2.5 GEM incubation program (extracted lines 2300-2350) and Appendix A1 (3745-3775), copy registered under scifi-atac-seq",
+      "oligo_scraper": "Scraper run on published JATS, MOESM1 and MOESM3 workbook text; R1_seq/I2_seq hits (JATS line 209) and Supp Data Fig. 2 library strings checked; remaining MOESM1 hits are the nanobody-Tn5 fusion coding sequences (Supplementary Sequences 1-2), not library oligos.",
+      "findings": "Added source-stated cleanups the graph lacked: post-GEM Dynabeads SILANE + SPRIselect recovery (CG000209 Steps 3.0-3.2), Zymo DCC-5 column after the MeB-only tagmentation, and 0.4x/1.2x two-sided SPRIselect selection before sequencing (sequencing now follows the size-selected library). Recorded 10 mM MgCl2 1 h 37 C first tagmentation with EDTA stop, 10x Amp Mix and 11-15 SI-PCR cycles. Repository correction: replaced an unsourced separate pre-partition gap-fill polymerase with the 10x Barcoding Enzyme in GEM incubation (72 C 5 min then 12 linear cycles, CG000209 Step 2.5); assigning the initial hold to gap filling is labelled as the model's reading. Supp Data Fig. 2 agrees with the drawn read-1 side, custom R1/I2 and 36-8-48-36 layout.",
+      "deferred": [
+        "CG000209 Steps 2.0-4.2 full procedure text beyond the GEM program, cleanup headings and Appendix A1",
+        "Optional nano-CT-with-ATAC (Omni-ATAC MeA-only) branch not drawn",
+        "Fate of single-integration (orphan) MeA products after MeB tagmentation, described only qualitatively (Discussion line 149)",
+        "Selected Single Index N Set A sample-index members"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 20 checks pass; page builds; pairing 0 problems; chemistry 2 established/1 conditional/9 unresolved/0 contradictory; source guard 5 exact checked, 0 failed, 2 inputs without exact states (gel_bead_oligo, si_pcr_reverse); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

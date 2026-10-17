@@ -148,5 +148,27 @@
       "evidence": "Original Methods generic has NNXXXXNNNN, while explicit ES-1 primer is NNAGGTNNN; page now discloses both and uses explicit ES-1."
     }
   ],
-  "conclusion": "Original article/PDF and supplement have two checks. ES-1 inline-barcode discrepancy and PNK enzyme conflict are public. Linked predecessor methods/software and independent vendor-product check remain outstanding; review remains blocked."
+  "conclusion": "Original article/PDF and supplement have two checks. ES-1 inline-barcode discrepancy and PNK enzyme conflict are public. Linked predecessor methods/software and independent vendor-product check remain outstanding; review remains blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nat Commun PMC4931010 JATS Methods lines116–261 (overview, UV cross-linking, lysis/RNase I/IPB biotinylation, T1 immobilization, linker ligation 141–145, proximity ligation 147–149, RNA purification, T7-exo terminal-linker removal 155–159, RNase III shearing, RT-adapter ligation, RT 173–177, C1 pull-down/RNase H, library construction/circularization/relinearization 185–195, DP5/DP3 pre-amp, DSN, final PCR 209, oligo list 211–261); Supplementary Information pdf.txt Fig1 legend lines3–17, Fig26 legend 227–236",
+      "oligo_scraper": "Bundle scraper run; linker, guard oligo, RT adapter, generic RT primer, PE1/PE2 hits checked against the Methods oligo list lines 215–261; module transcriptions in mario_chem.py match.",
+      "findings": "Reaction order corrected: protein IPB biotinylation + MyOne T1 immobilization before on-bead PNK(3'-phosphatase minus) 5' phosphorylation, T4 Rnl1 linker ligation, 3' dephosphorylation, linker 5' phosphorylation and dilute proximity ligation; proteinase K/phenol extraction; guard oligo + T7 exo terminal-linker removal; RNase III shearing; rApp/ddC RT-adapter ligation (Rnl2 tr KQ); SSIII RT; linker-biotin C1 capture (waste) with RNase H release; CircLigase II circle; Cut_oligo/BamHI relinearization; exact DP5/DP3 and PE1.0/PE2.0 PCR geometries. Previous model captured chimeras right after linker ligation. Final library replaced generic TruSeq shell (i7 + TruSeq Read 2) by a construct computed from printed oligos: PE1.0 (P5+TruSeq Read 1), ES-1 inline barcode RC NNN-ACCT-NN with umi/sample_index features, RNA1/linker copy/RNA2, RT-adapter copy, RC(PE2.0) without i7; only TruSeq Read 1 declared (PE Read 2 primer not printed). RT-primer random-length and phosphatase-minus PNK discrepancies moved to graph-owned SourceDiscrepancy annotations. Oligo inputs carry exact states for the source guard.",
+      "deferred": [
+        "Huppertz 2014 iCLIP RT-primer/circularization method (ref 62)",
+        "T7-exonuclease and phosphorothioate originals (refs 63–64)",
+        "DSN (ES-1/ES-indirect) and GeneRead (ES-2/MEF) rRNA-depletion branches and gel size selections not drawn",
+        "ES-indirect EGS/formaldehyde dual cross-link branch",
+        "MARIO tools v0.3 documentation",
+        "Read lengths and PE Read 2 sequencing primer",
+        "Enzyme actually used for 3' dephosphorylation; ES-1 five vs six random bases"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 2 established/0 conditional/19 unresolved/0 contradictory; source guard 9 exact checked (RNA linker arm, guard oligo, RT adapter, ES-1 RT primer, Cut_oligo, DP5, DP3, PE1.0, PE2.0), 0 failed, 0 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

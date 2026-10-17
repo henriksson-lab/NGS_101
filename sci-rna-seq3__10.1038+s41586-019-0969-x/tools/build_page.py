@@ -9,6 +9,8 @@ import sci_rna_seq3 as S
 import seqprimers as sp
 from chemdraw import oligo,protocol_graph_panels
 from page import head,info
+from protocol_graph import AnnotationSlot
+from protocol_views import render_annotations
 OUT=HERE.parent/"sci-rna-seq3.html"
 
 
@@ -41,7 +43,7 @@ def sequencing()->str:
 
 
 def main()->None:
-    page="\n".join([head("sci-RNA-seq3 library chemistry"),'<div class="wrap" data-protocol-complete="true">','<h1>sci-RNA-seq3 &mdash; three-level combinatorial indexing of nuclei</h1>',info('Defining source: <a href="https://doi.org/10.1038/s41586-019-0969-x">Cao et al., <i>Nature</i> (2019)</a>. The paper\'s Supplementary Table S11 and the <a href="https://github.com/JunyueC/sci-RNA-seq3_pipeline">author primer plate workbook</a> list the RT, ligation and PCR oligos; the author repository also maps RT barcodes to embryos.'),info('Source discrepancy: the 2019 Methods call the internal hairpin modification <code>/dideoxyU/</code>, whereas Supplementary Table S11 and the author primer workbook print <code>/ideoxyU/</code>. This page uses the table/workbook value, consistent with the subsequent USER cleavage. The intended chemical specification behind the Methods wording is not independently confirmed.'),oligos(),construction(),sequencing(),'</div>'])
+    page="\n".join([head("sci-RNA-seq3 library chemistry"),'<div class="wrap" data-protocol-complete="true">','<h1>sci-RNA-seq3 &mdash; three-level combinatorial indexing of nuclei</h1>',info('Defining source: <a href="https://doi.org/10.1038/s41586-019-0969-x">Cao et al., <i>Nature</i> (2019)</a>. The paper\'s Supplementary Table S11 and the <a href="https://github.com/JunyueC/sci-RNA-seq3_pipeline">author primer plate workbook</a> list the RT, ligation and PCR oligos; the author repository also maps RT barcodes to embryos.'),render_annotations(S.protocol_graph(),AnnotationSlot.INTRO),oligos(),construction(),sequencing(),'</div>'])
     OUT.write_text(page,encoding="utf-8"); print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")
 
 

@@ -114,5 +114,25 @@
       "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
     }
   ],
-  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC8604773 JATS (author manuscript) XML.txt Results lines61–63, 97; STAR Methods lines161 (adapter annealing/loading/antibody coupling/His-tag purification), 165–167 (bulk targeting, tagmentation, extraction, gap-fill PCR, AMPure), 171 (sequencing), 177–181 (single-cell), KRT lines500–565; bioRxiv 2021.04.27.441642 v1 media-1.pdf.txt Supplemental Table 1 lines43–88 (used for sequences only). Published supplement NIHMS1743381-supplement-2.pdf manual (PMC download gate; Europe PMC supplementaryFiles: not open access).",
+      "oligo_scraper": "Bundle scraper run: 8 hits, all in preprint Table S1 (A/B connector oligos, custom primer concatenation); verified against lines72–88. No bulk barcoded i5/i7 PCR primer sequences in any inspected file.",
+      "findings": "Graph corrected: adapter annealing/loading and antibody coupling, His-tag purification removing free adapters/uncomplexed antibody (discarded), overnight binding then separate wash cleanup, 10 mM MgCl2 37°C tagmentation, EDTA/SDS/proteinase K + phenol:chloroform/EtOH extraction, gap fill in NEBNext HiFi mix, 17-cycle PCR 98/63°C, 1.1x AMPure; single-cell branch now has 1-cycle GEM step, SILANE/AMPure cleanup, 14-cycle SI-PCR and double size selection. Model error fixed: previous text claimed Table S1 prints the bulk i5/i7 primer families; they are absent from the preprint Table S1, so bulk primers are inferred inputs and P5/i5/i7/P7 library arms are rendered inferred with caveat and INFERRED caption. Page and note now state preprint Table S1 provenance because the published Table S1 was unreadable.",
+      "deferred": [
+        "Published Table S1 (NIHMS1743381-supplement-2.pdf, https://pmc.ncbi.nlm.nih.gov/articles/instance/8604773/bin/NIHMS1743381-supplement-2.pdf) — manual download; compare with preprint Table S1",
+        "Bulk barcoded i5/i7 amplification primer sequences (Amini 2014 predecessor not read)",
+        "Amini et al. 2014 adapter design predecessor",
+        "10x CG000209 v1.1 guide chemistry (gel-bead/SI-PCR arms) not re-read this pass",
+        "Kaya-Okur 2019 CUT&Tag buffers/pA-Tn5 not read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 8/8 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/16 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 1 input without exact state; Markdown built; review schema checked"
+    }
+  ]
 }

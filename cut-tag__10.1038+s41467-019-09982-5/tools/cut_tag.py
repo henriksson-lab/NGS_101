@@ -131,13 +131,21 @@ def protocol_graph():
                      state=molecule('universal i5 PCR primer', (role('exact universal i5 oligo unassigned'),)))
     i7 = graph.input('barcoded_i7', 'source-allowed Buenrostro i7 family; member unassigned', MaterialKind.OLIGO, state=P7_POOL,
                      source='Buenrostro2015 MOESM36 indexed Ad2 family; author v1PCR footnote permits this family')
-    library = graph.product('library', FINAL_LIBRARY.name, MaterialKind.LIBRARY, state=FINAL_LIBRARY,
-                            inferred=True, source='Conditional endpoint; source-allowed i7 family with universal-i5 architecture unassigned')
-    graph.react('pcr', 'INFERRED — amplify the represented A/B branch with universal i5 and barcoded i7', StepKind.PCR,
-                ((filled, InputRole.TEMPLATE), (i5, InputRole.STRUCTURAL), (i7, InputRole.STRUCTURAL), (mix, InputRole.CATALYST)), (library,),
+    amplified = graph.product('amplified_library', 'INFERRED — PCR product before bead cleanup', MaterialKind.MOLECULAR, state=FINAL_LIBRARY,
+                              inferred=True, source='Conditional endpoint; source-allowed i7 family with universal-i5 architecture unassigned')
+    graph.react('pcr', 'INFERRED — amplify the represented A/B branch with universal i5 and barcoded i7 (article: 98 °C 30 s; 14 cycles 98 °C 10 s / 63 °C 30 s; 72 °C 1 min)', StepKind.PCR,
+                ((filled, InputRole.TEMPLATE), (i5, InputRole.STRUCTURAL), (i7, InputRole.STRUCTURAL), (mix, InputRole.CATALYST)), (amplified,),
                 geometry=PCRGeometry.unavailable(PREAMP_TEMPLATE,
                     reason='The exact universal i5 oligo and choice between the source-allowed Nextera/Buenrostro primer variants are not declared; selected i7 is unassigned.'))
+    beads = graph.input('post_pcr_ampure', '1.1× AMPure XP beads, two 80% ethanol washes, 10 mM Tris pH 8.0 elution', MaterialKind.CONDITION)
+    library = graph.product('library', FINAL_LIBRARY.name, MaterialKind.LIBRARY, state=FINAL_LIBRARY,
+                            inferred=True, source='Conditional endpoint; source-allowed i7 family with universal-i5 architecture unassigned')
+    cleanup_waste = graph.product('post_pcr_waste', 'post-PCR bead supernatant and ethanol washes', MaterialKind.WASTE,
+                                  state=molecule('discarded bead fractions', (role('excess primers and material not retained at 1.1× beads; composition not characterized'),)))
+    graph.react('post_pcr_cleanup', 'Post-PCR 1.1× AMPure XP clean-up (article bulk Methods)', StepKind.CLEANUP,
+                ((amplified, InputRole.TEMPLATE), (beads, InputRole.CONDITION)), (library, cleanup_waste))
+    graph.discard(cleanup_waste, 'The article removes the bead supernatant and ethanol washes and elutes the library in 30 µL Tris.')
     graph.sequence(library, SequencingPlan(library=FINAL_LIBRARY, limitation=SEQUENCING_UNAVAILABLE))
     graph.declare_reviewed_scope(
-        ('target_chromatin', 'tagment', 'extract_dna', 'gap_fill', 'pcr', 'cells', 'primary_antibody', 'secondary_antibody', 'loaded_adapter_pool', 'pa_tn5', 'targeted_cells', 'unbound_reagents', 'magnesium', 'gapped_ab', 'same_end_possibilities', 'dna_extraction', 'recovered_dna', 'extraction_waste', 'pcr_mix', 'gap_filled', 'universal_i5', 'barcoded_i7', 'library'), graph.authority)
+        ('target_chromatin', 'tagment', 'extract_dna', 'gap_fill', 'pcr', 'cells', 'primary_antibody', 'secondary_antibody', 'loaded_adapter_pool', 'pa_tn5', 'targeted_cells', 'unbound_reagents', 'magnesium', 'gapped_ab', 'same_end_possibilities', 'dna_extraction', 'recovered_dna', 'extraction_waste', 'pcr_mix', 'gap_filled', 'universal_i5', 'barcoded_i7', 'amplified_library', 'post_pcr_cleanup', 'post_pcr_ampure', 'post_pcr_waste', 'library'), graph.authority)
     return graph.require_publishable()

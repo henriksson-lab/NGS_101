@@ -185,5 +185,24 @@
       "evidence": "The defining article and preprint establish steps, but publisher supplements and inherited in situ Hi-C method remain unresolved."
     }
   ],
-  "conclusion": "The defining article and preprint establish steps, but publisher supplements and inherited in situ Hi-C method remain unresolved."
+  "conclusion": "The defining article and preprint establish steps, but publisher supplements and inherited in situ Hi-C method remain unresolved.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC5143423 article .html.txt lines1161-1174 (Fig.1A legend 1169, GEO GSE86150 line1180); published Supplementary information Data S1 Methods & Materials (Springer ESM 41422_2016_BFcr2016137_MOESM56_ESM.pdf, hand-downloaded from nature.com ESM link; .pdf.txt lines1-73: fixation, in situ proximity ligation, ChIP, biotin pull-down/library, read mapping); Table S1 (MOESM55_ESM.xlsx, library summary and 4C primer sheets)",
+      "oligo_scraper": "Bundle scraper run after adding the ESM files: 3 hits, all Table S1 4C-seq validation primers (TruSeq-tailed), not PLAC-seq library oligos; Data S1 prints no library oligo.",
+      "findings": "Graph corrected to the published Data S1: MboI 100 U 2 h with 62C inactivation, Klenow 40 U with dCTP/dGTP/dTTP/biotin-14-dATP, T4 ligase 4000 U in situ; RIPA lysis and Covaris M220 sonication with cleared-pellet waste; Protein G pre-clear, named antibodies, washes and ~5% input control (stored, processing undescribed); added RNase A/proteinase K reversal with phenol-chloroform/ethanol purification before 20 uL T1 streptavidin pull-down; library construction delegated to in situ Hi-C now a warned MAGIC boundary instead of jumping straight to PCR. Page caveat states adapter shell/indexes/read lengths are not source-exact.",
+      "deferred": [
+        "Rao et al. 2014 in situ Hi-C protocol (end repair, dA-tailing, adapter ligation on beads, PCR)",
+        "GEO GSE86150 run metadata (read lengths, adapters)",
+        "PMC-gated copies cr2016137x1-x4 identity versus Springer ESM files (Figures S1/S2 not read)",
+        "Proximity-ligation duration not printed in Data S1"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory with hic_library_construction MAGIC warning; source guard 0 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

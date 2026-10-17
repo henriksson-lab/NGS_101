@@ -191,5 +191,25 @@
       "evidence": "Original article, supplements and patent have been read once; linked vendor material and independent second pass remain outstanding."
     }
   ],
-  "conclusion": "Molecular roles, 148-base architecture and two patent adapter portions are established; complete-oligo absence remains unconfirmed pending onward links and second check."
+  "conclusion": "Molecular roles, 148-base architecture and two patent adapter portions are established; complete-oligo absence remains unconfirmed pending onward links and second check.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Wik et al. MCP 2021 PMC8633680 JATS Fig1 legend line152, Experimental Procedures lines158 (probe generation), 162-164 (dilution/immunoreaction 4C 16-24h), 168 (PCR1/PCR2, 148 bp), 172 (AMPure XP 80ul/50ul, Bioanalyzer), 176 (NovaSeq S1 Xp, 66-cycle SR, PhiX); Results 186-194; WO2021191442A1 Google Patents text lines 1746-1753, 4117-4195 (worked PCR1/PCR2, SEQ ID 1/2)",
+      "oligo_scraper": "Bundle scraper run: only patent SEQ ID 1 (P5 20-nt) and SEQ ID 2 (P7 24-nt) hits at line1753/4634, both already in the model; no probe, primer or index bases in article or supplements extraction.",
+      "findings": "Model step order, 25-cycle PCR1, block pooling, 10-cycle PCR2, 148-bp product and 66-cycle Read 1 confirmed. Added the 0.6+0.2 ul 4C 16-24 h immunoreaction condition, relabelled extension catalyst as the PCR1-mix polymerase with the 50C 20 min initial extension, added panel pooling and AMPure XP cleanup with discarded primer/primer-dimer/dNTP supernatant. Graph-owned published wording discrepancy: article line168 forward primer 'complementary to' P5 vs patent 'comprises' P5; model uses P5 sense. Patent names Pwo polymerase in its worked example; article names only PCR1 Enzyme, so enzyme identity left unassigned.",
+      "deferred": [
+        "Supplements mmc1-mmc4 not re-read this pass (two earlier passes recorded)",
+        "Complete probe oligos, universal PCR1 reverse primer, sample-index primers and assay-barcode dictionary (unassigned; no absence claim)",
+        "Individual lengths of FBC/Hyb/RBC/sample index within the 66-nt inline region",
+        "Olink software archive (password protected), 2026 NPX preprocessing guide, CRUK combine-olink example files",
+        "PCR1/PCR2 enzyme identity (article 'PCR1 Enzyme' vs patent Pwo example)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 7 steps 0 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; audit --check pass"
+    }
+  ]
 }

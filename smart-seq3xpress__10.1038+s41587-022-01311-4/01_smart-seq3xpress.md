@@ -55,7 +55,7 @@ mosaic end, so the stock Read 1 primer (`s5 + ME`) ends exactly where the 11-bp 
 
 The local declaration selects the final improved TSO, Maxima H Minus RT,
 the published SeqAmp pre-amplification option and commercial Nextera tagmentation
-with Phusion index PCR. The paper separately evaluates other pre-amplification
+(ATM from the XT kit, or TDE1) with Phusion index PCR. The paper separately evaluates other pre-amplification
 polymerases and in-house Tn5. These are explicit source variants; matching adapter
 patterns do not make their conditions or reagent assemblies interchangeable.
 
@@ -149,3 +149,37 @@ helper left that overhang out of its amplified-state drawing; this was a reposit
 model error, not a publication error. Final 5′ and internal fragment classes remain
 separate. The endpoint and exact primer-site checks do not prove the complete
 RT, tagmentation or amplification transitions or an experiment-specific cycle recipe.
+
+
+## Bounded pass 2026-10-17 (round breadth-first-18)
+
+🟢 Final paper Methods (PMC9546772 JATS text lines 70–100): "Low-volume Smart-seq3
+and Smart-seq3xpress library preparation", "After pre-amplification workflow",
+"Sequence library preparation for Smart-seq3xpress" and "Sequencing". Author
+protocol v1 PDF (May 30 2022) RT/pre-amplification tables (local text 690–960),
+tagmentation/SDS/index PCR (1130–1290) and pooling/clean-up (1990–2025).
+
+| # | Step (represented route) | Final Methods conditions |
+|---|---|---|
+| 1 | Lysis under 3 µL overlay, 72 °C 10 min | 0.1% Triton X-100, 5% PEG8000, 0.5 µM oligo(dT), 0.5 mM dNTP each, RNase inhibitor (adjusted to RT volume) |
+| 2 | RT + template switch, Maxima H Minus 2 U/µL | 25 mM Tris-HCl pH 8.3, 30 mM NaCl, 0.5 mM GTP, 2.5 mM MgCl2, 8 mM DTT; 42 °C 90 min, 10×(50 °C 2 min, 42 °C 2 min); SeqAmp route 0.125/0.5 µM oligo-dT and 0.75/2 µM TSO |
+| 3 | SeqAmp pre-amplification, 0.6 µL mix, 0.025 U/µL | 95 °C 1 min; 6–18×(98 °C 10 s, 65 °C 30 s, 68 °C 2–6 min); 72 °C 10 min |
+| 4 | Add 9 µL water; transfer 1 µL to tagmentation | no bead cleanup on this route |
+| 5 | Tagment in 2 µL: 1× buffer (10 mM Tris pH 7.5, 5 mM MgCl2, 5% DMF) with 0.025–0.5 µL ATM or 0.0002–0.01 µL TDE1 | 55 °C 10 min |
+| 6 | Stop/strip with 0.5 µL 0.2% SDS | |
+| 7 | Custom Nextera index primers (10-bp dual indexes) + Phusion 0.01 U/µL | 72 °C 3 min; 95 °C 30 s; 12–14×(95 °C 10 s, 55 °C 30 s, 72 °C 30–60 s); 72 °C 5 min |
+| 8 | Spin-out pooling into a reservoir; 22% PEG beads 0.7:1 | |
+
+The graph now declares the lysis and RT conditions, the dilution/transfer
+bottleneck (remainder kept outside the library), the SDS strip and the pooled
+0.7:1 bead cleanup. The protocol adds Tween-20 to the index-PCR mix to quench
+leftover SDS; the article does not mention it, and the graph does not select it.
+
+🟢 **Primer-concentration discrepancy shown on the page.** The Methods SeqAmp paragraph
+gives "0.5 µM/1 µM Smartseq3 forward and reverse primer"; the protocol v1 step 9
+table lists 0.5 µM each. The page names the primer pair but selects no
+concentration. Other article-versus-protocol differences (cycle and elongation
+ranges, index-primer volumes) are option ranges versus a default, not conflicts.
+
+Open: experiment-specific pre-amplification and index-PCR cycles; which tagmentation
+enzyme and amount each data set used; exact tagmented-end geometry.

@@ -5,31 +5,71 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "Akhtar et al., Nature Protocols 2014 DOI 10.1038/nprot.2014.072",
+      "locator": "Akhtar et al., Nature Protocols 2014, doi:10.1038/nprot.2014.072 (manual row in sources MANIFEST.tsv; publisher page only)",
       "availability": "unavailable",
       "relevance": "relevant",
-      "reason": "Defining full article and Methods are absent from the local source bundle.",
+      "reason": "Publisher full text paywalled; no open version found by get_sources.py on 2026-10-17.",
       "pass_1": null,
       "pass_2": null
     },
     {
       "id": "supp_table_1",
       "role": "supplement",
-      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2014.072/MediaObjects/41596_2014_BFnprot2014072_MOESM451_ESM.pdf",
-      "availability": "unavailable",
+      "locator": "Supplementary Table 1, nprot.2014.072_41596_2014_BFnprot2014072_MOESM451_ESM.pdf (md5 d85b46638e6d3a1c1bd11940f191c326)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Supplementary Table 1 route listed in extra_sources.tsv, not cached; claimed 48 indexed primers cannot be independently verified.",
-      "pass_1": null,
+      "reason": "Fetched 2026-10-17 via get_sources.py; 48 indexed primers read in the .txt twin.",
+      "pass_1": {
+        "reviewer": "round20_worker",
+        "date": "2026-10-17",
+        "locations": "MOESM451 .txt names lines 40-87, sequences lines 89-136",
+        "finding": "All 48 PB-cDNA-forward-1-BC primers present; index 1 (line 89) equals the module PB_CDNA_F, and the 48 rows differ only at nt 34-43 (the 10-nt inline index)."
+      },
       "pass_2": null
     },
     {
       "id": "supp_fig_3",
       "role": "supplement",
-      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnprot.2014.072/MediaObjects/41596_2014_BFnprot2014072_MOESM450_ESM.pdf",
-      "availability": "unavailable",
+      "locator": "Supplementary Figure 3, nprot.2014.072_41596_2014_BFnprot2014072_MOESM450_ESM.pdf (md5 d034161b62ccac54f1bb5cd4f0451185)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Supplementary Figure 3 route listed, not cached; final library/read layout unverified.",
-      "pass_1": null,
+      "reason": "Fetched 2026-10-17 via get_sources.py; both panels read in the .txt twin.",
+      "pass_1": {
+        "reviewer": "round20_worker",
+        "date": "2026-10-17",
+        "locations": "MOESM450 .txt panel a lines 4-28, panel b lines 30-63",
+        "finding": "Panel a counting library and panel b mapping library read base by base. Model matched except for two omissions now fixed: the 43-nt 3-prime eGFP stretch before the PB-cDNA-reverse site, and TTAACC (TTAA target duplication plus the CC that starts the 3-prime TR) before the inverse-PCR primer site. Panel b also confirms P7 fused directly to the Read 2 site with no GAT spacer."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "supp_fig_1",
+      "role": "supplement",
+      "locator": "Supplementary Figure 1, ...MOESM448_ESM.pdf (md5 e6cd9d89f9e327b52323b9decb0e7ca6)",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Extracted text is figure labels only; the iPCR chimera scenarios are drawn, not written.",
+      "pass_1": {
+        "reviewer": "round20_worker",
+        "date": "2026-10-17",
+        "locations": "MOESM448 .txt lines 1-24",
+        "finding": "Describes intermolecular-ligation artefacts of iPCR mapping (barcode joined to unrelated DNA). No sequences; a candidate off-product source for a later pass."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "supp_fig_2",
+      "role": "supplement",
+      "locator": "Supplementary Figure 2, ...MOESM449_ESM.pdf (md5 4af62072742c7af8c8b9e6c5c575d72a)",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "qPCR copy-number amplicons (Box 2), not library chemistry; labels only in the extracted text.",
+      "pass_1": {
+        "reviewer": "round20_worker",
+        "date": "2026-10-17",
+        "locations": "MOESM449 .txt lines 1-39",
+        "finding": "IR copy-number estimation amplicons versus the reference plasmid; no library oligos."
+      },
       "pass_2": null
     }
   ],
@@ -47,8 +87,28 @@
     {
       "claim": "TRIP 16-nt reporter barcode and claimed 48 indexed primer members/final library structure",
       "disposition": "blocked",
-      "evidence": "Relevant source files and independent second pass remain outstanding."
+      "evidence": "Supplementary Table 1 and Figure 3 are now read and verify the 48 indexed primers, the 16-nt barcode and both final library structures; the remaining reagent-list oligos stay blocked on the paywalled article and no independent second reader has run."
     }
   ],
-  "conclusion": "Source review blocked: no original protocol/guide source was available in the local cache during storage-limited pass."
+  "conclusion": "Supplements read and the two drawn libraries corrected to Supplementary Figure 3; the defining article text remains paywalled, so reagent-list oligo transcriptions and read lengths are unverified and no absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "round20_worker",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Supplementary Figure 3 (MOESM450 .txt panel a lines 4-28, panel b lines 30-63), Supplementary Table 1 (MOESM451 .txt lines 40-87 names / 89-136 sequences), Supplementary Figures 1-2 (MOESM448 lines 1-24, MOESM449 lines 1-39) glanced; defining article full text still a (manual) row (paywall).",
+      "oligo_scraper": "Bundle scraper run: 21 hits in 3 files. MOESM450 lines 9/15/18/21/27/43/50/53/57 reconstruct both library structures; MOESM451 line 89 family of 48 variable at nt 34-43; MOESM452 hits are example barcode counts from the analysis output table, not oligos.",
+      "findings": "Rebuilt both drawn libraries base-for-base against Supplementary Figure 3. Added the 43-nt 3-prime eGFP stretch (GTACAGCTCGTCCATGCCGAGAGTGATCCCGGCGGCGGTCACG) between the reporter right constant and the PB-cDNA-reverse site, and the TTAA target-site duplication plus the CC that starts the piggyBac 3-prime TR in the mapping construct; the expression/normalization library now equals figure panel a exactly (index shown as N10). Gave the PB-cDNA-forward-1-BC reagent an exact state from Supplementary Table 1 so the source guard checks it (1 checked, 0 failed). Page source line and caveat now state that the article text is paywalled and that only the indexed primer and the two structures are verified here; the note downgrades the former green \"main protocol text read\" claim to red with the manual URL and lists the unverified transcriptions. Fixed a stray wrong page range in a module comment.",
+      "deferred": [
+        "Defining Nature Protocols article text (reagent list, cycling conditions, 65-100-cycle allowance, acquired read lengths) - paywalled, manual URL in MANIFEST.tsv",
+        "PB-barcode-long-7, BssH2-A and eGFP-int3 transcriptions, unverifiable from the available supplements",
+        "iPCR chimeric-ligation off-products drawn in Supplementary Figure 1, not modelled",
+        "Reporter plasmid map / full eGFP cassette beyond the two ends printed in Supplementary Figure 3",
+        "Independent second reader for every checklist row"
+      ],
+      "scope": "Capped supplement pass only; no accepted missing-information claim and no full chemistry validation.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 9 steps, established=4/conditional=1/unresolved=9/contradictory=0; source guard 1 exact checked, 0 failed, 5 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

@@ -24,18 +24,24 @@
     {
       "id": "methods_s1",
       "role": "supplement",
-      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8611914/bin/NIHMS1745604-supplement-Supplemental_Figures_and_Tables.pdf",
-      "availability": "unavailable",
+      "locator": "Cell Press Document S1 https://ars.els-cdn.com/content/image/1-s2.0-S1097276521007954-mmc1.pdf (local /husky/henriksson/NGS101_papers/sources/snubar-atac__10.1016+j.molcel.2021.09.026/j.molcel.2021.09.026_1-s2.0-S1097276521007954-mmc1.pdf.txt); PMC-gated NIHMS copy https://pmc.ncbi.nlm.nih.gov/articles/instance/8611914/bin/NIHMS1745604-supplement-Supplemental_Figures_and_Tables.pdf",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "PMC gated supplementary figures, Table S1 and detailed Methods S1."
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Figure S1A text lines 28-88 and caption 353; Table S1 lines 1896-2295 (96 rows); Methods S1 SNuBar-ATAC lines 2561-2777",
+        "finding": "Figure S1A prints the cell-barcode primer P5-N16-TCGTCGGCAGCGTC, ATAC i7 primer with I8, RPIX with I6 and both final libraries; Table S1 lists 96 SBOs (21 handle + N8 + 18 barcode + 19 universal + 14 CST); Methods S1 gives cycles, SPRI ratios, mix 4:1-20:1 and run lengths R1 50/R2 50/I1 8/I2 16. Figure S1A final barcode library prints the 12 RPIX bases after the handle reversed relative to the printed primer."
+      },
+      "pass_2": null
     },
     {
       "id": "table_s3",
       "role": "supplement",
-      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8611914/bin/NIHMS1745604-supplement-Table_S3.csv",
-      "availability": "unavailable",
+      "locator": "Cell Press Table S3 https://ars.els-cdn.com/content/image/1-s2.0-S1097276521007954-mmc2.csv (local /husky/henriksson/NGS101_papers/sources/snubar-atac__10.1016+j.molcel.2021.09.026/j.molcel.2021.09.026_1-s2.0-S1097276521007954-mmc2.csv); PMC-gated NIHMS copy https://pmc.ncbi.nlm.nih.gov/articles/instance/8611914/bin/NIHMS1745604-supplement-Table_S3.csv",
+      "availability": "read",
       "relevance": "not_relevant",
-      "reason": "Article JATS line 325 identifies Table S3 as ChromVAR transcription-factor results; file gated."
+      "reason": "Header and first rows: motif.cluster, gene, motif.gene, avg_diff, p_val_adj (chromVAR motif results); no chemistry."
     },
     {
       "id": "tenx_atac",
@@ -69,6 +75,20 @@
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Alternative historical Next GEM v1.1 shell guide not yet checked."
+    },
+    {
+      "id": "published_vor",
+      "role": "defining",
+      "locator": "Cell Press Document S2 (article plus supplemental information) https://ars.els-cdn.com/content/image/1-s2.0-S1097276521007954-mmc3.pdf (local /husky/henriksson/NGS101_papers/sources/snubar-atac__10.1016+j.molcel.2021.09.026/j.molcel.2021.09.026_1-s2.0-S1097276521007954-mmc3.pdf.txt)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "STAR Methods lines 1672-1698 (SBO, separation, PCRs, 8:2 mix, spiked primers); RPIX line 1694; FASTQ layout lines 1750-1751",
+        "finding": "Version of record agrees with the author-manuscript JATS on SBO, RPIX (GTGACTGGAGTT arm), P5, custom primers, 1.2X/1.8X separation, 1.5X barcode cleanup, 8:2 mix and FASTQ layout."
+      },
+      "pass_2": null
     }
   ],
   "linked_information": {
@@ -93,5 +113,43 @@
       "evidence": "Generic oligo/primers are source-positive; Table S1 and detailed Methods S1 remain gated."
     }
   ],
-  "conclusion": "Generic oligo/primers are source-positive; Table S1 and detailed Methods S1 remain gated."
+  "conclusion": "Generic oligo/primers and Table S1/Methods S1 now read from the published Cell Press supplements (single pass); 10x guides and author code unread, so no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Published-article author manuscript PMC8611914 (PMC Cloud JATS, md5 cb82d989…) j.molcel.2021.09.026_PMC8611914.xml.txt Results line85 (SBO parts/delivery); STAR Methods lines185–193 (TDE1 tagmentation + SBO, 10x CG000168/CG000209 loading, 1.2X/1.8X AMPure template separation, ATAC SI-PCR and barcode RPIX/P5 KAPA PCR, 8:2 mix, spiked Read1/I5 primers); line205 (FASTQ layout: 16bp CB from Index2, first 18bp Read1 sample barcode then 8bp UMI); key resources lines769–777. Supplemental Figures/Tables PDF (Table S1, Methods S1) still PMC-gated on re-fetch.",
+      "oligo_scraper": "12 hits, all in the read Methods/key-resources passages (lines187,193,197,199,771); SBO family, RPIX, P5, Read1, I5 index primer verified; SBOC/bcP/InPE1/Tn5-ME oligos belong to SNuBar-ARC and in-house Tn5 variants.",
+      "findings": "Model correction: both final libraries were generic shells (ATAC: invented 8-nt i5 sample index with the cell barcode inside the insert; SBO: TruSeq Read1/dA/Read2 dual-index library). SBO library now assembled from printed oligos: P5 – 16bp cell barcode – CST complement (= custom Read1) – N18 – N8 – handle complement – RPIX arm – 6nt i7 – P7, with spiked custom Read1 and I5 index primers verified to land; ATAC branch puts the 16bp cell barcode in the i5 position with a single Chromium i7 index. Separation step names 1.2X AMPure (ATAC on beads, barcode supernatant to 1.8X). Derived: only the 3' 14 nt of the CST arm complement the Nextera S5 tail.",
+      "deferred": [
+        "Supplemental Figures and Tables PDF (Figure S1A, Table S1 sample barcodes, Methods S1) — PMC gate, manual URL https://pmc.ncbi.nlm.nih.gov/articles/instance/8611914/bin/NIHMS1745604-supplement-Supplemental_Figures_and_Tables.pdf",
+        "10x CG000168 Rev A / CG000209 Rev D guides (gel-bead oligo junctions around the 16bp cell barcode, Chromium i7 Set A length, SI-PCR Primer B)",
+        "SBO library Index 1 primer and acquired cycle counts (not found in inspected Methods)",
+        "SNuBar-ARC (SBOC/bcP/InPE1) branch not drawn",
+        "Author code https://github.com/navinlabcode/snubar_atac_scripts"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite (comment-only, no explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 6 oligo inputs without exact states; Markdown built/checked; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Obtained from the Cell Press publisher CDN (article is bronze OA): Document S1 mmc1.pdf (md5 c4498935...) Figure S1A text lines 28-88, caption 353, Table S1 lines 1896-2295, Methods S1 SNuBar-ATAC lines 2561-2777; Document S2 mmc3.pdf (version of record, md5 2eb70fb7...) STAR Methods lines 1672-1698, 1750-1751; Table S3 mmc2.csv header (motif results, not chemistry). Failed routes: Europe PMC supplementaryFiles (not OA), europepmc.org bin URL (403), PMC bin URL (404/gate).",
+      "oligo_scraper": "Bundle rerun: mmc1 52 hits (Figure S1A lines 28-88, SNuBar-ARC 1248-1315/2998, Table S1 family line 1904, Methods S1 2725-2776), mmc3 59 hits (same figures/tables plus STAR Methods), JATS 12; ATAC-relevant hits verified.",
+      "findings": "Model transcription error fixed: RPIX inner arm had an extra C (GTGACTGGAGTTC + handle); now derived from the printed RPIX primer (GTGACTGGAGTT). SBO 33-nt tail split per Table S1 caption into 19-bp universal sequence + 14-bp CST (CST = reverse complement of Nextera S5, now a construction assertion). Cell-barcode junctions (Figure S1A cell-barcode primer) and 8-bp ATAC i7 (Figure S1A, Methods S1) no longer inferred; run lengths R1 50/I1 8/I2 16/R2 50 declared (Methods S1 step 10). Page Highlights add ATAC SI-PCR (9-12 cycles, 0.4X/1.2X) and SBO PCR (KAPA, 8-10 cycles, 1.5X, 8:2 vs 4:1-20:1 mix). Page SourceDiscrepancy: Figure S1A final barcode library prints the 12 RPIX bases reversed vs the printed primer; model uses the primer. Table S1 all 96 rows conform to 21+8+18+33 nt.",
+      "deferred": [
+        "10x CG000168 Rev A / CG000209 Rev D guides (gel-bead oligo and Set A index identity, checked only via authors' Figure S1A)",
+        "SBO library Index 1 / Read 2 reads: no primer named in Methods S1; RPIX index 6 nt vs 8 Index 1 cycles",
+        "SNuBar-ARC (SBOC/bcP/InPE1) branch not drawn",
+        "Author code https://github.com/navinlabcode/snubar_atac_scripts",
+        "Second independent pass on Document S1/S2"
+      ],
+      "scope": "Capped defining-source pass with published supplements; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite (comment-only) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 checked, 0 failed, 6 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

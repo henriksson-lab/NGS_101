@@ -1,6 +1,6 @@
 {
   "dir": "cel-seq__10.1016+j.celrep.2012.08.003",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "paper",
@@ -20,7 +20,8 @@
         "date": "2026-10-16",
         "locations": "Author-uploaded original Cell Reports article text on ResearchGate, Results lines 265–299 and Supplementary Information pointer lines 1226–1234; local source-bundle scraper rerun but yielded only excluded upstream files",
         "finding": "Independently confirms cell-specific RT with T7, barcode and Illumina 5′ arm, second-strand synthesis before pooling and IVT, then RNA fragmentation, 3′ adapter ligation, RT and paired-end sequencing. Original article explicitly links a detailed 9-page supplement; its exact oligo inventory remains unread."
-      }
+      },
+      "locator_note": "2026-10-17: the publisher Document S1 (article plus Supplemental Information) is now also local as /husky/henriksson/NGS101_papers/sources/cel-seq__10.1016+j.celrep.2012.08.003/j.celrep.2012.08.003_mmc5.pdf(.txt) from the publisher CDN; earlier passes read the ResearchGate copy."
     },
     {
       "id": "later_celseq2",
@@ -44,11 +45,24 @@
     {
       "id": "original_supp",
       "role": "linked_material",
-      "locator": "CEL-Seq 2012 original supplementary protocol/oligo table",
-      "availability": "unavailable",
+      "locator": "Hashimshony et al. 2012 Cell Reports supplement mmc4 \"CEL-Seq Protocol\" (9 pages, 16 July 2012), publisher CDN https://ars.els-cdn.com/content/image/1-s2.0-S2211124712002288-mmc4.pdf, local /husky/henriksson/NGS101_papers/sources/cel-seq__10.1016+j.celrep.2012.08.003/j.celrep.2012.08.003_mmc4.pdf(.txt)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "The author-uploaded original paper is readable through ResearchGate, but its linked detailed 9-page original supplement is not available in the local source bundle or through the publisher route, so its oligo inventory cannot be checked.",
-      "discovered_from": "paper"
+      "discovered_from": "paper",
+      "previous_state": "unavailable: The author-uploaded original paper is readable through ResearchGate, but its linked detailed 9-page original supplement is not available in the local source bundle or through the publisher route, so its oligo inventory cannot be checked.",
+      "previous_locator": "CEL-Seq 2012 original supplementary protocol/oligo table",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "j.celrep.2012.08.003_mmc4.pdf detailed \"CEL-Seq Protocol\" (16 July 2012) .txt whole: reagents, 40 RT primers lines 46-85, RT/second strand/IVT/fragmentation, phosphatase/PNK/RA3 ligation/RTP RT/RP1+RPIX PCR, clean-ups; mmc5 Supplemental Information list lines 450-525; bounded check round 2026-10-17-deferred-followup-02",
+        "finding": "Detailed 2012 protocol prints all 40 RT primers (spacer + T7 + Illumina 5-prime small-RNA adapter arm + 8-nt barcode + T24V, minimum pairwise Hamming distance 2). Library reagents RA3, RTP, RP1 and RPIX come from the TruSeq Small RNA kit RS-200-0012 and their bases are not printed."
+      },
+      "pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/cel-seq__10.1016+j.celrep.2012.08.003/j.celrep.2012.08.003_mmc4.pdf (9 pages; matches the article's 9-page detailed protocol) .txt lines 1-90 (title/author/date, reagents, primer design, primers #1-#40) and the library steps lines 255-430 (phosphatase, PNK, RNeasy clean-up, RA3 ligation with T4 RNA ligase 2 truncated, RTP RT, RP1/RPIX PCR 12 cycles, AMPure); /husky/henriksson/NGS101_papers/sources/cel-seq__10.1016+j.celrep.2012.08.003/j.celrep.2012.08.003_mmc5.pdf.txt lines 505-530 (accession and Supplemental Information statement). Computed over the 40 printed primers: one common 59-nt prefix CGATTGAGGCCGGTAATACGACTCACTATAGGGGTTCAGAGTTCTACAGTCCGACGATC, 40 distinct 8-nt barcodes, common T24V tail, minimum Hamming distance 2.",
+        "finding": "Agree with pass 1. mmc5 says the Supplemental Information includes \"detailed protocol of the CEL-Seq method\"; mmc4 is that 9-page protocol (Hashimshony, Technion, 16 July 2012). It prints the 40 RT primers in full; RA3, RTP, RP1, RPIX, PML, HML and STP are taken \"from Illumina kit\" and line 28 states \"RNA RT primer, RNA PCR primers (sequences available from Illumina)\". No outer-arm or sequencing-primer bases are printed."
+      }
     },
     {
       "id": "illumina_oligos",
@@ -89,8 +103,60 @@
     {
       "claim": "Original CEL-Seq kit outer arms and sequencing-primer sites are unpublished.",
       "disposition": "blocked",
-      "evidence": "Two independent reads of the original article establish reaction order but not exact oligos. The original detailed supplement is unavailable and could print the requested arms or primer sites."
+      "evidence": "Two independent reads of the original article establish reaction order but not exact oligos. The original detailed supplement is unavailable and could print the requested arms or primer sites.",
+      "evidence_update": "2026-10-17: the detailed 2012 protocol (mmc4) is now read by two readers; it prints the 40 RT primers but delegates RA3/RTP/RP1/RPIX to the Illumina TruSeq Small RNA kit (\"sequences available from Illumina\"). The claim stays blocked until the 2012-era TruSeq Small RNA kit guide (RS-200-0012) is checked."
     }
   ],
-  "conclusion": "The original 2012 article has two independent reads and establishes reaction order, but its linked detailed supplement remains unavailable. Exact original oligo and sequencing-primer absence cannot be accepted."
+  "conclusion": "The original 2012 article has two independent reads and establishes reaction order, but its linked detailed supplement remains unavailable. Exact original oligo and sequencing-primer absence cannot be accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Defining Cell Reports 2012 article (doi:10.1016/j.celrep.2012.08.003) not readable this pass: get_sources (manual row), Europe PMC (PMID 22939981, no PMC full text), cell.com PDF and ResearchGate page both HTTP 403; no local copy. Cross-checked in CEL-Seq2 PMC4848782 package: Additional file 5 Table S2 lines 1-21 (CEL-Seq design) and JATS Results (primer 92->82 nt, MessageAmp II/columns, ligation-based library) and Methods (CEL-Seq+UMI baseline).",
+      "oligo_scraper": "CEL-Seq bundle holds only excluded upstream/scg_adapters files; CEL-Seq2 bundle scraper run, Table S2 CEL-Seq hit (MOESM5 lines 5-7, 24 T + V) checked against the model's CEL-Seq RT primer.",
+      "findings": "No schematic change. Model CEL-Seq RT primer (13-nt flank, T7, full RA5, 8-nt barcode, T24V) matches Table S2. CEL-Seq2 Results ascribes part of the 92->82 nt shortening to the T7 promoter; printed designs keep the 20-nt promoter core and shrink only the 5' flank (recorded in note as derived). Note corrected: stale source-directory path, notes-only status sentence and absent html/zip file names; ref/MANIFEST.md added with manual re-obtaining instructions.",
+      "deferred": [
+        "CEL-Seq 2012 Cell Reports article (manual: https://doi.org/10.1016/j.celrep.2012.08.003; earlier passes cite a ResearchGate copy, now 403)",
+        "CEL-Seq 2012 Supplemental extended protocol: 8-nt barcode list, RA3 adapter/ligase/fragmentation, PCR cycles, read lengths",
+        "MessageAmp II kit original (RT, second strand, IVT, column clean-ups)",
+        "Illumina TruSeq Small RNA kit revision used in 2012"
+      ],
+      "scope": "Capped pass without the defining original; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (0 explicit checks; import-time primer assembly); page builds; pairing 0 problems; chemistry 0 established/3 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 1 input without exact state (rt_primer), 0 failed; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining originals obtained from the publisher supplement CDN (OA, CC BY-NC-ND): j.celrep.2012.08.003_mmc5.pdf (article plus Supplemental Information) .txt lines 1-120 (Summary, Results/Fig. 1), 385-410 (Discussion), 450-525 (Experimental Procedures, SRA SRP014672, SI list), 586-603 (Extended Experimental Procedures); j.celrep.2012.08.003_mmc4.pdf detailed 'CEL-Seq Protocol' (16 July 2012) .txt whole (reagents, 40 RT primers lines 46-85, RT/second strand/IVT/fragmentation, phosphatase/PNK/RA3 ligation/RTP RT/RP1+RPIX PCR, clean-ups). Routes tried: get_sources (manual), PMC idconv/Europe PMC (no PMC record), Unpaywall/OpenAlex (gold OA; cell.com and ScienceDirect PDF routes return 403 challenge pages, not followed), Elsevier API (metadata only without key), GEO search (no series).",
+      "oligo_scraper": "Bundle scraper run: mmc4 40-primer family lines 46-85 (variable nt 60-67); computed check: all 40 equal CEL1_SPACER+T7+CEL1_RA5+8-nt barcode+T24V, 40 distinct barcodes, minimum Hamming distance 2 as stated.",
+      "findings": "Model RT primer matches all 40 printed primers (no base change). Page preamble now cites the 2012 protocol for primer design; caveat names TruSeq Small RNA kit RS-200-0012 reagents RA3/RTP/RP1/RPIX whose bases the protocol does not print. Graph gains Antarctic phosphatase and T4 PNK+ATP steps before ligation and names RA3 (1:5), T4 RNA ligase 2 truncated 28 C 1 h, SuperScript II RT 50 C 1 h, RP1/RPIX, PML 12 cycles (11-15). Read table gives published lengths (Read 1 >=15, Read 2 50, index when needed). Note sections 2.1, 3.3, 5, 6 and new section 9 updated; ref/MANIFEST.md gives the CDN URLs. Article 'directional RNA protocol' vs protocol 'TruSeq small RNA kit' recorded as two descriptions of one kit procedure, not a published conflict.",
+      "deferred": [
+        "Illumina TruSeq Small RNA Sample Prep kit guide revision current in 2012 (RS-200-0012): RA3/RTP/RP1/RPIX bases and RA3 end modifications",
+        "MessageAmp II aRNA kit manual (AM1751)",
+        "source_checklist original_supp row still needs an independent second reader before its availability changes"
+      ],
+      "scope": "Capped pass with the defining article and detailed protocol read; library outer arms remain unpublished placeholders; no accepted missing-information claim.",
+      "verification": "local suite passes (0 explicit checks; import-time primer assembly); page builds; pairing 0 problems; chemistry 0 established/3 conditional/11 unresolved/0 contradictory (10 steps); source guard 0 exact checked, 1 input without exact state (rt_primer from shared barcoded_ivt_front), 0 failed; Markdown built; review schema (audit --check) pass; dependent CEL-Seq2 suite (3 checks) and page pass"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "/husky/henriksson/NGS101_papers/sources/cel-seq__10.1016+j.celrep.2012.08.003/j.celrep.2012.08.003_mmc4.pdf.txt lines 1-90, 255-430; j.celrep.2012.08.003_mmc5.pdf.txt lines 505-530; computed checks over the 40 printed primers",
+      "findings": "Second independent reading of the detailed 2012 protocol first read in follow-up 02. original_supp moved from unavailable to read (pass_1 root, pass_2 this reader); both agree it prints the 40 RT primers and no Illumina kit arm or sequencing-primer bases. Missing claim and linked information stay blocked pending the TruSeq Small RNA kit guide.",
+      "deferred": [
+        "Illumina TruSeq Small RNA Sample Prep kit guide (RS-200-0012, 2012 revision)",
+        "MessageAmp II aRNA kit manual (AM1751)",
+        "catalogue/extra_sources.tsv pdf: rows for mmc4/mmc5 (another package owns that file)"
+      ],
+      "scope": "Second-reader re-adjudication of the original_supp row only; no accepted missing-information claim.",
+      "verification": "audit_protocol_sources --check passes"
+    }
+  ],
+  "conclusion_update": "2026-10-17 (agent-K-second-reader): the detailed 9-page supplement (mmc4) is now retrieved from the publisher CDN and read by two readers. Review status changed from blocked to in_progress: the supplement barrier is resolved and the remaining action is ordinary retrieval and reading of the 2012 TruSeq Small RNA kit guide. The conclusion above is kept as the earlier state."
 }

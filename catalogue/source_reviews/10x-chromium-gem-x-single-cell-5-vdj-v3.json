@@ -64,5 +64,24 @@
       "evidence": "CG000734 Rev A lines 651–725 and 3334–3417 specify eight v2 Mix 1/2 PN identifiers; original CG000331 Rev E Appendix lines 6848–6996 prints the forward and all outer/inner reverse sequences under those same PNs. The shared research note transcribes the members. This establishes published identities for the named kits, not transcript-coordinate mapping or lot-specific composition."
     }
   ],
-  "conclusion": "Two independent source readings agree: the v3 guide names the same v2-labelled enrichment Mix part numbers for which the predecessor vendor guide publishes primer members. The prior unavailable-member claim is resolved. The v3 guide independently specifies N16/N12 gel-bead and V(D)J dual-index library architecture; sequence-to-transcript coordinates remain outside the published guide."
+  "conclusion": "Two independent source readings agree: the v3 guide names the same v2-labelled enrichment Mix part numbers for which the predecessor vendor guide publishes primer members. The prior unavailable-member claim is resolved. The v3 guide independently specifies N16/N12 gel-bead and V(D)J dual-index library architecture; sequence-to-transcript coordinates remain outside the published guide.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "10x CG000734 Rev A (scg-mirrored vendor PDF, sources/10x-chromium-single-cell-5-vdj/; md5 f5842b7c): kit tables pp.8-9 (layout text), overview pp.17-20 text lines1040-1130 plus rendered figures pp.18/20, sequencing pp.97-98 lines5885-5985, Appendix pp.111-112 lines6520-6566 and image-only p.113 rendered; CG000331 Rev E Appendix pp.72-74 lines6770-6996 for PN-2000007/2000089 and pool comparison",
+      "oligo_scraper": "Scraper on CG000734 text: 9 hits, all Appendix pp.111-112 gel-bead primer and Sample Index PCR products; p.113 is a single JPEG with no extracted text and zero hits, inspected by rendering.",
+      "findings": "CG000734 p.113 itself prints the V(D)J forward primer and all 46 Mix 1/2 v2 outer/inner reverse primers, each matching CG000331 Rev E pp.73-74 (earlier passes said the v3 appendix omitted them); page and PCR statement now cite p.113. Kit tables: Poly-dT RT Primer B PN-2001110 (v2 PN-2000007) and cDNA Primers PN-2000089 (same as v2). Model correction: the RT primer is now an inferred region (v2 PN-2000007 sequence) with preamble caveat and INFERRED caption; cDNA PCR statement corrected from 'CG000734 prints' to PN-2000089 sequences printed in CG000331 Rev E p.72; index-PCR statement corrected to product-derived primer ends. Read 1 28/i7 10/i5 10/Read 2 90 confirmed (p.98).",
+      "deferred": [
+        "Poly-dT RT Primer B PN-2001110 sequence",
+        "Silane and SPRIselect cleanups and cDNA size split not drawn as graph steps",
+        "Dual Index Kit TT Set A primer original (3' primer ends derived from product)",
+        "CSP and 5' GEX branches outside this schematic"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 1 established/1 conditional/12 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 11 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

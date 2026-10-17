@@ -186,5 +186,24 @@
       "evidence": "The defining 2020 article points to its own Table S1/S2, which are not yet local; the 2021 author protocol supplies later tables, but exact source-version equality is unproven."
     }
   ],
-  "conclusion": "Independent second pass confirmed 2020 workflow and 2021 author oligos, with splint pairing checked. Exact 2020-vs-2021 table identity and vendor kit internals remain blocked by unavailable originals."
+  "conclusion": "Independent second pass confirmed 2020 workflow and 2021 author oligos, with splint pairing checked. Exact 2020-vs-2021 table identity and vendor kit internals remain blocked by unavailable originals.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Cell 2020 author manuscript PMC7736559 JATS Results lines98,106; STAR Methods lines194 (Tables S1-S3 pointer), 214-236 (ADT staining, flow-A RT, flow-B ligation, Proteinase K lysis/C1 streptavidin, TSO/Kapa PCR, AMPure/Nextera XT/HiSeq 4000 100x100, ADT P5-cite PCR), 252-254 (Read 2 -> UMI/Barcode A/Barcode B; Read 1 mapped); STAR Protocols 2021 PMC8132129 JATS steps60-67 (library preparation) and Table S2 workbook mmc2 (PCR Oligos lines3-14, Barcode A line17ff, Barcode B line68ff)",
+      "oligo_scraper": "Bundle scraper run; hits are STAR Table S2 Primer1/2/3, ligation linker, TSO, P5, P5-cite, P7 701-706, Barcode A/B families and Table S1 TotalSeq-A ADT barcodes; all used oligos verified in mmc2.xlsx.txt.",
+      "findings": "Model corrections: final mRNA library reversed so the Barcode B handle is the P7/Read 2 end (published indexed P7 oligos end ...AGACAG+CAAGCGTTGGCTTCTCGCATCT; Cell Methods extract UMI/A/B from Read 2), READ_USES swapped (Read 1 include, Read 2 extract), construction check ties the B-handle/ME end to P7-701; first-strand 3' end now carries the TSO complement instead of the Primer 2 sense sequence; graph adds Proteinase K lysis/PMSF condition, C1 beads, Kapa 5-cycle + qPCR preamp, Amplicon Tagment Mix, P5/B-handle P7 index primers (12 cycles) and rewords the tagmentation off-product as not physically separated. Page caveat states the model correction, fixed i5 TAGATCGC drawn as generic window, ADT branch not drawn.",
+      "deferred": [
+        "Cell 2020 Tables S2/S3 workbooks (NIHMS1645400-supplement-10.xlsx etc.; PMC download gate, manual URLs in MANIFEST.tsv): 2020-vs-2021 oligo identity and 2020 index primers",
+        "ADT branch library (P5-cite PCR) not drawn",
+        "Index-read cycles not stated (8/8 kept from oligo index lengths)",
+        "bioRxiv 788992v2 preprint not re-read (superseded)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 98/98 pass; page build pass; pairing 0 problems; chemistry 2 established/0 conditional/9 unresolved/0 contradictory; source guard 5 exact checked, 0 failed, 4 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

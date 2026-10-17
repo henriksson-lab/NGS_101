@@ -16,5 +16,7 @@ if have(c, paper, label="source transcription of sc-end5 RT primers"):
     c("random RT primer appears in original Methods", chem.RANDOM_RT_PRIMER in methods)
     c("dT primer handle appears in original Methods", chem.RT_HANDLE + "–" in methods)
     c("dT(30)-VN shorthand appears in original Methods", "T(30)–VN" in methods)
+    c("13-nt TS-oligo analysis sequence appears in original Methods",
+      "(" + chem.TS_OLIGO_ANALYSIS_3PRIME + ")" in methods)
 chem.protocol_graph()
 c.report()

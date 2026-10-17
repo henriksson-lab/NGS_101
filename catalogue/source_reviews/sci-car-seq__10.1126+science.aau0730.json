@@ -1,6 +1,6 @@
 {
   "dir": "sci-car-seq__10.1126+science.aau0730",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "cao2018",
@@ -24,18 +24,31 @@
     {
       "id": "cao2018_methods",
       "role": "supplement",
-      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6571013/bin/NIHMS1033869-supplement-1.pdf; original supplementary Materials and Methods",
-      "availability": "unavailable",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6571013/bin/NIHMS1033869-supplement-1.pdf; original supplementary Materials and Methods; local science.aau0730_supp_NIHMS1033869-supplement-1.pdf (.txt twin), hand-downloaded by the maintainer 2026-10-17 (MANIFEST row, md5 ec585510effb7c57b8a1068ec8b8dc95)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "PMC download gate / curl error 6; online PDF link was not accessible through web tool."
+      "previous_reason": "PMC download gate / curl error 6 (through 2026-10-17 deferred-followup-02)",
+      "pass_1": {
+        "reviewer": "root-worker-deferred-followup-03",
+        "date": "2026-10-17",
+        "locations": "Materials and Methods: 'Sample processing for cultured cells' text twin lines 62-243 (rendered pp. 16-18, PDF pages 1-3, checked for numbers lost in justified lines), 'Mouse kidney nuclei extraction and fixation' and 'Sample processing with fixed nuclei' lines 245-310; legends of Tables S1-S13 lines 1425-1610; scrape_primers (4 oligos: lines 88, 168, 178, 218)",
+        "finding": "Identity: Cao 2018 sci-CAR supplement (A549 DEX, HEK293T/NIH3T3, mouse kidney; Figs S1-S14 'sci-CAR'). Prints the RT primer ACGACGCTCTTCCGATCT-N8-[10bp index]-T30VN, 'indexed TDE1 enzyme (Illumina)' without transposon bases, 'i7 only TDE1' (25 nM) for cDNA, RNA P5-[i5]-TruSeq Read 1 / ATAC P5-[i5]-TCGTCGGCAGCGTC / P7-[i7]-S7 primers, conditions, 18-22 cycles, cleanups and RNA 18/52/10/10 cycles; ATAC PE51 with index reads covering Tn5 and PCR barcodes using custom recipe/primers 'as previously described in (29)' (Cusanovich 2018 Nature). No barcode lists printed."
+      }
     },
     {
       "id": "cao2018_table",
       "role": "supplement",
-      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6571013/bin/NIHMS1033869-supplement-Supplimentary_table.xlsx; original supplementary table",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "reason": "PMC download gate / curl error 6; online workbook link was not accessible through web tool."
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6571013/bin/NIHMS1033869-supplement-Supplimentary_table.xlsx; original supplementary table; local science.aau0730_supp_NIHMS1033869-supplement-Supplimentary_table.xlsx (.txt twin), hand-downloaded 2026-10-17 (md5 d6f552111c9a03323ec70551adb2ea85)",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Workbook sheets Table S1-S13 are throughput, differential expression/accessibility, TF activity and cis-regulatory link results; no oligo or barcode table (searched for P5, P7, S5, ME and RT-arm sequences: 0 hits).",
+      "previous_reason": "PMC download gate / curl error 6 (through 2026-10-17 deferred-followup-02); previously described in ledgers as the 'oligo workbook'",
+      "pass_1": {
+        "reviewer": "root-worker-deferred-followup-03",
+        "date": "2026-10-17",
+        "locations": "'## sheet' headers and first rows of all 13 sheets in the 21 MB text twin (lines 1, 11, 14156, 55332, 69477, 75538, 75632, 76450, 94314, 112178, 112526, 117549, 118551); grep for adapter/primer sequences",
+        "finding": "Correct Cao 2018 supplementary workbook (Table S1 lists 'sci-ATAC/RNA-seq (this study) 2018 ... 16058'); analysis tables only; not chemistry-relevant."
+      }
     },
     {
       "id": "amini2014",
@@ -113,6 +126,15 @@
         "locations": "Original Amini Nat Genet 2014 corrected MOESM2 XLSX text lines 1–31, Correction Notice and Oligonucleotide_Seuqneces sheet; source bundle scraper",
         "finding": "The publisher correction notice says its first five rows were missing originally and were restored 20 May 2015. The corrected table prints five initial P5_i5 transferred-strand Tn5 oligos, further P5_i5/P7_i7 variants, custom Read 1/2 and Index 1 sequencing primers, plus pMENTS. It establishes the Amini source oligos, but does not identify which members sci-CAR-seq used."
       }
+    },
+    {
+      "id": "cusanovich2018",
+      "role": "linked_material",
+      "discovered_from": "cao2018_methods",
+      "locator": "Cusanovich et al. 2018 Nature 555:538-542 doi:10.1038/nature25981 PMC5866720 (sci-CAR ref 29), cited in SM p. 18 for the ATAC custom sequencing recipe and primers",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Not in the source bundle and not fetched this pass (three-original cap); open PMC copy expected, so a later get_sources/extra_sources row should retrieve it."
     }
   ],
   "linked_information": {
@@ -134,8 +156,79 @@
     {
       "claim": "Exact RT primers, ATAC transposome adapters, indexes and sequencing primer sites are absent from published sci-CAR sources",
       "disposition": "blocked",
-      "evidence": "The main article does not print ordered bases, but its original supplementary Methods and workbook are unavailable; it directly cites molecular-method predecessors that remain to be read."
+      "evidence": "The main article does not print ordered bases, but its original supplementary Methods and workbook are unavailable; it directly cites molecular-method predecessors that remain to be read. 2026-10-17 (deferred-followup-03): the SM is now read and prints the RT primer and P5/P7 PCR primers with bracketed index placeholders; it delegates ATAC sequencing primers to ref 29 (Cusanovich 2018, unread) and prints no barcode lists or transposon bases; the workbook is not an oligo table. Claim stays blocked (not confirmed absent)."
     }
   ],
-  "conclusion": "First pass read the original main article and three credited predecessor main articles. Original sci-CAR supplements and predecessor oligo tables remain unresolved, so no absence claim is accepted."
+  "conclusion": "First pass read the original main article and three credited predecessor main articles. Original sci-CAR supplements and predecessor oligo tables remain unresolved, so no absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Science PMC6571013 JATS (author manuscript) lines 78 (eight-stage workflow), 126-140 (supplement links; line 140 transposase complexes 'described in (7)'), 475 (Fig. 1 legend read coverage); Amini 2014 PMC4409979 JATS Online Methods lines 116-126 (indexed transposome assembly, transposition, SDS, PCR indexing); Amini publisher Supplementary Table 4 (MOESM2 xlsx, sci-atac-seq-family bundle) correction notice and oligo rows P5_i5_1-8, P7_i7_1-12, Read 1/Read 2/Index 1 primers, pMENTS. Cao supplementary Methods PDF and oligo workbook NIHMS1033869 still PMC-gated (manual URLs in MANIFEST, re-fetch 2026-10-17 refused).",
+      "oligo_scraper": "Scraper run on the refreshed sci-CAR bundle (article plus Amini, Cusanovich 2015 and Cao 2017 JATS): 0 sequences; Amini Table 4 rows read directly in the family bundle.",
+      "findings": "Model correction against Fig. 1 legend: PCR-well index moved from inside Read 1/Read 2 to i5 and i7 (both features of the second-round cell barcode, line 78), RT barcode and UMI in Read 1, cDNA in Read 2; ATAC Tn5 barcodes moved into the index reads with genomic DNA only in Read 1/2. RNA cDNA end no longer a TruSeq dA-ligation adapter: unindexed-Tn5 ME/S7 end (inferred). ATAC transposons follow the Amini Table 4 architecture with custom extended-mosaic-end primers, all inferred and justified only by line 140; selftest checks the architecture against Amini rows. Removed unsourced 25/50 and 50/50 read lengths. Preamble caveat and INFERRED final-library captions describe the inferred segments.",
+      "deferred": [
+        "Cao 2018 supplementary Materials and Methods PDF NIHMS1033869-supplement-1.pdf (PMC gate)",
+        "Cao 2018 supplementary oligo table NIHMS1033869-supplement-Supplimentary_table.xlsx (PMC gate)",
+        "Cao 2017 sci-RNA-seq predecessor supplement (RT primer, second-strand and PCR primers)",
+        "Barcode/UMI/PCR-index lengths, UMI vs RT-barcode order and sequencing cycles",
+        "Whether sci-CAR used Amini Table 4 transposon members or a new design"
+      ],
+      "scope": "Capped defining-source pass only; defining Methods supplement unavailable, so partial (deferred); no accepted missing-information claim.",
+      "verification": "selftest 6 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 checked, 0 failed, 7 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Routes for gated Cao 2018 SM PDF + oligo xlsx (NIHMS1033869): PMC instance URLs (download gate, HTML 'Preparing to download'), Europe PMC REST supplementaryFiles ('not open access'), science.org/doi/suppl (Cloudflare 403), OpenAlex open locations (PMC author manuscript only). Read instead: GEO GSE117089 family metadata (geo-GSE117089-all-full.txt, author-deposited data accession cited by the article) sample extraction protocol line 344488 (GSM3271040; identical text GSM3271041-45, truncated by GEO after 'mRNA Second Strand S'); Cao 2018 PMC6571013 JATS line 78 re-checked for step order.",
+      "oligo_scraper": "--find on the refreshed bundle: ACGACGCTCTTCCGATCT 12 exact hits, all GEO sample-protocol lines (2 per sample); RT, RNA/ATAC P5 and P7 primers read in the GEO text.",
+      "findings": "GEO text gives RT primer ACGACGCTCTTCCGATCT-N8-[10bp index]-T30VN (SuperScript IV), indexed TDE1 tagmentation, 25 nuclei/well sort, NEB mRNA second-strand module (no added primer), 'i7 only TDE1' cDNA tagmentation, RNA P5 P5-[i5]-TruSeq Read 1 / ATAC P5 P5-[i5]-TCGTCGGCAGCGTC / P7 CAAGCAGAAGACGGCATACGAGAT-[i7]-GTCTCGTGGGCTCGG, RNA cycles 18/52/10/10, ATAC 51 bp paired. Model: Read 1 arm, 8-N UMI before 10-bp RT index, S5/S7 no longer inferred; RT primer input carries the GEO construct; spurious second-strand primer input removed; read lengths declared; caveat/captions cite GEO scope; selftest adds GEO transcription checks. Still inferred: cDNA-end ME, PCR-index lengths, ATAC transposon interior (Amini), ATAC index cycles.",
+      "deferred": [
+        "Cao 2018 supplementary Materials and Methods PDF NIHMS1033869-supplement-1.pdf (manual: https://pmc.ncbi.nlm.nih.gov/articles/instance/6571013/bin/NIHMS1033869-supplement-1.pdf; PMC gate)",
+        "Cao 2018 oligo workbook NIHMS1033869-supplement-Supplimentary_table.xlsx (manual: https://pmc.ncbi.nlm.nih.gov/articles/instance/6571013/bin/NIHMS1033869-supplement-Supplimentary_table.xlsx; PMC gate)",
+        "Remainder of GEO protocol text after GEO truncation",
+        "Whether the GEO protocol text equals the published supplement",
+        "sci-CAR Tn5 oligo members vs Amini Table 4; PCR-index lengths; ATAC index cycles",
+        "Cao 2017 sci-RNA-seq predecessor supplement"
+      ],
+      "scope": "Capped follow-up; defining SM and oligo workbook still unavailable, so partial (deferred); GEO used as an author-deposited, provenance-labelled source; no accepted missing-information claim.",
+      "verification": "selftest 13 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory (8 steps); source guard 0 checked, 0 failed, 6 inputs without exact states; Markdown built; audit --check pass (blocked 1)"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root-worker-deferred-followup-03",
+      "date": "2026-10-17",
+      "documents": 3,
+      "scope": "Hand-placed Cao 2018 SM PDF and supplementary workbook identity-checked and read; model, page and note now cite the published SM instead of GEO.",
+      "locations": "NIHMS1033869-supplement-1.pdf.txt lines 62-310 (cultured-cell and fixed-nuclei processing; rendered pp. 16-18), 1425-1610 (Table S1-S13 legends); workbook sheet headers of Tables S1-S13 (21 MB twin searched, not read whole); PMC6571013 JATS lines 78, 140, 475 and reference 29 (lines 345-347) re-checked",
+      "oligo_scraper": "scrape_primers on the SM text twin: 4 oligos (RT primer line 88, P7 line 168 also 219/224/302, RNA P5 line 178, ATAC P5 line 218 also 235/301), all transcribed and matching the model; workbook grep for P5/P7/S5/ME/RT-arm: 0 hits",
+      "findings": "Both hand-placed files are the correct Cao 2018 sci-CAR supplements; the workbook holds analysis tables S1-S13, not oligos. SM agrees with the earlier GEO text on primers, enzymes and cycles and adds: RT/tagmentation volumes and gradient, DAPI singlet-gated FACS 25 nuclei/well, Zymo DNA binding buffer + 24 uL AMPure cleanup and 6+6 uL split (replacing a 'lyse and split' step), RNA SDS/BSA/P7 55 C 15 min then Tween/P5 PCR 18-22 cycles 66 C, 0.8x AMPure; ATAC PCR 72 C 3 min, 18-22 cycles 63 C, 1x AMPure + >200 bp gel extraction; ATAC PE51 custom recipe/primers per ref 29; fixed-kidney variant reverse-crosslinks after sorting and does second strand only on the RNA portion (stated, not drawn). Three discard reasons implying physical removal reworded to computed fates; cleanup supernatant added as physical waste.",
+      "deferred": [
+        "Cusanovich 2018 Nature (ref 29, PMC5866720): ATAC custom sequencing primers and index-read cycles",
+        "Barcode lists for RT, Tn5 and PCR plates (not in SM or workbook)",
+        "'i7 only TDE1' adaptor bases (ME assumed) and indexed-TDE1 transposon interior (Amini architecture, inferred)",
+        "PCR-index lengths (drawn 10 nt; RNA run reads 10+10 index cycles)",
+        "Fixed-nuclei variant graph (stated on page, not drawn)"
+      ],
+      "verification": "selftest 13 checks pass; build_page writes sci-car-seq.html; lint_pairing 0 problems; check_chemistry 8 steps established=0/conditional=0/unresolved=10/contradictory=0; source guard 1 exact checked, 0 failed, 5 inputs without exact states; build_docs note and ref/MANIFEST rebuilt; audit_protocol_sources --check pass"
+    },
+    {
+      "round": "critical-rereview-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "scope": "Critical diff review; focused source cross-checks and model consistency, not a new complete source audit.",
+      "locations": "Local tagmentation-to-PCR declarations and terminal-fate audit; no new reaction-source assertion.",
+      "findings": "DNA and RNA tagmentation end-class candidates remain unresolved. Missing intended library ends does not establish failure to amplify or a physical separation.",
+      "deferred": [
+        "Previous linked-source deferrals and independent absence-audit requirements remain open."
+      ],
+      "verification": "Applicable protocol suite, page build, source guard and scoped chemistry passed (zero contradictions); review schema passed. Shared 1275 and source fetcher 226 checks pass. Whole-site verification is recorded in HANDOVER-REVIEW.md.",
+      "documents": 0
+    }
+  ],
+  "conclusion_update": "2026-10-17 (deferred-followup-03): the defining supplementary Materials and Methods and the supplementary workbook are now on disk and read once (rows cao2018_methods, cao2018_table). Reaction order, conditions, printed primers and the RNA read recipe come from the SM; the workbook is not an oligo table. Status in_progress: rows need an independent second reader, and ref 29 (Cusanovich 2018) is a newly linked unread source for the ATAC sequencing primers."
 }

@@ -378,5 +378,25 @@
     "date": "2026-10-16",
     "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
     "finding": "Explicit Nature PDF returned HTML, but Institute of Semiconductors public library download yielded the original five-page publisher PDF with correct title/DOI metadata. Source now available pending independent reading; later detailed protocol main remains unavailable."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Faridani 2016 Nat Biotechnol original PDF (download.pdf.txt) Online Methods lines 810-885 (oligos pointer, library preparation, sequencing, read processing); 2016 Supplementary Information MOESM4 Supplementary Table 2 lines 6060-6331 (3'/5' adaptors, RT primer, mask, RP1, INDEX-RPI1-48); Hagemann-Jensen 2018 Nat Protoc PDF Reagent setup lines 642-684, Steps 10-16 lines 817-960, Steps 36-38 lines 1280-1292; 2018 Supplementary Table 1 (MOESM1) SR001 rows lines 48/112/177",
+      "oligo_scraper": "Run on 2016 MOESM4 and 2018 protocol text: RA3 rApp/ddC, RA5 NH2 RNA with rH8+rCrA, RTP biotin/3' rA, 76-nt mask (3' biotin; TEG-biotin in 2016), RP1 and the 48-member INDEX-RPI family verified against the source lines.",
+      "findings": "No chemistry change. 2016 and 2018 oligo bases/modifications agree (2016 labels the mask -TEG-biotin); 2016 uses 48 six-base INDEX-RPI primers sharing the SRX GTGACTGGAGTT link and RTP foot, 43- or 51-bp single reads, Zymo DCC-5 pooling/purification without described size selection - recorded on the page and note as published-version differences. Model step order, enzymes, temperatures and PCR conditions match 2018 Steps 10-16/24/31. Sequencing plan and page now state that Read 1 uses the Step 38 51-bp minimum and that the 8-cycle Index 1 length is the SRX barcode length, not a printed acquired index-cycle count.",
+      "deferred": [
+        "Hafner2011/Munafo2010 ligation supplements (access barriers recorded earlier)",
+        "Landgraf2007 supplementary procedure (PMC download gate)",
+        "Instrument-specific loaded Read 1/Index primer identity and acquired index cycles",
+        "5.8S mask target coordinates against a source-owned rRNA reference",
+        "2016 Supplementary Fig. 1 schematic and Supplementary Table 3 sequencing statistics"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 213/213 pass; page builds; pairing 0 problems; chemistry 3 established/0 conditional/9 unresolved/0 contradictory; source guard 1 exact checked (SRX SR001), 0 failed, 5 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

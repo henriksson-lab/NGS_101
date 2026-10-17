@@ -289,5 +289,25 @@
         "finding": "Followed CG000748, CG00053, CG000479 and CG000396 named by defining guide, plus predecessor CG000109 to CG000086 and official TT Set A index table. CG000748 links feature-barcoding/VDJ/multiplex variants; these do not define this gene-expression-only construct. Exact v3 RT Primer B identity is not established by predecessor documents. Independent linked-information pass remains open."
       }
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "CG000733 Rev A (md5 24fd663b; CG000733_RevA.pdf.txt) kit contents lines280–360, Introduction lines920–1010 (13-nt bead TSO, poly(dT) primers in Master Mix, cDNA PCR on common 5'/3' ends), §1.5 GEM-RT lines2268–2310, §2.2–2.3 lines2780–2960, Step5 §5.1–5.7 lines4767–5697, Step6 run parameters lines5227–5340, appendix lines5880–5892",
+      "oligo_scraper": "Bundle scraper run on the defining guide; hits are the appendix bead TSO and V(D)J/GEX final libraries. No Poly-dT RT Primer B, Ligation Mix or TT oligo bases in CG000733.",
+      "findings": "Bead TSO (13 nt after UMI), final GEX library and 28/10/10/90 run parameters confirmed. Added Recovery Agent/oil-phase removal, Dynabeads cleanup, SPRIselect 0.6X cDNA cleanup, double-sided 0.6X/0.8X after fragmentation and after SI PCR with discarded fractions, 0.8X post-ligation cleanup; fragmentation and ER/A-tailing corrected to one Fragmentation Mix on 25% of cDNA; labels carry 12–17 cDNA cycles, ligation 20°C 15min, SI PCR 5–16 cycles; sequenced product is the size-selected library. V(D)J Steps 3–4 left to the separate VDJ page.",
+      "deferred": [
+        "Poly-dT RT Primer B PN-2001110 bases and length",
+        "Ligation Mix PN-2001109 strands and ligating ends",
+        "Dual Index TT Set A physical PCR oligos",
+        "Current-kit identity of cDNA Primers PN-2000089 (catalog-linked to CG000331 Rev E)",
+        "CG000396, CG000479, CG00053, CG000748, CG000791, CG000086/CG000109 predecessors not re-read this pass"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 4/4 pass (bead oligo + final library vs CG000733 Rev A appendix; PN-2000089 primers vs predecessor); page builds; pairing 0 problems; chemistry 0 established/0 conditional/16 unresolved/0 contradictory; source guard 2 exact checked (PN-2000089 fwd/rev), 0 failed, 4 inputs without exact states (tso placeholder, read2_adapter, index_forward, index_reverse); Markdown built; review schema (audit --check) pass"
+    }
   ]
 }

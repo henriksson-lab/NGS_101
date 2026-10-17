@@ -99,5 +99,24 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Official SQK-ULK114 Rev Q and July 2026 chemistry document have two located readings. RA top strand and enzyme-free attachment to FRA transposase tags are source-printed; exact tag bases, joining geometry and full motor-bearing complex remain unresolved. Linked upstream NEB T3060 extraction manual and downstream ONT flow-cell wash guide now each have two independent reads; neither defines those kit-14 molecular details. No missing claim is accepted; status remains blocked."
+  "conclusion": "Official SQK-ULK114 Rev Q and July 2026 chemistry document have two located readings. RA top strand and enzyme-free attachment to FRA transposase tags are source-printed; exact tag bases, joining geometry and full motor-bearing complex remain unresolved. Linked upstream NEB T3060 extraction manual and downstream ONT flow-cell wash guide now each have two independent reads; neither defines those kit-14 molecular details. No missing claim is accepted; status remains blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "ONT SQK-ULK114 protocol ULK_9177_v114_revQ_06Nov2025 ultra-long-dna-sequencing-kit-sqk-ulk114.html.txt lines164–297 (identity, workflow), 1166–1290 (FRA:FDB 6:244, 250 µl into 750 µl DNA, RT10/75 °C10/ice≥10 min, 5 µl RA 30 min RT), 1291–1403 (PS + 500 µl PTB, 20 min rotation, supernatant removal, 300 µl EB ≥12 h), 1453–1480 (SBU/LSU loading mix); Chemistry Technical Document CHTD_500_v1_revAV_24July2026 lines248–251, 379–423, 2068–2087 (RA top strand), 2120–2126",
+      "oligo_scraper": "Scraper run on bundle: protocol 0 hits; CHTD hits are native/rapid barcode tables and section15 adapters; RA top strand verified at line2085.",
+      "findings": "Model corrections: endpoint no longer places the published RA strand covalently 5′ of the FRA tag with an attachment junction (unverified geometry); RA strand now a local source-checked graph input state (moved off shared nanopore_library import, per chemistry_decoupling migration); FDB and EB added as condition inputs; tagmentation off-products changed from discard to unresolved carried fate (precipitation is not adapter-selective); recovery step relabelled as cleanup with aspirated-supernatant discard; selftest replaced constant restatement with source-text transcription checks; caveat no longer implies vendor absence. Note records the unnamed-enzyme ice note and loading mix.",
+      "deferred": [
+        "FRA tag bases and attachment-end chemistry (open model data)",
+        "Complete motor-bearing RA assembly and the enzyme the ice step protects",
+        "uHMW extraction (NEB T3060 / EEB) and SBU/LSU loading not modelled as graph steps",
+        "Reloading/flow-cell wash section not re-read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 8/8 pass (RA strand, FRA:FDB dilution, tagmentation programme, RA minutes from source text); page builds; pairing 0 problems; chemistry 0 established/0 conditional/3 unresolved/0 contradictory; source guard 1 exact checked (RA top strand), 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

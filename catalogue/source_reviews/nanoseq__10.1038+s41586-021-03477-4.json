@@ -60,5 +60,26 @@
       "evidence": "Relevant original supplementary Notes and Table 3 are unavailable; first pass cannot validate their contents."
     }
   ],
-  "conclusion": "Relevant original supplementary Notes and Table 3 are unavailable; first pass cannot validate their contents."
+  "conclusion": "Relevant original supplementary Notes and Table 3 are unavailable; first pass cannot validate their contents.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Accepted author manuscript (Apollo 1810/319175, md5 a9e0e4a8 re-verified against repository URL) author_manuscript.pdf.txt Results264-279, Methods BotSeqS/NanoSeq/Mung Bean library prep 1268-1369, DNA quantification/dilution/PCR 1370-1386 and 1461-1464, read processing 1590-1622; published Supplementary Information MOESM1 Notes 2 (63-74), 3 (76-110), 4 (111-128); MOESM3 sheet SupTable3 restriction enzymes (lines157-175). Published article text not available (manual row, doi.org/10.1038/s41586-021-03477-4).",
+      "oligo_scraper": "Bundle scraper run after fetching the four Springer supplements; MOESM3 hits are Supplementary Table 6 indel alleles, not oligos. NanoqPCR1/NanoqPCR2 read directly in author-manuscript line1373 (scraper does not surface the AM line).",
+      "findings": "Replaced the 'restrictive end repair' step (not a source operation) with the source workflow: 50:50 AMPure binding, on-bead HpyCH4V (TG^CA, blunt 5'-CA ends) 37C 15min, 2.5x AMPure, Klenow exo- A-tailing with equimolar dATP/ddBTPs 37C 30min, xGen Duplex Seq Adapter (IDT 1080799) T4 ligation 20C 20min, 1x AMPure, KAPA qPCR with NanoqPCR1/2 on 1:500 aliquot, dilution bottleneck (~0.3 fmol, r_opt 5.1), NEBNext Ultra II Q5 PCR with unprinted UDI primers (10-16 cycles), 2x0.7x AMPure, 150PE. Added ddBTP-terminated nick-extension candidate off-product with unresolved (not physically removed, unamplifiable) fate. Known cohesive ligation geometry: dA tail vs adapter NNN-T 3' overhang (AM 'T is the adapter overhang'). Final library now NNN UMI(A)-T-CA..TG-A-nnn UMI(B) with umi features; TruSeq-type shell, P5/P7 and 8-nt indices marked inferred (qPCR primers match TruSeq Read1/Read2 arm bases) with page caveat; spacer base not drawn. Removed the unused parallel spec workflow. AM 'Supplementary Note 3' vs published Note 4 for ddBTPs recorded as version numbering, not a discrepancy. Added AM row to external MANIFEST.tsv.",
+      "deferred": [
+        "Published Nature article text (paywalled; Methods not compared with author manuscript)",
+        "Lensing et al. Protocol Exchange pex-1298 (adapter/UDI details)",
+        "IDT xGen Duplex Seq Adapter strands, modifications and spacer design",
+        "UDI PCR primer sequences and index lengths",
+        "BotSeqS, Mung Bean and no-ddBTP variants not drawn",
+        "Peer review file MOESM4 not read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (comment-only, construction enforced); page builds; pairing 0 problems; chemistry 0 established/8 conditional/12 unresolved/0 contradictory; source guard 2 checked (NanoqPCR1/2) 2 FAILED because the author manuscript is excluded by the locator filter (needs extra_sources row), 1 input without exact state; Markdown built; review schema check pass"
+    }
+  ]
 }

@@ -367,7 +367,7 @@ def protocol_graph():
         library=final,primers=(SEQ_PRIMERS[0], SEQ_PRIMERS[3]),
         acquired_roles=("Read 1", "Index 1 (i7)"),
         read_lengths={"Read 1":READ_LEN, "Index 1 (i7)":SRX_INDEX_NT},
-        limitation="The model establishes the SRX index geometry and the UMI-first Read 1 entry site; it does not identify the loaded instrument Read 1 oligo."))
+        limitation="The model establishes the SRX index geometry and the UMI-first Read 1 entry site; it does not identify the loaded instrument Read 1 oligo. Read 1 uses the Step 38 minimum of 51 cycles (\"51 bp or longer\"); the Index 1 length is the 8-nt SRX barcode length from Supplementary Table 1, not a printed acquired index-cycle count."))
     graph.declare_reviewed_scope(("single_cell_rna","rrna_mask","mask_rrna","ra3","rnl2",
       "ligate_3p","rtp","deadenylase","deadenylate","lambda_exonuclease",
       "digest_free_adapter","ra5","rnl1","ligate_5p","reverse_transcriptase",

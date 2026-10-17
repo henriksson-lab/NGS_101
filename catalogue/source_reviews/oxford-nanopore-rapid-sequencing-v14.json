@@ -678,5 +678,25 @@
       "evidence": "Only the RA-labelled strand is assigned locally. LA/NA bottom geometry is not transferred, and the role-level endpoint does not claim this assembly.",
       "disposition": "unresolved_model_data"
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "ONT SQK-RAD114 protocol RSE_9177_v114_revQ_12Dec2025 rapid-sequencing-sqk-rad114.html.txt lines164–255 (identity), 255–293 (workflow), 341–350 (input DNA), 375–515 (kit contents, tagmentation, RA:ADB dilution, attachment); Chemistry Technical Document CHTD_500_v1_revAV_24July2026 lines248–251, 379–417 (rapid-based kits, no purification, FRA/RA roles), 2068–2087 (section15 RA top strand), 2120–2126 (FRA/RA/ADB reagent entries)",
+      "oligo_scraper": "Scraper run on protocol text: 0 sequence hits; CHTD hits are barcode/adapter tables; RA top strand verified at section15 line2085.",
+      "findings": "Verified fragmentation 10 µl DNA + 1 µl FRA, 30 °C 2 min/80 °C 2 min, ice; RA diluted 1.5 µl RA + 3.5 µl ADB, 1 µl added, 5 min RT; enzyme-free attachment per CHTD. Corrections: ADB added as attachment condition input (source-checked dilution in selftest); candidate unadapted tagmentation products changed from physical discard to unresolved carried fate because the protocol has no clean-up before loading (CHTD notes lack of purification and residual transposase); caveat and note updated. RA strand kept as separate source-printed input; endpoint stays role-level.",
+      "deferred": [
+        "FRA tag bases and attachment-end chemistry (open model data)",
+        "Complete motor-bearing RA assembly and physical junction",
+        "Flow-cell priming/loading (FCF, FCT, BSA, SB, LIB/LIS) not modelled as a graph step",
+        "Rapid PCR Barcoding SQK-RPB114.24 distinct-kit scope not re-read this pass",
+        "Earlier-read linked QC/wash/software originals not re-read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 8/8 pass (RA strand, fragmentation programme, attachment minutes, RA:ADB dilution from source text); page builds; pairing 0 problems; chemistry 0 established/0 conditional/2 unresolved/0 contradictory; source guard 1 exact checked (RA top strand), 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
   ]
 }

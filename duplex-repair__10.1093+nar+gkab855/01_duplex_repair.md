@@ -1,12 +1,14 @@
 # Duplex-Repair
 
-**Source.** Xiong et al., *Nucleic Acids Research* (2022), [doi:10.1093/nar/gkab855](https://doi.org/10.1093/nar/gkab855), PMCID PMC8755016; Methods and Supplementary Figures S2–S10.
+**Source.** Xiong et al., *Nucleic Acids Research* (2022), [doi:10.1093/nar/gkab855](https://doi.org/10.1093/nar/gkab855), PMCID PMC8755016; Methods and Supplementary Figures S2–S10. The bioRxiv preprint (10.1101/2021.05.21.445162) is superseded and is not used for active claims.
 
 - 🟢 Step 1 excises damaged bases and removes single-stranded overhangs with EndoIV, Fpg, UDG, T4 PDG, EndoVIII and ExoVII (37°C, 30 min).
 - 🟢 Step 2 adds T4 PNK and T4 DNA polymerase with ATP and all four dNTPs to blunt ends and fill only remaining short gaps and overhangs (37°C, 30 min).
-- 🟢 Step 3 seals nicks with HiFi Taq DNA ligase while the cycler ramps from 35°C to 65°C over 45 min.
+- 🟢 Step 3 seals nicks with HiFi Taq DNA ligase while the cycler ramps from 35°C to 65°C over 45 min. Steps 1–3 are one pot (each step's enzymes are spiked into the previous mix); the products are then purified with a 3X Ampure cleanup and eluted in 17 µL 10 mM Tris before step 4 (published Methods, Duplex-Repair workflow).
 - 🟢 Step 4 uses Klenow fragment (exo−) and Taq DNA polymerase with 0.2 mM dATP as the only nucleotide (room temperature 30 min, then 65°C 30 min). Restricting the nucleotide supply is what prevents templated extension during dA-tailing.
-- 🟢 T4 DNA ligase, 5′-deadenylase and 10% PEG 8000 attach custom dual-index duplex-UMI adapters; the products are PCR-amplified and were sequenced paired-end on HiSeq 2500 or HiSeq X.
+- 🟢 T4 DNA ligase (1000 U), 5′-deadenylase, 10% PEG 8000 and custom dual-index duplex-UMI adapters (IDT) are added to the step 4 mix (55 µL, room temperature 1 h); a 1.2X Ampure cleanup follows and the products are PCR-amplified.
+- 🟢 Clinical libraries (10–20 ng cfDNA or sheared FFPE/buffy-coat gDNA) then went through two rounds of hybrid selection with IDT's pan-cancer panel (xGen hybridization and wash kit, xGen Universal blockers), were amplified after the second round, and were sequenced on a HiSeq 2500 rapid run (100 bp paired-end) or HiSeq X (151 bp paired-end) (published Methods, Clinical specimens). The article does not state between-round handling or the post-capture PCR primers; these remain unassigned in the graph.
+- 🟢 Supplementary Figures S9–S10 legends: ligation to the NGS adapters adds 39–40 bp or 37–38 bp to the exposed 3′ and 5′ ends, because the unique molecular indices are 3 or 4 bp. This gives UMI lengths, not adapter bases; the schematic keeps the UMIs as unsized role segments.
 - 🟢 The paper describes the adapters by role but does not publish their base sequences. The schematic therefore stops at labelled adapter roles and does not invent sequencing-primer sites.
 - 🟢 Supplementary PDF, “Quantification of library conversion efficiency by ddPCR,” prints adapter-flank **assay** primers `CACTCTTTCCCTACACGACG` and `AGTTCAGACGTGTGCTCTTC`. These amplify doubly ligated products for QC; they do not disclose the complete custom dual-index duplex-UMI adapter molecules or the library-amplification primers. Supplementary Table S1's modified oligos are synthetic damage/repair substrates for capillary electrophoresis, not the ligated library adapters.
 

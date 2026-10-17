@@ -5,23 +5,45 @@
     {
       "id": "preprint",
       "role": "defining",
-      "locator": "Chen et al bioRxiv DOI:10.1101/2019.12.31.892190; 2019.12.31.892190.full.pdf",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "reason": "Original bioRxiv PDF is manual in MANIFEST and no article text is present locally.",
-      "pass_1": null,
-      "pass_2": null
+      "locator": "Chapman, Lee et al. bioRxiv DOI:10.1101/2019.12.31.892190 v1 (posted 2020-01-02); 2019.12.31.892190_v1.full.pdf(.txt)",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "bioRxiv v1 pdf.txt Methods lines 697-871, compared with PNAS PMC9907105 Methods lines 195-247 (supersession check only); recorded in bounded check round 2026-10-17-breadth-first-12",
+        "finding": "Same MALBAC-DT method and author group; superseded by the PNAS 2022 publication, which is the authority. Ordinary revision difference noted (preprint substitutes Ix-Tru2 for Nextera S5XX, published for S7XX); published value used."
+      },
+      "pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/malbac-dt__10.1101+2019.12.31.892190/2019.12.31.892190_v1.full.pdf.txt header and title/author block lines 1-25 and line 854; /husky/henriksson/NGS101_papers/sources/malbac-dt__10.1101+2019.12.31.892190/pnas.2206938119_PMC9907105.xml.txt front matter lines 1-40 and author list line 101.",
+        "finding": "Identity and supersession confirmed, chemistry not re-read (DESIGN.md superseded-preprint rule). bioRxiv 10.1101/2019.12.31.892190 v1 (posted 2 Jan 2020), \"Correlated Gene Modules Uncovered by Single-Cell Transcriptomics with High Detectability and Accuracy\", Chapman, Lee, Cai, Ma, Li, Sun, Xie; PNAS 10.1073/pnas.2206938119 (PMC9907105), \"Correlated gene modules uncovered by high-precision single-cell transcriptomics\", same seven authors in the same order. The published article is the active authority."
+      },
+      "previous_state": "available: Fetched by get_sources.py on 2026-10-17; superseded by the PNAS publication (published version is the authority). Read in the 2026-10-17 bounded pass only to confirm supersession; no independent two-pass review.",
+      "reason": "Superseded by the published PNAS 2022 article (row published_successor), which is the active authority; both readers checked identity and supersession only."
     },
     {
       "id": "published_successor",
       "role": "linked_material",
-      "locator": "Chapman et al. PNAS 2022 DOI:10.1073/pnas.2206938119, PMC9907105; linked successor of MALBAC-DT preprint",
-      "availability": "unavailable",
+      "locator": "Chapman et al. PNAS 119:e2206938119 (2022) DOI:10.1073/pnas.2206938119, PMC9907105; local /husky/henriksson/NGS101_papers/sources/malbac-dt__10.1101+2019.12.31.892190/pnas.2206938119_PMC9907105.xml(.txt), .pdf and SI Appendix pnas.2206938119_supp_pnas.2206938119.sapp.pdf(.txt)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Added pmccloud:PMC9907105 to catalogue/extra_sources.tsv and ran get_sources.py; PMC Cloud returned no files. DOI route reports publisher-only/manual, so article and SI remain unread.",
-      "pass_1": null,
-      "pass_2": null,
-      "discovered_from": "preprint"
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "PNAS PMC9907105 JATS Methods \"MALBAC-DT Protocol\" lines 195-247, \"Automated MALBAC-DT Protocol\" 249-251, \"Sequence Processing\" 257-259, Results 115-121, Fig. 1D legend 109; SI Appendix Tables S1-S3 lines 165-276; recorded in bounded check round 2026-10-17-breadth-first-12",
+        "finding": "Methods name RT-An, RT-Bn, GAT-7N, GAT-COM, Tru2-Gn-RT and Ix-Tru2 primers without sequences; SI Appendix holds performance and module tables only. Bundle scraper: 0 sequences."
+      },
+      "pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/malbac-dt__10.1101+2019.12.31.892190/pnas.2206938119_PMC9907105.xml.txt front matter lines 1-40, Methods lines 195-260 (MALBAC-DT Protocol including the thermocycle table, plate barcode layout paragraph, library preparation paragraph; Automated MALBAC-DT Protocol; 10x Genomics; start of Sequence Processing); /husky/henriksson/NGS101_papers/sources/malbac-dt__10.1101+2019.12.31.892190/pnas.2206938119_supp_pnas.2206938119.sapp.pdf.txt contents list lines 1-50 and Supplementary Table 1-3 headings (lines 166, 227, 276). Bundle scraper re-run: 0 sequences in 0 files.",
+        "finding": "Agree with pass 1. Primers are named only (RT-An / RT3-An, RT-Bn, GAT-7N, GAT-COM, Tru2-Gn-RT, Ix-Tru2, Nextera S7XX); the only sequence-pattern information is the (HBDV)5 RT-An and (VDBH)5 RT-Bn UMI patterns in Sequence Processing. The automated protocol defers details to ref. 33. SI Appendix contains Figures S1-S10 and three non-oligo tables (performance vs Smart-seq2, modified Smart-seq2, CGM functional enrichment)."
+      },
+      "discovered_from": "preprint",
+      "previous_state": "available: Fetched on 2026-10-17 from PMC Cloud through the doi:10.1073/pnas.2206938119 extra-source row (JATS XML, PDF, SI Appendix). Read in the 2026-10-17 bounded pass; not yet two independent passes.",
+      "previous_locator": "Chapman et al. PNAS 2022 DOI:10.1073/pnas.2206938119, PMC9907105; linked successor of MALBAC-DT preprint"
     },
     {
       "id": "malbac_predecessor",
@@ -63,8 +85,44 @@
     {
       "claim": "MALBAC-DT published primer and adapter identities cannot be audited until original preprint and PNAS successor are read",
       "disposition": "blocked",
-      "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
+      "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked.",
+      "evidence_update": "2026-10-17: the PNAS article and SI Appendix are now read by two readers and print primer names and UMI patterns but no primer sequences; the superseded preprint was checked for identity and supersession only. The claim stays blocked because the automated-protocol reference (ref. 33) is unresolved and the MALBAC RNA predecessor (ref. 22) is unread."
     }
   ],
-  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PNAS 2022 PMC9907105 JATS Methods 'MALBAC-DT Protocol' lines195–247, 'Automated MALBAC-DT Protocol' 249–251, 'Sequence Processing' 257–259, Results 115–121, Fig1D legend 109; SI Appendix pdf.txt Tables S1–S3 165–276 (performance/module tables only); bioRxiv v1 pdf.txt Methods 697–871 for supersession (Ix-Tru2 replaces S5XX in preprint vs S7XX published: revision change, published used)",
+      "oligo_scraper": "Bundle scraper run: 0 sequences in article, SI Appendix and preprint; Methods name RT-An, RT-Bn, GAT-7N, GAT-COM, Tru2-Gn-RT, Ix-Tru2 without sequences.",
+      "findings": "Citation corrected (Chapman, Lee et al., not Chen) and authority switched to the published PNAS article. Replaced symmetric Nextera endpoint with barcode/UMI after Read 1 by an asymmetric library: Nextera P5-i5-S5-ME / transcript cDNA / inferred poly(T), (HBDV)5 20-nt degenerate UMI, inner RT-An and outer Tru2-Gn-RT cell-barcode parts, Tru2 handle, Ix index, inferred P7; only Nextera Read 1 declared, custom Read 2 primer (automated plate) unavailable. Graph now has SSIV RT, Exo I digestion with RT-Bn (role unstated), GAT-7N/GAT-COM Deep Vent (exo-) MALBAC 10 looping cycles + PCR, Tru2-Gn-RT 5 cycles, 1 uL pooling + 0.8x AMPure (waste), Nextera/TruePrep tagmentation, S5XX + Ix-Tru2 PCR. First-strand cDNA drawn antisense with RT primer at 5' end.",
+      "deferred": [
+        "Oligo sequences for RT-An/RT-Bn/GAT-7N/GAT-COM/Tru2-Gn-RT/Ix-Tru2 and barcode lengths",
+        "Automated MALBAC-DT protocol reference (33) (reference list entry 33 is an unrelated p53 paper)",
+        "RT-Bn molecular role",
+        "'Goto 13 17x' total PCR cycle count; original-plate read lengths and index reads",
+        "Original MALBAC predecessor (Zong 2012) and MALBAC RNA predecessor (ref 22) not re-read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 7 oligo inputs without exact states (no sequences published); Markdown built/checked (01 note, ref/MANIFEST); review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "/husky/henriksson/NGS101_papers/sources/malbac-dt__10.1101+2019.12.31.892190/2019.12.31.892190_v1.full.pdf.txt lines 1-25, 854; pnas.2206938119_PMC9907105.xml.txt lines 1-40, 101, 195-260; SI Appendix lines 1-50, 166, 227, 276; scraper on the bundle",
+      "findings": "Second independent reading. published_successor moved from available to read (pass_1 root round 12, pass_2 this reader). preprint moved to read and not_relevant as a superseded preprint, with both readers checking identity and supersession only. Missing claim and linked information stay blocked; status stays in_progress.",
+      "deferred": [
+        "Automated MALBAC-DT protocol reference (ref. 33; listed reference appears unrelated)",
+        "MALBAC RNA predecessor (ref. 22)",
+        "Primer sequences for RT-An/RT-Bn/GAT-7N/GAT-COM/Tru2-Gn-RT/Ix-Tru2"
+      ],
+      "scope": "Second-reader re-adjudication of the preprint and published_successor rows; no accepted missing-information claim.",
+      "verification": "audit_protocol_sources --check passes"
+    }
+  ]
 }

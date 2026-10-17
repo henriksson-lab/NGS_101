@@ -141,5 +141,24 @@
       "evidence": "Original Cell JATS Methods lines 181-200 and reagent table lines 901-925 print them, including /5PS/ modifications and the U-containing BA(+). They are now on the public page."
     }
   ],
-  "conclusion": "Independent pass confirms 370-base source seed and /5PS/ gel oligos. Gu precursor uses different gel attachment; original Pixel supplements, Gu detailed SI and exact Nextera XT vendor guide remain blocked."
+  "conclusion": "Independent pass confirms 370-base source seed and /5PS/ gel oligos. Gu precursor uses different gel attachment; original Pixel supplements, Gu detailed SI and exact Nextera XT vendor guide remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "NIH author manuscript PMC9691594 (PMC Cloud JATS, licence TDM) .xml.txt STAR Methods lines184-200 (seed template), 208 (PS-BA grafting), 212 (stamp gel: Taq 74C, Bst 22 cycles, USER), 216 (stamping), 220 (post-stamp 20 cycles, TaqI), 234-242 (capture/RT, proteinase K, second strand, KOH, UMI extension, ExoI, cDNA PCR, Nextera XT with TruSeq libP5 + Nextera index primers), 268 (transcript mapping); Results146 (NovaSeq S4 cost only); Key Resources oligos lines901-925",
+      "oligo_scraper": "Bundle scraper run (19 hits, one file); every hit is a template segment (lines186-200) or Key Resources oligo (lines903-925); TruSeq sequencing primer line915 was missing from the page and added.",
+      "findings": "Corrected the final library: published index PCR uses TruSeq libP5 + Nextera i7 index primers, so the model is now a single-indexed TruSeq/Nextera hybrid P5-TruSeqR1-UMI7-T7 anchor-ATCT-barcode24-polony site-T19-cDNA-ME-S7-i7-P7 derived from the UMI primer and template (was dual-indexed Nextera with UMI after barcode). Removed untraceable PE150/NovaSeq read lengths. Graph now adds USER linearization, proteinase K cleanup, TSO-primer/Bst2.0 second strand, KOH elution, thermolabile ExoI (degraded in place, unresolved fate), named polymerases/conditions; exact states for UMI primer, TruSeq sequencing primer and TruSeq libP5. Model-correction notice on the page; i7 length shown as inferred placeholder.",
+      "deferred": [
+        "Publisher version of record (doi.org/10.1016/j.cell.2022.10.021, paywall) and NIHMS1846275 supplements 1-6 (PMC download gate)",
+        "GEO GSE186097 run metadata (read lengths, i7 length)",
+        "Identity of the cDNA-PCR 'TSO' primer (biotinylated TSO primer assumed by label only)",
+        "GitHub GuLABatUW/Pixel-seq read-structure code"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 2/2 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/18 unresolved/0 contradictory; source guard 3 exact checked (UMI primer, TruSeq sequencing primer, TruSeq libP5), 0 failed, 10 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

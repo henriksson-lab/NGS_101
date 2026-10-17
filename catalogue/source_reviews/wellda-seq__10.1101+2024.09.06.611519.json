@@ -43,11 +43,26 @@
     {
       "id": "published_version",
       "role": "linked_material",
-      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11418942/",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11418942/ = PMC preprint mirror of bioRxiv 10.1101/2024.09.06.611519 v1 (not a published version)",
       "availability": "unavailable",
-      "relevance": "relevant",
-      "reason": "Version-linked open article cited by note; methods and any publication-version supplements need independent comparison.",
-      "discovered_from": "preprint"
+      "relevance": "not_relevant",
+      "reason": "Identity correction (2026-10-17): NCBI esummary for PMC11418942 gives journal \"bioRxiv : the preprint server for biology\", PMID 39314325, DOI 10.1101/2024.09.06.611519, 2024 Sep 10, i.e. the same preprint already read in row preprint. No published version was found: Crossref relation for the preprint DOI is empty and the bioRxiv pubs API reports no published article (both queried 2026-10-17). Identity confirmed by two readers (identity_pass_1, identity_pass_2).",
+      "discovered_from": "preprint",
+      "previous_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11418942/",
+      "previous_relevance": "relevant",
+      "previous_reason": "Version-linked open article cited by note; methods and any publication-version supplements need independent comparison.",
+      "identity_pass_1": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "NCBI E-utilities esummary db=pmc id=11418942; Crossref works/10.1101/2024.09.06.611519 (title, relation, posted); bioRxiv API details and pubs endpoints for 10.1101/2024.09.06.611519",
+        "finding": "PMC11418942 is the PMC copy of the wellDA-seq bioRxiv preprint (same DOI, title \"Single cell genome and epigenome co-profiling reveals hardwiring and plasticity in breast cancer\", posted 10 Sep 2024, version 1 only). There is no separate published version to compare."
+      },
+      "identity_pass_2": {
+        "reviewer": "agent-P4-source-reviews",
+        "date": "2026-10-17",
+        "locations": "NCBI E-utilities esummary db=pmc id=11418942 (title, fulljournalname, pubdate, articleids); Crossref works/10.1101/2024.09.06.611519 (title, relation, posted, authors); bioRxiv API details and pubs endpoints for 10.1101/2024.09.06.611519; Europe PMC REST search (title phrase and 'wellDA-seq'); local 2024.09.06.611519_v1.full.pdf.txt header lines 1-9",
+        "finding": "Agree with identity_pass_1, checked independently. PMC11418942: title 'Single cell genome and epigenome co-profiling reveals hardwiring and plasticity in breast cancer', journal 'bioRxiv : the preprint server for biology', 2024 Sep 10, PMID 39314325, DOI 10.1101/2024.09.06.611519 - the same work, DOI and posting date as the local v1 PDF (Wang, Yan, Elgamal ... Navin). Crossref relation is empty; bioRxiv details lists only version 1 (published: NA) and the pubs endpoint reports no published version; Europe PMC finds only the preprint record PPR909096. So this row is a mirror of the preprint already read in row preprint, not a published version. Supersession does not apply: the bioRxiv v1 preprint remains the active authority. Chemistry not re-read."
+      }
     },
     {
       "id": "illumina_tn5",
@@ -81,5 +96,51 @@
       "evidence": "The source-positive preprint/supplement contradicts broad absence; exact well assignment and vendor DNA Tn5 require linked-source checks."
     }
   ],
-  "conclusion": "The source-positive preprint/supplement contradicts broad absence; exact well assignment and vendor DNA Tn5 require linked-source checks."
+  "conclusion": "The source-positive preprint/supplement contradicts broad absence; exact well assignment and vendor DNA Tn5 require linked-source checks.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-21",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "bioRxiv 10.1101/2024.09.06.611519 v1 full text (get_sources re-run 2026-10-17: no published version linked) Results overview lines113–131, Methods Tn5 transposome assembly + wellDA-seq procedure Steps1–3 lines816–911, Preprocessing lines926–929; supplement media-1 Extended Data Fig.1 text lines20–82 plus rendered page 2, Supplementary Table 5 (from line3384) and Table 6 (from line3868) primer families",
+      "oligo_scraper": "Bundle scraper run (49 TSV rows); DEpi_ME_t1/t2, ME reverse, Idx7/Idx5 verified in Methods; Table 5/6 families counted by flank regex: 72 ATAC-CB1, 72 ATAC-CB2, 72 DNA-CB1, 72 DNA-CB2, 11 DNA OUT_N7XX.",
+      "findings": "Replaced an unsupported role-level model (single indexed Tn5, 'separation' of tagged products from residual genome, strand-displacing WGA) with the source workflow: permeabilization; bulk Tn5-1 (DEpi_ME_t1/t2 + 5'-phos ME reverse on Diagenode Tagmentase, 37C 30min); ICELL8 dispensing with DAPI/CellSelect selection (rejected wells discarded); protease lysis 54.5C 30min/75.3C 15min; in-well Tn5-2 (Illumina TDE1 20034198); neutralization + 72.1C 8min gap fill; one 12-cycle four-primer on-chip barcoding PCR (ATAC/DNA S5XX + ATAC N7XX/DNA_IN_N7XX); collection + AMPure 1.5x; split 30ng aliquots; ATAC enrichment P5/P7 12 cycles and DNA enrichment P5/DNA_OUT_N7XX 7 cycles (exact PCR geometry), AMPure 1.2x. Exact ATAC and DNA final libraries and gap-filled states from Extended Data Fig.1 with combinatorial cell-barcode features; ATAC custom R1/R2/Idx7/Idx5 primers land (derived CB2 on Index1, CB1 on Index2); DNA sequencing kept as a limitation. Graph-owned published discrepancies: Methods 'Supplementary Table 4-5' vs supplement Tables 5/6; Extended Data Fig.1a drawn ATAC products carry ATCACG between ATAC_CB2 and P7 absent from Methods/Table 5 N7XX primers (model follows primers). Selftest now checks Methods oligo transcription and Table 5/6 family counts.",
+      "deferred": [
+        "Read lengths for both libraries and DNA-library sequencing primers/index-read cycles (DNA_CB2 + DNA_CB3 read)",
+        "DNA_CB3 role relative to CB1/CB2 well pair",
+        "Cross-modality hybrid and same-adapter (t1/t1, t2/t2) on-chip products not drawn",
+        "Illumina TDE1 20034198 vendor adapter original",
+        "Diagenode Tagmentase and ICELL8 cx/CellSelect vendor documents",
+        "Predecessor Navin-lab single-cell DNA pipeline (ref14) not read",
+        "Oligo graph inputs lack exact states for the source guard"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 10/10 pass; page builds; pairing 0 problems; chemistry 1 established/1 conditional/14 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 8 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 0,
+      "locations": "NCBI esummary PMC11418942; Crossref and bioRxiv API records for 10.1101/2024.09.06.611519",
+      "findings": "Identity correction of the published_version row: it named PMC11418942 as a published version, but that record mirrors the same bioRxiv preprint. Row relevance set to not_relevant with an identity pass by this reader; a second identity check is still needed. The preprint remains the defining and only version.",
+      "deferred": [
+        "Second reader for the published_version identity correction",
+        "Illumina 20034198 Tagment DNA TDE1 documentation"
+      ],
+      "scope": "Identity correction of one row; no source-content reading pass.",
+      "verification": "audit_protocol_sources --check passes"
+    },
+    {
+      "round": "2026-10-17-followup-P4-source-reviews",
+      "reviewer": "agent-P4-source-reviews",
+      "date": "2026-10-17",
+      "documents": 0,
+      "scope": "Second identity reader for row published_version only; no chemistry reading and no model change.",
+      "locations": "NCBI esummary PMC11418942; Crossref and bioRxiv API records for 10.1101/2024.09.06.611519; Europe PMC search; local preprint PDF header",
+      "findings": "PMC11418942 is the PMC mirror of the same bioRxiv v1 preprint; no published version exists as of 2026-10-17, so the preprint stays the active authority and the exclusion rests on identity, not supersession.",
+      "deferred": []
+    }
+  ]
 }

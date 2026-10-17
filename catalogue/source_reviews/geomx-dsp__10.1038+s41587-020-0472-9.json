@@ -6,17 +6,25 @@
       "id": "paper",
       "role": "defining",
       "locator": "doi:10.1038/s41587-020-0472-9",
-      "availability": "unavailable",
+      "availability": "read",
       "relevance": "relevant",
       "pass_1": null,
       "pass_2": null,
-      "reason": "Explicit Nature publisher HTML was fetched successfully, but downloaded page contains institutional-access/preview content rather than full Methods; generic DOI discovery limitation and publisher fulltext access barrier are distinct. Defining full text remains uninspected.",
+      "reason": "Publisher PDF (version of record) hand-downloaded by the maintainer on the institutional network 2026-10-17 and placed as s41587-020-0472-9.pdf; read in one capped single-reader pass (deferred-followup-03). Not an independent two-pass check.",
       "acquisition": {
-        "date": "2026-10-16",
-        "reviewer": "audit_rna_contacts_closeout",
-        "route": "Explicit https://www.nature.com/articles/s41587-020-0472-9",
-        "result": "Validated HTML landing/preview saved; not a recovered full article."
-      }
+        "date": "2026-10-17",
+        "reviewer": "maintainer (hand download); identity checked by root",
+        "route": "https://link.springer.com/content/pdf/10.1038/s41587-020-0472-9.pdf (institutional network)",
+        "result": "Valid 22-page publisher PDF; printed doi:10.1038/s41587-020-0472-9, title 'Multiplex digital spatial profiling of proteins and RNA in fixed tissue', Merritt...Beechem."
+      },
+      "earlier_acquisitions": [
+        {
+          "date": "2026-10-16",
+          "reviewer": "audit_rna_contacts_closeout",
+          "route": "Explicit https://www.nature.com/articles/s41587-020-0472-9",
+          "result": "Validated HTML landing/preview saved; not a recovered full article."
+        }
+      ]
     },
     {
       "id": "preprint",
@@ -114,5 +122,60 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Vendor guide supplies read roles and cycles; full published article and exact probe chemistry remain blocked."
+  "conclusion": "Vendor guide supplies read roles and cycles; published Methods read in a single capped pass (2026-10-17) and agree on PCR, differ on run length (shown on page). Proprietary tag/primer bases and the two-pass gate remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "NanoString MAN-10153-01 (April 2022) GeoMx DSP NGS Readout User Manual pdf.txt lines555–660 (introduction; Figure 2 inspected as rendered p.12; Table 1 i5 orientation), 1100–1460 (dry-down/rehydration Table 5, PCR setup Tables 6–7, pooling and two AMPure cleanups, Table 8), 1599–1607 (run lengths); Nature HTML s41587-020-0472-9 (abstract/preview only, line679 paywall notice); Springer MOESM1 Supplementary Information legends and MOESM2 Reporting Summary headings",
+      "oligo_scraper": "Bundle scraper run: 0 sequences in 0 files; no tag, SPR or Seq Code bases printed in inspected originals (not an absence claim).",
+      "findings": "Figure 2 verified from the rendered page: photocleaved DNA oligos SPR1 20/UMI+RTS 26/SPR2 20; PCR product P5 29, i5 8, SPR1 33, UMI 14, RTS ID 12, SPR2 34, i7 8, P7 24 — matches the declaration. Added the graph dry-down (65 °C 1 h or overnight) and rehydration step (Table 5: 10 µL RNA / 80 µL protein); PCR input renamed to the GeoMx 5X PCR Master Mix with the Table 6 37 °C 30 min UDG incubation and 50 °C 10 min deactivation; cleanup label now states 4 µL per-well pooling and two 1.2× AMPure XP cleanups. Note corrected: defining article Methods are paywalled and uninspected (only abstract/supplementary legends read).",
+      "deferred": [
+        "Published Merritt 2020 Methods (paywalled; manual URL https://www.nature.com/articles/s41587-020-0472-9)",
+        "bioRxiv 559021v2 preprint NGS Methods (not used for page facts)",
+        "5X PCR Master Mix composition and UDG substrate",
+        "Proprietary SPR1/SPR2, RTS-ID, Seq Code primer and UDI bases",
+        "NTC/positive-control QC branches not drawn"
+      ],
+      "scope": "Capped defining-source pass only; defining article only partially readable; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2/2 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 checked, 0 failed, 0 inputs without exact states (no exact oligos; proprietary bases); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Access routes for Merritt 2020 (doi:10.1038/s41587-020-0472-9): OpenAlex/Unpaywall closed, no repository copy; Europe PMC PMID 32393914, no PMCID (no PMC/PMC Cloud manuscript); web search found only bioRxiv 559021 v1/v2. Read as labelled lead only: bioRxiv 559021v2 pdf.txt lines 854-865 (NGS readout for photocleaved oligo counting).",
+      "oligo_scraper": "Not re-run on new material (no new originals obtained); prior bundle run 0 sequences.",
+      "findings": "Published Methods still unobtainable. Preprint lead agrees with MAN-10153-01 PCR (4 uL aspirate, UDG 37 C 30 min/50 C 10 min, 18 cycles, two 1.2x AMPure) but reports prototype MiSeq 2x75 vs manual 2x27; not used for page facts (superseded preprint, omission unverifiable). Note updated with routes and lead; page unchanged.",
+      "deferred": [
+        "Published Merritt 2020 Methods (paywalled; manual URL https://www.nature.com/articles/s41587-020-0472-9)",
+        "Whether published Methods run length matches preprint 2x75 or commercial 2x27",
+        "5X PCR Master Mix composition and UDG substrate",
+        "Proprietary SPR1/SPR2, RTS-ID, Seq Code primer and UDI bases",
+        "NTC/positive-control QC branches not drawn"
+      ],
+      "scope": "Deferred follow-up access pass; defining article Methods still unread; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2/2 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 checked, 0 failed, 0 inputs without exact states (proprietary bases); Markdown built; review schema checked"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Merritt2020 publisher PDF s41587-020-0472-9.pdf.txt (identity verified: printed DOI, title, authors): main-text NGS paragraph lines2178-2191, Fig.6 legend 2704-2718; Online Methods RNA probe design 3402-3406, RNA ISH sample prep 3407-3433, nCounter hybridization 3434-3440, 'Next-generation sequencing readout for photocleaved oligonucleotide counting' 3526-3545.",
+      "oligo_scraper": "Bundle scraper rerun including the new PDF twin: 0 sequences.",
+      "findings": "Published Methods agree with MAN-10153-01 PCR (4 uL aspirate, 1 uM i5/i7, 1x NSTG PCR Master Mix, 37C 30min, 50C 10min, 95C 3min, 18x(95/65/68C), 68C 5min, two 1.2x AMPure XP); graph unchanged. RNA probe 5'->3' target-complementary 35-50 nt / IDT iSpPC / indexing oligo (PCR sites, UMI, per-tile barcode), consistent with model. Published runs MiSeq 2x75 or NextSeq 2x37 vs manual 2x27: added graph-owned SourceDiscrepancy (model keeps commercial 2x27+8+8); sequencing intro points to it. Note sources section and new pass section updated.",
+      "deferred": [
+        "NSTG/5X PCR Master Mix composition and UDG substrate",
+        "Proprietary SPR1/SPR2, RTS-ID, Seq Code primer and UDI bases",
+        "Article index-read lengths and prototype arm lengths vs commercial SPR1/SPR2",
+        "NTC/positive-control QC branches not drawn"
+      ],
+      "scope": "Capped deferred follow-up; defining published Methods now read by one reader. No full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2/2 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 checked, 0 failed, 0 inputs without exact states (proprietary bases); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

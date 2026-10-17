@@ -28,7 +28,7 @@ constant or a transcription from the authors' own supplementary tables and detai
 | P5-Read1 enrichment primer: `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT` | 🟢 verbatim | **Author protocols.io procedure, reagent setup p. 29**, “Enrichment primers”; local PDF text line 1420 |
 | P7-Read2 enrichment primer: `CAAGCAGAAGACGGCATACGAGATGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT` | 🟢 verbatim | **Author protocols.io procedure, reagent setup p. 29**, “Enrichment primers”; local PDF text line 1421 |
 | read design `3I.4P.50M` / `7W.8R.5I` | 🟢 verbatim | MARS-seq2.0 Supplementary Information (`MOESM1`), pipeline `seq_batches.txt` field description |
-| MARS-seq (v1) RT1, ligation adapters `lig_NNNX4_ix1..8`, second RT primer `TCTAGCCTTCTCGCAGCACATC`, `P5_Rd1 PCR`, `P7_Rd2 PCR` | 🟢 verbatim | **Jaitin *et al.* 2014, *Science* 343:776, Supplementary Material**, Tables S7–S8 — the predecessor this protocol versions |
+| MARS-seq (v1) RT1, ligation adapters `lig_NNNX4_ix1..8`, second RT primer `TCTAGCCTTCTCGCAGCACATC`, `P5_Rd1 PCR`, `P7_Rd2 PCR` | 🟢 verbatim | **Jaitin *et al.* 2014, *Science* 343:776, Supplementary Material**, Tables S7–S8 — the predecessor this protocol versions; not used by the 2.0 graph. The printed v1 RT2 is the exact reversal of the 2.0 RT2 (an apparent 3′→5′ listing, shown on the 2014 page) |
 | P5, P7, TruSeq Read 1 / Read 2 arms | 🟢 canonical | `lib/illumina.py` (Illumina adapter document), imported, never retyped |
 
 Supplementary Tables 1 and 2 are the publisher's own ESM files
@@ -57,3 +57,30 @@ template is derived from the published RT2 and RT1 handles, and both enrichment 
 are checked for inward-facing annealing before the full library is drawn. The authors do
 not separately name the instrument sequencing-primer oligos; TruSeq read primer landing
 sites are computed from the published library flanks.
+
+## Bounded pass 2026-10-17 (round 12): author procedure Steps 31–80
+
+Read in the protocols.io PDF text (its Steps, Box 1 and Reagent setup follow the
+*Nature Protocols* numbering; the paywalled journal original itself was not compared):
+
+- 🟢 Steps 29–35: RT 2 min 42 °C, 50 min 50 °C, 5 min 85 °C; Exo I added to each
+  384-well (30 min 37 °C, 10 min 80 °C) **before** the two-step robotic pooling
+  (Steps 36–39) and 0.9× AMPure cleanup (Step 40, QC1). The graph's Exo I-then-pool
+  order already matched.
+- 🟢 Steps 42–49: second strand (NEBNext module, enzyme 1:8, 2 h 16 °C), 1.4× AMPure
+  with IVT on beads, T7 IVT overnight 37 °C, Turbo DNase I 15 min 37 °C, 1.2× AMPure.
+- 🟢 Steps 51–55: Zn²⁺ fragmentation 3 min 70 °C (median ~300 nt), stop solution, 2× AMPure.
+- 🟢 Steps 56–61: plate adapter + RNA 3 min 70 °C, T4 RNA ligase 1 with DMSO, ATP and PEG,
+  2 h 22 °C, 1.5× AMPure.
+- 🟢 Steps 62–67: RT2 "complementary to the ligated adaptor" annealed 3 min 72 °C;
+  AffinityScript 2 min 42 °C, 50 min 45 °C, 5 min 85 °C; 1.5× AMPure, QC2.
+- 🟢 Steps 69–72: KAPA HiFi HotStart ReadyMix + enrichment primer mix; example 2 cycles
+  at 57 °C + 12 at 65 °C (typically 11–17); 0.7× AMPure, QC3.
+- 🟢 Steps 79–80: 20–40 plates per NextSeq 500 High Output v2 flow cell;
+  **rd1 = 75 bp, rd2 = 15 bp, no indices.**
+
+Model changes: named reagents/conditions on the fragmentation, ligation, RT2 and PCR
+inputs; acquired read lengths 75/15 declared in the sequencing plan; Read 2 drawn as
+well barcode + UMI only. The MOESM1 `seq_batches.txt` example (3I.4P.50M / 7W.8R.5I,
+57 + 20 cycles) is shown on the page as a different configuration, not the Step 80 run.
+The AMPure cleanups are not yet separate graph steps (deferred).

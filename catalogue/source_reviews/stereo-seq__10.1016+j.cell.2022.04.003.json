@@ -345,5 +345,25 @@
       "url": "https://www.repository.cam.ac.uk/server/api/core/bitstreams/1d4e7717-3e50-4448-8bda-a35871dfbfef",
       "result": "Candidate repositoryAPIroute404; originalentry andpublishedPDF readable through registeredroutes."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Cell 2022 PDF (Cambridge repository download.pdf.txt) Key Resources oligo table lines 1365–1472; STAR Methods chip generation 1673–1684, tissue processing/in situ RT 1690–1708, amplification/library 1709–1725, raw-data processing 1748–1755; MOSTA stereo.seq.html primer table via selftest parser",
+      "oligo_scraper": "Bundle scraper output from earlier passes reused; Key Resources oligo1/oligo2/splint/CID primer/DNB F/R read directly in the published text lines 1365–1404.",
+      "findings": "Graph previously started from a pre-decoded DNB array. Added source-printed chip generation: oligo1 (25-nt CID) + 5′-phosphorylated oligo2 splint-ligated on splint oligo1 with T4 ligase 37 °C 2 h (known splinted geometry, Scene-paired), AMPure, 12-cycle PCR with DNB library F/R (exact computed primer landings; polymerase unnamed), warned MAGIC for RCA/loading per MGI DNBSEQ-Tx manual, SE25 CID decoding with CID sequencing primer abutting the CID. Capture step now carries methanol-fixed section and 0.1% pepsin/0.01 M HCl 37 °C 12 min permeabilization; final AMPure 0.6×/0.15×. Existing TTGAACT vs TTGNAACT and 22-nt vs 21T–V discrepancy notices retained.",
+      "deferred": [
+        "Published Table S1 (sample read lengths)",
+        "MGI DNBSEQ-Tx sequencer manual revision (DNB circularization/RCA/loading, base calling)",
+        "In-house Tn5 loading adapter and final library junction",
+        "Capture-oligo ligation strand/nick geometry on the RCA product",
+        "Chip PCR polymerase identity"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2/2 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/20 unresolved/0 contradictory with make_chip_dnbs and form_dnbs MAGIC warnings; source guard 8 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
   ]
 }

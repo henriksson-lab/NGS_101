@@ -113,7 +113,7 @@
       "id": "custom_index_table",
       "role": "predecessor",
       "discovered_from": "cutac_protocol",
-      "locator": "doi_10.1038+nature14590/nature14590_41586_2015_BFnature14590_MOESM36_ESM.xlsx",
+      "locator": "Buenrostro et al. Nature 2015 doi:10.1038/nature14590 Supplementary Table MOESM36; in-bundle cutac__10.7554+eLife.63274/41586_2015_BFnature14590_MOESM36_ESM.xlsx (declared in catalogue/extra_sources.tsv)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -127,7 +127,15 @@
         "date": "2026-10-16",
         "locations": "Original MOESM36 all rows6–97 and99–194; whole oligo strings parsed and first/last independently read",
         "finding": "92i5 and96i7 all match source P5/P7+8base index+24/22nt arms; i5 rowname direct, i7 rowname reverse-complement in physical primer. No source error inferred."
-      }
+      },
+      "additional_checks": [
+        {
+          "reviewer": "pkg2_followup",
+          "date": "2026-10-17",
+          "locations": "$CHEM_DATA/sources/cutac__10.7554+eLife.63274/MANIFEST.tsv MOESM36 row; md5 comparison with the former doi_10.1038+nature14590 copy",
+          "finding": "Identical copy (xlsx md5 ef73ec390f5db2cae54a6692184cb0e9; text twin md5 b6164110aa5ba605987833e3cfe763b7) is now held in this protocol's own source bundle through the catalogue/extra_sources.tsv media.springernature.com MOESM36 row (MANIFEST.tsv: 41586_2015_BFnature14590_MOESM36_ESM.xlsx). The out-of-bundle SOURCE_OLIGO_EXCEPTIONS were removed; the generic source-oligo guard and the local selftest now read the in-bundle text twin. Earlier passes apply unchanged to this byte-identical file."
+        }
+      ]
     },
     {
       "id": "dataset_workbook",
@@ -251,6 +259,26 @@
       "source": "Public study GEO GSE158327 and reporting-form workbook tab reference",
       "discovered_from": "reporting_form",
       "next_action": "Inspect public study metadata and reconcile the form's Unique datasets tab reference against actual workbook tabs; do not infer source equivalence or molecular absence from a reporting-form title."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published eLife.63274 v2 JATS key-resources lines296–300, CUT&Tag-direct and CUTAC Methods304–310, data processing317; protocols.io bmbfk2jn Version2 (Sep18 2020) pdf.txt title1–12, materials132–147, steps33–45 lines470–600; Buenrostro2015 MOESM36 xlsx.txt rows1–6, 95–100 (i5 arm S5+AGATGTGTAT, i7 arm S7+AGATGTG)",
+      "oligo_scraper": "Bundle scraper run; Tn5MErev/ME-A/ME-B hits in API29425 and 8yrhxv6 PDF verified as previously recorded; AGATCGGAAGAGC hits are cutadapt trimming parameters, not library oligos.",
+      "findings": "Confirmed low-salt TAPS/MgCl2 options, SDS release/Triton neutralization, non-hot-start NEBNext gap fill + 12-cycle PCR, custom Buenrostro primers and universal-or-barcoded i5; i5 annealing arm length (S5+ME[:10]) matches MOESM36. Added the missing post-tagmentation TAPS/EDTA bead wash with discarded tagmentation liquid; release now acts on washed beads. Step/condition labels now carry source values (58°C SDS release, 58/72°C gap fill, 98/60°C cycling, 65 µL 1.3 vol SPRI, 20 µL Tris-EDTA elution). Note updated. No published discrepancy found.",
+      "deferred": [
+        "Commercial Epicypher pAG-Tn5 loaded adapter identity",
+        "Selected i5/i7 members, universal-i5 branch and acquired HiSeq2500 cycles",
+        "Per-experiment low-salt dilution/removal/post-wash/add-back variants not drawn separately",
+        "Nuclei preparation protocol bcuhiwt6 and Kaya-Okur2020 CUT&Tag-direct predecessor",
+        "Dataset workbook supp1 extraction-protocol names"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 5/5 pass; page builds; pairing 0 problems; chemistry 2 established/1 conditional/7 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 2 inputs without exact states (adapter pool excepted, covered by local API-cell checks); Markdown built; review schema checked"
     }
   ]
 }

@@ -18,8 +18,9 @@ def render():
       'published variable UMI and cell-subcode positions. Dots mark the four ligation '
       'junctions that produce the continuous reporter shown above the splint.'),
     table(("Round","Molecular content"),rows),
-    '<h2>Reaction workflow</h2>',protocol_graph_panels(M.protocol_graph(),cls="long"),
+    '<h2>Reaction workflow</h2>',protocol_graph_panels(M.protocol_graph(),cls="long",annotations=True),
     '<h2>Antibody reporter library</h2>',panel(duplex_rows(M.PROTEIN_LIBRARY),cls="long"),sp.section(M.PROTEIN_LIBRARY,M.PRIMERS),
     '<h2>Targeted-RNA library</h2>',panel(duplex_rows(M.RNA_LIBRARY),cls="long"),sp.section(M.RNA_LIBRARY,M.PRIMERS),
-    info('The source reports 151–258-base single- or paired-end runs. Read 1 traverses UMI, four cell subcodes, then antibody code or target cDNA; paired Read 2 approaches from the opposite adapter.'),'</div>'])
+    info('Index structure: the Methods name NEBNext E7600S (targeted-RNA PCR) and E7335 (protein-only PCR) primer sets. The vendor index layouts were not inspected in this pass, so both libraries are drawn with placeholder dual 8-nt indices; the acquired index cycles are not stated in the article.'),
+    info('The source reports 151–258-base single- or paired-end runs; paired reads were overlapped with FLASH. Read 1 traverses UMI, four cell subcodes, then antibody code or target cDNA; paired Read 2 approaches from the opposite adapter.'),'</div>'])
 if __name__=="__main__": OUT.write_text(render(),encoding="utf-8"); print(f"wrote {OUT}")

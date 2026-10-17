@@ -65,7 +65,9 @@ def grouped_fragments(label: str, *, copied: bool = False) -> Scene:
 def chia_drop_library():
     """Representative Chromium-v2 product; proprietary arms are marked inferred."""
     lib = Construct([
-        _seg("P5", il.P5, "p5", inferred=True),
+        # No i5 window: P5 and the Read 1 arm are one oligo, so their shared ACAC
+        # occurs once (canonical universal adapter, illumina.TRUSEQ_P5_FULL).
+        _seg("P5", il.TRUSEQ_P5_FULL[:-len(il.TRUSEQ_READ1)], "p5", inferred=True),
         _seg("Read 1 arm", il.TRUSEQ_READ1, "r1", inferred=True),
         _seg("16-nt GEM complex barcode", "B" * 16, "cbc", placeholder=True,
              feature=CHIA_COMPLEX),

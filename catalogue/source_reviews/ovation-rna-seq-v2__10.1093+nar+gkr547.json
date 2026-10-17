@@ -114,5 +114,26 @@
       "evidence": "Relevant source files and independent second pass remain outstanding."
     }
   ],
-  "conclusion": "Defining JATS and duplicate PDF each have two readers. Original describes SPIA and unspecified NEB downstream bar-coded adapter preparation, but the relevant supplement, V2 vendor guide, predecessors and exact NEB kit remain unavailable; no exact-oligo absence claim accepted."
+  "conclusion": "Defining JATS and duplicate PDF each have two readers. Original describes SPIA and unspecified NEB downstream bar-coded adapter preparation, but the relevant supplement, V2 vendor guide, predecessors and exact NEB kit remain unavailable; no exact-oligo absence claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published NAR PMC3185437 JATS Introduction line26 (Ovation summary), Methods cDNA synthesis line56, Library preparation line60, Sequencing line64, Results line108 (2x50 PE), refs8-9 lines228-234; Supplementary Material (Europe PMC zip member supp_gkr547_Sup_Mat_Transcriptome_analysis_R2_SPI_clean.docx, legacy Word .doc read via catdoc) SuppFigs1-6/Tables1-5 (mapping statistics only)",
+      "oligo_scraper": "Bundle scraper run on article JATS/PDF text and on the extracted supplement text: 0 sequence hits.",
+      "findings": "Removed unsupported chimeric DNA/RNA second-strand primer; second strand now heat partial RNA degradation plus unnamed DNA polymerase (Intro line26). Added RNAClean XP purification with waste, random-hexamer linear second-strand amplification after SPIA, Covaris S1 settings, 2.5% agarose 250-350 bp selection, end repair, dA-tailing, bar-coded NEB adapter ligation (unavailable geometry), automated purification, manual gel purification and 15-cycle PCR (unavailable primer geometry). First-strand primer relabelled random hexamers plus poly-T chimeric primer. Unpublished 8-nt index length removed; index read kept without length. Graph-owned discrepancy: Intro line26 heat/DNA polymerase vs Methods line56 'fragmentation of the mRNA template strand using RNA-dependant DNA polymerase'; model follows Intro. Highlight records undrawn unsheared/mixed branches and optional DNase treatment. Supplement contains no chemistry.",
+      "deferred": [
+        "NuGEN/Tecan Ovation RNA-Seq System V2 user guide M01206 (Tecan URL HTTP 400)",
+        "Kurn et al. 2005 Clin Chem SPIA predecessor (ref. 8, doi:10.1373/clinchem.2005.053694)",
+        "Dafforn et al. 2004 Biotechniques (ref. 9, doi:10.2144/04375PF01)",
+        "Unnamed NEB bar-coded adapter kit: adapter/index/PCR primer oligos, barcode position and index length",
+        "Order of manual gel purification relative to 15-cycle PCR",
+        "Unsheared/mixed library branches and SOLiD single-read branch not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory; source guard 0 exact checked, 0 failed (all oligo inputs inferred, no printed bases); Markdown built/checked; review schema checked"
+    }
+  ]
 }

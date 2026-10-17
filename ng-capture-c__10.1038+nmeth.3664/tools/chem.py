@@ -1,257 +1,214 @@
 
 from conformation_replication_specs import _three_c
-from conformation_replication_specs import AdapterLigationGeometry, Circular4CTemplate, CircularizationGeometry, Construct, Definition, InputRole, MaterialKind, PCRGeometry, ProtocolGraph, SequencingPlan, StepKind, da_tailed, inverse_pcr_product, molecule, multiway_contact, role, sp
+from protocol_graph import SourceClaim, SourceDiscrepancy
+from conformation_replication_specs import AdapterLigationGeometry, Construct, Definition, InputRole, MaterialKind, PCRGeometry, ProtocolGraph, SequencingPlan, StepKind, da_tailed, molecule, role, sp
 DEFINITION = Definition(
         "NG Capture-C — next-generation Capture-C", "10.1038/nmeth.3664",
         "Davies et al., Nature Methods (2016)",
-        "A sonicated, indexed 3C library undergoes two rounds of capture with biotinylated DNA oligos directed to selected restriction fragments.",
+        "A DpnII 3C library is sonicated, converted to an indexed TruSeq library and enriched by two sequential rounds of hybridization to 5′-biotinylated 120-nt oligos, streptavidin pull-down and PCR from the beads.",
         (role("captured viewpoint"), role("proximity-ligation junction"), role("reporter fragment")),
-        "Paired-end Illumina reads recover the viewpoint-containing end and its ligated reporter; random sonication coordinates identify PCR duplicates.", True)
+        "Paired-end Illumina reads (mostly 150-nt MiSeq; one 100-nt HiSeq run) recover the viewpoint-containing sonication fragment and its ligated reporter. PCR duplicates are removed computationally: after in silico DpnII digestion, reads with identical start and end coordinates of each sub-fragment are collapsed.", True)
 
 
-def _conformation_graph(key: str, definition, final: Construct,
+SOURCE_METHODS = ("Online Methods of the accepted author manuscript, "
+                  "PMC4724891 supplementary file NIHMS65861-supplement-01")
+RESTRICTION_ENZYME = "DpnII"
+
+
+def _ng_capture_c_graph(definition, final: Construct,
                         primers: tuple[sp.SeqPrimer, ...]) -> ProtocolGraph:
-    """Typed graphs for 4C/Capture-C derivatives with distinct contact ligation."""
-    source = f"{definition.citation}; doi:{definition.doi}"
+    """NG Capture-C graph from the Online Methods (3C, library prep, two captures)."""
+    source = f"{definition.citation}; doi:{definition.doi}; {SOURCE_METHODS}"
     graph = ProtocolGraph(definition.title, authority=source)
-    fixed = graph.input("fixed_chromatin", "formaldehyde-fixed chromatin",
+    fixed = graph.input("fixed_chromatin", "2% formaldehyde-fixed cells, lysed to nuclei",
                         MaterialKind.BIOLOGICAL,
                         state=molecule("formaldehyde-fixed chromatin",
                                        ("viewpoint", "proximal chromatin")), primary=True)
-    restriction_name = {"4c-seq": "DpnII", "ng-capture-c": "DpnII or NlaIII",
-                        "umi-4c": "DpnII", "tri-c": "NlaIII"}[key]
-    restriction = graph.input("primary_restriction_enzyme", restriction_name,
+    restriction = graph.input("primary_restriction_enzyme",
+                              f"{RESTRICTION_ENZYME} (3 x 500 U, 37 °C, 16–24 h, after SDS/Triton X-100)",
                               MaterialKind.CATALYST)
     digested = graph.product(
-        "restriction_fragments", "restriction-digested fixed chromatin",
+        "restriction_fragments", "DpnII-digested fixed chromatin",
         MaterialKind.MOLECULAR,
         state=molecule("restriction fragments", ("viewpoint fragment",
                                                    "proximal reporter fragments")))
-    graph.react("primary_digest", f"Digest fixed chromatin with {restriction_name}",
+    graph.react("primary_digest", f"Digest fixed chromatin with {RESTRICTION_ENZYME}",
                 StepKind.DIGESTION,
                 ((fixed, InputRole.TEMPLATE),
                  (restriction, InputRole.CATALYST)), (digested,))
-    ligase = graph.input("proximity_ligase", "proximity-ligation DNA ligase",
+    ligase = graph.input("proximity_ligase",
+                         "high-concentration T4 DNA ligase (Thermo Scientific), 16 °C overnight",
                          MaterialKind.CATALYST)
-    if key == "tri-c":
-        contact_model = multiway_contact(
-            "NlaIII", "viewpoint fragment", ("reporter fragment 1", "reporter fragment 2"))
-        contact_state = contact_model.scene("multiway 3C concatemer")
-        contact_label = "multiway proximity-ligation concatemer"
-    else:
-        names = (("captured viewpoint fragment", "reporter fragment")
-                 if key == "ng-capture-c" else
-                 ("viewpoint fragment", "reporter fragment"))
-        contact_model = _three_c(restriction_name, names)
-        contact_state = contact_model.scene()
-        contact_label = "proximity-ligated 3C contact"
-    contact = graph.product("contact_product", contact_label,
+    contact_model = _three_c(RESTRICTION_ENZYME,
+                             ("captured viewpoint fragment", "reporter fragment"))
+    contact_state = contact_model.scene()
+    contact = graph.product("contact_product", "proximity-ligated 3C contact",
                             MaterialKind.MOLECULAR, state=contact_state)
-    graph.react("proximity_ligation", "Proximity-ligate restriction fragments",
+    graph.react("proximity_ligation",
+                "Heat-inactivate DpnII (65 °C) and proximity-ligate restriction fragments",
                 StepKind.PROXIMITY_LIGATION,
                 ((digested, InputRole.TEMPLATE),
                  (ligase, InputRole.CATALYST)), (contact,))
-    proteinase = graph.input("crosslink_reversal", "proteinase/cross-link reversal condition",
+    proteinase = graph.input("crosslink_reversal",
+                             "Proteinase K at 65 °C overnight, RNase, phenol-chloroform and ethanol precipitation",
                              MaterialKind.CONDITION)
-    deproteinized = graph.product("deproteinized_3c_dna", "deproteinized 3C DNA",
+    deproteinized = graph.product("deproteinized_3c_dna", "deproteinized 3C library DNA",
                                   MaterialKind.MOLECULAR, state=contact_state)
     graph.react("reverse_crosslinks", "Reverse cross-links and recover 3C DNA",
                 StepKind.DEPROTEINIZATION,
                 ((contact, InputRole.TEMPLATE),
                  (proteinase, InputRole.CONDITION)), (deproteinized,))
+    sonication = graph.input("sonication",
+                             "Covaris S220 sonication of 5 µg 3C DNA to about 200 bp",
+                             MaterialKind.CONDITION)
+    sonicated = graph.product("sonicated_3c_dna", "sonicated 3C DNA",
+                              MaterialKind.MOLECULAR, state=deproteinized.state)
+    graph.react("sonicate", "Sonicate recovered 3C DNA", StepKind.FRAGMENTATION,
+                ((deproteinized, InputRole.TEMPLATE),
+                 (sonication, InputRole.CONDITION)), (sonicated,))
+    repair = graph.input("end_repair_enzymes", "NEBNext end-repair reagents",
+                         MaterialKind.CATALYST)
+    repaired = graph.product("end_repaired_dna", "end-repaired sonicated 3C DNA",
+                             MaterialKind.MOLECULAR, state=sonicated.state)
+    graph.react("end_repair", "End-repair sonicated 3C DNA", StepKind.END_REPAIR,
+                ((sonicated, InputRole.TEMPLATE),
+                 (repair, InputRole.CATALYST)), (repaired,))
+    tailing = graph.input("a_tailing_enzyme", "NEBNext dA-tailing reagents",
+                          MaterialKind.CATALYST)
+    tailed_state = da_tailed("dA-tailed 3C fragment", "viewpoint-contact fragment")
+    tailed = graph.product("da_tailed_dna", "dA-tailed 3C DNA",
+                           MaterialKind.MOLECULAR, state=tailed_state)
+    graph.react("da_tail", "Add one 3-prime dA to each end", StepKind.TAILING,
+                ((repaired, InputRole.TEMPLATE),
+                 (tailing, InputRole.CATALYST)), (tailed,))
+    adapters = graph.input("illumina_adapters", "Illumina TruSeq sequencing adapters",
+                           MaterialKind.ADAPTER, inferred=True)
+    adapter_ligase = graph.input("adapter_ligase", "NEBNext adapter-ligation reagents",
+                                 MaterialKind.CATALYST)
+    adapted = graph.product("adapter_ligated_dna", "adapter-ligated 3C DNA",
+                            MaterialKind.MOLECULAR, state=final, inferred=True)
+    graph.react("adapter_ligation", "Ligate TruSeq adapters (AMPure XP 1:1.8 cleanups)",
+                StepKind.LIGATION,
+                ((tailed, InputRole.TEMPLATE),
+                 (adapters, InputRole.STRUCTURAL),
+                 (adapter_ligase, InputRole.CATALYST)), (adapted,),
+                geometry=AdapterLigationGeometry.unavailable(
+                    "The Online Methods name Illumina TruSeq indexed adapters ligated with NEBnext "
+                    "reagents (E6000/E6040/E7335/E7500; E7370 for low cell numbers) but print "
+                    "no adapter strands or end geometry."))
+    polymerase = graph.input("pcr_polymerase", "Herculase II PCR kit (Agilent), 6–8 cycles",
+                             MaterialKind.CATALYST)
+    forward = graph.input("index_forward_primer", "library PCR primer 1 (sequence not printed)",
+                          MaterialKind.OLIGO)
+    reverse = graph.input("index_reverse_primer", "TruSeq index-adding PCR primer 2 (sequence not printed)",
+                          MaterialKind.OLIGO)
+    indexed = graph.product("indexed_library", "indexed 3C library",
+                            MaterialKind.MOLECULAR, state=final)
+    graph.react("index_pcr", "Index and amplify the 3C library", StepKind.PCR,
+                ((adapted, InputRole.TEMPLATE),
+                 (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL),
+                 (polymerase, InputRole.CATALYST)), (indexed,),
+                geometry=PCRGeometry.unavailable(
+                    final, reason=(
+                        "The Online Methods say libraries were indexed with TruSeq indexed adapters "
+                        "using NEBNext reagents for adaptor ligation and PCR indexing, and that 6–8 "
+                        "Herculase II cycles added the TruSeq indices; whether the index enters on "
+                        "the adapter or the PCR primer, and the primer sequences, are not printed.")))
     reviewed = [
         "fixed_chromatin", "primary_restriction_enzyme", "primary_digest",
         "proximity_ligase", "proximity_ligation", "crosslink_reversal",
-        "reverse_crosslinks",
+        "reverse_crosslinks", "sonication", "sonicate", "end_repair_enzymes",
+        "end_repair", "a_tailing_enzyme", "da_tail", "illumina_adapters",
+        "adapter_ligase", "adapter_ligation", "pcr_polymerase",
+        "index_forward_primer", "index_reverse_primer", "index_pcr",
     ]
 
-    if key == "4c-seq":
-        second = graph.input("secondary_restriction_enzyme", "Csp6I",
-                             MaterialKind.CATALYST)
-        secondary = graph.product("secondary_fragments", "Csp6I-digested 3C products",
-                                  MaterialKind.MOLECULAR, state=contact_state)
-        graph.react("secondary_digest", "Digest 3C products with Csp6I",
-                    StepKind.DIGESTION,
-                    ((deproteinized, InputRole.TEMPLATE),
-                     (second, InputRole.CATALYST)), (secondary,))
-        circle_model = Circular4CTemplate(contact_model, "Csp6I", "viewpoint fragment")
-        circular = graph.product("circular_template", "recircularized 4C template",
-                                 MaterialKind.MOLECULAR, state=circle_model.scene())
-        graph.react("recircularize", "Ligate dilute DNA to form 4C circles",
-                    StepKind.CIRCULARIZATION,
-                    ((secondary, InputRole.TEMPLATE),
-                     (ligase, InputRole.CATALYST)), (circular,),
-                    geometry=CircularizationGeometry.known(
-                        "double-strand intramolecular ligation",
-                        statement="The 4C workflow dilute-ligates the secondary restriction fragments into circles."))
-        inverse_forward = graph.input("inverse_forward_primer", "outward viewpoint primer 1",
-                                      MaterialKind.OLIGO)
-        inverse_reverse = graph.input("inverse_reverse_primer", "outward viewpoint primer 2",
-                                      MaterialKind.OLIGO)
-        polymerase = graph.input("pcr_polymerase", "PCR polymerase",
-                                 MaterialKind.CATALYST)
-        first_amplicon = graph.product("inverse_pcr_product", "viewpoint inverse-PCR product",
-                                      MaterialKind.MOLECULAR,
-                                      state=inverse_pcr_product(circle_model))
-        graph.react("inverse_pcr", "Inverse-PCR outward from the viewpoint",
+    beads = graph.input("streptavidin_beads",
+                        "M270 streptavidin beads with SeqCap EZ wash buffers (47 °C stringent washes)",
+                        MaterialKind.SELECTION)
+    lm_polymerase = graph.input(
+        "post_capture_pcr_mix",
+        "SeqCap EZ Post-Capture LM-PCR master mix (18 cycles) or KAPA mix from SeqCap EZ accessory kit v2 (14 cycles)",
+        MaterialKind.CATALYST)
+    lm_forward = graph.input("post_capture_primer_1", "SeqCap EZ Post LM-PCR oligo, first of pair (sequence not printed)",
+                             MaterialKind.OLIGO)
+    lm_reverse = graph.input("post_capture_primer_2", "SeqCap EZ Post LM-PCR oligo, second of pair (sequence not printed)",
+                             MaterialKind.OLIGO)
+    template = indexed
+    for n, hours in ((1, "64–72 h"), (2, "24 h")):
+        probes = graph.input(f"capture_oligo_round{n}",
+                             f"5′-biotinylated 120-nt viewpoint capture oligo pool, round {n} (13 pmol)",
+                             MaterialKind.OLIGO)
+        blockers = graph.input(
+            f"hybridization_blockers_round{n}",
+            "COT DNA, NimbleGen HE universal and index-specific blocking oligos, NimbleGen hybridization buffer",
+            MaterialKind.CONDITION)
+        hybrid = graph.product(f"capture_hybrid_round{n}",
+                               f"round-{n} library hybridized to biotinylated probes",
+                               MaterialKind.MOLECULAR, state=final)
+        substrate = ("1.5–2 µg indexed library, or pooled indexed libraries"
+                     if n == 1 else "75% of round-1 amplified material, up to 2 µg")
+        graph.react(f"capture_hybridization_round{n}",
+                    f"Denature and hybridize {substrate} to capture oligos at 47 °C for {hours}",
+                    StepKind.HYBRIDIZATION,
+                    ((template, InputRole.TEMPLATE),
+                     (probes, InputRole.STRUCTURAL),
+                     (blockers, InputRole.CONDITION)), (hybrid,))
+        bound = graph.product(f"capture_round{n}", f"round-{n} streptavidin-bead-bound library",
+                              MaterialKind.MOLECULAR, state=final)
+        reject = graph.product(f"capture_round{n}_reject", f"uncaptured round-{n} library",
+                               MaterialKind.WASTE)
+        graph.react(f"capture_round{n}_step",
+                    f"Round-{n} streptavidin pull-down and SeqCap EZ washes",
+                    StepKind.AFFINITY_CAPTURE,
+                    ((hybrid, InputRole.TEMPLATE),
+                     (beads, InputRole.SELECTION)), (bound, reject))
+        graph.discard(reject, "not bound to a biotinylated probe; removed with the "
+                              "bead-binding and wash supernatants")
+        last = n == 2
+        amplified = graph.product(
+            "sequencing_library" if last else f"capture_round{n}_amplified",
+            definition.title + " captured library" if last else "round-1 amplified captured library",
+            MaterialKind.LIBRARY if last else MaterialKind.MOLECULAR, state=final)
+        graph.react(f"post_capture_pcr_round{n}",
+                    f"Amplify round-{n} captured material from the beads (two reactions, AMPure XP cleanup)",
                     StepKind.PCR,
-                    ((circular, InputRole.TEMPLATE),
-                     (inverse_forward, InputRole.STRUCTURAL),
-                     (inverse_reverse, InputRole.STRUCTURAL),
-                     (polymerase, InputRole.CATALYST)), (first_amplicon,),
+                    ((bound, InputRole.TEMPLATE),
+                     (lm_forward, InputRole.STRUCTURAL),
+                     (lm_reverse, InputRole.STRUCTURAL),
+                     (lm_polymerase, InputRole.CATALYST)), (amplified,),
                     geometry=PCRGeometry.unavailable(
-                        final, reason="Viewpoint primer sequences are locus-specific."))
-        handle_forward = graph.input("handle_forward_primer", "Illumina-handle PCR forward primer",
-                                     MaterialKind.OLIGO, inferred=True)
-        handle_reverse = graph.input("handle_reverse_primer", "indexed Illumina-handle PCR reverse primer",
-                                     MaterialKind.OLIGO, inferred=True)
-        library = graph.product("sequencing_library", "4C-seq sequencing library",
-                                MaterialKind.LIBRARY, state=final, inferred=True)
-        graph.react("handle_pcr", "Add sample and Illumina sequences by PCR",
-                    StepKind.PCR,
-                    ((first_amplicon, InputRole.TEMPLATE),
-                     (handle_forward, InputRole.STRUCTURAL),
-                     (handle_reverse, InputRole.STRUCTURAL),
-                     (polymerase, InputRole.CATALYST)), (library,),
-                    geometry=PCRGeometry.unavailable(
-                        final, reason="The exact viewpoint/handle combination varies by experiment."))
-        graph.sequence(library, SequencingPlan(limitation=definition.sequencing))
+                        final, reason=(
+                            "Fig. 1a legend: PCR from beads uses the adapter P5 and P7 sequences; "
+                            "the SeqCap EZ post-LM-PCR oligo sequences are vendor reagents not printed in the source.")))
         reviewed.extend((
-            "secondary_restriction_enzyme", "secondary_digest", "recircularize",
-            "inverse_forward_primer", "inverse_reverse_primer", "pcr_polymerase",
-            "inverse_pcr", "handle_forward_primer", "handle_reverse_primer",
-            "handle_pcr", "sequencing_library",
+            f"capture_oligo_round{n}", f"hybridization_blockers_round{n}",
+            f"capture_hybridization_round{n}", f"capture_round{n}_step",
+            f"post_capture_pcr_round{n}",
         ))
-    else:
-        sonication = graph.input("sonication", "DNA sonication condition",
-                                 MaterialKind.CONDITION)
-        sonicated = graph.product("sonicated_3c_dna", "sonicated 3C DNA",
-                                  MaterialKind.MOLECULAR, state=deproteinized.state)
-        graph.react("sonicate", "Sonicate recovered 3C DNA", StepKind.FRAGMENTATION,
-                    ((deproteinized, InputRole.TEMPLATE),
-                     (sonication, InputRole.CONDITION)), (sonicated,))
-        repair = graph.input("end_repair_enzymes", "end-repair enzyme mix",
-                             MaterialKind.CATALYST)
-        repaired = graph.product("end_repaired_dna", "end-repaired sonicated 3C DNA",
-                                 MaterialKind.MOLECULAR, state=sonicated.state)
-        graph.react("end_repair", "End-repair sonicated 3C DNA", StepKind.END_REPAIR,
-                    ((sonicated, InputRole.TEMPLATE),
-                     (repair, InputRole.CATALYST)), (repaired,))
-        tailing = graph.input("a_tailing_enzyme", "dA-tailing enzyme",
-                              MaterialKind.CATALYST)
-        tailed_state = da_tailed("dA-tailed 3C fragment", "viewpoint-contact fragment")
-        tailed = graph.product("da_tailed_dna", "dA-tailed 3C DNA",
-                               MaterialKind.MOLECULAR, state=tailed_state)
-        graph.react("da_tail", "Add one 3-prime dA to each end", StepKind.TAILING,
-                    ((repaired, InputRole.TEMPLATE),
-                     (tailing, InputRole.CATALYST)), (tailed,))
-        adapters = graph.input("illumina_adapters", "Illumina library adapters",
-                               MaterialKind.ADAPTER, inferred=True)
-        adapter_ligase = graph.input("adapter_ligase", "adapter DNA ligase",
-                                     MaterialKind.CATALYST)
-        adapted = graph.product("adapter_ligated_dna", "adapter-ligated 3C DNA",
-                                MaterialKind.MOLECULAR, state=final, inferred=True)
-        graph.react("adapter_ligation", "Ligate Illumina adapters",
-                    StepKind.LIGATION,
-                    ((tailed, InputRole.TEMPLATE),
-                     (adapters, InputRole.STRUCTURAL),
-                     (adapter_ligase, InputRole.CATALYST)), (adapted,),
-                    geometry=AdapterLigationGeometry.unavailable(
-                        "The defining protocol identifies its library kit or adapter role but does not print one immutable adapter-end reagent."))
-        reviewed.extend((
-            "sonication", "sonicate", "end_repair_enzymes", "end_repair",
-            "a_tailing_enzyme", "da_tail", "illumina_adapters", "adapter_ligase",
-            "adapter_ligation",
-        ))
-        polymerase = graph.input("pcr_polymerase", "library PCR polymerase",
-                                 MaterialKind.CATALYST)
-
-        if key == "umi-4c":
-            first_forward = graph.input("nested1_viewpoint_primer", "first nested viewpoint primer",
-                                        MaterialKind.OLIGO)
-            first_reverse = graph.input("nested1_adapter_primer", "first universal-adapter primer",
-                                        MaterialKind.OLIGO)
-            nested = graph.product("nested_amplicon", "first nested UMI-4C amplicon",
-                                   MaterialKind.MOLECULAR, state=adapted.state)
-            graph.react("nested_pcr1", "First nested viewpoint PCR", StepKind.PCR,
-                        ((adapted, InputRole.TEMPLATE),
-                         (first_forward, InputRole.STRUCTURAL),
-                         (first_reverse, InputRole.STRUCTURAL),
-                         (polymerase, InputRole.CATALYST)), (nested,),
-                        geometry=PCRGeometry.unavailable(
-                            final, reason="The viewpoint primer is locus-specific."))
-            second_forward = graph.input("nested2_viewpoint_primer", "indexed nested viewpoint primer",
-                                         MaterialKind.OLIGO)
-            second_reverse = graph.input("nested2_adapter_primer", "indexed universal-adapter primer",
-                                         MaterialKind.OLIGO)
-            library = graph.product("sequencing_library", "UMI-4C sequencing library",
-                                    MaterialKind.LIBRARY, state=final, inferred=True)
-            graph.react("nested_pcr2", "Second nested viewpoint PCR", StepKind.PCR,
-                        ((nested, InputRole.TEMPLATE),
-                         (second_forward, InputRole.STRUCTURAL),
-                         (second_reverse, InputRole.STRUCTURAL),
-                         (polymerase, InputRole.CATALYST)), (library,),
-                        geometry=PCRGeometry.unavailable(
-                            final, reason="The indexed viewpoint primer remains experiment-specific."))
-            graph.sequence(library, SequencingPlan(limitation=definition.sequencing))
-            reviewed.extend((
-                "pcr_polymerase", "nested1_viewpoint_primer", "nested1_adapter_primer",
-                "nested_pcr1", "nested2_viewpoint_primer", "nested2_adapter_primer",
-                "nested_pcr2", "sequencing_library",
-            ))
-        else:
-            forward = graph.input("index_forward_primer", "indexed library PCR forward primer",
-                                  MaterialKind.OLIGO)
-            reverse = graph.input("index_reverse_primer", "indexed library PCR reverse primer",
-                                  MaterialKind.OLIGO)
-            indexed = graph.product("indexed_library", "indexed 3C library",
-                                    MaterialKind.MOLECULAR, state=final)
-            graph.react("index_pcr", "Index and amplify the 3C library", StepKind.PCR,
-                        ((adapted, InputRole.TEMPLATE),
-                         (forward, InputRole.STRUCTURAL),
-                         (reverse, InputRole.STRUCTURAL),
-                         (polymerase, InputRole.CATALYST)), (indexed,),
-                        geometry=PCRGeometry.unavailable(
-                            final, reason="Index choice varies while the final TruSeq endpoint is canonical."))
-            capture1 = graph.input("capture_oligo_round1", "biotinylated viewpoint capture oligo round 1",
-                                   MaterialKind.SELECTION)
-            selected1 = graph.product("capture_round1", "first-round viewpoint-enriched library",
-                                      MaterialKind.MOLECULAR, state=final)
-            reject1 = graph.product("capture_round1_reject", "uncaptured round-1 library",
-                                    MaterialKind.WASTE)
-            graph.react("capture_round1_step", "First viewpoint capture",
-                        StepKind.AFFINITY_CAPTURE,
-                        ((indexed, InputRole.TEMPLATE),
-                         (capture1, InputRole.SELECTION)), (selected1, reject1))
-            graph.discard(reject1, "does not hybridize to the selected viewpoint probe")
-            capture2 = graph.input("capture_oligo_round2", "biotinylated viewpoint capture oligo round 2",
-                                   MaterialKind.SELECTION)
-            library = graph.product("sequencing_library", definition.title + " captured library",
-                                    MaterialKind.LIBRARY, state=final)
-            reject2 = graph.product("capture_round2_reject", "uncaptured round-2 library",
-                                    MaterialKind.WASTE)
-            graph.react("capture_round2_step", "Second viewpoint capture",
-                        StepKind.AFFINITY_CAPTURE,
-                        ((selected1, InputRole.TEMPLATE),
-                         (capture2, InputRole.SELECTION)), (library, reject2))
-            graph.discard(reject2, "does not survive the second viewpoint capture")
-            graph.sequence(library, SequencingPlan(
-                final, tuple(primers), tuple(p.role for p in primers)))
-            reviewed.extend((
-                "pcr_polymerase", "index_forward_primer", "index_reverse_primer",
-                "index_pcr", "capture_oligo_round1", "capture_round1_step",
-                "capture_oligo_round2", "capture_round2_step", "sequencing_library",
-            ))
+        template = amplified
+    reviewed.extend(("streptavidin_beads", "post_capture_pcr_mix",
+                                "post_capture_primer_1", "post_capture_primer_2",
+                                "sequencing_library"))
+    graph.sequence(template, SequencingPlan(
+        final, tuple(primers), tuple(p.role for p in primers)))
+    graph.annotate(SourceDiscrepancy(
+        target="capture_round2_step",
+        title="Reported double-capture enrichment",
+        claims=(SourceClaim("Results paragraph on single versus double capture (PMC4724891 JATS)",
+                            "two sequential capture steps resulted in up to 1,000,000-fold enrichment"),
+                SourceClaim("Figure 1a and Figure 2a legends (PMC4724891 JATS)",
+                            "double capture produced enrichments up to 3,000,000-fold")),
+        model_choice="The model encodes no fold-enrichment value; the two capture rounds are drawn without a yield claim.",
+        evidence="Both values are printed in the open-access accepted manuscript; the paywalled publisher version of the main text was not inspected.",
+        uncertainty="Which maximum belongs to which experiment, and whether the published version harmonizes the numbers, is unresolved."))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 
 
 def protocol_graph():
-    d = DEFINITION
-    final = SPEC.FINAL_LIBRARY
-    primers = SPEC.SEQ_PRIMERS
-    key = 'ng-capture-c'
-    return _conformation_graph(key, d, final, primers)
+    return _ng_capture_c_graph(DEFINITION, SPEC.FINAL_LIBRARY, SPEC.SEQ_PRIMERS)
 
 
 from types import SimpleNamespace
@@ -260,19 +217,19 @@ from chromosome_capture import ThreeCLibrary
 from replication_labeling import CopyNumberReplication
 
 def workflow():
-    contact = _three_c("DpnII or NlaIII", ("captured viewpoint fragment", "reporter fragment"))
+    contact = _three_c(RESTRICTION_ENZYME, ("captured viewpoint fragment", "reporter fragment"))
     adapted = molecule("indexed 3C sequencing library",
                        ("left Illumina adapter", "viewpoint", "contact junction", "reporter", "right Illumina adapter"),
                        junctions=(("left Illumina adapter", "viewpoint", "adapter ligation"),
                                   ("viewpoint", "contact junction", "proximity ligation"),
                                   ("reporter", "right Illumina adapter", "adapter ligation")))
     return chain(molecule("formaldehyde-fixed chromatin", ("viewpoint", "proximal chromatin")), (
-        ("Digest and proximity-ligate to make a 3C library", contact.scene(),
+        ("Digest with DpnII and proximity-ligate to make a 3C library", contact.scene(),
          "No biotin fill-in is used to select the contact junction."),
-        ("Sonicate to about 200 bp, end-repair and add indexed Illumina adapters", adapted,
-         "Random sonication ends distinguish original molecules from PCR duplicates."),
-        ("Perform two sequential captures with biotinylated viewpoint oligos", adapted,
-         "Streptavidin enrichment retains fragments containing the selected viewpoint."),
+        ("Sonicate to about 200 bp, end-repair, dA-tail, ligate TruSeq adapters and index by 6–8 PCR cycles", adapted,
+         "Random sonication ends let identical-coordinate PCR duplicates be removed computationally."),
+        ("Two rounds of hybridization to biotinylated oligos, streptavidin capture and PCR from the beads", adapted,
+         "Uncaptured library is washed away; each round ends with post-capture PCR."),
     ))
 
 d = DEFINITION

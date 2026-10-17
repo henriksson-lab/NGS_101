@@ -12,6 +12,19 @@ split–ligate–quench–pool rounds: DPM, Odd, Even, Odd and Terminal. Crossli
 reversed and the DPM/Terminal arms support Illumina library PCR. Reads sharing the entire
 tag chain are assigned to one multiway SPRITE cluster.
 
+🟢 Bounded pass 2026-10-17 (round breadth-first-19; PMC6548320 JATS "DNA Repair",
+"Split-pool ligation" and "Sequencing library generation", lines 953–1060): end
+processing is three bead-bound steps — T4 PNK (NEB) 37 °C 1 h; NEBNext End Repair
+cocktail (T4 DNA polymerase + T4 PNK) 20 °C 1 h; Klenow 3′→5′ exo− (NEBNext dA-tailing
+Module) 37 °C 1 h — each quenched with Modified RLT and buffer-exchanged. Each tag round
+uses 2.4 µL of 45 µM tag with 2X Instant Sticky End Ligation Master Mix (NEB) at 20 °C
+for 1 h, Modified RLT inactivation, pooling and three 45 °C SPRITE Wash Buffer washes to
+remove free tags. Aliquots are digested with Proteinase K (50 °C 1 h), reversed overnight
+at 65 °C, purified on Zymo DNA Clean and Concentrator columns (7x binding buffer),
+amplified with Q5 Hot-Start Mastermix and cleaned twice with 0.7X SPRI (AMPure XP). The
+graph now declares these catalysts, cleanups and their waste fates; the final PCR cycle
+count stays unassigned (Methods gives 9–12 cycles only for the molarity-estimation aliquot).
+
 ## Source-owned endpoint and ordering oligos
 
 🟢 Original Table S5 has been recovered from the [author archive](https://authors.library.caltech.edu/records/xrfk6-20h25/files/mmc5.xlsx?download=1).

@@ -689,5 +689,25 @@
       "state": "unassembled_model",
       "reason": "Positive ordering strands and guide geometry exist; current model incompleteness does not establish source absence."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Published Cell PMC6548320 JATS Methods: crosslinking/lysis/fragmentation 845-905, NHS bead coupling 910-951, DNA Repair 953-967, Split-pool ligation 969-1006, Estimating sequencing depth 1008-1044, Sequencing library generation 1046-1060, SPRITE tag design/DPM 1083-1130, Final Library Amplification Primers 1200-1206, sequencing 1215-1250",
+      "oligo_scraper": "Full bundle scraper rerun (656 TSV lines); article hits at JATS lines 1176/1180 (RPM tag, RNA/DNA branch) and 1204/1206 (library PCR primers) checked; PCR primers match the declaration.",
+      "findings": "Replaced generic end-repair/ligase/polymerase placeholders with the Methods' three bead-bound steps (T4 PNK 37C 1h; NEBNext End Repair cocktail 20C 1h; Klenow exo- dA-tailing 37C 1h), 2X Instant Sticky End Ligation Master Mix 20C 1h, per-round Modified RLT inactivation/pool/three 45C washes with free-tag waste, Proteinase K 50C 1h + 65C overnight reversal, Zymo DCC column cleanup with flow-through waste, Q5 Hot-Start Mastermix PCR and two 0.7X SPRI cleanups with primer/adaptor waste. Retargeted the historical-guide overhang highlight to the dA-tailing step. Existing DPM read-label discrepancy, index-example highlight and guide primer-length/cycle discrepancy retained.",
+      "deferred": [
+        "Full physical DPM/Odd/Even/Odd/Terminal junction and PCR-precursor geometry from Table S5 (unassembled model)",
+        "Final library PCR cycle count (Methods gives 9-12 only for the molarity aliquot)",
+        "Acquired read cycles beyond the >=115x100 minima",
+        "RNA/DNA (RPM) branch not drawn",
+        "Procedural video/pipeline version scope from earlier passes"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 16 checks pass; page builds; pairing 0 problems; chemistry 23 steps 0 established/0 conditional/25 unresolved/0 contradictory; source guard 4 exact checked, 0 failed, 5 placeholder tag inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
   ]
 }

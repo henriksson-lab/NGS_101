@@ -3,11 +3,15 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from batch_ngs import nextera_library, seg, truseq_library
-from chemdraw import MolecularState, Row, Scene, Segment, Workflow, feature
+from batch_ngs import seg
+from chemdraw import Construct, MolecularState, Row, Scene, Segment, Workflow, feature, revcomp
+import illumina as il
+import nextera as nx
+import seqprimers as sp
+from pcr import PCRGeometry, PCRPrimer
 from multimodal_spatial import (HybridizationLigationRound, finish_pcr_branch,
                                 modality_split)
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_graph import Disposition, InputRole, MaterialKind, ProtocolGraph, StepKind, Terminal
 
 TITLE="SHARE-seq"
 NOTES="01_share-seq.html"
@@ -24,7 +28,14 @@ CAVEAT=("The constant arms, linkers and ordering modifications come from the pub
         "the <i>round 1</i> linker and a 5′ overhang (JATS line 213); Table S1 ‘bulk oligos’ "
         "lines 3–5 prints distinct linkers for all three rounds. The model uses the "
         "published linker and oligo-table geometry. The preprint's intended wording "
-        "cannot be independently established from its methods text alone.")
+        "cannot be independently established from its methods text alone."
+        "<br><b>Model correction (2026-10-17):</b> earlier versions drew generic TruSeq "
+        "(RNA) and Nextera dual-index (ATAC) libraries with the cell barcodes inside the "
+        "insert. The published STAR Methods amplify both libraries with a sample-barcoded "
+        "Ad1 primer and the P7 primer (the round 3 barcode 5′ arm), so the three "
+        "hybridization barcodes sit next to P7 and are read by the 99-cycle Index 1 read; "
+        "the RNA branch also includes on-bead P7/RNA-PCR-primer amplification and "
+        "Read1-only Tn5 tagmentation of the cDNA before Ad1/P7 PCR.")
 BC1=feature("cell_barcode_round1","cell_barcode","combinatorial",group="cell_barcode",part="round 1")
 BC2=feature("cell_barcode_round2","cell_barcode","combinatorial",group="cell_barcode",part="round 2")
 BC3=feature("cell_barcode_round3","cell_barcode","combinatorial",group="cell_barcode",part="round 3")
@@ -55,11 +66,83 @@ ROUNDS = (
         "GTGGCCGATGTTTCG", "AGTCGTACGCCGATGCGAAACATCGGCCAC", BC3),
 )
 
-RNA,RNA_P=truseq_library([seg("barcode round 3","C"*8,"cbc",placeholder=True,feature=BC3),seg("barcode round 2","B"*8,"cbc",placeholder=True,feature=BC2),seg("barcode round 1","A"*8,"cbc",placeholder=True,feature=BC1),seg("UMI","U"*10,"umi",placeholder=True,feature=UMI_FEATURE),seg("cDNA","X"*34,placeholder=True)],"SHARE-seq RNA library")
-ATAC,ATAC_P=nextera_library([seg("barcode round 3","C"*8,"cbc",placeholder=True,feature=BC3),seg("barcode round 2","B"*8,"cbc",placeholder=True,feature=BC2),seg("barcode round 1","A"*8,"cbc",placeholder=True,feature=BC1),seg("accessible DNA","X"*34,placeholder=True)],"SHARE-seq ATAC library")
+# Published STAR Methods "scATAC-seq library preparation", "Tagmentation and scRNA-seq
+# library preparation" and "Quantification and sequencing" (JATS lines 241-249) with
+# Table S1: both libraries are amplified with a sample-barcoded Ad1 primer
+# (P5-[8-nt i5]-TCGTCGGCAGCGTCAGATGTGTAT, sheet "Ad1") and the P7 primer, which is the
+# round 3 barcode oligo's 5' arm.  The three hybridization barcodes therefore lie
+# between the shared S7-derived anchor and P7, and the 99-cycle Index 1 read covers
+# them; there is no separate i7 index.  (Model correction 2026-10-17: earlier versions
+# drew generic TruSeq/Nextera dual-index libraries with the barcodes inside the insert.)
+AD1_I5_FEATURE = feature("ad1_sublibrary_index", "sample_index", "whitelist",
+                         whitelist="Table S1 sheet Ad1, v2_Ad1.01-96",
+                         note="PCR sub-library barcode; the paper combines it with the three hybridization barcodes")
+
+
+def _p7_barcode_chain() -> list[Segment]:
+    """Barcode chain read 5'->3' on the P5-oriented strand: reverse complement of the ligated strand."""
+    out: list[Segment] = [Segment("shared anchor reverse complement (S7 part)",
+                                  revcomp(SHARED_ANCHOR), "r2")]
+    for round_ in ROUNDS:
+        out.append(Segment(f"{round_.name} ligating arm reverse complement",
+                           revcomp(round_.barcode_3_arm)))
+        out.append(Segment(f"{round_.name} barcode", "B" * round_.barcode_length, "cbc",
+                           placeholder=True, feature=round_.feature))
+        out.append(Segment(f"{round_.name} outgoing arm reverse complement",
+                           revcomp(round_.barcode_5_arm),
+                           "p7" if round_ is ROUNDS[-1] else None))
+    return out
+
+
+def _final_library(name: str, insert: list[Segment]) -> Construct:
+    return Construct([
+        Segment("P5", il.P5, "p5"),
+        Segment("Ad1 sub-library barcode (i5)", "J" * 8, "cbc", placeholder=True,
+                feature=AD1_I5_FEATURE),
+        Segment("Read 1 arm (S5)", nx.S5, "s5"),
+        Segment("mosaic end", nx.ME, "me"),
+        *insert,
+        Segment("mosaic end reverse complement", nx.ME_RC, "me"),
+        *_p7_barcode_chain(),
+    ], name=name)
+
+
+# Library PCR primers as printed in Table S1 (sheet "Ad1" family and "bulk oligos" P7).
+AD1_PRIMER = Construct([
+    Segment("P5", il.P5, "p5"),
+    Segment("Ad1 sub-library barcode (i5)", "J" * 8, "cbc", placeholder=True,
+            feature=AD1_I5_FEATURE),
+    Segment("Read 1 arm (S5) and mosaic-end start", nx.S5 + nx.ME[:10], "s5"),
+], name="v2_Ad1 primer family")
+P7_PRIMER = Construct([Segment("P7", il.P7, "p7")], name="P7 primer")
+LIBRARY_PCR_SOURCE = ("Ma et al. (2020), STAR Methods (JATS lines 241 and 249) and "
+                      "Table S1 (sheets 'Ad1' and 'bulk oligos')")
+
+
+RNA = _final_library("SHARE-seq RNA library", [
+    Segment("Tn5-fragmented cDNA (mRNA sense)", "X" * 30, placeholder=True),
+    Segment("VN complement", "NB", placeholder=True),
+    Segment("poly(A) complement of dT tract and biotin-dT", "A" * 15),
+    Segment("UMI", "U" * 10, "umi", placeholder=True, feature=UMI_FEATURE),
+])
+ATAC = _final_library("SHARE-seq ATAC library", [
+    Segment("accessible DNA", "X" * 34, placeholder=True),
+])
+# Primers are not named in the paper; the standard Nextera set matches the Ad1/S7-ME
+# adapter sequences.  NextSeq 150-cycle kit configuration (the NovaSeq S1 alternative
+# is 50/99/8/50).
+SEQ_PRIMERS = (sp.NEXTERA["R1"], sp.NEXTERA["I1"], sp.NEXTERA["I2"], sp.NEXTERA["R2"])
+READ_LENGTHS_NEXTSEQ = {"Read 1": 30, "Index 1 (i7)": 99, "Index 2 (i5)": 8, "Read 2": 30}
+RNA_P = ATAC_P = SEQ_PRIMERS
+_READ_NOTE = (" Published run: NextSeq 150-cycle High-Output (Read 1 30, Index 1 99, Index 2 8,"
+              " Read 2 30) or NovaSeq S1 200-cycle (50/99/8/50); the NextSeq lengths are"
+              " drawn. Index 1 reads the three 8-nt hybridization barcodes with their"
+              " 15-nt arms (99 cycles); Index 2 reads the Ad1 sub-library barcode. The paper"
+              " does not name the sequencing primers; the standard Nextera primers matching"
+              " these adapters are assumed.")
 FINAL_LIBRARIES=(
-    ("Final RNA library",RNA,RNA_P,"Three ligated well barcodes and the RT UMI identify each transcript and cell.","The RNA library's declared primer sites are computed on the completed duplex."),
-    ("Final ATAC library",ATAC,ATAC_P,"The same three well barcodes identify the cell of origin of each accessible-DNA fragment.","The ATAC library's declared primer sites are computed on the completed duplex."),)
+    ("Final RNA library",RNA,RNA_P,"Ad1/P7 PCR after Read 1-only Tn5 tagmentation of amplified cDNA. Read 2 starts with the 10-nt UMI followed by the dT tract (the pipeline requires TTTTTT at Read 2 bases 11-16)."+_READ_NOTE,"The RNA library's declared primer sites are computed on the completed duplex."),
+    ("Final ATAC library",ATAC,ATAC_P,"Ad1/P7 PCR of the streptavidin supernatant; the same three hybridization barcodes identify the cell of origin of each accessible-DNA fragment."+_READ_NOTE,"The ATAC library's declared primer sites are computed on the completed duplex."),)
 
 def oligos():
     return (
@@ -78,6 +161,8 @@ def oligos():
         f"<b>Round 3 blocking oligo</b> — 5′-{ROUNDS[2].blocking_oligo}-3′",
         f"<b>Template-switching oligo</b> — 5′-{TSO_WRITTEN}-3′",
         f"<b>RNA PCR primer</b> — 5′-{RNA_PCR}-3′",
+        f"<b>P7 primer</b> — 5′-{il.P7}-3′ (Table S1 bulk oligos; identical to the round 3 barcode 5′ arm)",
+        f"<b>Ad1 primer family</b> — 5′-{il.P5}[8-nt sub-library barcode]{nx.S5 + nx.ME[:10]}-3′ (Table S1 sheet Ad1, 96 values)",
     )
 
 
@@ -202,6 +287,22 @@ def workflow():
     return wf
 
 
+TSO_DNA = RNA_PCR + "GAAT"   # DNA part of the TSO; the 3' end is rG rG +G (written above)
+
+
+def _amplified_cdna() -> Construct:
+    """Ligated first strand plus TSO complement, drawn in the ligated-strand orientation."""
+    return Construct([
+        *_prefix(3), *_base_segments("RNA"),
+        Segment("complement of TSO (CCC opposite rGrG+G)", revcomp(TSO_DNA + "GGG")),
+    ], name="amplified SHARE-seq cDNA")
+
+
+def _tagmented_cdna() -> Construct:
+    """Read1-only Tn5 product that keeps the barcode end; P5-oriented, before Ad1 PCR."""
+    return Construct([s for s in RNA.segments[2:]], name="Read1-tagged barcoded cDNA fragment")
+
+
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE)
     cells=g.input("cells","fixed permeabilized cells containing chromatin and poly(A) RNA",MaterialKind.BIOLOGICAL,state=_initial_rows(),primary=True)
@@ -209,7 +310,7 @@ def protocol_graph():
     tn5=g.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
     tagged=g.product("tagged","cells retaining Tn5-tagged chromatin and RNA",MaterialKind.MOLECULAR,state=[*_molecule_scene("ATAC",0).rows(),Row(chunks=[("poly(A) RNA remains unindexed in the intact cell",None,False)])])
     twaste=g.product("tn5_waste","non-library tagmentation products",MaterialKind.WASTE)
-    g.react("tagment","Tagment accessible chromatin with the ligatable Nextera end",StepKind.TAGMENTATION,((cells,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),(tagged,twaste)); g.discard(twaste,"does not expose the selected ligation anchor on an amplifiable fragment")
+    g.react("tagment","Tagment accessible chromatin with the ligatable Nextera end",StepKind.TAGMENTATION,((cells,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),(tagged,twaste)); g.mark_terminal(Terminal(twaste.id,Disposition.UNRESOLVED,"Tn5 ends without the phosphorylated Read2 anchor are not ligated to the barcode chain and lack the P7 site; they remain in the ATAC supernatant without exponential Ad1/P7 amplification. No physical separation is represented."))
     rtprimer=g.input("rt_primer","phosphorylated biotin-UMI oligo(dT)/VN RT primer",MaterialKind.OLIGO)
     rt=g.input("rt","reverse transcriptase",MaterialKind.CATALYST)
     indexed=g.product("indexed","RNA and ATAC molecules exposing the shared ligation anchor",MaterialKind.MOLECULAR,state=_both_modalities(0))
@@ -247,7 +348,29 @@ def protocol_graph():
     switched=g.product("switched","template-switched RNA-derived cDNA",MaterialKind.MOLECULAR,state=rna.state)
     g.react("template_switch","Template-switch the captured RNA branch",StepKind.TEMPLATE_SWITCHING,((rna,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(switched,))
     reviewed.extend(("ligase","seal","release_condition","release","streptavidin","separate","tso","template_switch"))
-    finish_pcr_branch(g,"rna",switched,RNA,RNA_P,reviewed,label="SHARE-seq RNA")
-    finish_pcr_branch(g,"atac",atac,ATAC,ATAC_P,reviewed,label="SHARE-seq ATAC")
+    # Published "cDNA library preparation" (JATS line 243): on-bead KAPA HiFi PCR with the
+    # P7 primer and RNA PCR primer (5 cycles plus qPCR-determined extra cycles), then
+    # 0.8x/0.6x AMPure.  "Tagmentation and scRNA-seq library preparation" (line 245):
+    # Tn5 loaded with the Read1 oligo only fragments 50 ng cDNA at 55 C; Ad1 + P7 PCR.
+    cdna_fwd=g.input("cdna_p7","P7 primer (round 3 barcode 5-prime arm)",MaterialKind.OLIGO)
+    cdna_rev=g.input("cdna_rna_pcr","RNA PCR primer (TSO 5-prime part)",MaterialKind.OLIGO)
+    kapa=g.input("cdna_kapa","KAPA HiFi PCR mix",MaterialKind.CATALYST)
+    amplified=g.product("amplified_cdna","barcoded full-length cDNA amplified between P7 and the TSO handle",MaterialKind.MOLECULAR,state=_amplified_cdna())
+    g.react("cdna_pcr","Amplify barcoded cDNA on beads with P7 and RNA PCR primers",StepKind.PCR,((switched,InputRole.TEMPLATE),(cdna_fwd,InputRole.STRUCTURAL),(cdna_rev,InputRole.STRUCTURAL),(kapa,InputRole.CATALYST)),(amplified,),geometry=PCRGeometry.exact(amplified.state,PCRPrimer("P7 primer",il.P7),PCRPrimer("RNA PCR primer",RNA_PCR),statement="Published cDNA library preparation: KAPA HiFi with 400 nM P7 primer and 400 nM RNA PCR primer (Table S1 bulk oligos)."))
+    r1tn5=g.input("rna_read1_transposome","Tn5 loaded with Read1/blocked ME-complement only",MaterialKind.ADAPTER)
+    rna_tn5=g.input("rna_tn5","Tn5 transposase (cDNA tagmentation)",MaterialKind.CATALYST)
+    fragments=g.product("rna_fragments","Read1-tagged cDNA fragments retaining the 3-prime barcode chain",MaterialKind.MOLECULAR,state=_tagmented_cdna())
+    others=g.product("rna_other_fragments","internal and TSO-end cDNA fragments without the P7 barcode end",MaterialKind.MOLECULAR)
+    g.react("rna_tagment","Tagment amplified cDNA with Read1-only Tn5",StepKind.TAGMENTATION,((amplified,InputRole.TEMPLATE),(r1tn5,InputRole.STRUCTURAL),(rna_tn5,InputRole.CATALYST)),(fragments,others))
+    g.mark_terminal(Terminal(others.id,Disposition.UNRESOLVED,"Fragments lacking the P7-terminated barcode end are not exponentially amplified by Ad1 + P7; Zymo and 0.7x AMPure cleanups are not represented as removing them."))
+    reviewed.extend(("cdna_p7","cdna_rna_pcr","cdna_kapa","cdna_pcr","rna_read1_transposome","rna_tn5","rna_tagment"))
+    primers=dict(forward_label="sample-barcoded Ad1 primer (v2_Ad1 family)",reverse_label="P7 primer",
+                 forward_state=AD1_PRIMER,reverse_state=P7_PRIMER,primer_source=LIBRARY_PCR_SOURCE)
+    finish_pcr_branch(g,"rna",fragments,RNA,RNA_P,reviewed,label="SHARE-seq RNA",read_lengths=READ_LENGTHS_NEXTSEQ,
+                      step_label="Amplify tagmented cDNA with a sample-barcoded Ad1 primer and the P7 primer (7 cycles)",
+                      polymerase_label="NEBNext High-Fidelity 2× PCR Master Mix",**primers)
+    finish_pcr_branch(g,"atac",atac,ATAC,ATAC_P,reviewed,label="SHARE-seq ATAC",read_lengths=READ_LENGTHS_NEXTSEQ,
+                      step_label="Amplify ATAC fragments with a library-specific Ad1 primer and the P7 primer (5 cycles plus qPCR-determined cycles)",
+                      polymerase_label="NEBNext PCR master mix",**primers)
     g.declare_reviewed_scope(reviewed,SOURCE)
     return g.require_publishable()

@@ -237,16 +237,23 @@ def protocol_graph():
                 StepKind.EXTENSION,
                 ((genome,InputRole.TEMPLATE),(random_primer,InputRole.STRUCTURAL),
                  (phi29,InputRole.CATALYST)),(amplified,))
-    endprep=graph.input("endprep_enzymes","blunting and phosphorylation enzymes",
-                        MaterialKind.CATALYST)
-    repaired=graph.product("repaired_pta","blunt phosphorylated PTA products",MaterialKind.MOLECULAR)
-    graph.react("end_repair","Blunt and phosphorylate extendable PTA ends",StepKind.END_REPAIR,
+    # One Atrandi End Prep reaction (DGPM02323198001 V3 steps 25-30: End Prep Enzyme Mix +
+    # Reaction Buffer, 20 C 30 min then 65 C 30 min). The guide does not name the enzymatic
+    # activities; the repair/dA-tail split below is this model's interpretation.
+    endprep=graph.input("endprep_enzymes",
+                        "Atrandi End Prep Enzyme Mix and Reaction Buffer (CRP-EPE1/EPB1; 20 °C 30 min, 65 °C 30 min)",
+                        MaterialKind.CATALYST,
+                        source="Atrandi DGPM02323198001 V3 steps 25–30")
+    repaired=graph.product("repaired_pta","blunt phosphorylated PTA products",MaterialKind.MOLECULAR,
+                           inferred=True,source=SOURCE+"; activities of the single End Prep mix are not named by the V3 guide")
+    graph.react("end_repair","INFERRED activity split: blunt and phosphorylate extendable PTA ends",StepKind.END_REPAIR,
                 ((amplified,InputRole.TEMPLATE),(endprep,InputRole.CATALYST)),(repaired,))
-    tail_pol=graph.input("tailing_polymerase","dA-tailing polymerase",MaterialKind.CATALYST)
-    tailed=graph.product("tailed_pta","dA-tailed PTA products",MaterialKind.MOLECULAR)
-    graph.react("da_tail","Add 3′ dA to extendable repaired ends",StepKind.TAILING,
-                ((repaired,InputRole.TEMPLATE),(tail_pol,InputRole.CATALYST)),(tailed,))
-    ligase=graph.input("dna_ligase","DNA ligase",MaterialKind.CATALYST)
+    tailed=graph.product("tailed_pta","dA-tailed PTA products",MaterialKind.MOLECULAR,
+                         inferred=True,source=SOURCE+"; dA-tailing inferred from the same End Prep reaction and the T/A barcode junction")
+    graph.react("da_tail","INFERRED activity split: add 3′ dA in the same End Prep reaction",StepKind.TAILING,
+                ((repaired,InputRole.TEMPLATE),(endprep,InputRole.CATALYST)),(tailed,))
+    ligase=graph.input("dna_ligase","Atrandi Ligation Enzyme and 10X Ligation Buffer (CRP-LGE1/LGB1; 22 °C 15 min per round, then STOP Buffer)",
+                       MaterialKind.CATALYST,source="Atrandi DGPM02323198001 V3 steps 31–43")
     current=tailed
     for letter in "ABCD":
         cassette=graph.input("barcode_"+letter.lower(),"round "+letter+" barcode cassette",
@@ -266,12 +273,23 @@ def protocol_graph():
     released=graph.product("released_dna","released four-round-barcoded DNA",MaterialKind.MOLECULAR)
     graph.react("release","Release barcoded DNA from the capsules",StepKind.EXTRACTION,
                 ((current,InputRole.TEMPLATE),(release,InputRole.CONDITION)),(released,))
+    # Preprint v2 Methods "Library preparation for sequencing": 0.8X AMPure XP; V3 library
+    # guide section I steps 6-17: 80 uL beads to 100 uL, two 80% ethanol washes, 27 uL elution.
+    beads=graph.input("ampure_xp","AMPure XP paramagnetic beads",MaterialKind.SELECTION,
+                      source="Preprint v2 Methods; Atrandi DGPM02323206001 V3 sections I, IV and VI")
+    purified=graph.product("purified_dna","0.8X AMPure XP-purified released DNA",MaterialKind.MOLECULAR)
+    release_waste=graph.product("release_supernatant","0.8X bead supernatant and ethanol washes after release",
+                                MaterialKind.WASTE)
+    graph.react("release_cleanup","Purify released DNA with 0.8X AMPure XP",StepKind.CLEANUP,
+                ((released,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(purified,release_waste),
+                source="Preprint v2 Methods; Atrandi DGPM02323206001 V3 section I steps 6–17")
+    graph.discard(release_waste,"bead supernatant and washes are removed")
     fs=graph.input("fs_mix","NEBNext Ultra II FS fragmentation mix",MaterialKind.CATALYST)
     fragments=graph.product("fs_fragments","barcoded 300–700-bp DNA fragments",MaterialKind.MOLECULAR)
     fs_waste=graph.product("fs_waste","distal fragmentation products without the barcode end",
                            MaterialKind.WASTE)
     graph.react("fragment","Fragment released barcoded DNA",StepKind.FRAGMENTATION,
-                ((released,InputRole.TEMPLATE),(fs,InputRole.CATALYST)),(fragments,fs_waste))
+                ((purified,InputRole.TEMPLATE),(fs,InputRole.CATALYST)),(fragments,fs_waste))
     graph.discard(fs_waste,"only barcode-proximal fragments can form the intended library")
     fs_tailed=graph.product("fs_tailed","end-repaired and dA-tailed barcode-proximal fragments",
                             MaterialKind.MOLECULAR)
@@ -280,14 +298,26 @@ def protocol_graph():
     lig_adapter=graph.input("ligation_adapter","Atrandi T-overhang ligation adapter",
                             MaterialKind.ADAPTER, state=ligation_adapter(),
                             source="Atrandi DGPM02323206001 V3 p4 adapter table")
-    pre=graph.product("pre_pcr",pre_pcr().name,MaterialKind.MOLECULAR,state=pre_pcr(),
-                      inferred=True,source=SOURCE+" (barcode-side arm inferred)")
+    ultra_lig=graph.input("ultraii_ligation",
+        "NEBNext Ultra II Ligation Master Mix and Ligation Enhancer (20 °C 15 min; 2.5 µL of 1.5 µM adapter)",
+        MaterialKind.CATALYST,source="Atrandi DGPM02323206001 V3 section III")
+    ligated=graph.product("ligated",pre_pcr().name+" in ligation mix",MaterialKind.MOLECULAR,
+                          state=pre_pcr(),inferred=True,source=SOURCE+" (barcode-side arm inferred)")
     graph.react("adapter_ligation","Ligate the non-barcode sequencing adapter",
                 StepKind.LIGATION,
                 ((fs_tailed,InputRole.TEMPLATE),(lig_adapter,InputRole.STRUCTURAL),
-                 (ligase,InputRole.CATALYST)),(pre,),
+                 (ultra_lig,InputRole.CATALYST)),(ligated,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "The ligation adapter is source-known; the opposite barcode-cassette end is not established in this model."))
+                    "The ligation adapter is source-known; the opposite barcode-cassette end is not established in this model."),
+                source="Atrandi DGPM02323206001 V3 section III")
+    pre=graph.product("pre_pcr",pre_pcr().name,MaterialKind.MOLECULAR,state=pre_pcr(),
+                      inferred=True,source=SOURCE+" (barcode-side arm inferred)")
+    lig_waste=graph.product("ligation_supernatant","0.8X bead supernatant and ethanol washes after ligation",
+                            MaterialKind.WASTE)
+    graph.react("ligation_cleanup","Purify the ligation with 0.8X AMPure XP",StepKind.CLEANUP,
+                ((ligated,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(pre,lig_waste),
+                source="Atrandi DGPM02323206001 V3 section IV")
+    graph.discard(lig_waste,"bead supernatant and washes are removed; their composition is not characterized by the source")
     p5=graph.input("p5_primer","Atrandi V3 example P5 library primer",MaterialKind.OLIGO,
         state=Construct([_seg("P5 primer", ATRANDI_P5,
             note="V3 p4: terminal phosphorothioate linkage before the last base")]),
@@ -299,15 +329,27 @@ def protocol_graph():
             _seg("Read 2 arm", ATRANDI_I7_ANNEAL, "t7",
                  note="V3 p4: terminal phosphorothioate linkage before the last base")]),
         source="Atrandi DGPM02323206001 V3 p4 example primer table")
-    pcr_pol=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
+    pcr_pol=graph.input("pcr_polymerase",
+        "NEBNext Ultra II Q5 Master Mix (E7805S component; 98 °C 20 s / 54 °C 30 s / 72 °C 20 s, 8–14 cycles)",
+        MaterialKind.CATALYST,source="Atrandi DGPM02323206001 V3 section V")
     final=final_library()
-    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,inferred=True,
-                          source=SOURCE+" (barcode-side arm inferred)")
+    amplified_lib=graph.product("pcr_product",final.name+" in PCR mix",MaterialKind.LIBRARY,
+                                state=final,inferred=True,source=SOURCE+" (barcode-side arm inferred)")
     graph.react("library_pcr","Install P5, P7 and the sample index",StepKind.PCR,
                 ((pre,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
-                 (i7,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(library,),
+                 (i7,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(amplified_lib,),
                 geometry=PCRGeometry.unavailable(
                     final,reason="This declaration infers part of the barcode-side landing arm; exact cassette strand evidence remains under source review."))
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final,inferred=True,
+                          source=SOURCE+" (barcode-side arm inferred)")
+    large=graph.product("large_fraction","material bound at 0.6X (beads discarded)",MaterialKind.WASTE)
+    small=graph.product("final_supernatant","0.8X bead supernatant and ethanol washes",MaterialKind.WASTE)
+    graph.react("double_sided_cleanup","Double-sided 0.6X/0.8X AMPure XP size selection",
+                StepKind.CLEANUP,((amplified_lib,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),
+                (library,large,small),
+                source="Preprint v2 Methods (double-sided AMPure); Atrandi DGPM02323206001 V3 section VI")
+    graph.discard(large,"0.6X-bound beads are left behind when the supernatant is transferred")
+    graph.discard(small,"bead supernatant and washes are removed")
     graph.sequence(library,SequencingPlan(library=final,primers=tuple(SEQ_PRIMERS),
         acquired_roles=ACQUIRED_ROLES,read_lengths={"Index 1 (i7)":6}))
     graph.annotate(SourceDiscrepancy(
@@ -344,10 +386,11 @@ def protocol_graph():
         uncertainty="A kit revision, plate lot or source error may explain the round-A difference; the used plate is unknown.",
         slot=AnnotationSlot.INTRO))
     scope=["microbial_cells","lysis_condition","lyse","pta_primer","phi29","pta_amplify",
-           "endprep_enzymes","end_repair","tailing_polymerase","da_tail","dna_ligase"]
+           "endprep_enzymes","end_repair","da_tail","dna_ligase"]
     for letter in "abcd": scope.extend(("barcode_"+letter,"ligate_"+letter))
-    scope.extend(("release_condition","release","fs_mix","fragment","fs_endprep",
-                  "ligation_adapter","adapter_ligation","p5_primer","i7_primer",
-                  "pcr_polymerase","library_pcr","library"))
+    scope.extend(("release_condition","release","ampure_xp","release_cleanup","fs_mix",
+                  "fragment","fs_endprep","ligation_adapter","ultraii_ligation",
+                  "adapter_ligation","ligation_cleanup","p5_primer","i7_primer",
+                  "pcr_polymerase","library_pcr","double_sided_cleanup","library"))
     graph.declare_reviewed_scope(scope,SOURCE)
     return graph.require_publishable()

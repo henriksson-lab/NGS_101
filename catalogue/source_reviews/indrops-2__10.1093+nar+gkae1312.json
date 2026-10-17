@@ -158,5 +158,25 @@
       "evidence": "The original corrected oligo table provides broad sequences; full branch-by-branch model comparison and independent second check remain."
     }
   ],
-  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published NAR PMC11724362 JATS Methods lines105 (encapsulation, RT-lysis mixes incl. 50uM TSO in TS mix, photo-release, RT), 113 (inDrops-2 IVT library), 117 (inDrops-2 TS library, read cycles), 121-125 (V1/V2 bead synthesis, full-length primers); corrected Supplementary Tables workbook Table S1 lines16-55, Table S2 head/bc1/bc2 rows (lines56-62, 440-446), S3/S4 heads",
+      "oligo_scraper": "Bundle scraper run (--max-hits 40); Table S1 hits (v1 stub, PE2-N6, PE1, PE2-Ind, v2 RT primer, TSO, cDNA FWD/REV, ligation FWD/REV, forward index, PE2-ind) and Table S2 bc1/bc2 hits checked against workbook lines19-50, 59, 440-446.",
+      "findings": "Model correction: previous graph tagmented both branches with Tn5 and placed template switching after a shared RT. Replaced with source-backed branches split before encapsulation: IVT = v1 beads, Maxima H minus droplet RT, NEBNext second strand, HiScribe T7 IVT, Ambion RNA fragmentation, PE2-N6 RT, 10-cycle KAPA PCR PE1/PE2-Ind; TS = v2 beads with TSO in droplet RT, 14-cycle KAPA cDNA PCR, NEB FS fragmentation/ER/dA, annealed modified adapter ligation, 14-cycle Q5 PCR forward index/PE2-ind. Final library roles reordered (i7 on PE2/P7 side, 6-nt index). Read cycles per branch (IVT R1 54/i7 8/R2>=35; TS R1 28/i7 8/R2 35-92). Table S1 key oligos shown verbatim. Non-barcode-end fragments recorded as unresolved fates. Published discrepancies shown on page: v1 full-length primer Methods (CGATGACG 5', 11-position bc1, N8, T19) vs Table S1 (CGATTGATCAACG, 10 positions, N6, T19V; S2 bc2 N8/A19); v2 stub Methods ...CTCTTC vs Table S1 'V4 DNA stub' ...CCGATCT, T18 vs T19.",
+      "deferred": [
+        "Supplementary Protocols 1-4 (step-level IVT/TS/bead/rehydration details) not re-read this pass",
+        "Ligation adapter annealed end geometry (derived 3' T overhang on REV) not drawn",
+        "Exact v1 barcode/UMI lengths and 5' stub (Methods vs Table S1 discrepancy)",
+        "Base-level library and sequencing-primer placement (role-level model)",
+        "ClickTag hashing branch not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (construction only, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/16 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 11 inputs without exact states; Markdown built; audit --check pass"
+    }
+  ]
 }

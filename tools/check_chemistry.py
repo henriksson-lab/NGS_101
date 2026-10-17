@@ -3,7 +3,9 @@
 
 This is an independent analysis of ordinary Python protocol declarations, not a
 source-transcription check or a gate for publishing a protocol. Use --details to see
-every claim and its precise scope. A contradiction exits nonzero.
+every claim and its precise scope. A contradiction exits nonzero. A directory with no
+graph declaration (notes only, or a page without a protocol_graph()) is reported as not
+applicable and skipped; more than one declaration is an error.
 """
 from __future__ import annotations
 
@@ -45,6 +47,8 @@ def audit(name: str):
     paths = graph_module_paths(ROOT / name)
     if not paths and name == "in-situ-hi-c__10.1016+j.cell.2014.11.021":
         paths = [ROOT / name / "tools" / "insitu_hic.py"]
+    if not paths:
+        return None
     if len(paths) != 1:
         raise ValueError(f"{name}: expected one graph declaration, found {len(paths)}")
     path = paths[0]
@@ -67,7 +71,11 @@ def main() -> int:
     names = args.dirs or (*PILOTS, *BOUNDARIES)
     total = Counter()
     for name in names:
-        graph, claims = audit(name)
+        audited = audit(name)
+        if audited is None:
+            print(f"{name}: not applicable (no protocol graph declaration)")
+            continue
+        graph, claims = audited
         counts = Counter(claim.status.value for claim in claims)
         total.update(counts)
         summary = ", ".join(f"{status.value}={counts[status.value]}" for status in Status)

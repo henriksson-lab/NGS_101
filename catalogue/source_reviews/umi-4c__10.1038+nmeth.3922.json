@@ -100,5 +100,25 @@
       "evidence": "Oligo strands and experimental steps are published, but the full original Online Methods and molecular pairing have not received two independent checks."
     }
   ],
-  "conclusion": "The source-positive adapter and example viewpoint primers are now shown on the page. Exact adapter-end pairing and the complete original article remain under review."
+  "conclusion": "The source-positive adapter and example viewpoint primers are now shown on the page. Exact adapter-end pairing and the complete original article remain under review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Defining article: get_sources rerun and Europe PMC lookup (PMID 27376768, no PMC copy; full text/Online Methods gated, unread). Published MOESM330 Supplementary Information PDF identity (page footers 'Nature Methods: doi:10.1038/nmeth.3922'), Supp Fig1 legend .txt79–85, Supp Table1 legend2193–2195, Supp Fig10 legend1529–1530, Supp Table4 2529–2641; MOESM331 umi4c-usage.html.txt Background74–83, baits table190–209; GEO GSM2054403 SOFT record (series GSE77553 title/PMID 27919068, 3way 4C extract protocol)",
+      "oligo_scraper": "Bundle scraper hits for Table4 adapter/Universal Primer 2/US/DS/pad rows previously verified; rechecked against printed Table4 lines 2562–2641. Scraper output not counted as reading.",
+      "findings": "GEO GSM2054403/GSE77553 is the C-walks study (PMID 27919068), not the UMI-4C defining deposit; its 3way 4C dephosphorylation/heat strand release now shown as labelled related-study inferred steps. Universal Primer 2 is the reverse primer in both PCRs (was 'indexed universal-adapter primer'); DS bait primer carries P5/Read1 prefix, not an index. Fork pairing computed from printed strands (cohesive 3-prime T). Final library built from printed shell with R1/I1/R2 landing; paired-end R1/R2 from usage, Read1 begins with DS+pad (Supp Table1); I1 not declared acquired. Supp Fig1c linear Universal-Primer-2 products added as candidate off-product with unresolved fate.",
+      "deferred": [
+        "defining article and Online Methods (gated; no PMC copy)",
+        "enzymes, end repair/dA tailing, dephosphorylation, strand release, PCR polymerase/cycles and cleanups in the defining experiments",
+        "applicability of C-walks 3way 4C details to defining UMI-4C",
+        "acquired read lengths and whether the six-base adapter window was read",
+        "US-first nested primer order (inferred)"
+      ],
+      "scope": "Capped source pass; not complete chemistry validation or a new two-reader absence review.",
+      "verification": "page build pass; local selftest is construction-only (zero explicit checks); pairing 0 problems; chemistry 2 established/0 conditional/13 unresolved/0 contradictory; source guard 2 exact checked (adapter strand1, Universal Primer 2), 3 unrepresented (adapter strand2 N6, US/DS bait primers); Markdown built/checked; review schema checked"
+    }
+  ]
 }

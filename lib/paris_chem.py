@@ -1,4 +1,5 @@
 """Published PARIS library oligos from Lu et al.'s detailed protocol."""
+import illumina as il
 from chemdraw import Segment, feature, oligo
 
 RNA_ADAPTER = "AGATCGGAAGAGCGGTTCAG"
@@ -11,7 +12,11 @@ RT_SPACER_1 = "GGATCC"
 RT_SPACER_2 = "TACTGAACCGC"
 P3_TALL_V4 = "GGCATTCCTGCTGAACCGCTCTTCCGATCT"
 P6_TALL_V4 = "CTTTCCCCTTGTGTGTGAAGCGAAGGGT"
-P3_SOLEXA = "CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT"
+# P3-Solexa is Illumina's PE PCR Primer 2.0; P3Tall v4 is a 3' part of the same
+# historical PE Read 2 primer.
+P3_SOLEXA = il.PE_PCR_PRIMER_2
+if not il.PE_READ2_PRIMER.endswith(P3_TALL_V4):
+    raise AssertionError("P3Tall v4 is not a 3' part of the PE Read 2 primer")
 P6_SOLEXA = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
 P6_CUSTOM_SEQ = "CACTCTTTCCCCTTGTGTGTGAAGCGAAGGGTA"
 

@@ -272,5 +272,25 @@
       "evidence": "Published Supplementary Table 7 explicitly labels them C-Trap Nanopore validation primers; the preprint calls that table 5."
     }
   ],
-  "conclusion": "The source-positive Tri-C reaction order and kit families are now identified, with original-author source discrepancies shown on the page. Exact selected index pair, capture-probe bases and adapter-end geometry remain blocked."
+  "conclusion": "The source-positive Tri-C reaction order and kit families are now identified, with original-author source discrepancies shown on the page. Exact selected index pair, capture-probe bases and adapter-end geometry remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC6265079 JATS Online Methods 'Tri-C – Experimental procedure' lines169–179; cited Protocol Exchange v1 (doi:10.1038/protex.2018.113) 305eb587…pdf.txt lines130–325 (sonication, end repair, dA-tailing, ligation/USER, index PCR, capture I/II, post-capture PCR, sequencing); same PDF rendered pp10–11 Tables3 (index PCR) and5 (post-capture PCR)",
+      "oligo_scraper": "Bundle scraper run; only hits are the C-Trap validation primers (ESM Table7/PMC supp3/preprint), already resolved as non-Tri-C. No adaptor, index, blocker, Post-LM-PCR or probe bases in the inspected originals.",
+      "findings": "Added post-capture on-bead KAPA HiFi/Post-LM-PCR Oligo1&2 amplification after each of two captures (Table5); explicit hybridization (95°C denature, 47°C 64–72h/24h) with COT/TS-HE blockers, M-270 streptavidin washes; heat inactivation, RNase/phenol extraction, USER treatment, AMPure clean-ups (0.7:1 post-sonication, 1.8:1 thereafter) and 1.5µg multiplex pooling; named T4 ligase, Herculase II, NEB Universal/Index primers; read layout corrected from 150PE only to MiSeq v2 250PE and NextSeq v2 150PE. Published discrepancy displayed: article 0.7:1 post-sonication size selection vs ProtEx 1.8x/no size selection; graph uses article.",
+      "deferred": [
+        "Protocol Exchange supplement0.docx",
+        "Historical NimbleGen SeqCap EZ and NEBNext guides (Post-LM-PCR, TS-HE blocker and adaptor/uracil geometry)",
+        "Davies 2015 predecessor and ProtEx v2 beyond prior passes",
+        "Table3/5 'go to step 2, N cycles' total-cycle reading (15 post-capture cycles inferred)",
+        "Selected sample indices and acquired index-read cycles"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite (comment-only, no explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/23 unresolved/0 contradictory; source guard 0 exact checked, 6 oligo inputs without exact states; Markdown built/checked; review schema checked"
+    }
+  ]
 }

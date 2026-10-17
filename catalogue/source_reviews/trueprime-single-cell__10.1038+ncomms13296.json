@@ -86,7 +86,14 @@
       "relevance": "relevant",
       "reason": "The source does not name a kit generation or selected index member, so a version-matched vendor document cannot yet be identified.",
       "pass_1": null,
-      "pass_2": null
+      "pass_2": null,
+      "scope_transfer": {
+        "reviewer": "agent-P4-source-reviews",
+        "date": "2026-10-17",
+        "from": "catalogue/source_reviews/trueprime__10.1038+ncomms13296.json row nebnext_unidentified and its resolved (mis-scoped) NEBNext claim",
+        "locations": "/husky/henriksson/NGS101_papers/sources/trueprime__10.1038+ncomms13296/ncomms13296_PMC5141293.xml.txt Results line 78 and Methods Sequencing line 156",
+        "finding": "This review now owns the NEBNext kit-identity question. Line 78: four single HEK293 cells (3 or 6 h TruePrime) were sequenced in comparison with non-amplified bulk DNA; line 156: after ethanol precipitation, Covaris fragmentation, 'library preparation using NebNext (NEB)' and HiSeq 2500 v4 paired-end sequencing were done at GATC Biotech. No kit generation, catalogue number, index member or adapter sequence is printed. The purified-DNA review (trueprime) re-scoped this to the single-cell branch with two located scope readers (root; agent-K-second-reader). Until a specific kit is identified this row remains an open kit-identity question, not an identified inaccessible document; it supplies no reading pass and no evidence of absence."
+      }
     },
     {
       "id": "sygnis_v2_launch",
@@ -186,8 +193,40 @@
     {
       "claim": "The downstream NEBNext adapter and selected index oligos are known for the single-cell experiment",
       "disposition": "blocked",
-      "evidence": "Picher Sequencing Methods names NEBNext without kit revision or oligos."
+      "evidence": "Picher Sequencing Methods names NEBNext without kit revision or oligos.",
+      "evidence_update": "2026-10-17 (agent-P4-source-reviews): question taken over from the trueprime (purified-DNA) review, where it was resolved as mis-scoped by two readers. Picher Methods line 156 names only 'NebNext (NEB)' performed at GATC Biotech; ENA SRP085855 metadata names no library kit (rows sra_* here). Kit generation, adapter and index oligos remain unidentified; disposition stays blocked."
     }
   ],
-  "conclusion": "Two independent readers checked the original Picher methods, supplements, vendor/predecessor sources and SRA SRP085855 metadata. The original purified-DNA and single-cell branches remain distinct; later V2 lysis and predecessor random primers are not assigned to the study. ENA confirms TruePrime WGA runs but supplies no library-construction protocol. Exact downstream NEBNext kit and adapter identity remain unresolved, so no absence is accepted."
+  "conclusion": "Two independent readers checked the original Picher methods, supplements, vendor/predecessor sources and SRA SRP085855 metadata. The original purified-DNA and single-cell branches remain distinct; later V2 lysis and predecessor random primers are not assigned to the study. ENA confirms TruePrime WGA runs but supplies no library-construction protocol. Exact downstream NEBNext kit and adapter identity remain unresolved, so no absence is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Picher 2016 PMC5141293 JATS (ncomms13296_PMC5141293.xml.txt) Results line 78, Methods Single-cell WGA line 152 and Sequencing line 156; SYGNIS TruePrime Single Cell WGA Kit v2.0 Handbook pdf.txt lines 240–276, 331–375 (L2 preparation, lysis, amplification)",
+      "oligo_scraper": "Bundle scraper run (shared Picher bundle): only Fig. 3a GTCC assay template and Dean 2001 M13 primer; neither is a single-cell WGA reagent.",
+      "findings": "Verified L2 10 min on ice, Buffer N, 42.5 µl mix (26.8 H2O/5 buffer/5 dNTPs/5 TthPrimPol/0.7 phi29), 3 or 6 h 30 °C, 65 °C 10 min; handbook v2.0 5 min RT + 1 min 95 °C lysis difference kept on page. Added the source-stated ethanol precipitation as a CLEANUP with discarded supernatant before fragmentation; Covaris condition and fragments are now source-stated (settings unreported) rather than inferred; sequencing limitation and ending record HiSeq 2500 v4 at GATC with 125 bp paired reads (Results line 78); NEBNext MAGIC reason narrowed to what the paper names.",
+      "deferred": [
+        "NEBNext kit generation, adapter/index oligos and primer sites (GATC Biotech service)",
+        "SYGNIS handbook revision actually used in the 2016 experiments",
+        "Precipitation and Covaris settings",
+        "Dean 2001 MDA predecessor not re-read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "protocol.py test 1/1 pass; protocol.py build writes page; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory with library_prep MAGIC warning; source guard 0 checked, 0 failed, 0 inputs without exact states (no oligo inputs); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-followup-P4-source-reviews",
+      "reviewer": "agent-P4-source-reviews",
+      "date": "2026-10-17",
+      "documents": 1,
+      "scope": "Ownership transfer of the NEBNext kit-identity question from the trueprime review; no model change.",
+      "locations": "ncomms13296_PMC5141293.xml.txt lines 78 and 156 (trueprime bundle)",
+      "findings": "Confirmed the NEBNext/HiSeq 2500 sequencing belongs to the single-cell (and non-amplified bulk) samples; recorded the transfer on row nebnext_library_guide and the NEBNext claim.",
+      "deferred": [
+        "Identification of the NEBNext kit generation/catalogue number used by GATC Biotech (no identified disclosure document)"
+      ]
+    }
+  ]
 }

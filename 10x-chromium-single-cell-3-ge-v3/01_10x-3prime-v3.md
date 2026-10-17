@@ -34,3 +34,32 @@ the latter two currently show final-library endpoints and do not assert the
 compatible with both input lengths because index PCR completes it. Those
 pages therefore do not receive this input-adaptor discrepancy notice merely
 because their final libraries share canonical Illumina bases.
+
+
+## Bounded source pass (2026-10-17, round breadth-first-06)
+
+Re-read CG000183 Rev A Appendix oligonucleotide sequences (extracted lines
+4868–5016, pp. 54–55), Steps 2.1–3.6 (TOC lines 98–132; 3.1 program lines
+3750–3800; 3.2 lines 3890–3905; 3.4 lines 4028–4035; 3.6 lines 4225–4235) and
+the sequencing table (lines 4370–4392), with the bundle scraper. All printed
+GE oligos still match the model; read layout 28/8/0/91 confirmed. The two
+existing published-discrepancy notices (poly(dT)VN label vs T30 appendix oligo;
+32-base adaptor vs `CAGTCAC` ligation product) were rechecked and remain.
+
+Model corrections:
+
+- 🟢 The graph now carries the guide's bead cleanups: Dynabeads MyOne SILANE
+  post GEM-RT cleanup (2.1), 0.6X SPRIselect cDNA cleanup (2.3), double-sided
+  0.6X/0.8X after fragmentation/end repair/A-tailing (3.2), 0.8X post-ligation
+  (3.4) and double-sided 0.6X/0.8X after sample-index PCR (3.6), with removed
+  fractions declared as discarded waste; the sequenced library is the 3.6
+  product.
+- 🟢 The page now shows the second gel-bead primer printed on p. 54,
+  `GTCAGATGTGTATAAGAGACAG` (Nextera Read 1) · 16 N barcode · 12 N UMI ·
+  `TTGCTAGGACCGGCCTTAAAGC` (Capture Sequence 1), which the guide labels "Primer
+  not used for 3' Gene Expression". It is not drawn as a reaction participant;
+  whether it yields side products in GE GEMs is not stated.
+
+Still open: RT primer and TSO graph inputs have no exact molecular state (the
+shared Chromium operation does not accept one); later CG000183 revisions not
+compared.

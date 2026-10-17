@@ -118,5 +118,24 @@
       "evidence": "CG000185 Rev A/B print 15-base feature-barcode architecture; later CG000193 publishes a 15-base custom-conjugate whitelist. Neither checked guide or whitelist maps a supplier antibody SKU to one member. CG000149 Rev D and CG000193 each have only one located reading, their historical applicability is unresolved, and supplier catalog data remain unchecked."
     }
   ],
-  "conclusion": "Two independent readings of CG000185 Rev A/B establish the v3 library architecture. New linked 10x CG000149 Rev D and CG000193 whitelist sources have one reading each; supplier SKU-to-barcode mapping and original-era labeling-document revision remain blocked."
+  "conclusion": "Two independent readings of CG000185 Rev A/B establish the v3 library architecture. New linked 10x CG000149 Rev D and CG000193 whitelist sources have one reading each; supplier SKU-to-barcode mapping and original-era labeling-document revision remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "10x CG000185 Rev B user guide (scg_ mirror of vendor PDF, manifest what=vendor guide) txt stepwise overview 1150-1240/1340-1460, labeling guidelines 1465-1510, GEM-RT 3255-3290, steps 2.2-2.3 3676-3999, 4.1-4.2 4990-5175, step 5 run parameters 5176-5330, oligo appendix 5840-6114; linked CG000149 Rev D labeling overview 520-600",
+      "oligo_scraper": "Bundle scraper run (263 rows); Rev A/Rev B hits all within appendix lines read; Feature cDNA Primers 2, Feature SI Primers 2 and Chromium i7 strings verified at Rev B appendix p.65-66.",
+      "findings": "Declared printed Feature cDNA Primers 2 (PN-2000097) and Feature SI Primers 2 (PN-2000099)/Chromium i7 (PN-220103) with exact PCR geometry instead of inferred placeholder primers; amplified feature DNA now starts with the 27-nt Partial Read 1N; added GEM-RT conditions, Recovery Agent/Dynabeads cleanup, 2.0X supernatant cleanup and 1.2X post-index cleanup; 0.6X pellet is a stored gene-expression branch rather than discarded waste; unbound-antibody discard tied to CG000149 washes; Read 2 acquisition corrected to recommended 91 cycles (25 bp stated as minimum). No published discrepancy found.",
+      "deferred": [
+        "CG000185 Rev A to Rev B delta",
+        "Antibody oligo 3-prime blocking/TSO behaviour (not stated in Rev B)",
+        "Supplied antibody feature barcode assignments (CG000193 whitelist not read)",
+        "CG000183 GEX guide reagent identities and gene-expression branch"
+      ],
+      "scope": "Capped vendor-guide pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2/2 and page build pass; pairing 0 problems; chemistry 1 established/1 conditional/9 unresolved/0 contradictory; source guard 3 exact checked (feature_pcr_forward/reverse, index_pcr_forward), 0 failed, 2 unrepresented (bead_primer, index_pcr_reverse); Markdown built; review schema checked"
+    }
+  ]
 }

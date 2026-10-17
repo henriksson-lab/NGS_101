@@ -216,5 +216,24 @@
       "evidence": "The inspected preprint and UM002 guide establish roles and index windows; Pixelator publishes only the internal amplicon. The patent cites an unrecovered ST.26 sequence listing, and a second independent source check is pending."
     }
   ],
-  "conclusion": "Paper-era UM001 manual is now recovered and supports the same read lengths and original kit workflow; patent sequence listing and independent second pass still block any complete-oligo absence claim. The official Pixelgen index exposes a v1.00 FMC63 spike-in guide, but the paper cites DP001 v1.01 and neither guide was read."
+  "conclusion": "Paper-era UM001 manual is now recovered and supports the same read lengths and original kit workflow; patent sequence listing and independent second pass still block any complete-oligo absence claim. The official Pixelgen index exposes a v1.00 FMC63 spike-in guide, but the paper cites DP001 v1.01 and neither guide was read.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Karlsson et al. bioRxiv 10.1101/2025.06.19.660329 v3 (posted 2026-08-18; no published version identified) PDF .txt lines 105-125 (Results, PNA design), 178-187 (Fig.1 legend), 598-620 (Methods: PNA, PCR, SPRI, NextSeq2000 44/78); Pixelgen UM002 v1.00 .txt lines 255-275 and STEP 3.1-3.2, 4.1-4.4, 5.1-5.6, 6.1-6.3 (Tables 9, 11, 12, 16; 271-bp library); UM001 v1.01 .txt line 1609 (RCA step E) for comparison",
+      "oligo_scraper": "Bundle scraper run; only short false hits in the Pixelator panel CSV; no kit oligo sequences printed in preprint, UM001/UM002 or patent HTML text.",
+      "findings": "Added UM002 2nd-antibody stabilization step with wash discard; recorded padlock hybridization 30 min 45C, Gap-fill 1/2 30 min 25C, RCA 15 min 30C, Proximity Oligo hybridization 30 min 45C, 8,000-cell digestion, 4-cycle pre-amp, 5/6/8-cycle indexing by cell input; added both 1:1 SPRI cleanups with supernatant discards and ~271-bp final library caption. Unclosed padlocks, unlinked RCPs and digestion debris changed from physical discards to unresolved fates. Graph-owned published discrepancy: preprint Methods RCA 10 min vs UM002/UM001 15 min at 30C; model uses UM002.",
+      "deferred": [
+        "UM002 Figure 2a/2b molecular description (image) and the source of the TruSeq R1/Nextera R2 handle assignment",
+        "Patent WO2025158200A1 ST.26 sequence listing (unavailable) and mapping to kit oligos",
+        "Pre-amp/index primer, padlock, conjugate and Proximity Oligo molecules (not printed in inspected texts)",
+        "Paper-era RCA time (10 vs 15 min) and manual revision used for the paper experiments"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (graph publishable, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 6 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

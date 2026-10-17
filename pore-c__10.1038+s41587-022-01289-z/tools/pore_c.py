@@ -73,53 +73,53 @@ INITIAL_ROWS=tuple(chromatin_rows())
 
 def workflow():
     wf=Workflow(MolecularState(INITIAL_NAME,INITIAL_ROWS))
-    wf.react('Overnight NlaIII restriction digest',digested_rows(),
-             note='NlaIII cuts CATG and exposes mutually compatible cohesive ends while spatial contacts remain crosslinked.')
+    wf.react('SDS denaturation (65 °C, 10 min) and detergent quench, then NlaIII digest in nuclei (1 U/µl, 37 °C, 18 h)',digested_rows(),
+             note='NlaIII cuts CATG and exposes mutually compatible cohesive ends while spatial contacts remain crosslinked (ONT extraction protocol v5, Day 1).')
     ligrows=rows(CONCATEMER,'multiway contact')
     # Exact covalent boundaries are owned by Scene junction markers.
     sc=Scene.duplex(list(CONCATEMER),label='multiway contact')
     sc.junction('top','A-B NlaIII ligation junction','contact fragment B','proximity ligation')
     sc.junction('top','B-C NlaIII ligation junction','contact fragment C','proximity ligation')
     ligrows=[*sc.rows(),*annotation_rows(CONCATEMER)]
-    wf.react('T4 DNA ligase in intact crosslinked nuclei',ligrows,
-             note='Compatible ends from several proximal loci become one chimeric dsDNA polymer.')
-    wf.react('Proteinase K reverse-crosslinking and DNA purification',rows(CONCATEMER,'released concatemer'),
+    wf.react('Heat-inactivate NlaIII (65 °C, 20 min); T4 DNA ligase in intact crosslinked nuclei (16 °C, 6 h)',ligrows,
+             note='Compatible ends from several proximal loci become one chimeric dsDNA polymer. ONT protocol v5 "Proximity ligation A with heat denaturation"; enzymes not heat-labile at 65 °C (e.g. HindIII) use SDS/detergent inactivation instead.')
+    wf.react('Proteinase K/SDS reverse-crosslinking (56 °C, 18 h); phenol:chloroform extraction and ethanol precipitation',rows(CONCATEMER,'released concatemer'),
              note='The covalent multiway DNA concatemer is released intact; no PCR is performed.')
-    wf.react('Optional size selection, then repair and dA-tailing',dA_tailed_scene(DA_CONCATEMER).rows(),
-             note='The later ONT info sheet recommends 0.85X SPRI selection when yield permits and a native ligation kit; the original paper\'s kit remains unverified.')
+    wf.react('SPRI size selection (>1.5 kb), then repair and dA-tailing',dA_tailed_scene(DA_CONCATEMER).rows(),
+             note='Published Methods (Nanopore sequencing) and GEO GSE149117 sample protocols: SPRI selection for fragments >1.5 kb, then ONT SQK-LSK109. The LSK109 kit document is unread; the drawn end-prep/dA-tail follows the later ONT LSK114 example (the later info sheet makes 0.85X SPRI optional).')
     wf.react('ONT ligation-adapter attachment',final_rows(),
-             note='In the later V14 example, Salt-T4 DNA ligase attaches motor-loaded adapters to repaired concatemer ends.')
+             note='The published Methods and GEO GSE149117 record SQK-LSK109; its adapter/ligase documentation is unread, so the drawn Salt-T4/V14 attachment is the later ONT example.')
     return wf
 
 def protocol_graph():
     source="Defining source: https://doi.org/10.1038/s41587-022-01289-z"
-    vendor="Later ONT RE-Pore-C info sheet and SQK-LSK114 ligation guidance; the kit used in the defining 2022 paper is unverified"
+    vendor="Later ONT RE-Pore-C info sheet and SQK-LSK114 ligation guidance; the 2022 published Methods (and GEO GSE149117) record SQK-LSK109, whose kit document is unread"
     graph=ProtocolGraph("Pore-C",authority=source)
     chromatin=graph.input("chromatin","formaldehyde-crosslinked proximal chromatin",
                           MaterialKind.BIOLOGICAL,state=tuple(chromatin_rows()),primary=True)
     nla=graph.input("nlaiii","NlaIII restriction enzyme",MaterialKind.CATALYST)
     fragments=graph.product("restriction_fragments","crosslinked NlaIII restriction fragments",
                             MaterialKind.MOLECULAR,state=tuple(digested_rows()))
-    graph.react("digest","Digest crosslinked chromatin with NlaIII",StepKind.DIGESTION,
+    graph.react("digest","Digest SDS-denatured, detergent-quenched crosslinked chromatin with NlaIII (37 °C, 18 h)",StepKind.DIGESTION,
                 ((chromatin,InputRole.TEMPLATE),(nla,InputRole.CATALYST)),(fragments,))
     ligase=graph.input("t4_ligase","T4 DNA ligase",MaterialKind.CATALYST)
     concatemer=graph.product("crosslinked_concatemer","crosslinked multiway proximity concatemer",
                              MaterialKind.MOLECULAR,state=CONCATEMER)
-    graph.react("proximity_ligation","Ligate proximal restriction fragments in intact nuclei",
+    graph.react("proximity_ligation","Heat-inactivate NlaIII (65 °C, 20 min), then ligate proximal restriction fragments in intact nuclei (16 °C, 6 h)",
                 StepKind.PROXIMITY_LIGATION,
                 ((fragments,InputRole.TEMPLATE),(ligase,InputRole.CATALYST)),(concatemer,))
     proteinase=graph.input("proteinase_k","proteinase K and reverse-crosslink conditions",
                            MaterialKind.CATALYST)
     released=graph.product("released_concatemer","purified intact multiway DNA concatemer",
                            MaterialKind.MOLECULAR,state=CONCATEMER)
-    graph.react("deproteinize","Reverse crosslinks and remove proteins",StepKind.DEPROTEINIZATION,
+    graph.react("deproteinize","Reverse crosslinks with proteinase K/SDS (56 °C, 18 h); phenol:chloroform extraction and ethanol precipitation",StepKind.DEPROTEINIZATION,
                 ((concatemer,InputRole.TEMPLATE),(proteinase,InputRole.CATALYST)),(released,))
-    selector=graph.input("long_fragment_selection","optional 0.85X SPRI size-selection beads",
+    selector=graph.input("long_fragment_selection","SPRI beads selecting fragments >1.5 kb (published Methods; GEO GSE149117)",
                          MaterialKind.SELECTION)
     selected=graph.product("selected_concatemer","long selected multiway concatemer",
                            MaterialKind.MOLECULAR,state=CONCATEMER)
     rejected=graph.product("short_fragments","rejected short DNA fragments",MaterialKind.WASTE)
-    graph.react("size_selection","Enrich long multi-contact concatemers when input permits",StepKind.SELECTION,
+    graph.react("size_selection","SPRI-select purified concatemers >1.5 kb (published Methods; GEO GSE149117)",StepKind.SELECTION,
                 ((released,InputRole.TEMPLATE),(selector,InputRole.SELECTION)),(selected,rejected))
     graph.discard(rejected,"short fragments are removed to preserve multi-contact molecules")
     endprep=graph.input("end_repair_mix","end-repair and dA-tailing enzymes",MaterialKind.CATALYST)
@@ -136,13 +136,13 @@ def protocol_graph():
     geometry=reported_adapter_end(
         "ONT ligation adapter",kind="cohesive",polarity="3-prime",terminal_sequence="T",
         substrate_scenes=(dA_tailed_scene(DA_CONCATEMER),),
-        statement="The later ONT info sheet recommends an SQK-LSK114 native ligation branch; its kit documentation specifies dA-tailed DNA and complementary adapter dT. This does not establish the kit used in the 2022 paper.")
+        statement="The later ONT info sheet recommends an SQK-LSK114 native ligation branch; its kit documentation specifies dA-tailed DNA and complementary adapter dT. The 2022 paper's Methods (and GEO GSE149117) record SQK-LSK109; that kit's adapter-end documentation is unread.")
     graph.react("adapter_ligation","Attach motor-loaded ONT ligation adapters",
                 StepKind.LIGATION,
                 ((tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
                  (adapter_ligase,InputRole.CATALYST)),(library,),geometry=geometry)
     graph.sequence(library,SequencingPlan(
-        limitation="Nanopore sequencing is primer-free. The exact kit and adapter used by the defining 2022 paper remain unresolved; the drawn dA/dT attachment is a later vendor-documented example.",
+        limitation="Nanopore sequencing is primer-free. The defining 2022 paper's Methods record SQK-LSK109; its adapter is unread, and the drawn dA/dT attachment is a later vendor-documented (LSK114) example.",
         acquired_roles=("Sequencing output",),read_uses={"Sequencing output":"include"}))
     graph.declare_reviewed_scope((
         "chromatin","nlaiii","digest","t4_ligase","proximity_ligation","proteinase_k",

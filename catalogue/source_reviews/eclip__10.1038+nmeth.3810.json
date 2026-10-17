@@ -842,5 +842,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "The defining eCLIP original and its own supplements establish the main adapter and PCR-primer families. Two independent readers now cover the relevant König 2010 supplement, Shishkin S1/S3 and original JoVE visual oligo table; these are predecessor methods and do not assign their sequences to eCLIP. The linked author code release still lacks a second nested-code inspection. No oligo or sample-index absence is accepted while linked-material review remains incomplete."
+  "conclusion": "The defining eCLIP original and its own supplements establish the main adapter and PCR-primer families. Two independent readers now cover the relevant König 2010 supplement, Shishkin S1/S3 and original JoVE visual oligo table; these are predecessor methods and do not assign their sequences to eCLIP. The linked author code release still lacks a second nested-code inspection. No oligo or sample-index absence is accepted while linked-material review remains incomplete.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Van Nostrand 2016 PMC4887338 JATS text Online Methods line 123 (crosslink→RNase I→IP→FastAP/PNK→on-bead T4 RNA ligase→gel/nitrocellulose 75 kDa→proteinase K→AffinityScript→ExoSAP→cDNA 3′ N5/N10 adapter ligation→Silane→qPCR→Q5 PCR→agarose; HiSeq PE50 (N5)/PE55 (N10)), line 127 data processing, Fig.1a legend line 363; Supplementary Protocol 1 (NIHMS765516 supplement-2.pdf.txt) oligos 308–369, on-bead 3′ ligation 575–620, gel/membrane/proteinase K 800–880, RT through PCR 1046–1230",
+      "oligo_scraper": "Scraper run on supplement-2; ASO hits lines 13–187 are Supplementary Table 3 RBFOX2-blocking ASOs (not library oligos); RNA adapters, AR17, rand103Tr3, D501/D502/D701/D702 hits checked at lines 317–365.",
+      "findings": "Corrected repository drawing error: rand103Tr3 was drawn at the cDNA 5′ end; now ligated by its 5′-phosphate to the cDNA 3′ end with 3′SpC3, AR17-primed adapter complement at the 5′ end for both truncated and read-through cDNAs. Replaced shared placeholder RNA-ligation scene with exact X1A (barcode/N5/22-nt tail, 3′SpC3) junction. Added FastAP+T4 PNK dephosphorylation, free-adapter wash, SDS-PAGE/nitrocellulose band-to-+75 kDa excision with proteinase K, ExoSAP/NaOH/Silane cleanup and agarose size selection with waste fates; named RNase I, T4 RNA ligase 1 high conc/PEG/DMSO, AffinityScript 55 °C, Q5. Read lengths 2×55 (N10) recorded; index cycles unassigned. Caveat: two barcoded RNA adapters (e.g. X1A+X1B) per sample. Exact states given to AR17, rand103Tr3, D501, D701. Graph-owned published discrepancies: Methods ~150 nt vs Fig.1a legend ~220 nt for the 75 kDa window (no nt length assigned); SOP oligo list rand103Tr3 vs step text 'rand3Tr3' under '5’ linker ligate cDNA' heading (lines 1126–1128).",
+      "deferred": [
+        "ENCODE SOP v1.P PDF and Supplementary Protocol 2 not re-read in this pass",
+        "N5 cDNA adapter cited in Methods not printed in Supplementary Protocol 1",
+        "Per-library RNA adapter pair and D5/D7 index assignment",
+        "Agarose size-selection range and acquired index-read cycles",
+        "König 2010/Huppertz 2014 iCLIP and Shishkin 2015 RNAtag-Seq predecessor methods"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite pass (1 construction check); page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard 4 exact checked (AR17, rand103Tr3, PCR_F_D501, PCR_R_D701), 0 failed, 1 input without exact state (RNA adapter, rN notation); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

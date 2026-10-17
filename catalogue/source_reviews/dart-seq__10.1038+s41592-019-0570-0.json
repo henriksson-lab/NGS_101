@@ -314,5 +314,24 @@
       "evidence": "Original permits several library preparation routes; exact vendor kit versions and supplements need review."
     }
   ],
-  "conclusion": "Original permits several library preparation routes; exact vendor kit versions and supplements need review."
+  "conclusion": "Original permits several library preparation routes; exact vendor kit versions and supplements need review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nat Methods article via PMC6884681 JATS (author manuscript) Methods Plasmids line105, cell culture109, in vitro deamination149, Next-generation sequencing197, Data analysis201, data availability229; Supplementary Protocol (Springer MOESM10 = NIHMS1537259-supplement-2, same md5) lines1-119 (General notes, A transfect/grow, B harvest RNA, C NGS incl. SR50 HiSeq4000, D analysis); Reporting summary MOESM2 lines42,62",
+      "oligo_scraper": "Bundle scraper run; hits are cloning primers (YTH Fwd/YTH-HA Rev/YTHmut Fwd), METTL3 sgRNA, biotin-RNA pulldown bait and Sanger RT/PCR validation primers; no sequencing-library adapter/index/primer bases printed.",
+      "findings": "Replaced legacy finish_rt_pcr route (RT then PCR with unbound RNA discarded as waste) with source graph: FuGENE HD transfection of pCMV APOBEC1-YTH, 24h in-cell deamination (no physical selection; background removed computationally vs APOBEC1-alone/YTHmut), TRIzol extraction, DNase I 20min 37C with DNA waste, warned kit-internal NEBNext Ultra II Directional step, NEBNext Multiplex Oligos index PCR with unavailable geometry. Final TruSeq-compatible arms/i5/i7 now inferred with page caveat (index set and lengths not stated); acquired reads Read 1 SR50 (Supplementary Protocol C). Note rewritten with exact locations and evidence marks.",
+      "deferred": [
+        "NEBNext Ultra II Directional (E7760) and Single Cell/Low Input (E6420) manuals: fragmentation, adaptor/USER geometry, PCR primers",
+        "NEBNext Multiplex Oligos set and index-read cycles (GEO GSE125780 run metadata not inspected)",
+        "PacBio Iso-Seq long-read branch chemistry",
+        "Low-input branch and in vitro deamination assay not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite (comment-only, 0 explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/7 unresolved/0 contradictory with kit_prep MAGIC warning; source guard 0 exact checked, 0 failed, 0 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

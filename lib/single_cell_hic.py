@@ -100,8 +100,9 @@ def unresolved_illumina_library(insert: Construct, name: str, *, indexed: bool |
 
 
 # Nagano 2013 and Stevens 2017 print this historical paired-end primer in their
-# supplementary methods.  It is not the modern TruSeq Read 2 primer.
-HISTORICAL_PE_READ2 = "CGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT"
+# supplementary methods; it is Illumina's PE Read 2 Sequencing Primer (obsolete PE kit),
+# not the modern TruSeq Read 2 primer.
+HISTORICAL_PE_READ2 = il.PE_READ2_PRIMER
 
 
 def historical_inline_pe_library(insert: Construct, name: str, barcode: str = "CAA") -> Construct:

@@ -68,6 +68,20 @@
         "locations": "2017 Nature Protocols MOESM454 method PDF and MOESM455–457 workbook files in indrop__ bundle",
         "finding": "Descendant source gives oligo designs, but cannot independently establish original 2015 v1 author supplement members."
       }
+    },
+    {
+      "id": "supp_published_mmc1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/indrop-v1__10.1016+j.cell.2015.04.044/j.cell.2015.04.044_1-s2.0-S0092867415005000-mmc1.pdf.txt:462-499,535-634,721-749 (published Supplemental Information, ars.els-cdn.com mmc1; mmc6 article PDF repeats it)",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "mmc1 Table S5 lines 462-499; device operation/RT-lysis mix/barcoding inside droplets 535-584; BHM synthesis and split-pool barcoding 586-634; DNA-Library Preparation 721-736; Sequencing and Data Filtering 740-749; mmc6 Experimental Procedures 1636-1655",
+        "finding": "Published supplement supersedes the PMC-gated author copy (supp1). Prints every v1 bead/template/RLO/RT2/PCR oligo with modifications, Bst 2.0 bead extension, SuperScript III RT mix, post-RT workflow (ExoI+HinFI, SPRI, SSS, IVT, fragmentation, SAP, ligation, RT, 10-13 PCR cycles); no sequencing primers and no per-read cycle counts in the inspected passages or Table S1."
+      }
     }
   ],
   "linked_information": {
@@ -86,5 +100,60 @@
       "evidence": "Original 2015 supplementary Methods and author spreadsheets inaccessible; 2017 v2 descendant is present but may differ."
     }
   ],
-  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Cell 2015 PMC4441768 JATS xml.txt Results 67-69, Experimental Procedures 145-155 (Microfluidic operation, Library preparation line 153), Fig.2 legend 477; Nat Protoc MOESM454 Supplementary Method 2 (shared bead QC) and MOESM455 oligo table rows 1-36 as the shared bead-oligo reference",
+      "oligo_scraper": "Bundle scraper run; no sequence hits in the Cell article text; all hits are in 2017 Nat Protoc supplements or excluded upstream_/scg_ files.",
+      "findings": "Re-fetch 2026-10-17: Cell supplement-1 (Extended Experimental Procedures) and supplements 2-12 still PMC-gated (manual). Corrections: empty/multiplet droplets changed from physical discard to unresolved computational exclusion (broken emulsion is pooled, line 153); v1 PCR step and reverse primer no longer claim a sample index; RT step carries published 50C 2h/70C 15min and perfluorooctanol demulsification; fragmentation marked inferred (CEL-Seq processing cited, not described); upstream-only 51-cycle Read 1 removed from acquired lengths. v1 oligos remain secondary-source inferred.",
+      "deferred": [
+        "Cell NIHMS685995 supplement-1 Extended Experimental Procedures (v1 RLO/RT2/PCR/read primers, modifications, CEL-Seq conditions, sequencing setup) - PMC gate",
+        "Cell supplements 11/12 xlsx - PMC gate",
+        "CEL-Seq (Hashimshony 2012) / MARS-seq predecessor processing",
+        "Cell Fig.2 primer image",
+        "Acquired v1 read lengths"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 1 graph (all v1 oligo inputs inferred, no exact states); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Retrieval routes for Cell NIHMS685995-supplement-1: PMC instance/4441768/bin URL still download gate; www.ncbi.nlm.nih.gov/pmc bin 404; PMC Cloud licence TDM (no supplements); Europe PMC supplementaryFiles REST 'not open access', europepmc.org bin 403; Unpaywall bronze publisher PDF cell.com/cell/pdf/S0092-8674(15)00500-0.pdf and ScienceDirect pdfft HTTP 403 challenge (not circumvented). Read instead authors' GEO GSE65525 series record and all 8 sample records (GEO_GSE65525_gsm_brief.txt extract protocol and data processing, line 22 and repeats) and SRA SRP053052 runinfo.",
+      "oligo_scraper": "Scraper on GEO_GSE65525_gsm_brief.txt: one sequence, W1 GAGTGATTGCTTGTGACGCCTT (line 22, repeated in all 8 records), equal to model W1 by computation.",
+      "findings": "GEO states Read 1 holds two barcode components separated by W1 (printed sequence), Read 2 trimmed/aligned as cDNA, barcodes matched to a list printed '3842' (presumably 384^2) with <=2 mismatches, 0.4% NP-40 lysis in 4 nL drops, RT at 50C, CEL-Seq library construction cited; instruments HiSeq 2500/NextSeq 500/MiSeq; SRA gives only combined average spot lengths (89/122/132-133). v1 page caveat and read-layout intro now cite the GEO W1 and read assignment; W1 remains drawn inferred with the secondary reconstruction; no cycle counts added.",
+      "deferred": [
+        "Cell NIHMS685995 supplement-1 Extended Experimental Procedures (PMC gate https://pmc.ncbi.nlm.nih.gov/articles/instance/4441768/bin/NIHMS685995-supplement-1.pdf; publisher PDF 403)",
+        "v1 RLO/RT2/PCR/read primer bases and modifications",
+        "CEL-Seq processing conditions (fragmentation, ligation)",
+        "Per-read acquired cycle counts",
+        "Cell supplements 11/12 xlsx"
+      ],
+      "scope": "Bounded follow-up; defining supplement still unread; no full chemistry validation or missing-information claim.",
+      "verification": "local suite 1/1 pass (indrop-v2 importer suite 1/1 pass); pages build; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 checked, 0 failed, 1 graph; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Cell Supplemental Information mmc1 (identity: printed title/authors lines 1-8, Klein et al.) Table S5 lines 462-499, Microfluidic device operation/RT-lysis mix/Barcoding inside droplets 535-584, BHM synthesis and split-pool barcoding 586-634, DNA-Library Preparation 721-736, Sequencing and Data Filtering 740-749, Table S1 174-240, Supplemental References (ref 2 = Jaitin 2014); published article PDF mmc6 (printed doi:10.1016/j.cell.2015.04.044) Experimental Procedures lines 1636-1655",
+      "oligo_scraper": "Scraper run on mmc1/mmc6 in prior shared follow-up; every Table S5 base in indrop.py re-compared with mmc1 lines 462-499 (PCR primer 1 rejoined across its wrapped row label): no difference.",
+      "findings": "Table S5 transcription verified unchanged. Graph corrections: Bst 2.0 bead extension (85C 2min, 60C 20min, 60C 60min, EDTA stop, 150mM NaOH strip); SuperScript III RT; represented debris spin + ExoI/10U HinFI digestion and SPRI clean-up with discard supernatant; other SPRIs, BioAnalyzer check and omitted DNase in labels; SAP 30min before RLO ligation (purpose not stated); PCR 10-13 cycles. Published discrepancies article vs supplement now graph-owned on page: carrier oil 90 vs 80 uL/hr; demulsification 0.2X vs 1 volume PFO (lamps also differ).",
+      "deferred": [
+        "Jaitin 2014 MARS-seq ref 2 (second-strand, IVT, fragmentation, RLO ligation, second RT enzymes/conditions)",
+        "V1 sequencing primers and per-read acquired cycle counts (not in Table S1 or inspected passages)",
+        "Whether V1 barcode-1 plates were variable-length (Table S5 numbers 10 positions)",
+        "Second independent reader of mmc1 for the two-pass gate"
+      ],
+      "scope": "Capped defining-supplement pass; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2/2 pass (indrop-v2 importer suite 1/1 pass, v2 page builds); page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard 6 exact checked, 0 failed, 1 strand exempted (wrapped PCR primer 1, rejoined by selftest), 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

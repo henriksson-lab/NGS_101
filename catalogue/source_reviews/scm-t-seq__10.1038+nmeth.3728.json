@@ -138,5 +138,24 @@
       "evidence": "Inherited G&T and scBS chemistry plus vendor kit must be resolved before any missing claim is accepted."
     }
   ],
-  "conclusion": "Independent defining-paper and source-supplement passes found an observed first-strand primer concatemer off-product and corrected swapped predecessor citations. Two independent readings of G&T original Online Methods establish the AC TSO and modified bead capture primer used to correct the scM&T model; two readings of the scBS original establish that branch. G&T S1, Smallwood's binary supplement and the historical Nextera XT guide remain unread, so no missing-information claim is accepted."
+  "conclusion": "Independent defining-paper and source-supplement passes found an observed first-strand primer concatemer off-product and corrected swapped predecessor citations. Two independent readings of G&T original Online Methods establish the AC TSO and modified bead capture primer used to correct the scM&T model; two readings of the scBS original establish that branch. G&T S1, Smallwood's binary supplement and the historical Nextera XT guide remain unread, so no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC4770512 JATS nmeth.3728_PMC4770512.xml.txt Results lines66-68; Online Methods 'Sample collection & Single-cell sequencing' lines84-88 and 'BS-seq read alignment' line94; Springer MOESM608_ESM.pdf.txt Supplementary Fig.3 caption lines20-32",
+      "oligo_scraper": "Bundle scraper run (19 sequences in 5 files): all hits are Smallwood scBS-seq oligo1/oligo2/PE1.0 and Picelli Smart-seq2 Supplementary Table2/4 oligos already used; nmeth.3728 itself prints no oligo bases in the inspected passages.",
+      "findings": "Added RLT Plus/SUPERase-In lysate; named EZ Methylation Direct (Zymo) conversion on AMPure-bead-purified DNA with Zymo magnetic-bead desulphonation into first-strand mix; oligo1 priming labelled as repeated rounds with first-strand biotin capture omitted; new 0.8x AMPure XP cleanup between second-strand synthesis and PCR with discarded supernatant; declared HiSeq2000 125-bp PE Read1/Read2 on both RNA and DNA libraries (index cycles unstated, left unfixed). N6 trimming and non-directional alignment consistent with existing N6 model; Supp. Fig.3e primer-concatemer off-product unchanged.",
+      "deferred": [
+        "G&T-seq S1 supplement (Caltech mirror, curl error)",
+        "Smallwood scBS-seq NIHMS59406-supplement-1.doc (strand-synthesis rounds, polymerase, conditions)",
+        "Historical Illumina Nextera XT guide (one-fifth-volume reaction, index primers)",
+        "Index sequences and acquired index-read cycles"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 1/1 pass; page builds; pairing 0 problems; chemistry 2 established/1 conditional/11 unresolved/0 contradictory over 11 steps; source guard 2 exact checked, 0 failed, 9 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

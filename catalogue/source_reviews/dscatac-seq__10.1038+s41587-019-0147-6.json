@@ -195,5 +195,25 @@
       "evidence": "Paper and available guide name the primer; table bead linker cell is blank. Historical kit insert or sequence disclosure remains unchecked."
     }
   ],
-  "conclusion": "Source-backed Tn5 table remains resolved. Bio-Rad custom Read 1 reagent is identified as catalog 16005986 in current and earlier vendor guides, but no checked original prints its bases. The 2018 Ver A guide and any reagent sequence disclosure remain unrecovered; bead linker cell is blank in the source table. Review stays in progress and no missing-information claim is accepted."
+  "conclusion": "Source-backed Tn5 table remains resolved. Bio-Rad custom Read 1 reagent is identified as catalog 16005986 in current and earlier vendor guides, but no checked original prints its bases. The 2018 Ver A guide and any reagent sequence disclosure remain unrecovered; bead linker cell is blank in the source table. Review stays in progress and no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Author manuscript PMC10299900 JATS (md5 50281477) lines 153-179 (cell lysis/tagmentation, droplet library preparation and sequencing, indexed Tn5 assembly, 24/48-plex wells), 83/87/99 (super-loading, above-Poisson cell loading), 185, 195-237 (multi-bead identification, 800/5,000 beads/uL); Supplementary Table 6 MOESM8 (md5 cf4b332e) all sheets lines 1-140; Supplementary Note MOESM1 (md5 72c2e1c4) lines 136-149",
+      "oligo_scraper": "Bundle scraper run; MOESM8 hits (bead s5 3' end, 96 indexed R1 adaptors, R2 adaptor, ME complement with /5Phos/ and /3ddC/, N701-N729, spike-in oligo) checked against MOESM8 lines 1-140; scg_Bio-Rad_ddSEQ_3p_scRNA hits are the RNA bead platform and not used.",
+      "findings": "Fetched the defining bundle into this slug's source dir (same md5 as the dsciATAC bundle). Corrected repository modelling errors: gap fill was placed before encapsulation and multi-bead droplets were discarded; now partition with super-loaded beads (multi-bead droplets kept, merged computationally by BAP), warned in-droplet bead-release boundary (37 C 30 min, 85 C 10 min; Supplementary Note 'cleaved from the physical bead'), inferred 72 C gap fill, 8-cycle droplet PCR with Table 6 N70X-layout index primer (inferred, kit identity not stated), emulsion break pooling cell-free droplets, AMPure, 7-9 cycle second PCR (primers unnamed), AMPure. Removed the tagmentation 'waste' discard that claimed physical removal by non-amplification; s5/s5 and s7/s7 products are an inferred unresolved off-product. Kit Tn5 adaptor marked inferred (bases not printed). Page caveat added.",
+      "deferred": [
+        "Bio-Rad SureCell ATAC-Seq User Guide 10000106678 publication-era 2018 Ver A (unavailable; 2024 revision and M12173L not re-read this pass): bead linker/P5/custom Read-1 bases, second-PCR primers, Table 21 cycles",
+        "Bead-release chemistry and 85 C purpose (warned boundary)",
+        "72 C 5 min modelled as gap fill (inferred)",
+        "Identity of Index Kit 12009360 primers with Table 6 N70X primers",
+        "Custom Read 1 primer 16005986 bases"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory with bead_release MAGIC warning; source guard 0 exact checked, 0 failed (transposome, beads, index and second-PCR primers inferred and excluded); Markdown built; review schema checked"
+    }
+  ]
 }

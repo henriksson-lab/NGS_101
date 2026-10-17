@@ -38,7 +38,8 @@ combinatorial indexing. 🟢 Cells carrying a CROP-seq guide cassette are fixed 
 glyoxal, lysed to nuclei, and distributed into a 96-well plate where a **barcoded
 transposome** tags accessible chromatin. 🟢 In the same well the polyadenylated CROP-seq
 transcript is reverse-transcribed with a primer carrying **the same barcode**. 🟢 Nuclei
-are then pooled and redistributed at ~15–20 per well, and two more barcodes arrive on the
+are then pooled and redistributed at ~20 per well (🟢 Methods: 2 µl at 10 nuclei/µl;
+Supplementary Table 1: 2 × 10¹ cells per well), and two more barcodes arrive on the
 PCR primers.
 
 🟢 "Cell barcodes consist of a unique combination of BC1, BC2, and BC3" (Supplementary
@@ -99,10 +100,11 @@ EZH2/HOX validation by TaqMan qRT-PCR, which builds no sequencing library.)
 ### The four spike-in oligos
 
 🟢 Supplementary Table 2 also prints `spike-in T5`, `spike-in T7`, `spike-in P5` and
-`spike-in P7`. 🔴 **The paper never mentions them**: the word "spike" appears nowhere in
-the Methods, the preprint, the Supplementary Information or any other supplement — only in
-the oligo table. So this repository cannot say from its defining source what they are for,
-at what ratio they were added, or at which step.
+`spike-in P7`. A text search of the extracted Methods, preprint, Supplementary Information
+and other supplements found the word "spike" only in the oligo table. That is a search
+result, not an accepted absence claim (the two-reader missing-information gate has not
+been run), so this repository does not say what they are for, at what ratio they were
+added, or at which step.
 
 🟡 *(computed)* They are a complete, self-consistent, **cell-barcode-free** construct with
 fixed indexes, not a reagent of the library above: `spike-in T7` carries a fixed 8-nt
@@ -157,9 +159,11 @@ How they interlock, 🟡 *(computed)* and enforced in `tools/chem.py`:
 4. 🟢 **Tagment** ~20,000 nuclei per well, 30 min at 37 °C; stop with EDTA, then quench
    the EDTA with MgCl₂ before RT. 🟡 Only the T5/T7 product can bridge P5 to P7; T5/T5 and
    T7/T7 products carry the same arm at both ends (`nextera.TAGMENTATION_OUTCOMES`).
-5. 🟢 **Reverse-transcribe** 5 µl of nuclei into a plate of barcoded RT primers, "keeping
-   plate orientation to match tagmentation and reverse transcription barcodes";
-   RevertAid, 30 min at 37 °C.
+5. 🟢 **Reverse-transcribe** 5 µl of nuclei (~2,000) into a plate of barcoded RT primers,
+   "keeping plate orientation to match tagmentation and reverse transcription barcodes";
+   RevertAid, 30 min at 37 °C; stopped with EDTA/DAPI "Stop and Stain" buffer, 5 min on
+   ice. 🟢 Supplementary Table 1 counts 2 × 10³ cells per well across 10 RT plates (and
+   2 × 10¹ per well across 10 PCR plates).
 6. 🟢 **Pool** all wells, count, and redistribute ~20 nuclei (2 µl at 10 nuclei/µl) per
    well of a new 96-well plate; **digest** with SDS/proteinase K at 65 °C and quench with
    PMSF.
@@ -238,3 +242,16 @@ Two consequences worth stating plainly:
 of its supplements; it was carried into an earlier version of this page from a secondary
 schematic. What it was reaching for is the ordinary Tn5 end-selection above: only the
 T5/T7 heteroduplex has one P5-capable and one P7-capable end.
+
+## Bounded source pass (2026-10-17, round breadth-first-08)
+
+Re-read the published author manuscript (PMC8516442 JATS text lines 134, 146–158,
+160), Supplementary Information MOESM1 lines 20–60 (Supplementary Fig. 1 legend) and
+Supplementary Table 1 (MOESM3). Model correction: the redistribution density is ~20
+nuclei per well (Methods 2 µl at 10 nuclei/µl; Supp. Table 1), not the "15–20" in the
+graph and this note; the RT stop buffer and per-step plate counts were added. The spike-in
+"never mentioned" sentence was rescoped as a search result. Reaction order, PCR
+conditions, cleanup and run assignment (ATAC HiSeq 2500 / gRNA MiSeq for K562) agree
+with the model. The Supplementary Fig. 1d,e read lengths are graphical (no text in the
+extraction) and were not re-inspected in this capped pass.
+

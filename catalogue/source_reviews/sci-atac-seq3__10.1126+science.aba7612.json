@@ -53,12 +53,24 @@
     {
       "id": "protocolsio",
       "role": "linked_material",
-      "locator": "Domcke sci-ATAC-seq3 protocols.io doi:10.17504/protocols.io.be8mjhu6",
-      "availability": "unavailable",
+      "locator": "Domcke et al. sciATAC-seq3, protocols.io doi:10.17504/protocols.io.be8mjhu6 (integer ID 35821), local /husky/henriksson/NGS101_papers/sources/sci-atac-seq3__10.1126+science.aba7612/protocolsio_sci-atac-seq3-ewov18xn7gr2.pdf(.txt) (Nov 01 2020 export) and protocolsio_35821_public.json",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Named detailed protocol not present in source bundle; reaction-condition comparison pending.",
-      "pass_2": null,
-      "discovered_from": "paper"
+      "pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/sci-atac-seq3__10.1126+science.aba7612/protocolsio_sci-atac-seq3-ewov18xn7gr2.pdf.txt: export header and DOI lines 1-31 (Nov 01 2020 export, doi:10.17504/protocols.io.be8mjhu6, Domcke, Hill, Daza, Trapnell, Cusanovich, Shendure 2020); Guidelines and oligo-ordering note lines 60-95 (oligos to be ordered from Table S7); step 5 end and step 6 lines 600-660 (Nextera v2 FC-121-1031 2.5 ul, 55 C 30 min, EDTA/spermidine stop, pooling); N5 ligation lines 780-800 (13.8 ul ligation master mix, 1.2 ul 50 uM N5_oligo, 25 C 1 h, EDTA/spermidine stop); N7 ligation, reverse crosslink, test PCR and plate PCR lines 880-1160.",
+        "finding": "Agree with pass 1 on the steps read: reverse crosslink EB/proteinase K/1% SDS 65 C 16 h; test and plate PCR with NEBNext Hi-Fidelity 2x, 1.25 ul each 10 uM P7 row and P5 column primers, 72 C 5 min, 98 C 30 s, 10-20 cycles (98 C 10 s, 63 C 30 s, 72 C 1 min). The protocol prints no oligo bases of its own; it directs ordering of all barcoded and sequencing oligos from Table S7. The export carries the DOI cited by the article."
+      },
+      "discovered_from": "paper",
+      "previous_state": "unavailable: Named detailed protocol not present in source bundle; reaction-condition comparison pending.",
+      "previous_locator": "Domcke sci-ATAC-seq3 protocols.io doi:10.17504/protocols.io.be8mjhu6",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "protocols.io doi:10.17504/protocols.io.be8mjhu6 (integer ID 35821; family-bundle export dated Nov 02 2020 and slug-bundle export dated Nov 01 2020, step text and sequencing primers identical apart from step numbering) steps 5-13, lines 610-1160; bounded check round 2026-10-17-breadth-first-16",
+        "finding": "Protocol gives Nextera v2 tagmentation 55 C 30 min with EDTA/spermidine stop, T4 PNK + rATP 37 C 30 min, T7 DNA ligase N5 and N7 ligations at 25 C 1 h with EDTA/spermidine stop, proteinase K/1% SDS reverse crosslink 65 C 16 h, NEBNext HF 2X PCR with an initial 72 C 5 min, Zymo/AMPure cleanup, and sequencing primers identical to Table S7."
+      }
     }
   ],
   "linked_information": {
@@ -80,8 +92,44 @@
     {
       "claim": "Exact full procedural conditions of sci-ATAC-seq3",
       "disposition": "blocked",
-      "evidence": "Table S7 resolves oligos; the original detailed supplement and author protocol remain unavailable."
+      "evidence": "Table S7 resolves oligos; the original detailed supplement and author protocol remain unavailable.",
+      "evidence_update": "2026-10-17: the protocols.io procedure is now retrieved and read by two readers. The claim stays blocked because the PMC/Science supplementary methods PDF (NIHMS1652075 manuscript_supplementary.pdf) remains gated: PMC download gate, and a direct science.org supplement request on 2026-10-17 returned HTTP 403."
     }
   ],
-  "conclusion": "Two readers located the published sci-ATAC-seq3 oligo families in original Table S7, but detailed linked procedure sources remain unavailable; no missing reaction detail is accepted."
+  "conclusion": "Two readers located the published sci-ATAC-seq3 oligo families in original Table S7, but detailed linked procedure sources remain unavailable; no missing reaction detail is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Science PMC7785298 JATS (author manuscript) lines 89, 197-209 (Online Methods library preparation and sequencing), 293 (availability), 1037 (Fig. 1A legend); author Table S7 workbook (scg_ mirror of the original xlsx) legend line 2, sheet 3lv2_splintandseqprimers lines 3-10, first rows of N5/N7/P5/P7 sheets lines 11-13, 403-405, 795-797, 893-895; cited protocols.io doi:10.17504/protocols.io.be8mjhu6 (integer ID 35821; family-bundle export dated Nov 02 2020 and fresh slug-bundle export dated Nov 01 2020, step text and sequencing primers identical apart from step numbering) steps 5-13, lines 610-1160",
+      "oligo_scraper": "Scraper run on the new slug bundle; Table S7 splint hits carry /3ddC/ (lines 5-6), sequencing primers lines 7-10 and protocols.io step 13 / public JSON give identical primers; Cusanovich 2018 Table S12 hits in the bundle are the predecessor two-level design, not sci-ATAC-seq3.",
+      "findings": "Splints now drawn from model-derived segments with the Table S7 3'-ddC and an 8-nt s5/s7 capture overhang on the ligation-ready reagent; splints declared as ligation inputs. Named T7 DNA ligase (25 C 1 h, EDTA/spermidine stop), T4 PNK + rATP 37 C 30 min, Nextera v2 enzyme 55 C 30 min. Added Proteinase K/1% SDS 65 C 16 h reverse-crosslink step after redistribution; replaced generic separate gap-fill polymerase with the NEBNext HF 2X master mix initial 72 C 5 min step (fill-in role labelled inferred); added Zymo DCC-5 + 1X AMPure cleanup with waste. Removed false concatenated s5-ME-s7-ME transposome strand (vendor adapters not printed). Selftest now reconstructs both splints and 3lv2_seq_IDX2 against Table S7. Read layout (51/51/10+15dark+10 x2, NovaSeq) unchanged and confirmed; protocols.io NextSeq QC recipe 50/50 noted in the note as a separate instrument recipe, not a discrepancy.",
+      "deferred": [
+        "Gated PMC supplementary PDF NIHMS1652075 manuscript_supplementary.pdf (manual URL in MANIFEST)",
+        "Nextera v2 (FC-121-1031) vendor adapter sequences and loading",
+        "Whether the PCR's initial 72 C 5 min is intended as Tn5 gap fill-in",
+        "Custom NovaSeq dark-cycle recipe details",
+        "Page key-oligo list (shared sci-atac-seq page_parts.sci3_oligos) still omits splints and seq primers"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 4 checks pass; page builds; pairing 0 problems; chemistry 0 contradictory (5 established/1 conditional/10 unresolved); source guard 2 checked (N5/N7 splints), 2 failed only because Table S7/protocols.io files are excluded by the locator filter (pass 2/0 with those locators declared, simulated); 5 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "/husky/henriksson/NGS101_papers/sources/sci-atac-seq3__10.1126+science.aba7612/protocolsio_sci-atac-seq3-ewov18xn7gr2.pdf.txt lines 1-31, 60-95, 600-660, 780-800, 880-1160; attempted https://www.science.org/doi/suppl/10.1126/science.aba7612/suppl_file/aba7612_domcke_sm.pdf (HTTP 403)",
+      "findings": "Second independent reading of the protocols.io procedure first read in round 16. Row protocolsio moved from unavailable to read with pass_1 (root) and pass_2 (this reader); both agree on the steps read. published_supp remains unavailable (PMC gate; science.org 403). Missing claim, linked information and blocked status unchanged.",
+      "deferred": [
+        "Science/PMC supplementary methods PDF NIHMS1652075",
+        "Nextera v2 vendor adapter sequences",
+        "catalogue/extra_sources.tsv rows for scg Table S7 and protocolsio:10.17504/protocols.io.be8mjhu6 (another package owns that file)"
+      ],
+      "scope": "Second-reader re-adjudication of the protocols.io row only; no accepted missing-information claim.",
+      "verification": "audit_protocol_sources --check passes"
+    }
+  ]
 }

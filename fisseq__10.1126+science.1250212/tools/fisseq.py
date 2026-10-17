@@ -9,8 +9,10 @@ from chemdraw import Construct, Scene, Segment, annotation_rows
 from circular import CircularizationGeometry, circularize_ssdna, rolling_circle
 from page import head, info
 from protocol_graph import (AnnotationSlot, DetailStyle, DetailView, InputRole, MaterialKind,
-                            MolecularRelation, ProtocolGraph, SequencingPlan, StepKind)
-from protocol_views import OffsetPrimerSection, WorkflowSection, assemble_page
+                            MolecularRelation, ProtocolGraph, SequencingPlan, SourceClaim,
+                            SourceDiscrepancy, StepKind)
+from protocol_views import (OffsetPrimerSection, PlanLimitationSection, WorkflowSection,
+                            assemble_page)
 from topology import CircularPrimerTopology
 
 
@@ -122,7 +124,10 @@ def sequencing_scene() -> Scene:
         segment = f"sequencing primer {name}"
         sc.anneal(strand, [seg(segment, sequence, "r2")], to="rolony",
                   pair=(segment, target), label=strand, mod5="p")
-    sc.arrow("primer N", "all five offsets ligate probes toward adjacent cDNA")
+    # Lee et al. 2015 Fig. 1b/Box 1: probe cleavage leaves a 5'-phosphorylated ligation
+    # complex, and the offsets are 5' truncations with a shared 3' end, so probes ligate
+    # at each primer's 5'-phosphate end (toward the transcript copy), not by 3' extension.
+    sc.note("primer N", "probes ligate at the 5'-phosphate ends; the 3' ends coincide")
     return sc
 
 
@@ -142,7 +147,8 @@ def protocol_graph() -> ProtocolGraph:
         "rna_cdna_hybrid", "aminoallyl-bearing RNA–cDNA hybrid",
         MaterialKind.MOLECULAR, state=linear_cdna())
     graph.react(
-        "reverse_transcribe", "Random-prime reverse transcription with aminoallyl-dUTP",
+        "reverse_transcribe",
+        "Random-prime RT with aminoallyl-dUTP (10 min 4 °C, then 37 °C 1–2 h to overnight)",
         StepKind.REVERSE_TRANSCRIPTION,
         ((rna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
          (reverse_transcriptase, InputRole.CATALYST),
@@ -153,7 +159,8 @@ def protocol_graph() -> ProtocolGraph:
     immobilized_hybrid = graph.product(
         "immobilized_hybrid", "immobilized aminoallyl-bearing RNA–cDNA hybrid",
         MaterialKind.MOLECULAR, state=linear_cdna())
-    graph.react("immobilize_cdna", "Cross-link the aminoallyl-bearing cDNA in place",
+    graph.react("immobilize_cdna",
+                "Cross-link the aminoallyl-bearing cDNA in place (BS(PEG)9 1 h, Tris quench)",
                 StepKind.CROSS_LINKING,
                 ((hybrid, InputRole.TEMPLATE), (crosslinker, InputRole.CONDITION)),
                 (immobilized_hybrid,), relations=(MolecularRelation.STRAND_ORDER,))
@@ -163,7 +170,8 @@ def protocol_graph() -> ProtocolGraph:
     linear = graph.product("linear_cdna", "immobilized linear single-stranded cDNA",
                            MaterialKind.MOLECULAR, state=linear_cdna())
     rna_waste = graph.product("rna_waste", "digested RNA", MaterialKind.WASTE)
-    graph.react("remove_rna", "Remove the RNA template", StepKind.DIGESTION,
+    graph.react("remove_rna", "Remove the RNA template (RNase + RNase H, 1 h 37 °C)",
+                StepKind.DIGESTION,
                 ((immobilized_hybrid, InputRole.TEMPLATE),
                  (ribonucleases, InputRole.CATALYST)), (linear, rna_waste))
     graph.discard(rna_waste, "RNase and RNase H digestion products are washed away")
@@ -176,7 +184,8 @@ def protocol_graph() -> ProtocolGraph:
         state=tuple([*CIRCLE.rows("CircLigase II"),
                      *annotation_rows(linear_cdna(), prefix_width=6)]))
     graph.react(
-        "circularize", "Join the cDNA 3-prime hydroxyl to its 5-prime phosphate",
+        "circularize",
+        "Join the cDNA 3-prime hydroxyl to its 5-prime phosphate (MnCl2, betaine, 60 °C 1 h)",
         StepKind.CIRCULARIZATION,
         ((linear, InputRole.TEMPLATE), (circligase, InputRole.CATALYST)), (circle,),
         geometry=CircularizationGeometry.known(
@@ -193,7 +202,8 @@ def protocol_graph() -> ProtocolGraph:
         chemical_state=CIRCLE,
         state=tuple(rca_primed_rows()))
     graph.react(
-        "bind_rca_primer", "Anneal the phosphorothioate-protected RCA primer",
+        "bind_rca_primer",
+        "Anneal 500 nM phosphorothioate-protected RCA primer (60 °C 1 h, 60 °C wash)",
         StepKind.HYBRIDIZATION,
         ((circle, InputRole.TEMPLATE), (rca_primer, InputRole.STRUCTURAL)),
         (primed_circle,))
@@ -203,7 +213,8 @@ def protocol_graph() -> ProtocolGraph:
         "rolony_product", "aminoallyl-bearing rolling-circle concatemer",
         MaterialKind.MOLECULAR, state=rolony(), chemical_state=RCA)
     graph.react(
-        "rolling_circle", "Amplify the cDNA circle into a tandem-repeat rolony",
+        "rolling_circle",
+        "Amplify the cDNA circle into a tandem-repeat rolony (Phi29, 30 °C overnight)",
         StepKind.EXTENSION,
         ((primed_circle, InputRole.TEMPLATE), (phi29, InputRole.CATALYST),
          (aminoallyl_dutp, InputRole.STRUCTURAL)),
@@ -211,7 +222,8 @@ def protocol_graph() -> ProtocolGraph:
 
     library = graph.product("sequencing_library", "cross-linked FISSEQ rolony",
                             MaterialKind.LIBRARY, state=rolony())
-    graph.react("immobilize_rolony", "Cross-link the amplified rolony in place",
+    graph.react("immobilize_rolony",
+                "Cross-link the amplified rolony in place (BS(PEG)9 1 h, Tris quench)",
                 StepKind.CROSS_LINKING,
                 ((rolony_product, InputRole.TEMPLATE),
                  (crosslinker, InputRole.CONDITION)), (library,))
@@ -219,7 +231,10 @@ def protocol_graph() -> ProtocolGraph:
         acquired_roles=("Sequencing output",),
         limitation=("FISSEQ uses five offset SOLiD sequencing-by-ligation primers on "
                     "every repeat of an in-situ rolony, rather than one unique linear "
-                    "R1/I1/I2/R2 primer landing site.")))
+                    "R1/I1/I2/R2 primer landing site. Each primer gets seven T4 DNA ligase "
+                    "cycles with SOLiD ToP eight-base probes and fluorophore cleavage. The "
+                    "Science paper reports 27-base fibroblast reads; no acquired read "
+                    "length is modelled.")))
     graph.declare_reviewed_scope((
         "cellular_rna", "rt_primer", "reverse_transcriptase", "aminoallyl_dutp",
         "reverse_transcribe", "crosslinker", "immobilize_cdna", "ribonucleases",
@@ -232,6 +247,21 @@ def protocol_graph() -> ProtocolGraph:
         "concatemer is shown as the next molecular state in the workflow.",
         state=RCA_TOPOLOGY, slot=AnnotationSlot.BEFORE_WORKFLOW,
         style=DetailStyle.FOLDED))
+    graph.annotate(SourceDiscrepancy(
+        "sequencing_library", "Ligation start positions listed in Box 1",
+        (SourceClaim("Lee et al. 2015 Nature Protocols, Fig. 1b legend and procedure overview",
+                     "each primer's seven ligation cycles interrogate every fifth "
+                     "dinucleotide pair"),
+         SourceClaim("Lee et al. 2015 Nature Protocols, Box 1",
+                     "primer N positions 1-6-11-16-20-26-31 and primer N-4 positions "
+                     "2-7-12-16-22-27-32; primer N-1 is listed as 0-5-10-15-20-25-30")),
+        "The page shows the five primers at their binding site and does not draw a "
+        "per-position read map.",
+        "A five-base stride predicts 21 (not 20) for primer N and 17 (not 16) for "
+        "primer N-4; as printed, position 20 is assigned to two primers and 21 and 17 "
+        "to none.",
+        "Box 1 does not explain the two values, so whether they are typographical "
+        "errors is not established by the source.", AnnotationSlot.SEQUENCING))
     graph.annotate(DetailView(
         "sequencing_library", "Sequencing primers on the finished rolony",
         "All five sliding primers are shown on the middle repeat. The three primer-N "
@@ -258,6 +288,7 @@ def render_page() -> str:
             "interrogate all positions.",
             "in-situ rolony cDNA interrogated by five offset SOLiD ligation primers",
             "FISSEQ uses SOLiD sequencing-by-ligation rather than an R1/I1/I2/R2 run."),
+        PlanLimitationSection("sequencing_library"),
         '</div>'])
 
 

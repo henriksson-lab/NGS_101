@@ -135,5 +135,25 @@
       "evidence": "Sharma supplement lines 838–852 says reverse primer includes a barcode but identifies no member. The 2014 manual prints 12 six-base barcode values; LIGR sample-to-index assignment is not in the inspected paper or mirror."
     }
   ],
-  "conclusion": "Two readers inspected the article, component list and manual transcripts, but the paper only names a generic SMARTer kit. Original vendor PDF and exact kit generation/selected index remain unverified; both missing claims stay blocked."
+  "conclusion": "Two readers inspected the article, component list and manual transcripts, but the paper only names a generic SMARTer kit. Original vendor PDF and exact kit generation/selected index remain unverified; both missing claims stay blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Coauthor-hosted Sharma et al. Mol Cell 2016 PDF with Supplemental Experimental Procedures (timbitz.github.io; publisher full text remains a manual row): Results lines 210–230, Figure 1A legend 249–251, Discussion 483–498, Experimental Procedures 520–556, Figure S1 legend 690–725, Supplemental Experimental Procedures 798–866 (crosslinking, RNA preparation and ligation, RNase R enrichment and reversal, library preparation, read trimming); 2013 Clontech SMARTer Stranded RNA-Seq Kit components list 634836–634839 (whole file)",
+      "oligo_scraper": "Bundle scraper run; only hits are RNase-protection/RT-qPCR validation primers (PDF text lines 1068–1090: TERC-SNORD44, U2-SNORD89, SNORD83B-NOP14, gapdh, rpl3, pm20d2, leng8), not library oligos; no SMARTer kit oligo bases in the inspected files.",
+      "findings": "Corrected reaction order: source ligates with circRNA ligase (85C denature, 1h 60C) before RNase R enrichment; model previously selected with RNase R before ligation. Added TRI/TURBO DNase extraction, Ribo-Zero Gold depletion and limited S1 nuclease digestion (replacing generic fragmentation), RNase R degradation waste removed by phenol–chloroform/ethanol, 254 nm reversal with ethanol removal of AMT. Replaced legacy finish_rt_pcr/psoralen_workflow callers with a local graph: SMARTer first strand (universal 5' sequence, non-templated nucleotides), universal-forward second strand, AMPure 1:2, indexed PCR 20/17 cycles, AMPure + 6% TBE PAGE >200 nt. Replaced dual-indexed TruSeq shell with dA ligation junction (unsupported; kit is SMART template-switching without adapter ligation per components list) by a role endpoint carrying random-barcode inline_barcode and kit sample_index features; sequencing shown as limitation (single-end strand-specific, 5' random barcode trimmed).",
+      "deferred": [
+        "Publisher full text/supplement (doi:10.1016/j.molcel.2016.04.030, manual row)",
+        "2014 Clontech and 2019 Takara SMARTer Stranded manual originals (manifest rows HTTP 403)",
+        "SMARTer kit generation, oligo bases, random-barcode length/origin and selected index",
+        "Acquired read length/platform (GEO GSE80167 run metadata not read)",
+        "RNase R (Vincent & Deutscher 2006) and AMT psoralen predecessor references"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim; existing blocked missing claims unchanged.",
+      "verification": "local suite comment-only (0 explicit checks) passes; page builds; pairing 0 problems; chemistry 0 established/4 conditional/13 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 oligo inputs without exact states (kit oligos unprinted); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

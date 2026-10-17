@@ -88,9 +88,50 @@
   "missing_claims": [
     {
       "claim": "The smol-seq sensor LBO/SRO bases are unpublished",
-      "disposition": "blocked",
-      "evidence": "Supplementary Data 1 prints many modified sensor oligos, but full source/linked review is pending."
+      "disposition": "resolved",
+      "evidence": "Supplementary Data 1 prints many modified sensor oligos, but full source/linked review is pending.",
+      "previous_disposition": "blocked",
+      "evidence_update": "2026-10-17: contradicted by the published Supplementary Data 1 (MOESM2), so the claimed absence is false. Readers second_pass_d_e and audit_a_h (oligo_table passes, 2026-10-16), root (round 19) and agent-K-second-reader (this date) all found the LBO and SRO bases printed: 5-prime biotin (/5Biosg/) LBOs, 6-FAM and T7 fluorescence-readout SROs, nine barcode-sequencing SROs (mefloquine, ATP, piperaquine, barcodes 1-3 each, 8-nt barcode plus N5-7 and an AGATCGGAAGAGCGTCGTGTAG tail), the round-1 primers and the round-2 i5/i7 scaffolds.",
+      "second_reader_pass": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/smol-seq__10.1038+s41587-025-02554-7/s41587-025-02554-7_supp_41587_2025_2554_MOESM2_ESM.xlsx.txt sheet SuppData1, all rows (lines 1-75): fluorescence-readout bSSAs, in vitro transcription assay, stem variants, barcode-sequencing multiplexing, round 1 PCR, round 2 PCR.",
+        "finding": "Agree with the earlier oligo_table passes. The sheet prints full bases for every LBO (with /5Biosg/ and, for phenylalanine, /iSp18/), every fluorescence or T7 SRO, the barcode-sequencing SROs for mefloquine (AGTCTGAC, CTGATGCA, CGATCATG), ATP (ATGCACGT, TAGCTCGA, TCAGGTAC) and piperaquine (GCATAGCT, CGTATACG, GTCAACTG) with N5-7 and a common AGATCGGAAGAGCGTCGTGTAG end, the Reverse P5 and three Forward round-1 primers, and the round-2 primers with bracketed i5/i7 index placeholders. Only the index members are unprinted."
+      }
     }
   ],
-  "conclusion": "Supplementary Data 1 prints many modified sensor oligos, but full source/linked review is pending."
+  "conclusion": "Supplementary Data 1 prints many modified sensor oligos, but full source/linked review is pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Tan & Fraser 2026 PMC12807852 JATS xml.txt Main lines32, 38 (Fig.1a), 51; Methods 61 (reagents), 65 (ligand-binding assay), 77 (SRO readout), 81-89 (multiplexing and sequencing of bSSAs); Supplementary Data 1 MOESM2 xlsx.txt lines56-75 (MQ/ATP/PQ LBOs and barcode SROs, round-1/round-2 primers); MOESM1 reporting summary identity only (prior passes)",
+      "oligo_scraper": "Bundle scraper run (50 hits, all in Supplementary Data 1); MQ LBO, MQ barcode-1 SRO, Reverse P5 and Forward MQ primers and round-2 scaffolds verified at xlsx.txt lines57-75.",
+      "findings": "Replaced generic role schematic (quenched capture strand, separate release condition, single index PCR, discarded unbound sensor) with exact MQ barcode-1 model: 5'-biotin LBO annealed to SRO (Scene-checked 14-nt stem, LBO 7-20), streptavidin C1 immobilization with discarded excess SRO, ligand-driven release ('released' sample) and 95C boil-off of retained SROs ('boiled' sample, sequenced not discarded), per-branch replicate pooling/spike-ins/Monarch oligo cleanup, round-1 PCR (14/11 cycles) with source primers, cleanup and 1:5 dilution, round-2 i5/i7 PCR 8 cycles (3' ends checked to land), NucleoMag 1.2x selection, MiSeq 50-bp SE Read 1. N5-7 kept as diversity bases (not UMI); i5/i7 lengths and Read 1 primer marked INFERRED. No published discrepancy found.",
+      "deferred": [
+        "Predecessor SSA sequence sources (Yang et al., Coonahan et al., Song et al., etc., Methods line61)",
+        "PCR polymerase, spike-in control and replicate-identifier sequences (not found in inspected Methods/Supplementary Data 1)",
+        "Index lengths/values and index-read cycles",
+        "Extended Data Fig. 3 T7/fluorescent readout variants not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite pass (render; Scene pairing and round-2 landing enforced); page builds; pairing 0 problems; chemistry 0 established/0 conditional/18 unresolved/0 contradictory; source guard 3 exact checked (MQ LBO, Reverse P5, Forward MQ), 0 failed, 3 inputs without exact states (SRO N5-7, i5/i7 scaffolds); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "/husky/henriksson/NGS101_papers/sources/smol-seq__10.1038+s41587-025-02554-7/s41587-025-02554-7_supp_41587_2025_2554_MOESM2_ESM.xlsx.txt lines 1-75",
+      "findings": "Second-reader re-adjudication: the missing claim \"The smol-seq sensor LBO/SRO bases are unpublished\" is contradicted by Supplementary Data 1 and changed from blocked to resolved, with this reader confirming the earlier readings. Status remains blocked because linked_information is blocked (cited sensor predecessors, Methods line 61) and the sensor_predecessors row is unavailable.",
+      "deferred": [
+        "Cited SSA predecessor sources (Methods line 61)",
+        "i5/i7 index members and index-read cycles"
+      ],
+      "scope": "Second-reader re-adjudication of one missing claim; no accepted missing-information claim.",
+      "verification": "audit_protocol_sources --check passes"
+    }
+  ]
 }

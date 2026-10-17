@@ -30,21 +30,33 @@ def molecule(label: str, names: tuple[str, ...], *, joined: bool = False,
     sc.labels("molecule")
     return sc
 
-def finish_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *, label):
-    forward = graph.input(prefix + "_forward", label + " forward PCR primer",
-                          MaterialKind.OLIGO)
-    reverse = graph.input(prefix + "_reverse", label + " reverse PCR primer",
-                          MaterialKind.OLIGO)
-    polymerase = graph.input(prefix + "_polymerase", label + " PCR polymerase",
+def finish_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *, label,
+               step_label=None, forward_label=None, reverse_label=None,
+               polymerase_label=None, forward_state=None, reverse_state=None,
+               primer_source=None, primers_inferred=False, geometry=None,
+               unavailable_reason=None):
+    """Legacy endpoint PCR.  Default labels name roles only, never an index claim.
+
+    Callers name source primers (e.g. an indexed reverse primer), pass printed
+    primer states and an exact ``geometry`` or a source-specific
+    ``unavailable_reason``; ``primers_inferred`` marks unprinted primer inputs.
+    """
+    forward = graph.input(prefix + "_forward", forward_label or label + " forward PCR primer",
+                          MaterialKind.OLIGO, state=forward_state, source=primer_source,
+                          inferred=primers_inferred)
+    reverse = graph.input(prefix + "_reverse", reverse_label or label + " reverse PCR primer",
+                          MaterialKind.OLIGO, state=reverse_state, source=primer_source,
+                          inferred=primers_inferred)
+    polymerase = graph.input(prefix + "_polymerase", polymerase_label or label + " PCR polymerase",
                              MaterialKind.CATALYST)
     library = graph.product(prefix + "_library", label + " sequencing library",
                             MaterialKind.LIBRARY, state=final)
-    graph.react(prefix + "_pcr", "Amplify and index the " + label + " library",
+    graph.react(prefix + "_pcr", step_label or "Amplify the " + label + " library",
                 StepKind.PCR,
                 ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (library,), geometry=PCRGeometry.unavailable(
-                    final, reason="The defining source establishes the library roles but not one universal source-exact amplicon geometry."))
+                (library,), geometry=geometry or PCRGeometry.unavailable(
+                    final, reason=unavailable_reason or "The defining source establishes the library roles but not one universal source-exact amplicon geometry."))
     plan = (SequencingPlan(library=final, primers=tuple(primers)) if primers
             else SequencingPlan(limitation=endpoint))
     graph.sequence(library, plan)
@@ -53,7 +65,8 @@ def finish_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *, l
     return library
 
 
-def finish_rt_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *, label):
+def finish_rt_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *, label,
+                  **pcr_options):
     rt_primer = graph.input(prefix + "_rt_primer", label + " reverse-transcription primer",
                             MaterialKind.OLIGO)
     rt = graph.input(prefix + "_rt_enzyme", label + " reverse transcriptase",
@@ -65,7 +78,8 @@ def finish_rt_pcr(graph, prefix, template, final, primers, endpoint, reviewed, *
                 ((template, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
                  (rt, InputRole.CATALYST)), (cdna,))
     reviewed.extend((prefix + "_rt_primer", prefix + "_rt_enzyme", prefix + "_rt"))
-    return finish_pcr(graph, prefix, cdna, final, primers, endpoint, reviewed, label=label)
+    return finish_pcr(graph, prefix, cdna, final, primers, endpoint, reviewed, label=label,
+                      **pcr_options)
 
 def ligate_rna_adapter(graph: ProtocolGraph, prefix: str, template, label: str,
                         reviewed: list[str]):

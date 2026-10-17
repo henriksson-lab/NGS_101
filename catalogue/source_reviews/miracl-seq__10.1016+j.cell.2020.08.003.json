@@ -186,5 +186,24 @@
       "evidence": "Vendor v2 scaffold is known, but study assignments may reside in gated Cell tables."
     }
   ],
-  "conclusion": "First-pass source audit; relevant linked material or independent source checks remain outstanding."
+  "conclusion": "First-pass source audit; relevant linked material or independent source checks remain outstanding.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Cell PMC8358727 JATS STAR Methods lines 1074-1103 (droplet RAISIN RNA-seq: 7,000 RAISINs/channel, GemCode v2 kits per manufacturer; MIRACL 2x-8x overloading), 1127-1145 (Cell Ranger v2.0), 1595-1625 (heterotypic droplet removal), Results 442-470, Key Resources 2963-2972; 10x CG000108 Rev A technical note (10x-chromium-single-cell-3-ge-v2 bundle, scg_ mirror of vendor original) lines 1-36 and 60-139",
+      "oligo_scraper": "Bundle scraper run; only RAISIN plate Key Resources oligos (lines 3034-3040), unrelated KRT template placeholders (3225-3246) and Shekhar Drop-seq oligos (PMC5003425 276-284); no MIRACL-specific oligo.",
+      "findings": "Graph previously went from first-strand cDNA straight to a sample-index PCR via the queued shared _finish_pcr recipe. Replaced locally: warned MAGIC kit_processing boundary (template switching, cDNA PCR, fragmentation, size selection, Read 2 adapter ligation per manufacturer's protocol, CG00052 revision unread) then a sample-index PCR with an accurate unavailable-geometry reason. Removed unsupported Read 1 = 26 acquired-cycle declaration: paper prints only NextSeq 500/Cell Ranger v2.0 and a 75-cycle kit in Key Resources. Caveat and note updated (7,000 RAISINs/channel baseline, 2x-8x, kit boundary, unassigned sample indexes).",
+      "deferred": [
+        "10x CG00052 Single Cell 3' v2 user guide (applicable revision unstated) for kit intermediates",
+        "Figures S1-S7 and Tables S1-S6 (PMC download-gated; Table S2 overloading coefficients, Table S6 cost model)",
+        "Study sample-index members and acquired droplet read configuration",
+        "GemCode vs Chromium naming of the v2 platform (Methods vs Key Resources Cat#120237) not resolved"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1 check passes; page builds; pairing 0 problems; chemistry 0 established/0 conditional/5 unresolved/0 contradictory with kit_processing MAGIC warning; source guard 0 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

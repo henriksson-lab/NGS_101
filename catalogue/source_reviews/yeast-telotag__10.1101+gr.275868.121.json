@@ -108,5 +108,24 @@
       "evidence": "TdT synthesis creates a distribution; no per-molecule exact length in article or supplement."
     }
   ],
-  "conclusion": "Two independent readings of final article, published supplement and author preprint. ONT reagent oligos and per-molecule TdT tail length remain blocked; both published discrepancies displayed on page."
+  "conclusion": "Two independent readings of final article, published supplement and author preprint. ONT reagent oligos and per-molecule TdT tail length remain blocked; both published discrepancies displayed on page.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-21",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Genome Res PMC8997346 JATS (sources/yeast-telotag__10.1101+gr.275868.121/gr.275868.121_PMC8997346.xml.txt, fetched this pass; identical to the doi_10.1101+gr.275868.121 copy) DNA molecular end tagging lines 185–193, Nanopore library preparation 201–203, analysis 207; Supplemental Material PDF.txt Table S5 lines 676–709 and S6 heading 711",
+      "oligo_scraper": "Slug bundle scraper run; five TeloTag Mix hits (55/59 nt) checked against Supplemental Table S5 lines 679–704 (wrapped 50+5/50+9), no modifications printed; other hits are strain-construction primers (CS153/CS154 etc.) and reference FASTA noise.",
+      "findings": "Replaced the queued shared telomere recipe calls with a protocol-owned graph: TdT 20 U + 5 mM dATP/CoCl2 1 h 37C, 70C stop; TeloTag mix (five exact S5 oligos, now guard-checked) + Sulfolobus Pol IV/dNTPs/ATP 56C 1 min, 72C 10 min; T4 ligase 400 U 12C 20 min; AMPure cleanup with discarded supernatant; Short Read Eliminator XS >10 kb with discarded short fraction; EXP-NBD104 native barcoding as warned MAGIC kit boundary; SQK-LSK109 motor ligation with unavailable geometry; both-end-barcode and TideHunter/SeqKit selection recorded as computational. Removed the bioRxiv >5 kb vs final >10 kb page notice (ordinary preprint revision, per published-version policy); S6/S5 table-number error stays on page. Fetched article into the slug source directory so the source guard reads the defining original.",
+      "deferred": [
+        "ONT EXP-NBD104 and SQK-LSK109 historical kit protocols (end-prep, barcode ligation, barcode/motor-adapter sequences and end geometry)",
+        "Poly(A) tail length and phase-specific TeloTag member pairing",
+        "Printed 2.5 mM TeloTag primer-mix concentration not reconciled",
+        "Kaizer2015 Southern blot validation branch not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 101 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/7 unresolved/0 contradictory with native_barcode MAGIC warning; source guard 5 exact checked (TeloTag mix 1–5), 0 failed, 0 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

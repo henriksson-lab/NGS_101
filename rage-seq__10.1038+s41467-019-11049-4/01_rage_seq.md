@@ -1,19 +1,28 @@
 # RAGE-Seq — research notes
 
-Defining source: Singh *et al.*, [10.1038/s41467-019-11049-4](https://doi.org/10.1038/s41467-019-11049-4).
+Defining source: Singh *et al.*, “High-throughput targeted long-read single cell sequencing reveals the clonal and transcriptional landscape of lymphocytes,” *Nature Communications* (2019), [10.1038/s41467-019-11049-4](https://doi.org/10.1038/s41467-019-11049-4) (PMC6635368). This is the published version; the bioRxiv preprint 10.1101/424945 is superseded and not used as evidence.
+
+## Sources read
+
+- 🟢 Published article, PMC JATS text (`s41467-019-11049-4_PMC6635368.xml.txt`): Results “RAGE-seq workflow” (line 72); Methods “Droplet-based scRNA-Seq (10x Genomics)” (166), “Antigen–receptor capture probe design” (170), “Targeted capture” (174), “Nanopore sequencing” (178), “Demultiplexing nanopore sequencing data” (192).
+- 🟢 Supplementary Information (MOESM1): Supplementary Fig. 1a legend (lines 75–83) and Supplementary Table 8 (lines 2244–2310; kits and flow cells per sample).
 
 ## Evidence used
 
-- 🟢 RAGE-Seq combines short-read expression profiling with targeted long-read sequencing of full-length TCR and BCR transcripts.
-- 🟢 Biotinylated capture probes enrich receptor cDNAs from barcoded droplet libraries.
-- 🟢 Long reads retain the cell-identifying sequence and resolve full receptor nucleotide sequence and splice isoforms.
-- 🟢 Before capture, and again after each of two Roche–NimbleGen capture rounds, the paper amplifies the full-length cDNA with TSO primer `AAGCAGTGGTATCAACGCAGAGT` and R1 primer `CTACACGACGCTCTTCCGATCT`. These sequences were present in the original Methods and are now shown on the schematic page.
-- 🟢 The capture design targeted 644 exons spanning functional human immunoglobulin/TCR V, J and constant genes. Supplementary Table 7 gives the target-gene list.
-- 🔴 Roche–NimbleGen designed and synthesized the SeqCap RNA Choice probe pool, but the paper and supplement do not provide its individual probe sequences.
-- 🔴 Long-read libraries used Oxford Nanopore SQK-LSK108, or SQK-LSK308 for one sample. Those commercial motor-adapter sequences are not disclosed by the paper or kit documentation.
+- 🟢 Chromium Single Cell 3′ v2 libraries were prepared with two extra cDNA amplification cycles; 30 µL cDNA (35 µL for the tumour) went into the Illumina library, sequenced on a NextSeq 500 (150-bp paired-end). The remaining cDNA went to targeted capture.
+- 🟢 Before capture, the cDNA was amplified with KAPA HotStart HiFi ReadyMix, 3 µM TSO primer `AAGCAGTGGTATCAACGCAGAGT` and 3 µM R1 primer `CTACACGACGCTCTTCCGATCT` (5 cycles for cell lines, 20 for primary cells), then purified with AMPure XP. 500 ng–1 µg went into capture.
+- 🟢 Capture followed the Roche–NimbleGen SeqCap EZ double-capture protocol: two overnight hybridizations at 47 °C, with no universal or index HE oligos. After each capture, a PCR with 1 µM TSO and R1 primers (instead of the TS-PCR oligos) ran 5 cycles after the first capture and 20 after the second. The post-capture library was 0.6–2 kb.
+- 🟢 The SeqCap RNA Choice design targeted 644 exons (~128 kb) of functional human IG/TCR V, J and constant genes; Supplementary Table 7 lists the genes. Roche–NimbleGen designed and synthesized the probes. 🔴 Their individual sequences are not printed in the article or Supplementary Information.
+- 🟢 Long-read libraries used the ONT 1D ligation kit SQK-LSK108, or SQK-LSK308 for one sample (base-called as 1D). Flow cells were R9.4.1 FLO-MIN106, or R9.5.1 FLO-MIN107 for three cell-line samples. 🔴 The adapter sequences and end-preparation chemistry are not printed in the paper. The kit protocols were not read.
+- 🟢 Demultiplexing: 16-nt cell barcodes from the matched CellRanger output are searched, on either strand, in the first and last 200 nt of reads longer than 250 nt. The 13 nt downstream of a barcode match are removed to drop the 10-nt UMI.
+- 🟡 Model: the amplicon is drawn as R1 primer site – 16-nt cell barcode – 10-nt UMI – oligo(dT) – receptor cDNA – template-switch-derived bases – TSO primer site. The flanks come from the two printed primers, and the barcode/UMI order and lengths come from the demultiplexing Methods. The oligo(dT) and the remaining 10x template-switch bases are role-level.
 
 ## Protocol boundary
 
-The page covers targeted receptor capture and the long-read branch, not generic 10x gene-expression construction.
+The page covers the targeted receptor branch: re-amplification, double capture, post-capture PCRs and the ONT library. The matched short-read branch follows the standard Chromium 3′ v2 protocol. It is drawn as an explicit, warned boundary rather than as a redrawn 10x library.
 
-The matched short-read branch inherits the corresponding droplet scRNA-seq chemistry. The source-exact RAGE-Seq additions are the two capture-flanking amplification primers and the target definition; the capture-probe and Nanopore-adapter gaps are kept explicit.
+## Open questions
+
+- The ONT SQK-LSK108/SQK-LSK308 kit protocols (end-prep/dA-tailing and adapter-end chemistry) were not read.
+- The NimbleGen SeqCap EZ User's Guide v3.0 and Double Capture Technical Note, cited in Methods, were not read. They describe hybridization, washes and the replaced TS-PCR oligos.
+- The 10x Chromium 3′ v2 user guide (bead-primer oligo(dT), TSO, Illumina library) was not read for this page.

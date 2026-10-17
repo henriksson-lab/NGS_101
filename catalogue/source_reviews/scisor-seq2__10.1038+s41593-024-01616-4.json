@@ -101,5 +101,25 @@
       "evidence": "The paper delegates final library preparation to product-specific manuals at lines 224-228, which are pending."
     }
   ],
-  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nat Neurosci PMC11156538 author-manuscript JATS Methods Linear/asymmetric PCR212, Exome capture216, 10x 3' library220, PacBio library224, ONT library228; Springer MOESM1 (supp figures/notes) and MOESM2 (reporting summary) scraped/keyword-checked",
+      "oligo_scraper": "Bundle scraper run: only Partial Read1 and Partial TSO (line212, repeated line216) found; both verified verbatim; supplements yield no library oligos.",
+      "findings": "Added LAP SPRI cleanups (0.8x after 12 linear cycles, 0.6x after 6 exponential cycles) and cycling conditions; named KAPA HiFi HotStart ReadyMix and 30 ng 10x 3' v3 cDNA input; capture now declares Partial Read1/TSO block oligos, Agilent SureSelect All Exon (Human V8/Mouse) probes with SureSelectXT HSQ, 24 h 65C hybridization and M-270 streptavidin capture/WB1/WB2 washes; added the missing 12-cycle on-bead post-capture PCR with Partial Read1/TSO and 0.8x SPRI before platform split; PacBio branch now has DNA damage repair 37C 30min, ER/A-tail 20C/65C, 20C 60min ligation and 0.6x SPRI cleanup with waste fate; ONT branch names ~75 fmol, SQK-LSK110 protocol ACDE_9110_v110_revC_10Nov2020, FLO-PRO002 72 h, Guppy Q>7. No published discrepancy found.",
+      "deferred": [
+        "PacBio SMRTbell Express Template Prep Kit 2.0 manual (hairpin geometry, kit sequencing primer)",
+        "ONT SQK-LSK110 Amplicons by Ligation protocol ACDE_9110_v110_revC (end-prep, adapter ends)",
+        "Agilent SureSelectXT HSQ manual (hyb/wash buffers)",
+        "10x CG000183 Rev C 3' v3 user guide (cDNA structure)",
+        "PMC gated NIHMS1990733 supplement (manual)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 2 established/1 conditional/13 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 3 oligo inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

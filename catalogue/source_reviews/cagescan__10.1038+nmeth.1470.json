@@ -172,5 +172,26 @@
       "checks": "Six local source-backed tests PASS; schematic53260bytes builds; source guard4checked/0failed/2inputswithout exact states; root integrated pairing0 and chemistry batch0contradictory; review/docs/scoped whitespace checks run at checkpoint.",
       "scope": "Exact initial-template geometry and complete linked-source review not established. No stage/commit or raw data downloads."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Author manuscript PMC2906222 Online Methods (NIHMS207200-supplement-supplement_1.pdf.txt) lines 1-13 (inherited nanoCAGE RT), 66-118 (CAGEscan RT, cDNA amplification, sequencing), 225-241 (paired-end analysis); Springer MOESM315 Supplementary Table 8 pdf.txt lines 5134-5170; PMC2906222 JATS Results line 115 and Fig. 1 legend line 324",
+      "oligo_scraper": "Bundle scraper run; CAGEscan hits are the eight Table 8 oligos (MOESM315 5137-5169, duplicated in NIHMS supplement-1); remaining hits are nanoCAGE oligos and semi-suppression derivative figure text, not CAGEscan inputs.",
+      "findings": "Added the source 1% agarose purity check after the first AMPure XP cleanup (Methods 92-94) as a QC aliquot of unstated volume. Table 8 oligos, RT/PCR order, pilot/production splits and mM-unit discrepancy display re-verified unchanged. Note gains lib-computed (inferred) primer landings: forward sequencing primer = full TSO handle (Read 1 starts at Xn barcode), reverse PCR/sequencing primers share only the 3'-terminal 18 nt with the RT handle (Read 2 starts at N6 end, semi-reverse 5' segment dropped), final forward primer 3' 16 nt also inside semi-reverse primer (candidate only, not drawn).",
+      "deferred": [
+        "Assembly of exact PCR/sequencing-primer geometry as model states (landings only derived in note)",
+        "Reference 15 barcode set (exact three/six-base Xn members) and reference 16 Bentley 2008 Genome Analyzer chemistry",
+        "Acquired paired-end cycle counts on Genome Analyzer II",
+        "Multiplex pooling step (Methods 117-118) not represented as a graph operation",
+        "RNAClean XP/AMPure XP manufacturer instructions (bead ratios)",
+        "Intended primer concentration behind printed 100 mM/200 mM"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 6/6 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/17 unresolved/0 contradictory; source guard 4 exact checked (semi F/R, final F/R), 0 failed, 2 inputs without exact states (RT N6 primer, TSO Xn/rGrGrG); Markdown built; review schema checked"
+    }
   ]
 }

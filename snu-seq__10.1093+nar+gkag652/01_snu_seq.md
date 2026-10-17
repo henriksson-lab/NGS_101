@@ -2,11 +2,22 @@
 
 [Gerlevik et al., NAR (2026)](https://doi.org/10.1093/nar/gkag652) enriches RNA containing pulse-incorporated 4sU, adds artificial poly(A) tails and uses a 3′-region RNA library kit. Intentional sonication is omitted. A labelled molecule may include pre-existing RNA tracts; enrichment does not prove that every nucleotide was synthesized during the pulse.
 
-## Original versions
+## Published source and version history
 
-The actual [Lorenz preprint v1](https://www.biorxiv.org/content/10.1101/2021.07.14.452379v1.full.pdf) was recovered separately and its printed **July 14, 2021** header verified. Its methods (current text 1310–1380) report bacterial PAP on 150 ng RNA for 45 min at 37°C, isopropanol recovery, thirteen PCR cycles and **Ion Chef/Ion Proton**. They do not specify Illumina FWD or SR100 in that passage. Its Hep3B pulse conditions and yeast spike-in are version-specific.
+🟢 The published 2026 article Methods (JATS lines 118–120) and original Supplementary
+Methods (text 306–429) are the authority: TT-seq capture without sonication, optional rRNA
+depletion after streptavidin pulldown, **150 ng** thio-labelled RNA polyadenylated with
+E. coli PAP for **45 min at 37°C**, isopropanol precipitation with 1/10 volume sodium
+acetate and GlycoBlue, Lexogen QuantSeq **Ion Torrent or FWD for Illumina** with
+**13 PCR cycles**, and single-end **100-nt** acquisition on Ion Proton or Illumina
+NextSeq 2000. The graph selects this +bPAP route, with dated kit references qualified
+below. The size-selected branch and no-bPAP/no-4sU/rRNA-depletion controls are separate
+source variants.
 
-The previously cached v2 is printed **October 24, 2025**, despite the 2021 DOI. That version and the 2026 supplement describe Ion Torrent and Illumina FWD options. The 2026 original Supplementary Methods (text 306–429) reports thirteen PCR cycles and single-end 100-nt acquisition on Ion Proton or Illumina NextSeq 2000. The graph selects that later +bPAP route, with dated kit references qualified below. The size-selected branch and no-bPAP/no-4sU/rRNA-depletion controls are separate source variants.
+History only (round 18 removed these from the page's authority list under the
+published-version-first rule): bioRxiv v1, printed **July 14, 2021**, reports the Ion
+route; the cached v2 is printed **October 24, 2025**. Neither is used to supply or
+override a modelled value.
 
 ## Capture, release and PAP
 
@@ -39,7 +50,7 @@ The [Illumina FWD guide 015UG009V0260](https://www.lexogen.com/wp-content/upload
 
 Both chosen guide families read **towards poly(A)** from the random second-strand side. FWD does not use the REV/CSP read direction. A longer read can be needed to reach the native RNA 3′ boundary; the first acquired base does not universally identify it.
 
-The 2026 analysis clips poly(A), masks genomic A-rich regions, filters alignments and computes the **aligned-read 3′ coordinate** using `bedtools genomecov -3`. The 2021 original likewise uses `-bg -3`. Those operations do not prove native-end reach for every read or physically remove library molecules. The computed FWD reference preview stops at the variable biological interval instead of inventing read-through into a fixed tail.
+The 2026 analysis clips poly(A), masks genomic A-rich regions, filters alignments and computes the **aligned-read 3′ coordinate** using `bedtools genomecov -3`. Those operations do not prove native-end reach for every read or physically remove library molecules. The computed FWD reference preview stops at the variable biological interval instead of inventing read-through into a fixed tail.
 
 ## Linked source scope
 

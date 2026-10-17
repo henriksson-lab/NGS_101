@@ -133,5 +133,25 @@
       "evidence": "Paper cites Rev D; available later Rev G cannot alone prove revision identity."
     }
   ],
-  "conclusion": "Two readers checked published barcoded Tn5, sample index and blocker oligos; historical 10x Rev D guide remains unavailable for vendor-specific claims."
+  "conclusion": "Two readers checked published barcoded Tn5, sample index and blocker oligos; historical 10x Rev D guide remains unavailable for vendor-specific claims.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-21",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Genome Biology PMC10958877 JATS (PMC Cloud) Methods lines189–191 Sample multiplexing, 197–205 Optimization/Blocking, 207–211 brain, 213–217 lung/liver standard protocol, 219–221 Phased, Results89–91/143; Additional file 5 xlsx Tables S4 lines1–5, S5 A1, S7 lines146–156, S8 lines158–164; authors' protocols.io dm6gp3o68vzp/v1 PDF steps1–7 (lines770–814), LBS recipe716–734, steps50–52 (lines1117–1215)",
+      "oligo_scraper": "Bundle scraper run; Tn5ME-A/B, Tn5MErev, P7.S701–S706 family, Short/Full SBS, Decoy and Blocking hits checked against Additional file 5 lines3–5/148–164; preprint and protocols.io copies agree; upstream/scg files not used.",
+      "findings": "Graph now starts from Table S4 Tn5ME-A, Tn5ME-B (printed 8-N barcode placeholder) and [phos]Tn5MErev through protocols.io annealing and Tn5 loading (published iTSM plate pre-loaded by Illumina). Short SBS input carries exact Table S8 sequence. Tagmentation 37C 1h/lid47C, ice 5 min no stop buffer; loading buffer 5uM short SBS, 100k–200k nuclei; GEM 72C5min/98C30s/8x(98/59/72); SI-PCR 5 cycles with 2.5uL 25uM P7.S70x. Kit post-GEM cleanup and double-sided size selection made explicit. A/A-B/B and empty/multiplet-GEM fates reworded as non-separated (non-amplified/computational) instead of physical discard. Sequencing highlight: protocols.io 51/8/16/78 vs published acquired 10 i7 cycles for co-pooled bulk library (author-explained, not a discrepancy); dark cycles 9–27/PhiX advice.",
+      "deferred": [
+        "10x CG000209 Rev D guide (gel-bead oligo, kit SI-PCR P5 primer, cleanup and size-selection specifics) — unavailable",
+        "Fig. S1c in-droplet swapping mechanism (figure only)",
+        "Brain, pilot, blocking-test (Decoy/Blocking oligo/Full SBS) and Phased branches not drawn",
+        "Decoy DNA dU purpose and blocking-oligo CTATGATG barcode",
+        "Optional 10%/90% GEM QC split not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (4 transcription checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard 4 exact checked (Tn5ME-A, Tn5MErev, Short SBS, P7.S701), 0 failed, Tn5ME-B symbolic barcode input, bead oligo inferred and excluded; Markdown built/checked; review schema checked"
+    }
+  ]
 }

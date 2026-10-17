@@ -110,5 +110,25 @@
       "evidence": "Later protocol names adapter family; selected index and original supplement/vendor geometry not yet checked."
     }
   ],
-  "conclusion": "Later detailed protocol resolves P5/P7 primer bases, while adapter choice remains pending. Independent pass 2 pending; no missing claim accepted."
+  "conclusion": "Later detailed protocol resolves P5/P7 primer bases, while adapter choice remains pending. Independent pass 2 pending; no missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining Mol Cell author manuscript PMC4955522 JATS Results line61, Experimental Procedures 'DRIP-seq and DRIPc-seq' line137, GEO line161; Sanz & Chédin 2019 Nat Protoc PMC6615061 JATS procedure overview lines403–446, reagents528–621, steps26–31 lines1020–1066, steps39–58 lines1100–1330, Table1 lines2104–2143, trimming FASTA2317–2323",
+      "oligo_scraper": "Bundle scraper run: 20 hits; P5/P7 PCR primers lines620–621 verified verbatim; Table1 hits are qPCR locus primers; two fastq-mcf trimming motifs lines2321–2323 are analysis references only.",
+      "findings": "Replaced the invented 'second-strand primer' oligo with the 2019 RNase H / E. coli DNA ligase / DNA polymerase I nick-translation second strand (dUTP); added NEBNext end repair, Klenow exo- dA-tailing, two-step AMPure 200–500 bp selection with waste fates; named DNase I, iScript (poly(T)+random hexamers), Quick ligase, AmpErase UNG, Phusion Flash; P5/P7 primers given exact source states; removed unsupported 'single-end' read claim (2016: HiSeq 2000, no read length; 2019: SE100 only as example). Graph-owned SourceDiscrepancy: 2016 line137 4 U DNase I 35 min vs 2019 step26 6 U 45 min; dose left unassigned. Page states which library steps come from the 2019 protocol.",
+      "deferred": [
+        "NIHMS800865 Supplemental Experimental Procedures PDF and Table S1 (PMC download gate; manual URL in MANIFEST)",
+        "Illumina adapter sequences document 1000000002694-07 (selected TruSeq Single index and adapter end geometry)",
+        "Ginno 2012 DRIP predecessor beyond prior passes",
+        "GEO GSE70189 run metadata for acquired read length",
+        "Second-strand nick-translation and adapter ligation geometry not drawn base-by-base"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/9 conditional/14 unresolved/0 contradictory; source guard 2 exact checked (P5, P7), 0 failed, 1 input without exact state (rt_primer_mix poly(T)+random hexamers); Markdown built; review schema checked"
+    }
+  ]
 }

@@ -66,5 +66,23 @@
       "evidence": "Defining method names but does not print adapter; original methods supplement and predecessor remain unchecked."
     }
   ],
-  "conclusion": "Original supplement and predecessor access blocks acceptance. Independent pass 2 pending; no missing claim accepted."
+  "conclusion": "Original supplement and predecessor access blocks acceptance. Independent pass 2 pending; no missing claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Mol Cell PMC3319272 author-manuscript JATS text Results lines74–77, Experimental Procedures 'Genome-wide R-loop profiling using DRIP-seq and DRIVE-seq' line113, data line117; Sanz & Chédin Nat Protoc 2019 PMC6615061 XML (dripc-seq bundle) lines130–140, 420–446, 600–621, 1259",
+      "oligo_scraper": "Bundle scraper run: 0 hits (2012 JATS text only). 2019 protocol P5/P7 PCR primers read directly at lines616–621; not assigned to 2012 libraries.",
+      "findings": "Removed unsupported note claims that 2012 used Affymetrix Prep2Seq adapters and single-end reads (2012 text: 'Illumina barcoded adaptors', GAIIx and HiSeq, no read mode). Added source size-selection step with discarded out-of-window fragments; end repair, dA-tailing and library PCR now marked INFERRED from the 2019 DRIP-seq branch (steps 44–51, step 50 skipped). Named SDS/proteinase K/phenol extraction, five-enzyme digest, MeDIP-style S9.6 IP without denaturation; highlights for RNase H/input control libraries (>10-fold peak threshold) and 2012-vs-2019 library construction.",
+      "deferred": [
+        "2012 supplements NIHMS362480-supplement-01.xlsx and -02.doc (PMC download gate): adapter identity, size window, read mode",
+        "Weber 2005 MeDIP predecessor IP/wash conditions",
+        "Source of the earlier Prep2Seq claim"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/5 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 0 inputs without exact states (no exact oligo inputs); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

@@ -79,5 +79,25 @@
       "evidence": "Original Supplementary Table 2 prints representative family members; full branch mapping awaits other original supplements and predecessor."
     }
   ],
-  "conclusion": "Original Supplementary Table 2 prints representative family members; full branch mapping awaits other original supplements and predecessor."
+  "conclusion": "Original Supplementary Table 2 prints representative family members; full branch mapping awaits other original supplements and predecessor.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published NSMB 2019 article as PMC7231560 author-manuscript JATS Results line65, Methods lines117-149 (transposome/barcode plates, tagmentation+RT, ligation rounds with Blocker-R02/R03 and Terminator line133, lysis line135, TdT/Anchor/preamp lines139-141, NotI/SbfI split + Tn5-P5 line145, indexing PCR and PE 53+7+130 line149) and Read-2 barcode positions line159; Supplementary Table 1 (publisher MOESM2, bundle copy scg_41594_2019_323_MOESM2_ESM.xlsx, manifest-identical) lines1-15; Supplementary Table 2 (MOESM3, scg_ copy) lines1-20, 117-119, 214-252",
+      "oligo_scraper": "Bundle scraper/--find used; all nine guard-failed sequences (Linker-R02/R03/R04, BC1 arm, BC2/BC3 5-prime arms, Blocker-R02/R03, Terminator) located verbatim in the publisher Table 1/2 workbooks, which the guard's locator filter excludes because they arrived via the scg mirror.",
+      "findings": "Verified BC1 DNA/RNA families (3-nt matched barcodes, NotI vs SbfI, 5Phos), BC2/BC3 5Phos 7-nt plates, R04 Read-2 arm/10N UMI/7-nt BC4/0-3 phase/ligating arm without 5Phos, linker/blocker/terminator complements, Anchor/PA/N5XX/P7XX. Corrections: RNA final library now retains the poly(A) copied from oligo-dT/VN between cDNA and SbfI; mislabelled 'dA junction' replaced by the R04 Read-2 arm plus P7XX extension (sequence unchanged, overlap asserted); Blocker-R02/R03 and Terminator added as exact-sequence round inputs; reagent/condition labels from Methods (Maxima RT, T4 ligase M0202L, NaCl/SDS/proteinase K lysis, TdT+dCTP, KAPA HiFi 15 linear/10 preamp cycles, NotI-HF/SbfI-HF, Tn5-P5 loading not described). Derived note: 7 acquired i7 cycles vs 6-nt P7XX index window; no published discrepancy recorded.",
+      "deferred": [
+        "TELP predecessor (ref. 43) TdT/Anchor chemistry",
+        "Tn5-P5 adapter loading (AdaptorA unassigned)",
+        "Extended Data Fig. 1a read-layout drawing",
+        "Cleanup steps and fate of restriction-cut opposite-modality molecules not drawn",
+        "Publisher version of record (NSMB) not compared beyond the author manuscript"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks) passes; page builds; pairing 0 problems; chemistry 13 established/2 conditional/17 unresolved/0 contradictory; source guard 9 exact checked, 9 failed solely by locator-filter exclusion of scg-mirrored publisher Tables 1-2 (all nine verified verbatim there), 13 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

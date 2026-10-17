@@ -3,15 +3,17 @@
 > **Evidence marking.** 🟢 verbatim from a primary source (paper, supplement, detailed
 > protocol) · 🟡 derived, inferred, or only in a secondary source (the upstream
 > scg_lib_structs page) · 🔴 not published / not available to us. Relationships marked
-> 🟡 *(computed)* were worked out with `lib/` while writing this note. They are not yet
-> asserted in a self-test, because this protocol has no `tools/` module yet (status
-> `notes`).
+> 🟡 *(computed)* were worked out with `lib/` while writing this note. The schematic
+> modules (`tools/celseq.py`, `tools/page_parts.py`, and the CEL-Seq2 `tools/chem.py`)
+> enforce only the primer assemblies and pairings they construct.
 
 **CEL-Seq**: Hashimshony T, Wagner F, Sher N, Yanai I. "CEL-Seq: single-cell RNA-Seq by
 multiplexed linear amplification." *Cell Reports* 2 (2012) 666–673.
 doi:[10.1016/j.celrep.2012.08.003](https://doi.org/10.1016/j.celrep.2012.08.003), PMID 22939981.
-**We could not fetch this paper** (see below), so everything about the original protocol
-comes from the CEL-Seq2 paper and the upstream page.
+Earlier passes could not fetch this paper. The 2026-10-17 deferred follow-up obtained the
+published article with its Supplemental Information and the detailed 2012 "CEL-Seq
+Protocol" from the publisher's supplement CDN (section 9). Sections 2.1, 3.3, 5 and 6 are
+updated from them; older passages marked as upstream-only remain secondary.
 
 **CEL-Seq2**: Hashimshony T, Senderovich N, Avital G, Klochendler A, de Leeuw Y, Anavy L,
 Gennert D, Li S, Livak KJ, Rozenblatt-Rosen O, Dor Y, Regev A, Yanai I. "CEL-Seq2:
@@ -26,26 +28,32 @@ CEL-Seq2 on the Fluidigm C1.
 ## Sources
 
 Fetched by `tools/get_sources.py` into
-`/husky/henriksson/NGS101_papers/sources/cel-seq-family__10.1016+j.celrep.2012.08.003/`, never committed:
+`/husky/henriksson/NGS101_papers/sources/cel-seq2__10.1186+s13059-016-0938-8/` (the CEL-Seq2
+package and the Illumina table) and
+`/husky/henriksson/NGS101_papers/sources/cel-seq__10.1016+j.celrep.2012.08.003/` (upstream
+files plus the hand-fetched 2012 `j.celrep.2012.08.003_mmc5.pdf` article+Supplemental
+Information and `j.celrep.2012.08.003_mmc4.pdf` detailed protocol), never committed:
 
 | File | What | Used for |
 |---|---|---|
+| `j.celrep.2012.08.003_mmc5.pdf(.txt)` | CEL-Seq 2012 published article plus Supplemental Information (Document S1) | Experimental Procedures (primer design, MessageAmp II modifications, library construction, sequencing), Fig. 1 legend |
+| `j.celrep.2012.08.003_mmc4.pdf(.txt)` | CEL-Seq 2012 detailed "CEL-Seq Protocol" (Hashimshony, 16 July 2012) | **all 40 CEL-Seq RT primers**, reagents and catalogue numbers, every bench step |
 | `upstream_CEL-seq_family.html(.txt)` | scg_lib_structs "CEL-seq / CEL-seq2" page | secondary reconstruction of the original CEL-Seq reaction and read-primer mapping |
 | [Illumina TruSeq Small RNA adapter sequences, document 1000000002694 v22](https://support-docs.illumina.com/SHARE/AdapterSequences/Content/TruSeq-SmallRNA.htm) | primary vendor reference, read online | RA5, RA3, RTP, RP1, RPI1–48 and sample-sheet index orientation; confirms the upstream sequences |
-| `s13059-016-0938-8_PMC4848782.html(.txt)` | CEL-Seq2 paper, full text (PMC) | what changed from CEL-Seq, barcode design, C1 implementation, sequencing |
+| `s13059-016-0938-8_PMC4848782.pdf(.txt)` | CEL-Seq2 paper, PMC Cloud PDF | what changed from CEL-Seq, barcode design, C1 implementation, sequencing |
 | `…_MOESM4_ESM.docx(.txt)` | Additional file 4: "CEL-Seq2 Protocol" (detailed bench protocol) | **all 96 CEL-Seq2 RT primers**, randomhexRT primer, every volume and temperature |
 | `…_MOESM5_ESM.pdf(.txt)` | Additional file 5, Table S2 | **CEL-Seq, CEL-Seq + UMI, CEL-Seq2 primer designs**, library RT primer |
 | `…_MOESM6_ESM.docx(.txt)` | Additional file 6: C1 mixes and steps | CEL-Seq2 on the C1 |
 | `…_MOESM3_ESM.pdf(.txt)` | Table S1: C1 capture and barcode per chamber | not chemistry (barcode-to-chamber map) |
 | `…_MOESM1/2_ESM.pdf(.txt)` | Figures S1, S2 | optimisation data only (RT enzyme, second-strand kit, clean-up) |
-| `…_PMC4848782.xml` | full-text JATS XML | the Methods (CEL-Seq2 changes, barcode design, Sequencing, GEO accession); these sections are missing from the PMC `.html.txt` |
-| `…_supplementary.zip`, `…Fig*_HTML.*` | duplicates / figures | not used |
+| `…_PMC4848782.xml` | full-text JATS XML | the Methods (CEL-Seq2 changes, barcode design, Sequencing, GEO accession); read from `…xml.txt` |
 
 Not fetched (🔴):
 
 | What | URL | Why it matters |
 |---|---|---|
-| CEL-Seq paper (Cell Reports 2012) and its Supplemental Information | https://doi.org/10.1016/j.celrep.2012.08.003 · https://www.cell.com/cell-reports/fulltext/S2211-1247(12)00228-8 | the original methods: the 8-nt barcode list ("as previously published", Table S2 of CEL-Seq2), which Illumina kit and adapters were used, IVT kit details, read lengths. The publisher page returned HTTP 403 and Europe PMC has no full text. |
+| Illumina TruSeq Small RNA Sample Prep kit guide, revision current in 2012 (RS-200-0012) | vendor | RA3/RTP/RP1/RPIX bases and modifications as supplied for the 2012 reaction |
+| MessageAmp II aRNA kit manual (AM1751) | vendor | kit buffer and enzyme identities behind the RT, second-strand and IVT steps |
 
 ---
 
@@ -116,8 +124,22 @@ Barcodes, as they appear in the primers (5'→3' on the RT primer), 🟢:
 ```
 
 The protocol recommends barcodes 1, 4, 5, 9, 10, 23, 25, 26, 31, 46 when pooling as few as
-10 cells. 🟢 The 8-nt CEL-Seq barcodes are 🔴: Table S2 says only that they are "as
-previously published", which means in the CEL-Seq paper we could not fetch.
+10 cells. 🟢
+
+The 40 original CEL-Seq RT primers, 🟢 verbatim from the 2012 detailed protocol
+(`j.celrep.2012.08.003_mmc4.pdf.txt` lines 46–85; desalted, no modifications, 1 µg/µl
+stock, 25 ng/µl working). Each is the CEL-Seq Table S2 line with the 8-nt barcode filled
+in, for example:
+
+```
+#1   CGATTGAGGCCGGTAATACGACTCACTATAGGGGTTCAGAGTTCTACAGTCCGACGATCCATCACGCTTTTTTTTTTTTTTTTTTTTTTTTV
+#40  CGATTGAGGCCGGTAATACGACTCACTATAGGGGTTCAGAGTTCTACAGTCCGACGATCTAGGTGAGTTTTTTTTTTTTTTTTTTTTTTTTV
+```
+
+🟡 *(computed)*: all 40 lines equal `celseq.CEL1_SPACER + T7_PROMOTER + CEL1_RA5`, an 8-nt
+barcode and T24V; the 40 barcodes are distinct with minimum pairwise Hamming distance 2,
+matching the stated design ("each pair is different by at least two nucleotides"). The
+first barcode is `CATCACGC`; the full list is in the source lines above.
 
 ### 2.2 Library-construction oligos
 
@@ -257,7 +279,25 @@ Segments of the RT primers, 5'→3':
 - Table S1 maps C1 chamber to barcode. The barcodes on the chip run 1–48, each used
   twice. 🟢 (table)
 
-### 3.3 Original CEL-Seq (2012): 🟡/🔴, reconstructed without the primary paper
+### 3.3 Original CEL-Seq (2012): 🟢 from the 2012 detailed protocol and Experimental Procedures
+
+🟢 (`mmc4.pdf.txt` lines 86–end; `mmc5.pdf.txt` lines 450–493): a single cell frozen on a
+0.5-ml LoBind tube cap receives 1.2 µl primer mix (5 ng barcoded RT primer, ERCC spike-in
+at 1:500,000 for single cells), 70 °C 2 × 5 min; one-tenth-volume MessageAmp II RT
+(ArrayScript, 42 °C 2 h) and second strand (DNA Pol/RNase H, 16 °C 2 h); pooling and one
+cDNA column clean-up; IVT at two-fifths volume, 37 °C 13 h; aRNA fragmentation (Tris-acetate
+pH 8.1, KOAc, MgOAc) 3 min at 94 °C, EDTA stop, column clean-up. Library from 5–10 ng aRNA
+(article: 5 ng): Antarctic phosphatase 37 °C 30 min; T4 PNK with ATP 37 °C 60 min; RNeasy
+MinElute clean-up; ligation of Illumina RA3 (diluted 5-fold) with T4 RNA ligase 2,
+truncated, in HML buffer at 28 °C 1 h, then STP; RT with Illumina RTP and SuperScript II at
+50 °C 1 h; PCR with PML, RP1 and an indexed RPIX, 12 cycles (11–15; 98/60/72 °C, 30-s
+extension); two AMPure XP clean-ups (1.0× then 1.3×). The kit is "TruSeq small RNA sample
+prep kit – Illumina RS-200-0012"; the article calls the procedure a modified "Illumina
+directional RNA sequencing protocol" with only the 3′ adaptor ligated. 🟡 These are two
+descriptions of the same kit-based procedure, not a conflict. RA3, RTP, RP1 and RPIX
+sequences are not printed ("sequences available from Illumina").
+
+Older secondary reading, retained 🟡:
 
 From the CEL-Seq2 paper 🟢: the MessageAmp II kit for RT, second strand and IVT; column
 clean-ups; a 5'-adapter-carrying RT primer with an 8-nt barcode and no UMI. The aRNA was
@@ -265,8 +305,7 @@ made into a library by ligating the second adapter, then RT, then "a few PCR cyc
 
 From the upstream page only 🟡: fragmented aRNA is ligated at its 3' end to RA3. The upstream
 author guesses the RA3 3' end is blocked. RTP primes RT on the ligated RA3, and RP1 + RPI
-PCR follows. Ligase, conditions, fragmentation and cycle numbers are 🔴, because they are
-in the unfetched paper. See
+PCR follows. Ligase, conditions, fragmentation and cycle numbers are now 🟢 above. See
 [small-RNA ligation](../ref/concepts/small-rna-ligation.md) for how the TruSeq Small RNA
 adapters behave in their native kit.
 
@@ -316,7 +355,12 @@ reagents. Loading was 8 pM on HiSeq v3 and 12 pM on MiSeq or rapid mode.
 | Index 1 (i7) | `TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC` | 6-nt `<rpi>'` (+1 cycle) | 🟡 |
 | Read 2 | `GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA` | starts at the random-primed end of the fragment and reads the cDNA (mRNA sense) toward the poly(A) | 🟡 |
 
-The pipeline demultiplexes on the Read 1 barcode, takes the UMI from Read 1 as well, and
+Original CEL-Seq 🟢 (`mmc5.pdf.txt` lines 490–499): HiSeq 2000 paired-end, at least 15
+bases for Read 1 and 50 for Read 2, plus the Illumina index when needed; demultiplexing on
+the first eight bases of Read 1; >95% of filtered reads had the barcode at the start of
+Read 1 followed by poly(T) (lines 115–118).
+
+The CEL-Seq2 pipeline demultiplexes on the Read 1 barcode, takes the UMI from Read 1 as well, and
 maps Read 2 with Bowtie2. 🟢 Read 1 is too short to reach the transcript. All biology is in
 Read 2. 🟡
 
@@ -325,17 +369,17 @@ small-RNA set, hence the paper's warning about kit compatibility. 🟡
 
 ## 6. Open questions
 
-- 🔴 The **original CEL-Seq paper and supplement**: the 8-nt barcode list, the ligation
-  chemistry (ligase, the RA3 3' block, fragmentation), PCR cycles and read lengths. Fetch
-  by hand from the URLs above.
+- 🔴 The **RA3 3′ block/5′ adenylation and exact RA3, RTP, RP1, RPIX bases** as supplied in
+  the 2012 TruSeq Small RNA kit (RS-200-0012): the 2012 protocol names them but prints no
+  sequences; the kit-guide revision of that date is unread.
 - 🔴 The **5' spacers** (`CGATTGAGGCCGG`, shortened to `GCCGG` in CEL-Seq2) are not
   explained. They are presumably there to let T7 RNA polymerase bind a promoter near a
   duplex end. 🟡
 - 🔴 What ExoSAP-IT removes after the IVT. The text says "primers": presumably leftover
   single-stranded RT primer, since exonuclease I acts on ssDNA. 🟡
-- 🔴 Illumina's current sequence document confirms the RA5, RA3, RTP, RP1 and RPI
-  sequences but does not independently establish that every one was used in the 2012
-  CEL-Seq reaction. The original supplement remains the source needed for that.
+- 🟡 Illumina's current sequence document (revision 22) gives the RA5, RA3, RTP, RP1 and
+  RPI sequences. The 2012 protocol establishes that RA3, RTP, RP1 and RPIX were used, but a
+  current document does not establish the 2012 kit revision's bases or modifications.
 - 🟡 Whether the C1 version really kept ArrayScript and MessageAmp, against the paper's
   statement that CEL-Seq2 is "kit-free". `MOESM6` lists MessageAmp reagents for the chip
   RT, second strand and IVT.
@@ -351,3 +395,45 @@ None of the small-RNA oligos are in `lib/`, so the scraper recognised only P5/P7
 character from the query, so `…GATCNNNNNNAGACTC…` is searched as `…GATCAGACTC…` and
 reported absent. The full CEL-Seq2 primers were therefore verified with a literal `grep -F`
 on the `.txt` (lines 51 and 146 of `MOESM4`).
+
+## 8. Bounded source pass, 2026-10-17 (round breadth-first-07)
+
+The defining 2012 Cell Reports article could not be read in this pass: `get_sources.py`
+again left it as a `(manual)` row, Europe PMC lists PMID 22939981 with no PMC full text,
+and both the cell.com PDF route and the ResearchGate page cited by earlier source
+reviews returned HTTP 403. No local copy exists under `$CHEM_DATA`. Its detailed
+supplement remains unread too.
+
+Cross-checked instead, in the CEL-Seq2 published package: Table S2 (Additional file 5,
+lines 1–21; CEL-Seq design with a 13-nt 5′ flank, full RA5, `[8 base barcode]` and
+T24V, which the model's CEL-Seq RT primer reproduces) and the JATS Results/Methods
+passages about the original method (MessageAmp II kit, column clean-ups, ligation of the
+second adaptor followed by RT and "a few PCR cycles", 92-nt primer; the CEL-Seq data in
+that paper used a 5-nt UMI and 6-nt barcode variant). The CEL-Seq2 paper attributes the
+92 → 82 nt shortening partly to "shortening the T7 promoter"; in the printed designs the
+20-nt promoter core is unchanged and only the 5′ flank shrinks (13 → 5 nt). 🟡 No change
+to the CEL-Seq schematic followed from these passages.
+
+## 9. Deferred follow-up pass, 2026-10-17 (round deferred-followup-02)
+
+Routes tried: `get_sources.py` (still a `(manual)` row), PMC ID converter and Europe PMC
+(no PMC record), Unpaywall/OpenAlex (gold OA, CC BY-NC-ND; the cell.com and ScienceDirect
+PDF routes return a 403 challenge page, not followed further), Elsevier article API
+(metadata only without a key), GEO/SRA search (no GEO series; the article gives SRA
+SRP014672). The publisher's own supplement CDN served the OA files directly:
+`https://ars.els-cdn.com/content/image/1-s2.0-S2211124712002288-mmc5.pdf` (article plus
+Supplemental Information) and `…-mmc4.pdf` (detailed protocol); `mmc2`/`mmc3` are Tables
+S2/S3 (gene lists) and `mmc1.xls` is a 20-MB data table, not chemistry, not read.
+
+Read: `mmc5.pdf.txt` lines 1–120 (Summary, Results on Fig. 1), 385–410 (Discussion on
+barcodes and kit), 450–525 (Experimental Procedures, accession, Supplemental Information
+list) and 586–603 (Extended Experimental Procedures, cell isolation); `mmc4.pdf.txt`
+whole (reagents, 40 primers, all steps). `scrape_primers.py` found the 40-primer family
+(lines 46–85).
+
+Changes: the page's preamble now cites the 2012 protocol for the primer design; the
+library caveat names the kit reagents while keeping their bases unpublished; the graph
+gains the phosphatase and PNK steps and names RA3, T4 RNA ligase 2 truncated, RTP,
+SuperScript II, RP1, RPIX and the 12-cycle PCR; the read table gives the published read
+lengths. No primer base changed: the model RT primer matches all 40 printed primers. 🟡
+

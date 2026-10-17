@@ -5,12 +5,17 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "https://doi.org/10.1038/s41586-021-03887-4",
-      "availability": "unavailable",
+      "locator": "https://doi.org/10.1038/s41586-021-03887-4 (open publisher version https://dspace.library.uu.nl/handle/1874/445587; local /husky/henriksson/NGS101_papers/sources/scribo-seq__10.1038+s41586-021-03887-4/uu_dspace_1874-445587_s41586-021-03887-4.pdf.txt)",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Article .txt lines 32-41, 90-200, Methods 1082-1158, 1171-1195, 1258-1267",
+        "finding": "Methods give full one-pot reaction order and conditions, PAGE window and NextSeq 75/6/10 recipe; no sequencing-primer sequences printed; cites refs 5-7 and github.com/mvanins/scRiboSeq_manuscript."
+      },
       "pass_2": null,
-      "reason": "Publisher article absent in local source bundle."
+      "reason": "Publisher version obtained from the Utrecht University repository (Taverne open access); independent pass 2 remains."
     },
     {
       "id": "supp1",
@@ -94,5 +99,38 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain."
+  "conclusion": "Partial first-pass source review. No missing-information claim accepted; unread or inaccessible relevant material and independent pass 2 remain.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Defining Nature article paywalled (manual https://doi.org/10.1038/s41586-021-03887-4; get_sources re-run, no open full text; not in source bundle or legacy). Read: MOESM3 Supplementary Table 1 XLSX Sheet1 rows 3-5 (OMV630/OMV572/OMV632), rows 6-389 (384 miRv6-PCR_F-cbc forward primers, A1 example row 6), rows 390-437 (48 RPI primers, RPI01 row 390); MOESM1 Reporting Summary opening; MOESM2 Peer Review File grep for adapter/ligation/PCR/sequencing passages (none chemistry-bearing)",
+      "oligo_scraper": "Bundle scraper: hits are the Table 1 rows 3-6 and 390 (plus collapsed families), all checked in the XLSX text; no sequencing-primer rows.",
+      "findings": "Model correction: Read 1 site was drawn as TruSeq small-RNA RA5 (GTTCAGAGTTCTACAGTCCGACGATC, absent from Table 1) with its revcomp as i5 primer; Table 1 forward primers (P5-cbc10-ACACTCTTTCCCTACACGACGCTCTTCCG) plus the 5' RNA adapter fixed part (CUACACGACGCUCUUCCGAUCU) give the TruSeq Read 1 site, now derived in _assemble_sites (raises on mismatch); RPI 3' region and RT primer interlock with the 3' adapter (RT primer also pairs with the 3' ddC) checked in construction. Sequencing primers now TruSeq R1/I2 plus inferred small-RNA i7 primer (not printed in Table 1). Graph adapter_3p/adapter_5p/rt_primer now carry Table 1 exact states and known single-strand ligation geometry instead of 'not verified locally' unavailable geometry; PCR primer families named. Page caveat shows model correction; note marks Methods-derived conditions and run recipe as carried, not re-verified.",
+      "deferred": [
+        "Defining Nature 2021 article Methods (paywalled): MNase/PNK/ligation/RT conditions, PCR cycles, PAGE window, NextSeq 75/6/10 recipe, any custom sequencing primers",
+        "RT-primer pre-annealing before 5' ligation (not represented in graph)",
+        "Extended Data/linked protocol or code repository named in the article"
+      ],
+      "scope": "Capped supplement-only pass; defining original unavailable; no missing-information claim accepted.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 2 exact checked (OMV630, OMV572), 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Defining Nature 2021 article obtained legitimately: OpenAlex/Unpaywall green location -> Utrecht University DSpace hdl:1874/445587 publisher version (Taverne open access), bitstream b277d1d7-c588-4094-94a8-a6e7d1a3bac6, saved as uu_dspace_1874-445587_s41586-021-03887-4.pdf (MANIFEST.tsv row). Read in .txt: main-text method summary lines 32-41; Fig. 1a schematic text lines 90-200; Methods Library construction/Cell lysis and footprint digestion/Small-RNA library preparation/Pooling and purification/Sequencing lines 1082-1158; Read processing lines 1171-1177; Read parsing lines 1187-1195; Data/Code availability lines 1258-1267. Routes tried: Europe PMC (not in PMC), KNAW Pure portal (metadata only, no file), UU DSpace (file obtained); hubrecht.eu author PDF (ref/MANIFEST.md) responds HTTP 200 application/pdf but was not needed.",
+      "oligo_scraper": "Scraper on the article .txt: one hit, the cutadapt adapter TGGAATTCTCGGGT at line 1177 (prefix of OMV630 adapter); no sequencing-primer sequences in the article.",
+      "findings": "Methods confirm the carried conditions (MNase 37 C 30 min; PK/EGTA/EDTA/GuSCN stop; PNK end repair 37 C 1 h; Rnl2tr KQ 4 C 18 h; RT primer pre-annealed 65/37/25 C before Rnl1 5' ligation 37 C 2 h; Maxima H Minus 50 C 1 h; Q5 Hot Start 10 cycles; 7% PAGE 175-185 region ~30-40-nt insert; NextSeq 500 v2.5 75/6/10; UMI first 10 nt Read 1; trim TGGAATTCTCGGGT). Corrections: graph now has anneal_rt_primer hybridization step before ligate_5p and RT extends the pre-annealed primer (SELF_PRIMER); PCR polymerase named Q5 Hot Start 10 cycles; workflow notes carry source conditions and the 30-45-nt figure is now the count filter (lines 1191-1193), not the footprint claim; author spelling VanInsberghe; page caveat and note now cite the read article instead of 'carried, not re-verified'. No custom sequencing primer named in Methods; i7 read primer stays inferred.",
+      "deferred": [
+        "Sequencing primers (not printed in Table 1 or Methods): i7 read primer remains inferred from RPI 3' region",
+        "Cited predecessor protocols (refs 5-7) and code repository github.com/mvanins/scRiboSeq_manuscript not followed (cap)"
+      ],
+      "scope": "Capped deferred-followup pass; defining original obtained and Methods read; no missing-information claim accepted.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/9 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 3 inputs without exact states; Markdown built (note + ref/MANIFEST); review schema (audit --check) pass"
+    }
+  ]
 }

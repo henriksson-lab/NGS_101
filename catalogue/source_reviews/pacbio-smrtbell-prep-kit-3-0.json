@@ -69,5 +69,25 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Original source bundle and oligo scraper checked in first pass; listed linked material and independent second pass remain pending. No missing-information claim is accepted."
+  "conclusion": "Original source bundle and oligo scraper checked in first pass; listed linked material and independent second pass remain pending. No missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "PacBio procedure 102-166-600 REV09 AUG2026 pdf.txt lines 47-109 (workflow/contents), 447-519 (adapter index plate 96A, reagent handling), 875-993 (section 4 Repair and A-tailing master mix and 37C 30min/65C 5min program), 997-1160 (section 5 ligation incl. optional index plate, 20C 30min, 1X 95uL SMRTbell bead cleanup 5.9-5.22), section 6 nuclease treatment (37C 15min, step 6.8), section 7 3.1X 35% AMPure PB size selection 7.1-7.16, section 8 ABC 8.1-8.19 (lines ~1440-1555); training 102-390-900 Rev03 PDF p. 6 workflow figure (rendered; 3' A on both insert strands) and text lines 195-240, 1340-1352 (index plates), 5745-5775 (adapter design 'Overhang', standard sequencing primer)",
+      "oligo_scraper": "Bundle scraper run: 0 oligo hits across checklist and training text.",
+      "findings": "Verified repair/A-tailing 37C 30min + 65C 5min, ligation 20C 30min, nuclease 37C 15min. Corrections: graph now draws the post-ligation 1X (95 uL) SMRTbell bead cleanup and the post-nuclease 3.1X (155 uL) 35% AMPure PB size selection (removes nucleases, depletes <5 kb) with discarded supernatants, so the nuclease product is no longer the final library; adapter 3' T relabelled inferred (sources establish dA-tailed insert and 'Overhang' adapter design but print no adapter terminal base) in geometry statement, page caveat/INFERRED caption and note; unstated 5' phosphorylation removed from step label and marked inferred; optional index plate 96A replacement noted on page and in note; ABC 100 uL bead cleanup recorded.",
+      "deferred": [
+        "SMRTbell adapter index plate 96A-D documents (adapter/index bases)",
+        "Adapter terminal base, hairpin body and standard sequencing-primer bases",
+        "Gel size-selection, <10 kb 1X cleanup and SRE branches not drawn",
+        "Technical note on AMPure PB size selection (named in section 7) not inspected",
+        "Travers 2010 not re-read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 101/101 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/5 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (proprietary hairpin placeholders only); Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

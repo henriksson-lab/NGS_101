@@ -22,6 +22,17 @@ directly), fetch whatever is legitimately reachable without a login or a browser
               the scg_lib_structs repo, ...), triggered by DOI/URL pattern or declared
               per protocol in catalogue/extra_sources.tsv
 
+For a protocol directory in catalogue/ours.tsv, its defining DOI is always fetched; a
+scg catalogue paper with a different DOI is fetched only when a preprint relation or
+agreeing Crossref title/authors links it to that defining DOI (else a (note) row says why).
+
+Source identity: a cache name already registered to another URL is never reused or
+overwritten; a byte-identical download from the other URL (a publisher mirror) is recorded
+as a `(duplicate)` row of the registered file, a different one as `(manual)`. A second
+name for an already saved URL, and an identical copy of a file already here, become
+`(duplicate)` rows; a URL-less hand-placed row gets the URL of an identical download;
+scg_lib_structs copies of vendor files stay under their scg_ name beside upstream_* twins.
+
 Every download is validated before it is kept (a PDF must be a whole PDF, an xlsx a whole
 zip, an HTML page real text and not a captcha/"Preparing to download" gate); what fails
 is recorded in MANIFEST.tsv as `(manual) NAME` with its URL and the reason. Each document
@@ -60,6 +71,7 @@ from fetchers import Job, handlers_for_doi, protocolsio, run_auto, run_extra  # 
 from fetchers.base import (Folder, data_dir, gate_reason, get, get_json, is_twin,  # noqa: E402
                            md5, safe_name, say, validate)
 from fetchers.pmc_cloud import fetch_article as pmc_cloud_article  # noqa: E402
+from fetchers.pmc_cloud import settle_manual_rows as settle_pmc_rows  # noqa: E402
 
 EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest"
 SCG_CACHE = ROOT / "catalogue" / "tools" / ".cache"
@@ -194,6 +206,8 @@ def biorxiv(folder: Folder, tag: str, doi: str) -> tuple[bool, str]:
     published = "" if published in ("", "NA") else published
     base = f"https://www.{server}.org/content/{doi}v{v}"
     ok = bool(folder.save(f"{tag}_v{v}.full.pdf", f"{base}.full.pdf", f"{server} full text, v{v}"))
+    if ok:          # an earlier run's "not found in the API" row is moot now
+        folder._clear_manual(f"{tag}.full.pdf", f"https://doi.org/{doi}")
     code, body = get(f"{base}.supplementary-material")
     gate = gate_reason(body[:65536])
     if code != 200 or gate:
@@ -255,18 +269,34 @@ def related_dois(rel: dict, kind: str) -> list[str]:
     return [r["id"] for r in rel.get(kind, []) if r.get("id-type") == "doi" and r.get("id")]
 
 
-def preprints_of(doi: str, title: str = "", year: str = "", search: bool = False) -> list[str]:
+def preprints_of(doi: str, title: str = "", year: str = "", search: bool = False,
+                 first_author: str = "") -> list[str]:
     """Preprint DOIs of a journal paper: Crossref has-preprint, the bioRxiv publication
     index; with `search`, a title search in Europe PMC / Crossref as a last resort."""
     found = related_dois(crossref_relations(doi), "has-preprint")
     pubs = get_json(f"https://api.biorxiv.org/pubs/biorxiv/{doi}")
     found += [c.get("preprint_doi", "") for c in pubs.get("collection", []) if c.get("preprint_doi")]
     if not found and search and title:
-        found += [d for d in [preprint_by_title(doi, title, year)] if d]
+        found += [d for d in [preprint_by_title(doi, title, year, first_author)] if d]
     return list(dict.fromkeys(d.lower() for d in found))
 
 
-def preprint_by_title(doi: str, title: str, year: str = "") -> str:
+def _surname(name: str) -> str:
+    """'Li Y' / 'Li, Yun' / 'Yun Li' (catalogue first_author is a surname) -> 'li'."""
+    name = name.strip().split(",")[0].strip()
+    parts = name.split()
+    if len(parts) > 1 and len(parts[-1]) <= 3 and parts[-1].isupper():   # 'Li Y', 'Smith JA'
+        parts = parts[:-1]
+    return re.sub(r"[^a-z]", "", " ".join(parts).lower())
+
+
+def _same_first_author(want: str, got: str) -> bool:
+    """A title match also needs the same first author when both are known."""
+    a, b = _surname(want), _surname(got)
+    return not a or not b or a == b or a.endswith(b) or b.endswith(a)
+
+
+def preprint_by_title(doi: str, title: str, year: str = "", first_author: str = "") -> str:
     rel = get_json("https://api.crossref.org/works?rows=5&filter=relation.type:is-preprint-of,"
                    f"relation.object:{urllib.parse.quote(doi)}")
     for it in rel.get("message", {}).get("items", []):
@@ -277,15 +307,61 @@ def preprint_by_title(doi: str, title: str, year: str = "") -> str:
     ok_year = (lambda py: not y or not py or y - 2 <= py <= y)
     rec = epmc_record(f'SRC:PPR AND TITLE:"{words}"')
     if (doi_kind(rec.get("doi", "")) == "biorxiv" and _similar(title, rec.get("title", ""))
-            and ok_year(int(rec.get("pubYear") or 0))):
+            and ok_year(int(rec.get("pubYear") or 0))
+            and _same_first_author(first_author, rec.get("authorString", "").split(",")[0])):
         return rec["doi"]
     res = get_json("https://api.crossref.org/works?rows=5&filter=type:posted-content"
                    f"&query.title={urllib.parse.quote(title)}")
     for it in res.get("message", {}).get("items", []):
+        lead = ((it.get("author") or [{}])[0]).get("family", "")
         if (doi_kind(it.get("DOI", "")) == "biorxiv"
-                and _similar(title, (it.get("title") or [""])[0]) and ok_year(_year(it))):
+                and _similar(title, (it.get("title") or [""])[0]) and ok_year(_year(it))
+                and _same_first_author(first_author, lead)):
             return it["DOI"]
     return ""
+
+
+_WORKS: dict[str, dict] = {}
+
+
+def crossref_work(doi: str) -> dict:
+    """Crossref metadata of a DOI ({} if unavailable), cached for the run."""
+    key = doi.lower()
+    if key not in _WORKS:
+        _WORKS[key] = get_json(f"https://api.crossref.org/works/{urllib.parse.quote(doi)}",
+                               retries=1).get("message", {}) or {}
+    return _WORKS[key]
+
+
+def works_agree(a: dict, b: dict) -> str:
+    """Why two Crossref records describe the same work or a companion of it ('' if they
+    do not): a similar title, or a shared first/last author within three years. A
+    shared method name alone (CAP-seq 2010 vs CAP-seq 2024) is not agreement."""
+    if not a or not b:
+        return ""
+    ta, tb = (a.get("title") or [""])[0], (b.get("title") or [""])[0]
+    if ta and tb and _similar(ta, tb):
+        return "similar title"
+    names = lambda w: [_surname(x.get("family", "")) for x in w.get("author") or []  # noqa: E731
+                       if x.get("family")]
+    na, nb = names(a), names(b)
+    ends = lambda n: {n[0], n[-1]} if n else set()  # noqa: E731
+    ya, yb = _year(a), _year(b)
+    shared = (ends(na) & set(nb)) | (ends(nb) & set(na))
+    if shared and ya and yb and abs(ya - yb) <= 3:
+        return f"shared author {sorted(shared)[0]}, {ya} vs {yb}"
+    return ""
+
+
+def linked_to_defining(defining: str, doi: str) -> str:
+    """Why a catalogue paper DOI belongs with a protocol defined by `defining` ('' if no
+    evidence): the same DOI, a Crossref/bioRxiv preprint relation, or agreeing metadata."""
+    if norm_doi(doi).lower() == norm_doi(defining).lower():
+        return "defining DOI"
+    d, p = norm_doi(defining).lower(), norm_doi(doi).lower()
+    if p in preprints_of(d) or d in published_of(p):
+        return "preprint relation"
+    return works_agree(crossref_work(d), crossref_work(p))
 
 
 def published_of(doi: str, hint: str = "") -> list[str]:
@@ -296,7 +372,7 @@ def published_of(doi: str, hint: str = "") -> list[str]:
 
 
 def paper(job: Job, doi: str, title: str = "", year: str = "", pmcid: str = "",
-          link: bool = True) -> None:
+          link: bool = True, first_author: str = "") -> None:
     """Fetch one paper the generic way, plus its linked preprint/published version."""
     doi = norm_doi(doi)
     if not doi or doi.lower() in job.seen:
@@ -314,8 +390,11 @@ def paper(job: Job, doi: str, title: str = "", year: str = "", pmcid: str = "",
     if kind == "protocolsio":
         return
     if kind == "researchsquare":
-        folder.manual(tag, f"https://doi.org/{doi}", "Research Square preprint / Protocol Exchange",
-                      "Research Square is behind Cloudflare: fetch by hand")
+        url = f"https://doi.org/{doi}"
+        if not settle_researchsquare(folder, doi) and not (
+                f"(manual) {tag}" in folder.rows and folder.rows[f"(manual) {tag}"][1] == url):
+            folder.manual(tag, url, "Research Square preprint / Protocol Exchange",
+                          "Research Square is behind Cloudflare: fetch by hand")
         return
     if kind == "biorxiv":
         got_full_text, pub = biorxiv(folder, tag, doi)
@@ -340,15 +419,81 @@ def paper(job: Job, doi: str, title: str = "", year: str = "", pmcid: str = "",
     if link:
         got_supp = any(k.startswith(tag) and "supp" in k.lower() and not k.startswith("(")
                        for k in folder.rows)
-        for d in preprints_of(doi, title, year, search=not pmcid or not got_supp):
+        for d in preprints_of(doi, title, year, search=not pmcid or not got_supp,
+                              first_author=first_author):
             say(f"    preprint {d}")
             paper(job, d, link=False)
-    if not got_text and not any(k.startswith(tag) and k.endswith((".xml", ".html", ".pdf"))
+    have_text = got_text or any(k.startswith(tag) and k.endswith((".xml", ".html", ".pdf"))
                                 and not k.startswith("(") and "supp" not in k and "ESM" not in k
-                                for k in folder.rows):
-        folder.manual(f"{tag} full text", f"https://doi.org/{doi}", "journal article",
+                                and (folder.path / k).exists() for k in folder.rows)
+    url, key = f"https://doi.org/{doi}", f"(manual) {tag} full text"
+    copy = "" if have_text else article_printing_doi(folder, doi)
+    if have_text or copy:   # an earlier run's failed attempt at the same full text is moot now
+        row = folder.rows.get(key)
+        folder._clear_manual(f"{tag} full text", url)
+        if copy and row and row[1] == url:   # keep a hand annotation of how it was obtained
+            folder.note(f"{tag} full text", url, f"{row[4]}; full text on disk as {copy}, "
+                        "which prints this DOI on its first pages")
+    elif not (key in folder.rows and folder.rows[key][1] == url):   # keep annotations
+        folder.manual(f"{tag} full text", url, "journal article",
                       "no open full text found (publisher page only)")
     folder.write()
+
+
+def settle_researchsquare(folder, doi: str) -> str:
+    """A Research Square / Protocol Exchange DOI whose document is on disk (e.g. fetched from
+    its asset URL by an extra-source row) needs no '(manual)' row: replace that row by a note
+    keeping its annotation. -> the on-disk file name, or ''."""
+    tag, url = doi_tag(doi), f"https://doi.org/{doi}"
+    copy = article_printing_doi(folder, doi)
+    if not copy:
+        return ""
+    row = folder.rows.get(f"(manual) {tag}")
+    row = row if row and row[1] == url else None
+    folder._clear_manual(tag, url)
+    if row or f"(note) {tag}" not in folder.rows:   # keep an earlier hand annotation
+        folder.note(tag, url, (f"{row[4]}; " if row else "")
+                    + f"on disk as {copy}, which prints this DOI on its first pages")
+    folder.write()
+    return copy
+
+
+ARTICLE_TEXT = 10000    # bytes of extracted text: correction notices are shorter, protocols longer
+
+
+def article_printing_doi(folder, doi: str) -> str:
+    """A validated on-disk original under any name (e.g. an Elsevier mmcN article-plus-SI
+    attachment) that prints `doi` near its start -> its name, or ''. Supplements named as
+    such are excluded; the DOI must appear in the first pages, as an article prints its own,
+    and the text must be article-length (a correction notice also prints the DOI it corrects).
+    Another version that cites this DOI is not it: a JATS file must declare it as its own
+    article-id, and a document printing a preprint-server DOI is a preprint (which may
+    print its published version's DOI) unless that DOI is the requested one."""
+    want = doi.lower()
+    for name, row in folder.rows.items():
+        if (name.startswith("(") or not name.lower().endswith((".pdf", ".xml", ".html"))
+                or "supp" in name.lower() or "ESM" in name or not row[3]):
+            continue
+        path, twin = folder.path / name, folder.path / (name + ".txt")
+        if not (path.is_file() and twin.is_file() and twin.stat().st_size >= ARTICLE_TEXT):
+            continue
+        with twin.open(errors="replace") as fh:
+            head = fh.read(6000).lower()
+        if want not in head:
+            continue
+        if name.lower().endswith(".xml"):
+            with path.open("rb") as fh:
+                own = re.findall(rb'<article-id pub-id-type="doi">\s*([^<\s]+)', fh.read(200_000))
+            if want.encode() not in [d.lower() for d in own]:
+                continue
+        elif doi_kind(want) not in PREPRINT_KINDS and any(
+                doi_kind(d) in PREPRINT_KINDS for d in re.findall(r"10\.\d{4,9}/[^\s\"'<>]+", head)):
+            continue
+        return name
+    return ""
+
+
+PREPRINT_KINDS = {"biorxiv", "researchsquare"}
 
 
 def linked_protocols(job: Job) -> None:
@@ -388,23 +533,53 @@ def protocol_rows(query: str) -> tuple[str, list[dict]]:
     return rows[0]["slug"], rows
 
 
+def defining_doi(slug: str) -> str:
+    """The defining DOI catalogue/ours.tsv names for a protocol directory ('' if none)."""
+    return next((o.get("doi", "") for o in cat.ours() if o["dir"] == slug), "")
+
+
 def fetch_protocol(slug: str, rows: list[dict], cited: bool = False, papers: bool = True) -> None:
     say(f"{rows[0]['protocol']}  ->  {data_dir() / slug}")
     folder = Folder(data_dir() / slug)
     job = Job(slug, rows, folder)
-    job.paper = lambda d: paper(job, d)
+    # An extra-source doi: row names one declared document. Its own preprint/published
+    # versions are not this protocol's papers (a companion method's preprint would be
+    # attributed here), so they are not followed; declare them explicitly if needed.
+    job.paper = lambda d: paper(job, d, link=False)
     job.pmc = lambda p: pmc(folder, p.upper(), p.upper(),
                             epmc_record(p).get("isOpenAccess") == "Y")
     upstream(folder, rows[0]["scg_page"])
     run_auto(job)
     if papers:
         roles = {"primary", "cited"} if cited else {"primary"}
+        defining = defining_doi(slug)
+        if defining:      # ours.tsv's defining paper, whatever DOI the scg catalogue row has
+            own = next((r for r in rows if r["doi"].lower() == defining.lower()), {})
+            paper(job, defining, own.get("title", ""), own.get("year", ""), own.get("pmcid", ""),
+                  first_author=own.get("first_author", ""))
         for r in sorted(rows, key=lambda r: (r["is_defining"] != "yes", r["role"] != "primary")):
-            if r["role"] in roles and r["doi"]:
-                paper(job, r["doi"], r["title"], r.get("year", ""), r.get("pmcid", ""))
+            if r["role"] not in roles or not r["doi"]:
+                continue
+            if defining and r["role"] == "primary":
+                why = linked_to_defining(defining, r["doi"])
+                if not why:   # e.g. another method sharing the name: not this protocol's paper
+                    folder.note(f"unlinked catalogue paper {r['doi']}", f"https://doi.org/{r['doi']}",
+                                f"not fetched: catalogue row '{r['protocol']}' has no preprint "
+                                f"relation or agreeing title/authors with the defining DOI {defining}")
+                    say(f"  skip {r['doi']}: no link to the defining DOI {defining}")
+                    continue
+                folder.rows.pop(f"(note) unlinked catalogue paper {r['doi']}", None)
+            paper(job, r["doi"], r["title"], r.get("year", ""), r.get("pmcid", ""),
+                  first_author=r.get("first_author", ""))
     run_extra(job)
     if papers:
         linked_protocols(job)
+    protocolsio.settle_manual_rows(folder)
+    settle_pmc_rows(folder)
+    for key, row in list(folder.rows.items()):   # Research Square documents fetched by asset URL
+        if key.startswith("(manual) ") and doi_kind(norm_doi(row[1])) == "researchsquare" \
+                and key == f"(manual) {doi_tag(norm_doi(row[1]))}":
+            settle_researchsquare(folder, norm_doi(row[1]))
     folder.write()
     n_ok = sum(1 for k in folder.rows if not k.startswith("("))
     n_man = sum(1 for k in folder.rows if k.startswith("(manual)"))
@@ -457,6 +632,8 @@ def revalidate(dirs: list[Path]) -> None:
                     twin.unlink()
                 folder.to_text(f)
                 remade += twin.exists()
+        protocolsio.settle_manual_rows(folder)
+        settle_pmc_rows(folder)
         # rows of older code: "(manual) <tag>  no open copy found" for papers now handled
         for k in [k for k, r in folder.rows.items()
                   if k.startswith("(manual) ") and r[4] == "no open copy found: publisher page only"]:
@@ -542,7 +719,8 @@ def main(argv: list[str]) -> int:
         folder = Folder(data_dir() / ("doi_" + doi.replace("/", "+")))
         job = Job("doi_" + doi.replace("/", "+"), [row], folder)
         job.paper = lambda d, job=job: paper(job, d)
-        paper(job, doi, row["title"], row.get("year", ""), row.get("pmcid", ""))
+        paper(job, doi, row["title"], row.get("year", ""), row.get("pmcid", ""),
+              first_author=row.get("first_author", ""))
         folder.write()
     for slug, rows in uniq:
         fetch_protocol(slug, rows, a.cited, not a.no_papers)

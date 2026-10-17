@@ -1,30 +1,36 @@
 """Shared typed provenance for Chromium single-cell RNA library construction."""
 from __future__ import annotations
 
-from adapter_ligation import reported_adapter_end
 from pcr import PCRGeometry
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind, Terminal)
 from protocol_model import molecule, role
 
 
-READ2_ADAPTER_END = reported_adapter_end(
-    "10x Read-2 adapter", kind="cohesive", polarity="3-prime", terminal_sequence="T",
-    statement="The Chromium RNA workflows ligate a 3-prime-dT adapter to dA-tailed cDNA fragments.")
+def partition_material(graph, material, reviewed, *, label="cells or nuclei",
+                       unresolved_reason=None):
+    """Partition one Chromium input and account for non-resolvable GEM products.
 
-
-def partition_material(graph, material, reviewed, *, label="cells or nuclei"):
-    """Partition one Chromium input and account for non-resolvable GEM products."""
+    By default those products are a physical discard.  A caller whose source pools
+    every GEM without physical removal passes ``unresolved_reason`` (its own
+    source-qualified explanation); the products then stay molecular and end at an
+    UNRESOLVED terminal instead of being drawn as discarded waste.
+    """
     gems = graph.input("gems", "Chromium GEM partitioning condition",
                        MaterialKind.CONDITION)
     occupied = graph.product("occupied", f"occupied GEMs containing {label}",
                              MaterialKind.MOLECULAR, state=material.state)
     failed = graph.product("failed", "empty, multiplet or unresolved GEM products",
-                           MaterialKind.WASTE)
+                           MaterialKind.WASTE if unresolved_reason is None
+                           else MaterialKind.MOLECULAR)
     graph.react("partition", f"Partition {label} with barcoded gel beads",
                 StepKind.PARTITION,
                 ((material, InputRole.TEMPLATE), (gems, InputRole.CONDITION)),
                 (occupied, failed), changes_molecule=False)
-    graph.discard(failed, "does not retain a resolvable single-cell barcode")
+    if unresolved_reason is None:
+        graph.discard(failed, "does not retain a resolvable single-cell barcode")
+    else:
+        graph.mark_terminal(Terminal(failed.id, Disposition.UNRESOLVED, unresolved_reason))
     reviewed.extend(("gems", "partition"))
     return occupied
 
@@ -73,10 +79,12 @@ class ChromiumRNAOps:
     def partition(self, cells):
         return partition_material(self.graph, cells, self.reviewed, label="cells")
 
-    def reverse_transcribe(self, occupied, first_strand, *, primer_label):
+    def reverse_transcribe(self, occupied, first_strand, *, primer_label,
+                           primer_state=None):
+        """``primer_state`` is the caller's exact printed primer, when it has one."""
         g, authority = self.graph, self.authority
         primer = g.input("rt_primer", primer_label, MaterialKind.OLIGO,
-                         inferred=self.inferred,
+                         state=primer_state, inferred=self.inferred,
                          source=authority + (" (intermediate bases inferred from the final construct)"
                                              if self.inferred else ""))
         rt = g.input("rt", "template-switching reverse transcriptase",
@@ -93,10 +101,11 @@ class ChromiumRNAOps:
         self.reviewed.extend(("rt_primer", "rt", "reverse_transcribe"))
         return first, rt
 
-    def template_switch(self, first, rt, first_strand, *, tso_label):
+    def template_switch(self, first, rt, first_strand, *, tso_label, tso_state=None):
+        """``tso_state`` is the caller's exact printed TSO, when it has one."""
         g, authority = self.graph, self.authority
         tso = g.input("tso", tso_label, MaterialKind.OLIGO,
-                      inferred=self.inferred,
+                      state=tso_state, inferred=self.inferred,
                       source=authority + (" (intermediate bases inferred from the final construct)"
                                           if self.inferred else ""))
         switched = g.product("switched", "template-switched cell-barcoded cDNA",
@@ -146,10 +155,14 @@ class ChromiumRNAOps:
         self.reviewed.extend(("preamp_forward", "preamp_reverse", "preamp_polymerase", "preamp"))
         return amplified
 
-    def fragment(self, amplified):
+    def fragment(self, amplified, *, reagent_label):
+        """Enzymatic fragmentation; the caller names its source's fragmentation reagent.
+
+        A protocol whose source fragments by another route (Tn5, sonication) must
+        not call this operation.
+        """
         g = self.graph
-        fragmentase = g.input("fragmentase", "cDNA fragmentation enzyme",
-                              MaterialKind.CATALYST)
+        fragmentase = g.input("fragmentase", reagent_label, MaterialKind.CATALYST)
         fragments = g.product("fragments", "fragmented barcode-bearing cDNA",
                               MaterialKind.MOLECULAR)
         g.react("fragment", "Fragment amplified cDNA", StepKind.FRAGMENTATION,
@@ -169,9 +182,10 @@ class ChromiumRNAOps:
         self.reviewed.extend(("end_mix", "end_prep"))
         return tailed
 
-    def ligate_read2(self, tailed):
+    def ligate_read2(self, tailed, *, adapter_label, end_geometry):
+        """Ligate a Read-2 adapter; the caller names it and supplies its end geometry."""
         g, authority = self.graph, self.authority
-        adapter = g.input("read2_adapter", "3-prime-dT Read-2 adapter",
+        adapter = g.input("read2_adapter", adapter_label,
                           MaterialKind.ADAPTER, inferred=self.inferred,
                           source=authority + (" (adapter reconstructed from final library)"
                                               if self.inferred else ""))
@@ -180,7 +194,7 @@ class ChromiumRNAOps:
                             MaterialKind.MOLECULAR)
         g.react("ligate", "Ligate the Read-2 adapter", StepKind.LIGATION,
                 ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
-                 (ligase, InputRole.CATALYST)), (adapted,), geometry=READ2_ADAPTER_END)
+                 (ligase, InputRole.CATALYST)), (adapted,), geometry=end_geometry)
         self.reviewed.extend(("read2_adapter", "ligase", "ligate"))
         return adapted
 

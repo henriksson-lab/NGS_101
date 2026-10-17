@@ -507,5 +507,25 @@
   "model_clarification_2026_10_16": {
     "reviewer": "root",
     "finding": "RNA-class captions now describe pulse incorporation, without assigning a whole-transcript age. An elongating molecule can retain a pre-existing5-prime tract. The local TimeLapse C* product, possible unconverted class and source-specific kit choices remain unchanged; no additional absence claim or protocol-equivalence inference."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nature Methods author manuscript PMC5831505 JATS xml.txt Results32/36/40, Online Methods48/52 (materials, instruments), 76/78 targeted MEF/K562, 88 MEF transcriptome, 92 TT-TimeLapse (RNAClean/DTT reducing buffer/second RNAClean, 10 ng SMARTer Pico, PE150 HiSeq4000), 94-96 K562 4h mRNA (100 uM s4U, modified RNeasy, 10 ng, PE150 HiSeq4000); original Supplementary Protocol MOESM3 pdf.txt lines1-96 (steps 2 100 mM, 6-11 RNeasy, 12-15 TFEA/NaIO4 45C 1h, 16-22 RNAClean, 23 DTT reducing mix, 24 repeat RNAClean, 25 SMARTer Pico); Supplementary Note supplement-1 line166 (100 uM K562, 10 uM-1 mM range, 80% chemical efficiency)",
+      "oligo_scraper": "Bundle scraper run; hits are Duffy2015 predecessor miRNA/spike RNAs and MOESM4 Table S1a/b/c (IVT/RE, targeted TimeLapse primers, qPCR) lines4-40, already recorded as non-represented branches; no SMARTer kit oligo in the defining bundle.",
+      "findings": "Verified graph order and reagents against Supplementary Protocol steps 6-25 and main-article K562 4h paragraph; 100 mM (Protocol step2) vs 100 uM (main article line96, Note line166) discrepancy confirmed and already shown on page. Added the source 10 ng total-RNA kit input to the kit-entry state and note (main article line96), plus 2 ug recoding example (Protocol step13) in the note. No other change: PE150 HiSeq4000, RNAClean x2, DTT reduction, no enrichment all match.",
+      "deferred": [
+        "SMARTer Stranded Total RNA-Seq Pico Input Mammalian manual 112216 not re-read this round (kit stages remain INFERRED/conditional)",
+        "Study-specific kit revision, fragmentation choice, RT/TSO/PCR oligos and selected indexes",
+        "Duffy2015 cited Detailed Protocol for TT-TimeLapse MTS-biotin branch",
+        "MEF, targeted and TT-TimeLapse branches not drawn",
+        "Intended value of Protocol step2 100 mM"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/16 unresolved/0 contradictory with kit_input_conditioning MAGIC warning; source guard 0 checked/0 failed/0 inputs without exact states (no exact oligo inputs); Markdown built; audit --check pass"
+    }
+  ]
 }

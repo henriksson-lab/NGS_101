@@ -133,5 +133,26 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "First-pass review in progress. No missing-information claim accepted; linked source checks and independent pass 2 remain open."
+  "conclusion": "First-pass review in progress. No missing-information claim accepted; linked source checks and independent pass 2 remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC11323187 JATS Methods lines141–171 (lysis, RT, MseI/CviQI→proximity ligation→DdeI, two-round barcoding, reverse crosslinking/streptavidin separation, PE150) and demultiplexing line177; publisher Supplementary Methods MOESM1 lines91–131 (scHi-C and scRNA library construction) and Fig. S1 caption535–551; Supplementary Table 1a–1i workbook MOESM3 lines17–60 and A1 rows of 1c–1i (69–660)",
+      "oligo_scraper": "Bundle scraper run (1046 output lines); --find confirms AD-1_F_1 at MOESM3.xlsx.txt:267; Table 1a RT primers, linkers, blocker, post-TdT, Nextera-P5-AD and pre-PCR primers and 1b index primers read directly in the workbook text.",
+      "findings": "Corrected reaction order to RT before MseI/CviQI digestion, proximity ligation with no fill-in, then DdeI re-digestion; added proteinase K reverse crosslinking, post-separation Nextera-P5-AD ligation (unavailable duplex geometry), two-primer post-TdT PCR. Corrected TdT tail to poly(G) (dGTP/ddGTP). Corrected RT primers to include the /iBiodT/ base; Hi-C AD-1_F_1 barcode AGTACACG (was RNA Round1 BC) and 3' GA; added Hi-C AD-1 Y and AD-2 duplex Scenes per round. Reordered final constructs to Methods line177 read structure (DNA read2 BC2/joint9–23/BC1/35-nt trim; RNA read1 N10 UMI/BC2/linker19–48/BC1/arm57–71); UMI attributed to Round2 N10. Model corrections shown in page caveat; open DNA read-1 12-nt trim noted.",
+      "deferred": [
+        "bioRxiv preprint (superseded; not re-read)",
+        "PMC NIHMS2006647 supplement copies (gated; publisher ESM read)",
+        "Hi-C-AD1-Block sequence and annealed Nextera-P5-AD duplex",
+        "DNA read-1 12-nt trim vs Tn5 end: which P5 end read 1 starts from",
+        "SPLiT-seq/SHARE-seq predecessor adapter designs",
+        "Methods concentration typos (500 mM dNTP, 10 mM RT primers) and 'CARE-seq' plate wording"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 7/7 pass; page builds; pairing 0 problems; chemistry 9 established/0 conditional/17 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 13 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

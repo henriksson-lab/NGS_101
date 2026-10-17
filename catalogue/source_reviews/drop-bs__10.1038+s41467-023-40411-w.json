@@ -107,5 +107,25 @@
       "evidence": "Supplementary Fig. 1 reveals multiple base-level structures, but vendor lot data and other files need further review."
     }
   ],
-  "conclusion": "Two independent passes now locate the defining article, main sequence schematic and earlier author version; corrected first-author identity. Custom ChemGenes lot documentation and other unreviewed sources still block any confirmed missing claim."
+  "conclusion": "Two independent passes now locate the defining article, main sequence schematic and earlier author version; corrected first-author identity. Custom ChemGenes lot documentation and other unreviewed sources still block any confirmed missing claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Zhang et al. Nat Commun 2023 PMC10400590 JATS Methods lines189–219 (bead design/complement annealing193–195, droplet lysis/MNase199, fusion barcoding203, droplet bisulfite207, random priming213, pre-amplification215, indexing PCR217, quantification/sequencing219); Springer MOESM1 Supplementary Fig.1 text lines29–130",
+      "oligo_scraper": "Bundle scraper run as reading aid; bead oligo, 3′-SpC3/5′-Phos complement, S5–ME–N9, P5 transposon, P7 transposon BS and N5XX/Ad2.XX family hits checked against MOESM1 Fig.1 lines29–130; preprint media-1 hits not used (published version first).",
+      "findings": "Graph rewritten to the published Methods order: blocked-complement annealing to the exact bead oligo; fusion; End-It end repair; UV release + Fast-Link ligation; droplet break/proteinase K/SPRI recovery; MethylEdge droplet conversion and desulphonation; Klenow exo- random priming with denature/SPRI; previously missing 5-cycle KAPA HiFi Uracil+ pre-PCR with P5 transposon/P7 transposon BS primers; N5XX/Ad2.XX index PCR; 0.85x SPRI; waste fates declared. Final library corrected from a 20-X handle + D15 to derived converted bead ligation-arm complement (34) + H15 barcode complement + converted bead PCR-site complement (24), matching Fig.S1 copy strands; construction asserts the P7 BS primer primes the converted bead site. Reads set to NovaSeq S4 150PE. Bead, complement, primers given exact states in oligo list. Graph-owned SourceDiscrepancy: Methods/Fig.S1 D15 (A/G/T) vs Fig.S1 copied-strand V15; model uses H.",
+      "deferred": [
+        "ChemGenes custom bead lot L142464-1 specification",
+        "Selected N5XX/Ad2.XX i5/i7 members and index read lengths (8-nt windows are placeholders)",
+        "Remaining MOESM2–17 datasets/workbooks chemistry relevance",
+        "Supplementary Fig.2 bisulfite droplet device and MethylEdge kit manual",
+        "Base-by-base drawing of conversion, random priming and pre-PCR intermediates"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 4/4 pass (added Fig.S1 converted-strand transcription checks); page builds; pairing 0 problems; chemistry 1 established/0 conditional/15 unresolved/0 contradictory; source guard 3 exact checked (blocked complement, P5 transposon, P7 transposon BS), 0 failed, 4 inputs without exact states (bead D15, random primer N9, i5/i7 families); Markdown built; review schema checked"
+    }
+  ]
 }

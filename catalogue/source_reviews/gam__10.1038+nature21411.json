@@ -5,42 +5,87 @@
     {
       "id": "beagrie_full",
       "role": "defining",
-      "locator": "Beagrie et al. Nature 2017 doi:10.1038/nature21411; PMC5366070 author manuscript",
-      "availability": "unavailable",
+      "locator": "Beagrie et al. Nature 543:519-524 (2017) doi:10.1038/nature21411; PMC5366070 author manuscript (EMS71147), local /husky/henriksson/NGS101_papers/sources/gam__10.1038+nature21411/nature21411_PMC5366070.xml(.txt) and .pdf",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Local GAM source bundle absent; Nature page exposes abstract only; PMC page challenge blocked full article text.",
-      "pass_1": null,
-      "pass_2": null
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "PMC5366070 JATS Methods lines 171-201 (cell culture, cryosections, NP isolation, WGA, library preparation, sequencing, mapping); recorded in bounded check round 2026-10-17-breadth-first-10",
+        "finding": "Author-manuscript full text retrieved from PMC Cloud. WGA4 (Sigma) lysis/library-preparation/amplification steps, TruSeq DNA HT or Nano library construction and single-end 100 bp with 30 dark cycles are described; no oligo bases are printed (scraper: 0 sequences in the bundle)."
+      },
+      "pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/gam__10.1038+nature21411/nature21411_PMC5366070.xml.txt front matter lines 1-8 (UKPMC author manuscript EMS71147, DOI 10.1038/nature21411) and Methods lines 171-201: Cell culture, Preparation of cryosections, Isolation of nuclear profiles, Whole genome amplification (three paragraphs), Preparation of libraries for high-throughput sequencing (two paragraphs), start of data analysis.",
+        "finding": "Agree with pass 1. WGA uses the Sigma WGA4 kit \"with minor modifications to the previously described protocol (ref. 38)\", naming buffers/enzymes by kit component and deferring the amplification program to the supplier. Libraries use Illumina TruSeq DNA HT or TruSeq Nano DNA HT per manufacturer instructions. The only adaptor statement is \"Each library has 30bp WGA adaptors at both ends\", hence 30 dark cycles in a custom recipe; no WGA4 adaptor or TruSeq adapter bases are printed."
+      },
+      "previous_state": "unavailable: Local GAM source bundle absent; Nature page exposes abstract only; PMC page challenge blocked full article text.",
+      "previous_locator": "Beagrie et al. Nature 2017 doi:10.1038/nature21411; PMC5366070 author manuscript"
     },
     {
       "id": "gam_guide",
       "role": "supplement",
-      "locator": "PMC5366070 NIHMS71147-supplement-Supplementary_Guide.pdf (337.8 KB)",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gam__10.1038+nature21411/nature21411_supp_NIHMS71147-supplement-Supplementary_Guide.pdf(.txt) (PMC Cloud original)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Original source inventory located via PMC indexed page, but PDF not downloaded or read.",
-      "pass_1": null,
-      "pass_2": null
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Supplementary Guide, whole document (31 lines); bounded check round 2026-10-17-breadth-first-10",
+        "finding": "Guide lists Supplementary Notes 1-3 and Tables 1-5; no chemistry content."
+      },
+      "pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/gam__10.1038+nature21411/nature21411_supp_NIHMS71147-supplement-Supplementary_Guide.pdf.txt, whole document",
+        "finding": "Agree. The Guide only describes contents: Notes 1-3 are SLICE model mathematics and equations; Table 1 sequencing dataset details; Table 2 top TAD triplets; Table 3 published datasets; Table 4 FISH probes; Table 5 FISH distances. No oligo or reagent sequence content."
+      },
+      "previous_state": "unavailable: Original source inventory located via PMC indexed page, but PDF not downloaded or read.",
+      "previous_locator": "PMC5366070 NIHMS71147-supplement-Supplementary_Guide.pdf (337.8 KB)"
     },
     {
       "id": "gam_notes",
       "role": "supplement",
-      "locator": "PMC5366070 NIHMS71147-supplement-Supplementary_Notes.pdf (1.3 MB)",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gam__10.1038+nature21411/nature21411_supp_NIHMS71147-supplement-Supplementary_Notes.pdf(.txt) (PMC Cloud original)",
+      "availability": "available",
       "relevance": "relevant",
-      "reason": "Original source inventory located, but PDF not downloaded or read.",
       "pass_1": null,
-      "pass_2": null
+      "pass_2": null,
+      "previous_state": "unavailable: Original source inventory located, but PDF not downloaded or read.",
+      "previous_locator": "PMC5366070 NIHMS71147-supplement-Supplementary_Notes.pdf (1.3 MB)",
+      "reading_note": "Retrieved and validated; not yet read by either reader (round 10 deferred it as SLICE mathematics per the Guide). Relevance is kept until two readers check it."
+    },
+    {
+      "id": "gam_table1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gam__10.1038+nature21411/nature21411_supp_NIHMS71147-supplement-Supplementary_Table_1.xlsx(.txt), Sheet1 (identical md5 to Springer MOESM23)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "Supplementary Table 1 header and Type / Library prep kit / Index 1 / Index 2 columns, 477 rows tallied; bounded check round 2026-10-17-breadth-first-10",
+        "finding": "471 NP and 5 negative-control libraries carry 8-nt i7/i5 values (85 TruSeq HT, 386+5 TruSeq Nano); the positive control is TruSeq DNA LT with a 6-nt index."
+      },
+      "pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/gam__10.1038+nature21411/nature21411_supp_NIHMS71147-supplement-Supplementary_Table_1.xlsx.txt Sheet1 header and all 477 data rows (independent tally of Type, Library prep kit, Index 1/2 sequence lengths)",
+        "finding": "Agree: Type 1NP 471, negative_control 5, positive_control 1; kit TruSeq Nano 391, TruSeq HT 85, TruSeq DNA LT 1; Index 1 length 8 nt in 476 rows and 6 nt (ACAGTG) in the positive control; Index 2 8 nt in all NP/negative rows. The table prints index values only, no adapter or WGA4 bases."
+      }
     },
     {
       "id": "gam_tables",
       "role": "supplement",
-      "locator": "PMC5366070 Supplementary Tables 1-5 (XLSX), listed on original PMC page",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gam__10.1038+nature21411/nature21411_supp_NIHMS71147-supplement-Supplementary_Table_2.xlsx to _Table_5.xlsx (PMC Cloud originals; Table 1 is row gam_table1)",
+      "availability": "available",
       "relevance": "relevant",
-      "reason": "Original supplementary workbooks not downloaded or checked for oligo tables.",
       "pass_1": null,
-      "pass_2": null
+      "pass_2": null,
+      "previous_locator": "PMC5366070 Supplementary Tables 1-5 (XLSX), listed on original PMC page",
+      "previous_state": "unavailable: Original supplementary workbooks not downloaded or checked for oligo tables.",
+      "reading_note": "Retrieved and validated; not yet read. The Guide describes Tables 2-5 as TAD triplets, published datasets, FISH probes and FISH distances; relevance is kept until two readers check them."
     },
     {
       "id": "wga4_guide",
@@ -79,8 +124,49 @@
     {
       "claim": "The WGA4 adaptor bases are undisclosed",
       "disposition": "blocked",
-      "evidence": "Original GAM full text, supplement and vendor guide were unavailable in this pass. The older ledger assertion of two 30-base adaptors is a lead, not a verified first-pass source reading."
+      "evidence": "Original GAM full text, supplement and vendor guide were unavailable in this pass. The older ledger assertion of two 30-base adaptors is a lead, not a verified first-pass source reading.",
+      "evidence_update": "2026-10-17: article Methods, Supplementary Guide and Supplementary Table 1 are now read by two readers and print no WGA4 adaptor bases (Methods: \"30bp WGA adaptors at both ends\"). The claim stays blocked because the WGA4 kit technical bulletin, the Baslan 2012 predecessor (ref. 38), Supplementary Notes and Tables 2-5 are unread."
     }
   ],
-  "conclusion": "Blocked at original-source retrieval. No published-absence claim is accepted."
+  "conclusion": "Blocked at original-source retrieval. No published-absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Sources fetched this pass (get_sources --slugs; PMC Cloud PMC5366070 author manuscript JATS/PDF, NIHMS71147 supplements, Springer ESM). Read PMC5366070 JATS Methods lines171–201 (cell culture, cryosections, NP isolation, WGA, library preparation, sequencing, mapping); Supplementary Guide (whole, 31 lines); Supplementary Table 1 header and Type/Library prep kit/Index 1/Index 2 columns (477 rows tallied)",
+      "oligo_scraper": "Bundle scraper run: 0 sequences in 0 files; the article prints no oligos (WGA4 adapter bases proprietary, TruSeq kit adapters not printed).",
+      "findings": "Split WGA4 into proteinase K lysis (50 °C 4 h, 99 °C 4 min) and a warned magic library-preparation boundary (95 °C, enzyme 16/24/37 °C, 75 °C). Read 1 changed from unsupported 130 (30 dark + 100 imaged) to the printed single-end 100 bp, with the dark-cycle accounting left open on the page. Index text now cites Supplementary Table 1: 8-nt i7/i5 for all 471 NP and 5 negative-control libraries (85 HT, 386+5 Nano); positive control TruSeq DNA LT 6-nt. Published discrepancy shown on page: positive control E14 mESC gDNA (NP isolation paragraph) vs 1 µl human gDNA (WGA paragraph).",
+      "deferred": [
+        "WGA4 kit technical bulletin (Sigma; adapter chemistry, amplification program)",
+        "Baslan 2012 Nat Protoc predecessor (ref. 38, doi:10.1038/nprot.2012.039)",
+        "GEO GSE64881 (reCAPTCHA manual row)",
+        "Supplementary Notes/MOESM22 (SLICE mathematics; not chemistry) not read",
+        "TruSeq DNA HT/Nano kit guides (fragmentation vs stated WGA adaptors at both ends)",
+        "Dark-cycle accounting and acquired index cycles",
+        "Positive-control genomic DNA species"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 2/2 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 2 inputs without exact states (proprietary WGA4 primers); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 4,
+      "locations": "/husky/henriksson/NGS101_papers/sources/gam__10.1038+nature21411/nature21411_PMC5366070.xml.txt lines 1-8 and 171-201; Supplementary Guide (whole); Supplementary Table 1 Sheet1 (all rows)",
+      "findings": "Second independent reading of sources fetched and first-read in round 10. beagrie_full and gam_guide moved from unavailable to read (pass_1 root round 10, pass_2 this reader); new row gam_table1 read by both. gam_notes and gam_tables (now Tables 2-5) moved from unavailable to available: retrieved but unread. Missing claim and linked information remain blocked; status stays in_progress.",
+      "deferred": [
+        "Sigma WGA4 technical bulletin",
+        "Baslan et al. 2012 Nat Protoc (ref. 38)",
+        "Supplementary Notes",
+        "Supplementary Tables 2-5",
+        "GEO GSE64881",
+        "TruSeq DNA HT / Nano guides"
+      ],
+      "scope": "Second-reader re-adjudication of rows first read in round 10; no accepted missing-information claim.",
+      "verification": "audit_protocol_sources --check passes"
+    }
+  ]
 }

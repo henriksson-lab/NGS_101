@@ -352,5 +352,25 @@
       "evidence": "Source-positive Table 1/2 contradicts broad absence. Versioned Tapestri bead chemistry remains unresolved."
     }
   ],
-  "conclusion": "Source-positive Table 1/2 contradicts broad absence. Versioned Tapestri bead chemistry remains unresolved."
+  "conclusion": "Source-positive Table 1/2 contradicts broad absence. Versioned Tapestri bead chemistry remains unresolved.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Lindenhofer et al. 2025 PMC12510883 JATS Results 'Droplet-based SDR-seq' line109, Methods 'SDR-seq protocol'/'SDR-seq in human iPS cells' lines199-225, species-mix line227, 'SDR-seq data analysis' lines233-249; Supplementary Tables MOESM3 xlsx sheets Supplementary_Table_1-3 (lines1-100); Peer Review File MOESM2 grepped for sequencing/cycles",
+      "oligo_scraper": "Bundle scraper run; hits are Supp. Table 1/2 RT, droplet, i5/i7 primers (verified in xlsx.txt) plus non-library AAVS1 genotyping and screen-cloning primers (lines497-508).",
+      "findings": "Fixed RT-handle order (CS handle, 8-nt sample BC, N8 UMI, T16VN, cDNA) in tagged cDNA, RNA amplicon and final roles; split cell barcode into BC1/14-17-bp linker/BC2/15-bp constant linker part features (constant linker = CS inferred); added proteinase K lysis in first droplet, reverse pool labelled as first-droplet addition; RNA forward is universal Droplet_amplification_fwd GTACTCGCAGTAGTCGACACGTC (exact input) vs CS-tailed gDNA-specific forwards; added emulsion-breaking cleanup; named Maxima H Minus RT and Nextera_R1N/R2N, Illumina_R2 index families. Published discrepancy displayed: Supp. Table 3 names V1 POP RT primers RT_primer_1_8..4_8 (V2 spacer-containing) vs Supp. Table 1 V1 RT_primer_1..4; unresolved, model uses V2.",
+      "deferred": [
+        "protocols.io 10.17504/protocols.io.6qpvr9q43vmk/v1 (not on disk)",
+        "Mission Bio Tapestri v2/v3 user guides (bead oligo, V1 library PCR, emulsion breaking)",
+        "SDRranger repository barcode backbone/linker sequences",
+        "Sequencing instrument, read lengths and index cycles",
+        "V1 POP RT primer identity (Supp. Table 1 vs 3)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite (workflow construction, 0 explicit checks) passes; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 1 exact checked (Droplet_amplification_fwd), 0 failed, 8 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

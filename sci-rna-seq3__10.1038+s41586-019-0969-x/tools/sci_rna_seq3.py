@@ -7,8 +7,9 @@ import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind,
+                            Terminal)
 from topology import HairpinTopology
 
 UMI_FEATURE = feature("umi", "umi", "random")
@@ -154,7 +155,9 @@ def protocol_graph() -> ProtocolGraph:
                        primary=True)
     rt_oligo=graph.input("rt_primer","5-prime-phosphorylated barcoded RT primer",
                          MaterialKind.OLIGO,state=tuple(rt_primer()))
-    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
+    rt=graph.input("reverse_transcriptase",
+                   "SuperScript IV reverse transcriptase (Invitrogen); 4-55 C gradient",
+                   MaterialKind.CATALYST)
     first=graph.product("first_strand",first_strand().name,MaterialKind.MOLECULAR,
                         state=first_strand())
     graph.react("reverse_transcribe","Install the RT barcode and UMI in situ",
@@ -163,7 +166,9 @@ def protocol_graph() -> ProtocolGraph:
                  (rt,InputRole.CATALYST)),(first,))
     hairpin=graph.input("hairpin_adapter","barcoded dU hairpin adapter",
                         MaterialKind.ADAPTER,state=tuple(hairpin_oligo()))
-    ligase=graph.input("dna_ligase","DNA ligase",MaterialKind.CATALYST)
+    ligase=graph.input("dna_ligase",
+                       "T4 DNA ligase (NEB) with betaine and PEG 8000; 16 C, 3 h",
+                       MaterialKind.CATALYST)
     ligated=graph.product("ligated_cdna",ligated_product().name,MaterialKind.MOLECULAR,
                           state=ligated_product())
     ligation_geometry=AdapterLigationGeometry.known(
@@ -173,40 +178,61 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.LIGATION,
                 ((first,InputRole.TEMPLATE),(hairpin,InputRole.STRUCTURAL),
                  (ligase,InputRole.CATALYST)),(ligated,),geometry=ligation_geometry)
-    second_primer=graph.input("second_strand_primer","random second-strand primer",
-                              MaterialKind.OLIGO)
-    second_pol=graph.input("second_strand_polymerase","second-strand polymerase",
+    # The Methods name only the NEB mRNA Second Strand Synthesis buffer and enzyme;
+    # no separate second-strand primer is printed, so none is declared.
+    second_pol=graph.input("second_strand_enzyme",
+                           "NEB mRNA Second Strand Synthesis enzyme and buffer; 16 C, 180 min",
                            MaterialKind.CATALYST)
     duplex=graph.product("double_stranded_cdna","double-stranded hairpin-ligated cDNA",
                          MaterialKind.MOLECULAR,state=ligated_product())
     graph.react("second_strand","Synthesize the second cDNA strand",StepKind.EXTENSION,
-                ((ligated,InputRole.TEMPLATE),(second_primer,InputRole.STRUCTURAL),
-                 (second_pol,InputRole.CATALYST)),(duplex,))
-    transposome=graph.input("n7_transposome","N7-only transposome",MaterialKind.ADAPTER)
-    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+                ((ligated,InputRole.TEMPLATE),(second_pol,InputRole.CATALYST)),(duplex,))
+    transposome=graph.input("n7_transposome","N7 adapter of i7-only TDE1 (Illumina)",
+                            MaterialKind.ADAPTER)
+    tn5=graph.input("tn5","Tn5 of i7-only TDE1 (62.5 nM) in Nextera TD buffer; 55 C, 5 min",
+                    MaterialKind.CATALYST)
     tagged=graph.product("tagmented_cdna","N7-tagmented hairpin cDNA",MaterialKind.MOLECULAR)
-    tag_waste=graph.product("tagment_waste","tagmentation products lacking the selected ends",
+    tag_waste=graph.product("tagment_waste",
+                            "candidate tagmentation fragments lacking the hairpin end",
                             MaterialKind.WASTE)
     graph.react("tagment","Tagment double-stranded cDNA with N7-only Tn5",
                 StepKind.TAGMENTATION,
                 ((duplex,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
                  (tn5,InputRole.CATALYST)),(tagged,tag_waste))
-    graph.discard(tag_waste,"fragments without the barcode-bearing hairpin end are not PCR-selected")
-    user=graph.input("user_enzyme","USER enzyme",MaterialKind.CATALYST)
+    graph.mark_terminal(Terminal(tag_waste.id,Disposition.UNRESOLVED,
+        "No separation of fragments lacking the hairpin end is described; they co-purify "
+        "on AMPure beads and enter PCR, where they lack the Read 1 handle bound by the P5 primer."))
+    beads=graph.input("ampure_tagment","Zymo DNA binding buffer stop, then 1.5x AMPure XP beads",
+                      MaterialKind.SELECTION)
+    bound=graph.product("bead_bound_tagmented","bead-bound tagmented cDNA",
+                        MaterialKind.MOLECULAR)
+    tag_sup=graph.product("tagment_supernatant","AMPure supernatant and washes",
+                          MaterialKind.WASTE)
+    graph.react("tagment_cleanup","Stop tagmentation and purify each well on AMPure beads",
+                StepKind.CLEANUP,((tagged,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),
+                (bound,tag_sup))
+    graph.discard(tag_sup,"supernatant and washes removed from the beads")
+    user=graph.input("user_enzyme","USER enzyme (NEB) in the bead elution; 37 C, 15 min",
+                     MaterialKind.CATALYST)
     opened=graph.product("opened_cdna",user_cleaved_tagmented().name,
                          MaterialKind.MOLECULAR,state=user_cleaved_tagmented())
     released=graph.product("released_hairpin_arm","released dU-containing hairpin arm",
                            MaterialKind.WASTE)
     graph.react("user_digest","Open the hairpin at dU with USER",StepKind.DIGESTION,
-                ((tagged,InputRole.TEMPLATE),(user,InputRole.CATALYST)),(opened,released))
-    graph.discard(released,"the cleaved outer hairpin arm is not part of the final library")
+                ((bound,InputRole.TEMPLATE),(user,InputRole.CATALYST)),(opened,released))
+    graph.mark_terminal(Terminal(released.id,Disposition.UNRESOLVED,
+        "Only the beads are removed after USER; the released arm stays in the eluate that "
+        "enters PCR. It carries no PCR primer site; no physical removal is described."))
     p5=graph.input("p5_primer","indexed P5 PCR primer",MaterialKind.OLIGO,
                    state=tuple(p5_primer()))
     p7=graph.input("p7_primer","indexed P7 PCR primer",MaterialKind.OLIGO,
                    state=tuple(p7_primer()))
-    polymerase=graph.input("pcr_polymerase","PCR polymerase",MaterialKind.CATALYST)
+    polymerase=graph.input("pcr_polymerase",
+                           "NEBNext High-Fidelity 2x PCR Master Mix; 72 C 5 min, then 12-14 cycles",
+                           MaterialKind.CATALYST)
     final=final_library()
-    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    amplified=graph.product("amplified_library","per-well PCR product",MaterialKind.MOLECULAR,
+                            state=final)
     geometry=PCRGeometry.exact(
         user_cleaved_tagmented(),
         PCRPrimer("indexed P5 PCR primer",P5_1,anneal_nt=len(HANDLE)),
@@ -215,16 +241,40 @@ def protocol_graph() -> ProtocolGraph:
     graph.react("library_pcr","Add the PCR-well i5/i7 pair",StepKind.PCR,
                 ((opened,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
                  (p7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
-                (library,),geometry=geometry)
+                (amplified,),geometry=geometry)
+    final_beads=graph.input("ampure_final","pooled PCR products, 0.8 volumes AMPure XP",
+                            MaterialKind.SELECTION)
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    final_sup=graph.product("pcr_supernatant","0.8x AMPure supernatant and washes",
+                            MaterialKind.WASTE)
+    graph.react("final_cleanup","Pool PCR wells and purify with 0.8x AMPure",StepKind.CLEANUP,
+                ((amplified,InputRole.TEMPLATE),(final_beads,InputRole.SELECTION)),
+                (library,final_sup))
+    graph.discard(final_sup,"supernatant and washes removed from the beads")
     graph.sequence(library,SequencingPlan(
         library=final,primers=SEQ_PRIMERS,acquired_roles=tuple(READ_LENGTHS),
         read_lengths=READ_LENGTHS,
         read_uses={"Read 1":"extract","Index 1 (i7)":"demultiplex",
                    "Index 2 (i5)":"demultiplex","Read 2":"include"}))
+    graph.annotate(SourceDiscrepancy(
+        "hairpin_adapter","Internal hairpin modification",
+        (SourceClaim("2019 Methods ligation paragraph (PMC6434952 JATS line 180)","/dideoxyU/"),
+         SourceClaim("Supplementary Table S11 (sc_ligation_1 onward) and author sci3_primer_sequences_plate.xls","/ideoxyU/")),
+        model_choice="The model uses the explicit oligo lists' /ideoxyU/ as a cleavable dU.",
+        evidence="Both per-oligo lists print /ideoxyU/, and the Methods open the hairpin with USER enzyme after tagmentation.",
+        uncertainty="The intended chemical specification behind the Methods wording is not independently confirmed."))
+    graph.annotate(SourceDiscrepancy(
+        "hairpin_ligation","Paragraph openings in the Methods appear swapped",
+        (SourceClaim("2019 Methods (PMC6434952 JATS line 180)","the hairpin-ligation paragraph opens 'After ligation reaction'"),
+         SourceClaim("2019 Methods (PMC6434952 JATS line 182)","the second-strand paragraph opens 'After RT reaction'")),
+        model_choice="The model orders RT, pooled hairpin ligation, then pooled second-strand synthesis.",
+        evidence="The ligation paragraph redistributes nuclei into ligation wells and the following paragraph redistributes them for second-strand synthesis; ligation of the hairpin to the RT primer requires prior RT.",
+        uncertainty="The printed openings read as transposed labels; the source does not state this itself."))
     graph.declare_reviewed_scope((
         "fixed_nuclei","rt_primer","reverse_transcriptase","reverse_transcribe",
-        "hairpin_adapter","dna_ligase","hairpin_ligation","second_strand_primer",
-        "second_strand_polymerase","second_strand","n7_transposome","tn5","tagment",
+        "hairpin_adapter","dna_ligase","hairpin_ligation",
+        "second_strand_enzyme","second_strand","n7_transposome","tn5","tagment",
+        "ampure_tagment","tagment_cleanup",
         "user_enzyme","user_digest","p5_primer","p7_primer","pcr_polymerase",
-        "library_pcr","library"),source)
+        "library_pcr","ampure_final","final_cleanup","library"),source)
     return graph.require_publishable()

@@ -66,5 +66,24 @@
       "evidence": "Both independent readers verified the full Table 3 primer families in original author manuscript. Sample-specific index selection and linked scripts remain unchecked."
     }
   ],
-  "conclusion": "Two independent readers verified Table 3 primer sequences from the original. Supplementary code and sample-specific index assignments remain blocked."
+  "conclusion": "Two independent readers verified Table 3 primer sequences from the original. Supplementary code and sample-specific index assignments remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Nature Protocols author manuscript PMC5526071 (PMC Cloud JATS) Procedure Steps 32–37 (lines 856–906), Steps 58–64 screen gDNA amplification/Zymo-Spin V purification (lines 1120–1160), Table 3 caption and NGS-Lib-Fwd/KO-Rev/SAM-Rev rows (lines 2160–2214), Discussion cycle titration (line 2406)",
+      "oligo_scraper": "Bundle scraper run; NGS-Lib-Fwd (10 variants), NGS-Lib-KO-Rev and SAM-Rev (8 variants each) families checked against Table 3 lines 2164–2214; indel two-step primers and cloning oligos are outside this readout.",
+      "findings": "Library model (Fwd-1 + KO-Rev-1, 260 bp) matches Table 3 ends; build now raises if not. Graph corrected: exact Fwd-1/KO-Rev-1 oligo states, NEBNext HF 2x master mix named, Step 33 cycling (12 cycles, 60 C anneal) and Step 58 gDNA load, added the Steps 59–64 pool/Zymo-Spin V cleanup with flow-through discard, acquired read lengths 80 Read 1 + 8 Index 1 (Step 37). Gel extraction (Step 35) is the plasmid branch and is not drawn for gDNA. No published discrepancy found.",
+      "deferred": [
+        "Supplementary analysis code and sample-to-barcode assignments",
+        "Published Nature Protocols version of record (paywalled, manual URL https://doi.org/10.1038/nprot.2017.016); author manuscript read",
+        "Screen-specific cycle number (Discussion recommends titration)",
+        "GeCKO/lentiGuide vector originals (Sanjana 2014) for template context"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 1 check passes; page builds; pairing 0 problems; chemistry 0 established/0 conditional/3 unresolved/0 contradictory; source guard 2 exact checked (NGS-Lib-Fwd-1, NGS-Lib-KO-Rev-1), 0 failed, 0 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

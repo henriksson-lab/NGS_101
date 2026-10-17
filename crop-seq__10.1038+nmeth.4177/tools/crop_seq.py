@@ -18,6 +18,8 @@ from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
 
 TITLE = "CROP-seq — pooled CRISPR screening with single-cell RNA readout"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/nmeth.4177">Datlinger et al., <i>Nature Methods</i> (2017)</a>.'
+SUPP_PROTOCOL = ('Datlinger et al. 2017, CROP-seq Supplementary Protocol '
+                 '(NIHMS71051), oligonucleotide table and sections 10.3, 11.1–11.2')
 DROPSEQ_BEAD_SOURCE = ('<a href="https://mccarrolllab.org/wp-content/uploads/2015/05/'
                        'Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf">Macosko and Goldman, '
                        'Drop-seq lab protocol v3.1 (2015), primer table</a>')
@@ -46,6 +48,17 @@ GUIDE_LEN = 20
 SMART_HANDLE = "AAGCAGTGGTATCAACGCAGAGT"
 P5_SPACER = "GCCTGTCCGCGG"
 CUSTOM_R1 = P5_SPACER + SMART_HANDLE + "AC"
+
+# Supplementary Protocol oligonucleotide table ("Oligonucleotide (order of use)"), which
+# prints four oligos verbatim. Written here with the source's own modification marks in
+# the comments; the model strings carry bases only.
+#   TSO                          AAGCAGTGGTATCAACGCAGAGTGAATrGrGrG   (3' riboguanosines)
+#   SMART PCR primer             AAGCAGTGGTATCAACGCAGAGT
+#   New-P5-SMART PCR hybrid      AATGATACGGCGACCACCGAGATCTACACGCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGT*A*C
+#   Custom Read1 primer          GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC
+TSO = SMART_HANDLE + "GAATGGG"            # the last three G are RNA (rGrGrG)
+SMART_PCR_PRIMER = SMART_HANDLE
+NEW_P5_SMART = il.P5 + P5_SPACER + SMART_HANDLE + "AC"  # 3' ...AGT*A*C phosphorothioates
 
 
 def pooled_guide_oligo() -> list[Segment]:
@@ -151,24 +164,30 @@ def protocol_graph():
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((reporter, InputRole.TEMPLATE), (bead_oligo, InputRole.STRUCTURAL),
                  (rt, InputRole.CATALYST)), (cdna,))
-    tso = graph.input("tso", "Drop-seq template-switch oligo", MaterialKind.OLIGO)
+    tso = graph.input("tso", "Drop-seq template-switch oligo (3' rGrGrG)",
+                      MaterialKind.OLIGO, state=TSO, source=SUPP_PROTOCOL)
     switched = graph.product("switched_cdna", "template-switched guide-reporter cDNA",
                              MaterialKind.MOLECULAR)
     graph.react("template_switch", "Install the distal SMART handle",
                 StepKind.TEMPLATE_SWITCHING,
                 ((cdna, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
                  (rt, InputRole.CATALYST)), (switched,))
-    smart_f = graph.input("smart_forward", "SMART cDNA PCR forward primer", MaterialKind.OLIGO)
-    smart_r = graph.input("smart_reverse", "SMART cDNA PCR reverse primer", MaterialKind.OLIGO)
-    preamp_pol = graph.input("preamp_polymerase", "cDNA amplification polymerase",
+    # Section 10.3 "SMART PCR to enrich cDNA library": one oligo only, the SMART PCR
+    # primer at 0.8 µM in 2× KAPA HiFi HotStart ReadyMix, 4 + 10 cycles on beads. Both
+    # ends of the template-switched cDNA carry the same handle, so there is no second
+    # primer; an earlier model of this protocol declared a forward/reverse pair.
+    smart_p = graph.input("smart_pcr_primer", "SMART PCR primer (single primer, 0.8 µM)",
+                          MaterialKind.OLIGO, state=SMART_PCR_PRIMER, source=SUPP_PROTOCOL)
+    preamp_pol = graph.input("preamp_polymerase", "2× KAPA HiFi HotStart ReadyMix",
                              MaterialKind.CATALYST)
     amplified = graph.product("amplified_cdna", "amplified guide-reporter cDNA",
                               MaterialKind.MOLECULAR)
-    graph.react("preamp", "Amplify Drop-seq cDNA", StepKind.PCR,
-                ((switched, InputRole.TEMPLATE), (smart_f, InputRole.STRUCTURAL),
-                 (smart_r, InputRole.STRUCTURAL), (preamp_pol, InputRole.CATALYST)),
+    graph.react("preamp", "Amplify Drop-seq cDNA on beads (4 + 10 cycles)", StepKind.PCR,
+                ((switched, InputRole.TEMPLATE), (smart_p, InputRole.STRUCTURAL),
+                 (preamp_pol, InputRole.CATALYST)),
                 (amplified,), geometry=PCRGeometry.unavailable(
-                    final_library(), reason="The intermediate SMART amplicon is not reconstructed as a full duplex."))
+                    final_library(), symmetric_species=True,
+                    reason="One primer species amplifies both ends of the template-switched cDNA; the intermediate SMART amplicon is not reconstructed as a full duplex."))
     transposome = graph.input("nextera_transposome", "Nextera XT transposome",
                               MaterialKind.ADAPTER)
     tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
@@ -176,20 +195,31 @@ def protocol_graph():
                            MaterialKind.MOLECULAR, state=guide_bearing_cdna_fragment())
     tag_waste = graph.product("tagmentation_waste", "non-amplifiable Tn5 products",
                               MaterialKind.WASTE)
-    graph.react("tagment", "Tagment the amplified cDNA", StepKind.TAGMENTATION,
+    graph.react("tagment", "Tagment the amplified cDNA (55 °C, 5 min)",
+                StepKind.TAGMENTATION,
                 ((amplified, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (tagged, tag_waste))
     graph.discard(tag_waste, "homotypic and otherwise non-amplifiable Tn5 products")
-    selective = graph.input("selective_p5", "P5-SMART selective enrichment primer",
-                            MaterialKind.OLIGO)
-    n70x = graph.input("n70x", "indexed N70x enrichment primer", MaterialKind.OLIGO)
-    library_pol = graph.input("library_polymerase", "library PCR polymerase",
+    # "Immediately add 5 µl of Neutralization Buffer to stop the reaction" (11.1).
+    nt = graph.input("neutralize_buffer", "Nextera XT Neutralize Tagment Buffer",
+                     MaterialKind.CONDITION, source=SUPP_PROTOCOL)
+    released = graph.product("neutralized_cdna", "tagmented cDNA released from Tn5",
+                             MaterialKind.MOLECULAR, state=guide_bearing_cdna_fragment())
+    graph.react("neutralize", "Stop tagmentation and strip Tn5 (NT buffer, 5 min, RT)",
+                StepKind.QUENCHING,
+                ((tagged, InputRole.TEMPLATE), (nt, InputRole.CONDITION)),
+                (released,), changes_molecule=False)
+    selective = graph.input("selective_p5",
+                            "New-P5-SMART PCR hybrid oligo (3' ...AGT*A*C phosphorothioates)",
+                            MaterialKind.OLIGO, state=NEW_P5_SMART, source=SUPP_PROTOCOL)
+    n70x = graph.input("n70x", "indexed Nextera N70X oligo", MaterialKind.OLIGO)
+    library_pol = graph.input("library_polymerase", "Nextera PCR mix (Nextera XT)",
                               MaterialKind.CATALYST)
     final = final_library()
     library = graph.product("library", final.name, MaterialKind.LIBRARY, state=final)
     graph.react("selective_pcr", "Select guide-bearing bead-end fragments",
                 StepKind.PCR,
-                ((tagged, InputRole.TEMPLATE), (selective, InputRole.STRUCTURAL),
+                ((released, InputRole.TEMPLATE), (selective, InputRole.STRUCTURAL),
                  (n70x, InputRole.STRUCTURAL), (library_pol, InputRole.CATALYST)),
                 (library,), geometry=PCRGeometry.unavailable(
                     final, reason="The selective primer identities are known, but the tagmented precursor is heterogeneous."))
@@ -199,7 +229,8 @@ def protocol_graph():
     graph.declare_reviewed_scope((
         "provirus", "pol3", "guide_transcription", "pol2", "reporter_transcription",
         "bead_oligo", "reverse_transcriptase", "reverse_transcribe", "tso",
-        "template_switch", "smart_forward", "smart_reverse", "preamp_polymerase",
-        "preamp", "nextera_transposome", "tn5", "tagment", "selective_p5", "n70x",
+        "template_switch", "smart_pcr_primer", "preamp_polymerase",
+        "preamp", "nextera_transposome", "tn5", "tagment", "neutralize_buffer",
+        "neutralize", "selective_p5", "n70x",
         "library_polymerase", "selective_pcr", "library"), SOURCE)
     return graph.require_publishable()

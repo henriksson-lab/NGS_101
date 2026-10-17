@@ -361,5 +361,25 @@
     "Public wash notice retains both actual original values and leaves wash salt unassigned; no claimed proven publication error.",
     "Declared deposited GSM5452295 single Read 1 length 75 from all four original SRA run records; no complete instrument/index mask inferred.",
     "Public size-window notice preserves series/version 2 50–100 bp and sample/version 1 70–100 bp. Exact 2026 gel interval remains unassigned; no proven typo."
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC13309788 JATS Methods 122–124, Fig.2 legend 168, Results 178; original Supplementary Methods text 297–455 (TT-seq capture 317–341, SNU no-sonication 342, sf4sU gel/dialysis/RppH/EDTA/E7300 handoff 428–453), Supplementary Fig.4 caption 75–80; SRX11439177 NCBI SRA efetch run statistics (SRR15130590–93) and GSE179306 GSM5452295 extraction line 70",
+      "oligo_scraper": "Bundle scraper run; all hits are in the NEB E7300 manual (lines 961–1070; 3′ rApp…NH2 adapter, RNA 5′ adapter, RT primer, SR PCR primer with *A, 12-member index-primer family) and match chem.py; article and supplement contain no oligo hits.",
+      "findings": "Removed superseded bioRxiv v1/v2 values from the graph-owned size-window discrepancy (published-version-first) and added the published Fig.2D '≈100 nt' statement beside the GSE179306 series (50–100 bp) and GSM5452295/SRX (70–100 bp) records; exact excision window stays unassigned. Added a graph-owned discrepancy: Results line 178 'sequenced from both ends' vs SRX11439177 SINGLE layout with read index 0 = 75 nt and read index 1 count 0; model keeps one 75-nt Read 1 and computational 5′/3′ ends. Front end, gel/dialysis, RppH/EDTA/heat stop and E7300 kit oligos verified unchanged.",
+      "deferred": [
+        "Paired versus single acquisition of undeposited sf4sU runs and meaning of 'sequenced from both ends'",
+        "Exact gel excision window",
+        "Study E7300 manual revision and index member; adapter-dimer removal/carryover",
+        "Thio-labelled spike-in addition for GSM5452295 (not drawn)",
+        "Author SNU-seq repository child scripts; TT-seq/Dölken predecessor chain beyond prior passes"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 9 checks pass; page builds; pairing 0 problems; chemistry 19 steps 0 established/1 conditional/20 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (kit oligos inferred/unassigned); Markdown built; review schema checked"
+    }
   ]
 }

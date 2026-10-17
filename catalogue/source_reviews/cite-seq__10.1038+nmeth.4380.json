@@ -285,5 +285,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Independent recheck followed original Drop-seq and CG00052 v2 capture documents and crosswalked CITE paper Methods to Supplementary Table 2 and the author protocol. Source-positive: human/mouse species mixing uses BC6/BC12 with branch-specific handles; the 10x v2 CBMC 13-antibody panel maps to v2_BC1–6 and v2_BC8–14. The extra v2_BC7 is printed by the author protocol but has no Table 2 panel assignment. Only the complete handle-bearing ADT oligo for each CD8a FACS validation aliquot remains blocked; no absence is accepted, and limited first-pass review of image-rich adjuncts still needs completion."
+  "conclusion": "Independent recheck followed original Drop-seq and CG00052 v2 capture documents and crosswalked CITE paper Methods to Supplementary Table 2 and the author protocol. Source-positive: human/mouse species mixing uses BC6/BC12 with branch-specific handles; the 10x v2 CBMC 13-antibody panel maps to v2_BC1–6 and v2_BC8–14. The extra v2_BC7 is printed by the author protocol but has no Table 2 panel assignment. Only the complete handle-bearing ADT oligo for each CD8a FACS validation aliquot remains blocked; no absence is accepted, and limited first-pass review of image-rich adjuncts still needs completion.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC5669064 JATS Online Methods lines82–144 (conjugation, antibody-oligo sequences94–132, staining136, Drop-seq140, 10x144), ADT processing170; Springer MOESM3 author protocol (version 2017-07-11) lines7–40 (biotinylation), 196–335 (staining, 0.6X SPRI split, 2×2X SPRI, KAPA ADT PCR 8–12 cycles, 1.6X SPRI, sequencing), 382–442 (Figure3, oligo list, PE1.0 P5, RPI1)",
+      "oligo_scraper": "Bundle scraper run (23 hits/5 files); v2_BC1–14, PE1.0 P5 and RPI1 hits verified at MOESM3 lines420–442; species-mixing BC6/BC12 hits at JATS96–104; preprint hits not used.",
+      "findings": "Corrected graph order: size separation moved after in-GEM RT and 10-cycle cDNA amplification (0.6X SPRI supernatant ADT / bead cDNA), added two 2X SPRI ADT purifications with primer-carryover waste, Fc block and 3 washes, S-S biotin/streptavidin conjugate. Rebuilt ADT library from printed oligos: PE1.0 P5–R1–CB–UMI–poly(dT)(inferred length)–V–antibody BC rc–T–handle rc–RPI arm–6-nt RPI index–P7, replacing a dA-ligated TruSeq DNA shell with forward-oriented handle and 8-nt i7. Removed unsourced Read1 26/i7 8 cycles and ADT Read2 use; only TruSeq Read1 declared on ADT.",
+      "deferred": [
+        "10x CG00052 v2 guide (bead oligo, cDNA primers, GEX library construction, recommended cycles)",
+        "ADT behaviour during 10x cDNA PCR without ADT-specific primer",
+        "Sequencing primers for the small-RNA arm and acquired read cycles",
+        "Drop-seq and 10x v1 species-mixing branches not drawn",
+        "LYNX and EZ-link S-S biotin vendor originals"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (1 render check); page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory over 8 steps; source guard 0 exact checked, 0 failed, 4 inputs without exact states (cDNA/GEX/ADT branch primers); Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

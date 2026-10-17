@@ -80,5 +80,25 @@
       "evidence": "This is one located source-reading pass. An independent second pass is pending; relevant linked information may also be unavailable."
     }
   ],
-  "conclusion": "Defining article and period-specific ONT kit manuals unavailable; assay oligos are printed in preprint but ONT endpoint unresolved."
+  "conclusion": "Defining article and period-specific ONT kit manuals unavailable; assay oligos are printed in preprint but ONT endpoint unresolved.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Carbonell-Sala et al. 2024 Nat Commun 15:5278 full text fetched via pmccloud:PMC11211341 (JATS XML .txt): author list lines 1-22, Methods 'CapTrap-seq full-length cDNA libraries' lines 206-238 (oligos 208/218-238), 'ONT and PacBio sequencing' lines 252-260; published Springer MOESM1 (Supplementary Information) and MOESM2 (peer review) checked by scraper and headings only",
+      "oligo_scraper": "Bundle scraper: published JATS hits at lines 208-238 verified (OligodT 16VN 5'[Phos], both linker duplexes with U and -P, UMI8 primer ...GAGTAC 61 nt, LA-PCR pair); preprint Table S1 lines 5119-5132 superseded (UMI8 ...GAGTA); 0 hits in MOESM1-3.",
+      "findings": "Corrected repository citation (Glinos et al. -> Carbonell-Sala et al.) in module, page, note and ref/MANIFEST. Oligos now taken from the published Methods; UMI8 primer corrected to the published 61-nt ...GAGTAC. Derived antiparallel reading of the printed lower linker strands (plain complements), checked by Scene.anneal; 5' linker G-N5 and 3' linker A5 splinted ligation geometries now declared as known (replacing unavailable geometry). Replaced the capped_full_length_cdna recipe state with local Scenes: 5'-linked, doubly linked and SAP/USER-treated cDNA with UMI8 primer annealed; UMI feature on the N8. Graph expanded to periodate oxidation, biotin hydrazide, RNase ONE trim, M-270 capture with discarded unbound, heat release/RNase H, two Mighty Mix ligations with discarded free linker, SAP/USER with discarded upper-strand fragments, KAPA second strand, Exo I cleanup, exact LA-PCR geometry (16 cycles LA Taq), ONT SQK-LSK108/109 inferred endpoint. Exact oligo states added to graph inputs.",
+      "deferred": [
+        "Nature Protocol Exchange full CapTrap-seq protocol (ref. 45)",
+        "Two-step linker-ligation predecessor (ref. 46) for linker annealing and stated end geometry",
+        "ONT SQK-LSK108/109 manuals (end-prep, adapter structure) and PacBio SMRTbell Express 2.0 branch not drawn",
+        "cDNA bases opposite the G-N5 and A5 splint tails",
+        "MOESM1 supplementary figures/tables not read beyond scraper"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 8/8 published-transcription checks pass; page builds; pairing 0 problems; chemistry 5 established/0 conditional/13 unresolved/0 contradictory; source guard 8 exact checked, 0 failed, 0 inputs without exact states; Markdown built; audit --check pass"
+    }
+  ]
 }

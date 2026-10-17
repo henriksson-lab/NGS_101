@@ -7,9 +7,10 @@ SHARED = HERE.parents[1] / "sci-atac-seq__10.1126+science.aab1601" / "tools"
 sys.path.insert(0, str(SHARED))
 from page_parts import render_page
 import sciatac
-from sci3_graph import protocol_graph
+from sci3_graph import CAVEAT, key_oligos, protocol_graph
 
 OUT = HERE.parent / "sci-atac-seq3.html"
 if __name__ == "__main__":
-    render_page(sciatac.SCI3, OUT, graph_factory=protocol_graph)
+    render_page(sciatac.SCI3, OUT, graph_factory=protocol_graph,
+                oligo_html=key_oligos(), caveat=CAVEAT)
 

@@ -206,5 +206,24 @@
       "evidence": "Custom ICICLE oligos are source-positive in Table 5. Vendor and predecessor sources remain blocked."
     }
   ],
-  "conclusion": "Custom ICICLE oligos are source-positive in Table 5. Vendor and predecessor sources remain blocked."
+  "conclusion": "Custom ICICLE oligos are source-positive in Table 5. Vendor and predecessor sources remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published eLife 2021;10:e63632 PMC8034981 JATS (.xml.txt; shared bundle fetched to the icicle slug 2026-10-17): Results line 246; Figure 3—figure supplement 1 legend (a–e) line 267; Methods ICICLE-seq lines 702–722 (oligo sources, Tn5 complexing, staining, library preparation, sequencing), preprocessing 724–729; Supplementary file 5 supp5-v2.xlsx.txt sheet 'Table 5 - ICICLE Oligos' all 9 rows",
+      "oligo_scraper": "Bundle scraper run on the shared eLife bundle; MOSAIC_Bot /5phos/, ADT-i7 ...CC*A and Table 5 hits followed to the workbook rows; CG000338/protocols.io hits belong to TEA-seq.",
+      "findings": "Replaced the shared 10x scATAC targeted-tagmentation and generic antibody-tag endpoints (cell barcode beside S5 with invented 8-base assay barcode, 10-base UMI, Nextera Read 1): repository modelling errors. Declared locally from Table 5 and Fig. 3—S1: separate Poly-T Top-L/MOSAIC_Bot and Tn5ME-s7_Top/MOSAIC_Bot annealing mixed 1:1, Tn5 complexing, FcX + 46 TotalSeq-A staining with washes, 0.01% digitonin, TD1 tagmentation 37C 120 min (about half Poly-T/R2N fragments; same-end fragments retained, not separated), Chip G 3' v3.1 GEMs with Q5 + F BC Primer + ADT-Rev-AMP, 72C gap fill then 12-cycle linear ATAC/exponential ADT barcoding, Recovery/SILANE, 0.6x/2.0x SPRI, 3:1 split, ATAC SI-P5-22 + Chromium i7 Kit N 7 cycles 0.4x/1.2x, ADT SI-P5-22 + ADT-i7 KAPA 15 cycles 1.2x with exact primer landing. Final ATAC P5-TruSeq R1-CB16-UMI12-T30VN-ME-gDNA-ME'-s7'-i7-P7 and ADT layouts; custom Table 5 TruSeq R1 Seq Primer as Read 1; ATAC I1/R2 via Nextera Read 2 site; ADT I1/R2 named small-RNA site but primer unasserted (limitation). 10x v3.1 bead scaffold inferred (16+12 from 28-cycle Read 1 and v3 whitelist). Selftest now transcribes all 9 Table 5 oligos.",
+      "deferred": [
+        "Mulqueen et al. 2019 Tn5 complexing predecessor",
+        "10x Chromium Single Cell 3' v3.1 user guide (bead oligo, Chromium i7 Multiplex Kit N primer sequences)",
+        "ADT loaded Read 2/Index 1 sequencing primer (TruSeq small RNA)",
+        "TotalSeq-A member sequences and barcode length (Supplementary file 6 panel)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 10/10 pass (9 Table 5 oligo transcriptions + PS mark); page builds; pairing 0 problems; chemistry 0 established/1 conditional/16 unresolved/0 contradictory; source guard 6 exact checked, 0 failed, 2 inputs without exact states (inferred bead scaffold, vendor Chromium i7 Kit N primer); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

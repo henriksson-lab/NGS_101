@@ -234,5 +234,24 @@
       "evidence": "The modified oligo is printed, but its molecular pairing to the dA-tailed fragment and gated PMC supplement still require independent source review."
     }
   ],
-  "conclusion": "The source-positive adaptor and dual-index arrangement have been corrected on the page; end geometry remains under two-reader review."
+  "conclusion": "The source-positive adaptor and dual-index arrangement have been corrected on the page; end geometry remains under two-reader review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nature Protocols PMC6044726 PMC Cloud JATS (.xml.txt) Overview lines 58/92-108, Materials 156-176/300-302, PROCEDURE Steps 1-81 lines 306-601 (BrdU pulse, fixation/sort, lysis/Zymo, Covaris, End Prep 30-32, ligation 33-34, USER 35-36, Clean&Concentrator 37, IP 38-55, qPCR 56, Q5 PCR 57-58, AMPure 60-72, pooling 73-80, sequencing 81); publisher ESM MOESM34 Supplementary Methods 1 lines 18-29, Supplementary Data 1 lines 233-417, Supplementary Data 2 lines 448-451",
+      "oligo_scraper": "Bundle scraper run; ESM hits 27/28 (qPCR), 238/239 (adaptor), 287/310/384 (i5/i7 families), 450/451 (TS-Oligos) and JATS 496 (Step 56 qPCR) checked against source lines; bioRxiv v2 hits not used (superseded preprint).",
+      "findings": "Graph corrected from the article: one End Prep reaction (20C 30 min/65C 30 min) replaces separate repair/tailing catalysts; NEBNext adaptor input now carries the Supplementary Data 1 oligo (checked equal to lib NEBNEXT_HAIRPIN at construction) with a derived 3-prime-T cohesive end replacing the unavailable geometry; added USER 37C 15 min loop opening and Step 37 column cleanup; fixed false discard of the unlabelled strand at denaturation (both strands now enter the bead-free anti-BrdU/anti-mouse IgG IP and the supernatant is the removed fraction); added proteinase K release/column, Q5 Hot Start 14-cycle 98/65C PCR with i5/i7 families, AMPure 0.9x cleanup; read layout corrected to Read 1 50 cycles single-end plus both index reads (Read 2 no longer acquired). Hairpin/USER-opened intermediates are labelled regions; single 3-prime dA inferred from kit design.",
+      "deferred": [
+        "NEBNext Ultra E7370 kit manual (End Prep composition, adaptor fold/USER documentation beyond the printed oligo)",
+        "Acquired index-read cycle counts (8-nt indexes printed; cycles not stated)",
+        "Box 2 / Ryba et al. early-late enrichment primer sets and Supplementary Table 1",
+        "PMC author-manuscript supplement NIHMS979784-supplement-1.pdf (gated; publisher ESM read instead)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/26 unresolved/0 contradictory; source guard 2 exact checked (early/late NEBNext adaptor), 0 failed, 4 inputs without exact states (i5/i7 families); Markdown built; review schema checked"
+    }
+  ]
 }

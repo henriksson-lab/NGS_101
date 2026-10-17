@@ -17,8 +17,8 @@
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "JATS Methods lines 139–163; full source bundle scraped for oligos before reading",
-        "finding": "Independently verified the 40-nt backbone with N12, arm/gap dimensions, phosphorylation, circularization, exonuclease removal, PCR and read layout. The article explicitly sends common oligos, custom sequencing primers and sample indexes to Table S9. Its gap-fill recipe also prints water to 10 mL while calling the final reaction 20 µL; the page records this contradiction."
+        "locations": "JATS Methods lines 139\u2013163; full source bundle scraped for oligos before reading",
+        "finding": "Independently verified the 40-nt backbone with N12, arm/gap dimensions, phosphorylation, circularization, exonuclease removal, PCR and read layout. The article explicitly sends common oligos, custom sequencing primers and sample indexes to Table S9. Its gap-fill recipe also prints water to 10 mL while calling the final reaction 20 \u00b5L; the page records this contradiction."
       }
     },
     {
@@ -37,7 +37,7 @@
         "reviewer": "root",
         "date": "2026-10-16",
         "locations": "ZIP central directory independently listed with unzip -Z1: 18 files named 843fig, 843equ or 843tbl",
-        "finding": "Contains only rendered article figures, equations and tables 1–4, not Supplemental Table S9."
+        "finding": "Contains only rendered article figures, equations and tables 1\u20134, not Supplemental Table S9."
       },
       "reason": "Europe PMC supplementary ZIP does not contain Table S9, so original table remains missing."
     },
@@ -56,7 +56,7 @@
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "JATS protocol lines 362, 394–402; scraper hits checked against these lines",
+        "locations": "JATS protocol lines 362, 394\u2013402; scraper hits checked against these lines",
         "finding": "The 2017 author protocol supplies complete universal PCR and sequencing primers and a different example amplicon; it does not print the 2013 panel's 28-nt backbone."
       },
       "discovered_from": "paper"
@@ -84,7 +84,7 @@
     "pass_2": {
       "reviewer": "root",
       "date": "2026-10-16",
-      "locations": "Original JATS Methods lines 139–163, local supplement ZIP directory, linked O'Roak 2017 JATS lines 362 and 394–402, publisher supplement landing URL",
+      "locations": "Original JATS Methods lines 139\u2013163, local supplement ZIP directory, linked O'Roak 2017 JATS lines 362 and 394\u2013402, publisher supplement landing URL",
       "finding": "The linked author protocol answers PCR and run-primer sequence questions but not original probe backbone identity. Original Supplemental Table S9 is relevant and inaccessible, so no sequence absence is accepted."
     }
   },
@@ -95,5 +95,24 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent passes checked accessible originals and linked material. Original Supplemental Table S9 remains inaccessible; the exact backbone and original oligo family cannot be declared absent."
+  "conclusion": "Two independent passes checked accessible originals and linked material. Original Supplemental Table S9 remains inaccessible; the exact backbone and original oligo family cannot be declared absent.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Hiatt 2013 PMC3638140 JATS gr.147686.112_PMC3638140.xml.txt Methods lines139\u2013163 (probe preparation/phosphorylation141, capture/gap-fill/ligation147, exonuclease149, PCR151, Ampure/PAGE155\u2013157, sequencing161, read processing163); Europe PMC supplementary ZIP directory (843fig/equ/tbl images only, no Table S9) and PMC Cloud listing PMC3638140.1 (no supplement); Cantsilieris et al. 2017 PMC5484527 JATS front matter lines1\u201312, Materials line40, Notes8 (line362), 15\u201318 (lines390\u2013402)",
+      "oligo_scraper": "Bundle scraper run: only hits are the Cantsilieris 2017 PCR primers (line362) and sequencing primers (line402); no 2013 backbone, primer or index bases in the accessible originals.",
+      "findings": "Corrected misattribution of the 2017 MIP protocol (Cantsilieris, Stessman, Shendure, Eichler, not O'Roak). Its 70-mer, 5\u20138-nt-tag, 162-nt-capture design differs from the 2013 80-mer N12 112-nt panel, so the drawn PCR handles, PCR primers and custom run primers are now marked INFERRED later-protocol stand-ins (2013 assigns its own to Table S9). Named T4 PNK, Ampligase, Phusion, ExoI+ExoIII and Phusion Hot-Start II with source conditions; added 26-cycle PCR, 1.8x Ampure cleanup and 6% PAGE ~280 bp band excision with discarded supernatant/low-MW artifact; read lengths HiSeq 2x101+8 drawn, MiSeq 2x152+8 stated. Existing 10 mL vs 20 \u00b5L gap-fill volume discrepancy retained.",
+      "deferred": [
+        "Hiatt 2013 Supplemental Table S9 (backbone, PCR/sequencing primers, 8-nt indexes): Cloudflare challenge at https://genome.cshlp.org/content/23/5/843/suppl/DC1",
+        "Shen et al. 2011 and O'Roak et al. 2012 predecessor capture/design methods",
+        "Ampure-based size-enrichment alternative workflow not drawn",
+        "Exact tag position within the 40-nt backbone (tag adjacent to Read 2 primer inferred from reverse-read tag stripping)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite pass (1 construction check); page builds; pairing 0 problems; chemistry 0 established/1 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 1 input without exact state (later-protocol primers marked inferred); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

@@ -22,7 +22,11 @@ FINAL_LIBRARY, SEQ_PRIMERS = nextera_library(
     [seg("accessible chromatin fragment", "X" * 36, placeholder=True)],
     "accessible chromatin fragment library", dual_index=False)
 FINAL_CAPTION = "Productive heterologous Tn5 product after 72 °C extension and limited indexed PCR."
-SEQUENCING_INTRO = "Paired reads enter the accessible chromatin fragment from its two transposition sites; the index reads identify the PCR-added sample indexes."
+SEQUENCING_INTRO = ("Paired reads enter the accessible chromatin fragment from its two transposition sites; "
+                    "one 8-nt index read identifies the Ad2.N sample index (Ad1_noMX carries no index). "
+                    "Online Methods (Primary data processing) report 34 × 8 × 34 reads on MiSeq or "
+                    "50 × 8 × 50 on HiSeq; the HiSeq configuration is drawn.")
+READ_LENGTHS = {"Read 1": 50, "Index 1 (i7)": 8, "Read 2": 50}
 SHOW_READ_CONTENT = True
 
 def sections():
@@ -70,44 +74,82 @@ def protocol_graph() -> ProtocolGraph:
     graph.mark_terminal(Terminal(off_product.id, Disposition.DISCARD,
                                  "not a complete heterologous sequencing molecule"))
 
-    graph.add_input(Material("extension_polymerase", "72 °C extension polymerase",
+    graph.add_input(Material("minelute", "Qiagen MinElute column", MaterialKind.SELECTION,
+                             source=source))
+    purified = Material("purified_fragment", "MinElute-purified tagmented DNA",
+                        MaterialKind.MOLECULAR, state=_tagmented_template(), source=source)
+    column_waste = Material("minelute_waste", "column flow-through: transposase and reaction mix",
+                            MaterialKind.WASTE, source=source)
+    graph.add_step(Step(
+        "purify_tagmented", "Purify transposed DNA (MinElute; skipped for 500/5,000 cells)",
+        StepKind.CLEANUP,
+        (Input(tagged.id, InputRole.TEMPLATE), Input("minelute", InputRole.SELECTION)),
+        (purified.id, column_waste.id), source=source, changes_molecule=False),
+        (purified, column_waste))
+    graph.mark_terminal(Terminal(column_waste.id, Disposition.DISCARD,
+                                 "column flow-through and washes are discarded"))
+
+    graph.add_input(Material("extension_polymerase", "NEBNext PCR master mix polymerase",
                              MaterialKind.CATALYST, source=source))
     extended = Material("extended_fragment", "gap-filled tagmented fragment",
                         MaterialKind.MOLECULAR, state=_tagmented_template(), source=source)
     graph.add_step(Step(
-        "extend", "Extend the transposase-tagged ends", StepKind.EXTENSION,
-        (Input(tagged.id, InputRole.TEMPLATE),
+        "extend", "Extend the transposase-tagged ends, 72 °C 5 min", StepKind.EXTENSION,
+        (Input(purified.id, InputRole.TEMPLATE),
          Input("extension_polymerase", InputRole.CATALYST)),
         (extended.id,), source=source), (extended,))
 
-    graph.add_input(Material("ad1_nomx", "Ad1_noMX", MaterialKind.OLIGO, source=source))
+    # Supplementary Table 1 prints both primers unmodified; Ad2.1 stands for Ad2.1-Ad2.24.
+    graph.add_input(Material("ad1_nomx", "Ad1_noMX", MaterialKind.OLIGO, source=source,
+                             state=(seg("Ad1_noMX", ATAC_AD1_NOMX),)))
     graph.add_input(Material("ad2_indexed", "Ad2.1_TAAGGCGA", MaterialKind.OLIGO,
-                             source=source))
+                             source=source, state=(seg("Ad2.1_TAAGGCGA", ATAC_AD2_1),)))
     geometry = PCRGeometry.exact(
         FINAL_LIBRARY, PCRPrimer("Ad1_noMX", ATAC_AD1_NOMX),
         PCRPrimer("Ad2.1_TAAGGCGA", ATAC_AD2_1),
         statement="Supplementary Table 1 prints both amplification primers; their 3-prime mosaic-end regions face inward across the accessible-DNA insert.")
-    library = Material("atac_library", "indexed ATAC-seq library", MaterialKind.LIBRARY,
-                       state=FINAL_LIBRARY, source=source)
+    amplified = Material("amplified_library", "amplified indexed ATAC-seq library",
+                         MaterialKind.MOLECULAR, state=FINAL_LIBRARY, source=source)
     graph.add_step(Step(
-        "indexed_pcr", "Limited indexed PCR", StepKind.PCR,
+        "indexed_pcr", "Indexed PCR: 5 cycles, qPCR-chosen extra cycles (10–12 total)",
+        StepKind.PCR,
         (Input(extended.id, InputRole.TEMPLATE),
          Input("ad1_nomx", InputRole.STRUCTURAL),
-         Input("ad2_indexed", InputRole.STRUCTURAL)),
-        (library.id,), geometry=geometry, source=source), (library,))
+         Input("ad2_indexed", InputRole.STRUCTURAL),
+         Input("extension_polymerase", InputRole.CATALYST)),
+        (amplified.id,), geometry=geometry, source=source), (amplified,))
+    graph.add_input(Material("pcr_cleanup", "Qiagen PCR cleanup column", MaterialKind.SELECTION,
+                             source=source))
+    library = Material("atac_library", "indexed ATAC-seq library", MaterialKind.LIBRARY,
+                       state=FINAL_LIBRARY, source=source)
+    pcr_waste = Material("pcr_cleanup_waste", "primers and PCR mix removed by the column",
+                         MaterialKind.WASTE, source=source)
+    graph.add_step(Step(
+        "purify_library", "Purify the library (Qiagen PCR cleanup; no size selection)",
+        StepKind.CLEANUP,
+        (Input(amplified.id, InputRole.TEMPLATE), Input("pcr_cleanup", InputRole.SELECTION)),
+        (library.id, pcr_waste.id), source=source, changes_molecule=False),
+        (library, pcr_waste))
+    graph.mark_terminal(Terminal(pcr_waste.id, Disposition.DISCARD,
+                                 "column flow-through and washes are discarded"))
     graph.mark_terminal(Terminal(library.id, Disposition.SEQUENCING), SequencingPlan(
-        FINAL_LIBRARY, tuple(SEQ_PRIMERS), tuple(p.role for p in SEQ_PRIMERS)))
+        FINAL_LIBRARY, tuple(SEQ_PRIMERS), tuple(p.role for p in SEQ_PRIMERS),
+        read_lengths=READ_LENGTHS))
 
     graph.declare_reviewed_scope(dict((
             ("native_nuclei", "native_chromatin"),
             ("loaded_adapter_reagent", "loaded_mosaic_end"),
             ("tn5_reagent", "tn5"),
             ("tagmentation", "tagment"),
+            ("minelute_reagent", "minelute"),
+            ("minelute_cleanup", "purify_tagmented"),
             ("productive_and_nonproductive_ends", "non_library_tagmentation_products"),
             ("extension_polymerase_reagent", "extension_polymerase"),
             ("extension", "extend"),
             ("ad1_primer_reagent", "ad1_nomx"),
             ("ad2_primer_reagent", "ad2_indexed"),
             ("indexed_pcr", "indexed_pcr"),
+            ("pcr_cleanup_reagent", "pcr_cleanup"),
+            ("library_cleanup", "purify_library"),
             ("paired_end_sequencing", "atac_library"))), source)
     return graph.require_publishable()

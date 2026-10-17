@@ -228,5 +228,26 @@
         "finding": "Independently corrected the publisher attachment identities and followed the author protocol to the Illumina primer family. The complete supplement inventory is now double-read for these rows; exact per-study selected RPIX member remains a separate unresolved claim."
       }
     }
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Genome Biology PMC4848782 JATS Results (primer shortening, SuperScript II/ds-cDNA kit, ligation-free library, C1) and Methods (modifications 1-4, Barcode design, Sequencing); Additional file 4 CEL-Seq2 Protocol docx text lines 1-49 (reagents, primer design) and 166-339 (isolation, RT, second strand, cleanup, IVT, ExoSAP, fragmentation, RNAClean, library RT, PCR, cleanups, sequencing); Additional file 5 Table S2 lines 1-21; Additional file 3 Table S1 barcode column checked for 1-48 reuse.",
+      "oligo_scraper": "Bundle scraper run; 96-member RT-primer family (MOESM4 lines 51-146), Table S2 designs and randomhexRT (MOESM4 line 33, MOESM5 line 21) checked; Illumina RP1/RPI hits (htm.txt lines 184/192) are the vendor rows already used.",
+      "findings": "Graph now assembled locally from Additional file 4 instead of the shared barcoded IVT helper: ERCC spike-in, SuperScript II RT, 70C 10 min inactivation, E. coli Pol I/ligase/RNase H second strand 16C 2h, pooling, AMPure XP+PEG/NaCl cleanup, MEGAscript T7 IVT 13h, ExoSAP-IT on carried-over RT primers (digestion products removed physically by the 1.8x RNAClean XP cleanup), Mg2+ fragmentation 94C 3 min with EDTA stop, randomhexRT library RT, Phusion HF PCR 11 (<=15) cycles, two 1x AMPure cleanups with discarded supernatants. Graph-owned discrepancy shown on page: protocol line 48 '48 primers' vs 96 listed (lines 51-146) vs Methods 168 barcodes; no set size chosen.",
+      "deferred": [
+        "Optional 65C 20 min heat inactivation in place of the cDNA bead cleanup (branch not drawn)",
+        "Internal aRNA fragments lacking the RA5/UMI/barcode end as off-product",
+        "Actual RPIX indices used",
+        "Fluidigm C1 branch (Additional file 6)",
+        "CEL-Seq 2012 predecessor paper (inaccessible)",
+        "Exact sequencing-primer placement (small-RNA read primers not in the author sources)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3 checks pass; page builds; pairing 0 problems; chemistry 1 established/5 conditional/13 unresolved/0 contradictory; source guard 1 exact checked (RP1), 0 failed, pcr_reverse vendor exception, 2 inputs without exact states (rt_primer, randomhex_rt); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

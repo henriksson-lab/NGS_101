@@ -71,7 +71,7 @@ def protocol_graph():
     reduced=graph.product('reduced_rna','RNA after post-recoding reducing treatment',MaterialKind.MOLECULAR,state=recoded.state)
     graph.react('reduce','Apply source post-recoding reducing treatment',StepKind.CHEMICAL_CONVERSION,
         ((cleaned,InputRole.TEMPLATE),(dtt,InputRole.CONDITION)),(reduced,))
-    ready=graph.product('kit_input','recoded RNA prepared for named kit',MaterialKind.MOLECULAR,state=reduced.state)
+    ready=graph.product('kit_input','recoded RNA prepared for named kit; main article uses 10 ng total RNA per library',MaterialKind.MOLECULAR,state=reduced.state)
     second_wash=graph.product('second_cleanup_wash','second cleanup supernatant/washes',MaterialKind.WASTE)
     graph.react('cleanup_reduction','RNAClean cleanup after reducing treatment',StepKind.CLEANUP,
         ((reduced,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(ready,second_wash))

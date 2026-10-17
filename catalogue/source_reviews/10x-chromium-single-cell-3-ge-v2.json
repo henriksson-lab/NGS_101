@@ -317,5 +317,24 @@
       "locations": "CG000108 Rev A Fig.4, extracted lines 75–145",
       "finding": "Independently read printed bead, modified TSO, both cDNA primers, both adapter strands and both index-primer architectures after running the full bundle scraper and the source-only scraper. Both PCR primer pairs are published. Corrected local model to exact PCR geometry and explicit primer states, copied TSO bases and post-switch product; the prior unavailable-primer wording was a repository error."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "10x CG000108 Rev A technical note (scg_CG000108_AssayConfiguration_SC3v2.pdf.txt lines 1–143, Fig. 4 lines 68–143); 10x CG00052 Rev D user guide (CG00052_SingleCell3_ReagentKitv2UserGuide_RevD.pdf.txt TOC lines 140–215, kit contents 405–450, Step 2.2 mix 3195–3210, 3.1 program 3717–3770, 3.2 3843–3900, 3.4 4045–4053, 3.6 4295–4330, sequencing table 4572–4600)",
+      "oligo_scraper": "Full bundle scraper run; CG000108 hits lines 74–141 (bead, TSO, cDNA primers, adapter strands, index primers, products) all match the model; 737K whitelist hits are barcode members, not oligos.",
+      "findings": "No oligo or read-layout change needed (26/8/0/98 confirmed). Added CG00052 Rev D bead cleanups to graph: Silane post GEM-RT (2.1), 0.6X SPRI (2.3), double-sided 0.6X/0.8X (3.2), 0.8X post-ligation (3.4), double-sided 0.6X/0.8X post-index (3.6), removed fractions typed as discarded waste; sequenced library is the 3.6 product. Published discrepancy shown on page: CG000108 Fig. 4 cDNA Primer Mix PN-22016 vs CG00052 Rev D PN-220106 (kit contents and Step 2.2 table); page now renders graph annotations via assemble_page.",
+      "deferred": [
+        "CG00052 revisions before Rev D (2017 guide cited by CG000108 Rev A)",
+        "RT primer and TSO graph inputs without exact states (shared ChromiumRNAOps)",
+        "Fragmentation and end repair/A-tailing one-tube reaction drawn as two steps",
+        "Cell Ranger 7.2 barcode inclusion-list page (manual, HTTP 429)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 and page build pass; pairing 0 problems; chemistry 14 steps, 2 established/1 conditional/14 unresolved/0 contradictory; source guard 6 exact checked, 0 failed, 2 unrepresented (rt_primer, tso); Markdown built; review schema (audit --check) pass"
+    }
   ]
 }

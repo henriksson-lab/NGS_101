@@ -144,12 +144,15 @@ def reported_adapter_end(name: str, *, kind: str, statement: str,
                          polarity: str | None = None,
                          terminal_sequence: str | None = None,
                          body_sequence: str | None = None,
-                         substrate_scenes: tuple[Scene, ...] = ()) -> AdapterLigationGeometry:
-    """Construct a source-known terminal adapter end without inventing its body.
+                         substrate_scenes: tuple[Scene, ...] = (),
+                         inferred: bool = False) -> AdapterLigationGeometry:
+    """Construct a terminal adapter end without inventing its body.
 
     This is for sources that disclose the ligating end (for example a 3′ dT) but keep
     the rest of a commercial adapter proprietary.  Exact full duplexes should instead be
-    built and paired explicitly with :class:`Scene`.
+    built and paired explicitly with :class:`Scene`.  Set ``inferred`` when the caller
+    derives the terminal bases (for example from pairing with a dA tail) rather than
+    reading them in its authoritative source; every rendering then marks them.
     """
     if kind in ("cohesive", "splinted", "single-strand") and not terminal_sequence:
         raise ValueError(f"{kind} adapter end needs its reported terminal sequence")
@@ -157,7 +160,7 @@ def reported_adapter_end(name: str, *, kind: str, statement: str,
                    body_sequence or "[adapter body not declared in this model]",
                    placeholder=body_sequence is None)
     end = Segment(f"{name} ligating end", terminal_sequence or "[blunt end]",
-                  placeholder=terminal_sequence is None)
+                  placeholder=terminal_sequence is None, inferred=inferred)
     parts = ([end, body] if polarity == "5-prime" else [body, end])
     sc = Scene(); sc.strand("adapter", parts, label=name)
     sc.ligation_end("adapter", end.name, kind=kind, polarity=polarity,

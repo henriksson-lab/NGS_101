@@ -24,22 +24,32 @@
     {
       "id": "cell_extended",
       "role": "supplement",
-      "locator": "Cell 2015 NIHMS687993 supp_data_1.pdf Extended Experimental Procedures",
-      "availability": "unavailable",
+      "locator": "Published Cell Supplemental Information, Elsevier CDN https://ars.els-cdn.com/content/image/1-s2.0-S0092867415005498-mmc1.pdf (j.cell.2015.05.002_1-s2.0-S0092867415005498-mmc1.pdf.txt); Supplemental Experimental Procedures. PMC author-manuscript copy NIHMS687993 supp_data_1.pdf remains behind the PMC download gate.",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Original methods supplement is manual in MANIFEST owing PMC download gate.",
       "discovered_from": "cell_article",
-      "pass_2": null
+      "pass_2": null,
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "mmc1.pdf.txt lines 75-170 (bead prep, droplets, breakage, RT, Exo I, PCR, Nextera XT, sequencing) and 615-624 (note on bead surface primers)",
+        "finding": "DLB composition, 42 C RT with 2.5 uM TSO, Exo I 1 U/uL 37 C 45 min, 1,000-bead PCR 4+8/9 cycles with 0.8 uM TSO_PCR, Nextera XT 600 pg with P5_TSO_Hybrid + N701 for 11 cycles, NextSeq Read 1 20 bp and Read 2 50/60 bp; SeqA beads for human-mouse and retina reps 1-3, SeqB for reps 4-7; note says Read1CustSeqB primes 'read 2' (contradicting line 164 'read 1'). Index-read length not stated."
+      }
     },
     {
       "id": "cell_table_s6",
       "role": "supplement",
-      "locator": "Cell 2015 Table S6 within original supplemental material",
-      "availability": "unavailable",
+      "locator": "Published Cell Supplemental Information, Elsevier CDN https://ars.els-cdn.com/content/image/1-s2.0-S0092867415005498-mmc1.pdf (j.cell.2015.05.002_1-s2.0-S0092867415005498-mmc1.pdf.txt); Table S6 p. 29",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Article Methods explicitly cites Table S6 for custom Nextera primers; the original supplemental file is unavailable.",
       "discovered_from": "cell_article",
-      "pass_2": null
+      "pass_2": null,
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "mmc1.pdf.txt lines 752-790, checked against rendered p. 29",
+        "finding": "Prints Barcoded Bead SeqA (handle+ACGT+J12+N8+T30) and SeqB (handle+AC+J12+N8+T30), Template_Switch_Oligo, TSO_PCR, P5-TSO_Hybrid (*A*C), Nextera_N701-N703, Read1CustomSeqA/B, plus QC oligos synRNA, P7-TSO_Hybrid, TruSeq_F, CustSynRNASeq, UMI_SMARTdT."
+      }
     },
     {
       "id": "seqwell_later",
@@ -104,5 +114,39 @@
       "evidence": "The available Cell main article gives bead architecture and Nextera XT, but defers exact primers to inaccessible Extended Procedures/Table S6. A later Dec 2015 inventor-lab protocol prints and maps primer names to Macosko et al.; Seq-Well uses the same mRNA capture beads. Those sources narrow the likely oligo family but do not prove the original Table S6 strands or sample-specific N70X index."
     }
   ],
-  "conclusion": "Two independent readings cover the available Cell main article and later Seq-Well oligo table. The later Macosko/Goldman v3.1 original has one located reading. Original Extended Procedures/Table S6 remain unavailable; no primer-absence or exact historical identity claim is accepted."
+  "conclusion": "Two independent readings cover the available Cell main article and later Seq-Well oligo table. The published Cell Supplemental Information (Supplemental Experimental Procedures and Table S6) was obtained 2026-10-17 from the Elsevier CDN and has one located reading; it prints every library oligo. The Index-read length remains unstated; no absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Macosko2015 PMC4481139 JATS xml.txt line100 (bead oligo parts), 112 (bulk RT/STAMPs), 190 (Experimental Procedures: droplet breakage, RT mix, exonuclease I, PCR, Nextera XT custom primers Table S6, NextSeq 500), 422/426 (Fig2A template switching, Fig2C read layout, 50bp Read 2); inventor-lab Drop-seq v3.1 (28 Dec 2015; cached crop-seq__10.1038+nmeth.4177/Online-Dropseq-Protocol-v.-3.1-Dec-2015.pdf.txt) lines12–24 (does-not-match notice), 110–162 (required-primer table), 600–720 (RT/Exo I/SMART PCR), 745–845 (Nextera XT PCR, sequencing specs); Seq-Well MOESM237 Supplementary Table 1 lines270–290",
+      "oligo_scraper": "Bundle scraper run; only Seq-Well Table 1 oligo hits (bead, TSO, SMART PCR, P5 hybrid *A*C, custom Read 1) are library oligos, matching the v3.1 table bases; MOESM234+ hits are 12-mer cell-barcode count rows; nothing in the Cell main text.",
+      "findings": "Cell Supplemental Information (Extended Experimental Procedures/Table S6) still unobtainable: PMC Cloud PMC4481139.1/ holds only json/txt/xml, Europe PMC supplementaryFiles says not open access, europepmc bin route HTTP 403. Added the Experimental Procedures exonuclease I digestion of unextended bead primers between template switching and SMART PCR, with a washed-away digest waste output. Page sequencing intro now states Cell Fig2C 50bp Read 2 and v3.1 20/50 with an 8-base index read only needed when multiplexing. Existing inferred-oligo scoping (v3.1 table + Seq-Well corroboration) re-verified against the originals; no base changes.",
+      "deferred": [
+        "Cell NIHMS687993 supp_data_1.pdf Extended Experimental Procedures/Table S6 (manual https://pmc.ncbi.nlm.nih.gov/articles/instance/4481139/bin/NIHMS687993-supplement-supp_data_1.pdf): exact 2015 oligos, lysis/RT/PCR/Nextera conditions, read settings",
+        "Original 2015 Read 1/index acquired cycle counts",
+        "Seq-Well Online Methods (PMC5376227 xml cached) not re-read in this pass"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/3 conditional/7 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 1 input without exact state (all oligos inferred); Markdown built; audit --check pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Cell Supplemental Information (Elsevier CDN 1-s2.0-S0092867415005498-mmc1.pdf, hand-fetched with MANIFEST rows; mmc2-4/6/7 also stored, not chemistry) .txt lines 75-170 (Drop-Seq beads, droplets, breakage, RT, Exo I, PCR, Nextera XT, sequencing), 615-624 (bead surface primers note), 752-790 Table S6 checked against rendered p. 29; main article JATS as previously read",
+      "oligo_scraper": "Scraper run on mmc1.pdf.txt: TruSeq_F, both bead lines (769/771), TSO/TSO_PCR/P5-TSO/N701-N703/Read1CustomSeqA-B/P7-TSO (773-782), CustSynRNASeq, UMI_SMARTdT; all verified against the rendered table.",
+      "findings": "Retrieval routes: PMC bin/ route still a JS 'Preparing to download' gate; PMC Cloud PMC4481139.1/ only json/txt/xml; Europe PMC supplementaryFiles empty; Elsevier CDN ars.els-cdn.com mmc1-mmc8 returned the published supplements (HTTP 200, valid PDF/XLSX/ZIP/MP4). Table S6 confirms the SeqB bead, TSO, TSO_PCR, P5-TSO_Hybrid and Read1CustomSeqB base for base and adds SeqA (handle+ACGT) with Read1CustomSeqA and Nextera_N701-N703. Model oligos converted from inferred to Table S6 exact states (bead, TSO, TSO_PCR, P5 hybrid, N701); SeqA library built and primer-landing checked; only the untemplated CCC remains inferred. Step conditions (RT 42 C, Exo I, 4+8/9-cycle PCR, 11-cycle Nextera, Read 1 20 / Read 2 50 or 60) attached from the SI. Page shows published discrepancies: Read1CustSeqB 'read 2' (line 621) vs 'read 1' (line 164); procedure vs Table S6 oligo names. Selftest now checks Table S6 transcription of both beads and both Read 1 primers.",
+      "deferred": [
+        "Index-read length of the original NextSeq runs (not stated in Cell SI)",
+        "Second independent reading of Cell SI/Table S6 for the two-pass gate",
+        "Cell mmc7 article-plus-SI PDF and Seq-Well Online Methods not re-read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 4/4 pass; page builds; pairing 0 problems; chemistry 2 established/1 conditional/7 unresolved/0 contradictory; source guard 4 checked, 0 failed, 2 inputs without exact states; Markdown built; audit --check pass"
+    }
+  ]
 }

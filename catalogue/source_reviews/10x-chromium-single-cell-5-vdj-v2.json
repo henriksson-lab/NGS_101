@@ -259,5 +259,25 @@
       "locations": "CG000331 Rev E and Rev F revision summary p.3; Rev F introduction pp.16–17, GEM-RT p.33, cDNA amplification p.38, Appendix pp.73–75; Rev E sequencing pp.62–63",
       "finding": "Independent reading after full target-bundle scraper and separate Rev F scraper confirms barcoded rGrGrG bead TSO, poly(dT)VN RT primer, cDNA forward/reverse primers, human/mouse nested T/B enrichment lists and dual-index final architecture. Rev F (June 2024) summary names equipment, glycerol volume and quantification changes; these changes do not establish a new sequence chemistry. Rev E and Rev F print the same guide-level 26/10/10/90 read configuration. No undisclosed enrichment-primer claim is justified."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "10x CG000331 Rev F user guide (/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-5-vdj/CG000331_5v2_UserGuide_RevF.pdf.txt; cover 'CG000331 Rev F', public-mirror copy) Appendix 'Oligonucleotide Sequences' lines6790–7190 (Steps1.5, 2.2, 3.1, 3.3, 4.2, 4.4, 5.3, 5.5); sequencing parameters lines6025–6050, 6125–6150; kit component tables lines290–425; Step2.1 Post GEM-RT Cleanup lines3688–3700; V(D)J Amplification 1 mix lines4346–4370; Step4.4 Sample Index PCR lines5210–5240",
+      "oligo_scraper": "Scraper run on Rev F: appendix hits at lines6804 (bead primer, 3' rGrGrG), 6810 (Poly-dT RT primer), 6830 (GEM-RT product), 6840–6842 (cDNA primers), 6878–7013 (V(D)J forward and human/mouse outer/inner pools), 7043–7048 (adaptor), 7072+ (ligation/index products); all modelled oligos verified in the .txt.",
+      "findings": "No sequence or read-layout change: bead primer, PN-2000007, PN-2000089 (22-nt reverse), V(D)J forward, PN-2000094 adaptor, TT Set A primer structures and 26/10/10/90 agree with Rev F. Graph moved off legacy partition_material/chromium_pcr/READ2_ADAPTER_END: printed oligos declared as reagent states, RT Enzyme C/Amp Mix/Fragmentation Enzyme/DNA Ligase named, missing Step2.1 Recovery Agent + Dynabeads MyOne SILANE post-GEM-RT cleanup added before cDNA amplification, printed adaptor 3'-T cohesive end declared (AdapterLigationGeometry.known) instead of body-less reported end.",
+      "deferred": [
+        "First-strand and template-switch states still reuse the representative amplified-cDNA construct from 10x-chromium-single-cell-5-vdj/tools/vdj_common.py (not editable in this pass)",
+        "SPRIselect cleanups and 5' GEX branch (Steps 5.x) not drawn",
+        "Adaptor 5' phosphorylation, oligo 5' blocks and bead attachment",
+        "Official 10x-hosted Rev F identity (cached copy is a public mirror); Rev E-to-F oligo delta beyond appendix",
+        "Selected TT Set A well"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite import-time construction pass (0 explicit checks); page builds; pairing 0 problems; chemistry 3 established/1 conditional/13 unresolved/0 contradictory; source guard 6 exact checked, 0 failed, 6 inputs without exact states (rt_primer VN, tso N16/N10, outer/inner reverse pools, TT forward/reverse N10) — slug bundle holds Rev E, not Rev F; Markdown built; review schema checked"
+    }
   ]
 }

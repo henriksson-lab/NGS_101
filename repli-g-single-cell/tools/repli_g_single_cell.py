@@ -27,24 +27,44 @@ def _replig_graph(source: str) -> ProtocolGraph:
     g = ProtocolGraph("REPLI-g Single Cell", authority=source)
     cell = g.input("cell", "single cell", MaterialKind.BIOLOGICAL,
                    state=molecule("single cell", (role("diploid genomic DNA"),)), primary=True)
-    denature = g.input("lysis_denaturation", "lysis and alkaline denaturation reagents",
+    denature = g.input("lysis_denaturation",
+                       "Buffer D2 (reconstituted Buffer DLB + 1 M DTT), 10 min at 65 °C",
                        MaterialKind.CONDITION)
     dna = g.product("denatured_dna", "lysed and denatured single-cell genomic DNA",
                     MaterialKind.MOLECULAR,
                     state=molecule("denatured genomic DNA", (role("single genomic strands"),)))
-    g.react("lyse_denature", "Lyse the cell and denature genomic DNA",
+    g.react("lyse_denature", "Lyse the cell and denature genomic DNA in Buffer D2 (10 min, 65 °C)",
             StepKind.EXTRACTION, ((cell, InputRole.TEMPLATE),
                                   (denature, InputRole.CONDITION)), (dna,))
-    random = g.input("random_primers", "exonuclease-resistant MDA primers (current product page: random hexamers)",
+    stop = g.input("stop_solution", "Stop Solution (neutralization)", MaterialKind.CONDITION)
+    neutral = g.product("neutralized_dna", "neutralized denatured genomic DNA (10 µl)",
+                        MaterialKind.MOLECULAR,
+                        state=molecule("denatured genomic DNA", (role("single genomic strands"),)))
+    g.react("neutralize", "Stop denaturation with Stop Solution; hold on ice",
+            StepKind.QUENCHING, ((dna, InputRole.TEMPLATE),
+                                 (stop, InputRole.CONDITION)), (neutral,))
+    random = g.input("random_primers",
+                     "exonuclease-resistant MDA primers (kit component, bases and "
+                     "protection not printed; current product page: random hexamers)",
                      MaterialKind.OLIGO, inferred=True,
                      source=source + " (exact primer bases and modifications unresolved)")
-    phi29 = g.input("phi29", "phi29 DNA polymerase", MaterialKind.CATALYST)
+    buffer = g.input("reaction_buffer", "REPLI-g sc Reaction Buffer (29 µl) + H2O sc (9 µl)",
+                     MaterialKind.CONDITION)
+    phi29 = g.input("phi29", "REPLI-g sc DNA Polymerase (optimized phi29 formulation, 2 µl)",
+                    MaterialKind.CATALYST)
     mda = g.product("mda_product", "branched multiple-displacement amplification product",
                     MaterialKind.MOLECULAR, state=mda_product())
-    g.react("mda", "Perform processive random-primed phi29 strand-displacement amplification",
+    g.react("mda", "Add 40 µl master mix; processive random-primed phi29 strand-displacement "
+            "amplification, 8 h at 30 °C",
             StepKind.EXTENSION,
-            ((dna, InputRole.TEMPLATE), (random, InputRole.STRUCTURAL),
-             (phi29, InputRole.CATALYST)), (mda,))
+            ((neutral, InputRole.TEMPLATE), (random, InputRole.STRUCTURAL),
+             (buffer, InputRole.CONDITION), (phi29, InputRole.CATALYST)), (mda,))
+    inactivation = g.input("heat_inactivation", "65 °C for 3 min", MaterialKind.CONDITION)
+    mda_done = g.product("mda_inactivated", "amplified DNA after polymerase inactivation",
+                         MaterialKind.MOLECULAR, state=mda_product())
+    g.react("inactivate", "Inactivate REPLI-g sc DNA Polymerase (65 °C, 3 min)",
+            StepKind.THERMAL_TREATMENT,
+            ((mda, InputRole.TEMPLATE), (inactivation, InputRole.CONDITION)), (mda_done,))
     blank = g.input("no_template_control", "no-template control (parallel tube)",
                     MaterialKind.CONDITION)
     dimer_seed = g.product("primer_dimer_seed", "annealed MDA-primer dimer in blank control",
@@ -71,7 +91,7 @@ def _replig_graph(source: str) -> ProtocolGraph:
                            role("right mosaic end"))))
     waste = g.product("tagging_waste", "non-library tagmentation products", MaterialKind.WASTE)
     g.react("tagment", "Tagment the amplified DNA", StepKind.TAGMENTATION,
-            ((mda, InputRole.TEMPLATE), (tn5_adapters, InputRole.STRUCTURAL),
+            ((mda_done, InputRole.TEMPLATE), (tn5_adapters, InputRole.STRUCTURAL),
              (tn5, InputRole.CATALYST)), (tagged, waste))
     g.discard(waste, "lacks two productive heterologous Nextera ends")
     p5 = g.input("p5_primer", "Nextera i5/P5 PCR primer", MaterialKind.OLIGO)
@@ -92,8 +112,10 @@ def _replig_graph(source: str) -> ProtocolGraph:
         {"Read 1": "include", "Index 1 (i7)": "demultiplex",
          "Index 2 (i5)": "demultiplex", "Read 2": "include"}))
     g.declare_reviewed_scope((
-        "cell", "lysis_denaturation", "lyse_denature", "random_primers", "phi29",
-        "mda", "mda_product", "no_template_control", "control_primer_pair",
+        "cell", "lysis_denaturation", "lyse_denature", "denatured_dna",
+        "stop_solution", "neutralize", "neutralized_dna", "random_primers",
+        "reaction_buffer", "phi29", "mda", "mda_product", "heat_inactivation",
+        "inactivate", "mda_inactivated", "no_template_control", "control_primer_pair",
         "primer_dimer_seed", "control_primer_dimer",
         "primer_dimer_dna",
         "tn5_adapters", "tn5", "tagment", "p5_primer", "p7_primer", "pcr_enzyme",
@@ -112,9 +134,11 @@ source = ('QIAGEN <a href="https://www.ys-bio.cn/app/wp-content/uploads/2021/12/
 spec = SimpleNamespace(
     TITLE="REPLI-g Single Cell — phi29 MDA followed by Nextera library prep",
     NOTES="01_repli-g-single-cell.html", SOURCE=source,
-    SUMMARY=("A single cell is lysed and its genomic DNA alkaline-denatured. "
-             "proprietary random hexamers prime processive phi29 multiple-displacement "
-             "amplification; the official downstream protocol tagmentates the amplified "
+    SUMMARY=("A single cell is lysed and its genomic DNA denatured in Buffer D2 "
+             "(10 min, 65 °C), then neutralized with Stop Solution. Kit-supplied "
+             "exonuclease-resistant primers prime processive phi29 multiple-displacement "
+             "amplification (8 h, 30 °C), stopped by heat inactivation (65 °C, 3 min); "
+             "the official downstream protocol tagments the amplified "
              "DNA and completes dual-index Nextera ends by PCR."),
     CAVEAT=("The inspected 2012 handbook does not print the primer bases or "
             "exonuclease-resistant chemistry; exact kit-oligo composition remains open. "

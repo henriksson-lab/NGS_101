@@ -1,4 +1,5 @@
 """Custom oligos printed in the defining MARIO paper."""
+import illumina as il
 from chemdraw import Segment, feature, oligo
 
 
@@ -11,7 +12,7 @@ CUT_OLIGO = "GTTCAGGATCCACGACGCTCTTCAAAA"
 DP5 = "CACGACGCTCTTCCGATCT"
 DP3 = "CTGAACCGCTCTTCCGATCT"
 PE1 = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
-PE2 = "CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT"
+PE2 = il.PE_PCR_PRIMER_2
 
 
 def _rt_primer(name, index, trailing_n):

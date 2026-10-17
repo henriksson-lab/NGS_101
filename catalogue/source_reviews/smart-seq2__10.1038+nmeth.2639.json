@@ -150,5 +150,73 @@
     "date": "2026-10-16",
     "scope": "Acquisition and validation only; this record is not a located chemistry/source-reading pass.",
     "finding": "Explicit Nature original PDF URL returns HTML instead of a PDF; current Sandberg author publications link only the DOI, and Smart-seq2 technology page contains no downloadable paper/procedure. Companion DOI route recovered its original supplementary read-statistics workbook only; original article and companion main protocol remain uninspected."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Article unavailable (manual https://doi.org/10.1038/nmeth.2639, https://www.nature.com/articles/nmeth.2639.pdf); Springer MOESM301 Supplementary Table 2 lines 3-16; MOESM302 Supplementary Table 3 worksheet A header and reaction columns (TSO/RT enzyme/oligo dT/MgCl2/betaine/purification/PCR enzyme); MOESM303 Supplementary Table 4 lines 3-9; MOESM304 Supplementary Table 5 lines 2-35; MOESM299 item list lines 1-40",
+      "oligo_scraper": "Bundle scraper run; Supplementary Table 2 TSO rows (lines 4-16) and Table 5 line 35 verified; upstream_* hits ignored.",
+      "findings": "Named source-supported reagents in the graph: SuperScript II RT with a condition input (1 M betaine, MgCl2 column 12 mM; Table 3), rGrG+G TSO 1 ul of 10 uM (Table 4), KAPA HiFi HotStart ReadyMix and no bead purification before preamp (Table 4), Nextera DNA sample preparation kit FC-121-1031 and Nextera 24-index kit FC-121-1011 replacing 'Nextera (XT)' labels (Table 5). Read plan corrected from four reads to Read 1 + both index reads, no Read 2, derived from the costed TruSeq Dual Index sequencing primer kit for Single Read runs (Table 5), with a page Highlight stating that basis and the unread read length/index lengths/cleanup order. Existing AC/ACAT TSO discrepancy retained.",
+      "deferred": [
+        "Picelli 2013 Nat Methods article and Online Methods (paywalled; manual URL in MANIFEST)",
+        "Picelli 2014 Nat Protoc doi:10.1038/nprot.2014.006 (ACAT TSO, cycle numbers, tagmentation conditions)",
+        "Illumina Nextera DNA kit FC-121-1031 / Nextera Index Kit FC-121-1011 guides (index lengths, gap-fill hold, cleanup order)",
+        "Clontech SMARTer dT30VN / ISPCR identity",
+        "Read length of the 2013 libraries"
+      ],
+      "scope": "Capped supplement-only pass (defining article unavailable); no full chemistry validation or accepted missing-information claim.",
+      "verification": "module selftest 4/4 pass; page builds; pairing 0 problems; chemistry 5 established/6 conditional/5 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 6 inputs without exact states; dependent SMART-seq/3/3xpress/flash-seq/scm-t/scmt/scnmt/sccat/paiso suites pass; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Recovery routes for Picelli 2013 article and Nat Protoc nprot.2014.006: OpenAlex (closed, no repository full text), Unpaywall (no OA location/repository copy), Europe PMC (PMID 24056875/24385147, no PMCID) -- both remain manual (https://doi.org/10.1038/nmeth.2639, https://www.nature.com/articles/nmeth.2639.pdf, https://doi.org/10.1038/nprot.2014.006). Read: GEO GSE49321 all 76 GSM SOFT brief records (geo_GSE49321_targ-gsm_form-text_view-brief.txt lines 16 extract protocol, 32 instrument, 769-773 SMART-Seq2 sample labels); ENA PRJNA213629/SRP028301 read-run report (ena_PRJNA213629_read_run_filereport.tsv, 76 rows: layout, read/base counts, instrument).",
+      "oligo_scraper": "Bundle scraper rerun; no hits in the GEO/ENA records; existing Supplementary Table 2 hits unchanged.",
+      "findings": "GEO states library construction only as 'according to the optimized Smart-Seq2 protocol' with SMARTer kit lysis buffer (44 samples labelled SMART-Seq2, others variants 1-4 or SMARTer); HiSeq 2000. ENA: all 76 runs SINGLE layout, 43 bases per deposited read. Supports the drawn single-read plan (no Read 2); page Highlight and note now cite the deposit, with the 43-base deposited length not drawn as acquired Read 1 cycles because pre-deposit trimming is not excluded.",
+      "deferred": [
+        "Picelli 2013 Nat Methods article and Online Methods (closed on OpenAlex/Unpaywall/Europe PMC; manual URL https://doi.org/10.1038/nmeth.2639)",
+        "Picelli 2014 Nat Protoc doi:10.1038/nprot.2014.006 (closed; ACAT TSO, cycle numbers, tagmentation conditions)",
+        "Illumina Nextera DNA kit FC-121-1031 / Nextera Index Kit FC-121-1011 guides (index lengths, gap-fill hold, cleanup order)",
+        "Clontech SMARTer dT30VN / ISPCR identity",
+        "Acquired Read 1 cycle count (deposit shows 43-base reads, possibly trimmed)"
+      ],
+      "scope": "Capped source-recovery pass; defining article still unread; no full chemistry validation or accepted missing-information claim.",
+      "verification": "module selftest 4/4 pass; page builds; pairing 0 problems; chemistry 5 established/6 conditional/5 unresolved/0 contradictory; source guard 0 checked, 0 failed, 6 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Defining Picelli 2013 Nat Methods publisher PDF nmeth.2639.pdf (hand-placed; printed doi:10.1038/nmeth.2639, title/authors verified; 5 pp. incl. Online Methods) .txt main text 187-330, Online Methods single-cell isolation/RT/PCR preamplification/tagmentation+final PCR 600-700, read alignments 738-745; Picelli 2014 Nat Protoc nprot.2014.006.pdf (hand-placed; printed doi verified) Materials 288-296 and Reagent Setup oligos 325-348 only; earlier-read Supplementary Tables 2-5 relied on as before.",
+      "oligo_scraper": "Bundle scraper output from earlier passes; oligo-dT30VN (line 632) and ISPCR (line 664) verified in the article text; Nat Protoc TSO ACATrGrG+G verified at line 331.",
+      "findings": "Article Online Methods now source: oligo-dT30VN and ISPCR bases printed (Biomers); RT 42C 90 min + 10x(50C 2 min/42C 2 min), 70C 15 min with 1 M betaine and 0.9 ul 100 mM MgCl2 added; KAPA preamp 98C 3 min, 18 cycles (98/67/72C 6 min) without prior purification; added 1:1 AMPure (15 ul EB) after preamp, tagmentation conditions (5 ng, 25 ul TD + 5 ul TDE, 55C 5 min), Zymo DCC-5 cleanup (20 ul RSB), NPM/N7xx/N5xx/PPC enrichment PCR (72C 3 min gap fill, 98C 30 s, 5 cycles) and final 1:1 AMPure. ISPCR given exact state. Read 1 drawn 43 cycles ('43bp reads after demultiplexing', HiSeq 2000, Nextera dual indexes). TSO discrepancy now cites Nat Protoc 2014 Reagent Setup directly; article's 'Supplementary Table 1' pointer for TSO list (sequences are in Supplementary Table 2) recorded as source slip on the page.",
+      "deferred": [
+        "Illumina Nextera DNA Sample Preparation kit FC-121-1031 and Nextera Index Kit FC-121-1011 2013 guides (PPC/NPM identity, index lengths)",
+        "Index-read cycle counts",
+        "Nat Protoc 2014 Procedure (Nextera XT later version) not read beyond Reagent Setup",
+        "Second independent reader for missing-information gate"
+      ],
+      "scope": "Capped defining-source pass; defining article now read; no full chemistry validation or accepted missing-information claim.",
+      "verification": "module selftest 4/4 pass; page builds; pairing 0 problems; chemistry 7 established/7 conditional/8 unresolved/0 contradictory; source guard 1 exact checked (ISPCR), 0 failed, 6 inputs without exact states; dependent smart-seq (197), paiso-seq (12), sccat-seq (3), scm-t-seq (1), scmt-seq, scnmt-seq suites pass; audit_protocol_sources --check ok; Markdown built; review schema checked"
+    },
+    {
+      "round": "critical-rereview-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "scope": "Critical diff review; focused source cross-checks and model consistency, not a new complete source audit.",
+      "locations": "nmeth.2639.pdf.txt Online Methods, Read alignments (740–748); existing note ENA run report and processed-read distinction.",
+      "findings": "43-base demultiplexed/deposited reads do not establish acquired cycles. Removed the acquired R1=43 assignment. Same-end tagmentation classes have unresolved amplification/recovery rather than physical discard; the end-class validator does not establish those fates.",
+      "deferred": [
+        "Previous linked-source deferrals and independent absence-audit requirements remain open."
+      ],
+      "verification": "Applicable protocol suite, page build, source guard and scoped chemistry passed (zero contradictions); review schema passed. Shared 1275 and source fetcher 226 checks pass. Whole-site verification is recorded in HANDOVER-REVIEW.md.",
+      "documents": 1
+    }
+  ]
 }

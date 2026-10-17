@@ -26,22 +26,29 @@ cites as background:
 - Frangieh CJ *et al.* "Multimodal pooled Perturb-CITE-seq screens in patient models define
   mechanisms of cancer immune evasion." *Nat Genet* 2021. doi:[10.1038/s41588-021-00779-1](https://doi.org/10.1038/s41588-021-00779-1) (preprint doi:10.1101/2020.09.01.267211).
 
-Sources read (fetched by `tools/get_sources.py`, into
-`/husky/henriksson/NGS101_papers/sources/10x-chromium-single-cell-3-featurebarcoding/`, never committed):
+Sources read (fetched by `tools/get_sources.py` into `$CHEM_DATA/sources/<slug>/`,
+never committed). The vendor guides are cited from the bundles of the protocols that now
+own them; this combined note was first written against the legacy bundle
+`10x-chromium-single-cell-3-featurebarcoding/`, which still holds the background papers.
 
 | File | What | Used for |
 |---|---|---|
-| `upstream_10xChromium3fb.html(.txt)` | scg_lib_structs page | **all feature-barcode oligos, steps, libraries, read layout** (secondary) |
-| `upstreamdata_CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf` | 10x 3' v3 GEX user guide | bead oligos (dT, Capture Seq 1), TSO, cDNA primers, i7 index primer, read lengths |
-| `upstreamdata_CG000731_ChromiumGEM-X_SingleCell3_ReagentKits_v4_UserGuide_RevA.pdf` | 10x GEM-X 3' v4 GEX user guide | v4 bead has **only Capture Sequence 1**; dual-index layout |
-| `scg_CG000185_ChromiumSingleCell3__FeatureBarcode_CellSurfaceProtein_Rev_B.pdf(.txt)` | 10x 3' v3 Cell Surface Protein user guide | **all Cell Surface Protein oligos, products and read layout** |
-| `scg_CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf(.txt)` | 10x 3' v3 CRISPR Screening user guide | **all CRISPR library oligos, products and read layout** |
+| `10x-chromium-single-cell-3-v3-cell-surface-protein/scg_CG000185_ChromiumSingleCell3__FeatureBarcode_CellSurfaceProtein_Rev_B.pdf(.txt)` | 10x 3' v3 Cell Surface Protein user guide (scg_lib_structs mirror of the vendor PDF) | **all Cell Surface Protein oligos, products and read layout** |
+| `10x-chromium-single-cell-3-v3-crispr-screening/scg_CG000184_ChromiumSingleCellSingleCell3v3_FeatureBarcodingtechnology_CRISPR_RevA.pdf(.txt)` | 10x 3' v3 CRISPR Screening user guide (scg_lib_structs mirror of the vendor PDF) | **all CRISPR library oligos, products and read layout** |
+| `10x-chromium-single-cell-3-ge-v3/scg_CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf(.txt)` | 10x 3' v3 GEX user guide (same md5 as the legacy bundle's hand-added `upstreamdata_` copy) | bead oligos (dT, Capture Seq 1), TSO, cDNA primers, i7 index primer, read lengths |
+| `10x-chromium-gem-x-single-cell-3-ge-v4/10x_CG000731_ChromiumGEM-X_SingleCell3_ReagentKits_v4_UserGuide_RevA.pdf(.txt)` | 10x GEM-X 3' v4 GEX user guide (same md5 as the legacy bundle's hand-added `upstreamdata_` copy) | v4 bead has **only Capture Sequence 1**; dual-index layout |
 | [10x Chromium i7 Multiplex index map](https://cdn.10xgenomics.com/raw/upload/v1655155614/support/in-line%20documents/chromium-shared-sample-indexes-plate.json) | official vendor JSON, linked by the [3′ sample-index page](https://www.10xgenomics.com/support/universal-three-prime-gene-expression/documentation/steps/library-prep/sample-index-sets-for-single-cell-3) | v3 sample-index assignments, four 8-nt oligos per well |
 | `006726_v1.full.pdf`, `nmeth.3047_*MOESM647_ESM.pdf` | Sanjana 2014 (preprint, SI) | GeCKO sgRNA scaffold (DNA) |
 | `nmeth.4380_PMC5669064.html` | CITE-seq | poly(A) ADT design, Nextera-handle ADTs |
 | `s41588-021-00779-1_*`, `2020.09.01.267211_*` | Perturb-CITE-seq (paper, SI, Table 8) | a 10x 3' v3 *alternative*: poly(A) ADT + CROP-seq dial-out |
 | `s41592-019-0392-0_*` | ECCITE-seq | 5' relative, only skimmed |
 | `nmeth.4177_*`, `nbt.2800_*` | CROP-seq, Koike-Yusa | vector background, not read in detail |
+
+The background papers above are in the legacy `10x-chromium-single-cell-3-featurebarcoding/`
+bundle. The scg_lib_structs page `upstream_10xChromium3fb.html` in that bundle is
+inspiration only, **not a source**. Anything below attributed to that page (marked
+"(upstream)", or written "as the upstream page writes them") records what it says for
+comparison; it is unverified 🟡 and is not evidence until checked against a vendor guide.
 
 Not fetched (listed `(manual)` in `MANIFEST.tsv`): Briner 2014 (Mol Cell, publisher page
 only); the PMC supplements of nmeth.3047, nmeth.4380, s41588-021-00779-1 and
@@ -195,9 +202,10 @@ Capture sequences and sgRNA designs:
 - "Hairpin" designs = scaffold up to `…CAACUUG`, then `GCC` + CSrc + `GGCC` replacing the
   `AAA` of the loop, then the rest of the scaffold (verified for CS1 and CS2). The CSrc is
   displayed in the loop of a hairpin closed by GGCC/GGCC.
-- The upstream Perturb-seq scaffold differs from `crispr.SCAFFOLD_FE` (Chen 2013 F+E) at one
-  position: `GCUAAGCUGG` vs `GCTATGCTGG` (index 12, A vs T). Which is the Addgene #85967
-  sequence was not checked against a primary source. 🔴
+- The upstream Perturb-seq scaffold differs from the Chen 2013 F+E scaffold at one
+  position: `GCUAAGCUGG` vs `GCTATGCTGG` (index 12, A vs T). This comparison was made
+  against a since-retired shared scaffold constant, not a source document; which is the
+  Addgene #85967 sequence was not checked against a primary source. 🔴
 - The scaffold part of the sgRNA cDNA (top strand, between CS1 and the protospacer) is
   exactly revcomp of the scaffold up to `…GGUGC` (86 nt) — i.e. in the 3'-end design the bead
   primer copies the whole scaffold before reaching the spacer.
@@ -233,12 +241,19 @@ relationships between their printed oligos remain computed where marked 🟡.
      Read 2 handle** — the TSO end, if made, is outside the amplicon. 🟡 (computed from primer positions)
    - CRISPR (PN-2000096): sgRNA Fwd (Read 1N side) + partial TSO.
 5. **Size split**: mRNA cDNA mainly > 1 kb, feature products ~144 / ~213 bp (sizes as
-   computed in §3); upstream only says "size selection". That the small feature fraction is
-   recovered from an SPRI supernatant is an inference, not in the sources. 🟡
+   computed in §3). 🟢 CG000185 Rev B step 2.3 (txt lines 3871–3999): add 0.6X SPRIselect,
+   transfer and keep 80 µl supernatant (Cell Surface Protein DNA; 2.3B: 2.0X SPRIselect,
+   elute 40 µl), keep the pellet for the 3' Gene Expression library (2.3A). Only 5 µl of the
+   40 µl feature eluate enters Sample Index PCR (step 4.1).
 6. **CRISPR only — Feature PCR** with Feature SI Primers 1: adds P5 + full Read 1N and
    swaps the TSO end for a TruSeq Read 2 end. 🟡
 7. **Sample-index PCR** with Feature SI Primers 2 (P5 + Read 1N) and the Chromium i7
-   Sample Index primer (P7 + i7 + Read 2[:21]). 🟡 The gene-expression library is made
+   Sample Index primer (P7 + i7 + Read 2[:21]). 🟢 CG000185 Rev B step 4.1 (txt
+   4990–5060): Amp Mix + PN-2000099, 98 °C 45 s; 10 cycles of 98 °C 20 s / 54 °C 30 s /
+   72 °C 20 s; 72 °C 1 min; then 1.2X SPRIselect (step 4.2). Surface-protein cDNA PCR
+   (step 2.2, txt 3676–3830): Amp Mix + Feature cDNA Primers 2, 98 °C 3 min; 98 °C 15 s /
+   63 °C 20 s / 72 °C 1 min for 11–13 total cycles by cell load. GEM-RT 53 °C 45 min,
+   85 °C 5 min (txt 3255–3290), then Recovery Agent and Dynabeads MyOne SILANE cleanup (2.1). The gene-expression library is made
    separately by fragmentation, A-tailing and Read 2 adaptor ligation (the 3' GEX
    chemistry; not repeated here).
 
@@ -269,6 +284,10 @@ segment would be only the part 3' of the insertion. 🔴 (not drawn upstream).
 
 🟢 from the GEX guides: Read 1 28 cycles (16-nt cell barcode + 12-nt UMI); v3: i7 8,
 i5 0, Read 2 91; v4 (dual index): i7 10, i5 10, Read 2 90.
+🟢 CG000185 Rev B step 5 (txt 5176–5330) gives the same 28/8/0/91 recommendation for
+Cell Surface Protein libraries and footnotes a **minimum** Read 2 length of 25 bp. The
+schematic acquires the recommended 91 cycles (earlier model used the 25-bp minimum);
+91 cycles read through Capture Sequence 1 into the UMI and cell barcode (computed).
 
 🟡 (upstream): the Illumina Read 1 primer mix contains both TruSeq and Nextera Read 1
 primers, so mixed GEX + feature pools need no custom primer. Index read with
@@ -310,3 +329,18 @@ Barcode guides. Most of
 the bibliography rows are CRISPR-vector background papers, whose large xlsx tables (one
 36 MB) made `tools/scrape_primers.py` on the whole directory exceed two minutes;
 `--find` checks were fast (≈ 18 s). All §2/§3 relationships were computed with `lib/`.
+
+## 10. Bounded source pass 2026-10-17 (round breadth-first-06, Cell Surface Protein)
+
+Read CG000185 Rev B (`scg_CG000185_…Rev_B.pdf.txt`; vendor PDF mirrored by the scg
+repository, manifest `what` = vendor guide): stepwise overview 1150–1240 and 1340–1460,
+labeling guidelines 1465–1510, GEM-RT 3255–3290, step 2.2–2.3 3676–3999, step 4.1–4.2
+4990–5175, step 5 5176–5330, oligo appendix 5840–6114; CG000149 Rev D labeling overview
+520–600 (Fc block, 30 min 4 °C, viability-dependent washes). Scraper hits all fall in the
+appendix lines read. Model corrections: printed Feature cDNA Primers 2, Feature SI
+Primers 2 and Chromium i7 primers declared with exact PCR geometry; amplified feature DNA
+now carries the 27-nt Partial Read 1N; added post GEM-RT recovery, 2.0X supernatant
+cleanup and 1.2X final cleanup; the 0.6X pellet is a stored gene-expression branch, not
+waste; Read 2 acquisition 91 (minimum 25). Still open: whether the antibody oligo 3' end is
+blocked (not stated in Rev B), the Rev A→Rev B delta, the supplied antibody barcode
+assignments, and CG000183/GEX-guide reagent identities.

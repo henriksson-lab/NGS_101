@@ -72,5 +72,25 @@
       "evidence": "The guide appendices establish both gel-bead oligos and both final-library constant shells. Only the separate internal bridge/reagent species remain unresolved; relevant component source is unavailable."
     }
   ],
-  "conclusion": "Independent review found the omitted Sequences appendix and a Rev B P5 discrepancy; page now displays latter. No proprietary-component absence accepted."
+  "conclusion": "Independent review found the omitted Sequences appendix and a Rev B P5 discrepancy; page now displays latter. No proprietary-component absence accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "10x CG000338 Rev G (local 10x_CG000338_..._RevG.pdf.pdf.txt) kit reagent lists lines 296–470, Introduction Steps 1–7 lines 1330–1400, transposition 2100–2140, GEM Master Mix 2360–2390, GEM incubation/quench 2675–2730, Pre-Amplification PCR 3280–3360, ATAC SI-PCR 3640–3720, cDNA amplification 4020–4070, GEX ligation/SI-PCR 4400–4910, Sequencing 5145–5285, Appendix pp. 80–81 lines 5880–5945; CG000168 Rev A Appendix Step 4.1 (ATAC bundle, line ~3395) for PN-2000128 bases",
+      "oligo_scraper": "Rev G scraper run: 8 hits, all Appendix gel-bead/final-library lines 5889–5940, matching the model constants; no transposon, TSO, Pre-Amp, cDNA, adaptor or index-primer bases found in the extracted text (pointer only, not absence).",
+      "findings": "Model corrections: graph reordered to Rev G — RT, template switch (TSO PN-3000228) and ATAC barcoding in one GEM incubation, quench + Dynabeads/SPRIselect cleanup, one pooled 7-cycle Pre-Amplification PCR (states gap filling) before the ATAC/cDNA split; added cDNA amplification, fragmentation/ER/A-tailing, Adaptor Oligos PN-2000094 ligation with unavailable geometry. Undocumented 'bridge oligo' extension replaced by warned MAGIC join of the printed P5/barcode/CGCGTCTG bead oligo to s5. ATAC PCR statement falsely said CG000338 prints the P5-side primer; SI-PCR Primer B now catalog-linked to CG000168 Rev A PN-2000128. Added acquired cycles ATAC 50/8/24/49 (i5 = spacer then barcode) and GEX 28/10/10/90. Tagmentation candidates and empty/multiplet GEMs given unresolved fates. Rev B P5 discrepancy notice retained.",
+      "deferred": [
+        "Transposon, TSO, Pre-Amp Primers, cDNA Primers, Adaptor Oligos and index-primer bases (named but not printed in Rev G)",
+        "ATAC bead-oligo joining chemistry to s5 (any splint)",
+        "CG000338 Rev B/F step-level differences beyond the Appendix comparison",
+        "CG000365 nuclei-isolation Demonstrated Protocol",
+        "Shared finish_pcr_branch helper still creates the final PCR nodes (lib/multimodal_spatial.py)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 5/5 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/15 unresolved/0 contradictory with barcode_atac MAGIC warning; source guard 0 exact checked, 7 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

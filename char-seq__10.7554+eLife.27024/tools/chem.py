@@ -31,6 +31,14 @@ CAVEAT = ("<b>Published bridge variants:</b> <a href=\"https://cdn.elifesciences
 BRIDGE_TOP = "AAAAAAACCGGCGTCCAAGGATCTAG"
 # Ordered 5′→3′; the original figure draws this strand 3′→5′.
 BRIDGE_BOTTOM = "GATCCTAGATCCTTGGACGCCGGT"
+# Published graphic, not a preprint exception. Both ordering strings are pinned by
+# tools/selftest.py; the source guard cannot extract bases from this raster original.
+SOURCE_OLIGO_EXCEPTIONS = {
+    "bridge": "Visually verified in published eLife Figure 1—figure supplement 1, "
+              "elife-27024-fig1-figsupp1.jpg inside the PMC5962340 supplementary ZIP; "
+              "5′→3′ top/bottom transcriptions pinned in tools/selftest.py. "
+              "This is an image-only transcription exemption, not a text-match pass."
+}
 TOP_TAIL = "AAAAAA"  # six unpaired bases; the seventh A enters the duplex
 TOP_CORE = "ACCGGCGTCCAAGGATCTAG"
 BOTTOM_DPNII_TAIL = "GATC"
@@ -152,7 +160,7 @@ def workflow() -> Workflow:
             note="The 2018 top has 5′ App and 3′ Sp3; the bottom carries an internal desthiobiotin-TEG at a bond not resolved by the figure. The 2018 bridge has no UMI.")
     w.ligate_adapter("Ligate RNA 3′ ends to the bridge", _rna_ligation_geometry(),
                       _rna_joined_scene().rows(), name="RNA-ligated bridge",
-                      note="The pre-adenylated bridge makes this ligation directional and ATP-independent.")
+                      note="The pre-adenylated bridge makes this ligation directional and ATP-independent; T4 trKQ RNA ligase acts overnight at 23 °C in 25% PEG inside permeabilized nuclei (extended protocol step 5).")
     w.react("Extend the bridge across RNA by reverse transcription",
             _rna_joined_scene().rows(), name="RNA/cDNA–bridge hybrid",
             note="Bst 3.0 extends from the bridge bottom across the DNA–RNA junction and stabilizes captured RNA.")
@@ -162,7 +170,7 @@ def workflow() -> Workflow:
                       note="DpnII both opens the blocked DNA-facing bridge end and supplies compatible nearby genomic ends.")
     w.react("Make the second strand, shear, and enrich biotin-bearing contacts",
             _contact_scene().rows(), name="Purified contact duplex",
-            note="RNase H/DNA polymerase I complete cDNA; streptavidin retains the internal bridge after sonication.")
+            note="Limiting RNase H and E. coli DNA polymerase I complete the cDNA (16 °C, step 15); crosslinks are then reversed with SDS/NaCl/proteinase K at 70 °C overnight and the DNA is ethanol precipitated before Covaris shearing to ~200 bp and capture on Dynabeads MyOne Streptavidin T1 (steps 16–19).")
     purified_insert = Construct([
         Segment("RNA-derived cDNA", "R" * 28, placeholder=True),
         Segment("bridge RNA-ligation tail", TOP_TAIL),
@@ -173,17 +181,17 @@ def workflow() -> Workflow:
     w.react("End-repair and add one 3′ dA to each end",
             dA_tailed_scene(end_prepared, label="dA-tailed contact duplex").rows(),
             name="dA-tailed contact duplex",
-            note="The NEBNext end-prep module creates the ligation-ready dA-tailed state explicitly.")
+            note="The NEBNext End Prep enzyme mix acts on the bead-bound fragments (20 °C 20 min, 65 °C 30 min, step 20) and creates the ligation-ready dA-tailed state explicitly.")
     final = Scene.duplex(list(FINAL_LIBRARY), label="single-end ChAR-seq library",
                          unpaired=tuple(s.name + "'" for s in FINAL_LIBRARY if s.inferred))
     hairpin_geometry = AdapterLigationGeometry.unavailable(
         "The exact NEBNext hairpin is represented by its shared dumbbell/topology model; this compact linear Scene does not flatten both ligated hairpins.")
     w.ligate_adapter("Ligate NEBNext hairpin adapters", hairpin_geometry,
                       final.rows(), name="NEBNext hairpin-adapted contact",
-                      note="The paper names the hairpin family, but neither its exact kit revision nor selected indexed primer is established for this 2018 experiment.")
+                      note="Ligation is on bead with NEBNext Ultra II Ligation Master Mix and ligation enhancer (step 21); the protocol describes the adaptor as a 65-nt hairpin, but neither its exact kit revision nor the selected indexed primer is established for this 2018 experiment.")
     w.react("Open the hairpins with USER and index-amplify",
             final.rows(), name="TruSeq-compatible ChAR-seq library",
-            note="USER opening and NEBNext indexing create the reported TruSeq-compatible single-end library.")
+            note="USER opens the hairpin on bead (37 °C, 15 min); eight on-bead cycles with the NEBNext Universal and Indexing primers are followed by AMPure size selection, a qPCR cycle estimate and a second off-bead PCR of N further cycles (steps 21-25).")
     return w
 
 
@@ -202,7 +210,7 @@ def protocol_graph() -> ProtocolGraph:
                 (fragmented,))
     bridge = graph.input("bridge", "2018 pre-annealed desthiobiotinylated ChAR-seq bridge",
                          MaterialKind.ADAPTER, state=bridge_scene())
-    rna_ligase = graph.input("rna_ligase", "truncated T4 RNA ligase 2",
+    rna_ligase = graph.input("rna_ligase", "truncated T4 RNA ligase 2 (R55K K227Q, trKQ) in 25% PEG",
                              MaterialKind.CATALYST)
     rna_joined = graph.product("rna_joined", "RNA-ligated bridge",
                                MaterialKind.MOLECULAR, state=_rna_joined_scene())
@@ -226,24 +234,33 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.DIGESTION,
                 ((stabilized, InputRole.TEMPLATE), (dpnii, InputRole.CATALYST)),
                 (opened_bridge, genomic_end))
-    dna_ligase = graph.input("dna_ligase", "DNA ligase", MaterialKind.CATALYST)
+    dna_ligase = graph.input("dna_ligase", "T4 DNA ligase", MaterialKind.CATALYST)
     chimera = graph.product("contact_chimera", "RNA–bridge–DNA contact chimera",
                             MaterialKind.MOLECULAR, state=_contact_scene())
     graph.react("contact_ligation", "Ligate the opened bridge to nearby genomic DNA",
                 StepKind.LIGATION,
                 ((opened_bridge, InputRole.TEMPLATE), (genomic_end, InputRole.STRUCTURAL),
                  (dna_ligase, InputRole.CATALYST)), (chimera,), geometry=_dpnii_geometry())
-    dna_pol = graph.input("dna_polymerase", "DNA polymerase I", MaterialKind.CATALYST)
+    dna_pol = graph.input("dna_polymerase", "E. coli DNA polymerase I with limiting RNase H",
+                          MaterialKind.CATALYST)
     duplex = graph.product("contact_duplex", "double-stranded contact chimera",
                            MaterialKind.MOLECULAR, state=_contact_scene())
     graph.react("second_strand", "Make the second DNA strand", StepKind.EXTENSION,
                 ((chimera, InputRole.TEMPLATE), (dna_pol, InputRole.CATALYST)), (duplex,))
-    shear = graph.input("shearing_condition", "sonication condition", MaterialKind.CONDITION)
+    protk = graph.input("proteinase_k", "SDS/NaCl with proteinase K, 70 C overnight",
+                        MaterialKind.CATALYST)
+    reversed_dna = graph.product("reversed_dna", "crosslink-reversed, precipitated contact DNA",
+                                 MaterialKind.MOLECULAR, state=_contact_scene())
+    graph.react("reverse_crosslinks", "Reverse crosslinks and precipitate the DNA",
+                StepKind.DEPROTEINIZATION,
+                ((duplex, InputRole.TEMPLATE), (protk, InputRole.CATALYST)), (reversed_dna,))
+    shear = graph.input("shearing_condition", "Covaris shearing to ~200 bp", MaterialKind.CONDITION)
     sheared = graph.product("sheared_contacts", "sheared bridge-bearing contacts",
                             MaterialKind.MOLECULAR, state=_contact_scene())
     graph.react("shear", "Shear the contact duplexes", StepKind.FRAGMENTATION,
-                ((duplex, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (sheared,))
-    streptavidin = graph.input("streptavidin", "streptavidin beads", MaterialKind.SELECTION)
+                ((reversed_dna, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (sheared,))
+    streptavidin = graph.input("streptavidin", "Dynabeads MyOne Streptavidin T1",
+                               MaterialKind.SELECTION)
     captured = graph.product("captured_contacts", "purified biotin-bearing contacts",
                              MaterialKind.MOLECULAR, state=_contact_scene())
     uncaptured = graph.product("uncaptured_contacts", "non-bridge-bearing fragments",
@@ -252,14 +269,15 @@ def protocol_graph() -> ProtocolGraph:
                 ((sheared, InputRole.TEMPLATE), (streptavidin, InputRole.SELECTION)),
                 (captured, uncaptured))
     graph.discard(uncaptured, "fragments lacking the internal biotin bridge are washed away")
-    end_repair = graph.input("end_repair_enzymes", "NEBNext end-repair enzymes",
+    end_repair = graph.input("end_repair_enzymes", "NEBNext End Prep enzyme mix (on bead)",
                              MaterialKind.CATALYST)
     repaired = graph.product("repaired_contacts", "end-repaired contact duplexes",
                              MaterialKind.MOLECULAR)
     graph.react("end_repair", "End-repair the captured contacts", StepKind.END_REPAIR,
                 ((captured, InputRole.TEMPLATE), (end_repair, InputRole.CATALYST)),
                 (repaired,))
-    tailing = graph.input("tailing_polymerase", "dA-tailing polymerase", MaterialKind.CATALYST)
+    tailing = graph.input("tailing_polymerase", "NEBNext End Prep enzyme mix (dA tailing)",
+                          MaterialKind.CATALYST)
     insert = Construct([
         Segment("RNA-derived cDNA", "R" * 28, placeholder=True),
         Segment("bridge RNA-ligation tail", TOP_TAIL),
@@ -292,15 +310,29 @@ def protocol_graph() -> ProtocolGraph:
                      source=hairpin_source, inferred=True)
     p7 = graph.input("p7_primer", "NEBNext indexed P7 PCR primer", MaterialKind.OLIGO,
                      source=hairpin_source, inferred=True)
-    pcr = graph.input("pcr_polymerase", "index-PCR polymerase", MaterialKind.CATALYST)
-    library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
-                            state=FINAL_LIBRARY, source=hairpin_source, inferred=True)
-    graph.react("index_pcr", "Index-amplify the TruSeq-compatible library", StepKind.PCR,
+    pcr = graph.input("pcr_polymerase", "NEBNext High-Fidelity PCR master mix",
+                      MaterialKind.CATALYST)
+    pcr1 = graph.product("pcr1", "on-bead eight-cycle indexed amplification product",
+                         MaterialKind.MOLECULAR, state=FINAL_LIBRARY,
+                         source=hairpin_source, inferred=True)
+    graph.react("index_pcr", "Amplify on bead with the Universal and Indexing primers (8 cycles)",
+                StepKind.PCR,
                 ((opened, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
-                 (p7, InputRole.STRUCTURAL), (pcr, InputRole.CATALYST)), (library,),
+                 (p7, InputRole.STRUCTURAL), (pcr, InputRole.CATALYST)), (pcr1,),
                 geometry=PCRGeometry.unavailable(
                     FINAL_LIBRARY,
                     reason="The 2018 source names NEBNext Indexing Primers for Illumina but not the exact kit revision, primer strands, or selected index; E7335/E7600 manuals establish candidate family sequences only."),
+                source=hairpin_source)
+    library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
+                            state=FINAL_LIBRARY, source=hairpin_source, inferred=True)
+    graph.react("index_pcr2",
+                "Size-select and re-amplify off bead for a qPCR-determined cycle number",
+                StepKind.PCR,
+                ((pcr1, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
+                 (p7, InputRole.STRUCTURAL), (pcr, InputRole.CATALYST)), (library,),
+                geometry=PCRGeometry.unavailable(
+                    FINAL_LIBRARY,
+                    reason="The second-round cycle number is set per sample from the step-25 qPCR, and the indexed primer member is still unassigned."),
                 source=hairpin_source)
     graph.sequence(library, SequencingPlan(
         library=FINAL_LIBRARY, primers=SEQ_PRIMERS, acquired_roles=("Read 1",),
@@ -310,8 +342,10 @@ def protocol_graph() -> ProtocolGraph:
         "contact", "rna_fragmentation", "fragment_rna", "bridge", "rna_ligase",
         "rna_ligation", "bst", "reverse_transcription", "dpnii", "dpnii_digest",
         "dna_ligase", "contact_ligation", "dna_polymerase", "second_strand",
+        "proteinase_k", "reverse_crosslinks",
         "shearing_condition", "shear", "streptavidin", "capture",
         "end_repair_enzymes", "end_repair", "tailing_polymerase", "da_tail",
         "hairpin_adapter", "hairpin_ligation", "user_enzyme", "user_opening",
-        "p5_primer", "p7_primer", "pcr_polymerase", "index_pcr", "library"), source)
+        "p5_primer", "p7_primer", "pcr_polymerase", "index_pcr", "pcr1",
+        "index_pcr2", "library"), source)
     return graph.require_publishable()

@@ -94,5 +94,25 @@
       "evidence": "GoT supports 10x 3-prime v2/v3 and 5-prime cDNA plus target-dependent branches; sample-specific upstream kit and target choices are not fixed by one representative table row."
     }
   ],
-  "conclusion": "First pass found substantial published oligos; original upstream kit branch and independent pass pending."
+  "conclusion": "First pass found substantial published oligos; original upstream kit branch and independent pass pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nature 2019 author manuscript PMC6782071 JATS xml.txt line196 (GoT Methods), lines200–202 (Circularization GoT), line216 (read screening); Supplementary Table 5 sup_tab_5.xlsx.txt rows1–74 (identity confirmed by SI_Guide.docx.txt)",
+      "oligo_scraper": "Bundle scraper run; P5generic/RPI-X/staggered handle/gene-specific hits checked against Table5 rows5–19; circularization U-handle hits checked against xml line200 and Table5 rows21–26; bioRxiv 444687 hits ignored (superseded preprint).",
+      "findings": "Target PCR relabelled to source roles: generic forward 10x SI-PCR (partial Read1, sequence not printed) plus staggered locus-specific reverse primer (partial Read2 handle, stagger, gene-specific). Added SPRI cleanup removing unincorporated primers before the second PCR. P5_generic (exact, = illumina.P5) and RPI-x (P7/index/handle) are now source-identified inputs, no longer inferred. Read cycles corrected to include 26 (3' v2/5') vs 28 (3' v3). Caveat records 3' v2-only 3–4-cycle KAPA re-amplification and aliquot volumes. Published discrepancy shown on page: circularization handle assignment Methods Fw#2 AGGUCAGTCU/Rv#2 AGACUGACCU vs Table5 PCR2_fw AGACUGACCU/PCR2_rv AGGUCAGTCU, and Rv#1 missing Table5 3' phosphorothioate; circularization not drawn. Note's linear '~50 bp upstream' claim corrected (it belongs to circ PCR#1). Linear supplementary oligos added to page oligo list.",
+      "deferred": [
+        "10x Chromium 3' v2/v3 and 5' user guides (SI-PCR primer sequence, 10x primer mix, expression-library primers)",
+        "Extended Data Fig. 1b,c rendered primer positions",
+        "Circularization GoT branch (U-overhang and Gibson) not drawn; handle-assignment discrepancy unresolved",
+        "Polymerase for linear target PCR not named in Methods line196",
+        "Cited predecessor targeted-amplicon methods refs44,45"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 1 exact checked (P5generic), 0 failed, 3 inputs without exact states (SI-PCR, locus reverse, RPI-X with index placeholder); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

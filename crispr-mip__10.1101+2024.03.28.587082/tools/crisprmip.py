@@ -151,19 +151,26 @@ CLOSED_CAPTURE_TOPOLOGY = ClosedCircleTopology(
 
 
 # ------------------------------------------------------------------ protocol
-# Verbatim conditions from the paper's four steps.
+# Conditions from the preprint's four steps (bioRxiv v1 Methods, "CRISPR-MIP sgRNA
+# abundance quantification", extracted-text lines 471-493).
 PROTOCOL = (
     ("1. denature & hybridise",
-     "1-10 ug gDNA, 0.2-0.002 uM probe, 1.5x Ampligase buffer. 94 C 5 min, then ramp to "
-     "60 C at -0.1 C/s, hybridise overnight at 60 C."),
+     "20 ul reaction: 1-10 ug gDNA, 0.2-0.002 uM probe, 1.5x Ampligase buffer. 94 C 5 min, "
+     "then ramp to 60 C at -0.1 C/s, hybridise overnight at 60 C."),
     ("2. extend & ligate",
-     "Add Ampligase + 4 U Phusion HF + 0.2 mM dNTPs, pre-heated to 60 C. 60 C, 1 h."),
+     "Add 10 ul pre-heated (60 C) mix of 5 U Ampligase + 4 U Phusion HF + 0.2 mM dNTPs "
+     "to the 20 ul hybridisation. 60 C, 1 h."),
     ("3. exonuclease",
      "37 C, 45 min with 10 U Exonuclease I (removes un-circularised probe) and 50 U "
      "Exonuclease III (removes genomic DNA). Inactivate 80 C, 20 min."),
     ("4. PCR",
-     "Amplify the whole reaction. The P5/P7 primer sites lie WITHIN the captured "
-     "sequence, so only probes that were both extended and ligated amplify."),
+     "Whole 31 ul reaction into one 100 ul KAPA HiFi HotStart ReadyMix PCR with "
+     "P5_tracrRNA_fwd + P7_tracrRNA_rev: 95 C 3 min; n cycles of 98 C 20 s, 60 C 15 s, "
+     "72 C 30 s (n set by qPCR per screen); 72 C 30 s. The P5/P7 primer sites lie WITHIN "
+     "the captured sequence, so only probes that were both extended and ligated amplify."),
+    ("5. cleanup & QC",
+     "AMPure XP bead cleanup after the PCR; Qubit and Bioanalyzer 2100. The bead ratio is "
+     "not stated; this cleanup follows the selection, it is not one of its steps."),
 )
 
 # Why the method is specific, in one place: three independent filters, none of which is a

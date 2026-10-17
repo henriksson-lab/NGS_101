@@ -282,5 +282,25 @@
     "reviewer": "root",
     "scope": "Fresh original article Methods131/135/139, SupplementaryTable4 text217–239, and ThruPLEX2016 Principle294–327/index1695–1775 read after mandatory scraper; confirms two sonications, recovery, insertPCR/purification beforeXhoI, source2×75, conditional blocked5′stemloop reference and single/dual reagent options. No independent Mitra or entire linked-scope reading claimed.",
     "source_guard": "All four source-exact oligos pass after neutral scraper normalization of published [BtndT] as one thymidine; original written notation is preserved. Shared regression added; no protocol exception or source-text alteration."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Commun Biol PMC6208412 JATS article.xml.txt Methods i-BLESS labeling131, Library preparation and sequencing135, primary analysis139; Springer supplement.pdf.txt Supplementary Table4 217–239; ThruPLEX QAM-108-003 Sept2016 guide Principle/Workflow290–330",
+      "oligo_scraper": "Supplement scraper run; Table4 proximal/distal hairpins and PCR primers 1/2 verified letter-for-letter with [Phos] and [BtndT] at index45; 18-nt hits lines148–162 are non-canonical I-SceI site sequences, not library oligos.",
+      "findings": "No sequence change. Model corrections: proximal repair relabelled from blunting+phosphorylation to Methods wording (Quick Blunting Kit, 2 h in beads; phosphorylation is stated only for the distal step); reagent identities added from Methods131 (Reducta agarose emulsion, lyticase, sarkosyl/EDTA, overnight 50C proteinase K; T4 ligase with 100 nM proximal adapter up to 2 days at 16C; Invitrogen streptavidin beads; Quick Blunting Kit blunting/phosphorylation of distal end; NEB I-SceI and XhoI). Distal ligase unnamed in Methods and left unassigned. ThruPLEX guide Principle consistent with existing conditional stem-loop references.",
+      "deferred": [
+        "Optional in-bead restriction-enzyme branch (BamHI/NotI/SrfI/AsiSI/I-SceI, 1 h 37C) not drawn",
+        "ThruPLEX free-adaptor destruction not modelled as off-product",
+        "Study ThruPLEX product/index member and full kit geometry",
+        "Mitra2015 low-diversity acquisition protocol beyond prior Methods pass; Overhauser1992 encapsulation (no full text); breakome.eu/breakome.utmb.edu pages",
+        "Insert-PCR polymerase/cycles and purification implementation"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 7/7 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/18 unresolved/0 contradictory; source guard 4 exact checked, 0 failed, 0 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

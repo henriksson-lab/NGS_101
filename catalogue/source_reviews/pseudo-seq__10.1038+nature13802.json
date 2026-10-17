@@ -48,5 +48,24 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Core library oligos are published. Adapter 5′ chemical-state discrepancy is documented on the page; supplement inventory and second reader pending."
+  "conclusion": "Core library oligos are published. Adapter 5′ chemical-state discrepancy is documented on the page; supplement inventory and second reader pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Author manuscript PMC4224642 (NIHMS624208) JATS nature13802_PMC4224642.xml.txt Methods 'Pseudo-seq Library Preparation' lines56 (RNA isolation/polyA/Zn fragmentation), 58 (CMC 0.2/0.4M, Na carbonate reversal, mock BEU), 60 (CIP/PNK, 8% urea-PAGE 80-100/100-120/120-140nt, adapter ligation T4 RNA ligase M0204 ATP-free 22C 2.5h), 62 (AMV-RT, RT primer, cDNA gel), 64 (CircLigase, Phusion PCR primers, HiSeq 2000); Results lines24/26, ExtData Fig2 legend line120; data line234 (GSE58200). Nature SI MOESM55_ESM.pdf (table legends only) and source-data xlsx MOESM50-54 inventoried. Publisher version of record paywalled (manual row https://doi.org/10.1038/nature13802).",
+      "oligo_scraper": "Bundle scraper run: adapter, RT primer (split at iSp18), PCR forward and reverse (N6 window) hits at xml.txt 60/62/64 and pdf.txt 304-326, all matching the model; MOESM54 hits are snoRNA guide/target fragments, not library oligos.",
+      "findings": "Oligos and modifications confirmed verbatim. Added Zn fragmentation step before CMC (graph and workflow); end treatment re-typed as CIP/PNK dephosphorylation instead of generic end repair; workflow captions now state the three PAGE fractions, ATP-free T4 RNA ligase 1 ligation and gel-selected truncated cDNA. Adapter discrepancy notice extended: ATP-free buffer is consistent with an adenylated donor but the printed string is /5Phos/; still unresolved.",
+      "deferred": [
+        "Nature version of record (paywalled) not compared with author manuscript",
+        "GEO GSE58200 run metadata (read length, read type, sequencing primer)",
+        "Exact adapter/RT-primer/circle junction geometry (role-level model)",
+        "Cited CMC predecessor (ref.20) and polyA selection method (ref.34)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite (comment-only, no explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

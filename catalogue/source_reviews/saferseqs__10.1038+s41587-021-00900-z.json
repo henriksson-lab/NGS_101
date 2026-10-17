@@ -121,5 +121,25 @@
       "evidence": "Source-positive Table 7 resolves many sequences; full linked-source coverage remains pending."
     }
   ],
-  "conclusion": "Source-positive Table 7 resolves many sequences; full linked-source coverage remains pending."
+  "conclusion": "Source-positive Table 7 resolves many sequences; full linked-source coverage remains pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published author manuscript PMC8627329 JATS Methods lines 121–141 (qPCR primers, Library preparation, Anchored hemi-nested PCR, Sequencing, analysis pipeline); publisher MOESM1 Supplementary Note Library construction pdf.txt 180–209 and bioinformatic pipeline 314–333; MOESM3 workbook Supplementary Table 5 lines 684–736 (TP53_342 line 735) and Table 7 lines 827–843",
+      "oligo_scraper": "Bundle scraper run (118 TSV rows); --find CTTGAGTTCCAAGGCCTCAT located only MOESM3 line 735 (CTTGAGTTCCAAGGCCTC*A*T); Table 7 rows checked against the transcribed oligo list.",
+      "findings": "Added USER pretreatment, Accel-NGS 2S end-repair/ligation SPRI ratios and Y2/B2 substitutions, UDG in the concerted ligation-2 reaction, the universal library PCR (5/7/11 cycles) before the strand split, and separate GSP1 (19 cycles) and GSP2 (17 cycles, 1% template) rounds per strand. Added the copied constant tag GCCGTCGTTTTAT after the UID (pipeline requires it). The prior endpoint labelled 'Watson-read orientation' was built from the Table 7 Crick primers; relabelled as the Crick-primer-set product and added the Table 7 Watson-primer-set library with custom Read 1/standard I1/R2 primers checked in the graph. Graph-owned published discrepancy: Table 7 and Methods first round (Watson = P7 anchor) vs Methods second round (Watson = 'anchor P5 indexing') and analysis (Watson UID in Read 1). Watson-product i5 primer has no site and no custom i5 primer is listed; recorded as a sequencing limitation.",
+      "deferred": [
+        "Accel-NGS 2S DNA Library Kit (Swift 21024) manual: end-repair chemistry, kit ligases/polymerase and exact adapter geometry",
+        "Anchored hemi-nested PCR predecessor (ref. 29) and SafeSeqS predecessor (ref. 13)",
+        "Intended Watson/Crick labels (Table 7 vs Methods second round/analysis)",
+        "How i5 was read on the Watson-primer-set product; acquired read lengths",
+        "Two-ended adapter ligation geometry and exact PCR landing geometry not encoded"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks) passes; page builds; pairing 0 problems; chemistry 0 established/7 conditional/16 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 11 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

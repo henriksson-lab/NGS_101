@@ -3,12 +3,9 @@ from __future__ import annotations
 import sys as _sys
 from pathlib import Path as _Path
 _sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
-from protocol_families.spatial import (ident, SPATIAL_BEAD, UMI, CELL_A, CELL_B, HASH, SAMPLE,
-    SECTION_HASH, SPACE_HASH, SPATIAL_A, SPATIAL_B, SPATIAL_A_ROUND, SPATIAL_B_ROUND,
-    _finish_pcr, _spatial_dna_libraries, _spatial_rows, hdst_library, HDST_BRIDGE12,
-    HDST_BRIDGE34, slide_seq_library,
-    sci_space_library)
-from adapter_ligation import AdapterLigationGeometry
+from protocol_families.spatial import (ident, SPATIAL_BEAD, UMI, _finish_pcr,
+    hdst_library, HDST_BRIDGE12, HDST_BRIDGE34)
+from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
 from chemdraw import MolecularState, Scene, Workflow, duplex_rows
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
 from protocol_model import chain, molecule, role, role_library
@@ -49,14 +46,14 @@ def _hdst():
              ident("15-nt barcode pool 1", "hdst.bc1", "spatial_barcode", length=15),
              role("bridge 1"))),
          "The published precursor skeleton is exact; the individual Illumina-supplied barcode and decoder sequences are proprietary."),
-        ("Split, ligate barcode pools 2 and 3, then append UMI and poly(dT) capture",
+        ("Split and pool; splint-ligate 5'-phosphorylated barcode pools 2 and 3 (pool 3 is followed by the UMI and dT20VN)",
          molecule("completed bead capture oligo", (
              ident("barcode pool 1", "hdst.bc1", "spatial_barcode", length=15),
              role("ligated bridge 1+2"), ident("barcode pool 2", "hdst.bc2", "spatial_barcode", length=14),
              role("ligated bridge 3+4"), ident("barcode pool 3", "hdst.bc3", "spatial_barcode", length=15),
              ident("five-base UMI", "hdst.umi", "umi", length=5, tag="umi"),
              role("poly(dT) capture"))),
-         "The three split-and-pool rounds provide 65 × 211 × 211 combinations. Every oligo on one bead shares its three-part spatial identity but has an independent UMI."),
+         "T4 DNA ligase joins /Pho/Bridge2-Pool2-Bridge3 (2:1 over precursor) through a 14-nt Bridge1'Bridge2' helper, then /Pho/Bridge4-Pool3 through a Bridge3'Bridge4' helper. The three split-and-pool rounds provide 65 × 211 × 211 combinations. Every oligo on one bead shares its three-part spatial identity but has an independent UMI."),
         ("Load beads randomly into 2-micrometre wells and decode each position",
          molecule("decoded HDST array", (role("known x-y well"),
              role("one three-part spatial barcode"), role("many capture oligos"))),
@@ -66,7 +63,7 @@ def _hdst():
              role("bead"), role("three-part spatial barcode"),
              role("five-base UMI"), role("poly(dT)"), role("antisense transcript cDNA"))),
          "Superscript III extends the bead oligo overnight. Barcode, UMI and transcript information are now covalently linked in one first strand."),
-        ("Digest tissue, release at the five-uracil site with USER and prepare RNA-seq library",
+        ("Proteinase K-digest tissue, release at the five-uracil site with USER and prepare RNA-seq library",
          molecule("paired-end HDST library", (
              role("Read 1 arm"), role("three barcode blocks and bridges"),
              role("five-base UMI"), role("transcript insert"), role("Read 2 and indexed arm"))),
@@ -75,6 +72,23 @@ def _hdst():
 
 workflow = _hdst
 
+
+def _round2_geometry():
+    """Round-2 splint ligation end as described in Online Methods "Bead production".
+
+    The precursor's Bridge1 is stated as 7 bp and the ligated Bridge1Bridge2 is printed as
+    14 bases, so the 5'-phosphorylated Bridge2 donor end is the last seven printed bases
+    (a derived split, not a printed oligo).  The Bridge3/Bridge4 split is not stated.
+    """
+    return reported_adapter_end(
+        "pool-2 oligo /Pho/Bridge2-Spatial_barcode_Pool2-Bridge3", kind="splinted",
+        polarity="5-prime", terminal_sequence=HDST_BRIDGE12[7:],
+        statement=("Online Methods 'Bead production': /Pho/Bridge2-Pool2-Bridge3 is ligated to the bead's "
+                   "Bridge1 through a complementary 14-bp Bridge1'Bridge2' helper with T4 DNA ligase, and "
+                   "/Pho/Bridge4-Pool3 through Bridge3'Bridge4'. Bridge2 = last 7 of the printed "
+                   "GACTTGTCTAGAGC (derived from the stated 7-bp Bridge1); helper bases are not printed and "
+                   "the Bridge3/Bridge4 split and barcode sequences are not disclosed."))
+
 def _hdst_graph(d, final, primers):
     source = f"{d.citation}; doi:{d.doi}"
     graph = ProtocolGraph(d.title, authority=source)
@@ -82,7 +96,9 @@ def _hdst_graph(d, final, primers):
                        MaterialKind.BIOLOGICAL, state=_hdst().initial, primary=True)
     pools = graph.input("barcode_pools", "three split-and-pool barcode/bridge oligo pools",
                         MaterialKind.ADAPTER)
-    ligase = graph.input("ligase", "barcode-assembly DNA ligase", MaterialKind.CATALYST)
+    helpers = graph.input("bridge_helpers", "Bridge1'Bridge2' (14 nt) and Bridge3'Bridge4' helper oligos",
+                          MaterialKind.OLIGO)
+    ligase = graph.input("ligase", "T4 DNA ligase (NEB)", MaterialKind.CATALYST)
     capture_bead = graph.product("capture_bead", "bead bearing three-part spatial barcode, UMI and poly(dT)",
                                  MaterialKind.MOLECULAR,
                                  state=molecule("completed bead capture oligo", (
@@ -91,9 +107,8 @@ def _hdst_graph(d, final, primers):
     graph.react("assemble_bead", "Ligate the split-and-pool barcode rounds and capture tail",
                 StepKind.LIGATION,
                 ((bead, InputRole.TEMPLATE), (pools, InputRole.STRUCTURAL),
-                 (ligase, InputRole.CATALYST)), (capture_bead,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "The public source gives the precursor skeleton and component lengths but withholds the proprietary barcode and decoder sequences."))
+                 (helpers, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)), (capture_bead,),
+                geometry=_round2_geometry())
     decoder = graph.input("decoder_oligos", "fluorescent decoder oligo series",
                           MaterialKind.OLIGO)
     decoded = graph.product("decoded_array", "position-decoded HDST bead array",
@@ -122,15 +137,30 @@ def _hdst_graph(d, final, primers):
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((captured, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
                  (rt, InputRole.CATALYST)), (cdna,))
-    user = graph.input("user_enzyme", "USER release enzyme", MaterialKind.CATALYST)
+    proteinase = graph.input("proteinase_k", "proteinase K (Qiagen), 1 h at 56 °C", MaterialKind.CATALYST)
+    user = graph.input("user_enzyme", "USER enzyme (NEB), 2 h at 37 °C", MaterialKind.CATALYST)
     released = graph.product("released_cdna", "cDNA released at the five-uracil site",
                              MaterialKind.MOLECULAR, state=cdna.state)
-    graph.react("release", "Release cDNA at the five-uracil site", StepKind.DIGESTION,
-                ((cdna, InputRole.TEMPLATE), (user, InputRole.CATALYST)), (released,))
-    reviewed = ["bead", "barcode_pools", "ligase", "assemble_bead", "decoder_oligos",
+    graph.react("release", "Digest tissue and release cDNA at the five-uracil site", StepKind.DIGESTION,
+                ((cdna, InputRole.TEMPLATE), (proteinase, InputRole.CATALYST),
+                 (user, InputRole.CATALYST)), (released,))
+    processed = graph.product("adapter_cdna", "second-round cDNA from adapter-ligated aRNA (Jemt et al. workflow)",
+                              MaterialKind.MOLECULAR,
+                              state=molecule("second-round HDST cDNA", (
+                                  role("barcode-side handle"), SPATIAL_BEAD, UMI,
+                                  role("transcript sequence"), role("ligated RNA-adapter sequence"))))
+    graph.react("jemt_processing",
+                "Second-strand synthesis, end repair, T7 IVT, RNA-adapter ligation and second cDNA synthesis",
+                StepKind.MAGIC, ((released, InputRole.TEMPLATE),), (processed,),
+                reason=("HDST Online Methods delegate library processing to Jemt et al. (2016), whose Methods "
+                        "(line 89) in turn delegate step details and oligo sequences to the Ståhl et al. (2016) "
+                        "supplement. Those adapter, RT and indexing oligos were not inspected, so the molecular "
+                        "transitions and end geometry are not reconstructed."))
+    reviewed = ["bead", "barcode_pools", "bridge_helpers", "ligase", "assemble_bead", "decoder_oligos",
                 "decode", "tissue_rna", "capture_rna", "rt_primer", "reverse_transcriptase",
-                "reverse_transcribe", "user_enzyme", "release"]
-    _finish_pcr(graph, "library", released, final, primers, d.endpoint, reviewed,
+                "reverse_transcribe", "proteinase_k", "user_enzyme", "release",
+                "adapter_cdna", "jemt_processing"]
+    _finish_pcr(graph, "library", processed, final, primers, d.endpoint, reviewed,
                 label="HDST")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

@@ -5,10 +5,24 @@
     {
       "id": "original",
       "role": "defining",
-      "locator": "https://doi.org/10.1038/s41596-019-0202-2",
-      "availability": "unavailable",
+      "locator": "Shen, Burgener, Bratman & De Carvalho, Nature Protocols 14:2749-2780 (October 2019), doi:10.1038/s41596-019-0202-2; full 34-page publisher PDF s41596-019-0202-2.pdf (.txt twin) in the source bundle, MANIFEST row 's41596-019-0202-2.pdf' (printed DOI verified)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Full Nature Protocols Methods not fetched; publisher page alone cannot support exact adapter or index claims."
+      "previous_locator": "https://doi.org/10.1038/s41596-019-0202-2",
+      "previous_state": "unavailable: Full Nature Protocols Methods not fetched; publisher page alone cannot support exact adapter or index claims.",
+      "pass_1": {
+        "reviewer": "agent-P9-pcr-helper-adopters",
+        "date": "2026-10-17",
+        "locations": "s41596-019-0202-2.pdf.txt 'Library preparation of cfDNA' lines 365-367; Materials lines 747-758; Procedure Step 28 line 1443, Step 124 lines 2101-2125, Step 129 lines 2188-2199",
+        "finding": "Scope limited to adapter and primer identity: adaptor and index primers are from NEBNext Multiplex Oligos for Illumina (Index Primers Set 1, NEB E7335L, or equivalent unmethylated adaptors); Kapa Hyper Prep Kit; amplification with KAPA HiFi HotStart ReadyMix, the NEB universal primer and one unique NEB index primer. No adaptor or primer sequence is printed. (Recorded in this file by the pkg6 reader from that agent's note/page edit and coordinator report; the reviewer did not write this entry.)"
+      },
+      "pass_2": {
+        "reviewer": "agent-pkg6-source-review-followups",
+        "date": "2026-10-17",
+        "locations": "s41596-019-0202-2.pdf.txt title lines 1-12; introduction lines 118-135; 'Filler DNA generation' 332-345; 'Library preparation of cfDNA' 365-367 and 505-515; 'QC of cfMeDIP-seq' 517-540; 'Sequencing' 542-556; Table 1 706-731; Materials 683, 694, 745-760; Step 26 line 1377; Steps 28-29 lines 1443-1472; Step 42 lines 1527-1539; Step 45 lines 1540-1542; Steps 47-48 lines 1622-1645; Steps 51-54 lines 1662-1705; Steps 129-131 lines 2188-2245; scrape_primers on the article (2 hits, both Table 1 lambda filler primers)",
+        "finding": "Agree with pass_1 on adapter/primer identity: NEBNext Multiplex Oligos (E7335L or equivalent unmethylated adaptors), Kapa Hyper, KAPA HiFi with NEB universal and unique index primers; no adaptor, index or primer bases printed anywhere in the article (scraper finds only the lambda filler primers). Beyond that scope: single-tube Kapa Hyper end repair/A-tailing and ligation; USER cleavage of the NEBNext adaptor (Step 42, 37 C 15 min, required so strands separate on denaturation); lambda filler of six PCR amplicons (Table 1 primers printed), five M.SssI-methylated and 20SCpG unmethylated, 50:50 w/w, topping DNA up to 100 ng (Step 45), not adapter-ligated and so not sequenced; 0.3 ng each methylated and unmethylated A. thaliana spike-in from the MagMeDIP kit (Step 48); 95 C 10 min and snap-cooling (Steps 51-54); final PCR cycles set per sample by qPCR (Steps 124-128), 'Determined by qPCR in Step 128 / <=10-16' in Step 131, expected <15; sequencing on HiSeq/NextSeq, single-end or paired-end 50-125 bp, >=30-35 million reads. Not curated in this capped pass: Steps 1-21 details, MeDIP washes/elution, QC qPCR conditions, Steps 132-156."
+      },
+      "note": "Two readers have now read the defining article. Adapter, index and PCR-primer sequences are not printed there; their vendor original (NEB E7335L manual) is listed separately and unread."
     },
     {
       "id": "reporting",
@@ -94,6 +108,28 @@
         "finding": "This is Butcher and Beck Nano-MeDIP-seq, not Taiwo et al 2012; it explicitly cites Taiwo 2012 as reference 11. Notes 4-5 allow either single-plex or multiplex Illumina adapters/primers, and Table 1 prints both sets with 5-prime phosphate and terminal phosphorothioates. They are candidate related chemistry, not a selected cfMeDIP adapter/index set."
       },
       "reason": "Source-identity correction: pass_1 incorrectly called this Taiwo 2012. Original title/authors are Butcher and Beck, and its reference 11 cites Taiwo as a separate source. It is a related later draft with optional adapter designs, not evidence of the 2019 selected cfMeDIP kit."
+    },
+    {
+      "id": "neb_e7335",
+      "role": "vendor",
+      "locator": "NEB NEBNext Multiplex Oligos for Illumina (Index Primers Set 1), cat. no. E7335L, product manual/oligo sequence document (revision used by Shen 2019 not stated)",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "original",
+      "reason": "Named by the defining article (Materials line 758; Steps 28, 42, 124, 129) as the adaptor, USER enzyme and primer source; not in the source bundle and not fetched in this capped pass. Kit revision used in 2019 is not stated, so the matching revision must be identified before transfer.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "diagenode_magmedip",
+      "role": "vendor",
+      "locator": "Diagenode MagMeDIP Kit (antibody C15200081 and A. thaliana methylated/unmethylated spike-in controls with qPCR primer pairs) manual; Diagenode DNA methylation control package",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "original",
+      "reason": "Named by the defining article (Steps 46-48, 117) as the source of MagBuffers, spike-in DNA and spike-in qPCR primers; not in the source bundle; spike-in sequences are not printed in the article.",
+      "pass_1": null,
+      "pass_2": null
     }
   ],
   "linked_information": {
@@ -114,14 +150,106 @@
       "reviewer": "audit_a_h",
       "locations": "Butcher/Beck draft title lines 1-8 and reference 11 lines 959-961; actual Taiwo 2012 original Table 2 lines 883-916 and Materials lines 1904-1927",
       "finding": "Corrected previously misidentified predecessor source and followed its citation to the actual Taiwo original. Actual Taiwo Table 2 has exact PE adapter/PCR primers. A separate reader has now checked Taiwo independently; Shen 2019 full Methods and the 2018 cfMeDIP source remain unavailable."
+    },
+    "followup_2026_10_17_pkg6": {
+      "reviewer": "agent-pkg6-source-review-followups",
+      "date": "2026-10-17",
+      "locations": "defining article lines as in source 'original' pass_2",
+      "finding": "The defining article is now read by two readers. Its chemistry links are the NEB E7335L oligo kit (adaptor, USER, index primers), the Kapa Hyper Prep and KAPA HiFi kits (Roche), the Diagenode MagMeDIP kit and methylation control package (spike-ins, antibody, buffers), Taiwo et al. 2012 (filler amplicons; already read by two readers) and Shen et al. 2018 (predecessor). NEB and Diagenode vendor originals are now checklist rows, both unavailable; Shen 2018 still unavailable. Result stays blocked."
     }
   },
   "missing_claims": [
     {
       "claim": "Exact adapter, index-primer and ligation-ready end chemistry are undisclosed",
       "disposition": "blocked",
-      "evidence": "The actual Taiwo 2012 original Table 2 prints its PE adapter and PCR primers, but cannot establish Shen 2019 selection. Shen 2019 full Methods and the 2018 cfMeDIP predecessor remain unavailable; no exact cfMeDIP absence can be confirmed."
+      "evidence": "2026-10-17 (two readers of the defining article, rows original pass_1/pass_2): the Nature Protocols article names NEBNext Multiplex Oligos for Illumina (E7335L or equivalent unmethylated adaptors) and prints no adaptor, index or primer sequence. The claim stays blocked because the NEB vendor original (row neb_e7335, kit revision unstated) and the 2018 cfMeDIP predecessor are unread. Earlier: the actual Taiwo 2012 original Table 2 prints its PE adapter and PCR primers, but cannot establish Shen 2019 selection."
     }
   ],
-  "conclusion": "The recovered Butcher/Beck Nano-MeDIP author draft was incorrectly labeled Taiwo 2012; its title and reference 11 establish the distinction. Two readers independently checked the actual Taiwo 2012 original, which prints its own PE adapter and PCR primer sequences. The 2019 defining full protocol and 2018 cfMeDIP article remain unavailable. No cfMeDIP adapter, selected index, or exact kit claim is accepted missing or inherited."
+  "conclusion": "The recovered Butcher/Beck Nano-MeDIP author draft was incorrectly labeled Taiwo 2012; its title and reference 11 establish the distinction. Two readers independently checked the actual Taiwo 2012 original, which prints its own PE adapter and PCR primer sequences. The 2019 defining full protocol and 2018 cfMeDIP article remain unavailable. No cfMeDIP adapter, selected index, or exact kit claim is accepted missing or inherited.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Defining Nature Protocols article unavailable (paywalled; manual URL https://doi.org/10.1038/s41596-019-0202-2; Europe PMC PMID 31471598 no PMC full text; get_sources rerun 2026-10-17 still manual). Read published Reporting Summary 41596_2019_202_MOESM1_ESM.pdf.txt lines1–60 (software/data collection) and131–141 ('Antibodies used').",
+      "oligo_scraper": "Bundle scraper run: hits only in the Butcher/Beck Nano-MeDIP-seq author draft (lines1010–1123, PE adapters/PCR primers with phosphorothioate), a distinct related method not transferred; no oligo bases in the defining supplement.",
+      "findings": "Antibody named from Reporting Summary: Diagenode MagMeDIP-kit 5-mC mAb 33D3 C15200081, 0.16 µg/reaction. Page lacked any notice that its TruSeq dual-index adapter/primer/read shell is a generic model; added INFERRED platform-shell caveat, marked adapter input inferred, ligation geometry statement now says Methods unread. Note records sources actually read and that end-repair/spike-in/denaturation statements are summary-level, unverified.",
+      "deferred": [
+        "Defining Nature Protocols Methods/Procedure (paywalled, manual)",
+        "Diagenode MagMeDIP kit manual",
+        "Shen 2018 Nature predecessor Methods (10.1038/s41586-018-0703-0)",
+        "Adapter kit/revision, index primers, PCR cycles, read layout"
+      ],
+      "scope": "Capped pass without the defining original; no chemistry validation or accepted missing-information claim.",
+      "verification": "suite comment-only (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 2 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Defining Procedure still unavailable (paywalled; manual https://doi.org/10.1038/s41596-019-0202-2). Routes tried: get_sources rerun (manual), PMC idconv and Europe PMC PMID 31471598 (no PMC record), Unpaywall/OpenAlex (closed, no OA location), Semantic Scholar (no OA PDF), nature.com page (subscription preview; only supplement is the Reporting Summary), web search for author copy/protocols.io/Protocol Exchange (none). Read published public parts: s41596-019-0202-2_nature_landing.html.txt line 589 (abstract), s41596-019-0202-2_nature_fig2.html.txt line 356 (Fig. 2 legend), s41596-019-0202-2_nature_fig5.html.txt line 356 (Fig. 5 legend). Labelled lead only: OICR cfMeDIP SOP v2.5 lines 1-60, 128-186, 327-461, 868-1050.",
+      "oligo_scraper": "Bundle scraper rerun: hits only in the Butcher/Beck Nano-MeDIP draft (lines 1010-1123, distinct method, not transferred); 0 hits in the OICR SOP (oligos only in a referenced IDT order form) and none in the publisher pages.",
+      "findings": "Published abstract establishes lambda filler DNA added before IP for 1-10 ng inputs; Fig. 2 legend establishes spiked-in A. thaliana DNA and the order library preparation -> immunoprecipitation -> amplification (Steps 24-156); Fig. 5 legend: filler made as PCR amplicons, methylated and unmethylated forms checked by HpyCH4IV. Controls input relabelled 'spiked-in A. thaliana DNA and lambda filler DNA' (was methylated/unmethylated controls) with source; caveat and workflow text updated. Note evidence marks corrected: end repair, dA-tailing, denaturation, spike-in methylation states and paired-end reads now yellow/unverified (were green from summary). OICR SOP v2.5 (KAPA Hyper, xGen Duplex Seq adapters with 3-bp UMIs) is a later institutional derivative that does not cite the 2019 article; recorded as lead, not transferred.",
+      "deferred": [
+        "Defining Nature Protocols Procedure/Materials (paywalled, manual https://doi.org/10.1038/s41596-019-0202-2)",
+        "Diagenode MagMeDIP kit manual",
+        "Shen 2018 Nature predecessor Methods (10.1038/s41586-018-0703-0)",
+        "Adapter kit/revision, index primers, PCR cycles, read layout; spike-in identity, methylation states and amounts; filler amplicon primers"
+      ],
+      "scope": "Capped pass with only public parts of the defining article read; no chemistry validation of the library shell or accepted missing-information claim.",
+      "verification": "suite comment-only (0 explicit checks, exit 0); page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 2 inputs without exact states, 0 failed; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-followup-pkg6-source-review-followups",
+      "reviewer": "agent-pkg6-source-review-followups",
+      "date": "2026-10-17",
+      "documents": 1,
+      "scope": "Capped (10-minute) pass of the now-available defining article Procedure beyond adapter identity; no vendor documents fetched.",
+      "locations": "s41596-019-0202-2.pdf.txt lines 1-12, 118-135, 332-345, 365-367, 505-556, 683, 694, 706-731, 745-760, 1377, 1443-1472, 1527-1545, 1622-1705, 2188-2245",
+      "oligo_scraper": "scrape_primers on the article: 2 hits, both lambda filler primers of Table 1 (lines 724, 731); no adaptor or index sequences.",
+      "findings": "Added USER cleavage (Step 42), separate lambda filler (Step 45) and A. thaliana spike-in (Step 48) inputs with printed amounts, printed denaturation condition, qPCR-set cycle number in the PCR label, and the article's sequencing options in the page text; page caveat updated.",
+      "deferred": [
+        "NEB E7335L vendor original (adaptor/primer sequences; revision unstated)",
+        "Diagenode MagMeDIP kit manual and methylation control package (spike-in identity)",
+        "Shen 2018 Nature predecessor Methods",
+        "Steps 1-21 filler PCR/M.SssI details, MeDIP washes, QC qPCR, Steps 132-156"
+      ],
+      "verification": "see report: selftest, build_page, lint_pairing, check_chemistry, selftest_source_oligos, audit_protocol_sources --check"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "agent-deferred-followup-03",
+      "date": "2026-10-17",
+      "documents": 1,
+      "scope": "Capped (10-minute) pass of the hand-placed defining Nature Protocols PDF, Procedure Steps 46-158 not curated by earlier passes; no vendor documents fetched.",
+      "identity": "s41596-019-0202-2.pdf (md5 caed7e1e6b903dc5d4048c7c7f478565): printed doi:10.1038/s41596-019-0202-2, 'Preparation of cfMeDIP-seq libraries for methylome profiling of plasma cell-free DNA', Shen, Burgener, Bratman, De Carvalho, Nat Protoc 14:2749-2780 (Oct 2019); matches the defining DOI.",
+      "locations": "s41596-019-0202-2.pdf.txt lines 1602-1648 (Steps 46-48), 1735-1754 (Steps 61-64 IC split), 1755-1840 (Steps 65-71 antibody mix/IP), 1848-1966 (Steps 73-97 MagWash/IP-EB elution), 1967-2019 (Steps 98-116 IPure purification), 2020-2100 (QC1), 2101-2180 (QC2), 2188-2258 (Steps 129-131), 2259-2297 (Steps 132-143 1x AMPure), 2318-2363 (Steps 144-156 dual size selection), 2368 (Step 157), 2390-2396 (Step 158 sequencing), 2411 (Step 160)",
+      "oligo_scraper": "Not re-run for the article (earlier pass: 2 hits, Table 1 lambda filler primers lines 724, 731); QC1 A. thaliana primers and NEB primers are kit-supplied, not printed.",
+      "findings": "Model correction: added the 10% input-control split (QC terminal, optional sequencing per Step 158), MagWash washes in the IP step, IP-EB elution plus IPure Kit v2 purification with waste, an inlined PCR with source cycling (2 x 55 uL, <=15 cycles for IP), 1x AMPure cleanup and 0.6x/1.2x dual size selection with both discarded fractions; sequencing text adds Step 158 paired-end 75 bp, >=30 M reads. Note records locators; no published discrepancy (Step 158 recommendation vs the 'Sequencing' section range is not a conflict).",
+      "deferred": [
+        "NEB E7335L vendor original (adaptor/primer sequences; revision unstated)",
+        "Diagenode MagMeDIP kit manual and DNA methylation control package (spike-in identity, QC1 primers)",
+        "Diagenode IPure Kit v2 manual",
+        "Shen 2018 Nature predecessor Methods (10.1038/s41586-018-0703-0)",
+        "Steps 1-21 filler PCR/M.SssI details"
+      ],
+      "verification": "local suite comment-only (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states; Markdown built"
+    },
+    {
+      "round": "critical-rereview-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "scope": "Critical diff review; focused source cross-checks and model consistency, not a new complete source audit.",
+      "locations": "Local denaturation, input-control and IP branch declarations; no new reaction-source assertion.",
+      "findings": "Removed the invented discarded complementary strand. Denatured strands of both polarities remain in the population supplied to the input-control/IP split.",
+      "deferred": [
+        "Previous linked-source deferrals and independent absence-audit requirements remain open."
+      ],
+      "verification": "Applicable protocol suite, page build, source guard and scoped chemistry passed (zero contradictions); review schema passed. Shared 1275 and source fetcher 226 checks pass. Whole-site verification is recorded in HANDOVER-REVIEW.md.",
+      "documents": 0
+    }
+  ],
+  "conclusion_update": "2026-10-17 (agent-pkg6-source-review-followups): the defining Nature Protocols article is no longer unavailable; it was read by two readers (adapter/primer identity by both; Procedure spike-ins, filler, USER cleavage, denaturation, PCR cycles and sequencing by the second). Note, model and page updated: USER cleavage step added; filler (Step 45) and A. thaliana spike-ins (Step 48) are separate inputs with printed amounts; denaturation 95 C 10 min with snap-cooling; PCR cycles qPCR-determined; sequencing text reflects single-end or paired-end 50-125 bp. Status stays blocked: adapter/primer sequences require the NEB E7335L vendor original, spike-in identity the Diagenode documents, and the 2018 predecessor remains unread."
 }

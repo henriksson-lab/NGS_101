@@ -80,5 +80,24 @@
       "evidence": "Original and later protocol give multiple oligos; full original supplement remains inaccessible."
     }
   ],
-  "conclusion": "Original and later protocol give multiple oligos; full original supplement remains inaccessible."
+  "conclusion": "Original and later protocol give multiple oligos; full original supplement remains inaccessible.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-15",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Mol Cell 2017 PMC5957070 author-manuscript JATS STAR Methods 'Strand-specific R-ChIP Library Construction' lines299–303, 'R-ChIP Data Analyses' 309–311; Nat Protoc 2019 PMC6604627 JATS line139 (SE 40 nt, HiSeq 2500), primer extension/dA tailing/adaptor ligation/PCR and recovery/sequencing 604–766, Table1 1475–1485",
+      "oligo_scraper": "Bundle scraper run; Table1 hits (lines1475–1484) checked for N9 primer, oligo A/B, PCR and barcode primers; 1443–1473 are qPCR enrichment primers; 2017 lines323–325 are GRO-seq oligos (oNTI200/201), not R-ChIP; line762 cutadapt adapter = rc of N9 tail.",
+      "findings": "Replaced the role-level adapter body with the source-printed adapter and PCR primers: final library reconstructed as N9 tail–N9–insert–A–oligo A–5-nt barcode–P5 with sample_index feature; exact PCR geometry (PCR primer repeats N9 tail; barcode primer 3' TruSeq Read 1 end on dA+oligo A); Read 1 primer with 40-nt single-end read (protocol line139 and sequencing section; cutadapt rc-tail command consistent). One-end dA-tailed substrate now drawn with the N9 5' overhang instead of a generic two-dA duplex. Added de-cross-link/RNase A/proteinase K/phenol cleanup, phi29 extension, Klenow exo- dA tailing, T4 ligation, Phusion PCR and gel size selection with waste fates. Graph-owned discrepancy: 2017 Methods 16–18 cycles and 130–350 bp vs 2019 protocol 14/16(18) cycles and 140–350 bp; neither chosen.",
+      "deferred": [
+        "Mol Cell 2017 PMC supplement DOCX NIHMS964699 (PMC download gate)",
+        "Ji et al. 2013 ChIP predecessor method",
+        "Read-out of the 5-nt barcode in the i5 position on a single-end HiSeq 2500 run",
+        "Sealing of oligo B 3'-T to the template 5' end (template 5' phosphorylation not stated)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (comment-only, 0 explicit checks); page builds; pairing 0 problems; chemistry 3 established/8 conditional/10 unresolved/0 contradictory; source guard 5 exact checked (N9 primer, PCR primer, barcode primer, oligo A/B adapter), 0 failed, 0 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

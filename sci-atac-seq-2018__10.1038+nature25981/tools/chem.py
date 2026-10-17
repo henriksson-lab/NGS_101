@@ -44,7 +44,8 @@ def protocol_graph() -> ProtocolGraph:
     source = "https://doi.org/" + doi
     graph = ProtocolGraph(protocol, authority=source)
     nuclei = graph.input(
-        "nuclei", "accessible chromatin in nuclei", MaterialKind.BIOLOGICAL,
+        "nuclei", "fixed embryo nuclei, DAPI-sorted 2,500 per first-plate well",
+        MaterialKind.BIOLOGICAL,
         state=Construct([seg("genomic DNA", "X" * 40, placeholder=True)]),
         primary=True)
     reviewed = ["nuclei"]
@@ -59,6 +60,10 @@ def protocol_graph() -> ProtocolGraph:
             (LoadedEnd("T5", "".join(seg.top for seg in S.t5())),
              LoadedEnd("T7", "".join(seg.top for seg in S.t7()))), nx.ME))
     tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tagment_conditions = graph.input(
+        "tagment_conditions",
+        "9 µl lysis buffer + 10 µl TD buffer (Illumina FC-121-1031) per well, "
+        "1 µl of 2.5 µM indexed transposome, 55 °C 30 min", MaterialKind.CONDITION)
     tagmented = graph.product(
         "tagmented_fragments", "heterologous T5/T7 tagmentation products",
         MaterialKind.MOLECULAR, state=two_tagmented())
@@ -70,7 +75,8 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.TAGMENTATION,
                 ((nuclei, InputRole.TEMPLATE),
                  (transposome, InputRole.STRUCTURAL),
-                 (tn5, InputRole.CATALYST)), (tagmented, t5_t5, t7_t7),
+                 (tn5, InputRole.CATALYST),
+                 (tagment_conditions, InputRole.CONDITION)), (tagmented, t5_t5, t7_t7),
                 geometry=EndCombinationGeometry(
                     (p5_primer, p7_primer),
                     (EndProductGroup("tagmented_fragments", (("T5", "T7"),)),
@@ -80,18 +86,53 @@ def protocol_graph() -> ProtocolGraph:
                 relations=(MolecularRelation.END_COMBINATIONS,))
     graph.discard(t5_t5, "lacks the T7 PCR entry site")
     graph.discard(t7_t7, "lacks the T5 PCR entry site")
+    stop = graph.input("stop_buffer", "20 µl 40 mM EDTA + 1 mM spermidine, 37 °C 15 min",
+                       MaterialKind.CONDITION)
+    stopped = graph.product("stopped_fragments", "EDTA-stopped tagmented nuclei",
+                            MaterialKind.MOLECULAR, state=two_tagmented())
+    graph.react("stop_tagmentation", "Stop tagmentation with EDTA/spermidine",
+                StepKind.QUENCHING,
+                ((tagmented, InputRole.TEMPLATE), (stop, InputRole.CONDITION)),
+                (stopped,), changes_molecule=False)
     pooled, pool_reviewed = pool_indexed_nuclei(
-        graph, tagmented, prefix="round1", state=two_tagmented(),
+        graph, stopped, prefix="round1", state=two_tagmented(),
         label="first-round indexed tagmented nuclei from other wells")
-    gap_polymerase = graph.input("gap_polymerase", "gap-fill DNA polymerase",
-                                 MaterialKind.CATALYST)
+    sorter = graph.input(
+        "second_sort", "DAPI re-stain; sort 25 nuclei per well into a second 96-well plate "
+        "(4 plates per time point)", MaterialKind.SELECTION)
+    redistributed = graph.product("redistributed_nuclei",
+                                  "25 pooled nuclei per second-round well",
+                                  MaterialKind.MOLECULAR, state=two_tagmented())
+    unsorted = graph.product("unsorted_nuclei",
+                             "pooled nuclei not sorted into a second-round well",
+                             MaterialKind.WASTE)
+    graph.react("redistribute", "Re-sort pooled nuclei into second-round wells",
+                StepKind.SAMPLING,
+                ((pooled, InputRole.TEMPLATE), (sorter, InputRole.SELECTION)),
+                (redistributed, unsorted), changes_molecule=False)
+    graph.discard(unsorted, "not sorted into an assayed second-round well")
+    decrosslink = graph.input(
+        "reverse_crosslinking_buffer",
+        "12 µl: 11 µl EB + 0.5 µl 20 mg/ml proteinase K + 0.5 µl 1% SDS, 65 °C overnight",
+        MaterialKind.CONDITION)
+    released = graph.product("released_fragments",
+                             "de-cross-linked tagmented DNA in each second-round well",
+                             MaterialKind.MOLECULAR, state=two_tagmented())
+    graph.react("reverse_crosslink", "Reverse cross-links and digest protein in-well",
+                StepKind.DEPROTEINIZATION,
+                ((redistributed, InputRole.TEMPLATE), (decrosslink, InputRole.CONDITION)),
+                (released,))
+    gap_polymerase = graph.input(
+        "gap_polymerase",
+        "NPM polymerase master mix (Illumina FC-121-1012); 72 °C 3 min opening PCR step",
+        MaterialKind.CATALYST)
     final = FINAL_LIBRARY
     filled = graph.product(
         "gap_filled_fragments", "gap-filled redistributed fragments",
-        MaterialKind.MOLECULAR, state=final)
+        MaterialKind.MOLECULAR, state=S.gap_filled_fragment())
     graph.react("gap_fill", "Fill the 9-nt tagmentation gaps",
                 StepKind.EXTENSION,
-                ((pooled, InputRole.TEMPLATE),
+                ((released, InputRole.TEMPLATE),
                  (gap_polymerase, InputRole.CATALYST)), (filled,))
     pcr_n = PCR_INDEX_NT
     p5 = graph.input(
@@ -100,11 +141,14 @@ def protocol_graph() -> ProtocolGraph:
     p7 = graph.input(
         "p7_index_primer", "second-round P7 index primer", MaterialKind.OLIGO,
         state=Construct([seg("P7 index primer", p7_sequence, placeholder=True)]))
-    polymerase = graph.input("pcr_polymerase", "PCR polymerase",
-                             MaterialKind.CATALYST)
-    library = graph.product(
-        "library", f"{protocol} sequencing library", MaterialKind.LIBRARY,
-        state=final)
+    polymerase = graph.input(
+        "pcr_polymerase",
+        "7.5 µl NPM master mix, BSA 2×, primers 0.5 µM; 98 °C 30 s then 15–25 cycles "
+        "(98 °C 10 s, 63 °C 30 s, 72 °C 1 min), cycles set by SYBR test wells",
+        MaterialKind.CATALYST)
+    amplified = graph.product(
+        "pcr_products", "indexed PCR products in each second-round well",
+        MaterialKind.MOLECULAR, state=final)
     geometry = PCRGeometry.exact(
         final, p5_primer, p7_primer,
         statement="The 2018 oligo table prints both indexed PCR primers.")
@@ -112,16 +156,32 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.PCR,
                 ((filled, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
                  (p7, InputRole.STRUCTURAL),
-                 (polymerase, InputRole.CATALYST)), (library,),
+                 (polymerase, InputRole.CATALYST)), (amplified,),
                 geometry=geometry)
+    columns = graph.input(
+        "cleanup", "pool all wells; 4 Zymo DNA Clean & Concentrator-5 columns, "
+        "then Agencourt AMPure beads", MaterialKind.SELECTION)
+    library = graph.product(
+        "library", f"{protocol} sequencing library", MaterialKind.LIBRARY,
+        state=final)
+    cleanup_waste = graph.product("cleanup_waste", "column and bead flow-through/washes",
+                                  MaterialKind.WASTE)
+    graph.react("cleanup_library", "Pool wells and clean up on columns then beads",
+                StepKind.CLEANUP,
+                ((amplified, InputRole.TEMPLATE), (columns, InputRole.SELECTION)),
+                (library, cleanup_waste))
+    graph.discard(cleanup_waste, "unbound PCR-reaction material removed by columns/beads")
     run_primers = PRIMERS
     graph.sequence(library, SequencingPlan(
         library=final, primers=run_primers,
         acquired_roles=tuple(p.role for p in run_primers)))
     reviewed.extend([
-        "indexed_transposomes", "tn5", "tagment", *pool_reviewed,
-        "gap_polymerase", "gap_fill", "p5_index_primer", "p7_index_primer",
-        "pcr_polymerase", "index_pcr", "library",
+        "indexed_transposomes", "tn5", "tagment_conditions", "tagment",
+        "stop_buffer", "stop_tagmentation", *pool_reviewed,
+        "second_sort", "redistribute", "reverse_crosslinking_buffer",
+        "reverse_crosslink", "gap_polymerase", "gap_fill", "p5_index_primer",
+        "p7_index_primer", "pcr_polymerase", "index_pcr", "cleanup",
+        "cleanup_library", "library",
     ])
     graph.declare_reviewed_scope(reviewed, source)
     graph.annotate(Highlight(
@@ -165,9 +225,11 @@ def render_page() -> str:
                                  AnnotationSlot.AFTER_WORKFLOW,
                                  ReadLayoutSection(
                                      "library", READ_ROWS,
-                                     "Read roles and contents are source-declared; "
-                                     "compound dark-cycle recipes remain in the layout "
-                                     "table above.", '</div>')])
+                                     "Read 1/2 lengths (50 each) and the four barcode "
+                                     "components are stated in the Online Methods; the "
+                                     "index-read splits (barcode + dark + PCR index) are "
+                                     "derived from Table S12 geometry, because the custom "
+                                     "recipe is not printed there.", '</div>')])
 
 
 def selftest() -> None:

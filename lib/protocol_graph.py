@@ -223,6 +223,13 @@ class SequencingPlan:
     Exact plans carry the final ``Construct`` and sequencing primers.  If an authority
     withholds that information, ``limitation`` is mandatory and the endpoint remains
     explicit without inventing primer sites.
+
+    ``acquisition`` is ``"declared"`` by default: ``acquired_roles`` lists the acquired
+    primer roles, and an empty tuple keeps the historical meaning "every declared primer".
+    ``"unspecified"`` keeps the primer geometry while stating that the source does not say
+    which reads were acquired; it cannot also list acquired roles.  ``unplaced_reads`` are
+    source-declared reads (``seqprimers.read_spec`` rows) acquired although their priming
+    site is not represented on ``library``.
     """
 
     library: Any = None
@@ -231,6 +238,8 @@ class SequencingPlan:
     read_lengths: Mapping[str, int] = field(default_factory=dict)
     read_uses: Mapping[str, str] = field(default_factory=dict)
     limitation: str = ""
+    acquisition: str = "declared"
+    unplaced_reads: tuple[Any, ...] = ()
 
     def __post_init__(self) -> None:
         exact = self.library is not None and bool(self.primers)
@@ -240,6 +249,28 @@ class SequencingPlan:
             raise ValueError("sequencing primers need a final library")
         if len(set(self.acquired_roles)) != len(self.acquired_roles):
             raise ValueError("acquired sequencing roles must be unique")
+        if self.acquisition not in {"declared", "unspecified"}:
+            raise ValueError("sequencing acquisition must be 'declared' or 'unspecified'")
+        if self.acquisition == "unspecified" and (self.acquired_roles or self.unplaced_reads):
+            raise ValueError("unspecified acquisition cannot list acquired reads")
+        unplaced = [getattr(row, "read", None) for row in self.unplaced_reads]
+        if any(not role for role in unplaced) or len(set(unplaced)) != len(unplaced):
+            raise ValueError("unplaced reads need unique read roles")
+        if set(unplaced) & {getattr(p, "role", None) for p in self.primers}:
+            raise ValueError("an unplaced read cannot also have a declared primer")
+        if self.unplaced_reads and not exact:
+            raise ValueError("unplaced reads accompany an exact primer plan")
+
+    @property
+    def acquisition_unspecified(self) -> bool:
+        return self.acquisition == "unspecified"
+
+    @property
+    def required_roles(self) -> tuple[str, ...]:
+        """Primer-backed roles that must land; empty when acquisition is unspecified."""
+        if self.acquisition_unspecified:
+            return ()
+        return self.acquired_roles or tuple(p.role for p in self.primers)
 
 
 @dataclass(frozen=True)
@@ -544,7 +575,9 @@ class ProtocolGraph:
             if primer_inputs < 1 or (primer_inputs < 2 and not symmetric):
                 raise ValueError(
                     f"PCR step {step.id!r} needs both primer inputs, or one exact "
-                    "primer species with symmetric inward sites")
+                    "primer species with symmetric inward sites (lib/pcr.py: "
+                    "PCRGeometry.symmetric(...), or PCRGeometry.unavailable(..., "
+                    "symmetric_species=True) when the sites are not reported)")
             if getattr(step.geometry, "availability", None) not in {
                     "exact", "regional", "unavailable"}:
                 raise ValueError(f"PCR step {step.id!r} has invalid geometry")
@@ -781,13 +814,16 @@ class ProtocolGraph:
                 # Local import avoids a module cycle: seqprimers imports chemdraw, whose
                 # Workflow in turn uses ProtocolGraph.
                 import seqprimers
-                required = plan.acquired_roles or tuple(p.role for p in plan.primers)
+                required = plan.required_roles
                 for error in seqprimers.verify(plan.library, plan.primers, required):
                     problems.append(f"sequencing output {material_id!r}: {error}")
                 try:
-                    seqprimers.read_contents(plan.library, plan.primers,
-                                             dict(plan.read_lengths), dict(plan.read_uses),
-                                             acquired_roles=required)
+                    seqprimers.read_contents(
+                        plan.library, plan.primers, dict(plan.read_lengths),
+                        dict(plan.read_uses),
+                        acquired_roles=None if plan.acquisition_unspecified else required,
+                        unplaced_reads=plan.unplaced_reads,
+                        acquisition_unspecified=plan.acquisition_unspecified)
                 except ValueError as exc:
                     problems.append(f"sequencing output {material_id!r}: {exc}")
 

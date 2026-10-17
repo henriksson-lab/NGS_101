@@ -44,6 +44,35 @@ individual synthesized 74-nt member and its exact Gibson junctions. Its assembly
 therefore carries an explicit unresolved molecular-transition warning. This warning
 records the present model scope and does not assert that the source omits the information.
 
+## Reaction conditions and the paper's own sequencing endpoint (bounded pass, 2026-10-17)
+
+🟢 Re-read of the same supplement paragraphs (publisher MOESM647 text lines 286–309 and
+319–332) adds the conditions the graph was missing:
+
+- pool PCR with **Phusion HS Flex (NEB)**, 0.1 µl template, **63 °C annealing, 15 s
+  extension, 20 cycles**; the **140-bp amplicon is size-selected on a 2% agarose E-Gel EX**;
+- backbone **BsmBI (Fermentas)** digestion, **FastAP at 37 °C for 2 h**, gel-purified on a
+  1% E-Gel EX;
+- **20 µl Gibson reaction (NEB)** with **10 ng insert and 25 ng vector** for lentiCRISPR v2
+  (5 ng insert for lentiGuide-Puro, a vector this page does not draw);
+- electroporation into **Lucigen electrocompetent cells**, enough parallel transformations
+  plated on 245 × 245 mm **carbenicillin (50 µg/ml)** plates to give **30–200× coverage**,
+  colonies scraped and combined, then **Endotoxin-Free Plasmid Maxiprep (Qiagen)**.
+
+🟢 The only sequencing this paper performs on its own libraries is **representation QC**,
+not a screen readout: the plasmid library is PCR-amplified for **16 cycles with Phusion
+Flash High-Fidelity**, with primers that add Illumina adaptors, **in duplicate and
+barcoded** to quantify PCR bias, and sequenced on a **MiSeq, v3 150-cycle kit, 10% PhiX**.
+Reads are demultiplexed (FASTX-Toolkit), adaptor-trimmed (cutadapt) and aligned with
+Bowtie allowing one mismatch. The graph now ends that branch at a sequencing terminal whose
+plan carries only this limitation: 🔴 the supplement prints neither the adapter-adding
+primer strands nor the barcodes, so no library construct or primer site is drawn. That
+remains an unresolved source question — the GeCKO website and Supplementary Data are still
+unchecked for it — not an accepted absence.
+
+The Joung one-PCR library shown at the end of the page is a separately cited compatible
+readout for this vector, not part of Sanjana et al.'s experiment; the page now says so.
+
 The original preprint continues with “Supplementary Data” (line 650 onward), including
 labelled lentiCRISPR v2 and lentiGuide-Puro sequence material. The local Addgene #52961
 full map also remains available in the pooled-vector reference directory; its provenance

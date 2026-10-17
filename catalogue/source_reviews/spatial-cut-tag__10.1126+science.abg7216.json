@@ -126,12 +126,18 @@
       "id": "manual_8",
       "role": "linked_material",
       "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7612972/bin/EMS145971-supplement-Supplementary_Material.docx",
-      "availability": "unavailable",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "PMC supplementary file; PMC 'Preparing to download' gate",
+      "reason": "Hand-downloaded by the maintainer on the institutional network 2026-10-17 and placed as science.abg7216_supp_EMS145971-supplement-Supplementary_Material.docx (MANIFEST row); identity checked (title 'Spatial-CUT&Tag: Spatially Resolved Chromatin Modification Profiling at Cellular Level', Deng...Fan); read in one capped single-reader pass (deferred-followup-03). Not an independent two-pass check.",
       "discovered_from": "source_5",
       "pass_1": null,
-      "pass_2": null
+      "pass_2": null,
+      "acquisition": {
+        "date": "2026-10-17",
+        "reviewer": "maintainer (hand download); identity checked by root",
+        "route": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7612972/bin/EMS145971-supplement-Supplementary_Material.docx (institutional network, browser)",
+        "result": "Valid 25 MB DOCX; doctext twin (contains embedded EndNote base64 noise, methods and tables are plain text)."
+      }
     },
     {
       "id": "linked_2021_code",
@@ -177,5 +183,63 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent passes now cover the original 2021 preprint, the 2024 supplementary figure, and the preprint-linked historical code URL. The 2024 figure is not an oligo source; its separate workbook is. The original 2022 supplementary DOCX and historical processing repository remain unavailable, so no missing-information claim is accepted."
+  "conclusion": "Two independent passes cover the 2021 preprint, the 2024 supplementary figure and the preprint-linked historical code URL. The defining 2022 Supplementary Materials DOCX was obtained and read in a single capped pass (2026-10-17); it prints the pA-Tn5 Tn5ME-A that the model now uses. The historical processing repository remains unavailable; no missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Deng et al. Science 2022 author manuscript PMC7612972 JATS science.abg7216_PMC7612972.xml.txt lines44–92 (main text, Fig.1 legend, availability; methods deferred to supplement); Farzad et al. Nat Protoc 2024 MOESM2 workbook Supp_Table 1 lines1–14, Supp_Table 2 lines15–30, Supp_Table 3 lines31–135 and PMC13651751 JATS lines132–146 (chemistry overview), Reagents225–260, Reagent setup410–444, Steps16–24 516–560, CUT&Tag Steps36–60 600–660, library PCR/AMPure Steps105–121 850–1000, Fig.2 legend1826–1830; authors' dyxmvp/spatial-CUT-Tag repository page spatial-CUT-Tag.html.txt lines755–794 (HiSeq 4000 PE150, raw read contents). Science supplementary DOCX re-tried via PMC bin URL and Europe PMC supplementaryFiles: not open access/HTML challenge.",
+      "oligo_scraper": "Bundle scraper run (12 hits, all MOESM2 workbook); --find CATCGGCGTACGACT returns only the reverse-complement half of ligation linker 1 (MOESM2 lines6 and19); no inspected source prints a linker-1-compatible pA-Tn5 loading oligo (not an absence claim).",
+      "findings": "Model correction: the shared spatial_epigenome construct placed revcomp(linker 1) directly against genomic DNA, omitting the transferred adapter strand. Local construct now computes that linker 1 = revcomp(barcode-A ME + CATCGGCGTACGACT), so the pA-Tn5 adapter must begin with that 15-nt extension plus a mosaic end; both drawn as inferred segments with caveat, INFERRED step caption and inferred states. Published discrepancy displayed: Farzad Supp_Table 1 Tn5ME-A TCGTCGGCAGCGTC-ME cannot pair with Supp_Table 1 ligation linker 1; printed Tn5ME-A listed but not used. Graph expanded with Farzad CUT&Tag steps (NP40-digitonin, primary 1:50, secondary 1:50 and 150-washes, pA-Tn5 1:100 1h and 300-washes, 37C 1h activation, EDTA stop), PCR 58C/72C/12 cycles with exact New-P5-SMART/Ad2 geometry (procedure only names 'universal or barcoded i5/i7'), 1x 65ul AMPure, unresolved same-adapter candidates; note corrected (MOESM2 sheets are not assay-labelled; Table 2 has no Tn5ME-A).",
+      "deferred": [
+        "Science 2022 supplementary methods EMS145971-supplement-Supplementary_Material.docx (manual: https://pmc.ncbi.nlm.nih.gov/articles/instance/7612972/bin/EMS145971-supplement-Supplementary_Material.docx)",
+        "pA-Tn5 loading oligos and Diagenode C01070002 product documentation",
+        "Farzad Steps 1–15 fixation and Step 104B lysis reagents",
+        "Farzad NIHMS supplementary data/information (manual PMC13651751 bin files)",
+        "dyxmvp/spatial-CUT-Tag BC_process.py barcode coordinates not re-read; historical dyxmvp/hsrChST-seq unavailable",
+        "Ad2 index assignment and acquired index-read cycles"
+      ],
+      "scope": "Capped pass; defining Science supplementary methods unavailable, so partial. No full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 1 established/0 conditional/9 unresolved/0 contradictory; source guard 6 exact checked, 0 failed, 0 inputs without exact states (pA-Tn5 adapter inferred, excluded); Markdown built/checked; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "GEO GSE165217 SOFT family file geo-GSE165217-family.soft.gz.txt (Series_overall_design lines15-17; Sample_extract_protocol line77; Sample_data_processing line78; 12 GSM records identical), fetched from the NCBI GEO FTP area and placed by hand with a MANIFEST row. Routes for the Science supplementary DOCX: PMC bin URL (proof-of-work 'Preparing to download' gate, not scripted); legacy ncbi.nlm.nih.gov/pmc bin (404); PMC Cloud listing PMC7612972.1 (xml/txt/json only, licence TDM); Europe PMC supplementaryFiles ('not open access'), Europe PMC bin (403 challenge) and fulltextRepo (500); science.org article and supplement (Cloudflare); Unpaywall/OpenAlex (bioRxiv v1 + PMC manuscript only); bioRxiv API (v1 only; v1 PDF lines528-675 are figure captions with no Materials and Methods). Manual URL https://pmc.ncbi.nlm.nih.gov/articles/instance/7612972/bin/EMS145971-supplement-Supplementary_Material.docx.",
+      "oligo_scraper": "Bundle scraper rerun (12 hits, MOESM2 only, unchanged); 0 hits in the GEO SOFT twin.",
+      "findings": "No sequence change. GEO (Science-era deposit) states HiSeq 4000 'pair-end 150 bp mode with custom read 1 primer' and that Read 1 is filtered by two constant linker sequences (linker 1 and linker 2); page sequencing intro and note now cite GEO and state that GEO names but does not print the custom Read 1 primer (sequence shown is 2024 Supp_Table 1). Constant linker 1 in Read 1 is consistent with, but does not print, the inferred linker-1-pairing adapter extension; inference retained.",
+      "deferred": [
+        "Science 2022 supplementary methods EMS145971-supplement-Supplementary_Material.docx (manual URL above)",
+        "pA-Tn5 loading oligos and Diagenode C01070002 documentation",
+        "Farzad Steps 1-15 fixation and Step 104B lysis reagents",
+        "Farzad NIHMS supplementary bin files (manual PMC13651751)",
+        "dyxmvp/spatial-CUT-Tag BC_process.py coordinates not re-read; dyxmvp/hsrChST-seq unavailable",
+        "Ad2 index assignment and acquired index cycles"
+      ],
+      "scope": "Follow-up capped pass; defining Science supplementary methods still unobtainable, so partial. No full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 1 established/0 conditional/9 unresolved/0 contradictory; source guard 6 exact checked, 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Deng2022 Science Supplementary Materials DOCX (EMS145971; identity verified: title/authors) .docx.txt lines 887-932 (Materials and Methods: DNA barcodes 902-903, Transposome preparation 908-918, Spatial-CUT&Tag 920-929, Data preprocessing 931-932) and Tables S1-S3 lines 1375-1528; base-for-base comparison of Table S1/S2 with Farzad2024 MOESM2 Supp_Tables 1-3.",
+      "oligo_scraper": "Bundle scraper rerun: 24 hits across 2 files; new DOCX hits lines 912 (Tn5ME-A), 915, 918, 1378-1391, 1398, 1449 checked against the text; --find of the 2022 Tn5ME-A gives 1 exact location (line 912 only). One false hit on EndNote base64 (line 461).",
+      "findings": "2022 Tn5ME-A /5Phos/CATCGGCGTACGACTAGATGTGTATAAGAGACAG supplies exactly the linker-1-splinted extension: inferred adapter extension/mosaic end replaced by printed Tn5ME-A (construction raises otherwise); INFERRED tagment caption and inferred product flags removed. All other oligos and 100 barcodes identical to 2024; discrepancy re-scoped to 2022 vs 2024 Tn5ME-A (model uses 2022). Conditions now from 2022: primary overnight 4C, single 5-min washes, Mg2+ 10 mM in 300-wash, ligation mix/37C 30min/NEBuffer3.1 or DPBS washes, SDS/TAPS lysis 60C 2h + 65C 1h (no proteinase K), NEBNext HF 2X PCR with Triton, 1.3x AMPure. Authority, whitelists and custom Read 1 citation moved to 2022 Tables S1-S2; Read 1 genomic start computed (cycle 100). Selftest gains a 2022 Tn5ME-A transcription check (skips if absent).",
+      "deferred": [
+        "Diagenode C01070002 pA-Tn5 loading guidelines (Tn5ME-A/Tn5ME-B duplex ratio)",
+        "Explanation of the 2024 Supp_Table 1 Tn5ME-A row",
+        "Farzad NIHMS supplementary bin files (manual PMC13651751)",
+        "dyxmvp/hsrChST-seq repository unavailable",
+        "Ad2 per-sample index assignment and acquired index cycles"
+      ],
+      "scope": "Capped deferred follow-up; defining Science supplementary methods now read by one reader. No full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 4/4 pass; page builds; pairing 0 problems; chemistry 1 established/0 conditional/9 unresolved/0 contradictory; source guard 7 exact checked, 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

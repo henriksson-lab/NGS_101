@@ -357,5 +357,25 @@
     "date": "2026-10-16",
     "locations": "Current local human_net_seq.py; original 2015 modified oligos and 2012 inherited library sections already independently read",
     "finding": "Verified correct successor DOI .047; numerical 2015 cDNA bounds unassigned. Source oLSC007 retains ATC before revcomp(oNTI231), consistent across circle closure. N6, variable biological interval, selected SE75 and alternative SE50 remain source-scoped. Possible primer-carryover role and post-PCR PAGE do not assert exact 2015 structure, universal successor 120-nt size or complete removal."
-  }
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Author-hosted Mayer2015 Cell PDF (594009_59c7…pdf.txt) Extended Experimental Procedures 'Sequencing Library Preparation for NET-Seq' lines1076–1100 (linker, oGAB11 control, fragmentation 35–100nt, oLSC007 at 1.9µM, circularization, 19-target depletion hybridization/C1 beads/supernatant, PCR as 2012, NextSeq SE75/HiSeq SE50, oLSC006); inherited Churchman&Weissman 2012 author PDF Table4.14.1 lines376–425 and PCR steps53–59 lines620–665 (oNTI230/231, oMHL001/002, Phusion 98/60/72, ~70bp RT-primer carryover band); 2016 successor PMC5326677 JATS lines45,111,123,888,1490–1510 (Illumina Index forward primer, Table1)",
+      "oligo_scraper": "Bundle scraper run; hits are 2016 Table1 linker/oLSC007/oNTI231/oGAB11 and 2016 Table2 depletion probes (successor, not assigned to 2015). 2015 oligos verified in original PDF text, 2012 table read directly.",
+      "findings": "Model oligos, step order and reads agree with inspected passages. Corrections: depletion step now declares 2x SSC 99C→37C hybridization and MyOne C1 streptavidin bead inputs, supernatant recovery as retained product, bead-bound abundant cDNA as separated waste; RT primer input records 1.9µM (vs 10.9µM). Page highlight/note record derived observation that 2012 oLSC003 carried the oNTI230 tract absent from 2015 oLSC007, so oNTI230 alone has no 2015 site while oMHL001/002 3' ends match oLSC006 site; forward primer still unassigned.",
+      "deferred": [
+        "2015 Table S1 (PMC SD6 NIHMS680477-supplement-6.pdf) depletion probe identities, route-blocked",
+        "Selected 2015 forward/index PCR primer and index-read acquisition",
+        "Ingolia 2012 depletion predecessor",
+        "2012 Current Protocols publisher version identity vs author PDF",
+        "2015 PCR cycle count ('minimal')"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 7/7 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory; source guard 1 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

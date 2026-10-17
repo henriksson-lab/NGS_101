@@ -7,7 +7,6 @@ from chemdraw import Construct, Segment, feature, revcomp
 from pcr import PCRGeometry
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from protocol_model import chain, da_tailed, molecule, role
-from dsb_capture import BreakCaptureDesign, _illumina_break_library, _finish_pcr
 
 
 def workflow():
@@ -47,8 +46,13 @@ SOURCE = '<a href="https://doi.org/10.1038/nmeth.3284">Kim et al., Nature Method
 SUMMARY = 'Cas9–sgRNA cleaves purified genomic DNA in vitro, after which the entire unenriched genome receives an ordinary PCR-free whole-genome library preparation. Coincident forward- and reverse-strand read starts reveal cleavage sites.'
 CAVEAT = "Digenome-seq has no cut-site adapter, UMI or enrichment barcode; the assay-specific information is the genomic fragment boundary itself. INFERRED — no source available here gives one adapter base for this library: the defining paper's Methods is paywalled and absent, and its supplement contains no library chemistry. The TruSeq shell, the six-base single index and the index read are inherited from the authors' later Genome Research report and Illumina documentation, so the whole adapter shell is drawn as inferred."
 FINAL_CAPTION = 'One ordinary TruSeq PCR-free WGS molecule. Its genomic insert may carry a Cas9-created boundary or only random shearing boundaries; the molecule itself has no label distinguishing them.'
-READ_LENGTHS = {'Read 1': 150, 'Index 1 (i7)': 6, 'Read 2': 150}
-SEQUENCING_INTRO = 'The defining study used Illumina HiSeq X Ten whole-genome sequencing. Digenome analysis depends on paired genomic alignments and the concentration of identical 5′ endpoints, not an inline molecular identifier.'
+# No read source available here gives acquired cycle counts: the defining Methods is
+# paywalled, its supplement (Supplementary Note 1) gives only "Illumina HiSeq X 10" for
+# the knockout-clone WGS, and the Genome Research 2016 Methods (PMC4772022 line 136)
+# gives HiSeq X Ten and 30-40x depth but no read length or index-read length.
+READ_LENGTHS = None
+SEQUENCING_INTRO = ('The defining article\'s Methods could not be read. Its supplement (Supplementary Note 1) states Illumina HiSeq X 10 WGS for the knockout-clone genomes, and the same group\'s 2016 Genome Research Methods states Illumina HiSeq X Ten at 30–40× depth for Digenome libraries; neither source read here gives read or index-read cycle counts, so no acquired lengths are drawn. '
+                    'Digenome analysis depends on paired genomic alignments and the concentration of identical 5′ endpoints, not an inline molecular identifier.')
 SEQUENCING_ENDING = ''
 SEQUENCING_UNAVAILABLE = ''
 FINAL_LIBRARY, SEQ_PRIMERS = _digenome_library()

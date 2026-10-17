@@ -33,7 +33,10 @@ from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPl
                             MolecularRelation, StepKind)
 
 TITLE = "ASTAR-seq — chromatin accessibility and transcriptome from one cell"
-SOURCE = 'Defining source: <a href="https://doi.org/10.1101/829960">Xing et al. (2019)</a>.'
+SOURCE = ('Defining source: <a href="https://doi.org/10.1101/gr.257840.119">Xing et al. (2020)</a>, '
+          'Genome Research 30:1027 (published version of bioRxiv 829960); detailed '
+          'reaction conditions from the bioRxiv v1 supplement because the published '
+          'Supplemental Methods PDF could not be retrieved.')
 
 
 C1_HANDLE = "GGCGACAACACCGATTGATCA"
@@ -52,9 +55,10 @@ ATAC_QPCR_S5 = nx.ADAPTOR_S5
 ATAC_QPCR_S7 = nx.ADAPTOR_S7
 INDEX_LEN = 8
 
-# C1 harvest volumes differ between the original preprint supplement and the
-# indexed later publisher supplement. The published value is provisional until
-# the full publisher PDF can be inspected directly.
+# C1 harvest volume printed in the preprint supplement (media-6 lines 1603-1615).
+# An earlier audit recorded ~3.5 µL from a search-index snippet of the publisher
+# Supplemental Methods PDF; that PDF returned HTTP 404/403 on 2026-10-17, so the
+# later value is unverified. No graph state depends on either volume.
 HARVEST_UL_PREPRINT = 5.5
 HARVEST_UL_PUBLISHED = 3.5
 
@@ -254,19 +258,40 @@ def protocol_graph():
                     statement="Canonical Nextera s5 and s7 entry sites establish the primer footprints; genomic insert bases vary."))
     graph.sequence(atac_lib,SequencingPlan(library=atac_final,primers=SEQ_PRIMERS,
         read_lengths={"Read 1":50,"Index 1 (i7)":8,"Index 2 (i5)":8,"Read 2":50}))
-    heat=graph.input("heat_release","water, 90 °C for 10 min (preprint)",MaterialKind.CONDITION)
+    heat=graph.input("heat_release","nuclease-free water, 90 °C for 10 min (preprint)",
+                     MaterialKind.CONDITION)
     released_state = Construct(
         [replace(segment, inferred=True) for segment in c1_cdna()],
-        name="inferred released cDNA strand")
-    released=graph.product("released_cdna","released non-biotinylated cDNA strand",
+        name="heat-eluted cDNA (released form not stated)")
+    released=graph.product("released_cdna","heat-eluted cDNA; released strand form not stated",
                            MaterialKind.MOLECULAR,state=released_state,inferred=True)
-    bound=graph.product("bound_cdna_waste","bead-bound biotinylated cDNA strands",
+    spent=graph.product("spent_beads","streptavidin beads left after elution transfer",
                         MaterialKind.WASTE)
-    graph.react("release_cdna","INFERRED — heat-release the non-biotinylated cDNA strand",
+    graph.react("release_cdna","INFERRED — heat-elute cDNA from the washed beads",
                 StepKind.STRAND_SEPARATION,
-                ((bead_cdna,InputRole.TEMPLATE),(heat,InputRole.CONDITION)),(released,bound),
-                reason="Preprint Supplementary Experimental Procedures lines 1618-1621 confirm heat elution of cDNA, but do not identify the released strand; complete published off-IFC Methods could not be inspected.")
-    graph.discard(bound,"biotinylated complementary strands remain bead-bound")
+                ((bead_cdna,InputRole.TEMPLATE),(heat,InputRole.CONDITION)),(released,spent),
+                reason="Preprint Supplementary Experimental Procedures (media-6 lines 1618-1621) state only that cDNA was eluted in water at 90 °C for 10 min and transferred; both strands carry 5' biotin after on-chip PCR with the biotinylated primer, so neither the release mechanism nor the strand form of the eluate is stated. Published Supplemental Methods could not be retrieved.")
+    graph.discard(spent,"eluate is transferred to a new plate; beads are not carried forward")
+    c1_primer2=graph.input("c1_primer_2","C1-P2-PCR2 primer (biotin not stated in this step)",
+                           MaterialKind.OLIGO,state=tuple(c1_pcr_oligo()))
+    q5=graph.input("cdna_pcr2_polymerase","NEBNext Ultra II Q5 master mix",MaterialKind.CATALYST)
+    reamp=graph.product("reamplified_cdna","re-amplified full-length cDNA",
+                        MaterialKind.MOLECULAR,state=c1_cdna())
+    graph.react("cdna_pcr2","Re-amplify eluted cDNA off chip, 9 + 11 cycles",StepKind.PCR,
+                ((released,InputRole.TEMPLATE),(c1_primer2,InputRole.STRUCTURAL),
+                 (q5,InputRole.CATALYST)),(reamp,),
+                geometry=PCRGeometry.symmetric(
+                    c1_cdna(),PCRPrimer("C1-P2-PCR2",C1_PCR),
+                    statement="Preprint media-6 lines 1622-1628: 1.6 µM C1-P2-PCR2, 9 cycles (64 °C 30 s, 68 °C 6 min) then 11 cycles (68 °C 7 min); the handle primer binds both cDNA ends."))
+    ampure=graph.input("cdna_ampure","20 µL AMPure XP per 25 µL reaction",MaterialKind.SELECTION)
+    clean_cdna=graph.product("clean_cdna","AMPure-purified cDNA",MaterialKind.MOLECULAR,
+                             state=c1_cdna())
+    cdna_sup=graph.product("cdna_ampure_waste","AMPure supernatant and washes",
+                           MaterialKind.WASTE)
+    graph.react("cdna_cleanup","Purify re-amplified cDNA with AMPure XP",StepKind.CLEANUP,
+                ((reamp,InputRole.TEMPLATE),(ampure,InputRole.SELECTION)),
+                (clean_cdna,cdna_sup),changes_molecule=False)
+    graph.discard(cdna_sup,"bead supernatant and ethanol washes removed")
     rna_transposome=graph.input("rna_transposome","Nextera XT transposome",MaterialKind.ADAPTER,
                                  chemical_state=T5_T7_ENDS)
     rna_tagged=graph.product("rna_tagged","tagmented full-length cDNA",MaterialKind.MOLECULAR,
@@ -276,7 +301,7 @@ def protocol_graph():
     rna_s7_waste=graph.product("rna_s7_waste","s7/s7 cDNA tagmentation product",
                                MaterialKind.WASTE,state=tagmented_end_state("s7","s7","cDNA"))
     graph.react("rna_tagment","Tagment the separated cDNA",StepKind.TAGMENTATION,
-                ((released,InputRole.TEMPLATE),(rna_transposome,InputRole.STRUCTURAL),
+                ((clean_cdna,InputRole.TEMPLATE),(rna_transposome,InputRole.STRUCTURAL),
                  (tn5,InputRole.CATALYST)),(rna_tagged,rna_s5_waste,rna_s7_waste),
                 geometry=end_combination_geometry("rna_tagged","rna_s5_waste",
                                                   "rna_s7_waste","rna_index_pcr"),
@@ -302,5 +327,6 @@ def protocol_graph():
       "c1_primer","preamp_polymerase","cdna_preamp","combine_modalities","streptavidin",
       "separate","gap_fill_polymerase","atac_gap_fill","atac_i5","atac_i7",
       "index_polymerase","atac_index_pcr","atac_library","heat_release","release_cdna",
+      "c1_primer_2","cdna_pcr2_polymerase","cdna_pcr2","cdna_ampure","cdna_cleanup",
       "rna_transposome","rna_tagment","rna_i5","rna_i7","rna_index_pcr","rna_library"),SOURCE)
     return graph.require_publishable()

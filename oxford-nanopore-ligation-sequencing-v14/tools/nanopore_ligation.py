@@ -76,27 +76,52 @@ def protocol_graph():
     g = ProtocolGraph("Oxford Nanopore ligation sequencing V14", authority=SOURCE)
     dna = g.input("dna", "genomic DNA fragments", MaterialKind.MOLECULAR,
                   state=INSERT, primary=True)
-    repair = g.input("repair", "damage-repair and end-prep enzymes",
-                     MaterialKind.CATALYST)
+    repair = g.input("repair", "NEBNext FFPE DNA Repair Mix (Buffer v2) and Ultra II "
+                     "End-prep Enzyme Mix", MaterialKind.CATALYST)
     tailed = g.product("tailed", "repaired phosphorylated dA-tailed DNA",
                        MaterialKind.MOLECULAR, state=END_PREP)
-    g.react("end_prep", "Repair damage, polish ends and add one 3-prime dA",
-            StepKind.END_REPAIR,
+    g.react("end_prep", "Repair damage, polish ends and add one 3-prime dA "
+            "(20 °C 5 min, 65 °C 5 min)", StepKind.END_REPAIR,
             ((dna, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (tailed,))
+    beads_1 = g.input("end_prep_beads", "60 µl AMPure XP Beads, 80% ethanol washes, "
+                      "61 µl water elution", MaterialKind.SELECTION)
+    tailed_clean = g.product("tailed_clean", "bead-purified dA-tailed DNA",
+                             MaterialKind.MOLECULAR, state=END_PREP)
+    end_prep_waste = g.product("end_prep_waste", "end-prep supernatant and ethanol washes",
+                               MaterialKind.WASTE)
+    g.react("end_prep_cleanup", "Clean up the end-prep reaction on AMPure XP beads",
+            StepKind.CLEANUP,
+            ((tailed, InputRole.TEMPLATE), (beads_1, InputRole.SELECTION)),
+            (tailed_clean, end_prep_waste))
+    g.discard(end_prep_waste, "unbound end-prep reaction components removed with the supernatant")
     adapter = g.input("adapter", "motor-loaded dT Ligation Adapter",
                       MaterialKind.ADAPTER, inferred=True,
                       source=SOURCE + " (LA core disclosed; full motor leader proprietary)")
-    ligase = g.input("ligase", "Salt-T4 ligase", MaterialKind.CATALYST)
+    ligase = g.input("ligase", "Ligation Buffer (LNB) and Salt-T4 DNA Ligase",
+                     MaterialKind.CATALYST)
     final = final_library()
     library = g.product("library", "motor-adapted ligation library",
                         MaterialKind.LIBRARY, state=final, inferred=True,
                         source=SOURCE + " (motor leader proprietary)")
-    g.react("ligate", "Ligate the motor-loaded dT adapter to both DNA ends",
-            StepKind.LIGATION,
-            ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
+    g.react("ligate", "Ligate the motor-loaded dT adapter to both DNA ends "
+            "(10 min, room temperature)", StepKind.LIGATION,
+            ((tailed_clean, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
              (ligase, InputRole.CATALYST)), (library,), geometry=ADAPTER_END)
-    g.sequence(library, motor_sequencing_plan(
+    beads_2 = g.input("library_beads", "40 µl AMPure XP Beads, 250 µl LFB or SFB washes "
+                      "(not ethanol), 15 µl Elution Buffer", MaterialKind.SELECTION)
+    library_clean = g.product("library_clean", "bead-purified motor-adapted library",
+                              MaterialKind.LIBRARY, state=final, inferred=True,
+                              source=SOURCE + " (motor leader proprietary)")
+    library_waste = g.product("library_waste", "ligation supernatant (unligated Ligation "
+                              "Adapter) and LFB/SFB washes", MaterialKind.WASTE)
+    g.react("library_cleanup", "Clean up the adapted library; LFB enriches ≥3 kb, "
+            "SFB keeps all sizes", StepKind.CLEANUP,
+            ((library, InputRole.TEMPLATE), (beads_2, InputRole.SELECTION)),
+            (library_clean, library_waste))
+    g.discard(library_waste, "unbound material removed with the bead supernatant and washes")
+    g.sequence(library_clean, motor_sequencing_plan(
         final, limitation=SEQUENCING_UNAVAILABLE))
-    g.declare_reviewed_scope(("dna", "repair", "end_prep", "adapter", "ligase",
-                              "ligate", "library"), SOURCE)
+    g.declare_reviewed_scope(("dna", "repair", "end_prep", "end_prep_beads",
+                              "end_prep_cleanup", "adapter", "ligase", "ligate",
+                              "library_beads", "library_cleanup", "library_clean"), SOURCE)
     return g.require_publishable()

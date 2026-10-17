@@ -25,12 +25,18 @@ CITE-seq converts surface-protein abundance into sequenceable antibody-derived t
 
 ## 4. Construct-changing steps
 
-1. Conjugate antibody identity oligos containing PCR handle, antibody barcode and poly(A) tail.
-2. Label cells and wash away free tags.
-3. Co-encapsulate cells and barcoded beads; oligo-dT captures both mRNA and ADT poly(A).
-4. Reverse transcription/extension gives both molecule classes the cell barcode and UMI.
-5. Size-separate large cDNA from short ADTs and make separate libraries.
+2026-10-17 bounded pass: PMC JATS Online Methods lines 82–144 and author protocol (MOESM3, version 2017-07-11) lines 7–40, 196–335, 382–442 were re-read. The earlier model separated cDNA and ADTs by size *before* reverse transcription and built the ADT library as a dA-ligated TruSeq DNA library; both are corrected below.
+
+1. 🟢 5′-amine/C12 oligos are biotinylated with EZ-link NHS S-S biotin (disulfide, cleavable in reducing conditions) and bound to LYNX streptavidin-conjugated antibodies (Methods line 84; protocol lines 7–40).
+2. 🟢 About 500,000 cells are Fc-blocked (TruStain FcX, 10 min), stained 30 min at 4 °C and washed three times (Methods line 136; protocol lines 196–210).
+3. 🟢 The 10x Single Cell 3′ v2 run follows the manufacturer's instructions; the bead oligo(dT) primer is extended by the reverse transcriptase on both mRNA and the DNA antibody tags (Methods lines 92, 144).
+4. 🟢 cDNA is amplified for 10 cycles; 0.6X SPRI then keeps cDNA >300 bp on beads and ADTs (~180 bp) in the supernatant (Methods line 144; protocol lines 211–222). 🔴 How the antibody-tag copies behave during the 10x cDNA PCR, which has no ADT-specific primer in this 2017 protocol, is not described.
+5. 🟢 The ADT supernatant is purified by two sequential 2X SPRI rounds to reduce primer carryover, which otherwise yields a ~140 bp TSO-RT-oligo product (protocol lines 239–268, Figure 3a).
+6. 🟢 ADT PCR: KAPA HiFi, PE 1.0 P5 and a TruSeq Small RNA RPIx primer, 8–12 cycles, then 1.6X SPRI; the library is 170–180 bp (protocol lines 269–317). The Methods state 10 additional ADT cycles for the runs (lines 140 and 144), within the protocol range.
+7. 🟢 The transcript library follows the 10x v2 manufacturer instructions (Methods line 144).
+
+🟡 Derived ADT library (computed from the printed oligos in `cite_seq.ADT`): PE 1.0 P5 – TruSeq Read 1 – cell barcode – UMI – poly(dT) – complement of the ordered B (V) – antibody barcode reverse complement – complement of the shared A – reverse complement of `{{= cite_seq.ADT_HANDLE }}` – the remaining RPI arm – six-base RPI index – P7. The poly(dT) length is a vendor bead property, drawn as an inferred placeholder.
 
 ## 5. Evidence boundary
 
-🟢 The defining paper and author protocol print the antibody oligos and ADT PCR primers. The v2 handle is transcribed into the molecular model with its shared `A` followed by a six-base antibody identifier from Supplementary Table 2. 🟡 The final page uses role placeholders for panel-specific antibody barcodes and normalizes platform arms for computed primer placement. The complete 10x bead oligo is a separate vendor dependency.
+🟢 The defining paper and author protocol print the antibody oligos and ADT PCR primers. 🔴 Neither prints the acquired read cycles (only “HiSeq 2500 Rapid Run with v2 chemistry”, ADT 10% / cDNA 90% of a lane, Methods line 140; protocol lines 330–335) nor the Index 1 / Read 2 sequencing primers for the small-RNA arm; the model therefore assigns no cycle counts and declares only TruSeq Read 1 on the ADT library. Which read the antibody barcode was extracted from (Methods line 170) is not stated. The complete 10x bead oligo and the cDNA amplification primers are separate vendor dependencies (CG00052 not re-read in this pass).

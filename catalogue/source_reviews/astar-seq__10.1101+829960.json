@@ -276,5 +276,25 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Published article, oligo table, worksheets and full bioRxiv Supplementary Experimental Procedures have independent reviews. The later publisher detailed Supplemental Methods PDF remains inaccessible for full reading. Its indexed Part 1 excerpt and the preprint disagree on C1 harvest volume (approximately 3.5 versus 5.5 µL); downstream published off-IFC changes and missing-information claims remain blocked."
+  "conclusion": "Published article, oligo table, worksheets and full bioRxiv Supplementary Experimental Procedures have independent reviews. The later publisher detailed Supplemental Methods PDF remains inaccessible for full reading. Its indexed Part 1 excerpt and the preprint disagree on C1 harvest volume (approximately 3.5 versus 5.5 µL); downstream published off-IFC changes and missing-information claims remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Genome Res PMC7397874 JATS lines 82 (overview), 162 (ASTAR-seq on-/off-IFC steps), 166 (sequencing); published Supplemental Table 5 xlsx.txt Primers sheet lines 1-36 and Protocol Worksheet ASTAR pdf.txt (C1 reagent loading) plus Supplemental_Material_.docx inventory; bioRxiv v1 supplement media-6.pdf.txt Supplementary Experimental Procedures lines 1562-1665 (used for detail omitted from the published main text)",
+      "oligo_scraper": "Bundle scraper run; C1-P2-T31/C1-P2-PCR-2 (/5BiosG/), all-RNA TSO, ATAC adaptor 1/2 and v2_Ad1/v2_Ad2 hits checked against published Table 5 lines 4-36 and identical preprint media-5 lines; ACTb/GAPDH hits are qPCR primers.",
+      "findings": "Defining citation moved to the published Genome Research article, with explicit labelled use of the preprint supplement for reaction detail because the published Supplemental Methods PDF returned HTTP 404/403. Corrected the cDNA release step: both strands are 5'-biotinylated after on-chip PCR with one biotinylated primer, so the eluate is drawn as inferred heat-eluted cDNA without the former non-biotinylated-strand claim; spent beads are a discarded output. Added the missing off-chip C1-P2-PCR2 9+11-cycle re-amplification and 20 uL AMPure cleanup before Nextera XT tagmentation. Harvest 5.5 uL (preprint) vs ~3.5 uL (search-index snippet of publisher PDF) relabelled as an unverified difference on the page. Note: AMPure 1x corrected to 20 uL (~0.8x derived); RNA library pooling and 2x 0.75x AMPure added.",
+      "deferred": [
+        "Publisher Supplemental_Material.pdf (Supplemental Methods; https://genome.cshlp.org/content/suppl/2020/07/22/gr.257840.119.DC1/Supplemental_Material.pdf, 404/403)",
+        "Published harvest volume (~3.5 uL) and any other changed published reaction values",
+        "Fluidigm 'Using C1 to Generate Single-Cell cDNA Libraries for mRNA Sequencing' manual and Nextera XT kit original (RNA library index primers)",
+        "Strand form and mechanism of 90 C cDNA elution",
+        "Identity of v2_Ad1/Ad2 index set with Buenrostro 2013 set; C1-P2-PCR2 biotin status in second PCR"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 4/4 pass; page builds; pairing 0 problems; chemistry 4 established/2 conditional/11 unresolved/0 contradictory; source guard 4 exact checked (biotin_dt, tso, c1_primer, c1_primer_2), 0 failed, 6 inputs without exact states (atac/rna transposomes, i5/i7 primers); Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

@@ -75,5 +75,26 @@
       "evidence": "Cited June 2025 manual absent; current revision only gives motifs in inspected pages."
     }
   ],
-  "conclusion": "July 2026 E8015 manual and linked LV UDI index manual are readable; current-manual discrepancy and per-well index table have independent checks. June 2025 cited revision remains unavailable."
+  "conclusion": "July 2026 E8015 manual and linked LV UDI index manual are readable; current-manual discrepancy and per-well index table have independent checks. June 2025 cited revision remains unavailable.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "NEB E8015 manual Version 2.0_7/26 (manuale8015.pdf via extra_sources row, md5 7fcf7e4b…) .txt lines1-60 kit contents/Required Materials, 117-155 Overview/Fig.1-2 captions/trimming sequences (p.3 lines150-151), 194-885 protocol §1.1-1.11 (fragmentation, End Prep, ligation, 1X cleanup, TET2/T4-BGT/Fe(II)/Stop, 1X cleanup, formamide/NaOH denaturation, APOBEC options, Q5U+LV UDI PCR, 0.8X cleanup, sequencing), 886-1170 Kit Components/Revision History (1.2 9/25, 1.3 4/26, 2.0 7/26); NEB LV UDI manual (now Version 2.0_6/26) lines1-56 compatibility (E8015) and 8-base i5/i7 index primers.",
+      "oligo_scraper": "Bundle scraper run: E8015 trimming sequences Adaptor Read 1/Read 2 (lines150-151) verified verbatim; LV UDI hit is a split index table row. No adaptor or full primer strands printed.",
+      "findings": "Added omitted DNA denaturation (formamide recommended or 0.05 N NaOH, 85C 10min) as a strand-separation step feeding APOBEC; added lambda/pUC19 control spike-ins, UltraShear/Covaris fragmentation (~350 bp, no cleanup), Stop Reagent, three bead clean-ups (1X post-ligation with Carrier DNA at <=10 ng, 1X post-protection, 0.8X post-PCR) with waste fates, no cleanup between deamination and PCR, Q5U 4-14 cycles. Adaptor-ligated/protected/deaminated intermediates no longer drawn as the P5/i5/i7/P7 PCR product. Adaptor end changed to unavailable: manual does not print a 3'-dT end or call the adaptor conversion-resistant. Selftest checks both printed trimming sequences against the drawn library. Discrepancy E3390/E3392 vs Fig.1 E3900/E3902 re-verified at lines77 and 121 vs Fig.1 caption line128; uncertainty text corrected (no 'June 2025' revision exists in revision history). Removed unused legacy STEPS/Row panels. ref/MANIFEST.md revision corrected to 2.0_7/26.",
+      "deferred": [
+        "Earlier E8015 revisions 1.2 (9/25) and 1.3 (4/26) not compared",
+        "E8015 FAQ (NaOH preparation) and NEB Index Oligo Selector/usage-guideline sample sheets not read",
+        "EM-seq Adaptor strands, ligating end and cytosine protection chemistry (not disclosed)",
+        "LV UDI primer synthesis strands; chosen well per experiment",
+        "NEBNext UltraShear M7634 manual (fragmentation end chemistry)",
+        "LV UDI manual revision change v1.0_11/24 -> v2.0_6/26 not re-audited beyond compatibility lines"
+      ],
+      "scope": "Capped vendor-manual pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 103 checks pass (incl. 2 new trimming-sequence checks); page builds; pairing 0 problems; chemistry 0 established/1 conditional/13 unresolved/0 contradictory; source guard 0 checked, 0 failed, 0 inputs without exact states (adaptor/UDI primers unprinted); Markdown built; review schema check pass"
+    }
+  ]
 }

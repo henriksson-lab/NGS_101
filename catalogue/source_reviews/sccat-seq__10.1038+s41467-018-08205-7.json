@@ -120,5 +120,25 @@
       "evidence": "The defining paper names but does not sequence them at lines 1670-1682; predecessor and BGISEQ guide still need checking."
     }
   ],
-  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked."
+  "conclusion": "Independent second source review recorded for inspected originals; unresolved originals or linked guides remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC6349937 JATS s41467-018-08205-7_PMC6349937.xml.txt Methods lines201, 219–229 (separation, RT/TSO/ISPCR, nucleus tagmentation/stop/carrier/XP, ATAC 8-cycle preamp, 10–16-cycle universal/barcode PCR, 150–700bp size selection, RNA tagmentation 55°C/SDS, BGISEQ-500 ssDNA circle/DNB PE50) and references 7/18/36; Supplementary Information MOESM1 Supplementary Figure 1 legend lines290–293; MOESM3 supplementary-data descriptions",
+      "oligo_scraper": "Bundle scraper 21 hits/3 files: Methods oligo-dT, TSO, ISPCR, adapter1/2 and the two qPCR accessible-region QC primers (and preprint copies). No universal/barcode primer, RNA library PCR or BGISEQ oligo bases.",
+      "findings": "Model error corrected: both endpoints were drawn as Illumina Nextera P5/i5/i7/P7 libraries read by Illumina primers, but Methods line229 converts all libraries to BGISEQ-500 ssDNA circles/DNBs read PE50. Graph now adds EDTA stop, 30ng carrier plasmid+RLT Plus, 1.8x XP, exact 8-cycle adapter1/2 preamp geometry, 10–16-cycle universal/barcode PCR (bases unpublished, inferred inputs), 150–700bp XP size selection, RNA 2ng/55°C/SDS tagmentation, Smart-seq2-deferred RNA PCR, warned BGISEQ circle/DNB MAGIC boundaries and PE50 read specs with limitation; final panels show only the Tn5-adapter-flanked core (RNA adapters inferred). No published discrepancy found.",
+      "deferred": [
+        "Picelli 2013 Smart-seq2 (ref 7) RNA library PCR/index primers",
+        "BGISEQ-500 reference-dataset paper (ref 36) and MGI circle/DNB/sequencing-primer originals",
+        "ATAC universal and barcode primer bases and platform tails",
+        "RNA-branch Tn5 adapter identity",
+        "Supplementary Data 3–6 XLS (count matrices; not fetched, judged non-chemistry from MOESM3 descriptions)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/15 unresolved/0 contradictory with two BGISEQ MAGIC warnings; source guard 4 exact checked, 0 failed, 3 inputs without exact states (oligo_dt, tso, atac_transposome); Markdown built; review schema checked"
+    }
+  ]
 }

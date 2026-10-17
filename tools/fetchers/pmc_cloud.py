@@ -75,13 +75,17 @@ def fetch_article(folder, tag: str, pmcid: str) -> dict:
             continue
         if SKIP.search(base):
             continue
+        # held(): a byte-identical copy already on disk under another name counts as got
         if re.fullmatch(rf"{pmcid}\.\d+\.xml", base):
-            got["xml"] = bool(folder.save(f"{tag}_{pmcid}.xml", url,
-                                          "full-text JATS XML (PMC Cloud)", need=rb"<body"))
+            name = f"{tag}_{pmcid}.xml"
+            got["xml"] = bool(folder.save(name, url, "full-text JATS XML (PMC Cloud)",
+                                          need=rb"<body") or folder.held(name))
         elif re.fullmatch(rf"{pmcid}\.\d+\.pdf", base):
-            got["pdf"] = bool(folder.save(f"{tag}_{pmcid}.pdf", url, "article PDF (PMC Cloud)"))
+            name = f"{tag}_{pmcid}.pdf"
+            got["pdf"] = bool(folder.save(name, url, "article PDF (PMC Cloud)") or folder.held(name))
         else:
-            if folder.save(f"{tag}_supp_{base}", url, "supplementary file (PMC Cloud)"):
+            name = f"{tag}_supp_{base}"
+            if folder.save(name, url, "supplementary file (PMC Cloud)") or folder.held(name):
                 got["supp"].append(base)
     m = got["meta"]
     if m:
@@ -91,14 +95,30 @@ def fetch_article(folder, tag: str, pmcid: str) -> dict:
     return got
 
 
+def settle_manual_rows(folder) -> int:
+    """Drop '(manual) <PMCID> PMC Cloud source' rows of earlier runs once a file from that
+    article's bucket folder is on disk (e.g. fetched by the generic DOI route). -> dropped."""
+    dropped = 0
+    for key in [k for k in folder.rows if re.fullmatch(r"\(manual\) PMC\d+ PMC Cloud source", k)]:
+        pmcid = key.split()[1]
+        if any(not k.startswith("(") and r[1].startswith(f"{BUCKET}/{pmcid}.")
+               and (folder.path / k).exists() for k, r in folder.rows.items()):
+            folder.rows.pop(key)
+            dropped += 1
+    return dropped
+
+
 @register("pmccloud", doc="PMC Cloud (AWS pmc-oa-opendata): JATS XML, PDF, supplements of a PMCID")
 def fetch(job, arg: str, what: str = "") -> None:
     pmcid = arg.upper() if arg.upper().startswith("PMC") else f"PMC{arg}"
     result = fetch_article(job.folder, pmcid, pmcid)
-    if not result["xml"] and not result["pdf"] and not result["supp"]:
+    listing_url = f"{BUCKET}/?list-type=2&prefix={pmcid}."
+    if result["xml"] or result["pdf"] or result["supp"]:
+        job.folder._clear_manual(f"{pmcid} PMC Cloud source", listing_url)
+    else:
         job.folder.manual(
             f"{pmcid} PMC Cloud source",
-            f"{BUCKET}/?list-type=2&prefix={pmcid}.",
+            listing_url,
             what or "original PMC article and attachments",
             "no usable file returned; obtain the original through another route",
         )

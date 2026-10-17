@@ -279,5 +279,25 @@
   "open_model_questions": [
     "Construct source-matched physical capture/branch junction, PCR product and DNB circle; known sequences alone do not prove complete topology.",
     "Resolve legacy42/R1 versus current authorrepo42/54/R2 version-specific processing identity before assigning one physical run layout."
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Genome Research PMC6499310 JATS Results 136–142 (single vs two-transposon, 3′ branch ligation, BGISEQ-500 circularization per Drmanac2010, PE100 for stLFR-1–4), Methods 204 (bead construction), 208 (two-transposon PCR: PfuCx, 10 min 72°C + 12 cycles), 212 (3′ branched adapter route); Cheng2018 original manuscript (protocols.io attachment5 szaycicn7.pdf.txt 300–366: steps 54–60 and 61–81, demux 42 bases appended to Read 1); original Supplement_0.xlsx (324392_324392-2.xlsx.txt) via scraper hits lines 3–17",
+      "oligo_scraper": "Bundle scraper run (max 15 hits); BeadCommonT, Transposon1T, TransposonB (U×3, /5Phos/), BGI R2 and MDA2 hits checked against workbook rows; agree with stlfr_chem.py.",
+      "findings": "Verified the selected single-transposon route order (Exo I+III/TA 10 min, SDS stop, UDG+APE1, SSB (protocol only), 300 pmol branch adapter + T4 ligase 2 h, PCR) and PfuCx/400 pmol primers. New graph-owned published discrepancy on the PCR step: article line 212 says branch-route PCR is the same as two-transposon (10 min 72°C then 12 cycles) while original step 80 gives 95°C 3 min then 10–12 cycles; model selects neither. Article omission of the SSB step recorded as summary omission, not conflict. Existing common-adapter discrepancy, statistical occupancy and Read 1/Read 2 demux scopes retained.",
+      "deferred": [
+        "Drmanac 2010 (doi:10.1126/science.1181498) circularization/DNB original (paywalled; manual)",
+        "Base-resolved capture/branch junction and physical PCR product not constructed",
+        "Which PCR programme and cycle number were used for stLFR-1–3",
+        "Original steps 41–51 capture/hybridization conditions not re-read this pass",
+        "Wang 2019 DNA Research 3′ branch ligation study not re-read this pass"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite all 4 checks passed; page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory with circle_and_dnb MAGIC warning; source guard 4 exact checked, 0 failed, transposome without exact state; Markdown built; review schema (audit --check) pass"
+    }
   ]
 }

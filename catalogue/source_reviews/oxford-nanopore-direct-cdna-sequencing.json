@@ -42,6 +42,21 @@
       "pass_2": null,
       "reason": "Component sequence source not obtained; later technical doc does not establish absence.",
       "discovered_from": "chem_doc"
+    },
+    {
+      "id": "successor_v14_protocol",
+      "role": "vendor",
+      "locator": "Oxford Nanopore Ligation sequencing V14 - Direct cDNA sequencing (SQK-LSK114) DCS_9187_v114_revK_24Feb2026, https://nanoporetech.com/document/ligation-sequencing-v14-direct-cdna-sequencing; local successor_ligation-sequencing-v14-direct-cdna-sequencing.html(.txt)",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Successor kit protocol; never mentions SQK-DCS109, so it is not authority for DCS109 reagents or sequences.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": ".txt lines 164-345 (version, primers, materials), 600-720 (RT, RNA degradation, second strand), 912, 964-994 (end prep)",
+        "finding": "Names Maxima H Minus RT, RNase Cocktail, LongAmp Taq, NEBNext Ultra II End Prep and user-supplied VN/SSP/PR2 primers for SQK-LSK114; no DCS109 linkage; not used in the model."
+      },
+      "pass_2": null
     }
   ],
   "linked_information": {
@@ -66,5 +81,39 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Accessible source rows have two located independent reads; unavailable relevant source rows keep missing-information claims blocked."
+  "conclusion": "Accessible source rows have two located independent reads; unavailable relevant source rows keep missing-information claims blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "ONT Chemistry Technical Document CHTD_500_v1_revAV_24July2026 local .txt: section 12 kit list lines 1040–1048, Direct cDNA Sequencing Kit paragraph lines 1072–1074, adapter-sequence table lines 2070–2105 ('for our current kits'), kit reagents 2108–2130; ONT product brochure BR_1009(EN)_V5_30Nov2020 'Which RNA kit?' table, printed p15 (PDF page 8 rendered)",
+      "oligo_scraper": "Bundle scraper run; hits are native barcodes NB01–NB96, barcode flanks and current-kit adapter table rows (LA/NA/RA/RTP/SSPII/CRTA/cPRM/RBA); none assigned to SQK-DCS109; brochure figure gives no sequences.",
+      "findings": "Added the missing strand-switching primer input (bases unverified) to the RT step; RT primer relabelled as annealed primer with poly(A) priming inferred; RNase cocktail named; end-prep labelled dA tailing with repair inferred from 'treated similarly to gDNA'. Caveat/source now state revision, 100 ng poly(A) RNA or 70–200 ng cDNA input, and that the current-kit adapter table is not used for DCS109. Brochure confirms PCR-free, RT required, 100 ng poly(A)+ input, 275 min, Native Barcoding Expansion multiplexing. No published discrepancy found.",
+      "deferred": [
+        "SQK-DCS109 kit protocol (guessed nanoporetech.com document URLs 404 on 2026-10-17; legacy protocol behind Nanopore Community login)",
+        "Kit RT primer, strand-switching primer, sequencing adapter and motor bases/identity",
+        "RT enzyme, second-strand polymerase, end-prep/ligation reagents and cleanups"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (1 construction PASS, 0 explicit source checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/5 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (all oligos symbolic/unverified); Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "SQK-DCS109 kit protocol routes: nanoporetech.com /__sitemap__/document.xml (380 entries, no DCS109; SQK-RNA002 legacy docs present); guessed nanoporetech.com/document/*dcs109*, product and store URLs 404; community.nanoporetech.com direct-cdna-sequencing-sqk-dcs109 (with/without revision) 'no longer exists'; Internet Archive Wayback/CDX temporarily offline; protocols.io API needs token. Lead read: successor DCS_9187_v114_revK_24Feb2026 (SQK-LSK114) .txt lines 164-345, 600-720, 912, 964-994.",
+      "oligo_scraper": "Run on successor document: 3 hits (VN Primer /5phos/…T20VN, Strand-switching Primer, PR2 Primer), all successor-kit user-supplied primers; none attributable to SQK-DCS109.",
+      "findings": "No model/page change: the successor V14 protocol never mentions SQK-DCS109, so its reagents (Maxima H Minus RT, RNase Cocktail, LongAmp Taq second strand, NEBNext Ultra II End Prep) and primers are not applied. Note section 6 records routes and the unused lead; MANIFEST row added for the successor document.",
+      "deferred": [
+        "SQK-DCS109 kit protocol (no public nanoporetech.com document; community login/removed; retry Wayback for community.nanoporetech.com/protocols/direct-cdna-sequencing-sqk-dcs109)",
+        "Kit RT primer, strand-switching primer, sequencing adapter and motor bases/identity",
+        "RT enzyme, second-strand polymerase, end-prep/ligation reagents and cleanups for DCS109"
+      ],
+      "scope": "Capped retrieval follow-up; defining kit protocol still unobtained; no accepted missing-information claim.",
+      "verification": "local suite passes (1 construction PASS, 0 explicit source checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/5 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

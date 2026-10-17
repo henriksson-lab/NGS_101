@@ -44,5 +44,25 @@
       "evidence": "Two independent original-PDF readings locate the LCV2 and pLCKO2 primer families in Tables 1 and 2; the page chooses source-listed D501/D701 as an example, with sample-specific choices intentionally variable."
     }
   ],
-  "conclusion": "Two independent readers verified the published PCR1/PCR2 primer families, representative index members, and read layout in the author PDF. The LCV2 two-PCR page uses source-listed D501/D701."
+  "conclusion": "Two independent readers verified the published PCR1/PCR2 primer families, representative index members, and read layout in the author PDF. The LCV2 two-PCR page uses source-listed D501/D701.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-13",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Moffat Lab Pooled CRISPR Screen Protocol v2 rev. 20190723 (Addgene-hosted PDF, md5 2d7d7144…) moffat_lab_crispr_screen_protocol_v2.pdf.txt lines625–863 (section 3.5.3 PCR1/PCR2 recipes, cycling, gel excision), Table1 lines865–944, Table2 lines952–1028 (pLCKO2 branch, not drawn), section 3.5.4 lines1037–1078 (run recipe, stagger alternative)",
+      "oligo_scraper": "Bundle scraper run: 8 hits (LCV2 PCR1 pair, D501-F/D701-R families, pLCKO2 reverse, S501-F family, stagger template); all verified against Table1/2 and section 3.5.4 text.",
+      "findings": "Graph now owns Table1 LCV2 PCR1 pair and full D501-F/D701-R Ultramers with exact PCRGeometry for both PCRs (previously unavailable); NEBNext Ultra II Q5 Master Mix named; PCR1 3.5µg/50µL, 25 cycles 66°C anneal, pooling; PCR2 5µL pooled PCR1, 10 cycles 55°C/65°C; added 2% gel 200-bp band excision/gel extraction cleanup with discarded remainder. Local PCR1-product state carries the full 22-nt/24-nt PCR2 annealing parts (shared intermediate showed only 12 nt of the hU6 site); flanks remain placeholders. Shared library model verified to contain the full printed D501-F and complement of D701-R. Read recipe text now names SR50/SR75 instruments and the undrawn stagger alternative. No published discrepancy found.",
+      "deferred": [
+        "LCV2 vector sequence between PCR1 and PCR2 sites (~600-bp PCR1 flanks)",
+        "Hart 2015/Hart 2017 TKOv3 publications and one-step PCR reference (ref.1) not read",
+        "pLCKO2::TKOv3 branch (Table2) and staggered-primer variant not drawn",
+        "Dark-cycle run recipe has no structured field in SequencingPlan (prose only)",
+        "Per-sample i5/i7 assignment unspecified; D501/D701 representative"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/3 unresolved/0 contradictory; source guard 4 exact checked, 0 failed; Markdown built; review schema checked; Joung/lentiCRISPR v1/v2 pooled_crispr consumers pass"
+    }
+  ]
 }

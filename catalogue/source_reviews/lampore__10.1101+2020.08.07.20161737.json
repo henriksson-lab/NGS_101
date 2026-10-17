@@ -6,9 +6,15 @@
       "id": "preprint",
       "role": "defining",
       "locator": "https://doi.org/10.1101/2020.08.07.20161737",
-      "availability": "unavailable",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Defining medRxiv full text remains manual/403; web search snippets do not establish contents."
+      "reason": "medRxiv v3 (posted 2020-10-30, latest of 3 versions, unpublished per medRxiv API) obtained 2026-10-17 from its open medRxiv location https://www.medrxiv.org/content/medrxiv/early/2020/10/30/2020.08.07.20161737.full.pdf (Unpaywall/OpenAlex green OA); Europe PMC PPR198956 EMS90766 repo link returned expired-link error.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "2020.08.07.20161737v3.full.pdf.txt Methods 1 lines 196-256, Methods 2 lines 257-378, Assay design 380-398, Barcode demultiplexing 948-968, FIP barcode optimisation 1002-1022, references 1690-1790",
+        "finding": "Methods give LAMP (NEB E1700, 65 C 35 min + 80 C 5 min), column pooling, SQK-RBK004 rapid barcoding (30 C 2 min, 80 C 2 min), 0.8x AMPure, RAP after cleanup, 1 h MinION; FIP barcodes added as in refs 6-7 but no FIP-barcode, rapid-barcode or adapter bases printed in inspected sections (scraper 0 hits)."
+      }
     },
     {
       "id": "preprint2",
@@ -16,7 +22,7 @@
       "locator": "https://doi.org/10.1101/2020.09.18.20195370",
       "availability": "unavailable",
       "relevance": "relevant",
-      "reason": "Later assay/protocol preprint cited in local bundle is also manual; its supplemental ONT protocol could be chemistry-relevant.",
+      "reason": "Preprint of the published JCM paper (PMC8315953, read); excluded as superseded per published-version-first. Open copies exist (medRxiv early/2020/09/25; White Rose eprints 198941/198945) but are not chemistry authority over JCM.",
       "discovered_from": "preprint"
     },
     {
@@ -64,5 +70,44 @@
       "evidence": "Period-specific ONT manual and original preprints inaccessible. Later JCM study names protocol version but gives no full primer table in inspected Methods."
     }
   ],
-  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining medRxiv 10.1101/2020.08.07.20161737 re-fetched: still manual (no open full text), not read. Read later clinical paper Peto et al. JCM 2021 PMC8315953 JATS Methods 'LamPORE' xml.txt lines 216–220 and Discussion line 352; cited Zhang et al. bioRxiv 10.1101/2020.06.03.132894 v1 Table 1 pdf.txt lines 275–355 (published BioTechniques 10.2144/btn-2020-0078 manual).",
+      "oligo_scraper": "Bundle scraper run: 6 hits, all from the Zhang bioRxiv Table 1 primer-set rows (As1e, E1, N2, ACTB; wrapped six-primer rows concatenated); note F3 examples confirmed at line starts. No LamPORE FIP-barcode, rapid-barcode or adapter bases in the JCM text.",
+      "findings": "Added JCM-sourced 65–80 C/40 min thermocycler LAMP condition; added pooling of all rapid-barcoded columns into one library without normalization and the magnetic bead cleanup (with waste terminal) before loading; motor-adapter attachment kept inferred and now states that its presence/position relative to the cleanup is not in the inspected source; sequencing limitation records MinION flow cell on GridION, 60 min. Page source now cites the JCM Methods actually read and flags the preprint as unread. Note: provenance lines, report thresholds, FIP7 study-specific omission, preprint provenance of Zhang primer bases. No published discrepancy found.",
+      "deferred": [
+        "James et al. medRxiv 2020.08.07.20161737 full text and supplement (manual, defining)",
+        "ONT LamPORE protocol 1 July 2020 v1 rev4 (vendor, not in bundle)",
+        "Later preprint 10.1101/2020.09.18.20195370 (manual)",
+        "Published Zhang et al. BioTechniques btn-2020-0078 primer table (manual)",
+        "FIP barcode, rapid barcode, attachment tag and motor-adapter bases; bead type/ratio; adapter step order"
+      ],
+      "scope": "Capped pass on the later clinical original only; defining preprint unread; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 1 input without exact states; Markdown built; audit --check pass (blocked 1)"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Defining James et al. medRxiv 10.1101/2020.08.07.20161737 v3 (posted 2020-10-30) pdf.txt: Methods 1 lines 196-256, Methods 2 lines 257-378, Results Assay design 380-398, Barcode demultiplexing 948-968, FIP barcode optimisation 1002-1022, references 1690-1790.",
+      "oligo_scraper": "Scraper on the v3 pdf.txt: 0 hits (no oligo bases printed); bundle total still 6 hits, all Zhang bioRxiv Table 1.",
+      "acquisition": "Unpaywall/OpenAlex green OA -> medRxiv early/2020/10/30 full.pdf downloaded (valid PDF) and placed by hand with MANIFEST row; Europe PMC PPR198956 fulltextRepo EMS90766 PDF link 'expired or invalid'; Europe PMC fullTextXML HTTP 500; medRxiv API lists v1 2020-08-11, v2 2020-10-29, v3 2020-10-30, unpublished. Published Zhang BioTechniques btn-2020-0078: future-science.com and tandfonline.com PDFs return Cloudflare challenge (manual).",
+      "findings": "Graph now sourced to the preprint: 25 ul 2x LAMP Master Mix (NEB E1700) + 5 ul 10x primer pool + 20 ul RNA, 65 C 35 min then 80 C 5 min (consistent with JCM 65-80 C/40 min summary); 12 column pools of 8; SQK-RBK004 rapid barcode reaction (6.5 ul water, 1 ul pool, 2.5 ul barcode; 30 C 2 min, 80 C 2 min) with condition input; 0.8x AMPure, 80% ethanol, 15 ul EB; RAP (1 ul to 11 ul eluate, 5 min RT) now sourced after the cleanup (earlier inferred-order reason replaced); 1 h MinION and report thresholds. Note: preprint reading locations, RBK fragment length, 8-of-12 FIP selection, ORF1a AS1 cited to Rabe & Cepko vs Zhang As1e open question. No published discrepancy found.",
+      "deferred": [
+        "ONT LamPORE protocol 1 July 2020 v1 rev4 (vendor, not in bundle)",
+        "Published Zhang et al. BioTechniques btn-2020-0078 primer table (Cloudflare; https://www.future-science.com/doi/pdf/10.2144/btn-2020-0078)",
+        "Rabe & Cepko medRxiv 10.1101/2020.04.23.2007687 AS1 primer set (not read)",
+        "Preprint Supplementary Table 1 (clinical results, not obtained, not chemistry)",
+        "FIP barcode, rapid barcode, attachment tag and RAP bases"
+      ],
+      "scope": "Capped defining-source pass; one new original read; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 1 input without exact states; Markdown built (01_lampore.md); audit --check pass (blocked 1)"
+    }
+  ]
 }

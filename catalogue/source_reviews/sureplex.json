@@ -150,5 +150,25 @@
       "evidence": "VeriSeq v05 and Illumina v22 print families but no run-specific selections; linked kit guides and independent pass outstanding."
     }
   ],
-  "conclusion": "Official SurePlex/VeriSeq guides, current adapter table, BlueFuse card and guidance note now have two located readings. The model separates preamplification/amplification and renders a warned no-cell-control artifact. Exact commercial preamp oligos, selected index member and historical kit junction remain blocked; MiSeq reagent/pooling links await review."
+  "conclusion": "Official SurePlex/VeriSeq guides, current adapter table, BlueFuse card and guidance note now have two located readings. The model separates preamplification/amplification and renders a warned no-cell-control artifact. Exact commercial preamp oligos, selected index member and historical kit junction remain blocked; MiSeq reagent/pooling links await review.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Illumina SurePlex Summary Protocol 15053626 v02 pdf.txt Cell Lysis/Extraction, Pre-amplification and Amplification lines 475–789 (Tables 7/9 reagents and programs); Illumina VeriSeq PGS Library Prep Reference Guide 15052877 v05 pdf.txt Tagment/neutralize lines 880–929, Amplify Tagmented DNA lines 929–1054 (printed p. 11), Clean Up PCR lines 1059–1275 (printed pp. 12–14), Normalize Libraries lines 1277–1590 (printed pp. 15–17), Pool Libraries lines 1596–1776 (printed pp. 18–19); printed page numbers checked with per-page pdftotext",
+      "oligo_scraper": "Bundle scraper run: 0 sequences in 0 files; no oligo bases printed in the inspected sections.",
+      "findings": "Graph previously ended at index PCR. Added source-stated AMPure XP 1:1 (45 µl beads/45 µl PCR) clean-up with discarded short fragments/primers, and LNA1/LNB1 bead normalization with LNW1 washes and 0.1 N NaOH elution into LNS1 producing the single-stranded normalized library; unbound library discarded with the supernatant (capture mechanism undisclosed). Lysis, 12-cycle preamplification, 14-cycle amplification, tagmentation/NT neutralization and 12-cycle N7xx/S50x PCR re-verified unchanged. Single-index 12-plex branch remains noted but not drawn.",
+      "deferred": [
+        "SurePlex preamplification primer bases/formulation (proprietary; not printed in inspected guide)",
+        "LNB1 normalization-bead capture chemistry",
+        "Single-index 12-plex branch not drawn",
+        "MiSeq Read 1 cycle number (Guidance Note '36-cycle' not split by read in inspected text)",
+        "MiSeq System Guide 15027617 and qPCR Quantification Guide 11322363 not opened"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 8 steps 0 established/0 conditional/9 unresolved/0 contradictory with control_artifact MAGIC warning; source guard 0 checked, 0 failed, 3 inputs without exact states; Markdown built; audit --check pass"
+    }
+  ]
 }

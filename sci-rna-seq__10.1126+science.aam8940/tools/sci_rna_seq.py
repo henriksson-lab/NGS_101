@@ -6,7 +6,7 @@ import nextera as nx
 import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Highlight, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind, Terminal, Disposition)
 
 UMI_FEATURE = feature("umi", "umi", "random")
@@ -129,26 +129,29 @@ def protocol_graph() -> ProtocolGraph:
     primer=graph.input("rt_primer","barcoded anchored oligo-dT RT primer",
                        MaterialKind.OLIGO,state=tuple(rt_primer()))
     rt=graph.input("reverse_transcriptase","SuperScript IV reverse transcriptase",MaterialKind.CATALYST)
+    rt_stop=graph.input("rt_stop_solution","2X stop solution (40 mM EDTA, 1 mM spermidine)",
+                        MaterialKind.CONDITION)
     first=graph.product("first_strand",first_strand().name,MaterialKind.MOLECULAR,
                         state=first_strand())
-    graph.react("reverse_transcribe","Install the RT-well barcode and UMI in fixed cells",
+    graph.react("reverse_transcribe","Install the RT-well barcode and UMI in fixed cells (55 °C 10 min, then stop solution)",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((cells,InputRole.TEMPLATE),(primer,InputRole.STRUCTURAL),
-                 (rt,InputRole.CATALYST)),(first,))
+                 (rt,InputRole.CATALYST),(rt_stop,InputRole.CONDITION)),(first,))
     sorter=graph.input("facs","FACS well assignment",MaterialKind.SELECTION)
+    dapi=graph.input("dapi","DAPI stain (3 µM) for singlet gating",MaterialKind.CONDITION)
     sorted_cdna=graph.product("sorted_cdna","first-strand cDNA retained in sorted cells",
                               MaterialKind.MOLECULAR,state=first_strand())
     rejected=graph.product("sorting_waste","cells not retained for library construction",
                            MaterialKind.WASTE)
-    graph.react("sort","Pool cells and sort them into PCR wells",StepKind.SAMPLING,
-                ((first,InputRole.TEMPLATE),(sorter,InputRole.SELECTION)),
+    graph.react("sort","Pool cells, stain with DAPI and sort them into PCR wells",StepKind.SAMPLING,
+                ((first,InputRole.TEMPLATE),(dapi,InputRole.CONDITION),(sorter,InputRole.SELECTION)),
                 (sorted_cdna,rejected),changes_molecule=False)
     graph.discard(rejected,"cells outside the selected PCR wells do not enter the library")
     second_pol=graph.input("second_strand_polymerase","NEB mRNA Second Strand Synthesis enzyme mix",
                            MaterialKind.CATALYST)
     duplex=graph.product("double_stranded_cdna","double-stranded barcoded cDNA",
                          MaterialKind.MOLECULAR,state=second_strand_scene())
-    graph.react("second_strand","Synthesize the second cDNA strand",StepKind.EXTENSION,
+    graph.react("second_strand","Synthesize the second cDNA strand (16 °C 150 min; 75 °C 20 min stop)",StepKind.EXTENSION,
                 ((sorted_cdna,InputRole.TEMPLATE),(second_pol,InputRole.CATALYST)),(duplex,))
     carrier=graph.input("carrier_dna","human genomic DNA carrier",MaterialKind.MOLECULAR)
     transposome=graph.input("nextera_transposome","Nextera DNA Sample Preparation TDE1 transposome",MaterialKind.ADAPTER)
@@ -181,7 +184,7 @@ def protocol_graph() -> ProtocolGraph:
                    state=tuple(p7_primer()))
     polymerase=graph.input("pcr_polymerase","NEBNext High-Fidelity 2X PCR Master Mix",MaterialKind.CATALYST)
     final=final_library()
-    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    amplified=graph.product("pcr_products","PCR-well products",MaterialKind.MOLECULAR,state=final)
     geometry=PCRGeometry.exact(
         selected_tagmented_strand(),
         PCRPrimer("indexed P5 PCR primer",P5_TEMPLATE,anneal_nt=len(HANDLE)),
@@ -191,7 +194,15 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.PCR,
                 ((cleaned,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
                  (p7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
-                (library,),geometry=geometry)
+                (amplified,),geometry=geometry)
+    pcr_beads=graph.input("pcr_cleanup_beads","AMPure XP beads (0.8 volumes)",MaterialKind.SELECTION)
+    library=graph.product("library",final.name,MaterialKind.LIBRARY,state=final)
+    pcr_waste=graph.product("pcr_cleanup_waste","material not recovered by post-PCR bead purification",
+                            MaterialKind.WASTE)
+    graph.react("pcr_cleanup","Pool PCR wells and purify with 0.8 volumes AMPure XP (Qubit, 6% TBE-PAGE check)",
+                StepKind.CLEANUP,((amplified,InputRole.TEMPLATE),(pcr_beads,InputRole.SELECTION)),
+                (library,pcr_waste),changes_molecule=False)
+    graph.discard(pcr_waste,"Material not recovered by the published post-PCR bead cleanup; its composition is unassigned.")
     lengths={"Read 1":18,"Index 1 (i7)":10,"Index 2 (i5)":10,"Read 2":52}
     graph.sequence(library,SequencingPlan(
         library=final,primers=SEQ_PRIMERS,acquired_roles=tuple(lengths),
@@ -199,9 +210,15 @@ def protocol_graph() -> ProtocolGraph:
         read_uses={"Read 1":"extract","Index 1 (i7)":"demultiplex",
                    "Index 2 (i5)":"demultiplex","Read 2":"include"}))
     graph.declare_reviewed_scope((
-        "fixed_cells","rt_primer","reverse_transcriptase","reverse_transcribe",
-        "facs","sort","second_strand_polymerase","second_strand",
+        "fixed_cells","rt_primer","reverse_transcriptase","rt_stop_solution","reverse_transcribe",
+        "facs","dapi","sort","second_strand_polymerase","second_strand",
         "carrier_dna","nextera_transposome","tn5","tagment","p5_primer","p7_primer",
         "dna_binding_buffer","cleanup_beads","tagmentation_cleanup",
-        "pcr_polymerase","library_pcr","library"),source)
+        "pcr_polymerase","library_pcr","pcr_products","pcr_cleanup_beads","pcr_cleanup",
+        "library"),source)
+    graph.annotate(Highlight("tagmentation_cleanup","Final-article overview lists a lysis step",
+        "The final Science overview (step iv, p. 1) lists second-strand synthesis, Tn5 transposition, "
+        "lysis and PCR. The selected preprint Methods instead stop tagmentation with Zymo DNA binding "
+        "buffer and purify on AMPure XP before PCR, with no separate lysis step. The final supplementary "
+        "Methods were not available, so the published procedure may differ from the drawn preprint route."))
     return graph.require_publishable()

@@ -8,7 +8,7 @@ import nextera as nx
 import seqprimers as sp
 from batch_ngs import seg
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, oligo, revcomp
-from pcr import PCRGeometry
+from pcr import PCRGeometry, PCRPrimer
 from tagmentation import loaded_tn5_adapter
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
@@ -20,11 +20,15 @@ SOURCE = '<a href="https://doi.org/10.1038/s41587-022-01588-5">Stuart et al., <i
 SUMMARY = ("Species-selective nanobody–Tn5 fusions transfer a target-specific MEDSA "
            "barcode and a MEDSB opposite end before Chromium ATAC adds cell identity.")
 CAVEAT = ("The target-specific adapters and Tn5 loading geometry are source-defined. "
-          "The linked 10x ATAC v1.1 guide prints gel-bead and SI-PCR oligo "
-          "scaffolds; the 16-nt cell barcode and 8-nt sample index vary. "
+          "The linked 10x ATAC v1.1 guide (Rev G) prints gel-bead and SI-PCR oligo "
+          "scaffolds, drawn here at their binding sites; the 16-nt cell barcode and 8-nt sample index vary. "
           "This drawing follows the chromatin library. The published optional TotalSeq-A "
           "surface-protein branch adds a blocked bridge oligo and makes a separate antibody-tag library "
-          "(Methods lines 110–112 and 128–136); its tag products are not represented by this molecule.")
+          "(Methods lines 110–112 and 128–136); its tag products are not represented by this molecule. "
+          "The transferred intermediate is drawn closed. The single-cell Methods (JATS line 130) load "
+          "the tagmented cells directly into the 10x workflow, so gap filling is assigned to the 72 °C "
+          "5-min opening step of the GEM incubation; that assignment is inferred from the 10x program "
+          "and the bulk PCR's own '72°C for 5 min (gap filling)' label (line 126).")
 
 MEDSA_BARCODES = ("GGATTGCT", "GTAATGCA", "GTCAAGGA", "GTGAGCGT", "GTGTGACC", "TAAGGTGG")
 CONNECTOR = "GCGATCGAGGACGGC"
@@ -39,6 +43,16 @@ ATAC_GUIDE = "10x Chromium Next GEM Single Cell ATAC v1.1 guide CG000209 Rev G, 
 GEL_BEAD_FORWARD = il.P5 + "N" * 16 + nx.S5
 SI_PCR_FORWARD = "AATGATACGGCGACCACCGAGA"
 SI_PCR_REVERSE = "CAAGCAGAAGACGGCATACGAGAT" + "N" * 8 + "GTCTCGTGGGCTCGG"
+
+
+def si_pcr_geometry():
+    """CG000209 Rev G Appendix A1 SI-PCR Primer B (partial P5) and P7-N8-partial Read2N."""
+    return PCRGeometry.exact(
+        PRE_PCR,
+        PCRPrimer("SI-PCR forward (partial P5)", SI_PCR_FORWARD, anneal_nt=len(SI_PCR_FORWARD)),
+        PCRPrimer("SI-PCR reverse (P7-i7-partial Read2N)", SI_PCR_REVERSE, anneal_nt=len(nx.S7)),
+        statement="10x CG000209 Rev G Appendix A1 prints the SI-PCR forward and indexed reverse scaffolds; "
+                  "the reverse primer anneals at the MEDSB S7 entry site. Rev G is not shown to be the historical kit revision NTT used.")
 
 
 def modality_feature():
@@ -136,20 +150,18 @@ def workflow():
     start = Scene.duplex([seg("antibody-targeted chromatin", "X" * 38,
                               placeholder=True)], label="primary-antibody-bound chromatin")
     w = Workflow(MolecularState("Antibody-bound chromatin", tuple(start.rows())))
-    w.react("Anneal MEDSA_1 and MEDSB separately to ME reverse and load nanobody–Tn5",
+    w.react("Anneal MEDSA_1 and MEDSB separately to pMENT, mix 1:1 and load nanobody–Tn5 (1 h RT)",
             [*loaded(medsa_parts(), "MEDSA mosaic end", "MEDSA_1 nanobody–Tn5").rows(),
              *loaded(medsb_parts(), "MEDSB mosaic end", "MEDSB nanobody–Tn5").rows()],
             name="MEDSA_1/MEDSB nanobody transposomes")
-    w.react("Tagment target-proximal DNA and fill the staggered gaps",
+    w.react("Tagment target-proximal DNA in 10 mM MgCl2, 300 mM NaCl, 37 °C 1 h",
             Scene.duplex(list(TAGGED), label="MEDSA_1/MEDSB target-coded fragment").rows(),
             name="target-coded chromatin fragments")
-    w.react("Linearly amplify and barcode fragments in Chromium ATAC droplets",
+    w.react("GEM incubation: 72 °C 5 min (inferred gap fill), then 12 linear-amplification cycles",
             Scene.duplex(list(PRE_PCR), label="cell-barcoded NTT-seq copies").rows(),
             name="cell-barcoded linear products",
             note="The 10x ATAC v1.1 guide Appendix A1 prints P5–N16–partial Read1N for the gel-bead oligo.")
-    geometry = PCRGeometry.unavailable(
-        PRE_PCR,
-        reason="The 10x guide prints primer scaffolds; this representative workflow has not yet reconstructed their strand-resolved PCR binding geometry.")
+    geometry = si_pcr_geometry()
     w.pcr("PCR-complete the Chromium ATAC library", geometry,
           Scene.duplex(list(FINAL_LIBRARY), label="NTT-seq sequencing library").rows(),
           name="NTT-seq sequencing library")
@@ -175,7 +187,7 @@ def protocol_graph():
                              MaterialKind.MOLECULAR, state=nuclei.state)
     wash = graph.product("unbound_targeting_reagents", "unbound antibodies and transposomes",
                          MaterialKind.WASTE)
-    graph.react("target_chromatin", "Bind target-specific nanobody–Tn5 complexes",
+    graph.react("target_chromatin", "Primary antibodies overnight 4 °C, wash ×2; nb-Tn5 (2.5 µl per target) in 300 mM NaCl 1 h RT, high-salt wash ×2",
                 StepKind.AFFINITY_CAPTURE,
                 ((nuclei, InputRole.TEMPLATE), (antibody, InputRole.SELECTION),
                  (loaded_adapters, InputRole.STRUCTURAL),
@@ -185,18 +197,15 @@ def protocol_graph():
                            MaterialKind.MOLECULAR, state=TAGGED)
     tn5_waste = graph.product("tn5_waste", "non-amplifiable or mistargeted Tn5 products",
                               MaterialKind.WASTE)
-    graph.react("tagment", "Transfer MEDSA and MEDSB at target-proximal DNA",
+    mg_buffer = graph.input("tagmentation_buffer",
+                            "tagmentation buffer (10 mM MgCl2, 300 mM NaCl), 37 °C 1 h",
+                            MaterialKind.CONDITION)
+    graph.react("tagment", "Transfer MEDSA and MEDSB at target-proximal DNA (Mg2+, 37 °C 1 h)",
                 StepKind.TAGMENTATION,
                 ((targeted, InputRole.TEMPLATE), (loaded_adapters, InputRole.STRUCTURAL),
-                 (nanobody_tn5, InputRole.CATALYST)), (tagged, tn5_waste))
+                 (nanobody_tn5, InputRole.CATALYST), (mg_buffer, InputRole.CONDITION)),
+                (tagged, tn5_waste))
     graph.discard(tn5_waste, "does not retain the productive MEDSA/MEDSB configuration")
-    gap_polymerase = graph.input("gap_fill_polymerase", "Tn5-gap-fill polymerase",
-                                 MaterialKind.CATALYST)
-    filled = graph.product("gap_filled_fragments", "gap-filled target-coded fragments",
-                           MaterialKind.MOLECULAR, state=TAGGED)
-    graph.react("gap_fill", "Fill the staggered Tn5 gaps", StepKind.EXTENSION,
-                ((tagged, InputRole.TEMPLATE), (gap_polymerase, InputRole.CATALYST)),
-                (filled,))
     gel_bead = graph.input(
         "gel_bead_oligo", "10x scATAC gel-bead amplification oligo",
         MaterialKind.OLIGO, state=Construct([seg("P5", il.P5, "p5"),
@@ -204,14 +213,16 @@ def protocol_graph():
                 feature=feature("cell_barcode", "cell_barcode", "whitelist",
                                 whitelist="10x Chromium ATAC whitelist")),
             seg("partial Read1N", nx.S5, "s5")]), source=ATAC_GUIDE)
-    linear_polymerase = graph.input("linear_polymerase", "Chromium linear-amplification polymerase",
-                                    MaterialKind.CATALYST)
+    linear_polymerase = graph.input(
+        "linear_polymerase", "Chromium barcoding-mix polymerase (gap fill and linear amplification)",
+        MaterialKind.CATALYST)
     cell_barcoded = graph.product(
         "cell_barcoded", PRE_PCR.name, MaterialKind.MOLECULAR, state=PRE_PCR,
         source=SOURCE + "; " + ATAC_GUIDE)
-    graph.react("linear_amplification", "Linearly amplify and cell-barcode in Chromium droplets",
+    graph.react("linear_amplification",
+                "GEM incubation: 72 °C 5 min (inferred gap fill), 98 °C 30 s, 12 cycles linear amplification with gel-bead oligo",
                 StepKind.EXTENSION,
-                ((filled, InputRole.TEMPLATE), (gel_bead, InputRole.STRUCTURAL),
+                ((tagged, InputRole.TEMPLATE), (gel_bead, InputRole.STRUCTURAL),
                  (linear_polymerase, InputRole.CATALYST)), (cell_barcoded,))
     forward = graph.input("si_pcr_forward", "10x scATAC SI-PCR forward primer",
                           MaterialKind.OLIGO, source=ATAC_GUIDE)
@@ -223,15 +234,13 @@ def protocol_graph():
     graph.react("library_pcr", "PCR-complete the Chromium ATAC library", StepKind.PCR,
                 ((cell_barcoded, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (library,), geometry=PCRGeometry.unavailable(
-                    PRE_PCR,
-                    reason="The 10x guide prints primer scaffolds; this representative workflow has not yet reconstructed their strand-resolved PCR binding geometry."))
+                (library,), geometry=si_pcr_geometry())
     graph.sequence(library, SequencingPlan(
         library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
         acquired_roles=tuple(p.role for p in SEQ_PRIMERS), read_lengths=READ_LENGTHS))
     graph.declare_reviewed_scope((
         "nuclei", "primary_antibodies", "loaded_medsa_medsb", "nanobody_tn5",
-        "target_chromatin", "tagment", "gap_fill_polymerase", "gap_fill",
+        "target_chromatin", "tagmentation_buffer", "tagment",
         "gel_bead_oligo", "linear_polymerase", "linear_amplification",
         "si_pcr_forward", "si_pcr_reverse", "pcr_polymerase", "library_pcr",
         "sequencing_library"), SOURCE)

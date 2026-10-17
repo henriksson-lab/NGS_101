@@ -18,7 +18,10 @@ Sources read (all primary; no secondary redrawing of this family is used as evid
 
 - 🟢 Ramsköld et al. 2012, PMC3467340 full text and the NIHMS379463 supplement — prints the
   CDS oligo-dT primer verbatim, and *names* the SMARTer II A oligo and the kit's IS PCR
-  primer without printing either.
+  primer without printing either. Bounded pass 2026-10-17: JATS `.xml.txt` Results line 73,
+  Methods lines 111–121 (cDNA generation; library construction and sequencing); published
+  Springer MOESM11 Supplementary Fig. 1 (schematic and legend, `.pdf.txt` lines 1–80) and
+  MOESM12 Supplementary Table 1 (read length, library method, platform per library).
 - 🟢 Picelli et al. 2013 Springer supplementary files — Supplementary Table 2 ("List of all
   template switching oligonucleotides tested"), Supplementary Table 4 (which TSO
   *Smart-seq2* uses), and Supplementary Tables 1 and 3 (the oligo-dT and ISPCR primer by
@@ -83,11 +86,18 @@ as a separate reagent — so it is a designed mimic, not a transcription of the 
 `AAGCAGTGGTATCAACGCAGAGT` is the **SMART / ISPCR handle** (23 nt) — shared with Drop-seq,
 SPLiT-seq and the Takara SMARTer kits. `+G` is the LNA; `rG` are ribonucleotides.
 
-Back end is stock Nextera XT — see [`../ref/concepts/tn5-tagmentation.md`](../ref/concepts/tn5-tagmentation.md).
+Back end: 🟢 "a modification of Epicentre's Nextera DNA sample preparation protocol (the
+'Tn5' protocol)" (Methods line 117) — the pre-XT Epicentre kit, not Nextera XT. See
+[`../ref/concepts/tn5-tagmentation.md`](../ref/concepts/tn5-tagmentation.md) for the
+generic Tn5 geometry.
 
 🔴 The original paper names a SMARTer II A oligo and a commercial cDNA amplification
-kit without printing those complete ordered oligos. It also reports both Nextera and
-Covaris/adapter-ligation library preparation; this page follows the Nextera branch.
+kit without printing those complete ordered oligos, and says only "9 cycles of standard
+Nextera PCR" without printing the Nextera PCR/index primers. It also reports both Nextera
+and Covaris/adapter-ligation ("PE") library preparation; 🟢 "All data shown in the figures
+of this manuscript were generated using the PE protocol unless otherwise specified". This
+page follows the Tn5 branch only; the PE branch (Covaris shearing, end repair, A-tailing,
+Illumina PE adaptor ligation, 12–18 PCR cycles) is not drawn.
 
 ## 3. The key architectural fact
 
@@ -110,10 +120,11 @@ makes amplification simple is exactly what SMART-seq3 has to break to get UMIs.
 | 1 | Anneal oligo-dTVN to the poly(A) tail; reverse transcribe with **MMLV** | the `VN` anchor sets the start at the poly(A) junction |
 | 2 | MMLV's terminal transferase adds untemplated **CCC** at the 5' end | see [`template-switching.md`](../ref/concepts/template-switching.md) |
 | 3 | TSO anneals to the CCC and the polymerase switches template | the LNA G is the SMART-seq2 improvement |
-| 4 | **ISPCR single-primer amplification** | semi-suppressive, as above |
-| 5 | **Nextera tagmentation** of the amplified cDNA | 9-bp gap; three product classes, only s5/s7 amplifies |
-| 6 | **72 °C gap fill-in** — the first cycle of the Nextera PCR | not an extension step; skipping it loses the library |
-| 7 | PCR with N/S5xx and N7xx index primers | adds P5, i5, i7, P7 |
+| 4 | **ISPCR single-primer amplification**: 🟢 12 cycles (1 ng total RNA), 15 (100 pg), 18 (10 pg or single cell) | semi-suppressive, as above; primer bases 🟡 |
+| 5 | **Nextera tagmentation** of ~5 ng cDNA: 🟢 55 °C, 5 min, 20 µl with 0.25 µl transposase and 4 µl 5x HMW Nextera buffer | 9-bp gap; three product classes, only s5/s7 amplifies |
+| 6 | 🟢 35 µl PB strips the transposase; 88 µl SPRI XP beads (1:1.6) purify | |
+| 7 | **Gap fill-in** — 🟡 the first extension of the Nextera PCR | hold conditions not printed in the defining paper |
+| 8 | 🟢 9 cycles of "standard Nextera PCR"; primers 🔴 not printed | the page draws canonical N5xx/N7xx geometry as representative |
 
 ## 5. Final library
 
@@ -138,6 +149,19 @@ i5/i7 index pair.
 
 ## 6. Sequencing
 
-Standard Nextera. Read 1 primes on `s5 + ME`; Read 2 on `s7 + ME`; the index reads use
-`revcomp(ME) + revcomp(s7)` and `revcomp(ME) + revcomp(s5)`. Reads land anywhere in the
-transcript, in either orientation — there is no positional information in the construct.
+Primer sites are the standard Nextera ones: Read 1 primes on `s5 + ME`; Read 2 on
+`s7 + ME`; the index reads use `revcomp(ME) + revcomp(s7)` and `revcomp(ME) + revcomp(s5)`.
+Reads land anywhere in the transcript, in either orientation — there is no positional
+information in the construct.
+
+🟢 What was acquired: Supplementary Table 1 lists, for Tn5 libraries, read length 50 on the
+GAIIx (41 libraries) and 40 on the MiSeq (2); PE libraries 50 or 36 on the GAIIx and 53 on
+the HiSeq 2000. 🔴 It does not state single- versus paired-end acquisition, index reads
+or index lengths, so which of the four primer sites were read is open.
+
+## 7. Open questions (bounded pass 2026-10-17)
+
+- Contemporaneous Clontech SMARTer Ultra Low RNA Kit manual (PT5163-1) — TSO/IS PCR bases.
+- Epicentre Nextera DNA sample preparation guide (2011/2012) — PCR primer set, index
+  lengths, gap-fill hold.
+- Read mode and index reads per library; the PE branch is not drawn.

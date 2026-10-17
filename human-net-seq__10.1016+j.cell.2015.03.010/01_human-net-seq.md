@@ -20,11 +20,13 @@ The 2015 original prints these ordering strings with modifications:
 
 The 2012 inherited original Table 4.14.1 prints reverse PCR primer oNTI231, `CAAGCAGAAGACGGCATACGA`, full oNTI230 and indexed oMHL001/002 alternatives. These are positive published primer data. They do not identify the exact forward member selected in 2015 after its RT-primer changes. The declaration keeps that outer arm and selected index unassigned; this is model data awaiting assignment, not accepted publication absence.
 
+🟡 The 2012 RT primer oLSC003 carried the `AATGATACGGCGACCACCGA` tract that oNTI230 matches; the 2015 oLSC007 omits it, so oNTI230 alone would find no site in the 2015 circle. The 3′ ends of oMHL001/002 (`…TCCGACGATCATTGATGG`) match the oLSC006 site. This is a sequence comparison, not a source statement; the 2016 successor (PMC5326677 line 123, reagent table line 888) names only an "Illumina Index forward primer". (2026-10-17 bounded pass, 2012 PDF Table 4.14.1 lines 376–425.)
+
 🟡 Circularization retains the first three bases of the 2015 RT primer before the reverse-primer-complement tract. The earlier endpoint silently omitted them. The final construct now preserves the complete source-known RT5 tract across the closure junction. Biological inserts are variable-length roles; the 28-nt oGAB11 sequence is a separate control, not the length of every nascent RNA.
 
 ## Source-specific reaction route
 
-🟢 The 2015 route ligates the preadenylated, blocked N6 linker before partial alkaline fragmentation and selects 35–100-nt RNA. It then reverse-transcribes, circularizes, depletes nineteen abundant mature-RNA targets by biotinylated probe hybridization and streptavidin capture, retains the supernatant and amplifies.
+🟢 The 2015 route ligates the preadenylated, blocked N6 linker before partial alkaline fragmentation and selects 35–100-nt RNA. It then reverse-transcribes, circularizes, depletes nineteen abundant mature-RNA targets by biotinylated probe hybridization and streptavidin capture, retains the supernatant and amplifies. Depletion (original PDF lines 1088–1097): 5 µl circularization reaction, 1 µl probe pool (10 µM each), 1 µl 20× SSC in a 10 µl reaction; denatured 90 s at 99 °C, annealed at 0.1 °C/s to 37 °C, 15 min; then MyOne Streptavidin C1 beads in 2× bind/wash buffer, 15 min at 37 °C; 20 µl supernatant recovered and isopropanol-precipitated. The RT primer was used at 1.9 µM instead of 10.9 µM.
 
 The inherited 2012 library procedure supplies truncated T4 RNA ligase 2, SuperScript III, post-RT NaOH removal of RNA, cDNA PAGE, CircLigase, Phusion PCR and post-PCR gel selection. Its cDNA selection is described relative to its own RT-primer/control bands. The 85–160-nt cDNA interval belongs to the 2016 successor; it is not assigned to the selected 2015 branch. Earlier repository prose attributed this numerical interval to 2015 incorrectly.
 

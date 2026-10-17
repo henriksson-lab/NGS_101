@@ -185,5 +185,25 @@
       "evidence": "The paper delegates to the vendors; historical kit guides and linked author code have not received two located checks."
     }
   ],
-  "conclusion": "First pass checked defining article, preprint and each supplement and ran the oligo scraper. Vendor originals, linked code and independent second pass remain open."
+  "conclusion": "First pass checked defining article, preprint and each supplement and ran the oligo scraper. Vendor originals, linked code and independent second pass remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC10789043 JATS Methods line 115 (gRNA/PuroR/iBAR library cloning) and line 119 (base editing screens: 5' HT kit on Chromium X, scaffold-specific and PuroR RT spike-ins, nested PCR from the small SPRI fraction, Tapestri custom JAK1 panel plus barcode amplicons, NovaSeq 6000); Additional file 3: Table S2 (MOESM3 sheet Table_S2) primer rows, JAK1 amplicon panel rows sanger_AMP1-41 and the appended pKLV2 region.",
+      "oligo_scraper": "Table S2 rows read directly; the two spike-in RT primers and the shared nested forward primer verified in the supplement text, and both RT gene-specific arms recomputed against the published pKLV2 sequence.",
+      "findings": "Rebuilt the two nested-enrichment libraries from the published vector region: guide library = cell barcode, UMI, vector G, 19-nt spacer, scaffold loop GTTTAAGAGCTATGCTGGA, 6-nt iBAR, scaffold to the oJR160 site (previously one 26-nt 'guide' placeholder); PuroR library = cell barcode, UMI, NeoUTR3 5' UTR, 12-nt barcode, PuroR start to the RT-primer site. Both now use the amplicon constructor (no invented dA ligation junction) with a 10-base i5 index, because the printed nested forward primer is exactly P5 + 10N + TruSeq Read 1, and carry regional PCR geometry naming the undisclosed reverse partner. The genotype library's 16-base cell barcode is marked inferred (Mission Bio length not published). Added seven source-transcription checks (printed RT primers, the single shared nested primer, four verbatim vector stretches, and the 19/12/6-nt barcode windows).",
+      "deferred": [
+        "10x Chromium 5' HT kit user guide, revision not named in the Methods",
+        "Mission Bio Tapestri library-preparation manual and sequencing shell",
+        "Authors' code github.com/MarioniLab/scSNV-seq",
+        "i7-side nested primer and complete 10x bead construct",
+        "Published read lengths (NovaSeq 6000 only)"
+      ],
+      "scope": "Capped defining-source pass. The historical 'blocked' status stands; no missing-information claim accepted.",
+      "verification": "local suite 7 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory; source guard 2 exact oligos checked, 0 failed, 1 input without exact state; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

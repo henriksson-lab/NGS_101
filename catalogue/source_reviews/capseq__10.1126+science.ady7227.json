@@ -136,5 +136,50 @@
       "evidence": "Relevant source files and independent second pass remain outstanding."
     }
   ],
-  "conclusion": "Preprint establishes step order and one modified TSO; original barcode tables and published version are still unavailable."
+  "conclusion": "Preprint establishes step order and one modified TSO; original barcode tables and published version are still unavailable.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Science doi:10.1126/science.ady7227 re-fetched via get_sources (still (manual); science.org suppl page HTTP 403); author bioRxiv v1 Supplement 1 (media-1.pdf.txt) CapSeq procedure lines 276-340 (TSO line 282, BC1-BC3 Tables S22-S24, Hairpin-TSO Table S21, in-capsule CapSeq-REV/FWD PCR); GEO GSM8830586 record text (acc.cgi?acc=GSM8830586&targ=self&form=text) extract_protocol and data_processing fields; WO2026190526A1 PatSnap HTML rendering, Example 3 and Tables 1-5 (Google Patents 404; PATENTSCOPE script-only)",
+      "oligo_scraper": "Bundle scraper: 2 hits; TSO at Supplement 1 line 282 verified with /5Biosg/ and rGrGrG; line 538 hit is a samtools grep string, not an oligo.",
+      "findings": "No model exists (notes-only). GEO GSM8830586 independently read: adapter pair /5Phos/GATCGGAAGAGCACACGTCTGAACTCCAGTCAC/3ddC + /5AmMC6/GCTCTTCCGATCT, 95C 2 min anneal, Ultra II FS fragmentation/ER-dA, ligation 15 min 20C, 12-cycle KAPA HiFi indexing PCR with Table S25 primers, STARsolo BC3[8]BC2[10]BC1[8]UMI[8] processed layout; note matches and gains the PCR detail. Patent rendering Example 3 matches Supplement 1 and adds NextSeq R1 43/i7 6/R2 89 cycles; recorded in note as an unverified lead only. Patent table sequences not transcribed (rendering merges rows).",
+      "deferred": [
+        "Published Science full text and supplementary Tables S21-S25 (paywall/Cloudflare; manual URL https://doi.org/10.1126/science.ady7227)",
+        "WO2026190526A1 patent PDF (Tables 1-5 sequences, sequencing cycles)",
+        "GEO GSM9578506 raw Read 1 layout and CapMux split-UMI paper",
+        "mazutislab/capseq and solo-in-drops repositories (linker trimming)",
+        "Acquired cycle layout and R4 index primer sequences"
+      ],
+      "scope": "Capped defining-source pass only; published original unavailable, preprint used as fallback; no accepted missing-information claim.",
+      "verification": "notes-only: no suite/page; check_chemistry, source guard and audit --check run on slug; Markdown built"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "GEO GSM9578506 record text (acc.cgi?acc=GSM9578506&targ=self&form=text; series GSE324486; submitted 10 Mar 2026), saved as geo_GSM9578506_self_form-text.txt: extract_protocol lines 15-16 (Ultra II FS library prep, adapter pair, 95C 2 min anneal, 15 min 20C ligation, KAPA HiFi indexing PCR with Table S25 primers) and data_processing line 19 (raw Read 1 positions umi1 1/4, bc3 5/8, bc2 18/10, bc1 32/8, umi2 40/4; CapMux pipeline; NextSeq 2000)",
+      "attempted_routes": [
+        "OpenAlex/Unpaywall: no OA copy of the Science version; only bioRxiv v1 and PMC preprint mirror PMC11957016",
+        "Europe PMC: PMID 41411411, no PMCID, not OA",
+        "bioRxiv API: only version 1 exists",
+        "science.org doi/suppl/10.1126/science.ady7227/suppl_file/science.ady7227_sm.pdf: Cloudflare 403",
+        "WO2026190526A1 PDF: Google Patents 404; Espacenet originalDocument 403"
+      ],
+      "manual_url": "https://doi.org/10.1126/science.ady7227",
+      "oligo_scraper": "Bundle scraper: 4 hits; TSO (Supplement 1 line 282) and the GEO adapter pair (GSM9578506 line 16, matching GSM8830586) verified; line-538 hit is a samtools region string.",
+      "findings": "Notes-only, no model change. GSM9578506 raw Read 1 positions recorded verbatim; derived consistency (1-based reading): 5- and 4-nt linker gaps, Read 1 ends at 43 matching the patent-rendered R1 43, and 34 informative bases equal GSM8830586's BC3[8]BC2[10]BC1[8]UMI[8]. GEO submitter text is internally inconsistent on the indexing PCR ('11-cyles' vs '12-cycles'); recorded as a GEO-text discrepancy. Access routes recorded in the note.",
+      "deferred": [
+        "Published Science full text and Tables S21-S25 (paywall/Cloudflare; manual URL https://doi.org/10.1126/science.ady7227)",
+        "WO2026190526A1 patent PDF (Tables 1-5, cycles)",
+        "mazutislab/capseq and solo-in-drops linker trimming; linker bases and base-numbering convention",
+        "R4 index primers (Table S25) and acquired cycle layout"
+      ],
+      "scope": "Capped follow-up; published original still unread; preprint/GEO used as labelled fallback; no accepted missing-information claim.",
+      "verification": "notes-only: no suite/page/pairing; check_chemistry not applicable (0 graph declarations); source guard 0 checked/0 failed/0 graphs; audit --check pass; Markdown built (01_capseq.html)"
+    }
+  ]
 }

@@ -219,5 +219,24 @@
       "evidence": "Named Illumina kit and detailed companion protocol remain unreviewed; two independent passes have not occurred."
     }
   ],
-  "conclusion": "First pass read the original article's method online and inspected one supplement. Vendor kit and detailed protocol remain open, so absence is unconfirmed."
+  "conclusion": "First pass read the original article's method online and inspected one supplement. Vendor kit and detailed protocol remain open, so absence is unconfirmed.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Author-hosted PDF of published Nature article (Dominissini_Nature_2012.pdf, fetched this pass via extra_sources): Results lines69–79, Methods Summary768–779, Methods RNA preparation/m6A-seq957–980, Calculation of coverage1031–1040; publisher Supplementary Information MOESM81 Supplementary Note 1a line1225",
+      "oligo_scraper": "Run on article and supplement text; only hits are METTL3 siRNA and biotinylated RSV RNA-affinity baits (Methods lines978–991), not library oligos.",
+      "findings": "Replaced the inferred dual-indexed TruSeq shell, RT/PCR oligo inputs and 2×50 reads with a warned per-branch Illumina mRNA sequencing kit MAGIC boundary and role-token library ends, because the Methods name only the kit. Sequencing endpoint now GAIIx, 10 pM per sample, genomic sequencing kit V2, Read 1 36 nt (Calculation of coverage); second read and sample indexing not described. Added GenElute poly(A) selection, ZnCl2 94°C 5 min fragmentation with EDTA stop, Synaptic Systems antibody/protein-A beads in IPP buffer, free N6-methyladenosine elution; corrected states after poly(A) selection/fragmentation/IP. Quantities withheld (PDF symbol font renders µ as m).",
+      "deferred": [
+        "Historical Illumina mRNA sequencing kit guide (library steps, adapters, primers, read orientation)",
+        "Dominissini 2013 Nature Protocols (later implementation, not 2012 authority)",
+        "RNA/antibody/m6A quantities against rendered PDF",
+        "Read 2 / sample-index acquisition"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/7 unresolved/0 contradictory with two kit MAGIC warnings; source guard 0 exact checked, 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

@@ -112,5 +112,25 @@
       "evidence": "Inherited finishing needs original CEL-Seq supplement and exact chosen index."
     }
   ],
-  "conclusion": "Core DR-Seq P1/P2/P3 are printed. CEL-Seq original and NEBNext Ultra guide are unavailable in the local checklist; the earlier source row mislabeled MALBAC as CEL-Seq and is corrected. RNA and DNA finishing claims remain blocked."
+  "conclusion": "Core DR-Seq P1/P2/P3 are printed. CEL-Seq original and NEBNext Ultra guide are unavailable in the local checklist; the earlier source row mislabeled MALBAC as CEL-Seq and is corrected. RNA and DNA finishing claims remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nat Biotechnol PMC4374170 author-manuscript PDF text lines68–92 (workflow), 330–435 (Online Methods DR-Seq, sequencing), 439–470 (bioinformatics read use); publisher Supplementary Information MOESM36 Supplementary Fig.3 legend lines262–280 and Supplementary Note lines1358–1412; Zong et al. MALBAC PMC3600412 XML line40 (27-nt common + 8 variable nt, 27-nt PCR primer)",
+      "oligo_scraper": "Bundle scraper run; non-upstream hits are only P1, P2 and biotin-P3 (article PDF lines371/396/404, XML 74/76), already in the model. No complete Ad-1x or Ad-2 bases in the inspected originals; upstream_* hits ignored.",
+      "findings": "Ad-2 3′ region redrawn as 5 random nt + named GGG/TTT terminal placeholder (8 variable nt total); graph-owned published discrepancy: article line77 '8 random nucleotides' vs supplement lines268/1404 '3′ end GGG or TTT'. Biotin-P3 PCR corrected to single-primer P3/P3 amplicon (Methods lists only P3) replacing inferred opposing primer; highlight that printed P3 differs from P2 at computed positions 6–10 with 46°C first cycles. Named ArrayScript/80°C, Bst LF + Pyrophage 3173 exo- per cycle, Deep VentR exo- 21 cycles, P3 4+9 cycles, ~300 bp sonication, barcode pooling/column clean-up before 13 h IVT; added source-stated RT after aRNA 3′-adapter ligation (inferred primer). Transcriptome read lengths 100+100 (Methods line433); gDNA length 50 or 100 left unassigned. Exact P1/P2/P3 states added for the source guard.",
+      "deferred": [
+        "Hashimshony 2012 CEL-Seq original and supplement (Ad-1x bases, RNA finishing adapters/primers)",
+        "Zong 2012 MALBAC supplement (Ad-2 order sequence)",
+        "NEBNext Ultra DNA guide (adapter, index primers) and per-cell indices",
+        "gDNA acquired read length (50 or 100 bp)",
+        "Whether P3/P2 difference is intentional"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 10/10 pass; page builds; pairing 0 problems; chemistry 0 established/1 conditional/19 unresolved/0 contradictory; source guard 5 exact checked (P1, P2×2, biotin-P3×2), 0 failed, 2 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

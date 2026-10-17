@@ -87,5 +87,25 @@
       "evidence": "Guide identifies BLT reagent and process; exact reagent composition absent from inspected guide, but linked reference remains unavailable."
     }
   ],
-  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked."
+  "conclusion": "Independent second source review recorded where originals were read; inaccessible originals or linked evidence remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "App note M-NA-00010 v2.0 text lines 1–103 (workflow, Figure 1), 155–170 (extraction), 215–242 (library prep: DNA Prep (M) 20060059, 10 ng in 30 µl, IDT for Illumina DNA/RNA UD Indexes Set A 20091654; sequencing 2x251 HiSeq 2500 Rapid/NovaSeq SP), Table 2 lines 243–261; DNA Prep Reference Guide 1000000025416 v12 lines 1530–2215 (TAG/PTC/TWB, BLT PCR program and cycle table, IPB cleanup, 10 bp UD index note); Nextera adapter page lines 130–210, IDT UD Indexes page lines 135–200.",
+      "oligo_scraper": "Bundle scraper run: 12 hits in 3 files; UD index i7/i5 primer arms (lines 191/195) and Nextera transposase/trimming sequences checked against the original pages; guide/app note have no oligo hits.",
+      "findings": "Tagged product reused the untagged community-DNA state; replaced with local S5/ME/insert/ME/S7 tagmented state from public Nextera sequences. Added TAG program, TSB stop, TWB wash condition, EPM, BLT PCR program with 8 cycles derived from 10 ng via guide table, and double-sided IPB cleanup with discarded fractions. Index adapters named as IDT UD Set A; read lengths 2x251 from app note plus 10-cycle index reads from the guide, rendered in the read table. Graph Highlights mark derived cycle number and read configuration. Removed dead legacy Row sections(). Note updated with app-note passages and open questions.",
+      "deferred": [
+        "Set A wells used (not reported)",
+        "PCR cycle number and index-read cycles not printed in the app note (derived from guide)",
+        "Illumina Adapter Sequences umbrella page (manual row)",
+        "BLT reagent composition (proprietary)",
+        "Extraction kits (PowerSoil, chemagic Stool) protocols not read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 98/98 passed; page builds; pairing 0 problems; chemistry 0 established/3 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 2 inputs without exact states (i5/i7 adapters); audit_protocol_sources --check ok; Markdown built; review schema checked"
+    }
+  ]
 }

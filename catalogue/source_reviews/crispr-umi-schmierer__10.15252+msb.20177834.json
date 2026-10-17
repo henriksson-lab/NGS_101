@@ -1,281 +1,301 @@
 {
-  "dir": "crispr-umi-schmierer__10.15252+msb.20177834",
-  "status": "in_progress",
-  "source_checklist": [
-    {
-      "id": "paper",
-      "role": "defining",
-      "locator": "Schmierer et al Molecular Systems Biology 2017 DOI:10.15252/msb.20177834; msb.20177834_PMC5658704.xml.txt",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "first_pass_d_e",
-        "date": "2026-10-15",
-        "locations": "JATS lines 171-183, 213-240",
-        "finding": "Original prints cloning insert architecture, RSL, PCR1-3 primers, sequencing primer and final amplicon layout."
-      },
-      "pass_2": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-15",
-        "locations": "PMC5658704 JATS lines 171-185 and 211-242; scraper hits 222-225",
-        "finding": "Paper itself prints RSL-bearing cloning insert, 119-bp overlap oligo, seven sequencing/library primers and final amplicon; missing primer claim would be false."
-      }
-    },
-    {
-      "id": "supp_ev1",
-      "role": "supplement",
-      "locator": "MSB-13-945-s001.pdf.txt",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "first_pass_d_e",
-        "date": "2026-10-15",
-        "locations": "PDF extracted text lines 1-80",
-        "finding": "Supplemental figures include barcode lineage discussion; not an authoritative substitute for original printed primer block."
-      },
-      "pass_2": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-16",
-        "locations": "Original MSB-13-945-s001.pdf.txt lines 1–88; EV1 cartoon and EV2 library complexity/carry-through captions; bundle primer scraper run",
-        "finding": "Expanded-view figures show the rationale for random sequence labels (RSLs) and their carry-through, including ~3,600 RSLs/guide in plasmid input and ~2,800 in cell samples. These figures do not provide vector backbone sequence or revise the primer block printed in the original article."
-      },
-      "discovered_from": "paper"
-    },
-    {
-      "id": "supp_ev4",
-      "role": "supplement",
-      "locator": "MSB-13-945-s004.pdf.txt",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "first_pass_d_e",
-        "date": "2026-10-15",
-        "locations": "PDF extracted text lines 70-88, 242-245",
-        "finding": "Peer-review material mentions that barcoded vector was not deposited and authors clarify oligo-cloning approach."
-      },
-      "pass_2": {
-        "reviewer": "audit_s_z",
-        "date": "2026-10-15",
-        "locations": "MSB-13-945-s004.pdf.txt reviewer correspondence lines 238-243",
-        "finding": "Reviewer raised absent vector deposit; authors respond that barcodes derive from an oligo cloned with guides. This does not independently resolve vector backbone map."
-      },
-      "discovered_from": "paper"
-    },
-    {
-      "id": "supp_ev2",
-      "role": "supplement",
-      "locator": "MSB-13-945-s002.csv",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "root",
-        "date": "2026-10-16",
-        "locations": "Original MSB-13-945-s002.csv all 23,332 rows; first four AATF rows and all NKX guide 10 rows; Python csv column comparison with EV3 GMT after full protocol-bundle oligo scrape",
-        "finding": "Independently counted 23,332 unique guide IDs, 23,279 distinct 20-base sequences and 2,335 group labels. Exactly 11 NKX guide-10 identifiers use underscore in the sequence-bearing CSV but hyphen in the EV3 GMT. The paper’s 23,279 count matches distinct sequences; no publication count error is inferred. This table is guide-design data, not a modified-vector map."
-      },
-      "pass_2": {
-        "reviewer": "spatial_cut_tag_second",
-        "date": "2026-10-16",
-        "locations": "Original EV2 CSV, all 23,332 three-column rows; first AATF_01–08 rows and NKX2-1_10 row; compared guide IDs and 20-nt sequence column with EV3 GMT",
-        "finding": "EV2 prints 23,332 distinct guide IDs, 23,279 distinct 20-nt guide sequences and 2,335 group labels. Thus the paper's 23,279 guide count corresponds to unique sequences, not row/ID count and is not a publication error. Eleven NKX2/NKX3/NKX6 IDs have an underscore before guide number 10 here but a hyphen in EV3; the sequence-bearing EV2 IDs are used for the source transcription. No vector backbone or RSL oligo sequence is supplied by this table."
-      },
-      "discovered_from": "paper"
-    },
-    {
-      "id": "supp_ev3",
-      "role": "supplement",
-      "locator": "MSB-13-945-s003.zip",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "root",
-        "date": "2026-10-16",
-        "locations": "Original MSB-13-945-s003.zip member RSL_guide_library.gmt, all 2,335 lines; opening AATF/ABT1/ACP2 rows and all NKX guide-10 members; compared byte MD5 with original preprint 114355_114355-3.tsv",
-        "finding": "Independently counted 23,332 unique GMT memberships and found only the 11 NKX hyphen-versus-underscore ID mismatches against EV2. The zipped GMT is byte-identical to the preprint supplement (MD5 f013f50c4d040c261d1256bf97d8d46a). It groups IDs for analysis and has no guide sequences or vector map."
-      },
-      "pass_2": {
-        "reviewer": "spatial_cut_tag_second",
-        "date": "2026-10-16",
-        "locations": "Original EV3 ZIP member RSL_guide_library.gmt, all 2,335 gene-set lines; first AATF row and NKX2-1 member list; MD5 cross-check with bioRxiv supplement 114355-3.tsv",
-        "finding": "GMT has 23,332 memberships, exactly one per EV2 guide ID after accounting for 11 ID spelling differences (EV2 NKX2-1_10 versus EV3 NKX2-1-10, similarly 10 other NKX IDs). The preprint's 114355-3.tsv is byte-identical to the EV3 GMT. EV3 groups guide IDs for hit analysis; it does not provide guide bases or modified-vector sequence."
-      },
-      "discovered_from": "paper"
-    },
-    {
-      "id": "preprint",
-      "role": "linked_material",
-      "locator": "bioRxiv 114355_v2.full.pdf.txt",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "root",
-        "date": "2026-10-16",
-        "locations": "Original bioRxiv 114355_v2.full.pdf.txt lines 1002–1045 and 1151–1172, independently read after complete CRISPR-UMI source-bundle oligo scrape",
-        "finding": "The preprint describes the 122-base array half and 119-base RSL/i7 half, Gibson assembly into a modified Addgene #52963 parent, prints the original and replacement scaffold, and reports a 288-base product sequenced as 20 cycles plus two 6-base index reads. It does not provide a complete modified-vector deposit."
-      },
-      "pass_2": {
-        "reviewer": "spatial_cut_tag_second",
-        "date": "2026-10-16",
-        "locations": "bioRxiv 114355 v2 PDF text lines 993–1050 (Supplementary Information cloning and AU-flip), 1160–1204 (PCR primers and final amplicon), 1370–1382 (GMT link); full bundle scraper run first",
-        "finding": "The original preprint independently prints the 122-bp array/119-bp overlap assembly, both scaffold substitutions, six-T terminator, 33-nt Illumina site, random six-base RSL, and 20+6+6 sequencing readout. It identifies lentiGuide-Puro Addgene #52963 as the parent; it does not deposit a full sequence of its modified pLenti-Puro-AU-flip-3xBsmBI vector. Its guide-list TSV is duplicate of published EV2, and its GMT TSV is byte-identical to EV3."
-      },
-      "discovered_from": "paper"
-    },
-    {
-      "id": "addgene_196709_full_map",
-      "role": "linked_material",
-      "locator": "Addgene #196709 lentiGuide-Puro.3xBsmBI Addgene-Verified Full sequence record 388054; https://www.addgene.org/196709/sequences/; official plasmid page 196709.html.txt lines 643–669 and 3900–4363",
-      "availability": "unavailable",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "root",
-        "date": "2026-10-16",
-        "locations": "Official Addgene #196709 original 196709.html.txt lines 643–669 and public map modal; no authenticated sequence download",
-        "finding": "A full sequence map is explicitly listed for the Schmierer deposit, but Addgene requires login to download it. No source-text comparison against the 2017 paper-derived model is possible from the public metadata alone."
-      },
-      "pass_2": {
-        "reviewer": "spatial_cut_tag_second",
-        "date": "2026-10-16",
-        "locations": "Official Addgene #196709 plasmid page 196709.html.txt lines 643–669, 3900–4020, 4356–4363; sequences listing URL; compared published 2017 article JATS lines 171–183 and later PLOS 2025 JATS line 401",
-        "finding": "Addgene has deposited an empty backbone from Bernhard Schmierer and lists one full verified sequence map. Download/copy requires login, so the map itself could not be compared with the paper-derived reconstructed backbone. The guide and RSL are separately cloned into the empty backbone."
-      },
-      "reason": "The deposited Addgene #196709 full map is listed but gated behind login; exact sequence comparison remains blocked, not a claim that no deposit exists.",
-      "discovered_from": "paper"
-    },
-    {
-      "id": "addgene_52963_parent",
-      "role": "linked_material",
-      "locator": "/husky/henriksson/NGS101_papers/legacy/lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/addgene-52963_lentiGuide-Puro.gb; Addgene sequence record 331247 (Addgene-Verified Full Sequence), source URL in sibling ref/plasmids/MANIFEST.md lines 112–116, 256–271",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "root",
-        "date": "2026-10-16",
-        "locations": "Original local Addgene-verified GenBank addgene-52963_lentiGuide-Puro.gb LOCUS/ORIGIN and sibling ref/plasmids/MANIFEST.md provenance; parsed with lib/plasmid.py read_genbank",
-        "finding": "The deposited circular parent is 10,183 bases. Its original GTTTTAGAGCTAGAAATAGCAAGTTAAA scaffold occurs once at 0-based position 2291; the added GATCGGAAGAGCACACGTCTGAACTCCAGTCAC site is absent. This is a source-positive original parent map, not evidence of the final modified-vector sequence."
-      },
-      "pass_2": {
-        "reviewer": "spatial_cut_tag_second",
-        "date": "2026-10-16",
-        "locations": "Local original Addgene #52963 GenBank LOCUS/ORIGIN, 10,183 bp; original scaffold head at plus-strand index 2291 (0-based), terminal GTGCTTTTTTAAGCTT at index 2362; sibling MANIFEST.md lines 256–271",
-        "finding": "The independently deposited parent contains the original GTTTTAGAGCTAGAAATAGCAAGTTAAA scaffold head exactly once, no AU-flip head, and no built-in GATCGGAAGAGCACACGTCTGAACTCCAGTCAC site. It establishes the editable parent, not the finished modified vector."
-      },
-      "discovered_from": "paper"
-    },
-    {
-      "id": "chen_2013_au_flip",
-      "role": "linked_material",
-      "locator": "Chen et al., Cell (2013), DOI:10.1016/j.cell.2013.12.001; original author manuscript JATS PMC3918502_PMC3918502.xml.txt lines 73–83 and Figure 1 caption line 404; cited in Schmierer JATS line 179",
-      "availability": "read",
-      "relevance": "relevant",
-      "discovered_from": "paper",
-      "pass_1": {
-        "reviewer": "root",
-        "date": "2026-10-16",
-        "locations": "Original Chen 2013 PMC3918502_PMC3918502.xml.txt Results lines 73–83, independently read after rerunning complete CRISPR-UMI bundle oligo scraper",
-        "finding": "The original distinguishes sgRNA(F), an A–U base-pair flip proposed to remove a four-U U6 Pol III terminator, from separate hairpin extension sgRNA(E) and combined F+E. Schmierer cites the flip but prints its own replacement scaffold; Chen does not establish any unprinted bases of the later plasmid."
-      },
-      "pass_2": {
-        "reviewer": "spatial_cut_tag_second",
-        "date": "2026-10-16",
-        "locations": "Original Chen 2013 PMC3918502_PMC3918502.xml.txt Results lines 73–83 and Figure 1 caption line 404; full source-bundle oligo scraper rerun before reading",
-        "finding": "The predecessor distinguishes the A–U pair flip sgRNA(F), intended to remove a putative four-U U6 Pol III terminator, from a separate 5-bp hairpin extension sgRNA(E), and their combined F+E design. Schmierer cites the flip; Chen is no longer an unavailable original source."
-      }
-    },
-    {
-      "id": "addgene_196709_record",
-      "role": "linked_material",
-      "locator": "Official Addgene #196709 plasmid record https://www.addgene.org/196709/; 196709.html.txt lines 3900–4020, 4356–4363",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "root",
-        "date": "2026-10-16",
-        "locations": "Official original Addgene #196709 196709.html.txt lines 643–669, 3900–4020, 4356–4363 and Addgene public plasmid page",
-        "finding": "The record names lentiGuide-Puro.3xBsmBI, Bernhard Schmierer as depositor, the Schmierer 2017 paper as publication, #52963 as vector parent, and an empty backbone for guide libraries with untranscribed barcodes. It lists one full sequence map requiring login. The public metadata ties this deposit to the study, while the exact map remains unread."
-      },
-      "pass_2": {
-        "reviewer": "spatial_cut_tag_second",
-        "date": "2026-10-16",
-        "locations": "Official Addgene #196709 196709.html.txt plasmid name/number lines 3900–3920, Purpose/Depositing Lab/Publication lines 3958–4020, parent vector lines 4356–4363, map/login lines 643–669",
-        "finding": "The Schmierer lab deposited lentiGuide-Puro.3xBsmBI as an empty backbone for guides with untranscribed barcodes; the record cites the 2017 defining paper and parent #52963. This is strong provenance for the modified backbone, but the alternative name and gated map prevent exact sequence identity verification."
-      },
-      "discovered_from": "paper"
-    },
-    {
-      "id": "later_plos_2025_196709",
-      "role": "linked_material",
-      "locator": "PLOS Biology 2025 DOI:10.1371/journal.pbio.3003297; original JATS journal.pbio.3003297_PMC12342332.xml.txt line 401, Methods “Guide library construction”",
-      "availability": "read",
-      "relevance": "relevant",
-      "pass_1": {
-        "reviewer": "root",
-        "date": "2026-10-16",
-        "locations": "Original PLOS Biology 2025 JATS journal.pbio.3003297_PMC12342332.xml.txt Methods Guide library construction line 401, independently read after full CRISPR-UMI source-bundle oligo scrape",
-        "finding": "This later original explicitly identifies pLenti-Puro-AU-flip-3xBsmBI as Addgene #196709. Its newly cloned guide/RSL insert uses a 10-nt RSL; that later insert cannot stand in for Schmierer 2017’s six-base RSL, but it strengthens the deposit identity link."
-      },
-      "pass_2": {
-        "reviewer": "spatial_cut_tag_second",
-        "date": "2026-10-16",
-        "locations": "Original 2025 PLOS Biology JATS journal.pbio.3003297_PMC12342332.xml.txt line 401, Guide library construction; full bundle oligo scraper rerun before reading",
-        "finding": "This later original explicitly labels pLenti-Puro-AU-flip-3xBsmBI as Addgene #196709. It separately Gibson-clones a guide/adapter/random-label insert into that backbone. Its random label is 10 nt in the later experiment, unlike the 2017 protocol’s 6 nt, so its insert cannot substitute for the defining paper’s."
-      },
-      "discovered_from": "addgene_196709_record"
-    },
-    {
-      "id": "michlits_original_local",
-      "role": "other",
-      "locator": "/husky/henriksson/NGS101_papers/sources/crispr-umi-schmierer__10.15252+msb.20177834/michlits-nmeth.4466.pdf.txt; doi:10.1038/nmeth.4466",
-      "availability": "available",
-      "relevance": "relevant",
-      "reason": "Original publisher PDF already in ignored /husky/henriksson/NGS101_papers/legacy/pdf/michlits-nmeth.4466.pdf; original first-page title/authors and printed DOI10.1038/nmeth.4466 identify the separate Michlits2017 protocol covered by this directory note03/page. It does not substitute for Schmierer or resolve the gated Addgene196709 map. Exact old acquisition URL unlogged; repeatable DOI source row already exists. Included for the existing separate Michlits note/page and catalogue extra-source row; no claim that the Schmierer article cites this later paper."
-    }
-  ],
-  "linked_information": {
-    "result": "blocked",
-    "pass_1": {
-      "reviewer": "first_pass_d_e",
-      "date": "2026-10-15",
-      "locations": "Original JATS lines 171-183, 213-240; EV1 and EV4 PDFs; scraper reviewed",
-      "finding": "Followed published paper into primers and peer-review disclosure about the vector. Preprint, data archives and vector original remain to check."
-    },
-    "pass_2": {
-      "reviewer": "audit_s_z",
-      "date": "2026-10-15",
-      "locations": "Original JATS methods and sequencing-primer list; EV4 reviewer-response vector comment",
-      "finding": "Read original paper and EV4 linked discussion; original modified vector map remains unavailable, so source coverage is incomplete."
-    },
-    "additional_passes": [
-      {
-        "reviewer": "spatial_cut_tag_second",
-        "date": "2026-10-16",
-        "locations": "Original paper JATS lines 171–183, 213–240 and 419; EV2 CSV, EV3 GMT, bioRxiv preprint; Addgene #52963 GenBank and #196709 official record/sequences listing; Chen 2013 JATS lines 73–83; later PLOS Biology 2025 JATS line 401",
-        "finding": "Followed EV2/EV3, preprint, the parent Addgene #52963 map, original Chen 2013 article and later Addgene #196709 deposit plus a later original use. EV2/EV3 differ on 11 guide ID spellings. The Addgene #196709 empty backbone exists and is linked to Schmierer; its full verified map is login-gated, so sequence comparison remains blocked."
-      },
-      {
-        "reviewer": "root",
-        "date": "2026-10-16",
-        "locations": "Published EV2 CSV and EV3 ZIP/GMT, original 2017 bioRxiv v2 PDF, original Addgene #52963 parent GenBank; paper JATS Methods and supplement links; full scraper run before article reading",
-        "finding": "Independently followed and compared the guide-design files and parent map. Reconciled 23,332 IDs versus 23,279 distinct sequences and confirmed 11 ID spelling conflicts. The parent map is available but the finished modified-vector deposit and Chen 2013 full text remain unresolved; absence is not accepted."
-      },
-      {
-        "reviewer": "root",
-        "date": "2026-10-16",
-        "locations": "Original Chen 2013 PMC3918502 JATS Results lines 73–83; original Addgene #196709 public record and map login notice; original PLOS Biology 2025 JATS guide-library Methods line 401; full CRISPR-UMI source-bundle scraper rerun first",
-        "finding": "Independently followed the AU-flip citation, the later Schmierer Addgene deposit, and a later original paper identifying the paper-named vector with #196709. The predecessor flip mechanism is source-positive; the map exists but its sequence is gated, so exact modified-vector sequence remains unverified."
-      }
-    ]
+ "dir": "crispr-umi-schmierer__10.15252+msb.20177834",
+ "status": "in_progress",
+ "source_checklist": [
+  {
+   "id": "paper",
+   "role": "defining",
+   "locator": "Schmierer et al Molecular Systems Biology 2017 DOI:10.15252/msb.20177834; msb.20177834_PMC5658704.xml.txt",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "first_pass_d_e",
+    "date": "2026-10-15",
+    "locations": "JATS lines 171-183, 213-240",
+    "finding": "Original prints cloning insert architecture, RSL, PCR1-3 primers, sequencing primer and final amplicon layout."
+   },
+   "pass_2": {
+    "reviewer": "audit_s_z",
+    "date": "2026-10-15",
+    "locations": "PMC5658704 JATS lines 171-185 and 211-242; scraper hits 222-225",
+    "finding": "Paper itself prints RSL-bearing cloning insert, 119-bp overlap oligo, seven sequencing/library primers and final amplicon; missing primer claim would be false."
+   }
   },
-  "missing_claims": [],
-  "conclusion": "The defining article, EV1–EV4, original bioRxiv v2 preprint, Addgene #52963 parent map, Chen 2013 original article, Addgene #196709 public deposit record and later PLOS Biology 2025 identification each have two located independent reads. EV2 and EV3 disagree on spelling of 11 NKX guide IDs, while the paper’s 23,279 guide count matches distinct sequences in EV2. The #196709 full verified map exists but requires login, so exact modified-backbone sequence comparison remains blocked. No missing-information claim is accepted.",
-  "source_recovery_followups": [
-    {
-      "reviewer": "audit_editing_closeout",
-      "date": "2026-10-16",
-      "scope": "Acquisition, validation and identity verification only; not an original-chemistry reading pass.",
-      "file": "michlits-nmeth.4466.pdf.txt",
-      "identity": "Original first-page title CRISPR-UMI: single-cell lineage tracing of pooled CRISPR–Cas9 screens, authorsGeorgMichlits etal, printed DOI10.1038/nmeth.4466 and2017 publication date;14-page publisher PDF MD5e5de20a10215556227c6fc38511b3700.",
-      "next_read_scope": "Separate Michlits protocol: modifiedgBlock/P7,10baseUMI,cloning/readout/PacI/custom primers; record independent original/source-link passes. Do not use it as a replacement for Schmierer defining evidence."
-    }
+  {
+   "id": "supp_ev1",
+   "role": "supplement",
+   "locator": "MSB-13-945-s001.pdf.txt",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "first_pass_d_e",
+    "date": "2026-10-15",
+    "locations": "PDF extracted text lines 1-80",
+    "finding": "Supplemental figures include barcode lineage discussion; not an authoritative substitute for original printed primer block."
+   },
+   "pass_2": {
+    "reviewer": "audit_s_z",
+    "date": "2026-10-16",
+    "locations": "Original MSB-13-945-s001.pdf.txt lines 1–88; EV1 cartoon and EV2 library complexity/carry-through captions; bundle primer scraper run",
+    "finding": "Expanded-view figures show the rationale for random sequence labels (RSLs) and their carry-through, including ~3,600 RSLs/guide in plasmid input and ~2,800 in cell samples. These figures do not provide vector backbone sequence or revise the primer block printed in the original article."
+   },
+   "discovered_from": "paper"
+  },
+  {
+   "id": "supp_ev4",
+   "role": "supplement",
+   "locator": "MSB-13-945-s004.pdf.txt",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "first_pass_d_e",
+    "date": "2026-10-15",
+    "locations": "PDF extracted text lines 70-88, 242-245",
+    "finding": "Peer-review material mentions that barcoded vector was not deposited and authors clarify oligo-cloning approach."
+   },
+   "pass_2": {
+    "reviewer": "audit_s_z",
+    "date": "2026-10-15",
+    "locations": "MSB-13-945-s004.pdf.txt reviewer correspondence lines 238-243",
+    "finding": "Reviewer raised absent vector deposit; authors respond that barcodes derive from an oligo cloned with guides. This does not independently resolve vector backbone map."
+   },
+   "discovered_from": "paper"
+  },
+  {
+   "id": "supp_ev2",
+   "role": "supplement",
+   "locator": "MSB-13-945-s002.csv",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "root",
+    "date": "2026-10-16",
+    "locations": "Original MSB-13-945-s002.csv all 23,332 rows; first four AATF rows and all NKX guide 10 rows; Python csv column comparison with EV3 GMT after full protocol-bundle oligo scrape",
+    "finding": "Independently counted 23,332 unique guide IDs, 23,279 distinct 20-base sequences and 2,335 group labels. Exactly 11 NKX guide-10 identifiers use underscore in the sequence-bearing CSV but hyphen in the EV3 GMT. The paper’s 23,279 count matches distinct sequences; no publication count error is inferred. This table is guide-design data, not a modified-vector map."
+   },
+   "pass_2": {
+    "reviewer": "spatial_cut_tag_second",
+    "date": "2026-10-16",
+    "locations": "Original EV2 CSV, all 23,332 three-column rows; first AATF_01–08 rows and NKX2-1_10 row; compared guide IDs and 20-nt sequence column with EV3 GMT",
+    "finding": "EV2 prints 23,332 distinct guide IDs, 23,279 distinct 20-nt guide sequences and 2,335 group labels. Thus the paper's 23,279 guide count corresponds to unique sequences, not row/ID count and is not a publication error. Eleven NKX2/NKX3/NKX6 IDs have an underscore before guide number 10 here but a hyphen in EV3; the sequence-bearing EV2 IDs are used for the source transcription. No vector backbone or RSL oligo sequence is supplied by this table."
+   },
+   "discovered_from": "paper"
+  },
+  {
+   "id": "supp_ev3",
+   "role": "supplement",
+   "locator": "MSB-13-945-s003.zip",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "root",
+    "date": "2026-10-16",
+    "locations": "Original MSB-13-945-s003.zip member RSL_guide_library.gmt, all 2,335 lines; opening AATF/ABT1/ACP2 rows and all NKX guide-10 members; compared byte MD5 with original preprint 114355_114355-3.tsv",
+    "finding": "Independently counted 23,332 unique GMT memberships and found only the 11 NKX hyphen-versus-underscore ID mismatches against EV2. The zipped GMT is byte-identical to the preprint supplement (MD5 f013f50c4d040c261d1256bf97d8d46a). It groups IDs for analysis and has no guide sequences or vector map."
+   },
+   "pass_2": {
+    "reviewer": "spatial_cut_tag_second",
+    "date": "2026-10-16",
+    "locations": "Original EV3 ZIP member RSL_guide_library.gmt, all 2,335 gene-set lines; first AATF row and NKX2-1 member list; MD5 cross-check with bioRxiv supplement 114355-3.tsv",
+    "finding": "GMT has 23,332 memberships, exactly one per EV2 guide ID after accounting for 11 ID spelling differences (EV2 NKX2-1_10 versus EV3 NKX2-1-10, similarly 10 other NKX IDs). The preprint's 114355-3.tsv is byte-identical to the EV3 GMT. EV3 groups guide IDs for hit analysis; it does not provide guide bases or modified-vector sequence."
+   },
+   "discovered_from": "paper"
+  },
+  {
+   "id": "preprint",
+   "role": "linked_material",
+   "locator": "bioRxiv 114355_v2.full.pdf.txt",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "root",
+    "date": "2026-10-16",
+    "locations": "Original bioRxiv 114355_v2.full.pdf.txt lines 1002–1045 and 1151–1172, independently read after complete CRISPR-UMI source-bundle oligo scrape",
+    "finding": "The preprint describes the 122-base array half and 119-base RSL/i7 half, Gibson assembly into a modified Addgene #52963 parent, prints the original and replacement scaffold, and reports a 288-base product sequenced as 20 cycles plus two 6-base index reads. It does not provide a complete modified-vector deposit."
+   },
+   "pass_2": {
+    "reviewer": "spatial_cut_tag_second",
+    "date": "2026-10-16",
+    "locations": "bioRxiv 114355 v2 PDF text lines 993–1050 (Supplementary Information cloning and AU-flip), 1160–1204 (PCR primers and final amplicon), 1370–1382 (GMT link); full bundle scraper run first",
+    "finding": "The original preprint independently prints the 122-bp array/119-bp overlap assembly, both scaffold substitutions, six-T terminator, 33-nt Illumina site, random six-base RSL, and 20+6+6 sequencing readout. It identifies lentiGuide-Puro Addgene #52963 as the parent; it does not deposit a full sequence of its modified pLenti-Puro-AU-flip-3xBsmBI vector. Its guide-list TSV is duplicate of published EV2, and its GMT TSV is byte-identical to EV3."
+   },
+   "discovered_from": "paper"
+  },
+  {
+   "id": "addgene_196709_full_map",
+   "role": "linked_material",
+   "locator": "Addgene #196709 lentiGuide-Puro.3xBsmBI Addgene-Verified Full sequence record 388054; https://www.addgene.org/196709/sequences/; official plasmid page 196709.html.txt lines 643–669 and 3900–4363",
+   "availability": "unavailable",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "root",
+    "date": "2026-10-16",
+    "locations": "Official Addgene #196709 original 196709.html.txt lines 643–669 and public map modal; no authenticated sequence download",
+    "finding": "A full sequence map is explicitly listed for the Schmierer deposit, but Addgene requires login to download it. No source-text comparison against the 2017 paper-derived model is possible from the public metadata alone."
+   },
+   "pass_2": {
+    "reviewer": "spatial_cut_tag_second",
+    "date": "2026-10-16",
+    "locations": "Official Addgene #196709 plasmid page 196709.html.txt lines 643–669, 3900–4020, 4356–4363; sequences listing URL; compared published 2017 article JATS lines 171–183 and later PLOS 2025 JATS line 401",
+    "finding": "Addgene has deposited an empty backbone from Bernhard Schmierer and lists one full verified sequence map. Download/copy requires login, so the map itself could not be compared with the paper-derived reconstructed backbone. The guide and RSL are separately cloned into the empty backbone."
+   },
+   "reason": "The deposited Addgene #196709 full map is listed but gated behind login; exact sequence comparison remains blocked, not a claim that no deposit exists.",
+   "discovered_from": "paper"
+  },
+  {
+   "id": "addgene_52963_parent",
+   "role": "linked_material",
+   "locator": "/husky/henriksson/NGS101_papers/legacy/lenticrispr-v1-screening__10.1126+science.1247005/ref/plasmids/addgene-52963_lentiGuide-Puro.gb; Addgene sequence record 331247 (Addgene-Verified Full Sequence), source URL in sibling ref/plasmids/MANIFEST.md lines 112–116, 256–271",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "root",
+    "date": "2026-10-16",
+    "locations": "Original local Addgene-verified GenBank addgene-52963_lentiGuide-Puro.gb LOCUS/ORIGIN and sibling ref/plasmids/MANIFEST.md provenance; parsed with lib/plasmid.py read_genbank",
+    "finding": "The deposited circular parent is 10,183 bases. Its original GTTTTAGAGCTAGAAATAGCAAGTTAAA scaffold occurs once at 0-based position 2291; the added GATCGGAAGAGCACACGTCTGAACTCCAGTCAC site is absent. This is a source-positive original parent map, not evidence of the final modified-vector sequence."
+   },
+   "pass_2": {
+    "reviewer": "spatial_cut_tag_second",
+    "date": "2026-10-16",
+    "locations": "Local original Addgene #52963 GenBank LOCUS/ORIGIN, 10,183 bp; original scaffold head at plus-strand index 2291 (0-based), terminal GTGCTTTTTTAAGCTT at index 2362; sibling MANIFEST.md lines 256–271",
+    "finding": "The independently deposited parent contains the original GTTTTAGAGCTAGAAATAGCAAGTTAAA scaffold head exactly once, no AU-flip head, and no built-in GATCGGAAGAGCACACGTCTGAACTCCAGTCAC site. It establishes the editable parent, not the finished modified vector."
+   },
+   "discovered_from": "paper"
+  },
+  {
+   "id": "chen_2013_au_flip",
+   "role": "linked_material",
+   "locator": "Chen et al., Cell (2013), DOI:10.1016/j.cell.2013.12.001; original author manuscript JATS PMC3918502_PMC3918502.xml.txt lines 73–83 and Figure 1 caption line 404; cited in Schmierer JATS line 179",
+   "availability": "read",
+   "relevance": "relevant",
+   "discovered_from": "paper",
+   "pass_1": {
+    "reviewer": "root",
+    "date": "2026-10-16",
+    "locations": "Original Chen 2013 PMC3918502_PMC3918502.xml.txt Results lines 73–83, independently read after rerunning complete CRISPR-UMI bundle oligo scraper",
+    "finding": "The original distinguishes sgRNA(F), an A–U base-pair flip proposed to remove a four-U U6 Pol III terminator, from separate hairpin extension sgRNA(E) and combined F+E. Schmierer cites the flip but prints its own replacement scaffold; Chen does not establish any unprinted bases of the later plasmid."
+   },
+   "pass_2": {
+    "reviewer": "spatial_cut_tag_second",
+    "date": "2026-10-16",
+    "locations": "Original Chen 2013 PMC3918502_PMC3918502.xml.txt Results lines 73–83 and Figure 1 caption line 404; full source-bundle oligo scraper rerun before reading",
+    "finding": "The predecessor distinguishes the A–U pair flip sgRNA(F), intended to remove a putative four-U U6 Pol III terminator, from a separate 5-bp hairpin extension sgRNA(E), and their combined F+E design. Schmierer cites the flip; Chen is no longer an unavailable original source."
+   }
+  },
+  {
+   "id": "addgene_196709_record",
+   "role": "linked_material",
+   "locator": "Official Addgene #196709 plasmid record https://www.addgene.org/196709/; 196709.html.txt lines 3900–4020, 4356–4363",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "root",
+    "date": "2026-10-16",
+    "locations": "Official original Addgene #196709 196709.html.txt lines 643–669, 3900–4020, 4356–4363 and Addgene public plasmid page",
+    "finding": "The record names lentiGuide-Puro.3xBsmBI, Bernhard Schmierer as depositor, the Schmierer 2017 paper as publication, #52963 as vector parent, and an empty backbone for guide libraries with untranscribed barcodes. It lists one full sequence map requiring login. The public metadata ties this deposit to the study, while the exact map remains unread."
+   },
+   "pass_2": {
+    "reviewer": "spatial_cut_tag_second",
+    "date": "2026-10-16",
+    "locations": "Official Addgene #196709 196709.html.txt plasmid name/number lines 3900–3920, Purpose/Depositing Lab/Publication lines 3958–4020, parent vector lines 4356–4363, map/login lines 643–669",
+    "finding": "The Schmierer lab deposited lentiGuide-Puro.3xBsmBI as an empty backbone for guides with untranscribed barcodes; the record cites the 2017 defining paper and parent #52963. This is strong provenance for the modified backbone, but the alternative name and gated map prevent exact sequence identity verification."
+   },
+   "discovered_from": "paper"
+  },
+  {
+   "id": "later_plos_2025_196709",
+   "role": "linked_material",
+   "locator": "PLOS Biology 2025 DOI:10.1371/journal.pbio.3003297; original JATS journal.pbio.3003297_PMC12342332.xml.txt line 401, Methods “Guide library construction”",
+   "availability": "read",
+   "relevance": "relevant",
+   "pass_1": {
+    "reviewer": "root",
+    "date": "2026-10-16",
+    "locations": "Original PLOS Biology 2025 JATS journal.pbio.3003297_PMC12342332.xml.txt Methods Guide library construction line 401, independently read after full CRISPR-UMI source-bundle oligo scrape",
+    "finding": "This later original explicitly identifies pLenti-Puro-AU-flip-3xBsmBI as Addgene #196709. Its newly cloned guide/RSL insert uses a 10-nt RSL; that later insert cannot stand in for Schmierer 2017’s six-base RSL, but it strengthens the deposit identity link."
+   },
+   "pass_2": {
+    "reviewer": "spatial_cut_tag_second",
+    "date": "2026-10-16",
+    "locations": "Original 2025 PLOS Biology JATS journal.pbio.3003297_PMC12342332.xml.txt line 401, Guide library construction; full bundle oligo scraper rerun before reading",
+    "finding": "This later original explicitly labels pLenti-Puro-AU-flip-3xBsmBI as Addgene #196709. It separately Gibson-clones a guide/adapter/random-label insert into that backbone. Its random label is 10 nt in the later experiment, unlike the 2017 protocol’s 6 nt, so its insert cannot substitute for the defining paper’s."
+   },
+   "discovered_from": "addgene_196709_record"
+  },
+  {
+   "id": "michlits_original_local",
+   "role": "other",
+   "locator": "/husky/henriksson/NGS101_papers/sources/crispr-umi-schmierer__10.15252+msb.20177834/michlits-nmeth.4466.pdf.txt; doi:10.1038/nmeth.4466",
+   "availability": "available",
+   "relevance": "relevant",
+   "reason": "Original publisher PDF already in ignored /husky/henriksson/NGS101_papers/legacy/pdf/michlits-nmeth.4466.pdf; original first-page title/authors and printed DOI10.1038/nmeth.4466 identify the separate Michlits2017 protocol covered by this directory note03/page. It does not substitute for Schmierer or resolve the gated Addgene196709 map. Exact old acquisition URL unlogged; repeatable DOI source row already exists. Included for the existing separate Michlits note/page and catalogue extra-source row; no claim that the Schmierer article cites this later paper."
+  }
+ ],
+ "linked_information": {
+  "result": "blocked",
+  "pass_1": {
+   "reviewer": "first_pass_d_e",
+   "date": "2026-10-15",
+   "locations": "Original JATS lines 171-183, 213-240; EV1 and EV4 PDFs; scraper reviewed",
+   "finding": "Followed published paper into primers and peer-review disclosure about the vector. Preprint, data archives and vector original remain to check."
+  },
+  "pass_2": {
+   "reviewer": "audit_s_z",
+   "date": "2026-10-15",
+   "locations": "Original JATS methods and sequencing-primer list; EV4 reviewer-response vector comment",
+   "finding": "Read original paper and EV4 linked discussion; original modified vector map remains unavailable, so source coverage is incomplete."
+  },
+  "additional_passes": [
+   {
+    "reviewer": "spatial_cut_tag_second",
+    "date": "2026-10-16",
+    "locations": "Original paper JATS lines 171–183, 213–240 and 419; EV2 CSV, EV3 GMT, bioRxiv preprint; Addgene #52963 GenBank and #196709 official record/sequences listing; Chen 2013 JATS lines 73–83; later PLOS Biology 2025 JATS line 401",
+    "finding": "Followed EV2/EV3, preprint, the parent Addgene #52963 map, original Chen 2013 article and later Addgene #196709 deposit plus a later original use. EV2/EV3 differ on 11 guide ID spellings. The Addgene #196709 empty backbone exists and is linked to Schmierer; its full verified map is login-gated, so sequence comparison remains blocked."
+   },
+   {
+    "reviewer": "root",
+    "date": "2026-10-16",
+    "locations": "Published EV2 CSV and EV3 ZIP/GMT, original 2017 bioRxiv v2 PDF, original Addgene #52963 parent GenBank; paper JATS Methods and supplement links; full scraper run before article reading",
+    "finding": "Independently followed and compared the guide-design files and parent map. Reconciled 23,332 IDs versus 23,279 distinct sequences and confirmed 11 ID spelling conflicts. The parent map is available but the finished modified-vector deposit and Chen 2013 full text remain unresolved; absence is not accepted."
+   },
+   {
+    "reviewer": "root",
+    "date": "2026-10-16",
+    "locations": "Original Chen 2013 PMC3918502 JATS Results lines 73–83; original Addgene #196709 public record and map login notice; original PLOS Biology 2025 JATS guide-library Methods line 401; full CRISPR-UMI source-bundle scraper rerun first",
+    "finding": "Independently followed the AU-flip citation, the later Schmierer Addgene deposit, and a later original paper identifying the paper-named vector with #196709. The predecessor flip mechanism is source-positive; the map exists but its sequence is gated, so exact modified-vector sequence remains unverified."
+   }
   ]
+ },
+ "missing_claims": [],
+ "conclusion": "The defining article, EV1–EV4, original bioRxiv v2 preprint, Addgene #52963 parent map, Chen 2013 original article, Addgene #196709 public deposit record and later PLOS Biology 2025 identification each have two located independent reads. EV2 and EV3 disagree on spelling of 11 NKX guide IDs, while the paper’s 23,279 guide count matches distinct sequences in EV2. The #196709 full verified map exists but requires login, so exact modified-backbone sequence comparison remains blocked. No missing-information claim is accepted.",
+ "source_recovery_followups": [
+  {
+   "reviewer": "audit_editing_closeout",
+   "date": "2026-10-16",
+   "scope": "Acquisition, validation and identity verification only; not an original-chemistry reading pass.",
+   "file": "michlits-nmeth.4466.pdf.txt",
+   "identity": "Original first-page title CRISPR-UMI: single-cell lineage tracing of pooled CRISPR–Cas9 screens, authorsGeorgMichlits etal, printed DOI10.1038/nmeth.4466 and2017 publication date;14-page publisher PDF MD5e5de20a10215556227c6fc38511b3700.",
+   "next_read_scope": "Separate Michlits protocol: modifiedgBlock/P7,10baseUMI,cloning/readout/PacI/custom primers; record independent original/source-link passes. Do not use it as a replacement for Schmierer defining evidence."
+  }
+ ],
+ "bounded_checks": [
+  {
+   "round": "2026-10-17-breadth-first-08",
+   "reviewer": "root",
+   "date": "2026-10-17",
+   "documents": 1,
+   "locations": "Published MSB 13:945 PMC5658704 JATS msb.20177834_PMC5658704.xml.txt Materials and Methods lines 169-245: 'Oligo nucleotide synthesis and library cloning' (AU-flip/3xBsmBI edit, full insert line 181), Gibson/transformation 187, packaging 191, transduction 203, propagation 207, 'Preparation of the sequencing library from genomic DNA' 211, primer table 213-240, final amplicon 238-242",
+   "oligo_scraper": "Bundle scraper previously run; this pass re-verified PCR1-F/R, PCR2-F/R, PCR3-F/R and CRIPSRSEQ base-for-base against the printed table at lines 215-240 and against the module's lib-derived constructions.",
+   "findings": "Module transcription confirmed correct: PCR1_FW/PCR1_REV verbatim; PCR2_FW = TruSeq Read1[4:] + U6 overlap[-23:-2]; PCR2_REV = P7[5:] + revcomp(vector 27 nt); PCR3_FW = P5 + i5 + READ1_SITE[:-4]; PCR3_REV = P7 + CTGCCATTTG; CRIPSRSEQ CGATCTCTTGTGGAAAGGACGAAACACCG; 288 bp; HiSeq4000 20+6+6 with i7=RSL, i5=sample index. Correction made: the graph previously ended at PCR3 with no purification, so the Methods statement 'The resulting product of 288 bp was gel purified' was unrepresented; added a CLEANUP step with an excised-band selection input, a declared off-size waste product and an explicit discard, keeping the final library state unchanged. Also recorded the paper's internal naming inconsistency (Methods text 'CRISPRSeq' vs primer table 'CRIPSRSEQ', one sequence) on the public page and in the note.",
+   "deferred": [
+    "Addgene #196709 verified full map (login-gated); reconstruction-vs-deposit base identity still unchecked",
+    "Library-construction front end (array oligo annealing, second-strand synthesis with the underlined outer primers, Gibson assembly, electroporation, packaging, transduction, puromycin selection) is not drawn in the protocol graph",
+    "Outer primers used to double-strand the 119-bp RSL oligo: underlined in the printed insert but their bases are not separately listed",
+    "Identity of the off-size PCR3 species removed by gel purification",
+    "Wang et al. 2014 guide-sequence predecessor library"
+   ],
+   "scope": "Capped defining-source pass only; no full chemistry validation and no accepted missing-information claim.",
+   "verification": "local suite 206 checks pass; page builds; pairing 0 problems; chemistry 6 steps, 0 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 6 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+  }
+ ]
 }

@@ -46,7 +46,7 @@
       "role": "linked_material",
       "locator": "/husky/henriksson/NGS101_papers/sources/char-seq__10.7554+eLife.27024/118786_v1.full.pdf.txt and 118786_118786-1.pdf.txt; original bioRxiv v1 article and supplementary PDF",
       "availability": "read",
-      "relevance": "relevant",
+      "relevance": "not_relevant",
       "discovered_from": "paper",
       "pass_1": {
         "reviewer": "root",
@@ -59,7 +59,8 @@
         "date": "2026-10-16",
         "locations": "Original bioRxiv v1 article text lines 88–107 and 415–437; original preprint supplementary PDF lines 34–48 and 95–108; oligo scraper run on full ChAR source bundle",
         "finding": "Independently read original preprint and supplement. Supplementary Fig. 1 explicitly prints top 5′-App-AAAAAAACCGGCGTCCAAGGATCTAG-3′-Sp3 and bottom drawn 3′-TGGCCGCAGGTTCCTAGATCCTAG-5′ (lines 101–102), with an internal desthiobiotin-TEG label (106–108), six-nt single-stranded 5′ A tail (caption 36–40), and no NNN UMI. Full preprint Methods retain RNA→bridge ligation, Bst3.0 extension, DpnII digestion and genomic ligation, followed by NEBNext hairpin adapter/USER/index PCR; they do not specify the NEB index member."
-      }
+      },
+      "reason": "Superseded by the published eLife article and its Figure 1—figure supplement 1. Historical readings retained; the 2026-10-17 critical review visually checked the original published graphic in the PMC5962340 supplementary ZIP, so no preprint detail or exception is needed."
     },
     {
       "id": "author_detailed_2020",
@@ -141,5 +142,39 @@
       "evidence": "Original eLife figure and original bioRxiv supplementary PDF agree on internal desthiobiotin-TEG but do not specify a base-precise attachment bond. Two independent source readings of the preprint and result supplements are now complete. The original 2018 ChAR methods name NEBNext hairpin adapter, USER and indexing primers without catalogue/revision or selected index; available local E7600/E7335 manuals are 2024 revisions, so exact 2018 kit and index choice remain unverified."
     }
   ],
-  "conclusion": "Original eLife Figure 1 supplement and bioRxiv v1 supplementary PDF independently establish the short 2018 no-UMI bridge; the protocol model/page now use this original version. Two readers also checked preprint and result-only supplements. Exact internal desthiobiotin-TEG linkage and the chosen 2018 NEBNext kit revision/index member remain blocked because the figure lacks linkage detail and only later vendor manuals are locally available. No missing-information claim is accepted."
+  "conclusion": "Original eLife Figure 1 supplement and bioRxiv v1 supplementary PDF independently establish the short 2018 no-UMI bridge; the protocol model/page now use this original version. Two readers also checked preprint and result-only supplements. Exact internal desthiobiotin-TEG linkage and the chosen 2018 NEBNext kit revision/index member remain blocked because the figure lacks linkage detail and only later vendor manuals are locally available. No missing-information claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-08",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published eLife v2 JATS (eLife.27024_v2.xml.txt): Results bridge-design paragraph lines 157-161 (5'App/trKQ ligase, bridge absent from four genomes, DpnII site, biotin, Bst 3.0, T4 DNA ligase, RNase H + Pol I, crosslink reversal, sonication, streptavidin, TruSeq adaptors, 152-base single-end reads); extended protocol steps 1-27 lines 292-900, in particular step 5 line 408 (T4 trKQ ligase, 25% PEG, 23 C overnight), step 15 line 640, steps 16-17 lines 660-707 (SDS/NaCl/proteinase K 70 C overnight, EtOH precipitation), step 19 lines 708-755 (Covaris ~200 bp, Dynabeads MyOne SA T1), step 20 line 756, step 21 line 770 (NEBNext Ultra II Ligation Master Mix, USER), steps 23-25 lines 800-880 (8 on-bead cycles, AMPure, qPCR cycle estimate, off-bead PCR 2, 65-nt hairpin note)",
+      "oligo_scraper": "Bundle scraper re-run; the only bridge hits are the 2018 bioRxiv supplement line 101 (top strand) and the 2020 MiMB variant lines 132-134. The published eLife v2 text carries the bridge only inside Figure 1-figure supplement 1 (image), as already recorded.",
+      "findings": "Bridge sequences unchanged and still correct for the defining 2018 figure. Corrections from the extended protocol: added the missing crosslink-reversal/precipitation step (SDS/NaCl/proteinase K, 70 C overnight) between second-strand synthesis and shearing; split the single index PCR into the source's two rounds (eight on-bead cycles, then an off-bead PCR whose cycle number comes from the step-25 qPCR); named the actual reagents (T4 trKQ ligase in 25% PEG, E. coli Pol I with limiting RNase H, T4 DNA ligase, Covaris ~200 bp, Dynabeads MyOne Streptavidin T1, NEBNext End Prep mix, NEBNext Ultra II Ligation Master Mix, NEBNext High-Fidelity master mix). Note records the step numbers and the step-24 statement that the NEBNext adaptor is a 65-nt hairpin with ~32-bp arms, which still does not print its bases.",
+      "deferred": [
+        "NEBNext Multiplex Oligos kit revision and selected index member (still unassigned in the 2018 source)",
+        "Figure 1-figure supplement 1 image: exact desthiobiotin-TEG attachment bond",
+        "Hi-C/mock-ChAR control branch (step 5 alternative, biotin fill-in) not drawn",
+        "Dynabeads/TWB-BBB wash chemistry and AMPure double size selection (steps 24, 26) not modelled",
+        "2020 MiMB bridge variant kept as a published-variant notice only"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation and no accepted missing-information claim.",
+      "verification": "local suite 5 checks pass; page builds; pairing 0 problems; chemistry 2 established/6 conditional/17 unresolved/0 contradictory; source guard 2 checked, 2 failed (pre-existing: both bridge strands appear only in the excluded bioRxiv supplement text and in the published figure image, not in published .txt); Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-critical-diff-review",
+      "reviewer": "root-critical-review",
+      "date": "2026-10-17",
+      "documents": 1,
+      "scope": "Focused review of bridge evidence provenance and the automated text-guard failures; no complete chemistry or absence review.",
+      "locations": "Published PMC5962340 supplementary ZIP, member elife-27024-fig1-figsupp1.jpg, upper bridge diagram; archive manifest identity checked. Temporary rendered image inspected visually.",
+      "oligo_scraper": "Full local bundle scraper run; the published raster graphic does not supply an extracted sequence hit. Superseded preprint hits are not active evidence.",
+      "findings": "Visually verified top 5-prime App-AAAAAAACCGGCGTCCAAGGATCTAG-Sp3 and bottom drawn 3-prime TGGCCGCAGGTTCCTAGATCCTAG-5-prime (ordering sequence GATCCTAGATCCTTGGACGCCGGT). Existing model transcriptions agree. Added a bridge-only image-transcription exemption pointing to the published figure and existing local transcription tests. Guard reports both exempted strands explicitly; neither is counted as a successful text match. No preprint exception introduced.",
+      "deferred": [
+        "Historical NEBNext kit/index identity and precise internal desthiobiotin linkage remain unresolved; earlier checklist and absence gates remain in force."
+      ],
+      "verification": "Local transcription suite, page build, source guard, review schema, pairing and site checks recorded in HANDOVER-REVIEW.md after the critical review."
+    }
+  ]
 }

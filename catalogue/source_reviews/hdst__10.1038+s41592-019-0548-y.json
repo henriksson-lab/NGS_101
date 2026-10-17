@@ -441,5 +441,27 @@
       "evidence": "The paper labels them proprietary, but the vendor panel material has not been recovered and no second independent review is yet complete."
     }
   ],
-  "conclusion": "Independent pass confirms printed bridges and 5-versus-6-base final-paper discrepancy, plus a 7-base preprint UMI value. Jemt resolves reaction order but delegates oligos to gated Ståhl 2016 SI; Illumina panel is unrecovered. No missing-information claim accepted."
+  "conclusion": "Independent pass confirms printed bridges and 5-versus-6-base final-paper discrepancy, plus a 7-base preprint UMI value. Jemt resolves reaction order but delegates oligos to gated Ståhl 2016 SI; Illumina panel is unrecovered. No missing-information claim accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-11",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nature Methods PMC6765407 JATS Online Methods 'Bead production' line121, 'Array decoding' line129, 'RNA-Seq library preparation and sequencing' line141, 'HDST data pre-processing' line145; Springer MOESM1 Supplementary Fig.1 caption lines25–36; cited Jemt et al. 2016 PMC5111054 JATS Results lines47–51 and Methods line89",
+      "oligo_scraper": "Bundle scraper run (large xlsx included): only chemistry hits are the /AmC6/U5 precursor and the two printed ligated bridges (article and preprint); remaining hits are gene names in expression tables. No pool, decoder, helper, adapter or index bases.",
+      "findings": "Bead assembly corrected from generic ligase/unavailable geometry to T4 DNA ligase (NEB) with 14-bp Bridge1'Bridge2' and Bridge3'Bridge4' helper oligos and 5'-phosphorylated pool oligos (2:1); round-2 splinted donor end drawn with derived Bridge2 CTAGAGC (stated 7-bp Bridge1); UMI/dT20VN shown following pool 3 instead of a separate append step; proteinase K (1h 56C) added to USER release; Jemt second-strand/end-repair/T7 IVT/RNA-adapter ligation/second cDNA declared as one warned MAGIC operation before indexing PCR instead of release feeding PCR directly; note adds permeabilization/RT conditions and NextSeq 500 v2 1.08 pM. Existing 5- vs 6-base UMI and read-mask discrepancy display retained.",
+      "deferred": [
+        "Stahl et al. 2016 Science supplement (adapter, second RT and indexing oligos; RNA-adapter ligation geometry)",
+        "Salmen et al. 2018 cited RT protocol",
+        "Jemt srep37137-s1 supplement beyond grep",
+        "Bridge3/Bridge4 split and helper bases",
+        "Proprietary Illumina barcode pools and decoder oligos",
+        "Acquired index-read cycles",
+        "Read-mask offset vs synthesis lengths (5- vs 6-base UMI)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory with jemt_processing MAGIC warning; source guard 0 exact checked, 0 failed, 6 inputs without exact states; Markdown built/checked; review schema checked"
+    }
+  ]
 }

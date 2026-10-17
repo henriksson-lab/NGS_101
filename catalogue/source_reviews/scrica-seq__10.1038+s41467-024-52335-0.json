@@ -457,5 +457,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Second independent checks now cover the 10x Multiome guides, scRCAT predecessor and its linked publisher attachments, author README/run_star.sh, and the published scRICA supplements. The recovered Research Square v1 preprint adds detailed circle/RCA and TSS/TES methods, and points to a separate primer workbook and Extended Data figures whose links remain inaccessible. Its PDF now has two independent reads. The preprint-linked Smart-seq3 and earlier scRCAT repository roots now have independent source-scope checks; the scRCAT nested code remains inaccessible and its read-layout implications unresolved. Published low-throughput N6 versus high-throughput N16 is already corrected on the page; author TES processing examples remain internally inconsistent. Relevant unavailable preprint attachments keep all residual missing-information claims blocked."
+  "conclusion": "Second independent checks now cover the 10x Multiome guides, scRCAT predecessor and its linked publisher attachments, author README/run_star.sh, and the published scRICA supplements. The recovered Research Square v1 preprint adds detailed circle/RCA and TSS/TES methods, and points to a separate primer workbook and Extended Data figures whose links remain inaccessible. Its PDF now has two independent reads. The preprint-linked Smart-seq3 and earlier scRCAT repository roots now have independent source-scope checks; the scRCAT nested code remains inaccessible and its read-layout implications unresolved. Published low-throughput N6 versus high-throughput N16 is already corrected on the page; author TES processing examples remain internally inconsistent. Relevant unavailable preprint attachments keep all residual missing-information claims blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC11399327 JATS Methods lines 151-162 (low-throughput RT/circle/RCA/tagmentation/TSS-TES PCR, NovaSeq 6000 PE150) and 170-192 (high-throughput 10x Multiome branch, MGISEQ-2000 PE150); Supplementary Data 2 (MOESM5 xlsx.txt) oligo table and footnote; Supplementary Fig. 3 inspected as a rendered image of MOESM1 p. 4 (step 1-5 molecular drawing); Supplementary Data 3 (MOESM6) reagent list.",
+      "oligo_scraper": "Existing bundle scraper hits re-checked against the MOESM5 rows; the printed low-throughput oligos (Oligo(dT), TSO, ISPCR, linker, oligo, Phi29, Tn5-i5/i7, anti-tag1, anti-TSO, i7-anti-*, Index N5/N7) all verified in the supplement text before use.",
+      "findings": "Corrected the molecular order from Supplementary Fig. 3. The amplified cDNA strand is handle-N6-N12-tag1-T30VN-cDNA-CCC-TSO complement, and NEBuilder joins the TSO-complement end to the handle end; the printed linker is now derived as the reverse complement of exactly that junction (the earlier circle closed between tag1 and the TSO complement). Added the missing steps: Exonuclease I after RT, the oligo + TSO ISPCR cDNA PCR (18-25 cycles) with exact geometry, Exonuclease I plus Exonuclease III:Lambda digestion of linear DNA, and the 0.55x / 0.55x-0.9x size cuts. TSS and TES PCR1/PCR2 products are now exact states with exact primer geometry instead of 'unavailable', so the cell barcode and UMI appear on the Read 2 (i7) side as drawn, not after the Read 1 mosaic end. Read lengths set to PE150 (NovaSeq 6000); index cycles not stated. TTE Mix adapters and the cited-method ATAC branch are marked inferred on the page.",
+      "deferred": [
+        "10x Multiome high-throughput branch (own primers, MGISEQ-2000) not drawn",
+        "Hu et al. 2016 Genome Biol. nuclear-cytoplasmic separation predecessor (ref. 11) for the low-throughput ATAC library",
+        "Vazyme Hyperactive pG-Tn5 S602-01 / TTE Mix loaded-adapter oligos",
+        "Index-read cycle counts",
+        "scRCAT-seq2 author pipeline README TES extraction-length conflict (unchanged from earlier passes)"
+      ],
+      "scope": "Capped defining-source pass; low-throughput branch only. No accepted missing-information claim.",
+      "verification": "local suite 6 checks pass; page builds; pairing 0 problems; chemistry 5 established/2 conditional/20 unresolved/0 contradictory; source guard 10 exact oligos checked, 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

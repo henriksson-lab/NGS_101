@@ -175,5 +175,26 @@
       "evidence": "MOESM3 has tag barcodes; complete vendor oligo specifications have not yet been checked."
     }
   ],
-  "conclusion": "Original article, detailed author protocol and antibody barcode workbook independently reread. Historical vendor architecture identified, while barcode membership, antibody conjugates and indicated unavailable sources keep missing claims blocked."
+  "conclusion": "Original article, detailed author protocol and antibody barcode workbook independently reread. Historical vendor architecture identified, while barcode membership, antibody conjugates and indicated unavailable sources keep missing claims blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC8763625 JATS Results lines122/124/132, Methods lines225–242 ('Cell fixation and permeabilization for ASAP-seq', 'Transposition and barcoding for ASAP-seq'), ED Fig1b/2a legends lines332/338; publisher MOESM1 ASAP-seq protocol (Sept 2020) staining/fixation/10x modifications/tag PCR/Oligos; 10x CG000209 Rev A Appendix p48 lines3520–3625 and sequencing p42 lines3125–3149 (fetched this pass); MOESM3 Supplementary Table 1 barcode columns (15 nt)",
+      "oligo_scraper": "Bundle scraper hits (BOA/BOB/RPI-x/D7xx in JATS and MOESM1) previously verified; re-read in original passages this pass. CG000209 Rev A oligos read directly in its Appendix text.",
+      "findings": "Graph reordered to source: stain live cells -> 1% FA fixation -> LLL/OMNI permeabilization -> 10x tagmentation -> GEM partition with BOA/BOB in barcoding mix -> 40C 5min annealing + 12-cycle linear barcoding (bridge extension then bead barcoding) -> silane (3ul set aside) -> 1.2x SPRI bound ATAC vs 2.0x supernatant tag fraction -> separate PCRs (previous model extended bridges before tagmentation/partition and stained already-fixed cells). ATAC library rebuilt from CG000209 Rev A: cell barcode between P5 and Read 1N, no i5 sample index (previously i5 index + cell barcode after ME); exact SI-PCR Primer B/Sample Index N geometry. TSA tag library rebuilt as P5-N16-Read1N-N9V UBI-T30-[barcode rc, inferred adjacency]-RPI-x arm (previously generic TruSeq R1 library with 10-nt UMI). Unsourced read lengths removed; tag Read2/Index1 limitation shown.",
+      "deferred": [
+        "Cited CG000209 Rev D and CG000168 Rev D appendices",
+        "PMC author-manuscript ASAP_DOGMA_protocols.pdf / supp_tables.xlsx (PMC download gate)",
+        "BioLegend TotalSeq-A/-B conjugate structure (poly(A) length, linker)",
+        "Unprinted tag-PCR 'P5' primer",
+        "Acquired read cycles and tag-library Read 2/Index 1 primers",
+        "TotalSeq-B/BOB and hashtag (D7xx) libraries not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1 check passes; page builds; pairing 0 problems; chemistry 0 established/1 conditional/11 unresolved/0 contradictory; source guard 1 exact checked (SI-PCR Primer B), 0 failed, 4 inputs without exact states (bridge, bead_primer, atac_reverse, adt_reverse: placeholders); Markdown built/checked; review schema checked"
+    }
+  ]
 }

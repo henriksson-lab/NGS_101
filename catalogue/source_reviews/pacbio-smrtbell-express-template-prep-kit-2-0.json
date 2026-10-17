@@ -128,5 +128,24 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "Two independent reads of PacBio 2019 customer training PN 101-742-500 v01 pp. 7 and 9 establish Overhang Adapter v3's T overhang and A/T ligation; the model and page reflect this paired end. The complete hairpin body and sequencing-primer bases remain unverified. Contemporaneous SMRT Link Sample Setup is named by both vendor originals but remains unavailable, so no absence claim is accepted."
+  "conclusion": "Two independent reads of PacBio 2019 customer training PN 101-742-500 v01 pp. 7 and 9 establish Overhang Adapter v3's T overhang and A/T ligation; the model and page reflect this paired end. The complete hairpin body and sequencing-primer bases remain unverified. Contemporaneous SMRT Link Sample Setup is named by both vendor originals but remains unavailable, so no absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "PacBio procedure 101-693-800 Version 01 (January 2019) 1.html.txt lines 1-12 (scope), 265-305 (Table 3 reagents), 842-1026 (Reaction Mixes 1-4: overhang removal, damage repair, End-Repair/A-tailing, adapter ligation), 1026-1148 (0.45X AMPure PB purification, elution, size-selection decision), 1262-1360 (1X AMPure after BluePippin; Anneal and Bind; Prepare for Sequencing; revision history); customer training PN 101-742-500 v01 pdf.txt lines 200-289 (kit contents, Overhang Adapter v3 T overhang, A/T ligation) and 340-470 (workflow overview and TPK 1.0 vs Express 2.0 step comparison)",
+      "oligo_scraper": "Bundle scraper run: 18 hits, all Travers 2010 predecessor PCR/hairpin/sequencing oligos (PMC2926623); no vendor procedure, training or product-note oligo hits.",
+      "findings": "Correction: the model drew a post-ligation free-end nuclease digestion that procedure 101-693-800 v01 does not contain; ligation is followed directly by 0.45X AMPure PB (44 uL to 97 uL Reaction Mix 4), optional BluePippin and 1X AMPure PB, then Anneal and Bind. Training workflow comparison places ExoIII/ExoVII only in TPK 1.0. Graph now has a CLEANUP step with a 0.45X bead condition and discarded supernatant; library relabelled purified (not nuclease-resistant). Verified overhang removal 37C 15min (with NAD and 1:5 diluted DNA Prep Additive), DDR v2 37C 30min, End-Repair/A-tailing 20C 10min + 65C 30min, ligation 20C 60min; T overhang/A-T ligation retained. Note: 5' phosphorylation relabelled inferred; Sequencing Primer v4 (diffusion only) and Sample Setup routing recorded; open-questions section added.",
+      "deferred": [
+        "Overhang Adapter v3 hairpin body and Sequencing Primer v4 bases",
+        "Contemporaneous SMRT Link v6 Sample Setup instructions (named by procedure p. 18)",
+        "Optional BluePippin size-selection + 1X AMPure PB branch not drawn in graph",
+        "Product note and Travers 2010 not re-read in this pass"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 4/4 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/3 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (proprietary hairpin placeholders only); Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

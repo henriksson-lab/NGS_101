@@ -8,18 +8,34 @@ SQK-RAD114 is Oxford Nanopore's PCR-free rapid genomic-DNA workflow: a fragmenta
 
 - 🟢 Oxford Nanopore Technologies, *Rapid Sequencing Kit V14 — gDNA (SQK-RAD114)*,
   RSE_9177_v114 Rev Q, 12 December 2025.
-- 🟢 Oxford Nanopore Technologies, *Chemistry Technical Document*, rapid-based
-  sequencing section and section 15 adapter sequences.
+- 🟢 Oxford Nanopore Technologies, *Chemistry Technical Document*, CHTD_500 v1 rev AV
+  (24 July 2026), rapid-based sequencing section 4, section 15 adapter sequences and
+  section 16 kit reagents.
+
+Bounded re-read 2026-10-17 (round breadth-first-14): protocol text lines 164–515
+(identity, workflow, input DNA, library preparation) and CHTD lines 248–251, 379–417,
+2068–2087 and 2120–2126. Flow-cell priming/loading (FCF, FCT, BSA, SB, LIB/LIS) is
+not modelled as a graph step.
 
 ## 3. Molecular steps
 
-1. 🟢 Fragmentation Mix tagmentates 100–150 ng high-molecular-weight genomic DNA for
-   2 min at 30 °C, followed by 2 min at 80 °C.
+1. 🟢 Fragmentation Mix (1 µl FRA) tagmentates 100–150 ng high-molecular-weight genomic
+   DNA in 10 µl water for 2 min at 30 °C, followed by 2 min at 80 °C and brief cooling on
+   ice (protocol section 3; the input-DNA section recommends ~100 ng).
 2. 🟢 The transposase simultaneously cuts the DNA and installs transposase adapter
-   sequences on the resulting ends.
-3. 🟢 Diluted Rapid Adapter attaches to those tags for 5 min at room temperature in an
-   enzyme-free reaction.
-4. 🟢 A motor protein on the sequencing adapter controls passage of the attached strand
+   sequences on the resulting ends (Chemistry Technical Document section 4 and the FRA
+   reagent entry in section 16).
+3. 🟢 Rapid Adapter is diluted {{= rapid_v14.RA_DILUTION_UL[0] }} µl RA +
+   {{= rapid_v14.RA_DILUTION_UL[1] }} µl Adapter Buffer (ADB); 1 µl of this dilution is
+   added to the 11 µl tagmented DNA and attaches to the tags for 5 min at room
+   temperature in an enzyme-free reaction.
+4. 🟢 There is no purification step: the library is stored on ice and mixed directly
+   with Sequencing Buffer and Library Beads (or Library Solution) for loading. The
+   Chemistry Technical Document attributes reduced output to the lack of purification
+   and the presence of transposases. 🟡 The model therefore keeps candidate
+   tagmentation products without a productive attachment end as an unresolved carried
+   fate rather than a physical discard.
+5. 🟢 A motor protein on the sequencing adapter controls passage of the attached strand
    through the pore. No synthesis sequencing primer is used.
 
 ## 4. Evidence boundary

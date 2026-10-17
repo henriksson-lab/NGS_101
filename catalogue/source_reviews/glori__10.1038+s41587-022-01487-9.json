@@ -5,11 +5,16 @@
     {
       "id": "glori_article",
       "role": "defining",
-      "locator": "GLORI Nature Biotechnology 2022 doi:10.1038/s41587-022-01487-9 full article",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/glori__10.1038+s41587-022-01487-9/s41587-022-01487-9.pdf.txt (https://doi.org/10.1038/s41587-022-01487-9)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Local manifest has manual-only article; defining Methods not obtained or independently read.",
-      "pass_1": null,
+      "reason": "Publisher PDF hand-placed 2026-10-17 (printed DOI/title/authors verified); one bounded pass only.",
+      "pass_1": {
+        "reviewer": "deferred_followup_03",
+        "date": "2026-10-17",
+        "locations": "Methods 'RNA protection, deamination and deprotection' and 'Library preparation and sequencing' lines 2612-2681; data filtering 2688-2696",
+        "finding": "Prints eCLIP-branch linker/RT primer/UMI adapter with rApp/5Phos and 3SpC3 modifications, enzymes and conditions, 165-250 bp gel, HiSeq X Ten 2x150 PE with R2 analysed; PCR primers named 'P5 and Illumina-indexed P7' without bases."
+      },
       "pass_2": null
     },
     {
@@ -93,11 +98,16 @@
     {
       "id": "glori_2024_protocol",
       "role": "linked_material",
-      "locator": "GLORI Nature Protocols 2024 doi:10.1038/s41596-023-00937-1 and its Supplementary Table 1",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/glori__10.1038+s41587-022-01487-9/s41596-023-00937-1.pdf.txt (https://doi.org/10.1038/s41596-023-00937-1); Supplementary Table 1 in s41596-023-00937-1_41596_2023_937_MOESM3_ESM.xlsx",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Later detailed protocol cited in existing note/ledger is not in this local source bundle and was not independently read in this pass.",
-      "pass_1": null,
+      "reason": "Publisher PDF hand-placed 2026-10-17 (printed DOI verified); one bounded pass only.",
+      "pass_1": {
+        "reviewer": "deferred_followup_03",
+        "date": "2026-10-17",
+        "locations": "Overview lines 360-391; Reagents 1834-1898; Step 23 line 2448; Steps 92-93 lines 3070-3200; Step 121 lines 3409-3410",
+        "finding": "Adaptor modifications described; PCR with NEBNext Index/Universal primers (E7335S, bases not printed), Ultra II Q5, 10-12 cycles; alkaline RNA hydrolysis after RT (2024 only); HiSeq X Ten PE150."
+      },
       "pass_2": null,
       "discovered_from": "glori_article"
     }
@@ -124,5 +134,62 @@
       "evidence": "Current bundle lacks the defining article and later detailed protocol table. MOESM9 contains control spike-ins, not final library primers."
     }
   ],
-  "conclusion": "Blocked by unavailable defining article and later protocol; no absence accepted."
+  "conclusion": "Blocked by unavailable defining article and later protocol; no absence accepted. 2026-10-17 deferred-followup-03: defining article and 2024 protocol now read once; PCR primer bases remain unprinted in both; no second independent pass.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "2023 Springer MOESM1 Supplementary Figures pdf.txt lines76–90 (Supp Fig 1 glyoxal/nitrite deamination) and 327–357 (Supp Fig 14 eCLIP vs NEB #E7300/Takara #634487); 2023 MOESM2 Reporting Summary (image PDF, rendered p.1 Data collection); 2024 Nature Protocols MOESM3 XLSX ($CHEM_DATA/sources/doi_10.1038+s41596-023-00937-1/) Supplementary Table 1 (3′ RNA adaptor, RT primer, 3′ DNA adaptor) and Table 2 (spike-in probes) read from the workbook XML",
+      "oligo_scraper": "Bundle scraper run: 11 sequences in 2 files (MOESM9 spike-in/siRNA/control RNAs; not library oligos). 2024 Supplementary Table 1 oligos verified verbatim in the original XLSX: rAppAGATCGGAAGAGCGTCGTG, ACACGACGCTCTTCCGATCT, Phos-NNNNNNNNNNAGATCGGAAGAGCACACGTCTG; no 3′ blocking group printed.",
+      "findings": "Computed with lib/illumina: RNA adaptor = revcomp of TruSeq Read 1 primer 3′ end, RT primer = that 3′ end, DNA adaptor arm = revcomp of TruSeq Read 2 primer 3′ end. Corrected the repository final role order (UMI had been placed next to P5 with reads beginning at the UMI) to P5(inferred)–Read 1 site–antisense converted cDNA–10-nt UMI–Read 2 site–sample index–P7(inferred); RNA adaptor/RT primer retagged Read 1 side and RT primer placed 5′ in cDNA states; final workflow step marked INFERRED; page caveat explains P5-side convention. Instrument corrected to HiSeq X Ten and NovaSeq per Reporting Summary; paired-end/cycle counts left unverified. Nitrite 750 mM/16 °C 8 h + 4 °C overnight, 95 °C deprotection and T4 PNK downgraded in note/workflow to carried claims because defining Methods were not re-read.",
+      "deferred": [
+        "2023 Liu et al. Methods (paywalled; manual URL https://doi.org/10.1038/s41587-022-01487-9)",
+        "2024 Shen et al. Nature Protocols main text (paywalled; manual URL https://doi.org/10.1038/s41596-023-00937-1)",
+        "GEO GSE210563/GSE233875 library-construction descriptions",
+        "Library PCR primers, P5/P7 side and read configuration/cycles",
+        "Ligase, RT enzyme and adaptor 3′ blocking groups",
+        "Graph ligation/RT inputs carry role-level states, not the exact published oligos (5 inputs without exact states)"
+      ],
+      "scope": "Capped pass; defining article and detailed-protocol main text unavailable, supplements only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks) passes; page builds; pairing 0 problems; chemistry 0 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Access routes: OpenAlex/Unpaywall closed for doi:10.1038/s41587-022-01487-9 and 10.1038/s41596-023-00937-1, no repository copy; Europe PMC no PMCID (PMIDs 36302990, 38253658); no preprint found. Read: GEO GSE210563 family SOFT (58 samples; Sample_extract_protocol, data_processing, instrument_model) and GSE233875 SOFT lines 47-136; SRA runinfo PRJNA866163 (58 runs) and PRJNA978429 (2 runs); GLORI-tools README lines 26-35 (linked from GEO data processing). All placed in $CHEM_DATA/sources/glori__.../ with MANIFEST rows.",
+      "oligo_scraper": "Bundle scraper re-run: 31 hits in 2 files (MOESM9 controls, one MOESM6 false hit); new GEO/SRA/README files 0 hits.",
+      "findings": "GEO: oligo(dT) mRNA, 100-200 ng into GLORI; libraries by modified eCLIP, NEBNext Small RNA or SMARTer Pico v3; NovaSeq 6000 (32)/HiSeq X Ten (26); trim_galore, SeqKit dedup, FASTX UMI removal. SRA: all deposited runs SINGLE, 150 bases/spot. README: single-end A-to-G reads with 5-prime UMI trimmed. Sequencing text and note updated (deposition/derived labels); derived that deposited read is the UMI-first RNA-sense read from the Read 2 site.",
+      "deferred": [
+        "2023 Liu et al. Methods (paywalled; manual URL https://doi.org/10.1038/s41587-022-01487-9)",
+        "2024 Shen et al. Nature Protocols main text (paywalled; manual URL https://doi.org/10.1038/s41596-023-00937-1)",
+        "Library PCR primers, P5/P7 side, run cycle settings and whether an undeposited Read 1 was sequenced",
+        "Ligase, RT enzyme, reaction conditions and adaptor 3-prime blocking groups",
+        "Graph ligation/RT inputs remain role-level (5 inputs without exact states)"
+      ],
+      "scope": "Deferred follow-up access pass; defining article and detailed-protocol main text still unavailable; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite comment-only (0 explicit checks) passes; page builds; pairing 0 problems; chemistry 0 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Hand-placed publisher PDFs, identity checked (printed DOI/title/authors; MANIFEST md5 matches): s41587-022-01487-9.pdf (Liu 2023 Nat Biotechnol) Methods lines 2612-2681 (protection/deamination/deprotection; library preparation and sequencing incl. NEB E7300 and SMARTer branches), data filtering 2688-2696; s41596-023-00937-1.pdf (Shen 2024 Nat Protoc) overview 360-391, Reagents 1834-1898, Step 23 line 2448, Steps 92-93 lines 3070-3200, Step 121 3409-3410.",
+      "oligo_scraper": "Scraper on both new texts: 5 hits; 2023 lines 2640/2645/2650 = linker, RT primer, UMI adapter (verified in passage); 2023 line 1305 figure motif text; 2024 line 3451 trim_galore adapter string. No PCR primer bases.",
+      "findings": "Graph rebuilt from 2023 Methods: fragmentation 94 C 4 min; glyoxal/DMSO 50 C then H3BO3; 750 mM NaNO2/MES pH 6.0/glyoxal 8 h 16 C (removed unsupported '4 C overnight'); TEAA/formamide 95 C 10 min; 'repair' corrected from phosphorylation to T4 PNK 3' dephosphorylation; Rnl2tr KQ linker ligation; 5' deadenylase + RecJf excess-linker digestion (waste); SSIII RT; ExoI primer digestion (waste); Rnl1 high-conc on-bead UMI adapter ligation; PCR P5/indexed P7 (bases unprinted, inferred inputs; 2024 NEBNext names); 1.8x XP and 165-250 bp gel with waste. Linker, RT primer and UMI adapter now exact graph inputs; oligo list uses 2023 strings with rApp/5Phos/3SpC3. Read layout resolved: HiSeq X Ten 2x150 PE, R2 RNA-sense with 5' 10-nt UMI analysed (supports earlier role-order correction).",
+      "deferred": [
+        "Library PCR primer bases (2023 'P5 and Illumina-indexed P7'; 2024 NEBNext E7335S vendor oligo document not read)",
+        "Sample-index read length",
+        "2024 Procedure steps not listed above (alkaline hydrolysis drawn only in note)",
+        "NEBNext Small RNA and SMARTer Pico v3 branches not drawn",
+        "Second independent reader for the two-pass gate"
+      ],
+      "scope": "Bounded deferred follow-up; defining original now read; capped pass, not full acceptance; no missing-information claim accepted.",
+      "verification": "local suite comment-only pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory over 13 steps; source guard 3 exact checked (linker, RT primer, UMI adapter), 0 failed, 0 inputs without exact states (PCR primers inferred); Markdown built; audit --check pass"
+    }
+  ]
 }

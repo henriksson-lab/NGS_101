@@ -113,5 +113,25 @@
       "evidence": "Guide, donor and RT/amplicon oligos are printed in Supplementary Tables S3-S5; predecessor and code links remain blocked."
     }
   ],
-  "conclusion": "Guide, donor and RT/amplicon oligos are printed in Supplementary Tables S3-S5; predecessor and code links remain blocked."
+  "conclusion": "Guide, donor and RT/amplicon oligos are printed in Supplementary Tables S3-S5; predecessor and code links remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC7736817 JATS lines 53-130 (GenIE method, Experimental design, Arrayed CRISPR-Cas9 editing, Genomic DNA isolation, RNA isolation and reverse transcription, Sequencing); author Supplementary Tables workbook sheet 'S3-RT and Amplicon primers' lines 75-103 (common forward/reverse adaptor tails, per-locus RT/forward/reverse primers, SDF4 spliced cDNA forward primer) and sheet S4 guides",
+      "oligo_scraper": "Scraper run over the bundle as a reading aid; the S3 tails and per-locus primers were then read in the workbook .txt itself. No barcoding-PCR primer bases appear anywhere in the published bundle.",
+      "findings": "Corrected the drawn library: Table S3's forward tail is exactly TruSeq Read 1 while the reverse tail TCGGCATTCCTGCTGAACCGCTCTTCCGATCT is the Illumina PE/Genome-Analyzer arm of the cited 96-plex method (ref 8), not TruSeq Read 2; the previous generic truseq_library also carried a ligation-only dA junction. Final library is now built explicitly with both exact tails, the MUL1_rs6700034 primer pair and an inferred P5/i5/i7/P7 shell; Read 1/Read 2 are declared as the two tail primers at 150 cycles and index cycles are no longer claimed as acquired. Removed the unsourced outer+nested two-PCR path (Methods describe PCR1 with tailed locus primers then PCR2 for barcodes) and added the matched genomic-DNA branch (MagAttract HMW, same primer pair) with its own library state; reagents named (PowerUp SYBR Green, SuperScript IV, Direct-zol/TRI + TURBO DNase, Synthego sgRNA, 100-nt IDT ssODN).",
+      "deferred": [
+        "Kozarewa & Turner 2011 (ref 8) 96-plex barcoding primers and index-read lengths",
+        "Kan et al. 2017 (ref 7) HDR donor-orientation predecessor",
+        "rgenie repository subdirectories",
+        "Supplementary PDF beyond headings already read in earlier passes",
+        "Which amplicon end receives P5, and the SDF4 spliced-cDNA amplicon variant (named in the note, not drawn)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation and no accepted missing-information claim. The ref-8 barcoding absence stays blocked.",
+      "verification": "local suite 6 checks pass (S3 tails, MUL1 RT/forward/reverse, no dA junction); page builds; pairing 0 problems; chemistry 0 established/0 conditional/12 unresolved/0 contradictory; source guard 3 exact checked, 0 failed, 1 input without exact state; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

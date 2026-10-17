@@ -222,5 +222,25 @@
       "evidence": "Original ATAC 2013 supplement prints the families; exact sample index and independent review remain open."
     }
   ],
-  "conclusion": "Original ATAC 2013 supplement prints the families; exact sample index and independent review remain open."
+  "conclusion": "Original ATAC 2013 supplement prints the families; exact sample index and independent review remain open.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Corces et al. Nat Methods 2017 PMC5623106 author-manuscript JATS Online Methods Sequencing lines265-272, Omni-ATAC protocol 285-315, frozen pellets 326-331, 500-cell 352-360, Author Contributions line898, reference list ref17/18/26 (lines983/987/1019); Springer MOESM3 Supplementary Protocol 1 .txt lines1-215 (viability/DNase, ATAC-RSB, detergents, 2x TD buffer recipe, transposition steps1-9, Zymo DCC-5, 5-cycle NEBNext pre-amplification, 15-ul qPCR, final amplification and Zymo cleanup, KAPA quantification)",
+      "oligo_scraper": "Bundle scraper run: 0 sequences in 0 files (article and Supplementary Protocol 1 name Primer Ad1/Ad2 without bases); Ad1_noMX/Ad2.1 transcriptions remain from the earlier-reviewed Buenrostro 2013 supplement.",
+      "findings": "Model correction: transposase was in-house Tn5 (ref26 Picelli 2014; S.W.C. produced the Tn5 used in all experiments, line898) in home-made 20 mM Tris/10 mM MgCl2/20% DMF TD buffer, not Illumina TDE1; caveat, graph inputs and displayed oligos corrected, Tn5 adapter input marked inferred (loading oligos not printed; S5/S7+ME geometry inferred from Ad1/Ad2 3' ends). Added Zymo DCC-5 and NEBNext 2x Master Mix labels with 72C 5 min gap fill, qPCR-chosen additional cycles on the remaining 45 ul with no added reagents, second Zymo cleanup with discarded flow-through, and PAGE >100-bp size selection of pooled HiSeq4000 libraries. Read layout corrected from no genomic length to 2x75 (HiSeq4000 deep, MiSeq low-depth); Index 1 cycle count not printed, 8 kept as Ad2 index length.",
+      "deferred": [
+        "Picelli 2014 Tn5 loading oligos (Tn5ME-A/B, Tn5MErev) and transposome assembly",
+        "Protocol Exchange protex.2017.096 detailed protocol",
+        "Buenrostro 2015 Current Protocols amplification details beyond prior passes",
+        "Ad2 index members actually used per library and acquired Index 1 cycles",
+        "Supplementary Protocol 2 frozen-tissue and 500-cell variants not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2/2 pass (Ad1_noMX/Ad2.1 transcription); page builds; pairing 0 problems; chemistry 8 steps 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 2 inputs without exact states; Markdown built; audit --check pass"
+    }
+  ]
 }

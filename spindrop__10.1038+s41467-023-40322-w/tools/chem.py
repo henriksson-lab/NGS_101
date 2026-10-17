@@ -77,6 +77,18 @@ def protocol_graph() -> ProtocolGraph:
                 "heat_treatment", "heat_treat", "uv_release", "release_primers"]
     _rt_then_pcr(graph, "library", treated, final, d.endpoint + " Published acquisition: Read 1 61, Index 1 8, Index 2 8, Read 2 14 cycles.", reviewed,
                  rt_primer_label="UV-released inDrop-v3 bead primer already present in droplets",
-                 label="spinDrop")
+                 rt_enzyme_label=("picoinjected RT solution: SuperScript III (24 U/µL) in 1.8x First "
+                                  "Strand Buffer with MgCl2, DTT and RNaseOUT; 2 h at 50 °C, then 70 °C 15 min"),
+                 label="spinDrop",
+                 between_rt_and_pcr=(
+                     "Methods, 'Picoinjection of RT mix': 'The libraries were then prepared as per "
+                     "the inDrop library preparation protocol' (ref. 14). This paper does not "
+                     "reproduce those steps (recovery from droplets and the inDrop amplification "
+                     "and adapter route), so they are not modelled here. The 5EU-seq variant "
+                     "instead follows scEU-seq library preparation, with the final PCR done as in "
+                     "inDrop. It is not drawn."),
+                 step_label="Final library PCR per the inDrop protocol",
+                 forward_label="inDrop library PCR forward primer (cited protocol; not printed)",
+                 reverse_label="inDrop library PCR reverse primer (cited protocol; not printed)")
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

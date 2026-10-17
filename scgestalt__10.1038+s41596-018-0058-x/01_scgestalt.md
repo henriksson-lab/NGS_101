@@ -9,19 +9,22 @@ Single-cell GESTALT (scGESTALT) writes cumulative CRISPR–Cas9 indels into an i
 ## Sources read
 
 - 🟢 The protocol's experimental design, target-array capture, inDrops amplification, nested lineage PCR and run-configuration sections were read.
+- 🟢 Round 2026-10-17-breadth-first-16 re-read PMC6279253 JATS (`.txt` lines 117–121 experimental design; 165–217 reagents; 259–273 primer table; 391–393 primer-mix setup; 741–941 Steps 83–104; 1043 anticipated library size; 1788–1790 Fig. 3b/c legends) and MOESM1 Supplementary Tables 1–2 (lines 60–112).
 - The source fetch command for the defining study is `python3 tools/get_sources.py --doi 10.1038/nbt.4103`; the protocol above is the primary chemistry authority for this page.
 
 ## Construct-changing steps
 
 1. 🟢 A Tol2-integrated transgene expresses a DsRed-associated CRISPR target array. Early guide injection and later inducible Cas9/guide expression create cumulative indels.
 2. 🟢 The edited cassette is transcribed and polyadenylated, allowing it to be captured alongside cellular mRNA in inDrops.
-3. 🟢 Reverse-transcribed molecules receive the inDrops cell identifier, undergo second-strand synthesis and are linearly amplified by IVT.
-4. 🟢 The amplified RNA is split. Fragmented material enters the standard transcriptome library; unfragmented material preserves the lineage array.
-5. 🟢 Random-hexamer RT and two nested PCRs enrich the expressed lineage barcode while retaining the cell identifier and UMI. Matched Illumina multiplexing indexes are added.
+3. 🟢 Reverse-transcribed molecules receive the inDrops cell identifier from the bead primer (T7 promoter–PE1–cell ID–UMI–oligo(dT), Fig. 3b legend), undergo second-strand synthesis and are linearly amplified by T7 IVT. The IVT product is purified with 1.3× AMPure XP (Step 83).
+4. 🟢 9 µl of the purified RNA is chemically fragmented for the transcriptome library (Step 84 defers to inDrops ref. 73). Per the Fig. 3b legend, that branch is reverse-transcribed with a random-hexamer primer carrying PE2 and then PCR-amplified with P5/P7 primers; the primer table lists R1-PCRix/R2-PCR for "transcriptome or scGESTALT final sequencing library". There is no RNA-adapter ligation (a repository error corrected in round 16). The remaining RNA stays unfragmented for the lineage library.
+5. 🟢 Lineage branch: random-hexamer RT with PrimeScript (70 °C 3 min; 30 °C 10 min, 42 °C 1 h, 70 °C 15 min; 1.2× AMPure). PCR round 1 uses GP6 + PE1Sa with Q5 and Q5 enhancer for 15 cycles at 61 °C (0.6× AMPure). PCR round 2 uses GP12 + PE1Sb with Phusion at 60 °C (0.6× AMPure). A final KAPA HiFi HotStart PCR on a 1:10 dilution uses R1-PCRix/R2-PCR: 2 cycles at 55 °C, then typically 6–8 at 65 °C (0.6× AMPure). The same R1-PCRix/R2-PCR pair as the matching transcriptome library must be used. Libraries are typically 500–800 bp.
+6. 🟡 Published inconsistencies, shown on the page: (a) the primer table cites Supplementary Table 2 for the R1-PCRix indexes, but the primer-mix setup cites Supplementary Table 1; MOESM1 Table 1 lists sgRNA sites and Table 2 lists R1-PCR-ix1–24. (b) The round-2 thermocycler table numbers its rows 1, 2–9, 16, 17, so the cycle count is either 8 or 14. The model states no count.
 
 ## Identifier structure and read layout
 
-- 🟢 The lineage library run is: Read 1, 250 cycles (edited barcode array); Index 1, 8 cycles (cell-barcode part 1); Index 2, 8 cycles (library index); Read 2, 14 cycles (8-base cell-barcode part 2 followed by 6-base UMI).
+- 🟢 Transcriptome libraries: NextSeq 75-cycle high output, standard primers; Read 1 61, Index 1 8 (cell-barcode part 1), Index 2 8 (library index), Read 2 14 cycles.
+- 🟢 The lineage library run (MiSeq 300-cycle kit, 20% PhiX, standard Illumina primers) is: Read 1, 250 cycles (edited barcode array); Index 1, 8 cycles (cell-barcode part 1); Index 2, 8 cycles (library index); Read 2, 14 cycles (8-base cell-barcode part 2 followed by 6-base UMI).
 - 🟢 The two cell-barcode parts form one combinatorial cell identifier. The UMI identifies lineage-transcript molecules; the library index is a sample/library index.
 - 🟡 The upstream inDrops capture oligos and a fully assembled final-library strand remain role-labelled. The scGESTALT-specific amplification primers are transcribed below.
 

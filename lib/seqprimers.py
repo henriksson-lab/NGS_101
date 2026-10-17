@@ -257,6 +257,30 @@ def verify(lib: Construct, primers, required_roles=ROLES) -> list[str]:
     return errs
 
 
+def _cycle_coordinates(lib: Construct, hit: Landing):
+    """Convert drawing coordinates to molecular coordinates for read-cycle arithmetic.
+
+    Known placeholder lengths override drawing widths. Unknown lengths retain temporary
+    coordinates only so callers can stop at them; callers must never report spans across
+    them. A primer boundary inside a compressed placeholder is not an exact molecular site.
+    """
+    coords, boundaries = [], {}
+    drawing = molecular = 0
+    for segment in lib:
+        width = len(segment)
+        length = segment.length_bp if segment.length_bp is not None else width
+        for boundary in (hit.start, hit.end):
+            if drawing <= boundary <= drawing + width:
+                offset = boundary - drawing
+                if offset not in (0, width) and length != width:
+                    raise ValueError("sequencing primer boundary lies inside a compressed placeholder")
+                boundaries[boundary] = molecular + (length if offset == width else offset)
+        coords.append((segment, molecular, molecular + length))
+        drawing += width
+        molecular += length
+    return coords, replace(hit, start=boundaries[hit.start], end=boundaries[hit.end])
+
+
 def feature_spans(lib: Construct, primers, read_lengths: dict[str, int]) -> list[FeatureReadSpan]:
     """Map annotated regions to read cycles from primer geometry and declared run lengths.
 
@@ -269,12 +293,7 @@ def feature_spans(lib: Construct, primers, read_lengths: dict[str, int]) -> list
         raise ValueError(f"read lengths name undeclared roles: {', '.join(sorted(unknown))}")
     if any(not isinstance(n, int) or n <= 0 for n in read_lengths.values()):
         raise ValueError("read lengths must be positive integers")
-    coords, pos = [], 0
-    for s in lib:
-        coords.append((s, pos, pos + len(s)))
-        pos += len(s)
-
-    def crosses_unknown(a: int, b: int) -> bool:
+    def crosses_unknown(coords, a: int, b: int) -> bool:
         """Whether a cycle path crosses a schematic region of unknown real length.
 
         Role tokens have a printable width so diagrams can show them, but that width is
@@ -282,7 +301,7 @@ def feature_spans(lib: Construct, primers, read_lengths: dict[str, int]) -> list
         must not be derived from the number of characters in its label.
         """
         lo, hi = sorted((a, b))
-        return any(s.is_role_token() and s.length_bp is None and start < hi and end > lo
+        return any(_unstated_length(s) and start < hi and end > lo
                    for s, start, end in coords)
     out = []
     for primer in primers:
@@ -292,13 +311,14 @@ def feature_spans(lib: Construct, primers, read_lengths: dict[str, int]) -> list
         hit = locate(lib, primer)
         if hit is None:
             continue
+        coords, hit = _cycle_coordinates(lib, hit)
         for segment, start, end in coords:
             if not segment.feature:
                 continue
             if hit.strand == "bottom":
                 if end <= hit.end:
                     continue
-                if crosses_unknown(hit.end, start) or (
+                if crosses_unknown(coords, hit.end, start) or (
                         segment.is_role_token() and segment.length_bp is None):
                     continue
                 first = max(start, hit.end) - hit.end + 1
@@ -306,7 +326,7 @@ def feature_spans(lib: Construct, primers, read_lengths: dict[str, int]) -> list
             else:
                 if start >= hit.start:
                     continue
-                if crosses_unknown(end, hit.start) or (
+                if crosses_unknown(coords, end, hit.start) or (
                         segment.is_role_token() and segment.length_bp is None):
                     continue
                 first = hit.start - min(end, hit.start) + 1
@@ -318,16 +338,49 @@ def feature_spans(lib: Construct, primers, read_lengths: dict[str, int]) -> list
     return sorted(out, key=lambda x: (ROLES.index(x.read), x.cycle_start, x.feature.id))
 
 
+def _unstated_length(segment: Segment) -> bool:
+    """Whether a placeholder's drawing width is not a molecular length."""
+    return (segment.placeholder and segment.length_bp is None
+            and (not segment.feature or segment.is_role_token()))
+
+
+UNPLACED_SUFFIX = "acquired; priming site not represented on this library"
+UNSPECIFIED_HANDLING = "Undetermined — acquisition not stated"
+
+
+def _unplaced_by_role(unplaced_reads, primer_roles) -> dict[str, ReadContent]:
+    """Validate source-declared acquired reads whose priming site is not represented."""
+    out = {}
+    for row in unplaced_reads or ():
+        if not isinstance(row, ReadContent):
+            raise TypeError("an unplaced read must be a read_spec() row")
+        if row.read not in ROLES:
+            raise ValueError(f"unplaced read needs a run read role, not {row.read!r}")
+        if row.read in out:
+            raise ValueError(f"unplaced read {row.read!r} is declared twice")
+        if row.read in primer_roles:
+            raise ValueError(f"{row.read} has a declared primer; it is not unplaced")
+        out[row.read] = row
+    return out
+
+
 def read_contents(lib: Construct, primers,
                   read_lengths: dict[str, int] | None = None,
                   read_uses: dict[str, str] | None = None,
-                  acquired_roles=None) -> list[ReadContent]:
+                  acquired_roles=None, *, unplaced_reads=(),
+                  acquisition_unspecified: bool = False) -> list[ReadContent]:
     """Describe R1/I1/I2/R2 from the construct and declared primer sites.
 
     The construct supplies order and meaning; primer geometry supplies direction.  A
     protocol need only declare actual run lengths when the source fixes them.  Missing
     primer roles and declared primer sites omitted from ``acquired_roles`` become explicit
     ``not acquired`` rows rather than disappearing.
+
+    ``unplaced_reads`` are :func:`read_spec` rows for reads the source says were acquired
+    although their priming site is not represented (for example an unprinted custom
+    primer).  They render as acquired without a site, never as ``not acquired``.
+    ``acquisition_unspecified`` keeps every declared primer site and its derived content
+    but states that the source does not say which reads were acquired.
     """
     primers = tuple(primers)
     read_lengths = read_lengths or {}
@@ -344,20 +397,29 @@ def read_contents(lib: Construct, primers,
     by_role = {p.role: p for p in primers}
     if len(by_role) != len(primers):
         raise ValueError("at most one sequencing primer may be declared for each read role")
+    unplaced = _unplaced_by_role(unplaced_reads, set(by_role))
+    if acquisition_unspecified and (acquired_roles or unplaced):
+        raise ValueError("unspecified acquisition cannot also declare acquired reads")
     acquired = set(by_role) if acquired_roles is None else set(acquired_roles)
+    acquired -= set(unplaced)
+    if acquisition_unspecified:
+        acquired = set(by_role)
     undeclared_acquired = acquired - set(by_role)
     if undeclared_acquired:
         raise ValueError("acquired reads lack a declared primer: "
                          + ", ".join(sorted(undeclared_acquired)))
 
-    coords, pos = [], 0
-    for segment in lib:
-        coords.append((segment, pos, pos + len(segment)))
-        pos += len(segment)
-
     out = []
     for role in ROLES:
         primer = by_role.get(role)
+        if role in unplaced:
+            row = unplaced[role]
+            out.append(replace(row, content=f"{row.content} ({UNPLACED_SUFFIX})"))
+            continue
+        if primer is None and acquisition_unspecified:
+            out.append(ReadContent(role, "—", "no sequencing primer declared",
+                                   UNSPECIFIED_HANDLING))
+            continue
         if primer is None or role not in acquired:
             out.append(ReadContent(role, "—", "not acquired", "No — not sequenced"))
             continue
@@ -366,6 +428,7 @@ def read_contents(lib: Construct, primers,
             out.append(ReadContent(role, "not fixed", "cannot be derived from an exact site",
                                    "Undetermined"))
             continue
+        coords, hit = _cycle_coordinates(lib, hit)
         limit = read_lengths.get(role)
         candidates = []
         for segment, start, end in coords:
@@ -394,13 +457,17 @@ def read_contents(lib: Construct, primers,
         for candidate_no, (segment, first, last) in enumerate(candidates):
             # Identifier placeholders such as B*16 have a real, modelled length even
             # though their bases vary.  An unfeatured payload placeholder such as
-            # ``cDNA insert`` is the molecule-dependent case.
-            unknown_length = (segment.placeholder and not segment.feature
-                              and segment.length_bp is None)
+            # ``cDNA insert`` is the molecule-dependent case.  A featured role token
+            # (for example ``[i7 index; length not stated]``) has drawing width but no
+            # stated length, so later cycles are unknowable, as in feature_spans().
+            unknown_length = _unstated_length(segment)
             path.append((segment, first, last))
             if unknown_length:
-                short_molecule_readthrough = candidate_no + 1 < len(candidates)
-                if segment.inferred and candidate_no + 1 < len(candidates):
+                more = candidate_no + 1 < len(candidates)
+                short_molecule_readthrough = more and not segment.feature
+                index_stop = (limit is None and role.startswith("Index") and segment.feature
+                              and segment.feature.role == "sample_index")
+                if more and (segment.inferred or segment.feature) and not index_stop:
                     following_unresolved = candidates[candidate_no + 1][0]
                 break
             if (limit is None and role.startswith("Index")
@@ -412,10 +479,11 @@ def read_contents(lib: Construct, primers,
             label = segment.feature.label if segment.feature else (segment.name or "unnamed region")
             span = str(first) if first == last else f"{first}–{last}"
             parts.append(f"{label} (cycles {span})")
-            # With no declared run length, a schematic payload length must not expose later
-            # adapter sequence merely because its placeholder happens to have drawing width.
-            if segment.placeholder and not segment.feature and segment.length_bp is None:
-                parts[-1] = f"{label} (from cycle {first}; molecule-dependent length)"
+            # A schematic payload or role-token width must not expose later adapter
+            # sequence or imply a cycle count merely because the placeholder is drawn.
+            if _unstated_length(segment):
+                kind = "length not stated" if segment.feature else "molecule-dependent length"
+                parts[-1] = f"{label} (from cycle {first}; {kind})"
                 break
         if short_molecule_readthrough:
             parts.append("short molecules may read through into the opposite library end")
@@ -450,6 +518,8 @@ def read_contents(lib: Construct, primers,
             handling = "No — technical sequence only"
         if role in read_uses:
             handling = READ_USES[read_uses[role]]
+        if acquisition_unspecified:
+            handling = UNSPECIFIED_HANDLING
         cycles = str(limit) if limit is not None else "not fixed"
         out.append(ReadContent(role, cycles, "; ".join(parts) or "read-through beyond library",
                                handling))
@@ -459,18 +529,28 @@ def read_contents(lib: Construct, primers,
 def read_content_table(lib: Construct, primers,
                        read_lengths: dict[str, int] | None = None,
                        read_uses: dict[str, str] | None = None,
-                       acquired_roles=None) -> str:
+                       acquired_roles=None, *, unplaced_reads=(),
+                       acquisition_unspecified: bool = False) -> str:
     """Render the four standard run reads, including roles that are not acquired."""
-    rows = read_contents(lib, tuple(primers), read_lengths, read_uses, acquired_roles)
+    rows = read_contents(lib, tuple(primers), read_lengths, read_uses, acquired_roles,
+                         unplaced_reads=unplaced_reads,
+                         acquisition_unspecified=acquisition_unspecified)
     body = "\n".join(
         f"<tr><td>{html.escape(x.read)}</td><td>{html.escape(x.cycles)}</td>"
         f"<td>{html.escape(x.content)}</td><td>{html.escape(x.handling)}</td></tr>"
         for x in rows)
+    extra = ""
+    if unplaced_reads:
+        extra += (" Rows marked as acquired without a represented priming site are "
+                  "source-declared, not derived from the drawing.")
+    if acquisition_unspecified:
+        extra += (" The source does not state which reads were acquired; each row shows "
+                  "what a declared primer site would read.")
     return ("<h3>Read content and handling</h3>\n"
             "<p><info>Content and cycle positions are derived from the final construct, "
             "primer direction, molecular-feature annotations and declared run lengths. "
             "\u2018No\u2019 means the read is auxiliary or absent, not that its information is "
-            "unimportant.</info></p>\n<div class=\"tw\"><table>\n"
+            "unimportant." + extra + "</info></p>\n<div class=\"tw\"><table>\n"
             "<tr><th>Read</th><th>Cycles</th><th>Content</th>"
             "<th>Include in sequence analysis?</th></tr>\n" + body + "\n</table></div>\n")
 
@@ -488,8 +568,17 @@ def read_spec(read: str, cycles: int | str | None, content: str,
     return ReadContent(read, cycle_text, content, READ_USES[use])
 
 
+PARTIAL_GEOMETRY_NOTE = ("Read roles and contents are source-declared; computed primer "
+                         "landing is shown above only for the primer sites this model "
+                         "represents.")
+
+
 def read_spec_table(rows, note: str = "") -> str:
-    """Render structured source-declared reads when exact primer geometry is unavailable."""
+    """Render structured source-declared reads when exact primer geometry is unavailable.
+
+    The default note claims that no exact primer geometry is available.  A caller that
+    has drawn some primer sites passes ``PARTIAL_GEOMETRY_NOTE`` or its own wording.
+    """
     rows = tuple(rows)
     if not rows:
         raise ValueError("a read-content table needs at least one row")
@@ -673,13 +762,17 @@ def section(lib: Construct, primers, heading: str = "Sequencing primers",
             read_lengths: dict[str, int] | None = None,
             read_uses: dict[str, str] | None = None,
             content_primers=None,
-            show_read_content: bool = True) -> str:
+            show_read_content: bool = True, *, unplaced_reads=(),
+            acquisition_unspecified: bool = False) -> str:
     """Render primers and reads; ``required_roles`` is also the set actually acquired.
 
     ``content_primers`` selects the loaded primer when ``primers`` deliberately includes
     alternatives or counterexamples for explanation.  The full set remains in the primer
     table, while read content is derived only from the selected run primers.
     """
+    unplaced_roles = {row.read for row in unplaced_reads or ()}
+    required_roles = (() if acquisition_unspecified else
+                      tuple(r for r in required_roles if r not in unplaced_roles))
     errs = verify(lib, primers, required_roles=required_roles)
     if errs:
         raise ValueError("sequencing primers: " + "; ".join(errs))
@@ -724,7 +817,10 @@ def section(lib: Construct, primers, heading: str = "Sequencing primers",
                 + "\n</table></div>\n")
     content_table = (read_content_table(lib, content_primers or primers,
                                         read_lengths, read_uses,
-                                        acquired_roles=required_roles)
+                                        acquired_roles=(None if acquisition_unspecified
+                                                        else required_roles),
+                                        unplaced_reads=unplaced_reads,
+                                        acquisition_unspecified=acquisition_unspecified)
                      if show_read_content else "")
     return (f"<h2>{html.escape(heading)}</h2>\n{intro_html}"
             "<p><info>Sequences come from <code>lib/</code>; the landing site and the first "

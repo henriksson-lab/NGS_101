@@ -118,7 +118,7 @@ def _vra5_geometry():
                            text="repaired RNA 5′ monophosphate")
     return AdapterLigationGeometry.known(
         "single-strand", adapter, substrate,
-        statement="The detailed protocol prints VRA5 and repairs the selected RNA 5′ end before T4 RNA-ligase-mediated 5′ adapter ligation.")
+        statement="Original 2013 SOM prints the TruSeq reverse 5′ RNA adapter option and ligates it after TAP/PNK repair of the selected RNA 5′ end; the SOM does not name the 5′-ligation enzyme.")
 
 
 def _dual_adapter_scene():
@@ -182,7 +182,7 @@ def protocol_graph():
     graph.discard(first_wash,'Original first biotin purification removes uncaptured fragments.')
     vra3=graph.input("vra3","5-prime-phosphorylated 3-prime-blocked VRA3 adapter",
                      MaterialKind.ADAPTER,state=_vra3_geometry().scenes[0])
-    ligase3=graph.input("ligase3","T4 RNA ligase I (source3-prime ligation)",MaterialKind.CATALYST)
+    ligase3=graph.input("ligase3","T4 RNA ligase I (NEB), 10 pmol adapter, 6 h 20C (original SOM)",MaterialKind.CATALYST)
     ligated3=graph.product("ligated3","VRA3-ligated biotin RNA",MaterialKind.MOLECULAR,
                            state=tuple(_three_prime_product_scene().rows()))
     graph.react("ligate_vra3","Ligate VRA3 to the informative RNA 3-prime end",
@@ -206,7 +206,7 @@ def protocol_graph():
                 ((captured,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(repaired,))
     vra5=graph.input("vra5","VRA5 RNA adapter",MaterialKind.ADAPTER,
                      state=_vra5_geometry().scenes[0])
-    ligase5=graph.input("ligase5","5-prime RNA-adapter ligase",MaterialKind.CATALYST)
+    ligase5=graph.input("ligase5","5-prime RNA-adapter ligation enzyme; not named in the original SOM",MaterialKind.CATALYST)
     dual=graph.product("dual_adapter","dual-adapter PRO-seq RNA",MaterialKind.MOLECULAR,
                        state=tuple(_dual_adapter_scene().rows()))
     graph.react("ligate_vra5","Ligate VRA5 to the repaired RNA 5-prime end",
@@ -218,7 +218,7 @@ def protocol_graph():
     graph.react('capture_third', 'Third streptavidin enrichment after 5-prime ligation', StepKind.AFFINITY_CAPTURE,
                 ((dual,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),(third,third_wash))
     graph.discard(third_wash,'Original SOM explicitly repeats streptavidin binding/extraction after 5-prime ligation.')
-    rp1=graph.input("rp1","RP1 reverse-transcription/PCR primer",MaterialKind.OLIGO, state=Construct([Segment("RP1", RP1)]))
+    rp1=graph.input("rp1","RP1 reverse-transcription primer (25 pmol); excess RP1 is one PCR primer",MaterialKind.OLIGO, state=Construct([Segment("RP1", RP1)]))
     rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
     cdna=graph.product("cdna","RP1-primed first-strand cDNA",MaterialKind.MOLECULAR,
                        state=_pre_pcr_template())
@@ -234,7 +234,7 @@ def protocol_graph():
     geometry=PCRGeometry.exact(
         _pre_pcr_template(),PCRPrimer("RP1",RP1),PCRPrimer("RPI-n",RPI),
         statement="Original 2013 SOM prints RP1; later 2016 Table 1 prints the RPI-n comparator family and their opposing sites.")
-    graph.react("library_pcr","INFERRED — PCR with source RP1 and later RPI-n comparator",StepKind.PCR,
+    graph.react("library_pcr","INFERRED — 12-18-cycle PCR (trial PCR sets cycles) with excess RP1 and later RPI-n comparator",StepKind.PCR,
                 ((cdna,InputRole.TEMPLATE),(rp1,InputRole.STRUCTURAL),
                  (rpi,InputRole.STRUCTURAL),(pcr_polymerase,InputRole.CATALYST)),
                 (library,),geometry=geometry)

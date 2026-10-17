@@ -106,6 +106,27 @@ def read1_layout() -> list[tuple[str, str]]:
             ("63&ndash;", "accessible genomic DNA")]
 
 
+METHODS = ("STAR Methods, 'Library construction of CH-ATAC-seq' "
+           "(doi:10.1016/j.devcel.2024.01.015, p. e4)")
+
+# STAR Methods, 'MGI library preparation and sequencing' (p. e5) prints the read 1 and
+# read 2 cycle counts and the dark windows, but neither the index-read length nor the
+# bases of the "custom TM (Tn5 modified) sequencing primers".
+READ_RECIPE = ("The defining STAR Methods print the DNBSEQ-T7 recipe: 100 cycles of read 1 "
+               "with a dark reaction from cycles 11-33 and 44-62, and 100 cycles of read 2, "
+               "after circularization with a VAHTS Circularization Kit for MGI and DNB "
+               "preparation. Those dark windows match the modelled read 1 (HY barcode 1-10, "
+               "shared handle 11-33, Tn5 barcode 34-43, mosaic end 44-62). The custom TM "
+               "sequencing primer bases are not printed: the Nextera primers drawn here are "
+               "placed by computation on the modelled library, and the 10-cycle index read "
+               "follows from the 10-nt i7 rather than from a printed cycle count.")
+
+WASTE_REASON = ("not physically separated in the model: same-ended products are computed "
+                "non-library fates (handle/handle ends acquire s5 at both ends and are "
+                "expected to be PCR-suppressed; Primer C/Primer C ends lack the P5-side "
+                "site); their carry-over is not quantified in any inspected source")
+
+
 def protocol_graph() -> ProtocolGraph:
     source="Defining source: https://doi.org/10.1016/j.devcel.2024.01.015"
     graph=ProtocolGraph("CH-ATAC-seq",authority=source)
@@ -129,8 +150,8 @@ def protocol_graph() -> ProtocolGraph:
                 StepKind.TAGMENTATION,
                 ((t_b,InputRole.TEMPLATE),(transposomes,InputRole.STRUCTURAL),
                  (tn5,InputRole.CATALYST)),(tagged_b,waste_b))
-    graph.discard(waste_a,"same-ended and otherwise unusable tagmentation products do not amplify")
-    graph.discard(waste_b,"same-ended and otherwise unusable tagmentation products do not amplify")
+    graph.discard(waste_a,WASTE_REASON)
+    graph.discard(waste_b,WASTE_REASON)
     pool1=graph.product("tn5_pool","pooled Tn5-indexed nuclei",MaterialKind.MOLECULAR)
     graph.react("tn5_pooling","Pool the indexed-Tn5 wells",StepKind.POOL,
                 ((tagged_a,InputRole.TEMPLATE),(tagged_b,InputRole.TEMPLATE)),(pool1,))
@@ -149,22 +170,66 @@ def protocol_graph() -> ProtocolGraph:
     graph.react("hybridize_b","Hybridize HY duplex to the SMART handle in well B",
                 StepKind.HYBRIDIZATION,
                 ((h_b,InputRole.TEMPLATE),(hy,InputRole.STRUCTURAL)),(captured_b,))
-    polymerase=graph.input("polymerase","fill-in and library PCR polymerase",MaterialKind.CATALYST)
-    filled_a=graph.product("hy_filled_a","HY-barcode-extended fragments from well A",MaterialKind.MOLECULAR)
-    filled_b=graph.product("hy_filled_b","HY-barcode-extended fragments from well B",MaterialKind.MOLECULAR)
-    graph.react("hy_fill_a","Fill through the captured HY barcode in well A",StepKind.EXTENSION,
-                ((captured_a,InputRole.TEMPLATE),(hy,InputRole.STRUCTURAL),
-                 (polymerase,InputRole.CATALYST)),(filled_a,))
-    graph.react("hy_fill_b","Fill through the captured HY barcode in well B",StepKind.EXTENSION,
-                ((captured_b,InputRole.TEMPLATE),(hy,InputRole.STRUCTURAL),
-                 (polymerase,InputRole.CATALYST)),(filled_b,))
-    pool2=graph.product("hy_pool","pooled Tn5/HY dual-indexed fragments",MaterialKind.MOLECULAR)
+    # Supplementary Table 1, common primers: Block_tail_primer_oligo, "Block free
+    # annealing hybridization primers". Its bases equal the SMART handle, so it can
+    # occupy the free HY duplexes' handle-complementary overhang. STAR Methods
+    # "Library construction of CH-ATAC-seq" (mmc3 p. e4): hybridization 37 C 90 min,
+    # then 0.5 ul of 100 uM block tail primer oligo per well, 30 min at 37 C, then pool.
+    block=graph.input("block_tail_oligo","Block_tail_primer_oligo (SMART-handle blocker)",
+                      MaterialKind.OLIGO,state=(seg("SMART handle",rt.SMART_HANDLE,"tso"),))
+    blocked_a=graph.product("hy_blocked_a","HY-captured nuclei from well A with free HY overhangs blocked",
+                            MaterialKind.MOLECULAR)
+    blocked_b=graph.product("hy_blocked_b","HY-captured nuclei from well B with free HY overhangs blocked",
+                            MaterialKind.MOLECULAR)
+    graph.react("block_a","Block free HY duplexes with Block_tail_primer_oligo in well A",
+                StepKind.HYBRIDIZATION,
+                ((captured_a,InputRole.TEMPLATE),(block,InputRole.STRUCTURAL)),(blocked_a,))
+    graph.react("block_b","Block free HY duplexes with Block_tail_primer_oligo in well B",
+                StepKind.HYBRIDIZATION,
+                ((captured_b,InputRole.TEMPLATE),(block,InputRole.STRUCTURAL)),(blocked_b,))
+    pool2=graph.product("hy_pool","pooled Tn5/HY dual-barcoded nuclei",MaterialKind.MOLECULAR)
     graph.react("hy_pooling","Pool the HY-index wells",StepKind.POOL,
-                ((filled_a,InputRole.TEMPLATE),(filled_b,InputRole.TEMPLATE)),(pool2,))
+                ((blocked_a,InputRole.TEMPLATE),(blocked_b,InputRole.TEMPLATE)),(pool2,))
+    # STAR Methods (mmc3 p. e4): the pooled, washed nuclei get a T4 PNK + ATP mix,
+    # 37 C 30 min, before they are re-split for the final indexed PCR.
+    pnk=graph.input("t4_pnk","T4 polynucleotide kinase with ATP",MaterialKind.CATALYST)
+    phosphorylated=graph.product("pnk_pool","pooled dual-barcoded nuclei after T4 PNK",
+                                 MaterialKind.MOLECULAR)
+    graph.react("pnk","Phosphorylate 5' ends with T4 PNK in the pool",StepKind.PHOSPHORYLATION,
+                ((pool2,InputRole.TEMPLATE),(pnk,InputRole.CATALYST)),(phosphorylated,),
+                source=METHODS)
     pcr_a=graph.product("pcr_well_a","representative final-index PCR well A input",MaterialKind.MOLECULAR)
     pcr_b=graph.product("pcr_well_b","representative final-index PCR well B input",MaterialKind.MOLECULAR)
-    graph.react("pcr_split","Divide dual-indexed material across final indexed-PCR wells",
-                StepKind.SPLIT,((pool2,InputRole.TEMPLATE),),(pcr_a,pcr_b))
+    graph.react("pcr_split","Divide dual-barcoded material across final indexed-PCR wells",
+                StepKind.SPLIT,((phosphorylated,InputRole.TEMPLATE),),(pcr_a,pcr_b))
+    # STAR Methods (mmc3 p. e4): in each final well, a gap-fill mix of Ampligase DNA
+    # ligase with its buffer, dNTP and T4 DNA polymerase, 37 C 60 min. Placement and
+    # reagents are printed; which nicks the ligase seals is derived from the oligo
+    # layout (see the note), so the product carries no exact state.
+    t4_pol=graph.input("t4_dna_polymerase","T4 DNA polymerase with dNTP",MaterialKind.CATALYST)
+    ampligase=graph.input("ampligase","Ampligase thermostable DNA ligase",MaterialKind.CATALYST)
+    filled_a=graph.product("hy_filled_a","gap-filled and sealed fragments in PCR well A",
+                           MaterialKind.MOLECULAR)
+    filled_b=graph.product("hy_filled_b","gap-filled and sealed fragments in PCR well B",
+                           MaterialKind.MOLECULAR)
+    for suffix,template,filled in (("a",pcr_a,filled_a),("b",pcr_b,filled_b)):
+        graph.react("hy_fill_"+suffix,
+                    "Gap-fill with T4 DNA polymerase and seal with Ampligase in PCR well "+suffix.upper(),
+                    StepKind.EXTENSION,
+                    ((template,InputRole.TEMPLATE),(hy,InputRole.STRUCTURAL),
+                     (t4_pol,InputRole.CATALYST),(ampligase,InputRole.CATALYST)),(filled,),
+                    source=METHODS)
+    # STAR Methods (mmc3 p. e4): proteinase K/SDS nuclei lysis 55 C 15 min, Tween
+    # quench, then PCR mix in the same well.
+    lysis=graph.input("nuclei_lysis","proteinase K/SDS nuclei lysis buffer",MaterialKind.CATALYST)
+    released={}
+    for suffix,filled in (("a",filled_a),("b",filled_b)):
+        released[suffix]=graph.product("released_"+suffix,"released fragments in PCR well "+suffix.upper(),
+                                       MaterialKind.MOLECULAR)
+        graph.react("lyse_"+suffix,"Release fragments with proteinase K/SDS in PCR well "+suffix.upper(),
+                    StepKind.DEPROTEINIZATION,
+                    ((filled,InputRole.TEMPLATE),(lysis,InputRole.CATALYST)),(released[suffix],),
+                    source=METHODS,changes_molecule=False)
     # Supplementary Table 1, "PCR P5 primer" (5'-phosphorylated) and MGI_P7_index_1.
     p5=graph.input("mgi_p5_primer","MGI P5-side PCR primer",MaterialKind.OLIGO,
                    state=(seg("MGI P5",MGI_P5,"p5"),seg("s5",nx.S5,"s5")))
@@ -172,14 +237,16 @@ def protocol_graph() -> ProtocolGraph:
                    MaterialKind.OLIGO,
                    state=(seg("MGI P7",MGI_P7,"p7"),seg("i7",I7_OLIGO_INDEX,"cbc"),
                           seg("s7",nx.S7,"s7")))
+    kapa=graph.input("kapa_hifi","KAPA HiFi HotStart ReadyMix",MaterialKind.CATALYST)
     final=final_library()
-    for suffix,template in (("a",pcr_a),("b",pcr_b)):
+    for suffix,template in (("a",released["a"]),("b",released["b"])):
         library=graph.product("library_"+suffix,final.name+" sublibrary "+suffix.upper(),
                               MaterialKind.LIBRARY,state=final)
-        graph.react("library_pcr_"+suffix,"Add indexed MGI ends in PCR well "+suffix.upper(),
+        graph.react("library_pcr_"+suffix,"Add indexed MGI ends in a 12-cycle PCR in well "+suffix.upper(),
                     StepKind.PCR,
                     ((template,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),
-                     (p7,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
+                     (p7,InputRole.STRUCTURAL),(kapa,InputRole.CATALYST)),(library,),
+                    source=METHODS,
                     geometry=PCRGeometry.exact(final,
                         PCRPrimer("MGI P5 primer",MGI_P5+nx.S5,anneal_nt=len(nx.S5)),
                         PCRPrimer("indexed MGI P7 primer",MGI_P7+I7_OLIGO_INDEX+nx.S7,
@@ -191,17 +258,11 @@ def protocol_graph() -> ProtocolGraph:
             read_lengths={"Read 1":100,"Index 1 (i7)":10,"Read 2":100},
             read_uses={"Read 1":"extract_then_include","Index 1 (i7)":"demultiplex",
                        "Read 2":"include"},
-            limitation=("The three sequencing primers are the standard Nextera ones and "
-                        "are located by computation on the modelled library, and the "
-                        "10-cycle index read follows from the 10-nt i7. The paired "
-                        "100-cycle counts are unverified for CH-ATAC-seq because the "
-                        "defining STAR Methods and linked preprint remain unavailable. "
-                        "The sibling CH-RNA-seq paper publishes 51 cycles of read 1 with "
-                        "a dark reaction from 11 to 33 and 100 cycles of read 2, and "
-                        "read 1 here must exceed 62 cycles to reach genomic DNA.")))
+            limitation=READ_RECIPE))
     graph.declare_reviewed_scope((
         "nuclei","tn5_split","indexed_transposomes","tn5","tagment_a","tagment_b",
-        "tn5_pooling","hy_split","hy_duplex","hybridize_a","hybridize_b","polymerase",
-        "hy_fill_a","hy_fill_b","hy_pooling","pcr_split","mgi_p5_primer",
+        "tn5_pooling","hy_split","hy_duplex","hybridize_a","hybridize_b","block_tail_oligo",
+        "block_a","block_b","hy_pooling","t4_pnk","pnk","pcr_split","t4_dna_polymerase","ampligase",
+        "hy_fill_a","hy_fill_b","nuclei_lysis","lyse_a","lyse_b","kapa_hifi","mgi_p5_primer",
         "indexed_mgi_p7_primer","library_pcr_a","library_pcr_b","library_a","library_b"),source)
     return graph.require_publishable()

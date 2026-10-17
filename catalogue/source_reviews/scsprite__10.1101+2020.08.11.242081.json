@@ -347,5 +347,25 @@
   ],
   "open_model_questions": [
     "Assemble source-qualified scSPRITE ordering oligos, PCR precursor and sequencing entry without transferring the bulk five-tag illustration or generic TruSeq endpoints."
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-17",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nat Biotech 40:64-73 PMC11588347 JATS text twin lines 57-63 (Results overview), 147-207 (Methods: crosslinking, nuclei preparation/HpyCH4V/dA-tailing, in-nuclei barcoding, sonication, NHS coupling, spatial barcoding, library preparation, data generation, pipeline), 355-359 (Extended Data Fig. 1 legend); MOESM1 Supplementary Notes head; MOESM2 Reporting Summary p1 rendered",
+      "oligo_scraper": "Bundle scraper run; hits are author parser config barcode strings (Even/DPM families, gh_config_*), already reviewed; no oligo sequences in the published article or supplements' text.",
+      "findings": "Authority switched from preprint to published article. Removed the model's generic end-repair step: Methods use blunt HpyCH4V in-nuclei digestion explicitly to avoid repair. Graph now declares DSG+formaldehyde dual crosslink with glycine quenches, SDS/Triton nuclei isolation, NEBNext dA-tailing, three in-nucleus ligations (45 uM tags, Instant Sticky-end/Quick Ligase/propanediol, 3 h), 10 um mesh filtration (aggregates discarded), 1,500-nucleus withdrawal, Covaris sonication, NHS bead coupling/quench/washes, three on-bead ligations (4.5 uM, 60 min), proteinase K reversal, Zymo column cleanup, Q5/EvaGreen 14-cycle PCR, 300-1,000 bp gel selection with waste. Identifier model, read minima (R1>=120, R2>=95) and tag_layout.png discrepancy unchanged. Supplements carry no chemistry.",
+      "deferred": [
+        "Original SPRITE tag oligos/ligation ends (Quinodoz 2018 Table S5) and scSPRITE Y-even oligo identity",
+        "Indexed Illumina PCR primer pair",
+        "NEBNext dA-Tailing Module and NEB ligase documents",
+        "PMC author-manuscript supplement copies (NIHMS2028895) behind download gate",
+        "Preprint not re-read (superseded)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 3/3 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/15 unresolved/0 contradictory; source guard 0 exact checked, 4 inputs without exact states (cell_tags, spatial_tags, pcr_forward, pcr_reverse); Markdown built; review schema checked"
+    }
   ]
 }

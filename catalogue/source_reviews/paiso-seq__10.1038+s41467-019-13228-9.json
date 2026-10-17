@@ -281,5 +281,26 @@
   ],
   "open_model_questions": [
     "Which physical SMRTbell kit revision and hairpin were used in the 2019 experiments, and how to assemble that source-qualified junction?"
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nat Commun PMC6876564 JATS Results line54 (Fig.1a design), Online Methods lines142–148 (bulk and single-GV-oocyte library construction), line160 (CCS/barcode matching); article PDF text line158 (guide 3' end); Supplementary Information PDF Supplementary Table 1 text lines688–745",
+      "oligo_scraper": "Scraper run on the Supplementary Information text (23 hits); TSO, RT primer, PCR primer and 2dU-BC1–15 checked against Table 1 rows (line-wrapped dU members rejoined); Table 2/3 PAT and spike-in primers are not library oligos.",
+      "findings": "No sequence corrections. Graph now names Methods catalysts (Klenow exo- NEB with dNTP 37C 1h; USER NEB 37C 30min; KAPA HiFi HotStart ReadyMix). Replaced the USER-step discard (degradation treated as physical removal) with an explicit RNA Clean & Concentrator-5 (>200 nt) selection that discards cleaved guide fragments. Added the Pure PB 1x/0.4x two-fraction size selection with equimolar pooling before SMRTbell end preparation. Graph-owned published discrepancies: Results/PDF 5'-dUTTTTTTTdUTTTTTTT-3' vs Supp Table 1 dUTTTTTTTTdUTTTTTTTT (table used); Results 'TSO minus triple G' vs table RT primer ...GAGTAC and PCR primer ...GAGT (table used). Note updated.",
+      "deferred": [
+        "2022 Nature Protocols detailed protocol original (manual; curl error 60) for dU spacing and kit revision",
+        "Fig.1a rendered schematic not re-inspected for dU spacing",
+        "SMRTbell kit version, end preparation and hairpin ligating ends for the 2019 experiment",
+        "Exact hairpin and sequencing-primer bases",
+        "Oligo inputs still lack exact molecular states (source guard checks 0 exact oligos)",
+        "Smart-seq2 RT/TSO conditions (ref.9) not re-read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 12/12 pass (original Supp Table 1 transcription checks ran); page builds; pairing 0 problems; chemistry 1 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states, no timeout; audit_protocol_sources --check ok; Markdown built; review schema checked"
+    }
   ]
 }

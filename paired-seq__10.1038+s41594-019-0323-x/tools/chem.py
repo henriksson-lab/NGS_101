@@ -80,6 +80,10 @@ PA_F = R4_READ2_ARM
 PA_R = "AAGCAGTGGTATCAACGCAGAGT"
 N5XX = il.P5 + "N" * 8 + nx.S5
 P7XX = il.P7 + "N" * 6 + il.TRUSEQ_READ2
+# R04's 22-nt Read-2 arm is the 3' end of the P7XX tail; P7XX adds the remainder.
+if not revcomp(il.TRUSEQ_READ2).startswith(revcomp(R4_READ2_ARM)):
+    raise ValueError("P7XX tail does not overlap the round-4 Read-2 arm")
+P7XX_EXTENSION = revcomp(il.TRUSEQ_READ2)[len(R4_READ2_ARM):]
 
 
 def _r4_segments() -> list[Segment]:
@@ -225,7 +229,9 @@ def _anchor_scene(kind: str) -> Scene:
 
 def _final_core(kind: str) -> list[Segment]:
     if kind == "RNA":
-        branch = [_seg("SbfI site", SBFI),
+        branch = [_seg("poly(A) copied from oligo-dT/VN", "NB" + "A" * 16,
+                       placeholder=True),
+                  _seg("SbfI site", SBFI),
                   _seg("round 1 barcode", "A" * 3, "cbc", placeholder=True,
                        molecular_feature=BC1),
                   _seg("RNA BC1 exit arm", "GACGAATGCTCTGGCCT")]
@@ -258,8 +264,8 @@ def _final_core(kind: str) -> list[Segment]:
              molecular_feature=BC4),
         _seg("round 4 UMI", "U" * 10, "umi", placeholder=True,
              molecular_feature=UMI_FEATURE),
-        _seg("dA junction", "A"),
-        _seg("TruSeq Read-2 arm", il.CANONICAL_ARM_READ2, "r2"),
+        _seg("round 4 Read-2 arm", revcomp(R4_READ2_ARM), "r2"),
+        _seg("P7XX adapter extension", P7XX_EXTENSION, "r2"),
         _seg("i7 reverse complement", "I" * 6, "cbc", placeholder=True,
              molecular_feature=I7_FEATURE),
         _seg("P7 reverse complement", il.P7_RC, "p7"),
@@ -376,6 +382,12 @@ def workflow() -> Workflow:
     return wf
 
 
+def _single_strand(name: str, bases: str) -> Scene:
+    sc = Scene()
+    sc.strand(name, [_seg(name, bases)], label=name)
+    return sc
+
+
 def _preamp_template(kind: str) -> Construct:
     """Exact anchor-extended substrate used by the shared PA-F/PA-R PCR."""
     return Construct([*list(_indexed_construct(kind, 4)),
@@ -398,9 +410,9 @@ def protocol_graph():
         MaterialKind.BIOLOGICAL, state=_initial_rows(), primary=True)
 
     transposome = g.input(
-        "bc1_transposome", "BC1-indexed chromatin transposome",
+        "bc1_transposome", "BC1-indexed Tn5 (DNA_#01-08_RE annealed to pMENTs), 37 °C 30 min, EDTA stop",
         MaterialKind.ADAPTER)
-    tn5 = g.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
+    tn5 = g.input("tn5", "unloaded Tn5 transposase (loaded 30 min RT)", MaterialKind.CATALYST)
     tagged = g.product(
         "tagged", "nuclei retaining BC1-tagged chromatin and RNA",
         MaterialKind.MOLECULAR,
@@ -418,9 +430,9 @@ def protocol_graph():
     g.discard(tn5_waste, "does not retain an amplifiable BC1-tagged chromatin fragment")
 
     rt_primer = g.input(
-        "rt_primer", "BC1-indexed oligo-dT/VN reverse-transcription primer",
+        "rt_primer", "matched RNA_#01-08_RE oligo-dT/VN primer (same well order as Tn5 BC1)",
         MaterialKind.OLIGO)
-    rt = g.input("rt", "reverse transcriptase", MaterialKind.CATALYST)
+    rt = g.input("rt", "Maxima reverse transcriptase, multi-temperature cycling program", MaterialKind.CATALYST)
     copied = g.product(
         "copied", "nuclei retaining matched BC1-tagged RNA and ATAC molecules",
         MaterialKind.MOLECULAR, state=_both_modalities(1))
@@ -430,7 +442,7 @@ def protocol_graph():
         ((tagged, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
          (rt, InputRole.CATALYST)), (copied,))
 
-    ligase = g.input("barcode_ligase", "barcode-chain DNA ligase",
+    ligase = g.input("barcode_ligase", "T4 DNA ligase (NEB M0202L), 37 °C 30 min per round",
                      MaterialKind.CATALYST)
     current = copied
     reviewed = [
@@ -445,15 +457,28 @@ def protocol_graph():
         joined = g.product(
             f"round_{number}", f"RNA and ATAC molecules after barcode round {number}",
             MaterialKind.MOLECULAR, state=_both_modalities(number))
+        if number < 4:
+            stop = g.input(
+                f"blocker_{number}",
+                f"Blocker-R0{number} (reverse complement of Linker-R0{number}), added after 30 min",
+                MaterialKind.OLIGO,
+                state=_single_strand(f"Blocker-R0{number}",
+                                     {2: ROUND2, 3: ROUND3}[number].blocking_oligo))
+        else:
+            stop = g.input(
+                "terminator", "R04 Terminator (reverse complement of Linker-R04) with EDTA",
+                MaterialKind.OLIGO,
+                state=_single_strand("Terminator", revcomp(LINKER_R04)))
         g.react(
             f"ligate_{number}", f"Splint-ligate barcode round {number}",
             StepKind.LIGATION,
             ((current, InputRole.TEMPLATE), (barcode, InputRole.STRUCTURAL),
-             (ligase, InputRole.CATALYST)), (joined,), geometry=geometry)
-        reviewed.extend((barcode.id, f"ligate_{number}"))
+             (ligase, InputRole.CATALYST), (stop, InputRole.STRUCTURAL)), (joined,),
+            geometry=geometry)
+        reviewed.extend((barcode.id, stop.id, f"ligate_{number}"))
         current = joined
 
-    lysis = g.input("lysis_condition", "nuclear lysis condition",
+    lysis = g.input("lysis_condition", "NaCl/SDS/proteinase K, 55 °C 2 h, then 1× SPRI",
                     MaterialKind.CONDITION)
     released = g.product(
         "released", "released four-round indexed RNA and ATAC molecules",
@@ -463,7 +488,7 @@ def protocol_graph():
             ((current, InputRole.TEMPLATE), (lysis, InputRole.CONDITION)),
             (released,))
 
-    tdt = g.input("tdt", "terminal deoxynucleotidyl transferase",
+    tdt = g.input("tdt", "TdT + dCTP after 95 °C denaturation, 37 °C 30 min",
                   MaterialKind.CATALYST)
     tailed = g.product(
         "tailed", "poly(C)-tailed indexed RNA and ATAC molecules",
@@ -483,7 +508,7 @@ def protocol_graph():
             ((tailed, InputRole.TEMPLATE), (anchor, InputRole.STRUCTURAL)),
             (annealed,))
     extension_polymerase = g.input(
-        "extension_polymerase", "anchor-extension polymerase",
+        "extension_polymerase", "KAPA HiFi HS, 15 linear Anchor-extension cycles",
         MaterialKind.CATALYST)
     extended = g.product(
         "extended", "anchor-extended RNA and ATAC products",
@@ -496,7 +521,7 @@ def protocol_graph():
     pa_f = g.input("pa_f", "PA-F preamplification primer", MaterialKind.OLIGO)
     pa_r = g.input("pa_r", "PA-R preamplification primer", MaterialKind.OLIGO)
     preamp_polymerase = g.input(
-        "preamp_polymerase", "PA-F/PA-R preamplification polymerase",
+        "preamp_polymerase", "KAPA HiFi HS, 10 PA-F/PA-R cycles, SPRI double size selection",
         MaterialKind.CATALYST)
     preamp = g.product(
         "preamp", "preamplified Paired-seq RNA and ATAC products",
@@ -520,14 +545,14 @@ def protocol_graph():
             StepKind.SPLIT, ((preamp, InputRole.TEMPLATE),), (rna, atac),
             changes_molecule=False)
 
-    rna_re = g.input("rna_restriction", "NotI", MaterialKind.CATALYST)
+    rna_re = g.input("rna_restriction", "NotI-HF, 37 °C 60 min, QIAquick", MaterialKind.CATALYST)
     rna_cut = g.product("rna_cut", "NotI-selected RNA branch",
                         MaterialKind.MOLECULAR, state=rna.state)
     g.react("digest_rna", "Digest the RNA aliquot with NotI",
             StepKind.DIGESTION,
             ((rna, InputRole.TEMPLATE), (rna_re, InputRole.CATALYST)),
             (rna_cut,))
-    atac_re = g.input("atac_restriction", "SbfI", MaterialKind.CATALYST)
+    atac_re = g.input("atac_restriction", "SbfI-HF, 37 °C 60 min, QIAquick", MaterialKind.CATALYST)
     atac_cut = g.product("atac_cut", "SbfI-selected ATAC branch",
                          MaterialKind.MOLECULAR, state=atac.state)
     g.react("digest_atac", "Digest the ATAC aliquot with SbfI",
@@ -536,7 +561,7 @@ def protocol_graph():
             (atac_cut,))
 
     final_transposome = g.input(
-        "p5_transposome", "P5-loaded finishing transposome",
+        "p5_transposome", "Tn5-P5 finishing transposome (adapter loading not described)",
         MaterialKind.ADAPTER)
     final_tn5 = g.input("finishing_tn5", "finishing Tn5 transposase",
                         MaterialKind.CATALYST)

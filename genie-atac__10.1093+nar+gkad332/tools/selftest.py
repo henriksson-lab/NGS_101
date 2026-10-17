@@ -11,6 +11,8 @@ c("Tn5A PCR primer", chem.TN5A_PRIMER, "TCGTCGGCAGCGTCAG")
 c("rs12269414 biotin linear primer", chem.BIOTIN_LINEAR, "CCAGGAGTTGGAACCTGC")
 c("rs12269414 nested forward", chem.NESTED_FORWARD,
   "TCGGCATTCCTGCTGAACCGCTCTTCCGATCTCCTCTTGCCTTGGCTGTG")
+c("rs12269414 gDNA-branch reverse oligo tail", chem.GDNA_REVERSE_TAIL,
+  "ACACTCTTTCCCTACACGACGCTCTTCCGATCT")
 c("PCR amplicon has no invented dA junction",
   "dA junction" in [s.name for s in chem.FINAL_LIBRARY], False)
 c.report()

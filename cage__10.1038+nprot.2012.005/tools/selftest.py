@@ -17,4 +17,6 @@ c("5-prime SOL lower AGA", C.FIVE_LOWER,
   "CTGCTGTCTCTGTAGAACTCTGAACCTGTCGGTGG")
 c("3-prime upper linker", C.THREE_UPPER, "NNTCGTATGCCGTCTTCTGCTTG")
 c("3-prime lower linker", C.THREE_LOWER, "CAAGCAGAAGACGGCATACGA")
+c.section("model construction")
+C.protocol_graph()
 c.report()

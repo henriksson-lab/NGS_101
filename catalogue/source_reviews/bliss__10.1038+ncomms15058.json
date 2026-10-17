@@ -235,5 +235,25 @@
       "evidence": "Two independent reads of author Protocol Exchange and original Illumina sequence table. Separate Protocol Exchange Supplementary Table 2 remains unavailable, and no source selects one RPI member or specifies custom RA3 end modification for each sample."
     }
   ],
-  "conclusion": "Two independent reads now cover paper, six publisher supplements, author Protocol Exchange PDF and Illumina family sources. Protocol Exchange Supplementary Table 2 and sample-specific/custom-end details remain blocked; no absence accepted."
+  "conclusion": "Two independent reads now cover paper, six publisher supplements, author Protocol Exchange PDF and Illumina family sources. Protocol Exchange Supplementary Table 2 and sample-specific/custom-end details remain blocked; no absence accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-07",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC5437291 JATS lines 86 (workflow), 88 (mostly SE), 132 (adapter PNK/annealing), 136, 148/154/158 (R1 UMI+barcode prefix); Supplementary Information Fig. 1a caption lines 1–18; Supplementary Data 1 Sheet1 A1–A11 rows; Protocol Exchange Research Square v2 (doi:10.21203/rs.2.1448/v2, posted 2019) PDF text lines 160–290 (Day 1–4 procedure)",
+      "oligo_scraper": "Bundle scraper run; A1–A11 hits checked against Supplementary Data 1 rows; A3 and A6 rows are identical (scraper 'also at lines 15/16').",
+      "findings": "Model correction: A1 top/bottom carried one extra G at the T7/RA5 junction (76/78 nt vs printed 75/77 nt); fixed in bliss_chem.T7_END and added a Supplementary Data 1 transcription check. Graph expanded from Protocol Exchange v2: LB1/LB2 lysis, Quick Blunting, T4 ligase 16–18 h 16 °C, high-salt washes removing unligated adapters (discarded), proteinase K extraction, column/phenol cleanup, sonication 300–500 bp, AMPure 0.8x, MEGAscript T7 14 h, DNase I (degradation) then RNAClean XP 1.8x, RA3/T4 Rnl2tr, RTP/SuperScript III, RP1+chosen RPI NEBNext HF PCR 10–16 cycles, AMPure 0.8x; legacy finish_rt_pcr/rna_library_operations.molecule callers removed. Graph-owned published discrepancy: Supplementary Data 1 A3 and A6 print the same barcode TGATGATC. Read text now states R1 UMI(8)+barcode(8) prefix and mostly SE. Drawn /5Phos/ is the post-PNK state (classic rows print none; Methods says 'sense' oligos were kinased).",
+      "deferred": [
+        "Cited protex.2017.018 original revision (only Research Square v2 inspected)",
+        "Protocol Exchange Supplementary Table 2",
+        "Custom RA3 end modifications and selected RPI member",
+        "RA5-side read-primer bases, cycle counts and an exact final-library sequence",
+        "CRISPR-BLISS A-tailing branch and longer-UMI adapters not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 2/2 pass (A1 transcription); page builds; pairing 0 problems; chemistry 0 established/2 conditional/16 unresolved/0 contradictory; source guard 2 exact checked (A1 top/bottom), 0 failed (the pre-fix oligos failed 2/2), 4 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

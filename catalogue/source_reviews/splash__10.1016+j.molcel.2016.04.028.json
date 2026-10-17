@@ -232,5 +232,58 @@
       "locations": "Original2016 supplement and all5original XLSX attachments; Cell/ScienceDirect/OpenAlex/authorA-star retrieval routes",
       "finding": "Followed supplementTablesS3–S7 to originals via repeatable extra_sources rows. Full expanded bundle scraper102hits/4files; source-positiveadapter/RT/5′P updates applied. Cellmain403, ScienceDirect403, authorfacultyJS gate; originalmain stillblocked. Other sources and original tables need independent checks; no missing claim accepted."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Original 2016 supplement mmc1.pdf.txt Figure S2F/G legend 2325–2334, Supplemental Experimental Procedures 2697–2735 (adapter/RT primer); JoVE 2017 PDF 55255.html.txt sections 1.3–1.4 (lines 96–100), 5–9 (176–292), Figure 1 legend 317–319; official JoVE HTML Materials 905–963. Defining Molecular Cell main article re-tried: get_sources DOI route publisher-only, cell.com PDF HTTP 403; pmccloud PMC5608146 is the JoVE record (Europe PMC lookup), not the 2016 article.",
+      "oligo_scraper": "Bundle scraper run; adapter/RT primer verified at supplement 2697–2735 (selftest); NEB E7335 Rev 8.0 universal/index family hits lines 171–288 are vendor-kit members; NEBNext adaptor hits are not used by SPLASH.",
+      "findings": "Added JoVE 7.13 NaOH RNA hydrolysis (1 N, 98 °C 20 min) and 7.16–7.17 200–240 nt urea-gel cDNA selection with discarded hydrolysis products/off-size cDNA before CircLigase II; named SuperScript III SuperMix (50 °C 30 min), T4 Rnl2 truncated KQ M0373L, T4 Rnl1 M0204L, Phusion HF master mix; photoreversal condition 254 nm 5 min on ice. Graph-owned published discrepancy: JoVE section 6.1 254 nm vs Figure 1 legend 265 nm; model uses 254 nm.",
+      "deferred": [
+        "Aw 2016 Molecular Cell main article (manual: https://www.cell.com/article/S1097276516301046/pdf, HTTP 403)",
+        "Base-resolved circle junction, PCR amplicon and read-primer landing",
+        "Gel selections at 90–110 nt, 110–140 nt and 200–300 bp not drawn",
+        "2017 E7335L lot primer revision and selected index (manual is Rev 8.0, 2024)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 0 established/5 conditional/14 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 1 input without exact state; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 0,
+      "locations": "No new original read; earlier round-19 readings of supplement mmc1, JoVE PDF/HTML and NEB E7335 stand. Retrieval routes for the defining Aw 2016 Molecular Cell main article (PII S1097-2765(16)30104-6): get_sources --slugs re-run (DOI publisher-only; cell.com PDF HTTP 403; pmccloud PMC5608146 is the JoVE record); cell.com /fulltext/ and /action/showPdf HTTP 403; ScienceDirect pii and /pdfft HTTP 403; Elsevier Article API metadata reports openArchiveArticle=true but full text returns AUTHENTICATION_ERROR without an API key; OpenAlex, Unpaywall and Semantic Scholar list only the publisher bronze cell.com PDF (any_repository_has_fulltext false); Europe PMC: PMID 27184079, no PMCID; NCBI elink PubMed 27184079 to GEO/SRA: no linked records; GEO/BioProject keyword searches found PARIS GSE74353 and unrelated projects only.",
+      "oligo_scraper": "Bundle scraper re-run (101 TSV rows), no new originals; hits already dispositioned in round 19.",
+      "findings": "No change. Main article remains unread, so main Methods/Figure 1 library-construction text and data accession are not checked.",
+      "deferred": [
+        "Aw 2016 Molecular Cell main article (open archive; manual: https://www.cell.com/article/S1097276516301046/pdf or https://www.sciencedirect.com/science/article/pii/S1097276516301046, Cloudflare HTTP 403; Elsevier API requires key)",
+        "Base-resolved circle junction, PCR amplicon and read-primer landing",
+        "Gel selections at 90–110 nt, 110–140 nt and 200–300 bp not drawn",
+        "2017 E7335L lot primer revision and selected index (manual is Rev 8.0, 2024)"
+      ],
+      "scope": "Source-recovery follow-up only; defining main article still unread; no chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 13 steps 0 established/5 conditional/14 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 1 input without exact state; Markdown not changed; review schema (audit --check) pass"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Defining Aw et al. 2016 Molecular Cell 62:603-617 read from hand-placed publisher combined article+supplement PDF 1-s2.0-S1097276516301046-mmc7.pdf (md5 b2cd99d6b7430108fd6332b8c9da41ee, 43 pp; identity checked: printed title, authors, DOI 10.1016/j.molcel.2016.04.028 at text lines 1-68, PDF metadata Subject). Read: Results 'Development of SPLASH' lines 199-262; Experimental Procedures lines 1923-1979 (crosslinking, fragmentation/enrichment, proximity ligation/reverse crosslinking, 3' adaptor ligation, RT, circularization/PCR) and 2176-2205 (PCR gel, NextSeq 500, read processing, SRA SRP073550/PRJNA318958); Figure S2F/S2G lines 2640-2680, 4700-4708; Supplemental Experimental Procedures oligos lines 5089-5110 (same adapter and RT primer as mmc1).",
+      "oligo_scraper": "Run on mmc7.pdf.txt: 10 hits (lines 2647-2679 Figure S2F drawn adapter/RT primer/PCR panel; 5109 RT primer; 3790/4337 figure residue). No new oligo beyond the adapter, RT primer and Figure S2F drawn PCR panel already dispositioned.",
+      "findings": "Main article confirms reaction order already modelled and photoreversal at UV 254 nm 5 min on ice (resolves direction of the JoVE 254/265 nm discrepancy notice, which remains shown). Corrected to defining 2016 values: cDNA gel 200-220 nt (was JoVE 200-240), library PCR polymerase Q5 with 9-12 cycles and NEB Primers Set 1 (was JoVE Phusion), NaOH 100 mM, ligase/RT conditions, NextSeq 500 + 2x150 PE. Added page source notices for 110-130 vs 110-140 nt linker gel, 200-220 vs 200-240 nt cDNA gel and Q5 vs Phusion. Note updated with sections read.",
+      "deferred": [
+        "Base-resolved circle junction, PCR amplicon and read-primer landing (Figure S2F drawn PCR panel lines 2669-2680 available to transcribe)",
+        "Gel selections at 90-110 nt, 110-130 nt and 200-300 bases not drawn as separate steps",
+        "Selected index primer and E7335 lot of the 2016/2017 studies (manual is Rev 8.0, 2024)",
+        "SRA SRP073550 run metadata (read lengths) not inspected"
+      ],
+      "scope": "Capped bounded pass on the defining main article; not a full protocol review; no accepted missing-information claim.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 13 steps 0 established/5 conditional/14 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 1 exempt, 1 input without exact state; Markdown built (01_splash.md); audit --check pass; review schema preserved (append only)"
+    }
   ]
 }

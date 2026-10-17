@@ -12,30 +12,44 @@
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
         "locations": "Original article mirror PDF text lines 80-93 and Methods 753-776; local source-bundle scraper run and returned zero hits because the article itself remains manual",
-        "finding": "Paper specifies biotinylated 3\u2032-adapter ligation before RNase T1 fragmentation, a 15-degenerate-base adapter segment, reverse transcription, PCR and 51\u00d7251 paired-end HiSeq 2500. It directs readers to Supplemental Experimental Procedures for detail; the visible main text does not settle exact adapter bases."
+        "finding": "Paper specifies biotinylated 3′-adapter ligation before RNase T1 fragmentation, a 15-degenerate-base adapter segment, reverse transcription, PCR and 51×251 paired-end HiSeq 2500. It directs readers to Supplemental Experimental Procedures for detail; the visible main text does not settle exact adapter bases."
       },
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Original mirror PDF web pp.1,7; web text lines 75\u201396 and 753\u2013776; local-bundle scraper gave 0 hits",
-        "finding": "Main original establishes 3\u2032 biotinylated adaptor with 15 degenerate bases, ligated before RNase T1 fragmentation; 51-nt Read1 and long 3\u2032-end Read2. No full adapter bases in main PDF."
-      }
+        "locations": "Original mirror PDF web pp.1,7; web text lines 75–96 and 753–776; local-bundle scraper gave 0 hits",
+        "finding": "Main original establishes 3′ biotinylated adaptor with 15 degenerate bases, ligated before RNase T1 fragmentation; 51-nt Read1 and long 3′-end Read2. No full adapter bases in main PDF."
+      },
+      "bounded_note": "Publisher PDF j.molcel.2014.02.007.pdf (cell.com, 9 pp, md5 be30392169d51ef9ce4038a5af03e462, printed DOI checked) placed by the maintainer 2026-10-17 and read in deferred-followup-03; replaces the third-party mirror as the locator for future passes."
     },
     {
       "id": "chang2014_supplement",
       "role": "supplement",
       "locator": "Chang et al. 2014 Supplemental Experimental Procedures, five supplementary figures and two tables, linked from the defining paper",
-      "availability": "unavailable",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Not in local source bundle; original article explicitly delegates detailed methods to it."
+      "reason": "Hand-fetched 2026-10-17 from the Elsevier CDN (ars.els-cdn.com 1-s2.0-S109727651400121X-mmc1.pdf, md5 c5656dfc62b9022ab65fb73bac9b4e7b; printed title checked); read in bounded pass deferred-followup-03 (not an independent pass)."
     },
     {
       "id": "illumina_hiseq",
       "role": "vendor",
-      "locator": "HiSeq 2500 51\u00d7251 paired-end run and library reagents named in Chang 2014 Methods",
+      "locator": "HiSeq 2500 51×251 paired-end run and library reagents named in Chang 2014 Methods",
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Exact kit/reagent generation and its adapter source have not yet been matched to an original vendor document."
+    },
+    {
+      "id": "geo_gse51299",
+      "role": "other",
+      "locator": "GEO GSE51299 samples GSM1242324 (NIH3T3) and GSM1242325 (HeLa), SOFT text targ=self view=full; local geo_GSM1242324_self_full.txt, geo_GSM1242325_self_full.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "GSM1242324 lines 15-16 (Sample_extract_protocol_ch1), 19 and 22 (Sample_data_processing), 38 (instrument); GSM1242325 same fields",
+        "finding": "Author deposit gives order Ribo-Zero, 3' adapter ligation, partial RNase T1, streptavidin pull-down (11206D), PNK, 500-1000 nt gel, 5' adapter ligation, RT (18080085), Phusion PCR, gel; read 2 = 15 degenerate 3'-adapter bases then delimiter GTCAG (read-2 direction, cycles 14-16); read 1 51 nt; HiSeq 2500. No adapter/primer bases printed."
+      }
     }
   ],
   "linked_information": {
@@ -49,7 +63,7 @@
     "pass_2": {
       "reviewer": "audit_s_z",
       "date": "2026-10-16",
-      "locations": "Original article web lines 75\u201396 and 753\u2013776; supplementary reference and HiSeq kit mention",
+      "locations": "Original article web lines 75–96 and 753–776; supplementary reference and HiSeq kit mention",
       "finding": "Original links Supplemental Experimental Procedures; not reachable in local bundle. Vendor/library sequence details still inaccessible, so absence remains blocked."
     }
   },
@@ -60,5 +74,70 @@
       "evidence": "Defining paper delegates detailed procedures to an unavailable supplement; no second independent reader has checked the source set."
     }
   ],
-  "conclusion": "First pass read the defining article online and ran the oligo scraper on the local bundle. Original supplementary procedures remain unavailable, so absence is unconfirmed."
+  "conclusion": "First pass read the defining article online and ran the oligo scraper on the local bundle. Original supplementary procedures remain unavailable, so absence is unconfirmed.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 0,
+      "locations": "Source bundle MANIFEST.tsv only (two (manual) rows, no originals on disk). get_sources --slugs re-run: phmpt.org mirror 125752_S2_M3_33_chang-2014.pdf HTTP 403 (previously curl error 6); hand attempts cell.com /action/showPdf?pii=S1097-2765(14)00121-X, cell.com mmc1 supplement link, cell.com /article/S109727651400121X/pdf (Unpaywall best OA location) and sciencedirect /pii/S109727651400121X/pdfft all HTTP 403 (Cloudflare); Elsevier article API returned metadata only (openArchiveArticle=true). Europe PMC: PMID 24582499, no PMC copy. Scraper not run: no text in bundle.",
+      "findings": "No correction: no defining original or supplement could be read in this round. Main note records the failed retrieval; existing claims rest on 2026-10-16 passes over the mirror (Methods 753-776).",
+      "deferred": [
+        "Chang 2014 Molecular Cell article (open archive; manual download https://www.cell.com/article/S109727651400121X/pdf or mirror https://phmpt.org/wp-content/uploads/2024/06/125752_S2_M3_33_chang-2014.pdf)",
+        "Supplemental Experimental Procedures (mmc1; adapter, RT and PCR oligo sequences and modifications)",
+        "Illumina HiSeq 2500 51x251 reagent originals"
+      ],
+      "scope": "Capped defining-source pass; nothing defining readable, so no chemistry re-verified and no absence accepted.",
+      "verification": "local suite 1 check pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 checked, 0 failed (no bundle text); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Retrieval routes: get_sources-equivalent phmpt.org mirror HTTP 403; cell.com /molecular-cell/pdf/S1097-2765(14)00121-X.pdf and mmc1 attachment HTTP 403; Unpaywall/OpenAlex: only OA location cell.com/article/S109727651400121X/pdf (403); OpenAlex also lists SNU repository hdl:10371/171907 (submittedVersion; s-space.snu.ac.kr timed out twice); Elsevier article API 400/429 without key; Europe PMC PMID 24582499 no PMC copy; Kim lab publications page links only to cell.com abstract. Read instead: GEO GSE51299 records GSM1242324/GSM1242325 (SOFT full text) lines 15-16, 19, 22, 38; series record (brief). Scraper on bundle: 0 hits (GEO text prints only the 5-nt delimiter).",
+      "findings": "Added from GEO author deposit: Ribo-Zero rRNA depletion step with discarded rRNA; PNK phosphorylation (was generic end repair) and 500-1000-nt gel size-selection step with off-size waste; reagent catalogue numbers for RNase T1, streptavidin beads, RT and Phusion; read-2 adapter layout 15 degenerate bases (UMI-role feature) then GTCAG delimiter, drawn as computed revcomp on the top strand; replaced dA-ligation TruSeq shell (spurious junction base ahead of read-2 cycle 1) with inferred TruSeq-compatible PCR amplicon shell. Caveat and note now name GEO provenance. Selftest gains 7 GEO transcription checks (skip if absent).",
+      "deferred": [
+        "Chang 2014 Molecular Cell article (manual https://www.cell.com/article/S109727651400121X/pdf; mirror https://phmpt.org/wp-content/uploads/2024/06/125752_S2_M3_33_chang-2014.pdf)",
+        "Supplemental Experimental Procedures mmc1 (adapter, RT and PCR oligo bases and modifications)",
+        "SNU repository submitted version hdl:10371/171907 (timed out; preprint-type lead only)",
+        "Illumina HiSeq 2500 51x251 reagent originals"
+      ],
+      "scope": "Capped follow-up; defining article and supplement still unread; GEO author deposit read as partial disclosure. No absence accepted.",
+      "verification": "local suite 8 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 checked, 0 failed, 0 inputs without exact states (no oligo bases in bundle); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "scope": "Bounded pass on the newly obtained published article and Supplemental Information mmc1; not an independent two-pass review and no missing-information claim accepted.",
+      "locations": "j.molcel.2014.02.007.pdf.txt (identity lines 1-12: title, authors, DOI): Results features 1-8 lines 79-145, Fig. 1 legend 103-118, Experimental Procedures 956-975. mmc1 .txt: Extended Experimental Procedures 'Construction of TAIL-seq library' lines 1105-1118, 'Sequence processing' 1243-1258, R1/R2 alignments 1287-1300, 'Oligonucleotide sequences for TAIL-seq' 1349-1535 (5' adapter, 3' adapter with /5App/ N15 /iBiodT/x2 /3ddC/, RT primer, PCR forward, PCR reverse 1-9, spike-ins, legend).",
+      "oligo_scraper": "scrape_primers: article 0 hits; mmc1 hits at lines 1354 (5' adapter), 1362 (3' adapter), 1364 (RT primer, PCR forward), 1372-1430 (reverse primers; primer 1 wraps across page number 14, verified by eye), 1486-1529 spike-ins, 1537+ Hire-PAT/gene-specific/northern probes (not TAIL-seq library).",
+      "findings": "Replaced the inferred TruSeq amplicon shell and placeholder adapters/primers with the mmc1 oligos: library P5-RA5 copy-insert-CTGAC-N15-revcomp(RPI tail)-index-P7'; 3' adapter (5App, 2x biotin-dT, 3ddC) and RNA 5' adapter ligations now known single-strand geometry (ligases still unnamed); RT primer, forward and representative reverse primer (no. 2; primer 1 text wraps a page number) as exact graph inputs; PCR-installed A opposite the adapter's terminal C noted. Sequencing primers not printed: Read 1/Read 2 sites derived from 5'-adapter and RT-primer sequences, labelled derived; index read no longer listed as acquired (not stated). Run 51x251 HiSeq 2500 with 20% PhiX/1% spike-ins confirmed; article '231 nt' read 2 explained as 251 minus 20 adapter cycles. Caveat, note and ref manifest rewritten; GEO selftest checks still pass.",
+      "deferred": [
+        "Ligase identities and conditions for 3' and 5' adapter ligations, RT and PCR conditions/cycles (not stated in article or mmc1)",
+        "Sequencing primers actually loaded and whether the 6-nt index was read (not printed)",
+        "Per-sample reverse PCR primer member",
+        "mmc2/mmc3 data tables not read",
+        "Illumina HiSeq 2500 reagent originals",
+        "Second independent reader for the two-pass gate"
+      ],
+      "verification": "local suite 8/8 pass; page builds; pairing 0 problems; chemistry 9 steps 0 established/0 conditional/10 unresolved/0 contradictory; source guard 5 exact checked (3' adapter, 5' adapter, RT primer, PCR forward, PCR reverse 2), 0 failed, 0 inputs without exact states; Markdown built (note, ref manifest); audit --check pass"
+    },
+    {
+      "round": "critical-rereview-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "scope": "Critical diff review; focused source cross-checks and model consistency, not a new complete source audit.",
+      "locations": "Published mmc1 .txt oligonucleotides 1349–1365, modification legend 1534–1535, sequence processing 1243–1258; full-bundle primer scraper run.",
+      "findings": "Restored nucleotide-bearing /iBiodT//iBiodT//3ddC/ as TTC in the 3′ adapter state, including its blocked end. Variable native poly(A)/terminal additions no longer assert fixed lengths. RNA intermediates are single-stranded scenes. RT has a distinct source-limited cDNA state; PCR unavailable geometry refers to that actual input. The modified adapter suffix lies beyond the RT binding arm and is not appended to the final amplicon. Fixed the shared scraper terminal-modification parser and added a regression.",
+      "deferred": [
+        "Previous linked-source deferrals and independent absence-audit requirements remain open."
+      ],
+      "verification": "Applicable protocol suite, page build, source guard and scoped chemistry passed (zero contradictions); review schema passed. Shared 1275 and source fetcher 226 checks pass. Whole-site verification is recorded in HANDOVER-REVIEW.md.",
+      "documents": 1
+    }
+  ]
 }

@@ -10,7 +10,7 @@ U6 -> spacer -> scaffold contiguously.
 from __future__ import annotations
 
 from chemdraw import revcomp
-from plasmid import BsmBI, Plasmid, digest, find_both
+from plasmid import BsmBI, Plasmid, digest
 
 # ----------------------------------------------------------------- landmarks
 # The human U6 promoter's 3' end, NOT including the +1 base.
@@ -28,14 +28,8 @@ U6_UPSTREAM = "GGCTTTATATATCTTGTGGAAAG"
 SCAFFOLD_V1 = ("GTTTTAGAGCTAGAAATAGCAAGTTAAAATAAGGCTAGTCCGTTATCAACTT"
                "GAAAAAGTGGCACCGAGTCGGTGC")
 
-# The "F+E" scaffold: an A-U flip plus an extended stem-loop, which raises guide
-# expression and Cas9 occupancy. Used by the Broad GPP vectors (pXPR_011 and later).
-SCAFFOLD_FE = ("GTTTAAGAGCTATGCTGGAAACAGCATAGCAAGTTTAAATAAGGCTAGTCCGTTATCAACTT"
-               "GAAAAAGTGGCACCGAGTCGGTG")
-
-# Diagnostic prefixes -- enough to tell the two scaffolds apart in a map or a read.
+# Diagnostic prefix of the v1 scaffold in a map or a read.
 SCAFFOLD_V1_HEAD = SCAFFOLD_V1[:23]      # GTTTTAGAGCTAGAAATAGCAAG
-SCAFFOLD_FE_HEAD = SCAFFOLD_FE[:33]      # GTTTAAGAGCTATGCTGGAAACAGCATAGCAAG
 
 # What BsmBI leaves behind in the Zhang-lineage backbones, verified by digestion.
 OVERHANG_UPSTREAM = "CACC"               # insert supplies this on its top strand
@@ -85,12 +79,3 @@ def guide_context(recombinant, spacer: str) -> bool:
     expect = U6_3PRIME + g + spacer + SCAFFOLD_V1_HEAD
     doubled = recombinant + recombinant
     return expect in doubled
-
-
-def scaffold_of(p: Plasmid) -> str | None:
-    """Which scaffold does this vector carry? Checks both strands."""
-    if find_both(p.seq, SCAFFOLD_FE_HEAD, p.circular):
-        return "F+E"
-    if find_both(p.seq, SCAFFOLD_V1_HEAD, p.circular):
-        return "v1"
-    return None

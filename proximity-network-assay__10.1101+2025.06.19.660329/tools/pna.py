@@ -9,7 +9,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 from chemdraw import Construct, Segment, feature
 from circular import CircularizationGeometry
 from pcr import PCRGeometry
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            SourceClaim, SourceDiscrepancy, StepKind, Terminal)
 from protocol_model import molecule, role
 import seqprimers as sp
 from proximity_topology import ProximityNetworkTopology
@@ -106,7 +107,8 @@ FINAL_CAPTION = (
     "One 133-nt internal amplicon records a link between a type-1 and a type-2 antibody "
     "node. Region order, lengths and both fixed linker-binding sequences come directly "
     "from Pixelator's Proxiome v2 assay definition. PCR/flow-cell ends remain role-labelled "
-    "because this assay-definition file specifies the internal amplicon, not the physical primer ends."
+    "because this assay-definition file specifies the internal amplicon, not the physical primer ends. "
+    "UM002 STEP 6.1 states the cleaned indexed library is approximately 271 bp."
 )
 EXTRA_MOLECULAR_STATES = ((
     "Paper dataset: Proxiome v1 internal amplicon",
@@ -193,9 +195,20 @@ def protocol_graph():
     g.react("stain", "Bind the barcoded antibody panel", StepKind.BINDING,
             ((hashed, InputRole.TEMPLATE), (antibodies, InputRole.SELECTION)),
             (stained, free_antibodies))
-    g.discard(free_antibodies, "removed during antibody-panel washes")
+    g.discard(free_antibodies, "removed by four washes before the 2nd antibody (UM002 STEP 3.1-3.2 D-J)")
 
-    padlocks = g.input("padlocks", "type-1 and type-2 padlock probes", MaterialKind.OLIGO)
+    second_ab = g.input("second_antibody", "2nd Antibody reagent (kit; stabilizes bound barcoded antibodies)",
+                        MaterialKind.SELECTION)
+    stabilized = g.product("stabilized", "cells with 2nd-antibody-stabilized barcoded antibodies",
+                           MaterialKind.MOLECULAR, state=stained.state)
+    free_second = g.product("free_second_ab", "unbound 2nd antibody", MaterialKind.WASTE)
+    g.react("second_ab", "Bind the 2nd antibody (10 min, 4 °C) and wash", StepKind.BINDING,
+            ((stained, InputRole.TEMPLATE), (second_ab, InputRole.SELECTION)),
+            (stabilized, free_second), changes_molecule=False)
+    g.discard(free_second, "removed by Wash Buffer washes (UM002 STEP 3.2 N-S)")
+
+    padlocks = g.input("padlocks", "Padlock Oligos (type-1 and type-2 padlock probes), hybridized 30 min at 45 °C then washed",
+                       MaterialKind.OLIGO)
     fill_pol = g.input("fill_polymerase", "gap-fill polymerase", MaterialKind.CATALYST)
     fill_ligase = g.input("fill_ligase", "gap-fill ligase", MaterialKind.CATALYST)
     circles = g.product("circles", "cell-bound padlock circles carrying copied PID and UMI",
@@ -203,66 +216,103 @@ def protocol_graph():
                         state=_state("two padlock classes", "type-1 PID + UMI circle",
                                      "type-2 PID + UMI circle"))
     failed_circles = g.product("failed_circles", "unclosed padlock products", MaterialKind.WASTE)
-    g.react("close_padlocks", "Hybridize, gap-fill and close both padlock classes",
+    g.react("close_padlocks", "Hybridize padlocks, wash, then Gap-fill 1 (30 min, 25 °C) closes both classes",
             StepKind.CIRCULARIZATION,
-            ((stained, InputRole.TEMPLATE), (padlocks, InputRole.STRUCTURAL),
+            ((stabilized, InputRole.TEMPLATE), (padlocks, InputRole.STRUCTURAL),
              (fill_pol, InputRole.CATALYST), (fill_ligase, InputRole.CATALYST)),
             (circles, failed_circles), geometry=CircularizationGeometry.known(
                 "gap-sealing probe closure",
                 statement="The antibody oligo templates PID and UMI copying across the padlock gap before ligase seals the circle."))
-    g.discard(failed_circles, "does not form a rolling-circle template")
+    g.mark_terminal(Terminal("failed_circles", Disposition.UNRESOLVED,
+        "Unclosed padlocks still hybridized to antibody oligos cannot prime RCA, but no step "
+        "physically removes them; the washes remove only unbound material."))
 
     rca_pol = g.input("rca_polymerase", "strand-displacing RCA polymerase", MaterialKind.CATALYST)
     rcps = g.product("rcps", "localized type-1 and type-2 rolling-circle products",
                     MaterialKind.MOLECULAR,
                     state=_state("neighboring spatial nodes", "type-1 PID + UMI repeats",
                                  "type-2 PID + UMI repeats"))
-    g.react("rca", "Amplify each padlock circle in situ", StepKind.EXTENSION,
+    g.react("rca", "Amplify each padlock circle in situ (RCA, 15 min at 30 °C)", StepKind.EXTENSION,
             ((circles, InputRole.TEMPLATE), (rca_pol, InputRole.CATALYST)), (rcps,))
 
-    linkers = g.input("linkers", "proximity linker oligos", MaterialKind.OLIGO)
+    linkers = g.input("linkers", "Proximity Oligos (linkers), hybridized 30 min at 45 °C then washed",
+                      MaterialKind.OLIGO)
     link_pol = g.input("link_polymerase", "proximity-link gap-fill polymerase", MaterialKind.CATALYST)
     link_ligase = g.input("link_ligase", "proximity-link ligase", MaterialKind.CATALYST)
     links = g.product("links", "type-1/linker/type-2 proximity products",
                       MaterialKind.MOLECULAR, state=INTERNAL_AMPLICON)
     unlinked = g.product("unlinked", "unlinked or same-type RCA products", MaterialKind.WASTE)
-    g.react("link", "Bridge neighboring type-1 and type-2 RCPs; gap-fill and ligate",
+    g.react("link", "Bridge neighboring type-1 and type-2 RCPs; Gap-fill 2 (30 min, 25 °C)",
             StepKind.PROXIMITY_LIGATION,
             ((rcps, InputRole.TEMPLATE), (linkers, InputRole.STRUCTURAL),
              (link_pol, InputRole.CATALYST), (link_ligase, InputRole.CATALYST)),
             (links, unlinked))
-    g.discard(unlinked, "does not encode a retained type-1/type-2 proximity link")
+    g.mark_terminal(Terminal("unlinked", Disposition.UNRESOLVED,
+        "RCPs without a gap-filled type-1/type-2 linker stay with the cells and enter the "
+        "digestion; they lack the linker amplicon, but no physical separation is described."))
+    g.annotate(SourceDiscrepancy(
+        "rca", "Rolling-circle amplification time",
+        (SourceClaim("Karlsson et al. bioRxiv v3, Methods 'Proximity Network Assay'",
+                     "Localized rolling circle amplification of gap-filled padlock probes for 10 minutes."),
+         SourceClaim("Pixelgen UM002 v1.00 STEP 4.3 E (and UM001 v1.01 RCA step E)",
+                     "Incubate each pool in a thermal cycler for 15 min at 30 °C.")),
+        "The drawn v2 kit follows UM002: 15 min at 30 °C.",
+        "Both values are printed; the preprint says the manufacturer's instructions were followed.",
+        "Which manual revision the paper experiments used, and whether 10 min reflects an "
+        "earlier kit protocol or a reporting slip, is not stated."))
 
     digest = g.input("digest_enzyme", "cell/RCP digestion enzymes", MaterialKind.CATALYST)
     released = g.product("released", "released proximity-link templates",
                          MaterialKind.MOLECULAR, state=INTERNAL_AMPLICON)
     debris = g.product("debris", "digested cell and RCP material", MaterialKind.WASTE)
-    g.react("digest", "Digest cells and RCP scaffolds to release link templates",
+    g.react("digest", "Digest 8,000 counted cells and RCP scaffolds (kit Digestion program) to release link templates",
             StepKind.DIGESTION,
             ((links, InputRole.TEMPLATE), (digest, InputRole.CATALYST)), (released, debris))
-    g.discard(debris, "does not carry an intact proximity-link amplicon")
+    g.mark_terminal(Terminal("debris", Disposition.UNRESOLVED,
+        "Digested cell/RCP material is carried into the pre-amplification PCR; the later "
+        "1:1 SPRI cleanup is not modelled as removing it."))
 
     pre_f = g.input("pre_f", "pre-amplification forward primer", MaterialKind.OLIGO)
     pre_r = g.input("pre_r", "pre-amplification reverse primer", MaterialKind.OLIGO)
     pre_pol = g.input("pre_pol", "pre-amplification PCR polymerase", MaterialKind.CATALYST)
     preamp = g.product("preamp", "pre-amplified proximity links", MaterialKind.MOLECULAR,
                        state=PREAMP_LIBRARY)
-    g.react("preamp_pcr", "Pre-amplify released proximity links", StepKind.PCR,
+    g.react("preamp_pcr", "Pre-amplify released proximity links (4 cycles)", StepKind.PCR,
             ((released, InputRole.TEMPLATE), (pre_f, InputRole.STRUCTURAL),
              (pre_r, InputRole.STRUCTURAL), (pre_pol, InputRole.CATALYST)), (preamp,),
             geometry=PCRGeometry.unavailable(PREAMP_LIBRARY,
                 reason="Pixelgen names the pre-amplification primer mix; its bases have not yet been verified from an original source."))
 
+    preamp_spri = g.input("preamp_spri", "SPRIselect/AMPure XP beads, 1:1 (50 µl to 50 µl)",
+                          MaterialKind.SELECTION)
+    preamp_clean = g.product("preamp_clean", "purified pre-amplified proximity links",
+                             MaterialKind.MOLECULAR, state=PREAMP_LIBRARY)
+    preamp_sup = g.product("preamp_sup", "SPRI supernatant (primers, salts, dNTPs, short products)",
+                           MaterialKind.WASTE)
+    g.react("preamp_cleanup", "Clean up the pre-amplification PCR with 1:1 SPRI beads",
+            StepKind.CLEANUP, ((preamp, InputRole.TEMPLATE), (preamp_spri, InputRole.SELECTION)),
+            (preamp_clean, preamp_sup), changes_molecule=False)
+    g.discard(preamp_sup, "supernatant discarded on the magnet (UM002 STEP 5.4 G)")
+
     idx_f = g.input("index_f", "i5 indexing PCR primer", MaterialKind.OLIGO)
     idx_r = g.input("index_r", "i7 indexing PCR primer", MaterialKind.OLIGO)
     idx_pol = g.input("index_pol", "indexing PCR polymerase", MaterialKind.CATALYST)
-    library = g.product("library", "dual-indexed PNA sequencing library",
-                        MaterialKind.LIBRARY, state=FINAL_LIBRARY)
-    g.react("index_pcr", "Add unique dual indexes by PCR", StepKind.PCR,
-            ((preamp, InputRole.TEMPLATE), (idx_f, InputRole.STRUCTURAL),
-             (idx_r, InputRole.STRUCTURAL), (idx_pol, InputRole.CATALYST)), (library,),
+    indexed = g.product("indexed", "indexing PCR product",
+                        MaterialKind.MOLECULAR, state=FINAL_LIBRARY)
+    g.react("index_pcr", "Add unique dual indexes by PCR (5, 6 or 8 cycles for 8,000, 4,000 or 1,000 cells)", StepKind.PCR,
+            ((preamp_clean, InputRole.TEMPLATE), (idx_f, InputRole.STRUCTURAL),
+             (idx_r, InputRole.STRUCTURAL), (idx_pol, InputRole.CATALYST)), (indexed,),
             geometry=PCRGeometry.unavailable(FINAL_LIBRARY,
                 reason="The v2 manual prints index values but not the complete primer molecules or binding sites."))
+    final_spri = g.input("final_spri", "SPRIselect/AMPure XP beads, 1:1 (50 µl to 50 µl)",
+                         MaterialKind.SELECTION)
+    library = g.product("library", "dual-indexed PNA sequencing library (~271 bp)",
+                        MaterialKind.LIBRARY, state=FINAL_LIBRARY)
+    final_sup = g.product("final_sup", "SPRI supernatant (primers, salts, dNTPs)", MaterialKind.WASTE)
+    g.react("index_cleanup", "Clean up the indexing PCR with 1:1 SPRI beads", StepKind.CLEANUP,
+            ((indexed, InputRole.TEMPLATE), (final_spri, InputRole.SELECTION)),
+            (library, final_sup), changes_molecule=False)
+    g.discard(final_sup, "supernatant discarded on the magnet (UM002 STEP 5.6 E)")
     g.sequence(library, SequencingPlan(
         acquired_roles=("Read 1", "Index 1 (i7)", "Index 2 (i5)", "Read 2"),
         read_lengths={"Read 1": 44, "Index 1 (i7)": 8, "Index 2 (i5)": 8, "Read 2": 78},
@@ -275,6 +325,8 @@ def protocol_graph():
         "rca_polymerase", "rca", "linkers", "link_polymerase", "link_ligase", "link",
         "digest_enzyme", "digest", "pre_f", "pre_r", "pre_pol", "preamp_pcr",
         "index_f", "index_r", "index_pol", "index_pcr", "library",
+        "second_antibody", "second_ab", "failed_circles", "unlinked", "debris",
+        "preamp_spri", "preamp_cleanup", "final_spri", "index_cleanup",
     ]
     g.declare_reviewed_scope(reviewed, SOURCE)
     return g.require_publishable()

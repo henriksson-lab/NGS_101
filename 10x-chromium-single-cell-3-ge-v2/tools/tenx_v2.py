@@ -8,10 +8,15 @@ from chemdraw import Construct, Scene, Segment, complement_segments, feature, re
 import sys as _sys
 from pathlib import Path as _Path
 _sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
-from protocol_families.tenx_graph import ChromiumRNAOps, READ2_ADAPTER_END
+from protocol_families.tenx_graph import ChromiumRNAOps
+from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, StepKind
-from protocol_graph import ProtocolGraph
+from protocol_graph import ProtocolGraph, SourceClaim, SourceDiscrepancy
+
+USER_GUIDE = ('<a href="https://assets.ctfassets.net/an68im79xiti/UhAMGmlaEMmYMaA4A4Uwa/'
+              '274a813b81e42cba81345d49380432d7/CG00052_SingleCell3_ReagentKitv2UserGuide_RevD.pdf">'
+              '10x Genomics User Guide CG00052 Rev D</a> (2018; cleanup and size-selection steps)')
 
 PARTIAL_R1 = il.TRUSEQ_READ1[11:]
 TSO_DNA = rt.SMART_HANDLE + "ACAT"
@@ -78,11 +83,21 @@ def adapter_bottom():
 
 
 def adapter_scene():
+    """Adapter PN-220026 as printed in CG000108 Rev A, Protocol 3.3, with its 3'-T end."""
     sc = Scene(); sc.strand("top", adapter_top(), label="Read 2 adapter")
     sc.anneal("bottom", adapter_bottom(), to="top", pair=("stem complement", "Read 2 adapter"),
               label="short strand")
-    sc.mark("bottom", "3' T", "ligation overhang")
+    sc.ligation_end("bottom", "3' T", kind="cohesive", polarity="3-prime", owner="adapter",
+                    text="3'-T ligation overhang")
     return sc
+
+
+def read2_adapter_end():
+    return AdapterLigationGeometry.known(
+        "cohesive", adapter_scene(),
+        statement=("CG000108 Rev A, Protocol 3.3 prints Adapter (Read 2) PN-220026 as the "
+                   "33-nt top strand paired over 12 nt by 3'-TCTAGCCTTCTCG-5', leaving a "
+                   "single 3'-T for the dA-tailed fragment; 5' phosphorylation is not stated."))
 
 
 SEQ_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])
@@ -110,7 +125,10 @@ def read1_layout():
 
 
 def switched_cdna():
-    return Construct(list(amplified_cdna()), name="v2 template-switched cDNA")
+    """Single-stranded template-switched first strand; cDNA PCR makes the duplex later."""
+    sc = Scene()
+    sc.strand("switched", list(amplified_cdna()), label="v2 template-switched first-strand cDNA")
+    return sc
 
 
 def cdna_primers():
@@ -133,8 +151,39 @@ def pre_index_library(insert_nt=36):
                      name="v2 adapter-ligated cDNA fragment")
 
 
-def _source_pcr(ops, prefix, label, template, product_state, primers, *, library=False):
-    """The source prints both primers; locate their sites rather than claiming absence."""
+def _cleanup(ops, ident, label, material, reagent, wastes, *, state=None,
+             kind=MaterialKind.MOLECULAR, kept_id=None, kept_label=None):
+    """A CG00052 Rev D bead cleanup: the kept fraction and each removed fraction."""
+    g=ops.graph
+    beads=g.input(ident+"_beads", reagent, MaterialKind.SELECTION, source=USER_GUIDE)
+    kept=g.product(kept_id or ident+"_kept", kept_label or label+" (retained DNA)", kind,
+                   state=material.state if state is None else state, source=USER_GUIDE)
+    removed=[g.product(ident+"_waste%d" % i, text, MaterialKind.WASTE, source=USER_GUIDE)
+             for i, (text, _) in enumerate(wastes, 1)]
+    g.react(ident, label, StepKind.CLEANUP,
+            ((material,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),
+            (kept,*removed), source=USER_GUIDE, changes_molecule=False)
+    for waste, (_, why) in zip(removed, wastes):
+        g.discard(waste, why)
+    ops.reviewed.extend((beads.id, ident, kept.id, *(w.id for w in removed)))
+    return kept
+
+
+SUPERNATANT=("bead supernatant (unbound primers, reagents and fragments below the cut-off)",
+             "supernatant removed from the magnet-held SPRIselect beads")
+LARGE=("fragments bound at 0.6X SPRIselect (above the upper size cut-off)",
+       "first-SPRI beads discarded after the supernatant is transferred")
+SMALL=("supernatant after 0.8X SPRIselect (below the lower size cut-off)",
+       "supernatant removed from the magnet-held SPRIselect beads")
+
+
+def _source_pcr(ops, prefix, label, template, product_state, primers, *, library=False,
+                site_template=None):
+    """The source prints both primers; locate their sites rather than claiming absence.
+
+    ``site_template`` is the duplex on which both primer sites are drawn when the input
+    material is single-stranded (the switched first strand gains its complement in cycle 1).
+    """
     g=ops.graph
     forward, reverse=primers
     f=g.input(prefix+"_forward", forward.name, MaterialKind.OLIGO,
@@ -142,13 +191,12 @@ def _source_pcr(ops, prefix, label, template, product_state, primers, *, library
     r=g.input(prefix+"_reverse", reverse.name, MaterialKind.OLIGO,
               state=Construct([Segment(reverse.name, reverse.sequence)]))
     polymerase=g.input(prefix+"_polymerase", label+" polymerase", MaterialKind.CATALYST)
-    product=g.product("library" if library else "amplified", label+" product",
-                      MaterialKind.LIBRARY if library else MaterialKind.MOLECULAR,
-                      state=product_state)
+    product=g.product("index_pcr_product" if library else "amplified", label+" product",
+                      MaterialKind.MOLECULAR, state=product_state)
     g.react(prefix, label, StepKind.PCR,
             ((template,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),
              (r,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)), (product,),
-            geometry=PCRGeometry.exact(template.state,forward,reverse,
+            geometry=PCRGeometry.exact(site_template or template.state,forward,reverse,
                 statement="Both primer architectures are printed in CG000108 Rev A Fig. 4."))
     ops.reviewed.extend((f.id,r.id,polymerase.id,prefix,product.id))
     return product
@@ -163,7 +211,7 @@ def _source_ligation(ops, tailed):
                       MaterialKind.MOLECULAR,state=pre_index_library())
     g.react("ligate", "Ligate the Read-2 adapter", StepKind.LIGATION,
             ((tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
-             (ligase,InputRole.CATALYST)),(adapted,),geometry=READ2_ADAPTER_END)
+             (ligase,InputRole.CATALYST)),(adapted,),geometry=read2_adapter_end())
     ops.reviewed.extend((adapter.id,ligase.id,"ligate"))
     return adapted
 
@@ -177,16 +225,43 @@ def protocol_graph():
     cells = ops.cells()
     occupied = ops.partition(cells)
     first, rt_enzyme = ops.reverse_transcribe(
-        occupied, first_state, primer_label="cell-barcode/UMI oligo(dT) gel-bead primer")
+        occupied, first_state, primer_label="cell-barcode/UMI oligo(dT) gel-bead primer",
+        primer_state=Construct(bead_oligo(), name="gel-bead primer"))
     switched = ops.template_switch(
-        first, rt_enzyme, switched_cdna(), tso_label="template-switch oligo")
+        first, rt_enzyme, switched_cdna(), tso_label="template-switch oligo",
+        tso_state=Construct(tso(), name="template-switch oligo"))
     recovered = ops.recover(switched, switched_cdna())
+    recovered = _cleanup(ops, "silane_cleanup", "Post GEM-RT cleanup with Dynabeads MyOne Silane",
+        recovered, "Dynabeads MyOne Silane beads",
+        (("Silane-bead supernatant (leftover GEM-RT reagents and primers)",
+          "removed from the magnet-held Silane beads"),))
     amplified = _source_pcr(ops, "preamp", "Amplify recovered full-length cDNA",
-                            recovered, amplified_cdna(), cdna_primers())
-    fragments = ops.fragment(amplified)
+                            recovered, amplified_cdna(), cdna_primers(),
+                            site_template=amplified_cdna())
+    amplified = _cleanup(ops, "cdna_spri", "Post cDNA amplification SPRIselect cleanup (0.6X)",
+                         amplified, "SPRIselect reagent, 0.6X", (SUPERNATANT,))
+    fragments = ops.fragment(amplified, reagent_label="CG00052 Rev D Step 3.1 Fragmentation Enzyme Blend")
     tailed = ops.end_prepare(fragments)
+    tailed = _cleanup(ops, "fragment_size_selection",
+                      "Double-sided SPRIselect size selection (0.6X, then 0.8X)",
+                      tailed, "SPRIselect reagent, 0.6X then 0.8X", (LARGE, SMALL))
     adapted = _source_ligation(ops, tailed)
-    library = _source_pcr(ops, "index_pcr", "Select barcode-bearing end and add sample index",
+    adapted = _cleanup(ops, "ligation_spri", "Post-ligation SPRIselect cleanup (0.8X)",
+                       adapted, "SPRIselect reagent, 0.8X", (SUPERNATANT,))
+    indexed = _source_pcr(ops, "index_pcr", "Select barcode-bearing end and add sample index",
                           adapted, final, index_primers(), library=True)
+    library = _cleanup(ops, "index_size_selection",
+                       "Double-sided SPRIselect size selection (0.6X, then 0.8X)",
+                       indexed, "SPRIselect reagent, 0.6X then 0.8X", (LARGE, SMALL),
+                       kind=MaterialKind.LIBRARY, kept_id="library",
+                       kept_label="size-selected indexed v2 library")
     ops.sequence(library, final, SEQ_PRIMERS, {"Read 1": 26, "Index 1 (i7)": 8, "Read 2": 98})
+    graph.annotate(SourceDiscrepancy(
+        "preamp_forward", "cDNA Primer Mix part number",
+        (SourceClaim("CG000108 Rev A, Fig. 4, Protocol Step 2.2", "cDNA Primer Mix is labelled PN-22016."),
+         SourceClaim("CG00052 Rev D, kit contents and Step 2.2 reaction mix",
+                     "cDNA Primer Mix is listed as PN-220106.")),
+        "Only the printed primer sequences are modelled; no part number is used in the construct.",
+        "PN-22016 has one digit fewer than the six-digit part numbers used elsewhere in both documents.",
+        "Whether the technical note omits a digit or names a different reagent lot is not stated."))
     return graph

@@ -71,6 +71,20 @@ intermolecular-extension mechanisms. The graph includes these off-products by
 role and retains the source's conditional mechanism; it does not claim exact
 byproduct nucleotide sequences or proven reaction routes.
 
+### Bounded pass 2026-10-17-breadth-first-08
+
+🟢 Re-read Methods lines 202–220 of the final JATS. Added to the graph the
+source-stated steps the model had omitted: Covaris shearing to a mean of
+150 bp (line 202; not applied to cfDNA), the 1.8× AMPure XP cleanup before
+ligation with 40 µl low-TE elution (exception 1), 0.75× AMPure XP after the
+phi29 extension (exception 4), and two 0.65× AMPure XP cleanups after PCR
+(exception 6; for cfDNA the second is a 0.5×/0.65× double-sided selection).
+Reagent labels now carry the stated adapter annealing (85 °C 3 min, −1 °C/min
+to 20 °C, 12 h RT; 500 nM in ligation), 1 h ligation, phi29 M0269L at 30 °C
+for 20 min with 0.2 mM dNTP, and KAPA HiFi with 2 min extension. Input is
+2.5–20 ng. The KAPA cycle number is not stated in these lines and stays
+unassigned.
+
 ### Remaining source scope
 
 The original image-based reporting summary has been visually inspected in full

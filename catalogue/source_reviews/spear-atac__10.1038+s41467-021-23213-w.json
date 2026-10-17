@@ -56,6 +56,19 @@
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Exact historical guide and bead member set not independently matched/read."
+    },
+    {
+      "id": "supp_data_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/spear-atac__10.1038+s41467-021-23213-w/scg_41467_2021_23213_MOESM11_ESM.xlsx.txt (Supplementary Data 8, primer sequences; publisher MOESM11, identical md5 to the Springer copy per MANIFEST.tsv)",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "round19_worker",
+        "date": "2026-10-17",
+        "locations": "Sheet Large_TF_Screen rows 7-11",
+        "finding": "The complete Spear-ATAC primer set is five oligos: oMCB1672, oSP1735, oSP2053 (5' biotin), oSP1594 and the indexed P7 primer, whose 3' end is only the first 22 bases of TruSeq Read 2."
+      }
     }
   ],
   "linked_information": {
@@ -77,8 +90,28 @@
     {
       "claim": "Full exact Spear-ATAC oligo and run-primer architecture is absent from original sources",
       "disposition": "blocked",
-      "evidence": "Supplement prints multiple custom oligos; remaining plasmid and 10x guide materials need independent inspection."
+      "evidence": "Supplementary Data 8 gives the five custom primers verbatim and they are now checked against the source text, but the 10x scATAC v1 bead/index oligos and the pSP618 (GenBank MW852482) vector interior remain unread, so no absence claim is made."
     }
   ],
-  "conclusion": "Supplement prints multiple custom oligos; remaining plasmid and 10x guide materials need independent inspection."
+  "conclusion": "Supplementary Data 8 supplies the complete custom primer set and Supplementary Note 3 the enrichment order; the vector interior (pSP618 / MW852482) and the 10x scATAC v1 vendor oligos remain unread, so the architecture claim stays blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "round19_worker",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC8137922 JATS .txt Methods lines 100-124 (pSP618 cassette, 10x scATAC v1 PN-1000110 modifications, sgRNA amplification, sgRNA/cell-barcode alignment); MOESM1 Supplementary Note 1 lines 2323-2502 and Supplementary Note 3 lines 2590-2721 (PCR1 25 cycles, B&W/MyOne C1 capture, PCR2 15 cycles, supernatant MinElute, oMCB1672 Read 1); Supplementary Data 8 (MOESM11 xlsx) rows 7-11",
+      "oligo_scraper": "Scraper --find run on the bundle: the two hand-typed guide-library constant regions (CGAGGCTGAGTGTAGATTCGAGCAAAAAGCACCGACTCGGT and CCAACAAGGTGGTTCTCCAAGGGATACTT) occur only in upstream_Spear-ATAC.html.txt, i.e. the scg_lib_structs drawn page, and in no genuine original; the five Supplementary Data 8 primers were verified in the article and note text.",
+      "findings": "Corrections: (1) removed both guide-library constant regions that existed only on the upstream drawn page - the stretch between the 10-bp guide barcode and the oMCB1672 site is now a placeholder, and the post-spacer region is derived as the complement of oSP2053's sgRNA-specific 3' half; (2) the indexed P7 primer was modelled with the full 34-base TruSeq Read 2 but the source prints only its first 22 bases - fixed in the oligo list and in the guide PCR geometry; (3) the guide route no longer splits a hypothetical pre-branch pool: per Note 3 and the Methods it starts from 2.5 uL of the finished ~150 nM scATAC library, with biotinylated oSP2053 linear amplification (25 cycles, 2X NEBNext), MinElute, streptavidin MyOne C1 capture in B&W buffer with scATAC fragments washed away, 15-cycle PCR2 off the beads, then magnet and keep the supernatant (beads with the biotinylated strands discarded) and MinElute; (4) named the previously generic 'opposite-end ATAC primer' as oSP1735 spiked into the GEM master mix and added it to the oligo list; (5) read uses corrected so the 16-nt cell-barcode index read is an extracted identifier rather than demultiplexing. Four page highlights now state the enrichment template, the supernatant endpoint, the untranscribed pSP618 interior and the optional 10-bp barcode route.",
+      "deferred": [
+        "Addgene pSP618 / GenBank MW852482 plasmid sequence for the spacer context and barcode position",
+        "10x Chromium scATAC v1 (PN-1000110) user-guide revision for the gel-bead oligo and N7xx index primers",
+        "Supplementary Data 7 sgRNA spacer and 10-bp barcode tables",
+        "Whether any reported library used the direct 10-bp barcode read-out route",
+        "Read lengths/instrument for both libraries (not stated in the inspected originals)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation and no accepted missing-information claim.",
+      "verification": "selftest passes (construction only, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/2 conditional/11 unresolved/0 contradictory; source guard 4 exact oligos checked (oSP1735, oSP2053, oSP1594, indexed P7), 0 failed, 4 vendor inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

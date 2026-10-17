@@ -96,5 +96,27 @@
       "evidence": "Supplementary Table 1 gives many strands, but detailed linked protocol and predecessor remain unread."
     }
   ],
-  "conclusion": "First located pass only; linked detailed protocol and predecessor block missing claims."
+  "conclusion": "First located pass only; linked detailed protocol and predecessor block missing claims.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Nat Methods author manuscript PMC7954905 JATS Online Methods text lines116–156 (adaptor annealing, transposome assembly, tagmentation, RT line138, ligation barcoding line142, pre-amplification146–148, digestion/2nd adaptor152, indexing PCR/sequencing154), Results56, Extended Data Fig.2a legend254; Supplementary Table 1 workbook all four sheets (Primer Sequences lines1–19, BC Plate #01 A1–C12, #02, #03 A1–H12 lengths 54–57 nt); Supplementary Notes PDF (no chemistry)",
+      "oligo_scraper": "Scraper run on Supp Table 1 and JATS text; all 21 hits (common primers plus DNA_#01_RE, RNA_#01_RE/NRE, R02_#01, R04_#01) checked against table rows; module sequences match, R04 unphosphorylated and R02/BC1 5'-phosphorylated as printed.",
+      "findings": "No sequence corrections needed. Named source catalysts in the graph (T4 DNA ligase M0202L, NEB TdT with dCTP after denaturation, KAPA HiFi HS for 16 linear anchor cycles and 11 PA cycles, T4 ligase for P5 adapter). Corrected the Anchor-FokI-GH oligo display that called the printed '*' a penultimate phosphorothioate. Replaced workflow text claiming NotI 'exposes' the RNA product with the source operations; cross-modality cleavage purpose recorded as inferred in the note. Graph-owned published discrepancies: Methods 'barcoded T15 primer' vs Supp Table 1 T16VN (table used); Methods 'Anchor-FokI-GSH-Oligo' vs table Anchor-FokI-GH with undefined '*'. Read 1 50 vs 100 option disclosed on final-library captions (100 drawn). Note records Blocker/Terminator naming, cleanups and sequencing platforms.",
+      "deferred": [
+        "Protocol Exchange step-by-step protocol doi:10.21203/rs.3.pex-1301/v1 (Research Square Cloudflare; manual)",
+        "Paired-seq predecessor (ref.31) RT/ligation conditions",
+        "Meaning of '*' in Anchor-FokI-GH and P5 Universal and of 'S' in the Methods anchor name",
+        "T15 vs T16 RT primer naming",
+        "Dataset-specific Read 1 length (50 vs 100)",
+        "Extended Data Fig.1 rendered schematic not re-inspected",
+        "Numerical-data supplementary workbooks MOESM13–23 not classified"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 11/11 pass; page builds; pairing 0 problems; chemistry 13 established/3 conditional/15 unresolved/0 contradictory; source guard 6 exact inputs checked, 0 failed, 14 inputs without exact states, no timeout; audit_protocol_sources --check ok; Markdown built; review schema checked"
+    }
+  ]
 }

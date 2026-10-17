@@ -166,5 +166,26 @@
       "evidence": "Publisher MOESM3 gives antigen tag barcodes, but full BioLegend conjugate oligo architecture is not checked."
     }
   ],
-  "conclusion": "Original article, detailed author protocol and antibody barcode workbook independently reread. Historical vendor architecture identified, while barcode membership, antibody conjugates and indicated unavailable sources keep missing claims blocked."
+  "conclusion": "Original article, detailed author protocol and antibody barcode workbook independently reread. Historical vendor architecture identified, while barcode membership, antibody conjugates and indicated unavailable sources keep missing claims blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-06",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC8763625 JATS Methods lines244–262 ('Cell permeabilization for DOGMA-seq', 'Transposition and barcoding for DOGMA-seq'); publisher MOESM1 DOGMA-seq protocol (Jan 2021) sections 1, 2a/2b, 3 modifications 1–4, notes 1–4, Oligos; cited 10x CG000338 Rev A Introduction pp17–18 lines1205–1310, sequencing p68 lines4925–5030, Appendix p79 lines5625–5690 (copied from identical URL/md5 file in REDeeM source dir); MOESM3 barcodes (15 nt)",
+      "oligo_scraper": "Bundle scraper hits (ADT/HTO additives, SI-PCR, RPI-x) previously verified; re-read in original Methods/MOESM1 passages this pass. CG000338 Rev A sequences read directly in its Appendix text.",
+      "findings": "ATAC library rebuilt from CG000338 Rev A p79: P5-N16-CGCGTCTG spacer-Read1N-insert-Read2N-i7 N8-P7 (previously i5 sample index, no spacer, cell barcode after ME). RNA library transcribed as printed (25-nt P5 prefix, dual N10 indexes). TSA tag library rebuilt from RNA bead primer + SI-PCR + RPI-x with N12 UMI (previously 10-nt UMI); invented 'antibody-tag capture primer' extension replaced by GEM RT capture via bead poly(dT), preamp with exact ADT additive, 25/35/35% allocation, exact SI-PCR/RPI-x geometry; explicit permeabilization (LLL/DIG), silane cleanup, cDNA amplification, fragmentation/A-tailing/adaptor ligation steps. Unsourced read lengths removed; tag Read2/Index1 limitation shown; TEA-seq-reported GEX P5-prefix discrepancy noted as not re-checked.",
+      "deferred": [
+        "PMC author-manuscript ASAP_DOGMA_protocols.pdf / supp_tables.xlsx (PMC download gate)",
+        "BioLegend TotalSeq-A conjugate structure (poly(A) length, linker)",
+        "10x Dual Index TT and ATAC Single Index N primer sequences",
+        "GEX P5 25- vs 29-nt prefix (CG000317) not re-checked",
+        "Acquired read cycles and tag-library Read 2/Index 1 primers",
+        "Hashtag (HTO/D7xx) library and optional post-cDNA tag route not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1 check passes; page builds; pairing 0 problems; chemistry 0 established/1 conditional/18 unresolved/0 contradictory; source guard 2 exact checked (ADT additive, SI-PCR), 0 failed, 4 inputs without exact states (rna_bead_primer, atac_bead_primer, rna_adapter, adt_reverse); Markdown built/checked; review schema checked"
+    }
+  ]
 }

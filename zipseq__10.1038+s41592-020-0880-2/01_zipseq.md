@@ -81,3 +81,44 @@ Constructor checks compare the final endpoint to the original predecessor
 PCR pair; incompatible Nextera Read 1 and ordinary TruSeq Read 2
 substitutions are rejected. A separate local-source check reads the original
 CITE-seq protocol text to guard the RPI1 transcription.
+
+
+## Tumor-branch workflow corrections (2026-10-17)
+
+Read again in the published author-manuscript JATS
+(`s41592-020-0880-2_PMC7891292.xml.txt`): oligonucleotide list lines
+118–206, in-tube validation line 238, tumor study line 272, Library
+Construction line 276 and read processing line 280.
+
+- 🟢 The represented tumor experiment (Fig. 4) stains sections with the
+  anti-CD45 antibody conjugated to the **internal-Cy5** anchor
+  (`Amine-C6 – ATCCAG\iCy5\TTTTTTTTTTTTGATGTTGACGG`, line 126), not the
+  Fig. 1/S1 anchor `ATCGTTTTTTTTTTTTGATGTTGACGG` (line 122). The page now
+  lists both, labelled by figure. Sections are blocked with ssDNA/BSA, stained
+  1 h at 4 °C, illuminated with 1000-ms 365-nm pulses, and after zipcoding
+  are dissociated with collagenase I/IV and sorted for **live Cy5+** cells
+  on a FACSAria II before 10x v3 encapsulation (line 272).
+- 🟢 Each zipcode round (1 µM, 10 min in the lymph-node description that the
+  tumor study follows, line 264) is followed by the O1 blocking strand
+  `CGATCTGTGGTTGCTAC` (0.25 µM, 5 min; line 134 calls it a strand "for
+  neutralizing carried over Zipcodes"). The graph now draws prehybridization
+  of the caged strand to the conjugate (1:1, 37 °C, 15 min; line 238), the
+  blocking step and the sort.
+- 🟢 Transcripts and zipcodes are **not** separated before reverse
+  transcription. Both are captured and copied in the GEM, amplified together
+  with an additive primer (partial Small RNA Read 2) spiked into cDNA
+  amplification, and only then separated: bead-bound cDNA continues through
+  the 10x guide, while the <200-bp zipcode products are decanted with the SPRI
+  supernatant and purified by two successive 3X SPRI cleanups before the
+  CITE-seq-primer PCR (line 276; 2X KAPA HiFi HotStart, line 214). The former
+  pre-RT split was a repository modelling error.
+- 🟡 The 10x fragmentation/ligation route for the cDNA fraction is a warned
+  kit boundary (CG000183 not re-read in this pass).
+- 🔴 The additive-primer sequence is not printed by Hu et al.; it was not found
+  on pp. 3–6 of the 2017-07-03 CITE-seq protocol, whose ADT separation uses a
+  0.6X SPRI supernatant and two 2X SPRI cleanups (extracted lines 203–250).
+  Which CITE-seq protocol version Hu et al. followed is unconfirmed.
+- 🟡 NPOM positions 4, 8, 11, 15 on the caged strand remain a
+  preprint-supplied detail: the published list states that caged thymidines
+  are highlighted in red (line 128), the accessible JATS drops the colour, and
+  the published PDF is not available here.

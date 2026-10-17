@@ -27,7 +27,9 @@ The graph now preserves the original PRO-seq sequence:
 3. Reverse 3′ adapter ligation, then second streptavidin enrichment.
 4. TAP and PNK processing of the RNA 5′ end.
 5. Reverse 5′ adapter ligation, then third streptavidin enrichment.
-6. RP1-primed RT, Phusion PCR and PAGE purification.
+6. RP1-primed RT (25 pmol), trial amplification of an RT portion to set cycles, then Phusion PCR for 12–18 cycles with excess RP1 as one primer and an RPI-index primer (12.5 pmol), and PAGE purification (SOM lines 139–148).
+
+The SOM names T4 RNA ligase I (6 h, 20 °C) for the 3′ ligation (lines 121–124) but no enzyme for the 5′ ligation (lines 135–138). Round 2026-10-17-breadth-first-15 corrected the 5′-ligation geometry statement, which had cited the later 2016 protocol and a T4 RNA ligase for a step the 2013 SOM leaves unnamed; this was a repository attribution error, not a publication error. The SOM analysis clips adapters, applies `fastx_trimmer` to the first 26 bases and drops reads shorter than 16 bases (lines 169–171); acquired cycles remain unassigned.
 
 RP1 anneals through its 21-base suffix within the 26-base reverse 3′ adapter. Extension copies the adapter's remaining five bases before entering the nascent RNA. Those five copied adapter bases are present in the cDNA state. Omitting them was a repository modelling error, not a source discrepancy. RNA and cDNA inserts have unknown-length role tokens, without an invented fragment length.
 

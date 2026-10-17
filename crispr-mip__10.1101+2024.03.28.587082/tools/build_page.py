@@ -319,7 +319,7 @@ def step_fill() -> str:
     bands = span_bands(con, [("ext arm", "ext arm", "probe"),
                              ("+1", "gap end", "captured target"),
                              ("lig arm", "Read 1", "probe backbone")], len(lead))
-    return f"""<h3>(3) Extend and ligate &mdash; Ampligase + Phusion HF, 60&nbsp;&deg;C, 1&nbsp;h</h3>
+    return f"""<h3>(3) Extend and ligate &mdash; 5&nbsp;U Ampligase + 4&nbsp;U Phusion HF + 0.2&nbsp;mM dNTPs, 60&nbsp;&deg;C, 1&nbsp;h</h3>
 {panel(filled, cls="small",
        caption="The polymerase fills the gap from the extension arm's 3'-OH; the ligase "
                "then joins that new 3' end to the probe's 5' phosphate. Arm, new strand "
@@ -363,7 +363,8 @@ def step_exo() -> str:
        caption="Everything with a free end is degraded. Only correctly closed circles "
                "remain.")}
 {caveat("""<b>This is the selection, and there are four of them in series</b> &mdash; none
-of which is a size selection or a bead cleanup:
+of which is a size selection or a bead cleanup (the AMPure XP cleanup comes only after the
+PCR, step 5):
 <br>1. both arms must anneal to the same molecule, a fixed distance apart;
 <br>2. the polymerase must cross the gap <i>and</i> the ligase must close the circle;
 <br>3. the exonucleases destroy everything still linear;
@@ -423,7 +424,8 @@ def scene_pcr_cycle2() -> Scene:
 
 
 def step_pcr() -> str:
-    return f"""<h3>(5) PCR off the circle</h3>
+    return f"""<h3>(5) PCR off the circle &mdash; whole 31&nbsp;&micro;l reaction in one 100&nbsp;&micro;l
+KAPA HiFi HotStart ReadyMix PCR</h3>
 {panel(scene_pcr_cycle1().rows(), cls="long",
        caption="Inverse PCR, cycle 1. The circle is single-stranded and carries the "
                "P7 primer's site in its own sense, so only the P7 primer can anneal to it. "
@@ -438,6 +440,12 @@ def step_pcr() -> str:
 {info("""Both 3' tails lie in sequence that exists only if the gap was actually filled.
 A probe that annealed but was never extended carries no primer site at all &mdash; the
 fourth and last selection step.""")}
+{info("""Cycling (preprint Methods, step 4): 95&nbsp;&deg;C 3&nbsp;min; <i>n</i> cycles of
+98&nbsp;&deg;C 20&nbsp;s, 60&nbsp;&deg;C 15&nbsp;s, 72&nbsp;&deg;C 30&nbsp;s, with <i>n</i>
+set by qPCR for each screen; final 72&nbsp;&deg;C 30&nbsp;s. The product is then cleaned up
+with AMPure XP beads (ratio not stated) and checked by Qubit and Bioanalyzer&nbsp;2100. The
+preprint does not say what that cleanup is meant to remove; it follows the enzymatic
+selection and is not one of its steps.""")}
 """
 
 

@@ -24,7 +24,7 @@ from chemdraw import (Construct, MolecularState, Row, Scene, Segment, Workflow, 
 from illumina import P5, P7
 from page import head, info, table
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
+from protocol_graph import (Highlight, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind, AnnotationSlot)
 from protocol_views import assemble_page
 
@@ -74,7 +74,9 @@ CAVEATS = {
                   "neither commercial oligo is published in any source read here. The TSO "
                   "and ISPCR bases below are the later SMART-seq2 / Nature Protocols design "
                   "(as transcribed in Hagemann-Jensen et al. 2020, Supplementary Table 1) "
-                  "and are drawn dotted throughout.</div>"),
+                  "and are drawn dotted throughout. The paper's &ldquo;standard Nextera "
+                  "PCR&rdquo; primer set is not printed either; canonical Nextera index "
+                  "primers are shown as representative geometry.</div>"),
 }
 
 
@@ -102,6 +104,8 @@ cell barcode in the molecule.</p>
 def ss2_oligos(protocol: str) -> str:
     tail = rt.TSO_G_TAIL_LNA if protocol == "SMART-seq2" else rt.TSO_G_TAIL
     flash = protocol == "FLASH-seq"
+    index_kind = ("Representative Nextera" if protocol == "SMART-seq"
+                  else "Nextera (XT)")
     rows = [
         oligo("oligo-dTVN", [seg("", H, "tso"), seg("", s2.DT_LINKER),
                              seg("", "T" * s2.DT_LEN, None, placeholder=True),
@@ -118,9 +122,9 @@ def ss2_oligos(protocol: str) -> str:
         oligo("Nextera mosaic end (ME)", [seg("", nx.ME, "me")]),
         oligo("Nextera N/S5xx entry point (s5)", [seg("", nx.S5, "s5")]),
         oligo("Nextera N7xx entry point (s7)", [seg("", nx.S7, "s7")]),
-        oligo("Nextera (XT) N/S5xx index primer",
+        oligo(f"{index_kind} N/S5xx index primer",
               [seg("", P5, "p5"), seg("", "[8-bp i5]", None, placeholder=True), seg("", nx.S5, "s5")]),
-        oligo("Nextera (XT) N7xx index primer",
+        oligo(f"{index_kind} N7xx index primer",
               [seg("", P7, "p7"), seg("", "[8-bp i7]", None, placeholder=True), seg("", nx.S7, "s7")]),
     ]
     return ("<h2>Adapter and primer sequences</h2>\n<seq>\n" + "\n".join(rows) + "\n</seq>\n"
@@ -340,11 +344,12 @@ def seq_primer_drawings() -> dict[str, tuple[list[Segment], str, tuple[str, str]
             "R2": ([s7, me], "top", ("s7", "s7"))}
 
 
-def sequencing(protocol: str) -> str:
+def sequencing(protocol: str, *, acquisition_unspecified: bool = False) -> str:
     if protocol in ("SMART-seq", "SMART-seq2", "FLASH-seq"):
         tables = sp.section(s2.final_library(), s2.SEQ_PRIMERS,
                             heading=f"Sequencing primers: {protocol}",
-                            show_read_content=True)
+                            show_read_content=True,
+                            acquisition_unspecified=acquisition_unspecified)
     else:
         tables = (sp.section(ss.smartseq3_library(protocol), ss.SS3_SEQ_PRIMERS,
                              heading=f"Sequencing primers: {protocol} 5' fragments",
@@ -353,9 +358,16 @@ def sequencing(protocol: str) -> str:
                                ss.SS3_SEQ_PRIMERS,
                                heading=f"Sequencing primers: {protocol} internal fragments",
                                show_read_content=True))
-    return ('<h2 id="seq-primers">Library sequencing</h2>\n'
-            + info("""All four reads use the stock Nextera sequencing primers. Primer
+    if protocol == "SMART-seq":
+        intro = info("""Primer positions on the canonical Nextera library are shown
+            below. Ramsk&ouml;ld et al. Supplementary Table 1 gives only a read length
+            (50 on the GAIIx, 40 on the MiSeq for Tn5 libraries) and does not state
+            single- or paired-end acquisition or index reads.""")
+    else:
+        intro = info("""All four reads use the stock Nextera sequencing primers. Primer
             positions and the first bases read are shown below.""")
+    return ('<h2 id="seq-primers">Library sequencing</h2>\n'
+            + intro
             + tables
             + info("""The i5 + i7 index pair identifies the source well.""")
             + sources(protocol)
@@ -419,7 +431,16 @@ def sources(protocol: str) -> str:
 
 
 def protocol_graph() -> ProtocolGraph:
-    """The original SMART-seq graph; commercial TSO/ISPCR bases stay inferred."""
+    """The original SMART-seq graph, Tn5 ("Tn5 protocol") branch only.
+
+    Ramskold et al. 2012 (PMC3467340) Methods, "Generation and amplification of
+    Smart-Seq cDNA" and "Construction and sequencing of Smart-Seq sequencing
+    libraries": 12/15/18 preamplification cycles; ~5 ng cDNA tagmented at 55 C for
+    5 min (0.25 ul transposase, 4 ul 5x HMW Nextera buffer, 20 ul) in a modified
+    Epicentre Nextera DNA sample preparation protocol; 35 ul PB strips the
+    transposase; SPRI XP 1:1.6; 9 cycles of standard Nextera PCR. Commercial
+    TSO/ISPCR bases and the Nextera PCR primer set are not printed there.
+    """
     source = "Defining source: doi:10.1038/nbt.2282"
     graph = ProtocolGraph("SMART-seq", authority=source)
     mrna = input_mrna(graph)
@@ -432,15 +453,51 @@ def protocol_graph() -> ProtocolGraph:
                     "commercial SMARTer II A oligo's bases are not published"))
     amplified = preamplify(
         graph, switched, template, family="ss2", inferred=True,
+        label=("PCR-amplify full-length cDNA: 12 cycles (1 ng total RNA), 15 "
+               "(100 pg) or 18 (10 pg or single cell)"),
         statement=("INFERRED — The original SMARTer II A oligo and the kit's IS PCR "
                    "primer are commercial reagents whose complete sequences no source "
                    "read here prints; the later SMART-seq2 handle, printed in Picelli "
                    "et al. 2013 Supplementary Table 2 and in Hahaut et al. 2022 "
                    "Supplementary Note 2, gives this representative symmetric geometry."))
-    tagged = tagment(graph, amplified)
-    filled = fill_tn5_gaps(graph, tagged)
-    index_pcr(graph, filled, s2.final_library(), tuple(s2.SEQ_PRIMERS), name="SMART-seq")
-    return review_smart_graph(graph, source, family="ss2")
+    tagged = tagment(graph, amplified, label=(
+        "Tagment ~5 ng cDNA at 55 degrees C for 5 min (0.25 ul transposase, 5x HMW "
+        "Nextera buffer; modified Epicentre Nextera protocol)"))
+    beads = graph.input("tn5_strip_beads", "PB buffer, then SPRI XP beads 1:1.6",
+                        MaterialKind.SELECTION)
+    cleaned = graph.product("tagmented_purified", "purified s5/s7-tagmented cDNA fragments",
+                            MaterialKind.MOLECULAR, state=tagmented("s5", "s7"))
+    cleanup_waste = graph.product("tn5_strip_waste",
+                                  "stripped transposase and bead supernatant",
+                                  MaterialKind.WASTE)
+    graph.react("tn5_strip_cleanup",
+                "Strip transposase with 35 ul PB; purify with 88 ul SPRI XP beads (1:1.6)",
+                StepKind.CLEANUP,
+                ((tagged, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
+                (cleaned, cleanup_waste))
+    graph.discard(cleanup_waste, "removed with the bead supernatant and washes")
+    filled = fill_tn5_gaps(graph, cleaned, label=(
+        "Fill both nine-base Tn5 gaps (first extension of the standard Nextera PCR; "
+        "hold conditions not printed in the defining paper)"))
+    index_pcr(graph, filled, s2.final_library(), tuple(s2.SEQ_PRIMERS), name="SMART-seq",
+              label="9 cycles of standard Nextera PCR install P5/P7 ends",
+              primer_labels=("Nextera PCR primer, P5 side (2012 primer set not printed; "
+                             "canonical N5xx geometry drawn)",
+                             "Nextera PCR primer, P7 side (2012 primer set not printed; "
+                             "canonical N7xx geometry drawn)"),
+              acquisition_unspecified=True)
+    graph.annotate(Highlight(
+        "tagment", "Library branch drawn, and what the source leaves open",
+        "Ramsk&ouml;ld et al. made libraries two ways: the Illumina &ldquo;PE&rdquo; "
+        "protocol (Covaris shearing, end repair, A-tailing, PE adaptor ligation, 12&ndash;18 "
+        "PCR cycles) and the Tn5 protocol drawn here. Their Methods state that all figure "
+        "data used the PE protocol unless a legend says otherwise. Supplementary Table 1 "
+        "lists 41 Tn5 libraries read at 50 on the GAIIx and 2 at 40 on the MiSeq; it does "
+        "not state the index primers used, so the 8-base index windows below are the "
+        "canonical Nextera geometry. Which reads were acquired is marked as unstated in "
+        "the read table."))
+    return review_smart_graph(graph, source, family="ss2", extra=("tn5_strip_beads", "tn5_strip_cleanup",
+                                                                 "tagmented_purified"))
 
 
 def input_mrna(graph: ProtocolGraph):
@@ -481,8 +538,9 @@ def template_switch(graph: ProtocolGraph, first, enzyme, switch_scene, template,
 
 
 def preamplify(graph: ProtocolGraph, switched, template, *, family: str,
-               statement: str, inferred: bool = False):
-    polymerase = graph.input("preamp_polymerase", "full-length cDNA PCR polymerase",
+               statement: str, inferred: bool = False, label: str = "",
+               polymerase_label: str = "full-length cDNA PCR polymerase"):
+    polymerase = graph.input("preamp_polymerase", polymerase_label,
                              MaterialKind.CATALYST)
     if family == "ss2":
         ispcr = graph.input("ispcr", "ISPCR primer used at both cDNA ends", MaterialKind.OLIGO)
@@ -500,20 +558,21 @@ def preamplify(graph: ProtocolGraph, switched, template, *, family: str,
         raise ValueError("unknown SMART-seq preamplification family")
     amplified = graph.product("amplified", "amplified full-length cDNA",
                               MaterialKind.MOLECULAR, state=template)
-    graph.react("preamp", ("INFERRED — PCR-amplify full-length cDNA" if inferred else
-                           "PCR-amplify full-length cDNA"), StepKind.PCR, inputs,
+    label = label or "PCR-amplify full-length cDNA"
+    graph.react("preamp", ("INFERRED — " + label if inferred else label), StepKind.PCR, inputs,
                 (amplified,), geometry=geometry)
     return amplified
 
 
-def tagment(graph: ProtocolGraph, amplified):
+def tagment(graph: ProtocolGraph, amplified, *,
+            label: str = "Tagment amplified cDNA with Nextera s5/s7 adapters"):
     transposome = graph.input("transposome", "s5/s7-loaded Nextera transposome", MaterialKind.ADAPTER)
     tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
     tagged = graph.product("tagmented", "heterologous s5/s7-tagmented cDNA fragments",
                            MaterialKind.MOLECULAR, state=tagmented("s5", "s7"))
     waste = graph.product("tagment_waste", "s5/s5, s7/s7 and other non-library Tn5 products",
                           MaterialKind.WASTE)
-    graph.react("tagment", "Tagment amplified cDNA with Nextera s5/s7 adapters",
+    graph.react("tagment", label,
                 StepKind.TAGMENTATION,
                 ((amplified, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (tagged, waste))
@@ -521,20 +580,25 @@ def tagment(graph: ProtocolGraph, amplified):
     return tagged
 
 
-def fill_tn5_gaps(graph: ProtocolGraph, tagged):
+def fill_tn5_gaps(graph: ProtocolGraph, tagged, *,
+                  label: str = "Fill both nine-base Tn5 gaps at 72 degrees C"):
     polymerase = graph.input("gap_polymerase", "Nextera nine-base gap-fill polymerase",
                              MaterialKind.CATALYST)
     filled = graph.product("gap_filled", "gap-filled heterologous Nextera fragments",
                            MaterialKind.MOLECULAR, state=gap_filled())
-    graph.react("gap_fill", "Fill both nine-base Tn5 gaps at 72 degrees C", StepKind.EXTENSION,
+    graph.react("gap_fill", label, StepKind.EXTENSION,
                 ((tagged, InputRole.TEMPLATE), (polymerase, InputRole.CATALYST)), (filled,))
     return filled
 
 
 def index_pcr(graph: ProtocolGraph, filled, final: Construct, primers: tuple,
-              *, name: str, internal: Construct | None = None):
-    forward = graph.input("index_forward", "Nextera N5xx index primer", MaterialKind.OLIGO)
-    reverse = graph.input("index_reverse", "Nextera N7xx index primer", MaterialKind.OLIGO)
+              *, name: str, internal: Construct | None = None,
+              label: str = "Amplify and install indexed P5/P7 ends",
+              primer_labels: tuple[str, str] = ("Nextera N5xx index primer",
+                                                "Nextera N7xx index primer"),
+              acquisition_unspecified: bool = False):
+    forward = graph.input("index_forward", primer_labels[0], MaterialKind.OLIGO)
+    reverse = graph.input("index_reverse", primer_labels[1], MaterialKind.OLIGO)
     polymerase = graph.input("index_polymerase", "Nextera index-PCR polymerase", MaterialKind.CATALYST)
     geometry = PCRGeometry.exact(
         final, PCRPrimer("N5xx", nx.n5xx_primer("N" * 8)),
@@ -546,18 +610,20 @@ def index_pcr(graph: ProtocolGraph, filled, final: Construct, primers: tuple,
     if internal is not None:
         outputs.append(graph.product("internal_library", name + " internal-fragment library molecules",
                                      MaterialKind.LIBRARY, state=internal))
-    graph.react("index_pcr", "Amplify and install indexed P5/P7 ends", StepKind.PCR,
+    graph.react("index_pcr", label, StepKind.PCR,
                 ((filled, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 outputs, geometry=geometry)
     for material, construct in zip(outputs, (final, internal)):
         graph.sequence(material, SequencingPlan(
             library=construct, primers=primers,
-            acquired_roles=tuple(primer.role for primer in primers)))
+            acquired_roles=(() if acquisition_unspecified
+                            else tuple(primer.role for primer in primers)),
+            acquisition="unspecified" if acquisition_unspecified else "declared"))
 
 
 def review_smart_graph(graph: ProtocolGraph, source: str, *, family: str,
-                       internal: bool = False):
+                       internal: bool = False, extra: tuple[str, ...] = ()):
     reviewed = ["mrna", "rt_primer", "reverse_transcriptase", "reverse_transcription",
                 "tso", "template_switch", "preamp_polymerase", "preamp", "transposome",
                 "tn5", "tagment", "gap_polymerase", "gap_fill", "index_forward",
@@ -565,6 +631,7 @@ def review_smart_graph(graph: ProtocolGraph, source: str, *, family: str,
     reviewed.extend(("ispcr",) if family == "ss2" else ("preamp_forward", "preamp_reverse"))
     if internal:
         reviewed.append("internal_library")
+    reviewed.extend(extra)
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 
@@ -584,4 +651,5 @@ def render_page(protocol: str, *, graph_factory=None) -> str:
     return assemble_page(graph, [
         head(f"{protocol} library chemistry"), preamble(protocol, complete=True),
         AnnotationSlot.INTRO, *body, AnnotationSlot.AFTER_WORKFLOW,
-        sequencing(protocol)])
+        sequencing(protocol, acquisition_unspecified=any(
+            plan.acquisition_unspecified for plan in graph.sequencing.values()))])

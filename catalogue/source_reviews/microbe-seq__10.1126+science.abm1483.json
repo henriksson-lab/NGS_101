@@ -123,5 +123,42 @@
       "evidence": "First source pass only; any unavailable listed originals or linked chemistry documents remain unchecked."
     }
   ],
-  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending."
+  "conclusion": "First source pass and oligo scraper completed; independent second pass and unavailable linked evidence pending.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Science article/supplement unreadable: get_sources rerun manual (https://doi.org/10.1126/science.abm1483); PMC idconv no PMCID; OpenAlex green OSTI accepted manuscript https://www.osti.gov/servlets/purl/1959222 timed out. Read superseded bioRxiv v1 media-1 supplementary Methods text lines40–113 (MDA, tagmentation, bead synthesis/preparation, barcoding, size filter, pooling/library PCR, Illumina sequencing) and media-3 Table S6 lines217–700",
+      "oligo_scraper": "Earlier bundle scrape hits are Table S6 barcode-1/barcode-2 families; verified directly in media-3 text (96 barcode-1: 24 each 8–11 nt; 384 barcode-2: 8 nt). No hydrogel oligo, P5PE1 or custom Read-1 primer bases in inspected text.",
+      "findings": "Model correction (preprint-derived, labelled inferred): replaced unsourced dual-index Nextera library (i5, standard Nextera Read 1, 16-nt linkerless barcode, 150+150) with preprint structure: hydrogel-arm complement, barcode1 8–11 nt, 22-nt linker, barcode2 8 nt, bead S5/ME arm computed from Table S6, single Nextera i7 index; custom unprinted Read-1 primer so sequencing uses a limitation plus source-declared read table (R1 45 barcode, I1 8, R2 remaining; 300-bp variant noted). Added MDA/tagmentation/barcoding programs, droplet size filter, PFO/1.1x AMPure, P5PE1+Nextera i7 5–10-cycle PCR and 0.8x AMPure. No published-version comparison possible; no discrepancy claimed.",
+      "deferred": [
+        "Published Science article and supplement (OSTI accepted manuscript 1959222; publisher)",
+        "Hydrogel oligo, P5PE1 and custom Read-1 primer sequences",
+        "Klein 2015 / Zilionis 2017 bead-synthesis predecessors",
+        "Barcoding-droplet opposite primer and commercial MDA/Nextera reagent identities"
+      ],
+      "scope": "Capped pass with defining original unavailable; preprint used only as labelled preprint-derived model input. No accepted missing-information claim.",
+      "verification": "local suite 3 checks pass (barcode features + 2 Table S6 transcription); page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 3 non-inferred inputs without exact states (transposome, P5PE1, Nextera i7); MDA, bead and opposite primers inferred and excluded; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Defining-original retrieval pass; no new defining text obtained. Routes: OpenAlex W4281716380 (one green location, OSTI purl 1959222) and Unpaywall (same single location); www.osti.gov/servlets/purl/1959222 and /biblio/1959222 both time out from this host; Internet Archive snapshot 20250202231613 of that purl DID return the file (3,131,102 B, md5 aa3e47e76367f7e817f1219d49618a58, 24 pages) and its first page is the bioRxiv v1 preprint cover (10.1101/2020.12.14.422699, posted 2020-12-14) - i.e. the indexed 'accepted manuscript' is the preprint already on disk (3,131,106 B), so that route is closed, not pending. Europe PMC search for the DOI: PMID 35653470, no PMCID, isOpenAccess N, only the publisher link. Plain request for science.org/doi/suppl/10.1126/science.abm1483/suppl_file/science.abm1483_sm.pdf -> HTTP 403 (Cloudflare; not circumvented). No accession string in the preprint text, so no GEO/SRA protocol route identified within the cap.",
+      "oligo_scraper": "scrape_primers.py re-run on the bundle: 2 sequences in 1 file, the media-3 Table S6 barcode-1 family (96 variants, lines 220-315) and barcode-2 family; unchanged from the previous pass and already transcribed into the two self-test checks.",
+      "findings": "No chemistry change: no published text became readable. Documentary correction only, in the module docstring, the page CAVEAT and the note: the previously 'unreachable' OSTI accepted manuscript is identified as the bioRxiv v1 preprint PDF, and the publisher supplement answers 403, so the page now states that the single indexed open-access copy is the preprint rather than implying an unfetched accepted manuscript. The open-questions entry pointing readers at OSTI 1959222 is replaced by 'needs a hand-obtained Science article and supplement'. A (note) row recording the OSTI identity check was added to MANIFEST.tsv; the duplicate PDF was not stored.",
+      "deferred": [
+        "Published Science article and supplement (paywall / 403) - must be obtained by hand; manual row in MANIFEST.tsv",
+        "Hydrogel oligo, P5PE1 and custom Read-1 primer sequences",
+        "Klein 2015 / Zilionis 2017 bead-synthesis predecessors",
+        "Barcoding-droplet opposite primer and commercial MDA/Nextera reagent identities",
+        "GEO/SRA deposit for the study (no accession printed in the preprint; not located within the cap)"
+      ],
+      "scope": "Capped deferred-followup pass; defining original still unobtainable by any legitimate route tried, so status remains deferred_no_original. No missing-information claim accepted.",
+      "verification": "local suite 3/3 pass; page builds; pairing 0 problem duplexes; chemistry 9 steps, 0 established/0 conditional/11 unresolved/0 contradictory; source guard 0 checked, 0 failed, 3 inputs without exact states; build_docs rebuilt 01_microbe-seq.html + notes.html; audit_protocol_sources --check passes (in_progress 1)"
+    }
+  ]
 }

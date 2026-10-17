@@ -75,5 +75,23 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Current ONT RNA004 guide and NEB companion were read independently twice; earlier chemistry source remains unavailable and no missing claim is accepted."
+  "conclusion": "Current ONT RNA004 guide and NEB companion were read independently twice; earlier chemistry source remains unavailable and no missing claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-14",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "ONT Direct RNA sequencing (SQK-RNA004) DRS_9195_v4_revL_29June2026, fetched 2026-10-17 to sources dir, .txt lines 286, 296–316, 389–410, 440–470, 498, 504–519, 567, 585–900 (RTA ligation 625–706, RT 711–742, RNAClean XP 757–810, RLA ligation 820–846, WSB/REB cleanup 855–900); ONT Chemistry Technical Document CHTD_500_v1_revAV_24July2026 lines 448–453 and RNA002 paragraph 1055",
+      "oligo_scraper": "Scraper run on the newly cached protocol bundle: 0 sequences.",
+      "findings": "Corrected RLA attachment from non-ligase attachment to T4 DNA ligase ligation (10 min RT) with undisclosed-end geometry; named T4 DNA ligase/Quick Ligation buffer/RNase inhibitor for RTA ligation and Induro RT 60C 30min/70C 10min; added RNAClean XP cleanup after RT (72 ul, ethanol, 23 ul water) and after RLA (16 ul, 2x WSB, 13 ul REB) with discarded waste; added optional RCS spike-in in the RTA ligation, correcting the note claim that RCS does not enter the library; RTA 'duplex' label removed; poly(A) targeting of RTA marked inferred. Tech doc RT-bypass remark recorded as context, not a discrepancy.",
+      "deferred": [
+        "Garalde 2018 Nat Methods doi:10.1038/nmeth.4577 and supplement (earlier chemistry; not assumed to describe RNA004)",
+        "RTA/RLA bases, ligating-end geometry and motor identity",
+        "Poly(A) selectivity of RTA on total-RNA input"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 98 common checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/5 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (RTA/RLA symbolic); Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

@@ -4,6 +4,16 @@
 This is an acceptance gate, not a source-reading substitute. A historical
 ``reviewed`` row in either oligo ledger does not satisfy the two-pass rule.
 Reviews live in catalogue/source_reviews/<protocol-dir>.json; see its README.
+
+Optional ``bounded_checks``: a list recording capped curation passes, which never
+count as either of the two independent passes. Each entry is an object with
+non-empty strings ``round``, ``reviewer``, ``date``, ``scope``, ``locations`` and
+``findings``; ``documents`` (non-negative integer: originals inspected); and
+``deferred`` (list of strings: actual deferred targets, possibly empty). Optional
+``verification`` and ``oligo_scraper`` must be non-empty strings when present.
+Other keys (for example ``attempted_routes``) are kept as recorded.
+
+Usage: ``--check DIR [DIR ...]`` validates the named reviews and fails if any is absent.
 """
 from __future__ import annotations
 
@@ -42,6 +52,29 @@ def _two_passes(obj: dict, label: str, issues: list[str]) -> None:
         issues.append(label + ": two located source checks are required")
     elif first["reviewer"].strip().casefold() == second["reviewer"].strip().casefold():
         issues.append(label + ": second check must have a different reviewer")
+
+
+def _bounded_checks(name: str, value: object, issues: list[str]) -> None:
+    if not isinstance(value, list):
+        issues.append(name + ": bounded_checks must be a list")
+        return
+    for i, entry in enumerate(value, 1):
+        label = f"{name}: bounded check {i}"
+        if not isinstance(entry, dict):
+            issues.append(label + " is not an object")
+            continue
+        if not _filled(entry, "round", "reviewer", "date", "scope", "locations", "findings"):
+            issues.append(label + ": round, reviewer, date, scope, locations, findings required")
+        documents = entry.get("documents")
+        if not isinstance(documents, int) or isinstance(documents, bool) or documents < 0:
+            issues.append(label + ": documents must be a non-negative integer")
+        deferred = entry.get("deferred")
+        if not isinstance(deferred, list) or not all(
+                isinstance(item, str) and item.strip() for item in deferred):
+            issues.append(label + ": deferred must be a list of non-empty strings")
+        for key in ("verification", "oligo_scraper"):
+            if key in entry and not _filled(entry, key):
+                issues.append(label + ": " + key + " must be a non-empty string")
 
 
 def validate(name: str, review: object, known: dict[str, dict[str, str]]) -> list[str]:
@@ -103,6 +136,8 @@ def validate(name: str, review: object, known: dict[str, dict[str, str]]) -> lis
         if links["result"] == "enumerated" and not any(
                 s.get("role") == "linked_material" for s in sources if isinstance(s, dict)):
             issues.append(name + ": enumerated links need checklist entries")
+    if "bounded_checks" in review:
+        _bounded_checks(name, review["bounded_checks"], issues)
     claims = review.get("missing_claims")
     if not isinstance(claims, list):
         issues.append(name + ": missing_claims must be a list")
@@ -141,13 +176,15 @@ def validate(name: str, review: object, known: dict[str, dict[str, str]]) -> lis
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--check", metavar="DIR", help="validate one protocol and fail if absent")
+    parser.add_argument("--check", metavar="DIR", nargs="+",
+                        help="validate these protocols and fail if any is absent")
     parser.add_argument("--pending", action="store_true", help="list protocols lacking a review")
     args = parser.parse_args()
     known = catalogue()
-    if args.check and args.check not in known:
-        parser.error("unknown protocol directory: " + args.check)
-    names = [args.check] if args.check else list(known)
+    unknown = [name for name in args.check or () if name not in known]
+    if unknown:
+        parser.error("unknown protocol directory: " + ", ".join(unknown))
+    names = list(dict.fromkeys(args.check)) if args.check else list(known)
     counts: Counter[str] = Counter()
     failures: list[str] = []
     for name in names:

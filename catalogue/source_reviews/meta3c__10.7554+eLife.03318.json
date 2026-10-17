@@ -66,5 +66,25 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent readers verified the defining meta3C article and its exact custom adapter oligos. Original linked 3C predecessor methods and PE-930-1001 kit documentation remain unreviewed; no remaining absence claim is accepted."
+  "conclusion": "Two independent readers verified the defining meta3C article and its exact custom adapter oligos. Original linked 3C predecessor methods and PE-930-1001 kit documentation remain unreviewed; no remaining absence claim is accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-16-breadth-first-05",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published eLife PMC4381813 JATS Results129/197, Methods356–397 (bacterial/yeast/environmental libraries, Illumina sequencing, Table1 lines372–391, PE-read processing), river assembly423; eLife v1 XML lines125/314/350 compared for the read-length passages",
+      "oligo_scraper": "Bundle scraper run; MM70/MM71/MM76/MM77 hits checked against Table1 lines381–391; Table2 Meta1–Meta5 hits are PFGE Southern-probe primers (lines427–446), not library oligos.",
+      "findings": "Verified and kept the earlier unfinished edits: bacterial HpaII/MM76–MM77 branch, T4 ligases, proteinase K/EDTA reversal with precipitation/RNase/phenol–chloroform, QIAquick, PE-930-1001 warned boundary, 3 h RT adapter ligation then 65C 20 min, PippinPrep 400–800 bp, test plus eight large-scale PCRs, MinElute. Replaced the canonical dual-sample-index endpoint with role tokens because the source describes inline tags and N6 UMIs. Fixed invalid read-use token and missing cleanup waste outputs. Attached inline_barcode/umi features to the Table1 tag/N6 segments. Graph-owned published discrepancy: Results 2x104 bp (bacterial) vs Methods PE 2x100; both are recorded and no acquired cycle count is chosen.",
+      "deferred": [
+        "Illumina PE-930-1001 kit original (pre-ligation end processing, PE PCR primers, polymerase)",
+        "Dekker2002/Oza2009 3C predecessor methods",
+        "Adapter annealing/phosphorylation and the derived N6-then-tag read order",
+        "Acquired read length for the bacterial library (104 vs 100)",
+        "Yeast DpnII and river HaeIII branches not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/12 unresolved/0 contradictory with kit_processing MAGIC warning; source guard 2 exact checked (MM76, MM77), 0 failed, PCR primers inferred and excluded; Markdown built/checked; review schema checked"
+    }
+  ]
 }

@@ -10,6 +10,7 @@ from protocol_graph import InputRole, MaterialKind, SequencingPlan, StepKind
 from protocol_model import molecule, role
 
 
+@dataclass(frozen=True)
 class StopReadout:
     reagent: str
     target: str
@@ -20,6 +21,7 @@ class StopReadout:
             raise ValueError("a modification-stop readout requires reagent, target and control")
 
 
+@dataclass(frozen=True)
 class BaseConversionReadout:
     reagent: str
     converted_base: str
@@ -34,6 +36,7 @@ class BaseConversionReadout:
             raise ValueError("base-conversion chemistry must declare reagent, product and readout")
 
 
+@dataclass(frozen=True)
 class SelectiveCleavageReadout:
     target_modifications: tuple[str, ...]
     cleavage_reagent: str
@@ -49,21 +52,34 @@ class SelectiveCleavageReadout:
 
 def _finish_pcr(graph, prefix, template, final, endpoint, reviewed, *, label,
                 geometry=None, primers=(), acquired_roles=(), read_lengths=None,
-                read_uses=None):
-    forward = graph.input(prefix + "_forward", label + " forward PCR primer",
-                          MaterialKind.OLIGO)
-    reverse = graph.input(prefix + "_reverse", label + " indexed reverse PCR primer",
-                          MaterialKind.OLIGO)
-    polymerase = graph.input(prefix + "_polymerase", label + " PCR polymerase",
+                read_uses=None, step_label=None, forward_label=None,
+                reverse_label=None, polymerase_label=None, forward_state=None,
+                reverse_state=None, primer_source=None, primers_inferred=False,
+                unavailable_reason=None):
+    """Amplify ``template`` into the caller's ``final`` construct and sequence it.
+
+    The default wording names roles only: it does not claim that the PCR adds a
+    sample index or which primers and polymerase were used.  Callers name source
+    reagents, pass printed primer states (``forward_state``/``reverse_state``) and
+    either an exact ``geometry`` or the source-specific ``unavailable_reason``.
+    ``primers_inferred`` marks primer inputs whose identity is not source-printed.
+    """
+    forward = graph.input(prefix + "_forward", forward_label or label + " forward PCR primer",
+                          MaterialKind.OLIGO, state=forward_state, source=primer_source,
+                          inferred=primers_inferred)
+    reverse = graph.input(prefix + "_reverse", reverse_label or label + " reverse PCR primer",
+                          MaterialKind.OLIGO, state=reverse_state, source=primer_source,
+                          inferred=primers_inferred)
+    polymerase = graph.input(prefix + "_polymerase", polymerase_label or label + " PCR polymerase",
                              MaterialKind.CATALYST)
     library = graph.product(prefix + "_library", label + " sequencing library",
                             MaterialKind.LIBRARY, state=final)
-    graph.react(prefix + "_pcr", "Amplify and index the " + label + " library",
+    graph.react(prefix + "_pcr", step_label or "Amplify the " + label + " library",
                 StepKind.PCR,
                 ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (library,), geometry=(geometry or PCRGeometry.unavailable(
-                    final, reason="The source establishes the readout roles but not one universal source-exact amplicon geometry.")))
+                    final, reason=unavailable_reason or "The source establishes the readout roles but not one universal source-exact amplicon geometry.")))
     if primers:
         graph.sequence(library, SequencingPlan(
             library=final, primers=tuple(primers),
@@ -76,55 +92,87 @@ def _finish_pcr(graph, prefix, template, final, endpoint, reviewed, *, label,
     return library
 
 
-def _apply_linear_step(graph, current, identifier, label, kind, reviewed):
+_REAGENT_ROLE = {
+    StepKind.LIGATION: ("_adapter", " adapter or ligating oligo", MaterialKind.ADAPTER,
+                        InputRole.STRUCTURAL),
+    StepKind.REVERSE_TRANSCRIPTION: ("_primer", " RT primer", MaterialKind.OLIGO,
+                                     InputRole.STRUCTURAL),
+    StepKind.TEMPLATE_SWITCHING: ("_oligo", " template oligo", MaterialKind.OLIGO,
+                                  InputRole.STRUCTURAL),
+    StepKind.FRAGMENTATION: ("_condition", " fragmentation condition", MaterialKind.CONDITION,
+                             InputRole.CONDITION),
+    StepKind.CHEMICAL_CONVERSION: ("_condition", " condition", MaterialKind.CONDITION,
+                                   InputRole.CONDITION),
+    StepKind.THERMAL_TREATMENT: ("_condition", " condition", MaterialKind.CONDITION,
+                                 InputRole.CONDITION),
+    StepKind.DEPROTEINIZATION: ("_condition", " condition", MaterialKind.CONDITION,
+                                InputRole.CONDITION),
+    StepKind.SELECTION: ("_selection", " selection criterion", MaterialKind.SELECTION,
+                         InputRole.SELECTION),
+}
+
+_CATALYST_ROLE = {
+    StepKind.LIGATION: ("_ligase", " ligase"),
+    StepKind.REVERSE_TRANSCRIPTION: ("_enzyme", " reverse transcriptase"),
+    StepKind.TEMPLATE_SWITCHING: ("_enzyme", " template-switching polymerase"),
+    **{kind: ("_enzyme", " enzyme") for kind in (
+        StepKind.DIGESTION, StepKind.END_REPAIR, StepKind.PHOSPHORYLATION,
+        StepKind.DEPHOSPHORYLATION, StepKind.CIRCULARIZATION, StepKind.TAILING)},
+}
+
+
+def _apply_linear_step(graph, current, identifier, label, kind, reviewed, *,
+                       reagent_label=None, reagent_state=None, reagent_source=None,
+                       catalyst_label=None, product_state=None, geometry=None,
+                       discarded_label=None):
+    """Apply one role-level step to ``current`` and return the retained product.
+
+    Optional keywords let a caller supply source facts without changing the step
+    identifiers: the non-catalyst reagent's label, exact state and source, the
+    catalyst label, the product state and exact geometry.  SELECTION and CLEANUP
+    steps keep the input molecule unchanged and discard the excluded material.
+    """
     inputs = [(current, InputRole.TEMPLATE)]
-    geometry = None
-    if kind is StepKind.LIGATION:
-        reagent = graph.input(identifier + "_adapter", label + " adapter or ligating oligo",
-                              MaterialKind.ADAPTER)
-        enzyme = graph.input(identifier + "_ligase", label + " ligase",
+    if kind not in _REAGENT_ROLE and kind not in _CATALYST_ROLE and kind is not StepKind.CLEANUP:
+        raise ValueError(f"unsupported linear RNA-end step {kind}")
+    if kind in _REAGENT_ROLE:
+        suffix, text, material, port = _REAGENT_ROLE[kind]
+        reagent = graph.input(identifier + suffix, reagent_label or label + text, material,
+                              state=reagent_state, source=reagent_source)
+        inputs.append((reagent, port))
+        reviewed.append(identifier + suffix)
+    elif reagent_label or reagent_state is not None:
+        raise ValueError(f"{kind.value} step {identifier!r} takes no structural reagent")
+    if kind in _CATALYST_ROLE:
+        suffix, text = _CATALYST_ROLE[kind]
+        enzyme = graph.input(identifier + suffix, catalyst_label or label + text,
                              MaterialKind.CATALYST)
-        inputs.extend(((reagent, InputRole.STRUCTURAL), (enzyme, InputRole.CATALYST)))
+        inputs.append((enzyme, InputRole.CATALYST))
+        reviewed.append(identifier + suffix)
+    elif catalyst_label:
+        raise ValueError(f"{kind.value} step {identifier!r} takes no catalyst")
+    if geometry is None and kind is StepKind.LIGATION:
         geometry = AdapterLigationGeometry.unavailable(
             "The source defines the ligated molecular role; the role-level shared page does not assert one universal end geometry.")
-        reviewed.extend((identifier + "_adapter", identifier + "_ligase"))
-    elif kind is StepKind.REVERSE_TRANSCRIPTION:
-        primer = graph.input(identifier + "_primer", label + " RT primer", MaterialKind.OLIGO)
-        enzyme = graph.input(identifier + "_enzyme", label + " reverse transcriptase",
-                             MaterialKind.CATALYST)
-        inputs.extend(((primer, InputRole.STRUCTURAL), (enzyme, InputRole.CATALYST)))
-        reviewed.extend((identifier + "_primer", identifier + "_enzyme"))
-    elif kind is StepKind.TEMPLATE_SWITCHING:
-        oligo = graph.input(identifier + "_oligo", label + " template oligo",
-                            MaterialKind.OLIGO)
-        enzyme = graph.input(identifier + "_enzyme", label + " template-switching polymerase",
-                             MaterialKind.CATALYST)
-        inputs.extend(((oligo, InputRole.STRUCTURAL), (enzyme, InputRole.CATALYST)))
-        reviewed.extend((identifier + "_oligo", identifier + "_enzyme"))
-    elif kind in {StepKind.DIGESTION, StepKind.END_REPAIR, StepKind.PHOSPHORYLATION,
-                  StepKind.DEPHOSPHORYLATION, StepKind.CIRCULARIZATION, StepKind.TAILING}:
-        enzyme = graph.input(identifier + "_enzyme", label + " enzyme", MaterialKind.CATALYST)
-        inputs.append((enzyme, InputRole.CATALYST))
-        reviewed.append(identifier + "_enzyme")
-        if kind is StepKind.CIRCULARIZATION:
-            geometry = CircularizationGeometry.unavailable(
-                "The source establishes cDNA circularization; this shared role-level model does not assert one universal closing-end geometry.")
-    elif kind is StepKind.FRAGMENTATION:
-        condition = graph.input(identifier + "_condition", label + " fragmentation condition",
-                                MaterialKind.CONDITION)
-        inputs.append((condition, InputRole.CONDITION))
-        reviewed.append(identifier + "_condition")
-    elif kind in {StepKind.CHEMICAL_CONVERSION, StepKind.THERMAL_TREATMENT,
-                  StepKind.DEPROTEINIZATION}:
-        condition = graph.input(identifier + "_condition", label + " condition",
-                                MaterialKind.CONDITION)
-        inputs.append((condition, InputRole.CONDITION))
-        reviewed.append(identifier + "_condition")
-    else:
-        raise ValueError(f"unsupported linear RNA-end step {kind}")
+    elif geometry is None and kind is StepKind.CIRCULARIZATION:
+        geometry = CircularizationGeometry.unavailable(
+            "The source establishes cDNA circularization; this shared role-level model does not assert one universal closing-end geometry.")
+    if kind in {StepKind.SELECTION, StepKind.CLEANUP}:
+        product = graph.product(identifier + "_product", label + " retained material",
+                                MaterialKind.MOLECULAR,
+                                state=current.state if product_state is None else product_state)
+        excluded = graph.product(identifier + "_excluded",
+                                 discarded_label or label + " excluded material",
+                                 MaterialKind.WASTE)
+        graph.react(identifier, label, kind, inputs, (product, excluded),
+                    geometry=geometry, changes_molecule=False)
+        graph.discard(excluded, "not carried into the retained library material")
+        reviewed.append(identifier)
+        return product
     product = graph.product(identifier + "_product", label + " product",
                             MaterialKind.MOLECULAR,
-                            state=molecule(label + " product", (role("retained molecular product"),)))
+                            state=(product_state if product_state is not None else
+                                   molecule(label + " product", (role("retained molecular product"),))))
     graph.react(identifier, label, kind, inputs, (product,), geometry=geometry)
     reviewed.append(identifier)
     return product

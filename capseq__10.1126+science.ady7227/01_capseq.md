@@ -17,8 +17,8 @@ explicitly names the RNA workflow **CapSeq (Capsule-based RNA-Sequencing)**. �
 | [Science paper](https://doi.org/10.1126/science.ady7227) and [PubMed record](https://pubmed.ncbi.nlm.nih.gov/41411411/) | identity, publication, authors, abstract | full Science text and supplement were not accessible to the source fetcher |
 | [bioRxiv preprint, version 1](https://www.biorxiv.org/content/10.1101/2025.03.14.642805v1.full) and [PMC mirror](https://pmc.ncbi.nlm.nih.gov/articles/PMC11957016/) | full preprint, Supplement 1 methods and Supplement 2 figures, fetched via `tools/get_sources.py` into `$CHEM_DATA/sources/` | methods cite Tables S21–S25, but these oligo tables are absent from the two archived supplementary PDFs |
 | [Authors' analysis repository](https://github.com/mazutislab/capseq) | repository scope and link to the STARsolo wrapper | analysis code is not an oligo-ordering source |
-| [GEO GSE291189](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE291189), especially [GSM8830586](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM8830586) | submitter's library construction description, two adapter oligos, read processing lengths | does not give Table S25 or the complete upstream R1–R3 oligo designs; no raw reads were examined |
-| [WO2026190526A1](https://eureka.patsnap.com/patent/WO2026190526A1), Example 3 and Tables 1–5 | later inventors' disclosure names CapSeq-REV/FWD, TSO, hairpin, BC1–BC3 plates and downstream adapter; its adapter pair and processed layout agree with GEO | patent text extraction merges some table rows and misrenders `µL` as `pL`; each sequence needs checking against the patent PDF and the Science supplement before transcription into a model |
+| [GEO GSE291189](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE291189), especially [GSM8830586](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM8830586) | submitter's library construction description, two adapter oligos, read processing lengths | record text (`form=text`) re-read 2026-10-17: adapter pair, 95 °C 2 min anneal, Ultra II ligation 15 min 20 °C, 12-cycle KAPA HiFi indexing PCR with primers from Table S25 and the STARsolo positions confirmed verbatim; does not give Table S25 or the complete upstream R1–R3 oligo designs; no raw reads were examined |
+| [WO2026190526A1](https://eureka.patsnap.com/patent/WO2026190526A1), Example 3 and Tables 1–5 | later inventors' disclosure names CapSeq-REV/FWD, TSO, hairpin, BC1–BC3 plates and downstream adapter; its adapter pair and processed layout agree with GEO | only the PatSnap HTML rendering was reachable (2026-10-17; Google Patents 404, PATENTSCOPE page script-only); it merges table rows and misrenders `µL` as `pL`. Its Example 3 text matches preprint Supplement 1 and also states NextSeq 2000 R1 43 / i7 6 / R2 89 cycles. Each sequence and the cycle numbers need checking against the patent PDF and the Science supplement before transcription into a model |
 
 `tools/get_sources.py --slugs capseq__10.1126+science.ady7227` retrieved the
 preprint, both supplementary PDFs and PMC XML. The Science publisher text remains
@@ -43,7 +43,7 @@ split-and-pool rounds. The capsule is a reaction compartment, not a sequence seg
 4. Repeat the split-and-pool ligation for barcode round **R3**.
 5. Pool and divide capsules into sublibraries. Add sequencing barcode round **R4** by
    indexing PCR, then sequence and group reads by the R1–R4 combination.
-6. 🟢 In the [GSM8830586 submitter protocol](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM8830586), amplified cDNA is fragmented and end-repaired/dA-tailed with NEBNext Ultra II FS, ligated to an adapter duplex, then amplified with two indexing primers (the submitter refers to **Table S25**). This is a downstream library-preparation stage after the capsule barcoding. Its order and exact adapter sequence must be represented before a final construct can be drawn.
+6. 🟢 In the [GSM8830586 submitter protocol](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM8830586), amplified cDNA is fragmented and end-repaired/dA-tailed with NEBNext Ultra II FS, ligated to an adapter duplex, then amplified with two indexing primers (the submitter refers to **Table S25**; 12 cycles with 2X KAPA HiFi HotStart ReadyMix, 54 °C annealing). This is a downstream library-preparation stage after the capsule barcoding. Its order and exact adapter sequence must be represented before a final construct can be drawn.
 
 🟡 The four rounds identify a cell by its route through wells and sublibraries;
 the UMI identifies original RNA molecules within that cell. The paper reports over
@@ -100,8 +100,34 @@ it into one 8-nt UMI after linker removal. 🟡 These can be consistent views of
 construct, but that relationship must be checked against the unprocessed read and
 the primary oligo table. The newer GEO sample
 [GSM9578506](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM9578506)
-reports raw Read 1 starts and lengths for BC3, BC2, BC1 and the split UMI; it is a
-useful independent check, not a substitute for the synthesis oligos.
+(series GSE324486; record text read 2026-10-17) reports raw Read 1 positions: 🟢
+"bc1:{start: 32, len: 8}, bc2:{start: 18, len: 10}, bc3:{start: 5, len: 8}, umi1:
+{start: 1, len: 4}, umi2: {start: 40, len: 4}" (CapMux pipeline, NextSeq 2000). 🟡 Read
+as 1-based positions, this leaves 5- and 4-nt gaps (13–17, 28–31) for invariant linkers
+and ends at cycle 43, the Read 1 length in the patent rendering; the 34 informative
+bases equal the BC3[8]BC2[10]BC1[8]UMI[8] processed layout of GSM8830586. Neither the
+base convention nor the linker bases are stated, so this is a consistency check, not a
+substitute for the synthesis oligos. Its library-preparation text repeats the
+GSM8830586 adapter pair and conditions, and is internally inconsistent about the
+indexing PCR ("amplified by 11-cyles of PCR … 12-cycles [98 ºC 20 s, 54 ºC 30 s,
+72 ºC 20 s]"); this is a GEO submitter-text discrepancy, not a Science value.
+
+🔴 Acquired cycles remain unassigned. The only cycle numbers seen so far
+(Read 1 43, i7 6, Read 2 89, "depending on instrument and sequencing reagent kit")
+come from the PatSnap rendering of the later patent, not from the Science paper or
+GEO; they are a lead for the read layout, not a model value.
+
+## Deferred follow-up 2026-10-17 (round deferred-followup-02)
+
+Routes for the published Science text and Tables S21–S25, all unsuccessful:
+OpenAlex/Unpaywall list only the publisher (no OA copy), the bioRxiv v1 and its PMC
+preprint mirror PMC11957016; Europe PMC has PMID 41411411 with no PMCID (not OA);
+bioRxiv API shows only version 1 (published-as 10.1126/science.ady7227);
+science.org supplement URL `doi/suppl/10.1126/science.ady7227/suppl_file/science.ady7227_sm.pdf`
+Cloudflare 403. Patent PDF: Google Patents WO2026190526A1 404, Espacenet original
+document 403. Manual URLs: https://doi.org/10.1126/science.ady7227 and the Science
+supplementary-materials page. Read instead: GEO GSM9578506 record text (above), now
+saved in the source bundle. No oligo or model value changed.
 
 ## Next source review
 

@@ -317,5 +317,25 @@
       "locations": "/husky/henriksson/NGS101_papers/sources/zipseq__10.1038+s41592-020-0880-2/s41592-020-0880-2_PMC7891292.xml.txt oligo-list lines148–162 and LibraryConstruction lines274–276; /husky/henriksson/NGS101_papers/sources/cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-3.pdf.txt p6 lines415–420; linked MULTI-seq original s41592-019-0433-8_PMC6837808.xml.txt lines204–212",
       "finding": "Read Hu Methods LibraryConstruction and OligonucleotideList plus original CITE-seq supplemental protocol2017-07-03p6. Local GEX shell uses CG000183 TruSeqR1. Zipcode endpoint is separately reconstructed from nativezipcode and CITE-seq P5/RPI-class PCR architecture, not ordinaryTruSeqR2. LoadedI1/R2 sequencing oligos and RPI member remain unverified; page uses declared read-spec/limitation and inferred extension rather than asserting loaded-primer geometry. Source-transcription and contradictory-handle regressions added."
     }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-21",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published author-manuscript JATS PMC7891292 (s41592-020-0880-2_PMC7891292.xml.txt) oligonucleotide list lines 118–206, reagents 214, antibody conjugation 226, in-tube 238, lymph node 264, tumor study 272, Library Construction 276, read processing 280; cited CITE-seq supplemental protocol 2017-07-03 (cite-seq__10.1038+nmeth.4380/nmeth.4380_supp_NIHMS891423-supplement-3.pdf.txt) pp. 3–6, lines 161–300 and oligo page 376–408",
+      "oligo_scraper": "Article JATS scraper run; anchor (122), iCy5 anchor (126), O1 caged (130), O1 blocker (134), Zipcode 1/2 (150/154) hits checked against the list; Cy5/TAMRA/FAM zipcodes (196–204) are imaging-only variants.",
+      "findings": "Corrected the graph topology: transcripts and zipcodes are co-captured and RT'd in the GEM, co-amplified with the CITE-seq additive primer, then separated by SPRI supernatant decanting and two 3X SPRI cleanups (line 276); the former pre-RT split was a repository error. Added caged-strand prehybridization (1:1, 37C 15 min), ssDNA/BSA block and stain, O1 blocking-strand neutralization with discarded carried-over zipcode, collagenase dissociation and live Cy5+ FACS sort, 10x library construction as warned MAGIC boundary, KAPA HiFi HotStart for zipcode PCR. Represented tumor branch now shows the internal-Cy5 anchor (line 126) alongside the Fig.1/S1 anchor. Caged strand and blocker are exact graph inputs (guard-checked). NPOM positions kept as labelled preprint-supplied detail; additive-primer sequence left unsequenced.",
+      "deferred": [
+        "10x CG000183 Rev A fragmentation/ligation/index PCR for the cDNA fraction (not re-read)",
+        "CITE-seq additive-primer sequence and the exact CITE-seq protocol version Hu et al. followed",
+        "Published PDF/NIHMS1664825 rendering of NPOM-caged thymidine positions (PMC download gate)",
+        "Exact RPI index member and loaded Read 2 entry for the zipcode library",
+        "v2 in-tube/wound/lymph-node branches and Design 2 / second-layer O2 chemistry not drawn"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 4 checks pass; page builds; pairing 0 problems; chemistry 0 established/1 conditional/16 unresolved/0 contradictory with rna_construct MAGIC warning; source guard 4 exact checked (O1 caged, O1 blocker, Zipcode 1, CITE-seq P5), 0 failed, 5 inputs without exact states (bead primer, 10x cDNA primers, additive primer, GEX PCR pair); Markdown built; review schema checked"
+    }
   ]
 }

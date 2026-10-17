@@ -32,16 +32,20 @@ def preamble(protocol: str, *, complete: bool = False,
     doi, journal, year = source or PAPERS[protocol]
     supporting = ""
     if protocol == "CEL-Seq":
-        supporting = (' Supporting primer source: <a href="https://doi.org/'
-                      '10.1186/s13059-016-0938-8">CEL-Seq2 Table S2</a>.')
+        supporting = (' Primer designs and bench steps: the 2012 Supplemental Information '
+                      '&ldquo;CEL-Seq Protocol&rdquo; (all 40 RT primers); the same design is '
+                      'restated in <a href="https://doi.org/10.1186/s13059-016-0938-8">CEL-Seq2 '
+                      'Table S2</a>.')
     complete_attr = ' data-protocol-complete="true"' if complete else ""
     return f"""<div class="wrap"{complete_attr}>
 <h1>{protocol} &mdash; barcoded 3' RNA-seq by T7 linear amplification</h1>
 {info(f'Defining source: <a href="https://doi.org/{doi}">Hashimshony et al., '
       f'<i>{journal}</i> ({year})</a>.{supporting}')}
-<div class="caveat"><b>Small-RNA library boundary.</b> The accessible primary sources do
-not print the Illumina library-primer sequences. Dotted outer arms are unpublished
-placeholders, not the secondary-source TruSeq Small RNA reconstruction.</div>"""
+<div class="caveat"><b>Small-RNA library boundary.</b> The 2012 CEL-Seq protocol names
+the Illumina TruSeq Small RNA kit reagents (RA3 3&prime; adapter, RTP, RP1, indexed RPIX) but
+does not print their sequences (&ldquo;available from Illumina&rdquo;), and the kit revision
+used in 2012 has not been read. Dotted outer arms are therefore placeholders, not a
+TruSeq Small RNA reconstruction.</div>"""
 
 
 def oligos(protocol: str, design: C.PrimerDesign | None = None) -> str:
@@ -67,10 +71,12 @@ def cel1_readout() -> str:
 {sp.unavailable_diagram(final, "exact library-primer sequences are unavailable")}
 {table(("Read", "Reports"), reads)}
 {sp.read_spec_table([
-    sp.read_spec("Read 1", None, "cell barcode, then poly(T)", "extract"),
-    sp.read_spec("Index 1 (i7)", None, "library index", "demultiplex"),
-    sp.read_spec("Read 2", None, "transcript sequence from the 3' tag", "include"),
-], "Read roles are source-declared; exact primer sequences and cycle counts are unavailable.")}"""
+    sp.read_spec("Read 1", "at least 15", "8-nt cell barcode, then poly(T)", "extract"),
+    sp.read_spec("Index 1 (i7)", None, "library index (RPIX), read when needed", "demultiplex"),
+    sp.read_spec("Read 2", 50, "transcript sequence from the 3' tag", "include"),
+], "Read roles and lengths are source-declared (HiSeq 2000 paired-end: at least 15 bases "
+   "for Read 1, 50 for Read 2, plus the Illumina index when needed); exact primer "
+   "sequences are unavailable.")}"""
 
 
 def graph_for(protocol: str, *, design: C.PrimerDesign | None = None,
@@ -86,7 +92,7 @@ def graph_for(protocol: str, *, design: C.PrimerDesign | None = None,
                           primary=True)
     arna, reviewed = barcoded_ivt_front(
         graph, primary, rt_primer_label=f"{protocol} RT primer",
-        rt_state=C.rt_scene(protocol, design), first_state=C.rt_scene(protocol, design),
+        rt_state=C.rt_primer(protocol, design), first_state=C.rt_scene(protocol, design),
         duplex_state=C.double_stranded_cdna(protocol, design),
         arna_state=C.arna(protocol, design))
     reviewed.insert(0, "mrna")
@@ -102,28 +108,48 @@ def graph_for(protocol: str, *, design: C.PrimerDesign | None = None,
 
     final_state = C.final_library(protocol, design)
     if protocol == "CEL-Seq":
+        protocol_src = source + " (Supplemental Information, CEL-Seq Protocol)"
+        phosphatase = graph.input("phosphatase", "Antarctic phosphatase (NEB M0289), 37 °C 30 min",
+                                  MaterialKind.CATALYST, source=protocol_src)
+        dephosphorylated = graph.product("dephosphorylated_arna",
+                                         "phosphatase-treated fragmented aRNA",
+                                         MaterialKind.MOLECULAR, state=C.arna(protocol, design))
+        graph.react("dephosphorylate_arna", "Dephosphorylate fragmented aRNA ends",
+                    StepKind.DEPHOSPHORYLATION,
+                    ((fragmented, InputRole.TEMPLATE), (phosphatase, InputRole.CATALYST)),
+                    (dephosphorylated,))
+        pnk = graph.input("pnk", "T4 polynucleotide kinase (NEB M0201) with ATP, 37 °C 60 min",
+                          MaterialKind.CATALYST, source=protocol_src)
+        kinased = graph.product("kinased_arna", "PNK-treated fragmented aRNA (RNeasy cleanup)",
+                                MaterialKind.MOLECULAR, state=C.arna(protocol, design))
+        graph.react("phosphorylate_arna", "Phosphorylate fragmented aRNA 5′ ends",
+                    StepKind.PHOSPHORYLATION,
+                    ((dephosphorylated, InputRole.TEMPLATE), (pnk, InputRole.CATALYST)),
+                    (kinased,))
+        reviewed.extend(("phosphatase", "dephosphorylate_arna", "pnk", "phosphorylate_arna"))
         adapter = graph.input(
-            "rna_adapter", "RNA 3′ adapter (sequence not disclosed)",
+            "rna_adapter", "Illumina TruSeq Small RNA kit RA3 3′ adapter, diluted 5-fold (sequence not printed)",
             MaterialKind.ADAPTER, state=C.cel1_adapter_geometry(), inferred=True,
-            source=source + " (adapter bases and terminal geometry not disclosed)")
-        ligase = graph.input("rna_ligase", "RNA ligase", MaterialKind.CATALYST)
+            source=protocol_src + "; RA3 bases and terminal geometry not printed")
+        ligase = graph.input("rna_ligase", "T4 RNA ligase 2, truncated (NEB M0242), 28 °C 1 h",
+                             MaterialKind.CATALYST, source=protocol_src)
         ligated = graph.product("ligated_arna", "3′-adapter-ligated aRNA",
                                 MaterialKind.MOLECULAR,
                                 state=C.cel1_ligated_arna(), inferred=True,
-                                source=source + " (adapter sequence not disclosed)")
+                                source=protocol_src + "; adapter sequence not printed")
         graph.react("ligate_adapter", "Ligate the RNA 3′ adapter",
                     StepKind.LIGATION,
-                    ((fragmented, InputRole.TEMPLATE),
+                    ((kinased, InputRole.TEMPLATE),
                      (adapter, InputRole.STRUCTURAL),
                      (ligase, InputRole.CATALYST)), (ligated,),
                     geometry=C.cel1_adapter_geometry())
         library_rt_primer = graph.input(
-            "library_rt_primer", "library reverse-transcription primer",
+            "library_rt_primer", "Illumina RNA RT Primer (RTP; sequence not printed)",
             MaterialKind.OLIGO, inferred=True,
-            source=source + " (exact library RT primer not disclosed)")
+            source=protocol_src + "; RTP bases not printed")
         library_rt = graph.input("library_reverse_transcriptase",
-                                 "library reverse transcriptase",
-                                 MaterialKind.CATALYST)
+                                 "SuperScript II reverse transcriptase, 50 °C 1 h",
+                                 MaterialKind.CATALYST, source=protocol_src)
         pcr_template = graph.product(
             "pcr_template", "library-PCR template", MaterialKind.MOLECULAR,
             state=final_state, inferred=True,
@@ -157,16 +183,27 @@ def graph_for(protocol: str, *, design: C.PrimerDesign | None = None,
         reviewed.extend(("randomhex_rt", "library_reverse_transcriptase",
                          "library_reverse_transcription"))
 
+    if protocol == "CEL-Seq":
+        fwd_label = "Illumina RNA PCR Primer RP1 (sequence not printed)"
+        rev_label = "Illumina indexed RNA PCR Primer RPIX (sequence not printed)"
+        pol_label = "Illumina PCR mix (PML), 12 cycles (11–15), 30-s extension"
+        pol_source = source + " (Supplemental Information, CEL-Seq Protocol; Experimental Procedures)"
+    else:
+        fwd_label = "library-PCR forward primer (sequence not disclosed)"
+        rev_label = "indexed library-PCR reverse primer (sequence not disclosed)"
+        pol_label = "PCR polymerase"
+        pol_source = None
     forward = graph.input(
-        "pcr_forward", "library-PCR forward primer (sequence not disclosed)",
+        "pcr_forward", fwd_label,
         MaterialKind.OLIGO, inferred=True,
         source=source + " (library-PCR primer sequences not disclosed)")
     reverse = graph.input(
-        "pcr_reverse", "indexed library-PCR reverse primer (sequence not disclosed)",
+        "pcr_reverse", rev_label,
         MaterialKind.OLIGO, inferred=True,
         source=source + " (library-PCR primer sequences not disclosed)")
-    polymerase = graph.input("pcr_polymerase", "PCR polymerase",
-                             MaterialKind.CATALYST)
+    polymerase = graph.input("pcr_polymerase", pol_label,
+                             MaterialKind.CATALYST,
+                             **({"source": pol_source} if pol_source else {}))
     library = graph.product(
         "library", f"{protocol} sequencing library", MaterialKind.LIBRARY,
         state=final_state, inferred=True,

@@ -1,14 +1,19 @@
 {
   "dir": "speac-seq__10.1038+s41596-024-01056-1",
-  "status": "blocked",
+  "status": "in_progress",
   "source_checklist": [
     {
       "id": "protocol",
       "role": "defining",
-      "locator": "https://doi.org/10.1038/s41596-024-01056-1",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/speac-seq__10.1038+s41596-024-01056-1/s41596-024-01056-1_PMC11805652.xml.txt (PMC author manuscript PMC11805652 of doi:10.1038/s41596-024-01056-1)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Nature Protocols full text and chemistry-relevant attachments are not local/reliably accessible; abstract alone cannot establish primer absence."
+      "pass_1": {
+        "reviewer": "round19_worker",
+        "date": "2026-10-17",
+        "locations": "Oligonucleotides list lines 153-175; droplet breakage and gRNA amplification lines 636-689 (PCR mix table 649-665, cycling 671-683); library prep/sequencing/analysis lines 691-705; data availability 753",
+        "finding": "The defining protocol prints both ordering oligos verbatim: a nine-species P5 staggered primer mix and the P7 index primer with an eight-base index window, plus the single ExTaq PCR, both AMPure 2x cleanups, the Qiagen Blood and Tissue gDNA step, 285 bp Brie library size, KAPA quantification, 4 nM pooling and a depth-only sequencing target."
+      }
     },
     {
       "id": "original_study",
@@ -73,9 +78,28 @@
   "missing_claims": [
     {
       "claim": "SPEAC-seq guide-flanking PCR and index primers are unpublished",
-      "disposition": "blocked",
-      "evidence": "Relevant defining protocol and original-study supplements are unavailable; absence claim remains blocked."
+      "disposition": "resolved",
+      "evidence": "Refuted by the defining Nature Protocols author manuscript PMC11805652 (Oligonucleotides, lines 153-175), fetched in round 2026-10-17-breadth-first-19: the P5 staggered primer mix (nine species) and the P7 lentiCRISPRv2 index primer are printed verbatim and now transcribed into the module."
     }
   ],
-  "conclusion": "Relevant defining protocol and original-study supplements are unavailable; absence claim remains blocked."
+  "conclusion": "The defining Nature Protocols text became readable as the PMC author manuscript PMC11805652; both ordering primers, the single indexing PCR and the library QC are now transcribed. Remaining open: the lentiCRISPRv2 (Addgene #73632) vector map for the amplicon interior, the publisher's typeset version and the gated PMC supplements, and GSE200457.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "round19_worker",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Defining Nature Protocols author manuscript PMC11805652 .txt: Oligonucleotides 153-175, droplet breakage and gRNA amplification 636-689 (PCR mix 649-665, cycling 671-683), library prep/sequencing/analysis 691-705, data availability 753; supporting Science original PMC10066924 .txt re-checked for the sorted-droplet gDNA readout",
+      "oligo_scraper": "Scraper run on the protocol bundle: 11 hits in the Nature Protocols XML text, all nine P5 staggered species plus the P7 index primer verified at lines 155-175, and the Cutadapt ACACCG...GTTTTAG analysis anchor at line 703 identified as a trimming anchor, not an oligo.",
+      "findings": "Fetched the defining protocol (doi:10.1038/s41596-024-01056-1 -> PMC11805652) into the protocol's source bundle; it refutes the previous 'primers unpublished' note. Transcribed all nine P5 staggered primer species and the P7 index primer verbatim into the module and the note; replaced the generic amplification helper with the source steps: 20% PFO/HFE-7500 droplet break with oil waste, Qiagen Blood and Tissue gDNA, AMPure XP 2x concentration, one 100 uL ExTaq PCR (28-35 cycles, 53 C anneal) that installs both Illumina ends, AMPure XP 2x post-PCR cleanup, Bioanalyzer/KAPA/4 nM pooling and a depth-only sequencing target (>=100 reads per gRNA, ~285 bp Brie library). Attached the sample-index feature to the P7 N8 window only and stated that the stagger is a phasing device. Two graph-owned published discrepancies are shown on the page: stagger labels versus actually inserted bases (and the spaced, A-truncated '0 nt' row, the divergent '8 nt' 3' end), and the P7 row's '5 mM' stock against the table's own 0.5 uM arithmetic. PCR geometry stays unavailable because the lentiCRISPRv2 sequence is not printed.",
+      "deferred": [
+        "Addgene lentiCRISPRv2 #73632 / Brie library map for the amplicon interior and exact primer sites",
+        "Publisher's typeset Nature Protocols version (stagger labels, '5 mM' stock)",
+        "PMC NIHMS2026815 Supp_Data_1/2 and the Science supplement/Data ZIP (PMC download gate)",
+        "GSE200457 raw reads as an inference route for the invariant flanks"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation and no accepted missing-information claim.",
+      "verification": "selftest passes (construction only, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory; source guard 18 exact oligo strands checked, 0 failed, 2 inputs without exact states (the space-printed '0 nt' species is marked inferred); Markdown built/checked; review schema (audit --check) pass"
+    }
+  ]
 }

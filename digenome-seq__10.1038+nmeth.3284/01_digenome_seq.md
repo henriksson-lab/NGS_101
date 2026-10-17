@@ -38,11 +38,10 @@ occurrences) and `GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT` (165). Those independently
 they say nothing about the whole-genome library's adapters, index length or whether that
 library was amplified. The model is right to claim no protocol-specific oligo.
 
-## Unsubstantiated on the page (open)
+## Model choices and open questions
 
-Three claims on `digenome-seq.html` have no backing in any source that can be read here.
-They are recorded rather than silently repaired because the Digenome-seq model lives in
-`lib/dsb_capture.py`, which this task was instructed not to edit.
+The model lives in `tools/chem.py`. Earlier versions of this note listed three
+unsubstantiated page claims; their current state is:
 
 1. 🟡 **"PCR-free" is derived, not transcribed — but it is supported.** The authors state
    the absence of amplification directly: "because no PCR amplification steps are involved
@@ -52,30 +51,23 @@ They are recorded rather than silently repaired because the Digenome-seq model l
    paper — its contrast is GUIDE-seq, "where PCR is used to amplify
    oligonucleotide-captured sites" — and it names no kit, so it establishes *that no PCR
    precedes sequencing*, not *which* product was used. The only library sentence available,
-   "TruSeq DNA library prep kit", does not distinguish the PCR-Free catalogue number from
-   the amplified TruSeq DNA Sample Prep and Nano kits. So `amplification=PCR-free` in
-   `catalogue/properties.tsv` stands on the authors' own statement, while the adapter
-   *construction* stays inferred: nothing here gives one adapter base, and this page does
-   not use the full-length-adaptor builder (`truseq_pcr_free_library`) that models a real
-   PCR-Free kit, because that would assert the pre-indexed two-arm adaptor as this
-   protocol's chemistry. Reading the 2021 *Nature Protocols* article would settle the
-   product; it is paywalled with no legitimate route and is deliberately not registered.
-2. 🟡 **Source-backed adapter styling.** `_digenome_library()` calls `truseq_library(…,
-   dual_index=False)` with the default `inferred_adapters=False`, so P5, the Read 1 arm,
-   the dA junction, the Index 1/Read 2 arm, i7 and P7_rc all render as transcribed from a
-   source. What is actually published is a kit *family name* in a companion paper and two
-   adapter clipping stems; no source gives this library's adapter oligos, its index format
-   or even which TruSeq kit was used. Per AGENTS.md ("uncertainty is a constructor
-   property") this should be
-   `inferred_adapters=True`, which also supplies the `<inf>` base styling that the page
-   currently lacks; the step caption and page caveat have to say INFERRED alongside it.
-3. 🟡 **An 8-base i7 index.** `truseq_library` defaults to `i7_nt=8` and `READ_LENGTHS`
-   declares an 8-cycle Index 1 read. Illumina's *Adapter Sequences* document
-   (1000000002694 v22) states that TruSeq **single** index adapters are six bases
-   (AD001–AD027, `ATCACG`, `CGATGT`, …); eight-base indexes arrived with the dual-index
-   IDT-for-Illumina TruSeq DNA UD revision, which postdates the 2014–15 HiSeq X Ten work.
-   A single-index TruSeq library with an 8-nt i7 is a product Illumina never sold, so the
-   drawn geometry is internally inconsistent. The defensible model is `i7_nt=6` with
-   `inferred_adapters=True` (and `READ_LENGTHS["Index 1 (i7)"] = 6`) — the same treatment
-   DISCOVER-Seq already gets in `lib/editing_outcomes.py` for a historical single-index
-   TruSeq kit. No source on disk states the length, so it stays an inference either way.
+   "TruSeq DNA library prep kit" (line 136), does not distinguish the PCR-Free catalogue
+   number from the amplified TruSeq DNA Sample Prep and Nano kits. The page does not use
+   the full-length-adaptor builder (`truseq_pcr_free_library`), because that would assert
+   the pre-indexed two-arm adaptor as this protocol's chemistry. Reading the defining
+   Methods or the 2021 *Nature Protocols* article would settle the product; both are
+   paywalled and are `(manual)` rows in the source manifest.
+2. 🟡 **Adapter styling — resolved.** `_digenome_library()` now calls `truseq_library(…,
+   dual_index=False, i7_nt=6, inferred_adapters=True)`, so the whole adapter shell renders
+   with `<inf>` styling, the ligation step caption says INFERRED and the page caveat states
+   that no source read here gives one adapter base.
+3. 🟡 **Index length — resolved as an inference.** Illumina's *Adapter Sequences* document
+   (1000000002694 v22) states that TruSeq **single** index adapters are six bases; the
+   model therefore draws a 6-nt i7. No Digenome source states the index format.
+4. 🟡 **Acquired read lengths — not drawn (2026-10-17 bounded pass).** The page previously
+   declared 150/6/150 cycles with no source. Supplementary Note 1 of the defining
+   supplement (`MOESM426_ESM.pdf.txt:7260–7261`) says only "Illumina HiSeq X 10" for the
+   knockout-clone WGS, and the 2016 Methods (`PMC4772022_PMC4772022.xml.txt:136`) gives
+   HiSeq X Ten at 30–40× depth; neither gives read or index cycle counts. `READ_LENGTHS`
+   is now `None`, and the sequencing intro attributes the instrument to those two
+   passages instead of to the unread defining Methods.

@@ -73,37 +73,75 @@ def sections():
 
 def protocol_graph():
     graph=ProtocolGraph(TITLE,authority=SOURCE)
-    chromatin=graph.input("chromatin","native chromatin fibers",MaterialKind.BIOLOGICAL,
-                          primary=True)
-    ecogii=graph.input("ecogii","EcoGII adenine methyltransferase",MaterialKind.CATALYST)
-    sam=graph.input("sam","S-adenosylmethionine methyl donor",MaterialKind.CONDITION)
+    chromatin=graph.input("chromatin","permeabilized nuclei (native chromatin fibers) in Buffer M",
+                          MaterialKind.BIOLOGICAL,primary=True)
+    ecogii=graph.input("ecogii","EcoGII adenine methyltransferase (250 U, 30 min, 37 °C)",
+                       MaterialKind.CATALYST)
+    sam=graph.input("sam","S-adenosylmethionine (1 mM; replenished to 1.16 mM at 15 min)",
+                    MaterialKind.CONDITION)
     marked=graph.product("marked_fibers","m6dA-marked chromatin fibers",MaterialKind.MOLECULAR,
                          state=INITIAL_ROWS)
     graph.react("mark_accessibility","Mark accessible adenines in nuclei",
                 StepKind.CHEMICAL_CONVERSION,
                 ((chromatin,InputRole.TEMPLATE),(ecogii,InputRole.CATALYST),
                  (sam,InputRole.CONDITION)),(marked,))
-    hairpin_adapter=graph.input("hairpin_transposome","SMRT-A barcoded hairpin-loaded mosaic-end adapter",
+    hairpin_adapter=graph.input("hairpin_transposome","SMRT-A barcoded hairpin oligo, annealed (95 °C 5 min, 25 °C 30 min)",
                                 MaterialKind.ADAPTER,state=hairpin_adapter_scene())
-    tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
+    tn5=graph.input("tn5","triple-mutant Tn5 (R27S,E54K,L372P), loaded 55 min at 23 °C",
+                    MaterialKind.CATALYST)
     tagmented=graph.product("hairpin_tagmented","hairpin-tagmented marked chromatin",
                             MaterialKind.MOLECULAR)
-    waste=graph.product("tagmentation_waste","non-SMRTbell tagmentation products",
-                        MaterialKind.WASTE)
-    graph.react("hairpin_tagment","Fragment and transfer hairpin adapters",
+    graph.react("hairpin_tagment","In situ tagmentation: 9.4–18.8 pmol transposome, Omni-ATAC buffer, 55 °C 45–60 min",
                 StepKind.TAGMENTATION,
                 ((marked,InputRole.TEMPLATE),(hairpin_adapter,InputRole.STRUCTURAL),
-                 (tn5,InputRole.CATALYST)),(tagmented,waste))
-    graph.discard(waste,"products lacking the required two hairpin-bearing transfer ends")
-    repair=graph.input("gap_repair_polymerase","transposition-gap repair polymerase",
+                 (tn5,InputRole.CATALYST)),(tagmented,))
+    deprotein=graph.input("stop_mix","RNase A, then proteinase K / SDS / EDTA (60 °C, 1–2 h)",
+                          MaterialKind.CATALYST)
+    released=graph.product("released_dna","deproteinized hairpin-tagmented DNA",
+                           MaterialKind.MOLECULAR)
+    graph.react("terminate","Terminate tagmentation and deproteinize",
+                StepKind.DEPROTEINIZATION,
+                ((tagmented,InputRole.TEMPLATE),(deprotein,InputRole.CATALYST)),(released,))
+    beads=graph.input("spri_tagmented","2× SPRI, then 0.6× SPRI (>500 bp)",MaterialKind.SELECTION)
+    purified=graph.product("purified_tagmented","purified hairpin-tagmented DNA (>500 bp enriched)",
+                           MaterialKind.MOLECULAR)
+    small=graph.product("small_fragments","fragments below the 0.6× SPRI cutoff, protein and buffer",
+                        MaterialKind.WASTE)
+    graph.react("cleanup_tagmented","Bead cleanup and 0.6× SPRI size enrichment",
+                StepKind.CLEANUP,
+                ((released,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(purified,small))
+    graph.discard(small,"left in the SPRI supernatant / washes")
+    repair=graph.input("gap_repair_polymerase","Repair Mix: Phusion-HF (2 U) with 0.8 mM dNTPs",
                        MaterialKind.CATALYST)
-    library=graph.product("library",SMRTBELL.name,MaterialKind.LIBRARY,state=SMRTBELL)
-    graph.react("gap_repair","Repair both transposition gaps to close the SMRTbell",
+    ligase=graph.input("gap_repair_ligase","Taq DNA ligase (80 U) in 1× Taq ligase buffer",
+                       MaterialKind.CATALYST)
+    repaired=graph.product("gap_repaired","gap-repair products: closed SMRTbell templates plus unrepaired molecules",
+                           MaterialKind.MOLECULAR)
+    graph.react("gap_repair","Fill both 9-nt transposition gaps and seal the nicks (37 °C, 1 h; 2× SPRI)",
                 StepKind.EXTENSION,
-                ((tagmented,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(library,))
+                ((purified,InputRole.TEMPLATE),(repair,InputRole.CATALYST),
+                 (ligase,InputRole.CATALYST)),(repaired,))
+    exo=graph.input("exonuclease_iii","ExoDigest Mix: exonuclease III (100 U per 160 ng), 1× NEBuffer 2",
+                    MaterialKind.CATALYST)
+    digested=graph.product("exo_digested","closed templates with exonuclease-degraded open molecules",
+                           MaterialKind.MOLECULAR)
+    graph.react("exo_digest","Exonuclease III digestion enriches covalently closed templates (37 °C, 1 h)",
+                StepKind.DIGESTION,
+                ((repaired,InputRole.TEMPLATE),(exo,InputRole.CATALYST)),(digested,))
+    final_beads=graph.input("spri_final","2× SPRI beads, elution in 12 µl EB",MaterialKind.SELECTION)
+    library=graph.product("library",SMRTBELL.name,MaterialKind.LIBRARY,state=SMRTBELL)
+    digest_waste=graph.product("digest_waste","exonuclease digestion products of unrepaired molecules",
+                               MaterialKind.WASTE)
+    graph.react("cleanup_final","Final 2× SPRI cleanup",StepKind.CLEANUP,
+                ((digested,InputRole.TEMPLATE),(final_beads,InputRole.SELECTION)),
+                (library,digest_waste))
+    graph.discard(digest_waste,"left in the SPRI supernatant / washes")
     graph.sequence(library,SequencingPlan(
-        limitation="The source publishes the hairpin adapter bases, but the separate PacBio sequencing-primer sequence is proprietary; the closed SMRTbell traversal is known."))
+        limitation="The source publishes the hairpin adapter bases, but the separate PacBio sequencing-primer sequence is proprietary; the closed SMRTbell traversal is known. Sequenced on 8M SMRT Cells (Sequel II, 30 h movies) with polymerase 2.1 or 2.2 (Methods, DNA quality control and PacBio sequencing)."))
     graph.declare_reviewed_scope(("chromatin","ecogii","sam","mark_accessibility",
                                   "hairpin_transposome","tn5","hairpin_tagment",
-                                  "gap_repair_polymerase","gap_repair","library"),SOURCE)
+                                  "stop_mix","terminate","spri_tagmented","cleanup_tagmented",
+                                  "gap_repair_polymerase","gap_repair_ligase","gap_repair",
+                                  "exonuclease_iii","exo_digest","spri_final","cleanup_final",
+                                  "library"),SOURCE)
     return graph.require_publishable()

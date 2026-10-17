@@ -8,9 +8,9 @@ from adapter_ligation import AdapterLigationGeometry
 from captrap import CapTrappedHybrid
 from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
                       feature, oligo, revcomp)
-from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from pcr import PCRGeometry, PCRPrimer
+from protocol_graph import (DetailView, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 
 TITLE = "CAGE — cap analysis of gene expression"
 NOTES = "01_cage.html"
@@ -19,6 +19,11 @@ SOURCE = ('Defining protocol: <a href="https://doi.org/10.1038/nprot.2012.005">'
 SUMMARY = ("Select cDNAs that reach a biotinylated RNA cap, ligate a barcoded 5′ linker, "
            "make the second strand, release a 27-nt 5′ tag with EcoP15I, and ligate the "
            "opposite Illumina linker.")
+
+CAVEAT = ("The barcoded 5′ linker is drawn with its AGA representative of the 15 "
+          "Table 1 barcodes. Table 1 labels two lower strands '5′SOL-lower-AGT'; the "
+          "first (CTGCTGAGTCTG…) is complementary to the ACT upper linker, so its label "
+          "appears to be a typographical error. Neither row is drawn here.")
 
 RT_ECOP = "AAGGTCTATCAGCAG" + "N" * 15
 LINKER_CORE = "CCACCGACAGGTTCAGAGTTCTACAG"
@@ -36,19 +41,47 @@ THREE_LOWER = REV
 CAPTURED = CapTrappedHybrid(cdna_reaches_cap=True, cap_biotinylated=True)
 
 
+FWD_TAIL = FWD[:FWD.index(LINKER_CORE[:8])]
+TAG_PAIRED_NT = 25   # 27-nt tag window minus the two 3′-linker NN positions
+
+
+def _tag_parts() -> list:
+    """Tag window plus 3′ linker, top strand.
+
+    Table 1 and the stated 96-bp product fix the arithmetic: the 3′ upper linker's
+    5′ NN occupies the last two positions of the 27-nt EcoP15I tag window, opposite
+    the cDNA-derived two-base overhang.
+    """
+    return [Segment("cap-derived tag bases", "X" * TAG_PAIRED_NT, placeholder=True),
+            Segment("3′-linker NN (tag positions 26–27)", "N" * 2, placeholder=True),
+            Segment("P7-side linker / reverse-primer complement", revcomp(REV), "p7")]
+
+
+def _barcode_segments() -> list:
+    return [Segment("3-nt sample barcode", BARCODE, "cbc",
+                    feature=feature("sample_inline", "sample_index", "whitelist",
+                                    whitelist="published CAGE linker set")),
+            Segment("EcoP15I recognition site", ECOP_SITE)]
+
+
+def pre_pcr_library() -> Construct:
+    return Construct([Segment("5′ linker handle", LINKER_CORE, "r1"),
+                      *_barcode_segments(), *_tag_parts()],
+                     name="dual-linker CAGE tag before PCR")
+
+
 def final_library() -> tuple[Construct, tuple]:
-    # The 27-nt sequencing-primer prefix overlaps the forward PCR primer; the final
-    # seven bases are supplied by the ligated 5′ linker.
+    # The forward PCR primer adds the P5-side tail; the custom sequencing primer spans
+    # the last six tail bases and the 26-base 5′ linker handle.
+    if not FWD.endswith(LINKER_CORE[:len(FWD) - len(FWD_TAIL)]):
+        raise ValueError("CAGE forward primer no longer overlaps the 5′ linker handle")
     lib = Construct([
-        Segment("P5-side PCR prefix", FWD[:7], "p5"),
-        Segment("custom CAGE sequencing-primer site", SEQUENCING, "r1"),
-        Segment("3-nt sample barcode", BARCODE, "cbc",
-                feature=feature("sample_inline", "sample_index", "whitelist", whitelist="published CAGE linker set")),
-        Segment("EcoP15I recognition site", ECOP_SITE),
-        Segment("27-nt capped 5′ tag", "X" * 27, placeholder=True),
-        Segment("two-base EcoP15I ligation overhang", "N" * 2, placeholder=True),
-        Segment("P7-side linker / reverse-primer complement", revcomp(REV), "p7"),
+        Segment("P5-side PCR tail", FWD_TAIL, "p5"),
+        Segment("5′ linker handle (custom sequencing-primer site)", LINKER_CORE, "r1"),
+        *_barcode_segments(), *_tag_parts(),
     ], name="96-bp CAGE tag library")
+    if len(lib) != 96:
+        raise ValueError("CAGE final library no longer matches the published 96 bp")
     primer = sp.custom("Read 1", "CAGE custom sequencing primer", SEQUENCING,
                        "Takahashi et al. 2012, Table 1")
     problems = sp.verify(lib, (primer,), required_roles=("Read 1",))
@@ -175,8 +208,9 @@ def _three_prime_geometry() -> AdapterLigationGeometry:
     sc.overhang("3′ upper linker", "two-base 5-prime protrusion", polarity="5-prime",
                 owner="adapter", text="published 5′-NN protrusion")
     sc.strand("EcoP15I tag", [Segment("two-base EcoP15I end", "NN", placeholder=True),
-                               Segment("27-nt cap tag", "X" * 27, placeholder=True)],
-              label="EcoP15I-cut tag")
+                               Segment("paired tag bases", "X" * TAG_PAIRED_NT,
+                                       placeholder=True)],
+              label="EcoP15I-cut tag, overhang strand (27 nt of tag)")
     sc.overhang("EcoP15I tag", "two-base EcoP15I end", polarity="5-prime",
                 owner="substrate", text="two-base EcoP15I end")
     return AdapterLigationGeometry.known(
@@ -186,10 +220,10 @@ def _three_prime_geometry() -> AdapterLigationGeometry:
 
 def _final_scene() -> Scene:
     sc = Scene.duplex(list(FINAL_LIBRARY), label="96-bp CAGE tag")
-    sc.junction("top", "EcoP15I recognition site", "27-nt capped 5′ tag",
+    sc.junction("top", "EcoP15I recognition site", "cap-derived tag bases",
                 "5′ linker / cap-tag boundary")
-    sc.junction("top", "two-base EcoP15I ligation overhang",
-                "P7-side linker / reverse-primer complement", "3′ linker ligation")
+    sc.junction("top", "cap-derived tag bases", "3′-linker NN (tag positions 26–27)",
+                "3′ linker ligation")
     sc.labels("top")
     return sc
 
@@ -218,98 +252,167 @@ def workflow() -> Workflow:
 
 def protocol_graph():
     graph=ProtocolGraph(TITLE,authority=SOURCE)
-    rna=graph.input("capped_rna","capped RNA",MaterialKind.MOLECULAR,primary=True)
-    rt_primer=graph.input("rt_primer","RT-N15-EcoP primer",MaterialKind.OLIGO)
-    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
-    hybrid=graph.product("hybrid","first-strand capped RNA/cDNA hybrids",
+    rna=graph.input("capped_rna","5 µg total RNA (capped and uncapped)",MaterialKind.MOLECULAR,
+                    primary=True)
+    rt_primer=graph.input("rt_primer","RT-N15-EcoP primer",MaterialKind.OLIGO,state=RT_ECOP)
+    rt=graph.input("reverse_transcriptase","PrimeScript reverse transcriptase, sorbitol/trehalose",
+                   MaterialKind.CATALYST)
+    hybrid=graph.product("hybrid","first-strand RNA/cDNA hybrids",
                          MaterialKind.MOLECULAR,state=tuple(_rt_scene().rows()))
     graph.react("reverse_transcribe","Reverse-transcribe toward the RNA cap",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((rna,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
                  (rt,InputRole.CATALYST)),(hybrid,))
-    cap_chemistry=graph.input("cap_chemistry","cap oxidation and biotinylation condition",
+    cap_chemistry=graph.input("cap_chemistry","NaIO4 diol oxidation, then long-arm biotin hydrazide",
                               MaterialKind.CONDITION)
-    biotinylated=graph.product("biotinylated","biotinylated capped RNA/cDNA hybrids",
+    biotinylated=graph.product("biotinylated","hybrids biotinylated at cap and RNA 3′ diols",
                                MaterialKind.MOLECULAR)
-    graph.react("biotinylate_cap","Oxidize and biotinylate the RNA cap",
+    graph.react("biotinylate_cap","Oxidize RNA diols and biotinylate cap and 3′ ends",
                 StepKind.CHEMICAL_CONVERSION,
                 ((hybrid,InputRole.TEMPLATE),(cap_chemistry,InputRole.CONDITION)),
                 (biotinylated,))
-    streptavidin=graph.input("streptavidin","streptavidin cap-selection reagent",
+    rnase=graph.input("rnase_i","RNase ONE (RNase I)",MaterialKind.CATALYST)
+    trimmed=graph.product("rnase_trimmed","hybrids with unprotected single-stranded RNA removed",
+                          MaterialKind.MOLECULAR)
+    ss_rna=graph.product("ss_rna_fragments","cleaved unprotected RNA, including biotinylated 3′ ends and caps of incomplete cDNAs",
+                         MaterialKind.WASTE)
+    graph.react("rnase_digest","Digest single-stranded RNA not protected by cDNA",
+                StepKind.DIGESTION,((biotinylated,InputRole.TEMPLATE),(rnase,InputRole.CATALYST)),
+                (trimmed,ss_rna))
+    graph.discard(ss_rna,"removed by RNAClean XP purification before capture")
+    streptavidin=graph.input("streptavidin","tRNA-coated MPG Streptavidin beads; four wash buffers",
                             MaterialKind.SELECTION)
-    captured=graph.product("captured","cap-complete captured RNA/cDNA hybrids",
+    captured=graph.product("captured","bead-bound cap-complete RNA/cDNA hybrids",
                            MaterialKind.MOLECULAR,state=tuple(_captured_scene().rows()))
-    incomplete=graph.product("incomplete","non-cap-complete cDNA",MaterialKind.WASTE)
+    incomplete=graph.product("incomplete","unbound non-cap-complete cDNA",MaterialKind.WASTE)
     graph.react("cap_trap","Capture cDNA that protects a biotinylated RNA cap",
                 StepKind.AFFINITY_CAPTURE,
-                ((biotinylated,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
+                ((trimmed,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
                 (captured,incomplete))
-    graph.discard(incomplete,"RNase treatment and streptavidin selection remove incomplete cDNA")
-    linker5=graph.input("five_prime_linker","barcoded 5-prime SOL splint/linker",
+    graph.discard(incomplete,"left in the cleared solution and washes")
+    naoh=graph.input("naoh_release","50 mM NaOH, then Tris neutralization; AMPure XP",
+                     MaterialKind.CONDITION)
+    released=graph.product("ss_cdna","released cap-selected single-strand cDNA",
+                           MaterialKind.MOLECULAR)
+    bead_rna=graph.product("bead_rna","beads with biotinylated RNA",MaterialKind.WASTE)
+    graph.react("release_cdna","Release cap-selected cDNA from the beads with alkali",
+                StepKind.STRAND_SEPARATION,
+                ((captured,InputRole.TEMPLATE),(naoh,InputRole.CONDITION)),(released,bead_rna))
+    graph.discard(bead_rna,"beads are separated magnetically; only the supernatant is kept")
+    linker5=graph.input("five_prime_linker","barcoded 5′ SOL linker, N6:GN5 mixture",
                         MaterialKind.ADAPTER,state=tuple(_five_prime_geometry().rows()))
-    ligase5=graph.input("five_prime_ligase","single-stranded DNA ligase",
+    graph.annotate(SourceDiscrepancy(
+        "five_prime_linker","Published N6:GN5 linker ratio differs",
+        (SourceClaim("Takahashi et al. 2012, Introduction, 'Providing a priming site for the second strand cDNA synthesis'",
+                     "The GN5 linker is used at a ratio of 5:1 with the random N6."),
+         SourceClaim("Takahashi et al. 2012, Box 1, barcoded 5′ linker preparation",
+                     "N6 and GN5 linkers are mixed at a final ratio N6:GN5 = 1:4 (3 µg + 3 µg vs 12 µg + 12 µg).")),
+        "Draw both linker species without choosing a ratio.",
+        "The ratio changes linker composition, not the drawn junction geometry.",
+        "Which ratio was used for the reported libraries is not stated."))
+    ligase5=graph.input("five_prime_ligase","DNA Ligation Kit Mighty Mix (PEG), 16 h",
                         MaterialKind.CATALYST)
-    linked=graph.product("linked","5-prime-linker-ligated cDNA",MaterialKind.MOLECULAR,
+    linked=graph.product("linked","5′-linker-ligated cDNA",MaterialKind.MOLECULAR,
                          state=tuple(_five_prime_product().rows()))
     graph.react("ligate_five_prime","Ligate the barcoded SOL linker to captured cDNA",
                 StepKind.LIGATION,
-                ((captured,InputRole.TEMPLATE),(linker5,InputRole.STRUCTURAL),
+                ((released,InputRole.TEMPLATE),(linker5,InputRole.STRUCTURAL),
                  (ligase5,InputRole.CATALYST)),(linked,),geometry=_five_prime_geometry())
-    second_primer=graph.input("second_primer","biotinylated 2nd SOL primer",
-                              MaterialKind.OLIGO)
-    polymerase=graph.input("second_polymerase","second-strand DNA polymerase",
+    ampure5=graph.input("linker_ampure","two AMPure XP purifications; barcoded samples pooled",
+                        MaterialKind.SELECTION)
+    pooled=graph.product("pooled","purified, pooled 5′-linker-ligated cDNA",MaterialKind.MOLECULAR,
+                         state=linked.state)
+    free_linker=graph.product("free_five_linker","excess 5′ linker",MaterialKind.WASTE)
+    graph.react("purify_pool","Purify twice to remove excess 5′ linker and pool barcodes",
+                StepKind.CLEANUP,((linked,InputRole.TEMPLATE),(ampure5,InputRole.SELECTION)),
+                (pooled,free_linker))
+    graph.discard(free_linker,"removed with the AMPure supernatants")
+    second_primer=graph.input("second_primer","5′-biotinylated 2nd SOL primer",
+                              MaterialKind.OLIGO,state=SECOND_STRAND_PRIMER)
+    polymerase=graph.input("second_polymerase","TaKaRa LA Taq; 94/42/68 °C",
                            MaterialKind.CATALYST)
     duplex=graph.product("duplex","double-stranded CAGE construct",MaterialKind.MOLECULAR,
                          state=tuple(_second_strand_scene().rows()))
     graph.react("second_strand","Synthesize the second CAGE strand",StepKind.EXTENSION,
-                ((linked,InputRole.TEMPLATE),(second_primer,InputRole.STRUCTURAL),
+                ((pooled,InputRole.TEMPLATE),(second_primer,InputRole.STRUCTURAL),
                  (polymerase,InputRole.CATALYST)),(duplex,))
-    phosphatase=graph.input("phosphatase","Antarctic phosphatase",MaterialKind.CATALYST)
-    dephosphorylated=graph.product("dephosphorylated","5-prime-linker-dephosphorylated duplex",
+    phosphatase=graph.input("phosphatase","Antarctic phosphatase; then AMPure XP",
+                            MaterialKind.CATALYST)
+    dephosphorylated=graph.product("dephosphorylated","5′-linker-dephosphorylated duplex",
                                    MaterialKind.MOLECULAR,state=duplex.state)
-    graph.react("dephosphorylate","Dephosphorylate the 5-prime linker",
+    graph.react("dephosphorylate","Dephosphorylate the 5′ linker",
                 StepKind.DEPHOSPHORYLATION,
                 ((duplex,InputRole.TEMPLATE),(phosphatase,InputRole.CATALYST)),
                 (dephosphorylated,))
-    ecop=graph.input("ecop15i","EcoP15I",MaterialKind.CATALYST)
-    tag=graph.product("cap_tag","27-nt EcoP15I cap tag",MaterialKind.MOLECULAR)
-    long_piece=graph.product("long_piece","non-tag EcoP15I cleavage product",
-                             MaterialKind.WASTE)
+    ecop=graph.input("ecop15i","EcoP15I with sinefungin, 37 °C 3 h; MgCl2, 65 °C inactivation",
+                     MaterialKind.CATALYST)
+    tag=graph.product("cap_tag","27-nt EcoP15I cap tag",MaterialKind.MOLECULAR,
+                      state=tuple(_three_prime_geometry().rows()))
+    long_piece=graph.product("long_piece","distal non-biotinylated EcoP15I cleavage product",
+                             MaterialKind.MOLECULAR)
     graph.react("digest","Cut 27 nt into cap-derived cDNA",StepKind.DIGESTION,
                 ((dephosphorylated,InputRole.TEMPLATE),(ecop,InputRole.CATALYST)),
                 (tag,long_piece))
-    graph.discard(long_piece,"the distal cleavage product is not the capped 5-prime tag")
-    linker3=graph.input("three_prime_linker","two-base-overhang 3-prime linker",
+    graph.annotate(DetailView(
+        "cap_tag","27-nt tag window",
+        "The paper states a 27-nt tag and a 96-bp final product. With the Table 1 "
+        "linkers, that length places the 3′ linker's 5′ NN at tag positions 26–27, "
+        "opposite the cDNA-derived two-base overhang; this placement is derived."))
+    linker3=graph.input("three_prime_linker","two-base-overhang 3′ linker",
                         MaterialKind.ADAPTER,state=tuple(_three_prime_geometry().rows()))
-    ligase3=graph.input("three_prime_ligase","cohesive-end linker ligase",
+    ligase3=graph.input("three_prime_ligase","T4 DNA ligase, 16 °C 16 h",
                         MaterialKind.CATALYST)
     ligated=graph.product("ligated","dual-linker CAGE tag",MaterialKind.MOLECULAR,
-                          state=FINAL_LIBRARY)
-    graph.react("ligate_three_prime","Ligate the exact 3-prime linker",
+                          state=pre_pcr_library())
+    graph.react("ligate_three_prime","Ligate the exact 3′ linker",
                 StepKind.LIGATION,
                 ((tag,InputRole.TEMPLATE),(linker3,InputRole.STRUCTURAL),
                  (ligase3,InputRole.CATALYST)),(ligated,),geometry=_three_prime_geometry())
+    mpg2=graph.input("tag_streptavidin","tRNA-coated MPG Streptavidin beads; four wash buffers and water",
+                     MaterialKind.SELECTION)
+    bead_tags=graph.product("bead_tags","bead-bound biotinylated CAGE tags (PCR template)",
+                            MaterialKind.MOLECULAR,state=pre_pcr_library())
+    unbound=graph.product("unbound_linkers","3′-linker dimers, excess 3′ linker and unbiotinylated cleavage products",
+                          MaterialKind.WASTE)
+    graph.react("remove_three_linker","Capture biotinylated tags; wash away 3′ linkers",
+                StepKind.AFFINITY_CAPTURE,
+                ((ligated,InputRole.TEMPLATE),(long_piece,InputRole.TEMPLATE),
+                 (mpg2,InputRole.SELECTION)),(bead_tags,unbound))
+    graph.discard(unbound,"left in solution and washes")
     forward=graph.input("pcr_forward","published CAGE forward PCR primer",
-                        MaterialKind.OLIGO)
+                        MaterialKind.OLIGO,state=FWD)
     reverse=graph.input("pcr_reverse","published CAGE reverse PCR primer",
-                        MaterialKind.OLIGO)
-    pcr_polymerase=graph.input("pcr_polymerase","library PCR polymerase",
+                        MaterialKind.OLIGO,state=REV)
+    pcr_polymerase=graph.input("pcr_polymerase","Phusion High-Fidelity DNA polymerase",
                                MaterialKind.CATALYST)
+    amplified=graph.product("amplified",FINAL_LIBRARY.name,MaterialKind.MOLECULAR,
+                            state=FINAL_LIBRARY)
+    graph.react("library_pcr","Test cycle number, then bulk-PCR the 96-bp CAGE tags",StepKind.PCR,
+                ((bead_tags,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
+                 (reverse,InputRole.STRUCTURAL),(pcr_polymerase,InputRole.CATALYST)),
+                (amplified,),geometry=PCRGeometry.exact(
+                    pre_pcr_library(),PCRPrimer("PCR Forward",FWD,anneal_nt=len(FWD)-len(FWD_TAIL)),
+                    PCRPrimer("PCR Reverse",REV),
+                    statement="Table 1 primers: the forward primer's 3′ 21 nt match the 5′ linker "
+                              "handle and its 5′ tail completes the P5 side; the reverse primer "
+                              "equals the 3′ lower linker."))
+    exo=graph.input("exonuclease_i","Exonuclease I, then QIAquick column",MaterialKind.CATALYST)
     library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
                           state=FINAL_LIBRARY)
-    graph.react("library_pcr","Amplify the 96-bp CAGE tag library",StepKind.PCR,
-                ((ligated,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
-                 (reverse,InputRole.STRUCTURAL),(pcr_polymerase,InputRole.CATALYST)),
-                (library,),geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY,reason="Both PCR primers are published, but the compact graph does not reconstruct the pre-amplification duplex orientation."))
+    primers_waste=graph.product("degraded_primers","degraded single-stranded PCR primers",
+                                MaterialKind.WASTE)
+    graph.react("exo_cleanup","Degrade excess PCR primers and purify",StepKind.DIGESTION,
+                ((amplified,InputRole.TEMPLATE),(exo,InputRole.CATALYST)),(library,primers_waste))
+    graph.discard(primers_waste,"removed by QIAquick purification")
     graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
                                           primers=tuple(SEQ_PRIMERS)))
     graph.declare_reviewed_scope((
         "capped_rna","rt_primer","reverse_transcriptase","reverse_transcribe",
-        "cap_chemistry","biotinylate_cap","streptavidin","cap_trap",
-        "five_prime_linker","five_prime_ligase","ligate_five_prime",
-        "second_primer","second_polymerase","second_strand","phosphatase",
-        "dephosphorylate","ecop15i","digest","three_prime_linker",
-        "three_prime_ligase","ligate_three_prime","pcr_forward","pcr_reverse",
-        "pcr_polymerase","library_pcr","library"),SOURCE)
+        "cap_chemistry","biotinylate_cap","rnase_i","rnase_digest","streptavidin","cap_trap",
+        "naoh_release","release_cdna","five_prime_linker","five_prime_ligase","ligate_five_prime",
+        "linker_ampure","purify_pool","second_primer","second_polymerase","second_strand",
+        "phosphatase","dephosphorylate","ecop15i","digest","three_prime_linker",
+        "three_prime_ligase","ligate_three_prime","tag_streptavidin","remove_three_linker",
+        "pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","exonuclease_i",
+        "exo_cleanup","library"),SOURCE)
     return graph.require_publishable()

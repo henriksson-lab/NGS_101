@@ -54,9 +54,15 @@
       "role": "linked_material",
       "discovered_from": "bai2024",
       "locator": "https://github.com/cxzhu/SIMPLE-seq, linked as code availability from publisher article",
-      "availability": "unavailable",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Linked repository has not yet been inspected for reagent definitions, read layouts or protocol details."
+      "reason": "Repository README and Protocol/Protocol_SIMPLE-seq_Feb2024.pdf (commit 13e187f, uploaded 2025-01-08) read in round 2026-10-17-breadth-first-18; authors' bench protocol, not peer-reviewed Methods.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "README.md steps 1-3 (Read2 barcode/UMI, Read1 genomic, indicator-based 5mC/5hmC split); Protocol PDF pdf.txt lines 165-347 (A-3 nuclei/Tn5 loading/tagmentation, A-4 split ligation, A-5 lysis, ExoI, bridge-adapter 3' ligation, K2RuO4/malononitrile, P7-indicator extension, mTET1CD, pic-borane, final PCR)",
+        "finding": "Supplies a bench step order; oligo names (Linker-R02/R03, Quencher-R03) do not match workbook names (Linker-R01/R02, Blocker-R01/R02); running header says Paired-Damage-seq."
+      }
     },
     {
       "id": "predecessor_chemistry",
@@ -65,6 +71,21 @@
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Exact predecessor citations and inherited reaction details cannot be confirmed from the paywalled main Methods; follow-up needed."
+    },
+    {
+      "id": "geo_gse197740",
+      "role": "linked_material",
+      "discovered_from": "bai2024",
+      "locator": "GEO GSE197740 and samples GSM5929312/GSM5929313/GSM7291623 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE197740); local geo_acc_<ACC>_self_*.txt in /husky/henriksson/NGS101_papers/sources/simple-seq__10.1038+s41587-024-02148-9/",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Found by GEO search; series GSE197740 back-links the defining article (Series_pubmed_id 38336903). Article Data availability statement not read (paywalled). Authors' repository record, not the peer-reviewed Methods.",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "!Sample_extract_protocol_ch1, !Sample_instrument_model and !Sample_data_processing of all three samples; series summary/design",
+        "finding": "Authors' short protocol: barcoded Tn5, two ligation barcoding rounds, second adaptor tagging, 5hmC transition/recording, primer extension, 5mC labelling, KAPA HiFi Uracil+ amplification; sequenced PE 150 + 8 + 150 (Read 1 + Index 1 + Read 2) on MGI-2000; GSM7291623 instrument field says Illumina HiSeq 2500. No oligo sequences."
+      }
     }
   ],
   "linked_information": {
@@ -88,5 +109,61 @@
       "evidence": "Defining Methods are paywalled; the oligo workbook and abstract do not establish complete reaction order. Linked code and predecessor methods remain to inspect."
     }
   ],
-  "conclusion": "First pass read the original workbook and visually excluded the reporting summary; the defining Methods and linked material remain blocked. A second independent original-source pass is required."
+  "conclusion": "First pass read the original workbook and visually excluded the reporting summary; the defining Methods and linked material remain blocked. A second independent original-source pass is required.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Publisher MOESM2 workbook Supplementary_Table1_1 lines1-13, _1_2 lines14-29, _1_3 lines30-127, _1_4 lines128-226; authors' GitHub cxzhu/SIMPLE-seq README (pre-processing/split-modality steps) and Protocol_SIMPLE-seq_Feb2024.pdf (commit 13e187f) pdf.txt lines165-347 (A-3 to A-5); Europe PMC record (not in PMC, main text paywalled)",
+      "oligo_scraper": "Bundle scraper run; Table1_1 rows 4-13 and DNA_#/R01_#/R02_# families verified against workbook lines 4-13, 17, 32, 130; bench protocol PDF has no sequences.",
+      "findings": "Fetched authors' bench protocol (hand download, MANIFEST.tsv row added); note now records citation as Nat Biotechnol 43(1):85-96 (2025, online 2024-02-09), verbatim workbook modifications (5Phos/ without leading slash), computed splint/blocker/bridge/indicator relationships, bench step order labelled as authors' document, and open questions: oligo-name mismatch between protocol and workbook (Linker-R03/Quencher-R03), unprinted DNA_# 5' phosphate needed for R01_# splint ligation, strand/indicator assignment of 5mC vs 5hmC, read lengths.",
+      "deferred": [
+        "Bai2024 main Methods (paywalled; manual https://doi.org/10.1038/s41587-024-02148-9)",
+        "hmC-CATCH and TAPS/TET-pic-borane predecessor methods",
+        "Protocol-vs-workbook oligo name mapping (Linker-R03, Quencher-R03)",
+        "DNA_# 5' phosphorylation",
+        "Indicator readout strand assignment and sequencing read lengths"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "notes-only: no suite/page/pairing; check_chemistry n/a (no graph declaration); source guard 0 checked/0 failed/0 graphs; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-deferred-followup-02",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Defining Nat Biotechnol main text/Methods still unobtainable: Europe PMC (inPMC=N, inEPMC=N), NCBI elink pubmed->pmc (citing articles only), OpenAlex (closed, no repository copy), Unpaywall (closed, no OA location), Crossref + Europe PMC preprint searches (no preprint); manual https://doi.org/10.1038/s41587-024-02148-9. Read instead: GEO GSE197740 series record and samples GSM5929312/GSM5929313/GSM7291623 SOFT text (!Sample_extract_protocol_ch1, !Sample_instrument_model, !Sample_data_processing), saved with MANIFEST.tsv rows.",
+      "oligo_scraper": "Scraper on GEO record text: 0 hits (no sequences); earlier workbook/protocol scrape stands.",
+      "findings": "GEO authors' protocol gives read layout PE 150 + 8 + 150 (Read 1 + Index 1 + Read 2) on MGI-2000 and KAPA HiFi Uracil+ final amplification (agrees with bench protocol). GSM7291623 (mouse brain) instrument field Illumina HiSeq 2500 vs protocol text MGI-2000: GEO-record inconsistency recorded in note. Note now lists attempted routes, GEO source and narrows the read-length open question; no oligo or step changes.",
+      "deferred": [
+        "Bai2024 main text and Methods (paywalled, no PMC/repository/preprint copy; manual https://doi.org/10.1038/s41587-024-02148-9)",
+        "hmC-CATCH and TAPS/TET-pic-borane predecessor methods",
+        "Protocol-vs-workbook oligo name mapping (Linker-R03, Quencher-R03)",
+        "DNA_# 5' phosphorylation",
+        "Indicator readout strand assignment; index-read oligo identity and Methods confirmation of GEO read lengths"
+      ],
+      "scope": "Capped deferred-followup pass; defining original still unavailable; no missing-information claim accepted.",
+      "verification": "notes-only: no suite/page/pairing; check_chemistry n/a (no graph declaration); source guard 0 checked/0 failed/0 graphs; Markdown built (note + ref/MANIFEST); review schema (audit --check) pass"
+    },
+    {
+      "round": "deferred-followup-03",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Defining Bai 2024 Nat Biotechnol publisher PDF s41587-024-02148-9.pdf (hand-placed by maintainer; printed doi:10.1038/s41587-024-02148-9, title and authors verified; MANIFEST row md5 892edd12...) .txt overview 120-185; Methods oligo/model DNA synthesis and 5hmC/5mC chemistry 2582-2650, Barcoded Tn5 assembly 2671-2685, SIMPLE-seq procedures through Sequencing 2692-2795, pre-processing/read splitting 2796-2830. Earlier-read workbook MOESM2, bench protocol and GEO text used for comparison only.",
+      "oligo_scraper": "Scraper on article .txt: 2 hits (lines 2675-2676: barcoded Tn5 oligo 5Phos/GCATTCGAGACGCAAGATGTGTATAAGAGACAG and pMENTs 5Phos/CTGTCTCTTATACACATCT/ddC), both verified in text; earlier workbook scrape stands.",
+      "findings": "Notes-only. Note now cites published Methods: Tn5 loading (Vazyme S601, 30C 30 min), 48-well/12-barcode tagmentation 55C 30 min, two ligation rounds with Blocker-R01/R02 and EDTA termination, ~2,000 nuclei sub-libraries, ExoI + Bridge Adapter ligation (7.5% PEG8000, 20C 16 h), K2RuO4/malononitrile 5hmC labelling, KAPA2G Robust HS indicator-primer extension (16 cycles), mTET1CD/pic-borane 5mC, KAPA U+ index PCR 4-6 cycles, reads MGI PE 200+6+100 or NovaSeq 150+8+8+150; UMI Read2 1-10, BC at 11-15/48-52/79-83. Computed R02-R01-DNA_# Read 2 order reproduces published barcode positions. Resolved DNA_# 5'-phosphate (Methods print 5Phos; workbook omits: recorded inconsistency) and ligation naming (Methods match workbook). Recorded authors' document differences: GEO PE 150+8+150 vs Methods; bench KAPA HiFi vs KAPA2G Robust HS, 96 vs 48 wells, 5,000-10,000 vs ~2,000 nuclei. ref/MANIFEST.md records hand-download locator.",
+      "deferred": [
+        "hmC-CATCH and TAPS/TET-pic-borane predecessor methods (refs 43, 44)",
+        "Per-run read layout (Methods vs GEO; GSM7291623 instrument field)",
+        "NovaSeq Index 2 content with index-free N5 Universal primer",
+        "Sequencing primer identities (not named in Methods)",
+        "Extended Data figures and Results beyond overview not read; schematic not built (notes-only)"
+      ],
+      "scope": "Capped defining-source pass; defining article now read; notes-only; no missing-information claim accepted.",
+      "verification": "notes-only: no suite/page/pairing; check_chemistry n/a (no graph declaration); source guard 0 checked/0 failed/0 graphs; audit_protocol_sources --check ok; Markdown built (note + ref/MANIFEST); review schema checked"
+    }
+  ]
 }

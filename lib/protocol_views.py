@@ -70,10 +70,36 @@ class PrimerBindingSection:
         return (f'<h2 id="seq-primers">{html.escape(self.title)}</h2>\n'
                 + (info(self.intro_html) if self.intro_html else "")
                 + sp.section(plan.library, plan.primers, heading=self.heading,
-                             required_roles=plan.acquired_roles,
+                             required_roles=plan.required_roles,
                              read_lengths=plan.read_lengths, read_uses=plan.read_uses,
-                             show_read_content=self.show_read_content)
+                             show_read_content=self.show_read_content,
+                             unplaced_reads=plan.unplaced_reads,
+                             acquisition_unspecified=plan.acquisition_unspecified)
+                + sequencing_limitation(plan)
                 + self.after_html)
+
+
+def sequencing_limitation(plan, label: str = "") -> str:
+    """Render a sequencing plan's declared limitation, or nothing when it has none."""
+    text = (getattr(plan, "limitation", "") or "").strip()
+    if not text:
+        return ""
+    title = "Sequencing limitation" + (f" — {html.escape(label)}" if label else "")
+    return info(f"<strong>{title}.</strong> {html.escape(text)}")
+
+
+@dataclass(frozen=True)
+class PlanLimitationSection:
+    """Show the limitation recorded on one terminal's graph sequencing plan."""
+
+    terminal: str
+    label: str = ""
+
+    def render(self, graph: ProtocolGraph) -> str:
+        plan = _sequencing_plan(graph, self.terminal)
+        if not plan.limitation.strip():
+            raise ValueError(f"sequencing plan for {self.terminal!r} records no limitation")
+        return sequencing_limitation(plan, self.label)
 
 
 @dataclass(frozen=True)
@@ -202,7 +228,8 @@ def render_annotations(graph: ProtocolGraph, slot: AnnotationSlot) -> str:
 def assemble_page(graph: ProtocolGraph, parts: Iterable[str | AnnotationSlot |
                                                        OligoSection | WorkflowSection |
                                                        PrimerBindingSection | ReadLayoutSection |
-                                                       OffsetPrimerSection]) -> str:
+                                                       OffsetPrimerSection |
+                                                       PlanLimitationSection]) -> str:
     """Place declared view slots and reject annotations a page forgot to render."""
     output = []
     seen = set()
@@ -215,7 +242,8 @@ def assemble_page(graph: ProtocolGraph, parts: Iterable[str | AnnotationSlot |
         elif isinstance(part, OligoSection):
             output.append(part.render())
         elif isinstance(part, (WorkflowSection, PrimerBindingSection,
-                               ReadLayoutSection, OffsetPrimerSection)):
+                               ReadLayoutSection, OffsetPrimerSection,
+                               PlanLimitationSection)):
             output.append(part.render(graph))
         elif isinstance(part, str):
             output.append(part)

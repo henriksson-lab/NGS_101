@@ -8,7 +8,8 @@ from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow, duple
                       feature, revcomp)
 from multimodal_spatial import finish_pcr_branch
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind, Terminal)
 from protocol_model import molecule, role
 import illumina as il
 import seqprimers as sp
@@ -17,6 +18,8 @@ import seqprimers as sp
 TITLE = "Direct-seq — poly(dT) capture of programmed guide RNA"
 NOTES = "01_direct-seq.html"
 SOURCE = '<a href="https://doi.org/10.1186/s13059-020-02044-w">Song et al., <i>Genome Biology</i> (2020)</a>.'
+METHODS = ("Song et al. 2020 Methods, 'scRNA-seq on the 10 × 3′ RNA-seq platform' "
+           "(PMC7278172 JATS lines 132–144)")
 SUMMARY = ("A 30-nt A/G capture tract is encoded in the sgRNA scaffold. A normal "
            "10x 3′ v3 bead primer therefore copies guide RNA with the same cell barcode "
            "and UMI as mRNA; exact tRNA-directed nested PCR then makes the guide library.")
@@ -194,8 +197,9 @@ FINAL_LIBRARIES = (
      "The exact programmed-guide cDNA is retained between the common 10x identifier end and the tRNA-directed Read-2 end.",
      "Read 1 records the same cell barcode and UMI. Read 2 traverses the tRNA primer site and remaining tRNA sequence before identifying the guide spacer."),
 )
-READ_LENGTHS = {"Gene-expression library": {"Read 1": 28},
-                "Enriched guide library": {"Read 1": 28, "Read 2": 90}}
+# The inspected article, supplements and Methods print no sequencing run lengths;
+# acquired cycles are therefore not declared (identifier spans come from features).
+READ_LENGTHS = {}
 READ_USES = {"Gene-expression library": {"Read 1": "extract", "Read 2": "include"},
              "Enriched guide library": {"Read 1": "extract", "Read 2": "include"}}
 
@@ -227,7 +231,7 @@ def workflow() -> Workflow:
     wf.react("Repeat PCR with P5_Read1 and indexed P7_Read2",
              duplex_rows(GUIDE_LIB, label="guide-index library"),
              name="Final guide-index library",
-             note="The third PCR adds P7 and one of the exact eight-base sample indexes. The mRNA half follows the normal 10x 3′ v3 library workflow.")
+             note="The 3rd PCR adds P7 and one of the exact eight-base sample indexes. The mRNA half follows the normal 10x 3′ v3 library workflow.")
     return wf
 
 
@@ -271,54 +275,117 @@ def protocol_graph():
             ((occupied, InputRole.TEMPLATE), (bead, InputRole.STRUCTURAL),
              (rt, InputRole.CATALYST)), (shared,))
 
-    rna_branch = g.product("rna_branch", "gene-expression cDNA branch",
+    tenx_src = "10x CG000184 (cited by Methods; cDNA primer species and bases not declared in this model)"
+    tenx_primers = g.input("tenx_cdna_primers", "10x cDNA Primers, Read 1-handle species",
+                           MaterialKind.OLIGO, inferred=True, source=tenx_src)
+    tenx_primers_2 = g.input("tenx_cdna_primers_2", "10x cDNA Primers, opposite-end species",
+                             MaterialKind.OLIGO, inferred=True, source=tenx_src)
+    preamp_pol = g.input("preamp_polymerase", "10x cDNA amplification master mix",
+                         MaterialKind.CATALYST)
+    preamp = g.product("preamp_cdna", "pre-amplified cDNA (1st PCR)",
+                       MaterialKind.MOLECULAR, state=shared.state)
+    g.react("preamplify", "Pre-amplify cDNA following CG000184 (the 1st PCR)", StepKind.PCR,
+            ((shared, InputRole.TEMPLATE), (tenx_primers, InputRole.STRUCTURAL),
+             (tenx_primers_2, InputRole.STRUCTURAL), (preamp_pol, InputRole.CATALYST)), (preamp,),
+            source=METHODS,
+            geometry=PCRGeometry.unavailable(
+                PREAMPLIFIED_GUIDE,
+                reason="Methods follow CG000184 up to cDNA pre-amplification; its primers are not declared here."))
+    aliquot_a = g.product("aliquot_a", "40 µl cDNA aliquot for size selection",
+                          MaterialKind.MOLECULAR, state=shared.state)
+    aliquot_b = g.product("aliquot_b", "40 µl cDNA aliquot for gRNA library II",
+                          MaterialKind.MOLECULAR, state=PREAMPLIFIED_GUIDE)
+    g.react("split", "Divide pre-amplified cDNA into two 40 µl aliquots",
+            StepKind.SPLIT, ((preamp, InputRole.TEMPLATE),),
+            (aliquot_a, aliquot_b), changes_molecule=False, source=METHODS)
+
+    spri_a = g.input("spri_0_6_1_2", "0.6× left-sided then 0.6–1.2× double-sided bead size selection",
+                     MaterialKind.SELECTION, source=METHODS)
+    rna_branch = g.product("rna_branch", "0.6× left-sided fraction for the mRNA library",
                            MaterialKind.MOLECULAR, state=shared.state)
-    guide_branch = g.product("guide_branch", "guide-enrichment cDNA branch",
+    guide_branch = g.product("guide_branch", "0.6–1.2× fraction for index gRNA library I",
                              MaterialKind.MOLECULAR, state=PREAMPLIFIED_GUIDE)
-    g.react("split", "Split pre-amplified cDNA for gene and guide libraries",
-            StepKind.SPLIT, ((shared, InputRole.TEMPLATE),),
-            (rna_branch, guide_branch), changes_molecule=False)
+    small_waste = g.product("below_1_2x", "material not bound at 1.2×",
+                            MaterialKind.WASTE)
+    g.react("size_select", "Size-select aliquot A into mRNA and gRNA-library-I fractions",
+            StepKind.SELECTION,
+            ((aliquot_a, InputRole.TEMPLATE), (spri_a, InputRole.SELECTION)),
+            (rna_branch, guide_branch, small_waste), changes_molecule=False, source=METHODS)
+    g.discard(small_waste, "left in the 1.2× supernatant")
+    spri_b = g.input("ampure_1_2", "1.2× AMPure bead purification", MaterialKind.SELECTION,
+                     source=METHODS)
+    guide_branch_2 = g.product("guide_branch_2", "purified cDNA for index gRNA library II",
+                               MaterialKind.MOLECULAR, state=shared.state)
+    b_waste = g.product("aliquot_b_supernatant", "1.2× AMPure supernatant", MaterialKind.WASTE)
+    g.react("purify_b", "Purify aliquot B with 1.2× AMPure beads", StepKind.CLEANUP,
+            ((aliquot_b, InputRole.TEMPLATE), (spri_b, InputRole.SELECTION)),
+            (guide_branch_2, b_waste), changes_molecule=False, source=METHODS)
+    g.discard(b_waste, "left in the bead supernatant")
+    g.mark_terminal(Terminal("guide_branch_2", Disposition.UNRESOLVED,
+                             "gRNA library II receives the same 2nd and 3rd PCRs as library I; that copy is not drawn separately."))
 
     reviewed = ["cells", "gems", "partition", "bead_primer", "rt",
-                "reverse_transcribe", "split"]
+                "reverse_transcribe", "tenx_cdna_primers", "tenx_cdna_primers_2", "preamp_polymerase",
+                "preamplify", "split", "spri_0_6_1_2", "size_select", "ampure_1_2", "purify_b"]
     finish_pcr_branch(
         g, "rna", rna_branch, RNA_LIB, SEQ_PRIMERS, reviewed,
         label="Direct-seq gene expression",
-        read_lengths=READ_LENGTHS["Gene-expression library"],
+        read_lengths=READ_LENGTHS.get("Gene-expression library"),
         read_uses=READ_USES["Gene-expression library"], inferred_primers=True)
 
     p5 = g.input("p5_read1", "P5_Read1 forward primer", MaterialKind.OLIGO,
                  state=P5_READ1)
     trna = g.input("trna_read2", "tRNA_Read2 reverse primer", MaterialKind.OLIGO,
                    state=TRNA_READ2)
-    polymerase_1 = g.input("guide_polymerase_1", "guide-enrichment PCR polymerase",
-                           MaterialKind.CATALYST)
+    polymerase_1 = g.input("guide_polymerase_1", "NEBNext Ultra II Q5 Master Mix; 8 × 50 µl reactions, 14 cycles (60 °C anneal)",
+                           MaterialKind.CATALYST, source=METHODS)
     first = g.product("first_guide_amplicon", "first nested guide-PCR amplicon",
                       MaterialKind.MOLECULAR, state=FIRST_GUIDE_AMPLICON)
-    g.react("guide_pcr_1", "Enrich guide cDNA with P5_Read1 and tRNA_Read2",
+    first_raw = g.product("first_guide_pcr", "pooled 2nd-PCR reactions",
+                          MaterialKind.MOLECULAR, state=FIRST_GUIDE_AMPLICON)
+    g.react("guide_pcr_1", "Enrich guide cDNA with P5_Read1 and tRNA_Read2 (the 2nd PCR)",
             StepKind.PCR,
             ((guide_branch, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
              (trna, InputRole.STRUCTURAL), (polymerase_1, InputRole.CATALYST)),
-            (first,), geometry=FIRST_GUIDE_PCR)
+            (first_raw,), geometry=FIRST_GUIDE_PCR)
+    spri_c = g.input("spri_0_7_1_0", "0.7–1.0× double-sided size selection, eluted in 80 µl",
+                     MaterialKind.SELECTION, source=METHODS)
+    pcr1_waste = g.product("pcr2_excluded", "fragments outside the 0.7–1.0× window and primers",
+                           MaterialKind.WASTE)
+    g.react("guide_pcr_1_cleanup", "Size-select pooled 2nd-PCR products",
+            StepKind.SELECTION, ((first_raw, InputRole.TEMPLATE), (spri_c, InputRole.SELECTION)),
+            (first, pcr1_waste), changes_molecule=False, source=METHODS)
+    g.discard(pcr1_waste, "outside the double-sided bead window")
 
     indexed = g.input("p7_indexed", "P7_Read2 indexed reverse primer",
                       MaterialKind.OLIGO, state=P7_READ2_INDEX1)
-    polymerase_2 = g.input("guide_polymerase_2", "terminal guide-PCR polymerase",
-                           MaterialKind.CATALYST)
-    guide_library = g.product("guide_library", "indexed guide sequencing library",
-                              MaterialKind.LIBRARY, state=GUIDE_LIB)
-    g.react("guide_pcr_2", "Add the indexed P7 end to the enriched guide library",
+    polymerase_2 = g.input("guide_polymerase_2", "NEBNext Ultra II Q5 Master Mix; 5 × 50 µl reactions, 5 cycles (54 °C anneal, 65 °C extension)",
+                           MaterialKind.CATALYST, source=METHODS)
+    guide_raw = g.product("guide_pcr_products", "indexed 3rd-PCR products",
+                          MaterialKind.LIBRARY, state=GUIDE_LIB)
+    g.react("guide_pcr_2", "Add the indexed P7 end to the enriched guide library (the 3rd PCR)",
             StepKind.PCR,
             ((first, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
              (indexed, InputRole.STRUCTURAL), (polymerase_2, InputRole.CATALYST)),
-            (guide_library,), geometry=INDEX_GUIDE_PCR)
+            (guide_raw,), geometry=INDEX_GUIDE_PCR)
+    spri_d = g.input("ampure_0_7_1_0", "0.7–1.0× AMPure XP double-sided size selection",
+                     MaterialKind.SELECTION, source=METHODS)
+    guide_library = g.product("guide_library", "indexed guide sequencing library",
+                              MaterialKind.LIBRARY, state=GUIDE_LIB)
+    pcr2_waste = g.product("pcr3_excluded", "fragments outside the 0.7–1.0× window and primers",
+                           MaterialKind.WASTE)
+    g.react("guide_library_cleanup", "Size-select the index gRNA library",
+            StepKind.SELECTION, ((guide_raw, InputRole.TEMPLATE), (spri_d, InputRole.SELECTION)),
+            (guide_library, pcr2_waste), changes_molecule=False, source=METHODS)
+    g.discard(pcr2_waste, "outside the double-sided bead window")
     g.sequence(guide_library, SequencingPlan(
         library=GUIDE_LIB, primers=tuple(SEQ_PRIMERS),
         acquired_roles=tuple(p.role for p in SEQ_PRIMERS),
-        read_lengths=READ_LENGTHS["Enriched guide library"],
+        read_lengths=READ_LENGTHS.get("Enriched guide library", {}),
         read_uses=READ_USES["Enriched guide library"]))
     reviewed.extend(("p5_read1", "trna_read2", "guide_polymerase_1",
-                     "guide_pcr_1", "p7_indexed", "guide_polymerase_2",
-                     "guide_pcr_2", "guide_library"))
+                     "guide_pcr_1", "spri_0_7_1_0", "guide_pcr_1_cleanup", "p7_indexed",
+                     "guide_polymerase_2", "guide_pcr_2", "ampure_0_7_1_0",
+                     "guide_library_cleanup", "guide_library"))
     g.declare_reviewed_scope(reviewed, SOURCE)
     return g.require_publishable()

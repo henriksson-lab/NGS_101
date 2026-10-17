@@ -83,15 +83,38 @@ def _sureplex_graph(source: str) -> ProtocolGraph:
     p5 = g.input("p5_primer", "S503 or S504 i5/P5 index primer", MaterialKind.OLIGO)
     p7 = g.input("p7_primer", "N701–N712 i7/P7 index primer", MaterialKind.OLIGO)
     polymerase = g.input("pcr_enzyme", "Nextera PCR Master Mix", MaterialKind.CATALYST)
-    library = g.product("library", "dual-index single-read VeriSeq PGS library",
-                        MaterialKind.LIBRARY, state=SUREPLEX_LIBRARY)
+    amplified = g.product("indexed_pcr_product", "indexed VeriSeq PGS PCR product",
+                          MaterialKind.MOLECULAR, state=SUREPLEX_LIBRARY)
     g.react("index_pcr", "INFERRED — complete the Nextera shell and add selected indexes",
             StepKind.PCR,
             ((tagged, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
-             (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (library,),
+             (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (amplified,),
             geometry=PCRGeometry.unavailable(
                 SUREPLEX_LIBRARY,
                 reason="The guide identifies the commercial S5xx/N7xx primers by reagent name."))
+    ampure = g.input("ampure_beads", "AMPure XP beads, 45 µl per 45 µl PCR product (1:1)",
+                     MaterialKind.SELECTION)
+    cleaned = g.product("cleaned_library", "purified double-stranded indexed library",
+                        MaterialKind.MOLECULAR, state=SUREPLEX_LIBRARY)
+    short_waste = g.product("cleanup_waste", "short library fragments and PCR primers",
+                            MaterialKind.WASTE)
+    g.react("pcr_cleanup", "AMPure XP clean-up and size selection, 80% EtOH washes, RSB elution",
+            StepKind.CLEANUP,
+            ((amplified, InputRole.TEMPLATE), (ampure, InputRole.SELECTION)),
+            (cleaned, short_waste))
+    g.discard(short_waste, "left in the bead supernatant (guide: removes short fragments and primers)")
+    norm_beads = g.input("normalization_beads", "LNA1/LNB1 library normalization bead mix; "
+                         "LNW1 washes; 0.1 N NaOH elution into LNS1", MaterialKind.SELECTION)
+    library = g.product("library", "normalized single-stranded VeriSeq PGS library",
+                        MaterialKind.LIBRARY, state=SUREPLEX_LIBRARY)
+    unbound = g.product("unbound_library", "library not retained by the normalization beads",
+                        MaterialKind.WASTE)
+    g.react("normalize", "Bead-based library normalization; NaOH elutes single-stranded library",
+            StepKind.SELECTION,
+            ((cleaned, InputRole.TEMPLATE), (norm_beads, InputRole.SELECTION)),
+            (library, unbound))
+    g.discard(unbound, "removed with the normalization supernatant and LNW1 washes; "
+              "bead capture mechanism not disclosed in the inspected guide")
     roles = ("Read 1", "Index 1 (i7)", "Index 2 (i5)")
     primers_used = tuple(p for p in SUREPLEX_PRIMERS if p.role in roles)
     g.sequence(library, SequencingPlan(
@@ -104,7 +127,9 @@ def _sureplex_graph(source: str) -> ProtocolGraph:
         "preamp_product", "amplification_enzyme", "wga", "no_cell_control",
         "control_artifact", "no_cell_pcr_artifact",
         "wga_product", "tn5_adapters", "tn5", "tagment", "p5_primer", "p7_primer",
-        "pcr_enzyme", "index_pcr", "library"), source)
+        "pcr_enzyme", "index_pcr", "indexed_pcr_product", "ampure_beads", "pcr_cleanup",
+        "cleaned_library", "cleanup_waste", "normalization_beads", "normalize",
+        "unbound_library", "library"), source)
     return g.require_publishable()
 
 

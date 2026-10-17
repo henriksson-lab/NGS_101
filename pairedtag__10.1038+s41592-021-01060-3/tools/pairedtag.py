@@ -15,11 +15,11 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import (Construct, MolecularState, Row, Scene, Segment, Workflow,
-                      duplex_rows, feature, revcomp)
+from chemdraw import Construct, Row, Scene, Segment, feature, revcomp
 from multimodal_spatial import HybridizationLigationRound, finish_pcr_branch
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SourceClaim,
+                            SourceDiscrepancy, StepKind)
 
 
 def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
@@ -370,10 +370,10 @@ for library in (DNA_LIBRARY, RNA_LIBRARY):
 FINAL_LIBRARIES = (
     ("Histone-mark DNA library", DNA_LIBRARY, DNA_PRIMERS,
      "Zero-phase representative. Read 1 maps antibody-targeted DNA; Read 2 begins with the UMI and traverses BC3, BC2 and BC1.",
-     "The DNA branch uses the P5-FokI adapter and P5 Universal primer. Index 1 is six source-defined bases acquired in a seven-cycle index read."),
+     "The DNA branch uses the P5-FokI adapter and P5 Universal primer. Index 1 is six source-defined bases acquired in a seven-cycle index read. Methods give Read 1 as 50 or 100 cycles; the 100-cycle option is drawn."),
     ("Transcriptome library", RNA_LIBRARY, RNA_PRIMERS,
      "Zero-phase oligo(dT)-primed representative. Read 1 maps transcript cDNA from the N5/ME end; Read 2 carries the same UMI and three-part nuclear identity. Random-N6-primed molecules replace the VN/poly(A) tract with the six-base priming tract.",
-     "The RNA branch receives N5 by tagmentation. The carried i5 is not acquired in the published single-index run."),
+     "The RNA branch receives N5 by tagmentation. The carried i5 is not acquired in the published single-index run. Methods give Read 1 as 50 or 100 cycles; the 100-cycle option is drawn."),
 )
 READ_LENGTHS = {
     "Histone-mark DNA library": {"Read 1": 100, "Index 1 (i7)": 7, "Read 2": 100},
@@ -395,7 +395,7 @@ def oligos():
         f"<b>Linker-R02 / Blocker-R02</b> — 5′-{LINKER_R02}-3′ / 5′-{BLOCKER_R02}-3′",
         f"<b>R04_#01</b> — 5′-{R3_READ2_ARM}[10-nt UMI][7-nt BC3][0–3-nt phase]{R3_LIGATING_ARM}-3′",
         f"<b>Linker-R03 / Quencher-R03</b> — 5′-{LINKER_R03}-3′ / 5′-{QUENCHER_R03}-3′",
-        f"<b>Anchor-FokI-GH</b> — 5′-{ANCHOR_WRITTEN}-3′ (penultimate bond phosphorothioate)",
+        f"<b>Anchor-FokI-GH</b> — 5′-{ANCHOR_HANDLE}{ANCHOR_G}*H-3′ (table prints * before the terminal H)",
         f"<b>P5-FokI / P5c-NNDC-FokI</b> — 5′-{P5_FOKI}-3′ / 5′-/5Phos/{P5C_NNDC}-3′",
         f"<b>P5H-FokI / P5Hc-NNDC-FokI</b> — 5′-{P5H_FOKI}-3′ / 5′-/5Phos/{P5HC_NNDC}-3′",
         f"<b>PA-F / PA-R</b> — 5′-{PA_F}-3′ / 5′-{PA_R}-3′",
@@ -414,55 +414,32 @@ def _initial_rows() -> list[Row]:
     return [*chromatin.rows(), *mrna.rows()]
 
 
-def workflow() -> Workflow:
-    wf = Workflow(MolecularState("Antibody-stained permeabilized nuclei",
-                                 tuple(_initial_rows())))
-    wf.react("Anneal the BC1 transposon and load pA–Tn5",
-             tn5_loading_scene().rows(), name="BC1-loaded pA–Tn5",
-             note="DNA_#01_RE carries the exact common arm, four-base BC1, NotI site and mosaic end; pMENTs is 5′-phosphorylated and 3′-ddC blocked.")
-    wf.react("Tether and transpose at the antibody-bound histone mark",
-             _indexed_scene("DNA", 1).rows(), name="BC1-tagged histone-mark DNA")
-    wf.react("Reverse-transcribe RNA with both BC1 primer families",
-             [*rt_scene(False).rows(), *rt_scene(True).rows(),
-              *_both_modalities(1)], name="BC1-tagged RNA and DNA",
-             note="Matched four-base BC1 sequences occur in the oligo(dT)16-VN, random-N6 and transposome oligos.")
-    wf.ligate_adapter("Splint-ligate BC2", _round2_geometry(),
-                      _both_modalities(2), name="After barcode round 2",
-                      note="Blocker-R02 sequesters the linker after the first ligation.")
-    wf.ligate_adapter("Splint-ligate BC3, its UMI and phase block",
-                      _round3_geometry(), _both_modalities(3),
-                      name="Three-round indexed molecules",
-                      note="The zero-phase A1 member is drawn; other wells add one to three phase bases before the common ligating arm.")
-    wf.react("Lyse nuclei and add a 3′ poly(C) tail with TdT",
-             [*_tailed_scene("RNA").rows(), *_tailed_scene("DNA").rows()],
-             name="Poly(C)-tailed indexed molecules")
-    wf.react("Anneal Anchor-FokI-GH and linearly extend",
-             [*_anchor_scene("RNA").rows(), *_anchor_scene("DNA").rows()],
-             name="Anchor-extended products",
-             note="The source oligo contains the PA-R handle, FokI element, G9 tract and terminal H.")
-    wf.react("Preamplify with PA-F/PA-R and split the two modalities",
-             [Row(chunks=[("DNA aliquot: SbfI + FokI expose the DNA finishing end", None, False)]),
-              Row(chunks=[("RNA aliquot: NotI exposes the RNA product for N5-Tn5", None, False)])],
-             name="Restriction-separated DNA and RNA branches")
-    wf.ligate_adapter("Ligate the P5-FokI duplex to the DNA branch",
-                      p5_foki_geometry(),
-                      [*duplex_rows(DNA_LIBRARY, label="DNA library"),
-                       Row(chunks=[("RNA branch awaits N5 tagmentation", None, False)])],
-                      name="P5-ligated DNA branch and digested RNA branch",
-                      note="The adapter mixture combines P5/P5c and P5H/P5Hc at 1:3; the unphased representative shows the common NNDC cohesive end.")
-    wf.react("Tagment the RNA branch with Tn5-N5 and index both libraries",
-             [*duplex_rows(DNA_LIBRARY, label="DNA library"),
-              *duplex_rows(RNA_LIBRARY, label="RNA library")],
-             name="PairedTag sequencing libraries",
-             note="The source run is PE 50 or 100 + 7 + 100 (Read 1 + Index 1 + Read 2).")
-    return wf
-
-
 def _preamp_template(kind: str) -> Construct:
     return Construct([*list(_indexed_construct(kind, 3)),
                       seg("TdT poly(C) tail", "C" * 9),
                       seg("anchor handle complement", revcomp(PA_R))],
                      name=f"PairedTag {kind} anchor-extended preamplification template")
+
+
+PRIMER_TABLE = "Supplementary Table 1, sheet Primer Sequences"
+
+
+def _n5xx_state():
+    """N5XX as printed: P5, an 8-N i5 window, then the 14-nt S5 footprint."""
+    state = Construct([Segment("P5", il.P5), Segment("i5", "N" * 8, feature=I5),
+                       Segment("S5", nx.S5)])
+    if "".join(x.top for x in state.segments) != N5XX:
+        raise ValueError("N5XX state no longer matches the declared primer")
+    return state
+
+
+def _p7xx_state():
+    """P7XX as printed: P7, a 6-N i7 window, then TruSeq Read 2 minus its last T."""
+    state = Construct([Segment("P7", il.P7), Segment("i7", "N" * 6, feature=I7),
+                       Segment("TruSeq Read 2 (minus 3' T)", il.TRUSEQ_READ2[:-1])])
+    if "".join(x.top for x in state.segments) != P7XX:
+        raise ValueError("P7XX state no longer matches the declared primer")
+    return state
 
 
 def protocol_graph():
@@ -478,25 +455,25 @@ def protocol_graph():
     rt=g.input("rt","Maxima H-minus reverse transcriptase",MaterialKind.CATALYST)
     copied=g.product("copied","BC1-tagged RNA and histone-mark DNA",MaterialKind.MOLECULAR,state=_both_modalities(1))
     g.react("reverse_transcribe","Reverse-transcribe nuclear RNA with both BC1 primer families",StepKind.REVERSE_TRANSCRIPTION,((tagged,InputRole.TEMPLATE),(dt,InputRole.STRUCTURAL),(n6,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(copied,))
-    ligase=g.input("barcode_ligase","barcode-chain DNA ligase",MaterialKind.CATALYST)
+    ligase=g.input("barcode_ligase","T4 DNA ligase (NEB M0202L) in NEBuffer 3.1/T4 ligase buffer",MaterialKind.CATALYST)
     bc2=g.input("bc2","round-2 barcode oligo and Linker-R02",MaterialKind.OLIGO,state=ROUND2.adapter_scene())
     round2=g.product("round2","RNA and DNA after BC2 splint ligation",MaterialKind.MOLECULAR,state=_both_modalities(2))
     g.react("ligate_bc2","Splint-ligate BC2",StepKind.LIGATION,((copied,InputRole.TEMPLATE),(bc2,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(round2,),geometry=_round2_geometry())
     bc3=g.input("bc3","round-3 barcode/UMI oligo and Linker-R03",MaterialKind.OLIGO,state=_round3_geometry().scenes[0])
     round3=g.product("round3","three-round indexed RNA and DNA",MaterialKind.MOLECULAR,state=_both_modalities(3))
     g.react("ligate_bc3","Splint-ligate BC3, UMI and phase block",StepKind.LIGATION,((round2,InputRole.TEMPLATE),(bc3,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(round3,),geometry=_round3_geometry())
-    tdt=g.input("tdt","terminal deoxynucleotidyl transferase",MaterialKind.CATALYST)
+    tdt=g.input("tdt","NEB terminal transferase (M0315S) with dCTP after 95 C denaturation",MaterialKind.CATALYST)
     tailed=g.product("tailed","poly(C)-tailed indexed RNA and DNA",MaterialKind.MOLECULAR,state=[*_tailed_scene("RNA").rows(),*_tailed_scene("DNA").rows()])
     g.react("tail","Add a 3-prime poly(C) tail with TdT",StepKind.TAILING,((round3,InputRole.TEMPLATE),(tdt,InputRole.CATALYST)),(tailed,))
-    anchor=g.input("anchor","Anchor-FokI-GH oligo",MaterialKind.OLIGO)
+    anchor=g.input("anchor","Anchor-FokI-GH oligo",MaterialKind.OLIGO,state=(ANCHOR_WRITTEN,),source=PRIMER_TABLE+" ('*' before the terminal H not modelled)")
     annealed=g.product("annealed","Anchor-FokI-GH annealed to both poly(C)-tailed branches",MaterialKind.MOLECULAR,state=[*_anchor_scene("RNA").rows(),*_anchor_scene("DNA").rows()])
     g.react("anneal_anchor","Anneal Anchor-FokI-GH",StepKind.HYBRIDIZATION,((tailed,InputRole.TEMPLATE),(anchor,InputRole.STRUCTURAL)),(annealed,))
-    extension=g.input("extension_polymerase","anchor-extension polymerase",MaterialKind.CATALYST)
+    extension=g.input("extension_polymerase","KAPA HiFi HotStart polymerase (Anchor Mix; 16 linear cycles)",MaterialKind.CATALYST)
     extended=g.product("extended","anchor-extended RNA and DNA products",MaterialKind.MOLECULAR,state=[*_anchor_scene("RNA").rows(),*_anchor_scene("DNA").rows()])
     g.react("extend_anchor","Linearly extend from the anchored 3-prime end",StepKind.EXTENSION,((annealed,InputRole.TEMPLATE),(extension,InputRole.CATALYST)),(extended,))
-    paf=g.input("pa_f","PA-F preamplification primer",MaterialKind.OLIGO)
-    par=g.input("pa_r","PA-R preamplification primer",MaterialKind.OLIGO)
-    prepol=g.input("preamp_polymerase","PA-F/PA-R preamplification polymerase",MaterialKind.CATALYST)
+    paf=g.input("pa_f","PA-F preamplification primer",MaterialKind.OLIGO,state=Construct([Segment("PA-F",PA_F)]),source=PRIMER_TABLE)
+    par=g.input("pa_r","PA-R preamplification primer",MaterialKind.OLIGO,state=Construct([Segment("PA-R",PA_R)]),source=PRIMER_TABLE)
+    prepol=g.input("preamp_polymerase","KAPA HiFi HotStart polymerase (11 PA-F/PA-R cycles)",MaterialKind.CATALYST)
     preamp=g.product("preamp","preamplified PairedTag RNA and DNA products",MaterialKind.MOLECULAR,state=[*_both_modalities(3)])
     pregeom=PCRGeometry.exact(_preamp_template("DNA"),PCRPrimer("PA-F",PA_F),PCRPrimer("PA-R",PA_R),statement="The published PA-F and PA-R sites face inward on the anchor-extended product.")
     g.react("preamp_pcr","Preamplify with PA-F and PA-R",StepKind.PCR,((extended,InputRole.TEMPLATE),(paf,InputRole.STRUCTURAL),(par,InputRole.STRUCTURAL),(prepol,InputRole.CATALYST)),(preamp,),geometry=pregeom)
@@ -510,7 +487,7 @@ def protocol_graph():
     rna_cut=g.product("rna_cut","NotI-cut transcriptome branch",MaterialKind.MOLECULAR,state=rna.state)
     g.react("digest_rna","Digest the RNA branch with NotI",StepKind.DIGESTION,((rna,InputRole.TEMPLATE),(rna_re,InputRole.CATALYST)),(rna_cut,))
     p5=g.input("p5_adapter","P5-FokI/P5c-NNDC-FokI adapter duplex",MaterialKind.ADAPTER,state=p5_foki_geometry().scenes[0])
-    adapter_ligase=g.input("adapter_ligase","P5-adapter DNA ligase",MaterialKind.CATALYST)
+    adapter_ligase=g.input("adapter_ligase","T4 DNA ligase (P5 adapter ligation)",MaterialKind.CATALYST)
     dna_adapted=g.product("dna_adapted","P5-adapter-ligated histone-mark DNA",MaterialKind.MOLECULAR,state=DNA_LIBRARY)
     g.react("ligate_p5","Ligate the P5-FokI duplex to the DNA branch",StepKind.LIGATION,((dna_cut,InputRole.TEMPLATE),(p5,InputRole.STRUCTURAL),(adapter_ligase,InputRole.CATALYST)),(dna_adapted,),geometry=p5_foki_geometry())
     n5=g.input("n5_transposome","N5-loaded transposome",MaterialKind.ADAPTER)
@@ -521,7 +498,19 @@ def protocol_graph():
     reviewed=["nuclei","bc1_transposome","tn5","tagment","dt_primer","n6_primer","rt","reverse_transcribe","barcode_ligase","bc2","ligate_bc2","bc3","ligate_bc3","tdt","tail","anchor","anneal_anchor","extension_polymerase","extend_anchor","pa_f","pa_r","preamp_polymerase","preamp_pcr","split","dna_restriction","digest_dna","rna_restriction","digest_rna","p5_adapter","adapter_ligase","ligate_p5","n5_transposome","rna_tn5","tagment_rna"]
     dna_geom=PCRGeometry.exact(DNA_LIBRARY,PCRPrimer("P5 Universal",P5_UNIVERSAL),PCRPrimer("P7XX",P7XX),statement="The published P5 Universal and P7XX primers face inward on the DNA library.")
     rna_geom=PCRGeometry.exact(RNA_LIBRARY,PCRPrimer("N5XX",N5XX,anneal_nt=len(nx.S5)),PCRPrimer("P7XX",P7XX),statement="The published N5XX primer extends from its 14-nt S5 3-prime footprint; P7XX binds inward from the opposite end.")
-    finish_pcr_branch(g,"dna",dna_adapted,DNA_LIBRARY,DNA_PRIMERS,reviewed,label="PairedTag histone-mark DNA",read_lengths=READ_LENGTHS["Histone-mark DNA library"],read_uses=READ_USES["Histone-mark DNA library"],geometry=dna_geom)
-    finish_pcr_branch(g,"rna",rna_tagged,RNA_LIBRARY,RNA_PRIMERS,reviewed,label="PairedTag transcriptome",read_lengths=READ_LENGTHS["Transcriptome library"],read_uses=READ_USES["Transcriptome library"],geometry=rna_geom)
+    finish_pcr_branch(g,"dna",dna_adapted,DNA_LIBRARY,DNA_PRIMERS,reviewed,label="PairedTag histone-mark DNA",forward_label="P5 Universal primer",reverse_label="P7XX indexed primer",forward_state=Construct([Segment("P5 Universal",P5_UNIVERSAL)]),reverse_state=_p7xx_state(),primer_source=PRIMER_TABLE,read_lengths=READ_LENGTHS["Histone-mark DNA library"],read_uses=READ_USES["Histone-mark DNA library"],geometry=dna_geom)
+    finish_pcr_branch(g,"rna",rna_tagged,RNA_LIBRARY,RNA_PRIMERS,reviewed,label="PairedTag transcriptome",forward_label="N5XX indexed primer",reverse_label="P7XX indexed primer",forward_state=_n5xx_state(),reverse_state=_p7xx_state(),primer_source=PRIMER_TABLE,read_lengths=READ_LENGTHS["Transcriptome library"],read_uses=READ_USES["Transcriptome library"],geometry=rna_geom)
+    g.annotate(SourceDiscrepancy("reverse_transcribe","Oligo(dT) length differs between Methods and Supplementary Table 1",
+        (SourceClaim("Online Methods, Reverse transcription (PMC7954905 JATS text line 138)","2.5 µM barcoded T15 primer"),
+         SourceClaim("Supplementary Table 1, sheet BC Plate #01, rows B1–B12 (RNA_#01_RE–RNA_#12_RE)","SbfI site followed by 16 T and VN")),
+        "The drawn RT primer uses the Supplementary Table 1 sequence (T16VN).",
+        "Only the table prints the base-level primer; the Methods value is a name in prose.",
+        "Whether 'T15' is a loose name or a different synthesized primer is not stated; the step-by-step Protocol Exchange protocol was not inspected."))
+    g.annotate(SourceDiscrepancy("anchor","Anchor oligo name and terminal mark",
+        (SourceClaim("Online Methods, Pre-amplification (JATS text line 146)","Anchor-FokI-GSH-Oligo"),
+         SourceClaim("Supplementary Table 1, sheet Primer Sequences, row Anchor-FokI-GH","…GAAGGATGTGGGGGGGGG*H")),
+        "The table sequence is drawn; '*' is shown as printed before the terminal H.",
+        "The table is the only base-level source; the same table writes the P5 Universal primer with a final '*'.",
+        "The table does not define '*' or the 'S' in the Methods name; a phosphorothioate reading is an inference, not a source statement."))
     g.declare_reviewed_scope(reviewed,SOURCE)
     return g.require_publishable()

@@ -24,9 +24,9 @@
     {
       "id": "preprint",
       "role": "linked_material",
-      "locator": "Author bioRxiv 047837 v1",
+      "locator": "Bennett, Liu, Hu, King, bioRxiv 10.1101/047837 v1 (posted 9 Apr 2016), \"Insights into telomerase action from high-throughput sequencing of S. pombe telomeres\"; local /husky/henriksson/NGS101_papers/sources/telopcr-seq__10.1002+1873-3468.12444/047837_v1.full.pdf(.txt)",
       "availability": "read",
-      "relevance": "relevant",
+      "relevance": "not_relevant",
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-15",
@@ -39,7 +39,22 @@
         "locations": "047837_v1.full.pdf.txt lines 203-221; original author PDF read after scraper",
         "finding": "Preprint agrees on anchor modifications and PCR primer bases, but Methods lines 205-209 say 0.25 pM anchor in 20 uL rather than final-paper 0.25 picomoles. Source discrepancy now stated on public page and note; final paper governs amount."
       },
-      "discovered_from": "article"
+      "discovered_from": "article",
+      "previous_relevance": "relevant",
+      "reason": "Superseded preprint of the published FEBS Letters article (row article), which is the active authority (DESIGN.md: published versions take precedence). Its earlier chemistry passes are historical; the preprint-versus-article anchor-amount wording (0.25 pM vs 0.25 picomoles) is an ordinary revision difference, not a source discrepancy.",
+      "previous_locator": "Author bioRxiv 047837 v1",
+      "supersession_pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-17",
+        "locations": "bounded check round 2026-10-17-breadth-first-20 (scraper and page review)",
+        "finding": "Treated bioRxiv 047837 as superseded by the published article; preprint hits not used and the preprint-versus-published anchor-amount \"source discrepancy\" framing removed as an ordinary revision."
+      },
+      "supersession_pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/telopcr-seq__10.1002+1873-3468.12444/047837_v1.full.pdf.txt header, title, authors, affiliations and running title (first 25 non-blank lines); /husky/henriksson/NGS101_papers/sources/telopcr-seq__10.1002+1873-3468.12444/1873-3468.12444_PMC5561429.xml.txt front matter lines 1-20 (FEBS Lett, NIHMS869265, title and authors).",
+        "finding": "Identity and supersession confirmed, chemistry not re-read. The preprint (Bennett, Liu, Hu, King; Yale; posted 9 Apr 2016) and the FEBS Letters 2016 article \"TeloPCR-seq: a high-throughput sequencing approach for telomeres\" (same four authors, same affiliations and corresponding author) report the same S. pombe telomere sequencing method; the published article governs."
+      }
     },
     {
       "id": "preprint_supp",
@@ -53,13 +68,14 @@
         "locations": "047837_047837-1.pdf.txt first 35 lines; scraper run",
         "finding": "Variant-count table, no PacBio hairpin oligo information."
       },
-      "reason": "Telomere variant counts, not library prep.",
+      "reason": "Telomere variant counts, not library prep. It is also a supplement of the superseded preprint (2026-10-17).",
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
         "locations": "047837_047837-1.pdf.txt lines 1-39; original supplement inspected after scraper",
         "finding": "Supplement lists telomere seven-base variant modules and counts, not the downstream PacBio ~250-bp hairpin adapters or sequencing primer."
-      }
+      },
+      "previous_relevance": "not_relevant"
     },
     {
       "id": "pmc_supp",
@@ -104,5 +120,36 @@
       "evidence": "Paper names manufacturer ~250 bp workflow without oligo bases; historical manual not checked."
     }
   ],
-  "conclusion": "Final article, author preprint and preprint supplement independently read; PacBio adapter chemistry blocked by historical manual and PMC supplement. Preprint/final amount discrepancy documented on page."
+  "conclusion": "Final article, author preprint and preprint supplement independently read; PacBio adapter chemistry blocked by historical manual and PMC supplement. Preprint/final amount discrepancy documented on page.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "Published FEBS Lett 2016 author manuscript PMC5561429 JATS 1873-3468.12444_PMC5561429.xml.txt Methods lines48 (Telo-PCR ligation/PCR/pooling/cleanup), 56 (PacBio ~250bp library and CCS filtering); Results line74; Figure1 legend line374; Table1 lines392–415",
+      "oligo_scraper": "Bundle scraper run; article hits line48 (anchor, primers 1/2, anchor RC primer) match the declaration; preprint hits not used (superseded); no PacBio hairpin or sequencing-primer bases in the article.",
+      "findings": "Added CircLigase II/betaine 60C2h+80C10min and named PCR polymerases (Taq 5% DMSO/primer1, iProof GC/primer2, LongAmp; 45 cycles); added 6x50uL pool and Amicon Ultra 0.5 + Qiagen cleanup with free-primer waste; replaced unsourced end-repair/dA-tail and T-overhang hairpin geometry with a warned MAGIC boundary for the manufacturer ~250bp protocol and junction-unavailable dumbbell; computational primer/GGTTAC filter recorded in sequencing limitation. Removed preprint 0.25 pM vs published 0.25 picomoles 'source discrepancy' framing (ordinary revision; published governs). Published discrepancy displayed: Methods Amicon Ultra 0.5 vs Fig1A legend Microcon concentrator; model follows Methods.",
+      "deferred": [
+        "Historical PacBio ~250 bp SMRTbell template-prep and sequencing guide (end processing, hairpin ends, primer site, chemistry)",
+        "PMC NIHMS869265 Supplemental Materials PDF (download-gated; primer placement on subtelomere reference)",
+        "Cited telomere-cloning predecessors refs 21/23",
+        "Subtelomere reference [26] for exact primer-binding coordinates"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 101 checks pass; page builds; pairing 0 problems; chemistry 0 established/2 conditional/7 unresolved/0 contradictory with end_prep MAGIC warning; source guard 4 exact checked, 0 failed, 0 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "/husky/henriksson/NGS101_papers/sources/telopcr-seq__10.1002+1873-3468.12444/047837_v1.full.pdf.txt title block; /husky/henriksson/NGS101_papers/sources/telopcr-seq__10.1002+1873-3468.12444/1873-3468.12444_PMC5561429.xml.txt lines 1-20",
+      "findings": "Policy correction: the bioRxiv 047837 row is now not_relevant as a superseded preprint, with root (round 20) and this reader confirming identity and supersession only. Its earlier chemistry passes are kept as history. No other availability or disposition changed; the PMC supplement and historical PacBio manual remain unavailable, so the missing claim stays blocked.",
+      "deferred": [],
+      "scope": "Identity/supersession check of the preprint row; no source-content reading pass and no accepted missing-information claim.",
+      "verification": "audit_protocol_sources --check passes"
+    }
+  ],
+  "conclusion_update": "2026-10-17 (agent-K-second-reader): the author preprint is now treated as superseded (not_relevant); the preprint-versus-article anchor amount is an ordinary revision, and the page no longer presents it as a discrepancy (round 20). The conclusion above is kept as the earlier state."
 }

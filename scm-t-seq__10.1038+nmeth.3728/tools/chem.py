@@ -32,6 +32,10 @@ CAVEAT=("The defining method establishes bead-based physical separation and expl
         "first-strand primer concatemers; their exact molecular assembly is not established.")
 
 G_AND_T_TSO_LINKER="AC"
+# Angermueller et al. Online Methods "Sample collection & Single-cell sequencing":
+# both libraries were sequenced on an Illumina HiSeq2000 with 125-bp paired-end reads.
+# Index-read cycles are not stated.
+READS_125PE={"Read 1":125,"Read 2":125}
 
 RNA,RP=nextera_library([seg("Smart-seq2 cDNA insert","X"*36,placeholder=True)],"scM&T-seq RNA")
 DNA=Construct([replace(s,name=s.name.replace("N9","N6"),top="N"*6)
@@ -57,7 +61,7 @@ def sections():
 
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE)
-    lysate=g.input("lysate","one-cell lysate containing genomic DNA and poly(A) RNA",MaterialKind.BIOLOGICAL,state=sections()[0][1],primary=True)
+    lysate=g.input("lysate","one-cell RLT Plus lysate (1 U/µl SUPERase-In) containing genomic DNA and poly(A) RNA",MaterialKind.BIOLOGICAL,state=sections()[0][1],primary=True)
     beads=g.input("oligodt_beads","biotinylated oligo(dT) magnetic beads",MaterialKind.SELECTION)
     rna=g.product("rna_fraction","bead-bound poly(A) RNA",MaterialKind.MOLECULAR,state=sections()[1][1][:1])
     dna=g.product("dna_fraction","genomic-DNA supernatant plus retained washes",MaterialKind.MOLECULAR,state=sections()[1][1][1:])
@@ -83,16 +87,19 @@ def protocol_graph():
     twaste=g.product("rna_tn5_waste","non-library cDNA tagmentation products",MaterialKind.WASTE)
     g.react("tagment_rna","Tagment amplified cDNA with Nextera XT",StepKind.TAGMENTATION,((preamp,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),(rna_tagged,twaste));g.discard(twaste,"does not retain an amplifiable unlike-ended cDNA fragment")
 
-    bisulfite=g.input("bisulfite","bisulfite-conversion condition",MaterialKind.CONDITION)
+    # Online Methods: DNA eluted into 10 µl H2O after G&T separation; EZ Methylation
+    # Direct (Zymo) conversion on purified DNA with AMPure XP beads present;
+    # desulphonation/purification on Zymo magnetic beads, eluted into first-strand mix.
+    bisulfite=g.input("bisulfite","EZ Methylation Direct bisulfite reagent (Zymo), desulphonated on Zymo magnetic beads",MaterialKind.CONDITION)
     converted=g.product("converted","bisulfite-converted genomic DNA",MaterialKind.MOLECULAR,state=DNA)
-    g.react("bisulfite_convert","Bisulfite-convert the genomic-DNA fraction",StepKind.CHEMICAL_CONVERSION,((dna,InputRole.TEMPLATE),(bisulfite,InputRole.CONDITION)),(converted,))
+    g.react("bisulfite_convert","Bisulfite-convert the bead-purified genomic DNA and desulphonate on magnetic beads",StepKind.CHEMICAL_CONVERSION,((dna,InputRole.TEMPLATE),(bisulfite,InputRole.CONDITION)),(converted,))
     random_primer=g.input("random_primer","scM&T oligo1 with a six-base random 3′ end",MaterialKind.OLIGO,
                           state=(seg("oligo1 inherited handle",scbs.OLIGO1_HANDLE,"r1"),
                                  seg("paper-specified random hexamer","N"*6,placeholder=True)),
                           source="Angermueller et al. Methods: N6 replaces the inherited scBS-seq N9 tail")
     dna_polymerase=g.input("dna_strand_polymerase","scBS-seq strand-synthesis polymerase",MaterialKind.CATALYST)
     primed=g.product("primed_dna","oligo1-primed bisulfite-converted DNA",MaterialKind.MOLECULAR,state=DNA)
-    g.react("prime_dna","Random-prime converted genomic DNA",StepKind.EXTENSION,((converted,InputRole.TEMPLATE),(random_primer,InputRole.STRUCTURAL),(dna_polymerase,InputRole.CATALYST)),(primed,))
+    g.react("prime_dna","Random-prime converted genomic DNA with oligo1 (repeated rounds; no first-strand biotin capture)",StepKind.EXTENSION,((converted,InputRole.TEMPLATE),(random_primer,InputRole.STRUCTURAL),(dna_polymerase,InputRole.CATALYST)),(primed,))
     oligo2=g.input("oligo2","scM&T oligo2 with a six-base random 3′ end",MaterialKind.OLIGO,
                    state=(seg("oligo2 inherited handle",scbs.OLIGO2_HANDLE,"r2"),
                           seg("paper-specified random hexamer","N"*6,placeholder=True)),
@@ -100,8 +107,15 @@ def protocol_graph():
     dna_adapted=g.product("dna_adapted","oligo1/oligo2-completed scBS-seq template",MaterialKind.MOLECULAR,state=DNA)
     g.react("adapt_dna","Random-prime the complementary strand with scBS-seq oligo2",StepKind.EXTENSION,((primed,InputRole.TEMPLATE),(oligo2,InputRole.STRUCTURAL),(dna_polymerase,InputRole.CATALYST)),(dna_adapted,))
 
-    reviewed=["lysate","oligodt_beads","separate","rt_primer","rt","reverse_transcribe","tso","template_switch","ispcr_forward","ispcr_reverse","preamp_polymerase","preamp_rna","rna_transposome","rna_tn5","tagment_rna","bisulfite","bisulfite_convert","random_primer","dna_strand_polymerase","prime_dna","oligo2","adapt_dna"]
-    finish_pcr_branch(g,"rna",rna_tagged,RNA,RP,reviewed,label="scM&T-seq RNA",geometry=s2.nextera_index_geometry(RNA))
+    # Online Methods: an extra 0.8x AMPure XP purification between second-strand
+    # synthesis and PCR replaces the omitted streptavidin capture.
+    ampure=g.input("dna_ampure","0.8x AMPure XP beads",MaterialKind.SELECTION)
+    dna_clean=g.product("dna_clean","AMPure-retained oligo1/oligo2-completed template",MaterialKind.MOLECULAR,state=DNA)
+    ampure_waste=g.product("dna_ampure_supernatant","0.8x AMPure XP supernatant (unretained small material, including free primers)",MaterialKind.WASTE)
+    g.react("cleanup_dna","Purify second-strand products with 0.8x AMPure XP before PCR",StepKind.CLEANUP,((dna_adapted,InputRole.TEMPLATE),(ampure,InputRole.SELECTION)),(dna_clean,ampure_waste),changes_molecule=False)
+    g.discard(ampure_waste,"bead supernatant removed before library PCR")
+    reviewed=["lysate","oligodt_beads","separate","rt_primer","rt","reverse_transcribe","tso","template_switch","ispcr_forward","ispcr_reverse","preamp_polymerase","preamp_rna","rna_transposome","rna_tn5","tagment_rna","bisulfite","bisulfite_convert","random_primer","dna_strand_polymerase","prime_dna","oligo2","adapt_dna","dna_ampure","cleanup_dna"]
+    finish_pcr_branch(g,"rna",rna_tagged,RNA,RP,reviewed,label="scM&T-seq RNA",read_lengths=READS_125PE,geometry=s2.nextera_index_geometry(RNA))
     ipcrtag=il.P7+"N"*scbs.IPCRTAG_INDEX_NT+scbs.IPCRTAG_3_ARM
     dna_geometry=PCRGeometry.exact(DNA,PCRPrimer("PE1",scbs.PE1),PCRPrimer("indexed iPCRTag",ipcrtag,anneal_nt=len(scbs.IPCRTAG_3_ARM)),statement="Smallwood et al. print PE1 and the indexed iPCRTag family; their annealing regions face inward on the scBS-seq product.")
     dna_forward=g.input("dna_forward","scM&T-seq DNA methylome forward PCR primer",MaterialKind.OLIGO)
@@ -111,10 +125,10 @@ def protocol_graph():
     primer_concatemers=g.product("primer_concatemers","first-strand primer concatemers observed among sequenced DNA fragments",MaterialKind.WASTE,
                                  source="Angermueller et al. 2016, Supplementary Fig. 3e caption; exact assembly not established")
     g.react("dna_pcr","Amplify and index the scM&T-seq DNA methylome branch",StepKind.PCR,
-            ((dna_adapted,InputRole.TEMPLATE),(dna_forward,InputRole.STRUCTURAL),
+            ((dna_clean,InputRole.TEMPLATE),(dna_forward,InputRole.STRUCTURAL),
              (dna_reverse,InputRole.STRUCTURAL),(dna_pcr_polymerase,InputRole.CATALYST)),
             (dna_library,primer_concatemers),geometry=dna_geometry)
-    g.sequence(dna_library,SequencingPlan(library=DNA,primers=DP,acquired_roles=tuple(p.role for p in DP)))
+    g.sequence(dna_library,SequencingPlan(library=DNA,primers=DP,acquired_roles=tuple(p.role for p in DP),read_lengths=READS_125PE))
     g.discard(primer_concatemers,"observed among sequenced reads and limits genomic alignment; exact formation stage is unresolved")
     reviewed.extend((dna_forward.id,dna_reverse.id,dna_pcr_polymerase.id,"dna_pcr",dna_library.id))
     g.declare_reviewed_scope(reviewed,SOURCE)

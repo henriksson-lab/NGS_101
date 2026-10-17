@@ -8,7 +8,8 @@ from batch_ngs import truseq_library
 from chemdraw import Construct, Segment, feature
 from circular import CircularizationGeometry
 from pcr import PCRGeometry
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_graph import (Highlight, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind)
 from protocol_model import chain, closed_circle, da_tailed, molecule, role
 from editing_outcomes import _finish_pcr
 
@@ -27,15 +28,15 @@ def workflow():
         ("Let MRE11 bind newly made double-strand breaks",
          molecule("edited chromatin with repair complexes", (role("Cas9 cleavage end"), role("MRE11 at the DNA end"), role("surrounding chromatin"))),
          "The sampling time is optimized for the delivery system; the detailed protocol suggests approximately 8–16 hours after RNP delivery."),
-        ("Formaldehyde-crosslink cells, lyse nuclei and sonicate chromatin",
-         molecule("150–500-bp crosslinked chromatin fragments", (role("random sonication end"), role("MRE11-bound DNA reaching a nuclease cut"), role("Cas9 cleavage end"))),
-         "Crosslinking preserves the transient MRE11–DNA complex while mechanical shearing makes ChIP-sized fragments."),
-        ("Immunoprecipitate MRE11 on Protein A magnetic beads",
+        ("Crosslink cells in 1% formaldehyde, lyse nuclei and sonicate chromatin",
+         molecule("crosslinked chromatin fragments of a few hundred base pairs", (role("random sonication end"), role("MRE11-bound DNA reaching a nuclease cut"), role("Cas9 cleavage end"))),
+         "1% formaldehyde for 15 min at room temperature is quenched with 125 mM glycine; a Covaris S2 shears the nuclei. The same detailed protocol states the target chromatin size twice with different windows (see the published-discrepancy notice)."),
+        ("Immunoprecipitate MRE11 on antibody-loaded Protein A magnetic beads",
          molecule("MRE11-enriched chromatin", (role("antibody–MRE11 complex"), role("DNA adjacent to a cellular DSB"), role("Cas9 cleavage boundary"))),
-         "An unedited or non-targeting sample measures background; ChIP enrichment is checked by qPCR before library construction."),
+         "The detailed protocol pre-binds a cross-reactive anti-MRE11 antibody (Novus NB100-142, or Abcam ab208020) to Protein A Dynabeads. An unedited or non-targeting sample measures background; ChIP enrichment is checked by qPCR before library construction."),
         ("Reverse crosslinks and purify the ChIP DNA",
          molecule("purified break-adjacent DNA", (role("random sonication end"), role("MRE11 footprint region"), role("native nuclease-cleavage end"))),
-         "Proteinase K and RNase A remove the captured protein and RNA while retaining the DNA endpoints used by BLENDER."),
+         "Crosslinks are reversed at 65 °C for at least 6 h in SDS elution buffer; RNase A (37 °C) then proteinase K (55 °C) remove RNA and protein, and the DNA is recovered on a Qiagen MinElute column, retaining the endpoints used by BLENDER."),
         ("End-repair and add one 3-prime dA",
          molecule("A-tailed ChIP fragments", (role("end-repaired random end"), role("break-adjacent insert"), role("end-repaired cleavage end"), role("3-prime dA"))),
          "The historical TruSeq ChIP kit blunts overhangs and then adenylates the repaired fragments."),
@@ -44,7 +45,7 @@ def workflow():
          "The discontinued kit supplies single-index adapters; Table 4/5 instructs recording six index bases in the sample sheet."),
         ("PCR-enrich, remove adapter dimers and pool",
          molecule("single-index DISCOVER-Seq library", (role("P5 and Read 1 arm"), role("MRE11-enriched insert"), role("Read 2 arm, i7 and P7"))),
-         "Amplification completes the flow-cell ends; the detailed protocol adds a 0.8× bead cleanup when adapter dimers remain."),
+         "Amplification completes the flow-cell ends; individual libraries are pooled in equal amounts and cleaned with 0.8× AMPure XP beads, and the pooled library is expected to average 300–500 bp."),
     ))
 
 
@@ -63,7 +64,7 @@ SUMMARY = 'MRE11 recruited to newly cut chromosomal DNA is fixed in place and im
 CAVEAT = 'DISCOVER-Seq does not use a custom capture oligo or UMI. Its defining implementation delegates library construction to the now-discontinued single-index TruSeq ChIP kit; index identities are public, but the kit did not publish every supplied oligo as an ordering sequence.'
 FINAL_CAPTION = 'Either genomic orientation can be captured. One library strand is shown from a random sonication boundary through MRE11-enriched DNA to the cellular nuclease-cleavage boundary; the six-base i7 sample index comes from the historical TruSeq ChIP adapter.'
 READ_LENGTHS = {'Read 1': 100, 'Index 1 (i7)': 6, 'Read 2': 100}
-SEQUENCING_INTRO = 'The detailed protocol specifies 100-bp paired-end sequencing. Standard TruSeq Read 1, Index 1 and Read 2 primers bind the final library; paired fragment endpoints, not a barcode read, provide the cut-site signal.'
+SEQUENCING_INTRO = 'The detailed protocol specifies 100-bp paired-end sequencing on a HiSeq 4000, NovaSeq or similar instrument at roughly 30–40 M read pairs per ChIP sample. Standard TruSeq Read 1, Index 1 and Read 2 primers bind the final library; paired fragment endpoints, not a barcode read, provide the cut-site signal.'
 SEQUENCING_ENDING = ''
 SEQUENCING_UNAVAILABLE = ''
 FINAL_LIBRARY, SEQ_PRIMERS = discover_library()
@@ -75,7 +76,7 @@ def protocol_graph():
                             MaterialKind.BIOLOGICAL,
                             state=molecule("edited chromatin", (role("chromosomal nuclease cuts"),)),
                             primary=True)
-    mre11 = graph.input("mre11_antibody", "MRE11-binding antibody probe",
+    mre11 = graph.input("mre11_antibody", "anti-MRE11 antibody (Novus NB100-142 or Abcam ab208020) on Protein A Dynabeads",
                         MaterialKind.SELECTION)
     bound = graph.product("mre11_bound", "MRE11-bound break chromatin",
                           MaterialKind.MOLECULAR, state=chromatin.state)
@@ -85,14 +86,14 @@ def protocol_graph():
                 ((chromatin, InputRole.TEMPLATE), (mre11, InputRole.SELECTION)),
                 (bound, unbound), changes_molecule=False)
     graph.discard(unbound, "does not carry the MRE11-bound break-end signal")
-    formaldehyde = graph.input("formaldehyde", "formaldehyde cross-linking condition",
+    formaldehyde = graph.input("formaldehyde", "1% formaldehyde, 15 min at room temperature, quenched with 125 mM glycine",
                                MaterialKind.CONDITION)
     fixed = graph.product("fixed", "cross-linked MRE11–break chromatin",
                           MaterialKind.MOLECULAR, state=bound.state)
     graph.react("crosslink", "Cross-link MRE11–DNA complexes", StepKind.CROSS_LINKING,
                 ((bound, InputRole.TEMPLATE), (formaldehyde, InputRole.CONDITION)), (fixed,))
-    shear = graph.input("sonication", "chromatin sonication condition", MaterialKind.CONDITION)
-    fragments = graph.product("fragments", "150–500-bp cross-linked chromatin fragments",
+    shear = graph.input("sonication", "Covaris S2 sonication of lysed nuclei", MaterialKind.CONDITION)
+    fragments = graph.product("fragments", "cross-linked chromatin fragments of a few hundred base pairs",
                               MaterialKind.MOLECULAR, state=fixed.state)
     graph.react("sonicate", "Sonicate fixed chromatin", StepKind.FRAGMENTATION,
                 ((fixed, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
@@ -105,7 +106,7 @@ def protocol_graph():
                 ((fragments, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
                 (captured, rejected))
     graph.discard(rejected, "is not retained by MRE11 immunoprecipitation")
-    reversal = graph.input("crosslink_reversal", "cross-link reversal and protein-removal condition",
+    reversal = graph.input("crosslink_reversal", "65 °C cross-link reversal (≥6 h), RNase A, proteinase K and MinElute recovery",
                            MaterialKind.CONDITION)
     dna = graph.product("chip_dna", "purified break-adjacent ChIP DNA",
                         MaterialKind.MOLECULAR, state=captured.state)
@@ -141,5 +142,17 @@ def protocol_graph():
                 "truseq_adapter", "adapter_ligase", "ligate"]
     _finish_pcr(graph, "library", ligated, FINAL_LIBRARY, SEQ_PRIMERS,
                 SEQUENCING_INTRO, reviewed, label="DISCOVER-Seq library")
+    graph.annotate(SourceDiscrepancy(
+        "sonicate", "The detailed protocol states two chromatin-size windows",
+        (SourceClaim("Wienert et al., Nature Protocols (2020), PMC7305837 'Sonication' overview, line113",
+                     "chromatin sheared to a fragment size of approximately 150–500 bp"),
+         SourceClaim("Same article, 'Anticipated results', line994 (and the authors' protocols.io v2, step note, line292)",
+                     "sheared chromatin should have a median size of 200–500 bp (gel smear 200–500 bp)")),
+        "The model leaves the exact shearing window unassigned and draws the fragments as 'a few hundred base pairs'.",
+        "Both passages are printed in the same original author protocol; neither is a text-extraction artefact, and the authors state that sonication must be optimized per cell type and sonicator.",
+        "Whether 150–500 bp is an informal restatement or a different acceptance window is unresolved; no single numeric range is attributed to the sequenced libraries."))
+    graph.annotate(Highlight(
+        "library_pcr", "Pooled-library cleanup and size expectation",
+        "The detailed protocol pools equal amounts of the individual TruSeq ChIP libraries, removes adapter dimers with 0.8× AMPure XP beads (repeating or using PippinPrep/gel if dimers persist) and expects a 300–500 bp mean library size. Adapter-dimer species are therefore an acknowledged by-product, and only their bead-based removal is represented as a physical separation."))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

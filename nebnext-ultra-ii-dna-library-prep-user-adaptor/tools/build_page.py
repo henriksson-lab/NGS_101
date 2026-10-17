@@ -12,6 +12,8 @@ from chemdraw import (Row, Scene, annotation_rows, oligo, panel,
                       protocol_graph_panels, strand_row)
 from dumbbell import dumbbell_rows
 from page import head, info
+from protocol_graph import AnnotationSlot
+from protocol_views import render_annotations
 
 OUT = HERE.parent / "nebnext-ultra-ii-user.html"
 
@@ -37,6 +39,7 @@ def render() -> str:
             "stem; the 40-nt dU-containing interval is the loop, and the terminal 3′ T "
             "remains outside the stem as the ligating overhang."),
         '<h2>Reaction workflow</h2>', protocol_graph_panels(graph, cls="long"),
+        render_annotations(graph, AnnotationSlot.AFTER_WORKFLOW),
         '<h2>Dual-index library and sequencing</h2>',
         info('At least three PCR cycles are required. This concrete E7600 example adds i5 TATAGCCT and i7 CGAGTAAT; the final i7 index read is its reverse complement, ATTACTCG.'),
         panel([*Scene.duplex(list(lib), label="library").rows(), *annotation_rows(lib)], cls="long", caption="PCR-completed four-read Illumina library."),

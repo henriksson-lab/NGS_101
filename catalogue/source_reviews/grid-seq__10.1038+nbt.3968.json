@@ -268,5 +268,24 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Original and same-group detailed protocol have two independent located readings. The 2017 L1 bridge pairs fully with L2, whereas 2019 Table 1 prints L1 one C shorter; the model uses the 2017 value and the public page records both. Y adapter geometry and primary 100-base single-end read are source-positive; a separate five-base barcode index-read recipe remains unverified. The linked 2019 protocol also has three publisher supplements and a 2020 correction; these original files remain unavailable locally, so the index-read absence claim cannot pass the audit gate."
+  "conclusion": "Original and same-group detailed protocol have two independent located readings. The 2017 L1 bridge pairs fully with L2, whereas 2019 Table 1 prints L1 one C shorter; the model uses the 2017 value and the public page records both. Y adapter geometry and primary 100-base single-end read are source-positive; a separate five-base barcode index-read recipe remains unverified. The linked 2019 protocol also has three publisher supplements and a 2020 correction; these original files remain unavailable locally, so the index-read absence claim cannot pass the audit gate.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-10",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published PMC5953555 JATS text Methods 'Construction of GRID-seq library' lines127–142 (linker129, nuclei/AluI/PNK132, RNA ligation/RT/DNA ligation134, PK/streptavidin/NaOH/random priming/MmeI/85-bp gel136, SAP/Y adapter/nick seal/165–185-bp gel/PCR primers/16 cycles/194-bp band/SE100 HiSeq2500 138), raw processing144; Zhou 2019 Nat Protoc PMC7721247 JATS lines104–122 (linker design, PNK 5′-phosphorylation/3′-dephosphorylation114, cDNA-containing strand release118, MmeI 2-base 3′ overhang and NN Y adapter122)",
+      "oligo_scraper": "Bundle scraper run; hits at JATS lines129/138 (and HTML1269–1281, PDF605–615 twins) are the linker strands, Y-adapter strands, PCR Primers #1/#2 and Read 1 primer; JATS line125 hits belong to the GRO-seq methods, not GRID-seq.",
+      "findings": "Model corrections: final library had two spurious 6-nt MmeI-boundary blocks inside the insert and canonical P7_RC appended after the Y arm (210 bp); now P5+BBBBB+R1 derived/checked from printed Primer #1 and P7 tail derived from printed Primer #2 (which ends in revcomp of the Y strand), giving 194 bp = published band. Graph reordered to AluI→T4 PNK→RNA ligation→RT (bridge self-primed; spurious separate RT primer removed)→free-linker wash→in-situ DNA ligation→PK extraction→streptavidin→NaOH release (bead strand discarded)→random hexamer/Klenow exo−→MmeI→85-bp gel (65-bp one-sided product discarded)→SAP→Y ligation→PNK/ligase nick seal→165–185-bp gel→16-cycle Phusion PCR→194-bp gel. MmeI tag end corrected from 5′ to 3′ two-base overhang. Page workflow gains AluI/PNK step and corrected notes; caption states either insert orientation. Linker L1 2017 vs 2019 discrepancy notice retained.",
+      "deferred": [
+        "Index-read recipe/primer for the five-base Primer #1 barcode",
+        "Exact MmeI tag lengths (19–23 bp in 2019 protocol; 20 nt modelled)",
+        "PCR primer-binding geometry on the Y-ligated template (PCRGeometry.unavailable)",
+        "Extended Data Fig. 1 rendered image and 2019 protocol procedure steps not re-read in this pass"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3 checks pass (added 194-bp band transcription check); page builds; pairing 0 problems; chemistry 18 steps 3 established/0 conditional/19 unresolved/0 contradictory; source guard 3 exact checked (L2, Y phosphorylated strand, PCR Primer #2), 0 failed, 4 inputs without exact states (bridge hybrid/random primer/Y NN strand/Primer #1 barcode); Markdown built; review schema checked"
+    }
+  ]
 }

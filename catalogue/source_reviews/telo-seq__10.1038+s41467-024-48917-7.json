@@ -5,7 +5,7 @@
     {
       "id": "article",
       "role": "defining",
-      "locator": "Schmidt et al., Nat Commun 2024, doi:10.1038/s41467-024-48917-7",
+      "locator": "Schmidt et al., Nat Commun 2024, doi:10.1038/s41467-024-48917-7; local /husky/henriksson/NGS101_papers/sources/telo-seq__10.1038+s41467-024-48917-7/s41467-024-48917-7_PMC11189484.xml(.txt)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -19,12 +19,14 @@
         "date": "2026-10-16",
         "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-024-48917-7/fulltext.xml.txt lines 165-178",
         "finding": "Original Methods describe six 5-prime-phosphorylated telorette phases, S1 splint and ONT adapter ligation after telomere enrichment."
-      }
+      },
+      "previous_locator": "Schmidt et al., Nat Commun 2024, doi:10.1038/s41467-024-48917-7",
+      "legacy_path_note": "Historical pass locations cite the legacy hand-made /husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-024-48917-7/fulltext.xml(.txt); that file corresponds to /husky/henriksson/NGS101_papers/sources/telo-seq__10.1038+s41467-024-48917-7/s41467-024-48917-7_PMC11189484.xml(.txt) (whitespace-normalised text twins are identical (the XML differs only by a processing instruction), so pass line numbers still apply)."
     },
     {
       "id": "supp_pdf",
       "role": "supplement",
-      "locator": "Schmidt et al. Supplementary Information, Table 7",
+      "locator": "Schmidt et al. Supplementary Information, Table 7; local /husky/henriksson/NGS101_papers/sources/telo-seq__10.1038+s41467-024-48917-7/s41467-024-48917-7_supp_41467_2024_48917_MOESM1_ESM.pdf(.txt)",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -38,12 +40,14 @@
         "date": "2026-10-16",
         "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-024-48917-7/supp.pdf.txt lines 1778-1811",
         "finding": "Original Table 7 prints six distinct telorette sequences and S1 but labels the third and fourth both T3, omitting T4. Page already discloses this publication discrepancy."
-      }
+      },
+      "previous_locator": "Schmidt et al. Supplementary Information, Table 7",
+      "legacy_path_note": "Historical pass locations cite the legacy hand-made /husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-024-48917-7/supp.pdf(.txt); that file corresponds to /husky/henriksson/NGS101_papers/sources/telo-seq__10.1038+s41467-024-48917-7/s41467-024-48917-7_supp_41467_2024_48917_MOESM1_ESM.pdf(.txt) (identical md5 222ecc0b7b3aa4d93220c9d3ccc58c9a)."
     },
     {
       "id": "supp_table_1",
       "role": "supplement",
-      "locator": "Schmidt et al. supplementary data workbook, sheet Supplementary Table 2_Telo-seq",
+      "locator": "Schmidt et al. supplementary data workbook, sheet Supplementary Table 2_Telo-seq; local /husky/henriksson/NGS101_papers/sources/telo-seq__10.1038+s41467-024-48917-7/s41467-024-48917-7_supp_41467_2024_48917_MOESM4_ESM.xlsx(.txt)",
       "availability": "read",
       "relevance": "not_relevant",
       "reason": "Workbook is sample measurements rather than Telo-seq oligo list.",
@@ -58,7 +62,9 @@
         "date": "2026-10-16",
         "locations": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-024-48917-7/supp_table_1.xlsx.txt lines 1-8",
         "finding": "Original Supplementary Table 2 is per-cell/per-arm telomere result data, not oligo chemistry."
-      }
+      },
+      "previous_locator": "Schmidt et al. supplementary data workbook, sheet Supplementary Table 2_Telo-seq",
+      "legacy_path_note": "Historical pass locations cite the legacy hand-made /husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-024-48917-7/supp_table_1.xlsx(.txt); that file corresponds to /husky/henriksson/NGS101_papers/sources/telo-seq__10.1038+s41467-024-48917-7/s41467-024-48917-7_supp_41467_2024_48917_MOESM4_ESM.xlsx(.txt) (identical md5 3eab3193b1f8cbfc3707cde08ecbb207)."
     },
     {
       "id": "ont_kit",
@@ -104,5 +110,36 @@
       "evidence": "Original prints S1 complementarity but historical ONT adapter construction is not cached."
     }
   ],
-  "conclusion": "Published telorette sequences and duplicate-T3 source error are independently verified and disclosed. ONT motor-adapter and relevant predecessor sources remain unavailable; missing details stay blocked."
+  "conclusion": "Published telorette sequences and duplicate-T3 source error are independently verified and disclosed. ONT motor-adapter and relevant predecessor sources remain unavailable; missing details stay blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-20",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Nat Commun 15:5149 PMC11189484 JATS (s41467-024-48917-7_PMC11189484.xml.txt, fetched this round) Results line61, Methods Telo-seq library preparation line169, basecalling lines173/179, ref24 line427; Supplementary Information MOESM1_ESM.pdf.txt Supplementary Table 7 lines1780–1796. Supplementary Data 1–5 (MOESM4–8) are measurement workbooks; MOESM9 Reporting Summary image-only; MOESM10 Source Data zip manual (>120 MB). bioRxiv 10.1101/2023.11.28.569082 superseded, not read for chemistry.",
+      "oligo_scraper": "Bundle scraper run; published hits MOESM1 lines1784 (telorette family, collapsed) and 1796 (S1) checked against Table 7; preprint hits ignored as superseded.",
+      "findings": "Replaced the shared lib/telomere graph recipe with a protocol-owned graph in teloseq.py: telorette pre-mix (exact six /5Phos/ sequences as state) + T4 DNA ligase M0202 10,000 U in rCutSmart + 0.4 mM ATP 35C 16h/65C 10min; EcoRV-HF 80 U 37C 30min/65C 20min; Klenow exo- 45 U in NEBNext dA-tailing buffer 5x50 uL 37C 30min; 1x AMPure XP (190 uL elution) and 0.5x AMPure XP (30 uL) cleanups with waste fates; S1 (exact state) 100 nM/50 mM NaCl 50C 1h; AMII ligation per SQK-NBD111 kept inferred/unavailable geometry; GridION R9.4.1 with Bonito telomere model in the sequencing limitation. Added Key oligos table (printed labels incl. duplicate T3) and derived S1 = revcomp(core) + 3' AGCAAT extension. Note cited stale filenames (fulltext.xml.txt/supp.pdf.txt) and now names current files; T3/T3 published discrepancy kept on page and note.",
+      "deferred": [
+        "ONT SQK-NBD111 Native Barcoding Kit instructions (AMII assembly, ligation reagents/conditions)",
+        "Lai et al. ref24 telorette ligation conditions",
+        "Whether the S1 3' AGCAAT extension is the AMII-pairing region",
+        "Intended label of the fourth telorette (printed T3)",
+        "ONT TELO-seq requirements page (later commercial implementation) not re-read"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 101 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/7 unresolved/0 contradictory; source guard 7 exact checked (six telorettes, S1), 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 0,
+      "locations": "md5 and whitespace-normalised text comparison of /husky/henriksson/NGS101_papers/sources/doi_10.1038+s41467-024-48917-7/ (fulltext.xml, supp.pdf, supp_table_1.xlsx) with the slug bundle /husky/henriksson/NGS101_papers/sources/telo-seq__10.1038+s41467-024-48917-7/",
+      "findings": "Pure locator correction: rows article, supp_pdf and supp_table_1 now name their originals in the slug bundle and map the legacy doi_ paths cited by historical passes (fulltext.xml -> PMC11189484 JATS with identical text twin; supp.pdf -> MOESM1, same md5; supp_table_1.xlsx -> MOESM4, same md5). Historical passes are unchanged; no availability or disposition changed.",
+      "deferred": [],
+      "scope": "Locator correction only; no source-content reading pass.",
+      "verification": "audit_protocol_sources --check passes"
+    }
+  ]
 }

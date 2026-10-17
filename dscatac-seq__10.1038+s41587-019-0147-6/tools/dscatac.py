@@ -7,8 +7,8 @@ import illumina as il
 import nextera as nx
 from chemdraw import Construct, Scene, Segment, feature
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind, Terminal)
 
 C1="TATGCATGAC"; C2="AGTCACTGAG"; BC_NT=7; TN5_BC_NT=6
 REP_TN5_BC="AAAGAA"
@@ -61,81 +61,151 @@ def _validate():
     bead_priming_scene().rows()
 _validate()
 
+SOURCE = "Defining source: https://doi.org/10.1038/s41587-019-0147-6"
+METHODS = SOURCE + " (author manuscript PMC10299900, Methods 'Droplet library preparation and sequencing')"
+SUPP_NOTE = SOURCE + " (Supplementary Note, MOESM1: bead oligos are cleaved from the bead and prime by PCR)"
+TABLE6 = SOURCE + " (Supplementary Table 6, MOESM8)"
+
+# Graph targets shared by the dscATAC and dsciATAC assemblies (from partition on).
+DROPLET_SCOPE = (
+    "beads", "droplet_loading", "partition", "bead_release_condition", "bead_release",
+    "pcr_polymerase", "gap_fill", "bead_oligo", "index_primer", "droplet_pcr",
+    "break_emulsion", "ampure_1", "cleanup_beads", "second_pcr_forward",
+    "second_pcr_reverse", "second_pcr", "ampure_2", "library")
+
+
 def protocol_graph(protocol):
     """The defining dscATAC-seq graph; dsciATAC owns its assembly locally."""
     if protocol != "dscATAC-seq":
         raise ValueError("dsciATAC-seq assembles its graph in its own directory")
-    source = "Defining source: https://doi.org/10.1038/s41587-019-0147-6"
-    graph = ProtocolGraph(protocol, authority=source)
+    graph = ProtocolGraph(protocol, authority=SOURCE)
     nuclei = graph.input("nuclei", "intact cells or nuclei", MaterialKind.BIOLOGICAL,
                          primary=True)
     tagged = tagment_cells(graph, nuclei, protocol=protocol)
-    filled = fill_transposition_gaps(graph, tagged, protocol=protocol)
-    droplets = partition_with_beads(graph, filled)
-    copy_bead_barcode(graph, droplets, protocol=protocol, source=source)
-    graph.declare_reviewed_scope((
-        "nuclei", "transposome", "tn5", "tagment", "gap_fill_polymerase", "gap_fill",
-        "droplet_loading", "partition", "bead_oligo", "reverse_primer", "pcr_polymerase",
-        "droplet_pcr", "library"), source)
+    droplet_library(graph, tagged, protocol=protocol)
+    graph.declare_reviewed_scope(("nuclei", "transposome", "tn5", "tagment",
+                                  *DROPLET_SCOPE), SOURCE)
     return graph.require_publishable()
 
 
 def tagment_cells(graph: ProtocolGraph, nuclei, *, protocol: str):
-    transposome = graph.input("transposome",
-        "barcoded Tn5 transposome" if protocol == "dsciATAC-seq" else "Tn5 transposome",
-        MaterialKind.ADAPTER, state=tuple(tn5_r1(protocol)))
+    """Bulk tagmentation with the kit Tn5 (37 C 30 min, ThermoMixer); cells stay intact."""
+    transposome = graph.input("transposome", "Tn5 transposome (kit ATAC Tagmentation Enzyme)",
+                              MaterialKind.ADAPTER, state=tuple(tn5_r1(protocol)), inferred=True,
+                              source=METHODS + "; kit enzyme adaptor bases are not printed, the Nextera s5-ME "
+                                     "arm is inferred from the Table 6 bead 3' s5 primer")
     tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
     tagged = graph.product("tagmented_cells", "intact cells containing tagmented chromatin",
                            MaterialKind.MOLECULAR)
-    waste = graph.product("tagmentation_waste", "non-library tagmentation products",
-                          MaterialKind.WASTE)
-    graph.react("tagment", "Tagment accessible chromatin while retaining intact cells",
+    graph.react("tagment", "Tagment accessible chromatin in bulk (37 C 30 min) while retaining intact cells",
                 StepKind.TAGMENTATION,
                 ((nuclei, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
-                 (tn5, InputRole.CATALYST)), (tagged, waste))
-    graph.discard(waste, "fragments without usable library ends are not amplified")
+                 (tn5, InputRole.CATALYST)), (tagged,), source=METHODS)
     return tagged
 
 
-def fill_transposition_gaps(graph: ProtocolGraph, tagged, *, protocol: str):
-    polymerase = graph.input("gap_fill_polymerase", "gap-fill polymerase", MaterialKind.CATALYST)
-    filled = graph.product("gap_filled_cells", "cells containing gap-filled tagmented fragments",
-                           MaterialKind.MOLECULAR, state=filled_fragment(protocol))
-    graph.react("gap_fill", "Fill transposition gaps", StepKind.EXTENSION,
-                ((tagged, InputRole.TEMPLATE), (polymerase, InputRole.CATALYST)), (filled,))
-    return filled
+def droplet_library(graph: ProtocolGraph, tagged, *, protocol: str):
+    """Partition, in-droplet programme, emulsion break, cleanups and second PCR.
 
-
-def partition_with_beads(graph: ProtocolGraph, filled):
-    loading = graph.input("droplet_loading", "cell and bead co-encapsulation condition",
-                          MaterialKind.CONDITION)
-    droplets = graph.product("productive_droplets", "droplets containing one cell and one barcode bead",
-                             MaterialKind.MOLECULAR)
-    excluded = graph.product("excluded_droplets", "empty or multiplet droplets", MaterialKind.WASTE)
-    graph.react("partition", "Co-encapsulate tagmented cells with super-loaded barcode beads",
+    Order follows the Methods PCR programme: 37 C 30 min, 85 C 10 min, 72 C 5 min,
+    98 C 30 s, 8 cycles, 72 C 5 min; then emulsion break, AMPure XP, 7-9 cycle second
+    PCR, AMPure XP.  Bead-release chemistry, the 85 C purpose and the 72 C purpose are
+    not stated in the article; they are kept as a warned boundary and an inferred step.
+    """
+    sci = protocol == "dsciATAC-seq"
+    beads = graph.input("beads", "super-loaded barcode beads (published 3' bead-oligo portion; 5' arm unpublished)",
+                        MaterialKind.OLIGO, state=tuple(bead_published_segments()), inferred=True,
+                        source=TABLE6 + "; bead linker cell is empty")
+    loading = graph.input("droplet_loading",
+                          "ddSEQ Single-Cell Isolator co-encapsulation with PCR mix; beads super-loaded",
+                          MaterialKind.CONDITION, source=METHODS)
+    cell_label = ("droplets with several Tn5-barcoded cells and one or more beads" if sci else
+                  "droplets with a tagmented cell and one or more beads")
+    droplets = graph.product("cell_droplets", cell_label, MaterialKind.MOLECULAR)
+    cell_free = graph.product("cell_free_droplets", "droplets without a cell (beads and PCR mix only)",
+                              MaterialKind.MOLECULAR)
+    graph.react("partition",
+                ("Co-encapsulate pooled Tn5-barcoded cells above Poisson loading with super-loaded beads"
+                 if sci else "Co-encapsulate tagmented cells with super-loaded barcode beads"),
                 StepKind.PARTITION,
-                ((filled, InputRole.TEMPLATE), (loading, InputRole.CONDITION)),
-                (droplets, excluded))
-    graph.discard(excluded, "empty and multiplet droplets are excluded from single-cell libraries")
-    return droplets
-
-
-def copy_bead_barcode(graph: ProtocolGraph, droplets, *, protocol: str, source: str):
-    bead = graph.input("bead_oligo", "published bead-barcode/s5 oligo portion", MaterialKind.OLIGO,
-                       state=tuple(bead_published_segments()), inferred=True,
-                       source=source + " (5-prime bead/P5 arm is unpublished)")
-    reverse = graph.input("reverse_primer", "droplet PCR reverse primer", MaterialKind.OLIGO,
-                          inferred=True, source=source + " (sequence unpublished)")
-    polymerase = graph.input("pcr_polymerase", "droplet PCR polymerase", MaterialKind.CATALYST)
+                ((tagged, InputRole.TEMPLATE), (beads, InputRole.STRUCTURAL),
+                 (loading, InputRole.CONDITION)), (droplets, cell_free), source=METHODS)
+    release_condition = graph.input("bead_release_condition", "37 C 30 min then 85 C 10 min in droplets",
+                                    MaterialKind.CONDITION, source=METHODS)
+    released = graph.product("released_droplets", "droplets with bead oligos released from the beads",
+                             MaterialKind.MOLECULAR, source=SUPP_NOTE)
+    graph.react("bead_release", "Release bead oligos into droplets", StepKind.MAGIC,
+                ((droplets, InputRole.TEMPLATE), (release_condition, InputRole.CONDITION)),
+                (released,), source=METHODS,
+                reason="The Supplementary Note says bead oligos are cleaved from the physical bead; "
+                       "the article gives 37 C 30 min and 85 C 10 min first but names neither the "
+                       "cleavage chemistry nor the purpose of 85 C.")
+    polymerase = graph.input("pcr_polymerase", "kit droplet PCR polymerase (not named in the article)",
+                             MaterialKind.CATALYST)
+    filled = graph.product("gap_filled_droplets", "droplets with gap-filled tagmented fragments",
+                           MaterialKind.MOLECULAR, state=filled_fragment(protocol), inferred=True,
+                           source=METHODS + "; 72 C 5 min before denaturation modelled as Tn5 gap fill (purpose not stated)")
+    graph.react("gap_fill", "INFERRED: fill Tn5 9-nt gaps at 72 C 5 min", StepKind.EXTENSION,
+                ((released, InputRole.TEMPLATE), (polymerase, InputRole.CATALYST)), (filled,),
+                source=METHODS)
+    bead = graph.input("bead_oligo", "released bead oligo (published 3' portion; 5' arm unpublished)",
+                       MaterialKind.OLIGO, state=tuple(bead_published_segments()), inferred=True,
+                       source=SUPP_NOTE + "; 5-prime bead/P5 arm is unpublished")
+    index = graph.input("index_primer",
+                        "N7xx sample-index primer (P7-i7-s7; Table 6 lists N701-N729, kit 12009360 identity not stated)",
+                        MaterialKind.OLIGO,
+                        state=(_s("P7",il.P7,"p7"),
+                               _s("i7","N"*8,"cbc",placeholder=True,feature=feature("sample_i7","sample_index","unknown")),
+                               _s("s7",nx.S7,"s7")),
+                        inferred=True,
+                        source=TABLE6 + " N70X sheet; the Methods name only SureCell ATAC-Seq Index Kit 12009360")
     final = final_library(protocol)
-    library = graph.product("library", final.name, MaterialKind.LIBRARY, inferred=True,
-                            source=source + " (bead/P5 arm unresolved from checked sources)")
-    graph.react("droplet_pcr", "Copy the bead barcode and complete the library in droplets",
+    amplicons = graph.product("droplet_amplicons", "bead-barcoded s5/s7 amplicons in droplets",
+                              MaterialKind.MOLECULAR, inferred=True,
+                              source=SUPP_NOTE + "; bead/P5 arm unresolved")
+    same_end = graph.product("same_end_amplicons",
+                             "s5/s5 (bead primer only) and s7/s7 (index primer only) products",
+                             MaterialKind.MOLECULAR, inferred=True,
+                             source="Derived from Tn5 end combinations; not reported in the article")
+    graph.react("droplet_pcr", "Bead barcoding and sample indexing PCR in droplets (8 cycles)",
                 StepKind.PCR,
-                ((droplets, InputRole.TEMPLATE), (bead, InputRole.STRUCTURAL),
-                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (library,), geometry=PCRGeometry.unavailable(
+                ((filled, InputRole.TEMPLATE), (bead, InputRole.STRUCTURAL),
+                 (index, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (amplicons, same_end), source=METHODS, geometry=PCRGeometry.unavailable(
                     final, reason="The custom Read-1 and library-primer bases are unresolved from the checked article, Supplementary Table 6 and Bio-Rad guide."))
+    graph.mark_terminal(Terminal("same_end_amplicons", Disposition.UNRESOLVED,
+        "Candidate products lacking one of P5/P7; no represented separation removes them, "
+        "and they are not expected to form clusters."))
+    broken = graph.product("pooled_products", "pooled products after breaking the emulsion",
+                           MaterialKind.MOLECULAR)
+    graph.react("break_emulsion", "Break the emulsion, pooling all droplets", StepKind.POOL,
+                ((amplicons, InputRole.TEMPLATE), (cell_free, InputRole.TEMPLATE)), (broken,),
+                source=METHODS)
+    ampure = graph.input("cleanup_beads", "AMPure XP beads", MaterialKind.SELECTION, source=METHODS)
+    clean1 = graph.product("cleaned_amplicons", "AMPure-purified barcoded amplicons", MaterialKind.MOLECULAR)
+    waste1 = graph.product("ampure_1_waste", "material not retained by AMPure XP", MaterialKind.WASTE)
+    graph.react("ampure_1", "AMPure XP cleanup", StepKind.CLEANUP,
+                ((broken, InputRole.TEMPLATE), (ampure, InputRole.SELECTION)), (clean1, waste1),
+                source=METHODS)
+    graph.discard(waste1, "AMPure XP supernatant is removed")
+    fwd = graph.input("second_pcr_forward", "second-PCR forward primer (kit; not named in the article)",
+                      MaterialKind.OLIGO, inferred=True, source=METHODS + "; primers not named")
+    rev = graph.input("second_pcr_reverse", "second-PCR reverse primer (kit; not named in the article)",
+                      MaterialKind.OLIGO, inferred=True, source=METHODS + "; primers not named")
+    amplified = graph.product("amplified_library", "re-amplified library", MaterialKind.MOLECULAR,
+                              inferred=True, source=METHODS + "; bead/P5 arm unresolved")
+    graph.react("second_pcr", "Re-amplify barcoded amplicons (7-9 cycles by cell input)", StepKind.PCR,
+                ((clean1, InputRole.TEMPLATE), (fwd, InputRole.STRUCTURAL),
+                 (rev, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (amplified,), source=METHODS, geometry=PCRGeometry.unavailable(
+                    final, reason="The article does not name the second-PCR primers; it refers to the Bio-Rad User Guide."))
+    library = graph.product("library", final.name, MaterialKind.LIBRARY, inferred=True,
+                            source=SOURCE + " (bead/P5 arm unresolved from checked sources)")
+    waste2 = graph.product("ampure_2_waste", "material not retained by AMPure XP", MaterialKind.WASTE)
+    graph.react("ampure_2", "AMPure XP cleanup; Bioanalyzer HS quantification", StepKind.CLEANUP,
+                ((amplified, InputRole.TEMPLATE), (ampure, InputRole.SELECTION)), (library, waste2),
+                source=METHODS)
+    graph.discard(waste2, "AMPure XP supernatant is removed")
     graph.sequence(library, SequencingPlan(
         limitation="The article reports read roles and cycles; the custom Read-1 and complete bead/P5 primer bases remain unresolved from the checked article, Supplementary Table 6 and Bio-Rad guide.",
         acquired_roles=("Read 1", "Index 1 (i7)", "Read 2"),

@@ -228,5 +228,26 @@
       "evidence": "The 2023 original publishes full oligo and spatial barcode tables; missing claims about these are false. Full linked-source coverage and second independent pass remain outstanding."
     }
   ],
-  "conclusion": "The 2023 original publishes full oligo and spatial barcode tables; missing claims about these are false. Full linked-source coverage and second independent pass remain outstanding."
+  "conclusion": "The 2023 original publishes full oligo and spatial barcode tables; missing claims about these are false. Full linked-source coverage and second independent pass remain outstanding.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-19",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published PMC10076218 JATS xml.txt Results line136; Methods 'Preparation of transposome' 245–252, oligo/barcode table pointer 254–256, 'Spatial ATAC–RNA-seq' 262–284, 'Spatial CUT&Tag–RNA-seq' 286–292, 'Data preprocessing' 294–298; 2023 Supplementary Information MOESM1 pdf.txt Table4 594–657, Table5 658–1066 (A-1/A-100 checked), Table6 1067–1475 (B-1 checked); 2025 Nature Protocols MOESM2 Supplementary Table 1 workbook rows 4–20 compared (letter-identical comparator only)",
+      "oligo_scraper": "Bundle scraper run; hits for Tn5ME-A/B/rev, RT primer, linkers 1/2, TSO, PCR Primers 1/2, N501/N701, barcode A-1/B-1 all verified in 2023 Methods/Supplementary Table4–6; 2025 workbook hits letter-identical.",
+      "findings": "Same shared 2023 oligo/RNA-branch corrections as spatial-ATAC-RNA-seq (TSO, PCR Primer 1/2 pre-amplification, Nextera XT, reverse crosslinking, streptavidin capture, /5Phos/ and /iBiodT/ display, unresolved off-product fates, 150PE). CUT&Tag-specific: added guinea-pig anti-rabbit secondary antibody to the binding step, Diagenode pA-Tn5 C01070002 in 300 mM NaCl with 10 mM MgCl2 activation, CUT&Tag NEBNext 58°C 5min/72°C 5min then 12 cycles and 1.3x AMPure. No published discrepancy found.",
+      "deferred": [
+        "2025 Nature Protocols main text (doi:10.1038/s41596-025-01145-9; not available)",
+        "DBiT-seq predecessor (doi:10.1016/j.cell.2020.10.026)",
+        "Diagenode Tn5/pA-Tn5 transposome assembly guidelines",
+        "Nextera XT kit P5/indexed P7 primer identities for the RNA 12-cycle PCR",
+        "Identity of the 'P5 PCR primer'/'new P5 PCR primer' beyond the Table4 N501 entry",
+        "Index-read lengths (only NovaSeq 150PE printed)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite (workflow construction, 0 explicit checks) and page build pass; pairing 0 problems; chemistry 0 contradictory/5 established/0 conditional/14 unresolved over 12 steps; source guard 3 exact checked (TSO, PCR Primer 1, PCR Primer 2), 0 failed, 9 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    }
+  ]
 }

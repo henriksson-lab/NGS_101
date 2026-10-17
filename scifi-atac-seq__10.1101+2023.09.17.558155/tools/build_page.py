@@ -27,6 +27,8 @@ def oligos() -> str:
         oligo("Tn5 B adapter", S.adapter_b()),
         oligo("Shared ME bottom", [S.seg("ME reverse complement", nx.ME_RC, "me")], mods="/5Phos/"),
         oligo("10x scATAC v1.1 gel-bead oligo", S.bead_oligo(), five="bead-|-5'-"),
+        oligo("10x SI-PCR Primer B", list(S.si_pcr_forward())),
+        oligo("10x Single Index N i7 primer", list(S.si_pcr_reverse())),
     ]
     return "<h2>Key oligos</h2><seq>" + "".join(rows) + "</seq>"
 
@@ -54,7 +56,7 @@ def main() -> None:
     graph = S.protocol_graph()
     page = assemble_page(graph, [head("scifi-ATAC-seq library chemistry"), '<div class="wrap" data-protocol-complete="true">',
         '<h1>scifi-ATAC-seq &mdash; plate pre-indexing plus overloaded 10x scATAC</h1>',
-        info('Defining source: <a href="https://doi.org/10.1101/2023.09.17.558155">Wang et al., bioRxiv (2023)</a>; droplet chemistry follows the cited 10x scATAC v1.1 guide.'),
+        info('Defining source: <a href="https://doi.org/10.1186/s13059-024-03235-5">Zhang et al., Genome Biology 25:90 (2024)</a> and its Additional files 1&ndash;2 (preprint <a href="https://doi.org/10.1101/2023.09.17.558155">bioRxiv 2023.09.17.558155</a> superseded). Droplet chemistry follows the 10x CG000209 v1.1 guide; the paper cites Rev E, the bead-oligo and sample-index structures here were read in Rev G. The i7 sample index is an unassigned 8-nt placeholder: the paper names no index well.'),
         AnnotationSlot.INTRO, oligos(), construction(graph), sequencing(), '</div>'])
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")

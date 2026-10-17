@@ -1,4 +1,9 @@
-"""Illumina Nextera Mate Pair library construction."""
+"""Illumina Nextera Mate Pair library construction.
+
+Authority: Illumina Nextera Mate Pair Library Prep Reference Guide 15035209 v02 (January 2016)
+and the Nextera Mate Pair data-processing technical note (biotinylated junction adapter,
+junction sequences, incomplete-enrichment products). Gel-free path drawn; gel-plus size
+selection is a recorded branch, not drawn."""
 from __future__ import annotations
 import sys
 from pathlib import Path
@@ -16,7 +21,7 @@ from chemdraw import circle_rows, feature
 from endprep import dA_tailed_scene, repair_and_dA_tail
 from chemdraw import Construct, Segment
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+from protocol_graph import (Highlight, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
 DUPLICATE_JUNCTION = nx.ME_RC + nx.ME
@@ -36,7 +41,9 @@ def recovered_truseq_library() -> tuple[Construct, tuple]:
     """Single-index TruSeq library around a selected mate-pair junction."""
     insert = junction_insert()
     lib = Construct([
-        seg("P5", il.P5, "p5"), seg("Read 1 arm", il.TRUSEQ_READ1, "r1"),
+        # Single-index adapter: P5 and the Read 1 arm are one oligo, so their shared
+        # ACAC occurs once (canonical universal adapter, illumina.TRUSEQ_P5_FULL).
+        seg("P5", il.TRUSEQ_P5_FULL[:-len(il.TRUSEQ_READ1)], "p5"), seg("Read 1 arm", il.TRUSEQ_READ1, "r1"),
         *insert, seg("dA junction", "A"),
         seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
         seg("six-base i7 index reverse complement", "I" * 6, "cbc", placeholder=True,
@@ -114,8 +121,8 @@ def adapter_ligation_scene() -> Scene:
 def sections():
     return [
         ("Tagment long genomic DNA", [*tagmentation_scene().rows(),
-            Row(chunks=[("strand-displacement fill repairs the nine-base Tn5 gaps", None, False)]),
-        ], "Mate Pair Tagment Enzyme fragments and tags long DNA; ** marks the transferred tag boundaries."),
+            Row(chunks=[("strand displacement repairs the short single-stranded Tn5 gaps", None, False)]),
+        ], "Mate Pair Tagment Enzyme fragments long DNA and tags both ends with a biotinylated junction adapter; ** marks the transferred tag boundaries."),
         ("Circularize long fragments", circularization_rows(),
          "Blunt intramolecular ligation closes the two distant ends; exonuclease removes molecules that remain linear."),
         ("Shear and recover the old circle junction", recovery_scene().rows(),
@@ -131,24 +138,31 @@ def sections():
 def protocol_graph():
     graph=ProtocolGraph(TITLE,authority=SOURCE)
     dna=graph.input("genomic_dna","long genomic DNA",MaterialKind.MOLECULAR,primary=True)
-    transposome=graph.input("transposome","Mate Pair Tagment Enzyme loaded adapters",
+    transposome=graph.input("transposome","Mate Pair Tagment Enzyme biotinylated junction adapter",
                             MaterialKind.ADAPTER)
     tn5=graph.input("tn5","mate-pair Tn5 transposase",MaterialKind.CATALYST)
     tagged=graph.product("tagged","long Tn5-tagged genomic fragments",
                          MaterialKind.MOLECULAR,state=tuple(tagmentation_scene().rows()))
-    tagment_waste=graph.product("tagment_waste","non-mate-pair tagmentation products",
-                                MaterialKind.WASTE)
-    graph.react("tagment","Tagment long genomic DNA",StepKind.TAGMENTATION,
+    graph.react("tagment","Tagment long genomic DNA (55 °C, 30 min; Zymo column purification)",StepKind.TAGMENTATION,
                 ((dna,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
-                 (tn5,InputRole.CATALYST)),(tagged,tagment_waste))
-    graph.discard(tagment_waste,"products outside the long mate-pair fragment range are removed")
-    fill_polymerase=graph.input("fill_polymerase","strand-displacement gap-fill polymerase",
+                 (tn5,InputRole.CATALYST)),(tagged,))
+    fill_polymerase=graph.input("fill_polymerase","Strand Displacement Enzyme Mix with dNTPs (20 °C, 30 min)",
                                 MaterialKind.CATALYST)
     filled=graph.product("filled","gap-filled long tagged fragments",MaterialKind.MOLECULAR)
-    graph.react("gap_fill","Repair the nine-base Tn5 gaps",StepKind.EXTENSION,
+    graph.react("gap_fill","Repair the short single-stranded Tn5 gaps",StepKind.EXTENSION,
                 ((tagged,InputRole.TEMPLATE),(fill_polymerase,InputRole.CATALYST)),
                 (filled,))
-    circle_ligase=graph.input("circle_ligase","blunt-end circularization ligase",
+    long_beads=graph.input("long_beads","AMPure XP beads, about 0.4x (gel-free 40 µl to 100 µl diluted reaction)",
+                           MaterialKind.SELECTION)
+    long_fragments=graph.product("long_fragments","purified long gap-filled tagged fragments",
+                                 MaterialKind.MOLECULAR)
+    short_waste=graph.product("short_waste","short tagmentation fragments (< 1500 bp) and reaction mix",
+                              MaterialKind.WASTE)
+    graph.react("remove_short","Remove short fragments with AMPure XP",StepKind.SELECTION,
+                ((filled,InputRole.TEMPLATE),(long_beads,InputRole.SELECTION)),
+                (long_fragments,short_waste),changes_molecule=False)
+    graph.discard(short_waste,"the bead supernatant is discarded (guide: removes fragments < 1500 bp)")
+    circle_ligase=graph.input("circle_ligase","Circularization Ligase, up to 600 ng DNA in 300 µl, 30 °C overnight",
                               MaterialKind.CATALYST)
     circles=graph.product("circles","circularized long mate-pair molecules",
                           MaterialKind.MOLECULAR,state=tuple(circularization_rows()))
@@ -156,48 +170,44 @@ def protocol_graph():
                                   MaterialKind.MOLECULAR)
     graph.react("circularize","Close the distant tagged ends by blunt ligation",
                 StepKind.CIRCULARIZATION,
-                ((filled,InputRole.TEMPLATE),(circle_ligase,InputRole.CATALYST)),
+                ((long_fragments,InputRole.TEMPLATE),(circle_ligase,InputRole.CATALYST)),
                 (circles,residual_linear),geometry=CircularizationGeometry.known(
                     "double-strand intramolecular ligation",
                     statement="The vendor workflow blunt-ligates the two ends of each long tagged fragment."))
-    exonuclease=graph.input("exonuclease","linear-DNA exonuclease",MaterialKind.CATALYST)
+    exonuclease=graph.input("exonuclease","Exonuclease added to the circularization reaction (37 °C 30 min, 70 °C 30 min, then Stop Ligation Buffer)",MaterialKind.CATALYST)
     linear_waste=graph.product("linear_waste","digested uncircularized DNA",MaterialKind.WASTE)
     graph.react("remove_linear","Digest molecules that remain linear",StepKind.DIGESTION,
                 ((residual_linear,InputRole.TEMPLATE),(exonuclease,InputRole.CATALYST)),
                 (linear_waste,))
     graph.discard(linear_waste,"uncircularized molecules are destroyed before junction recovery")
-    shear=graph.input("shear_condition","Covaris shearing condition",MaterialKind.CONDITION)
-    junction_fragments=graph.product("junction_fragments","junction-spanning shear fragments",
-                                     MaterialKind.MOLECULAR,state=recovery_scene())
-    ordinary_fragments=graph.product("ordinary_fragments","shear fragments lacking the old junction",
-                                     MaterialKind.WASTE)
+    shear=graph.input("shear_condition","Covaris S2/S220, 40 s at 6 °C (~300–1000 bp, 3′/5′ overhangs)",MaterialKind.CONDITION)
+    sheared=graph.product("sheared","sheared circle fragments, junction-spanning and non-junction",
+                          MaterialKind.MOLECULAR,state=recovery_scene())
     graph.react("shear","Shear circular molecules into short fragments",StepKind.FRAGMENTATION,
-                ((circles,InputRole.TEMPLATE),(shear,InputRole.CONDITION)),
-                (junction_fragments,ordinary_fragments))
-    streptavidin=graph.input("streptavidin","streptavidin capture beads",
+                ((circles,InputRole.TEMPLATE),(shear,InputRole.CONDITION)),(sheared,))
+    streptavidin=graph.input("streptavidin","Dynabeads M-280 Streptavidin (20 °C, 15 min; 4 Bead Wash Buffer and 2 RSB washes)",
                             MaterialKind.SELECTION)
     captured=graph.product("captured","captured biotin-marked junction fragments",
                            MaterialKind.MOLECULAR,state=recovery_scene())
-    uncaptured=graph.product("uncaptured","uncaptured non-junction shear fragments",
+    uncaptured=graph.product("uncaptured","non-junction shear fragments lacking the biotinylated adapter",
                              MaterialKind.WASTE)
     graph.react("capture","Capture the old circle-junction fragments",
                 StepKind.AFFINITY_CAPTURE,
-                ((junction_fragments,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
+                ((sheared,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),
                 (captured,uncaptured))
-    graph.discard(uncaptured,"fragments not retaining the biotin-marked junction are washed away")
-    graph.discard(ordinary_fragments,"ordinary shearing fragments lack the selected mate-pair junction")
-    endrepair=graph.input("endrepair","end-repair enzyme mix",MaterialKind.CATALYST)
+    graph.discard(uncaptured,"supernatant and washes are discarded; the technote notes that incomplete enrichment can carry some over")
+    endrepair=graph.input("endrepair","End Repair Mix, on bead (30 °C, 30 min)",MaterialKind.CATALYST)
     repaired=graph.product("repaired","end-repaired captured junction fragments",
                            MaterialKind.MOLECULAR)
     graph.react("end_repair","Repair captured fragment ends",StepKind.END_REPAIR,
                 ((captured,InputRole.TEMPLATE),(endrepair,InputRole.CATALYST)),(repaired,))
-    tailing=graph.input("tailing_polymerase","dA-tailing polymerase",MaterialKind.CATALYST)
+    tailing=graph.input("tailing_polymerase","A-Tailing Mix, on bead (37 °C, 30 min)",MaterialKind.CATALYST)
     tailed=graph.product("tailed","3-prime-dA-tailed junction fragments",
                          MaterialKind.MOLECULAR)
     graph.react("da_tail","Add one 3-prime dA to each end",StepKind.TAILING,
                 ((repaired,InputRole.TEMPLATE),(tailing,InputRole.CATALYST)),(tailed,))
-    adapter=graph.input("truseq_adapter","TruSeq DNA LT index adapter",MaterialKind.ADAPTER)
-    ligase=graph.input("adapter_ligase","adapter ligase",MaterialKind.CATALYST)
+    adapter=graph.input("truseq_adapter","TruSeq DNA Adapter Index (one of 12)",MaterialKind.ADAPTER)
+    ligase=graph.input("adapter_ligase","Ligation Mix, on bead (30 °C, 10 min; Ligation Stop Buffer, bead washes)",MaterialKind.CATALYST)
     adapted=graph.product("adapted","TruSeq-adapted mate-pair junction fragments",
                           MaterialKind.MOLECULAR,state=FINAL_LIBRARY)
     adapter_geometry=reported_adapter_end(
@@ -206,20 +216,32 @@ def protocol_graph():
     graph.react("ligate_adapter","Ligate the TruSeq index adapter",StepKind.LIGATION,
                 ((tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
                  (ligase,InputRole.CATALYST)),(adapted,),geometry=adapter_geometry)
-    forward=graph.input("pcr_forward","TruSeq PCR forward primer",MaterialKind.OLIGO)
-    reverse=graph.input("pcr_reverse","TruSeq indexed PCR reverse primer",MaterialKind.OLIGO)
-    pcr_polymerase=graph.input("pcr_polymerase","library PCR polymerase",
+    forward=graph.input("pcr_forward","PCR Primer Cocktail (P5-end primer; sequence not printed in the guide)",MaterialKind.OLIGO)
+    reverse=graph.input("pcr_reverse","PCR Primer Cocktail (P7-end primer; sequence not printed in the guide)",MaterialKind.OLIGO)
+    pcr_polymerase=graph.input("pcr_polymerase","Enhanced PCR Mix, on bead; 10 or 15 cycles (98/60/72 °C)",
                                MaterialKind.CATALYST)
-    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+    amplified=graph.product("amplified","amplified mate-pair library in PCR supernatant",MaterialKind.LIBRARY,state=FINAL_LIBRARY)
     graph.react("library_pcr","Amplify the captured mate-pair library",StepKind.PCR,
                 ((adapted,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
                  (reverse,InputRole.STRUCTURAL),(pcr_polymerase,InputRole.CATALYST)),
-                (library,),geometry=PCRGeometry.unavailable(
+                (amplified,),geometry=PCRGeometry.unavailable(
                     FINAL_LIBRARY,reason="The final TruSeq sites are exact; the vendor adapter precursor is represented by its reported ligating end."))
+    cleanup_beads=graph.input("cleanup_beads","AMPure XP beads on the 45 µl PCR supernatant",MaterialKind.SELECTION)
+    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+    short_library=graph.product("short_library","short library fragments (< 300 bp) and PCR reagents",MaterialKind.WASTE)
+    graph.react("clean_up","Clean up libraries with AMPure XP",StepKind.CLEANUP,
+                ((amplified,InputRole.TEMPLATE),(cleanup_beads,InputRole.SELECTION)),
+                (library,short_library),changes_molecule=False)
+    graph.discard(short_library,"bead supernatant is discarded (guide: removes library fragments < 300 bp)")
+    graph.annotate(Highlight("capture","Incomplete enrichment and single-junction products",
+        "The data-processing technical note states that non-junction fragments lack the biotinylated adapter and should be removed at enrichment, but incomplete enrichment leaves them as forward-reverse pairs with a < 1,000 bp insert peak. Shearing inside the junction adapter yields a fragment carrying only one original end; single-junction products (one adapter copy) also occur. The drawn duplicated junction is the common product."))
+    graph.annotate(Highlight("remove_short","Gel-plus branch not drawn",
+        "The gel-free path (1 µg input, 2–15 kb, median 2.5–4 kb) is drawn. The gel-plus path uses 4 µg input, a 100 µl bead addition to the 200 µl reaction, then Pippin Prep or agarose size selection with Zymo recovery before circularization; PCR is 10 or 15 cycles depending on recovered amount and size."))
     graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
                                           primers=tuple(SEQ_PRIMERS)))
     graph.declare_reviewed_scope((
         "genomic_dna","transposome","tn5","tagment","fill_polymerase","gap_fill",
+        "long_beads","remove_short","cleanup_beads","clean_up",
         "circle_ligase","circularize","exonuclease","remove_linear","shear_condition",
         "shear","streptavidin","capture","endrepair","end_repair",
         "tailing_polymerase","da_tail","truseq_adapter","adapter_ligase",

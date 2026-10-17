@@ -5,7 +5,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
 from chemdraw import Construct, Row, Scene, Segment, annotation_rows
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind, Terminal)
 from protocol_model import molecule, role as molecular_role
 
 
@@ -24,7 +25,10 @@ SUMMARY = ("A transposase fragments high-molecular-weight genomic DNA while inst
 CAVEAT = ("ONT publishes the Rapid Adapter strand. The transposase tag, complete "
           "motor-bearing assembly, attachment chemistry and exact motor-bearing strand "
           "are not assembled in this model. The endpoint shows component roles, without "
-          "placing the published strand across an unverified attachment junction.")
+          "placing the published strand across an unverified attachment junction. "
+          "The protocol has no clean-up between tagmentation, adapter attachment and "
+          "flow-cell loading, so unadapted products and free reagents are not shown as "
+          "physically removed.")
 # Explicit local assignment from the ONT Chemistry Technical Document,
 # CHTD_500 v1 rev AV (24 July 2026), section 15, Rapid Adapter top strand.
 # Sequence identity with another kit's strand does not assign that kit's assembly.
@@ -57,6 +61,9 @@ FINAL_CAPTION = ("Logical component relationship only. The source-printed RA str
                  "motor-bearing assembly are not reconstructed here.")
 FRAGMENTATION_PROGRAM = ((30, 2), (80, 2))
 RAPID_ATTACHMENT_MIN = 5
+# RSE_9177_v114 Rev Q section 3: 1.5 ul RA + 3.5 ul ADB, then 1 ul of that dilution
+# is added to the 11 ul tagmentation reaction (10 ul DNA + 1 ul FRA).
+RA_DILUTION_UL = (1.5, 3.5)
 
 
 def sections():
@@ -100,27 +107,36 @@ def protocol_graph():
     tagged = g.product("tagged", "transposase-tagged genomic fragments",
                        MaterialKind.MOLECULAR, state=TAGGED, inferred=True,
                        source=SOURCE + " (tag bases unverified)")
-    off_products = g.product("off_products", "non-sequenceable tagmentation products",
-                             MaterialKind.WASTE)
+    off_products = g.product("off_products",
+                             "candidate tagmentation products without a productive attachment end",
+                             MaterialKind.MOLECULAR, inferred=True)
     g.react("tag", "Fragment and tag genomic DNA", StepKind.TAGMENTATION,
             ((dna, InputRole.TEMPLATE), (tags, InputRole.STRUCTURAL),
              (transposase, InputRole.CATALYST)), (tagged, off_products))
-    g.discard(off_products, "does not carry a productive Rapid Adapter attachment end")
+    g.mark_terminal(Terminal(off_products.id, Disposition.UNRESOLVED,
+        "Candidate class, not an observed population. RSE_9177_v114 Rev Q has no "
+        "clean-up before loading (the Chemistry Technical Document notes the lack of "
+        "purification and residual transposase), so these molecules are carried into "
+        "the loaded library rather than physically removed."))
     rapid = g.input("rapid_adapter", "motor-loaded Rapid Adapter",
                     MaterialKind.ADAPTER, state=rapid_adapter_strand(),
                     source=CHEMISTRY_SOURCE + "; source-printed strand only; complete reagent assembly not modeled")
+    adb = g.input("adapter_buffer", "Adapter Buffer (ADB) for RA dilution",
+                  MaterialKind.CONDITION, source=SOURCE + " (1.5 µl RA + 3.5 µl ADB; 1 µl added)")
     library = g.product("library", "motor-adapted Nanopore library",
                         MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True,
                         source=SOURCE + " (complete motor-bearing assembly unverified)")
     g.react("attach", "Attach the motor-loaded Rapid Adapter",
             StepKind.ADAPTER_ATTACHMENT,
-            ((tagged, InputRole.TEMPLATE), (rapid, InputRole.STRUCTURAL)),
+            ((tagged, InputRole.TEMPLATE), (rapid, InputRole.STRUCTURAL),
+             (adb, InputRole.CONDITION)),
             (library,))
     g.sequence(library, SequencingPlan(
         library=FINAL_LIBRARY, primers=(), acquired_roles=("Nanopore strand",),
         read_uses={"Nanopore strand": "include"}, limitation=SEQUENCING_UNAVAILABLE))
     g.declare_reviewed_scope(("dna", "tag_complex", "transposase", "tag",
-                              "rapid_adapter", "attach", "library"), SOURCE)
+                              "rapid_adapter", "adapter_buffer", "attach", "library"),
+                             SOURCE)
     return g.require_publishable()
 
 

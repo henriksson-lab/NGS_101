@@ -698,27 +698,73 @@ def _graph_material_state(material) -> MolecularState:
                           (Row(chunks=[(f"[{material.label}]", None, False)]),))
 
 
-def workflow_from_protocol_graph(graph: ProtocolGraph, terminal: str) -> Workflow:
+def _same_drawn_state(a, b) -> bool:
+    if a is None or b is None:
+        return False
+    if a is b:
+        return True
+    try:
+        return bool(a == b)
+    except Exception:  # states without a usable equality are compared by identity
+        return False
+
+
+def _display_spine(graph: ProtocolGraph, step, output: str) -> tuple[str, bool]:
+    """Choose the template drawn as ``output``'s lineage through ``step``.
+
+    The first template input is the default display spine.  A step such as a pooled
+    cleanup or size selection may carry several template classes through unchanged; if
+    exactly one template has the output's own drawn state, that template is the output's
+    display lineage. Returns the spine and whether this matching-state hint was used.
+    This layout hint does not establish that the other templates did not contribute;
+    their produced preparation lineages must remain visible.
+    """
+    templates = [p.material for p in step.inputs if p.role is InputRole.TEMPLATE]
+    if not templates:
+        raise ValueError(f"cannot draw step {step.id!r}: it has no template input")
+    if len(templates) > 1:
+        state = graph.materials[output].state
+        same = [t for t in templates
+                if _same_drawn_state(graph.materials[t].state, state)]
+        if len(same) == 1:
+            return same[0], True
+    return templates[0], False
+
+
+def workflow_from_protocol_graph(graph: ProtocolGraph, terminal: str, *,
+                                 stop_steps=frozenset()) -> Workflow:
     """Derive one display spine ending at any material in a validated graph.
 
     A workflow SVG remains linear, so the first template port is its display spine.
     Additional template inputs are named explicitly and produced contributing inputs are
     rendered as their own precursor workflows by :func:`protocol_graph_panels`.  The
     graph—not this display choice—retains the complete multi-input provenance.
+    ``stop_steps`` names steps already drawn elsewhere on the page: the workflow then
+    starts at the material such a step produced instead of repeating its lineage.
     """
     if terminal not in graph.materials:
         raise ValueError(f"unknown protocol-graph material {terminal!r}")
     path = []
     current = terminal
-    while (step := graph.producer_of(current)) is not None:
-        templates = [p.material for p in step.inputs if p.role is InputRole.TEMPLATE]
-        if not templates:
-            raise ValueError(f"cannot draw step {step.id!r}: it has no template input")
-        path.append((step, current, templates[0]))
-        current = templates[0]
+    while ((step := graph.producer_of(current)) is not None
+           and step.id not in stop_steps):
+        spine, _ = _display_spine(graph, step, current)
+        path.append((step, current, spine))
+        current = spine
     path.reverse()
     workflow = Workflow(_graph_material_state(graph.materials[current]), track_graph=False)
     for step, output, spine_template in path:
+        geometry = step.geometry
+        if (step.kind is StepKind.LIGATION
+                and getattr(geometry, "availability", None) in ("known", "unavailable")
+                and callable(getattr(geometry, "rows", None))):
+            # The same ligation-ready state Workflow.ligate_adapter draws: the step's
+            # declared adapter-end geometry (or its explicit source limitation).
+            ready = MolecularState("ligation-ready adapter ends", tuple(geometry.rows()))
+            workflow.reactions.append(Reaction("Present adapter and substrate ends",
+                                               workflow.current, ready,
+                                               getattr(geometry, "statement", "")))
+            workflow.current = ready
         reagents = [graph.materials[p.material].label for p in step.inputs
                     if p.role is not InputRole.TEMPLATE]
         notes = [("Inputs: " + "; ".join(reagents))] if reagents else []
@@ -744,15 +790,39 @@ def workflow_from_protocol_graph(graph: ProtocolGraph, terminal: str) -> Workflo
     return workflow
 
 
-def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long") -> str:
+def _workflow_start(graph: ProtocolGraph, terminal: str, stop_steps) -> str:
+    """The material a stopped display spine starts from (see ``stop_steps``)."""
+    current = terminal
+    while ((step := graph.producer_of(current)) is not None
+           and step.id not in stop_steps):
+        current, _ = _display_spine(graph, step, current)
+    return current
+
+
+def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long", *,
+                          annotations: bool = False) -> str:
     """Render sequencing lineages, produced precursors, and every other terminal.
 
     Linear SVGs stay readable while the graph may branch and join.  A non-spine input
     whose material was produced inside the protocol gets a separate precursor panel;
     unproduced reagents and samples remain explicit in the consuming reaction's notes.
+    A produced input whose producing step is already drawn on the spine (a sibling output
+    of that step) is named there and is not redrawn as a precursor.
+
+    ``annotations=True`` also renders every graph annotation (including source
+    discrepancies): intro and before-workflow slots ahead of the panels, after-workflow
+    and sequencing slots after them.  Pages that place annotation slots themselves keep
+    the default and must not combine both.
     """
     graph.require_publishable()
     panels = []
+    if annotations:
+        from protocol_views import render_annotations
+        from protocol_graph import AnnotationSlot
+        for slot in (AnnotationSlot.INTRO, AnnotationSlot.BEFORE_WORKFLOW):
+            markup = render_annotations(graph, slot)
+            if markup:
+                panels.append(markup)
     # Imported here because the independent checker also reads chemdraw states.
     from chemistry_validation import warnings as validation_warnings
     warnings = validation_warnings(graph)
@@ -777,34 +847,60 @@ def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long") -> str:
         panels.append(f"<h3>{html.escape(material.label)}</h3>")
         rendered_precursors = set()
 
-        def precursor_endpoints(endpoint):
-            found = []
+        def spine_steps(endpoint, stop=frozenset()):
+            steps = set()
             current = endpoint
-            while (step := graph.producer_of(current)) is not None:
-                templates = [p.material for p in step.inputs
-                             if p.role is InputRole.TEMPLATE]
-                if not templates:
+            while (step := graph.producer_of(current)) is not None and step.id not in stop:
+                if not any(p.role is InputRole.TEMPLATE for p in step.inputs):
                     break
-                spine = templates[0]
+                steps.add(step.id)
+                current, _ = _display_spine(graph, step, current)
+            return steps
+
+        # Steps already drawn on this terminal's page section.  A precursor lineage is
+        # drawn only until it reaches one of them, so a sibling output of a drawn step is
+        # shown as its own state rather than as a repeat of the shared lineage.
+        drawn = spine_steps(material_id)
+
+        def precursor_endpoints(endpoint, stop=frozenset()):
+            # Collected per spine step while walking upstream, returned source-first.
+            groups = []
+            current = endpoint
+            while (step := graph.producer_of(current)) is not None and step.id not in stop:
+                if not any(p.role is InputRole.TEMPLATE for p in step.inputs):
+                    break
+                spine, _ = _display_spine(graph, step, current)
+                found = []
+                groups.append(found)
                 for port in step.inputs:
                     if port.material == spine or port.role not in {
                             InputRole.TEMPLATE, InputRole.STRUCTURAL,
                             InputRole.ANALYTE, InputRole.SPIKE_IN}:
                         continue
-                    if graph.producer_of(port.material) is not None:
-                        found.extend(precursor_endpoints(port.material))
-                        if port.material not in rendered_precursors:
-                            found.append(port.material)
-                            rendered_precursors.add(port.material)
+                    if (graph.producer_of(port.material) is None
+                            or port.material in rendered_precursors):
+                        continue
+                    rendered_precursors.add(port.material)
+                    prior = frozenset(drawn)
+                    drawn.update(spine_steps(port.material, prior))
+                    found.extend(precursor_endpoints(port.material, prior))
+                    found.append((port.material, prior))
                 current = spine
-            return found
+            return [entry for group in reversed(groups) for entry in group]
 
-        for precursor in precursor_endpoints(material_id):
+        for precursor, prior in precursor_endpoints(material_id):
             precursor_material = graph.materials[precursor]
-            panels.append(
-                f"<h4>{html.escape(precursor_material.label)} — precursor</h4>")
+            precursor_workflow = workflow_from_protocol_graph(graph, precursor,
+                                                              stop_steps=prior)
+            branch = graph.producer_of(_workflow_start(graph, precursor, prior))
+            if branch is not None and branch.id in prior:
+                heading = (f"{precursor_material.label} — continues from "
+                           f"“{branch.label}”")
+            else:
+                heading = f"{precursor_material.label} — precursor"
+            panels.append(f"<h4>{html.escape(heading)}</h4>")
             panels.append(workflow_panel(
-                workflow_from_protocol_graph(graph, precursor), cls=cls,
+                precursor_workflow, cls=cls,
                 caption=f"{precursor_material.label} preparation"))
         panels.append(workflow_panel(workflow_from_protocol_graph(graph, material_id), cls=cls,
                                      caption=f"{material.label} provenance"))
@@ -829,6 +925,11 @@ def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long") -> str:
                 f'<section data-graph-target="{target}" '
                 f'data-graph-disposition="{html.escape(terminal.disposition.value, quote=True)}">'
                 f'{body}</section>')
+    if annotations:
+        for slot in (AnnotationSlot.AFTER_WORKFLOW, AnnotationSlot.SEQUENCING):
+            markup = render_annotations(graph, slot)
+            if markup:
+                panels.append(markup)
     return "\n".join(panels)
 
 

@@ -6,7 +6,8 @@ import seqprimers as sp
 from chemdraw import Construct, Scene, Segment, feature, revcomp, oligo
 from multimodal_spatial import finish_pcr_branch
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind)
 
 TITLE = "INVADEseq — invasion–adhesion-directed expression sequencing"
 NOTES = "01_invadeseq.html"
@@ -22,7 +23,14 @@ CAVEAT = ("The three INVADEseq primers are published exactly. The cited 10x CG00
           "index member remain unresolved. The protocol Materials list (lines 154–156) "
           "identifies v2 reagent kit PN-1000263 and library kit PN-1000002, but Step 85 "
           "(line 758) calls PN-1000002 a v2 kit. This page uses the Materials identities "
-          "for those two roles; which kit combination the Step 85 wording intended remains unclear.")
+          "for those two roles; which kit combination the Step 85 wording intended remains unclear. "
+          "Host GEX read lengths (26 × 10 × 10 × 90) come from the 2022 <i>Nature</i> application "
+          "supplement (MOESM1 Methods, NextSeq 2000 P3-100); the 2023 protocol instead names HiSeq 4000 "
+          "paired-end 75-bp reads in its Equipment setup (line 306) and leaves NextSeq 2000/NovaSeq "
+          "read lengths to the user in Step 84 (line 732), so GEX cycles are application-specific, not "
+          "a protocol requirement. The bacterial library is indexed with 15 cycles and then re-selected "
+          "with the same 955–1,215-bp BluePippin program (Steps 115 and 119); the post-index size "
+          "change is not computed here.")
 
 RT_16S = "GGGTTGCGCTCGTTG"
 ENRICH_FORWARD = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTC"
@@ -207,7 +215,7 @@ def sections():
          "The bacterial aliquot undergoes 35-cycle enrichment, 955–1,215-bp selection, then a second 20-cycle enrichment with the same published primer pair."),
         ("Add dual sample indexes to both completed libraries",
          indexed_scene().rows(),
-         "Dual Index TT Set A PCR completes both Illumina libraries; the bacterial branch is size-selected again before 2 × 300 MiSeq sequencing."),
+         "Dual Index TT Set A PCR completes both Illumina libraries (14–16 cycles for GEX, 15 for the bacterial branch); the bacterial branch is size-selected again with the same 955–1,215-bp BluePippin program before 2 × 300 MiSeq v3 sequencing."),
     ]
 
 
@@ -340,10 +348,45 @@ def protocol_graph():
         label="INVADEseq host GEX", read_lengths=READ_LENGTHS[
             "Final host gene-expression library"], inferred_primers=True,
         limitation="Dual Index TT Set A is commercial; its lot-specific library-completion primer pair is not printed in the protocol.")
-    finish_pcr_branch(
-        g, "bacterial", second, BACTERIAL_LIBRARY, PRIMERS, reviewed,
-        label="INVADEseq bacterial 16S", read_lengths=READ_LENGTHS[
-            "Final bacterial 16S enrichment library"], inferred_primers=True,
-        limitation="Dual Index TT Set A is commercial; its lot-specific library-completion primer pair is not printed in the protocol.")
+    # Bacterial branch: Steps 111-119 index with Dual Index TT Set A (15 cycles), then
+    # repeat the 955-1,215-bp BluePippin program (Steps 92-102) before MiSeq PE300.
+    # Written locally because the shared branch helper has no post-PCR selection.
+    tt_source = SOURCE + " (endpoint primer sequence not declared in this model)"
+    tt_forward = g.input("bacterial_forward", "INVADEseq bacterial 16S forward PCR primer",
+                         MaterialKind.OLIGO, inferred=True, source=tt_source)
+    tt_reverse = g.input("bacterial_reverse", "INVADEseq bacterial 16S reverse PCR primer",
+                         MaterialKind.OLIGO, inferred=True, source=tt_source)
+    tt_polymerase = g.input("bacterial_polymerase",
+                            "INVADEseq bacterial 16S PCR polymerase", MaterialKind.CATALYST)
+    indexed = g.product("bacterial_indexed", "15-cycle dual-indexed 16S products",
+                        MaterialKind.MOLECULAR, state=BACTERIAL_LIBRARY, inferred=True,
+                        source=tt_source)
+    g.react("bacterial_pcr", "Amplify and index the INVADEseq bacterial 16S branch (15 cycles)",
+            StepKind.PCR,
+            ((second, InputRole.TEMPLATE), (tt_forward, InputRole.STRUCTURAL),
+             (tt_reverse, InputRole.STRUCTURAL), (tt_polymerase, InputRole.CATALYST)),
+            (indexed,), geometry=PCRGeometry.unavailable(
+                BACTERIAL_LIBRARY,
+                reason="Dual Index TT Set A is commercial; its lot-specific library-completion primer pair is not printed in the protocol."))
+    final_rule = g.input("final_size_rule",
+                         "repeat BluePippin 955-1215-bp program (Step 119)",
+                         MaterialKind.SELECTION)
+    library = g.product("bacterial_library", "INVADEseq bacterial 16S sequencing library",
+                        MaterialKind.LIBRARY, state=BACTERIAL_LIBRARY, inferred=True,
+                        source=tt_source)
+    final_off = g.product("final_off_size", "off-size indexed 16S products",
+                          MaterialKind.WASTE)
+    g.react("final_size_select", "Re-select indexed 16S products with the same BluePippin program",
+            StepKind.SELECTION,
+            ((indexed, InputRole.TEMPLATE), (final_rule, InputRole.SELECTION)),
+            (library, final_off), changes_molecule=False)
+    g.discard(final_off, "falls outside the repeated BluePippin collection window")
+    g.sequence(library, SequencingPlan(
+        library=BACTERIAL_LIBRARY, primers=PRIMERS,
+        acquired_roles=tuple(p.role for p in PRIMERS),
+        read_lengths=READ_LENGTHS["Final bacterial 16S enrichment library"]))
+    reviewed.extend(("bacterial_forward", "bacterial_reverse", "bacterial_polymerase",
+                     "bacterial_pcr", "bacterial_indexed", "final_size_rule",
+                     "final_size_select", "bacterial_library", "final_off_size"))
     g.declare_reviewed_scope(reviewed, SOURCE)
     return g.require_publishable()

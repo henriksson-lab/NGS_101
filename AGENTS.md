@@ -97,7 +97,11 @@ revision without checking its identity.
 
 What is still out of reach: Science / Cell / most publisher PDFs and supplements behind
 Cloudflare or a paywall — get those by hand (the manifest has the URL) and drop them in
-the same directory; `--revalidate` then checks them like any download. The scraper
+the same directory; `--revalidate` then checks them like any download. Do not work around a
+challenge (no browser-fingerprint spoofing, headless challenge solving or proxy rotation).
+`tools/fetchers/base.py` spaces requests per host across all fetcher processes (8 s for
+publishers) and stops requesting a host for six hours once it serves a challenge or HTTP 429;
+the cool-down markers are under `$CHEM_DATA/sources/.cache/ratelimit/`. The scraper
 finds oligos, not reaction order: the methods still have to be **read**.
 
 **Source revisions are part of identity.** Preserve a cited revision in retrieval

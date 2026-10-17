@@ -89,5 +89,25 @@
       "evidence": "Blanket adapter absence is false for MGIEasy UDB/UMI family: manufacturer guide prints trimming arms and index table. Complete splint/primer species and kit-specific input still unresolved."
     }
   ],
-  "conclusion": "Manufacturer adapter/index subsets recovered; exact circle splint and sequencing primer guide remain blocked."
+  "conclusion": "Manufacturer adapter/index subsets recovered; exact circle splint and sequencing primer guide remain blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-09",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "MGIEasy Dual Barcode Circularization Kit User Manual 7.0 (part SOP-013-B02-185, kit version V1.0, Sep. 2024; revision history lines 44–96) read end to end in the local .txt: sections 1.1–1.4 lines 200–232 (intended use, dual-barcode-only restriction, any MGI sequencer, component tables), 2.1 lines 556–651 (1 pmol input, 0.5 pmol minimum, Formula 1/Table 7, pooling to 48 µL), 3.1.2 lines 681–696 (95 °C 3 min, ice 2 min), 3.1.3 lines 697–740 (Tables 10–11: 11.6 µL Dual Barcode Splint Buffer + 0.5 µL DNA Rapid Ligase, 37 °C 30 min), 3.2 lines 741–815 (Tables 12–14: 1.4 µL Digestion Buffer + 2.6 µL Digestion Enzyme, 37 °C 30 min, 7.5 µL Digestion Stop Buffer), 3.3 lines 816–880 (170 µL DNA Clean Beads, two 80% EtOH washes, 22 µL TE elution, 20 µL recovered), 3.4 lines 881–1010 (Qubit ssDNA, ≥80 fmol, Formula 3/Table 16).",
+      "oligo_scraper": "Scraper over the whole bundle: 0 sequences in 0 files. The manual prints no splint, adapter or primer bases; the only MGI bases in this protocol's record remain the separately mirrored Dual Barcode Adapter & Barcode Sequences 3.0 trimming arms read in the 2026-10-15 passes (that mirror is a (manual) row and is not on disk).",
+      "findings": "Corrections, no sequence change. (1) The manual contains no DNB, rolling-circle, polymerase or sequencing-primer text: its endpoint is the bead-cleaned, Qubit-QC'd ssCir library. Added the missing bead-cleanup step and purified-ssCir product, and a graph-owned notice that the drawn nanoball steps come from the DNBSEQ platform architecture, not this kit; the phi29 input is now labelled a DNB-preparation reagent outside the kit. (2) 'linear-DNA exonuclease' replaced by the kit's actual 'Digestion Enzyme' in Digestion Buffer with its volumes/conditions, marked inferred because identity and activity are undisclosed. (3) Denaturation stated exactly (95 °C, 3 min, 1 pmol in 48 µL TE) instead of 'heat or alkaline'. (4) The complementary strand was typed as discarded waste; the manual does not say which strand is circularized, so it is now a Disposition.UNRESOLVED terminal. (5) Added the input restriction notice (Duplex UMI / UDB / MGI Dual-barcode standard product only, not single-barcode; 1 pmol recommended, 0.5 pmol minimum) and the exact splint/ligase volumes and 37 °C 30 min conditions. Caveat and note rewritten accordingly.",
+      "deferred": [
+        "DNBSEQ Platform Sequencing Primer Reference Guide (named by the adapter guide; still unobtained)",
+        "DNB-preparation source for rolling-circle replication and array loading (sequencing-reagent-kit manual; not in the bundle)",
+        "MGI DNBSEQ Dual Barcode Adapter & Barcode Sequences 3.0 — official URL HTTP 503, mirror is a (manual) row not on disk, so not re-read this round",
+        "MGIEasy Fast FS Library Prep Set User Manual 2.0 (upstream library input cited by the note's section 2)",
+        "Identity/activity of the kit's Digestion Enzyme and the splint oligo bases"
+      ],
+      "scope": "Capped vendor-manual pass on the applicable revision 7.0 only; no confirmed-absence claim is made for the undisclosed splint, enzyme or primer sequences.",
+      "verification": "local suite 98 shared checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/5 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states; Markdown built; review schema checked"
+    }
+  ]
 }

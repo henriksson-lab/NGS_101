@@ -70,7 +70,8 @@
       "pass_1": null,
       "pass_2": null,
       "reason": "Original PMC JATS links NIHMS665960-supplement-Supp.pdf at https://pmc.ncbi.nlm.nih.gov/articles/instance/4372803/bin/NIHMS665960-supplement-Supp.pdf; PMC download remains gated and direct PMC Cloud object returned HTTP 404 on 2026-10-16. Author thesis indexed with a 01–40 table also timed out, so no primary full membership can be checked.",
-      "discovered_from": "detailed"
+      "discovered_from": "detailed",
+      "scope_note": "2026-10-17: the 40 sequences this file is cited for are printed in the typeset published unit as Table 25B.11.1, read by two readers from the author thesis reproduction (row author_thesis_barcode_table). The author-manuscript Supplementary File 1 itself remains unretrieved; availability stays unavailable."
     },
     {
       "id": "gingeras_encode_lab_protocol",
@@ -95,12 +96,22 @@
     {
       "id": "author_thesis_barcode_table",
       "role": "linked_material",
-      "locator": "https://repository.cshl.edu/31200/1/Batut%20Thesis.pdf (also /id/eprint/31200/1/Batut%20Thesis.pdf)",
-      "availability": "unavailable",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rampage__10.1101+gr.139618.112/Batut_Thesis.pdf (from https://repository.cshl.edu/id/eprint/31200/1/Batut%20Thesis.pdf)",
+      "availability": "read",
       "relevance": "relevant",
-      "pass_1": null,
-      "pass_2": null,
-      "reason": "Search-indexed CSHL author thesis states Table 25B.11.1 lists RAMPAGE TSO barcodes 01–40; web open of both /31200/1 and /id/eprint/31200/1 returned timeout (400), direct curl HEAD timed out, and local get_sources fetch returned curl error 6 (DNS/network restriction) on 2026-10-16. Original table and bases were not inspected. Search snippets establish a retrieval lead only, not sequence evidence.",
+      "pass_1": {
+        "reviewer": "breadth_first_16",
+        "date": "2026-10-17",
+        "locations": "Thesis PDF pp. 122-124 (article pp. 25B.11.3-25B.11.5): materials list (rampage RT, TS, CAGEscan-erF/R) and rendered Table 25B.11.1 inspected visually; text twin lines 4895-5200",
+        "finding": "Table 25B.11.1 prints 40 TSOs TAGTCGAACTGAAGGTCTCCAGCA+6-base bold barcode+rGrGrG named rampage_TS_01-40; RT primer and PCR primers match the PMC author manuscript."
+      },
+      "pass_2": {
+        "reviewer": "agent-K-second-reader",
+        "date": "2026-10-17",
+        "locations": "/husky/henriksson/NGS101_papers/sources/rampage__10.1101+gr.139618.112/Batut_Thesis.pdf: Appendix 1 header (text lines 4690-4712: \"originally published in Current Protocols in Molecular Biology\", UNIT 25B.11, Batut and Gingeras) and PDF p.124 rendered at 110 and 260 dpi (typeset page 25B.11.5, footer \"Current Protocols in Molecular Biology / Supplement 104\"), Table 25B.11.1 all 40 rows and footnote; compared with /husky/henriksson/NGS101_papers/sources/rampage__10.1101+gr.139618.112/PMC4372803_PMC4372803.xml.txt lines 186-238 (rampage_TS_** template and barcode-design paragraph).",
+        "finding": "Agree with pass 1. The appendix reproduces the typeset Current Protocols unit; Table 25B.11.1 prints rampage_TS_01-40 as TAGTCGAACTGAAGGTCTCCAGCA + bold 6-base barcode + rGrGrG, matching the author-manuscript template TAGTCGAACTGAAGGTCTCCAGCANNNNNNrGrGrG. Barcodes read from the rendered page in order: AGGTAA CACTAC TTGGTC GTGTCA GCCGAA TGATCA CTGTAT CGACTG TTCCAG ACTCTT GGATAC TTAACG GAGTGC AAGGAC CGCGTT ATGCGT ATAAGC ATCTCC TAACTC ATAGAG AGCCTA TGTAGT AAACGG CCTACG ACTAGA CCCTCT GGTATA GATCCC CAATGT GCGTTG AACTGA CCAATA GCGACT GGGGAT TCTTCC GAACAT TCGAAG TGCTGC CTGCTA GACGTG (identical, in order, to rampage.TSO_BARCODES). In the author manuscript the 40 sequences are delegated to Supplementary File 1; in the typeset unit they are printed in the article body as Table 25B.11.1."
+      },
+      "reason": "Fetched 2026-10-17 via the catalogue/extra_sources.tsv row. Appendix 1 reproduces the typeset Current Protocols Suppl. 104 article; Table 25B.11.1 on PDF p. 124 prints rampage_TS_01-40. Author reproduction, not the publisher Supplementary File 1.",
       "discovered_from": "detailed"
     }
   ],
@@ -123,8 +134,50 @@
     {
       "claim": "Exact 40 six-base inline barcode assignments",
       "evidence": "Defining article and Current Protocols text have two located reads; they refer to a 40-member family in Supplementary File 1. Original supplement is gated and the direct PMC Cloud object was 404. A later Gingeras Lab ENCODE protocol prints only 20 strings for a particular library, leaving original full membership and sample assignments unverified. An indexed author thesis appears to reproduce the 01–40 TSO barcode table but its PDF times out; no bases may be inferred from snippets.",
-      "disposition": "blocked"
+      "disposition": "resolved",
+      "previous_disposition": "blocked",
+      "evidence_update": "2026-10-17: membership resolved. Two readers (breadth_first_16 and agent-K-second-reader) read Table 25B.11.1 of the typeset Current Protocols unit, reproduced in Batut CSHL thesis Appendix 1 PDF p.124, and agree on all 40 rampage_TS_01-40 barcodes. Provenance: author reproduction of the published typeset page; the publisher page and the author-manuscript Supplementary File 1 are not retrieved. Per-sample assignment in the Genome Research libraries is a separate open claim."
+    },
+    {
+      "claim": "Per-sample TSO barcode assignment for the Batut 2013 Genome Research libraries (24 embryo, 10 larva/pupa, 2 adult samples)",
+      "disposition": "blocked",
+      "evidence": "Genome Research Methods (PMC3530677 lines 143-147) state the pooled library composition and barcode trimming but name no barcode per sample. The Genome Research Supplemental Methods/Table S1 (genome.cshlp.org supplement) were not obtained, so assignment cannot be checked or confirmed absent."
     }
   ],
-  "conclusion": "Original paper, detailed protocol, figure ZIP and later ENCODE implementation have two independent reads. Original 40-member Supplementary File 1 and author thesis copy of Table 25B.11.1 remain inaccessible; exact family and sample assignments stay blocked."
+  "conclusion": "Original paper, detailed protocol, figure ZIP and later ENCODE implementation have two independent reads. Original 40-member Supplementary File 1 and author thesis copy of Table 25B.11.1 remain inaccessible; exact family and sample assignments stay blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-16",
+      "reviewer": "breadth_first_16",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Batut 2013 Genome Res PMC3530677 JATS Methods lines 141-153 (library prep, pooling after RT, 2x76 GAIIx/2x101 HiSeq, barcode/RT-primer trimming, N15 pseudo-random duplicate collapsing); Batut & Gingeras 2013 Curr Protoc PMC4372803 JATS lines 186-238 (oligos, barcodes) and Basic Protocol steps 1-42 lines 250-735, troubleshooting 956-970; Batut CSHL thesis Appendix 1 PDF pp. 122-124 (typeset 25B.11.3-25B.11.5 materials list and rendered Table 25B.11.1)",
+      "oligo_scraper": "Bundle scraper run (25 hits): PMC4372803 lines 192/208/214/218/224/228 and thesis lines 4976-5026 checked; thesis Table 25B.11.1 rows verified on the rendered page because extraction scrambles name order; figure-construct hits (lines 4912-4933) are schematic drawings.",
+      "findings": "Model corrections: RT primer handle was drawn as the SBS8 site; replaced with printed rampage_RT TAGTCGAACGAAGGTCTCCGAACCGCTCTTCCGATCT(N)15, and rampage_R computed to overlap only its 3' 18 nt, completing SBS8 in PCR. Reaction order corrected: TEX 5'-monophosphate digest of DNase-treated total RNA precedes RT (input was mislabelled ribosome-depleted; exonuclease was placed after cap trap); added RNAClean XP/optional pooling, NaIO4 oxidation, biotin hydrazide, RNase I, streptavidin pulldown with discarded washes, 50 mM NaOH elution, 16-cycle Ex Taq HS PCR and 0.52x/0.70x AMPure size selection with waste fates. Final library gains TSO GGG and RT N15 (degenerate UMI-like feature, source-stated pseudo-random duplicate barcode); read lengths 2x101 declared, 2x76 adult run stated in caption. 40 TSO barcodes transcribed from thesis reproduction of Table 25B.11.1 as the whitelist; oligo input states added for RT primer, TSO, rampage_F/R; dead sections() with wrong handle removed.",
+      "deferred": [
+        "Genome Research Supplemental Methods/Table S1 (per-sample barcode assignments; genome.cshlp.org supplement not obtained, guessed URL 404)",
+        "Publisher Curr Protoc Supplementary File 1 (PMC download gate); barcodes taken from author thesis reproduction",
+        "PCR duplex geometry (endpoint only)",
+        "Second independent read of the thesis Table 25B.11.1"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest 4 checks pass (barcode transcription vs thesis text, Hamming>=3, GC range) plus construction; page builds; pairing 0 problems; chemistry 11 steps 0 established/0 conditional/12 unresolved/0 contradictory; source guard 2 exact checked (rampage_F, rampage_R), 0 failed, rt_primer/tso symbolic (N15/barcode placeholders); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 1,
+      "locations": "/husky/henriksson/NGS101_papers/sources/rampage__10.1101+gr.139618.112/Batut_Thesis.pdf text lines 4690-4712 and rendered PDF p.124 (Table 25B.11.1); /husky/henriksson/NGS101_papers/sources/rampage__10.1101+gr.139618.112/PMC4372803_PMC4372803.xml.txt lines 186-238; /husky/henriksson/NGS101_papers/sources/rampage__10.1101+gr.139618.112/gr.139618.112_PMC3530677.xml.txt lines 143-153",
+      "findings": "Second independent reading of the thesis reproduction of Table 25B.11.1 (row author_thesis_barcode_table now has pass_1 and pass_2, both agreeing with the 40 barcodes in rampage.TSO_BARCODES). Missing claim \"Exact 40 six-base inline barcode assignments\" re-dispositioned from blocked to resolved for family membership, with provenance recorded; a new blocked claim records the per-sample assignment question. barcode_supp stays unavailable with a scope note. linked_information keeps its historical blocked result.",
+      "deferred": [
+        "Genome Research Supplemental Methods / Table S1 (per-sample barcodes)",
+        "Publisher typeset Current Protocols page or author-manuscript Supplementary File 1 (direct, not via thesis)",
+        "catalogue/extra_sources.tsv Batut_Thesis.pdf why-text is stale (another package owns that file)"
+      ],
+      "scope": "Second-reader re-adjudication of the thesis barcode table and the barcode-membership claim; no accepted missing-information claim.",
+      "verification": "audit_protocol_sources --check passes"
+    }
+  ],
+  "conclusion_update": "2026-10-17 (agent-K-second-reader): the author thesis copy of Table 25B.11.1 is now retrieved and read by two readers; the 40-member barcode family is resolved from that reproduction. Per-sample assignments, the author-manuscript Supplementary File 1 and the Genome Research supplement remain open. The conclusion above is the earlier state and is kept unchanged."
 }

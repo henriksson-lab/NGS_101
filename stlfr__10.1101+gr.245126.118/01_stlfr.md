@@ -14,6 +14,12 @@ The protocols.io import explicitly warns that its internal references may differ
 
 🟢 The cited [3′-branch-ligation study](https://doi.org/10.1093/dnares/dsy037), Methods §2.1/§2.3 and Figure 1 caption, describes joining a blunt donor's 5′ phosphate to a recessed, nicked or gapped acceptor's 3′ hydroxyl without requiring complementary ends. Its Supplementary Table S1 contains its own test substrates and adapters. Those experimental oligos are not assigned to stLFR merely because the mechanism is shared.
 
+## Published PCR-programme difference (round 2026-10-17-breadth-first-19)
+
+🟢 Final article Methods, "stLFR with 3′ branched adapter ligation" (PMC6499310 JATS line 212), gives Exonuclease I + III in TA buffer 10 min 37°C, 1% SDS stop/Tn5 removal, UDG + APE1 30 min 37°C, 300 pmol second adapter with 4000 U T4 ligase 2 h, and states that the PCR mix and conditions were the same as the two-transposon process (line 208: PfuCx, 400 pmol each primer, 10 min 72°C then 12 cycles). The article Methods does not mention the SSB binding step that the original manuscript step 74–75 includes; this is treated as an omission in the summary, not a conflict.
+
+🟢 Original manuscript step 80 (p. 9) instead gives 95°C 3 min then 10–12 cycles of 95°C 10 s / 58°C 30 s / 72°C 2 min for the branch route; the 72°C 10 min first step appears only in two-transposon step 58. The page shows this published difference; the model selects neither programme nor a cycle count.
+
 ## Published common-primer variants
 
 🟢 Original Supplement_0.pdf Figure 1 prints bead-common top `/52-Bio/AAAAAAAACCCGTAGCCATGTCGTTCTG`: eight A bases followed by `CCCGTAGCCATGTCGTTCTG`. Original Supplement_0.xlsx instead prints `/52-Bio/AAAAAAAAAATGTGAGCCAAGGAGTTG`: ten A bases followed by `TGTGAGCCAAGGAGTTG`, with matching PCR1 `TGTGAGCCAAGGAGTTG`.

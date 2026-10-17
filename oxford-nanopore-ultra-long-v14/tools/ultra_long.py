@@ -4,11 +4,20 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from chemdraw import Construct, Segment
-from nanopore_library import (RAPID_ADAPTER, motor_sequencing_plan, no_primer_ending,
-                              role, single_strand_rows)
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from chemdraw import Construct, Scene, Segment
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind, Terminal)
 from protocol_model import molecule, role as molecular_role
+
+
+def role(name: str, text: str, tag: str | None = None) -> Segment:
+    return Segment(name, text, tag, placeholder=True)
+
+
+def single_strand_rows(construct: Construct, label: str = "component roles"):
+    sc = Scene()
+    sc.strand(construct.name, list(construct), label=label)
+    return sc.rows()
 
 TITLE = "Oxford Nanopore Ultra-Long DNA Sequencing V14 — SQK-ULK114"
 NOTES = "01_ultra-long-v14.html"
@@ -19,36 +28,51 @@ SUMMARY = ("Diluted transposase chemistry introduces very few tags into uHMW DNA
            "motor-loaded Rapid Adapter attaches, and precipitation recovers sequenceable "
            "molecules while minimizing mechanical breakage.")
 CAVEAT = ("ONT publishes the Rapid Adapter strand. Fragmentation-tag bases, the complete "
-          "motor assembly, attachment chemistry and exact motor-bearing strand remain "
-          "unresolved in the reviewed vendor documents.")
+          "motor assembly, attachment chemistry and exact motor-bearing strand are not "
+          "assembled in this model. The endpoint shows component roles, without placing "
+          "the published strand across an unverified attachment junction.")
+# Explicit local assignment from the ONT Chemistry Technical Document,
+# CHTD_500 v1 rev AV (24 July 2026), section 15, Rapid Adapter (RA) top strand.
+# The ULK114 protocol names the RA reagent; sequence identity with another kit's
+# strand does not assign that kit's bottom strand, end geometry or motor assembly.
+RAPID_ADAPTER = "CCTGTACTTCGTTCAGTTACGTATTGCT"
+CHEMISTRY_SOURCE = "https://oxfordnanoporedx.com/document/chemistry-technical-document"
+
+
+def rapid_adapter_strand() -> Construct:
+    return Construct([Segment("published RA top strand", RAPID_ADAPTER, "r2")],
+                     name="Rapid Adapter: source-printed strand only")
+
 
 TAGGED = Construct([
     role("fragmentation tag", "[fragmentation tag]", "me"),
     role("ultra-long genomic DNA", "[ultra-long genomic DNA]"),
 ], name="sparsely tagged uHMW DNA")
 FINAL_LIBRARY = Construct([
-    role("motor-loaded Rapid Adapter assembly", "[motor assembly]", "r2"),
-    Segment("Rapid Adapter published strand", RAPID_ADAPTER, "r2"),
-    *TAGGED.segments,
-], name="SQK-ULK114 pore-entry strand")
+    role("motor-loaded Rapid Adapter", "[motor-loaded Rapid Adapter]", "r2"),
+    role("tagged uHMW DNA", "[transposase-tagged ultra-long genomic DNA]", "me"),
+], name="SQK-ULK114 logical sequencing endpoint")
 SEQ_PRIMERS = ()
 SEQUENCING_MECHANISM = "nanopore_motor"
 MOTOR_ADAPTER_NAME = "Rapid Adapter"
-SEQUENCING_ENDING = no_primer_ending("Rapid Adapter")
+SEQUENCING_ENDING = ("No synthesis primer binds. The motor carried by the Rapid Adapter "
+                     "docks at the nanopore and meters the attached DNA strand through the "
+                     "pore, adapter-bearing end first.")
 SEQUENCING_UNAVAILABLE = ("Nanopore sequencing uses motor-controlled translocation, not "
                           "primer extension; the RA strand is published but the complete "
-                          "motor/attachment structure is not.")
-FINAL_CAPTION = ("One sequenceable tagged end. ** marks Rapid Adapter attachment; it is "
-                 "not labelled ligation because the protocol supplies no ligase.")
+                          "motor/attachment structure is not assembled in this model.")
+FINAL_CAPTION = ("Logical component relationship only. The source-printed RA strand is "
+                 "listed separately; its physical attachment to the FRA tag and the "
+                 "motor-bearing assembly are not reconstructed here. The protocol "
+                 "supplies no ligase for this attachment.")
 FRA_DILUTION_UL = (6, 244)
 TAGMENTATION_PROGRAM = (("room temperature", 10), (75, 10), ("ice", 10))
 RAPID_ADAPTER_MIN = 30
 
 
 def final_rows():
-    return single_strand_rows(FINAL_LIBRARY, (
-        ("Rapid Adapter published strand", "fragmentation tag", "attachment"),
-    ))
+    # An explicitly incomplete component assembly, not a covalent strand.
+    return single_strand_rows(FINAL_LIBRARY)
 
 
 def sections():
@@ -80,38 +104,48 @@ def protocol_graph():
     tagged = g.product("tagged", "sparsely tagged uHMW DNA",
                        MaterialKind.MOLECULAR, state=TAGGED, inferred=True,
                        source=SOURCE + " (tag bases unresolved)")
-    off_products = g.product("off_products", "cut or unproductively tagged molecules",
-                             MaterialKind.WASTE)
+    fdb = g.input("fra_dilution_buffer", "FRA Dilution Buffer (FDB)",
+                  MaterialKind.CONDITION, source=SOURCE + " (6 µl FRA + 244 µl FDB)")
+    off_products = g.product("off_products",
+                             "candidate tagmentation products without a productive attachment end",
+                             MaterialKind.MOLECULAR, inferred=True)
     g.react("tag", "Sparsely tagment ultra-long DNA", StepKind.TAGMENTATION,
             ((dna, InputRole.TEMPLATE), (tags, InputRole.STRUCTURAL),
-             (transposase, InputRole.CATALYST)), (tagged, off_products))
-    g.discard(off_products, "does not preserve a sequenceable ultra-long tagged molecule")
+             (transposase, InputRole.CATALYST), (fdb, InputRole.CONDITION)),
+            (tagged, off_products))
+    g.mark_terminal(Terminal(off_products.id, Disposition.UNRESOLVED,
+        "Candidate class, not an observed population. Precipitation recovers DNA without "
+        "an adapter-specific selection, so unadapted DNA is not shown as physically removed."))
     rapid = g.input("rapid_adapter", "motor-loaded Rapid Adapter",
-                    MaterialKind.ADAPTER, inferred=True,
-                    source=SOURCE + f" (RA strand {RAPID_ADAPTER}; motor/attachment unresolved)")
+                    MaterialKind.ADAPTER, state=rapid_adapter_strand(),
+                    source=CHEMISTRY_SOURCE + "; source-printed strand only; complete reagent assembly not modelled")
     adapted = g.product("adapted", "motor-adapted ultra-long library",
                         MaterialKind.MOLECULAR, state=FINAL_LIBRARY, inferred=True,
                         source=SOURCE + " (complete motor-bearing assembly unresolved)")
     g.react("attach", "Attach the motor-loaded Rapid Adapter",
             StepKind.ADAPTER_ATTACHMENT,
             ((tagged, InputRole.TEMPLATE), (rapid, InputRole.STRUCTURAL)), (adapted,))
-    precipitant = g.input("precipitant", "Precipitation Buffer and Star",
+    precipitant = g.input("precipitant", "Precipitation Buffer (PTB) and Precipitation Star (PS)",
                           MaterialKind.SELECTION)
+    elution = g.input("elution_buffer", "Elution Buffer (EB), overnight elution",
+                      MaterialKind.CONDITION, source=SOURCE + " (300 µl EB, ≥12 h at room temperature)")
     library = g.product("library", "recovered ultra-long Nanopore library",
                         MaterialKind.LIBRARY, state=FINAL_LIBRARY, inferred=True,
                         source=SOURCE + " (complete motor-bearing assembly unresolved)")
-    rejected = g.product("rejected", "unrecovered or sheared molecules",
+    rejected = g.product("rejected", "removed supernatant (unprecipitated material)",
                          MaterialKind.WASTE)
-    g.react("recover", "Precipitate and recover motor-adapted molecules",
-            StepKind.SELECTION,
-            ((adapted, InputRole.TEMPLATE), (precipitant, InputRole.SELECTION)),
+    g.react("recover", "Precipitate on the star and elute overnight",
+            StepKind.CLEANUP,
+            ((adapted, InputRole.TEMPLATE), (precipitant, InputRole.SELECTION),
+             (elution, InputRole.CONDITION)),
             (library, rejected), changes_molecule=False)
-    g.discard(rejected, "not recovered in the ultra-long library fraction")
-    g.sequence(library, motor_sequencing_plan(
-        FINAL_LIBRARY, limitation=SEQUENCING_UNAVAILABLE))
-    g.declare_reviewed_scope(("dna", "tag_complex", "transposase", "tag",
-                              "rapid_adapter", "attach", "precipitant", "recover",
-                              "library"), SOURCE)
+    g.discard(rejected, "supernatant aspirated after DNA precipitates around the Precipitation Star")
+    g.sequence(library, SequencingPlan(
+        library=FINAL_LIBRARY, primers=(), acquired_roles=("Nanopore strand",),
+        read_uses={"Nanopore strand": "include"}, limitation=SEQUENCING_UNAVAILABLE))
+    g.declare_reviewed_scope(("dna", "tag_complex", "transposase", "fra_dilution_buffer",
+                              "tag", "rapid_adapter", "attach", "precipitant",
+                              "elution_buffer", "recover", "library"), SOURCE)
     return g.require_publishable()
 
 

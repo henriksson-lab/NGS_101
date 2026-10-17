@@ -7,6 +7,7 @@ Krijger PHL, Geeven G, Bianchi V, Hilvering CRE, de Laat W. *4C-seq from beginni
 ## Sources read
 
 - 🟢 The defining open-access protocol, including its abstract, Fig. 1 workflow and library-generation sections.
+- 🟢 Appendix A supplementary data at the publisher CDN: Supplemental figures 1 (analysis-pipeline comparison) and 2 (read-depth analysis); data-analysis content only.
 - 🟢 The authors' institutional full-text mirror linked in `ref/MANIFEST.md`, especially §3.4 and Table 1 for the published first-round tails and universal second-round primers.
 
 ## 1. What it is
@@ -41,4 +42,4 @@ Krijger PHL, Geeven G, Bianchi V, Hilvering CRE, de Laat W. *4C-seq from beginni
 
 🟡 A concrete experiment must supply its enzyme pair, viewpoint-specific primer portions, optional spacer and selected index. These are unassigned model choices, not confirmed omissions from the publication.
 
-The source audit remains in progress. Appendix A identifies publisher-hosted supplementary data (the article also mentions supplementary Fig. 1); its actual attachment has not yet been inspected. The linked pipe4C and peakC repositories also remain pending original-source scope checks. The retrieved Illumina pooling chapter is the current v17 document, a later comparator; the paper does not identify a historical revision to assign. No missing-information claim is accepted from this incomplete linked-source inventory.
+The source audit remains in progress. 🟢 Appendix A's publisher-hosted supplementary data (PII S1046202318304742, Elsevier `mmc2.pdf` and `mmc3.pdf`) were inspected in the 2026-10-17 capped pass: Supplemental figure 1 compares the pipe4C and 4Cseqpipe analysis modules, and Supplemental figure 2 shows read-depth coverage and between-sample correlations. Neither prints oligos, reaction conditions or library structure, so the library model is unchanged. The linked pipe4C and peakC repositories remain pending original-source scope checks. The retrieved Illumina pooling chapter is the current v17 document, a later comparator; the paper does not identify a historical revision to assign. No missing-information claim is accepted from this incomplete linked-source inventory.

@@ -5,7 +5,7 @@
     {
       "id": "published_article",
       "role": "defining",
-      "locator": "Russell et al. Nature 2023 doi:10.1038/s41586-023-06837-4; /husky/henriksson/NGS101_papers/sources/doi_10.1038+s41586-023-06837-4/s41586-023-06837-4_PMC10764288.xml.txt and .pdf.txt",
+      "locator": "Russell et al. Nature 2023 doi:10.1038/s41586-023-06837-4; /husky/henriksson/NGS101_papers/sources/slide-tags__10.1038+s41586-023-06837-4/s41586-023-06837-4_PMC10764288.xml.txt and .pdf.txt",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
@@ -19,7 +19,8 @@
         "date": "2026-10-16",
         "locations": "Published JATS lines 218-244, especially 224/236/242; published PDF extracted lines 1709-1718 and 1772-1801; visually inspected PDF p. 10",
         "finding": "Main article PDF and JATS both print TTT_PC_zCCGG in SLAC oligo. It explicitly cites CG000317 for snRNA and CG000338 Rev F for Multiome. The z is a published discrepancy relative to supplement and preprint, not an extraction artefact."
-      }
+      },
+      "previous_locator": "Russell et al. Nature 2023 doi:10.1038/s41586-023-06837-4; /husky/henriksson/NGS101_papers/sources/doi_10.1038+s41586-023-06837-4/s41586-023-06837-4_PMC10764288.xml.txt and .pdf.txt"
     },
     {
       "id": "author_preprint",
@@ -62,7 +63,7 @@
     {
       "id": "published_supp_methods",
       "role": "supplement",
-      "locator": "Russell et al. publisher MOESM1 Supplementary Methods DOCX; /husky/henriksson/NGS101_papers/sources/doi_10.1038+s41586-023-06837-4/s41586-023-06837-4_supp_41586_2023_6837_MOESM1_ESM.docx.txt",
+      "locator": "Russell et al. publisher MOESM1 Supplementary Methods DOCX; /husky/henriksson/NGS101_papers/sources/slide-tags__10.1038+s41586-023-06837-4/s41586-023-06837-4_supp_41586_2023_6837_MOESM1_ESM.docx.txt",
       "availability": "read",
       "relevance": "relevant",
       "discovered_from": "published_article",
@@ -77,7 +78,8 @@
         "date": "2026-10-16",
         "locations": "Supplementary Methods extracted lines 63-77 and 85-89; scraper run on DOCX text",
         "finding": "Section 1.3 prints no-z SLAC oligo, FB1 extension, splint, TAGS and poly(A) variants. Lines 85/89 identify exact commercial kit revisions and branch-specific PCR."
-      }
+      },
+      "previous_locator": "Russell et al. publisher MOESM1 Supplementary Methods DOCX; /husky/henriksson/NGS101_papers/sources/doi_10.1038+s41586-023-06837-4/s41586-023-06837-4_supp_41586_2023_6837_MOESM1_ESM.docx.txt"
     },
     {
       "id": "10x_cg000317_rev_c",
@@ -569,5 +571,36 @@
       "evidence": "The defining paper cites Slide-seqV2 ref 20 for bead array preparation. Its PMC8606189 Methods lines 99-107 define J as split-pool-synthesized bead barcode bases shared across oligos on the same bead; the public page now says so."
     }
   ],
-  "conclusion": "Two independent readers checked the original article, individually inventoried supplements, exact vendor guides, author parser, cited Slide-seqV2 predecessor and publisher correction. The predecessor resolves J notation and supports the no-z precursor; the correction changes only the licence. The public graph now keeps the 3′ and Multiome routes separate before Tn5 and GEM processing, with the Multiome tag endpoint explicitly limited. Complete branch-specific junction and 15-printed-versus-14-parser barcode reconciliation remains open, so missing assertions stay blocked."
+  "conclusion": "Two independent readers checked the original article, individually inventoried supplements, exact vendor guides, author parser, cited Slide-seqV2 predecessor and publisher correction. The predecessor resolves J notation and supports the no-z precursor; the correction changes only the licence. The public graph now keeps the 3′ and Multiome routes separate before Tn5 and GEM processing, with the Multiome tag endpoint explicitly limited. Complete branch-specific junction and 15-printed-versus-14-parser barcode reconciliation remains open, so missing assertions stay blocked.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-18",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 3,
+      "locations": "Published Supplementary Methods MOESM1 DOCX (PMC10764288.1) lines 63-89 (1.3 bead oligos incl. TAGS line 73, SLAC/FB1/splint 67-70, poly(A) 76; 1.4 photocleavage 81; 1.5 3' CSP-library prep 85, SLAC custom PCR 87, Multiome spike-in/STAG PCR 89; 1.6 sequencing 92); published JATS PMC10764288 Methods lines 224/238/242, Results 122, Extended Data Fig. 2 legend 494-498, preprocessing 268; CG000317 Rev C text lines 6221-6458 (Appendix gel-bead primers and CSP library structure)",
+      "oligo_scraper": "Run on published JATS and MOESM1 text: SLAC (z in JATS line 224, no z in MOESM1 line 67), FB1, splint (3'->5'), TAGS, poly(A), spike-in, STAG_iP7_a1/P5-STAG_ip5_a1 (*PS) hits verified against the source lines.",
+      "findings": "Corrected the 3' spatial-tag final library: MOESM1 1.5 states TAGS spatial libraries were prepared as CG000317 Cell Surface Protein libraries, and the TAGS oligo ends in the Capture Sequence 1 complement and begins with the TruSeq Read 2 arm (construction-time complementarity checks added). The payload is now the derived reverse complement of the printed TAGS oligo (BB, N7, J7, linker complement TCTCGGGAACGCTGAAGA, J8), replacing an inferred layout that had the 8- and 6-base puck pieces reversed and an unassigned 18-base spacer. Read 2 cycles 1-8 = J8, 9-26 = printed linker, 27-33 = J7, so the author parser's 14 positions omit the seventh J7 base (derived; resolves the 15-versus-14 mapping question as a derivation). Added FB1 extension, splint (shown 5'->3' computed from the printed 3'->5' form) and poly(A) puck oligo to the page oligo list. The z discrepancy display is unchanged.",
+      "deferred": [
+        "SLAC mouse-brain branch: STAG_P701_NEX and P5-Truseq Hybrid bases (named, not printed) and ligated-puck library orientation",
+        "Puck design used for Multiome experiments and the gel-bead capture junction of the Multiome spatial-tag library",
+        "Slide-seqV2 array synthesis/sequencing predecessor beyond the J definition",
+        "Slide-TCR-seq protocols.io enrichment branch",
+        "Branch-specific acquired read lengths (NextSeq 1000 P2 100-cycle only stated)"
+      ],
+      "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 4/4 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/22 unresolved/0 contradictory with copy_tags_multi MAGIC warning; source guard 0 exact checked, 0 failed, 14 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-17-followup-K-catalogue-reviews",
+      "reviewer": "agent-K-second-reader",
+      "date": "2026-10-17",
+      "documents": 0,
+      "locations": "Locators of rows published_article, published_supp_methods; md5 comparison of the XML, PDF and MOESM1 DOCX originals and their .txt twins in /husky/henriksson/NGS101_papers/sources/doi_10.1038+s41586-023-06837-4/ and /husky/henriksson/NGS101_papers/sources/slide-tags__10.1038+s41586-023-06837-4/",
+      "findings": "Pure locator correction: rows published_article, published_supp_methods now point at the slug source bundle /husky/henriksson/NGS101_papers/sources/slide-tags__10.1038+s41586-023-06837-4/ instead of the legacy hand-made /husky/henriksson/NGS101_papers/sources/doi_10.1038+s41586-023-06837-4/ directory. The original files and text twins are byte-identical in both locations, so earlier passes and their line numbers remain valid. No availability or disposition changed.",
+      "deferred": [],
+      "scope": "Locator correction only; no source-content reading pass.",
+      "verification": "audit_protocol_sources --check passes"
+    }
+  ]
 }
