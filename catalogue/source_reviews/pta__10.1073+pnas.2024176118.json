@@ -113,6 +113,22 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    },
+    {
+      "round": "2026-10-18-batch12-native-graph-migration",
+      "reviewer": "batch12_pta_native",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC8214697 JATS Results83–85 and WGA/Library Preparation Methods172–177; published SI Appendix title/identity1–24 and FigS1 caption67–73.",
+      "findings": "Local source-owned PTA populations replace shared PTA defaults and canonical TruSeq/8bp-index endpoint. Actual native ligation population supplies PCRGeometry; independent original genomes, alpha-thio-ddN-terminated daughters and ordinary PCR DNA copies remain distinct. KAPA processing of blocked-end PTA products is explicit MAGIC/unresolved rather than invented extendable dA-tailed duplex. Physical2:1AMPure cleanup and400–700bp gel retained/rejected fractions are modelled without component-specific depletion claims. Native UDI strands/end geometry/index widths/runmask remain unassigned.",
+      "deferred": [
+        "Applicable historical KAPA HyperPlus guide and IDT UDI ordering/strand specifications; native blocked-end processing and first-cycle PCR/ligation geometry.",
+        "Exact random-primer formulation, sample-specific UDI members, component-specific cleanup recovery and sequencing runmask.",
+        "Other SI figures; lysis/neutralization and analytical quantification remain summarized outside the detailed graph boundary."
+      ],
+      "scope": "Bounded source-owned graph migration, not a full protocol review or either independent absence pass; existing source-absence status unchanged.",
+      "oligo_scraper": "Mandatory local bundle scraper:0 sequences in0 files; no absence conclusion derived.",
+      "verification": "Local4-check suite/page build pass; scoped chemistry0contradictions7unresolved (native-preparation warning); sourceguard0checked0failed4unrepresented native inputs; pairing0problems; source-review schema valid."
     }
   ]
 }

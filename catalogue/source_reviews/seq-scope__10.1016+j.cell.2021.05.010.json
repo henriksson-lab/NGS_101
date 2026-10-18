@@ -246,6 +246,36 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 1 established/1 conditional/20 unresolved/0 contradictory with cluster MAGIC warning; source guard 4 exact checked (Read1-DraI, PCR1 F/R, PCR2 F), 0 failed, 3 symbolic inputs (seed HDMI window, N9 primer, i7 reverse primer); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch12-native-graph-migration",
+      "reviewer": "batch12_rna",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published PMC8238917 JATS twin STAR Methods211–285 (seed, firstSeq, array, disassembly, tissue, RT, digestion, second-strand elution and PCR1/PCR2); analysis337–345 (coordinate join, reverse-complement bottom-tile whitelist and N9 processing).",
+      "oligo_scraper": "Mandatory full bundle scraper run; published original oligos verified at221,233,271,279,281. Preprint hits excluded from active claims.",
+      "findings": "Removed legacy protocol_specs wrapper/shared molecular recipe. Native independent original anchored DNA, SBS daughters, original RNA, extended capture DNA, eluted ssDNA second copy and PCR daughters. Physical top-tile loss; chemical digestion products retained until actual washes. Actual eluted ssDNA mixture feeds PCR1, actual10µl2nM cleanedPCR1 aliquot feeds PCR2 and remainder unresolved. PS-original-primer lineages distinguished from copiedDNA; exact primer inputs supplied. Native first-cycle geometry unresolved. Arbitrary28nt transcript placeholder removed. Source HDMI/N9/i7 run identity and physical versus computational fates retained.",
+      "deferred": [
+        "On-instrument bridge/linearization, complete anchor/SBS/DraI end chemistry",
+        "Individual first-cycle PCR products, protected-primer bond inheritance and class-specific recovery",
+        "Dataset run cycles/i7 length and companion pooled-library identities/ratios",
+        "Published supplements, linked-source review and nonselectedHDMI32/EcoRI variants"
+      ],
+      "scope": "One-published-original capped native migration; no complete source review or accepted absence claim. Existing dispositions preserved.",
+      "verification": "Local suite/page pass; chemistry22steps/0contradictions/24unresolved; sourceguard7checked/0failed/0inputs without exactstates; pairing0problems; review schema pass."
+    },
+    {
+      "round": "2026-10-18-batch12-independent-implementation-review",
+      "reviewer": "batch12_dna_independent",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Implementation-only review of local protocol module, native molecular helper where present, build/selftest wrappers, current research note and source-review bounded migration record. No original documents reread.",
+      "findings": "Independent implementation review: PCR1 uses nativeeluted secondstrand population andPCR2 uses physicallyallocated10µl2nM cleanedPCR1template; unsampledpreparation unresolved. Seed/anchoredDNA/SBSdaughter/RNA/N9primedDNA/ordinary versusPSincorporating daughters remain independent. Digestionproducts persistuntilphysicalwash; anchoredoriginal remainsonsurface andtoptiles are physicallylost. HDMI/N9/i7 have structuredfeatures; finalprimerreference remainsseparatefromactualPCRinputs; datasetcycles/i7acquisition remainqualified. Sourcecoverage is a manual list withexplicitcleanupentries, not generatedfromgraphnodes.",
+      "deferred": [
+        "Originalsource fidelity, complete linked-material review and all existing absence-gate obligations remain outside this implementation review."
+      ],
+      "scope": "Independent critical implementation review only; documents0; not a source-reading pass or acceptance of missing information. Existing source-absence status and checklists unchanged.",
+      "verification": "Construction/page suite pass; chemistry0contradictions24unresolved withclusterMAGICwarning; sourceguard7checked0failed0unrepresented; source-review schema pass."
     }
   ]
 }

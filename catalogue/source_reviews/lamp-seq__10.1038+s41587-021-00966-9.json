@@ -177,6 +177,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "suite 3 checks pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/6 unresolved/0 contradictory; source guard 8 exact checked, 0 failed, 1 input without exact state (LNA outer primers); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch12-native-graph-migration",
+      "reviewer": "batch12_rna",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC8678193 JATS twin commercialMethods205–297; namedMiSeq/iSeq sections365–387; SupplementaryData1 MOESM3xlsx PrimerList1–18, Tier1representative64–66, Poolpair1at4102.",
+      "oligo_scraper": "Mandatory full-bundle scraper run; source-verified selected commercialprimer sequences/modifications and representativeFIP/pool1barcode rows.",
+      "findings": "Replaced shared isothermalproduct/topology and canonicalampliconshell with source-owned native states/local printed-primer read reference. Actual heterogeneous nativeLAMP and priorPCR aliquots feed PCRGeometry; firstcycle assembly unresolved. OriginalRNA, carrierDNA, ACTBcontrolDNA, LNAoriginalprimers and ordinarycopiedDNA remain distinct. Real independentwell/library pools and physicalaliquotremainder fates; adsorbenttransfer/pHadjustment/gel/twocolumns explicit. Physical10ntindexes preserved; named100+8+8recipe covers8of10 while selectedcommercialrun linkage remains unspecified. Computationaldiagnostic readout separate; no clinicalthreshold inferred.",
+      "deferred": [
+        "NativeLAMP stem-loop/isomer and firstcyclePCR product distributions",
+        "ACTB/control architecture, actualpool membership and modifiedprimer individualfates",
+        "Selectedcommerciallibrary linkage to sequencingrecipe/N100/PhiX admixtures",
+        "Clinicalreadout analysis/thresholds, citedpredecessors and complete linkedsource review"
+      ],
+      "scope": "Two-published-original capped native migration only; no complete source review or accepted absence claim; existing dispositions unchanged.",
+      "verification": "Suite3checks pass; page pass; chemistry17steps0contradictions19unresolved; sourceguard8checked0failed2unrepresented; pairing0problems; review schema pass."
+    },
+    {
+      "round": "2026-10-18-batch12-independent-implementation-review",
+      "reviewer": "batch12_dna_independent",
+      "date": "2026-10-18",
+      "documents": 0,
+      "documents_read": 0,
+      "locations": "Implementation-only review of tools/lamp_seq.py, build/selftest wrappers, current research note and existing bounded migration record. No original documents reread; scoped bookkeeping fixes applied under parent authorization.",
+      "findings": "Native heterogeneous LAMP and unpurified firstPCR aliquots supply PCRGeometry; independent originalRNA/carrierDNA/LNAoriginals/controlDNA/PCRdaughter/residual classes and physical allocation/remainder/pool fates remain explicit. Manualsourceinventory retained. Corrected stale note applying separate100/8/8recipe to commercialbranch; actualacquisition remains unspecified. Restored already-note-recorded commercialconditions tographlabels without newsourceinvestigation. Added distinct structured ACTBcontrolbarcode feature tophysicalACTB-FIP role andcontrolDNA, leaving nativewidth/member/orderedstrands unassigned; no viralrepresentativebarcode inherited. Physical10ntpoolindexes and separatelyqualified8cycle acquisition remain distinct.",
+      "deferred": [
+        "All existing original-source/linked-material, nativeisomer/firstcyclePCR, class-specificrecovery, ACTBarchitecture and selected-runlinkage questions remain deferred as previously recorded."
+      ],
+      "scope": "Independent critical implementation review plus explicitly authorized documentation/identifier bookkeeping only; documents_read0. Not anoriginalsource review or acceptance ofmissinginformation; existing absence-gate statuses and checklist unchanged.",
+      "verification": "After scoped fixes: local3checks/page pass; chemistry17steps0contradictions19unresolved; sourceguard8checked0failed2unrepresented (modifiedouter/ACTBprimerinputs); pairing0problems; source-review schema and diffcheck pass."
     }
   ]
 }

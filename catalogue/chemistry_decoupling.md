@@ -304,14 +304,14 @@ changes neither source-review acceptance nor the capped-curation census.
 ## Current migration progress — 2026-10-18
 
 The user-selected cohort is the initial 182-protocol worklist.
-[Pending migrations](validation_migration_pending.tsv) now contains **13**
+[Pending migrations](validation_migration_pending.tsv) now contains **5**
 protocols; [completed migrations](validation_migration_completed.tsv) records
-**169** verified migrations with their former dependencies and current scoped
-coverage. The remaining cohort is blocked by repeated automatic content filtering; see the Batch11 checkpoint. Entries leave the
+**177** verified migrations with their former dependencies and current scoped
+coverage. The remaining cohort includes three implementations awaiting independent review, one historical-source blocker and one execution filter stop; see the Batch12 checkpoint. Entries leave the
 pending file only after their source-qualified declarations and affected checks
 are verified; a temporarily removed import alone does not complete a migration.
 
-The completed record contains all 169 protocol names and per-protocol coverage.
+The completed record contains all 177 protocol names and per-protocol coverage.
 The batches cover CRISPR-MIP, three Chromium protocols, five multimodal protocols,
 PLAC/SNuBar, three editing-outcome methods, two nuclease protocols, four extended
 RNA workflows, three break-capture methods, four RNA-end methods, three ATAC
@@ -609,3 +609,35 @@ Whole-site verification passes: 407/407 diagrams build, 406 finished schematics 
 relative links. Pairing and P5 lint report zero findings (the source-known PEM
 exception remains); catalogue 83 checks pass. All 777 generated note pages are
 current after this final checkpoint update.
+
+
+### Batch12 migration checkpoint
+
+Eight further migrations are verified: Joung one-PCR, Moffat two-step, LAMP-Seq,
+Seq-Scope, SHAPE-MaP, SHAPE-Seq, scDam&T-seq and Digital Telomere Measurement.
+The [batch12 ledger](migration_rounds/2026-10-18-12.tsv) distinguishes bounded
+source reading from independent implementation reviews, which read no originals.
+Native incoming substrates, independent molecular populations, modification and
+identifier lineage, actual sampling/pooling, and physical cleanup fates were checked.
+Review fixes removed nonphysical identifier strands and duplicate original-population
+outputs, retained possible residual classes in carried mixtures, and qualified
+unassigned read acquisition and source-version boundaries. Unknown chemistry remains
+explicit rather than supplied by a canonical endpoint.
+
+The original 182 cohort now partitions into **177 completed and 5 pending** (three
+implementations awaiting independent review). PTA, scRepli-seq and scRRBS have native
+implementations and passing author checks; the combined independent-review task hit
+a content filter before any per-protocol review result. Its triggering protocol was
+not identified, so none of those three is counted complete. REPLI-g Single Cell is
+blocked on exact historical August 2014 RG35 and Nextera 15027987 Rev B October 2012 sources;
+the available 2018 Advanced DNA kit is not a revision substitute. The meta3C worker hit
+the content filter and returned no protocol changes. These stops do not establish
+missing published information. Work moved to other protocols after each stop.
+
+All 410 runtime entries reconcile: 403 graph-backed, 196 with only unresolved claims,
+390 without declared transition relations, and no errors or contradictions. All 57
+ownership-queue rows remain. Completed migration means verified local ownership and
+scoped molecular checks; whole-protocol validation and source-absence obligations
+remain separate. Current pending and completed files retain the original 182 scope.
+
+Final batch12 verification: focused suites/pages, source guards and review schemas pass; catalogue 83 checks pass. Whole-site build passes 407/407 diagrams, 406 finished schematics, 402/402 documented NGS graph contracts and all 813 site-file relative links. Pairing and P5 lint have zero findings beyond the existing source-known PEM exemption. Changes remain unstaged and uncommitted.

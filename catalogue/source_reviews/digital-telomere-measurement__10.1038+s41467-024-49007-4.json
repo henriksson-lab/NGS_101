@@ -110,6 +110,50 @@
       ],
       "scope": "Capped defining-source pass only; ONT adapter composition stays blocked and no missing-information claim is accepted.",
       "verification": "local suite passes (104 checks incl. 4 new Supplementary Data 3 derivations); page builds; pairing 0 problems; chemistry 0 established/0 conditional/5 unresolved/0 contradictory; source guard 0 checked, 0 failed, 1 input without exact states; Markdown built/checked; review schema (audit --check) pass, protocol still blocked."
+    },
+    {
+      "round": "2026-10-18-batch12-native-graph-migration",
+      "reviewer": "batch12_dtm_native",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published s41467-024-49007-4_PMC11189511.xml.txt:150–160, whole-genome and telomere-capture nanopore library Methods; Supplementary Data 3 s41467-024-49007-4_supp_41467_2024_49007_MOESM6_ESM.xlsx.txt:1–23; gh_TelometerLibraryPrep.docx.txt:2 identity header only (04/2025; later author revision, excluded from 2024 chemistry).",
+      "oligo_scraper": "Mandatory bundle scrape run; 8 collapsed hits across three text files. Directly checked published Data 3 seqTether/capture bases and 5-prime phosphate. Superseded preprint hits not used.",
+      "findings": "Removed all four source-selecting telomere graph helpers from DTM. Local native ProtocolGraph now declares independent exact capture and tether polymers, duplexing, one allocation of that duplex into a chromosome hybrid, source-qualified capture nick sealing and potential-gap filling, two physical ProNex cleanups (1.6x and source-incorporated 1.1x), source-named AMII/NA adapters with Quick T4 ligase and platform-specific acquisition. Capture is not consumed again after entering the hybrid; nick sealing consumes the preassembled complex. Exact capture phosphate remains a physical input modification; barcode identity is structured sample_index. No PCR, copied phosphate, arbitrary adapter/index/run-cycle defaults or invented aliquots/pools. Sealed capture connectivity and Pol-IV product tract are unresolved structured assembly tokens rather than unchanged pre-ligation states or invented bonds. Known separate chromosome/capture/tether strands shown before ligation. Historical failed DOCX retrieval remains in old audit history; current DOCX identity is now known to be April 2025, not a defining-paper revision.",
+      "deferred": [
+        "Full 2025 author bench protocol chemistry (identity only inspected; separate variant)",
+        "Exact capture sealed nick and sample-dependent native terminal phase",
+        "Exact Pol-IV gap-fill tract",
+        "Historical AMII/NA motor-bearing adapter assembly",
+        "Up-to-eight-sample 1000-ng multiplex pooling branch"
+      ],
+      "scope": "Capped three-original defining-source migration. No source-absence claim accepted; existing blocked review/missing-claim status unchanged. No recursive retrieval or preprint chemistry used.",
+      "verification": "Focused suite: 6 source checks pass; native graph publication construction passes. Page builds. Chemistry: 1 established, 3 conditional, 8 unresolved, 0 contradictory. Source guard: 2 checked, 0 failed, 0 inputs without exact states. Pairing: 0 problems. Review schema checked separately. Independent critical implementation review pending parent."
+    },
+    {
+      "round": "2026-10-18-batch12-native-graph-migration-code-review",
+      "reviewer": "batch12_dtm_native",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Code-only response to independent parent review; no source reread and no additional source-scope claim.",
+      "findings": "Replaced graph-enumerated reviewed coverage with explicit curator-written source lists. CapturedPopulation now retains source-exact barcode as unplaced Segment metadata with capture_sample/sample_index identity through postligation/gapfill/motor/cleanup without assigning covalent location. Independent inferred possible residual classes persist through product states and cleanup eluates: unreacted native gDNA, partial capture adaptation, free capture, free/incomplete seqTether and, after motor ligation, motor-free captured DNA and free/incomplete motor adapter. No abundance, complete conversion or complete physical removal is claimed. Source-stated ligation classified NICK_SEALING only within preassembled complex; structured geometry explicitly leaves the nick unassigned.",
+      "deferred": [
+        "Same source-limited sealed capture connectivity, gap tract and historical AMII/NA geometry as preceding pass; no source obligations closed"
+      ],
+      "scope": "Code review correction only; zero new originals. Existing absence status unchanged.",
+      "verification": "Page builds; focused suite 6 passes; chemistry 1 established/3 conditional/8 unresolved/0 contradictory; source guard 2 checked/0 failed; pairing 0 problems; review schema pass. Parent re-review pending."
+    },
+    {
+      "round": "2026-10-18-batch12-independent-implementation-review",
+      "reviewer": "root_independent",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Local protocol implementation, note and source-review bounded records only. No original documents reread.",
+      "findings": "Independent review of post-correction implementation: captured population retains source barcode as unplaced structured metadata, not another physical strand. Possible free/incomplete adapters, unadapted DNA and motor-free captured DNA remain possible through cleanup. Source revision boundaries, unavailable ligation geometry and unresolved gap fill remain explicit. Reviewed coverage is manually declared.",
+      "deferred": [
+        "Original-source fidelity, linked-material checks and source-absence gate remain outside this implementation review."
+      ],
+      "scope": "Independent implementation review only; documents0; existing source-absence status unchanged.",
+      "verification": "Author focused checks passed; parent final focused verification recorded in migration ledger."
     }
   ]
 }

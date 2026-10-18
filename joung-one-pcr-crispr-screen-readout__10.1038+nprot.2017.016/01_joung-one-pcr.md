@@ -27,7 +27,7 @@ Read in the PMC author manuscript PMC5526071 (JATS text lines 856–906, 1120–
   written for the plasmid-library branch; the gDNA branch does not cite it.
 - 🟢 Step 37: 80 cycles of Read 1 and 8 cycles of Index 1 on a MiSeq or NextSeq,
   with 5% (MiSeq) or 20% (NextSeq) PhiX.
-- 🟡 The model library is computed from Fwd-1 and KO-Rev-1: {{= len(pooled_crispr.one_pcr_library().top()) }} bp
+- 🟡 The model library is computed from Fwd-1 and KO-Rev-1: {{= len(joung_one_pcr.final_library().top()) }} bp
   for a non-G-starting 20-nt guide. The other forward primers change the length by their stagger.
 - Open: the Discussion (line 2406) recommends titrating gDNA input and choosing the
   lowest visible-band cycle number, so the 12 cycles are the printed default, not a
@@ -36,3 +36,7 @@ Read in the PMC author manuscript PMC5526071 (JATS text lines 856–906, 1120–
 ## Distinguishing feature
 
 One PCR simultaneously enriches the integrated guide and adds the complete P5/P7 library arms. It is not interchangeable with workflows where PCR1 first enriches the locus and PCR2 later adds indexed adapters.
+
+## Native migration scope (2026-10-18)
+
+The graph carries native genomic DNA into ten independent primer reaction classes, then carries their possible original DNA, RNA and other residuals through source columns and pooling. Their class-specific recovery remains unassigned. The representative daughter is derived locally; its source index is structured on both primer and daughter. The deposited scaffold confirms only that invariant component, not a particular screen genome. Compatible sequencing primers remain reference geometry rather than a verified loaded-primer identity.

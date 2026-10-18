@@ -8,6 +8,7 @@ the construction asserts that identity against ``illumina``.
 import illumina as il
 import seqprimers as sp
 from chemdraw import Construct, Segment, feature, oligo, revcomp
+from protocol_model import role
 
 
 SEED_5P = "CAAGCAGAAGACGGCATACGAGAT"      # printed; paper label "P5 sequence"
@@ -130,7 +131,7 @@ def _core(*, p7_graft=False):
         Segment("TruSeq Read 1", TR1),
         _hdmi("seqscope_hdmi20", HDMI20), Segment("HR1", HR1),
         Segment("oligo-dT (27 T + DraI TTT)", POLYT + DRAI[:3]),
-        Segment("captured transcript cDNA", "X" * 28, placeholder=True),
+        role("copied transcript cDNA upstream of N9 priming footprint; variable length"),
         Segment("random-primer N9 UMI", "N" * 9, "umi", placeholder=True,
                 feature=feature("seqscope_random_primer_umi", "umi", "random")),
         Segment("TruSeq Read 2 adapter (random-primer tail)", revcomp(tr2_adapter)),

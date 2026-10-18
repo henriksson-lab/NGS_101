@@ -4,7 +4,7 @@ import sys
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import dtm as M
 import storage
-from checks import Check,Source,have,run_common
+from checks import Check,Source,have
 c=Check(); c.section("DTM source transcription")
 c("seqTether",M.SEQ_TETHER,"AACCTTGGAGATGCACGGAGCAAGCAAT")
 c("capture oligo",M.CAPTURE,"TGCTCCGTGCATCTCCAAGGTTCACAAAGACACCGACAACTTTCTTCCTAACC")
@@ -33,4 +33,5 @@ if have(c,SD3,label="Supplementary Data 3 partition"):
     c("telomere arm = shared canonical suffix",len(M.CAPTURE_TELOMERE_ARM),suffix(canon))
     c("TSQ variants change only the telomere arm",
       len(M.CAPTURE_TETHER_ARM)+len(M.CAPTURE_BARCODE),prefix(tsq+[M.CAPTURE]))
-run_common(c); c.report()
+M.protocol_graph().require_publishable()
+c.report()

@@ -179,6 +179,36 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite comment-only (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch12-native-graph-migration",
+      "reviewer": "batch12_rna",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published article PMC3131332 HTML text Results The SHAPE-Seq Pipeline1266–1272; defining SI pnas.1106501108_SI.pdf.txt p.1 lines1–90: seven-RNA pool/modification/RT/native adapters/hydrolysis/ligation/cleanup/PCR/acquisition/computational handling.",
+      "oligo_scraper": "Mandatory full bundle scraper run; exact A_adapter_t and native A_adapter_b/C3 source-verified at SI39,46. No source absence inferred.",
+      "findings": "Replaced queued shared linear/PCR recipes and disconnected workflow with native treated-channel graph. Actual physical treated/control split; control downstream unresolved scope, not disposal. Independent original adduct-RNA, DNA copies, RNA hydrolysates, native C3-blocked ligated adapter and residual oligos. Explicit ethanol/AMPure fractions; actual cleaned ligated ssDNA is PCR template. Daughter DNA does not inherit original C3. Source-supported2×50 read-site reference retained; first-cycle PCR assembly and adapter5′P unassigned. Computational filtering separate from physical fates.",
+      "deferred": [
+        "Mortimer RT procedure/target-specific oligos; Ingolia PCR primers and chemistry",
+        "Applicable adapter5′preparation evidence and detailed modified-RNA recovery",
+        "Control processing, physical QC allocations and exact treated/control pooling stage",
+        "Complete linked-source/absence audit"
+      ],
+      "scope": "Two-original capped native migration only; no complete protocol review or absence acceptance; existing dispositions preserved.",
+      "verification": "Local suite/page pass; chemistry0contradictions/13unresolved; source guard1checked/0failed; pairing0problems; source-review schema pass."
+    },
+    {
+      "round": "2026-10-18-batch12-independent-implementation-review",
+      "reviewer": "batch12_dna_independent",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Implementation-only review of tools/chem.py, build/selftest wrappers, research note and existing source-review migration record; author correction then rereviewed in chem.py. No original documents reread.",
+      "findings": "Actual native cleaned ligatedssDNA suppliesPCRGeometry ratherthanfinalreadreference. Physicaltreated/controlsplit, RNAadduct-versusindependentDNA, RNAhydrolysates, nativeC3block and ordinaryPCRcopies remain distinct; physicalcleanup fractions do not imply classpurity. Manualsourceinventory retained. Reviewfound identitybarcode incorrectlylabelled designedwhitelist despite recordeddegenerategeneration; author corrected featureencoding todegenerate and clarified separateunbarcodedRNasePpool lies outside selectedseven-RNAbranch. Publiccaption now distinguishes definingAGATC/unmarkedRTtail from predecessorGATC/PS without transferring modifications or calling differentprotocolcomponents publicationerror. NativePCRassembly/adapter5P remainqualified.",
+      "deferred": [
+        "Originalsource fidelity, comprehensive linkedsource review and existing absence-gate obligations remain outside thisimplementation review."
+      ],
+      "scope": "Independent critical implementation review only; documents0; not anoriginalsource reading or acceptance ofmissinginformation. Existing source-absence status/checklists unchanged.",
+      "verification": "Afterauthorfix: construction/page suite pass; chemistry0contradictions13unresolved withmodifiedRNArecoveryMAGICwarning; sourceguard1checked0failed3unrepresented; pairing0problemduplexes; source-review schema pass."
     }
   ]
 }

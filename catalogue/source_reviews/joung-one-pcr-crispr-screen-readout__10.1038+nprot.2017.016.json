@@ -99,6 +99,34 @@
       ],
       "scope": "Partial native implementation, not a completed ownership migration or accepted absence claim.",
       "verification": "Preliminary page construction only. Finalfocused verification andsource-suite migration not complete."
+    },
+    {
+      "round": "2026-10-18-batch12-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC5526071 JATS Steps32–37 at856–906,58–64 at1120–1160,Table3 at2160–2200; deposited Addgene52961 GenBank invariant scaffold component.",
+      "oligo_scraper": "Mandatory source-bundle scraper run; relevant source transcription pointers checked. No-hit results do not establish absence.",
+      "findings": "Native genomic mixture enters each independent forward-primer PCR class; source ten forward/eight reverse families are locally declared and source-transcription checked. Native originals and possible residuals remain in the carried mixture through physical columns and pooling. Source index identity is structured on primer and daughter. Inferred representative guide/scaffold scope and compatible loaded-primer reference are qualified.",
+      "deferred": [
+        "Actual genomic extents, original/off-product recovery, sample-specific guide and index allocations and complete linked-source absence audit remain unassigned."
+      ],
+      "scope": "Bounded source-qualified migration; no source-absence acceptance or complete chemistry certification.",
+      "verification": "Affected source-transcription suite and page construction pass; final independent implementation review and aggregate verification recorded separately."
+    },
+    {
+      "round": "2026-10-18-batch12-independent-implementation-review",
+      "reviewer": "batch12_dna_independent",
+      "date": "2026-10-18",
+      "documents": 0,
+      "documents_read": 0,
+      "locations": "Implementation-only review of released local protocol module, wrapper/selftest, note and completed root source-migration record; no original sources reread. Prior implementation findings rechecked after author fixes.",
+      "findings": "Independent code-only recheck of released fixes: all ten forward reaction classes receive allocated native genomic mixtures; native PCR daughters, possible original genomes/RNA/primers remain in actual column/pool mixtures. Redundant unresolved-original side outputs removed, so no extra unassigned population allocation is implied. Guide feature now belongs to native genomic role rather than nonphysical inventory strand; reverse-primer physical i7 carries the same structured identity as daughter index. Declared guide/scaffold and compatible loaded-primer reference limitations remain explicit; source80Read1/8Index1 acquisition and all-forward-stagger pool remain distinct from representative daughter. Source inventory is author-declared source-family list rather than graph-node introspection.",
+      "deferred": [
+        "Original-source fidelity and all existing linked-source/absence-gate obligations remain outside this code-only review; native genomic extents and molecular-class recovery remain unresolved as declared."
+      ],
+      "scope": "Independent implementation review only; documents_read0. Does not count as either independent original-source pass or accept missing information; existing source-absence status/checklists unchanged.",
+      "verification": "Source-transcription suite3checks and page build pass; chemistry22steps0contradictions20conditional32unresolved; combined two-protocol sourceguard15checked0failed0unrepresented; pairing0problems; schema and diffcheck pass."
     }
   ]
 }

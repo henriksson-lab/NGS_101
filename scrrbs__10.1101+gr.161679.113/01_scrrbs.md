@@ -1,273 +1,43 @@
 # scRRBS — single-cell reduced-representation bisulfite sequencing
 
-## Adapter-source audit
+Guo H, Zhu P, Wu X, Li X, Wen L, Tang F. *Single-cell methylome landscapes of mouse embryonic stem cells and early embryos analyzed using reduced representation bisulfite sequencing.* Genome Research 23:2126–2135 (2013). [doi:10.1101/gr.161679.113](https://doi.org/10.1101/gr.161679.113), PMC3847781; GEO GSE47343.
 
-🟢 The defining paper calls the ligated oligos “Illumina standard premethylated indexed
-adaptors,” and uses paired-end HiSeq 2000 sequencing. Illumina's adapter-sequence guide
-publishes the matching TruSeq universal adapter, six-base single-index adapter, Read 1,
-Index 1 and Read 2 primers. 🟡 The illustration uses a single-index design without i5; its identity in the study remains unverified.
+## Sources and active scope
 
-> **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
-> published / not available. Relationships marked 🟡 *(computed)* were worked out with
-> `lib/`; the model is `tools/scrrbs.py` on top of `lib/rrbs.py`.
->
-> **The scg_lib_structs drawn page is not a source here.** It is inspiration only: no
-> sequence, length or reaction in this note or in the model is taken from it, and
-> agreement with it is not evidence. Every adapter and primer base drawn for scRRBS comes
-> from `lib/illumina.py`, i.e. from *Illumina Adapter Sequences*, Document # 1000000002694
-> — the vendor document for the "Illumina standard premethylated indexed adaptors" the
-> paper says it ligated.
+🟢 The source-owned graph follows the published defining article, `gr.161679.113_PMC3847781.xml.txt`, Methods “Construction of single-cell RRBS sequencing libraries” lines 103–105 and data processing lines 111–113. The separate sperm MspI/HpaII nested-PCR assay at 107–109 is a validation experiment; its Supplemental Table 5 primers are not assigned to library construction.
 
-**scRRBS** — Guo H, Zhu P, Wu X, Li X, Wen L, Tang F. "Single-cell methylome landscapes
-of mouse embryonic stem cells and early embryos analyzed using reduced representation
-bisulfite sequencing." *Genome Research* 23:2126–2135 (2013).
-doi:[10.1101/gr.161679.113](https://doi.org/10.1101/gr.161679.113) · PMID 24179143 ·
-PMC3847781. Data: GEO GSE47343.
+The later detailed protocol [Guo et al., Nature Protocols 2015](https://doi.org/10.1038/nprot.2015.039), the cited Gu 2011 bulk predecessor and full publisher supplement remain deferred originals. Their unavailable chemistry is not filled from the upstream scg schematic or a modern vendor adapter design. Prior source-reading records remain in the source-review ledger; this bounded migration does not change the missing-information audit status.
 
-Step-by-step protocol: Guo H *et al.* (same group; full author list not in the fetched
-sources). "Profiling DNA methylome landscapes of mammalian cells with single-cell
-reduced-representation bisulfite sequencing." *Nature Protocols* 10:645–659 (2015).
-doi:[10.1038/nprot.2015.039](https://doi.org/10.1038/nprot.2015.039) · PMID 25837417.
+Evidence: 🟢 source statement; 🟡 molecular interpretation or derived relation. An unassigned native role records the model boundary, not confirmed publication absence.
 
-Sources read (fetched by `tools/get_sources.py`, into
-`$CHEM_DATA/sources/scrrbs__10.1101+gr.161679.113/`, never committed):
+## Source construction route
 
-| File | What | Used for |
-|---|---|---|
-| `PMC3847781.html.txt` | Genome Research paper, full text (PMC) | **all wet-lab conditions** (section "Construction of single-cell RRBS sequencing libraries") |
-| `upstream_scRRBS.html.txt` | scg_lib_structs page | **inspiration only, not a source** — nothing is cited from or verified against it |
-| `lib/illumina.py` (in-repo, from *Illumina Adapter Sequences* #1000000002694 v22) | canonical TruSeq universal / single-index adapter, Read 1, Read 2 and Index 1 primers | **every base the model draws** 🟢 (as Illumina publishes them) |
-| `nprot.2015.039_…MOESM430_ESM.pdf.txt` | *Nat Protoc* Supplementary Figures 1–5 | nothing chemical (CpG coverage, methylation histograms) |
-| `nprot.2015.039_…MOESM429_ESM.zip` → `zip/*.sh`, `SingleC_MetLevel.pl` | *Nat Protoc* analysis scripts | trimming / alignment parameters (§6) |
+1. 🟢 Pick one mouse cell into 5 µl lysis buffer (20 mM Tris-EDTA pH 8.0, 20 mM KCl, 0.3% Triton X-100). Add 1 mg/ml Qiagen protease and 60 fg unmethylated lambda DNA. Lyse for 3 h at 50 °C; heat-inactivate for 30 min at 75 °C. Mouse DNA and lambda spike-in are independent polymer populations.
+2. 🟢 Digest with 9 U MspI in 18 µl for 3 h at 37 °C; source cut notation `C^CGG`. 🟡 The resulting two-base 5′-CG overhang is a local interpretation of that cut, not an adapter assignment. Both mouse and lambda substrates enter digestion.
+3. 🟢 Fill and add an extra A to the 3′ blunted ends with 5 U Klenow exo-minus, 1 mM dATP, 0.1 mM dGTP and 0.1 mM dCTP in 20 µl. 🟡 Newly incorporated ordinary dCTP is distinct from any methylated genomic C; it is not a native methylation measurement.
+4. 🟢 Ligate “Illumina standard premethylated indexed adaptors” with 30 U concentrated T4 DNA ligase in 25 µl. Native strands, exact protected positions, junction geometry, index member/width and adapter concentration remain unassigned in this bounded source scope.
+5. 🟢 Bisulfite conversion: MethyCode kit as printed (Invitrogen), 150 µl, 98 °C for 10 min then 64 °C for 2.5 h. 🟡 Unmethylated C becomes U when converted, while native genomic 5mC and protected adaptor C retain cytosine identity. Former genomic partner strands therefore need not remain complementary. The two converted originals are represented independently, without reconstructing an unverified adapter duplex.
+6. 🟢 On-column desulfonation and Zymo-Spin purification with 10 ng tRNA carrier; elute in 30 µl. Carrier RNA is an independent molecular class. The column yields retained eluate and physically removed flowthrough/washes; class-specific DNA/RNA recovery is unresolved.
+7. 🟢 First PCR: 50 µl with 1 U uracil-tolerant PfuTurbo Cx, 95 °C for 2 min then 25 cycles of 95 °C for 20 s, 60 °C for 30 s and 72 °C for 1 min. Exact primers and native sites remain unassigned. Its geometry receives the recovered U-bearing population, not a completed canonical amplicon.
+8. 🟢 Second PCR: 50 µl with 1 U Phusion, 98 °C for 2 min then 22 cycles of 98 °C for 10 s, 60 °C for 30 s and 72 °C for 1 min. The inter-round transfer fraction, dilution, cleanup and relationship of the two rounds' primer species remain unresolved. The graph exposes this boundary rather than inventing a physical aliquot or cleanup. Second-PCR geometry receives that native transfer population.
+9. 🟢 Recover 200–500-bp DNA after 12% native polyacrylamide TBE electrophoresis. Fragment Analyzer checks size and a standard-curve qPCR assay quantifies final libraries; analytical aliquot volumes are unassigned. The graph represents physical gel retention and exclusion without asserting removal of every co-migrating RNA, original DNA or adapter molecule.
 
-Not obtained — fetch by hand:
+## Modified originals and ordinary PCR daughters
 
-| What | URL | Why it matters |
-|---|---|---|
-| *Nature Protocols* main text (paywalled) | https://www.nature.com/articles/nprot.2015.039 | a relevant follow-up for library PCR primers, adapter/index assignments, reagents and version-specific cycles |
-| Genome Research supplement (not linked from PMC) | https://genome.cshlp.org/content/23/12/2126/suppl/DC1 | Supplemental Table 5 (nested-PCR primers for the MspI/HpaII sperm test), Supplemental Figs. 9–11 |
+🟡 PCR copying does not recreate template 5mC protection, methylated-adaptor chemistry or uracil in ordinary DNA daughters. Converted-site DNA readout is T/A for originally converted C and C/G for retained cytosine, with strand orientation affecting which base is reported. The original U-bearing and protected methylated polymers can still coexist with daughters; their physical recovery through transfer, column and gel steps remains unresolved. The graph preserves those independent populations rather than relabelling all originals as ordinary amplicons.
 
-The Genome Research paper itself **gives no oligo sequence**: it says only "Illumina
-standard premethylated indexed adaptors", ligated to dA-tailed MspI fragments with T4
-ligase, and sequenced paired-end on a HiSeq 2000 🟢 (Methods, `PMC3847781.html.txt:1226`).
-That phrase is a *pointer to a vendor document*, and the vendor document is authoritative
-for the bases: this is the same provenance shape as scDNase-seq (paper → named standard
-Illumina kit → Illumina's adapter document). What stays 🟡 is the identification — that
-"standard premethylated indexed" means the TruSeq universal + 6-nt single-index pair —
-and 🔴 the index set actually used and the premethylation sourcing.
+The source ligated index belongs to native adapter-bearing polymers; its structured feature has no assigned coordinate, width, member or acquisition role. It is not a free index oligo, inline UMI or imported six-base cell barcode. No canonical TruSeq Y-fork, adapter strands or sequencing primer sites are supplied.
 
----
+## Sequencing and computational fates
 
-## 1. What it is
+🟢 The defining article specifies paired-end Illumina HiSeq2000 sequencing. Read lengths, index acquisition and native primer sites remain unassigned. Lambda reads provide a bisulfite-conversion reference. Adapter/quality trimming, Bismark alignment to mm9 and the additional lambda reference are computational operations; they do not physically remove molecules from a library.
 
-Bulk RRBS (Meissner/Gu: MspI digest → end repair/A-tail → ligate methylated adapters →
-bisulfite → PCR) shrunk to one cell. The change is not new chemistry but **removing every
-purification before bisulfite**: lysis, lambda spike-in, MspI digestion, fill-in/A-tailing,
-adapter ligation and the bisulfite reaction itself all happen **in the same tube** 🟢; the
-first clean-up is the Zymo column after bisulfite, with 10 ng tRNA as carrier 🟢.
+🟢 Three negative controls omit the cell during picking and are separately carried through library preparation and sequencing to assess contamination. They are described here as independent control preparations, not as physical discard products of the illustrated single-cell lineage. Bulk-cell RRBS and the separate sperm nested-PCR validation are outside this representative single-cell library graph.
 
-No cell barcode, no UMI. One cell = one library, identified by the **6-nt TruSeq index in
-the ligated adapter** 🟡 (the paper only says "indexed"; 6 nt is the standard TruSeq
-single-index width). No reverse
-transcription, tagmentation, template switching or circularization is involved, so none
-of the `ref/concepts/` pages applies; the closest relative there is
-[Tn5 tagmentation](../ref/concepts/tn5-tagmentation.md) only as the contrasting way
-other single-cell DNA methods attach adapters.
+## Bounded native-graph migration (2026-10-18, batch 12)
 
-| | Feature | Note |
-|---|---|---|
-| 1 | One-tube lysis → digestion → ligation → bisulfite | the paper's stated reason: avoiding DNA loss in purification steps 🟢; a diploid mouse cell holds ~6 pg of DNA 🟡 (general knowledge, not in the source) |
-| 2 | **60 fg unmethylated lambda DNA** spiked into every cell | per-cell bisulfite conversion rate: 99.2 % on average (97.7–99.9 %) 🟢 |
-| 3 | **Adapters ligated before bisulfite**, so their cytosines must be methylated | otherwise the adapter Cs would become U/T and P5/P7 would no longer match 🟡 |
-| 4 | Uracil-tolerant **PfuTurbo Cx** for the first PCR | ordinary proofreading polymerases stall on uracil 🟢 (enzyme) / 🟡 (reason) |
+One published original inspected: PMC3847781 JATS Methods lines 103–113, including the separate validation-assay boundary and sequencing/data-processing passages. The mandatory source-bundle oligo scraper produced hits only in the excluded upstream schematic; none was adopted as an original library oligo. A scraper search does not establish absent information.
 
-## 2. Oligos
+Removed queued `lib/rrbs.py` source defaults and the canonical adapter/readout detail panels. Local native population constructors now preserve mouse/lambda/tRNA, protected originals and ordinary PCR copies, actual incoming PCR states, source-known physical column/PAGE fates and explicitly unresolved inter-round transfer. Source positive lysis, spike-in, enzymes, reaction volumes, cycles and sequencing platform remain local.
 
-The paper names the adapters by vendor designation, not by sequence. The model therefore
-imports them from `lib/illumina.py` and retypes nothing (`lib/rrbs.py`, which scRRBS,
-scMT-seq and scTrio-seq share):
-
-| Role in scRRBS | Model expression | Bases |
-|---|---|---|
-| universal (P5-side) adaptor strand | `illumina.TRUSEQ_P5_FULL` = `P5` + `TRUSEQ_READ1[4:]` | `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT` 🟢 |
-| indexed (P7-side) adaptor strand | `illumina.INDEX1_PRIMER` + 6-nt index + `illumina.P7_RC` | `GATCGGAAGAGCACACGTCTGAACTCCAGTCAC`[index]`ATCTCGTATGCCGTCTTCTGCTTG` 🟢 fixed parts, index 🔴 |
-| 12-bp fork stem | `illumina.STEM` | `GATCGGAAGAGC` 🟢 |
-| Read 1 / Read 2 / Index 1 read primers | `seqprimers.TRUSEQ["R1"/"R2"/"I1"]` | the stock TruSeq primers 🟢 |
-| cell index | 6-nt `N` placeholder | unresolved — the study-specific index set has not been established |
-| library PCR primers | graph inputs without a sequence state | unresolved — identities not assigned in the inspected Methods passage (see §3) |
-
-🟡 The *premethylation* of the adapter cytosines is a property the paper asserts
-("premethylated") but no base in it changes: 5-methyl-dC is drawn as C.
-
-🔴 The *Nature Protocols* 2015 step-by-step version of this protocol is a relevant follow-up
-for the PCR primers and index set; it is paywalled and we do not hold it,
-so primer names remain unresolved here (an earlier revision of this note carried
-the names "QP1"/"QP2", which reached it only through the drawn page).
-
-### How they interlock — 🟡 (computed)
-
-- **Universal adaptor = `illumina.TRUSEQ_P5_FULL`** exactly (58 nt) = `illumina.P5`
-  (29 nt) + `illumina.TRUSEQ_READ1` (33 nt), overlapping by 4 nt (`ACAC`). It ends in the
-  3'-**T** overhang that pairs with the A-tail.
-- **Indexed adaptor = `illumina.INDEX1_PRIMER` (33 nt) + 6-nt index + `illumina.P7_RC`
-  (24 nt)** = 63 nt. Its first 33 nt are the reverse complement of `TRUSEQ_READ2`
-  minus its 5'-terminal `A` (revcomp(Read 2 primer) = `A` + indexed adaptor[:33]) — that
-  `A` is supplied by the A-tail of the insert.
-- **Y-adapter**: the reverse complement of the universal adaptor's 3' end, after its single
-  3'-T overhang, matches the indexed adaptor's first **12 nt `GATCGGAAGAGC`**; the rest
-  of the two oligos is non-complementary — the standard TruSeq fork.
-- The 5' phosphate is on the indexed adaptor only: it ligates to the 3'-A of an insert
-  strand; the universal adaptor's 3'-T ligates to the insert's other strand, whose 5'
-  phosphate comes from the MspI cut.
-- Because the adaptor already contains full P5 and P7, primers no longer than
-  `illumina.P5` / `illumina.P7` suffice to amplify, and no index is added by PCR 🟡
-  *(computed)*; the primers the authors actually used are not established from the source scope inspected in this pass.
-- Read primers are the stock TruSeq ones: Read 1 = `TRUSEQ_READ1`, Read 2 =
-  `TRUSEQ_READ2`, index read = `INDEX1_PRIMER`.
-- Methylated cytosines to protect: 21 C in the universal adaptor, 17 C in the fixed part
-  of the indexed adaptor (plus any C in the index).
-
-## 3. Step by step
-
-Conditions 🟢 from Genome Research Methods unless marked. All steps through bisulfite in
-one PCR tube in a thermocycler.
-
-1. **Pick and lyse**: single cell by mouth pipette into 5 µL lysis buffer (20 mM
-   Tris-EDTA pH 8.0, 20 mM KCl, 0.3 % Triton X-100) + 1 mg/mL Qiagen protease;
-   **60 fg unmethylated lambda DNA** spiked in. 50 °C 3 h, protease killed 75 °C 30 min.
-2. **MspI digest**: 9 U MspI (C^CGG), 18 µL, 37 °C 3 h. Every fragment starts `CGG` on
-   both strands with a 5'-`CG` overhang. MspI is methylation-insensitive, so cutting does
-   not depend on the CpG's state. 🟡
-3. **Fill-in + A-tail**: 5 U Klenow exo⁻, 1 mM dATP + 0.1 mM dGTP + 0.1 mM dCTP, 20 µL.
-   The 3' recessed end is filled with `CG` and then given an extra `A`; each strand is now
-   `5'-CGG…CCGA-3'`. 🟡 (mechanism, from the enzymes and dNTPs the paper lists) The
-   filled-in C is from
-   **unmethylated dCTP**, so it will read as T whatever the genome had there — an
-   artificial position at the 3' end of every fragment. 🟡
-4. **Ligate** pre-methylated indexed Y-adapters: 30 U high-concentration T4 DNA ligase,
-   25 µL. Adapter amount, ligation time and temperature remain unresolved in this bounded pass.
-5. **Bisulfite** ("MethyCode" kit as the paper spells it — Invitrogen MethylCode), 150 µL: denature 98 °C 10 min, convert
-   64 °C 2.5 h. On-column desulfonation, Zymo-Spin column with **10 ng tRNA carrier**,
-   elute in 30 µL. Unmethylated C → U in the insert; the methylated adapter Cs survive. The
-   two strands are no longer complementary and separate.
-6. **PCR round 1**: 50 µL, 1 U **PfuTurbo Cx** (reads through uracil): 95 °C 2 min;
-   25 × (95 °C 20 s, 60 °C 30 s, 72 °C 1 min).
-7. **PCR round 2**: 50 µL, 1 U Phusion: 98 °C 2 min; 22 × (98 °C 10 s, 60 °C 30 s,
-   72 °C 1 min). Primers for either round are not named in the inspected Methods passage, and the model's
-   graph therefore gives its two library-PCR primer inputs no sequence state and marks the
-   step's geometry unavailable 🔴. Whether round 2 is on a dilution or clean-up of round 1
-   is not said 🔴.
-8. **Size-select** 200–500 bp on a 12 % native polyacrylamide TBE gel; Fragment Analyzer
-   QC; qPCR quantification.
-
-In the first PCR cycle only the P7-side primer can anneal: each converted strand carries
-the universal adaptor at its 5' end and the P7 complement at its 3' end, so a P5 primer
-finds a site only on the copy. Both original strands give the same structure. 🟡
-*(computed from the adapter design)*
-
-Side assay (not part of the library): single sperm lysed the same way, digested with MspI
-or the methylation-sensitive **HpaII**, then nested PCR (30 + 30 cycles). The paper
-assigns its nested-PCR primers to Supplemental Table 5; these are validation primers,
-not scRRBS library-construction oligos. 🔴 (table not obtained)
-
-## 4. Final library — 🟡 (assembled from the canonical adapter parts)
-
-```
-5'- P5 · TruSeq Read 1 · <insert: Y-GG … Y-T-G> · A · INDEX1_PRIMER seq (= Read 2') · <i7, 6 nt> · P7' -3'
-```
-
-- `P5 · TruSeq Read 1` = the universal adaptor (58 nt); `INDEX1_PRIMER · i7 · P7'` = the
-  indexed adaptor (63 nt). Adapters add **121 nt** (+ the A-tail) to the insert.
-- Insert: starts at the MspI site, `CGG` if that CpG was methylated, `TGG` if not
-  (bisulfite); ends `…C/T` `T` `G`, the `T` being the artificial filled-in C; then the `A`
-  tail. Non-CpG C are expected to read as T.
-- Size-selected 200–500 bp total 🟢 → insert roughly 80–380 bp 🟡.
-
-## 5. Sequencing
-
-🟢 Paired-end on an **Illumina HiSeq 2000**; read-cycle assignment remains unresolved in this bounded pass.
-
-🟡 *(computed; standard TruSeq read primers)*:
-
-| Read | Primer | Reads |
-|---|---|---|
-| Read 1 | TruSeq Read 1 | insert from the MspI end: first base = methylation call of that CpG, then `GG` |
-| Index (i7) | INDEX1_PRIMER | the 6-nt sample index = **cell identity** |
-| Read 2 | TruSeq Read 2 | the other end of the same converted strand (directional library: reads are complementary to the converted strand); position 2 is the filled-in, artificial C |
-
-No i5 read: the universal adaptor has no index.
-
-## 6. Analysis hints from the scripts — 🟢 (MOESM429 zip)
-
-- `trim_galore --quality 20 --phred33 --stringency 3 --length 36 --rrbs --paired --trim1` — the
-  `--rrbs` switch exists to remove the filled-in, unmethylated-dCTP positions at the
-  fragment ends (§3 step 3) 🟡 (purpose; standard Trim Galore behaviour).
-- `bismark` with default parameters on mm9 🟢 (paper); the alignment script calls
-  bowtie 1.0.0 (`--path_to_bowtie <bowtie-1.0.0>`) 🟢 (script), although the genome
-  preparation script uses `--bowtie2` 🟢 (script) — an inconsistency in the supplied
-  scripts. Default Bismark mode is directional 🟡. Lambda genome (48,502 bp) as an extra
-  reference for the conversion rate 🟢 (paper).
-- Calls: ≥3× coverage per CpG; ≥90 % → methylated, ≤10 % → unmethylated, others
-  discarded 🟢 (paper).
-
-## 7. What the paper fixes and what it leaves open
-
-| Point | Genome Research 2013 | Status in the model |
-|---|---|---|
-| Adapters | "Illumina standard premethylated indexed adaptors", no sequence 🟢 | canonical TruSeq parts from `lib/illumina.py`; the identification is 🟡 |
-| Enzyme / fill-in / A-tail | MspI (C^CGG), Klenow exo⁻, dATP + dGTP + dCTP 🟢 | drawn as a digestion → end-repair → dA-tail chain |
-| PCR | **two rounds** (PfuTurbo Cx 25 cyc, then Phusion 22 cyc) 🟢, primers unnamed 🔴 | two PCR steps with source-named enzymes and sequence-less primer inputs; geometry remains unavailable |
-| Lambda spike-in, tRNA carrier, PAGE size selection | given 🟢 | tRNA column purification and PAGE recovery now explicit; lambda/lysis graph inputs deferred |
-| Read layout | paired-end HiSeq 2000 🟢; read lengths not stated 🔴 | Read 1 / Index 1 / Read 2 roles, index width 🟡 |
-
-Whether the 2015 *Nature Protocols* version changed cycle numbers, polymerases or primer
-names cannot be checked without that paper 🔴.
-
-## 8. Open questions
-
-- 🔴 Adapter concentration, ligation time/temperature; how the methylated adapters were
-  obtained (bought pre-methylated vs. synthesized with 5-methyl-dC).
-- 🔴 Primer identity and template for each of the two PCR rounds (2013) and whether the
-  2015 protocol keeps two rounds.
-- 🔴 Read lengths; the index set used (which 6-nt TruSeq indices).
-- 🔴 Supplemental Table 5 nested-PCR primers (sperm MspI/HpaII validation).
-
-## 9. How this note was made (tool evaluation)
-
-`tools/get_sources.py` fetched the PMC full text and the two *Nature Protocols*
-supplements (and the drawn page, which is not used); it did not fetch (or list as manual)
-the *Nature Protocols* main text or the Genome Research supplement.
-The historical scraper pass did not recover library oligos from the inspected
-texts. This is a search result, not evidence of absence from the full source chain.
-The canonical vendor sequences used for illustration do not establish their
-identity in scRRBS; original linked sources remain open.
-
-## Bounded source pass — 2026-10-17
-
-Read the defining published JATS `gr.161679.113_PMC3847781.xml.txt`,
-Methods “Construction of single-cell RRBS sequencing libraries” at lines
-103–105, the separate validation assay at 107–109 and data processing at
-111–113. The PMC Cloud manifest and printed DOI identify the 2013 article.
-Ran the bundle oligo scraper: its sequence hits were in the excluded upstream
-schematic, so none supplies new source-backed library oligos. The source
-pass does not count that schematic as an original. No supplement was read
-in this pass; the later 2015 version has not supplied substitute conditions.
-
-🟢 The graph now names T4 DNA ligase and represents on-column desulfonation
-and purification with tRNA carrier before PCR. It separates the source's
-PfuTurbo Cx first PCR from its Phusion second PCR, then represents native-PAGE
-size selection. The former single generic PCR and omitted final selection
-were repository modelling omissions, not errors in the publication.
-
-🟡 Adapter identity, library PCR primers and acquired index length remain
-unverified; the canonical six-base TruSeq illustration is retained with its
-existing inferred marking. Paired-end HiSeq 2000 is source-stated. Exact
-primer sites in the illustration do not verify the experiment's index recipe.
-No missing-information claim is accepted from this limited source scope.
-
-Deferred: full publisher Supplemental Material (including Table 5 for the
-separate nested-PCR assay), Gu 2011 bulk predecessor, original 2015 detailed
-protocol, applicable historical vendor adapter/primer documents, cell lysis
-and lambda spike-in graph inputs, transfer between PCR rounds, complete
-modified adapter/intermediate states and selected acquired read/index cycles.
-Prior independent reading records remain historical; this is one capped pass.
+Deferred: full publisher supplement including validation Table 5; Gu 2011 bulk predecessor; full 2015 detailed protocol; matching historical adapter/primer specifications; native ligation/PCR geometry, modified-adaptor positions, run/index cycles, inter-round physical allocation and class-specific recoveries. This capped pass is not a full protocol review or either independent missing-information pass; no publication-wide absence is accepted.

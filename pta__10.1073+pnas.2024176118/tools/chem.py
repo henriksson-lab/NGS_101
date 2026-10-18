@@ -1,150 +1,113 @@
-"""Primary template-directed amplification and its defining library route."""
+"""Source-owned PTA populations and native, unresolved KAPA/IDT library ends."""
 from pathlib import Path
 import sys
-
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-import pta
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
-from batch_ngs import seg, truseq_library
-from chemdraw import Construct, MolecularState, Scene, Workflow
-from endprep import dA_tailed_scene, repair_and_dA_tail
+from chemdraw import Construct, Scene, Segment
 from pcr import PCRGeometry
-from protocol_graph import (InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind)
-
+from protocol_graph import (InputRole as I, MaterialKind as M,
+                            ProtocolGraph, SequencingPlan, StepKind as K)
 
 TITLE = "PTA — primary template-directed whole-genome amplification"
 NOTES = "01_pta.html"
 SOURCE = ('<a href="https://doi.org/10.1073/pnas.2024176118">Gonzalez-Pena et al., '
-          '<i>PNAS</i> (2021)</a>, Methods and Supplementary Figure S1.')
-SUMMARY = ("Random-primed phi29 synthesis is interrupted by exonuclease-resistant "
-           "alpha-thio-ddNTPs. Shorter products undergo less daughter-on-daughter "
-           "amplification, biasing yield toward repeated copying of the primary genome.")
-CAVEAT = ("Exact random-primer and IDT UDI adapter assignments remain unverified in this capped pass. Their roles are preserved; canonical TruSeq adapter bases are "
-          "shown as inferred only to locate standard sequencing primers.")
-
-FINAL_LIBRARY, SEQ_PRIMERS = truseq_library(
-    [seg("PTA-amplified genomic insert", "X" * 48, placeholder=True)],
-    "PTA KAPA HyperPlus library", dual_index=True, inferred_adapters=True)
-READ_LENGTHS = {}  # source run mask unassigned; illustrative index windows are not acquired cycles
-SHOW_READ_CONTENT = False
-FINAL_CAPTION = ("INFERRED adapter bases: the published KAPA HyperPlus plus IDT UDI route "
-                 "fixes a standard dual-index Illumina topology but does not print its "
-                 "oligos. The genomic insert was already shortened by PTA, so HyperPlus "
-                 "fragmentation is omitted.")
-SEQUENCING_INTRO = ("The study used NovaSeq 6000; genomic read lengths, index widths and exact UDI assignment remain unverified. Canonical primer sites follow the stated KAPA "
-                    "HyperPlus/IDT dual-index library geometry.")
+          '<i>PNAS</i> (2021)</a>, Results, Methods and Supplementary Figure S1.')
+AUTHORITY = "https://doi.org/10.1073/pnas.2024176118; PMC8214697 JATS Results 83–85, Methods 172–177; published SI Fig S1"
+SUMMARY = ("Random-primed phi29 synthesis incorporates exonuclease-resistant alpha-thio-ddNTPs. "
+           "The entire purified PTA reaction enters KAPA HyperPlus without fragmentation, "
+           "followed by IDT unique-dual-index adapter ligation, 15 PCR cycles and gel recovery.")
+CAVEAT = ("Native random-primer chemistry, KAPA intermediate ends and IDT UDI strands remain "
+          "unassigned in this bounded source scope. Terminated originals retain their no-3′-OH chemistry; "
+          "ordinary PCR copies do not inherit a template phosphorothioate modification. "
+          "Component recovery and kit processing of blocked ends are unresolved. No canonical adapter "
+          "bases, index widths or read mask are substituted.")
+FINAL_LIBRARY = None
+SEQ_PRIMERS = ()
+SEQUENCING_ENDING = "NovaSeq 6000 sequencing of the recovered 400–700-bp library; native primer sites and run/index mask remain unassigned."
+READ_SPECS = (sp.read_spec("Sequencing output", None, "Native PTA genomic library; exact read/index acquisition unassigned", "include"),)
 
 
-def oligos():
-    return ()
+def role(name):
+    return Segment(name, "[" + name + "]", placeholder=True)
 
 
-def _initial_rows():
-    sc = Scene.duplex([seg("single-cell genomic DNA", "X" * 48, placeholder=True)],
-                      label="single-cell genome")
-    return sc.rows()
+def amplification_product():
+    """One product class; not a claim that every recovered molecule is terminated."""
+    return Construct([
+        role("random-primer-derived end; native modification pattern unassigned"),
+        role("primary-template-derived DNA"),
+        Segment("irreversible terminator", "[alpha-thio-ddN]", placeholder=True,
+                note="alpha-thio-ddN: no 3′-OH; exonuclease-resistant phosphorothioate bond"),
+    ], name="terminated PTA daughter class")
 
 
-def workflow():
-    wf = Workflow(MolecularState("Denatured single-cell genome", tuple(_initial_rows())))
-    wf.react("Anneal the exonuclease-resistant random primer (sequence unassigned)",
-             pta.priming_rows(), name="Random-primed primary template",
-             note="The paper gives 500 µM primer and 15 minutes at 65 °C, but does not disclose its bases, length or modification pattern.")
-    wf.react("Extend with phi29 and strand displacement at 30 °C for 8 hours",
-             pta.product_rows(), name="Terminated primary-template copies",
-             note="Equal alpha-thio-ddATP, -ddCTP, -ddGTP and -ddTTP stop synthesis irreversibly; shorter displaced products are poor secondary templates, producing quasi-linear amplification.")
-    body = seg("extendable PTA product", "X" * 48, placeholder=True)
-    prepared = repair_and_dA_tail(Construct([body], name="PTA product"))
-    wf.react("End-repair and dA-tail the purified PTA products without fragmentation",
-             dA_tailed_scene(prepared, label="ligation-ready PTA product").rows(),
-             name="End-repaired PTA product",
-             note="The defining KAPA HyperPlus workflow explicitly omits fragmentation because PTA already creates shorter products.")
-    sc = Scene.duplex(list(FINAL_LIBRARY), label="INFERRED adapter-completed library")
-    sc.labels("top")
-    wf.ligate_adapter("INFERRED — ligate IDT UDI adapters and amplify 15 PCR cycles",
-             AdapterLigationGeometry.unavailable("The defining PTA paper identifies IDT UDI adapters used with KAPA HyperPlus but does not print their oligos or state their ligation-ready end geometry."), sc.rows(), name="Dual-index Illumina library",
-             note="Exact adapter and primer bases are unavailable. Gel extraction retains 400–700-bp products for NovaSeq 6000 sequencing.")
-    return wf
-
-
-def final_rows():
-    sc = Scene.duplex(list(FINAL_LIBRARY), label="PTA library")
-    sc.labels("top")
-    return sc.rows()
+def populations(stage):
+    """Independent polymers; role tokens deliberately supply no invented end bases."""
+    sc = Scene()
+    if stage == "genome":
+        sc.strand("genome", [role("denatured genomic DNA")], label="genomic template population")
+    elif stage in {"amplified", "purified"}:
+        sc.strand("original", [role("primary genomic templates; recovery unassigned")], label="independent original DNA")
+        sc.strand("terminated", list(amplification_product()), label="terminated daughter class", mod3="no 3′-OH")
+        sc.strand("other", [role("other PTA DNA and residual primer classes; identities and recovery unassigned")], label="independent possible carried populations")
+    elif stage == "prepared":
+        sc.strand("prepared", [role("KAPA-prepared PTA DNA; strand/end chemistry and blocked-end processing unassigned")], label="native kit substrate population")
+        sc.strand("carried", [role("possible carried genomic DNA, terminated products and primers; class allocation unassigned")], label="independent possible carried originals")
+    elif stage == "ligated":
+        sc.strand("ligated", [role("native UDI-ligated PTA DNA; adapter strands, sealed junctions and index widths unassigned")], label="native ligation-product population")
+        sc.strand("carried", [role("possible unligated/terminated originals and free adapters; physical recovery unassigned")], label="independent possible carried populations")
+    elif stage in {"pcr", "selected"}:
+        sc.strand("copies", [role("ordinary DNA PCR daughters; native primer-derived ends and UDI member unassigned")], label="independent PCR daughter population")
+        sc.strand("carried", [role("possible carried original DNA, alpha-thio-ddN products, adapters and primers; recovery unassigned")], label="independent possible original populations")
+        sc.note("copies", "DNA copying does not recreate a template phosphorothioate bond. Gel selection does not establish component-specific removal within the retained window.")
+    else:
+        raise ValueError(stage)
+    return sc
 
 
 def protocol_graph():
-    source="Defining source: https://doi.org/10.1073/pnas.2024176118"
-    graph=ProtocolGraph("PTA",authority=source)
-    genome=graph.input("genome","denatured single-cell genomic DNA",
-                       MaterialKind.BIOLOGICAL,primary=True)
-    primer=graph.input("random_primer","exonuclease-resistant random primer",
-                       MaterialKind.OLIGO,inferred=True,
-                       source=source+" (exact bases, length and modifications unassigned)")
-    phi29=graph.input("phi29","phi29 DNA polymerase",MaterialKind.CATALYST)
-    terminators=graph.input("terminators","alpha-thio-ddATP/ddCTP/ddGTP/ddTTP",
-                            MaterialKind.OLIGO)
-    amplified_state=pta.amplification_product()
-    amplified=graph.product("pta_product","terminated primary-template copies",
-                            MaterialKind.MOLECULAR,state=amplified_state)
-    graph.react("pta_amplification","Random-prime and displace primary-template copies",
-                StepKind.EXTENSION,
-                ((genome,InputRole.TEMPLATE),(primer,InputRole.STRUCTURAL),
-                 (terminators,InputRole.STRUCTURAL),(phi29,InputRole.CATALYST)),
-                (amplified,))
-    repair=graph.input("end_repair_mix","KAPA HyperPlus end-repair/dA-tailing mix",
-                       MaterialKind.CATALYST)
-    prepared_model=repair_and_dA_tail(Construct([
-        seg("PTA-amplified genomic insert","X"*48,placeholder=True)],name="PTA product"))
-    prepared_scene=dA_tailed_scene(prepared_model,label="ligation-ready PTA product")
-    prepared=graph.product("prepared_product","end-repaired, dA-tailed PTA products",
-                           MaterialKind.MOLECULAR,state=prepared_scene)
-    graph.react("end_prepare","End-repair and dA-tail PTA products without fragmentation",
-                StepKind.END_REPAIR,
-                ((amplified,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(prepared,))
-    adapters=graph.input("udi_adapters","IDT UDI adapters",MaterialKind.ADAPTER,
-                         inferred=True,source=source+" (oligo sequences unavailable)")
-    ligase=graph.input("ligase","KAPA HyperPlus DNA ligase",MaterialKind.CATALYST)
-    ligated=graph.product("ligated_library","UDI-adapter-ligated PTA library",
-                          MaterialKind.MOLECULAR,state=FINAL_LIBRARY,inferred=True,
-                          source=source+" (adapter bases inferred from standard topology)")
-    adapter_geometry=AdapterLigationGeometry.unavailable(
-        "The paper identifies IDT UDI adapters but does not print their oligos or ligation-ready end geometry.")
-    graph.react("adapter_ligation","Ligate IDT UDI adapters",StepKind.LIGATION,
-                ((prepared,InputRole.TEMPLATE),(adapters,InputRole.STRUCTURAL),
-                 (ligase,InputRole.CATALYST)),(ligated,),geometry=adapter_geometry)
-    forward=graph.input("pcr_forward","UDI library PCR forward primer",MaterialKind.OLIGO,
-                        inferred=True,source=source+" (sequence unavailable)")
-    reverse=graph.input("pcr_reverse","UDI library PCR reverse primer",MaterialKind.OLIGO,
-                        inferred=True,source=source+" (sequence unavailable)")
-    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
-    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
-                          state=FINAL_LIBRARY,inferred=True,
-                          source=source+" (canonical adapter bases inferred)")
-    graph.react("library_pcr","Amplify the UDI library for 15 cycles",StepKind.PCR,
-                ((ligated,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),
-                 (reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),(library,),
-                geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY,reason="The defining paper does not print the IDT UDI PCR primers."))
-    size_matrix=graph.input("size_matrix","1% agarose E-Gel and ZymoClean Gel DNA Recovery",MaterialKind.SELECTION)
-    selected=graph.product("size_selected_library","400–700 bp PTA library",MaterialKind.LIBRARY,state=FINAL_LIBRARY,inferred=True,source=source+" (canonical adapter bases inferred)")
-    rejected=graph.product("size_rejected","library material outside400–700bp",MaterialKind.WASTE)
-    graph.react("size_select","Select400–700bp library fragments after15-cycle PCR",StepKind.SELECTION,
-                ((library,InputRole.TEMPLATE),(size_matrix,InputRole.SELECTION)),(selected,rejected),changes_molecule=False)
-    graph.discard(rejected,"excluded by preparative gel selection")
-    graph.sequence(selected,SequencingPlan(
-        library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),
-        acquired_roles=(),
-        read_lengths=READ_LENGTHS,
-        read_uses={"Read 1":"include","Index 1 (i7)":"demultiplex",
-                   "Index 2 (i5)":"demultiplex","Read 2":"include"},
-        limitation="NovaSeq6000 is source-specified; exact read/index mask and UDI assignment remain unverified. Canonical primer sites and eight-base index placeholders are conditional references, not a study acquisition declaration."))
-    graph.declare_reviewed_scope((
-        "genome","random_primer","phi29","terminators","pta_amplification",
-        "end_repair_mix","end_prepare","udi_adapters","ligase","adapter_ligation",
-        "pcr_forward","pcr_reverse","pcr_polymerase","library_pcr","library","size_matrix","size_select","size_selected_library"),source)
-    return graph.require_publishable()
-
-READ_SPECS = (sp.read_spec("Sequencing output", None, "NovaSeq6000 genomic reads; read and index acquisition mask unassigned", "include"),)
+    g = ProtocolGraph("PTA", authority=AUTHORITY)
+    genome = g.input("genome", "denatured single-cell genomic DNA after source lysis/neutralization", M.BIOLOGICAL, state=populations("genome"), primary=True)
+    primer = g.input("random_primer", "exonuclease-resistant random primer; native bases/length/modification pattern unassigned", M.OLIGO)
+    phi29 = g.input("phi29", "REPLI-g amplification mix / phi29", M.CATALYST)
+    terminators = g.input("terminators", "equal alpha-thio-ddATP/ddCTP/ddGTP/ddTTP mixture", M.MOLECULAR)
+    amplified = g.product("pta_product", "PTA reaction: genomic originals and daughter populations", M.MOLECULAR, state=populations("amplified"))
+    g.react("pta_amplification", "Random-prime and displace DNA at 30 °C for 8 h; heat-stop 65 °C for 3 min", K.EXTENSION,
+            ((genome,I.TEMPLATE),(primer,I.STRUCTURAL),(phi29,I.CATALYST),(terminators,I.STRUCTURAL)),(amplified,))
+    beads = g.input("beads", "AMPure XP, 2:1 beads:reaction", M.SELECTION)
+    purified = g.product("purified", "purified entire PTA reaction; class recovery unassigned", M.MOLECULAR, state=populations("purified"))
+    bead_waste = g.product("bead_waste", "physically removed bead-cleanup fraction; composition unassigned", M.WASTE)
+    g.react("cleanup", "Purify PTA reaction with AMPure XP", K.CLEANUP, ((amplified,I.TEMPLATE),(beads,I.SELECTION)),(purified,bead_waste),changes_molecule=False)
+    g.discard(bead_waste,"Source bead-cleanup removal; no specific terminated-product depletion is inferred.")
+    kit = g.input("kapa", "KAPA HyperPlus preparation without fragmentation; historical internal steps unassigned", M.CONDITION)
+    prepared = g.product("prepared", "native KAPA-prepared population", M.MOLECULAR,state=populations("prepared"))
+    g.react("native_preparation", "Native KAPA preparation without fragmentation; end chemistry unresolved", K.MAGIC,
+            ((purified,I.TEMPLATE),(kit,I.CONDITION)),(prepared,),
+            reason="Methods177 names KAPA HyperPlus without fragmentation. Native kit intermediates and conversion/recovery of alpha-thio-ddN-blocked ends are not established in the inspected article/SI; an extendable dA-tailed duplex is not assumed.")
+    adapters = g.input("udi_adapters", "IDT UDI adapters, 2.5 µM; native strands/member unassigned", M.ADAPTER)
+    ligase = g.input("ligase", "native KAPA ligation mix", M.CATALYST)
+    ligated = g.product("ligated", "native UDI-ligated reaction", M.MOLECULAR,state=populations("ligated"))
+    g.react("adapter_ligation", "Ligate source IDT unique-dual-index adapters", K.LIGATION,
+            ((prepared,I.TEMPLATE),(adapters,I.STRUCTURAL),(ligase,I.CATALYST)),(ligated,),
+            geometry=AdapterLigationGeometry.unavailable("Methods177 identifies IDT UDI ligation but native physical strands, ends, junctions and blocked-end substrate allocation remain unassigned in this bounded reading."))
+    forward = g.input("pcr_forward", "native library PCR forward primer; ordered strand unassigned", M.OLIGO)
+    reverse = g.input("pcr_reverse", "native library PCR reverse primer; ordered strand unassigned", M.OLIGO)
+    polymerase = g.input("pcr_polymerase", "native library PCR mix", M.CATALYST)
+    amplified_library = g.product("library", "15-cycle library PCR population", M.MOLECULAR,state=populations("pcr"))
+    g.react("library_pcr", "Amplify native ligation reaction for 15 cycles", K.PCR,
+            ((ligated,I.TEMPLATE),(forward,I.STRUCTURAL),(reverse,I.STRUCTURAL),(polymerase,I.CATALYST)),(amplified_library,),
+            geometry=PCRGeometry.unavailable(ligated.state,reason="Actual incoming native ligation population; complete primers and first-cycle junctions unassigned. A completed canonical amplicon is not used as PCR substrate."))
+    gel = g.input("gel", "1% agarose E-Gel / ZymoClean Gel DNA Recovery", M.SELECTION)
+    selected = g.product("selected", "400–700-bp recovered library fraction", M.LIBRARY,state=populations("selected"))
+    rejected = g.product("gel_waste", "physically excluded gel fraction", M.WASTE)
+    g.react("size_select", "Excise and recover 400–700-bp library fraction", K.SELECTION,
+            ((amplified_library,I.TEMPLATE),(gel,I.SELECTION)),(selected,rejected),changes_molecule=False)
+    g.discard(rejected,"Physically outside recovered gel slice; no computational read filtering is represented as molecular disposal.")
+    g.sequence(selected, SequencingPlan(acquisition="unspecified", limitation=SEQUENCING_ENDING))
+    g.declare_reviewed_scope(("genome","random_primer","phi29","terminators","pta_amplification",
+                             "beads","cleanup","kapa","native_preparation","udi_adapters","ligase",
+                             "adapter_ligation","pcr_forward","pcr_reverse","pcr_polymerase",
+                             "library_pcr","gel","size_select","selected"),AUTHORITY)
+    return g.require_publishable()

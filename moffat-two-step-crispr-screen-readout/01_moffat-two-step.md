@@ -26,8 +26,7 @@ The Moffat Lab TKOv3 workflow deliberately separates locus enrichment from index
   drawn as placeholders.
 - 🟢 Section 3.5.4 (lines 1037–1066): HiSeq 2500 SR50 or NextSeq 500 SR75 with dual index. Without dark
   cycles, a 0–5-nt stagger is placed 5′ of the i5 annealing part and Read 1 is lengthened; that variant is
-  not drawn. The 21 dark cycles are stated on the page in prose; the shared sequencing plan has no
-  structured dark-cycle field.
+  not drawn. The plan records 26 acquired Read 1 cycles separately; their start after 21 dark additions remains unplaced in the ordinary primer-start geometry.
 
 🟢 [Table 1 of the Addgene-hosted protocol](https://media.addgene.org/cms/filer_public/44/9f/449f22c6-f818-4af6-8af4-2bab1d20f00a/moffat_lab_crispr_screen_protocol_v2.pdf)
 prints the LCV2 PCR1 pair and the full i5/i7 PCR2 primer families. The schematic uses
@@ -38,3 +37,7 @@ interchangeable with this page's LCV2 construct.
 ## Boundary
 
 The same document mentions a possible one-PCR alternative. That alternative is not drawn here: the page is specifically the two-step workflow, while the Joung protocol has its own one-PCR page.
+
+## Native migration scope (2026-10-18)
+
+Actual native genomic mixtures feed PCR1 and the actual pooled enriched mixture feeds PCR2. Possible original DNA, RNA and primers remain in the carried mixture; amplification does not discard them. The graph includes the analytical aliquot, pool, PCR2 aliquot and remainder, and physical final gel fraction. Native flank extents and class-specific gel recovery remain unassigned. The nested-site panel represents the target component rather than complete mixture geometry.

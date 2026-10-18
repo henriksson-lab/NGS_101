@@ -1,348 +1,161 @@
+"""Miura2020 source-owned scRepli-seq: independent cells and native library states."""
+from types import SimpleNamespace
+from chemdraw import Construct, Scene, Segment, feature
+from adapter_ligation import AdapterLigationGeometry
+from pcr import PCRGeometry
+from protocol_graph import (Disposition, InputRole as I, MaterialKind as M,
+                            ProtocolGraph, SequencingPlan, StepKind as K, Terminal)
+import seqprimers as sp
 
-from conformation_replication_specs import _three_c
-from pcr import PCRPrimer
-from chemdraw import Segment
-from conformation_replication_specs import AdapterLigationGeometry, Construct, Definition, InputRole, MaterialKind, NascentPulse, PCRGeometry, ProtocolGraph, SequencingPlan, StepKind, da_tailed, molecule, role, sp
-DEFINITION = Definition(
-        "scRepli-seq — single-cell DNA replication sequencing", "10.1038/s41596-020-0378-5",
-        "Miura et al., Nature Protocols (2020)",
-        "A single S-phase cell is whole-genome amplified and sequenced; twofold copy-number differences distinguish replicated from unreplicated domains.",
-        (role("SeqPlex-amplified genomic fragment (Read 1 may begin in a SEQXE handle)"),),
-        "Each sample index identifies one single-cell library; libraries are built individually and the index is carried by the ligated NEXTflex Illumina index adaptor (NEXTflex DNA Barcodes - 48 in Procedure Step 58; dual-index NEXTflex sets are allowed). The article sequences pooled libraries (~40 cells per lane) on a HiSeq 1500 with 80-bp single reads (Library preparation and sequencing; Step 79 recommends >80 bp), and the pipeline maps Read 1 only (bwa aln/samse, Step 88) after trimming the Illumina adapter and any 5-prime SEQXE handle. The index read length is not stated; a 6-nt window follows the single-index trimming pattern printed in Step 82. Read 1 coverage, normalized to G1 controls, reports replicated and unreplicated domains. GEO GSE138634 also lists 84- and 127-nt and paired-end runs for individual deposited samples.", True,
-        "Wet-lab route from the defining article (Miura et al. 2020, Procedure Steps 17-79): single cells sorted into Single Cell Lysis & Fragmentation Buffer with proteinase K (55 °C 1 h, then 99 °C 4 min, which also fragments the gDNA); SeqPlex Enhanced DNA Amplification Kit (SEQXE-50XN; DOP-PCR-based) pre-amplification then 24 cycles of amplification; 1.7x AMPure XP; Eco57I primer-removal digestion of the universal SEQXE adaptor (37 °C 1 h, 65 °C 20 min); 1.8x AMPure XP removing the ~40-bp digested adaptors; KAPA LTP (KK8232) end repair, 1.7x AMPure, on-bead A-tailing, 1.8x PEG/NaCl, NEXTflex adaptor ligation (15 min 20 °C), 1.0x PEG/NaCl; library PCR with the TPC1/TPC2 primer mix and KAPA HiFi HotStart ReadyMix for 5-7 cycles chosen by real-time PCR against KK2702 standards (published datasets 5 or 6 cycles); 0.9x AMPure XP to remove ~100-bp adaptor dimers. "
-        "Not printed in the article: the SeqPlex primer and SEQXE adaptor sequences (the SEQXE pattern on the page is predicted from reads in Step 82, not a kit oligo), the NEXTflex adaptor sequences and their end geometry, and the index read length. The TruSeq-type adaptor ends drawn here are a model assumption (inferred styling); the TPC1/TPC2 primers are printed and their landing on those assumed P5/P7 ends is computed. The microscope/micromanipulator collection route and the GEO-listed Ion Proton samples are not drawn. The later DOP-PCR barcoded protocol (Bartlett et al., Curr. Protoc. 2022) is a different implementation and is not substituted.")
+TITLE = "scRepli-seq — single-cell DNA replication sequencing"
+AUTHORITY = "Miura et al., Nature Protocols2020, doi:10.1038/s41596-020-0378-5; published Procedure17–79, Reagents, WGA overview and Library preparation/sequencing"
+SOURCE = '<a href="https://doi.org/10.1038/s41596-020-0378-5">Miura et al., Nature Protocols (2020)</a>; published Procedure17–79 and Reagents.'
+SUMMARY = "Individual S-phase and G1 control cells undergo SeqPlex WGA, Eco57I adaptor digestion, KAPA LTP preparation, NEXTflex index-adaptor ligation and TPC1/TPC2 library PCR. Genomic copy number reports replication timing."
+CAVEAT = "Native SeqPlex and NEXTflex strands, cut coordinates, residual handles and first-cycle PCR geometry remain unassigned in this bounded scope. The predicted SEQXE and single-index trimming patterns are analysis observations, not synthesized oligos or a measured index width. No canonical TruSeq shell is substituted. Independent original DNA and modified-primer-derived PCR daughters remain distinct; component-specific cleanup recovery is unresolved."
+TPC1 = "AATGATACGGCGACCACCGAG"
+TPC2 = "CAAGCAGAAGACGGCATACGAG"
+def sample_index(label):
+    key = {"S-phase cell": "s_phase_index", "G1 control": "g1_index"}[label]
+    return feature(key, "sample_index", "unknown", group=key,
+                   note="Native ligated NEXTflex index identifies this individual cell library; placement, width and member unassigned")
 
 
-def _replication_graph(key: str, definition, final: Construct,
-                       primers: tuple[sp.SeqPrimer, ...]) -> ProtocolGraph:
-    """Typed replication-timing graphs retaining every comparison library."""
-    source = f"{definition.citation}; doi:{definition.doi}"
-    graph = ProtocolGraph(definition.title, authority=source)
-    reviewed: list[str] = []
-    plan = (SequencingPlan(final, tuple(primers), ("Read 1", "Index 1 (i7)"),
-                           read_lengths={"Read 1": 80})
-            if key == "screpli-seq" else
-            SequencingPlan(final, tuple(primers), tuple(p.role for p in primers)))
-    adapter_geometry = AdapterLigationGeometry.unavailable(
-        "Miura 2020 Step 58 ligates a NEXTflex Illumina index adaptor (NEXTflex DNA Barcodes - 48) to the dA-tailed WGA DNA with KAPA LTP DNA ligase, but prints no adaptor sequence or end structure.")
-    tpc1 = PCRPrimer("TPC1", "AATGATACGGCGACCACCGAG")
-    tpc2 = PCRPrimer("TPC2", "CAAGCAGAAGACGGCATACGAG")
+def role(name, *, molecular_feature=None):
+    return Segment(name, "[" + name + "]", placeholder=True, feature=molecular_feature)
 
-    def finish_short_read_branch(prefix: str, template, label: str, *, wga: bool) -> None:
-        current = template
-        if wga:
-            lysis = graph.input(prefix + "_lysis", label + " Single Cell Lysis & Fragmentation Buffer with proteinase K; 55 °C 1 h, 99 °C 4 min (Steps 17-19)",
-                                MaterialKind.CONDITION)
-            lysed = graph.product(prefix + "_lysed", label + " heat-fragmented genomic DNA",
-                                  MaterialKind.MOLECULAR,
-                                  state=molecule(label + " fragmented gDNA", ("genome fragment",)))
-            graph.react(prefix + "_lyse", "Lyse " + label + " and heat-fragment its gDNA",
-                        StepKind.FRAGMENTATION,
-                        ((current, InputRole.TEMPLATE), (lysis, InputRole.CONDITION)), (lysed,))
-            current = lysed
-            reviewed.extend((prefix + "_lysis", prefix + "_lyse"))
-            dop_forward = graph.input(prefix + "_dop_forward", label + " SeqPlex Library Preparation Buffer/Enzyme priming (DOP-PCR-based; sequence not printed)",
-                                      MaterialKind.OLIGO)
-            dop_reverse = graph.input(prefix + "_dop_reverse", label + " SeqPlex amplification priming, second end (sequence not printed)",
-                                      MaterialKind.OLIGO)
-            wga_polymerase = graph.input(prefix + "_wga_polymerase", label + " DNA Polymerase for SeqPlex; 24 cycles 94 °C 15 s / 70 °C 5 min (Steps 22-25)",
-                                         MaterialKind.CATALYST)
-            amplified = graph.product(prefix + "_wga", label + " SeqPlex WGA product",
-                                      MaterialKind.MOLECULAR,
-                                      state=molecule(label + " WGA product", (
-                                          "left SEQXE amplification handle",
-                                          "genome copy",
-                                          "right SEQXE amplification handle")))
-            graph.react(prefix + "_wga_step", "Pre-amplify and whole-genome amplify " + label + " with SeqPlex",
-                        StepKind.PCR,
-                        ((current, InputRole.TEMPLATE),
-                         (dop_forward, InputRole.STRUCTURAL),
-                         (dop_reverse, InputRole.STRUCTURAL),
-                         (wga_polymerase, InputRole.CATALYST)), (amplified,),
-                        geometry=PCRGeometry.unavailable(
-                            final, reason="SeqPlex primers are proprietary and not printed in the inspected sources; WGA products are not one fixed amplicon."))
-            current = amplified
-            reviewed.extend((prefix + "_dop_forward", prefix + "_dop_reverse",
-                             prefix + "_wga_polymerase", prefix + "_wga_step"))
+
+def tpc(name):
+    seq = {"TPC1": TPC1, "TPC2": TPC2}[name]
+    return Construct([Segment(name, seq, note="Source Reagents: phosphorothioate bond immediately before terminal G; HPLC grade")],name=name)
+
+
+def state(label, stage):
+    sc = Scene()
+    if stage in {"cell", "fragmented"}:
+        sc.strand("genomic", [role(label+" genomic DNA" if stage=="cell" else label+" heat-fragmented genomic DNA; native ends unassigned")],label="genomic population within this one cell lineage")
+    elif stage in {"preamp", "wga"}:
+        sc.strand("copies", [role("native SEQXE end A"),role(label+" DNA copies"),role("native SEQXE end B")],label="pre-amplification DNA" if stage=="preamp" else "SeqPlex WGA daughter population")
+        sc.strand("originals", [role("possible carried original genomic DNA and primers; native recovery unassigned")],label="independent possible carried populations")
+    elif stage in {"digested", "repaired", "tailed"}:
+        sc.strand("dna", [role("possible residual SEQXE; left end unassigned"),role(label+" WGA genomic fragment"),role("possible residual SEQXE; right end unassigned")],label=stage+" native DNA population")
+        sc.strand("carried", [role("possible carried genomic originals and residual primers; class recovery unassigned")],label="independent possible carried originals")
+        if stage=="tailed":
+            sc.note("dna", "Source on-bead A-tailing is declared; individual strand lengths, overhang bases and phosphorylation geometry are not reconstructed from kit name.")
+    elif stage in {"ligated", "pcr"}:
+        if stage=="ligated":
+            sc.strand("native", [role(label+" native NEXTflex-indexed WGA DNA; full strand ends, junctions, residual SEQXE and index position/width unassigned", molecular_feature=sample_index(label))],label="native ligated DNA; feature belongs to this polymer population, coordinates unassigned")
         else:
-            extraction = graph.input(prefix + "_dna_extraction", label + " DNA purification condition",
-                                     MaterialKind.CONDITION)
-            purified = graph.product(prefix + "_purified_dna", label + " purified nascent DNA",
-                                     MaterialKind.MOLECULAR, state=current.state)
-            graph.react(prefix + "_extract", "Purify " + label + " DNA",
-                        StepKind.EXTRACTION,
-                        ((current, InputRole.TEMPLATE),
-                         (extraction, InputRole.CONDITION)), (purified,))
-            current = purified
-            reviewed.extend((prefix + "_dna_extraction", prefix + "_extract"))
-
-        if wga:
-            beads = graph.input(prefix + "_ampure", label + " 1.7x AMPure XP purification (Steps 26-32)",
-                                MaterialKind.SELECTION)
-            cleaned = graph.product(prefix + "_wga_cleaned", label + " purified WGA DNA",
-                                    MaterialKind.MOLECULAR, state=current.state)
-            bead_waste = graph.product(prefix + "_ampure_waste", label + " AMPure supernatant and washes",
-                                       MaterialKind.WASTE)
-            graph.react(prefix + "_wga_cleanup", "Purify " + label + " WGA DNA",
-                        StepKind.CLEANUP,
-                        ((current, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
-                        (cleaned, bead_waste))
-            graph.discard(bead_waste, "supernatant and washes removed from the beads")
-            sonication = graph.input(prefix + "_sonication",
-                                     label + " SeqPlex Primer Removal Enzyme Eco57I; 37 °C 1 h, 65 °C 20 min (Steps 34-35)",
-                                     MaterialKind.CATALYST)
-            digested = graph.product(prefix + "_digested", label + " Eco57I-digested WGA DNA",
-                                     MaterialKind.MOLECULAR, state=molecule(label + " adapter-digested WGA fragment",
-                                         ("possible residual SEQXE handle", "genome copy",
-                                          "possible residual SEQXE handle")))
-            cut_adaptors = graph.product(prefix + "_cut_adaptors", label + " digested SEQXE adaptor fragments (~40 bp)",
-                                         MaterialKind.MOLECULAR, state=molecule("digested SEQXE adaptor", ("SEQXE adaptor fragment",)))
-            graph.react(prefix + "_fragment", "Digest the universal SEQXE adaptor with Eco57I",
-                        StepKind.DIGESTION,
-                        ((cleaned, InputRole.TEMPLATE),
-                         (sonication, InputRole.CATALYST)), (digested, cut_adaptors))
-            removal = graph.input(prefix + "_adaptor_removal", label + " 1.8x AMPure XP (Steps 36-42; repeated if ~40-bp adaptors remain, Step 43)",
-                                  MaterialKind.SELECTION)
-            fragmented = graph.product(prefix + "_fragments", label + " adaptor-removed WGA DNA (100-500 bp smear, ~150 bp peak)",
-                                       MaterialKind.MOLECULAR, state=digested.state)
-            removed = graph.product(prefix + "_adaptor_waste", label + " supernatant with ~40-bp digested SEQXE adaptors",
-                                    MaterialKind.WASTE)
-            graph.react(prefix + "_adaptor_cleanup", "Remove digested SEQXE adaptors by AMPure size selection",
-                        StepKind.CLEANUP,
-                        ((digested, InputRole.TEMPLATE), (cut_adaptors, InputRole.TEMPLATE),
-                         (removal, InputRole.SELECTION)), (fragmented, removed))
-            graph.discard(removed, "short digested adaptors stay in the 1.8x AMPure supernatant")
-            reviewed.extend((prefix + "_ampure", prefix + "_wga_cleanup", prefix + "_adaptor_removal",
-                             prefix + "_adaptor_cleanup"))
-        else:
-            sonication = graph.input(prefix + "_sonication", label + " sonication condition",
-                                     MaterialKind.CONDITION)
-            fragmented = graph.product(prefix + "_fragments", label + " DNA fragments",
-                                       MaterialKind.MOLECULAR, state=current.state)
-            graph.react(prefix + "_fragment", "Fragment " + label + " DNA",
-                        StepKind.FRAGMENTATION,
-                        ((current, InputRole.TEMPLATE),
-                         (sonication, InputRole.CONDITION)), (fragmented,))
-        repair = graph.input(prefix + "_end_repair", label + (" KAPA LTP End Repair Enzyme Mix, 20 °C 30 min, then 1.7x AMPure (Steps 44-50)" if wga else " end-repair enzymes"),
-                             MaterialKind.CATALYST)
-        repaired = graph.product(prefix + "_repaired", label + " end-repaired DNA",
-                                 MaterialKind.MOLECULAR, state=fragmented.state)
-        graph.react(prefix + "_repair_step", "End-repair " + label + " DNA",
-                    StepKind.END_REPAIR,
-                    ((fragmented, InputRole.TEMPLATE),
-                     (repair, InputRole.CATALYST)), (repaired,))
-        tailing = graph.input(prefix + "_a_tailing", label + (" KAPA LTP A-Tailing Enzyme on beads, 30 °C 30 min, then 1.8x PEG/NaCl (Steps 51-57)" if wga else " dA-tailing enzyme"),
-                              MaterialKind.CATALYST)
-        tailed = graph.product(prefix + "_tailed", label + " dA-tailed DNA",
-                               MaterialKind.MOLECULAR,
-                               state=da_tailed(label + " dA-tailed DNA", label + " fragment"))
-        graph.react(prefix + "_tail_step", "Add one 3-prime dA to each end",
-                    StepKind.TAILING,
-                    ((repaired, InputRole.TEMPLATE),
-                     (tailing, InputRole.CATALYST)), (tailed,))
-        adapters = graph.input(prefix + "_adapters", label + (" NEXTflex Illumina index adaptor, 5 µM (NEXTflex DNA Barcodes - 48; sequences not printed; Step 58)" if wga else " Illumina adapters"),
-                               MaterialKind.ADAPTER, inferred=True)
-        ligase = graph.input(prefix + "_adapter_ligase", label + (" KAPA LTP DNA Ligase, 20 °C 15 min, then 1.0x PEG/NaCl (Steps 58-65)" if wga else " DNA ligase"),
-                             MaterialKind.CATALYST)
-        adapted = graph.product(prefix + "_adapted", label + " adapter-ligated DNA",
-                                MaterialKind.MOLECULAR, state=final, inferred=True)
-        graph.react(prefix + "_ligation", "Ligate Illumina adapters to " + label,
-                    StepKind.LIGATION,
-                    ((tailed, InputRole.TEMPLATE),
-                     (adapters, InputRole.STRUCTURAL),
-                     (ligase, InputRole.CATALYST)), (adapted,),
-                    geometry=adapter_geometry)
-        reviewed.extend((
-            prefix + "_sonication", prefix + "_fragment", prefix + "_end_repair",
-            prefix + "_repair_step", prefix + "_a_tailing", prefix + "_tail_step",
-            prefix + "_adapters", prefix + "_adapter_ligase", prefix + "_ligation",
-        ))
-
-        if not wga:
-            denaturing = graph.input(prefix + "_denaturing", label + " DNA denaturation condition",
-                                     MaterialKind.CONDITION)
-            labelled_strand = graph.product(prefix + "_brdu_strand", label + " BrdU-labelled strand",
-                                            MaterialKind.MOLECULAR, state=adapted.state)
-            partner = graph.product(prefix + "_unlabelled_partner", label + " unlabelled partner strand",
-                                    MaterialKind.WASTE)
-            graph.react(prefix + "_denature", "Denature " + label + " adapter-ligated DNA",
-                        StepKind.STRAND_SEPARATION,
-                        ((adapted, InputRole.TEMPLATE),
-                         (denaturing, InputRole.CONDITION)), (labelled_strand, partner))
-            graph.discard(partner, "the BrdU-containing nascent strand is the selected analyte")
-            antibody = graph.input(prefix + "_brdu_antibody", label + " anti-BrdU capture reagent",
-                                   MaterialKind.SELECTION)
-            selected = graph.product(prefix + "_selected", label + " BrdU-enriched library template",
-                                     MaterialKind.MOLECULAR, state=adapted.state)
-            unselected = graph.product(prefix + "_unselected", label + " unselected DNA",
-                                       MaterialKind.WASTE)
-            graph.react(prefix + "_brdu_capture", "Immunoprecipitate BrdU-labelled " + label + " DNA",
-                        StepKind.AFFINITY_CAPTURE,
-                        ((labelled_strand, InputRole.TEMPLATE),
-                         (antibody, InputRole.SELECTION)), (selected, unselected))
-            graph.discard(unselected, "not retained by anti-BrdU immunoprecipitation")
-            current = selected
-            reviewed.extend((
-                prefix + "_denaturing", prefix + "_denature", prefix + "_brdu_antibody",
-                prefix + "_brdu_capture",
-            ))
-        else:
-            current = adapted
-
-        forward = graph.input(prefix + "_index_forward", label + (" TPC1 primer 5'-AATGATACGGCGACCACCGA*G-3' (* phosphorothioate)" if wga else " indexed PCR forward primer"),
-                              MaterialKind.OLIGO,
-                              **({"state": Construct([Segment("TPC1", tpc1.sequence, "p5")], name="TPC1")} if wga else {}))
-        reverse = graph.input(prefix + "_index_reverse", label + (" TPC2 primer 5'-CAAGCAGAAGACGGCATACGA*G-3' (* phosphorothioate)" if wga else " indexed PCR reverse primer"),
-                              MaterialKind.OLIGO,
-                              **({"state": Construct([Segment("TPC2", tpc2.sequence, "p7")], name="TPC2")} if wga else {}))
-        pcr_polymerase = graph.input(prefix + "_pcr_polymerase", label + (" KAPA HiFi HotStart ReadyMix; 5-7 cycles set by real-time PCR against KK2702 standards (Steps 66-71)" if wga else " PCR polymerase"),
-                                     MaterialKind.CATALYST)
-        library = graph.product(prefix + "_library", label + " sequencing library",
-                                MaterialKind.LIBRARY, state=final)
-        dimers = None
-        if wga:
-            amplified_library = graph.product(prefix + "_pcr_product", label + " amplified library with adaptor dimers",
-                                              MaterialKind.MOLECULAR, state=final)
-        graph.react(prefix + "_index_pcr", ("Amplify the adaptor-indexed " if wga else "PCR-index the ") + label + " library",
-                    StepKind.PCR,
-                    ((current, InputRole.TEMPLATE),
-                     (forward, InputRole.STRUCTURAL),
-                     (reverse, InputRole.STRUCTURAL),
-                     (pcr_polymerase, InputRole.CATALYST)), (amplified_library if wga else library,),
-                    geometry=(PCRGeometry.exact(
-                        final, tpc1, tpc2,
-                        statement="TPC1/TPC2 are printed in Miura 2020 (Reagents); their sites are computed on the assumed TruSeq-type P5/P7 adaptor ends, since the NEXTflex adaptor sequence is not printed.")
-                        if wga else PCRGeometry.unavailable(
-                        final, reason="Sample index choice varies while the final TruSeq endpoint is canonical.")))
-        if wga:
-            post_pcr = graph.input(prefix + "_post_pcr_ampure", label + " 0.9x AMPure XP (Steps 72-77; repeated if ~100-bp adaptor dimers remain, Step 78)",
-                                   MaterialKind.SELECTION)
-            dimers = graph.product(prefix + "_dimer_waste", label + " supernatant with adaptor dimers",
-                                   MaterialKind.WASTE)
-            graph.react(prefix + "_library_cleanup", "Remove adaptor dimers from the " + label + " library",
-                        StepKind.CLEANUP,
-                        ((amplified_library, InputRole.TEMPLATE), (post_pcr, InputRole.SELECTION)),
-                        (library, dimers))
-            graph.discard(dimers, "adaptor dimers stay in the 0.9x AMPure supernatant")
-            reviewed.extend((prefix + "_post_pcr_ampure", prefix + "_library_cleanup"))
-        graph.sequence(library, plan)
-        reviewed.extend((
-            prefix + "_index_forward", prefix + "_index_reverse",
-            prefix + "_pcr_polymerase", prefix + "_index_pcr", prefix + "_library",
-        ))
-
-    if key == "el-repli-seq":
-        cells = graph.input("cycling_cells", "asynchronously cycling cells",
-                            MaterialKind.BIOLOGICAL,
-                            state=molecule("asynchronously cycling cells",
-                                           ("replicating chromosomes",)), primary=True)
-        brdu = graph.input("brdu", "BrdU pulse-label nucleotide",
-                           MaterialKind.MOLECULAR)
-        replication_polymerase = graph.input("replication_polymerase",
-                                             "active cellular DNA polymerases",
-                                             MaterialKind.CATALYST)
-        labelled = graph.product("brdu_labelled_cells", "BrdU pulse-labelled S-phase cells",
-                                 MaterialKind.MOLECULAR,
-                                 state=NascentPulse("BrdU", ("early S phase", "late S phase")).labelled_scene())
-        graph.react("pulse_label", "Pulse-label nascent DNA with BrdU",
-                    StepKind.EXTENSION,
-                    ((cells, InputRole.TEMPLATE), (brdu, InputRole.STRUCTURAL),
-                     (replication_polymerase, InputRole.CATALYST)), (labelled,))
-        gates = graph.input("facs_gates", "early/late S-phase FACS gates",
-                            MaterialKind.SELECTION)
-        early = graph.product("early_cells", "early-S BrdU-labelled cells",
-                              MaterialKind.MOLECULAR, state=labelled.state)
-        late = graph.product("late_cells", "late-S BrdU-labelled cells",
-                             MaterialKind.MOLECULAR, state=labelled.state)
-        graph.react("sort_fractions", "Sort early- and late-S fractions",
-                    StepKind.SELECTION,
-                    ((labelled, InputRole.TEMPLATE),
-                     (gates, InputRole.SELECTION)), (early, late))
-        reviewed.extend(("cycling_cells", "brdu", "replication_polymerase",
-                         "pulse_label", "facs_gates", "sort_fractions"))
-        finish_short_read_branch("early", early, "early-S", wga=False)
-        finish_short_read_branch("late", late, "late-S", wga=False)
+            for name in ("TPC1","TPC2"):
+                sc.strand(name,list(tpc(name))+[role(label+" extended ordinary DNA copy; native insert/distal end and index position unassigned",molecular_feature=sample_index(label))],label=name+"-initiated physical daughter; terminal primer bond remains phosphorothioate")
+            sc.note("TPC1", "Physical supplied primers retain their phosphorothioate bond upon extension. Copying the opposite template makes ordinary DNA and does not copy backbone modifications; these rows do not assert annealed strand geometry.")
+        sc.strand("carried", [role("possible carried original DNA, unligated products and residual primers/adaptors; class recovery unassigned")],label="independent possible co-carried molecular populations")
     else:
-        cells = graph.input("sorted_cells", "S-phase cell plus parallel G1 controls",
-                            MaterialKind.BIOLOGICAL,
-                            state=molecule("flow-sorted cells", ("S-phase cell", "G1 controls")),
-                            primary=True)
-        s_cell = graph.product("s_phase_cell", "one S-phase cell",
-                               MaterialKind.MOLECULAR, state=cells.state)
-        g1_cell = graph.product("g1_control", "parallel G1 control cell",
-                                MaterialKind.MOLECULAR, state=cells.state)
-        graph.react("separate_cells", "Keep S-phase and G1 cells as separate libraries",
-                    StepKind.SPLIT, ((cells, InputRole.TEMPLATE),), (s_cell, g1_cell))
-        reviewed.extend(("sorted_cells", "separate_cells"))
-        finish_short_read_branch("s_phase", s_cell, "S-phase cell", wga=True)
-        finish_short_read_branch("g1", g1_cell, "G1 control", wga=True)
-    graph.declare_reviewed_scope(reviewed, source)
-    return graph.require_publishable()
+        raise ValueError(stage)
+    return sc
 
 
 def protocol_graph():
-    d = DEFINITION
-    final = SPEC.FINAL_LIBRARY
-    primers = SPEC.SEQ_PRIMERS
-    key = 'screpli-seq'
-    return _replication_graph(key, d, final, primers)
+    g=ProtocolGraph("scRepli-seq",authority=AUTHORITY)
+    # Explicit source mapping stays local and is not derived from whatever nodes exist.
+    reviewed=["sorted_cells","separate_cells"]
+    inputs=Scene()
+    inputs.strand("s",[role("one sorted S-phase cell genome")],label="independent S-phase cell")
+    inputs.strand("g1",[role("one separately sorted G1 control genome")],label="independent G1 control cell")
+    cells=g.input("sorted_cells","separately sorted S-phase and G1 cells (Steps17–18)",M.BIOLOGICAL,state=inputs,primary=True)
+    s=g.product("s_cell","individual S-phase cell",M.MOLECULAR,state=state("S-phase","cell"))
+    g1=g.product("g1_cell","individual G1 control cell",M.MOLECULAR,state=state("G1","cell"))
+    g.react("separate_cells","Keep independently sorted cells in separate wells throughout preparation",K.SPLIT,((cells,I.TEMPLATE),),(s,g1),changes_molecule=False)
+
+    def branch(prefix,cell,label):
+        def inp(key,text,kind,**kw):
+            key=prefix+"_"+key; reviewed.append(key)
+            return g.input(key,label+": "+text,kind,**kw)
+        def prod(key,text,stage=None,kind=M.MOLECULAR):
+            return g.product(prefix+"_"+key,label+": "+text,kind,state=state(label,stage) if stage else None)
+        def react(key,text,kind,ins,outs,**kw):
+            key=prefix+"_"+key; reviewed.append(key)
+            return g.react(key,text+" ("+label+")",kind,ins,outs,**kw)
+        def unresolved(x,why):
+            g.mark_terminal(Terminal(x.id,Disposition.UNRESOLVED,why))
+        def cleanup(key,x,description,stage):
+            beads=inp(key+"_reagent",description,M.SELECTION)
+            y=prod(key+"_retained","physical retained cleanup fraction",stage)
+            waste=prod(key+"_waste","removed supernatant/washes; molecular composition not fully assigned",kind=M.WASTE)
+            react(key,"Recover source bead-bound DNA fraction",K.CLEANUP,((x,I.TEMPLATE),(beads,I.SELECTION)),(y,waste),changes_molecule=False)
+            g.discard(waste,"Physical supernatant/washes removed. Individual original/daughter/primer class recovery is not inferred.")
+            return y
+        def aliquot(key,x,amount,stage):
+            y=prod(key,"source aliquot "+amount,stage)
+            rest=prod(key+"_remainder","remaining source material; quantity and subsequent use unassigned",stage)
+            react(key+"_split","Allocate "+amount+" for the next source operation",K.SPLIT,((x,I.TEMPLATE),),(y,rest),changes_molecule=False)
+            unresolved(rest,"Remainder is physically separate from selected aliquot; subsequent storage/use unassigned.")
+            return y
+        lysis=inp("lysis","6µl Single Cell Lysis & Fragmentation Buffer plus proteinase K;55°C1h,99°C4min",M.CONDITION)
+        x=prod("fragmented","heat-fragmented genomic DNA","fragmented")
+        react("lyse","Lyse and heat-fragment single-cell genomic DNA",K.FRAGMENTATION,((cell,I.TEMPLATE),(lysis,I.CONDITION)),(x,))
+        prep=inp("seqplex_prep","SeqPlex Library Preparation Buffer/Enzyme;95°C2min then16/24/37°C20min each,75°C5min",M.CATALYST)
+        pre=prod("preamp","native pre-amplification population","preamp")
+        react("preamp_step","Perform source SeqPlex pre-amplification",K.MAGIC,((x,I.TEMPLATE),(prep,I.CATALYST)),(pre,),reason="Steps20–22 specify kit preparation but native ordered oligos, priming geometry and intermediates remain unassigned; no final library is substituted.")
+        f=inp("wga_forward","native SeqPlex amplification priming role A; species/sequence unassigned",M.OLIGO)
+        r=inp("wga_reverse","native SeqPlex amplification priming role B; species/sequence unassigned",M.OLIGO)
+        enzyme=inp("wga_polymerase","DNA Polymerase for SeqPlex and5×Amplification Mix",M.CATALYST)
+        wga=prod("wga","SeqPlex WGA population","wga")
+        react("wga_step","Whole-genome amplify24cycles94°C15s/70°C5min;70°C30min",K.PCR,((pre,I.TEMPLATE),(f,I.STRUCTURAL),(r,I.STRUCTURAL),(enzyme,I.CATALYST)),(wga,),geometry=PCRGeometry.unavailable(pre.state,reason="Actual native pre-amplification input. SeqPlex primer species and first-cycle sites unassigned; end roles do not establish distinct ordered primer species."))
+        x=cleanup("wga_cleanup",wga,"1.7×AMPure XP;Steps26–32","wga")
+        x=aliquot("digestion_input",x,"500–800ng (Step34)","wga")
+        eco=inp("eco57i","Primer Removal Enzyme Eco57I / Buffer / Solution;37°C1h,65°C20min",M.CATALYST)
+        dna=prod("digested","Eco57I-digested WGA genomic population","digested")
+        cuts=prod("cut_adaptors","released~40bp SEQXE adaptor polymers; exact strands/cut coordinates unassigned")
+        react("digest","Digest universal SEQXE adaptors",K.DIGESTION,((x,I.TEMPLATE),(eco,I.CATALYST)),(dna,cuts))
+        beads=inp("adaptor_removal_reagent","1.8×AMPure XP;repeat if~40bp fragments remain;Steps36–43",M.SELECTION)
+        x=prod("adaptor_removed","retained100–500bp WGA population; residual handles possible","digested")
+        waste=prod("adaptor_removal_waste","physical supernatant/washes including digested SEQXE adaptors",kind=M.WASTE)
+        react("adaptor_cleanup","Physically deplete short digested adaptors",K.CLEANUP,((dna,I.TEMPLATE),(cuts,I.TEMPLATE),(beads,I.SELECTION)),(x,waste),changes_molecule=False)
+        g.discard(waste,"Source short-adaptor depletion; incomplete recovery is allowed (Step43 repeat). Computational SEQXE trimming later does not remove molecules.")
+        x=aliquot("end_repair_input",x,"20–40ng (Step44)","digested")
+        repair=inp("repair_mix","KAPA LTP End Repair Enzyme Mix;20°C30min",M.CATALYST)
+        y=prod("repaired","native end-repaired WGA DNA","repaired")
+        react("end_repair","End repair source WGA aliquot",K.END_REPAIR,((x,I.TEMPLATE),(repair,I.CATALYST)),(y,))
+        x=cleanup("repair_cleanup",y,"1.7×AMPure XP;retain beads for on-bead A-tailing;Steps46–50","repaired")
+        tail=inp("tail_mix","KAPA LTP A-Tailing Enzyme/Buffer on beads;30°C30min",M.CATALYST)
+        y=prod("tailed","native A-tailed population; per-strand geometry unassigned","tailed")
+        react("a_tail","A-tail DNA on the retained beads",K.TAILING,((x,I.TEMPLATE),(tail,I.CATALYST)),(y,))
+        x=cleanup("tail_cleanup",y,"1.8×PEG/NaCl,retain beads;Steps53–57","tailed")
+        adapter=inp("adaptor","NEXTflex DNA Barcodes–48 index adaptor,1µl of5µM stock; native strands/index width/member unassigned",M.ADAPTER)
+        ligase=inp("ligase","KAPA LTP DNA Ligase;20°C15min",M.CATALYST)
+        y=prod("ligated","native NEXTflex-ligated reaction","ligated")
+        react("ligation","Ligate native source single-index NEXTflex adaptor",K.LIGATION,((x,I.TEMPLATE),(adapter,I.STRUCTURAL),(ligase,I.CATALYST)),(y,),geometry=AdapterLigationGeometry.unavailable("Step58 source NEXTflex DNA Barcodes–48; native adapter strands/ends and precise junction chemistry remain unassigned. Allowed dual/unique-dual alternatives are separate variants, not defaults."))
+        x=cleanup("ligation_cleanup",y,"1.0×PEG/NaCl;elute11µlBufferEB;Steps60–65","ligated")
+        q=prod("qpcr_input","1.5µl ligated eluate for real-time cycle determination","ligated")
+        bulk=prod("bulk_input","7µl ligated eluate for library PCR","ligated")
+        reserve=prod("eluate_remainder","remaining ligated eluate; subsequent use unassigned","ligated")
+        react("pcr_allocation","Allocate distinct1.5µl diagnostic and7µl bulk-PCR aliquots from11µl eluate",K.SPLIT,((x,I.TEMPLATE),),(q,bulk,reserve),changes_molecule=False)
+        unresolved(reserve,"Unused eluate after the two specified aliquots; no disposal is asserted.")
+        pf=inp("tpc1","TPC1:AATGATACGGCGACCACCGA*G;terminal phosphorothioate",M.OLIGO,state=tpc("TPC1"))
+        pr=inp("tpc2","TPC2:CAAGCAGAAGACGGCATACGA*G;terminal phosphorothioate",M.OLIGO,state=tpc("TPC2"))
+        qmix=inp("qpcr_mix","KK2702 HiFi HotStart real-time mix;TPC primers;standards1–4 measured in separate wells",M.CATALYST)
+        qc=prod("qpcr_product","real-time PCR product for cycle determination","pcr",kind=M.QC)
+        react("qpcr","Determine cycle count from least cycle exceedingStd2;5–7cycles for bulkPCR",K.PCR,((q,I.TEMPLATE),(pf,I.STRUCTURAL),(pr,I.STRUCTURAL),(qmix,I.CATALYST)),(qc,),geometry=PCRGeometry.unavailable(q.state,reason="Actual1.5µl native ligated aliquot; TPC strands are known but their native NEXTflex sites are unassigned."))
+        g.mark_terminal(Terminal(qc.id,Disposition.QC,"Physically separate diagnostic PCR aliquot; not returned to bulk library."))
+        mix=inp("pcr_mix","KAPA HiFi HotStart ReadyMix KK2602;5–7cycles,source datasets5or6",M.CATALYST)
+        amplified=prod("pcr_product","TPC-initiated library daughters and possible carried originals","pcr")
+        react("library_pcr","Amplify separate bulk-library aliquot with TPC1/TPC2",K.PCR,((bulk,I.TEMPLATE),(pf,I.STRUCTURAL),(pr,I.STRUCTURAL),(mix,I.CATALYST)),(amplified,),geometry=PCRGeometry.unavailable(bulk.state,reason="Actual7µl native ligated aliquot; source TPC sequences alone do not establish complete native NEXTflex sites or first-cycle product ends."))
+        x=cleanup("post_pcr_cleanup",amplified,"0.9×AMPure XP;repeat if adaptor dimers remain;Steps72–78","pcr")
+        library=prod("library","individual index-adaptor-bearing library for pooled sequencing","pcr",kind=M.LIBRARY)
+        react("library_recovery","Carry recovered library to sequencing;analytical QC volumes unassigned",K.GENERIC,((x,I.TEMPLATE),),(library,),changes_molecule=False)
+        reviewed.append(library.id)
+        g.sequence(library,SequencingPlan(acquired_roles=("Read 1","Index 1 (i7)"),read_lengths={"Read 1":80},limitation="Published HiSeq1500 80bp single-read example;Step79 recommends>80bp. This graph selects source NEXTflex–48 single-index variant; native primer sites, index width/member and index cycle count remain unassigned. Separate cell libraries are pooled(~40cells/lane); full pool membership/volumes are unexpanded. Read trimming and G1 normalization are computational, not molecular disposal."))
+    branch("s_phase",s,"S-phase cell")
+    branch("g1",g1,"G1 control")
+    g.declare_reviewed_scope(reviewed,AUTHORITY)
+    return g.require_publishable()
 
 
-from types import SimpleNamespace
-from conformation_replication_specs import chain, _three_c
-from chromosome_capture import ThreeCLibrary
-from replication_labeling import CopyNumberReplication
+def oligos():
+    return ("TPC1:5′-AATGATACGGCGACCACCGA*G-3′ (*terminal phosphorothioate;Reagents)",
+            "TPC2:5′-CAAGCAGAAGACGGCATACGA*G-3′ (*terminal phosphorothioate;Reagents)")
 
-def workflow():
-    dosage = CopyNumberReplication("mid-S-phase", "SeqPlex whole-genome amplification")
-    amplified = molecule("single-cell WGA product",
-                         ("left SEQXE amplification handle", "cell genome copy",
-                          "right SEQXE amplification handle"))
-    adapted = molecule("single-cell Illumina library",
-                       ("P5 / sample index", "WGA genomic fragment", "sample index / P7"),
-                       junctions=(("P5 / sample index", "WGA genomic fragment", "adapter ligation"),
-                                  ("WGA genomic fragment", "sample index / P7", "adapter ligation")))
-    return chain(molecule("one flow-sorted S-phase cell", ("partly replicated genome",)), (
-        ("Use copy number as the replication mark", dosage.states(),
-         "Replicated domains have twice the DNA dosage of unreplicated domains in the same cell."),
-        ("Lyse with proteinase K, heat-fragment, then whole-genome amplify with SeqPlex (SEQXE-50XN)", amplified,
-         "Steps 17-25: 55 °C 1 h and 99 °C 4 min in lysis and fragmentation buffer, SeqPlex pre-amplification, then 24 amplification cycles (DOP-PCR-based kit). G1 cells processed in parallel provide the amplification and mappability reference."),
-        ("AMPure-purify, digest the SEQXE adaptor with Eco57I, then remove the ~40-bp adaptors with 1.8x AMPure",
-         molecule("adapter-removed WGA fragment", ("possible residual SEQXE handle", "WGA genomic fragment",
-                                                   "possible residual SEQXE handle")),
-         "Steps 26-43: 100-500 bp smear with a ~150 bp peak. Some reads still begin in a SEQXE-like sequence (Step 82), so removal is drawn as possibly incomplete."),
-        ("End-repair and add one 3-prime dA to each end (KAPA LTP)",
-         da_tailed("dA-tailed single-cell WGA fragment", "WGA genomic fragment"),
-         "Steps 44-57: KAPA LTP Library Preparation Kit KK8232, slightly modified to reduce cost (ref. 43), with bead cleanups."),
-        ("Ligate a NEXTflex Illumina index adaptor", adapted,
-         "Step 58 names NEXTflex DNA Barcodes - 48 but prints no adaptor sequence; the TruSeq-style end is a model assumption."),
-        ("Amplify 5-7 cycles with TPC1/TPC2, remove adaptor dimers, sequence 80-bp single reads on HiSeq 1500", adapted,
-         "Steps 66-79. The index assigns reads to one individually built cell library; it is not an inline cell barcode."),
-    ))
-
-d = DEFINITION
-if d.standard_truseq:
-    from batch_ngs import truseq_library
-    # NEXTflex adaptor sequence is not printed (Step 58): TruSeq-type ends are inferred;
-    # the 6-nt i7 window follows the single-index trimming pattern printed in Step 82.
-    FINAL_LIBRARY, SEQ_PRIMERS = truseq_library(list(d.final_parts), d.title + " final library",
-                                                dual_index=False, inferred_adapters=True, i7_nt=6)
-else:
-    FINAL_LIBRARY = Construct([role("Illumina-compatible left end"), *d.final_parts, role("Illumina-compatible right end")], name=d.title + " final library")
-    SEQ_PRIMERS = ()
-OLIGOS = (
-    "<b>TPC1 primer</b> — 5′-AATGATACGGCGACCACCGA*G-3′ (* phosphorothioate; HPLC grade; Miura 2020 Reagents, ref. 64)",
-    "<b>TPC2 primer</b> — 5′-CAAGCAGAAGACGGCATACGA*G-3′ (* phosphorothioate; HPLC grade; Miura 2020 Reagents, ref. 64)",
-)
-SPEC = SimpleNamespace(
-    TITLE=d.title, NOTES="01_screpli_seq.html",
-    SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
-    SUMMARY=d.summary, CAVEAT=d.caveat, FINAL_LIBRARY=FINAL_LIBRARY,
-    SEQ_PRIMERS=SEQ_PRIMERS, FINAL_CAPTION=d.sequencing,
-    SEQUENCING_INTRO=d.sequencing, READ_LENGTHS={"Read 1": 80}, ACQUIRED_ROLES=("Read 1", "Index 1 (i7)"),
-    SEQUENCING_ENDING=d.sequencing,
-    SEQUENCING_UNAVAILABLE=("The defining protocol uses locus-specific or custom primer sequence that cannot be represented by one universal binding sequence."
-                            if not SEQ_PRIMERS else ""),
-    workflow=workflow, oligos=lambda: OLIGOS,
-)
-SPEC.protocol_graph = protocol_graph
+SPEC=SimpleNamespace(TITLE=TITLE,NOTES="01_screpli_seq.html",SOURCE=SOURCE,SUMMARY=SUMMARY,
+    CAVEAT=CAVEAT,FINAL_LIBRARY=None,SEQ_PRIMERS=(),protocol_graph=protocol_graph,oligos=oligos,
+    SEQUENCING_ENDING="Native individual NEXTflex–48 libraries;published80bp single-read HiSeq1500 example; index cycles unassigned.",
+    READ_SPECS=(sp.read_spec("Read 1",80,"Genomic WGA DNA;possible residual SEQXE;computational trimming then G1-normalized copy number","include"),sp.read_spec("Index 1 (i7)",None,"Ligated sample index identifies one cell library;native width and cycle count unassigned","demultiplex")))

@@ -1,21 +1,13 @@
 """Source-backed models for named isothermal-amplification sequencing protocols."""
 from __future__ import annotations
 
-from types import SimpleNamespace
-
 import illumina as il
-from batch_ngs import nextera_library, truseq_amplicon_library, truseq_library
-from chemdraw import Construct, Segment, feature, oligo, revcomp
-from isothermal import (lamp_product, lamp_topology, mda_product, proximity_extension_pair,
-                        proximity_extension_product, spia_product)
-from nanopore_library import (motor_library, motor_sequencing_plan, no_primer_ending,
-                              role as nanopore_role)
-from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
-from protocol_model import molecule, role
+from chemdraw import Construct, Scene, Segment, feature, oligo, revcomp, complement_segments
+from pcr import PCRGeometry
+from protocol_graph import (InputRole as I, MaterialKind as M, ProtocolGraph,
+                            SequencingPlan, StepKind as K, Terminal, Disposition)
+from protocol_model import role
 import seqprimers as sp
-from proximity_topology import ProximityExtensionTopology
-
 
 
 LAMP_F3 = "A+AC+AC+AA+GC+TTTCGGCAG"
@@ -50,6 +42,10 @@ LAMP_BARCODE_FEATURE = feature(
     "lamp_seq_fip_barcode", "sample_index", "whitelist",
     whitelist="LAMP-Seq Supplementary Data 1 Tier-1 or Tier-2 FIP barcodes")
 
+ACTB_BARCODE_FEATURE = feature(
+    "lamp_seq_actb_barcode", "sample_index", "unknown", group="ACTB_control",
+    note="Source barcoded ACTB-FIP control; native barcode width/member and primer architecture unassigned")
+
 # A LAMP reaction contains several branched and inverted isomers. This construct is only
 # the source-established PCR-selected interval: exact landing sites and the embedded FIP
 # barcode are retained, while their intervening order within a selected concatemer is not
@@ -63,14 +59,21 @@ LAMP_SELECTED_INSERT = [
     Segment("PCR-N reverse landing region reverse complement",
             revcomp(LAMP_PCR_REV_SITE)),
 ]
-LAMP_PCR_TEMPLATE = Construct(LAMP_SELECTED_INSERT, name="PCR-selected LAMP concatemer unit")
 LAMP_PREAMP = Construct([
     Segment("TruSeq Read 1 arm", il.TRUSEQ_READ1, "r1"),
     *LAMP_SELECTED_INSERT,
     Segment("first-PCR reverse arm reverse complement", revcomp(LAMP_PCR_REV_ARM), "r2"),
 ], name="first-stage LAMP-Seq amplicon")
-LAMP_LIBRARY, LAMP_SEQ_PRIMERS = truseq_amplicon_library(
-    LAMP_SELECTED_INSERT, "LAMP-Seq dual-index library", i5_nt=10, i7_nt=10)
+# Both physical10nt pool indexes come from the explicitly selected published pair1.
+LAMP_LIBRARY = Construct([
+    Segment("sourceP5",il.P5),
+    Segment("physicali5 pool1",LAMP_POOL_I5,feature=feature("lamp_pool_i5","sample_index","fixed",note="sourcePool_fwd_1; physical10nt")),
+    Segment("sourceRead1",il.TRUSEQ_READ1), *LAMP_SELECTED_INSERT,
+    Segment("sourceRead2 rebuilt by overlapping PCR tails",revcomp("G"+LAMP_PCR_REV_ARM)),
+    Segment("physicali7 pool1 reverse complement",revcomp(LAMP_POOL_I7),feature=feature("lamp_pool_i7","sample_index","fixed",note="sourcePool_rev_1; physical10nt")),
+    Segment("sourceP7rc",il.P7_RC)],"printed-primer-derived LAMP-Seq read reference")
+LAMP_SEQ_PRIMERS=tuple(sp.TRUSEQ[r] for r in ("R1","I1","I2","R2"))
+
 
 
 def _lamp_oligos():
@@ -86,143 +89,120 @@ def _lamp_oligos():
     yield oligo("PCR-N-fwd-10", [Segment("Read 1 tail + N target", LAMP_PCR_FWD)])
     yield oligo("PCR-N-rev-11", [Segment("Read 2 tail + N target", LAMP_PCR_REV)])
     yield oligo("Pool_fwd_1", [Segment("P5", il.P5, "p5"),
-                               Segment("i5 pool index", LAMP_POOL_I5, "cbc"),
+                               Segment("i5 pool index", LAMP_POOL_I5, "cbc",feature=feature("lamp_pool_i5","sample_index","fixed")),
                                Segment("partial Read 1 tail", LAMP_POOL_FWD_TAIL, "r1")])
     yield oligo("Pool_rev_1", [Segment("P7", il.P7, "p7"),
-                               Segment("i7 pool index", LAMP_POOL_I7, "cbc"),
+                               Segment("i7 pool index", LAMP_POOL_I7, "cbc",feature=feature("lamp_pool_i7","sample_index","fixed")),
                                Segment("partial Read 2 tail", LAMP_POOL_REV_TAIL, "r2")])
 
 
-def _lamp_graph(source: str) -> ProtocolGraph:
-    g = ProtocolGraph("LAMP-Seq", authority=source)
-    sample = g.input("sample", "oropharyngeal swab in QuickExtract (+2 ng/µl pX330 carrier DNA)",
-                     MaterialKind.BIOLOGICAL,
-                     state=molecule("swab lysate", (role("viral RNA"),)), primary=True)
-    heat = g.input("heat", "≥10 min room temperature, then 95 °C 5 min", MaterialKind.CONDITION)
-    lysate = g.product("heated_lysate", "heat-inactivated RNA-containing lysate",
-                       MaterialKind.MOLECULAR, state=sample.state)
-    g.react("inactivate", "Heat-inactivate the swab lysate (then 30 min carbon/ion-exchange beads and HCl pH adjustment, not drawn separately)", StepKind.THERMAL_TREATMENT,
-            ((sample, InputRole.TEMPLATE), (heat, InputRole.CONDITION)), (lysate,))
+def native(stage):
+    scene=Scene()
+    scene.strand("original_RNA",[role("possible original viral RNA and human RNA; heat/processing recovery unresolved")],label="independent original RNA lineage")
+    scene.strand("carrier_DNA",[role("pX330 carrier plasmid DNA and possible host DNA; not viral RNA or synthesized cDNA")])
+    if stage not in ("sample","lysate"):
+        scene.strand("LAMP_DNA",[role("RT-derived DNA plus heterogeneous branched/stem-loop/inverted LAMP DNA with embedded FIP10 sample identifier",molecular_feature=LAMP_BARCODE_FEATURE)],label="native heterogeneous LAMP population; selected PCR interval is not substituted for it")
+        scene.strand("control_DNA",[role("ACTB control RT-LAMP populations from independent hostRNA; native control barcode width/member unassigned; no viral diagnostic result inferred",molecular_feature=ACTB_BARCODE_FEATURE)])
+        scene.strand("native_primers",[role("possible original DNA/LNA primers and off-target products; recovery unresolved")],label="Original outer-primer LNA chemistry stays on original molecules; copied DNA does not inherit LNA sugars")
+    if stage in ("preamp","indexed"):
+        con=LAMP_PREAMP if stage=="preamp" else LAMP_LIBRARY
+        scene.strand("PCR_one",list(con),label="PCR daughter component reference; concatemer selection/firstcycle assembly unassigned")
+        scene.strand("PCR_two",complement_segments(list(con)),label="independent complementary PCR daughter DNA")
+        scene.strand("PCR_native_residuals",[role("possible original LAMP templates, original PCR primers and off-products; no cleanup purity assumed")])
+        if stage=="indexed":scene.strand("other_pooled_lineages",[role("other pooled libraries have independently assigned poolindexes; pair1 reference does not assign their identities")])
+    return scene
 
-    fip = g.input("lamp_fip", "barcoded C-FIP (representative Tier-1 barcode AGCAAACTAC)",
-                  MaterialKind.OLIGO, state=LAMP_FIP)
-    lnas = g.input("lamp_outer", "C-F3-LNA and C-B3-LNA outer primers (LNA residues not drawn)",
-                   MaterialKind.OLIGO)
-    others = g.input("lamp_bip_loops", "C-BIP, C-LF and C-LB",
-                     MaterialKind.OLIGO, state=(LAMP_BIP, LAMP_LF, LAMP_LB))
-    bst = g.input("bst", "NEB LAMP master mix (E1700L) plus Bst 3.0 (M0374L), 65 °C 80 min",
-                  MaterialKind.CATALYST)
-    lamp = g.product("lamp_product", "barcoded branched RT-LAMP products",
-                     MaterialKind.MOLECULAR, state=lamp_product("SARS-CoV-2 N-gene DNA"))
-    g.react("rt_lamp", "Reverse-transcribe and amplify by loop-mediated strand displacement",
-            StepKind.EXTENSION,
-            ((lysate, InputRole.TEMPLATE), (fip, InputRole.STRUCTURAL),
-             (lnas, InputRole.STRUCTURAL), (others, InputRole.STRUCTURAL),
-             (bst, InputRole.CATALYST)), (lamp,))
 
-    dilution = g.input("dilution", "1:100,000 pre-PCR dilution (1:1,000,000 in first PCR)",
-                       MaterialKind.CONDITION)
-    pooled = g.product("pooled_lamp", "pooled and diluted barcoded LAMP products",
-                       MaterialKind.MOLECULAR, state=lamp.state)
-    g.react("pool_dilute", "Pool barcoded reactions and dilute before PCR",
-            StepKind.GENERIC,
-            ((lamp, InputRole.TEMPLATE), (dilution, InputRole.CONDITION)), (pooled,),
-            changes_molecule=False)
+def strand(name,seq):
+    return Construct([Segment(name,seq)],name)
 
-    pcr_f = g.input("pcr_f", "PCR-N-fwd-10 (Methods: PCR-C-fwd)", MaterialKind.OLIGO,
-                    state=LAMP_PCR_FWD)
-    pcr_r = g.input("pcr_r", "PCR-N-rev-11 (Methods: PCR-C-rev)", MaterialKind.OLIGO,
-                    state=LAMP_PCR_REV)
-    polymerase = g.input("pcr_polymerase", "NEBNext 2× Master Mix", MaterialKind.CATALYST)
-    preamp = g.product("preamp", "first-stage LAMP-Seq amplicon",
-                       MaterialKind.MOLECULAR, state=LAMP_PREAMP)
-    geometry1 = PCRGeometry.exact(
-        LAMP_PCR_TEMPLATE,
-        PCRPrimer("PCR-N-fwd-10", LAMP_PCR_FWD, anneal_nt=len(LAMP_PCR_FWD_SITE)),
-        PCRPrimer("PCR-N-rev-11", LAMP_PCR_REV, anneal_nt=len(LAMP_PCR_REV_SITE)),
-        statement="Ludwig et al. Supplementary Data 1 publishes both target-tailed PCR primers.")
-    g.react("target_pcr", "Select one N-gene interval by 18-cycle PCR",
-            StepKind.PCR,
-            ((pooled, InputRole.TEMPLATE), (pcr_f, InputRole.STRUCTURAL),
-             (pcr_r, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-            (preamp,), geometry=geometry1)
 
-    pool_f = g.input("pool_f", "Pool_fwd_1 representative indexed primer", MaterialKind.OLIGO,
-                     state=LAMP_POOL_FWD)
-    pool_r = g.input("pool_r", "Pool_rev_1 representative indexed primer", MaterialKind.OLIGO,
-                     state=LAMP_POOL_REV)
-    indexed = g.product("indexed_pcr", "pool-indexed LAMP-Seq PCR product", MaterialKind.LIBRARY,
-                        state=LAMP_LIBRARY)
-    geometry2 = PCRGeometry.exact(
-        LAMP_PREAMP,
-        PCRPrimer("Pool_fwd_1", LAMP_POOL_FWD, anneal_nt=len(LAMP_POOL_FWD_TAIL)),
-        PCRPrimer("Pool_rev_1", LAMP_POOL_REV, anneal_nt=len(LAMP_POOL_REV_TAIL) - 1),
-        statement="Supplementary Data 1 publishes 192 pairs of 10-nt pool-index primers; pair 1 is shown.")
-    g.react("index_pcr", "Install pool indexes by a second 18-cycle PCR",
-            StepKind.PCR,
-            ((preamp, InputRole.TEMPLATE), (pool_f, InputRole.STRUCTURAL),
-             (pool_r, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-            (indexed,), geometry=geometry2)
-    gel = g.input("gel_columns", "2% agarose E-gel band excision, two Qiagen silica spin columns",
-                  MaterialKind.SELECTION)
-    final = g.product("library", "dual-index LAMP-Seq library", MaterialKind.LIBRARY,
-                      state=LAMP_LIBRARY)
-    rejected = g.product("gel_rejects", "off-size gel material, column flow-through and washes",
-                         MaterialKind.WASTE)
-    g.react("gel_purify", "Pool PCR products, cut the library band and column-purify twice",
-            StepKind.SELECTION, ((indexed, InputRole.TEMPLATE), (gel, InputRole.SELECTION)),
-            (final, rejected))
-    g.discard(rejected, "outside the excised library band or not retained by the columns")
-    g.sequence(final, SequencingPlan(
-        LAMP_LIBRARY, tuple(LAMP_SEQ_PRIMERS),
-        ("Read 1", "Index 1 (i7)", "Index 2 (i5)"),
-        {"Read 1": 100, "Index 1 (i7)": 8, "Index 2 (i5)": 8},
-        {"Read 1": "extract_then_include", "Index 1 (i7)": "demultiplex",
-         "Index 2 (i5)": "demultiplex"}))
-    g.declare_reviewed_scope((
-        "sample", "heat", "inactivate", "lamp_fip", "lamp_outer", "lamp_bip_loops", "bst",
-        "rt_lamp", "dilution", "pool_dilute", "pcr_f", "pcr_r", "pcr_polymerase",
-        "target_pcr", "pool_f", "pool_r", "index_pcr", "indexed_pcr", "gel_columns",
-        "gel_purify", "library"), source)
+def _lamp_graph(source):
+    g=ProtocolGraph("LAMP-Seq",authority=source)
+    def inp(i,l,k=M.CONDITION,state=None):return g.input(i,l,k,state=state)
+    def take(i,l,x):
+        y=g.product(i+"_used",l,M.MOLECULAR,state=x.state)
+        rem=g.product(i+"_remainder","untransferred preparation",M.MOLECULAR,state=x.state)
+        c=inp(i+"_allocation",l)
+        g.react(i,l,K.SPLIT,((x,I.TEMPLATE),(c,I.CONDITION)),(y,rem))
+        g.mark_terminal(Terminal(rem.id,Disposition.UNRESOLVED,"Physical unsampled remainder; fate unassigned, not assumed discarded."))
+        return y
+    def clean(i,l,x,kind=K.CLEANUP):
+        c=inp(i+"_selection",l,M.SELECTION)
+        y=g.product(i+"_kept",l+" retained mixture",x.kind,state=x.state)
+        w=g.product(i+"_waste",l+" nonretained fraction",M.WASTE)
+        g.react(i,l,kind,((x,I.TEMPLATE),(c,I.SELECTION)),(y,w));g.discard(w,"Actual source physical fraction; class-specific recovery/purity unresolved.")
+        return y
+    sample=g.input("sample","swab QuickExtract with pX330 carrierDNA; commercial branch",M.BIOLOGICAL,state=native("sample"),primary=True)
+    heat=inp("heat","source commercial pretreatment: ≥10 min at room temperature, then 95 °C for 5 min")
+    lysate=g.product("heated_lysate","heat-inactivated mixed lysate",M.MOLECULAR,state=native("lysate"))
+    g.react("inactivate","Heat-inactivate mixed swab preparation",K.THERMAL_TREATMENT,((sample,I.TEMPLATE),(heat,I.CONDITION)),(lysate,))
+    x=take("pretreat_aliquot","source100µl lysate aliquot",lysate)
+    beads=inp("carbon_ion_beads","source activatedcarbon/ionexchange treatment",M.SELECTION)
+    treated=g.product("bead_treated","bead-treated mixed lysate",M.MOLECULAR,state=x.state)
+    g.react("bead_treatment","Incubate with carbon/ion-exchange adsorbents",K.BINDING,((x,I.TEMPLATE),(beads,I.SELECTION)),(treated,))
+    x=clean("bead_transfer","source90µl transfer into fresh tube; residual bead mixture left behind",treated)
+    acid=inp("hcl","source HCl pH adjustment")
+    adjusted=g.product("adjusted_lysate","pH-adjusted mixed lysate",M.MOLECULAR,state=x.state)
+    g.react("adjust_ph","Adjust lysate pH",K.CHEMICAL_CONVERSION,((x,I.TEMPLATE),(acid,I.CONDITION)),(adjusted,))
+    x=take("lamp_aliquot","source swab-lysate allocation into RT-LAMP well",adjusted)
+    fip=inp("lamp_fip","representativeTier1 C-FIP DNA barcodeAGCAAACTAC",M.OLIGO,Construct([Segment("F1c",LAMP_FIP_LEFT),Segment("physical10nt samplebarcode",LAMP_FIP_BARCODE,feature=LAMP_BARCODE_FEATURE),Segment("F2",LAMP_FIP_RIGHT)]))
+    outer=Scene()
+    for n,q in (("C-F3-LNA",LAMP_F3),("C-B3-LNA",LAMP_B3)):
+        outer.strand(n,[Segment(n,q,placeholder=True,note="source+ marks LNA at following base; chemical sugar substitutions, not extra nucleotides")])
+    lna=inp("lamp_outer","source LNA-modified outer primers",M.OLIGO,outer)
+    other=Scene()
+    for n,q in (("C-BIP",LAMP_BIP),("C-LF",LAMP_LF),("C-LB",LAMP_LB)):other.strand(n,[Segment(n,q)])
+    others=inp("lamp_bip_loops","source separate BIP/LF/LB DNA primers",M.OLIGO,other)
+    control_state=Scene()
+    control_state.strand("ACTB_FIP",[role("physical barcoded ACTB-FIP primer; ordered strand and barcode width/member unassigned",molecular_feature=ACTB_BARCODE_FEATURE)],label="independent control primer lineage")
+    control_state.strand("other_ACTB_primers",[role("other independent ACTB control primers; ordered strands unassigned")])
+    control=inp("actb_control_primers","commercial master mix includes independent ACTB primers and barcoded ACTB-FIP; native architecture unexpanded",M.OLIGO,control_state)
+    carrierstate=Scene();carrierstate.strand("mastermix_carrierDNA",[role("additional sourcepX330 carrierDNA; not RNA or RT-derived DNA")])
+    carrier=inp("mastermix_carrier","additionalpX330 DNA in source commercialmastermix",M.MOLECULAR,carrierstate)
+    bst=inp("bst","source commercial LAMP mix+Bst3; 65 °C for 80 min",M.CATALYST)
+    lamp=g.product("lamp_product","mixed native RT-LAMP DNA/original polymers",M.MOLECULAR,state=native("lamp"))
+    g.react("rt_lamp","Source commercial RT-LAMP of mixed lysate",K.EXTENSION,((x,I.TEMPLATE),(fip,I.STRUCTURAL),(lna,I.STRUCTURAL),(others,I.STRUCTURAL),(control,I.STRUCTURAL),(carrier,I.STRUCTURAL),(bst,I.CATALYST)),(lamp,))
+    peers=inp("other_lamp_reactions","other independently barcoded RT-LAMP wells in source pool; exact membership unassigned",M.MOLECULAR,native("lamp"))
+    pooled=g.product("pooled_lamp","physical multiwell RT-LAMP pool",M.MOLECULAR,state=lamp.state)
+    g.react("pool_lamp","Physically pool independently barcoded RT-LAMP reactions",K.POOL,((lamp,I.TEMPLATE),(peers,I.TEMPLATE)),(pooled,))
+    dilution=inp("dilution","source commercial pre-PCR dilution 1:100,000; no physical class purification")
+    diluted=g.product("diluted_lamp","diluted native RT-LAMP pool",M.MOLECULAR,state=pooled.state)
+    g.react("dilute","Dilute pooled mixture",K.GENERIC,((pooled,I.TEMPLATE),(dilution,I.CONDITION)),(diluted,),changes_molecule=False)
+    x=take("pcr1_aliquot","source5µl diluted mixture into targetPCR",diluted)
+    f=inp("pcr_f","sourcePCR-N-fwd-10 / PCR-C-fwd",M.OLIGO,strand("PCRforward",LAMP_PCR_FWD))
+    r=inp("pcr_r","sourcePCR-N-rev-11 / PCR-C-rev",M.OLIGO,strand("PCRreverse",LAMP_PCR_REV))
+    pol=inp("pcr_polymerase","NEBNext 2× mix; each source PCR uses 18 cycles of 98 °C 20 s, 65 °C 20 s, 72 °C 30 s",M.CATALYST)
+    pre=g.product("preamp","targetPCR daughters plus original templates/primers",M.MOLECULAR,state=native("preamp"))
+    g.react("target_pcr","TargetPCR from actual diluted heterogeneous LAMP population",K.PCR,((x,I.TEMPLATE),(f,I.STRUCTURAL),(r,I.STRUCTURAL),(pol,I.CATALYST)),(pre,),geometry=PCRGeometry.unavailable(x.state,reason="Source PCR target primers known; actual native branched/inverted LAMP mixture enters PCR. Selected linear interval is only a read-reference, not replacement template or proved firstcycle product."))
+    x=take("pcr2_aliquot","source5µl priorPCR into poolindexPCR",pre)
+    pf=inp("pool_f","sourcePool_fwd_1 physical10nt index",M.OLIGO,Construct([Segment("P5",il.P5),Segment("i5pool1",LAMP_POOL_I5,feature=feature("lamp_pool_i5","sample_index","fixed")),Segment("partialRead1",LAMP_POOL_FWD_TAIL)]))
+    pr=inp("pool_r","sourcePool_rev_1 physical10nt index",M.OLIGO,Construct([Segment("P7",il.P7),Segment("i7pool1",LAMP_POOL_I7,feature=feature("lamp_pool_i7","sample_index","fixed")),Segment("partialRead2",LAMP_POOL_REV_TAIL)]))
+    indexed=g.product("indexed_pcr","indexed PCR daughters plus native residuals",M.LIBRARY,state=native("indexed"))
+    g.react("index_pcr","Pool-indexPCR from actual firstPCR aliquot",K.PCR,((x,I.TEMPLATE),(pf,I.STRUCTURAL),(pr,I.STRUCTURAL),(pol,I.CATALYST)),(indexed,),geometry=PCRGeometry.unavailable(x.state,reason="Actual unpurified firstPCR aliquot enters secondPCR; source primer overlaps establish read-reference arms, not class-pure input or complete native product distribution."))
+    otherstate=Scene();otherstate.strand("independent_libraries",[role("other independently indexed PCR mixtures; index identities/native polymers unassigned; not all pair1")])
+    otherlib=inp("other_indexed_libraries","other separately pool-indexed PCR preparations; membership and ratios unassigned",M.MOLECULAR,otherstate)
+    total=g.product("pooled_indexed","physically pooled indexed PCR mixtures",M.LIBRARY,state=indexed.state)
+    g.react("pool_indexed","Pool indexed PCR products before gel",K.POOL,((indexed,I.TEMPLATE),(otherlib,I.TEMPLATE)),(total,))
+    x=clean("gel_band","source2% Egel library-band excision",total,K.SELECTION)
+    for n in (1,2):x=clean("silica"+str(n),"sourceQiagen silica column round"+str(n),x)
+    g.sequence(x,SequencingPlan(library=LAMP_LIBRARY,primers=tuple(LAMP_SEQ_PRIMERS),acquisition="unspecified",limitation="Commercial twoPCR route names MiSeq/iSeq but does not uniquely assign its run recipe. The separate named sequencing sections print100Read1+8i7+8i5, reading8 of each physical10nt index; noRead2 in that recipe. Exact acquired recipe for this selected preparation and pool membership remain unassigned. Correct viral sequence excluding primer-covered bases plus barcode cooccurrence is computational diagnostic analysis; this molecular graph establishes no detection threshold or clinical performance."))
+    g.declare_reviewed_scope(REVIEWED,source)
     return g.require_publishable()
 
 
+source=('<a href="https://doi.org/10.1038/s41587-021-00966-9">Ludwig et al.,Nature Biotechnology2021</a>; published PMC8678193 commercialtwoPCR Methods and SupplementaryData1.')
+TITLE="LAMP-Seq — barcoded RT-LAMP with Illumina readout"
+NOTES="01_lamp-seq.html"
+SOURCE=source
+SUMMARY="Selected published commercial twoPCR branch with representative Tier1 FIP barcode and pool-primer pair1. Native RNA, carrierDNA, modified original primers, LAMP concatemer populations and PCR daughters remain distinct."
+CAVEAT="Independent ACTB control populations are retained but not expanded. Branched LAMP intermediates and PCR firstcycle assembly remain unresolved. No single linear selected interval substitutes for native incoming PCR material. Open-source singlePCR and N100/PhiX run-library admixtures are outside this graph."
+oligos=_lamp_oligos
+FINAL_LIBRARY=LAMP_LIBRARY
+FINAL_CAPTION="Printed-primer-derived component/read reference with representative sample barcode and actual10nt pool1 indexes. Target-selected interval order inside native LAMP concatemers remains unresolved."
+SEQ_PRIMERS=LAMP_SEQ_PRIMERS
+SEQUENCING_INTRO="The source named MiSeq/iSeq recipes acquire100Read1+8i7+8i5, so each index acquisition covers only8 of10physical bases. The selected commercial branch's actual run linkage is not assigned."
 
+def protocol_graph():return _lamp_graph(source)
 
-source = ('<a href="https://doi.org/10.1038/s41587-021-00966-9">'
-          'Ludwig et al., <i>Nature Biotechnology</i> (2021)</a> and Supplementary Data 1.')
-spec = SimpleNamespace(
-    TITLE="LAMP-Seq — barcoded RT-LAMP with Illumina readout",
-    NOTES="01_lamp-seq.html", SOURCE=source,
-    SUMMARY=("This page follows the paper's two-PCR LAMP-Seq workflow. A sample-specific "
-             "10-nt barcode is embedded in the forward inner LAMP primer. Saturated "
-             "reactions are pooled, diluted 1:100,000, then receive two 10-nt pool "
-             "indexes in the second PCR."),
-    CAVEAT=("LAMP produces a population of branched, stem-looped concatemers rather "
-            "than one linear molecule. The page therefore shows the source-established "
-            "primer and PCR-selected regions without inventing a single universal "
-            "ordering for every LAMP intermediate."),
-    TOPOLOGY_PANELS=lamp_topology(
-        "SARS-CoV-2 N-gene DNA", "10-nt FIP sample barcode").panels(),
-    oligos=_lamp_oligos, FINAL_LIBRARY=LAMP_LIBRARY,
-    FINAL_CAPTION=("Dual-index Illumina amplicon selected from the heterogeneous LAMP "
-                   "product. Exact PCR landing sites and a representative published "
-                   "FIP barcode are shown; variable concatemer-derived sequence remains "
-                   "role-labelled."),
-    SEQ_PRIMERS=LAMP_SEQ_PRIMERS,
-    ACQUIRED_ROLES=("Read 1", "Index 1 (i7)", "Index 2 (i5)"),
-    READ_LENGTHS={"Read 1": 100, "Index 1 (i7)": 8, "Index 2 (i5)": 8},
-    READ_USES={"Read 1": "extract_then_include", "Index 1 (i7)": "demultiplex",
-               "Index 2 (i5)": "demultiplex"},
-    SEQUENCING_INTRO=("The MiSeq Nano and iSeq runs printed in the open-source protocol acquire "
-                      "100 cycles of Read 1 and 8 cycles for each pool index, so only the first "
-                      "8 nt of each 10-nt pool index are read; no Read 2 is acquired. The "
-                      "commercial two-step branch drawn here names MiSeq or iSeq without "
-                      "separate cycle numbers."))
-
-
-def protocol_graph() -> ProtocolGraph:
-    return _lamp_graph(source)
-
-spec.protocol_graph = protocol_graph
-globals().update(vars(spec))
+REVIEWED=("sample","heat","inactivate","pretreat_aliquot_allocation","pretreat_aliquot","carbon_ion_beads","bead_treatment","bead_transfer_selection","bead_transfer","hcl","adjust_ph","lamp_aliquot_allocation","lamp_aliquot","lamp_fip","lamp_outer","lamp_bip_loops","actb_control_primers","mastermix_carrier","bst","rt_lamp","other_lamp_reactions","pool_lamp","dilution","dilute","pcr1_aliquot_allocation","pcr1_aliquot","pcr_f","pcr_r","pcr_polymerase","target_pcr","pcr2_aliquot_allocation","pcr2_aliquot","pool_f","pool_r","index_pcr","other_indexed_libraries","pool_indexed","gel_band_selection","gel_band","silica1_selection","silica1","silica2_selection","silica2","silica2_kept")

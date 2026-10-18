@@ -78,6 +78,34 @@
       ],
       "scope": "Partial native implementation, not a completed ownership migration or accepted absence claim.",
       "verification": "Preliminary page construction only. Finalfocused verification andsource-suite migration not complete."
+    },
+    {
+      "round": "2026-10-18-batch12-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Moffat Lab protocolv2 printedREV.20190723 §3.5.3 at625–860,Table1 at866–942,§3.5.4 at1037–1065.",
+      "oligo_scraper": "Mandatory source-bundle scraper run; relevant source transcription pointers checked. No-hit results do not establish absence.",
+      "findings": "Native genomic inputs and actual enriched PCR1 mixture feed the two PCR stages; actual QC aliquot, pooling, PCR2 aliquot/remainder and gel fraction are explicit. Native flank extents remain unassigned; nested-site component view is separate from mixture geometry. Structured primer indexes propagate to daughters. Source26 acquired Read1 cycles following21 dark additions remain unplaced rather than a fabricated47-cycle acquisition.",
+      "deferred": [
+        "Actual genomic extents, original/off-product recovery, sample-specific guide and index allocations and complete linked-source absence audit remain unassigned."
+      ],
+      "scope": "Bounded source-qualified migration; no source-absence acceptance or complete chemistry certification.",
+      "verification": "Affected source-transcription suite and page construction pass; final independent implementation review and aggregate verification recorded separately."
+    },
+    {
+      "round": "2026-10-18-batch12-independent-implementation-review",
+      "reviewer": "batch12_dna_independent",
+      "date": "2026-10-18",
+      "documents": 0,
+      "documents_read": 0,
+      "locations": "Implementation-only review of released local protocol module, wrapper/selftest, note and completed root source-migration record; no original sources reread. Prior implementation findings rechecked after author fixes.",
+      "findings": "Independent code-only recheck of released fixes: actual genomic populations enter PCR1; carried originals/RNA/primers stay with PCR1 daughters through QC aliquot, pool and actual5µlPCR2allocation. PCR2 geometry uses incoming mixed aliquot while nested-site component view remains separately scoped. Redundant original side outputs removed. Guide feature is attached to native genomic role; physical D501/D701 index segments carry structuredI5/I7 identities through daughter construction without altering primer bases. Actual analytical aliquot, unsampled remainder and physical gel fraction remain explicit.26acquired Read1cycles after21dark additions stay unplaced with8/8index-onlyexact geometry, rather than47acquired cycles. Source coverage remains manual.",
+      "deferred": [
+        "Original-source fidelity and all existing linked-source/absence-gate obligations remain outside this code-only review; native genomic extents and molecular-class recovery remain unresolved as declared."
+      ],
+      "scope": "Independent implementation review only; documents_read0. Does not count as either independent original-source pass or accept missing information; existing source-absence status/checklists unchanged.",
+      "verification": "Source-transcription suite4checks and page build pass; chemistry8steps0contradictions9conditional11unresolved; combined two-protocol sourceguard15checked0failed0unrepresented; pairing0problems; schema and diffcheck pass."
     }
   ]
 }

@@ -130,6 +130,20 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/9 unresolved/0 contradictory over 8 steps; source guard 0 exact checked, 0 failed, 3 inputs without exact states; Markdown built; audit --check pass (blocked status unchanged)"
+    },
+    {
+      "round": "2026-10-18-batch12-source-identity-stop",
+      "reviewer": "batch12_dna",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Existing note/module/source checklist and external manifest/filenames only; no original document read.",
+      "oligo_scraper": "Mandatory bundle scraper returned0hits0files; this is not evidence of absence.",
+      "findings": "Historical August2014 RG35 and cited Nextera DNA Guide15027987RevB October2012 originals unavailable. Available2018RG35 identifies AdvancedDNA SingleCell, a different kit; cached2012SingleCell handbook does not establish historical revision equivalence. No model changes or source-absence conclusion.",
+      "deferred": [
+        "Retrieve and verify the cited historical August2014RG35 and Nextera15027987RevBOctober2012 originals before source-qualified migration."
+      ],
+      "scope": "Metadata/source-identity stop; documents0; no source-reading or independent absence pass.",
+      "verification": "No protocol edit; moved to next protocol under user instruction."
     }
   ]
 }

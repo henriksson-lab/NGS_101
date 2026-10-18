@@ -36,8 +36,14 @@ def final_library(member=0):
  return Construct([Segment('P5',il.P5),Segment('Read1 arm',prefix[len(il.P5):]),Segment('source stagger',fwd[len(prefix):-len(FWD_SITE)]),Segment('hU6 site',FWD_SITE),Segment('representative transcriptionG','G',inferred=True),Segment('guide','N'*20,placeholder=True,feature=GUIDE),Segment('scaffold through reverse site',SCAFFOLD[:end]),Segment('Read2 arm rc',revcomp(il.TRUSEQ_READ2)),Segment('i7 rc',revcomp(r[len(il.P7):len(il.P7)+8]),feature=I7),Segment('P7 rc',il.P7_RC)],name='representative source Fwd'+str(member+1)+'/KORev1 daughter')
 FINAL_LIBRARY=final_library()
 
+def daughter_mixture(member):
+ sc=Scene.duplex(list(final_library(member)),label='INFERRED — representative PCR daughter component')
+ sc.strand('possible_genomes',[role('possible native genomic originals retaining guide identity',molecular_feature=GUIDE)],label='independent possible co-carried original DNA')
+ sc.strand('possible_other',[role('possible RNA, other DNA and primers; recovery unassigned')])
+ return sc
+
 def genomic_state():
- sc=Scene();sc.strand('native',[role('native genomic DNA containing integrated GeCKO guide cassettes; no flowcell arms; actual genomic/template coordinates unassigned')]);sc.strand('other',[role('possible co-extracted RNA and other DNA; no purity assumed')]);return sc
+ sc=Scene();sc.strand('native',[role('native genomic DNA containing integrated GeCKO guide cassettes; no flowcell arms; actual genomic/template coordinates unassigned',molecular_feature=GUIDE)]);sc.strand('other',[role('possible co-extracted RNA and other DNA; no purity assumed')]);return sc
 
 def oligos():
  for n,x in enumerate(FORWARD_PRIMERS,1):yield f'NGS-Lib-Fwd-{n}:5′-{x}-3′'
@@ -49,16 +55,14 @@ def protocol_graph():
  alloc=g.input('allocation_rule','one reaction per each of10 Fwd species; ≤2.5µg gDNA/50µl; scale reaction count to totalgDNA',M.CONDITION)
  aliquots=[g.product('aliquot_'+str(n+1),'genomicDNA allocated toFwd'+str(n+1)+' reaction class',M.MOLECULAR,state=gdna.state) for n in range(10)]
  g.react('allocate','Allocate sourcegDNA across all10 forward-primer reaction classes',K.SPLIT,((gdna,I.TEMPLATE),(alloc,I.CONDITION)),tuple(aliquots),changes_molecule=False)
- rev=g.input('reverse','selected KORev1 reference member; actual sample member unassigned',M.OLIGO,state=Construct([Segment('KORev1',REVERSE_PRIMERS[0])]))
+ rev=g.input('reverse','selected KORev1 reference member; actual sample member unassigned',M.OLIGO,state=Construct([Segment('P7',REVERSE_PRIMERS[0][:len(il.P7)]),Segment('i7',REVERSE_PRIMERS[0][len(il.P7):len(il.P7)+8],feature=I7),Segment('reverse arm and site',REVERSE_PRIMERS[0][len(il.P7)+8:])]))
  pol=g.input('polymerase','NEBNextHighFidelity2×PCRMasterMix',M.CATALYST)
  column=g.input('columns','ZymoSpinV withreservoir/DNABindingBuffer andwashbuffer',M.SELECTION)
  pcrs=[]
  for n,aliquot in enumerate(aliquots):
   tag=str(n+1);f=g.input('forward_'+tag,'NGS-Lib-Fwd-'+tag,M.OLIGO,state=Construct([Segment('Fwd'+tag,FORWARD_PRIMERS[n])]))
-  out=g.product('pcr_'+tag+'_out','Fwd'+tag+' PCR daughters and possible co-carried originals',M.MOLECULAR,state=final_library(n))
-  original=g.product('pcr_'+tag+'_originals','native templates and unselected molecular classes',M.MOLECULAR,state=aliquot.state)
-  g.react('pcr_'+tag,'INFERRED — sourcePCR:95°C5min;12cycles98°C20s/60°C15s/72°C15s;72°C1min',K.PCR,((aliquot,I.TEMPLATE),(f,I.STRUCTURAL),(rev,I.STRUCTURAL),(pol,I.CATALYST)),(out,original),geometry=PCRGeometry.unavailable(aliquot.state,reason='Actual native genomicDNA is the input; a completed adapter-bearing daughter is not its template. Exact genomic boundaries and initial binding are unassigned.'))
-  g.mark_terminal(Terminal(original.id,Disposition.UNRESOLVED,'PCR does not remove original genomes/RNA/other DNA; their subsequent class-specific recovery is unassigned.'))
+  out=g.product('pcr_'+tag+'_out','Fwd'+tag+' PCR daughters and possible co-carried originals',M.MOLECULAR,state=daughter_mixture(n))
+  g.react('pcr_'+tag,'INFERRED — sourcePCR:95°C5min;12cycles98°C20s/60°C15s/72°C15s;72°C1min',K.PCR,((aliquot,I.TEMPLATE),(f,I.STRUCTURAL),(rev,I.STRUCTURAL),(pol,I.CATALYST)),(out,),geometry=PCRGeometry.unavailable(aliquot.state,reason='Actual native genomicDNA is the input; a completed adapter-bearing daughter is not its template. Exact genomic boundaries and initial binding are unassigned.'))
   clean=g.product('clean_'+tag,'Fwd'+tag+' sourcecolumn retained population',M.MOLECULAR,state=out.state)
   waste=g.product('column_waste_'+tag,'physically removed flowthrough/washes',M.WASTE)
   g.react('purify_'+tag,'Source5volbindingbuffer;two2ml washes;dryspin;150µl elution',K.CLEANUP,((out,I.TEMPLATE),(column,I.SELECTION)),(clean,waste),changes_molecule=False)

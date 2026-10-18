@@ -1,13 +1,15 @@
 """Source-exact scDam&T-seq DamID and CEL-seq2 molecular states."""
+from dataclasses import replace
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import (Construct, MolecularState, Row, Scene, Segment, Workflow,
                       feature, revcomp)
-from multibranch import illumina_branch
+import illumina as il
+import seqprimers as sp
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph,
-                            SequencingPlan, StepKind)
+                            SequencingPlan, StepKind, Terminal, Disposition)
 
-TITLE = "scDam&T-seq — protein–DNA contacts and transcriptome"
+TITLE = "scDam&T-seq — 2020 detailed-protocol example"
 NOTES = "01_scdam-t-seq.html"
 SOURCE = ('Defining source: <a href="https://doi.org/10.1038/s41587-019-0150-y">'
           'Rooijers et al., <i>Nature Biotechnology</i> (2019)</a>; detailed protocol '
@@ -16,7 +18,7 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1038/s41587-019-0150-y">
 SUMMARY = ("One well-specific CEL-seq2 primer labels transcript cDNA while a different "
            "well-specific forked adapter labels DpnI-cut Dam-methylated DNA. Both carry "
            "T7 promoters, so the two branches are pooled and linearly amplified together.")
-CAVEAT = ("<b>Published concentration inconsistency.</b> The 2020 randomhexRT mix table (PMC7779467 JATS878–884) lists a 20 µM primer stock and 13.33 mM final concentration. Dilution cannot raise that stock concentration; the intended unit remains unverified. This model assigns no corrected reaction concentration. "
+CAVEAT = ("<b>Scope.</b> This page models the explicitly printed 2020 split-barcode example, not an established 2019 experiment-to-oligo allocation. Exact first-cycle PCR geometry, T7 initiation register and run-specific sequencing-primer setup remain unassigned. Candidate other RT products and RNA/DNA carryover are inferred; no observed abundance or complete physical removal is claimed. ""<b>Published concentration inconsistency.</b> The 2020 randomhexRT mix table (PMC7779467 JATS878–884) lists a 20 µM primer stock and 13.33 mM final concentration. Dilution cannot raise that stock concentration; the intended unit remains unverified. This model assigns no corrected reaction concentration. "
           "<b>Published barcode-example discrepancy.</b> The 2020 Reagents, DamID adapter example prints TGCATATG in its top/bottom oligos and names that barcode in prose (PMC7779467 JATS284–288), but the following split-layout example repeats NNN-GATG-NNN-TCAT from the RNA primer. The model follows the printed DamID oligos, NNN-TGCA-NNN-TATG; the repeated prose example appears copied from the RNA branch and is not used as a second DamID variant. "
           "<b>Published read-label discrepancy.</b> Markodimitraki et al. 2020, Introduction/Overview (PMC7779467 JATS61), assigns transcript sequence to R1 and transcript identifiers to R2. Its data-processing instructions (JATS1102, CEL-Seq2 read processing) instead use R2 for transcript alignment, agreeing with Rooijers et al. 2019, Methods, Demultiplexing (PMC6609448 JATS113). This model follows the latter assignment: RNA R1 carries identifiers and RNA R2 supplies the transcript. The overview labels appear reversed; the precise custom run configuration remains to be checked. "
           "<b>Adapter branch shown:</b> the six-base fork and split 8-nt barcode below "
@@ -26,7 +28,7 @@ CAVEAT = ("<b>Published concentration inconsistency.</b> The 2020 randomhexRT mi
           "mESC branch uses a six-base fork. These are distinct published variants.")
 
 T7 = "GCCGGTAATACGACTCACTATAGGG"
-RA5 = "AGTTCTACAGTCCGACGATC"
+RA5 = il.TRUSEQ_SMALL_RNA_RA5[6:]  # exact CEL primer prefix in 2020 Reagents
 UMI1, UMI2 = "NNN", "NNN"
 RNA_BC1, RNA_BC2 = "GATG", "TCAT"       # protocol's printed example
 DNA_BC1, DNA_BC2 = "TGCA", "TATG"       # protocol's printed example
@@ -42,22 +44,25 @@ DAM_BOTTOM = ("TC" + revcomp(DNA_BC2) + UMI2 + revcomp(DNA_BC1) + UMI1
 
 RANDOMHEX_TAIL = "GCCTTGGCACCCGAGAATTCCA"
 RANDOMHEX_RT = RANDOMHEX_TAIL + "N" * 6
-RNA_PCR1 = "AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA"
-RNA_PCR_INDEX = ("CAAGCAGAAGACGGCATACGAGAT" + "N" * 6
+RNA_PCR1 = il.P5 + il.TRUSEQ_SMALL_RNA_RA5[:-5]  # source-printed RP1, 2020 Reagents
+SAMPLE_INDEX = "CGTGAT"  # 2020 Reagents printed RPi example
+RNA_PCR_INDEX = (il.P7 + SAMPLE_INDEX
                  + "GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA")
 RNA_PCR_INDEX_ANNEAL = "GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA"
 
 
 def _umi(name):
-    return Segment(name, "N" * 3, "umi",
-                   feature=feature("umi", "umi", "random", group="umi",
-                                   part=name))
+    branch = "rna" if name.startswith(("CEL", "RNA")) else "damid"
+    part = "part1" if "1" in name else "part2"
+    return Segment(name, "NNN", "umi", feature=feature(branch + "_umi_" + part,
+        "umi", "random", group=branch + "_umi", part=part))
 
 
 def _barcode(name, bases, identity):
-    return Segment(name, bases, "cbc",
-                   feature=feature(identity, "cell_barcode", "fixed",
-                                   group=identity, part=name))
+    identity = identity.lower().replace("cel_cell", "rna_cell")
+    part = "part1" if "1" in name else "part2"
+    return Segment(name, bases, "cbc", feature=feature(identity + "_" + part,
+        "cell_barcode", "fixed", group=identity, part=part))
 
 
 def cel_primer_segments():
@@ -155,60 +160,175 @@ def ligated_damid_scene():
     return sc
 
 
-def arna_scene():
-    sc = Scene(); sc.strand("DamID aRNA", [Segment("T7-derived 5-prime G", "G"),
-        Segment("RA5 RNA", RA5.replace("T", "U"), "r1"), _umi("aRNA UMI part 1"),
-        _barcode("aRNA barcode part 1", DNA_BC1, "damid_cell"),
-        _umi("aRNA UMI part 2"), _barcode("aRNA barcode part 2", DNA_BC2, "damid_cell"),
-        Segment("copied GATC-selected genomic RNA", "X" * 42, placeholder=True)],
-        label="linearly amplified DamID RNA")
-    sc.arrow("DamID aRNA", "T7 transcription")
-    sc.labels("DamID aRNA")
+# Native declarations below select the explicitly printed 2020 example, not an
+# assumed allocation to a 2019 experiment. Both populations remain in one tube.
+METHODS = "Markodimitraki et al. 2020 PMC7779467, Procedure RT/second strand/DpnI/ligation/IVT/library prep; printed 384-well example"
+ARTICLE = "Rooijers et al. 2019 PMC6609448, Methods Robotic preparation and Raw data preprocessing"
+REAGENTS = "Markodimitraki et al. 2020 PMC7779467, Reagents CEL primer/DamID adapter/Library primers, lines 274–302"
+
+
+def _oligo_scene(name, sequence, mod5="", mod3=""):
+    sc = Scene(); sc.strand(name, cel_primer_segments() if name == "CEL-seq2 primer" else [Segment(name, sequence, placeholder="X" in sequence)], mod5=mod5, mod3=mod3)
     return sc
 
 
-def randomhex_scene():
-    sc = Scene(); sc.strand("aRNA fragment", [Segment("aRNA RA5 and identifiers", "X" * 32,
-                    placeholder=True), Segment("aRNA payload", "X" * 42, placeholder=True),
-                    Segment("random priming site", "N" * 6)], label="fragmented aRNA")
-    sc.anneal("randomhexRT", [Segment("randomhexRT RA3 tail", RANDOMHEX_TAIL, "r2"),
-                               Segment("random hexamer", "N" * 6)],
-              to="aRNA fragment", pair=("random hexamer", "random priming site"),
-              label="randomhexRT")
-    sc.arrow("randomhexRT", "reverse transcriptase")
-    sc.labels("randomhexRT")
+class MolecularMixture(Scene):
+    """Independent source Scene components, retaining semantic strands/features.
+
+    Rendering delegates to those same components. The combined strand inventory
+    namespaces names and partner links, without copying a molecular declaration.
+    """
+    def __init__(self, *components, unplaced_segments=()):
+        super().__init__()
+        self.components = tuple(part for value in components
+            for part in (value.components if isinstance(value, MolecularMixture) else (value,)))
+        self.unplaced_segments = tuple(unplaced_segments) + tuple(seg for value in components
+            for seg in getattr(value, "unplaced_segments", ()))
+        for index, scene in enumerate(self.components):
+            if not isinstance(scene, Scene):
+                raise TypeError("molecular mixtures retain Scene components, not rendered rows")
+            for name, strand in scene.strands.items():
+                key = f"population{index}:{name}"
+                self.strands[key] = replace(strand, name=key,
+                    partner=f"population{index}:{strand.partner}" if strand.partner else None)
+
+    def rows(self, omit=()):
+        rows = []
+        for scene in self.components:
+            if rows:
+                rows.append(Row())
+            rows.extend(scene.rows())
+        return rows
+
+
+def _mixed(*components):
+    return MolecularMixture(*components)
+
+
+def _possible_carry(name):
+    sc = Scene(); sc.strand(name, [Segment(name, "[" + name + "]", placeholder=True, inferred=True)],
+        label="INFERRED — possible co-carried " + name)
+    sc.footer("Candidate physical carryover; no yield or complete removal is asserted.", name)
     return sc
 
 
-def pre_pcr_template():
-    return Construct([Segment("RNA PCR1 annealing region", RNA_PCR1[-21:], "r1"),
-                      Segment("copied barcode/UMI and RNA or DamID insert", "X" * 66,
-                              placeholder=True),
-                      Segment("randomhexRT-tail reverse complement",
-                              revcomp(RNA_PCR_INDEX_ANNEAL), "r2")],
-                     name="scDam&T randomhexRT cDNA")
-
-
-def indexed_product_scene():
-    parts = [Segment("P5 and RNA-PCR1", RNA_PCR1, "p5"),
-             Segment("barcode/UMI and RNA or DamID insert", "X" * 66,
-                     placeholder=True),
-             Segment("RNA-PCR-index reverse complement", revcomp(RNA_PCR_INDEX), "p7")]
-    sc = Scene.duplex(parts, label="indexed scDam&T-seq library")
-    sc.mark("top", "barcode/UMI and RNA or DamID insert",
-            "molecular branch is identified by its non-overlapping barcode whitelist")
-    sc.labels("top")
+def _transcript_cdna(duplex=False):
+    parts = [*cel_primer_segments(), Segment("copied transcript", "X" * 40, placeholder=True)]
+    if duplex:
+        return Scene.duplex(parts, label="transcript-derived ds cDNA")
+    sc = Scene(); sc.strand("transcript cDNA", parts, label="first-strand transcript cDNA")
+    sc.anneal("mRNA", [Segment("mRNA body", "X" * 40, placeholder=True),
+        Segment("poly(A)-proximal B", "B", placeholder=True), Segment("poly(A) tail", "A" * 25)],
+        to="transcript cDNA", pair=("poly(A) tail", "CEL poly(dT)25"), label="template mRNA")
     return sc
 
 
-RNA, RP = illumina_branch("scDam&T-seq RNA", "CEL-seq2 transcript insert", umi=6)
-DNA, DP = illumina_branch("scDam&T-seq DamID", "methylated-GATC genomic insert")
+def _mrna():
+    sc = Scene(); sc.strand("mRNA", [Segment("mRNA body", "X" * 40, placeholder=True),
+        Segment("poly(A)-proximal B", "B", placeholder=True), Segment("poly(A) tail", "A" * 25)], label="native polyadenylated RNA")
+    return sc
+
+
+def _genomic():
+    sc = Scene.duplex([Segment("genomic DNA", "X" * 40, placeholder=True)], label="genomic DNA")
+    sc.footer("Dam deposits N6-methyladenine; methylation is not copied to cDNA.", "top")
+    return sc
+
+
+def _arna(branch):
+    # Source-qualified representative T7 transcripts. Payload length is schematic;
+    # the exact initiation register and opposite-end adapter readthrough are not
+    # claimed. The common RA5/identifier portion is retained for native RT/PCR.
+    sc = Scene()
+    ids = [_umi(branch + " UMI part 1"),
+           _barcode(branch + " barcode part 1", RNA_BC1 if branch == "RNA" else DNA_BC1, branch + "_cell"),
+           _umi(branch + " UMI part 2"),
+           _barcode(branch + " barcode part 2", RNA_BC2 if branch == "RNA" else DNA_BC2, branch + "_cell")]
+    parts = [Segment(branch + " RA5", RA5.replace("T", "U"), placeholder=True), *ids,
+             *([Segment("copied poly(U)25", "U" * 25, placeholder=True), Segment("copied anchoring V", "V", placeholder=True)] if branch == "RNA" else [Segment("restored GAUC", "GAUC", placeholder=True)]),
+             Segment(branch + " payload", "[transcript-derived aRNA]" if branch == "RNA" else "[GATC-derived aRNA]", placeholder=True)]
+    sc.strand(branch + " aRNA", parts, label=branch + " aRNA (representative identifier-bearing region)")
+    sc.footer("RNA copy of DNA sequence only; the ligated adapter phosphate does not become an RNA sequence modification.", branch + " aRNA")
+    return sc
+
+
+
+def _fragmented(*source_rna):
+    sc = Scene()
+    for branch in ("RNA", "DamID"):
+        sc.strand(branch + " identifier-bearing fragment", [Segment(branch + " fragment",
+            "[RA5/identifiers and variable downstream RNA fragment]", placeholder=True)], label=branch + " fragment class")
+        sc.strand(branch + " other fragments", [Segment(branch + " other RNA fragments",
+            "[partial identifiers or downstream-only RNA fragments]", placeholder=True)], label=branch + " other fragment classes")
+    inventory = tuple(seg for component in source_rna
+        for strand in component.strands.values() for seg in strand.segs if seg.feature)
+    return MolecularMixture(sc, unplaced_segments=inventory)
+
+
+def _library_scene(library, branch):
+    sc = Scene.duplex(list(library), label=branch + " library molecules", unpaired=(branch + " insert'",))
+    sc.mark("top", "RP1 sequence", "original RP1 phosphorothioate at its penultimate/final base bond; copied complement has no inherited phosphorothioate")
+    sc.mark("bottom", "RPi annealing arm reverse complement'", "original RPi phosphorothioate at its penultimate/final base bond; copied complement has no inherited phosphorothioate")
+    return sc
+
+def _candidate_cdna():
+    sc = Scene(); sc.strand("other cDNAs", [Segment("candidate other cDNA", "X" * 36, placeholder=True, inferred=True)], label="INFERRED — candidate other RT products")
+    return sc
+
+
+def _native_cdna():
+    """Actual single-stranded randomhexRT products from two RNA populations."""
+    sc = Scene()
+    for branch, bc1, bc2 in (("RNA", RNA_BC1, RNA_BC2), ("DamID", DNA_BC1, DNA_BC2)):
+        # Reverse-transcribed identifier orientation is reverse-complemented.
+        parts = [Segment(branch + " randomhexRT tail", RANDOMHEX_TAIL),
+                 Segment(branch + " random primer N6", "NNNNNN", placeholder=True),
+                 Segment(branch + " copied payload", "[copied aRNA fragment]", placeholder=True),
+                 *([Segment("copied anchoring B", "B", placeholder=True), Segment("copied poly(A)25", "A" * 25)] if branch == "RNA" else [Segment("copied GATC", "GATC")]),
+                 _barcode(branch + " copied barcode part 2", revcomp(bc2), branch + "_cell"),
+                 _umi(branch + " copied UMI part 2"),
+                 _barcode(branch + " copied barcode part 1", revcomp(bc1), branch + "_cell"),
+                 _umi(branch + " copied UMI part 1"),
+                 Segment(branch + " copied RA5", revcomp(RA5))]
+        sc.strand(branch + " ss cDNA", parts, label=branch + " identifier-bearing randomhexRT cDNA")
+    sc.footer("Two molecular populations in the same reaction. The first PCR cycle extends RP1 on these ss templates; a duplex precursor is not supplied.", "RNA ss cDNA")
+    return sc
+
+
+def _endpoint(branch, bc1, bc2):
+    # RP1 anneals within RA5, leaving its CGATC suffix before identifiers. RPi
+    # initially anneals through randomhexRT's 21-base tail; its other bases are
+    # added by PCR, not pre-existing on the ss cDNA input.
+    forward_overlap = next(n for n in range(min(len(RA5), len(RNA_PCR1)), 0, -1)
+                           if RA5.startswith(RNA_PCR1[-n:]))
+    if forward_overlap < 15:
+        raise ValueError("RP1 lacks its source-defined RA5 overlap")
+    return Construct([Segment("RP1 sequence", RNA_PCR1, "p5"),
+        Segment("retained RA5 suffix", RA5[forward_overlap:]),
+        _umi(branch + " UMI part 1"), _barcode(branch + " barcode part 1", bc1, branch + "_cell"),
+        _umi(branch + " UMI part 2"), _barcode(branch + " barcode part 2", bc2, branch + "_cell"),
+        *([Segment("copied poly(dT)25", POLYT), Segment("copied anchoring V", "V", placeholder=True)] if branch == "RNA" else [Segment("restored GATC", "GATC")]),
+        Segment(branch + " insert", "[transcript-derived insert]" if branch == "RNA" else "[DpnI genomic insert]", placeholder=True),
+        Segment("random hexamer copy", "NNNNNN", placeholder=True),
+        Segment("RPi annealing arm reverse complement", revcomp(RNA_PCR_INDEX_ANNEAL), "r2"),
+        Segment("sample index", revcomp(SAMPLE_INDEX), "cbc", feature=feature("library_index", "sample_index", "fixed")),
+        Segment("P7 reverse complement", revcomp(il.P7), "p7")], name=branch + " molecules in mixed indexed library")
+
+
+RNA = _endpoint("RNA", RNA_BC1, RNA_BC2)
+DNA = _endpoint("DamID", DNA_BC1, DNA_BC2)
+# Exact sequencing-primer identity/custom run setup is not established in this
+# capped pass. Source read roles stay explicit; no standard TruSeq primers added.
+RP = DP = ()
 FINAL_LIBRARIES = (
-    ("Transcriptome library", RNA, RP, "CEL-seq2 transcript-derived endpoint.",
-     "Illumina primers on the transcript branch."),
-    ("DamID library", DNA, DP, "DpnI-selected genomic endpoint.",
-     "Illumina primers on the DamID branch."),
+    ("Transcriptome library", RNA, RP, "RNA-derived molecules in the same physical library.", ""),
+    ("DamID library", DNA, DP, "DamID-derived molecules in the same physical library.", ""),
 )
+SEQUENCING_UNAVAILABLE = {name: "Small RNA library oligos are source-known; exact sequencing-primer/run setup is unassigned in this pass. No generic TruSeq sequencing shell is substituted." for name, *_ in FINAL_LIBRARIES}
+READ_SPECS = {
+    "Transcriptome library": [sp.read_spec("Read 1", 75, "split UMI/cell barcode; identifiers extracted computationally", "extract"), sp.read_spec("Read 2", 75, "transcript sequence", "include")],
+    "DamID library": [sp.read_spec("Read 1", 75, "DamID UMI/cell barcode then genomic sequence; identifiers extracted before mapping", "extract_then_include"), sp.read_spec("Read 2", 75, "paired genomic fragment", "undetermined")],
+}
 
 
 def oligos():
@@ -216,175 +336,112 @@ def oligos():
             f"<b>DamID example top</b> — 5′-{DAM_TOP}-3′",
             f"<b>DamID example bottom</b> — 5′-/5Phos/{DAM_BOTTOM}-3′",
             f"<b>randomhexRT</b> — 5′-{RANDOMHEX_RT}-3′",
-            f"<b>RNA PCR primer 1</b> — 5′-{RNA_PCR1}-3′",
-            f"<b>RNA PCR index primer</b> — 5′-{RNA_PCR_INDEX}-3′"]
+            f"<b>RP1</b> — 5′-{RNA_PCR1[:-1]}*{RNA_PCR1[-1]}-3′",
+            f"<b>RPi printed CGTGAT example</b> — 5′-{RNA_PCR_INDEX[:-1]}*{RNA_PCR_INDEX[-1]}-3′"]
 
 
-def workflow():
-    w = Workflow(MolecularState("Dam-marked cell", (Row(chunks=[
-        ("poly(A) RNA + genomic DNA containing protein-proximal G^mATC", None, False)]),)))
-    w.react("Reverse-transcribe poly(A) RNA with a well-specific CEL-seq2 primer",
-            cel_rt_scene().rows(), name="barcoded first-strand transcript cDNA",
-            note="The printed primer contains T7, RA5, split 6-nt UMI, split 8-nt cell barcode, dT25 and anchoring V.")
-    w.react("Make transcript cDNA double-stranded and cut methylated GATC with DpnI",
-            [*cel_rt_scene().rows(), Row(), *dpni_fragment_scene().rows()],
-            name="double-stranded transcript cDNA plus blunt DpnI fragments",
-            note="DpnI cuts fully methylated GATC sites into blunt GA/TC half-sites; transcript cDNA remains in the same well.")
-    w.ligate_adapter("Ligate the well-specific forked DamID adapter",
-                     damid_geometry(), ligated_damid_scene().rows(),
-                     name="barcoded DamID DNA and CEL-seq2 cDNA",
-                     note="Adapter GA and genomic TC restore GATC at the exact covalent junction; RNA and DNA use intentionally non-overlapping barcode sets.")
-    w.react("Pool wells and linearly amplify both branches by T7 IVT",
-            arna_scene().rows(), name="mixed RNA- and DamID-derived aRNA",
-            note="Both the CEL-seq2 primer and DamID adapter carry a T7 promoter, permitting one pooled IVT.")
-    w.react("Fragment aRNA and reverse-transcribe with randomhexRT",
-            randomhex_scene().rows(), name="randomhexRT cDNA",
-            note="The exact 22-nt RA3-derived tail is a non-annealing 5′ primer tail; its N6 end chooses a random aRNA site.")
-    geometry = PCRGeometry.exact(
-        pre_pcr_template(), PCRPrimer("RNA PCR primer 1", RNA_PCR1),
-        PCRPrimer("RNA PCR index primer", RNA_PCR_INDEX),
-        statement="The detailed protocol prints both tailed PCR primers; their annealing suffixes face inward around either branch's randomhexRT cDNA.")
-    w.pcr("Add P5, six-base sample index and P7 by terminal PCR", geometry,
-          indexed_product_scene().rows(), name="indexed mixed scDam&T-seq library",
-          note="Branch-specific cell barcode sets distinguish CEL-seq2 and DamID reads after sequencing.")
-    return w
+def _cleanup(g, current, ident, label, reagent):
+    beads = g.input(ident + "_beads", reagent, MaterialKind.SELECTION, source=METHODS)
+    kept = g.product(ident + "_kept", label, MaterialKind.MOLECULAR, state=current.state, source=METHODS)
+    waste = g.product(ident + "_waste", "bead-cleanup aqueous phase and ethanol washes", MaterialKind.WASTE, source=METHODS)
+    g.react(ident, "Bead cleanup of both molecular populations together", StepKind.CLEANUP,
+            ((current, InputRole.TEMPLATE), (beads, InputRole.SELECTION)), (kept, waste), changes_molecule=False, source=METHODS)
+    g.discard(waste, "physically removed with aqueous phase/ethanol; no assertion that all off-products are eliminated")
+    return kept
 
 
 def protocol_graph():
-    """The shared physical workflow, retaining both endpoint molecule classes.
-
-    RNA-derived and DamID-derived templates are not split into separate tubes.  Their
-    non-overlapping well-barcode sets make them distinguishable after the common IVT,
-    random-hexamer RT and terminal PCR.  The PCR therefore has two typed molecular
-    outputs from one reaction rather than an invented physical branch operation.
-    """
     g = ProtocolGraph(TITLE, authority=SOURCE)
-    cell = g.input(
-        "cell", "Dam-marked cell containing poly(A) RNA and genomic DNA",
-        MaterialKind.BIOLOGICAL,
-        state=(Row(chunks=[(
-            "poly(A) RNA + genomic DNA containing protein-proximal G^mATC",
-            None, False)]),), primary=True)
-
-    cel_primer = g.input("cel_primer", "well-specific CEL-seq2 RT primer",
-                         MaterialKind.OLIGO, state=cel_rt_scene())
-    rt1 = g.input("cel_rt", "CEL-seq2 reverse transcriptase",
-                  MaterialKind.CATALYST)
-    rt_cell = g.product(
-        "rt_cell", "cell containing barcoded transcript cDNA and genomic DNA",
-        MaterialKind.MOLECULAR, state=cel_rt_scene())
-    g.react("cel_reverse_transcribe",
-            "Reverse-transcribe poly(A) RNA with the well-specific CEL-seq2 primer",
-            StepKind.REVERSE_TRANSCRIPTION,
-            ((cell, InputRole.TEMPLATE), (cel_primer, InputRole.STRUCTURAL),
-             (rt1, InputRole.CATALYST)), (rt_cell,))
-
-    second_strand = g.input("second_strand_polymerase",
-                            "transcript-cDNA second-strand polymerase",
-                            MaterialKind.CATALYST)
-    double_stranded = g.product(
-        "double_stranded", "double-stranded transcript cDNA plus genomic DNA",
-        MaterialKind.MOLECULAR, state=cel_rt_scene())
-    g.react("second_strand", "Make transcript cDNA double-stranded",
-            StepKind.EXTENSION,
-            ((rt_cell, InputRole.TEMPLATE),
-             (second_strand, InputRole.CATALYST)), (double_stranded,))
-
-    dpni = g.input("dpni", "DpnI restriction endonuclease",
-                   MaterialKind.CATALYST)
-    digested = g.product(
-        "digested", "transcript cDNA plus blunt DpnI genomic fragments",
-        MaterialKind.MOLECULAR, state=dpni_fragment_scene())
-    g.react("dpni_digest", "Cut methylated genomic GATC sites with DpnI",
-            StepKind.DIGESTION,
-            ((double_stranded, InputRole.TEMPLATE),
-             (dpni, InputRole.CATALYST)), (digested,))
-
-    dam_adapter = g.input("dam_adapter", "well-specific forked DamID adapter",
-                          MaterialKind.ADAPTER, state=damid_adapter_scene())
-    ligase = g.input("dam_ligase", "DamID adapter DNA ligase",
-                     MaterialKind.CATALYST)
-    dual_templates = g.product(
-        "dual_templates", "barcoded DamID DNA and CEL-seq2 cDNA templates",
-        MaterialKind.MOLECULAR, state=ligated_damid_scene())
-    g.react("ligate_damid", "Ligate the well-specific forked DamID adapter",
-            StepKind.LIGATION,
-            ((digested, InputRole.TEMPLATE),
-             (dam_adapter, InputRole.STRUCTURAL),
-             (ligase, InputRole.CATALYST)), (dual_templates,),
-            geometry=damid_geometry())
-
-    t7 = g.input("t7_polymerase", "T7 RNA polymerase",
-                 MaterialKind.CATALYST)
-    arna = g.product("arna", "mixed RNA- and DamID-derived amplified RNA",
-                     MaterialKind.MOLECULAR, state=arna_scene())
-    g.react("t7_ivt", "Linearly amplify both template classes by T7 IVT",
-            StepKind.TRANSCRIPTION,
-            ((dual_templates, InputRole.TEMPLATE),
-             (t7, InputRole.CATALYST)), (arna,))
-
-    fragment_condition = g.input(
-        "fragment_condition", "aRNA fragmentation condition",
-        MaterialKind.CONDITION)
-    fragmented = g.product("fragmented_arna", "fragmented mixed aRNA",
-                           MaterialKind.MOLECULAR,
-                           state=randomhex_scene())
-    g.react("fragment_arna", "Fragment the amplified RNA",
-            StepKind.FRAGMENTATION,
-            ((arna, InputRole.TEMPLATE),
-             (fragment_condition, InputRole.CONDITION)), (fragmented,))
-
-    randomhex = g.input("randomhex_rt", "randomhexRT primer",
-                        MaterialKind.OLIGO, state=randomhex_scene())
-    rt2 = g.input("randomhex_reverse_transcriptase",
-                  "randomhexRT reverse transcriptase",
-                  MaterialKind.CATALYST)
-    cdna = g.product("randomhex_cdna", "mixed randomhexRT cDNA",
-                     MaterialKind.MOLECULAR, state=pre_pcr_template())
-    g.react("randomhex_reverse_transcribe",
-            "Reverse-transcribe fragmented aRNA with randomhexRT",
-            StepKind.REVERSE_TRANSCRIPTION,
-            ((fragmented, InputRole.TEMPLATE),
-             (randomhex, InputRole.STRUCTURAL),
-             (rt2, InputRole.CATALYST)), (cdna,))
-
-    pcr1 = g.input("rna_pcr1", "RNA PCR primer 1", MaterialKind.OLIGO)
-    pcr_index = g.input("rna_pcr_index", "RNA PCR index primer",
-                        MaterialKind.OLIGO)
-    pcr_polymerase = g.input("pcr_polymerase", "terminal PCR polymerase",
-                             MaterialKind.CATALYST)
-    rna_library = g.product("rna_library", "RNA-derived molecules in the mixed library",
-                            MaterialKind.LIBRARY, state=RNA)
-    damid_library = g.product(
-        "damid_library", "DamID-derived molecules in the mixed library",
-        MaterialKind.LIBRARY, state=DNA)
-    pcr_geometry = PCRGeometry.exact(
-        pre_pcr_template(), PCRPrimer("RNA PCR primer 1", RNA_PCR1),
-        PCRPrimer("RNA PCR index primer", RNA_PCR_INDEX),
-        statement=("The detailed protocol prints both tailed PCR primers; their "
-                   "annealing suffixes face inward around either molecular class in "
-                   "the mixed randomhexRT cDNA."))
-    g.react("terminal_pcr", "Add P5, sample index and P7 by terminal PCR",
-            StepKind.PCR,
-            ((cdna, InputRole.TEMPLATE), (pcr1, InputRole.STRUCTURAL),
-             (pcr_index, InputRole.STRUCTURAL),
-             (pcr_polymerase, InputRole.CATALYST)),
-            (rna_library, damid_library), geometry=pcr_geometry)
-    g.sequence(rna_library, SequencingPlan(
-        library=RNA, primers=RP,
-        acquired_roles=tuple(p.role for p in RP)))
-    g.sequence(damid_library, SequencingPlan(
-        library=DNA, primers=DP,
-        acquired_roles=tuple(p.role for p in DP)))
-
-    reviewed = [
-        "cell", "cel_primer", "cel_rt", "cel_reverse_transcribe",
-        "second_strand_polymerase", "second_strand", "dpni", "dpni_digest",
-        "dam_adapter", "dam_ligase", "ligate_damid", "t7_polymerase", "t7_ivt",
-        "fragment_condition", "fragment_arna", "randomhex_rt",
-        "randomhex_reverse_transcriptase", "randomhex_reverse_transcribe",
-        "rna_pcr1", "rna_pcr_index", "pcr_polymerase", "terminal_pcr",
-        "rna_library", "damid_library",
-    ]
-    g.declare_reviewed_scope(reviewed, SOURCE)
+    genomic = _genomic()
+    cell = g.input("cell", "one Dam-marked cell: separate poly(A) RNA and genomic DNA populations", MaterialKind.BIOLOGICAL,
+        state=_mixed(_mrna(), genomic), primary=True, source=ARTICLE)
+    cel = g.input("cel_primer", "CEL-seq2 split-barcode example", MaterialKind.OLIGO,
+        state=_oligo_scene("CEL-seq2 primer", CEL_PRIMER), source=REAGENTS)
+    rt = g.input("cel_rt", "Superscript II", MaterialKind.CATALYST, source=METHODS)
+    first = g.product("first_strand", "transcript cDNA/RNA hybrids plus independent gDNA", MaterialKind.MOLECULAR,
+        state=_mixed(_transcript_cdna(), genomic), source=METHODS)
+    g.react("cel_rt_reaction", "Reverse-transcribe poly(A) RNA; genomic DNA remains in well", StepKind.REVERSE_TRANSCRIPTION,
+        ((cell, InputRole.TEMPLATE), (cel, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)), (first,), source=METHODS)
+    rna_hydrolysates = _possible_carry("original RNA hydrolysates and residual RNA")
+    ss = g.input("second_strand_mix", "DNA polymerase I, E. coli ligase, RNase H", MaterialKind.CATALYST, source=METHODS)
+    ds = g.product("ds_templates", "ds transcript cDNA plus independent gDNA", MaterialKind.MOLECULAR,
+        state=_mixed(_transcript_cdna(True), genomic, rna_hydrolysates), source=METHODS)
+    g.react("second_strand", "RNase H-assisted second-strand synthesis (16 °C 2 h)", StepKind.EXTENSION,
+        ((first, InputRole.TEMPLATE), (ss, InputRole.CATALYST)), (ds,), source=METHODS)
+    protease = g.input("proteinase_k", "Proteinase K", MaterialKind.CATALYST, source=METHODS)
+    deprot = g.product("deproteinated", "deproteinated mixed DNA templates", MaterialKind.MOLECULAR, state=ds.state, source=METHODS)
+    g.react("deproteinize", "Proteinase K (50 °C overnight; 80 °C inactivation)", StepKind.DEPROTEINIZATION,
+        ((ds, InputRole.TEMPLATE), (protease, InputRole.CATALYST)), (deprot,), source=METHODS)
+    dpni = g.input("dpni", "DpnI", MaterialKind.CATALYST, source=METHODS)
+    digested = g.product("digested", "ds transcript cDNA plus DpnI-cut genomic fragments", MaterialKind.MOLECULAR,
+        state=_mixed(_transcript_cdna(True), dpni_fragment_scene(), rna_hydrolysates), source=METHODS)
+    g.react("digest", "DpnI cuts methylated genomic DNA; transcript cDNA retained", StepKind.DIGESTION,
+        ((deprot, InputRole.TEMPLATE), (dpni, InputRole.CATALYST)), (digested,), source=METHODS)
+    adapter = g.input("dam_adapter", "annealed forked DamID adapter, bottom /5Phos/", MaterialKind.ADAPTER, state=damid_adapter_scene(), source=REAGENTS)
+    ligase = g.input("dam_ligase", "T4 DNA ligase", MaterialKind.CATALYST, source=METHODS)
+    tagged = g.product("tagged", "ds transcript cDNA and barcoded DamID fragments (same well)", MaterialKind.MOLECULAR,
+        state=_mixed(_transcript_cdna(True), ligated_damid_scene(), rna_hydrolysates), source=METHODS)
+    g.react("ligate_damid", "Ligate forked adapter to DpnI ends (16 °C overnight)", StepKind.LIGATION,
+        ((digested, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)), (tagged,), geometry=damid_geometry(), source=METHODS)
+    other_wells = g.input("other_wells", "other uniquely indexed wells; exact plate/member allocation unassigned",
+        MaterialKind.MOLECULAR, state=_mixed(_oligo_scene("other-well transcript cDNA", "X" * 36),
+        _oligo_scene("other-well DamID DNA", "X" * 36)), source=METHODS)
+    pooled = g.product("pooled_wells", "pooled wells; independent transcript and DamID template populations",
+        MaterialKind.MOLECULAR, state=_mixed(tagged.state, other_wells.state), source=METHODS + "; representative member sequences shown for the pooled families")
+    g.react("pool_wells", "Pool distinct indexed wells before IVT (no covalent linkage)", StepKind.POOL,
+        ((tagged, InputRole.TEMPLATE), (other_wells, InputRole.TEMPLATE)), (pooled,), changes_molecule=False, source=METHODS)
+    cleaned = _cleanup(g, pooled, "pre_ivt_cleanup", "pooled RNA/DamID templates",
+        "bead purification; exact reagent/dilution unassigned in this capped 2020 reading")
+    t7 = g.input("t7", "MEGAscript T7 enzyme mix", MaterialKind.CATALYST, source=METHODS)
+    rna_arna, damid_arna = _arna("RNA"), _arna("DamID")
+    arna = g.product("arna", "RNA-derived and DamID-derived aRNA populations", MaterialKind.MOLECULAR,
+        state=_mixed(rna_arna, damid_arna, cleaned.state), source=METHODS)
+    g.react("ivt", "Joint T7 IVT (37 °C overnight); DNA templates remain in mixture", StepKind.TRANSCRIPTION,
+        ((cleaned, InputRole.TEMPLATE), (t7, InputRole.CATALYST)), (arna,), source=METHODS)
+    cleaned_arna = _cleanup(g, arna, "arna_cleanup", "cleaned amplified RNA", "bead purification; exact reagent choice unassigned in this capped 2020 reading")
+    condition = g.input("fragment_buffer", "Tris-acetate/KOAc/MgOAc fragmentation buffer; EDTA stop", MaterialKind.CONDITION, source=METHODS)
+    fragments = g.product("fragments", "fragmented aRNA including identifier-bearing and other fragments", MaterialKind.MOLECULAR, state=_mixed(_fragmented(rna_arna, damid_arna), cleaned.state), source=METHODS)
+    g.react("fragment", "Fragment aRNA (94 °C 2 min), EDTA stop on ice", StepKind.FRAGMENTATION,
+        ((cleaned_arna, InputRole.TEMPLATE), (condition, InputRole.CONDITION)), (fragments,), source=METHODS)
+    postfrag = _cleanup(g, fragments, "fragment_cleanup", "12 µL fragmented aRNA eluate", "0.8 volume undiluted AMPure XP; two 80% ethanol washes")
+    aliquot = g.product("rt_aliquot", "5 µL fragmented aRNA allocated to RT", MaterialKind.MOLECULAR, state=postfrag.state, source=METHODS)
+    rest = g.product("remaining_arna", "remaining fragmented aRNA eluate (QC/remainder allocation unresolved)", MaterialKind.MOLECULAR, state=postfrag.state, source=METHODS)
+    g.react("allocate_rt", "Allocate 5 µL from 12 µL fragmented aRNA eluate", StepKind.SPLIT,
+        ((postfrag, InputRole.TEMPLATE),), (aliquot, rest), changes_molecule=False, source=METHODS)
+    g.mark_terminal(Terminal(rest.id, Disposition.UNRESOLVED, "not consumed as if the complete eluate entered RT; detailed QC/remainder allocation deferred"))
+    hexprimer = g.input("randomhex", "randomhexRT", MaterialKind.OLIGO, state=_oligo_scene("randomhexRT", RANDOMHEX_RT), source=REAGENTS)
+    rt2 = g.input("rt2", "Superscript II; no correction assigned to published concentration inconsistency", MaterialKind.CATALYST, source=METHODS)
+    cdna_state = _mixed(_native_cdna(), aliquot.state, _candidate_cdna())
+    cdna = g.product("cdna", "two single-stranded randomhexRT cDNA populations, same tube", MaterialKind.MOLECULAR, state=cdna_state, source=METHODS)
+    g.react("randomhex_rt", "Reverse-transcribe fragmented aRNA; retain original RNA and candidate other cDNAs", StepKind.REVERSE_TRANSCRIPTION,
+        ((aliquot, InputRole.TEMPLATE), (hexprimer, InputRole.STRUCTURAL), (rt2, InputRole.CATALYST)), (cdna,), source=METHODS)
+    p1 = g.input("rp1", "RP1 (terminal phosphorothioate)", MaterialKind.OLIGO, state=_oligo_scene("RP1", RNA_PCR1, mod3="terminal phosphorothioate"), source=REAGENTS)
+    pi = g.input("rpi", "RPi CGTGAT example (terminal phosphorothioate)", MaterialKind.OLIGO, state=_oligo_scene("RPi", RNA_PCR_INDEX, mod3="terminal phosphorothioate"), source=REAGENTS)
+    enzyme = g.input("pcr_mix", "NEBNext High-Fidelity PCR Master Mix", MaterialKind.CATALYST, source=METHODS)
+    product = g.product("indexed", "indexed mixed RNA/DamID molecular populations", MaterialKind.MOLECULAR,
+        state=_mixed(_library_scene(RNA, "RNA"), _library_scene(DNA, "DamID"), cdna_state), source=METHODS)
+    g.react("pcr", "Terminal indexing PCR on actual ss cDNA; first cycle creates opposite strand", StepKind.PCR,
+        ((cdna, InputRole.TEMPLATE), (p1, InputRole.STRUCTURAL), (pi, InputRole.STRUCTURAL), (enzyme, InputRole.CATALYST)), (product,),
+        geometry=PCRGeometry.unavailable(cdna_state, reason="Actual incoming state is two ss cDNA populations. RP1 primes copied RA5; RPi initially matches only the 21-nt randomhexRT tail. Exact multi-population ss first-cycle geometry is not represented by this model; no pre-existing full RPi arm or duplex is asserted."), source=METHODS)
+    final = _cleanup(g, product, "final_cleanup_1", "indexed library after first purification", "0.8 volume undiluted AMPure XP; two 80% ethanol washes")
+    final = _cleanup(g, final, "final_cleanup_2", "indexed library after repeat purification", "repeat 0.8 volume undiluted AMPure XP purification; two 80% ethanol washes")
+    # Material classes in one physical library, not a tube split.
+    rna = g.product("rna_library", "RNA-derived molecules in mixed physical library", MaterialKind.LIBRARY, state=final.state, source=METHODS)
+    dna = g.product("damid_library", "DamID-derived molecules in mixed physical library", MaterialKind.LIBRARY, state=final.state, source=METHODS)
+    g.react("readout_classes", "Track co-resident molecular readout classes (no physical separation)", StepKind.GENERIC,
+        ((final, InputRole.TEMPLATE),), (rna, dna), changes_molecule=False, source=METHODS)
+    for material, library, heading in ((rna, RNA, "Transcriptome library"), (dna, DNA, "DamID library")):
+        g.sequence(material, SequencingPlan(library=library, acquired_roles=("Read 1", "Read 2"),
+            limitation=SEQUENCING_UNAVAILABLE[heading] + " NextSeq 500 paired-end 75 nt, 2020 Procedure. Barcode/UMI extraction and mapping filters are computational; no physical molecule removal is asserted."))
+    # Curator-written inspected scope. New graph nodes do not auto-enrol as reviewed.
+    g.declare_reviewed_scope(("cel_primer", "dam_adapter", "randomhex", "rp1", "rpi"), REAGENTS)
+    g.declare_reviewed_scope(("cell",), ARTICLE)
+    g.declare_reviewed_scope((
+        "cel_rt", "second_strand_mix", "proteinase_k", "dpni", "dam_ligase", "other_wells",
+        "pre_ivt_cleanup_beads", "t7", "arna_cleanup_beads", "fragment_buffer",
+        "fragment_cleanup_beads", "rt2", "pcr_mix", "final_cleanup_1_beads", "final_cleanup_2_beads",
+        "cel_rt_reaction", "second_strand", "deproteinize", "digest", "ligate_damid", "pool_wells",
+        "pre_ivt_cleanup", "ivt", "arna_cleanup", "fragment", "fragment_cleanup", "allocate_rt",
+        "randomhex_rt", "pcr", "final_cleanup_1", "final_cleanup_2", "readout_classes",
+        "rna_library", "damid_library"), METHODS)
     return g.require_publishable()

@@ -5,14 +5,14 @@ doi:10.1073/pnas.1106501108.
 
 ## Evidence used
 
-- 🟢 Each designed RNA carries a DNA barcode at its 3′ end before pooling.
+- 🟢 Each designed RNA carries a transcribed identity barcode at its 3′ end before pooling.
 - 🟢 SHAPE chemistry acylates flexible 2′ hydroxyls; primer-extension stops encode the
   modification sites relative to a minus-reagent control.
 - 🟢 A second adapter is ligated to cDNA and paired-end sequencing connects each stop
   with the barcode identifying the RNA template.
 - 🟢 The original supplementary methods were recovered from the CaltechAUTHORS mirror.
   They print the v1 A_adapter_t, A_adapter_b, treated/control handle patterns and PCR
-  construction; the shared model now uses those sequences.
+  construction; the protocol-owned model uses those sequences.
 
 ## Published adapter and primer architecture
 
@@ -81,3 +81,15 @@ shared `ACAC` (62 nt). It is now the 58-nt SI sequence.
 The original protocol is a multiplexed in-vitro accessibility assay for defined RNA
 pools. It is distinct from SHAPE-MaP, where modifications are read as mutations rather
 than termination sites.
+
+## Native graph migration (2026-10-18, batch 12)
+
+Read two published originals: article `pnas.1106501108_PMC3131332.html.txt`, Results “The SHAPE-Seq Pipeline” around lines 1266–1272 (physical channel split, separate RT channels, ssDNA ligation, handle/read logic); and original SI `pnas.1106501108_SI.pdf.txt`, p.1 lines 1–90 (seven-RNA pool, modification, RT architecture, hydrolysis, ligation, cleanups, PCR and computational processing). Mandatory bundle scraper run; the A_adapter_t and C3-blocked A_adapter_b hits were verified at SI lines 39 and 46.
+
+The native graph selects the treated channel of the seven-RNA pool and shows its actual physical split from the control aliquot. The independent control is an unresolved downstream scope boundary, not discarded material. The eventual pooling timing and actual QC allocations remain unassigned. Source-reported modified-RNA recovery is an explicit unmodelled boundary pending the cited procedure.
+
+Removed `_apply_linear_step`, `_finish_pcr` and the disconnected legacy workflow. Inputs now own native RT-primer and blocked-adapter states. Original RNA and its chemical 2′-O-adducts, independently extended DNA, original RNA hydrolysates and possible free primer/unligated DNA/adapter classes remain separate populations. NaOH hydrolysis changes the RNA chemically; it does not assert physical disposal. Ethanol and AMPure steps expose actual retained and waste fractions without claiming complete class removal.
+
+The actual cleaned adapter-ligated ssDNA mixture feeds PCRGeometry. The original ligated adapter retains its nonnucleotide C3 spacer; newly copied PCR daughter DNA does not inherit that chemical group. Source exact adapter/read-site geometry remains as a component reference for the published 2×50 run, while native PCR primer sites, first-cycle assembly and target-specific RT-primer bases stay unassigned. Adapter 5′ phosphorylation remains unverified rather than source-verbatim. Handle binning, adapter trimming, mapping and stop-count filtering are computational operations, not physical purification.
+
+Deferred: cited Mortimer RT procedure and target-specific oligos; Ingolia PCR chemistry/primers; applicable 5′-adapter preparation evidence; complete modified-RNA recovery; control processing, physical QC allocations and exact pooling point; complete linked-source absence audit. Existing missing-information status is unchanged.

@@ -132,6 +132,22 @@
       ],
       "scope": "Capped source pass, not full validation or acceptance of missing information.",
       "verification": "local import/construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/3 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 2 primers unrepresented; Markdown built/checked; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch12-native-graph-migration",
+      "reviewer": "batch12_scrrbs_native",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published gr.161679.113_PMC3847781.xml.txt Methods103–105 Construction of single-cell RRBS sequencing libraries; distinct validation107–109; data processing111–113.",
+      "oligo_scraper": "Mandatory bundle scraper reviewed; source hits only in excluded upstream_scRRBS schematic. No upstream oligos or exact library bases adopted; no absence conclusion derived.",
+      "findings": "Removed queued lib.rrbs canonical adapter/6nt-index/readprimer defaults and unsupported canonical detail panels. Local source-owned populations include60fg unmethylatedlambda beforeMspI and independent10ngtRNA atcolumn; protectedU-bearing originals andordinaryDNA copies remain distinct. Actual columnrecovered and between-roundnative states supply PCRGeometry. Source25PfuTurboCx+22Phusion rounds, allpositivevolumes/conditions, columnremoval and200–500bpPAGE fates preserved. Nativeadapter/primers/index/runmask unassigned; inter-roundtransfer explicitMAGIC, withoutinventedaliquot/cleanup. Computational filtering distinctfromphysical disposal.",
+      "deferred": [
+        "Full publisher supplement including validationTable5; Gu2011bulkpredecessor; full2015detailedprotocol and matchinghistoricaladapter/primerspecifications.",
+        "Native ligation/PCRgeometry, exactmodifiedadaptorpositions and selected indexmember/width/read/indexcycles.",
+        "Transfer fraction/dilution/cleanup betweenPCRrounds; analyticalQC aliquotvolumes and component-specific column/gel recoveries."
+      ],
+      "scope": "Bounded source-owned native graph migration; not fullreview or either independentabsencepass. Existing missing-information audit status unchanged; no absent-information claim accepted.",
+      "verification": "Local4checks andpagebuild pass; pairing0problems; chemistry0contradictions12unresolved over10steps with1inter-roundtransfer warning; sourceguard0checked0failed5unrepresented nativeinputs; review-schema pass."
     }
   ]
 }

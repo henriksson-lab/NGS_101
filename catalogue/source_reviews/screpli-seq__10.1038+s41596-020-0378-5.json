@@ -273,6 +273,22 @@
       ],
       "scope": "Capped bounded pass on the newly obtained defining article; one reader; no accepted missing-information claim.",
       "verification": "local suite comment-only (0 explicit checks) pass; page builds; pairing 0 problems; chemistry 0 established/2 conditional/23 unresolved/0 contradictory; source guard 4 exact checked (TPC1/TPC2 x S-phase/G1), 0 failed, 4 inputs without exact states (SeqPlex primers); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch12-native-graph-migration",
+      "reviewer": "batch12_screpli_native",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published article s41596-020-0378-5.pdf.txt: WGA overview570–590; Library preparation/sequencing853–866; Reagents1462–1483; Procedure17–79 lines1715–2143; adaptor trimming/prediction2340–2385.",
+      "oligo_scraper": "Mandatory full bundle scraper10hits/4files; TPC1/TPC2 bases and terminal phosphorothioate verified in published Reagents1480–1483; Step82 trim/prediction hits verified2340–2385. Equipmentmodel1533 rejected; software/laterprotocol identities distinguished, not adopted as native kit oligos.",
+      "findings": "Removed shared conformation/replication recipe imports and canonical TruSeq/6nt-index endpoint. Source-owned S/G1 native populations retain independent originalDNA/WGAcopies/TPC-deriveddaughters and physical-versus-copied phosphorothioate distinction. Actual pre-amplification and native ligated aliquots supply PCR geometry. Source500–800ng digestion and20–40ng endrepair aliquots plus1.5µl diagnosticPCR/7µl bulkPCR from11µl eluate are allocated with unresolved remainders; diagnosticPCR terminates asQC. Every positive source bead/PEGcleanup retained; separate releasedEco57I adaptorpolymers are physically depleted, without claiming completeclassrecovery. NativeSeqPlex preparation remains explicitMAGIC; no inventednativeend/indexwidth/readmask.",
+      "deferred": [
+        "Matching SeqPlex generation manual and ordered primer species; native NEXTflex48 physical strands/endgeometry, Eco57I cut coordinates and complete first-cyclePCR products.",
+        "Sample-specific index members/width/indexcycles; component-specific cleanup recoveries and analyticalQC aliquot volumes.",
+        "Complete membership/volumes of~40cell sequencing pools; directlylinked Kadota2017/Sasagawa2013 originals and other article sections not reread."
+      ],
+      "scope": "Bounded source-owned native graph migration only; no accepted missing-information claim or change to existing source-absence status; not either independent absence pass.",
+      "verification": "Local8checks and page build pass; pairing0problems; chemistry0contradictions45unresolved over39steps with2native-preparation warnings; sourceguard4checked0failed6unrepresented nativeinputs; review-schema pass."
     }
   ]
 }

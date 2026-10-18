@@ -127,6 +127,36 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 0 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch12-native-graph-migration",
+      "reviewer": "batch12_rna",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published nmeth.3029_PMC4259394.pdf.txt, Online Methods pp.8–10, lines420–512 modification/fragmented preparation,513–542 targeted branch boundary/source oligos,550–575 analysis and quality trimming.",
+      "oligo_scraper": "Full local bundle scraper run; relevant article hits source-verified at513–542; targeted oligos not imported into fragmented route.",
+      "findings": "Removed shared truseq_library and canonical final/read/index defaults. Native independent RNA/DNA/adapter populations, original RNA chemical adducts versus DNA mutations, actual incoming ligated PCR state and source-named physical cleanup fractions. Residual class recovery unresolved. QC/pooling allocation not invented; computational filtering not physical clearance.",
+      "deferred": [
+        "Historical ordered TruSeq adapter/PCR primer originals and end geometry",
+        "NEB module internal strand/end chemistry",
+        "Qubit/Bioanalyzer physical allocations, pool companion libraries and run acquisition",
+        "HIV LNA and targeted-PCR branches; complete linked-source absence audit"
+      ],
+      "scope": "One-original bounded migration; not complete source review; existing missing-information dispositions unchanged.",
+      "verification": "Local suite/page pass; chemistry 0 contradictory,14 unresolved; source guard0 checked/0failed (selected route exact library oligos unassigned); pairing0problem duplexes; source-review schema pass."
+    },
+    {
+      "round": "2026-10-18-batch12-independent-implementation-review",
+      "reviewer": "batch12_dna_independent",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Implementation-only review of local protocol module, native molecular helper where present, build/selftest wrappers, current research note and source-review bounded migration record. No original documents reread.",
+      "findings": "Independent implementation review: selected fragmentedRNA branch uses actual native ligation mixture asPCRGeometry template; originalRNA/adducts, primer-extendedDNA, secondDNA strand, adapters, PCRdaughters and residualclasses stay independent. Source-named cleanup fractions preserve unresolved classrecovery; chemical modification versus copiedmutation and computationaltrimming versus physicalpurification remain distinct. Unknown nativeends/primers/index/runacquisition are notfilledbycanonicalendpoint. Reviewedsourcecoverage is a manual list, not inferredfromgraphnodes.",
+      "deferred": [
+        "Originalsource fidelity, complete linked-material review and all existing absence-gate obligations remain outside this implementation review."
+      ],
+      "scope": "Independent critical implementation review only; documents0; not a source-reading pass or acceptance of missing information. Existing source-absence status and checklists unchanged.",
+      "verification": "Construction/page suite pass; chemistry0contradictions14unresolved; sourceguard0checked0failed4unrepresented; source-review schema pass."
     }
   ]
 }

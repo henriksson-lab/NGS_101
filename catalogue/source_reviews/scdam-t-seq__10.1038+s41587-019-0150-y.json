@@ -158,6 +158,50 @@
         "Original variant oligo tables and supplementary manual; exact run and index acquisition for the selected 2020 example; overview discrepancy remains apparent rather than author-confirmed"
       ],
       "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    },
+    {
+      "round": "2026-10-18-batch12-native-graph-migration",
+      "reviewer": "batch12_scdam_native",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published defining PMC6609448 JATS99–117: Robotic preparation, DamID adapters, CEL-Seq primers, Raw data preprocessing. Published detailed protocol PMC7779467 JATS274–302 (Reagents examples and terminal phosphorothioates),568–630 (RT/second strand),840–975 (fragmented-aRNA cleanup, RT, PCR, two final purifications, sequencing). Published 2020 MOESM1 supplementary protocol text275–330 DpnI/adapter ligation bulk-method context (not used to replace single-cell conditions).",
+      "oligo_scraper": "Mandatory full source-bundle scrape run; direct published 2020 Reagents checks verify CEL primer, DamID top/bottom /5Phos/, randomhexRT and RP1/RPi terminal phosphorothioates. Superseded preprint and upstream drawn-page hits excluded.",
+      "findings": "Removed queued illumina_branch endpoints and fabricated PCR precursor. Protocol owns Small RNA RP1/RPi-derived endpoints and printed CGTGAT sample index; original terminal phosphorothioate bonds retained as physical input/strand annotations, not inherited by copied complements. Native independent RNA/gDNA populations remain visible through second strand, DpnI and ligation; physically pooled indexed wells share IVT and library prep. Actual native PCR input is a two-population ss randomhexRT cDNA Scene; 21-nt randomhexRT tail precedes PCR, not fabricated complete 33-nt RPi arm. Exact multi-population ss first-cycle geometry remains a structured model limitation. Explicit source-stated 5/12-uL RT allocation, unresolved remainder, residual IVT DNA and inferred candidate other RT products prevent implicit deletion/duplicate allocation. Both final cleanups and physical bead waste are modelled; computational filtering is separately qualified. Source-known RNA poly(dT)/anchor and DamID restored GATC retained in local final classes. No generic TruSeq primers or index acquisition/read-cycle defaults. Scope explicitly remains selected 2020 example, not all 2019 experiment variants.",
+      "deferred": [
+        "Precise 2019 experiment-to-primer/adapter member mapping and exact pooled-well composition",
+        "Exact T7 initiation register/opposite-end readthrough and fragmentation distributions",
+        "Native multiple-population ss first-cycle PCR geometry and exact sequencing-primer/run/index acquisition setup",
+        "Pre-IVT and post-IVT cleanup reagent/dilution not established by inspected 2020 sections",
+        "Detailed QC/remainder allocation after 5-uL RT aliquot and physical fates of residual IVT DNA/candidate other RT products"
+      ],
+      "scope": "Capped three-original pass; published versions first. Selected existing 2020-example scope made explicit; no preprint merged. No new absence conclusion or status change. Independent implementation review remains pending.",
+      "verification": "Focused suite 5 source checks pass; native graph publication construction/page build pass; source guard 6 checked/0 failed/0 inputs without exact states; pairing 0 problems; scoped chemistry 0 established/3 conditional/18 unresolved/0 contradictory; review schema pass, blocked status unchanged. Explicit manually enumerated reviewed scope. Independent critical implementation review pending parent."
+    },
+    {
+      "round": "2026-10-18-batch12-native-graph-migration-code-review",
+      "reviewer": "batch12_scdam_native",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Code-only fixes responding to independent parent critical review; no source reread or expanded evidence scope.",
+      "findings": "MolecularMixture is now an actual Scene subclass preserving original component objects and a namespaced semantic strand/partner inventory; display derives from the same components rather than losing semantics in rows. Fragmentation retains unplaced branch barcode/UMI Segment inventories from actual incoming aRNA Scenes, without claiming all fragments have them. Main-path DS/ligation retain possible RNA hydrolysates/residual RNA; IVT retains possible DNA templates/RNA carryover; randomhexRT retains input fragmented RNA and inferred possible other cDNAs; PCR and cleanup eluates retain possible original ss RNA/DNA and nonselected classes. Removed artificial side allocations of residual IVT DNA and candidate other RT products; those remain main-mixture classes. Final co-resident readout materials retain full mixed state instead of asserting physical purity.",
+      "deferred": [
+        "Same source/model limitations as prior bounded pass; no source obligation closed"
+      ],
+      "scope": "Zero new originals; no source-absence status change. Possible carryover classes remain inference, with no yield/purity/removal claim.",
+      "verification": "Focused suite 5 checks passes; page builds; source guard 6 checked/0 failed/0 inputs without exact states; pairing 0; scoped chemistry 0 established/52 conditional/18 unresolved/0 contradictory; review schema pass. Independent parent re-review pending."
+    },
+    {
+      "round": "2026-10-18-batch12-independent-implementation-review",
+      "reviewer": "root_independent",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Local protocol implementation, note and source-review bounded records only. No original documents reread.",
+      "findings": "Independent review of post-correction implementation: mixture retains component Scene semantics and pairing; original RNA/hydrolysates, DNA, candidate cDNAs and residual classes remain in the carried mixture through actual sampling, pooling and cleanup. Fragmentation retains structured identifier inventory without assigning coordinates. Terminal readout classes represent one physical mixture. Manual reviewed scope remains separate from graph enumeration.",
+      "deferred": [
+        "Original-source fidelity, linked-material checks and source-absence gate remain outside this implementation review."
+      ],
+      "scope": "Independent implementation review only; documents0; existing source-absence status unchanged.",
+      "verification": "Author focused checks passed; parent final focused verification recorded in migration ledger."
     }
   ]
 }

@@ -22,9 +22,9 @@ Miura H et al. *Mapping replication timing domains genome wide in single mammali
 - TPC1 primer: `5′-AATGATACGGCGACCACCGA*G-3′` (* phosphorothioate; HPLC grade; ref. 64, Quartz-seq)
 - TPC2 primer: `5′-CAAGCAGAAGACGGCATACGA*G-3′` (* phosphorothioate; HPLC grade; ref. 64)
 
-🟡 TPC1 is the first 21 nt of the Illumina P5 sequence and TPC2 the first 22 nt of P7 (scraper `contains` computation against `lib/illumina`); the page computes their landing on the assumed TruSeq-type ends.
+🟡 TPC1 is the first 21 nt of the Illumina P5 sequence and TPC2 the first 22 nt of P7 (scraper `contains` computation against `lib/illumina`); this identifies sequence overlap only. Native NEXTflex landing sites and first-cycle product geometry remain unassigned; the graph does not use a completed canonical amplicon as its PCR substrate.
 
-🔴 Not printed in the article: the SeqPlex primers, the universal SEQXE adaptor sequence (Step 82 predicts one from reads), and the NEXTflex adaptor sequences/end structure.
+The exact synthesized SeqPlex primer species, universal SEQXE adaptor strands and native NEXTflex end structure remain unassigned in the bounded scope. Step 82 predicts a SEQXE-like pattern from reads; it does not establish synthesized reagent identity. This is not a publication-wide absence claim.
 
 ## 3. Construct-changing steps
 
@@ -38,7 +38,7 @@ Miura H et al. *Mapping replication timing domains genome wide in single mammali
 
 ## 4. Final library and reads
 
-🟡 The final product is an individually built, adaptor-indexed Illumina genomic library per cell; there is no inline cell barcode or UMI. The adaptor ends are drawn as TruSeq-type (inferred), with a 6-nt i7 window following the single-index trimming pattern in Step 82.
+🟢 The source constructs an individual adaptor-indexed library per cell. The graph selects the NEXTflex DNA Barcodes – 48 single-index variant named in Step 58; the source also allows separate dual-index and unique-dual variants. Native adapter strands, index width/member and primer landing sites remain unassigned. No inline cell barcode, UMI, canonical TruSeq shell or fixed six-base index is added. The single-index trimming example does not establish an acquired index-cycle length.
 
 🟢 Sequencing: HiSeq 1500, single lane of ~40 pooled cells, "80-bp length, single read", ~4 M reads per cell (lines 860–862); Step 79 recommends >80 bp. Index read length is not stated. Step 88 maps only Read 1 (`bwa aln`/`samse`) for haplotype-resolved analysis; paired-end data may be mapped with `bwa mem`.
 
@@ -54,3 +54,15 @@ Miura H et al. *Mapping replication timing domains genome wide in single mammali
 ## 6. Boundary
 
 🟢 The later DOP-PCR/barcoded pooling protocol is useful context but is molecularly distinct and is not silently substituted here.
+
+## Bounded native-graph migration (2026-10-18, batch 12)
+
+One original inspected: published article `s41596-020-0378-5.pdf.txt`, WGA overview 570–590, Library preparation and sequencing 853–866, Reagents 1462–1483, Procedure Steps 17–79 (1715–2143), and adaptor trimming/prediction 2340–2385. The mandatory bundle scraper returned ten hits in four files; relevant TPC1/TPC2 bases and terminal phosphorothioate bonds were verified at article lines 1480–1483. The false equipment-model hit at line 1533 is not an oligo. Later-protocol and software hits were classified by identity and not adopted as SeqPlex reagent bases; the article supplies the active trimming-pattern evidence in this pass.
+
+Removed shared conformation/replication recipe imports and the inferred canonical final-library shell. Every S-phase and G1 lineage now declares its own native states and physical allocations. WGA PCR receives the actual pre-amplification population, while diagnostic and bulk library PCR receive distinct native ligated aliquots. Original genomic DNA, WGA daughters and later TPC-initiated DNA are independent populations. Physical TPC primers retain their terminal phosphorothioate bond after extension; copying a modified template does not duplicate its backbone modification.
+
+Source allocations are explicit: 500–800 ng of purified WGA DNA enters Eco57I digestion (Step 34); 20–40 ng enters end repair (Step 44); 1.5 µl of the 11-µl ligated eluate enters diagnostic real-time PCR and 7 µl enters bulk PCR (Steps 65–71). Remaining material has an unresolved subsequent disposition rather than being reused in both reactions. Diagnostic PCR is terminal QC, not a library precursor returned to the bulk reaction. Unspecified NanoDrop/MultiNA/quantification aliquots are not invented.
+
+The graph retains each positive source cleanup: 1.7× AMPure after WGA, 1.8× after Eco57I, 1.7× after end repair, on-bead A-tailing with 1.8× PEG/NaCl, 1.0× PEG/NaCl after ligation and 0.9× AMPure after library PCR. Released SEQXE fragments and genomic polymers are separate digestion outputs; short-fragment depletion is physical, while later SEQXE trimming and G1 normalization are computational. Residual templates, primers or adaptors within a retained fraction have unresolved component-specific recovery. Source repeat-cleanup criteria remain attached to the operations; no particular sample is asserted to have required repeats.
+
+Deferred: applicable SeqPlex generation/manual and native ordered primer species; NEXTflex DNA Barcodes – 48 native physical strands/end geometry, cut coordinates, complete first-cycle PCR products, index member/width and index cycles; component-specific cleanup recoveries; analytical QC sample volumes; complete membership/volumes of the ~40-cell sequencing pools; linked Kadota 2017/Sasagawa 2013 originals and other article sections not reread here. Native kit priming is explicitly unresolved rather than promoted to a verified transition. The existing missing-information audit status remains unchanged.
