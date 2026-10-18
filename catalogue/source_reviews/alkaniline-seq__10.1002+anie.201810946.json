@@ -93,6 +93,22 @@
         "Original supporting methods; exact protocol timings, adapter assignment, run and full library states were not re-verified; main PDF confirms alkaline treatment, background dephosphorylation, aniline cleavage and N+1 selective-ligation principle"
       ],
       "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    },
+    {
+      "documents": 2,
+      "locations": "Original Marchand2018 author-hosted article text99–109,141–188 and rendered Figure1a PDF page2; later NEB manual printedVersion9.0_07/25 and oligo table text961–1073, comparator scope only.",
+      "findings": "Removed queued linear-step/PCR recipes and shared cleavage-readout default. Local native graph owns alkaline condition, dephosphorylation, aniline branch outcomes, selective adapter ligation, RNA-to-cDNA conversion and amplification. Downstream5P/N+1 outcome and5OH other products remain distinct, without invented physical discard. Native adapters/RT/PCR identities remain unassigned; exact2025 NEB oligos are comparison inventory only. Actual ss cDNA precursor supplies PCR geometry boundary. Earlier SR50 and sample-index claims are not assigned from later comparator or current unread2018 SI; Read1 start semantics remain source-positive.",
+      "deferred": [
+        "2018 Supporting Information and historical adapter, enzyme, primer and run assignments",
+        "Earlier reported SR50 profile must be checked against its actual original before native acquired-cycle assignment",
+        "Cleavage specificity and species-specific physical recovery remain outside the current checker"
+      ],
+      "verification": "Native construction suite/page pass;6steps,0established/0conditional/7unresolved/0contradictory; pairing0; source guard0exact/0failed, with historical inputs explicitly unassigned.",
+      "round": "2026-10-18-native-endpoint-ownership-migration",
+      "reviewer": "local_ownership_migration_review",
+      "date": "2026-10-18",
+      "scope": "Capped source-qualified migration, not full validation or an absence audit. Later kit comparators do not establish original historical identity.",
+      "oligo_scraper": "Whole cached bundle scraper run; exact source passages and relevant comparator oligo hits read directly. Empty or nonmatching results do not establish absence."
     }
   ]
 }

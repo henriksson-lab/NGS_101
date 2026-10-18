@@ -252,6 +252,47 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "selftest 2/2 pass; page builds; pairing 0 problems; chemistry 20 steps 1 established/1 conditional/21 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states (exit 0, within 600 s); audit --check pass; Markdown built"
+    },
+    {
+      "round": "2026-10-18-batch10-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PNAS PMC6386723 Methods199–207 and PE100 Results81; linked Wu2019 NatProtocols PMC7314528 original JATS concept101–103, enzyme/oligo191–203/273–300, Procedure73–107 approximately938–1195; original Sridhar2017 author-manuscriptPDF opening identity only (not chemistry reread).",
+      "oligo_scraper": "Mandatory defining/source bundle scraper run; actual source passages verified. iMARGI linked detailed-protocol bundle scraper also run; pointer output is not evidence.",
+      "findings": "Local modified bivalent linker and source-specific graph replace interaction_capture/multibranch recipes. OriginalTOP5P→App activation boundary and asymmetric annealing are explicit. Original PS/internalbiotin and additional blocked Cut_oligo invertedT are distinguished from copies. Source dA/T ligation, biotin removal, capture/washes, on-beadRT,5′PNK/washes, NaOH release, RNA hydrolysis/SILANE, SS circularization, validated localCut duplex/BamHI, postdigest SILANE and pilot/final PCR are ordered. Actual releasedSS retains copied8nt RNA-side linker tail and NN ligationbias (notUMI); BamHI-relinearizedSS is actual PCR substrate. Pilot5µl and variable finalcyclechoice replace unsupported fixed12. Possible original/copy/uncircularized/offproduct classes remain unresolved except actual physical recoveries.",
+      "deferred": [
+        "Detailed activation conditions not reread; positiveMthRNA ligase/activation operation has bounded conditions.",
+        "Full native global fold, first-cycle PCR landing/endpoint assembly and selected E7335 six-base member/index acquisition remain unassigned.",
+        "Original MARGI DocumentS1 modification comparison is retained historical evidence, not freshly read chemistry in this pass.",
+        "Published citation, dATP/ATP and HC/HF notices preserved; no source-absence conclusion or status upgrade."
+      ],
+      "scope": "Capped source-qualified implementation migration only; historical statuses/absence gate preserved. No accepted missing-information claim.",
+      "verification": "4 modified-original oligo transcription checks;27graphsteps;33unresolved/0contradictory; page/pairing/schema pass; linked-source locator guard pending parent integration."
+    },
+    {
+      "round": "2026-10-18-batch10-independent-implementation-review",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "imargi__10.1073+pnas.1819788116/tools/chem.py, build_page.py, selftest.py; released native ProtocolGraph, source-boundary/caveat and paired state declarations only. No original-source rereading.",
+      "findings": "Critical code-only review of source-specific activatedTOP/BOTTOM and physicalPS/internalbiotin/invertedT, RNA3OH→TOP5App and DNA3A/linker3T ligations, on-beadRT releasegenomicDNA–originaldA–BOTTOM–copiedtail/NN–cDNA ordering, SSclosure/BamHIrotation and actual recoveredrelinearizedSS→pilot/productionPCR, class-specific original/copy/residualfates. Owner corrected reviewer findings: native5PNKproduct nowmod5p, linkeroligos no falsePCRPSlabel, localCUT/BOTTOMpairing validatedseparatelyfromcirclefold, physicalpostBamhiSILANEbeforepilot, no residualspecies disappearanceatcircleclosure and no futurecircle/Cutspecies beforeintroduction. Reviewer rechecked all corrections; no further concretecriticaldefect in scope.",
+      "deferred": [
+        "Existing original-source deferrals, nativegeometry/member/acquisition limits and historicalmissinginformation gate unchanged; this documents0 implementation review is not an independent second source reading."
+      ],
+      "scope": "Independent critical implementation-only review. No new original documents, source expansion, absence acceptance or historical reviewstatus upgrade. Owner made corrections; reviewer made no chemistrycode edits.",
+      "verification": "4 optional original-transcription checks pass;27steps;3established33unresolved0contradictory; source-positive activationconditions boundary warning retained. Sourceguard18checked1failed acrossreviewtrio: iMARGI TOP exactoriginal linkedtext excludedlocatorfilter; parent notified for sharedoriginalmapping, no absenceclaim or newsequenceexception. All3pages build; pairing0; combinedchemistry7established94unresolved0contradictory. Review schema/whitespace checked after recordwrite."
+    },
+    {
+      "round": "2026-10-18-migration-10-source-mapping",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "catalogue/extra_sources.tsv explicit detailed-protocol DOI mapping; source_oligo_check source_texts canonical sibling DOI-cache reuse; existing linked-original transcription suite.",
+      "findings": "Detailed Wu2019 source already read in canonical doi_10.1038+s41596-019-0229-4 external bundle now enters the normal source guard through an explicit declared DOI. No source file copied, no general exemption, no new source reading or recursive lookup. TOP exact transcription check passes.",
+      "deferred": [],
+      "scope": "Source lookup implementation correction only; no new chemistry-source reading or missing-information acceptance.",
+      "verification": "Parent focused local suite, page, scoped chemistry, source guard and review schema pass. Shared synthetic tests require explicit declaration and continue excluding unrelated neighboring documents."
     }
   ]
 }

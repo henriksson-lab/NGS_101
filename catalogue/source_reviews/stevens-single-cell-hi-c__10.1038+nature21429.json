@@ -142,6 +142,34 @@
       ],
       "scope": "Capped defining-source pass; selected adapter-ligation route, not full validation or accepted absence.",
       "verification": "local suite101/101 includes legacy common checks; page build/pairing pass; chemistry5 established/1 conditional/11 unresolved/0 contradictory; source guard4 exact adapter/PCR oligos checked,0 unrepresented; Markdown built/checked; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch08-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC5385134 JATS identity/introduction100–113; original PMCCloud Supplementary_methods.docx text1115–1121(single-cell/imaging/agarose/contact/capture, standardadapter and NexteraXT branches, pooling/selection/PE75), ordered adapters1128–1165 and PCRprimers1166–1173. Embedded citationfield sections excluded from chemistry reading; these actual procedure paragraphs inspected. Manifest identities checked; mandatory bundle scraper reviewed.",
+      "findings": "Removed shared ContactWorkflow/endpoint/batchseg. Local MboI5′GATC/fill/contact graph has actual sourceY-adapter strands and unknownfold PCRgeometry on real ligated input; dT/dA junction retained in derived daughter endpoint. Native barcodefeatures/modifications/physical washes/recovery retained. Published NexteraXT alternative now separately constructed/rendered from common captured-contact precondition, not an invented physicalaliquot: AluI/wash→tagment/neutralize/wash→KAPA9cycles→beadremoval1×cleanup→KAPA16cycles→1×cleanup→pool/doublesize selection. No CAA tag or assigned indexwidth imported intoXT; installedi5/i7features appear only afterPCR. SourceMiSeqPE75 retained; indexacquisition unassigned.",
+      "deferred": [
+        "Complete native forked/XT strand geometry and exact study indexmembers/widths/acquisition",
+        "Component-specific original/offproduct/agarose recovery and sourcevariants beyond representedroutes",
+        "Imaging/selection predecessors, vendor originals and populationHiC route not freshly reread"
+      ],
+      "scope": "Capped source pass and source-owned native graph migration; no accepted absence claim or historical review-status upgrade.",
+      "verification": "Suites2/4/4 and all3pages pass; sourceguard8checked0failed3unassigned0exemptions; pairing0; main graphs chemistry23established92unresolved0contradictory. StevensXT alternative constructed bysuite and renderedpage. Review schema/notes checked after record creation; independent review pending."
+    },
+    {
+      "round": "2026-10-18-batch08-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "stevens-single-cell-hi-c__10.1038+nature21429/tools native declaration/graph, owner source-qualified handoff, independent implementation-only critical review.",
+      "findings": "Checked isolate-before-MboI route, sourceagarose/capture/washes, nativeAluI/dA/Yadapterinput and junctions, actualPCRprecursor, residualoriginals and sourcePE75/inline3 roles. Separately drawnXTalternative keeps actualnative tagmentedinput and source9+16PCR/recoveries/physicalpool without claiming an experimental split. Nativeindexfeatures introduced onlyafterprimers; originaladapterPS and physicallyincorporatedPCRprimerPS bonds qualified independently of template copying. Added strand-qualified primerPS footprint notes.",
+      "deferred": [
+        "Source-specific missing native chemistry and original-reading obligations remain at their recorded scope."
+      ],
+      "scope": "Independent implementation-only review; no original sources read and no missing-information acceptance or historical status upgrade.",
+      "verification": "Owner focused suites/pages/chemistry/sourceguard/pairing/schema passed; parent affected checks follow source PS-footprint annotations."
     }
   ]
 }

@@ -659,6 +659,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 100 checks pass (shared run_common; no new checks, invariant enforced in final_library()); page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (all ligation/PCR oligos inferred, undisclosed); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch07-native-graph-migration",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Cached E3420 original printedVersion2.0_5/26 title; Overview/Fig1 randomizedsplint/capture and simultaneous3-adapter modification createsRTprimer; §1–7; source6.2–6.17 dualbead retention; §8A and8B alternative; Sequencing/DataProcessing875–890. Later LVUDI original printedVersion2.0_6/26 title/Overview/index-set identity only, explicitly reference not nativeMaylot proof. Fig1 page2 rendered original inspected; figure is a workflow schematic, not base-resolved free/tethered RT-primer topology.",
+      "oligo_scraper": "Mandatory cached-bundle scraper run before decisions. Relevant exactoligo/trim motifs verified in namedmanuals; no-hit and otherbundle documents do not establish absence.",
+      "findings": "Removed indexed_library/STANDARD_PRIMERS default completed TruSeq shell. Source physical5P/3OH RNA and unknownnative adapter ligation states; excessadapter enzyme products molecular/unresolved rather thanphysicalwaste. SourceFig1 simultaneous3-adapter modification creates native RTpriming component; free/tethered topology unassigned during5-adapter ligation, then actualss-cDNA plusindependentRNA. RTselection explicitly retains first1Xsupernatant/discardslargebeads then adds1Xbeads/isopropanol retainingboundcDNA. Actualselectednative material entersPCR; originaltemplates/offtargets unresolved. SelectedpostPCR8A has explicit1.2Xfirstbead exclusion/supernatantretention→0.8Xsecondbeadrecovery. No56-cycle acquiredrun assertion or genericallfourread default; laterJuneLVUDI8bp reference notnativeMayselectedwidth proof.",
+      "deferred": [
+        "Native adapter/splint/enzymatic RTprimer chemistry and first-cycle assembly",
+        "Selected May2026 historical primer member/physicalwidth and executed run mask",
+        "BroadpostPCR8B variant, prototype applicability and class-specific recovery remain separate/deferred"
+      ],
+      "scope": "Capped native migration/source pass; no accepted missing-information claim or historical review-status upgrade. Source originals2/2/1 across assigned three protocols.",
+      "verification": "Local source suites4/4/4pass; all3page builds; chemistry14/11/15steps and15/12/18unresolved,0contradictory; sourceguard3checked0failed11unassigned0exemptions; pairing0problems; schema/whitespacepass. Independent critical implementation review remains pending."
+    },
+    {
+      "round": "2026-10-18-batch07-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "nebnext-low-bias-small-rna/tools native molecular declarations and graph; source-reader handoff and capped evidence scope.",
+      "findings": "Checked source eligible5P/3OH smallRNA, separate free-adapter processing products, native generated RT component with free/tethered topology explicitly unresolved, actual RNA/ssDNA input to PCR, and both first/second bindings for RT and selected8A postPCR. Digestion is not physical removal, and large-fragment discarded beads differ from retained supernatant. No invented primer widths or executed56-cycle run. No critical implementation defect found.",
+      "deferred": [
+        "Source-reading and molecular-coverage obligations stay at their declared scope."
+      ],
+      "scope": "Independent implementation-only critical review, no original documents read and no missing-information acceptance.",
+      "verification": "Released worker suites/pages/chemistry/source guards passed; parent focused verifier and whole-site checks pending."
     }
   ]
 }

@@ -1,21 +1,67 @@
+"""Oudelaar2018 Tri-C: native contact and capture declarations, no shared endpoint recipe."""
+from types import SimpleNamespace
+from chemdraw import Construct, Scene, Segment, feature, complement_segments
+from protocol_model import role
+from protocol_graph import ProtocolGraph,MaterialKind,InputRole,StepKind,SequencingPlan,Terminal,Disposition,SourceClaim,SourceDiscrepancy
+from adapter_ligation import AdapterLigationGeometry
+from pcr import PCRGeometry
+from endprep import EndPreparedDuplex,dA_tailed_scene
+import seqprimers as sp
+TITLE='Tri-C — targeted multiway chromatin contacts'
+NOTES='01_tri_c.html'
+SOURCE='Oudelaar et al., Nature Genetics2018, <a href="https://doi.org/10.1038/s41588-018-0253-2">doi:10.1038/s41588-018-0253-2</a>; defining Methods and cited2018 detailed protocol.'
+SUMMARY='Native NlaIII concatemers are gently sheared, adapted and indexed before two viewpoint-capture rounds. Captured DNA is amplified from streptavidin beads; capture probes remain separate molecules.'
+CAVEAT="""Published source boundaries: article Methods uses2.9nM total capture-probe pool; cited2018 ProtocolExchange v1 Capture enrichment p.7 says2.9nM per oligonucleotide. The2018 materials list p.2 names E6040, while its library-prep heading p.5 says E7370. The2019 v2 revision names E6040 and presents E7645 UltraII as a later low-input option; it does not identify the historical kit lot. Both detailed versions state10nmol in3.46µl gives2.9µM; arithmetic gives about2.9mM. The graph uses the source-listed end-repair/dA/ligation operations with actual kit identity and probe concentration unassigned. The article0.7:1 post-sonication cleanup differs from the2018 protocol1.8× instruction; the graph follows the article for that step. Superseded preprint values are not current authority. Native adapters, selected index members and PCR/USER end boundaries remain unassigned."""
+SHEARING_ID=feature('sonication_endpoint','umi','random',note='Physical genomic shearing coordinate used computationally for deduplication; no synthesized nucleotide barcode.')
+SAMPLE_ID=feature('tri_c_sample','sample_index','unknown',note='Differential library index; native member, count and width unassigned.')
+ENDPOINT=role('physical sonication endpoint; coordinate identifier, no added barcode bases',molecular_feature=SHEARING_ID)
+def contact_parts():
+ return [role('viewpoint fragment'),Segment('first NlaIII ligation junction','CATG'),role('reporter fragment1'),Segment('second NlaIII ligation junction','CATG'),role('reporter fragment2')]
+FINAL_LIBRARY=Construct([role('native Illumina end A'),ENDPOINT,*contact_parts(),role('native indexed Illumina end B',molecular_feature=SAMPLE_ID)],name='Tri-C source-limited captured endpoint')
+SEQ_PRIMERS=()
+FINAL_CAPTION='Illustrative multiway endpoint, with physical shearing-coordinate identity and native adapter/index roles. It is not an assumed canonical TruSeq library.'
+SEQUENCING_INTRO='First erythroid experiment MiSeq v2 PE250; second multiplexed erythroid/ES experiment NextSeq v2 PE150. Index acquisition remains unassigned.'
+SEQUENCING_ENDING=SEQUENCING_INTRO
+READ_SPECS=(sp.read_spec('Read 1','250 first experiment;150 second','viewpoint/reporter contacts; computational duplicate filtering by physical coordinates','include'),sp.read_spec('Read 2','250 first experiment;150 second','viewpoint/reporter contacts','include'),sp.read_spec('Index 1 (i7)','unassigned','Native sample index acquisition unassigned','undetermined'),sp.read_spec('Index 2 (i5)','unassigned','Native index acquisition unassigned','undetermined'))
+DEFINITION=SimpleNamespace(title=TITLE,doi='10.1038/s41588-018-0253-2',citation='Oudelaar et al., Nature Genetics2018')
 
-from chemdraw import Segment, feature
-from conformation_replication_specs import AdapterLigationGeometry, Construct, Definition, InputRole, MaterialKind, PCRGeometry, ProtocolGraph, SequencingPlan, StepKind, da_tailed, molecule, multiway_contact, role, sp
-from protocol_graph import SourceClaim, SourceDiscrepancy
-ENDPOINT = Segment("random sonication endpoint identifier",
-                   "[random shearing endpoint used as UMI]", "umi", placeholder=True,
-                   feature=feature("sonication_endpoint", "umi", "random",
-                                   note="physical shearing coordinate, not a synthesized barcode"))
+def duplex(parts,label):
+ return Scene.duplex(parts,label=label,unpaired=tuple(p.name+"'" for p in parts if p.is_role_token()))
+def fixed_state():
+ sc=Scene();sc.strand('chromatin',[role('chromosomal DNA; unresolved locus topology before digestion')],label='fixed chromatin population');return sc
+def fragment_state():
+ sc=Scene()
+ for i,label in enumerate(('viewpoint fragment','reporter fragment1','reporter fragment2')):
+  body=role(label+' body; locus sequence/length unassigned')
+  opposite=complement_segments([body])[0]
+  tail=Segment(label+' top3′CATG','CATG');bottom_tail=Segment(label+' bottom3′CATG','CATG')
+  sc.strand('top'+str(i),[body,tail],label='NlaIII fragment; cleavage-derived5′P',mod5='p')
+  sc.anneal('bottom'+str(i),[opposite,bottom_tail],to='top'+str(i),pair=(opposite.name,body.name),unpaired=(opposite.name,),label='NlaIII fragment; cleavage-derived5′P',mod5='p')
+  sc.overhang('top'+str(i),tail.name,polarity='3-prime',owner='substrate',text='NlaIII3′CATG')
+  sc.overhang('bottom'+str(i),bottom_tail.name,polarity='3-prime',owner='substrate',text='NlaIII3′CATG')
+ return sc
 
-DEFINITION = Definition(
-        "Tri-C — targeted multiway chromatin contacts", "10.1038/s41588-018-0253-2",
-        "Oudelaar et al., Nature Genetics (2018)",
-        "Small NlaIII fragments, gentle sonication and viewpoint capture preserve multiple proximity-ligation junctions in one sequenced molecule.",
-        (role("viewpoint"), role("reporter 1"), role("second proximity junction"),
-         role("reporter 2")),
-        "Paired-end Illumina reads (MiSeq v2 250 bp for the first erythroid experiment; NextSeq v2 150 bp for the second multiplexed experiment) identify the viewpoint and two or more reporters within one captured fragment from ~450-bp sonication. Index-read cycles are not stated.", True,
-        "<b>Published source discrepancies:</b> the 2018 article Methods describes the biotinylated capture-probe pool at 2.9 nM total, whereas the directly cited <a href='https://doi.org/10.1038/protex.2018.113'>2018 Tri-C detailed protocol</a> (Capture enrichment, p. 7) specifies 2.9 nM <i>per oligonucleotide</i>. Its materials list (p. 2) names NEBNext E6040, but the library-preparation heading (p. 5) says E7370. The <a href='https://doi.org/10.21203/rs.2.1650/v2'>2019 revision</a> (pp. 3, 9) consistently names E6040 and presents E7645 Ultra II as a later low-input option. Both detailed versions say that 10 nmol in 3.46 µl gives 2.9 µM; arithmetic gives about 2.9 mM. The <a href='https://doi.org/10.1101/307405'>preprint</a> Methods instead specifies a 13-fmol pool without a matching volume. The schematic uses the E6040 reaction family and no probe concentration; the actual 2018 mixture and kit lot remain uncertain.")
+def molecule(label,parts,**kw):
+ sc=Scene();sc.strand('DNA',[p if isinstance(p,Segment) else role(p) for p in parts],label=label);return sc
 
+def multiway_contact(enzyme,viewpoint,reporters):
+ if enzyme!='NlaIII' or len(reporters)<2:raise ValueError('Local Tri-C example requires source NlaIII and at least two reporters')
+ return SimpleNamespace(scene=lambda label:duplex(contact_parts(),label))
+def da_tailed(label,insert_name):
+ return dA_tailed_scene(EndPreparedDuplex(Construct([ENDPOINT,*contact_parts()],name=insert_name),five_prime_phosphate=False,three_prime_overhang='A'),label=label+';5′phosphate assignment unassigned')
+def adapted_state(*,opened=False):
+ return duplex([role('native adaptor end A; '+('USER end boundary unassigned' if opened else 'ligated topology unassigned')),ENDPOINT,*contact_parts(),role('native adaptor end B; '+('USER end boundary unassigned' if opened else 'ligated topology unassigned'))],'native adapted 3C precursor')
+def post_pcr_state(*,capture_round=0):
+ sc=duplex(list(FINAL_LIBRARY),'expected amplified multiway library population')
+ sc.strand('native templates',[role('possible co-carried native adapted/captured templates; abundance, integrity and partition unassigned')],label='independent residual template lineage; no physical separation asserted')
+ if capture_round:
+  sc.strand('capture probes',[role('possible co-carried biotinylated capture oligos through round'+str(capture_round)+'; integrity/partition unassigned')],label='separate capture-probe molecules')
+ return sc
+
+def capture_state(n):
+ sc=post_pcr_state(capture_round=n)
+ sc.strand('hybridizing probes',[role('round'+str(n)+' biotinylated120nt viewpoint probes; exact sequence/site mapping unassigned')],label='separate hybridized capture oligos; no covalent library join')
+ return sc
 
 ARTICLE = ("Oudelaar et al., Nature Genetics 50:1744 (2018), doi:10.1038/s41588-018-0253-2, "
            "Online Methods 'Tri-C - Experimental procedure'")
@@ -39,16 +85,14 @@ def _tri_c_graph(definition, final: Construct,
     fixed = graph.input("fixed_chromatin", "cells fixed in 2% formaldehyde for 10 min, "
                         "lysed, Dounce-homogenized, SDS/Triton X-100 treated",
                         MaterialKind.BIOLOGICAL,
-                        state=molecule("formaldehyde-fixed chromatin",
-                                       ("viewpoint", "proximal chromatin")),
+                        state=fixed_state(),
                         primary=True, source=ARTICLE)
     restriction = graph.input("primary_restriction_enzyme",
                               "NlaIII, 3 x 600 U over 16-24 h at 37 °C", MaterialKind.CATALYST,
                               source=ARTICLE)
     digested = graph.product(
         "restriction_fragments", "NlaIII-digested fixed chromatin", MaterialKind.MOLECULAR,
-        state=molecule("restriction fragments", ("viewpoint fragment",
-                                                 "proximal reporter fragments")),
+        state=fragment_state(),
         source=ARTICLE)
     graph.react("primary_digest", "Digest fixed chromatin with NlaIII", StepKind.DIGESTION,
                 ((fixed, InputRole.TEMPLATE), (restriction, InputRole.CATALYST)),
@@ -94,8 +138,9 @@ def _tri_c_graph(definition, final: Construct,
                              "Covaris S220, one 55-s cycle, 10% duty, intensity 4, "
                              "200 cycles/burst, target ~450 bp", MaterialKind.CONDITION,
                              source=ARTICLE)
+    sonicated_state=duplex([ENDPOINT,*contact_parts()],'sonicated multiway DNA fragment; endpoint coordinate identifier')
     sonicated = graph.product("sonicated_3c_dna", "~450-bp sonicated 3C DNA",
-                              MaterialKind.MOLECULAR, state=contact_state, source=ARTICLE)
+                              MaterialKind.MOLECULAR, state=sonicated_state, source=ARTICLE)
     graph.react("sonicate", "Sonicate gently to retain multiple junctions",
                 StepKind.FRAGMENTATION,
                 ((library_3c, InputRole.TEMPLATE), (sonication, InputRole.CONDITION)),
@@ -103,7 +148,7 @@ def _tri_c_graph(definition, final: Construct,
     beads_sonication = graph.input("sonication_ampure", "AMPure XP, 0.7:1 bead-to-sample",
                                    MaterialKind.SELECTION, source=ARTICLE)
     sized = graph.product("size_selected_3c_dna", "bead-recovered sonicated 3C DNA",
-                          MaterialKind.MOLECULAR, state=contact_state, source=ARTICLE)
+                          MaterialKind.MOLECULAR, state=sonicated_state, source=ARTICLE)
     sized_waste = graph.product("sonication_cleanup_supernatant",
                                 "bead supernatant (fragments and solutes not bound at this ratio)",
                                 MaterialKind.WASTE, source=ARTICLE)
@@ -128,7 +173,7 @@ def _tri_c_graph(definition, final: Construct,
                          "NEBNext End Repair buffer and enzyme mix, 20 °C 30 min",
                          MaterialKind.CATALYST, source=PROTEX)
     repaired = graph.product("end_repaired_dna", "end-repaired sonicated 3C DNA",
-                             MaterialKind.MOLECULAR, state=contact_state, source=PROTEX)
+                             MaterialKind.MOLECULAR, state=sonicated_state, source=PROTEX)
     graph.react("end_repair", "End-repair sonicated 3C DNA", StepKind.END_REPAIR,
                 ((sized, InputRole.TEMPLATE), (repair, InputRole.CATALYST)),
                 (repaired,), source=PROTEX)
@@ -147,7 +192,7 @@ def _tri_c_graph(definition, final: Construct,
                                  "Quick Ligation buffer and T4 DNA ligase, 20 °C 15 min",
                                  MaterialKind.CATALYST, source=PROTEX)
     ligated = graph.product("adapter_ligated_dna", "adapter-ligated 3C DNA",
-                            MaterialKind.MOLECULAR, state=final, inferred=True, source=PROTEX)
+                            MaterialKind.MOLECULAR, state=adapted_state(), inferred=False, source=PROTEX)
     graph.react("adapter_ligation", "Ligate Illumina adaptors", StepKind.LIGATION,
                 ((tailed, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL),
                  (adapter_ligase, InputRole.CATALYST)), (ligated,),
@@ -159,17 +204,19 @@ def _tri_c_graph(definition, final: Construct,
     user = graph.input("user_enzyme", "USER Enzyme Mix (3 µl), 37 °C 15 min",
                        MaterialKind.CATALYST, source=PROTEX)
     user_treated = graph.product("user_treated_dna", "USER-treated adapter-ligated 3C DNA",
-                                 MaterialKind.MOLECULAR, state=final, inferred=True,
+                                 MaterialKind.MOLECULAR, state=adapted_state(opened=True),
                                  source=PROTEX)
+    user_products=graph.product('user_products','USER cleavage products; physical partition unassigned',MaterialKind.MOLECULAR)
     graph.react("user_treatment", "Treat the ligation with USER enzyme", StepKind.DIGESTION,
                 ((ligated, InputRole.TEMPLATE), (user, InputRole.CATALYST)),
-                (user_treated,), source=PROTEX,
+                (user_treated,user_products), source=PROTEX,
                 reason="The detailed method adds USER directly to the ligation. Its molecular "
                        "target (a uracil in the kit adaptor) is not printed in the inspected sources.")
+    graph.mark_terminal(Terminal(user_products.id,Disposition.UNRESOLVED,reason='Chemical USER cleavage does not determine physical recovery of its fragments.'))
     beads_ligation = graph.input("ligation_ampure", "AMPure XP, 1.8:1 bead-to-sample",
                                  MaterialKind.SELECTION, source=ARTICLE)
     cleaned = graph.product("cleaned_adapter_ligated_dna", "bead-recovered adapter-ligated DNA",
-                            MaterialKind.MOLECULAR, state=final, inferred=True, source=ARTICLE)
+                            MaterialKind.MOLECULAR, state=adapted_state(opened=True), source=ARTICLE)
     cleaned_waste = graph.product("ligation_cleanup_supernatant",
                                   "bead supernatant after ligation/USER",
                                   MaterialKind.WASTE, source=ARTICLE)
@@ -186,13 +233,13 @@ def _tri_c_graph(definition, final: Construct,
     reverse = graph.input("index_reverse_primer", "NEB Index primer (E7335/E7500 sets)",
                           MaterialKind.OLIGO, source=PROTEX)
     indexed = graph.product("indexed_library", "indexed adapter-ligated 3C library",
-                            MaterialKind.MOLECULAR, state=final, source=ARTICLE)
+                            MaterialKind.MOLECULAR, state=post_pcr_state(), source=ARTICLE)
     graph.react("index_pcr", "Seven-cycle indexing PCR", StepKind.PCR,
                 ((cleaned, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (indexed,),
                 geometry=PCRGeometry.unavailable(
-                    final, reason="Article: 7-cycle Herculase II PCR; Protocol Exchange Table 3 "
+                    cleaned.state, reason="Article: 7-cycle Herculase II PCR; Protocol Exchange Table 3 "
                                   "names NEB Universal and Index primers without bases or the "
                                   "index chosen for each library."),
                 source=ARTICLE)
@@ -200,7 +247,7 @@ def _tri_c_graph(definition, final: Construct,
                          "other differentially indexed Tri-C libraries",
                          MaterialKind.MOLECULAR, source=ARTICLE)
     pooled = graph.product("multiplexed_library", "multiplexed indexed libraries, "
-                           "1.5 µg per library", MaterialKind.MOLECULAR, state=final,
+                           "1.5 µg per library", MaterialKind.MOLECULAR, state=post_pcr_state(),
                            source=ARTICLE)
     graph.react("pool_libraries", "Pool libraries for one multiplexed capture", StepKind.POOL,
                 ((indexed, InputRole.TEMPLATE), (others, InputRole.TEMPLATE)),
@@ -218,7 +265,6 @@ def _tri_c_graph(definition, final: Construct,
     post_lm_2 = graph.input("post_lm_pcr_oligo_2", "NimbleGen Post-LM-PCR Oligo 2",
                             MaterialKind.OLIGO, source=PROTEX)
     current = pooled
-    reviewed_rounds: list[str] = []
     for n, hours in ((1, "64-72 h"), (2, "24 h")):
         probes = graph.input(f"capture_oligo_round{n}",
                              "biotinylated 120-nt viewpoint capture oligos "
@@ -226,7 +272,7 @@ def _tri_c_graph(definition, final: Construct,
                              MaterialKind.OLIGO, source=ARTICLE)
         hybrid = graph.product(f"capture_hybrids_round{n}",
                                f"round-{n} library/probe hybridization mix",
-                               MaterialKind.MOLECULAR, state=final, source=PROTEX)
+                               MaterialKind.MOLECULAR, state=capture_state(n), source=PROTEX)
         graph.react(f"hybridize_round{n}",
                     f"Denature at 95 °C and hybridize with probes at 47 °C for {hours}",
                     StepKind.HYBRIDIZATION,
@@ -234,7 +280,7 @@ def _tri_c_graph(definition, final: Construct,
                      (blockers, InputRole.CONDITION)), (hybrid,), source=PROTEX,
                     changes_molecule=False)
         bound = graph.product(f"captured_round{n}", f"round-{n} bead-bound captured library",
-                              MaterialKind.MOLECULAR, state=final, source=PROTEX)
+                              MaterialKind.MOLECULAR, state=capture_state(n), source=PROTEX)
         reject = graph.product(f"capture_round{n}_reject", f"round-{n} unbound/washed-off library",
                                MaterialKind.WASTE, source=PROTEX)
         graph.react(f"capture_round{n}_step", f"Round-{n} streptavidin capture and stringent washes",
@@ -247,7 +293,7 @@ def _tri_c_graph(definition, final: Construct,
             "sequencing_library" if last else f"amplified_capture_round{n}",
             definition.title + " captured library" if last else
             f"round-{n} amplified captured library",
-            MaterialKind.LIBRARY if last else MaterialKind.MOLECULAR, state=final,
+            MaterialKind.LIBRARY if last else MaterialKind.MOLECULAR, state=post_pcr_state(capture_round=n),
             source=PROTEX)
         graph.react(f"post_capture_pcr_round{n}",
                     f"Amplify round-{n} capture off the beads (KAPA HiFi, Table 5)",
@@ -256,14 +302,12 @@ def _tri_c_graph(definition, final: Construct,
                      (post_lm_2, InputRole.STRUCTURAL), (capture_pcr, InputRole.CATALYST)),
                     (amplified,),
                     geometry=PCRGeometry.unavailable(
-                        final, reason="Protocol Exchange Table 5 names Post-LM-PCR Oligos 1 and 2 "
+                        bound.state, reason="Protocol Exchange Table 5 names Post-LM-PCR Oligos 1 and 2 "
                                       "(no bases) and a 98/60/72 °C programme with 'go to step 2, "
                                       "14 cycles'; DNA is amplified on the beads, not eluted."),
                     source=PROTEX)
-        reviewed_rounds += [f"capture_oligo_round{n}", f"hybridize_round{n}",
-                            f"capture_round{n}_step", f"post_capture_pcr_round{n}"]
         current = amplified
-    graph.sequence(current, SequencingPlan(final, tuple(primers), tuple(p.role for p in primers)))
+    graph.sequence(current, SequencingPlan(library=final,primers=(),limitation='MiSeq PE250 first experiment or NextSeq PE150 second experiment; native primer/index acquisition unassigned.'))
     graph.declare_reviewed_scope([
         "fixed_chromatin", "primary_restriction_enzyme", "primary_digest",
         "digest_heat_inactivation", "inactivate_digest", "proximity_ligase",
@@ -275,58 +319,12 @@ def _tri_c_graph(definition, final: Construct,
         "index_forward_primer", "index_reverse_primer", "index_pcr",
         "other_indexed_libraries", "pool_libraries", "capture_blockers",
         "streptavidin_beads", "post_capture_pcr_mix", "post_lm_pcr_oligo_1",
-        "post_lm_pcr_oligo_2", *reviewed_rounds, "sequencing_library",
+        "post_lm_pcr_oligo_2", "capture_oligo_round1", "hybridize_round1", "capture_round1_step", "post_capture_pcr_round1",
+        "capture_oligo_round2", "hybridize_round2", "capture_round2_step", "post_capture_pcr_round2", "sequencing_library",
     ], f"{ARTICLE}; {PROTEX}")
     return graph.require_publishable()
 
 
 def protocol_graph():
-    return _tri_c_graph(DEFINITION, SPEC.FINAL_LIBRARY, SPEC.SEQ_PRIMERS)
-
-from types import SimpleNamespace
-from conformation_replication_specs import chain
-
-def workflow():
-    contact = multiway_contact("NlaIII", "viewpoint fragment",
-                               ("reporter fragment 1", "reporter fragment 2"))
-    sonicated = molecule("sonicated multiway 3C fragment",
-                         ("random sonication endpoint", "viewpoint", "reporter 1",
-                          "reporter 2", "random sonication endpoint"),
-                         junctions=(("viewpoint", "reporter 1", "proximity ligation"),
-                                    ("reporter 1", "reporter 2", "proximity ligation")))
-    adapted = molecule("adapter-ligated multiway 3C fragment",
-                       ("left TruSeq adapter", "random sonication endpoint", "viewpoint",
-                        "reporter 1", "reporter 2", "right TruSeq adapter"),
-                       junctions=(("left TruSeq adapter", "random sonication endpoint", "adapter ligation"),
-                                  ("viewpoint", "reporter 1", "proximity ligation"),
-                                  ("reporter 1", "reporter 2", "proximity ligation"),
-                                  ("reporter 2", "right TruSeq adapter", "adapter ligation")))
-    return chain(molecule("formaldehyde-fixed chromatin", ("viewpoint", "two proximal regions")), (
-        ("Digest with NlaIII and proximity-ligate in nuclei", contact.scene("multiway 3C concatemer"),
-         "At least two ligation junctions in one molecule encode a concurrent contact."),
-        ("Reverse crosslinks and sonicate gently to about 450 bp", sonicated,
-         "Longer fragments preserve multiple short NlaIII products and their junctions."),
-        ("Ligate adapters, treat with USER, index, then double-capture the viewpoint", adapted,
-         "The detailed Tri-C method places USER treatment after adapter ligation. A biotinylated oligo targets the middle of the short viewpoint restriction fragment; each capture round is followed by PCR amplification off the streptavidin beads."),
-    ))
-
-d = DEFINITION
-if d.standard_truseq:
-    from batch_ngs import truseq_library
-    FINAL_LIBRARY, SEQ_PRIMERS = truseq_library(list(d.final_parts), d.title + " final library", dual_index=False)
-else:
-    FINAL_LIBRARY = Construct([role("Illumina-compatible left end"), *d.final_parts, role("Illumina-compatible right end")], name=d.title + " final library")
-    SEQ_PRIMERS = ()
-OLIGOS = ()
-SPEC = SimpleNamespace(
-    TITLE=d.title, NOTES="01_tri_c.html",
-    SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
-    SUMMARY=d.summary, CAVEAT=d.caveat, FINAL_LIBRARY=FINAL_LIBRARY,
-    SEQ_PRIMERS=SEQ_PRIMERS, FINAL_CAPTION=d.sequencing,
-    SEQUENCING_INTRO=d.sequencing, READ_LENGTHS=None,
-    SEQUENCING_ENDING=d.sequencing,
-    SEQUENCING_UNAVAILABLE=("The defining protocol uses locus-specific or custom primer sequence that cannot be represented by one universal binding sequence."
-                            if not SEQ_PRIMERS else ""),
-    workflow=workflow, oligos=lambda: OLIGOS,
-)
-SPEC.protocol_graph = protocol_graph
+ return _tri_c_graph(DEFINITION,FINAL_LIBRARY,())
+SPEC=SimpleNamespace(TITLE=TITLE,NOTES=NOTES,SOURCE=SOURCE,SUMMARY=SUMMARY,CAVEAT=CAVEAT,FINAL_LIBRARY=FINAL_LIBRARY,SEQ_PRIMERS=(),FINAL_CAPTION=FINAL_CAPTION,SEQUENCING_INTRO=SEQUENCING_INTRO,SEQUENCING_ENDING=SEQUENCING_ENDING,READ_SPECS=READ_SPECS,SHOW_READ_CONTENT=False,protocol_graph=protocol_graph)

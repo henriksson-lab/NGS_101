@@ -1,5 +1,41 @@
 # icSHAPE — research notes
 
+## Current native graph scope — 2026-10-18 batch11
+
+One original was inspected: published Flynn2016 author-manuscript PMC4896316,
+reagent/oligo list154–206; Procedure3, polyA13–17, click18–20, fragmentation/end
+repair21–25, ligation/PAGE26–39 and RT/enrichment/release/circularization/qPCR/
+selection40–68. Mandatory scraper:5hits in1file. Detailed RNA-isolation4–11
+remains outside the reconstructed scope; no additional original was opened.
+
+🟢 Selected NAI-N3 branch: acylation →RNA isolation boundary →two polyA
+selections/RNeasy →DIBO-biotin click/column →fragmentation/stop/column →FastAP+
+PNK repair →T4RNA ligase1 with5′App adapter →column/RNA PAGE/column →SSIII
+RT →streptavidin capture/five4MSHAPE+twoPBS washes →RNaseA/T1/H →DMSO95°C
+elution/magnetic separation →SS-specific DNA column/cDNA PAGE/column →CircLigaseII
+circle/column →Phusion real-time PCR →column/nativePAGE>150bp/column. RNA digestion
+and physical magnetic/column/gel recovery remain distinct operations.
+
+🟡 `/3ddC/` adds an actual terminalC residue to the adapter; it is not merely
+an inert modification label. The source RT primer has5′P, `DDDNN–AACC–NNNN`, a
+fixed DNA handle, two nonnucleotideiSp18 spacers separated byGGATCC, and its3′
+annealing tail. D=A/G/T;5+4 random positions form one9-base UMI around the4-base
+experimentalbarcode. Compound identifier features remain on native cDNA/circle and
+PCR footprints. RNA2′O adducts/biotin and primer spacers are not copied as DNA bases.
+Actual interrupted circularssDNA with residual linear/original classes entersPCR;
+full first-cycle/loaded-primer geometry remains bounded.
+
+🟢 Step68 permits75ntsingle-end and directs omission of standard6/8nt index
+reads because identifiers are inline. SourceStep49 gives1µl1µM P3 in50µl but20mM
+in its final-concentration column; those volumes imply20nM. The existing public
+unit-discrepancy notice remains, with no assigned corrected concentration.
+
+Deferred: precise RNA-isolation4–11 chemistry, full native circle/PCR/run-primer
+assembly, class-specific residual recoveries and source unit resolution. DMSO
+controls use their distinct biotinylatedadapter and are not synthesized by splitting
+the selected NAI-N3 route. No accepted absence or review-status upgrade.
+
+
 Primary protocol: Flynn *et al.*, *Nature Protocols* (2016), [10.1038/nprot.2016.011](https://doi.org/10.1038/nprot.2016.011) ([open author manuscript](https://pmc.ncbi.nlm.nih.gov/articles/PMC4896316/)). Defining application: Spitale *et al.*, *Nature* (2015), [10.1038/nature14263](https://doi.org/10.1038/nature14263).
 
 ## 1. What it is

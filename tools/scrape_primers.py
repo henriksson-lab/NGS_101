@@ -1121,11 +1121,15 @@ def _letters(q: str) -> str:
     # rG, +G, +rG; also after an XXXX/JJJJ or [bracketed] placeholder ("...XXXXXXrGrGrG")
     q = re.sub(rf"(?:(?<=[{BASE}XJ\]{GAP}*∗ '′’-])|^)(?:\+[rm]|[rm+])(?=[{BASE}])", "", q.strip())
     sc = scan_copy(" " + q + " ")
-    runs = list(RUN.finditer(sc.text))
+    # Explicit queries already declare an oligo. Join spaced base groups here,
+    # including isolated bases between triplets, without relaxing the document
+    # triage regex (where an isolated A can instead be ordinary prose).
+    text = re.sub(rf"(?<=[{BASE}{LOW}{GAP}])\s+(?=[{BASE}{LOW}{GAP}])", "", sc.text)
+    runs = list(RUN.finditer(text))
     if not runs:
         raise ValueError(f"no bases in {q!r}")
-    t = sc.text[runs[0].start():runs[-1].end()]   # 5'/3' ends and their modifications dropped
-    for end, rx in ((sc.text[:runs[0].start()], MOD5), (sc.text[runs[-1].end():], MOD3)):
+    t = text[runs[0].start():runs[-1].end()]   # 5'/3' ends and their modifications dropped
+    for end, rx in ((text[:runs[0].start()], MOD5), (text[runs[-1].end():], MOD3)):
         rest = re.sub(r"^\s*(?:5|3)['′’]?\s*-?|-?\s*(?:5|3)['′’]?\s*$", "", end).strip(" -")
         if rest and not (rx.fullmatch(rest) or rx.fullmatch(rest + "-")
                          or all(canonical(x) or _MODLIKE.fullmatch(x) for x in re.split(r"[\s-]+", rest) if x)):

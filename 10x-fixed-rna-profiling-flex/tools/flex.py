@@ -6,11 +6,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from batch_ngs import seg
-from chemdraw import Construct, Scene, feature, revcomp
-from multimodal_spatial import finish_pcr_branch
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from chemdraw import Construct, Scene, Segment, feature, revcomp
+from pcr import PCRGeometry
+from protocol_graph import Disposition, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind, Terminal
 from protocol_model import molecule, role
+
+seg=Segment
 
 TITLE="10x Fixed RNA Profiling (Flex)"
 NOTES="01_flex.html"
@@ -55,16 +56,16 @@ def probe_pair_scene() -> Scene:
     WTA physical oligos are not reconstructed, so target arms and BC8 stay placeholders.
     """
     sc = Scene()
-    sc.strand("RNA", [seg("RHS-binding target RNA", "X" * TARGET_ARM_NT, placeholder=True),
-                      seg("LHS-binding target RNA", "X" * TARGET_ARM_NT, placeholder=True)],
+    sc.strand("RNA", [seg("RHS-binding target RNA", "X" * TARGET_ARM_NT, placeholder=True,length_bp=TARGET_ARM_NT),
+                      seg("LHS-binding target RNA", "X" * TARGET_ARM_NT, placeholder=True,length_bp=TARGET_ARM_NT)],
               label="fixed target RNA")
     sc.anneal("LHS", [seg("LHS constant (Read 2S side)", LHS_CONSTANT, "r2"),
-                      seg("LHS target arm", "X" * TARGET_ARM_NT, placeholder=True, inferred=True)],
+                      seg("LHS target arm", "X" * TARGET_ARM_NT, placeholder=True, inferred=True,length_bp=TARGET_ARM_NT)],
               to="RNA", pair=("LHS target arm", "LHS-binding target RNA"),
               label="LHS probe", unpaired=("LHS constant (Read 2S side)",))
-    sc.anneal("RHS", [seg("RHS target arm", "X" * TARGET_ARM_NT, placeholder=True, inferred=True),
+    sc.anneal("RHS", [seg("RHS target arm", "X" * TARGET_ARM_NT, placeholder=True, inferred=True,length_bp=TARGET_ARM_NT),
                       seg("RHS constant", RHS_CONSTANT),
-                      seg("RHS NN", "NN", placeholder=True),
+                      seg("RHS NN", "NN", placeholder=True,length_bp=2),
                       seg("probe barcode", "B" * 8, "cbc", placeholder=True, inferred=True,
                           feature=PROBE_BARCODE),
                       seg("capture sequence", CAPTURE_SEQUENCE)],
@@ -87,7 +88,7 @@ LIB = Construct([
         feature=feature("umi", "umi", "random")),
     seg("gel-bead capture terminus", GEL_BEAD_TERMINUS),
     seg("probe barcode (BC8)", "B"*8, "cbc", placeholder=True, inferred=True, feature=PROBE_BARCODE),
-    seg("RHS NN complement", "NN", placeholder=True),
+    seg("RHS NN complement", "NN", placeholder=True,length_bp=2),
     seg("RHS constant complement", revcomp(RHS_CONSTANT)),
     seg("ligated probe insert", "X"*(2*TARGET_ARM_NT), placeholder=True, inferred=True),
     seg("Small RNA Read 2 arm", SMALL_RNA_READ2_ARM, "r2"),
@@ -110,10 +111,10 @@ if _ge_issues:
     raise ValueError("Flex gene-expression library primer geometry: " + "; ".join(_ge_issues))
 ANTIBODY_OLIGO = Construct([
     seg("Nextera partial Read 2", "CGGAGATGTGTATAAGAGACAG", "r2", note="5′ /5AmMC12/ antibody conjugation in CG000529 Rev C"),
-    seg("antibody N10", "N"*10, placeholder=True),
+    seg("antibody N10", "N"*10, placeholder=True,length_bp=10),
     seg("antibody feature barcode", "N"*15, "cbc", placeholder=True, inferred=True,
         feature=feature("antibody_feature_barcode", "feature_barcode", "unknown")),
-    seg("antibody N9", "N"*9, placeholder=True),
+    seg("antibody N9", "N"*9, placeholder=True,length_bp=9),
     seg("antibody capture tail", "CCCATATAAGAAA"),
 ], name="TotalSeq-C antibody oligo for Flex Barcode Oligo Capture")
 PROTEIN_LIB = Construct([
@@ -129,13 +130,13 @@ PROTEIN_LIB = Construct([
     seg("AB8 antibody multiplex barcode", "A"*8, "cbc", placeholder=True, inferred=True,
         feature=feature("protein_ab8", "sample_index", "unknown",
                         note="Antibody Multiplexing Barcode identifies the sample; CG000674 Rev C p. 20")),
-    seg("protein N5", "N"*5, placeholder=True),
+    seg("protein N5", "N"*5, placeholder=True,length_bp=5),
     seg("protein constant 1", "AACCGCGTATTCAGGT"),
     seg("protein constant 2", "TTTCTTATATGGG"),
-    seg("protein N9", "N"*9, placeholder=True),
+    seg("protein N9", "N"*9, placeholder=True,length_bp=9),
     seg("antibody feature barcode", "N"*15, "cbc", placeholder=True, inferred=True,
         feature=feature("antibody_feature_barcode", "feature_barcode", "unknown")),
-    seg("protein N10", "N"*10, placeholder=True),
+    seg("protein N10", "N"*10, placeholder=True,length_bp=10),
     seg("Nextera Read 2 reverse-complement arm", nx.INDEX1_PRIMER, "r2"),
     seg("i7", "I"*10, "cbc", placeholder=True, inferred=True,
         feature=feature("protein_i7", "sample_index", "unknown")),
@@ -153,15 +154,51 @@ FINAL_LIBRARIES=(("Final probe-derived gene-expression library", LIB, PRIMERS,
                   "INFERRED — The guide prints this shell and the antibody oligo pattern, but the AB8 and N15 barcode values and selected 10-base indexes are reagent- or run-dependent.",
                   "TruSeq Read 1 and Nextera Read 2 primer sites are computed on the separate protein library."))
 
+def gel_bead_primer():
+    return Construct([seg("partial Read1T",il.TRUSEQ_READ1[-22:],"r1"),
+        seg("cell barcode","B"*16,"cbc",placeholder=True,feature=feature("cell_barcode","cell_barcode","whitelist",whitelist="10x Flex whitelist")),
+        seg("UMI","U"*12,"umi",placeholder=True,feature=feature("umi","umi","random")),
+        seg("gel-bead capture terminus",GEL_BEAD_TERMINUS)],name="CG000674 RevC gel-bead primer")
+
+
+def barcoded_rna_scene():
+    # Single-stranded primer extension product. Complete preamplification/end
+    # architectures are not recovered from the finished indexed library.
+    sc=Scene();sc.strand("barcoded reporter",[*gel_bead_primer(),
+        seg("probe barcode (BC8)","B"*8,"cbc",placeholder=True,inferred=True,feature=PROBE_BARCODE),
+        seg("RHS NN complement","NN",placeholder=True,length_bp=2),
+        seg("RHS constant complement",revcomp(RHS_CONSTANT)),
+        seg("copied probe target region","X"*50,placeholder=True,inferred=True),
+        seg("LHS constant complement",revcomp(LHS_CONSTANT),"r2")],
+        label="single-stranded barcoded probe reporter (custom-architecture reference)")
+    return sc
+
+
+def reporter_mixture(label, *, amplified):
+    sc=Scene()
+    sc.strand("probe population",[role("preamplified probe reporters; physical ends unassigned" if amplified else "barcoded probe reporters")],label=label+": probe population")
+    sc.strand("protein population",[role("preamplified antibody reporters; physical ends unassigned" if amplified else "barcoded antibody reporters")],label=label+": antibody population")
+    return sc
+
+
+def cell_contents(label, *, antibody_labeled):
+    """Separate RNA and surface-associated material in the same cell container."""
+    sc=Scene()
+    sc.strand("target RNA",[role("target RNA")],label=label+": RNA population")
+    sc.strand("surface material",[role("bound antibody oligo" if antibody_labeled else "surface protein")],
+              label=label+": surface-associated material")
+    return sc
+
+
 def protocol_graph():
     g=ProtocolGraph(TITLE,authority=SOURCE)
     cell=g.input("cell","unfixed cell carrying target RNA and surface proteins",MaterialKind.BIOLOGICAL,
-                 state=molecule("cell before Flex labeling",(role("target RNA"),role("surface protein"))),primary=True)
+                 state=cell_contents("cell before Flex labeling",antibody_labeled=False),primary=True)
     antibody=g.input("antibody_oligo","TotalSeq-C antibody-conjugated Barcode Oligo Capture oligo",MaterialKind.SELECTION,
                      state=ANTIBODY_OLIGO, inferred=True,
                      source="10x CG000529 Rev C p. 4; N15 antibody identity depends on the conjugate")
     labeled=g.product("labeled","cell labeled with antibody-oligonucleotide conjugate",MaterialKind.MOLECULAR,
-                      state=molecule("antibody-labeled cell",(role("target RNA"),role("bound antibody oligo"))))
+                      state=cell_contents("antibody-labeled cell",antibody_labeled=True))
     unbound_antibody=g.product("unbound_antibody","unbound antibody-oligonucleotide conjugate",MaterialKind.WASTE)
     g.react("label_antibody","Label surface protein with antibody-oligonucleotide conjugate",StepKind.BINDING,
             ((cell,InputRole.TEMPLATE),(antibody,InputRole.SELECTION)),(labeled,unbound_antibody),
@@ -170,12 +207,14 @@ def protocol_graph():
     fixative=g.input("fixative","Flex cell fixation condition",MaterialKind.CONDITION,
                      source="10x CG000478 Rev C fixation protocol")
     fixed=g.product("fixed_labeled_cell","fixed antibody-labeled cell with target RNA",MaterialKind.MOLECULAR,
-                    state=molecule("fixed labeled cell",(role("target RNA"),role("bound antibody oligo"))))
+                    state=cell_contents("fixed labeled cell",antibody_labeled=True))
     g.react("fix","Fix antibody-labeled cells",StepKind.CROSS_LINKING,
             ((labeled,InputRole.TEMPLATE),(fixative,InputRole.CONDITION)),(fixed,),
             source="10x CG000478 Rev C; optional protein labeling precedes fixation")
-    left=g.input("left_probe","gene-specific left probe half",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (panel-specific physical oligo not reconstructed)")
-    right=g.input("right_probe","gene-specific right probe half",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (panel-specific physical oligo not reconstructed)")
+    left=g.input("left_probe","gene-specific left probe half (custom-architecture reference)",MaterialKind.OLIGO,
+        state=Construct(probe_pair_scene().strands["LHS"].segs),inferred=True,source=SOURCE+" (panel-specific physical oligo not reconstructed)")
+    right=g.input("right_probe","gene-specific right probe half (custom-architecture reference)",MaterialKind.OLIGO,
+        state=Construct(probe_pair_scene().strands["RHS"].segs),inferred=True,source=SOURCE+" (panel-specific physical oligo not reconstructed)")
     ab_oligo=g.input("ab_oligo","selected Antibody Multiplexing Barcode oligo AB001–AB016",MaterialKind.OLIGO,
                      inferred=True,source="10x CG000674 Rev C Probe Hybridization step 1.1h; individual physical oligo not reconstructed")
     adjacent=g.product("adjacent","adjacent probe halves hybridized on target RNA",MaterialKind.MOLECULAR,state=probe_pair_scene())
@@ -206,19 +245,21 @@ def protocol_graph():
                                 state=ANTIBODY_OLIGO)
     occupied_ab=g.product("occupied_ab","partitioned Antibody Multiplexing Barcode oligo",MaterialKind.MOLECULAR,
                           inferred=True,source="10x CG000674 Rev C GEM Generation; physical AB oligo not reconstructed")
-    failed=g.product("failed","empty or unresolved GEM material",MaterialKind.WASTE)
+    failed=g.product("failed","empty or unresolved GEM material",MaterialKind.MOLECULAR)
     g.react("partition","Partition hybridized RNA probes and antibody conjugates with barcoded gel beads",StepKind.PARTITION,
             ((washed,InputRole.TEMPLATE),(washed_antibody,InputRole.STRUCTURAL),(washed_ab,InputRole.STRUCTURAL),
              (droplets,InputRole.CONDITION)),(occupied,occupied_antibody,occupied_ab,failed),changes_molecule=False)
-    g.discard(failed,"does not retain a resolvable cell-associated reporter")
+    g.mark_terminal(Terminal(failed.id,Disposition.UNRESOLVED,
+        "GEM products are recovered together. Barcode resolution is computational and does not establish physical removal of empty/multiplet GEM classes."))
     ligase=g.input("ligase","probe-pair ligase in GEM",MaterialKind.CATALYST,source="10x CG000674 Rev C GEM Generation p. 16; enzyme identity not named")
     reporter=g.product("reporter","ligated probe-pair reporter in GEM",MaterialKind.MOLECULAR,state=molecule("ligated Flex reporter",(role("LHS constant"),role("LHS target arm"),role("RHS target arm"),role("probe barcode"),role("capture sequence")),junctions=(("LHS target arm","RHS target arm","probe-pair ligation"),)))
     g.react("seal_probe_pair","Ligate the adjacent probe pair inside the GEM",StepKind.NICK_SEALING,((occupied,InputRole.TEMPLATE),(ligase,InputRole.CATALYST)),(reporter,),
             source="10x CG000674 Rev C p. 16: ligation seals the LHS/RHS nick while probes remain hybridized")
-    bead=g.input("bead_oligo","cell-barcode/UMI gel-bead oligo CTACACGACGCTCTTCCGATCT-N16-N12-TTGCTAGGACCG",MaterialKind.OLIGO,source=SOURCE+" Appendix p. 85")
+    bead=g.input("bead_oligo","cell-barcode/UMI gel-bead oligo CTACACGACGCTCTTCCGATCT-N16-N12-TTGCTAGGACCG",MaterialKind.OLIGO,state=gel_bead_primer(),source=SOURCE+" Appendix p. 85")
     pol=g.input("extension_polymerase","barcode-transfer polymerase",MaterialKind.CATALYST)
-    barcoded=g.product("barcoded","cell-barcode/UMI-tagged probe reporters",MaterialKind.MOLECULAR,state=molecule("barcoded Flex reporter",(role("partial Read 1T"),role("cell barcode"),role("UMI"),role("gel-bead terminus on capture sequence"),role("probe barcode"),role("ligated probe insert"),role("LHS constant complement"))))
-    g.react("barcode","Transfer cell barcode and UMI to the ligated reporter",StepKind.EXTENSION,((reporter,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(barcoded,),
+    barcoded=g.product("barcoded","cell-barcode/UMI-tagged probe reporters",MaterialKind.MOLECULAR,
+        state=barcoded_rna_scene(),inferred=True,source="CG000674 RevC gel-bead/final constants and CG000621 RevD custom-probe architecture; selected physical target/barcode values unassigned")
+    g.react("barcode","INFERRED — extend cell-barcode primer on a ligated probe reporter reference",StepKind.EXTENSION,((reporter,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(barcoded,),
             source="10x CG000674 Rev C p. 16: Gel Bead primer hybridizes to the capture sequence and is extended")
     protein_joined=g.product("protein_joined","antibody feature oligo attached to selected AB oligo inside GEM",MaterialKind.MOLECULAR,
                              inferred=True,source="10x CG000674 Rev C Inside Individual GEMs; bond and physical AB oligo not reconstructed")
@@ -234,11 +275,73 @@ def protocol_graph():
     reviewed=["cell","antibody_oligo","label_antibody","fixative","fix","left_probe","right_probe","hybridize",
               "ab_oligo","ligase","seal_probe_pair","droplets","partition","bead_oligo","extension_polymerase",
               "barcode","attach_ab","barcode_protein","post_hyb_wash","wash_unbound"]
-    finish_pcr_branch(g,"flex",barcoded,LIB,PRIMERS,reviewed,label="Flex probe-derived gene-expression",
-                      read_lengths=READ_LENGTHS,inferred_primers=True,
-                      limitation="CG000674 Rev C names pre-amplification and Sample Index PCR (Dual Index Kit TS Set A) but does not print the primer sequences.")
-    finish_pcr_branch(g,"flex_protein",protein_barcoded,PROTEIN_LIB,PROTEIN_PRIMERS,reviewed,
-                      label="Flex antibody-derived protein-expression",read_lengths=READ_LENGTHS,inferred_primers=True,
-                      limitation="CG000674 Rev C prints the protein-library shell but does not define a single universal protein-index PCR primer pair for every index well.")
+    # Both reporter populations remain together through source Step3.1–3.3.
+    recovery=g.input("gem_recovery","125µl Recovery Agent; invert5×,2min; remove pink oil phase (§3.1)",MaterialKind.CONDITION)
+    mixed=g.product("recovered_reporters","aqueous RNA/protein reporter mixture",MaterialKind.MOLECULAR,
+        state=reporter_mixture("recovered reporter mixture",amplified=False))
+    oil=g.product("recovery_oil","Recovery Agent/Partitioning Oil phase",MaterialKind.WASTE)
+    g.react("recover_gems","Recover the aqueous reporter populations together",StepKind.EXTRACTION,
+        ((barcoded,InputRole.TEMPLATE),(protein_barcoded,InputRole.TEMPLATE),(recovery,InputRole.CONDITION)),
+        (mixed,oil),changes_molecule=False)
+    g.discard(oil,"pink Recovery Agent/Partitioning Oil aspirated from tube bottom (§3.1e)")
+    pre_f=g.input("preamp_forward_role","Pre-Amp Primers C PN-2000953: first binding role of one supplied pool",MaterialKind.OLIGO,inferred=True)
+    pre_r=g.input("preamp_reverse_role","Pre-Amp Primers C PN-2000953: opposite binding role of same pool",MaterialKind.OLIGO,inferred=True)
+    pre_pol=g.input("preamp_polymerase","Amp Mix PN-2000047",MaterialKind.CATALYST)
+    preamp=g.product("preamplified","eight-cycle preamplified reporter mixture",MaterialKind.MOLECULAR,
+        state=reporter_mixture("preamplified reporter mixture",amplified=True))
+    g.react("preamp_pcr","Pre-amplify recovered reporters8cycles (§3.2)",StepKind.PCR,
+        ((mixed,InputRole.TEMPLATE),(pre_f,InputRole.STRUCTURAL),(pre_r,InputRole.STRUCTURAL),
+         (pre_pol,InputRole.CATALYST)),(preamp,),geometry=PCRGeometry.unavailable(mixed.state,
+            reason="One Pre-Amp PrimersC pool PN-2000953 is named. The graph records two binding roles of that pool, not two separately established oligo species; physical sequences/sites and product ends remain unassigned."))
+    spri=g.input("preamp_cleanup","SPRIselect1.8× (126µl to70µl sample),100µl elution (§3.3)",MaterialKind.SELECTION)
+    cleaned=g.product("cleaned_reporters","purified preamplified reporter mixture",MaterialKind.MOLECULAR,state=preamp.state)
+    spri_waste=g.product("preamp_cleanup_waste","unbound short DNA/reagents in SPRI supernatant and ethanol washes",MaterialKind.WASTE)
+    g.react("preamp_cleanup_step","SPRIselect cleanup of shared preamplification",StepKind.CLEANUP,
+        ((preamp,InputRole.TEMPLATE),(spri,InputRole.SELECTION)),(cleaned,spri_waste),changes_molecule=False)
+    g.discard(spri_waste,"supernatant and ethanol washes physically removed (§3.3)")
+    rna_input=g.product("flex_index_template","20µl aliquot for TS gene-expression index PCR",MaterialKind.MOLECULAR,state=cleaned.state)
+    protein_input=g.product("flex_protein_index_template","20µl aliquot for TN protein-expression index PCR",MaterialKind.MOLECULAR,state=cleaned.state)
+    remainder=g.product("other_reporters","remaining cleaned reporter aliquots not followed",MaterialKind.MOLECULAR,state=cleaned.state)
+    aliquot_rule=g.input("aliquot_rule","20µl preamp product into each §4.1/§5.1 sample-index PCR",MaterialKind.CONDITION)
+    g.react("index_aliquots","Take aliquots for separate gene/protein library construction",StepKind.SAMPLING,
+        ((cleaned,InputRole.TEMPLATE),(aliquot_rule,InputRole.CONDITION)),(rna_input,protein_input,remainder),changes_molecule=False)
+    g.mark_terminal(Terminal(remainder.id,Disposition.UNRESOLVED,"The model follows20µl for each source library branch; subsequent handling of the remaining reporter mixture is unassigned."))
+    # Gene-expression PCR selects the TS-compatible probe-derived reporters.
+    ge_f=g.input("flex_forward","Dual Index TS SetA i5 primer (physical sequence unassigned)",MaterialKind.OLIGO)
+    ge_r=g.input("flex_reverse","Dual Index TS SetA i7 primer (physical sequence unassigned)",MaterialKind.OLIGO)
+    ge_pol=g.input("flex_polymerase","Amp Mix PN-2000103/2000047",MaterialKind.CATALYST)
+    ge_product=g.product("flex_pcr_product","TS-indexed gene-expression PCR product",MaterialKind.MOLECULAR,state=LIB)
+    g.react("flex_pcr","Sample Index PCR with Dual Index TS SetA (§4.1)",StepKind.PCR,
+        ((rna_input,InputRole.TEMPLATE),(ge_f,InputRole.STRUCTURAL),(ge_r,InputRole.STRUCTURAL),
+         (ge_pol,InputRole.CATALYST)),(ge_product,),geometry=PCRGeometry.unavailable(rna_input.state,
+            reason="Physical TS primers/preamp ends remain unassigned; completed SmallRNA Read2S sites do not supply the preceding template geometry."))
+    ge_spri=g.input("flex_spri","SPRIselect1.0×,40µl final eluate (§4.2)",MaterialKind.SELECTION)
+    ge_library=g.product("flex_library","Flex probe-derived gene-expression sequencing library",MaterialKind.LIBRARY,state=LIB,inferred=True)
+    ge_waste=g.product("flex_spri_waste","gene-expression index-PCR supernatant and washes",MaterialKind.WASTE)
+    g.react("flex_cleanup","SPRIselect size-selection cleanup of gene-expression library",StepKind.CLEANUP,
+        ((ge_product,InputRole.TEMPLATE),(ge_spri,InputRole.SELECTION)),(ge_library,ge_waste),changes_molecule=False)
+    g.discard(ge_waste,"supernatant and ethanol washes removed in §4.2")
+    g.sequence(ge_library,SequencingPlan(library=LIB,primers=PRIMERS,
+        acquired_roles=tuple(p.role for p in PRIMERS),read_lengths=READ_LENGTHS))
+    # Protein PCR has its own TN primer identities and distinct Nextera Read2 arm.
+    pr_f=g.input("flex_protein_forward","Dual Index TN SetA i5 primer (physical sequence unassigned)",MaterialKind.OLIGO)
+    pr_r=g.input("flex_protein_reverse","Dual Index TN SetA i7 primer (physical sequence unassigned)",MaterialKind.OLIGO)
+    pr_pol=g.input("flex_protein_polymerase","Amp Mix PN-2000047/2000103",MaterialKind.CATALYST)
+    pr_product=g.product("flex_protein_pcr_product","TN-indexed protein-expression PCR product",MaterialKind.MOLECULAR,state=PROTEIN_LIB)
+    g.react("flex_protein_pcr","Sample Index PCR with Dual Index TN SetA (§5.1)",StepKind.PCR,
+        ((protein_input,InputRole.TEMPLATE),(pr_f,InputRole.STRUCTURAL),(pr_r,InputRole.STRUCTURAL),
+         (pr_pol,InputRole.CATALYST)),(pr_product,),geometry=PCRGeometry.unavailable(protein_input.state,
+            reason="Physical TN primers and copied antibody/preamp ends remain unassigned. Final Nextera Read2 sites do not establish the preceding primer input geometry."))
+    pr_spri=g.input("flex_protein_spri","SPRIselect1.0×,40µl final eluate (§5.2)",MaterialKind.SELECTION)
+    pr_library=g.product("flex_protein_library","Flex antibody-derived protein-expression sequencing library",MaterialKind.LIBRARY,state=PROTEIN_LIB,inferred=True)
+    pr_waste=g.product("flex_protein_spri_waste","protein index-PCR supernatant and washes",MaterialKind.WASTE)
+    g.react("flex_protein_cleanup","SPRIselect size-selection cleanup of protein library",StepKind.CLEANUP,
+        ((pr_product,InputRole.TEMPLATE),(pr_spri,InputRole.SELECTION)),(pr_library,pr_waste),changes_molecule=False)
+    g.discard(pr_waste,"supernatant and ethanol washes removed in §5.2")
+    g.sequence(pr_library,SequencingPlan(library=PROTEIN_LIB,primers=PROTEIN_PRIMERS,
+        acquired_roles=tuple(p.role for p in PROTEIN_PRIMERS),read_lengths=READ_LENGTHS))
+    reviewed.extend(("gem_recovery","recover_gems","preamp_forward_role","preamp_reverse_role","preamp_polymerase","preamp_pcr",
+        "preamp_cleanup","preamp_cleanup_step","aliquot_rule","index_aliquots","flex_forward","flex_reverse","flex_polymerase","flex_pcr","flex_spri","flex_cleanup","flex_library",
+        "flex_protein_forward","flex_protein_reverse","flex_protein_polymerase","flex_protein_pcr","flex_protein_spri","flex_protein_cleanup","flex_protein_library"))
     g.declare_reviewed_scope(reviewed,SOURCE)
     return g.require_publishable()

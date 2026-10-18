@@ -32,6 +32,11 @@ def role(name: str, *, tag: str | None = None, length_bp: int | None = None,
 def molecule(label: str, parts: tuple[Segment, ...], *,
              junctions: tuple[tuple[str, str, str], ...] = (),
              components: tuple[tuple[str, str, str], ...] = ()) -> Scene:
+    """Join ordered parts on one molecular strand.
+
+    A cell, reaction mixture or independent molecular population needs separate
+    ``Scene.strand`` rows; putting its components here would join them covalently.
+    """
     sc = Scene()
     sc.strand("molecule", list(parts), label=label)
     for left, right, kind in junctions:

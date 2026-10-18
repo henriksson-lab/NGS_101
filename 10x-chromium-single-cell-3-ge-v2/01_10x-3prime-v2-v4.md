@@ -480,3 +480,11 @@ Still open: CG00052 revisions before Rev D; the RT primer and TSO graph inputs
 have no exact molecular state (the shared Chromium operation does not accept
 one), so the source-oligo guard reports them as unrepresented; fragmentation and
 end repair/A-tailing are one tube in the guide but two graph steps.
+
+## Source-owned graph migration, 2026-10-18
+
+Source-owned graph now declares partitioning, RT, template switching, recovery, enzymatic fragmentation/end preparation and sequencing locally; printed PCR and dT-adapter constructors and all five cleanup branches are retained. First-strand cDNA is drawn single stranded. Empty/multiplet GEM outcomes are unresolved pooled products, not a physical discard justified only by barcode resolvability.
+
+Bounded source scope: CG000108 Rev A technical note full text (188 lines), especially assay scheme lines24–37 and Fig.4 lines70–145; CG00052 Rev D cleanup/end-library sections (post-cDNA cleanup lines3390–3425, adapter ligation lines3979–4050). No accepted missing-information claim is added.
+
+Remaining work: Exact transcript-dependent fragmentation/end-preparation product states and molecular reaction relations remain unresolved; Later revisions and optional sequencing variants not re-read.

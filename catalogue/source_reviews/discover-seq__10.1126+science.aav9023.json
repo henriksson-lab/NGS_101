@@ -204,6 +204,34 @@
       ],
       "scope": "Capped defining-source pass only; absence of published adapter oligos is not asserted as confirmed (gated Science supplement remains unread).",
       "verification": "local suite 2 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "editing_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "scope": "Source-owned typed graph and actual PCR precursor migration; bounded original-source checks, not a complete chemistry/absence audit.",
+      "locations": "Defining published article PMC6589096 recruitment description lines63–77; authors published detailed protocol PMC7305837 library-preparation/pooled cleanup/sequencing lines795–845; TruSeq ChIP Sample Preparation Guide 15023092 RevB PCR box pp34–35 extracted lines1835–1859 and index Tables4–5 lines2109–2205.",
+      "findings": "Local declaration owns its single-six-base-index TruSeq-compatible endpoint and 100/6/100 acquisition plan. Canonical arm sequences are explicitly inferred endpoint illustrations; they do not assert physical kit PCR-primer sequences. Removed invented ordering oligos for the supplied cocktail. PCR uses PPC PN15026786 and PMM PN15026785, and its source-limited geometry references the actual adapter-ligated precursor. Endogenous MRE11 recruitment now consumes MRE11 protein rather than ChIP antibody; antibody is consumed at immunoprecipitation after fixation/sonication. MRE11-negative chromatin is unresolved at recruitment, since no physical selection occurs then. Public sonication discrepancy retained.",
+      "deferred": [
+        "Exact supplied PPC/adapter oligos remain unassigned; no source absence accepted",
+        "Full molecular ligation/copying relations and explicit pooled-library cleanup graph remain coverage work"
+      ],
+      "verification": "local suite2/2, page build; chemistry0 established/0 conditional/10 unresolved/0 contradictory; source guard0 exact inputs checked with3 unrepresented; pairing0 problems",
+      "oligo_scraper": "Full local source-bundle scraper run; relevant hits followed into the named original sections. No drawn upstream page used as evidence."
+    },
+    {
+      "round": "2026-10-18-population-display-correction",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only molecular representation correction; original migration source scope retained. No new scientific choices or absence conclusions.",
+      "locations": "Local protocol molecular states; original migration source locations remain recorded in the preceding bounded check.",
+      "findings": "The legacy workflow display now separates MRE11 or antibody–MRE11 complex from the associated DNA row. The native reaction graph and its actual binding operation are unchanged.",
+      "deferred": [
+        "Original migration evidence limits and deferred targets remain unchanged."
+      ],
+      "verification": "Local suite and page build pass; scoped chemistry total across four protocols:1established5conditional44unresolved0contradictory (limited coverage). Source guard8exact strands checked0failed,1existing cross-bundle exemption,11inputs without exact states. Pairing0problems. Source-review schema and focused note builds pass. Independent population rows checked directly; legacy DISCOVER workflow also constructs successfully."
     }
   ]
 }

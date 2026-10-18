@@ -3,39 +3,20 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from batch_ngs import seg
-from chemdraw import Construct, MolecularState, Row, Scene, Segment, Workflow, feature, revcomp
+from dataclasses import dataclass
+from protocol_model import role
+from chemdraw import Construct, Row, Scene, Segment, feature, revcomp
 import illumina as il
 import nextera as nx
 import seqprimers as sp
 from pcr import PCRGeometry, PCRPrimer
-from multimodal_spatial import (HybridizationLigationRound, finish_pcr_branch,
-                                modality_split)
-from protocol_graph import Disposition, InputRole, MaterialKind, ProtocolGraph, StepKind, Terminal
+from protocol_graph import Disposition, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind, Terminal
 
 TITLE="SHARE-seq"
 NOTES="01_share-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1016/j.cell.2020.09.056">Ma et al., <i>Cell</i> (2020)</a>.'
 SUMMARY="Fixed permeabilized cells are first tagmented and reverse-transcribed. Three split-pool hybridization rounds assemble the same barcode chain on ATAC fragments and biotinylated cDNA; blocking oligos sequester free adapters, then one ligation seals the chain before the modalities are separated."
-CAVEAT=("The constant arms, linkers and ordering modifications come from the published "
-        "Supplementary Table S1. Its 96 well-specific 8-nt values per round are represented "
-        "as placeholders in the diagram. <br><b>Source-version discrepancy:</b> the "
-        "<a href='https://doi.org/10.1101/2020.06.17.156943'>June 2020 preprint</a> "
-        "Methods, section (1), calls for the <i>round 2</i> linker in the round 1 plate "
-        "(PDF lines 722–725) and describes the incoming molecular end as a 3′ overhang "
-        "(lines 718–721). The <a href='https://doi.org/10.1016/j.cell.2020.09.056'>"
-        "published STAR Methods</a>, ‘Preparing oligonucleotides for ligations’, calls for "
-        "the <i>round 1</i> linker and a 5′ overhang (JATS line 213); Table S1 ‘bulk oligos’ "
-        "lines 3–5 prints distinct linkers for all three rounds. The model uses the "
-        "published linker and oligo-table geometry. The preprint's intended wording "
-        "cannot be independently established from its methods text alone."
-        "<br><b>Model correction (2026-10-17):</b> earlier versions drew generic TruSeq "
-        "(RNA) and Nextera dual-index (ATAC) libraries with the cell barcodes inside the "
-        "insert. The published STAR Methods amplify both libraries with a sample-barcoded "
-        "Ad1 primer and the P7 primer (the round 3 barcode 5′ arm), so the three "
-        "hybridization barcodes sit next to P7 and are read by the 99-cycle Index 1 read; "
-        "the RNA branch also includes on-bead P7/RNA-PCR-primer amplification and "
-        "Read1-only Tn5 tagmentation of the cDNA before Ad1/P7 PCR.")
+CAVEAT=("Published STAR Methods and TableS1 establish the shared5′ligation anchor, distinct three-round linkers and final Ad1/P7 ends. Superseded preprint wording is not a published-source conflict. Native first-cycle/TSO/end-gap proofs remain unassigned; source-primer-derived final libraries are separate references. Blocking is hybridization, not physical disposal; well-path/collision filtering remains computational. Source NextSeq30/99/8/30 is selected; NovaSeq50/99/8/50 is separate. Sequencing primer compatibility is inferred, while acquired cycle allocation is source-positive.")
 BC1=feature("cell_barcode_round1","cell_barcode","combinatorial",group="cell_barcode",part="round 1")
 BC2=feature("cell_barcode_round2","cell_barcode","combinatorial",group="cell_barcode",part="round 2")
 BC3=feature("cell_barcode_round3","cell_barcode","combinatorial",group="cell_barcode",part="round 3")
@@ -54,16 +35,37 @@ RNA_PCR = "AAGCAGTGGTATCAACGCAGAGT"
 READ1 = "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"
 BLOCKED_ME_COMP_WRITTEN = "/5Phos/C*T*G* T*C*T* C*T*T* A*T*A* C*A*/3ddC/"
 
+@dataclass(frozen=True)
+class SourceRound:
+    name: str
+    previous_5_arm: str
+    barcode_5_arm: str
+    barcode_3_arm: str
+    linker: str
+    feature: object
+    phosphorylated_5: bool
+    barcode_length: int
+    blocking_oligo: str
+
+    def __post_init__(self):
+        if self.linker != revcomp(self.previous_5_arm)+revcomp(self.barcode_3_arm):
+            raise ValueError("TableS1 linker does not bridge ordered source arms")
+        if self.blocking_oligo != revcomp(self.linker):
+            raise ValueError("printed blocker does not complement source linker")
+
+    def product_segments(self):
+        return [Segment(self.name+" outgoing arm",self.barcode_5_arm),Segment(self.name+" barcode","N"*self.barcode_length,"cbc",placeholder=True,feature=self.feature),Segment(self.name+" ligating arm",self.barcode_3_arm)]
+
 ROUNDS = (
-    HybridizationLigationRound(
+    SourceRound(
         "round 1", SHARED_ANCHOR, "CGCGCTGCATACTTG", "CCCATGATCGTCCGA",
-        "CCGAGCCCACGAGACTCGGACGATCATGGG", BC1, phosphorylated_5=True),
-    HybridizationLigationRound(
+        "CCGAGCCCACGAGACTCGGACGATCATGGG", BC1, phosphorylated_5=True, barcode_length=8, blocking_oligo="CCCATGATCGTCCGAGTCTCGTGGGCTCGG"),
+    SourceRound(
         "round 2", "CGCGCTGCATACTTG", "CATCGGCGTACGACT", "ATCCACGTGCTTGAG",
-        "CAAGTATGCAGCGCGCTCAAGCACGTGGAT", BC2, phosphorylated_5=True),
-    HybridizationLigationRound(
+        "CAAGTATGCAGCGCGCTCAAGCACGTGGAT", BC2, phosphorylated_5=True, barcode_length=8, blocking_oligo="ATCCACGTGCTTGAGCGCGCTGCATACTTG"),
+    SourceRound(
         "round 3", "CATCGGCGTACGACT", "CAAGCAGAAGACGGCATACGAGAT",
-        "GTGGCCGATGTTTCG", "AGTCGTACGCCGATGCGAAACATCGGCCAC", BC3),
+        "GTGGCCGATGTTTCG", "AGTCGTACGCCGATGCGAAACATCGGCCAC", BC3, phosphorylated_5=False, barcode_length=8, blocking_oligo="GTGGCCGATGTTTCGCATCGGCGTACGACT"),
 )
 
 # Published STAR Methods "scATAC-seq library preparation", "Tagmentation and scRNA-seq
@@ -252,39 +254,17 @@ def _hybridized_scene(kind: str, rounds: int) -> Scene:
     return sc
 
 
+def _native_rna_rows():
+    sc=Scene();sc.strand("nativeRNA",[role("independent native RNA template; recovery/degradation unassigned")],label="RNA is separate from its DNA copy");return sc.rows()
+
+
+def _captured_rna():
+    sc=_molecule_scene("RNA",3);sc.strand("residual RNA",[role("independent RNA template; exact retention through affinity capture/washes unassigned")],label="possible carried RNA, not a covalent cDNA segment");return sc
+
+
 def _both_modalities(rounds: int):
     return [*_molecule_scene("RNA", rounds).rows(),
-            *_molecule_scene("ATAC", rounds).rows()]
-
-
-def workflow():
-    wf = Workflow(MolecularState("Fixed permeabilized cell", tuple(_initial_rows())))
-    wf.react(
-        "Tagment accessible chromatin with the ligatable Nextera end",
-        _molecule_scene("ATAC", 0).rows(), name="Tn5-tagged chromatin",
-        note="The selected Tn5 product exposes the same 15-nt ligation anchor used by the RT primer; other Tn5 end combinations do not both ligate and amplify.")
-    wf.react(
-        "Reverse-transcribe poly(A) RNA with the phosphorylated biotin-UMI primer",
-        _both_modalities(0), name="RNA and ATAC molecules with a shared ligation anchor",
-        note="The exact RT primer carries a 10-nt UMI, internal biotin-dT and oligo-dT/VN tract. Its 5′ constant arm matches the ligatable Tn5 end.")
-    for number, round_ in enumerate(ROUNDS, 1):
-        wf.react(
-            f"Hybridize {round_.name}, block free adapters, pool and resplit",
-            [*_hybridized_scene("RNA", number).rows(),
-             *_hybridized_scene("ATAC", number).rows()],
-            name=f"After {round_.name} hybridization",
-            note="The linker is computed from the reverse complements of the incoming molecule arm and barcode 3′ arm. A complementary blocking oligo sequesters adapters that did not bind a molecule before cells are pooled.")
-    wf.react(
-        "Add T4 DNA ligase once to seal all three barcode junctions",
-        _both_modalities(3), name="Covalently barcoded RNA and ATAC molecules",
-        note="The three marked bonds are created only after the serial hybridization and blocking rounds have assembled the complete chain.")
-    wf.react(
-        "Release molecules, reverse crosslinks and separate the two modalities",
-        modality_split("streptavidin-captured RNA-derived cDNA",
-                       "ATAC-derived genomic DNA"),
-        name="Separated RNA and ATAC fractions",
-        note="Internal biotin on the RT primer enables physical separation before modality-specific amplification. Template switching and RNA-library PCR follow on the captured branch.")
-    return wf
+            *_molecule_scene("ATAC", rounds).rows(),*_native_rna_rows()]
 
 
 TSO_DNA = RNA_PCR + "GAAT"   # DNA part of the TSO; the 3' end is rG rG +G (written above)
@@ -298,79 +278,140 @@ def _amplified_cdna() -> Construct:
     ], name="amplified SHARE-seq cDNA")
 
 
-def _tagmented_cdna() -> Construct:
-    """Read1-only Tn5 product that keeps the barcode end; P5-oriented, before Ad1 PCR."""
-    return Construct([s for s in RNA.segments[2:]], name="Read1-tagged barcoded cDNA fragment")
+def _tagmented_cdna() -> Scene:
+    """Native partial-strand input; never truncate the expected completed library."""
+    sc=Scene()
+    sc.strand("barcode bearing strand",[*_prefix(3),*_base_segments("RNA")],label="barcode-bearing cDNA fragment; native break extent unassigned")
+    sc.strand("Read1 bearing strand",[Segment("transferred Read1 oligo",READ1),role("opposite native cDNA strand; paired span/gaps unassigned")],label="separate donor-bearing strand; no manufactured completed duplex")
+    return sc
+
+
+def _loaded(read1_only=False):
+ sc=Scene()
+ for key,seq,phos in (("Read1",READ1,False),) if read1_only else (("Read1",READ1,False),("Read2",RT_HANDLE,True)):
+  # Published blocked14nt ME complement pairs to the final14 bases, with5′P, PT bonds and3′ddC.
+  sc.strand(key,[Segment(key+" prefix",seq[:-14]),Segment(key+" ME paired end",seq[-14:])],label="source transferred oligo",mod5="p" if phos else "")
+  sc.anneal(key+" complement",[Segment(key+" blocked ME complement","CTGTCTCTTATACA",note="Source phosphorothioates between the printed starred residues")],key,pair=(key+" blocked ME complement",key+" ME paired end"),label="source loading strand",mod5="p",mod3="ddC")
+ return sc
+
+
+def _rt_primer():
+ sc=Scene();sc.strand("RT",_base_segments("RNA")[:-1],label="source RT oligo",mod5="p");sc.mark("RT","internal biotin-dT","internal biotin-dT");return sc
+
+
+def _ss_switched():
+ sc=_molecule_scene("RNA",3)
+ sc.strands["rna"].segs.append(Segment("copied TSO boundary",revcomp(TSO_DNA+"GGG"),inferred=True))
+ sc.strand("RNA template",[role("native RNA template retained; removal/degradation unassigned")],label="independent RNA, not the copied strand")
+ return sc
+
+
+def _clean(g,key,template,label,state=None):
+ selection=g.input(key+"_selection",label,MaterialKind.SELECTION)
+ kept=g.product(key+"_retained","recovered "+template.label,MaterialKind.MOLECULAR,state=template.state if state is None else state)
+ waste=g.product(key+"_waste","physical supernatant/washes; composition unassigned",MaterialKind.WASTE)
+ g.react(key,label,StepKind.CLEANUP,((template,InputRole.TEMPLATE),(selection,InputRole.SELECTION)),(kept,waste),changes_molecule=False)
+ g.discard(waste,"Physical non-retained fraction; class-specific removal is not inferred.")
+ return kept
+
+
+def _controlled_pcr(g,key,template,f,r,enzyme,state,qc_volume,qc_dye):
+ residual=g.product(key+"_residual","co-carried RNA/other polymers and off-target products; physical recovery unassigned",MaterialKind.MOLECULAR,state=template.state)
+ amp=g.product(key+"_five","5-cycle source PCR material",MaterialKind.MOLECULAR,state=state)
+ g.react(key+"_five_cycles","Initial5cycles source "+key+" PCR",StepKind.PCR,((template,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(enzyme,InputRole.CATALYST)),(amp,residual),geometry=PCRGeometry.unavailable(template.state,reason="Actual native precursor; complete first-cycle/end geometry remains unassigned."))
+ g.mark_terminal(Terminal(residual.id,Disposition.UNRESOLVED,"PCR specificity does not physically remove co-carried RNA or off-target polymers; recovery through later cleanups unassigned."))
+ production=g.product(key+"_production","remaining5-cycle material for production PCR",MaterialKind.MOLECULAR,state=state)
+ qc=g.product(key+"_qc_aliquot",qc_volume+" analytical qPCR aliquot",MaterialKind.MOLECULAR,state=state)
+ g.react(key+"_qc_split","Take source qPCR aliquot after5cycles",StepKind.SPLIT,((amp,InputRole.TEMPLATE),),(production,qc),changes_molecule=False)
+ dye=g.input(key+"_qc_dye",qc_dye+" qPCR cocktail;20cycles to saturation",MaterialKind.CONDITION)
+ qc_product=g.product(key+"_qc_product","analytical qPCR product measuring1/3saturation cycle requirement",MaterialKind.QC,state=state)
+ g.react(key+"_qpcr","Measure remaining cycle requirement by qPCR",StepKind.PCR,((qc,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(enzyme,InputRole.CATALYST),(dye,InputRole.CONDITION)),(qc_product,),geometry=PCRGeometry.unavailable(qc.state,reason="Actual analytical aliquot; qPCR product geometry not separately proven."))
+ g.mark_terminal(Terminal(qc_product.id,Disposition.QC,"Analytical amplification used to choose1/3saturation cycle count, not the production library."))
+ extra=g.input(key+"_extra_cycles","extra cycle count selected from qPCR1/3saturation; sample-specific",MaterialKind.CONDITION)
+ completed=g.product(key+"_amplified","source qPCR-controlled production amplicons",MaterialKind.MOLECULAR,state=state)
+ g.react(key+"_extra_pcr","Complete production PCR with qPCR-defined extra cycles",StepKind.PCR,((production,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(enzyme,InputRole.CATALYST),(extra,InputRole.CONDITION)),(completed,),geometry=PCRGeometry.unavailable(production.state,reason="Actual5-cycle production aliquot; native selected ends remain bounded."))
+ return completed
 
 
 def protocol_graph():
-    g=ProtocolGraph(TITLE,authority=SOURCE)
-    cells=g.input("cells","fixed permeabilized cells containing chromatin and poly(A) RNA",MaterialKind.BIOLOGICAL,state=_initial_rows(),primary=True)
-    transposome=g.input("transposome","ligatable-anchor-loaded Nextera transposome",MaterialKind.ADAPTER)
-    tn5=g.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
-    tagged=g.product("tagged","cells retaining Tn5-tagged chromatin and RNA",MaterialKind.MOLECULAR,state=[*_molecule_scene("ATAC",0).rows(),Row(chunks=[("poly(A) RNA remains unindexed in the intact cell",None,False)])])
-    twaste=g.product("tn5_waste","non-library tagmentation products",MaterialKind.WASTE)
-    g.react("tagment","Tagment accessible chromatin with the ligatable Nextera end",StepKind.TAGMENTATION,((cells,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),(tagged,twaste)); g.mark_terminal(Terminal(twaste.id,Disposition.UNRESOLVED,"Tn5 ends without the phosphorylated Read2 anchor are not ligated to the barcode chain and lack the P7 site; they remain in the ATAC supernatant without exponential Ad1/P7 amplification. No physical separation is represented."))
-    rtprimer=g.input("rt_primer","phosphorylated biotin-UMI oligo(dT)/VN RT primer",MaterialKind.OLIGO)
-    rt=g.input("rt","reverse transcriptase",MaterialKind.CATALYST)
-    indexed=g.product("indexed","RNA and ATAC molecules exposing the shared ligation anchor",MaterialKind.MOLECULAR,state=_both_modalities(0))
-    g.react("reverse_transcribe","Reverse-transcribe poly(A) RNA with the shared-anchor primer",StepKind.REVERSE_TRANSCRIPTION,((tagged,InputRole.TEMPLATE),(rtprimer,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(indexed,))
-    current=indexed
-    reviewed=["cells","transposome","tn5","tagment","rt_primer","rt","reverse_transcribe"]
-    for number,round_ in enumerate(ROUNDS,1):
-        barcode=g.input(f"barcode_{number}",f"{round_.name} barcode oligo",MaterialKind.OLIGO)
-        linker=g.input(f"linker_{number}",f"{round_.name} splint linker",MaterialKind.OLIGO)
-        hybrid=g.product(f"hybrid_{number}",f"RNA and ATAC with {round_.name} annealed",MaterialKind.MOLECULAR,state=[*_hybridized_scene("RNA",number).rows(),*_hybridized_scene("ATAC",number).rows()])
-        g.react(f"hybridize_{number}",f"Hybridize {round_.name} barcode and splint",StepKind.HYBRIDIZATION,((current,InputRole.TEMPLATE),(barcode,InputRole.STRUCTURAL),(linker,InputRole.STRUCTURAL)),(hybrid,))
-        blocker=g.input(f"blocker_{number}",f"{round_.name} free-adapter blocking oligo",MaterialKind.OLIGO)
-        cleaned=g.product(f"cleaned_{number}",f"{round_.name} assemblies after free-adapter blocking",MaterialKind.MOLECULAR,state=hybrid.state)
-        blocked=g.product(f"blocked_{number}",f"blocked unbound {round_.name} assemblies",MaterialKind.WASTE)
-        g.react(f"block_{number}",f"Sequester unbound {round_.name} adapters",StepKind.CLEANUP,((hybrid,InputRole.TEMPLATE),(blocker,InputRole.STRUCTURAL)),(cleaned,blocked),changes_molecule=False)
-        g.discard(blocked,"is an unbound adapter assembly sequestered before repooling")
-        redistribution=g.input(f"redistribution_{number}",f"{round_.name} pool-and-resplit condition",MaterialKind.CONDITION)
-        redistributed=g.product(f"redistributed_{number}",f"molecules redistributed after {round_.name}",MaterialKind.MOLECULAR,state=cleaned.state)
-        excluded=g.product(f"excluded_{number}",f"unresolved {round_.name} redistribution material",MaterialKind.WASTE)
-        g.react(f"redistribute_{number}",f"Pool and resplit after {round_.name}",StepKind.PARTITION,((cleaned,InputRole.TEMPLATE),(redistribution,InputRole.CONDITION)),(redistributed,excluded),changes_molecule=False)
-        g.discard(excluded,"does not retain an interpretable ordered well path")
-        reviewed.extend((barcode.id,linker.id,f"hybridize_{number}",blocker.id,f"block_{number}",redistribution.id,f"redistribute_{number}"))
-        current=redistributed
-    ligase=g.input("ligase","T4 DNA ligase",MaterialKind.CATALYST)
-    sealed=g.product("sealed","RNA and ATAC molecules with three sealed barcode junctions",MaterialKind.MOLECULAR,state=_both_modalities(3))
-    g.react("seal","Seal all three preassembled barcode-chain nicks",StepKind.NICK_SEALING,((current,InputRole.TEMPLATE),(ligase,InputRole.CATALYST)),(sealed,))
-    release=g.input("release_condition","lysis and crosslink-reversal condition",MaterialKind.CONDITION)
-    released=g.product("released","released covalently barcoded RNA and ATAC molecules",MaterialKind.MOLECULAR,state=sealed.state)
-    g.react("release","Lyse cells and reverse crosslinks",StepKind.EXTRACTION,((sealed,InputRole.TEMPLATE),(release,InputRole.CONDITION)),(released,))
-    streptavidin=g.input("streptavidin","streptavidin selection matrix",MaterialKind.SELECTION)
-    rna=g.product("rna_branch","biotin-captured RNA-derived cDNA",MaterialKind.MOLECULAR,state=_molecule_scene("RNA",3))
-    atac=g.product("atac_branch","ATAC-derived genomic-DNA flow-through",MaterialKind.MOLECULAR,state=_molecule_scene("ATAC",3))
-    g.react("separate","Separate RNA-derived and ATAC-derived molecules",StepKind.AFFINITY_CAPTURE,((released,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION)),(rna,atac),changes_molecule=False)
-    tso=g.input("tso","SHARE-seq template-switching oligo",MaterialKind.OLIGO)
-    switched=g.product("switched","template-switched RNA-derived cDNA",MaterialKind.MOLECULAR,state=rna.state)
-    g.react("template_switch","Template-switch the captured RNA branch",StepKind.TEMPLATE_SWITCHING,((rna,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(switched,))
-    reviewed.extend(("ligase","seal","release_condition","release","streptavidin","separate","tso","template_switch"))
-    # Published "cDNA library preparation" (JATS line 243): on-bead KAPA HiFi PCR with the
-    # P7 primer and RNA PCR primer (5 cycles plus qPCR-determined extra cycles), then
-    # 0.8x/0.6x AMPure.  "Tagmentation and scRNA-seq library preparation" (line 245):
-    # Tn5 loaded with the Read1 oligo only fragments 50 ng cDNA at 55 C; Ad1 + P7 PCR.
-    cdna_fwd=g.input("cdna_p7","P7 primer (round 3 barcode 5-prime arm)",MaterialKind.OLIGO)
-    cdna_rev=g.input("cdna_rna_pcr","RNA PCR primer (TSO 5-prime part)",MaterialKind.OLIGO)
-    kapa=g.input("cdna_kapa","KAPA HiFi PCR mix",MaterialKind.CATALYST)
-    amplified=g.product("amplified_cdna","barcoded full-length cDNA amplified between P7 and the TSO handle",MaterialKind.MOLECULAR,state=_amplified_cdna())
-    g.react("cdna_pcr","Amplify barcoded cDNA on beads with P7 and RNA PCR primers",StepKind.PCR,((switched,InputRole.TEMPLATE),(cdna_fwd,InputRole.STRUCTURAL),(cdna_rev,InputRole.STRUCTURAL),(kapa,InputRole.CATALYST)),(amplified,),geometry=PCRGeometry.exact(amplified.state,PCRPrimer("P7 primer",il.P7),PCRPrimer("RNA PCR primer",RNA_PCR),statement="Published cDNA library preparation: KAPA HiFi with 400 nM P7 primer and 400 nM RNA PCR primer (Table S1 bulk oligos)."))
-    r1tn5=g.input("rna_read1_transposome","Tn5 loaded with Read1/blocked ME-complement only",MaterialKind.ADAPTER)
-    rna_tn5=g.input("rna_tn5","Tn5 transposase (cDNA tagmentation)",MaterialKind.CATALYST)
-    fragments=g.product("rna_fragments","Read1-tagged cDNA fragments retaining the 3-prime barcode chain",MaterialKind.MOLECULAR,state=_tagmented_cdna())
-    others=g.product("rna_other_fragments","internal and TSO-end cDNA fragments without the P7 barcode end",MaterialKind.MOLECULAR)
-    g.react("rna_tagment","Tagment amplified cDNA with Read1-only Tn5",StepKind.TAGMENTATION,((amplified,InputRole.TEMPLATE),(r1tn5,InputRole.STRUCTURAL),(rna_tn5,InputRole.CATALYST)),(fragments,others))
-    g.mark_terminal(Terminal(others.id,Disposition.UNRESOLVED,"Fragments lacking the P7-terminated barcode end are not exponentially amplified by Ad1 + P7; Zymo and 0.7x AMPure cleanups are not represented as removing them."))
-    reviewed.extend(("cdna_p7","cdna_rna_pcr","cdna_kapa","cdna_pcr","rna_read1_transposome","rna_tn5","rna_tagment"))
-    primers=dict(forward_label="sample-barcoded Ad1 primer (v2_Ad1 family)",reverse_label="P7 primer",
-                 forward_state=AD1_PRIMER,reverse_state=P7_PRIMER,primer_source=LIBRARY_PCR_SOURCE)
-    finish_pcr_branch(g,"rna",fragments,RNA,RNA_P,reviewed,label="SHARE-seq RNA",read_lengths=READ_LENGTHS_NEXTSEQ,
-                      step_label="Amplify tagmented cDNA with a sample-barcoded Ad1 primer and the P7 primer (7 cycles)",
-                      polymerase_label="NEBNext High-Fidelity 2× PCR Master Mix",**primers)
-    finish_pcr_branch(g,"atac",atac,ATAC,ATAC_P,reviewed,label="SHARE-seq ATAC",read_lengths=READ_LENGTHS_NEXTSEQ,
-                      step_label="Amplify ATAC fragments with a library-specific Ad1 primer and the P7 primer (5 cycles plus qPCR-determined cycles)",
-                      polymerase_label="NEBNext PCR master mix",**primers)
-    g.declare_reviewed_scope(reviewed,SOURCE)
-    return g.require_publishable()
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ cells=g.input("cells","fixed permeabilized cells/nuclei, selected cell-line workflow",MaterialKind.BIOLOGICAL,state=_initial_rows(),primary=True)
+ loaded=g.input("transposome","source Read1 and5′P Read2 with5′P/PT/3′ddC blocked ME complements",MaterialKind.ADAPTER,state=_loaded())
+ tn5=g.input("tn5","in-houseTn5,37°C30min",MaterialKind.CATALYST)
+ tagged=g.product("tagged","Tn5-tagged chromatin with native RNA retained",MaterialKind.MOLECULAR,state=[*_molecule_scene("ATAC",0).rows(),*_native_rna_rows()])
+ other_ends=g.product("other_ends","other Tn5 end classes",MaterialKind.MOLECULAR)
+ g.react("tagment","Tagment fixed chromatin with source transferred strands",StepKind.TAGMENTATION,((cells,InputRole.TEMPLATE),(loaded,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),(tagged,other_ends))
+ g.mark_terminal(Terminal(other_ends.id,Disposition.UNRESOLVED,"End eligibility does not establish zero amplification or physical exclusion; recovery in subsequent nuclear washes remains unassigned."))
+ tagged=_clean(g,"wash_tagment",tagged,"NIB pellet/wash after transposition")
+ primer=g.input("rt_primer","source5′P anchor/N10UMI/biotin-dT/T14VN",MaterialKind.OLIGO,state=_rt_primer())
+ rt=g.input("rt","MaximaHMinus RT;50°C then3temperature-ramp cycles then50°C5min",MaterialKind.CATALYST)
+ indexed=g.product("indexed","ss-cDNA and independent ATAC populations with shared anchor",MaterialKind.MOLECULAR,state=_both_modalities(0))
+ g.react("reverse_transcribe","RT native poly(A)RNA in fixed cells",StepKind.REVERSE_TRANSCRIPTION,((tagged,InputRole.TEMPLATE),(primer,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(indexed,))
+ current=_clean(g,"wash_rt",indexed,"NIB nuclear pellet/wash after RT")
+ for n,round_ in enumerate(ROUNDS,1):
+  sc=Scene();sc.strand("barcode",round_.product_segments(),label=round_.name,mod5="p" if round_.phosphorylated_5 else "")
+  barcode=g.input("barcode_"+str(n),round_.name+" source N8 barcode",MaterialKind.OLIGO,state=sc)
+  linker=g.input("linker_"+str(n),round_.name+" source splint",MaterialKind.OLIGO,state=round_.linker)
+  hybrid=g.product("hybrid_"+str(n),"independent RNA/ATAC pre-ligation assemblies",MaterialKind.MOLECULAR,state=[*_hybridized_scene("RNA",n).rows(),*_hybridized_scene("ATAC",n).rows(),*_native_rna_rows()])
+  g.react("hybridize_"+str(n),"Split among96wells and hybridize "+round_.name,StepKind.HYBRIDIZATION,((current,InputRole.TEMPLATE),(barcode,InputRole.STRUCTURAL),(linker,InputRole.STRUCTURAL)),(hybrid,))
+  blocker=g.input("blocker_"+str(n),round_.name+" source complementary blocking oligo",MaterialKind.OLIGO,state=round_.blocking_oligo)
+  blocked=g.product("blocked_"+str(n),"cell-associated assemblies plus blocked free oligos; nicks unsealed",MaterialKind.MOLECULAR,state=hybrid.state)
+  g.react("block_"+str(n),"Hybridize blocking strand then pool all96wells",StepKind.HYBRIDIZATION,((hybrid,InputRole.TEMPLATE),(blocker,InputRole.STRUCTURAL)),(blocked,))
+  current=blocked
+ current=_clean(g,"wash_hybridizations",current,"After round3 pool, pellet and wash twice with NIB")
+ ligase=g.input("ligase","20U/µlT4DNA ligase;RT30min",MaterialKind.CATALYST)
+ sealed=g.product("sealed","covalently sealed three-round cDNA/ATAC barcode chains",MaterialKind.MOLECULAR,state=_both_modalities(3))
+ g.react("seal","Seal3preassembled barcode-chain nicks once",StepKind.NICK_SEALING,((current,InputRole.TEMPLATE),(ligase,InputRole.CATALYST)),(sealed,))
+ sealed=_clean(g,"wash_ligation",sealed,"NIB wash after ligation")
+ aliquot=g.input("cell_aliquot","1000–20000barcoded cells per tube; other aliquots outside selected route",MaterialKind.CONDITION)
+ selected=g.product("selected_cells","selected barcoded cell aliquot",MaterialKind.MOLECULAR,state=sealed.state)
+ remainder=g.product("other_cells","other barcoded aliquots",MaterialKind.MOLECULAR,state=sealed.state)
+ g.react("aliquot_cells","Aliquot sealed barcoded cells",StepKind.SAMPLING,((sealed,InputRole.TEMPLATE),(aliquot,InputRole.CONDITION)),(selected,remainder),changes_molecule=False)
+ g.mark_terminal(Terminal(remainder.id,Disposition.UNRESOLVED,"Other library aliquots are outside this representation; no computed path exclusion is physical discard."))
+ release=g.input("release_condition","proteinaseK/SDS55°C1h;PMSFRT10min",MaterialKind.CONDITION)
+ released=g.product("released","released barcode-bearing cDNA/ATAC populations",MaterialKind.MOLECULAR,state=selected.state)
+ g.react("release","Reverse crosslinks and inactivate proteinaseK",StepKind.EXTRACTION,((selected,InputRole.TEMPLATE),(release,InputRole.CONDITION)),(released,))
+ beads=g.input("streptavidin","MyOneC1 streptavidin beads;RT60min",MaterialKind.SELECTION)
+ rna=g.product("rna_branch","biotin-captured ss-cDNA/RNA reaction material",MaterialKind.MOLECULAR,state=_captured_rna())
+ atac=g.product("atac_branch","supernatant containing genomic ATAC fragments",MaterialKind.MOLECULAR,state=_molecule_scene("ATAC",3))
+ g.react("affinity_split","Physically retain biotinylated cDNA on beads; ATAC in supernatant",StepKind.AFFINITY_CAPTURE,((released,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(rna,atac),changes_molecule=False)
+ atac=_clean(g,"atac_minelute",atac,"QIAGENMinElute PCRcleanup;20µlTris elution")
+ rna=_clean(g,"rna_bead_wash",rna,"ThreeB&W-T bead washes plus oneSTE wash")
+ tso_sc=Scene();tso_sc.strand("TSO",[Segment("TSO DNA",TSO_DNA),Segment("terminalrGrG+G","GGG",note="first2G RNA; lastG LNA")],label="source TSO modified tail")
+ tso=g.input("tso","TableS1 TSO withrGrG+G",MaterialKind.OLIGO,state=tso_sc)
+ switched=g.product("switched","actual switched ss-cDNA beside retained RNA",MaterialKind.MOLECULAR,state=_ss_switched(),inferred=True)
+ g.react("template_switch","INFERRED copied-end reference — on-beadMaxima template switch:RT30min,42°C90min",StepKind.TEMPLATE_SWITCHING,((rna,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(switched,))
+ switched=_clean(g,"wash_switch",switched,"Magnetic supernatant removal andSTE wash after template switching")
+ p7=g.input("p7","sourceP7 primer",MaterialKind.OLIGO,state=P7_PRIMER)
+ rnap=g.input("rna_pcr_primer","sourceRNA_PCR_primer",MaterialKind.OLIGO,state=RNA_PCR)
+ kapa=g.input("kapa","KAPAHifi cDNA PCRmix",MaterialKind.CATALYST)
+ amp=_controlled_pcr(g,"cdna",switched,p7,rnap,kapa,_amplified_cdna(),"2.5µl","1×EvaGreen")
+ amp=_clean(g,"cdna_ampure",amp,"Selected cell-line0.8×AMPure;10µlTris elution (primary-tissue0.6×separate)")
+ amount=g.input("cdna_amount","50ng amplified cDNA for fragmentation",MaterialKind.CONDITION)
+ input_cdna=g.product("cdna_input","50ng cDNA aliquot",MaterialKind.MOLECULAR,state=amp.state)
+ rest=g.product("cdna_remainder","other recovered cDNA",MaterialKind.MOLECULAR,state=amp.state)
+ g.react("sample_cdna","Take50ng cDNA",StepKind.SAMPLING,((amp,InputRole.TEMPLATE),(amount,InputRole.CONDITION)),(input_cdna,rest),changes_molecule=False)
+ g.mark_terminal(Terminal(rest.id,Disposition.UNRESOLVED,"cDNA outside selected50ng input; fate not assigned."))
+ read1=g.input("rna_transposome","sourceRead1-onlyTn5 with blockedME complement",MaterialKind.ADAPTER,state=_loaded(True))
+ rna_tn5=g.input("rna_tn5","Read1-onlyTn5;55°C5min",MaterialKind.CATALYST)
+ fragments=g.product("rna_fragments","native Read1-tagged cDNA reference with barcode end; gap extent unassigned",MaterialKind.MOLECULAR,state=_tagmented_cdna())
+ off=g.product("rna_off_targets","other cDNA fragments/end classes",MaterialKind.MOLECULAR)
+ g.react("rna_tagment","Tagment cDNA withRead1-onlytransposome",StepKind.TAGMENTATION,((input_cdna,InputRole.TEMPLATE),(read1,InputRole.STRUCTURAL),(rna_tn5,InputRole.CATALYST)),(fragments,off))
+ g.mark_terminal(Terminal(off.id,Disposition.UNRESOLVED,"End eligibility is not physical removal or proof of zero amplification; recovery through Zymo/AMPure unassigned."))
+ fragments=_clean(g,"rna_zymo",fragments,"ZymoDNAclean&Concentrator;10µlTris elution")
+ ad1=g.input("ad1","sourceAd1sample-indexed primer familyN8",MaterialKind.OLIGO,state=AD1_PRIMER)
+ pol=g.input("library_polymerase","NEBNextHighFidelity2×PCRMasterMix",MaterialKind.CATALYST)
+ amplified=g.product("rna_amplified","source RNA indexed amplicons",MaterialKind.MOLECULAR,state=RNA)
+ g.react("rna_index_pcr","72°C5min then7cyclesAd1/P7PCR",StepKind.PCR,((fragments,InputRole.TEMPLATE),(ad1,InputRole.STRUCTURAL),(p7,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(amplified,),geometry=PCRGeometry.unavailable(fragments.state,reason="Actual nativeRead1-tagged input; precise gap/first-cycle derivation unassigned."))
+ rna_clean=_clean(g,"rna_final_cleanup",amplified,"0.7×AMPure;10µlTris elution")
+ rna_library=g.product("rna_library",RNA.name,MaterialKind.LIBRARY,state=RNA)
+ g.react("rna_qc","Quantify recovered RNA library withKAPA;retain for sequencing",StepKind.GENERIC,((rna_clean,InputRole.TEMPLATE),),(rna_library,),changes_molecule=False)
+ atac_amp=_controlled_pcr(g,"atac",atac,ad1,p7,pol,ATAC,"25µl","0.6×SYBRgreen")
+ atac_library=g.product("atac_library",ATAC.name,MaterialKind.LIBRARY,state=ATAC)
+ g.react("atac_qc","Quantify source ATAC library withKAPA;retain for sequencing",StepKind.GENERIC,((atac_amp,InputRole.TEMPLATE),),(atac_library,),changes_molecule=False)
+ for lib,endpoint,primers in ((rna_library,RNA,RNA_P),(atac_library,ATAC,ATAC_P)):
+  g.sequence(lib,SequencingPlan(library=endpoint,primers=tuple(primers),acquired_roles=tuple(READ_LENGTHS_NEXTSEQ),read_lengths=READ_LENGTHS_NEXTSEQ,limitation="Compatible Nextera sequencing primers inferred from source arms; acquired NextSeq30/99/8/30 source-positive, NovaSeq50/99/8/50 separate."))
+ g.declare_reviewed_scope(REVIEWED,SOURCE)
+ return g.require_publishable()
+
+REVIEWED=("cells","transposome","tn5","tagment","wash_tagment_selection","wash_tagment","rt_primer","rt","reverse_transcribe","wash_rt_selection","wash_rt","barcode_1","linker_1","hybridize_1","blocker_1","block_1","barcode_2","linker_2","hybridize_2","blocker_2","block_2","barcode_3","linker_3","hybridize_3","blocker_3","block_3","wash_hybridizations_selection","wash_hybridizations","ligase","seal","wash_ligation_selection","wash_ligation","cell_aliquot","aliquot_cells","release_condition","release","streptavidin","affinity_split","atac_minelute_selection","atac_minelute","rna_bead_wash_selection","rna_bead_wash","tso","template_switch","wash_switch_selection","wash_switch","p7","rna_pcr_primer","kapa","cdna_five_cycles","cdna_qc_split","cdna_qc_dye","cdna_qpcr","cdna_extra_cycles","cdna_extra_pcr","cdna_ampure_selection","cdna_ampure","cdna_amount","sample_cdna","rna_transposome","rna_tn5","rna_tagment","rna_zymo_selection","rna_zymo","ad1","library_polymerase","rna_index_pcr","rna_final_cleanup_selection","rna_final_cleanup","rna_qc","rna_library","atac_five_cycles","atac_qc_split","atac_qc_dye","atac_qpcr","atac_extra_cycles","atac_extra_pcr","atac_qc","atac_library")

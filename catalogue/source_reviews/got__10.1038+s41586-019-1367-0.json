@@ -113,6 +113,36 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite comment-only (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 1 exact checked (P5generic), 0 failed, 3 inputs without exact states (SI-PCR, locus reverse, RPI-X with index placeholder); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch09-native-graph-migration",
+      "reviewer": "native_cell_assay_implementation",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "PublishedPMC6782071 Methods GenotypingofTranscriptomes lines194–202 including circular alternatives; originalSupplementTable5 universal/linear/stagger/spike-in/circularU/Gibson primer rows.",
+      "oligo_scraper": "Mandatory bundle scrapers FIND14/GoT55/TARGET376 hits; relevant source passages/modified oligos verified in originals. No-hit/unread boundaries are not absence evidence.",
+      "findings": "Selected linear GoT from native 10x3′v2 recovered first-strand cDNA. Native version-specific kit amplification is bounded; its source extra cycle is explicit. SPRIselect recovery precedes physical allocation of3µl for genotyping and the distinct expression remainder. The genotyping aliquot receives source3–4 extra cycles with KAPA/10x primer mix and another cleanup, then SI-PCR plus a locus-specific reverse primer, SPRI, and P5generic/RPI-X PCR. The selected zero-stagger CALR reverse is assembled from the source handle row and gene-specific row; its two components are source-tested. The source P5generic is not placed on a pre-indexPCR product as if SI-PCR were a disclosed P5 primer. Cell/UMI identities retain lineage with native widths unresolved; the RPI sample index is source-positive8bases. Acquired linear3′v2 reads26/index8/98or130 are separate from physical native geometry.\n\nOther 3′v3/5′ inputs and optional spike-ins are distinct experimental variants. Circular GoT remains outside the selected native graph, with its extensive source-known operations and discrepancy summarized publicly: optional SF3B1 pre-enrichment; PCR1;1.3XSPRI; USERII; overnight T4 circularization; lambda exonuclease;1.3XSPRI; PCR2 followed by the analogous conversion/closure/digestion/recovery; PCR3 linearization; SPRI; P5/RPI indexPCR; PE150MiSeq. The Gibson variant uses distinct complementary handles/KAPA and50°C1h assembly. Methods PCR2Fw/Rv U handles are AGGUCAGTCU/AGACUGACCU while Table5 assigns the reverse names; Methods PCR1Rv omits the Table5 terminal phosphorothioate “…CCGATC*T”. Neither ambiguity is silently repaired. Native circular topology/primer assignment requires a follow-up graph; the linear migration is not complete circular-variant coverage.\n\nDigestion, nonamplification and computational filtering never imply physical discard. Actual first/native/targetPCR templates remain separate from their daughter endpoint, and unknown kit stages do not manufacture symmetric primer species.",
+      "deferred": [
+        "Native circular U-overhang and Gibson variant graphs/topology, including published handle assignment discrepancy",
+        "Exact selected10x native kit primers/UMI width/expression library internals",
+        "Complete target/PCR first-cycle end geometry and species-specific recovery"
+      ],
+      "scope": "Capped source pass/native migration for selected experiments only; GoT circular graph coverage explicitly deferred. Historical status and absence gate unchanged.",
+      "verification": "Focused suites3/3/5 pass; all3pages build; chemistry0contradictions56unresolved; sourceguard8checked0failed2narrowtranscription exceptions13unassigned; pairing0; review schema/build_docs/staticOUT discovery pass; scoped diffcheck clean. Wrapper-free tools/protocol.py is inapplicable to these existing build_page entrypoints; actual pages built with their wrappers."
+    },
+    {
+      "round": "2026-10-18-batch09-native-graph-migration",
+      "reviewer": "root_critical_implementation_review",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "got__10.1038+s41586-019-1367-0/tools/chem.py and source-transcription suite; code-only review of native molecular states, actual PCR inputs, original/copy populations, aliquots, mod inheritance, source boundaries and read plans.",
+      "findings": "Actual native incoming states feed PCR geometry; independent RNA/genomicDNA/ssDNA and original-template classes remain explicit or unresolved, not chemically discarded. FIND copiedTSO residues are DNA without inheritedRNA/biotin modifications. TARGET2.5µl PCR1 aliquot now explicitly split from unresolved remainingPCR1 beforePCR2; transcriptome/genotype aliquots remain mixed populations. GoT selectedlinear3primev2 native route remains separate from source-known circular/Gibson variants and public source discrepancy; those native topology graphs remain a named coverage follow-up. No legacy family import or borrowed default shell.",
+      "deferred": [
+        "Independent original-source second pass; this review read no originals",
+        "GoT circular/U/Gibson native graph variants and unassigned native first-cycle/end geometry"
+      ],
+      "scope": "Independent critical implementation review, documents0; does not satisfy a second original-source reading or upgrade absence status.",
+      "verification": "Focused suites/pages/chemistry/sourceguard/review schema pass; parent whole-site integration pending."
     }
   ]
 }

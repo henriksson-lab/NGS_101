@@ -45,3 +45,17 @@ Deferred: Published SupplementaryFigS1 and full primer geometry, two PAGE select
   5′-CAAGCAGAAGACGGCATACGAGAT-barcode-GTGACTGGAGTTCAGACGTGTGCTCTTCCGATC-3′ with a 6–8-nt
   barcode. The fixed arms are verbatim; the six-base barcode window is the representative
   member already used for the final library, not a source-fixed length.
+
+## Native graph migration (2026-10-18)
+
+Replaced shared RNA-end recipe with native DMS/RNA extraction-polyA/RT/RNaseH/above50PAGE/hairpinligation/above90PAGE/Q5PCR/220-600PAGE graph. Actual RT-derived single-strand cDNA and full modified hairpin donor are covalently joined before PCR; PCR no longer uses final-library geometry. RNaseH cleavage products unresolved rather than discarded. Donor TGAA/TTCA four-base stem explicitly reconstructed by HairpinTopology using FigureS1 geometry; degenerate target pairing remains unvalidated. Custom R1 150 bases and selected representative six-base index retained as qualified member of source6-8 family.
+
+Read Published PMC5737731 JATS Methods63-105 and Results119-147; published File006 supplementary PDF rendered Figure S1 pS2 and captions S1/S3/S4.. The source scraper was run; Figure S1 was inspected as a rendered original. Native ligation pairing and first-cycle conversion remain unvalidated even though the donor stem can pair. This bounded pass does not accept a missing-information claim.
+
+## Critical implementation follow-up (2026-10-18)
+
+Removed the acquired six-cycle index default. The drawn six-base barcode remains a representative physical member of the published six-to-eight-base family. Figure S1 shows an index primer, but the inspected scope does not assign six acquired index cycles; the structured read table leaves acquisition length unassigned.
+
+The PCR endpoint retains the RT-primer random hexamer as an explicit copied N6 region
+between the biological extension and the reverse-primer arm. It is not silently
+absorbed into the biological insert or treated as an acquired index read.

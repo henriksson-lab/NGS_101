@@ -1,5 +1,18 @@
 # MARS-seq / MARS-seq2.0 — FACS into 384-well plates, T7 linear amplification, three barcodes
 
+## Active native migration, 2026-10-18
+
+Source scope: Published2014Science defining author manuscript science.1247651_PMC4412462.xml.txt50–52; original Supplement identity DOI10.1126/science.1247651,14Feb2014: table extract scg_jaitin-sm.pdf.txt1–67 (TablesS7/S8); same original full Methods text in coauthor AlexanderMildner upload https://www.researchgate.net/publication/279842956_Jaitin-SM identity53–85, Methods108–391. Table extract and full supplement are one original, not counted twice. Source webpage readable through browser tool this pass; gated PDF not bypassed.
+
+The original2014 module now owns its17step native graph independently of2019. The original coauthor-uploaded Supplement Methods were readable this pass, resolving reaction order within scope. RT1extended ssDNA is pooled into24intermediate wells before ExoI; digestion creates carried hydrolysate, followed by1.2×SPRI/192cell-batch recovery. Paired-promoter DNA feeds IVT; RNA carries the transcribed initialGGG and U. TurboDNase hydrolysis is separate from1.2×SPRI recovery. Zn fragmentation and2×SPRI precede5′phosphorylated/3′C3blocked N3+pool4 adapter ligation, RT2,1.5×SPRI, nativePCR and0.7×SPRI. The source-written2014RT2/adapter-complement conflict stays public and unresolved; no2019primer substitution. Actual RT2-derived ssDNA, not completed library, is PCR input. Independent ERCC/original RNA, promoterDNA/hydrolysate, adapter templates and nonamplifying fragments retain explicit possible molecular fates. HiSeq2500paired-end is positive; cycle/index acquisition remain unassigned.
+
+This capped pass establishes no confirmed absence or complete chemistry review. Historical observations and audits below retain their original scope. Current source-owned declarations replace the earlier shared endpoint and IVT recipes; molecular hydrolysis, nonamplification and computational filtering are distinct from physical discard.
+
+Deferred: Ordered2014RT2orientation/landing and its apparent source discrepancy; Exact2014PCR cycle count and instrument acquisition cycles/index roles; Separate PMC supplement figure PDF remains gated; no global absence conclusion; Complete recovery/purity of promoter hydrolysate and original/template/offtarget molecular populations.
+
+Mandatory scraper: 52hits6files; original TableS7/S8 oligos verified. Full Methods via identified coauthor supplement text, not upstream drawn page.
+
+
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published, or published only where we could not fetch it. Relationships marked 🟡
 > *(computed)* were worked out with `lib/` while writing this note.

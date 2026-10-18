@@ -17,7 +17,7 @@
 
 ## Published discrepancy shown on the page
 
-- 2017 Methods: 16–18 PCR cycles, 130–350 bp gel-isolated. 2019 protocol: test PCR at 14 and 16 cycles (18 if weak), 140–350 bp excised. The schematic shows both and chooses neither.
+- 2017 Methods: 16–18 PCR cycles, 130–350 bp gel-isolated. 2019 protocol: test PCR at 14 and 16 cycles (18 if weak), 140–350 bp excised. The graph selects the separately labelled2019 reference implementation; both source versions remain visible.
 
 ## Final readout
 
@@ -27,3 +27,32 @@
 
 - How the 5-nt barcode, located in the i5 position between P5 and Read 1, was read on a single-end HiSeq 2500 run is not stated in the inspected passages.
 - The PMC supplement DOCX of the 2017 paper (gated) and the cited ChIP predecessor (Ji *et al.* 2013) were not read in the capped pass.
+
+## Native graph migration (2026-10-18, batch04)
+
+Inspected two originals: defining2017 PMC5957070 STARMethods299–311 and published2019
+PMC6604627 overview47–49, fixation/sonication119–139, primer/librarySteps61–85
+604–766 andTable1 1475–1485. Mandatory bundle scraper27hits in2files; relevant
+printed oligos were verified at thoseTable1 passages. No additional original was
+followed. The native graph explicitly selects the later2019 reference implementation;
+it does not establish exact execution of the original2017 experiment.
+
+The local graph owns independentDNA/RNA populations and the tailedN9 reagent with
+verbatim `/invddt/` end chemistry. The inverted cap's full bond geometry is not
+reconstructed. Role insert length is unassigned instead of a shared default. Actual
+N9-copy DNA receives PureLink20µl recovery, one-end dA tailing, PureLink13µl recovery
+and sourceA/B ligation. The adapter's opposite-template nick remains unresolved
+because native template5′phosphorylation is unassigned. The incoming ligatedScene is
+partly duplex with a5′N9-handle overhang; it is not replaced by the final PCR duplex.
+Barcode-primer first copying can create the opposite handle, but no complete native
+PCR phase proof is asserted. Source14/16cycle test aliquots are separate from final
+PCR stock; tests are consumed asQC, and finalPCR count is chosen by thatQC.
+Glycogen/sodiumacetate/ethanol precipitation precedes140–350bp gel recovery.
+
+The source2019 centrifugation passage prints16000g15min at80°C after−80°C precipitation.
+The page exposes that wording; no corrected spin temperature is assigned. Original2017
+16–18cycles/130–350bp and2019 test14/16(18ifweak)/140–350bp are separate source versions;
+the graph now chooses the2019 reference and states why. Source-positive single-end40
+is retained; unknown index acquisition is not rendered as an absent index read.
+Original2017 supplement/ChIP predecessor, native first-copy PCR/cap bonds, template
+phosphorylation and exact barcode acquisition remain deferred. No absence claim accepted.

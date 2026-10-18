@@ -190,6 +190,36 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    },
+    {
+      "round": "2026-10-18-batch03-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "scope": "Bounded native architecture/source correction; not a complete chemistry review or accepted absence claim.",
+      "verification": "Local suite exits0 with no explicit tests (construction exercised by page/chemistry); parent page, scoped chemistry (0 contradictions), source guard (0 exact checked/0 failed; inferred/role inputs, not exact chemistry proof), review schema and page pairing (0 problems) pass.",
+      "documents": 3,
+      "locations": "Science2012 original22539555.pdf.txt oxidation110–145 and oxRRBS470–488; published2013 PMC3919000 JATS55, Steps6–22/32–36; original2013 MOESM11 SupplementaryFig1b captionp1. Mandatory bundle scraper zero hits (not absence).",
+      "findings": "Native graph explicitly2013sonicated reference, not2012oxRRBS substitution. HistoricalTruSeq prep unresolved source boundary replaces invented Y/dA recipe. Added separate control species, actualbead/P6 recoveries, matchedBSaliquot, alkaline strands/oxidation, physical5hmC methyl-sulfonateBSadduct, actualconvertedPCRinput, PfuTurboCx12–15cycles and postPCRbeads. Control-derived fates unresolved, no silent control removal. Nativeends/readacquisition unknown; publishedcaptiondiscrepancy retained.",
+      "deferred": [
+        "Original2012 booth-som.revision.1.pdf and oxRRBS construction",
+        "HistoricalTruSeqadapter/PCR/indexstrands and acquiredlayout",
+        "Strand-specific control reconstruction and Steps23–31 digestionQC"
+      ]
+    },
+    {
+      "round": "2026-10-18-batch03-independent-implementation-review",
+      "reviewer": "migration_peer",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current declarations and quoted source scopes; no additional originals read.",
+      "findings": "Implementation review identified digestion-control continuity through denaturation; parent preserved control rows through conversion, then bounded control-derived PCR/QC fates. Historical2012/2013 boundary, actual PCR substrate and physicalBSadduct reviewed.",
+      "scope": "Implementation-only independent review; not a second original-source reader or absence acceptance.",
+      "deferred": [
+        "Original2012 booth-som.revision.1.pdf and oxRRBS construction",
+        "HistoricalTruSeqadapter/PCR/indexstrands and acquiredlayout",
+        "Strand-specific control reconstruction and Steps23–31 digestionQC"
+      ],
+      "verification": "Peer re-inspected corrected implementation, 0 additional originals. No further critical issue found in this scope; parent focused suite/page/chemistry/sourceguard/schema and pairing pass."
     }
   ]
 }

@@ -1,203 +1,88 @@
-"""GAM preserves spatial association by sampling one nuclear profile.
-
-The group is a collection of independent chromosome pieces selected by one physical
-nuclear slice, never one covalent contact chimera.
-"""
-from __future__ import annotations
-
+"""GAM: independent nuclear-profile DNA with source-owned WGA/HT boundaries."""
 from types import SimpleNamespace
-
-import illumina as il
-import seqprimers as sp
-from batch_ngs import truseq_library
-from chemdraw import Construct, Scene, Segment, feature
+from chemdraw import Construct, Scene, feature
+from protocol_model import molecule, role
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
-from protocol_model import chain, molecule, role
+from protocol_graph import InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind,Disposition,Terminal
+import seqprimers as sp
+
+TITLE="GAM — Genome Architecture Mapping by nuclear-profile co-segregation"
+NOTES="01_gam.html"
+SOURCE='<a href="https://doi.org/10.1038/nature21411">Beagrie et al., Nature (2017)</a>; Methods WGA/library preparation and Supplementary Table1.'
+SUMMARY="One220nm nuclear profile is microdissected and amplified as its own library. Association is statistical co-segregation across profiles; independent loci are never a covalent contact chimera."
+CAVEAT=("Selected route: original TruSeq DNA HT preparation, including Pippin300–500nt selection. The source’s Nano route uses a different350nt bead-selection branch and is not silently merged. WGA4 end adapters occupy30bp; their sequences, native attachment geometry and PCR primer species remain unassigned. The printed single-end100bp run includes30 dark cycles whose relation to the100 is unresolved; no imaged genomic span is inferred. Published positive-control discrepancy: Isolation names E14mESC DNA, while WGA names human genomic DNA in an empty lid. Neither value changes the NP libraries.")
 
 
-from pathlib import Path
-import sys
-HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE.parents[1] / "lib"))
-
-def _seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
-    return Segment(name, top, tag, **kw)
-
-
-def nuclear_profile_scene(label: str, *, amplified: bool = False) -> Scene:
-    """Independent chromosome pieces selected by one physical nuclear slice."""
-    sc = Scene()
-    for n in range(1, 4):
-        parts = []
-        if amplified:
-            parts.append(_seg(f"5-prime WGA4 adapter {n}", "W" * 30,
-                              placeholder=True, inferred=True, length_bp=30))
-        parts.append(_seg(f"slice-intersected genomic region {n}", "X" * (24 + 5 * n),
-                          placeholder=True, length_bp=30000))
-        if amplified:
-            parts.append(_seg(f"3-prime WGA4 adapter {n}", "W" * 30,
-                              placeholder=True, inferred=True, length_bp=30))
-        sc.strand(f"region {n}", parts, label=f"region {n}")
-    return sc
+def nuclear_profile_scene(label, *, amplified=False):
+ sc=Scene()
+ for n in range(1,4):
+  parts=[]
+  if amplified:parts.append(role("5-prime WGA4 adapter "+str(n),length_bp=30))
+  parts.append(role("independent genomic region "+str(n)+"; molecular extent unassigned"))
+  if amplified:parts.append(role("3-prime WGA4 adapter "+str(n),length_bp=30))
+  sc.strand("region"+str(n),parts,label=label+": region"+str(n))
+ return sc
 
 
-def gam_library():
-    lib, all_primers = truseq_library([
-        _seg("5-prime WGA4 adapter", "W" * 30, placeholder=True,
-             inferred=True, length_bp=30),
-        role("one genomic region retained in the nuclear profile"),
-        _seg("3-prime WGA4 adapter", "W" * 30, placeholder=True,
-             inferred=True, length_bp=30),
-    ], "GAM nuclear-profile library")
-    primers = tuple(p for p in all_primers if p.role != "Read 2")
-    problems = sp.verify(lib, primers, required_roles=tuple(p.role for p in primers))
-    if problems:
-        raise ValueError("GAM library: " + "; ".join(problems))
-    return lib, primers
+FINAL_LIBRARY=Construct([
+ role("TruSeq HT outer end; native geometry unassigned"),
+ role("5-prime WGA4 adapter",length_bp=30),
+ role("one profile-derived genomic interval; length unassigned"),
+ role("3-prime WGA4 adapter",length_bp=30),
+ role("opposite TruSeq HT end; native geometry unassigned")],name="GAM source-limited TruSeq HT endpoint")
+SEQ_PRIMERS=()
+READ_LENGTHS=None
+FINAL_CAPTION="One independent profile-derived molecular species; WGA4 adapters are30bp, but native TruSeq ends/index placement remain unassigned. No contact junction exists."
+SEQUENCING_INTRO="Methods reports single-end100bp HiSeq rapid-run with the first30bp not imaged. Whether those dark cycles are inside or additional to the100 is unresolved. Table1 gives8-base i7/i5 index sequences for selected NP HT libraries; acquired index cycles remain unassigned."
+SEQUENCING_ENDING=SEQUENCING_INTRO
+SEQUENCING_UNAVAILABLE="Exact physical sequencing-primer sites and imaged genomic coverage are unassigned."
+READ_SPECS=(sp.read_spec("Read 1","100bp as printed;30 dark cycles, relation unresolved","profile genomic sequence after WGA4 end; imaged genomic extent unassigned","include"),)
 
 
-def gam_workflow():
-    return chain(molecule("fixed, sucrose-embedded nucleus", (
-        role("three-dimensional chromosome arrangement preserved in one nucleus"),)), (
-        ("Cut an approximately 220-nm cryosection through a random nuclear plane",
-         nuclear_profile_scene("one thin nuclear profile"),
-         "A physical slice contains the genomic loci intersecting that plane. Spatially close loci co-occur across profiles more often, but the selected DNA regions are not covalently joined."),
-        ("Laser-microdissect one nuclear profile into its own adhesive PCR cap",
-         nuclear_profile_scene("one isolated nuclear profile"),
-         "Each of the original GAM libraries represents one independently sampled nuclear profile. Empty caps and WGA-amplified bulk genomic DNA are carried as negative and positive controls."),
-        ("Lyse, fragment and prepare the profile with the Sigma WGA4 system",
-         nuclear_profile_scene("WGA4-prepared profile", amplified=True),
-         "Protease extraction is followed by the proprietary library-preparation enzyme. The kit creates about 30 bases of WGA adapter at each amplified genomic end; its oligo sequences are not public."),
-        ("Whole-genome amplify the nuclear-profile DNA",
-         nuclear_profile_scene("amplified nuclear-profile regions", amplified=True),
-         "WGA4 PCR supplies enough material from the subcellular slice for a conventional library. Presence or absence of genomic windows, not molecular counting, is the measurement."),
-        ("Purify, size-select and build one indexed TruSeq library per profile",
-         molecule("representative indexed GAM library molecule", (
-             role("P5, i5 and Read 1 arm"), role("30-nt WGA4 adapter", length_bp=30, inferred=True),
-             role("one profile-derived genomic region"), role("30-nt WGA4 adapter", length_bp=30, inferred=True),
-             role("Read 2 arm, i7 and P7"))),
-         "The defining study used TruSeq DNA HT or TruSeq Nano DNA HT, pooled 96 libraries and size-selected approximately 300–500-nt products."),
-    ))
-
-
-def _finish_pcr(graph, template, spec, prefix, reviewed, label):
-    forward = graph.input(prefix + "_forward", label + " forward primer", MaterialKind.OLIGO)
-    reverse = graph.input(prefix + "_reverse", label + " reverse primer", MaterialKind.OLIGO)
-    polymerase = graph.input(prefix + "_polymerase", label + " polymerase",
-                            MaterialKind.CATALYST)
-    library = graph.product(prefix + "_library", label + " sequencing library",
-                            MaterialKind.LIBRARY, state=spec.FINAL_LIBRARY)
-    graph.react(prefix + "_pcr", label, StepKind.PCR,
-                ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
-                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (library,), geometry=PCRGeometry.unavailable(
-                    spec.FINAL_LIBRARY,
-                    reason="The commercial intermediate is not disclosed as an exact Construct; the final primer landing sites are checked independently."))
-    graph.sequence(library, SequencingPlan(library=spec.FINAL_LIBRARY,
-                                           primers=tuple(spec.SEQ_PRIMERS)))
-    reviewed.extend((forward.id, reverse.id, polymerase.id, prefix + "_pcr",
-                     library.id))
-
-
-def _gam_graph(spec):
-    source = spec.SOURCE
-    graph = ProtocolGraph(spec.TITLE, authority=source)
-    nucleus = graph.input("nucleus", "fixed sucrose-embedded nucleus",
-                          MaterialKind.BIOLOGICAL,
-                          state=molecule("fixed nucleus", (role("three-dimensional chromosome arrangement"),)),
-                          primary=True)
-    sectioning = graph.input("cryosection", "approximately 220-nm cryosection condition",
-                             MaterialKind.CONDITION)
-    profile = graph.product("profile", "one thin nuclear profile",
-                            MaterialKind.MOLECULAR, state=nuclear_profile_scene("profile"))
-    excluded = graph.product("excluded_nucleus", "nuclear material outside the sampled plane",
-                             MaterialKind.WASTE)
-    graph.react("section", "Cut a thin random plane through the nucleus",
-                StepKind.SAMPLING,
-                ((nucleus, InputRole.TEMPLATE), (sectioning, InputRole.CONDITION)),
-                (profile, excluded))
-    graph.discard(excluded, "lies outside the sampled nuclear profile")
-    cap = graph.input("capture_cap", "adhesive laser-microdissection cap",
-                      MaterialKind.SELECTION)
-    isolated = graph.product("isolated", "one isolated nuclear profile",
-                             MaterialKind.MOLECULAR, state=profile.state)
-    rejected = graph.product("uncaptured", "uncaptured section material", MaterialKind.WASTE)
-    graph.react("microdissect", "Laser-microdissect one nuclear profile",
-                StepKind.SELECTION,
-                ((profile, InputRole.TEMPLATE), (cap, InputRole.SELECTION)),
-                (isolated, rejected))
-    graph.discard(rejected, "is not part of the individually indexed nuclear profile")
-    lysis = graph.input("wga4_lysis", "WGA4 proteinase K in single cell lysis and fragmentation buffer",
-                        MaterialKind.CATALYST)
-    lysed = graph.product("lysed", "deproteinized, fragmented nuclear-profile DNA",
-                          MaterialKind.MOLECULAR, state=profile.state)
-    graph.react("lyse", "Proteinase K lysis in the cap (50 °C, 4 h), then 99 °C for 4 min",
-                StepKind.DEPROTEINIZATION,
-                ((isolated, InputRole.TEMPLATE), (lysis, InputRole.CATALYST)), (lysed,))
-    wga4 = graph.input("wga4_reagent", "WGA4 library preparation buffer, stabilisation solution and library preparation enzyme",
-                       MaterialKind.CONDITION, inferred=True,
-                       source=source + " (commercial composition not disclosed)")
-    prepared = graph.product("prepared", "WGA4-prepared nuclear-profile DNA",
-                             MaterialKind.MOLECULAR,
-                             state=nuclear_profile_scene("WGA4-prepared profile", amplified=True))
-    graph.react("prepare", "WGA4 library preparation: 95 °C 4 min, then enzyme at 16/24/37 °C (20 min each) and 75 °C 5 min",
-                StepKind.MAGIC,
-                ((lysed, InputRole.TEMPLATE), (wga4, InputRole.CONDITION)), (prepared,),
-                reason="Methods give the reagent names, temperatures and times; the kit's adapter-attachment chemistry and adapter bases are proprietary, and only the 30-bp adaptor length at both ends is stated.")
-    wga_f = graph.input("wga_forward", "WGA4 amplification primer", MaterialKind.OLIGO,
-                        inferred=True, source=source + " (sequence proprietary)")
-    wga_r = graph.input("wga_reverse", "WGA4 opposing amplification primer",
-                        MaterialKind.OLIGO, inferred=True,
-                        source=source + " (sequence proprietary)")
-    wga_polymerase = graph.input("wga_polymerase", "WGA4 polymerase",
-                                 MaterialKind.CATALYST)
-    amplified = graph.product("amplified", "whole-genome-amplified profile DNA",
-                              MaterialKind.MOLECULAR, state=prepared.state)
-    graph.react("wga", "Whole-genome amplify the nuclear-profile DNA", StepKind.PCR,
-                ((prepared, InputRole.TEMPLATE), (wga_f, InputRole.STRUCTURAL),
-                 (wga_r, InputRole.STRUCTURAL),
-                 (wga_polymerase, InputRole.CATALYST)), (amplified,),
-                geometry=PCRGeometry.unavailable(
-                    spec.FINAL_LIBRARY, reason="WGA4 adapter and primer sequences are proprietary."))
-    reviewed = ["nucleus", "cryosection", "section", "capture_cap", "microdissect",
-                "wga4_lysis", "lyse", "wga4_reagent", "prepare", "wga_forward", "wga_reverse",
-                "wga_polymerase", "wga"]
-    _finish_pcr(graph, amplified, spec, "library", reviewed,
-                "Build the indexed TruSeq GAM library")
-    graph.declare_reviewed_scope(reviewed, source)
-    return graph.require_publishable()
-
-
-def get():
-    final, primers = gam_library()
-    spec = SimpleNamespace(
-        TITLE="GAM — Genome Architecture Mapping by nuclear-profile co-segregation",
-        NOTES="01_gam.html",
-        SOURCE='<a href="https://doi.org/10.1038/nature21411">Beagrie et al., <i>Nature</i> (2017)</a>; original WGA4 and TruSeq implementation.',
-        SUMMARY="A random 220-nm cryosection through one fixed nucleus is laser-microdissected, whole-genome amplified and sequenced as its own indexed library. Loci that repeatedly occur in the same thin profiles are inferred to have been close in three-dimensional space.",
-        CAVEAT=("GAM has no contact junction and no molecule-level complex barcode: association is statistical co-segregation across many separately indexed nuclear-profile libraries. <inf>The WGA4 adapter is known to occupy 30 bases at each genomic end, but its proprietary bases are not published.</inf> "
-                "Read length: Methods say each pool was sequenced &ldquo;single end 100 bp&rdquo; with the first 30 cycles not imaged (dark cycles); they do not say whether the 30 dark cycles are inside or in addition to the 100. The model uses the printed 100-cycle Read 1 and does not decide how many genomic bases were imaged. "
-                "Published discrepancy (positive control only): the Isolation of nuclear profiles paragraph names WGA-amplified E14 mESC genomic DNA, while the Whole genome amplification paragraph adds 1 &micro;l human genomic DNA to an empty lid. The NP libraries modelled here are unaffected; the control's species is not resolved here."),
-        oligos=lambda: (),
-        workflow=gam_workflow,
-        FINAL_LIBRARY=final,
-        FINAL_CAPTION="A representative genomic piece from one nuclear profile, flanked by two proprietary 30-base WGA4 adapters inside a dual-index TruSeq library. The sample-index pair identifies the profile; it does not label contacts within a molecule. <inf>WGA4 adapter bases are undisclosed.</inf>",
-        SEQ_PRIMERS=primers,
-        READ_LENGTHS={"Read 1": 100, "Index 1 (i7)": 8,
-                          "Index 2 (i5)": 8},
-        SEQUENCING_INTRO="The original study sequenced pools of 96 libraries single-end 100 bp in HiSeq rapid-run mode; the first 30 Read 1 cycles, which traverse the known-length WGA4 adapter, were not imaged (dark cycles; whether they count within the 100 is not stated). Supplementary Table 1 lists 8-nt i7 and i5 indexes for every NP and negative-control library (TruSeq HT or Nano; acquired index cycles are not stated). Read 2 was not used.",
-        SEQUENCING_ENDING="",
-        SEQUENCING_UNAVAILABLE=""
-    )
-    spec.protocol_graph = lambda: _gam_graph(spec)
-    return spec
-
-
-SPEC = get()
-globals().update(vars(SPEC))
+def oligos():return ()
 
 
 def protocol_graph():
-    return _gam_graph(SPEC)
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ nucleus=g.input("nucleus","fixed sucrose-embedded nucleus",MaterialKind.BIOLOGICAL,state=nuclear_profile_scene("nucleus"),primary=True)
+ section=g.input("cryosection","approximately220nm random cryosection",MaterialKind.CONDITION)
+ profile=g.product("profile","one thin nuclear profile",MaterialKind.MOLECULAR,state=nuclear_profile_scene("profile"))
+ other=g.product("excluded_nucleus","nuclear material outside selected plane",MaterialKind.MOLECULAR)
+ g.react("section","Sample a thin nuclear plane",StepKind.SAMPLING,((nucleus,InputRole.TEMPLATE),(section,InputRole.CONDITION)),(profile,other))
+ g.mark_terminal(Terminal(other.id,Disposition.UNRESOLVED,"Outside this sampled profile; remaining section/nuclear material may persist and is not assigned a physical disposal."))
+ cap=g.input("capture_cap","adhesive laser-microdissection cap",MaterialKind.SELECTION)
+ isolated=g.product("isolated","individually captured nuclear profile",MaterialKind.MOLECULAR,state=profile.state)
+ uncollected=g.product("uncaptured","section material not collected in this cap",MaterialKind.MOLECULAR)
+ g.react("microdissect","Laser-microdissect one profile into its own cap",StepKind.SELECTION,((profile,InputRole.TEMPLATE),(cap,InputRole.SELECTION)),(isolated,uncollected))
+ g.mark_terminal(Terminal(uncollected.id,Disposition.UNRESOLVED,"Not collected in this cap; physical disposal of other section material is unassigned."))
+ lysis=g.input("wga4_lysis","WGA4 ProteinaseK/lysis-fragmentation buffer;50°C4h,99°C4min",MaterialKind.CATALYST)
+ lysed=g.product("lysed","deproteinized profile DNA",MaterialKind.MOLECULAR,state=profile.state)
+ g.react("lyse","Lyse the profile in its cap",StepKind.DEPROTEINIZATION,((isolated,InputRole.TEMPLATE),(lysis,InputRole.CATALYST)),(lysed,))
+ wga=g.input("wga4_reagent","WGA4 library buffer,stabilisation solution,library-preparation enzyme",MaterialKind.CONDITION)
+ prepared=g.product("prepared","WGA4 library-prepared profile DNA",MaterialKind.MOLECULAR,state=nuclear_profile_scene("prepared",amplified=True))
+ g.react("prepare","Prepare WGA4 templates at95°C4min then16/24/37°C20min each,75°C5min",StepKind.MAGIC,((lysed,InputRole.TEMPLATE),(wga,InputRole.CONDITION)),(prepared,),reason="The source names WGA4 reagents/times and30bp end adapters; native adapter attachment and oligo geometry are unassigned.")
+ f=g.input("wga_forward","WGA4 forward primer role; physical pool/species unassigned",MaterialKind.OLIGO)
+ r=g.input("wga_reverse","WGA4 opposing primer role; physical pool/species unassigned",MaterialKind.OLIGO)
+ pol=g.input("wga_polymerase","WGA DNA polymerase plus amplification master mix; supplier PCR program",MaterialKind.CATALYST)
+ amp=g.product("amplified","WGA-amplified independent profile loci",MaterialKind.MOLECULAR,state=nuclear_profile_scene("amplified",amplified=True))
+ g.react("wga","Amplify actual WGA4-prepared profile DNA",StepKind.PCR,((prepared,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(amp,),geometry=PCRGeometry.unavailable(prepared.state,reason="Actual independent WGA4-prepared profile molecules enter PCR; physical primer species/ends are unassigned, not a completed sequencing library."))
+ minelute=g.input("wga_cleanup","Qiagen MinElute PCR Purification;elute50µl",MaterialKind.SELECTION)
+ clean=g.product("clean_wga","purified WGA profile DNA",MaterialKind.MOLECULAR,state=amp.state)
+ wash=g.product("wga_cleanup_waste","MinElute flowthrough/washes",MaterialKind.WASTE)
+ g.react("purify_wga","Purify WGA DNA before sequencing-library preparation",StepKind.CLEANUP,((amp,InputRole.TEMPLATE),(minelute,InputRole.SELECTION)),(clean,wash));g.discard(wash,"Excluded by the source column transfer; component partition remains unassigned.")
+ kit=g.input("ht_kit","TruSeq DNA HT Sample Prep Kit;whole WGA yield up to1.1µg in55µl",MaterialKind.CONDITION)
+ index_inventory=Scene()
+ for name in ("i7","i5"):
+  index_inventory.strand(name,[role(name+" sample-index oligo inventory",length_bp=8,molecular_feature=feature("gam_"+name,"sample_index","unknown"))],label="source HT NP index inventory; native placement unassigned")
+ indexes=g.input("ht_indexes","HT NP indexes;8base i7/i5 sequences in SupplementaryTable1",MaterialKind.OLIGO,state=index_inventory)
+ product=g.product("ht_product","TruSeq HT profile library before size selection",MaterialKind.MOLECULAR,state=FINAL_LIBRARY)
+ g.react("ht_library","Build the selected TruSeq DNA HT profile library",StepKind.MAGIC,((clean,InputRole.TEMPLATE),(kit,InputRole.CONDITION),(indexes,InputRole.STRUCTURAL)),(product,),reason="The source delegates native end processing, ligation and internal PCR to the HT manufacturer protocol; no generic outer shell or terminal PCR on WGA input is substituted.")
+ pippin=g.input("pippin","Pippin Prep300–500nt,EtBr-free1.5%agarose cassette",MaterialKind.SELECTION)
+ library=g.product("library","size-selected indexed HT profile library",MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+ offsize=g.product("off_size","library products outside selected Pippin window",MaterialKind.WASTE)
+ g.react("select_library","Select the source HT300–500nt library window",StepKind.SELECTION,((product,InputRole.TEMPLATE),(pippin,InputRole.SELECTION)),(library,offsize));g.discard(offsize,"Not included in the selected Pippin output fraction.")
+ g.sequence(library,SequencingPlan(library=FINAL_LIBRARY,acquired_roles=("Read 1",),limitation=SEQUENCING_INTRO))
+ g.declare_reviewed_scope(("nucleus","cryosection","section","capture_cap","microdissect","wga4_lysis","lyse","wga4_reagent","prepare","wga_forward","wga_reverse","wga_polymerase","wga","wga_cleanup","purify_wga","ht_kit","ht_indexes","ht_library","pippin","select_library","library"),SOURCE)
+ return g.require_publishable()
+
+SPEC=SimpleNamespace(**{k:v for k,v in globals().copy().items() if k.isupper()},oligos=oligos,protocol_graph=protocol_graph)

@@ -1,17 +1,9 @@
-"""PAIso-seq end extension, USER release and PacBio SMRTbell conversion."""
-from batch_ngs import joined_scene, seg
-from chemdraw import Construct, Row, feature, revcomp
-from dumbbell import Dumbbell, smrtbell_circuit, smrtbell_hairpin_geometry, smrtbell_sequencing_plan
-from longread_footprinting import pacbio_entry, smrtbell_rows
-from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SourceClaim,
-                            SourceDiscrepancy, StepKind)
-from protocol_extensions import capped_full_length_cdna
-import rt
-from pathlib import Path
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "smart-seq2__10.1038+nmeth.2639" / "tools"))
-import smartseq2 as s2
+"""PAIso-seq2019 source-owned mixed RNA/DNA extension, ssPCR and nativeSMRTbell boundary."""
+from chemdraw import Construct,Scene,Segment,MolecularState,feature,revcomp,complement_segments,circle_rows
+from protocol_model import role
+from pcr import PCRGeometry
+from protocol_graph import ProtocolGraph,MaterialKind as M,InputRole as I,StepKind as K,SequencingPlan,SourceClaim,SourceDiscrepancy
+import seqprimers as sp
 TITLE="PAIso-seq — poly(A)-inclusive full-length isoform sequencing"
 NOTES="01_paiso-seq.html"
 SOURCE='Defining source: <a href="https://doi.org/10.1038/s41467-019-13228-9">Liu et al., <i>Nature Communications</i> (2019)</a>; detailed protocol <a href="https://doi.org/10.1038/s41596-022-00704-8">Nat. Protocols (2022)</a>.'
@@ -23,22 +15,17 @@ CAVEAT=('The 2019 paper (Methods, “PAIso-seq library construction”) names a 
         'PacBio 1.0 insert, p. 1</a> lists a Blunt Adapter, while the <a href="https://www.pacb.com/wp-content/uploads/SMRTbell-Express-TPK-2.0-Overview-Large-Insert-gDNA-Library-Prep-Customer-Training.pdf">'
         'Express 2.0 overview, pp. 6 and 8</a> specifies a T-overhang adapter and A/T ligation. '
         'The model preserves the closed SMRTbell topology but leaves this experiment\'s '
-        'end-preparation and insert–adapter junction geometry unresolved. Drawn N hairpins '
-        'have schematic length; their bases and length are not established. '
+        'end-preparation and insert–adapter junction geometry unresolved. Native hairpin roles '
+        'carry no assigned bases or molecular length. '
         'The later protocol also adds 5′ iCiGiC and 3′ amine blocking to its TSO '
         '(Table 2); this model uses the 2019 Supplementary Table 1 TSO instead.')
-# PAIso-seq reuses the SMART-seq2 handle system, so the shared model supplies the bases
-# instead of a second transcription of them.  Supplementary Table 1 of the defining paper
-# ("Oligos for PAIso-seq library construction") prints TSO, RT primer and PCR primer in
-# full, and its TSO carries the four-base ACAT linker of smart-seq2__10.1038+nmeth.2639/tools/smartseq2.TSO_LINKER — the
-# Nature Protocols form of SMART-seq2 — so no base here is inherited by assumption.  The
-# self-test pins the three ordering strings against that table.
-PCR_HANDLE = rt.SMART_HANDLE
-GUIDE_LINKER = s2.DT_LINKER
-TSO_LINKER = s2.TSO_LINKER
-TSO_ORDERING = s2.TSO
-RT_PRIMER = PCR_HANDLE + GUIDE_LINKER
-PCR_PRIMER = PCR_HANDLE
+
+PCR_HANDLE="AAGCAGTGGTATCAACGCAGAGT"
+GUIDE_LINKER="AC"
+TSO_LINKER="ACAT"
+TSO_ORDERING=PCR_HANDLE+TSO_LINKER+"rGrG+G"
+RT_PRIMER=PCR_HANDLE+GUIDE_LINKER
+PCR_PRIMER=PCR_HANDLE
 BARCODES = (
     "TCAGACGATGCGTCAT", "CTATACATGACTCTGC", "TACTAGAGTAGCACTC",
     "TGTGTATCAGTACATG", "GATCTCTACTATATGC", "ACAGTCTATACTGCTG",
@@ -46,182 +33,108 @@ BARCODES = (
     "CGCGCTCAGCTGATCG", "GCGCACGCACTACAGA", "ACACTGACGTCGCGAC",
     "CGTCTATATACGTATA", "ATAGAGACTCAGAGCT", "TAGATGCGAGAGTAGA",
 )
-DU_TAIL = "dUTTTTTTTTdUTTTTTTTT"
+DU_TAIL="dUTTTTTTTTdUTTTTTTTT"
+SAMPLE_BARCODE=feature("sample_barcode","sample_index","whitelist",whitelist="original2019TableS1 2dU-BC1..15")
+REPRESENTATIVE_BARCODE=BARCODES[2]
+def seg(name,seq,tag=None,**kw):return Segment(name,seq,tag,**kw)
+def extension_oligo(sample):
+ if not 1<=sample<=15:raise ValueError('sourceBCmember mustbe1..15')
+ return RT_PRIMER+BARCODES[sample-1]+DU_TAIL
 
+def extension_oligo_state(sample=3):
+ return Construct([seg('RTprimerDNA',RT_PRIMER),seg('BC'+str(sample),BARCODES[sample-1],'cbc',feature=SAMPLE_BARCODE),seg('firstdU','U',note='DNAdeoxyuridine; USERsite'),seg('firstT8','T'*8),seg('seconddU','U',note='DNAdeoxyuridine; USERsite'),seg('secondT8','T'*8)],name='source2dUguideBC'+str(sample))
+def tso_state():return Construct([seg('sourceTSODNAprefix',PCR_HANDLE+TSO_LINKER),seg('rG1','G',note='physicalRNA G'),seg('rG2','G',note='physicalRNA G'),seg('LNA-G','G',note='physical+G lockednucleicacid')],name='original2019TSO')
 
-def extension_oligo(sample: int) -> str:
-    """Ordering string for the exact Supplementary Table 1 2dU-BC family."""
-    if not 1 <= sample <= len(BARCODES):
-        raise ValueError("PAIso-seq barcode number must be 1..15")
-    return RT_PRIMER + BARCODES[sample - 1] + DU_TAIL
+def first_parts(switched=False):
+ parts=[seg('sourceRTprimer',RT_PRIMER),seg('copiedBC3',REPRESENTATIVE_BARCODE,'cbc',feature=SAMPLE_BARCODE),role('DNAcopyofnativeRNApolyAtail; nonAcontent/lengthretained'),role('antisense transcriptDNA')]
+ if switched:parts += [role('native switchjunction/terminalC extentunassigned'),seg('copiedTSODNAprefix',revcomp(PCR_HANDLE+TSO_LINKER))]
+ return parts
+INSERT=Construct([seg('5-prime PCR handle',PCR_HANDLE),seg('TSO linker',TSO_LINKER),role('DNAcopyofnative switchjunction; Gextentunassigned'),role('full-length transcriptDNAcopy'),role('DNAcopyofnativeRNApolyAtail; variablelength/nonA'),seg('BC3 reverse complement',revcomp(REPRESENTATIVE_BARCODE),'cbc',feature=SAMPLE_BARCODE),seg('guide linker reverse complement',revcomp(GUIDE_LINKER)),seg('3-prime PCR handle reverse complement',revcomp(PCR_HANDLE))],name='PAIso2019BC3 PCRdaughter')
+FINAL_LIBRARY=None
+SEQ_PRIMERS=()
+SHOW_READ_CONTENT=False
+SEQUENCING_ENDING='Source2019SequelSMRTbell CCS; loadedprimer/hairpin/kitversion unassigned. CCS≥10passes is computationalselection, not physical purification.'
+READ_SPECS=(sp.read_spec('Sequencing output','unassigned','Full cDNA and nativepolyAtail viaPacBioCCS;16ntsamplebarcode; no invented indexcycles','include'),)
 
+def native_state(stage):
+ sc=Scene()
+ if stage in ('rna','extended','user'):
+  parts=[role('original RNAtranscript; physicalU'),role('original RNApolyAtail; variablelength and nonAcontent')]
+  if stage!='rna':parts += [seg('DNAcopiedBC3',revcomp(REPRESENTATIVE_BARCODE),'cbc',feature=SAMPLE_BARCODE),seg('DNAcopiedRTguide',revcomp(RT_PRIMER))]
+  sc.strand('originalRNA',parts,label='originalRNA'+(' with dNTP-derived DNA3′extension' if stage!='rna' else ''))
+  if stage=='extended':sc.strand('guide',list(extension_oligo_state()),label='independent DNAguide; bothdUphysical, pairingextentunassigned')
+  if stage=='user':sc.strand('guidefragments',[role('USER-cleaved dUguideDNA fragments; chemistrynotphysicalremoval')])
+ elif stage in ('first','switched'):
+  sc.strand('cDNA',first_parts(stage=='switched'),label='actual '+('switched' if stage=='switched' else 'first')+' ssDNA')
+  sc.strand('originalRNA',[role('independent originalRNA–DNAextendedtemplates; postRTchemicalfateunassigned')])
+ elif stage in ('amplified','selected'):
+  parts=list(INSERT);sc.strand('daughter',parts,label='PCRdaughter DNA; originalRNA/dU/TSOrG/LNA modifications not copied')
+  sc.anneal('daughteropposite',complement_segments(parts),to='daughter',pair=(parts[0].name+"'",parts[0].name),unpaired=tuple(p.name+"'" for p in parts if p.is_role_token()))
+ elif stage=='smrtbell':
+  parts=[*list(INSERT),role('nativehairpinA; bases/length/ligationendsunassigned'),*complement_segments(list(INSERT)),role('nativehairpinB; bases/length/ligationendsunassigned')]
+  rows=list(circle_rows(Construct(parts,name='sourceclosedSMRTbell; topologyonly'),closure_label='two nativehairpins join oppositeinsertstrands; no fixedhairpinlength'))
+  residual=Scene();residual.strand('residuals',[role('possible originalDNA/RNA/guide/TSO/PCR and unclosedclasses; kit-specific recoveryunassigned')]);rows.extend(residual.rows())
+  return MolecularState('nativeSMRTbell closedcircuit; hairpinendgeometry unassigned',tuple(rows))
+ sc.strand('otherlineages',[role('independent otherRNA species / possible guidefragments, residualoligos and originalcDNA; classrecoveryunassigned')])
+ return sc
 
-# BC3 is the bulk-library guide named in the defining paper's Methods.  The top
-# strand is drawn from the template-switch end toward the RT-primer end, hence
-# the copied BC3/linker and terminal handle appear as reverse complements.
-REPRESENTATIVE_BARCODE = BARCODES[2]
-SAMPLE_BARCODE = feature("sample_barcode", "sample_index", "whitelist",
-                         whitelist="published PAIso-seq 2dU-BC1..BC15 set")
-TABLE_S1 = SOURCE + " (Supplementary Table 1, Oligos for PAIso-seq library construction)"
-
-
-def extension_oligo_state(sample: int) -> Construct:
-    """One 2dU-BC member; each dU is drawn as U (deoxyuridine, the USER site)."""
-    state = Construct([
-        seg("PCR handle", PCR_HANDLE), seg("guide linker", GUIDE_LINKER),
-        seg(f"BC{sample}", BARCODES[sample - 1], "cbc", feature=SAMPLE_BARCODE),
-        seg("first dU", "U"), seg("first T8", "T" * 8),
-        seg("second dU", "U"), seg("second T8", "T" * 8),
-    ], name=f"2dU-BC{sample}")
-    if "".join(x.top for x in state.segments) != extension_oligo(sample).replace("dU", "U"):
-        raise ValueError(f"2dU-BC{sample} state no longer matches its ordering string")
-    return state
-
-
-def tso_state() -> Construct:
-    """Table S1 TSO: DNA handle and linker, then rGrG+G drawn as GGG."""
-    dna = PCR_HANDLE + TSO_LINKER
-    if TSO_ORDERING != dna + "rGrG+G":
-        raise ValueError("TSO ordering string no longer ends in rGrG+G after the linker")
-    return Construct([seg("TSO DNA handle and linker", dna), seg("rGrG+G", "GGG")],
-                     name="PAIso-seq TSO")
-
-
-INSERT=Construct([
-    seg("5-prime PCR handle", PCR_HANDLE, "tso"),
-    seg("TSO linker", TSO_LINKER),
-    seg("template-switch G contribution", "GGG", "tso"),
-    seg("full-length transcript", "X"*38, placeholder=True),
-    seg("native poly(A) tail", "A"*18),
-    seg("BC3 reverse complement", revcomp(REPRESENTATIVE_BARCODE), "cbc",
-        feature=SAMPLE_BARCODE),
-    seg("guide linker reverse complement", revcomp(GUIDE_LINKER)),
-    seg("3-prime PCR handle reverse complement", revcomp(PCR_HANDLE), "tso"),
-], name="PAIso-seq BC3 full-length cDNA")
-SMRTBELL=Dumbbell(INSERT,"N"*18,"N"*18,
-                   name=INSERT.name+" SMRTbell",insert_overhang="",
-                   adapter_overhang="",junction_unavailable=True)
-FINAL_LIBRARY=None; SEQ_PRIMERS=(); SEQUENCING_ENDING=pacbio_entry(SMRTBELL)
 def oligos():
-    fixed = [
-        f"<b>TSO</b> — 5′-{TSO_ORDERING}-3′",
-        f"<b>RT primer</b> — 5′-{RT_PRIMER}-3′",
-        f"<b>PCR primer</b> — 5′-{PCR_PRIMER}-3′",
-    ]
-    return fixed + [
-        f"<b>2dU-BC{i}</b> — 5′-{extension_oligo(i)}-3′"
-        for i in range(1, len(BARCODES) + 1)
-    ]
-def sections():
-    return [("Template an end extension across the native poly(A) tail",[Row(chunks=[("RNA body—poly(A) ← dU-interrupted barcoded oligo", "r1", False)])],"The designed oligo lets polymerase copy the complete tail rather than prime within it."),("Open the dU sites with USER and reverse-transcribe",capped_full_length_cdna(retain_poly_a=True).rows(),"USER removes the templating oligo; RT and template switching place a known handle at the transcript 5-prime end."),("Amplify full-length cDNA",[Row(chunks=[("TSO handle—full-length cDNA—copied native tail—barcode", "tso", False)])],"The tail remains inside the amplicon rather than being replaced by an oligo(dT) tract."),("Convert cDNA to a PacBio SMRTbell",smrtbell_rows(SMRTBELL),"The paper establishes a closed CCS template but does not identify the kit version or its insert–adapter junction chemistry."),]
-
+ return [f'TSO—5′-{TSO_ORDERING}-3′',f'RTprimer—5′-{RT_PRIMER}-3′',f'PCRprimer—5′-{PCR_PRIMER}-3′',*[f'2dU-BC{i}—5′-{extension_oligo(i)}-3′' for i in range(1,16)]]
 
 def protocol_graph():
-    graph=ProtocolGraph(TITLE,authority=SOURCE)
-    rna=graph.input("rna","poly(A) RNA with its native tail",MaterialKind.BIOLOGICAL,
-                    primary=True)
-    extension_oligo=graph.input(
-        "extension_oligo","published 2dU-BC1..BC15 poly(A)-tail extension oligo family",
-        MaterialKind.OLIGO, state=extension_oligo_state(3),
-        source=TABLE_S1+"; BC3, the bulk-library member, is drawn")
-    extension_polymerase=graph.input("extension_polymerase","Klenow fragment (exo-, NEB) with dNTP, 37 C 1 h",
-                                     MaterialKind.CATALYST)
-    extended=graph.product("extended","end-extended RNA–oligo complex",
-                           MaterialKind.MOLECULAR)
-    graph.react("extend_tail","Template end extension across the complete native poly(A) tail",
-                StepKind.EXTENSION,
-                ((rna,InputRole.TEMPLATE),(extension_oligo,InputRole.STRUCTURAL),
-                 (extension_polymerase,InputRole.CATALYST)),(extended,))
-    user=graph.input("user","USER enzyme (NEB), 37 C 30 min",MaterialKind.CATALYST)
-    digested=graph.product("digested","end-extended RNA with USER-cleaved guide-oligo fragments",
-                           MaterialKind.MOLECULAR)
-    graph.react("open_du","Cleave the guide oligo at its two dU residues",StepKind.DIGESTION,
-                ((extended,InputRole.TEMPLATE),(user,InputRole.CATALYST)),(digested,))
-    column=graph.input("rcc_column","RNA Clean & Concentrator-5 column (Zymo; >200 nt retained)",
-                       MaterialKind.SELECTION)
-    released=graph.product("released","cleaned end-extended RNA (>200 nt)",MaterialKind.MOLECULAR)
-    oligo_waste=graph.product("oligo_waste","short USER-cleaved guide-oligo fragments",MaterialKind.WASTE)
-    graph.react("clean_rna","Clean and concentrate end-extended RNA",StepKind.SELECTION,
-                ((digested,InputRole.TEMPLATE),(column,InputRole.SELECTION)),
-                (released,oligo_waste))
-    graph.discard(oligo_waste,"below the >200 nt RNA Clean & Concentrator-5 retention stated in Methods")
-    rt_primer=graph.input("rt_primer","published PAIso-seq RT primer",MaterialKind.OLIGO,
-                         state=Construct([seg("RT primer",RT_PRIMER)]),source=TABLE_S1)
-    rt=graph.input("reverse_transcriptase","template-switching reverse transcriptase",
-                   MaterialKind.CATALYST)
-    first=graph.product("first_strand","tail-inclusive first-strand cDNA",
-                        MaterialKind.MOLECULAR)
-    graph.react("reverse_transcribe","Reverse-transcribe through the copied native tail",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((released,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
-                 (rt,InputRole.CATALYST)),(first,))
-    tso=graph.input("tso","published PAIso-seq template-switch oligo",MaterialKind.OLIGO,
-                  state=tso_state(),source=TABLE_S1)
-    full=graph.product("full_length","full-length tail-inclusive cDNA with both handles",
-                       MaterialKind.MOLECULAR,state=INSERT)
-    graph.react("template_switch","Capture the transcript 5-prime end by template switching",
-                StepKind.TEMPLATE_SWITCHING,
-                ((first,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),
-                 (rt,InputRole.CATALYST)),(full,))
-    pcr_primer=graph.input("pcr_primer","published PAIso-seq PCR primer",MaterialKind.OLIGO,
-                         state=Construct([seg("PCR primer",PCR_PRIMER)]),source=TABLE_S1)
-    pcr_polymerase=graph.input("pcr_polymerase","KAPA HiFi HotStart ReadyMix",
-                               MaterialKind.CATALYST)
-    amplified=graph.product("amplified",INSERT.name,MaterialKind.MOLECULAR,state=INSERT)
-    graph.react("pcr","Amplify the tail-inclusive full-length cDNA",StepKind.PCR,
-                ((full,InputRole.TEMPLATE),(pcr_primer,InputRole.STRUCTURAL),
-                 (pcr_polymerase,InputRole.CATALYST)),
-                (amplified,),geometry=PCRGeometry.symmetric(
-                    INSERT, PCRPrimer("PCR primer", PCR_PRIMER),
-                    statement=("The defining paper states that amplified cDNA uses the "
-                               "single published PCR primer; the common handle occurs at "
-                               "both inward-facing ends.")))
-    beads=graph.input("purepb_beads","Pure PB beads at 1x (>200 bp) and 0.4x (>2 kb); fractions pooled equimolar",
-                      MaterialKind.SELECTION)
-    selected=graph.product("selected","size-selected full-length cDNA pool",MaterialKind.MOLECULAR,state=INSERT)
-    short=graph.product("short_cdna","cDNA below the bead cut-offs",MaterialKind.WASTE)
-    graph.react("size_select","Size-select amplified cDNA in two bead fractions and recombine",StepKind.SELECTION,
-                ((amplified,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(selected,short))
-    graph.discard(short,"not retained by the 1x or 0.4x Pure PB bead selections")
-    end_mix=graph.input("end_mix","PacBio SMRTbell kit end-preparation reagents (version unspecified)",
-                        MaterialKind.CATALYST)
-    prepared=graph.product("prepared","kit-prepared full-length PAIso-seq cDNA; end geometry unresolved",
-                           MaterialKind.MOLECULAR,state=INSERT)
-    graph.react("end_prep","Prepare cDNA ends with the version-unspecified SMRTbell kit",StepKind.END_REPAIR,
-                ((selected,InputRole.TEMPLATE),(end_mix,InputRole.CATALYST)),(prepared,))
-    hairpins=graph.input("hairpins","PacBio SMRTbell hairpin adapters; ligating ends unresolved",
-                         MaterialKind.ADAPTER,inferred=True,
-                         source=SOURCE+" (kit version and hairpin ends unspecified)")
-    ligase=graph.input("smrt_ligase","SMRTbell ligase",MaterialKind.CATALYST)
-    circuit=smrtbell_circuit(SMRTBELL)
-    library=graph.product("library",SMRTBELL.name,MaterialKind.LIBRARY,
-                          state=tuple(smrtbell_rows(SMRTBELL)),inferred=True,
-                          source=SOURCE+" (hairpin-body bases and junction geometry unresolved)")
-    graph.react("ligate_hairpins","Ligate hairpins to both full-length cDNA ends",
-                StepKind.LIGATION,
-                ((prepared,InputRole.TEMPLATE),(hairpins,InputRole.STRUCTURAL),
-                 (ligase,InputRole.CATALYST)),(library,),
-                geometry=smrtbell_hairpin_geometry(
-                    SMRTBELL,statement="PAIso-seq names an unversioned SMRTbell Template Prep Kit; contemporaneous PacBio 1.0 and Express 2.0 documents describe different adapter ends, so the actual ligating ends are unresolved."))
-    graph.sequence(library,smrtbell_sequencing_plan(
-        SMRTBELL,circuit,
-        limitation="The exact hairpin adapter and sequencing-primer binding site are not assigned to the unversioned 2019 kit in this model."))
-    graph.declare_reviewed_scope((
-        "rna","extension_oligo","extension_polymerase","extend_tail","user","open_du",
-        "rcc_column","clean_rna",
-        "rt_primer","reverse_transcriptase","reverse_transcribe","tso",
-        "template_switch","pcr_primer","pcr_polymerase","pcr","purepb_beads","size_select",
-        "end_mix","end_prep","hairpins","smrt_ligase","ligate_hairpins","library"),SOURCE)
-    graph.annotate(SourceDiscrepancy("extension_oligo","Guide-oligo dU/T spacing differs between Results and Supplementary Table 1",
-        (SourceClaim("Results, first PAIso-seq paragraph (PMC6876564 JATS text line 54; article PDF text line 158)","3′ end 5′-dUTTTTTTTdUTTTTTTT-3′ (seven T after each dU)"),
+ graph=ProtocolGraph(TITLE,authority=SOURCE)
+ def inp(i,l,k=M.CATALYST,state=None):return graph.input(i,l,k,state=state)
+ def prod(i,l,stage,kind=M.MOLECULAR):return graph.product(i,l,kind,state=native_state(stage))
+ def clean(i,l,x,state=None):
+  sel=inp(i+'_selection',l,M.SELECTION);y=graph.product(i+'_out',l+'retained',x.kind,state=state or x.state);w=graph.product(i+'_waste','physicalnonretainedfraction',M.WASTE)
+  graph.react(i,l,K.CLEANUP,((x,I.TEMPLATE),(sel,I.SELECTION)),(y,w));graph.discard(w,'Sourcephysical nonretainedfraction; complete classpuritynotasserted.');return y
+ rna=graph.input('rna','selectedbulkGV-oocyte totalRNA; BC3guide branch',M.BIOLOGICAL,state=native_state('rna'),primary=True)
+ guide=inp('extension_oligo','originalTableS1BC3DNAguide with2dU/T8spacing',M.OLIGO,extension_oligo_state())
+ kl=inp('extension_polymerase','Klenowexo− plusdNTP;37°C1h')
+ extended=prod('extended','RNA–DNA chimeric3′extension plus originalDNAguide','extended')
+ graph.react('extend_tail','Template originalRNA3′end extension with dNTP-derivedDNA',K.EXTENSION,((rna,I.TEMPLATE),(guide,I.STRUCTURAL),(kl,I.CATALYST)),(extended,))
+ user=inp('user','USER37°C30min');digested=prod('digested','endextendedRNA plus cleavedguideDNA fragments','user')
+ graph.react('open_du','Cleave guideDNA at two physicaldU sites',K.DIGESTION,((extended,I.TEMPLATE),(user,I.CATALYST)),(digested,))
+ released=clean('clean_rna','RNA Clean &Concentrator5;>200ntselection;6–8µlwater',digested)
+ rp=inp('rt_primer','TableS1RTprimer',M.OLIGO,Construct([seg('RTprimer',RT_PRIMER)]));rtase=inp('reverse_transcriptase','template-switchingRT; source sayssimilarlySmartseq2; exactpredecessorconditionsunread')
+ first=prod('first','actualtail-inclusive firstssDNA plusoriginalRNA','first');graph.react('rt','Reverse-transcribe endextendedRNA withsourceRTprimer',K.REVERSE_TRANSCRIPTION,((released,I.TEMPLATE),(rp,I.STRUCTURAL),(rtase,I.CATALYST)),(first,))
+ tso=inp('tso','original2019TSO physicalrGrG+G',M.OLIGO,tso_state());switched=prod('switched','actualswitchedssDNA withnativejunctionbounded','switched')
+ graph.react('switch','Template-switch attranscript5′end',K.TEMPLATE_SWITCHING,((first,I.TEMPLATE),(tso,I.STRUCTURAL),(rtase,I.CATALYST)),(switched,))
+ pp=inp('pcr_primer','originalTableS1PCRsingleprimer species',M.OLIGO,Construct([seg('PCRprimer',PCR_PRIMER)]));pol=inp('pcr_polymerase','KAPAHiFiHotStartReadyMix; nativecyclesunassigned')
+ amp=prod('amplified','tail-inclusivePCRdaughters plusresidualtemplates','amplified')
+ graph.react('pcr','Amplify actualnative switchedssDNA',K.PCR,((switched,I.TEMPLATE),(pp,I.STRUCTURAL),(pol,I.CATALYST)),(amp,),geometry=PCRGeometry.unavailable(switched.state,reason='ActualssDNA withsourceprimerhandles, originalRNA andresidualguides entersPCR; switchjunction/firstcycletopology not inventedfromfinalamplicon.',symmetric_species=True))
+ a=prod('allocated_200','portionallocated to>200bpselection','amplified');b=prod('allocated_2000','independentportionallocated to>2kbselection','amplified')
+ graph.react('allocate','Allocate source two portions forindependentbeadselections',K.SPLIT,((amp,I.TEMPLATE),),(a,b),changes_molecule=False)
+ a=clean('select_200','PurePB1×;>200bp fraction',a);b=clean('select_2000','PurePB0.4×;>2kb fraction',b)
+ molarity=inp("equimolar_rule","sourceequalmolarcontributions; takevolumesunassigned",M.CONDITION)
+ chosen=[]
+ for name,x in (('shortcutoff',a),('longcutoff',b)):
+  take=prod(name+'_equimolar','equimolarcontribution from'+name,'selected');left=graph.product(name+'_remainder','unallocatedfraction; physicalfateunassigned',M.MOLECULAR,state=x.state)
+  graph.react(name+'_sample','Takeequimolarcontribution from'+name,K.SAMPLING,((x,I.TEMPLATE),(molarity,I.CONDITION)),(take,left),changes_molecule=False)
+  from protocol_graph import Terminal,Disposition
+  graph.mark_terminal(Terminal(left.id,Disposition.UNRESOLVED,'Not assignedtopooledSMRTbellinput; no physicaldisposalasserted.'));chosen.append(take)
+ pool=prod('selected','equimolarpool of independentlyselectedcDNApopulations','selected')
+ graph.react('pool','Recombine two selectedpopulations at equalmolarity',K.POOL,tuple((x,I.TEMPLATE) for x in chosen),(pool,),changes_molecule=False)
+ kit=inp('native_kit','unversioned2019SMRTbellTemplatePrepKit; vendorversionunassigned',M.CONDITION);lib=prod('library','sourceSMRTbell closedtemplate pluspossibleoriginal/unclosedclasses','smrtbell',M.LIBRARY)
+ graph.react('native_smrtbell','Native unversionedSMRTbell preparationboundary',K.MAGIC,((pool,I.TEMPLATE),(kit,I.CONDITION)),(lib,),reason='2019Methods namesSMRTbellkit andclosedCCS output, not nativeversion/repair/nuclease/hairpinendorder. Later2022/kit1.0/Express2.0 comparators remainseparate; no canonicalA/T/blunt/hairpinwidthdefaults.')
+ anneal=inp('sequencing_primer','source sequencingprimer; sequence/memberunassigned',M.OLIGO);ann=prod('annealed_library','sequencingprimer-annealedSMRTbell','smrtbell',M.LIBRARY)
+ graph.react('anneal_sequencing','Anneal source sequencingprimer',K.HYBRIDIZATION,((lib,I.TEMPLATE),(anneal,I.STRUCTURAL)),(ann,))
+ polymerase=inp('sequencing_polymerase','sourcePacBio polymerase',M.MOLECULAR);loaded=prod('polymerase_loaded','polymerase-boundSMRTbell','smrtbell',M.LIBRARY)
+ graph.react('bind_polymerase','Bind source sequencingpolymerase',K.BINDING,((ann,I.TEMPLATE),(polymerase,I.STRUCTURAL)),(loaded,))
+ mag=inp('magbeads','sourceMagbeads',M.SELECTION);final=prod('sequencing_library','Magbead-boundPacBioSequeltemplate','smrtbell',M.LIBRARY)
+ graph.react('load_magbeads','Bind polymerase–template toMagbeads',K.BINDING,((loaded,I.TEMPLATE),(mag,I.SELECTION)),(final,))
+ graph.sequence(final,SequencingPlan(acquired_roles=('Sequencing output',),limitation=SEQUENCING_ENDING))
+ graph.declare_reviewed_scope(('equimolar_rule','rna','extension_oligo','extension_polymerase','extend_tail','user','open_du','clean_rna_selection','clean_rna','rt_primer','reverse_transcriptase','rt','tso','switch','pcr_primer','pcr_polymerase','pcr','allocate','select_200_selection','select_200','select_2000_selection','select_2000','shortcutoff_sample','longcutoff_sample','pool','native_kit','native_smrtbell','sequencing_primer','anneal_sequencing','sequencing_polymerase','bind_polymerase','magbeads','load_magbeads','sequencing_library'),SOURCE)
+ graph.annotate(SourceDiscrepancy("extension_oligo","Guide-oligo dU/T spacing differs between Results and Supplementary Table 1",
+     (SourceClaim("Results, first PAIso-seq paragraph (PMC6876564 JATS text line 54; article PDF text line 158)","3′ end 5′-dUTTTTTTTdUTTTTTTT-3′ (seven T after each dU)"),
          SourceClaim("Supplementary Table 1, rows 2dU-BC1–2dU-BC15","3′ end dUTTTTTTTTdUTTTTTTTT (eight T after each dU)")),
         "The drawn ordering strings use the Supplementary Table 1 oligos.",
         "The table is the base-level ordering list for every barcode member; the Results value is an in-text summary.",
         "The inspected 2019 article and supplement do not reconcile the two values; the later 2022 protocol was not used to settle it."))
-    graph.annotate(SourceDiscrepancy("rt_primer","Primer handles described as 'TSO minus triple G'",
-        (SourceClaim("Results, first PAIso-seq paragraph (JATS text line 54)","guide, RT and PCR primers carry the TSO sequence minus the triple G"),
+ graph.annotate(SourceDiscrepancy("rt_primer","Primer handles described as 'TSO minus triple G'",
+     (SourceClaim("Results, first PAIso-seq paragraph (JATS text line 54)","guide, RT and PCR primers carry the TSO sequence minus the triple G"),
          SourceClaim("Supplementary Table 1, rows TSO / RT primer / PCR primer","TSO …GAGTACATrGrG+G; RT primer ends …GAGTAC; PCR primer ends …GAGT")),
         "The exact Supplementary Table 1 primers are drawn.",
         "Removing rGrG+G from the TSO leaves …GAGTACAT, which neither printed primer matches.",
         "The Results wording is likely descriptive; no source states why the RT and PCR primers stop short of ACAT."))
-    return graph.require_publishable()
+ return graph.require_publishable()

@@ -248,6 +248,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite (workflow construction, 0 explicit checks) and page build pass; pairing 0 problems; chemistry 0 contradictory/5 established/0 conditional/14 unresolved over 12 steps; source guard 3 exact checked (TSO, PCR Primer 1, PCR Primer 2), 0 failed, 9 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-migration-10",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC10076218 Methods244–256 transposomes,262–284 ATAC/sharedRNA,286–292 CUT explicitsharedRT/ligation/cDNA inheritance,294–298 preprocessing; original2023 MOESM1 SupplementaryInformation Table4 594–657, Table5 A1 658–681 andTable6 B1 1067–1088 withscraperfamilycontext. No later2025 original or renderedfigures read this pass.",
+      "oligo_scraper": "Mandatory source-bundle scraper run before decisions; published original hits verified in the listed source sections. Superseded preprint and later-version source hits do not establish this branch.",
+      "findings": "Native source-owned graph keeps independentDNA/RNA, physicalRTbiotin-dT, unmodifieddaughtercopies, modifiedTSO lineage, bothspatialnicks and actualnativePCRinputs. FullsourceDNA assayprogramme andRNA bead/solutionPCR/XT/recovery operations retained. Freeco-carriedclasses remain afterbeadremoval. N501/N701 readout explicitlyinferred; nativeRNAorderedends unassigned. Sharedsource processing justifiedby2023Methods290, without laterprotocol substitution.",
+      "deferred": [
+        "Study-specific N501/N701 orotherDNAprimerassignment andloadedsequencingprimers",
+        "Nativefirst-cycle transpositiongaps andRNA-library orderedXT/PCRoligos",
+        "2025 detailedprotocol maintext andDBiT/predecessor/vendor ancestry",
+        "Index-read acquisition andclass-specific cleanup recoveries"
+      ],
+      "scope": "Capped source-positive architecture migration only; not a complete chemistry review or a second independent original-source absence pass.",
+      "verification": "Parent focused source suite (8 checks), page build, scoped chemistry, source guard and review schema pass. Independent code-only peer review recorded separately; source/absence status unchanged."
+    },
+    {
+      "round": "2026-10-18-batch10-native-independent-implementation-review",
+      "reviewer": "independent_native_review",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Released protocol-owned tools/chem.py native declarations/graphs, source-bounded owner notes/records and focused source-transcription suites; code-only review, no original-source reread.",
+      "findings": "Paired spatial graph actual firstDNA PCR receives native gapped material, and firstRNA PCR receives bead-bound ssDNA/RNA-hybrid originals. Source originalRT primer physical internalbiotin-dT plus15T/VN and modifiedTSO are distinct from ordinaryDNA copies; biotin/RNA/LNA chemistry is not copied. The first5RNA-PCR mixture retains original beads until the actual source bead-removal step. Review found possible freeRNA/fragments/primers/non-targetDNA missing after bead removal; owner fixed rna_copies/rna_tagged to retain those possible independent classes through freePCR/XT/recovery. Correction independently rechecked. Conditional N501/N701 and compatibleNextera readout remains separate from native firstcycle geometry. Source RNA12cycle programme starts95C without an imposed generic72C hold; ATAC5cycle/qPCR5µl-vs45µl and CUT12cycle variants stay source-specific. No remaining concrete critical defect found in the reviewed implementation scope; molecular hydrolysis/nonamplification/computational filters are not asserted as physical discard. No new originals were inspected.",
+      "deferred": [
+        "Unassigned native complete primer/early-cycle/strand geometry and actual sample-specific members remain owner-qualified",
+        "Independent source-absence gate and original status unchanged"
+      ],
+      "scope": "Independent implementation-only critical peer review; zero new originals and no missing-information/status upgrade.",
+      "verification": "Focused source suites8/8/8 pass; all3pages rebuilt; chemistry93steps22established26conditional104unresolved0contradictions; pairing0; sourceguard31checked0failed9unassigned; staticOUTdiscovery passes. Review schema checked after append. No concurrent docs build."
     }
   ]
 }

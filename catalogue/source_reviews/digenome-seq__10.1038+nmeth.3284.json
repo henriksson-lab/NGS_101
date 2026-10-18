@@ -21,13 +21,13 @@
       "pass_1": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "Original Springer supplement lines 1–110 and 5877 Table 4 primer heading; scraper run",
+        "locations": "Original Springer supplement lines 1\u2013110 and 5877 Table 4 primer heading; scraper run",
         "finding": "Supplement contains figures and validation primer tables; no authority to infer exact WGS adapter kit from it alone."
       },
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Original 2015 Springer MOESM426 PDF text opening lines 1–110 and Table 4 heading near 5877; local scraper",
+        "locations": "Original 2015 Springer MOESM426 PDF text opening lines 1\u2013110 and Table 4 heading near 5877; local scraper",
         "finding": "Original supplement contains figures/validation and primer-related table heading; inspected locations do not prove full original WGS adapter identities absent."
       }
     },
@@ -41,7 +41,7 @@
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
         "locations": "Title/DOI opening and Methods line 136; scraper run",
-        "finding": "This is 2016 multiplex successor doi:10.1101/gr.199588.115; Methods names TruSeq DNA library prep for its 400–500 bp WGS library, not proof of original Digenome recipe."
+        "finding": "This is 2016 multiplex successor doi:10.1101/gr.199588.115; Methods names TruSeq DNA library prep for its 400\u2013500 bp WGS library, not proof of original Digenome recipe."
       },
       "pass_2": {
         "reviewer": "audit_s_z",
@@ -106,6 +106,34 @@
       ],
       "scope": "Capped defining-source pass only; the defining Methods remains unread, so no missing-information claim is accepted and the protocol stays blocked.",
       "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/7 unresolved/0 contradictory; source guard 0 checked, 0 failed, 2 inputs without exact states; Markdown built/checked; review schema (audit --check) pass, protocol still blocked."
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Defining2015MOESM426 original identity/contents/figurelegends and SupplementaryNote1 instrument scope;2016companionPMC4772022 Discussion114 and Methods132\u2013136.",
+      "oligo_scraper": "Mandatory localbundle scraper run; activeoriginal passages verified.",
+      "scope": "Capped source-owned moleculargraph migration; no completeprotocol review oracceptedpublicationabsenceclaim.",
+      "findings": "Removed sharedTruSeq/da_tailed and unusedworkflow. Source-limited4step nativegraph explicitlyqualifies2016companion RNase/DNeasy,Covaris400\u2013500,TruSeqfamily and noPCRbeforeWGS; these do not establish2015kitidentity. Unsupportedseparateendrepair/sizeselect/dA/TA-sourcechoices nowoneMAGICfinishingboundary. Independentfragmentclasses separateScene rows. Finaladapter/indexends andacquiredmask unassigned; no6ntsingleindex or canonicaladapters supplied.",
+      "deferred": [
+        "Defining2015mainMethods notinspected; historicalkit/endprep/indexformat/member/width andacquiredcycles deferred. Previouslyreadvendor2017/2025docs notusedasstudydefaults;2021method notfollowed."
+      ],
+      "verification": "Nativegraphsuite0independentchecks (noassignedWGSoligos); page/note/schema pass; chemistry4steps0est0cond4unresolved0contra; sourceguard0checked0failed0exemptions2unrepresented(sgRNA,TruSeqadapters); pairing0. Scopedchecks do not establishfullreactionvalidation. Noactualqueuedrecipe/defaultdependenciesremain."
+    },
+    {
+      "round": "2026-10-18-independent-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Read-only independent molecular implementation review; existing original-source scope retained, not re-read. No new scientific or absence conclusion.",
+      "locations": "tools/chem.py: fragment_populations(), protocol_graph(), endpoint and read-plan declarations",
+      "source_scope": "2015 defining supplement and2016 companion scope from preceding migration record retained without new original reading.",
+      "findings": "Confirmed distinct fragment-class rows, explicit2016 companion boundary, no invented terminalPCR or canonical library arms, curated review targets and unassigned2015 native chemistry. Removed unrelated copied END adapter parser sentence from the current migration scraper field; earlier historical records preserved.",
+      "deferred": [
+        "Declared native molecular-proof, historical reagent/version and read-acquisition limits remain as recorded in the preceding migration check."
+      ],
+      "verification": "Code/state/fate/source-flag review completed; parent owns focused runtime verification. Review schema checked."
     }
   ]
 }

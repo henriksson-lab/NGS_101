@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
-"""Source-transcription checks for iMARGI."""
+"""Optional source transcription, including physical linker modifications."""
 from pathlib import Path
-import sys
-H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+import sys,re
+H=Path(__file__).resolve().parent
+sys.path[:0]=[str(H),str(H.parents[1]/'lib')]
+from checks import Check,Source,have
+from storage import sources_root
 import chem as P
-from checks import Check
 c=Check()
-c("two linker random bases are not called a UMI",
-  "umi" in [s.feature.role for s in P.FINAL_LIBRARY if s.feature], False)
-c("author linker retains phosphorothioate and internal biotin",
-  "TCC*GA/iBiodT/CT" in P.oligos()[0], True)
+s=Source(sources_root()/'doi_10.1038+s41596-019-0229-4'/'s41596-019-0229-4_PMC7314528.xml.txt','Wu2019 published detailed protocol original JATS')
+if have(c,s,label='iMARGI modified original oligos'):
+ text=s.path.read_text();compact=re.sub(r'\s+','',text)
+ c('TOP retains original PS and internalbiotin',P.TOP.replace('TCCGATCT','TCC*GA/iBiodT/CT') in compact,True)
+ c('BOTTOM source bases',P.BOTTOM in compact,True)
+ c('cut oligo physical inverted terminaldT',P.CUT+'/3InvdT/' in compact,True)
+ c('universal primer source terminalPS',P.UNIVERSAL[:-1]+'*'+P.UNIVERSAL[-1] in compact,True)
 c.report()

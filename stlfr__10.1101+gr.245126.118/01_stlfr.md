@@ -36,6 +36,19 @@ The model uses the ordered workbook and its matching PCR1. The original manuscri
 
 ## Model limits and remaining source review
 
-🟡 The graph follows the selected published reactions and renders all declared waste products. Its reported adapter ends do not establish a complete base-resolved capture/branch junction. The physical PCR product and single-stranded DNB circle are not yet constructed; circularization/DNB formation is an explicit warning-producing step.
+🟡 The graph follows the selected published reactions and renders all declared waste products. Its reported adapter ends do not establish a complete base-resolved capture/branch junction. The actual washed branch-ligation population feeds PCR with unavailable native junction geometry. A source-primer-derived partial daughter reference is distinct from retained original molecules. Circularization is a bounded native-source step, followed by a separate DNB-extension step; neither a complete circular assembly nor its native priming chemistry is assigned.
 
 The final article cites [Drmanac 2010](https://doi.org/10.1126/science.1181498) for circularization. The standard fetch route did not retrieve that original. This is an actual outstanding precursor source, not evidence that circle information was unpublished. The source review also retains the original supplements, platform citations and relevant linked scope for further checking. No missing-information claim has been accepted.
+
+
+## Bounded native migration (2026-10-18, batch07)
+
+Inspected 3 originals: Published PMC6499310 Methods193–214; original Cheng2018 ProtocolExchange manuscript attachment5 pp9–10, steps61–81/text317–365 and demultiplexing; genuine original ordered workbook 324392_324392-2.xlsx Commonadapter/Transposon/Branch/PCR rows and barcode architecture. Mandatory bundle scraper reviewed.
+
+Replaced shared factory with local native graph. Separate DNA/dU transposon donor, RNA bridge and bead populations; source BranchB terminal ddG contributes its physical G without inventing a copied internal base. Capture/ligation, washes, Exo/SDS, UDG/APE1, ETSSB, branch ligation and actual washed PCR precursor are explicit. Hydrolysis products retain unresolved fate separately from physical wash waste. Primer-derived daughter reference loses original biotin/A10 prefix; circle and DNB chemistry remain bounded. Published PCR programme discrepancy retained; historical Figure1/common-adapter and author-demultiplexer variant scope is not newly reread.
+
+Deferred: Drmanac2010 circularization precursor and complete native circle/DNB priming geometry; Full barcode/genomic branch junction and platform-native sequencing primer geometry; historical Figure1 and current repository variants not freshly reread. This capped pass does not establish complete review or source-wide absence.
+
+## Independent implementation correction (2026-10-18)
+
+Reviewed source selected3-prime branch route, TransposonB DNA/dU versus RNAbridge, physical BranchB11nt+terminalddG geometry, actual washedbranch PCR template and original/blocked-strand fates. Corrected physical readout representation: unknown native circle and DNB stages now retain all three structured barcode identities without assigning native strand/repeat positions or multiplicity. DNB is not represented by the readout-reference duplex. The source42position barcode architecture remains a separately labelled single-string reference panel. No source-original rereading or biological gap-filling was done.

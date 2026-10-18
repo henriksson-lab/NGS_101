@@ -57,13 +57,13 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Author GitHub README lines 149–172 and 181–216, repository inventory and analysis steps",
+        "locations": "Author GitHub README lines 149\u2013172 and 181\u2013216, repository inventory and analysis steps",
         "finding": "Repository README identifies FASTQ/BAM processing, QC and plotting scripts; inspected linked code inventory does not describe adapter synthesis."
       },
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Author GitHub repository README, files list lines 149–170 and procedure lines 181–216",
+        "locations": "Author GitHub repository README, files list lines 149\u2013170 and procedure lines 181\u2013216",
         "finding": "Repository code covers BAM alignment, QC and Figure 3/4 plotting; no oligo ordering or wet-lab adapter sequence is supplied in inspected README and inventory."
       }
     },
@@ -83,8 +83,8 @@
       "pass_2": {
         "reviewer": "root",
         "date": "2026-10-16",
-        "locations": "Original Taiwo 2012 Nature Protocols facsimile on ResearchGate, library preparation lines 677–718, Table 2 lines 883–916, adapter/primer Materials lines 1904–1927; cfMeDIP source-bundle oligo scraper run before reading",
-        "finding": "Independently verified that Taiwo end-repairs, dA-tails and ligates its paired-end adapter before MeDIP, then uses adapter-mediated PCR. Original Table 2 prints PE.Adapter.1.0 with terminal phosphorothioate, PE.Adapter.2.0 with 5′ phosphate, and two PCR primers; Materials prescribe equimolar adapter-strand annealing. It does not identify Shen 2019's selected adapter or kit."
+        "locations": "Original Taiwo 2012 Nature Protocols facsimile on ResearchGate, library preparation lines 677\u2013718, Table 2 lines 883\u2013916, adapter/primer Materials lines 1904\u20131927; cfMeDIP source-bundle oligo scraper run before reading",
+        "finding": "Independently verified that Taiwo end-repairs, dA-tails and ligates its paired-end adapter before MeDIP, then uses adapter-mediated PCR. Original Table 2 prints PE.Adapter.1.0 with terminal phosphorothioate, PE.Adapter.2.0 with 5\u2032 phosphate, and two PCR primers; Materials prescribe equimolar adapter-strand annealing. It does not identify Shen 2019's selected adapter or kit."
       },
       "reason": "The original is readable from a hosted facsimile, but its chemistry cannot be transferred wholesale to the unavailable 2019 defining protocol."
     },
@@ -98,7 +98,7 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Defining Shen 2019 publisher page Related links lines 225–235 explicitly names Taiwo et al. 2012 as protocol extension; Taiwo author draft text lines 699–716 Notes 4–5, 995–1055 Table 1 adapters/PCR primers; original PDF pp. 14, 21. Ran oligo scraper on fetched source bundle and verified hits against table.",
+        "locations": "Defining Shen 2019 publisher page Related links lines 225\u2013235 explicitly names Taiwo et al. 2012 as protocol extension; Taiwo author draft text lines 699\u2013716 Notes 4\u20135, 995\u20131055 Table 1 adapters/PCR primers; original PDF pp. 14, 21. Ran oligo scraper on fetched source bundle and verified hits against table.",
         "finding": "The cited predecessor draft prints both single-plex and multiplex Illumina PE adapters/primers, including 5-prime-phosphorylated strands and terminal phosphorothioates. Its own Note 4 allows alternative adapter systems. This establishes possible inherited MeDIP ligation chemistry but does not identify the 2019 cfMeDIP adapter or selected index; the published Taiwo version and Shen full protocol still require independent reading."
       },
       "pass_2": {
@@ -143,7 +143,7 @@
     "pass_2": {
       "reviewer": "audit_s_z",
       "date": "2026-10-16",
-      "locations": "Nature Protocols defining article access page; author GitHub README lines 149–172, 181–216",
+      "locations": "Nature Protocols defining article access page; author GitHub README lines 149\u2013172, 181\u2013216",
       "finding": "Author code is analysis/QC only; defining full Nature Protocols and predecessor remain inaccessible, so status stays blocked."
     },
     "followup_2026_10_16": {
@@ -172,9 +172,9 @@
       "reviewer": "root",
       "date": "2026-10-17",
       "documents": 1,
-      "locations": "Defining Nature Protocols article unavailable (paywalled; manual URL https://doi.org/10.1038/s41596-019-0202-2; Europe PMC PMID 31471598 no PMC full text; get_sources rerun 2026-10-17 still manual). Read published Reporting Summary 41596_2019_202_MOESM1_ESM.pdf.txt lines1–60 (software/data collection) and131–141 ('Antibodies used').",
-      "oligo_scraper": "Bundle scraper run: hits only in the Butcher/Beck Nano-MeDIP-seq author draft (lines1010–1123, PE adapters/PCR primers with phosphorothioate), a distinct related method not transferred; no oligo bases in the defining supplement.",
-      "findings": "Antibody named from Reporting Summary: Diagenode MagMeDIP-kit 5-mC mAb 33D3 C15200081, 0.16 µg/reaction. Page lacked any notice that its TruSeq dual-index adapter/primer/read shell is a generic model; added INFERRED platform-shell caveat, marked adapter input inferred, ligation geometry statement now says Methods unread. Note records sources actually read and that end-repair/spike-in/denaturation statements are summary-level, unverified.",
+      "locations": "Defining Nature Protocols article unavailable (paywalled; manual URL https://doi.org/10.1038/s41596-019-0202-2; Europe PMC PMID 31471598 no PMC full text; get_sources rerun 2026-10-17 still manual). Read published Reporting Summary 41596_2019_202_MOESM1_ESM.pdf.txt lines1\u201360 (software/data collection) and131\u2013141 ('Antibodies used').",
+      "oligo_scraper": "Bundle scraper run: hits only in the Butcher/Beck Nano-MeDIP-seq author draft (lines1010\u20131123, PE adapters/PCR primers with phosphorothioate), a distinct related method not transferred; no oligo bases in the defining supplement.",
+      "findings": "Antibody named from Reporting Summary: Diagenode MagMeDIP-kit 5-mC mAb 33D3 C15200081, 0.16 \u00b5g/reaction. Page lacked any notice that its TruSeq dual-index adapter/primer/read shell is a generic model; added INFERRED platform-shell caveat, marked adapter input inferred, ligation geometry statement now says Methods unread. Note records sources actually read and that end-repair/spike-in/denaturation statements are summary-level, unverified.",
       "deferred": [
         "Defining Nature Protocols Methods/Procedure (paywalled, manual)",
         "Diagenode MagMeDIP kit manual",
@@ -249,6 +249,20 @@
       ],
       "verification": "Applicable protocol suite, page build, source guard and scoped chemistry passed (zero contradictions); review schema passed. Shared 1275 and source fetcher 226 checks pass. Whole-site verification is recorded in HANDOVER-REVIEW.md.",
       "documents": 0
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "scope": "Capped original-source migration; no absence gate acceptance.",
+      "locations": "s41596-019-0202-2.pdf.txt: original 2019 defining article, Procedure28\u201345 (ligation,0.8\u00d7 cleanup,USER37\u00b0C15min,MinElute),48\u201355 (spike-ins/denaturation),62\u201386 (IP/input split),87\u2013131 (IPure single-strand eluate,QC1/QC2,44\u00b5L production PCR),132\u2013158 (cleanups/paired75 sequencing); original identity from manifest and printed DOI.",
+      "oligo_scraper": "Full cached bundle scraper run; supplementary Table5 source bases/modifications directly checked for CODEC; cfMeDIP related-draft adapter hits explicitly excluded as different chemistry.",
+      "findings": "Removed protocol_specs.get/Definition/workflow and rna_library_operations.molecule. Protocol owns NEBNext-specific endpoint roles instead of generic TruSeq dual-index defaults, independent cfDNA/filler/control populations and both denatured polarities. Actual single-stranded IP eluate is retained through six1\u00b5L analytical qPCR aliquots into44\u00b5L production PCR. Source0.8\u00d7 post-ligation and MinElute post-USER cleanup added in source order; adapter geometry remains unavailable. Non-amplified filler/control material is unresolved rather than physically discarded. Step158 PE75 selected explicitly; broader SE/PE50\u2013125 variants retained in notice.",
+      "deferred": [
+        "Kit revision and physical adaptor/primer sequences/sites; native first-copy PCR proof; exact recovery of non-library co-IP material; linked predecessor/vendor originals not re-read."
+      ],
+      "verification": "suite1;17steps;0established/0conditional/21unresolved/0contradictory;both pages build;combined sourceguard4exact/0failed/2unassigned;pairing0;targeted Markdown and review schema checked."
     }
   ],
   "conclusion_update": "2026-10-17 (agent-pkg6-source-review-followups): the defining Nature Protocols article is no longer unavailable; it was read by two readers (adapter/primer identity by both; Procedure spike-ins, filler, USER cleavage, denaturation, PCR cycles and sequencing by the second). Note, model and page updated: USER cleavage step added; filler (Step 45) and A. thaliana spike-ins (Step 48) are separate inputs with printed amounts; denaturation 95 C 10 min with snap-cooling; PCR cycles qPCR-determined; sequencing text reflects single-end or paired-end 50-125 bp. Status stays blocked: adapter/primer sequences require the NEB E7335L vendor original, spike-in identity the Diagenode documents, and the 2018 predecessor remains unread."

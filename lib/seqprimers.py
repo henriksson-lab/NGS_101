@@ -28,6 +28,7 @@ READ_USES = {
     "demultiplex": "No — use for sample demultiplexing",
     "extract_and_demultiplex": "No — extract identifiers and demultiplex",
     "technical": "No — technical sequence only",
+    "not_used": "No — acquired but not used for sequence analysis",
     "not_applicable": "No — assay readout is not sequencing",
     "undetermined": "Undetermined",
 }

@@ -1,10 +1,10 @@
 """Source-owned protocol definition and reaction graph."""
 from __future__ import annotations
 
-from protocol_specs import Definition, get
+from types import SimpleNamespace
 from adapter_ligation import AdapterLigationGeometry
-from bliss_chem import adapter_a1 as bliss_adapter_a1
-from chemdraw import Segment, oligo
+from bliss_chem import adapter_a1 as bliss_adapter_a1, A1_BARCODE
+from chemdraw import Construct, Scene, Segment, feature, oligo, revcomp
 from illumina import TRUSEQ_SMALL_RNA_RA3
 from protocol_graph import InputRole
 from protocol_graph import MaterialKind
@@ -12,7 +12,13 @@ from protocol_graph import ProtocolGraph
 from protocol_graph import StepKind
 from protocol_graph import SequencingPlan
 
-DEFINITION = Definition("BLISS — breaks labeling in situ and sequencing", "10.1038/ncomms15058", "Yan et al., Nature Communications (2017)", "Native DSBs are blunted and ligated in situ to a T7/RA5 adapter carrying a sample barcode and UMI, then linearly amplified by IVT.", "custom", ("UMI", "sample barcode", "break-adjacent DNA"), "Read 1 starts with the 8-nt UMI and 8-nt sample-barcode prefix, then the genomic base adjacent to the captured DSB (Methods, pre-processing). Most libraries were sequenced single-end (Supplementary Data 2); RA5-side read-primer bases, cycle counts and the RPI index read are not modelled here.", "DNA")
+DEFINITION = SimpleNamespace(
+    title="BLISS — breaks labeling in situ and sequencing", doi="10.1038/ncomms15058",
+    source_label="Yan et al., Nature Communications (2017)",
+    summary="Native DSBs are blunted and ligated in situ to a T7/RA5 adapter carrying a sample barcode and UMI, then linearly amplified by IVT.",
+    sequencing="For the representative classic A1 adapter, Read 1 begins with the 8-nt UMI and 8-nt sample barcode, then break-adjacent DNA. Most study libraries were single-end. Exact sequencing primer sites, acquired cycles and the chosen RPI member remain unassigned.",
+)
+
 
 
 from bliss_chem import oligos as bliss_oligos
@@ -31,11 +37,51 @@ def _oligos():
                                   [Segment("RA3", TRUSEQ_SMALL_RNA_RA3)]))
 
 
-SPEC = get('bliss', definition=DEFINITION, oligos_fn=_oligos)
+# Classic A1 is an explicit source-selected variant, not a generic payload size.
+FINAL_LIBRARY = Construct([
+    role("RP1-derived library end; exact geometry unassigned"),
+    role("RA5-side sequencing entry; exact primer unassigned"),
+    Segment("8-nt UMI", "N" * 8, "umi", feature=feature("umi", "umi", "random")),
+    Segment("A1 sample barcode", A1_BARCODE, "cbc", feature=feature(
+        "sample_barcode", "sample_index", "whitelist", whitelist="BLISS Supplementary Data 1 A1")),
+    role("break-adjacent DNA"),
+    role("RA3/RPI-derived indexed library end; chosen RPI and exact geometry unassigned"),
+], name="BLISS classic A1 endpoint (finishing geometry unassigned)")
+SPEC = SimpleNamespace(
+    TITLE=DEFINITION.title, NOTES="01_bliss.html",
+    SOURCE=f'<a href="https://doi.org/{DEFINITION.doi}">{DEFINITION.source_label}</a>; classic adapter A1 from Supplementary Data 1; detailed operations attributed separately to Protocol Exchange 2019 v2.',
+    SUMMARY=DEFINITION.summary,
+    CAVEAT="Exact A1 break-adapter strands are source-transcribed. The final RP1/RPI-installed geometry is unresolved in this model; no generic Illumina arm or index length is supplied. Detailed conditions below belong to the explicitly identified 2019 Protocol Exchange v2, whose equivalence to the article-cited original revision is unverified.",
+    FINAL_LIBRARY=FINAL_LIBRARY, SEQ_PRIMERS=(), FINAL_CAPTION=DEFINITION.sequencing,
+    SEQUENCING_INTRO=DEFINITION.sequencing, READ_LENGTHS=None,
+    SEQUENCING_ENDING=DEFINITION.sequencing, SEQUENCING_UNAVAILABLE=DEFINITION.sequencing,
+    oligos=_oligos,
+)
 
 
 def _state(label, *names, junctions=()):
-    return molecule(label, tuple(role(n) for n in names), junctions=junctions)
+    parts = []
+    for n in names:
+        if n == "UMI":
+            parts.append(Segment("UMI", "N" * 8, "umi", feature=feature("umi", "umi", "random")))
+        elif n in {"sample barcode", "sample barcode complement"}:
+            parts.append(Segment(n, A1_BARCODE if n == "sample barcode" else revcomp(A1_BARCODE),
+                                 "cbc", feature=feature("sample_barcode", "sample_index", "whitelist",
+                                                      whitelist="BLISS Supplementary Data 1 A1")))
+        else:
+            parts.append(role(n))
+    return molecule(label, tuple(parts), junctions=junctions)
+
+
+def ivt_mixture_scene(dna_label):
+    """IVT RNA and retained/degraded DNA are independent populations."""
+    scene = Scene()
+    scene.strand("rna", list(_state("RNA", "RA5", "UMI", "sample barcode", "break-adjacent RNA").strands["molecule"].segs),
+                 label="independent BLISS IVT RNA")
+    scene.strand("dna", [role(dna_label)], label=dna_label)
+    scene.labels("rna")
+    scene.labels("dna")
+    return scene
 
 
 def _local_graph(d, final, primers):
@@ -135,22 +181,21 @@ def _local_graph(d, final, primers):
                      MaterialKind.CATALYST, source=protex)
     ivt = graph.product("ivt", "IVT reaction: break-adjacent RNA plus genomic DNA template",
                         MaterialKind.MOLECULAR,
-                        state=_state("BLISS IVT RNA", "RA5", "UMI", "sample barcode",
-                                     "break-adjacent RNA"))
+                        state=ivt_mixture_scene("tagged genomic DNA template"))
     graph.react("transcribe", "Linearly amplify tagged fragments by T7 transcription",
                 StepKind.TRANSCRIPTION,
                 ((concentrated, InputRole.TEMPLATE), (t7, InputRole.CATALYST)), (ivt,))
     dnase = graph.input("dnase", "DNase I, RNase-free (Thermo AM2222), 15 min at 37 °C",
                         MaterialKind.CATALYST, source=protex)
     rna_digest = graph.product("dnase_treated", "IVT RNA with DNase-degraded genomic DNA",
-                               MaterialKind.MOLECULAR, state=ivt.state)
+                               MaterialKind.MOLECULAR, state=ivt_mixture_scene("DNase-degraded genomic DNA fragments"))
     graph.react("remove_gdna", "Degrade the genomic DNA template", StepKind.DIGESTION,
                 ((ivt, InputRole.TEMPLATE), (dnase, InputRole.CATALYST)), (rna_digest,),
-                source=protex, changes_molecule=False)
+                source=protex)
     rnaclean = graph.input("rnaclean", "RNAClean XP beads, 1.8×", MaterialKind.SELECTION,
                            source=protex)
     rna = graph.product("rna", "purified break-adjacent IVT RNA (6 µl)", MaterialKind.MOLECULAR,
-                        state=ivt.state)
+                        state=_state("purified BLISS IVT RNA", "RA5", "UMI", "sample barcode", "break-adjacent RNA"))
     rna_waste = graph.product("rnaclean_supernatant",
                               "supernatant with DNase fragments and nucleotides, plus washes",
                               MaterialKind.WASTE)
@@ -170,7 +215,7 @@ def _local_graph(d, final, primers):
                 ((rna, InputRole.TEMPLATE), (ra3, InputRole.STRUCTURAL),
                  (rna_ligase, InputRole.CATALYST)), (ligated_rna,),
                 geometry=AdapterLigationGeometry.unavailable(
-                    "The custom RA3 bases are printed by Illumina, but the original BLISS protocol does not specify its custom-synthesis end modifications."))
+                    "The custom RA3 bases are printed by Illumina, but the custom-synthesis end modifications remain unassigned within the inspected BLISS source scope."))
     rtp = graph.input("rtp", "RTP reverse-transcription primer (custom TruSeq Small RNA sequence)",
                       MaterialKind.OLIGO, source=protex)
     rt = graph.input("rt_enzyme", "SuperScript III reverse transcriptase, 1 h at 50 °C",
@@ -178,7 +223,7 @@ def _local_graph(d, final, primers):
     cdna = graph.product("cdna", "first-strand cDNA of the RA3-ligated IVT RNA",
                          MaterialKind.MOLECULAR,
                          state=_state("BLISS cDNA", "RA3 complement", "break-adjacent DNA",
-                                      "sample barcode", "UMI", "RA5 complement"))
+                                      "sample barcode complement", "UMI", "RA5 complement"))
     graph.react("rt", "Reverse-transcribe from RTP", StepKind.REVERSE_TRANSCRIPTION,
                 ((ligated_rna, InputRole.TEMPLATE), (rtp, InputRole.STRUCTURAL),
                  (rt, InputRole.CATALYST)), (cdna,), source=protex)
@@ -195,7 +240,7 @@ def _local_graph(d, final, primers):
                  (rpi, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (pcr,), source=protex,
                 geometry=PCRGeometry.unavailable(
-                    final, reason="RP1/RPI bases are an Illumina family; the BLISS source does not choose the RPI member, so the amplicon is shown by role."))
+                    cdna.state, reason="Actual first-strand cDNA enters PCR. The exact RP1/RPI geometry and chosen RPI member are unassigned in this source-limited model."))
     beads = graph.input("ampure_library", "AMPure XP 0.8×", MaterialKind.SELECTION, source=protex)
     library = graph.product("library", "BLISS sequencing library", MaterialKind.LIBRARY,
                             state=final)
@@ -205,8 +250,7 @@ def _local_graph(d, final, primers):
                 ((pcr, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
                 (library, pcr_waste), source=protex)
     graph.discard(pcr_waste, "supernatant and washes discarded")
-    graph.sequence(library, SequencingPlan(library=final, primers=tuple(primers))
-                   if primers else SequencingPlan(limitation=d.sequencing))
+    graph.sequence(library, SequencingPlan(library=final, acquisition="unspecified", limitation=d.sequencing))
     graph.annotate(SourceDiscrepancy(
         "break_adapter", "Two classic adapters print the same sample barcode",
         (SourceClaim("Supplementary Data 1, classic adapter A3 (top/bottom rows)",

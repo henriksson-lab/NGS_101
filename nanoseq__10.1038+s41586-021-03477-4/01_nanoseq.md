@@ -54,13 +54,9 @@ resolution", *Nature* 593, 405–410 (2021),
 - 🟢 Read structure: reads begin `NNNTCA` or `NNNXTCA`. `NNN` is a 3-nt random barcode, `X`
   an optional spacer, `T` the adapter overhang, and `CA` the HpyCH4V end. Four adapter
   bases are clipped.
-- 🟡 Final library: both qPCR primers are the first 20 bases of the TruSeq Read 1 and Read 2
-  arms (`illumina.TRUSEQ_READ1`, `illumina.TRUSEQ_READ2`). The model therefore draws an
-  *inferred* TruSeq-type shell (P5/i5/Read 1 … Read 2/i7/P7, with 8-nt index windows) around
-  `NNN`‑`T`‑`CA…TG`‑`A`‑`nnn`. The optional spacer base is not drawn. The 5′ phosphate on the
-  restriction ends is general enzymology, not a sentence in the source.
-- 🔴 Not printed in the inspected sources: the complete xGen adapter strands and their
-  modifications, the UDI primer sequences, and the index lengths.
+- 🟢 The exact NanoqPCR1/2 sequences remain assay reagents. They do not establish the full ligated xGen strands or production UDI primer architecture.
+- 🟡 The final native endpoint preserves the positive `NNN`–`T`–`CA…TG`–`A`–`nnn` no-spacer core between unassigned UDI-derived outer ends. The earlier canonical TruSeq/P5/P7 shell and eight-base index windows were unsupported model assignments and have been removed. The optional spacer is a separate source-reported alternative, not a fixed extra base in every molecule.
+- 🟡 Native adapter strands, UDI index widths/positions and complete sequencing-primer geometry remain unassigned in this bounded pass. The source-positive 150-base biological reads are declared without inferring index acquisition. Restriction-derived 5′ phosphate is an enzymology inference, distinct from the printed reaction recipe.
 
 ## Variants not drawn
 
@@ -82,3 +78,11 @@ resolution", *Nature* 593, 405–410 (2021),
 
 NanoSeq is not Nanopore sequencing. It is a distinct Illumina rare-variant protocol and
 does not replace the general Duplex Sequencing page.
+
+## Bounded native-graph migration, 2026-10-18
+
+Two originals were inspected: the identity-verified accepted manuscript, library preparation/quantification/PCR Methods (text 1268–1422, final cleanup 1461–1464) and read processing (1590–1626), plus published Supplementary Information Notes 2–4 (60–128). The mandatory bundle scraper ran; its oligo pointers were verified in these originals. Other workbook alleles are not reagent oligos. No additional originals were chased.
+
+The graph now owns its source-specific states without a shared recipe selector or length-imposing RNA helper. HpyCH4V and dA-tail scenes preserve source-known terminal bases around an insert of unknown molecular length. Both qPCR and production PCR receive their actual native adapter-ligated precursors. A separately sampled 1:500 assay aliquot produces analytical amplicons; the retained stock proceeds to the molecular bottleneck. qPCR amplification is not treated as an unchanged production molecule. The candidate ddBTP-terminated nick has a blocked 3′ end and remains unresolved rather than physically discarded.
+
+Exact historical xGen1080799 strands, production UDI primers/index widths, sequencing-primer sites, optional spacer allocation, the cited Protocol Exchange v1 original and publisher/accepted-manuscript comparison remain deferred. No publication-absence conclusion is accepted.

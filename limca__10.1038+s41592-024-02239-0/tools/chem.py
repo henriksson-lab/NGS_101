@@ -1,208 +1,131 @@
-"""Protocol-owned source, molecular workflow and reaction graph."""
-from adapter_ligation import AdapterLigationGeometry
+"""LiMCA2024 native compartment-specific chemistry, cited pex2423v1 scope explicit."""
+from chemdraw import Construct,Scene,Segment,feature,revcomp,complement_segments
+from protocol_model import role
+from protocol_graph import ProtocolGraph,MaterialKind as M,InputRole as I,StepKind as K,Terminal,Disposition,SequencingPlan
 from pcr import PCRGeometry
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
-from chemdraw import Construct
-from protocol_model import chain, molecule, role, role_library
-from extended_protocols import Definition
-from chemdraw import feature
+import seqprimers as sp
+TITLE='LiMCA — source-separated cytoplasm and nuclear contacts'
+NOTES='01_limca.html'
+SOURCE='<a href="https://doi.org/10.1038/s41592-024-02239-0">Wu et al., Nature Methods2024</a>; directly cited pex2423v1 protocol and its original attachedLiMCAOligos workbook.'
+SUMMARY='Physical5µl cytoplasmic supernatant and nuclear pellet from one cell follow distinct Smart-seq2/TruePrep and NlaIII/META20 routes. Matching uses experimental tube labels, not a shared molecular cell barcode.'
+CAVEAT='Version scope: primary2024Methods oligo-dT preheat72°C5min and RNA0.6×/0.2×selection are selected; citedauthorprotocolv1 says70°C5min and0.55×/0.25×. These ordinary source-version differences are not silently merged. The v1 workbook supplies native Smartseq2/META/UDP components. Printed META20transfer strands end in13ntME sequence while the companion ME is19nt; the drawing preserves13bppairing and6ntcompanion overhang, without appending missing bases or proving loaded transposase geometry. Native META insertion/PCRfirstcycle/DM5xx-DM7xx indexassembly and selectedcellmembers remain bounded. Molecularindex widths are separate from acquisition; no generic8nt shell.'
+RT_HANDLE='AAGCAGTGGTATCAACGCAGAGTAC'
+TSO_DNA='AAGCAGTGGTATCAACGCAGAGTACAT'
+ISPCR='AAGCAGTGGTATCAACGCAGAGT'
+META20_1='AGAAGCCGTGTGCCGGTCTAAGATGTGTATAAG'
+ME19='CTGTCTCTTATACACATCT'
+META40_1='ACACTCTTTCCCTACACGACGCTCTTCCGATCT'+META20_1
+META40_2='GACTGGAGTTCAGACGTGTGCTCTTCCGATCT'+META20_1
+UDP5='AATGATACGGCGACCACCGAGATCTACACTCGTGGAGCGTCGTCGGCAGCGTC'
+UDP7='CAAGCAGAAGACGGCATACGAGATCGCTCAGTTCGTCTCGTGGGCTCGG'
+META_FEATURE=feature('limca.meta_family','inline_barcode','whitelist',whitelist='source20META amplification tagfamily',note='technical amplification tag family; not a sourcecellbarcode or UMI claim')
+CELL_INDEX=feature('limca.cell_library','sample_index','unknown',note='percell tube/library indexmember, DNAindexwidth unassigned')
+RNA5=feature('limca.rna_i5','sample_index','whitelist',whitelist='sourceUDP family',note='UDP0001example10ntphysicalcode; acquisitionunassigned')
+RNA7=feature('limca.rna_i7','sample_index','whitelist',whitelist='sourceUDP family',note='UDP0001example10ntphysicalcode; acquisitionunassigned')
+SEQ_PRIMERS=()
+SHOW_READ_CONTENT=False
+SEQUENCING_ENDING='Published LiMCA PE150 onHiSeqX10/NovaSeq; native index acquisition unassigned. DNA/RNA tube labels link the cell, not molecular concatenation.'
+READ_SPECS=tuple(sp.read_spec(r,150 if r.startswith('Read') else 'unassigned','Contact/transcript insert' if r.startswith('Read') else 'Native index acquisition allocation unassigned','include' if r.startswith('Read') else 'undetermined') for r in ('Read 1','Read 2','Index 1 (i7)','Index 2 (i5)'))
+def rt_parts():return [Segment('source RT handle',RT_HANDLE),Segment('dT30','T'*30),Segment('VNanchor','VN',placeholder=True)]
+def ss_cdna(switched=False):
+ sc=Scene();parts=[*rt_parts(),role('transcript antisense cDNA; native extent unassigned')]
+ if switched:parts.extend([role('native switch junction/terminalGcopy extent unassigned'),Segment('copied TSO DNAprefix',revcomp(TSO_DNA))])
+ sc.strand('cDNA',parts,label='actual '+('switched' if switched else 'first')+' ssDNA precursor')
+ sc.strand('originals',[role('possible originalRNA/cytoplasmicDNA/oligos; recovery unresolved')],label='independent residualorigins');return sc
 
-DEFINITION = Definition('LiMCA', '10.1038/s41592-024-02239-0', 'Wu et al., Nature Methods (2024)', 'Cytoplasm and nucleus of one picked cell are separated by gentle lysis and centrifugation: the supernatant goes through Smart-seq2, while the nuclear pellet is fixed, NlaIII-digested, proximity-ligated, lysed and amplified with META (20 META tags).', 'Two libraries per cell (Tn5-tagmented Smart-seq2 cDNA and META-amplified 3C DNA), each sequenced paired-end 2 × 150 bp (HiSeq X10 or NovaSeq); they are joined by experimental labels (tube of origin), not by a shared molecular barcode.', '01_limca.html')
-# Cells are pooled after library PCR (Methods, Library construction), so each cell's library
-# must carry a distinguishing index; its form, length and bases are not printed (inferred role).
-CELL_INDEX = role("per-cell library index (not printed)", tag="cbc", inferred=True,
-                  molecular_feature=feature("cell_library_index", "sample_index", "unknown"))
-PAYLOAD = (role("Smart-seq2 insert or Hi-C junction"),)
+def native_state(kind,stage,indexed=False):
+ sc=Scene()
+ parts=[role('native '+stage+' endA'),role(kind+' DNA/contact/copy extent unassigned')]
+ if kind=='nuclear':parts.insert(1,role('sourceMETA tagfamily; member/orientation unassigned',molecular_feature=META_FEATURE))
+ if indexed:
+  parts.extend([role('native i5libraryindex',molecular_feature=RNA5 if kind=='RNA' else CELL_INDEX),role('native i7libraryindex',molecular_feature=RNA7 if kind=='RNA' else CELL_INDEX)])
+ sc.strand('native DNA',parts,label='actual '+kind+' population; '+stage)
+ sc.strand('residuals',[role('possible sourceoriginalRNA/DNA, native primers, priorcopies and offproducts; physical recovery unassigned')],label='independent possible residual lineages');return sc
 
-TITLE = DEFINITION.title
-NOTES = DEFINITION.notes
-SOURCE = f'Defining source: <a href="https://doi.org/{DEFINITION.doi}">{DEFINITION.citation}</a>.'
-SUMMARY = DEFINITION.summary
-CAVEAT = ("This pass read the Nature Methods article Methods (PMC11166570). They name the Smart-seq2 "
-          "oligo-dT30VN, template-switch oligo and ISPCR primer but print no bases, and describe META only "
-          "as 'as previously described' with 20 META tags. The META amplification and gDNA library steps, "
-          "and the per-cell library indices, are therefore unresolved boundaries; the author protocol "
-          "(Research Square pex-2423, ref. 44) was not retrievable.")
-FINAL_LIBRARY = role_library(TITLE + " final library roles", PAYLOAD, index=CELL_INDEX)
-SEQ_PRIMERS = ()
-FINAL_CAPTION = DEFINITION.endpoint
-SEQUENCING_INTRO = DEFINITION.endpoint
-READ_LENGTHS = None
-SEQUENCING_ENDING = DEFINITION.endpoint
-SEQUENCING_UNAVAILABLE = "The article states paired-end 2 × 150 bp for both libraries but prints no adapter, index or sequencing-primer sequences (Vazyme TD502 for cDNA; META tags for gDNA), so no primer landing is asserted."
+def cell_scene():
+ sc=Scene();sc.strand('RNA',[role('cytoplasmicRNA population')],label='RNA in cell');sc.strand('DNA',[role('nuclear genomicDNA')],label='independent nuclear DNA');return sc
 
-def workflow():
-    return chain(molecule("one picked cell", (role("cytoplasmic mRNA"), role("nuclear chromatin"))), (
-        ("Soft lysis (0.45% IGEPAL, 30 min on ice) and 500g spin: 5 µl supernatant vs nuclear pellet",
-         molecule("matched compartments", (role("cytoplasm"), role("nucleus"))),
-         "Physical nucleus–cytoplasm separation, as in Trio-seq; no molecular barcode links the halves."),
-        ("Cytoplasm: Smart-seq2 (oligo-dT30VN, SSII + TSO, 21 cycles ISPCR, 0.7× AMPure)",
-         molecule("full-length cDNA amplicons", (role("full-length cDNA"),)),
-         "Primer bases are not printed in the article."),
-        ("Nucleus: 2.5% PFA fix, NlaIII digest, T4 ligation, protease lysis",
-         molecule("single-cell contact junctions", (role("restriction fragment A"), role("restriction fragment B")),
-                  junctions=(("restriction fragment A", "restriction fragment B", "proximity ligation"),)),
-         "No biotin fill-in or pull-down: a conventional 3C ligation inside the nucleus."),
-        ("Nextera Tn5 (TD502) on 1–5 ng cDNA; META WGA (20 tags) on the 3C lysate",
-         molecule("paired LiMCA libraries", (CELL_INDEX, role("Smart-seq2 insert or Hi-C junction"))),
-         "INFERRED — META and gDNA library steps follow cited earlier work; index bases are not printed."),
-    ))
+def fraction_scene(cytoplasm):
+ sc=Scene();sc.strand('primary',[role('cytoplasmicRNA' if cytoplasm else 'nuclear genomicDNA')],label='source-enriched physical compartment')
+ sc.strand('possible carryover',[role('possible cytoplasmicDNA/other material' if cytoplasm else 'possible retained nuclearRNA/other material')],label='independent residual population; amount/recovery unassigned')
+ return sc
 
+def cut_scene():
+ sc=Scene()
+ for k in ('A','B'):
+  body=role(k+' NlaIIIfragment');tail=Segment(k+'3′CATG','CATG')
+  sc.strand(k,[body,tail],mod5='p',label='NlaIII3′CATG end')
+  opp=complement_segments([body]);sc.anneal(k+' opposite',[*opp,Segment(k+'opposed3′CATG','CATG')],to=k,pair=(opp[0].name,body.name),unpaired=(opp[0].name,),mod5='p')
+  sc.overhang(k,tail.name,polarity='3-prime',owner='substrate',text='sourceNlaIII3′CATG')
+ sc.strand('possible RNA',[role('possible retained nuclearRNA/other original material; recovery unassigned')],label='independent residualorigins')
+ return sc
 
-def oligos():
-    return ()
+def contact_scene():
+ parts=[role('locusA'),Segment('NlaIIIcohesive contact junction','CATG'),role('locusB')]
+ sc=Scene.duplex(parts,label='original nuclear3CcontactDNA; no biotin fill',unpaired=tuple(p.name+"'" for p in parts if p.is_role_token()))
+ sc.strand('possible RNA',[role('possible retained originalRNA/protein/other material; recovery unresolved')],label='independent residualorigins');return sc
 
-
-def _cleanup(graph, prefix, template, label, beads, out_label, state):
-    selection = graph.input(prefix + "_beads", beads, MaterialKind.SELECTION)
-    kept = graph.product(prefix + "_kept", out_label, MaterialKind.MOLECULAR, state=state)
-    waste = graph.product(prefix + "_waste", label + " bead supernatant/unbound material",
-                          MaterialKind.WASTE)
-    graph.react(prefix, "Purify " + label + " with " + beads, StepKind.CLEANUP,
-                ((template, InputRole.TEMPLATE), (selection, InputRole.SELECTION)),
-                (kept, waste))
-    graph.discard(waste, "not retained by the SPRI/AMPure bead step")
-    return kept
-
-
-def protocol_graph() -> ProtocolGraph:
-    d = DEFINITION
-    final = FINAL_LIBRARY
-    source = f"{d.citation}; doi:{d.doi}; PMC11166570 Methods"
-    graph = ProtocolGraph(d.title, authority=source)
-    cell = graph.input(
-        "cell", "one picked viable cell",
-        MaterialKind.BIOLOGICAL,
-        state=molecule("one picked cell", (
-            role("cytoplasmic mRNA"), role("nuclear chromatin"))), primary=True)
-    lysis = graph.input("soft_lysis", "7 µl soft lysis buffer (0.45% IGEPAL-CA630, SUPERaseIn), 30 min ice, vortex, 500g 5 min 4 °C",
-                        MaterialKind.CONDITION)
-    cytoplasm = graph.product("cytoplasm", "5 µl supernatant (cytoplasmic RNA)",
-                              MaterialKind.MOLECULAR, state=cell.state)
-    nucleus = graph.product("nucleus", "nuclear pellet in remaining 2 µl",
-                            MaterialKind.MOLECULAR, state=cell.state)
-    graph.react("separate_compartments", "Soft-lyse and centrifuge: move 5 µl supernatant to a new tube",
-                StepKind.SPLIT, ((cell, InputRole.TEMPLATE), (lysis, InputRole.CONDITION)),
-                (cytoplasm, nucleus), changes_molecule=False)
-
-    # RNA branch: Smart-seq2 as printed in the Methods (no bases printed).
-    dt = graph.input("rna_rt_primer", "oligo-dT30VN (1 µM; full sequence not printed)", MaterialKind.OLIGO)
-    rt = graph.input("rna_rt_enzyme", "SuperScript II reverse transcriptase (10 U/µl), betaine, MgCl2, GTP",
-                     MaterialKind.CATALYST)
-    first = graph.product("rna_first_strand", "oligo-dT-primed first-strand cDNA",
-                          MaterialKind.MOLECULAR,
-                          state=molecule("first-strand cDNA", (role("oligo-dT30VN"), role("cDNA"))))
-    graph.react("rna_rt", "72 °C 5 min with oligo-dT/dNTP; RT 42 °C 90 min, 10 × (50 °C 2 min/42 °C 2 min)",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((cytoplasm, InputRole.TEMPLATE), (dt, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)),
-                (first,))
-    tso = graph.input("rna_tso", "template-switch oligonucleotide (1 µM; sequence and modifications not printed)",
-                      MaterialKind.OLIGO)
-    switched = graph.product("rna_cdna", "full-length cDNA carrying TSO complement",
-                             MaterialKind.MOLECULAR,
-                             state=molecule("template-switched cDNA", (role("TSO complement"), role("cDNA"), role("oligo-dT30VN"))))
-    graph.react("rna_template_switch", "Template switching in the same RT reaction",
-                StepKind.TEMPLATE_SWITCHING,
-                ((first, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)),
-                (switched,))
-    ispcr = graph.input("rna_ispcr", "ISPCR primer (0.28 µl of 10 µM; sequence not printed)", MaterialKind.OLIGO)
-    kapa = graph.input("rna_kapa", "KAPA HiFi HotStart ReadyMix", MaterialKind.CATALYST)
-    amplicons = graph.product("rna_amplicons", "Smart-seq2 cDNA amplicons", MaterialKind.MOLECULAR,
-                              state=molecule("full-length cDNA amplicons", (role("full-length cDNA"),)))
-    graph.react("rna_preamp", "ISPCR preamplification: 98 °C 3 min, 21 × (98 °C 20 s, 65 °C 30 s, 72 °C 4 min)",
-                StepKind.PCR,
-                ((switched, InputRole.TEMPLATE), (ispcr, InputRole.STRUCTURAL), (kapa, InputRole.CATALYST)),
-                (amplicons,), geometry=PCRGeometry.unavailable(
-                    Construct([role("TSO-side handle"), role("full-length cDNA"), role("oligo-dT-side handle")],
-                              name="Smart-seq2 cDNA roles"),
-                    symmetric_species=True,
-                    reason="The article names a single ISPCR primer but prints neither its sequence nor the TSO/oligo-dT handles it anneals to."))
-    rna_clean = _cleanup(graph, "rna_ampure", amplicons, "cDNA amplicons", "0.7× AMPure XP",
-                         "purified cDNA amplicons", amplicons.state)
-    tn5 = graph.input("rna_tn5", "Nextera-type Tn5 (Vazyme TD502), 1–5 ng cDNA input", MaterialKind.CATALYST)
-    tn5_adapters = graph.input("rna_tn5_adapters", "TD502 loaded Tn5 adapters (sequences not printed)",
-                               MaterialKind.ADAPTER, inferred=True)
-    tagmented = graph.product("rna_tagmented", "tagmented cDNA fragments", MaterialKind.MOLECULAR,
-                              state=molecule("tagmented cDNA", (role("Tn5 adapter"), role("cDNA fragment"), role("Tn5 adapter"))))
-    graph.react("rna_tagment", "Tagment 1–5 ng cDNA with Vazyme TD502 Tn5", StepKind.TAGMENTATION,
-                ((rna_clean, InputRole.TEMPLATE), (tn5_adapters, InputRole.STRUCTURAL), (tn5, InputRole.CATALYST)),
-                (tagmented,))
-    rna_final = role_library("LiMCA cDNA library roles", (CELL_INDEX, role("cDNA fragment")))
-    fwd = graph.input("rna_index_fwd", "TD502 kit index PCR primer (not printed)", MaterialKind.OLIGO, inferred=True)
-    rev = graph.input("rna_index_rev", "TD502 kit index PCR primer, second (not printed)", MaterialKind.OLIGO, inferred=True)
-    pol = graph.input("rna_index_pol", "TD502 kit PCR polymerase (not named)", MaterialKind.CATALYST, inferred=True)
-    rna_lib = graph.product("rna_library", "indexed cDNA library (per cell)", MaterialKind.MOLECULAR,
-                            state=rna_final, inferred=True)
-    graph.react("rna_index_pcr", "TD502 'library preparation' PCR (conditions not given)", StepKind.PCR,
-                ((tagmented, InputRole.TEMPLATE), (fwd, InputRole.STRUCTURAL), (rev, InputRole.STRUCTURAL),
-                 (pol, InputRole.CATALYST)), (rna_lib,),
-                geometry=PCRGeometry.unavailable(rna_final, reason="Kit index primers and their sequences are not given in the article."))
-    rna_pool = graph.input("rna_other_cells", "libraries from other cells", MaterialKind.MOLECULAR)
-    pooled = graph.product("rna_pooled", "pooled cDNA libraries", MaterialKind.MOLECULAR, state=rna_final, inferred=True)
-    graph.react("rna_pool", "Pool cells", StepKind.POOL,
-                ((rna_lib, InputRole.TEMPLATE), (rna_pool, InputRole.TEMPLATE)), (pooled,), changes_molecule=False)
-    first_sel = _cleanup(graph, "rna_spri_06", pooled, "pooled libraries", "0.6× SPRI", "0.6× SPRI-purified pool", rna_final)
-    second_sel = graph.input("rna_spri_02_beads", "0.2× SPRI", MaterialKind.SELECTION)
-    rna_seq = graph.product("rna_sequencing_library", "LiMCA cDNA sequencing library", MaterialKind.LIBRARY,
-                            state=rna_final, inferred=True)
-    rna_waste = graph.product("rna_spri_02_waste", "material not kept after 0.2× SPRI", MaterialKind.WASTE)
-    graph.react("rna_spri_02", "Then purify with 0.2× SPRI (fraction kept not stated)", StepKind.CLEANUP,
-                ((first_sel, InputRole.TEMPLATE), (second_sel, InputRole.SELECTION)), (rna_seq, rna_waste))
-    graph.discard(rna_waste, "not retained by the second SPRI step")
-    graph.sequence(rna_seq, SequencingPlan(limitation="cDNA library: paired-end 2 × 150 bp on HiSeq X10 or NovaSeq, 0.2–0.6 Gb per cell; adapter, index and primer sequences not printed."))
-
-    # Nuclear branch: single-nucleus 3C.
-    pfa = graph.input("formaldehyde", "8 µl 2.5% paraformaldehyde, RT 10 min; quench 0.25 M glycine (+ magnetic beads)",
-                      MaterialKind.CONDITION)
-    fixed = graph.product("fixed_nucleus", "fixed nucleus", MaterialKind.MOLECULAR, state=nucleus.state)
-    graph.react("crosslink", "Fix the nucleus and quench", StepKind.CROSS_LINKING,
-                ((nucleus, InputRole.TEMPLATE), (pfa, InputRole.CONDITION)), (fixed,))
-    sds = graph.input("sds_triton", "Hi-C lysis buffer, 0.3% SDS 62 °C 10 min, Triton X-100 quench 37 °C 15 min",
-                      MaterialKind.CONDITION)
-    open_nucleus = graph.product("permeabilized_nucleus", "SDS-opened fixed nucleus", MaterialKind.MOLECULAR, state=fixed.state)
-    graph.react("permeabilize", "Lyse and open chromatin with SDS, quench with Triton", StepKind.PERMEABILIZATION,
-                ((fixed, InputRole.TEMPLATE), (sds, InputRole.CONDITION)), (open_nucleus,))
-    nla = graph.input("restriction_enzyme", "NlaIII (4 U/µl in rCutSmart; printed 'NIAIII')", MaterialKind.CATALYST)
-    digested = graph.product("restriction_fragments", "NlaIII-digested fixed chromatin",
-                             MaterialKind.MOLECULAR, state=fixed.state)
-    graph.react("digest", "Digest with NlaIII, 37 °C 2 h rotating", StepKind.DIGESTION,
-                ((open_nucleus, InputRole.TEMPLATE), (nla, InputRole.CATALYST)), (digested,))
-    ligase = graph.input("proximity_ligase", "T4 DNA ligase (10 U/µl in 1× T4 buffer)", MaterialKind.CATALYST)
-    contacts = graph.product(
-        "contacts", "in-nucleus proximity-ligation junctions",
-        MaterialKind.MOLECULAR,
-        state=molecule("single-cell contact junctions", (
-            role("restriction fragment A"), role("restriction fragment B")),
-            junctions=(("restriction fragment A", "restriction fragment B",
-                        "proximity ligation"),)))
-    graph.react("proximity_ligation", "Buffer exchange, then T4 ligation RT 2.5 h rotating",
-                StepKind.PROXIMITY_LIGATION,
-                ((digested, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)), (contacts,))
-    reversal = graph.input("crosslink_reversal", "2 µl lysis buffer with Qiagen protease; 50 °C 1 h, 65 °C 1 h, 70 °C 15 min",
-                           MaterialKind.CONDITION)
-    lysate = graph.product("contact_lysate", "protease-lysed single-cell 3C DNA (no purification described)",
-                           MaterialKind.MOLECULAR, state=contacts.state)
-    graph.react("reverse_crosslinks", "Protease lysis and heat; store at −80 °C",
-                StepKind.DEPROTEINIZATION,
-                ((contacts, InputRole.TEMPLATE), (reversal, InputRole.CONDITION)), (lysate,))
-    meta_tn5 = graph.input("meta_tn5", "Tn5 transposase (Vazyme S111-01)", MaterialKind.CATALYST)
-    meta_tags = graph.input("meta_transposome", "20 META tags loaded on Tn5 (sequences not printed)",
-                            MaterialKind.ADAPTER, inferred=True)
-    tagged = graph.product("meta_tagged", "META-transposed 3C DNA", MaterialKind.MOLECULAR,
-                           state=molecule("META-tagged 3C DNA", (role("META tag"), role("restriction fragment A"),
-                                                                 role("restriction fragment B"), role("META tag"))))
-    graph.react("meta_transposition", "META: Tn5 transposition with 20 META tags", StepKind.TAGMENTATION,
-                ((lysate, InputRole.TEMPLATE), (meta_tags, InputRole.STRUCTURAL), (meta_tn5, InputRole.CATALYST)),
-                (tagged,))
-    hic_final = role_library("LiMCA 3C (gDNA) library roles", (CELL_INDEX, role("3C fragment or contact junction")))
-    meta_rest = graph.input("meta_amplification", "META amplification and gDNA library construction 'as previously described' (refs 18, 26)",
-                            MaterialKind.CONDITION)
-    hic_seq = graph.product("hic_sequencing_library", "LiMCA 3C (gDNA) sequencing library", MaterialKind.LIBRARY,
-                            state=hic_final, inferred=True)
-    graph.react("meta_amplify_library", "META amplification and gDNA library construction", StepKind.MAGIC,
-                ((tagged, InputRole.TEMPLATE), (meta_rest, InputRole.CONDITION)), (hic_seq,),
-                reason="The LiMCA Methods defer META amplification and gDNA library preparation to refs 18/26 and the unretrieved author protocol; primers, cycles and indexing are not reconstructed.")
-    graph.sequence(hic_seq, SequencingPlan(limitation="gDNA library: paired-end 2 × 150 bp on HiSeq X10 or NovaSeq, 3–6 Gb per cell; META tag, index and primer sequences not printed."))
-    reviewed = [x for x in graph.materials] + [x for x in graph.steps]
-    graph.declare_reviewed_scope(reviewed, source)
-    return graph.require_publishable()
+def meta_adapter():
+ core=META20_1[-13:]
+ if revcomp(ME19[6:])!=core:raise ValueError('sourceMETA13bp overlap mismatch')
+ sc=Scene();sc.strand('transfer',[Segment('METAamplifier tag',META20_1[:-13],feature=META_FEATURE),Segment('printedME13',core)],label='actual printedMETA20_1')
+ sc.anneal('ME19',[Segment('ME5′overhang6',ME19[:6]),Segment('pairedME13',ME19[6:])],to='transfer',pair=('pairedME13','printedME13'),unpaired=('ME5′overhang6',),label='printed19bpME; no silent topstrandcompletion')
+ return sc
+RNA_LIB=Construct([role('native RNAendA'),role('transcriptinsert'),role('native UDPi5',length_bp=10,molecular_feature=RNA5),role('native UDPi7',length_bp=10,molecular_feature=RNA7)],name='LiMCA RNA native endpoint')
+DNA_LIB=Construct([role('native META/DMendA'),role('META amplificationtag',molecular_feature=META_FEATURE),role('NlaIIIcontactinsert'),role('native cell-libraryindexregion',molecular_feature=CELL_INDEX)],name='LiMCA nuclear native endpoint')
+FINAL_LIBRARY=None
+FINAL_LIBRARIES=(('RNA native reference',RNA_LIB,(),'Source components; complete nativeassembly unassigned.',SEQUENCING_ENDING),('Nuclear native reference',DNA_LIB,(),'Source META/DM assembly unassigned.',SEQUENCING_ENDING))
+def protocol_graph():
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ def inp(i,l,k=M.CONDITION,state=None):return g.input(i,l,k,state=state)
+ def op(i,l,k,x,extra,state):
+  y=g.product(i+'_out',l,M.MOLECULAR,state=state);g.react(i,l,k,((x,I.TEMPLATE),*extra),(y,));return y
+ def clean(i,l,x):
+  sel=inp(i+'_selection',l,M.SELECTION);y=g.product(i+'_out',l+'recovered',x.kind,state=x.state);w=g.product(i+'_waste','physical nonretainedfraction',M.WASTE)
+  g.react(i,l,K.CLEANUP,((x,I.TEMPLATE),(sel,I.SELECTION)),(y,w));g.discard(w,'Source physical fraction; class purity/recovery not presumed.');return y
+ def pcr(i,l,x,f,r,pol,state,symmetric=False):
+  y=g.product(i+'_out',l,M.MOLECULAR,state=state);g.react(i,l,K.PCR,((x,I.TEMPLATE),(f,I.STRUCTURAL),*(((r,I.STRUCTURAL),) if r else ()),(pol,I.CATALYST)),(y,),geometry=PCRGeometry.unavailable(x.state,reason='Actual incoming native '+i+' precursor; full strand/primer geometry bounded, not finalendpoint substituted.',symmetric_species=symmetric));return y
+ cell=g.input('cell','one picked viable cell',M.BIOLOGICAL,state=cell_scene(),primary=True)
+ soft=inp('soft_lysis','7µl0.45%IGEPAL30minice;vortex;500g5min4°C')
+ cyt=g.product('cytoplasm','5µlsupernatant fraction; RNAenriched not provenpure',M.MOLECULAR,state=fraction_scene(True));nuc=g.product('nucleus','remaining2µlnuclearpellet; possibleRNAcarryover',M.MOLECULAR,state=fraction_scene(False))
+ g.react('separate','Physicallytransfer5µlsupernatant aftersoftlysis/spin',K.SPLIT,((cell,I.TEMPLATE),(soft,I.CONDITION)),(cyt,nuc),changes_molecule=False)
+ dt=inp('rt_primer','sourceoligo-dT30VN; preheat72°CprimaryMethods',M.OLIGO,Construct(rt_parts()));rt=inp('ssii','SSII/betaine/Mg/GTP;42°C90min+10×50/42°C',M.CATALYST)
+ first=op('rt','Reverse-transcribe cytoplasmicRNA',K.REVERSE_TRANSCRIPTION,cyt,((dt,I.STRUCTURAL),(rt,I.CATALYST)),ss_cdna())
+ tso_scene=Scene();tso_scene.strand('TSO',[Segment('TSODNAprefix',TSO_DNA),Segment('RNA/LNA GGG','GGG',note='source rGrG+G')]);tso=inp('tso','sourceTSO-LNA',M.OLIGO,tso_scene)
+ switched=op('switch','Template-switch in sameRTreaction',K.TEMPLATE_SWITCHING,first,((tso,I.STRUCTURAL),(rt,I.CATALYST)),ss_cdna(True))
+ isp=inp('ispcr','sourceISPCRsingle species',M.OLIGO,ISPCR);kapa=inp('kapa','KAPAHiFiHotStart21cycles',M.CATALYST)
+ rna=pcr('rna_preamp','Amplify switchedssDNA21cycles',switched,isp,None,kapa,native_state('RNA','preamp'),True);rna=clean('rna_pre_cleanup','0.7×AMPure cleanup',rna)
+ tag=inp('rna_loaded','nativeVazymeTD502loadedends; strandsunassigned',M.ADAPTER);tn=inp('rna_tn5','TruePrepTTE/TTBL55°C10min;selected5ng',M.CATALYST)
+ rna=op('rna_tag','Tagment actual cDNAamplicons',K.TAGMENTATION,rna,((tag,I.STRUCTURAL),(tn,I.CATALYST)),native_state('RNA','tagged'))
+ stop=inp('rna_stop','2.5µlTSstopbuffer');rna=op('rna_stop_step','Stop source transposition',K.QUENCHING,rna,((stop,I.CONDITION),),rna.state)
+ f=inp('rna_i5','UDP0001i5 familyexample; selectedmemberunassigned',M.OLIGO,UDP5);r=inp('rna_i7','UDP0001i7 familyexample; selectedmemberunassigned',M.OLIGO,UDP7);q=inp('rna_q5','sourceQ5mastermix',M.CATALYST)
+ rna=op('rna_extend','Authorv1native72°C5min initialextension',K.EXTENSION,rna,((f,I.STRUCTURAL),(r,I.STRUCTURAL),(q,I.CATALYST)),native_state('RNA','extended'))
+ rna=pcr('rna_index','Authorv1RNAindexPCR9cycles',rna,f,r,q,native_state('RNA','indexed',True))
+ others=inp('rna_others','other independentlyindexedRNAcelllibraries',M.MOLECULAR,native_state('RNA','indexed',True));pool=g.product('rna_pool','pooledRNAcelllibraries',M.MOLECULAR,state=rna.state);g.react('rna_pooling','PoolRNAcelllibraries',K.POOL,((rna,I.TEMPLATE),(others,I.TEMPLATE)),(pool,),changes_molecule=False)
+ rna=clean('rna_dcc','SourceDCC5purification',pool);rna=clean('rna_size1','Primary2024RNA0.6×selection',rna);rna=clean('rna_size2','Primary2024RNA0.2×recovery',rna)
+ rf=g.product('rna_library',RNA_LIB.name,M.LIBRARY,state=rna.state);g.react('rna_retain','RetainRNAfraction',K.GENERIC,((rna,I.TEMPLATE),),(rf,),changes_molecule=False)
+ # Nuclear3C then source-defined META20/META40/index operations.
+ fix=inp('pfa','8µl2.5%PFA10minRT;glycinequench');nuc=op('fix','Fix isolatednucleus',K.CROSS_LINKING,nuc,((fix,I.CONDITION),),nuc.state);nuc=clean('nuc_wash','Pellet/wash/remove17µlsupernatants',nuc)
+ perm=inp('nuc_permeabilization','0.3%SDS62°C10min;Triton37°C15min');nuc=op('permeabilize','Permeabilize nuclearpellet',K.PERMEABILIZATION,nuc,((perm,I.CONDITION),),nuc.state)
+ nl=inp('nlaiii','NlaIII37°C2h',M.CATALYST);nuc=op('digest','DigestNlaIII3′CATGends',K.DIGESTION,nuc,((nl,I.CATALYST),),cut_scene());nuc=clean('digest_wash','Pellet/remove17µl;T4bufferwash',nuc)
+ lig=inp('ligase','T4DNA ligaseRT2.5h',M.CATALYST);nuc=op('ligate','Ligate original3Ccontacts without fill-in',K.PROXIMITY_LIGATION,nuc,((lig,I.CATALYST),),contact_scene());nuc=clean('ligate_wash','Pellet/remove18µlsupernatant',nuc)
+ prot=inp('qp','QIAGENprotease/DTTTriton50°C1h65°C1h70°C15min',M.CATALYST);nuc=op('lyse','Lyse nuclearcontact sample',K.DEPROTEINIZATION,nuc,((prot,I.CATALYST),),contact_scene())
+ meta=inp('meta_adapter','equal20sourceMETAtransferoligos annealedwithME19; example13bpoverlap',M.ADAPTER,meta_adapter());tn=inp('meta_tn5','VazymeTn5assembledRT30min;transposition55°C10min',M.CATALYST)
+ nuc=op('meta_tag','Tagment source3Clysate withMETA20',K.TAGMENTATION,nuc,((meta,I.STRUCTURAL),(tn,I.CATALYST)),native_state('nuclear','META tagged'))
+ remove=inp('meta_protease','NaCl/EDTA/QIAGENprotease50°C30min70°C15min',M.CATALYST);nuc=op('meta_remove','RemoveTn5protein byprotease',K.DEPROTEINIZATION,nuc,((remove,I.CATALYST),),nuc.state)
+ m20=inp('meta20_primers','sourceMETA20 primerpool; exampleMETA20-1',M.OLIGO,META20_1);q=inp('meta_q5','Q5/MgCl2amplificationmix',M.CATALYST)
+ nuc=op('meta_extend','72°C5min precycleextension',K.EXTENSION,nuc,((m20,I.STRUCTURAL),(q,I.CATALYST)),native_state('nuclear','META extended'))
+ nuc=pcr('meta_pcr','META20preamp13cycles',nuc,m20,None,q,native_state('nuclear','META preamp'),True)
+ for n in (1,2):
+  ex=inp('exo'+str(n),'ExoI37°C30min80°C20min',M.CATALYST);nuc=op('exo_step'+str(n),'Digest excessprimers; productsnotphysicaldiscard',K.DIGESTION,nuc,((ex,I.CATALYST),),nuc.state)
+  if n==1:
+   mf=inp('meta40_f','META40-1example sourcepool',M.OLIGO,META40_1);mr=inp('meta40_r','META40-2example sourcepool',M.OLIGO,META40_2);nuc=pcr('meta40_pcr','IncorporateMETA40adapterarms2cycles',nuc,mf,mr,q,native_state('nuclear','META40'))
+  else:
+   df=inp('dm5','DM5xxnativeindexprimer; fullsource/memberunassigned',M.OLIGO);dr=inp('dm7','DM7xxnativeindexprimer; fullsource/memberunassigned',M.OLIGO);nuc=pcr('dna_index','DM5/DM7libraryPCR2cycles',nuc,df,dr,q,native_state('nuclear','indexed',True))
+ nuc=clean('dna_dcc','PerwellDCC5elute20µl',nuc);others=inp('dna_others','other independentlyindexednuclear libraries',M.MOLECULAR,native_state('nuclear','indexed',True));pool=g.product('dna_pool','pooled nuclear libraries',M.MOLECULAR,state=nuc.state);g.react('dna_pooling','Pool independently indexednuclear libraries',K.POOL,((nuc,I.TEMPLATE),(others,I.TEMPLATE)),(pool,),changes_molecule=False);nuc=clean('dna_cleanup','0.8×AMPure afterpooling',pool)
+ df=g.product('dna_library',DNA_LIB.name,M.LIBRARY,state=nuc.state);g.react('dna_retain','Retainnuclearfraction',K.GENERIC,((nuc,I.TEMPLATE),),(df,),changes_molecule=False)
+ for x,lib in ((rf,RNA_LIB),(df,DNA_LIB)):g.sequence(x,SequencingPlan(library=lib,acquired_roles=('Read 1','Read 2'),read_lengths={'Read 1':150,'Read 2':150},limitation=SEQUENCING_ENDING))
+ g.declare_reviewed_scope(REVIEWED,SOURCE)
+ return g.require_publishable()
+REVIEWED=('cell','soft_lysis','separate','rt_primer','ssii','rt','tso','switch','ispcr','kapa','rna_preamp','rna_pre_cleanup','rna_pre_cleanup_selection','rna_loaded','rna_tn5','rna_tag','rna_stop','rna_stop_step','rna_i5','rna_i7','rna_q5','rna_extend','rna_index','rna_others','rna_pooling','rna_dcc','rna_dcc_selection','rna_size1','rna_size1_selection','rna_size2','rna_size2_selection','rna_retain','rna_library','pfa','fix','nuc_wash','nuc_wash_selection','nuc_permeabilization','permeabilize','nlaiii','digest','digest_wash','digest_wash_selection','ligase','ligate','ligate_wash','ligate_wash_selection','qp','lyse','meta_adapter','meta_tn5','meta_tag','meta_protease','meta_remove','meta20_primers','meta_q5','meta_extend','meta_pcr','exo1','exo_step1','meta40_f','meta40_r','meta40_pcr','exo2','exo_step2','dm5','dm7','dna_index','dna_dcc','dna_dcc_selection','dna_others','dna_pooling','dna_cleanup','dna_cleanup_selection','dna_retain','dna_library')
+def oligos():return ('oligo-dT—5′-'+RT_HANDLE+'T30VN-3′','TSO-LNA—5′-'+TSO_DNA+'rGrG+G-3′','ISPCR—5′-'+ISPCR+'-3′','META20-1—5′-'+META20_1+'-3′','19bpME—5′-'+ME19+'-3′','META40-1—5′-'+META40_1+'-3′','META40-2—5′-'+META40_2+'-3′','UDP0001i5—5′-'+UDP5+'-3′','UDP0001i7—5′-'+UDP7+'-3′')

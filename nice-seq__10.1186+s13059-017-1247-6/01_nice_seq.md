@@ -1,4 +1,20 @@
-# NicE-seq — research notes
+# NicE-seq
+
+## Current native graph — batch08 (2026-10-18)
+
+The current native graph preserves the defining direct ligation-to-streptavidin-capture route. The standard source resuspends beads in40µL and amplifies a4µL aliquot; the remaining suspension stays explicitly unresolved. Raw nuclei contain no adapters. Source-known dA-tailing now produces opposed3′A ends; historical5′ chemistry remains unassigned. The actual adapter-ligated bead-bound original molecules are the PCR substrate.
+
+Internally biotinylated original DNA remains distinct from copied library daughters. Copying does not establish biotin incorporation into daughter DNA or physical removal of the original templates. Source-positive paired-end acquisition is declared, with unknown native read lengths, index scheme and primer landing; the paper's explicit75bp NextSeq statement belongs to its separate ATAC comparison.
+
+The cached E7370 manual is Version9.1_1/23, an explicitly later reference. Its separate oligo-kit choices, conditional USER operation and generic cleanup route are not evidence of the2017 study's historical reagent choice. The defining article's direct capture after ligation is retained. Earlier independently located article/GEO differences remain public and historical; that GEO original was not re-read in this capped pass.
+
+Source scope: Published PMC5488340 JATS Methods Open chromatin labeling157–158, native/libraryconstruction166–170 and comparisonATAC172–174; published MOESM1 opening FigS1–S4 captions; NEB E7370 original printed Version9.1_1/23 title, workflow/endprep and ligation/conditionalUSER sections88–205, recoveryreference350–397. Mandatory bundle scraper0hits reviewed; no-hit is not absence. Prior GEO comparisons remain historical source scope, not a fresh original-reading claim.
+
+This is a capped migration pass, not full source review or accepted missing information.
+
+## Earlier source audit and model description (historical)
+
+The following records preserve earlier source readings and the former model. Their Orsi graph/endpoint descriptions are superseded by the native graph above.
 
 Ponnaluri et al., *Genome Biology* (2017),
 [doi:10.1186/s13059-017-1247-6](https://doi.org/10.1186/s13059-017-1247-6).

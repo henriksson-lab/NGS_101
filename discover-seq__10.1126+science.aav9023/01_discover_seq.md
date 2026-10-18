@@ -66,3 +66,15 @@ asymmetry without pretending the genomic sequence is fixed.
 The six-base adapter indexes and the final TruSeq sequencing architecture are public.
 The discontinued ChIP kit guide does not provide every supplied reagent as a complete
 ordering oligo, so the page does not invent such sequences or call the library dual-indexed.
+
+## Source-owned validation migration, 2026-10-18
+
+Local declaration owns its single-six-base-index TruSeq-compatible endpoint and 100/6/100 acquisition plan. Canonical arm sequences are explicitly inferred endpoint illustrations; they do not assert physical kit PCR-primer sequences. Removed invented ordering oligos for the supplied cocktail. PCR uses PPC PN15026786 and PMM PN15026785, and its source-limited geometry references the actual adapter-ligated precursor. Endogenous MRE11 recruitment now consumes MRE11 protein rather than ChIP antibody; antibody is consumed at immunoprecipitation after fixation/sonication. MRE11-negative chromatin is unresolved at recruitment, since no physical selection occurs then. Public sonication discrepancy retained.
+
+Read source scope: Defining published article PMC6589096 recruitment description lines63–77; authors published detailed protocol PMC7305837 library-preparation/pooled cleanup/sequencing lines795–845; TruSeq ChIP Sample Preparation Guide 15023092 RevB PCR box pp34–35 extracted lines1835–1859 and index Tables4–5 lines2109–2205.
+
+Remaining work: Exact supplied PPC/adapter oligos remain unassigned; no source absence accepted; Full molecular ligation/copying relations and explicit pooled-library cleanup graph remain coverage work. No accepted missing-information claim is added.
+
+## Molecular population display correction (2026-10-18)
+
+The legacy workflow display now separates MRE11 or antibody–MRE11 complex from the associated DNA row. The native reaction graph and its actual binding operation are unchanged. This implementation-only correction reuses the original migration source scope; no additional originals were read and no new chemistry or missing-information conclusion is asserted.

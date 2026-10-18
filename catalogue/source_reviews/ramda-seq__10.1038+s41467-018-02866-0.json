@@ -130,6 +130,34 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 6 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch04-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "PublishedPMC5809388 JATS175–204; originalMOESM1 SupplementaryNote1p1–2; originalMOESM6 Data3 MouseNSR rows1/410. Mandatoryscraper251hits/3hitfiles.",
+      "findings": "CoupledRT/nicking/displacement replaces artificial sequential additions; separateRNA/ERCC/nickedDNA/displacedcopies, actualKlenowduplex andsourcebeadrecovery/nativeXTtaggedPCRinput. Standard13cycles selected, advanced/C1 separate. RemovedgenericcanonicalXT/indexdefaults; source76single-read retained, indexacquisitionunknown. Replacedtautologicaltests with actualData3 transcription.",
+      "deferred": [
+        "ExacthistoricalXTmanual/loadedstrands/first-cyclegeometry/indexacquisition",
+        "CompleteNSRpooltranscription; advanced/C1routes and originalPDF C1temperaturewording"
+      ],
+      "scope": "Capped native-architecture/source correction only; not complete chemistry or acceptedabsence.",
+      "verification": "Parent affected suite/page/scopedchemistry/sourceguard/review schema pass; pairing0. RamDA suite2 source-transcription checks; RChip/MALBAC suites contain0 explicit tests (construction exercised by page/chemistry). No entirechemistry proof."
+    },
+    {
+      "round": "2026-10-18-batch04-independent-critical-implementation-review",
+      "reviewer": "migration_peer",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Currentnativegraph declarations andquotedsource scopes; no originals reread.",
+      "findings": "Independent review identified combined RNA/DNA rows in coupled RT and second-strand mixtures. Parent made RNA/ERCC/nickedDNA/displacedcopies independent rows and represented actual second-strand duplex. Recheck found no further critical issue in scope.",
+      "deferred": [
+        "ExacthistoricalXTmanual/loadedstrands/first-cyclegeometry/indexacquisition",
+        "CompleteNSRpooltranscription; advanced/C1routes and originalPDF C1temperaturewording"
+      ],
+      "scope": "Implementation-only review; no secondoriginal-source read or absenceacceptance.",
+      "verification": "Peer re-inspected corrected implementation; 0 additional originals. Parent focused suite/page/chemistry/sourceguard/schema pass; pagepairing0problems."
     }
   ]
 }

@@ -1,13 +1,26 @@
 """Protocol-owned source, molecular workflow and reaction graph."""
+import illumina as il
 from chemdraw import Construct, Scene, Segment, feature
+from types import SimpleNamespace
 from pcr import PCRGeometry
 from protocol_graph import (AnnotationSlot, Disposition, Highlight, InputRole, MaterialKind,
                             ProtocolGraph, SequencingPlan, SourceClaim, SourceDiscrepancy,
                             StepKind, Terminal)
-from protocol_model import chain, molecule, role, role_library
-from extended_protocols import Definition, SAMPLE, GUIDE
+from protocol_model import molecule, role
 
-DEFINITION = Definition('SPEAC-seq', '10.1038/s41596-024-01056-1', 'Faust Akl et al., Nature Protocols (2024)', 'CRISPR-perturbed and reporter cells are paired and cultured in droplets; functional fluorescence sorting precedes guide-cassette PCR and sequencing.', 'Guide counts are compared between functionally sorted and control droplet fractions; this is a pooled screen, not a transcriptome library.', '01_speac_seq.html')
+DEFINITION = SimpleNamespace(
+    title='SPEAC-seq',
+    doi='10.1038/s41596-024-01056-1',
+    citation='Faust Akl et al., Nature Protocols (2024)',
+    summary='CRISPR-perturbed and reporter cells are paired and cultured in droplets; functional fluorescence sorting precedes guide-cassette PCR and sequencing.',
+    endpoint='Guide counts are compared between functionally sorted and control droplet fractions; this is a pooled screen, not a transcriptome library.',
+    notes='01_speac_seq.html',
+)
+# The guide is the biological target insert; no synthetic guide barcode is
+# inserted by this assay. Its identity is recovered from the sgRNA sequence.
+GUIDE = role("integrated guide sequence (library-specific)")
+SAMPLE = role("P7 sample index", tag="cbc", length_bp=8,
+              molecular_feature=feature("speac_sample_index", "sample_index", "unknown"))
 PAYLOAD = (GUIDE, role("guide-flanking amplicon"))
 
 # Verbatim from the defining protocol's "Oligonucleotides" list (Nature Protocols
@@ -31,10 +44,12 @@ TITLE = DEFINITION.title
 NOTES = DEFINITION.notes
 SOURCE = f'Defining source: <a href="https://doi.org/{DEFINITION.doi}">{DEFINITION.citation}</a>.'
 SUMMARY = DEFINITION.summary
-CAVEAT = ("The lentiCRISPRv2 vector sequence between the two primer sites is not printed in "
-          "the defining protocol, so the amplicon interior and the final library are drawn as "
-          "roles; the two ordering primers themselves are verbatim.")
-FINAL_LIBRARY = role_library(TITLE + " final library roles", PAYLOAD, index=SAMPLE)
+CAVEAT = ("The current model has not declared the lentiCRISPRv2 interval between the printed primer sites. "
+          "The author-linked vector map remains a source-review target; amplicon interiors stay role-level. "
+          "The primers are transcribed as printed, including the source discrepancies below.")
+FINAL_LIBRARY = Construct([role("P5/Read 1 end; pooled printed stagger species unresolved"),
+                           *PAYLOAD, role("P7-primer-derived vector/Read 2 flank"), SAMPLE,
+                           role("P7 flow-cell end")], name="SPEAC guide-library endpoint roles")
 SEQ_PRIMERS = ()
 FINAL_CAPTION = DEFINITION.endpoint
 SEQUENCING_INTRO = DEFINITION.endpoint
@@ -44,20 +59,6 @@ SEQUENCING_UNAVAILABLE = ("The P5 staggered primer mix carries the TruSeq Read 1
                           "primer carries an eight-base index, but the defining protocol states only a depth "
                           "target (at least 100 reads per gRNA) — no instrument, read lengths or cycle plan — "
                           "so no read geometry is asserted on the role-level library.")
-
-
-def workflow():
-    return chain(molecule("pooled CRISPR-perturbed effector cells", (GUIDE, role("reporter cells"))), (
-        ("Pair one perturbed cell with one reporter cell in a picolitre droplet",
-         molecule("co-culture droplet", (GUIDE, role("perturbed cell"), role("fluorescent reporter cell"))),
-         "Different dyes gate one-to-one pairing before the interaction develops."),
-        ("Sort droplets by the functional fluorescent response",
-         molecule("phenotype-enriched droplet fraction", (GUIDE, role("reporter state"))),
-         "The screen's phenotype is a sorted population, not a single-cell transcriptome."),
-        ("Break droplets with 20% PFO, recover genomic DNA and PCR-amplify the integrated guide cassette",
-         molecule("SPEAC-seq library", (GUIDE, SAMPLE, role("guide-flanking amplicon"))),
-         "Guide counts in response-positive and control fractions identify interaction regulators."),
-    ))
 
 
 def oligos():
@@ -83,13 +84,22 @@ def _p5_mix_state():
 
 def _p7_state():
     return Construct((
-        Segment("P7 and i7 landing", "CAAGCAGAAGACGGCATACGAGAT"),
+        Segment("P7 and i7 landing", il.P7),
         Segment("eight-base sample index, unassigned per reaction", "N" * 8, "cbc",
                 length_bp=8,
                 feature=feature("speac_sample_index", "sample_index", "unknown")),
         Segment("TruSeq Read 2 and vector-annealing 3′ end",
                 "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCTCCAATTCCCACTCCTTTCAAGACCT"),
     ), name="P7 index primer")
+
+
+def _screen_population_state(label, effector, reporter):
+    """Cellular populations and their integrated target are not one strand."""
+    sc = Scene()
+    sc.strand("effector population", [role(effector)], label=label+": effector cells")
+    sc.strand("integrated guide target", [GUIDE], label="guide target within effector-cell genomic DNA")
+    sc.strand("reporter population", [role(reporter)], label=label+": reporter cells")
+    return sc
 
 
 def protocol_graph() -> ProtocolGraph:
@@ -100,21 +110,22 @@ def protocol_graph() -> ProtocolGraph:
     cells = graph.input(
         "cell_pools", "CRISPR-perturbed effector cells and fluorescent reporter cells",
         MaterialKind.BIOLOGICAL,
-        state=molecule("pooled screen cells", (GUIDE, role("effector cells"),
-                                                role("reporter cells"))), primary=True)
+        state=_screen_population_state("pooled screen cells", "effector cells",
+                                       "reporter cells"), primary=True)
     droplets = graph.input("pairing_condition", "picolitre one-to-one droplet pairing condition",
                            MaterialKind.CONDITION)
     paired = graph.product("paired_droplets", "one-effector/one-reporter droplets",
                            MaterialKind.MOLECULAR,
-                           state=molecule("co-culture droplet", (
-                               GUIDE, role("perturbed cell"), role("fluorescent reporter cell"))))
+                           state=_screen_population_state("co-culture droplet",
+                               "perturbed cell", "fluorescent reporter cell"))
     pairing_failures = graph.product("pairing_failures", "empty or incorrectly paired droplets",
-                                     MaterialKind.WASTE)
+                                     MaterialKind.MOLECULAR)
     graph.react("pair_cells", "Pair one perturbed and one reporter cell per droplet",
                 StepKind.PARTITION,
                 ((cells, InputRole.TEMPLATE), (droplets, InputRole.CONDITION)),
                 (paired, pairing_failures))
-    graph.discard(pairing_failures, "does not contain the required one-to-one cell pair")
+    graph.mark_terminal(Terminal(pairing_failures.id, Disposition.UNRESOLVED,
+        "Partitioning does not physically remove unpaired droplets; their collection depends on later fluorescence gates."))
     response_gate = graph.input("response_gate", "functional fluorescence sort gates",
                                 MaterialKind.SELECTION)
     positive = graph.product("positive_droplets", "response-positive droplet fraction",
@@ -133,8 +144,8 @@ def protocol_graph() -> ProtocolGraph:
                           MaterialKind.CONDITION)
         aqueous = graph.product(prefix + "_aqueous", label + " recovered aqueous cell phase",
                                 MaterialKind.MOLECULAR,
-                                state=molecule(label + " broken-droplet cells",
-                                               (GUIDE, role("sorted cells"))))
+                                state=_screen_population_state(label + " broken-droplet cells",
+                                               "sorted effector cells", "sorted reporter cells"))
         oil = graph.product(prefix + "_oil", label + " fluorinated oil phase",
                             MaterialKind.WASTE)
         graph.react(prefix + "_break", "Break the thawed emulsion with 20% PFO and take the aqueous layer",
@@ -147,8 +158,8 @@ def protocol_graph() -> ProtocolGraph:
                                  MaterialKind.CONDITION)
         dna = graph.product(prefix + "_dna", label + " integrated guide-cassette gDNA",
                             MaterialKind.MOLECULAR,
-                            state=molecule(label + " guide DNA", (
-                                GUIDE, role("guide-flanking genomic DNA"))))
+                            state=Construct([role("left genomic primer-target region; not yet declared"), GUIDE,
+                                             role("right genomic primer-target region; not yet declared")], name=label + " gDNA PCR substrate"))
         graph.react(prefix + "_recover", "Isolate genomic DNA from the recovered cells",
                     StepKind.EXTRACTION,
                     ((aqueous, InputRole.TEMPLATE), (extraction, InputRole.CONDITION)),
@@ -174,7 +185,7 @@ def protocol_graph() -> ProtocolGraph:
                               "P7 index primer for lentiCRISPRv2, unique per reaction (0.5 µM final)",
                               MaterialKind.OLIGO, state=_p7_state())
         polymerase = graph.input(prefix + "_polymerase",
-                                 "TaKaRa ExTaq polymerase, 75 mU per 100 µL, 28–35 cycles of 95/53/72 °C",
+                                 "TaKaRa ExTaq polymerase (table: 75 mU under final concentration; unit assignment unresolved), 28–35 cycles of 95/53/72 °C",
                                  MaterialKind.CATALYST)
         amplicon = graph.product(prefix + "_amplicon", label + " indexed guide amplicon",
                                  MaterialKind.LIBRARY, state=final)
@@ -182,10 +193,10 @@ def protocol_graph() -> ProtocolGraph:
                     ((concentrated, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                      (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                     (amplicon,), geometry=PCRGeometry.unavailable(
-                        final,
-                        reason=("Both ordering primers are published verbatim, but the defining protocol "
-                                "does not print the lentiCRISPRv2 sequence they anneal to, so the exact "
-                                "amplicon ends cannot be located by computation.")))
+                        concentrated.state,
+                        reason=("Both ordering primers are source-positive; the current model has not declared the "
+                                "lentiCRISPRv2 gDNA substrate from the linked vector map. The stagger pool and "
+                                "divergent printed last species also remain unresolved; no repaired primer pair is chosen.")))
         postbeads = graph.input(prefix + "_postcleanup",
                                 "AMPure XP beads at 2× beads-to-sample, 40 µL elution",
                                 MaterialKind.CONDITION)
@@ -198,7 +209,7 @@ def protocol_graph() -> ProtocolGraph:
                     ((amplicon, InputRole.TEMPLATE), (postbeads, InputRole.CONDITION)),
                     (library, pcr_waste))
         graph.discard(pcr_waste, "removed with the AMPure supernatant before quantification")
-        graph.sequence(library, SequencingPlan(
+        graph.sequence(library, SequencingPlan(library=final, acquisition="unspecified",
             limitation=(label + ": " + d.endpoint + " Libraries are checked on a Bioanalyzer high-sensitivity "
                         "chip (about 285 bp average for the lentiCRISPRv2 Brie library), quantified with a KAPA "
                         "library quantification kit, pooled at 4 nM each and sequenced to at least 100 reads "
@@ -246,5 +257,14 @@ def protocol_graph() -> ProtocolGraph:
         "Both rows of the printed reaction table were read in the author-manuscript full text.",
         "Whether \"5 mM\" is a unit typo for 5 µM or a different intended stock is unresolved; the publisher's "
         "typeset version was not inspected and no value is silently repaired."))
+    graph.annotate(SourceDiscrepancy(
+        "positive_pcr", "ExTaq amount and concentration units are ambiguous",
+        (SourceClaim("PMC11805652 gRNA amplification PCR table, extracted line 661",
+                     "ExTaq polymerase: 5 U/mL stock, 75 mU under Final concentration, 1.5 µL per 100 µL reaction"),
+         SourceClaim("Same table, column headings and stated volumes",
+                     "The printed stock and volume would provide 7.5 mU total; bare mU under a concentration heading does not identify the intended per-volume working value.")),
+        "Declare ExTaq identity and cycling, and retain the printed 75 mU label without assigning a total amount or repaired stock.",
+        "The named enzyme and cycle program are source-positive; the table's units cannot be used to assign one self-consistent dose.",
+        "The publisher typeset original remains uninspected; the intended stock unit and meaning of 75 mU remain unresolved."))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()

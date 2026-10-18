@@ -1,5 +1,22 @@
 # SAMOSA-Tag — research notes
 
+## Active native migration, 2026-10-18
+
+The graph selects in-situ cell-line SAMOSA-Tag. A separate no-EcoGII control allocation is reserved before marking; it retains any native DNA modifications and is not assumed chemically unmethylated. EcoGII250U/37°C30min and source SAM replenishment mark accessible adenines on original genomic strands without assigning a fixed methylation pattern. The source pellet/resuspension/filter and a real10,000–50,000-nucleus tagmentation allocation are explicit; unallocated nuclei are not discarded merely by sampling.
+
+SupplementaryTable5's representative SMRT-A_bc001 is a5′phosphorylated single DNA hairpin oligo. Its complete sequence is source-transcription tested; its27bp reverse-complementary stem is checked by HairpinTopology, and its logical8base sample barcode survives both hairpin arms and the native final component inventory. The adapter substrate is distinct from a completed SMRTbell template. Source hairpin-loaded Tn5 transposition leaves9nt gaps; the graph does not claim transposition alone closes a genomic circuit.
+
+Source RNaseA37°C15min and ProteinaseK/SDS/EDTA60°C1–2h precede a2XSPRI recovery and a separate0.6XSPRI enrichment for>500bp. Coupled Phusion-HF/normal dNTP gap filling and TaqDNA-ligase nick sealing at37°C1h are separately explicit chemical transformations within the same source reaction. Short normal-DNA repair patches are distinct from both original methylated genomic strands; no whole-genome PCR replacement is introduced. Incomplete closure classes retain unresolved actual recovery. A separate2XSPRI recovery precedes ExoIII37°C1h; ExoIII hydrolysates/possible surviving open templates remain molecular classes until a final separate2XSPRI cleanup. Failure to close or amplify never itself physically discards a molecule.
+
+The final scene inventories components of the source-known candidate closed native template, preserving both original strands, integrated hairpin features and short repair-DNA class. Exact oriented genomic/hairpin junction sequence, per-strand methylation positions and sequencing-primer binding polarity remain unassigned. SourceSequelII8MSMRTcells,30h movies/2h pre-extension/4h immobilization and size-dependent polymerase2.1/2.2 are distinguished from barcode width and short-read cycles. No new claim that sequencing-primer sequence is proprietary/absent follows this capped pass. Ex-situ/PDX, optional high/low-size selections and all other adapter members are separate experiments.
+
+This capped pass read 3 originals within the selected round and reran the mandatory bundle primer scraper. All historical review statuses and the independent two-reader missing-information gate are unchanged.
+
+## Historical observations
+
+The earlier material below retains its original scope; current source-owned declarations above replace family-selected geometry and later-version execution defaults.
+
+
 ## Sources read
 
 - 🟢 Dennis et al. 2024, DOI [10.1038/s41588-024-01748-0](https://doi.org/10.1038/s41588-024-01748-0), full text, Methods and Supplementary Note 1.

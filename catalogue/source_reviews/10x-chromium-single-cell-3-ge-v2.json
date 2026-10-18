@@ -335,6 +335,21 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1/1 and page build pass; pairing 0 problems; chemistry 14 steps, 2 established/1 conditional/14 unresolved/0 contradictory; source guard 6 exact checked, 0 failed, 2 unrepresented (rt_primer, tso); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "CG000108 Rev A technical note full text (188 lines), especially assay scheme lines24–37 and Fig.4 lines70–145; CG00052 Rev D cleanup/end-library sections (post-cDNA cleanup lines3390–3425, adapter ligation lines3979–4050).",
+      "findings": "Source-owned graph now declares partitioning, RT, template switching, recovery, enzymatic fragmentation/end preparation and sequencing locally; printed PCR and dT-adapter constructors and all five cleanup branches are retained. First-strand cDNA is drawn single stranded. Empty/multiplet GEM outcomes are unresolved pooled products, not a physical discard justified only by barcode resolvability.",
+      "deferred": [
+        "Exact transcript-dependent fragmentation/end-preparation product states and molecular reaction relations remain unresolved",
+        "Later revisions and optional sequencing variants not re-read"
+      ],
+      "scope": "Guide-specific ownership migration and scoped source verification; not a complete chemistry review or a two-reader absence audit.",
+      "oligo_scraper": "Ran the full local source-bundle oligo scraper; precursor PN-2000089 also checked in its separate predecessor bundle.",
+      "verification": "local suite1/1; page build; chemistry3 established/1 conditional/14 unresolved/0 contradictory; source guard7 checked0 failed1 unrepresented; pairing0 problems"
     }
   ]
 }

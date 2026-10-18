@@ -204,6 +204,35 @@
       ],
       "scope": "Capped defining-source pass. The historical 'blocked' status stands; no missing-information claim accepted.",
       "verification": "local suite 7 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory; source guard 2 exact oligos checked, 0 failed, 1 input without exact state; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch06-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published defining PMC10789043 JATS Methods113–121: gRNA library cloning/Base editing screens; Additionalfile3 TableS2 MOESM3 workbook customRT/nested primer rows, JAK1/vector amplicon panel and integratedpKLV2 sequence. Superseded preprint not chemistry authority.",
+      "scope": "Capped published-first native-graph migration; maximum3originals/10minutes investigation perprotocol. Historical source scope not counted as fresh reading. No absence acceptance orstatus upgrade.",
+      "oligo_scraper": "Fullcachedbundle primer scraper run, relevant exactsourcehits checked against namedoriginals. Large data/superseded files or no-hit results do not establish absence.",
+      "findings": "Removed queued endpoint/finisher dependencies. Separate expanded-cell Chromium/Tapestri sampling replaces false captured-cell four-way split. Native ss primer-derived copies compute only upstream target beyond the source primer arm (no duplicated priming site), with independent RNA/gDNA/bead populations. Actual cDNA amplification and retained smallSPRI fraction precede mixed guide/PuroR aliquots and first/nested PCR stages. PrintedP5/N10/TruSeqRead1 forward retained; native first/reverse primer assembly unassigned. Borrowed10x16/10 andMissionBio16 widths, canonical completed shells and fixedi7 defaults removed. Native manufacturer transcriptome/Tapestri stages remain explicit unread boundaries. Clone linkage is computational through vector barcodes, not shared single-cell barcode identity.",
+      "deferred": [
+        "Native historical10x5′HT andTapestri library reagent/strand order and barcode widths",
+        "First/nested enrichment primer species/cycles and complete native assembly",
+        "Read/index acquisition allocation and off-target/RNA/DNA recovery"
+      ],
+      "verification": "Suites7/1/1 pass andall3pages build; combinedguard26checked0failed17unassigned0exemptions; pairing0; scopedchemistry3established86unresolved0contradictory. Finalnative-inputScene correction page/suite/chem rechecked. Schema/notes built afterrecord."
+    },
+    {
+      "round": "2026-10-18-batch06-independent-implementation-review",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current chem.py population/RT/nested-PCR/native-kit boundaries, local notes and source-review scope. No original-source reread.",
+      "findings": "Confirmed separate expanded-cell sampling for Chromium and Tapestri, correct distinct cell identities/computational clone linkage, exact source RT-target computation and actual mixed precursors for native first/nested PCR. Found/fixed premature Chromium bead row in expanded cells and separately sampled Tapestri states: beads now appear only after GEM partitioning and in downstream copied/amplified mixtures. Native manufacturer and reverse-primer/index-run boundaries remain explicit.",
+      "deferred": [
+        "Native first-cycle/kit geometry, barcode widths and target/RNA/DNA carryover remain unassigned."
+      ],
+      "scope": "Independent critical code/record review within supplied source scope; no independent original-source absence pass and no status upgrade.",
+      "verification": "Focused suites7/1/1 pass; all3pages build; chemistry3established86unresolved0contradictory; sourceguard26checked0failed17unassigned0exemptions; pairing0problems; review-schema checked."
     }
   ]
 }

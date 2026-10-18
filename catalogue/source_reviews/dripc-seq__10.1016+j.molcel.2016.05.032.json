@@ -129,6 +129,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/9 conditional/14 unresolved/0 contradictory; source guard 2 exact checked (P5, P7), 0 failed, 1 input without exact state (rt_primer_mix poly(T)+random hexamers); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-native-graph-ownership-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Defining 2016 PMC4955522 JATS Experimental Procedures137; later2019 PMC6615061 reagent/primer610–623 and second-strand setup1098–1124 inspected as comparison only. Local manifest checked for named NIHMS800865 supplement-1/2 manual rows.",
+      "oligo_scraper": "Mandatory bundle scraper:20 hits in 2019 original; printed P5/P7 strings read at620–621. No later primer is substituted into the 2016 graph.",
+      "findings": "Removed hybrid_base_protocols defaults, fictitious18/26nt library ends and premature RNA-only capture. Source-owned 2016 graph retains hybrid components until DNase, uses source4U35min, separates ethanol recovery, RT populations, dUTP opposite strand and qPCR aliquot, sonication and unresolved historical library construction. UDG base excision/second-strand non-amplification does not imply physical strand disposal; affected material remains unresolved. PCR geometry uses actual ss retained precursor. Later2019 enzyme/ligation/selection choices and primers are comparator inventory, not 2016 assignments or publication conflicts. Source current ends/read acquisition unassigned.",
+      "deferred": [
+        "Named2016 NIHMS800865 supplemental methods and TableS1, exact referenced DRIP implementation",
+        "Original2016 adapter/primer/end-construction and selection details",
+        "Native second-strand/UDG molecular transformation/recovery proof and GSE70189 acquisition metadata"
+      ],
+      "scope": "Capped source-qualified ownership/native-graph migration, not complete source review or acceptance of missing-information claims.",
+      "verification": "Two whole-primer transcription checks verify the separately labelled2019 comparator inventory only. Defining2016 graph construction, page, scoped chemistry, source guard and schema pass; unresolved claims remain explicit. No comparator check validates the2016 endpoint."
+    },
+    {
+      "round": "2026-10-18-independent-critical-review",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Defining2016 PMC4955522 JATS ExperimentalProcedures DRIP-seq/DRIPc-seq paragraph137; later2019 PMC6615061 JATS reagent/primer610–623 and DNaseStep26 table1026–1038. Local native module and current note/review inspected read-only.",
+      "oligo_scraper": "Mandatory localbundle scraper run; published2019 P5/P7 strings verified directly at620–621 as comparator inventory only.",
+      "scope": "Independent capped critical source/code review, not a complete protocol review, source-absence pass or acceptance of missing information.",
+      "findings": "No critical correction identified in inspected scope. Defining2016 paragraph supports4U DNaseI35min37°C, ethanol RNA recovery, iScript polyT/randomhexamers, dUTP secondstrand, cDNA enrichmentQC,~200bp sonication, UDGbeforePCR and HiSeq2000. The2019 comparator has6U45min and exactP5/P7 sequences; the nativegraph keeps these versions separate. Sourceunknown2016 endconstruction remains bounded; actual retained firststrand enters unavailablePCRgeometry; DNAhydrolysis and UDG-affected strand material retain unresolved physicalfates, and independentRNA/cDNA populations occupy separate rows.",
+      "deferred": [
+        "Named2016 supplemental methods/TableS1 and exactGinno2012 inheritance not independently read in this pass",
+        "Complete2016 molecularendconstruction/secondstrand/UDGprocessing proof and acquisitionmetadata remain unassigned; noabsenceconclusion"
+      ],
+      "verification": "Read-only original-passage and code inspection; no additional build/test run. Parent focused validation remains separate; no implementation edits."
     }
   ]
 }

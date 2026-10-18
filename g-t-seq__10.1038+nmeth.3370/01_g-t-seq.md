@@ -36,10 +36,9 @@ Nextera XT library preparation and PicoPLEX or MDA as alternative WGA branches
 
 The 2015 TSO ends `…AGTACrGrG+G`; the 2016 author protocol adds `AT` before
 `rGrG+G`, giving `…AGTACATrGrG+G`. This is a **source-version difference**: the
-public 2015 page uses the defining paper's shorter TSO. Whether the 2016 change
-was intentional or a source error is unresolved. Kit-specific Nextera XT index
+public 2015 page uses the defining paper's shorter TSO. The 2016 recipe is a separately scoped later version and does not replace the defining2015 oligo. Kit-specific Nextera XT index
 choices and WGA reagent oligos remain unresolved for a selected branch; the
-public page shows generic final-library geometry for those branches.
+public page retains explicit historical kit boundaries for those branches rather than assigning generic final-library geometry.
 
 ## Bounded pass 2026-10-17 (round breadth-first-10)
 
@@ -89,3 +88,9 @@ the bundle.
 Deferred: typeset 2015 article not compared with the manuscript; Nextera XT index
 members and historical guide; GenomiPhi V2 / PicoPlex kit primers; Picelli 2014
 Smart-seq2 predecessor; WTA PCR binding geometry still unplaced in the generic cDNA state.
+
+## Native graph migration — 2026-10-18 batch02
+
+This pass re-read one original: the defining2015 accepted manuscript, Online Methods310–368. The2016 oligo/reagent comparison remains historical evidence from earlier bounded checks; it is not substituted. Source capture includes the pooled genomic supernatant, all four bead washes and10µl tipwash. RT/WTA has actual single-strand first/switched cDNA and one physical ISPCR species; the staged graph is a mechanistic decomposition of the source reaction, not a claim that TSO was added in a separate tube. Untemplated C additions/copy extent remain inferred. GenomiPhiV2 MDA and PicoPLEX are alternatives. Historical NexteraXT native adapter/index/PCR geometry remains unassigned; no modern kit or generic shell is substituted. Run platform is source-named HiSeq2500 fast mode or MiSeq; acquired read roles, cycles and selected physical index members remain unassigned.
+
+The local graph owns the named reagents, source order, physical branch decisions, primers, endpoint and read declarations. Independent molecular populations occupy separate Scene rows; subsequent RNA-template fate and complete native end geometry remain explicit model boundaries. Curator-written review targets are local and are not derived from graph contents. This is a capped migration pass, not a completed missing-information audit; no missing-information claim is accepted.

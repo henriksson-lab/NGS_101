@@ -150,6 +150,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 5 checks + embedded MARS-seq 9 checks pass; page builds; pairing 0 problems; chemistry 1 established/6 conditional/9 unresolved/0 contradictory; source guard 3 exact checked (RT2, P5/P7 enrichment), 0 failed, 2 inputs without exact states (rt_primer, pool_adapter placeholders); Markdown built/checked; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch08-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published2019NatureProtocols main s41596-019-0164-4.pdf.txt reagentsetup637–690, capture714–740, RT974–1043, Exo/pooling1057–1123, second-strand/IVT1170–1237, fragmentation/ligation1255–1322, RT2/PCR1324–1422, acquisition1448–1461 (Step62). Original SupplementTable1 scg_41596_2019_164_MOESM4_ESM.xlsx.txt header/A1–F1 primer rows; original SupplementTable2 scg_41596_2019_164_MOESM5_ESM.xlsx.txt header/ix1–ix10 donor/readbarcode rows. Mirrored files are publisher-original tables with matching manifest identity; protocols.io andMOESM1 not newly reread.",
+      "oligo_scraper": "61hits7files; main native primer strings and original RT1A1/adapterix1 modifications verified in inspected originals. No2014orupstream endpoint used as authority.",
+      "findings": "MARS-seq2.0 now owns its17step graph and source-specific molecules in tools/chem.py, with no2014constructor import. Published main reagent setup itself verifies RT2 and both enrichment primers. Actual RT1ssDNA undergoes ExoI before pooling, then0.9×SPRI; native second-strand synthesis,1.4×SPRI/on-bead IVT, TurboDNase,1.2×SPRI, Zn fragmentation/2×SPRI, native5P/C3blocked N5/pool4 donor ligation/1.5×SPRI, RT2/1.5×SPRI, KAPA PCR and0.7×SPRI. T7 initialGGG is restored, RNA U distinguished from DNA T, and independent originals/copies/hydrolysates carried explicitly with unresolved partition. Actual recovered ssDNA feeds PCR. Representative ix1 pool identity is4bases, N5 are adapter random bases, well7/UMI8 are separate features. Published Step62 acquisition75/15/noindices is distinct from physical molecular lengths. Historical MOESM1N3read-design discrepancy remains public and unresolved; its source was not newly reread.",
+      "deferred": [
+        "Complete sequential first-cycle PCR geometry on actual native ssDNA; loaded sequencing-primer identities",
+        "Historical MOESM1read-design example3I.4P.50M/7W.8R.5I versus native N5adapter/75–15run",
+        "Exact molecular partition/integrity of original RNA and promoterDNA/hydrolysate through known recoveries",
+        "Other RT1/pool adapter members and robot details outside the selected representative molecular view"
+      ],
+      "scope": "Capped native-graph migration: at most3originals/10minutes per protocol, source reading frozen before implementation. Preserve historical statuses/passes; no acceptedabsence or full-review claim.",
+      "verification": "Source suite5pass; pagebuild; chemistry17steps0contradictions; pairing0; combined sourceguard5checked0failed2historicalPCRexceptions8unassigned."
+    },
+    {
+      "round": "2026-10-18-batch08-native-independent-implementation-review",
+      "reviewer": "independent_native_review",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Released protocol-owned native graph/declarations and source-bounded owner notes/records; CEL native.py and page_parts dispatch, MARS2014 mars_graph.py, MARS2 chem.py. No original source reread.",
+      "findings": "No concrete critical implementation defect found. Actual single-stranded RT1/RT2 precursors feed the native reactions/PCR; promoter-bearing duplex is distinct from newly transcribed initialGGG/RNA-U populations. RNA/ERCC originals, promoter DNA/DNase products, hydrolysate and nonproductive/internal fragments remain independent with unresolved molecular partition through physical cleanups. Source-specific pooling/Exo order, native donor5P/C3block, identifier lineage and physical-vs-acquired reads are retained. The unresolved2014 RT2 orientation and bounded native kit/first-cycle geometry remain qualified; no2019 constructor inheritance.",
+      "deferred": [
+        "Independent source absence gate unchanged",
+        "Unassigned complete native primer/early-cycle geometry and species-specific recovery remain within owner boundaries"
+      ],
+      "scope": "Independent code-only implementation peer review; zero new originals and no missing-information/status upgrade.",
+      "verification": "Focused suites1/5/5 pass; all3pages build; chemistry0contradictions; pairing0; sourceguard5checked0failed2historicalPCRstrand exceptions8unassigned. Schema checked after append."
     }
   ]
 }

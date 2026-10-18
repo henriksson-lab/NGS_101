@@ -1,4 +1,20 @@
-# ORGANIC profiling — research notes
+# ORGANIC profiling
+
+## Current native graph — batch08 (2026-10-18)
+
+The native graph follows defining Supplementary Figure1a/c, inspected in the rendered original. The yeast route collects S1 after needle extraction, extracts the pellet into S2, adjusts S1 salt and combines S1/S2 before affinity purification. Input and IP DNA then follow the source's common library sequence. RNA/protein digestion precedes physical organic extraction and precipitation; digestion is not a discard step.
+
+Figure1c positively shows end repair, phenol/chloroform and S-300 cleanup, addition of opposed3′A ends, another phenol/S-300 recovery, native TruSeq-adapter ligation, AMPure recovery, PCR and a second AMPure recovery. These operations are now declared locally with the actual preceding substrate. Native adapter, primer and enzyme identities remain unassigned where this pass does not establish them. Original templates have an unresolved recovery fate after copying.
+
+The 2015 Orsi ordering sequences remain a separately labelled reference; they do not establish 2014 reagent identities. The defining source25-cycle paired-end run remains positive. Historical native index width, index-read acquisition and exact primer landing are unassigned; the later reference's physical six-base window supplies none of these.
+
+Source scope: Published author-manuscript PMC3929178 Introduction/Results55–88 native yeast/IP/input and cited2011 method; published SI FigS1a/c, rendered originalPDFpage3 plus extracted text150–273; Orsi2015 PMC4410783 BasicProtocol3 sourceoligos812–832 and steps4–39/text950–1205, same original separately cached for this protocol. Mandatory scraper relevant Orsi hits checked in original.
+
+This is a capped migration pass, not full source review or accepted missing information.
+
+## Earlier source audit and model description (historical)
+
+The following records preserve earlier source readings and the former model. Their Orsi graph/endpoint descriptions are superseded by the native graph above.
 
 Kasinathan *et al.*, *Nature Methods* (2014), [10.1038/nmeth.2766](https://doi.org/10.1038/nmeth.2766).
 

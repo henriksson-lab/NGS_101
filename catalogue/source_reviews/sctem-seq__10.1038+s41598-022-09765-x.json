@@ -142,6 +142,36 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 0 checked, 7 unrepresented"
+    },
+    {
+      "round": "2026-10-18-validation-ownership-migration",
+      "reviewer": "local_ownership_migration_review",
+      "date": "2026-10-18",
+      "scope": "Capped source-qualified ownership migration; no accepted absence finding or full chemistry validation.",
+      "oligo_scraper": "Whole cached bundle scraper run; relevant exact source passages and ordering rows inspected. No scraper result is used as absence evidence.",
+      "documents": 2,
+      "locations": "Published PMC8986802 JATS text Library preparation/Sequencing/data processing lines 124–140; published MOESM2 workbook Table S1 rows for Sine.Alu_i501_F and i701_R, first-generation Alu/LINE-1 inventory and Table S2 A1 pairing.",
+      "findings": "Removed shared feature/finishers/role_library defaults. Explicitly selected Table S2 A1 second-generation Alu example from source Table S1; both primer molecules are exact inputs. Internal dual eight-base indexes retain cell/well identity separately from unassigned NEBNext outer sample indexes; no extra physical cell-barcode segment is introduced. TE and indexing PCR geometries describe actual converted-gDNA and partial-adapter-amplicon substrates rather than the final library. Added source 0.9X post-index cleanup. Matched RNA route is a source-qualified independent Smart-seq2 boundary without a fabricated shared RT/PCR endpoint or inherited DNA well-index feature.",
+      "deferred": [
+        "Genomic bisulfite-converted Alu target footprints and specificity across loci",
+        "Selected NEBNext E7780S sequences and exact outer-index geometry",
+        "Matched RNA Smart-seq2 implementation, predecessor refs9/17 and acquired cycles",
+        "Other 95 well combinations, first-generation and LINE-1 reaction models"
+      ],
+      "verification": "Construction-only suite, page build, pairing and source guard pass. Chemistry: 7 steps, 0 established/0 conditional/9 unresolved/0 contradictory; independent RNA route remains warned."
+    },
+    {
+      "round": "2026-10-18-container-state-correction",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only correction; source scope remains preceding bounded migration 2026-10-18-validation-ownership-migration. No new scientific endpoint/source choices or absence conclusion.",
+      "locations": "Local starting sorted-cell state; no original documents re-read.",
+      "findings": "Separated genomic DNA and mRNA into independent Scene population rows in the starting sorted cell. Previously molecule() joined them onto one covalent strand. Explicit modality split, true ordered Alu primer/amplicon and RNA/cDNA molecular states unchanged; no other clear container concatenation remains in this module.",
+      "deferred": [
+        "Existing native PCR geometry and matched Smart-seq2 route boundaries remain open."
+      ],
+      "verification": "Local construction suite and page build pass; chemistry 0 established/0 conditional/9 unresolved/0 contradictory; source guard2 exact checked/0fail/2inputs without exact states; pairing0; review schema/diffcheck pass."
     }
   ]
 }

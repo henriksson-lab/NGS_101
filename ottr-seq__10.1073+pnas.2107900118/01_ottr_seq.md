@@ -31,3 +31,11 @@ Inspected: Published PMC8594491 JATS192–196; local PMC supplementary ZIP membe
 Withdrew active oligos transcribed solely from superseded bioRxiv; published SI TableS1 remains unverified. Added shrimp alkaline phosphatase treatment between ddNTP tailing and relay; specified Q5 4–8 cycles for universal adapters and kept PCR-free full-length branch separate.
 
 Deferred: Published SI TableS1 retrieval/verification, exact template/primer modifications, RNA hydrolysis/recovery and acquired read mask; no absence claim accepted. This pass does not establish a complete source review or publication-wide absence.
+
+## Native graph migration (2026-10-18, batch03)
+
+Inspected: Published PMC8594491 JATS Results/Fig3 around128–140 and Methods186–196 (RT assays and OTTR Library Generation/Sequencing). Whole-bundle scraper completed; its highest oligo hits identify superseded preprint, which was excluded. Existing manifest records published SI Appendix retrieval HTTP403; no new download/source hunting.
+
+Native universal-adapter graph explicitly represents single-ddA/ddG capped RNA populations, free-ddNTP dephosphorylation without physical discard, blocked starter RNA/DNA and terminating adapter roles, and the two relay phases within one RT incubation. The cDNA retains its primer terminalY and relay dG without copying the matched ddR/AT terminalC twice. Methods194 processed-as-previously-discussed recovery is scoped through Methods186 RNA nuclease treatment and PCI/ethanol recovery. Original RNA/starterRNA persist until digestion; AT recovery remains unresolved. Half of the recovered10µL ss cDNA enters Q5 PCR4–8cycles, followed by source column/7.5%ureaPAGE/diffusion/PCI/ethanol recovery. The expected endpoint is never reused as PCR substrate. MiniSeq75-cycle kit does not assign read or index acquisition.
+
+Deferred: Published SI TableS1 exact primer/template bases and blocking groups; full starter/first-copy/PCR geometry, AT nucleic-acid identity/recovery and actual index/read acquisition remain unassigned. Full-length PCR-free branch is not merged into selected universal branch. This capped pass does not establish complete molecular proof or publication-wide absence.

@@ -105,6 +105,22 @@
       ],
       "scope": "Capped defining-source pass over the two published supplements only; no full chemistry validation and no accepted missing-information claim.",
       "verification": "local suite 3 checks pass; page builds; pairing 0 problems; chemistry 11 steps, 0 established/0 conditional/13 unresolved/0 contradictory; source guard 10 exact oligos checked, 0 failed, 1 input without an exact state (study-specific sgRNA); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "break_capture_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "scope": "Local endpoint ownership, actual PCR precursor geometry and bounded original-source checks only.",
+      "locations": "Published supplementary protocol MOESM94 PDF oligo table lines64–103, sectionK recovery/indexing PCR lines412–458 and sectionO sequencing recommendation around515.",
+      "findings": "Replaced shared dsb_capture PCR finishing with local published index-primer inputs, Q5 polymerase and source run declaration. Added paired Adapter1 and all three Adapter2 input geometries, explicit dA-tailed substrate and an adapter-derived N7 pre-PCR template. RecoveryPCR and indexingPCR now locate exact sites on their actual predecessors; source primer names are preserved, although Recovery Reverse is the construct-left extending primer in this displayed orientation. Index Reverse retains the published noncanonical i7 junction and mismatching-stock-primer notice. Only150-base single-end Read1 acquisition is declared; eight variable positions in the index primers do not establish acquired index cycles.",
+      "deferred": [
+        "N5/N6 molecular product branches remain represented by the N7 geometry example rather than separate graph lineages",
+        "Exact index-read primer identity/acquisition and study sample-index members remain unresolved",
+        "Full cleavage/ligation/copying product relations and final pooled-library cleanup coverage remain unresolved"
+      ],
+      "verification": "local suite3/3; page build; chemistry11steps5established2conditional16unresolved0contradictory; source guard10 unique exact oligo strands0failed; pairing0 problems",
+      "oligo_scraper": "Ran full source-bundle scraper and followed relevant oligo pointers into the original methods/printed oligo tables. Drawn upstream pages were not evidence."
     }
   ]
 }

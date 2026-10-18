@@ -108,6 +108,35 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 0 checked, 3 unrepresented"
+    },
+    {
+      "round": "2026-10-18-batch06-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC6147798 Results87–95 and Methods141–153; original MOESM1 SupplementaryMethods RP-H oligos861–892, indexed-primer mix/Table2 reference1055–1063, recovery/priming/pooling/Adaptase/PCR/cleanup1093–1260 and Table2 primer/code rows6639–6846; MOESM2 Description of Additional Supplementary Files, software description only.",
+      "oligo_scraper": "Ran mandatory scraper on external source bundle; inspected relevant published source pointers and excluded superseded preprint hits. Source custom H1 mixes and modified DNA-dU/RNA/LNA syntax remain source-qualified. Large data files skipped by cap are deferred, not evidence of absence.",
+      "findings": "Source-printed AD002_H and dual-index pair1 retained as representatives. Table2 prints10bp codes; native subregions derived by finding those codes in the printed primers, including the P7 reverse-complement code at22–32 rather than assuming a canonical24-base prefix. Actual original/copy mixtures and ss Adaptase precursor replace final-duplex shortcuts. Independent genomic/lambda populations,5′C3/H9, eight-way pooling, ExoI/rSAP chemical fates, three final0.8×SPRI recoveries and physical U before copying are explicit. Parent implementation review fixes: post-PCR states carry possible original/blocked-template lineages through each cleanup without asserted physical separation. Source order/modified nucleotide representation and unresolved original RNA fates made explicit; DpnII cut ends retained through inactivation where applicable.",
+      "deferred": [
+        "Native Adaptase-added extent, target-site geometry and vendor original; experiment-specific barcode/dual-index assignments and acquired cycle recipe",
+        "Remaining detailed source-supplement content, source software and predecessor isolation material; no absence gate accepted."
+      ],
+      "scope": "Bounded ownership/native-graph migration; source reuse is limited to the explicitly inherited2018 finishing component. Historical review status and independent passes unchanged; no absence claim accepted.",
+      "verification": "Focused suites/pages/source guard/pairing/review schemas pass; chemistry0contradictions across all three. Source guard2exact oligos checked,1narrow H1-synthesis-notation exemption, no failures. Parent owns shared/static/full-site checks."
+    },
+    {
+      "round": "2026-10-18-batch06-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current native local modules, cut/converted/copied/modified material states, actual PCR geometries, product fates, source scopes and read declarations. No original source reread in this pass.",
+      "findings": "Actual convertedU originals/independentlambda and source blockedRP-H copies remain distinct; native ssAdaptase material enters PCR. PrintedTable2 source10bp codes define unique subregions within exactprimer strings rather than a canonical24bpP7/8bpindex shell. Sourcepositive order ExoI/rSAP beforeeightwaypool confirmed fromowner already-readSI; inconsistent summarycorrected. Parent requested explicit co-carried original/blockedcopy molecular lineages afterPCR and throughthreeSPRI recoveries; ownerpreservedstates, with integrity/partition unknown. Duplicated original-template bookkeeping output removed. No read cycles derivedfromphysicalcodes.",
+      "deferred": [
+        "Complete nativeAdaptase/input-to-amplicon/read-primer geometry and study-specific selected members; physical class recovery",
+        "Originals and linked chemistry outside owner capped source scope remain deferred."
+      ],
+      "scope": "Independent critical implementation-only review and verified owner corrections; no newsource original, source-status upgrade, accepted absence or whole-chemistry certification.",
+      "verification": "Owner reports focused suite/page/chemistry/sourceguard/schema/pairing passes after corrections; final parent focused/full-site validation follows."
     }
   ]
 }

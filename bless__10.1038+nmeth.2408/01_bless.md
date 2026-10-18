@@ -31,3 +31,11 @@ The first published experiments also used distal linker L2. The later L3 carries
 - 🔴 Linker 5′ phosphorylation and the exact biotin chemistry (internal biotin-dT vs. another linkage) are not stated.
 - 🔴 Read lengths and index reads for the GAII/HiSeq runs.
 - The L2 initial distal linker and the Roche 454 P4/P5 branch are not drawn.
+
+## Source-owned validation migration, 2026-10-18
+
+Protocol now owns its conditional TruSeq v2 endpoint instead of inheriting a six-base break-capture shell. The selected kit index member and molecular length remain unknown; exact proximal/distal tags retain their structured identities. Graph consumes the full source oligos, with their source-owned HairpinTopology retained as chemical state; public folded views remain. The sequencing plan explicitly selects the representative N1/N2 paired-end HiSeq2000 branch and distinguishes GAII single-end runs; no read/index cycle counts are assigned. TruSeq library preparation remains an explicitly unmodelled source-limited transition.
+
+Source scope: Published article PMC3651036 Methods lines128–139 (proximal ligation, extraction/HaeIII, streptavidin/distal/I-SceI, P1/P3 PCR/XhoI and TruSeq v2 library preparation); published supplementary PDF MOESM325 Table1 lines594–626 and Table5 lines1126–1174.
+
+Deferred: TruSeq DNA Sample Preparation Kit v2 original, exact supplied adapter/primer geometry and selected index remain deferred; I-SceI-cut remnants and complete P1/P3 amplicon geometry remain unmodelled; Acquired cycle counts and other source single-end/paired-end run variants remain unassigned. This bounded check establishes neither complete chemistry validation nor an accepted missing-information claim.

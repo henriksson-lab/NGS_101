@@ -107,3 +107,11 @@ samples. It then performs streptavidin capture and RNase/biotin elution in steps
 The PARIS supplement does not say which linker variant it used. Whether that capture
 applies is therefore not modelled, and the linker's 3′ block is left unassigned. The
 read length is not given in Step 3; only NextSeq is stated.
+
+## Native graph migration (2026-10-18, batch04)
+
+Inspected: Original2016 Cell mmc1 ExtendedExperimentalProcedures Steps1–3 text25–110; directly inherited Flynn2016 PMC4896316 reagent list136–206 and Steps26/40–42/52–60 around534–762; published2018 MethodsMolBiol comparator table154–190. Mandatory whole-bundle scraper completed; defining main not newly read; no recursive linked-source investigation.
+
+Removed queued protocol_specs/psoralen/18ntmolecule recipes and shared2018 source module. Selected2016 HEK293/mES graph now owns native RNA populations, source adapter core with unassigned3′biotin/ddC blocking variant, actual phosphorylated RT-primer family with4nt index and split molecular-tag features, physical non-nucleotide iSp18 spacers, computed3′primer/adapter overlap and ss cDNA closure. The actual spacer-containing ss circle enters unavailable PCR geometry; no completed duplex template or assumed polymerase passage through spacers. Variant-specific inherited postRT capture/RNA handling is an explicit unresolved boundary preserving molecular RNA/products. Circle purification is explicit. OriginalHeLa route remains a separately labelled ordering primer and2018 oligos are comparator inventory outside graph/read plans. Corrected local2018 P6Tall comparator leadingCT from the actual table; this was repository transcription, not a source discrepancy.
+
+Deferred: Full native circle first-copy/recopy and amplicon/retained-tag/read geometry; experiment-specific four-base member and inherited linker/capture variant; complete originalHeLa library graph and historical source scope beyond the stated pass remain deferred. Unknown read/index cycles stay unassigned. This capped pass does not establish complete molecular proof or publication-wide absence.

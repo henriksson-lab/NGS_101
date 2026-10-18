@@ -169,6 +169,21 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/5 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "editing_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Source-owned typed graph and actual PCR precursor migration; bounded original-source checks, not a complete chemistry/absence audit.",
+      "locations": "Published article PMC5861650 Table2 line171 OLI6062 CEP290 anchor; Additional file2 MOESM2_ESM.docx.txt §6–7 lines103–188, §13 lines276–287 and AppendixA lines289–330.",
+      "findings": "Local graph now consumes the exact N501 adapter (paired 15-base phosphorylated/ddC bottom), article CEP290 anchor, P5 and N701 PCR inputs. The copied anchor tail constructs the actual round1 amplicon; round2 primer geometry is computed from that precursor. Round1 genomic target coordinates remain explicitly unavailable rather than using the final library as its PCR template. N701 index sequence is derived from the declared primer. Preserved 300/8/18/300 MiSeq plan and structured joint i5/UMI handling; tagmentation off-products have unresolved recovery instead of presumed physical removal.",
+      "deferred": [
+        "Exact genomic anchor coordinate/fragment extent in the tagmented input population remains unassigned",
+        "Full Tn5/gap repair and round1 input-output relations and omitted bead cleanups remain chemistry-coverage work"
+      ],
+      "verification": "local suite1/1, page build; chemistry2 established/0 conditional/4 unresolved/0 contradictory; source guard6 exact strands checked0 failed0 exempt; pairing0 problems",
+      "oligo_scraper": "Full local source-bundle scraper run; relevant hits followed into the named original sections. No drawn upstream page used as evidence."
     }
   ]
 }

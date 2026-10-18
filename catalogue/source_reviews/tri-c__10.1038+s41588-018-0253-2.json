@@ -291,6 +291,38 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite (comment-only, no explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/23 unresolved/0 contradictory; source guard 0 exact checked, 6 oligo inputs without exact states; Markdown built/checked; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch07-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC6265079 Methods167–179; ProtocolExchange2018-11-01 v1 DOI10.1038/protex.2018.113 hash305eb587-1929-4194-ae08-2f671e6ca7b6.pdf pp5–8/Tables3,5; revision2019-05-22 v2 DOI10.21203/rs.2.1650/v2 hash4775ee2d-6cce-43f0-bc35-b2c0f1eb2bf9.pdf title/revision/materials/E7645option and stock contexts. Manifest v1/v2 URL identities checked separately.",
+      "oligo_scraper": "6hits3files; no captureTable5bases newly assigned; source pointers verified in inspected originals.",
+      "findings": "Own20step graph replaces queued endpoint recipes. Source NlaIII opposed3CATG cuts, actual ligated/USER-opened initialPCR input, independent on-bead captureprobes and actual postcapturePCR substrates. Physical sonication-coordinate identifier distinct from synthetic UMI. Residual templates/probes retained. Published cleanup/probeconcentration/kit/stock arithmetic discrepancies remain public; preprint13fmol comparison excluded as superseded.",
+      "deferred": [
+        "Exact selected adapter/index/probe strands and nativeUSERfootprint",
+        "Actual captureTable5oligos/selected viewpoint details",
+        "Remaining detailed postcapturecleanup assignments",
+        "Index read acquisition; MiSeqPE250 and NextSeqPE150 distinct experiments"
+      ],
+      "scope": "Capped3original/10min source pass plus native graph implementation; no source expansion aftercap, no acceptedabsence/fullreview claim or historicalstatus upgrade.",
+      "verification": "Page builds; existing suite empty/comment-only; pairing0; sourceguard combined5checked0failed; chemistry20steps0contradictions."
+    },
+    {
+      "round": "2026-10-18-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Code-only review of tools/chem.py: fragment_state/contact_parts/adapted_state/capture_state/post_pcr_state and complete native ProtocolGraph. Existing owner batch07 source scope not reread.",
+      "findings": "Checked opposed NlaIII3′CATG ends, covalent multiway contact example, physical shearing-coordinate identifier without synthesized barcode bases, actual adapted USER/index-PCR inputs and actual bead-captured post-capture PCR inputs. Capture probes/native residual templates remain independent populations. USER hydrolysis is unresolved separately from physical cleanup/capture waste. Historical kit/probe-concentration/cleanup discrepancies remain qualified; native index widths and acquisition unassigned. No concrete critical implementation defect found.",
+      "deferred": [
+        "Native study-lot adapter and PCR/capture primer geometry",
+        "Full locus-specific contact/capture sequence and native index member/acquisition",
+        "Source-version conflicts and linked historical vendor/predecessor materials remain existing source deferrals"
+      ],
+      "scope": "Independent implementation review only; no source originals opened, no source-wide absence conclusion or historical status upgrade.",
+      "verification": "Owner reports pages/guard/schema/pairing/chemistry pass with0contradictions. Reviewer independently reran ZipSeq page/suite2/pairing0 and TrAEL suite2; Tri-C historical suite empty, native graph construction/guard/chemistry provide checks. Corrected implementation inspected after owner writes."
     }
   ]
 }

@@ -91,6 +91,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 5/5 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/15 unresolved/0 contradictory with barcode_atac MAGIC warning; source guard 0 exact checked, 7 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "tenx_multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Protocol ownership/native graph and bounded original-guide inspection only; source-limited primer geometries remain unresolved.",
+      "locations": "10x CG000338 RevG original: §5.1 SI-PCRPrimerB PN-2000128, §7.5 TT sample-index PCR, sequencing tables around lines5150–5178 and Appendix pp80–81 around lines5890–5950; catalog-linked CG000168 RevA Appendix SI-PCRPrimerB line3411. Existing RevB/RevG discrepancy source checks rerun without replacing their prior located reviews.",
+      "findings": "Removed shared PCR-finishing recipe and its final-product primer-site assumptions. All four PCR geometries now refer to their actual preceding recovered/split/adapted inputs; the ATAC/GEX index PCRs remain explicitly unavailable because complete physical primers/precursors are unassigned, instead of claiming exact sites from the completed final library. The two local sequencing terminals retain source ATAC50/8/24/49 and GEX28/10/10/90 plans; the ATAC NextSeq500/5508dark+16reported cycle caveat is explicit. SI-PCRPrimerB is a source-qualified catalog-linked input with a direct predecessor-original transcription check. Same-end/GEM candidate classes have molecular unresolved fates, and the existing four-P5-base source-discrepancy notice remains. Known T30 is now a concrete segment separate from the two-base VN anchor, preserving sequence and exact lengths rather than treating all32positions as placeholders.",
+      "deferred": [
+        "Physical Pre-AmpPrimers PN-2000271 and cDNA/index primer mixtures, full transposome/adaptor states and ATAC barcode-joining mechanism remain unassigned",
+        "Complete intermediate PCR products and input-output molecular relations remain unresolved",
+        "RevB/RevF guide differences beyond the existing scoped P5 discrepancy were not re-reviewed; later revisions are not substitutes for cited RevG"
+      ],
+      "verification": "local suite6/6 including direct catalog-linked PrimerB source check; native page build; chemistry13steps0established0conditional17unresolved0contradictory; deliberate ATAC barcode MAGIC warning retained; source guard3 exact strands0failed0exempt4 unrepresented inputs; pairing0 problems",
+      "oligo_scraper": "Both complete source bundles scraped; Multiome catalog-linked CG000168 predecessor bundle also scraped before checking its printed PrimerB sequence. No drawn upstream schematic supplied source facts."
+    },
+    {
+      "round": "2026-10-18-container-state-correction",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only rendering/model correction; source scope remains that of preceding bounded migration 2026-10-18-validation-migration. No new source or scientific claim, and no absence audit.",
+      "locations": "Local protocol graph container/population molecular-state constructors; no original documents re-read.",
+      "findings": "Replaced one-strand molecule() concatenations with separate Scene rows for nucleus chromatin/RNA and GEM cDNA/ATAC populations. Corrected states propagate through recovery/preamp and both unchanged mixed aliquots, including actual PCR templates; no modality purification is inferred.",
+      "deferred": [
+        "Existing source and native-geometry boundaries from preceding migration remain open."
+      ],
+      "verification": "Local suite 6 checks pass; page build; chemistry 0 established/0 conditional/17 unresolved/0 contradictory. Combined guard 4 exact checked, 0 failed, 8 inputs without exact states; pairing 0 problems; review schema checked."
     }
   ]
 }

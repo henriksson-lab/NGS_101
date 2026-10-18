@@ -1,81 +1,49 @@
 """Protocol-owned source, oligos, workflow and reaction graph."""
-import illumina as il
-import nextera as nx
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
-from batch_ngs import nextera_library, seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, revcomp
 from circular import CircularizationGeometry
-from endprep import ThreePrimeOverhangAdapter, ligation_product_scene, react_dA_tail_then_ligate, repair_and_dA_tail
+from endprep import repair_and_dA_tail
 from protocol_model import closed_circle, molecule, role
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
-from accuracy_protocols import _workflow
 
-TRUSEQ_Y_END = ThreePrimeOverhangAdapter(
-    "TruSeq Y adapter", il.STEM + "T", il.STEM_COMPLEMENT)
-
-TRUSEQ_DA_LIGATION = reported_adapter_end(
-    "TruSeq Y adapter", kind="cohesive", polarity="3-prime", terminal_sequence="T",
-    statement="The documented TruSeq Y adapter presents a single 3-prime dT to a dA-tailed insert.")
-
-
-def _cirseq_workflow(library: Construct) -> Workflow:
-    rna = molecule("purified viral RNA", (role("viral RNA"),))
-    fragment = molecule("size-selected RNA", (role("85–100-nt RNA fragment", length_bp=92),))
-    circ = closed_circle("circular RNA template", (role("RNA fragment"),),
-                         closure_label="RNA intramolecular ligation")
-    tandem = molecule("rolling-circle cDNA", (
-        role("template copy 1"), role("template copy 2"), role("template copy 3")))
-    ds_insert = Construct([role("tandem-repeat cDNA")],
-                          name="double-stranded tandem-repeat cDNA")
-    ds = Scene.duplex(list(ds_insert), label=ds_insert.name,
-                      unpaired=("tandem-repeat cDNA'",))
-    prepared = repair_and_dA_tail(ds_insert)
-    ligated = ligation_product_scene(library, "tandem-repeat cDNA",
-                                     label="TruSeq-ligated CirSeq library",
-                                     adapter_group="TruSeq indexed adapter")
-    w = Workflow(MolecularState("Starting material", tuple(rna.rows())))
-    w.react("Fragment with Zn2+ and size-select", fragment.rows(), name="Fragment and size-select",
-            note="Fragments are kept short enough for at least three copies in one read.")
-    w.react("5′-phosphorylate and circularize RNA", circ.rows(), name="Circularize RNA",
-            note="Step 18: T4 polynucleotide kinase and T4 RNA ligase 1 act in one ATP-containing mix (37 °C, 30 min); the ligase closes the native 3′→5′ junction.")
-    w.react("Random-prime rolling-circle reverse transcription", tandem.rows(),
-            name="Rolling-circle reverse transcription",
-            note="Random hexamers and SuperScript III; RNase H is added after 2 min at 42 °C. Physically linked repeats derive from the same RNA template.")
-    w.react("Synthesize the second strand and blunt the cDNA", ds.rows(),
-            name="double-stranded tandem-repeat cDNA",
-            note="NEBNext second-strand synthesis module, then NEBNext end repair; the second-strand priming mechanism is not described by the protocol.")
-    react_dA_tail_then_ligate(
-        w, prepared, TRUSEQ_Y_END, ligated,
-        dA_action="Add one 3-prime dA to each cDNA end",
-        ligation_action="Ligate TruSeq indexed adapters",
-        ligation_note="NEBNext Quick T4 DNA ligase with the TruSeq indexed adapter.")
-    final = final_rows()
-    w.react("Excise 450–600-nt adapter-ligated DNA from a 10% urea-PAGE gel", final,
-            name="size-selected ligated library",
-            note="Step 43: at least 435 bases = 135 adapter bases plus at least 300 bases of tandem-repeat insert.")
-    w.react("Amplify 15 cycles with Phusion and the TruSeq PCR primer cocktail; purify on 7.5% PAGE", final,
-            name="amplified CirSeq library",
-            note="Steps 46–53. The primer-cocktail sequences are not printed in the protocol.")
-    return w
-
-
-FINAL_LIBRARY, SEQ_PRIMERS = truseq_library([role("tandem-repeat cDNA")], "CirSeq library", dual_index=False, i7_nt=6)
+# Local endpoint records only source-supported roles. The complete historical
+# adapters are not selected by a canonical platform constructor.
+FINAL_LIBRARY = Construct([
+    role("historical TruSeq left adapter; exact species unassigned"),
+    role("tandem-repeat cDNA"),
+    Segment("source dA junction", "A"),
+    role("historical TruSeq right insert-facing arm; unassigned"),
+    role("sample index; molecular extent and member unassigned", tag="cbc",
+         molecular_feature=feature("cirseq_sample_index", "sample_index", "unknown")),
+    role("historical TruSeq right terminal arm; unassigned"),
+], name="CirSeq source-limited adapter endpoint")
+SEQ_PRIMERS = ()
+TRUSEQ_DA_LIGATION = AdapterLigationGeometry.unavailable(
+    "Step 31 dA-tails the cDNA and Step 35 ligates TruSeq indexed adapters. The later 2015 FC-121-4001 guide confirms a 3′-T family end, but complete historical adapter identity/revision has not been assigned. The native graph does not import a canonical Y-stem or later primer shell.")
 TITLE = 'CirSeq — circular resequencing of RNA virus populations'
 NOTES = '01_cirseq.html'
 SOURCE = '<a href="https://doi.org/10.1038/nprot.2014.118">Acevedo and Andino, <i>Nature Protocols</i> (2014)</a>.'
 SUMMARY = 'Short viral RNA fragments are circularized and copied repeatedly by rolling-circle reverse transcription, placing at least three linked template copies inside one Illumina read.'
-CAVEAT = 'The named FC-121-4001 kit contains twelve six-base Set A indexes, but the protocol does not identify the index member used for a particular library. The protocol recommends 300-nt reads (MiSeq v2 300-cycle kit, or HiSeq Rapid single-read kits); the opposite adapter retains a Read 2 primer site even though no paired read is described. The second-strand priming mechanism inside the NEBNext module and the PCR primer-cocktail sequences are not printed in the protocol, so those steps are drawn without primer geometry.'
+CAVEAT = ('The original protocol names TruSeq indexed adapters and PCR primer cocktail FC-121-4001, but this model has not reconstructed the complete historical adapter/primer species. '
+          'Step 43 states 135 combined adapter bases; the former generic canonical shell did not match that source value and is no longer used. '
+          'The 2015 kit guide is a comparator: it lists six reported index bases plus a seventh adapter base and a 3′-T ligating end, without establishing full 2014 lot equivalence. '
+          'The native graph retains the original RNA 85–100-nt window and the recommended 300-nt single-read profile, with primer sites unassigned.')
 READ_LENGTHS = {'Read 1': 300}
+SEQUENCING_UNAVAILABLE = 'The selected source recommendation uses a 300-nt single read; the current model has not reconstructed the historical TruSeq primer/adapter sites.'
+SEQUENCING_ENDING = SEQUENCING_UNAVAILABLE
 FINAL_CAPTION = 'TruSeq adapters flank a double-stranded cDNA insert containing tandem copies of one circular RNA fragment.'
-SEQUENCING_INTRO = "The protocol recommends single 300-nt reads (MiSeq v2 300-cycle kit). The adapter has an index and an opposite-end primer site, but the paper does not specify an index read or a paired Read 2 run."
+SEQUENCING_INTRO = "The selected source recommendation is a 300-nt single read on MiSeq v2. The exact adapter/primer reconstruction remains open; an indexed-adapter name does not establish an acquired index cycle plan or a paired Read 2 run."
 def oligos():
     return ()
-def final_rows():
-    return ligation_product_scene(FINAL_LIBRARY, "tandem-repeat cDNA", label=FINAL_LIBRARY.name, adapter_group="TruSeq indexed adapter", highlight_components=False).rows()
-def workflow():
-    return _cirseq_workflow(FINAL_LIBRARY)
+
+def ligated_candidate_scene():
+    scene = Scene()
+    scene.strand("candidate", list(FINAL_LIBRARY), label="ligated candidate strand; opposite structure not reconstructed")
+    scene.junction("candidate", "historical TruSeq left adapter; exact species unassigned", "tandem-repeat cDNA", "adapter ligation")
+    scene.junction("candidate", "source dA junction", "historical TruSeq right insert-facing arm; unassigned", "adapter ligation")
+    return scene
 
 def protocol_graph():
     library = FINAL_LIBRARY
@@ -97,7 +65,7 @@ def protocol_graph():
                             MaterialKind.SELECTION)
     selected = graph.product(
         "selected_rna", "85–100-nt viral RNA fragments", MaterialKind.MOLECULAR,
-        state=molecule("size-selected RNA", (role("85–100-nt RNA fragment", length_bp=92),)))
+        state=molecule("size-selected RNA", (role("RNA fragment selected within 85–100nt; variable length"),)))
     rejected = graph.product("rejected_sizes", "RNA outside the 85–100-nt window",
                              MaterialKind.WASTE)
     graph.react("select_size", "Select 85–100-nt RNA fragments", StepKind.SELECTION,
@@ -125,7 +93,7 @@ def protocol_graph():
                     statement="The protocol circularizes phosphorylated RNA fragments with T4 RNA ligase 1."))
 
     random_rt = graph.input("random_rt_primer", "random hexamers (Invitrogen N8080127)",
-                            MaterialKind.OLIGO)
+                            MaterialKind.OLIGO, state=Construct([Segment("random hexamer", "N" * 6, placeholder=True, length_bp=6)]))
     reverse_transcriptase = graph.input("reverse_transcriptase", "SuperScript III reverse transcriptase",
                                        MaterialKind.CATALYST)
     rnase_h = graph.input("rnase_h", "RNase H (added after 2 min at 42 °C)", MaterialKind.CATALYST)
@@ -148,7 +116,7 @@ def protocol_graph():
     graph.react("second_strand", "Synthesize the second cDNA strand", StepKind.EXTENSION,
                 ((tandem, InputRole.TEMPLATE),
                  (dna_polymerase, InputRole.CATALYST)), (double_stranded,),
-                reason="Step 25 uses the NEBNext second-strand module at 16 °C for 2.5 h; the protocol does not describe how the second strand is primed.")
+                reason="Step 25 uses the NEBNext second-strand module at 16 °C for 2.5 h; its priming mechanism remains unassigned pending applicable module-original review.")
     repair = graph.input("end_repair_mix", "NEBNext end-repair enzyme mix", MaterialKind.CATALYST)
     repaired = graph.product("repaired_cdna", "blunt tandem-repeat cDNA",
                              MaterialKind.MOLECULAR, state=ds_construct)
@@ -161,10 +129,10 @@ def protocol_graph():
                            state=repair_and_dA_tail(ds_construct))
     graph.react("a_tail", "Add one 3-prime dA to each cDNA end", StepKind.TAILING,
                 ((repaired, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
-    adapters = graph.input("truseq_adapters", "TruSeq indexed adapters", MaterialKind.ADAPTER)
+    adapters = graph.input("truseq_adapters", "historical TruSeq indexed adapters (FC-121-4001); complete species unassigned", MaterialKind.ADAPTER)
     ligase = graph.input("adapter_ligase", "NEBNext Quick T4 DNA ligase", MaterialKind.CATALYST)
     ligated = graph.product("ligated_library", "TruSeq-ligated CirSeq library",
-                            MaterialKind.MOLECULAR, state=library)
+                            MaterialKind.MOLECULAR, state=ligated_candidate_scene())
     graph.react("adapter_ligation", "Ligate TruSeq indexed adapters", StepKind.LIGATION,
                 ((tailed, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (ligated,), geometry=TRUSEQ_DA_LIGATION)
@@ -173,7 +141,7 @@ def protocol_graph():
                                MaterialKind.SELECTION)
     ligated_selected = graph.product("selected_ligated_library",
                                      "450–600-nt adapter-ligated library",
-                                     MaterialKind.MOLECULAR, state=library)
+                                     MaterialKind.MOLECULAR, state=ligated.state)
     ligated_rejected = graph.product("rejected_ligated_sizes",
                                      "ligation products outside the excised 450–600-nt band",
                                      MaterialKind.WASTE)
@@ -194,7 +162,7 @@ def protocol_graph():
                 ((ligated_selected, InputRole.TEMPLATE), (pcr_primers, InputRole.STRUCTURAL),
                  (pcr_primers_p7, InputRole.STRUCTURAL), (phusion, InputRole.CATALYST)), (amplified,),
                 geometry=PCRGeometry.unavailable(
-                    library, reason="The protocol names the FC-121-4001 PCR primer cocktail (0.5 µM each primer if ordered separately) but does not print its sequences; splitting it into P5- and P7-side members is a model inference and the vendor original was not inspected in this pass."))
+                    ligated_selected.state, reason="The original protocol names the FC-121-4001 cocktail (0.5 µM each primer if ordered separately); the model has not assigned the historical primer species or copied adapter ends on this actual ligation product. Splitting the cocktail into opposite-end roles remains inferred; the 2015 comparator does not supply the missing historical model state."))
     page_rule = graph.input("native_page_purification", "7.5% native PAGE excision",
                             MaterialKind.SELECTION)
     final = graph.product("sequencing_library", "PAGE-purified CirSeq library",
@@ -207,9 +175,9 @@ def protocol_graph():
                 ((amplified, InputRole.TEMPLATE), (page_rule, InputRole.SELECTION)),
                 (final, page_rejected))
     graph.discard(page_rejected, "left in the 7.5% PAGE gel (Step 52 repeats Steps 42–44)")
-    graph.sequence(final, SequencingPlan(
-        library, (primers[0],), ("Read 1",),
-        READ_LENGTHS, {"Read 1": "include"}))
+    graph.sequence(final, SequencingPlan(library=library, acquired_roles=("Read 1",),
+        read_lengths=READ_LENGTHS, read_uses={"Read 1": "include"},
+        limitation="The selected recommended MiSeq profile uses single 300-nt reads to contain tandem copies; the exact historical sequencing primer/site is not reconstructed. No paired Read 2 or index acquisition is assigned from a canonical adapter shell."))
     graph.declare_reviewed_scope((
         "viral_rna", "zinc_fragmentation", "fragment", "size_selection", "select_size",
         "polynucleotide_kinase", "phosphorylate", "rna_ligase", "circularize",

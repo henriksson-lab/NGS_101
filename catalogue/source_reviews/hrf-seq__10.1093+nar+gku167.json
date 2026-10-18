@@ -148,6 +148,60 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 4 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Capped original-source migration; no source-absence acceptance or complete molecular proof.",
+      "locations": "Published PMC4005689 JATS Methods24–48 (substrates, Fentonprobing, librarypreparation,paired100,readpreprocessing); published supplementaryFile009.pdf TableS1 lines61–110 (random/cassetteRT,5′PHO/3′NHC3 barcodeadapter,forward andfour indexedPCR oligos).",
+      "oligo_scraper": "Mandatory cached-bundle scrape_primers run; relevant source pointers verified in originals. Analysis filter patterns for FragSeq and unrelated DART Sanger/binding assays excluded from actual library reagents.",
+      "findings": "Removed rna_end_readout steps/finisher and invented exact duplex PCR template. Native selectedribosome/randomRT graph has actualsingle-strandRTproduct, source5′phosphorylated7ntbarcodeadapter with nonnucleotide3′aminoblock, covalent3′cDNA–5′adapterligation and cleanup beforePCR. PCR unavailable on actualblockedSSprecursor; final reference retains sourceoligos andfeatureidentity and corrects random-primer coordinate to reverse-complement orientation. Source4+20Phusion cycles,200×dilution,200–600bpfinalselection andPE100 retained. Indexsequence6nt is not guessed as an acquired indexread. RNaseP/cassetteRT remains a separately identified sourcevariant.",
+      "deferred": [
+        "Nativeforward-first/reverse-secondPCR molecularproof; RNaseP/cassetteRT graph; exactindexacquisition; cleanup component partitions and linked predecessor manual not read thispass."
+      ],
+      "verification": "suite9;9steps;0established/0conditional/10unresolved/0contradictory;all pagesbuild;combinedsourceguard4exact/0failed/13unassigned;pairing0;targetedMarkdown/reviewschema checked."
+    },
+    {
+      "round": "2026-10-18-independent-critical-review",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "scope": "Capped independent critical review; no broad vendor/linked-method audit or absence acceptance.",
+      "locations": "Published PMC4005689 Methods33–49",
+      "oligo_scraper": "Reviewer ran mandatory cached-bundle scraper and checked the named published passages.",
+      "findings": "Actual blocked single-strand ligation precursor/PCR geometry is sound, but RT template RNA recovery remains unresolved through delegated RNAClean purification.",
+      "deferred": [
+        "Existing native manufacturer/primer/molecular-proof boundaries remain; no new absence conclusion."
+      ],
+      "verification": "Findings sent to owning implementation reviewer; corrections and checks recorded separately below."
+    },
+    {
+      "round": "2026-10-18-rt-population-and-prose-correction",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation correction from preceding independent published-source review and existing source scope; no additional originals read or absence conclusion.",
+      "locations": "Protocol tools/chem.py RT population outputs/terminals, native PCR target scenes and source-qualified finishing; main research note Model/page and migration sections.",
+      "findings": "Added explicit molecular RNA-template output and unresolved downstream recovery after RT. PCR Scene is explicitly the tracked cDNA target component; it does not assert an RNA-free tube or infer template destruction in RNAClean.",
+      "deferred": [
+        "Native reagent/first-copy chemistry and molecular partitions not reconstructed remain explicit; unresolved RNA recovery does not establish physical removal."
+      ],
+      "verification": "suite9;9steps0established/0conditional/10unresolved/0contradictory;all pagesbuild;combinedsourceguard4exact/0failed/13unassigned;pairing0;targetedMarkdown/reviewschema checked."
+    },
+    {
+      "round": "2026-10-18-readout-display-correction",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current protocol module sequencing declarations and generated primer/read-content section; independent implementation reviewer chromium_migration identified the index row. No originals re-read.",
+      "oligo_scraper": "Implementation-only display correction; no new source reading or oligo assignment.",
+      "findings": "Preserved compatible primer geometry and source-positive biological run declarations. Replaced the generic acquired-role table with explicit source read specifications so unassigned Index1 acquisition/cycles are shown as undetermined instead of incorrectly not acquired. No index read recipe is inferred.",
+      "deferred": [
+        "Actual index acquisition/cycles and selected physical index member remain source follow-ups."
+      ],
+      "scope": "Display correction only, not new original-source review or missing-information acceptance."
     }
   ]
 }

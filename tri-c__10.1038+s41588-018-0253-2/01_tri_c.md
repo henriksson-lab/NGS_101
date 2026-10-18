@@ -1,5 +1,16 @@
 # Tri-C — research notes
 
+## Active native migration, 2026-10-18
+
+Three originals inspected: published PMC6265079 Methods167–179; ProtocolExchange original **v1**, printed2018-11-01, DOI10.1038/protex.2018.113, hash305eb587-1929-4194-ae08-2f671e6ca7b6, pp5–8/Tables3,5; original **v2**, printed2019-05-22, DOI10.21203/rs.2.1650/v2, hash4775ee2d-6cce-43f0-bc35-b2c0f1eb2bf9, title/revision/materials/kit-option and stock contexts. Revision identities remain separate; the2019 method is not substituted for2018 chemistry. Superseded-preprint numerical comparison is historical, not an active published discrepancy.
+
+The selected NlaIII branch has opposed3′CATG cohesive ends before T4ligase multiway contacts. DpnII/nanopore is a separate comparison. Fixed chromatin topology is unassigned, not a pre-existing three-fragment concatemer. ProteinaseK/RNase and phenol/chloroform/ethanol recovery precede Covaris450bp fragmentation. Native ligation-ready dA and USER-opened adapter footprints are source-qualified roles. Seven-cycle Herculase indexing and each on-bead postcapture KAPA PCR use actual native precursors; capture probes remain independent, with possible carried templates/probes retained. Genomic sonication endpoints are structured physical-coordinate identifiers used for computational deduplication, not synthesized UMI bases. Exact native adapter/index/probe sequences and index acquisition remain unassigned.
+
+Published discrepancies remain public: article0.7× postsonication cleanup versus detailed v1~1.8×/all-cleanups1.8×; article2.9nM total probe versus detailed per-oligo2.9nM; v1E6040 materials versus E7370 heading and v2E7645 later option;10nmol/3.46µl mathematically2.9mM versus printed2.9µM stock. No source value is silently repaired into the model. Two viewpoint captures retain DNA on streptavidin beads for PCR; exact uninspected postcapture cleanup details remain deferred. MiSeqPE250 and NextSeqPE150 are source-positive distinct experiments, not inferred index cycles.
+
+Mandatory scraper6hits/3files, used as pointers only. Exact capture Table5 oligo bases and selected index members, native USER topology and remaining detailed cleanup/readout assignments remain deferred. No source expansion after three-original cap; no accepted absence claim or historical status upgrade.
+
+
 ## Citation
 
 Oudelaar AM et al. *Single-allele chromatin interactions identify regulatory hubs in dynamic compartmentalized domains.* Nature Genetics 50, 1744–1751 (2018). [doi:10.1038/s41588-018-0253-2](https://doi.org/10.1038/s41588-018-0253-2)

@@ -107,6 +107,21 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite comment-only (0 explicit checks) passes; page builds; pairing 0 problems; chemistry 1 established/0 conditional/5 unresolved/0 contradictory; source guard 2 exact checked (ad1_nomx, ad2_indexed), 0 failed, 1 input without exact state (loaded_mosaic_end); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "atac_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Protocol ownership, actual PCR precursor and bounded source-transcription review only.",
+      "locations": "Buenrostro2013 published PMC3959825 Methods PCR line77 and Primary data processing line99; published MOESM200 SupplementaryTable1 beginning lines1–12 (Ad1_noMX and Ad2.1).",
+      "findings": "Original2013 declaration owns its exact Ad1_noMX/Ad2.1 example and single-eight-base-index Nextera endpoint. Removed batch_ngs and family primer/endpoint dependencies, including unused chromatin recipe import. Staggered pre-extension material remains distinct from the complete gap-filled template; PCR primer footprints are now computed on the actual extended precursor rather than final flow-cell product. End-class candidates lacking intended S5/S7 geometry remain unresolved instead of a physical discard. The50×8×50 HiSeq run is preserved; the34×8×34 MiSeq run remains another source variant.",
+      "deferred": [
+        "Exact loaded transposome oligo chemistry and9nt stagger/gap-fill mechanism remain molecular-coverage work",
+        "Explicit qPCR aliquot branch and source34×8×34 MiSeq run variant remain separate modelling work"
+      ],
+      "verification": "graph suite0 source-transcription checks passes; page build; chemistry5steps1established0conditional5unresolved0contradictory; source guard2 printed primer strands0failed; pairing0 problems",
+      "oligo_scraper": "Full protocol bundles scraped; Fast-ATAC cited CurrentProtocols and Nature14590 predecessor bundles also scraped before inspecting their originals. Drawn upstream pages were not evidence."
     }
   ]
 }

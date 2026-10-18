@@ -294,6 +294,49 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "selftest (render) pass; page builds; pairing 0 problems; chemistry 2 established/2 conditional/14 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "documents": 1,
+      "locations": "Defining2023 published protocol PMC10790651 JATS: introduction60–100 (bead-TS mechanism/shared identifiers/mixed host background); Materials154–172 (kits and three primers); Equipment setup304–310; Steps23–84 extracted398–732 (GEMRT, silane/cDNA16cyclePCR, sourcefragment/endprep/ligation/indexPCR14–16 and cleanup); Steps85–121 extracted734–920 (35/20cycle enrichment, sourcephysicalcleanups,955–1215bpBluePippin twice, TT15cyclePCR/PE300).",
+      "findings": "Removed shared finisher; source-owned actual host/bacterial first-strand then switchedss populations, commercialcDNAPCR actualprecursor, mixed aliquots and host-background16S enrichment. Source explicitly says enrichment remains host dominated; no physical host depletion is inferred. Local GEX fragment/endprep, ligation and cleanups; nativepre-indexTT PCRinputs distinct from finalexpectedproducts. Removed laterRevK-derived TSO/bc/UMI/index widths and application2022cycle transfer from defining2023 path. ExplicitPE75 sourceEquipment GEX and PE300 bacterial reads; index acquisition/cycles/member/width unassigned. Preserved kit-label discrepancy and selected baselinev1/v2substitution boundary.",
+      "deferred": [
+        "CitedCG000086RevJ exacthistoricalbead/primer geometry; laterRevK is not substituted",
+        "SelectedTTSetA wells/physicalprimerindices/fullnativefirstcyclegeometry",
+        "2022application run remains historical priorreview; not reread or transferred",
+        "Post-TT productlength versus unchanged955–1215bp window; sourceprinted72°C20min indexPCR extension not normalized"
+      ],
+      "round": "2026-10-18-batch03-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "oligo_scraper": "Mandatory bundle scraper reviewed; relevant printed primer/modification hits verified against actualselected originals. OAK targetedscraper also run on alreadycitedCG000183RevAoriginal. Large unrelated dataworkbook skips are not absence evidence.",
+      "scope": "Capped nativegraph migration, not full source/linked audit; no accepted missing-information claims.",
+      "verification": "Focused source suite3/3 pass; page builds; pairing0; chemistry28 unresolved/0contradictory; scoped batch sourceguard28checked/0failed/2documented pMENTs strand exemptions/18unassigned inputs; review schema, notes and diffcheck pass."
+    },
+    {
+      "round": "2026-10-18-batch03-implementation-correction",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Local model, rendered page and parent independent review findings; existing batch03 original-source scope referenced, no originals re-read.",
+      "findings": "Implementation correction draws source-supported opposed3′dA overhangs on the actual fragment duplex. Complementary role strands are derived with complement_segments to preserve matching widths. No phosphate or unknown adapter strand is supplied; ligation geometry stays unavailable.",
+      "deferred": [
+        "Existing migration native-geometry and historical-source boundaries remain; no additional source reading or absence conclusion."
+      ],
+      "scope": "Implementation correction referencing the original migration evidence scope; not an independent original-source review.",
+      "verification": "Focused source suite3/3 pass; page builds; pairing0; chemistry28 unresolved/0contradictory; scoped batch sourceguard28checked/0failed/2documented pMENTs strand exemptions/18unassigned inputs; review schema, notes and diffcheck pass."
+    },
+    {
+      "round": "2026-10-18-batch03-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current protocol declarations, notes and quoted source scopes; no additional originals read.",
+      "findings": "Checked native ss RT/switched precursor, commercial cDNA PCR and mixed enrichment inputs; host background retained. Replaced textual dA-tail role with opposed exposed dA ends derived from complementary role strands, without invented5′phosphate or adapter geometry. Source2023 run statements remain distinct from2022 application and later vendor revisions.",
+      "deferred": [
+        "Existing migration native-geometry and historical-source boundaries remain; no additional source reading or absence conclusion."
+      ],
+      "scope": "Independent implementation review only; not a second original-source pass or accepted absence claim.",
+      "verification": "Parent focused suite/page/scopedchemistry/sourceguard/schema pass, page pairing0problems; corrected implementation re-inspected."
     }
   ]
 }

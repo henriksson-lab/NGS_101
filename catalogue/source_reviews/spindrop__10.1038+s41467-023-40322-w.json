@@ -30,14 +30,14 @@
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Methods lines 1081–1139 and sequencing section",
+        "locations": "Methods lines 1081\u20131139 and sequencing section",
         "finding": "Preprint describes inDrop barcoding and droplet handling; version comparison and exact bead oligos remain open."
       },
       "discovered_from": "published_article",
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Preprint PDF text lines 1081–1138; oligo scraper run on local original bundle",
+        "locations": "Preprint PDF text lines 1081\u20131138; oligo scraper run on local original bundle",
         "finding": "Explicitly says barcoded beads were made under inDrop protocol with inDrop v3 oligo scheme; UV releases barcodes, then RT mix is picoinjected."
       }
     },
@@ -50,14 +50,14 @@
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "MOESM3 PDF opening lines 1–21 and reviewer comments lines 22–60",
+        "locations": "MOESM3 PDF opening lines 1\u201321 and reviewer comments lines 22\u201360",
         "finding": "The file is headed Peer Review File and contains referee comments on droplet sorting and picoinjection. It does not provide the bead ordering oligo in inspected section."
       },
       "reason": "This file is the publisher peer-review history, not a molecular methods supplement.",
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "MOESM3 Peer Review File opening lines 1–60; oligo scraper run on local original bundle",
+        "locations": "MOESM3 Peer Review File opening lines 1\u201360; oligo scraper run on local original bundle",
         "finding": "Independent check confirms this is peer-review correspondence about device sorting/picoinjection, not a bead ordering or adapter-oligo table in the inspected section."
       }
     },
@@ -115,7 +115,7 @@
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Sheet1 all eight rows, lines 1–7",
+        "locations": "Sheet1 all eight rows, lines 1\u20137",
         "finding": "Sequencing run/count summary; no ordering oligos."
       }
     },
@@ -135,7 +135,7 @@
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "FADS fabrication proto sheet all rows, lines 1–15",
+        "locations": "FADS fabrication proto sheet all rows, lines 1\u201315",
         "finding": "Microfluidic fabrication layers and resist settings, not library chemistry."
       }
     },
@@ -155,7 +155,7 @@
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Picoinjector fabrication sheet all rows, lines 1–15",
+        "locations": "Picoinjector fabrication sheet all rows, lines 1\u201315",
         "finding": "Microfluidic fabrication recipe, not oligos."
       }
     },
@@ -175,7 +175,7 @@
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Cost sheet all rows, lines 1–16",
+        "locations": "Cost sheet all rows, lines 1\u201316",
         "finding": "Instrument cost inventory, not nucleic-acid chemistry."
       }
     },
@@ -195,7 +195,7 @@
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Figure_2a–Figure_5h sheet headings and representative opening/terminal rows, lines 1–262251",
+        "locations": "Figure_2a\u2013Figure_5h sheet headings and representative opening/terminal rows, lines 1\u2013262251",
         "finding": "Plotted numerical source data; checked sheets do not constitute a reagent list."
       }
     },
@@ -208,13 +208,13 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "MOESM1 Supplementary Figure 1 caption PDF text lines 1–65; oligo scraper run on source bundle",
+        "locations": "MOESM1 Supplementary Figure 1 caption PDF text lines 1\u201365; oligo scraper run on source bundle",
         "finding": "Microfluidic device/sorting/picoinjection schematics; may inform process boundary, but inspected caption does not print bead oligo."
       },
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Supplementary Figure 1 caption lines 50–65; remaining figure caption headings lines 66–206",
+        "locations": "Supplementary Figure 1 caption lines 50\u201365; remaining figure caption headings lines 66\u2013206",
         "finding": "Device geometry and RT-mix picoinjection are described; relevant workflow context without printed bead oligo in inspected captions."
       }
     },
@@ -234,7 +234,7 @@
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Reporting summary extracted lines 1–82",
+        "locations": "Reporting summary extracted lines 1\u201382",
         "finding": "Reporting policy form, not a protocol method in the extracted text."
       }
     },
@@ -247,14 +247,14 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "MOESM4 lines 1–49 movie title and description inventory; oligo scraper run on source bundle",
+        "locations": "MOESM4 lines 1\u201349 movie title and description inventory; oligo scraper run on source bundle",
         "finding": "Descriptions of droplet videos; no library oligos."
       },
       "reason": "Second reader inspected the located source and found this file concerns Descriptions of droplet videos; no library oligos. First-reader independent exclusion remains pending.",
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Movie descriptions and Supplementary Data inventory lines 1–50",
+        "locations": "Movie descriptions and Supplementary Data inventory lines 1\u201350",
         "finding": "Descriptions of device videos and dataset files, not oligo sequences."
       }
     },
@@ -424,7 +424,7 @@
     "pass_1": {
       "reviewer": "second_pass_d_e",
       "date": "2026-10-16",
-      "locations": "Published article Methods and preprint lines 1081–1139; source references 28–29",
+      "locations": "Published article Methods and preprint lines 1081\u20131139; source references 28\u201329",
       "finding": "The exact bead source is linked to Zilionis/Briggs; source-version comparison and supplement disposition remain incomplete."
     },
     "pass_2": {
@@ -448,13 +448,42 @@
       "reviewer": "root",
       "date": "2026-10-16",
       "documents": 1,
-      "locations": "Published PMC10409775 JATS265–294, microfluidic encapsulation and RT picoinjection; article author heading; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
-      "findings": "Corrected citation to DeJonghe etal. Added25-minute23°C lysis/7-minuteUV primer release before70°C10-minute treatment; clarified bead primers precede picoinjected RT reagent. Recorded61/8/8/14 acquisition.",
+      "locations": "Published PMC10409775 JATS265\u2013294, microfluidic encapsulation and RT picoinjection; article author heading; mandatory oligo scraper reviewed, original provenance distinguished from upstream.",
+      "findings": "Corrected citation to DeJonghe etal. Added25-minute23\u00b0C lysis/7-minuteUV primer release before70\u00b0C10-minute treatment; clarified bead primers precede picoinjected RT reagent. Recorded61/8/8/14 acquisition.",
       "deferred": [
         "Detailed inherited inDrop-v3 IVT/library construction and recovery, selected bead oligos and RT-variant conditions; quantitative barcode-like workbook hits not treated as molecular oligos"
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 0 checked, 3 unrepresented"
+    },
+    {
+      "round": "2026-10-18-validation-ownership-migration",
+      "reviewer": "local_ownership_migration_review",
+      "date": "2026-10-18",
+      "scope": "Capped source-qualified ownership migration; no accepted absence finding or full chemistry validation.",
+      "oligo_scraper": "Whole cached bundle scraper run; relevant exact source passages and ordering rows inspected. No scraper result is used as absence evidence.",
+      "documents": 1,
+      "locations": "Published PMC10409775 JATS Methods lines 265\u2013293: reference-defined v3 beads, FADS outlets, lysis, UV release, heat treatment, RT picoinjection solution/conditions and source61/8/8/14 acquisition.",
+      "findings": "Removed shared feature/finishers/role_library defaults. The source-defined FADS, lysis/UV, heat and explicit1:1 picoinjection now precede local SuperScriptIII RT. Released bead primers are already present and not attributed to the RT mix. Downstream inDrop preparation is a source-qualified review/model boundary ending in the actual library role declaration, with no generic extra endpoint PCR appended. Cell/UMI/index lengths are unassigned; acquired8-cycle indexes do not supply sequence lengths. Source61/8/8/14 acquisition retained in the graph plan.",
+      "deferred": [
+        "inDrop-v3 source-defined recovery, second strand, IVT, later transformations and adapter/PCR assembly",
+        "Matched v3 bead/primer molecules and exact identifier lengths/positions",
+        "Maxima H\u2212, PEG and5EU variants remain outside the selected default SuperScriptIII route"
+      ],
+      "verification": "Construction-only suite, page build, pairing and source guard pass. Chemistry: 6 steps, 0 established/0 conditional/6 unresolved/0 contradictory; inherited library route remains warned."
+    },
+    {
+      "round": "2026-10-18-population-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only population correction against existing source-qualified migration scope; no new originals read or absence claim.",
+      "locations": "tools/chem.py native graph population constructors; existing validation-migration bounded check provides source scope.",
+      "findings": "Separated cellular material from barcode/UMI primer species in input and selected droplet Scenes. Barcode and UMI remain together on their actual primer row. UV release produces a lysate plus released-primer Scene, preserved through heat treatment and picoinjection; no cellular material is concatenated to that primer. Downstream first-strand cDNA and endpoint declarations remain unchanged.",
+      "deferred": [
+        "Existing source/molecular proof boundaries remain unchanged; no new chemistry conclusions."
+      ],
+      "verification": "Local suite passes; page builds; scoped chemistry and source guard pass; pairing 0 problems; review schema checked."
     }
   ]
 }

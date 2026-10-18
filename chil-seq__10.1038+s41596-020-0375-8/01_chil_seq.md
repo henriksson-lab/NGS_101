@@ -153,3 +153,49 @@ Predecessor method: Harada *et al.*, *Nat Cell Biol* 21, 287–296 (2019),
 
 ChIL-seq is kept separate from CUT&Tag because its antibody oligo and T7 transcription
 are part of the defining molecular path.
+
+## Source-owned validation migration (2026-10-18)
+
+The native graph and final construct no longer call `protocol_specs.get`,
+`batch_ngs.nextera_library` or the RNA-family molecule helper. The legacy fallback
+workflow is removed. Antibody-target/probe populations and nearby genomic DNA now
+occupy separate Scene rows. The IVT state likewise separates newly transcribed RNA
+from the retained integrated genomic DNA template, and RNA recovery produces an
+RNA state rather than inheriting the DNA drawing. Source-known probe and MEDS-B
+oligo pairing/modifications are rendered locally; the published source-owned
+`chil_chem.py` sequence declarations are retained.
+
+The final endpoint is explicitly inferred from the actual single-target inputs:
+complete 50-nt Ad1_noMX, the remaining probe-derived mosaic-end bases, a genomic
+interval of unassigned length, the 11-position random-primer footprint, the copied
+34-nt MEDSB-Fw arm of Read2+N11, and the source Ad2 P7/eight-position index arm.
+Construction verifies the exact source-primer/probe overlaps. Compatible canonical
+Nextera sequencing-primer references are placed on that reconstructed product;
+this does not identify the physical formulation of a sequencer reagent.
+N11 is a degenerate random-priming sequence and has no barcode or UMI feature.
+No generic insert length, second sample index or acquired index cycles are added.
+Read1 remains 51 cycles and Index1 is acquired for demultiplexing with its cycle
+count unassigned; Read2 is not acquired.
+
+The actual RT product is single-strand cDNA, beginning with the source Read2+N11
+primer. Its fully copied probe priming span and template-switch-derived end remain
+unassigned. PCR geometry is therefore explicitly unavailable on that actual
+precursor, rather than being checked against the expected amplified final product.
+The final derived product is marked inferred in its caption, caveat and segments.
+
+This pass read two originals: the defining 2020 publisher PDF (printed DOI/title
+verified, Procedure Steps43–61 and sequencing Step84), and published 2020 MOESM1
+Supplementary Table4 sequence/component/modification columns (lines285–430).
+Mandatory bundle-scraper pointers were checked against those originals; no 2019
+predecessor chemistry was substituted. Earlier source readings support retained
+Tn5 loading/fill-in, transcription/recovery, cleanup and caption-discrepancy
+annotations; these sections were not comprehensively re-read in this capped pass.
+The SMART-Seq v4 manual/full template-switch end, exact pre-fill Tn5 geometry,
+physical sequencing reagent assignment, acquired index cycles and multitarget
+branch remain deferred. No source-absence claim or full review is accepted here.
+
+
+Independent implementation review also separated the antibody-bound probe from
+nearby genomic DNA before integration. Binding is noncovalent; the later
+Tn5-integrated DNA remains an ordered molecular construct. No new originals were
+read in this correction.

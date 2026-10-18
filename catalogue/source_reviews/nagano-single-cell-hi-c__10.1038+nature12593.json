@@ -116,6 +116,34 @@
       ],
       "scope": "Capped published defining-supplement pass, not full protocol validation or accepted missing-information claim.",
       "verification": "local suite101/101 (legacy common checks included); page/pairing pass; chemistry4 established/1 conditional/11 unresolved/0 contradictory; source guard2 exact primers checked, adapter unrepresented; Markdown built/checked; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch08-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Verified publisher nature12593-s1.pdf DOI/title and original Methods15–65, modifiedCAA/other adapter families88–145 and PCR primer rows153–158. Source MANIFEST verifies this original. Cached main-articleTXT53–61 inspected for context only but no corresponding original/manifest identity, so not counted or promoted as fresh defining-source evidence. Mandatory bundle scraper reviewed.",
+      "findings": "Removed shared ContactWorkflow/historical endpoint constructor; all localreaction choices from independently read2013SI. Explicit5′GATC BglII geometry/fill/biotin contact, postligationpicking, capture/AluI/dA/nativeYligation washes and actual forked source-strand PCR precursor. Derived daughter endpoint includes source dT/insert dA junctions omitted by legacyendpoint. CAA and opposite tag features retained; original biotin/methylation not copied and residual templates remain unresolved. Physical wash/fraction removal distinct from contact QC. Source2×40 positive, separate indexacquisition unassigned.",
+      "deferred": [
+        "Full defining article original provenance and remaining sourcefigures; unmanifested cachedmainTXT not fresh evidence",
+        "Detailed2015revision, linked predecessor/vendor originals and complete native contact/AluIpopulation topology",
+        "Physical removal/recovery of original biotin templates and precise first-cycle fork alignment; DpnII-for-some-libraries not assigned to selectedBglIIroute"
+      ],
+      "scope": "Capped source pass and source-owned native graph migration; no accepted absence claim or historical review-status upgrade.",
+      "verification": "Suites2/4/4 and all3pages pass; sourceguard8checked0failed3unassigned0exemptions; pairing0; main graphs chemistry23established92unresolved0contradictory. StevensXT alternative constructed bysuite and renderedpage. Review schema/notes checked after record creation; independent review pending."
+    },
+    {
+      "round": "2026-10-18-batch08-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "nagano-single-cell-hi-c__10.1038+nature12593/tools native declaration/graph, owner source-qualified handoff, independent implementation-only critical review.",
+      "findings": "Checked BglII5GATC, actualfilled/contactstates and restriction/contactrelations, ligate-before-single-nucleus order, AluI/dA/CAA-tagged nativeYinput and dT/A daughterjunctions, PCRactualprecursor and sourceinlinefeature/readspan. Nativephosphorothioateadapter and physicallyincorporatedPCRprimer bonds distinguished from copiedbackbone. Added strand-qualified primerPS footprint notes. Source mainTXTidentity notpromoted; verifiedSI boundary retained.",
+      "deferred": [
+        "Source-specific missing native chemistry and original-reading obligations remain at their recorded scope."
+      ],
+      "scope": "Independent implementation-only review; no original sources read and no missing-information acceptance or historical status upgrade.",
+      "verification": "Owner focused suites/pages/chemistry/sourceguard/pairing/schema passed; parent affected checks follow source PS-footprint annotations."
     }
   ]
 }

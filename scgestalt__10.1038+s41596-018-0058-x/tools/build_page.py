@@ -1,8 +1,7 @@
-#!/usr/bin/env python3
 from pathlib import Path
 import sys
-H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+H=Path(__file__).resolve().parent;sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
 import chem
-from protocol_build import build
+from batch_page import render
 OUT=H.parent/"scgestalt.html"
-if __name__=="__main__": build(chem.SPEC,OUT)
+if __name__=="__main__":OUT.write_text(render(chem),encoding="utf-8");print(OUT)

@@ -20,11 +20,36 @@ The defining article was read on 2026-10-17 from the publisher's combined articl
 - 🟢 Published discrepancy inside the 2017 author protocol: section 6.1 photoreverses at UV 254 nm for 5 min on ice, while the Figure 1 legend says 265 nm. The graph uses 254 nm; the defining 2016 Experimental Procedures (“Proximity Ligation and Reverse Crosslinking”) also irradiate at UV 254 nm for 5 min on ice. The schematic page shows this discrepancy.
 - 🟢 2016 Experimental Procedures (text 1940–1979): 20 µg RNA fragmented in 9 mM MgCl2/225 mM KCl/150 mM Tris pH 8.3 at 95 °C for 5 min and gel-selected at 90–110 nt; 1.5 µg bound to MyOne C1 streptavidin beads; T4 PNK (4 h, then fresh 1 mM ATP and PNK 1 h); T4 RNA ligase I 2.5 U/µL overnight at 16 °C; elution, TRIzol/RNeasy, UV 254 nm reversal; 6 µM 3′ adaptor ligated with T4 RNA ligase 2 KQ at 25 °C for 2.5 h, gel 110–130 nt; RT with 208 nM RT primer and SuperScript III at 50 °C for 30 min; RNA hydrolysis in 100 mM NaOH at 98 °C for 20 min; cDNA gel 200–220 nt; CircLigase II; 9–12 PCR cycles with NEB Primers Set 1 and Q5 DNA polymerase; 3% agarose selection of 200–300 bases; NextSeq 500 (text 2176–2179). SRA SRP073550, BioProject PRJNA318958 (2203–2205).
 - 🟢 Differences from the 2017 author protocol, shown on the page as source notices: linker-ligated RNA gel 110–130 nt (2016) versus 110–140 nt (JoVE 7.9); cDNA gel 200–220 nt (2016) versus 200–240 nt (JoVE 7.17); Q5 polymerase (2016) versus Phusion HF master mix (JoVE Materials). The graph uses the defining 2016 values; both use the NEB Index Primers Set 1 family.
-- 🟡 Other gel size selections (90–110 nt fragments, 110–130 nt linker-ligated RNA, 200–300 base PCR product) are not yet drawn as separate selection steps.
+- 🟢 The native migration now draws 90–110 nt fragment selection, 110–130 nt linker-ligated RNA selection and 200–300 bp final PCR-product selection as separate physical recovery steps.
 - 🟡 The exact circle-to-amplicon and sequencing-entry coordinates have not yet been assembled in this model. This is a modelling gap, not confirmed missing source information; Figure S2F draws the PCR primer/circle pairing that a later pass can transcribe.
 
 ## Protocol boundary
 
 The biotin–streptavidin enrichment is the defining distinction from the 2D-gel selection in PARIS and RNase R enrichment in LIGR-seq.
 
-The two disclosed custom oligos and the vendor-defined PCR primers are rendered on the schematic page. Circle and amplicon geometry remain explicitly unresolved.
+The two disclosed custom oligos and explicitly labelled later NEB Rev 8.0 reference primers are rendered on the schematic page. The later primer reference does not establish the executed 2016 kit strand or member. Circle and amplicon geometry remain explicitly unresolved.
+
+
+## Native graph migration (2026-10-18, batch06)
+
+Selected the defining2016 route. Reread the original article ExperimentalProcedures
+and embedded originalSI in publisher mmc7, plus the official2017JoVE HTML Materials,
+PCR recovery and PE150 reference. Three original documents in two containers;
+mandatory bundle scraper contexts checked. No absence audit accepted.
+
+The native graph now includes fragmentation90–110ntPAGE, streptavidin-bound reaction
+and elution/TRIzol/RNeasy recovery, linkedRNA110–130ntPAGE, actual two-iSp18 RT primer
+and ss-cDNA beside independentRNA, alkaline hydrolysis and200–220ntcDNA PAGE/ethanol,
+CircLigaseII/DCC5, actualcircle-inputPCR and final200–300bpgel/QIAGEN recovery.
+Hydrolysis is not physical removal. The existing FigureS2F5′P interpretation and
+FigureS2GPE150 record remain explicitly inherited historical readings, not newly
+reread graphical claims. The reread2017material independently confirms the primer
+sequence/spacers and adapter5rApp/3ddC; itsPE150 is a later reference.
+
+The laterNEBRev8 reference primers do not establish the historical executed lot,
+selected index or complete native circle-derived amplicon. Native ends/indexwidths
+remain roles, with source-limited actualcircle PCR geometry. Ordinary2016/2017
+polymerase and gel-window differences are version choices, not asserted publication
+errors. The internally conflicting2017 photoreversal wavelength notice remains.
+
+Native modified circle templates and off-target PCR species remain an explicit unresolved molecular class through final gel recovery. PCR amplification is not a physical removal mechanism for the original circles.

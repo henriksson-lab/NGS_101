@@ -7,7 +7,7 @@ Defining paper: Cooper et al., *Genome Biology* (2024), DOI
 The workflow combines targeted single-cell DNA genotyping with 10x 5′ transcriptomes;
 guide/iBAR and PuroR libraries use spiked-in RT primers and separate nested enrichments.
 
-## Oligo audit
+## Historical oligo audit (earlier scope, not a fresh batch06 source pass)
 
 🟢 Sources checked: the defining PMC article and JATS, associated bioRxiv manuscript,
 all five supplementary files, and especially Supplementary Table S2. That table publishes
@@ -52,11 +52,46 @@ placeholder but the source-ordered spacer/scaffold/iBAR layout; the PuroR librar
 carries the published UTR, barcode and CDS start; both nested libraries are built with
 the amplicon constructor (no dA ligation junction) and a **10-base** i5 index, because
 the printed nested forward primer is exactly P5 + 10N + TruSeq Read 1; the genotype
-library's 16-base cell barcode is now marked inferred, since the Mission Bio barcode
-length is not published here. These were repository modelling assumptions, not source
+library formerly used an inferred16-base barcode. Batch06 removes that borrowed physical width entirely; MissionBio identity remains distinct from Chromium identity. These were repository modelling assumptions, not source
 errors.
 
 🔴 Still not obtained within the cap: the 10x 5′ HT kit user guide (revision not named
 in the Methods), the Mission Bio Tapestri library-preparation manual, and the authors'
 code at MarioniLab/scSNV-seq. The i7-side nested primer and the complete bead construct
 remain undisclosed in the inspected sources; that is a deferral, not a confirmed absence.
+
+
+## Native graph migration, 2026-10-18 batch06
+
+Fresh source scope: published PMC10789043 Methods, “gRNA library cloning…” and
+“Base editing screens” (text113–121), plus Additionalfile3/TableS2 MOESM3,
+Table_S2 customRT/nested primers, JAK1/vector target panel and integratedpKLV2
+sequence. Two originals; full bundle scraper run and relevant hits verified.
+Superseded preprint chemistry is not current authority. No absence conclusion.
+
+🟢 The source samples separately expanded edited cells for Chromium5′HT and
+Tapestri. Genotyping is not DNA split from the same Chromium droplet. The graph
+now separates those physical populations before their assay-specific workflows.
+MissionBio and Chromium cell identifiers are distinct; linkage through iBAR/PuroR
+identifies clonal descendants computationally, not molecular identity of one cell.
+
+Native customRT copies are ss and built from the printed primer plus the copied
+upstream vector region; the priming site is not copied twice. Independent guide,
+PuroR, otherRNA, gDNA and bead populations are separate Scene strands. After
+source cDNA amplification the smallSPRI fraction is retained for both analogous
+nested enrichments, with mixed aliquots. The graph exposes first enrichment and
+printed-forward nested PCR stages; first-round primer identities/cycles and the
+complete native reverse assembly remain unassigned. Actual incoming native
+mixtures provide PCR geometry rather than final library references.
+
+The printed P5–N10–TruSeqRead1 nested primer is retained, together with source
+19N guide/6N iBAR/12N PuroR target features. Previously borrowed16/10 Chromium
+and16base MissionBio widths, fixed i7 widths and complete TruSeq shells are
+removed. Native10x transcriptome completion and Tapestri internal preparation
+are explicit unread-source boundaries. NovaSeq6000 is positive; native run cycles,
+cell/UMI widths and index acquisition remain unassigned. Off-target/RNA/DNA
+recovery is not inferred from nested-PCR specificity or computational cell calling.
+
+## Independent implementation correction (2026-10-18)
+
+Confirmed separate expanded-cell sampling for Chromium and Tapestri, correct distinct cell identities/computational clone linkage, exact source RT-target computation and actual mixed precursors for native first/nested PCR. Found/fixed premature Chromium bead row in expanded cells and separately sampled Tapestri states: beads now appear only after GEM partitioning and in downstream copied/amplified mixtures. Native manufacturer and reverse-primer/index-run boundaries remain explicit.

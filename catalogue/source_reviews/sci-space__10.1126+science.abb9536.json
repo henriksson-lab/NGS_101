@@ -199,6 +199,38 @@
       ],
       "scope": "Capped follow-up obtaining the previously gated supplementary methods; defining article and supplement now read; no accepted missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 6 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch09-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published defining JATS science.abb9536_PMC9118175.xml.txt overview and linked supplemental-method identities; published Science Supplement caltech_abb9536-Srivatsan-SM.pdf.txt pp1–5 (Overview24–36; grid37–62; transfer117–144; native library145–232; computational filtering233–249). Exact cited gridguide protocolsio_creating-sci-space-grids-for-spatial-barcoding-5qpvoy58bg4o.pdf.txt first-page/printedidentity DOI10.17504/protocols.io.bm64k9gw,Feb13,2021,lastmodifiedFeb13,2021,ID42940; Step7.1 119–125 hash scaffold/order-file links. Normalized cache/URL is not revisionidentity; printed original matches cited DOI.",
+      "oligo_scraper": "3hits2files;22MBDataFileS3 skipped (analytical gene-model data, not inspected as chemistry). Cited gridscaffold and native SMwidths checked in originals.",
+      "findings": "Own17step graph independently retains transcriptRNA,spotDNA,sectorDNA,sectionDNA and fourcopiedpopulations. SourcegridDNAprefix+barcode10+B(C/G/T)+A32 is verified; copied Bcomplement remains A/C/Grole, not fabricated literalbase. SelectedSlides1–6 sort200nuclei/PCRwell follows pooledindexedRT; independentSlides7–14dilution250cohort is descriptive only, not graphsplit. Exact RTprimer order/placement unassigned; typed UMI8/RTbarcode10 window layout is explicitly inferred from sourceR1content, no defaultfullprimer. Actual ssRTcopies→native dsDNA→customn7tagged/gapped states→75°Cextension(with actualPCRprimers/mix) enter PCR; originalRNA/DNAhashes/RTcopies/nonamplifying products retain unresolved molecularfates. PhysicalPCRpool/Zymo/0.8×SPRI explicit. SourcePCRindex10+10 and run18/10/10/52 are independently stated; unknownprimers/nativeends not canonical shells. CitedgridDOIextra_sources locator was corrected by parent to exactcachedPDFURL after printedidentity verification; no neworiginal/fetch. Historical guide-versus-study condition notices remain scoped history, not newly reread sources.",
+      "deferred": [
+        "Cited native two-level sci-RNAseq guide bquamwse fullRT/customn7/orderedindexedPCR species and revision applicability",
+        "GridguideStep7.1linked oligo-order files; member choices/attachment identity not inspected aftercap",
+        "Full section-hash sequence/tail, native RTwindow ordering/extent, exact copied/taggedend geometry",
+        "IndependentSlides7–14dilution cohort and other validation experiments outside selected branch"
+      ],
+      "scope": "Capped3original/10min perprotocol pass followed by nativeimplementation. No source expansion aftercap, acceptedabsence claim, complete-review claim or historicalstatus upgrade.",
+      "verification": "Source suite4pass including citedDOI/integerID/date test; pagebuild; chemistry17steps0contradictions; sourceguardgrid1checked0failed after exactsource locator correction; combined18checked0failed1HDSTexception15unassigned; pairing0; staticOUTsyntax checked."
+    },
+    {
+      "round": "2026-10-18-batch09-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Code-only review of tools/chem.py native_populations/hash_parts/copy_parts/copies/library_state and complete native ProtocolGraph. Owner source scopes3/2/3 originals referenced as handoff; no original source reread.",
+      "findings": "Checked four independent RNA/spotDNA/sectorDNA/sectionDNA populations and copies; sourceB=C/G/T complementaryA/C/G remains a role. Native source-grid revision scope and hashA32 retained; RTidentity-window placement inferred and complete primer unassigned. SelectedSlides1–6 sorting cohort is separate from independently prepared dilutioncohort, no artificial physicalsplit. ActualSSRT→ds→nativecustomn7tagged/gapped mixture→75°Cprecycleextension→PCR input preserves originals/offproducts. Requested actual sourcef/rPCRparticipants during precyclehold; owner corrected and reviewer rechecked without claiming primer-caused gapfill. Positive10bpPCRindex widths distinct from10cycle acquisition; physical librarypool/Zymo/SPRI recovery explicit. No further concrete critical defect found.",
+      "deferred": [
+        "Native RTprimer/fullindexprimer/customn7 geometry, gap/completion and sectionhash tail",
+        "Exact copiedBanchor member and original/copy/offproduct component recovery",
+        "Uninspected sourcevariants and independentSlides7–14 cohort; cited2021grid identity remains owner-verified, not newly reread"
+      ],
+      "scope": "Independent implementation-only review; no new source original, complete chemistry-validation claim, sourceabsence acceptance or historical status upgrade.",
+      "verification": "Independent suites3/1/4 pass; Slide/SciSpace finalpages rebuilt; scoped chemistry0established61conditional54unresolved0contradictory; sourceguard18checked0failed1narrowassembled-primerexemption15unassigned; all3pairing0. Schema/whitespace checked after append."
     }
   ]
 }

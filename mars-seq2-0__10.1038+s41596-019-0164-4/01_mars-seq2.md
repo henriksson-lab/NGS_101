@@ -1,8 +1,21 @@
 # MARS-seq2.0 — source note
 
+## Active native migration, 2026-10-18
+
+Source scope: Published2019NatureProtocols main s41596-019-0164-4.pdf.txt reagentsetup637–690, capture714–740, RT974–1043, Exo/pooling1057–1123, second-strand/IVT1170–1237, fragmentation/ligation1255–1322, RT2/PCR1324–1422, acquisition1448–1461 (Step62). Original SupplementTable1 scg_41596_2019_164_MOESM4_ESM.xlsx.txt header/A1–F1 primer rows; original SupplementTable2 scg_41596_2019_164_MOESM5_ESM.xlsx.txt header/ix1–ix10 donor/readbarcode rows. Mirrored files are publisher-original tables with matching manifest identity; protocols.io andMOESM1 not newly reread.
+
+MARS-seq2.0 now owns its17step graph and source-specific molecules in tools/chem.py, with no2014constructor import. Published main reagent setup itself verifies RT2 and both enrichment primers. Actual RT1ssDNA undergoes ExoI before pooling, then0.9×SPRI; native second-strand synthesis,1.4×SPRI/on-bead IVT, TurboDNase,1.2×SPRI, Zn fragmentation/2×SPRI, native5P/C3blocked N5/pool4 donor ligation/1.5×SPRI, RT2/1.5×SPRI, KAPA PCR and0.7×SPRI. T7 initialGGG is restored, RNA U distinguished from DNA T, and independent originals/copies/hydrolysates carried explicitly with unresolved partition. Actual recovered ssDNA feeds PCR. Representative ix1 pool identity is4bases, N5 are adapter random bases, well7/UMI8 are separate features. Published Step62 acquisition75/15/noindices is distinct from physical molecular lengths. Historical MOESM1N3read-design discrepancy remains public and unresolved; its source was not newly reread.
+
+This capped pass establishes no confirmed absence or complete chemistry review. Historical observations and audits below retain their original scope. Current source-owned declarations replace the earlier shared endpoint and IVT recipes; molecular hydrolysis, nonamplification and computational filtering are distinct from physical discard.
+
+Deferred: Complete sequential first-cycle PCR geometry on actual native ssDNA; loaded sequencing-primer identities; Historical MOESM1read-design example3I.4P.50M/7W.8R.5I versus native N5adapter/75–15run; Exact molecular partition/integrity of original RNA and promoterDNA/hydrolysate through known recoveries; Other RT1/pool adapter members and robot details outside the selected representative molecular view.
+
+Mandatory scraper: 61hits7files; main native primer strings and original RT1A1/adapterix1 modifications verified in inspected originals. No2014orupstream endpoint used as authority.
+
+
 The full source audit, oligo transcription and step-by-step reading are retained in the
 companion [MARS-seq / MARS-seq2.0 research note](../mars-seq__10.1126+science.1247651/01_mars-seq.md),
-because one model (`../mars-seq__10.1126+science.1247651/tools/`) renders both versions.
+as historical context. The active2019 graph and molecular declarations now live independently in this protocol’s tools/chem.py.
 
 **Defining source:** Keren-Shaul H *et al.* “MARS-seq2.0: an experimental and analytical
 pipeline for indexed sorting combined with single-cell RNA sequencing.” *Nature

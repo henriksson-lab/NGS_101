@@ -42,3 +42,11 @@ The public page reproduces all ten oligos from the supplementary protocol. `/5Bi
 ## Interpretation boundary
 
 SITE-Seq candidate sites are supported by a pileup of reads beginning at the same in-vitro cleavage coordinate. Biological editing still requires a cell-based validation assay; the library chemistry alone does not establish that a candidate site is cut in vivo.
+
+## Source-owned validation migration, 2026-10-18
+
+Replaced shared dsb_capture PCR finishing with local published index-primer inputs, Q5 polymerase and source run declaration. Added paired Adapter1 and all three Adapter2 input geometries, explicit dA-tailed substrate and an adapter-derived N7 pre-PCR template. RecoveryPCR and indexingPCR now locate exact sites on their actual predecessors; source primer names are preserved, although Recovery Reverse is the construct-left extending primer in this displayed orientation. Index Reverse retains the published noncanonical i7 junction and mismatching-stock-primer notice. Only150-base single-end Read1 acquisition is declared; eight variable positions in the index primers do not establish acquired index cycles.
+
+Source scope: Published supplementary protocol MOESM94 PDF oligo table lines64–103, sectionK recovery/indexing PCR lines412–458 and sectionO sequencing recommendation around515.
+
+Deferred: N5/N6 molecular product branches remain represented by the N7 geometry example rather than separate graph lineages; Exact index-read primer identity/acquisition and study sample-index members remain unresolved; Full cleavage/ligation/copying product relations and final pooled-library cleanup coverage remain unresolved. This bounded check establishes neither complete chemistry validation nor an accepted missing-information claim.

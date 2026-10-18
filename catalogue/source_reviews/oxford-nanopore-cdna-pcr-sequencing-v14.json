@@ -94,6 +94,38 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite pass (1 construction/render check); page builds; pairing 0 problems; chemistry 1 established/0 conditional/12 unresolved/0 contradictory; source guard 3 exact checked (RTP, cPRM forward, cPRM reverse), 0 failed, 2 inputs without exact states (CRTA partial duplex, SSPII degenerate/modified), RA inferred; Markdown built/checked; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch09-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "PCS_9200_v114_revF_31Mar2026 printed164/207/249; procedure676–845(CRTA annealing/ligation/lambda+USER/RNAClean),870–996(RTP/SSPII/RTkill/cleanup),1100–1238(fourPCR/17cycles/ExoI/pool/AMPure),1280–1435(50fmol/excessstorage/RA). CHTD_500_v1_revAV_24July2026 printed164/214 and2066–2134(sourceoligos/motor roles).",
+      "oligo_scraper": "Mandatory complete-bundle scraper run; source-line hits and physical modified oligos checked directly. Barcode F/R joined scraper hits were resolved against original distinct table columns; scraper output is not source evidence.",
+      "findings": "Native graph migration (2026-10-18): the incoming RT mixture is explicit RNA, CRTA, inferred first-strand cDNA and SSPII populations. SSPII terminal mGmGmG means three physical 2′O-methyl RNA guanosines; copied DNA is a separate molecular class. Native CRTA ligation/hybrid and second-strand geometry remain unassigned. The exact cPRM landing calculation is a derived duplex reference, never the graph's incoming PCR substrate. Each of four 5 µl aliquots has its own PCR and ExoI reaction; the 2.5 µl unallocated RT remainder and original-template recovery are unresolved. ExoI hydrolysates remain reaction constituents until physical cleanup; digestion alone is not a discard. The 204 µl pool is recovered, then 50 fmol is sampled for RA; excess amplified cDNA may be frozen as the source specifies. The graph draws the Rapid Adapter/motor as an associated component without a covalent DNA placement or assigned 5′/3′ strand-entry polarity. March workflow and July sequence reference retain their distinct revision identities; complete historical reagent equivalence is not established. This supersedes the earlier pore-entry strand assembly.",
+      "deferred": [
+        "Complete CRTA bottom strand/hybrid end chemistry",
+        "Native first-cycle and second-strand topology",
+        "Version-specific full Rapid Adapter/motor assembly",
+        "Component-specific recovery of original templates and digestion products"
+      ],
+      "scope": "Capped native graph/source pass; historical review statuses and absence gate remain unchanged.",
+      "verification": "Local source transcription suites7/3/27 pass; scoped chemistry0contradictions; independent critical implementation review and parent integration pending."
+    },
+    {
+      "round": "2026-10-18-batch09-native-independent-implementation-review",
+      "reviewer": "independent_native_review",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Released protocol-owned native modules cdna_pcr.py, nanopore_ligation.py and native_barcoding.py; owner source-bounded records and notes. No original sources reread.",
+      "findings": "Critical fixes independently rechecked: LSK and both native-barcode ligations preserve actual unligated/partially ligated precursor/off-product classes as molecular unresolved outputs with later bead partition unassigned. cDNA ExoI products/pool/cleanup/attachment retain independent possible free-primer/hydrolysate row. LSK disclosed DNA geometry explicitly remains a later-reference conditional assignment rather than historical2025 lot proof. SSPII constrained T/V UMI synthesis has degenerate feature encoding in all reagent/copy states, preserving identity. Actual cDNA PCR input is the native ssDNA/RNA/SSPII mixture; four physical5µl allocations and original-template residual fates are explicit. Motor association is a separate component, never a fabricated covalent DNA–protein polymer. Native-barcode sample/control populations and logical barcode survive pooling without converting analysis-context flanks into complete native adapter geometry. No remaining concrete critical defect found in the inspected scope.",
+      "deferred": [
+        "Source-specific complete motor/leader attachment and entry polarity",
+        "Native undisclosed adapter assemblies and sequential first-cycle geometry remain owner-qualified",
+        "Historical source-identity/absence gate unchanged"
+      ],
+      "scope": "Independent implementation-only review, zero new originals. No source absence/status upgrade.",
+      "verification": "Focused suites7/3/27 pass; all3pages build; chemistry3established27conditional39unresolved0contradictions; sourceguard5checked0failed0unknown; pairing0; staticOUTdiscovery passes; schema checked after append."
     }
   ]
 }

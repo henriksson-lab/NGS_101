@@ -44,3 +44,11 @@ cfMeDIP-seq is an enrichment assay and does not infer single-base methylation as
 Removed the invented discarded complementary strand. Denatured strands of both polarities remain in the population supplied to the input-control/IP split.
 
 Inspected scope: Local denaturation, input-control and IP branch declarations; no new reaction-source assertion. This bounded correction does not complete the linked-source or two-reader absence audit.
+
+## Native ownership migration, 2026-10-18
+
+Sources read: s41596-019-0202-2.pdf.txt: original 2019 defining article, Procedure28–45 (ligation,0.8× cleanup,USER37°C15min,MinElute),48–55 (spike-ins/denaturation),62–86 (IP/input split),87–131 (IPure single-strand eluate,QC1/QC2,44µL production PCR),132–158 (cleanups/paired75 sequencing); original identity from manifest and printed DOI.
+
+Removed protocol_specs.get/Definition/workflow and rna_library_operations.molecule. Protocol owns NEBNext-specific endpoint roles instead of generic TruSeq dual-index defaults, independent cfDNA/filler/control populations and both denatured polarities. Actual single-stranded IP eluate is retained through six1µL analytical qPCR aliquots into44µL production PCR. Source0.8× post-ligation and MinElute post-USER cleanup added in source order; adapter geometry remains unavailable. Non-amplified filler/control material is unresolved rather than physically discarded. Step158 PE75 selected explicitly; broader SE/PE50–125 variants retained in notice.
+
+Model boundaries: Kit revision and physical adaptor/primer sequences/sites; native first-copy PCR proof; exact recovery of non-library co-IP material; linked predecessor/vendor originals not re-read. No source-absence claim is accepted by this capped pass. Bundle oligo scraper run and source passages checked.

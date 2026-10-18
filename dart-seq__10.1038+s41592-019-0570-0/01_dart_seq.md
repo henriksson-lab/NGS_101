@@ -45,10 +45,11 @@ Nat. Methods 16, 1275–1280 (2019), [10.1038/s41592-019-0570-0](https://doi.org
 The informative chemistry happens in living cells before library construction. Editing is
 not a selection step: RNA without YTH-bound m6A remains in the total RNA and is sequenced;
 background is removed computationally using the APOBEC1-alone and YTHmut controls. The page
-models transfection, in-cell deamination, extraction and DNase digestion, then one warned
-kit-internal step and an index PCR whose primers are named but not sequenced. The final
-TruSeq-compatible arms, i5/i7 windows and their lengths are inferred placeholders, marked as
-such; only Read 1 is shown as acquired (SR50).
+models transfection, in-cell deamination, extraction and DNase digestion, followed by one
+explicit NEBNext manufacturer boundary including library construction and sample barcoding.
+It supplies no separate terminal index PCR or generic TruSeq/i5/i7 shell. The native
+adapter, primer and index geometry remain unassigned; only Read 1 is acquired in the
+selected typical SR50 run.
 
 Not drawn: the low-input kit branch, PacBio Iso-Seq long-read DART-seq (1 µg RNA, Sequel),
 the in vitro deamination assay (TNT-expressed fusion, 4–6 h at 37 °C, then Ultra II
@@ -66,3 +67,17 @@ Directional library) and the RT-PCR/Sanger validation.
 
 This is Meyer's m6A-editing DART-seq, distinct from the unrelated droplet-assisted
 RNA-targeting method also called DART-seq.
+
+## Native ownership migration, 2026-10-18
+
+Sources read: Published PMC6884681 JATS Methods Next-generation sequencing and C-to-U analysis195–205; published SupplementaryProtocol NIHMS1537259-supplement-2.pdf sectionsA–D (transfection,totalRNA,NEBNext variants,SR50,processing).
+
+Removed protocol_specs.get/Definition and batch_ngs.truseq_library. Local source-selected1µg NEBNext directional route now has an explicit multi-operation manufacturer boundary including barcoding, rather than generic dual-index8nt shells or unsupported terminalPCR. SR50 is selected from paired/single source alternatives; low-input10/100ng and PacBio remain separate scopes. RNAC→U, strand-dependent cDNA A/T and reference-oriented C→T processing are distinguished. Extracted RNA/genomicDNA are separate populations; DNase hydrolysis products unresolved rather than physicaldiscard.
+
+Model boundaries: Native kit/versioned molecular intermediates, physical adapters/primers/indexset; low-input and long-read routes; source-linked vendor manuals not pursued. Mandatory bundle oligo scraper was run and relevant original passages checked. This capped pass accepts no publication-absence claim.
+
+## Independent review corrections, 2026-10-18
+
+Independent reader inspected Published PMC6884681 Methods195–205. Native kit boundary/version scope and RNA C→U versus reported C→T are sound; stale Model/page prose still described removed indexPCR/generic dual-index shell.
+
+Updated Model/page paragraph to describe one explicit NEBNext library/barcoding boundary without terminalPCR or generic arms/index windows. No molecular code changed. This correction used that bounded review and the existing source scope; no additional original was read by the implementation reviewer. No publication-absence claim is accepted.

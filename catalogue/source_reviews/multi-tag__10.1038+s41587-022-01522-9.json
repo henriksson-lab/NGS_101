@@ -241,6 +241,34 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 5 passed (Supplementary Table 1 transcriptions); page builds; pairing 0 problems; chemistry 0 established/0 conditional/18 unresolved/0 contradictory (17 steps); source guard 6 checked, 4 failed (P5_i5_1, P7_i7_13, sci_Ad1.1, sci_Ad2.1 absent only because the published MOESM2 is on disk solely as MD5-identical preprint media-2.xlsx, excluded by the locator filter; selftest verifies all four), 0 without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch09-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC10188359 JATS107–121 Conjugates/Bulk/SingleCell/Sequencing; published SupplementaryTable1MOESM2 identity established by manifestMD5=5cd0f4d7b6de26836d8c04dac29ecb93 (byte-identical cached2021.07.08.451691_media-2.xlsx), README/targetP5rows/firstsinglecellP7_i7_13and72primerfamilyexamples. Mandatory bundle scraper/hits reviewed; large otherpreprintworkbook skipped, not evidence ofabsence.",
+      "findings": "Removed extended_protocols Definition/ident, chain/role_library defaults. Local selected singlecell source orderH3K4me2→H3K36me3→finalH3K27me3 uses actualtargetfamilycomponents. FinalH3K27me3 waits after incubation throughsecondary/i7binding thenjointtagmentation, correcting oldgraph earlyfinaltargettag. Source annealing/amineconjugation, binding/washes/Mg/EDTA,96wellaggregation, DNaseStop/wash/straining, ICELL8SDS/Triton/PCR and twoHighPrep recoveries explicit. Independenttarget DNApopulations preserve knownidentifiers; possible covalent5′antibody–amino-adapter original ends retained, not chemically removed by SDS orcopied into daughters. Microwellref62conditions/firstcycleunread, no bulkprogramme substituted; actual native input feedsPCR. PE25positive; barcode8widths do not assign index acquisition.",
+      "deferred": [
+        "Microwell ref62 original/setup/extension/PCRcycling and precise native tagged/gap/primer strand geometry",
+        "Original antibody-adapter-covalent DNA/free-adapter/nontransfer/offproduct componentrecovery throughSDS/PCR/cleanups",
+        "Sequencingprimer landing and actual barcode/indexacquisition; remaining publishedfigures/vendor/predecessor scope"
+      ],
+      "scope": "Capped source/native component migration only; historical status unchanged, no new absence acceptance. CoTECH complete published execution-order validation remains deferred.",
+      "verification": "Suites3/12/7 and pages pass; guard22checked0failed7unassigned0exemptions; pairing0; chemistry12established70unresolved0contradictory. Static OUT wrappers retained; source-review schema/notes checked after entry creation. Independent critical review pending."
+    },
+    {
+      "round": "2026-10-18-batch09-independent-implementation-review",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "tools/chem.py: adapter_scene/population and localtarget/indexfeatures, source-target1/2 tagmentation/finalH3K27me3 hold/well_tag, DNase/recoveries, ICELL8actualprecursor/pcr/daughter-original fates.",
+      "findings": "Confirmed source-target H3K27me3 stays bound until final secondary-antibody/i7-tagmentation stage; three target locus populations are independent. Source5′aminated antibody-adapter covalent transfer-strand possibilities persist through SDS; copied daughter end labels remain distinct. Corrected unprocessed targets=0 state to native context only: future introduced antibody-adapter DNA lineages no longer appear before reagent introduction. DNase is chemical digestion, not physicaldiscard; recovery/strainers/microwellproducts and two1.3×cleanups remain explicit. PCRGeometry uses actual released/neutralized native tagged/gapped DNA. Unreadref62ICELL8cycle/fill geometry is bounded and no bulkprogramme is substituted; source8ntidentifier widths do not imply acquiredindexcycles. No remaining concrete implementation defect within reviewed scope.",
+      "deferred": [
+        "Original-source reinspection, existing native sequence/kit/revision/geometry deferrals and any source absence gate remain outside this code-only review."
+      ],
+      "scope": "Independent critical implementation review of released code and supplied frozen source bounds;0originals inspected. Automated source suites/guards run. Does not supply independent original-source absence evidence, promote source status, or claim complete protocol chemistry validation.",
+      "verification": "Suites7pass; pagebuild; chemistry36steps0contradictions; sharedguard22checked0failed7unassigned across3; pairing0; staticOUTsyntax/diagram_out and whitespace checked."
     }
   ]
 }

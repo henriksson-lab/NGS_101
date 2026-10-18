@@ -3,11 +3,12 @@ from __future__ import annotations
 
 import illumina as il
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, feature, revcomp, oligo
-from multimodal_spatial import finish_pcr_branch
+from chemdraw import Construct, Scene, Segment, feature, revcomp, oligo, complement_segments
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+                            StepKind, Disposition, Terminal, Highlight)
+from protocol_model import molecule,role
+from adapter_ligation import AdapterLigationGeometry
 
 TITLE = "INVADEseq — invasion–adhesion-directed expression sequencing"
 NOTES = "01_invadeseq.html"
@@ -17,376 +18,125 @@ SUMMARY = ("A bacterial 16S reverse-transcription primer is spiked into a 10x Ch
            "5′ single-cell reaction beside the ordinary poly(dT) primer. Host and bacterial "
            "cDNAs therefore inherit the same cell barcode; an aliquot is then amplified "
            "twice with nested 16S primers to make a separate bacterial library.")
-CAVEAT = ("The three INVADEseq primers are published exactly. The cited 10x CG000086 "
-          "Rev J guide remains unverified; a later official Rev K guide prints the gel-bead "
-          "primer architecture. Exact reagent-revision equivalence and selected sample "
-          "index member remain unresolved. The protocol Materials list (lines 154–156) "
-          "identifies v2 reagent kit PN-1000263 and library kit PN-1000002, but Step 85 "
-          "(line 758) calls PN-1000002 a v2 kit. This page uses the Materials identities "
-          "for those two roles; which kit combination the Step 85 wording intended remains unclear. "
-          "Host GEX read lengths (26 × 10 × 10 × 90) come from the 2022 <i>Nature</i> application "
-          "supplement (MOESM1 Methods, NextSeq 2000 P3-100); the 2023 protocol instead names HiSeq 4000 "
-          "paired-end 75-bp reads in its Equipment setup (line 306) and leaves NextSeq 2000/NovaSeq "
-          "read lengths to the user in Step 84 (line 732), so GEX cycles are application-specific, not "
-          "a protocol requirement. The bacterial library is indexed with 15 cycles and then re-selected "
-          "with the same 955–1,215-bp BluePippin program (Steps 115 and 119); the post-index size "
-          "change is not computed here.")
-
+CAVEAT=("This graph selects the defining2023 protocol, whose described baseline is5′v1 with explicit v2 substitutions and a Materials/Step85 kit-label inconsistency: Materials identifies PN1000263 as v2 reagent kit and PN1000002 as5′library kit, while Step85 calls PN1000002 a5′v2 kit. The model follows Materials role identities; intended Step85 kit combination remains unresolved. Cited CG000086RevJ and actual selected TT index/primer species remain unassigned; a laterRevK bead does not establish historical complete geometry. Source-known cell-barcode/UMI roles are retained without borrowing exact bead bases or widths. The2023 Equipment setup gives GEX paired75bp; Step84 allows user-chosen platform settings. The2022 application's26/10/10/90 layout is a separate historical run, not substituted here. Bacterial PE300 is positive; index acquisition/cycles remain unassigned. Enrichment retains a host-dominated mixed cDNA background, as the source explicitly states. Native first-cycle and complete TT product assembly remain model boundaries.")
 RT_16S = "GGGTTGCGCTCGTTG"
 ENRICH_FORWARD = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTC"
 ENRICH_REVERSE = "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCTTCACGRCACGAGCTGACGAC"
 ENRICH_FORWARD_BINDING = ENRICH_FORWARD[len(il.P5):]
 ENRICH_REVERSE_BINDING = ENRICH_REVERSE[len(il.TRUSEQ_READ2):]
 
-CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
-                       whitelist="10x Chromium 5-prime v1/v2 whitelist")
-UMI = feature("umi", "umi", "random")
-I5 = feature("sample_index_i5", "sample_index", "unknown")
-I7 = feature("sample_index_i7", "sample_index", "unknown")
-TSO = "TTTCTTATATGGG"
+CELL_BARCODE=feature("cell_barcode","cell_barcode","whitelist",whitelist="historical10x5′whitelist; member/width unassigned")
+UMI=feature("umi","umi","random")
+I5=feature("sample_index_i5","sample_index","unknown")
+I7=feature("sample_index_i7","sample_index","unknown")
 
+def identities():
+    return [role("10x cell barcode; historical width unassigned",molecular_feature=CELL_BARCODE),role("molecular UMI; historical width unassigned",molecular_feature=UMI)]
 
-def seg(name: str, top: str, tag: str | None = None, **kw) -> Segment:
-    return Segment(name, top, tag, **kw)
+def input_scene():
+    sc=Scene();sc.strand("host",[role("host poly(A) RNA")],label="independent host RNA population")
+    sc.strand("bacterial",[role("associated bacterial16S RNA")],label="independent bacterial RNA population")
+    return sc
 
+def source_da_scene():
+    body=[role("mixed GEX cDNA fragment; sequence/length variable")]
+    bottom=complement_segments(body)
+    sc=Scene();sc.strand("top",[*body,Segment("top3′A","A")],label="source dA-tailed fragment")
+    sc.anneal("bottom",[*bottom,Segment("bottom3′A","A")],to="top",pair=(bottom[-1].name,body[0].name),unpaired=tuple(x.name for x in bottom),label="source opposed strand;5′chemistry unassigned")
+    sc.overhang("top","top3′A",polarity="3-prime",owner="substrate",text="source3′dA")
+    sc.overhang("bottom","bottom3′A",polarity="3-prime",owner="substrate",text="source opposed3′dA")
+    return sc
+
+def copied_scene(switched=False,duplex=False):
+    sc=Scene()
+    for kind in ("host","bacterial"):
+        parts=([role("source kit poly(dT) RT primer; exact historical species unassigned")] if kind=="host" else [Segment("16S1100R primer",RT_16S)])+[role(kind+" antisense first-strand cDNA")]
+        if switched:parts += [role("copied TSO; exact historical end unassigned"),*reversed(identities()),role("copied bead PCR handle; full sequence unassigned")]
+        sc.strand(kind,parts,label=kind+(" amplified strand class; complete duplex geometry unassigned" if duplex else " single-strand cDNA"))
+    return sc
+
+ENRICHED_AMPLICON=Construct([Segment("source enrichment forward",ENRICH_FORWARD),role("remaining historical bead arm"),*identities(),role("TSO/cDNA16S interval; native extent unassigned"),Segment("nested1061R footprint complement",revcomp(ENRICH_REVERSE_BINDING),placeholder=True,length_bp=20),Segment("reverse-primer-installed Read2 arm",revcomp(il.TRUSEQ_READ2))],name="source-primer-derived16S target component")
+
+def enriched_population():
+    sc=Scene();sc.strand("16S target",list(ENRICHED_AMPLICON),label="enriched16S target component; complete product assembly bounded")
+    sc.strand("host background",[role("host-dominated cDNA background retained through enrichment")],label="independent host/background molecules")
+    return sc
+
+def endpoint(name):
+    return Construct([role("TT indexed5′end; selected primer/width and complete junction unassigned",inferred=True,molecular_feature=I5),*identities(),role(name+" cDNA population; complete native adapter assembly unassigned",inferred=True),role("TT indexed opposite end; selected primer/width unassigned",inferred=True,molecular_feature=I7)],name=name)
+GEX_LIBRARY=endpoint("INVADEseq GEX (host and off-target bacterial reads)")
+BACTERIAL_LIBRARY=endpoint("INVADEseq bacterial-enriched mixed-background library")
+PRIMERS=()
+FINAL_LIBRARIES=(("Final host gene-expression library",GEX_LIBRARY,(),"Defining2023 GEX endpoint; native historical bead/TT geometry remains unassigned.","Published Equipment setup gives paired75bp; Step84 allows alternative user-selected settings."),("Final bacterial16S enrichment library",BACTERIAL_LIBRARY,(),"Bacterial enrichment within host-dominated background; no modality purification inferred.","Published MiSeqV3 PE300; repeated955–1215bp selection after15cycle TT PCR."))
+SEQUENCING_UNAVAILABLE="Historical physical read/index primer geometry and selected TT index members/widths remain unassigned; no later commercial revision supplies them."
+READ_SPECS={name:(sp.read_spec("Read 1",cycles,"10x identifiers and cDNA; native priming/identifier widths unassigned","extract_then_include"),sp.read_spec("Read 2",cycles,"cDNA from GEX fragments" if cycles==75 else "nested-primer-side cDNA from enriched mixed library","include"),sp.read_spec("Index 1 (i7)","unassigned","physical TT sample index; acquisition/cycles unassigned","undetermined"),sp.read_spec("Index 2 (i5)","unassigned","physical TT sample index; acquisition/cycles unassigned","undetermined")) for name,cycles in ((FINAL_LIBRARIES[0][0],75),(FINAL_LIBRARIES[1][0],300))}
+READ_SPECS_NOTE="Positive2023 read-length statements retained separately from unassigned index acquisition. The2022 application run is not transferred to this protocol."
 
 def oligos():
-    return (
-        oligo("16S 1100R RT primer", [seg("16S 1100R", RT_16S)]),
-        oligo("16S Enrich Forward", [seg("P5", il.P5, "p5"),
-                                      seg("10x-end binding region", ENRICH_FORWARD_BINDING, "r1")]),
-        oligo("1061R Enrich Nested Reverse", [seg("Read 2 arm", il.TRUSEQ_READ2, "r2"),
-                                               seg("nested 1061R", ENRICH_REVERSE_BINDING,
-                                                   placeholder=True, length_bp=20,
-                                                   note="published IUPAC R is A or G")]),
-    )
+    return tuple(oligo(name,[Segment(name,seq,placeholder="R" in seq)]) for name,seq in (("16S1100R",RT_16S),("16SEnrichForward",ENRICH_FORWARD),("1061REnrichNestedReverse",ENRICH_REVERSE)))
 
-
-def input_scene() -> Scene:
-    sc = Scene()
-    sc.strand("host", [seg("host mRNA", "X" * 28, placeholder=True),
-                       seg("poly(A)", "A" * 18)], label="host RNA")
-    sc.strand("bacterial", [seg("bacterial 16S rRNA", "X" * 34, placeholder=True),
-                            seg("1100R target", revcomp(RT_16S))], label="bacterial RNA")
-    return sc
-
-
-def dual_rt_scene() -> Scene:
-    sc = input_scene()
-    sc.anneal("poly(dT) primer", [seg("poly(dT)", "T" * 18)], to="host",
-              pair=("poly(dT)", "poly(A)"), label="standard poly(dT) RT primer")
-    sc.arrow("poly(dT) primer", "reverse transcriptase")
-    sc.anneal("16S primer", [seg("16S 1100R", RT_16S)], to="bacterial",
-              pair=("16S 1100R", "1100R target"), label="16S 1100R")
-    sc.arrow("16S primer", "reverse transcriptase")
-    return sc
-
-
-def barcoded_cdna_scene() -> Scene:
-    common = [seg("cell barcode", "B" * 16, "cbc", placeholder=True,
-                  feature=CELL_BARCODE),
-              seg("UMI", "U" * 10, "umi", placeholder=True, feature=UMI),
-              seg("template-switch sequence", TSO, "tso")]
-    sc = Scene()
-    sc.strand("host", [*common, seg("host cDNA", "X" * 36, placeholder=True)],
-              label="host cDNA")
-    sc.strand("bacterial", [*common, seg("16S cDNA", "X" * 36, placeholder=True)],
-              label="bacterial cDNA")
-    sc.labels("host"); sc.labels("bacterial")
-    return sc
-
-
-def split_scene() -> Scene:
-    sc = Scene()
-    sc.strand("gex", [seg("GEX aliquot", "X" * 30, placeholder=True)],
-              label="standard 5′ GEX branch")
-    sc.strand("16s", [seg("16S aliquot", "X" * 30, placeholder=True)],
-              label="bacterial enrichment branch")
-    sc.note("16s", "two nested PCRs; retain 955–1,215 bp")
-    return sc
-
-
-ENRICHED_AMPLICON = Construct([
-    seg("P5 from 16S Enrich Forward", il.P5, "p5"),
-    seg("10x-end binding region", ENRICH_FORWARD_BINDING, "r1"),
-    seg("cell barcode", "B" * 16, "cbc", placeholder=True, feature=CELL_BARCODE),
-    seg("UMI", "U" * 10, "umi", placeholder=True, feature=UMI),
-    seg("template-switch sequence", TSO, "tso"),
-    seg("16S cDNA to nested 1061R", "X" * 52, placeholder=True),
-    seg("reverse-complemented nested-primer end", revcomp(ENRICH_REVERSE_BINDING),
-        placeholder=True, length_bp=20,
-        note="published IUPAC R is A or G"),
-    seg("PCR-completed Read 2 leading base", "A", "r2"),
-    seg("Read 2 arm", il.INDEX1_PRIMER, "r2"),
-], name="twice-enriched INVADEseq 16S amplicon")
-
-
-def enriched_scene() -> Scene:
-    sc = Scene.duplex(list(ENRICHED_AMPLICON), label="16S enrichment amplicon")
-    sc.strand("gex", [seg("reserved standard 5-prime GEX aliquot", "X" * 32,
-                          placeholder=True)], label="host GEX branch")
-    sc.note("top", "two PCR rounds with the published enrichment primers")
-    sc.note("bottom", "BluePippin retains complete 955–1,215-bp products")
-    return sc
-
-
-def indexed_scene() -> Scene:
-    sc = Scene()
-    sc.strand("gex", [seg("dual-index host GEX library", "X" * 38,
-                          placeholder=True)], label="host GEX library")
-    sc.strand("16s", [seg("dual-index 16S enrichment library", "X" * 38,
-                          placeholder=True)], label="bacterial 16S library")
-    sc.note("gex", "high-throughput Illumina sequencing")
-    sc.note("16s", "2 × 300 MiSeq v3")
-    return sc
-
-
-def common_left() -> list[Segment]:
-    return [seg("P5", il.P5, "p5"),
-            seg("i5", "J" * 10, "cbc", placeholder=True, feature=I5),
-            seg("Read 1 arm", il.TRUSEQ_READ1, "r1"),
-            seg("cell barcode", "B" * 16, "cbc", placeholder=True, feature=CELL_BARCODE),
-            seg("UMI", "U" * 10, "umi", placeholder=True, feature=UMI),
-            seg("template-switch sequence", TSO, "tso")]
-
-
-def indexed_right() -> list[Segment]:
-    return [seg("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-            seg("i7 reverse complement", "I" * 10, "cbc", placeholder=True, feature=I7),
-            seg("P7 reverse complement", il.P7_RC, "p7")]
-
-
-GEX_LIBRARY = Construct([
-    *common_left(), seg("host cDNA fragment", "X" * 42, placeholder=True),
-    seg("dA ligation junction", "A"), *indexed_right()], name="INVADEseq host GEX library")
-
-BACTERIAL_LIBRARY = Construct([
-    *common_left(),
-    seg("16S cDNA before nested 1061R site", "X" * 44, placeholder=True,
-        note="length varies with the captured 16S molecule; BluePippin selects 955–1,215-bp products"),
-    seg("reverse-complemented nested 1061R site", revcomp(ENRICH_REVERSE_BINDING),
-        placeholder=True, length_bp=20,
-        note="published IUPAC R is A or G"),
-    # The full published nested reverse primer supplies TruSeq Read 2.  On this displayed
-    # strand its reverse complement is one leading A plus INDEX1_PRIMER; unlike the GEX
-    # branch, that A is PCR-installed and is not a ligation junction.
-    seg("PCR-completed Read 2 leading base", "A", "r2"),
-    *indexed_right()], name="INVADEseq bacterial 16S enrichment library")
-
-PRIMERS = tuple(sp.TRUSEQ[k] for k in ("R1", "I1", "I2", "R2"))
-for _name, _library in (("GEX", GEX_LIBRARY), ("bacterial 16S", BACTERIAL_LIBRARY)):
-    _problems = sp.verify(_library, PRIMERS, required_roles=tuple(p.role for p in PRIMERS))
-    if _problems:
-        raise ValueError(f"INVADEseq {_name} library: " + "; ".join(_problems))
-
-FINAL_LIBRARIES = (
-    ("Final host gene-expression library", GEX_LIBRARY, PRIMERS,
-     "The ordinary 10x 5′ GEX branch reports host transcripts with the same cell barcode space used by the bacterial branch.",
-     "Standard TruSeq sequencing primers bind the completed dual-index 10x library."),
-    ("Final bacterial 16S enrichment library", BACTERIAL_LIBRARY, PRIMERS,
-     "Two targeted PCRs retain the 10x cell barcode and UMI while enriching cDNA between the bead end and nested 1061R site.",
-     "Read 1 begins with the 16-base cell barcode and 10-base UMI before continuing through the template-switch sequence into 16S cDNA; Read 2 enters 16S cDNA from the nested-primer end."),
-)
-
-READ_LENGTHS = {
-    "Final host gene-expression library": {
-        "Read 1": 26, "Index 1 (i7)": 10, "Index 2 (i5)": 10, "Read 2": 90},
-    "Final bacterial 16S enrichment library": {
-        "Read 1": 300, "Index 1 (i7)": 10, "Index 2 (i5)": 10, "Read 2": 300},
-}
-
-
-def sections():
-    return [
-        ("Co-encapsulate one host cell and its associated bacteria",
-         input_scene().rows(),
-         "The host cell defines the single-cell partition; associated bacterial RNA enters the same GEM."),
-        ("Prime host poly(A) RNA and bacterial 16S rRNA in the same GEM",
-         dual_rt_scene().rows(),
-         "The published 16S 1100R spike-in is added beside the standard 10x poly(dT) RT primer."),
-        ("Template-switch both products onto the barcoded gel-bead oligo",
-         barcoded_cdna_scene().rows(),
-         "The exact commercial bead chemistry is undisclosed; the source nevertheless establishes that both products acquire the same 10x cell barcode and independent UMIs."),
-        ("Amplify cDNA, then split host GEX and bacterial-enrichment branches",
-         split_scene().rows(),
-         "The GEX aliquot follows standard 10x library preparation; the second aliquot enters targeted enrichment."),
-        ("Enrich the barcode-bearing 16S molecule twice and size-select it",
-         enriched_scene().rows(),
-         "The bacterial aliquot undergoes 35-cycle enrichment, 955–1,215-bp selection, then a second 20-cycle enrichment with the same published primer pair."),
-        ("Add dual sample indexes to both completed libraries",
-         indexed_scene().rows(),
-         "Dual Index TT Set A PCR completes both Illumina libraries (14–16 cycles for GEX, 15 for the bacterial branch); the bacterial branch is size-selected again with the same 955–1,215-bp BluePippin program before 2 × 300 MiSeq v3 sequencing."),
-    ]
-
-
-def _enrichment_geometry() -> PCRGeometry:
-    return PCRGeometry.exact(
-        ENRICHED_AMPLICON,
-        PCRPrimer("16S Enrich Forward", ENRICH_FORWARD),
-        PCRPrimer("1061R Enrich Nested Reverse", ENRICH_REVERSE),
-        statement="The protocol prints both enrichment primers; the published 3-prime 1061R footprint and the 10x-end footprint face inward on the enriched amplicon.")
-
+def clean(g,key,template,recipe,kind=StepKind.CLEANUP,library=False):
+    rule=g.input(key+"_rule",recipe,MaterialKind.SELECTION)
+    kept=g.product(key+"_clean","physically recovered "+template.label,MaterialKind.LIBRARY if library else MaterialKind.MOLECULAR,state=template.state)
+    waste=g.product(key+"_waste","source removed bead/size/wash fraction",MaterialKind.WASTE)
+    g.react(key,"Recover source-selected fraction: "+recipe,kind,((template,InputRole.TEMPLATE),(rule,InputRole.SELECTION)),(kept,waste),changes_molecule=False);g.discard(waste,"Physical source selection/wash transfer, not nonamplification or computational QC")
+    return kept
 
 def protocol_graph():
-    g = ProtocolGraph(TITLE, authority=SOURCE)
-    associated = g.input(
-        "associated_cells", "host cells with associated bacterial RNA",
-        MaterialKind.BIOLOGICAL, state=input_scene(), primary=True)
-    gem_condition = g.input("gem_condition", "10x GEM partitioning condition",
-                            MaterialKind.CONDITION)
-    gem = g.product("gem", "one host-cell partition containing associated bacterial RNA",
-                    MaterialKind.MOLECULAR, state=input_scene())
-    excluded = g.product("excluded", "empty or colliding GEM material",
-                         MaterialKind.WASTE)
-    g.react("partition", "Co-encapsulate a host cell and its associated bacteria",
-            StepKind.PARTITION,
-            ((associated, InputRole.TEMPLATE),
-             (gem_condition, InputRole.CONDITION)), (gem, excluded),
-            changes_molecule=False)
-    g.discard(excluded, "does not preserve an interpretable single-host-cell partition")
-
-    poly_dt = g.input("poly_dt", "standard 10x poly(dT) RT primer",
-                      MaterialKind.OLIGO, inferred=True,
-                      source=SOURCE + " (commercial bead chemistry undisclosed)")
-    primer_16s = g.input("primer_16s", "published 16S 1100R RT primer",
-                         MaterialKind.OLIGO)
-    rt = g.input("rt", "reverse transcriptase", MaterialKind.CATALYST)
-    copied = g.product(
-        "copied", "host and bacterial first-strand cDNAs in one GEM",
-        MaterialKind.MOLECULAR, state=dual_rt_scene())
-    g.react("reverse_transcribe",
-            "Prime host poly(A) RNA and bacterial 16S rRNA in the same GEM",
-            StepKind.REVERSE_TRANSCRIPTION,
-            ((gem, InputRole.TEMPLATE), (poly_dt, InputRole.STRUCTURAL),
-             (primer_16s, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)),
-            (copied,))
-
-    bead_oligo = g.input(
-        "bead_oligo", "10x cell-barcode/UMI/template-switch gel-bead oligo",
-        MaterialKind.OLIGO, inferred=True,
-        source=SOURCE + " (commercial bead chemistry undisclosed)")
-    switched = g.product(
-        "switched", "host and bacterial cDNAs carrying the same cell barcode",
-        MaterialKind.MOLECULAR, state=barcoded_cdna_scene(), inferred=True,
-        source=SOURCE + " (barcode roles established; bead chemistry undisclosed)")
-    g.react("template_switch",
-            "Template-switch both products onto the barcoded gel-bead oligo",
-            StepKind.TEMPLATE_SWITCHING,
-            ((copied, InputRole.TEMPLATE), (bead_oligo, InputRole.STRUCTURAL),
-             (rt, InputRole.CATALYST)), (switched,))
-
-    cdna_f = g.input("cdna_forward", "10x cDNA-amplification forward primer",
-                     MaterialKind.OLIGO, inferred=True,
-                     source=SOURCE + " (commercial primer sequence undisclosed)")
-    cdna_r = g.input("cdna_reverse", "10x cDNA-amplification reverse primer",
-                     MaterialKind.OLIGO, inferred=True,
-                     source=SOURCE + " (commercial primer sequence undisclosed)")
-    cdna_polymerase = g.input("cdna_polymerase", "cDNA-amplification polymerase",
-                              MaterialKind.CATALYST)
-    amplified = g.product(
-        "amplified", "amplified barcoded host and bacterial cDNA",
-        MaterialKind.MOLECULAR, state=barcoded_cdna_scene(), inferred=True,
-        source=SOURCE + " (commercial cDNA-amplification primer geometry undisclosed)")
-    g.react("amplify_cdna", "Amplify the shared barcoded cDNA pool", StepKind.PCR,
-            ((switched, InputRole.TEMPLATE), (cdna_f, InputRole.STRUCTURAL),
-             (cdna_r, InputRole.STRUCTURAL),
-             (cdna_polymerase, InputRole.CATALYST)), (amplified,),
-            geometry=PCRGeometry.unavailable(
-                ENRICHED_AMPLICON,
-                reason="The protocol uses the commercial 10x cDNA-amplification mix without disclosing one universal primer pair."))
-    host = g.product("host_branch", "reserved standard 5-prime GEX aliquot",
-                     MaterialKind.MOLECULAR, state=GEX_LIBRARY)
-    bacterial = g.product("bacterial_branch", "bacterial 16S enrichment aliquot",
-                          MaterialKind.MOLECULAR, state=ENRICHED_AMPLICON)
-    g.react("split", "Split host GEX and bacterial-enrichment aliquots",
-            StepKind.SPLIT, ((amplified, InputRole.TEMPLATE),),
-            (host, bacterial), changes_molecule=False)
-
-    enrich_f = g.input("enrich_forward", "published 16S Enrich Forward primer",
-                       MaterialKind.OLIGO)
-    enrich_r = g.input("enrich_reverse", "published nested 1061R reverse primer",
-                       MaterialKind.OLIGO)
-    enrich_polymerase = g.input("enrich_polymerase", "16S enrichment polymerase",
-                                MaterialKind.CATALYST)
-    first = g.product("first_enrichment", "first-round barcode-bearing 16S amplicons",
-                      MaterialKind.MOLECULAR, state=ENRICHED_AMPLICON)
-    g.react("enrich_first", "Run the first 35-cycle targeted 16S enrichment",
-            StepKind.PCR,
-            ((bacterial, InputRole.TEMPLATE), (enrich_f, InputRole.STRUCTURAL),
-             (enrich_r, InputRole.STRUCTURAL),
-             (enrich_polymerase, InputRole.CATALYST)), (first,),
-            geometry=_enrichment_geometry())
-    size_rule = g.input("size_rule", "BluePippin 955-1215-bp selection",
-                        MaterialKind.SELECTION)
-    selected = g.product("selected", "955-1215-bp complete 16S amplicons",
-                         MaterialKind.MOLECULAR, state=ENRICHED_AMPLICON)
-    off_size = g.product("off_size", "off-size 16S amplification products",
-                         MaterialKind.WASTE)
-    g.react("size_select", "Retain complete 955-1215-bp 16S products",
-            StepKind.SELECTION,
-            ((first, InputRole.TEMPLATE), (size_rule, InputRole.SELECTION)),
-            (selected, off_size), changes_molecule=False)
-    g.discard(off_size, "falls outside the published complete-amplicon size window")
-    second = g.product("second_enrichment", "twice-enriched 16S amplicons",
-                       MaterialKind.MOLECULAR, state=ENRICHED_AMPLICON)
-    g.react("enrich_second", "Run the second 20-cycle targeted 16S enrichment",
-            StepKind.PCR,
-            ((selected, InputRole.TEMPLATE), (enrich_f, InputRole.STRUCTURAL),
-             (enrich_r, InputRole.STRUCTURAL),
-             (enrich_polymerase, InputRole.CATALYST)), (second,),
-            geometry=_enrichment_geometry())
-
-    reviewed = [
-        "associated_cells", "gem_condition", "partition", "poly_dt", "primer_16s",
-        "rt", "reverse_transcribe", "bead_oligo", "template_switch",
-        "cdna_forward", "cdna_reverse", "cdna_polymerase", "amplify_cdna",
-        "split", "enrich_forward", "enrich_reverse", "enrich_polymerase",
-        "enrich_first", "size_rule", "size_select", "enrich_second",
-    ]
-    finish_pcr_branch(
-        g, "host", host, GEX_LIBRARY, PRIMERS, reviewed,
-        label="INVADEseq host GEX", read_lengths=READ_LENGTHS[
-            "Final host gene-expression library"], inferred_primers=True,
-        limitation="Dual Index TT Set A is commercial; its lot-specific library-completion primer pair is not printed in the protocol.")
-    # Bacterial branch: Steps 111-119 index with Dual Index TT Set A (15 cycles), then
-    # repeat the 955-1,215-bp BluePippin program (Steps 92-102) before MiSeq PE300.
-    # Written locally because the shared branch helper has no post-PCR selection.
-    tt_source = SOURCE + " (endpoint primer sequence not declared in this model)"
-    tt_forward = g.input("bacterial_forward", "INVADEseq bacterial 16S forward PCR primer",
-                         MaterialKind.OLIGO, inferred=True, source=tt_source)
-    tt_reverse = g.input("bacterial_reverse", "INVADEseq bacterial 16S reverse PCR primer",
-                         MaterialKind.OLIGO, inferred=True, source=tt_source)
-    tt_polymerase = g.input("bacterial_polymerase",
-                            "INVADEseq bacterial 16S PCR polymerase", MaterialKind.CATALYST)
-    indexed = g.product("bacterial_indexed", "15-cycle dual-indexed 16S products",
-                        MaterialKind.MOLECULAR, state=BACTERIAL_LIBRARY, inferred=True,
-                        source=tt_source)
-    g.react("bacterial_pcr", "Amplify and index the INVADEseq bacterial 16S branch (15 cycles)",
-            StepKind.PCR,
-            ((second, InputRole.TEMPLATE), (tt_forward, InputRole.STRUCTURAL),
-             (tt_reverse, InputRole.STRUCTURAL), (tt_polymerase, InputRole.CATALYST)),
-            (indexed,), geometry=PCRGeometry.unavailable(
-                BACTERIAL_LIBRARY,
-                reason="Dual Index TT Set A is commercial; its lot-specific library-completion primer pair is not printed in the protocol."))
-    final_rule = g.input("final_size_rule",
-                         "repeat BluePippin 955-1215-bp program (Step 119)",
-                         MaterialKind.SELECTION)
-    library = g.product("bacterial_library", "INVADEseq bacterial 16S sequencing library",
-                        MaterialKind.LIBRARY, state=BACTERIAL_LIBRARY, inferred=True,
-                        source=tt_source)
-    final_off = g.product("final_off_size", "off-size indexed 16S products",
-                          MaterialKind.WASTE)
-    g.react("final_size_select", "Re-select indexed 16S products with the same BluePippin program",
-            StepKind.SELECTION,
-            ((indexed, InputRole.TEMPLATE), (final_rule, InputRole.SELECTION)),
-            (library, final_off), changes_molecule=False)
-    g.discard(final_off, "falls outside the repeated BluePippin collection window")
-    g.sequence(library, SequencingPlan(
-        library=BACTERIAL_LIBRARY, primers=PRIMERS,
-        acquired_roles=tuple(p.role for p in PRIMERS),
-        read_lengths=READ_LENGTHS["Final bacterial 16S enrichment library"]))
-    reviewed.extend(("bacterial_forward", "bacterial_reverse", "bacterial_polymerase",
-                     "bacterial_pcr", "bacterial_indexed", "final_size_rule",
-                     "final_size_select", "bacterial_library", "final_off_size"))
-    g.declare_reviewed_scope(reviewed, SOURCE)
+    g=ProtocolGraph(TITLE,authority=SOURCE)
+    cells=g.input("cells","host-cell partitions with associated bacterial RNA",MaterialKind.BIOLOGICAL,state=input_scene(),primary=True)
+    gem_rule=g.input("gem_rule","source ChromiumGEM generation",MaterialKind.CONDITION)
+    gem=g.product("gem","GEM mixed host/bacterial RNA populations",MaterialKind.MOLECULAR,state=input_scene())
+    other=g.product("other_partitions","empty/colliding/other GEM outcomes",MaterialKind.MOLECULAR)
+    g.react("partition","Partition host cells with associated bacterialRNA",StepKind.PARTITION,((cells,InputRole.TEMPLATE),(gem_rule,InputRole.CONDITION)),(gem,other),changes_molecule=False)
+    g.mark_terminal(Terminal(other.id,Disposition.UNRESOLVED,"Partition interpretability does not establish physical removal of empty/multiplet material."))
+    poly=g.input("poly_dt","source poly(dT)RT primer PN2000007; historical species unassigned",MaterialKind.OLIGO)
+    targeted=g.input("primer_16s","source16S1100R",MaterialKind.OLIGO,state=RT_16S)
+    rt=g.input("rt","RTenzymeC PN2000085;53°C45min",MaterialKind.CATALYST)
+    first=g.product("first","host and bacterial actual first-strand cDNA",MaterialKind.MOLECULAR,state=copied_scene())
+    g.react("reverse_transcribe","Prime host poly(A) and bacterial16S RNA",StepKind.REVERSE_TRANSCRIPTION,((gem,InputRole.TEMPLATE),(poly,InputRole.STRUCTURAL),(targeted,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(first,))
+    bead=g.input("bead_tso","barcoded/UMI10x TSO; exact citedRevJ geometry unassigned",MaterialKind.OLIGO)
+    switched=g.product("switched","template-switched single-strand cDNA populations",MaterialKind.MOLECULAR,state=copied_scene(True),inferred=True)
+    g.react("template_switch","Copy barcode/UMI-bearing beadTSO during RT",StepKind.TEMPLATE_SWITCHING,((first,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(switched,))
+    recovered=clean(g,"post_gem",switched,"source emulsion recovery/silane purification;35µl eluate")
+    f=g.input("cdna_f","cDNA primer mix PN2000089 first binding role; species unassigned",MaterialKind.OLIGO)
+    r=g.input("cdna_r","same commercial primer mix opposite binding role",MaterialKind.OLIGO)
+    pol=g.input("cdna_pol","amplification master mix PN2000103;16cycles98/63/72°C",MaterialKind.CATALYST)
+    amp=g.product("amp","amplified mixed host/bacterial cDNA",MaterialKind.MOLECULAR,state=copied_scene(True,True))
+    g.react("cdna_pcr","Amplify source mixed cDNA pool16cycles",StepKind.PCR,((recovered,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(amp,),geometry=PCRGeometry.unavailable(recovered.state,reason="Actual incoming material is switched single-strand cDNA, not an enriched/final duplex. Historical commercial primer-pair geometry remains unassigned."))
+    amp=clean(g,"cdna_cleanup",amp,"0.6×SPRIselect;45µlEB")
+    host=g.product("host_aliquot","GEX aliquot containing host and bacterial cDNA",MaterialKind.MOLECULAR,state=amp.state)
+    bacterial=g.product("bacterial_aliquot","2–10µl enrichment aliquot with same mixed cDNA",MaterialKind.MOLECULAR,state=amp.state)
+    g.react("split","Sample GEX and enrichment inputs from same mixed pool",StepKind.SPLIT,((amp,InputRole.TEMPLATE),),(host,bacterial),changes_molecule=False)
+    frag=g.input("fragmentation","fragmentation mix PN2000090/91;32°C5min then65°C30min endrepair/A-tail",MaterialKind.CATALYST)
+    repaired=g.product("gex_fragments","fragmented/end-repaired/dA-tailed GEX cDNA population",MaterialKind.MOLECULAR,state=source_da_scene())
+    g.react("gex_fragment","Fragment and endprepare50ngGEX input",StepKind.FRAGMENTATION,((host,InputRole.TEMPLATE),(frag,InputRole.CATALYST)),(repaired,))
+    repaired=clean(g,"gex_fragment_cleanup",repaired,"source30µl then10µl double-sidedSPRI;50µlEB")
+    adapter=g.input("gex_adapter","adapter oligos PN2000094; native end geometry unassigned",MaterialKind.ADAPTER)
+    ligase=g.input("gex_ligase","DNA ligase PN220110/ligationbuffer PN2000092;20°C15min",MaterialKind.CATALYST)
+    ligated=g.product("gex_ligated","actual pre-index adapter-ligated GEX fragments",MaterialKind.MOLECULAR,state=molecule("pre-index GEX",(role("adapter-ligated mixed cDNA; native species/junction geometry unassigned"),)))
+    g.react("gex_ligate","Ligate source-named GEX adapters",StepKind.LIGATION,((repaired,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(ligated,),geometry=AdapterLigationGeometry.unavailable("Source adapter part number is positive; complete source-revision strand/end assembly remains unassigned."))
+    ligated=clean(g,"gex_ligation_cleanup",ligated,"0.8×SPRI;30µlEB")
+    ef=g.input("enrich_f","published16SEnrichForward",MaterialKind.OLIGO,state=ENRICH_FORWARD)
+    er=g.input("enrich_r","published1061R nestedreverse",MaterialKind.OLIGO,state=ENRICH_REVERSE)
+    ep=g.input("enrich_pol","amplification mix PN220125;PN220067 additive or explicit v2 MasterAmp substitution",MaterialKind.CATALYST)
+    current=bacterial
+    for number,cycles in ((1,35),(2,20)):
+        enriched=g.product(f"enrichment_{number}",f"round{number}16S-enriched host-background cDNA",MaterialKind.MOLECULAR,state=enriched_population(),inferred=True)
+        g.react(f"enrich_{number}",f"Enrich16S targets{cycles}cycles98/67/72°C",StepKind.PCR,((current,InputRole.TEMPLATE),(ef,InputRole.STRUCTURAL),(er,InputRole.STRUCTURAL),(ep,InputRole.CATALYST)),(enriched,),geometry=PCRGeometry.unavailable(current.state,reason="The actual input remains mixed source cDNA. Source primer-derived target component does not establish complete native first-cycle assembly or host-background removal."))
+        current=clean(g,f"enrich_cleanup_{number}",enriched,"source single-sided0.8×SPRI;35µlEB")
+        if number==1:current=clean(g,"enrich_size",current,"BluePippin955–1215bp",StepKind.SELECTION)
+    for key,template,final,cycles in (("gex",ligated,GEX_LIBRARY,"14–16"),("bacterial",current,BACTERIAL_LIBRARY,"15")):
+        fi=g.input(key+"_index_f","DualIndexTTSetA PN1000215 first primer; species/width unassigned",MaterialKind.OLIGO)
+        ri=g.input(key+"_index_r","DualIndexTTSetA opposite primer; species/width unassigned",MaterialKind.OLIGO)
+        ip=g.input(key+"_index_pol","amplification master mix PN2000103;"+cycles+"cycles",MaterialKind.CATALYST)
+        indexed=g.product(key+"_indexed","source-indexed "+key+" product",MaterialKind.MOLECULAR,state=final,inferred=True)
+        g.react(key+"_index_pcr","Index "+key+" branch "+cycles+"cycles",StepKind.PCR,((template,InputRole.TEMPLATE),(fi,InputRole.STRUCTURAL),(ri,InputRole.STRUCTURAL),(ip,InputRole.CATALYST)),(indexed,),geometry=PCRGeometry.unavailable(template.state,reason="Actual incoming pre-index branch retained; selected historical TT primer pair and full endpoint assembly unassigned."))
+        indexed=clean(g,key+"_final_cleanup",indexed,"0.6×/0.8×double-sidedSPRI" if key=="gex" else "single-sided0.8×SPRI",library=key=="gex")
+        if key=="bacterial":indexed=clean(g,"bacterial_final_size",indexed,"repeatBluePippin955–1215bp",StepKind.SELECTION,library=True)
+        g.sequence(indexed,SequencingPlan(library=final,acquisition="unspecified",limitation=SEQUENCING_UNAVAILABLE))
+    g.annotate(Highlight("reverse_transcribe","RNA-template fate unassigned","Native RNA persists as RT template; its later physical recovery/degradation is not assigned or treated as discarded."))
+    g.declare_reviewed_scope(REVIEWED_TARGETS,SOURCE)
     return g.require_publishable()
+
+REVIEWED_TARGETS=("cells","gem_rule","partition","poly_dt","primer_16s","rt","reverse_transcribe","bead_tso","template_switch","post_gem_rule","post_gem","cdna_f","cdna_r","cdna_pol","cdna_pcr","cdna_cleanup_rule","cdna_cleanup","split","fragmentation","gex_fragment","gex_fragment_cleanup_rule","gex_fragment_cleanup","gex_adapter","gex_ligase","gex_ligate","gex_ligation_cleanup_rule","gex_ligation_cleanup","enrich_f","enrich_r","enrich_pol","enrich_1","enrich_cleanup_1_rule","enrich_cleanup_1","enrich_size_rule","enrich_size","enrich_2","enrich_cleanup_2_rule","enrich_cleanup_2","gex_index_f","gex_index_r","gex_index_pol","gex_index_pcr","gex_final_cleanup_rule","gex_final_cleanup","gex_final_cleanup_clean","bacterial_index_f","bacterial_index_r","bacterial_index_pol","bacterial_index_pcr","bacterial_final_cleanup_rule","bacterial_final_cleanup","bacterial_final_size_rule","bacterial_final_size","bacterial_final_size_clean")

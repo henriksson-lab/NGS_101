@@ -5,7 +5,7 @@
     {
       "id": "paper",
       "role": "defining",
-      "locator": "Hagemann-Jensen et al Nature Biotechnology 2020 doi:10.1038/s41587-020-0497-0; local s41587-020-0497-0.html.txt lines627\u2013720 (subscription preview/access options)",
+      "locator": "Hagemann-Jensen et al Nature Biotechnology 2020 doi:10.1038/s41587-020-0497-0; local s41587-020-0497-0.html.txt lines627–720 (subscription preview/access options)",
       "availability": "unavailable",
       "relevance": "relevant",
       "reason": "Publisher HTML retrieved and read, but text explicitly says subscription preview and omits Methods; original PDF route returns HTML. Available author protocol and preprint do not establish final-paper revision identity.",
@@ -67,27 +67,27 @@
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "Publisher MOESM1 Supplementary Note I lines 1\u201376; MOESM2 reporting summary full text; MOESM3 Supplementary Table 1 conditions sheet lines 1\u2013end, especially columns OligodT and TSO from line 4; MOESM4 Supplementary Table 2 lines 1\u2013end isoform count table",
+        "locations": "Publisher MOESM1 Supplementary Note I lines 1–76; MOESM2 reporting summary full text; MOESM3 Supplementary Table 1 conditions sheet lines 1–end, especially columns OligodT and TSO from line 4; MOESM4 Supplementary Table 2 lines 1–end isoform count table",
         "finding": "Independently read publisher supplements and ran scraper. MOESM1 explains placing the 8-base UMI on the 5-prime TSO and documents design/optimization, but is not a per-well index roster. MOESM2 is reporting summary. MOESM3 Table 1 gives exact oligo-dT and TSO sequences across tested intermediate and final reaction conditions, including modifications, rather than just assay figures. MOESM4 is allele/isoform count results. None assigns the particular indexed Nextera PCR primer member to every cell/well; source-positive primer identities belong to MOESM3 and defining Methods."
       }
     },
     {
       "id": "custom_indexes",
       "role": "linked_material",
-      "locator": "Original Smart3 author protocol33276 / DOI bcq4ivyw: PDF pp3\u20134, index instructions1121\u20131128; public API guidelines.entityMap (oligo table and Costello link)",
+      "locator": "Original Smart3 author protocol33276 / DOI bcq4ivyw: PDF pp3–4, index instructions1121–1128; public API guidelines.entityMap (oligo table and Costello link)",
       "availability": "read",
       "relevance": "relevant",
       "reason": "Earlier entry assumed an unspecified separate custom-index order list. Actual original protocol identifies custom design criteria and links index-design paper; it does not identify an attached order workbook. No source-absence conclusion follows.",
       "pass_1": {
         "reviewer": "audit_tenx_closeout",
         "date": "2026-10-16",
-        "locations": "Original PDF pp3\u20134 lines124\u2013143 and1121\u20131128; unauthed /api/v1/protocols/33276?fields[]=guidelines&fields[]=documents&fields[]=description&fields[]=materials&fields[]=steps, metadata doi/uri and complete guidelines entityMap0\u20131",
+        "locations": "Original PDF pp3–4 lines124–143 and1121–1128; unauthed /api/v1/protocols/33276?fields[]=guidelines&fields[]=documents&fields[]=description&fields[]=materials&fields[]=steps, metadata doi/uri and complete guidelines entityMap0–1",
         "finding": "Original protocol supplies custom10base or8base design guidance, not an identified Smart3 customi5/i7 workbook. EntityMap0 is ordered RT/TSO/PCR oligo table; entityMap1 is linked Costello paper. Corrected invented source identity in checklist. Later xpress workbook is not silently applied to original Smart3 experiment. Published main Methods remains behind subscriptionpreview. Actual selected pair remains unresolved, not confirmed absent."
       },
       "pass_2": {
         "reviewer": "root_independent_original_read",
         "date": "2026-10-16",
-        "locations": "Original Smart3 protocol integer33276, PDF pp3\u20134 text124\u2013143 and indexPCR1121\u20131128; source bundle oligo scrape",
+        "locations": "Original Smart3 protocol integer33276, PDF pp3–4 text124–143 and indexPCR1121–1128; source bundle oligo scrape",
         "finding": "Source recommends custom designed Nextera indexes,10bases or8depending experiment, specifies design constraints and explicitly linksCostello. It does not identify a missing order workbook. Earlier supposed-file blocker was a repository source-identity assumption. No unseen member list is invented or absenceaccepted."
       },
       "discovered_from": "author_protocol"
@@ -96,19 +96,19 @@
       "id": "index_design_paper",
       "role": "linked_material",
       "discovered_from": "author_protocol",
-      "locator": "Costello et al2018 doi:10.1186/s12864-018-4703-0; PMC5941783, Additional files1\u20133. Repeatable doi row in catalogue/extra_sources.tsv; local DOI bundle doi_10.1186+s12864-018-4703-0 (also fetched into each protocol bundle).",
+      "locator": "Costello et al2018 doi:10.1186/s12864-018-4703-0; PMC5941783, Additional files1–3. Repeatable doi row in catalogue/extra_sources.tsv; local DOI bundle doi_10.1186+s12864-018-4703-0 (also fetched into each protocol bundle).",
       "availability": "read",
       "relevance": "relevant",
       "pass_1": {
         "reviewer": "audit_tenx_closeout",
         "date": "2026-10-16",
-        "locations": "PMC5941783 JATS lines 85\u2013110, 205\u2013246; Additional file1 DOCX full text, Additional file2 XLSX all rows/headers (two96-index sets), Additional file3 DOCX complete design guidance, especially i5 AC paragraph; original Smart3 protocol PDF pp3\u20134 and xpress protocol p3 outward link",
+        "locations": "PMC5941783 JATS lines 85–110, 205–246; Additional file1 DOCX full text, Additional file2 XLSX all rows/headers (two96-index sets), Additional file3 DOCX complete design guidance, especially i5 AC paragraph; original Smart3 protocol PDF pp3–4 and xpress protocol p3 outward link",
         "finding": "The real linked index-design paper is Costello2018. It explains index swaps; Additional file3 states i5 AC causes skipped initial bases on MiSeq/HiSeq2500/NovaSeq. Additional file2 supplies that paper's own192eight-base indexes, not a Smart3/xpress cell assignment or author order roster. Additional file1 supplies index-swapping experiments. These originals are relevant to the cited design advice; their specific index members are not evidence for which Smart3 cells used which pair. Methods cites generic library-prep methods; those predecessors do not establish any Smart3 pair and are excluded from this index-assignment question. No evidence of inheritance of this paper's96pair scheme by Smart3."
       },
       "pass_2": {
         "reviewer": "root_independent_original_read",
         "date": "2026-10-16",
-        "locations": "Original Costello2018 PMC5941783 JATS85\u2013110, Discussion205\u2013226 and Methods; Additionalfile1 bothfigure legends; Additionalfile2 all192index rows/two96sets; Additionalfile3 complete design guidance; full original bundle scraper",
+        "locations": "Original Costello2018 PMC5941783 JATS85–110, Discussion205–226 and Methods; Additionalfile1 bothfigure legends; Additionalfile2 all192index rows/two96sets; Additionalfile3 complete design guidance; full original bundle scraper",
         "finding": "Original establishes nonredundant dual-index design and index-swapping observations, provides two96-member8-base sets and explicit i5-AC/secondary-structure cautions. It is a design reference, not the Smart3/xpress ordered10-base-member list. Its own study-specific instruments/reagents cannot substitute for Smart3/xpress assignments; generic design/vendor/software follow-on links remain qualified by their actual scope."
       }
     }
@@ -118,7 +118,7 @@
     "pass_1": {
       "reviewer": "audit_tenx_closeout",
       "date": "2026-10-16",
-      "locations": "Original author protocol33276 DOIbcq4ivyw PDF pp3\u20134 and public API full guidelines entityMap0\u20131; Costello2018 article and original supplements1\u20133; publisher HTML subscription-preview627\u2013720; author Smart-seq3 GitHub master tree and README",
+      "locations": "Original author protocol33276 DOIbcq4ivyw PDF pp3–4 and public API full guidelines entityMap0–1; Costello2018 article and original supplements1–3; publisher HTML subscription-preview627–720; author Smart-seq3 GitHub master tree and README",
       "finding": "Fresh original-source link inspection supersedes assumed unavailable custom-order workbook. Original Smart3 protocol supplies oligo table and custom index-design instructions, with actual link to Costello index-artifact paper; no separate custom-order file is identified in those original instructions. Costello original and all3supplements are read and scoped to generic design/performance, not a Smart3 cell-to-index assignment. Author GitHub is a processing/analysis repository, not a recovered order roster. Distinct later xpress workbook is not imported as Smart3 experiment evidence. Original published main Methods remains behind explicit subscription preview after publisher/author/preprint routes; absence of an experimental selected pair is not accepted."
     },
     "pass_2": {
@@ -160,7 +160,7 @@
     {
       "reviewer": "audit_tenx_closeout",
       "date": "2026-10-16",
-      "locations": "PMC5941783 JATS lines 85\u2013110, 205\u2013246; Additional file1 DOCX full text, Additional file2 XLSX all rows/headers (two96-index sets), Additional file3 DOCX complete design guidance, especially i5 AC paragraph; original Smart3 protocol PDF pp3\u20134 and xpress protocol p3 outward link",
+      "locations": "PMC5941783 JATS lines 85–110, 205–246; Additional file1 DOCX full text, Additional file2 XLSX all rows/headers (two96-index sets), Additional file3 DOCX complete design guidance, especially i5 AC paragraph; original Smart3 protocol PDF pp3–4 and xpress protocol p3 outward link",
       "finding": "The real linked index-design paper is Costello2018. It explains index swaps; Additional file3 states i5 AC causes skipped initial bases on MiSeq/HiSeq2500/NovaSeq. Additional file2 supplies that paper's own192eight-base indexes, not a Smart3/xpress cell assignment or author order roster. Additional file1 supplies index-swapping experiments. These originals are relevant to the cited design advice; their specific index members are not evidence for which Smart3 cells used which pair. Methods cites generic library-prep methods; those predecessors do not establish any Smart3 pair and are excluded from this index-assignment question. No evidence of inheritance of this paper's96pair scheme by Smart3."
     },
     {
@@ -188,6 +188,48 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "shared SMART-seq suite 197 checks pass; page builds; pairing 0 problems; chemistry 9 steps 6 established/7 conditional/9 unresolved/0 contradictory; source guard 2 exact checked (Fwd/Rev PCR), 0 failed, 5 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch06-native-graph-migration",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published article HTML title/access boundary; published Supplementary Table 1 MOESM3 Overview of Conditions native oligo/UMI rows; author protocol PDF printed Version 3, bcq4ivyw, pp1-3 ordered modified oligos, steps1-6,9,12-13 and sequencing section.",
+      "oligo_scraper": "Mandatory bundle scraper run; relevant modified oligo hits followed to source text. Structure-seq2 FigureS1 inspected rendered. SMART-seq3 large data workbook skipped; no absence inferred.",
+      "findings": "Native declarations replace shared SMART page recipes. Source biotinylated dT30VN and N8/rGrGrG TSO retained; PCR phosphorothioates retained. Switched single strand with copied UMI enters asymmetric KAPA PCR. Native tagmented populations, SDS stripping, first Phusion extension and native input index PCR are distinct. Retained-TSO UMI and internal untagged libraries are separate sequencing terminals, co-purified after pooling. Custom index members/widths are unassigned (source permits 10 or 8), rather than canonical eight-base defaults. Other product classes are unresolved, not physically discarded.",
+      "deferred": [
+        "Published defining article full Methods access remains incomplete; no preprint substituted",
+        "Native XT transferred oligos, complete tagged-end geometry and native first-cycle PCR relations",
+        "Actual custom index member/length and run-specific read acquisition; optional gel-selected route"
+      ],
+      "scope": "Bounded native architecture/source pass; historical review status and missing-information dispositions preserved.",
+      "verification": "Local source suite 5 passed; page build passed; chemistry zero contradictory claims (SMART original9 unresolved; SMART3 2 conditional/11 unresolved; Structure10 unresolved); source guard across3:7 checked,0failed,1figure-only RT exception independently inspected,9unassigned inputs;3page pairing0problems;source-review schema passed."
+    },
+    {
+      "round": "2026-10-18-batch06-critical-followup",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current native module/read declaration plus parent critical review; no new originals reread.",
+      "findings": "Retained the independent RNA template beside first-strand and switched cDNA. The PCR output includes an RNA-derived molecular population with unresolved thermal fate and later cleanup recovery; this conceptual class distinction does not assert physical isolation. Copied TSO orientation was rechecked against complement_segments: it already reverses order and complements bases while preserving UMI feature identity.",
+      "deferred": [
+        "Native first-cycle geometry and class-specific carryover; actual index-run assignment remain unassigned."
+      ],
+      "scope": "Implementation correction within prior capped source scope; no absence/status upgrade.",
+      "verification": "Suites2/5/4,3page builds,chemistry0contradictions,sourceguard7checked0failed1figureexception9unassigned,pairing0problems,schema checked."
+    },
+    {
+      "round": "2026-10-18-batch06-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current protocol-owned chem.py, builders, molecular/reaction/read declarations and supplied bounded source scope. Original documents not reread in this implementation review.",
+      "findings": "Selected verifiedauthorV3 reference retains5biotin DT/TSO, source rGrGrG and protectedPCRprimer references. complement_segments already returns5to3revcomp; copiedTSO orientation verified correct and unchanged. Parent found missing independentRNA; owner restored rows/explicit unresolvedRNAfate. Actualss precursor, native taggedretainedTSO versusinternalclasses and nativefilledstate enter PCR; UMIs distinguish retainedTSO frominternalclasses. Native index width/member/run acquisition remain bounded, both classes sequenced through physicalcleanup.",
+      "deferred": [
+        "Native first-cycle/end/index/read geometry and originals outside owner capped source scope; residual molecular-class recovery."
+      ],
+      "scope": "Independent critical implementation-only review; no source-status upgrade, original-source second reader or accepted absence.",
+      "verification": "Owner focused suites/pages/chemistry/sourceguard/schema/pairing passed after corrections; parent final checks remain."
     }
   ]
 }

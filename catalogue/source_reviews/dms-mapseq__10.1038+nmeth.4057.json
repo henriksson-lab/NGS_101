@@ -99,6 +99,21 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 4 unrepresented; review schema pass"
+    },
+    {
+      "documents": 2,
+      "locations": "Published PMC5508988 JATS text95–101, genome-wide library preparation and optional rRNA-depletion placement; published Supplementary TableS1 modified oligos, text140–210.",
+      "findings": "Removed queued adapter_ligation_scene and obsolete unused sections recipe. Local native linker state adds source terminal ddC C without extending RT copying past its primer site. Actual source RT primer/cDNA/circle retain physical nonnucleotide iSp18 without a nucleotide-length assignment. PCR now uses its actual ss circle with explicit implementation/checker limitation instead of fictitious initial duplex geometry. Source-positive PCR primers and nucleotide-only output candidate remain declared. Named RNA/linker ligation junction and100–170nt selection are source-qualified; physical hydrolysis fates remain unresolved.",
+      "deferred": [
+        "Initial indexed-primer copying and subsequent oNTI231 phase on the ss circle, including polymerase behavior at iSp18, remain model/checker work.",
+        "Previously recorded source-review and physical-recovery followups; targeted variants remain separate."
+      ],
+      "verification": "Local5 checks, page build, pairing and source guard pass. Chemistry11steps,0established/0conditional/12unresolved/0contradictory.",
+      "round": "2026-10-18-rna-special-ownership-migration",
+      "reviewer": "local_ownership_migration_review",
+      "date": "2026-10-18",
+      "oligo_scraper": "Whole source-bundle scraper run and relevant pointers inspected; no empty result used as source-absence evidence.",
+      "scope": "Bounded local ownership/geometry migration; source-positive facts and implementation limits remain distinct. No accepted missing-information conclusion."
     }
   ]
 }

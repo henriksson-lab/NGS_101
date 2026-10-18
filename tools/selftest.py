@@ -465,6 +465,17 @@ from end_combinations import (EndCombinationGeometry, EndProductGroup,
 import nextera as nx  # noqa: E402
 from pcr import PCRGeometry, PCRPrimer  # noqa: E402
 
+# A source-limited PCR precursor can be a single strand, rather than a duplex.
+ss_pcr_template = Scene()
+ss_pcr_template.strand("first strand", [Segment("known arm", "ACGTACGT")],
+                       label="single-stranded cDNA")
+ss_pcr_geometry = PCRGeometry.unavailable(ss_pcr_template,
+    reason="The opposing primer and its site are not assigned in this model.")
+check("unavailable PCR renders the actual single strand without a fabricated complement",
+      [row.plain() for row in ss_pcr_geometry.rows()
+       if "5'-" in row.plain() or "3'-" in row.plain()],
+      [row.plain() for row in ss_pcr_template.rows()])
+
 end_graph = ProtocolGraph("two-ended outcomes")
 end_sample = end_graph.input("sample", "DNA", MaterialKind.MOLECULAR, primary=True)
 end_pool = end_graph.input("end_pool", "loaded adapters", MaterialKind.ADAPTER,
@@ -1100,6 +1111,10 @@ check("--find: a strand written 3'->5' is found as 'rev'",
       [t[1] for t in spx.find("3'-TCTCTTACTCCTTGGGCCCCGTC-5'\n", "CTGCCCCGGGTTCCTCATTCTCT",
                               detail=True)], ["rev"])
 from source_oligo_check import _exact_hit  # noqa: E402
+check("explicit oligo queries retain isolated bases between source triplets",
+      spx._letters("CAAGTCA TATCAGCG A GAT CGG"), "CAAGTCATATCAGCGAGATCGG")
+check("source guard accepts an exact oligo with isolated spaced bases",
+      _exact_hit("AD2 LO\tCAAGTCA TATCAGCG A GAT CGG\n", "CAAGTCATATCAGCGAGATCGG"), True)
 check("terminal biotin-dT and blocked ddC retain all three nucleotide positions",
       spx._letters("/5App/CTGACNNNNNNNNNNNNNNNTGGAATTCTCGGGTGCCAAGGC/iBiodT//iBiodT//3ddC/"),
       "CTGAC" + "N"*15 + "TGGAATTCTCGGGTGCCAAGGCTTC")
@@ -1242,6 +1257,20 @@ with TemporaryDirectory() as temp:
               ["preprint_media-2.xlsx.txt", "repository-full.txt"])
         check("a preprint-named directory uses its linked publication as authority",
               sorted(p.name for p, _ in source_texts(_bundle, "10.1101/123456")),
+              ["preprint_media-2.xlsx.txt", "repository-full.txt"])
+        _linked = Path(temp) / "doi_10.1038+s99999-000-0002-y"
+        _linked.mkdir()
+        _linked.joinpath("s99999-000-0002-y.xml.txt").write_text("Linked original oligos\n")
+        _linked.joinpath("unrelated.xml.txt").write_text("Unrelated article\n")
+        _catalogue.joinpath("extra_sources.tsv").write_text(
+            "slug\tsource\twhat\twhy\n"
+            "proto\tdoi:10.1038/s99999-000-0002-y\tdetailed protocol\texplicit link\n")
+        check("declared DOI originals are read in their existing canonical bundle; unrelated files stay excluded",
+              sorted(p.name for p, _ in source_texts(_bundle, "10.1038/s99999-000-0001-x")),
+              ["preprint_media-2.xlsx.txt", "repository-full.txt", "s99999-000-0002-y.xml.txt"])
+        _catalogue.joinpath("extra_sources.tsv").write_text("slug\tsource\twhat\twhy\n")
+        check("an undeclared neighboring DOI bundle supplies no oligo evidence",
+              sorted(p.name for p, _ in source_texts(_bundle, "10.1038/s99999-000-0001-x")),
               ["preprint_media-2.xlsx.txt", "repository-full.txt"])
     _big = Path(temp) / "big"
     _big.mkdir()

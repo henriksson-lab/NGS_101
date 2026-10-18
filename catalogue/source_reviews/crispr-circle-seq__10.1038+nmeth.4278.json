@@ -17,7 +17,7 @@
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Original PMC5924695 JATS Online Methods lines 103–127",
+        "locations": "Original PMC5924695 JATS Online Methods lines 103\u2013127",
         "finding": "300-bp shear, end repair/A tail, uracil stem-loop oSQT1288, exo/USER/PNK, circle ligation, linear DNA digestion, Cas9 cut, second hairpin ligation, USER/PCR and 150-bp PE read order."
       }
     },
@@ -36,7 +36,7 @@
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Original Springer MOESM84 PDF text lines 60–90, 275–305",
+        "locations": "Original Springer MOESM84 PDF text lines 60\u201390, 275\u2013305",
         "finding": "Supplementary Protocol prints modified oSQT1288 and step 21 named E7601A hairpin with ACACTCTTTCCTACACGACG (64-nt total)."
       }
     },
@@ -55,7 +55,7 @@
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Original PMC Cloud supplement-3 DOCX text lines 30–36, 145–172",
+        "locations": "Original PMC Cloud supplement-3 DOCX text lines 30\u201336, 145\u2013172",
         "finding": "Independent hosted copy of protocol prints same oSQT1288 and 64-nt step-21 E7601A sequence with missing C versus later NEB manual."
       }
     },
@@ -154,7 +154,7 @@
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Springer MOESM78 PDF Supplementary Fig.1 opening legend lines 1–7",
+        "locations": "Springer MOESM78 PDF Supplementary Fig.1 opening legend lines 1\u20137",
         "finding": "Detailed linear stem-loop schematic supports first hairpin ligation and exonuclease/USER steps; no new oligo bases in inspected legend."
       }
     },
@@ -174,7 +174,7 @@
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "PMC supplement-1 DOC opening lines 1–10",
+        "locations": "PMC supplement-1 DOC opening lines 1\u201310",
         "finding": "Supplementary Information Titles submission inventory, no protocol sequences."
       }
     },
@@ -232,8 +232,8 @@
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "PMC supplement-5 PDF text lines 1–20",
-        "finding": "Optimization Note explicitly says uracil stem-loop ligated after end repair/A-tail, exonuclease selects dual ligations, USER/PNK releases 4-bp overhangs, T4 ligase circularizes; gives optimized 400 U ligase at 2.5 ng/µl."
+        "locations": "PMC supplement-5 PDF text lines 1\u201320",
+        "finding": "Optimization Note explicitly says uracil stem-loop ligated after end repair/A-tail, exonuclease selects dual ligations, USER/PNK releases 4-bp overhangs, T4 ligase circularizes; gives optimized 400 U ligase at 2.5 ng/\u00b5l."
       }
     },
     {
@@ -346,12 +346,12 @@
         "reviewer": "root",
         "date": "2026-10-16",
         "locations": "Manual page 3 adapter/primer table and revision history",
-        "finding": "The named kit manual prints E7601A as 65 bases with the additional C, including 5′ phosphate, internal dU and terminal phosphorothioate; it lists index-primer families but cannot identify which pair was used for these libraries. Current manual revision does not establish historical lot contents."
+        "finding": "The named kit manual prints E7601A as 65 bases with the additional C, including 5\u2032 phosphate, internal dU and terminal phosphorothioate; it lists index-primer families but cannot identify which pair was used for these libraries. Current manual revision does not establish historical lot contents."
       },
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Official NEB E7600 Dual Index Primers Set 1 manual PDF, Adaptor Overview p.3 lines 55–76 and revision history p.14 lines 443–461; primer Appendix pp.11–12 lines 283–414",
+        "locations": "Official NEB E7600 Dual Index Primers Set 1 manual PDF, Adaptor Overview p.3 lines 55\u201376 and revision history p.14 lines 443\u2013461; primer Appendix pp.11\u201312 lines 283\u2013414",
         "finding": "Current manual prints E7601A as 65 nt with ACACTCTTTCCCTACACGACG, U-containing hairpin opened by USER and i5/i7 primer families. Revision history says NEB corrected adapter sequence in Nov 2017; this later manual cannot prove which physical lot/sequence Tsai used earlier in 2017."
       }
     }
@@ -367,7 +367,7 @@
     "pass_2": {
       "reviewer": "second_pass_d_e",
       "date": "2026-10-16",
-      "locations": "Original PMC5924695 JATS Online Methods lines 103–127; Original Springer MOESM84 PDF text lines 60–90, 275–305; Original PMC Cloud supplement-3 DOCX text lines 30–36, 145–172; Official NEB E7600 Dual Index Primers Set 1 manual PDF, Adaptor Overview p.3 lines 55–76 and revision history p.14 lines 443–461; primer Appendix pp.11–12 lines 283–414",
+      "locations": "Original PMC5924695 JATS Online Methods lines 103\u2013127; Original Springer MOESM84 PDF text lines 60\u201390, 275\u2013305; Original PMC Cloud supplement-3 DOCX text lines 30\u201336, 145\u2013172; Official NEB E7600 Dual Index Primers Set 1 manual PDF, Adaptor Overview p.3 lines 55\u201376 and revision history p.14 lines 443\u2013461; primer Appendix pp.11\u201312 lines 283\u2013414",
       "finding": "Read defining original, both detailed protocol copies, named NEB manual and individually listed supplements to the specified extent. Published 64/65-nt discrepancy remains historically unresolved because NEB revised its sequence after the paper; exact study kit lot and index pair are unknown."
     }
   },
@@ -402,6 +402,33 @@
       ],
       "scope": "Capped pass on the defining article and its supplementary protocol; no accepted missing-information claim.",
       "verification": "local suite 1 check passes; page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard 1 exact checked (oSQT1288), 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC5924695 JATS Methods115\u2013116; published SpringerMOESM84 SupplementaryProtocol pp1\u20136, modifiedadapter lines60\u201365 and285\u2013292, processingsteps1\u201326 includingUSERbeforePCR and0.7\u00d7finalcleanup.",
+      "scope": "Capped local source-owned graph migration; no complete chemical validation or accepted publication-absence claim.",
+      "oligo_scraper": "Ran mandatory local source-bundle scraper; relevant modified adapter hits verified in actual published originals, not drawn upstream material.",
+      "findings": "Removed batch_ngs.truseq_library and fake8ntscar/6ntcutsite payloads. Native graph has duplexcircularization (two closed complementarystrand displays), separate un-opened and USER-opened states before bothcircleformation andPCR; actual USER-opened DNA is PCRtemplate. Bothmodifiedadapter references include5primephosphate, internaldU and terminalC*T. Model now uses directsource64ntE7601Areference while retaining public65ntlatervendor discrepancy and historicalphysicalidentityunknown. Source-nameddualindexends have no inventedprimerbases/indexlengths; acquisition is explicit150PE with indexesunassigned. Addedphysicalunresolveduncutcircles and0.7\u00d7postPCRcleanup.",
+      "deferred": [
+        "LaterNEBmanual not reread; existing64/65nt discrepancy history retained. Historicalkitlot/indexmembers/primergeometry/readindexcycles, intermediateSPRIcleanups and optimization/alternativearms remain deferred."
+      ],
+      "verification": "Local suite2/2 directsource-transcription checks pass; schematic and note build pass; chemistry14steps0established0conditional15unresolved0contradictory (limitedcoverage); combinedsourceguard4exact strands checked0failed0exemptions7inputs without exactstates; pairing0problems; review schema valid. No residual actual queued recipes/defaults."
+    },
+    {
+      "round": "2026-10-18-hydrolysis-fate-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Independent implementation review/correction; no new originals read. Existing validation-migration bounded check identifies the inspected published article and Supplementary Protocol. No new source or absence conclusion.",
+      "locations": "tools/crispr_circle.py exo_select and digest_linear products/terminals; existing migration scope above.",
+      "findings": "Corrected Lambda Exonuclease/E. coli Exonuclease I and Plasmid-Safe hydrolysis products from WASTE/DISCARD to MOLECULAR/UNRESOLVED. Captions distinguish DNA degradation from physical removal; product handling through deferred intermediate cleanups remains unassigned. Native substrates, reactions, circles, historical64/65nt adapter references and sequencing plan unchanged.",
+      "deferred": [
+        "Physical handling of degraded fragments/nucleotides through intermediate source cleanups remains outside the graph; no new cleanup placement or recovery assumed."
+      ],
+      "verification": "Local suite2 pass; page builds; scoped chemistry0established/0conditional/15unresolved/0contradictory; sourceguard2exact/0failed/3unassigned; pairing0; review schema checked."
     }
   ]
 }

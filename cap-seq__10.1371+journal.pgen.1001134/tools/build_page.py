@@ -6,4 +6,4 @@ import chem
 from batch_page import render
 OUT=H.parent/"cap-seq.html"
 if __name__ == "__main__":
-    OUT.write_text(render(chem.SPEC), encoding="utf-8"); print(f"wrote {OUT}")
+    OUT.write_text(render(chem), encoding="utf-8"); print(f"wrote {OUT}")

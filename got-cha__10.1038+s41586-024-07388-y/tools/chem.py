@@ -1,10 +1,22 @@
 from types import SimpleNamespace
-from chemdraw import Segment, feature
+from chemdraw import Scene, Construct, Segment, feature
 import illumina
-from protocol_graph import SequencingPlan
+import seqprimers as sp
+from multimodal_protocols import Definition
+from pcr import PCRGeometry
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_model import chain, molecule, role
 from rna_cell_assays import single
-from protocol_model import chain, role_library
-from multimodal_protocols import CELL, Definition, InputRole, MaterialKind, PCRGeometry, ProtocolGraph, SAMPLE, StepKind, _finish_pcr, molecule, role, role_library
+
+# Published Methods scATAC-seq with GoT-ChA: the 16-cycle i5 reports
+# the 10x cell barcode, whereas the eight-base RPI-X window identifies a sample.
+CELL = role("10x scATAC cell barcode", length_bp=16,
+            molecular_feature=feature("cell_barcode", "cell_barcode", "unknown"))
+SAMPLE = role("RPI-X sample index", length_bp=8,
+              molecular_feature=feature("sample_index", "sample_index", "unknown"))
+READ_LENGTHS = {"Read 1": 50, "Index 1 (i7)": 8, "Index 2 (i5)": 16, "Read 2": 50}
+ACQUIRED_ROLES = tuple(READ_LENGTHS)
+
 # Published version (Izzo, Myers et al., Nature 2024; PMC11139586) supersedes the
 # bioRxiv preprint 10.1101/2022.05.11.491515 for every value below.
 DEFINITION = Definition("GoT-ChA — genotyping of targeted loci with chromatin accessibility", "10.1038/s41586-024-07388-y",
@@ -12,10 +24,18 @@ DEFINITION = Definition("GoT-ChA — genotyping of targeted loci with chromatin 
         "NovaSeq 6000 paired-end: Read 1N 50 cycles, i7 index 8 cycles (sample index), i5 index 16 cycles (10x cell barcode), Read 2N 50 cycles. Primers place the variant within 50 bp of the Read 1N or Read 2 handle, linking genotype to the parent accessibility profile by cell barcode.", "01_got_cha.html")
 P5 = illumina.P5  # Methods line 215 prints the 29-nt P5 primer.
 RPI_X_3PRIME = "GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA"  # Methods line 215 / Supp. Table 1 row 33.
-CAVEAT = ("Values follow the published article (Methods “scATAC-seq with GoT-ChA”, Supplementary Table 1); the 2022 preprint is superseded. "
+CAVEAT = ("INFERRED — final endpoint role order; exact kit and target-panel junctions are not reconstructed. Values follow the published article (Methods “scATAC-seq with GoT-ChA”, Supplementary Table 1); the 2022 preprint is superseded. "
           "Published discrepancies: (1) Methods (single-target) describe GoT-ChA_Rev as a plain 20–22-bp locus-specific primer and add the IS2 handle only in the multiplex section, whereas Supplementary Table 1 lists every GoT-ChA_Rev with the IS2 handle AGCAAGTGAGAAGCATCGTGTC; the drawn single-target route leaves that 5′ handle unassigned. "
           "(2) Methods print P5 as AATGATACGGCGACCACCGAGATCTACAC (29 nt); Supplementary Table 1 “Common Primers” lists p5 as AATGATACGGCGACCACCGAGA (22 nt). The model uses the Methods sequence. "
           "The polymerase for the hemi-nested and indexing PCRs is not named in that passage. The multiplex-adapted route (P5/IS2 pre-amplification, 8 cycles; hemi-nested PCR 8 cycles) and ASAP-seq integration are not drawn.")
+
+
+def population_state(label, *populations):
+    """Each supplied tuple is one molecule/population, not a shared covalent chain."""
+    sc=Scene()
+    for index,parts in enumerate(populations):
+        sc.strand(f"population {index+1}",parts,label=f"{label}: population {index+1}")
+    return sc
 
 
 def _gotcha_graph(d, final):
@@ -35,9 +55,7 @@ def _gotcha_graph(d, final):
                              MaterialKind.CATALYST)
     barcoded = graph.product("barcoded_products", "cell-barcoded ATAC and target-locus products",
                              MaterialKind.MOLECULAR,
-                             state=molecule("barcoded ATAC and target molecules", (
-                                 CELL, role("accessible-chromatin fragments"),
-                                 role("target-locus amplicon"))))
+                             state=population_state('barcoded ATAC and target molecules',(CELL,role("accessible-chromatin fragments"),),(CELL,role("target-locus amplicon"),)))
     graph.react("barcode_extension", "In-droplet barcoding PCR with 1 µL 22.5 µM GoT-ChA primer mix (exponential target, linear ATAC)",
                 StepKind.EXTENSION,
                 ((cells, InputRole.TEMPLATE), (bead_primer, InputRole.STRUCTURAL),
@@ -53,11 +71,19 @@ def _gotcha_graph(d, final):
                 changes_molecule=False)
     reviewed = ["cells", "bead_primer", "locus_primer", "locus_rev_primer", "extension_polymerase",
                 "barcode_extension", "split_branches"]
-    atac_final = role_library("GoT-ChA parent ATAC roles",
-                              (CELL, role("accessible-chromatin insert")), index=SAMPLE)
-    _finish_pcr(graph, "atac", atac, atac_final,
-                "Parent scATAC branch linked by the same cell barcode.", reviewed,
-                label="GoT-ChA parent ATAC")
+    atac_final = Construct([role("P5 / 10x scATAC end"), CELL,
+                            role("accessible-chromatin insert"), SAMPLE,
+                            role("P7 / 10x scATAC end")], name="GoT-ChA parent ATAC endpoint roles")
+    atac_library = graph.product("atac_library", "GoT-ChA parent ATAC sequencing library",
+                                 MaterialKind.LIBRARY, state=atac_final)
+    graph.react("atac_library_prep", "Continue parent ATAC library construction per CG000209 Rev F",
+                StepKind.MAGIC, ((atac, InputRole.TEMPLATE),), (atac_library,),
+                reason="Published Methods assign the remaining 40 µL to the standard ATAC workflow; "
+                       "CG000209 Rev F kit reactions and primers are not reconstructed in this graph.")
+    graph.sequence(atac_library, SequencingPlan(read_lengths=READ_LENGTHS,
+                   acquired_roles=ACQUIRED_ROLES, limitation="Parent scATAC branch: i5 identifies cells; "
+                   "i7 identifies samples. Exact kit primer geometry remains unassigned."))
+    reviewed.extend(("atac_library_prep", "atac_library"))
     nested_forward = graph.input("nested_forward", "P5 primer", MaterialKind.OLIGO,
                                  state=single("P5", (Segment("P5", P5),)))
     nested_reverse = graph.input(
@@ -76,7 +102,7 @@ def _gotcha_graph(d, final):
                  (nested_reverse, InputRole.STRUCTURAL),
                  (nested_polymerase, InputRole.CATALYST)), (enriched,),
                 geometry=PCRGeometry.unavailable(
-                    enriched.state, reason="The locus-specific panel determines the target-primer geometry."))
+                    target.state, reason="The locus-specific panel determines the target-primer geometry."))
     spri = graph.input("nested_spri", "1.2X SPRIselect", MaterialKind.CONDITION)
     purified = graph.product("purified_target", "SPRI-purified biotinylated amplicon",
                              MaterialKind.MOLECULAR, state=enriched.state)
@@ -117,8 +143,9 @@ def _gotcha_graph(d, final):
                 ((captured, InputRole.TEMPLATE), (index_forward, InputRole.STRUCTURAL),
                  (index_reverse, InputRole.STRUCTURAL), (index_polymerase, InputRole.CATALYST)),
                 (library,), geometry=PCRGeometry.unavailable(
-                    final, reason="Locus-specific primer bases and the user-defined sample index vary with the selected target."))
-    graph.sequence(library, SequencingPlan(limitation=d.endpoint))
+                    captured.state, reason="Locus-specific primer bases and the user-defined sample index vary with the selected target."))
+    graph.sequence(library, SequencingPlan(read_lengths=READ_LENGTHS,
+                   acquired_roles=ACQUIRED_ROLES, limitation=d.endpoint))
     reviewed.extend(("genotype_forward", "genotype_reverse", "genotype_polymerase",
                      "genotype_pcr", "genotype_library"))
     graph.declare_reviewed_scope(reviewed, source)
@@ -133,11 +160,9 @@ def protocol_graph():
     return _gotcha_graph(d, final)
 
 def _gotcha():
-    return chain(molecule("single-cell ATAC reaction", (role("tagmented accessible DNA"),
-                                                         role("target genomic locus"))), (
+    return chain(population_state('single-cell ATAC reaction',(role("tagmented accessible DNA"),),(role("target genomic locus"),)), (
         ("Add GoT-ChA_R1N and GoT-ChA_Rev to the in-droplet barcoding PCR",
-         molecule("barcoded ATAC and target molecules", (CELL,
-             role("ordinary accessible-chromatin fragments"), role("target-locus amplicon"))),
+         population_state('barcoded ATAC and target molecules',(CELL,role("ordinary accessible-chromatin fragments"),),(CELL,role("target-locus amplicon"),)),
          "GoT-ChA_R1N carries the Read 1N handle, so the gel-bead barcode primer can extend the exponentially amplified locus product with the same cell barcode as the linearly barcoded ATAC fragments."),
         ("Take 5 µL of the post-GEM eluate; hemi-nested PCR with P5 and biotinylated GoT-ChA_nested",
          molecule("enriched genotype amplicon", (CELL, role("variant-spanning genomic insert"),
@@ -151,7 +176,10 @@ def _gotcha():
     ))
 
 d = DEFINITION
-FINAL_LIBRARY = role_library(d.title + " final library roles", (CELL, role("variant-spanning genomic insert")), index=SAMPLE)
+FINAL_LIBRARY = Construct([role("P5 / Read 1N kit end", inferred=True), CELL,
+                           role("variant-spanning genomic insert"), SAMPLE,
+                           role("TruSeq Small RNA Read 2 / P7 end", inferred=True)],
+                          name="GoT-ChA genotype endpoint (role order inferred)")
 SPEC = SimpleNamespace(
     TITLE=d.title,
     NOTES=d.notes,
@@ -162,7 +190,13 @@ SPEC = SimpleNamespace(
     SEQ_PRIMERS=(),
     FINAL_CAPTION=d.endpoint,
     SEQUENCING_INTRO=d.endpoint,
-    READ_LENGTHS=None,
+    READ_LENGTHS=READ_LENGTHS,
+    READ_SPECS=(
+        sp.read_spec("Read 1", 50, "Read 1N target-locus sequence", "extract"),
+        sp.read_spec("Index 1 (i7)", 8, "RPI-X sample index", "demultiplex"),
+        sp.read_spec("Index 2 (i5)", 16, "10x cell barcode", "extract"),
+        sp.read_spec("Read 2", 50, "variant-spanning sequence from Read 2N", "extract"),
+    ),
     SEQUENCING_ENDING=d.endpoint,
     SEQUENCING_UNAVAILABLE="Target panels, pool barcodes and kit revisions vary; the defining source establishes the read roles, while this page does not invent a universal primer sequence.",
     workflow=_gotcha,

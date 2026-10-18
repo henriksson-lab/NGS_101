@@ -7,11 +7,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Row, Scene, Segment, feature, oligo, revcomp
-from multimodal_spatial import finish_pcr_branch
+from chemdraw import Construct, Row, Scene, Segment, complement_segments, feature, oligo, revcomp
 from pcr import PCRGeometry, PCRPrimer
-from protocol_extensions import molecule
-from protocol_graph import Disposition, Terminal
+from protocol_graph import SequencingPlan, Disposition, Terminal
 from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
                             StepKind, Terminal)
 
@@ -95,16 +93,6 @@ for _library, _primers in ((DNA, DNA_P), (RNA, RNA_P)):
     if _problems:
         raise ValueError(f"{_library.name}: " + "; ".join(_problems))
 
-DNA_GEOMETRY = PCRGeometry.exact(
-    DNA, PCRPrimer("N501", N501), PCRPrimer("N701", N701),
-    statement="Supplementary Table 1 prints the complete N501 and N701 primers.",
-)
-RNA_GEOMETRY = PCRGeometry.exact(
-    RNA, PCRPrimer("T501", T501), PCRPrimer("N701", N701),
-    statement=("Supplementary Table 1 prints the complete T501 and N701 primers; "
-               "article Methods 'mRNA library preparation' names TruSeq i5 + Nextera i7."),
-)
-
 TITLE = "scCARE-seq — chromatin architecture and RNA expression"
 NOTES = "01_sccare-seq.html"
 SOURCE = '<a href="https://doi.org/10.1038/s41594-023-01066-9">Qu, Sun et al., <i>Nature Structural &amp; Molecular Biology</i> (2023)</a>.'
@@ -150,57 +138,80 @@ def oligos():
 def _contact_scene() -> Scene:
     """MboI ends re-ligated without fill-in reconstitute one GATC (derived, not printed)."""
     sc = Scene()
-    sc.strand("contact", [molecule("locus A", "X" * 22, placeholder=True),
-                          molecule("reconstituted MboI site", "GATC"),
-                          molecule("locus B", "Y" * 22, placeholder=True)],
+    sc.strand("contact", [Segment("locus A", "X" * 22, placeholder=True),
+                          Segment("reconstituted MboI site", "GATC"),
+                          Segment("locus B", "Y" * 22, placeholder=True)],
               label="contact chimera")
     sc.junction("contact", "locus A", "reconstituted MboI site", "proximity ligation")
     sc.labels("contact")
     return sc
 
 
-def sections():
-    # Order: article Methods "scCARE-seq experimental procedure" (fixation, RT, chromatin
-    # digestion, proximity ligation, second strand synthesis, FACS and cell lysis,
-    # tagmentation, preamplification, Hi-C / mRNA library preparation), consistent with
-    # the GEO GSE211395 sample extract protocol.
-    return [
-        ("Reverse-transcribe RNA in fixed nuclei", [Row(chunks=[("RNA handle — UMI — RT barcode — oligo(dT) → poly(A) RNA", "umi", False)])], "1% formaldehyde-fixed nuclei; SuperScript IV RT with the printed UMI/RT-barcode oligo(dT) primers."),
-        ("Digest with MboI and proximity-ligate in situ", _contact_scene().rows(), "MboI 37 °C 3 h after 0.6% SDS/Triton; T4 DNA ligase 16 °C 4 h without fill-in."),
-        ("Sort single nuclei into wells, lyse and tagment", [Row(chunks=[("Tn5-N5 ** ligated DNA / ds cDNA ** Tn5-N7", "me", False)])], "Second-strand synthesis in nuclei, FACS into wells, reverse-crosslinking lysis and Tn5 tagmentation per well."),
-        ("Pre-amplify, split and amplify", [Row(chunks=[("pre-amplification → half: N5xx/N7xx DNA-contact PCR | half: T5xx/N7xx RNA PCR", None, False)])], "Three-primer Q5 pre-amplification, ExoI, split 12 µl + 12 µl into indexed PCRs."),
-    ]
+def _rt_parts():
+    return [Segment("RT handle", RT_HANDLE), Segment("UMI", UMI, "umi", placeholder=True, feature=UMI_FEATURE),
+            Segment("RT reaction barcode", RT_BARCODES[0], "cbc", feature=CELL),
+            Segment("oligo(dT)VN", POLYT, placeholder=True), Segment("cDNA; native extent unassigned", "[cDNA]", placeholder=True)]
+
+
+def population(*, copied=False, ds=False, contact=False, carrier=False, tagged=False, preamp=False):
+    sc=Scene()
+    dna=[Segment("contact junction" if contact else "chromatin", "[contact DNA]" if contact else "[chromatin DNA]", placeholder=True)]
+    if tagged:
+        dna=[Segment("Tn5 S5/ME end", TN5_N5), *dna, Segment("opposite Tn5 end; native geometry unassigned", "[Tn5 end]", placeholder=True)]
+    sc.strand("dna", dna, label="contact DNA population; duplex/native ends unassigned")
+    if copied:
+        parts=_rt_parts()
+        if tagged:
+            parts.append(Segment("native Tn5-derived cDNA end; transferred extent and gap unassigned", "[Tn5-derived cDNA end]", placeholder=True))
+        if preamp:
+            parts=[Segment("A5-PreA installed prefix", "CCCTAC"), *parts]
+        sc.strand("cdna", parts, label="cDNA population; second strand present" if ds else "first-strand cDNA")
+        if ds:
+            sc.anneal("second",complement_segments(parts),"cdna",pair=(parts[0].name+"'",parts[0].name),label="second strand; native extent unassigned",unpaired=tuple(x.name+"'" for x in parts if x.is_role_token()))
+    sc.strand("rna", [Segment("native RNA; retention through nuclear washes unassigned", "[RNA]", placeholder=True)], label="RNA population; not the copied cDNA")
+    if carrier:
+        sc.strand("carrier", [Segment("carrier ssDNA", CARRIER)], label="independent carrier; recovery/amplification fate unassigned")
+    return sc
+
+
+SHOW_READ_CONTENT=False
+READ_SPECS={name:tuple(sp.read_spec(role,"unassigned",meaning,"undetermined") for role,meaning in (
+    ("Read 1", "Source-associated insert or RNA UMI/RT-reaction barcode; acquisition cycles unassigned"),
+    ("Read 2", "Insert sequence; acquisition cycles unassigned"),
+    ("Index 1 (i7)", "Physical N701 sample index; acquisition cycles unassigned"),
+    ("Index 2 (i5)", "Physical N501/T501 well index; acquisition cycles unassigned"))) for name,*_ in FINAL_LIBRARIES}
+READ_SPECS_NOTE="Methods specify Illumina sequencing but do not assign the run cycles in this scoped source pass; physical N8 index primers do not establish index acquisition."
 
 
 def protocol_graph():
     g = ProtocolGraph(TITLE, authority=SOURCE)
-    nuclei = g.input("nuclei", "cells fixed in 1% formaldehyde 10 min (glycine-quenched), lysed in IGEPAL buffer to nuclei; 1.6 × 10^4 nuclei per RT tube", MaterialKind.BIOLOGICAL, state=sections()[0][1], primary=True)
-    rt_primer = g.input("rt_primer", "UMI/RT-barcode oligo(dT) primer Oligo-dT-1..8, 8 µl of 25 µM (Supplementary Table 1; Methods)", MaterialKind.OLIGO)
+    nuclei = g.input("nuclei", "cells fixed in 1% formaldehyde 10 min (glycine-quenched), lysed in IGEPAL buffer to nuclei; 1.6 × 10^4 nuclei per RT tube", MaterialKind.BIOLOGICAL, state=population(), primary=True)
+    rt_primer = g.input("rt_primer", "UMI/RT-barcode oligo(dT) primer Oligo-dT-1..8, 8 µl of 25 µM (Supplementary Table 1; Methods)", MaterialKind.OLIGO,state=Construct(_rt_parts()[:-1],name="Oligo-dT-1 source primer"),source=SOURCE+" Supplementary Table 1")
     rt = g.input("rt", "SuperScript IV reverse transcriptase; 4→55 °C step programme, 55 °C 10 min", MaterialKind.CATALYST)
-    copied = g.product("copied", "nuclei containing barcoded first-strand cDNA and fixed chromatin", MaterialKind.MOLECULAR, state=sections()[0][1])
+    copied = g.product("copied", "nuclei containing barcoded first-strand cDNA and fixed chromatin", MaterialKind.MOLECULAR, state=population(copied=True))
     g.react("reverse_transcribe", "Reverse-transcribe RNA in intact fixed nuclei", StepKind.REVERSE_TRANSCRIPTION, ((nuclei, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)), (copied,))
     mboi = g.input("mboi", "MboI 25 U/µl in NEBuffer 2, 37 °C 3 h, after 0.6% SDS 62 °C 10 min and Triton X-100 quench", MaterialKind.CATALYST)
-    digested = g.product("digested", "nuclei with MboI-digested chromatin (5′-GATC overhangs) and cDNA", MaterialKind.MOLECULAR, state=sections()[0][1])
+    digested = g.product("digested", "nuclei with MboI-digested chromatin (5′-GATC overhangs) and cDNA", MaterialKind.MOLECULAR, state=population(copied=True))
     g.react("digest", "Digest chromatin with MboI in intact nuclei", StepKind.DIGESTION, ((copied, InputRole.TEMPLATE), (mboi, InputRole.CATALYST)), (digested,))
     ligase = g.input("contact_ligase", "T4 DNA ligase in 1× T4 ligase buffer, Triton X-100, BSA; 16 °C 4 h (no end fill-in in the single-cell Methods)", MaterialKind.CATALYST)
-    contacts = g.product("contacts", "nuclei containing GATC-junction proximity ligation products and cDNA", MaterialKind.MOLECULAR, state=sections()[1][1])
+    contacts = g.product("contacts", "nuclei containing GATC-junction proximity ligation products and cDNA", MaterialKind.MOLECULAR, state=population(copied=True, contact=True))
     g.react("proximity_ligate", "Ligate digested chromatin ends in intact nuclei", StepKind.PROXIMITY_LIGATION, ((digested, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)), (contacts,))
     ss_enzyme = g.input("second_strand_enzyme", "NEBNext mRNA Second Strand Synthesis module (E6111), 16 °C 180 min", MaterialKind.CATALYST)
-    ds = g.product("ds_cdna", "nuclei containing ligated chromatin and double-stranded cDNA", MaterialKind.MOLECULAR, state=sections()[1][1])
+    ds = g.product("ds_cdna", "nuclei containing ligated chromatin and double-stranded cDNA", MaterialKind.MOLECULAR, state=population(copied=True, ds=True, contact=True))
     g.react("second_strand", "Synthesize second-strand cDNA in intact nuclei", StepKind.EXTENSION, ((contacts, InputRole.TEMPLATE), (ss_enzyme, InputRole.CATALYST)), (ds,))
     sorter = g.input("facs", "40 µm strainer, DAPI stain, FACS of single nuclei into 96-well plates", MaterialKind.SELECTION)
-    well = g.product("well", "one nucleus per well", MaterialKind.MOLECULAR, state=sections()[1][1])
+    well = g.product("well", "one nucleus per well", MaterialKind.MOLECULAR, state=population(copied=True, ds=True, contact=True))
     unsorted = g.product("unsorted", "nuclei not sorted into wells", MaterialKind.WASTE)
     g.react("sort", "Sort single nuclei into wells", StepKind.PARTITION, ((ds, InputRole.TEMPLATE), (sorter, InputRole.SELECTION)), (well, unsorted))
     g.discard(unsorted, "not deposited in a well")
     prok = g.input("reverse_crosslink", "3 µl scReverse Crosslink Buffer with 1 mg/ml proteinase K; 55 °C 2 h, 65 °C 12 h, 70 °C 30 min", MaterialKind.CATALYST)
     carrier = g.input("carrier_ssdna", "carrier ssDNA, 0.5 µM in the lysis buffer ('equally to LIANTI method used'; role not explained)", MaterialKind.OLIGO,
                       state=Construct([Segment("carrier ssDNA", CARRIER)], name="Carrier ssDNA"), source=SOURCE + " Supplementary Table 1")
-    lysed = g.product("lysed", "reverse-crosslinked, deproteinized single-nucleus DNA and cDNA", MaterialKind.MOLECULAR, state=sections()[1][1])
+    lysed = g.product("lysed", "reverse-crosslinked, deproteinized single-nucleus DNA and cDNA", MaterialKind.MOLECULAR, state=population(copied=True, ds=True, contact=True, carrier=True))
     g.react("lyse", "Lyse and reverse-crosslink each sorted nucleus", StepKind.DEPROTEINIZATION, ((well, InputRole.TEMPLATE), (prok, InputRole.CATALYST), (carrier, InputRole.STRUCTURAL)), (lysed,))
     transposome = g.input("transposome", "Tn5-N5/Tn5-N7 + 5′-phosphorylated Tn5-Rev loaded in-house Tn5 (Supplementary Table 1)", MaterialKind.ADAPTER)
     tn5 = g.input("tn5", "0.025 µM in-house Tn5 in TAPS–DMF, 55 °C 10 min, 72 °C 5 min; then proteinase K 55/65/70 °C", MaterialKind.CATALYST)
-    tagged = g.product("tagged", "Tn5-tagged ligation products and cDNA in one well", MaterialKind.MOLECULAR, state=sections()[2][1])
+    tagged = g.product("tagged", "Tn5-tagged ligation products and cDNA in one well", MaterialKind.MOLECULAR, state=population(copied=True, ds=True, contact=True, carrier=True, tagged=True))
     twaste = g.product("tn5_waste", "candidate non-library tagmentation products", MaterialKind.MOLECULAR)
     g.react("tagment", "Tagment each well with Tn5", StepKind.TAGMENTATION, ((lysed, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL), (tn5, InputRole.CATALYST)), (tagged, twaste))
     g.mark_terminal(Terminal(twaste.id, Disposition.UNRESOLVED, 'Candidate non-library tagmentation products lack the intended selected end combination. No class-specific physical removal is represented; their amplification and recovery fates are unresolved.'))
@@ -209,10 +220,10 @@ def protocol_graph():
     dna_pre = g.input("preamp_dna", "DNA primer N5-PreA (Supplementary Table 1)", MaterialKind.OLIGO, state=Construct([Segment("N5-PreA", DNA_PRIMER)], name="N5-PreA"), source=src_t1)
     rna_pre = g.input("preamp_rna", "RNA primer A5-PreA (Supplementary Table 1)", MaterialKind.OLIGO, state=Construct([Segment("A5-PreA", RNA_PRIMER)], name="A5-PreA"), source=src_t1)
     pre_pol = g.input("preamp_polymerase", "Q5 High-Fidelity 2× Master Mix; 72 °C 5 min, 12–14 cycles (65 °C anneal)", MaterialKind.CATALYST)
-    pre_state = Construct([Segment("pre-amplified DNA-contact and cDNA fragments", "X" * 40, placeholder=True)], name="scCARE-seq pre-amplified well library (role level)")
+    pre_state = population(copied=True, ds=True, contact=True, carrier=True, tagged=True, preamp=True)
     pre = g.product("preamplified", "pre-amplified single-cell library", MaterialKind.MOLECULAR, state=pre_state)
     g.react("preamplify", "Pre-amplify each well with the three-primer mix", StepKind.PCR, ((tagged, InputRole.TEMPLATE), (common, InputRole.STRUCTURAL), (dna_pre, InputRole.STRUCTURAL), (rna_pre, InputRole.STRUCTURAL), (pre_pol, InputRole.CATALYST)), (pre,),
-            geometry=PCRGeometry.unavailable(pre_state, reason="Methods add common, DNA and RNA primers (40 µM each) as one mix; the per-molecule primer pairing (N5-PreA/N7-PreA on contact fragments, A5-PreA/N7-PreA on cDNA) is inferred from sequence and the products are not drawn base by base."))
+            geometry=PCRGeometry.unavailable(tagged.state, reason="Methods add common, DNA and RNA primers (40 µM each) as one mix; the per-molecule primer pairing (N5-PreA/N7-PreA on contact fragments, A5-PreA/N7-PreA on cDNA) is inferred from sequence and the products are not drawn base by base."))
     exo = g.input("exo_i", "Exonuclease I 2 µl of 5 U/µl, 37 °C 60 min, 80 °C 20 min", MaterialKind.CATALYST)
     cleaned = g.product("exo_treated", "pre-amplified library with excess primers degraded", MaterialKind.MOLECULAR, state=pre_state)
     spent = g.product("degraded_primers", "ExoI-degraded pre-amplification primers", MaterialKind.MOLECULAR)
@@ -221,16 +232,34 @@ def protocol_graph():
     dna = g.product("dna_branch", "12 µl half for Hi-C (DNA-contact) library amplification", MaterialKind.MOLECULAR, state=pre_state)
     rna = g.product("rna_branch", "12 µl half for mRNA library amplification", MaterialKind.MOLECULAR, state=pre_state)
     g.react("split", "Split each well into two new 96-well plates", StepKind.SPLIT, ((cleaned, InputRole.TEMPLATE),), (dna, rna))
-    reviewed = ["nuclei", "rt_primer", "rt", "reverse_transcribe", "mboi", "digest", "contact_ligase", "proximity_ligate", "second_strand_enzyme", "second_strand", "facs", "sort", "reverse_crosslink", "carrier_ssdna", "lyse", "transposome", "tn5", "tagment", "preamp_common", "preamp_dna", "preamp_rna", "preamp_polymerase", "preamplify", "exo_i", "exo_digest", "split"]
-    finish_pcr_branch(g, "dna", dna, DNA, DNA_P, reviewed, label="scCARE-seq DNA-contact", geometry=DNA_GEOMETRY,
-                      step_label="Nextera i5/i7 PCR, 4 cycles; pool, Zymo DCC-5 and 0.8× AMPure XP",
-                      forward_label="Nextera i5 primer (N501 shown; N501–N516)", reverse_label="Nextera i7 primer (N701 shown; N701–N724)",
-                      polymerase_label="Q5 High-Fidelity 2× Master Mix (60 °C anneal)",
-                      forward_state=Construct([Segment("N501", N501)], name="N501"), reverse_state=Construct([Segment("N701", N701)], name="N701"), primer_source=src_t1)
-    finish_pcr_branch(g, "rna", rna, RNA, RNA_P, reviewed, label="scCARE-seq RNA", geometry=RNA_GEOMETRY,
-                      step_label="TruSeq i5 / Nextera i7 PCR, 10 cycles; pool, Zymo DCC-5 and 0.8× AMPure XP",
-                      forward_label="TruSeq i5 primer (T501 shown; T501–T516)", reverse_label="Nextera i7 primer (N701 shown; N701–N724)",
-                      polymerase_label="Q5 High-Fidelity 2× Master Mix (65 °C anneal)",
-                      forward_state=Construct([Segment("T501", T501)], name="T501"), reverse_state=Construct([Segment("N701", N701)], name="N701"), primer_source=src_t1)
-    g.declare_reviewed_scope(reviewed, SOURCE)
+    # Both aliquots retain the mixed DNA/cDNA/carrier preparation. Primer choice
+    # changes amplification eligibility; it is not a physical modality separation.
+    for prefix, aliquot, library, primers, forward, cycles, anneal in (
+        ("dna", dna, DNA, DNA_P, N501, 4, 60),
+        ("rna", rna, RNA, RNA_P, T501, 10, 65)):
+        f=g.input(prefix+"_forward", "N501" if prefix=="dna" else "T501", MaterialKind.OLIGO,
+                  state=Construct([Segment("indexed forward primer", forward)],name=prefix+" indexed forward primer"),source=src_t1)
+        r=g.input(prefix+"_reverse", "N701", MaterialKind.OLIGO,state=Construct([Segment("N701",N701)],name="N701"),source=src_t1)
+        pol=g.input(prefix+"_polymerase",f"Q5 High-Fidelity 2× Master Mix; {cycles} cycles, {anneal} °C anneal",MaterialKind.CATALYST)
+        amplified=g.product(prefix+"_amplified","indexed target amplification products within mixed well material",MaterialKind.MOLECULAR,state=library)
+        residual=g.product(prefix+"_pcr_residual", "unresolved co-carried DNA/cDNA/carrier/RNA and off-target amplification products",MaterialKind.MOLECULAR,state=pre_state)
+        g.react(prefix+"_pcr",f"Index-PCR the mixed {prefix}-directed aliquot ({cycles} cycles)",StepKind.PCR,
+                ((aliquot,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(amplified,residual),
+                geometry=PCRGeometry.unavailable(pre_state,reason="Actual input is the mixed three-primer preamplification product; native end and per-molecule primer geometry are not resolved. Final source-primer-derived target is a separate endpoint reference."))
+        g.mark_terminal(Terminal(residual.id,Disposition.UNRESOLVED,"PCR specificity does not physically purify the aliquot; class-specific persistence and recovery in pooled column/bead cleanups remain unassigned."))
+        column=g.input(prefix+"_column","Pooled DNA Clean and Concentrator-5; fivefold DNA binding buffer",MaterialKind.SELECTION)
+        column_out=g.product(prefix+"_column_out","column-recovered pooled indexed material",MaterialKind.MOLECULAR,state=library)
+        column_waste=g.product(prefix+"_column_waste","column flowthrough/washes",MaterialKind.WASTE)
+        g.react(prefix+"_column_cleanup","Pool and purify on DCC-5 column",StepKind.CLEANUP,((amplified,InputRole.TEMPLATE),(column,InputRole.SELECTION)),(column_out,column_waste),changes_molecule=False)
+        g.discard(column_waste,"physical column flowthrough/washes; molecular-class recovery not assigned")
+        beads=g.input(prefix+"_beads","0.8× AMPure XP beads",MaterialKind.SELECTION)
+        final=g.product(prefix+"_library","recovered indexed "+prefix+" target library",MaterialKind.LIBRARY,state=library)
+        waste=g.product(prefix+"_bead_waste","AMPure supernatant/washes",MaterialKind.WASTE)
+        g.react(prefix+"_bead_cleanup","Purify pooled library with 0.8× AMPure XP",StepKind.CLEANUP,((column_out,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(final,waste),changes_molecule=False)
+        g.discard(waste,"physical bead cleanup; off-target DNA/carrier/RNA class-specific fates remain unassigned")
+        g.sequence(final,SequencingPlan(library=library,primers=tuple(primers),acquired_roles=(),read_lengths={},acquisition="unspecified"))
+    g.declare_reviewed_scope(REVIEWED_TARGETS, SOURCE)
     return g.require_publishable()
+
+
+REVIEWED_TARGETS=("nuclei","rt_primer","rt","reverse_transcribe","mboi","digest","contact_ligase","proximity_ligate","second_strand_enzyme","second_strand","facs","sort","reverse_crosslink","carrier_ssdna","lyse","transposome","tn5","tagment","preamp_common","preamp_dna","preamp_rna","preamp_polymerase","preamplify","exo_i","exo_digest","split", "dna_forward","dna_reverse","dna_polymerase","dna_pcr","dna_column","dna_column_cleanup","dna_beads","dna_bead_cleanup","dna_library", "rna_forward","rna_reverse","rna_polymerase","rna_pcr","rna_column","rna_column_cleanup","rna_beads","rna_bead_cleanup","rna_library")

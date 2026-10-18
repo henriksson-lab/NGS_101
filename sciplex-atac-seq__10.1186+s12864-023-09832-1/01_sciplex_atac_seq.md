@@ -37,3 +37,28 @@ Open: the indexed Nextera P5/P7 PCR primers of the two-level route are named but
 ## Open questions
 
 🔴 The three-level sciPlex-ATAC3 branch (published lines 199–209: TDE1, PNK, splinted N7/N5 T7-ligase ligations, indexed P5/P7 PCR) is a distinct molecule and not drawn. The sciPlex-RNA hash predecessor and sci-ATAC-seq/indexed-Tn5 predecessors (refs 17, 23, 53) remain unread within this pass.
+
+
+## Native graph migration (2026-10-18, batch10)
+
+The two-level route now has a native source-owned graph: hash labeling/fixation,
+pooling and recovery, freezing, first-well allocation, capture annealing/extension,
+indexed transposition, EDTA quench, FACS allocation, reverse crosslinking, initial
+extension, 22-cycle PCR, pooling, column recovery and separate gel fractions.
+Independent hashes and genomic DNA are never drawn as one covalent polymer.
+Original capture molecules carry nine LNA-T residues (T4,7,10,13,16,19,22,25,28);
+ordinary PCR daughters do not inherit LNA chemistry. Native complete primer ends,
+gap completion and the VN-anchor junction remain explicitly unresolved.
+
+Physical hash/UMI/first-well/PCR-well identifiers remain distinct. ATAC index reads
+have eighteen acquired bases each, with intervening dark cycles retained in the
+source recipe. Hash Read1/Index2 barcode assignments remain disputed as described
+above. The graph preserves source acquisition without inventing exact primer landing
+sites on an unassigned final molecule.
+
+This pass read three originals: published Methods169–197 and Sequencing247–271,
+published Additionalfile2 Table4 (779–804), and the article-linked two-level protocol
+with printed ID87966 (created18Sep2023, modified4Oct2023; capture on pp3–4 and gel
+selection step8). The original has no printed DOI. It was not replaced by the
+superseded preprint. Linked predecessors, three-level chemistry and sample-specific
+PCR primer sequences remain follow-up targets; no publication-absence claim is accepted.

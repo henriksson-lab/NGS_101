@@ -68,3 +68,11 @@ method does not assign a molecule-counting UMI.
 CHANGE-seq measures biochemical cleavage of purified genomic DNA. Circularization and
 exonuclease treatment enrich newly Cas9-linearized molecules extremely efficiently, but
 the assay does not establish that a candidate site is accessible or edited inside a cell.
+
+## Source-owned validation migration, 2026-10-18
+
+Local graph now owns the E7600S Set1 endpoint, eight-cycle dual indexes, Kapa PCR inputs and exact binding geometry on the USER-opened adapter template. The template is the preceding open_hairpin product, not the final indexed library. Canonical vendor arms/primer architecture remain kit-qualified, with index members unassigned. Custom dU transposon consumes a paired phosphorylated oligo scene; dA-tail state uses explicit opposed strands/overhangs instead of two dA labels on one strand. Distinct symbolic intermediates preserve opened ends/circle/cut provenance without claiming exact sequence derivation. Tagmentation off-product recovery remains unresolved instead of an unsupported physical discard.
+
+Read source scope: Published Supplementary Information 41587_2020_555_MOESM1_ESM.pdf.txt: reagent/oligo section lines57–105, library steps19–27 lines351–480 and sequencing steps39–40 lines585–590; published article PMC7652380 Methods, extracted line172.
+
+Remaining work: Actual study-specific Set1 member assignment and physical kit reagent verification beyond the named product; Exact input-output relations for Tn5 gap repair, USER opening, circle closure and nuclease linearization remain unvalidated; graph cleanups remain incomplete. No accepted missing-information claim is added.

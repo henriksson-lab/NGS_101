@@ -8,7 +8,7 @@ Defining source: Fang *et al.*, [10.1038/cr.2016.137](https://doi.org/10.1038/cr
 - 🟢 Crosslinked nuclei undergo restriction digestion, biotin fill-in and proximity ligation before chromatin shearing.
 - 🟢 Immunoprecipitation after ligation enriches contacts anchored at the chosen protein or histone mark; biotin selects contact junctions for paired-end library construction.
 - 🟢 An [original PLAC-seq GEO sample record](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2295907) describes end repair, dA addition and Illumina adapter ligation after fragmentation, without naming a custom contact-specific oligonucleotide. The contact junction is created by restriction-end fill-in and proximity ligation, rather than an oligo bridge.
-- 🔴 The record does not disclose the lot-specific adapter or index oligo sequences. The final library's standard Illumina shell is a model of the sequencing platform, not a transcription of an exact ordered adapter set from this GEO record.
+- 🟡 Adapter and index identities remain unassigned within the inspected source scope. The current endpoint records adapter roles without selecting a canonical TruSeq shell; the cited in situ Hi-C library method and run metadata remain deferred. This is not a confirmed absence claim.
 
 ## Published Data S1 (round 2026-10-17-breadth-first-15)
 
@@ -53,3 +53,25 @@ was not used for this pass.
 ## Protocol boundary
 
 The order is defining: PLAC-seq ligates in intact nuclei before shearing and ChIP. HiChIP remains a separate named protocol.
+
+## Local chemistry ownership migration — 2026-10-18
+
+Re-read the published Data S1, Methods & Materials, text lines 13–73. Ran the
+bundle oligo scraper and checked its scope: its printed sequence hits belong to
+Table S1's 4C validation assay, not the PLAC-seq endpoint. This migration reads one
+original; the linked Rao method and GEO run metadata remain deferred.
+
+The local graph now owns the library PCR and read plan. Data S1 lines 57–61
+establishes library amplification with a qPCR-selected minimum cycle count, while
+its adapter/primer/enzyme choices are delegated. The unknown PCR geometry is
+attached to the actual adapter-bearing pre-PCR substrate. It is not inferred from
+the final product. Unknown roles retain unknown molecular lengths. The former
+canonical dual-index TruSeq endpoint has been removed: neither adapter sequence
+nor index layout is selected by platform convention. The paired-end plan stays
+explicit with unassigned primers and cycle counts. Existing branch fates and the
+warned delegated-library transition remain in place. This resolves recipe
+ownership; it does not complete source review or establish published absence.
+
+## Molecular population display correction (2026-10-18)
+
+The two filled locus ends now occupy separate Scene rows before proximity ligation. The true ligated A–B product and later library segment order remain intact. This implementation-only correction reuses the original migration source scope; no additional originals were read and no new chemistry or missing-information conclusion is asserted.

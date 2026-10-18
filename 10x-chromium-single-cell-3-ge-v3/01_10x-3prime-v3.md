@@ -63,3 +63,11 @@ Model corrections:
 Still open: RT primer and TSO graph inputs have no exact molecular state (the
 shared Chromium operation does not accept one); later CG000183 revisions not
 compared.
+
+## Source-owned graph migration, 2026-10-18
+
+Source-owned graph now declares partitioning, RT, template switching, recovery, enzymatic fragmentation/end preparation and sequencing locally. Exact printed PCR and dT-adapter architectures, all five cleanup branches, 28/8/91 acquired-cycle plan and both public source-discrepancy notices are preserved. First-strand cDNA is drawn single stranded. Empty/multiplet GEM outcomes are unresolved pooled products, not a physical discard justified only by barcode resolvability.
+
+Bounded source scope: CG000183 Rev A source original Appendix pp54–55 (extracted lines4921–5078), Step3.1 vicinity lines3740–3800; existing cleanup declarations retained without expanding this bounded source reading. No accepted missing-information claim is added.
+
+Remaining work: Exact transcript-dependent fragmentation/end-preparation product states and molecular reaction relations remain unresolved; Later CG000183 revisions not compared.

@@ -50,8 +50,8 @@ by the REPLI-g Mini protocol (30 °C, 16 h). The product is sonicated to about 3
 barcode index labels, and libraries are sequenced single-end on HiSeq 2000.
 🟡 Model correction (2026-10-17): the circle is no longer built by the shared ssDNA
 circularisation helper, which implied a ligation that never happens; it is declared as a
-pre-existing closed circle, one strand drawn. The phi29 priming site is representative —
-the paper cites only the REPLI-g Mini protocol, not its primers.
+pre-existing closed circle, one strand drawn. The former representative phi29 sequence/site has since been removed; REPLI-g
+priming sites and sequence geometry remain unassigned in the current model.
 🟡 The page shows the Apollo step as a warned boundary: the paper does not state the
 joining chemistry or whether any library PCR follows. The earlier model's explicit
 adapter ligation and library-PCR steps were model insertions and were removed.
@@ -67,11 +67,10 @@ Published discrepancy (shown on the page): Methods "Sequencing" says samples wer
 
 ## Boundary and uncertainty
 
-The circles are biological inputs, not library-prep intermediates. 🔴 The paper names the
-Apollo 324 adapter/index workflow and specifies six-base index oligos, but does not
-print the index identities or adapter sequences in the article or its SI Appendix (both
-read 2026-10-17); the public page marks conventional single-index Illumina-arm geometry with a
-6-nt index window as inferred and does not fabricate bases.
+The circles are biological inputs, not library-prep intermediates. The source names
+Apollo324 and six-base barcode oligos; actual adapter/index identities, geometry and
+molecular placement remain unassigned in this model. The public page now uses an
+explicit library boundary instead of a conventional single-index Illumina shell.
 This is separate from CRISPR CIRCLE-seq.
 
 🟢 The Methods also print ACT1 PCR/qPCR and inverse-PCR pairs for several confirmed
@@ -79,3 +78,33 @@ circles and spiked plasmids. Those oligos test exonuclease removal or validate
 individual circles; none enters the sequenced library. No Apollo ordering table or
 adapter lot is identified, so raw reads could at most support inferred adapter
 sequence and index content, not chemical modification or reagent identity.
+
+## Source-owned validation migration (2026-10-18)
+
+This capped pass read two originals: the defining PMC4475933 article Results and
+Methods (Circle-Seq purification/digestion/amplification, Sequencing and Mapping of
+Reads), plus the published SI original identity and FigS1/FigS5 captions (linear-DNA
+hydrolysis assay and independent plasmid spike-ins). Mandatory bundle primer-scraper
+pointers were checked in these originals. Detailed predecessor plasmid methods,
+REPLI-g primer chemistry and Apollo324 kit documents remain deferred.
+
+`batch_ngs.truseq_library` and its assumed dA junction/standard arm placement are
+removed. Apollo324 supplies source-named adapter reagents and six-base barcode
+oligos, represented as a reagent inventory with unknown molecular placement.
+The final molecule’s adapter/index arrangement and library PCR status remain
+unassigned, rather than choosing a canonical TruSeq endpoint.
+
+The arbitrary16-base native-circle sequence and8-base phi29 primer were removed.
+Native eccDNA and independent plasmid standards retain source-qualified circular
+roles; REPLI-g priming sequences, repeat count and branching geometry remain
+unassigned. Different cellular DNA populations occupy separate Scene rows.
+Plasmid-Safe hydrolysis produces an explicitly unresolved molecular product class,
+not physically discarded waste. Source-described1%(5µl) sampling is explicit, with
+remaining99% disposition unassigned. Subsequent sonication produces fragment roles
+rather than retaining an unfragmented RCA drawing.
+
+The source141base single-end reads and215base S2/Z4/R1 reads remain distinct sample
+scopes. Six-base barcode oligos do not prove a six-cycle index acquisition. The
+published100Mb versus40–100million-read depth discrepancy remains visible on the
+page; it does not select a molecular endpoint. This is not a full source audit or
+an accepted publication-absence claim.

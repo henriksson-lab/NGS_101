@@ -173,6 +173,49 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite comment-only (0 explicit checks) passes; page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 7 oligo inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch09-native-graph-migration",
+      "reviewer": "native_cell_assay_implementation",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "PublishedPMC11537836 oligonucleotides155–175, conjugation430–465, lysis/coldwashes/RT585–685, validation/WTA and detection/sorting/recovery/WTA/XT685–985; MOESM1 original figures WTA temperature dependence; MOESM5 data workbook Figure3h header inspected and irrelevant to chemistry.",
+      "oligo_scraper": "Mandatory bundle scrapers FIND14/GoT55/TARGET376 hits; relevant source passages/modified oligos verified in originals. No-hit/unread boundaries are not absence evidence.",
+      "findings": "Selected demonstrated Smart-seq3 scFIND route. Native 5′acrydite-T6-ACGAGCATCAGCAGCATACGA-T30V is matrix linked; the 5′biotin-AGAGACAGATTGCGCAATG-N8-rGrGrG TSO is a separate physical oligo. Source forward primer ends A*T*G (two phosphorothioate bonds); reverse source typography “…AC*G*−3′” is retained rather than used to infer an unprinted bond. Copied TSO DNA retains UMI identity while shedding the original RNA/biotin chemical annotations.\n\nActual RNA and genomic DNA are independent populations. Matrix-bound ss cDNA is distinct from free WTA daughters. Source cold wash1, two wash2, two RT-buffer washes, EDTA stop and three Tween washes precede detection-PCR sorting. Diagnostic hydrolysis probes and marker PCR products are not sequencing barcodes or library arms. One sorted droplet is a single-cell allocation; bulk bins, validation aliquots and cycle-calibration reactions are separate experiments. Freeze/thaw/60°C aqueous recovery does not cleave the acrydite linkage. Actual recovered matrix-associated ss cDNA enters WTA, followed by source0.8X AMPure and20µl elution. Original/matrix/RNA/marker populations have unresolved species-specific bead recovery.\n\nStep102 delegates to Nextera XT manufacturer instructions. The exact native guide revision, ATM inventory, run and cleanup/PCR internals are not established by this capped pass; a bounded commercial stage represents that genuine source boundary. A canonical final duplex or acquired index recipe is not substituted. Smart2 alternatives and source enrichment-marker optimization remain outside the selected graph.",
+      "deferred": [
+        "Exact source-native NexteraXT guide/revision and ordered components/acquisition",
+        "Other bulk/Smart2 experiments and full conjugation-preparation workup",
+        "Physical species-specific recovery of RNA/matrix originals/marker products"
+      ],
+      "scope": "Capped source pass/native migration for selected experiments only; GoT circular graph coverage explicitly deferred. Historical status and absence gate unchanged.",
+      "verification": "Focused suites3/3/5 pass; all3pages build; chemistry0contradictions56unresolved; sourceguard8checked0failed2narrowtranscription exceptions13unassigned; pairing0; review schema/build_docs/staticOUT discovery pass; scoped diffcheck clean. Wrapper-free tools/protocol.py is inapplicable to these existing build_page entrypoints; actual pages built with their wrappers."
+    },
+    {
+      "round": "2026-10-18-batch09-native-graph-migration",
+      "reviewer": "root_critical_implementation_review",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "find-seq__10.1038+s41596-024-01021-y/tools/chem.py and source-transcription suite; code-only review of native molecular states, actual PCR inputs, original/copy populations, aliquots, mod inheritance, source boundaries and read plans.",
+      "findings": "Actual native incoming states feed PCR geometry; independent RNA/genomicDNA/ssDNA and original-template classes remain explicit or unresolved, not chemically discarded. FIND copiedTSO residues are DNA without inheritedRNA/biotin modifications. TARGET2.5µl PCR1 aliquot now explicitly split from unresolved remainingPCR1 beforePCR2; transcriptome/genotype aliquots remain mixed populations. GoT selectedlinear3primev2 native route remains separate from source-known circular/Gibson variants and public source discrepancy; those native topology graphs remain a named coverage follow-up. No legacy family import or borrowed default shell.",
+      "deferred": [
+        "Independent original-source second pass; this review read no originals",
+        "GoT circular/U/Gibson native graph variants and unassigned native first-cycle/end geometry"
+      ],
+      "scope": "Independent critical implementation review, documents0; does not satisfy a second original-source reading or upgrade absence status.",
+      "verification": "Focused suites/pages/chemistry/sourceguard/review schema pass; parent whole-site integration pending."
+    },
+    {
+      "round": "2026-10-18-batch09-native-state-continuity-followup",
+      "reviewer": "native_cell_assay_implementation",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Protocol-local bead_state/amplified state and RT structural input wiring; no source reread.",
+      "findings": "Native preRT bead states now explicitly retain the covalent matrix-linked oligo(dT) component alongside independent genomicDNA/RNA. RT structural input is the alreadyconjugated matrix primer rather than a free DT stock. Source-labelled free double-stranded WTA daughters now render both strands, preserving copied UMI and independent residual populations; unknown junction roles remain unpaired.",
+      "deferred": [
+        "Unchanged source-native XT remainder and detailed species-specific recovery"
+      ],
+      "scope": "Narrow implementation continuity correction only; no source/absence/status upgrade.",
+      "verification": "FINDsuite3/page/chem0contradictions/pairing0/sourceguardpass; review schema checked after append."
     }
   ]
 }

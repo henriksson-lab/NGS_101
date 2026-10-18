@@ -126,6 +126,21 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "selftest 7/7 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard 6 exact checked, 0 failed, 0 inputs without exact states; Markdown built; audit --check pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "break_capture_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Local endpoint ownership, actual PCR precursor geometry and bounded original-source checks only.",
+      "locations": "Published article PMC5045719 Online Methods sequencing passage (2×50 MiSeq EcoRV pilot/2×75 NextSeq500); original Protocol Exchange supplement_0.pdf.txt steps124–131 lines568–605 and oligo list lines610–649.",
+      "findings": "Local endpoint now derives the six-base AD06 example directly from the declared modifiedP5/P7 and printed PCRR, without shared break-library or TruSeq defaults. Added paired source adapter scenes and native/distal dA-tail states; distal preparation adds an overhang at the sonication-created end only. Exact PCR geometry now uses the preceding modifiedP5/P7 ligation product with the printed44nt PCRF and AD06 PCRR, rather than the final indexed library. Existing physical waste, bead disposal and size-selection steps are retained. Graph selects the2×75 NextSeq acquisition branch; molecular six-base index content no longer creates an acquired index read.",
+      "deferred": [
+        "Other seven AD primers and2×50 EcoRV pilot remain additional declared variants rather than selected graph runs",
+        "Complete native-break repair, sonication and ligation input-output relations remain unresolved"
+      ],
+      "verification": "local suite7/7; page build; chemistry12steps5established4conditional12unresolved0contradictory; source guard6 exact oligo strands0failed; pairing0 problems",
+      "oligo_scraper": "Ran full source-bundle scraper and followed relevant oligo pointers into the original methods/printed oligo tables. Drawn upstream pages were not evidence."
     }
   ]
 }

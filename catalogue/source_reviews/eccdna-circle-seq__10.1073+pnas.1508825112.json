@@ -60,7 +60,7 @@
         "reviewer": "root",
         "date": "2026-10-17",
         "locations": "Whole SI Appendix (10 pp.): Figs. S1-S10 legends, Dataset S1-S3 legends, lines 1-147",
-        "finding": "Identity printed 'Supporting Information Møller et al. 10.1073/pnas.1508825112'. Figure legends and dataset descriptions only; no adapter, index, Apollo kit or library-PCR information. Fig. S5 legend restates plasmid spike-in ratios; Fig. S7 inverse PCR on pre- and post-phi29 samples."
+        "finding": "Identity printed 'Supporting Information M\u00f8ller et al. 10.1073/pnas.1508825112'. Figure legends and dataset descriptions only; no adapter, index, Apollo kit or library-PCR information. Fig. S5 legend restates plasmid spike-in ratios; Fig. S7 inverse PCR on pre- and post-phi29 samples."
       }
     },
     {
@@ -152,7 +152,7 @@
       "reviewer": "root",
       "date": "2026-10-17",
       "documents": 2,
-      "locations": "Hand-downloaded published PNAS PDF pnas.1508825112.pdf (printed doi:10.1073/pnas.1508825112, Møller et al.) .txt Results 280-327, Fig.1 legend 270-271, Methods 687-788 (strains/plasmids, purification and enrichment, NotI/Plasmid-Safe digestion, REPLI-g amplification, PCR, Sequencing, Mapping of Reads), PCR 894-913; SI Appendix pnas.201508825si.pdf (header 'Supporting Information Møller et al. 10.1073/pnas.1508825112', 10 pp.) .txt lines 1-147 in full",
+      "locations": "Hand-downloaded published PNAS PDF pnas.1508825112.pdf (printed doi:10.1073/pnas.1508825112, M\u00f8ller et al.) .txt Results 280-327, Fig.1 legend 270-271, Methods 687-788 (strains/plasmids, purification and enrichment, NotI/Plasmid-Safe digestion, REPLI-g amplification, PCR, Sequencing, Mapping of Reads), PCR 894-913; SI Appendix pnas.201508825si.pdf (header 'Supporting Information M\u00f8ller et al. 10.1073/pnas.1508825112', 10 pp.) .txt lines 1-147 in full",
       "oligo_scraper": "Bundle scraper run: 18 hits, all ACT1 PCR/qPCR and inverse-PCR validation primers (PDF lines 774, 906-909; PMC copy); no hits in the SI Appendix; no adapter or index bases.",
       "findings": "SI Appendix holds only figure and dataset legends, no further library chemistry. Corrections: plasmid spike-ins (pBR322 1:1, pUC19 1:50, pUG72 1:2,500 per cell, before the column) added as purification input; glass-bead disruption, TE elution and 6-16 ug yield in labels; native circle no longer built with the ssDNA circularisation helper (implied ligation), declared pre-existing with one strand drawn; phi29 priming site labelled representative (REPLI-g primers not described). Existing 100 Mb vs 40-100 million reads discrepancy re-verified (Methods 783 vs Results 310-312).",
       "deferred": [
@@ -164,6 +164,34 @@
       ],
       "scope": "Capped defining-source pass; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory (Apollo MAGIC warning); source guard 0 checked, 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "PublishedPMC4475933 articleResults1164\u20131166 and Methods1260\u20131281; publishedPNASSI identity andFigS1/FigS5captions (text1\u201315,45\u201352).",
+      "oligo_scraper": "Mandatory localbundle scraper run; activeoriginal passages verified.",
+      "scope": "Capped source-owned moleculargraph migration; no completeprotocol review oracceptedpublicationabsenceclaim.",
+      "findings": "Removed sharedTruSeq/dAjunction and fabricated16ntnativecircle/8ntphi29primer. Native/spikecircles andlinearpopulations separate; source-rolecircularstrands pre-exist. HydrolysatesMOLECULAR/UNRESOLVED, notdiscard. Explicit1%(5\u00b5l)aliquot with99%fateunassigned. RCApriming/repeat/branchgeometryunassigned, shearedproductnowfragmentroles. Apollo324adapter/6basebarcodeinventory hasunknownplacement; endpointunknown no canonicalarms. Source141/215singleend sample scopes andpublisheddepthdiscrepancy retained.",
+      "deferred": [
+        "Plasmidpurificationpredecessors, REPLI-g primerchemistry andApollo324kitdocuments notfollowed. Adapterends/placement/joining/libraryPCR andacquiredindexcycles remainunassigned; noabsenceaccepted."
+      ],
+      "verification": "Suite1/1sourceindexinventorylengthcheck; page/note/schema pass; chemistry7steps0est0cond7unresolved0contra; sourceguard0checked0failed0exemptions2unrepresented(REPLIprimers,Apolloinventory); pairing0. Scopedchecks do not establishfullreactionvalidation. Noactualqueuedrecipe/defaultdependenciesremain."
+    },
+    {
+      "round": "2026-10-18-independent-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Read-only independent molecular implementation review; existing original-source scope retained, not re-read. No new scientific or absence conclusion.",
+      "locations": "tools/eccdna_circle.py: populations(), surviving_circle_populations(), apollo_reagent_inventory(), native graph, terminals and read plan",
+      "source_scope": "Published article andSI scope from preceding migration record retained without new original reading.",
+      "findings": "Confirmed native/spike/linear populations remain distinct, native circles pre-exist, hydrolysates/unused aliquot remain unresolved, and Apollo inventory is not used to invent final index placement or ligation/PCR geometry. Removed unrelated copied END adapter parser sentence from the current migration scraper field; earlier historical records preserved.",
+      "deferred": [
+        "Declared native molecular-proof, historical reagent/version and read-acquisition limits remain as recorded in the preceding migration check."
+      ],
+      "verification": "Code/state/fate/source-flag review completed; parent owns focused runtime verification. Review schema checked."
     }
   ]
 }

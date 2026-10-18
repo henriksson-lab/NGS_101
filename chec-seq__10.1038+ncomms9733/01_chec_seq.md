@@ -1,4 +1,18 @@
-# ChEC-seq — research notes
+# ChEC-seq
+
+## Current native graph — batch08 (2026-10-18)
+
+The current graph describes the defining ChEC preparation. DNA, RNA-derived material, protein-derived material and GlycoBlue are independent populations. The defining Methods require phenol/chloroform extraction, ethanol recovery, RNase treatment, negative 2.5:1 AMPure selection retaining the small-DNA supernatant, and a second extraction/precipitation before library preparation. RNase hydrolysis does not itself physically discard RNA-derived material.
+
+The defining paper cites the 2011 and 2013 library methods and positively names KAPA amplification. Their detailed historical assembly is outside this capped pass. That preparation is an explicit boundary followed by PCR on its actual native precursor, with original templates/carrier/RNA-derived recovery unresolved. The later Orsi Basic Protocol3 oligos remain a separately labelled source reference, not the defining study's reagents. Defining paired-end25 acquisition is retained; the later reference's six-base physical index does not assign historical index cycles.
+
+Source scope: Defining published PMC4618392 JATS Methods ChEC and Library preparation/sequencing129–143; published SI opening FigS1 digestion caption/table inventory; Orsi2015 PMC4410783 BasicProtocol3 sourceoligos812–832 and steps4–39/text950–1205. Mandatory scraper adapter/PCR hits checked directly in the Orsi original.
+
+This is a capped migration pass, not full source review or accepted missing information.
+
+## Earlier source audit and model description (historical)
+
+The following records preserve earlier source readings and the former model. Their Orsi graph/endpoint descriptions are superseded by the native graph above.
 
 Zentner et al., *Nature Communications* (2015),
 [doi:10.1038/ncomms9733](https://doi.org/10.1038/ncomms9733).

@@ -83,3 +83,35 @@ Defining paper: Qu J, Sun J, Zhao C, … Fan L, Ding J. Simultaneous profiling o
 Candidate tagmentation products lacking the selected library ends remain unresolved; no represented separation establishes physical discard or amplification behavior.
 
 Inspected scope: Local tagmentation-to-PCR declarations and terminal-fate audit; no new reaction-source assertion. This bounded correction does not complete the linked-source or two-reader absence audit.
+
+
+## Native graph migration, 2026-10-18 batch05
+
+Re-read two published originals: Qu, Sun etal.2023 main PDF, Tn5 preparation
+and “scCARE-seq experimental procedure” (text2335–2465, fixation through
+quantification); Supplementary Table1 MOESM3 workbook, oligo/index rows1–84.
+The full bundle primer scraper was run, and hits checked against the table
+including the phosphorylated Tn5-Rev, plain single-cell RT oligo, carrier and
+three preamplification primers. Bulk biotin-dT is a separate route.
+
+🟢 Local graph operations now explicitly retain RT→MboI→T4 proximity ligation→
+NEB second strand→FACS→proteinaseK reverse-crosslinking with independent carrier
+ssDNA→Tn5→three-primer Q5 preamplification→ExoI→two mixed aliquots→source
+index PCR→pooled DCC-5 column→0.8×AMPure. The DNA and RNA aliquots both
+contain the DNA/cDNA/carrier mixture. Different primer sets establish intended
+target amplification, not physical modality purification.
+
+🟡 Scene populations distinguish ss RT cDNA, complementary second-strand cDNA,
+chromatin/contact DNA, native RNA and independent carrier. Native RNA and carrier
+recovery/amplification remain unassigned. Actual incoming tagged/preamp states
+are used for PCRGeometry.unavailable; final source-primer-derived libraries are
+separate references, without claiming native first-cycle/gap/end proof. ExoI
+hydrolysis remains chemically distinct from later physical column/bead removal.
+
+The published Tn5 “barcoded adapter” wording versus unbarcoded Table1 oligos
+remains visible. Run cycles and acquired index roles remain unassigned; exact
+N8 physical index primers do not establish acquisition. This two-original cap
+does not finish historical linked-source or absence review.
+
+
+Implementation correction after independent review: tagged cDNA now explicitly retains a Tn5-derived terminal role through the tagged/preamp mixed populations. Transfer extent and gap geometry remain unassigned; no new bases or physical purification are inferred.

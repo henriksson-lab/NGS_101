@@ -107,6 +107,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite passes (0 explicit checks; workflow + graph construction); page builds; pairing 0 problems; chemistry 13 established/0 conditional/13 unresolved/0 contradictory; source guard 12 exact checked, 0 failed, 7 inputs symbolic (RT primer withheld: scraper drops /iBiodT/ base); audit check passes; Markdown built"
+    },
+    {
+      "documents": 2,
+      "locations": "Published version-of-record PMC13384510 JATS Methods: Tagmentation, Reverse transcription, both barcoding rounds, Reverse crosslinking, streptavidin capture, ATAC library, cDNA amplification/RNA library and Sequencing (extracted428–472); Key resources Tn5B2S row286–289. Published Supplementary file1: PCR oligos and representative Round1_001/Round2_001 plus scaffolds in BC oligos R1/R2 sheets.",
+      "findings": "Removed shared endpoint/finisher recipe. Local independent carrier RNA/chromatin/cDNA rows; source-ordered RT/barcode/capture/TS/PCR/tagmentation/cleanups. Actual first/switched ss cDNA and pre-index RNA/ATAC precursors feed unavailable-geometry PCR; final expected product is never a template. Source different modality N5XX indices now represented by distinct illustrative N501(RNA)/N502(ATAC), with actual mapping unassigned. Preserved published150/17/8/150 and public B2S discrepancy. Native Tn5 off-products unresolved, physical source cleanups distinct from computational filtering. Existing barcode feature identities are preserved on input/native prefixes and N5 primer segments through endpoint orientation transforms; physical sequences unchanged.",
+      "deferred": [
+        "Native complete RT/template-switch first-cycle assembly and tagmentation gaps",
+        "Actual experimental RNA/ATAC N5XX mapping; examples are illustrative",
+        "Resolution of published Key resources vs Supplementary file1 B2S values"
+      ],
+      "round": "2026-10-18-batch02-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "oligo_scraper": "Bundle scraper run; source-line pointers verified directly. GAGE large workbook additionally loaded with targeted --find RT_HANDLE and AD2 queries; default large-file skip is not an absence finding.",
+      "scope": "Capped source-owned native graph migration only; existing missing-information gate remains blocked. No source absence accepted.",
+      "verification": "Focused suite 10/10 pass; page builds; pairing0; chemistry 7 established/20 unresolved/0 contradictory; review schema and Markdown build pass; final source guard33checked/0failed/0exemptions/6unassigned inputs across batch after shared parser correction; diffcheck clean."
+    },
+    {
+      "round": "2026-10-18-batch02-parent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current native graph modules: actual ss/captured/PCR substrates, barcode propagation, independent modalities and source kit boundaries, cleanups/terminal fates, declared sequencing plans and explicit reviewed-target tuples. Originals not re-read in this independent implementation pass.",
+      "oligo_scraper": "No new original-source reading; author scraper/source-transcription scope retained separately.",
+      "findings": "No further critical defect found in reviewed molecular boundaries. GAGE generated index non-acquisition claims identified and corrected to explicit source read specifications; original PE150 retained while index acquisition/cycles remain unassigned. G&T keeps historical-kit steps explicitly unresolved; easySHARE retains source-defined identifiers and actual precursors.",
+      "deferred": [
+        "Existing native geometry/source follow-ups and linked-source obligations remain unchanged."
+      ],
+      "scope": "Implementation-only independent review, not new source or absence acceptance."
     }
   ]
 }

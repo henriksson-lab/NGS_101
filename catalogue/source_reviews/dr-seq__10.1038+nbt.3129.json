@@ -131,6 +131,49 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 10/10 pass; page builds; pairing 0 problems; chemistry 0 established/1 conditional/19 unresolved/0 contradictory; source guard 5 exact checked (P1, P2×2, biotin-P3×2), 0 failed, 2 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Capped source-owned native graph migration; no accepted absence claim and no full protocol validation.",
+      "locations": "PublishedDR article PMC4374170 mainworkflow PDF69–93 and Methods/JATS70–80; published publisher supplement SupplementaryFigure3 legend268–272 and existing Ad2 discrepancy context.",
+      "oligo_scraper": "Full cached-bundle scraper run; relevant pointers followed into named originals. Source versions/manifest identities retained, superseded preprints not used.",
+      "findings": "Removed multibranch.illumina_branch, batch_ngs.seg and multimodal_spatial finisher. Source-specific NEBNext DNA and CELSeq RNA boundaries/dualplans replace sharedcanonical shells. Cells/ssRT/copy populations native; bothaliquots retaincommonmix andactualP2/P3 PCRtemplates; single physicalP2/P3species. Sonication no longer returnsunchangedfullamplicon; sourcebiotin depletionphysical; unusedIVTDNArecovery unresolved ratherthan presumed destroyed. CELSeq libraryRToutputss andactualRNA-PCRtemplate distinctfromfinal. ExistinginferredAd1/Ad2 and sourceAd2discrepancy preserved; sourceindexperDNAcell semantic and RNAcellbarcode retainidentity.",
+      "deferred": [
+        "HistoricalCELSeq predecessor and native libraryadapter/RT/PCRprimer recipes",
+        "CompleteAd1/Ad2 oligo orders and mismatch-tolerantP3 firstcycles",
+        "NativeNEBNextUltra historical adapter/end/index recipe",
+        "DNApaired50/100 alternative notselected; indexcycles/nativeprimergeometry unassigned"
+      ],
+      "verification": "suite3;14steps;0established/0conditional/19unresolved/0contradictory; all3pages/docs build; combinedsourceguard17exact/0failed/1documentedparser-exemption/9unassigned inputs; pairing0; review schema and diffcheck pass."
+    },
+    {
+      "round": "2026-10-18-component-inheritance-correction",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only source-inheritance correction within existing article/SI scope; no originals newly investigated.",
+      "locations": "rna_library_rt enzyme input; initial and library-RT annotations; explicit curator target list.",
+      "findings": "Replaced unsupported reuse of initial ArrayScript/MessageAmpII catalyst in CELSeq libraryRT with separate unassigned historical libraryRTcatalyst. Added curator target and explicit notices that RNA-template disposition after bothRTsteps is unassigned, not physical destruction/removal. ActualssDNAoutputs/PCRinput unchanged.",
+      "deferred": [
+        "Component-specific historicalCELSeq RT reagent/primer recipe and RNA-template fates remain unassigned."
+      ],
+      "verification": "Page/currentchemistry pass; zero contradictions; schema/notes checked."
+    },
+    {
+      "round": "2026-10-18-independent-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Read-only independent implementation review; existing article/supplement scope not re-read. No sourceabsence acceptance.",
+      "locations": "cell_population/common_population; mixedaliquot split; P2/P3PCRinputs; sonication/biotindepletion; P1→IVTretainedDNAfate; CELSeqsslibraryRT/PCR; bothreadplans and explicitreviewtargets.",
+      "findings": "Noadditionaldefect found in reviewed mixedinputs/fates/PCRscope. Parentidentified and maintenancereplaced unsupportedArrayScriptinheritance with separate unassigned libraryRTcatalyst. InferredAd1/Ad2/P3geometry and historicalNEBNext/CELSeq routes/readalternatives remain explicitmodel/sourceboundaries.",
+      "deferred": [
+        "Existingnativeprimer/endproof and historicalfinishingrecipes remain open; sourceabsence not established."
+      ],
+      "verification": "Independentcodeinspection completed; implementationcorrection page/chemistry checks pass; parentfinalfocusedchecks requested."
     }
   ]
 }

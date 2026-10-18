@@ -18,12 +18,12 @@ own content for that reason, and a fresh clone may legitimately have an empty (o
 `ref/plasmids/`. Nothing is reconstructed from memory if a file is missing; it simply is not
 there, and the tooling says so.
 
-**This protocol's own `tools/` no longer reads these maps.** The former map-driven
-`crisprscreen.html` builder and its map checks were retired; the current
-`tools/selftest.py` and `tools/build_page.py` use only `lib/pooled_crispr` and
-`lib/crispr` constants. Two other protocols still read a few maps, each behind a
-`checks.Source` guard that skips, not fails, when the file is absent (see the
-dependency table below).
+**The v1 and v2 protocol source tests read their respective maps.** Each reader is
+behind a `checks.Source` guard and skips when its original is absent. Their native
+pages own their declarations; the tests verify the specific reused hU6/scaffold
+components against the deposited originals. Other protocols also read selected maps,
+as listed below. A deposited empty vector is not an experimentally cloned guide
+member or a screen genome.
 
 To restore the directory, re-download the files from the URLs in the tables below (the
 Addgene route needs a login now — see immediately below).
@@ -143,8 +143,8 @@ records which tools open a file, not which claims it once supported.
 
 | File | Addgene | Read by |
 |---|---|---|
-| `addgene-49535_lentiCRISPRv1.gb` | #49535 | `crispr-umi-schmierer__10.15252+msb.20177834/tools/selftest.py` (guarded) |
-| `addgene-52961_lentiCRISPRv2.gb` | #52961 | `crispr-umi-schmierer__10.15252+msb.20177834/tools/selftest.py` (guarded); `crispr-mip__10.1101+2024.03.28.587082/tools/selftest.py` and `show_probe.py` (fallback when the source-bundle copy is absent) |
+| `addgene-49535_lentiCRISPRv1.gb` | #49535 | `lenticrispr-v1-screening__10.1126+science.1247005/tools/selftest.py` and `crispr-umi-schmierer__10.15252+msb.20177834/tools/selftest.py` (guarded) |
+| `addgene-52961_lentiCRISPRv2.gb` | #52961 | `lenticrispr-v2-screening__10.1038+nmeth.3047/tools/selftest.py` and `crispr-umi-schmierer__10.15252+msb.20177834/tools/selftest.py` (guarded); `crispr-mip__10.1101+2024.03.28.587082/tools/selftest.py` and `show_probe.py` (fallback when the source-bundle copy is absent) |
 | `addgene-52963_lentiGuide-Puro.gb` | #52963 | `crispr-umi-schmierer__10.15252+msb.20177834/tools/crisprumi.py` (parent-map candidate) and `tools/selftest.py` (guarded) |
 | `addgene-52962_lentiCas9-Blast.gb` | #52962 | nothing computed — reference only |
 | `addgene-59702_pXPR_011.gb` | #59702 | nothing computed — reference only (no F+E scaffold check exists in any current suite) |

@@ -35,3 +35,14 @@ Model corrections: RT-handle order fixed to CS handle → sample BC → UMI → 
 🔴/discrepancy: Supplementary Table 3 lists the V1 POP RT primers as `RT_primer_1_8`–`RT_primer_4_8` (V2 names, with the `GACACGTC` spacer), whereas Supplementary Table 1 lists V1 `RT_primer_1`–`RT_primer_4` without it. Shown on the page; unresolved.
 
 Not found in the inspected sources: sequencing instrument, read lengths and index cycles (main text and Peer Review File grep); Mission Bio bead oligo bases. Deferred: protocols.io 10.17504/protocols.io.6qpvr9q43vmk/v1 (not on disk), Mission Bio Tapestri v2/v3 user guides, SDRranger repository (github.com/hawkjo/SDRranger) for barcode backbone sequences.
+
+
+## Native graph migration — 2026-10-18 batch11
+
+Source scope (3 originals, capped): PublishedPMC12510883 Methods199–221 (historical readstructure declarations retained, not re-read); citedprotocols.io detailedv1 printedAugust11,2025/intID119358, overview98–109,RTmaterials/oligotable126–187 and RTmastermix960–1070, Steps9–11 approximately1219–1504; publishedMOESM3Tables1–3 V1/V2 RT,indexprimerfamilies andPOP naming.
+
+LocalV2 native graph removes role_library/readout recipes. ActualssRT preserves originalgDNA/RNA; sourcephysicalRTpool/pellet, firstdropletlysis, secondfusion, explicitUVboundary andmixedmultiplexPCR precede emulsionbreak/cleanup. Samephysicalrecoveredmixture supplies15µl inputs tobothdistinctoverhangPCRs; otherclasses are notpurifiedbyaliquoting or nonamplification. SourceV2RTsample8/N8UMI and multipartcommercialcellID remain structured. LocalexactP5/i5,R2N-i7 andR2-i7 sourceexamples replace genericmatchedlibrary roles; onlypreferentiallyamplifiedclasses installtheirindex lineage. Detailedv1recommendedDNA161/161 andRNA76/46,8+8indices areexplicit. PublicV1POPnaming,RNAindexPCRR2N/R2,dNTPmM/µM andMaxima catalogidentity differences remain qualified.
+
+Deferred scope: ExactnativeTapestribeadbases/linker/photo-releasechemistry/PCRenzyme andunreadv2guide detailedStep6/7.7recoveries staybounded, notinvented kitdefaults. Panel-specifictargets and actualstudy-specificrunmasks remainunassigned; sourcev1runrecommendations are not auniversalempiricalrun. V1POPbarcode/spacer discrepancy andsourceRTcatalogEP0751/EP0752identity unresolved; no absence acceptance.
+
+Verification: 4 originalV2primer tests;17steps/20unresolved0contradictory. Allfourpages build; sourceguard17checked/0failed/9unassigned; pairing0; review schema checked. No sourceabsence/status upgrade follows.

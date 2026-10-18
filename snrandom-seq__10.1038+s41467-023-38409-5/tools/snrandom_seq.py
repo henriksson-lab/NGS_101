@@ -1,188 +1,136 @@
-"""Xu et al. 2023 snRandom-seq chemistry."""
+"""Xu et al. 2023; source-owned snRandom reaction and identifier declarations."""
 from pathlib import Path
 import sys
-ROOT=Path(__file__).resolve().parents[2]; sys.path[:0]=[str(ROOT/"lib")]
-from batch_ngs import truseq_library, seg
+ROOT=Path(__file__).resolve().parents[2]; sys.path[:0]=[str(ROOT/'lib')]
+from chemdraw import Construct, Scene, Segment, feature, oligo, revcomp
+from protocol_model import role
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature
-from endprep import dA_tailed_scene, repair_and_dA_tail
-from rna_prep import rna_template, single_strand
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
-
-TITLE="snRandom-seq — FFPE single-nucleus total RNA"
-NOTES="01_snrandom-seq.html"
-SOURCE='Defining source: <a href="https://doi.org/10.1038/s41467-023-38409-5">Xu et al., <i>Nature Communications</i> (2023)</a>.'
-SUMMARY="In-nucleus random/oligo-dT RT and dA tailing are followed by extension from three-round barcoded hydrogel beads; Read 1 carries a 30-nt cell barcode and 8-nt UMI, while Read 2 reports RNA-derived sequence."
-CAVEAT="The paper names a Vazyme universal Illumina kit but does not print that vendor adapter's bases. Those standard Illumina-compatible outer arms are therefore inferred; the published inline barcode, UMI and linker architecture is not inferred."
-
+from protocol_graph import Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+import seqprimers as sp
+TITLE='snRandom-seq — FFPE single-nucleus total RNA'
+NOTES='01_snrandom-seq.html'
+SOURCE='Defining source: <a href="https://doi.org/10.1038/s41467-023-38409-5">Xu et al., Nature Communications (2023)</a>; published Methods and SI Table1.'
+SUMMARY='Nuclear DNA blocking, random/oligo(dT) RT and variable dA tailing precede droplet bead extension, PFO recovery, cDNA PCR and ND607-01 library preparation.'
+CAVEAT='Native Vazyme adapter strands, PCR ends and index allocation remain unassigned in this bounded pass. No TruSeq shell or fixed index lengths are supplied. The molecular release site at the bead deoxyuridine is not assigned from the inspected Methods; no cleavage reaction is invented.'
 BLOCK_PRIMER="GAGAATGTGAGTGAAGATGTATGGTGANNNNNNN"
 RT_HANDLE="GGAGTTGGAGTGAGTGGATGAGTGATGGAAGGAAT"
 BEAD_LINKER_12="TGGT"
 BEAD_LINKER_23="GAGA"
 BEAD_ANCHOR_WRITTEN="/5Acryd/ATTATATATATUGTGAGTGATGGTTGAGGATGTGTGGAGATA"
 
-INITIAL_NAME="fixed, permeabilized nucleus"
-INITIAL_ROWS=rna_template("crosslink-reversed nuclear RNA",38)
 
-cbc1=seg("cell barcode 1","B"*10,"cbc",placeholder=True,feature=feature("cell_barcode_1","cell_barcode","combinatorial",group="cell_barcode",part="round 1"))
-cbc2=seg("cell barcode 2","C"*10,"cbc",placeholder=True,feature=feature("cell_barcode_2","cell_barcode","combinatorial",group="cell_barcode",part="round 2"))
-cbc3=seg("cell barcode 3","D"*10,"cbc",placeholder=True,feature=feature("cell_barcode_3","cell_barcode","combinatorial",group="cell_barcode",part="round 3"))
-umi=seg("UMI","U"*8,"umi",placeholder=True,feature=feature("umi","umi","random"))
-# A long schematic insert keeps PE150 read-cycle derivation faithful to the documented
-# run: Read 2 remains in transcript sequence instead of spuriously reaching identifiers.
-insert=[cbc1,seg("TGGT linker",BEAD_LINKER_12),cbc2,seg("GAGA linker",BEAD_LINKER_23),cbc3,umi,seg("priming tract","T"*21),seg("RNA-derived insert","X"*160,placeholder=True)]
-FINAL_LIBRARY,SEQ_PRIMERS=truseq_library(insert,"snRandom-seq library",inferred_adapters=True)
-FINAL_CAPTION="Published 30-nt split-pool cell barcode, 8-nt UMI and transcript insert inside inferred vendor-standard Illumina outer adapters."
-SEQUENCING_INTRO="The paper used paired-end 150-base NovaSeq sequencing and explicitly extracted the 30-base cell barcode plus 8-base UMI from Read 1; Read 2 generated the expression matrix."
-READ_LENGTHS={"Read 1":150,"Read 2":150}
-SHOW_READ_CONTENT=True
+PCR1='GGAGTTGGAGTGAGTGGATGAGTGATG'
+PCR2='GTGAGTGATGGTTGAGGATGTGTGGAGATA'
+cbc1=Segment('cell barcode 1','B'*10,'cbc',placeholder=True,feature=feature('cell_barcode_1','cell_barcode','combinatorial',group='cell_barcode',part='round 1'))
+cbc2=Segment('cell barcode 2','C'*10,'cbc',placeholder=True,feature=feature('cell_barcode_2','cell_barcode','combinatorial',group='cell_barcode',part='round 2'))
+cbc3=Segment('cell barcode 3','D'*10,'cbc',placeholder=True,feature=feature('cell_barcode_3','cell_barcode','combinatorial',group='cell_barcode',part='round 3'))
+umi=Segment('UMI','U'*8,'umi',placeholder=True,feature=feature('umi','umi','random'))
+def barcode_parts():
+ return [cbc1,Segment('TGGT linker',BEAD_LINKER_12),cbc2,Segment('GAGA linker',BEAD_LINKER_23),cbc3,umi,Segment('poly(dT)','T'*20)]
+FINAL_LIBRARY=Construct([role('Vazyme native end A; strand geometry unassigned'),*barcode_parts(),role('RNA-derived insert; fragment boundary unassigned'),role('Vazyme native end B; strand geometry unassigned')],name='snRandom-seq source-limited native endpoint')
+SOURCE_OLIGO_EXCEPTIONS={'barcoded_bead':'Published SI Table1 prints /5Acryd/ATTATATATAT U GTG AGT GAT GGT TGA GGA TGT GTG GAGATA followed by three [10 bases barcode] slots, TGGT/GAGA linkers, N8 and T20. Verified both lines directly; the guard cannot match the assembled class-expanded string against those named placeholders. Molecular dU and 5′ acrydite are retained.'}
+SEQ_PRIMERS=()
+FINAL_CAPTION='Published barcode and UMI structure, with native vendor-end roles; no canonical Illumina outer sequence assignment.'
+SEQUENCING_INTRO='NovaSeq6000 S4 PE150. The paper extracts 30 barcode bases and eight UMI bases from Read1; Read2 supplies expression sequence. Positions relative to unassigned native primer landing are source-declared, not computed.'
+SEQUENCING_ENDING=SEQUENCING_INTRO
+SHOW_READ_CONTENT=False
+READ_SPECS=(sp.read_spec('Read 1',150,'Three10-base barcode parts, intervening linkers and8-base UMI; exact cycle offsets unassigned','extract'),sp.read_spec('Read 2',150,'Transcript sequence; primers and dA-tailing sequence computationally trimmed','include'),sp.read_spec('Index 1 (i7)',None,'Native index acquisition unassigned','undetermined'),sp.read_spec('Index 2 (i5)',None,'Native index acquisition unassigned','undetermined'))
+def nuclear_scene(stage):
+ sc=Scene(); sc.strand('genome',[role('genomic DNA; '+('block-primer extension present' if stage!='initial' else 'accessible ssDNA'))],label='genomic DNA; retained nuclear population'); sc.strand('RNA',[role('nuclear RNA template')],label='independent RNA population')
+ if stage in ('rt','tail'):
+  parts=[Segment('representative variant1 RT handle',RT_HANDLE),role('RNA-derived first-strand cDNA')]
+  if stage=='tail': parts.append(role('variable-length 3′ dA tail'))
+  sc.strand('cDNA',parts,label='cDNA; other four RT handle variants are distinct molecules')
+ return sc
 
-def workflow():
-    w=Workflow(MolecularState(INITIAL_NAME,tuple(INITIAL_ROWS)))
-    blocked_sc=Scene()
-    blocked_sc.strand("blocked DNA",[Segment("genomic DNA", "X"*34,placeholder=True),Segment("block-primer extension",BLOCK_PRIMER)],label="blocked genomic DNA")
-    blocked_sc.strand("nuclear RNA",[Segment("nuclear RNA","X"*38,placeholder=True)],label="RNA retained in nucleus")
-    blocked_sc.labels("blocked DNA"); blocked_sc.labels("nuclear RNA")
-    blocked=blocked_sc.rows()
-    w.react("Block accessible genomic ssDNA",blocked,name="blocked nucleus",note="A 5′ handle plus N7 primer is extended on genomic DNA before RNA reverse transcription.")
-    rt_sc=Scene()
-    rt_sc.strand("blocked DNA",[Segment("genomic DNA","X"*34,placeholder=True),Segment("block-primer extension",BLOCK_PRIMER)],label="blocked genomic DNA")
-    rt_sc.strand("RNA",[Segment("RNA template","X"*38,placeholder=True)],label="nuclear RNA")
-    rt_sc.anneal("cDNA",[Segment("RNA-derived cDNA","x"*38,placeholder=True),Segment("RT handle",RT_HANDLE)],to="RNA",pair=("RNA-derived cDNA","RNA template"),label="random/oligo-dT cDNA",unpaired=("RT handle",))
-    rt_sc.labels("blocked DNA"); rt_sc.labels("cDNA")
-    rt=rt_sc.rows()
-    w.react("Random + oligo-dT reverse transcription",rt,name="in-nucleus cDNA",note="Five random-primer and five oligo(dT)-primer variants undergo twelve annealing ramps from 8 to 42 °C.")
-    tail_sc=Scene()
-    tail_sc.strand("blocked DNA",[Segment("genomic DNA","X"*34,placeholder=True),Segment("block-primer extension",BLOCK_PRIMER)],label="blocked genomic DNA")
-    tail_sc.strand("dA-tailed cDNA",[Segment("RT handle",RT_HANDLE),Segment("RNA-derived cDNA","X"*38,placeholder=True),Segment("3′ dA tail","A"*12)],label="dA-tailed cDNA")
-    tail_sc.labels("blocked DNA"); tail_sc.labels("dA-tailed cDNA")
-    tailed=tail_sc.rows()
-    w.react("TdT dA tailing",tailed,name="dA-tailed cDNA",note="TdT and dATP add the homopolymer used for bead-primer extension.")
-    bead_product=[cbc1,Segment("TGGT linker",BEAD_LINKER_12),cbc2,Segment("GAGA linker",BEAD_LINKER_23),cbc3,umi,Segment("poly(dT)","T"*21),Segment("RNA-derived cDNA","X"*38,placeholder=True)]
-    barcode_sc=Scene()
-    barcode_sc.strand("blocked DNA",[Segment("genomic DNA","X"*34,placeholder=True),Segment("block-primer extension",BLOCK_PRIMER)],label="blocked genomic DNA")
-    barcode_sc.strand("barcoded product",bead_product,label="droplet-barcoded cDNA")
-    barcode_sc.labels("blocked DNA"); barcode_sc.labels("barcoded product")
-    barcoded=barcode_sc.rows()
-    w.react("Droplet bead extension",barcoded,name="cell-barcoded cDNA",note="A hydrogel bead assembled by three split-pool ligations contributes three 10-base barcode parts and an 8-base UMI.")
-    w.react("PCR-select barcoded cDNA",single_strand("PCR product",bead_product,"amplified barcoded cDNA"),name="purified barcoded amplicons",note="After emulsion breakage, primer PCR amplifies bead-linked cDNA; AMPure purification removes the blocked genomic material.")
-    vendor_insert=Construct([seg("barcoded cDNA fragment","X"*42,placeholder=True)])
-    vendor_tailed=repair_and_dA_tail(vendor_insert,inferred=True)
-    w.react("INFERRED — vendor fragmentation, end repair and dA-tailing",dA_tailed_scene(vendor_tailed).rows(),name="vendor-prepared cDNA fragments",note="The named Vazyme universal kit performs the end preparation; the precise kit implementation is not printed in the paper.")
-    geometry=AdapterLigationGeometry.unavailable("The paper names a Vazyme universal Illumina library kit but does not print its adapter oligos or terminal ligation geometry; no generic T overhang is substituted.")
-    w.ligate_adapter("INFERRED — vendor adapter ligation and PCR",geometry,Scene.duplex(list(FINAL_LIBRARY),label="sequencing library").rows(),name="final library",note="Only the published inline barcode/UMI architecture is source-exact; outer arms remain inferred.")
-    return w
+def barcoded_scene():
+ sc=Scene(); sc.strand('barcoded',[role('upstream acrydite–ATTATATATAT–dU boundary; release and retention unassigned'),Segment('bead-side PCR2 handle',PCR2),*barcode_parts(),role('RNA-derived copied insert'),Segment('copy of representative RT handle',revcomp(RT_HANDLE))],label='barcoded DNA product; release-site boundary unassigned'); sc.strand('genome',[role('genomic DNA remaining in droplet mixture')],label='independent genomic DNA population'); sc.strand('RNA',[role('RNA remaining in droplet mixture')],label='independent RNA population'); return sc
 
+def oligos():
+ yield oligo('DNA blocking primer',[Segment('block',BLOCK_PRIMER)])
+ yield oligo('Representative random RT primer1',[Segment('RT handle',RT_HANDLE),Segment('N7','N'*7,placeholder=True)])
+ yield oligo('Bead anchor as written',[Segment('acrydite/deoxyuridine anchor',BEAD_ANCHOR_WRITTEN,placeholder=True)])
+ yield oligo('PCR primer1',[Segment('primer1',PCR1)])
+ yield oligo('PCR primer2',[Segment('primer2',PCR2)])
+
+def native_duplex(parts,*,label):
+ sc=Scene(); sc.strand('DNA',parts,label=label+'; declared strand roles'); sc.strand('opposite',[role('opposite DNA strand; exact paired geometry unassigned')],label='separate complementary strand role'); return sc
 
 def protocol_graph():
-    graph=ProtocolGraph(TITLE,authority=SOURCE)
-    nucleus=graph.input("nucleus","fixed permeabilized nucleus",MaterialKind.BIOLOGICAL,
-                        primary=True)
-    block_primer=graph.input("block_primer","N7 genomic-DNA block primer",
-                             MaterialKind.OLIGO)
-    block_pol=graph.input("block_polymerase","block-primer extension polymerase",
-                          MaterialKind.CATALYST)
-    blocked=graph.product("blocked","nucleus with accessible genomic ssDNA blocked",
-                          MaterialKind.BIOLOGICAL)
-    graph.react("block_dna","Block accessible genomic single-stranded DNA",
-                StepKind.EXTENSION,
-                ((nucleus,InputRole.TEMPLATE),(block_primer,InputRole.STRUCTURAL),
-                 (block_pol,InputRole.CATALYST)),(blocked,))
-    rt_primers=graph.input("rt_primers","random and oligo-dT RT primer variants",
-                           MaterialKind.OLIGO)
-    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
-    cdna=graph.product("cdna","in-nucleus random/oligo-dT cDNA",MaterialKind.MOLECULAR)
-    graph.react("reverse_transcribe","Copy nuclear RNA: 12 annealing ramps (8–42°C), then 42°C for 30 min",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((blocked,InputRole.TEMPLATE),(rt_primers,InputRole.STRUCTURAL),
-                 (rt,InputRole.CATALYST)),(cdna,))
-    tdt=graph.input("tdt","terminal deoxynucleotidyl transferase",MaterialKind.CATALYST)
-    tailed=graph.product("tailed","poly-dA-tailed cDNA",MaterialKind.MOLECULAR)
-    graph.react("da_tail","Add homopolymeric dA tail (37°C, 30 min)",StepKind.TAILING,
-                ((cdna,InputRole.TEMPLATE),(tdt,InputRole.CATALYST)),(tailed,))
-    bead=graph.input("barcoded_bead","three-round cell-barcode/UMI hydrogel-bead primer",
-                     MaterialKind.OLIGO)
-    extension_pol=graph.input("extension_polymerase","droplet bead-extension polymerase",
-                              MaterialKind.CATALYST)
-    barcoded=graph.product("barcoded","cell-barcoded and UMI-tagged cDNA",
-                           MaterialKind.MOLECULAR)
-    graph.react("bead_extend","Extend the bead primer across dA-tailed cDNA",
-                StepKind.EXTENSION,
-                ((tailed,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),
-                 (extension_pol,InputRole.CATALYST)),(barcoded,))
-    pre_f=graph.input("preamp_forward","barcoded-cDNA PCR forward primer",
-                      MaterialKind.OLIGO)
-    pre_r=graph.input("preamp_reverse","barcoded-cDNA PCR reverse primer",
-                      MaterialKind.OLIGO)
-    pre_pol=graph.input("preamp_polymerase","cDNA PCR polymerase",MaterialKind.CATALYST)
-    amplified=graph.product("amplified","purified barcoded cDNA amplicons",
-                            MaterialKind.MOLECULAR)
-    graph.react("preamp","PCR-select barcoded cDNA",StepKind.PCR,
-                ((barcoded,InputRole.TEMPLATE),(pre_f,InputRole.STRUCTURAL),
-                 (pre_r,InputRole.STRUCTURAL),(pre_pol,InputRole.CATALYST)),
-                (amplified,),geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY,reason="The preamplification substrate is represented by role because complete strand geometry is not transcribed."))
-    fragment_mix=graph.input("fragment_mix","Vazyme fragmentation/end-prep mix",
-                             MaterialKind.CATALYST,inferred=True,
-                             source=SOURCE+" (commercial implementation not printed)")
-    fragmented=graph.product("fragmented","vendor-fragmented barcoded cDNA",
-                             MaterialKind.MOLECULAR,inferred=True,
-                             source=SOURCE+" (commercial implementation)")
-    graph.react("fragment","Fragment amplified cDNA",StepKind.FRAGMENTATION,
-                ((amplified,InputRole.TEMPLATE),(fragment_mix,InputRole.CATALYST)),
-                (fragmented,))
-    repaired=graph.product("repaired","end-repaired vendor cDNA fragments",
-                           MaterialKind.MOLECULAR,inferred=True,
-                           source=SOURCE+" (commercial implementation)")
-    graph.react("end_repair","Repair fragmented cDNA ends",StepKind.END_REPAIR,
-                ((fragmented,InputRole.TEMPLATE),(fragment_mix,InputRole.CATALYST)),
-                (repaired,))
-    tail_pol=graph.input("tail_polymerase","vendor dA-tailing polymerase",
-                         MaterialKind.CATALYST,inferred=True,
-                         source=SOURCE+" (commercial implementation)")
-    vendor_tailed=graph.product("vendor_tailed","vendor dA-tailed cDNA fragments",
-                                MaterialKind.MOLECULAR,inferred=True,
-                                source=SOURCE+" (commercial implementation)")
-    graph.react("vendor_da_tail","Add 3-prime dA to vendor-prepared fragments",
-                StepKind.TAILING,
-                ((repaired,InputRole.TEMPLATE),(tail_pol,InputRole.CATALYST)),
-                (vendor_tailed,))
-    adapter=graph.input("adapter","Vazyme universal Illumina adapter",
-                        MaterialKind.ADAPTER,inferred=True,
-                        source=SOURCE+" (vendor adapter oligos not yet verified)")
-    ligase=graph.input("adapter_ligase","vendor adapter ligase",MaterialKind.CATALYST,
-                       inferred=True,source=SOURCE+" (commercial implementation)")
-    adapted=graph.product("adapted","vendor-adapted barcoded cDNA fragments",
-                          MaterialKind.MOLECULAR,inferred=True,
-                          source=SOURCE+" (commercial implementation)")
-    graph.react("ligate_adapter","Ligate the vendor sequencing adapter",
-                StepKind.LIGATION,
-                ((vendor_tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
-                 (ligase,InputRole.CATALYST)),(adapted,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "The paper names the Vazyme kit but does not print its adapter oligos or terminal geometry."))
-    index_f=graph.input("index_forward","vendor PCR forward primer",MaterialKind.OLIGO,
-                        inferred=True,source=SOURCE+" (vendor primer oligos not yet verified)")
-    index_r=graph.input("index_reverse","vendor indexed PCR reverse primer",
-                        MaterialKind.OLIGO,inferred=True,
-                        source=SOURCE+" (vendor primer oligos not yet verified)")
-    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
-                          state=FINAL_LIBRARY,inferred=True,
-                          source=SOURCE+" (outer adapter arms inferred)")
-    graph.react("library_pcr","Complete and index the vendor library",StepKind.PCR,
-                ((adapted,InputRole.TEMPLATE),(index_f,InputRole.STRUCTURAL),
-                 (index_r,InputRole.STRUCTURAL),(pre_pol,InputRole.CATALYST)),
-                (library,),geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY,reason="The complete vendor PCR oligos have not yet been verified from a Vazyme manual."))
-    graph.sequence(library,SequencingPlan(
-        library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),read_lengths=READ_LENGTHS))
-    graph.declare_reviewed_scope((
-        "nucleus","block_primer","block_polymerase","block_dna","rt_primers",
-        "reverse_transcriptase","reverse_transcribe","tdt","da_tail","barcoded_bead",
-        "extension_polymerase","bead_extend","preamp_forward","preamp_reverse",
-        "preamp_polymerase","preamp","fragment_mix","fragment","end_repair",
-        "tail_polymerase","vendor_da_tail","adapter","adapter_ligase",
-        "ligate_adapter","index_forward","index_reverse","library_pcr","library"),SOURCE)
-    return graph.require_publishable()
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ nucleus=g.input('nucleus','qualified fixed permeabilized FFPE nuclei',MaterialKind.BIOLOGICAL,state=nuclear_scene('initial'),primary=True)
+ block=g.input('block_primer','N7 genomic DNA block primer',MaterialKind.OLIGO,state=Construct([Segment('block primer',BLOCK_PRIMER)]))
+ pol=g.input('block_polymerase','M20 DNA Polymerase kit',MaterialKind.CATALYST)
+ blocked=g.product('blocked','DNA-blocked nuclei',MaterialKind.BIOLOGICAL,state=nuclear_scene('blocked'))
+ g.react('block_dna','Block accessible ssDNA: 37°C 30 min',StepKind.EXTENSION,((nucleus,InputRole.TEMPLATE),(block,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(blocked,))
+ wash=g.input('wash_buffer','PBS+0.05% Tween20',MaterialKind.CONDITION)
+ washed=g.product('washed_block','washed DNA-blocked nuclei',MaterialKind.BIOLOGICAL,state=blocked.state)
+ waste=g.product('wash_block_waste','PBST washes with residual blocking primers/dimers',MaterialKind.WASTE)
+ g.react('wash_block','Wash nuclei three times; remove residual blocking primers/dimers',StepKind.CLEANUP,((blocked,InputRole.TEMPLATE),(wash,InputRole.CONDITION)),(washed,waste))
+ g.mark_terminal(Terminal(waste.id,Disposition.DISCARD,reason='Non-retained physical fraction at this source-described purification; no species-specific depletion asserted.'))
+ rtprim=g.input('rt_primers','five randomN7 plus five oligo(dT) primer variants, SI Table1',MaterialKind.OLIGO)
+ rt=g.input('reverse_transcriptase','M20 reverse transcriptase kit',MaterialKind.CATALYST)
+ cdna=g.product('cdna','in-nucleus RNA/cDNA mixture',MaterialKind.MOLECULAR,state=nuclear_scene('rt'))
+ g.react('reverse_transcribe','12 annealing ramps8–42°C then42°C30min',StepKind.REVERSE_TRANSCRIPTION,((washed,InputRole.TEMPLATE),(rtprim,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(cdna,))
+ rtwashed=g.product('washed_rt','washed in-nucleus cDNA',MaterialKind.MOLECULAR,state=cdna.state)
+ waste=g.product('wash_rt_waste','PBST washes with residual RT primers/dimers',MaterialKind.WASTE)
+ g.react('wash_rt','Three PBST washes remove residual RT primers/dimers',StepKind.CLEANUP,((cdna,InputRole.TEMPLATE),(wash,InputRole.CONDITION)),(rtwashed,waste))
+ g.mark_terminal(Terminal(waste.id,Disposition.DISCARD,reason='Non-retained physical fraction at this source-described purification; no species-specific depletion asserted.'))
+ tdt=g.input('tdt','TdT+dATP+CoCl2',MaterialKind.CATALYST)
+ tailed=g.product('tailed','variable-length dA-tailed cDNA in nuclei',MaterialKind.MOLECULAR,state=nuclear_scene('tail'))
+ g.react('da_tail','TdT dA tailing:37°C30min',StepKind.TAILING,((rtwashed,InputRole.TEMPLATE),(tdt,InputRole.CATALYST)),(tailed,))
+ tailwashed=g.product('washed_tail','washed dA-tailed nuclei',MaterialKind.MOLECULAR,state=tailed.state)
+ waste=g.product('wash_tail_waste','tailing wash fractions; composition unassigned',MaterialKind.WASTE)
+ g.react('wash_tail','Three PBS/Tween washes',StepKind.CLEANUP,((tailed,InputRole.TEMPLATE),(wash,InputRole.CONDITION)),(tailwashed,waste))
+ g.mark_terminal(Terminal(waste.id,Disposition.DISCARD,reason='Non-retained physical fraction at this source-described purification; no species-specific depletion asserted.'))
+ bead_sc=Scene(); bead_sc.strand('bead',[Segment('anchor before dU','ATTATATATAT'),Segment('deoxyuridine','U',note='source deoxyuridine, not ribouridine'),Segment('bead PCR handle',PCR2),*barcode_parts()],label='bead-linked primer; split-pool assembly documented separately',mod5='acrydite')
+ bead=g.input('barcoded_bead','bead primers assembled by three split-pool ligations',MaterialKind.OLIGO,state=bead_sc)
+ extension=g.input('extension_mix','M20 2X DNA extension reaction mix',MaterialKind.CATALYST)
+ barcoded=g.product('barcoded','droplet barcoding mixture',MaterialKind.MOLECULAR,state=barcoded_scene())
+ g.react('bead_extend','Encapsulate nuclei/bead;37°C1h,50°C30min,60°C30min,75°C20min',StepKind.EXTENSION,((tailwashed,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(extension,InputRole.CATALYST)),(barcoded,))
+ pfo=g.input('pfo','PFO buffer',MaterialKind.CONDITION)
+ aqueous=g.product('aqueous','recovered aqueous phase',MaterialKind.MOLECULAR,state=barcoded.state)
+ g.react('break_emulsion','Break droplets with PFO; recover aqueous phase',StepKind.EXTRACTION,((barcoded,InputRole.TEMPLATE),(pfo,InputRole.CONDITION)),(aqueous,))
+ beads=g.input('ampure','AMPure XP',MaterialKind.SELECTION)
+ purified=g.product('purified','bead-purified barcoded DNA precursor',MaterialKind.MOLECULAR,state=barcoded.state)
+ waste=g.product('purify_preamp_waste','pre-PCR AMPure non-retained fraction; composition unassigned',MaterialKind.WASTE)
+ g.react('purify_preamp','AMPure XP before cDNA PCR',StepKind.CLEANUP,((aqueous,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(purified,waste))
+ g.mark_terminal(Terminal(waste.id,Disposition.DISCARD,reason='Non-retained physical fraction at this source-described purification; no species-specific depletion asserted.'))
+ primers=g.input('preamp_primers','SI Table1 PCR Primer1',MaterialKind.OLIGO,state=Construct([Segment('PCR1',PCR1)]))
+ reverse=g.input('preamp_reverse','SI Table1 PCR Primer2',MaterialKind.OLIGO,state=Construct([Segment('PCR2',PCR2)]))
+ amp_sc=native_duplex([Segment('PCR2-side handle',PCR2),*barcode_parts(),role('copied transcript insert'),Segment('PCR1 opposite end',revcomp(PCR1))],label='barcoded cDNA amplicon')
+ amp=g.product('amplified','barcoded cDNA PCR product',MaterialKind.MOLECULAR,state=amp_sc)
+ other=g.product('nonamplified','nonamplified RNA/genomic DNA; partition unassigned',MaterialKind.MOLECULAR)
+ g.react('preamp','Amplify purified product with Primer1/2; cycle count unassigned',StepKind.PCR,((purified,InputRole.TEMPLATE),(primers,InputRole.STRUCTURAL),(reverse,InputRole.STRUCTURAL),(extension,InputRole.CATALYST)),(amp,other),geometry=PCRGeometry.unavailable(purified.state,reason='Actual recovered barcoding mixture; complete first-copy strand and release geometry unassigned.'))
+ g.mark_terminal(Terminal(other.id,Disposition.UNRESOLVED,reason='Non-amplification or cleanup does not establish a genomic DNA/RNA discard fraction.'))
+ clean=g.product('clean_amp','AMPure-purified cDNA amplicons',MaterialKind.MOLECULAR,state=amp_sc)
+ waste=g.product('clean_amplicon_waste','post-PCR AMPure non-retained fraction; composition unassigned',MaterialKind.WASTE)
+ g.react('clean_amplicon','AMPure purification after cDNA amplification',StepKind.CLEANUP,((amp,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(clean,waste))
+ g.mark_terminal(Terminal(waste.id,Disposition.DISCARD,reason='Non-retained physical fraction at this source-described purification; no species-specific depletion asserted.'))
+ frag_sc=native_duplex([*barcode_parts(),role('barcoded amplified cDNA fragment; exact cut boundary unassigned')],label='fragmented DNA')
+ fragmented=g.product('fragmented','50ng fragmented DNA for named kit',MaterialKind.MOLECULAR,state=frag_sc)
+ g.react('fragment','Fragmentation boundary before kit end preparation',StepKind.MAGIC,((clean,InputRole.TEMPLATE),),(fragmented,),reason='Published library-preparation paragraph names fragmented DNA but does not assign the fragmentation mechanism in the inspected scope; no generic nuclease is substituted.')
+ endmix=g.input('endprep_reagents','ND607-01 end-repair/adenylation reagents',MaterialKind.CATALYST)
+ repaired=g.product('endprepped','end-repaired and adenylated barcoded DNA fragments',MaterialKind.MOLECULAR,state=frag_sc)
+ g.react('endprep','End repair+adenylation:30°C30min,65°C30min',StepKind.END_REPAIR,((fragmented,InputRole.TEMPLATE),(endmix,InputRole.CATALYST)),(repaired,))
+ adapter=g.input('adapter','working Vazyme adapter; native strands unassigned',MaterialKind.ADAPTER)
+ ligase=g.input('ligase','kit ligation enzymes',MaterialKind.CATALYST)
+ adapted=g.product('adapted','adapter-ligated DNA',MaterialKind.MOLECULAR,state=native_duplex([role('native adapter end A'),*barcode_parts(),role('barcoded cDNA fragment'),role('native adapter end B')],label='ligation product; exact junction unassigned'))
+ g.react('ligate_adapter','20°C15min adapter ligation',StepKind.LIGATION,((repaired,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(adapted,),geometry=AdapterLigationGeometry.unavailable('Native vendor strands and end geometry are unassigned in inspected source scope.'))
+ selected=g.product('selected','AMPure size-selected adapted DNA',MaterialKind.MOLECULAR,state=adapted.state)
+ waste=g.product('select_library_waste','AMPure size-selection rejected fraction; size boundaries unassigned',MaterialKind.WASTE)
+ g.react('select_library','Purify and size-select ligated DNA with AMPure XP',StepKind.SELECTION,((adapted,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(selected,waste))
+ g.mark_terminal(Terminal(waste.id,Disposition.DISCARD,reason='Non-retained physical fraction at this source-described purification; no species-specific depletion asserted.'))
+ kitpcr=g.input('kit_pcr','native kit PCR reagents/primers; identities unassigned',MaterialKind.CATALYST)
+ libraryamp=g.product('library_amp','amplified native library',MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+ kitf=g.input('kit_forward','native kit PCR primer A',MaterialKind.OLIGO)
+ kitr=g.input('kit_reverse','native kit PCR primer B',MaterialKind.OLIGO)
+ g.react('library_pcr','Kit library amplification',StepKind.PCR,((selected,InputRole.TEMPLATE),(kitf,InputRole.STRUCTURAL),(kitr,InputRole.STRUCTURAL),(kitpcr,InputRole.CATALYST)),(libraryamp,),geometry=PCRGeometry.unavailable(selected.state,reason='Actual size-selected native adapted precursor; no generic final duplex substituted.'))
+ library=g.product('library',FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+ waste=g.product('final_cleanup_waste','final AMPure non-retained fraction; composition unassigned',MaterialKind.WASTE)
+ g.react('final_cleanup','Final AMPure XP purification; Qubit/Qsep QC',StepKind.CLEANUP,((libraryamp,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(library,waste))
+ g.mark_terminal(Terminal(waste.id,Disposition.DISCARD,reason='Non-retained physical fraction at this source-described purification; no species-specific depletion asserted.'))
+ g.sequence(library,SequencingPlan(library=FINAL_LIBRARY,primers=(),read_lengths={'Read 1':150,'Read 2':150},limitation='PE150 and identifier extraction source-declared; exact native sequencing primer landing and index allocation unassigned.'))
+ g.declare_reviewed_scope(('preamp_reverse','kit_forward','kit_reverse','nucleus','block_primer','block_polymerase','block_dna','blocked','wash_buffer','wash_block','washed_block','rt_primers','reverse_transcriptase','reverse_transcribe','cdna','wash_rt','washed_rt','tdt','da_tail','tailed','wash_tail','washed_tail','barcoded_bead','extension_mix','bead_extend','barcoded','pfo','break_emulsion','aqueous','ampure','purify_preamp','purified','preamp_primers','preamp','amplified','clean_amplicon','clean_amp','fragment','fragmented','endprep','endprep_reagents','endprepped','adapter','ligase','ligate_adapter','adapted','select_library','selected','kit_pcr','library_pcr','library_amp','final_cleanup','library'),SOURCE)
+ return g.require_publishable()

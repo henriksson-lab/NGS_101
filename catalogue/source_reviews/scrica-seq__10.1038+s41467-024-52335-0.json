@@ -476,6 +476,51 @@
       ],
       "scope": "Capped defining-source pass; low-throughput branch only. No accepted missing-information claim.",
       "verification": "local suite 6 checks pass; page builds; pairing 0 problems; chemistry 5 established/2 conditional/20 unresolved/0 contradictory; source guard 10 exact oligos checked, 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch05-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "scope": "Capped source-owned native graph migration; defining published sources first, maximum3originals/10minutes of investigation. No absence acceptance or review-status upgrade.",
+      "oligo_scraper": "Full cached source-bundle scrape run; relevant exact oligo/modification hits verified against the named original passages. Large analysis/data tables skipped by scraper are not absence evidence.",
+      "verification": "Affected protocol suites3/13/6 pass; all3page builds pass; combined sourceguard21checked/0failed/7unassigned/0exempted; pairing0; chemistry0contradictions (19conditional68unresolved combined). Scoped whitespace check passes. Review schema and note builds run after this record.",
+      "documents": 3,
+      "locations": "Published defining PMC11399327 JATS Methods low-throughput construction/text152–164; published Supplementary Data2 MOESM5 workbook all28lines, ES-cell oligos1–18 and separately scoped10x rows19–28/footnote; original MOESM1 SupplementaryInformation PDF p4 SupplementaryFig3 rendered and visually inspected for ss/duplex/circle/RCA and PCR1/PCR2/index arm order. High-throughput excerpt was seen for identity/boundary, not merged into low-throughput model.",
+      "findings": "Removed multibranch/batch_ngs/multimodal_spatial/protocol_extensions recipe dependencies. Source-owned explicit N8 index-primer-derived TSS/TES endpoints preserve N6/N12 features, four retained size-fraction terminals and published low-throughput PE150. Actual switched ss cDNA enters initial PCR; native mixed RCA fragment aliquots and co-carried off-target classes enter enrichment rounds. Native first-cycle/gap/end proofs remain unavailable rather than using expected products as templates. Split cleanup/digestion operations, source intermediate1xAMPure and0.6xRCA cleanup are explicit; hydrolysis/ineligible end classes are unresolved rather than physically discarded. Removed generic Nextera low-throughput ATAC endpoint and replaced it with explicit cited-ref11 native preparation/acquisition boundary. Physical N8 windows do not determine index acquisition. Existing published N6 sequence vs16bp footnote discrepancy retained; no correction/absence conclusion.",
+      "deferred": [
+        "Hu2016 ref11 native low-throughput separation/ATAC preparation, endpoint and acquisition",
+        "Exact TTE adapter-end geometry and PCR first-cycle transformations",
+        "RNA and off-target fragment persistence/cleanup-class recovery",
+        "Index acquisition and cycles",
+        "Separate10x Multiome/high-throughput MGI route and historical author processing questions"
+      ]
+    },
+    {
+      "round": "2026-10-18-batch05-implementation-correction",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current local population/structural input constructors; existing batch05 native-migration source scope reused without rereading any originals. Parent independent implementation finding addressed.",
+      "scope": "Implementation-only correction; no new source/absence claim or status change.",
+      "findings": "Filled graph structural-input states from existing source-qualified local oligos: RT primer handle–N6–N12–tag1–T30VN; TSO20DNA bases plus3terminal G residues explicitly annotated RNA/rG. The ordered oligo representation remains source /rG//rG//rG/. Primer feature identities and current low-throughput native graph/unknown first-cycle boundaries remain unchanged; no new source fact or endpoint assumption.",
+      "deferred": [
+        "Native Tn5 transfer/gap/end and PCR first-cycle geometry remain as previous bounded scope",
+        "Linked source/read-acquisition and polymer-fate questions remain deferred as prior migration record"
+      ],
+      "verification": "Affected suites3+6 pass; both pages build; sourceguard20checked0failed3unassigned0exemptions; pairing0; chemistry0contradictions (10conditional53unresolved across2graphs); whitespace check passes. Schema and note builds run after record."
+    },
+    {
+      "round": "2026-10-18-batch05-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current protocol-owned graph/module, structured oligos, intermediate populations, actual PCR inputs, fates and read declarations; owner supplied capped source scope. No original reread in this pass.",
+      "findings": "Low-throughput route remains separate from high-throughput Multiome. Parent found graph oligo inputs omitted full RT-primer state and physical three-RNA-G TSO tail; owner corrected both from already-read source components. Actual ss switched cDNA and native tagmented fragments feed PCR; circle/linker junction, RCA, TSS/TES PCR series and source bead/size recoveries explicit. No finished index library supplies its own precursor. Source N6/N12 and table-footnote discrepancy public, physical N8 versus acquired index cycles separated. Genuine unread ref11 accessibility preparation remains an explicit boundary; no generic completed ATAC shell substituted.",
+      "deferred": [
+        "Native source boundaries and linked originals recorded in owner bounded source pass; residual class recovery and conditional molecular geometry remain scoped follow-ups."
+      ],
+      "scope": "Independent critical implementation review only; no new source claim, source-status upgrade or missing-information acceptance.",
+      "verification": "Owner focused checks passed; final parent checks and site build follow."
     }
   ]
 }

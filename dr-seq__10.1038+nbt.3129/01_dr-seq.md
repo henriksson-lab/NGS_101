@@ -35,3 +35,17 @@
 - Complete Ad-1x and Ad-2 order sequences (CEL-Seq Hashimshony 2012 original and its supplement; MALBAC supplement not read).
 - NEBNext Ultra adapter/index primers and which indices were used; gDNA acquired read length (50 or 100 bp).
 - Whether the P3/P2 difference is deliberate.
+
+## Native ownership migration, 2026-10-18
+
+Read two originals: the published DR-seq article (PMC4374170 main workflow and Methods, PDF 69–93 and JATS 70–80) and its published supplement (Supplementary Figure 3 legend, publisher supplement 268–272; contextual published Ad-2 interpretation retained). Ran the cached-bundle oligo scraper and verified P1/P2/biotin-P3 against the original Methods. The cited CEL-Seq and MALBAC originals, historical kit manuals and source oligo orders were not followed in this capped pass.
+
+Removed the shared multibranch Illumina endpoints and generic PCR finishers. Historical NEBNext Ultra DNA preparation is now an explicit bounded manufacturer operation; its actual end preparation, adapter/index and PCR recipe is not replaced with canonical TruSeq or a newer kit. The RNA branch follows the article's stated 3′-adapter ligation → library RT → PCR sequence, with exact historical CEL-Seq adapters/primers unassigned. Its PCR receives an actual single-strand library-cDNA Scene, distinct from the final library. DNA sample-index semantics retain the Methods' different index primers per single cell; the transcript barcode remains an Ad-1x cell identity, never a UMI.
+
+Both halves of the quasilinear pool now retain genome- and transcript-derived populations. P2/P3 amplification does not imply physical modality purification; each PCR declares one physical primer species and uses its actual mixed incoming state, with first-cycle geometry unresolved. The initial RT product is an independent cDNA strand beside genomic DNA, rather than a primer/RNA docking view. Sonication produces a fragment population instead of an unchanged full P3 amplicon. Streptavidin depletion retains the source supernatant/wash DNA while excluding the biotin-labeled ends. DNA templates/nontranscribed carryover after IVT have unresolved recovery, rather than being presumed destroyed because only cDNA makes T7 aRNA. Previously labelled Ad-1x/Ad-2 working models and the published Ad-2 discrepancy remain explicitly inferred and are not promoted by this migration.
+
+The RNA paired100 and DNA paired50-or100 HiSeq2500 alternatives are kept without assigning unreviewed index acquisition or exact native primer/read geometry. The source inventory is curator-written. No accepted missing-information claim or complete protocol review is implied.
+
+### Independent component-inheritance correction
+
+The later CEL-Seq library RT now has its own unassigned historical catalyst. ArrayScript/MessageAmp II is positively assigned to the initial cellular RT and is not reused as evidence for the later library RT. Both RT views explicitly leave the RNA template's subsequent physical disposition unassigned; a DNA product does not establish RNA destruction or removal. No new original was investigated for this implementation correction. The independent review otherwise found the mixed inputs, source physical fates, actual ss PCR precursor and vendor/geometry boundaries consistent within the stated source scope.

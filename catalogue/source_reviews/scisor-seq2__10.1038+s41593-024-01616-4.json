@@ -120,6 +120,38 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 2 established/1 conditional/13 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 3 oligo inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch10-native-graph-migration",
+      "reviewer": "native_longread_implementation",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "PublishedPMC11156538 Methods LAP212/CAP216/10x220/PacBio224/ONT228; originalMOESM1 title/identity, TablesS1–3 sample/run section headers336/603/961, and reporting-summaryMOESM2 printedFeb13,2024 identity/software sections. Native named kit2.0/LSK110 guide identities checked in Methods; no later-kit original substituted.",
+      "oligo_scraper": "Mandatory source-bundle scraper: Fiber4hits/2files, SAMOSA53hits/2files, ScISOr2hits/1file; relevant original passages and modified oligos verified, no absence inference.",
+      "findings": "The graph starts from source30ng native10x3′v3 cDNA. Cellbarcode and UMI retain structured identity with unassigned native widths/ordered kit strands; default16/12 windows are removed. It instantiates independent PacBio-selected and ONT-selected experimental preparations through the same source-owned LAP-CAP operations, rather than asserting that one unsupported aliquot was physically split into both platforms.\n\nPartialRead1-only12cycle asymmetric extension produces actual new ssDNA alongside original/carry-over DNA. Source0.8XSPRI/two80%ethanol washes precedes six two-primer exponential cycles with PartialRead1 and PartialTSO, then0.6XSPRI/two80%washes/30µlEB. The two complete source primers are independently transcription tested. Actual asymmetric native input feeds the two-primer PCR; a completed platform library does not.\n\nSource blocking/denaturation and24h65°C exon-probe hybridization precede M270-streptavidin capture. Probe chemistry, native hybrid geometry and affinity-tag placement remain unassigned rather than being fabricated from the kit name. WB1 at room temperature15min and three separate fresh WB2 washes at65°C10min are explicit. The source18µl-water bead suspension, with DNA/probes/blockers as distinct components, is the actual12cycle on-bead PCR input. Amplified supernatant is physically isolated from M270beads before source0.8XSPRI. Unbarcoded/unspliced molecules are not physically removed merely because asymmetric PCR or enrichment underrepresents them; original/nonproductive class recovery remains unresolved.\n\nThe PacBio-directed experiment takes source~500ng enriched cDNA into named SMRTbellExpressTemplatePrepKit2.0: damage repair37°C30min, endrepair/A-tailing20°C30min/65°C30min, adapter ligation20°C60min, then0.6XSPRI. The native3′A substrate is drawn; native5′ identity, ordered hairpin bodies/overhangs and exact circuit/primer geometry remain unassigned. Source-known closed SMRTbell context is retained without an arbitrary18base/A-T shell. Unligated/partially ligated DNA is a molecular unresolved class.\n\nThe independent ONT-directed experiment takes source~75fmol enriched cDNA into SQK-LSK110, explicitly cited as Amplicons by Ligation ACDE_9110_v110_revC_10Nov2020. The exact old guide's internal workups/motor assembly are a bounded unread source stage; laterLSK114 is not substituted. SourcePromethION/FLO-PRO002/72h is a run specification, while Q>7 is computational filtering. Neither filter nor motor association is fabricated as physical DNA discard or a covalent DNA–protein polymer. Human/SnISOr and parallel10x short-read preparation remain separate scope.",
+      "deferred": [
+        "Native original10x kit/RT strands and cellbarcode/UMI width assignments",
+        "OriginalSMRTbellExpress2.0 hairpin/ligating-end/circuit/primer geometry",
+        "CitedLSK110 ACDE_9110_v110_revC_10Nov2020 internal workups and motor geometry",
+        "Human/SnISOr and parallel short-read variants",
+        "Exact molecular partition through capture and successive beads"
+      ],
+      "scope": "Capped originals/source-owned native graph pass for selected experiments only; historical source statuses and absence gate preserved.",
+      "verification": "Focused suites3/1/3/pages pass; chemistry65steps0contradictions71unresolved; sourceguard7checked0failed3unassigned; pairing0; notesbuild/review schema/staticOUTdiscovery/scoped diffcheck pass. Independent code-only peer review fixed premature ScISOr probe presence and retained possible open SAMOSA DNA in actual mixed ExoIII input; affected pages/chemistry/pairing rechecked. Zero source additions during peer corrections."
+    },
+    {
+      "round": "2026-10-18-batch10-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Read chem.py both independently instantiated native LAP-CAP experiments; actualasymmetricSS→two-primerPCR; blockers/probes/capture/washes/onbeadPCR/supernatant; sourceKit2.0 A-tail/native ligation versus LSK110 boundary; identifiers/residualfates/manualtargets.",
+      "findings": "Found exomeprobe and beadassociation represented before actual additions. Owner corrected blocked-only state to independentblockers without exomeprobe, firstprobe appearance at hybridization, and beadassociation at capture. Verified correction. ActualSS/mixed native states feed PCR; cell/UMI widths and native kit geometry stay unassigned.",
+      "deferred": [
+        "Kit2.0 exact hairpin ends/closure circuit and unread LSK110 detailed native operations remain bounded.",
+        "Existing3-original sourcepass not re-read; no secondsource or sourceabsence conclusion."
+      ],
+      "scope": "Code-only independent implementation review of existing owner sourcepass; no originals opened or source breadth expanded. Historical status and absence gates unchanged.",
+      "verification": "Re-read corrected code; all3chemistry audits65steps/71unresolved/0contradictory; renderedpages pairing0. Owner reports source suites3/1/3, builds, sourceguard7exact/0failed/3unassigned and schema pass."
     }
   ]
 }

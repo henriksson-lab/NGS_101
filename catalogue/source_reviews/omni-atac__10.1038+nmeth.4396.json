@@ -241,6 +241,22 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 2/2 pass (Ad1_noMX/Ad2.1 transcription); page builds; pairing 0 problems; chemistry 8 steps 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 2 inputs without exact states; Markdown built; audit --check pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "atac_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "scope": "Protocol ownership, actual PCR precursor and bounded source-transcription review only.",
+      "locations": "Corces2017 published PMC5623106 Sequencing lines261–272 and in-house transposase Methods lines307–313 plus AuthorContributions line898; published MOESM3 SupplementaryProtocol1 cleanup/preamp/qPCR/final amplification lines88–169; MOESM1 inspected for identity/figure context only and not used as oligo authority.",
+      "findings": "Local declaration owns the original Ad1/Ad2 single-index reference, in-house Tn5/DMF/PBS/detergent conditions and source-specific recovery/PAGE/QC branches. Removed shared variant/endpoint/primer recipes and test imports. Full loading-derived template geometry and reference primer assignments retain inferred construction styling. A distinct gap-fill intermediate precedes five-cycle PCR; both PCR geometries use actual predecessor states instead of the final library. Candidate non-library end products remain unresolved rather than presumed physically discarded. Acquired reads are2×75 only: eight molecular index bases no longer imply an acquired index read.",
+      "deferred": [
+        "Exact in-house Tn5 loading oligos and study-specific index member remain unassigned; original Ad1/Ad2 reference does not verify those reagents",
+        "Cited Picelli2014 loading chemistry not re-read within this cap",
+        "Transposition/gap filling and full PCR product relations remain unresolved despite primer-site checks"
+      ],
+      "verification": "local suite2/2 and full local graph pass; page build; chemistry9steps0established2conditional9unresolved0contradictory; source guard0failed (inferred primer references excluded); pairing0 problems",
+      "oligo_scraper": "Full protocol bundles scraped; Fast-ATAC cited CurrentProtocols and Nature14590 predecessor bundles also scraped before inspecting their originals. Drawn upstream pages were not evidence."
     }
   ]
 }

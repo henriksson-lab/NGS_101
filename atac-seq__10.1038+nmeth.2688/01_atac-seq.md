@@ -74,3 +74,11 @@ Read 1 / Index 1 / Read 2 primers are implied by the adapter design, not named �
 - 🔴 Loaded Tn5 adapter sequences and the historical Nextera kit guide (not fetched).
 - 🟡 Whether every Ad2.N index matches the Illumina Nextera i7 set — not checked.
 - The publisher typeset article (paywalled) was not compared with the author manuscript.
+
+## Source-owned validation migration, 2026-10-18
+
+Original2013 declaration owns its exact Ad1_noMX/Ad2.1 example and single-eight-base-index Nextera endpoint. Removed batch_ngs and family primer/endpoint dependencies, including unused chromatin recipe import. Staggered pre-extension material remains distinct from the complete gap-filled template; PCR primer footprints are now computed on the actual extended precursor rather than final flow-cell product. End-class candidates lacking intended S5/S7 geometry remain unresolved instead of a physical discard. The50×8×50 HiSeq run is preserved; the34×8×34 MiSeq run remains another source variant.
+
+Source scope: Buenrostro2013 published PMC3959825 Methods PCR line77 and Primary data processing line99; published MOESM200 SupplementaryTable1 beginning lines1–12 (Ad1_noMX and Ad2.1).
+
+Deferred: Exact loaded transposome oligo chemistry and9nt stagger/gap-fill mechanism remain molecular-coverage work; Explicit qPCR aliquot branch and source34×8×34 MiSeq run variant remain separate modelling work. This bounded check does not establish complete molecular validation or an accepted source-absence claim.

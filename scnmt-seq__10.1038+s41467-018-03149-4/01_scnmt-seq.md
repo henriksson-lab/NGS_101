@@ -1,78 +1,33 @@
-# scNMT-seq
+# scNMT-seq — RNA, methylation and accessibility
 
-## 1. What it is
+Clark et al., *Nature Communications* (2018), [doi:10.1038/s41467-018-03149-4](https://doi.org/10.1038/s41467-018-03149-4).
 
-scNMT-seq jointly measures chromatin accessibility, endogenous DNA methylation and RNA expression by GpC marking followed by physical RNA/DNA separation and branch-specific libraries.
+## Active source scope
 
-## 2. Authoritative source
+The capped 2026-10-18 source pass inspected three originals: published PMC5823944, Methods136–144 and interpretation Results; original MOESM1 SupplementaryInformation figures, including context filtering; and the MOESM2 EditorialNote/reviewer-report head. The editorial material supplies no recipe facts. The mandatory source-bundle scraper returned24hits in8hit-files; one15MB source-data workbook was skipped. This is not a source-absence finding. Implementation used the supplied capped-source facts and opened no additional original.
 
-🟢 Clark et al., *scNMT-seq enables joint profiling of chromatin accessibility, DNA methylation and transcription in single cells*, Nature Communications (2018), DOI `10.1038/s41467-018-03149-4`.
+## Native reaction branches
 
-## 3. Protocol boundary
+🟢 Cells enter a2.5µl M.CviPI/SAM reaction for15min at37°C. Accessible GpC can acquire5mC; endogenous CpG methylation is independently retained.5µl RLTplus stops the reaction. Oligo-dT magnetic beads capture RNA; the DNA-containing lysate and three15µl bead washes are transferred into the DNA branch. RNA and DNA remain independent molecules, sharing plate-well provenance rather than an invented inline cell barcode.
 
-🟢 The RNA branch uses bead-capture Smart-seq2; the DNA branch uses M.CviPI marking followed by scBS-seq. Both branches belong on this protocol page because their pairing is the defining operation.
+🟢 The RNA branch uses100U SuperScriptII with42°C60min,50°C30min and60°C10min incubation. A named TSO contributes a template-switched single-strand cDNA precursor. ISPCR/KAPA amplification uses18cycles;1:1AMPure purification recovers cDNA in20µl water.100–400pg cDNA enters a one-fifth-volume NexteraXT preparation. Its actual tagged cDNA precursor is distinct from the completed indexed endpoint; native adapter/gap/PCR geometry remains unassigned.
 
-## 4. Construct path
+🟢 DNA is purified with0.8×AMPure into10µl water, then bisulfite converted with the half-volume EZ Methylation Direct MagBead kit. Original converted strands carry physical U at converted unprotected-C positions; final T readout is not substituted for those molecules.
 
-🟢 Cells are treated with M.CviPI for 15 minutes before lysis. Oligo-dT magnetic beads capture RNA; wash supernatants are transferred to the DNA plate.
+🟢 The Methods names **6NF for both synthesis stages**. The first uses50U Klenow at37°C for30min and repeats four more times, for five total rounds.20U ExonucleaseI treatment at37°C precedes0.75×AMPure purification. Chemical hydrolysis and physical cleanup are distinct; the source scope does not assign the exact surviving original/copy strand spectrum.
 
-🟢 The RNA branch is Smart-seq2 cDNA followed by one-fifth-volume Nextera XT. The DNA branch is bisulfite conversion followed by the published scBS-seq two-round random-priming chemistry and PE1.0/iPCRTag amplification.
+🟢 The second stage again names6NF, with98°C2min/ice setup and Klenow at37°C for90min. Another0.75×AMPure purification recovers the actual native copied precursor. PE1.0/iTAG/KAPA PCR uses14cycles, followed by0.7×AMPure purification. No N9 tail, historical scBS-seq final scaffold or default8-base iTAG index is supplied.
 
-🟡 The defining paper names its RNA oligos as the Smart-seq2 oligo-dT, TSO and ISPCR
-primer and cites Picelli et al. (2013, 2014). Their sequences and the canonical
-Nextera s5/s7 indexing-primer geometry are therefore reused from those authoritative
-chemistries rather than left as protocol-local unknowns. The scNMT-seq paper does not
-claim a different sequence variant — but it does not print one either, which matters for
-the TSO linker (below).
+🟡 Complete native6NF strands, handles and tail widths remain unassigned. Likewise, native PE1.0/iTAG species and sequencing-primer geometry remain unassigned. Identifier metadata records sample/plate-well meaning without supplying a barcode count, sequence or cycle span. No UMI or inline cell barcode is invented.
 
-🟢 Both branches were sequenced paired-end. The schematic keeps their distinct Nextera and historical scBS-seq primer layouts separate.
+## TSO boundary
 
-## 5. The TSO linker is inherited, not published here — 🟡
+Earlier model notes compared the AC linker in Picelli2013 SupplementaryTable2, rGrG+G row, with ACAT in Picelli2014 ReagentSetup. The study cites both sources, which does not choose its ordered TSO. The current model retains an unassigned native TSO role and inherits neither sequence. This removes the previous guessed ACAT declaration; historical source-review records are retained without upgrading their scope.
 
-🟢 Clark et al. 2018 print **no oligo sequence**. The Library-preparation paragraph names
-each reagent by citation: *"mRNA was captured using Smart-seq2¹⁰,²⁷ oligo-dT pre-annealed
-to magnetic beads (MyOne C1, Invitrogen) … 1 μM Template-Switching Oligo¹⁰,²⁷ (Exiqon) …
-1 μl of 2 μM ISPCR primer¹⁰,²⁷"* (`s41467-018-03149-4_PMC5823944.pdf.txt`, lines
-1092–1104). Refs. 10 and 27 are Picelli et al. 2013 (*Nat. Methods*) and Picelli et al.
-2014 (*Nat. Protoc.*). Neither the main text, the three supplementary PDFs
-(`41467_2018_3149_MOESM1..3`) nor the supplementary tables contain an `AAGCAGTGG…` string.
+## Cohorts and interpretation
 
-🟡 So the TSO is an **inherited inference**, and because the two cited papers are cited
-*together* the inheritance is ambiguous: they print different linkers.
+🟢 The graph selects EL16 RNA and DNA libraries sequenced on HiSeq2500 with paired125-base reads. The initial20-library DNA QC cohort, including3controls, used MiSeq single-end50. The separate E14 embryoid-body cohort used NextSeq paired75 for DNA and single-end75 for RNA. Its RNA run has no acquired Read2. Index acquisition remains unassigned for all these recipes; separate runs are not merged into one cycle mask.
 
-| Linker | Where | TSO as printed |
-|---|---|---|
-| `AC` | ref. 10, Picelli et al. 2013 Supplementary Table 2, row `rGrG+G` — the oligo Supplementary Table 4 names as Smart-seq2's own | `AAGCAGTGGTATCAACGCAGAGTAC` `rGrG+G` |
-| `ACAT` | ref. 27, the *Nature Protocols* form | `AAGCAGTGGTATCAACGCAGAGTACAT` `rGrG+G` |
+🟢 GCG contexts are ambiguous between GpC accessibility marking and endogenous CpG methylation; CCG can reflect off-target marking. Their exclusion is computational interpretation, not physical DNA removal. The GpC and CpG readouts therefore retain their context restrictions after sequencing.
 
-In the copy of Supplementary Table 2 fetched into this bundle
-(`nmeth.2639_…_MOESM301_ESM.xlsx`, lines 4–16) three of thirteen oligos (`C6 Amino`,
-`rGrGrG`, `rG3p`) carry `ACAT` and the other ten, `rGrG+G` among them, carry `AC`.
-
-🟡 **The model uses the `ACAT` form** — `smart-seq2__10.1038+nmeth.2639/tools/smartseq2.TSO_LINKER`, the constant four
-SMART-seq2 derivatives share — because Clark cites the 2014 detailed protocol that prints it. This remains an inferred selection. "Exiqon" names
-the supplier of the LNA `+G`, not a linker. The schematic therefore draws the **whole
-linker** dotted, with all three required signals: a preamble caveat naming both forms, an
-`INFERRED — …` caption on the template-switch step, and `<inf>` around `ACAT` in the oligo
-list and the drawn cDNA states. The local graph marks its TSO input linker inferred;
-`smartseq2.preamp_template()` marks the same linker inferred in the inherited cDNA state.
-
-🟢 An author-uploaded copy of Picelli et al. 2014 *Nature Protocols* is readable
-[online](https://www.researchgate.net/publication/259566573_Full-length_RNA-seq_from_single_cells_using_Smart-seq2):
-its Reagent Setup (web lines 763–789) prints the `ACATrGrG+G` TSO, oligo-dT30VN
-and ISPCR. It confirms that inherited option, but Clark et al. still cite the
-2013 and 2014 protocols together without identifying which TSO they ordered.
-The exact scNMT-seq TSO remains inferred.
-
-🟡 The DNA branch inherits the published scBS-seq iPCRTag primer family. Clark et al.
-name an iTAG index primer but do not identify the selected sequence member in the
-defining Methods or the inspected supplements. The final-library diagram therefore
-shows a variable sample-index window, not an experiment-specific iTAG sequence.
-
-## Bounded primary-source check (2026-10-16)
-
-Inspected: Original PMC5823944 JATS64–76,134–148.
-
-Named SuperScript II, 18-cycle RNA preamplification, five DNA first-synthesis rounds and14-cycle DNA PCR. Source names 6NF for both stages: removed false source-exact oligo1/2 assignment and marked inherited N9 scaffold/primer geometry provisional. Added EL16/E14 EB alternative runs, GCG/CCG interpretation exclusions, unresolved Tn5 product fate.
-
-Deferred: Exact 6NF identities and potential source wording ambiguity; original supplements and linked protocols; separate recovery states and complete verified DNA assembly. This is a capped check, not a full source audit or confirmation of missing information.
+Deferred targets: version-specific Smart-seq2 predecessor components and ordered TSO, native6NF and PE1.0/iTAG strand identities/handle lengths, native NexteraXT index/gap/PCR geometry, index acquisition and source-data workbook relevance. No linked-source closure or missing-information claim is accepted by this bounded migration.

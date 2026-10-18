@@ -1,15 +1,15 @@
 """SPLASH source-specific page specification and psoralen choices."""
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Scene, Segment
+from chemdraw import Construct, Scene, Segment, feature
 from circular import CircularizationGeometry
 from interaction_capture import ReversibleDuplexCrosslink
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            SourceClaim, SourceDiscrepancy, StepKind)
-from protocol_specs import Definition, get
-from rna_library_operations import molecule
+                            SourceClaim, SourceDiscrepancy, StepKind, Highlight, Disposition, Terminal)
+from protocol_specs import Definition
+from protocol_model import molecule, role
 from splash_oligos import (INDEX1_PCR_PRIMER, RNA_LINKER,
-                           UNIVERSAL_PCR_PRIMER, oligos)
+                           UNIVERSAL_PCR_PRIMER, RT_LEFT, RT_MIDDLE, RT_RIGHT, oligos)
 
 DEFINITION = Definition(
     "SPLASH — sequencing psoralen-crosslinked RNA hybrids",
@@ -32,18 +32,48 @@ PSORALEN = ("biotinylated psoralen",
 # The reaction's exact circle-derived PCR template remains unavailable.
 NEB_SET1_SOURCE = "https://www.neb.com/en/-/media/nebus/files/manuals/manuale7335_e7500_-e7710_e7730.pdf"
 
-SPEC = get("splash", definition=DEFINITION, psoralen=PSORALEN)
-SPEC.oligos = oligos
-SPEC.SEQUENCING_UNAVAILABLE = (
-    "The activated adapter and 96-nt RT/circularization-primer bases are "
-    "published. The detailed protocol names NEB E7335L Universal PCR Primer and "
-    "Index (X) Primer; the exact circle junction and completed amplicon have "
-    "not yet been derived, so read-primer sites remain unresolved.")
+TITLE=DEFINITION.title
+NOTES='01_splash.html'
+SOURCE='<a href="https://doi.org/10.1016/j.molcel.2016.04.028">Aw et al., Molecular Cell2016</a>, Experimental Procedures and original supplement; JoVE2017 identified explicitly as later detailed reference.'
+SUMMARY=DEFINITION.summary
+CAVEAT=DEFINITION.caveat+' Native2016 PrimersSet1 members/widths and exact circle-to-amplicon geometry are unassigned; the later NEBRev8 primer reference is not assigned to the executed2016 lot. Actual modified ss-cDNA/circle states enter native PCR.'
+INDEX=feature('splash_sample_index','sample_index','unknown',note='Native selected member/physical width unassigned')
+FINAL_LIBRARY=Construct([role('native forward PCR end; full copied primer architecture unassigned',inferred=True),role('RNA-A/RNA-B-derived chimera cDNA'),role('native indexed opposite PCR end; member/width unassigned',inferred=True,molecular_feature=INDEX)],name='SPLASH native endpoint boundary')
+SEQ_PRIMERS=()
+FINAL_CAPTION='INFERRED native endpoint — no default completed library shell or selected later index is substituted.'
+SEQUENCING_UNAVAILABLE='Source custom RNA linker and two-spacer RT primer are explicit; complete native circle junction/first-copy/PCR geometry and acquired indexes remain unassigned.'
+SEQUENCING_ENDING='Defining2016 article: NextSeq500 sequencing after9–12PCR cycles. Existing FigureS2G review records PE150; later2017JoVE likewise states PE150, a reference rather than proof of native index acquisition.'
+READ_SPECS=(__import__('seqprimers').read_spec('Read 1',150,'chimera-derived cDNA; native primer landing unassigned','include'),__import__('seqprimers').read_spec('Read 2',150,'opposite chimera-derived cDNA end','include'),__import__('seqprimers').read_spec('Index 1 (i7)','unassigned','Native index identity/acquisition unassigned','undetermined'))
+
+def rt_segments():
+    return [Segment('RT primer left arm',RT_LEFT),role('internal iSp18 spacer1'),Segment('central tract',RT_MIDDLE),role('internal iSp18 spacer2'),Segment('RT primer right arm',RT_RIGHT)]
+
+def rt_state(*,extended=False,rna=False,circle=False):
+    sc=Scene();parts=rt_segments()
+    if extended:parts.append(role('antisense copy of linked RNA chimera; native extent unassigned'))
+    sc.strand('cDNA' if extended else 'primer',parts,label='native circular ss-cDNA; exact closure sequence unassigned' if circle else 'modified ss-cDNA' if extended else 'source RT/circularization primer',mod5='' if circle else 'p',mod3='' if circle else 'OH')
+    if circle:sc.note('cDNA','Covalent circle returns the copied3′end to the RT-primer5′end; exact base-resolved junction/firstPCR phase unassigned. 5′P consumed in sealing.')
+    if rna:sc.strand('RNA',[role('independent linker-ligated RNA template; retained through RT')],label='RNA template, not covalently joined to cDNA')
+    return sc
+
+
+def recover(g,key,template,label,state=None):
+    reagent=g.input(key+'_reagent',label,MaterialKind.SELECTION)
+    out=g.product(key+'_out','source recovered '+template.label,MaterialKind.LIBRARY if template.kind==MaterialKind.LIBRARY else MaterialKind.MOLECULAR,state=template.state if state is None else state)
+    waste=g.product(key+'_waste','physically removed selection supernatant/washes or gel fraction',MaterialKind.WASTE)
+    g.react(key,label,StepKind.CLEANUP,((template,InputRole.TEMPLATE),(reagent,InputRole.SELECTION)),(out,waste),changes_molecule=False)
+    g.discard(waste,'Source physical separation; no presumed complete depletion of every off-target class.')
+    return out
+
 SOURCE_OLIGO_EXCEPTIONS = {
     "rna_linker": ("The retrieved JoVE author PDF contains the reaction protocol but "
                    "omits the web article's materials-list sequences; the author's "
                    "HTML materials list prints 5rApp-CTGTAGGCACCATCAAT-3ddC."),
 }
+
+
+def linker_input():
+    sc=Scene();sc.strand('linker',[Segment('activated RNA linker',RNA_LINKER)],mod5='rApp',mod3='ddC');return sc
 
 
 def rna_linker_geometry() -> AdapterLigationGeometry:
@@ -70,7 +100,7 @@ def protocol_graph():
     topology = ReversibleDuplexCrosslink(reagent, selection_label)
     rna = graph.input("rna", "cellular RNA containing paired regions",
                       MaterialKind.BIOLOGICAL,
-                      state=molecule("cellular RNA", ("RNA molecules",)), primary=True)
+                      state=molecule("cellular RNA", (role("RNA strand classes; paired regions selected subsequently"),)), primary=True)
     crosslinker = graph.input("crosslinker", reagent + " and long-wave UV condition",
                               MaterialKind.CONDITION)
     crosslinked = graph.product("crosslinked", reagent + "-crosslinked RNA duplexes",
@@ -79,13 +109,14 @@ def protocol_graph():
                 StepKind.CROSS_LINKING,
                 ((rna, InputRole.TEMPLATE), (crosslinker, InputRole.CONDITION)),
                 (crosslinked,))
-    fragmentation = graph.input("fragmentation_condition", "RNA fragmentation condition",
+    fragmentation = graph.input("fragmentation_condition", "Mg-based RNA fragmentation:9mM MgCl2/225mM KCl/150mM TrisHCl pH8.3;95°C5min",
                                 MaterialKind.CONDITION)
     fragments = graph.product("fragments", "fragmented crosslinked RNA duplexes",
                               MaterialKind.MOLECULAR, state=crosslinked.state)
     graph.react("fragment", "Fragment the crosslinked RNA", StepKind.FRAGMENTATION,
                 ((crosslinked, InputRole.TEMPLATE),
                  (fragmentation, InputRole.CONDITION)), (fragments,))
+    fragments=recover(graph,"fragment_size",fragments,"6%TBE8Murea PAGE:90–110nt RNA fraction, defining2016")
     selector = graph.input("selector", selection_label, MaterialKind.SELECTION)
     selected = graph.product("selected", "enriched crosslinked RNA duplexes",
                              MaterialKind.MOLECULAR, state=fragments.state)
@@ -119,23 +150,28 @@ def protocol_graph():
                 StepKind.PROXIMITY_LIGATION,
                 ((five_phosphate, InputRole.TEMPLATE),
                  (ligase, InputRole.CATALYST)), (chimera,))
+    chimera=recover(graph,"release_chimeras",chimera,"Elute from streptavidin95°C10min inPKbuffer; TRIzol extraction and RNeasy cleanup")
     reversal = graph.input("photoreversal", "254 nm UV, 5 min on ice (2016 Experimental Procedures; JoVE section 6.1)",
                            MaterialKind.CONDITION)
+    reversed_state = Scene()
+    reversed_state.strand("chimera", [role("RNA partner A fragment"), role("RNA partner B fragment")], label="photoreversed RNA proximity-ligation product")
+    reversed_state.junction("chimera", "RNA partner A fragment", "RNA partner B fragment", "retained RNA proximity-ligation junction")
+    reversed_state.note("chimera", "Psoralen crosslink photoreversed; the covalent RNA ligation junction remains.")
     reversed_chimera = graph.product("reversed_chimera", "photoreversed RNA chimera",
-                                     MaterialKind.MOLECULAR, state=chimera.state)
+                                     MaterialKind.MOLECULAR, state=reversed_state)
     graph.react("photoreverse", "Photoreverse the psoralen crosslink",
                 StepKind.CHEMICAL_CONVERSION,
                 ((chimera, InputRole.TEMPLATE), (reversal, InputRole.CONDITION)),
                 (reversed_chimera,))
     linker = graph.input("rna_linker", "published activated 3′ RNA linker",
-                         MaterialKind.ADAPTER, state=RNA_LINKER,
+                         MaterialKind.ADAPTER, state=linker_input(),
                          source="Aw et al. JoVE 2017, materials list")
     linker_ligase = graph.input("linker_ligase", "T4 RNA ligase 2, truncated KQ (NEB M0373L), 25 °C, 2.5 h",
                                 MaterialKind.CATALYST)
     linked_state = Scene()
     linked_state.strand("linked RNA", [
         Segment("RNA chimera", "X" * 36, placeholder=True),
-        Segment("3-prime RNA linker", RNA_LINKER)], label="3′-linker-ligated RNA")
+        Segment("3-prime RNA linker", RNA_LINKER)], label="3′-linker-ligated RNA", mod5="p", mod3="ddC")
     linked_state.junction("linked RNA", "RNA chimera", "3-prime RNA linker",
                           "RNA 3′-OH to linker 5′-rApp")
     linked_rna = graph.product("linked_rna", "3′-linker-ligated RNA chimera",
@@ -146,15 +182,16 @@ def protocol_graph():
                  (linker, InputRole.STRUCTURAL),
                  (linker_ligase, InputRole.CATALYST)),
                 (linked_rna,), geometry=rna_linker_geometry())
+    linked_rna=recover(graph,"linked_rna_size",linked_rna,"6%TBE8Murea PAGE:110–130nt linked RNA, defining2016")
     rt_primer = graph.input("library_rt_primer", "published 96-nt RT primer",
-                            MaterialKind.OLIGO,
-                            source="Aw et al. JoVE 2017, materials list")
+                            MaterialKind.OLIGO, state=rt_state(),
+                            source="Original2016 supplement two-iSp18 primer; retained5′P interpretation from prior FigureS2F review; laterJoVE materials agrees on sequence")
     rt_enzyme = graph.input("library_rt_enzyme",
                             "SuperScript III, 208 nM RT primer (50 °C, 30 min)",
                             MaterialKind.CATALYST)
     cdna = graph.product("library_cdna", "RT-primer-extended SPLASH cDNA",
                          MaterialKind.MOLECULAR,
-                         state=molecule("SPLASH cDNA", ("cDNA insert", "96-nt RT primer")))
+                         state=rt_state(extended=True,rna=True))
     graph.react("library_rt", "Reverse-transcribe the linker-ligated RNA",
                 StepKind.REVERSE_TRANSCRIPTION,
                 ((linked_rna, InputRole.TEMPLATE),
@@ -163,19 +200,18 @@ def protocol_graph():
     hydrolysis = graph.input("rna_hydrolysis", "100 mM NaOH, 98 °C for 20 min (2016 Experimental Procedures; JoVE 7.13 adds 1 N stock)",
                              MaterialKind.CONDITION)
     free_cdna = graph.product("rna_free_cdna", "single-stranded SPLASH cDNA without RNA template",
-                              MaterialKind.MOLECULAR, state=cdna.state)
+                              MaterialKind.MOLECULAR, state=rt_state(extended=True))
     hydrolysed = graph.product("hydrolysed_rna", "alkali-hydrolysed RNA template",
-                               MaterialKind.WASTE)
+                               MaterialKind.MOLECULAR)
     graph.react("hydrolyse_rna", "Hydrolyse the RNA template with NaOH",
                 StepKind.CHEMICAL_CONVERSION,
                 ((cdna, InputRole.TEMPLATE), (hydrolysis, InputRole.CONDITION)),
                 (free_cdna, hydrolysed))
-    graph.discard(hydrolysed, "small hydrolysis products are not excised with the "
-                              "200–220 nt cDNA band (2016 Experimental Procedures)")
+    graph.mark_terminal(Terminal(hydrolysed.id,Disposition.UNRESOLVED,"Chemical hydrolysis precedes physical PAGE. Exact hydrolysate recovery/clearance is not quantified; no complete removal assumed."))
     cdna_gel = graph.input("cdna_gel", "6% TBE-urea gel, excise 200–220 nt (2016; JoVE 7.17: 200–240 nt)",
                            MaterialKind.SELECTION)
     sized_cdna = graph.product("sized_cdna", "gel-purified 200–220 nt SPLASH cDNA",
-                               MaterialKind.MOLECULAR, state=cdna.state)
+                               MaterialKind.MOLECULAR, state=rt_state(extended=True))
     off_size = graph.product("off_size_cdna", "cDNA and primer outside the excised band",
                              MaterialKind.WASTE)
     graph.react("select_cdna", "Gel-select cDNA 96 nt longer than the ligated RNA",
@@ -183,11 +219,12 @@ def protocol_graph():
                 ((free_cdna, InputRole.TEMPLATE), (cdna_gel, InputRole.SELECTION)),
                 (sized_cdna, off_size))
     graph.discard(off_size, "left in the urea gel outside the excised slice")
+    sized_cdna=recover(graph,"recover_cdna",sized_cdna,"Ethanol precipitation of eluted cDNA, defining2016")
     circle_ligase = graph.input("circle_ligase", "CircLigase II ssDNA ligase",
                                 MaterialKind.CATALYST)
     circle = graph.product("circular_cdna", "circularized SPLASH cDNA",
-                           MaterialKind.MOLECULAR,
-                           source="Aw et al. Molecular Cell 2016 Figure S2F; first-strand cDNA is labelled 5′P")
+                           MaterialKind.MOLECULAR,state=rt_state(extended=True,circle=True),
+                           source="Aw et al. Molecular Cell2016 circularization; source5′P previously read in FigureS2F")
     graph.react("circularize_cdna", "Circularize single-stranded cDNA",
                 StepKind.CIRCULARIZATION,
                 ((sized_cdna, InputRole.TEMPLATE),
@@ -197,6 +234,7 @@ def protocol_graph():
                     statement="Aw et al. 2016 original Figure S2F labels first-strand cDNA 5′P and shows its circularization; "
                               "the 2017 detailed protocol section 7/Table 6 names CircLigase II. "
                               "A base-resolved circular junction is not assembled in this model."))
+    circle=recover(graph,"circle_cleanup",circle,"DNA Clean&Concentrator-5 column after CircLigaseII, defining2016")
     reviewed = ["rna", "crosslinker", "crosslink", "fragmentation_condition", "fragment",
                 "selector", "select_duplexes", "end_phosphatase", "repair_three_prime",
                 "end_kinase", "phosphorylate_five_prime", "proximity_ligase",
@@ -204,28 +242,28 @@ def protocol_graph():
                 "linker_ligase", "ligate_rna_linker", "library_rt_primer",
                 "library_rt_enzyme", "library_rt", "rna_hydrolysis", "hydrolyse_rna",
                 "cdna_gel", "select_cdna", "circle_ligase", "circularize_cdna"]
-    forward = graph.input("library_forward", "NEB E7335L universal PCR primer",
-                          MaterialKind.OLIGO, state=UNIVERSAL_PCR_PRIMER,
-                          source=NEB_SET1_SOURCE + " (3′ terminal T on phosphorothioate)")
-    reverse = graph.input("library_reverse", "NEB E7335L Index 1 PCR primer",
-                          MaterialKind.OLIGO, state=INDEX1_PCR_PRIMER,
-                          source=NEB_SET1_SOURCE + " (representative index 1; 3′ terminal T on phosphorothioate)")
+    forward = graph.input("library_forward", "Native PrimersSet1 universal primer; historical strand/lot unassigned",
+                          MaterialKind.OLIGO, state=None,
+                          source="Native2016 Set1 strand/lot unassigned; later reference only: " + NEB_SET1_SOURCE)
+    reverse = graph.input("library_reverse", "Native PrimersSet1 index primer; selected member/width unassigned",
+                          MaterialKind.OLIGO, state=None,
+                          source="Native2016 Set1 member/width unassigned; later reference only: " + NEB_SET1_SOURCE)
     polymerase = graph.input("library_polymerase",
                              "Q5 DNA polymerase, 9–12 cycles (2016 Experimental Procedures)",
                              MaterialKind.CATALYST)
     library = graph.product("library_library", "SPLASH sequencing library",
-                            MaterialKind.LIBRARY, state=SPEC.FINAL_LIBRARY)
+                            MaterialKind.LIBRARY, state=FINAL_LIBRARY)
+    pcr_residual=graph.product('pcr_residual','native circular template strands and other PCR species; recovery unassigned',MaterialKind.MOLECULAR,state=circle.state)
     graph.react("library_pcr", "Amplify and index the SPLASH cDNA circle",
                 StepKind.PCR,
                 ((circle, InputRole.TEMPLATE),
                  (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL),
                  (polymerase, InputRole.CATALYST)),
-                (library,), geometry=PCRGeometry.unavailable(
-                    SPEC.FINAL_LIBRARY,
-                    reason="NEB E7335L primer sequences are known, but the circular "
-                           "SPLASH cDNA junction and both inward sites have not been "
-                           "derived base-for-base."))
+                (library,pcr_residual), geometry=PCRGeometry.unavailable(
+                    circle.state,
+                    reason="Actual modified circular ss-cDNA is the input; exact native junction/first-copy primer geometry and historical kit member remain unassigned. A completed library is not its template."))
+    graph.mark_terminal(Terminal(pcr_residual.id,Disposition.UNRESOLVED,'PCR does not establish destruction/removal of the modified originalcircle or off-target products. Native class recovery at final gel selection remains unassigned.'))
     graph.annotate(SourceDiscrepancy(
         "photoreverse", "Photoreversal wavelength in the 2017 author protocol",
         (SourceClaim("Aw et al. JoVE 2017, section 6.1",
@@ -238,45 +276,13 @@ def protocol_graph():
         uncertainty="The defining 2016 Molecular Cell Experimental Procedures also "
                     "irradiate at UV 254 nm for 5 min on ice, supporting the model "
                     "choice; the 265 nm legend value remains unexplained."))
-    graph.annotate(SourceDiscrepancy(
-        "ligate_rna_linker", "Linker-ligated RNA gel window",
-        (SourceClaim("Aw et al. Molecular Cell 2016, Experimental Procedures, 3′ Adaptor Ligation",
-                     "RNA corresponding to 110–130 bases were excised"),
-         SourceClaim("Aw et al. JoVE 2017, step 7.9",
-                     "cut a gel slice corresponding to 110-140 nt")),
-        model_choice="This gel selection is not drawn as a separate step; the defining "
-                     "2016 window (110–130 nt) is the primary value.",
-        evidence="The 2016 article is the defining source; the 2017 protocol is a later "
-                 "author protocol and may reflect a revised window.",
-        uncertainty="Neither source explains the change; band limits are approximate."))
-    graph.annotate(SourceDiscrepancy(
-        "select_cdna", "cDNA gel window",
-        (SourceClaim("Aw et al. Molecular Cell 2016, Experimental Procedures, Reverse Transcription",
-                     "cDNA of bases 200–220 were excised"),
-         SourceClaim("Aw et al. JoVE 2017, step 7.17",
-                     "cut a gel slice corresponding to 200-240 nt")),
-        model_choice="The graph uses 200–220 nt from the defining 2016 article.",
-        evidence="The 2016 article is the defining source; the 2017 protocol is a later "
-                 "author protocol.",
-        uncertainty="Whether the wider 2017 window is a deliberate revision is not stated."))
-    graph.annotate(SourceDiscrepancy(
-        "library_pcr", "Library PCR polymerase",
-        (SourceClaim("Aw et al. Molecular Cell 2016, Experimental Procedures, Circularization of cDNA Product and PCR",
-                     "9–12 cycles of PCR amplification using primers from Primers Set 1 "
-                     "(New England Biolabs) and Q5 DNA polymerase"),
-         SourceClaim("Aw et al. JoVE 2017, Table of Materials and section 9",
-                     "Phusion High-Fidelity PCR Master Mix with HF Buffer; NEB E7335L primers; "
-                     "cycle number chosen by a 10/15/20-cycle test PCR")),
-        model_choice="The graph names Q5 from the defining 2016 article; both sources use "
-                     "the NEB Index Primers Set 1 family.",
-        evidence="The 2016 article is the defining source; the polymerase choice does not "
-                 "change the drawn primer sequences.",
-        uncertainty="The selected index primer and kit lot of either study are not stated."))
-    graph.sequence(library, SequencingPlan(limitation=DEFINITION.sequencing))
+    graph.annotate(Highlight('linked_rna_size','Defining2016 route and later2017 reference','The model selects2016 linkedRNA110–130nt, cDNA200–220nt and Q5 9–12PCR. Later2017JoVE uses110–140nt,200–240nt and Phusion/testPCR. These are version-scoped choices; ordinary later method changes do not establish errors in either publication.'))
+    library=recover(graph,'final_size',library,'3%GTGNusieve agarose:200–300bp PCR products; QIAGEN gel extraction, defining2016')
+    graph.sequence(library, SequencingPlan(library=FINAL_LIBRARY,acquired_roles=("Read 1","Read 2"),read_lengths={"Read 1":150,"Read 2":150},limitation=SEQUENCING_UNAVAILABLE))
     reviewed.extend(("library_forward", "library_reverse", "library_polymerase",
                      "library_pcr", "library_library"))
-    graph.declare_reviewed_scope(reviewed, source)
+    graph.declare_reviewed_scope(REVIEWED_TARGETS, source)
     return graph.require_publishable()
 
 
-SPEC.protocol_graph = protocol_graph
+REVIEWED_TARGETS=('rna','crosslinker','crosslink','fragmentation_condition','fragment','fragment_size_reagent','fragment_size','selector','select_duplexes','end_phosphatase','repair_three_prime','end_kinase','phosphorylate_five_prime','proximity_ligase','proximity_ligation','release_chimeras_reagent','release_chimeras','photoreversal','photoreverse','rna_linker','linker_ligase','ligate_rna_linker','linked_rna_size_reagent','linked_rna_size','library_rt_primer','library_rt_enzyme','library_rt','rna_hydrolysis','hydrolyse_rna','cdna_gel','select_cdna','recover_cdna_reagent','recover_cdna','circle_ligase','circularize_cdna','circle_cleanup_reagent','circle_cleanup','library_forward','library_reverse','library_polymerase','library_pcr','final_size_reagent','final_size','final_size_out')

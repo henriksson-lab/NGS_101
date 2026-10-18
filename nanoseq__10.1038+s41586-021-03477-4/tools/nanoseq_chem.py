@@ -12,14 +12,14 @@ Information Notes 2 and 4):
   adapter strands are not printed in the inspected sources.
 """
 from chemdraw import Construct, Scene, Segment, feature
+from protocol_model import role
 from endprep import EndPreparedDuplex, dA_tailed_scene
 
-INSERT_N = 30
 
 
 def _fragment_body() -> list[Segment]:
     return [Segment("HpyCH4V 5' end", "CA"),
-            Segment("genomic insert", "X" * INSERT_N, placeholder=True),
+            role("genomic insert; variable length"),
             Segment("HpyCH4V 3' end", "TG")]
 
 
@@ -30,7 +30,7 @@ def hpych4v_fragment() -> Scene:
     bottom = complement_segments(body)
     sc = Scene(); sc.strand("top", body, label="HpyCH4V-generated blunt genomic duplex")
     sc.anneal("bottom", bottom, to="top", pair=(bottom[-1].name, body[0].name),
-              label="HpyCH4V-generated blunt genomic duplex")
+              label="HpyCH4V-generated blunt genomic duplex",unpaired=tuple(x.name for x in bottom if x.is_role_token()))
     sc.note("top", "TG^CA cleavage: blunt ends, each strand starts 5'-CA")
     return sc
 
@@ -52,13 +52,13 @@ def ddbtp_blocked_nick() -> Scene:
     (no 3'-OH), so adapter ligation cannot seal it and the strand cannot be copied
     through (Supplementary Note 4). Position and length of the extension are schematic.
     """
-    up = [Segment("upstream strand at nick", "X" * 14, placeholder=True),
+    up = [Segment("upstream strand at nick", "X" * 14, placeholder=True,inferred=True),
           Segment("incorporated ddBTP", "X", placeholder=True, inferred=True)]
-    sc = Scene(); sc.strand("upstream", up, label="nicked strand")
-    sc.anneal("bottom", [Segment("intact partner strand", "x" * 31, placeholder=True)],
+    sc = Scene(); sc.strand("upstream", up, label="nicked strand", mod3="ddBTP; no3′OH")
+    sc.anneal("bottom", [Segment("intact partner strand", "x" * 31, placeholder=True,inferred=True)],
               to="upstream", pair=("intact partner strand", "upstream strand at nick"),
               label="partner strand")
-    sc.anneal("downstream", [Segment("downstream strand", "X" * 16, placeholder=True)],
+    sc.anneal("downstream", [Segment("downstream strand", "X" * 16, placeholder=True,inferred=True)],
               to="bottom", pair=("downstream strand", "intact partner strand"), shift=15,
               above=True, label="nicked strand")
     sc.mark("upstream", "incorporated ddBTP",

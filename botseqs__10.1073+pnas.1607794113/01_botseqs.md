@@ -86,7 +86,7 @@ The maintainer hand-placed the PNAS SI Appendix (`pnas.1607794113.sapp.pdf`, fir
 for BotSeqS") and Dataset S1 (`pnas.1607794113.sd01.xlsx`, sheets Table S1–S9; Table S1
 "Human samples, bottleneck sequencing library preparation, and sequencing information").
 Both match the defining article. Read: SI Materials and Methods lines 1–61 (dilution, PCR,
-MiSeq run, WGS), Fig. S1 legend lines 368–380, and Dataset S1 Table S1 (43 BotSeqS
+MiSeq run, WGS), Fig. S1 legend lines 368–380, and Dataset S1 Table S1 (44 BotSeqS
 libraries, lines 1–53 of the `.txt` twin). Scraper: the SI prints the two TS-PCR primers
 (line 19); the only other SI hit (line 1955) is a genomic sequence in an analysis listing.
 
@@ -101,10 +101,10 @@ libraries, lines 1–53 of the `.txt` twin). Scraper: the SI prints the two TS-P
   1.0x AMPure XP. These match the patent values read earlier. The model now cites the SI,
   drops the inferred marking from the primers and polymerase, and adds the 1.0x AMPure
   cleanup with its discarded supernatant.
-- 🟢 Dataset S1 Table S1: 35 of the 43 libraries used a 10^5-fold final dilution and
+- 🟢 Dataset S1 Table S1: 36 of the 44 libraries used a 10^5-fold final dilution and
   18 cycles; six kidney libraries (Bot01–Bot06) used 10^7-fold and 20 cycles (footnote
   "100-fold difference in dilution in replicate samples"); the two low-input PMS2-/-
-  libraries (Bot15, Bot16; 129 and 34 ng) are listed at 10-fold and 20 cycles. All 43
+  libraries (Bot15, Bot16; 129 and 34 ng) are listed at 10-fold and 20 cycles. All 44
   were sequenced PE 2 × 100 on HiSeq 2500 Rapid Run. The SI text gives the serial scheme
   as 10^3–10^7, so the 10-fold entries presumably mean template taken without serial
   dilution; the SI does not say so, and the model keeps the typical 10^5 value.
@@ -118,3 +118,15 @@ libraries, lines 1–53 of the `.txt` twin). Scraper: the SI prints the two TS-P
 Still open: the 2016 TruSeq DNA PCR-Free guide revision (adapter index set and length,
 size-selection placement) and whether an index read was acquired. The SI says the MiSeq
 samples were "well-barcoded" but names no index set.
+
+## Native graph migration, 2026-10-18
+
+Read three published originals: article PMC5024639 (1246–1256, 1460–1463), SI Appendix Materials and Methods (4–61), and Dataset S1 Table S1 (Bot01–Bot44). The bundle oligo scraper was run; both modified TS-PCR primers were checked in the SI. The patent and later vendor guide were not used to supply new sequence facts in this pass.
+
+The graph owns the native-end family key, modified primers, Q5 PCR, 1.0X AMPure cleanup and PE100 readout locally. It separates physical material from computational Watson/Crick consensus families. The post-ligation stock also has a source-supported optional matched-WGS branch: the SI uses 10 µL of the original 20 µL stock before dilution, with TruSeq PCR Primer Cocktail/Master Mix, 1.0X cleanup and PE100 WGS. This describes the source's 32 WGS samples; two other individuals used Sanger confirmation. The stock outside the sampled BotSeqS PCR aliquot is unsampled material, not an asserted physical discard. WGS stock is retained separately.
+
+The canonical single-index library remains an explicitly inferred compatibility model: exact 2016 PCR-free adapter/index revision and native Y-end geometry are unassigned. Adapter ligation and both PCR declarations therefore retain actual incoming substrates with unavailable native geometry; a finished compatible duplex is not used as proof of the incoming Y-adapter geometry. The older post-end-repair size-selection placement remains a labelled inference from the 2017 vendor guide, not a verified 2016 kit instruction. Pilot MiSeq molecular barcodes are not assigned to the main native-end BotSeqS key.
+
+Recounting every Table S1 row gives 44 libraries: 36 at 10^5-fold/18 cycles, six at 10^7-fold/20 cycles and two at 10-fold/20 cycles, all PE100. Earlier note counts of 43/35 were repository counting errors, not publication discrepancies. The exact meaning of the two 10-fold entries remains unassigned; no extra dilution recipe is inferred. This capped pass makes no absence claim.
+
+Implementation review: the adapter-ligated stock, retained WGS aliquot and diluted BotSeqS aliquot now share an explicit unresolved precursor Scene. Both unavailable-PCR views preserve that state without drawing a complementary strand from the inferred completed library. The canonical compatibility construct is used only for post-PCR products. This is a model correction using the source scope above; no additional originals were read.

@@ -202,6 +202,34 @@
       ],
       "scope": "Capped defining-source pass; defining article now read; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite passes (construction-only, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/1 conditional/10 unresolved/0 contradictory, no MAGIC warning; source guard 3 exact checked, 0 failed, 3 inputs without exact states (Read2+N11, Ad2_index N-windows, SMART-Seq v4 oligo); audit_protocol_sources --check ok; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Capped source-owned graph migration; no comprehensive chemistry review or accepted missing-information conclusion.",
+      "locations": "Defining2020publisherPDF printedDOI/title, ProcedureSteps43–61 and84;2020publisherMOESM1Table4 sequence/component/modification columns lines285–430.",
+      "oligo_scraper": "Mandatory localbundle scraper run; current2020Table4 oligos and modifications verified directly;2019predecessor hits are not the active2020source.",
+      "findings": "Removed protocol_specs.get/Definition/workflow and batch_ngs.nextera_library/RNA-family molecule recipe calls. SeparateScene rows for chromatin antigen/DNA, antibodyprobe/DNA and IVTRNA/retainedDNA. Local source-paired modifiedprobe/MEDS-B inputs, fullRead2+N11 RTprimer and Ad2index feature. Inferred finalendpoint derived from actualAd1noMX50/sourceprobecontinuation/Read2+N11(MEDSB34+N11)/Ad2P7+N8+21arm, with constructor-checked overlaps and compatiblecanonicalNextera referenceprimers. N11 is a randompriming sequence, not anidentifier. PCRgeometry now unavailable on actualSSRTcDNA, never expectedfinalproduct. Retainedsource51SE+indexdemultiplexing with indexcyclesunassigned and knownfill/cleanups/captiondiscrepancies.",
+      "deferred": [
+        "SMART-Seqv4 manual/fullRTtemplate-switch end and completecopiedprobeprimingspan",
+        "Pre-fillTn5gap/endgeometry; physicalsequencingreagent assignment/indexcycles; optionalpooling andmultitargetbranch",
+        "Earlierfill-in/transcription/recovery/captiondiscrepancysources retainedfrompreviousround without comprehensive rereading"
+      ],
+      "verification": "Local suite7/7 direct2020Table4 checks pass; page/note build and source-review schema pass; sourceguard5exact strands checked0failed0exemptions1unrepresentedTSOinput; pairing0problems. Scopedchemistry10steps2established0conditional11unresolved0contradictory; establishedchecks are local oligo pairing relations, not fullreactionvalidation. No actualqueuedrecipe dependencies remain."
+    },
+    {
+      "round": "2026-10-18-native-graph-independent-review",
+      "reviewer": "independent_implementation_reader",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Local chem.py bound/first_strand_cdna/final_library/sequencing plan; implementation review against preceding two-original migration record, no additional source investigation.",
+      "findings": "Corrected antibody-bound chromatin Scene to keep noncovalently targeted ChIL probe independent from nearby genomic DNA before Tn5integration. Initial and IVT populations already separate. Confirmed actualssRTScene is PCRgeometry.template, N11has no identifierfeature, finalproductsourceoverlaps remain explicitlyconditional, SE51 and acquiredindexwithunassignedcycles remain distinct fromunacquiredR2. No additional criticaldefect identified.",
+      "deferred": [
+        "Completefirst-cycle/TSO and transcription-junction molecularproof remain governed by originalmigration scope"
+      ],
+      "scope": "Independent implementation-only bounded review; no neworiginal read, completechemistry claim or source-absence acceptance."
     }
   ]
 }

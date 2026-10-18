@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from typing import Sequence
 
 import seqprimers
-from chemdraw import (ArrowVisual, Construct, Row, Segment, SpanVisual, StrandVisual,
+from chemdraw import (ArrowVisual, Construct, Row, Scene, Segment, SpanVisual, StrandVisual,
                       revcomp, strand_row)
 
 
@@ -75,7 +75,7 @@ def _primer_row(template: Construct, primer: PCRPrimer, hit: seqprimers.Landing,
 
 @dataclass(frozen=True)
 class PCRGeometry:
-    template: Construct
+    template: Construct | Scene
     forward: PCRPrimer | None
     reverse: PCRPrimer | None
     availability: str
@@ -91,6 +91,8 @@ class PCRGeometry:
             raise ValueError("PCR geometry must be exact, regional or unavailable")
         if not self.statement.strip():
             raise ValueError("PCR geometry needs a source-scoped statement")
+        if isinstance(self.template, Scene) and self.availability != "unavailable":
+            raise ValueError("a Scene PCR template supports unavailable geometry only")
         if self.availability == "exact":
             if (self.forward is None or self.forward_hit is None
                     or self.reverse is None or self.reverse_hit is None):
@@ -141,13 +143,18 @@ class PCRGeometry:
                    _landing(template, forward), None, reverse_region, reverse_pool)
 
     @classmethod
-    def unavailable(cls, template: Construct, *, reason: str,
+    def unavailable(cls, template: Construct | Scene, *, reason: str,
                     symmetric_species: bool = False) -> "PCRGeometry":
         """Record a PCR without declared usable primer/site information."""
         return cls(template, None, None, "unavailable", reason, None, None,
                    symmetric_species=symmetric_species)
 
     def rows(self) -> list[Row]:
+        if isinstance(self.template, Scene):
+            # An unassigned primer site must not manufacture a complementary
+            # strand on an explicitly single-stranded precursor.
+            return [*self.template.rows(), Row(chunks=[(
+                "PCR primer sites unavailable — " + self.statement, None, False)])]
         label = "PCR template  "
         gutter = len(label)
         left_pad = (max(0, self.forward_hit.free5 - self.forward_hit.start)

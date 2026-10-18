@@ -32,3 +32,14 @@
 🟢 Data processing (lines 19–21): RNA reads are those containing `GGTTGAGGTAGTATTGCGCAATG` "within the GAT5-RT primer from the 5-prime end of Read 2" (Cutadapt 3.5); reads with no poly-A after the GAT5-RT sequence are removed; Read 1 is aligned with STAR; duplicates are removed "based on UMIs with UMI-tools". 🟡 This supports, but does not by itself define base-for-base, the 8-nt GAT5-RT random tract as the UMI.
 
 Routes tried for the Science article and supplement, all unsuccessful: OpenAlex/Unpaywall (closed, no repository copy); Science supplement URL `https://www.science.org/doi/suppl/10.1126/science.adg3797/suppl_file/science.adg3797_sm.pdf` HTTP 403 (not circumvented); Europe PMC search (no PMC copy, no preprint record). Manual URL remains https://doi.org/10.1126/science.adg3797. Still deferred: Science methods/supplement, TruePrep loaded adapter bases, selected UD index members and index cycles.
+
+
+## Native graph migration — 2026-10-18 batch10
+
+Sources read (three originals, capped pass): Author Bio-protocol4886 PDF (2023-11-20), materials135–147/procedureC–H392–700, including amplification540–605 and library preparation610–700; accession-specific GEO GSM6998595 source record extraction/sequencing/processing10–24; TruePrep TD501/TD502/TD503 manual Version6.2 printedtitle/introduction only.
+
+Native joint graph replaces generic two-library finishing. Genomic DNA remains original through in-nucleus RT; MboI5′GATC ends ligate without fill-in. GAT5-RT N8 is the UMI; GAT5-7N N7 is random priming. Actual mixed inputs feed joint preamplification and both source PCR stages; RNA-P7 carries into the second reaction. SDS stop, initial72°C extension, physical pool and source double selection are explicit. DNA/RNA endpoint views are computational classes of one physical library; no modality purification or default Illumina shell/indexwidth is inferred.
+
+Remaining scope: Defining Science main and supplement not inspected this capped pass; author protocol supplies active chemistry scope. Native TruePrep loaded adapter strands, exact RNA-P7 junction/full first-cycle geometry, selected UD members/widths and index acquisition remain unassigned. TruePrep Version6.2 manual title/scope only; historical detailed shell is not promoted as new evidence.
+
+Verification: 2 source transcription checks;14graphsteps;18unresolved/0contradictory; page/pairing/schema pass. No missing-information acceptance follows from this pass.

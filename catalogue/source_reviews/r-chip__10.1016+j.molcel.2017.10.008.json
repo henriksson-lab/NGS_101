@@ -98,6 +98,36 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local construction suite passes (comment-only, 0 explicit checks); page builds; pairing 0 problems; chemistry 3 established/8 conditional/10 unresolved/0 contradictory; source guard 5 exact checked (N9 primer, PCR primer, barcode primer, oligo A/B adapter), 0 failed, 0 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch04-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Original2017PMC5957070 STARMethods299–311; published2019PMC6604627 overview47–49,119–139,librarySteps61–85 604–766,Table1 1475–1485. Mandatoryscraper27hits/2files.",
+      "findings": "Local2019reference selected, original2017version boundary preserved; independentRNA/DNA, modifiedN9 reagent, actualnativepartlyduplexligationPCRinput, columnrecoveries/test-mainaliquots/precipitation/gel. Explicit5′phosphate/nick/first-copy/cap limits; source80°Cspin wording shownwithoutguess. Source40ntRead1 retained with unknownindexacquisition.",
+      "deferred": [
+        "Original2017supplement and citedChIPpredecessor",
+        "Nativefirst-copyPCR/invertedcapbondgeometry/templatephosphorylation",
+        "Dataset-specific original/libraryversion and5ntbarcodeacquisition"
+      ],
+      "scope": "Capped native-architecture/source correction only; not complete chemistry or acceptedabsence.",
+      "verification": "Parent affected suite/page/scopedchemistry/sourceguard/review schema pass; pairing0. RamDA suite2 source-transcription checks; RChip/MALBAC suites contain0 explicit tests (construction exercised by page/chemistry). No entirechemistry proof."
+    },
+    {
+      "round": "2026-10-18-batch04-independent-critical-implementation-review",
+      "reviewer": "migration_peer",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Currentnativegraph declarations andquotedsource scopes; no originals reread.",
+      "findings": "Independent review identified missing N9 primer in denaturedScene; parent added modified primer, then recheck caught alias mutation adding primer to earlierpurification. Parent deep-copied the Scene; peer confirmed earlierDNA/RNA state lacks N9 while newstate includes it. Actual partlyduplex PCRinputs/test-mainaliquots/sourceversions checked.",
+      "deferred": [
+        "Original2017supplement and citedChIPpredecessor",
+        "Nativefirst-copyPCR/invertedcapbondgeometry/templatephosphorylation",
+        "Dataset-specific original/libraryversion and5ntbarcodeacquisition"
+      ],
+      "scope": "Implementation-only review; no secondoriginal-source read or absenceacceptance.",
+      "verification": "Peer re-inspected corrected implementation; 0 additional originals. Parent focused suite/page/chemistry/sourceguard/schema pass; pagepairing0problems."
     }
   ]
 }

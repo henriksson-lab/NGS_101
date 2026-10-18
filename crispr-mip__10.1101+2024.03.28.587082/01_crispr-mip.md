@@ -209,3 +209,47 @@ earlier "no bead cleanup" statement is now scoped to the selection steps. No seq
 length or read-layout change. Still open: a published (peer-reviewed) version was not
 searched for in this capped pass; the i7 index-read cycle count and AMPure ratio are
 not stated in the text read.
+
+
+## Native protocol-graph migration (2026-10-18)
+
+The page now renders a protocol-owned typed graph for denaturation, probe
+hybridisation, gap copying, nick sealing, exonuclease treatment, inverse PCR and
+post-PCR AMPure cleanup. The extension and sealing nodes describe two molecular
+operations in the same published 60 °C reaction, not separate incubations.
+
+The probe, filled candidate, circle and inverse-PCR library share the existing
+capture constructor. The displayed final library is checked against the computed
+inverse-PCR product and carries the probe UMI and sample-index features. The
+circle-order relation and cleanup strand-order relation are checked explicitly.
+The initial P7 primer binds the single-stranded circle, while P5 requires the
+new complementary strand. These first copying phases now precede the later-cycle
+PCR node, whose exact inward primer footprints belong to the actual duplex
+amplicon. The circle is rotated only for coordinates; this does not imply a
+physical linearization. A construction guard requires the P5 copy of the first
+P7 product to reproduce the derived inverse-PCR library, and preserves the
+UMI/index features through the first copy. The existing nucleotide-level
+views remain molecular details below the graph.
+
+Exonuclease hydrolysis is distinguished from physical removal: the Methods put
+the whole reaction into PCR, and the hydrolysis products have an unresolved
+subsequent partition rather than an invented discard. Both denatured genomic
+strand outcomes remain represented.
+
+This migration fixes an implementation gap, not a disclosure deficiency in the
+paper. Sources re-read: bioRxiv v1 Methods, “Design of CRISPR-MIP probes” and
+“CRISPR-MIP sgRNA abundance quantification” (extracted lines 458–493), and
+Supplementary Table S2, `primers & probes` rows 1–14. The whole bundle primer
+scraper was run and its source pointers checked. The indexed probe has eight
+source bases; the graph does not turn an index length into an acquired-cycle
+claim. Unresolved checker transitions describe the current validation kernel's
+limits and are not claims that published information is missing.
+
+The independent native-graph review also removed a misleading covalent-role
+chain in the hybrid state: the intact probe and genomic target are separate
+molecules, with the existing topology panel showing their two-arm pairing. The
+original circle remains a retained template after copying; its subsequent AMPure
+partition is unresolved rather than modelled as consumption or discard. The
+conceptual first-copy phases share the source's single PCR incubation.
+
+Final graph integration also distinguishes the subsequent P7 recopy of the first P5-bearing strand: the newly added P5 tail has no complement until that recopy. Exact full-duplex PCR geometry is applied only afterward. Typed priming details render with the graph annotations. This adds no separate source incubation or source-absence claim.

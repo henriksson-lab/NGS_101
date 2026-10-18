@@ -81,6 +81,49 @@
         "Detailed inherited scRRBS and Smart-seq2 originals; exact study adapter/TSO assignment and acquisition; separate recovery graph stages"
       ],
       "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    },
+    {
+      "round": "2026-10-18-batch05-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC4858893 Methods205 (lysis, ERCC, physical nucleus0.2µl into4µl),215 (Smart2-seq, SuperScriptIII, amplified/purified0.1ng cDNA),219 (MspI/lambda, endprep, adapters, BS, purification,20+12PCR,180–500bpPAGE,HiSeq2500); reference18 Picelli2014 nprot.2014.006 and reference19 Guo2015 nprot.2015.039; original own AdditionalFile1 PDF contents/figuresS1–S5; cited2015 nprot supplementMOESM430 PDF figures1–5.",
+      "oligo_scraper": "Root ran /tmp/chem-scmt-batch05-primers.log:13hits in3hit-files; five files >10MB skipped. Relevant originals read by root within three-original cap; implementation worker used supplied source facts only and opened no additional original. No absence inferred from skipped files or hit counts.",
+      "findings": "Source identities and reaction order distinguish actual physical nuclei/cytosol fractions, separate RNA/ERCC and DNA/lambda populations, Smart2-seq SuperScriptIII substitution, recovered0.1ng cDNA tagmentation, and two distinct methylome PCR rounds20 then12 followed by180–500bpPAGE. Removed inherited generic Nextera/RRBS endpoint defaults and unverified TSO choice. Native strands/adapter/PCR/index geometry remain unassigned. Converted DNA retains physical U before first PCR.",
+      "deferred": [
+        "Directly cited Picelli2014 nprot.2014.006 detailed original and Guo2015 nprot.2015.039 detailed original; exact study inherited strands/adapter/index members",
+        "Native tagmentation gap-fill/PCR geometry, methylome inter-round handling/primer relationships and read/index acquisition; no full source review or absence gate accepted."
+      ],
+      "scope": "Three-original source pass by root; no source expansion during local implementation; historical review status unchanged.",
+      "verification": "Local source-owned implementation and focused verification recorded in separate zero-document implementation check."
+    },
+    {
+      "round": "2026-10-18-batch05-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Local chem.py and note; source facts supplied by root from the three-original capped pass above. No additional original inspected.",
+      "findings": "Replaced all queued recipe/default imports with local states, explicit native PCR inputs and source-qualified endpoint roles. Independent molecule populations, physical converted U and opposed3′ A ends retained; no default5′ phosphate assigned. Two methylome PCR rounds have no invented inter-round cleanup or nested primer relation.",
+      "deferred": [
+        "All source targets and native geometry limitations in root bounded source check above."
+      ],
+      "scope": "Implementation only, not an independent original-source reading or absence review.",
+      "verification": "Focused suite/page/source guard/schema/pairing pass; chemistry27unresolved,0contradictory. No exact oligo inputs newly assigned. Shared/static/full-site verification remains parent-owned."
+    },
+    {
+      "round": "2026-10-18-batch05-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current local native protocol module, input/state/geometry/terminal/read declarations, latest bounded migration source scope supplied by parent/owner. Original articles/supplements/predecessors were not reread in this independent pass.",
+      "scope": "Independent implementation-only review; no source expansion, missing-information acceptance or status upgrade.",
+      "findings": "Independent code-only review found no concrete critical defect: physical nucleus/cytosol separation, ERCC/cytoplasmic RNA and nuclear/lambda DNA are separate molecular populations; source-specific SSIII RT and switched ss cDNA precede actual-template cDNA PCR; recovered0.1ng cDNA enters native tagmentation then actual-template library PCR. DNA end-repair/dA geometry keeps5′status explicitly unassigned, native ligation is unavailable, physical bisulfite U strands precede PCR, and actual round1 products feed20→12cycle PCR without invented nestedness/inter-round cleanup. Physical180–500bp PAGE is distinct from unresolved RNA/nonamplified fates. No canonical kit arms/index width or run cycles are substituted.",
+      "deferred": [
+        "Inherited Smart2/scRRBS native oligos, adapter/PCR end geometry and5′chemistry",
+        "Inter-round DNA handling and native index/read acquisition",
+        "Residual polymer/class-specific cleanup recovery"
+      ],
+      "verification": "Read-only critical implementation review except this documents0 record. Owner reports focused suites/pages/chemistry/sourceguard/pairing passed; shared/final verification remains parent-owned."
     }
   ]
 }

@@ -566,6 +566,38 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "selftest 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/1 conditional/13 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch07-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC8021198 journal.pbio.3000886_PMC8021198.xml.txt Results/Fig1A69 and Methods199–225; original S2 pbio.3000886.s009.doc.txt20–289; NEB E7645S/L,E7103S/L manuale7645.pdf Version6.1_5/20 title/header and overview79.",
+      "oligo_scraper": "27hits4hitfiles; published adapter modifications verified in main/S2; superseded preprint hits excluded.",
+      "findings": "Source-owned18step graph replaces queued endpoint/finisher; native5rApp adapter1, physical dU/biotinT, hairpin2dU4/terminal*T, variable1–4rA, actual USEReluate PCR input; independent salmon carrier and possible originals/copies retained throughPCR/cleanups. UMI feature retained through endprep. Vendor revision qualifies dA interpretation; no publication-error claim.",
+      "deferred": [
+        "Actual experimental E7645 revision/lot",
+        "Selected NEBNext index set/member and index acquisition",
+        "Complete native USER/PCR strand geometry",
+        "Optional quantitative barcoded-adapter variant"
+      ],
+      "scope": "Capped3original/10min source pass plus native graph implementation; no source expansion aftercap, no acceptedabsence/fullreview claim or historicalstatus upgrade.",
+      "verification": "Suite2pass; page builds; pairing0; sourceguard combined5checked0failed16inputs without exactstates; chemistry18steps0contradictions."
+    },
+    {
+      "round": "2026-10-18-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Code-only review of tools/chem.py: adapter1_parts/adapter1_scene/adapter2_scene/end_state/extended_state/endprep_state/dual_state/opened_state/post_pcr_state and native ProtocolGraph. Existing owner batch07 source scope not reread.",
+      "findings": "Verified physical dU, adenylated adapter1, internal biotin-dT and adapter2 terminal phosphorothioate/T representation; actual USER-opened mixed precursor feeds test/main PCR. Carrier, originals and USER cleavage remnants retain separate unresolved lineages; physical washes are distinct. Flagged known UMI feature lost at endprep then recreated; owner corrected endprep to preserve feature and reviewer rechecked. Native index width remains unassigned and source kit revision/dA interpretation stays qualified. No additional concrete critical implementation defect found.",
+      "deferred": [
+        "Full native hairpin/USER-retained footprints and first-cycle PCR geometry",
+        "Study kit revision, selected sample index member/width and index acquisition",
+        "Carrier/background/original integrity and component-specific recovery"
+      ],
+      "scope": "Independent implementation review only; no source originals opened, no source-wide absence conclusion or historical status upgrade.",
+      "verification": "Owner reports pages/guard/schema/pairing/chemistry pass with0contradictions. Reviewer independently reran ZipSeq page/suite2/pairing0 and TrAEL suite2; Tri-C historical suite empty, native graph construction/guard/chemistry provide checks. Corrected implementation inspected after owner writes."
     }
   ]
 }

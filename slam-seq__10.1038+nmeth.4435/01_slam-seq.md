@@ -22,7 +22,7 @@ SLAM-seq labels newly synthesized RNA with 4-thiouridine and converts the label 
 
 🟢 The authors' detailed Protocol Exchange PDF specifies Lexogen QuantSeq 3′ mRNA-Seq Library Kit for Illumina, catalog 015 (p. 2), identifies the **FWD** kit (p. 4), and recommends HiSeq 2500 single-read 100 (SR100) mode (pp. 4–5). It describes 100 µM s4U for the tested mESC setting, DTT during RNA isolation, and IAA treatment for 15 min at 50 °C followed by DTT quenching. Table 4, the full IAA reaction setup, is linked separately and has not been checked; the paper's own 10 mM IAA recipe above remains the source for that concentration.
 
-🟡 The paper names the commercial kit but does not print its adapter oligos. The schematic therefore marks the Illumina-compatible single-index adapter skeleton as inferred rather than presenting kit bases as published facts.
+🟡 Native QuantSeq kit adapter strands, index allocation and sequencing-primer landing remain unassigned in the current model. The earlier inferred single-index TruSeq shell has been removed; a version-matched vendor original remains an open source target.
 
 🟢 Supplementary Table 3 does print the oligos for the **separate synthetic let-7 primer-extension control**: RT primer `GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT`, Solexa_PCR_fwd `AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT`, and Solexa_IDX_rev `CAAGCAGAAGACGGCATACGAGATNNNNNNGTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT` (`N6` is the index in the table). The same table identifies adapter-flanked synthetic let-7 and its s4U-containing counterpart for that control. These oligos substantiate the control-library construction; they do **not** resolve the QuantSeq kit oligos used for the defining transcriptome experiment.
 
@@ -33,3 +33,11 @@ Inspected: Published PMC5712218 JATS100–138, carboxyamidomethylation, SLAM-seq
 Added DTT quench to alkylation transition. Corrected acquisition explanation to study SR50 with SR100 for Fig3 transcriptional-output measurements, distinct from later protocol recommendations; no universal run silently assigned.
 
 Deferred: Published linked ProtocolExchange version, original QuantSeq kit primers and end geometry, RNA precipitation/total RNA mixture states and selected library run. This pass does not establish a complete source review or publication-wide absence.
+
+## Native graph migration, batch 5 (2026-10-18)
+
+Inspected: Published PMC5712218 JATS Online Methods100–138: Carboxyamidomethylation; SLAM-seq in mESCs; RNA library preparation.
+
+Added total-RNA extraction with DTT, mixed labelled/unlabelled RNA retention, excess-DTT quench and ethanol precipitation before QuantSeq. Physical IAA-s4U RNA and first-strand G/A are distinguished from RNA-sense C/T readout, with conversion yield unassigned. Removed inferred generic TruSeq single-index shell and all standard sequencing sites. Native kit-end roles remain explicit. A source boundary follows verified RT: native second-strand/PCR order is unassigned until a version-matched guide is read; the prior speculative internal route has been removed. SR50 versus Fig.3 SR100 is source-qualified.
+
+Deferred: Version-matched QuantSeq guide and native internal primer/end geometry; internal second-strand/PCR route is not reconstructed from kit name alone.; Previously linked authored ProtocolExchange PDF/tables and synthetic-control oligos were not newly read in this pass; historical reviews preserved. This capped pass is not a complete source review and does not accept publication-wide absence.

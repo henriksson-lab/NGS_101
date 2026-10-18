@@ -14,7 +14,6 @@ from checks import Check, Source, have
 from storage import sources_root
 
 check = Check()
-chem.workflow()
 chem.protocol_graph()
 
 TABLE = Source(sources_root() / HERE.parent.name / "2021.07.08.451691_media-2.xlsx.txt",
@@ -29,7 +28,7 @@ if have(check, TABLE):
             rows.setdefault(cells[0], cells)
     check("README prints Tn5MErev as [phos]" + chem.TN5MEREV,
           "Tn5MErev sequence: [phos]" + chem.TN5MEREV in TABLE.path.read_text(encoding="utf-8"))
-    for name, seq in (("P5_i5_1", chem.P5_I5_1), ("P7_i7_13", chem.P7_I7_13),
+    for name, seq in (("P5_i5_1", chem.P5_I5_1), ("P5_i5_3",chem.P5_I5_3), ("P5_i5_6",chem.P5_I5_6), ("P7_i7_13", chem.P7_I7_13),
                       ("sci_Ad1.1_TAGATCGC", chem.SCI_AD1_1),
                       ("sci_Ad2.1_TAAGGCGA", chem.SCI_AD2_1)):
         check(f"{name} sequence column", seq in rows.get(name, ()), True)

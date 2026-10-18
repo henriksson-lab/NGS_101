@@ -133,6 +133,24 @@
       ],
       "scope": "Capped vendor-manual pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 104 checks pass (2 new source-transcription checks); page builds; pairing 0 problems; chemistry 1 established/0 conditional/15 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 7 oligo inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "scope": "Capped native graph migration; published/vendor original scope stated below. No accepted missing-information claim.",
+      "oligo_scraper": "Ran full cached-bundle scrape_primers; relevant oligo pointers checked in original extracted text; scraper is not evidence by itself.",
+      "documents": 1,
+      "locations": "CG000239_Rev_F.pdf.txt: printed Rev F identity; Appendix 4960–5118, second-strand synthesis 2880–2920, qPCR/cDNA amplification 3230–3510, sample index PCR/final selection 4253–4415.",
+      "findings": "Replaced batch_ngs final-library constructor and multimodal_spatial PCR finisher with protocol-owned source patterns, feature/index/read semantics and ordered native graph. First RT product is single stranded; second-strand duplex and conditional KOH-released single strand remain distinct. PCR templates use actual incoming single-strand/forked states, not expected output. Adapter-ligated precursor lacks P5/P7 and sample indexes; source index primers produce final indexed product. Added consumed qPCR aliquot and final 0.6X/0.8X selection with physical waste fates. Source-known geometry and unknown native-PCR validator boundaries remain distinct.",
+      "deferred": [
+        "Slide attachment chemistry and released/retained strand identity",
+        "Native first-cycle PCR validation for released single strand and ligated fork",
+        "qPCR fluorescence/threshold reaction beyond explicit analytical aliquot",
+        "Selected physical slide/TT well; TT JSON and Space Ranger sources not re-read this pass",
+        "Linked tissue optimization/fixation guides not re-read"
+      ],
+      "verification": "9 local original-source checks pass; page builds; chemistry 2 established/5 conditional/16 unresolved/0 contradictory; source guard passes; pairing 0 problems; targeted Markdown and review schema checked."
     }
   ]
 }

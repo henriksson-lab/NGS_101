@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import sys
-HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
-from protocol_build import build
-OUT = HERE.parent / "sureplex.html"
-if __name__ == "__main__": build(__import__("sureplex"), OUT)
+H=Path(__file__).resolve().parent;sys.path[:0]=[str(H),str(H.parents[1]/'lib')]
+import sureplex as M
+from batch_page import render
+OUT=H.parent/'sureplex.html'
+if __name__=='__main__':
+ OUT.write_text(render(M),encoding='utf-8');print(f'wrote {OUT}')

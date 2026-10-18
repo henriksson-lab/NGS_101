@@ -61,3 +61,40 @@ Methods S1), Document S2 `…-mmc3.pdf` (version of record plus supplements) and
 ## Protocol boundary
 
 SNuBar-ATAC adds pre-pooling sample identity to the standard 10x ATAC library; the parent 10x chemistry remains separately documented.
+
+## Local chemistry ownership migration — 2026-10-18
+
+Re-read published Document S1 Figure S1A (rendered original, PDF page 3; text lines
+28–88) and ATAC Methods S1 steps 3–10 (lines 2617–2777), plus the original STAR
+Methods in PMC8611914 (lines 185–193). The bundle primer scraper was run and its
+ATAC primer/SBO hits checked against those passages. Two originals were inspected.
+
+The local graph now owns both PCR reactions, their printed primers and separate
+read plans. Figure S1A step 3 supplies the actual pre-PCR templates, before the
+RPIX or indexed P7 tails are installed; exact PCR geometry checks inward primer
+landing on these substrates. P5/CB16/S5 is already installed by GEM amplification.
+The figure's ATAC forward primer is distinct from the longer P5 SBO-library
+primer. A source test checks the figure's P7-I8-S7 ATAC reverse-primer notation,
+which cannot match the shared guard's literal N8 sequence. Its narrow exception
+does not cover any other oligo or assign an individual Set A index.
+
+The graph now draws SBO hybridization through the 14-base CST/S5 complement with
+the remaining SBO tail unpaired. It preserves the source's separate genomic and
+SBO molecules; annealing does not covalently insert the SBO into genomic DNA.
+Gap fill and single-primer linear amplification in GEMs precede template
+separation and the two exponential PCRs, as in Figure S1A steps 2–4. Explicit
+post-PCR SPRI selections expose their removed fractions. Other tagmentation
+outcomes and ambiguous droplets have unresolved physical fates; computational
+barcode exclusion does not establish a physical discard step.
+
+ATAC read lengths remain 50/8/16/50. The SBO read plan now carries 50-cycle Read 1
+and 16-cycle Index 2 itself, with the mixed run's acquired Index 1 and Read 2
+shown as unplaced reads whose SBO primers/sites remain unresolved. The six-base
+RPIX index is not expanded to eight bases. The existing public discrepancy
+notice for Figure S1A's reversed RPIX final-library arm is preserved. Unknown
+molecular regions no longer receive a shared 18-base placeholder length.
+
+The historical 10x guide revisions, individual Set A index assignments, the ARC
+variant and a full linked-source audit remain deferred. Ownership migration and
+computed primer pairing do not establish enzyme outcomes or an accepted
+missing-information conclusion.

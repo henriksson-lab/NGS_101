@@ -1,5 +1,18 @@
 # sci-Space — research notes
 
+## Active native migration, 2026-10-18
+
+Source scope: Published defining JATS science.abb9536_PMC9118175.xml.txt overview and linked supplemental-method identities; published Science Supplement caltech_abb9536-Srivatsan-SM.pdf.txt pp1–5 (Overview24–36; grid37–62; transfer117–144; native library145–232; computational filtering233–249). Exact cited gridguide protocolsio_creating-sci-space-grids-for-spatial-barcoding-5qpvoy58bg4o.pdf.txt first-page/printedidentity DOI10.17504/protocols.io.bm64k9gw,Feb13,2021,lastmodifiedFeb13,2021,ID42940; Step7.1 119–125 hash scaffold/order-file links. Normalized cache/URL is not revisionidentity; printed original matches cited DOI.
+
+Own17step graph independently retains transcriptRNA,spotDNA,sectorDNA,sectionDNA and fourcopiedpopulations. SourcegridDNAprefix+barcode10+B(C/G/T)+A32 is verified; copied Bcomplement remains A/C/Grole, not fabricated literalbase. SelectedSlides1–6 sort200nuclei/PCRwell follows pooledindexedRT; independentSlides7–14dilution250cohort is descriptive only, not graphsplit. Exact RTprimer order/placement unassigned; typed UMI8/RTbarcode10 window layout is explicitly inferred from sourceR1content, no defaultfullprimer. Actual ssRTcopies→native dsDNA→customn7tagged/gapped states→75°Cextension(with actualPCRprimers/mix) enter PCR; originalRNA/DNAhashes/RTcopies/nonamplifying products retain unresolved molecularfates. PhysicalPCRpool/Zymo/0.8×SPRI explicit. SourcePCRindex10+10 and run18/10/10/52 are independently stated; unknownprimers/nativeends not canonical shells. CitedgridDOIextra_sources locator was corrected by parent to exactcachedPDFURL after printedidentity verification; no neworiginal/fetch. Historical guide-versus-study condition notices remain scoped history, not newly reread sources.
+
+Mandatory scraper: 3hits2files;22MBDataFileS3 skipped (analytical gene-model data, not inspected as chemistry). Cited gridscaffold and native SMwidths checked in originals.
+
+Deferred: Cited native two-level sci-RNAseq guide bquamwse fullRT/customn7/orderedindexedPCR species and revision applicability; GridguideStep7.1linked oligo-order files; member choices/attachment identity not inspected aftercap; Full section-hash sequence/tail, native RTwindow ordering/extent, exact copied/taggedend geometry; IndependentSlides7–14dilution cohort and other validation experiments outside selected branch.
+
+This is a capped implementation/source pass, not a complete chemistry review or accepted missing-information finding. Historical source passes below retain their original scope; sources were frozen before implementation and no source expansion followed the cap.
+
+
 Srivatsan et al., *Science* (2021),
 [doi:10.1126/science.abb9536](https://doi.org/10.1126/science.abb9536).
 

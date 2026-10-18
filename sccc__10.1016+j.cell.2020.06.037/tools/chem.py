@@ -1,13 +1,34 @@
-from chemdraw import Construct, Segment
-import seqprimers as sp
-from pcr import PCRGeometry
-from adapter_ligation import AdapterLigationGeometry
 from types import SimpleNamespace
-from protocol_model import chain, role_library
-from multimodal_protocols import CELL, CircularizationGeometry, Definition, InputRole, MaterialKind, ProtocolGraph, SAMPLE, StepKind, UMI, _finish_pcr, _unmodelled_boundary, molecule, role, role_library
+from chemdraw import Scene, Construct, Segment, feature
+import seqprimers as sp
+from adapter_ligation import AdapterLigationGeometry
+from circular import CircularizationGeometry
+from multimodal_protocols import Definition
+from pcr import PCRGeometry
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind, Terminal)
+from protocol_model import chain, molecule, role
+
+# Published Cell Methods assign cell/UMI identity to Read 1; chemistry SC3Pv2.
+# Their individual lengths are not reconstructed here from a vendor model.
+CELL = role("10x 3′ v2 cell barcode", molecular_feature=feature("cell_barcode", "cell_barcode", "unknown"))
+UMI = role("10x 3′ v2 UMI", tag="umi", molecular_feature=feature("umi", "umi", "unknown"))
+SAMPLE = role("sample index on scCC_P7_adapter (member-specific length)",
+              molecular_feature=feature("sample_index", "sample_index", "unknown"))
+EXPRESSION_INDEX = role("10x expression-library sample index (member unassigned)",
+                       molecular_feature=feature("expression_index", "sample_index", "unknown"))
+
 DEFINITION = Definition("scCC — single-cell calling cards", "10.1016/j.cell.2020.06.037",
         "Moudgil et al., Cell (2020)", "Self-reporting transposons encode their genomic insertion flank in RNA; circularization brings droplet identifiers next to that junction so TF-binding history can be joined to gene expression.",
         "The calling-card read resolves the insertion flank and retains the same cell barcode and UMI as the parent 10x cDNA.", "01_sccc.html")
+
+
+def population_state(label, *populations):
+    """Each supplied tuple is one molecule/population, not a shared covalent chain."""
+    sc=Scene()
+    for index,parts in enumerate(populations):
+        sc.strand(f"population {index+1}",parts,label=f"{label}: population {index+1}")
+    return sc
 
 
 def _sccc_graph(d, final):
@@ -45,8 +66,9 @@ def _sccc_graph(d, final):
                 changes_molecule=False)
     reviewed = ["cell", "rna_polymerase", "transcribe_srt", "bead_primer",
                 "reverse_transcriptase", "reverse_transcribe", "split_branches"]
-    expression_final = role_library("scCC expression-library roles",
-                                    (CELL, UMI, role("transcript cDNA")), index=SAMPLE)
+    expression_final = Construct([role("10x expression P5 end"), CELL, UMI,
+                                  role("transcript cDNA"), EXPRESSION_INDEX,
+                                  role("10x expression P7 end")], name="scCC expression endpoint roles")
     tso = graph.input("expression_tso", "10x_TSO added back only to expression aliquot", MaterialKind.OLIGO)
     expression_rt = graph.input("expression_rt", "expression-branch reverse transcriptase", MaterialKind.CATALYST)
     switched = graph.product("expression_switched", "TSO-completed expression cDNA", MaterialKind.MOLECULAR, state=expression.state)
@@ -54,21 +76,17 @@ def _sccc_graph(d, final):
                 ((expression, InputRole.TEMPLATE), (tso, InputRole.STRUCTURAL),
                  (expression_rt, InputRole.CATALYST)), (switched,))
     reviewed.extend(("expression_tso", "expression_rt", "restore_expression_tso"))
-    expression_template = _unmodelled_boundary(
-        graph, "expression", switched, "scCC expression",
-        "Methods ('Single cell RNA-seq library preparation'): after the Silane cleanup, "
-        "'the remainder of the single cell RNA-seq protocol, including purification, "
-        "amplification, fragmentation, and final library amplification, followed "
-        "manufacturer's instructions' (10x Chromium Single Cell 3' kit). The paper does "
-        "not detail these vendor steps, so cDNA amplification, fragmentation and adaptor "
-        "ligation are not modelled here.", reviewed)
-    _finish_pcr(graph, "expression", expression_template, expression_final,
-                "Expression branch: droplet transcriptome reads linked by cell barcode.",
-                reviewed, label="scCC expression",
-                step_label="Final library amplification per the 10x Single Cell 3' manufacturer instructions",
-                forward_label="10x Single Cell 3' library forward PCR primer (vendor kit; not printed)",
-                reverse_label="10x Single Cell 3' sample-index PCR primer (vendor kit; not printed)",
-                polymerase_label="10x Single Cell 3' library PCR mix (vendor kit)")
+    expression_library = graph.product("expression_library", "scCC expression library",
+                                       MaterialKind.LIBRARY, state=expression_final)
+    graph.react("expression_library_prep", "Complete the expression library per 10x 3′ kit instructions",
+                StepKind.MAGIC, ((switched, InputRole.TEMPLATE),), (expression_library,),
+                reason="Cell Methods 'Single cell RNA-seq library preparation' delegates post-Silane "
+                       "purification, amplification, fragmentation and final library amplification "
+                       "to the manufacturer. Those kit steps and primer geometry are not reconstructed here.")
+    graph.sequence(expression_library, SequencingPlan(limitation=
+                   "Expression library sequenced on HiSeq 2500 or NovaSeq; linked to the scCC branch "
+                   "by cell barcode. Run lengths and kit primer geometry remain unassigned."))
+    reviewed.extend(("expression_library_prep", "expression_library"))
     junction_forward = graph.input("srt_enrich_forward",
         "Bio_Illumina_Seq1_scCC_10X_3xPT (5′ phosphate, internal biotin-dT, three 3′ phosphorothioates)",
         MaterialKind.OLIGO,
@@ -82,7 +100,7 @@ def _sccc_graph(d, final):
     graph.react("amplify_junction", "Amplify the SRT junction from 9 µl RT product with the two phosphorylated biotinylated primers; 0.6x AMPure clean-up", StepKind.PCR,
                 ((junction, InputRole.TEMPLATE), (junction_forward, InputRole.STRUCTURAL),
                  (junction_reverse, InputRole.STRUCTURAL), (junction_polymerase, InputRole.CATALYST)), (amplicon,),
-                geometry=PCRGeometry.unavailable(final, reason="Original Table S4 publishes both primers; their source-exact cDNA binding geometry has not yet been assembled in this graph."))
+                geometry=PCRGeometry.unavailable(junction.state, reason="Original Table S4 publishes both primers; their source-exact cDNA binding geometry has not yet been assembled in this graph."))
     reviewed.extend(("srt_enrich_forward", "srt_enrich_reverse", "srt_enrich_polymerase", "amplify_junction"))
     circle_ligase = graph.input("circle_ligase", "Nextera Mate Pair Circularization Ligase, 1 nM final in Circularization Buffer (300 fmol DNA in 300 µl, 30 °C for 12–16 h)",
                                 MaterialKind.CATALYST)
@@ -97,11 +115,13 @@ def _sccc_graph(d, final):
                               MaterialKind.CATALYST)
     cleaned = graph.product("clean_circle", "exonuclease-resistant SRT circles",
                             MaterialKind.MOLECULAR, state=circle.state)
-    linear_waste = graph.product("linear_waste", "digested linear DNA", MaterialKind.WASTE)
+    linear_waste = graph.product("linear_waste", "digested linear DNA", MaterialKind.MOLECULAR)
     graph.react("remove_linear", "Remove residual linear DNA (Nextera Mate Pair exonuclease step)", StepKind.DIGESTION,
                 ((circle, InputRole.TEMPLATE), (exonuclease, InputRole.CATALYST)),
                 (cleaned, linear_waste))
-    graph.discard(linear_waste, "does not contain retained circular SRT junction molecules")
+    graph.mark_terminal(Terminal(linear_waste.id, Disposition.UNRESOLVED,
+        "Exonuclease digests linear DNA, but this graph does not resolve the physical partition "
+        "of hydrolysis products at subsequent bead capture and washing."))
     shear = graph.input("shear_condition", "Covaris E220 shearing: peak power 200, duty factor 20%, 200 cycles/burst, 40 s at 6 °C", MaterialKind.CONDITION)
     fragments = graph.product("junction_fragments", "junction-proximal circle fragments",
                               MaterialKind.MOLECULAR, state=cleaned.state)
@@ -134,14 +154,29 @@ def _sccc_graph(d, final):
                 geometry=AdapterLigationGeometry.unavailable("Original Table S4 prints the custom adapters and the Methods specify annealing; this graph has not yet assembled the adapter-end Scene."))
     reviewed.extend(("end_repair_enzyme", "end_repair", "tailing_enzyme", "a_tail", "custom_adapters", "adapter_ligase", "ligate_custom_adapters"))
     # The sample index is on the scCC_P7_adapter; this PCR adds none.
-    _finish_pcr(graph, "junction", tagged, final, d.endpoint, reviewed,
-                label="scCC insertion junction",
-                step_label="Amplify the bead-bound library with scCC_P5_primer and scCC_P7_primer (15 cycles); 0.7x AMPure",
-                forward_label="scCC_P5_primer", reverse_label="scCC_P7_primer",
-                polymerase_label="Enhanced PCR Mix",
-                forward_state=Construct((Segment("scCC_P5_primer", "AATGATACGGCGACCACCGAGATC", "p5"),), name="scCC_P5_primer"),
-                reverse_state=Construct((Segment("scCC_P7_primer", "CAAGCAGAAGACGGCATACGAGAT", "p7"),), name="scCC_P7_primer"),
-                primer_source=source + " (Methods, single cell calling card library preparation; Table S4)")
+    forward = graph.input("junction_forward", "scCC_P5_primer", MaterialKind.OLIGO,
+        state=Construct((Segment("scCC_P5_primer", "AATGATACGGCGACCACCGAGATC", "p5"),)), source=source + " Table S4")
+    reverse = graph.input("junction_reverse", "scCC_P7_primer", MaterialKind.OLIGO,
+        state=Construct((Segment("scCC_P7_primer", "CAAGCAGAAGACGGCATACGAGAT", "p7"),)), source=source + " Table S4")
+    mix = graph.input("junction_polymerase", "Enhanced PCR Mix", MaterialKind.CATALYST)
+    amp = graph.product("junction_amplicon_final", "scCC junction library PCR product",
+                         MaterialKind.MOLECULAR, state=final)
+    graph.react("junction_pcr", "Amplify bead-bound library with scCC P5/P7 primers, 15 cycles",
+                StepKind.PCR, ((tagged, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                              (reverse, InputRole.STRUCTURAL), (mix, InputRole.CATALYST)), (amp,),
+                geometry=PCRGeometry.unavailable(tagged.state,
+                    reason="Exact Table S4 primer states are supplied, but the custom-adapter "
+                           "template ends have not been reconstructed in this graph. PCR adds no sample index."))
+    spri = graph.input("junction_final_spri", "0.7× AMPure XP beads", MaterialKind.SELECTION)
+    library = graph.product("junction_library", "scCC insertion-junction sequencing library",
+                            MaterialKind.LIBRARY, state=final)
+    waste = graph.product("junction_final_waste", "unbound final-PCR cleanup fraction", MaterialKind.WASTE)
+    graph.react("junction_final_cleanup", "Transfer PCR supernatant; 0.7× AMPure; elute 25 µL",
+                StepKind.CLEANUP, ((amp, InputRole.TEMPLATE), (spri, InputRole.SELECTION)), (library, waste))
+    graph.discard(waste, "removed in the final 0.7× AMPure cleanup")
+    graph.sequence(library, SequencingPlan(acquired_roles=tuple(row.read for row in READ_SPECS), limitation=d.endpoint))
+    reviewed.extend(("junction_forward", "junction_reverse", "junction_polymerase", "junction_pcr",
+                     "junction_amplicon_final", "junction_final_spri", "junction_final_cleanup", "junction_library"))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 
@@ -154,8 +189,7 @@ def protocol_graph():
     return _sccc_graph(d, final)
 
 def _sccc():
-    return chain(molecule("cell carrying self-reporting transposons", (
-        role("TF-directed piggyBac transposase"), role("integrated SRT"))), (
+    return chain(population_state('cell carrying self-reporting transposons',(role("TF-directed piggyBac transposase"),),(role("integrated SRT"),)), (
         ("Transcribe through the SRT terminal repeat into flanking genomic DNA",
          molecule("self-reporting RNA", (role("reporter transcript"),
                                           role("transposon terminal repeat"),
@@ -178,7 +212,10 @@ def _sccc():
     ))
 
 d = DEFINITION
-FINAL_LIBRARY = role_library(d.title + " final library roles", (CELL, UMI, role("transposon–genome junction")), index=SAMPLE)
+FINAL_LIBRARY = Construct([role("custom scCC P5 end", inferred=True), CELL, UMI,
+                           role("transposon–genome junction"), SAMPLE,
+                           role("custom scCC P7 end", inferred=True)],
+                          name="scCC endpoint roles (exact junction order not reconstructed)")
 AUTHOR_PROTOCOL = "https://dx.doi.org/10.17504/protocols.io.xwifpce"
 OLIGOS = (
     "<b>Biotinylated junction primer</b> — 5′-/5Phos/ACACTCTTTCCC/iBiodT/ACACGACGCTCTTCCGA*T*C*T-3′",
@@ -203,7 +240,7 @@ SPEC = SimpleNamespace(
     SOURCE=(f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>; '
             f'author <a href="{AUTHOR_PROTOCOL}">single-cell calling-cards library protocol</a>.'),
     SUMMARY=d.summary,
-    CAVEAT="The final Cell Table S4 and author library protocol publish the junction primers and custom adapter oligos below. Their exact landing sites are not yet assembled in this role-level library model.",
+    CAVEAT="INFERRED — the endpoint role order is not a reconstructed custom-adapter product. The final Cell Table S4 and author library protocol publish the junction primers and custom adapter oligos below. Their exact landing sites are not yet assembled in this role-level library model.",
     FINAL_LIBRARY=FINAL_LIBRARY,
     SEQ_PRIMERS=(),
     FINAL_CAPTION=d.endpoint,

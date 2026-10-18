@@ -18,8 +18,7 @@ def final_library() -> Construct:
 
 def oligos():
     return (
-        oligo("R_RNA", [Segment("RNA starter strand", R_RNA.replace("U", "T"))],
-              five="5′-", three="-/3SpC3/-3′"),
+        "R_RNA — 5′-"+"".join("r"+base for base in R_RNA)+"/3SpC3/-3′",
         oligo("D_DNA", [Segment("TGIRT starter DNA", D_DNA)],
               five="5′-/5Phos/-", three="-3′"),
         oligo("CompA_DNA", [Segment("adapter-ligation complement", COMPA_DNA)]),

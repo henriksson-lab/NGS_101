@@ -18,14 +18,9 @@ Defining paper: Li et al., *Nature Methods* (2019), [doi:10.1038/s41592-019-0502
 - 🟢 Adapters are ligated on beads, then the molecules undergo EZ DNA Methylation-Gold bisulfite conversion and KAPA HiFi HotStart Uracil+ amplification.
 - 🟢 Libraries were sequenced paired-end on HiSeq 2500 or 4000 with balanced libraries or PhiX because of bisulfite base imbalance.
 - 🟢 The bulk supplementary protocol explicitly lists `TruSeq PCR Primers`, ligates an
-  indexed `Illumina Adapter` on beads, and then performs uracil-tolerant PCR. Standard
-  TruSeq Read 1, Index 1 and Read 2 entry sites can be located on an inferred compatible
-  final shell. The article's explicit cytosine-methylated TruSeq adapter belongs to its
+  indexed `Illumina Adapter` on beads, and then performs uracil-tolerant PCR. The previous compatible TruSeq shell has been removed; a named primer class does not establish native adapter assembly. The article's explicit cytosine-methylated TruSeq adapter belongs to its
   separate whole-genome bisulfite sequencing control, not the bulk Methyl-HiC method.
-- 🟡 The exact ligated adapter strands and selected index member are unresolved. The page
-  marks the canonical TruSeq-compatible bases as inferred rather than pretending they were
-  transcribed from the checked Li article, supplement or Rao predecessor; the ligation-ready
-  end remains unresolved while the independent source check is pending.
+- 🟡 The exact ligated adapter strands and selected index member are unresolved. Native adapter/index regions now remain roles. The ligation-ready end remains unresolved in this bounded reconstruction.
 
 ## Related single-cell branch
 
@@ -75,3 +70,12 @@ recipe's “For PE2x100” is a preparation note, not independently sufficient
 for a study-wide acquired cycle declaration. Counterpart single-cell page
 received only the shared-source discrepancy notice, not its pending full
 bounded pass. No absence claim is accepted or complete validation asserted.
+
+
+## Bounded native migration — 2026-10-18 batch08
+
+Inspected 3 verified originals: Published PMC6765429 JATS Methods78–96 bulk/single-cell/WGBS boundaries and sequencing; published Springer41592_2019_502_MOESM1_ESM.pdf reagent list155–205, nuclei/digest330–342, fill/ligation343–359, bulk recovery/sonication/capture360–474, endprep/ligation480–626 and conversion/PCR628–639. Reporting-summary MOESM2 opening identity/statistical scope1–25 inspected but not chemistry authority. Manifest checked; mandatory full-bundle scraper reviewed.
+
+Native local graph removes ContactWorkflow/inferredTruSeq endpoint. Source ordered endprep/washes and actual optional10/40control split explicit; capture supernatant control stored. Exact bulk adapter/index/protection and primers remain roles. Actual physical convertedSS contact/lambda U-bearing templates feed uracil-tolerantPCR; daughter readout and residual modifiedoriginal/control populations distinct. Published SpringerMOESM1 says inactivateDpnII consistently withmain; prior MboI wording was from a distinct archived supplementary original, not promoted over publishedversion. Column/bead conversionrecovery remains bounded. Main positivepaired-end retained, but preparation noteForPE2x100 does not assignactual readcycles.
+
+Deferred: Full bulk native adapter methylation/protection, index member/count/width and PCR primer boundaries; Exact conversion column/bead transfer, original/control/offproduct component recovery; Actual study run cycle mask; linked Rao/vendor originals and other source sections not freshly reread; Archived author-protocol versus published Springer protocol identity/comparison beyond inspected publishedsections; source0.4nMbiotin wording retained unassigned. This source-capped pass is not a complete protocol review or an acceptance of source absence. Historical audit paragraphs above retain their original scope; this entry states the current model.

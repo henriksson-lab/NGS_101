@@ -8,8 +8,7 @@ from checks import Check
 import chem
 
 c = Check()
-# Construction itself validates the declared sequencing-primer landing sites.  There
-# are no method-specific oligo constants to re-transcribe: Digenome-seq deliberately
-# uses a commercial WGS library shell.
+# No method-specific WGS oligos are assigned in this capped source scope.
+# Construct the native source-limited graph; its delegated library step stays explicit.
 chem.protocol_graph()
 c.report()

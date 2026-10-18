@@ -4,13 +4,13 @@
   "source_checklist": [
     {
       "id": "paper",
-      "role": "defining",
+      "role": "predecessor",
       "locator": "doi:10.1002/anie.201408362",
       "availability": "unavailable",
       "relevance": "relevant",
       "pass_1": null,
       "pass_2": null,
-      "reason": "Original Wiley paper not locally obtainable through DOI route."
+      "reason": "Original Wiley paper not locally obtainable through DOI route. This is the undrawn2015 Ion Torrent predecessor; Marchand2016 is the defining article for this directory."
     },
     {
       "id": "wiley_si",
@@ -29,7 +29,7 @@
     },
     {
       "id": "later_same_group",
-      "role": "linked_material",
+      "role": "defining",
       "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5027498/",
       "availability": "read",
       "relevance": "relevant",
@@ -45,15 +45,16 @@
         "locations": "Same-group 2016 NAR PMC5027498 browser Methods lines 130–137",
         "finding": "Successor treats fragments with Antarctic Phosphatase then PNK and uses NEBNext Small RNA E7330S (or Illumina equivalent), 50-bp single-end or MiSeq paired-end. This does not establish the original 2015 Wiley kit revision or primer/index choice."
       },
-      "discovered_from": "paper"
+      "discovered_from": "paper",
+      "reason": "Current defining Marchand2016 original. Stable row ID and historical2016-as-successor passes retained; the directory was subsequently re-anchored to this DOI."
     },
     {
       "id": "later_same_group_supplements",
       "role": "supplement",
       "locator": "/husky/henriksson/NGS101_papers/sources/ribomethseq-illumina__10.1093+nar+gkw547/nar_gkw547_supp_supp_gkw547_nar-00545-met-k-2016-File008.doc.txt and File009.pdf.txt",
-      "availability": "available",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Two original supplements of already cited later study recovered by DOI/PMCCloud; original chemistry/relevance reading and independent passes pending. Not substitutes for2015 Wiley original."
+      "reason": "Bounded2026-10-18 pass read File008 TableS2 run key and rows1–4 only; other sections and File009 remain outside this pass. Independent absence-review coverage remains incomplete."
     },
     {
       "id": "geo_gse54655",
@@ -86,7 +87,7 @@
     }
   },
   "missing_claims": [],
-  "conclusion": "No original methods read; review blocked without accepting any missing claim.",
+  "conclusion": "Defining Marchand2016 Methods and stated supplementary run scope have been read. Historical Birkedal2015 predecessor reviews are retained separately. Matching vendor chemistry and independent linked-source/absence-review obligations remain unresolved; no missing-information claim is accepted.",
   "source_recovery_followup": {
     "reviewer": "audit_rna_contacts_closeout",
     "date": "2026-10-16",
@@ -161,6 +162,22 @@
       ],
       "scope": "Capped bounded pass; defining source remains Marchand 2016; Birkedal SI used only for the undrawn-original description; no accepted missing-information claim.",
       "verification": "local suite comment-only (0 explicit checks) pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration-rna-end",
+      "reviewer": "protocol-migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Defining Marchand2016 PMC5027498 nar_gkw547_PMC5027498.xml.txt Methods lines62–80 and comparison rationale lines100–104; nar_gkw547_supp_supp_gkw547_nar-00545-met-k-2016-File008.doc.txt TableS2 run-type key and rows1–4 (SR50HiSeq1000, PE2×75MiSeq). EarlierBirkedalSI not re-read or imported into drawn chemistry.",
+      "oligo_scraper": "Ran tools/scrape_primers.py on the actual cached source bundle; relevant hits checked in the defining printed passages. Scraper output/no-hit results are not independent evidence or accepted absence.",
+      "findings": "Local graph owns alkaline30–200ntfragment population, precipitation, Antarcticphosphatase3′repair/inactivation, T4PNK/ATP5′phosphorylation andMinElute cleanup, then explicitly source-delegatedE7330S ligation/RT/PCR components and unknownexact geometry. Removed an unscoped genericNEBNext adapter string until a matching vendororiginal/revision is checked. Separate source run/library variants preserveSR50 versusPE75 without a hybridrun or fabricatedindex length. Currentsource-checklist roles now identifyMarchand2016 asdefining andBirkedal2015 asundrawnpredecessor; historicalpasses preserved.",
+      "deferred": [
+        "MatchingE7330S manufacturer instructions/revision, selectedadapter/primer/index members and kitgeometry",
+        "Molecular hydrolysis/repair/input-to-output relations remain unvalidated",
+        "UndrawnBirkedaloriginal questions and independentabsence-review obligations remain open"
+      ],
+      "scope": "Source-specific graph/ownership migration; bounded original-reading scope only, no full reaction validation or accepted missing-information claim. Historical independent passes retained.",
+      "verification": "Native suite passes (2 explicit original-source run checks), page builds, source guard0 checked0 failed, pairing0; chemistry0 established/0 conditional/11 unresolved/0 contradictory. Source-review schema and note build checked."
     }
   ]
 }

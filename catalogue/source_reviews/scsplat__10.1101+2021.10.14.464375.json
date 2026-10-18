@@ -209,6 +209,60 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite comment-only (0 explicit checks) passes; page builds; pairing 0 problems; chemistry 2 established/3 conditional/11 unresolved/0 contradictory; source guard 2 exact checked (ss1a, ss1b), 0 failed, SSO_H symbolic (H8); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch06-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "oligo_scraper": "Mandatory bundle scraper run and relevant hit/modification contexts inspected in originals; no absence inferred. Temporary log /tmp/chem-scsplat-batch06-primers.log",
+      "scope": "Capped original-source check and native implementation; historical review status preserved. No accepted absence or entire-chemistry validation.",
+      "verification": "Focused source transcription tests/page/chemistry pass so far; final guards/schema/pairing/peer review and full-site checks pending.",
+      "documents": 2,
+      "locations": "Published PMC8986790 JATS scWGBS library preparation and sequencing131; cell demultiplexing/read mapping135; published MOESM1 SupplementaryTableS1 opening rows11–65 and closing rows120–149 (middle family rows not separately reread), representative SSO_H1 and32-member family, blocked ss1a/ss1b. Preprint excluded.",
+      "findings": "Removed protocol_specs.get endpoint/default recipe and native canonicalNEBNext arm/index8 assumptions; native local endpoint retains exact SSO_H/barcode6/H8/ss1b components with unknown outer arms/members/widths. Actual ligated ssDNA enters unavailablePCR. Source5AmMC6 and3AmMo blocks carried, including ss1a splint3block previously omitted. PhysicalU originals separate from copied DNA; ExoI hydrolysates and original-strand ligation/amplification/recovery not fabricated physical discards. SourcePE150 and Read1 inline6basebarcode preserved independently of unknown index acquisition. Reviewed targets manual.",
+      "deferred": [
+        "Original2017SPLAT precursor; linked low-volume conversion/Zymo methods and nativeNEBNext primer documents",
+        "Complete source-native ligation/copy/PCR geometry, selected primers/index width/acquisition, physical class recovery"
+      ]
+    },
+    {
+      "round": "2026-10-18-batch06-independent-implementation-review",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current protocol-owned chem.py, local oligo modules/notes and existing source-review record; root supplied capped source scope only, no original reread.",
+      "findings": "Reviewed native actual converted/template/barcoded ssDNA transitions, adapter splint, 5AmMC6/3AmMo/5P blocks, ExoI and original-strand unresolved fates, SPRI order, actual SPLAT-ligated PCR substrate, independent sample-index/cell-barcode semantics, PE150/index boundaries and manual reviewed scope. No critical molecular defect found. Corrected a stale NEBNEXT authority string which still described standard TruSeq outer bases; current endpoint correctly leaves native full arms/member/width unassigned.",
+      "deferred": [
+        "Native end/index/first-copy PCR geometry; original SPLAT predecessor; class-specific ExoI/original-strand recovery remain unassigned."
+      ],
+      "scope": "Independent critical implementation review only; does not supply an independent original-source absence pass or change review status.",
+      "verification": "Source suites scSPLAT3/SPLASH2 pass; both pages build; pairing0problems; chemistry scSPLAT2established/3conditional/11unresolved and SPLASH6conditional/20unresolved,0contradictory; source guard and schema checked."
+    },
+    {
+      "round": "2026-10-18-batch06-independent-cleanup-followup",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current chem.py post-PCR pcr_cleanup_first and pcr_cleanup wiring/manual reviewed targets; no original-source reread.",
+      "findings": "Confirmed the two successive source0.8×SPRI recoveries are explicit sequential operations: amplified material feeds first recovery, its retained library feeds second recovery, and only the final retained library is sequenced. Each operation has its own physical supernatant/wash waste. Source-qualified endpoint and native uncertainty persist through both; no additional critical issue found.",
+      "deferred": [
+        "Native adapter/index first-copy geometry and class-specific cleanup depletion remain unassigned."
+      ],
+      "scope": "Narrow independent implementation recheck after parent split the composite cleanup; no source absence/status upgrade.",
+      "verification": "Source suite3checks pass; page builds; pairing0problems; chemistry2established3conditional12unresolved0contradictory; schema checked."
+    },
+    {
+      "round": "2026-10-18-batch06-independent-residual-followup",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current local PCR actual-template port, pcr_residual output and UNRESOLVED terminal; no original-source reread.",
+      "findings": "Confirmed PCR preserves an explicit source-modified original-template population with unassigned recovery: scSPLAT blocked ssDNA and SPLASH two-spacer circular ssDNA. The residual state comes from the actual incoming precursor rather than the amplified endpoint; no physical separation or complete cleanup depletion is asserted. Existing source bead/gel output route is unchanged. No additional critical defect found.",
+      "deferred": [
+        "Class-specific original-template/off-target survival and cleanup recovery remain unassigned."
+      ],
+      "scope": "Narrow independent code-only class-continuity review; no missing-information acceptance or source status change.",
+      "verification": "Scoped chemistry scSPLAT2established3conditional12unresolved and SPLASH6conditional20unresolved;0contradictory. Review-schema checked."
     }
   ]
 }

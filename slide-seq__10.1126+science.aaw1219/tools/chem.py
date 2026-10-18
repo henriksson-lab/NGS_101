@@ -1,34 +1,30 @@
-"""Protocol-owned spatial assay and reaction graph."""
-from __future__ import annotations
-import sys as _sys
-from pathlib import Path as _Path
-_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
-from protocol_families.spatial import (SPATIAL_BEAD, UMI, SAMPLE, _finish_pcr,
-    slide_seq_library)
+"""Protocol-owned native spatial chemistry; molecular populations and source limits explicit."""
+from pathlib import Path
+import sys
+H=Path(__file__).resolve().parent
+sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+from dataclasses import replace
+from chemdraw import Construct,Scene,Segment,feature,oligo,revcomp,complement_segments
+from protocol_model import role
+from protocol_graph import ProtocolGraph,MaterialKind,InputRole,StepKind,SequencingPlan,Terminal,Disposition,SourceClaim,SourceDiscrepancy
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
-from chemdraw import MolecularState, Scene, Workflow, duplex_rows, revcomp
-from protocol_graph import Disposition, Terminal
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SourceClaim,
-                            SourceDiscrepancy, StepKind)
-from protocol_model import chain, molecule, role, role_library
+import seqprimers as sp
 
-from types import SimpleNamespace
-
-TITLE = 'Slide-seq (v1)'
-NOTES = '01_slide_seq.html'
-SOURCE = 'Defining source: <a href="https://doi.org/10.1126/science.aaw1219">Rodriques et al., Science (2019)</a>.'
-SUMMARY = 'A pre-decoded monolayer of 10-µm DNA-barcoded beads captures RNA released from a tissue section for spatially registered 3′ RNA sequencing.'
-CAVEAT = ("Provenance: bead oligos, Table S1 primers, reaction conditions and the read structure "
-          "are from the published Supplementary Materials of the author manuscript (PMC6927209, "
-          "NIHMS1036108 supplement-1). The Science-hosted supplement PDF (aaw1219_Rodriques_SM.pdf) "
-          "was not obtained, so its identity with this author-manuscript supplement is unchecked. "
-          "Table S1 prints two apparent errors (TSO 5′ end; decoding primer Truseq -1); see the "
-          "discrepancy notices.")
-
-# Published Table S1 (supplement-1.docx text lines 310-325): SOLiD decoding primers, all
-# /5Phos/. 'Truseq' anneals to the bead TruSeq handle and 'UP' to the bead linker; the -n
-# primers are recessed by n 5' bases. Values as printed.
+def add_duplex(sc,key,parts,label):
+ sc.strand(key,parts,label=label);bottom=complement_segments(parts)
+ sc.anneal(key+" complement",bottom,to=key,pair=(parts[0].name+"'",parts[0].name),unpaired=tuple(p.name for p in bottom if p.is_role_token()),label=label)
+def rc_parts(parts):
+ return [role(p.name+" copied complement",molecular_feature=p.feature,inferred=p.inferred) if p.is_role_token() else replace(p,name=p.name+" copied complement",top=revcomp(p.top)) for p in reversed(parts)]
+def tools(g):
+ def inp(i,label,kind=MaterialKind.CATALYST,state=None):return g.input(i,label,kind,state=state)
+ def out(i,label,state=None,kind=MaterialKind.MOLECULAR):return g.product(i,label,kind,state=state)
+ def op(i,label,kind,inputs,state,geometry=None,reason=""):
+  product=out(i+"_out",label,state);g.react(i,label,kind,inputs,(product,),geometry=geometry,**({"reason":reason} if reason else {}));return product
+ def clean(i,label,x,state=None):
+  selection=inp(i+"_selection",label,MaterialKind.SELECTION);kept=out(i+"_out",label,x.state if state is None else state,x.kind);waste=out(i+"_waste","physically removed wash/flowthrough fraction",None,MaterialKind.WASTE)
+  g.react(i,label,StepKind.CLEANUP,((x,InputRole.TEMPLATE),(selection,InputRole.SELECTION)),(kept,waste));g.discard(waste,"Source physical recovery fraction; exact molecular partition/purity unassigned.");return kept
+ return inp,out,op,clean
 TRUSEQ_PCR_HANDLE = "CTACACGACGCTCTTCCGATCT"
 BEAD_LINKER = "TCTTCAGCGTTCCCGAGA"
 DECODING_PRIMERS = (
@@ -53,190 +49,120 @@ def _recessed_series_mismatches():
 
 
 DECODING_MISMATCHES = _recessed_series_mismatches()
-FINAL_CAPTION = "The barcode read identifies a bead's decoded position and its UMI; the paired insert read identifies the captured transcript."
-SEQUENCING_INTRO = "The barcode read identifies a bead's decoded position and its UMI; the paired insert read identifies the captured transcript."
-READ_LENGTHS = {'Read 1': 42, 'Index 1 (i7)': 8, 'Read 2': 50}
-READ_USES = {'Read 1': 'extract', 'Index 1 (i7)': 'demultiplex', 'Read 2': 'include'}
-SEQUENCING_ENDING = ''
-SEQUENCING_UNAVAILABLE = ''
-oligos = lambda: ("<p>Published supplement bead oligo Sequence 2 (representative; 5′ linker): 5'- TTTTTTTTCTACACGACGCTCTTCCGATCT<cbc>JJJJJJJJ</cbc>TCTTCAGCGTTCCCGAGA<cbc>JJJJJJJ</cbc><umi>NNNNNNNN</umi>TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT -3'</p>", "<p>SMART PCR primer: 5'- AAGCAGTGGTATCAACGCAGAGT -3'</p>", "<p>TruSeq PCR handle primer: 5'- CTACACGACGCTCTTCCGATCT -3'</p>", "<p>TruSeq5 tagmentation PCR primer: 5'- AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -3'</p>", "<p>Template-switch oligo, Table S1 as printed (r = RNA, + = LNA; see discrepancy notice): 5'- AAGCTGGTATCAACGCAGAGTGAATrG+GrG -3'</p>") + tuple(
-    f"<p>SOLiD decoding primer {name} (Table S1 as printed): 5'- /5Phos/{seq} -3'</p>"
-    for name, seq in DECODING_PRIMERS)
-FINAL_LIBRARY, SEQ_PRIMERS = slide_seq_library()
-_definition = SimpleNamespace(title=TITLE, doi='10.1126/science.aaw1219', citation='Rodriques et al., Science (2019)', endpoint="The barcode read identifies a bead's decoded position and its UMI; the paired insert read identifies the captured transcript.")
 
-
-def _slide_seq():
-    return chain(molecule("10-µm bead puck", (SPATIAL_BEAD, UMI, role("poly(dT) capture oligo"))), (
-        ("Decode each bead position by SOLiD sequencing-by-ligation",
-         molecule("mapped bead puck", (SPATIAL_BEAD, role("known x–y coordinate"))),
-         "The decoded bead sequence is a spatial address before tissue is applied."),
-        ("Transfer a fresh-frozen tissue section and hybridize released RNA (6× SSC, 15 min)",
-         molecule("RNA captured on bead", (SPATIAL_BEAD, UMI, role("poly(dT)"),
-                                             role("poly(A) RNA"))),
-         "RNA inherits position by hybridizing to an oligo on a mapped bead."),
-        ("Reverse-transcribe on the puck with Maxima H− and the template-switch oligo",
-         molecule("Slide-seq cDNA", (SPATIAL_BEAD, UMI, role("3-prime transcript cDNA"),
-                                    role("TSO complement"))),
-         "Published supplement: 1 h at 42 °C; tissue is then digested with proteinase K/SDS."),
-        ("Release and wash beads; amplify cDNA with TruSeq-handle and SMART PCR primers",
-         molecule("amplified Slide-seq cDNA", (SPATIAL_BEAD, UMI,
-             role("3-prime transcript cDNA"), role("SMART end"))),
-         "4 + 9 cycles in KAPA HiFi HotStart ReadyMix, then 0.6× AMPure XP."),
-        ("Tagment 600 pg with Nextera XT and amplify with Truseq5 + N7xx (12 cycles)",
-         molecule("Slide-seq sequencing library", (SPATIAL_BEAD, UMI,
-             role("3-prime transcript insert"), SAMPLE)),
-         "Sequencing joins each transcript molecule to the bead position decoded on the puck."),
-    ))
-
-workflow = _slide_seq
-
-def _slide_graph(d, final, primers):
-    source = f"{d.citation}; doi:{d.doi}"
-    supp = "Rodriques et al. 2019 Supplementary Materials (PMC6927209 author-manuscript supplement-1)"
-    graph = ProtocolGraph(d.title, authority=source)
-    puck = graph.input("puck", "DNA-barcoded 10-micrometre bead puck (ChemGenes beads, Drop-seq synthesis)",
-                       MaterialKind.BIOLOGICAL, state=_slide_seq().initial, primary=True)
-    decoder = graph.input("decoder", "ten 5′-phosphorylated decoding primers (Table S1: Truseq, "
-                          "Truseq -1 to -4 on the bead TruSeq handle; UP, UP-1 to -4 on the bead linker), "
-                          "5 µM in 4× SSC, and ligation mix (T4 DNA ligase rapid, 40× diluted SOLiD SR-75 "
-                          "sequencing oligo); two ligations per primer, six constant bases, 14-base barcodes",
-                          MaterialKind.OLIGO, source=supp + ", Puck Sequencing and Table S1")
-    mapped = graph.product("mapped_puck", "position-decoded bead puck",
-                           MaterialKind.MOLECULAR,
-                           state=molecule("mapped bead puck", (SPATIAL_BEAD,
-                               role("known x-y coordinate"))))
-    graph.react("decode", "Decode each bead position by primer hybridization, two ligations "
-                "(SOLiD buffer C/B cleavage between) and formamide stripping per primer",
-                StepKind.HYBRIDIZATION,
-                ((puck, InputRole.TEMPLATE), (decoder, InputRole.STRUCTURAL)), (mapped,),
-                source=supp, changes_molecule=False)
-    rna = graph.input("tissue_rna", "poly(A) RNA released from the 10-µm fresh-frozen tissue section",
-                      MaterialKind.MOLECULAR)
-    hyb = graph.input("hyb_buffer", "6× SSC with 2 U/µl RNase inhibitor, 15 min room temperature",
-                      MaterialKind.CONDITION, source=supp)
-    captured = graph.product("captured_rna", "RNA captured on mapped beads",
-                             MaterialKind.MOLECULAR,
-                             state=molecule("RNA captured on bead", (SPATIAL_BEAD, UMI,
-                                 role("poly(A) RNA"))))
-    graph.react("capture", "Capture tissue RNA on mapped bead oligo(dT)",
-                StepKind.HYBRIDIZATION,
-                ((mapped, InputRole.TEMPLATE), (rna, InputRole.STRUCTURAL),
-                 (hyb, InputRole.CONDITION)), (captured,), source=supp)
-    tso = graph.input("tso", "template-switch oligo AAGCTGGTATCAACGCAGAGTGAATrG+GrG (as printed)",
-                      MaterialKind.OLIGO, source=supp + ", Table S1")
-    rt_primer = graph.input("rt_primer", "bead-tethered oligo(dT) capture oligo (RT primer)",
-                            MaterialKind.OLIGO)
-    rt = graph.input("reverse_transcriptase", "Maxima H− reverse transcriptase in Maxima RT buffer "
-                     "with Ficoll PM-400, dNTPs and RNase inhibitor; 1 h 42 °C",
-                     MaterialKind.CATALYST, source=supp)
-    cdna = graph.product("cdna", "bead-barcoded 3-prime cDNA extended across the template-switch oligo",
-                         MaterialKind.MOLECULAR,
-                         state=molecule("Slide-seq cDNA", (SPATIAL_BEAD, UMI,
-                             role("3-prime transcript cDNA"), role("TSO complement"))))
-    graph.react("reverse_transcribe", "Reverse-transcribe captured RNA from the bead oligo(dT) "
-                "with template switching",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((captured, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
-                 (tso, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)), (cdna,), source=supp)
-    digest = graph.input("tissue_digestion", "2× tissue digestion buffer (SDS, EDTA, proteinase K), "
-                         "37 °C 40 min", MaterialKind.CATALYST, source=supp)
-    digested = graph.product("digested", "bead cDNA in digested tissue/RT mixture",
-                             MaterialKind.MOLECULAR, state=cdna.state)
-    graph.react("digest_tissue", "Digest the tissue section in the RT mixture",
-                StepKind.DEPROTEINIZATION,
-                ((cdna, InputRole.TEMPLATE), (digest, InputRole.CATALYST)), (digested,),
-                source=supp, changes_molecule=False)
-    wash = graph.input("bead_washes", "pipette beads off the glass; wash buffer (Tris/EDTA/Tween-20), "
-                       "3000 RCF spins, then water", MaterialKind.SELECTION, source=supp)
-    washed = graph.product("washed_beads", "washed cDNA-bearing beads", MaterialKind.MOLECULAR,
-                           state=cdna.state)
-    wash_waste = graph.product("wash_waste", "glass substrate, digested tissue, RT reagents and "
-                               "supernatants", MaterialKind.WASTE)
-    graph.react("wash_beads", "Release beads from the glass and wash by centrifugation",
-                StepKind.CLEANUP,
-                ((digested, InputRole.TEMPLATE), (wash, InputRole.SELECTION)),
-                (washed, wash_waste), source=supp)
-    graph.discard(wash_waste, "glass discarded and supernatants removed after each spin")
-    handle = graph.input("handle_primer", "Truseq_PCR_handle primer CTACACGACGCTCTTCCGATCT",
-                         MaterialKind.OLIGO, source=supp + ", Table S1")
-    smart = graph.input("smart_primer", "SMART PCR primer AAGCAGTGGTATCAACGCAGAGT",
-                        MaterialKind.OLIGO, source=supp + ", Table S1")
-    kapa = graph.input("kapa", "KAPA HiFi HotStart ReadyMix; 95 °C 3 min, 4 cycles (65 °C anneal), "
-                       "9 cycles (67 °C anneal), 72 °C 5 min", MaterialKind.CATALYST, source=supp)
-    amplified = graph.product("amplified_cdna", "amplified bead-barcoded cDNA",
-                              MaterialKind.MOLECULAR,
-                              state=molecule("amplified Slide-seq cDNA", (SPATIAL_BEAD, UMI,
-                                  role("3-prime transcript cDNA"), role("SMART end"))))
-    graph.react("cdna_pcr", "Amplify bead cDNA from the TruSeq handle and the SMART site",
-                StepKind.PCR,
-                ((washed, InputRole.TEMPLATE), (handle, InputRole.STRUCTURAL),
-                 (smart, InputRole.STRUCTURAL), (kapa, InputRole.CATALYST)), (amplified,),
-                source=supp, geometry=PCRGeometry.unavailable(amplified.state,
-                    reason="Bead-oligo and TSO-end junction bases are not drawn; the printed TSO only "
-                           "partly matches the SMART PCR primer (see discrepancy notice)."))
-    ampure = graph.input("ampure_cdna", "AMPure XP 30 µl per 50 µl PCR (0.6×); elute 10 µl",
-                         MaterialKind.SELECTION, source=supp)
-    clean = graph.product("clean_cdna", "purified amplified cDNA (600 pg taken forward)",
-                          MaterialKind.MOLECULAR, state=amplified.state)
-    ampure_waste = graph.product("ampure_cdna_waste", "0.6× AMPure supernatant, primers and washes",
-                                 MaterialKind.WASTE)
-    graph.react("cdna_cleanup", "Purify amplified cDNA with 0.6× AMPure XP",
-                StepKind.CLEANUP,
-                ((amplified, InputRole.TEMPLATE), (ampure, InputRole.SELECTION)),
-                (clean, ampure_waste), source=supp)
-    graph.discard(ampure_waste, "removed with the bead supernatant")
-    transposome = graph.input("transposome", "Nextera XT tagmentation reagent (FC-131-1096)",
-                              MaterialKind.ADAPTER, source=supp)
-    tn5 = graph.input("tn5", "Tn5 transposase (in Nextera XT)", MaterialKind.CATALYST)
-    tagged = graph.product("tagged_cdna", "tagmented Slide-seq cDNA", MaterialKind.MOLECULAR,
-                           state=cdna.state)
-    waste = graph.product("tn5_waste", "internal and SMART-end tagmentation fragments without the "
-                          "bead TruSeq handle", MaterialKind.MOLECULAR)
-    graph.react("tagment", "Tagment 600 pg amplified cDNA (Nextera XT, manufacturer's instructions)",
-                StepKind.TAGMENTATION,
-                ((clean, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
-                 (tn5, InputRole.CATALYST)), (tagged, waste), source=supp)
-    graph.mark_terminal(Terminal(waste.id, Disposition.UNRESOLVED, 'Candidate non-library tagmentation products enter PCR and the subsequent AMPure cleanup. Primer/end eligibility does not establish physical removal of these classes.'))
-    reviewed = ["puck", "decoder", "decode", "tissue_rna", "hyb_buffer", "capture", "rt_primer", "tso",
-                "reverse_transcriptase", "reverse_transcribe", "tissue_digestion", "digested",
-                "digest_tissue", "bead_washes", "washed_beads", "wash_waste", "wash_beads",
-                "handle_primer", "smart_primer", "kapa", "amplified_cdna", "cdna_pcr",
-                "ampure_cdna", "clean_cdna", "ampure_cdna_waste", "cdna_cleanup",
-                "transposome", "tn5", "tagment"]
-    _finish_pcr(graph, "library", tagged, final, primers, d.endpoint, reviewed,
-                label="Slide-seq (Truseq5 + Nextera N7xx, 12 cycles; 0.6× AMPure)")
-    graph.annotate(SourceDiscrepancy("tso", "Template-switch oligo versus SMART PCR primer",
-        (SourceClaim("Published supplement Table S1 (PMC NIHMS1036108 supplement-1.docx, text line 316); "
-                     "bioRxiv v1 Table S1 (media-1 p.22) prints the same value",
-                     "TSO AAGCTGGTATCAACGCAGAGTGAATrG+GrG"),
-         SourceClaim("same published Table S1 (text line 314)",
-                     "SMART PCR primer AAGCAGTGGTATCAACGCAGAGT; the printed TSO lacks the primer's "
-                     "AG at positions 5–6 and contains only its 3′ 17 nt"),
-         SourceClaim("Stickels et al. 2021 (Slide-seqV2) Supplementary Table 6 and Online Methods "
-                     "(same Qiagen order #339414YCO0076714)",
-                     "TSO AAGCAGTGGTATCAACGCAGAGTGAATrG+GrG")),
-        "Display the TSO exactly as printed; the cDNA PCR is modelled at role level and no SMART-end "
-        "bases are inferred. The SMART end is lost from the final library by tagmentation.",
-        "The published supplement is a Word document whose text layer gives the value directly; the "
-        "preprint rendered PDF page 22 also shows it visibly printed.",
-        "Whether the TSO omission is a transcription error is unresolved; the Science-hosted "
-        "supplement PDF was not obtained."))
-    for name, printed, expected in DECODING_MISMATCHES:
-        graph.annotate(SourceDiscrepancy("decoder", f"Decoding primer {name} versus its recessed series",
-            (SourceClaim("Published supplement Table S1 (supplement-1.docx text lines 317-321)",
-                         f"{name} /5Phos/{printed}"),
-             SourceClaim("Computed from the same table: the primer series is the reverse complement "
-                         "of the bead TruSeq handle CTACACGACGCTCTTCCGATCT, recessed by n 5′ bases "
-                         "(Truseq, -2, -3, -4 all follow it)",
-                         f"expected /5Phos/{expected}")),
-            "Show the primer exactly as printed; the decoding step is modelled at role level and does "
-            "not use the printed bases, so no corrected sequence enters the graph.",
-            "The other nine primers match their computed recessed forms exactly.",
-            "Whether the order used the printed or the series sequence is not stated; the mismatch "
-            "is at the fourth base from the primer 3′ end (C printed, G expected)."))
-    graph.declare_reviewed_scope(reviewed, source)
-    return graph.require_publishable()
+TITLE="Slide-seq v1 — native Sequence2 bead chemistry"
+NOTES="01_slide_seq.html"
+SOURCE='<a href="https://doi.org/10.1126/science.aaw1219">Rodriques et al., Science2019</a>; PMC6927209 original author-manuscript supplement.'
+SUMMARY="Sequence2beads retain their source5′linker/T8 prefix through RT and bead recovery. Source-known SOLiD decoding, template switching, bead-bound preamplification and NexteraXT tagmentation precede native mixed-handle library PCR."
+CAVEAT="Selected native branch is source BeadSequence2 (J8+J7,UMI8,T30). Sequence1 is an independently manufactured PC/T7/J6+J7 bead variant, not an aliquot physically split from Sequence2 and not a reason to invent photorelease here. Optical decoding reports14bases whereas Sequence2physicalbarcode has15; exact optical coverage is unassigned. The published author-manuscript supplement is readable; identity with the gated Science-hostedPDF remains unchecked. Printed TSO/SMART and decoderTruseq-1 discrepancies stay public. Native NexteraXT adapter/primer-member geometry and molecular N700index extent remain unassigned;8acquiredindexcycles do not supply those strands."
+BARCODE=feature("slide.bead","spatial_barcode","whitelist",group="slide.bead",whitelist="decoded Slide-seq beadpool")
+UMI=feature("slide.umi","umi","random")
+INDEX=feature("slide.index","sample_index","unknown",note="N700series member/physical index extent unassigned in capped pass")
+SMART="AAGCAGTGGTATCAACGCAGAGT"
+TSO_DNA="AAGCTGGTATCAACGCAGAGTGAAT"
+TSO_WRITTEN=TSO_DNA+"rG+GrG"
+from illumina import TRUSEQ_P5_FULL
+TRUSEQ5=TRUSEQ_P5_FULL
+def tag_parts():return [Segment("native TruSeq handle",TRUSEQ_PCR_HANDLE,"r1"),Segment("barcode block1","J"*8,"cbc",placeholder=True,feature=BARCODE),Segment("source bead linker",BEAD_LINKER),Segment("barcode block2","J"*7,"cbc",placeholder=True,feature=BARCODE),Segment("UMI","N"*8,"umi",placeholder=True,feature=UMI),Segment("poly(dT)30","T"*30)]
+def bead_parts():return [Segment("source T8prefix","T"*8),*tag_parts()]
+def bead_scene(extended=False):
+ sc=Scene();parts=bead_parts()+([role("first-strand transcript cDNA"),role("native template-switch C/G junction; boundary unassigned"),Segment("copied source TSO DNAprefix",revcomp(TSO_DNA),inferred=True)] if extended else [])
+ sc.strand("native bead DNA",parts,mod5="native bead linker; chemistry unassigned",label="actual bead-bound ssDNA; full5′T8 retained until PCR")
+ if extended:sc.strand("original RNA",[role("independent captured RNA template; physical U")],label="RNA not consumed by RT")
+ return sc
+def tso_scene():
+ sc=Scene();sc.strand("TSO",[Segment("source TSO DNAprefix",TSO_DNA),Segment("terminal RNA G1","G"),Segment("terminal LNA G2","G"),Segment("terminal RNA G3","G")],label="source-written rG+GrG:2RNA G and middle LNA G; no prefix repair")
+ return sc
+def captured_scene():
+ sc=bead_scene();sc.strand("RNA",[role("independent tissue poly(A)RNA; physical U")],label="hybridized native RNA; not covalently joined to DNA")
+ return sc
+def decoding_scene(stage):
+ sc=bead_scene();sc.strand("decoder strand",[role("source5′phosphorylated decoding primer with "+stage)],label="independent primer/probe strand, not joined to bead DNA")
+ return sc
+def preamp_parts():return [*tag_parts(),role("transcript cDNA"),role("native SMART-primer-derived opposite end; printedTSOfootprint unresolved",inferred=True)]
+def preamp_scene():
+ sc=Scene();add_duplex(sc,"expected preamp",preamp_parts(),"expected two-primer bounded preamplified DNA")
+ sc.strand("prior populations",[role("possible bead-linked originals, RNA, TSO/decoder/primer products and other copies; recovery unresolved")],label="independent original/copy populations")
+ return sc
+def tagged_scene():
+ sc=Scene();sc.strand("barcoded tagged fragment",[*tag_parts(),role("native transcript fragment"),role("native NexteraXTn7-tagged opposite end; gap/strand geometry unassigned")],label="actual tagged precursor; no completed P5/P7shell")
+ sc.strand("other populations",[role("possible prior amplicons, bead-linked originals/RNA/oligos, nonamplifying tagged/offtarget fragments; physical partition unresolved")],label="independent possible co-carried species; nonamplification is not discard")
+ return sc
+FINAL_LIBRARY=Construct([role("Truseq5-derived native Read1 end"),*tag_parts()[1:],role("native transcript fragment"),role("N700indexed opposite end; native extent unassigned",molecular_feature=INDEX)],name="Slide-seq source-limited native endpoint")
+SEQ_PRIMERS=();FINAL_CAPTION="Sequence2physicalJ8/linker18/J7/UMI8/T30; native outer/index ends unassigned."
+SEQUENCING_ENDING="Published supplement NovaSeqS2:R1=42,I1=8,R2=50. Barcodephysical15vs opticaldecoded14 stay separate; index member/strand extent/primer entry unassigned."
+READ_SPECS=(sp.read_spec("Read 1",42,"Sequence2beadbarcode blocks/linker and UMI; physical41bases before firstT","extract"),sp.read_spec("Index 1 (i7)",8,"N700sample index; native member/extent unassigned","demultiplex"),sp.read_spec("Read 2",50,"transcript","include"),sp.read_spec("Index 2 (i5)",None,"not assigned in inspected run recipe","undetermined"))
+def oligos():
+ yield oligo("Sequence2native bead DNA",bead_parts(),mods="native5′linker")
+ yield "Printed TSO:5′-"+TSO_WRITTEN+"-3′ (2RNA G,middleLNA G; no repair)"
+ yield oligo("SMARTPCR",[Segment("SMART",SMART)])
+ yield oligo("TruSeqhandlePCR",[Segment("source handle",TRUSEQ_PCR_HANDLE)])
+ yield oligo("Truseq5",[Segment("Truseq5",TRUSEQ5)])
+ for n,s in DECODING_PRIMERS:yield oligo("source SOLiDdecoder "+n,[Segment("source bases",s)],mods="/5Phos/")
+def decoder_scene():
+ sc=Scene()
+ for i,(name,bases) in enumerate(DECODING_PRIMERS):sc.strand("decoder"+str(i),[Segment("source "+name,bases)],mod5="p",label="independent source5′phosphorylated "+name)
+ return sc
 
 def protocol_graph():
-    return _slide_graph(_definition, FINAL_LIBRARY, SEQ_PRIMERS)
+ g=ProtocolGraph(TITLE,authority=SOURCE);graph=g;inp,out,op,clean=tools(g)
+ bead=g.input("bead","Sequence2native bead puck; independently synthesized variant",MaterialKind.BIOLOGICAL,state=bead_scene(),primary=True)
+ decoder=inp("decoder","10source5′phosphorylated SOLiDdecoding primers",MaterialKind.OLIGO,decoder_scene())
+ dec=op("decoder_hybridize","Hybridize decodingprimer4×SSC;20min",StepKind.HYBRIDIZATION,((bead,InputRole.TEMPLATE),(decoder,InputRole.STRUCTURAL)),decoding_scene("annealed constant handle"))
+ probe=inp("solid_probes","SOLiDSR75 sequencing probes; exact probe species unassigned",MaterialKind.OLIGO);lig=inp("decoding_ligase","T4DNAligase;2ligations/primer for10primers")
+ geo=AdapterLigationGeometry("unavailable","unavailable",(decoding_scene("annealed constant handle"),),"Native primer/probe ligation is separate from bead DNA; source probe geometry not assigned.")
+ dec=op("decode_ligate","Ligate SOLiDprobe onto annealed decoder strand; image",StepKind.LIGATION,((dec,InputRole.TEMPLATE),(probe,InputRole.STRUCTURAL),(lig,InputRole.CATALYST)),decoding_scene("ligated SOLiDprobe"),geometry=geo)
+ buffer=inp("cleave_buffers","SOLiDbuffersC/B cleave fluorophore; bufferF washes",MaterialKind.CONDITION)
+ dec=op("decode_cleave","Cleave fluorophore; repeat probe ligation for optical decoding",StepKind.CHEMICAL_CONVERSION,((dec,InputRole.TEMPLATE),(buffer,InputRole.CONDITION)),decoding_scene("probe cleavage products; exact residue state unassigned"))
+ dec=clean("decode_strip","80%formamide strip10min and instrument-buffer flow; repeat primers",dec,bead_scene())
+ rna=inp("tissue_rna","independent tissue RNA;6×SSC15min capture",MaterialKind.MOLECULAR)
+ captured=op("capture_rna","Hybridize RNA to decoded native bead poly(dT)",StepKind.HYBRIDIZATION,((dec,InputRole.TEMPLATE),(rna,InputRole.STRUCTURAL)),captured_scene())
+ primer=inp("bead_primer","actual native bead capture primer; same molecular population",MaterialKind.OLIGO,Construct(bead_parts()));rt=inp("rt","MaximaH−42°C1h");tso=inp("tso","printed TSO DNA/rG+GrG reagent",MaterialKind.OLIGO,tso_scene())
+ cdna=op("rt_switch","INFERRED junction—RT and source TSO copying; no repaired TSO prefix",StepKind.REVERSE_TRANSCRIPTION,((captured,InputRole.TEMPLATE),(primer,InputRole.STRUCTURAL),(tso,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),bead_scene(True))
+ proteinase=inp("proteinase","ProteinaseK/SDS tissue digestion37°C40min")
+ cdna=op("digest_tissue","Digest tissue before physical bead recovery",StepKind.DEPROTEINIZATION,((cdna,InputRole.TEMPLATE),(proteinase,InputRole.CATALYST)),cdna.state)
+ cdna=clean("recover_beads","Vigorouspipetting;removeglass;pellet/washbeads repeatedly thenwater",cdna)
+ f=inp("pre_forward","TruseqhandlePCRprimer",MaterialKind.OLIGO,TRUSEQ_PCR_HANDLE);r=inp("pre_reverse","sourceSMARTPCRprimer",MaterialKind.OLIGO,SMART);p=inp("pre_pol","KAPAHiFiHotStart;4cycles65°C+9cycles67°C")
+ amp=out("preamp","native preamplified DNA plus possible originals",preamp_scene())
+ g.react("pre_pcr","INFERRED SMART junction—amplify actual bead-bound ssDNA",StepKind.PCR,((cdna,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(p,InputRole.CATALYST)),(amp,),geometry=PCRGeometry.unavailable(cdna.state,reason="Actual full-prefix beadssDNA provided; source printedTSO/SMART discrepancy leaves opposite-end/firstcycle geometry unresolved."))
+ amp=clean("pre_cleanup","0.6×AMPure;10µlrecovery;600pgDNA selected forNexteraXT",amp)
+ transposome=inp("transposome","native NexteraXT loadedTn5 adapter; full strands unassigned",MaterialKind.ADAPTER);tn5=inp("tn5","NexteraXT tagmentation mix; native member/geometry unassigned")
+ tagged=op("tagment","Tagment actual preamplified DNA with NexteraXT",StepKind.TAGMENTATION,((amp,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),tagged_scene())
+ boundary=inp("kit_conditions","native NexteraXT post-tagmentation handoff; detailed recovery not read",MaterialKind.CONDITION)
+ tagged=op("native_handoff","Bounded native post-tagmentation kit handoff before indexingPCR",StepKind.MAGIC,((tagged,InputRole.TEMPLATE),(boundary,InputRole.CONDITION)),tagged.state,reason="Supplement delegates NexteraXT tagmentation to manufacturer; intervening native neutralization/recovery detail remains unassigned within cap.")
+ f=inp("library_forward","sourceTruseq5",MaterialKind.OLIGO,TRUSEQ5);r=inp("library_reverse","nativeN700indexprimer; exactmember/fullstrand unassigned",MaterialKind.OLIGO);p=inp("library_pol","native indexingPCR;72°C3min then12cycles55°Cannealing")
+ tagged=op("initial_extension","Native72°C3min pre-cycle extension; completion geometry unassigned",StepKind.EXTENSION,((tagged,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(p,InputRole.CATALYST)),tagged_scene())
+ final=tagged_scene();add_duplex(final,"expected library",list(FINAL_LIBRARY),"expected native daughter; prior populations retained")
+ library=out("library","Slide-seq native indexed library",final,MaterialKind.LIBRARY)
+ g.react("library_pcr","Amplify actual native tagged PCR precursor",StepKind.PCR,((tagged,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(p,InputRole.CATALYST)),(library,),geometry=PCRGeometry.unavailable(tagged.state,reason="Actual native tagged population supplied; N700member and early-cycle adapter geometry remain unassigned, no finished library used as template."))
+ library=clean("final_cleanup","0.6×AMPure;10µlrecovery;4nMnormalization",library)
+ g.sequence(library,SequencingPlan(acquired_roles=("Read 1","Index 1 (i7)","Read 2"),read_lengths={"Read 1":42,"Index 1 (i7)":8,"Read 2":50},limitation=SEQUENCING_ENDING))
+ g.declare_reviewed_scope(("bead","decoder","decoder_hybridize","solid_probes","decoding_ligase","decode_ligate","cleave_buffers","decode_cleave","decode_strip_selection","decode_strip","tissue_rna","capture_rna","bead_primer","rt","tso","rt_switch","proteinase","digest_tissue","recover_beads_selection","recover_beads","pre_forward","pre_reverse","pre_pol","pre_pcr","pre_cleanup_selection","pre_cleanup","transposome","tn5","tagment","kit_conditions","native_handoff","library_forward","library_reverse","library_pol","initial_extension","library_pcr","final_cleanup_selection","final_cleanup","final_cleanup_out"),SOURCE)
+ graph.annotate(SourceDiscrepancy("tso", "Template-switch oligo versus SMART PCR primer",
+     (SourceClaim("Published supplement Table S1 (PMC NIHMS1036108 supplement-1.docx, text line 316)",
+                  "TSO AAGCTGGTATCAACGCAGAGTGAATrG+GrG"),
+      SourceClaim("same published Table S1 (text line 314)",
+                  "SMART PCR primer AAGCAGTGGTATCAACGCAGAGT; the printed TSO lacks the primer's "
+                  "AG at positions 5–6 and contains only its 3′ 17 nt"),
+      SourceClaim("Stickels et al. 2021 (Slide-seqV2) Supplementary Table 6 and Online Methods "
+                  "(same Qiagen order #339414YCO0076714)",
+                  "TSO AAGCAGTGGTATCAACGCAGAGTGAATrG+GrG")),
+     "Display the TSO exactly as printed; the cDNA PCR is modelled at role level and no SMART-end "
+     "bases are inferred. The SMART end is lost from the final library by tagmentation.",
+     "The published author-manuscript supplement is a Word document whose text layer gives the value directly.",
+     "Whether the TSO omission is a transcription error is unresolved; the Science-hosted "
+     "supplement PDF was not obtained."))
+ for name, printed, expected in DECODING_MISMATCHES:
+     graph.annotate(SourceDiscrepancy("decoder", f"Decoding primer {name} versus its recessed series",
+         (SourceClaim("Published supplement Table S1 (supplement-1.docx text lines 317-321)",
+                      f"{name} /5Phos/{printed}"),
+          SourceClaim("Computed from the same table: the primer series is the reverse complement "
+                      "of the bead TruSeq handle CTACACGACGCTCTTCCGATCT, recessed by n 5′ bases "
+                      "(Truseq, -2, -3, -4 all follow it)",
+                      f"expected /5Phos/{expected}")),
+         "Show the primer exactly as printed; the decoding step is modelled at role level and does "
+         "not use the printed bases, so no corrected sequence enters the graph.",
+         "The other nine primers match their computed recessed forms exactly.",
+         "Whether the order used the printed or the series sequence is not stated; the mismatch "
+         "is at the fourth base from the primer 3′ end (C printed, G expected)."))
+ return g.require_publishable()

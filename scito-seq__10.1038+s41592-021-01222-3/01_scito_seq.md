@@ -4,7 +4,7 @@
 
 ## Molecular boundary
 
-🟢 Each antibody carries a reusable 20-nt handle. A hybridized splint supplies its complement, a TruSeq Read 2 handle, antibody identity, a 10-nt staining-pool barcode and the 10x feature-capture sequence.
+🟢 Each antibody carries a reusable 20-nt handle. A hybridized splint supplies its complement, a TruSeq Read 2 handle, a joint 10-nt antibody/staining-pool barcode and the 10x feature-capture sequence.
 
 🟢 Cells are stained in separate pools and combined before high-loading droplet capture. Gel beads add a droplet barcode and UMI; antibody-plus-pool identity and droplet identity resolve cells combinatorially.
 
@@ -15,13 +15,10 @@ commercial-antibody and RNA-comodality variants. For the original design it spec
 in order, a 20-nt antibody-handle complement, 34-nt TruSeq Read 2 region, 10-nt
 compound antibody/pool barcode and 22-nt 10x feature-capture region.
 
-🟡 We rechecked the defining article and Methods, the open author manuscript,
-Supplementary Tables 1–4, the bioRxiv supplement and the authors' linked SCITO-seq
-analysis repository. They do not print a universal set of antibody-handle, antibody-
-barcode or pool-barcode bases. Those fields are deliberately antibody/pool specific;
-the final capture/indexing chemistry is inherited from the commercial 10x Chromium 3′
-v3 Feature Barcoding workflow. The page therefore keeps those regions typed by role
-instead of inventing a representative sequence.
+🟡 Exact selected handle/barcode members and the versioned 10x kit chemistry
+remain unassigned in this model. Earlier review records are bounded inspections,
+not proof of publication absence; vendor and author-linked source targets remain
+open in the review checklist.
 
 ## Bounded source pass (2026-10-17, round breadth-first-17)
 
@@ -51,3 +48,18 @@ Open: the 10x guide revision for the drawn 3′ v3 route (the paper cites CG0001
 page 52, only for the TS-C variant; local copies are Rev A/B only); Fig. 1b and Extended
 Data Fig. 9b artwork (not in the source bundle); TS-C 15-bp, scATAC splint and scifi
 comodality bridge-oligo variants are not drawn.
+
+## Local validation migration (2026-10-18)
+
+Re-read published PMC8643207 Methods lines 189–209 (conjugation, splint design and
+10x run) and Results line 113; ran the bundle oligo scraper (no hits). The source
+specifies one compound Ab+PBC 10-base field, not an additional universal antibody
+window next to a 10-base pool barcode. The model now attaches joint antibody/pool
+meaning to that one field. Its i7 sample index is eight bases, as the published
+28/8/98 run specifies; bead barcode and UMI lengths remain unassigned locally.
+
+The local PCR and sequencing declaration uses the captured-tag template. Empty or
+ambiguous droplet outcomes stay unresolved physically: inability to assign a cell
+is an analysis criterion. The vendor kit primer geometry and exact selected
+handle/barcode members remain open model/source-review targets. This migration
+does not establish that original sources lack those sequences.

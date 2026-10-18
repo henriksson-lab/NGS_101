@@ -33,9 +33,10 @@ currently returns HTTP 403 to the source fetcher.
 
 ## Construct logic
 
-The phosphatase step is the selectivity reset: after it, a ligatable 5′ phosphate should
-only arise from aniline cleavage. Consequently the first mapped read base is one nucleotide
-downstream of the responsible modification, a relationship enforced by the shared model.
+The phosphatase step is the selectivity reset: after it, the intended ligatable
+5′ phosphate arises from aniline cleavage. The original article places the
+first mapped Read 1 base at N+1. The local model declares that source relation;
+its chemistry checker does not independently prove cleavage selectivity or yield.
 
 ## Bounded primary-source check (2026-10-16)
 
@@ -44,3 +45,32 @@ Inspected: Original Marchand2018 author PDF text90–145 and figure1 description
 No source-supported correction identified in inspected scope.
 
 Deferred: Original supporting methods; exact protocol timings, adapter assignment, run and full library states were not re-verified; main PDF confirms alkaline treatment, background dephosphorylation, aniline cleavage and N+1 selective-ligation principle. This is a capped check, not a full source audit or confirmation of missing information.
+
+## Native ownership migration — 2026-10-18
+
+Re-read the original Marchand2018 article, text lines99–109 and 141–188, plus
+rendered Figure 1a on PDF page2. It establishes alkaline hydrolysis in bicarbonate
+pH9.2 at 96 °C, extensive background 5′/3′ dephosphorylation, aniline cleavage,
+adapter ligation and dsDNA amplification. Read 1 begins at N+1. The graph now
+declares those steps locally, including ligation-competent downstream 5′-P/3′-OH
+RNA and distinct upstream/uncleaved outcomes with unresolved physical recovery.
+Both adapter boundaries are marked on the ligated RNA candidate.
+
+The exact adapters and primers in NEB manual v9.0 (July2025), including rApp,
+RNA bases, terminal amine and phosphorothioates, remain a labelled comparator
+inventory. That later formulation does not establish the historical 2018 kit
+implementation and supplies no native graph reagent or run assignment. The
+2018 Supporting Information remains an unresolved source target. Native RT/PCR
+reagents and primer footprints therefore remain unassigned on the actual cDNA
+precursor; the output duplex is not substituted as a PCR input.
+
+The earlier notes report SR50, but the original main passages re-read here
+establish Read 1 start semantics without its cycle count. That cycle assignment
+is now a deferred run question rather than an inherited acquisition default.
+Similarly, no sample-index width or member is imposed from the 2025 comparator.
+The shared recipe and shared readout constructor no longer choose these source
+decisions. No absence conclusion or historical-kit equivalence is established.
+
+Two originals inspected: the 2018 article (including Figure 1) and the 2025 NEB
+manual's printed version and oligo table, text961–1073. The whole cached-bundle
+primer scraper was run and relevant modified-oligo hits inspected.

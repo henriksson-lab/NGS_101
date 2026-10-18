@@ -78,3 +78,11 @@ identify the selected sample indexes. No molecular UMI or cell barcode is presen
   v2_Ad2.1 against Buenrostro 2015 *Nature* MOESM36 Sheet1 lines 6 and 99. The graph now
   shows the cold pellet as a cleanup (not a separate permeabilization), digitonin in the
   transposition step, the qPCR-chosen extra cycles and the final MinElute cleanup.
+
+## Source-owned validation migration, 2026-10-18
+
+Local declaration owns the source-cited dual-eight-base-index endpoint and both complete published v2_Ad1/v2_Ad2 primer-family architectures. No family recipe or batch endpoint remains. Primer member assignments remain unknown. Added a distinct gap-fill step before five-cycle PCR and located primer sites on that real gap-filled precursor; continued amplification uses the actual preamplified remainder and same polymerase. Preserved digitonin/PBS cell-pelleting branch, MinElute cleanups, qPCR aliquot and76×8×8×76 NextSeq acquisition. Non-library end-class recovery is explicitly unresolved rather than inferred physical removal. Two cross-bundle source-guard exemptions are backed by dedicated direct-original checks of every published family member.
+
+Source scope: Corces2016 published PMC5042844 Online Methods Fast-ATAC assay (sorted5000cells,digitonin/TDE1,MinElute,cited refs48/23,76×8×8×76); cited Buenrostro2015 CurrentProtocols PMC4374986 amplification/qPCR text lines120–167; cited Nature14590 published MOESM36 SupplementaryTable1 v2_Ad1/v2_Ad2 families (representative entries lines6 and99, entire family checked by local source suite).
+
+Deferred: Exact physical TDE1 loading oligomers/stagger geometry and transposition/gap-fill product relations remain unresolved; Study-specific i5/i7 member assignment remains unassigned; source architecture does not identify a sample well. This bounded check does not establish complete molecular validation or an accepted source-absence claim.

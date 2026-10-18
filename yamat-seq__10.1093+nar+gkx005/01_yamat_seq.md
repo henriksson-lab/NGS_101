@@ -15,17 +15,8 @@ doi:10.1093/nar/gkx005. The PMC full text and supplement were read.
   the physical oligo used cannot be verified from these conflicting statements.
 - 🟢 Lines 80–88 establish deacylation, recognition of the mature-tRNA 5′-NCCA-3′
   overhang and sealing of both acceptor-stem nicks.
-- 🟢 The paper names the TruSeq Small RNA kit but does not reproduce its RT/PCR
-  oligos. Illumina's [TruSeq Small RNA adapter-sequence sheet](https://support-docs.illumina.com/SHARE/AdapterSequences/Content/TruSeq-SmallRNA.htm)
-  gives RTP as 5′-GCCTTGGCACCCGAGAATTCCA-3′, RP1 as
-  5′-AATGATACGGCGACCACCGAGATCTACACGTTCAGAGTTCTACAGTCCGA-3′, and the
-  indexed PCR primer family as
-  5′-CAAGCAGAAGACGGCATACGAGAT[6-base index]GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA-3′.
-  The same sheet lists each index sequence. The paper does not say which index was
-  chosen for each sample, so a specific six-base index remains unspecified.
-- 🟡 The current page shows the final flow-cell ends by role. Its exact sequencing
-  primer placement remains unmodeled; the Illumina sheet establishes RT and PCR
-  oligos but does not identify the HiSeq 2500 run primer by sequence.
+- 🟢 The defining Methods names the TruSeq Small RNA RTP, PML and kit PCR primers. The current source pass has not assigned an applicable historical kit member or its index width. An earlier note quoted a later vendor sequence sheet; that reference is historical and was not independently re-read in this capped pass. It does not fix the native 2017 kit or run.
+- 🟡 The kit-derived library ends and index remain inferred roles, without a six-base default. The native RNA/DNA adapter sequences are retained independently of this kit boundary.
 - 🟢 The additional nucleotide sequences in the paper's methods (lines 64–68 of the
   PMC full-text extraction) are a synthetic tRNA substrate and RT/qPCR primers for
   **ligation-efficiency experiments**. They are not the library amplification primers
@@ -37,8 +28,7 @@ doi:10.1093/nar/gkx005. The PMC full text and supplement were read.
 
 The four Y-5′ variants differ only in their terminal ribodinucleotide and collectively
 pair with all discriminator-base/NCCA ends. Y-3′-AD is 5′ phosphorylated and 3′ blocked.
-Annealing creates two Rnl2 substrates; amplification is possible only after both relevant
-adapter–tRNA boundaries have been sealed.
+Annealing creates two Rnl2 substrates; the source describes selective amplification of molecules with the two relevant adapter–tRNA boundaries sealed; this does not establish a physical discard fate for all other molecules.
 
 ## Bounded curation round 4 (2026-10-16)
 
@@ -49,3 +39,13 @@ Specified deacylation at pH9/37°C/40min, 37°C1h plus overnight4°C ligation, S
 Deferred: Original Results discrepancy reread, selected kit primer geometry, exact acceptor-stem annealing and gel-selection intermediates; not a new publication error finding. This pass does not establish a complete source review or publication-wide absence.
 
 Corrected the adapter-set state to five separate oligo strands instead of one concatenation, fixing a real source-guard failure.
+
+## Native graph migration, 2026-10-18 batch07
+
+Two originals inspected: published PMC5605243 Methods46–68 and Results80–95 (deacylation, five oligos/modifications, annealing/ligation, RT/PCR, PAGE and single-read100); published supplement opening FigS1–S3 headings/captions and controls. The mandatory bundle oligo scraper was run and relevant five-adapter hits checked against the original Methods. No additional vendor original was read in this pass.
+
+The protocol now owns the entire graph: deacylation followed by ethanol recovery, separate adapter molecules, noncovalent terminal-pairing state, both Rnl2 junctions on a covalent RNA/DNA strand, SSIII RT on that actual strand, eleven-cycle PCR on the first-strand population, and 8% native PAGE. Y5-U retains physical terminal RNA U rather than DNA T. The ordered `/3ddC/` contributes an additional physical terminal C, drawn separately and marked dideoxy; it is not just an inert note on the preceding G. The Methods5P/3ddC Y3 ordering specification remains on the public page beside the conflicting Results3OH statement.
+
+The pairing view computes the source Y-adapter stem and the A-discriminator/Y5-U representative terminal interaction. It does not claim to position the complete folded acceptor stem or both nick geometries. All four terminal classes are retained as the reagent population; the representative is not a chosen biological tRNA sequence. The fully ligated strand retains terminal ddC, consumed5P junctions and its original RNA through RT. Residual original RNA/first-strand template recovery after PCR and gel selection stays unresolved. Bioinformatic CCA/length filtering does not discard physical molecules.
+
+Deferred: complete acceptor-fold layout; applicable original kit primer/member definitions and native index width; precise first-strand boundaries, sequencing landing and class-specific recovery. This capped migration does not establish confirmed missing information or alter historical review statuses.

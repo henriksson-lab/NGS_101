@@ -169,6 +169,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 8 steps 0 established/0 conditional/9 unresolved/0 contradictory with control_artifact MAGIC warning; source guard 0 checked, 0 failed, 3 inputs without exact states; Markdown built; audit --check pass"
+    },
+    {
+      "round": "2026-10-18-batch07-native-graph-migration",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Root3-original handoff retained; sameSurePlex15053626v02 title and supplied lysis448–572/preamp573–802 programs; VeriSeq15052877v05 title and tagment858–928/NT/indexPCR929–1010, normalization1540–1625/HT1poolheading; GuidanceNote1000000138837v00 control92–114/short-read248–266. No fourth original.",
+      "oligo_scraper": "Mandatory root bundle scraper log /tmp/chem-sureplex-batch07-primers.log reports0hits; no absence inferred. No additional source hunt.",
+      "findings": "Removed unused isothermal/nanopore/family imports and nextera_library genericN8shell. Explicit12/14-cycle commercial stages remain genuinelyunassigned primerpool boundaries, represented separately for sample and parallelPBScontrol. ActualWGAinput→nativepartialTn5→NT→initial72C3extension→actualnativePCR precursor, no finalduplex template; other endclasses/original/offtargets unresolved. Source1:1AMPure followed normalizationbinding/twoLNW1washes/NaOHss elution/LNS1transfer/equalvolume pooling/HT1heatpreparation explicit. Finalphysicalmaterial ssDNA with no manufacturedduplex view. Native index widths/members/sites/runmask unassigned;36cycle shortread source phrasing qualified. No-cell artifacts retainedUNRESOLVED; unmappedread filtering computational. Parent critical review corrected unverified buffer-to-primerpool assignment: source-known PreAmp/AmplificationBuffers are CONDITION inputs; native oligo components/location remain unassigned without adding fictional structural pools.",
+      "deferred": [
+        "NativeSurePlex primerpool/firstcopy/WGA molecular relations",
+        "Native historicalVeriSeq loaded/primer/gap/index assembly and selectedmembers/physicalwidths",
+        "Normalizationcapture chemistry/class-specific original/counterpart recovery and exact acquiredindexmask",
+        "Single-index branch and linkedMiSeq/qPCR originals outside capped scope"
+      ],
+      "scope": "Capped native implementation/source handoff check; historical status/absence obligations preserved.",
+      "verification": "Source suite5pass; pagebuildpass; chemistry18steps19unresolved0contradictory; sourceguard0checked0failed3unassigned0exemptions; pairing0problems; review-schema/whitespacepass. Root independent docs0 peer record pending."
+    },
+    {
+      "round": "2026-10-18-batch07-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "sureplex/tools/sureplex.py native commercial stages, control branches, actual PCR inputs and normalization/recovery graph.",
+      "findings": "Checked separate PBS/sample routes, actual native tagged/NT/initial-extension PCR input, source1ng aliquot and untransferred remainders, no nonproductive-end or computational-filter physical discard, explicit normalization binding/two washes/NaOHss/LNS1transfer/pool/loading. Removed unsupported STRUCTURAL oligo-pool assignments to named commercial buffers; final state has one ssDNA row, no defaultdualN8 library. Both proprietary amplification stages remain explicitly bounded with known12/14cycles.",
+      "deferred": [
+        "Native oligo components/formulations and exactPCR/read landing",
+        "Control artifact identity, class-specific recovery and executedindexmask"
+      ],
+      "scope": "Independent implementation-only critical review; no new originals read or source-review status upgraded.",
+      "verification": "Worker source suite5/page/chemistry18steps19unresolved0contradictory/sourceguard0failed/pairing/schema pass after buffer-port correction; parent batch verifier pending."
     }
   ]
 }

@@ -203,6 +203,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite comment-only (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory with hic_library_construction MAGIC warning; source guard 0 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "documents": 1,
+      "locations": "Published Data S1 Methods & Materials, cr.2016.137_MOESM56_ESM.pdf.txt lines 13–73 (ordered proximity ligation/ChIP, biotin pull-down, delegated library construction, qPCR-selected amplification and paired-end mapping).",
+      "oligo_scraper": "Ran scraper on the whole cached bundle; inspected its Table S1 4C validation primer hits as distinct from PLAC-seq library primers. No sequence absence is accepted.",
+      "findings": "Removed queued finish_pcr, role-length molecule and protocol_specs.get selectors. Locally declared adapter-role endpoint does not impose TruSeq, index layout, dA/T junctions or canonical sequencing primers. PCR consumes the actual unresolved pre-PCR substrate; source-unassigned primers/enzyme remain explicit roles, with Data S1 qPCR-selected amplification. Paired-end output remains explicit without cycle counts. Existing physical branch fates and delegated-method MAGIC boundary are retained.",
+      "deferred": [
+        "Rao et al. 2014 delegated in situ Hi-C library method, especially end processing, adapter and PCR choices",
+        "GEO GSE86150 run metadata and index assignments",
+        "Complete independent linked-source review"
+      ],
+      "scope": "Bounded ownership migration and one-original re-read; no accepted missing-information claim or complete protocol validation.",
+      "verification": "Page build and comment-only local suite pass; source guard 0 exact strands for PLAC-seq, 3 inputs without exact states; pairing 0 problems; scoped chemistry 0 established/0 conditional/10 unresolved/0 contradictory; unknown delegated-library transition remains warned.",
+      "round": "2026-10-18-validation-ownership-migration",
+      "reviewer": "local_migration_review",
+      "date": "2026-10-18"
+    },
+    {
+      "round": "2026-10-18-population-display-correction",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only molecular representation correction; original migration source scope retained. No new scientific choices or absence conclusions.",
+      "locations": "Local protocol molecular states; original migration source locations remain recorded in the preceding bounded check.",
+      "findings": "The two filled locus ends now occupy separate Scene rows before proximity ligation. The true ligated A–B product and later library segment order remain intact.",
+      "deferred": [
+        "Original migration evidence limits and deferred targets remain unchanged."
+      ],
+      "verification": "Local suite and page build pass; scoped chemistry total across four protocols:1established5conditional44unresolved0contradictory (limited coverage). Source guard8exact strands checked0failed,1existing cross-bundle exemption,11inputs without exact states. Pairing0problems. Source-review schema and focused note builds pass. Independent population rows checked directly; legacy DISCOVER workflow also constructs successfully."
     }
   ]
 }

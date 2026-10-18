@@ -3,11 +3,17 @@ from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
 from adapter_ligation import AdapterLigationGeometry
-from batch_ngs import UNASSIGNED_LENGTH,nextera_library,seg
-from chemdraw import Construct,Scene,feature,oligo,revcomp
+import illumina as il
+import seqprimers as sp
+from protocol_model import role
+from protocol_graph import Disposition,Terminal
+from chemdraw import Construct,Scene,Segment,feature,oligo,revcomp,complement_segments
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             SourceClaim, SourceDiscrepancy, StepKind)
+
+def seg(name,top,tag=None,**kwargs):
+ return Segment(name,top,tag,**kwargs)
 
 CELL_LEN=15
 RANDOM_PRIMER="TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"+"N"*9
@@ -47,17 +53,43 @@ def p7_transposon_bs_primer():
                    seg("converted bead-site complement",revcomp(CONVERTED_PCR_SITE_RC),"p7")],name="P7 transposon BS primer")
 
 def random_primer():
- return Construct([seg("S5+ME",P5_TRANSPOSON_PRIMER,"me"),seg("N9","N"*9,placeholder=True)],name="S5–ME–N9 random primer")
+ return Construct([seg("S5+ME",P5_TRANSPOSON_PRIMER,"me"),seg("N9","N"*9,length_bp=9)],name="S5–ME–N9 random primer")
 
-FINAL_LIBRARY,SEQ_PRIMERS=nextera_library([
- seg("bisulfite-converted genomic insert","X"*38,placeholder=True),
- seg("converted bead ligation-site complement",CONVERTED_ARM_RC,"me"),
- seg("15-nt cell barcode complement (C/A/T)","H"*CELL_LEN,"cbc",placeholder=True,feature=CELL_BARCODE),
- seg("converted bead PCR-site complement",CONVERTED_PCR_SITE_RC,"p7"),
-],"Drop-BS library",
- # Supplementary Fig. 1 prints the N5XX/Ad2.XX primers with "[i5 index]"/"[i7 index]"
- # only, so neither index window is given a length.
- i5_nt=UNASSIGNED_LENGTH,i7_nt=UNASSIGNED_LENGTH)
+def random_copy_scene():
+ sc=Scene();sc.strand("copy",[
+  seg("source S5–ME primer handle",P5_TRANSPOSON_PRIMER,"me"),
+  seg("N9 random-primer coordinate; not an identifier","N"*9,length_bp=9),
+  role("copied bisulfite-converted genomic sequence beyond the random primer"),
+  seg("converted bead ligation-site complement",CONVERTED_ARM_RC,"me"),
+  seg("15-nt cell barcode complement (C/A/T)","H"*CELL_LEN,"cbc",placeholder=True,feature=CELL_BARCODE),
+  seg("converted bead PCR-site complement",CONVERTED_PCR_SITE_RC,"p7")],label="actual single-strand random-primed copy")
+ return sc
+
+
+def pre_pcr_scene():
+ sc=Scene();sc.strand("prePCR",[*random_copy_scene().strands["copy"].segs,
+  seg("P7 transposon-primer copied Read2 arm",revcomp(BEAD_LIGATION_END),"r2")],label="five-cycle pre-PCR product; representative strand")
+ sc.note("prePCR","Source shows duplex pre-PCR product; complementary/first-copy geometry is not reconstructed.")
+ return sc
+
+
+# Source FigS1 explicitly prints N5XX=P5+[i5]+S5 and Ad2.XX=P7+[i7]+S7.
+# The physical primer members and index widths are not assigned by these names.
+FINAL_LIBRARY=Construct([
+ seg("source N5XX P5",il.P5,"p5"),
+ role("N5XX i5 index; width/member unassigned",tag="cbc",molecular_feature=feature("dropbs_i5","sample_index","unknown")),
+ *pre_pcr_scene().strands["prePCR"].segs,
+ role("Ad2.XX i7 reverse complement; width/member unassigned",tag="cbc",molecular_feature=feature("dropbs_i7","sample_index","unknown")),
+ seg("source Ad2.XX P7 reverse complement",il.P7_RC,"p7")],name="Drop-BS source-primer-derived library")
+SEQ_PRIMERS=tuple(sp.NEXTERA[k] for k in ("R1","R2"))
+if sp.verify(FINAL_LIBRARY,SEQ_PRIMERS,required_roles=("Read 1","Read 2")):
+ raise ValueError("Source Drop-BS primer-derived ends do not support the declared compatible references")
+SHOW_READ_CONTENT=False
+READ_SPECS=(sp.read_spec("Read 1",150,"N9 random-primer coordinate and bisulfite-derived DNA; source clips15nt","include"),
+ sp.read_spec("Read 2",150,"converted bead PCR site (24nt), cell barcode (15nt), converted ligation arm, genomic sequence","extract_then_include"),
+ sp.read_spec("Index 1 (i7)",None,"index acquisition and width/member unassigned","undetermined"),
+ sp.read_spec("Index 2 (i5)",None,"index acquisition and width/member unassigned","undetermined"))
+CAVEAT="The source-primer-derived endpoint retains unknown index widths and variable genomic extent. Actual pre-PCR input is a single-strand random copy; native PCR geometry is unresolved. Failed fusion is not a physical discard. FigS1 supplies a blunt duplex ligation tail, not a bridging splint."
 TITLE="Drop-BS — droplet barcoding before bisulfite conversion"
 NOTES="01_drop-bs.html"
 SOURCE='<a href="https://doi.org/10.1038/s41467-023-40411-w">Zhang et al., <i>Nature Communications</i> (2023)</a>.'
@@ -69,12 +101,14 @@ SEQUENCING_INTRO=("NovaSeq 6000 S4, 150 bp paired-end (Methods). Read 2 starts i
 READ_LENGTHS={"Read 1":150,"Read 2":150}
 
 def bead_ligation_geometry():
- sc=Scene();sc.strand("released bead oligo",[seg("bead barcode and PCR arm","CAAGCAGAAGACGGCATACGAGAT"+"D"*15,"cbc",placeholder=True),seg("ligation-end arm",BEAD_LIGATION_END[:-len(BLOCKED_SPLINT)],"me"),seg("splint-paired terminus",BEAD_LIGATION_END[-len(BLOCKED_SPLINT):],"me")],label="photocleaved bead oligo")
- sc.anneal("blocked complement",[seg("3′-blocked ligation splint",BLOCKED_SPLINT,"me")],to="released bead oligo",pair=("3′-blocked ligation splint","splint-paired terminus"),label="3′-SpC3; 5′-phosphorylated")
- sc.ligation_end("released bead oligo","splint-paired terminus",kind="splinted",polarity="3-prime",owner="adapter",text="published splinted bead-oligo 3′ end")
- sc.strand("insert DNA",[seg("prepared insert end","X"*20,placeholder=True)],label="MNase fragment after end repair")
- sc.ligation_end("insert DNA","prepared insert end",kind="splinted",polarity="5-prime",owner="substrate",text="insert end presented to splint")
- return AdapterLigationGeometry.known("splinted",sc,statement="Drop-BS Supplementary Figure 1 prints the bead ligation sequence and the 3′-SpC3-blocked, 5′-phosphorylated complementary oligo that presents the ligation site.")
+ sc=Scene();sc.strand("released bead oligo",[seg("bead PCR arm",BEAD_PCR_SITE,"p7"),seg("bead cell barcode","D"*CELL_LEN,"cbc",placeholder=True,feature=CELL_BARCODE),seg("ligation-end arm",BEAD_LIGATION_END[:-len(BLOCKED_SPLINT)],"me"),seg("splint-paired terminus",BEAD_LIGATION_END[-len(BLOCKED_SPLINT):],"me")],label="photocleaved bead oligo")
+ sc.anneal("blocked complement",[seg("3′-blocked ligation splint",BLOCKED_SPLINT,"me")],to="released bead oligo",pair=("3′-blocked ligation splint","splint-paired terminus"),label="3′-SpC3; 5′-phosphorylated",mod5="P",mod3="SpC3")
+ sc.ligation_end("released bead oligo","splint-paired terminus",kind="blunt",owner="adapter",text="source blunt duplex bead tail")
+ insert=[seg("prepared insert end","X"*20,placeholder=True)]
+ sc.strand("insert DNA",insert,label="MNase fragment after end repair; representative extent")
+ sc.anneal("insert DNA complement",complement_segments(insert),to="insert DNA",pair=("prepared insert end'","prepared insert end"),label="computed opposite strand; flush repaired end")
+ sc.ligation_end("insert DNA","prepared insert end",kind="blunt",owner="substrate",text="end-repaired genomic fragment")
+ return AdapterLigationGeometry.known("blunt",sc,statement="Source FigS1 gives a 19nt complement paired flush with the bead oligo3′end. It forms a blunt duplex tail; it does not span bead and genomic molecules as a ligation splint.")
 def oligos():
  yield oligo("Barcode-bead oligo (5′ photocleavable linker)",list(bead_oligo()))
  yield oligo("3′-end blocked complement oligo",list(blocked_complement()),mods="/5Phos/",three="/3SpC3/-3′")
@@ -97,11 +131,11 @@ def protocol_graph():
              StepKind.HYBRIDIZATION,((bead,InputRole.TEMPLATE),(complement,InputRole.STRUCTURAL)),(ready_bead,))
  fusion=graph.input("fusion_condition","AC-field droplet fusion (300 Vp-p, 200 kHz)",MaterialKind.CONDITION)
  paired=graph.product("paired_droplet","fragment-and-barcode-bead droplet",MaterialKind.MOLECULAR)
- excluded=graph.product("fusion_loss","unpaired droplet material",MaterialKind.WASTE)
+ excluded=graph.product("fusion_loss","unpaired droplet material",MaterialKind.MOLECULAR)
  graph.react("droplet_fusion","Fuse the fragment droplet with a bead/enzyme/ligation-mix droplet",
              StepKind.SAMPLING,
              ((fragments,InputRole.TEMPLATE),(fusion,InputRole.CONDITION)),(paired,excluded),changes_molecule=False)
- graph.discard(excluded,"unpaired or unusable fused droplets are not retained")
+ graph.mark_terminal(Terminal(excluded.id,Disposition.UNRESOLVED,"Fusion does not establish physical removal of unpaired droplets; exact recovery is unassigned."))
  repair=graph.input("repair_enzymes","End-It enzyme mix (Lucigen) with dNTPs and ATP",MaterialKind.CATALYST)
  repaired=graph.product("repaired_fragments","end-repaired genomic fragments in droplets",
                         MaterialKind.MOLECULAR)
@@ -133,13 +167,15 @@ def protocol_graph():
  graph.discard(bs_waste,"removed in the kit column and SPRIselect cleanup")
  rp=graph.input("random_primer","S5–ME–N9 random primer",MaterialKind.OLIGO,state=random_primer())
  klenow=graph.input("klenow","Klenow exo− (Enzymatics), slow ramp 4→37 °C, 37 °C 60 min",MaterialKind.CATALYST)
+ original_template=graph.product("original_converted_template","original converted DNA templates after random extension",MaterialKind.MOLECULAR)
  extended=graph.product("extended_dna","random-primer-extended converted DNA",MaterialKind.MOLECULAR)
  graph.react("random_extension","Random-prime converted DNA to install the S5–ME handle",
              StepKind.EXTENSION,
              ((clean_converted,InputRole.TEMPLATE),(rp,InputRole.STRUCTURAL),
-              (klenow,InputRole.CATALYST)),(extended,))
+              (klenow,InputRole.CATALYST)),(extended,original_template))
+ graph.mark_terminal(Terminal(original_template.id,Disposition.UNRESOLVED,"Random extension does not consume its converted DNA template; its recovery through denaturation/cleanup and amplification remains unassigned."))
  rp_clean=graph.input("rp_cleanup","1.1× SPRIselect, 95 °C denaturation, second 1.1× SPRIselect",MaterialKind.SELECTION)
- ss_copy=graph.product("single_stranded_copy","denatured random-primed copy strands",MaterialKind.MOLECULAR)
+ ss_copy=graph.product("single_stranded_copy","denatured random-primed copy strands",MaterialKind.MOLECULAR,state=random_copy_scene())
  rp_waste=graph.product("random_priming_waste","free primer and SPRI-excluded material",MaterialKind.WASTE)
  graph.react("denature_cleanup","Denature and purify the random-primed products",StepKind.CLEANUP,
              ((extended,InputRole.TEMPLATE),(rp_clean,InputRole.SELECTION)),(ss_copy,rp_waste))
@@ -147,11 +183,11 @@ def protocol_graph():
  p5t=graph.input("p5_transposon_primer","P5 transposon primer",MaterialKind.OLIGO,state=p5_transposon_primer())
  p7t=graph.input("p7_transposon_bs_primer","P7 transposon BS primer (primes the converted bead site)",MaterialKind.OLIGO,state=p7_transposon_bs_primer())
  kapa=graph.input("kapa_uracil","KAPA HiFi HotStart Uracil+ ReadyMix with DMSO",MaterialKind.CATALYST)
- pre=graph.product("pre_pcr_product","pre-PCR product (S5–ME … converted bead site–Read 2 arm)",MaterialKind.MOLECULAR)
+ pre=graph.product("pre_pcr_product","pre-PCR product (S5–ME … converted bead site–Read 2 arm)",MaterialKind.MOLECULAR,state=pre_pcr_scene())
  graph.react("pre_pcr","Pre-amplify with P5/P7 transposon primers (5 cycles), 1× SPRIselect",StepKind.PCR,
              ((ss_copy,InputRole.TEMPLATE),(p5t,InputRole.STRUCTURAL),(p7t,InputRole.STRUCTURAL),
               (kapa,InputRole.CATALYST)),(pre,),
-             geometry=PCRGeometry.unavailable(FINAL_LIBRARY,reason="The pre-PCR template is not drawn as an exact molecular state; the P7 transposon BS primer's landing on the converted bead site is derived in the module."))
+             geometry=PCRGeometry.unavailable(ss_copy.state,reason="Actual single-strand random-copy precursor; native first-copy/primer geometry remains unassigned despite source-positive sequences."))
  i5=graph.input("i5_primer","N5XX primer family (i5 member not printed)",MaterialKind.OLIGO)
  i7=graph.input("i7_primer","Ad2.XX primer family (i7 member not printed)",MaterialKind.OLIGO)
  kapa2=graph.input("kapa_uracil_index","KAPA HiFi HotStart Uracil+ ReadyMix with EvaGreen",MaterialKind.CATALYST)
@@ -160,7 +196,7 @@ def protocol_graph():
              ((pre,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
               (i7,InputRole.STRUCTURAL),(kapa2,InputRole.CATALYST)),(amplified,),
              geometry=PCRGeometry.unavailable(
-                 FINAL_LIBRARY,reason="Index-primer members are published only as N5XX/Ad2.XX families."))
+                 pre.state,reason="Actual five-cycle pre-PCR product enters indexing; physical index members/widths and full native precursor geometry remain unassigned."))
  final_clean=graph.input("final_spri","0.85× SPRIselect",MaterialKind.SELECTION)
  library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
  small=graph.product("final_spri_loss","primers and short fragments not retained at 0.85×",MaterialKind.WASTE)
@@ -175,7 +211,8 @@ def protocol_graph():
      "Likely a labelling slip that does not change any printed base; not confirmed by the authors."))
  graph.sequence(library,SequencingPlan(
      library=FINAL_LIBRARY,primers=SEQ_PRIMERS,
-     acquired_roles=tuple(p.role for p in SEQ_PRIMERS),read_lengths=READ_LENGTHS,
+     acquired_roles=("Read 1","Read 2"),read_lengths=READ_LENGTHS,
+     limitation="Index acquisition cycles remain unassigned; source150bp paired biological reads and source-primer-derived compatible sites are declared.",
      read_uses={p.role:("demultiplex" if "Index" in p.role else "include") for p in SEQ_PRIMERS}))
  graph.declare_reviewed_scope((
      "nucleus","mnase","mnase_fragmentation","barcode_bead","blocked_complement","ligation_ready_bead",
@@ -183,7 +220,7 @@ def protocol_graph():
      "repair_enzymes","end_repair","repaired_fragments","uv_release","ligase","barcode_ligation","barcoded_dna",
      "recovery","recover_barcoded","recovered_dna","ligation_cleanup_loss","bisulfite",
      "bisulfite_conversion","converted_dna","desulphonation","desulphonate","clean_converted_dna","bisulfite_waste",
-     "random_primer","klenow","random_extension","extended_dna","rp_cleanup","denature_cleanup","single_stranded_copy",
+     "random_primer","klenow","random_extension","original_converted_template","extended_dna","rp_cleanup","denature_cleanup","single_stranded_copy",
      "random_priming_waste","p5_transposon_primer","p7_transposon_bs_primer","kapa_uracil","pre_pcr","pre_pcr_product",
      "i5_primer","i7_primer","kapa_uracil_index","library_pcr","indexed_library","final_spri","final_cleanup",
      "library","final_spri_loss"),source)

@@ -1,40 +1,13 @@
 # NEBNext Ultra II FS DNA PCR-free
 
-## 1. What it is
+The native graph selects **100–500ng input,350bp target** in E7430/E7435 manual **v2.0_6/25**. The manifest identifies the official manual (md5 `68b1e931bd9880aa6e5e615158add33e`). A historical purported v3.0 identity remains unresolved; no revision equivalence is asserted. Two originals were inspected in this capped pass, with the mandatory bundle primer scraper.
 
-A PCR-free Illumina DNA workflow combining enzymatic fragmentation/end preparation with full-length, dual-index UMI adaptors.
+🟢 FS enzymes/buffer/DTT act at37°C10min then65°C30min for350bp; the450bp alternative uses37°C8min. The source coupled reaction fragments, end-prepares and produces3′A substrate. Separate displayed transformations preserve the known chemistry without assigning a particular hold exclusively to one enzyme action. Native5′ chemistry is unassigned.
 
-## 2. Sources and evidence
+🟢 Full-length UDI-UMI adapters named E7395/E7874/E7876/E7878 are ligated20°C15min. The selected high-input recovery adds40µl0.1XTE then50µl beads, discards supernatant, performs two ethanol washes, elutes102µl and transfers100µl. The selected350bp selection then adds65µl beads, discards supernatant/washes, elutes22µl and transfers20µl. The450bp58µl alternative and50–99ng route remain separate. There is no preparation PCR.
 
-- 🟢 NEB E7430/E7435 instruction manual **Version 2.0_6/25** (official PDF `manuale7430_e7435.pdf`, read 2026-10-17), and [product page](https://www.neb.com/en-us/products/e7435-nebnext-ultra-ii-fs-dna-pcr-free-library-prep-with-sample-purification-beads). Its revision history lists only 1.0 (9/21) and 2.0 (6/25). An earlier version of this note cited "v3.0, September 2025"; that revision was not located and is no longer cited.
-- 🟢 The separate [NEB UDI-UMI Adaptor Sets 1–4 manual](https://www.neb.com/en/-/media/nebus/files/manuals/manuale7395_e7874_e7876_e7878.pdf), **Version 4.0_6/26**: 96 8-base unique dual index UMI adaptors per set, a 12-base UMI, adaptor plate at 20 µM, compatible with TA single-base-overhang ligation and PCR-free workflows; per-well expected i5/i7 index reads (Section 3); run segments Index 1 (i7) 8 cycles without UMI or 20 with UMI, Index 2 (i5) 8 cycles (p. 23).
-- 🔴 Its revision 3.0 (9/25) entry: the adaptor sequence was deleted "because it was inaccurate. The correct adaptor sequence is proprietary." No historical sequence is used here.
-- 🟢 Both manuals give the TruSeq-like trimming sequences Read 1 `AGATCGGAAGAGCACACGTCTGAACTCCAGTCA` and Read 2 `AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT`.
+🟢 Primary-manual Figures1/2 explicitly retain single-strand adapter regions. The physical endpoint is forked DNA: only the genomic core is paired, with native unpaired arms retained. The native2025 adapter stem, exact ends and per-strand index/UMI arrangement remain unassigned. Native ligation geometry is unavailable rather than silently filled with a later adapter recipe. Other ligation products have unresolved actual recovery; analytical qPCR does not physically eliminate them.
 
-## 3. Molecular path (E7430 Version 2.0_6/25)
+🟢 A second, later original is the E7395/E7874/E7876/E7878 companion manual **v4.0_6/26**, md5 `e4e93f8126d2daa1d370111b4e8aa10c`: its overview describes TA-compatible adapters,12baseUMI and8baseUDI; its sequencing table specifies Index1=20withUMI/8without, Index2=8, user-defined biological reads. These are explicitly **2026 reference facts**, not proof of2025 lot identity, native widths, positions or acquired cycles. Its revision-history statement about removed inaccurate adapter sequence does not provide a validated native replacement.
 
-High input, 100–500 ng (Section 1):
-
-1. 🟢 Fragmentation/End Prep: 25 µl DNA (in TE), 7 µl FS Reaction Buffer, 1 µl DTT, 2 µl FS Enzyme Mix (35 µl), heated lid 75 °C. 350-bp inserts: 10 min 37 °C; 450-bp inserts: 8 min 37 °C; both then 30 min 65 °C, hold 4 °C.
-2. 🟢 Adaptor ligation directly in the FS mix: 2.5 µl NEBNext UMI adaptor, 30 µl Ultra II Ligation Master Mix, 1 µl Ligation Enhancer (68.5 µl); 20 °C, 15 min.
-3. 🟢 Cleanup: +40 µl 0.1X TE, 50 µl SPRIselect/Sample Purification Beads, supernatant discarded, two 80% ethanol washes, elution in 102 µl 0.1X TE (100 µl recovered).
-4. 🟢 Size selection: 65 µl (350 bp) or 58 µl (450 bp) beads added to the eluate, supernatant discarded, washes, elution in 22 µl (20 µl recovered); qPCR quantitation and Bioanalyzer/TapeStation check. No PCR.
-
-Low input, 50–99 ng (Section 2), 🟢: 26 µl DNA, 1 µl DTT; 20 min 37 °C then 30 min 65 °C for ~300-bp inserts; adaptor diluted 1:10 in UMI Dilution Buffer (2 µM working); one 50 µl bead cleanup after +50 µl 0.1X TE, eluted in 17 µl. Not drawn on the page.
-
-🟡 The split of the single FS reaction into fragmentation, end repair and dA tailing is a model decomposition; the manual names the step "Fragmentation/End Prep" and does not state what the 65 °C incubation does. The A/T ligation junction follows from the adaptor manual's "TA single base overhang ligation".
-
-## 4. Final library and read layout
-
-The full-length adaptor already supplies every sequence needed for cluster generation and sequencing; unlike the USER-hairpin Ultra II page, there is no loop opening and no PCR completion step.
-
-- 🟢 The PCR-free product keeps single-stranded adaptor regions: E7430 Figures 1–2 captions (slower Bioanalyzer migration "due to the single strand regions of the adaptors") and the adaptor manual Figure 1 (forked PCR-free product). The page's final duplex is a fully paired simplification for primer landing and says so.
-- 🟢 Index 1 is 20 cycles with UMI (8-base i7 + 12-base UMI); Index 2 is 8 cycles.
-- 🟡 The order inside Index 1 (i7 first, then UMI) is drawn but not stated in the inspected text; the low-resolution Figure 1 was not used to assign it.
-
-## 5. Open questions
-
-- Complete adaptor sequence and its fork geometry (proprietary per adaptor manual revision 3.0).
-- Order of i7 and UMI within the 20-cycle Index 1 read.
-- High-input adaptor working concentration (the E7430 high-input section gives 2.5 µl without a dilution; the adaptor plate is 20 µM).
-- Selected adaptor set/well is user-variable.
+🔴 Selected historical adapter-lot original, exact native fork/stem and UMI/index order remain deferred. The source-known logical UMI/index identities survive in the physical fork scene. No full duplex shell is generated for sequencing-primer landing, and no acquired run is assigned. Historical source-review status and absence gate are unchanged.

@@ -4,13 +4,16 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 import nextera as nx
-from protocol_families.atac import (AtacVariant, ATAC_AD1_NOMX, ATAC_AD2_1, ATAC_INDEX_1,
-                                  library, workflow as build_workflow)
-from pcr import PCRGeometry
+from types import SimpleNamespace
+from dataclasses import replace
+from chemdraw import Construct, Segment, feature
+import seqprimers as sp
+import illumina as il
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import Disposition, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind, Terminal
 from protocol_model import molecule, role
 
-VARIANT = AtacVariant(
+VARIANT = SimpleNamespace(
         key="omni-atac",
         title="Omni-ATAC — low-background chromatin accessibility sequencing",
         source='<a href="https://doi.org/10.1038/nmeth.4396">Corces et al., Nature Methods (2017)</a> and Supplementary Protocol 1.',
@@ -22,17 +25,47 @@ VARIANT = AtacVariant(
         transposition_action="Transpose accessible chromatin in the PBS-containing Omni mix",
         transposition_note="The 50-microlitre reaction contains 25 microlitres home-made 2x TD buffer, 2.5 microlitres in-house Tn5 (100 nM final), 16.5 microlitres PBS, 0.01% digitonin and 0.1% Tween-20; incubate 30 minutes at 37 degrees C with 1,000-rpm mixing.",
         cleanup_note="A Zymo DNA Clean & Concentrator-5 column stops transposition. NEBNext 2x Master Mix with Ad1/Ad2 fills the nine-base Tn5 gaps (72 degrees C, 5 min) and pre-amplifies for five cycles; qPCR on a 10% aliquot determines the minimum additional cycles.",
-        sequencing_intro="All deep sequencing in the defining article used 2 x 75-bp paired-end reads on a HiSeq4000 (low-depth runs: 2 x 75 bp on a MiSeq), so the two reads enter accessible genomic DNA from opposite mosaic ends. The article does not state the Index 1 cycle count; the eight-base value shown is the length of the Ad2 sample index.",
-        read_lengths={"Read 1": 75, "Index 1 (i7)": 8, "Read 2": 75},
+        sequencing_intro="All deep sequencing in the defining article used 2 x 75-bp paired-end reads on a HiSeq4000 (low-depth runs: 2 x 75 bp on a MiSeq), so the two reads enter accessible genomic DNA from opposite mosaic ends. The eight-base Ad2 sample index is molecular content; its acquired Index1 cycle count remains unassigned.",
+        read_lengths={"Read 1": 75, "Read 2": 75},
     )
 TITLE = VARIANT.title
 NOTES = "01_omni_atac.html"
 SOURCE = VARIANT.source
 SUMMARY = VARIANT.summary
 CAVEAT = VARIANT.caveat
-workflow = lambda: build_workflow(VARIANT)
-FINAL_LIBRARY, SEQ_PRIMERS = library(TITLE.split(" — ", 1)[0])
-FINAL_CAPTION = "The original Ad1_noMX and Ad2 architecture is shown: no i5 index is present. Tn5 supplies the complete 19-bp mosaic ends, while PCR appends P5 on the S5 side and P7 plus one eight-base i7 sample index on the S7 side."
+# Original Ad1_noMX/Ad2 geometry is an explicitly scoped predecessor
+# reference for the SupplementaryProtocol1 Ad1/Ad2 reagents.
+ATAC_AD1_NOMX=il.P5+nx.S5+nx.ME[:7]
+ATAC_AD2_1=il.P7+"TCGCCTTA"+nx.S7+nx.ME[:6]
+ATAC_INDEX_1="TAAGGCGA"
+
+
+def final_library():
+    lib=Construct([Segment("P5",il.P5,"p5"),Segment("S5",nx.S5,"s5"),
+        Segment("left mosaic end",nx.ME,"me",inferred=True),role("accessible genomic DNA"),
+        Segment("right mosaic end reverse complement",nx.ME_RC,"me",inferred=True),Segment("S7 reverse complement",nx.S7_RC,"s7"),
+        Segment("i7 reverse complement","I"*8,"cbc",placeholder=True,feature=feature("sample_index_i7","sample_index","unknown")),
+        Segment("P7 reverse complement",il.P7_RC,"p7")],name="Omni-ATAC original-Ad1/Ad2 reference")
+    primers=(sp.NEXTERA["R1"],sp.NEXTERA["I1"],sp.NEXTERA["R2"])
+    problems=sp.verify(lib,primers,required_roles=tuple(p.role for p in primers))
+    if problems:raise ValueError("Omni-ATAC library: "+"; ".join(problems))
+    return lib,primers
+
+
+def primer_states():
+    return (Construct([Segment("Ad1_noMX",ATAC_AD1_NOMX,inferred=True)]),
+            Construct([Segment("P7",il.P7,inferred=True),Segment("i7 oligo","N"*8,placeholder=True,inferred=True,feature=feature("sample_index_i7","sample_index","unknown")),
+                       Segment("S7 and6ME bases",nx.S7+nx.ME[:6],inferred=True)]))
+
+
+def gap_filled_template():
+    con=Construct([Segment("S5",nx.S5,"s5"),Segment("left mosaic end",nx.ME,"me"),
+        role("accessible genomic DNA"),Segment("right mosaic end reverse complement",nx.ME_RC,"me"),
+        Segment("S7 reverse complement",nx.S7_RC,"s7")],name="gap-filled heterologous transposition template")
+    return Construct([replace(seg,inferred=True) for seg in con],name=con.name)
+
+FINAL_LIBRARY,SEQ_PRIMERS=final_library()
+FINAL_CAPTION = "INFERRED — complete Tn5 loading-end assignment; The original Ad1_noMX and Ad2 architecture is shown: no i5 index is present. Tn5 supplies the complete 19-bp mosaic ends, while PCR appends P5 on the S5 side and P7 plus one eight-base i7 sample index on the S7 side."
 READ_LENGTHS = VARIANT.read_lengths
 SEQUENCING_INTRO = VARIANT.sequencing_intro
 SEQUENCING_ENDING = ""
@@ -55,7 +88,7 @@ def protocol_graph():
     cells = graph.input("cells", "fresh input cells", MaterialKind.BIOLOGICAL,
                         state=molecule("fresh cells", (role("nuclear and mitochondrial DNA"),)),
                         primary=True)
-    permeabilization = graph.input("permeabilization_mix", variant.first_step,
+    permeabilization = graph.input("permeabilization_mix", "0.1%NP-40/0.1%Tween20/0.01%digitonin in ATAC-RSB;3min ice, then0.1%Tween wash",
                                    MaterialKind.CONDITION)
     nuclei = graph.product("nuclei", variant.first_state, MaterialKind.MOLECULAR,
                            state=molecule(variant.first_state, (role("accessible chromatin"),)))
@@ -71,14 +104,16 @@ def protocol_graph():
                        MaterialKind.ADAPTER, inferred=True)
     tn5 = graph.input("tn5", "in-house Tn5 transposase (Picelli et al. 2014), 100 nM in home-made TD buffer with PBS",
                       MaterialKind.CATALYST)
-    tagged = graph.product("tagged", "heterologously tagmented accessible-DNA fragments",
-                           MaterialKind.MOLECULAR, state=nuclei.state)
+    mix=graph.input("transposition_mix","50µl mix:25µl home-made2×TD,16.5µl PBS,0.01%digitonin,0.1%Tween20;37°C30min1000rpm",MaterialKind.CONDITION)
+    tagged = graph.product("tagged", "INFERRED — heterologously tagmented accessible-DNA end reference",
+                           MaterialKind.MOLECULAR, state=molecule("staggered transposition product",(role("inferred S5-bearing end"),role("gapped genomic DNA"),role("inferred S7-bearing end"))))
     non_library = graph.product("non_library", "S5/S5, S7/S7 and other unusable products",
-                                MaterialKind.WASTE)
+                                MaterialKind.MOLECULAR)
     graph.react("tagment", variant.transposition_action, StepKind.TAGMENTATION,
                 ((nuclei, InputRole.TEMPLATE), (tde1, InputRole.STRUCTURAL),
-                 (tn5, InputRole.CATALYST)), (tagged, non_library))
-    graph.discard(non_library, "lacks the heterologous S5/S7 end pair required for amplification")
+                 (tn5, InputRole.CATALYST),(mix,InputRole.CONDITION)), (tagged, non_library))
+    graph.mark_terminal(Terminal(non_library.id,Disposition.UNRESOLVED,
+        "Missing intended S5/S7 geometry does not establish failure to amplify or physical removal by the column. Class-specific recovery remains unresolved."))
     cleanup = graph.input("cleanup_beads", "Zymo DNA Clean & Concentrator-5 column (21 µl elution)",
                           MaterialKind.SELECTION)
     purified = graph.product("purified", "purified tagmented accessible-DNA fragments",
@@ -89,18 +124,21 @@ def protocol_graph():
                 ((tagged, InputRole.TEMPLATE), (cleanup, InputRole.SELECTION)),
                 (purified, cleanup_waste))
     graph.discard(cleanup_waste, "is removed during the post-transposition cleanup")
-    ad1 = graph.input("ad1_primer", "Ad1_noMX amplification primer", MaterialKind.OLIGO)
-    ad2 = graph.input("ad2_primer", "indexed Ad2 amplification primer", MaterialKind.OLIGO)
+    ad1 = graph.input("ad1_primer", "Ad1_noMX amplification primer reference", MaterialKind.OLIGO,state=primer_states()[0],inferred=True)
+    ad2 = graph.input("ad2_primer", "indexed Ad2 amplification primer reference", MaterialKind.OLIGO,state=primer_states()[1],inferred=True)
     polymerase = graph.input("polymerase", "NEBNext 2x Master Mix (72 °C 5 min gap fill, then 98/63/72 °C cycles)",
                             MaterialKind.CATALYST)
+    extended=graph.product("gap_filled","gap-filled accessible-DNA template",MaterialKind.MOLECULAR,state=gap_filled_template(),inferred=True)
+    graph.react("gap_fill","INFERRED —72°C5min extension of transposition-end reference",StepKind.EXTENSION,
+        ((purified,InputRole.TEMPLATE),(polymerase,InputRole.CATALYST)),(extended,))
+    forward,reverse=("".join(x.top for x in con) for con in primer_states())
     preamp = graph.product("preamp", "five-cycle pre-amplified ATAC library",
                            MaterialKind.MOLECULAR, state=FINAL_LIBRARY)
-    graph.react("pre_amplify", "Gap-fill and pre-amplify for five cycles", StepKind.PCR,
-                ((purified, InputRole.TEMPLATE), (ad1, InputRole.STRUCTURAL),
+    graph.react("pre_amplify", "INFERRED — five-cycle preamplification of the end-reference template", StepKind.PCR,
+                ((extended, InputRole.TEMPLATE), (ad1, InputRole.STRUCTURAL),
                  (ad2, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (preamp,), geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY,
-                    reason="The exact final primer sites are checked on the completed library; the staggered pre-gap-fill substrate is not represented as a Construct."))
+                (preamp,), geometry=PCRGeometry.exact(extended.state,PCRPrimer("Ad1",forward),PCRPrimer("Ad2",reverse),
+                    statement="Source-qualified primer-family footprints are checked on the gap-filled precursor; this relation does not validate transposition or gap filling."))
     qPCR = graph.input("qpcr_rule", "aliquot-qPCR cycle-selection rule",
                        MaterialKind.CONDITION)
     remainder = graph.product("preamp_remainder", "remaining 45 µl pre-amplified reaction",
@@ -121,9 +159,8 @@ def protocol_graph():
                 ((remainder, InputRole.TEMPLATE), (ad1, InputRole.STRUCTURAL),
                  (ad2, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST),
                  (extra_cycles, InputRole.CONDITION)),
-                (amplified,), geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY,
-                    reason="Continues the pre-amplification reaction with the same Ad1/Ad2 primers; primer sites are checked on the completed library."))
+                (amplified,), geometry=PCRGeometry.exact(remainder.state,PCRPrimer("Ad1",forward),PCRPrimer("Ad2",reverse),
+                    statement="Continued PCR uses the actual preamplified remainder with the same primer-family architectures; physical index members remain unassigned."))
     final_column = graph.input("final_column", "second Zymo DCC-5 column (20 µl water elution)",
                                MaterialKind.SELECTION)
     final = graph.product("library", "column-purified Omni-ATAC library",
@@ -148,11 +185,12 @@ def protocol_graph():
                 (selected, primer_waste))
     graph.discard(primer_waste, "is left in the gel outside the excised >100-bp region")
     graph.sequence(selected, SequencingPlan(library=FINAL_LIBRARY,
-                                            primers=tuple(SEQ_PRIMERS)))
+                                            primers=tuple(SEQ_PRIMERS),acquired_roles=("Read 1","Read 2"),read_lengths=READ_LENGTHS,
+        limitation="The defining article specifies2×75 reads; the molecular Ad2 index length does not establish acquired index cycles."))
     graph.declare_reviewed_scope([
         "cells", "permeabilization_mix", "permeabilize", "tde1_adapter", "tn5",
-        "tagment", "cleanup_beads", "cleanup", "ad1_primer", "ad2_primer",
-        "polymerase", "pre_amplify", "qpcr_rule", "choose_cycles", "library",
+        "transposition_mix", "tagment", "cleanup_beads", "cleanup", "ad1_primer", "ad2_primer",
+        "polymerase", "gap_fill", "pre_amplify", "qpcr_rule", "choose_cycles", "library",
         "preamp_remainder", "extra_cycles", "amplified", "final_amplify",
         "final_column", "final_column_waste", "final_cleanup", "page_gel",
         "size_selected", "excess_primers", "page_select"], source)

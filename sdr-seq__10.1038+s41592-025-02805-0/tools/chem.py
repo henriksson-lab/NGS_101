@@ -1,207 +1,109 @@
-from types import SimpleNamespace
-from chemdraw import feature
-from protocol_model import chain, role_library
+"""SDR-seq native V2 mixed droplets and source-specific library PCRs."""
+from chemdraw import Scene,Segment,feature,complement_segments
+from protocol_model import role
+from protocol_graph import ProtocolGraph,MaterialKind as M,InputRole as I,StepKind as K,SequencingPlan,Terminal,Disposition
+from pcr import PCRGeometry
+import seqprimers as sp
+TITLE='SDR-seq — source V2 matched DNA/RNA libraries'
+NOTES='01_sdr_seq.html'
+SOURCE='<a href="https://doi.org/10.1038/s41592-025-02805-0">Lindenhofer etal.,NatureMethods2025</a>; publishedMOESM3Tables1–3 and cited<a href="https://doi.org/10.17504/protocols.io.6qpvr9q43vmk/v1">detailedprotocolv1,August11,2025</a>.'
+SUMMARY='In situ barcoded RT precedes Tapestri v2 celllysis and mixed droplet multiplexPCR. The recoveredmixedDNA/cDNA population supplies both R2N-DNA and R2-RNA indexing reactions; aliquoting does not physicallypurify modalities.'
+CAVEAT='SelectedV2 source design, not V1proof-of-concept which usedR2N onbothbranches. PublishedTable3 usesV2RTprimer names forPOP althoughTable1 suppliesV1 sequences withoutGACACGTC; actualPOP sequence remains unresolved. Detailedv1 RNAindexPCR table labels reverseprimerR2N whileits narrative and publishedV2Table2 specifyRNA R2; thismodel usesR2. MainMethods RTmix says500mMdNTPs whiledetailedprotocol table states500µM perbase; selecteddetailed500µM. MainMethods namesMaximaHMinus EP0752 whiledetailedprotocolMaterials listsEP0751; enzymefamilyisretainedwithoutresolvingcatalogidentity. NativeTapestribead sequences/linker topology/PCRpolymerase and unreadv2guide workups stayunassigned. Readlengths beloware explicitdetailedv1recommendations, not inferred from physicalindices. No geneediting experiment is partofthislibrary graph.'
+CS='GTACTCGCAGTAGTC'
+RNA_FORWARD=CS+'GACACGTC'
+R2N='GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
+R2='GTGACTGGAGTTCAGACGTGT'
+P5='AATGATACGGCGACCACCGAGATCTACAC'
+P7='CAAGCAGAAGACGGCATACGAGAT'
+R1N_INDEX_ARM='TCGTCGGCAGCGTC'
+R2N_INDEX_ARM='GTCTCGTGGGCTCGG'
+RT_SAMPLE=feature('sdr.rt_sample','sample_index','whitelist',whitelist='publishedV2RTsamplebarcodefamily',note='representativeRT_primer1_8 TCGCCTTA')
+UMI=feature('sdr.umi','umi','random')
+CELL1=feature('sdr.cell1','cell_barcode','unknown',group='sdr.cell',part='1')
+CELL2=feature('sdr.cell2','cell_barcode','unknown',group='sdr.cell',part='2')
+I5=feature('sdr.i5','sample_index','whitelist',whitelist='sourceV2Nextera_R1N_S50x')
+I7=feature('sdr.i7','sample_index','whitelist',whitelist='sourceV2N70x')
+FINAL_LIBRARY=None
+SEQ_PRIMERS=()
+SHOW_READ_CONTENT=False
+SEQUENCING_ENDING='Detailedv1 recommendsDNA161/161/i5=8/i7=8 andRNA76/46/i5=8/i7=8; exactexperimentrunmask notuniversallyassigned. Gene/panelgenotype/qualityfilters arecomputational.'
+READ_SPECS=(sp.read_spec('Read 1','161DNA /76RNA','dna:cellbarcode+amplicon;RNA:cellbarcode,RTsamplebarcode,N8UMI','extract_then_include'),sp.read_spec('Read 2','161DNA /46RNA','dna/RNAamplicon','include'),sp.read_spec('Index 1 (i7)',8,'librarysampleindex bothlibraries','demultiplex'),sp.read_spec('Index 2 (i5)',8,'librarysampleindex bothlibraries','demultiplex'))
+def rt_parts():return [Segment('V2CS/amplificationhandle',RNA_FORWARD),Segment('sourceRTsamplebarcodeexample','TCGCCTTA',feature=RT_SAMPLE),Segment('N8UMI','N'*8,feature=UMI),Segment('dT16','T'*16),Segment('VNanchor','VN',placeholder=True)]
+def cell_parts():return [role('cellBC1; widthunassigned',molecular_feature=CELL1),role('variablelinker14–17bases; selectedmemberunassigned'),role('cellBC2; widthunassigned',molecular_feature=CELL2),role('source15bpconstantlinker; identitywithCSnotestablished',length_bp=15)]
+def ss(name,parts):
+ sc=Scene();sc.strand(name,parts,label='source5′→3′DNAoligo');return sc
 
-from chemdraw import Segment
-from readout_protocols import Construct, Definition, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind, _authority, _unavailable, molecule, role
-DEFINITION = Definition("SDR-seq — single-cell DNA–RNA sequencing",
-        "10.1038/s41592-025-02805-0", "Lindenhofer et al., Nature Methods (2025)",
-        "In-situ barcoded poly(dT) RT is followed by Tapestri droplet multiplex PCR; distinct R2N and R2 overhangs split targeted gDNA and RNA into matched sequencing libraries.",
-        "The gDNA branch spans targeted variants; the RNA branch reports transcript sequence plus cell barcode, RT sample barcode and UMI.",
-        "01_sdr_seq.html")
+def mixture(stage):
+ sc=Scene()
+ sc.strand('originalgenome',[role('original genomicDNA; sourcefixation/nativefragmentextentunassigned')],label='independentoriginalDNA')
+ sc.strand('originalRNA',[role('originalpolyARNAwithphysicalU orretainedprocessingproducts; RNAfateunassigned')],label='independentRNA')
+ if stage!='fixed':sc.strand('RTcDNA',[*rt_parts(),role('antisensetranscriptcDNA; actual firststrand')],label='originalRTprimer+newnormalDNAcDNA; possibleoriginal retained')
+ if stage in ('dropletPCR','recovered','dnaindexed','rnaindexed'):
+  d=[*cell_parts(),role('nativecopiedCS/gDNA targetchain; primer/endgeometryunassigned'),Segment('sourceR2Ntargetingoverhang',R2N)]
+  r=[*cell_parts(),role('nativecopiedCSjunction; relativeplacementbounded'),role('retainedRTsamplebarcode',length_bp=8,molecular_feature=RT_SAMPLE),role('retainedN8UMI',length_bp=8,molecular_feature=UMI),role('targetedcDNA'),Segment('sourceRNAR2overhang',R2)]
+  if stage in ('dnaindexed','rnaindexed'):
+   selected=d if stage=='dnaindexed' else r
+   selected.extend([role('installedi5sampleindex',length_bp=8,molecular_feature=I5),role('installedi7sampleindex',length_bp=8,molecular_feature=I7)])
+  sc.strand('gDNAcopies',d,label='newnormalDNA gDNA-target class; '+('preferentiallyDNAindexamplified' if stage=='dnaindexed' else 'co-carriedtargetclass'))
+  sc.strand('rnacopies',r,label='newnormalDNA cDNA-target class; '+('preferentiallyRNAindexamplified' if stage=='rnaindexed' else 'co-carriedtargetclass'))
+ sc.strand('residualoligos',[role('independentfreeprimers/beadoligos/offtargetDNA orhydrolysates; noassumedphysicaldiscard')],label='independentpotentialcarryover')
+ return sc
 
-
-def _sdr_graph(d: Definition, final: Construct) -> ProtocolGraph:
-    source = _authority(d)
-    graph = ProtocolGraph(d.title, authority=source)
-    cells = graph.input(
-        "fixed_cells", "fixed permeabilized cells containing genomic DNA and poly(A) RNA",
-        MaterialKind.BIOLOGICAL,
-        state=molecule("fixed permeabilized cell", (role("genomic DNA"), role("poly(A) RNA"))),
-        primary=True)
-    rt_primer = graph.input("barcoded_rt_primer",
-                            "V2 RT_primer (Supp. Table 2): 23-nt CS handle + 8-nt sample BC + N8 UMI + T16VN",
-                            MaterialKind.OLIGO)
-    reverse_transcriptase = graph.input("reverse_transcriptase", "Maxima H Minus reverse transcriptase",
-                                       MaterialKind.CATALYST)
-    tagged = graph.product(
-        "tagged_cells", "cells retaining gDNA and tagged cDNA", MaterialKind.MOLECULAR,
-        state=molecule("cell retaining gDNA and tagged cDNA", (role("genomic DNA"),
-            *RT_HANDLE)))
-    graph.react(
-        "in_situ_rt", "Reverse-transcribe RNA in situ with barcoded poly(dT)",
-        StepKind.REVERSE_TRANSCRIPTION,
-        ((cells, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
-         (reverse_transcriptase, InputRole.CATALYST)), (tagged,))
-
-    droplets = graph.input("droplet_condition", "Tapestri first-droplet encapsulation (Mission Bio v2 device)",
-                           MaterialKind.CONDITION)
-    occupied = graph.product("occupied_droplets", "cell-containing first droplets",
-                             MaterialKind.MOLECULAR, state=tagged.state)
-    empty = graph.product("empty_droplets", "empty or unusable droplets", MaterialKind.WASTE)
-    graph.react("partition", "Encapsulate single cells in first droplets", StepKind.PARTITION,
-                ((tagged, InputRole.TEMPLATE), (droplets, InputRole.CONDITION)),
-                (occupied, empty))
-    graph.discard(empty, "does not contain a usable cell template")
-    proteinase = graph.input("proteinase_k", "proteinase K", MaterialKind.CATALYST)
-    lysed = graph.product("lysed_droplets", "lysed, proteinase K-treated cells in first droplets",
-                          MaterialKind.MOLECULAR, state=tagged.state)
-    graph.react("lyse_digest", "Lyse cells and digest protein with proteinase K in first droplets",
-                StepKind.DEPROTEINIZATION,
-                ((occupied, InputRole.TEMPLATE), (proteinase, InputRole.CATALYST)), (lysed,))
-
-    target_forward = graph.input("target_forward_pool",
-                                 "gDNA forward pool: Droplet_gDNA_primer_fwd GTACTCGCAGTAGTC-gDNA_specific",
-                                 MaterialKind.OLIGO)
-    rna_forward = graph.input("rna_forward", "Droplet_amplification_fwd universal RNA forward primer on the RT handle (V2)",
-                              MaterialKind.OLIGO,
-                              state=(Segment("Droplet_amplification_fwd", RNA_FORWARD),))
-    branch_reverse = graph.input(
-        "branch_reverse_pool", "reverse pool added in the first droplet: R2N-gDNA_specific and R2-cDNA_specific primers",
-        MaterialKind.OLIGO)
-    bead_oligos = graph.input("barcode_bead_oligos", "Mission Bio barcoding-bead cell-BC oligos with CS overhang (bases not published)",
-                              MaterialKind.OLIGO)
-    pcr_polymerase = graph.input("droplet_pcr_polymerase", "droplet PCR polymerase",
-                                 MaterialKind.CATALYST)
-    dna_amplicons = graph.product(
-        "dna_amplicons", "cell-barcoded targeted gDNA amplicons", MaterialKind.MOLECULAR,
-        state=molecule("gDNA target amplicons", (*CELL_BARCODE,
-            role("gDNA target"), role("R2N overhang"))))
-    rna_amplicons = graph.product(
-        "rna_amplicons", "cell-barcoded targeted cDNA amplicons", MaterialKind.MOLECULAR,
-        state=molecule("cDNA target amplicons", (*CELL_BARCODE, role("GACACGTC (3′ part of the 23-nt RNA handle)"), *RT_HANDLE[1:],
-            role("R2 overhang"))))
-    graph.react(
-        "droplet_multiplex_pcr", "Second droplet: add forward primers, PCR reagents and barcoding bead; multiplex PCR",
-        StepKind.PCR,
-        ((lysed, InputRole.TEMPLATE), (target_forward, InputRole.STRUCTURAL),
-         (rna_forward, InputRole.STRUCTURAL),
-         (branch_reverse, InputRole.STRUCTURAL), (bead_oligos, InputRole.STRUCTURAL),
-         (pcr_polymerase, InputRole.CATALYST)), (dna_amplicons, rna_amplicons),
-        geometry=_unavailable(
-            final, "The panel-specific target primers and commercial bead oligo are not one fixed public amplicon."))
-    breaker = graph.input("emulsion_breaking", "emulsion breaking and amplicon recovery (Mission Bio protocol)",
-                          MaterialKind.CONDITION)
-    dna_recovered = graph.product("dna_recovered", "recovered gDNA amplicons", MaterialKind.MOLECULAR,
-                                  state=dna_amplicons.state)
-    rna_recovered = graph.product("rna_recovered", "recovered cDNA amplicons", MaterialKind.MOLECULAR,
-                                  state=rna_amplicons.state)
-    emulsion_waste = graph.product("emulsion_waste", "oil phase and droplet carry-over", MaterialKind.WASTE)
-    graph.react("break_emulsion", "Break emulsions and recover pooled amplicons", StepKind.CLEANUP,
-                ((dna_amplicons, InputRole.TEMPLATE), (rna_amplicons, InputRole.TEMPLATE),
-                 (breaker, InputRole.CONDITION)), (dna_recovered, rna_recovered, emulsion_waste))
-    graph.discard(emulsion_waste, "removed when emulsions are broken; recovery details are in the Mission Bio protocol")
-
-    index_polymerase = graph.input("index_polymerase", "library indexing PCR polymerase",
-                                   MaterialKind.CATALYST)
-    dna_forward = graph.input("dna_index_forward", "Nextera_R1N_S50x i5 primer (gDNA library)",
-                              MaterialKind.OLIGO)
-    dna_reverse = graph.input("dna_index_reverse", "Nextera_R2N_N70x i7 primer (gDNA library)",
-                              MaterialKind.OLIGO)
-    dna_library = graph.product("dna_library", "SDR-seq targeted DNA library",
-                                MaterialKind.LIBRARY, state=final)
-    graph.react(
-        "dna_library_pcr", "Build the R2N-marked DNA library", StepKind.PCR,
-        ((dna_recovered, InputRole.TEMPLATE), (dna_forward, InputRole.STRUCTURAL),
-         (dna_reverse, InputRole.STRUCTURAL), (index_polymerase, InputRole.CATALYST)),
-        (dna_library,), geometry=_unavailable(
-            final, "The public role-level description does not establish a universal R2N indexing pair."))
-    rna_index_forward = graph.input("rna_index_forward", "Nextera_R1N_S50x i5 primer (RNA library)",
-                              MaterialKind.OLIGO)
-    rna_reverse = graph.input("rna_index_reverse", "Illumina_R2_N70x i7 primer (RNA library)",
-                              MaterialKind.OLIGO)
-    rna_library = graph.product("rna_library", "SDR-seq targeted RNA library",
-                                MaterialKind.LIBRARY, state=final)
-    graph.react(
-        "rna_library_pcr", "Build the R2-marked RNA library", StepKind.PCR,
-        ((rna_recovered, InputRole.TEMPLATE), (rna_index_forward, InputRole.STRUCTURAL),
-         (rna_reverse, InputRole.STRUCTURAL), (index_polymerase, InputRole.CATALYST)),
-        (rna_library,), geometry=_unavailable(
-            final, "The public role-level description does not establish a universal R2 indexing pair."))
-    graph.sequence(dna_library, SequencingPlan(
-        limitation="DNA branch: the genomic-target read is acquired together with its cell barcode; exact panel-dependent cycles are not universal."))
-    graph.sequence(rna_library, SequencingPlan(
-        limitation="RNA branch: transcript, cell barcode, RT sample barcode and UMI are acquired; exact panel-dependent cycles are not universal."))
-    graph.declare_reviewed_scope((
-        "fixed_cells", "barcoded_rt_primer", "reverse_transcriptase", "in_situ_rt",
-        "droplet_condition", "partition", "proteinase_k", "lyse_digest", "rna_forward",
-        "emulsion_breaking", "break_emulsion", "target_forward_pool", "branch_reverse_pool",
-        "barcode_bead_oligos", "droplet_pcr_polymerase", "droplet_multiplex_pcr",
-        "index_polymerase", "dna_index_forward", "dna_index_reverse", "dna_library_pcr",
-        "rna_index_forward", "rna_index_reverse", "rna_library_pcr", "dna_library",
-        "rna_library",
-    ), source)
-    return graph.require_publishable()
-
-
+def oligos():
+ return [f'<b>V2RT_primer1_8</b>:5′-{RNA_FORWARD}TCGCCTTANNNNNNNNTTTTTTTTTTTTTTTTVN-3′',f'<b>Droplet_amplification_fwd</b>:5′-{RNA_FORWARD}-3′',f'<b>gDNAforward</b>:5′-{CS}-gdna_specific-3′',f'<b>gDNAreverse</b>:5′-{R2N}-gdna_specific-3′',f'<b>Nextera_R1N_S502</b>:5′-{P5}CTCTCTAT{R1N_INDEX_ARM}-3′',f'<b>DNA_N701</b>:5′-{P7}TCGCCTTA{R2N_INDEX_ARM}-3′',f'<b>RNA_N701</b>:5′-{P7}TCGCCTTA{R2}-3′']
 def protocol_graph():
-    d = DEFINITION
-    final = FINAL_LIBRARY
-    primers = SEQ_PRIMERS
-    key = 'sdr-seq'
-    return _sdr_graph(d, final)
-
-# Methods "SDR-seq data analysis": cell BC1, variable-length 14-17-bp linker, cell BC2,
-# 15-bp constant linker, then (RNA only) sample BC and UMI.  Whether the 15-bp constant
-# linker is the 15-nt capture sequence GTACTCGCAGTAGTC is inferred, not stated.
-CELL_BARCODE = (
-    role("cell BC1", tag="cbc", molecular_feature=feature(
-        "cell_barcode_1", "cell_barcode", "unknown", group="cell_barcode", part="1")),
-    role("variable 14-17-bp linker"),
-    role("cell BC2", tag="cbc", molecular_feature=feature(
-        "cell_barcode_2", "cell_barcode", "unknown", group="cell_barcode", part="2")),
-    role("15-bp constant linker (capture-sequence junction)", inferred=True),
-)
-# Supplementary Table 2 (V2): Droplet_amplification_fwd and the 5' handle of every RT_primer.
-RNA_FORWARD = "GTACTCGCAGTAGTCGACACGTC"
-UMI = role("UMI", tag="umi", length_bp=8,
-           molecular_feature=feature("umi", "umi", "unknown"))
-RT_SAMPLE_BARCODE = role("RT sample barcode", tag="cbc", length_bp=8,
-                         molecular_feature=feature("rt_sample_barcode", "sample_index", "unknown"))
-RT_HANDLE = (role("23-nt CS/amplification handle"), RT_SAMPLE_BARCODE, UMI,
-             role("T16VN"), role("cDNA target"))
-
-def _sdr():
-    return chain(molecule("fixed permeabilized cell", (role("genomic DNA"),
-                                                        role("poly(A) RNA"))), (
-        ("Reverse-transcribe RNA in situ with barcoded poly(dT)",
-         molecule("cell retaining gDNA and tagged cDNA", (role("genomic DNA"), *RT_HANDLE)),
-         "The RT primer installs a UMI and sample barcode before droplet processing."),
-        ("Multiplex-amplify targeted gDNA and cDNA in Tapestri droplets",
-         molecule("target amplicons", (*CELL_BARCODE,
-                                        role("gDNA or cDNA target"),
-                                        role("R2N or R2 overhang"))),
-         "Capture-sequence complementarity copies the bead cell barcode onto both molecular branches."),
-        ("Use distinct reverse overhangs to build separate DNA and RNA libraries",
-         molecule("matched SDR-seq libraries", (role("gDNA: Nextera-R2N library"),
-                                                 *CELL_BARCODE,
-                                                 role("RNA: TruSeq-R2 library"),
-                                                 RT_SAMPLE_BARCODE, UMI)),
-         "The DNA read spans the variant target; the RNA read retains cell, sample and UMI identity."),
-    ))
-
-CAVEAT = ("The page models the V2 design (separate gDNA R2N and RNA R2 libraries); V1 (proof-of-concept) "
-          "used R2N on both branches and built libraries with the Mission Bio user guide. "
-          "Published discrepancy: Supplementary Table 3 lists the V1 proof-of-concept RT primers as "
-          "RT_primer_1_8 to RT_primer_4_8 (the V2 names in Supplementary Table 2, with the GACACGTC spacer), "
-          "whereas Supplementary Table 1 lists V1 RT_primer_1 to RT_primer_4 without that spacer. "
-          "The model does not depend on the V1 primer; which sequence the POP run used remains unresolved. "
-          "The bead oligo bases, whether the 15-bp constant linker of the read structure is the 15-nt capture sequence, and read cycles are not given in the inspected sources.")
-d = DEFINITION
-FINAL_LIBRARY = role_library("SDR-seq matched library roles", (*CELL_BARCODE, RT_SAMPLE_BARCODE, UMI, role("targeted gDNA or cDNA insert")))
-SPEC = SimpleNamespace(
-    TITLE=d.title, NOTES=d.notes,
-    SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
-    SUMMARY=d.summary, CAVEAT=CAVEAT, FINAL_LIBRARY=FINAL_LIBRARY, SEQ_PRIMERS=(),
-    FINAL_CAPTION=d.endpoint, SEQUENCING_INTRO=d.endpoint, READ_LENGTHS=None,
-    SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE=("Supplementary Tables 1 and 2 publish experiment-specific RT and library primers. The V1 proof-of-concept used a common R2N arm; later V2 experiments separate genomic and RNA libraries. The Tapestri bead oligo panel still requires vendor-version verification."),
-    workflow=_sdr, oligos=lambda: (
-        "<p>Published Supplementary Table 1, V1 RT_primer_1 (5′→3′): GTACTCGCAGTAGTC<cbc>TCGCCTTA</cbc><umi>NNNNNNNN</umi>TTTTTTTTTTTTTTTTVN</p>",
-        "<p>Published Supplementary Table 2, V2 RT_primer_1_8 (5′→3′): GTACTCGCAGTAGTCGACACGTC<cbc>TCGCCTTA</cbc><umi>NNNNNNNN</umi>TTTTTTTTTTTTTTTTVN; Droplet_amplification_fwd: " + RNA_FORWARD + "</p>",
-        "<p>Published Supplementary Table 2, V2 example genomic i7 Nextera_R2N_N701 (5′→3′): CAAGCAGAAGACGGCATACGAGAT<cbc>TCGCCTTA</cbc>GTCTCGTGGGCTCGG</p>",
-        "<p>Published Supplementary Table 2, V2 example RNA i7 Illumina_R2_N701 (5′→3′): CAAGCAGAAGACGGCATACGAGAT<cbc>TCGCCTTA</cbc>GTGACTGGAGTTCAGACGTGT</p>",
-    ),
-)
-SPEC.protocol_graph = protocol_graph
-globals().update(vars(SPEC))
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ def inp(i,l,k=M.CONDITION,state=None):return g.input(i,l,k,state=state)
+ def op(i,l,k,x,extra,state,reason=None):
+  y=g.product(i+'_out',l,M.MOLECULAR,state=state);g.react(i,l,k,((x,I.TEMPLATE),*extra),(y,),**({'reason':reason} if reason else {}),**({'changes_molecule':False} if k==K.GENERIC else {}));return y
+ def clean(i,l,x,bounded=False):
+  sel=inp(i+'_selection',l,M.SELECTION);y=g.product(i+'_out',l+'retainedfraction',M.MOLECULAR,state=x.state);w=g.product(i+'_waste','physicalnonretainedfraction; exactclassesunassigned',M.WASTE)
+  g.react(i,l,K.MAGIC if bounded else K.CLEANUP,((x,I.TEMPLATE),(sel,I.SELECTION)),(y,w),**({'reason':'Sourceexplicitguidecleanup step; detailednativeconditions/partitionnotread in3-originalcap.'} if bounded else {}));g.discard(w,'Actualsourcephysicalcleanupfractions; modalitypurity notpresumed.');return y
+ cell=g.input('fixed_cells','sourcefixed/permeabilizedcell input; selectedglyoxalroute',M.BIOLOGICAL,state=mixture('fixed'),primary=True)
+ rtprimer=inp('rt_primer','sourceV2RT_primer1_8 representativefamily',M.OLIGO,ss('RTprimer',rt_parts()))
+ rt=inp('rt_enzyme','MaximaHMinus;sourceprimaryEP0752; detailedmaterialsEP0751catalogdifference retainedunassigned',M.CATALYST)
+ rtconditions=inp('rt_conditions','500µMdNTPeach;10min50°C,3cycles8/15/20/30/42/50°C,final50°C5min')
+ x=op('rt','In situ barcodedpoly-dT reverse transcription',K.REVERSE_TRANSCRIPTION,cell,((rtprimer,I.STRUCTURAL),(rt,I.CATALYST),(rtconditions,I.CONDITION)),mixture('RT'))
+ other=inp('other_rt_wells','independentRTwells pooledbeforeTapestri',M.MOLECULAR,mixture('RT'))
+ pooled=g.product('pooled_rt','physicalpooledRTcells',M.MOLECULAR,state=x.state);g.react('pool_rt','PoolRTcells into10mlPBS/1%BSA',K.POOL,((x,I.TEMPLATE),(other,I.TEMPLATE)),(pooled,),changes_molecule=False)
+ x=clean('rt_wash','500g5mincellpellet;resuspendMissionBioCellBuffer;count/dilute4000–8000cells/µl',pooled)
+ device=inp('device','Tapestriv2 firstdropletencapsulation')
+ enc=g.product('encapsulated','firstdropletpopulation; actualmixedcells',M.MOLECULAR,state=x.state)
+ unused=g.product('unallocated_cells','possibleunallocatedsourcecells; amountunassigned',M.MOLECULAR,state=x.state)
+ g.react('encapsulate','Encapsulate sourcecells in firstdropletpopulation',K.PARTITION,((x,I.TEMPLATE),(device,I.CONDITION)),(enc,unused));g.mark_terminal(Terminal(unused.id,Disposition.UNRESOLVED,'Unallocatedpopulation notassumedphysicallydestroyed.'));x=enc
+ protease=inp('proteinase_k','sourceproteinaseK firstdropletlysis/digestion',M.CATALYST)
+ x=op('lyse_digest','Lyse/digest firstdropletcells; nativeconditionsbounded',K.DEPROTEINIZATION,x,((protease,I.CATALYST),),x.state)
+ f=inp('gdna_forward','CS–gdna_specific sourcepool',M.OLIGO,ss('gDNAforward',[Segment('sourceCS',CS),role('gDNAtargetspecific3arm')]))
+ rf=inp('rna_forward','sourceDroplet_amplification_fwd',M.OLIGO,ss('rnaforward',[Segment('sourceV2forward',RNA_FORWARD)]))
+ dr=inp('gdna_reverse','sourceR2N–gdna_specific',M.OLIGO,ss('gDNAreverse',[Segment('R2N',R2N),role('gDNAtargetspecific3arm')]))
+ rr=inp('rna_reverse','sourceR2–cDNA_specific; panelmembersunassigned',M.OLIGO,ss('rnareverse',[Segment('knownRNAindexbindingprefix',R2),role('remainingnativeR2overhang/targetspecificarm; completepanelprimerunassigned')]))
+ bead=inp('bead','MissionBiobarcodingbead; nativeorderedbases/photo-linkerunassigned',M.OLIGO,ss('beadnative',[role('sourcecellbarcode/nativeCScomplementcontext',molecular_feature=CELL1),role('secondcellbarcodecomponent',molecular_feature=CELL2)]))
+ pcrpol=inp('droplet_polymerase','Tapestriv2 nativePCRpolymeraseunassigned',M.CATALYST)
+ fuse=inp('fusion_conditions','Second dropletfusion addsforwardpools/PCRreagents/barcodingbead; nativefusionconditionsunassigned')
+ x=op('fuse','Second droplet:addbarcodebead/forwardPCRmix toactualmixedlysate',K.GENERIC,x,((f,I.STRUCTURAL),(rf,I.STRUCTURAL),(dr,I.STRUCTURAL),(rr,I.STRUCTURAL),(bead,I.STRUCTURAL),(fuse,I.CONDITION)),x.state)
+ uv=inp('uv_condition','sourceTapestriv2Step5UVtreatment; releaseidentity/conditionsunread')
+ x=op('uv','UVtreat sourcebarcodingreaction; nativephotochemistrybounded',K.MAGIC,x,((uv,I.CONDITION),),x.state,reason='Directprotocol namesUVtreatment but nativeguide/linkerchemistryunread; no inventedphotolinker.')
+ y=g.product('mixed_amplicons','jointcellbarcodedgDNA/cDNAamplicons pluspossibleoriginals',M.MOLECULAR,state=mixture('dropletPCR'))
+ g.react('droplet_pcr','TargetedmultiplexPCR inactualmixedbarcodingdroplet',K.PCR,((x,I.TEMPLATE),(f,I.STRUCTURAL),(rf,I.STRUCTURAL),(dr,I.STRUCTURAL),(rr,I.STRUCTURAL),(bead,I.STRUCTURAL),(pcrpol,I.CATALYST)),(y,),geometry=PCRGeometry.unavailable(x.state,reason='ActualgDNA/ss-cDNA/RNA/nativebead mixture; panel-specific firstcycles/complete beadgeometryunassigned.'))
+ breaker=inp('breaker','Sourceemulsionbreaking; nativereagent/orderdetailsunread')
+ y=op('break_emulsion','Breaksourceemulsion beforePCRproductcleanup',K.MAGIC,y,((breaker,I.CONDITION),),mixture('recovered'),reason='Detailedprotocol explicitlybreaksemulsions; exactguide6nativeworkupunread.')
+ y=clean('recover_amplicons','SourceTapestriv2Step6PCRproductcleanup',y,True)
+ dna=g.product('dna_aliquot','15µl recoveredmixedamplicons forDNAindexPCR',M.MOLECULAR,state=y.state)
+ rna=g.product('rna_aliquot','15µl recoveredmixedamplicons forRNAindexPCR',M.MOLECULAR,state=y.state)
+ rem=g.product('remaining_amplicons','unallocatedrecoveredmixedamplicons',M.MOLECULAR,state=y.state)
+ rule=inp('split_rule','15µl inputeachindexPCR; allocationdoesnotpurifymodalities')
+ g.react('split_index_inputs','Takephysicalmixedaliquots fordistinctoverhangPCRs',K.SAMPLING,((y,I.TEMPLATE),(rule,I.CONDITION)),(dna,rna,rem));g.mark_terminal(Terminal(rem.id,Disposition.UNRESOLVED,'Unallocatedmixedmaterialnotassumeddestroyed.'))
+ i5=inp('index_i5','V2Nextera_R1N_S502 representative8ntfamily',M.OLIGO,ss('i5',[Segment('P5',P5),Segment('sourcei5example','CTCTCTAT',feature=I5),Segment('R1Narm',R1N_INDEX_ARM)]))
+ di7=inp('dna_i7','V2Nextera_R2N_N701 representative8ntfamily',M.OLIGO,ss('dnai7',[Segment('P7',P7),Segment('sourcei7example','TCGCCTTA',feature=I7),Segment('R2Narm',R2N_INDEX_ARM)]))
+ ri7=inp('rna_i7','V2Illumina_R2_N701; selectR2 pertext/Table2, notdetailedRNA tableR2N',M.OLIGO,ss('rnai7',[Segment('P7',P7),Segment('sourcei7example','TCGCCTTA',feature=I7),Segment('R2arm',R2)]))
+ mix=inp('library_polymerase','MissionBioLibraryPCRMM2×;source10cycles98/62/72°C',M.CATALYST)
+ for name,input_,reverse,stage,lens in [('dna',dna,di7,'dnaindexed',{'Read 1':161,'Read 2':161,'Index 1 (i7)':8,'Index 2 (i5)':8}),('rna',rna,ri7,'rnaindexed',{'Read 1':76,'Read 2':46,'Index 1 (i7)':8,'Index 2 (i5)':8})]:
+  output=g.product(name+'_indexed',name+'preferentialindexedcopies withpossibleotherclasses',M.MOLECULAR,state=mixture(stage))
+  g.react(name+'_index_pcr',name+'overhang-specificPCR onactualmixed15µl input;10cycles',K.PCR,((input_,I.TEMPLATE),(i5,I.STRUCTURAL),(reverse,I.STRUCTURAL),(mix,I.CATALYST)),(output,),geometry=PCRGeometry.unavailable(input_.state,reason='Actualrecoveredmixture; primerchoice supplies preferentialamplification, no modalitypurificationclaim.'))
+  output=clean(name+'_cleanup','Sourcev2Guide7.7librarycleanup/8quantify-normalize',output,True)
+  lib=g.product(name+'_library',name+'sequencinglibrary; co-recoveredclassesnotassumedabsent',M.LIBRARY,state=output.state)
+  g.react(name+'_retain','Retain'+name+'nativeindexedlibrary',K.GENERIC,((output,I.TEMPLATE),),(lib,),changes_molecule=False)
+  g.sequence(lib,SequencingPlan(read_lengths=lens,acquired_roles=tuple(lens),limitation=SEQUENCING_ENDING+' Nativeprimer/targetgeometrybounded.'))
+ g.declare_reviewed_scope(REVIEWED,SOURCE)
+ return g.require_publishable()
+REVIEWED=('fixed_cells','rt_primer','rt_enzyme','rt_conditions','rt','other_rt_wells','pool_rt','rt_wash_selection','rt_wash','device','encapsulate','proteinase_k','lyse_digest','gdna_forward','rna_forward','gdna_reverse','rna_reverse','bead','droplet_polymerase','fusion_conditions','fuse','uv_condition','uv','droplet_pcr','breaker','break_emulsion','recover_amplicons_selection','recover_amplicons','split_rule','split_index_inputs','index_i5','dna_i7','rna_i7','library_polymerase','dna_index_pcr','rna_index_pcr','dna_cleanup_selection','dna_cleanup','rna_cleanup_selection','rna_cleanup','dna_retain','rna_retain','dna_library','rna_library')

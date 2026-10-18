@@ -190,6 +190,22 @@
       ],
       "scope": "Bounded deferred follow-up; defining original now read; capped pass, not full acceptance; no missing-information claim accepted.",
       "verification": "local suite comment-only pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory over 13 steps; source guard 3 exact checked (linker, RT primer, UMI adapter), 0 failed, 0 inputs without exact states (PCR primers inferred); Markdown built; audit --check pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration-rna-end",
+      "reviewer": "protocol-migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Defining published Liu2023 s41587-022-01487-9.pdf.txt Methods RNA protection, deamination and deprotection lines2614–2633; modified-eCLIP Library preparation/sequencing lines2635–2659; filtering/UMI processing lines2685–2697. No2024 chemistry substituted for this route.",
+      "oligo_scraper": "Ran tools/scrape_primers.py on the actual cached source bundle; relevant hits checked in the defining printed passages. Scraper output/no-hit results are not independent evidence or accepted absence.",
+      "findings": "All reactions/purifications local, with source-specific RNA chemical states, exact linker/RT/UMI-adapter inputs, single-strand ligation ends and junctions, and computed19-base RT landing plus extra5′A. Inosine RNA is distinct from copied cDNA and RNA-sense G readout; m6A remains chemically unconverted. Excess-linker/primer digestion has unresolved hydrolysate physical fates, with source precipitation/Silane purification separate. PCR uses actual UMI-tagged cDNA and unassigned2023 primer members rather than2024 defaultPCR. Declares acquiredPE2×150 whileR1 unused andR2 RNA-sense initial10-baseUMI is deduplicated and trimmed. Direct source tests verify the run/analysis distinction.",
+      "deferred": [
+        "Selected2023 P5/indexedP7 members, sample index length and exact final PCR/sequence-primer geometry",
+        "Detailed chemical input-to-output relations and conversion-yield quantification",
+        "2024/NEBNext/SMARTer alternative branches remain separate"
+      ],
+      "scope": "Source-specific graph/ownership migration; bounded original-reading scope only, no full reaction validation or accepted missing-information claim. Historical independent passes retained.",
+      "verification": "Native suite passes (6 explicit original-source checks), page builds, source guard3 checked0 failed, pairing0; chemistry0 established/0 conditional/18 unresolved/0 contradictory. Source-review schema and note build checked."
     }
   ]
 }

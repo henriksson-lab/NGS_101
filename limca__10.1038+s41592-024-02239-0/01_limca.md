@@ -61,3 +61,14 @@ and RNA data are joined by experimental labels, not by a shared molecular barcod
 - Which fraction is kept in the 0.6× then 0.2× SPRI steps is not stated.
 
 This is a capped bounded pass, not a confirmation that any of this information is absent.
+
+
+## Native graph migration — 2026-10-18 batch10
+
+Sources read (three originals, capped pass): Published PMC11166570 Methods181–213; directly cited author protocol10.21203/rs.3.pex-2423/v1 originalPDF120–246; original attached LiMCAOligos workbook3b3ac9309196696067b340eb.xlsx, META20/META40/MErows1–64, UDPexamples65onward and Smartseq2 oligos. Attachment manifest identity checked; workbookMD5 31b5de54798ff75a5f17f0c022b4bd86.
+
+Native source-owned compartment graphs replace endpoint/branch recipes. Physical5µl cytoplasmic supernatant and2µl pellet are explicit without assigning purity. RNA firstSS and switchedSS are actual ISPCR substrates; native TD502 input and initial extension feed source9-cycle UDP PCR. Nuclear NlaIII3′CATG/contact DNA feeds actual META20/native tagging, protease,13-cycle PCR,ExoI,META40 two cycles,ExoI,DM two cycles and source recoveries. META technical family is not promoted to UMI/cell barcode. Printed META20/ME pair has13bp overlap and6nt companion overhang; no missing bases silently added. Primary72°C preheat/0.6×+0.2× selection versus v1 70°C/0.55×+0.25× are displayed as version differences.
+
+Remaining scope: Complete native META20 loaded-transposase insertion/first-cycle geometry and DM5xx/DM7xx fullstrands/member/width remain unassigned. RNA UDP example physical10nt does not assign nuclear DMwidth or acquired cycles. Primary/article versus directly cited protocol ordinary version differences remain explicit; no complete revision equivalence claimed.
+
+Verification: 7 original-workbook transcription checks;34graphsteps;43unresolved/0contradictory; page/pairing/schema pass. No missing-information acceptance follows from this pass.

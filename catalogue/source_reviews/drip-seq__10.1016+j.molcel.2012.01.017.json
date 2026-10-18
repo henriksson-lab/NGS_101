@@ -27,7 +27,7 @@
       "locator": "NIHMS362480-supplement-01.xlsx; MANIFEST.tsv",
       "availability": "unavailable",
       "relevance": "relevant",
-      "reason": "PMC instance supplement endpoint gated.",
+      "reason": "Historical PMC instance endpoint gated. Publisher mmc1/mmc2 originals are now available as distinct checklist entries; mapping/equivalence to this NIHMS filename has not been asserted.",
       "pass_2": null
     },
     {
@@ -36,7 +36,7 @@
       "locator": "NIHMS362480-supplement-02.doc; MANIFEST.tsv",
       "availability": "unavailable",
       "relevance": "relevant",
-      "reason": "PMC instance supplement endpoint gated.",
+      "reason": "Historical PMC instance endpoint gated. Publisher mmc1/mmc2 originals are now available as distinct checklist entries; mapping/equivalence to this NIHMS filename has not been asserted.",
       "pass_2": null
     },
     {
@@ -47,6 +47,22 @@
       "relevance": "relevant",
       "reason": "Original predecessor method not yet acquired.",
       "pass_2": null
+    },
+    {
+      "id": "publisher_mmc1",
+      "role": "supplement",
+      "locator": "https://ars.els-cdn.com/content/image/1-s2.0-S1097276512000834-mmc1.pdf; j.molcel.2012.01.017_1-s2.0-S1097276512000834-mmc1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "bounded_scope": "FigS5 caption lines73–87 inspected. Full document and OCR-bearing page8 remain uninspected in this capped pass; this is not either independent complete absence-audit pass."
+    },
+    {
+      "id": "publisher_mmc2",
+      "role": "supplement",
+      "locator": "https://ars.els-cdn.com/content/image/1-s2.0-S1097276512000834-mmc2.zip; inner molcel_4184_mmc2.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "bounded_scope": "Workbook identity, three sheet names and first header rows inspected in memory: GC-skew genomic-coordinate and GO tables. No complete cell-by-cell inspection or blanket chemistry-relevance exclusion is recorded."
     }
   ],
   "linked_information": {
@@ -63,10 +79,10 @@
     {
       "claim": "Illumina barcoded adapter sequence and junction",
       "disposition": "blocked",
-      "evidence": "Defining method names but does not print adapter; original methods supplement and predecessor remain unchecked."
+      "evidence": "The source-owned2012 model leaves the physical adapter and junction unassigned. Publisher originals are available but only bounded sections have been inspected, and the cited MeDIP predecessor remains unchecked; no absence conclusion is accepted."
     }
   ],
-  "conclusion": "Original supplement and predecessor access blocks acceptance. Independent pass 2 pending; no missing claim accepted.",
+  "conclusion": "Publisher mmc1/mmc2 originals are available with bounded caption/workbook-header checks; historical PMC route failures do not establish supplement unavailability. Full supplementary chemistry scope, the MeDIP predecessor and unresolved RNA/library details remain open. No missing claim accepted.",
   "bounded_checks": [
     {
       "round": "2026-10-17-breadth-first-09",
@@ -83,6 +99,23 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite comment-only (0 explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/5 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 0 inputs without exact states (no exact oligo inputs); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "drip_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "scope": "Source-owned2012 native graph and bounded original-source inspection only; no full supplemental review or accepted missing-information conclusion.",
+      "locations": "Defining PMC3319272 JATS ExperimentalProcedures line113; published mmc1 PDF FigS5 caption lines73–87; publisher mmc2 ZIP molcel_4184_mmc2.xlsx workbook sheet names and first header rows only, read in memory.",
+      "oligo_scraper": "Full bundle scraper rerun:1sequence hit, cytosine-cluster insert context; no drawn upstream source used.",
+      "findings": "Removed all hybrid_base_protocols recipe/default imports, fake adapter/insert lengths and2019 endrepair/dA/PCR steps. RNA:DNA hybrid remains intact in the capture state. Sonication preserves explicit unresolved RNA scope; one MAGIC boundary records unknown RNA fate and DNA-end processing before source-named barcoded-adaptor ligation with unavailable geometry. Sequencing has no invented primer/read/index mask. Corrected current supplement availability while preserving historical source passes/routes; FigS5A agaroseA/G validation is not extrapolated to genomic IP.",
+      "deferred": [
+        "Complete mmc1 document, including OCR-bearing page8, and exact chemistry-relevant supplementary scope",
+        "mmc2 complete cell content/source-disposition review beyond checked genomic-coordinate/GO headers",
+        "Cited Weber2005 MeDIP original for genomic capture/recovery details",
+        "RNA fate, physical adapter/index/junction, any amplification and acquired sequencing mask"
+      ],
+      "verification": "Native graph/page suite passes with0 independent base-transcription checks; page build; chemistry7steps0established0conditional11unresolved0contradictory; expected RNA/library boundary MAGIC warning; source guard0exact checked0failed1unrepresented adapter input; pairing0 problems"
     }
   ]
 }

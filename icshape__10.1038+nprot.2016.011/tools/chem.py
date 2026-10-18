@@ -1,205 +1,107 @@
-from chemdraw import Workflow, Segment
+"""icSHAPE2016 native markedRNA, interruptedssDNA primer and circularPCR input."""
+from chemdraw import Construct,Scene,Segment,MolecularState,feature,circle_rows
 from protocol_model import role
-import illumina as il
-from types import SimpleNamespace
-from rna_cell_assays import CircularizationGeometry, Construct, Definition, InputRole, MaterialKind, PCRGeometry, ProtocolGraph, SequencingPlan, StepKind, reported_adapter_end, single, token
-from rna_cell_assays import custom_library, feature
+from protocol_graph import ProtocolGraph,MaterialKind as M,InputRole as I,StepKind as K,SequencingPlan
+from adapter_ligation import AdapterLigationGeometry
+from circular import CircularizationGeometry
+from pcr import PCRGeometry
+import seqprimers as sp
+TITLE='icSHAPE — source-native clickSHAPE library'
+NOTES='01_icshape.html'
+SOURCE='<a href="https://doi.org/10.1038/nprot.2016.011">Flynn et al.,NatureProtocols2016</a>; published author-manuscript PMC4896316.'
+SUMMARY='Selected in-vivo NAI-N3 branch: RNA2′O adducts are clicked tobiotin; RT occurs before streptavidin enrichment. A blockedadapter and interrupted5′phosphorylated RTprimer yield actual circularssDNA PCR templates.'
+CAVEAT='NAI-N3-treated branch selected; DMSO controls use a distinctbiotinylatedadapter, not the ddC adapter here. DDDNN–AACC–NNNN is a physicallydiscontiguous9-base UMI around a4-base samplebarcode; D meansA/G/T. TwoiSp18 moieties are nonnucleotide spacers, not18DNA bases. Native circlefold/PCRfirstcycle/fullfinalassembly remain unassigned. SourceStep49 says1µl1µM P3 in50µl yet20mM final; dilution implies20nM. No correctedsourceconcentration is assigned.'
+ADAPTER='AGATCGGAAGAGCGGTTCAG'
+RTHANDLE='AGATCGGAAGAGCGTCGTGGA'
+RTTAIL='TACTGAACCGC'
+RT_ORDER='/5phos/DDDNNAACCNNNN'+RTHANDLE+'/iSp18/GGATCC/iSp18/'+RTTAIL
+P5='AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT'
+P3='CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT'
+SAMPLE=feature('icshape.sample','sample_index','fixed',note='AACC experimentalbarcode physicallybetween two randomUMIcomponents')
+UMI5=feature('icshape.umi5','umi','degenerate',group='icshape.umi',part='1',note='DDDNN first5positions ofsame9ntUMI; D=A/G/T, notC')
+UMI4=feature('icshape.umi4','umi','random',group='icshape.umi',part='2',note='NNNN final4positions ofsame9ntUMI; concatenatewithDDDNN, not a secondindependentUMI')
+SEQ_PRIMERS=()
+SHOW_READ_CONTENT=False
+FINAL_LIBRARY=Construct([role('native P5PCRend'),role('13ntinlinebarcodeUMIregion; physicalDDDNN/AACC/NNNNprimerarchitecture'),role('RT-stop-derivedDNAinsert'),role('native P3PCRend')],name='icSHAPE native libraryreference')
+FINAL_CAPTION='Native componentreference; actual circularssDNA, not this endpoint, feedsPCR.'
+SEQUENCING_ENDING='SourceStep68:75-base single-end sufficient; omitstandard6/8ntindexreads because IDsareinline. FirstmappedRTstop is computationallyshifted toinferadduct; that coordinate is not an insertedbase.'
+READ_SPECS=(sp.read_spec('Read 1',75,'inline13nt contains4experimentalbarcode+9degenerate positions; thenRT-stopDNA; fullnative runprimergeometry unassigned','extract_then_include'),sp.ReadContent('Index 1 (i7)','not acquired','SourceStep68 instructs omission ofstandardindexread','No — not acquired'),sp.ReadContent('Index 2 (i5)','not acquired','SourceStep68 instructs omission ofstandardindexread','No — not acquired'))
+def rt_parts():
+ return [Segment('UMIfirst5','DDDNN',placeholder=True,feature=UMI5,note='physicalDNA ambiguityclasses; D=A/G/T'),Segment('sampleAACC','AACC',feature=SAMPLE),Segment('UMIfinal4','NNNN',feature=UMI4),Segment('RThandle',RTHANDLE),role('firstiSp18 nonnucleotide spacer'),Segment('GGATCC','GGATCC'),role('secondiSp18 nonnucleotide spacer'),Segment('annealingRTtail',RTTAIL)]
+def rt_primer():
+ sc=Scene();sc.strand('RTprimer',rt_parts(),mod5='p',label='actual interruptedDNA primer; two internalchemical spacers');return sc
 
-from rna_cell_assays import chain
+def adapter_state():
+ sc=Scene();sc.strand('adapter',[Segment('sourceadapterDNA',ADAPTER),Segment('physicalterminalddC','C',note='source/3ddC/ addsphysicaldeoxyC; no3′OH')],mod5='App',mod3='ddC-blocked',label='NAI-N3branchadapter');sc.ligation_end('adapter','sourceadapterDNA',kind='single-strand',polarity='5-prime',owner='adapter',text='activated5′App acceptsRNA3′OH');return sc
 
-def icshape_workflow() -> Workflow:
-    modified = token("NAI-N3 2-prime-O adduct", tag="umi", length=6)
-    return chain("RNA in living cells", single("folded cellular RNA", (token("RNA"),)), (
-        ("Acylate flexible RNA 2′-hydroxyls with NAI-N3",
-         single("chemically probed RNA", (token("RNA upstream"), modified,
-                                           token("RNA downstream"))),
-         "NAI-N3 supplies both the structure-dependent adduct and an azide enrichment handle."),
-        ("Click DIBO-biotin to the azide, fragment, and repair RNA 3′ ends",
-         single("biotinylated RNA fragment", (token("RNA fragment"), modified,
-                                               token("DIBO-biotin", tag="cbc", length=6))),
-         "Copper-free click chemistry makes only NAI-N3-modified fragments selectable."),
-        ("Ligate the preadenylated 3′ RNA adapter and enrich on streptavidin",
-         single("adapter-ligated selected RNA", (token("RNA fragment"),
-                                                  token("3-prime RNA adapter")),
-                junctions=(("RNA fragment", "3-prime RNA adapter", "RNA ligation"),)),
-         "T4 RNA ligase 1 joins the repaired RNA end to the blocked adapter."),
-        ("Reverse-transcribe until the adduct stops synthesis",
-         single("barcoded truncated cDNA", (token("13-nt experimental barcode + UMI", tag="cbc", length=13),
-                                             token("cDNA ending one base before the adduct"))),
-         "The RT primer carries 9 random bases and a 4-base experimental barcode."),
-        ("Circularize cDNA with CircLigase II and PCR",
-         single("icSHAPE library", (token("left Solexa arm"),
-                                     token("13-nt experimental barcode + UMI", tag="cbc", length=13),
-                                     token("RT-stop cDNA"), token("right Solexa arm"))),
-         "A read's first transcript base marks the RT stop; analysis shifts one nucleotide to the adduct."),
-    ))
+def native_state(stage):
+ sc=Scene()
+ if stage in ('raw','modified','clicked','fragmented','repaired','ligated'):
+  r=role('original cellularRNA; physicalU; '+('NAI-N3 2′Oadducts remain nucleotide substituents' if stage!='raw' else 'nativefold/modifications unassigned'))
+  parts=[r]
+  if stage=='ligated':parts += [Segment('ligatedadapter',ADAPTER),Segment('terminalddC','C',note='originaladapter ddC physicalC;3′blocked')]
+  sc.strand('RNA',parts,mod3='ddC' if stage=='ligated' else '',label='originalRNA '+stage+'; biotin-clickedadducts' if stage in ('clicked','fragmented','repaired','ligated') else 'originalRNA '+stage)
+  sc.strand('otherRNA',[role('independent unmodified/unclickedRNA and possible otherinputpolymers; enrichment not pureclass')])
+ elif stage in ('rt','released'):
+  sc.strand('cDNA',[*rt_parts(),role('DNAcopyofRNA ending atRTstop; exactstopcoordinateunknown')],mod5='p',label='actual native interruptedssDNA; sourceRNAadduct/biotin not copied')
+  sc.strand('RNAlineage',[role('originalbiotinylatedRNA plus unmodifiedRNA' if stage=='rt' else 'possibleRNasehydrolysates/retainedRNA fragments; chemicaldigestion not physicalclearance')])
+ elif stage=='circle':
+  parts=[*rt_parts(),role('RT-stopDNAcopy')]
+  rows=list(circle_rows(Construct(parts,name='native interruptedssDNAcircle'),closure_label='sourceCircLigase linksDNA3′OH toprimer5′P; originaliSp18spacers remain internal'))
+  sc.strand('residual',[role('possible unreactedlinearssDNA, RNAhydrolysates, nativeoligos; no separationatclosure')]);rows.extend(sc.rows());return MolecularState('actual interruptedssDNAcircle plusresidualclasses',tuple(rows))
+ elif stage=='library':
+  sc.strand('daughter',[Segment('sourceP5primer',P5),role('nativePCR-selectedRTstop/inlineidentifierstrandorder; firstcycletopologyunassigned'),role('retainedDDDNNcompoundUMIcomponent',length_bp=5,molecular_feature=UMI5),role('retainedAACCsampleidentifier; orientationunassigned',length_bp=4,molecular_feature=SAMPLE),role('retainedNNNNcompoundUMIcomponent',length_bp=4,molecular_feature=UMI4),Segment('sourceP3primerderivedend','[P3-derivedcopiedend]',placeholder=True)],label='DNA PCRdaughters; originalRNAadduct/biotin not copied')
+  sc.strand('nativeoriginals',[role('possible originalcircular/linearDNA, blockedadapter/RTprimer/spacer/offtargetclasses; recoveryunassigned')])
+ sc.strand('residuals',[role('possible co-carried originalpolymers/oligofragments; classspecificrecovery unresolved')])
+ return sc
 
-DEFINITION = Definition("icSHAPE — in vivo click SHAPE", "10.1038/nprot.2016.011",
-        "Flynn et al., <i>Nature Protocols</i> (2016)", "01_icshape.html",
-        "NAI-N3 marks flexible RNA 2′-hydroxyls in cells, DIBO-biotin enables enrichment, and reverse-transcriptase stops encode nucleotide-resolution RNA structure.",
-        "A 75-cycle single-end Illumina read begins with the 13-nt inline experimental barcode/UMI and then reports cDNA whose first mapped base locates the RT stop.")
-
-d = DEFINITION
-final = custom_library('icSHAPE library', (token('experimental barcode', tag='cbc', length=4, molecular_feature=feature('experimental_barcode', 'sample_index', 'fixed')), token('UMI', tag='umi', length=9, molecular_feature=feature('umi', 'umi', 'random')), token('RT-stop cDNA', length=40)))
-primers = ()
-reads = None
-OLIGOS = (
-            "<b>3′ adapter</b> — 5′-/5rApp/AGATCGGAAGAGCGGTTCAG/3ddC/-3′",
-            "<b>RT-primer-1 architecture</b> — 5′-/5Phos/DDDNN AACC NNNN AGATCGGAAGAGCGTCGTGGA /iSp18/ GGATCC /iSp18/ TACTGAACCGC-3′",
-            "<b>P5-Solexa PCR primer</b> — 5′-AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT-3′",
-            f"<b>P3-Solexa PCR primer</b> — 5′-{il.PE_PCR_PRIMER_2}-3′",
-        )
-workflow_fn = icshape_workflow
-SPEC = SimpleNamespace(
-    TITLE=d.title, NOTES=d.notes,
-    SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
-    SUMMARY=d.summary, CAVEAT=d.caveat, FINAL_LIBRARY=final,
-    SEQ_PRIMERS=primers, FINAL_CAPTION=d.endpoint, SEQUENCING_INTRO=d.endpoint,
-    READ_LENGTHS=reads, SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE=("" if primers else "The defining protocol prints both Solexa library-PCR primers, but the physical run-primer binding geometry has not been reconstructed from the final circularized and amplified library; read entry and cycle roles are stated explicitly."),
-    workflow=workflow_fn, oligos=lambda: OLIGOS,
-)
-
-
-def icshape_graph(definition, final: Construct) -> ProtocolGraph:
-    """Typed icSHAPE graph through click enrichment, RT stop and circularization."""
-    source = f"{definition.citation}; doi:{definition.doi}"
-    graph = ProtocolGraph(definition.title, authority=source)
-    rna = graph.input("cellular_rna", "folded RNA in living cells",
-                      MaterialKind.BIOLOGICAL,
-                      state=single("folded cellular RNA", (token("RNA"),)),
-                      primary=True)
-    nai = graph.input("nai_n3", "NAI-N3 acylation reagent", MaterialKind.CONDITION)
-    modified_state = single("chemically probed RNA", (
-        role("RNA bearing 2-prime-O NAI-N3 substituents; not nucleotide identifiers"),))
-    modified = graph.product("modified_rna", "NAI-N3-modified RNA",
-                             MaterialKind.MOLECULAR, state=modified_state)
-    graph.react("acylate", "Acylate flexible RNA 2-prime-hydroxyls",
-                StepKind.CHEMICAL_CONVERSION,
-                ((rna, InputRole.TEMPLATE), (nai, InputRole.CONDITION)), (modified,))
-
-    dibo = graph.input("dibo_biotin", "DIBO-biotin click reagent",
-                       MaterialKind.MOLECULAR)
-    click_condition = graph.input("click_condition", "copper-free click condition",
-                                  MaterialKind.CONDITION)
-    biotinylated = graph.product(
-        "biotinylated_rna", "DIBO-biotin-tagged modified RNA",
-        MaterialKind.MOLECULAR,
-        state=single("biotinylated RNA", (
-            role("RNA bearing biotin-clicked NAI-N3 substituents; not a barcode"),)))
-    graph.react("click_biotin", "Click DIBO-biotin to the NAI-N3 azide",
-                StepKind.CHEMICAL_CONVERSION,
-                ((modified, InputRole.TEMPLATE), (dibo, InputRole.STRUCTURAL),
-                 (click_condition, InputRole.CONDITION)), (biotinylated,))
-    fragmentation = graph.input("rna_fragmentation_reagent", "RNA fragmentation reagent",
-                                MaterialKind.CONDITION)
-    fragmented = graph.product("fragmented_rna", "fragmented biotinylated RNA",
-                               MaterialKind.MOLECULAR, state=biotinylated.state)
-    graph.react("fragment_rna", "Fragment the biotinylated RNA",
-                StepKind.FRAGMENTATION,
-                ((biotinylated, InputRole.TEMPLATE),
-                 (fragmentation, InputRole.CONDITION)), (fragmented,))
-    repair = graph.input("rna_end_repair_enzyme", "RNA 3-prime-end repair enzyme",
-                         MaterialKind.CATALYST)
-    repaired = graph.product("repaired_rna", "3-prime-end-repaired RNA fragments",
-                             MaterialKind.MOLECULAR, state=fragmented.state)
-    graph.react("repair_rna_end", "Repair RNA 3-prime ends", StepKind.END_REPAIR,
-                ((fragmented, InputRole.TEMPLATE), (repair, InputRole.CATALYST)),
-                (repaired,))
-
-    adapter = graph.input("preadenylated_adapter",
-                          "preadenylated blocked 3-prime RNA adapter",
-                          MaterialKind.ADAPTER, state=Construct([Segment("published RNA adapter", "AGATCGGAAGAGCGGTTCAG")]))
-    ligase = graph.input("t4_rnl1", "T4 RNA ligase 1",
-                         MaterialKind.CATALYST)
-    ligated = graph.product(
-        "adapter_ligated_rna", "3-prime-adapter-ligated RNA",
-        MaterialKind.MOLECULAR,
-        state=single("adapter-ligated RNA", (
-            token("RNA fragment"), token("3-prime RNA adapter")),
-            junctions=(("RNA fragment", "3-prime RNA adapter", "RNA ligation"),)))
-    adapter_geometry = reported_adapter_end(
-        "icSHAPE 3-prime RNA adapter", kind="single-strand", polarity="5-prime",
-        terminal_sequence="AGATCGGAAGAGCGGTTCAG",
-        statement="The protocol prints the 5′ preadenylated, 3′-blocked RNA adapter sequence used by truncated T4 RNL2.")
-    graph.react("adapter_ligation", "Ligate the preadenylated 3-prime RNA adapter",
-                StepKind.LIGATION,
-                ((repaired, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
-                 (ligase, InputRole.CATALYST)), (ligated,), geometry=adapter_geometry)
-    rt_primer = graph.input("rt_primer", "barcoded RT-primer-1",
-                            MaterialKind.OLIGO)
-    rtase = graph.input("reverse_transcriptase", "reverse transcriptase",
-                        MaterialKind.CATALYST)
-    truncated = graph.product(
-        "truncated_cdna", "RT-stop cDNA with its biotinylated RNA template",
-        MaterialKind.MOLECULAR,
-        state=single("barcoded truncated cDNA", (
-            token("13-nt experimental barcode + UMI", tag="cbc", length=13),
-            token("cDNA ending one base before the adduct"))))
-    graph.react("reverse_transcription", "Reverse-transcribe until the adduct stops synthesis",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((ligated, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
-                 (rtase, InputRole.CATALYST)), (truncated,))
-    streptavidin = graph.input("streptavidin", "streptavidin capture reagent",
-                               MaterialKind.SELECTION)
-    selected = graph.product("selected_rna", "streptavidin-selected RNA/cDNA hybrids",
-                             MaterialKind.MOLECULAR, state=truncated.state)
-    unselected = graph.product("unselected_rna", "unmodified or uncaptured RNA",
-                               MaterialKind.WASTE)
-    graph.react("streptavidin_capture", "Enrich biotinylated RNA",
-                StepKind.AFFINITY_CAPTURE,
-                ((truncated, InputRole.TEMPLATE),
-                 (streptavidin, InputRole.SELECTION)), (selected, unselected))
-    graph.discard(unselected, "not retained by streptavidin enrichment")
-
-    rnases = graph.input("rna_release", "RNase A/T1/H followed by DMSO/heat elution", MaterialKind.CATALYST)
-    released = graph.product("released_cdna", "cDNA released from selected hybrids", MaterialKind.MOLECULAR, state=truncated.state)
-    graph.react("release_cdna", "Digest RNA and elute cDNA from the beads", StepKind.DIGESTION,
-                ((selected, InputRole.TEMPLATE), (rnases, InputRole.CATALYST)), (released,))
-    circligase = graph.input("circligase_ii", "CircLigase II", MaterialKind.CATALYST)
-    circular = graph.product("circular_cdna", "circularized RT-stop cDNA",
-                             MaterialKind.MOLECULAR, state=truncated.state)
-    graph.react("circularize", "Circularize cDNA", StepKind.CIRCULARIZATION,
-                ((released, InputRole.TEMPLATE),
-                 (circligase, InputRole.CATALYST)), (circular,),
-                geometry=CircularizationGeometry.known(
-                    "single-strand intramolecular ligation",
-                    statement="The icSHAPE workflow circularizes RT-stop cDNA with CircLigase II."))
-    forward = graph.input("pcr_forward_primer", "Solexa PCR forward primer",
-                          MaterialKind.OLIGO, state=Construct([Segment("published P5-Solexa", il.P5 + il.TRUSEQ_READ1[4:])]))
-    reverse = graph.input("pcr_reverse_primer", "Solexa PCR reverse primer",
-                          MaterialKind.OLIGO, state=Construct([Segment("published P3-Solexa", il.PE_PCR_PRIMER_2)]))
-    polymerase = graph.input("pcr_polymerase", "PCR polymerase", MaterialKind.CATALYST)
-    library = graph.product("sequencing_library", "icSHAPE sequencing library",
-                            MaterialKind.LIBRARY, state=final, inferred=True)
-    graph.react("library_pcr", "PCR-amplify the circular cDNA", StepKind.PCR,
-                ((circular, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
-                 (reverse, InputRole.STRUCTURAL),
-                 (polymerase, InputRole.CATALYST)), (library,),
-                geometry=PCRGeometry.unavailable(
-                    Construct([token("unassembled circular cDNA template")]), reason="Both ordered Solexa PCR primers are printed in the original reagent list. Exact binding geometry on the circular cDNA remains unassembled in this model; this is not a source-absence claim."))
-    graph.sequence(library, SequencingPlan(limitation=definition.endpoint))
-    graph.declare_reviewed_scope((
-        "cellular_rna", "nai_n3", "acylate", "dibo_biotin", "click_condition",
-        "click_biotin", "rna_fragmentation_reagent", "fragment_rna",
-        "rna_end_repair_enzyme", "repair_rna_end", "preadenylated_adapter",
-        "t4_rnl1", "adapter_ligation", "streptavidin",
-        "streptavidin_capture", "rt_primer", "reverse_transcriptase",
-        "reverse_transcription", "rna_release", "release_cdna", "circligase_ii", "circularize",
-        "pcr_forward_primer", "pcr_reverse_primer", "pcr_polymerase",
-        "library_pcr", "sequencing_library",
-    ), source)
-    return graph.require_publishable()
-
+def oligos():return [f'NAI-N3branch3′adapter—5′-/5rApp/{ADAPTER}/3ddC/-3′',f'RTprimer1—5′-{RT_ORDER}-3′',f'P5-Solexa—5′-{P5}-3′',f'P3-Solexa—5′-{P3}-3′']
 
 def protocol_graph():
-    d = DEFINITION
-    final = SPEC.FINAL_LIBRARY
-    primers = SPEC.SEQ_PRIMERS
-    key = 'icshape'
-    return icshape_graph(d, final)
-SPEC.protocol_graph = protocol_graph
-SPEC.CAVEAT += (" This bounded update follows the NAI-N3-treated branch: RT precedes streptavidin capture, followed by RNase/DMSO-heat cDNA release. "
-    "The graph still summarizes gel/column recovery stages and leaves full circular-template/final-library assembly unresolved. "
-    "Published unit discrepancy: Step49 lists 1 µl of 1 µM P3 primer in 50 µl total, but its final-concentration column says 20 mM. "
-    "Those listed volumes imply 20 nM by dilution; the intended value is unresolved and the model assigns no corrected concentration.")
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ def inp(i,l,k=M.CONDITION,state=None):return g.input(i,l,k,state=state)
+ def prod(i,l,stage,kind=M.MOLECULAR):return g.product(i,l,kind,state=native_state(stage))
+ def op(i,l,k,x,extra,state):
+  y=g.product(i+'_out',l,M.MOLECULAR,state=state);g.react(i,l,k,((x,I.TEMPLATE),*extra),(y,));return y
+ def clean(i,l,x):
+  s=inp(i+'_selection',l,M.SELECTION);y=g.product(i+'_out',l+'retainedmixture',x.kind,state=x.state);w=g.product(i+'_waste','physically nonretainedfraction',M.WASTE)
+  g.react(i,l,K.CLEANUP,((x,I.TEMPLATE),(s,I.SELECTION)),(y,w));g.discard(w,'Actualsourcephysical fraction; classpurity/recovery not presumed.');return y
+ raw=g.input('cellular_rna','RNA in independentlytreated cellaliquot; selectedNAI-N3branch',M.BIOLOGICAL,state=native_state('raw'),primary=True)
+ nai=inp('nai_n3','100mMNAI-N3;37°C5min');x=op('acylate','Acylate flexibleRNA2′OH',K.CHEMICAL_CONVERSION,raw,((nai,I.CONDITION),),native_state('modified'))
+ isolation=inp('rna_isolation','sourceRNAisolation; detailedSteps4–11notreconstructed')
+ isolated=prod('isolated','isolated NAI-N3RNA mixture','modified')
+ g.react('isolate_rna','NativeRNA isolation boundary beforepolyAselection',K.MAGIC,((x,I.TEMPLATE),(isolation,I.CONDITION)),(isolated,),reason='Knownsourceisolation precedesProcedure13. Detailedextraction chemistry4–11 remains outside this capped inspectedsection scope; no genericpurificationreagents assigned.')
+ x=isolated
+ for n in (1,2):x=clean('polya'+str(n),'PolyAPuristMAG round'+str(n)+'; sourcepolyAselection/wash',x)
+ x=clean('polya_rneasy','Lyophilize/RNeasymini RNAcleanup',x)
+ click=inp('dibo_biotin','1.85mMDIBO-biotin;37°C2h',M.MOLECULAR);cond=inp('click_condition','copper-free click; sourceStep19')
+ x=op('click','Clickbiotin onRNA NAI-N3azides',K.CHEMICAL_CONVERSION,x,((click,I.STRUCTURAL),(cond,I.CONDITION)),native_state('clicked'));x=clean('click_cleanup','ZymoRNA C&C5;freeze-dry',x)
+ frag=inp('fragmentation_condition','95°Cpreheat60s;fragmentationreagent30–60s');x=op('fragment','FragmentoriginalclickedRNA',K.FRAGMENTATION,x,((frag,I.CONDITION),),native_state('fragmented'))
+ stop=inp('fragment_stop','sourcefragmentationstopsolution;ice');x=op('stop_fragment','Stop fragmentation',K.QUENCHING,x,((stop,I.CONDITION),),x.state);x=clean('fragment_cleanup','ZymoRNA C&C5;freeze-dry',x)
+ repair=inp('end_repair','FastAP+T4PNK;37°C1h',M.CATALYST);x=op('repair','RepairRNA3′ends',K.END_REPAIR,x,((repair,I.CATALYST),),native_state('repaired'))
+ ad=inp('adapter','sourceNAI-N3adapterApp plusphysical3′ddC',M.ADAPTER,adapter_state());lig=inp('t4_rnl1','sourceT4RNA ligase1 highconcentration;25°C3h',M.CATALYST)
+ ligated=prod('ligated','RNA3′adapterligated originalRNA','ligated')
+ g.react('ligate','Ligate RNA3′OH toadapter5′App',K.LIGATION,((x,I.TEMPLATE),(ad,I.STRUCTURAL),(lig,I.CATALYST)),(ligated,),geometry=AdapterLigationGeometry.known('single-strand',adapter_state(),statement='Procedure26 explicitlyT4RNA ligase1; activatedadapter5′App andphysical3′ddC blocking.'))
+ x=clean('ligation_cleanup','ZymoRNA C&C5;freeze-dry',ligated);x=clean('rna_page','DenaturingPAGE isolateadapterligatedRNA >~40nt; SpinX/Amiconelution',x);x=clean('rna_page_column','ZymoRNA C&C5;freeze-dry',x)
+ rp=inp('rt_primer','source5′P RTprimer1; DDDNN/AACC/NNNN and twoiSp18',M.OLIGO,rt_primer());rt=inp('ssiii','SuperScriptIII;25°C3min42°C5min52°C30min',M.CATALYST)
+ x=op('rt','Reverse-transcribe RNA beforestreptavidinenrichment',K.REVERSE_TRANSCRIPTION,x,((rp,I.STRUCTURAL),(rt,I.CATALYST)),native_state('rt'))
+ beads=inp('streptavidin','DynabeadsC1;25°C45min',M.SELECTION);bound=prod('bound','beadboundbiotinRNA/cDNA hybrids pluspossibleofftargets','rt');unbound=g.product('unbound','removedcapturesupernatant',M.WASTE)
+ g.react('capture','CapturebiotinylatedRNA/cDNA hybrids',K.AFFINITY_CAPTURE,((x,I.TEMPLATE),(beads,I.SELECTION)),(bound,unbound));g.discard(unbound,'Physicalunboundfraction; not a guaranteeofcompleteunmodifiedRNA exclusion.')
+ x=clean('capture_washes','Five4MSHAPEwashes then twoPBSwashes',bound)
+ rnase=inp('rnase_release','RNaseA/T1/H plusD-biotin;37°C30min',M.CATALYST);p3=inp('p3_primer','P3primer included in sourceelutionmix; concentrationdiscrepancy unresolved',M.OLIGO,Construct([Segment('P3',P3)]))
+ x=op('digest_rna','DigestoriginalRNA oncapturedbeads; not physicaldisposal',K.DIGESTION,x,((rnase,I.CATALYST),(p3,I.STRUCTURAL)),native_state('released'))
+ heat=inp('dmso_heat','DMSO95°C4min; magneticbeadseparation',M.CONDITION)
+ released=prod('released','elutedactualssDNA pluspossibleRNAhydrolysates','released');beadw=g.product('bead_waste','magnetically separatedbeads',M.WASTE)
+ g.react('elute','DMSO/heat release and magnetictransferofsupernatant',K.STRAND_SEPARATION,((x,I.TEMPLATE),(heat,I.CONDITION)),(released,beadw));g.discard(beadw,'Sourcebeadseparation; cDNA-containing supernatant retained.')
+ x=clean('cdna_column','ZymoDNA C&C5 nonstandard7×buffer+ethanol;recoverSS≥20nt',released);x=clean('cdna_page','6%denaturingPAGE isolatecDNA>70nt;SpinX/Amicon',x);x=clean('cdna_page_column','ZymoDNA C&C5 sourceSSconditions',x)
+ cl=inp('circligase','CircLigaseII/Mn;60°C2h',M.CATALYST);circle=prod('circle','actual sourceinterruptedssDNA circle','circle')
+ g.react('circle_closure','Circularize native5′P/3′OH cDNA',K.CIRCULARIZATION,((x,I.TEMPLATE),(cl,I.CATALYST)),(circle,),geometry=CircularizationGeometry.known('single-strand intramolecular ligation',statement='Sourceprimer5′P andactualRTcDNA3′OH; internalchemicalspacers remainonoriginalcircle.'))
+ x=clean('circle_cleanup','ZymoDNA C&C5 sourceSSconditions',circle)
+ p5=inp('p5_primer','sourceP5-Solexa',M.OLIGO,Construct([Segment('P5',P5)]));pol=inp('phusion','PhusionHF+SYBR;realtimeqPCR untilsignal8000–10000;NAI-N3expected8–11cycles',M.CATALYST)
+ lib=prod('pcr_library','PCRdaughters plusnativecircle/linear/offtargetclasses','library',M.LIBRARY)
+ g.react('library_pcr','Amplify actualnativecircularcDNA withsourceP5/P3',K.PCR,((x,I.TEMPLATE),(p5,I.STRUCTURAL),(p3,I.STRUCTURAL),(pol,I.CATALYST)),(lib,),geometry=PCRGeometry.unavailable(x.state,reason='Actualsourcecircle plusnativeiSp18spacers/residualclasses entersPCR; firstcycle/primerlanding/fullstrandassembly not replacedbycompletedendpoint.'))
+ x=clean('pcr_column','ZymoDNA C&C5 sourcePCRconditions5×buffer;freeze-dry',lib);x=clean('library_page','6%nativePAGE cutabove~150bp;exclude120–130bpdimers;SpinX/Amicon',x);x=clean('final_column','ZymoDNA C&C5;~24µlfinal',x)
+ g.sequence(x,SequencingPlan(acquired_roles=('Read 1',),read_lengths={'Read 1':75},read_uses={'Read 1':'extract_then_include'},limitation=SEQUENCING_ENDING))
+ g.declare_reviewed_scope(REVIEWED,SOURCE)
+ return g.require_publishable()
+REVIEWED=('cellular_rna','nai_n3','acylate','rna_isolation','isolate_rna','polya1_selection','polya1','polya2_selection','polya2','polya_rneasy_selection','polya_rneasy','dibo_biotin','click_condition','click','click_cleanup_selection','click_cleanup','fragmentation_condition','fragment','fragment_stop','stop_fragment','fragment_cleanup_selection','fragment_cleanup','end_repair','repair','adapter','t4_rnl1','ligate','ligation_cleanup_selection','ligation_cleanup','rna_page_selection','rna_page','rna_page_column_selection','rna_page_column','rt_primer','ssiii','rt','streptavidin','capture','capture_washes_selection','capture_washes','rnase_release','p3_primer','digest_rna','dmso_heat','elute','cdna_column_selection','cdna_column','cdna_page_selection','cdna_page','cdna_page_column_selection','cdna_page_column','circligase','circle_closure','circle_cleanup_selection','circle_cleanup','p5_primer','phusion','library_pcr','pcr_column_selection','pcr_column','library_page_selection','library_page','final_column_selection','final_column','final_column_out')

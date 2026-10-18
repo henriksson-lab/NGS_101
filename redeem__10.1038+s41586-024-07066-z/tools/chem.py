@@ -15,31 +15,20 @@ from __future__ import annotations
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from batch_ngs import seg
+from protocol_model import molecule,role
+from chemdraw import Scene,Segment,complement_segments
+from adapter_ligation import AdapterLigationGeometry
+seg=Segment
 from chemdraw import Construct, feature, revcomp
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            SourceClaim, SourceDiscrepancy, StepKind)
-from protocol_specs import Definition, get
-from rna_library_operations import molecule
+                            SourceClaim, SourceDiscrepancy, StepKind, Disposition,Terminal,Highlight)
 
-DEFINITION = Definition(
-    "ReDeeM — deep mitochondrial mutation profiling", "10.1038/s41586-024-07066-z",
-    "Weng et al., Nature (2024)",
-    "A whole-cell 10x Multiome modification retains mtDNA, then tiled hybrid capture of the "
-    "indexed ATAC library produces a deeply sequenced mtDNA library matched to RNA and ATAC.",
-    "nextera", ("cell barcode", "mtDNA fragment"),
-    "The enriched mtDNA library keeps the ATAC library's structure: the 24-cycle Index 2 read "
-    "covers the 10x spacer and 16-base cell barcode, Index 1 reads the Nextera N70X index, and "
-    "the paired reads give the Tn5 start and end that, with the cell barcode, form the "
-    "endogenous UMI (eUMI).",
-    "multi",
-    "Library shells follow the 10x CG000338 Rev A Sequences appendix cited by the Supplementary "
-    "Methods; the ReDeeM i7 index comes from the Nextera N70X primers of Supplementary Data 1. "
-    "The 10x SI PCR Primer B sequence is not printed in the inspected sources, so ATAC PCR "
-    "geometry is not reconstructed. The published supplements disagree on capture-probe "
-    "lengths, the CG000338 revision and read lengths (see notices).")
-
+TITLE="ReDeeM — deep mitochondrial mutation profiling"
+NOTES="01_redeem.html"
+SOURCE='Weng et al., Nature(2024), <a href="https://doi.org/10.1038/s41586-024-07066-z">doi:10.1038/s41586-024-07066-z</a>; SupplementaryMethods/Data1 and explicitly cited originalCG000338RevA.'
+SUMMARY="Whole-cell Multiome retains nuclear DNA, mtDNA and RNA as separate populations; source-indexed ATAC aliquots are hybrid-captured in four mtDNA probe reactions and reamplified."
+CAVEAT="Source-positive final structures follow the explicitly cited CG000338RevA appendix; this component scope does not establish procedural equivalence to RevB cited by the separate protocol. Native GEM/preamp/capture first-cycle assembly remains unassigned. Barcode plus Tn5start/end defines a computational endogenous UMI, not an added physical UMI sequence. Published probe/revision/run discrepancies remain below."
 CELL_BARCODE = feature("cell_barcode", "cell_barcode", "whitelist",
                        whitelist="10x Multiome ATAC gel-bead barcodes (CG000338)")
 GEX_BARCODE = feature("gex_cell_barcode", "cell_barcode", "whitelist",
@@ -102,9 +91,7 @@ for _lib, _primers in ((ATAC_LIBRARY, ATAC_PRIMERS), (MT_LIBRARY, ATAC_PRIMERS),
 # Read1 149, i7 8, i5 24, Read2 149.
 ATAC_READ_LENGTHS = {"Read 1": 149, "Index 1 (i7)": 8, "Index 2 (i5)": 24, "Read 2": 149}
 
-SPEC = get('redeem', definition=DEFINITION, final_override=(MT_LIBRARY, ATAC_PRIMERS))
-SPEC.READ_LENGTHS = ATAC_READ_LENGTHS
-SPEC.oligos = lambda: [
+def oligos():return [
     f"Nextera N70X (Supplementary Data 1): 5′-{il.P7}<b>[8-nt index]</b>{nx.S7}-3′; "
     + ", ".join(f"{k} {v}" for k, v in N70X_INDEXES.items()),
     f"Post-capture P5: 5′-{REDEEM_P5}-3′; P7: 5′-{REDEEM_P7}-3′ (Supplementary Data 1)",
@@ -112,13 +99,52 @@ SPEC.oligos = lambda: [
 ]
 
 
+FINAL_LIBRARIES=(("ATAC library",ATAC_LIBRARY,ATAC_PRIMERS,"SourceRevA structure and localN70X index; complete native precursor geometry bounded.","Published SupplementaryMethods149/8/24/149."),("RNA library",GEX_LIBRARY,GEX_PRIMERS,"SourceRevA GEX structure; published acquisition statements conflict.","RNA run acquisition remains unassigned; both published alternatives shown below."),("Enriched mtDNA library",MT_LIBRARY,ATAC_PRIMERS,"Same indexedATAC architecture enriched by capture; first-copy substrate is bead-bound DNA.","Published SupplementaryMethods149/8/24/149."))
+SHOW_READ_CONTENT=False
+READ_SPECS={name:tuple(sp.read_spec(read,cycles,"genomic/mtDNA insert" if read in ("Read 1","Read 2") else "N70X sample index" if read=="Index 1 (i7)" else "source8ntspacer and16ntcellbarcode", "include" if read in ("Read 1","Read 2") else "demultiplex" if read=="Index 1 (i7)" else "extract") for read,cycles in ATAC_READ_LENGTHS.items()) for name in ("ATAC library","Enriched mtDNA library")}
+READ_SPECS["RNA library"]=tuple(sp.read_spec(read,"unassigned",content+"; conflicting published run descriptions", "undetermined") for read,content in (("Read 1","source16ntbarcode/12ntUMI"),("Index 1 (i7)","physical10ntsampleindex"),("Index 2 (i5)","physical10ntsampleindex"),("Read 2","transcript cDNA")))
+READ_SPECS_NOTE="ATAC/mtDNA positive source acquisition retained; RNA conflicting run alternatives do not establish a selected mask. Physical index widths are separate from acquired cycles."
+
+def cell_state(label,*,tagged=False,copied=False,amplified=False):
+    sc=Scene()
+    for key,description in (("nuclear","nuclear chromatin"),("mitochondrial","mtDNA")):
+        parts=[role(("Tn5-tagged " if tagged else "")+description+"; native ends unassigned")]
+        if copied:parts=[Segment("cellbarcode","N"*16,placeholder=True,feature=CELL_BARCODE),role(description+" barcoded fragment; native end/gap assembly unassigned")]
+        sc.strand(key,parts,label=label+" independent "+description+" population")
+    if copied:
+        parts=[Segment("sourceRevA partialR1","CTACACGACGCTCTTCCGATCT"),Segment("GEXcellbarcode","N"*16,placeholder=True,feature=GEX_BARCODE),Segment("GEXUMI","N"*12,placeholder=True,feature=UMI),Segment("sourceT30","T"*30),Segment("VN","VN",placeholder=True),role("first-strand cDNA; native copiedTSO/end extent unassigned")]
+    else:parts=[role("cellularRNA")]
+    sc.strand("RNA",parts,label=label+(" RNA-derived strand population" if copied else " independent RNA population"))
+    if amplified:sc.strand("opposite copied strands",[role("complementary preamp strand classes; full native duplex geometry unassigned")],label="independent preamp copies")
+    return sc
+
+def rna_fragment_state(*,a_tailed=False,adapted=False):
+    """One barcode-retaining target class, with other fragments carried separately."""
+    body=[Segment("retained source partialR1","CTACACGACGCTCTTCCGATCT"),Segment("retained GEX cell barcode","N"*16,placeholder=True,feature=GEX_BARCODE),Segment("retained GEX UMI","N"*12,placeholder=True,feature=UMI),role("RNA-derived fragment interval; full native extent unassigned")]
+    if adapted:body=[role("source adapter-associated end; native strand/junction unassigned",inferred=True),*body,role("source opposite adapter-associated end; native strand/junction unassigned",inferred=True)]
+    opposite=complement_segments(body)
+    top=[*body,Segment("top3′dA","A")] if a_tailed else body
+    bottom=[*opposite,Segment("bottom3′dA","A")] if a_tailed else opposite
+    sc=Scene();sc.strand("RNA target",top,label="barcode-retaining RNA-derived fragment class; native end extent bounded")
+    sc.anneal("RNA target opposite",bottom,to="RNA target",pair=(opposite[-1].name,body[0].name),unpaired=tuple(x.name for x in opposite if x.is_role_token()),label="opposite target strand;5′chemistry unassigned")
+    if a_tailed:
+        sc.overhang("RNA target","top3′dA",polarity="3-prime",owner="substrate",text="source3′dA")
+        sc.overhang("RNA target opposite","bottom3′dA",polarity="3-prime",owner="substrate",text="source opposed3′dA")
+    sc.strand("carried fragments",[role("other cDNA, nuclearDNA and mtDNA fragment classes; barcode retention/recovery unassigned")],label="independent carried mixed fragments")
+    return sc
+
+def capture_state():
+    sc=Scene();sc.strand("captured DNA",list(MT_LIBRARY),label="source-denatured indexed DNA strand bound through capture probe")
+    sc.strand("probes",[role("biotinylated mtDNA capture probes; exact bound-strand extent unassigned")],label="independent probe oligos")
+    sc.strand("background",[role("co-retained off-target indexedDNA; quantitative specificity unassigned")],label="independent background")
+    return sc
+
 def protocol_graph():
-    d = DEFINITION
-    source = f"{d.source_label}; doi:{d.doi}"
-    graph = ProtocolGraph(d.title, authority=source)
+    source=SOURCE
+    graph=ProtocolGraph(TITLE,authority=source)
     cells = graph.input("cells", "whole cells (optionally TotalSeq-A hashed)",
                         MaterialKind.BIOLOGICAL,
-                        state=molecule("whole cell", ("nuclear chromatin", "RNA", "mtDNA")),
+                        state=cell_state("whole cell"),
                         primary=True)
     fixperm = graph.input("fix_perm", "0.1% formaldehyde 10 min RT, 0.125 M glycine quench; 0.1% NP40 permeabilization 5 min on ice; low-BSA buffers",
                           MaterialKind.CONDITION)
@@ -130,11 +156,11 @@ def protocol_graph():
                 changes_molecule=False)
     tn5 = graph.input("tn5", "10x ATAC Enzyme B in ATAC buffer B with 0.1% GDN, 37 °C 1 h",
                       MaterialKind.CATALYST)
-    tn5_adapters = graph.input("tn5_adapters", "ATAC Enzyme B transposon adapters (sequences not printed by 10x; Read 1N/Read 2N ends implied by the final library)",
+    tn5_adapters = graph.input("tn5_adapters", "ATACEnzymeB loadedadapter population; native assembly unassigned",
                                MaterialKind.ADAPTER)
     tagmented = graph.product("tagmented_cells", "cells with tagmented nuclear and mitochondrial DNA",
                               MaterialKind.BIOLOGICAL,
-                              state=molecule("tagmented cell", ("Tn5-tagged chromatin", "Tn5-tagged mtDNA", "RNA")))
+                              state=cell_state("tagmented cell",tagged=True))
     graph.react("tagment", "Tagment whole cells with GDN added", StepKind.TAGMENTATION,
                 ((permeable, InputRole.TEMPLATE), (tn5_adapters, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST)), (tagmented,))
@@ -142,32 +168,31 @@ def protocol_graph():
                            MaterialKind.CONDITION)
     barcoded = graph.product("barcoded", "matched cell-barcoded RNA and ATAC products",
                              MaterialKind.MOLECULAR,
-                             state=molecule("matched cell products", (
-                                 "cell barcode", "RNA products", "ATAC fragments including mtDNA")))
-    failed = graph.product("failed_partitions", "empty or ambiguous droplets", MaterialKind.WASTE)
+                             state=cell_state("GEMbarcoded",tagged=True,copied=True))
+    failed = graph.product("failed_partitions", "empty or ambiguous droplet outcomes", MaterialKind.MOLECULAR)
     graph.react("multiome", "Run 10x Multiome barcoding on the tagmented whole cells",
-                StepKind.PARTITION,
+                StepKind.MAGIC,
                 ((tagmented, InputRole.TEMPLATE), (droplets, InputRole.CONDITION)),
-                (barcoded, failed), changes_molecule=False)
-    graph.discard(failed, "does not retain an interpretable shared cell barcode")
-    preamp_cond = graph.input("preamp_condition", "CG000338 Rev A Step 4 pre-amplification PCR, eluted in 100 µl EB",
-                              MaterialKind.CONDITION)
-    preamp = graph.product("preamp", "pre-amplified Multiome product", MaterialKind.MOLECULAR,
-                           state=barcoded.state)
-    graph.react("preamplify", "Pre-amplify RNA and ATAC products", StepKind.MAGIC,
-                ((barcoded, InputRole.TEMPLATE), (preamp_cond, InputRole.CONDITION)), (preamp,),
-                reason="CG000338 Rev A names the Pre-Amp Primers only by reagent, so primer-to-product geometry is unresolved.")
+                (barcoded, failed),reason="Source RevA GEMgeneration/barcoding/postGEMcleanup scope; RT creates ss cDNA beside independently barcoded DNA. Complete native transfer/recovery geometry remains bounded.")
+    graph.mark_terminal(Terminal(failed.id,Disposition.UNRESOLVED,"Droplet occupancy/ambiguity classification is computational, not physical rejection."))
+    preamp_f=graph.input("preamp_forward","sourceRevA Pre-AmpPrimersPN2000271 first binding role; species unassigned",MaterialKind.OLIGO)
+    preamp_r=graph.input("preamp_reverse","same source commercial mix opposite binding role; species unassigned",MaterialKind.OLIGO)
+    preamp_pol=graph.input("preamp_polymerase","sourceRevA pre-amplification PCRmix; exactenzyme/formulation unassigned",MaterialKind.CATALYST)
+    preamp=graph.product("preamp","pre-amplified mixedMultiome product;100µlEB",MaterialKind.MOLECULAR,state=cell_state("preamp products",tagged=True,copied=True,amplified=True))
+    graph.react("preamplify","Pre-amplify RNA andATAC products before physicalaliquots",StepKind.PCR,((barcoded,InputRole.TEMPLATE),(preamp_f,InputRole.STRUCTURAL),(preamp_r,InputRole.STRUCTURAL),(preamp_pol,InputRole.CATALYST)),(preamp,),geometry=PCRGeometry.unavailable(barcoded.state,reason="Actualss-cDNA beside barcoded nuclear/mitochondrialDNA enters named commercial preampmix; full native first-cycle/primer-to-product geometry unassigned."))
     atac = graph.product("atac_branch", "pre-amp aliquots for ATAC PCR (8 × 5 µl)",
                          MaterialKind.MOLECULAR, state=preamp.state)
     rna = graph.product("rna_branch", "pre-amp aliquot for RNA library (35 µl)",
                         MaterialKind.MOLECULAR, state=preamp.state)
+    remainder=graph.product("preamp_remainder","remaining25µl source100µl preamp pool",MaterialKind.MOLECULAR,state=preamp.state)
     graph.react("split_branches", "Split the pre-amplified product into ATAC and RNA aliquots",
-                StepKind.SPLIT, ((preamp, InputRole.TEMPLATE),), (atac, rna),
+                StepKind.SPLIT, ((preamp, InputRole.TEMPLATE),), (atac, rna,remainder),
                 changes_molecule=False)
+    graph.mark_terminal(Terminal(remainder.id,Disposition.UNRESOLVED,"NamedATAC8×5µl andRNA35µl aliquots leave25µl; subsequent handling unassigned."))
     reviewed = ["cells", "fix_perm", "fix_permeabilize", "tn5", "tn5_adapters", "tagment",
-                "multiome_droplets", "multiome", "preamp_condition", "preamplify", "split_branches"]
+                "multiome_droplets", "multiome", "preamp_forward","preamp_reverse","preamp_polymerase", "preamplify", "split_branches"]
 
-    atac_forward = graph.input("atac_forward", "10x SI PCR Primer B (PN-2000128; sequence not printed)",
+    atac_forward = graph.input("atac_forward", "10x SI PCR Primer B PN2000128; exact species unassigned",
                                MaterialKind.OLIGO)
     atac_reverse = graph.input("atac_reverse", "Nextera N70X primer (Supplementary Data 1)",
                                MaterialKind.OLIGO,
@@ -184,7 +209,7 @@ def protocol_graph():
                 ((atac, InputRole.TEMPLATE), (atac_forward, InputRole.STRUCTURAL),
                  (atac_reverse, InputRole.STRUCTURAL), (atac_polymerase, InputRole.CATALYST)),
                 (amplified_atac,), geometry=PCRGeometry.unavailable(
-                    ATAC_LIBRARY, reason="SI PCR Primer B is named only by part number, so the P5-side primer-to-product geometry is not reconstructed."))
+                    atac.state, reason="Actualmixedpreampaliquot retained; SI PCR Primer B is named by part number, so the P5-side primer-to-product geometry is not reconstructed."))
     atac_spri = graph.input("atac_spri", "SPRI double-sided size selection 0.4×–1.55×",
                             MaterialKind.SELECTION)
     indexed_atac = graph.product("atac_indexed", "indexed ATAC library including mtDNA fragments",
@@ -208,24 +233,38 @@ def protocol_graph():
                      "atac_spri", "atac_size_select", "atac_indexed", "atac_library",
                      "split_atac_library"))
 
-    rna_cond = graph.input("rna_steps", "CG000338 Rev A Steps 6–7: cDNA amplification, fragmentation, end repair/A-tailing, adapter ligation, sample-index PCR",
-                           MaterialKind.CONDITION)
-    rna_library = graph.product("rna_library", GEX_LIBRARY.name, MaterialKind.LIBRARY,
-                                state=GEX_LIBRARY)
-    graph.react("rna_library_steps", "Build the gene-expression library per the 10x guide",
-                StepKind.MAGIC, ((rna, InputRole.TEMPLATE), (rna_cond, InputRole.CONDITION)),
-                (rna_library,),
-                reason="The 10x Rev A appendix prints the final layout but not the TSO, cDNA, adaptor or sample-index primer sequences; ReDeeM follows Steps 6–7 on a 35 µl pre-amp aliquot.")
-    graph.sequence(rna_library, SequencingPlan(library=GEX_LIBRARY, primers=GEX_PRIMERS))
-    reviewed.extend(("rna_steps", "rna_library_steps", "rna_library"))
+    rna_cf=graph.input("rna_cdna_forward","source RevA cDNA-PCR mix first binding role; primer species unassigned",MaterialKind.OLIGO)
+    rna_cr=graph.input("rna_cdna_reverse","same historical cDNA-PCR mix opposite binding role; species unassigned",MaterialKind.OLIGO)
+    rna_cp=graph.input("rna_cdna_polymerase","source RevA cDNA-amplification reagents; exact enzyme/formulation/cycle count unassigned",MaterialKind.CATALYST)
+    rna_amp=graph.product("rna_cdna_amplified","cDNA-amplified RNA-preparation mixture; carried DNA retained",MaterialKind.MOLECULAR,state=cell_state("RNA cDNA-PCR products",tagged=True,copied=True,amplified=True))
+    graph.react("rna_cdna_pcr","Amplify cDNA from actual35µl mixed preamp aliquot",StepKind.PCR,((rna,InputRole.TEMPLATE),(rna_cf,InputRole.STRUCTURAL),(rna_cr,InputRole.STRUCTURAL),(rna_cp,InputRole.CATALYST)),(rna_amp,),geometry=PCRGeometry.unavailable(rna.state,reason="Actual mixed preamp aliquot enters cDNA-PCR. Historical primer species and complete native first-cycle/end geometry remain unassigned."))
+    frag=graph.input("rna_fragmentation_reagents","source RevA library fragmentation reagents; formulation/conditions unassigned in inspected scope",MaterialKind.CATALYST)
+    fragments=graph.product("rna_fragments","native fragmented RNA-library preparation",MaterialKind.MOLECULAR,state=rna_fragment_state())
+    graph.react("rna_fragment","Fragment amplified RNA-library preparation",StepKind.FRAGMENTATION,((rna_amp,InputRole.TEMPLATE),(frag,InputRole.CATALYST)),(fragments,))
+    repair=graph.input("rna_end_repair_reagents","source historical end-repair reagents; exact formulation unassigned",MaterialKind.CATALYST)
+    repaired=graph.product("rna_repaired","end-repaired mixed fragment population",MaterialKind.MOLECULAR,state=rna_fragment_state())
+    graph.react("rna_end_repair","End-repair library fragments",StepKind.END_REPAIR,((fragments,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(repaired,))
+    tail=graph.input("rna_a_tail_reagents","source dA-tailing reagents; exact enzyme/conditions unassigned",MaterialKind.CATALYST)
+    tailed=graph.product("rna_a_tailed","source dA-tailed native fragment classes",MaterialKind.MOLECULAR,state=rna_fragment_state(a_tailed=True))
+    graph.react("rna_a_tail","dA-tail repaired fragments",StepKind.TAILING,((repaired,InputRole.TEMPLATE),(tail,InputRole.CATALYST)),(tailed,))
+    adapter=graph.input("rna_adapter","source RevA library adapter species; physical strands/ends unassigned",MaterialKind.ADAPTER)
+    ligase=graph.input("rna_adapter_ligase","source adapter-ligation reagents; enzyme/formulation unassigned",MaterialKind.CATALYST)
+    ligated=graph.product("rna_ligated","actual pre-index adapter-ligated mixed fragments",MaterialKind.MOLECULAR,state=rna_fragment_state(adapted=True))
+    graph.react("rna_adapter_ligation","Ligate source-named RNA-library adapters",StepKind.LIGATION,((tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(ligated,),geometry=AdapterLigationGeometry.unavailable("Source dA-tailed substrate retained, but full historical adapter strand/compatible-end geometry and sealed junction remain unassigned."))
+    index_f=graph.input("rna_index_forward","source RNA sample-index PCR forward binding role; selected species unassigned",MaterialKind.OLIGO)
+    index_r=graph.input("rna_index_reverse","source RNA sample-index PCR reverse binding role; selected species unassigned",MaterialKind.OLIGO)
+    index_p=graph.input("rna_index_polymerase","source RevA RNA sample-index PCR reagents; exact enzyme/conditions unassigned",MaterialKind.CATALYST)
+    rna_library=graph.product("rna_library",GEX_LIBRARY.name,MaterialKind.LIBRARY,state=GEX_LIBRARY)
+    graph.react("rna_index_pcr","Index-amplify actual adapter-ligated fragments",StepKind.PCR,((ligated,InputRole.TEMPLATE),(index_f,InputRole.STRUCTURAL),(index_r,InputRole.STRUCTURAL),(index_p,InputRole.CATALYST)),(rna_library,),geometry=PCRGeometry.unavailable(ligated.state,reason="Actual pre-index adapter-ligated fragment pool is the substrate. Source RevA mature structure is a separate reference; unknown primer/first-cycle geometry is not supplied by that endpoint."))
+    graph.sequence(rna_library,SequencingPlan(library=GEX_LIBRARY,primers=GEX_PRIMERS,acquisition="unspecified",limitation="Conflicting published RNA masks; no acquired roles/cycles selected."))
 
     probes = graph.input("capture_probes", "one of four staggered biotinylated 120-nt mtDNA probe sets (mitoV1–V4; Supplementary Data 1)",
                          MaterialKind.SELECTION)
     blockers = graph.input("hyb_condition", "Cot DNA, xGen Universal Blockers NXT, xGen hybridization buffer + enhancer; 95 °C 30 s then 65 °C 16 h; streptavidin Dynabeads and xGen washes",
                            MaterialKind.CONDITION)
     captured = graph.product("captured_mt", "bead-bound captured mtDNA library fragments",
-                             MaterialKind.MOLECULAR, state=MT_LIBRARY)
-    rejected = graph.product("rejected_mt", "unbound non-mitochondrial library fragments and washes",
+                             MaterialKind.MOLECULAR, state=capture_state())
+    rejected = graph.product("rejected_mt", "source unboundDNA/capturewashes; exact mtDNA/off-target recovery unassigned",
                              MaterialKind.WASTE)
     graph.react("capture_mt", "Hybrid-capture mtDNA from the indexed ATAC library (four parallel probe-set reactions)",
                 StepKind.AFFINITY_CAPTURE,
@@ -245,7 +284,7 @@ def protocol_graph():
                 ((captured, InputRole.TEMPLATE), (mt_forward, InputRole.STRUCTURAL),
                  (mt_reverse, InputRole.STRUCTURAL), (mt_polymerase, InputRole.CATALYST)),
                 (mt_amplified,), geometry=PCRGeometry.unavailable(
-                    MT_LIBRARY, reason="The P5 and P7 primers re-amplify the existing flow-cell ends; this compact model does not draw the bead-bound template duplex."))
+                    captured.state, reason="Actualsingle-strand probe-bound indexedDNA retained. The P5 and P7 primers re-amplify the existing flow-cell ends; this compact model does not draw the bead-bound template duplex."))
     mt_spri = graph.input("mt_spri", "four reactions pooled, 1.6× SPRI", MaterialKind.SELECTION)
     mt_library = graph.product("mt_library", MT_LIBRARY.name, MaterialKind.LIBRARY,
                                state=MT_LIBRARY)
@@ -258,7 +297,8 @@ def protocol_graph():
         library=MT_LIBRARY, primers=ATAC_PRIMERS, read_lengths=ATAC_READ_LENGTHS))
     reviewed.extend(("capture_probes", "hyb_condition", "capture_mt", "mt_forward", "mt_reverse",
                      "mt_polymerase", "mt_pcr", "mt_spri", "mt_cleanup", "mt_library"))
-    graph.declare_reviewed_scope(reviewed, source)
+    graph.annotate(Highlight("multiome","Native RNA fate across GEM cleanup remains unassigned","The RNA-derived output row tracks copied cDNA. Native RNA templates are not represented as consumed or physically discarded by RT; their persistence, degradation and partition through the source GEM/post-GEM cleanup boundary remain unassigned."))
+    graph.declare_reviewed_scope(REVIEWED_TARGETS,source)
     graph.annotate(SourceDiscrepancy(
         "capture_probes", "ReDeeM capture-probe specification changed across published supplements",
         (SourceClaim("Weng et al., Nature (2024), supplementary ReDeeM protocol, extracted lines 64–65",
@@ -291,4 +331,5 @@ def protocol_graph():
     return graph.require_publishable()
 
 
-SPEC.protocol_graph = protocol_graph
+
+REVIEWED_TARGETS=("cells","fix_perm","fix_permeabilize","tn5","tn5_adapters","tagment","multiome_droplets","multiome","preamp_forward","preamp_reverse","preamp_polymerase","preamplify","split_branches","atac_forward","atac_reverse","atac_polymerase","atac_pcr","atac_spri","atac_size_select","atac_indexed","atac_library","split_atac_library","rna_cdna_forward","rna_cdna_reverse","rna_cdna_polymerase","rna_cdna_pcr","rna_fragmentation_reagents","rna_fragment","rna_end_repair_reagents","rna_end_repair","rna_a_tail_reagents","rna_a_tail","rna_adapter","rna_adapter_ligase","rna_adapter_ligation","rna_index_forward","rna_index_reverse","rna_index_polymerase","rna_index_pcr","rna_library","capture_probes","hyb_condition","capture_mt","mt_forward","mt_reverse","mt_polymerase","mt_pcr","mt_spri","mt_cleanup","mt_library")

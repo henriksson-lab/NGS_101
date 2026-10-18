@@ -1,336 +1,136 @@
+"""Published plate-based Prox-seq: actual ssDNA reporters, no assumed RT."""
+from chemdraw import Construct,Scene,Segment,feature,revcomp,complement_segments
+from protocol_model import role
+from protocol_graph import ProtocolGraph,MaterialKind as M,InputRole as I,StepKind as K,SequencingPlan,Terminal,Disposition
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Scene, Segment, Workflow
-from types import SimpleNamespace
-from proximity_topology import ProximityLigationTopology
-
-from rna_cell_assays import Construct, Definition, InputRole, MaterialKind, PCRGeometry, ProtocolGraph, SequencingPlan, StepKind, branches, custom_library, single, token, unknown_region
-from rna_cell_assays import feature
-
-from rna_cell_assays import chain
-from protocol_graph import Disposition, SourceClaim, SourceDiscrepancy, Terminal
-
-# Supplementary Table 10 (MOESM3 XLSX) prints one probe-A and one probe-B oligo per
-# antibody barcode; the fixed parts below are identical in every printed pair, and the
-# 8-nt "Barcode" column is the target-specific window.  Written 5'->3' as printed:
-#   A: /5AzideN/CGCATTGCATCGTCTCGTGGGCTCGGCHHHHACHHHHACHHHNGCAG[barcode]GATCGCTAAATCGTG
-#   B: /5Phos/TCGTGTCGTGTCTAAAGTCC[barcode]ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/3AzideN/
-# The azides couple to DBCO-antibodies (published Methods, antibody-DNA conjugation).
-PROBE_A_5_SITE = "CGCATTGCATCGTCTCGTGGGCTCGGC"   # contains Table 7 U_fwd GCATCGTCTCGTGGGCTC
-PROBE_A_UMI = "HHHHACHHHHACHHHN"
-PROBE_A_SPACER = "GCAG"
-PROBE_A_LINKER = "GATCG"
-PROBE_A_ARM = "CTAAATCGTG"                      # 3' arm paired to the connector
-PROBE_B_ARM = "TCGTGTCGTG"                      # 5'-phosphorylated arm paired to the connector
-PROBE_B_LINKER = "TCTAAAGTCC"
-PROBE_B_SPACER = "AC"
-PROBE_B_POLYA = "A" * 29
+from pcr import PCRGeometry
+import seqprimers as sp
+TITLE='Prox-seq — published plate-based reporter preparation'
+NOTES='01_prox-seq.html'
+SOURCE='<a href="https://doi.org/10.1038/s41592-022-01684-z">Vistain etal.,NatureMethods2022</a>; publishedMOESM1 plateMethods and MOESM3Tables7–10.'
+SUMMARY='A/B antibody-linked DNA probes ligate on a connector. In the selected non-PFA plate experiment, single-cell lysate directly feeds two DNA PCRs; the source did not measure mRNA in that plate experiment.'
+CAVEAT='This graph selects the source-positive non-PFA plate implementation rather than mixing Drop-seq,10x and plate chemistry. Other published implementations and their pairedRNA readouts remain distinct; their native RT/cDNA/physicalfractionation routes are deferred here. SourceTable10 HHHHACHHHHACHHHN is a constraineddegenerate probeUMI (H=A/C/T), with the printed fixedAC interruptions. Probe azide/antibody linkages remain on originals, not their new PCR copies. Full nativefirst-cycle/endgeometry remains bounded; no final expectedduplex is used as template. Optionallysate reservation does not establish an observed expressionlibrary.'
+FINAL_LIBRARY=None
+SEQ_PRIMERS=()
+SHOW_READ_CONTENT=False
+SEQUENCING_ENDING='Selectedplate: NextSeqmid-outputv2.5,40%PhiX, customSmartPLARead1/i5/i7 primers;75/8/8, noRead2. Drop-seq20/8/85 and10xPLA28/8/75 are separate published implementations.'
+READ_SPECS=(sp.read_spec('Read 1',75,'probeAUMI and pairedproteinbarcodes; customSmartPLA_Read1','extract'),sp.read_spec('Read 2','not acquired','Sourceplate acquisition is single-ended','undetermined'),sp.read_spec('Index 1 (i7)',8,'singlecell librarydualindex','demultiplex'),sp.read_spec('Index 2 (i5)',8,'singlecell librarydualindex','demultiplex'))
+PROBE_A_5_SITE = 'CGCATTGCATCGTCTCGTGGGCTCGGC'
+PROBE_A_UMI = 'HHHHACHHHHACHHHN'
+PROBE_A_SPACER = 'GCAG'
+PROBE_A_LINKER = 'GATCG'
+PROBE_A_ARM = 'CTAAATCGTG'
+PROBE_B_ARM = 'TCGTGTCGTG'
+PROBE_B_LINKER = 'TCTAAAGTCC'
+PROBE_B_SPACER = 'AC'
+PROBE_B_POLYA = 'A' * 29
 BARCODE_LEN = 8
-CONNECTOR = "TTTCACGACACGACACGATTTAGGTC"        # plate-based Methods ligase solution; Suppl. Methods
-PROBE_A_LEN = (len(PROBE_A_5_SITE) + len(PROBE_A_UMI) + len(PROBE_A_SPACER) + BARCODE_LEN
-               + len(PROBE_A_LINKER) + len(PROBE_A_ARM))
-PROBE_B_LEN = (len(PROBE_B_ARM) + len(PROBE_B_LINKER) + BARCODE_LEN + len(PROBE_B_SPACER)
-               + len(PROBE_B_POLYA))
+CONNECTOR = 'TTTCACGACACGACACGATTTAGGTC'
+PROBE_A_LEN = len(PROBE_A_5_SITE) + len(PROBE_A_UMI) + len(PROBE_A_SPACER) + BARCODE_LEN + len(PROBE_A_LINKER) + len(PROBE_A_ARM)
+PROBE_B_LEN = len(PROBE_B_ARM) + len(PROBE_B_LINKER) + BARCODE_LEN + len(PROBE_B_SPACER) + len(PROBE_B_POLYA)
 PRODUCT_LEN = PROBE_A_LEN + PROBE_B_LEN
-PROBE_A_TABLE = ("/5AzideN/" + PROBE_A_5_SITE + PROBE_A_UMI + PROBE_A_SPACER + "[8-nt barcode]"
-                 + PROBE_A_LINKER + PROBE_A_ARM)
-PROBE_B_TABLE = ("/5Phos/" + PROBE_B_ARM + PROBE_B_LINKER + "[8-nt barcode]" + PROBE_B_SPACER
-                 + PROBE_B_POLYA + "/3AzideN/")
-BARCODE_A = feature("protein_barcode_a", "feature_barcode", "fixed")
-BARCODE_B = feature("protein_barcode_b", "feature_barcode", "fixed")
-PLA_UMI = feature("pla_umi", "umi", "random")
-
-
+PROBE_A_TABLE = '/5AzideN/' + PROBE_A_5_SITE + PROBE_A_UMI + PROBE_A_SPACER + '[8-nt barcode]' + PROBE_A_LINKER + PROBE_A_ARM
+PROBE_B_TABLE = '/5Phos/' + PROBE_B_ARM + PROBE_B_LINKER + '[8-nt barcode]' + PROBE_B_SPACER + PROBE_B_POLYA + '/3AzideN/'
+BARCODE_A = feature('protein_barcode_a', 'feature_barcode', 'whitelist',whitelist='publishedTable10antibodybarcodefamily')
+BARCODE_B = feature('protein_barcode_b', 'feature_barcode', 'whitelist',whitelist='publishedTable10antibodybarcodefamily')
+PLA_UMI = feature('pla_umi', 'umi', 'degenerate', note='SourceHHHHACHHHHACHHHN constrainedwindow: H=A/C/T, N=A/C/G/T; fixedAC interruptions retained')
 def probe_a_parts():
-    return (Segment("probe-A U_fwd site", PROBE_A_5_SITE),
-            Segment("PLA UMI", PROBE_A_UMI, "umi", placeholder=True, feature=PLA_UMI),
-            Segment("probe-A spacer", PROBE_A_SPACER),
-            Segment("antibody A barcode", "N" * BARCODE_LEN, "cbc", placeholder=True,
-                    feature=BARCODE_A),
-            Segment("probe-A linker", PROBE_A_LINKER),
-            Segment("A connector arm", PROBE_A_ARM))
-
-
+    return (Segment('probe-A U_fwd site', PROBE_A_5_SITE), Segment('PLA UMI', PROBE_A_UMI, 'umi', placeholder=True, feature=PLA_UMI), Segment('probe-A spacer', PROBE_A_SPACER), Segment('antibody A barcode', 'N' * BARCODE_LEN, 'cbc', placeholder=True, feature=BARCODE_A), Segment('probe-A linker', PROBE_A_LINKER), Segment('A connector arm', PROBE_A_ARM))
 def probe_b_parts():
-    return (Segment("B connector arm", PROBE_B_ARM),
-            Segment("probe-B linker", PROBE_B_LINKER),
-            Segment("antibody B barcode", "N" * BARCODE_LEN, "cbc", placeholder=True,
-                    feature=BARCODE_B),
-            Segment("probe-B spacer", PROBE_B_SPACER),
-            Segment("poly(A)", PROBE_B_POLYA))
-
-
-def reporter_state():
-    return single(f"{PRODUCT_LEN}-nt ligated PLA product (Table 10 probes)",
-                  probe_a_parts() + probe_b_parts(),
-                  junctions=(("A connector arm", "B connector arm",
-                              "connector-splinted proximity ligation"),))
-
-
-def bound_state():
-    return branches("two bound targets", (("protein A probe", probe_a_parts()),
-                                           ("protein B probe", probe_b_parts())))
-
-
-def proximity_workflow() -> Workflow:
-    return chain("cell surface", branches("DNA-conjugated antibodies", (
-        ("probe A (5′ azide)", probe_a_parts()),
-        ("probe B (5′ phosphate, 3′ azide)", probe_b_parts()))), (
-        ("Bind paired antibody–oligo probes to extracellular proteins", bound_state(),
-         "Probe identity is encoded in the 8-nt Table 10 barcode on each antibody conjugate; "
-         "probe A also carries the HHHHACHHHHACHHHN UMI window and the U_fwd site."),
-        ("Hybridize the universal connector and ligate only proximal probes",
-         reporter_state(),
-         "T4 DNA ligase seals probe A's 3′ arm to probe B's 5′-phosphorylated arm on the "
-         "26-nt connector, which is a splint and is not inserted. Only a ligated A–B product "
-         "carries both the U_fwd site and the 3′ poly(A)."),
-        ("Co-capture polyadenylated PLA reporters and cellular mRNA",
-         branches("same cell barcode", (("PLA branch", probe_a_parts() + probe_b_parts()),
-                                         ("RNA branch", (token("transcript cDNA"),)))),
-         "Drop-seq, Smart-seq2 or 10x can supply the single-cell partition and RNA branch."),
-        ("PCR each branch and add sequencing indexes",
-         single("Prox-seq PLA library", (token("platform cell-barcode / capture arm"),
-                                          *reversed_payload(),
-                                          token("U_fwd-side indexed arm"))),
-         "Shown as the strand complementary to the probes (poly(A)-capture side on the left). "
-         "The PLA read reports the UMI and both protein barcodes."),
-    ))
-
-
-def reversed_payload():
-    """Role-level library payload in capture-primer orientation (complement strand)."""
-    return (token("oligo(dT) / poly(A)", length=12),
-            unknown_region("protein barcode B", tag="cbc", molecular_feature=BARCODE_B),
-            token("ligated connector region", length=20),
-            unknown_region("protein barcode A", tag="cbc", molecular_feature=BARCODE_A),
-            unknown_region("PLA UMI", tag="umi", molecular_feature=PLA_UMI))
-
-DEFINITION = Definition("Prox-seq — proximity sequencing", "10.1038/s41592-022-01684-z",
-        "Vistain et al., <i>Nature Methods</i> (2022)", "01_prox-seq.html",
-        "Pairs of antibody-conjugated DNA probes ligate only when their extracellular protein targets are close; two protein barcodes and a UMI are recovered with the same cell's mRNA.",
-        "The ligated PLA reporter is amplified as a distinct library; the exact read/index layout follows the chosen Drop-seq, Smart-seq2 or 10x single-cell implementation.",
-        "Prox-seq intentionally supports several scRNA-seq back ends. The schematic therefore records reporter structure and identifier roles without claiming one universal sequencing-primer geometry.")
-
-d = DEFINITION
-final = custom_library('Prox-seq PLA library', reversed_payload())
-primers = ()
-reads = None
-OLIGOS = ()
-workflow_fn = proximity_workflow
-SPEC = SimpleNamespace(
-    TITLE=d.title, NOTES=d.notes,
-    SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
-    SUMMARY=d.summary, CAVEAT=d.caveat, FINAL_LIBRARY=final,
-    SEQ_PRIMERS=primers, FINAL_CAPTION=d.endpoint, SEQUENCING_INTRO=d.endpoint,
-    READ_LENGTHS=reads, SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE=("" if primers else "Exact sequencing-primer sequences are not fixed by the defining protocol or were not exposed in its accessible primary text; read entry and cycle roles are stated explicitly."),
-    workflow=workflow_fn, oligos=lambda: OLIGOS,
-)
-
-SPEC.CAVEAT = ("The probe oligos and connector are drawn from Supplementary Table 10 and "
-               "the Methods; the 8-nt target barcodes are shown as N. The schematic combines "
-               "the PLA reporter across published Drop-seq, Smart-seq2 and 10x implementations: "
-               "Supplementary Tables 7–9 print branch-specific PCR and custom sequencing "
-               "primers, and the schematic does not choose one platform-specific library end. "
-               "Treating HHHHACHHHHACHHHN as the probe-A UMI window is derived from the "
-               "Supplementary Methods statement that the UMI is read from probe A.")
-SPEC.SEQUENCING_UNAVAILABLE = (
-    "The paper publishes custom primers and distinct run recipes: Drop-seq Read 1/i7/Read 2 "
-    "20/8/85 cycles, 10x PLA 28/8/75, 10x cDNA 28/10/10/90 (Read 1/i7/i5/Read 2), "
-    "and plate PLA Read 1/i5/i7 75/8/8. A single primer-binding map cannot describe all "
-    "Prox-seq back ends at once.")
-SPEC.oligos = lambda: (
-    f"<b>Probe A oligo (Table 10, PLA.seq.Bead.N.A)</b> — 5′-{PROBE_A_TABLE}-3′",
-    f"<b>Probe B oligo (Table 10, PLA.Seq.Bead.N.B)</b> — 5′-{PROBE_B_TABLE}-3′",
-    f"<b>Universal ligation connector</b> — 5′-{CONNECTOR}-3′",
-    "<b>U_fwd PLA PCR primer (Tables 7–8)</b> — 5′-GCATCGTCTCGTGGGCTC-3′",
-    "<b>Droplet Read 1</b> — 5′-GCCTGTCCGCGGAAGCAGTGGTATCAACGCAGAGTAC-3′",
-    "<b>Droplet Read 2</b> — 5′-AGATGCATCGTCTCGTGGGCTCGG-3′",
-    "<b>Droplet i7</b> — 5′-CCGAGCCCACGAGACGATGCATCT-3′",
-    "<b>Plate Read 1</b> — 5′-TATTTGGCATCGTCTCGTGGGCTCGG-3′",
-    "<b>Plate i5</b> — 5′-CCGAGCCCACGAGACGATGCCAAATA-3′",
-    "<b>Plate i7</b> — 5′-ACTCTGCGTTGATACCACTGCTTCGGC-3′",
-)
-SPEC.TOPOLOGY_PANELS = ProximityLigationTopology().panels()
-_base_workflow = SPEC.workflow
-
-
+    return (Segment('B connector arm', PROBE_B_ARM), Segment('probe-B linker', PROBE_B_LINKER), Segment('antibody B barcode', 'N' * BARCODE_LEN, 'cbc', placeholder=True, feature=BARCODE_B), Segment('probe-B spacer', PROBE_B_SPACER), Segment('poly(A)', PROBE_B_POLYA))
 def connector_geometry():
     """Table 10 probe ends on the published connector; Scene checks all 20 pairs."""
     sc = Scene()
-    sc.strand("probe A end", [Segment("probe-A linker", PROBE_A_LINKER),
-                              Segment("A connector arm", PROBE_A_ARM)],
-              label="probe A 3′ end (3′-OH)")
-    sc.anneal("connector", [Segment("connector 5′ overhang", CONNECTOR[:3]),
-                            Segment("connector B site", CONNECTOR[3:13]),
-                            Segment("connector A site", CONNECTOR[13:23]),
-                            Segment("connector 3′ overhang", CONNECTOR[23:])],
-              to="probe A end", pair=("connector A site", "A connector arm"),
-              label="universal connector (26 nt)",
-              unpaired=("connector 5′ overhang", "connector 3′ overhang"))
-    sc.anneal("probe B end", [Segment("B connector arm", PROBE_B_ARM),
-                              Segment("probe-B linker", PROBE_B_LINKER)],
-              to="connector", pair=("B connector arm", "connector B site"),
-              label="probe B 5′ end", mod5="p", above=True,
-              unpaired=("probe-B linker",))
-    sc.ligation_end("probe B end", "B connector arm", kind="splinted",
-                    polarity="5-prime", owner="adapter", text="5′-phosphate nick partner")
-    return AdapterLigationGeometry.known(
-        "splinted", sc,
-        statement="Supplementary Table 10 probe A ends in CTAAATCGTG-3′ and probe B begins "
-                  "5′-phosphate-TCGTGTCGTG; the 26-nt connector pairs with both 10-nt arms "
-                  "(20 bases, as the article states) and leaves 3-nt single-stranded ends. "
-                  "The arm assignment is computed from the printed sequences; the paper does "
-                  "not draw it.")
+    sc.strand('probe A end', [Segment('probe-A linker', PROBE_A_LINKER), Segment('A connector arm', PROBE_A_ARM)], label='probe A 3′ end (3′-OH)')
+    sc.anneal('connector', [Segment('connector 5′ overhang', CONNECTOR[:3]), Segment('connector B site', CONNECTOR[3:13]), Segment('connector A site', CONNECTOR[13:23]), Segment('connector 3′ overhang', CONNECTOR[23:])], to='probe A end', pair=('connector A site', 'A connector arm'), label='universal connector (26 nt)', unpaired=('connector 5′ overhang', 'connector 3′ overhang'))
+    sc.anneal('probe B end', [Segment('B connector arm', PROBE_B_ARM), Segment('probe-B linker', PROBE_B_LINKER)], to='connector', pair=('B connector arm', 'connector B site'), label='probe B 5′ end', mod5='p', above=True, unpaired=('probe-B linker',))
+    sc.ligation_end('probe B end', 'B connector arm', kind='splinted', polarity='5-prime', owner='adapter', text='5′-phosphate nick partner')
+    return AdapterLigationGeometry.known('splinted', sc, statement='Supplementary Table 10 probe A ends in CTAAATCGTG-3′ and probe B begins 5′-phosphate-TCGTGTCGTG; the 26-nt connector pairs with both 10-nt arms (20 bases, as the article states) and leaves 3-nt single-stranded ends. The arm assignment is computed from the printed sequences; the paper does not draw it.')
 
+RT_HANDLE='AAGCAGTGGTATCAACGCAGAGTAC'
+U_FWD='GCATCGTCTCGTGGGCTC'
+P5_ARM='TATTTGGCATCGTCTCGTGGGCTCGG'
+P7_ARM='GCCGAAGCAGTGGTATCAACGCAGAGT'
+I5=feature('prox.platei5','sample_index','whitelist',whitelist='publishedTable9celllibraryindices')
+I7=feature('prox.platei7','sample_index','whitelist',whitelist='publishedTable9celllibraryindices')
+# SourceTable8i5family/Table9N701; no claim everywell uses this pair.
+P5_PREFIX='AATGATACGGCGACCACCGAGATCTACAC'
+P7_PREFIX='CAAGCAGAAGACGGCATACGAGAT'
+P5_INDEX='[i5]'
+P7_INDEX='TCGCCTTA'
+def index_parts(p5):return [Segment('sourceP5prefix' if p5 else 'sourceP7prefix',P5_PREFIX if p5 else P7_PREFIX),role('sourcei5member/physicalwidthunassigned',molecular_feature=I5) if p5 else Segment('sourcecelllibraryindex',P7_INDEX,feature=I7),Segment('sourceannealingarm',P5_ARM if p5 else P7_ARM)]
+def oligo_state(name,parts,mod5='',mod3=''):
+ sc=Scene();sc.strand(name,parts,mod5=mod5,mod3=mod3,label='sourceoligo');return sc
 
-def workflow():
-    old = _base_workflow()
-    wf = Workflow(old.initial)
-    for reaction in old.reactions:
-        if "universal connector" in reaction.action:
-            wf.ligate_adapter(reaction.action, connector_geometry(), reaction.after.rows,
-                              name=reaction.after.name, note=reaction.note)
-        else:
-            wf.react(reaction.action, reaction.after.rows,
-                     name=reaction.after.name, note=reaction.note)
-    return wf
+def mix(stage):
+ sc=Scene()
+ if stage in ('cell','bound','hybridized','joined','lysate'):
+  sc.strand('RNA',[role('originalcellularRNA; physicalU')],label='independentRNA population')
+  sc.strand('genome',[role('originalgenomicDNA')],label='independentgenome')
+  sc.strand('proteins',[role('cellular/antibodyproteins; attachmentgeometryunassigned')],label='independentprotein components; no DNA–protein concatenation')
+ if stage in ('conjugate','bound','hybridized'):
+  sc.strand('A',probe_a_parts(),mod5='antibody conjugate',label='originalA:5′azide clicked toDBCOantibody')
+  sc.strand('B',probe_b_parts(),mod5='p',mod3='antibody conjugate',label='originalB:3′azide clicked toDBCOantibody')
+ if stage in ('joined','lysate'):
+  sc.strand('reporter',[*probe_a_parts(),*probe_b_parts()],label='originalcovalentA→B singleDNA reporter; antibodycouplingretained')
+  sc.junction('reporter','A connector arm','B connector arm',text='sourceconnector-splinted nicksealed; connectornotinserted')
+ if stage in ('preamp','indexed','pooled'):
+  parts=[role('nativePCRfootprint; fullassemblybounded'),*probe_a_parts()[1:],*probe_b_parts(),role('copiedoligodTGT handle')]
+  if stage in ('indexed','pooled'):parts += [role('installedsampleindexi5; physicalwidthunassigned',molecular_feature=I5),role('installedsampleindexi7',length_bp=8,molecular_feature=I7)]
+  sc.strand('daughter',parts,label='new normalDNA reporter copies; originalazide/antibody notcopied')
+ if stage=='conjugate':sc.strand('proteins',[role('independentDBCOantibody components; DNAendcouplingnotrenderedascovalentproteinsequence')],label='antibodyconjugates')
+ if stage not in ('cell','conjugate'):sc.strand('residuals',[role('possible originalreporters/unligatedprobes/genomicDNA/RNA/antibodies/oligos andearliercopies; laterphysicalrecovery unassigned')],label='independent residualorigins; nonamplification not physicaldiscard')
+ return sc
 
-
-SPEC.workflow = workflow
-
-def prox_seq_graph(definition, final: Construct) -> ProtocolGraph:
-    """Prox-seq graph with covalent reporter and matched RNA-library branches."""
-    source = f"{definition.citation}; doi:{definition.doi}"
-    graph = ProtocolGraph(definition.title, authority=source)
-    cell = graph.input("single_cell", "single cell with surface proteins and mRNA",
-                       MaterialKind.BIOLOGICAL, state=proximity_workflow().initial, primary=True)
-    antibodies = graph.input("antibody_probe_pairs", "antibody-conjugated A/B probe pairs",
-                             MaterialKind.SELECTION)
-    probe_oligos = graph.input("probe_oligos", "Supplementary Table 10 azide-modified A/B probe oligos (DBCO click to antibodies)",
-                               MaterialKind.OLIGO)
-    bound = graph.product("probe_bound_cell", "cell with bound A/B antibody–oligo probes",
-                          MaterialKind.MOLECULAR, state=bound_state())
-    unbound = graph.product("unbound_probes", "unbound antibody–oligo probes",
-                            MaterialKind.WASTE)
-    graph.react("bind_probes", "Bind paired antibody–oligo probes to surface proteins",
-                StepKind.BINDING,
-                ((cell, InputRole.TEMPLATE), (antibodies, InputRole.SELECTION),
-                 (probe_oligos, InputRole.STRUCTURAL)), (bound, unbound))
-    graph.discard(unbound, "removed by two or three 1% BSA/PBS washes before ligation (published Methods, sample preparation)")
-    connector = graph.input("universal_connector", "universal 26-nt connector oligo (TTTCACGACACGACACGATTTAGGTC)",
-                            MaterialKind.OLIGO,
-                            state=Construct([Segment("universal connector", CONNECTOR)],
-                                            name="universal connector"))
-    hybridized = graph.product("connector_hybridized_probes",
-                               "connector-hybridized proximal probe pair",
-                               MaterialKind.MOLECULAR, state=bound.state)
-    graph.react("hybridize_connector", "Hybridize the universal connector",
-                StepKind.HYBRIDIZATION,
-                ((bound, InputRole.TEMPLATE),
-                 (connector, InputRole.STRUCTURAL)), (hybridized,))
-    ligase = graph.input("dna_ligase", "T4 DNA ligase (NEB), 130 U/ml with 1 mM rATP, 37 °C", MaterialKind.CATALYST)
-    reporter = reporter_state()
-    ligated = graph.product("ligated_reporter_cell", "cell bearing ligated PLA reporters",
-                            MaterialKind.MOLECULAR, state=reporter)
-    unligated = graph.product("unligated_probes", "unligated bound probe A and probe B oligos",
-                              MaterialKind.MOLECULAR, state=bound_state(), inferred=True)
-    graph.react("proximity_ligation", "Ligate only connector-bridged proximal probes",
-                StepKind.LIGATION,
-                ((hybridized, InputRole.TEMPLATE),
-                 (connector, InputRole.STRUCTURAL),
-                 (ligase, InputRole.CATALYST)), (ligated, unligated),
-                geometry=connector_geometry())
-    graph.mark_terminal(Terminal("unligated_probes", Disposition.UNRESOLVED,
-        "The article says unligated probes are 'automatically discarded during the library "
-        "preparation step' (JATS Results, Prox-seq design). Probe B alone still carries poly(A) "
-        "and probe A alone the U_fwd site; lack of exponential PCR and later SPRI cleanups are "
-        "not modelled as a physical separation."))
-    graph.annotate(SourceDiscrepancy(
-        "ligated_reporter_cell", "Length of the ligated PLA product",
-        (SourceClaim("Published article (PMC11289786), Results paragraph on probe design",
-                     "\"The complete PLA product spans 119 bases, with 20 of those bases "
-                     "hybridized to a connector.\""),
-         SourceClaim("Supplementary Table 10 (MOESM3 XLSX), every PLA.seq.Bead A/B pair",
-                     f"Probe A is {PROBE_A_LEN} nt and probe B {PROBE_B_LEN} nt as printed, "
-                     f"so the ligated product is {PRODUCT_LEN} nt.")),
-        f"The schematic draws the printed Table 10 sequences, so its product is {PRODUCT_LEN} nt.",
-        "The lengths are computed from the transcribed Table 10 oligos; the 20 connector-paired "
-        "bases agree with the article.",
-        "The article does not say how its 119 bases were counted (for example, a shorter "
-        "poly(A) or excluded terminal region); neither value is used for any primer landing."))
-    capture = graph.input("oligodt_capture_primer",
-                          "platform-specific oligo(dT) cell-capture primer",
-                          MaterialKind.OLIGO, inferred=True)
-    rtase = graph.input("reverse_transcriptase", "reverse transcriptase",
-                        MaterialKind.CATALYST)
-    cell_cdna = graph.product("cell_cdna", "co-captured PLA-reporter and transcript cDNA",
-                              MaterialKind.MOLECULAR,
-                              state=branches("same cell identity", (
-                                  ("PLA", (token("PLA reporter cDNA"),)),
-                                  ("RNA", (token("transcript cDNA"),)))))
-    graph.react("reverse_transcription", "Co-capture PLA reporters and cellular mRNA",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((ligated, InputRole.TEMPLATE), (capture, InputRole.STRUCTURAL),
-                 (rtase, InputRole.CATALYST)), (cell_cdna,))
-    pla_cdna = graph.product("pla_cdna", "PLA-reporter cDNA branch",
-                             MaterialKind.MOLECULAR, state=reporter)
-    expression_cdna = graph.product("expression_cdna", "matched cellular cDNA branch",
-                                    MaterialKind.MOLECULAR,
-                                    state=single("RNA branch", (token("transcript cDNA"),)))
-    graph.react("split_cdna", "Split PLA and transcriptome cDNA branches",
-                StepKind.SPLIT, ((cell_cdna, InputRole.TEMPLATE),),
-                (pla_cdna, expression_cdna))
-    polymerase = graph.input("pcr_polymerase", "library PCR polymerase",
-                             MaterialKind.CATALYST)
-    pla_forward = graph.input("pla_forward_primer", "PLA reporter PCR forward primer",
-                              MaterialKind.OLIGO)
-    pla_reverse = graph.input("pla_reverse_primer", "indexed PLA reporter PCR reverse primer",
-                              MaterialKind.OLIGO)
-    pla_library = graph.product("pla_library", "Prox-seq PLA library",
-                                MaterialKind.LIBRARY, state=final, inferred=True)
-    graph.react("pla_pcr", "PCR and index the PLA reporter branch", StepKind.PCR,
-                ((pla_cdna, InputRole.TEMPLATE), (pla_forward, InputRole.STRUCTURAL),
-                 (pla_reverse, InputRole.STRUCTURAL),
-                 (polymerase, InputRole.CATALYST)), (pla_library,),
-                geometry=PCRGeometry.unavailable(
-                    final, reason="Read/index geometry depends on the selected single-cell back end."))
-    graph.sequence(pla_library, SequencingPlan(limitation=definition.endpoint))
-    expression_forward = graph.input("expression_forward_primer",
-                                     "platform-specific expression PCR forward primer",
-                                     MaterialKind.OLIGO, inferred=True)
-    expression_reverse = graph.input("expression_reverse_primer",
-                                     "platform-specific indexed expression PCR reverse primer",
-                                     MaterialKind.OLIGO, inferred=True)
-    expression_final = custom_library("Prox-seq matched RNA library", (
-        token("cell identity"), token("transcript cDNA", length=44)))
-    expression_library = graph.product("expression_library", "matched RNA library",
-                                       MaterialKind.LIBRARY, state=expression_final,
-                                       inferred=True)
-    graph.react("expression_pcr", "PCR and index the matched RNA branch", StepKind.PCR,
-                ((expression_cdna, InputRole.TEMPLATE),
-                 (expression_forward, InputRole.STRUCTURAL),
-                 (expression_reverse, InputRole.STRUCTURAL),
-                 (polymerase, InputRole.CATALYST)), (expression_library,),
-                geometry=PCRGeometry.unavailable(
-                    expression_final,
-                    reason="The method deliberately supports Drop-seq, Smart-seq2 and 10x back ends."))
-    graph.sequence(expression_library, SequencingPlan(
-        limitation="The matched RNA endpoint follows the chosen Drop-seq, Smart-seq2 or 10x implementation."))
-    graph.declare_reviewed_scope((
-        "single_cell", "antibody_probe_pairs", "probe_oligos", "bind_probes",
-        "universal_connector", "hybridize_connector", "dna_ligase",
-        "proximity_ligation", "unligated_probes", "oligodt_capture_primer", "reverse_transcriptase",
-        "reverse_transcription", "split_cdna", "pcr_polymerase", "pla_forward_primer",
-        "pla_reverse_primer", "pla_pcr", "pla_library", "expression_forward_primer",
-        "expression_reverse_primer", "expression_pcr", "expression_library",
-    ), source)
-    return graph.require_publishable()
-
+def oligos():
+ return [f'<b>ProbeA</b>:5′-{PROBE_A_TABLE}-3′',f'<b>ProbeB</b>:5′-{PROBE_B_TABLE}-3′',f'<b>Connector</b>:5′-{CONNECTOR}-3′',f'<b>OligodTGT</b>:5′-{RT_HANDLE+"T"*30+"GT"}-3′',f'<b>U_fwd</b>:5′-{U_FWD}-3′',f'<b>SmartPLA_P5_S5XX</b>:5′-{P5_PREFIX+P5_INDEX+P5_ARM}-3′',f'<b>SmartPLA_P7_N701</b>:5′-{P7_PREFIX+P7_INDEX+P7_ARM}-3′']
 
 def protocol_graph():
-    d = DEFINITION
-    final = SPEC.FINAL_LIBRARY
-    primers = SPEC.SEQ_PRIMERS
-    key = 'prox-seq'
-    return prox_seq_graph(d, final)
-SPEC.protocol_graph = protocol_graph
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ def inp(i,l,k=M.CONDITION,state=None):return g.input(i,l,k,state=state)
+ def clean(i,l,x):
+  sel=inp(i+'_selection',l,M.SELECTION);y=g.product(i+'_out',l+' retainedfraction',M.MOLECULAR,state=x.state);w=g.product(i+'_waste','actual nonretainedsupernatant/washes',M.WASTE);g.react(i,l,K.CLEANUP,((x,I.TEMPLATE),(sel,I.SELECTION)),(y,w));g.discard(w,'Actual removedfraction; complete molecularclass depletion not presumed.');return y
+ cell=g.input('cell','non-PFAfixed Jurkat/Raji sourceplate cells',M.BIOLOGICAL,state=mix('cell'),primary=True)
+ antibodies=inp('antibodies','DBCO-conjugatedantibodies; sourceDBCO NHSreaction/50kDa cleanup; exactstoichiometryunassigned',M.MOLECULAR)
+ conjugation_conditions=inp('conjugation_conditions','source4°Covernight')
+ a=inp('probe_a','Table10probeA5′azideDNA',M.OLIGO,oligo_state('A',probe_a_parts(),mod5='azide'))
+ b=inp('probe_b','Table10probeB5′P/3′azideDNA',M.OLIGO,oligo_state('B',probe_b_parts(),mod5='p',mod3='azide'))
+ conjugates=g.product('conjugates','A/B DNAconjugatedantibodymixture',M.MOLECULAR,state=mix('conjugate'))
+ g.react('conjugate','CoupleazideDNA toDBCOantibodies;4°Covernight',K.CHEMICAL_CONVERSION,((a,I.TEMPLATE),(b,I.TEMPLATE),(antibodies,I.STRUCTURAL),(conjugation_conditions,I.CONDITION)),(conjugates,))
+ binding=inp('binding_conditions','2.5nMeachA/B;37°C60min',M.CONDITION)
+ bound=g.product('bound','probe-boundcells',M.MOLECULAR,state=mix('bound'))
+ g.react('bind','BindDNA-conjugatedantibodies',K.BINDING,((cell,I.TEMPLATE),(conjugates,I.STRUCTURAL),(binding,I.CONDITION)),(bound,))
+ washed=clean('binding_washes','Threepellet/resuspend1%BSA/PBS washes',bound)
+ connector=inp('connector','source26ntuniversalconnector',M.OLIGO,oligo_state('connector',[Segment('sourceconnector',CONNECTOR)]))
+ hybrid=g.product('hybrid','connector-associatedproximalprobes',M.MOLECULAR,state=mix('hybridized'))
+ g.react('hybridize','Hybridizetheconnector toA/B10ntarms',K.HYBRIDIZATION,((washed,I.TEMPLATE),(connector,I.STRUCTURAL)),(hybrid,))
+ ligase=inp('ligase','130U/mlT4DNAligase,HEPES/Mg/rATP;37°C3h',M.CATALYST)
+ joined=g.product('joined','covalentreporters oncells withresidualunligatedprobes',M.MOLECULAR,state=mix('joined'))
+ g.react('ligate','SealA3′OH toB5′P onconnector',K.LIGATION,((hybrid,I.TEMPLATE),(connector,I.STRUCTURAL),(ligase,I.CATALYST)),(joined,),geometry=connector_geometry())
+ joined=clean('post_ligation','Pelletandresuspend1%BSA/PBS+PI beforelivesort',joined)
+ sort=inp('sort','SinglePI-negativecell per96well;0.1%Tritonlysis/oligodTprimers/dNTPs;72°C3min',M.CONDITION)
+ lysate=g.product('lysate','actualsinglecelllysate; independentRNA/DNA/reporter populations',M.MOLECULAR,state=mix('lysate'))
+ unallocated=g.product('unallocated','unsorted/nonselectedsourcecells',M.MOLECULAR)
+ g.react('sort_lyse','Sortsinglecells andheatlysate',K.PARTITION,((joined,I.TEMPLATE),(sort,I.CONDITION)),(lysate,unallocated));g.mark_terminal(Terminal(unallocated.id,Disposition.UNRESOLVED,'Notselectedsourceallocation; not assumed physicallydestroyed.'))
+ used=g.product('preamp_aliquot','2–4µl actualmixedlysate forPLApreamp',M.MOLECULAR,state=lysate.state)
+ remainder=g.product('remaining_lysate','remainingmixedlysate; optionalSmartseq2notperformed inselectedexperiment',M.MOLECULAR,state=lysate.state)
+ aliquot_rule=inp('aliquot_rule','source2–4µl mixedlysate')
+ g.react('allocate','Takeactuallysate aliquot; no modalitypurification',K.SAMPLING,((lysate,I.TEMPLATE),(aliquot_rule,I.CONDITION)),(used,remainder));g.mark_terminal(Terminal(remainder.id,Disposition.UNRESOLVED,'Paper saysplateexperiment didnotmeasuremRNA; possible optionalroute is not an observedlibrary.'))
+ f=inp('u_fwd','0.1µMU_fwd',M.OLIGO,oligo_state('U_fwd',[Segment('U_fwd',U_FWD)]))
+ r=inp('dtgt','0.1µMoligodTGT',M.OLIGO,oligo_state('oligodTGT',[Segment('handle',RT_HANDLE),Segment('dT30','T'*30),Segment('GT','GT')]))
+ pol=inp('kapa','KAPAHiFiHotStartReadymix',M.CATALYST)
+ pre=g.product('preamp','newreporterDNA pluspossibleoriginals',M.MOLECULAR,state=mix('preamp'))
+ g.react('preamp_pcr','DirectDNApreamp:5cycles55°C+17cycles67°C;noRT inselectedplatepath',K.PCR,((used,I.TEMPLATE),(f,I.STRUCTURAL),(r,I.STRUCTURAL),(pol,I.CATALYST)),(pre,),geometry=PCRGeometry.unavailable(used.state,reason='Actualmixedlysatecontains single-strandcovalentA–Breporter; sequentialfirstcopy/fullprimergeometry bounded.'))
+ pre=clean('preamp_cleanup','1.8×AMPurepreampcleanup',pre)
+ i5=inp('index_i5','SmartPLA_P5_S5XX;Table8nativei5family;member/physicalwidthunassigned',M.OLIGO,oligo_state('i5',index_parts(True)))
+ i7=inp('index_i7','SmartPLA_P7_N7XX;Table9N701example',M.OLIGO,oligo_state('i7',index_parts(False)))
+ indexed=g.product('indexed','newduallyindexedPLAcopies pluspossibleoriginals',M.MOLECULAR,state=mix('indexed'))
+ g.react('index_pcr','2µlpreampinput;12cycles67°C indexedPCR',K.PCR,((pre,I.TEMPLATE),(i5,I.STRUCTURAL),(i7,I.STRUCTURAL),(pol,I.CATALYST)),(indexed,),geometry=PCRGeometry.unavailable(pre.state,reason='Actualrecoveredpreamp molecules; no finalendpointtemplate shortcut.'))
+ indexed=clean('indexed_cleanup','1.8×AMPureindexedcleanup',indexed)
+ pool=inp('other_indexed_wells','independentotherwellsnormalizedequimolar',M.MOLECULAR,mix('indexed'))
+ library=g.product('library','physicalequimolarpooledplatePLAlibrary',M.LIBRARY,state=mix('pooled'))
+ g.react('pool','Normalizeandpoolequimolarwelllibraries',K.POOL,((indexed,I.TEMPLATE),(pool,I.TEMPLATE)),(library,),changes_molecule=False)
+ g.sequence(library,SequencingPlan(read_lengths={'Read 1':75,'Index 1 (i7)':8,'Index 2 (i5)':8},acquired_roles=('Read 1','Index 1 (i7)','Index 2 (i5)'),limitation=SEQUENCING_ENDING+' Fullnativeendassembly/customprimerlandings bounded.'))
+ g.declare_reviewed_scope(REVIEWED,SOURCE)
+ return g.require_publishable()
+REVIEWED=('aliquot_rule','conjugation_conditions','cell','antibodies','probe_a','probe_b','conjugate','binding_conditions','bind','binding_washes_selection','binding_washes','connector','hybridize','ligase','ligate','post_ligation_selection','post_ligation','sort','sort_lyse','allocate','u_fwd','dtgt','kapa','preamp_pcr','preamp_cleanup_selection','preamp_cleanup','index_i5','index_i7','index_pcr','indexed_cleanup_selection','indexed_cleanup','other_indexed_wells','pool','library')

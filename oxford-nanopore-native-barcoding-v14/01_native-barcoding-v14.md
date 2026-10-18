@@ -21,7 +21,7 @@ revision read on 2026-10-17).
 
 🟢 FFPE repair and Ultra II end prep run together for 5 min at 20 °C and 5 min at
 65 °C, yielding dA-tailed duplexes (400 ng per sample for more than four barcodes,
-1000 ng for four or fewer; optional DNA Control Sample). Each reaction is cleaned with
+1000 ng for four or fewer; DNA Control Sample listed in the selected recipe). Each reaction is cleaned with
 15 µl AMPure XP and 80% ethanol washes, eluted in water and quantified, and an
 **equimolar mass of each sample** is taken into barcode ligation. A unique Native Barcode
 is ligated to each sample with NEB Blunt/TA Ligase Master Mix for 20 min at room
@@ -49,23 +49,37 @@ published bottom strand is `ACGTAACTGAACGAAGTACAGG`.
 extra level of context during analysis”: forward `5′-AAGGTTAA-barcode-CAGCACCT-3′`,
 reverse `5′-GGTGCTG-barcode-TTAACCTTAGCAAT-3′`.
 
-🟡 Derived (computed in `native_barcoding.py`, which raises if the relations fail): the
-reverse 5′ flank is the reverse complement of the forward 3′ flank without its final T,
-so that T is drawn as the single dT tail ligated to the insert dA. The published Native
-Adapter bottom strand pairs with the first 22 bases of the top strand, leaving a 6-nt
-3′ overhang `ATTGCT`; the reverse barcode flank extends six bases beyond the forward
-5′ flank and ends in its complement `AGCAAT`. This is drawn as the cohesive hook. ONT
-presents the flanks as analysis context and does not publish a barcode-adapter oligo
-inventory, so the strand placement, dT split and hook pairing remain model derivations;
-the hook geometry is still declared unavailable.
-
-🔴 The complete motor assembly, motor attachment chemistry and the exact strand carried
-into the pore are not published in the inspected sources. The schematic keeps a role
-token for the motor assembly.
+🟡 Historical candidate: the source analysis flanks and shorter Native Adapter
+bottom can be aligned into a possible dT-tail and six-base hook. The native graph
+no longer asserts this candidate as the physical barcode-adapter inventory. The
+source-positive dT tail and cohesive-hook operation remain explicit, while the
+complete native strand architecture remains unassigned. Motor association and
+strand-entry polarity remain unverified in this bounded scope.
 
 ## 4. Read structure
 
 🟢 Nanopore sequencing is motor-controlled translocation rather than primer extension.
 The barcode lies adjacent to the genomic insert and is recognized in the raw read for
-demultiplexing. The drawing shows one productive pore-entry orientation; molecules can
-carry barcode adapters at both insert ends.
+demultiplexing. The graph leaves strand-entry polarity unassigned; molecules can carry barcode
+adapters at both insert ends.
+
+## Native graph scope, 2026-10-18
+
+Native graph migration (2026-10-18): the selected genomic-DNA recipe includes its
+listed DCS control as a distinct DNA population. Native barcode identities and
+analysis-context flanks are local declarations. The published Native Adapter DNA
+strands are paired computationally, while the complete barcode-adapter assembly
+and hook alignment remain unassigned. The former flank-based assembly is a
+historical candidate, not native established geometry. The graph retains the
+source-known dT/dA ligation and later cohesive-hook operation, with separate pooled
+sample/control populations and unplaced barcode features. Unallocated end-prepped
+material has unresolved physical fate; it is not labelled waste just because it
+was not sampled. Native motor association is not a covalent DNA segment and does
+not assign strand-entry polarity. Barcode length is distinct from molecule-dependent
+read acquisition. This is not a complete source review or an accepted absence claim.
+
+Independent implementation review retained unligated/partly adapted molecular
+classes and unresolved later bead recovery; ligation does not establish complete
+adaptation or physical purity.
+This code review read no additional originals and does not count as an independent
+second source-reading pass.

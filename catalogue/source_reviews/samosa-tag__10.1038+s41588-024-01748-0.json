@@ -129,6 +129,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/7 unresolved/0 contradictory; source guard 1 exact checked (SMRT-A_bc001), 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch10-native-graph-migration",
+      "reviewer": "native_longread_implementation",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "PublishedPMC11176058 Results/Fig1 source9ntgaps andMethods adapterannealing/loading, SMRT-Tagrepair, nuclei/SAMOSAfootprinting/in-situ/ex-situ, DNAQC/SequelIIsequencing paragraphs180–249; originalSupplementTable5MOESM7 sheetSupp_Table_5 bc001/full5P hairpin (md5 c52f795d4db19db8d77f558361c20590); publishedMOESM1 identity and SupplementFig1/2 repair/size captions365–374.",
+      "oligo_scraper": "Mandatory source-bundle scraper: Fiber4hits/2files, SAMOSA53hits/2files, ScISOr2hits/1file; relevant original passages and modified oligos verified, no absence inference.",
+      "findings": "The graph selects in-situ cell-line SAMOSA-Tag. A separate no-EcoGII control allocation is reserved before marking; it retains any native DNA modifications and is not assumed chemically unmethylated. EcoGII250U/37°C30min and source SAM replenishment mark accessible adenines on original genomic strands without assigning a fixed methylation pattern. The source pellet/resuspension/filter and a real10,000–50,000-nucleus tagmentation allocation are explicit; unallocated nuclei are not discarded merely by sampling.\n\nSupplementaryTable5's representative SMRT-A_bc001 is a5′phosphorylated single DNA hairpin oligo. Its complete sequence is source-transcription tested; its27bp reverse-complementary stem is checked by HairpinTopology, and its logical8base sample barcode survives both hairpin arms and the native final component inventory. The adapter substrate is distinct from a completed SMRTbell template. Source hairpin-loaded Tn5 transposition leaves9nt gaps; the graph does not claim transposition alone closes a genomic circuit.\n\nSource RNaseA37°C15min and ProteinaseK/SDS/EDTA60°C1–2h precede a2XSPRI recovery and a separate0.6XSPRI enrichment for>500bp. Coupled Phusion-HF/normal dNTP gap filling and TaqDNA-ligase nick sealing at37°C1h are separately explicit chemical transformations within the same source reaction. Short normal-DNA repair patches are distinct from both original methylated genomic strands; no whole-genome PCR replacement is introduced. Incomplete closure classes retain unresolved actual recovery. A separate2XSPRI recovery precedes ExoIII37°C1h; ExoIII hydrolysates/possible surviving open templates remain molecular classes until a final separate2XSPRI cleanup. Failure to close or amplify never itself physically discards a molecule.\n\nThe final scene inventories components of the source-known candidate closed native template, preserving both original strands, integrated hairpin features and short repair-DNA class. Exact oriented genomic/hairpin junction sequence, per-strand methylation positions and sequencing-primer binding polarity remain unassigned. SourceSequelII8MSMRTcells,30h movies/2h pre-extension/4h immobilization and size-dependent polymerase2.1/2.2 are distinguished from barcode width and short-read cycles. No new claim that sequencing-primer sequence is proprietary/absent follows this capped pass. Ex-situ/PDX, optional high/low-size selections and all other adapter members are separate experiments.",
+      "deferred": [
+        "Exact native genomic/hairpin junction orientation and original-vs-repair patch coordinates",
+        "Full native sequencing-primer/polymerase binding geometry",
+        "Ex-situ/PDX and optional size-selected/control preparation variants",
+        "Actual species-specific recovery of incomplete circles/hydrolysates"
+      ],
+      "scope": "Capped originals/source-owned native graph pass for selected experiments only; historical source statuses and absence gate preserved.",
+      "verification": "Focused suites3/1/3/pages pass; chemistry65steps0contradictions71unresolved; sourceguard7checked0failed3unassigned; pairing0; notesbuild/review schema/staticOUTdiscovery/scoped diffcheck pass. Independent code-only peer review fixed premature ScISOr probe presence and retained possible open SAMOSA DNA in actual mixed ExoIII input; affected pages/chemistry/pairing rechecked. Zero source additions during peer corrections."
+    },
+    {
+      "round": "2026-10-18-batch10-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Read samosa_tag.py original/control allocations; source5P hairpin/barcode folding; transposition/gaps; originalmarked DNA versus unmodified repair patches; coupledfill/seal; recovery/ExoIII/final library populations.",
+      "findings": "Found possibleopen/nicked DNA branched away from actualrepairSPRI/ExoIII input. Owner corrected closed-candidate mixed state to carry possibleopen/nicked classes through actualrecovery into ExoIII; hydrolysates/survivors remain unresolved until physicalrecoveries. Verified corrected state. Physical8ntbarcode does not assign short-read index acquisition.",
+      "deferred": [
+        "Exact original-to-repair coordinates, markpositions, native sequencing-primer/circuit polarity remain bounded.",
+        "Existing3-original sourcepass not re-read; no sourceabsence conclusion."
+      ],
+      "scope": "Code-only independent implementation review of existing owner sourcepass; no originals opened or source breadth expanded. Historical status and absence gates unchanged.",
+      "verification": "Re-read corrected code; all3chemistry audits65steps/71unresolved/0contradictory; renderedpages pairing0. Owner reports source suites3/1/3, builds, sourceguard7exact/0failed/3unassigned and schema pass."
     }
   ]
 }

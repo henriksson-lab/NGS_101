@@ -339,6 +339,35 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    },
+    {
+      "round": "2026-10-18-batch08-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Defining published PMC4618392 JATS Methods ChEC and Library preparation/sequencing129–143; published SI opening FigS1 digestion caption/table inventory; Orsi2015 PMC4410783 BasicProtocol3 sourceoligos812–832 and steps4–39/text950–1205. Mandatory scraper adapter/PCR hits checked directly in the Orsi original.",
+      "oligo_scraper": "Mandatory scraper run on each complete cached bundle; relevant Orsi oligo/modification hits verified against original text. NicE no-hit is not absence; large metadata/workbooks not scanned remain outside chemistry decisions.",
+      "findings": "Native graph now separates cellDNA/RNA/protein and recoverycarrier populations; organicextraction→ethanol/GlycoBlue→RNase→2.5negativeSPRI supernatant→required secondextraction/precipitation explicit. Defining2011/2013 cited library methods remain bounded before actualKAPAPCR; laterOrsi exactreagents/PCRprimers are a separate source reference, not historical native assignments. Actual native prepared substrate and residualRNA/carrier/originaltemplates retained; no amplified endpoint as PCRinput. DefiningPE25 known, nativeindexcycles/width unknown, no source6physical-index acquisition default.",
+      "deferred": [
+        "Cited2011/2013 detailed native library implementations and historical adapter/primer identities",
+        "Native first-cycle strand geometry and final purification",
+        "Component-specific recovery of RNAhydrolysates/carrier/templates; earlier corrigendum/source obligations remain historical"
+      ],
+      "scope": "Capped3-original native migration source pass; no historical review-status upgrade or missing-information acceptance.",
+      "verification": "Local suites2/2/5 and pagebuilds pass; sourceguard0checked0failed5unassigned; chemistry0contradictions; independent critical implementation review and parent integration pending."
+    },
+    {
+      "round": "2026-10-18-batch08-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Independent code-only review of tools/chem.py: orsi_adapter_scene/TOPOLOGY_PANELS, native_library_state, source extraction/RNase/negative-SPRI/recovery order, native_prepare/native_pcr/source discrepancy/read declarations.",
+      "findings": "Confirmed later Orsi exact adapter oligos are a separate reference, not native2015ligation/index assignment. Source-known ChEC recovery order is explicit before bounded unread cited-method preparation. Actual native precursor enters PCR, original templates/carrier have unresolved independent fate. Reviewed retained carrier and RNAhydrolysates through negativeSPRI/re-extraction/nativeboundary/PCR; RNA residual row confirmed in current precursor/daughter/original states. Native25PE separate from unassigned index geometry/acquisition. Historical published corrections remain public. No remaining concrete implementation defect found within this scope.",
+      "deferred": [
+        "Original-source reinspection and existing source-specific native oligo/kit/revision assignments remain outside this implementation-only review."
+      ],
+      "scope": "Independent implementation-only critical review using released protocol declarations and parent-supplied frozen source scope. No original documents inspected; automated source suites/guards run. Does not supply an independent original-source absence pass, change historical status, or accept missing-information claims.",
+      "verification": "Source suites2pass; pagebuild; chemistry11steps0contradictions (explicitunreadnativeboundary); pairing0; guard0exact0failed5unassigned across3; diffcheckpass."
     }
   ]
 }

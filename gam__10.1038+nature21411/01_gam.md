@@ -81,3 +81,11 @@ page this pass (manual row) and was not re-read.
 - Open: TruSeq DNA HT/Nano normally fragment input; the Methods still state that each
   library carries 30 bp WGA adaptors at both ends. The model follows that statement.
 - Deferred: WGA4 kit technical bulletin; ref. 38 predecessor protocol (Baslan et al., Nat Protoc 2012, doi:10.1038/nprot.2012.039); GEO GSE64881.
+
+## Batch02 native-graph migration (2026-10-18)
+
+The native local graph now selects the original TruSeq DNA HT route. Its Pippin300–500nt selection is distinct from the alternative Nano350nt bead-selection branch. WGA PCR receives actual WGA4-prepared independent profile regions; it no longer receives a completed sequencing library. WGA MinElute recovery is explicit, followed by an unresolved manufacturer library-preparation boundary and the known HT Pippin selection. Native HT end processing/PCR/adapter geometry is not filled by a generic TruSeq shell.
+
+The source30bp WGA4 adapter extents remain, but their bases and physical primer species are unassigned. Genomic molecular extent is no longer set to a30kb analysis-bin size. Profile regions remain separate molecular rows; no contact junction is created. The source Table1 provides8base HT NP index metadata, represented as an inventory with unknown native placement, not as an acquired8cycle index run. The source100bp single-end statement and first30 dark cycles retain their unresolved relationship, rather than assuming70 or100 imaged genomic bases. Other section/profile material has unresolved later disposition instead of an unsupported physical discard. The published positive-control species discrepancy remains visible.
+
+This capped pass read two originals: published PMC5366070 JATS Methods183–197 (WGA4, MinElute, HT/Nano alternatives, pooling and dark cycles) and published SupplementaryTable1 NP/library/index columns. Mandatory bundle scraper ran; the large derived Table2 was not scanned or used. WGA native oligos/attachment chemistry, exact HT end processing/PCR and dark-cycle recipe remain deferred. Earlier evidence supports the retained nuclear-profile sampling/control labels; it was not comprehensively re-read. No publication-absence claim is accepted.

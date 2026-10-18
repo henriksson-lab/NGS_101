@@ -123,6 +123,36 @@
       ],
       "scope": "Second-reader re-adjudication of the preprint and published_successor rows; no accepted missing-information claim.",
       "verification": "audit_protocol_sources --check passes"
+    },
+    {
+      "round": "2026-10-18-batch04-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "PublishedPMC9907105 Methods195–251,SequenceProcessing257–259,Fig1D/Results109–121; publishedSIcontents/FigsS1–S10/TablesS1–S3 performance/headings165–276. Mandatoryscraper0hits (notabsence).",
+      "findings": "OriginalNextera and automatedTruePrep nativegraphs separated. ActualRNA/ssDNA/loopingPCRprecursors, identifierlineage, native taggedPCRinputs and unresolvedcarriedspecies retained. Removeddefault8nt/P7/canonicalkitends/exactprimers. Automatedunnamedformulations notinheritedfromoriginal; source15+5 distinctfromoriginal10looping+printedPCR+5. Positiveautomated2×150 retained, original/indexacquisitionunassigned.",
+      "deferred": [
+        "Citedautomatedprotocolref33 unresolvedidentity",
+        "Exactmodifiedprimerstrands/internalorder/nativekitend/PCR/readsites",
+        "Originalrunlayout andboth indexacquisitions; automatedcleanupscope"
+      ],
+      "scope": "Capped native-architecture/source correction only; not complete chemistry or acceptedabsence.",
+      "verification": "Parent affected suite/page/scopedchemistry/sourceguard/review schema pass; pairing0. RamDA suite2 source-transcription checks; RChip/MALBAC suites contain0 explicit tests (construction exercised by page/chemistry). No entirechemistry proof."
+    },
+    {
+      "round": "2026-10-18-batch04-independent-critical-implementation-review",
+      "reviewer": "migration_peer",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Currentnativegraph declarations andquotedsource scopes; no originals reread.",
+      "findings": "Independent review identified RNA lost at Tn5handoff. Parent retained RNA and explicitunresolved carriedspecies afterPCR. Recheck confirmed corrected populations, actualprecursors/identifierlineage, distinctpublishedsourcevariants and unassigned automatedformulations. Originallooping and subsequentPCR are now distinct typedsteps.",
+      "deferred": [
+        "Citedautomatedprotocolref33 unresolvedidentity",
+        "Exactmodifiedprimerstrands/internalorder/nativekitend/PCR/readsites",
+        "Originalrunlayout andboth indexacquisitions; automatedcleanupscope"
+      ],
+      "scope": "Implementation-only review; no secondoriginal-source read or absenceacceptance.",
+      "verification": "Peer re-inspected corrected implementation; 0 additional originals. Parent focused suite/page/chemistry/sourceguard/schema pass; pagepairing0problems."
     }
   ]
 }

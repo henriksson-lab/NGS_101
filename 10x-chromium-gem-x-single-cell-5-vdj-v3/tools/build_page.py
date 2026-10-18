@@ -46,9 +46,9 @@ def render() -> str:
     amplicon = C.vdj_amplicon()
     lib = C.final_library()
     graph = protocol_graph()
-    cdna = Workflow(MolecularState("Amplification-ready full-length cDNA",
-                                  tuple(duplex_rows(C.cdna_template()))))
-    cdna.pcr("Amplify full-length cDNA", C.cdna_pcr(),
+    cdna = Workflow(MolecularState("Template-switched first-strand cDNA",
+                                  tuple(graph.materials["switched"].state.rows())))
+    cdna.pcr("Amplify full-length cDNA", graph.steps["cdna_pcr"].geometry,
              duplex_rows(C.cdna_template()), name="amplified full-length cDNA")
     nested = Workflow(MolecularState("Full-length cDNA selected for V(D)J enrichment",
                                      tuple(duplex_rows(C.vdj_template()))))
@@ -84,9 +84,12 @@ def render() -> str:
         panel(C.template_switch_scene().rows(), cls="long",
               caption="The GEM-X TSO installs the cell barcode, 12-base UMI and Read 1 handle."),
         '<h3>(2) Amplify full-length cDNA</h3>',
-        workflow_panel(cdna, caption="cDNA amplification primer binding and product"),
+        workflow_panel(cdna, caption="cDNA amplification: incoming single strand and declared duplex product; "
+                       "RT Primer B-derived binding end remains unassigned"),
         info('CG000734 Rev A names cDNA Primers PN-2000089, the same part as v2; the '
-             'drawn primer sequences are printed under that PN in CG000331 Rev E Appendix p.72.'),
+             'drawn primer sequences are printed under that PN in CG000331 Rev E Appendix p.72. '
+             'Their identity does not establish the unassigned Primer B-derived reverse binding site; '
+             'the expected amplified duplex is not used as proof of its own pre-PCR geometry.'),
         '<h3>(3) Enrich V(D)J with outer and inner constant-region pools</h3>',
         workflow_panel(nested, caption="Nested V(D)J PCR primer binding and products"),
         info('The v3 guide names the v2-labelled enrichment mixes by part number and its '

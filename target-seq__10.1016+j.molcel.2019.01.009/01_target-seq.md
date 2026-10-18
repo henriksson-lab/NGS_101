@@ -1,5 +1,22 @@
 # TARGET-seq — research notes
 
+## Active native migration, 2026-10-18
+
+Selected full-length96well HSPC route. Native oligo(dT)-ISPCR, sample-specific mRNA primers and SMARTScribe produce actual ss cDNA; the physical TSO ends rGrG+G (RNA/RNA/LNA), while its copied cDNA is normal DNA. Native genomic DNA, endogenous/ERCC RNA and separate target cDNA populations remain explicit. SeqAmp22cycle preamp receives actual mixed originals/copies with ISPCR and target primer pairs; its product is not a final Illumina construct.
+
+Mixed physical allocations feed transcriptome and genotype preparation; they are not molecule-type purification. The detailed protocol uses14µl plus11µlwater and16µlbeads labelled0.6X, whereas STARMethods gives15µl. The graph selects the detailed14µl route and leaves the published difference visible. Two EtOH washes,8µlEB elution/7.5µl transfer precede700pg ATM55°C6min, NT and explicit initial72°C3min extension. Actual partial native strands enter NPM14cycle PCR; no9base gap size is asserted. Source postPCR dilution/beads/twoEtOH/elution/transfer and equimolar pooling are explicit. The KeyResources v2SetA/C versus detailedStep25FC-131-1001 index-kit difference stays public; no canonical8base width or executed transcriptome index length is assigned. The source biological run is75nt single-end.
+
+The independent1.5µl unpurified genotype aliquot undergoes dilution and CS1/CS2-tailed targetPCR1 (20cycles), an actual2.5µl aliquot enters AccessArray PCR2 (10cycles), and unallocatedPCR1 remains unresolved. Only after the source10base single-direction cell barcode is attached are other cell products pooled and0.8X purified. Ordered AccessArray strands/barcode side are unassigned. MiSeq acquired151/10/151 and four source LNA-modified custom sequencing primers are distinct from unmodified CS1/CS2 PCRtags. Target selection and computational QC do not destroy original/RNA/nonproductive products; their actual physical recovery is unresolved.
+
+The exact57nt oligo(dT)-ISPCR is independently source-tested against the original lowercase KeyResources string. The bundle oligo guard cannot match that extraction and is narrowly exempted; no absence conclusion follows. The separate3′-TARGET/K562/cell-line recipes remain outside this selected native graph.
+
+This bounded pass read 3 originals and reran the mandatory bundle primer scraper. Original/source identity was checked in the external manifest. Historical review status and the two-reader missing-information gate are unchanged.
+
+## Historical observations
+
+The earlier observations below retain their original review scope; current source-owned declarations above replace earlier canonical endpoint and recipe defaults.
+
+
 Defining source: Rodriguez-Meira *et al.*, *Molecular Cell* (2019), [10.1016/j.molcel.2019.01.009](https://doi.org/10.1016/j.molcel.2019.01.009) ([open full text](https://pmc.ncbi.nlm.nih.gov/articles/PMC6436961/)). Detailed implementation: Rodriguez-Meira *et al.*, *STAR Protocols* (2020), [10.1016/j.xpro.2020.100125](https://doi.org/10.1016/j.xpro.2020.100125).
 
 ## 1. What it is

@@ -83,6 +83,35 @@
       ],
       "scope": "Capped vendor-manual pass on revision v00 only; no new missing-information claim.",
       "verification": "local suite 5/5 pass; page builds; pairing 0 problems; chemistry 7 steps, established=1/conditional=7/unresolved=7/contradictory=0; source guard 0 exact checked, 0 failed, 1 input without exact state (purchased index adapter); Markdown built/checked; review schema (audit --check) pass, status reviewed"
+    },
+    {
+      "round": "2026-10-18-batch07-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "oligo_scraper": "Mandatory bundle scraper run; relevant source arm/adapter hits verified in named original Methods or v22 CD sections. No-hit does not establish absence.",
+      "scope": "Capped native migration/source pass only; no accepted missing-information claim or historical status upgrade.",
+      "verification": "Native page and source-transcription suite pass; focused scoped chemistry/source guards/review schema and independent implementation review pending.",
+      "documents": 2,
+      "locations": "v00 printed title; end repair817–840, two-sided selection1020–1126, dA1127–1152, ligation/STL1385–1480, two postligation recoveries1478–1525, qPCR1526–1540; v22 CD adapter arms/D701/D501 tables21090–21230. Targeted v00 end-repair control description2123–2168 confirms source ERP2/ERP3 5′ phosphorylation already represented by the model.",
+      "findings": "Local canonical-component CD arms and computed antiparallel stem replace truseq_full_length_adapter/_truseq_pcr_free_final recipes. Sealed product retains two actual forked strands, four explicit junctions and dA/dT pairing, not a manufactured full duplex. STL separate; both postligation SPB bindings/washes/elutions explicit. Physical8bp index features assigned only to explicitly selected later v22 CD reference; 2017lot, chosenwell and acquiredcycles unassigned. No libraryPCR; analyticalqPCR not amplification. Source-noted nonclustering ligation products remain molecular with unresolved SPB recovery; qPCR is analytical, not physical selection.",
+      "deferred": [
+        "2017 purchased adapter lot versus explicitly selected later v22 reference",
+        "Sample well and executed run/flow-cell-copy geometry",
+        "Source-specific recovery of nonclustering molecules"
+      ]
+    },
+    {
+      "round": "2026-10-18-batch07-independent-implementation-review",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "truseq-dna-pcr-free/tools/chem.py native fork assembly and graph; independent worker handoff.",
+      "findings": "Universal3T-to-insert5′ and insert3A-to-indexed-arm junctions checked on both physical strands. Scene pairing retains forked platform tails; no manufactured complete duplex or PCR. v22 CD reference and physical8index information qualified separately from v00 workflow, unknown2017lot and run. Indexed-strand5P unassigned rather than invented. No critical defect found.",
+      "deferred": [
+        "Root notes/source tests and final checks remained pending at review time."
+      ],
+      "scope": "Independent implementation-only critical review; no original-source reread or source-status upgrade.",
+      "verification": "Parent source suite2/page/chemistry0contradictory/sourceguard2pass after review."
     }
   ]
 }

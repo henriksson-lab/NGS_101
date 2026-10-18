@@ -283,6 +283,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 oligo inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-migration-10",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC10696879 Methods169–197 and Sequencing247–271; original published Additionalfile2 Supp_Table4 779–804; article-linked protocols.io two-level original printedID87966 created18Sep2023 modified4Oct2023 pp3–4 capture andstep8 gel.",
+      "oligo_scraper": "Mandatory source-bundle scraper run before decisions; published original hits verified in the listed source sections. Superseded preprint and later-version source hits do not establish this branch.",
+      "findings": "Native18-step selected two-level graph; independent hash/genomic populations, actual capture-extension/gapped PCR input, original nineLNA positions vs ordinaryDNA daughters, realwellallocation andphysicalgelpartition, fullsource darkcycle recipes andpubliccapture/gel/hash-read discrepancies retained. Canonical completedkit shells removed.",
+      "deferred": [
+        "Three-level sciPlex-ATAC3 branch",
+        "sciPlex-RNA andsci-ATAC/indexedTn5 citedpredecessors",
+        "Sample-specific indexedPCR primers andnativeVN/gapcompletion",
+        "Published hashR1/I2 barcode assignment andsampleLNA/gelvariant"
+      ],
+      "scope": "Capped source-positive architecture migration only; not a complete chemistry review or a second independent original-source absence pass.",
+      "verification": "Parent focused source suite (8 checks), page build, scoped chemistry, source guard and review schema pass. Independent code-only peer review recorded separately; source/absence status unchanged."
+    },
+    {
+      "round": "2026-10-18-batch10-native-independent-implementation-review",
+      "reviewer": "independent_native_review",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Released protocol-owned tools/chem.py native declarations/graphs, source-bounded owner notes/records and focused source-transcription suites; code-only review, no original-source reread.",
+      "findings": "sciPlex graph preserves independent hashDNA/genomicDNA classes, native LNA-bearing capture originals and ordinaryDNA copied populations. Native capture-extended/gapped mixtures feed PCR; expected final canonical shells do not substitute for the input. Actual firstwell/PCRwell allocations, independent hash/ATAC gel fractions and identifier lineage remain explicit. N5/N7 feature windows internally terminate immediately before their customR1/R2 sites. Published/linked source differences and disputed hash-cycle barcode assignment remain qualified; dark cycles are distinct from acquired bases and physical barcode widths. No remaining concrete critical defect found in the reviewed implementation scope; molecular hydrolysis/nonamplification/computational filters are not asserted as physical discard. No new originals were inspected.",
+      "deferred": [
+        "Unassigned native complete primer/early-cycle/strand geometry and actual sample-specific members remain owner-qualified",
+        "Independent source-absence gate and original status unchanged"
+      ],
+      "scope": "Independent implementation-only critical peer review; zero new originals and no missing-information/status upgrade.",
+      "verification": "Focused source suites8/8/8 pass; all3pages rebuilt; chemistry93steps22established26conditional104unresolved0contradictions; pairing0; sourceguard31checked0failed9unassigned; staticOUTdiscovery passes. Review schema checked after append. No concurrent docs build."
     }
   ]
 }

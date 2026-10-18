@@ -1,12 +1,25 @@
 """Protocol-owned source, molecular workflow and reaction graph."""
 from chemdraw import Construct, Segment
-from adapter_ligation import AdapterLigationGeometry
+from types import SimpleNamespace
+from chemdraw import Construct, Scene, Segment, feature
 from pcr import PCRGeometry
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
-from protocol_model import chain, molecule, role, role_library
-from extended_protocols import (Definition, CELL, UMI, SAMPLE, TARGET, GUIDE, RT_WELL, LIG_WELL, PCR_WELL, _finish_pcr, _rt_then_pcr)
+from protocol_model import molecule, role
 
-DEFINITION = Definition('sc-end5-seq', '10.1101/2021.04.04.438388', 'Moody et al., bioRxiv (2021)', 'Oligo(dT) or random priming followed by 10x template switching retains nucleotide-resolution RNA 5′ ends with cell barcodes and UMIs.', "The insert's genomic 5′ boundary reports a candidate transcription start site; cell barcode and UMI support single-cell counting.", '01_sc_end5_seq.html')
+DEFINITION = SimpleNamespace(
+    title='sc-end5-seq',
+    doi='10.1101/2021.04.04.438388',
+    citation='Moody et al., bioRxiv (2021)',
+    summary='Oligo(dT) or random priming followed by 10x template switching retains nucleotide-resolution RNA 5′ ends with cell barcodes and UMIs.',
+    endpoint="The insert's genomic 5′ boundary reports a candidate transcription start site; cell barcode and UMI support single-cell counting.",
+    notes='01_sc_end5_seq.html',
+)
+CELL = role("cell barcode; original bead implementation unassigned", tag="cbc",
+            molecular_feature=feature("scend5_cell", "cell_barcode", "unknown"))
+UMI = role("UMI; original bead implementation unassigned", tag="umi",
+           molecular_feature=feature("scend5_umi", "umi", "unknown"))
+SAMPLE = role("i7 sample index; selected well and length unassigned", tag="cbc",
+              molecular_feature=feature("scend5_i7", "sample_index", "unknown"))
 PAYLOAD = (CELL, UMI, role("RNA 5-prime insert"))
 
 TITLE = DEFINITION.title
@@ -29,27 +42,15 @@ CAVEAT = ("The preprint prints both sc-end5 RT primers. Its nearby ACATrGrGrG "
           "delegated to the kit guide and drawn as an unresolved boundary. A later 10x CG000086 Rev K guide gives same-kit bead architecture, "
           "but the experiment's exact kit revision and chosen i7 well are unresolved. "
           "The reported run used 75-base paired reads on a HiSeq 2500.")
-FINAL_LIBRARY = role_library(TITLE + " final library roles", PAYLOAD, index=SAMPLE)
+FINAL_LIBRARY = Construct([role("5′ kit library end; implementation unassigned"), *PAYLOAD,
+                           SAMPLE, role("i7-primer-derived opposite library end")],
+                          name="sc-end5 source-limited kit endpoint")
 SEQ_PRIMERS = ()
 FINAL_CAPTION = DEFINITION.endpoint
 SEQUENCING_INTRO = DEFINITION.endpoint
-READ_LENGTHS = None
+READ_LENGTHS = {"Read 1": 75, "Read 2": 75}
 SEQUENCING_ENDING = DEFINITION.endpoint
 SEQUENCING_UNAVAILABLE = "The original kit revision and selected i7 well are not identified by the preprint. The later guide's primer placement is a comparator, not proof of the experiment's exact run."
-
-def workflow():
-    return chain(molecule("single-cell RNA in a 10x droplet", (role("poly(A) and non-poly(A) RNA"),)), (
-        ("Prime first-strand synthesis with oligo(dT) or random hexamers",
-         molecule("nascent first strand", (role("transcript cDNA"),)),
-         "sc-end5-dT and sc-end5-rand are explicit priming variants of the named method."),
-        ("Template-switch at the RNA 5′ end onto the gel-bead oligo",
-         molecule("5-prime-end cDNA", (CELL, UMI, role("template-switch junction"), role("transcript cDNA"))),
-         "Barcode and UMI become associated with a nucleotide-resolution transcript 5′ end."),
-        ("Amplify and make the sequencing library",
-         molecule("sc-end5-seq library", (CELL, UMI, role("RNA 5-prime insert"), SAMPLE)),
-         "The genomic end of the insert reports a candidate transcription start site."),
-    ))
-
 
 def oligos():
     return (
@@ -128,22 +129,20 @@ def protocol_graph() -> ProtocolGraph:
                     ((switched, InputRole.TEMPLATE), (cdna_primers, InputRole.STRUCTURAL),
                      (cdna_primers_rt, InputRole.STRUCTURAL), (cdna_polymerase, InputRole.CATALYST)), (amplified,),
                     geometry=PCRGeometry.unavailable(
-                        switched.state,
-                        reason="The preprint names the kit cDNA primer mix but prints neither its bases nor its binding sites."))
-        prepared = graph.product(
-            prefix + "_adapter_ready", label + " kit-processed library precursor",
-            MaterialKind.MOLECULAR,
-            state=molecule("kit-processed library precursor", (
-                CELL, UMI, role("RNA 5-prime insert"))))
-        graph.react(prefix + "_kit_steps", "Standard kit library steps after cDNA amplification",
-                    StepKind.MAGIC, ((amplified, InputRole.TEMPLATE),), (prepared,),
-                    reason="Preprint Methods say only 'followed by the standard steps according to "
-                           "manufacturer's instructions' for the initial 5-prime kit; the guide revision "
-                           "used is not identified, so fragmentation, adapter attachment and cleanups are not drawn.")
+                        Construct(list(switched.state.strands["molecule"].segs), name=label + " switched cDNA substrate"),
+                        reason="The preprint names the kit cDNA primer mix. This model has not assigned the original kit-specific primer sequences or footprints on the switched cDNA; the two end components remain inferred."))
+        library = graph.product(prefix + "_library", label + " i7-assigned sequencing library",
+                                MaterialKind.LIBRARY, state=final)
+        graph.react(prefix + "_kit_steps", "Standard 5′ kit library construction after cDNA amplification",
+                    StepKind.MAGIC, ((amplified, InputRole.TEMPLATE),), (library,),
+                    reason="Moody et al. v2 Methods lines 1441–1457 delegates all subsequent steps to the original 5′ kit and names an i7 plate assignment. "
+                           "This declaration has not mapped the experiment-specific fragmentation, adapter attachment, library PCR or cleanup states. "
+                           "The later CG000086 Rev K architecture remains a comparator; no generic endpoint PCR is added beyond this boundary.")
+        graph.sequence(library, SequencingPlan(library=final, acquired_roles=("Read 1", "Read 2"),
+            read_lengths={"Read 1": 75, "Read 2": 75},
+            limitation=label + ": HiSeq 2500 paired 75-base reads are source-stated; original primer sites, i7 well and acquired index cycles remain unassigned in this model."))
         reviewed.extend((prefix + "_cdna_primers", prefix + "_cdna_primers_rt_end", prefix + "_cdna_polymerase",
-                         prefix + "_cdna_pcr", prefix + "_kit_steps"))
-        _finish_pcr(graph, prefix, prepared, final, label + ": " + d.endpoint,
-                    reviewed, label=label)
+                         prefix + "_cdna_pcr", prefix + "_kit_steps", prefix + "_library"))
 
     branch("dt", dt_rna, "oligo(dT) RT primer", DT_RT_PRIMER, "sc-end5-dT")
     branch("random", random_rna, "random-hexamer RT primer", RANDOM_RT_PRIMER, "sc-end5-rand")

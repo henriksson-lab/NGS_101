@@ -31,3 +31,31 @@ Inspected: Published PMC5809388 JATS180–204, standard/advanced/C1 RamDA prepar
 Added initial DNase I genomic-DNA digestion before RT and explicit unresolved fragments. Specified 13-cycle standard versus 14-cycle advanced library PCR; candidate Tn5 products no longer presumed discarded. Confirmed single-read76 acquisition.
 
 Deferred: Original NSR tables, pre-/post-tagmentation cleanup, concurrent nicking/RT representation; C1 variant is separate and its JATS 130°C wording needs PDF verification before interpretation. This pass does not establish a complete source review or publication-wide absence.
+
+## Native graph migration (2026-10-18, batch04)
+
+Inspected three published originals: PMC5809388 JATS Methods175–204 (standard,
+advanced, C1 context and sequencing), original MOESM1 Supplementary Note1 pp.1–2
+(coupled RT/nicking/displacement), and original MOESM6 Supplementary Data3
+`Mouse NSR` rows1/410 (representative complementary ordering pair). The bundle
+scraper returned251 hits in3hit-files; hits are reading pointers, not facts.
+The full408-member pool was not independently transcribed in this pass.
+
+The graph selects the standard plate13cycle method. DNaseI digestion and ERCC
+spike-in precede a coupled RT-RamDA reaction with retainedDNaseI, PrimeScript and
+gp32, not separate reagent additions for completedRT then nicking. SampleRNA,
+ERCCRNA, nickedDNA and displacedssDNA are independent populations. Klenow makes
+a role-level duplex beside carriedRNA/fragments. Source15µlAMPure recovery and
+direct6µlTagmentDNA Buffer elution precede scaledXT tagmentation. Actual native
+transferred strand/gap classes enter13cyclePCR, then1.2×AMPure/24µlTE recovery.
+Nonamplifiable products have unresolved physical fates. IndividualRNA/hydrolysis
+partition through beads is unassigned; the retained cDNA drawing is not a claim
+of complete removal of those species.
+
+The old canonical XT shell/index widths and exact primer set were model assumptions.
+Native ends/index features now have unknown encoding/width; positive single-read76
+is retained without guessed index acquisition. Source-linked exact historicalXT
+manual/loadedstrands, completeNSRpools, advanced andC1 reconstruction remain deferred.
+No originalPDF resolution of C1's printed130°C wording was attempted. Two prior
+constant-equals-itself tests were replaced by source transcription checks for the
+representative complementaryNSRs; missing external tables skip those tests.

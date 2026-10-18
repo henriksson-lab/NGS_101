@@ -185,6 +185,39 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local construction suite passes (comment-only, 0 explicit checks); page builds; pairing 0 problems; chemistry 3 established/9 conditional/9 unresolved/0 contradictory with expression_library_prep MAGIC warning; source guard 6 exact checked (TSO and R1 primer inputs of three PCRs), 0 failed, 1 input without exact state (motor_adapter); Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "documents": 1,
+      "locations": "Published PMC6635368 JATS Methods166–178 (droplet3′v2 amplification/physicalaliquots, capture design, targetedcapture R1/TSO primers and PCR/AMPure/double47°Ccapture, LSK108baseline/LSK308alternative/R9.4.1andR9.5.1); demultiplexing192 (16ntbarcode,10ntUMI computational handling).",
+      "findings": "Removed protocol_specs.get/Definition/role default; existing source-owned local R1/TSO module preserved. Native graph starts at declared source-amplified3′v2 cDNA boundary and both expression/receptor aliquots retain common pool. Actual incoming sourceamplified/probe-bound cDNA feeds all three PCRs rather than using expectedamplicon as template. Capture-bound strand/probe/background populations explicit, capturewashes physical without purity assumption. SourceR1/TSO ends,16ntbarcode/10ntUMI retained through native productlineage. Baseline historicalLSK108 joining remains unassigned and is not merged with oneLSK308sample. Positive NextSeq500150bps paired-end statement retained without inventing150/150 per-read allocation; pairedroles positive and indexacquisition unassigned. No original-source or kit absence accepted.",
+      "deferred": [
+        "Upstream historical Chromium3′v2 RT/amplification/Illumina finishing and exact native end geometry remain source-named boundary",
+        "Directly cited historical SeqCap guides and LSK108/LSK308 protocols not followed in this cappedpass",
+        "Full capture-bound native duplex/first-cycle architecture, quantitative off-target recovery and historical motor/endpreparation assembly",
+        "Exact per-read/index allocation of source NextSeq500150bps paired-end statement; no new kit/run substitution"
+      ],
+      "round": "2026-10-18-batch04-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "oligo_scraper": "Mandatory full-bundle scraper reviewed; selected source oligos/modifications verified directly. ReDeeM targetedscraper also ran on exact citedRevA original. Uninspected numerical/large-source skips do not establish absence.",
+      "scope": "Capped native graph migration only; historical evidence boundaries retained, no absence accepted.",
+      "verification": "Source suite2/2 pass; page and pairing pass; chemistry7 conditional/12 unresolved/0contradictory; batch sourceguard24checked/0failed/2documented pMENTs strand exemptions/8unassigned inputs; notes/schema and diffcheck checked."
+    },
+    {
+      "round": "2026-10-18-batch04-independent-critical-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Currentdeclared nativegraphs, notes and quoted source scope; no additional originals read.",
+      "findings": "Reviewed source-amplified upstream boundary, real incoming pre-/postcapturePCRstates, separate capturedstrands/probes/background, actualONTroutes and ambiguous paired150bp run wording. No guessed150/150 allocation or genericfullkit geometry; no critical defect in inspectedscope.",
+      "deferred": [
+        "Upstream historical Chromium3′v2 RT/amplification/Illumina finishing and exact native end geometry remain source-named boundary",
+        "Directly cited historical SeqCap guides and LSK108/LSK308 protocols not followed in this cappedpass",
+        "Full capture-bound native duplex/first-cycle architecture, quantitative off-target recovery and historical motor/endpreparation assembly",
+        "Exact per-read/index allocation of source NextSeq500150bps paired-end statement; no new kit/run substitution"
+      ],
+      "scope": "Implementation-only review; not second original-source reading or acceptedabsence.",
+      "verification": "Parentfocused verification/pairing: passed for PairedTag/RAGE; ReDeeM correctedcode ownerchecks passed and parentfocused verification follows."
     }
   ]
 }

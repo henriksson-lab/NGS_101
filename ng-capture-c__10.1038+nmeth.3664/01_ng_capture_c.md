@@ -41,7 +41,7 @@ Online Methods (author manuscript supplement-01) unless stated.
 
 🟢 Duplicate handling is computational (lines 209–249): Trim Galore, FLASH read reconstruction, in silico DpnII digestion (DpnII2E.pl), bowtie1, then CCanalyser2.pl removes PCR duplicates as reads with identical start and end coordinates of each sub-fragment (plus unique interacting-read coordinates for long-range cis/trans). This is not an experimental separation.
 
-🟡 The schematic uses canonical TruSeq single-index primer sites; the TruSeq adapters are named in the Methods but their exact sequences and index read are not printed there.
+🟡 The native model retains the named TruSeq/NEBNext route as role-level adapter ends. The earlier canonical single-index shell and eight-base index default have been removed; naming TruSeq does not identify the complete historical adapter or run geometry.
 
 🟢 Published inconsistency, shown on the page: the Results give "up to 1,000,000 fold enrichment" for double capture, while the Fig. 1a and Fig. 2a legends give up to 3,000,000-fold (both in the PMC4724891 accepted manuscript). The model encodes no enrichment value.
 
@@ -55,3 +55,11 @@ Online Methods (author manuscript supplement-01) unless stated.
 ## 4. Boundary with related protocols
 
 🟢 Later Nuclear, Low-Input, Titrated and NuTi Capture-C variants are not silently folded into this page.
+
+## Bounded native-graph migration, 2026-10-18
+
+Three originals were inspected: accepted-manuscript PMC4724891 JATS Results 59 and Figure 1/2 legends 320/330; its Online Methods supplement-01 (1–209, fixation through sequencing and reduced-cell variant boundary); and published Supplementary Data workbook, *Oligonucleotide sequences* sheet, rows 94–96. The mandatory bundle scraper ran and the Hba-1 example was checked directly against the workbook text. The later modular protocol was not used for this native migration.
+
+Independent chromatin DNA regions and probe molecules occupy separate Scene strands. A local DpnII contact constructor preserves GATC; a supplied explicit dA-tailed duplex replaces the generic endpoint helper. The native ligation product precedes index PCR and remains distinct from the expected indexed endpoint. Both post-capture PCR geometries use their preceding denatured, probe-bound captured material; original probe/template fractions remain unresolved through PCR and cleanup rather than disappearing by amplification. The source-written 120-base 5′-biotin Hba-1 probe is now a graph reagent, alongside other independently synthesized pool members; a generic target cannot assign its exact binding coordinate.
+
+The page preserves the reported enrichment discrepancy without encoding a yield. It declares source alternatives of MiSeq 150-base and HiSeq 100-base paired-end reads, with index acquisition unassigned. Native historical TruSeq/NEBNext and SeqCap EZ oligo geometry, exact index placement/widths, publisher-version Methods comparison and the separately cited predecessor/vendor originals remain deferred. This capped migration is not a complete protocol review or an accepted absence audit.

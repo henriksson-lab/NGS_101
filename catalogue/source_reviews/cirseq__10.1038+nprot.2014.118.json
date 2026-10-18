@@ -116,6 +116,22 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local construction suite passes (workflow build, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory over 12 steps; source guard 0 exact checked, 0 failed, 2 inputs without exact states (FC-121-4001 primer-cocktail members); Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "documents": 2,
+      "locations": "Published PMC4418788 JATS experimental design46, reagent134–138 and ProcedureSteps25–53 (second strand, end repair/A-tail, TruSeq ligation,450–600nt band,135adapterbases,15-cyclePCR); IlluminaTruSeqNano guide15041110-D (2015) end description around896 and index table12 around2200–2248.",
+      "findings": "Removed queued canonicalTruSeq constructor, unused legacy workflow and inferred canonical adapter stem/end choices. Native endpoint preserves source historical adapter/index roles and dA junction with named adapter ligation boundaries. The135combined-adapter-base source/model mismatch no longer receives an unsupported canonical resolution. Later2015 kit information is explicitly comparator scope; six reported index bases plus seventh adapter base do not establish full2014 molecular identity. Removed arbitrary92nt RNA length within85–100window. Random hexamers remain priming reagents, not identifiers. Native source order and physical gel fates remain; PCR geometry uses actual ligated candidate state; selected recommended300nt single read remains without invented index/paired acquisition.",
+      "deferred": [
+        "Complete historicalFC-121-4001 adapter/primer identities and reconstruction of the135combined adapter bases",
+        "Second-strand priming mechanism and species-specific off-products remain model/source-review questions",
+        "Actual selected index member and acquired index cycle recipe"
+      ],
+      "verification": "Native construction suite/page pass;12steps,0established/0conditional/13unresolved/0contradictory; pairing0; source guard0exact/0failed, with historical inputs explicitly unassigned.",
+      "round": "2026-10-18-native-endpoint-ownership-migration",
+      "reviewer": "local_ownership_migration_review",
+      "date": "2026-10-18",
+      "scope": "Capped source-qualified migration, not full validation or an absence audit. Later kit comparators do not establish original historical identity.",
+      "oligo_scraper": "Whole cached bundle scraper run; exact source passages and relevant comparator oligo hits read directly. Empty or nonmatching results do not establish absence."
     }
   ]
 }

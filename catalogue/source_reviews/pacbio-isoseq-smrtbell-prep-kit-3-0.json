@@ -134,6 +134,22 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1 assertion block passes; page builds; pairing 0 problems; chemistry 1 established/0 conditional/10 unresolved/0 contradictory; source guard 0 exact checked, 2 primer inputs without exact states (FASTA-only bases, no .txt twin for the guard); Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "documents": 3,
+      "locations": "PacBio102-396-000 printedREV10 SEP2026 sections2.2–3 (RT primer, RT, delayed TSO2.0 addition, cDNA PCR); official IsoSeq_v2_primers_12.fasta complete13records; directly linked102-359-000 printedREV08 AUG2026 sections1 and4 (input cleanup, nuclease and cleanup). Manifest URL and printed revisions retained.",
+      "findings": "Removed queued template_switch_scene; native RT/template-switch roles do not inherit fixed14-A/14-T or terminalGGG. PCR geometry uses actual unbarcoded ss precursor and explicitly marks unimplemented precursor/first-copy binding, while exact source primer sequences are retained. Representativebc01 is a selected single input rather than an apparent12-primer pool; complete13-record FASTA inventory is source-tested. Local traversal preserves feature identity and unknown molecular lengths; structural junction_unavailable prevents false direct-repaired-end claims. Added source1.3X Rev08 input cleanup. Closed topology is one candidate of a ligation mixture; nuclease other-product identities and later partition remain unresolved, with no hydrolysis/physical-discard conflation.",
+      "deferred": [
+        "RT-primer/TSO-derived precursor geometry and initial PCR copying remain implementation/source review work.",
+        "Kit-specific hairpin and sequencing-primer identities; olderRev07 remains an unchanged historical source obligation.",
+        "Nuclease substrate selectivity and class-specific bead recovery are not assigned."
+      ],
+      "verification": "Complete official FASTA inventory source check and constructor render pass; page build, pairing and source guard pass. Chemistry11steps,0established/0conditional/12unresolved/0contradictory.",
+      "round": "2026-10-18-rna-special-ownership-migration",
+      "reviewer": "local_ownership_migration_review",
+      "date": "2026-10-18",
+      "oligo_scraper": "Whole source-bundle scraper run and relevant pointers inspected; no empty result used as source-absence evidence.",
+      "scope": "Bounded local ownership/geometry migration; source-positive facts and implementation limits remain distinct. No accepted missing-information conclusion."
     }
   ]
 }

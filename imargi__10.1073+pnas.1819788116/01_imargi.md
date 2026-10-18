@@ -88,3 +88,14 @@ a typo, but no other source resolves it.
 Not inspected in this capped pass: the MARGI Document S1 library steps were not
 re-read against the round-11 graph (prior passes record lines 178–325); the
 iMARGI_methods GitHub pipeline; the selected NEBNext index member (unassigned).
+
+
+## Native graph migration — 2026-10-18 batch10
+
+Sources read (three originals, capped pass): Published PNAS PMC6386723 Methods199–207 and PE100 Results81; linked Wu2019 NatProtocols PMC7314528 original JATS concept101–103, enzyme/oligo191–203/273–300, Procedure73–107 approximately938–1195; original Sridhar2017 author-manuscriptPDF opening identity only (not chemistry reread).
+
+Local modified bivalent linker and source-specific graph replace interaction_capture/multibranch recipes. OriginalTOP5P→App activation boundary and asymmetric annealing are explicit. Original PS/internalbiotin and additional blocked Cut_oligo invertedT are distinguished from copies. Source dA/T ligation, biotin removal, capture/washes, on-beadRT,5′PNK/washes, NaOH release, RNA hydrolysis/SILANE, SS circularization, validated localCut duplex/BamHI, postdigest SILANE and pilot/final PCR are ordered. Actual releasedSS retains copied8nt RNA-side linker tail and NN ligationbias (notUMI); BamHI-relinearizedSS is actual PCR substrate. Pilot5µl and variable finalcyclechoice replace unsupported fixed12. Possible original/copy/uncircularized/offproduct classes remain unresolved except actual physical recoveries.
+
+Remaining scope: Detailed activation conditions not reread; positiveMthRNA ligase/activation operation has bounded conditions. Full native global fold, first-cycle PCR landing/endpoint assembly and selected E7335 six-base member/index acquisition remain unassigned. Original MARGI DocumentS1 modification comparison is retained historical evidence, not freshly read chemistry in this pass. Published citation, dATP/ATP and HC/HF notices preserved; no source-absence conclusion or status upgrade.
+
+Verification: 4 modified-original oligo transcription checks;27graphsteps;33unresolved/0contradictory; page/pairing/schema pass; linked-source locator guard pending parent integration. No missing-information acceptance follows from this pass.

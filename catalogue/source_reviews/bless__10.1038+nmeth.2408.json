@@ -91,6 +91,22 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "suite 2/2 passed; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory with truseq_prep MAGIC warning; source guard 2 exact checked (P1, P3), 0 failed, 2 inputs without exact states; source audit check 1 blocked; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "break_capture_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Local endpoint ownership, actual PCR precursor geometry and bounded original-source checks only.",
+      "locations": "Published article PMC3651036 Methods lines128–139 (proximal ligation, extraction/HaeIII, streptavidin/distal/I-SceI, P1/P3 PCR/XhoI and TruSeq v2 library preparation); published supplementary PDF MOESM325 Table1 lines594–626 and Table5 lines1126–1174.",
+      "findings": "Protocol now owns its conditional TruSeq v2 endpoint instead of inheriting a six-base break-capture shell. The selected kit index member and molecular length remain unknown; exact proximal/distal tags retain their structured identities. Graph consumes the full source oligos, with their source-owned HairpinTopology retained as chemical state; public folded views remain. The sequencing plan explicitly selects the representative N1/N2 paired-end HiSeq2000 branch and distinguishes GAII single-end runs; no read/index cycle counts are assigned. TruSeq library preparation remains an explicitly unmodelled source-limited transition.",
+      "deferred": [
+        "TruSeq DNA Sample Preparation Kit v2 original, exact supplied adapter/primer geometry and selected index remain deferred",
+        "I-SceI-cut remnants and complete P1/P3 amplicon geometry remain unmodelled",
+        "Acquired cycle counts and other source single-end/paired-end run variants remain unassigned"
+      ],
+      "verification": "local suite2/2; page build; chemistry9steps0established0conditional10unresolved0contradictory; expected TruSeq MAGIC warning retained; source guard4 exact oligo strands0failed0exempt; pairing0 problems; review schema passes",
+      "oligo_scraper": "Ran full source-bundle scraper and followed relevant oligo pointers into the original methods/printed oligo tables. Drawn upstream pages were not evidence."
     }
   ]
 }

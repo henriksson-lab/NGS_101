@@ -44,3 +44,11 @@ Corrected the graph from the article's PROCEDURE: combined End Prep reaction, ha
 ## 4. Boundary
 
 🟢 This page does not merge high-resolution multi-fraction Repli-seq or copy-number-only Sort-seq into E/L Repli-seq.
+
+## Native ownership migration, 2026-10-18
+
+Read the published article JATS Procedure30–81 (library preparation, USER/column cleanup, BrdU IP, indexing, final purification and sequencing) and published supplementary PDF Methods1/Data1/Data2. Data1 primer columns were also inspected with layout-preserving extraction of original PDF pages9–10: physical i501–i508 and i701–i712 index families are8nt; the adjacent Expected Index Read column is not extra ordered sequence. Scraper hits from superseded preprints were excluded. No vendor original or predecessor was added to this capped two-original pass. Earlier pulse/FACS/extraction conditions retain their existing source scope.
+
+Removed all conformation_replication_specs and batch_ngs constructors, including the shared NascentPulse state that concatenated parental and nascent strands. Local states keep BrdU-containing nascent and unlabelled strands separate. End Prep remains one reaction; the single dA and hairpin fold are derived, not established native intermediate geometry. Both published adapter ordering modifications and the computed12bp/3′T fold remain explicit. USER excision products are molecular inputs to Step37 cleanup; only its resulting column flowthrough is a physical discard. Denaturation creates distinct single-strand Scenes, and the BrdU strand propagates through IP/purification into PCR without using the expected completed library as input.
+
+The local endpoint uses the source primer-family scaffolds and8nt physical index windows, with no chosen index members or inferred acquired index cycles. Early and late remain separate terminal sequencing plans selecting source SR50; optional longer/paired reads, qPCR optimization and re-amplification remain source alternatives, not invented molecular steps. Complete folded ligation/USER/first-cycle PCR geometry, individual index assignments and optional QC/re-amplification graphs remain unresolved implementation targets. No publication-absence claim is accepted.

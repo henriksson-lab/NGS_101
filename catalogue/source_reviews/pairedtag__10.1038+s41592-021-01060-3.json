@@ -117,6 +117,39 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "selftest 11/11 pass; page builds; pairing 0 problems; chemistry 13 established/3 conditional/15 unresolved/0 contradictory; source guard 6 exact inputs checked, 0 failed, 14 inputs without exact states, no timeout; audit_protocol_sources --check ok; Markdown built; review schema checked"
+    },
+    {
+      "documents": 3,
+      "locations": "Published PMC7954905 JATS Results56 and Methods116–156: plate/transposome assembly, pA-Tn5/RT, ligations/blockers, sublibraries/lysis, TdT/Anchor16cycles and PA11cycles, SbfI/FokI versus NotI, adapter/Tn5-N5 finishing, Q5 and50or100+7+100 acquisition. Published SupplementaryTable1 workbook PrimerSequences and representative BC01A1/B1/C1, BC02/03A1 with sourcephase families. MOESM13 XLSX first sheet heading/e and initial numerical rows classified as data, no chemistry used.",
+      "findings": "Removed shared barcode-round/default finisher. Local source splint geometry and sourceprimer inputs, physical nontransferred pMENTsddC, separate histoneDNA/dT-cDNA/N6-cDNA populations. Actual variableTdTtail/Anchor-extension/PA-PCR inputs with retained identifier chain; no fixed9C or annealed-primer-as-product shortcut. Added source nuclei sublibraries/lysis/cleanup and physical17µl mixed aliquots with1µl remainder. Digests damage opposite-modality architecture without presumed purification. Source P5adapter and Tn5N5 pre-index states precede actualinput indexPCR/0.9×cleanup; incompatibleTn5classes unresolved. Conditional completeendpoint references preserve known sourceprimer/index/read facts; explicit readtables keep index2acquisition unassigned. Existing published dTlength and Anchor-name/mark discrepancies remain visible.",
+      "deferred": [
+        "ProtocolExchange step-by-step original and predecessor routes not followed within sourcecap",
+        "Native variabletail/register/Anchor-extension and first-cycle/end-junction geometry; complete FokI substrate and native P5/Tn5 product assembly",
+        "Physical recovery of opposite-modality cleavage/background species and unchosen sublibraries",
+        "Exact interpretation of source terminal* bond mark and Methods AnchorGSH name; source marks preserved without assigning chemistry"
+      ],
+      "round": "2026-10-18-batch04-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "oligo_scraper": "Mandatory full-bundle scraper reviewed; selected source oligos/modifications verified directly. ReDeeM targetedscraper also ran on exact citedRevA original. Uninspected numerical/large-source skips do not establish absence.",
+      "scope": "Capped native graph migration only; historical evidence boundaries retained, no absence accepted.",
+      "verification": "Source suite18/18 pass; page and pairing pass; chemistry7 established/31 unresolved/0contradictory; batch sourceguard24checked/0failed/2documented pMENTs strand exemptions/8unassigned inputs; notes/schema and diffcheck checked."
+    },
+    {
+      "round": "2026-10-18-batch04-independent-critical-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Currentdeclared nativegraphs, notes and quoted source scope; no additional originals read.",
+      "findings": "Reviewed independent DNA/dT-cDNA/N6-cDNA populations, source terminalmarks/ddC, variableTdT/Anchor, actualmixedaliquot/cleavage and preindexPCR inputs, featurelineage, scopequalified read acquisition and unknownphysicalfates. No new critical defect identified in inspected implementation.",
+      "deferred": [
+        "ProtocolExchange step-by-step original and predecessor routes not followed within sourcecap",
+        "Native variabletail/register/Anchor-extension and first-cycle/end-junction geometry; complete FokI substrate and native P5/Tn5 product assembly",
+        "Physical recovery of opposite-modality cleavage/background species and unchosen sublibraries",
+        "Exact interpretation of source terminal* bond mark and Methods AnchorGSH name; source marks preserved without assigning chemistry"
+      ],
+      "scope": "Implementation-only review; not second original-source reading or acceptedabsence.",
+      "verification": "Parentfocused verification/pairing: passed for PairedTag/RAGE; ReDeeM correctedcode ownerchecks passed and parentfocused verification follows."
     }
   ]
 }

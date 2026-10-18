@@ -93,6 +93,35 @@
       ],
       "scope": "Capped defining-source pass on the preprint Methods and oligo workbook; no full chemistry validation and no accepted missing-information claim.",
       "verification": "local suite passes (constructor-only, 0 explicit checks); page builds; pairing 0 problems; chemistry 14 steps, 0 established/0 conditional/18 unresolved/0 contradictory with two MAGIC warnings (kit cDNA amplification, CG000733 gene-expression library); source guard 0 exact checked, 0 failed, 13 inputs without exact states; Markdown built; review schema (audit_protocol_sources --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration-multimodal",
+      "reviewer": "protocol-migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Defining v2 2024.03.17.585235_v2.full.pdf.txt lines 842–875; 2024.03.17.585235_media-1.xlsx.txt oligos rows 29–33; candidate CG000735 Rev A PDF text lines 1035–1044 and 6638–6658 (identity/gel bead and final-library sequence section). The defining article does not name a guide revision; candidate N16/N12 boundaries were not assigned to the study.",
+      "oligo_scraper": "Ran tools/scrape_primers.py on the cached source bundle; followed relevant hits to the original printed passages. The scraper output is not used as independent evidence.",
+      "findings": "Owned bead/guide/index feature declarations replace shared defaults; corrected single 8-base sample index to two 10-base direct-library sample indexes and declared 28/10/10/90 acquisition for both direct terminals. Source-exact modified RT and dial-out primers are now graph inputs. Mature guide RNA, poly(A) identity transcript and CSMv2 DNA routes are explicitly distinguished; optical RCA remains separate. Kit PCR/landing geometry stays an explicit boundary.",
+      "deferred": [
+        "Study-specific CG000735/CG000733 revision identity",
+        "Bead and custom-primer junction geometry",
+        "Padlock arm/gap-filled products and RCA sequence geometry"
+      ],
+      "scope": "Ownership and explicit-uncertainty migration for the named shared dependencies; bounded source scope only. No full chemical validation or accepted missing-information claim. Historical source passes retained.",
+      "verification": "Protocol suite and page build pass; source guard 5 exact strands checked, 0 failures; pairing lint 0 problems; scoped chemistry 0 established/0 conditional/16 unresolved/0 contradictory. Notes and review schema checked."
+    },
+    {
+      "round": "2026-10-18-container-state-correction",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only population/container modelling correction; original-source scope remains preceding bounded migration 2026-10-18-validation-migration-multimodal. No new scientific-source, endpoint or absence conclusion.",
+      "locations": "Local protocol module role-level molecular states and existing workflow-derived graph inputs; no original documents re-read.",
+      "findings": "Split mature/processed guide populations into two independent RNA Scene rows in workflow and graph; true guide/iBAR and integrated-cassette sequence order retained.",
+      "deferred": [
+        "Existing unassigned source/geometry boundaries and linked-source review targets remain open."
+      ],
+      "verification": "5 original-source checks passes; page builds; chemistry 0 established/0 conditional/16 unresolved/0 contradictory. Combined five-protocol guard:17 exact checked,0 failed,1 existing inherited-source exemption,23 inputs without exact states. Pairing0 problems; review schema/diff check pass."
     }
   ]
 }

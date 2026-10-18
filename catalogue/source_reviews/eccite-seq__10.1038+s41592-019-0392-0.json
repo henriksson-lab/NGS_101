@@ -257,6 +257,36 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 10/10 pass (adds MOESM3 oligo transcription checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/24 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 14 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 3,
+      "scope": "Capped source-owned native graph migration; no accepted absence claim and no full protocol validation.",
+      "locations": "PublishedPMC6557128 Results70/Methods102–114; publishedMOESM1 Table3–5 lines219–460; publishedMOESM3 printedMarch2019 RT/recovery102–182,PCR/cleanup184–315,modifiedoligos385–429.",
+      "oligo_scraper": "Full cached-bundle scraper run; relevant pointers followed into named originals. Source versions/manifest identities retained, superseded preprints not used.",
+      "findings": "Removed batch_ngs.truseq_library/seg and sharedfinishers. IndependentRNA/ADT/HTO/guidecell/ssRT/PCRpopulations; actualmixedaliquots retained throughprimer-selectedPCRs.15/12baseantibodyexamples are speciesinonephysicalPCRpool, nofictitiouslengthseparation. Localexactsourceprimers/additives/PSmods and distinctKAPAcycles/annealingplus1.6×cleanups; optionalguideenrichmentselected withgd_addmemberunassigned. ActualincomingPCRScene usedeverywhere; historicalGEX route/endpoint bounded withoutnewkitrevision/canonicaldefaults. Fivefinalreadouts retain26/8/39 selectedHiSeq andR2=91NovaSeq alternative. CBC/UMI/beadcontinuation conditionalconstructors. Explicitcuratedreviewlist; failedGEMrecovery unresolved.",
+      "deferred": [
+        "HistoricalCG000086kitrevision/native GEX and cDNAprimergeometry",
+        "Nativeper-species PCRfirstcycle and gd_add_v4memberassignment",
+        "Optionalimmune receptor enrichment andv3guide-index alternative outsidecurrentgraph",
+        "Next_nst_x narrowguardexception: scraperdoesnotreturncompletefamily; fulloriginalMOESM3rowx8/terminalPS independentlychecked"
+      ],
+      "verification": "suite14;16steps;0established/0conditional/21unresolved/0contradictory; all3pages/docs build; combinedsourceguard17exact/0failed/1documentedparser-exemption/9unassigned inputs; pairing0; review schema and diffcheck pass."
+    },
+    {
+      "round": "2026-10-18-independent-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Independent implementation review against existing publishedMethods/MOESM1/MOESM3source declarations; originals not re-read. No additional sourceinvestigation or absence acceptance.",
+      "locations": "cell_side/tag_library/p7_side; RTpopulationassembly; mixedshortaliquots; optionalguideenrichment; actualPCRprecursors/fates/readplans/manualtargets.",
+      "findings": "Mixedinputs, historicalvendorboundary and physicalfates sound. Identified orderedbarcodepolarity mismatch: sourceDNAoligo5′handle–barcode–TAG_TSO_END3′ requires complete copiedinterval RC, but taglibrary had unchangedbarcode between RCTSO and RChandle. Verifiedfix reverse-complements ADT15/ADT12/HTObarcodes while preservingfeatureidentity; constructor now rejects missing fullrevcomp(handle+barcode+TAG_TSO_END) interval. Sourceorderedbarcode constants unchanged, no transformedindex invention. Guideorientationcheckedseparately against Next_nst reverseprimer/scaffold relation; no tag-specificblanket reversal applied to guide.",
+      "deferred": [
+        "NativefirstcyclePCRgeometry, conditionalbead-derivedcontinuation and selectedprotospacer remain explicitboundaries."
+      ],
+      "verification": "All14ECCsourcechecks and constructorinvariant pass; page/currentchemistry0contradictions; parentfinalfocused/site checks on stablecode."
     }
   ]
 }

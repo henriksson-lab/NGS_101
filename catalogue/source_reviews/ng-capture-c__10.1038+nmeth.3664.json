@@ -176,6 +176,36 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite (import/construction, 0 explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/17 unresolved/0 contradictory; source guard 0 exact checked, 6 unrepresented (index PCR x2, post-capture PCR x2, capture-oligo pools x2); Markdown built/checked; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch03-native-graph-migration",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "PMC4724891 accepted-manuscript JATS Results59 and Figure1/2 legends320/330; Online Methods supplement-01 text1–209, fixation through sequencing and reduced-cell branch boundary; published Supplementary Data MOESM218 workbook Oligonucleotide sequences sheet rows94–96.",
+      "findings": "Native graph without shared TruSeq endpoint, conformation recipe or generic dA helper. Independent DNA regions and capture probes remain separate Scene rows. Locally declared GATC contact and explicit dA-tailed duplex retain known chemistry. Exact source120-base5′-biotin Hba-1 probe example is now a graph reagent pool member. Removed unsupported canonical single-index/eight-base shell. Native pre-index ligation product feeds indexPCR; denatured probe-bound captured states feed both post-capturePCRs, with original captured fractions unresolved through cleanup. SourceMiSeq150/HiSeq100 alternatives and enrichment discrepancy preserved; index acquisition unassigned.",
+      "deferred": [
+        "Native historicalTruSeq/NEBNext adapter/primer strands, index placement/width and run acquisition, SeqCapEZ blocker/PostLM-PCR originals.",
+        "Publisher-version OnlineMethods comparison, separately cited predecessor/vendor originals, low-cell route details and other supplemental sections not comprehensively reread.",
+        "Generic viewpoint pool does not assign the exact Hba-1 example binding coordinate."
+      ],
+      "verification": "Suite1/1 pass; page and notes build; pairing0 problems; chemistry14 steps,5 established/0 conditional/17 unresolved/0 contradictory. Source guard0 failed; review schema checked after entry.",
+      "oligo_scraper": "Mandatory local source-bundle scraper run for all three protocols; relevant exact bases and method passages checked in identified originals, not upstream drawings.",
+      "scope": "Capped source-owned native graph migration. Actual source scope and deferred targets only; not a full protocol review or an accepted publication-absence claim."
+    },
+    {
+      "round": "2026-10-18-batch03-independent-critical-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "tools/chem.py independent_regions/contact_scene/tailed_state/probe_pool/captured_state/protocol_graph and sequencing metadata",
+      "existing_source_scope": "PMC4724891 accepted-manuscript JATS Results59 and Figure1/2 legends320/330; Online Methods supplement-01 text1–209, fixation through sequencing and reduced-cell branch boundary; published Supplementary Data MOESM218 workbook Oligonucleotide sequences sheet rows94–96. Existing author migration scope only; originals not re-read in this pass.",
+      "findings": "Independent genomic regions are separate before actual proximityligation; exact publishedHba probe remains a pool example, not an invented covalent part of targetDNA. Actual native ligated substrate feeds initialPCR; later capturePCR receives denatured captured template/probe populations with originalmaterial fate unresolved. Physical capturewashes are distinct from computational read filters. Found omitted structured sample_index feature on indexed nativeTruSeq endpoint role after shell removal; Owner corrected with an unknown-encoding sample_index feature on the unresolved native end role; independent inspection confirms placement/width/acquisition remain unassigned.",
+      "deferred": [
+        "NativeTruSeq/SeqCap primer/adapter geometry, exact historical index incorporation and acquiredcycles remain declared limitations; unknown full molecular proof is not a new publicationabsence claim."
+      ],
+      "scope": "Independent code-only critical review; no original-source hunting or new source reading, no acceptance of absent information or complete molecular proof.",
+      "verification": "Owner narrow-fix suites Nano2/2 and NG1/1 pass; both page builds, combined chemistry9established4conditional30unresolved0contradictory and pairing0problems pass. Independent reviewer inspected unknown-encoding feature attachments after correction; source-review schema passes."
     }
   ]
 }

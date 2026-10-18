@@ -2,12 +2,17 @@
 from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
-from batch_ngs import nextera_library, seg
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from protocol_families.atac import ATAC_AD1_NOMX, ATAC_AD2_1
-from chemdraw import Construct, Row, Scene
-from chromatin_epigenetics import tagmented_library, tagmentation_scene
+from chemdraw import Construct, Row, Scene, Segment, feature
 import nextera as nx
+import illumina as il
+import seqprimers as sp
+from protocol_model import molecule, role
+
+# Buenrostro2013 Supplementary Table1; Ad2.1 is an explicit example member.
+ATAC_AD1_NOMX=il.P5+nx.S5+nx.ME[:7]
+ATAC_AD2_1=il.P7+"TCGCCTTA"+nx.S7+nx.ME[:6]
+seg=Segment
 from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import (Disposition, Input, InputRole, Material, MaterialKind,
                             ProtocolGraph, SequencingPlan, SourceCoverage, SourceItem,
@@ -18,9 +23,18 @@ NOTES = "01_atac-seq.html"
 SOURCE = 'Defining source: <a href="https://doi.org/10.1038/nmeth.2688">Buenrostro et al., <i>Nature Methods</i> (2013)</a>.'
 SUMMARY = "Tn5 simultaneously cleaves accessible native chromatin and transfers sequencing-adapter ends; extension and indexed PCR complete the paired-end library."
 CAVEAT = "The paper uses Nextera transposase and prints its PCR primers. The final construct is assembled from the repository’s canonical Nextera components."
-FINAL_LIBRARY, SEQ_PRIMERS = nextera_library(
-    [seg("accessible chromatin fragment", "X" * 36, placeholder=True)],
-    "accessible chromatin fragment library", dual_index=False)
+def final_library():
+    lib=Construct([Segment("P5",il.P5,"p5"),Segment("S5",nx.S5,"s5"),
+        Segment("left mosaic end",nx.ME,"me"),Segment("accessible chromatin fragment","X"*36,placeholder=True),
+        Segment("right mosaic end reverse complement",nx.ME_RC,"me"),Segment("S7 reverse complement",nx.S7_RC,"s7"),
+        Segment("i7 reverse complement","TAAGGCGA","cbc",feature=feature("sample_index_i7","sample_index","whitelist",whitelist="ATAC2013 Ad2.1-Ad2.24")),
+        Segment("P7 reverse complement",il.P7_RC,"p7")],name="ATAC-seq Ad2.1 example")
+    primers=(sp.NEXTERA["R1"],sp.NEXTERA["I1"],sp.NEXTERA["R2"])
+    problems=sp.verify(lib,primers,required_roles=tuple(p.role for p in primers))
+    if problems:raise ValueError("ATAC-seq library: "+"; ".join(problems))
+    return lib,primers
+
+FINAL_LIBRARY,SEQ_PRIMERS=final_library()
 FINAL_CAPTION = "Productive heterologous Tn5 product after 72 °C extension and limited indexed PCR."
 SEQUENCING_INTRO = ("Paired reads enter the accessible chromatin fragment from its two transposition sites; "
                     "one 8-nt index read identifies the Ad2.N sample index (Ad1_noMX carries no index). "
@@ -33,7 +47,7 @@ def sections():
     return [
         ("Expose native chromatin", [Row(chunks=[("nucleosome -- linker -- nucleosome     [open regulatory DNA]", None, False)])],
          "Mild lysis releases nuclei while retaining chromatin architecture."),
-        ("Tagment accessible DNA", tagmentation_scene("accessible chromatin fragment").rows(),
+        ("Tagment accessible DNA", Scene.duplex(list(_tagmented_template())).rows(),
          "Tn5 cleavage and mosaic-end transfer are coupled; ** marks both transferred adapter–insert boundaries."),
         ("Extend and amplify", [Row(chunks=[("72 °C fill/extension → indexed PCR → size-distributed library", None, False)])],
          "The initial extension makes both transposase-tagged ends amplifiable; PCR cycle number is limited by a qPCR side reaction."),
@@ -60,24 +74,24 @@ def protocol_graph() -> ProtocolGraph:
     graph.add_input(Material("tn5", "Tn5 transposase", MaterialKind.CATALYST,
                              source=source))
     tagged = Material("tagged_fragment", "productive heterologous S5/S7 fragment",
-                      MaterialKind.MOLECULAR, state=_tagmented_template(), source=source)
+                      MaterialKind.MOLECULAR, state=molecule("staggered transposition product",(role("S5-bearing end"),role("gapped genomic fragment"),role("S7-bearing end"))), source=source)
     off_product = Material(
         "non_library_tagmentation_products",
         "S5/S5, S7/S7, untagged and otherwise non-library fragments",
-        MaterialKind.WASTE, source=source)
+        MaterialKind.MOLECULAR, source=source)
     graph.add_step(Step(
         "tagment", "Tagment accessible chromatin", StepKind.TAGMENTATION,
         (Input("native_chromatin", InputRole.TEMPLATE),
          Input("loaded_mosaic_end", InputRole.STRUCTURAL),
          Input("tn5", InputRole.CATALYST)),
         (tagged.id, off_product.id), source=source), (tagged, off_product))
-    graph.mark_terminal(Terminal(off_product.id, Disposition.DISCARD,
-                                 "not a complete heterologous sequencing molecule"))
+    graph.mark_terminal(Terminal(off_product.id, Disposition.UNRESOLVED,
+        "Missing intended S5/S7 end geometry is an end-class/analysis outcome. MinElute does not establish class-specific physical removal; amplification and recovery remain unresolved."))
 
     graph.add_input(Material("minelute", "Qiagen MinElute column", MaterialKind.SELECTION,
                              source=source))
     purified = Material("purified_fragment", "MinElute-purified tagmented DNA",
-                        MaterialKind.MOLECULAR, state=_tagmented_template(), source=source)
+                        MaterialKind.MOLECULAR, state=tagged.state, source=source)
     column_waste = Material("minelute_waste", "column flow-through: transposase and reaction mix",
                             MaterialKind.WASTE, source=source)
     graph.add_step(Step(
@@ -105,7 +119,7 @@ def protocol_graph() -> ProtocolGraph:
     graph.add_input(Material("ad2_indexed", "Ad2.1_TAAGGCGA", MaterialKind.OLIGO,
                              source=source, state=(seg("Ad2.1_TAAGGCGA", ATAC_AD2_1),)))
     geometry = PCRGeometry.exact(
-        FINAL_LIBRARY, PCRPrimer("Ad1_noMX", ATAC_AD1_NOMX),
+        extended.state, PCRPrimer("Ad1_noMX", ATAC_AD1_NOMX),
         PCRPrimer("Ad2.1_TAAGGCGA", ATAC_AD2_1),
         statement="Supplementary Table 1 prints both amplification primers; their 3-prime mosaic-end regions face inward across the accessible-DNA insert.")
     amplified = Material("amplified_library", "amplified indexed ATAC-seq library",

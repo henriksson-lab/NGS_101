@@ -27,7 +27,7 @@ be described by this page's construct.
   paired-end runs (JATS lines 62–78); Supplementary Table S2 gives the MiSeq runs as 2×75.
 - 🟢 The 39-nt synthetic 2′-O-methylated RNA `5′-CCUUAAGGCNmNAUAACAUACCAGAUCGCCACCCGCGCUC-3′`
   (JATS line 60) is a quantification substrate, not a library oligo.
-- 🟡 Only the public NEBNext 3′ adapter is written base-by-base; other kit oligos remain roles.
+- 🟡 Kit adapter and primer members remain unassigned until a version-qualified manufacturer original is checked.
 
 ## Oligo source boundary
 
@@ -153,3 +153,25 @@ second-hand account. The drawn Marchand graph is unchanged.
 Deferred: Birkedal2015 article main text (Angewandte; manual DOI); RT primer bases; Schutz et
 al. (SI ref. 7) tRNA-ligase cloning predecessor; NEBNext E7330S manual for drawn kit oligos;
 catalogue identity (Marchand2016 vs Birkedal2015) for maintainers.
+
+## Local validation migration (2026-10-18)
+
+Re-read defining Marchand 2016 PMC5027498 Methods lines 62–80 and direct-ligation
+rationale lines 100–104; original supplementary File008 Table S2 key and rows 1–4.
+Ran the source-bundle oligo scraper. The drawn alkaline branch now owns its
+30–200-nt fragment population, precipitation, Antarctic phosphatase/inactivation,
+T4 PNK with ATP and MinElute cleanup. No gel size selection is inserted before repair.
+
+Direct 3′/5′ adapter ligation, RT and PCR are explicitly scoped to the named E7330S
+kit route; exact kit members, end chemistry, revision and primer landing remain
+unassigned until the matching manufacturer original is checked. The previously
+shown generic 3′ adapter string had no version-qualified local source and is not
+promoted into this study's molecular declaration. Birkedal's different Ion Torrent
+chemistry remains undrawn, with its existing discrepancy notice preserved.
+
+Table S2 assigns different libraries to HiSeq 1000 SR50 and MiSeq PE2×75. The graph
+keeps separate run/library alternatives; it does not assign both settings to every
+physical sample or invent an index read length. Source-review checklist roles now
+reflect the existing Marchand defining-DOI boundary, while historical passes and
+blocked absence-review obligations remain intact. This migration does not establish
+full reaction validation or missing-information acceptance.

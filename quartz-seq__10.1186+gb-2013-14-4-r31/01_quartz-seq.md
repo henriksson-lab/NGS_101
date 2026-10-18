@@ -1,5 +1,48 @@
 # Quartz-Seq and Quartz-Seq2 — poly(A)-tagging whole-transcript amplification
 
+## Current native graph scope — 2026-10-18 batch10
+
+The active Quartz-Seq model is now protocol-owned. This section bounds the2013
+RNA-seq/LIMprep branch; the combined note below retains historical context for
+both publications. Matching primer sequences do not establish identical chemistry.
+
+One original was inspected: published PMC4054835 JATS, the WTA Methods and
+Table1 (lines216–250), LIMprep library preparation (258–264), Results82–100
+and PE50 comparison134, and computational trimming274. The mandatory scraper
+of the existing combined external bundle found636hits in11files, including
+originals from both Quartz papers; hits were checked in the defining2013 text.
+
+🟢 RT35°C5min/45°C20min →ExonucleaseI37°C30min/80°C10min →TdT plus
+RNaseH in the same mixture37°C50s/65°C10min →M-dT23 second strand
+98°C130s/40°C1min/68°C5min →21-cycle suppressionPCR →MinElute
+purification (the source also permits AMPureXP) →CovarisS220 →DCC5
+purification →KAPA end repair20°C30min →DCC5 →A-tail30°C30min →DCC5
+→TRSU/TRSI ligation20°C15min →two high-salt AMPure selections →TPC1/TPC2
+PCR10–12cycles →AMPure purification. No separate earlier RNaseH incubation is
+asserted. The selected RNA-seq branch does not perform Quartz-Chip IVT despite
+carrying the T7 sequence in its RT primer.
+
+🟡 The native second strand copies RT-primer dT24 to dA24; it starts with
+M, while the added leadingG belongs to suppression-PCR primers/daughters.
+The source5′NH2 is attached to the suppression primers and their daughters,
+not retroactively to native templates. TdT tail length remains variable. Actual
+asymmetric Y-adapter-ligated strands, with sourceTRSI5′phosphate and terminal
+phosphorothioate bonds, feed final PCR rather than a completed library shell.
+TPC1/TPC2 phosphorothioates are bond modifications, not extra bases.
+
+RNA hydrolysates, surviving primers, short suppressed byproducts, original DNA
+and other lysate polymers remain independent residual classes with unresolved
+recovery efficiencies. Suppression and computational WTA/adapter trimming are
+not physical discard. Physical waste is limited to unretained cleanup fractions.
+The selected comparison is PE50; a six-base native TRSI-2 index does not by itself
+establish six acquired index cycles, which remain unassigned in this capped pass.
+
+Deferred: original supplementary figures/SupplementaryNote for deeper byproduct
+folding geometry and cited KAPA/vendor end-repair/ligation details, exact run
+index-cycle metadata and molecule-class-specific purification fates. No missing
+information is accepted and historical review status is unchanged.
+
+
 > **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not
 > published. Relationships marked 🟡 *(computed)* were worked out with `lib/` while
 > writing this note. Claims taken only from
@@ -273,9 +316,9 @@ General form: `TATAGAATTCGCGGCCGCTCGCGATAC <cbc> NNNNNNNN T24`, OPC purification
 - **rYshapeP5** = `illumina.INDEX2_PRIMER_RC[1:21]` (20 nt); its first 12 nt are
   `illumina.STEM` and pair with the `GCTCTTCCGATC` before the LT's 3' T — the same 12-bp
   stem as the 2013 adapter. The other 8 nt (`GTCGTGTA`) are the start of a TruSeq Read 1
-  arm, unpaired: a **truncated Y adapter** with no P5. **No 5' phosphate is listed** on
-  rYshapeP5, so only the LT strand is ligated (its 3' T to the insert's 5'-phosphate); P5
-  enters later from P5-gMac_hybrid. 🟡
+  arm, unpaired: a **truncated Y adapter** with no P5. TableS4 prints rYshapeP5 without a 5' phosphate mark; this does not establish
+  its native phosphorylation/ligation status. The LT strand's 3' T supplies a
+  source-known ligation end; P5 enters later from P5-gMac_hybrid. 🟡
 - **TPC2** is the 2013 oligo, unchanged.
 
 ### B.4 Step by step
@@ -301,8 +344,7 @@ General form: `TATAGAATTCGCGGCCGCTCGCGATAC <cbc> NNNNNNNN T24`, OPC purification
 6. **Second strand**: split ~11 µL into four tubes, + 46.16 µL PCR I premix (MightyAmp v2,
    0.06932 µM tagging primer, MightyAmp); 98 °C 130 s, 40 °C 1 min, then **"Increment"**:
    up to 68 °C at 0.2 °C per second, 68 °C 5 min.
-7. **Suppression PCR**: + 50.232 µL PCR II premix (1.8952 µM gM primer); **11 cycles**
-   (v3.1) or **9 cycles** (v3.2) of 98 °C 10 s, 65 °C 15 s, 68 °C 5 min; 68 °C 5 min.
+7. **Suppression PCR**: + 50.232 µL PCR II premix (1.8952 µM gM primer); **11 cycles**, as printed in the published main Methods of 98 °C 10 s, 65 °C 15 s, 68 °C 5 min; 68 °C 5 min.
    Pool, MinElute (with sodium acetate + PB), then AMPure XP. Average cDNA ~1400 bp.
 8. **Truncated adapter**: 5 µL each of 100 µM rYshapeP5 and one rYshapeP7LTxx; 90 °C 90 s,
    cool to 10 °C at 0.5 °C per 30 s; dilute to 10 µM.
@@ -356,7 +398,7 @@ tools, with a custom barcode corrector for up to two substitutions/indels. 🟢
 | Leftover primer removal | exonuclease I in the tube | pooling + column purification |
 | TdT | 37 °C 50 s, PCR buffer | 37 °C 75 s, Thermopol (T55) |
 | Second strand | 98 / 40 / 68 °C | 98 / 40 °C, ramp 0.2 °C/s to 68 °C |
-| PCR primer | (NH2)-gM, 21 cycles | gM, 11 / 9 cycles |
+| PCR primer | (NH2)-gM, 21 cycles | gM, 11 cycles (published main Methods) |
 | Library | full-length, TruSeq Y adapter, TPC1 + TPC2 | 3' end, truncated Y adapter, P5-gMac + TPC2 |
 | Read 1 | TruSeq Read 1 into cDNA | Read1DropQuartz into cbc + UMI |
 

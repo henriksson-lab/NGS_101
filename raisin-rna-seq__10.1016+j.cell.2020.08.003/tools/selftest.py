@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import sys
-H=Path(__file__).resolve().parent; sys.path[:0]=[str(H.parents[1]/"lib")]
-from checks import Check
-from chem import (RAISIN_CST, RAISIN_RT_PRIMER,
-                  RAISIN_LOCKED_TSO, RAISIN_PCR_PRIMER)
-c=Check(); c.section("RAISIN source transcription")
-c("published CST buffer", RAISIN_CST,
-  (("CHAPS", "0.49% w/v"), ("NaCl", "146 mM"), ("CaCl2", "1 mM"),
-   ("MgCl2", "21 mM"), ("Tris pH 8.0", "10 mM")))
-c("Key Resources Table oligos (PMC8358727)",
-  (RAISIN_RT_PRIMER, RAISIN_LOCKED_TSO, RAISIN_PCR_PRIMER),
-  ("AAGCAGTGGTATCAACGCAGAGTACT(30)VN",
-   "AAGCAGTGGTATCAACGCAGAGTACrGrG+G",
-   "AAGCAGTGGTATCAACGCAGAGT"))
+import sys,re
+HERE=Path(__file__).resolve().parent
+sys.path[:0]=[str(HERE),str(HERE.parents[1]/'lib')]
+import chem
+from checks import Check,Source,have
+from storage import sources_root
+c=Check();g=chem.protocol_graph()
+src=Source(sources_root()/HERE.parent.name/'j.cell.2020.08.003_PMC8358727.xml.txt','published2020 KeyResourcesTable')
+if have(c,src,label='published SMART oligos'):
+ text=re.sub(r'\s+','',src.path.read_text())
+ for name,sequence in [('RT primer',chem.RAISIN_RT_PRIMER),('locked TSO',chem.RAISIN_LOCKED_TSO),('PCR primer',chem.RAISIN_PCR_PRIMER)]:c(name+' source transcription',sequence in text,True)
+c('Preamp uses actual switched ss target',g.steps['preamp'].geometry.template is g.materials['switched'].state,True)
+c('Index PCR uses native tagged substrate',g.steps['library_pcr'].geometry.template is g.materials['tagged'].state,True)
 c.report()

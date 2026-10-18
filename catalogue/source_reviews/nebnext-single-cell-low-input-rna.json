@@ -72,6 +72,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 102 checks pass (shared run_common plus 4 local transcription checks); page builds; pairing 0 problems; chemistry 1 established/2 conditional/13 unresolved/0 contradictory; source guard 2 exact checked (TSO, cDNA PCR primer), 0 failed, 1 input without exact state (RT primer, wrapped text); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch07-native-graph-migration",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Cached E6420 original printedVersion6.0_01/24 title; selectedSection1 cells/cDNA/library operations1.1–1.13; double recovery1.6.2–1.6.20; USERconditional1.9.6–7; OligoSequences/trim/readlength table1840–1870. Local manifest has no file row; original printedkit/version identity checked, retrieval mapping not upgraded.",
+      "oligo_scraper": "Mandatory cached-bundle scraper run before decisions. Relevant exactoligo/trim motifs verified in namedmanuals; no-hit and otherbundle documents do not establish absence.",
+      "findings": "Removed indexed_library/STANDARD_PRIMERS and genericduplex RT rows. ActualsourceT30V primer/TSOrGrGrG and separateRNA/gDNA population; actualswitchedssDNA enters one-species unavailablePCRgeometry. Source-knownWTA structure reference remains inferred firstcopy extent; no expectedduplex asPCRinput. Explicitfirst0.6beadrecovery/elution→45µlReconstitutionBufferrebind/recovery. FSfragmentation/endrepair/3A→unknownnativeNEBNextadapterligation→USERchangesadapterstate/releasedproductsunresolved→0.8recovery→actualpreparedfragmentPCR→0.9recovery. Separatelyselectedsingle/dual-index architecture and native widths remainunassigned; typical2x75 recommendation notexecutedrun.",
+      "deferred": [
+        "Native separately purchased adapter/indexkit strands, USER-sensitive structure and selected members",
+        "First-cycle TSO/PCR derivation, residualRNA/gDNA and class-specific recovery",
+        "Section2purifiedRNA variant and actual run/index acquisition remain outside selected route"
+      ],
+      "scope": "Capped native migration/source pass; no accepted missing-information claim or historical review-status upgrade. Source originals2/2/1 across assigned three protocols.",
+      "verification": "Local source suites4/4/4pass; all3page builds; chemistry14/11/15steps and15/12/18unresolved,0contradictory; sourceguard3checked0failed11unassigned0exemptions; pairing0problems; schema/whitespacepass. Independent critical implementation review remains pending."
+    },
+    {
+      "round": "2026-10-18-batch07-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "nebnext-single-cell-low-input-rna/tools native molecular declarations and graph; source-reader handoff and capped evidence scope.",
+      "findings": "Checked separate RNA/gDNA, actual RT/T30V and RNA-tailedTSO, inferred switched ssDNA as one-speciesPCR template, two successive cDNA bead recoveries, FS/endrepair/dA order and distinct native USER-dependent adapter states. USERproducts unresolved, actual processed fragments enter indexPCR; no finalduplex or selectedsingle/dual indexdefaults. No critical implementation defect found.",
+      "deferred": [
+        "Source-reading and molecular-coverage obligations stay at their declared scope."
+      ],
+      "scope": "Independent implementation-only critical review, no original documents read and no missing-information acceptance.",
+      "verification": "Released worker suites/pages/chemistry/source guards passed; parent focused verifier and whole-site checks pending."
     }
   ]
 }

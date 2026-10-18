@@ -301,6 +301,36 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "selftest 12/12 pass (original Supp Table 1 transcription checks ran); page builds; pairing 0 problems; chemistry 1 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states, no timeout; audit_protocol_sources --check ok; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch11-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "PublishedPMC6876564 JATS Methods144–160 (bulk/singleoocyte, extension/USER/RT/PCR/sizeallocations/Sequel/CCS); originalMOESM1PDF TableS1allTSO/RT/PCR/15guideoligos andmodificationdefinitions688–745. No new2022/vendor/repositoryreading.",
+      "oligo_scraper": "64hits6files; defining2019TableS1sourceoligos verified; laterprotocol/vendorcomparators remainhistoricalscope.",
+      "findings": "Local nativeoligos/graph replacebatch_ngs/protocol_extensions/longread_footprinting/Smartdefaults. KlenowdNTP extendsoriginalRNA3end withDNA (mixedRNA–DNA), USERcutsDNAguide physicaldU; actualssRT/switchedSS precedesPCR. NativeRNApolyAtail length/nonA andswitchjunctionextent bounded, notfixed18As/G3copies; originalrG/LNA/dU modifications distinctfromDNAcopies. Independenttwoportions undergo1×>200bp and0.4×>2kbselections, actualequimolarcontributions pooled withunallocatedresidualfates. Unversioned2019SMRTbellkit isgenuinenativeboundary, closedcircuit usesunknownhairpinroleswithoutfixedN18/A-Tdefault. Knownprimeranneal/polymerase/Magbeadbinding preserved; ≥10CCSpasses computational. ExistingdUTspacing/TSOminusGnotices preserved.",
+      "deferred": [
+        "CitedSmartseq2 detailedRTconditions/nativejunctions notreread;2019ownTableS1authorityretained",
+        "Unversioned2019SMRTbellvendoridentity/internalorder/hairpinends andloadedprimerbases remainunassigned",
+        "ClassspecificoriginalRNA/guide/PCRresidualrecoveries open;later2022/singleoocyte15memberroute remainsdistinct"
+      ],
+      "scope": "Capped sourcepass≤3originals/10min, investigation frozenbeforeimplementation. Protocol-ownednativegraphmigration, notcompleteprotocolreview, acceptedabsence, independentsecondoriginalreading orhistoricalstatusupgrade. Existingstatuses/passes preserved.",
+      "verification": "4 optionaloriginalchecks;16steps;10established17unresolved0contradictory. Fourpagesbuild;sourceguard12checked0failed0skipped5inputswithout exactstates; scopedchemistry15established72unresolved0contradictory. Pairing/schema/staticOUT/whitespace verifiedafterrecordwrite."
+    },
+    {
+      "round": "2026-10-18-batch11-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Read chem.py originalRNA–newDNA3′extension, physicaldUguide/USERfragmentfates, original2019rGrG+GTSO versuscopiednormalDNA, first/switchedSSactualPCRinput, twoindependentphysicalsize-portions/equimolarpool, unversionedSMRTbellclosedtopology.",
+      "findings": "No additional concretecritical implementation defect found. InputtoPCR isactualswitchedSS; original/copy chemicalresidues remain distinct. >200bp and>2kb sourceportions areactualallocations withunallocatedremainderfates, thenequalmolarpool. Nativehairpinwidth/ligationends/kitversion remainunassigned whileclosedtopology isrepresented.",
+      "deferred": [
+        "Exactunversioned2019kitnativeendprep/adapter/recoveryorder remainsbounded; later2022guide isnot experimentversionproof.",
+        "Existing2-original sourcepass not re-read; no secondsource/absenceaudit."
+      ],
+      "scope": "Independent code-only review ofowner boundedsourcepass. No originalsopened, no sourcebreadthexpansion, historicalstatus/absencegate unchanged.",
+      "verification": "Re-readfinalfixes; combinedchemistry68steps/15established72unresolved0contradictory; pairing0; LASTrenderedindexnegativeacquisition absent. Owner reports suites2/5/8/4, guard12checked0failed5unassigned, builds/schema/staticOUT pass."
     }
   ]
 }

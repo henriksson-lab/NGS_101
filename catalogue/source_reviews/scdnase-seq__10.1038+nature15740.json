@@ -107,6 +107,35 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "nuclease_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Local graph ownership and bounded original-source correction; no full chemical validation or accepted absence claim.",
+      "locations": "Jin etal.2015 published article PMC4697938 JATS Methods lines117–121 and analysis line153; Illumina Adapter Sequences1000000002694 v22 obsolete Multiplexing kit pp100–101, extracted lines22679–22725.",
+      "findings": "Replaced shared nuclease_accessibility recipe with a local scDNase graph. Added source-described30ng circular carrier, SDS/EDTA stop/proteinaseK, DNA extraction/ethanol recovery and the second160–300bp E-gel selection; the final library is the second gel product. Carrier-derived background stays unresolved rather than being silently discarded. Corrected repository indexed-primer transcription: vendor members end with13nt GTGACTGGAGTTC, not full34nt Read2. The exact early primer-extension route is not asserted; first-PCR geometry uses the actual ligated precursor. Second-round P5/P7 inputs stay distinct with physical sequences unassigned. dA-tail reference is explicitly inferred from adapter compatibility. Acquisition is explicitly unspecified instead of silently acquiring every declared kit primer.",
+      "deferred": [
+        "Cited Hu etal. ni.2712 method not re-read in this bounded pass; prior source/version assignment is preserved",
+        "Exact physical first-PCR mixture/extension route and second-round P5/P7 oligos remain unassigned",
+        "Carrier plasmid identity, precise background products and study run mask remain unresolved"
+      ],
+      "verification": "local suite3/3 direct vendor-source checks; both pages build; chemistry9steps1established3conditional11unresolved0contradictory; source guard4 exact strands checked0failed2 unrepresented second-round primers; pairing0 problems",
+      "oligo_scraper": "Ran full local source-bundle scraper; vendor oligo pointers followed into the obsolete Multiplexing originals for scDNase. No drawn upstream content used as evidence."
+    },
+    {
+      "round": "2026-10-18-population-display-correction",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only molecular representation correction; original migration source scope retained. No new scientific choices or absence conclusions.",
+      "locations": "Local protocol molecular states; original migration source locations remain recorded in the preceding bounded check.",
+      "findings": "Genomic fragments and independently added circular carrier occupy separate Scene rows in stopped/recovered material. Fork-adapted target fragments and unresolved carrier background also occupy separate rows at the first PCR input. This does not assign carrier-derived product chemistry.",
+      "deferred": [
+        "Original migration evidence limits and deferred targets remain unchanged."
+      ],
+      "verification": "Local suite and page build pass; scoped chemistry total across four protocols:1established5conditional44unresolved0contradictory (limited coverage). Source guard8exact strands checked0failed,1existing cross-bundle exemption,11inputs without exact states. Pairing0problems. Source-review schema and focused note builds pass. Independent population rows checked directly; legacy DISCOVER workflow also constructs successfully."
     }
   ]
 }

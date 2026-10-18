@@ -66,6 +66,22 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite (comment-only, no explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-validation-migration-rna-end",
+      "reviewer": "protocol-migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published author manuscript PMC4224642 nature13802_PMC4224642.xml.txt Methods Pseudo-seq Library Preparation lines54–64 (sample-specific Zn fragmentation, CMC/reversal/mock, end repair and three RNA size windows, adapter, modifiedRTprimer, AMVRT/cDNA gel, CircLigase, PhusionPCR and library gel/precipitation).",
+      "oligo_scraper": "Ran tools/scrape_primers.py on the actual cached source bundle; relevant hits checked in the defining printed passages. Scraper output/no-hit results are not independent evidence or accepted absence.",
+      "findings": "Local graph separates CMC derivatization from alkaline reversal, named CIP/PNK repair, RNA/cDNA/final-library gel fractions, exact modified donor/RT/PCR reagent states, AMVRT42 C, circularization and PhusionPCR. Adapter terminal ddC included; 5′-Phos/pre-adenylated contradiction preserved on public page and ligation geometry unresolved. RTprimer retains two non-nucleotideiSp18 spacers; computed22-base landing includes ddC nucleotide. PCR consumes actual circle boundary; six-base sample index restricted to its source window, not wholeprimer. Read type/count/acquisition remain unassigned rather than fabricated from HiSeq platform.",
+      "deferred": [
+        "Exact spacer-containing circle/PCR and final sequencing-primer geometry",
+        "Published donor activation conflict: ordered5′phosphate versus described adenylation",
+        "Nature version-of-record comparison, citedpredecessors and GEO run metadata"
+      ],
+      "scope": "Source-specific graph/ownership migration; bounded original-reading scope only, no full reaction validation or accepted missing-information claim. Historical independent passes retained.",
+      "verification": "Native suite passes (4 explicit original-source checks), page builds, source guard3 checked0 failed, pairing0; chemistry0 established/0 conditional/13 unresolved/0 contradictory. Source-review schema and note build checked."
     }
   ]
 }

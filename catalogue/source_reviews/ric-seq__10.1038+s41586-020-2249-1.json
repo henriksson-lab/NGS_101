@@ -384,6 +384,32 @@
       ],
       "scope": "Bounded deferred follow-up; defining Methods now read; capped pass, not full acceptance; no missing-information claim accepted.",
       "verification": "local suite comment-only pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/21 unresolved/0 contradictory over 20 steps (no MAGIC); source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; audit --check pass"
+    },
+    {
+      "round": "2026-10-18-batch04-native-graph-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published2020 Nature PDF printedDOI/sourceidentity and Methods2067–2195; published SupplementaryTable9 MOESM12 workbook text248–262; source GEO GSE127188 GSM3629915 record identity and treatment/extraction protocol lines13/16 (matching originalMethods). Mandatory whole-bundle scraper completed. Later2021 protocol/2024 article are excluded from actual2020 chemistry and not newly read.",
+      "findings": "Removed queued protocol_specs and opaque18nt molecule defaults. Native graph preserves independent RNP RNA populations, physical pCp–biotin cytidine and source5′P/3′P → FastAP3′OH → PNK5′P states, actual proximity junction and separate labelled singleton population. Capture does not claim to remove all singletons. Original2020 Table9 full PE1 and12 indexed primers are source-owned, retaining7 eight-base and5 six-base members without selecting a member or equating width with acquisition. Actual first-strand targets retain RNA until RNaseH/dUTP second strand. Independent chimera/singleton duplexes, dA geometry, source1.8×/postligation recoveries and separate USER phase precede actual surviving ss PCR templates. DNase/RNaseH/USER hydrolysates remain molecular/unresolved; only real wash/gel exclusions are discarded. Selected rRNA-depleted branch remains distinct from source totalRNA option.",
+      "deferred": [
+        "Exact2020 Y-adapter/RT/PCR first-copy and final molecular geometry, dU position/distribution and individual hydrolysate partition; selected index member and biological/index acquisition lengths remain unassigned. No2021 adapter substitution or accepted publication-absence claim."
+      ],
+      "scope": "Capped source-owned native graph migration; no source-review status upgrade, no accepted absence claim and no complete molecular-proof claim.",
+      "verification": "Suite14/14 including all2020Table9 primers; page/pairing pass; chemistry24steps12conditional25unresolved0contradictory. Combined3graph source guard18checked0failed0exempt9inputs without exact states; source-review schema/targeted note build checked separately."
+    },
+    {
+      "round": "2026-10-18-batch04-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current chem.py implementation and author-reported batch04 source boundaries only; published originals and linked material not reread.",
+      "findings": "Read current native model including separate RNP RNAs, pCp-biotin end chemistry/internal junction, labelled singletons alongside chimeras, RNA-template/debris fates, actual ds/endprepared/adapter/USER-surviving PCR substrates, manual scope and2020 index/read declarations. Copied junctionC becomesG without transferring biotin chemistry. No concrete critical defect found. Native2020 Y-adapter pairing/first-copy and read/index cycle allocation remain explicit boundaries; later2021 sequences not substituted.",
+      "deferred": [
+        "Existing author migration source checklist, native-geometry/read limits and deferred original/linked-source targets remain; this code-only review does not extend original-source scope."
+      ],
+      "scope": "Independent implementation review, not a second original-source/absence audit. No accepted missing-information claim.",
+      "verification": "Read-only critical review; author focused suites/pages/chemistry/sourceguard/pairing reported separately."
     }
   ]
 }

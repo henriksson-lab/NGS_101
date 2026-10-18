@@ -1,9 +1,10 @@
-import sys
 from pathlib import Path
-HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
+import sys
+HERE=Path(__file__).resolve().parent
+sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
+from batch_page import render
 import chem
-from protocol_build import build
-
-OUT = HERE.parent / "ng-capture-c.html"
-build(chem.SPEC, OUT)
+OUT=HERE.parent/"ng-capture-c.html"
+if __name__=="__main__":
+ OUT.write_text(render(chem.SPEC),encoding="utf-8")
+ print(f"wrote {OUT}")

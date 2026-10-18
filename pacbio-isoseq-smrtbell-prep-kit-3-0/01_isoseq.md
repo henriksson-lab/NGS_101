@@ -27,10 +27,41 @@ From 102-359-000 Rev08, sections 1–4:
 4. Nuclease treatment: 37 °C 15 min, then a 1.3X cleanup.
 5. Section 5 anneals the Standard sequencing primer before polymerase binding.
 
-The official FASTA establishes the two cDNA PCR primer footprints, including the selected sample barcode. The final dumbbell drawing records closed topology, with inferred hairpin bodies and an explicitly unavailable ligation-end geometry. It does not claim a source-known T overhang: the amplicon procedure does not state one, and the sister WGS kit page is a different procedure.
+The official FASTA establishes complete PCR oligo identities, including the
+selected barcode; it does not by itself establish their initial footprints on
+the unbarcoded RT/template-switch product. The final dumbbell drawing records closed topology, with inferred hairpin bodies and an explicitly unavailable ligation-end geometry. It does not claim a source-known T overhang: the amplicon procedure does not state one, and the sister WGS kit page is a different procedure.
 
 ## Open questions
 
 - SMRTbell adapter bases and ligating end, and the standard sequencing primer bases. These are not printed in either inspected procedure; the Rev07 Iso-Seq SMRTbell section is unread.
 - RT primer mix and TSO 2.0 bases. They are not printed in Rev10. The oligo-dT30VN in the 2022 training belongs to the earlier NEB-based workflow.
 - The substrate specificity of the nuclease mix. The procedures say only "Nuclease treatment".
+
+## Local chemistry ownership migration — 2026-10-18
+
+Removed the unused shared template-switch illustration. Its fixed14-A/14-T
+tracts and invented TSO-terminal bases are not used to fill the current RT
+primer or TSO2.0 gaps. Native RT/template-switch states instead declare the
+source reagent roles and variable-length RNA/cDNA regions. PCR consumes the
+actual unbarcoded single-stranded precursor; its binding geometry remains an
+explicit implementation boundary rather than using the already barcoded PCR
+product as the template. bc01 is the selected representative primer, while all
+twelve alternatives and the opposite primer remain source-listed and checked
+against the complete official FASTA.
+
+The local polymerase traversal preserves the sample-barcode feature and unknown
+insert/hairpin lengths. Drawing widths are not molecular lengths. Unknown
+hairpin end chemistry is now set structurally on the dumbbell, preventing the
+renderer from labelling it a direct repaired junction. The inspected Rev08
+procedure's1.3X amplicon-input cleanup now precedes repair/A-tailing, distinct
+from the preceding Rev10 PCR cleanup. The selected closed topology is a
+candidate shown from a ligation mixture; nuclease specificity and other
+products are unresolved, and hydrolysis is not equated with physical discard.
+
+Re-read three originals: printed102-396-000 Rev10 SEP2026 RT/template-switch
+and PCR sections2–3; official IsoSeq_v2_primers_12.fasta; printed102-359-000
+Rev08 AUG2026 input-cleanup and nuclease/cleanup sections1 and4. These are the
+already selected, directly linked modern monomer route. The older2022 NEB
+workflow and unavailable Rev07 are not substituted for it. The bundle scraper
+was run; the original source passages and sequence records were read directly.
+This migration does not establish absent publication information.

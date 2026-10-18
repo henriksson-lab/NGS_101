@@ -371,6 +371,45 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 0 checked, 5 unrepresented"
+    },
+    {
+      "round": "2026-10-18-batch02-native-graph-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published supplementary protocol MOESM227 extracted text1–142 (entire protocol); published supplementary figures MOESM220 Fig21 caption309–319. Mandatory whole-bundle scraper reviewed; six primer sequences verified directly in the original supplementary protocol.",
+      "findings": "Native graph separates three RT primer/target populations, retained RNA, source RNase digestion, variable TdT dC tail, ten-cycle second-strand extension, 24-cycle GAT27 WTA and two 20-cycle 3NGAT24 conversion blocks with their separate recoveries. Fragmentation, end repair, dA tailing, source-limited TruSeq ligation and five-cycle KAPA PCR use actual precursor states. Prior independently reviewed Online Methods end preparation and five-cycle/2×75 run scope retained, not re-read in this pass. The earlier bounded conversion label understated the two source blocks. Fig21 85×2 versus named 2×75 run discrepancy remains displayed.",
+      "deferred": [
+        "Full adapter/index family and ligation geometry; complete WTA/conversion molecular geometry; cached defining main article not re-read this pass; acquired index-cycle assignment."
+      ],
+      "scope": "Capped source-qualified native graph migration; not a full two-reader audit and no accepted absence claim.",
+      "verification": "9 source/actual-precursor checks pass; page and pairing pass; chemistry13 steps,17 unresolved,0 contradictory. Whole three-protocol guard initially found only the mim ddC parser mismatch, resolved by documented scoped exemption and independently checked complete modified oligo."
+    },
+    {
+      "round": "2026-10-18-batch02-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current implementation and migration notes/review scope only; original published sources not re-read.",
+      "findings": "Read current local chem module, migration note/review record: independent RT target rows, RNA residual/digestion outcomes, variable dC-tail, actual post-second-strand/GAT27/conversion/adapter-ligated PCR inputs, source-specified native endprep and run alternative boundaries. No concrete critical defect found. Complete native handle/loop/adapter/index geometry remains explicitly unassigned.",
+      "scope": "Independent implementation review referencing existing migration source scope, not an independent source-reading or absence pass.",
+      "verification": "Read-only critical review; author focused checks reported separately.",
+      "deferred": [
+        "Original-source and linked-material rereading not part of this implementation-only review; prior migration source scope and deferred targets remain."
+      ]
+    },
+    {
+      "round": "2026-10-18-batch02-parent-display-correction",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current module and generated read table; prior five-cycle source scope checked against existing main research note/new author review entry. No original re-read.",
+      "oligo_scraper": "No new source reading or changed structural oligo inputs. Parent source guard first exceeded60s; terminal timeout observed, rerun with240s cap completed successfully:6checked,0failed,3unassigned inputs.",
+      "findings": "Explicit read specifications retain chosen2×75 and unknown index acquisition/cycles instead of generated negative-acquisition rows. Restored five-cycle label already present in prior source note and author review. Added explicit inferred-end captions; structural molecular inputs and source-guard candidates unchanged.",
+      "deferred": [
+        "Prior source follow-ups remain unchanged, including cached defining original and full native adapter/read geometry."
+      ],
+      "scope": "Display/metadata correction only, not new original-source review or absence acceptance."
     }
   ]
 }

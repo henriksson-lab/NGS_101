@@ -312,6 +312,35 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 0 checked, 7 unrepresented"
+    },
+    {
+      "round": "2026-10-18-batch06-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC9004682 Results215 and Methods540–554; published mmc1.pdf title/FigureS1 specificity and modality-comparison caption; published mmc9.xlsx TableS8 Neuron Marker One_vs_Rest header/first entries, marker data not recipe. Source-qualified2018 finishing component reused from same-batch verified PMC6147798 Methods149–153 and MOESM1 SupplementaryMethods/Table2; no additional original opened for this reuse.",
+      "oligo_scraper": "Ran mandatory scraper on external source bundle; inspected relevant published source pointers and excluded superseded preprint hits. Source custom H1 mixes and modified DNA-dU/RNA/LNA syntax remain source-qualified. Large data files skipped by cap are deferred, not evidence of absence.",
+      "findings": "Selected brain nuclear RNA/methylome subworkflow: source DNA-dU/C3 RT oligos and RNA/LNA TSO tail, newly synthesized5mC cDNA body,14-cycle nuclear cDNA PCR, UDG-only abasic treatment and later alkaline cleavage,25µlCT/90µl binding modifications. Independent genomic DNA/RNA/cDNA classes stay physically mixed; mCH modality partition is computational. Nuclear finishing explicitly inherits2018 RP-H/Adaptase/PCR/recovery order, while whole-cell2017/N9 assumptions are excluded. New copies encode methylation as bases rather than chemically inheriting5mC. Native member/end/geometry unknowns retained. Parent implementation review fixes: post-PCR states carry possible original/blocked-template lineages through each cleanup without asserted physical separation. Source order/modified nucleotide representation and unresolved original RNA fates made explicit; DpnII cut ends retained through inactivation where applicable.",
+      "deferred": [
+        "Directly linked authored snmCAT v1 protocols.io original and any changed nuclear finishing/index details; native ordered index/RP members and Adaptase geometry",
+        "Large mmc11 source-data workbook and other supplements remain uninspected; no absence finding or linked-source closure."
+      ],
+      "scope": "Bounded ownership/native-graph migration; source reuse is limited to the explicitly inherited2018 finishing component. Historical review status and independent passes unchanged; no absence claim accepted.",
+      "verification": "Focused suites/pages/source guard/pairing/review schemas pass; chemistry0contradictions across all three. Source guard2exact oligos checked,1narrow H1-synthesis-notation exemption, no failures. Parent owns shared/static/full-site checks."
+    },
+    {
+      "round": "2026-10-18-batch06-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current native local modules, cut/converted/copied/modified material states, actual PCR geometries, product fates, source scopes and read declarations. No original source reread in this pass.",
+      "findings": "Selectedbrain14cycle/UDG-only nuclearsubworkflow distinctfromculturedwholecell/12cycle and broaderNOMeaccessibility workflow. PhysicaldU DNAprimers/C3, modifiedRNA/LNA TSO tail, abasicUDG products and physicalconvertedU originals distinctfromcopied/readoutbases. Parent found literal rGrG+G inphysicalTSO state, missingmethyl-dCTP inputatcDNA-PCR, RNA disappearanceatBS and omitted original/copyresiduals afterfinishPCR; ownercorrectedall. Actualswitchedss input andnativeAdaptase material feedPCR; twoDNA/cDNA molecularpopulations sharelibrarybut are classifiedcomputationally. Nativeindexmember/geometry and acquiredindexcycles remain unassigned.",
+      "deferred": [
+        "Complete nativeAdaptase/input-to-amplicon/read-primer geometry and study-specific selected members; physical class recovery",
+        "Originals and linked chemistry outside owner capped source scope remain deferred."
+      ],
+      "scope": "Independent critical implementation-only review and verified owner corrections; no newsource original, source-status upgrade, accepted absence or whole-chemistry certification.",
+      "verification": "Owner reports focused suite/page/chemistry/sourceguard/schema/pairing passes after corrections; final parent focused/full-site validation follows."
     }
   ]
 }

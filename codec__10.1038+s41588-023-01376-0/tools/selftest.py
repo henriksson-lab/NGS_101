@@ -22,4 +22,12 @@ if have(check, src, label="original Supplementary Table 5"):
                       ("LD4-brid5-1", "P-" + C.CODEC_BRID5_1),
                       ("LD4-brid7-1", "P-" + C.CODEC_BRID7_1)):
         check(name + " original complete modified ordering sequence", name + seq in compact)
+    # Independent transcription boundary: this local output window must retain
+    # the original bridge7 orientation, even while global linkage is unresolved.
+    segments=list(C.FINAL_LIBRARY)
+    first=next(i for i,seg in enumerate(segments) if seg.feature==C.SID7_FEATURE)
+    last=next(i for i,seg in enumerate(segments) if seg.name=="Read 2 primer site reverse complement")
+    region="".join(seg.top for seg in segments[first:last+1])
+    check("final SID7/UMI/Read2rc region preserves original bridge7 orientation",
+          "LD4-brid7-1P-"+region in compact)
 check.report()

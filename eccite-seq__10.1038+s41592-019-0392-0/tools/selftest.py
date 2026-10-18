@@ -29,7 +29,13 @@ if have(check,table,label="ECCITE-seq ordered conjugate barcode source"):
 protocol=Source(source_dir/"s41592-019-0392-0_41592_2019_392_MOESM3_ESM.pdf.txt",
                 "Mimitou et al. 2019 MOESM3 supplementary protocol oligonucleotide list")
 if have(check,protocol,label="ECCITE-seq supplementary protocol oligo list"):
-    text=re.sub(r"\s+","",protocol.path.read_text(encoding="utf-8")).replace("*","")
+    written=re.sub(r"\s+","",protocol.path.read_text(encoding="utf-8"))
+    for name,sequence in (("SI-PCR",eccite_seq.SI_PCR[:-2]+"*T*C"),
+        ("RPIx",eccite_seq.RPI1_P7+"x"*8+eccite_seq.RPI1_HANDLE[:-2]+"*C*A"),
+        ("D7xx_s",eccite_seq.D701S_P7+"x"*8+eccite_seq.D701S_HANDLE[:-2]+"*G*C"),
+        ("Next_nst_x",eccite_seq.NEXT_NST_P7+"x"*8+eccite_seq.NEXT_NST_HANDLE+eccite_seq.NEXT_NST_SCAFFOLD[:-2]+"*A*C")):
+        check(name+" terminal phosphorothioates match source",sequence in written)
+    text=written.replace("*","")
     x8="x"*8
     for name,oligo in (
         ("protein-tag example",eccite_seq.PROTEIN_TAG_HANDLE+x8+eccite_seq.TAG_TSO_END),

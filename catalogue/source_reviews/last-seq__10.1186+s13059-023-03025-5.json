@@ -146,6 +146,36 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 6/6 pass; page builds; pairing 0 problems; chemistry 7 established/0 conditional/14 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 2 inputs without exact states; Markdown built; audit --check pass"
+    },
+    {
+      "round": "2026-10-18-batch11-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "PublishedPMC10413806 JATS Methods150–195; originalMOESM2XLSX TablesS2/S3; originalMOESM1DOCX FigS3/S8legends andrenderedoriginalFigS8 (word/media/image8.png, inspectedoutsidecheckout).",
+      "oligo_scraper": "107hits1file; originalTableS3BC2/dTrU/carrier/RandomRT/P5P7/NEBNextmodifications andbarcodecollision verified.",
+      "findings": "Nativegraph replacesrna_amplification direct_ssrna_ivt/poly_a_capture. Actualhairpin/rUdTnickligation→PAGE/ethanol; physicalrU19/extra3ddCC; originalRNA-RNaseHnick+KlenowDNAextension createsRNA–DNAtemplate plusdsDNA T7promoter beforeIVT. Originalcarrier/ERCC/genomicDNA/primers/template andRNAcopies preservedindependentlythroughactualpool/beadrecoveries/RT/actualssPCR. SourceMethodsfirst8cycleP5P7 conflictswithTableS3shortsites/sourceFigS8finishedNEBNextends; graphpreservespositiveorder/namedinputs withnativegeometrybounded, notassertedNEBNextfirstPCR orshortP5P7secondPCR. Source17pairedlinker+11closingarm source28bpcontext; extraunpairedT remainsT-Acontext, nickextentunassigned. SourceBC5/7CAGGAAcollisionnotice retained. Source50/25mask; native6ntindexnotacquisitiondefault.",
+      "deferred": [
+        "ExactRNaseHnick/Klenowextension/firstPCRlanding geometry remainsunassigned",
+        "Sourcefirst/furtherPCRprimerstageidentity andfurthercycles unresolved; completedFigS8NEBNextendsdonotproveinstallationstage",
+        "BC5/7collision andnativeindexacquisition remainopen;80wellpool separatefromselected10wellroute"
+      ],
+      "scope": "Capped sourcepass≤3originals/10min, investigation frozenbeforeimplementation. Protocol-ownednativegraphmigration, notcompleteprotocolreview, acceptedabsence, independentsecondoriginalreading orhistoricalstatusupgrade. Existingstatuses/passes preserved.",
+      "verification": "8 optionaloriginalchecks;14steps;5established16unresolved0contradictory. Fourpagesbuild;sourceguard12checked0failed0skipped5inputswithout exactstates; scopedchemistry15established72unresolved0contradictory. Pairing/schema/staticOUT/whitespace verifiedafterrecordwrite."
+    },
+    {
+      "round": "2026-10-18-batch11-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Read last_seq.py sourcehairpin/rU-dT ligation and physicaladditionalddC; originalRNA3′DNAextension/promoter; physicalcarrier/spike classes; directIVT→randomRTSS→actualnativePCR; sourceP5/P7versusNEBstagequalification andreadtable.",
+      "findings": "Identified finalrenderedindexrows falselysayingnotacquired fromR1/R2-onlyplan. Owner disabledcomputedreadcontent andsupplied explicit50/25 readspecs withbothindexacquisitionsunassigned; verified renderedpagehasnonegativeindexacquisition. Physical6ntNEBindexfamily andcomputedprimergeometry/reference remain distinct.",
+      "deferred": [
+        "NativefirstPCRprimerphase versus referenceNEBendpoint remainsunassigned; this isnot repairedby inventing a silentligation.",
+        "Existing3-original sourcepass not re-read; no sourceabsenceconclusion."
+      ],
+      "scope": "Independent code-only review ofowner boundedsourcepass. No originalsopened, no sourcebreadthexpansion, historicalstatus/absencegate unchanged.",
+      "verification": "Re-readfinalfixes; combinedchemistry68steps/15established72unresolved0contradictory; pairing0; LASTrenderedindexnegativeacquisition absent. Owner reports suites2/5/8/4, guard12checked0failed5unassigned, builds/schema/staticOUT pass."
     }
   ]
 }

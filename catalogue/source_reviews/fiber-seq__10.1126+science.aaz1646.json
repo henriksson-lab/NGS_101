@@ -162,6 +162,36 @@
         "Second independent reader for the two-pass gate"
       ],
       "verification": "selftest 1/1 pass; page builds; pairing 0 problems; chemistry 7 steps 0 established/1 conditional/7 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (PCR-free, no printed oligo); Markdown built (note, ref manifest); audit --check pass"
+    },
+    {
+      "round": "2026-10-18-batch10-native-graph-migration",
+      "reviewer": "native_longread_implementation",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published coauthor-hosted Science article title/identity/intro; ScienceSM printedtitle/DOI10.1126/science.aaz1646 (md5 50e5730597e6a21b038d35a110572f3d), MaterialsMethods AdMTase-seq76–96 inherited nuclei/BufferA/SAM scope and Fiber-seq185–232 original marking/extractions/precipitations/AMPure/shearing/library-system context.",
+      "oligo_scraper": "Mandatory source-bundle scraper: Fiber4hits/2files, SAMOSA53hits/2files, ScISOr2hits/1file; relevant original passages and modified oligos verified, no absence inference.",
+      "findings": "The graph selects original2020 Hia5 marking of isolated nuclei:200U,10min at37°C, source0.8mMSAM in BufferA. It preserves both original genomic DNA strands with independent, unassigned methylation patterns. There is no invented poly(A)-like accessibility tract or fixed methylation mask. Protein/RNA populations and their digestion products are distinct from the marked DNA.\n\nThe source order is explicit: SDS stop; RNaseA/ProteinaseK50°C1h; first phenol/chloroform extraction and upper aqueous transfer; first sodium-acetate/ethanol precipitation overnight, pellet/70%ethanol wash/resuspension; second RNaseA37°C1h; second phenol/chloroform extraction; separate chloroform/isoamyl extraction; second ethanol precipitation1h, pellet/70%wash/resuspension; AMPure repurification; Megaruptor10–15kb target. These are successive physical recoveries, not one catch-all extraction node. Digestion does not itself physically discard RNA/protein products, and individual species-specific recovery remains unassigned.\n\nOriginal2020 library preparation identity remains unassigned in the inspected passages. The SequelII system/version designation is not a preparation-kit identity. A bounded native PacBio preparation stage retains original modified DNA without importing the living bench protocol's SMRTbellkit3.0 repair/tailing/hairpin/nuclease recipe. The later25°C/commercial-Hia5 implementation is a distinct version, not a source discrepancy or proof of2020 execution. No arbitrary18base adapter, A/T ligation geometry, exact circular circuit, methylation copying or polymerase-entry polarity is supplied.\n\nPacBio kinetics interrogate original modified template; a sequencer's normal DNA synthesis/read reporting is not inherited methylation on a copied preparative library. System1.0/Sequel,20U and untreated/deproteinized controls are separate source experiments, outside the selected graph. The original unassigned kit/geometry is a model boundary, not an accepted publication-absence claim.",
+      "deferred": [
+        "Original2020 preparation execution identity and source-native adapter/end/closure chemistry",
+        "Separate20U/untreated/deproteinized/System1.0/Sequel experiments",
+        "Complete original linked methods/kit documents and per-species physical recovery"
+      ],
+      "scope": "Capped originals/source-owned native graph pass for selected experiments only; historical source statuses and absence gate preserved.",
+      "verification": "Focused suites3/1/3/pages pass; chemistry65steps0contradictions71unresolved; sourceguard7checked0failed3unassigned; pairing0; notesbuild/review schema/staticOUTdiscovery/scoped diffcheck pass. Independent code-only peer review fixed premature ScISOr probe presence and retained possible open SAMOSA DNA in actual mixed ExoIII input; affected pages/chemistry/pairing rechecked. Zero source additions during peer corrections."
+    },
+    {
+      "round": "2026-10-18-batch10-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Read fiber_seq.py native methylation/input original-strand populations; SDS/RNase/protease processing; both extraction/precipitation rounds; AMPure/shearing; original2020 bounded PacBio preparation; sequencing and manual targets.",
+      "findings": "No concrete implementation defect found. Original marked genomic strands remain distinct from copies; chemical digestion is not physical disposal. Later kit3.0 is excluded from original2020 authority.",
+      "deferred": [
+        "Exact2020 native kit/hairpin/end/circuit/primer geometry not established by code review.",
+        "Original article and supplementary source scope2 documents was not re-read; this is not an independent source or absence pass."
+      ],
+      "scope": "Code-only independent implementation review of existing owner sourcepass; no originals opened or source breadth expanded. Historical status and absence gates unchanged.",
+      "verification": "Re-read corrected code; all3chemistry audits65steps/71unresolved/0contradictory; renderedpages pairing0. Owner reports source suites3/1/3, builds, sourceguard7exact/0failed/3unassigned and schema pass."
     }
   ]
 }

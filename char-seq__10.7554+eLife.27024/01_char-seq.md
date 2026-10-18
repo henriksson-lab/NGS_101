@@ -2,7 +2,7 @@
 
 ## Sources read
 
-- 🟢 Bell et al. 2018, DOI `10.7554/eLife.27024`, original eLife v2 Figure 1—figure supplement 1 and caption (source image; JATS lines 88–90). The same bridge strings and modifications are printed in the [original bioRxiv supplement](https://doi.org/10.1101/118786), PDF lines 36–40 and 101–109.
+- 🟢 Bell et al. 2018, DOI `10.7554/eLife.27024`, original eLife v2 Figure 1—figure supplement 1 and caption (source image; JATS lines 88–90). The published graphic is the active bridge authority; the superseded preprint is retained only as historical evidence.
 - 🟢 Limouse et al. 2020, PMCID `PMC7607860`, *Methods in Molecular Biology* §2.3 (JATS lines 132–134), prints a **later bridge variant** with a three-base UMI and different geometry.
 
 ## Construct path
@@ -33,3 +33,42 @@ only; no preprint exception is needed. The automated source guard explicitly exe
 these two image-only strands from text matching, while the local suite pins their
 visual transcriptions. This does not resolve the exact TEG attachment bond or the
 historical library-kit member.
+
+
+## Native-graph migration (2026-10-18)
+
+Inspected two defining published originals: eLife v2 JATS Results 157–163 and
+extended protocol steps 20–27 (756–901), plus the original
+`elife-27024-fig1-figsupp1.jpg` in the PMC5962340 supplementary archive (upper
+bridge diagram, visually read). The mandatory full-bundle scraper returned
+13 hits in six files. Later-2020 and superseded-preprint hits were not substituted
+for the published 2018 graphic. Its image-transcription guard exemption remains
+explicit and is not counted as a text match.
+
+The local conditional TruSeq-compatible reference replaces the shared recipe;
+its kit assignment stays inferred and its i7 length/member remains unassigned.
+Canonical Illumina constants establish a compatibility hypothesis, not the
+identity of the historical NEBNext kit. The bridge and its retained DpnII junction
+come from the defining original. The genomic 5′ GATC contribution is explicit;
+no bridge UMI or additional acquired read is assigned.
+
+The graph now retains the original bridge-bottom DNA primer after RNA ligation
+and shows its Bst-copied tail/RNA complement separately from the RNA-bearing
+strand. Nearby genomic DNA remains an independent population until DpnII
+ligation. The ligated contact still contains RNA before RNase H/Pol I second-strand
+synthesis; a complete DNA duplex is not drawn prematurely. The original
+App/Sp3 modifications and uncertain internal desthiobiotin-TEG attachment
+remain source-qualified. Detached cut products do not imply physical discard.
+
+Actual USER-opened and first-PCR precursors remain distinct from the conditional
+finished-library reference. The source's post-USER bead wash, first 1:1 AMPure
+selection, 5-µL qPCR versus 25-µL production aliquots, second PCR and final
+0.5× then cumulative 1:1 AMPure selection are explicit. Fractions the protocol
+says to save or set aside remain stored rather than discarded; physically removed
+ethanol washes are separate. The final source target is approximately 100–500 bp.
+
+Deferred: exact historical NEBNext kit/selected index and physical primer ends,
+complete topology and native input-to-output molecular proof, precise internal
+TEG bond, and the Hi-C/mock-ChAR/control variants. The reported biological read
+is single-end 152 bases; index acquisition remains unassigned. This bounded
+migration does not complete a source audit or accept any missing-information claim.

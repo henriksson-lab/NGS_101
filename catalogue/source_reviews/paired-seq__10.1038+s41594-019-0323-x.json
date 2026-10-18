@@ -98,6 +98,49 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite comment-only (0 explicit checks) passes; page builds; pairing 0 problems; chemistry 13 established/2 conditional/17 unresolved/0 contradictory; source guard 9 exact checked, 9 failed solely by locator-filter exclusion of scg-mirrored publisher Tables 1-2 (all nine verified verbatim there), 13 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "documents": 3,
+      "locations": "Published PMC7231560 JATS Results65 and Methods117–149 (transposome/barcodeplateassembly,tagmentation/RT,three ligationrounds/blockers,subLibraries/lysis,variableTdTtail/Anchor15cycles,PA10cycles,restrictiondigests/QIAquick/Tn5P5/indexQ5 and53+7+130run). PublishedTable1 MOESM2 entireoligolist1–15; publishedTable2 MOESM3 BC1A1/B1 andBC2/3/4representativeA1rows,phase-familypositions. Cachedscg_ workbook identities checked against MANIFEST publishercopies: matchingmd501ad9b97524cb00ad7939a23e0514841 and209862aa5fb4ee13fca7f605f4db5e76.",
+      "findings": "Removed shared splintedbarcode andterminalfinisher recipes. Localpublishedsplint/complement/blocker relations andfixedsource7ntbarcode declarations. PhysicalpMENTs terminalddC retained onnontransferredstrand; not copied into taggedstrand. ActualvariableTdTtail and sourceAnchor-extension productclasses feed PA-PCR; removedfixed9C exacttemplate and annealedprimer-as-extendedproductshortcut. Bothrestriction aliquots retainmixtures; opposite-modality cleavageproducts remain molecules throughsourceQIAquickcleanup, not assertedremoved bynuclease. Explicitsourcecleanups/sublibrary/QCaliquots andactualpre-indexTn5PCRstates; nonamplifiableTn5classesunresolved. CorrectedrepositoryP7XXprimer toexactprinted32ntarm endingC; fullRead2/R04terminalT endpointassembly conditional/inferred ratherthan silentcanonicalprimerbase. Preservedsource53+7+130 andknown8ntphysicali5/6nti7; i5acquisitionunassigned inreadtable.",
+      "deferred": [
+        "Native full Anchor-extension/first-cyclePCR/tagmentationgap geometry and complete final endpoint proof",
+        "ExactTn5P5loadedadapter: AdaptorA is printed but not assigned by selectedMethods",
+        "TELP predecessor andoriginalExtendedDataFigure1a not followed inthis cappedpass",
+        "Precisephysical recovery ofrestrictioncleavage/tagmentationclasses and unselectedsublibraries; index2acquisitionunassigned"
+      ],
+      "round": "2026-10-18-batch03-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "oligo_scraper": "Mandatory bundle scraper reviewed; relevant printed primer/modification hits verified against actualselected originals. OAK targetedscraper also run on alreadycitedCG000183RevAoriginal. Large unrelated dataworkbook skips are not absence evidence.",
+      "scope": "Capped nativegraph migration, not full source/linked audit; no accepted missing-information claims.",
+      "verification": "Focused source suite17/17 pass; page builds; pairing0; chemistry7 established/31 unresolved/0contradictory; scoped batch sourceguard28checked/0failed/2documented pMENTs strand exemptions/18unassigned inputs; review schema, notes and diffcheck pass."
+    },
+    {
+      "round": "2026-10-18-batch03-implementation-correction",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Local model, rendered page and parent independent review findings; existing batch03 original-source scope referenced, no originals re-read.",
+      "findings": "Implementation corrections align displayed P7XX with its printed32nt arm, remove the obsolete workflow, preserve source barcode/UMI chain features in Anchor/preamp and intact restriction-target states, and mark a new native P5-associated end/gap role after retagmentation while retaining carried cleavage products. Native tail length and full first-cycle/end assembly stay unassigned.",
+      "deferred": [
+        "Existing migration native-geometry and historical-source boundaries remain; no additional source reading or absence conclusion."
+      ],
+      "scope": "Implementation correction referencing the original migration evidence scope; not an independent original-source review.",
+      "verification": "Focused source suite17/17 pass; page builds; pairing0; chemistry7 established/31 unresolved/0contradictory; scoped batch sourceguard28checked/0failed/2documented pMENTs strand exemptions/18unassigned inputs; review schema, notes and diffcheck pass."
+    },
+    {
+      "round": "2026-10-18-batch03-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current protocol declarations, notes and quoted source scopes; no additional originals read.",
+      "findings": "Checked modified pMENTs, local splints, variable TdT tail, actual Anchor/preamp and mixed cleavage/retagmentation inputs. Corrected displayedP7XX to source32nt arm; removed obsolete workflow that implied physical modality purification. Known identifier chain retained through extension/cleavage/retagmentation; newP5-associated native end/gaps explicit and conditional; nonamplification not physicaldiscard.",
+      "deferred": [
+        "Existing migration native-geometry and historical-source boundaries remain; no additional source reading or absence conclusion."
+      ],
+      "scope": "Independent implementation review only; not a second original-source pass or accepted absence claim.",
+      "verification": "Parent focused suite/page/scopedchemistry/sourceguard/schema pass, page pairing0problems; corrected implementation re-inspected."
     }
   ]
 }

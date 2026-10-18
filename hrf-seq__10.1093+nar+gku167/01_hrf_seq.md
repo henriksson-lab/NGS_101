@@ -44,3 +44,17 @@ Inspected: Published PMC4005689 JATS38–40, Sequencing library preparation.
 Named PrimeScript RT, CircLigase-mediated adapter ligation and Phusion4+20 PCR cycles. Confirmed200–600bp library selection and paired100 reads without changing the existing exact primer declarations.
 
 Deferred: SupplementaryTableS1 complete modified oligos, cDNA-adapter geometry, RT recovery and final gel-selection graph stages; unusual published PCR dwell wording not silently corrected. This pass does not establish a complete source review or publication-wide absence.
+
+## Native ownership migration, 2026-10-18
+
+Sources read: Published PMC4005689 JATS Methods24–48 (substrates, Fentonprobing, librarypreparation,paired100,readpreprocessing); published supplementaryFile009.pdf TableS1 lines61–110 (random/cassetteRT,5′PHO/3′NHC3 barcodeadapter,forward andfour indexedPCR oligos).
+
+Removed rna_end_readout steps/finisher and invented exact duplex PCR template. Native selectedribosome/randomRT graph has actualsingle-strandRTproduct, source5′phosphorylated7ntbarcodeadapter with nonnucleotide3′aminoblock, covalent3′cDNA–5′adapterligation and cleanup beforePCR. PCR unavailable on actualblockedSSprecursor; final reference retains sourceoligos andfeatureidentity and corrects random-primer coordinate to reverse-complement orientation. Source4+20Phusion cycles,200×dilution,200–600bpfinalselection andPE100 retained. Indexsequence6nt is not guessed as an acquired indexread. RNaseP/cassetteRT remains a separately identified sourcevariant.
+
+Model boundaries: Nativeforward-first/reverse-secondPCR molecularproof; RNaseP/cassetteRT graph; exactindexacquisition; cleanup component partitions and linked predecessor manual not read thispass. Mandatory bundle oligo scraper was run and relevant original passages checked. This capped pass accepts no publication-absence claim.
+
+## Independent review corrections, 2026-10-18
+
+Independent reader inspected Published PMC4005689 Methods33–49. Actual blocked single-strand ligation precursor/PCR geometry is sound, but RT template RNA recovery remains unresolved through delegated RNAClean purification.
+
+Added explicit molecular RNA-template output and unresolved downstream recovery after RT. PCR Scene is explicitly the tracked cDNA target component; it does not assert an RNA-free tube or infer template destruction in RNAClean. This correction used that bounded review and the existing source scope; no additional original was read by the implementation reviewer. No publication-absence claim is accepted.

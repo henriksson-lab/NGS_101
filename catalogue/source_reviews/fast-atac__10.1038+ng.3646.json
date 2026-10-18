@@ -364,6 +364,21 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "selftest 2/2 pass; page builds; pairing 0 problems; chemistry 7 steps 0 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "atac_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "scope": "Protocol ownership, actual PCR precursor and bounded source-transcription review only.",
+      "locations": "Corces2016 published PMC5042844 Online Methods Fast-ATAC assay (sorted5000cells,digitonin/TDE1,MinElute,cited refs48/23,76×8×8×76); cited Buenrostro2015 CurrentProtocols PMC4374986 amplification/qPCR text lines120–167; cited Nature14590 published MOESM36 SupplementaryTable1 v2_Ad1/v2_Ad2 families (representative entries lines6 and99, entire family checked by local source suite).",
+      "findings": "Local declaration owns the source-cited dual-eight-base-index endpoint and both complete published v2_Ad1/v2_Ad2 primer-family architectures. No family recipe or batch endpoint remains. Primer member assignments remain unknown. Added a distinct gap-fill step before five-cycle PCR and located primer sites on that real gap-filled precursor; continued amplification uses the actual preamplified remainder and same polymerase. Preserved digitonin/PBS cell-pelleting branch, MinElute cleanups, qPCR aliquot and76×8×8×76 NextSeq acquisition. Non-library end-class recovery is explicitly unresolved rather than inferred physical removal. Two cross-bundle source-guard exemptions are backed by dedicated direct-original checks of every published family member.",
+      "deferred": [
+        "Exact physical TDE1 loading oligomers/stagger geometry and transposition/gap-fill product relations remain unresolved",
+        "Study-specific i5/i7 member assignment remains unassigned; source architecture does not identify a sample well"
+      ],
+      "verification": "local suite4/4 including2 direct-original family checks; page build; chemistry8steps0established2conditional8unresolved0contradictory; source guard0failed2 cross-bundle exemptions backed by source suite; pairing0 problems",
+      "oligo_scraper": "Full protocol bundles scraped; Fast-ATAC cited CurrentProtocols and Nature14590 predecessor bundles also scraped before inspecting their originals. Drawn upstream pages were not evidence."
     }
   ]
 }

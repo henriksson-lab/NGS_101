@@ -57,6 +57,42 @@ amplified by Ad1/P7) rather than physical discards.
 
 🟢 The defining paper and protocol specify the constant arms, linkers, modifications and 96 barcode values per round. The public page draws the exact constant geometry and modifications. 🟡 It uses structured 8-nt barcode placeholders rather than embedding all 288 well-specific values in every reaction state.
 
-## Source-version discrepancy
+## Published-version boundary
 
-🟢 The June 2020 [author preprint](https://doi.org/10.1101/2020.06.17.156943), Methods section (1), PDF text lines 718–725, describes an incoming **3′ overhang** and names the **round 2 linker** for the round 1 plate. The published [Cell paper](https://doi.org/10.1016/j.cell.2020.09.056), STAR Methods “Preparing oligonucleotides for ligations” (JATS line 213), instead describes a **5′ overhang** and the **round 1 linker** for that plate. 🟢 Published Supplementary Table S1, “bulk oligos” rows 3–5, prints separate round 1, 2 and 3 linkers. The model uses those published oligos and the final paper's round assignment. 🟡 Whether the preprint meant a different physical intermediate or contained wording errors cannot be determined from that text alone.
+Published STARMethods use the round1 linker and5′overhang; TableS1 independently
+prints all three distinct linkers. Superseded preprint wording remains historical
+and is not a published-source discrepancy or current geometry authority.
+
+## Native graph migration, 2026-10-18 batch06
+
+Fresh scope: published PMC7669735 STARMethods “Preparing oligonucleotides…”
+through “Quantification and sequencing” (text209–254), and original published
+SupplementaryTableS1/mmc1 workbook mirrored under scg_ filename: bulk-oligo
+rows1–15, Ad1 source primer rows and PlateR1–R3 arm/barcode templates. Two
+originals; full bundle primer scraper run and hits verified against source rows.
+
+Source-specific barcode records now supply every arm, N8 width, linker, blocker
+and phosphorylation choice locally. The graph owns transposition, nuclear washes,
+Maxima RT and wash, three barcode/splint hybridizations with complementary blocking,
+pooling/physical round3 washes, one ligase sealing reaction, source cell aliquot,
+proteinaseK reverse-crosslinking/PMSF and streptavidin physical separation.
+Blocking free oligos is hybridization, not a discard operation. Uninterpretable
+well paths/collisions are not physical waste. Known blocked-ME5′P/PT/3′ddC
+chemistry and RT5′P/N10UMI/internalbiotin-dT are structured graph inputs.
+
+Actual on-bead switched ss-cDNA/RNA enters initial cDNA PCR. Five source cycles
+are followed by a separate2.5µl analytical qPCR aliquot and qPCR-defined production
+cycles, then selected cell-line0.8×AMPure (primary-tissue0.6×separate),50ng
+selection, Read1-only Tn5 and Zymo cleanup,7cycleAd1/P7PCR and0.7×AMPure.
+The ATAC supernatant gets MinElute, initial5cycles, a separate25µl qPCR aliquot
+and source-defined extra cycles. Analytical qPCR products are QC terminals.
+
+Native Read1-tagged cDNA is a partial-strand Scene: barcode-bearing cDNA and
+donor-bearing opposite-strand roles, with paired span/gaps unassigned. It is not
+a final-library truncation. All PCR geometry uses actual preceding native states;
+complete source-primer-derived endpoints remain separate conditional references.
+RNA/co-carried end classes and cleanup recovery remain unresolved, rather than
+physically removed because they lack intended ends. Source NextSeq30/99/8/30
+remains selected; NovaSeq50/99/8/50 stays a separate run. Compatible Nextera
+sequencing-primer landing is inferred from source arms, while acquisition is
+source-positive. No new source-absence or review-status conclusion.

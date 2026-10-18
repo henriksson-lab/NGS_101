@@ -39,3 +39,31 @@
 - 🔴 Which P5 and indexed P7 primers the RNA Nextera XT 12-cycle PCR used is not printed, so the RNA final library stays role-level and its tagmentation off-product fate unresolved.
 - 🟡 Candidate A–A / non-B-tagged transposition products stay with the DNA branch (no physical separation); fate not observed in the source.
 - Deferred: 2025 Nature Protocols main text; DBiT-seq predecessor (doi:10.1016/j.cell.2020.10.026); Diagenode Tn5/pA-Tn5 assembly guidelines; Nextera XT kit primers.
+
+
+## Native graph migration (2026-10-18, batch10)
+
+The source-owned graph now follows the original 2023 assay through tissue processing,
+transposition, RT, both spatial ligations, reverse crosslinking and streptavidin
+partition. DNA and RNA are independent physical populations. The source RT primer
+contains a physical internal biotin-dT followed by T15VN; its ordinary DNA copies
+retain that nucleotide without inheriting biotin. Modified TSO originals and their
+DNA copies likewise have distinct chemistry.
+
+The DNA PCR receives the actual native gapped material after the published initial
+extension. N501/N701 and compatible standard Nextera sequencing primers form an
+**inferred reference**, with sample assignment and first-cycle completion unresolved.
+The RNA branch retains on-bead template switching, five PCR cycles, physical bead
+removal, free-solution amplification, 0.8× recovery, a 1ng aliquot, XT tagmentation,
+neutralization, twelve PCR cycles and 0.7× recovery. Possible free RNA, fragments,
+primers and non-target DNA remain explicit; bead removal alone does not prove their
+complete removal. Native final RNA primer ends and index acquisition stay unassigned.
+Both preparations retain the source paired-end150 acquisition; physical identifier
+widths do not supply index-read cycle counts.
+
+This pass read the published Methods244–298 and original 2023 SupplementaryInformation
+Table4 (594–657), first A1/B1 rows and their barcode-family context in Tables5–6
+(658–681,1067–1088). It inspected two originals; it did not reread the later 2025
+protocol supplement or rendered figures. The earlier source reviews remain history.
+Actual study primer/index choices, native gaps and the detailed XT oligos remain
+follow-up questions, without an accepted publication-absence claim.

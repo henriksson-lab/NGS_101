@@ -1,203 +1,100 @@
-from chemdraw import Segment, Workflow
+"""Vendor-revision-owned native molecular declaration."""
+from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
+from protocol_model import molecule, role
+from protocol_graph import ProtocolGraph, MaterialKind as M, InputRole as I, StepKind as K, SequencingPlan, Disposition, Terminal, SourceDiscrepancy, SourceClaim, AnnotationSlot
+from pcr import PCRGeometry
+import seqprimers as sp
+SEQ_PRIMERS=()
+SEQUENCING_INTRO=''
+SHOW_READ_CONTENT=False
+def recover(g,key,template,label,state=None,kind=M.MOLECULAR):
+ reagent=g.input(key+'_selection',label,M.SELECTION)
+ kept=g.product(key+'_retained','recovered '+template.label,kind,state=template.state if state is None else state)
+ waste=g.product(key+'_waste','physically removed supernatant/washes or excluded bead fraction',M.WASTE)
+ g.react(key,label,K.CLEANUP,((template,I.TEMPLATE),(reagent,I.SELECTION)),(kept,waste),changes_molecule=False)
+ g.discard(waste,'Physical non-retained fraction; complete species-specific depletion is not inferred.')
+ return kept
+
+def pcr(g,key,template,state,label,forward,reverse,polymerase,symmetric=False):
+ product=g.product(key+'_product',label+' product',M.MOLECULAR,state=state)
+ residual=g.product(key+'_residual','original-template and other co-carried molecular classes; recovery unassigned',M.MOLECULAR,state=template.state)
+ inputs=[(template,I.TEMPLATE),(forward,I.STRUCTURAL),(polymerase,I.CATALYST)]
+ if reverse is not None:inputs.insert(2,(reverse,I.STRUCTURAL))
+ g.react(key,label,K.PCR,inputs,(product,residual),geometry=PCRGeometry.unavailable(template.state,reason='Actual incoming native precursor is shown; first-cycle/end geometry remains unvalidated. Completed library is a separate output.',symmetric_species=symmetric))
+ g.mark_terminal(Terminal(residual.id,Disposition.UNRESOLVED,'PCR does not chemically erase original templates or physically purify co-carried polymers; later recovery is unassigned.'))
+ return product
+
+
+from chemdraw import oligo
+FINAL_LIBRARY=None
+SEQUENCING_UNAVAILABLE=''
+SOURCE_LIMITATION='Native selected kit/version/end geometry and complete sequencing-primer landing remain unassigned within this bounded pass.'
+def population(*rows):
+ sc=Scene()
+ for key,parts,label in rows:sc.strand(key,tuple(parts),label=label)
+ return sc
+def mol(label,*parts):return population(('molecule',parts,label))
+def finish(g,x,key,label,reads):
+ lib=g.product(key,label,M.LIBRARY,state=x.state)
+ g.react(key+'_retain','Retain '+label,K.GENERIC,((x,I.TEMPLATE),),(lib,),changes_molecule=False)
+ g.sequence(lib,SequencingPlan(limitation=SOURCE_LIMITATION,**reads))
+ return lib
+def manual_scope(g):
+ # This protocol-owned graph explicitly enumerates the inspected native stages.
+ g.declare_reviewed_scope(REVIEWED,SOURCE)
+ return g.require_publishable()
 import illumina
-
-# Supplementary Table 5 (PMC6782071 sup_tab_5.xlsx rows 5-6), 5'->3'.
-P5_GENERIC = illumina.P5
-RPI_X_3PRIME = "GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA"
-from types import SimpleNamespace
-from rna_cell_assays import Construct, Definition, InputRole, MaterialKind, PCRGeometry, ProtocolGraph, SequencingPlan, SourceCoverage, SourceItem, StepKind, custom_library, single, token, unknown_region
-from rna_cell_assays import feature
-
-from rna_cell_assays import branches, chain
-
-def got_workflow():
-    initial = single("10x first-strand cDNA", (
-        token("target transcript cDNA"),
-        token("10x cell barcode", tag="cbc", length=16,
-              molecular_feature=feature("cell_barcode", "cell_barcode", "whitelist",
-                                        whitelist="10x Chromium chemistry-specific whitelist")),
-        unknown_region("chemistry-specific UMI", tag="umi",
-              molecular_feature=feature("umi", "umi", "random")),))
-    return chain("barcoded 10x cDNA", initial, (
-        ("Optionally spike a target primer into RT or cDNA amplification", initial,
-         "The paper specifies 5′ RT/additive spike-ins and a 3′ cDNA-amplification spike-in when needed."),
-        ("Split amplified cDNA into expression and genotyping branches",
-         branches("same cell barcode and UMI", (
-             ("expression branch", (token("whole-transcriptome cDNA"),)),
-             ("genotype branch", (
-                 token("target cDNA"),
-                 token("cell barcode", tag="cbc", length=16),
-                 unknown_region("chemistry-specific UMI", tag="umi",
-                                molecular_feature=feature("umi", "umi", "random")),
-             )),
-         )),
-         "Only a small cDNA aliquot enters targeted genotyping; the remainder follows standard 10x preparation."),
-        ("Target PCR: generic forward SI-PCR primer with a staggered locus-specific reverse primer",
-         single("GoT amplicon", (token("variant-containing target"),
-                                  token("cell barcode", tag="cbc", length=16),
-                                  unknown_region("chemistry-specific UMI", tag="umi",
-                                      molecular_feature=feature("umi", "umi", "random")))),
-         "SI-PCR anneals the partial Read 1 end and preserves cell barcode and UMI; the reverse primer adds a partial Read 2 handle, a 0-3 nt stagger and the gene-specific region. Unincorporated primers are then removed by SPRI."),
-        ("Second PCR with P5_generic and an indexed RPI-x primer",
-         single("GoT library", (token("sequencing arm"), token("variant-containing target"),
-                                 token("cell barcode", tag="cbc", length=16),
-                                 unknown_region("chemistry-specific UMI", tag="umi",
-                                     molecular_feature=feature("umi", "umi", "random")),
-                                 token("indexed sequencing arm"))),
-         "P5_generic retains the cell barcode and UMI; RPI-x completes P7 and adds the 8-nt sample index. Read 1 reports cellular identifiers and Read 2 reaches the selected variant."),
-    ))
-
-
-DEFINITION = Definition("GoT — Genotyping of Transcriptomes", "10.1038/s41586-019-1367-0",
-        "Nam et al., <i>Nature</i> (2019)", "01_got.html",
-        "A targeted amplicon branch is made from 10x cDNA while retaining its cell barcode and UMI, linking a selected transcribed variant to the cell's whole transcriptome.",
-        "Read 1 is 26 cycles (3′ v2 and 5′) or 28 cycles (3′ v3) for cell barcode and UMI, the 8-cycle index read selects the library, and the 98- or 130-cycle Read 2 reaches the targeted variant (HiSeq 2500 spike-in or separate MiSeq run).",
-        "The defining paper supports 10x 3′ v2/v3 and 5′ inputs. The schematic shows the common linear identifier-preserving branch; exact UMI length follows the chosen 10x chemistry. For 3′ v2 only, the GoT aliquot (3 µL; 10 µL for 3′ v3 and 5′) is first re-amplified 3–4 cycles with KAPA HiFi HotStart ReadyMix and 10x primer mix; this optional step is not drawn. The 10x SI-PCR primer sequence is not printed in the paper or Supplementary Table 5. Circularization GoT is not drawn; its published handle assignment differs between sources: Methods give Fw-primer#2 AGGUCAGTCU and Rv-primer#2 AGACUGACCU, whereas Supplementary Table 5 lists Handle PCR2_fw AGACUGACCU and PCR2_rv AGGUCAGTCU; Methods print Rv-primer#1 without the 3′ phosphorothioate shown in Table 5 (…CCGATC*T). No choice is modelled.")
-
-d = DEFINITION
-final = custom_library('GoT targeted library', (token('cell barcode', tag='cbc', length=16, molecular_feature=feature('cell_barcode', 'cell_barcode', 'whitelist', whitelist='10x Chromium chemistry-specific whitelist')), unknown_region('chemistry-specific UMI', tag='umi', molecular_feature=feature('umi', 'umi', 'random')), token('variant-containing cDNA', length=44)))
-primers = ()
-reads = None
-OLIGOS = (
-    "<b>P5generic</b> (Supplementary Table 5) — 5′-AATGATACGGCGACCACCGAGATCTACAC-3′",
-    "<b>RPI-X</b> (Supplementary Table 5) — 5′-CAAGCAGAAGACGGCATACGAGATXXXXXXXXGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA-3′; XXXXXXXX is the sample index",
-    "<b>Staggered GoT handles</b> (Supplementary Table 5) — 5′-CACCCGAGAATTCCA-, CACCCGAGAATTCCAA-, CACCCGAGAATTCCATT- or CACCCGAGAATTCCACAT-[gene-specific primer]-3′",
-    "<b>CALR L367fs*46 gene-specific portion</b> — 5′-[staggered handle]-GCAGCAGAGAAACAAATGAAGGAC-3′",
-    "<b>SI-PCR forward primer</b> — 10x Genomics reagent annealing partial Read 1; sequence not printed in the defining paper",
-)
-workflow_fn = got_workflow
-SPEC = SimpleNamespace(
-    TITLE=d.title, NOTES=d.notes,
-    SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
-    SUMMARY=d.summary, CAVEAT=d.caveat, FINAL_LIBRARY=final,
-    SEQ_PRIMERS=primers, FINAL_CAPTION=d.endpoint, SEQUENCING_INTRO=d.endpoint,
-    READ_LENGTHS=reads, SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE=("" if primers else "Exact sequencing-primer sequences are not fixed by the defining protocol or were not exposed in its accessible primary text; read entry and cycle roles are stated explicitly."),
-    workflow=workflow_fn, oligos=lambda: OLIGOS,
-)
-
-
-def got_graph(definition, final: Construct) -> ProtocolGraph:
-    """GoT graph retaining both expression and targeted-genotype outputs."""
-    source = f"{definition.citation}; doi:{definition.doi}"
-    graph = ProtocolGraph(definition.title, authority=source)
-    initial = got_workflow().initial
-    cdna = graph.input("barcoded_10x_cdna", "amplified barcoded 10x cDNA",
-                       MaterialKind.MOLECULAR, state=initial, primary=True)
-    expression_cdna = graph.product("expression_cdna", "whole-transcriptome cDNA aliquot",
-                                    MaterialKind.MOLECULAR,
-                                    state=single("expression branch", (
-                                        token("whole-transcriptome cDNA"),)))
-    genotype_cdna = graph.product("genotype_cdna", "targeted-genotyping cDNA aliquot",
-                                  MaterialKind.MOLECULAR,
-                                  state=single("genotype branch", (
-                                      token("target cDNA"),
-                                      token("cell barcode", tag="cbc", length=16),
-                                      unknown_region("chemistry-specific UMI", tag="umi"))))
-    graph.react("split_cdna", "Split cDNA into expression and genotyping branches",
-                StepKind.SPLIT, ((cdna, InputRole.TEMPLATE),),
-                (expression_cdna, genotype_cdna))
-
-    expression_forward = graph.input("expression_forward_primer",
-                                     "10x expression-library forward primer",
-                                     MaterialKind.OLIGO, inferred=True)
-    expression_reverse = graph.input("expression_reverse_primer",
-                                     "10x expression-library indexed reverse primer",
-                                     MaterialKind.OLIGO, inferred=True)
-    polymerase = graph.input("library_polymerase", "library PCR polymerase",
-                             MaterialKind.CATALYST)
-    expression_final = custom_library("GoT matched expression library", (
-        token("whole-transcriptome cDNA", length=44),))
-    expression_library = graph.product(
-        "expression_library", "matched 10x expression library",
-        MaterialKind.LIBRARY, state=expression_final, inferred=True)
-    graph.react("expression_library_pcr", "Complete the standard expression library",
-                StepKind.PCR,
-                ((expression_cdna, InputRole.TEMPLATE),
-                 (expression_forward, InputRole.STRUCTURAL),
-                 (expression_reverse, InputRole.STRUCTURAL),
-                 (polymerase, InputRole.CATALYST)), (expression_library,),
-                geometry=PCRGeometry.unavailable(
-                    expression_final,
-                    reason="The exact primers depend on the selected 10x 3-prime or 5-prime chemistry."))
-    graph.sequence(expression_library, SequencingPlan(
-        limitation="The matched expression endpoint follows the chosen 10x chemistry."))
-
-    target_forward = graph.input("target_forward_primer",
-                                 "10x SI-PCR generic forward primer (partial Read 1)",
-                                 MaterialKind.OLIGO)
-    target_reverse = graph.input("target_reverse_primer",
-                                 "staggered locus-specific reverse primer (partial Read 2 handle)",
-                                 MaterialKind.OLIGO)
-    amplicon = graph.product(
-        "target_amplicon", "cell-barcode- and UMI-retaining GoT amplicon",
-        MaterialKind.MOLECULAR,
-        state=single("GoT amplicon", (
-            token("variant-containing target"),
-            token("cell barcode", tag="cbc", length=16),
-            unknown_region("chemistry-specific UMI", tag="umi"))))
-    graph.react("target_pcr", "Amplify from the variant toward the 10x end",
-                StepKind.PCR,
-                ((genotype_cdna, InputRole.TEMPLATE),
-                 (target_forward, InputRole.STRUCTURAL),
-                 (target_reverse, InputRole.STRUCTURAL),
-                 (polymerase, InputRole.CATALYST)), (amplicon,),
-                geometry=PCRGeometry.unavailable(
-                    final, reason="Target-specific primer sequence varies with the selected locus."))
-    spri = graph.input("target_spri", "SPRI purification", MaterialKind.CONDITION)
-    purified = graph.product(
-        "purified_target_amplicon", "SPRI-purified GoT amplicon", MaterialKind.MOLECULAR,
-        state=single("GoT amplicon", (
-            token("variant-containing target"),
-            token("cell barcode", tag="cbc", length=16),
-            unknown_region("chemistry-specific UMI", tag="umi"))))
-    primer_waste = graph.product("unincorporated_target_primers",
-                                 "unincorporated target-PCR primers", MaterialKind.WASTE)
-    graph.react("target_spri_cleanup", "SPRI purification to remove unincorporated primers",
-                StepKind.CLEANUP, ((amplicon, InputRole.TEMPLATE), (spri, InputRole.CONDITION)),
-                (purified, primer_waste), changes_molecule=False)
-    graph.discard(primer_waste, "removed by SPRI purification before the second PCR")
-    handle_forward = graph.input(
-        "handle_forward_primer", "P5_generic forward primer", MaterialKind.OLIGO,
-        state=single("P5generic", (Segment("P5generic", P5_GENERIC),)))
-    handle_reverse = graph.input(
-        "handle_reverse_primer", "RPI-x indexed reverse primer (Illumina)", MaterialKind.OLIGO,
-        state=single("RPI-X", (
-            Segment("P7", illumina.P7),
-            Segment("sample index", "XXXXXXXX", "idx", placeholder=True,
-                    feature=feature("sample_index", "sample_index", "unknown")),
-            Segment("RPI-X 3′ handle", RPI_X_3PRIME))))
-    genotype_library = graph.product("genotype_library", "GoT targeted genotype library",
-                                     MaterialKind.LIBRARY, state=final, inferred=True)
-    graph.react("handle_pcr", "P5_generic/RPI-x PCR completes P7 and adds the sample index", StepKind.PCR,
-                ((purified, InputRole.TEMPLATE),
-                 (handle_forward, InputRole.STRUCTURAL),
-                 (handle_reverse, InputRole.STRUCTURAL),
-                 (polymerase, InputRole.CATALYST)), (genotype_library,),
-                geometry=PCRGeometry.unavailable(
-                    final, reason="The endpoint varies with the selected 10x chemistry and target."))
-    graph.sequence(genotype_library, SequencingPlan(limitation=definition.endpoint))
-
-    graph.declare_reviewed_scope((
-        "barcoded_10x_cdna", "split_cdna", "expression_forward_primer",
-        "expression_reverse_primer", "library_polymerase", "expression_library_pcr",
-        "expression_library", "target_forward_primer", "target_reverse_primer",
-        "target_pcr", "target_spri", "target_spri_cleanup", "purified_target_amplicon",
-        "unincorporated_target_primers", "handle_forward_primer", "handle_reverse_primer", "handle_pcr",
-        "genotype_library",
-    ), source)
-    optional = SourceItem("optional_rt_spikein", "optional target-primer spike-in", source)
-    graph.add_source_item(optional)
-    graph.cover_source_item(SourceCoverage(
-        optional.id, "excluded",
-        reason="Optional target-primer spike-ins are chemistry- and locus-dependent; this graph begins at amplified barcoded 10x cDNA."))
-    return graph.require_publishable()
-
-
+SOURCE_OLIGO_EXCEPTIONS={'locus_primer':'PublishedSupplementTable5 gives selectedzero-stagger handle andCALR target in separate rows; concatenation is the table-defined primer assembly, components independently source-tested.'}
+TITLE='GoT — native linear targeted transcript genotyping'
+NOTES='01_got.html'
+SOURCE='Nam et al. Nature2019 doi:10.1038/s41586-019-1367-0; publishedPMC6782071 Methods GoT/CircularizationGoT; originalSupplementTable5.'
+SUMMARY='Selected3′v2 recovered native first-strand cDNA is amplified before an actual aliquot enters linear genotyping. Native transcriptome remainder is a separate experimental allocation; identifier lineage survives target and index PCR.'
+CAVEAT='Selected linear3′v2 route, not a combined3′v2/v3/5′ reagent design. Native10x ordered ends/UMI width are unassigned; source recovered first-strand RNA/DNA populations remain distinct from amplified copies. Circularization and Gibson alternatives are source-known separate experiments summarized explicitly below, with disputed handle assignments retained and full native geometry deferred.'
+CELL=feature('cell_barcode','cell_barcode','whitelist',whitelist='native10x3primev2 selected chemistry; members unassigned')
+UMI=feature('umi','umi','random')
+INDEX=feature('library_index','sample_index','unknown')
+P5=illumina.P5
+RPI='GTGACTGGAGTTCCTTGGCACCCGAGAATTCCA'
+STAGGER='CACCCGAGAATTCCA'
+CALR='GCAGCAGAGAAACAAATGAAGGAC'
+def native_state(stage):
+ return population(('cDNA',(role('native10x endA; '+stage),role('cellbarcode lineage',molecular_feature=CELL),role('nativeUMI width unassigned',molecular_feature=UMI),role('native target-bearing cDNA'),role('native10x endB')),'actual '+stage+' DNA class'),('residual',(role('possible originalRNA, originalssDNA, primers and non-target products; partition unresolved'),),'independent carried native populations'))
+def targeted(indexed=False):
+ parts=((Segment('P5generic',P5) if indexed else role('native SI-PCR-derived end; exactstrand unassigned')),role('native partialRead1 sequence/identifier geometry unassigned'),role('cellbarcode',molecular_feature=CELL),role('UMI',molecular_feature=UMI),role('variant-containing nativecDNA'),Segment('selected zero-base-stagger handle reverse complement',revcomp(STAGGER)))
+ if indexed:parts=(*parts,Segment('sample index','N'*8,placeholder=True,feature=INDEX),Segment('P7 reverse complement',revcomp(illumina.P7)))
+ return mol('expected linear PCR daughter; junction/pairedstrand geometry unassigned',*parts)
+SEQUENCING_ENDING='Selected linear3′v2 GoT: sourceRead1=26,Read2=98or130,index=8; source expression allocation follows unread native10x recipe.'
+CAVEAT+=' CircularGoT is a separate native experiment: targetPCR#1 (optional SF3B1 pre-enrichment),1.3XSPRI,USERII37C1h/65C10min,T4ligation16Covernight/70C15min,lambdaexonuclease37C30min/65C20min,1.3XSPRI;PCR#2 repeats those recoveries/conversion/ligation/digestion;PCR#3 linearizes,SPRI thenP5/RPIindexPCR andPE150MiSeq. Gibson variant substitutes complementary handles/KAPAHiFiReadyMix and50C1hGibson assembly for the U-overhang closure. Lambda digestion makes molecular products; laterSPRI is physical recovery. Native circular junction/topology/ordered source-disputed primer assignment is outside selectedlinear graph. Methods assigns PCR2Fw AGGUCAGTCU/Rv AGACUGACCU; Table5 reverses those labels. MethodsPCR1Rv lacks Table5terminalPS (…CCGATC*T). No molecular choice is asserted for the undrawn circular variants.'
+READ_SPECS=(sp.read_spec('Read 1',26,'Native3′v2 cellbarcode+UMI; selected native individual widths unassigned','extract'),sp.read_spec('Read 2','98 or130','targeted variant','include'),sp.read_spec('Index 1 (i7)',8,'sourceRPI library index','demultiplex'))
+def oligos():
+ yield oligo('P5generic',[Segment('sourceP5generic',P5)])
+ yield oligo('RPI-X',[Segment('P7',illumina.P7),Segment('sampleindex','N'*8,placeholder=True,feature=INDEX),Segment('RPI3prime',RPI)])
+ yield oligo('selected zero-stagger CALR reverse',[Segment('handle',STAGGER),Segment('CALR',CALR)])
 def protocol_graph():
-    d = DEFINITION
-    final = SPEC.FINAL_LIBRARY
-    primers = SPEC.SEQ_PRIMERS
-    key = 'got'
-    return got_graph(d, final)
-SPEC.protocol_graph = protocol_graph
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ first=g.input('first_cdna','selected3′v2 native recovered first-strand10x cDNA; prior version-native kit chemistry bounded',M.BIOLOGICAL,state=native_state('recovered single-stranded firstcopy'),primary=True)
+ kit=g.input('native_amp_kit','source10x cDNA amplification reagents/primer mix; one extra3′v2 cycle; native recommendedcyclecount unassigned',M.CONDITION)
+ amp=g.product('native_amplified','native amplified10x cDNA mixture',M.MOLECULAR,state=native_state('amplified double-strand copies'))
+ g.react('native_amp_boundary','Source native10x cDNA amplification with extra3′v2 cycle',K.MAGIC,((first,I.TEMPLATE),(kit,I.CONDITION)),(amp,),reason='Source delegates native10x version-specific mixture, ordered oligos and base program to manufacturer. Named amplification and sourceextra cycle explicit; no false symmetric unknownprimerpool.')
+ amp=recover(g,'native_cleanup',amp,'SourceSPRIselect cleanup after cDNA amplification; ratio/partition unassigned')
+ genotype=g.product('genotype_aliquot','3µl native3′v2 cDNA genotyping aliquot',M.MOLECULAR,state=amp.state)
+ expression=g.product('expression_remainder','independent remaining native10x cDNA expression allocation',M.MOLECULAR,state=amp.state)
+ g.react('allocate','Physically allocate genotyping aliquot and transcriptome remainder',K.SPLIT,((amp,I.TEMPLATE),),(genotype,expression))
+ native_lib=g.product('expression_library','native10x expression library',M.LIBRARY,state=native_state('source expression-library daughter'))
+ g.react('expression_boundary','Remainder follows standard10x library preparation',K.MAGIC,((expression,I.TEMPLATE),(kit,I.CONDITION)),(native_lib,),reason='Native version-specific fragmentation/adapters/cleanup/primers delegated, unread here. This is a separate aliquot from targeted GoT.')
+ g.sequence(native_lib,SequencingPlan(limitation=SOURCE_LIMITATION))
+ reamp=g.product('reamplified','3′v2 extra3–4cycle copies plusoriginals',M.MOLECULAR,state=native_state('extra amplified copies'))
+ kapa=g.input('kapa','KAPAHiFiHotStartReadyMix+10x primer mix;3–4cycles',M.CONDITION)
+ g.react('reamp','Native3′v2 aliquot extra3–4cycle amplification',K.MAGIC,((genotype,I.TEMPLATE),(kapa,I.CONDITION)),(reamp,),reason='Source names commercial primer mix but ordered components and firstcycle geometry unassigned; no invented primer species.')
+ x=recover(g,'reamp_cleanup',reamp,'Source cleanup after3′v2 aliquot reamplification; exact ratio unassigned')
+ f=g.input('si_pcr','nativeSI-PCR forward; actual ordered strand unassigned',M.OLIGO)
+ v=g.input('locus_primer','selected zero-stagger CALR reverse',M.OLIGO,state=STAGGER+CALR)
+ pol=g.input('target_pol','native target-PCR reagents; CALR10cycles example; expression-dependent calibration',M.CATALYST)
+ x=pcr(g,'target_pcr',x,targeted(),'Enrich actual native CALR-bearing cDNA withSI-PCR andtarget reverse',f,v,pol)
+ x=recover(g,'target_cleanup',x,'SourceSPRI recovery removes unincorporated-primer fraction; complete depletion notasserted')
+ fp=g.input('p5','sourceP5generic',M.OLIGO,state=P5)
+ rp=g.input('rpi','sourceRPI-X; selected8baseindex member unassigned',M.OLIGO,state=mol('RPI-X',Segment('P7',illumina.P7),Segment('index','N'*8,placeholder=True,feature=INDEX),Segment('RPI3prime',RPI)))
+ x=pcr(g,'index_pcr',x,targeted(True),'Second sourcePCR completesP7/index; cyclecount unassigned',fp,rp,pol)
+ finish(g,x,'genotype_library','native linearGoT genotyping library',{'acquired_roles':('Read 1','Read 2','Index 1 (i7)'),'read_lengths':{'Read 1':26,'Index 1 (i7)':8}})
+ return manual_scope(g)
+REVIEWED=('first_cdna','native_amp_kit','native_amp_boundary','native_cleanup_selection','native_cleanup','allocate','expression_boundary','expression_library','kapa','reamp','reamp_cleanup_selection','reamp_cleanup','si_pcr','locus_primer','target_pol','target_pcr','target_cleanup_selection','target_cleanup','p5','rpi','index_pcr','genotype_library_retain','genotype_library')

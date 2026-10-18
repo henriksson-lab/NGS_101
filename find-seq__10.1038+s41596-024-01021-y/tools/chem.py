@@ -1,243 +1,124 @@
-from chemdraw import Workflow
-from types import SimpleNamespace
-from rna_cell_assays import Construct, Definition, InputRole, MaterialKind, PCRGeometry, ProtocolGraph, SequencingPlan, StepKind, single, sp, token
-from rna_cell_assays import nextera_library
+"""Vendor-revision-owned native molecular declaration."""
+from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
+from protocol_model import molecule, role
+from protocol_graph import ProtocolGraph, MaterialKind as M, InputRole as I, StepKind as K, SequencingPlan, Disposition, Terminal, SourceDiscrepancy, SourceClaim, AnnotationSlot
+from pcr import PCRGeometry
+import seqprimers as sp
+SEQ_PRIMERS=()
+SEQUENCING_INTRO=''
+SEQUENCING_ENDING='Illumina-compatible source kit endpoint; complete native primer geometry is unassigned.'
+SHOW_READ_CONTENT=False
+def recover(g,key,template,label,state=None,kind=M.MOLECULAR):
+ reagent=g.input(key+'_selection',label,M.SELECTION)
+ kept=g.product(key+'_retained','recovered '+template.label,kind,state=template.state if state is None else state)
+ waste=g.product(key+'_waste','physically removed supernatant/washes or excluded bead fraction',M.WASTE)
+ g.react(key,label,K.CLEANUP,((template,I.TEMPLATE),(reagent,I.SELECTION)),(kept,waste),changes_molecule=False)
+ g.discard(waste,'Physical non-retained fraction; complete species-specific depletion is not inferred.')
+ return kept
 
-from rna_cell_assays import chain
-from protocol_graph import AnnotationSlot, SourceClaim, SourceDiscrepancy
-
-def find_seq_workflow() -> Workflow:
-    return chain("heterogeneous cell suspension", single("one cell", (token("genome"),
-                                                                        token("poly(A) RNA"))), (
-        ("Co-encapsulate one cell, molten allyl agarose, and acrydite oligo(dT)",
-         single("hydrogel bead precursor", (token("cell genome"), token("cell RNA"),
-                                             token("covalent oligo(dT) matrix"))),
-         "APS/TEMED links acrydite oligo(dT) to allyl agarose."),
-        ("Lyse strongly, wash cold, then reverse-transcribe and template-switch on the hydrogel",
-         single("genome-capture bead", (token("retained genome"), token("matrix-bound cDNA"))),
-         "LiDS/Proteinase K lysis at 55 °C; cold high-salt washes; Maxima H Minus with the TSO "
-         "(Smart-seq3 TSO in the demonstrated run), 30 min RT then 90 min 42 °C, EDTA stop."),
-        ("Re-inject beads with multiplex TaqMan PCR, thermocycle, and sort double-positive droplets",
-         single("fluorescent selected bead", (token("retained genome"), token("matrix-bound cDNA"),
-                                               token("TaqMan marker signal"))),
-         "Demonstrated assay: HIV IPDA Ψ (FAM) and env (VIC) probes, 55 cycles with 88 °C denaturation. "
-         "Marker PCR is a selection measurement; it is not the transcriptome library."),
-        ("Melt sorted droplets at 60 °C, amplify cDNA with Smart-seq3 WTA primers, then Nextera XT",
-         single("FIND-seq library", (token("Nextera left arm"), token("selected-cell cDNA"),
-                                      token("Nextera right arm"))),
-         "Bulk bins or single sorted droplets; KAPA HiFi WTA, 0.8× AMPure XP, Nextera XT per manufacturer."),
-    ))
-
-DEFINITION = Definition("FIND-seq — nucleic-acid cytometry for rare cells", "10.1038/s41596-024-01021-y",
-        "Shin et al., <i>Nature Protocols</i> (2024)", "01_find-seq.html",
-        "A hydrogel bead retains one cell's genome and oligo(dT)-captured transcriptome while marker-specific TaqMan PCR drives fluorescent droplet sorting before whole-transcriptome library preparation.",
-        "Sorted-droplet cDNA is amplified with the published Smart-seq3 WTA primers (Smart-seq2 oligos are also listed) and tagmented with the Nextera XT kit; the protocol does not state a sequencing run or read layout, so the standard Nextera ends are shown without acquired cycles.")
-
-d = DEFINITION
-final, primers = nextera_library([token('selected-cell transcript cDNA', length=44)], 'FIND-seq transcriptome library')
-reads = None
-OLIGOS = (
-            "<b>Smart-seq2 bead capture</b> — 5′-acrydite-TTTTTTAAGCAGTGGTATCAACGCAGAGTAC(T)₃₀VN-3′",
-            "<b>Smart-seq2 template switch</b> — 5′-AAGCAGTGGTATCAACGCAGAGTGAATrGrGrG-3′",
-            "<b>Smart-seq3 bead capture</b> — 5′-acrydite-TTTTTTACGAGCATCAGCAGCATACGA(T)₃₀V-3′",
-            "<b>Smart-seq2 Smart PCR primer</b> — 5′-AAGCAGTGGTATCAACGCAGAGT-3′",
-            "<b>Smart-seq3 template switch</b> — 5′-biotin-AGAGACAGATTGCGCAATGNNNNNNNNrGrGrG-3′; N₈ is the UMI",
-            "<b>Smart-seq3 forward (WTA) primer</b> — 5′-TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGATTGCGCAA*T*G-3′; * phosphorothioate",
-            "<b>Smart-seq3 reverse (WTA) primer</b> — 5′-ACGAGCATCAGCAGCATAC*G*-3′; * phosphorothioate",
-            "<b>env TaqMan (selection only)</b> — F 5′-AGTGGTGCAGAGAGAAAAAAGAGC-3′; R 5′-GTCTGGCCTGTACCGTCAGC-3′; probe 5′-VIC-CCTTGGGTTCTTGGGA-MGBNHQ-3′ (quencher label as printed)",
-            "<b>Ψ TaqMan (selection only)</b> — F 5′-CAGGACTCGGCTTGCTGAAG-3′; R 5′-GCACCCATCTCTCTCCTTCTAGC-3′; probe 5′-FAM-TTTTGGCGTACTCACCAGT-MGBNHQ-3′ (quencher label as printed)",
-        )
-workflow_fn = find_seq_workflow
-SPEC = SimpleNamespace(
-    TITLE=d.title, NOTES=d.notes,
-    SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
-    SUMMARY=d.summary, CAVEAT=d.caveat, FINAL_LIBRARY=final,
-    SEQ_PRIMERS=primers, FINAL_CAPTION=d.endpoint, SEQUENCING_INTRO=d.endpoint,
-    READ_LENGTHS=reads, SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE=("" if primers else "Exact sequencing-primer sequences are not fixed by the defining protocol or were not exposed in its accessible primary text; read entry and cycle roles are stated explicitly."),
-    workflow=workflow_fn, oligos=lambda: OLIGOS,
-)
+def pcr(g,key,template,state,label,forward,reverse,polymerase,symmetric=False):
+ product=g.product(key+'_product',label+' product',M.MOLECULAR,state=state)
+ residual=g.product(key+'_residual','original-template and other co-carried molecular classes; recovery unassigned',M.MOLECULAR,state=template.state)
+ inputs=[(template,I.TEMPLATE),(forward,I.STRUCTURAL),(polymerase,I.CATALYST)]
+ if reverse is not None:inputs.insert(2,(reverse,I.STRUCTURAL))
+ g.react(key,label,K.PCR,inputs,(product,residual),geometry=PCRGeometry.unavailable(template.state,reason='Actual incoming native precursor is shown; first-cycle/end geometry remains unvalidated. Completed library is a separate output.',symmetric_species=symmetric))
+ g.mark_terminal(Terminal(residual.id,Disposition.UNRESOLVED,'PCR does not chemically erase original templates or physically purify co-carried polymers; later recovery is unassigned.'))
+ return product
 
 
-def find_seq_graph(definition, final: Construct,
-                   primers: tuple[sp.SeqPrimer, ...]) -> ProtocolGraph:
-    """FIND-seq graph from hydrogel partition through selected-cell library."""
-    source = f"{definition.citation}; doi:{definition.doi}"
-    graph = ProtocolGraph(definition.title, authority=source)
-    cells = graph.input("cell_suspension", "heterogeneous cell suspension",
-                        MaterialKind.BIOLOGICAL, state=find_seq_workflow().initial, primary=True)
-    matrix = graph.input("allyl_agarose", "molten allyl agarose matrix",
-                         MaterialKind.CONDITION)
-    capture_oligo = graph.input("acrydite_oligodt",
-                                "acrydited oligo(dT) primer (Smart-seq3 or Smart-seq2 form)",
-                                MaterialKind.OLIGO)
-    bead = graph.product("cell_hydrogel", "one-cell hydrogel bead precursor",
-                         MaterialKind.MOLECULAR,
-                         state=single("hydrogel bead precursor", (
-                             token("cell genome"), token("cell RNA"),
-                             token("covalent oligo(dT) matrix"))))
-    empty = graph.product("empty_partition_material", "empty or multiplet partitions",
-                          MaterialKind.WASTE)
-    graph.react("encapsulate", "Encapsulate cells in oligo(dT) hydrogels",
-                StepKind.PARTITION,
-                ((cells, InputRole.TEMPLATE), (matrix, InputRole.CONDITION),
-                 (capture_oligo, InputRole.STRUCTURAL)), (bead, empty))
-    graph.discard(empty, "partitions without one usable cell are not selected for sequencing")
-    proteinase = graph.input("proteinase_k", "proteinase K", MaterialKind.CATALYST)
-    lids = graph.input("lids", "LiDS lysis buffer, 55 °C", MaterialKind.CONDITION)
-    lysed = graph.product("lysed_bead", "lysed genome-retaining hydrogel bead",
-                          MaterialKind.MOLECULAR, state=bead.state)
-    graph.react("lyse", "Lyse cells strongly inside the hydrogel",
-                StepKind.DEPROTEINIZATION,
-                ((bead, InputRole.TEMPLATE), (proteinase, InputRole.CATALYST),
-                 (lids, InputRole.CONDITION)), (lysed,))
-    washes = graph.input("cold_high_salt_washes", "4 °C high-salt and 5× RT buffer washes",
-                         MaterialKind.CONDITION)
-    lysis_waste = graph.product("lysis_reagents", "removed oil, PFO, LiDS and Proteinase K",
-                                MaterialKind.WASTE)
-    washed = graph.product("washed_bead", "washed genome-capture bead with hybridized mRNA",
-                           MaterialKind.MOLECULAR, state=bead.state)
-    graph.react("break_and_wash", "Gel at 4 °C, break the emulsion and wash the beads cold",
-                StepKind.CLEANUP,
-                ((lysed, InputRole.TEMPLATE), (washes, InputRole.CONDITION)),
-                (washed, lysis_waste))
-    graph.discard(lysis_waste, "aspirated during the PFO drop-breaking and buffer washes")
-    rtase = graph.input("reverse_transcriptase", "Maxima H Minus reverse transcriptase",
-                        MaterialKind.CATALYST)
-    tso = graph.input("tso", "template-switching oligo (Smart-seq3 biotin-TSO with N8 UMI "
-                      "in the demonstrated run)", MaterialKind.OLIGO)
-    copied = graph.product(
-        "genome_capture_bead", "genome-retaining bead with matrix-bound cDNA",
-        MaterialKind.MOLECULAR,
-        state=single("genome-capture bead", (
-            token("retained genome"), token("matrix-bound cDNA"))))
-    graph.react("reverse_transcription",
-                "Reverse-transcribe and template-switch on the hydrogel (30 min RT, 90 min 42 °C)",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((washed, InputRole.TEMPLATE),
-                 (capture_oligo, InputRole.STRUCTURAL),
-                 (tso, InputRole.STRUCTURAL),
-                 (rtase, InputRole.CATALYST)), (copied,))
-    taqman = graph.input("taqman_assay",
-                         "multiplex TaqMan assays (demonstrated: HIV IPDA Ψ-FAM and env-VIC) "
-                         "with TaqPath ProAmp master mix", MaterialKind.SELECTION)
-    selected = graph.product(
-        "selected_bead", "fluorescence-selected genome-capture bead",
-        MaterialKind.MOLECULAR,
-        state=single("fluorescent selected bead", (
-            token("retained genome"), token("matrix-bound cDNA"),
-            token("TaqMan marker signal"))))
-    rejected = graph.product("rejected_beads", "droplets outside the double-positive gate",
-                             MaterialKind.WASTE)
-    graph.react("marker_sort",
-                "Re-inject beads with TaqMan PCR, thermocycle (55 cycles, 88 °C denaturation) "
-                "and sort double-positive droplets",
-                StepKind.AFFINITY_CAPTURE,
-                ((copied, InputRole.TEMPLATE), (taqman, InputRole.SELECTION)),
-                (selected, rejected))
-    graph.discard(rejected, "droplets outside the gate are not deflected by the droplet sorter")
-    recovery = graph.input("cdna_recovery_condition",
-                           "freeze at −80 °C, then 10 min at 60 °C to melt agarose",
-                           MaterialKind.CONDITION)
-    recovered = graph.product("recovered_cdna", "aqueous phase with agarose-attached selected-cell cDNA",
-                              MaterialKind.MOLECULAR,
-                              state=single("selected-cell cDNA", (token("matrix-attached cDNA"),)))
-    graph.react("recover_cdna", "Melt sorted droplets and transfer the aqueous phase",
-                StepKind.EXTRACTION,
-                ((selected, InputRole.TEMPLATE),
-                 (recovery, InputRole.CONDITION)), (recovered,))
-    preamp_forward = graph.input("smart_forward_primer", "Smart-seq3 forward (WTA) primer",
-                                 MaterialKind.OLIGO)
-    preamp_reverse = graph.input("smart_reverse_primer", "Smart-seq3 reverse (WTA) primer",
-                                 MaterialKind.OLIGO)
-    polymerase = graph.input("library_polymerase", "KAPA HiFi HotStart polymerase",
-                             MaterialKind.CATALYST)
-    amplified = graph.product("amplified_cdna", "free double-stranded WTA product",
-                              MaterialKind.MOLECULAR, state=recovered.state)
-    graph.react("smartseq_pcr", "Whole-transcriptome amplification with Smart-seq3 primers",
-                StepKind.PCR,
-                ((recovered, InputRole.TEMPLATE),
-                 (preamp_forward, InputRole.STRUCTURAL),
-                 (preamp_reverse, InputRole.STRUCTURAL),
-                 (polymerase, InputRole.CATALYST)), (amplified,),
-                geometry=PCRGeometry.unavailable(
-                    final, reason="Primer sequences are published, but the cDNA-end states are "
-                    "not drawn; Smart-seq2 oligos are listed as an alternative."))
-    ampure = graph.input("ampure_08x", "0.8× AMPure XP", MaterialKind.CONDITION)
-    wta_clean = graph.product("purified_wta", "purified WTA product", MaterialKind.MOLECULAR,
-                              state=amplified.state)
-    wta_waste = graph.product("wta_cleanup_waste",
-                              "unbound primers, agarose and agarose-attached template",
-                              MaterialKind.WASTE)
-    graph.react("wta_cleanup", "Purify WTA product with 0.8× AMPure XP", StepKind.CLEANUP,
-                ((amplified, InputRole.TEMPLATE), (ampure, InputRole.CONDITION)),
-                (wta_clean, wta_waste))
-    graph.discard(wta_waste, "not retained by the 0.8× bead cleanup")
-    loaded = graph.input("loaded_nextera_adapters", "Nextera XT kit tagmentation reagent",
-                         MaterialKind.ADAPTER)
-    tn5 = graph.input("tn5", "Tn5 transposase", MaterialKind.CATALYST)
-    tagged = graph.product("tagged_cdna", "tagmented selected-cell cDNA",
-                           MaterialKind.MOLECULAR, state=wta_clean.state)
-    tn5_waste = graph.product("non_library_tn5_products", "non-library Tn5 products",
-                              MaterialKind.WASTE)
-    graph.react("tagment", "Tagment selected-cell cDNA", StepKind.TAGMENTATION,
-                ((wta_clean, InputRole.TEMPLATE), (loaded, InputRole.STRUCTURAL),
-                 (tn5, InputRole.CATALYST)), (tagged, tn5_waste))
-    graph.discard(tn5_waste, "not the productive asymmetric Nextera product")
-    gap_fill = graph.input("gap_fill_polymerase", "Nextera gap-fill polymerase",
-                           MaterialKind.CATALYST)
-    filled = graph.product("gap_filled_cdna", "gap-filled tagmented selected-cell cDNA",
-                           MaterialKind.MOLECULAR, state=tagged.state)
-    graph.react("fill_tagmentation_gaps", "Fill the staggered tagmentation gaps",
-                StepKind.EXTENSION,
-                ((tagged, InputRole.TEMPLATE),
-                 (gap_fill, InputRole.CATALYST)), (filled,))
-    index_forward = graph.input("index_forward_primer", "Nextera indexed forward primer",
-                                MaterialKind.OLIGO)
-    index_reverse = graph.input("index_reverse_primer", "Nextera indexed reverse primer",
-                                MaterialKind.OLIGO)
-    library = graph.product("sequencing_library", "FIND-seq transcriptome library",
-                            MaterialKind.LIBRARY, state=final)
-    graph.react("index_pcr", "Index and amplify the FIND-seq library", StepKind.PCR,
-                ((filled, InputRole.TEMPLATE),
-                 (index_forward, InputRole.STRUCTURAL),
-                 (index_reverse, InputRole.STRUCTURAL),
-                 (polymerase, InputRole.CATALYST)), (library,),
-                geometry=PCRGeometry.unavailable(
-                    final, reason="Index choice varies; the final Nextera endpoint is validated."))
-    graph.sequence(library, SequencingPlan(
-        final, tuple(primers), tuple(p.role for p in primers)))
-    graph.annotate(SourceDiscrepancy(
-        "acrydite_oligodt", "Name of the agarose-conjugated oligo",
-        (SourceClaim("Materials, Oligonucleotides",
-                     "Acrydited oligo dT primer (Smart-seq3) is listed separately from the "
-                     "Smart-seq3 forward primer (Nextera-handle WTA primer without acrydite or dT)."),
-         SourceClaim("Anticipated results, first demonstration paragraph",
-                     "agarose conjugated with the oligo dT primer (Smart-seq3 forward primer)")),
-        "The bead capture oligo is the acrydited Smart-seq3 oligo(dT) primer.",
-        "Only an acrydite-modified oligo(dT) can be linked to allyl agarose by APS/TEMED and "
-        "capture poly(A) RNA; the listed forward primer has neither feature.",
-        "The parenthetical label is treated as a naming slip; the protocol does not state "
-        "otherwise.", AnnotationSlot.BEFORE_WORKFLOW))
-    graph.declare_reviewed_scope((
-        "cell_suspension", "allyl_agarose", "acrydite_oligodt", "encapsulate",
-        "proteinase_k", "lids", "lyse", "cold_high_salt_washes", "break_and_wash",
-        "reverse_transcriptase", "tso",
-        "reverse_transcription", "taqman_assay", "marker_sort",
-        "cdna_recovery_condition", "recover_cdna", "smart_forward_primer",
-        "smart_reverse_primer", "library_polymerase", "smartseq_pcr",
-        "ampure_08x", "wta_cleanup", "purified_wta",
-        "loaded_nextera_adapters", "tn5", "tagment", "gap_fill_polymerase",
-        "fill_tagmentation_gaps", "index_forward_primer",
-        "index_reverse_primer", "index_pcr", "sequencing_library",
-    ), source)
-    return graph.require_publishable()
-
-
+from chemdraw import oligo
+FINAL_LIBRARY=None
+SEQUENCING_UNAVAILABLE=''
+SOURCE_LIMITATION='Native selected kit/version/end geometry and complete sequencing-primer landing remain unassigned within this bounded pass.'
+def population(*rows):
+ sc=Scene()
+ for key,parts,label in rows:sc.strand(key,tuple(parts),label=label)
+ return sc
+def mol(label,*parts):return population(('molecule',parts,label))
+def op(g,key,label,kind,x,state,catalyst=None,condition=None):
+ inputs=[(x,I.TEMPLATE)]
+ if catalyst:inputs.append((catalyst,I.CATALYST))
+ if condition:inputs.append((condition,I.CONDITION))
+ out=g.product(key+'_out',label,M.MOLECULAR,state=state)
+ g.react(key,label,kind,inputs,(out,),**({'changes_molecule':False} if kind==K.GENERIC else {}))
+ return out
+def unresolved(g,x,reason):g.mark_terminal(Terminal(x.id,Disposition.UNRESOLVED,reason))
+def manual_scope(g):
+ # This protocol-owned graph explicitly enumerates the inspected native stages.
+ g.declare_reviewed_scope(REVIEWED,SOURCE)
+ return g.require_publishable()
+TITLE='FIND-seq — native hydrogel capture and selected-cell transcriptomes'
+NOTES='01_find-seq.html'
+SOURCE='Shin et al. NatureProtocols2024 doi:10.1038/s41596-024-01021-y; publishedPMC11537836 oligonucleotides and procedure12–102. Selected demonstratedSmart-seq3 route.'
+SUMMARY='Acrydite-linked oligo(dT) captures RNA independently of sterically retained genomicDNA. Actual matrix-bound switched cDNA survives detection-PCR sorting; free WTA daughters enter the separately bounded NexteraXT stage.'
+CAVEAT='SourceSmart-seq2 alternatives, calibration reactions and bulk/single-cell allocations are distinct from the selected single-cellSmart3 experiment. NativeRNA, genomicDNA, marker-PCR products, matrix originals and possible internal cDNA classes have unresolved recovery unless a physical separation is specified. The referenced NexteraXT revision/kit internals are unread; no canonical index shell is assigned.'
+UMI=feature('find_umi','umi','random')
+DT=(Segment('matrix spacer','TTTTTT'),Segment('Smart3 DT handle','ACGAGCATCAGCAGCATACGA'),Segment('oligo dT','T'*30),Segment('V anchor','V',placeholder=True))
+TSO=(Segment('Smart3 TSO handle','AGAGACAGATTGCGCAATG'),Segment('Smart3 UMI','N'*8,placeholder=True,feature=UMI),Segment('physical terminal riboguanosines','GGG',note='rGrGrG, RNA residues'))
+FWD='TCGTCGGCAGCGTCAGATGTGTATAAGAGACAGATTGCGCAATG'
+REV='ACGAGCATCAGCAGCATACG'
+def bead_state():
+ sc=population(('genome',(role('sterically retained genomicDNA'),),'independent genome'),('RNA',(role('polyA RNA hybridized to matrix oligo(dT); native association unplaced'),),'independent capturedRNA'),('matrixDT',DT,'actual matrix-linked oligo(dT), not free primer'))
+ sc.strands['matrixDT'].mod5='acrydite covalently linked to agarose'
+ return sc
+def captured(switched=False):
+ dna=(*DT,role('first-strand cDNA copied from capturedRNA'))
+ if switched:dna=(*dna,*(Segment(p.name,p.top,p.tag,placeholder=p.placeholder,feature=p.feature,note='normalDNA copied from nativeTSO; original RNA/biotin modification not inherited') for p in complement_segments(TSO)))
+ sc=population(('genome',(role('sterically retained genomicDNA'),),'independent genome'),('RNA',(role('captured polyA RNA and possible RNA-derived fragments'),),'independent RNA'),('cDNA',dna,'5′matrix-linked actual ss cDNA; not free WTA product'))
+ sc.strands['cDNA'].mod5='acrydite covalently linked to agarose'
+ return sc
+def amplified():
+ sc=population(('daughter',(Segment('forward WTA primer-derived end',FWD),Segment('normalDNA UMI copy','N'*8,placeholder=True,feature=UMI),Segment('normalDNA copied terminalTSO riboguanosines','GGG'),role('sense transcript WTA daughter insert'),Segment('copied V anchor','B',placeholder=True),Segment('copied oligo dT','A'*30),role('copied nativeDT primer junction; retained fixedbase context unassigned'),Segment('reverse WTA end',revcomp(REV))),'free double-stranded WTA class; exact end/junction pairing not reconstructed'),('residual',(role('matrix-linked originals, RNA/genome, detection products and other cDNA; partition unresolved'),),'independent residual molecular populations'))
+ parts=sc.strands['daughter'].segs
+ bottom=complement_segments(parts)
+ sc.anneal('daughter complement',bottom,to='daughter',pair=(bottom[-1].name,parts[0].name),unpaired=tuple(p.name for p in bottom if p.is_role_token()),label='free WTA opposite DNA strand; native unknown junctions unpaired')
+ return sc
+READ_SPECS=(sp.read_spec('Sequencing output',None,'Native selected-cell transcriptomes; source kit/read acquisition remains unassigned','include'),)
+def oligos():
+ yield oligo('Smart3 matrix oligo(dT)',DT,mods='5′acrydite')
+ yield oligo('Smart3 TSO',TSO,mods='5′biotin; terminal rGrGrG')
+ yield oligo('Smart3 forward WTA',[Segment('forward',FWD)],mods='terminal A*T*G: two phosphorothioate bonds')
+ yield oligo('Smart3 reverse WTA',[Segment('reverse',REV)],mods='source …AC*G*−3′; phosphorothioate markers preserved; terminal typography unresolved')
 def protocol_graph():
-    d = DEFINITION
-    final = SPEC.FINAL_LIBRARY
-    primers = SPEC.SEQ_PRIMERS
-    key = 'find-seq'
-    return find_seq_graph(d, final, primers)
-SPEC.protocol_graph = protocol_graph
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ cell=g.input('cell','one cell in independent experimental droplet',M.BIOLOGICAL,state=population(('DNA',(role('genomicDNA'),),'genome'),('RNA',(role('polyA RNA'),),'transcriptome')),primary=True)
+ dt=g.input('matrix_dt','nativeSmart3 acrydite oligo(dT)',M.OLIGO,state=mol('5′acrydite oligo',*DT))
+ agarose=g.input('agarose','allyl agarose/APS/TEMED; source conjugation12–34',M.MOLECULAR)
+ matrix=g.product('matrix','covalently primer-functionalized agarose',M.MOLECULAR,state=mol('matrix primer',*DT))
+ g.react('conjugate','Conjugate native acrydite oligo to allyl agarose',K.ADAPTER_ATTACHMENT,((dt,I.STRUCTURAL),(agarose,I.TEMPLATE)),(matrix,))
+ captured_bead=g.product('captured','coencapsulated lysed genome/RNA bead',M.MOLECULAR,state=bead_state())
+ lysis=g.input('lysis','molten agarose encapsulation;LiDS/ProteinaseK55C2h then4C hardening',M.CONDITION)
+ g.react('encapsulate_lyse','Capture genome/RNA in functionalized bead',K.GENERIC,((cell,I.TEMPLATE),(matrix,I.STRUCTURAL),(lysis,I.CONDITION)),(captured_bead,),changes_molecule=False)
+ x=captured_bead
+ for key,label in [('break_emulsion','PFO break; remove oil; cold wash1'),('wash2a','First cold wash2 buffer'),('wash2b','Second cold wash2 buffer'),('rtwash1','First5XRTbuffer wash'),('rtwash2','Second5XRTbuffer wash;100µm filter')]:x=recover(g,key,x,label)
+ rt=g.input('rt','MaximaHMinus;roomtemp30min then42C90min',M.CATALYST)
+ tso=g.input('tso','nativeSmart3 biotin-TSO withphysicalrGrGrG/N8UMI',M.OLIGO,state=mol('5′biotinTSO',*TSO))
+ first=g.product('first','actual matrix-extended cDNA plusRNA/genome',M.MOLECULAR,state=captured())
+ g.react('rt_copy','Copy captured RNA from matrix-bound oligo(dT)',K.REVERSE_TRANSCRIPTION,((x,I.TEMPLATE),(matrix,I.STRUCTURAL),(rt,I.CATALYST)),(first,))
+ switched=g.product('switched','native switched matrix-bound cDNA mixture',M.MOLECULAR,state=captured(True))
+ g.react('switch','Template switch during native RT reaction',K.TEMPLATE_SWITCHING,((first,I.TEMPLATE),(tso,I.STRUCTURAL),(rt,I.CATALYST)),(switched,))
+ stop=g.input('stop','EDTA stop;ice1h',M.CONDITION)
+ x=op(g,'stop_rt','Stop/cool native RT',K.GENERIC,switched,switched.state,condition=stop)
+ for n in range(1,4):x=recover(g,'tween'+str(n),x,'Tween wash'+str(n)+';source centrifugation; final100µm filter')
+ markers=g.input('markers','native multiplex detection forward-primer pool; diagnostic species not library handles',M.OLIGO)
+ reverse_markers=g.input('marker_reverse','native multiplex detection reverse-primer pool',M.OLIGO)
+ probes=g.input('marker_probes','native FAM/VIC hydrolysis probes; diagnostic fluorophores not library identifiers',M.OLIGO)
+ taq=g.input('taq','TaqPathProAmp detectionPCR;source55cycles88C denaturation',M.CATALYST)
+ measured=g.product('measured','detection-amplified beads plusindependent marker products',M.MOLECULAR,state=captured(True))
+ marker_products=g.product('marker_products','independent detectionPCR amplicons/hydrolysed probe products',M.MOLECULAR)
+ g.react('marker_pcr','Generate marker fluorescence from actual bead-associated targetDNA/cDNA',K.PCR,((x,I.TEMPLATE),(markers,I.STRUCTURAL),(reverse_markers,I.STRUCTURAL),(probes,I.STRUCTURAL),(taq,I.CATALYST)),(measured,marker_products),geometry=PCRGeometry.unavailable(x.state,reason='Multiplex diagnostic primer/probe geometry unassigned; marker products are not transcriptome library.',symmetric_species=False))
+ unresolved(g,marker_products,'Detection products may remain in sorted droplets; their physical recovery through later WTA/beads remains unassigned.')
+ gate=g.input('gate','double-positive fluorescence droplet sorting',M.SELECTION)
+ selected=g.product('selected','one sorted single-cell droplet',M.MOLECULAR,state=measured.state);reject=g.product('rejected','droplets outside gate',M.WASTE)
+ g.react('sort','Physically sort selected single droplets into separate wells',K.SELECTION,((measured,I.TEMPLATE),(gate,I.SELECTION)),(selected,reject));g.discard(reject,'Not deflected into selected collection.')
+ cond=g.input('melt','freeze−80C≥2h;thaw;60C10min;aqueous transfer',M.CONDITION)
+ x=op(g,'recover_sorted','Melt agarose and transfer aqueous material; matrix linkage retained',K.EXTRACTION,selected,selected.state,condition=cond)
+ f=g.input('wta_f','nativeSmart3forward twoPS bonds',M.OLIGO,state=mol('native protectedforward',Segment('forward',FWD,note='terminalA*T*G twoPSbonds')));v=g.input('wta_r','nativeSmart3reverse protectedterminal sourceoligo',M.OLIGO,state=mol('native protectedreverse',Segment('reverse',REV,note='source terminalAC*G* typography;PSmarkers preserved')));pol=g.input('wta_pol','KAPAHiFiReadyMix;empiricallyselected20–26cycle startingrange forscFIND',M.CATALYST)
+ x=pcr(g,'wta',x,amplified(),'Amplify actual matrix-linked ss cDNA into free WTA daughters',f,v,pol)
+ x=recover(g,'wta_cleanup',x,'0.8XAMPureXP;elute20µl; matrix/original class partition unassigned')
+ kit=g.input('xt_kit','referenced NexteraXT kit; exactexecutionrevision unassigned',M.CONDITION)
+ library=g.product('library','native NexteraXT-derived selected-cell library',M.LIBRARY,state=mol('native library',role('native platform ends/index selection unassigned'),role('selected-cell daughter cDNA'),role('UMI-bearing tag population where retained',molecular_feature=UMI)))
+ g.react('xt_boundary','NexteraXT tagmentation/library preparation per referenced manufacturer instructions',K.MAGIC,((x,I.TEMPLATE),(kit,I.CONDITION)),(library,),reason='ArticleStep102 delegates to manufacturer; exact version-native loaded oligos, neutralization/PCR/cleanup internals are not read in capped source scope. No finalduplex is invented.')
+ g.sequence(library,SequencingPlan(limitation=SOURCE_LIMITATION))
+ return manual_scope(g)
+REVIEWED=('cell','matrix_dt','agarose','conjugate','lysis','encapsulate_lyse','break_emulsion_selection','break_emulsion','wash2a_selection','wash2a','wash2b_selection','wash2b','rtwash1_selection','rtwash1','rtwash2_selection','rtwash2','rt','tso','rt_copy','switch','stop','stop_rt','tween1_selection','tween1','tween2_selection','tween2','tween3_selection','tween3','markers','marker_reverse','marker_probes','taq','marker_pcr','gate','sort','melt','recover_sorted','wta_f','wta_r','wta_pol','wta','wta_cleanup_selection','wta_cleanup','xt_kit','xt_boundary','library')

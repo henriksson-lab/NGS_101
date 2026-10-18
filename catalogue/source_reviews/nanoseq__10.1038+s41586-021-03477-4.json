@@ -24,10 +24,15 @@
     {
       "id": "nature_supplement",
       "role": "supplement",
-      "locator": "NanoSeq original supplementary Notes 2-5 and Supplementary Table 3 cited in author manuscript lines 268-279",
-      "availability": "unavailable",
+      "locator": "Published Supplementary Information41586_2021_3477_MOESM1_ESM.pdf (Notes2–4 inspected this pass)",
+      "availability": "read",
       "relevance": "relevant",
-      "reason": "Original supplement not present in local source bundle and not independently read."
+      "pass_1": {
+        "reviewer": "chromium_migration",
+        "date": "2026-10-18",
+        "locations": "Published MOESM1 text60–128, Notes2–4",
+        "finding": "Read restriction-enzyme choice, separate Mung Bean alternative and proposed ddBTP nick-termination mechanism. This row identifies the actual SI original; the separate MOESM3 workbook remains deferred, not included in this read."
+      }
     },
     {
       "id": "nature_final",
@@ -80,6 +85,36 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite passes (comment-only, construction enforced); page builds; pairing 0 problems; chemistry 0 established/8 conditional/12 unresolved/0 contradictory; source guard 2 checked (NanoqPCR1/2) 2 FAILED because the author manuscript is excluded by the locator filter (needs extra_sources row), 1 input without exact state; Markdown built; review schema check pass"
+    },
+    {
+      "round": "2026-10-18-batch03-native-graph-migration",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Identity-verified accepted author manuscript, Cambridge1810/319175 author_manuscript.pdf.txt1268–1422 (library preparation/qPCR/PCR),1461–1464 (cleanup),1590–1626 (read processing); published MOESM1 Supplementary Information Notes2–4,60–128.",
+      "findings": "Native source-owned HpyCH4V/ddBTP route; removed shared get and18-base role helper. Removed unsupported inferred canonicalTruSeq/P5/P7 shell and8-base index windows. Preserved exact NanoqPCR1/2 assay reagents, sourceNNNTCA core and3-base duplex barcodes,150-base paired biological reads, optional spacer alternative and unassigned UDI geometry/acquisition. Actual native ligation precursor feeds PCR. Separate qPCR sampling retains stock and yields assay amplicons with unresolved later fate. ddBTP-blocked nick remains an inferred candidate with blocked3′ end, not discarded material.",
+      "deferred": [
+        "Historical xGen1080799 complete strands, productionUDI primer/index geometry and widths, native sequencing-primer sites, allocation of optional spacer.",
+        "Cited Protocol Exchange v1 and IDT originals not inspected this pass; publisher-final/accepted-manuscript comparison remains deferred.",
+        "Published MOESM3 workbook was not manually read this pass."
+      ],
+      "verification": "Suite2/2 pass; page and notes build; pairing0 problems; chemistry11 steps,4 established/4 conditional/13 unresolved/0 contradictory. Source guard0 failed; review schema checked after entry.",
+      "oligo_scraper": "Mandatory local source-bundle scraper run for all three protocols; relevant exact bases and method passages checked in identified originals, not upstream drawings.",
+      "scope": "Capped source-owned native graph migration. Actual source scope and deferred targets only; not a full protocol review or an accepted publication-absence claim."
+    },
+    {
+      "round": "2026-10-18-batch03-independent-critical-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "tools/chem.py native adapted_precursor/final_library/protocol_graph and tools/nanoseq_chem.py fragment/dA/adapter/nick candidates",
+      "existing_source_scope": "Identity-verified accepted author manuscript, Cambridge1810/319175 author_manuscript.pdf.txt1268–1422 (library preparation/qPCR/PCR),1461–1464 (cleanup),1590–1626 (read processing); published MOESM1 Supplementary Information Notes2–4,60–128. Existing author migration scope only; originals not re-read in this pass.",
+      "findings": "Actual native ligated substrate feeds both qPCR aliquot and productionPCR; retainedstock and analytical amplicons are separate, and ddBTP chemical/nonamplification candidates remain molecular/unresolved. Source150PE and unknown historicaladapter/UDI acquisition are distinct. Found omitted structured sample_index features on unknown UDI endpoint roles after canonical-shell removal; Owner corrected with distinct unknown-encoding sample_index features on each UDI end role; independent inspection confirms no bases/widths/cycles were assigned.",
+      "deferred": [
+        "Full historicalxGen adapter strands, UDI primer species/native first-copy geometry, candidate nick-termination proof and acquired index mask remain declared limitations."
+      ],
+      "scope": "Independent code-only critical review; no original-source hunting or new source reading, no acceptance of absent information or complete molecular proof.",
+      "verification": "Owner narrow-fix suites Nano2/2 and NG1/1 pass; both page builds, combined chemistry9established4conditional30unresolved0contradictory and pairing0problems pass. Independent reviewer inspected unknown-encoding feature attachments after correction; source-review schema passes."
     }
   ]
 }

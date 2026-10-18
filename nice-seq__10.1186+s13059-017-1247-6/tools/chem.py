@@ -1,16 +1,18 @@
 """Protocol-owned source, oligos, workflow and reaction graph."""
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Construct
+from chemdraw import Construct, Scene
 from pcr import PCRGeometry
+import seqprimers as sp
 from protocol_graph import Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
-from protocol_model import da_tailed, molecule, role
+from protocol_model import molecule, role
+from endprep import EndPreparedDuplex,dA_tailed_scene
 
 
 def nice_library():
     """Source-established endpoint roles, without selecting a historical oligo kit."""
     return Construct([
         role("Illumina-compatible left library end"),
-        role("sonicated genomic DNA carrying internal biotin-dA and biotin-dC labels"),
+        role("DNA copied from internally biotin-labelled original template; daughter modifications unassigned"),
         role("Illumina-compatible right library end"),
     ], name="NicE-seq library"), ()
 
@@ -35,13 +37,25 @@ CAVEAT = ("<b>Published article/deposit differences.</b> The article Methods spe
           "E7370 manual is Version 9.1_1/23 and requires separate oligo kits; it does "
           "not establish the study's historical oligo choice. The endpoint therefore "
           "shows molecular roles without selecting index architecture or adapter bases.")
-FINAL_CAPTION = 'Role-level endpoint: internally biotin-labelled genomic DNA between Illumina-compatible library ends. Fragment boundaries arise during later random sonication and end preparation. Exact adapter arms, index architecture and primer sites are not assigned by this model; the study-specific oligo identity remains an open source question.'
+FINAL_CAPTION = 'Role-level endpoint: copied genomic DNA between unassigned native library ends. Internally biotinylated bead-bound originals remain distinct from PCR daughters. Fragment boundaries arise during later random sonication and end preparation. Exact adapter arms, index architecture and primer sites are not assigned by this model; the study-specific oligo identity remains an open source question.'
 READ_LENGTHS = None
 SEQUENCING_INTRO = ''
 SEQUENCING_ENDING = 'The article processes paired-end NicE-seq reads. Its explicit 75-bp NextSeq statement describes the separate ATAC-seq comparison branch. Exact NicE-seq run cycles and study-specific oligos remain under source review; no index width, number of index reads or base-level primer binding site is selected here.'
 SEQUENCING_UNAVAILABLE = ''
 def oligos():
     return ()
+
+def sample_state(label):
+    sc=Scene();sc.strand("dna",[role(label)],label="native original DNA; pairing/ends unassigned")
+    sc.strand("rna",[role("independent cellularRNA orstage-dependenthydrolysates")],label="RNA-derived population")
+    sc.strand("protein",[role("independent associatedproteins orproteolysisproducts")],label="protein-derived population")
+    return sc
+
+def native_fragment(label):
+    sc=Scene()
+    sc.strand("originalA",[role("native adapter-ligated original end A"),role(label),role("native adapter-ligated original end B")],label="source original DNA; native strand/adapter geometry unassigned")
+    sc.strand("originalB",[role("opposite native DNA strand; modified sites/ends unassigned")],label="separate opposite genomic strand")
+    return sc
 
 def protocol_graph() -> ProtocolGraph:
     final = FINAL_LIBRARY
@@ -51,16 +65,14 @@ def protocol_graph() -> ProtocolGraph:
     cells = graph.input(
         "cells", "native or formaldehyde-fixed cells",
         MaterialKind.BIOLOGICAL,
-        state=molecule("native or fixed cells", (
-            role("nuclei containing open and nucleosome-protected chromatin"),)),
+        state=sample_state("nuclear chromatin DNA; fixed/native variants"),
         primary=True)
     isolation = graph.input("nuclei_isolation", "NP-40 nuclei-isolation condition",
                             MaterialKind.CONDITION)
     nuclei = graph.product(
         "nuclei", "intact nuclei with accessible chromatin exposed",
         MaterialKind.MOLECULAR,
-        state=molecule("intact nuclei", (role("open chromatin"),
-                                          role("protein-occluded chromatin"))))
+        state=sample_state("native nuclear DNA; accessible and occluded populations"))
     graph.react("isolate_nuclei", "Isolate nuclei with NP-40", StepKind.EXTRACTION,
                 ((cells, InputRole.TEMPLATE), (isolation, InputRole.CONDITION)), (nuclei,))
     nickase = graph.input("nickase", "Nt.CviPII nicking endonuclease",
@@ -68,9 +80,7 @@ def protocol_graph() -> ProtocolGraph:
     nicked = graph.product(
         "nicked_chromatin", "accessible CCD sites carrying single-strand nicks",
         MaterialKind.MOLECULAR,
-        state=molecule("nicked accessible chromatin", (
-            role("genomic DNA"), role("Nt.CviPII nick at accessible CCD"),
-            role("genomic DNA"))))
+        state=sample_state("DNA nicked at accessible CCD; native nick geometry unassigned"))
     graph.react("nick", "Nick exposed CCD sites", StepKind.DIGESTION,
                 ((nuclei, InputRole.TEMPLATE), (nickase, InputRole.CATALYST)), (nicked,))
     biotin_dntps = graph.input("biotin_dntps", "dNTPs including biotin-14-dATP and biotin-16-dCTP",
@@ -80,10 +90,7 @@ def protocol_graph() -> ProtocolGraph:
     labelled = graph.product(
         "labelled_chromatin", "internally biotin-labelled open chromatin",
         MaterialKind.MOLECULAR,
-        state=molecule("internally labelled open chromatin", (
-            role("genomic DNA"), role("Nt.CviPII nick at accessible CCD"),
-            role("DNA polymerase I replacement tract containing internal biotin-dA and biotin-dC"),
-            role("genomic DNA"))))
+        state=sample_state("nick-translated DNA containing internalbiotin-dA/biotin-dC replacement tracts; native coordinates unassigned"))
     graph.react("nick_translation", "Perform biotin nick translation (same source labelling reaction)",
                 StepKind.EXTENSION,
                 ((nicked, InputRole.TEMPLATE), (biotin_dntps, InputRole.STRUCTURAL),
@@ -130,7 +137,7 @@ def protocol_graph() -> ProtocolGraph:
     repair = graph.input("end_repair_mix", "NEBNext Ultra end-repair enzyme mix",
                          MaterialKind.CATALYST)
     repaired = graph.product("repaired_fragments", "end-repaired labelled fragments",
-                             MaterialKind.MOLECULAR, state=fragments.state)
+                             MaterialKind.MOLECULAR, state=Scene.duplex([role("blunt repaired genomic DNA; internal biotin marks")],unpaired=("blunt repaired genomic DNA; internal biotin marks'",)))
     graph.react("end_repair", "End-repair labelled fragments", StepKind.END_REPAIR,
                 ((fragments, InputRole.TEMPLATE), (repair, InputRole.CATALYST)),
                 (repaired,))
@@ -139,8 +146,7 @@ def protocol_graph() -> ProtocolGraph:
     tailed = graph.product(
         "tailed_fragments", "dA-tailed labelled genomic fragments",
         MaterialKind.MOLECULAR,
-        state=da_tailed("dA-tailed labelled genomic fragment",
-                        "labelled or unlabelled genomic insert"))
+        state=dA_tailed_scene(EndPreparedDuplex(Construct([role("labelled or unlabelled genomic DNA insert; internal biotin marks")]),five_prime_phosphate=False,three_prime_overhang="A"),label="native dA-tailed fragments; native5′ chemistry unassigned"))
     graph.react("a_tail", "Add one 3-prime dA to each end", StepKind.TAILING,
                 ((repaired, InputRole.TEMPLATE), (tailing, InputRole.CATALYST)), (tailed,))
     adapter = graph.input("nebnext_adapter", "NEBNext Ultra E7370 adapter",
@@ -149,9 +155,7 @@ def protocol_graph() -> ProtocolGraph:
     ligase = graph.input("adapter_ligase", "NEBNext Ultra adapter ligase",
                          MaterialKind.CATALYST)
     adapted = graph.product("adapted_pool", "adapter-ligated labelled and unlabelled fragments",
-                            MaterialKind.MOLECULAR, state=molecule("adapter-ligated pool", (
-                                role("ligated adapter"), role("labelled or unlabelled genomic fragment"),
-                                role("ligated adapter"))))
+                            MaterialKind.MOLECULAR, state=native_fragment("native ligation reaction; labelled and unlabelled genomic fragments"))
     graph.react("adapter_ligation", "Ligate the NEBNext Ultra adapter",
                 StepKind.LIGATION,
                 ((tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
@@ -161,9 +165,7 @@ def protocol_graph() -> ProtocolGraph:
     streptavidin = graph.input("streptavidin", "streptavidin affinity beads",
                               MaterialKind.SELECTION)
     bound = graph.product("bound_library", "bead-bound internally biotinylated molecules",
-                          MaterialKind.MOLECULAR, state=molecule("streptavidin-bound adapted DNA", (
-                              role("ligated adapter"), role("internally biotin-labelled genomic fragment"),
-                              role("ligated adapter"))))
+                          MaterialKind.MOLECULAR, state=native_fragment("streptavidin-bound internally biotin-labelled original DNA"))
     unlabelled = graph.product("unlabelled_library", "unbound capture and wash fraction",
                                MaterialKind.WASTE)
     graph.react("capture", "Capture internally biotinylated molecules directly after ligation",
@@ -190,14 +192,16 @@ def protocol_graph() -> ProtocolGraph:
                                  MaterialKind.CATALYST)
     library = graph.product("sequencing_library", "NicE-seq library",
                             MaterialKind.LIBRARY, state=final)
+    residual=graph.product("pcr_originals","original bead-bound internally biotinylated DNA and co-carried products after copying",MaterialKind.MOLECULAR,state=aliquot.state)
     graph.react("library_pcr", "Amplify the 4-µL bead aliquot (ten cycles usually sufficient)",
                 StepKind.PCR,
                 ((aliquot, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (pcr_polymerase, InputRole.CATALYST)),
-                (library,), geometry=PCRGeometry.unavailable(
-                    final,
+                (library,residual), geometry=PCRGeometry.unavailable(
+                    aliquot.state,
                     reason="The study-specific oligos and pre-PCR adapter-ligated template geometry remain unresolved."))
-    graph.sequence(library, SequencingPlan(library=final, limitation=SEQUENCING_ENDING))
+    graph.mark_terminal(Terminal(residual.id,Disposition.UNRESOLVED,"PCR does not consume internally biotinylated bead-bound originals; source-specific recovery after amplification is unassigned."))
+    graph.sequence(library, SequencingPlan(library=final, acquired_roles=("Read 1","Read 2"), limitation=SEQUENCING_ENDING))
     graph.declare_reviewed_scope((
         "cells", "nuclei_isolation", "isolate_nuclei", "nickase", "nick",
         "biotin_dntps", "polymerase_i", "nick_translation", "crosslink_reversal",
@@ -208,3 +212,9 @@ def protocol_graph() -> ProtocolGraph:
         "pcr_polymerase", "library_pcr", "sequencing_library",
     ), source)
     return graph.require_publishable()
+
+ACQUIRED_ROLES=("Read 1","Read 2")
+READ_SPECS=(sp.read_spec("Read 1",None,"Sourcepaired-end genomic read; native length/entry unassigned","include"),
+            sp.read_spec("Read 2",None,"Sourcepaired-end opposite genomic read; native length/entry unassigned","include"),
+            sp.read_spec("Index 1 (i7)",None,"Native indexscheme/acquisition unassigned","undetermined"),
+            sp.read_spec("Index 2 (i5)",None,"Native indexscheme/acquisition unassigned","undetermined"))

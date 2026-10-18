@@ -208,6 +208,49 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 178 passed; page builds; pairing 0 problems; check_chemistry not applicable (no protocol_graph declaration: 'expected one graph declaration, found 0'); source guard 0 checked/0 failed/0 graphs; dependent crispr-umi-schmierer suite 206 passed; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Implementation migration from already source-derived molecular constructors to a native typed graph; no source-absence finding.",
+      "locations": "bioRxiv v1 2024.03.28.587082_v1.full.pdf.txt Design of CRISPR-MIP probes and Steps1–4, lines458–493; media-2.xlsx.txt primers & probes rows1–14.",
+      "oligo_scraper": "Full source-bundle scrape run; probe/primer and Methods pointers verified directly. Large Addgene feature JSON skipped by the scraper limit; no source absence conclusion drawn.",
+      "findings": "Added native protocol graph and public graph renderer. Centralized the final library on the derived inverse-PCR constructor with UMI/index features; explicit closure-order/cleanup-order relations and primer footprints. Exonuclease hydrolysis products retain unresolved physical recovery, with both denatured strand outcomes represented. Source reaction parameters remain local; conceptual extension/closure split does not invent separate incubations.",
+      "deferred": [
+        "Prior independently recorded source obligations remain separate from this implementation migration.",
+        "The chemistry checker does not yet prove gap copying, enzyme selectivity, inverse-PCR copying or reaction efficiency; these are model/checker coverage limits, not publication-absence claims."
+      ],
+      "verification": "Pending parent final affected-suite/build/chemistry/guard/pairing/schema checks."
+    },
+    {
+      "round": "2026-10-18-native-graph-independent-review",
+      "reviewer": "native_graph_independent_review",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "bioRxiv v1 full PDF text lines 459–492, Design of CRISPR-MIP probes and quantification Steps 1–4; Table S2 media-2.xlsx.txt primers & probes first 14 rows; existing checked cycle-1/cycle-2 and final-library constructors compared directly.",
+      "oligo_scraper": "Whole cached source bundle scraper run; Table S2 probe/primer rows and Methods hits inspected. Large Addgene feature JSON skipped by default size limit; no absence conclusion drawn.",
+      "findings": "Corrected a ss-circle/duplex PCR mismatch: the initial P5 complementary binding strand does not yet exist on the ssDNA circle. Native graph now follows the existing detailed panels: P7-first copying, then P5 copying, then exact inward PCR geometry on the actual duplex. These are conceptual phases in the same source PCR incubation. A construction invariant checks the first P7 copy/P5 extension against the derived inverse-PCR product. Circle rotation and full strand order checked; UMI/index features preserved through complementary copying. Retained original circle has unresolved subsequent physical partition. Hybrid state now represents intact probe and target as separate molecules rather than one covalent role chain. Both denatured genomic strands, hydrolysis-versus-discard distinction, source reaction order, and published probe-length discrepancy remain intact.",
+      "deferred": [
+        "Previously recorded source-review obligations are unchanged.",
+        "Gap-copying efficiency, off-product yields and hydrolysate/circle-specific AMPure partition remain outside this checked model."
+      ],
+      "scope": "Independent review of native graph migration using two originals and existing molecular constructors; not an absence audit and not a publication disclosure finding.",
+      "verification": "Local suite 178 passed; page build passes; 9 graph steps; scoped chemistry 2 established/2 conditional/7 unresolved/0 contradictory; source guard 3 checked, 0 failed, 0 exceptions, 0 inputs without exact states; pairing 0 problems."
+    },
+    {
+      "round": "2026-10-18-native-graph-final-integration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Construction-invariant and graph/panel integration check, following the source reading and independent implementation review above; not a new source-absence audit.",
+      "locations": "crisprmip.py protocol_graph/library_construct; build_page.py graph annotations and PCR panel. Source scope remains Methods Steps1–4 and TableS2 from prior bounded checks.",
+      "findings": "The initial P7 circle copy is retained; P5 makes a bounded strand with a new uncopied 5prime tail; subsequent P7 recopy supplies its complement before exact later-cycle duplex PCR geometry. Both typed priming details render without inserting the P5 primer into the first-copy product state. Independent read-only sequence check reproduced the complete269bp complementary strand from the full42nt P7 footprint. Local source-known phosphate/OH inputs are explicit.",
+      "deferred": [
+        "Reaction/copying efficiencies and remaining checker relations are outside these construction invariants; no missing-publication finding is made."
+      ],
+      "verification": "Native graph constructs with10 steps; 178 suite checks, page, chemistry,3-strand source guard, pairing and source-review schema pass. Final shared/site check results recorded in AUDIT.md."
     }
   ]
 }

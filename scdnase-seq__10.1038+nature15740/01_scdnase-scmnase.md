@@ -272,3 +272,15 @@ Inspected: Published original PMC4697938 JATS117–125.
 Added6-cycle index PCR,160–300bp E-gel selection and22-cycle P5/P7 PCR labels. Public page records30ng circular carrier, PK/extraction and final repeated160–300bp selection as currently summarized graph scope. Replaced inferred acquired paired/index reads with unassigned HiSeq2500 mask.
 
 Deferred: Cited library method29 and original vendor kit; explicit carrier/recovery/final-selection graph stages, exact acquisition and all oligo assignments. This capped pass does not establish a complete source review or publication-wide absence.
+
+## Source-owned graph migration, 2026-10-18
+
+Replaced shared nuclease_accessibility recipe with a local scDNase graph. Added source-described30ng circular carrier, SDS/EDTA stop/proteinaseK, DNA extraction/ethanol recovery and the second160–300bp E-gel selection; the final library is the second gel product. Carrier-derived background stays unresolved rather than being silently discarded. Corrected repository indexed-primer transcription: vendor members end with13nt GTGACTGGAGTTC, not full34nt Read2. The exact early primer-extension route is not asserted; first-PCR geometry uses the actual ligated precursor. Second-round P5/P7 inputs stay distinct with physical sequences unassigned. dA-tail reference is explicitly inferred from adapter compatibility. Acquisition is explicitly unspecified instead of silently acquiring every declared kit primer.
+
+Source scope: Jin etal.2015 published article PMC4697938 JATS Methods lines117–121 and analysis line153; Illumina Adapter Sequences1000000002694 v22 obsolete Multiplexing kit pp100–101, extracted lines22679–22725.
+
+Deferred: Cited Hu etal. ni.2712 method not re-read in this bounded pass; prior source/version assignment is preserved; Exact physical first-PCR mixture/extension route and second-round P5/P7 oligos remain unassigned; Carrier plasmid identity, precise background products and study run mask remain unresolved. This bounded check accepts no missing-information claim.
+
+## Molecular population display correction (2026-10-18)
+
+Genomic fragments and independently added circular carrier occupy separate Scene rows in stopped/recovered material. Fork-adapted target fragments and unresolved carrier background also occupy separate rows at the first PCR input. This does not assign carrier-derived product chemistry. This implementation-only correction reuses the original migration source scope; no additional originals were read and no new chemistry or missing-information conclusion is asserted.

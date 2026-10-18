@@ -83,3 +83,11 @@ the page shows eight cycles because the Ad2 index is eight bases.
 - Pre-treatment of cultured cells with 200 U/ml DNase and FACS of primary T cells.
 - Which Ad2 index members were used per library; Picelli 2014 Tn5 loading oligos and
   Protocol Exchange protex.2017.096 not read in the 2026-10-17 bounded pass.
+
+## Source-owned validation migration, 2026-10-18
+
+Local declaration owns the original Ad1/Ad2 single-index reference, in-house Tn5/DMF/PBS/detergent conditions and source-specific recovery/PAGE/QC branches. Removed shared variant/endpoint/primer recipes and test imports. Full loading-derived template geometry and reference primer assignments retain inferred construction styling. A distinct gap-fill intermediate precedes five-cycle PCR; both PCR geometries use actual predecessor states instead of the final library. Candidate non-library end products remain unresolved rather than presumed physically discarded. Acquired reads are2×75 only: eight molecular index bases no longer imply an acquired index read.
+
+Source scope: Corces2017 published PMC5623106 Sequencing lines261–272 and in-house transposase Methods lines307–313 plus AuthorContributions line898; published MOESM3 SupplementaryProtocol1 cleanup/preamp/qPCR/final amplification lines88–169; MOESM1 inspected for identity/figure context only and not used as oligo authority.
+
+Deferred: Exact in-house Tn5 loading oligos and study-specific index member remain unassigned; original Ad1/Ad2 reference does not verify those reagents; Cited Picelli2014 loading chemistry not re-read within this cap; Transposition/gap filling and full PCR product relations remain unresolved despite primer-site checks. This bounded check does not establish complete molecular validation or an accepted source-absence claim.

@@ -253,6 +253,35 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    },
+    {
+      "round": "2026-10-18-batch08-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC5488340 JATS Methods Open chromatin labeling157–158, native/libraryconstruction166–170 and comparisonATAC172–174; published MOESM1 opening FigS1–S4 captions; NEB E7370 original printed Version9.1_1/23 title, workflow/endprep and ligation/conditionalUSER sections88–205, recoveryreference350–397. Mandatory bundle scraper0hits reviewed; no-hit is not absence. Prior GEO comparisons remain historical source scope, not a fresh original-reading claim.",
+      "oligo_scraper": "Mandatory scraper run on each complete cached bundle; relevant Orsi oligo/modification hits verified against original text. NicE no-hit is not absence; large metadata/workbooks not scanned remain outside chemistry decisions.",
+      "findings": "Removed da_tailed recipe; source-known3A represented on opposed genomic strands with historical5P unassigned. Actualnativeadapter-ligated/streptavidin-bound original input enters 4of40PCRgeometry, not finalexpectedendpoint. Raw nuclei have no prematurely installedadapterends. Internallybiotinylated originals remain independent from copieddaughter library; PCR doesnotcopybiotin. SourcePE acquisition explicit with unknownlength/indexentry, noATAC75cycle default. Later2023E7370 and optionalUSER remain reference-only and do not replace defining2017 directligation→capture native route.",
+      "deferred": [
+        "Historical native adapter/index kit members and optionalUSER applicability",
+        "Native nick geometry, modified-site distribution and first-cycle PCR boundaries",
+        "Exact NicE read/index cycles and original template/hydrolysate recovery; source article/GEO differences retained"
+      ],
+      "scope": "Capped3-original native migration source pass; no historical review-status upgrade or missing-information acceptance.",
+      "verification": "Local suites2/2/5 and pagebuilds pass; sourceguard0checked0failed5unassigned; chemistry0contradictions; independent critical implementation review and parent integration pending."
+    },
+    {
+      "round": "2026-10-18-batch08-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Independent code-only review of tools/chem.py: sample_state/native_fragment, nick_translation, end_repair/a_tail/adapter_ligation, capture/sample_beads/library_pcr, pcr_originals, acquisition/READ_SPECS.",
+      "findings": "Early nuclear state now correctly uses rawDNA/RNA/protein sample_state; adapter ends appear only afterligation. Opposed3′dA native substrate and explicit unknown5′chemistry retained. Internally biotinylated original DNA remains distinct from copied PCR daughter classes. Actual4-of40µl beadbound precursor feeds PCR;36µl remainder and originalbiotinDNA have unresolved fates, no inferred physicaldiscard. Sourcepositive paired-end R1/R2 now explicit with unknown cycles/sites; index acquisition unassigned. No inserted kit cleanup between source-direct ligation/capture; native oligos unassigned. No remaining concrete implementation defect found within stated scope.",
+      "deferred": [
+        "Original-source reinspection and existing source-specific native oligo/kit/revision assignments remain outside this implementation-only review."
+      ],
+      "scope": "Independent implementation-only critical review using released protocol declarations and parent-supplied frozen source scope. No original documents inspected; automated source suites/guards run. Does not supply an independent original-source absence pass, change historical status, or accept missing-information claims.",
+      "verification": "Source suite5pass; pagebuild; chemistry13steps0contradictions; pairing0; guard0exact0failed5unassigned across3; diffcheckpass."
     }
   ]
 }

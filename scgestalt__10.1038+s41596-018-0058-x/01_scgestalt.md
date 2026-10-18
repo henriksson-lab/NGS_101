@@ -46,3 +46,14 @@ The primary [Raj and Gagnon protocol](https://pmc.ncbi.nlm.nih.gov/articles/PMC6
 | R2-PCR | `CAAGCAGAAGACGGCATACGAGATGGGTGTCGGGTGCAG` | Final library PCR |
 
 The same table also prints editing-assessment primers scGESTALT F `TCGAGCTCAAGCTTCGG` and scGESTALT R `CTGCCATTTGTCTCGAGGTC`. Those amplify the genomic cassette for QC and do not define the sequenced lineage-library ends. Supplementary Table 2 gives additional indexed members; the first member above is a concrete example, not a universal fixed index. The inDrops V3 capture primer/barcode oligos belong to the upstream inDrops protocol and must be reconciled before calling the full library inventory complete.
+
+
+## Native graph migration — 2026-10-18 batch11
+
+Source scope (2 originals, capped): PublishedPMC6279253 ReagentsprimerTable263–273, Procedure82–105 approximately731–941 andFig3b/c; publishedMOESM1 originalSupplementaryTable2ix1–24, includingix1–6 approximately91–116.
+
+Source-owned graph replaces rna_cell_assays defaultendpoints/states. ActualfirstSS, sourcepositive secondstrand/T7promoterduplex, IVTRNA and original/copyfates are distinguished. Both9µl expression and5µl unfragmentedlineage allocations retain the full transcriptmixture ratherthan modalitypurification; unallocatedRNA isunresolved. SourcePrimeScript randomhexamerSS feeds actualnestedPCRinputs, followedsourcecleanups/finalindexPCR. GP12N9 remains diversity, notUMI; multipartcellID andN6UMI persist withsource8ntlibraryindex identity. Bothknown61/8/8/14 expression and250/8/8/14 lineage runs remain. Publicprimer-tablecrossreference andround2cycle-row discrepancies are preserved.
+
+Deferred scope: inDrops citedsource73 nativecapture/bead/RT/secondstrand/expressionlibrary components not read thispass; reactionorder known fromdefiningFig3/Procedure isretained without exactnativegeometry. Lineageeditedarray sequence/extent is source/sampledependent; no generic44ntinsert default. Round2amplificationcount remains sourceambiguous; final55°Ctwo+65°Csix-to-eightcycles sourcequalified.
+
+Verification: 5 originalprimer tests;19steps/31unresolved0contradictory afteroppositestrand/actual5µlsampling correction. Allfourpages build; sourceguard17checked/0failed/9unassigned; pairing0; review schema checked. No sourceabsence/status upgrade follows.

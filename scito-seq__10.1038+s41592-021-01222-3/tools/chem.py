@@ -1,13 +1,34 @@
 from types import SimpleNamespace
-from multimodal_protocols import SAMPLE
-from protocol_model import chain, role_library
-from multimodal_protocols import ANTIBODY, CELL, Definition, InputRole, MaterialKind, POOL, ProtocolGraph, StepKind, UMI, molecule, role
+from chemdraw import Scene, Construct, feature
+from multimodal_protocols import Definition
 from pcr import PCRGeometry
-from protocol_graph import SequencingPlan
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, StepKind, Terminal)
+from protocol_model import chain, molecule, role
 import seqprimers as sp
+
+# PMC8643207 Methods: one 10-base secondary-oligo window encodes Ab+PBC.
+# These are compound identifiers, not a separate antibody window plus a 10-base pool.
+AB_POOL = role("compound antibody/staining-pool barcode", length_bp=10,
+               molecular_feature=feature("antibody_pool", "feature_barcode", "combinatorial",
+                                         note="Joint antibody and staining-pool identity (Ab+PBC)."))
+CELL = role("10x 3′ v3 droplet barcode", molecular_feature=feature("cell_barcode", "cell_barcode", "unknown"))
+UMI = role("10x 3′ v3 UMI", tag="umi", molecular_feature=feature("umi", "umi", "unknown"))
+SAMPLE = role("i7 sample index", length_bp=8,
+              molecular_feature=feature("sample_index", "sample_index", "unknown"))
+READ_LENGTHS = {"Read 1": 28, "Index 1 (i7)": 8, "Read 2": 98}
+
 DEFINITION = Definition("SCITO-seq — single-cell combinatorial indexed cytometry sequencing", "10.1038/s41592-021-01222-3",
         "Hwang et al., Nature Methods (2021)", "Hybridized splints add antibody and staining-pool barcodes before droplet feature capture adds a second cell barcode and UMI.",
         "Protein identity and staining-pool identity are read with the droplet barcode and UMI.", "01_scito_seq.html")
+
+
+def population_state(label, *populations):
+    """Each supplied tuple is one molecule/population, not a shared covalent chain."""
+    sc=Scene()
+    for index,parts in enumerate(populations):
+        sc.strand(f"population {index+1}",parts,label=f"{label}: population {index+1}")
+    return sc
 
 
 def _scito_graph(d, final):
@@ -27,15 +48,14 @@ def _scito_graph(d, final):
                               MaterialKind.CATALYST)
     antibodies = graph.product("handle_conjugates", "antibodies carrying one clone-specific 20-bp handle",
                                MaterialKind.MOLECULAR,
-                               state=molecule("handle-conjugated antibody",
-                                              (role("antibody"), role("20-nt antibody handle"))))
+                               state=population_state('handle-conjugated antibody',(role("antibody"),),(role("20-nt antibody handle"),)))
     graph.react("conjugate_handles", "Conjugate each antibody clone to its 3'-amine handle oligo",
                 StepKind.CHEMICAL_CONVERSION,
                 ((raw_antibodies, InputRole.TEMPLATE), (handles, InputRole.STRUCTURAL),
                  (conjugation, InputRole.CATALYST)), (antibodies,))
     splints = graph.input("splints", "antibody- and pool-identifying splint oligos",
                           MaterialKind.OLIGO)
-    tag_state = molecule("SCITO antibody tag", (ANTIBODY, POOL,
+    tag_state = molecule("SCITO antibody tag", (AB_POOL,
                                                 role("10x feature-capture sequence")))
     hybrids = graph.product("hybridized_tags", "hybridized antibody tags with excess free splints",
                             MaterialKind.MOLECULAR, state=tag_state)
@@ -56,24 +76,25 @@ def _scito_graph(d, final):
                 (tags, free_splints), changes_molecule=False)
     graph.discard(free_splints, "filtrate removed by the 50K MWCO column before staining")
     stained = graph.product("stained_cells", "SCITO-tagged cells", MaterialKind.MOLECULAR,
-                            state=molecule("tagged cell", (ANTIBODY, POOL,
-                                role("surface-protein counts"))))
+                            state=population_state('tagged cell',(AB_POOL,),(role("surface-protein counts"),)))
     unbound = graph.product("unbound_tags", "unbound antibody tags", MaterialKind.WASTE)
     graph.react("stain", "Stain cells with target- and pool-barcoded antibodies",
                 StepKind.BINDING,
                 ((cells, InputRole.TEMPLATE), (tags, InputRole.SELECTION)),
                 (stained, unbound))
-    graph.discard(unbound, "does not report a cell-associated protein measurement")
+    graph.discard(unbound, "removed by the cell-washing steps before 10x loading")
     droplets = graph.input("droplets", "10x feature-barcoding droplet condition",
                            MaterialKind.CONDITION)
     occupied = graph.product("occupied_droplets", "overloaded droplets containing pool-resolved cells",
                              MaterialKind.MOLECULAR, state=stained.state)
-    empty = graph.product("empty_droplets", "empty or unresolved droplets", MaterialKind.WASTE)
+    empty = graph.product("empty_droplets", "empty or unresolved droplets", MaterialKind.MOLECULAR)
     graph.react("partition", "Combine stained pools and partition cells into droplets",
                 StepKind.PARTITION,
                 ((stained, InputRole.TEMPLATE), (droplets, InputRole.CONDITION)),
                 (occupied, empty), changes_molecule=False)
-    graph.discard(empty, "does not contain a resolvable pool/cell combination")
+    graph.mark_terminal(Terminal(empty.id, Disposition.UNRESOLVED,
+        "Empty or ambiguous droplets may yield sequence; absence of a resolvable combination "
+        "is an analysis criterion, not evidence of physical removal."))
     bead_primer = graph.input("bead_primer", "10x cell-barcode/UMI feature-capture primer",
                               MaterialKind.OLIGO)
     polymerase = graph.input("extension_polymerase", "feature-tag extension polymerase",
@@ -81,7 +102,7 @@ def _scito_graph(d, final):
     captured = graph.product("captured_tags", "droplet-barcoded SCITO feature tags",
                              MaterialKind.MOLECULAR,
                              state=molecule("captured SCITO tags", (CELL, UMI,
-                                 ANTIBODY, POOL)))
+                                 AB_POOL)))
     graph.react("capture_tags", "Copy droplet barcode and UMI onto antibody tags",
                 StepKind.EXTENSION,
                 ((occupied, InputRole.TEMPLATE), (bead_primer, InputRole.STRUCTURAL),
@@ -99,9 +120,10 @@ def _scito_graph(d, final):
                 ((captured, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
                  (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
                 (library,), geometry=PCRGeometry.unavailable(
-                    final, reason="The paper delegates index PCR to the 10x 3' v3 Feature "
+                    captured.state, reason="The paper delegates index PCR to the 10x 3' v3 Feature "
                     "Barcoding guide; the applicable guide revision was not inspected."))
-    graph.sequence(library, SequencingPlan(limitation=d.endpoint))
+    graph.sequence(library, SequencingPlan(read_lengths=READ_LENGTHS,
+                   acquired_roles=tuple(READ_LENGTHS), limitation=d.endpoint))
     reviewed = ["cell_pools", "antibodies", "handle_oligos", "thunderlink",
                 "conjugate_handles", "splints", "hybridize_splints", "amicon_column",
                 "purify_tags", "stain", "droplets", "partition", "bead_primer",
@@ -119,41 +141,41 @@ def protocol_graph():
     return _scito_graph(d, final)
 
 def _scito():
-    return chain(molecule("universally oligo-conjugated antibody", (
-        role("antibody"), role("20-nt antibody handle"))), (
+    return chain(population_state('universally oligo-conjugated antibody',(role("antibody"),),(role("20-nt antibody handle"),)), (
         ("Hybridize a pool-specific splint carrying antibody and pool identity",
          molecule("SCITO antibody tag", (role("antibody handle complement"),
-                                          role("TruSeq Read 2 handle"), ANTIBODY,
-                                          POOL, role("10x feature-capture sequence"))),
+                                          role("TruSeq Read 2 handle"), AB_POOL, role("10x feature-capture sequence"))),
          "One conjugation per clone is reused; the splint supplies both target and staining-pool identity. "
          "Excess free splints are removed on an Amicon 50K MWCO column before staining."),
         ("Stain split cell pools, combine them and overload droplets",
-         molecule("tagged cell", (ANTIBODY, POOL, role("surface-protein counts"))),
+         population_state('tagged cell',(AB_POOL,),(role("surface-protein counts"),)),
          "Pool identity makes many otherwise colliding cells distinguishable."),
         ("Capture tags on gel beads and copy droplet barcode plus UMI",
          molecule("SCITO-seq library", (role("P5 end"), CELL, UMI,
-                                         ANTIBODY, POOL, role("Read 2 / P7 end"))),
+                                         AB_POOL, role("Read 2 / P7 end"))),
          "Antibody-plus-pool barcode and droplet barcode form the combinatorial cell identity."),
     ))
 
 d = DEFINITION
-FINAL_LIBRARY = role_library(d.title + " final library roles", (CELL, UMI, ANTIBODY, POOL), index=SAMPLE)
+FINAL_LIBRARY = Construct([role("P5 / Read 1 kit end", inferred=True), CELL, UMI,
+                           AB_POOL, SAMPLE, role("TruSeq Read 2 / P7 kit end", inferred=True)],
+                          name="SCITO-seq endpoint roles (kit end order inferred)")
 SPEC = SimpleNamespace(
     TITLE=d.title,
     NOTES=d.notes,
     SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
     SUMMARY=d.summary,
-    CAVEAT="The defining paper fixes the splint architecture and lengths, "
+    CAVEAT="INFERRED — the final kit endpoint role order is not reconstructed base by base. The defining paper fixes the splint architecture and lengths, "
                        "including a 20-nt antibody handle, TruSeq Read 2 region, 10-nt "
                        "compound antibody/pool barcode and 22-nt 10x feature-capture "
-                       "region. It does not print the handle or barcode bases, and the "
+                       "region. Handle/barcode member bases remain unassigned in this model, and the "
                        "completed library follows the commercial 10x 3′ v3 Feature "
                        "Barcoding workflow.",
     FINAL_LIBRARY=FINAL_LIBRARY,
     SEQ_PRIMERS=(),
     FINAL_CAPTION=d.endpoint,
     SEQUENCING_INTRO=d.endpoint,
-    READ_LENGTHS=None,
+    READ_LENGTHS=READ_LENGTHS,
     READ_SPECS=(
         sp.read_spec("Read 1", 28, "droplet barcode and UMI from the 10x 3′ v3 gel bead",
                      "extract"),
@@ -163,11 +185,10 @@ SPEC = SimpleNamespace(
     ),
     SEQUENCING_ENDING=(d.endpoint + " Methods (10x Genomics run for SCITO-seq): NovaSeq 6000, "
                        "Read 1 28, i7 index 8 and Read 2 98 cycles."),
-    SEQUENCING_UNAVAILABLE="The original article, author manuscript, "
-                                       "Supplementary Tables 1–4 and authors' public "
-                                       "analysis repository do not disclose a universal "
-                                       "SCITO handle/barcode set. Read geometry also "
-                                       "inherits the commercial 10x 3′ v3 endpoint.",
+    SEQUENCING_UNAVAILABLE="This model has not reconstructed the selected SCITO handle/barcode "
+                          "members or versioned 10x 3′ v3 kit primer geometry. Applicable vendor "
+                          "documents and author sequence files remain open review targets; no "
+                          "source-absence conclusion is made.",
     workflow=_scito,
     oligos=lambda: (),
 )

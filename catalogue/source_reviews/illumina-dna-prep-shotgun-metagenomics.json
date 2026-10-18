@@ -106,6 +106,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "suite 98/98 passed; page builds; pairing 0 problems; chemistry 0 established/3 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 2 inputs without exact states (i5/i7 adapters); audit_protocol_sources --check ok; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch03-native-graph-migration",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Guide1000000025416 v12 identity (April2026), pp23–32: tagmentation, wash, PCR, IPB and recommended run (text1576–1693,1747–1789,1840–2035,2100–2230); ©2024 application note M-NA-00010 v2.0 library preparation/sequencing211–242 and footer identity; official Illumina Prep and Nextera adapter table182–205.",
+      "findings": "Local source-owned assembly and physical i5/i7 PCR primers; guide-known10-base UD regions, variable genomic length. Actual BLT precursor retains supplied S5/ME and S7/ME strands with native gaps/pairing/bead occupancy unassigned; actual preceding material feeds PCR. Non-amplification is unresolved rather than physical disposal. Corrected version conflation: selected April2026 reference guide151×10×10×151 recommendation and its8-cycle PCR table at10ng are distinct from the ©2024 note historical2×251 biological run, whose index acquisition remains unassigned. No complete revision equivalence asserted.",
+      "deferred": [
+        "Actual historical2024 executed PCR/index recipe and guide-revision equivalence.",
+        "Native BLT bead linkage/partner and gap geometry; actual Set A well. The separate well table was not reread this pass."
+      ],
+      "verification": "Suite2/2 pass; page and notes build; pairing0 problems; chemistry5 steps,0 established/0 conditional/6 unresolved/0 contradictory. Source guard0 failed; review schema checked after entry.",
+      "oligo_scraper": "Mandatory local source-bundle scraper run for all three protocols; relevant exact bases and method passages checked in identified originals, not upstream drawings.",
+      "scope": "Capped source-owned native graph migration. Actual source scope and deferred targets only; not a full protocol review or an accepted publication-absence claim."
+    },
+    {
+      "round": "2026-10-18-batch03-independent-critical-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "tools/shotgun.py index_primer, shotgun_library, _tagged_state, protocol_graph, sequencing metadata and reviewed-target tuple",
+      "existing_source_scope": "Guide1000000025416 v12 identity (April2026), pp23–32: tagmentation, wash, PCR, IPB and recommended run (text1576–1693,1747–1789,1840–2035,2100–2230); ©2024 application note M-NA-00010 v2.0 library preparation/sequencing211–242 and footer identity; official Illumina Prep and Nextera adapter table182–205. Existing author migration scope only; originals not re-read in this pass.",
+      "findings": "No concrete critical implementation defect found. SelectedApril2026 v12 guide reference is explicit and distinct from the2024 application-note historical2×251 experiment. Source-known arms/index inventory do not turn the unresolved bead-linked pre-PCR strand/gap occupancy into a finished duplex. Actual retained tagged substrate feedsPCR, independent nonamplifying classes remain molecular/unresolved, physical wash/IPB fractions are separate, and current10nt physical indices/run assignment is limited to selectedguide scope.",
+      "deferred": [
+        "Native BLT attachment/gap/first-copy proof and exact SetA well remain declared limitations; complete historical equivalence is expressly unassigned."
+      ],
+      "scope": "Independent code-only critical review; no original-source hunting or new source reading, no acceptance of absent information or complete molecular proof.",
+      "verification": "Independent code/semantics inspection found no concrete critical defect; parent/author own focused checks reported in migration record. Source-review schema passes."
     }
   ]
 }

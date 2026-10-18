@@ -252,6 +252,34 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/26 unresolved/0 contradictory; source guard 2 exact checked (early/late NEBNext adaptor), 0 failed, 4 inputs without exact states (i5/i7 families); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Capped published-original pass; source-qualified native migration, not full validation or absence acceptance.",
+      "locations": "Published PMC6044726 JATS Procedure30–81 at approximately399–620: EndPrep/ligation/USER/columns,denaturation/IP,Q5indexing,0.9×AMPure,50bpSR. Published MOESM34 supplementaryPDF Methods1/Data1/Data2; actual Data1 pages9–10 inspected with layout-preserving PDF extraction to distinguish primer sequences from adjacent Expected Index Read columns. Earlier pulse/FACS/extraction source scope retained without new review.",
+      "oligo_scraper": "Mandatory full cached-bundle scraper run; relevant published adapter modification and primer-family pointers verified in original published text/layout. Superseded preprint hits not evidence.",
+      "findings": "Removed all conformation_replication_specs source selectors and batch_ngs endpoint recipe. Source-owned genomic nascent/unlabelled populations, local EndPrep/hairpin source fold and modified oligo, USER-opened duplex rows and distinct denatured single strands replace false covalent mixtures. Actual BrdU-IP single-strand Scene enters both PCRs. USER residues are molecular cleanup inputs consumed with Step37 column purification, not an unconnected physical-discard terminal. Local endpoint uses published dual8nt family scaffolds; selected members and acquired index cycles unassigned. Both early/late SR50 terminal plans preserved, with optional longer/paired reads in notice.",
+      "deferred": [
+        "Native capped-duplex/USER junction and first-cycle PCR proof; individual i5/i7 member assignments/index acquisition; optional qPCR/re-amplification graphs, vendor E7370 manual and linked enrichment methods not followed."
+      ],
+      "verification": "Suite7pass;pagebuild;chemistry24steps0established/0conditional/30unresolved/0contradictory;sourceguard2exact/0failed/4inputswithout exactstates;pairing0;targetedMarkdown/reviewschema checked."
+    },
+    {
+      "round": "2026-10-18-independent-critical-source-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Capped independent critical source/code review of actualIP/PCRprecursors and USERrouting; not completeprotocolvalidation or absenceaudit. No newsourcehunting.",
+      "locations": "PublishedPMC6044726 JATS399–465 (EndPrep/USERcolumn/denaturation/IP),493–520(indexPCR),590–609(pooling/Step81); publishedMOESM34supplement232–252(adaptormodifications),280–306(indexfamilies, with prior layout-qualified fullscaffold scope retained). Local opened_strand/opened_duplex,USERcleanup,IP/PCRstates,foldlimits and explicitreviewtargets.",
+      "oligo_scraper": "Ran fullcachedbundle scrape_primers; usedpublished-adaptor/index source pointers, excluded supersededpreprint hits.",
+      "findings": "No concretecriticaldefect found in reviewed scope. SourceUSERresidues enterStep37columncleanup, not an unconnecteddiscard. Bothdenaturedstrands enterIP; sourceIPsupernatants physicallyremoved. SelectedBrdUssScene persists throughrelease/column into actualPCRgeometrytemplate; finishedduplex not substituted. Hairpinmodifiedsingleoligo and computed12bpstem/3′T relation explicitlybounded; fullcapped/USERjunction geometry remains unresolved. SR50and dualindexfamilies preserve unknown indexcycles; early/lateplans and manualcuratedreviewtargets retained.",
+      "deferred": [
+        "Completecapped/USERjunction and firstcyclePCRgeometry; selectedindexmembers/cycles; existingvendor and optionalqPCR/re-amplification scope remain open."
+      ],
+      "verification": "Read-onlycriticalsource/code review; source scraper completed. Existingownerfocusedchecks recordedseparately; noadditionalcodeedited."
     }
   ]
 }

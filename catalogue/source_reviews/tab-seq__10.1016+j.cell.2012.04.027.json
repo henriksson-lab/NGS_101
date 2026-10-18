@@ -102,6 +102,33 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 0 checked, 2 unrepresented"
+    },
+    {
+      "round": "2026-10-18-batch07-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Defining PMC3589129 ExperimentalProcedures144–146; published Nature Protocols2012 PMC3641661 overview37–44, steps15–18/text484–520, whole-genome25B/text675–688 and publication metadata. Mandatory bundle scraper reviewed.",
+      "findings": "Replaced hybrid/default library recipes with local source-owned graph. Primary glucosylation60min and oxidation90min, PK/BioSpin30/QIAquick PCRPurification are explicit; companion80min and NucleotideRemoval are separately scoped ordinary protocol differences. Correct physical bisulfite substrate U/U/5gmC feeds PCR; normal daughter T/T/C and retained modified originals are distinct. No canonical TruSeq/index/primer shell or locus-specific PfuTurboCx enzyme is assigned to whole-genome libraries. Companion publication is2012;2013 is later PMC deposition.",
+      "deferred": [
+        "Historical Illumina WGBS guide15021861_A explicitly linked by25B, not inspected; native endprep/adapter order, exact amplification reagents and sequencing acquisition remain bounded",
+        "Defining original extended procedures, complete control repertoire and linked assay details beyond inspected sections"
+      ],
+      "scope": "Capped source pass and native graph migration; no absence acceptance or historical status upgrade.",
+      "verification": "Local suites4/1/3 and pages pass; combined guard7checked0failed9unassigned0exemptions; pairing0; chemistry5established57unresolved0contradictory. Notes/review schema checked after record creation."
+    },
+    {
+      "round": "2026-10-18-batch07-independent-implementation-review",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current native protocol module/local helper, final notes and owner bounded source3/2/1 handoff. No new original-source investigation.",
+      "findings": "Confirmed distinct physical originalU/U/5gmC states and normaldaughterT/T/C readout, independent genomic/control populations, actual converted native PCR substrate, original-modified-strand unresolved fate, and bounded historicalWGBS implementation. Primary and detailedcompanion timing/cleanup contexts stay separate; locus-specific polymerase is not projected onto whole-genome library chemistry. No critical implementation defect identified in supplied scope.",
+      "deferred": [
+        "Native historicalWGBS endprep/adapter/index/recovery/primer/run geometry and conversion efficiencies remain unassigned."
+      ],
+      "scope": "Independent critical implementation-only peer review. Automated source checks do not constitute an independent original-source absence pass; no status upgrade.",
+      "verification": "Suites4/1/3pass; pagesbuild; sourceguard7checked0failed9unassigned0exemptions; pairing0problems; chemistry5established57unresolved0contradictory; schema checked."
     }
   ]
 }

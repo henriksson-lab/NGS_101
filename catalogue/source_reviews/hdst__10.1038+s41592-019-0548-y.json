@@ -462,6 +462,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory with jemt_processing MAGIC warning; source guard 0 exact checked, 0 failed, 6 inputs without exact states; Markdown built/checked; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch09-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC6765407 s41592-019-0548-y_PMC6765407.xml.txt Methods119–145 (bead synthesis/decoding/tissue/RT/release/readmask), original SI s41592-019-0548-y_supp_NIHMS1536533-supplement-1.docx.txt first SupplementFig1/2 captions1–9 (split-pool/opticaldecoding/computationalretention), directly cited Jemt2016 PMC5111054_PMC5111054.xml.txt49–51 (known native operation order/reaction cleanups) and89 (delegation to Ståhl2016SI; first RNAClean elution modification).",
+      "oligo_scraper": "24hits5files;5largefiles skipped (17MBxlsx,15MBxlsxtext,29MBxlsx,39MBxlsx,30MBxlsx). Oligohits used only as source pointers; precursor/bridges/widths checked against published Methods.",
+      "findings": "The protocol now owns18native operations. Three bead pools are covalently assembled with source completed bridges and physical15/14/15barcodes,UMI5,T20VN. SourcedU5/AmC6bead linkage and actualextendedssDNA persist before USER; released5′geometry and bead-remnant recovery remain unassigned. Actual paired T7promoter precedes IVT, new antisense RNA usesU/transcribedGGG, promoterDNA and originalRNA remain independent. Jemt source-known secondstrand/endrepair/IVT/RNAadapter/RT2 order and reaction cleanups are explicit; detailed enzymes/oligos/ends remain deferred. Actual recovered RT2ssDNA feeds PCR; no genericTruSeq/index8 shell. Public synthesis versus preprocessingmask15/15/16+UMI6 conflict remains unresolved; supersededpreprintUMI7 is not active authority. MOB125/175 and breast150/150 are independent runs, not a fabricated physical split.",
+      "deferred": [
+        "Ståhl2016SupplementaryInformation explicitly delegated by Jemt2016 for detailed enzymes/adapter/RT/PCR strands and native end geometry",
+        "HDST selected vendor barcode/decoder members and experimental indexing scheme/acquisition",
+        "Exact USER5′junction and component-specific recovery of originals/copies/fragments"
+      ],
+      "scope": "Capped3original/10min perprotocol pass followed by nativeimplementation. No source expansion aftercap, acceptedabsence claim, complete-review claim or historicalstatus upgrade.",
+      "verification": "Source suite3pass; pagebuild; chemistry18steps0contradictions; guard combined18checked0failed1narrowassembled-primerexception15unassigned; pairing0; staticOUTsyntax checked."
+    },
+    {
+      "round": "2026-10-18-batch09-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Code-only review of tools/chem.py bead_scene/capture_parts/identity_parts/cdna_scene/arna_scene/second_cdna_scene and complete native ProtocolGraph. Owner source scopes3/2/3 originals referenced as handoff; no original source reread.",
+      "findings": "Checked actual5′AmC6/dU5 bead precursor and independently captured RNA; source15/14/15barcodes+UMI5 remain separate from incompatible preprocessingmask. Native primer extension→USER release→actual paired T7promoter DNA→IVT physicalRNAU→RNAadapter→actual secondRTssDNA feedsPCR. IVT leaves independent DNA/originalRNA lineages, and USER cleavage is not physical discard. Jemt-linked stage order and unread Ståhl exactchemistry boundaries remain explicit. The assembled-primer guard exemption is narrowly scoped to composite native_rt_primer, with exact source components separately tested; no sourceabsence accepted. No concrete critical implementation defect found. Rechecked owner final IUPAC clarification: copied VN anchor is an explicit2nt5′N-then-B(C/G/T) role, since neutral revcomp leaves placeholder letters opaque; no misleading NV source-base assignment. Page/pairing rerun pass; no source original reread.",
+      "deferred": [
+        "Exact native USER boundary/chemistry and selected barcode/decoder members",
+        "Ståhl2016SI detailed reaction enzymes/native oligos/adapter/PCRfirstcycle geometry",
+        "Published physical-synthesis versus computationalmask discrepancy and actual index acquisition remain existing limits"
+      ],
+      "scope": "Independent implementation-only review; no new source original, complete chemistry-validation claim, sourceabsence acceptance or historical status upgrade.",
+      "verification": "Independent suites3/1/4 pass; Slide/SciSpace finalpages rebuilt; scoped chemistry0established61conditional54unresolved0contradictory; sourceguard18checked0failed1narrowassembled-primerexemption15unassigned; all3pairing0. Schema/whitespace checked after append."
     }
   ]
 }

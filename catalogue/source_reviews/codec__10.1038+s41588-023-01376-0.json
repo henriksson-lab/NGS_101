@@ -218,6 +218,33 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 4/4 pass; page builds; pairing 0 problems; chemistry 1 established/0 conditional/9 unresolved/0 contradictory (8 steps); source guard 2 exact checked, 0 failed, 2 inputs without exact states (xGen primer mix strands); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Capped original-source migration; no absence gate acceptance.",
+      "locations": "Published PMC10181940 JATS .xml.txt: Results Adapter quadruplex and workflow/Fig1, lines100–118; Methods DNA samples/ERAT/CODEC/Sequencing197–220. Published MOESM1 supplementary PDF .txt Table5 lines481–548, allfour modified set1 ordering sequences and eightmatched sets. Preprint and current vendor manual not used.",
+      "oligo_scraper": "Full cached bundle scraper run; supplementary Table5 source bases/modifications directly checked for CODEC; cfMeDIP related-draft adapter hits explicitly excluded as different chemistry.",
+      "findings": "Removed protocol_specs.get/Definition/workflow and rna_library_operations.molecule. Native graph owns actual genomic duplex and dA-tailed substrate, four-strand representative adapter (two bridge strands plus two phosphorothioate terminal-T arms), separate ligated Watson/Crick intermediate chains and actual linked single-chain PCR precursor. Sample/UMI feature identities preserved from adapter through local endpoint. Original Methods quantities/variant conditions retained, including pre-ligation cleanup absent from v0, cfDNA alternate final cleanup and166/260 paired-cycle alternatives. Candidate blank/double/intermolecular byproducts are unresolved material fates rather than unsupported physical discards.",
+      "deferred": [
+        "Native complete ligation branch geometry/contiguous extension product; xGen1077677 ordered physical primers/first-copy PCR proof; optional capture and ERAT alternative graphs remain outside selected baseline route."
+      ],
+      "verification": "suite4;8steps;3established/0conditional/13unresolved/0contradictory;both pages build;combined sourceguard4exact/0failed/2unassigned;pairing0;targeted Markdown and review schema checked."
+    },
+    {
+      "round": "2026-10-18-independent-sid7-orientation-correction",
+      "reviewer": "independent-protocol-review",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only independent correction against existing published Table5 source scope in preceding2026-10-18-validation-migration. No new source investigation or absence acceptance.",
+      "locations": "Local codec_final_library SID7/UMI/Read2rc region compared with existing exact CODEC_BRID7_1 adapter declaration; existing Table5 transcription suite extended to cover that local output window.",
+      "findings": "Final reference had source SID7 sense sequence beforeNNN/Read2rc, whereas bridge7 in the same orientation carries SID7rc beforeNNN/Read2rc. Corrected final displayed segment to revcomp(CODEC_SID7_1), preserving SID7_FEATURE identity. Read2 now reports the source SID7 sense value; no source index was replaced or transformed to retain old readout. Repository model error, not publication discrepancy. Actual linked single-chain PCR precursor, independent populations, source-index semantics and explicit curated review list remain unchanged.",
+      "deferred": [
+        "Complete contiguous post-extension architecture and xGen ordered physical primer/first-copy PCR geometry remain explicit existing model boundaries."
+      ],
+      "verification": "5 source-boundary tests pass including original bridge7 local-window regression; page builds; chemistry3 established/0 conditional/13 unresolved/0 contradictory; sourceguard4 exactchecked/0failed/2unassigned inputstates; pairing0; targeted Markdown/review schema/diffcheck pass."
     }
   ]
 }

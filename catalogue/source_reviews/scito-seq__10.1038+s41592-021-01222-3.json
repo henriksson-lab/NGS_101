@@ -140,6 +140,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "selftest pass (construction only); page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory over 7 steps; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-validation-migration-multimodal",
+      "reviewer": "protocol-migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published PMC8643207 JATS s41592-021-01222-3_PMC8643207.xml.txt Results line 113 and Methods Primary antibody conjugation, Antibody-specific hybridization design and 10x run lines 189–209. Superseded preprint not used for active claims.",
+      "oligo_scraper": "Ran tools/scrape_primers.py on the cached source bundle; followed relevant hits to the original printed passages. The scraper output is not used as independent evidence.",
+      "findings": "Owned 10-base compound antibody/pool field replaces generic separate antibody plus pool regions; shared unknown bead identifier/UMI fields and eight-base sample index replaced with source-scoped local declarations. Explicit 28/8/98 graph acquisition and endpoint roles; incoming captured-template PCR geometry. Empty/ambiguous droplets have unresolved physical recovery. Prior broad non-disclosure wording narrowed to unassigned model/source-review targets.",
+      "deferred": [
+        "Applicable 10x 3-prime v3 Feature Barcoding revision and primer geometry",
+        "Selected handle/barcode members and author sequence repository",
+        "TS-C and comodality variant molecular structures"
+      ],
+      "scope": "Ownership and explicit-uncertainty migration for the named shared dependencies; bounded source scope only. No full chemical validation or accepted missing-information claim. Historical source passes retained.",
+      "verification": "Protocol suite and page build pass; source guard 0 exact strands checked, 0 failures; pairing lint 0 problems; scoped chemistry 0 established/0 conditional/8 unresolved/0 contradictory. Notes and review schema checked."
+    },
+    {
+      "round": "2026-10-18-container-state-correction",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only population/container modelling correction; original-source scope remains preceding bounded migration 2026-10-18-validation-migration-multimodal. No new scientific-source, endpoint or absence conclusion.",
+      "locations": "Local protocol module role-level molecular states and existing workflow-derived graph inputs; no original documents re-read.",
+      "findings": "Separate antibody protein from its conjugated nucleotide handle in role-level Scene rows, retaining the declared conjugation reaction; separate staining-cell tag from surface-protein/count container role. True ordered splint/captured-tag sequence segments unchanged.",
+      "deferred": [
+        "Existing unassigned source/geometry boundaries and linked-source review targets remain open."
+      ],
+      "verification": "construction and workflow suite passes; page builds; chemistry 0 established/0 conditional/8 unresolved/0 contradictory. Combined five-protocol guard:17 exact checked,0 failed,1 existing inherited-source exemption,23 inputs without exact states. Pairing0 problems; review schema/diff check pass."
     }
   ]
 }

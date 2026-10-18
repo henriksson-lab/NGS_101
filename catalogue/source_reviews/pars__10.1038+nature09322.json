@@ -102,6 +102,33 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 10 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch03-native-graph-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC3847670 JATS Results42–44, Methods74–80 and Fig1caption258; published MOESM294 SupplementaryMethods90–143, SOLiD Library construction and Sequencing; original kit guide cms_054973 printed identity PartNumber4399434 RevC04/2009 and AppendixA printedp21 text1570–1608 commonP1/6nt barcode primer descriptions. Mandatory whole-bundle scraper completed; P1 string verified directly in guide.",
+      "findings": "Native graph follows original2010 workflow, preserving independent V1/S1 aliquots. Added source alkaline fragmentation95°C3min and50–200nt6%denaturingPAGE recovery before first5′P-selective MixA ligation, AntarcticPhosphatase37°C1h and secondMixA16°C6h. First-strand ArrayScript cDNA remains ss target; RNA persists until sourceRNaseH digestion, whose products are molecular/unresolved. Actual ss postRNaseH targets enter18–20round PCR rather than an expected finished library. Physical gel exclusion is distinct from failed ligation and chemical hydrolysis. Historical2009RevC commonP1 primer is source-owned, selected indexed reverse member and completeMixA states remain unassigned. Two branch-specific terminal sequencing plans preserve35–50bp generated sequence lengths separately from35bp mapping truncation, without inventing color-space/index cycle acquisition.",
+      "deferred": [
+        "Exact MixA species/terminal chemistry, RT/reverse-primer member and native binding/first-copy geometry; color-space run cycles/barcode acquisition remain unassigned. Later2013 protocol is not substituted for original2010 chemistry; complete vendor instruction set outside selected Appendix scope not re-audited."
+      ],
+      "scope": "Capped published-source native graph migration; not complete two-reader review, no accepted absence claim.",
+      "verification": "Suite4/4 including commonP1 source check; page/pairing pass; chemistry20steps22unresolved0contradictory. Combined3graph source guard2checked0failed0exempt17inputs without exact states. Read tables explicitly retain unassigned acquisition rather than marking unsupported reads not acquired."
+    },
+    {
+      "round": "2026-10-18-batch03-independent-review",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "tools/chem.py and current research note: independent V1/S1 branches, alkaline-fragment populations, two ligations/phosphatase, ss RT/RNaseH/PCR inputs, endpoint barcode semantics and both terminal sequencing plans.",
+      "findings": "No new critical implementation issue found. V1/S1 aliquots remain independent. Cleavage-defined5′P and random-only5′OH product classes occupy separate rows; failure to ligate remains unresolved rather than physically discarded. Source phosphatase and second MixA ligation precede actual ss RT target; RNA persists until RNaseH and hydrolysate partition remains unresolved. Actual post-RNaseH ss cDNA feeds both branch PCRs. Source-known commonP1 and barcode context survive without selecting a reverse-primer member. Generated35–50bp and mapping35bp are distinguished from color-space/index acquisition.",
+      "deferred": [
+        "Exact MixA ligating species/modifications, selected reverse primer, native RT/PCR landing and color-space/index acquisition remain unassigned.",
+        "Original-source/vendor applicability was not independently inspected; the later2013 protocol is not validated by this code-only review."
+      ],
+      "scope": "Independent critical implementation/current-note review only; no new source reading, source scraping or accepted publication-absence claim. Existing review status preserved.",
+      "verification": "Read-only inspection of actual graph states, input/output references, molecular modifications, fates and read declarations. No code edits or independent test reruns; parent reports focused checks passing."
     }
   ]
 }

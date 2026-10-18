@@ -428,6 +428,32 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite comment-only (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/4 conditional/13 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 2 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch04-native-graph-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Original2016 Cell mmc1 ExtendedExperimentalProcedures Steps1–3 text25–110; directly inherited Flynn2016 PMC4896316 reagent list136–206 and Steps26/40–42/52–60 around534–762; published2018 MethodsMolBiol comparator table154–190. Mandatory whole-bundle scraper completed; defining main not newly read; no recursive linked-source investigation.",
+      "findings": "Removed queued protocol_specs/psoralen/18ntmolecule recipes and shared2018 source module. Selected2016 HEK293/mES graph now owns native RNA populations, source adapter core with unassigned3′biotin/ddC blocking variant, actual phosphorylated RT-primer family with4nt index and split molecular-tag features, physical non-nucleotide iSp18 spacers, computed3′primer/adapter overlap and ss cDNA closure. The actual spacer-containing ss circle enters unavailable PCR geometry; no completed duplex template or assumed polymerase passage through spacers. Variant-specific inherited postRT capture/RNA handling is an explicit unresolved boundary preserving molecular RNA/products. Circle purification is explicit. OriginalHeLa route remains a separately labelled ordering primer and2018 oligos are comparator inventory outside graph/read plans. Corrected local2018 P6Tall comparator leadingCT from the actual table; this was repository transcription, not a source discrepancy.",
+      "deferred": [
+        "Full native circle first-copy/recopy and amplicon/retained-tag/read geometry; experiment-specific four-base member and inherited linker/capture variant; complete originalHeLa library graph and historical source scope beyond the stated pass remain deferred. Unknown read/index cycles stay unassigned."
+      ],
+      "scope": "Capped source-owned native graph migration; no source-review status upgrade, no accepted absence claim and no complete molecular-proof claim.",
+      "verification": "Suite5/5; page/pairing pass; chemistry14steps15unresolved0contradictory. Explicit MAGIC postRT boundary warning retained. Combined3graph source guard18checked0failed0exempt9inputs without exact states; source-review schema/targeted note build checked separately."
+    },
+    {
+      "round": "2026-10-18-batch04-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current chem.py implementation and author-reported batch04 source boundaries only; published originals and linked material not reread.",
+      "findings": "Read current native model including inherited2016 RT family, its structured tag/index parts, physical nonnucleotide iSp18 and copied adapter overlap, explicit linker-block variant/recovery boundary, actual ss cDNA/circle PCR substrate, source2016/2018 separation and unassigned run geometry. No concrete critical implementation defect found. Full ss-circle first-copy/recopy arc and internal final tag geometry remain explicit limits.",
+      "deferred": [
+        "Existing author migration source checklist, native-geometry/read limits and deferred original/linked-source targets remain; this code-only review does not extend original-source scope."
+      ],
+      "scope": "Independent implementation review, not a second original-source/absence audit. No accepted missing-information claim.",
+      "verification": "Read-only critical review; author focused suites/pages/chemistry/sourceguard/pairing reported separately."
     }
   ]
 }

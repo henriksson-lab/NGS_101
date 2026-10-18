@@ -2,7 +2,7 @@
 from pathlib import Path
 import sys
 H=Path(__file__).resolve().parent; sys.path.insert(0,str(H.parents[1]/"lib"))
-from protocol_build import build
+from batch_page import render
 import chem
 OUT=H.parent/"bliss.html"
-if __name__=="__main__": build(chem.SPEC,OUT)
+if __name__=="__main__": OUT.write_text(render(chem.SPEC), encoding="utf-8"); print(f"wrote {OUT}")

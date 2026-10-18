@@ -31,7 +31,7 @@
         "reviewer": "audit_s_z",
         "date": "2026-10-15",
         "locations": "Online Methods lines 35-85, especially 69-85",
-        "finding": "20–100 nt RNA is ligated to defined SOLiD sequencing adapters with the ABI SOLiD Small RNA Expression Kit; RT, sample-specific 3-prime PCR barcoding and SOLiD3 50-base sequencing follow. Original methods link a specific ABI PDF."
+        "finding": "20\u2013100 nt RNA is ligated to defined SOLiD sequencing adapters with the ABI SOLiD Small RNA Expression Kit; RT, sample-specific 3-prime PCR barcoding and SOLiD3 50-base sequencing follow. Original methods link a specific ABI PDF."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
@@ -119,14 +119,55 @@
       "reviewer": "root",
       "date": "2026-10-16",
       "documents": 1,
-      "locations": "Published PMC3247016 JATS67–75, FragSeq methodology and three parallel treatments",
+      "locations": "Published PMC3247016 JATS67\u201375, FragSeq methodology and three parallel treatments",
       "oligo_scraper": "Focused original-text scraper run and hits reviewed; source-line pointers verified for facts used. No-hit results do not establish absence. Linked supplements remain deferred unless expressly named.",
-      "findings": "Added the published PNK/ATP endogenous-break control as a third branch beside P1-treated and undigested samples; recorded20–100nt RNA selection and preserved SOLiD platform.",
+      "findings": "Added the published PNK/ATP endogenous-break control as a third branch beside P1-treated and undigested samples; recorded20\u2013100nt RNA selection and preserved SOLiD platform.",
       "deferred": [
         "Original supplementary detailed methods, explicit gel-selection steps, P1/PNK end-chemistry geometry, vendor oligos and run acquisition"
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 12 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "scope": "Capped original-source migration; no source-absence acceptance or complete molecular proof.",
+      "locations": "Published PMC3247016 JATS Results FragSeq methodology69\u201373 and Fig1caption317; published supplementaryPDF Fig9 and Note1 mapping/trim-read definition215\u2013231,377\u2013485; published supplementary software filterFile.fasta records1\u201338 (analysis mask patterns, not oligo orders).",
+      "oligo_scraper": "Mandatory cached-bundle scrape_primers run; relevant source pointers verified in originals. Analysis filter patterns for FragSeq and unrelated DART Sanger/binding assays excluded from actual library reagents.",
+      "findings": "Removed rna_end_readout step/PCR recipes and unused generic workflows. Locally owns P1,undigested andPNK branches,20\u2013100nt gel fractions, P1-generated5\u2032P/3\u2032OH and PNK end-processing semantics, end-compatible RNAadapter ligation, actual single-strandRTproducts and unavailablePCRgeometry on those realprecursors. Physicaloffsizegel fractions distinguished fromunligatedmaterial, whose recovery is unresolved. HistoricalSOLiD endpoint/individualPCRbarcoding remains source-limited with no fabricatedreagent sequences/cycles. FilterFASTA Ns are computationalpadding and were excluded from actual reagent states.",
+      "deferred": [
+        "HistoricalSOLiD adapter/RT/PCR species, precise multi-end ligationorder and nativegeometry, selected barcode/run cycles and linked detailed methods not followed beyond capped originals."
+      ],
+      "verification": "suite3;15steps;0established/0conditional/18unresolved/0contradictory;all pagesbuild;combinedsourceguard4exact/0failed/13unassigned;pairing0;targetedMarkdown/reviewschema checked."
+    },
+    {
+      "round": "2026-10-18-independent-critical-review",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Capped independent critical review; no broad vendor/linked-method audit or absence acceptance.",
+      "locations": "Published PMC3247016 Results69\u201373; published nmeth.1529_supp_NIHMS245940-supplement-supplement_1.pdf.txt Methods35\u201387",
+      "oligo_scraper": "Reviewer ran mandatory cached-bundle scraper and checked the named published passages.",
+      "findings": "Published SupplementaryMethods places PNK before FlashPAGE20\u2013100nt; specifies post-PCR6%nativeTBEgel selecting25\u2013100nt inserts, equimolarpool, emulsionPCR and ABI SOLiD3 50bp reads. Actual first-strand PCR precursor/unligated fates are sound, but RT template RNA fate needs explicit unresolved output.",
+      "deferred": [
+        "Existing native manufacturer/primer/molecular-proof boundaries remain; no new absence conclusion."
+      ],
+      "verification": "Findings sent to owning implementation reviewer; corrections and checks recorded separately below."
+    },
+    {
+      "round": "2026-10-18-rt-population-and-prose-correction",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation correction from preceding independent published-source review and existing source scope; no additional originals read or absence conclusion.",
+      "locations": "Protocol tools/chem.py RT population outputs/terminals, native PCR target scenes and source-qualified finishing; main research note Model/page and migration sections.",
+      "findings": "Each RT now outputs an explicit molecular RNA-template class with unresolved recovery, while PCR follows the cDNA target component. Moved PNK before FlashPAGE; added branch-specific post-PCR nativegel selection and physical excluded gel fractions. Separate barcoded species are pooled equimolarly, followed by a source-qualified emulsionPCR machinery boundary. Read1 has source50bp biological length; color-space cycle recipe/index acquisition remain unassigned.",
+      "deferred": [
+        "Native reagent/first-copy chemistry and molecular partitions not reconstructed remain explicit; unresolved RNA recovery does not establish physical removal."
+      ],
+      "verification": "suite3;20steps0established/0conditional/23unresolved/0contradictory;all pagesbuild;combinedsourceguard4exact/0failed/13unassigned;pairing0;targetedMarkdown/reviewschema checked."
     }
   ]
 }

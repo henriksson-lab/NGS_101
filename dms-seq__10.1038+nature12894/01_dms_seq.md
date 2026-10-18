@@ -9,7 +9,7 @@ The PMC full text and Methods were read.
 - 🟢 Methods specify Zn²⁺ fragmentation, 60–80-nt RNA selection, PNK end repair,
   modified linker-1, 25–50-nt stopped-cDNA selection, CircLigase, 8–10 PCR cycles and HiSeq 2000.
 - 🟢 In-vivo, refolded in-vitro and denatured controls distinguish cellular structure and bias.
-- 🟡 PCR and sequencing-primer sequences remain role-level because the paper does not print them.
+- 🟡 Selected study-specific PCR and sequencing-primer geometry remain unassigned; the modified predecessor does not establish those choices.
 
 ## Cited library-primer source
 
@@ -33,3 +33,23 @@ Inspected: Published PMC3966492 JATS42–60, DMS modification, Library Generatio
 Changed T4PNK end treatment to 3-prime dephosphorylation rather than phosphorylation; named SuperScriptIII52°C RT and 8–10 PCR cycles. Replaced unsupported broad primer-absence wording with unassigned model geometry.
 
 Deferred: Original predecessor library protocol and source primer list, explicit 60–80nt RNA/25–50nt-above-primer cDNA gel selections, RNA recovery and exact read acquisition. This pass does not establish a complete source review or publication-wide absence.
+
+## Local validation migration (2026-10-18)
+
+Re-read PMC3966492 Methods text lines 48–58 and ran the source-bundle oligo
+scraper. The graph follows the in-vivo 30 °C yeast branch: DMS treatment now precedes
+quenching, RNA extraction and poly(A) selection. It explicitly retains the 60–80-nt
+RNA gel selection, post-ligation gel purification and stopped-cDNA band 25–50 nt
+above RT-primer size, with their physically excluded fractions.
+
+The linker reagent includes its terminal dideoxyC nucleotide as well as the printed
+5′ rApp/3′ ddC end modifications. Its single-strand donor geometry and the RNA–linker
+junction are explicit. SuperScript III, CircLigase and eight to ten PCR cycles are
+local declarations. The actual selected RT/PCR members, circle junction, indexing
+status and read acquisition remain unassigned; a modified predecessor method does
+not establish those study-specific choices. PCR uses its incoming circle boundary,
+without substituting the expected library as the substrate.
+
+Verification: source-exact modified-linker test, native graph/page, source guard,
+pairing and scoped chemistry pass. This migration leaves reaction relations and
+the remaining source targets open; it is not a full chemistry or absence audit.

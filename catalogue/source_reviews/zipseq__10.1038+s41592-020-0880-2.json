@@ -336,6 +336,39 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 4 checks pass; page builds; pairing 0 problems; chemistry 0 established/1 conditional/16 unresolved/0 contradictory with rna_construct MAGIC warning; source guard 4 exact checked (O1 caged, O1 blocker, Zipcode 1, CITE-seq P5), 0 failed, 5 inputs without exact states (bead primer, 10x cDNA primers, additive primer, GEX PCR pair); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch07-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC7891292 JATS oligos118–166,tumor272,library276/readprocessing280 plus same-original typeset s41592-020-0880-2.pdf p12 oligo table; 10x CG000183 Chromium3primev3 UserGuide RevA process2.2–3.6,sequencing4298ff/appendix4880ff (cached under10x-chromium-single-cell-3-ge-v3/scg_CG000183_ChromiumSingleCell3__v3_UG_Rev-A.pdf.txt); original CITE2017-07-03 supplemental protocol nmeth.4380_supp_NIHMS891423-supplement-3.pdf.txt pp5–6/primerlist225–285,417–419.",
+      "oligo_scraper": "1084hits13files;35MB2019predecessorworkbook skipped; source-positive oligos verified in publishedlist, PDF marking unresolved; excluded supersededpreprint positions.",
+      "findings": "Own25step nativegraph removes queued finisher/canonical endpoint shells. Independent RNA/anchor/cagedstrand/zipcode; actual nativeSS recovered copies enter mixed cDNAPCR; explicit bounded unread GEMrecovery. Physical SPRI split/two3xzipcodecleanups, knownGEXfragment/endprep/dA/adapterligation/indexPCR/recoveries, actual nativePCR substrates, independent residual lineages, physical1:10zipcode:RNApool. Positive28/8/91guide acquisition distinct from unassignednativeRPIextent/entry. RNA R2include; zipcode R2extract. NPOMpositions remainunassigned; no preprint substitution.",
+      "deferred": [
+        "Hu actualCITEprotocol revision/RPI member/orderedadditiveprimer",
+        "Nativev3 full primer/adapter strands/ligation footprints and actualguiderevision",
+        "Detailed nativepostGEMrecovery operations/partition",
+        "PublishedNPOMpositions unresolvedininspectedtypeset marks",
+        "Loadedzipcode sequencingoligo/entry and molecularindexextent"
+      ],
+      "scope": "Capped3original/10min source pass plus native graph implementation; no source expansion aftercap, no acceptedabsence/fullreview claim or historicalstatus upgrade.",
+      "verification": "Suite2pass; page builds; pairing0; combinedsourceguard5checked0failed16unassigned; chemistry25steps0contradictions."
+    },
+    {
+      "round": "2026-10-18-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Code-only review of tools/zipseq.py: anchor_scene/copies/gex_intermediate/library_scene, READ_SPECS and complete native ProtocolGraph including corrected gem_recovery. Existing owner batch07 source scope not reread.",
+      "findings": "Checked independent antibody-anchor/caged DNA/zipcode/RNA populations, real hybridization and unchanged DNA after uncaging, actual mixed single-stranded copied products before PCR, physical SPRI split/two3×recoveries, dA/adapter-ligated native GEX PCR precursor and one physical1:10pool. Identifier features retained with native kit/RPI width and unresolved NPOM positions bounded. Flagged missing native GEM recovery boundary and RNA Read2 identifier-only handling; owner added bounded recovery preserving mixed actual input and corrected transcriptRead2 include/zipcodeRead2 extract, independently rechecked. No further concrete critical implementation defect found.",
+      "deferred": [
+        "Detailed native CG000183 post-GEM recovery and exact RT/switch/PCR/adapter strands",
+        "Published NPOM marks unresolved; no preprint positions substituted",
+        "Selected CITE RPI member/physical index extent and exact zipcode sequencing entry; original/template component recovery"
+      ],
+      "scope": "Independent implementation review only; no source originals opened, no source-wide absence conclusion or historical status upgrade.",
+      "verification": "Owner reports pages/guard/schema/pairing/chemistry pass with0contradictions. Reviewer independently reran ZipSeq page/suite2/pairing0 and TrAEL suite2; Tri-C historical suite empty, native graph construction/guard/chemistry provide checks. Corrected implementation inspected after owner writes."
     }
   ]
 }

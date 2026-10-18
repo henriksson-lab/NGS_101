@@ -284,6 +284,48 @@
       ],
       "scope": "Capped bounded pass on the defining main article; not a full protocol review; no accepted missing-information claim.",
       "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 13 steps 0 established/5 conditional/14 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 1 exempt, 1 input without exact state; Markdown built (01_splash.md); audit --check pass; review schema preserved (append only)"
+    },
+    {
+      "round": "2026-10-18-batch06-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "oligo_scraper": "Mandatory bundle scraper run and relevant hit/modification contexts inspected in originals; no absence inferred. Temporary log /tmp/chem-splash-batch06-primers.log",
+      "scope": "Capped original-source check and native implementation; historical review status preserved. No accepted absence or entire-chemistry validation.",
+      "verification": "Focused source transcription tests/page/chemistry pass so far; final guards/schema/pairing/peer review and full-site checks pending.",
+      "documents": 3,
+      "locations": "Defining2016 article ExperimentalProcedures in original publisher mmc7 article-plus-SI PDF text1920–1980,2177–2180; original embedded SupplementalExperimentalProcedures5089–5110; official2017JoVE HTML Materials1218–1224 and protocol9.0 plus Results PE150 declaration379. Article and embedded originalSI are distinct originals in one container; JoVE is the third. No laterNEBmanual reread.",
+      "findings": "Removed protocol_specs.get/rna_library_operations recipe uses. Actual modified RT primer in source order retains two internal iSp18 spacers,5P interpretation explicitly inherited from earlier2016FigureS2F review (not reread), native ss-cDNA and independentRNA template. Actual circle state feeds PCR, no completed final duplex. Source-known90–110RNA PAGE, bead elution/TRIzol/RNeasy,110–130linkedRNA PAGE,200–220cDNA PAGE/ethanol,postcircleDCC5 and final200–300agarose/QIAGEN recovery added. Hydrolysis chemistry separated from physical waste. Later2024NEBRev8 primer/index references not assigned to native2016kit/member; endpoint/indexwidth unassigned. Genuine2017 wavelength discrepancy preserved; ordinary2016/2017 window/polymerase changes shown as version-qualified choices. PE150 from prior2016FigureS2G review and reread2017reference remain qualified; index acquisition unassigned.",
+      "deferred": [
+        "Native2016PrimersSet1 historical lot/member and complete circle/first-copy/amplicon/read-primer geometry",
+        "Original2016FigureS2F/G graphical details retained from historical review, not reread here; exact spacer and chimera junction geometry",
+        "Class-specific RNA hydrolysate/linear-circle/off-target recovery and linked originals outside capped scope"
+      ]
+    },
+    {
+      "round": "2026-10-18-batch06-independent-implementation-review",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current protocol-owned chem.py, local oligo modules/notes and existing source-review record; root supplied capped source scope only, no original reread.",
+      "findings": "Reviewed source-version boundaries, RNA/chimera/modified cDNA/circular ssDNA continuity, two internal iSp18 spacers, RT 5P/circle sealing, RNA hydrolysis versus physical clearance, all declared recoveries, actual circular ssDNA PCR substrate, native historical index and later NEB Rev8 reference separation, and manual source scope. Fixed post-photoreversal state which reused a pre-reversal Scene carrying a reverse-crosslink instruction; new state retains the RNA covalent ligation junction and explicitly has its psoralen crosslink reversed. Removed misleading later-reference phosphorothioate annotations from native unassigned PCR-input authority strings. Updated stale notes claiming gel selections were not yet drawn. Actual PCR template remains the recovered circle Scene with both spacers, no invented duplex.",
+      "deferred": [
+        "Base-resolved closure and first-copy/PCR sites; historical2016kit/member and physical index width; class-specific circle/off-target/hydrolysate recovery remain unassigned."
+      ],
+      "scope": "Independent critical implementation review only; does not supply an independent original-source absence pass or change review status.",
+      "verification": "Source suites scSPLAT3/SPLASH2 pass; both pages build; pairing0problems; chemistry scSPLAT2established/3conditional/11unresolved and SPLASH6conditional/20unresolved,0contradictory; source guard and schema checked."
+    },
+    {
+      "round": "2026-10-18-batch06-independent-residual-followup",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current local PCR actual-template port, pcr_residual output and UNRESOLVED terminal; no original-source reread.",
+      "findings": "Confirmed PCR preserves an explicit source-modified original-template population with unassigned recovery: scSPLAT blocked ssDNA and SPLASH two-spacer circular ssDNA. The residual state comes from the actual incoming precursor rather than the amplified endpoint; no physical separation or complete cleanup depletion is asserted. Existing source bead/gel output route is unchanged. No additional critical defect found.",
+      "deferred": [
+        "Class-specific original-template/off-target survival and cleanup recovery remain unassigned."
+      ],
+      "scope": "Narrow independent code-only class-continuity review; no missing-information acceptance or source status change.",
+      "verification": "Scoped chemistry scSPLAT2established3conditional12unresolved and SPLASH6conditional20unresolved;0contradictory. Review-schema checked."
     }
   ]
 }

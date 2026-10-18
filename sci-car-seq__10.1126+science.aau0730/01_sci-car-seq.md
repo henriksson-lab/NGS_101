@@ -179,8 +179,7 @@ rendered pp. 16–18). `scrape_primers` finds four oligos, all transcribed below
 - Still open: barcode lists for the RT, Tn5 and PCR plates (not in the inspected SM or
   workbook); the "i7 only TDE1" adaptor bases (ME assumed); ATAC transposon interior
   (Amini architecture, inferred); ATAC custom sequencing primers and index-read cycles
-  (ref 29, Cusanovich 2018, not read); PCR-index lengths (drawn 10 nt, consistent with the
-  RNA run's 10 + 10 index cycles).
+  (ref 29, Cusanovich 2018, not read); physical PCR-index lengths (unassigned; the RNA run's 10 + 10 index cycles do not establish molecular index widths).
 
 
 ## Critical re-review, 2026-10-17
@@ -188,3 +187,38 @@ rendered pp. 16–18). `scrape_primers` finds four oligos, all transcribed below
 DNA and RNA tagmentation end-class candidates remain unresolved. Missing intended library ends does not establish failure to amplify or a physical separation.
 
 Inspected scope: Local tagmentation-to-PCR declarations and terminal-fate audit; no new reaction-source assertion. This bounded correction does not complete the linked-source or two-reader absence audit.
+
+
+## Native graph migration, 2026-10-18 batch05
+
+Re-read three originals within the cap: published Cao Supplementary Materials,
+“Sample processing for cultured cells” pp.16–18 (text lines62–255); defining
+PMC6571013 Fig.1 legend (lines471–475); corrected Amini2014 Table4 workbook,
+Correction Notice and indexed-transposon rows9–28. The full bundle oligo scraper
+was run and relevant hits verified against those passages. Earlier source reviews
+above are historical; this pass makes no source-absence conclusion.
+
+🟢 The cultured-cell reaction order now belongs to this protocol's graph: RT,
+indexed ATAC tagmentation, FACS, second-strand synthesis, DNA-binding-buffer/AMPure
+cleanup, physical6µl+6µl split, RNA-side i7-only TDE1 tagmentation and
+SDS/BSA/P7 incubation/Tween quench, branch-specific index PCR and pooled cleanup.
+ATAC additionally has the source >200bp gel extraction. The nominal0.5µl
+eluate remainder is explicit and its fate unassigned. Co-assay ATAC does not
+inherit the separate sci-ATAC-only SDS pretreatment.
+
+🟡 Independent RNA, cDNA and genomic populations have separate Scene strands.
+Both physical aliquots retain this mixture; PCR primer specificity does not
+physically purify modalities. Native RNA and off-target polymer recovery remain
+unassigned. First-strand RT product is ss; the subsequent NEB second-strand
+operation adds a complementary cDNA strand. Actual native mixed states enter
+PCRGeometry.unavailable, while the source-primer-derived terminal references remain
+separate. Native Tn5 ends/gaps and the Amini-based ATAC interior are bounded
+inferences, not exact PCR-transformation proofs.
+
+Physical PCR-index widths are now role tokens of unassigned length rather than
+10nt placeholders inferred from run cycles. RNA18/10/10/52 acquisition remains
+positive; ATAC51/51 and acquisition of both barcode indexes remain positive,
+with index cycles and exact custom-primer applicability deferred. The explicit
+read tables preserve this distinction. Fixed-kidney and single-modality control
+routes, Cusanovich2018 custom sequencing details and exact sci-CAR transposome
+member identity remain deferred.

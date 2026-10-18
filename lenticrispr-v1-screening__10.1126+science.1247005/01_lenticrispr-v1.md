@@ -71,3 +71,32 @@ settle the screen's own gDNA amplification.
   i7-indexed Joung library drawn on the page. The workbook prints no read lengths, no
   thermocycling and no Illumina index, so the acquired read layout of the 2014 screen is
   still unassigned.
+
+
+## Native graph migration (2026-10-18, batch11)
+
+This graph follows the defining publication rather than attaching a later compatible
+readout as the original experiment's sequencing product. The Joung readout remains
+linked as a separate protocol. Empty deposited vector maps establish only the
+invariant terminal hU6 and scaffold components and cPPT ordering; the synthesized
+member, clone junctions and study-specific library choices do not come from those maps.
+Copied or integrated representative guide states remain inferred. Independent native
+polymers and unresolved original/unreacted classes retain their own physical lineage.
+
+The original screen preparation remains bounded at its unread SupplementaryMethods.
+Native vector DNA, particle-associated RNA and integrated genomic DNA are distinct;
+a particle is not unchanged plasmid DNA. The main article supplies the pooled-screen
+lineage, while exact construction, intracellular conversion and library chemistry remain
+unresolved. Source cell delivery does not guarantee one cassette per cell. Screen
+library ends, barcode scheme and acquired read lengths are not replaced by either
+Joung2017 or the plasmid-only July2014 workbook.
+
+This capped pass inspected three originals: published PMC4089965 Results53–69 and
+supplement pointer71–73; the July2014 author workbook, header and F01–F12/R01–R12/
+v2Adaptor rows; deposited Addgene49535 full map, U6/scaffold/cPPT annotations and
+source-sequence comparison. The gated original SupplementaryInformation remains a
+named follow-up. No original-screen publication-absence claim is accepted.
+
+Critical implementation review also checked that structured guide identity survives
+the particle-RNA and native final-readout inventories without assigning sequence,
+width or strand coordinates to those unplaced components.

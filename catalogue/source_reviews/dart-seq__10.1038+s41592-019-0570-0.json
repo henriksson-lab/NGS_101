@@ -11,13 +11,13 @@
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "JATS Results lines 44–97; Online Methods lines 97–199",
-        "finding": "APOBEC1–YTH editing introduces C-to-U signal before ordinary RNA-seq. Methods specify NEBNext Ultra II Directional for standard input, NEBNext Single Cell/Low Input for 10–100 ng, NEBNext multiplex oligos, and optional PacBio Iso-Seq; experimental validation oligos are not the sequencing-library architecture."
+        "locations": "JATS Results lines 44\u201397; Online Methods lines 97\u2013199",
+        "finding": "APOBEC1\u2013YTH editing introduces C-to-U signal before ordinary RNA-seq. Methods specify NEBNext Ultra II Directional for standard input, NEBNext Single Cell/Low Input for 10\u2013100 ng, NEBNext multiplex oligos, and optional PacBio Iso-Seq; experimental validation oligos are not the sequencing-library architecture."
       },
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Published JATS Results lines 44–97 and Methods lines 195–199",
+        "locations": "Published JATS Results lines 44\u201397 and Methods lines 195\u2013199",
         "finding": "Defines APOBEC1-YTH fusion editing readout; states NEB Ultra II Directional RNA for 1 microgram, NEB Single Cell/Low Input for 10 or 100 ng, and PacBio Iso-Seq for another branch."
       }
     },
@@ -30,13 +30,13 @@
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Supplementary Protocol lines 1–47",
+        "locations": "Supplementary Protocol lines 1\u201347",
         "finding": "Explicitly says multiple RNA-seq library preps are compatible, names the two NEBNext kits, and describes standard SR50 HiSeq workflow."
       },
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "PMC supplementary protocol lines 1–16 and 36–47",
+        "locations": "PMC supplementary protocol lines 1\u201316 and 36\u201347",
         "finding": "Independently confirms two named NEB library options and says other RNA library methods are compatible; protocol does not itself print complete NEB adapter bases."
       }
     },
@@ -49,13 +49,13 @@
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Original 20-page NIHMS Word supplement, catdoc text extraction lines 3–556; Figure 2–15 captions; Figure 15 lines 539–556",
+        "locations": "Original 20-page NIHMS Word supplement, catdoc text extraction lines 3\u2013556; Figure 2\u201315 captions; Figure 15 lines 539\u2013556",
         "finding": "Supplemental figures document DART-seq editing and validation; Figure 15 uses synthetic RNAs with varying m6A fractions. Extracted captions show no library adapter order or base strings. Embedded image panels have not been inspected, so chemistry relevance is retained pending independent visual review."
       },
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Original NIHMS supplement-1 DOC, independently extracted with catdoc; captions lines 3–556, especially lines 187–205, 329–334 and 539–556",
+        "locations": "Original NIHMS supplement-1 DOC, independently extracted with catdoc; captions lines 3\u2013556, especially lines 187\u2013205, 329\u2013334 and 539\u2013556",
         "finding": "Figures discuss DART editing validation, Sanger RT-PCR and synthetic m6A-spiked RNAs; extracted captions have no library oligo bases or reaction order. Embedded images could not be rendered by local LibreOffice attempt, so their relevance remains open and the missing claim blocked."
       }
     },
@@ -69,13 +69,13 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Publisher MOESM1 Supplementary Information PDF text lines 1–192; captions Figs. 1–7 and later figure headings",
+        "locations": "Publisher MOESM1 Supplementary Information PDF text lines 1\u2013192; captions Figs. 1\u20137 and later figure headings",
         "finding": "Figure captions describe fusion-protein controls and DART editing results; they do not supply RNA library adapter chemistry."
       },
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Publisher MOESM1 PDF text lines 1–185, Supplementary Figs. 1–14 captions",
+        "locations": "Publisher MOESM1 PDF text lines 1\u2013185, Supplementary Figs. 1\u201314 captions",
         "finding": "Captions document APOBEC1-YTH binding/editing controls and analyses; inspected supplement does not state the RNA-library adapter or primer recipe."
       }
     },
@@ -95,7 +95,7 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "MOESM2 Reporting Summary lines 1–12",
+        "locations": "MOESM2 Reporting Summary lines 1\u201312",
         "finding": "Journal statistics/reporting form."
       }
     },
@@ -115,7 +115,7 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "MOESM11 Figure 4d sheet lines 1–5",
+        "locations": "MOESM11 Figure 4d sheet lines 1\u20135",
         "finding": "MeRIP RT-qPCR source data only."
       }
     },
@@ -135,7 +135,7 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "PMC supplementary Table 1 APOBEC1 alone sheet lines 1–5",
+        "locations": "PMC supplementary Table 1 APOBEC1 alone sheet lines 1\u20135",
         "finding": "Genomic C-to-U editing-site results."
       }
     },
@@ -155,7 +155,7 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "PMC supplementary Table 2 differential-expression sheet lines 1–5",
+        "locations": "PMC supplementary Table 2 differential-expression sheet lines 1\u20135",
         "finding": "Gene-level fold-change results."
       }
     },
@@ -175,7 +175,7 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "PMC supplementary Table 3 high-stringency sites sheet lines 1–5",
+        "locations": "PMC supplementary Table 3 high-stringency sites sheet lines 1\u20135",
         "finding": "Genomic C-to-U site results."
       }
     },
@@ -195,7 +195,7 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "PMC supplementary Table 4 METTL3 KD sheet lines 1–5",
+        "locations": "PMC supplementary Table 4 METTL3 KD sheet lines 1\u20135",
         "finding": "Genomic editing-site results."
       }
     },
@@ -215,7 +215,7 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "PMC supplementary Table 5 10ng input sheet lines 1–5",
+        "locations": "PMC supplementary Table 5 10ng input sheet lines 1\u20135",
         "finding": "Editing-site results; input amount is in heading but no library oligo recipe."
       }
     },
@@ -235,7 +235,7 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "PMC supplementary Table 6 mRNAs sheet lines 1–5",
+        "locations": "PMC supplementary Table 6 mRNAs sheet lines 1\u20135",
         "finding": "Lists mRNA identifiers called by DART."
       }
     },
@@ -255,7 +255,7 @@
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "PMC supplementary Table 7 CPT 5h sheet lines 1–5",
+        "locations": "PMC supplementary Table 7 CPT 5h sheet lines 1\u20135",
         "finding": "Genomic C-to-U editing-site results."
       }
     },
@@ -297,13 +297,13 @@
     "pass_1": {
       "reviewer": "second_pass_d_e",
       "date": "2026-10-16",
-      "locations": "Original JATS lines 44–199; author Supplementary Protocol 1–47; data-table headings",
+      "locations": "Original JATS lines 44\u2013199; author Supplementary Protocol 1\u201347; data-table headings",
       "finding": "DART edits RNA before library construction and delegates library oligos to named commercial kits. Those kit manuals and one unparsed supplement remain open."
     },
     "pass_2": {
       "reviewer": "audit_s_z",
       "date": "2026-10-16",
-      "locations": "Original JATS Methods lines 195–199; author protocol lines 1–16 and 36–47; publisher MOESM1 captions",
+      "locations": "Original JATS Methods lines 195\u2013199; author protocol lines 1\u201316 and 36\u201347; publisher MOESM1 captions",
       "finding": "Source explicitly delegates branch library chemistry to NEB and PacBio kits; manuals and unparsed DOC are open; status stays blocked."
     }
   },
@@ -332,6 +332,47 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite (comment-only, 0 explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/7 unresolved/0 contradictory with kit_prep MAGIC warning; source guard 0 exact checked, 0 failed, 0 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Capped original-source migration; no source-absence acceptance or complete molecular proof.",
+      "locations": "Published PMC6884681 JATS Methods Next-generation sequencing and C-to-U analysis195\u2013205; published SupplementaryProtocol NIHMS1537259-supplement-2.pdf sectionsA\u2013D (transfection,totalRNA,NEBNext variants,SR50,processing).",
+      "oligo_scraper": "Mandatory cached-bundle scrape_primers run; relevant source pointers verified in originals. Analysis filter patterns for FragSeq and unrelated DART Sanger/binding assays excluded from actual library reagents.",
+      "findings": "Removed protocol_specs.get/Definition and batch_ngs.truseq_library. Local source-selected1\u00b5g NEBNext directional route now has an explicit multi-operation manufacturer boundary including barcoding, rather than generic dual-index8nt shells or unsupported terminalPCR. SR50 is selected from paired/single source alternatives; low-input10/100ng and PacBio remain separate scopes. RNAC\u2192U, strand-dependent cDNA A/T and reference-oriented C\u2192T processing are distinguished. Extracted RNA/genomicDNA are separate populations; DNase hydrolysis products unresolved rather than physicaldiscard.",
+      "deferred": [
+        "Native kit/versioned molecular intermediates, physical adapters/primers/indexset; low-input and long-read routes; source-linked vendor manuals not pursued."
+      ],
+      "verification": "suite1;5steps;0established/0conditional/5unresolved/0contradictory;all pagesbuild;combinedsourceguard4exact/0failed/13unassigned;pairing0;targetedMarkdown/reviewschema checked."
+    },
+    {
+      "round": "2026-10-18-independent-critical-review",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "scope": "Capped independent critical review; no broad vendor/linked-method audit or absence acceptance.",
+      "locations": "Published PMC6884681 Methods195\u2013205",
+      "oligo_scraper": "Reviewer ran mandatory cached-bundle scraper and checked the named published passages.",
+      "findings": "Native kit boundary/version scope and RNA C\u2192U versus reported C\u2192T are sound; stale Model/page prose still described removed indexPCR/generic dual-index shell.",
+      "deferred": [
+        "Existing native manufacturer/primer/molecular-proof boundaries remain; no new absence conclusion."
+      ],
+      "verification": "Findings sent to owning implementation reviewer; corrections and checks recorded separately below."
+    },
+    {
+      "round": "2026-10-18-rt-population-and-prose-correction",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation correction from preceding independent published-source review and existing source scope; no additional originals read or absence conclusion.",
+      "locations": "Protocol tools/chem.py RT population outputs/terminals, native PCR target scenes and source-qualified finishing; main research note Model/page and migration sections.",
+      "findings": "Updated Model/page paragraph to describe one explicit NEBNext library/barcoding boundary without terminalPCR or generic arms/index windows. No molecular code changed.",
+      "deferred": [
+        "Native reagent/first-copy chemistry and molecular partitions not reconstructed remain explicit; unresolved RNA recovery does not establish physical removal."
+      ],
+      "verification": "suite1;5steps0established/0conditional/5unresolved/0contradictory;all pagesbuild;combinedsourceguard4exact/0failed/13unassigned;pairing0;targetedMarkdown/reviewschema checked."
     }
   ]
 }

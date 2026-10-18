@@ -147,6 +147,35 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    },
+    {
+      "round": "2026-10-18-batch10-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Original published DOI10.1186/gb-2013-14-4-r31, PMC4054835 JATS: Results82–100 (byproducts/suppression), PE50 comparison134, WTA Methods216, Table1 primer rows218–250, LIMprep260–264, computational trimming274.",
+      "oligo_scraper": "Mandatory scraper of existing combined Quartz original collection636hits11files. Defining2013 original Table1/Methods pointers checked; upstream sequences and2018 originals do not supply2013 chemistry.",
+      "findings": "Protocol-owned native RT→ExoI→combinedTdT/RNaseH→tagging extension→21cycle suppressionPCR. Actual second strand copies RTdT24 to dA24; extraG arises from PCRprimer. Source5NH2 and phosphorothioate bonds remain primer/strand-lineage modifications. SourceMinElute/Covaris/DCC5/endrepair/DCC5/A-tail/DCC5/ligation/twohighsaltAMPure/PCR/AMPure operations explicit. Native asymmetricligated strands feedPCR, residualoriginalRNA/hydrolysate/shortsuppressedDNA/oligos/originaltemplates retained as unresolved populations. SelectedPE50; native6ntindex separated from unassigned indexacquisition. Quartz-Chip IVT not imported intoRNAseqbranch.",
+      "deferred": [
+        "Original supplementaryfigures/SupplementaryNote for deeperbyproduct folding/kinetics remain deferred",
+        "Direct citedKAPA/vendor library-reagent originals for nativeend/nick/fillimplementation remain deferred",
+        "Exact acquiredindexcycles and molecule-class-specificrecovery remain open; source6ntoligo window is not an acquisitionfact"
+      ],
+      "scope": "Capped source pass (maximum3originals/10minutes); investigation frozen before implementation. Native source-qualified implementation, not full protocolreview, acceptedabsence, independent secondsourcepass or reviewstatusupgrade. Historical statuses/passes unchanged.",
+      "verification": "Affected original-transcription suites11/8/10 pass; all3pages build; scopedchemistry10established15conditional64unresolved0contradictory; sourceguard17checked0failed1bundle skipped (Quartz2 originals remain explicitly in Quartz1externalcollection); pairing0; literalOUTstaticdiscovery3pass. Schema/notes/whitespace checked after recordwrite."
+    },
+    {
+      "round": "2026-10-18-migration-10-peer",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Critical implementation-only review of local protocol module, native_state constructors, protocol_graph reactions, PCR/ligation geometry and source-qualified notes; no original sources reread.",
+      "findings": "Checked actual native suppression-PCR and asymmetric adapter-ligated PCR inputs, combined source RNaseH/TdT mixture, amine-blocked WTA terminal fragment class, two physical3A tails, adapter stem and independent residual classes. No further critical finding.",
+      "deferred": [
+        "Source-qualified native gaps and first-cycle completion remain unresolved; code review supplies no independent original-source absence pass."
+      ],
+      "scope": "Independent critical code review only; documents0. Existing source-checklist and missing-claim status unchanged.",
+      "verification": "Parent focused suites/pages/chemistry/source guard/review schemas pass after fixes; rebuilt page pairing checked in final batch integration."
     }
   ]
 }

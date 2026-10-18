@@ -2,7 +2,7 @@
 from pathlib import Path
 import sys
 H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
-from storage import data_root
+from storage import data_root, sources_root
 import multiome
 from multimodal_page import render
 from checks import Check, Source, have
@@ -22,6 +22,13 @@ if have(check, rev_b, rev_g, label="Multiome guide revision discrepancy"):
     check("Rev B GEX layout omits ACAC before i5", short_p5 in old)
     check("Rev G GEX layout includes ACAC before i5", full_p5 in new)
     check("model follows Rev G P5", multiome.GEX.get("P5").top + "-N10" == full_p5)
+primer_source=Source(sources_root()/"10x-chromium-single-cell-atac"/
+    "CG000168_ChromiumSingleCellATAC_ReagentKits_UserGuide_RevA.pdf.txt",
+    "10x CG000168 RevA Appendix SI-PCR PrimerB PN-2000128")
+if have(check,primer_source,label="catalog-linked SI-PCR PrimerB"):
+    text=primer_source.path.read_text(encoding="utf-8")
+    block=text.rsplit("SI-PCR Primer B",1)[-1]
+    check("catalog-linked PrimerB source transcription","5’-"+multiome.SI_PCR_PRIMER_B+"-3’" in block)
 graph = multiome.protocol_graph()
 check("guide discrepancy is attached to GEX library",
       any(isinstance(note, SourceDiscrepancy) and note.target == "gex_library"

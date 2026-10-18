@@ -113,6 +113,36 @@
       ],
       "scope": "Capped deferred-followup pass; defining supplement still unobtainable, one author original newly obtained and read. No missing-information claim accepted.",
       "verification": "local suite 1/1 check passes; page builds (44,921 bytes); pairing 0 problem duplexes; chemistry 5 steps, 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 checked, 0 failed, 3 inputs without exact states; build_docs rebuilt 01_lenticrispr-v1.html + notes.html; audit_protocol_sources --check passes (status stays blocked)"
+    },
+    {
+      "round": "2026-10-18-batch11-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC4089965 Results53–69 andsupplement pointer71–73; originalJuly2014 authorworkbook recovered via20141106225441 snapshot, header/plasmid-onlyqualification andF01–F12/R01–R12/v2Adaptor rows; deposited49535map U6/scaffold/cPPTfeatures andinvariantsequencecomparison.",
+      "oligo_scraper": "Mandatory bundle scraper run. Published/author-original hits checked in listed sections; no superseded preprint authority. Deposited map components compared directly with parsed original feature sequences.",
+      "findings": "Native source-owned v1 graph keeps particleRNA separate from plasmidDNA and integratedgenomicDNA; realoriginalscreenreadout bounded byunreadsupplement. Removes misleadingnativeJoungendpoint; separatecompatiblepagelinkretained. July2014plasmidworkbook notsubstitutedforgDNA. Multiplicity notguaranteed; nativeoriginal/nonintegrated/nonharvestedclasses unresolved. Critical code review also corrected persistent unplacedGUIDE identity and independent technicalQCbarcode identities; no invented width/strand/readcycles.",
+      "deferred": [
+        "OriginalShalemSupplementaryInformation andnativegenomicDNAlibraryprimers/conditions/readlayout",
+        "Exactpooledclonejunctions andintracellularRNA-to-integratedDNA molecularstates",
+        "Studyguide/member/multiplicity andclass-specificrecoveries"
+      ],
+      "scope": "Capped source-positive architecture pass only; sourcechecklist/absence acceptance unchanged. Native unknown chemistry remains unresolved rather than supplied by a compatible later protocol.",
+      "verification": "Parent focused source suite (2v1/4v2), page, scoped chemistry, source guard, review schema andpairing pass. Independent code-only review recorded separately; no sourcechecklist/absence upgrade."
+    },
+    {
+      "round": "2026-10-18-batch11-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Read tools/lenticrispr_v1.py rawemptyvector/guidepool and depositedcomponentqualification; originalvector→particleRNA→integratedgDNA distinctions; original/co-carried molecularfates; originalscreenreadout boundary versusseparateJoung page; manualreviewtargets.",
+      "findings": "FoundGUIDEidentifier droppedinrawguidepool/particleRNA/nativefinalreadout. Owner nowpreserves sameGUIDEfeature inunplacedidentifierinventories without assigning nativewidth/strandcoordinates. Emptybackbone remainsguide-free; inferredclonedguide model isdistinctfromsource-depositedcomponents. Actualoriginalreadout remainsbounded; laterplasmidworkbook/Joung endpoint isnot substituted.",
+      "deferred": [
+        "UnreadoriginalSupplementaryMethods nativeassembly,deliverychemistry andoriginalscreenreadout remain unresolved source obligations.",
+        "Owner3-original sourcepass not re-read; this documents0 review provides no neworiginal/sourceabsenceevidence."
+      ],
+      "scope": "Independent implementation-only review ofowner cappedsourcepass. No originalsread, no sourcebreadthexpansion, no historicalstatus/absencegate changes.",
+      "verification": "Finalcorrections re-read; suites2/4pass; combined21steps/24unresolved/0contradictory; sourceguard2checked0failed6unassigned; pairing0; schema pass. Ownerbuilt bothpages; barcodegroup/part removal metadata-only."
     }
   ]
 }

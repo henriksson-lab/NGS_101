@@ -41,6 +41,21 @@
       }
     },
     {
+      "id": "publisher_protocol",
+      "role": "supplement",
+      "locator": "Publisher nbt.4204_41587_2018_BFnbt4204_MOESM6_ESM.pdf, Supplementary Protocol2",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "paper",
+      "pass_1": {
+        "reviewer": "root",
+        "date": "2026-10-18",
+        "locations": "Materials/sample preparation1298–1360, conversion1360–1450, library construction1451–1473 and spike-in QC1475–1534",
+        "finding": "Publisher original governs kit identity30024/36024, conversion recovery and exact control primers. Reports0.5%each control versus main Methods0.5%total; discrepancy shown publicly. Exact kit molecular implementation deferred to vendor originals."
+      },
+      "pass_2": null
+    },
+    {
       "id": "swift_guide",
       "role": "linked_material",
       "locator": "Swift Biosciences Accel-NGS Methyl-Seq kit 30024 and indexing kit 36024 original guides",
@@ -85,6 +100,34 @@
         "Original supplementary protocols/QC table and vendor Accel manual; exact adapter installation and acquisition mask"
       ],
       "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    },
+    {
+      "round": "2026-10-18-validation-migration-01",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "PMC6453757 JATS Methods110–118; publisher nbt.4204 MOESM6 Supplementary Protocol2 Materials and sample preparation1298–1360, conversion1360–1450, library construction1451–1473 and spike-in QC1475–1534; manuscript supplement-1 equivalent library/QC1290–1505 checked against publisher original.",
+      "oligo_scraper": "Mandatory bundle scraper: zero general hits. Targeted --find AAAGGCCACTATCAGGCAGCTTTGT located publisher1502 and manuscript1488. All four QC primer sequences read directly in publisher1502–1505; zero-hit scan not used as absence evidence.",
+      "findings": "Removed hybrid_base_protocols recipe/page dependencies. Source-owned representative base-site states, unknown-length role-level library and explicit kit boundary replace invented 18nt adapters/26nt insert and fake adapter-tagged PCR precursor. Added controls before shearing, distinct snap-freezing step, Zymo recovery and delegated Accel library construction including qPCR-selected final amplification and purification. Kept U as deamination product and T as amplified readout. Public page and note report main Methods0.5% total versus publisher supplement0.5% each control discrepancy without selecting a quantity. Corrected QC primer locator from Table1 to Supplementary Protocol2.",
+      "deferred": [
+        "Applicable Swift Accel-NGS Methyl-Seq30024 and indexing36024 vendor originals; intermediate strand and adapter/PCR-primer assignments",
+        "Actual NextSeq acquisition mask; 150-cycle kit is not an acquisition declaration",
+        "Full source audit and two-pass absence gate remain open"
+      ],
+      "scope": "Bounded architecture/native-graph migration; not complete chemistry validation or acceptance of published absence."
+    },
+    {
+      "round": "2026-10-18-native-graph-independent-review",
+      "reviewer": "independent_bounded_reader",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Cached PMC6453757 JATS main Methods118 and publisher MOESM6 Supplementary Protocol2 sample-preparation, conversion and library-construction passages; local native graph/spec reviewed.",
+      "findings": "Independent bounded review confirmed controls-before-shearing recommendation, betaGT/denaturation/A3A ordering, U intermediate, Zymo recovery and explicit Accel30024/36024 boundary. Confirmed kit150cycles do not establish an acquisition mask. Corrected graph-derived reviewed-source target generation to an explicit curator-owned target list; future graph additions no longer automatically acquire review coverage.",
+      "deferred": [
+        "Applicable Swift vendor-original implementation and actual sequencing acquisition mask",
+        "Complete original/linked-material two-reader absence gate remains open"
+      ],
+      "scope": "Independent bounded source/implementation review only; not a complete source audit or a missing-information acceptance."
     }
   ]
 }

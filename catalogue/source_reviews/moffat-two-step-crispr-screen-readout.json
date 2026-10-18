@@ -63,6 +63,21 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 3/3 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/3 unresolved/0 contradictory; source guard 4 exact checked, 0 failed; Markdown built; review schema checked; Joung/lentiCRISPR v1/v2 pooled_crispr consumers pass"
+    },
+    {
+      "round": "2026-10-18-batch11-native-graph-partial",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Original authorprotocol printedREV.20190723 §3.5.3 625–866, Table1 866–942 and§3.5.4 1037–1072.",
+      "oligo_scraper": "Mandatory originalbundle scraper run andsource Table3/Table1 oligos verified in the sections listed. No additional originals after sourcepass frozen.",
+      "findings": "Partial native graph/declarations written. Independent code-only review task stopped by content filter; no migration-completion claim.",
+      "deferred": [
+        "Independent critical code review stopped by contentfilter; no retry performed.",
+        "Source-qualified control/variant/assignment questions remain open."
+      ],
+      "scope": "Partial native implementation, not a completed ownership migration or accepted absence claim.",
+      "verification": "Preliminary page construction only. Finalfocused verification andsource-suite migration not complete."
     }
   ]
 }

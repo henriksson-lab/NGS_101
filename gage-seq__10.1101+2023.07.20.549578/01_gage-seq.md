@@ -2,17 +2,16 @@
 
 Defining preprint: Zhou et al. (2023), [doi:10.1101/2023.07.20.549578](https://doi.org/10.1101/2023.07.20.549578). Published version: Zhou et al. (2024), [doi:10.1038/s41588-024-01745-3](https://doi.org/10.1038/s41588-024-01745-3).
 
-- 🟢 The full preprint, published paper, supplementary protocol and the published Supplementary Table 1 workbook were read.
+- 🟢 Current authority is the published2024 paper, Supplementary Methods and Supplementary Table1; previous preprint readings are historical.
 - 🟢 RNA is reverse-transcribed with biotinylated poly(dT) or random-hexamer primers; genomic DNA undergoes in-situ contact ligation.
 - 🟢 DNA and cDNA receive two rounds of 96-well ligation barcodes using analyte-specific adapter sets. Streptavidin beads then separate cDNA from DNA.
 - 🟢 Both branches are preamplified, Nextera-tagmented, indexed and sequenced PE150.
-- 🟢 The version-of-record workbook supplies the material that was missing from
-  the preprint bundle: every 96-well RNA and Hi-C adapter plate, strand-specific
+- 🟢 The version-of-record workbook prints: every 96-well RNA and Hi-C adapter plate, strand-specific
   modifications, RNA splints and blockers, the post-TdT primers, Hi-C pre-amplification
   primers, and terminal index-primer sets.
 - 🟢 The two RNA ligation rounds can be reconstructed exactly. Linker 1 bridges
   the RT-primer handle to Round1_01; the RNA linker 2 bridges Round1_01 to Round2_01.
-  Both complementary arms are checked by the shared splinted-ligation constructor.
+  Both complementary arms are checked by local source-owned Scene declarations.
 - 🟢 The terminal shells differ by branch, as Supplementary Figure 1 indicates:
   chromatin-contact molecules use Nextera P5 with TruSeq P7, whereas RNA molecules use
   TruSeq P5 with Nextera P7. Representative A1/index primers are modeled exactly;
@@ -65,3 +64,13 @@ The bioRxiv preprint was not re-read (superseded).
 - Open: the published Methods call the round-1 plate "CARE-seq 1st-round adaptors"
   and print "500 mM dNTP, 10 mM Biotinylated RT primers"; neither changes the
   modelled molecules and the concentrations are not modelled.
+
+## Native graph migration — 2026-10-18 batch02
+
+Three published originals were inspected:2024 NatureGenetics article10.1038/s41588-024-01745-3, Supplementary Methods MOESM1 and Table1 MOESM3. The directory retains its defining preprint slug; the superseded preprint is excluded from current authority. Source tests found two repository transcription errors: the Post-TdT-PolyC12-S primer is AGAGTGAACCCCCCCCCCCC (12 terminalCs total), and the Trueseq-F-L-1 index is10nt CATGCGAGAA. Its original workbook rich-text green span is C ATG CGA GAA, followed by the black canonical arm AC ACT CTT…. The prior12nt assignment included armAC and duplicated it in the full primer. These are model corrections, not published discrepancies. Local RNA splint Scenes check both supplied complementary arms and draw the Round2 N10 UMI. Native ss G-tailed cDNA, capped contactDNA and pre-index tagmented pools now feed their own PCR steps; conditional final endpoints cannot supply their own precursors. Published PE150 is positive; physical index-primer lengths do not establish index-read acquisition. The existing DNA read1 trim/start uncertainty remains explicit.
+
+The local graph owns the named reagents, source order, physical branch decisions, primers, endpoint and read declarations. Independent molecular populations occupy separate Scene rows; subsequent RNA-template fate and complete native end geometry remain explicit model boundaries. Curator-written review targets are local and are not derived from graph contents. This is a capped migration pass, not a completed missing-information audit; no missing-information claim is accepted.
+
+## Implementation read-table correction — 2026-10-18
+
+The local read table explicitly retains source PE150 for both branches and the conditional DNA read1 start. Each index row says acquisition/cycles unassigned and handling Undetermined; omitting an index-primer geometry no longer produces a negative acquisition assertion in the table. Physical index feature identities and R1/R2 binding geometry remain intact. This implementation-only correction references the existing three-original migration scope; no originals were re-read.

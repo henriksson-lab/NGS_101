@@ -9,12 +9,12 @@
 - 🟢 Published Supplementary Table 1 (Springer `MOESM3` XLSX): sheets `Custom_primers`
   (text lines 1–11), `PA-Tn5_barcodes` (12–63), `barcoded_oligo_dT` (64–162),
   `Nextera_index` (163–188), `Truseq_index` (189–).
-- 🟡 bioRxiv preprint 10.1101/2020.10.15.339226v1, used **provisionally** only for step
+- Historical only (excluded from current source authority): 🟡 bioRxiv preprint 10.1101/2020.10.15.339226v1, used **provisionally** only for step
   order because the published Methods are unreadable: Results lines 150–172 and the
   Figure 1 legend lines 347–358. It prints no STAR Methods text. It must be replaced by
   the published Methods when they are obtained.
 
-## Molecular boundary
+## Historical provisional molecular interpretation (superseded by batch09 below)
 
 🟢 (Table S1) Each PA-T5 and PA-T7 barcode primer is "annealed with TnExtMErev_primer, then
 assembled with PA-Tn5"; the common annealing oligo is printed `5Phos/CTGTCTCTTATACACATCT`.
@@ -22,8 +22,7 @@ assembled with PA-Tn5"; the common annealing oligo is printed `5Phos/CTGTCTCTTAT
 the chromatin first-round identity is the pair of T5 and T7 barcodes.
 
 🟢 (Table S1) RT uses well-barcoded oligo dT (`RT-barcode_01`–`96`) with a `D` UMI window,
-and a template-switch oligo `AAGCAGTGGTATCAACGCAGAGTACATrGrG+G`. 🟡 (preprint lines
-162–164) the barcode and UMI are 8 bp each.
+and a template-switch oligo `AAGCAGTGGTATCAACGCAGAGTACATrGrG+G`. 🟢 The printed example directly contains an8base RTbarcode and D8 UMI; this molecular width does not establish acquired sequencing cycles.
 
 🟡 (preprint lines 164–172, 349–358) Cells are pooled and redistributed into secondary
 96-/384-well plates, both branches are preamplified, purified with AMPure XP and split in
@@ -62,3 +61,12 @@ The self-test checks the displayed oligos against the workbook text when present
 - Predecessor CoBATCH (Wang et al., 2019) PA-Tn5 assembly not followed.
 - Exact segment boundaries in the T5/T7 adaptors (barcode window length) not modelled
   base by base.
+
+
+## Bounded native migration — 2026-10-18 batch09
+
+Inspected 2 originals: Published SpringerMOESM3 SupplementaryTable1 Custom_primers1–11, PA-Tn5barcode/exampleT5/T7rows12–63, RTbarcode01/D8/polyTexample64onward and indexfamilyheadings; publishedMOESM1 SupplementaryNotes opening/entire shortNotes text comparing assay modalities/countingintronicRNA. Manifest originalidentities checked. OfficialNature definingarticle attempted once; nonretryableidpredirect, not read or counted. Mandatory bundle scraper/hits/modifications reviewed.
+
+Removed multimodal_protocols Definition/ident, chain/role_library and active supersededpreprint order. SourceTable1 exact duplex transfer/common strands, RTprimer withD8 and sourceTSOrGrG+G are local structuredinputs. Conditional nativefirstwell/commonprocessing/precursor boundaries explicitly state publishedMethods/order unread; no preprint enzyme/primer assignment promoted. Mixed DNA/RNA class Scenes, actual incoming source-bounded ss/referencePCRsubstrates and residualoriginal lineage replace false DNA/RNA chains and expected-endpoint templates. Both endpoints preserve knownT5/T7orRT/UMI features; secondarywell width/run unknown. This is a sourcecomponent migration with unverified complete execution sequence, not full published chemistry validation.
+
+Deferred: Published definingMethods including actual operationorder/reagent assignments, preamp/pooling/redistribution/recovery and RNA/DNA precursor formation; Cited CoBATCH/predecessor and native exact first-cycle strand geometry; Native secondarywell indexassignment/member/width and actual read/indexacquisition; sourceavailability unresolved, no accepted absence. This capped pass does not accept source-wide absence or establish complete experimental validation. Earlier dated/provisional interpretations above are historical; this entry describes the current source scope.

@@ -19,7 +19,7 @@ phosphate and `*` is a terminal phosphorothioate linkage, as defined by the supp
 These modifications belong to the ligation oligos; the final PCR product is drawn as
 ordinary DNA. The two printed library-amplification primers also end with a terminal
 phosphorothioate linkage. The paper reports 2 × 40 bp reads beginning with the inline
-identification tag, with no separate index read.
+identification tag, with separate index acquisition unassigned.
 
 ## 3. Distinguishing chemistry
 
@@ -49,7 +49,7 @@ The two printed library primers, each with a terminal phosphorothioate
 linkage, now have source-derived graph states. PCR is followed by removal
 of streptavidin beads, AMPure XP purification and 300–700 bp recovery from a
 2% agarose gel. The graph now includes these recovery boundaries. Both
-source-stated 40-base reads are declared, with no separate index read.
+source-stated 40-base reads are declared, with separate index acquisition unassigned.
 
 🟡 The local CAA adapter and historical paired-end shell are unchanged.
 Known adapter geometry does not validate the heterogeneous pre-PCR contact
@@ -61,3 +61,14 @@ precise bead-removal fate and complete AluI fragment population. BglII is
 the selected route; the supplement's “DpnII for some libraries” is not
 silently substituted. This capped published-supplement pass does not establish
 full experimental validation or any accepted absence claim.
+
+
+## Bounded native migration — 2026-10-18 batch08
+
+Inspected 1 verified originals: Verified publisher nature12593-s1.pdf DOI/title and original Methods15–65, modifiedCAA/other adapter families88–145 and PCR primer rows153–158. Source MANIFEST verifies this original. Cached main-articleTXT53–61 inspected for context only but no corresponding original/manifest identity, so not counted or promoted as fresh defining-source evidence. Mandatory bundle scraper reviewed.
+
+Removed shared ContactWorkflow/historical endpoint constructor; all localreaction choices from independently read2013SI. Explicit5′GATC BglII geometry/fill/biotin contact, postligationpicking, capture/AluI/dA/nativeYligation washes and actual forked source-strand PCR precursor. Derived daughter endpoint includes source dT/insert dA junctions omitted by legacyendpoint. CAA and opposite tag features retained; original biotin/methylation not copied and residual templates remain unresolved. Physical wash/fraction removal distinct from contact QC. Source2×40 positive, separate indexacquisition unassigned.
+
+Deferred: Full defining article original provenance and remaining sourcefigures; unmanifested cachedmainTXT not fresh evidence; Detailed2015revision, linked predecessor/vendor originals and complete native contact/AluIpopulation topology; Physical removal/recovery of original biotin templates and precise first-cycle fork alignment; DpnII-for-some-libraries not assigned to selectedBglIIroute. This source-capped pass is not a complete protocol review or an acceptance of source absence. Historical audit paragraphs above retain their original scope; this entry states the current model.
+
+Independent implementation review retained source terminal phosphorothioate bonds on the physically incorporated forward/reverse PCR-primer footprints. Original adapter backbone modifications and biotin are not copied into daughter DNA. Native Y-ligated originals retain their own source A*T bond; this is distinct from the C*T bond supplied by a PCR primer.

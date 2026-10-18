@@ -348,6 +348,35 @@
       ],
       "scope": "Capped bulk defining-source pass; counterpart single-cell page receives shared discrepancy notice only and remains pending its own pass. No complete validation or accepted absence.",
       "verification": "local suite2/2 and page pass; single-cell notice consumer suite5/5 and page pass; pairing0 problems; bulk chemistry0 established/0 conditional/16 unresolved/0 contradictory with conversion_recovery MAGIC warning; source guard0 exact inputs/all structural oligos inferred; Markdown build/check and review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch08-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC6765429 JATS Methods78–96 bulk/single-cell/WGBS boundaries and sequencing; published Springer41592_2019_502_MOESM1_ESM.pdf reagent list155–205, nuclei/digest330–342, fill/ligation343–359, bulk recovery/sonication/capture360–474, endprep/ligation480–626 and conversion/PCR628–639. Reporting-summary MOESM2 opening identity/statistical scope1–25 inspected but not chemistry authority. Manifest checked; mandatory full-bundle scraper reviewed.",
+      "findings": "Native local graph removes ContactWorkflow/inferredTruSeq endpoint. Source ordered endprep/washes and actual optional10/40control split explicit; capture supernatant control stored. Exact bulk adapter/index/protection and primers remain roles. Actual physical convertedSS contact/lambda U-bearing templates feed uracil-tolerantPCR; daughter readout and residual modifiedoriginal/control populations distinct. Published SpringerMOESM1 says inactivateDpnII consistently withmain; prior MboI wording was from a distinct archived supplementary original, not promoted over publishedversion. Column/bead conversionrecovery remains bounded. Main positivepaired-end retained, but preparation noteForPE2x100 does not assignactual readcycles.",
+      "deferred": [
+        "Full bulk native adapter methylation/protection, index member/count/width and PCR primer boundaries",
+        "Exact conversion column/bead transfer, original/control/offproduct component recovery",
+        "Actual study run cycle mask; linked Rao/vendor originals and other source sections not freshly reread",
+        "Archived author-protocol versus published Springer protocol identity/comparison beyond inspected publishedsections; source0.4nMbiotin wording retained unassigned"
+      ],
+      "scope": "Capped source pass and source-owned native graph migration; no accepted absence claim or historical review-status upgrade.",
+      "verification": "Suites2/4/4 and all3pages pass; sourceguard8checked0failed3unassigned0exemptions; pairing0; main graphs chemistry23established92unresolved0contradictory. StevensXT alternative constructed bysuite and renderedpage. Review schema/notes checked after record creation; independent review pending."
+    },
+    {
+      "round": "2026-10-18-batch08-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "methyl-hic__10.1038+s41592-019-0502-z/tools native declaration/graph, owner source-qualified handoff, independent implementation-only critical review.",
+      "findings": "Checked sourceDpnII restriction/fill/contact states, explicit main/supplement scope, internal biotin originals vs daughterDNA, physicalconvertedU and independentlambda/control populations, actualmixedconvertedPCRsubstrate and declaredrecoveryboundary. OptionalnormalHiC/backgroundcontrols retained, acquiredPE2x100 removed as preparation-reference assumption. No concrete critical defect in reviewed implementation.",
+      "deferred": [
+        "Source-specific missing native chemistry and original-reading obligations remain at their recorded scope."
+      ],
+      "scope": "Independent implementation-only review; no original sources read and no missing-information acceptance or historical status upgrade.",
+      "verification": "Owner focused suites/pages/chemistry/sourceguard/pairing/schema passed; parent affected checks follow source PS-footprint annotations."
     }
   ]
 }

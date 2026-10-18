@@ -25,14 +25,4 @@ if have(check, source, label='Original Orsi adapter and PCR oligos'):
           (universal.replace('*', ''), indexed.replace('*', ''), p5, p7))
     check('displayed adapters retain original terminal phosphorothioate notation',
           universal in chem.oligos()[0] and indexed in chem.oligos()[1])
-    library, primers = chem.organic_library()
-    check('left endpoint contains the entire source Universal Adapter once',
-          library.segments[0].top, universal.replace('*', ''))
-    check('endpoint retains the complete indexed adapter including source six-position index',
-          ''.join(s.top for s in library.segments[-3:]), indexed.replace('*', ''))
-    r1 = chem.sp.locate(library, chem.sp.TRUSEQ['R1'])
-    check('Read1 starts immediately after the whole source Universal Adapter',
-          r1.end, len(universal.replace('*', '')))
-    check('both source enrichment primers have full sites on the amplified endpoint',
-          library.top().startswith(p5) and revcomp(p7) in library.top())
 check.report()

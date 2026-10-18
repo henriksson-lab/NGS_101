@@ -9,7 +9,6 @@ import storage
 from checks import Check, Source, have
 
 check = Check()
-chem.workflow()
 chem.protocol_graph()
 table = Source(storage.sources_root() / "cotech__10.1038+s41592-021-01129-z"
                / "s41592-021-01129-z_41592_2021_1129_MOESM3_ESM.xlsx.txt",

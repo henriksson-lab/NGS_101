@@ -148,6 +148,35 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 0 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch05-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published PMC5712218 JATS Online Methods100–138: Carboxyamidomethylation; SLAM-seq in mESCs; RNA library preparation.",
+      "oligo_scraper": "Ran tools/scrape_primers.py on external source bundle and checked relevant published source lines; superseded preprint hits excluded. snRandom source-data workbook exceeds default scan cap and remains deferred. No-hit or class-expansion mismatch is not an absence finding.",
+      "findings": "Added total-RNA extraction with DTT, mixed labelled/unlabelled RNA retention, excess-DTT quench and ethanol precipitation before QuantSeq. Physical IAA-s4U RNA and first-strand G/A are distinguished from RNA-sense C/T readout, with conversion yield unassigned. Removed inferred generic TruSeq single-index shell and all standard sequencing sites. Native kit-end roles remain explicit. A source boundary follows verified RT; speculative internal second-strand/PCR stages removed pending version-matched vendor guide. SR50 versus Fig.3 SR100 is source-qualified.",
+      "deferred": [
+        "Version-matched QuantSeq guide, native internal reaction order, primer strands and end geometry; no speculative second-strand/PCR route assigned.",
+        "Previously linked authored ProtocolExchange PDF/tables and synthetic-control oligos were not newly read in this pass; historical reviews preserved."
+      ],
+      "scope": "Bounded native-declaration migration only; prior status and historical independent passes unchanged. No absence gate accepted.",
+      "verification": "Affected suites/pages pass; chemistry zero contradictions (SHERRY two exact loaded-adapter duplex claims); source guard passes with source-specific shorthand/placeholder exemptions; local pairing and review schema pass. Shared/static/full-site checks remain parent-owned."
+    },
+    {
+      "round": "2026-10-18-batch05-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current local protocol module, protocol graph input/product/geometry/terminal declarations, oligo/read declarations, latest migration notes and bounded source scope. Published originals were not reread in this independent implementation pass.",
+      "scope": "Independent code-only review using existing bounded source migration scope. No new source assertion, absence acceptance or status upgrade.",
+      "findings": "Independent implementation review found verified RT followed by explicit QuantSeq kit boundary coherent. IAA-s4U is retained as RNA modification distinct from probabilistic G/A first-copy incorporation and C/T sequencing readout; labelled/unlabelled populations remain separate; physical extraction/precipitation and unresolved RNA/kit-product fates do not claim selective depletion. Native kit reaction order/ends are not substituted from generic TruSeq.",
+      "deferred": [
+        "Version-matched QuantSeq native second-strand/PCR/oligo route",
+        "Native read-primer/index geometry and labelled-site conversion yield"
+      ],
+      "verification": "Read-only critical review except this documents0 record; snRandom owner correction checked in current code and owner-rebuilt page. Full focused verification remains parent-owned."
     }
   ]
 }

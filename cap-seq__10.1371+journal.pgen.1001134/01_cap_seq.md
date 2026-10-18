@@ -1,5 +1,32 @@
 # CAP-seq — CXXC affinity purification sequencing
 
+## Current native graph scope — 2026-10-18 batch11
+
+Two originals were inspected: published defining PMC2944787 JATS, DNAchromatography
+and library Methods218–226, and the directly cited Skene2010 author-manuscript
+PMC4338610, Methods109–121. The predecessor points to SupplementalData; those
+detailed preparation sections were not inspected. Mandatory scraper:35hits in2files.
+No additional originals were opened after the capped investigation.
+
+🟢 Solexa adapter ligation precedes CAP purification. DNaseI treats the recombinant
+CXXC reagent preparation, not the sample genomicDNA. CXXC is immobilized on nickel
+Sepharose; sampleDNA binds in0.1MNaCl, is washed at600mM for the selected human
+route, eluted in1MNaCl, pooled, concentrated and precipitated. Mouse560mM is a
+separate source condition. Affinity enriches native unmethylatedCpG clusters; it
+does not change a methylatedC into unmethylatedC, nor prove population purity.
+
+🟡 The native graph owns independent originalDNA/opposite-strand/residual classes
+and adapter roles, without the old shared endpoint/affinity recipes. Exact input
+preparation and postCAP Solexa construction remain scoped predecessor boundaries;
+no PCR/size-selection order or canonical adapter/index shell is invented. Single-end
+sequencing and mapping-score≥30 are separate physical/computational stages.
+
+Deferred: cited Skene2010 SupplementalData preparation/library sections and any
+applicable native adapter/primer/end/run identities; exact class-specific retention.
+Historical audits remain history. This capped pass is not a full source review or
+accepted missing-information claim.
+
+
 ## Name boundary
 
 This page covers **CXXC Affinity Purification plus sequencing**, the named DNA method introduced by Illingworth and colleagues. It is not the similarly named capped-RNA “Cap-seq”/CIP–TAP workflow; that is a distinct protocol and should receive its own page if added.

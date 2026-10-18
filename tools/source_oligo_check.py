@@ -287,7 +287,7 @@ def _present(folder: Path) -> list[Path]:
                   if "_invalid" not in p.parts and not p.name.startswith(EXCLUDED))
 
 
-def source_texts(folder: Path, doi: str = "") -> tuple[tuple[Path, str], ...]:
+def _bundle_source_texts(folder: Path, doi: str = "") -> tuple[tuple[Path, str], ...]:
     """Use the doctext twins and primary plain-text sources; exclude derivatives."""
     if not folder.is_dir():
         return ()
@@ -318,6 +318,23 @@ def source_texts(folder: Path, doi: str = "") -> tuple[tuple[Path, str], ...]:
     return tuple(result)
 
 
+def source_texts(folder: Path, doi: str = "") -> tuple[tuple[Path, str], ...]:
+    """Read this bundle and explicitly declared DOI originals already cached beside it.
+
+    A linked original can have its own canonical ``doi_`` bundle. Reuse it in
+    place: no copying, fetching, recursive link traversal or implicit predecessors.
+    The ordinary DOI/provenance filter still applies within that bundle.
+    """
+    result = dict(_bundle_source_texts(folder, doi))
+    for locator in declared_locators(folder.name):
+        if not re.fullmatch(r"10\.\d{4,9}/\S+", locator):
+            continue
+        linked = folder.parent / ("doi_" + locator.replace("/", "+"))
+        if linked != folder:
+            result.update(_bundle_source_texts(linked, locator))
+    return tuple(result.items())
+
+
 def excluded_text_count(folder: Path, doi: str = "") -> int:
     """How many extracted text files the locator filter dropped, for diagnostics.
 
@@ -328,7 +345,7 @@ def excluded_text_count(folder: Path, doi: str = "") -> int:
     """
     if not folder.is_dir():
         return 0
-    return max(0, len(_present(folder)) - len(source_texts(folder, doi)))
+    return max(0, len(_present(folder)) - len(_bundle_source_texts(folder, doi)))
 
 
 def _exact_hit(text: str, seq: str, scan=None) -> bool:

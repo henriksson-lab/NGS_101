@@ -2,12 +2,11 @@
 import illumina as il
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
-from batch_ngs import seg, truseq_library
-from chemdraw import Construct, Segment, feature, revcomp
-from pcr import PCRGeometry
+from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
-from protocol_model import chain, da_tailed, molecule, role
-from dsb_capture import BreakCaptureDesign, _illumina_break_library
+from protocol_model import chain, molecule, role
+from dsb_capture import BreakCaptureDesign
 from topology import HairpinTopology
 
 BLESS_PROXIMAL = "TACTACCTCGAGAGTTACGCTAGGGATAACAGGGTAATATAGTTTTTTTCTATATTACCCTGTTATCCCTAGCGTAACTCTCGAGGTAGTA"
@@ -63,7 +62,7 @@ TITLE = 'BLESS — Breaks Labeling, Enrichment on Streptavidin and Sequencing'
 NOTES = '01_bless.html'
 SOURCE = 'Crosetto et al., Nature Methods (2013); <a href="https://doi.org/10.1038/nmeth.2408">doi:10.1038/nmeth.2408</a>.'
 SUMMARY = 'A barcoded biotin hairpin labels repaired DSBs in fixed nuclei before fragmentation; streptavidin capture and a differently barcoded distal hairpin preserve the native-break end.'
-CAVEAT = "The proximal/distal tags are exact. The paper names TruSeq DNA Sample Preparation Kit v2 (Methods, Next-generation sequencing) but does not print its complete adapter geometry or selected index member; those outer regions are marked inferred."
+CAVEAT = "The proximal/distal tags are exact. The paper names TruSeq DNA Sample Preparation Kit v2 (Methods, Next-generation sequencing); its exact supplied adapter geometry and selected index member/length remain unassigned in this model, so those outer regions are inferred."
 FINAL_CAPTION = 'One insert orientation is shown. Proximal and distal 11-nt tags identify which genomic end was the native break; inferred outer sequencing-kit regions are shaded.'
 # Supplementary Table 1 (published Springer supplement) lists GAII single-end runs for most
 # BLESS samples and HiSeq 2000 paired-end runs for N1/N2; no read length or index read is
@@ -77,10 +76,24 @@ SEQUENCING_UNAVAILABLE = ''
 # INFERRED outer ends: the BLESS sources name the TruSeq DNA Sample Preparation Kit v2
 # but print no adapter, index primer or junction; canonical TruSeq single-index bases
 # (Illumina Adapter Sequences) and the kit's dA/T ligation junction are drawn as inferred.
-FINAL_LIBRARY, SEQ_PRIMERS = _illumina_break_library(
-    'BLESS library', inferred=True, tagged=True,
-    p5_arm=il.TRUSEQ_P5_FULL, junction="A", index_arm=il.INDEX1_PRIMER, p7_end=il.P7_RC,
-    proximal_tag=BLESS_PROXIMAL_READ_TAG, distal_tag=BLESS_DISTAL_READ_TAG, index_length=6)
+def bless_library():
+    # TruSeq v2 is source-named, but this pass does not establish its supplied
+    # index length/member or end-processing details. Preserve that distinction.
+    lib=Construct([Segment("P5 + Read1 arm",il.TRUSEQ_P5_FULL,"p5",inferred=True),
+        Segment("proximal read tag",BLESS_PROXIMAL_READ_TAG,"cbc",feature=feature("proximal_break_end","feature_barcode","fixed")),
+        role("break-to-random genomic DNA"),
+        Segment("distal read tag",BLESS_DISTAL_READ_TAG,"cbc",feature=feature("distal_fragment_end","feature_barcode","fixed")),
+        Segment("ligation junction","A",inferred=True),
+        Segment("Index1 + Read2 arm",il.INDEX1_PRIMER,"r2",inferred=True),
+        role("unassigned kit i7 index",tag="cbc",inferred=True,
+             molecular_feature=feature("sample_index_i7","sample_index","unknown")),
+        Segment("P7 reverse complement",il.P7_RC,"p7",inferred=True)],name="BLESS conditional TruSeq v2 library")
+    primers=(sp.TRUSEQ["R1"],sp.TRUSEQ["I1"],sp.TRUSEQ["R2"])
+    problems=sp.verify(lib,primers,required_roles=tuple(p.role for p in primers))
+    if problems:raise ValueError("BLESS library: "+"; ".join(problems))
+    return lib,primers
+
+FINAL_LIBRARY,SEQ_PRIMERS=bless_library()
 # Supplementary Table 5 marks the biotinylated base by cyan highlighting only (46th base,
 # in the T7 loop); it prints no 5'-phosphate on L1/L3, and the Methods do not say whether
 # the annealed linkers were phosphorylated, so no /5Phos/ is displayed.
@@ -96,6 +109,16 @@ def oligos():
 
 def _primer(name, bases):
     return (Segment(name, bases),)
+
+def hairpin_reagent(sequence, *, proximal):
+    # One covalent oligo; folding is declared by the paired HairpinTopology below
+    # and shown in the public molecular-detail view, not a fictitious second oligo.
+    sc=Scene()
+    sc.strand("hairpin oligo",[Segment("first42nt stem",sequence[:STEM_NT]),
+        Segment("hairpin loop",sequence[STEM_NT:-STEM_NT],note="internal biotin-dT in L1 only" if proximal else ""),
+        Segment("opposite42nt stem",sequence[-STEM_NT:])],label="L1 proximal" if proximal else "L3 distal")
+    return sc
+
 
 def protocol_graph():
     key = 'bless'
@@ -127,7 +150,8 @@ def protocol_graph():
                 StepKind.END_REPAIR,
                 ((current, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
     proximal = graph.input("proximal_adapter", "biotinylated proximal hairpin",
-                           MaterialKind.ADAPTER)
+                           MaterialKind.ADAPTER,state=hairpin_reagent(BLESS_PROXIMAL,proximal=True),
+                           chemical_state=PROXIMAL_TOPOLOGY)
     proximal_ligase = graph.input("proximal_ligase", "proximal-hairpin DNA ligase",
                                   MaterialKind.CATALYST)
     labelled = graph.product("proximal_labelled", "proximal-hairpin-labelled native breaks",
@@ -164,7 +188,8 @@ def protocol_graph():
                 (captured, rejected))
     graph.discard(rejected, "does not retain the biotinylated native-break adapter")
     distal = graph.input("distal_adapter", "distinct distal hairpin",
-                         MaterialKind.ADAPTER)
+                         MaterialKind.ADAPTER,state=hairpin_reagent(BLESS_DISTAL,proximal=False),
+                         chemical_state=DISTAL_TOPOLOGY)
     distal_ligase = graph.input("distal_ligase", "distal-hairpin DNA ligase",
                                 MaterialKind.CATALYST)
     dual = graph.product("dual", "dual-hairpin break fragments", MaterialKind.MOLECULAR,
@@ -217,7 +242,8 @@ def protocol_graph():
                 (library,),
                 reason="The paper names TruSeq DNA Sample Preparation Kit v2 but the kit original (end processing, adapter ligation, PCR primers, index member) remains uninspected; the outer adapter shell is drawn inferred.")
     graph.sequence(library, SequencingPlan(library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
-                                           acquired_roles=("Read 1", "Read 2")))
+                                           acquired_roles=("Read 1", "Read 2"),
+        limitation="Representative paired-end HiSeq2000 N1/N2 branch from Supplementary Table1; most other BLESS libraries use GAII single-end sequencing. No index acquisition/length or read cycles are inferred from this kit shell."))
     reviewed.extend(("proximal_repair", "repair_breaks", "proximal_adapter",
                      "proximal_ligase", "ligate_proximal", "fragmentation_enzyme",
                      "fragment", "streptavidin", "capture", "distal_adapter", "distal_ligase",

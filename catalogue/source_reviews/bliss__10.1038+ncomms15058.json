@@ -235,7 +235,7 @@
       "evidence": "Two independent reads of author Protocol Exchange and original Illumina sequence table. Separate Protocol Exchange Supplementary Table 2 remains unavailable, and no source selects one RPI member or specifies custom RA3 end modification for each sample."
     }
   ],
-  "conclusion": "Two independent reads now cover paper, six publisher supplements, author Protocol Exchange PDF and Illumina family sources. Protocol Exchange Supplementary Table 2 and sample-specific/custom-end details remain blocked; no absence accepted.",
+  "conclusion": "Historical independent passes are retained below. Current capped migration re-read article, published classic-adapter workbook and explicitly2019ProtocolExchangev2. Original revision/attachments, sample-specific RPI and custom-end assignments remain open; source absence is not accepted.",
   "bounded_checks": [
     {
       "round": "2026-10-17-breadth-first-07",
@@ -254,6 +254,20 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 2/2 pass (A1 transcription); page builds; pairing 0 problems; chemistry 0 established/2 conditional/16 unresolved/0 contradictory; source guard 2 exact checked (A1 top/bottom), 0 failed (the pre-fix oligos failed 2/2), 4 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC5437291 JATS lines86–88,130–136,148–158; published Supplementary Data1 Sheet1 classic A1–A11 rows; ProtocolExchange ResearchSquare v2 doi10.21203/rs.2.1448/v2 explicitly2019 PDF lines160–290 Day1–4 procedure.",
+      "scope": "Capped local source-owned graph migration; no complete chemical validation or accepted publication-absence claim.",
+      "oligo_scraper": "Ran mandatory local source-bundle scraper; relevant modified adapter hits verified in actual published originals, not drawn upstream material.",
+      "findings": "Removed protocol_specs.get and generic10-position payload defaults. Local classicA1 final roles carry source8ntUMI and8ntbarcode features. Actual first-strandcDNA is PCRtemplate, with barcodecomplement orientation corrected. IVTRNA and retained/degradedgenomicDNA are separateScene rows, followed by RNA-onlycleanup. RP1/RPI geometry, customRA3mods, selectedRPI and sequencinggeometry remain unassigned;2019v2 operations are version-qualified.",
+      "deferred": [
+        "Article-cited originalprotocol revision and cachedattachments not read in thispass; equivalence to2019v2 unverified. PriorFig1a adapter-end declaration retained, not reread. CustomRA3mods, RPIassignment, exactfinalgeometry and runcycles deferred."
+      ],
+      "verification": "Local suite2/2 directsource-transcription checks pass; schematic and note build pass; chemistry15steps0established2conditional16unresolved0contradictory (limitedcoverage); combinedsourceguard4exact strands checked0failed0exemptions7inputs without exactstates; pairing0problems; review schema valid. No residual actual queued recipes/defaults."
     }
   ]
 }

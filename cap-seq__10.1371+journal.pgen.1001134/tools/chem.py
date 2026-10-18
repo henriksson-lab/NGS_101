@@ -1,133 +1,64 @@
-"""Local source and reaction model for cap-seq."""
+"""Source-owned2010 CAP-seq affinity chemistry and bounded predecessor stages."""
+from chemdraw import Construct,Scene,Segment,complement_segments
+from protocol_model import role
+from protocol_graph import ProtocolGraph,MaterialKind as M,InputRole as I,StepKind as K,SequencingPlan
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Construct, Workflow
-from protocol_graph import (Highlight, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
-from protocol_model import role, role_library
-from rare_cell_and_affinity import _scene, _workflow
-from types import SimpleNamespace
-
-CAP_HUMAN_WASH_MM = 600
-CAP_MOUSE_WASH_MM = 560
-
-def cap_library() -> Construct:
-    return role_library("CAP-seq library", (role("unmethylated CpG-rich insert"),))
-
-def cap_workflow() -> Workflow:
-    genomic = _scene("input genomic DNA prepared as for MAP-seq", role("genomic DNA fragment with CpG sites"))
-    adapted = _scene("adapter-ligated genomic library", role("Solexa left adapter"),
-                     role("genomic insert with CpG sites"), role("Solexa right adapter"))
-    bound = _scene("CXXC-bound library", role("nickel-Sepharose-bound recombinant CXXC"),
-                   role("adapter-ligated unmethylated CpG-rich fragment"))
-    final = cap_library()
-    return _workflow(genomic, (
-        ("Ligate Solexa sequencing adaptors before purification, as for MAP [57]", adapted,
-         "Adaptor sequences and end geometry are delegated to the predecessor and not assigned here."),
-        ("Bind adapter-ligated input to recombinant CXXC on nickel Sepharose", bound,
-         "CXXC affinity selects clustered unmethylated CpGs; the adapters were installed before purification."),
-        (f"Wash with {CAP_HUMAN_WASH_MM} mM NaCl (human) or "
-         f"{CAP_MOUSE_WASH_MM} mM NaCl (mouse)", bound,
-         "The lower-stringency mouse wash retains its relatively CpG-poor islands."),
-        ("Elute at 1 M NaCl; pool, concentrate and precipitate as for MAP [57]; sequence",
-         _scene("CAP-seq library", *tuple(final)),
-         "The defining experiment used single-end Solexa sequencing."),
-    ))
-
-SPEC = SimpleNamespace(
-    TITLE="CAP-seq — CXXC affinity purification sequencing",
-    NOTES="01_cap_seq.html",
-    SOURCE='Defining source: <a href="https://doi.org/10.1371/journal.pgen.1001134">Illingworth et al., PLOS Genetics (2010)</a>.',
-    SUMMARY="Adapter-ligated genomic DNA is selected on immobilized recombinant CXXC for clusters of unmethylated CpGs, then eluted and sequenced.",
-    CAVEAT="The defining paper delegates Solexa library preparation to Skene et al. (2010), whose Supplemental Data is not in the local source bundle. Adapter and sequencing-primer bases have not been verified, so the library ends are shown by role.",
-    FINAL_LIBRARY=cap_library(),
-    SEQ_PRIMERS=(),
-    READ_LENGTHS=None,
-    FINAL_CAPTION="Solexa library enriched for fragments carrying clustered unmethylated CpGs.",
-    SEQUENCING_INTRO="",
-    SEQUENCING_ENDING="The defining study used single-end Solexa reads (Wellcome Trust Sanger Institute) mapped with MAQ; reads with mapping score of at least 30 were retained computationally. Read length is not stated in the inspected Methods.",
-    SEQUENCING_UNAVAILABLE="Exact sequencing-primer sites remain unresolved pending the predecessor's Supplemental Data and verification of its Solexa adapters.",
-    workflow=cap_workflow,
-    oligos=lambda: (),
-)
-
-def _cap_graph(spec):
-    source = spec.SOURCE
-    graph = ProtocolGraph(spec.TITLE, authority=source)
-    genomic = graph.input("genomic_dna", "genomic DNA from human or mouse sperm, blood or cerebellum",
-                          MaterialKind.BIOLOGICAL,
-                          state=_scene("genomic DNA", role("genomic DNA with CpG sites")), primary=True)
-    map_prep = graph.input("map_prep", "DNA preparation as for MAP-seq (reference 57)",
-                           MaterialKind.CONDITION)
-    prepared = graph.product("prepared_dna", "CAP input DNA prepared as for MAP-seq",
-                             MaterialKind.MOLECULAR,
-                             state=_scene("prepared input DNA", role("genomic DNA fragment; preparation delegated")))
-    graph.react("prepare_dna", "Prepare input DNA as for MAP-seq", StepKind.MAGIC,
-                ((genomic, InputRole.TEMPLATE), (map_prep, InputRole.CONDITION)), (prepared,),
-                reason="Methods line 218 says DNA was prepared as for MAP-seq and delegates the recipe to reference 57 (Skene et al. 2010), whose Supplemental Data was not obtained; fragmentation method and fragment ends are not assigned.")
-    adaptors = graph.input("adaptors", "Solexa sequencing adaptors (bases not printed in the defining article)",
-                           MaterialKind.ADAPTER)
-    adapted = graph.product("adapted_dna", "adapter-ligated genomic DNA library",
-                            MaterialKind.MOLECULAR,
-                            state=_scene("adapter-ligated genomic library",
-                                         role("Solexa left adapter"),
-                                         role("genomic insert with CpG sites"),
-                                         role("Solexa right adapter")))
-    graph.react("ligate", "Ligate Solexa sequencing adaptors before CXXC purification",
-                StepKind.LIGATION,
-                ((prepared, InputRole.TEMPLATE), (adaptors, InputRole.STRUCTURAL)), (adapted,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "Methods line 226 delegates adaptor ligation to the MAP protocol of reference 57; adaptor bases, ends and ligase are not given in the defining article."))
-    cxxc = graph.input("cxxc", "DNaseI-treated recombinant CXXC bound to nickel-charged Sepharose (50 mg/ml bead volume)",
-                       MaterialKind.SELECTION)
-    binding = graph.input("binding_condition", "column buffer containing 0.1 M NaCl",
-                          MaterialKind.CONDITION)
-    bound = graph.product("bound", "CXXC-bound unmethylated CpG-rich fragments",
-                          MaterialKind.MOLECULAR, state=adapted.state)
-    depleted = graph.product("depleted", "CXXC-unbound genomic library", MaterialKind.WASTE)
-    graph.react("bind", "Bind adapter-ligated input to immobilized CXXC in 0.1 M NaCl",
-                StepKind.AFFINITY_CAPTURE,
-                ((adapted, InputRole.TEMPLATE), (cxxc, InputRole.SELECTION),
-                 (binding, InputRole.CONDITION)),
-                (bound, depleted))
-    graph.discard(depleted, "lacks sufficient clustered unmethylated CpG affinity")
-    wash = graph.input("wash_condition",
-                       f"{CAP_HUMAN_WASH_MM} mM NaCl (human) or {CAP_MOUSE_WASH_MM} mM NaCl (optimized mouse) wash",
-                       MaterialKind.CONDITION)
-    washed = graph.product("washed", "washed CXXC-bound CpG-rich fragments",
-                           MaterialKind.MOLECULAR, state=bound.state)
-    wash_waste = graph.product("wash_waste", "fragments removed by high-salt washing",
-                               MaterialKind.WASTE)
-    graph.react("wash", "Wash the CXXC-bound library", StepKind.CLEANUP,
-                ((bound, InputRole.TEMPLATE), (wash, InputRole.CONDITION)),
-                (washed, wash_waste))
-    graph.discard(wash_waste, "does not remain bound at the chosen species-specific stringency")
-    elution = graph.input("elution_condition", "1-M NaCl elution buffer",
-                          MaterialKind.CONDITION)
-    eluted = graph.product("eluted", "pooled 1-M NaCl eluate fractions",
-                           MaterialKind.MOLECULAR, state=washed.state)
-    graph.react("elute", "Elute with 1 M NaCl and pool eluted fractions", StepKind.EXTRACTION,
-                ((washed, InputRole.TEMPLATE), (elution, InputRole.CONDITION)), (eluted,))
-    precipitation = graph.input("precipitation", "concentration and precipitation as for MAP (reference 57)",
-                                MaterialKind.CONDITION)
-    library = graph.product("library", "CXXC-enriched CAP-seq library",
-                            MaterialKind.LIBRARY, state=spec.FINAL_LIBRARY)
-    supernatant = graph.product("precipitation_supernatant", "precipitation supernatant and salt",
-                                MaterialKind.WASTE)
-    graph.react("precipitate", "Concentrate and precipitate pooled eluate as for MAP",
-                StepKind.CLEANUP,
-                ((eluted, InputRole.TEMPLATE), (precipitation, InputRole.CONDITION)),
-                (library, supernatant))
-    graph.discard(supernatant, "is separated from the precipitated DNA")
-    graph.sequence(library, SequencingPlan(limitation=spec.SEQUENCING_ENDING))
-    graph.annotate(Highlight("precipitate", "Post-enrichment library steps are delegated",
-                             "Methods line 226 says CAP Solexa libraries were prepared as previously described for MAP (reference 57). Whether any amplification or size selection followed CXXC elution is not stated in the defining article and is not drawn."))
-    reviewed = ["genomic_dna", "map_prep", "prepare_dna", "adaptors", "ligate", "cxxc",
-                "binding_condition", "bind", "wash_condition", "wash", "elution_condition",
-                "elute", "precipitation", "precipitate", "library"]
-    graph.declare_reviewed_scope(reviewed, source)
-    return graph.require_publishable()
+import seqprimers as sp
+TITLE="CAP-seq — native CXXC affinity purification"
+NOTES="01_cap_seq.html"
+SOURCE='<a href="https://doi.org/10.1371/journal.pgen.1001134">Illingworth et al.,PLOS Genetics2010</a>; Methods DNAchromatography and Solexasequencing.'
+SUMMARY="Solexa adapters precede CXXC enrichment of native genomic DNA. Salt washes and elution enrich clustered unmethylated CpGs without converting DNA bases."
+CAVEAT="Selected human600mM wash route; mouse560mM is a separate experimental setting. Defining2010Methods delegates input preparation, adapters and final library construction to Skene2010MAP-seq. The directly cited Skene author-manuscript Methods points to SupplementalData, which was not inspected in this capped pass. Native fragment ends, adapter/PCR/loadedprimer identities and cycles remain unassigned; no canonical Solexa shell or postcapture PCR order is supplied."
+CAP_HUMAN_WASH_MM=600
+CAP_MOUSE_WASH_MM=560
+SEQ_PRIMERS=()
+FINAL_LIBRARY=Construct([role('native Solexa endA'),role('native CXXC-enriched genomicDNA; methylation unchanged'),role('native Solexa endB')],name='CAP native library componentreference')
+FINAL_CAPTION="Native adapter roles; complete predecessor strand assembly unassigned."
+SEQUENCING_ENDING="Defining source specifies single-end Solexa; acquired read length and index acquisition unassigned. Mapping score≥30 is a computational filter."
+READ_SPECS=(sp.read_spec('Read 1','unassigned','genomicDNA; single-end Solexa','include'),sp.read_spec('Index 1 (i7)','unassigned','nativeindex identity/acquisition unassigned','undetermined'),sp.read_spec('Index 2 (i5)','unassigned','nativeindex identity/acquisition unassigned','undetermined'))
+def dna_state(adapted=False,enriched=False):
+ sc=Scene();parts=[role('native genomicDNA; CpGmethylation retained; enrichment is not conversion')]
+ if adapted:parts=[role('native Solexa adapterA; predecessorgeometry unassigned'),*parts,role('native Solexa adapterB; predecessorgeometry unassigned')]
+ sc.strand('DNA',parts,label='CXXC-enriched population; not a pureunmethylated class' if enriched else 'original genomicDNA')
+ sc.strand('opposite',[role('opposite original genomicDNA strand; native ends/adapterconnectivity unassigned')],label='independent opposite strand')
+ sc.strand('residuals',[role('possible co-carried inputpolymers and off-affinity DNA; class-specific recovery unassigned')],label='independent residualpopulations')
+ if enriched:sc.strand('reagent_residuals',[role('possible CXXC-preparation bacterialDNA/DNase-generatedfragments or residualDNaseI; physicalcarryover unassigned')],label='independent reagent-origin residuals')
+ return sc
 
 def protocol_graph():
-    return _cap_graph(SPEC)
-
-SPEC.protocol_graph = protocol_graph
+ source='https://doi.org/10.1371/journal.pgen.1001134; Methods218/226; Skene2010PMC4338610Methods113/121'
+ g=ProtocolGraph(TITLE,authority=source)
+ raw=g.input('genomic_dna','original genomicDNA sample',M.BIOLOGICAL,state=dna_state(),primary=True)
+ prep=g.input('map_prep','cited Skene2010MAP inputDNApreparation',M.CONDITION)
+ prepared=g.product('prepared','native preparedDNA; fragment ends/geometry unassigned',M.MOLECULAR,state=dna_state())
+ g.react('prepare','Native MAP-seq inputDNApreparation boundary',K.MAGIC,((raw,I.TEMPLATE),(prep,I.CONDITION)),(prepared,),reason='DefiningMethods delegates preparation to Skene2010. Inspected predecessor mainMethods refers to SupplementalData; those detailed chemistry sections were not inspected. No fragmenting/repair defaults supplied.')
+ adapters=g.input('adapters','native Solexa adapters from citedMAP preparation',M.ADAPTER)
+ adapted=g.product('adapted','adapter-ligated genomicDNA before CAP',M.MOLECULAR,state=dna_state(True))
+ g.react('ligate','Sourcepositive Solexa adapter ligation beforeCXXCpurification',K.LIGATION,((prepared,I.TEMPLATE),(adapters,I.STRUCTURAL)),(adapted,),geometry=AdapterLigationGeometry.unavailable('PublishedMethods226 gives operation order; specific adapterstrands/endgeometry/ligationreagents delegated to unread predecessorSupplementalData.'))
+ protein_state=Scene();protein_state.strand('protein',[role('purified recombinantCXXC protein')]);protein_state.strand('bacterialDNA',[role('possible contaminatingbacterialDNA targetedbyDNaseI')])
+ protein=g.input('cxxc_protein','CXXC reagentpreparation withpossiblebacterialDNA;100mg source amount',M.MOLECULAR,state=protein_state)
+ dnase=g.input('dnase','DNaseI700U;roomtemperature90min; acts on CXXC preparation, not sampleDNA',M.CATALYST)
+ treated_state=Scene();treated_state.strand('protein',[role('originalCXXC protein; not aDNaseIsubstrate')]);treated_state.strand('DNAproducts',[role('bacterialDNA/DNaseIdigestionproducts; hydrolysisnotphysicalremoval')])
+ treated=g.product('dnase_treated_cxxc','CXXC preparation after bacterialDNA digestion',M.MOLECULAR,state=treated_state)
+ g.react('clean_cxxc','Digest bacterialDNA in CXXC reagent preparation',K.DIGESTION,((protein,I.TEMPLATE),(dnase,I.CATALYST)),(treated,))
+ ni=g.input('nickel','nickel-charged Sepharose;50mgCXXC/mlbeadvolume',M.SELECTION)
+ immobilized=g.product('immobilized_cxxc','DNaseI-treated CXXC on nickelSepharose; reagentDNAfragmentretentionunassigned',M.SELECTION,state=treated_state)
+ g.react('immobilize','Immobilize recombinantCXXC on nickelSepharose',K.BINDING,((treated,I.TEMPLATE),(ni,I.SELECTION)),(immobilized,))
+ buffer=g.input('binding_buffer','columnbuffer0.1MNaCl',M.CONDITION)
+ bound=g.product('bound','CXXC-bound adapterDNA population',M.MOLECULAR,state=dna_state(True,True));flow=g.product('flowthrough','physically unbound columnfraction',M.WASTE)
+ g.react('bind','Bind adapterDNA toCXXCmatrix in0.1MNaCl',K.AFFINITY_CAPTURE,((adapted,I.TEMPLATE),(immobilized,I.SELECTION),(buffer,I.CONDITION)),(bound,flow));g.discard(flow,'Columnflowthrough physically separated; no complete methylationclass specificity asserted.')
+ wash=g.input('wash_buffer','selectedhuman600mMNaCl; mouse560mM is separate',M.CONDITION)
+ washed=g.product('washed','salt-washed retainedDNA',M.MOLECULAR,state=bound.state);waste=g.product('wash_waste','physically removed washfractions',M.WASTE)
+ g.react('wash','Wash CXXCcolumn with600mMNaCl',K.CLEANUP,((bound,I.TEMPLATE),(wash,I.CONDITION)),(washed,waste));g.discard(waste,'Actual columnwash fractions; no CpGbase is chemically changed.')
+ salt=g.input('elution','1MNaCl elutionbuffer',M.CONDITION)
+ eluate=g.product('eluate','pooled1MNaCl eluate fractions',M.MOLECULAR,state=washed.state)
+ g.react('elute','Elute with1MNaCl and poolfractions',K.EXTRACTION,((washed,I.TEMPLATE),(salt,I.CONDITION)),(eluate,))
+ precip=g.input('concentration_precipitation','concentrate andprecipitate as citedMAP; detailedconditionsunassigned',M.SELECTION)
+ recovered=g.product('recovered','recovered CAPDNA',M.MOLECULAR,state=eluate.state);sup=g.product('precip_supernatant','physically unretained precipitationfraction',M.WASTE)
+ g.react('precipitate','Concentrate andprecipitate pooledeluates',K.CLEANUP,((eluate,I.TEMPLATE),(precip,I.SELECTION)),(recovered,sup));g.discard(sup,'Precipitation supernatant; classspecificpurity/recovery unassigned.')
+ native=g.input('native_library_reagents','citedSkeneMAP libraryconstruction; detailedSupplementalDataunread',M.CONDITION)
+ lib=g.product('library','native CAP Solexalibrary; exactpostenrichmentoperationsunassigned',M.LIBRARY,state=recovered.state)
+ g.react('native_library_boundary','PostCAP nativeSolexalibrary handoff',K.MAGIC,((recovered,I.TEMPLATE),(native,I.CONDITION)),(lib,),reason='DefiningMethods states CAP libraries prepared as previouslydescribed forMAP. Genuine unread predecessorSupplementalData boundary: no PCR/gel/ligationrounds invented aftercapture.')
+ g.sequence(lib,SequencingPlan(acquired_roles=('Read 1',),limitation=SEQUENCING_ENDING))
+ g.declare_reviewed_scope(('genomic_dna','map_prep','prepare','adapters','ligate','cxxc_protein','dnase','clean_cxxc','nickel','immobilize','binding_buffer','bind','wash_buffer','wash','elution','elute','concentration_precipitation','precipitate','native_library_reagents','native_library_boundary','library'),source)
+ return g.require_publishable()

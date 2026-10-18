@@ -171,6 +171,32 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 1 checked, 3 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch02-native-graph-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC8062790 JATS Results84/92, STAR Methods382–410 and preprocessing424; published TableS4 mmc5 XLSX oligo rows5–13. Mandatory whole-bundle scraper reviewed and modified oligos checked directly.",
+      "findings": "Selected primer-dependent low-salt 42°C/16h I1 branch is explicit, with I2–I4 and alternative TS/high-salt/short-RT/charging branches separate. Native graph includes adapter preadenylation, physical terminal ddC, source ligation/PAGE, RT and persistent RNA until NaOH hydrolysis, actual spacer-containing ss-cDNA and ss-circle, one-fifth circle aliquot and actual-circle PCR input. Non-nucleotide iSp18 remains physical; the blocked adapter suffix beyond the RT-binding site is not automatically copied into cDNA. Full circle-PCR molecular proof is unresolved; final candidate roles do not become the initial template. Narrow adapter source-guard exemption documents scraper omission of terminal C in /ddC/, independently covered by the complete modified-oligo regression.",
+      "deferred": [
+        "Full ss-circle amplification geometry, complete internal final construct, acquired read/index cycle mask beyond reported total150 cycles; MethodsS1 not newly re-read and no vendor recipe borrowed."
+      ],
+      "scope": "Capped source-qualified native graph migration; not a full two-reader audit and no accepted absence claim.",
+      "verification": "5 modified-source/actual-precursor checks pass; page/pairing pass; chemistry10 steps,11 unresolved,0 contradictory; final scoped source guard2 checked,0 failed,1 documented ddC parser exemption,1 unassigned input. Whole three-protocol guard initially found only the mim ddC parser mismatch, resolved by documented scoped exemption and independently checked complete modified oligo."
+    },
+    {
+      "round": "2026-10-18-batch02-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current implementation and migration notes/review scope only; original published sources not re-read.",
+      "findings": "Read current local chem module and migration note/review record: physical ddC retained in source adapter while suffix beyond primer-binding site is not copied into cDNA; iSp18 remains in physical ss-cDNA/ss-circle; one-fifth aliquot retains actual circle as PCR precursor. RNA hydrolysis distinct from physical PAGE cleanup. No concrete critical defect found. First-copy/recopy/spacer boundary and acquired index/read mask remain explicit limits.",
+      "scope": "Independent implementation review referencing existing migration source scope, not an independent source-reading or absence pass.",
+      "verification": "Read-only critical review; author focused checks reported separately.",
+      "deferred": [
+        "Original-source and linked-material rereading not part of this implementation-only review; prior migration source scope and deferred targets remain."
+      ]
     }
   ]
 }

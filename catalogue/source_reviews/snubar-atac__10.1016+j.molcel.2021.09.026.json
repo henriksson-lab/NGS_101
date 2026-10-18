@@ -150,6 +150,22 @@
       ],
       "scope": "Capped defining-source pass with published supplements; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite (comment-only) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 checked, 0 failed, 6 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "documents": 2,
+      "locations": "Published Document S1 mmc1.pdf Figure S1A original rendered PDF page 3 (text lines 28–88), Methods S1 ATAC steps 3–10 (text lines 2617–2777); published-article author manuscript PMC8611914 STAR Methods JATS text lines 185–193. No new revisions or preprint evidence used.",
+      "oligo_scraper": "Ran bundle scraper, inspected ATAC primer/SBO hits and verified against Figure S1A and Methods S1. Figure P7-I8-S7 family receives one narrowly scoped text-guard exception backed by seven local original-source transcription checks.",
+      "findings": "Removed queued finish_pcr, role-length molecule and protocol_specs.get selectors. Local typed graph declares source-exact inward PCR sites on distinct source pre-PCR ATAC/SBO templates; printed primer families and named Amp Mix/KAPA are inputs. Added source gap-fill and single-primer linear GEM amplification before template separation. SBO pairs only CST/S5, with its separate noncovalent tail unpaired. Added separate SPRI post-PCR selections and removed fractions. Ambiguous droplets and other unseparated tagmentation outcomes retain unresolved physical fates. Both branches carry acquired cycles; SBO I1/R2 are explicit unplaced reads, with I1 8-cycle acquisition distinct from the 6-base RPIX index. Existing public RPIX-arm source discrepancy remains. Unknown role lengths stay unknown.",
+      "deferred": [
+        "10x CG000168 Rev A / CG000209 Rev D originals and individual Set A index assignments",
+        "SBO Index 1 and Read 2 primer/site assignments",
+        "SNuBar-ARC branch and full independent linked-source review"
+      ],
+      "scope": "Bounded local ownership migration; computed primer pairing does not validate enzyme outcomes or establish absence. Existing two-reader status is unchanged.",
+      "verification": "Seven local source checks pass; page build passes; source guard 5 exact strands pass, 1 source-notation exception backed by local checks, 1 input without exact state; pairing 0 problems; scoped chemistry 2 established/2 conditional/10 unresolved/0 contradictory.",
+      "round": "2026-10-18-validation-ownership-migration",
+      "reviewer": "local_migration_review",
+      "date": "2026-10-18"
     }
   ]
 }

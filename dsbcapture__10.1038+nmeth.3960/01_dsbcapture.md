@@ -53,3 +53,11 @@ The figures draw duplex bottom strands left-to-right as 3′→5′. The orderin
 ## Review trail
 
 - 2026-10-17 bounded pass (round 2026-10-17-breadth-first-09): re-read the Online Methods and Protocol Exchange steps 42–131 plus its oligo list. The graph now names the source reagents and conditions. It adds the cross-link reversal and DNA extraction step, the digested-adapter waste and the on-bead PCR with bead discard. It also adds MinElute/BluePippin 250–1200 bp size selection. The PCR finish is now local rather than the shared `_finish_pcr` helper.
+
+## Source-owned validation migration, 2026-10-18
+
+Local endpoint now derives the six-base AD06 example directly from the declared modifiedP5/P7 and printed PCRR, without shared break-library or TruSeq defaults. Added paired source adapter scenes and native/distal dA-tail states; distal preparation adds an overhang at the sonication-created end only. Exact PCR geometry now uses the preceding modifiedP5/P7 ligation product with the printed44nt PCRF and AD06 PCRR, rather than the final indexed library. Existing physical waste, bead disposal and size-selection steps are retained. Graph selects the2×75 NextSeq acquisition branch; molecular six-base index content no longer creates an acquired index read.
+
+Source scope: Published article PMC5045719 Online Methods sequencing passage (2×50 MiSeq EcoRV pilot/2×75 NextSeq500); original Protocol Exchange supplement_0.pdf.txt steps124–131 lines568–605 and oligo list lines610–649.
+
+Deferred: Other seven AD primers and2×50 EcoRV pilot remain additional declared variants rather than selected graph runs; Complete native-break repair, sonication and ligation input-output relations remain unresolved. This bounded check establishes neither complete chemistry validation nor an accepted missing-information claim.

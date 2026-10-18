@@ -24,13 +24,13 @@
       "pass_1": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Methods and data availability around lines 160–185",
+        "locations": "Methods and data availability around lines 160\u2013185",
         "finding": "Original Science study describes sgRNA PCR from sorted droplets but does not in these inspected sections print guide-flanking or indexing primer bases."
       },
       "pass_2": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Original Science JATS extracted lines 136–156, 188 and figure caption 605–607; oligo scraper run on local original bundle",
+        "locations": "Original Science JATS extracted lines 136\u2013156, 188 and figure caption 605\u2013607; oligo scraper run on local original bundle",
         "finding": "SPEAC recovers integrated sgRNAs from sorted droplets by genomic DNA PCR and Illumina sequencing, but inspected original article does not give flanking primer bases; it points to supplementary material."
       }
     },
@@ -65,7 +65,7 @@
     "pass_1": {
       "reviewer": "second_pass_d_e",
       "date": "2026-10-16",
-      "locations": "Original Science JATS Methods around lines 160–185; Nature Protocols abstract; local manifest manual supplement rows",
+      "locations": "Original Science JATS Methods around lines 160\u2013185; Nature Protocols abstract; local manifest manual supplement rows",
       "finding": "The original describes sgRNA recovery but the detailed protocol and supplementary source files remain inaccessible; linked source search is incomplete."
     },
     "pass_2": {
@@ -100,6 +100,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation and no accepted missing-information claim.",
       "verification": "selftest passes (construction only, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory; source guard 18 exact oligo strands checked, 0 failed, 2 inputs without exact states (the space-printed '0 nt' species is marked inferred); Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-ownership-migration",
+      "reviewer": "local_ownership_migration_review",
+      "date": "2026-10-18",
+      "scope": "Capped source-qualified ownership migration; no accepted absence finding or full chemistry validation.",
+      "oligo_scraper": "Whole cached bundle scraper run; relevant exact source passages and ordering rows inspected. No scraper result is used as absence evidence.",
+      "documents": 1,
+      "locations": "Published protocol author manuscript PMC11805652 JATS Oligonucleotides lines 151\u2013175; gDNA purification/PCR table/program and cleanup lines 647\u2013687; existing public primer-species and P7 concentration discrepancy notices compared.",
+      "findings": "Removed shared endpoint/feature defaults. The integrated guide is a biological insert, not a synthetic guide barcode. The local eight-base P7 index is source-qualified; the phasing stagger remains non-identifying. PCR unavailable geometry uses actual recovered/concentrated gDNA rather than the final library. Partitioning alone no longer physically discards unpaired droplets. Kept both response fractions, physical cleanup fractions and prior public discrepancy notices. Corrected unsupported 75mU-per-100uL ExTaq assignment: source lists bare75mU under final concentration and 5U/mL with1.5uL, so the local model retains enzyme/cycling without assigning a repaired stock or total dose; added public unit-ambiguity notice.",
+      "deferred": [
+        "Linked lentiCRISPRv2/Brie vector substrate and exact primer-binding map",
+        "Publisher typeset original for stagger/stock/unit discrepancies",
+        "Acquired read roles, primers and cycles"
+      ],
+      "verification": "Construction-only suite, page build, pairing and source guard pass. Chemistry: 12 steps, 0 established/0 conditional/14 unresolved/0 contradictory; printed source discrepancies retained."
+    },
+    {
+      "round": "2026-10-18-population-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only population correction against existing source-qualified migration scope; no new originals read or absence claim.",
+      "locations": "tools/chem.py native graph population constructors; existing validation-migration bounded check provides source scope.",
+      "findings": "Separated effector cells, reporter cells and integrated guide target into distinct Scene rows in input, paired/sorted droplets and recovered aqueous cell populations. Labels retain target containment within effector-cell gDNA. Actual extracted genomic guide-cassette strand order and PCR substrates/products remain unchanged.",
+      "deferred": [
+        "Existing source/molecular proof boundaries remain unchanged; no new chemistry conclusions."
+      ],
+      "verification": "Local suite passes; page builds; scoped chemistry and source guard pass; pairing 0 problems; review schema checked."
     }
   ]
 }

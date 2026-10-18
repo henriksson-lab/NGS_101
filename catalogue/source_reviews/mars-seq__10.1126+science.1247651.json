@@ -123,6 +123,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 9 checks pass; page builds; pairing 0 problems; chemistry 0 established/8 conditional/11 unresolved/0 contradictory; source guard 3 exact checked (RT1, pool adapter, printed RT2), 0 failed, PCR primers excepted for PDF line split; MARS-seq2.0 suite (imports marsseq/page_parts) passes; Markdown built/checked; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch08-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published2014Science defining author manuscript science.1247651_PMC4412462.xml.txt50–52; original Supplement identity DOI10.1126/science.1247651,14Feb2014: table extract scg_jaitin-sm.pdf.txt1–67 (TablesS7/S8); same original full Methods text in coauthor AlexanderMildner upload https://www.researchgate.net/publication/279842956_Jaitin-SM identity53–85, Methods108–391. Table extract and full supplement are one original, not counted twice. Source webpage readable through browser tool this pass; gated PDF not bypassed.",
+      "oligo_scraper": "52hits6files; original TableS7/S8 oligos verified. Full Methods via identified coauthor supplement text, not upstream drawn page.",
+      "findings": "The original2014 module now owns its17step native graph independently of2019. The original coauthor-uploaded Supplement Methods were readable this pass, resolving reaction order within scope. RT1extended ssDNA is pooled into24intermediate wells before ExoI; digestion creates carried hydrolysate, followed by1.2×SPRI/192cell-batch recovery. Paired-promoter DNA feeds IVT; RNA carries the transcribed initialGGG and U. TurboDNase hydrolysis is separate from1.2×SPRI recovery. Zn fragmentation and2×SPRI precede5′phosphorylated/3′C3blocked N3+pool4 adapter ligation, RT2,1.5×SPRI, nativePCR and0.7×SPRI. The source-written2014RT2/adapter-complement conflict stays public and unresolved; no2019primer substitution. Actual RT2-derived ssDNA, not completed library, is PCR input. Independent ERCC/original RNA, promoterDNA/hydrolysate, adapter templates and nonamplifying fragments retain explicit possible molecular fates. HiSeq2500paired-end is positive; cycle/index acquisition remain unassigned.",
+      "deferred": [
+        "Ordered2014RT2orientation/landing and its apparent source discrepancy",
+        "Exact2014PCR cycle count and instrument acquisition cycles/index roles",
+        "Separate PMC supplement figure PDF remains gated; no global absence conclusion",
+        "Complete recovery/purity of promoter hydrolysate and original/template/offtarget molecular populations"
+      ],
+      "scope": "Capped native-graph migration: at most3originals/10minutes per protocol, source reading frozen before implementation. Preserve historical statuses/passes; no acceptedabsence or full-review claim.",
+      "verification": "Source suite5pass; pagebuild; chemistry17steps0contradictions; pairing0; combined sourceguard5checked0failed2historicalPCRexceptions8unassigned."
+    },
+    {
+      "round": "2026-10-18-batch08-native-independent-implementation-review",
+      "reviewer": "independent_native_review",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Released protocol-owned native graph/declarations and source-bounded owner notes/records; CEL native.py and page_parts dispatch, MARS2014 mars_graph.py, MARS2 chem.py. No original source reread.",
+      "findings": "No concrete critical implementation defect found. Actual single-stranded RT1/RT2 precursors feed the native reactions/PCR; promoter-bearing duplex is distinct from newly transcribed initialGGG/RNA-U populations. RNA/ERCC originals, promoter DNA/DNase products, hydrolysate and nonproductive/internal fragments remain independent with unresolved molecular partition through physical cleanups. Source-specific pooling/Exo order, native donor5P/C3block, identifier lineage and physical-vs-acquired reads are retained. The unresolved2014 RT2 orientation and bounded native kit/first-cycle geometry remain qualified; no2019 constructor inheritance.",
+      "deferred": [
+        "Independent source absence gate unchanged",
+        "Unassigned complete native primer/early-cycle geometry and species-specific recovery remain within owner boundaries"
+      ],
+      "scope": "Independent code-only implementation peer review; zero new originals and no missing-information/status upgrade.",
+      "verification": "Focused suites1/5/5 pass; all3pages build; chemistry0contradictions; pairing0; sourceguard5checked0failed2historicalPCRstrand exceptions8unassigned. Schema checked after append."
     }
   ]
 }

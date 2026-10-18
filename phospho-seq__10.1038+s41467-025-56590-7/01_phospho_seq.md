@@ -70,3 +70,26 @@ by direct poly(A) capture); additives in pre-amplification; ATAC/ADT libraries 5
 - The CITE-seq hyper-conjugation PDF (conjugation chemistry only) was not read.
 - Model correction: earlier versions of this page and note cited "Chung et al."; both the
   preprint and the published article list John D. Blair as first author (Satija lab).
+
+## Local validation migration (2026-10-18)
+
+Re-read published PMC11794950 Methods lines 211–245 (printed tags, blocking oligo
+and separate TotalSeq-A/B PCRs) and the cited ASAP-seq PMC8763625 Results lines
+122, 132, Methods line 234 and Extended Data Fig. 1b legend line 332. Ran the bundle
+oligo scraper and verified the printed nucleotide/modification passages.
+
+🟢 The two tag endpoints now retain different identifier provenance. The printed
+TotalSeq-B tag has a 15-base antibody barcode between a 10-base and a 9-base UMI
+component, represented as one multipart molecular identifier. The TotalSeq-A
+hashing tag has a 15-base hash barcode and no intrinsic UMI; its captured library
+acquires the 10-base BOA-derived unique bridging identifier (UBI). This inherited
+BOA mechanism is explicitly scoped to the bridge method Phospho-seq cites, rather
+than supplying a generic antibody UMI to every endpoint. The blocking oligo's
+terminal `/3ddC/` is included as its C nucleotide with a blocked end annotation.
+
+🟡 Tag/bead junction and kit ATAC geometry remain unassembled; each PCR limitation
+uses its actual incoming branch template. Source coverage is an explicit local
+inventory of the inspected Methods' operations and named kit delegations, never
+created by iterating graph IDs. The vendor guide itself remains uninspected.
+Candidate non-library tagmentation and empty/ambiguous GEM outcomes have unresolved
+physical fates. This migration is not a completed chemistry/source-absence audit.

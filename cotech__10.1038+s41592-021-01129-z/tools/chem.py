@@ -1,241 +1,83 @@
-"""CoTECH (Xiong et al., Nature Methods 2021) — role-level declaration.
-
-Source scope (round 2026-10-17-breadth-first-08):
-* Published Supplementary Table 1 (Springer MOESM3 XLSX): custom primers, PA-Tn5 T5/T7
-  barcode adaptors, barcoded oligo-dT RT primers, Nextera i5 and TruSeq i5/i7 index
-  primers.  Oligos below are transcribed from it verbatim.
-* The published article text is paywalled and was not read.  Step order (pool and
-  redistribute, preamplify, purify and split, cDNA Tn5 tagmentation, two-round DNA
-  PCR, second-round index added during library PCR) comes from the bioRxiv preprint
-  10.1101/2020.10.15.339226v1 Results lines 150-172 and Figure 1 legend lines 347-358.
-  Those steps are labelled provisional/inferred until the published Methods are read.
-"""
-from types import SimpleNamespace
+"""Published CoTECH Table1 component-owned native boundaries; Methods order unverified."""
+from chemdraw import Construct,Scene,Segment,feature,revcomp
+from protocol_model import role
+from protocol_graph import ProtocolGraph,InputRole as I,MaterialKind as M,StepKind as K,Terminal,Disposition,SequencingPlan
 from pcr import PCRGeometry
-from protocol_model import chain, role_library
-from multimodal_protocols import Definition, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind, ident, molecule, role
+import seqprimers as sp
+TITLE='CoTECH — source component-qualified joint chromatin/RNA libraries'
+NOTES='01_cotech.html'
+SOURCE='<a href="https://doi.org/10.1038/s41592-021-01129-z">Xiong et al., Nature Methods2021</a>; published SupplementaryTable1 and SupplementaryNotes. Published defining Methods were not inspected in this capped pass.'
+SUMMARY='Published Table1 establishes barcoded pA–Tn5 transfer strands, barcoded oligo(dT), TSO and DNA/RNA library-primer families. Native execution order, shared preamplification and physical branch recovery remain bounded pending the published Methods.'
+CAVEAT='INFERRED molecular relationships — this graph is a bounded source-component reconstruction, not a verified execution order. The former preprint-derived pool/redistribute/preamp order is historical and is not active published authority. Verified printed oligos are distinct from unassigned enzyme conditions, loading assignments and first-cycle products. Conditional DNA/RNA branch input classes retain both modalities; their physical allocation is unassigned and primer selectivity does not physically purify modalities. No source absence or validated complete protocol is asserted.'
+RTBC=feature('cotech_round1_rt','cell_barcode','whitelist',whitelist='published96RTbarcodes')
+T5BC=feature('cotech_round1_t5','cell_barcode','whitelist',whitelist='publishedPA-T5family')
+T7BC=feature('cotech_round1_t7','cell_barcode','whitelist',whitelist='publishedPA-T7family')
+WELL=feature('cotech_round2','cell_barcode','unknown',note='secondary-well library-primer assignment/width unassigned')
+UMI=feature('umi','umi','degenerate',note='printed D8 IUPAC window')
+SEQ_PRIMERS=()
+SHOW_READ_CONTENT=False
+SEQUENCING_INTRO='Published native acquisition was not inspected. First-round barcode/UMI widths are molecular component facts, not an acquired read mask.'
+SEQUENCING_ENDING=SEQUENCING_INTRO
+READ_SPECS=tuple(sp.read_spec(r,'unassigned','Published run allocation/native read landing not assigned in this bounded pass','undetermined') for r in ('Read 1','Read 2','Index 1 (i7)','Index 2 (i5)'))
+OLIGOS=(('Mosaic-A_primer (MEA)', 'TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG'), ('common annealing primer', '5Phos/CTGTCTCTTATACACATCT'), ('TSO', 'AAGCAGTGGTATCAACGCAGAGTACATrGrG+G'), ('IS primer', 'AAGCAGTGGTATCAACGCAGAGT'), ('P2 primer', 'GTGACTGGAGTTCAGACGTGTGCTCTTCCGATC'), ('connector A', 'TCGTCGGCAGCGTCTCCACGC'), ('connector B', 'GTCTCGTGGGCTCGGCTGTCC'), ('Truseq 1st round forward primer', 'ACACTCTTTCCCTACACGACGCTCTTCCGATCTTCGTCGGCAGCGTCTCCACGC'), ('Truseq 1st round reverse primer', 'GACTGGAGTTCAGACGTGTGCTCTTCCGATCTGTCTCGTGGGCTCGGCTGTCCC'), ('T5-1 (one of 24 PA-T5 barcode primers)', 'TCGTCGGCAGCGTCTCCACGCTATAGCCTGCGATCGAGGACGGCAGATGTGTATAAGAGACAG'), ('T7-1 (one of 25 PA-T7 barcode primers)', 'GTCTCGTGGGCTCGGCTGTCCCTGTCCCGAGTAATCACCGTCTCCGCCTCAGATGTGTATAAGAGACAG'), ('RT-barcode_01 (one of 96 barcoded oligo dT)', 'TCAGACGTGTGCTCTTCCGATCTAACGTGATDDDDDDDDttttttttttttttttttttttttt'))
+T5=OLIGOS[9][1]
+T7=OLIGOS[10][1]
+RT_ORDERED=OLIGOS[11][1]
+TSO='AAGCAGTGGTATCAACGCAGAGTACATGGG'
+ME_REV='CTGTCTCTTATACACATCT'
+def rt_parts():
+ boundary=RT_ORDERED.index('AACGTGAT')
+ return [Segment('printed RT5′handle',RT_ORDERED[:boundary]),Segment('RTwell barcode','AACGTGAT',feature=RTBC),Segment('D8 UMI','D'*8,placeholder=True,feature=UMI),Segment('source poly(dT)',RT_ORDERED[boundary+16:].upper())]
+def transfer_parts(seq,t5=True):
+ barcode='TATAGCCT' if t5 else 'CGAGTAAT';a=seq.index(barcode)
+ return [Segment('native adapter prefix',seq[:a]),Segment('source firstwell barcode',barcode,feature=T5BC if t5 else T7BC),Segment('fixed adapter region',seq[a+8:-19]),Segment('mosaic end',seq[-19:])]
+def adapter_scene(seq,t5=True):
+ sc=Scene();sc.strand('transfer',transfer_parts(seq,t5),label='published transfer strand')
+ sc.anneal('nontransfer',[Segment('MErev',ME_REV)],to='transfer',pair=('MErev','mosaic end'),mod5='p',label='source5′phosphorylated common annealing primer');return sc
 
-DEFINITION = Definition("CoTECH — chromatin occupancy and transcriptome", "10.1038/s41592-021-01129-z",
-        "Xiong et al., Nature Methods (2021)", "Antibody-targeted pA–Tn5 carrying a well-specific T5/T7 adaptor combination and a well-barcoded poly(dT) RT primer mark chromatin and RNA in the same first-round well; after pooling and redistribution, each secondary well's products receive a second-round index during library PCR.",
-        "Separate chromatin and RNA libraries; a cell is the first-round well barcode(s) plus the second-round PCR index of its secondary well.", "01_cotech.html")
+def mixed_state(stage='initial',indexed=False):
+ sc=Scene()
+ if stage=='initial':
+  sc.strand('DNA',[role('chromatin DNA population')],label='DNA within cell container');sc.strand('RNA',[role('independent poly(A) RNA population; physicalU')],label='RNA within same cell container');return sc
+ for key,seq,t5 in (('T5native',T5,True),('T7native',T7,False)):
+  sc.strand(key,[*transfer_parts(seq,t5),role('native tagged chromatin strand; gap/other end not reconstructed')]+([role('library-primer index context',molecular_feature=WELL)] if indexed else []),label='INFERRED source-component chromatin reference; '+stage)
+ sc.strand('cDNA',[*rt_parts(),role('RNA-complement cDNA; native extent unassigned'),Segment('TSO-complement reference',revcomp(TSO))]+([role('library-primer index context',molecular_feature=WELL)] if indexed else []),label='INFERRED actual ss-cDNA component relationship; native switch/first-cycle scope unverified')
+ sc.strand('residual originals',[role('possible original RNA/DNA/nonproductive/background molecules; component recovery unassigned')],label='independent possible original population')
+ return sc
 
-PREPRINT = "bioRxiv 10.1101/2020.10.15.339226v1 (preprint; published Methods not read)"
-TABLE_S1 = "Supplementary Table 1 (MOESM3), published"
-
-# Verbatim from published Supplementary Table 1 (modification notation as printed).
-OLIGOS = (
-    ("Mosaic-A_primer (MEA)", "TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG"),
-    ("common annealing primer", "5Phos/CTGTCTCTTATACACATCT"),
-    ("TSO", "AAGCAGTGGTATCAACGCAGAGTACATrGrG+G"),
-    ("IS primer", "AAGCAGTGGTATCAACGCAGAGT"),
-    ("P2 primer", "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATC"),
-    ("connector A", "TCGTCGGCAGCGTCTCCACGC"),
-    ("connector B", "GTCTCGTGGGCTCGGCTGTCC"),
-    ("Truseq 1st round forward primer", "ACACTCTTTCCCTACACGACGCTCTTCCGATCTTCGTCGGCAGCGTCTCCACGC"),
-    ("Truseq 1st round reverse primer", "GACTGGAGTTCAGACGTGTGCTCTTCCGATCTGTCTCGTGGGCTCGGCTGTCCC"),
-    ("T5-1 (one of 24 PA-T5 barcode primers)", "TCGTCGGCAGCGTCTCCACGCTATAGCCTGCGATCGAGGACGGCAGATGTGTATAAGAGACAG"),
-    ("T7-1 (one of 25 PA-T7 barcode primers)", "GTCTCGTGGGCTCGGCTGTCCCTGTCCCGAGTAATCACCGTCTCCGCCTCAGATGTGTATAAGAGACAG"),
-    ("RT-barcode_01 (one of 96 barcoded oligo dT)", "TCAGACGTGTGCTCTTCCGATCTAACGTGATDDDDDDDDttttttttttttttttttttttttt"),
-)
-
-R1 = ident("first-round RT well barcode", "cotech_round1_rt", "cell_barcode")
-T5 = ident("T5 barcode (first-round well, with T7)", "cotech_round1_t5", "cell_barcode")
-T7 = ident("T7 barcode (first-round well, with T5)", "cotech_round1_t7", "cell_barcode")
-R2 = ident("second-round PCR index of the secondary well", "cotech_round2", "cell_barcode")
-UMI = ident("8-nt UMI (D window)", "umi", "umi", length=8, tag="umi")
-
-
-def _cotech_graph(d):
-    source = f"{d.citation}; doi:{d.doi}"
-    graph = ProtocolGraph(d.title, authority=source)
-    cells = graph.input("cells", "antibody-bound permeabilized cells containing poly(A) RNA",
-                        MaterialKind.BIOLOGICAL, state=_cotech().initial, primary=True)
-    transposome = graph.input("barcoded_patn5",
-                              "pA–Tn5 assembled with a well-specific T5/T7 barcode-primer combination, each annealed to the 5Phos common annealing primer",
-                              MaterialKind.ADAPTER, source=TABLE_S1 + "; " + PREPRINT)
-    tn5 = graph.input("tn5", "protein-A–Tn5 transposase", MaterialKind.CATALYST)
-    tagged = graph.product("tagged_cells", "cells with target-proximal T5/T7-barcoded chromatin",
-                           MaterialKind.MOLECULAR, state=molecule("tagged chromatin branch", (
-                               role("connector A"), T5, role("mosaic end (T5 side)"),
-                               role("epitope-proximal DNA"), role("mosaic end (T7 side)"),
-                               T7, role("connector B"))))
-    graph.react("tagment", "Tagment antibody-targeted chromatin in the first-round well",
-                StepKind.TAGMENTATION,
-                ((cells, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
-                 (tn5, InputRole.CATALYST)), (tagged,))
-    rt_primer = graph.input("rt_primer", "first-round well-barcoded oligo dT with 8-nt UMI (RT-barcode_01–96)",
-                            MaterialKind.OLIGO, source=TABLE_S1)
-    tso = graph.input("tso", "template-switch oligo AAGCAGTGGTATCAACGCAGAGTACATrGrG+G",
-                      MaterialKind.OLIGO, source=TABLE_S1)
-    rt = graph.input("reverse_transcriptase", "reverse transcriptase", MaterialKind.CATALYST)
-    paired = graph.product("paired_branches", "cells containing first-round-barcoded chromatin and full-length cDNA",
-                           MaterialKind.MOLECULAR,
-                           state=molecule("full-length cDNA branch", (
-                               role("TSO / IS site"), role("transcript cDNA"), role("poly(dT)"),
-                               UMI, R1, role("TruSeq Read 2 handle"))))
-    graph.react("reverse_transcribe", "Reverse-transcribe poly(A) RNA with the well's barcoded oligo dT and template switch",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((tagged, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
-                 (tso, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)), (paired,))
-    second_well = graph.input("second_well", "pooling and redistribution into secondary 96-/384-well plates",
-                              MaterialKind.CONDITION, source=PREPRINT)
-    redistributed = graph.product("redistributed", "redistributed cells, one secondary well each",
-                                  MaterialKind.MOLECULAR, state=paired.state, source=PREPRINT)
-    graph.react("redistribute", "Pool and redistribute cells into secondary wells (each well is followed separately)",
-                StepKind.GENERIC,
-                ((paired, InputRole.TEMPLATE), (second_well, InputRole.CONDITION)),
-                (redistributed,), changes_molecule=False, source=PREPRINT)
-    pre_f = graph.input("preamp_forward", "INFERRED — preamplification forward primers (connector A / IS primer are Table S1 candidates; assignment not read)",
-                        MaterialKind.OLIGO, source=PREPRINT, inferred=True)
-    pre_r = graph.input("preamp_reverse", "INFERRED — preamplification reverse primers (connector B / P2 primer are Table S1 candidates; assignment not read)",
-                        MaterialKind.OLIGO, source=PREPRINT, inferred=True)
-    pre_pol = graph.input("preamp_polymerase", "preamplification polymerase", MaterialKind.CATALYST,
-                          source=PREPRINT)
-    preamped = graph.product("preamplified", "preamplified cDNA and tagmented chromatin from one secondary well",
-                             MaterialKind.MOLECULAR, state=paired.state, source=PREPRINT)
-    graph.react("preamplify", "Preamplify cDNA and tagmented chromatin in each secondary well",
-                StepKind.PCR,
-                ((redistributed, InputRole.TEMPLATE), (pre_f, InputRole.STRUCTURAL), (pre_r, InputRole.STRUCTURAL),
-                 (pre_pol, InputRole.CATALYST)), (preamped,), source=PREPRINT,
-                geometry=PCRGeometry.unavailable(
-                    role_library("CoTECH preamplification product", (role("chromatin or cDNA"),)),
-                    reason="The preprint names preamplification but its primers and cycling were not read; published Methods unread."))
-    purified = graph.product("purified", "AMPure XP-purified preamplified DNA", MaterialKind.MOLECULAR,
-                             state=paired.state, source=PREPRINT)
-    cleanup_waste = graph.product("cleanup_waste", "bead supernatant (primers, short products)",
-                                  MaterialKind.WASTE, source=PREPRINT)
-    graph.react("purify", "Purify with AMPure XP beads", StepKind.CLEANUP,
-                ((preamped, InputRole.TEMPLATE),), (purified, cleanup_waste),
-                changes_molecule=False, source=PREPRINT)
-    graph.discard(cleanup_waste, "removed with the bead supernatant")
-    chromatin = graph.product("chromatin_branch", "chromatin half", MaterialKind.MOLECULAR,
-                              state=tagged.state, source=PREPRINT)
-    cdna_half = graph.product("rna_branch", "cDNA half", MaterialKind.MOLECULAR,
-                              state=paired.state, source=PREPRINT)
-    graph.react("split_libraries", "Split into halves for DNA and RNA library preparation",
-                StepKind.SPLIT, ((purified, InputRole.TEMPLATE),), (chromatin, cdna_half),
-                changes_molecule=False, source=PREPRINT)
-    reviewed = ["cells", "barcoded_patn5", "tn5", "tagment", "rt_primer", "tso",
-                "reverse_transcriptase", "reverse_transcribe", "second_well",
-                "redistribute", "preamp_forward", "preamp_reverse", "preamp_polymerase", "preamplify",
-                "purify", "split_libraries"]
-
-    # DNA: common TruSeq first-round primers then well-specific TruSeq i5/i7 second round.
-    dna1_f = graph.input("dna_round1_forward", "Truseq 1st round forward primer (Read 1 + connector A)",
-                         MaterialKind.OLIGO, source=TABLE_S1)
-    dna1_r = graph.input("dna_round1_reverse", "Truseq 1st round reverse primer (Read 2 + connector B)",
-                         MaterialKind.OLIGO, source=TABLE_S1)
-    dna_pol = graph.input("dna_polymerase", "DNA library PCR polymerase", MaterialKind.CATALYST)
-    dna_mid = molecule("chromatin first-round PCR product", (
-        role("TruSeq Read 1 site"), role("connector A"), T5, role("mosaic end (T5 side)"),
-        role("chromatin insert"), role("mosaic end (T7 side)"), T7, role("connector B"),
-        role("TruSeq Read 2 site")))
-    dna_round1 = graph.product("dna_round1", "chromatin first-round PCR product",
-                               MaterialKind.MOLECULAR, state=dna_mid, source=TABLE_S1 + "; " + PREPRINT)
-    graph.react("dna_pcr1", "First-round chromatin PCR with common TruSeq adaptor primers",
-                StepKind.PCR, ((chromatin, InputRole.TEMPLATE), (dna1_f, InputRole.STRUCTURAL), (dna1_r, InputRole.STRUCTURAL),
-                               (dna_pol, InputRole.CATALYST)), (dna_round1,),
-                source=TABLE_S1 + "; " + PREPRINT,
-                geometry=PCRGeometry.unavailable(
-                    role_library("chromatin first-round product", (role("chromatin insert"),)),
-                    reason="Primer bases are printed but the T5/T7 adaptor boundaries and cycling were not modelled base by base."))
-    dna_idx = graph.input("dna_i5_primer", "well-specific TruSeq i5 index primer (Truseq-501–516)",
-                          MaterialKind.OLIGO, source=TABLE_S1)
-    dna_i7 = graph.input("dna_i7_primer", "well-specific TruSeq i7 index primer (Truseq-701–708)",
-                         MaterialKind.OLIGO, source=TABLE_S1)
-    dna_final = role_library("CoTECH chromatin library roles", (
-        R2, role("TruSeq Read 1 site"), role("connector A"), T5, role("mosaic end (T5 side)"),
-        role("target-proximal chromatin insert"), role("mosaic end (T7 side)"),
-        T7, role("connector B"), role("TruSeq Read 2 site"), role("i7 index")))
-    dna_library = graph.product("chromatin_library", "CoTECH chromatin sequencing library",
-                                MaterialKind.LIBRARY, state=dna_final, source=TABLE_S1 + "; " + PREPRINT)
-    graph.react("dna_pcr2", "Second-round PCR adds the secondary-well TruSeq i5/i7 index pair",
-                StepKind.PCR, ((dna_round1, InputRole.TEMPLATE), (dna_idx, InputRole.STRUCTURAL), (dna_i7, InputRole.STRUCTURAL),
-                               (dna_pol, InputRole.CATALYST)), (dna_library,),
-                source=TABLE_S1 + "; " + PREPRINT,
-                geometry=PCRGeometry.unavailable(
-                    dna_final, reason="Index primer family printed; the index pair per secondary well is not assigned."))
-    graph.sequence(dna_library, SequencingPlan(limitation=
-        "Read lengths and which reads cover the T5/T7 barcodes were not read from the published Methods."))
-
-    # RNA: Tn5 tagmentation of cDNA; i5/i7 PCR amplifies the 3' (RT-primer) end.
-    rna_tn5 = graph.input("cdna_tn5", "INFERRED — Tn5 loaded with MEA/common annealing primer (Table S1 lists them; loading not read)",
-                          MaterialKind.ADAPTER, source=TABLE_S1, inferred=True)
-    rna_tn5_enzyme = graph.input("cdna_tn5_enzyme", "Tn5 transposase", MaterialKind.CATALYST, source=PREPRINT)
-    tagmented = graph.product("cdna_tagmented", "tagmented cDNA fragments", MaterialKind.MOLECULAR,
-                              state=molecule("tagmented 3' cDNA fragment", (
-                                  role("mosaic end"), role("cDNA fragment"), role("poly(dT)"),
-                                  UMI, R1, role("TruSeq Read 2 handle"))), source=PREPRINT)
-    graph.react("cdna_tagment", "Tagment preamplified full-length cDNA with Tn5",
-                StepKind.TAGMENTATION, ((cdna_half, InputRole.TEMPLATE), (rna_tn5, InputRole.STRUCTURAL),
-                                        (rna_tn5_enzyme, InputRole.CATALYST)), (tagmented,), source=PREPRINT)
-    rna_idx = graph.input("rna_i5_primer", "Nextera i5 index primer (i5-N501–N526)",
-                          MaterialKind.OLIGO, source=TABLE_S1)
-    rna_i7 = graph.input("rna_i7_primer", "TruSeq i7 index primer (Truseq-701–708)",
-                         MaterialKind.OLIGO, source=TABLE_S1)
-    rna_pol = graph.input("rna_polymerase", "RNA library PCR polymerase", MaterialKind.CATALYST)
-    rna_final = role_library("CoTECH transcriptome library roles", (
-        R2, role("Nextera Read 1 / mosaic end"), role("cDNA fragment"), role("poly(dT)"),
-        UMI, R1, role("TruSeq Read 2 site"), role("i7 index")))
-    rna_library = graph.product("rna_library", "CoTECH 3' transcriptome sequencing library",
-                                MaterialKind.LIBRARY, state=rna_final, source=TABLE_S1 + "; " + PREPRINT)
-    graph.react("rna_pcr", "Amplify the 3' cDNA end and add the second-round RNA index",
-                StepKind.PCR, ((tagmented, InputRole.TEMPLATE), (rna_idx, InputRole.STRUCTURAL), (rna_i7, InputRole.STRUCTURAL),
-                               (rna_pol, InputRole.CATALYST)), (rna_library,), source=PREPRINT,
-                geometry=PCRGeometry.unavailable(
-                    rna_final, reason="Which of i5/i7 carries the secondary-well index, and the selected pair, were not read."))
-    graph.sequence(rna_library, SequencingPlan(limitation=
-        "Read lengths and the read covering RT barcode/UMI were not read from the published Methods."))
-    reviewed += ["dna_round1_forward", "dna_round1_reverse", "dna_polymerase", "dna_pcr1", "dna_round1",
-                 "dna_i5_primer", "dna_i7_primer", "dna_pcr2", "chromatin_library", "cdna_tn5",
-                 "cdna_tn5_enzyme", "cdna_tagment", "rna_i5_primer", "rna_i7_primer", "rna_polymerase",
-                 "rna_pcr", "rna_library"]
-    graph.declare_reviewed_scope(reviewed, source)
-    return graph.require_publishable()
-
+def endpoint(name):
+ parts=[role('native '+name+' end A'),role('native sourcefirstwell barcode region',length_bp=8,molecular_feature=T5BC if name=='chromatin' else RTBC),role(name+' insert')]
+ if name=='chromatin':parts.append(role('opposite firstwell T7 identifier; global order unassigned',length_bp=8,molecular_feature=T7BC))
+ else:parts.append(role('UMI identifier; global native readout placement unassigned',length_bp=8,molecular_feature=UMI))
+ parts.extend([role('native secondarywell index context',molecular_feature=WELL),role('opposite native end B')])
+ return Construct(parts,name='CoTECH '+name+' source-bounded endpoint')
+DNA_LIB=endpoint('chromatin');RNA_LIB=endpoint('RNA')
+FINAL_LIBRARY=None
+FINAL_LIBRARIES=(('Chromatin component reference',DNA_LIB,(),'INFERRED — native global assembly and published reaction order remain unverified.',SEQUENCING_ENDING),('RNA component reference',RNA_LIB,(),'INFERRED — native global assembly and published reaction order remain unverified.',SEQUENCING_ENDING))
+def oligos():return tuple(name+' —5′-'+seq+'-3′' for name,seq in OLIGOS)
 
 def protocol_graph():
-    return _cotech_graph(DEFINITION)
-
-
-def _cotech():
-    return chain(molecule("antibody-bound permeabilized cells", (
-        role("target chromatin epitope"), role("poly(A) RNA"))), (
-        ("Tagment with pA–Tn5 carrying the well's T5/T7 barcode combination",
-         molecule("tagged chromatin branch", (T5, role("epitope-proximal DNA"), T7)),
-         "The antibody localizes pA–Tn5; the T5/T7 combination identifies the first-round well."),
-        ("Reverse-transcribe with the well's barcoded oligo dT and template switch",
-         molecule("full-length cDNA", (role("TSO site"), role("transcript cDNA"), UMI, R1)),
-         "Chromatin and RNA receive first-round barcodes of the same well before pooling."),
-        ("Pool, redistribute, preamplify, purify and split (preprint order)",
-         molecule("preamplified products", (role("chromatin half"), role("cDNA half"))),
-         "Provisional order from the bioRxiv preprint."),
-        ("Library PCR adds the secondary-well index to each branch",
-         molecule("matched CoTECH libraries", (T5, T7, R1, R2, role("chromatin or 3' cDNA insert"))),
-         "The first-round barcode plus the second-round PCR index identify a cell."),
-    ))
-
-
-d = DEFINITION
-FINAL_LIBRARY = role_library(d.title + " final library roles", (R1, role("chromatin or cDNA insert")), index=R2)
-SPEC = SimpleNamespace(
-    TITLE=d.title,
-    NOTES=d.notes,
-    SOURCE=f'Defining source: <a href="https://doi.org/{d.doi}">{d.citation}</a>.',
-    SUMMARY=d.summary,
-    CAVEAT=("The published article text was not available to this review; oligos come from its published "
-            "Supplementary Table 1, while the order pool → redistribute → preamplify → purify/split → "
-            "library-PCR indexing is taken provisionally from the bioRxiv preprint (10.1101/2020.10.15.339226). "
-            "Preamplification primers and Tn5 loading for the cDNA branch are INFERRED from the table's primer list."),
-    FINAL_LIBRARY=FINAL_LIBRARY,
-    SEQ_PRIMERS=(),
-    FINAL_CAPTION=d.endpoint,
-    SEQUENCING_INTRO=d.endpoint,
-    READ_LENGTHS=None,
-    SEQUENCING_ENDING=d.endpoint,
-    SEQUENCING_UNAVAILABLE="Read lengths and the reads covering the first-round barcodes and UMI were not read from the published Methods; no universal read layout is drawn.",
-    workflow=_cotech,
-    oligos=lambda: tuple(f"{name}: 5′-{seq}-3′" for name, seq in OLIGOS),
-)
-SPEC.protocol_graph = protocol_graph
-globals().update(vars(SPEC))
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ cells=g.input('cells','mixed cell/nucleus DNA and poly(A)RNA; published cell handling unverified',M.BIOLOGICAL,state=mixed_state(),primary=True)
+ t5=g.input('t5','published T5-1 transfer/common pair',M.ADAPTER,state=adapter_scene(T5));t7=g.input('t7','published T7-1 transfer/common pair',M.ADAPTER,state=adapter_scene(T7,False))
+ rt=g.input('rt_primer','published RTbarcode01, D8 UMI and printed T tract',M.OLIGO,state=Scene());rt.state.strand('RTprimer',rt_parts())
+ tso=g.input('tso','published TSO withrGrG+G physical tail',M.OLIGO,state=Scene());tso.state.strand('TSO',[Segment('TSO DNA prefix',TSO[:-3]),Segment('physical TSO terminal GGG',TSO[-3:],note='source rGrG+G; two RNA G and terminal modified +G')])
+ native=g.input('firstwell_conditions','native Tn5/RT enzyme choices, temporalorder and conditions unassigned',M.CONDITION)
+ first=g.product('firstwell','INFERRED firstwell DNA/ss-cDNA component reference',M.MOLECULAR,state=mixed_state('firstwell sourcecomponent reference'),inferred=True)
+ g.react('native_firstwell','INFERRED — native dual labelling boundary; execution order unverified',K.MAGIC,((cells,I.TEMPLATE),(t5,I.STRUCTURAL),(t7,I.STRUCTURAL),(rt,I.STRUCTURAL),(tso,I.STRUCTURAL),(native,I.CONDITION)),(first,),reason='Published Table1 verifies components but defining Methods/reaction order not inspected. No supersededpreprint recipe or enzymes/settings are promoted as published facts.')
+ shared=g.input('native_shared_processing','published pooling/redistribution/commonpreamp and recovery specification unread',M.CONDITION)
+ prepared=g.product('native_prepared','INFERRED native mixed precursor before branch-specific finishing',M.MOLECULAR,state=mixed_state('native processing boundary'),inferred=True)
+ g.react('native_common_boundary','INFERRED — native common processing/recovery boundary',K.MAGIC,((first,I.TEMPLATE),(shared,I.CONDITION)),(prepared,),reason='Published common processing order and actual primer/reagent assignments are unverified; sourcepositive IS/P2/connector components do not establish their execution sequence.')
+ aliquot=g.input('aliquot_condition','conditional branch allocation reference; actual physical allocation/amounts/recovery unassigned',M.CONDITION)
+ dna=g.product('dna_aliquot','conditional mixed native input class for chromatin finishing',M.MOLECULAR,state=prepared.state);rna=g.product('rna_aliquot','conditional mixed native input class for RNA finishing',M.MOLECULAR,state=prepared.state)
+ g.react('branch_inputs','INFERRED — unknown native branch allocation relation; no physical split asserted',K.MAGIC,((prepared,I.TEMPLATE),(aliquot,I.CONDITION)),(dna,rna),reason='Published branch allocation/preparation was not inspected. These are conditional input-class references retaining both modalities, not evidence of a physical aliquot split or modality purification.')
+ for key,x,lib in (('dna',dna,DNA_LIB),('rna',rna,RNA_LIB)):
+  finish=g.input(key+'_native_conditions','native '+key+' prePCR processing/adaptation/recovery specification unread',M.CONDITION)
+  pre=g.product(key+'_precursor','actual source-bounded incoming '+key+' PCR precursor class',M.MOLECULAR,state=mixed_state('unassigned native '+key+' precursor'),inferred=True)
+  g.react(key+'_native_finish','INFERRED — native '+key+' substrate preparation boundary',K.MAGIC,((x,I.TEMPLATE),(finish,I.CONDITION)),(pre,),reason='The published precursor-forming operations and their ordered conditions were not inspected. Table1 primer names are not an execution protocol; full actual assembly stays unassigned.')
+  f=g.input(key+'_forward','native '+key+' forward-library primer assignment/member unverified',M.OLIGO);r=g.input(key+'_reverse','native '+key+' opposite-library primer assignment/member unverified',M.OLIGO);pol=g.input(key+'_polymerase','native '+key+' library PCRenzyme/cycling unverified',M.CATALYST)
+  amp=g.product(key+'_library',lib.name,M.LIBRARY,state=mixed_state('native amplified/cocarried classes',True),inferred=True)
+  g.react(key+'_pcr','INFERRED — native '+key+' library amplification relation',K.PCR,((pre,I.TEMPLATE),(f,I.STRUCTURAL),(r,I.STRUCTURAL),(pol,I.CATALYST)),(amp,),geometry=PCRGeometry.unavailable(pre.state,reason='Incoming native mixed precursor is explicit and source-bounded; completed library is not substituted as PCR template. Exact sourceprimer assignment/native first-cycle geometry not established.'))
+  g.sequence(amp,SequencingPlan(library=lib,acquisition='unspecified',limitation=SEQUENCING_ENDING))
+ g.declare_reviewed_scope(('cells','t5','t7','rt_primer','tso','firstwell_conditions','native_firstwell','native_shared_processing','native_common_boundary','aliquot_condition','branch_inputs','dna_native_conditions','dna_native_finish','dna_forward','dna_reverse','dna_polymerase','dna_pcr','dna_library','rna_native_conditions','rna_native_finish','rna_forward','rna_reverse','rna_polymerase','rna_pcr','rna_library'),SOURCE)
+ return g.require_publishable()

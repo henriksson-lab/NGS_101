@@ -12,13 +12,13 @@
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
         "locations": "JATS lines 45-94, 130-154, 170-176",
-        "finding": "The 8A8G guide-scaffold capture is poly(dT)-primed; 10x 3′ v3 cDNA is split after amplification and a nested guide library is added. Detailed Protocol Exchange and kit guide are named."
+        "finding": "The 8A8G guide-scaffold capture is poly(dT)-primed; 10x 3\u2032 v3 cDNA is split after amplification and a nested guide library is added. Detailed Protocol Exchange and kit guide are named."
       },
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
         "locations": "Original PMC7278172 JATS lines 65-94, 130-154; full-bundle scraper run",
-        "finding": "Independently confirmed Tail-8A8G programmed scaffold poly(dT) capture, 10x 3′ v3 cDNA split after preamplification, separate gRNA library through nested tRNA_Read2/P5_read1 and P7 indexed PCR, and alternate 5′/C1 branches."
+        "finding": "Independently confirmed Tail-8A8G programmed scaffold poly(dT) capture, 10x 3\u2032 v3 cDNA split after preamplification, separate gRNA library through nested tRNA_Read2/P5_read1 and P7 indexed PCR, and alternate 5\u2032/C1 branches."
       }
     },
     {
@@ -37,7 +37,7 @@
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
         "locations": "Original supplementary MOESM1 PDF Fig S3 legend lines 138-149",
-        "finding": "Original author figure legend details 10x 3′/5′ post-cDNA guide enrichment and C1/SMART-seq suggested TSO pooling; not a substitute for primer sequences."
+        "finding": "Original author figure legend details 10x 3\u2032/5\u2032 post-cDNA guide enrichment and C1/SMART-seq suggested TSO pooling; not a substitute for primer sequences."
       }
     },
     {
@@ -162,7 +162,7 @@
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
         "locations": "Original official 10x CG000184 Rev A vendor PDF local extracted Appendix lines 6215-6235",
-        "finding": "Independently confirmed 10x 3′ v3 CRISPR gel-bead Read1 arm CTACACGACGCTCTTCCGATCT, N16 cell barcode, N12 UMI and 30-T capture; paper explicitly names CG000184."
+        "finding": "Independently confirmed 10x 3\u2032 v3 CRISPR gel-bead Read1 arm CTACACGACGCTCTTCCGATCT, N16 cell barcode, N12 UMI and 30-T capture; paper explicitly names CG000184."
       }
     },
     {
@@ -186,14 +186,14 @@
       "reviewer": "audit_a_h",
       "date": "2026-10-16",
       "locations": "Original JATS lines 70, 130-154; MOESM1 Fig S3 legend 138-149; MOESM2-6 header/chemistry rows; 10x CG000184 Rev A Appendix 6215-6235; attempted Protocol Exchange DOI",
-      "finding": "Followed original tables and exact 10x vendor guide, resolving the 3′ v3 gel-bead handle and nested custom oligos. Historical detailed Protocol Exchange and Fluidigm/Takara C1 branches remain unchecked; absence blocked."
+      "finding": "Followed original tables and exact 10x vendor guide, resolving the 3\u2032 v3 gel-bead handle and nested custom oligos. Historical detailed Protocol Exchange and Fluidigm/Takara C1 branches remain unchecked; absence blocked."
     }
   },
   "missing_claims": [
     {
-      "claim": "The 10x 3′ v3 shell and alternate C1 branch are wholly unverified",
+      "claim": "The 10x 3\u2032 v3 shell and alternate C1 branch are wholly unverified",
       "disposition": "blocked",
-      "evidence": "Exact 10x CG000184 Rev A prints the 3′ v3 gel-bead scaffold; C1/SMART-seq branch and detailed protocol remain unreviewed."
+      "evidence": "Exact 10x CG000184 Rev A prints the 3\u2032 v3 gel-bead scaffold; C1/SMART-seq branch and detailed protocol remain unreviewed."
     }
   ],
   "conclusion": "The programmed 8A8G guide and nested PCR primers are source-positive; delegated vendor shells remain blocked.",
@@ -201,7 +201,7 @@
     {
       "reviewer": "audit_tenx_closeout",
       "date": "2026-10-16",
-      "locations": "/husky/henriksson/NGS101_papers/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_PMC7278172.xml.txt Methods lines132–144; s13059-020-02044-w_supp_13059_2020_2044_MOESM4_ESM.xlsx.txt TableS3d P5_Read1/tRNA_Read2/P7_Read2_Index1/2 rows; existing CG000184 bead-handle source declaration",
+      "locations": "/husky/henriksson/NGS101_papers/sources/direct-seq__10.1186+s13059-020-02044-w/s13059-020-02044-w_PMC7278172.xml.txt Methods lines132\u2013144; s13059-020-02044-w_supp_13059_2020_2044_MOESM4_ESM.xlsx.txt TableS3d P5_Read1/tRNA_Read2/P7_Read2_Index1/2 rows; existing CG000184 bead-handle source declaration",
       "finding": "Read original article scRNA-seq-on10x Methods and TableS3d source primers. Replaced generic Nextera endpoint with local TruSeq assembly consistent with CG000184 bead handle and P5_Read1. Local construction checks source PCR-primer footprints; a Nextera substitution is a failing regression. Removed duplicate copied capture tract after the primer-derivedpolyT30 in the representative guide cDNA."
     }
   ],
@@ -222,6 +222,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 5 checks pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/13 unresolved/0 contradictory; source guard 3 exact checked, 0 failed, 1 input without exact state; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "PMC7278172 published JATS132\u2013144; published TableS2 MOESM3 Tail-8A8G/humanGln tRNA rows; published TableS3d MOESM4 PCRprimer rows45\u201348.",
+      "oligo_scraper": "Ran full cached-bundle scrape_primers; relevant pointers checked in named published originals. Superseded preprints not used.",
+      "scope": "Capped native graph/source ownership migration; no accepted absence claim or full protocol validation.",
+      "findings": "Removed multimodal_spatial finisher and implicit exact manufacturer transcript endpoint; local explicit manufacturer boundary and separate readout. Native cell/RT/preamp populations separated; both40\u00b5l aliquots preserve mixture, no sequence-specific purification inference; unresolved GEMs not physical discard. Removed invented20nt first-PCR P5landing and kept source bead handle13nt terminal overlap with unassigned outer preamp ends. First enrichment unavailable(actual mixed precursor); indexed PCR exact on actual firstamplicon retained. Source-known scaffold/tRNA interval and CBC/UMI/guide/sample identifiers local; manual curator target list retained.",
+      "deferred": [
+        "CG000184 cDNA amplification and mRNA library chemistry beyond previously reviewed bead scaffold",
+        "Native outer first-PCR ends/first-cycle geometry",
+        "Protocol Exchange v1 detailed protocol and C1 branch not followed this pass",
+        "Guide-libraryII repeated PCR copy remains declared unresolved terminal",
+        "Acquired run cycles/selected native GEX sequencing primer configuration"
+      ],
+      "verification": "7 local checks pass (6 original-source transcriptions plus independent wrong-endpoint rejection); page builds; chemistry1 established/6 conditional/13 unresolved/0 contradictory. Combined guard5 exact checked/0fail/1 inherited vendor-scaffold exemption/2 inputs without exact states; pairing0; targeted docs and review schema/diff checked."
+    },
+    {
+      "round": "2026-10-18-retained-handle-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Independent implementation-only review/correction using existing migration source scope (published Methods,TablesS2/S3d) and previously reviewed CG000184 RevA bead handle. No new original-source reading or absence claim.",
+      "locations": "tools/direct_seq.py retained_bead_handle_suffix(), require_retained_bead_handle(), FIRST_GUIDE_AMPLICON and indexed-library construction; selftest.py negative deletion regression.",
+      "findings": "Corrected omitted nine-base copied bead-handle suffix between source P5_Read1 and cell barcode in first guide amplicon. Suffix is derived from the maximum source-primer3prime/bead-handle5prime overlap, with no hand-typed sequence. Constructor enforces retained prefix through both first and indexed guide products; regression rejects suffix deletion. First enrichment remains unavailable(actualmixedinput); second enrichment exact geometry remains on actual corrected firstamplicon. Feature identities, outer-end uncertainty and manufacturer boundary unchanged.",
+      "deferred": [
+        "Full native first-enrichment PCR geometry remains undeclared; exact second-PCR binding does not establish the complete upstream manufacturer route."
+      ],
+      "verification": "Suite8pass; pagebuild; chemistry1established/6conditional/13unresolved/0contradictory; sourceguard3exact/0failed/1previously reviewed vendor scaffold exemption/0unassigned; pairing0; targetedMarkdown and reviewschema checked."
     }
   ]
 }

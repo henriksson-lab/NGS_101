@@ -1,9 +1,25 @@
 """Protocol-owned reaction graph for cropseq-multi."""
 from types import SimpleNamespace
-from multimodal_protocols import CELL, UMI, GUIDE, SAMPLE
+from chemdraw import Scene, Construct, Segment, feature
+import seqprimers as sp
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
-from protocol_model import chain, molecule, role, role_library
+from protocol_model import chain, molecule, role
 from pcr import PCRGeometry
+
+# The defining v2 Methods direct-capture section selects GEM-X 5′ v3 and a
+# dual-index 28/10/10/90 run. Exact bead barcode/UMI boundaries remain unassigned
+# until that kit's molecular declaration is reconstructed; run cycles alone do
+# not fix those two component lengths.
+CELL = role("GEM-X 5′ v3 droplet barcode", molecular_feature=feature("cell_barcode", "cell_barcode", "unknown"))
+UMI = role("GEM-X 5′ v3 UMI", tag="umi", molecular_feature=feature("umi", "umi", "unknown"))
+GUIDE = role("internal guide barcode (iBAR)", length_bp=12,
+             molecular_feature=feature("guide_ibar", "guide_barcode", "unknown"))
+I7 = role("i7 sample index", length_bp=10,
+          molecular_feature=feature("sample_i7", "sample_index", "unknown"))
+I5 = role("i5 sample index", length_bp=10,
+          molecular_feature=feature("sample_i5", "sample_index", "unknown"))
+DIRECT_LENGTHS = {"Read 1": 28, "Index 1 (i7)": 10, "Index 2 (i5)": 10, "Read 2": 90}
+DIRECT_ROLES = tuple(DIRECT_LENGTHS)
 
 TITLE = "CROPseq-multi — multiplexed perturbation cassette"
 DOI = "10.1101/2024.03.17.585235"
@@ -18,14 +34,24 @@ FINAL_CAPTION = ("Direct-capture branch only: the 10x 5′ sgRNA library carries
                  "branches carry no cell barcode, UMI or sample index.")
 NOTES = "01_cropseq_multi.html"
 SOURCE = f'Defining source: <a href="https://doi.org/{DOI}">{CITATION}</a>.'
-CAVEAT = ""
+CAVEAT = ("INFERRED — the direct-capture endpoint records the GEM-X 5′ v3 readout roles; "
+          "exact bead, RT and dial-out junction geometry is not assembled here. The two "
+          "10-base sample indexes apply only to the direct-capture libraries.")
 # Scoped to the direct-capture terminal (graph material "direct_library"); the two
 # in situ terminals are role-level RCA products with their own SBS limitation.
-FINAL_LIBRARY = role_library("CROPseq-multi direct-capture sgRNA library roles",
-                             (CELL, UMI, GUIDE, role("linked guide spacer")), index=SAMPLE)
+FINAL_LIBRARY = Construct([
+    role("P5 / kit-specific read end", inferred=True), I5, CELL, UMI,
+    GUIDE, role("linked guide spacer"), I7, role("P7 / kit-specific read end", inferred=True),
+], name="CROPseq-multi direct-capture sgRNA endpoint (role order inferred)")
 SEQ_PRIMERS = ()
 SEQUENCING_INTRO = FINAL_CAPTION
-READ_LENGTHS = None
+READ_LENGTHS = DIRECT_LENGTHS
+READ_SPECS = (
+    sp.read_spec("Read 1", 28, "GEM-X droplet barcode and UMI; exact component boundary not reconstructed", "extract"),
+    sp.read_spec("Index 1 (i7)", 10, "sample index", "demultiplex"),
+    sp.read_spec("Index 2 (i5)", 10, "sample index", "demultiplex"),
+    sp.read_spec("Read 2", 90, "guide spacer and iBAR; scaffold-specific landing not reconstructed", "extract"),
+)
 SEQUENCING_ENDING = FINAL_CAPTION
 SEQUENCING_UNAVAILABLE = ("Target panels, pool barcodes and kit revisions vary; the defining "
                           "source establishes the read roles, while this page does not invent "
@@ -36,7 +62,32 @@ SEQUENCING_UNAVAILABLE = ("Target panels, pool barcodes and kit revisions vary; 
                           "read 2; the plasmid- and gDNA-screen libraries are single-step "
                           "PCR amplicons read with custom primers on MiSeq 150- or "
                           "300-cycle kits instead.")
-oligos = lambda: ()
+# Exact modified primers: defining v2 supplement, sheet oligos rows 29–33.
+DIRECT_PRIMERS = {
+    "oRW1220": "AAGCAGTGGTATCAACGCAGAGTACcaagttgtgtacggaccagc*c",
+    "oRW1221": "AAGCAGTGGTATCAACGCAGAGTACcaagttgataacggactagc*c",
+    "oRW1223": "GATCTACACTCTTTCCctacacgacgctcttccgat",
+    "oRW1226": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCTgccttatttgaacttgctaagcagtc",
+    "oRW1227": "GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCTgccttatttcaacttgctatgctgtt",
+}
+DIRECT_PRIMER_SOURCE = "Defining v2 supplementary workbook, sheet oligos, rows 29–33"
+
+def population_state(label, *populations):
+    """Each supplied tuple is one molecule/population, not a shared covalent chain."""
+    sc=Scene()
+    for index,parts in enumerate(populations):
+        sc.strand(f"population {index+1}",parts,label=f"{label}: population {index+1}")
+    return sc
+
+
+def oligos():
+    return tuple(f"<b>{name}</b> — 5′-{modified}-3′" for name, modified in DIRECT_PRIMERS.items())
+
+def _direct_primer(name):
+    modified = DIRECT_PRIMERS[name]
+    return molecule(name, (Segment(name, modified.replace("*", "").upper(),
+                                   note="One terminal phosphorothioate linkage (*)" if "*" in modified else ""),))
+
 _definition = SimpleNamespace(title=TITLE, doi=DOI, citation=CITATION, endpoint=FINAL_CAPTION)
 
 def _cropseq_multi():
@@ -48,8 +99,7 @@ def _cropseq_multi():
              role("selection-gene transcript"), role("3-prime LTR copy"))),
          "Keeping the Pol III cassette on the minus strand prevents tRNA processing from cleaving lentiviral genomic RNA or the Pol II selection transcript."),
         ("Transcribe and tRNA-process the multiplexed Pol III guide array",
-         molecule("two mature perturbation guides", (role("sgRNA 1 with iBAR"),
-                                                       role("sgRNA 2 with iBAR"))),
+         population_state('two mature perturbation guides',(role("sgRNA 1 with iBAR"),),(role("sgRNA 2 with iBAR"),)),
          "RNases P and Z release separate guides; each 12-base iBAR lies only 19 bp from its linked spacer."),
         ("Capture perturbation identity by mRNA, direct guide capture or T7-IVT",
          molecule("CROPseq-multi readout", (GUIDE, role("linked guide spacer"))),
@@ -77,11 +127,11 @@ def _direct_capture_branch(graph, template, final, reviewed, d):
     rt1 = graph.input("direct_rt_primer_1",
                       "oRW1220 sgRNA 1 5-prime capture RT primer "
                       "(SMART handle + scaffold 1, 3-prime phosphorothioate)",
-                      MaterialKind.OLIGO)
+                      MaterialKind.OLIGO, state=_direct_primer("oRW1220"), source=DIRECT_PRIMER_SOURCE)
     rt2 = graph.input("direct_rt_primer_2",
                       "oRW1221 sgRNA 2 5-prime capture RT primer "
                       "(SMART handle + scaffold 2, 3-prime phosphorothioate)",
-                      MaterialKind.OLIGO)
+                      MaterialKind.OLIGO, state=_direct_primer("oRW1221"), source=DIRECT_PRIMER_SOURCE)
     rt_mix = graph.input("direct_rt_mix",
                          "10x GEM-X 5-prime v3 RT mastermix (RT Reagent E, Poly-dT RT "
                          "Primer B, Reducing Agent B, RT Enzyme E)",
@@ -125,16 +175,19 @@ def _direct_capture_branch(graph, template, final, reviewed, d):
                 reason=("The gene-expression library is made with the unmodified "
                         "commercial protocol, which this source does not reproduce."))
     graph.sequence(gex_library, SequencingPlan(
+        read_lengths=DIRECT_LENGTHS, acquired_roles=DIRECT_ROLES,
         limitation=("Gene-expression partner library built by the unmodified 10x "
                     "CG000733 protocol; sequenced together with the sgRNA library. "
                     + DIRECT_READS)))
     forward = graph.input("direct_dialout_forward",
                           "oRW1223 universal sgRNA dial-out forward primer",
-                          MaterialKind.OLIGO)
+                          MaterialKind.OLIGO, state=_direct_primer("oRW1223"), source=DIRECT_PRIMER_SOURCE)
     reverse1 = graph.input("direct_dialout_reverse_1",
-                           "oRW1226 sgRNA 1 dial-out reverse primer", MaterialKind.OLIGO)
+                           "oRW1226 sgRNA 1 dial-out reverse primer", MaterialKind.OLIGO,
+                           state=_direct_primer("oRW1226"), source=DIRECT_PRIMER_SOURCE)
     reverse2 = graph.input("direct_dialout_reverse_2",
-                           "oRW1227 sgRNA 2 dial-out reverse primer", MaterialKind.OLIGO)
+                           "oRW1227 sgRNA 2 dial-out reverse primer", MaterialKind.OLIGO,
+                           state=_direct_primer("oRW1227"), source=DIRECT_PRIMER_SOURCE)
     polymerase = graph.input("direct_polymerase",
                              "NEBNext Ultra II Q5 master mix", MaterialKind.CATALYST)
     amplicon = graph.product("direct_sgrna_amplicon",
@@ -157,26 +210,29 @@ def _direct_capture_branch(graph, template, final, reviewed, d):
     index_p7 = graph.input("direct_index_primer_p7",
                            "10x dual-index sample-indexing primer, P7 side (CG000735)",
                            MaterialKind.OLIGO)
+    index_mix = graph.input("direct_index_mix", "sample-index PCR mix (CG000735; reagent details not reconstructed)",
+                            MaterialKind.CATALYST)
     library = graph.product("direct_library", "CROPseq-multi sgRNA sequencing library",
                             MaterialKind.LIBRARY, state=final)
     graph.react("direct_index_pcr",
                 "Index the sgRNA amplicons for sequencing as described in 10x CG000735",
                 StepKind.PCR,
                 ((amplicon, InputRole.TEMPLATE), (index_p5, InputRole.STRUCTURAL),
-                 (index_p7, InputRole.STRUCTURAL)),
+                 (index_p7, InputRole.STRUCTURAL), (index_mix, InputRole.CATALYST)),
                 (library,),
                 geometry=PCRGeometry.unavailable(
-                    final,
+                    amplicon.state,
                     reason=("The sample-indexing PCR is the commercial one; the selected "
                             "index member is not fixed by the defining source.")))
     graph.sequence(library, SequencingPlan(
+        read_lengths=DIRECT_LENGTHS, acquired_roles=DIRECT_ROLES,
         limitation=("direct-guide branch: " + d.endpoint + " " + DIRECT_READS)))
     reviewed.extend((
         "direct_rt_primer_1", "direct_rt_primer_2", "direct_rt_mix", "direct_rt",
         "direct_cdna_amplification", "direct_spri_split", "direct_gex_library_prep",
         "direct_gex_library", "direct_dialout_forward", "direct_dialout_reverse_1",
         "direct_dialout_reverse_2", "direct_polymerase", "direct_dialout_pcr",
-        "direct_index_primer_p5", "direct_index_primer_p7", "direct_index_pcr",
+        "direct_index_primer_p5", "direct_index_primer_p7", "direct_index_mix", "direct_index_pcr",
         "direct_library"))
     return library
 
@@ -261,21 +317,24 @@ def _cropseq_multi_graph(d, final):
                                  MaterialKind.CATALYST)
     guides = graph.product("guides", "tRNA-processed guides carrying linked iBARs",
                            MaterialKind.MOLECULAR,
-                           state=molecule("processed perturbation guides", (
-                               role("sgRNA 1 with iBAR"), role("sgRNA 2 with iBAR"))))
+                           state=population_state('processed perturbation guides',(role("sgRNA 1 with iBAR"),),(role("sgRNA 2 with iBAR"),)))
     graph.react("transcribe_guides", "Transcribe and tRNA-process the multiplexed guide array",
                 StepKind.TRANSCRIPTION,
                 ((integrated, InputRole.TEMPLATE), (rna_polymerase, InputRole.CATALYST)),
                 (guides,))
     mrna = graph.product("mrna_branch", "poly(A)-mRNA perturbation-identity branch",
-                         MaterialKind.MOLECULAR, state=guides.state)
+                         MaterialKind.MOLECULAR,
+                         state=molecule("polyadenylated Pol II identity transcript", (GUIDE, role("antisense guide-cassette transcript"), role("poly(A)"))))
     direct = graph.product("direct_branch", "direct-guide-capture branch",
                            MaterialKind.MOLECULAR, state=guides.state)
     t7 = graph.product("t7_branch", "CSMv2 T7-IVT branch", MaterialKind.MOLECULAR,
-                       state=guides.state)
-    graph.react("split_readouts", "Route perturbation identity to the three supported readouts",
-                StepKind.SPLIT, ((guides, InputRole.TEMPLATE),), (mrna, direct, t7),
-                changes_molecule=False)
+                       state=molecule("CSMv2 DNA template", (role("T7 promoter"), GUIDE, role("linked spacer"))))
+    graph.react("split_readouts", "Select the mRNA, direct-guide or CSMv2 T7-IVT readout route",
+                StepKind.MAGIC, ((integrated, InputRole.TEMPLATE), (guides, InputRole.TEMPLATE)),
+                (mrna, direct, t7),
+                reason="These are alternative source-defined assay routes, not a physical split of mature "
+                       "sgRNA into mRNA and DNA. Pol II identity-transcript production and preparation "
+                       "of the CSMv2 DNA template are not reconstructed base by base.")
     reviewed = ["cassette", "target_cells", "integrase", "integrate", "rna_polymerase",
                 "transcribe_guides", "split_readouts"]
     _in_situ_branch(graph, "mrna", mrna, "CROPseq-multi in situ mRNA", reviewed)
@@ -285,7 +344,7 @@ def _cropseq_multi_graph(d, final):
                                 MaterialKind.CATALYST,
                                 source=source + " (Methods, 'In situ amplification - T7 IVT protocol')")
     t7_rna = graph.product("t7_rna", "T7-amplified CSMv2 guide RNA", MaterialKind.MOLECULAR,
-                           state=t7.state)
+                           state=molecule("T7 guide-barcode RNA", (GUIDE, role("linked guide spacer"))))
     graph.react("t7_transcription", "Transcribe the CSMv2 guide-barcode region in situ by T7 IVT, then post-fix",
                 StepKind.TRANSCRIPTION,
                 ((t7, InputRole.TEMPLATE), (t7_polymerase, InputRole.CATALYST)), (t7_rna,))

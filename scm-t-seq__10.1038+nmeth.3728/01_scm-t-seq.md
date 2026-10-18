@@ -1,92 +1,93 @@
 # scM&T-seq — research notes
 
-## Sources read
+## Current source scope
 
-- 🟢 Angermueller et al. 2016, DOI `10.1038/nmeth.3728`, PMC full text and Supplementary Fig. 3e caption (Springer `MOESM608` and PMC `NIHMS66375-supplement-1`).
-- 🟢 SMART-seq2 and Smallwood scBS-seq (`10.1038/nmeth.3035`, PMC4117646) defining articles; the Smallwood binary Word supplement remains unread.
-- 🟢 Macaulay G&T-seq (`10.1038/nmeth.3370`) is the cited RNA-separation predecessor. Its original publisher PDF, uploaded by an author, was read at Online Methods p. 4–5. The separate S1 supplement remains unread.
+This note describes the source-qualified native graph migration, not a complete chemistry
+or missing-information review. Historical source-review records remain in the catalogue.
 
-## Construct path
+- 🟢 Angermueller et al. 2016, [defining article](https://doi.org/10.1038/nmeth.3728),
+  published PMC4770512 JATS, Online Methods lines 82–88 and the main-text primer
+  contamination observation. This pass did not reread Supplementary Fig. 3e; earlier
+  review records describe its first-strand-primer concatemer observation.
+- 🟢 Smallwood et al. 2014, [cited scBS-seq predecessor](https://doi.org/10.1038/nmeth.3035),
+  PMC4117646 Methods, Single-Cell Library Preparation. Inherited component scope is
+  limited by the explicit scM&T changes below.
+- 🟢 Macaulay et al. 2015, [cited G&T-seq predecessor](https://doi.org/10.1038/nmeth.3370),
+  original publisher article PDF including Online Methods, cached as
+  `zenodo895966_nmeth.3370_article.pdf.txt` in the G&T source bundle, printed pages
+  13–14 / text lines 315–350. This is the cited 2015 article, not the later detailed
+  G&T protocol revision.
 
-🟢 Biotinylated oligo(dT) beads capture cellular mRNA. The bead-bound fraction is processed by Smart-seq2 and Nextera XT; the supernatant and washes retain genomic DNA for scBS-seq. 🟢 The common cell identity is plate provenance, not a covalent shared barcode, so the schematic does not invent one.
+The mandatory scM&T bundle oligo scraper ran: 19 hits in five hit files; five large
+analysis files were skipped. These counts do not establish absence. This capped pass
+inspected three originals. G&T S1, Smallwood's binary supplementary Word file,
+period-specific Nextera XT documentation and linked index details remain deferred.
 
-🟡 The schematic reuses the oligos from the branch-defining sources scM&T-seq delegates
-to: Smart-seq2 oligo-dT30VN, TSO and ISPCR; canonical Nextera N5xx/N7xx landing
-regions; and scBS-seq oligo1/oligo2 handles with PE1/indexed iPCRTag. The scM&T paper's
-Methods explicitly change both bisulfite strand-synthesis primers to **3′ random
-hexamers**. The original scBS-seq oligo1/oligo2 use N9; those N9 regions must not be
-inherited into scM&T. The DNA branch now models N6 on each primer, while retaining the
-source-printed scBS-seq handles.
+## Physical separation and RNA route
 
-🟢 Angermueller Supplementary Fig. 3e says many **sequenced DNA fragments** are
-concatemers of the primer used in first-strand synthesis, reducing genomic alignment.
-The graph includes this observed off-product at the DNA PCR output, with an explicit
-discard reason referring to genomic alignment. 🟡 Its placement at PCR is a bookkeeping
-point for the final sequenced product: the source does not establish the exact stage or
-molecular junction at which the concatemers formed, so no bases are drawn for them.
+🟢 Cells enter RLT Plus with SUPERase-In. The cited G&T method uses magnetic
+streptavidin beads and a 5′-biotin-triethyleneglycol capture primer:
+`AAGCAGTGGTATCAACGCAGAGTAC` followed by `T30VN`. RNA and genomic DNA are distinct
+physical populations; bead washes are retained with the DNA. Shared cell identity
+is well provenance, not an invented covalent barcode.
 
-## The TSO linker is inherited from G&T-seq — 🟡
+🟢 The cited 2015 G&T original prints TSO
+`AAGCAGTGGTATCAACGCAGAGTACrGrG+G` and ISPCR
+`AAGCAGTGGTATCAACGCAGAGT`. Its RT and cDNA amplification reference uses SuperScript II,
+KAPA HiFi and 1:1 AMPure recovery. 🟡 The model explicitly qualifies these as inherited
+2015 reference components. The exact study-specific TSO assignment and complete copied
+end geometry remain inferred; a later ACAT-containing reference does not override the
+cited AC form. The public page retains the caveat, inferred caption and inferred linker.
 
-🟢 Angermueller et al. 2016 print **no oligo sequence at all** for the RNA branch. The
-Online Methods say only that cells were "processed using the G&T-seq protocol⁷, but
-following physical separation of mRNA and genomic DNA from single cells, the DNA was
-eluted into 10 μl of H₂O" (ref. 7 = Macaulay et al., *Nature Methods* 12:519–522, 2015).
-The original G&T-seq publisher PDF by Macaulay et al. 2015, Online Methods p. 4,
-prints the RNA-capture oligo as
-`5′-biotin-triethyleneglycol-AAGCAGTGGTATCAACGCAGAGTACT30VN-3′` (lines 569–576),
-the TSO as `5′-AAGCAGTGGTATCAACGCAGAGTACrGrG+G-3′` (lines 591–600), and
-the cDNA PCR primer as `5′-AAGCAGTGGTATCAACGCAGAGT-3′` (lines 604–611).
-Its four bead washes are pooled with the genomic-DNA supernatant (lines 580–590).
-The scM&T paper delegates this branch to G&T-seq and does not repeat its sequences.
+The graph shows first-strand cDNA beside the independent RNA template, followed by a
+switched single-strand precursor. That actual precursor enters one-species ISPCR;
+a completed duplex is not substituted for its input. Native first-cycle geometry is
+unassigned. Recovered cDNA enters the defining article's one-fifth-volume Nextera XT
+route. Native transferred strands, gaps, selected index primers and opposite-end
+architecture remain explicit boundaries, rather than default completed XT ends.
 
-🟢 The G&T predecessor establishes the **`AC`** linker for its own TSO. The
-Smart-seq2 source family has two published linker forms:
+## DNA route and inherited changes
 
-| Linker | Where | TSO as printed |
-|---|---|---|
-| `AC` | Picelli et al. 2013 (`10.1038/nmeth.2639`) Supplementary Table 2, row `rGrG+G` — the oligo Supplementary Table 4 names as Smart-seq2's own | `AAGCAGTGGTATCAACGCAGAGTAC` `rGrG+G` |
-| `ACAT` | the *Nature Protocols* form of the protocol (Picelli et al. 2014, `10.1038/nprot.2014.006`) | `AAGCAGTGGTATCAACGCAGAGTACAT` `rGrG+G` |
+🟢 The defining article specifies DNA elution into 10 µl water, EZ Methylation Direct
+conversion with AMPure XP present, and magnetic-bead purification/desulphonation into
+first-strand mix. Physical converted DNA contains uracil before copying; a sequenced
+T call is not substituted for the converted molecule.
 
-Supplementary Table 2 is internally consistent about this: in the copy fetched into this
-bundle (`nmeth.2639_…_MOESM301_ESM.xlsx`, lines 4–16) three of thirteen oligos (`C6 Amino`,
-`rGrGrG`, `rG3p`) carry `ACAT` and the other ten, `rGrG+G` among them, carry `AC`.
+🟢 Smallwood prints oligo1 handle `CTACACGACGCTCTTCCGATCT` and oligo2 handle
+`TGCTGAACCGCTCTTCCGATCT`, each followed by N9 in its own method. Angermueller explicitly
+changes **both primers to N6**, omits first-strand biotin capture and adds **0.8× AMPure
+between second-strand synthesis and PCR**. Omission of capture does not establish
+that the original 5′ biotin primer modification was removed; native 5′ chemistry
+remains unassigned.
 
-🟡 **The model uses G&T-seq's printed `AC` form** for scM&T because Angermueller
-explicitly delegates the RNA preparation to that protocol. Since Angermueller does
-not itself print the TSO, the model retains the inherited-inference marking: a
-preamble caveat with both published forms, an `INFERRED — …` template-switch
-caption, and `<inf>` around `AC` in the oligo list and the drawn cDNA state.
+🟢 The cited scBS recipe supplies repeated Klenow exo-minus first-strand synthesis,
+Exonuclease I excess-primer digestion, 0.8× bead recovery, oligo2 copying,
+PE1.0/iPCRTag amplification and 0.8× post-PCR recovery. The graph retains originals
+and independently copied strand classes. Exonuclease hydrolysis is chemical conversion,
+not physical removal. No streptavidin/alkali capture is inherited into the modified
+scM&T branch. Native complete copy geometry, selected cycle choice, indexed iPCRTag
+strand/member and index width remain unassigned.
 
-🔴 The G&T S1 supplement and historical Nextera XT guide still need review before
-the linked-source checklist can be closed. The direct scM&T source does not verify
-whether its laboratory used any undocumented TSO change from the cited G&T method.
+The actual oligo1/oligo2-derived mixture enters PCR. The source PE1.0 sequence is
+computed from canonical Illumina components; no guessed eight-base iPCRTag scaffold
+supplies the opposite end.
 
-## Bounded source pass (2026-10-17, round breadth-first-17)
+## Sequenced products and read layout
 
-Read: PMC4770512 JATS (`nmeth.3728_PMC4770512.xml.txt`) Results lines 66–68 and Online
-Methods lines 80–94 ("Sample collection & Single-cell sequencing", "BS-seq read
-alignment"); Springer `MOESM608` Supplementary Fig. 3 caption lines 20–32. The bundle
-scraper finds no oligo printed by nmeth.3728 itself; its hits are the Smallwood
-scBS-seq and Picelli Smart-seq2 tables already used above.
+🟢 The defining article reports substantial primer contamination among sequenced DNA
+and points to Supplementary Fig. 3. Earlier independent reads record a first-primer
+concatemer observation there. Its assembly and formation stage remain unresolved.
+The graph treats primer-derived non-genomic DNA as a **sequenced coexisting library
+class**, including through final bead recovery. Computational failure to align is
+not an experimental discard; bead cleanup does not establish complete removal.
 
-🟢 Cells are sorted into RLT Plus lysis buffer with 1 U/µl SUPERase-In and processed by
-G&T-seq; after physical mRNA/gDNA separation the DNA is eluted into 10 µl H₂O.
+🟢 RNA and DNA libraries are sequenced on HiSeq2000 with 125-bp paired-end reads.
+The DNA analysis trims six random-priming bases and uses nondirectional alignment.
+Index acquisition, cycles, selected members and native sequencing-primer landing
+geometry remain unassigned. Unknown physical index widths are not filled from a
+canonical kit or inferred from read cycles.
 
-🟢 Bisulfite conversion uses EZ Methylation Direct (Zymo) on purified DNA with AMPure XP
-beads present; desulphonation and purification are on Zymo magnetic beads, eluting into
-the first-strand mastermix. First- and second-strand primers carry 3′ random hexamers,
-biotin capture of first-strand products is **omitted**, and an extra 0.8× AMPure XP
-purification is done between second-strand synthesis and PCR. The graph now draws that
-cleanup and its discarded supernatant before the DNA library PCR.
-
-🟢 Nextera XT is used at one-fifth volumes. Both libraries are sequenced on a HiSeq2000
-with 125-bp paired-end reads; the model now declares 125 cycles for Read 1 and Read 2 of
-each library. Index-read cycles are not stated and remain unfixed.
-
-🟢 Reads are trimmed by 6 bases (the 6N random-priming portion) and aligned as
-non-directional, "due to multiple rounds of random priming with oligo 1".
-
-Open: G&T-seq S1 supplement, Smallwood binary Word supplement and historical Nextera XT
-guide (unchanged deferrals); number of oligo1 priming rounds and strand-synthesis
-polymerase/conditions (delegated to scBS-seq, not re-read in this pass); index sequences
-and index-read cycles.
+Open follow-up: the deferred originals named above; study-specific RNA oligo choices;
+complete first-copy and native XT/PCR geometry; iPCRTag identity and acquired indexes;
+primer-derived product assembly and physical class recovery. No publication-wide
+absence claim is accepted.

@@ -129,6 +129,36 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); sourceguard skipped: dedicated source bundle absent/empty"
+    },
+    {
+      "round": "2026-10-18-batch10-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Original published DOI10.1186/s13059-018-1407-3, PMC5845169 JATS Methods232–258 (sorting/ERCC/WTA/ligation/sequencing) and barcode design228; original Additionalfile5/MOESM5 TableS4 XLSX v3.2 heading/firstbarcode389–397, relatedoligos1929–1945. Both originals stored in existing external Quartz-seq collection with manifestURLidentity; no dedicated bundle created.",
+      "oligo_scraper": "Mandatory scraper of existing combined Quartz externalcollection636hits11files. Original2018 TableS4 member/modification and Methodspointers verified; dedicatedQuartz2sourceguard skip is not evidence of missing sources.",
+      "findings": "Native source-owned v3.2/ligationbranch: independentwell/ERCC/RNA/DNA populations, N8DNAUMI and15ntwellidentifier features through copies; pooling/column→TdT+RNaseH→actualfouraliquots→tagging→four11cyclePCRs→pool→MinElute/AMPure→shear/DCC5→combinedendprep→ligation/AMPure→8cyclePCR/AMPure. Actual LT3T-ligated oppositecDNAstrand feeds selectivePCR; originalRTstrand has no prematurelycopiedadapter/P5. ExtraG PCR-derived; actualsssecondDNAfeedWTA; phosphorothioatebonds preserved as primer-derived chemistry. Otherwellmembers retain independentbarcodes; originalRNA/hydrolysates/templates/oligos/offtargetfragments unresolvedthroughrecoveries. Selectedsource23/6/63mask, separatev3.1/Nexterabranches; historical14/15headingdiscrepancy retained.",
+      "deferred": [
+        "OriginalMOESM1 developmentfigures/notes andTableS5bufferworkbook not read this pass",
+        "DirectKAPA/vendor end-prep/ligationkit originals for unassigned5′chemistry/nick/fillgeometry deferred; lackofphosphatemark does not establish unphosphorylatednativeadapter",
+        "AlternativeNexteraXTbranch remains separate and unreadimplementationboundary",
+        "Exactmolecule-classrecoveries andnativeheterogeneousprimer/fragmentgeometry remain open"
+      ],
+      "scope": "Capped source pass (maximum3originals/10minutes); investigation frozen before implementation. Native source-qualified implementation, not full protocolreview, acceptedabsence, independent secondsourcepass or reviewstatusupgrade. Historical statuses/passes unchanged.",
+      "verification": "Affected original-transcription suites11/8/10 pass; all3pages build; scopedchemistry10established15conditional64unresolved0contradictory; sourceguard17checked0failed1bundle skipped (Quartz2 originals remain explicitly in Quartz1externalcollection); pairing0; literalOUTstaticdiscovery3pass. Schema/notes/whitespace checked after recordwrite."
+    },
+    {
+      "round": "2026-10-18-migration-10-peer",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Critical implementation-only review of local protocol module, native_state constructors, protocol_graph reactions, PCR/ligation geometry and source-qualified notes; no original sources reread.",
+      "findings": "Checked four physical WTA aliquots and pooling, v3.2 primer/UMI scope, actual LT3T-to-oppositecDNA5P ligation rather than copied adapter shell, selectivePCR incoming state and nonselected fragments. Follow-up correction retains oppositecDNA terminal3dA and upstream nativeLT adapter outside the internalgM boundary. No full-length P5 arm appears before PCR.",
+      "deferred": [
+        "Source-qualified native gaps and first-cycle completion remain unresolved; code review supplies no independent original-source absence pass."
+      ],
+      "scope": "Independent critical code review only; documents0. Existing source-checklist and missing-claim status unchanged.",
+      "verification": "Parent focused suites/pages/chemistry/source guard/review schemas pass after fixes; rebuilt page pairing checked in final batch integration."
     }
   ]
 }

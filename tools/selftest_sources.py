@@ -59,7 +59,7 @@ check.raises("a reference path cannot escape the selected external root",
 check("a graph owned by a page builder enters the source transcription guard",
       [path.name for path in graph_module_paths(
           ROOT / "quartz-seq__10.1186+gb-2013-14-4-r31")],
-      ["build_page.py"])
+      ["quartz_seq.py"])
 
 # ------------------------------------------------------------------------------
 check.section("DOI routing")

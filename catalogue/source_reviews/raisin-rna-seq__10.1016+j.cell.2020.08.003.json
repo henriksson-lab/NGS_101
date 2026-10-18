@@ -333,6 +333,32 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 2 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch04-native-graph-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published2020 PMC8358727 Methods1032–1076 and KeyResources oligos3032–3040; explicitly cited Shekhar2016 PMC5003425 plateMethods288–294, contrasting adjacent Drop-seq reagents/run choices. Mandatory whole-bundle scraper completed; no preprint/vendor recipe substituted.",
+      "findings": "Removed queued Nextera endpoint/defaults and rare-cell workflow constructors. Native selected plate graph separates nucleus/ribosomes/RNA components, TCL lysis and purified RNA populations. Source modifiedRT/lockedTSO/PCR oligos are retained; a clearly inferred representative switched ssDNA preserves copied handle and known source primer relation, without attaching the physical TSO covalently. RNA templates and remaining TSO are molecular/unresolved. Actual switched ssDNA enters21cycle preamplification, whose source duplex products enter twoAMPure recoveries. Native tagged-strand classes, rather than expected final XT library, enter indexing PCR. Nonamplifying products and unselected particles are unresolved rather than falsely discarded. Custom XT endpoints have unknown sample-index features/widths; no default8nt indices or fixed36nt fragment length. Source75-cycle kit does not establish acquired read/index split. GemCode droplet RAISIN and cited predecessor run masks remain separate.",
+      "deferred": [
+        "Native switch junction heterogeneity/first-copy proof, exact custom XT adapter/index/primer members and gap geometry; exact acquired read/index allocation and native terminal cleanup scope remain unassigned. Shekhar0.075ng/quarter reactions are explicitly inherited plate scope, not Drop-seq primers or run recipes."
+      ],
+      "scope": "Capped source-owned native graph migration; no source-review status upgrade, no accepted absence claim and no complete molecular-proof claim.",
+      "verification": "Suite5/5 sourceoligos/actualprecursors; page/pairing pass; chemistry10steps2conditional12unresolved0contradictory. Combined3graph source guard18checked0failed0exempt9inputs without exact states; source-review schema/targeted note build checked separately."
+    },
+    {
+      "round": "2026-10-18-batch04-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current chem.py implementation and author-reported batch04 source boundaries only; published originals and linked material not reread.",
+      "findings": "Read current native model including independent particle/RNA components, lysis/RNAClean-purified actualRNA substrate, source RT and lockedTSO residues, distinct firstss versus inferredswitchedss cDNA, actual21cycle PCR input/one primer species, customXT native tagged substrate and unassigned run/index allocation. Nonamplification and RNA/TSO copying do not become physical discard. No concrete critical defect found; native switch/end/XT first-copy proof remains explicit model scope.",
+      "deferred": [
+        "Existing author migration source checklist, native-geometry/read limits and deferred original/linked-source targets remain; this code-only review does not extend original-source scope."
+      ],
+      "scope": "Independent implementation review, not a second original-source/absence audit. No accepted missing-information claim.",
+      "verification": "Read-only critical review; author focused suites/pages/chemistry/sourceguard/pairing reported separately."
     }
   ]
 }

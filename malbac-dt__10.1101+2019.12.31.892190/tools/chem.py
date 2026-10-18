@@ -1,221 +1,107 @@
-"""Source-owned protocol definition and reaction graph.
-
-Authority (published version first): Chapman, Lee et al., "Correlated gene modules
-uncovered by high-precision single-cell transcriptomics", PNAS 119, e2206938119 (2022),
-doi:10.1073/pnas.2206938119, PMC9907105, Materials and Methods "MALBAC-DT Protocol" and
-"Automated MALBAC-DT Protocol" and "Sequence Processing".  The bioRxiv preprint
-10.1101/2019.12.31.892190 (the directory's defining DOI) is superseded and not used for
-active claims.  Neither the article nor its SI Appendix prints a sequence for RT-An,
-RT-Bn, GAT-7N, GAT-COM, Tru2-Gn-RT or Ix-Tru2, so their regions are role tokens and
-their order inside each oligo is inferred from the oligo names only.
-"""
-from __future__ import annotations
-
-import illumina as il
-import nextera as nx
-import seqprimers as sp
-from batch_ngs import seg
-from chemdraw import Construct, feature
+"""Published2022 MALBAC-DT: source-owned original and automated plate routes."""
+from chemdraw import Construct,Scene,feature
+from protocol_model import role
+from protocol_graph import (ProtocolGraph,StepKind,MaterialKind,InputRole,SequencingPlan,
+                            Terminal,Disposition,Highlight)
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
-from protocol_model import molecule, role
-from protocol_specs import Definition, get
+import seqprimers as sp
 
-PNAS = "Chapman, Lee et al., PNAS 119, e2206938119 (2022), PMC9907105"
-SEQUENCING = (
-    "The original plate (U2OS, HEK293T) was tagmented with the Nextera kit and amplified "
-    "with a Nextera S5XX i5 primer and an Ix-Tru2 primer substituted for the S7XX primer, "
-    "selecting the barcoded 3′ ends. The automated plate (K562) used the Vazyme TruePrep "
-    "kit and NovaSeq 2 × 150 bp with a custom Read 2 sequencing primer, so the barcode/UMI "
-    "end is read from the Tru2 side; transcript sequence comes from the Tn5 (Read 1) end.")
+TITLE='MALBAC-DT — high-detectability single-cell transcriptomics'
+NOTES='01_malbac_dt.html'
+SOURCE='<a href="https://doi.org/10.1073/pnas.2206938119">Chapman, Lee et al., PNAS2022, PMC9907105</a>, published Methods original/automated MALBAC-DT and Sequence Processing. The directory names the superseded preprint; it is not active recipe authority.'
+SUMMARY='Barcoded poly(T) reverse transcription, excess-primer digestion and MALBAC-style amplification precede Tru2-primer completion and source-specific library preparation. Original Nextera and automated TruePrep routes remain distinct.'
+CAVEAT='INFERRED region order — inspected published passages name primer species and barcode/UMI roles but their native strands, internal order, junctions and selected kit/index geometry remain unassigned. No full canonical Nextera shell,8nt index, P7 end or exact customRead2 primer is inferred from names. Published Sequence Processing gives a20nt consensus UMI pattern; this does not establish the physical primer region order. Relevant linked protocol identity remains unresolved; no missing-information claim is accepted.'
 
-DEFINITION = Definition(
-    "MALBAC-DT — high-detectability single-cell transcriptomics", "10.1073/pnas.2206938119",
-    PNAS + "; preprint bioRxiv 10.1101/2019.12.31.892190",
-    "A barcoded poly(T)/UMI primer reverse-transcribes each sorted cell; excess primer is "
-    "removed by Exo I; random-primer MALBAC looping cycles and PCR amplify the first strand, "
-    "a Tru2-Gn-RT primer finishes amplification, and pooled products are tagmented and "
-    "amplified with an Ix-Tru2 primer that selects the barcoded 3′ ends.",
-    "nextera", ("transcript cDNA",), SEQUENCING, "RNA")
-
-CAVEAT = (
-    "<b>Oligo sequences and barcode order are not published in the inspected sources.</b> "
-    "PNAS Methods name RT-An, RT-Bn, GAT-7N, GAT-COM, Tru2-Gn-RT and Ix-Tru2 but print no "
-    "sequence; SI Appendix contains only performance and module tables. The UMI pattern "
-    "(HBDV)<sub>5</sub> (20 nt) is from Sequence Processing. The order of poly(T), UMI, "
-    "inner barcode and RT handle inside RT-An, the Tru2/Gn/RT order (from the primer name) "
-    "and the P7 end added by Ix-Tru2 are inferred. The role of RT-Bn, added with the Exo I "
-    "mix and used as the (VDBH)<sub>5</sub> pattern that consensus UMIs must differ from, is "
-    "not stated. The automated-plate oligos (96 well-specific RT3-An, one Tru2-G-RT) are "
-    "drawn with the same roles; the cited automated-protocol reference (33) is not "
-    "resolvable in the reference list.")
+WELL='malbac_dt_well'
+INNER=feature('malbac_inner','cell_barcode','unknown',group=WELL,part='inner RT3-An row/well barcode')
+OUTER=feature('malbac_outer','cell_barcode','unknown',group=WELL,part='outer Tru2-Gn-RT column barcode; automated uses one member')
+UMI=feature('malbac_umi','umi','degenerate',note='Published consensus(HBDV)5, excluding RT-Bn(VDBH)5 similarity; physical primer pattern/orientation unassigned')
+I5=feature('malbac_kit_index','sample_index','unknown',note='Original S5XX named; automated TruePrep native index architecture unassigned')
+IX=feature('malbac_ix','sample_index','unknown',note='Original Ix-Tru2 named; selected member/physical site unassigned')
+UMI_LENGTH=len('HBDV'*5)
 
 
-def _final() -> tuple[Construct, tuple]:
-    well = "malbac_dt_well"
-    lib = Construct([
-        seg("P5", il.P5, "p5"),
-        seg("i5", "J" * 8, "cbc", placeholder=True,
-            feature=feature("sample_index_i5", "sample_index", "unknown")),
-        seg("S5", nx.S5, "s5"),
-        seg("left mosaic end", nx.ME, "me"),
-        role("transcript cDNA"),
-        role("poly(A)/poly(T)", inferred=True),
-        role("UMI (HBDV)5", tag="umi", length_bp=20, inferred=True,
-             molecular_feature=feature("umi", "umi", "degenerate",
-                                       note="(HBDV)5 RT-An pattern; consensus must differ "
-                                            "from the (VDBH)5 RT-Bn pattern at >=3 bases")),
-        role("inner RT-An barcode", tag="cbc", inferred=True,
-             molecular_feature=feature("inner_barcode", "cell_barcode", "unknown",
-                                       group=well, part="inner (RT-An row or well)")),
-        role("RT handle", inferred=True),
-        role("outer Gn barcode", tag="cbc", inferred=True,
-             molecular_feature=feature("outer_barcode", "cell_barcode", "unknown",
-                                       group=well, part="outer (Tru2-Gn-RT column)")),
-        role("Tru2 handle", inferred=True),
-        role("Ix index", tag="cbc", inferred=True,
-             molecular_feature=feature("sample_index_ix", "sample_index", "unknown")),
-        seg("P7 reverse complement", il.P7_RC, "p7", inferred=True),
-    ], name=DEFINITION.title + " final library")
-    primers = (sp.NEXTERA["R1"],)
-    problems = sp.verify(lib, primers, required_roles=("Read 1",))
-    if problems:
-        raise ValueError("; ".join(problems))
-    return lib, primers
+def identity_regions(outer=False):
+    regions=[role('RT-An inner barcode; native position/width unassigned',inferred=True,molecular_feature=INNER),role('UMI; physical primer location unassigned',length_bp=UMI_LENGTH,inferred=True,molecular_feature=UMI)]
+    if outer:regions.append(role('Tru2-associated outer barcode; native position unassigned',inferred=True,molecular_feature=OUTER))
+    return regions
 
 
-FINAL_LIBRARY, SEQ_PRIMERS = _final()
-SPEC = get("malbac-dt", definition=DEFINITION, final_override=(FINAL_LIBRARY, SEQ_PRIMERS),
-           sequencing_unavailable=(
-               "Read 2 uses a custom primer on the Tru2 side (automated plate) whose sequence, "
-               "like the Tru2 handle and Ix index, is not printed; index-read primers and the "
-               "original plate's run configuration are not stated."))
-SPEC.CAVEAT = CAVEAT
+def state(label,*,outer=False,rna=False,other=False,tagged=False):
+    sc=Scene()
+    parts=[role(label+' native cDNA/handle assembly unassigned',inferred=True),*identity_regions(outer)]
+    if tagged:parts.append(role('source-kit transferred end/gaps; native arrangement unassigned',inferred=True))
+    sc.strand('cDNA',parts,label='INFERRED display order; identifier-bearing cDNA lineage')
+    if rna:sc.strand('RNA',[role('independent RNA templates; hybrid geometry unassigned')])
+    if other:sc.strand('other',[role('independent excess primers, hydrolysis products and non-target copies; partition unassigned')])
+    return sc
 
 
-def _parts(names, inferred):
-    return tuple(role(n, inferred=n in inferred) for n in names)
+def final(name,auto=False):
+    return Construct([role(('native TruePrep end region' if auto else 'native S5XX-associated Nextera end region')+'; full strand/index geometry unassigned',inferred=True,molecular_feature=I5),role('transcript-derived cDNA'),*identity_regions(True),role(('native automated Tru2-associated opposite end' if auto else 'native Ix-Tru2-associated opposite end')+'; selected primer/end geometry unassigned',inferred=True,molecular_feature=IX)],name=name)
 
+ORIGINAL=final('original U2OS/HEK293T plate library')
+AUTOMATED=final('automated K562 plate library',True)
+FINAL_LIBRARY=ORIGINAL
+SEQ_PRIMERS=()
+FINAL_LIBRARIES=(('Original plate library',ORIGINAL,(),'INFERRED native regions — original Nextera/S5XX plus Ix-Tru2 route. Internal order and full primer junctions unassigned.','Original acquired run layout unassigned.'),('Automated plate library',AUTOMATED,(),'INFERRED native regions — distinct VazymeTruePrep route. Kit-end geometry is not inherited from original Nextera.','Published NovaSeq paired2×150 with customRead2 primer; physical sites unassigned.'))
+SEQUENCING_UNAVAILABLE='Native kit/read/index primer geometry remains unassigned; custom Read2 is source-positive for automated plate but no sequence is supplied to this model.'
+READ_SPECS={name:tuple(sp.read_spec(read,150 if name=='Automated plate library' and read in ('Read 1','Read 2') else 'unassigned','Transcript signal' if read=='Read 1' else 'Tru2-side cell barcode/UMI signal; exact entry unassigned' if read=='Read 2' else 'Index acquisition/cycles unassigned','include' if read=='Read 1' and name=='Automated plate library' else 'extract' if read=='Read 2' and name=='Automated plate library' else 'undetermined') for read in ('Read 1','Read 2','Index 1 (i7)','Index 2 (i5)')) for name,*_ in FINAL_LIBRARIES}
+READ_SPECS_NOTE='Only automated plate2×150 is assigned. Kit/index presence does not assign acquired index cycles or original-plate read configuration.'
 
-def _state(label, *names, inferred=()):
-    return molecule(label, _parts(names, inferred))
-
-
-def _local_graph(d, final, primers):
-    source = f"{PNAS}; doi:{d.doi}"
-    graph = ProtocolGraph(d.title, authority=source)
-    rna = graph.input("rna", "single sorted cell in 3 µL SSIV/ICA-630/betaine lysis buffer",
-                      MaterialKind.BIOLOGICAL,
-                      state=_state("single-cell poly(A) RNA", "poly(A) mRNA"), primary=True)
-    rt_primer = graph.input("rt_primer", "RT-An primer (poly-T, cell barcode, (HBDV)5 UMI; "
-                            "sequence not printed), 0.2 µL 50 µM", MaterialKind.OLIGO)
-    rt = graph.input("reverse_transcriptase", "SuperScript IV; 72 °C 3 min, then 55 °C 10 min",
-                     MaterialKind.CATALYST)
-    cdna = graph.product("cdna", "barcoded first-strand cDNA", MaterialKind.MOLECULAR,
-                         state=_state("barcoded first-strand cDNA (antisense)", "RT handle",
-                                      "inner RT-An barcode", "UMI", "poly(T)",
-                                      "antisense transcript cDNA",
-                                      inferred=("poly(T)", "UMI", "inner RT-An barcode",
-                                                "RT handle")))
-    graph.react("reverse_transcribe", "Reverse-transcribe with the barcoded poly-T RT-An primer",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((rna, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
-                 (rt, InputRole.CATALYST)), (cdna,))
-    exo = graph.input("exo_i", "Exo I (0.6 µL in 1 µL mix); 37 °C 30 min, 80 °C 20 min",
-                      MaterialKind.CATALYST)
-    rt_b = graph.input("rt_bn", "RT-Bn primer added with the Exo I mix (role not stated; "
-                       "sequence not printed)", MaterialKind.OLIGO)
-    exo_cdna = graph.product("exo_cdna", "first-strand cDNA after excess RT-An digestion",
-                             MaterialKind.MOLECULAR, state=cdna.state)
-    graph.react("exo_digest", "Degrade excess RT primers with exonuclease I",
-                StepKind.DIGESTION,
-                ((cdna, InputRole.TEMPLATE), (exo, InputRole.CATALYST),
-                 (rt_b, InputRole.STRUCTURAL)), (exo_cdna,), changes_molecule=False)
-    random_primer = graph.input("malbac_primer", "GAT-7N and GAT-COM primers, 0.4 µL 50 µM "
-                                "each (sequences not printed)", MaterialKind.OLIGO)
-    polymerase = graph.input("malbac_polymerase", "Deep Vent (exo-) in ThermoPol buffer",
-                             MaterialKind.CATALYST)
-    amplified = graph.product("amplified", "MALBAC-amplified barcoded cDNA",
-                              MaterialKind.MOLECULAR,
-                              state=_state("MALBAC-DT amplicon", "GAT common sequence",
-                                           "transcript cDNA", "poly(T)", "UMI",
-                                           "inner RT-An barcode", "RT handle",
-                                           inferred=("GAT common sequence", "poly(T)", "UMI",
-                                                     "inner RT-An barcode", "RT handle")))
-    graph.react("malbac", "MALBAC: 10 looping cycles (4–65 °C ramp, 95 °C, 58 °C), then "
-                "PCR steps 12–16 (written 'Goto 13 17×')", StepKind.EXTENSION,
-                ((exo_cdna, InputRole.TEMPLATE), (random_primer, InputRole.STRUCTURAL),
-                 (polymerase, InputRole.CATALYST)), (amplified,))
-    tru2 = graph.input("tru2_gn_rt", "Tru2-Gn-RT primer, 0.4 µL 50 µM (12 column primers in "
-                       "the original plate; one in the automated plate)", MaterialKind.OLIGO)
-    finished_names = ("GAT common sequence", "transcript cDNA", "poly(T)", "UMI",
-                      "inner RT-An barcode", "RT handle", "outer Gn barcode", "Tru2 handle")
-    finished_inferred = tuple(n for n in finished_names if n != "transcript cDNA")
-    finished_state = _state("Tru2-tagged amplicon", *finished_names,
-                            inferred=finished_inferred)
-    finished = graph.product("finished", "Tru2-Gn-RT-extended amplicons", MaterialKind.MOLECULAR,
-                             state=finished_state)
-    graph.react("tru2_pcr", "Add Tru2-Gn-RT and run five more PCR cycles (steps 12–15)",
-                StepKind.PCR,
-                ((amplified, InputRole.TEMPLATE), (tru2, InputRole.STRUCTURAL),
-                 (random_primer, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (finished,),
-                geometry=PCRGeometry.unavailable(
-                    Construct(list(_parts(finished_names, finished_inferred)),
-                              name="Tru2-tagged amplicon"),
-                    reason="Tru2-Gn-RT, GAT-COM and the RT-handle target are not printed; the GAT primers remaining in the same well are assumed to prime the opposite end."))
-    beads = graph.input("ampure", "0.8× AMPure beads", MaterialKind.SELECTION)
-    pooled = graph.product("pooled", "pooled, bead-purified plate amplicons (1 µL per well)",
-                           MaterialKind.MOLECULAR, state=finished_state)
-    bead_waste = graph.product("ampure_supernatant", "bead supernatant with short products, "
-                               "primers and nucleotides", MaterialKind.WASTE)
-    graph.react("pool_cleanup", "Pool 1 µL per well and purify with 0.8× AMPure",
-                StepKind.CLEANUP,
-                ((finished, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
-                (pooled, bead_waste))
-    graph.discard(bead_waste, "bead supernatant discarded")
-    transposome = graph.input("transposome", "Nextera transposome (original plate) or Vazyme "
-                              "TruePrep (automated plate)", MaterialKind.ADAPTER)
-    tn5 = graph.input("tn5", "kit Tn5 transposase", MaterialKind.CATALYST)
-    tagged = graph.product("tagged", "tagmented amplicons", MaterialKind.MOLECULAR,
-                           state=_state("tagmented barcoded 3′ fragment", "Nextera S5/ME end",
-                                        "transcript cDNA", "poly(T)", "UMI",
-                                        "inner RT-An barcode", "RT handle", "outer Gn barcode",
-                                        "Tru2 handle",
-                                        inferred=("poly(T)", "UMI", "inner RT-An barcode",
-                                                  "RT handle", "outer Gn barcode",
-                                                  "Tru2 handle")))
-    waste = graph.product("tn5_waste", "internal fragments without the Tru2 end",
-                          MaterialKind.WASTE)
-    graph.react("tagment", "Tagment the pooled amplicons", StepKind.TAGMENTATION,
-                ((pooled, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
-                 (tn5, InputRole.CATALYST)), (tagged, waste))
-    graph.discard(waste, "lacks the Tru2 site, so is not amplified by the Ix-Tru2 primer and "
-                  "is not physically separated in the inspected Methods")
-    forward = graph.input("library_forward", "Nextera S5XX i5 index primer", MaterialKind.OLIGO)
-    reverse = graph.input("library_reverse", "Ix-Tru2 primer, substituted for S7XX (sequence "
-                          "not printed)", MaterialKind.OLIGO)
-    pcr_pol = graph.input("library_polymerase", "kit PCR polymerase", MaterialKind.CATALYST)
-    library = graph.product("library", "MALBAC-DT 3′-end sequencing library",
-                            MaterialKind.LIBRARY, state=final)
-    graph.react("library_pcr", "Amplify barcoded 3′ ends with S5XX and Ix-Tru2", StepKind.PCR,
-                ((tagged, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
-                 (reverse, InputRole.STRUCTURAL), (pcr_pol, InputRole.CATALYST)), (library,),
-                geometry=PCRGeometry.unavailable(
-                    final, reason="Ix-Tru2 sequence and its Tru2 target are not printed."))
-    graph.sequence(library, SequencingPlan(library=final, primers=tuple(primers)))
-    reviewed = ["rna", "rt_primer", "reverse_transcriptase", "reverse_transcribe", "exo_i",
-                "rt_bn", "exo_digest", "malbac_primer", "malbac_polymerase", "malbac",
-                "tru2_gn_rt", "tru2_pcr", "ampure", "pool_cleanup", "transposome", "tn5",
-                "tagment", "library_forward", "library_reverse", "library_polymerase",
-                "library_pcr", "library"]
-    graph.declare_reviewed_scope(reviewed, source)
-    return graph.require_publishable()
+def oligos():return ()
 
 
 def protocol_graph():
-    return _local_graph(DEFINITION, SPEC.FINAL_LIBRARY, SPEC.SEQ_PRIMERS)
+    g=ProtocolGraph(TITLE,authority=SOURCE)
+    cells=g.input('cells','sorted cells configured for original or automated plate experiment',MaterialKind.BIOLOGICAL,primary=True)
+    original=g.product('original_cells','original U2OS/HEK293T experiment cells',MaterialKind.MOLECULAR)
+    automated=g.product('automated_cells','automated K562 experiment cells',MaterialKind.MOLECULAR)
+    g.react('source_routes','Represent separately configured published experiments',StepKind.SPLIT,((cells,InputRole.TEMPLATE),),(original,automated),changes_molecule=False)
+    for key,sample,endpoint,heading in (('original',original,ORIGINAL,'Original plate library'),('automated',automated,AUTOMATED,'Automated plate library')):
+        rt_primer=g.input(key+'_rt_primer','RT-An/RT3-An;8row members original,96well members automated; native species unassigned',MaterialKind.OLIGO)
+        rt=g.input(key+'_rt','SuperScriptIV;72°C3min beforeenzymeaddition,55°C10minRT' if key=='original' else 'source automatedRTmix; enzymeidentityunassigned,55°C10min',MaterialKind.CATALYST)
+        cdna=g.product(key+'_cdna','actual first-strand cDNA/RNA reaction mixture',MaterialKind.MOLECULAR,state=state('first-strand',rna=True,other=True))
+        g.react(key+'_reverse_transcribe','Reverse-transcribe source sorted-cell RNA',StepKind.REVERSE_TRANSCRIPTION,((sample,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(cdna,))
+        exo=g.input(key+'_exo','ExonucleaseI;37°C30min,80°C20min' if key=='original' else 'source automatedExomix; enzymeidentityunassigned,37°C30min/80°C20min',MaterialKind.CATALYST)
+        bn=g.input(key+'_rt_bn','RT-Bn added in exonuclease mix; precise molecular role unassigned' if key=='original' else 'automatedExomix other components unassigned; original RT-Bn inheritance unproven',MaterialKind.OLIGO if key=='original' else MaterialKind.CONDITION)
+        digested=g.product(key+'_digested','cDNA plus carried RNA/primer hydrolysis products',MaterialKind.MOLECULAR,state=cdna.state)
+        g.react(key+'_exo_digest','Digest excess RT primers without a physical separation',StepKind.DIGESTION,((cdna,InputRole.TEMPLATE),(exo,InputRole.CATALYST),(bn,InputRole.STRUCTURAL if key=='original' else InputRole.CONDITION)),(digested,))
+        random=g.input(key+'_gat7n','GAT-7N random/common primer role; native species unassigned' if key=='original' else 'automatedPCRmix first primer role; speciesunassigned',MaterialKind.OLIGO)
+        common=g.input(key+'_gatcom','GAT-COM common primer role; native species unassigned' if key=='original' else 'automatedPCRmix opposite primer role; speciesunassigned',MaterialKind.OLIGO)
+        pol=g.input(key+'_pol','DeepVentexo− in original; automated master mix source-delegated',MaterialKind.CATALYST)
+        amp=g.product(key+'_malbac_product','MALBAC-style amplified cDNA population',MaterialKind.MOLECULAR,state=state('MALBAC-derived',rna=True,other=True))
+        if key=='original':
+            looped=g.product('original_looped','source10loopingcycle product population; native loop/copy geometry unassigned',MaterialKind.MOLECULAR,state=state('looping-cycle',rna=True,other=True))
+            g.react('original_looping','Source10loopingcycles before PCR',StepKind.EXTENSION,((digested,InputRole.TEMPLATE),(random,InputRole.STRUCTURAL),(common,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(looped,))
+        else:looped=digested
+        g.react(key+'_malbac','Original subsequent PCR: printed Goto13 seventeen times' if key=='original' else 'Automated15PCRcycles',StepKind.PCR,((looped,InputRole.TEMPLATE),(random,InputRole.STRUCTURAL),(common,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(amp,),geometry=PCRGeometry.unavailable(looped.state,reason='Actual incoming looping-cycle population (original) or Exomix-treated cDNA (automated). Native primer/copy/loop geometry unassigned; no completed duplex substituted.'))
+        tru2=g.input(key+'_tru2','Tru2-Gn-RT12column members original; one Tru2-G-RT automated; native species unassigned',MaterialKind.OLIGO)
+        finished=g.product(key+'_finished','Tru2-completed cDNA population',MaterialKind.MOLECULAR,state=state('Tru2-primer-derived',outer=True,rna=True,other=True))
+        g.react(key+'_tru2_pcr','Add source Tru2 primer and amplify5morecycles',StepKind.PCR,((amp,InputRole.TEMPLATE),(tru2,InputRole.STRUCTURAL),(common,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(finished,),geometry=PCRGeometry.unavailable(amp.state,reason='Actual incoming MALBAC cDNA population retained. Native Tru2/GAT binding and first-copy assembly are unassigned; completed product is not the template.'))
+        beads=g.input(key+'_beads','Original1µl/well pooling and0.8×AMPure; automated equivalent cleanup not established by inspected summary',MaterialKind.SELECTION if key=='original' else MaterialKind.CONDITION)
+        recovered=g.product(key+'_recovered','pooled cDNA for source-kit library preparation',MaterialKind.MOLECULAR,state=finished.state)
+        if key=='original':
+            waste=g.product(key+'_bead_waste','physically removed bead supernatant/washes',MaterialKind.WASTE)
+            g.react(key+'_pool','Pool and recover original plate cDNA',StepKind.CLEANUP,((finished,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(recovered,waste),changes_molecule=False);g.discard(waste,'Source bead fraction transfer; individual RNA/hydrolysate recovery unassigned.')
+        else:g.react(key+'_pool','Automated input recovery remains source-delegated',StepKind.MAGIC,((finished,InputRole.TEMPLATE),(beads,InputRole.CONDITION)),(recovered,),reason='Automated summary names downstreamTruePrep but does not establish original0.8×pooling cleanup equivalence.')
+        adapter=g.input(key+'_transposome','VazymeTruePrep native loaded adapter' if key=='automated' else 'original Nextera native loaded adapter',MaterialKind.ADAPTER)
+        tn5=g.input(key+'_tn5','source-kit Tn5',MaterialKind.CATALYST)
+        tagged=g.product(key+'_tagged','native pre-PCR tagged barcode-retaining cDNA classes',MaterialKind.MOLECULAR,state=state('source-kit tagged',outer=True,rna=True,other=True,tagged=True))
+        other=g.product(key+'_other_ends','internal/nonselected tagmentation classes',MaterialKind.MOLECULAR)
+        g.react(key+'_tagment','Prepare source-specific tagged cDNA',StepKind.TAGMENTATION,((recovered,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),(tagged,other))
+        g.mark_terminal(Terminal(other.id,Disposition.UNRESOLVED,'Lacking Tru2 amplification compatibility does not physically discard molecules; later recovery is unassigned.'))
+        forward=g.input(key+'_library_f','nativeTruePrep forward primer unassigned' if key=='automated' else 'NexteraS5XX; selected member/index width unassigned',MaterialKind.OLIGO)
+        reverse=g.input(key+'_library_r','nativeautomated Tru2-side kit/index completion primer unassigned' if key=='automated' else 'Ix-Tru2 replacesS7XX; native strand/selected member unassigned',MaterialKind.OLIGO)
+        pcr=g.input(key+'_library_pol','source-kit PCR polymerase/cycles unassigned',MaterialKind.CATALYST)
+        library=g.product(key+'_library',heading,MaterialKind.LIBRARY,state=endpoint,inferred=True)
+        carried=g.product(key+'_carried_species','carried RNA/primer/nontarget populations after libraryPCR; native recoveryunassigned',MaterialKind.MOLECULAR,state=state('carried nonselected species',outer=True,rna=True,other=True))
+        g.react(key+'_library_pcr','Complete source-specific library from actual native input',StepKind.PCR,((tagged,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),(reverse,InputRole.STRUCTURAL),(pcr,InputRole.CATALYST)),(library,carried),geometry=PCRGeometry.unavailable(tagged.state,reason='Actual tagged cDNA input retained. Native loaded adapter/PCR/index strands and full end assembly remain unassigned; no canonical finished duplex or default index width substituted.'))
+        g.mark_terminal(Terminal(carried.id,Disposition.UNRESOLVED,'PCR does not itself physically remove carriedRNA, primers or nonselected copies. Subsequent kit recovery is not reconstructed from inspected source scope.'))
+        g.sequence(library,SequencingPlan(library=endpoint,acquired_roles=('Read 1','Read 2') if key=='automated' else (),read_lengths={'Read 1':150,'Read 2':150} if key=='automated' else {},limitation=SEQUENCING_UNAVAILABLE))
+    g.annotate(Highlight('original_malbac','Printed loop/PCR schedule remains source-qualified','Original program says Goto2 ten times and Goto13 seventeen times; the exact iteration interpretation is unresolved rather than silently choosing17or18PCRcycles. Automated15+5cycles is a distinct positive source statement.'))
+    g.annotate(Highlight('automated_pool','Historical source boundary','Published2022 source supersedes preprint. Original Nextera/S7XXreplacement is not transferred to the automatedTruePrep/customRead2 route. Native RNA and hydrolysates are carried without declaring physical disappearance; computational UMI/barcode filters are not separations.'))
+    g.declare_reviewed_scope(REVIEWED,SOURCE)
+    return g.require_publishable()
 
-
-SPEC.protocol_graph = protocol_graph
+REVIEWED=('cells','source_routes','original_rt_primer','original_rt','original_reverse_transcribe','original_exo','original_rt_bn','original_exo_digest','original_gat7n','original_gatcom','original_pol','original_looping','original_malbac','original_tru2','original_tru2_pcr','original_beads','original_pool','original_transposome','original_tn5','original_tagment','original_library_f','original_library_r','original_library_pol','original_library_pcr','original_library','automated_rt_primer','automated_rt','automated_reverse_transcribe','automated_exo','automated_rt_bn','automated_exo_digest','automated_gat7n','automated_gatcom','automated_pol','automated_malbac','automated_tru2','automated_tru2_pcr','automated_beads','automated_pool','automated_transposome','automated_tn5','automated_tagment','automated_library_f','automated_library_r','automated_library_pol','automated_library_pcr','automated_library')

@@ -1,5 +1,18 @@
 # Slide-seq (v1)
 
+## Active native migration, 2026-10-18
+
+Source scope: Published defining author-manuscript JATS science.aaw1219_PMC6927209.xml.txt Results/main source supplementary pointer; original author-manuscript Supplement science.aaw1219_supp_NIHMS1036108-supplement-1.docx.txt identity2–17, Beads22–31, SOLiDdecoding39–58, native library63–129, TableS1 310–325. Maintainer-recovered supplement identity distinct from gated Science-hosted aaw1219_Rodriques_SM.pdf; identity equivalence not newly established.
+
+Own15step graph replaces shared spatialfinisher/endpoint. SelectedSequence2 includes native5′linker/T8, J8/linker18/J7,UMI8,T30 through actual bead-bound ssDNA and recovered preampPCR input. SourceSequence1 PC/T7/J6+J7 is an independently manufactured alternative, not a physical split or invented photorelease. SOLiDprimer/probe strand is independent of bead DNA; all10source5′phosphorylated decoder strands have structured state. SourceTSO rG+GrG has2RNA G and middleLNA G; printedTSO/SMART and Truseq-1 conflicts remain public without prefix correction. Native beadwash/0.6×preampcleanup/NexteraXT/native72°Cextension/PCR/0.6×finalrecovery are explicit; exact kit neutralization/adapter/N700member geometry bounded. BothPCRs use actual native precursors, with originals/RNA/oligos/offtarget/copied populations retained. Source42/8/50 acquisition is distinct from physical barcode15, opticaldecoded14 and unassigned nativeN700index extent.
+
+Mandatory scraper: 18hits2files; source-positive bead/TSO/decoder/PCR fields verified in published author-manuscript supplement. No supersededpreprint chemistry selected.
+
+Deferred: Science-hosted original supplementPDF and its identity equivalence with readable author-manuscript supplement; Study ordered TSO/Truseq-1 sequence at published discrepancy; Native NexteraXT revision/loadedadapter ends/N700member/initial extension geometry; Optical14base coverage relative to Sequence2physical15base barcode.
+
+This is a capped implementation/source pass, not a complete chemistry review or accepted missing-information finding. Historical source passes below retain their original scope; sources were frozen before implementation and no source expansion followed the cap.
+
+
 **Defining paper:** Rodriques et al., *Science* (2019), doi:10.1126/science.aaw1219. The open author manuscript was read from PMCID PMC6927209, together with its published Supplementary Materials (PMC NIHMS1036108 supplement-1.docx, hand-placed by the maintainer; title and author list match the article). Earlier passes used the bioRxiv 563395 v1 supplement; that preprint is now superseded for every value on the page.
 
 ## Molecular boundary

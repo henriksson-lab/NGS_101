@@ -73,6 +73,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 100 checks pass; page builds; pairing 0 problems; chemistry 0 established/2 conditional/12 unresolved/0 contradictory; source guard 0 exact checked, 0 failed (all oligo inputs inferred/unprinted); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch08-native-graph-migration",
+      "reviewer": "native_vendor_implementation",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "E7760/E7765 v7.0_4/25: kit contents/required oligo kits, Section4.1–4.10 (fragmentation/RT/dUTP second strand/1.8X cleanup/EndPrep/ligation/USER/0.9X cleanup/PCR/0.9X cleanup), revision identity.",
+      "oligo_scraper": "Mandatory bundle scraper inspected; pointers verified in originals; no-hit/unassigned states do not establish absence.",
+      "findings": "Native RNA/dU/USER physical classes and source recovery order explicit; no buffer-implied primerpool, canonical index shell or final-duplex PCR input.",
+      "deferred": [
+        "Selected oligo-kit original and native primer/adapter ends",
+        "Exact USER processing and species-specific recovery",
+        "Alternative enrichment/depletion/FFPE routes"
+      ],
+      "scope": "Capped source pass and native implementation migration only; historical status/checklists/absence gate preserved.",
+      "verification": "Three suites4checks each/pages pass; chemistry0contradictions; pairing0; sourceguard0exact0failed native inputs unassigned; review schema and notes build checked separately."
+    },
+    {
+      "round": "2026-10-18-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Code-only review: tools/directional_rna.py reaction_state/tailed_state/native graph, PCR actual incoming state and sequencing declaration. Owner batch08 source scopes1/2/3 originals and notes inspected as handoff only; source originals not reread.",
+      "findings": "Reviewed actual RNA/first-cDNA/dUTP second-strand populations, source dA native substrate, separately chosen adapter boundary, USER-treated mixed physical precursor and actual PCR input. No invented second-strand primer pool or normalDNA substitution for physical dU originals. Cleavage/nonamplification distinct from recovery/discard; residual-original/RNA lineage unresolved. No canonical index pair/width or acquired run inferred. No concrete critical implementation defect found.",
+      "deferred": [
+        "Native selected adapter/primer/USER-retained end geometry",
+        "dU-strand processing/directionality proof and component-specific RNA/original recovery",
+        "Selected oligo-kit index scheme/member/width and actual acquisition"
+      ],
+      "scope": "Independent implementation review only; no new source original, absence acceptance or historical status upgrade.",
+      "verification": "Independently ran vendor suites4/4/4, XTpage rebuild, all3pairing0, sourceguard0checked0failed8unassigned0exemptions, chemistry0established8conditional34unresolved0contradictory. Record schema/whitespace checked after append."
     }
   ]
 }

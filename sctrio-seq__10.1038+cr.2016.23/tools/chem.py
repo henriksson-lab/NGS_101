@@ -1,127 +1,164 @@
-"""scTrio-seq cytoplasm/nucleus split and its RNA and DNA branches."""
-from chemdraw import Construct, MolecularState, Row, Segment, Workflow
-from batch_ngs import seg
+"""Hou2016: protocol-owned cytoplasmic/Tang and nuclear/scRRBS native routes."""
+from chemdraw import Construct, Scene, Segment, complement_segments, revcomp
+from protocol_model import role
 from adapter_ligation import AdapterLigationGeometry
-from endprep import dA_tailed_scene, ligation_product_scene, repair_and_dA_tail
-from multibranch import illumina_branch
-from multimodal_spatial import finish_pcr_branch
-from pcr import PCRGeometry, PCRPrimer
-from protocol_extensions import analyte_split
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
-import rrbs
-import tang_cdna as tang
+from endprep import EndPreparedDuplex, dA_tailed_scene
+from pcr import PCRGeometry
+from protocol_graph import Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+import seqprimers as sp
 TITLE="scTrio-seq — genome copy number, methylome and transcriptome"
 NOTES="01_sctrio-seq.html"
-SOURCE='Defining source: <a href="https://doi.org/10.1038/cr.2016.23">Hou et al., <i>Cell Research</i> (2016)</a>.'
-# cr.2016.23 cites Tang et al. for the cDNA amplification but never reprints its oligos:
-# UP1/UP2 and the 5'-amine NH2-UP1/NH2-UP2 are published only in the 2009 supplementary table.
-TANG_OLIGO_SOURCE='Inherited oligo source: <a href="https://doi.org/10.1038/nmeth.1315">Tang et al., <i>Nature Methods</i> (2009)</a>, supplementary oligo table.'
-SUMMARY="A single cell is mechanically separated into cytoplasm for RNA-seq and nucleus for scRRBS; the DNA library jointly reports copy number and CpG methylation."
-CAVEAT="The scTrio paper delegates cDNA amplification to Tang et al. and nuclear-library chemistry to scRRBS. Tang's 2009 oligo table prints UP1/UP2 and their 5′-amine versions; a 2010 author protocol confirms the reaction order. The scRRBS source does not identify the exact premethylated DNA adapter ends, so the canonical TruSeq illustration is inferred. For the RNA-derived branch, scTrio names NEBNext Ultra DNA Library Prep E7370; the currently available 2023 manual says adapter/index oligos are supplied in separate kits, and scTrio does not name the chosen oligo kit. Those terminal arms remain inferred."
-# cr.2016.23 Methods "Sample quality control and library construction": all libraries 100-bp
-# paired-end on HiSeq 2000/2500. Index-read cycles are not stated.
+SOURCE='<a href="https://doi.org/10.1038/cr.2016.23">Hou etal., CellResearch2016</a>, Methods152–166; explicitly cited Guo2013 scRRBS Methods105 and Tang component scope named locally.'
+SUMMARY="Soft lysis and centrifugation separate4µl cytoplasm/ERCC RNA from3µl nuclear fraction. Tang-lineage cDNA is size-selected, Covaris-sheared and processed with NEBNextUltraE7370; nuclear/lambda DNA enters native scRRBS and supplies both CNV and methylation reads."
+CAVEAT="No canonical TruSeq shell, fixed index width or borrowed cell barcode is supplied. Native NEBNextE7370 oligo/strand assembly and premethylated scRRBS adapters remain unassigned. Tang2009 UP1/UP2 and5′amine variants are exact component references; the defining2016 paper cites the2010 Tang method, whose detailed order is retained from existing inherited scope, not newly reread in this three-original pass. Historical SOLiD adapters are not substituted for E7370."
+UP1_HANDLE="ATATGGATCCGGCGCGCCGTCGAC"
+UP2_HANDLE="ATATCTCGAGGGCGCGCCGGATCC"
+UP1=UP1_HANDLE+"T"*24
+UP2=UP2_HANDLE+"T"*24
+RNA=Construct([role("nativeNEBNextUltraE7370 end A"),role("cytoplasmic/ERCC cDNA-derived fragment"),role("nativeE7370 end B; index family/member/width unassigned")],name="scTrio transcriptome native endpoint")
+DNA=Construct([role("native premethylated adapter-derived end A"),role("nuclear or lambda DNA insert; converted-site PCR readout T/A"),role("native adapter-derived end B; index member/width unassigned")],name="scTrio genome/methylome native endpoint")
+RP=DP=()
 READ_LENGTHS={"Read 1":100,"Read 2":100}
-RNA,RP=illumina_branch("scTrio-seq RNA","cytoplasmic cDNA",inferred_adapters=True)
-DNA,DP=rrbs.final_library(),rrbs.SEQ_PRIMERS
-FINAL_LIBRARIES=(("Transcriptome library",RNA,RP,"Cytoplasmic RNA-derived library.","Illumina primers on the RNA branch."),("Genome and methylome library",DNA,DP,"One scRRBS library supports both copy-number and methylation inference.","Illumina primers on the DNA branch."))
+FINAL_LIBRARIES=(("Transcriptome library",RNA,(),"NativeE7370 endpoint roles; Tang/SOLiD sequencing ends not inherited.","Published HiSeq2000/2500 PE100."),("Genome and methylome library",DNA,(),"One physical scRRBS library supplies CNV and methylation observations.","Published HiSeq2000/2500 PE100; index acquisition unassigned."))
+SHOW_READ_CONTENT=False
+READ_SPECS={name:(sp.read_spec("Read 1",100,"RNA-derived cDNA" if name=="Transcriptome library" else "nuclear DNA methylation/CNV insert","include"),sp.read_spec("Read 2",100,"opposite insert end","include"),sp.read_spec("Index 1 (i7)","unassigned","native index acquisition/width unassigned","undetermined"),sp.read_spec("Index 2 (i5)","unassigned","native index acquisition/width unassigned","undetermined")) for name,*_ in FINAL_LIBRARIES}
 
+def populations(*labels):
+ sc=Scene()
+ for n,label in enumerate(labels):sc.strand(str(n),[role(label)],label=label)
+ return sc
 
-def _tailed_fragment():
-    return repair_and_dA_tail(Construct([
-        seg("MspI reduced-representation insert", "X" * 36, placeholder=True)]))
+def rt_state(tailed=False,second=False,amine=False):
+ sc=Scene()
+ for name in ("cytoplasmic RNA","ERCC RNA"):
+  sc.strand(name,[role(name)],label="independent RNA template; recovery/degradation unassigned")
+  parts=[Segment("UP1",UP1),role("first-strand copy of "+name)]
+  if tailed:parts.append(role("variable3′poly(dA) tail"))
+  sc.strand(name+" first",parts,label="first-copy strand",mod5="amine" if amine else "")
+  if second:sc.strand(name+" second",[Segment("UP2",UP2),role("UP2-initiated opposite copy; terminal extent unassigned")],label="separate complementary-copy role",mod5="amine" if amine else "")
+ return sc
 
+def oligo_state(name,seq,amine=False):
+ sc=Scene();sc.strand(name,[Segment(name,seq)],mod5="NH2" if amine else "",label=name);return sc
 
-def _workflow():
-    w=Workflow(MolecularState("one cell",(Row(chunks=[("one intact cell",None,False)]),)))
-    w.react("Separate cytoplasm from nucleus",analyte_split("cytoplasm: poly(A) RNA","nucleus: genomic DNA"),name="separated analytes",note="The three measurements arise from two physical branches.")
-    w.react("Prepare the cytoplasmic transcriptome",[Row(chunks=[("poly(A) RNA → RT → cDNA amplification → Illumina library","r1",False)])],name="RNA library plus nuclear DNA",note="The RNA workflow follows the single-cell Tang lineage.")
-    w.react("Digest nuclear DNA with MspI",[Row(chunks=[("C^CGG → fragments with two-base 5′-CG restriction overhangs","me",False)])],name="MspI fragments",note="MspI enriches CpG-containing fragments.")
-    tailed=_tailed_fragment()
-    w.react("Fill recessed ends and add 3′ dA",dA_tailed_scene(tailed).rows(),name="dA-tailed RRBS fragments",note="End fill removes the original CG overhang before dA-tailing.")
-    geometry=AdapterLigationGeometry.unavailable("Neither the defining paper nor the inherited scRRBS source prints the ligation-facing DNA adapter oligos or exact end geometry.")
-    product=ligation_product_scene(DNA,"bisulfite-converted insert",label="scTrio-seq DNA library")
-    w.ligate_adapter("Ligate premethylated adapters",geometry,product.rows(),name="adapter-ligated RRBS library",note="Bisulfite conversion and PCR follow ligation.")
-    w.react("Bisulfite convert and amplify",[Row(chunks=[("scRRBS library → methylation calls + copy-number bins","r2",False)])],name="final DNA library",note="Both DNA measurements derive from this one library.")
-    return w
+def dna_population(stage,converted=False,carrier=False):
+ sc=Scene()
+ for name in ("nuclear genomic DNA","unmethylated lambda spike-in"):
+  for n in range(2 if converted else 1):sc.strand(name+str(n),[role(name+": "+stage)],label="physical converted strand; U before PCR" if converted else name)
+ if stage.startswith("PCR"):
+  for name in ("nuclear genomic DNA","unmethylated lambda spike-in"):
+   sc.strand(name+" carried originals",[role("carried converted U-bearing original "+name+"; native survival/recovery unassigned")],label="original templates are not assumed chemically erased by PCR")
+ if carrier:sc.strand("tRNA",[role("10ng tRNA carrier; source added during conversion-column recovery")],label="independent RNA carrier; later fate unassigned")
+ return sc
 
-def sections():
-    return [(r.action,list(r.after.rows),r.note) for r in _workflow().reactions]
+def restriction_state():
+ rows=[]
+ for name in ("nuclear DNA","lambda DNA"):
+  core=[role(name+" paired MspI fragment body")]
+  sc=Scene();sc.strand("top",[Segment("5′CG overhang","CG"),*core],label=name,mod5="p")
+  sc.anneal("bottom",[Segment("opposite5′CG overhang","CG"),*complement_segments(core)],"top",pair=(core[0].name+"'",core[0].name),label=name,mod5="p",unpaired=(core[0].name+"'",))
+  rows.extend(sc.rows())
+ return rows
 
+def prepared_state():
+ rows=[]
+ for name in ("nuclear DNA","lambda DNA"):
+  prepared=EndPreparedDuplex(Construct([role(name+" filled fragment body")],name=name),five_prime_phosphate=True,three_prime_overhang="A",overhang_inferred=False)
+  rows.extend(dA_tailed_scene(prepared,label=name+" opposed3′A ends").rows())
+ return rows
+
+def cleanup(g,key,template,label):
+ select=g.input(key+"_selection",label,MaterialKind.SELECTION)
+ kept=g.product(key+"_retained","physically recovered "+template.label,MaterialKind.MOLECULAR,state=template.state)
+ waste=g.product(key+"_waste","removed physical fraction; molecular composition unassigned",MaterialKind.WASTE)
+ g.react(key,label,StepKind.CLEANUP,((template,InputRole.TEMPLATE),(select,InputRole.SELECTION)),(kept,waste),changes_molecule=False)
+ g.discard(waste,"Physical non-retained fraction; species-specific recovery not inferred.")
+ return kept
 
 def protocol_graph():
-    g=ProtocolGraph(TITLE,authority=SOURCE)
-    cell=g.input("cell","one intact cell",MaterialKind.BIOLOGICAL,state=(Row(chunks=[("one intact cell",None,False)]),),primary=True)
-    cytoplasm=g.product("cytoplasm","cytoplasmic RNA fraction",MaterialKind.MOLECULAR,state=analyte_split("cytoplasm: poly(A) RNA","nucleus: genomic DNA")[:1])
-    nucleus=g.product("nucleus","nuclear genomic-DNA fraction",MaterialKind.MOLECULAR,state=analyte_split("cytoplasm: poly(A) RNA","nucleus: genomic DNA")[1:])
-    g.react("separate","Mechanically separate cytoplasm from nucleus",StepKind.SPLIT,((cell,InputRole.TEMPLATE),),(cytoplasm,nucleus),changes_molecule=False)
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ cell=g.input("cell","one intact cell",MaterialKind.BIOLOGICAL,state=populations("RNA","nuclear genomic DNA"),primary=True)
+ lysis=g.input("soft_lysis","7µl soft buffer;4°C30min, vortex1min,1000g5min",MaterialKind.CONDITION)
+ cyto=g.product("cytoplasm","upper4µl cytoplasm transferred to RT tube",MaterialKind.MOLECULAR,state=populations("cytoplasmic poly(A) RNA"))
+ nuc=g.product("nucleus","remaining3µl containing intact nucleus",MaterialKind.BIOLOGICAL,state=populations("nuclear genomic DNA"))
+ g.react("separate","Soft-lyse, centrifuge and transfer upper cytoplasm",StepKind.SPLIT,((cell,InputRole.TEMPLATE),(lysis,InputRole.CONDITION)),(cyto,nuc),changes_molecule=False)
+ ercc=g.input("ercc","ERCC spike-in RNA in RT tube",MaterialKind.MOLECULAR)
+ p1=g.input("up1","Tang2009 UP1 component reference",MaterialKind.OLIGO,state=oligo_state("UP1",UP1))
+ rt=g.input("rt","Tang-lineage RT; selected enzyme unassigned",MaterialKind.CATALYST)
+ first=g.product("first","UP1-primed ss-cDNA/RNA mixture",MaterialKind.MOLECULAR,state=rt_state())
+ g.react("rt_copy","Reverse-transcribe cytoplasmic RNA and ERCC",StepKind.REVERSE_TRANSCRIPTION,((cyto,InputRole.TEMPLATE),(ercc,InputRole.SPIKE_IN),(p1,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(first,))
+ exo=g.input("exo","inherited Tang ExonucleaseI",MaterialKind.CATALYST)
+ dig=g.product("digested","ExoI-treated RT mixture",MaterialKind.MOLECULAR,state=first.state)
+ debris=g.product("primer_hydrolysate","UP1 digestion products; physical removal unassigned",MaterialKind.MOLECULAR)
+ g.react("digest_up1","Digest unused UP1",StepKind.DIGESTION,((first,InputRole.TEMPLATE),(exo,InputRole.CATALYST)),(dig,debris))
+ g.mark_terminal(Terminal(debris.id,Disposition.UNRESOLVED,"Chemical hydrolysis is not physical removal; later column/gel recovery unassigned."))
+ tdt=g.input("tdt","inherited Tang TdT+dATP",MaterialKind.CATALYST)
+ tailed=g.product("tailed","variable3′dA-tailed ss-cDNA mixture",MaterialKind.MOLECULAR,state=rt_state(tailed=True))
+ g.react("tail","Poly(dA)-tail first copies",StepKind.TAILING,((dig,InputRole.TEMPLATE),(tdt,InputRole.CATALYST)),(tailed,))
+ p2=g.input("up2","Tang2009 UP2 component reference",MaterialKind.OLIGO,state=oligo_state("UP2",UP2))
+ copying=g.input("copy_polymerase","inherited Tang second-strand polymerase; identity unassigned",MaterialKind.CATALYST)
+ copies=g.product("copies","UP2-initiated complementary copies",MaterialKind.MOLECULAR,state=rt_state(tailed=True,second=True))
+ g.react("second_copy","Copy tailed first strand with UP2",StepKind.EXTENSION,((tailed,InputRole.TEMPLATE),(p2,InputRole.STRUCTURAL),(copying,InputRole.CATALYST)),(copies,))
+ pol=g.input("cdna_polymerase","Tang cDNA PCR polymerase; selected identity unassigned",MaterialKind.CATALYST)
+ amp=g.product("cdna_amplified","UP1/UP2 amplified cDNA population",MaterialKind.MOLECULAR,state=copies.state)
+ g.react("cdna_pcr","Amplify copied cDNA with UP1/UP2",StepKind.PCR,((copies,InputRole.TEMPLATE),(p1,InputRole.STRUCTURAL),(p2,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(amp,),geometry=PCRGeometry.unavailable(copies.state,reason="Actual UP2 copy mixture; native first-cycle/end derivation not supplied by an expected completed amplicon."))
+ a1=g.input("aup1","Tang2009 NH2-UP1 reference; applicability inherited not newly resolved",MaterialKind.OLIGO,state=oligo_state("NH2-UP1",UP1,True))
+ a2=g.input("aup2","Tang2009 NH2-UP2 reference",MaterialKind.OLIGO,state=oligo_state("NH2-UP2",UP2,True))
+ blocked=g.product("blocked","amine-primer-derived cDNA reference population",MaterialKind.MOLECULAR,state=rt_state(tailed=True,second=True,amine=True))
+ retained_unmodified=g.product("unmodified_cdna_precursors","unmodified UP1/UP2 precursors co-carried through amine-primer PCR",MaterialKind.MOLECULAR,state=amp.state)
+ g.react("amine_pcr","INFERRED inherited Tang amine-primer amplification stage",StepKind.PCR,((amp,InputRole.TEMPLATE),(a1,InputRole.STRUCTURAL),(a2,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(blocked,retained_unmodified),geometry=PCRGeometry.unavailable(amp.state,reason="Existing inherited Tang stage; table verifies primer bases/5′NH2 but2010 detailed method and2016 end retention remain deferred."))
+ g.mark_terminal(Terminal(retained_unmodified.id,Disposition.UNRESOLVED,"Amine-primer PCR creates modified copies without chemically replacing all unmodified originals. Their recovery through the column/gel/native-kit route is unassigned; no physical isolation is implied."))
+ selected=cleanup(g,"cdna_column",blocked,"DNA Clean&Concentrator5 column")
+ selected=cleanup(g,"cdna_gel",selected,"2%agarose500–3000bp selection;VisClean recovery; source removes amplification primers")
+ shear=g.input("covaris","CovarisS2 fragmentation to150–250bp",MaterialKind.CONDITION)
+ frag=g.product("rna_fragments","150–250bp cDNA fragments; terminal amine classes unassigned",MaterialKind.MOLECULAR,state=populations("fragmented cytoplasmic cDNA","fragmented ERCC cDNA","residual RNA/native amine-terminal fragments; class recovery unassigned"))
+ g.react("shear","Shear selected cDNA",StepKind.FRAGMENTATION,((selected,InputRole.TEMPLATE),(shear,InputRole.CONDITION)),(frag,))
+ kit=g.input("e7370","NEBNextUltraDNA E7370 native preparation; historical oligos/order unassigned",MaterialKind.CONDITION)
+ native=g.product("rna_native","native barcodedE7370 prePCR material",MaterialKind.MOLECULAR,state=populations("nativeE7370-prepared cDNA; end/strand geometry unassigned"))
+ g.react("e7370_prepare","NativeE7370 library-preparation boundary before amplification",StepKind.MAGIC,((frag,InputRole.TEMPLATE),(kit,InputRole.CONDITION)),(native,),reason="Defining2016 source names barcoding/amplification usingE7370. Native historical endprep/adapter oligos and internal preparation order are outside inspected cap; a2023 manual is not substituted.")
+ rf=g.input("rna_forward","nativeE7370 PCR primerA",MaterialKind.OLIGO)
+ rr=g.input("rna_reverse","nativeE7370 PCR primerB",MaterialKind.OLIGO)
+ rp=g.input("rna_polymerase","nativeE7370 PCR polymerase",MaterialKind.CATALYST)
+ rna=g.product("rna_library",RNA.name,MaterialKind.LIBRARY,state=RNA)
+ g.react("rna_index_pcr","Amplify source barcoded cDNA library",StepKind.PCR,((native,InputRole.TEMPLATE),(rf,InputRole.STRUCTURAL),(rr,InputRole.STRUCTURAL),(rp,InputRole.CATALYST)),(rna,),geometry=PCRGeometry.unavailable(native.state,reason="Actual nativeE7370 prepared input; exact kit primer/junction assembly unassigned."))
+ protease=g.input("protease","protease nuclear release",MaterialKind.CATALYST)
+ lam=g.input("lambda","60fg unmethylated lambda DNA",MaterialKind.MOLECULAR)
+ naked=g.product("naked","released nuclear DNA and independent lambda DNA",MaterialKind.MOLECULAR,state=dna_population("released DNA"))
+ g.react("release_dna","Release nuclear DNA and add lambda control",StepKind.DEPROTEINIZATION,((nuc,InputRole.TEMPLATE),(lam,InputRole.SPIKE_IN),(protease,InputRole.CATALYST)),(naked,))
+ mspi=g.input("mspi","inherited scRRBS9U MspI,37°C3h",MaterialKind.CATALYST)
+ restriction=g.product("restriction","MspI fragments with opposed5′CG ends",MaterialKind.MOLECULAR,state=restriction_state())
+ g.react("digest_mspi","Digest nuclear/lambda DNA with MspI",StepKind.DIGESTION,((naked,InputRole.TEMPLATE),(mspi,InputRole.CATALYST)),(restriction,))
+ klenow=g.input("klenow","5U Klenowexo−,1mM dATP/0.1mM dGTP/0.1mM dCTP",MaterialKind.CATALYST)
+ prep=g.product("dna_prepared","filled and3′dA-tailed fragments",MaterialKind.MOLECULAR,state=prepared_state())
+ g.react("endprep","Fill recessed ends and add3′A with source Klenow mixture",StepKind.END_REPAIR,((restriction,InputRole.TEMPLATE),(klenow,InputRole.CATALYST)),(prep,))
+ adapter=g.input("dna_adapter","standard premethylated indexed Illumina adapters; native strands/member unassigned",MaterialKind.ADAPTER)
+ ligase=g.input("ligase","30U concentratedT4DNA ligase",MaterialKind.CATALYST)
+ ligated=g.product("ligated","adapter-ligated nuclear/lambda DNA",MaterialKind.MOLECULAR,state=dna_population("native premethylated adapter-ligated DNA"))
+ g.react("ligate","Ligate source premethylated indexed adapters",StepKind.LIGATION,((prep,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(ligated,),geometry=AdapterLigationGeometry.unavailable("Source names premethylated indexed adapters, not a chosen canonical native strand assembly."))
+ bs=g.input("bisulfite","MethyCode:98°C10min then64°C2.5h",MaterialKind.CONDITION)
+ converted=g.product("converted","physical converted single strands",MaterialKind.MOLECULAR,state=dna_population("unprotectedC→U; protected methyl-C retained",converted=True))
+ g.react("convert","Bisulfite-convert adapter-ligated DNA",StepKind.CHEMICAL_CONVERSION,((ligated,InputRole.TEMPLATE),(bs,InputRole.CONDITION)),(converted,))
+ trna=g.input("trna","10ng tRNA carrier at conversion-column recovery",MaterialKind.MOLECULAR)
+ recovery=g.input("bs_column","on-column desulfonation/ZymoSpin recovery;30µl elution",MaterialKind.SELECTION)
+ recovered=g.product("recovered","column-recovered converted DNA plus carrier; exact carrier recovery unassigned",MaterialKind.MOLECULAR,state=dna_population("converted U-bearing originals",converted=True,carrier=True))
+ waste=g.product("conversion_waste","physical column fractions",MaterialKind.WASTE)
+ g.react("recover_conversion","Desulfonate/purify converted DNA with tRNA carrier",StepKind.CLEANUP,((converted,InputRole.TEMPLATE),(trna,InputRole.SPIKE_IN),(recovery,InputRole.SELECTION)),(recovered,waste))
+ g.discard(waste,"Source column flowthrough/washes; individual carrier/DNA recovery unassigned.")
+ current=recovered
+ for key,cycles,enzyme in (("dna_round1",25,"PfuTurboCx uracil-stalling-free"),("dna_round2",22,"PhusionHighFidelity")):
+  f=g.input(key+"_forward","native scRRBS forward primer; sequence unassigned",MaterialKind.OLIGO)
+  r=g.input(key+"_reverse","native scRRBS reverse primer; relation between rounds unassigned",MaterialKind.OLIGO)
+  enzyme_port=g.input(key+"_polymerase",enzyme,MaterialKind.CATALYST)
+  product=g.product(key,"amplified nuclear/lambda DNA; copiedU yieldsA/T",MaterialKind.MOLECULAR,state=dna_population("PCR-copied DNA; converted-site A/T",carrier=True))
+  g.react(key+"_pcr",str(cycles)+"cycle "+enzyme+" amplification",StepKind.PCR,((current,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(enzyme_port,InputRole.CATALYST)),(product,),geometry=PCRGeometry.unavailable(current.state,reason="Actual preceding converted/nativePCR mixture; primer strands and inter-round transfer/cleanup remain unassigned."))
+  current=product
+ page=g.input("page","12%nativeTBE PAGE200–500bp",MaterialKind.SELECTION)
+ dna=g.product("dna_library",DNA.name,MaterialKind.LIBRARY,state=DNA)
+ rejected=g.product("page_waste","nonrecovered PAGE size fraction",MaterialKind.WASTE)
+ g.react("size_select","Retain200–500bp DNA library after twoPCRrounds",StepKind.SELECTION,((current,InputRole.TEMPLATE),(page,InputRole.SELECTION)),(dna,rejected))
+ g.discard(rejected,"Physically nonrecovered PAGE size fraction; tRNA/other species class recovery unassigned.")
+ for lib,endpoint in ((rna,RNA),(dna,DNA)):g.sequence(lib,SequencingPlan(library=endpoint,acquired_roles=("Read 1","Read 2"),read_lengths=READ_LENGTHS,limitation="PublishedPE100; native read-primer/index acquisition unassigned."))
+ g.declare_reviewed_scope(REVIEWED,SOURCE)
+ return g.require_publishable()
 
-    rt_primer=g.input("rt_primer","UP1 oligo-dT reverse-transcription primer",MaterialKind.OLIGO,state=(Segment("UP1",tang.UP1),),source=TANG_OLIGO_SOURCE)
-    rt=g.input("rt","reverse transcriptase",MaterialKind.CATALYST)
-    ercc=g.input("ercc","ERCC spike-in RNA (Ambion), pre-loaded in the RT tube",MaterialKind.BIOLOGICAL)
-    first=g.product("first_strand","UP1-primed cytoplasmic cDNA",MaterialKind.MOLECULAR,state=tang.first_strand())
-    g.react("reverse_transcribe","Reverse-transcribe poly(A) RNA with UP1",StepKind.REVERSE_TRANSCRIPTION,((cytoplasm,InputRole.TEMPLATE),(ercc,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(first,))
-    exo=g.input("exonuclease","Exonuclease I",MaterialKind.CATALYST)
-    cleaned=g.product("cleaned_first_strand","first-strand cDNA after free-UP1 removal",MaterialKind.MOLECULAR,state=tang.first_strand())
-    primer_waste=g.product("primer_waste","digested unused UP1",MaterialKind.WASTE)
-    g.react("remove_up1","Remove unused UP1",StepKind.CLEANUP,((first,InputRole.TEMPLATE),(exo,InputRole.CATALYST)),(cleaned,primer_waste))
-    g.discard(primer_waste,"unused reverse-transcription primer is digested")
-    tdt=g.input("tdt","terminal deoxynucleotidyl transferase",MaterialKind.CATALYST)
-    datp=g.input("datp","dATP tailing substrate",MaterialKind.OLIGO)
-    tailed_cdna=g.product("tailed_cdna","TdT poly(A)-tailed first-strand cDNA",MaterialKind.MOLECULAR)
-    g.react("tail_cdna","Add a second poly(A) tail with TdT",StepKind.TAILING,((cleaned,InputRole.TEMPLATE),(datp,InputRole.STRUCTURAL),(tdt,InputRole.CATALYST)),(tailed_cdna,))
-    up2=g.input("up2","UP2 oligo-dT second-strand primer",MaterialKind.OLIGO,state=(Segment("UP2",tang.UP2),),source=TANG_OLIGO_SOURCE)
-    second_pol=g.input("second_strand_polymerase","second-strand polymerase",MaterialKind.CATALYST)
-    duplex=g.product("double_stranded_cdna",tang.amplified_cdna().name,MaterialKind.MOLECULAR,state=tang.amplified_cdna())
-    g.react("second_strand","Synthesize the second strand from UP2",StepKind.EXTENSION,((tailed_cdna,InputRole.TEMPLATE),(up2,InputRole.STRUCTURAL),(second_pol,InputRole.CATALYST)),(duplex,))
-    pcr_pol=g.input("cdna_pcr_polymerase","cDNA PCR polymerase",MaterialKind.CATALYST)
-    amplified=g.product("amplified_cdna","UP1/UP2-amplified cDNA",MaterialKind.MOLECULAR,state=tang.amplified_cdna())
-    g.react("cdna_pcr","Amplify cDNA with UP1 and UP2",StepKind.PCR,((duplex,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),(up2,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(amplified,),geometry=PCRGeometry.exact(tang.amplified_cdna(),PCRPrimer("UP2",tang.UP2),PCRPrimer("UP1",tang.UP1),statement="The inherited Tang supplementary oligo table prints UP1 and UP2, and both sites are located on the amplified cDNA model."))
-    aup1=g.input("aup1","5-prime-amine-blocked AUP1 (NH2-UP1)",MaterialKind.OLIGO,state=(Segment("AUP1",tang.AUP1),),source=TANG_OLIGO_SOURCE)
-    aup2=g.input("aup2","5-prime-amine-blocked AUP2 (NH2-UP2)",MaterialKind.OLIGO,state=(Segment("AUP2",tang.AUP2),),source=TANG_OLIGO_SOURCE)
-    blocked=g.product("amine_blocked_cdna","5-prime-amine-blocked amplified cDNA",MaterialKind.MOLECULAR,state=tang.amplified_cdna())
-    g.react("blocked_pcr","Re-amplify with 5-prime-amine-blocked AUP1/AUP2",StepKind.PCR,((amplified,InputRole.TEMPLATE),(aup1,InputRole.STRUCTURAL),(aup2,InputRole.STRUCTURAL),(pcr_pol,InputRole.CATALYST)),(blocked,),geometry=PCRGeometry.exact(tang.amplified_cdna(),PCRPrimer("AUP2",tang.AUP2),PCRPrimer("AUP1",tang.AUP1),statement="AUP1/AUP2 have the published UP1/UP2 bases and a source-reported 5-prime amine block."))
-    column=g.input("cdna_column","DNA Clean & Concentrator 5 column, then 2% agarose gel and VisClean gel recovery",MaterialKind.SELECTION)
-    selected=g.product("size_selected_cdna","500-3,000-bp purified amplified cDNA",MaterialKind.MOLECULAR,state=tang.amplified_cdna())
-    small_waste=g.product("cdna_gel_waste","amplification primers and fragments outside 500-3,000 bp",MaterialKind.WASTE)
-    g.react("select_cdna","Column-purify and gel-select 500-3,000-bp cDNA",StepKind.SELECTION,((blocked,InputRole.TEMPLATE),(column,InputRole.SELECTION)),(selected,small_waste))
-    g.discard(small_waste,"left in the excised agarose gel; the paper says amplification primers are removed by this selection")
-    shear=g.input("rna_shearing","Covaris S2 shearing condition",MaterialKind.CONDITION)
-    fragments=g.product("rna_fragments","150-250-bp cDNA fragments",MaterialKind.MOLECULAR)
-    g.react("fragment_rna_branch","Shear amplified cDNA",StepKind.FRAGMENTATION,((selected,InputRole.TEMPLATE),(shear,InputRole.CONDITION)),(fragments,))
-    rna_adapter=g.input("rna_adapter","NEBNext Ultra DNA Prep adapter/indexing reagents",MaterialKind.ADAPTER,inferred=True,source=SOURCE+" (kit named, bases not disclosed in the paper)")
-    rna_adapted=g.product("rna_adapted","adapter-completed cytoplasmic cDNA",MaterialKind.MOLECULAR,state=RNA,inferred=True,source=SOURCE+" (NEBNext Ultra terminal oligo bases not disclosed)")
-    g.react("adapt_rna","Build the barcoded Illumina library with NEBNext Ultra",StepKind.LIGATION,((fragments,InputRole.TEMPLATE),(rna_adapter,InputRole.STRUCTURAL)),(rna_adapted,),geometry=AdapterLigationGeometry.unavailable("The paper names NEBNext Ultra DNA Prep E7370 but does not print its adapter-end bases."))
-
-    protease=g.input("protease","protease",MaterialKind.CATALYST)
-    lam=g.input("lambda","60 fg unmethylated lambda DNA (Fermentas) conversion-rate spike-in",MaterialKind.BIOLOGICAL)
-    naked=g.product("naked_dna","released naked nuclear DNA plus lambda spike-in",MaterialKind.MOLECULAR)
-    g.react("release_dna","Release nuclear DNA with protease and spike in lambda DNA",StepKind.DEPROTEINIZATION,((nucleus,InputRole.TEMPLATE),(lam,InputRole.TEMPLATE),(protease,InputRole.CATALYST)),(naked,))
-    mspi=g.input("mspi","MspI restriction endonuclease",MaterialKind.CATALYST)
-    dna_fragments=g.product("mspi_fragments","MspI reduced-representation genomic fragments",MaterialKind.MOLECULAR,state=rrbs.digested_fragment_scene())
-    g.react("digest","Digest nuclear DNA with MspI",StepKind.DIGESTION,((naked,InputRole.TEMPLATE),(mspi,InputRole.CATALYST)),(dna_fragments,))
-    repair=g.input("repair_enzymes","recessed-end repair enzymes",MaterialKind.CATALYST)
-    repaired=g.product("repaired","end-repaired MspI fragments",MaterialKind.MOLECULAR,state=fragments.state)
-    g.react("end_repair","Fill recessed MspI fragment ends",StepKind.END_REPAIR,((dna_fragments,InputRole.TEMPLATE),(repair,InputRole.CATALYST)),(repaired,))
-    tailing=g.input("tailing_polymerase","dA-tailing polymerase",MaterialKind.CATALYST)
-    tailed=_tailed_fragment()
-    da=g.product("da_tailed","3-prime-dA-tailed reduced-representation fragments",MaterialKind.MOLECULAR,state=tailed)
-    g.react("da_tail","Add one 3-prime dA to repaired fragments",StepKind.TAILING,((repaired,InputRole.TEMPLATE),(tailing,InputRole.CATALYST)),(da,))
-    geometry=AdapterLigationGeometry.unavailable("Neither the defining paper nor the inherited scRRBS source prints the ligation-facing DNA adapter oligos or exact end geometry.")
-    dna_adapter=g.input("dna_adapter","inferred canonical premethylated indexed TruSeq illustration",MaterialKind.ADAPTER,state=rrbs.adapter_scene(),inferred=True)
-    ligase=g.input("dna_ligase","adapter DNA ligase",MaterialKind.CATALYST)
-    dna_adapted=g.product("dna_adapted","premethylated-adapter-ligated RRBS fragments",MaterialKind.MOLECULAR,state=DNA)
-    g.react("ligate_dna","INFERRED — ligate compatible premethylated indexed adapters",StepKind.LIGATION,((da,InputRole.TEMPLATE),(dna_adapter,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(dna_adapted,),geometry=geometry)
-    bisulfite=g.input("bisulfite","MethylCode bisulfite conversion, on-column desulfonation and Zymo-Spin purification with tRNA carrier (scRRBS)",MaterialKind.CONDITION)
-    converted=g.product("converted","bisulfite-converted RRBS library templates",MaterialKind.MOLECULAR,state=DNA)
-    g.react("bisulfite_convert","Bisulfite-convert the adapter-ligated DNA",StepKind.CHEMICAL_CONVERSION,((dna_adapted,InputRole.TEMPLATE),(bisulfite,InputRole.CONDITION)),(converted,))
-    cx=g.input("dna_round1_polymerase","PfuTurbo Cx uracil-tolerant polymerase",MaterialKind.CATALYST)
-    r1f=g.input("dna_round1_forward","scRRBS round-1 forward PCR primer (sequence not in the inspected Methods passage)",MaterialKind.OLIGO,inferred=True,source=SOURCE+" via scRRBS (Guo et al. 2013)")
-    r1r=g.input("dna_round1_reverse","scRRBS round-1 reverse PCR primer (sequence not in the inspected Methods passage)",MaterialKind.OLIGO,inferred=True,source=SOURCE+" via scRRBS (Guo et al. 2013)")
-    round1=g.product("dna_round1","first-round (25-cycle) amplified converted library",MaterialKind.MOLECULAR,state=DNA)
-    g.react("dna_round1_pcr","First-round PCR of converted DNA with PfuTurbo Cx (scRRBS round 1 of 2)",StepKind.PCR,((converted,InputRole.TEMPLATE),(r1f,InputRole.STRUCTURAL),(r1r,InputRole.STRUCTURAL),(cx,InputRole.CATALYST)),(round1,),geometry=PCRGeometry.unavailable(DNA,reason="scRRBS Methods give polymerase and 25 cycles but no round-1 primer sequences in the inspected passage."))
-
-    reviewed=["cell","separate","rt_primer","rt","reverse_transcribe","exonuclease","remove_up1","tdt","datp","tail_cdna","up2","second_strand_polymerase","second_strand","cdna_pcr_polymerase","cdna_pcr","aup1","aup2","blocked_pcr","rna_shearing","fragment_rna_branch","rna_adapter","adapt_rna","mspi","digest","repair_enzymes","end_repair","tailing_polymerase","da_tail","dna_adapter","dna_ligase","ligate_dna","bisulfite","bisulfite_convert","ercc","cdna_column","select_cdna","protease","lambda","release_dna","dna_round1_polymerase","dna_round1_forward","dna_round1_reverse","dna_round1_pcr"]
-    finish_pcr_branch(g,"rna",rna_adapted,RNA,RP,reviewed,label="scTrio-seq transcriptome",read_lengths=READ_LENGTHS,inferred_primers=True,limitation="The exact Tang-lineage terminal PCR-primer pair has not yet been transcribed from the defining source.")
-    finish_pcr_branch(g,"dna",round1,DNA,DP,reviewed,label="scTrio-seq genome and methylome",read_lengths=READ_LENGTHS,limitation="Second scRRBS PCR round (Phusion, 22 cycles), followed by 200-500-bp native PAGE size selection. The inherited scRRBS paper identifies QP1/QP2 and fixes the final canonical arms, but the converted pre-PCR intermediate is not represented base-for-base.")
-    g.declare_reviewed_scope(reviewed,SOURCE)
-    return g.require_publishable()
+REVIEWED=("cell","soft_lysis","separate","ercc","up1","rt","rt_copy","exo","digest_up1","tdt","tail","up2","copy_polymerase","second_copy","cdna_polymerase","cdna_pcr","aup1","aup2","amine_pcr","unmodified_cdna_precursors","cdna_column_selection","cdna_column","cdna_gel_selection","cdna_gel","covaris","shear","e7370","e7370_prepare","rna_forward","rna_reverse","rna_polymerase","rna_index_pcr","rna_library","protease","lambda","release_dna","mspi","digest_mspi","klenow","endprep","dna_adapter","ligase","ligate","bisulfite","convert","trna","bs_column","recover_conversion","dna_round1_forward","dna_round1_reverse","dna_round1_polymerase","dna_round1_pcr","dna_round2_forward","dna_round2_reverse","dna_round2_polymerase","dna_round2_pcr","page","size_select","dna_library")

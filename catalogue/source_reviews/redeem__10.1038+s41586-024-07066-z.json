@@ -358,6 +358,49 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "selftest 2 checks pass (N701-N706 and P5/P7 vs Supplementary Data 1) plus construction/primer landing for ATAC, mtDNA and GEX libraries; page builds; pairing 0 problems; chemistry 12 steps 0 established/0 conditional/14 unresolved/0 contradictory with preamplify and rna_library_steps MAGIC warnings; source guard 2 exact checked (P5, P7), 0 failed, tn5_adapters/SI PCR Primer B/N70X symbolic; Markdown built; review schema checked"
+    },
+    {
+      "documents": 3,
+      "locations": "Published SupplementaryInformation MOESM1 ReDeeM Method414–478 (fix/perm/GDN, explicitly citedRevA GEM/preamp/RNAsteps, ATAC8reactionPCR/cleanup, fourprobe captures/P5P7/cleanup, sequencing). Published SupplementaryData1 MOESM5 Primers sheet1–10 and MitoProbe sheet headings/inventory context. Exact cited CG000338RevA original printedidentity and AppendixSequences5632–5688, plus PreAmpPrimersPN2000271 preparation lines3000–3026; targetedscraper run on original guide.",
+      "findings": "Removed protocol_specs.get, batch recipe seg and RNA-molecule helper. Local independent nuclearDNA/mtDNA/RNA/cDNA Scene populations replace false cell/mixture covalent chains. Source GEM/native transfer bounded with actualsscDNA retained, followed by actualmixed-input commercial preampPCR; no expected duplex template. ATAC8×5µl andRNA35µl retain same mixedpreamp;25µl remainder explicit. Source-indexedATAC structure retained from exact citedRevA, N70X source own. Actualprobe-bound denatured indexedDNA/probe/background population feeds postcapturePCR. Named RNA finishing remains historicalsource kit boundary; no borrowed nativeassembly. Existing published probe/revision/readmask disagreements preserved; RNAacquisition unassigned with explicit tables and physical10ntindices separate from acquiredcycles. eUMI stays computational Tn5start/end+cellbarcode, not invented physicalUMI.",
+      "deferred": [
+        "Defining article main text and separate supplementary protocol not reread in currentcap; previouslocated discrepancy scope retained as history",
+        "Native commercial preamp/SIPrimerB/TSO/adapter/index first-cycle and full transfer/end assembly",
+        "Historical xGen kit revision and exact bound-probe duplex geometry/quantitative off-target recovery",
+        "Published RevA/RevB procedure identity, probe specification and RNA mask disagreements remain unresolved; no new source absence conclusion"
+      ],
+      "round": "2026-10-18-batch04-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "oligo_scraper": "Mandatory full-bundle scraper reviewed; selected source oligos/modifications verified directly. ReDeeM targetedscraper also ran on exact citedRevA original. Uninspected numerical/large-source skips do not establish absence.",
+      "scope": "Capped native graph migration only; historical evidence boundaries retained, no absence accepted.",
+      "verification": "Source suite2/2 pass; page and pairing pass; chemistry15 unresolved/0contradictory; batch sourceguard24checked/0failed/2documented pMENTs strand exemptions/8unassigned inputs; notes/schema and diffcheck checked."
+    },
+    {
+      "round": "2026-10-18-batch04-implementation-correction",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current ReDeeM graph and parent independent review; original three-document batch04 migration scope referenced, no originals reread.",
+      "findings": "Expanded the source-named RNA finishing sequence into actualmixedaliquot cDNA-PCR, nativefragmentation/endrepair/dA, unavailableadapterligation, and actualpre-indexPCR input. Sourcebarcode/UMI lineage retained on nativefragmenttarget classes; othermixedfragments carried separately. Opposed3′dA uses complement-derived strands and no assigned5′phosphate. No newcleanup/conditions invented. NativeRNA fate acrossGEMcleanup explicitlyunassigned; copiedcDNA row is not physicalRNA. Published source/run conflict notices retained.",
+      "deferred": [
+        "Existing historical primer/adapter/end/first-cycle geometry and source acquisition discrepancies remain. No additional original or linked-source scope inspected."
+      ],
+      "scope": "Narrow implementation correction, not a new original-source or absence audit.",
+      "verification": "Suite2/2 pass; page/pairing0; chemistry4conditional/22unresolved/0contradictory; scoped sourceguard3checked/0failed/0exemptions/9unassigned inputs; notes/schema/diffcheck checked."
+    },
+    {
+      "round": "2026-10-18-batch04-independent-critical-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Currentdeclared nativegraphs, notes and quoted source scope; no additional originals read.",
+      "findings": "Reviewed mixed ss/native preampinputs, actual8×5µlATAC/35µlRNA split and25µl remainder, probe-bound capturePCR. Parent identified oneMAGIC hiding knownRNA reactionsequence; owner expanded source-known cDNA PCR, fragmentation, endrepair, exposed dA, unavailableadapterligation and actualpreindexPCR. NativeRNAfate explicit; publisheddiscrepancies preserved. Re-inspected corrected code.",
+      "deferred": [
+        "Existing historical primer/adapter/end/first-cycle geometry and source acquisition discrepancies remain. No additional original or linked-source scope inspected."
+      ],
+      "scope": "Implementation-only review; not second original-source reading or acceptedabsence.",
+      "verification": "Parent focused suite/page/scopedchemistry/sourceguard/review schema pass after correction; pagepairing0problems."
     }
   ]
 }

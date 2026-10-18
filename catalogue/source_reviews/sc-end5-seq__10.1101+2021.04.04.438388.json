@@ -98,6 +98,21 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "suite 4/4 pass (new TS-sequence transcription check); page builds; pairing 0 problems; chemistry 0 established/0 conditional/15 unresolved/0 contradictory with 2 kit_steps MAGIC warnings; source guard 0 exact checked, 0 failed, 8 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-validation-ownership-migration",
+      "reviewer": "local_ownership_migration_review",
+      "date": "2026-10-18",
+      "scope": "Capped source-qualified ownership migration; no accepted absence finding or full chemistry validation.",
+      "oligo_scraper": "Whole cached bundle scraper run; relevant exact source passages and ordering rows inspected. No scraper result is used as absence evidence.",
+      "documents": 1,
+      "locations": "bioRxiv v2 original 2021.04.04.438388_v2.full.pdf.txt Methods lines 1381–1457: sc-end3 control versus initial sc-end5 kit, dT/random RT primers, 53°C RT, 12/14-cycle cDNA PCR, subsequent kit delegation, i7 plate assignment and paired 75-base HiSeq reads.",
+      "findings": "Removed extended_protocols defaults/finishers and role_library endpoint. Local cell/UMI roles preserve unresolved original bead lengths; i7 sample index no longer silently receives eight bases. Both branches retain their source cDNA PCR; its unavailable geometry describes the actual switched-cDNA substrate. Downstream standard kit preparation is one explicit boundary ending in a library, not a generic extra PCR appended after that boundary. The source 75/75 acquired reads now live in each graph plan.",
+      "deferred": [
+        "Original kit-specific library processing, cDNA primer mix, bead sequence/length assignments and selected i7 well",
+        "Acquired index cycles and complete version-matched run geometry"
+      ],
+      "verification": "Four local source checks, page build, pairing and scoped source guard pass. Chemistry: 9 steps, 0 established/0 conditional/11 unresolved/0 contradictory; kit boundaries remain warned."
     }
   ]
 }

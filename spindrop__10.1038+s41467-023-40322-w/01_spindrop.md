@@ -12,13 +12,10 @@
 
 ## Oligo source review
 
-🟢 The linked preprint (doi:10.1101/2023.01.12.523500, extracted methods
-around lines 1083–1139) says that the barcoded beads were prepared according
-to the cited inDrop protocol with **inDrop v3 oligonucleotide barcoding**.
-The sequencing recipe is Read 1 = 61 cycles, Index 1 and 2 = 8 cycles each,
-and Read 2 = 14 cycles. The source describes release of bead oligos by UV
-exposure and RT after picoinjection, but prints no ordering-level capture
-oligo, amplification primer, index primer, or sequencing primer bases.
+🟢 The published article (PMC10409775 Methods lines281–293) specifies
+inDrop-v3 bead preparation, UV primer release, and RT after picoinjection.
+It states61/8/8/14 acquisition. The superseded preprint is retained as history
+and is not an active source for this migration.
 
 🟡 The spinDrop molecular model is currently role-level. To resolve its
 primer-binding geometry, the cited inDrop preparation protocol (Zilionis et
@@ -36,3 +33,25 @@ Inspected: Published PMC10409775 JATS265–294, microfluidic encapsulation and R
 Corrected citation to DeJonghe etal. Added25-minute23°C lysis/7-minuteUV primer release before70°C10-minute treatment; clarified bead primers precede picoinjected RT reagent. Recorded61/8/8/14 acquisition.
 
 Deferred: Detailed inherited inDrop-v3 IVT/library construction and recovery, selected bead oligos and RT-variant conditions; quantitative barcode-like workbook hits not treated as molecular oligos. This capped pass does not establish a complete source review or publication-wide absence.
+
+## Local chemistry ownership migration — 2026-10-18
+
+The local graph now declares the source's physical picoinjection step, followed
+by SuperScript III RT, separately from the inherited library route. The bead
+primer was already released by UV before picoinjection; it is not newly added
+by the RT solution. Published Methods line293 gives the selected 50 °C,2 h
+RT followed by70 °C,15 min and the 61/8/8/14 acquisition, now carried by the
+graph read plan. The Maxima H− and PEG options remain separate alternatives.
+
+The whole downstream inDrop preparation ends at one explicit source-qualified
+boundary: recovery, second strand, IVT, later transformations, adapters and
+PCR are not yet mapped for the v3 implementation. A shared default no longer
+adds a terminal PCR beyond that boundary. The local cell/UMI/index roles retain
+unassigned sequence lengths; eight acquired index cycles do not establish
+eight-base index regions. This is an implementation/source-review limit, not
+a claim that inherited protocol chemistry was unpublished.
+
+Re-read one original: published PMC10409775 Methods lines265–293. The source
+bundle scraper returned no sequence hits; two large extracted tables were
+explicitly skipped by its size limit. This result supplies no absence evidence.
+The source-defined v3/predecessor methods remain deferred.

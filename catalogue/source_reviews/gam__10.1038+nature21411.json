@@ -167,6 +167,34 @@
       ],
       "scope": "Second-reader re-adjudication of rows first read in round 10; no accepted missing-information claim.",
       "verification": "audit_protocol_sources --check passes"
+    },
+    {
+      "round": "2026-10-18-batch02-native-graph-migration",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "PublishedPMC5366070 JATS WGA/library Methods183–197; publishedSupplementaryTable1 NP/library/index columns.",
+      "oligo_scraper": "Mandatory localbundle scraper run; relevant original passages verified. SupersededDropBSpreprint and large derivedmethylation/GAManalysis tables not used as chemistry evidence.",
+      "scope": "Capped original-source/localnativegraph migration, not fullprotocol review oracceptedpublicationabsenceclaim.",
+      "findings": "Native selectedTruSeqHT graph, separateNano350alternative. ActualWGAprepared independentregions feed WGA PCR; MinElute/nativeHTboundary/Pippin300–500 explicit. UnknownWGAoligos andHTendarchitecture stayroles, no canonicalTruSeqdefaults or inventedterminalPCR. Source30bpWGAends retained, molecular30kbbin-length errorremoved. Known8base NPindexinventory isnot8acquiredcycles. Source100bp/30dark relation unresolved; controlspeciesdiscrepancy retained; uncollectedsamplefateunresolved.",
+      "deferred": [
+        "NativeWGAattachment/primer species and HTkit endprocessing/PCR; dark-cycle customrecipe/indexacquisition; earlierprofile/controlpassages not comprehensively reread."
+      ],
+      "verification": "Suite 2/2 pass; page and notes build; chemistry 8 steps, 0 established, 0 conditional, 9 unresolved, 0 contradictory; pairing 0 problems; source guard 0 failed, 3 inputs without exact states (wga_forward, wga_reverse, ht_indexes); source-review schema passes."
+    },
+    {
+      "round": "2026-10-18-batch02-independent-critical-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "tools/chem.py nuclear_profile_scene, protocol_graph WGA/native-HT branches, endpoint and read declarations; source-review migration target list and newest bounded source scope.",
+      "existing_source_scope": "Published PMC5366070 Methods183–197 and published SupplementaryTable1 NP/library/index columns from existing batch02 source scope, not re-read here.",
+      "findings": "No concrete critical implementation defect found. Independent genomic regions remain separate rows; actual WGA-prepared substrates enter PCR. Selected HT manufacturer boundary, HT Pippin selection, alternative Nano separation, physical index inventory versus acquisition, unresolved dark-cycle relation and non-collected profile material are explicit. Explicit curator target list is independent of graph traversal.",
+      "deferred": [
+        "Unknown native WGA attachment/primer species, delegated historical HT chemistry and exact imaged/index-cycle acquisition are declared proof/source boundaries, not identified migration defects."
+      ],
+      "scope": "Independent code-only critical review; no new source search or original reading, no accepted absence claim and no complete molecular-proof claim.",
+      "verification": "Read-only code/semantics and existing bounded source-scope inspection; parent/author own fresh focused checks."
     }
   ]
 }

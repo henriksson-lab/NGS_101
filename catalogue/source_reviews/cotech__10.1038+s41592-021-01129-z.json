@@ -99,6 +99,47 @@
       ],
       "scope": "Capped pass; preprint used provisionally for order only; no accepted missing-information claim.",
       "verification": "local suite 12 checks pass (Table S1 transcription of 12 displayed oligos); page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 9 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch09-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published SpringerMOESM3 SupplementaryTable1 Custom_primers1–11, PA-Tn5barcode/exampleT5/T7rows12–63, RTbarcode01/D8/polyTexample64onward and indexfamilyheadings; publishedMOESM1 SupplementaryNotes opening/entire shortNotes text comparing assay modalities/countingintronicRNA. Manifest originalidentities checked. OfficialNature definingarticle attempted once; nonretryableidpredirect, not read or counted. Mandatory bundle scraper/hits/modifications reviewed.",
+      "findings": "Removed multimodal_protocols Definition/ident, chain/role_library and active supersededpreprint order. SourceTable1 exact duplex transfer/common strands, RTprimer withD8 and sourceTSOrGrG+G are local structuredinputs. Conditional nativefirstwell/commonprocessing/precursor boundaries explicitly state publishedMethods/order unread; no preprint enzyme/primer assignment promoted. Mixed DNA/RNA class Scenes, actual incoming source-bounded ss/referencePCRsubstrates and residualoriginal lineage replace false DNA/RNA chains and expected-endpoint templates. Both endpoints preserve knownT5/T7orRT/UMI features; secondarywell width/run unknown. This is a sourcecomponent migration with unverified complete execution sequence, not full published chemistry validation.",
+      "deferred": [
+        "Published definingMethods including actual operationorder/reagent assignments, preamp/pooling/redistribution/recovery and RNA/DNA precursor formation",
+        "Cited CoBATCH/predecessor and native exact first-cycle strand geometry",
+        "Native secondarywell indexassignment/member/width and actual read/indexacquisition; sourceavailability unresolved, no accepted absence"
+      ],
+      "scope": "Capped source/native component migration only; historical status unchanged, no new absence acceptance. CoTECH complete published execution-order validation remains deferred.",
+      "verification": "Suites3/12/7 and pages pass; guard22checked0failed7unassigned0exemptions; pairing0; chemistry12established70unresolved0contradictory. Static OUT wrappers retained; source-review schema/notes checked after entry creation. Independent critical review pending."
+    },
+    {
+      "round": "2026-10-18-batch09-independent-implementation-review",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "tools/chem.py: published localOLIGOS/adapter_scene/rt_parts/mixed_state, bounded native_firstwell/native_common_boundary/branch_inputs/native_finishing relations, actual mixed PCRprecursors and unassigned sequencing declarations.",
+      "findings": "Critical review retained published component identity separately from unread definingMethods execution order. Corrected former physicalPARTITION into an explicit unknown-native-allocation boundary: sourceTable1 does not establish a DNA/RNAaliquot split, and both conditional branch input classes retain both molecular modalities. Public caveat now matches this scope. Actual source-qualified ss-cDNA/tagged reference mixtures enter PCR, not expected finalduplexes; printed barcodes/D8UMI/TSO and pA-Tn5 transfer/common strands retain distinct identities. Published original unavailability is explicit and preprint ordering is not promoted. No remaining concrete implementation defect within this intentionally bounded component-reconstruction scope.",
+      "deferred": [
+        "Original-source reinspection, existing native sequence/kit/revision/geometry deferrals and any source absence gate remain outside this code-only review."
+      ],
+      "scope": "Independent critical implementation review of released code and supplied frozen source bounds;0originals inspected. Automated source suites/guards run. Does not supply independent original-source absence evidence, promote source status, or claim complete protocol chemistry validation.",
+      "verification": "Suites12pass; pagebuild; chemistry7steps0contradictions with explicit unread/nativeallocation warnings; sharedguard22checked0failed7unassigned across3; pairing0; staticOUTsyntax/diagram_out and whitespace checked."
+    },
+    {
+      "round": "2026-10-18-batch09-structured-identifier-followup",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "CoTECH local UMI feature declaration and existing Table1 D8 source transcription; no new originals.",
+      "findings": "The known D8 synthesis pattern now has degenerate encoding rather than unconstrained random encoding. Feature identity, source bases and physical width are retained through reagent/copy states. This matches the constrained-pattern treatment independently checked for SSPII.",
+      "deferred": [
+        "Unverified published CoTECH execution/allocation and native geometry remain source-bounded"
+      ],
+      "scope": "Implementation-only structured-data clarification; documents0, no source-absence/status upgrade.",
+      "verification": "CoTECH focused source suite/page/chemistry/guard/schema and site rebuilt after this metadata correction."
     }
   ]
 }

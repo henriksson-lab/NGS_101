@@ -119,6 +119,35 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 4 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch05-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC7022195 JATS Methods165–181; original PNAS SI pnas.1919800117.sapp.pdf pp.2–4, hybrid formation, transposome assembly and library preparation (text84–169).",
+      "oligo_scraper": "Ran tools/scrape_primers.py on external source bundle and checked relevant published source lines; superseded preprint hits excluded. snRandom source-data workbook exceeds default scan cap and remains deferred. No-hit or class-expansion mismatch is not an absence finding.",
+      "findings": "Selected the 200-ng purified-RNA branch, 42°C/1.5h RT without ISPCR/TSO, 0.05µl loaded transposome at55°C/30min, SuperScript II/Q5 gap extension at42°C/15min then70°C/15min, 12-cycle PCR and1:1 VAHTS purification. Replaced generic Nextera index-length/arm defaults by local endpoint roles. RNA/cDNA and residual RNA are independent populations; PCR uses the actual gap-extension mixture, with native geometry unresolved. Standard unmodified transfer oligos remain distinct from SI ribonucleotide test variants and scSHERRY.",
+      "deferred": [
+        "Exact TD202 index-primer members, acquired read/index cycles and complete native gap-fill topology",
+        "Picelli2014 transposome and Smart-seq2 predecessor scope remain deferred; no linked-source closure accepted."
+      ],
+      "scope": "Bounded native-declaration migration only; prior status and historical independent passes unchanged. No absence gate accepted.",
+      "verification": "Affected suites/pages pass; chemistry zero contradictions (SHERRY two exact loaded-adapter duplex claims); source guard passes with source-specific shorthand/placeholder exemptions; local pairing and review schema pass. Shared/static/full-site checks remain parent-owned."
+    },
+    {
+      "round": "2026-10-18-batch05-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current local protocol module, protocol graph input/product/geometry/terminal declarations, oligo/read declarations, latest migration notes and bounded source scope. Published originals were not reread in this independent implementation pass.",
+      "scope": "Independent code-only review using existing bounded source migration scope. No new source assertion, absence acceptance or status upgrade.",
+      "findings": "Independent implementation review found no concrete critical defect in selected200-ng branch: RT/hybrid and residual RNA are independent populations, loaded S5/S7/ME adapters have paired loading strands, actual gap-extension state supplies unavailable PCR geometry, TD202 native endpoints/index widths stay unassigned, and bead cleanup does not assert species-specific removal. Standard unmodified adapters remain separate from ribonucleotide test variants.",
+      "deferred": [
+        "Native TD202 full primer assembly/width and first-cycle gap-fill geometry",
+        "Selected study acquired-read/index cycles and linked predecessor scope"
+      ],
+      "verification": "Read-only critical review except this documents0 record; snRandom owner correction checked in current code and owner-rebuilt page. Full focused verification remains parent-owned."
     }
   ]
 }

@@ -2,14 +2,15 @@
 from __future__ import annotations
 
 from adapter_ligation import AdapterLigationGeometry
-from batch_ngs import seg
-from chemdraw import (Construct, MolecularState, Row, Scene, Workflow,
+from chemdraw import (Construct, MolecularState, Row, Scene, Segment, Workflow,
                       complement_segments, duplex_rows, feature)
-from multibranch import illumina_branch
-from multimodal_spatial import finish_pcr_branch
 from pcr import PCRGeometry
 from protocol_graph import (Highlight, InputRole, MaterialKind, ProtocolGraph,
-                            SourceClaim, SourceDiscrepancy, StepKind)
+                            SourceClaim, SourceDiscrepancy, StepKind, SequencingPlan, Disposition, Terminal)
+
+import seqprimers as sp
+from protocol_model import molecule,role
+seg=Segment
 
 TITLE = "DR-seq — genome and transcriptome without physical separation"
 NOTES = "01_dr-seq.html"
@@ -21,7 +22,7 @@ SUMMARY = ("A cell-barcoded oligo(dT) first makes cDNA in the same lysate as gen
 CAVEAT = ("The checked DR-seq paper prints P1, P2 and P3, but not the complete Ad-1x "
           "or Ad-2 oligos. Its cited CEL-Seq source has not been reviewed, so their full "
           "working sequences are inferred. RNA library finishing follows CEL-Seq and DNA "
-          "library finishing names NEBNext Ultra; their outer oligos also remain inferred. "
+          "library finishing names historical NEBNext Ultra; their native outer adapter/index geometry remains unassigned, with no canonical shell substituted. "
           "The article gives Ad-2 eight random 3′ nucleotides, while the supplement says "
           "its 3′ end is GGG or TTT; see the source discrepancy below.")
 
@@ -123,9 +124,9 @@ P3_AMPLICON = p3_amplicon()
 
 def arna_product() -> Construct:
     return Construct([
-        seg("T7 initial G-rich end", "GGG", "t7"), seg("RA5", RA5, "r1"),
+        seg("T7 initial G-rich end", "GGG", "t7",inferred=True), seg("RA5", RA5, "r1",inferred=True),
         seg("cell barcode", "B" * CELL_BARCODE_NT, "cbc", placeholder=True,
-            feature=feature("cell_barcode", "cell_barcode", "fixed")),
+            feature=feature("cell_barcode", "cell_barcode", "fixed"),inferred=True),
         seg("poly(U) and antisense transcript", "UUU" + "X" * 38, placeholder=True),
         *complement_segments(ad2_segments(), suffix=" complement"),
     ], name="cell-barcoded antisense RNA")
@@ -141,18 +142,23 @@ def arna_rows():
 
 # The exact post-sonication DNA insert and exact post-IVT RNA insert are retained, while
 # outer Illumina completion is marked inferred because those oligos are not printed here.
-DNA, DP = illumina_branch("DR-seq genome", "sonicated genomic insert",
-                          architecture="truseq", inferred_adapters=True)
-RNA, RP = illumina_branch("DR-seq transcriptome", "3-prime RNA-derived insert",
-                          cell=CELL_BARCODE_NT, inferred_adapters=True,
-                          encoding="fixed")
+DNA=Construct([role("NEBNext Ultra genome library; native outer adapter/index architecture unassigned",inferred=True,
+                    molecular_feature=feature("genome_library_cell_index","sample_index","unknown",note="Source uses different index primers for each single cell"))],name="DR-seq genome endpoint (bounded NEBNext route)")
+RNA=Construct([role("CEL-Seq outer left end; unassigned",inferred=True),
+    role("Ad-1x cell barcode",length_bp=CELL_BARCODE_NT,inferred=True,molecular_feature=feature("cell_barcode","cell_barcode","fixed")),
+    role("RNA-derived insert; variable extent"),role("CEL-Seq outer right end; unassigned",inferred=True)],name="DR-seq transcriptome endpoint (bounded CEL-Seq route)")
+DP=RP=()
+READ_SPECS={"Genome library":(sp.read_spec("Read 1","50 or100","genomic fragment; exact native primer/index geometry unassigned","include"),sp.read_spec("Read 2","50 or100","opposite genomic fragment end","include")),
+ "Transcriptome library":(sp.read_spec("Read 1",100,"CEL-Seq-derived cell identity/transcript readout; exact allocation unassigned","undetermined"),sp.read_spec("Read 2",100,"CEL-Seq-derived paired readout; exact allocation unassigned","undetermined"))}
+SEQUENCING_UNAVAILABLE="Defining paper specifies paired HiSeq2500 runs; versioned NEBNext/CEL-Seq adapter, index and sequencing-primer architecture remain unassigned."
+
 FINAL_LIBRARIES = (
     ("Genome library", DNA, DP,
      "NEBNext Ultra library from sonicated, Ad-2-depleted genomic amplicons; outer shell is inferred because its lot-specific oligos are not printed.",
-     "Canonical TruSeq-family primer landing on the inferred NEBNext shell."),
+     "Physical NEBNext adapter/index geometry remains unassigned; no canonical TruSeq shell is substituted."),
     ("Transcriptome library", RNA, RP,
      "Directional CEL-Seq-derived library retaining the 8-nt Ad-1x cell barcode; outer small-RNA completion is shown as inferred.",
-     "Primer landing is shown on the inferred Illumina shell; see the evidence caveat."),
+     "Native CEL-Seq primer/index geometry remains unassigned; paired100-cycle readout is source-declared."),
 )
 
 
@@ -201,28 +207,37 @@ def workflow() -> Workflow:
     return wf
 
 
+def common_population(*,p3=False):
+    scene=Scene()
+    scene.strand("genome population",tuple(P3_AMPLICON if p3 else GDNA_AMPLICON),label="genome-derived representative amplicons")
+    scene.strand("transcript population",tuple(CDNA_AMPLICON),label="transcript-derived material in the same tube; recovery/amplification not resolved")
+    return scene
+
+
+def cell_population(*,copied=False):
+    sc=Scene.duplex([role("genomic DNA population")],unpaired=("genomic DNA population'",))
+    sc.strand("RNA or cDNA",[*ad1_segments(),role("first-strand cDNA")] if copied else [role("poly(A) mRNA")],label="independent first-strand cDNA" if copied else "independent mRNA")
+    return sc
+
+
 def protocol_graph():
     """Typed provenance for DR-seq's common amplification and two finishes."""
     g = ProtocolGraph(TITLE, authority=SOURCE)
     cell = g.input(
         "cell_lysate", "one lysed cell containing genomic DNA and poly(A) RNA",
         MaterialKind.BIOLOGICAL,
-        state=[*Scene.duplex([seg("genomic DNA", "X" * 42, placeholder=True)],
-                             label="single-cell genomic DNA").rows(),
-               *rt_scene().rows()], primary=True)
+        state=cell_population(),primary=True)
 
     ad1 = g.input("ad1", "cell-barcoded Ad-1x oligo(dT)24V primer",
-                  MaterialKind.OLIGO, state=rt_scene())
+                  MaterialKind.OLIGO, state=molecule("INFERRED Ad-1x",tuple(ad1_segments())))
     rt = g.input("rt", "ArrayScript reverse transcriptase (MessageAmp II), 42 °C then 80 °C 10 min",
                  MaterialKind.CATALYST)
     copied = g.product(
         "copied", "Ad-1x-tagged cDNA beside genomic DNA",
         MaterialKind.MOLECULAR,
-        state=[*rt_scene().rows(),
-               *Scene.duplex([seg("genomic DNA", "X" * 42, placeholder=True)],
-                             label="unchanged genomic DNA").rows()])
+        state=cell_population(copied=True))
     g.react(
-        "reverse_transcribe", "Reverse-transcribe RNA with cell-barcoded Ad-1x",
+        "reverse_transcribe", "INFERRED Ad-1x model — reverse-transcribe RNA",
         StepKind.REVERSE_TRANSCRIPTION,
         ((cell, InputRole.TEMPLATE), (ad1, InputRole.STRUCTURAL),
          (rt, InputRole.CATALYST)), (copied,))
@@ -239,70 +254,61 @@ def protocol_graph():
         state=[*ad2_priming_scene("genomic DNA").rows(),
                *ad2_priming_scene("Ad-1x-tagged cDNA").rows()])
     g.react(
-        "random_prime", "Random-prime genomic DNA and cDNA with Ad-2",
+        "random_prime", "INFERRED Ad-2 model — random-prime genomic DNA and cDNA",
         StepKind.EXTENSION,
         ((copied, InputRole.TEMPLATE), (ad2, InputRole.STRUCTURAL),
          (strand_polymerase, InputRole.CATALYST)), (primed,))
     coamplified = g.product(
         "coamplified", "quasilinearly co-amplified genome and transcript products",
         MaterialKind.MOLECULAR,
-        state=[*duplex_rows(GDNA_AMPLICON, label="genome-derived Ad-2/Ad-2 species"),
-               *duplex_rows(CDNA_AMPLICON,
-                            label="transcript-derived Ad-2/Ad-1x species")])
+        state=common_population())
     g.react(
-        "quasilinear_cycles", "Run seven MALBAC-like quasilinear extension cycles",
+        "quasilinear_cycles", "INFERRED representative products — seven quasilinear cycles",
         StepKind.EXTENSION,
         ((primed, InputRole.TEMPLATE), (ad2, InputRole.STRUCTURAL),
          (strand_polymerase, InputRole.CATALYST)), (coamplified,))
 
     dna = g.product("dna_branch", "genome finishing aliquot",
-                    MaterialKind.MOLECULAR, state=GDNA_AMPLICON)
+                    MaterialKind.MOLECULAR, state=coamplified.state)
     rna = g.product("rna_branch", "transcriptome finishing aliquot",
-                    MaterialKind.MOLECULAR, state=CDNA_AMPLICON)
+                    MaterialKind.MOLECULAR, state=coamplified.state)
     g.react("split", "Split the common amplification pool into DNA and RNA aliquots",
             StepKind.SPLIT, ((coamplified, InputRole.TEMPLATE),), (dna, rna),
             changes_molecule=False)
 
     p2_forward = g.input("p2_forward", "P2 genome-amplification primer",
                          MaterialKind.OLIGO, state=Construct([seg("P2", P2)], name="P2"))
-    p2_reverse = g.input("p2_reverse", "opposing P2 genome-amplification primer",
-                         MaterialKind.OLIGO, state=Construct([seg("P2", P2)], name="P2"))
     p2_polymerase = g.input("p2_polymerase", "Deep VentR (exo-) DNA polymerase",
                             MaterialKind.CATALYST)
     p2_product = g.product(
         "p2_product", "P2-amplified genomic products", MaterialKind.MOLECULAR,
-        state=GDNA_AMPLICON)
+        state=common_population())
     g.react(
         "p2_pcr", "Amplify the genome aliquot with P2 (21 cycles), column clean-up", StepKind.PCR,
         ((dna, InputRole.TEMPLATE), (p2_forward, InputRole.STRUCTURAL),
-         (p2_reverse, InputRole.STRUCTURAL),
          (p2_polymerase, InputRole.CATALYST)), (p2_product,),
         geometry=PCRGeometry.unavailable(
-            GDNA_AMPLICON,
-            reason="The source gives one P2 sequence for the repeated Ad-2 handles; this representative construct does not assert a unique oriented primer pair."))
+            dna.state,symmetric_species=True,
+            reason="The actual aliquot retains both analytes. The source gives one P2 sequence for the repeated Ad-2 handles; this representative construct does not assert a unique oriented primer pair."))
 
     p3 = g.input("p3_biotin", "5-prime-biotin P3 primer", MaterialKind.OLIGO,
                  state=Construct([seg("5'-biotin P3", P3)], name="5'-biotin P3"))
-    p3_partner = g.input("p3_partner", "the same 5-prime-biotin P3 primer at the opposing end",
-                         MaterialKind.OLIGO,
-                         state=Construct([seg("5'-biotin P3", P3)], name="5'-biotin P3"))
     p3_product = g.product(
         "p3_product", "biotin-P3/P3 genomic amplicons",
-        MaterialKind.MOLECULAR, state=P3_AMPLICON)
+        MaterialKind.MOLECULAR, state=common_population(p3=True))
     g.react(
         "p3_pcr", "Re-amplify 80 ng with 5-prime-biotin P3 (4 cycles 46 °C, 9 cycles 59 °C)",
         StepKind.PCR,
         ((p2_product, InputRole.TEMPLATE), (p3, InputRole.STRUCTURAL),
-         (p3_partner, InputRole.STRUCTURAL),
          (p2_polymerase, InputRole.CATALYST)), (p3_product,),
         geometry=PCRGeometry.unavailable(
-            GDNA_AMPLICON,
+            p2_product.state,symmetric_species=True,
             reason="The Methods list only biotin-P3, which differs from the Ad-2 handle at positions "
                    + ", ".join(map(str, p3_mismatch_positions()))
                    + "; the priming geometry of the mismatched first cycles is not modelled."))
     shear = g.input("shearing", "sonication condition", MaterialKind.CONDITION)
     fragmented = g.product("fragmented_dna", "sonicated genome amplicons",
-                           MaterialKind.MOLECULAR, state=p3_product.state)
+                           MaterialKind.MOLECULAR, state=molecule("sonicated population",(role("internal fragments and biotin-P3 end fragments; lengths/end positions unassigned"),)))
     g.react("sonicate", "Sonicate (Bioruptor, low, 15 cycles) to ~300 bp and column-purify",
             StepKind.FRAGMENTATION,
             ((p3_product, InputRole.TEMPLATE), (shear, InputRole.CONDITION)),
@@ -310,7 +316,7 @@ def protocol_graph():
     streptavidin = g.input("streptavidin", "streptavidin depletion matrix",
                            MaterialKind.SELECTION)
     depleted = g.product("depleted_dna", "Ad-2-depleted sonicated DNA",
-                         MaterialKind.MOLECULAR, state=fragmented.state)
+                         MaterialKind.MOLECULAR, state=molecule("retained supernatant+wash DNA",(role("sonicated Ad-2-depleted DNA; transcript carryover unquantified"),)))
     bound = g.product("bound_ad2", "streptavidin-bound Ad-2 end fragments",
                       MaterialKind.WASTE)
     g.react(
@@ -320,20 +326,12 @@ def protocol_graph():
          (streptavidin, InputRole.SELECTION)), (depleted, bound),
         changes_molecule=False)
     g.discard(bound, "contains the biotin-labelled Ad-2 ends removed before library prep")
-    neb_adapter = g.input(
-        "neb_adapter", "NEBNext Ultra DNA-library adapter",
-        MaterialKind.ADAPTER, inferred=True,
-        source=SOURCE + " (kit named; lot-specific adapter oligos not printed)")
-    dna_adapted = g.product(
-        "dna_adapted", "NEBNext-adapted genome fragments",
-        MaterialKind.MOLECULAR, state=DNA, inferred=True,
-        source=SOURCE + " (outer NEBNext shell inferred from the named kit)")
-    g.react(
-        "adapt_dna", "Ligate the named NEBNext Ultra adapter",
-        StepKind.LIGATION,
-        ((depleted, InputRole.TEMPLATE), (neb_adapter, InputRole.STRUCTURAL)),
-        (dna_adapted,), geometry=AdapterLigationGeometry.unavailable(
-            "The paper names NEBNext Ultra but does not print its lot-specific adapter-end geometry."))
+    neb_kit=g.input("neb_kit","NEBNext Ultra DNA Library Prep Kit with distinct index primers per cell",MaterialKind.CONDITION)
+    dna_library=g.product("dna_library","indexed genome sequencing library",MaterialKind.LIBRARY,state=DNA)
+    g.react("dna_library_prep","Prepare indexed DNA library using NEBNext Ultra",StepKind.MAGIC,
+        ((depleted,InputRole.TEMPLATE),(neb_kit,InputRole.CONDITION)),(dna_library,),
+        reason="The original names the historical kit; its lot-specific end preparation/adapter/index PCR sequence is not reconstructed, and no later kit revision or canonical duplex is substituted.")
+    g.sequence(dna_library,SequencingPlan(library=DNA,acquired_roles=("Read 1","Read 2"),limitation="HiSeq2500 paired50 or100 DNA runs; no particular alternative or physical primer/index architecture is assigned."))
 
     p1 = g.input("p1", "P1 transcript-branch primer", MaterialKind.OLIGO,
                  state=Construct([seg("P1", P1)], name="P1"))
@@ -341,7 +339,7 @@ def protocol_graph():
                                 MaterialKind.CATALYST)
     t7_template = g.product(
         "t7_template", "P1-completed cell-barcoded T7 template",
-        MaterialKind.MOLECULAR, state=CDNA_AMPLICON)
+        MaterialKind.MOLECULAR, state=common_population())
     g.react(
         "second_strand", "P1 second strand (one PCR cycle); pool non-overlapping barcodes; column-purify",
         StepKind.EXTENSION,
@@ -350,19 +348,21 @@ def protocol_graph():
     t7_polymerase = g.input("t7_polymerase", "T7 RNA polymerase",
                             MaterialKind.CATALYST)
     arna = g.product("arna", "cell-barcoded antisense RNA copies",
-                     MaterialKind.MOLECULAR, state=ARNA)
+                     MaterialKind.MOLECULAR, state=molecule("single-stranded aRNA",tuple(ARNA)))
+    ivt_residual=g.product("ivt_residual","DNA templates and nontranscribed carryover outside the recovered aRNA endpoint",MaterialKind.MOLECULAR)
     g.react("ivt", "T7 IVT 37 °C 13 h (MessageAmp II), aRNA column clean-up without fragmentation",
             StepKind.TRANSCRIPTION,
             ((t7_template, InputRole.TEMPLATE),
-             (t7_polymerase, InputRole.CATALYST)), (arna,))
+             (t7_polymerase, InputRole.CATALYST)), (arna,ivt_residual))
+    g.mark_terminal(Terminal(ivt_residual.id,Disposition.UNRESOLVED,"Lack of genomic-DNA transcription does not establish physical destruction or complete column exclusion. Component recovery through source aRNA purification remains unassigned."))
     cel_adapter = g.input(
         "cel_adapter", "CEL-Seq small-RNA finishing adapter",
         MaterialKind.ADAPTER, inferred=True,
         source=SOURCE + " (workflow referenced; outer oligos not printed)")
     rna_ligated = g.product(
         "rna_ligated", "3-prime-adapter-ligated antisense RNA",
-        MaterialKind.MOLECULAR, state=RNA, inferred=True,
-        source=SOURCE + " (outer small-RNA shell inferred from the referenced workflow)")
+        MaterialKind.MOLECULAR, state=molecule("adapter-ligated aRNA",(role("aRNA with Ad-1x cell identity"),role("3′adapter; species/geometry unassigned"))), inferred=True,
+        source=SOURCE + " (CEL-Seq finishing delegated)")
     g.react(
         "adapt_rna", "Attach the referenced CEL-Seq small-RNA finishing adapter",
         StepKind.LIGATION,
@@ -372,34 +372,36 @@ def protocol_graph():
     rna_rt_primer = g.input(
         "rna_rt_primer", "CEL-Seq library RT primer", MaterialKind.OLIGO, inferred=True,
         source=SOURCE + " (main text line 89-90 names reverse transcription; primer not printed)")
+    library_rt_enzyme=g.input("rna_library_rt_enzyme","historical CEL-Seq library reverse transcriptase; exact component unassigned",MaterialKind.CATALYST,
+        source=SOURCE+" cites historical CEL-Seq finishing; no component-specific enzyme inheritance established")
     rna_adapted = g.product(
         "rna_adapted", "reverse-transcribed CEL-Seq library template",
-        MaterialKind.MOLECULAR, state=RNA, inferred=True,
-        source=SOURCE + " (outer small-RNA shell inferred from the referenced workflow)")
+        MaterialKind.MOLECULAR, state=molecule("single-strand CEL-Seq library cDNA",(role("reverse-transcribed adapter-ligated aRNA; native primer/end species unassigned"),)), inferred=True,
+        source=SOURCE + " (CEL-Seq finishing delegated)")
     g.react(
         "rna_library_rt", "Reverse-transcribe the adapter-ligated aRNA",
         StepKind.REVERSE_TRANSCRIPTION,
         ((rna_ligated, InputRole.TEMPLATE), (rna_rt_primer, InputRole.STRUCTURAL),
-         (rt, InputRole.CATALYST)), (rna_adapted,))
+         (library_rt_enzyme, InputRole.CATALYST)), (rna_adapted,))
 
     reviewed = [
         "cell_lysate", "ad1", "rt", "reverse_transcribe", "ad2",
         "strand_polymerase", "random_prime", "quasilinear_cycles", "split",
-        "p2_forward", "p2_reverse", "p2_polymerase", "p2_pcr", "p3_biotin",
-        "p3_partner", "p3_pcr", "shearing", "sonicate", "streptavidin",
-        "deplete_ad2", "neb_adapter", "adapt_dna", "p1", "second_polymerase",
+        "p2_forward", "p2_polymerase", "p2_pcr", "p3_biotin",
+        "p3_pcr", "shearing", "sonicate", "streptavidin",
+        "deplete_ad2", "neb_kit", "dna_library_prep", "dna_library", "p1", "second_polymerase",
         "second_strand", "t7_polymerase", "ivt", "cel_adapter", "adapt_rna",
-        "rna_ligated", "rna_rt_primer", "rna_library_rt",
+        "rna_ligated", "rna_rt_primer", "rna_library_rt_enzyme", "rna_library_rt",
     ]
-    finish_pcr_branch(
-        g, "dna_final", dna_adapted, DNA, DP, reviewed,
-        label="DR-seq genome", inferred_primers=True,
-        limitation="The defining paper names NEBNext Ultra but does not print a universal lot-specific PCR-primer pair.")
-    finish_pcr_branch(
-        g, "rna_final", rna_adapted, RNA, RP, reviewed,
-        label="DR-seq transcriptome", inferred_primers=True,
-        read_lengths={"Read 1": 100, "Read 2": 100},
-        limitation="The defining paper refers to CEL-Seq finishing without printing the outer PCR-primer pair.")
+    rna_forward=g.input("rna_forward","CEL-Seq finishing PCR primer; physical species unassigned",MaterialKind.OLIGO)
+    rna_reverse=g.input("rna_reverse","CEL-Seq opposite PCR primer; physical species unassigned",MaterialKind.OLIGO)
+    rna_pol=g.input("rna_polymerase","CEL-Seq library PCR reagent; versioned recipe not reconstructed",MaterialKind.CATALYST)
+    rna_library=g.product("rna_library","cell-barcoded transcriptome sequencing library",MaterialKind.LIBRARY,state=RNA)
+    g.react("rna_library_pcr","PCR-complete the CEL-Seq-derived library",StepKind.PCR,
+        ((rna_adapted,InputRole.TEMPLATE),(rna_forward,InputRole.STRUCTURAL),(rna_reverse,InputRole.STRUCTURAL),(rna_pol,InputRole.CATALYST)),(rna_library,),
+        geometry=PCRGeometry.unavailable(rna_adapted.state,reason="Actual input is single-stranded library cDNA; the cited historical CEL-Seq primer/reaction recipe remains a review target, not a finished-duplex PCR template."))
+    g.sequence(rna_library,SequencingPlan(library=RNA,acquired_roles=("Read 1","Read 2"),read_lengths={"Read 1":100,"Read 2":100},limitation="Published paired100 RNA run retained; actual CEL-Seq primer/index geometry and exact read allocations remain unassigned."))
+    reviewed.extend(("rna_forward","rna_reverse","rna_polymerase","rna_library_pcr","rna_library"))
     g.annotate(SourceDiscrepancy(
         "ad2", "Ad-2 3′ end: eight random nucleotides or GGG/TTT?",
         (SourceClaim("Article main text p.2 (PMC PDF text line 77)",
@@ -414,5 +416,9 @@ def protocol_graph():
         "Printed P3 differs from printed P2 (the Ad-2 handle) at positions "
         + ", ".join(map(str, p3_mismatch_positions()))
         + "; the first four cycles anneal at 46 °C. The Methods do not explain the difference, so the page keeps both printed sequences."))
+    g.annotate(Highlight("reverse_transcribe","RNA-template disposition remains unassigned",
+        "The state tracks the co-amplification substrates, genomic DNA and first-strand cDNA. RNA-template recovery after initial RT is not reconstructed, and no physical removal/destruction is declared."))
+    g.annotate(Highlight("rna_library_rt","Separate historical library-RT component and RNA fate",
+        "ArrayScript belongs to the original cellular RT. Its use is not inferred for the later CEL-Seq library RT; that catalyst is unassigned. The library RT produces ssDNA, while the RNA template's subsequent disposition remains unassigned, not a presumed physical discard."))
     g.declare_reviewed_scope(reviewed, SOURCE)
     return g.require_publishable()

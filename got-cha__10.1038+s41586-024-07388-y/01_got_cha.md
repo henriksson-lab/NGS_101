@@ -42,3 +42,21 @@
 - The 10x CG000209 Rev F original was not read in this pass. Its gel-bead primer, barcoding polymerase and the SI-NA-X ATAC indexing structure (Supp. Table 1 row 34) remain role-level.
 - The polymerase/master mix for the hemi-nested and indexing PCRs is not named in the inspected passage.
 - The multiplex-adapted route (P5/IS2 pre-amplification for 8 cycles, nested PCR reduced to 8 cycles, and a longer annealing time for the first 6 in-droplet cycles) is not drawn. Neither are GoT-ChA-ASAP (ADT spike-in) and the DOGMA-seq extension.
+
+## Local validation migration (2026-10-18)
+
+Re-read published PMC11139586 Methods, `scATAC-seq with GoT-ChA`, text lines
+205–217; ran the bundle oligo scraper and checked the P5/RPI-X passages in that
+published original. The superseded preprint was not used for active values.
+
+🟢 The cell barcode is the 16-base i5 identity, distinct from the eight-base RPI-X
+sample index. The local genotype and parent ATAC plans now declare 50/8/16/50,
+with structured read roles. Final endpoint roles and identifier features are owned
+here. The parent ATAC branch explicitly delegates library construction to CG000209
+Rev F rather than inheriting a generic final PCR with invented reagent stubs.
+
+🟡 The parent kit revision is identified but was not inspected in this bounded
+pass. Target-panel and bead junctions remain unassembled, and unavailable PCR
+geometry now uses the actual incoming target/captured state. The previously recorded
+published P5/GoT-ChA_Rev discrepancies remain visible. No full chemistry or
+source-absence review is claimed.

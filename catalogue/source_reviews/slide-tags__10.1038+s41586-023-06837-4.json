@@ -601,6 +601,53 @@
       "deferred": [],
       "scope": "Locator correction only; no source-content reading pass.",
       "verification": "audit_protocol_sources --check passes"
+    },
+    {
+      "round": "2026-10-18-batch06-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Root sourcepass (handed to implementation owner; no furtheroriginals): publishedPMC10764288 JATSMethods219–250, beadtypes/procedure/libraryprep/sequencing pluscomputationalfilter268; originalMOESM1DOCX§1.3–1.6/text65–100; genuineCG000338RevF PDFtitle/TOCpp4–5,§2.2GEMmastermix/transposednuclei,§3.1RecoveryAgent/oildiscard/Dynabeads,§4.1–4.3/text3182–3380 PreAmpMix/Primers7cycles and160µlSPRI/eluate split,§7.1fragmentation/endprep/Atailheading andTOC5.1–7.6 operationorder.",
+      "oligo_scraper": "Root mandatory fullbundle scrape: /tmp/chem-slide-tags-batch06-primers.log. Oversized superseded-preprint/dataCSV skip doesnotestablish absence. Implementation opened0 additionaloriginals.",
+      "scope": "Capped3-originalpublished-first sourcepass byroot; historicalCG317componentreadings are not a fresh fullGEXmethod pass. Noabsenceacceptance orstatusupgrade.",
+      "findings": "SourcepositiveTAGS365nm30s/7.5min andSLAC3min/5min, actual600gpellet→40µmfilter→DAPI→200gpellet. PublishedmainSLACz differsfrompublishedMOESM1plainG; supplementGretained, intendedmainzunresolved.3′PN1000268/CG317RevC spatialCSPworkflow usesTAGS7cycles5.5mm/9cycles3mm;SLACbraininstead10µlcleaned2.3supernatant andnamedSTAG_P701_NEX/P5TruseqHybrid10cyclePCR, strandsunassigned. MultiomePN1000283/CG338RevF uses4.1spikeGTGACTGGAGTTCAGACGT1µl0.329µM,7cyclemixedpreamp/4.3SPRI, recovered160µleluate→40ATAC/35cDNA/85stored, retainedsupernatant5µl→modifiedcustomSTAGprimers15cycles. KnownCG338operationorder explicit5.1indexPCR→5.2doubleSPRI;6.1cDNAPCR→6.2SPRI→7.1fragmentERAT→7.2doubleSPRI→7.3ligation→7.4SPRI→7.5indexPCR→7.6doubleSPRI. Bothcustomprimers have terminalPSmodifications. ArticleNextSeq1000P2 100cyclekit/someNovaSeqSP doesnotassign branchrunmask.",
+      "deferred": [
+        "FullCG317 historicalpostGEMrecovery and3′GEXinternalorder outsideAppendix71–72/component scope",
+        "Multiomepuckdesign, nativecapturejunction and corresponding UV/diffusion variant",
+        "UnreadCG338reactionconditions/primerstrands/retentionratios beyond namedsections",
+        "Nativebranchread/index acquisition; nogeneric8ntindex defaults",
+        "Class-specific ambienttag/RNA/DNA/hydrolysate cleanuprecovery"
+      ],
+      "verification": "Implemented via sourcehandoff withoutadditionaloriginals; localfocusedchecks recorded in implementation entry."
+    },
+    {
+      "round": "2026-10-18-batch06-native-graph-implementation-handoff",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Localtools/slide_tags.py nativegraph/endpoint/oligo/read declarations andselftest.py; root-supplied3-original scope above only. Noadditionaloriginalsread; priorCG317/CG338appendixscaffolds retain their historical component provenance.",
+      "scope": "Implementation-only sourcehandoff; noindependentfreshsource reading, missing-informationacceptance orstatuschange.",
+      "findings": "Removedbatch_ngs/multimodal_spatial/molecule recipe dependencies andgenericTruSeqGEX shells/indexdefaults. SeparateTAGS3′/SLACbrain3′/Multiome experimentvariants have independent molecularScene populations. Native3′mixedRT→boundedCG317postGEMrecovery→cDNAPCR→actualSPRIcDNA/supernatant separation; knownspatialPCRbranches local, remainingCG317GEXinternals bounded ratherthanborrowCG338order. FullsourceknownMultiome sequence local withactualmixedss/preampinputs, oil/Dynabeadsrecovery, retainedSPRIspatialsupernatant,40/35/85mixedeluatealiquots, nativeATAC/GEXPCR/endprep/ligation/SPRI. NativeadaptedGEXfragment state suppliesindexPCR, notcompletedendpoint oroldGEMstate. MultiomecustomPCRinput is5µlcleanedsupernatant; bothterminalPSnotes retained; unknownnativeendpoint carriescell/spatial/I5/I7features withoutinventedwidths/positions. SourceTAG3′/ATACreferencegeometry retainedwithpriorcomponentlimits; allstudyread/index acquisition explicitunassigned. Physicalremovals areseparatefromnonamplification/emptyGEM/computationalQCclasses.",
+      "deferred": [
+        "SameboundednativeCG317/Multiomepuck/first-cycle/end/index/cleanupclasslimits asrootsource entry",
+        "Independentimplementationreview handledseparately byRNAworker"
+      ],
+      "verification": "Finalnativegraph66steps; local6checks/page pass; sourceguard8checked0failed17unassigned0exemptions; pairing0; chemistry77unresolved0contradictory; whitespacepass. Schema/notebuild runafterrecord."
+    },
+    {
+      "round": "2026-10-18-batch06-independent-implementation-review",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current slide_tags.py native66-step graph, final notes and root3-original/owner0-original source-review handoff. No new original-source reading.",
+      "findings": "Confirmed separate tissue/experiment allocation for TAGS3-prime, SLACbrain3-prime and Multiome rather than one nucleus split across incompatible preparations. Spatial-tag copies remain in mixed RT/preamp material until source SPRI-supernatant selection; Multiome160-microlitre eluate yields mixed40ATAC/35cDNA/85stored aliquots without physical modality purity. Actual mixed ss/native states supply PCR. Source-known CG338GEM recovery, preamp, ATAC and GEX construction stages are explicit; genuine unread CG317postGEM recovery/GEX details remain bounded independent gaps. Requested and rechecked explicit native CG317postGEM recovery before known cDNA amplification. Confirmed two terminal phosphorothioate linkages on both custom Multiome spatial PCR primers, stable cell/spatial identifiers and unknown native i5/i7 end-feature qualifications. Seven sequencing endpoints retain branch-specific geometry/unknown run acquisition; TAGS shell is not assigned to SLAC/Multiome unknown puck designs. No remaining critical implementation defect identified within supplied scope.",
+      "deferred": [
+        "Native first-cycle/gap/primer geometry and class-specific recovery",
+        "CG317postGEM/GEX unread reaction order; native Multiome spatialpuck/capturejunction",
+        "Study branch-specific read/index acquisition remains unassigned"
+      ],
+      "scope": "Independent critical implementation-only review; does not supply a second original-source absence pass or upgrade source status.",
+      "verification": "Suite6 passes; pagebuild/sourceguard8checked0failed17unassigned0exemptions/pairing0problems; chemistry66steps77unresolved0contradictory. Schema checked."
     }
   ]
 }

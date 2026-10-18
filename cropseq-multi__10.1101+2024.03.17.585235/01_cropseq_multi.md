@@ -37,3 +37,25 @@
 🟢 The v2 preprint's Methods ('In situ amplification - mRNA protocol', lines 876–912; 'In situ amplification - T7 IVT protocol', lines 914–937; 'Sequencing by synthesis', lines 939–953) read both branches optically, not by PCR. The mRNA protocol runs RevertAid H minus RT with 1 µM of each biotinylated RT primer, then streptavidin binding and post-fixation in 3% formaldehyde and 0.1% glutaraldehyde. Padlock gap fill and ligation follow (0.1 µM of each padlock, RNase H, TaqIT, Ampligase), then 16 h Phi29 RCA, SBS-primer hybridization and in situ SBS with MiSeq Nano v2 reagents. The T7-IVT protocol first transcribes in situ with T7 RNA Polymerase Mix (NEB E2040L, usually 0.2X), post-fixes, and then follows the mRNA protocol from RT onwards. The workbook names the RT primers (oRW893 for iBAR 1; oRW887, oRW965 and oRW967 for iBAR 2 by tRNA), the padlocks (oRW963; oRW968, oRW964 and oRW966) and the SBS primers.
 
 🟡 The graph now models these branches with the in situ steps. Earlier it wrongly sent them through an endpoint PCR. Padlock arm landing and the gap-filled span are not assembled, so gap fill, ligation and RCA form one unmodelled step.
+
+## Local validation migration (2026-10-18)
+
+Re-read the defining v2 preprint direct-capture Methods, lines 842–875, and the
+v2 supplementary workbook `oligos` rows 29–33. Ran the bundle oligo scraper and
+checked its five capture/dial-out primer hits against those rows. Also inspected
+CG000735 Rev A introduction and final-library sequence section as a candidate vendor
+revision; the paper does not pin that revision, so its N16/N12 bead boundaries are
+not promoted into the defining model.
+
+🟢 The direct-capture run is 28/10/10/90, with two 10-base sample indexes. The
+old shared endpoint incorrectly imposed one 8-base index. Both direct-capture
+terminals now declare the run; the optical RCA terminals retain their separate
+in situ SBS readout. The five printed RT/dial-out primers are explicit graph inputs,
+including the RT primers' terminal phosphorothioates. The model distinguishes the
+Pol II identity transcript, mature guide RNA and CSMv2 DNA used for T7 transcription;
+the alternative assay routes are an explicit preparation boundary.
+
+🟡 Exact bead/capture, custom primer landing and kit index-PCR junction geometry
+remain unassembled. The source selects a kit identifier without a revision; the
+cached Rev A is a candidate, not proof of the study's revision. No sequence-absence
+claim or completed full chemistry audit follows from this ownership migration.

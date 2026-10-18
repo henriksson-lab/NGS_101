@@ -188,6 +188,34 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    },
+    {
+      "round": "2026-10-18-batch09-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC4589892 JATS Methods57–76 ChIP/beadbound and purifiedDNA tagmentation, qPCR/enrichment/recovery; publisher MOESM631 SupplementaryTable2 SequencingSummary heading and ChIPmentationrows25–26 SR50/PE100; publisher MOESM629 SupplementaryFigure1 opening/workflowlegend. Mandatory bundle scraper completed0hits, not treated as absence.",
+      "findings": "Removed chromatin_epigenetics endpoint/scene defaults. Native source positive beadbound37°C10min route, washes, chosenChIP finalwash/elution/reversecrosslink/purification, analytical1µlqPCRaliquot, KAPA preactivation/actual72°Cnicktranslation and qPCR-selected enrichment are explicit. Unknown variant-specific ChIP reagents, native loaded adapter/primer strands/gap geometry remain unassigned. Real taggedDNA input feedsPCR, independent residualorigins preserved. Explicit0.7×retain-supernatant long-fragment removal followed by2×recovery; source differingSR/PE examples retained without canonical indexwidth/acquisition.",
+      "deferred": [
+        "Detailed chosen ChIP supplementary protocol variant and linked ATAC customprimer originals",
+        "Native Nextera loaded strand/gap and first-cycle nicktranslation geometry",
+        "Exact study primer/indexmember/width and full run-specific acquisition masks; remainingTable2rows not re-curated"
+      ],
+      "scope": "Capped source/native component migration only; historical status unchanged, no new absence acceptance. CoTECH complete published execution-order validation remains deferred.",
+      "verification": "Suites3/12/7 and pages pass; guard22checked0failed7unassigned0exemptions; pairing0; chemistry12established70unresolved0contradictory. Static OUT wrappers retained; source-review schema/notes checked after entry creation. Independent critical review pending."
+    },
+    {
+      "round": "2026-10-18-batch09-independent-implementation-review",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "tools/chipmentation.py: chromatin_scene/daughter_scene, native ChIP recovery/tagmentation, qPCRaliquot/q_nick/qpcr/main_nick/enrich, source upper/lower size recovery and read declarations.",
+      "findings": "Independent code-only review found no concrete critical defect. Actual bead-selected taggedDNA/gaps precede source recovery and nick translation; both analytical and mainPCRGeometry receive actual native extended inputs. Analytical24cycleqPCR is a separate QCaliquot, not native enrichment N. Primer inputs are present during native initialextension. Original taggedDNA/context residuals remain possible through physical recovery; size-upper supernatant then lower recovery are explicit. SR/PEacquisition variants remain source-run alternatives with native index masks unassigned. No canonical finalduplex substituted for incomingPCRDNA.",
+      "deferred": [
+        "Original-source reinspection, existing native sequence/kit/revision/geometry deferrals and any source absence gate remain outside this code-only review."
+      ],
+      "scope": "Independent critical implementation review of released code and supplied frozen source bounds;0originals inspected. Automated source suites/guards run. Does not supply independent original-source absence evidence, promote source status, or claim complete protocol chemistry validation.",
+      "verification": "Suites3pass; pagebuild; chemistry17steps0contradictions; sharedguard22checked0failed7unassigned across3; pairing0; staticOUTsyntax/diagram_out and whitespace checked."
     }
   ]
 }

@@ -188,6 +188,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/4 conditional/4 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 2 inputs without exact states (placeholder-index PCR primers); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch08-native-graph-migration",
+      "reviewer": "native_vendor_implementation",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "15031942v07 April2023 identity and standardDNA XT/v2 workflow: tagmentation/NT/PCR, physical8-vs10 index distinction lines880–909, PCRcleanup1230–1320, normalization throughLNS/ss endpoint. AdapterSequences1000000002694v22 September2025 printedidentity/currentNextera references; troubleshooting770-2015-015 partialadapter workflow/PCRcleanup333–365/normalization386–422.",
+      "oligo_scraper": "Mandatory bundle scraper inspected; pointers verified in originals; no-hit/unassigned states do not establish absence.",
+      "findings": "Native ATM structural input, partial strands and72C initialextension precede actualPCR; explicit cleanup, twoLNW1 washes, NaOHss/LNS endpoint. Physical8 indexes distinct from acquisition; laterreference does not prove2023 lot.",
+      "deferred": [
+        "Native ATM oligo inventory and source-specific gap/extension geometry",
+        "Selected index members/complete native PCR strands/executed acquisition",
+        "IDT/manualnormalization and amplicon-specific alternatives"
+      ],
+      "scope": "Capped source pass and native implementation migration only; historical status/checklists/absence gate preserved.",
+      "verification": "Three suites4checks each/pages pass; chemistry0contradictions; pairing0; sourceguard0exact0failed native inputs unassigned; review schema and notes build checked separately."
+    },
+    {
+      "round": "2026-10-18-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Code-only review: tools/chem.py partial_state/daughter_state/native graph, source initial72C-extension/PCR/normalization and final single-strand endpoint. Owner batch08 source scopes1/2/3 originals and notes inspected as handoff only; source originals not reread.",
+      "findings": "Reviewed actual partial tagged native input before neutralization/72C extension and PCR, installed8base index features versus unknown run acquisition, explicit normalization aliquot/remainder/binding/two washes/alkalineSS elution and transfer. Chemical nonproductivity does not imply physical removal; source polarity survival and gap/native loaded strands stay bounded. Flagged catalyst-only FRAGMENTATION representation for adapter-installing tagmentation; owner added unknown native ATM-loaded adapter structural input and K.TAGMENTATION, independently rechecked. No further concrete critical implementation defect found.",
+      "deferred": [
+        "Native2023 loaded ATM strands/gap/first-cycle completion and exact primer layout",
+        "Actual acquisition mask versus physical8base XT-v2 codes; later2025reference not promoted to native2023",
+        "Which source strand polarity survives normalization and component-specific residual recovery"
+      ],
+      "scope": "Independent implementation review only; no new source original, absence acceptance or historical status upgrade.",
+      "verification": "Independently ran vendor suites4/4/4, XTpage rebuild, all3pairing0, sourceguard0checked0failed8unassigned0exemptions, chemistry0established8conditional34unresolved0contradictory. Record schema/whitespace checked after append."
     }
   ]
 }

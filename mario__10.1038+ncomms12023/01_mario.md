@@ -10,7 +10,7 @@ Defining source: Nguyen *et al.*, [10.1038/ncomms12023](https://doi.org/10.1038/
 - 🟢 The defining paper's Methods section publishes every custom library oligo, rather than merely naming them: the internally biotinylated RNA linker, phosphorothioate-protected linker-complement oligo, activated RT adapter, three RT-primer variants, Cut_oligo, DP5/DP3 and full Illumina PE1/PE2 PCR primers.
 - 🟢 The RNA linker is printed as `rCrUrArG/iBiodT/rArGrCrCrCrArUrGrCrArArUrGrCrGrArGrGrA`; the DNA oligo used to remove terminal linker is `T*C*G*C*ATTGCATGGGCTACTAGCAT`.
 - 🟢 The pre-adenylated RT adapter is `/5rApp/AGATCGGAAGAGCGGTTCAG/3ddC/`. The three 5′-phosphorylated RT primers contain random bases, the source's four-base sample barcode, a BamHI-bearing body, and the adapter-binding end.
-- 🟢 The final amplification uses the fully printed Illumina PE PCR Forward Primer 1.0 and Reverse Primer 2.0, followed by paired-end HiSeq sequencing (read length not stated). PE 2.0 carries no i7 index; samples are separated by the inline four-base barcode. The paper does not print the PE Read 2 sequencing primer, so only TruSeq Read 1 (contained in PE 1.0) is placed on the page.
+- 🟢 The final amplification uses the fully printed Illumina PE PCR Forward Primer 1.0 and Reverse Primer 2.0, followed by paired-end HiSeq sequencing (read length not stated). PE 2.0 carries no i7 index; samples are separated by the inline four-base barcode. The exact PE Read2 sequencing-primer assignment remains unresolved in this bounded model; its acquired biological read is preserved as unplaced, while the compatible TruSeqRead1 site is computed from PE1.0.
 
 ## Protocol boundary
 
@@ -46,10 +46,50 @@ Supplementary Information Fig. 1 legend (`supp…-s1.pdf.txt` lines 3–17) and 
   with an i7 index and the TruSeq Read 2 adapter. It is now computed from the printed
   oligos (ES-1 sample): PE 1.0 (P5 + TruSeq Read 1), the reverse
   complement of the ES-1 inline barcode (NNN·ACCT·NN), RNA1 fragment, linker copy, RNA2
-  fragment, the RT-adapter copy and the reverse complement of PE 2.0. DP5/DP3 and PE
-  primer landings are exact `PCRGeometry` declarations.
+  fragment, the RT-adapter copy and the reverse complement of PE 2.0. The earlier graph labelled DP5/DP3 and PE primer landings exact; the current migration below corrects their actual incoming strand states.
 - The two published discrepancies (RT-primer random-base count; phosphatase-minus PNK named
   for 3′ dephosphorylation) are now graph-owned annotations on the page.
 - Deferred: iCLIP RT-primer/circularization source (Huppertz 2014, ref. 62), T7-exonuclease
   and phosphorothioate originals (refs 63–64), DSN and GeneRead rRNA-depletion branches,
   ES-indirect EGS/formaldehyde branch, MARIO tools v0.3 documentation, read lengths.
+
+
+## Native graph migration — 2026-10-18, batch02
+
+Re-read published PMC4931010 JATS Methods116–261 and the published supplement
+Figure1 legend1–17, with the mandatory source-bundle scraper. Whole modified-oligo
+transcription checks verify all11 printed inventory forms, including internal
+biotin, phosphorothioates, /5Phos/, /5rApp/, /3ddC/ and /3InvdT/.
+No cited iCLIP, exonuclease-protection, vendor or software original was newly read.
+
+The module now declares its own metadata, native graph, sequencing plan and
+reviewed-target list. Protein-bound RNA partners and the later RNA/cDNA hybrid
+are independent strands. The complete RNA linker is a molecular input; the RT
+adapter's terminal ddC remains on the RNA template through RT and is not copied
+as part of the primer's core-binding interval. Proteinase-derived peptides, RNA, terminal-linker/guard and DSN
+hydrolysate fates are unresolved where actual cleanup partition is not modelled.
+
+The selected ES-1 route now includes the published DSN preparation: pre-amplify
+until80–100ng, skip the separate150–350bp gel route, reanneal and treat with DSN,
+then amplify the surviving population with full PE primers. Both PCR geometries
+use actual ss or post-DSN precursors. Exact duplex first-cycle geometry is not
+claimed. The DP5-derived pre-amplification arm excludes the terminal BamHI-site
+G beyond the DP5 binding interval, a repository modelling correction.
+The final1.8×SPRI/250–550bp selection is explicit. Other sample/depletion branches
+remain separate variants.
+
+A scoped circle-order relation compares the same cDNA parts before and after
+neutral ssDNA closure; unknown insert extent makes this conditional. It does not
+validate circularization yield, BamHI reopening or the whole reaction route.
+Feature identities persist on RT primer, circular/reopened cDNA and the expected
+target amplicon. The post-DSN population has unassigned native ends and pairing.
+The source-positive paired biological readout is preserved, including unplaced
+Read2, without inventing read lengths or an external index acquisition recipe.
+
+Both published discrepancies remain on the public page: the explicit ES-1
+five-random-base primer versus generic/supplementary descriptions, and the
+phosphatase-minus enzyme named for intended3′dephosphorylation. The model uses
+the printed ES-1 primer and labels the intended phosphate-removal outcome inferred.
+This pass does not accept any missing-information claim. Deferred targets include
+linked predecessor/vendor/software sources, other sample branches, actual
+3′phosphatase identity, read lengths and native PCR/restriction/recovery proof.

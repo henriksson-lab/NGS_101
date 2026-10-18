@@ -1,167 +1,27 @@
-# SMART-seq — quick reference
+# SMART-seq — original Tn5 branch
 
-> SMART-seq2's own oligo source review lives in `01_smart-seq2.md`, in the
-> `smart-seq2__10.1038+nmeth.2639` directory. This note covers SMART-seq and the
-> SMART-seq2 comparison it needs.
+Ramskold et al. (2012), [doi:10.1038/nbt.2282](https://doi.org/10.1038/nbt.2282).
 
-> **Evidence marking.** 🟢 verbatim from the source · 🟡 derived or inferred · 🔴 not published.
+The selected page models the original Tn5 branch. The paper also prepares PE libraries by Covaris fragmentation, end repair, dA tailing, adapter ligation and PCR; its figure data use that route unless a legend says otherwise. That alternative route is not represented by a generic Nextera endpoint.
 
-**SMART-seq** — Ramsköld D, Luo S, Wang Y-C, *et al.* "Full-length mRNA-Seq from single-cell
-levels of RNA and individual circulating tumor cells." *Nat Biotechnol* 2012;**30**(8):777–782.
-doi:[10.1038/nbt.2282](https://doi.org/10.1038/nbt.2282)
+## Source facts and molecular scope
 
-**SMART-seq2** — Picelli S, Björklund ÅK, Faridani OR, Sagasser S, Winberg G, Sandberg R.
-"Smart-seq2 for sensitive full-length transcriptome profiling in single cells."
-*Nat Methods* 2013;**10**(11):1096–1098. doi:[10.1038/nmeth.2639](https://doi.org/10.1038/nmeth.2639)
+🟢 Methods print the CDS primer as `AAGCAGTGGTATCAACGCAGAGTACT(30)VN`. They name SMARTer II A and kit IS PCR reagents. Their native sequences remain unassigned in the current model; later SMART-seq2 oligos are not evidence of original kit identity.
 
-Sources read (all primary; no secondary redrawing of this family is used as evidence):
+🟢 The original Tn5 route uses approximately 5 ng amplified cDNA, 55 C tagmentation for 5 min, PB stripping and SPRI XP purification at sample:beads 1:1.6, followed by nine cycles of standard Nextera PCR. It is the modified Epicentre Nextera preparation, rather than Nextera XT.
 
-- 🟢 Ramsköld et al. 2012, PMC3467340 full text and the NIHMS379463 supplement — prints the
-  CDS oligo-dT primer verbatim, and *names* the SMARTer II A oligo and the kit's IS PCR
-  primer without printing either. Bounded pass 2026-10-17: JATS `.xml.txt` Results line 73,
-  Methods lines 111–121 (cDNA generation; library construction and sequencing); published
-  Springer MOESM11 Supplementary Fig. 1 (schematic and legend, `.pdf.txt` lines 1–80) and
-  MOESM12 Supplementary Table 1 (read length, library method, platform per library).
-- 🟢 Picelli et al. 2013 Springer supplementary files — Supplementary Table 2 ("List of all
-  template switching oligonucleotides tested"), Supplementary Table 4 (which TSO
-  *Smart-seq2* uses), and Supplementary Tables 1 and 3 (the oligo-dT and ISPCR primer by
-  commercial name only).
-- 🟢 Hagemann-Jensen et al. 2020 Supplementary Table 1, condition 1 ("Smartseq2 /
-  Smart-seq2 as of Nature Protocol") — the Nature Protocols Smart-seq2 oligo-dT, TSO and
-  forward PCR primer, printed in full.
-- 🟢 Hahaut et al. 2022 Supplementary Note 2 — a second verbatim print of the same handle
-  oligo-dT and of the ISPCR primer, attributed to Picelli et al. 2013.
-- 🟡 Illumina's adapter-sequence documentation, via `lib/nextera.py` and `lib/illumina.py`,
-  for ME, s5, s7, P5, P7 and the N5xx/N7xx index primers.
+🟢 Supplementary Table 1's opening caption explicitly says sequencing was single-end. Its Tn5 rows list 50-nt GAIIx or 40-nt MiSeq reads. The previous model overlooked that caption. Native primer sites, index members and acquired index reads remain unassigned.
 
-🔴 Not available: the Clontech/Takara SMARTer kit documentation. The SMARTer II A TSO and
-the kit's IS PCR primer are commercial oligos that no source read here prints.
+🟡 Actual first-strand and template-switched cDNA are represented as single strands before amplification. Native tagmented substrates enter index PCR. Alternative end classes have unresolved recovery, because nonamplification does not establish physical removal.
 
----
+## Oligos
 
-## 1. What it is
+The source CDS primer is given above; unassigned kit reagents remain named roles.
 
-Full-length single-cell mRNA sequencing. One cell per well, no barcoding, no UMI — plate-based
-and low-throughput, but it reads the *whole* transcript, which is what makes it the method of
-choice for isoform and allele-level work where 3'-counting methods cannot help.
+## Migration source pass (2026-10-18)
 
-🟢 SMART-seq2 is an optimisation of SMART-seq, not a redesign: the authors ran **457
-optimisation experiments**. Two changes matter:
+Read: PMC3467340 Methods; published Supplementary Figure 1; published Supplementary Table 1 caption and Tn5 rows. The bundle scraper was run and relevant source pointers checked. The contemporaneous Clontech manual, original Epicentre guide and alternative PE-route details remain deferred. This bounded source pass does not establish publication-wide absence or a complete review.
 
-1. **An LNA at the TSO's 3' G.** Exchanging the last guanylate for a locked nucleic acid
-   raises the stability of the three-base-pair TSO contact, making template switching
-   markedly more efficient.
-2. **Betaine plus higher MgCl₂.** Betaine is a methyl-group donor and destabilises secondary
-   structure; combined with more Mg²⁺ it improves yield on structured templates.
+## Critical implementation follow-up (2026-10-18)
 
-The indexed Nextera endpoint drawn here is the same architecture, but the original
-SMART-seq paper does not disclose the full SMARTer II A template-switch oligo sequence.
-Its exact equivalence to the later SMART-seq2 oligo therefore remains unverified. 🔴
-
-## 2. Oligos
-
-🟢 Ramsköld et al. print the original CDS primer verbatim as
-`AAGCAGTGGTATCAACGCAGAGTACT(30)VN` — this is the SMART-seq oligo-dT, and the same
-sequence reappears, printed in full, in Hagemann-Jensen et al. 2020 Supplementary
-Table 1 and in Hahaut et al. 2022 Supplementary Note 2.
-
-🟡 The TSO and ISPCR lines below are the later SMART-seq2 / Nature Protocols design, as
-printed in Hagemann-Jensen et al. 2020 Supplementary Table 1 (TSO) and Hahaut et al. 2022
-Supplementary Note 2 (ISPCR). Their equivalence to the commercial SMARTer II A reaction
-that SMART-seq actually ran is **not** established by any source; the SMART-seq page
-draws all three regions dotted-inferred, with the preamble caveat and an
-`INFERRED — …` template-switch caption.
-
-```
-oligo-dTVN   5'- AAGCAGTGGTATCAACGCAGAGT AC TTTTT...TTTTT VN -3'   (30 T)   🟢
-TSO          5'- AAGCAGTGGTATCAACGCAGAGT ACAT rGrG+G -3'                   🟡
-ISPCR        5'- AAGCAGTGGTATCAACGCAGAGT -3'                               🟡
-```
-
-🟡 The closest thing to the kit TSO in any source read here is Picelli et al. 2013
-Supplementary Table 2's all-DNA `dGCGGG` oligo,
-`AAGCAGTGGTATCAACGCAGAGTACGCGGG`, which that table lists *alongside* "SMARTer Oligo IIA"
-as a separate reagent — so it is a designed mimic, not a transcription of the kit oligo.
-
-`AAGCAGTGGTATCAACGCAGAGT` is the **SMART / ISPCR handle** (23 nt) — shared with Drop-seq,
-SPLiT-seq and the Takara SMARTer kits. `+G` is the LNA; `rG` are ribonucleotides.
-
-Back end: 🟢 "a modification of Epicentre's Nextera DNA sample preparation protocol (the
-'Tn5' protocol)" (Methods line 117) — the pre-XT Epicentre kit, not Nextera XT. See
-[`../ref/concepts/tn5-tagmentation.md`](../ref/concepts/tn5-tagmentation.md) for the
-generic Tn5 geometry.
-
-🔴 The original paper names a SMARTer II A oligo and a commercial cDNA amplification
-kit without printing those complete ordered oligos, and says only "9 cycles of standard
-Nextera PCR" without printing the Nextera PCR/index primers. It also reports both Nextera
-and Covaris/adapter-ligation ("PE") library preparation; 🟢 "All data shown in the figures
-of this manuscript were generated using the PE protocol unless otherwise specified". This
-page follows the Tn5 branch only; the PE branch (Covaris shearing, end repair, A-tailing,
-Illumina PE adaptor ligation, 12–18 PCR cycles) is not drawn.
-
-## 3. The key architectural fact
-
-**The oligo-dT primer, the TSO and the PCR primer all carry the same handle.** After template
-switching, both ends of the cDNA are identical, so a **single primer** (ISPCR) amplifies it.
-
-This is elegant and it has one direct consequence: amplification is **semi-suppressive**.
-A molecule with the same handle at both ends forms a pan-handle hairpin that competes with
-primer annealing, which suppresses short products and keeps amplification length-biased
-toward full-length cDNA. The same property later makes two of the three tagmentation products
-non-amplifiable.
-
-It also means **nothing distinguishes a 5' fragment from an internal one** — the symmetry that
-makes amplification simple is exactly what SMART-seq3 has to break to get UMIs.
-
-## 4. Steps
-
-| # | Step | Note |
-|---|---|---|
-| 1 | Anneal oligo-dTVN to the poly(A) tail; reverse transcribe with **MMLV** | the `VN` anchor sets the start at the poly(A) junction |
-| 2 | MMLV's terminal transferase adds untemplated **CCC** at the 5' end | see [`template-switching.md`](../ref/concepts/template-switching.md) |
-| 3 | TSO anneals to the CCC and the polymerase switches template | the LNA G is the SMART-seq2 improvement |
-| 4 | **ISPCR single-primer amplification**: 🟢 12 cycles (1 ng total RNA), 15 (100 pg), 18 (10 pg or single cell) | semi-suppressive, as above; primer bases 🟡 |
-| 5 | **Nextera tagmentation** of ~5 ng cDNA: 🟢 55 °C, 5 min, 20 µl with 0.25 µl transposase and 4 µl 5x HMW Nextera buffer | 9-bp gap; three product classes, only s5/s7 amplifies |
-| 6 | 🟢 35 µl PB strips the transposase; 88 µl SPRI XP beads (1:1.6) purify | |
-| 7 | **Gap fill-in** — 🟡 the first extension of the Nextera PCR | hold conditions not printed in the defining paper |
-| 8 | 🟢 9 cycles of "standard Nextera PCR"; primers 🔴 not printed | the page draws canonical N5xx/N7xx geometry as representative |
-
-## 5. Final library
-
-```
-5'- P5 [8-bp i5] s5 ME --- cDNA --- revcomp(ME) revcomp(s7) [8-bp i7] revcomp(P7) -3'
-```
-
-🟡 Derived, not quoted: `tools/smartseq.py` assembles this from the canonical P5/P7
-(`lib/illumina.py`) and ME/s5/s7 (`lib/nextera.py`) constants, and `tools/selftest.py`
-asserts the assembly rather than restating a published string. The handle region
-contributed by the TSO does not survive tagmentation, so no inferred base reaches the
-final library:
-
-```
-AATGATACGGCGACCACCGAGATCTACACNNNNNNNNTCGTCGGCAGCGTCAGATGTGTATAAGAGACAG
-XXXXXXXX...XXXXXXXX
-CTGTCTCTTATACACATCTCCGAGCCCACGAGACNNNNNNNNATCTCGTATGCCGTCTTCTGCTTG
-```
-
-**No UMI. No cell barcode** — the cell's identity is the well it came from, recorded by the
-i5/i7 index pair.
-
-## 6. Sequencing
-
-Primer sites are the standard Nextera ones: Read 1 primes on `s5 + ME`; Read 2 on
-`s7 + ME`; the index reads use `revcomp(ME) + revcomp(s7)` and `revcomp(ME) + revcomp(s5)`.
-Reads land anywhere in the transcript, in either orientation — there is no positional
-information in the construct.
-
-🟢 What was acquired: Supplementary Table 1 lists, for Tn5 libraries, read length 50 on the
-GAIIx (41 libraries) and 40 on the MiSeq (2); PE libraries 50 or 36 on the GAIIx and 53 on
-the HiSeq 2000. 🔴 It does not state single- versus paired-end acquisition, index reads
-or index lengths, so which of the four primer sites were read is open.
-
-## 7. Open questions (bounded pass 2026-10-17)
-
-- Contemporaneous Clontech SMARTer Ultra Low RNA Kit manual (PT5163-1) — TSO/IS PCR bases.
-- Epicentre Nextera DNA sample preparation guide (2011/2012) — PCR primer set, index
-  lengths, gap-fill hold.
-- Read mode and index reads per library; the PE branch is not drawn.
+Retained the independent RNA template beside first-strand and switched cDNA. The PCR output includes an RNA-derived molecular population with unresolved thermal fate and later cleanup recovery; this conceptual class distinction does not assert physical isolation. Copied TSO orientation was rechecked against complement_segments: it already reverses order and complements bases while preserving UMI feature identity.

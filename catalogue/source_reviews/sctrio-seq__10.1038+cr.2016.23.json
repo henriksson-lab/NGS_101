@@ -164,6 +164,36 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 2 established/2 conditional/22 unresolved/0 contradictory; source guard 4 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch06-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published Hou2016 PMC4783472 Methods152–166; citedGuo2013 PMC3847781 Methods103–105 constructionofsingle-cellRRBSlibraries; Tang2009 original MOESM306 oligo workbookSheet1 rows3–6/NH2end-block note. Tang2010 detailed inherited order is retained from existing scope but not freshly reread; no2023E7370manual substitution.",
+      "scope": "Capped published-first native-graph migration; maximum3originals/10minutes investigation perprotocol. Historical source scope not counted as fresh reading. No absence acceptance orstatus upgrade.",
+      "oligo_scraper": "Fullcachedbundle primer scraper run, relevant exactsourcehits checked against namedoriginals. Large data/superseded files or no-hit results do not establish absence.",
+      "findings": "Removed rrbs/tang_cdna/batch_ngs/multibranch/multimodal_spatial/protocol_extensions recipe imports. Native ssUP1copy→ExoI→variableTdTtail→UP2copy→sourcecomponentPCR/amine reference, actual incoming states and independentRNA/ERCC populations retained; sourceDCC5/gel/Covaris operations local. HistoricalE7370 native preparation remains explicit boundary before known amplification. Nuclear/lambda DNA independent, sourceMspI5′CG and opposed3′A geometry local; nativepremethylatedadapter ligation unavailable. PhysicalbisulfiteU strands andindependenttRNAcarrier enter source25PfuTurboCx→22Phusion PCR and200–500PAGE. No canonicalTruSeq shell/default6ntindex or invented inter-round handling. Same physicalDNA library supportsCNV+methylation.",
+      "deferred": [
+        "Tang2010 detailed component applicability/first-cycle andamine-end recovery",
+        "Historical2016E7370 native endprep/adapter/primer assembly",
+        "GuoscRRBS exactPCR/adapter/index members andinter-round handling",
+        "Nativeindex acquisition andcarrier/RNA classrecovery"
+      ],
+      "verification": "Suites7/1/1 pass andall3pages build; combinedguard26checked0failed17unassigned0exemptions; pairing0; scopedchemistry3established86unresolved0contradictory. Finalnative-inputScene correction page/suite/chem rechecked. Schema/notes built afterrecord."
+    },
+    {
+      "round": "2026-10-18-batch06-independent-implementation-review",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current chem.py RNA/Tang/nativeE7370 and nuclear/lambda/convertedU/tRNA routes, local notes and source-review scope. No original-source reread.",
+      "findings": "Confirmed independent cytoplasmic/ERCC RNA and nuclear/lambda DNA, actual ss/native/converted PCR inputs, parent-retained original U-bearing DNA classes, carrier/source recovery scope and historical E7370 boundary. Found/fixed amine-primer PCR silently replacing unmodified UP1/UP2 originals with NH2-derived copies: now explicit original unmodified precursor material has unresolved physical carryover. This conceptual product-class distinction does not assert separation. Source-known operation order, no invented interround cleanup and one joint CNV/methylome library retained.",
+      "deferred": [
+        "Tang2010 component applicability and first-copy proof; native E7370/scRRBS adapters/indexes and class-specific carryover remain unassigned."
+      ],
+      "scope": "Independent critical code/record review within supplied source scope; no independent original-source absence pass and no status upgrade.",
+      "verification": "Focused suites7/1/1 pass; all3pages build; chemistry3established86unresolved0contradictory; sourceguard26checked0failed17unassigned0exemptions; pairing0problems; review-schema checked."
     }
   ]
 }

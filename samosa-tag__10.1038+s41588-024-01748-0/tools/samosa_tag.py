@@ -1,147 +1,104 @@
-"""SAMOSA-Tag molecular model."""
-from pathlib import Path
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
-from batch_ngs import joined_scene, seg
-from chemdraw import Row, Scene, Segment, feature, revcomp
-from longread_footprinting import hairpin_tagmented_smrtbell, marked_fiber, pacbio_entry, smrtbell_rows
-from topology import HairpinTopology
+"""Protocol-owned native molecules and source-bounded graph."""
+from chemdraw import Scene, Segment, revcomp, feature, oligo
+from protocol_model import role
+from protocol_graph import ProtocolGraph,MaterialKind as M,InputRole as I,StepKind as K,SequencingPlan,Terminal,Disposition
+FINAL_LIBRARY=None
+SEQ_PRIMERS=()
+SEQUENCING_UNAVAILABLE=''
+SHOW_READ_CONTENT=False
+import seqprimers as sp
+def population(*rows):
+ sc=Scene()
+ for key,parts,label in rows:sc.strand(key,tuple(parts),label=label)
+ return sc
+def recover(g,key,x,label):
+ reagent=g.input(key+'_selection',label,M.SELECTION)
+ kept=g.product(key+'_retained','recovered '+x.label,M.MOLECULAR,state=x.state)
+ waste=g.product(key+'_waste','physical non-retained supernatant/washes',M.WASTE)
+ g.react(key,label,K.CLEANUP,((x,I.TEMPLATE),(reagent,I.SELECTION)),(kept,waste),changes_molecule=False)
+ g.discard(waste,'Actual non-retained fraction; complete species-specific depletion is not asserted.')
+ return kept
+def unresolved(g,x,reason):g.mark_terminal(Terminal(x.id,Disposition.UNRESOLVED,reason))
+def op(g,key,x,label,kind,state,reagent,port=I.CATALYST):
+ out=g.product(key+'_out',label,M.MOLECULAR,state=state)
+ g.react(key,label,kind,((x,I.TEMPLATE),(reagent,port)),(out,),**({'changes_molecule':False} if kind in (K.GENERIC,K.QUENCHING) else {}))
+ return out
 import nextera as nx
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
-
-TITLE = "SAMOSA-Tag — hairpin tagmentation of marked chromatin"
-NOTES = "01_samosa-tag.html"
-SOURCE = 'Defining source: <a href="https://doi.org/10.1038/s41588-024-01748-0">Dennis et al., <i>Nature Genetics</i> (2024)</a>.'
-SUMMARY = "EcoGII first records chromatin accessibility as m6dA; hairpin-loaded Tn5 then fragments the marked fibers while installing PacBio-compatible closed ends."
-CAVEAT = "Supplementary Table 5 publishes the complete phosphorylated hairpin-Tn5 oligos. A representative barcode member is drawn base by base and folded by its validated 27-bp self-complementary stem. Only the separate PacBio sequencing-primer sequence remains proprietary."
-BARCODE_001 = "CGGAAGAA"
-HAIRPIN_LOOP = "ATCTCTCTCTTTTCCTCCTCCTCCGTTGTTGTTGTTGAGAGAGAT"
-HAIRPIN_STEM_NT = len(nx.ME) + len(BARCODE_001)
-HAIRPIN_ADAPTER = (revcomp(nx.ME) + revcomp(BARCODE_001) + HAIRPIN_LOOP
-                   + BARCODE_001 + nx.ME)
-SMRTBELL = hairpin_tagmented_smrtbell(
-    "m6dA-marked chromatin fragment", adapter_sequence=HAIRPIN_ADAPTER, stem_length=HAIRPIN_STEM_NT)
-FINAL_LIBRARY = None
-SEQ_PRIMERS = ()
-SEQUENCING_ENDING = pacbio_entry(SMRTBELL, adapter_sequence_known=True)
-INITIAL_ROWS=tuple(marked_fiber("EcoGII", target="accessible adenines"))
-INITIAL_NAME="Native chromatin fiber"
-TOPOLOGY_PANELS = ((
-    "Published hairpin-Tn5 oligo",
-    HairpinTopology("SMRT-A_bc001", HAIRPIN_ADAPTER, 0,
-                    len(HAIRPIN_ADAPTER) - HAIRPIN_STEM_NT,
-                    HAIRPIN_STEM_NT).folded_panel(
-        "The 5′-phosphorylated 99-nt oligo folds through its reverse-complementary "
-        "barcode + mosaic-end arms; Supplementary Table 5 publishes 26 barcode members.")),)
-
+from topology import HairpinTopology
+TITLE='SAMOSA-Tag — native marked DNA and source hairpin transposition'
+NOTES='01_samosa-tag.html'
+SOURCE='Dennis et al. NatureGenetics2024 doi:10.1038/s41588-024-01748-0; publishedPMC11176058 Methods/Results/Fig1, originalSupplementaryTable5, MOESM1 repair/geometry notes.'
+SUMMARY='EcoGII marks original native DNA before barcoded hairpin-Tn5 transposition. Explicit9ntgap filling/nick sealing produces candidate closed templates; ExoIII hydrolysis and three successive source bead recoveries do not imply complete chemical purity.'
+CAVEAT='Selected in-situ cellline methylated route. Reserved no-EcoGII control is a distinct allocation retaining any native marks; ex-situ andPDX experiments andoptional high/low-size selections remain separate. Native methylation positions/efficiency, exact original-to-repair junction coordinates and polymerase/primer binding polarity are unassigned. Full repair uses short unmodified daughter patches, not a replacement amplified genomic duplex. Published oligo does not establish proprietary sequencing-primer absence.'
+BC='CGGAAGAA'
+LOOP='ATCTCTCTCTTTTCCTCCTCCTCCGTTGTTGTTGTTGAGAGAGAT'
+BARCODE=feature('samosa_sample_barcode','sample_index','whitelist',whitelist='publishedSupplementTable5',note='representativeSMRT-A_bc001; not short-read acquired index cycles')
+ADAPTER=(revcomp(nx.ME)+revcomp(BC)+LOOP+BC+nx.ME)
+STEM=len(nx.ME)+len(BC)
+def adapter_parts():
+ return (Segment('mosaic-end reversecomplement',revcomp(nx.ME)),Segment('samplebarcode reversecomplement',revcomp(BC),placeholder=False,feature=BARCODE),Segment('hairpinloop',LOOP),Segment('samplebarcode',BC,feature=BARCODE),Segment('mosaic-end',nx.ME))
+def adapter_scene():
+ sc=population(('hairpin',adapter_parts(),'actual source singleDNA oligo; intramolecularstem shown separately'))
+ sc.strands['hairpin'].mod5='p'
+ return sc
+TOPOLOGY_PANELS=(('Published native hairpin substrate',HairpinTopology('SMRT-A_bc001',ADAPTER,0,len(ADAPTER)-STEM,STEM).folded_panel('Source5′phosphorylated oligo; stem/barcode folding derived from Table5. This substrate is not a completed closed genomic template.')),)
+LIMIT='Source closedDNA topology requires gapfill/nickseal after transfer. SourceSequelII8MSMRTcell30hmovies/2hpreextension/4himmobilization; polymerase2.1or2.2 library-size dependent. Native sequencing-primer/fullbinding geometry and which strand enters first are unassigned, not confirmed absent.'
+SEQUENCING_ENDING=LIMIT
+READ_SPECS=(sp.read_spec('Sequencing output',None,'Repeated native template observations and methylation kinetics; samplebarcode physical8bases is not8 acquired index cycles','include'),)
+def native(stage='unmarked native',tagged=False,closed=False,digested=False):
+ sc=population(('originalA',(role('original genomicDNAstrandA; '+stage+'; native/accessibility methylation positions unassigned'),),'original sideA of native duplex/template'),('originalB',(role('original genomicDNAstrandB; '+stage+'; independent native/accessibility methylation pattern'),),'original sideB; not a copied replacement'))
+ if tagged:
+  for side in ('left','right'):
+   sc.strand(side+'hairpin',adapter_parts(),label='covalently transferred '+side+'hairpin component; native orientedjunction unassigned')
+  sc.note('originalA','Source9nt gaps remain at transfer boundaries' if not closed else 'Bothsource9ntgaps repaired/nickssealed; candidate one covalentlyclosed template includes both originalDNA strands and both hairpins')
+ if closed and not digested:sc.strand('openclasses',(role('possible incompletely filled/nick-bearing/open nativeDNA co-carried with candidatecircles; exact recovery unassigned'),),label='actual possible openDNA in mixed repair/recovery and ExoIII input; not a purified closed fraction')
+ if closed:sc.strand('repairpatches',(role('short normalDNA gap-repair patches;9ntgap target per source; exact junction sequence/patch extent unassigned'),),label='newly synthesized repairDNA, distinct from marked original strands')
+ if digested:sc.strand('digestclasses',(role('ExoIII hydrolysates and possible surviving incompletelyclosed DNA; subsequent bead partition unassigned'),),label='independent digestion/off-product classes')
+ sc.strand('other',(role('RNA/protein/native fragments or their digestion products; physical recovery unassigned'),),label='independent possible carried constituents')
+ return sc
 
 def oligos():
-    return [
-        f"SMRT-A_bc001 — 5′-/5Phos/{HAIRPIN_ADAPTER}-3′",
-        f"sample barcode in SMRT-A_bc001 — 5′-{BARCODE_001}-3′",
-        f"Tn5 mosaic end at both stem termini — 5′-{nx.ME}-3′",
-    ]
-
-
-def hairpin_adapter_scene():
-    sc = Scene()
-    sc.strand("hairpin oligo", [
-        Segment("mosaic end reverse complement", revcomp(nx.ME), "me"),
-        Segment("barcode reverse complement", revcomp(BARCODE_001), "cbc",
-                feature=feature("sample_barcode_001", "sample_index", "whitelist",
-                                whitelist="Supplementary Table 5")),
-        Segment("PacBio hairpin loop", HAIRPIN_LOOP),
-        Segment("sample barcode", BARCODE_001, "cbc",
-                feature=feature("sample_barcode_001", "sample_index", "whitelist",
-                                whitelist="Supplementary Table 5")),
-        Segment("mosaic end", nx.ME, "me"),
-    ], label="SMRT-A_bc001", mod5="/5Phos/")
-    sc.mark("hairpin oligo", "sample barcode", "8-nt sample barcode")
-    return sc
-
-def sections():
-    return [
-        ("Mark accessible adenines in nuclei", marked_fiber("EcoGII", target="accessible adenines"),
-         "EcoGII and SAM deposit m6dA on exposed DNA while protein-bound intervals remain footprints."),
-        ("Tagment with hairpin-loaded Tn5", joined_scene([seg("left hairpin-ME","X"*20,"me",placeholder=True),seg("marked chromatin fragment","X"*36,placeholder=True),seg("right ME-hairpin","X"*20,"me",placeholder=True)],(("left hairpin-ME","marked chromatin fragment","Tn5 transfer"),("marked chromatin fragment","right ME-hairpin","Tn5 transfer")),label="hairpin-tagmented chromatin").rows(),
-         "Tn5 couples fragmentation to transfer of a hairpin-bearing mosaic-end adapter at both boundaries."),
-        ("Gap-repair the tagmented product", smrtbell_rows(SMRTBELL),
-         "Polymerase fills the transposition gaps, leaving one covalently closed PacBio template."),
-    ]
-
+ yield oligo('SMRT-A_bc001 sourceoligo',adapter_parts(),mods='/5Phos/')
 
 def protocol_graph():
-    graph=ProtocolGraph(TITLE,authority=SOURCE)
-    chromatin=graph.input("chromatin","permeabilized nuclei (native chromatin fibers) in Buffer M",
-                          MaterialKind.BIOLOGICAL,primary=True)
-    ecogii=graph.input("ecogii","EcoGII adenine methyltransferase (250 U, 30 min, 37 °C)",
-                       MaterialKind.CATALYST)
-    sam=graph.input("sam","S-adenosylmethionine (1 mM; replenished to 1.16 mM at 15 min)",
-                    MaterialKind.CONDITION)
-    marked=graph.product("marked_fibers","m6dA-marked chromatin fibers",MaterialKind.MOLECULAR,
-                         state=INITIAL_ROWS)
-    graph.react("mark_accessibility","Mark accessible adenines in nuclei",
-                StepKind.CHEMICAL_CONVERSION,
-                ((chromatin,InputRole.TEMPLATE),(ecogii,InputRole.CATALYST),
-                 (sam,InputRole.CONDITION)),(marked,))
-    hairpin_adapter=graph.input("hairpin_transposome","SMRT-A barcoded hairpin oligo, annealed (95 °C 5 min, 25 °C 30 min)",
-                                MaterialKind.ADAPTER,state=hairpin_adapter_scene())
-    tn5=graph.input("tn5","triple-mutant Tn5 (R27S,E54K,L372P), loaded 55 min at 23 °C",
-                    MaterialKind.CATALYST)
-    tagmented=graph.product("hairpin_tagmented","hairpin-tagmented marked chromatin",
-                            MaterialKind.MOLECULAR)
-    graph.react("hairpin_tagment","In situ tagmentation: 9.4–18.8 pmol transposome, Omni-ATAC buffer, 55 °C 45–60 min",
-                StepKind.TAGMENTATION,
-                ((marked,InputRole.TEMPLATE),(hairpin_adapter,InputRole.STRUCTURAL),
-                 (tn5,InputRole.CATALYST)),(tagmented,))
-    deprotein=graph.input("stop_mix","RNase A, then proteinase K / SDS / EDTA (60 °C, 1–2 h)",
-                          MaterialKind.CATALYST)
-    released=graph.product("released_dna","deproteinized hairpin-tagmented DNA",
-                           MaterialKind.MOLECULAR)
-    graph.react("terminate","Terminate tagmentation and deproteinize",
-                StepKind.DEPROTEINIZATION,
-                ((tagmented,InputRole.TEMPLATE),(deprotein,InputRole.CATALYST)),(released,))
-    beads=graph.input("spri_tagmented","2× SPRI, then 0.6× SPRI (>500 bp)",MaterialKind.SELECTION)
-    purified=graph.product("purified_tagmented","purified hairpin-tagmented DNA (>500 bp enriched)",
-                           MaterialKind.MOLECULAR)
-    small=graph.product("small_fragments","fragments below the 0.6× SPRI cutoff, protein and buffer",
-                        MaterialKind.WASTE)
-    graph.react("cleanup_tagmented","Bead cleanup and 0.6× SPRI size enrichment",
-                StepKind.CLEANUP,
-                ((released,InputRole.TEMPLATE),(beads,InputRole.SELECTION)),(purified,small))
-    graph.discard(small,"left in the SPRI supernatant / washes")
-    repair=graph.input("gap_repair_polymerase","Repair Mix: Phusion-HF (2 U) with 0.8 mM dNTPs",
-                       MaterialKind.CATALYST)
-    ligase=graph.input("gap_repair_ligase","Taq DNA ligase (80 U) in 1× Taq ligase buffer",
-                       MaterialKind.CATALYST)
-    repaired=graph.product("gap_repaired","gap-repair products: closed SMRTbell templates plus unrepaired molecules",
-                           MaterialKind.MOLECULAR)
-    graph.react("gap_repair","Fill both 9-nt transposition gaps and seal the nicks (37 °C, 1 h; 2× SPRI)",
-                StepKind.EXTENSION,
-                ((purified,InputRole.TEMPLATE),(repair,InputRole.CATALYST),
-                 (ligase,InputRole.CATALYST)),(repaired,))
-    exo=graph.input("exonuclease_iii","ExoDigest Mix: exonuclease III (100 U per 160 ng), 1× NEBuffer 2",
-                    MaterialKind.CATALYST)
-    digested=graph.product("exo_digested","closed templates with exonuclease-degraded open molecules",
-                           MaterialKind.MOLECULAR)
-    graph.react("exo_digest","Exonuclease III digestion enriches covalently closed templates (37 °C, 1 h)",
-                StepKind.DIGESTION,
-                ((repaired,InputRole.TEMPLATE),(exo,InputRole.CATALYST)),(digested,))
-    final_beads=graph.input("spri_final","2× SPRI beads, elution in 12 µl EB",MaterialKind.SELECTION)
-    library=graph.product("library",SMRTBELL.name,MaterialKind.LIBRARY,state=SMRTBELL)
-    digest_waste=graph.product("digest_waste","exonuclease digestion products of unrepaired molecules",
-                               MaterialKind.WASTE)
-    graph.react("cleanup_final","Final 2× SPRI cleanup",StepKind.CLEANUP,
-                ((digested,InputRole.TEMPLATE),(final_beads,InputRole.SELECTION)),
-                (library,digest_waste))
-    graph.discard(digest_waste,"left in the SPRI supernatant / washes")
-    graph.sequence(library,SequencingPlan(
-        limitation="The source publishes the hairpin adapter bases, but the separate PacBio sequencing-primer sequence is proprietary; the closed SMRTbell traversal is known. Sequenced on 8M SMRT Cells (Sequel II, 30 h movies) with polymerase 2.1 or 2.2 (Methods, DNA quality control and PacBio sequencing)."))
-    graph.declare_reviewed_scope(("chromatin","ecogii","sam","mark_accessibility",
-                                  "hairpin_transposome","tn5","hairpin_tagment",
-                                  "stop_mix","terminate","spri_tagmented","cleanup_tagmented",
-                                  "gap_repair_polymerase","gap_repair_ligase","gap_repair",
-                                  "exonuclease_iii","exo_digest","spri_final","cleanup_final",
-                                  "library"),SOURCE)
-    return graph.require_publishable()
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ nuclei=g.input('nuclei','source permeabilizedOS152/E14 nuclei inBufferM; selectedOS152 route',M.BIOLOGICAL,state=native(),primary=True)
+ mix=g.input('sam','1mMSAM; replenish1.16mM at15min inmarked/control',M.CONDITION)
+ marked_input=g.product('marking_aliquot','200µl source methylation allocation',M.MOLECULAR,state=nuclei.state)
+ control=g.product('control','200µl reserved no-EcoGIIcontrol allocation',M.MOLECULAR,state=nuclei.state)
+ g.react('reserve_control','Reserve separate no-enzyme control before EcoGII',K.SPLIT,((nuclei,I.TEMPLATE),(mix,I.CONDITION)),(marked_input,control));unresolved(g,control,'Separate sourcecontrol experiment, not physically discarded or falsely assumed fullyunmethylated. Its later preparation is outside selectedmarked-route graph.')
+ ecogii=g.input('ecogii','source250UEcoGII;37C30min',M.CATALYST)
+ x=op(g,'mark',marked_input,'Mark accessible adenines on originalDNA',K.CHEMICAL_CONVERSION,native('EcoGII m6dAmarked native'),ecogii)
+ x=recover(g,'pellet',x,'Sourcepellet600g10min25C; resuspendOmniATACbuffer;40µmfilter')
+ aliquot=g.product('tagmentation_aliquot','10000–50000 markednuclei sourcealiquot',M.MOLECULAR,state=x.state)
+ remainder=g.product('remaining_nuclei','remaining methylatednuclei allocation',M.MOLECULAR,state=x.state)
+ rule=g.input('aliquot_rule','source10000–50000nuclei allocation',M.CONDITION)
+ g.react('take_nuclei','Take physical markednuclei aliquot',K.SAMPLING,((x,I.TEMPLATE),(rule,I.CONDITION)),(aliquot,remainder),changes_molecule=False);unresolved(g,remainder,'Unallocatednuclei not destroyed by sampling.')
+ adapter=g.input('hairpin','source5Pbarcodedhairpin annealed95C5min/25C30min',M.ADAPTER,state=adapter_scene())
+ tn5=g.input('tn5','sourceTn5R27S,E54K,L372P;loaded23C55min;9.4–18.8pmol selectedtagmentation',M.CATALYST)
+ tagged=g.product('tagged','native hairpin-transferredDNA withsource9ntgaps',M.MOLECULAR,state=native('EcoGII marked',True))
+ off=g.product('transfer_offproducts','other/unproductive tagmentation classes',M.MOLECULAR,state=native('EcoGII marked'))
+ g.react('tagment','Hairpin transfer/tagmentation55C45–60min inOmniATAC',K.TAGMENTATION,((aliquot,I.TEMPLATE),(adapter,I.STRUCTURAL),(tn5,I.CATALYST)),(tagged,off));unresolved(g,off,'Nonproductive end identity is not physical discard; sourcebead recovery unassigned.')
+ rnase=g.input('rnase','10µgRNaseA37C15min',M.CATALYST)
+ x=op(g,'rna_digest',tagged,'SourceRNaseA digestion beforeproteinase stop',K.DIGESTION,tagged.state,rnase)
+ stop=g.input('stop','50µgProteinaseK/SDS/EDTA;60C1–2h',M.CATALYST)
+ x=op(g,'deproteinize',x,'Stop transposition and deproteinize',K.DEPROTEINIZATION,native('EcoGII marked',True),stop)
+ x=recover(g,'first_spri',x,'Source2XSPRI;two80%EtOHwashes;20µlEB37C15min')
+ x=recover(g,'size_spri',x,'Separate0.6XSPRI enriches>500bp; no complete species purity inferred')
+ phusion=g.input('phusion','PhusionHF2U/0.8mMdNTP;37C1h',M.CATALYST)
+ ligase=g.input('taq_ligase','80UTaqDNAligase/1XTaqbuffer;sourcecoupledrepair reaction',M.CATALYST)
+ filled=g.product('filled','native gapfilled candidateDNA; nicksunsealed class',M.MOLECULAR,state=native('EcoGII original marks retained;normalDNA fill patches',True))
+ g.react('fill_gaps','Fill source9nt transposition gaps inactual nativeDNA',K.EXTENSION,((x,I.TEMPLATE),(phusion,I.CATALYST)),(filled,))
+ closed=g.product('closed','candidate closedtemplates and possible co-carried incomplete/open originalDNA',M.MOLECULAR,state=native('EcoGII marked',True,True))
+ unclosed=g.product('unclosed','incomplete gapfill/sealing classes',M.MOLECULAR,state=x.state)
+ g.react('seal_nicks','Seal repairednicks in same source37C1h coupledreaction',K.NICK_SEALING,((filled,I.TEMPLATE),(ligase,I.CATALYST)),(closed,unclosed));unresolved(g,unclosed,'SourceExoIII attacks susceptible unclosedDNA; hydrolysates and remaining intactspecies are not physically removed until recovery, exact partition unassigned.')
+ x=recover(g,'repair_spri',closed,'Separate source2XSPRI aftergaprepair;12µlEB')
+ exo=g.input('exo','ExoIII100Uper160ng/NEBuffer2;37C1h',M.CATALYST)
+ x=op(g,'exo_digest',x,'Digest susceptible openDNA; hydrolysates remain molecular',K.DIGESTION,native('EcoGII marked',True,True,True),exo)
+ x=recover(g,'final_spri',x,'Separate final2XSPRI afterExoIII;12µlEB')
+ lib=g.product('library','nativeclosed SAMOSA-Tag library withunassigned residualpartition',M.LIBRARY,state=x.state)
+ g.react('retain_library','Retain recovered native circular-template population',K.GENERIC,((x,I.TEMPLATE),),(lib,),changes_molecule=False)
+ g.sequence(lib,SequencingPlan(limitation=LIMIT))
+ g.declare_reviewed_scope(REVIEWED,SOURCE)
+ return g.require_publishable()
+REVIEWED=('nuclei','sam','reserve_control','ecogii','mark','pellet_selection','pellet','aliquot_rule','take_nuclei','hairpin','tn5','tagment','rnase','rna_digest','stop','deproteinize','first_spri_selection','first_spri','size_spri_selection','size_spri','phusion','taq_ligase','fill_gaps','seal_nicks','repair_spri_selection','repair_spri','exo','exo_digest','final_spri_selection','final_spri','retain_library','library')

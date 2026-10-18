@@ -1,11 +1,10 @@
 """scSNV-seq transcript, barcode and genotype branches."""
-from batch_ngs import truseq_amplicon_library
-from chemdraw import Row, Segment, feature, revcomp
+from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
+from protocol_model import role
+import seqprimers as sp
 import illumina as il
-from multibranch import illumina_branch
-from multimodal_spatial import finish_pcr_branch
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, StepKind
+from protocol_graph import Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 
 TITLE = "scSNV-seq — genotype-linked single-cell transcriptomes"
 NOTES = "01_scsnv-seq.html"
@@ -16,9 +15,9 @@ CAVEAT = ("Supplementary Table S2 prints the vector-construction primers, both c
           "amplicon panel and the integrated pKLV2 region (guide 19N, scaffold, iBAR 6N, "
           "PuroR 5′ UTR barcode 12N). Those sequences are exact below, and both spike-in "
           "RT arms are checked against that vector sequence. INFERRED: the paired "
-          "commercial 10x 5′ HT bead construct and i7-side nested primer, and the Mission "
-          "Bio Tapestri shell including its cell-barcode length. Sequencing was on a "
-          "NovaSeq 6000; read lengths are not published.")
+          "commercial 10x 5′ HT strand assembly and reverse nested primer, and the Mission "
+          "Bio Tapestri native endpoint. Cell-barcode/UMI widths, native index geometry and acquired cycles remain unassigned here. Genotyping uses separately sampled expanded cells, with clone linkage computational through vector barcodes. Sequencing was on a "
+          "NovaSeq 6000; study read allocation remains unassigned in this capped model.")
 
 ULTRAMER_5UTR = "CTTGTCTCGCTCCGGGGAACGCTCGGAAACTCCCGGCCGCCGCCACCCGCGTCTGTTCTGTTACACAAGGGAAGAAAAGCCGCTGCCGCACTCCGAGTGT"
 UTR_BC_F1 = "CCGGGCCTTTCGACCTGCATCCATCTTGTCTCGCTCCGGGGAACG"
@@ -52,10 +51,10 @@ I5_INDEX_NT = 10
 NESTED_FWD = PCRPrimer("Kosuke_Guide_i5longFwd / Puro_i5longFwd", I5_LONG,
                        anneal_nt=len(il.TRUSEQ_READ1))
 
-CB = lambda: Segment("cell barcode", "B" * 16, "cbc", placeholder=True,
-                     feature=feature("cell_barcode", "cell_barcode", "whitelist", whitelist="10x Chromium 5-prime HT cell-barcode whitelist"))
-UMI = lambda: Segment("UMI", "U" * 10, "umi", placeholder=True,
-                      feature=feature("umi", "umi", "random"))
+CELL=feature("chromium_cell_barcode","cell_barcode","unknown",note="10x5′HT identity; native width unassigned")
+UMI_FEATURE=feature("chromium_umi","umi","random",note="native width unassigned")
+CB=lambda:role("Chromium cell barcode; native length/position unassigned",molecular_feature=CELL)
+UMI=lambda:role("Chromium UMI; native length/position unassigned",molecular_feature=UMI_FEATURE)
 GUIDE_INSERT = [CB(), UMI(),
     Segment("vector transcription-start G", "G"),
     Segment("guide spacer", "N" * 19, "cbc", placeholder=True,
@@ -69,21 +68,19 @@ PURO_INSERT = [CB(), UMI(),
     Segment("PuroR barcode", "B" * 12, "cbc", placeholder=True,
             feature=feature("puror_barcode", "feature_barcode", "random")),
     Segment("PuroR start to the RT-primer site", PURO_CDS_START)]
-GENO_INSERT = [Segment("Tapestri cell barcode", "B" * 16, "cbc", placeholder=True,
-                       inferred=True,
-                       feature=feature("cell_barcode", "cell_barcode", "whitelist", whitelist="10x Chromium 5-prime HT cell-barcode whitelist")),
-               Segment("JAK1, iBAR or PuroR amplicon", "X" * 34, placeholder=True)]
-
-RNA, TENX_PRIMERS = illumina_branch("scSNV-seq transcriptome library", "10x 5-prime cDNA", cell=16, umi=10, inferred_adapters=True)
-GUIDE, GUIDE_PRIMERS = truseq_amplicon_library(GUIDE_INSERT, "scSNV-seq guide/iBAR library", i5_nt=I5_INDEX_NT, inferred_adapters=True)
-PURO, PURO_PRIMERS = truseq_amplicon_library(PURO_INSERT, "scSNV-seq PuroR-barcode library", i5_nt=I5_INDEX_NT, inferred_adapters=True)
-GENO, GENO_PRIMERS = truseq_amplicon_library(GENO_INSERT, "scSNV-seq targeted genotype library", inferred_adapters=True)
-FINAL_LIBRARIES = (
-    ("Transcriptome library", RNA, TENX_PRIMERS, "10x gene-expression reads carry cell barcode and UMI.", "The transcript branch uses the declared 10x-compatible run primers."),
-    ("Guide and iBAR library", GUIDE, GUIDE_PRIMERS, "The nested enrichment reads the droplet cell barcode and UMI, then the guide spacer, the published scaffold loop and its 6-nt iBAR, up to the oJR160 priming site. The P5 arm is the printed nested primer with its 10-base library index; the P7 arm is INFERRED.", "The guide branch retains the same droplet cell identity."),
-    ("PuroR-barcode library", PURO, PURO_PRIMERS, "The analogous PuroR enrichment reads the published 5' UTR, the 12-nt PuroR barcode and the PuroR start up to the RT-primer site. The P5 arm is the printed nested primer; the P7 arm is INFERRED.", "The PuroR branch retains the same droplet cell identity."),
-    ("Targeted genotype library", GENO, GENO_PRIMERS, "INFERRED — Tapestri amplicons (JAK1 panel plus the iBAR and PuroR amplicons) call the edited allele; the Mission Bio cell-barcode length and sequencing shell are not published here.", "The DNA branch supplies the genotype joined computationally through the barcode pair."),
-)
+TAPESTRI_CELL=feature("tapestri_cell_barcode","cell_barcode","unknown",note="MissionBio DNA-cell identity; distinct from Chromium cell barcode")
+SAMPLE=feature("scsnv_nested_i5","sample_index","random",note="TableS2 prints N10 indexing barcode; selected member unassigned")
+GENO_INSERT=[role("MissionBio DNA-cell barcode; native length/position unassigned",molecular_feature=TAPESTRI_CELL),role("target-dependent JAK1 or vector-barcode amplicon; separate target populations")]
+RNA=Construct([role("native10x end A"),CB(),UMI(),role("transcript-derived insert"),role("native10x end B")],name="scSNV transcriptome native boundary")
+def _nested_endpoint(payload,name):
+ return Construct([Segment("source nested P5",il.P5),Segment("source N10 library index","N"*10,"cbc",placeholder=True,feature=SAMPLE),Segment("source nested forward arm",il.TRUSEQ_READ1),role("native assembly between nested arm and target; unassigned"),*payload,role("reverse native end; primer geometry unassigned")],name=name)
+GUIDE=_nested_endpoint(GUIDE_INSERT,"scSNV guide/iBAR conditional native endpoint")
+PURO=_nested_endpoint(PURO_INSERT,"scSNV PuroR conditional native endpoint")
+GENO=Construct([role("nativeTapestri end A"),*GENO_INSERT,role("nativeTapestri end B")],name="scSNV DNA-genotype native endpoint")
+TENX_PRIMERS=GUIDE_PRIMERS=PURO_PRIMERS=GENO_PRIMERS=()
+FINAL_LIBRARIES=(("Transcriptome library",RNA,(),"Native10x5′HT reference; complete strands and run allocation unassigned.","Chromium identity links RNA-derived modalities."),("Guide and iBAR library",GUIDE,(),"Conditional ordered target and printed nested forward primer; intervening native assembly unassigned.","Guide19N and iBAR6N retain vector lineage."),("PuroR-barcode library",PURO,(),"Conditional PuroR target and printed nested forward primer; native reverse end unassigned.","PuroR12N links clonal descendants."),("Targeted genotype library",GENO,(),"Distinct Tapestri cells sampled from the expanded population; no Chromium barcode length or endpoint is inherited.","Clone linkage through vector identifiers is computational."))
+SHOW_READ_CONTENT=False
+READ_SPECS={name:tuple(sp.read_spec(r,"unassigned","NovaSeq6000 reported; native read/index acquisition unassigned in this source scope","undetermined") for r in ("Read 1","Read 2","Index 1 (i7)","Index 2 (i5)")) for name,*_ in FINAL_LIBRARIES}
 
 
 def oligos():
@@ -100,54 +97,75 @@ def oligos():
         f"<b>Kosuke_Guide_i5longFwd / Puro_i5longFwd</b> — 5′-{I5_LONG}-3′",
     )
 
-def sections():
-    return [
-        ("Construct the doubly barcoded guide library", [Row(chunks=[("PuroR 5′ UTR—[12-nt barcode]    guide—[6-nt iBAR]", "cbc", False)])], "Both transcribed identifiers are integrated with the guide cassette."),
-        ("Base-edit and expand cells", [Row(chunks=[("guide + base editor → edited clone descendants", "r1", False)])], "Descendants of one integration inherit its guide and barcode pair."),
-        ("Partition cells for 10x 5′ RNA capture", [Row(chunks=[("cell barcode + UMI → transcript, guide/iBAR and PuroR cDNA", "umi", False)])], "Scaffold- and PuroR-specific RT primers are spiked into the reaction."),
-        ("Split cDNA into three RNA-derived libraries", [Row(chunks=[("transcriptome | nested guide/iBAR PCR | nested PuroR-barcode PCR", "r2", False)])], "All three products preserve the droplet cell barcode."),
-        ("INFERRED — complete compatible sequencing shells", [Row(chunks=[("four source-established payloads → complete Illumina-compatible endpoints", "me", False)])], "The drawn outer adapter completion is inferred; genotype linkage and barcode payloads are source-established."),
-    ]
+def population(*,copied=False,amplified=False,bead=False):
+ sc=Scene()
+ sc.strand("gDNA",[role("genomic DNA; separate polymer")],label="retained DNA; no Tapestri routing from Chromium droplets")
+ for kind,payload,primer,arm in (("guide",GUIDE_INSERT[2:],GUIDE_RT,GUIDE_RT_ARM),("puro",PURO_INSERT[2:],PURO_RT,PURO_RT_ARM)):
+  sc.strand(kind+"RNA",payload,label=kind+" transcribed source vector population")
+  if copied:
+   # RT-primer arm already supplies the priming-site sequence; copy only the upstream target.
+   last=payload[-1]
+   if not last.top.endswith(revcomp(arm)):raise ValueError("source RT arm is not terminal target complement")
+   before=[*payload[:-1],Segment(last.name+" upstream of RT site",last.top[:-len(arm)])]
+   sc.strand(kind+"cDNA",[Segment("source "+kind+" RT primer",primer),*complement_segments(before),role("native barcoding/strand continuation; topology unassigned")],label="native amplified target reference" if amplified else "ss RT-primer-derived cDNA; barcoding extent unassigned")
+   if amplified:sc.strand(kind+" complementary copies",[role("complementary "+kind+" PCR-copy population; native strand boundaries unassigned")],label="separate amplified opposite-strand class")
+ sc.strand("mRNA",[role("other poly(A) transcripts")],label="other RNA population")
+ if copied:sc.strand("mRNAcDNA",[CB(),UMI(),role("native transcript cDNA; complete assembly unassigned")],label="separate native10x cDNA class")
+ if bead or copied:sc.strand("bead",[CB(),UMI(),role("native10x bead oligo arrangement unassigned")],label="bead barcoding component; no assumed16/10widths")
+ return sc
 
 
 def protocol_graph():
-    g=ProtocolGraph(TITLE,authority=SOURCE)
-    cells=g.input("cells","cells before guide-library integration",MaterialKind.BIOLOGICAL,primary=True)
-    cassette=g.input("guide_cassette","doubly barcoded guide cassette with 6-nt iBAR and 12-nt PuroR barcode",MaterialKind.MOLECULAR,state=sections()[0][1])
-    lentiviral=g.input("integration_machinery","lentiviral integration machinery",MaterialKind.CATALYST)
-    integrated=g.product("integrated","cells carrying a guide, iBAR and PuroR barcode pair",MaterialKind.MOLECULAR,state=sections()[0][1])
-    g.react("integrate","Integrate the doubly barcoded guide cassette",StepKind.INTEGRATION,((cassette,InputRole.TEMPLATE),(cells,InputRole.ANALYTE),(lentiviral,InputRole.CATALYST)),(integrated,))
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ expanded=g.input("expanded","expanded edited population carrying source iBAR6N/PuroR12N guide cassette; source lentiviral integration and doxycycline-induced base editing precede these library branches",MaterialKind.BIOLOGICAL,state=population(),primary=True)
+ chromium=g.product("chromium_cells","cells sampled for Chromium5′HT transcriptomics",MaterialKind.BIOLOGICAL,state=population())
+ tapestri=g.product("tapestri_cells","separately sampled/expanded cells for Tapestri genotyping",MaterialKind.BIOLOGICAL,state=population())
+ g.react("sample_populations","Sample expanded population for separate Chromium and Tapestri experiments",StepKind.SPLIT,((expanded,InputRole.TEMPLATE),),(chromium,tapestri),changes_molecule=False)
+ partition=g.input("partition_condition","ChromiumX5′HT droplet partitioning",MaterialKind.CONDITION)
+ gem=g.product("gem","Chromium reaction containing independent cellular DNA/RNAs and bead oligos",MaterialKind.MOLECULAR,state=population(bead=True))
+ other_gems=g.product("other_gems","other native droplets/material outside representative cellular reaction",MaterialKind.MOLECULAR)
+ g.react("partition","Partition transcriptomic cells with native5′HT beads",StepKind.PARTITION,((chromium,InputRole.TEMPLATE),(partition,InputRole.CONDITION)),(gem,other_gems),changes_molecule=False)
+ g.mark_terminal(Terminal(other_gems.id,Disposition.UNRESOLVED,"Other partition contents/recovery not assigned; computational cell calling is not physical discard."))
+ gp=g.input("guide_rt_primer","oJR160 guide RT spike-in",MaterialKind.OLIGO,state=Construct([Segment("oJR160",GUIDE_RT)],name="oJR160"))
+ pp=g.input("puro_rt_primer","RT_Puro_Singlecell spike-in",MaterialKind.OLIGO,state=Construct([Segment("RT_Puro_Singlecell",PURO_RT)],name="RT_Puro_Singlecell"))
+ rt=g.input("rt","native10x5′HT RT reagents; component identity unassigned",MaterialKind.CATALYST)
+ bead=g.input("bead","native10x5′HT bead barcoding oligos; strands/widths unassigned",MaterialKind.OLIGO)
+ copied=g.product("copied","native RT/barcoding mixture; ss target copies distinct from final libraries",MaterialKind.MOLECULAR,state=population(copied=True))
+ g.react("rt_capture","Reverse-transcribe native10x and custom guide/PuroR templates",StepKind.REVERSE_TRANSCRIPTION,((gem,InputRole.TEMPLATE),(gp,InputRole.STRUCTURAL),(pp,InputRole.STRUCTURAL),(bead,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(copied,))
+ f=g.input("cdna_forward","native10x cDNA amplification primer A",MaterialKind.OLIGO)
+ r=g.input("cdna_reverse","native10x cDNA amplification primer B; species relationship unassigned",MaterialKind.OLIGO)
+ pol=g.input("cdna_polymerase","native10x cDNA amplification polymerase",MaterialKind.CATALYST)
+ amplified=g.product("amplified","native amplified cDNA population",MaterialKind.MOLECULAR,state=population(copied=True,amplified=True))
+ g.react("cdna_pcr","Amplify cDNA according to named5′HT workflow",StepKind.PCR,((copied,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(amplified,),geometry=PCRGeometry.unavailable(copied.state,reason="Actual native RT mixture; complete kit primer/strand assembly unassigned."))
+ selection=g.input("spri","source SPRI fractionation after cDNA amplification; exact ratio unassigned",MaterialKind.SELECTION)
+ large=g.product("large","long cDNA fraction for transcriptome construction",MaterialKind.MOLECULAR,state=amplified.state)
+ small=g.product("small","small SPRI fraction for guide/iBAR and PuroR nested enrichment",MaterialKind.MOLECULAR,state=amplified.state)
+ g.react("fractionate","Retain transcriptome and small SPRI fractions",StepKind.SELECTION,((amplified,InputRole.TEMPLATE),(selection,InputRole.SELECTION)),(large,small),changes_molecule=False)
+ kit=g.input("rna_kit","named10x5′HT transcriptome construction reagents",MaterialKind.CONDITION)
+ rna=g.product("rna_library","native transcriptome endpoint",MaterialKind.LIBRARY,state=RNA)
+ g.react("rna_construct","Native5′HT transcriptome construction boundary",StepKind.MAGIC,((large,InputRole.TEMPLATE),(kit,InputRole.CONDITION)),(rna,),reason="Published Methods delegates transcriptome construction to manufacturer; exact historical operations/oligos remain outside this two-original cap.")
+ guides=g.product("guide_aliquot","mixed small-fraction aliquot for guide/iBAR",MaterialKind.MOLECULAR,state=small.state)
+ puros=g.product("puro_aliquot","mixed small-fraction aliquot for PuroR",MaterialKind.MOLECULAR,state=small.state)
+ g.react("split_small","Aliquot small fraction for analogous nested enrichments",StepKind.SPLIT,((small,InputRole.TEMPLATE),),(guides,puros),changes_molecule=False)
+ for key,template,endpoint in (("guide",guides,GUIDE),("puro",puros,PURO)):
+  first_f=g.input(key+"_first_forward","target-specific first enrichment primer; selected strand unassigned",MaterialKind.OLIGO)
+  first_r=g.input(key+"_first_reverse","native first enrichment opposite primer; unassigned",MaterialKind.OLIGO)
+  enzyme=g.input(key+"_polymerase","nested enrichment PCR polymerase; identity unassigned",MaterialKind.CATALYST)
+  first=g.product(key+"_first","first enrichment products within mixed aliquot",MaterialKind.MOLECULAR,state=template.state)
+  g.react(key+"_first_pcr","First "+key+" enrichment stage implied by source nested PCR",StepKind.PCR,((template,InputRole.TEMPLATE),(first_f,InputRole.STRUCTURAL),(first_r,InputRole.STRUCTURAL),(enzyme,InputRole.CATALYST)),(first,),geometry=PCRGeometry.unavailable(template.state,reason="Mixed small-fraction precursor; first-round primer species, cycle counts and native products remain unassigned."))
+  nested=g.input(key+"_nested_forward","TableS2 shared N10 i5long nested forward",MaterialKind.OLIGO,state=Construct([Segment("P5",il.P5),Segment("N10index","N"*10,"cbc",placeholder=True,feature=SAMPLE),Segment("nested3′arm",il.TRUSEQ_READ1)],name=key+" nested forward"))
+  reverse=g.input(key+"_nested_reverse","native nested opposite primer; selected strand unassigned",MaterialKind.OLIGO)
+  lib=g.product(key+"_library","conditional source-target nested endpoint",MaterialKind.LIBRARY,state=endpoint)
+  other=g.product(key+"_residual","co-carried other transcripts/DNA and non-target PCR products",MaterialKind.MOLECULAR,state=first.state)
+  g.react(key+"_nested_pcr","Nested "+key+" PCR using printed i5long forward primer",StepKind.PCR,((first,InputRole.TEMPLATE),(nested,InputRole.STRUCTURAL),(reverse,InputRole.STRUCTURAL),(enzyme,InputRole.CATALYST)),(lib,other),geometry=PCRGeometry.unavailable(first.state,reason="Actual first-enrichment mixture; reverse primer/native assembly unassigned. Final reference is not a PCR input."))
+  g.mark_terminal(Terminal(other.id,Disposition.UNRESOLVED,"Nested primer selectivity is not physical modality purification; native off-target/RNA/DNA recovery remains unassigned."))
+  g.sequence(lib,SequencingPlan(library=endpoint,limitation="NovaSeq6000; native acquired reads/index cycles and primer landing unassigned."))
+ dna_kit=g.input("tapestri_kit","Tapestri native custom amplicon workflow; TableS2 JAK1 and vector target panel",MaterialKind.CONDITION)
+ dna=g.product("genotype_library","native Tapestri genotype endpoint from separate cells",MaterialKind.LIBRARY,state=GENO)
+ g.react("tapestri_construct","Native Tapestri targeted genotyping boundary",StepKind.MAGIC,((tapestri,InputRole.TEMPLATE),(dna_kit,InputRole.CONDITION)),(dna,),reason="Source names manufacturer custom-amplicon workflow; native cell barcode/primer assembly and internal reaction order remain deferred.")
+ g.sequence(dna,SequencingPlan(library=GENO,limitation="Distinct MissionBio DNA-cell identities, computationally linked to Chromium clonal descendants via vector identifiers; read/index geometry unassigned."))
+ g.sequence(rna,SequencingPlan(library=RNA,limitation="Named10x5′HT endpoint; native run geometry/cycles unassigned."))
+ g.declare_reviewed_scope(REVIEWED,SOURCE)
+ return g.require_publishable()
 
-    guide=g.input("guide_rna","integrated guide RNA",MaterialKind.OLIGO)
-    editor=g.input("base_editor","base-editing enzyme",MaterialKind.CATALYST)
-    edited=g.product("edited","base-edited cells retaining the barcode pair",MaterialKind.MOLECULAR,state=sections()[1][1])
-    g.react("edit","Base-edit the guide-directed genomic locus",StepKind.GENOME_EDITING,((integrated,InputRole.TEMPLATE),(guide,InputRole.STRUCTURAL),(editor,InputRole.CATALYST)),(edited,))
-    expanded=g.product("expanded","expanded edited clone descendants",MaterialKind.MOLECULAR,state=sections()[1][1])
-    g.react("expand","Expand edited clone descendants",StepKind.GENERIC,((edited,InputRole.TEMPLATE),),(expanded,),changes_molecule=False)
-
-    droplet_condition=g.input("droplet_condition","10x 5-prime droplet partitioning condition",MaterialKind.CONDITION)
-    occupied=g.product("occupied","occupied 10x droplets containing edited cells",MaterialKind.MOLECULAR,state=sections()[2][1])
-    empty=g.product("droplet_waste","empty or unusable droplets",MaterialKind.WASTE)
-    g.react("partition","Partition edited cells for 10x 5-prime capture",StepKind.PARTITION,((expanded,InputRole.TEMPLATE),(droplet_condition,InputRole.CONDITION)),(occupied,empty),changes_molecule=False)
-    g.discard(empty,"does not contain a usable edited-cell template")
-
-    bead=g.input("bead_oligo","proprietary 10x 5-prime cell-barcode and UMI bead oligo",MaterialKind.OLIGO,inferred=True,source=SOURCE+" (commercial oligo sequence not printed as a complete endpoint)")
-    guide_rt=g.input("guide_rt_primer","source-printed oJR160 guide-scaffold spike-in RT primer",MaterialKind.OLIGO,state=GUIDE_RT)
-    puro_rt=g.input("puro_rt_primer","source-printed RT_Puro_Singlecell spike-in RT primer",MaterialKind.OLIGO,state=PURO_RT.upper())
-    rt=g.input("reverse_transcriptase","10x 5-prime reverse transcriptase",MaterialKind.CATALYST)
-    captured=g.product("captured","droplet cell retaining gDNA and three RNA-derived cDNA classes",MaterialKind.MOLECULAR,state=sections()[2][1],inferred=True,source=SOURCE+" (complete commercial endpoint oligos not printed)")
-    g.react("reverse_transcribe","Capture transcript, guide/iBAR and PuroR-barcode cDNA",StepKind.REVERSE_TRANSCRIPTION,((occupied,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(guide_rt,InputRole.STRUCTURAL),(puro_rt,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(captured,))
-
-    transcript=g.product("transcript_template","10x transcriptome cDNA",MaterialKind.MOLECULAR,state=RNA,inferred=True,source=SOURCE+" (outer completion inferred)")
-    guide_template=g.product("guide_template","guide and 6-nt iBAR cDNA",MaterialKind.MOLECULAR,state=GUIDE,inferred=True,source=SOURCE+" (outer completion inferred)")
-    puro_template=g.product("puro_template","12-nt PuroR-barcode cDNA",MaterialKind.MOLECULAR,state=PURO,inferred=True,source=SOURCE+" (outer completion inferred)")
-    genotype=g.product("genotype_template","targeted edited-locus genomic DNA",MaterialKind.MOLECULAR,state=GENO,inferred=True,source=SOURCE+" (outer completion inferred)")
-    g.react("separate_readouts","Separate transcript, guide/iBAR, PuroR-barcode and genotype readouts",StepKind.SPLIT,((captured,InputRole.TEMPLATE),),(transcript,guide_template,puro_template,genotype),changes_molecule=False)
-
-    reviewed=["cells","guide_cassette","integration_machinery","integrate","guide_rna","base_editor","edit","expand","droplet_condition","partition","bead_oligo","guide_rt_primer","puro_rt_primer","reverse_transcriptase","reverse_transcribe","separate_readouts"]
-    finish_pcr_branch(g,"rna",transcript,RNA,TENX_PRIMERS,reviewed,label="scSNV-seq transcriptome",inferred_primers=True,limitation="The complete commercial 10x 5-prime endpoint primer pair is not printed as one construct.")
-    finish_pcr_branch(g,"guide",guide_template,GUIDE,GUIDE_PRIMERS,reviewed,label="scSNV-seq guide and iBAR",inferred_primers=True,geometry=PCRGeometry.regional(GUIDE,NESTED_FWD,reverse_pool="10x 5' HT library-construction primer (not printed)",reverse_region="Index 1 / Read 2 arm",statement="Methods: nested PCR from the small SPRI fraction after cDNA amplification. Supplementary Table S2 prints the forward nested primer (P5 + 10-base library index + TruSeq Read 1); its reverse partner is not printed."),limitation="The complete nested guide/iBAR enrichment and outer primer pair is not printed as one construct.")
-    finish_pcr_branch(g,"puro",puro_template,PURO,PURO_PRIMERS,reviewed,label="scSNV-seq PuroR barcode",inferred_primers=True,geometry=PCRGeometry.regional(PURO,NESTED_FWD,reverse_pool="10x 5' HT library-construction primer (not printed)",reverse_region="Index 1 / Read 2 arm",statement="The analogous PuroR nested PCR uses the same printed forward primer (Puro_i5longFwd); its reverse partner is not printed."),limitation="The complete nested PuroR-barcode enrichment and outer primer pair is not printed as one construct.")
-    finish_pcr_branch(g,"genotype",genotype,GENO,GENO_PRIMERS,reviewed,label="scSNV-seq targeted genotype",inferred_primers=True,limitation="The target-dependent genotype primer panel is not one universal published endpoint pair.")
-    g.declare_reviewed_scope(reviewed,SOURCE)
-    return g.require_publishable()
+REVIEWED=("expanded","sample_populations","partition_condition","partition","guide_rt_primer","puro_rt_primer","rt","bead","rt_capture","cdna_forward","cdna_reverse","cdna_polymerase","cdna_pcr","spri","fractionate","rna_kit","rna_construct","split_small","guide_first_forward","guide_first_reverse","guide_polymerase","guide_first_pcr","guide_nested_forward","guide_nested_reverse","guide_nested_pcr","guide_library","puro_first_forward","puro_first_reverse","puro_polymerase","puro_first_pcr","puro_nested_forward","puro_nested_reverse","puro_nested_pcr","puro_library","tapestri_kit","tapestri_construct","genotype_library","rna_library")

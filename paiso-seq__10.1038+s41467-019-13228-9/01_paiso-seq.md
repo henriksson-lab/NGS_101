@@ -1,5 +1,44 @@
 # PAIso-seq — research notes
 
+## Current native graph scope — 2026-10-18 batch11
+
+Two originals were inspected: published PMC6876564 Methods144–160 (bulk/single
+oocyte branches, extension/USER/RT/PCR/size selection/Sequel/read processing) and
+original MOESM1 PDF SupplementaryTableS1, all native primer/15guide rows and
+modification definitions. Mandatory scraper:64hits in6files. No new reading of
+the later2022 protocol, vendor comparators or author repository was performed.
+Those existing records remain historical evidence rather than current kit identity.
+
+🟢 The selected bulkBC3 guide is protocol-owned. Klenow with dNTP extends the
+originalRNA3′end with DNA, copying the barcode and RT-guide region beyond the
+nativeRNA polyA tail. The product is covalent RNA–DNA, not newly transcribedRNA.
+USER cleaves guideDNA at its two physicaldU sites; column recovery>200nt does not
+by itself establish complete removal of every guidefragment. RT with the printed
+primer and original2019 rGrG+G TSO produces actual switchedssDNA, which feeds
+single-species KAPA PCR. The originalRNA/guide/RT/TSO lineages and their chemical
+modifications are distinct from PCR daughters.
+
+🟡 Two actual portions independently undergo1×PurePB>200bp and0.4×PurePB>2kb
+selection, then equimolar contributions are physically pooled. Those overlapping
+size classes are not falsely represented as disjoint bins; remaining unallocated
+fractions have unresolved fates. The2019 SMRTbell kit version/end-preparation/
+hairpin chemistry remains a scoped vendor boundary. A closed circuit retains the
+source cDNA/complement and two unknown native hairpin roles; there is no invented
+18ntN hairpin or A/T junction. Known sequencing-primer annealing, polymerase binding
+and Magbead loading follow the native boundary. CCS≥10pass selection and ambiguous
+barcode removal are computational operations, not physical purification.
+
+Existing public Results-vs-TableS1 notices for dU/T7-vs-T8 spacing and nonidentical
+TSO/RT/PCR handle descriptions remain. The exact sourceTableS1 ordering strings
+win for depicted native reagents, without borrowing Smart-seq2 defaults.
+
+Deferred: cited Smart-seq2 detailed RT conditions/native junctions, unversioned2019
+SMRTbell vendor identity and internal operation/ends, hairpin/loaded-primer bases,
+class-specific residual recoveries. Single-oocyte15-member pooling and later2022
+workflow remain distinct alternatives. This pass accepts no absent information or
+historical status upgrade.
+
+
 ## Sources read
 
 - 🟢 Liu et al. 2019, DOI `10.1038/s41467-019-13228-9`, PMC full text and Supplementary Table 1.
@@ -42,10 +81,10 @@ four-base linker `ACAT` and the `rGrG+G` tail. This matters because SMART-seq2 h
 published linkers — `AC` in Picelli et al. 2013 Supplementary Table 2 for the chosen
 `rGrG+G` oligo, `ACAT` in the *Nature Protocols* form — and a protocol that only cites
 SMART-seq2 cannot tell them apart. PAIso-seq prints its own, so no base is inherited by
-assumption. `tools/chem.py` therefore takes the bases from `smart-seq2__10.1038+nmeth.2639/tools/smartseq2` (handle,
-`DT_LINKER` for the RT primer's `AC`, `TSO_LINKER`, `TSO`) rather than retyping them, and
-`tools/selftest.py` pins all three ordering strings against Supplementary Table 1 so a
-change in the shared constant would fail here rather than silently redraw this page.
+assumption. `tools/chem.py` now owns those source-qualified ordering strings locally,
+and `tools/selftest.py` compares the native TSO, RT primer, PCR primer and all15
+modified guide members directly with the optional original TableS1. The historical
+Smart-seq2 constructor imports no longer supply this protocol's chemistry.
 
 🟡 The authors' 2022 detailed protocol is a later version: its Table 2 TSO adds
 5′ `iCiGiC` and a 3′ `/NH2-C3/` block around the same core sequence. The

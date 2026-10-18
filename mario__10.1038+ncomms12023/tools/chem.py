@@ -6,50 +6,56 @@ T1 immobilization, linker ligation, proximity ligation, T7-exonuclease terminal-
 removal, RNase III shearing, RT-adapter ligation, RT, C1 pull-down/RNase H elution,
 circularization, BamHI relinearization, DP5/DP3 pre-amplification, final PE PCR and the
 oligo list) and Supplementary Fig. 1 (circularization strategy).  The ES-1 sample is drawn;
-the ES-2/MEF and ES-indirect RT primers differ only in the inline identifiers and are listed
-in the oligo table.  rRNA depletion branches (DSN for ES-1/ES-indirect, GeneRead for
-ES-2/MEF) and the EGS/formaldehyde ES-indirect cross-link are not drawn.
+the ES-2/MEF and ES-indirect RT primers are retained as source inventory. Their
+GeneRead and dual-cross-link branches are separate; the drawn ES-1 route includes DSN.
 """
 from __future__ import annotations
 
+from types import SimpleNamespace
 import illumina as il
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Construct, Segment, feature, revcomp
-from circular import CircularizationGeometry
-from pcr import PCRGeometry, PCRPrimer
+from chemdraw import Construct, Scene, Segment, feature, revcomp
+from circular import CircularizationGeometry, circularize_ssdna
+from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            SourceClaim, SourceDiscrepancy, StepKind)
-from protocol_model import closed_circle, molecule, role
-from protocol_specs import Definition, get
+                            SourceClaim, SourceDiscrepancy, StepKind, Disposition, Terminal, MolecularRelation)
+from protocol_model import molecule, role
 
 import mario_chem as mc
 
-DEFINITION = Definition(
-    "MARIO — mapping RNA interactome in vivo", "10.1038/ncomms12023",
-    "Nguyen et al., Nature Communications (2016)",
-    "UV-crosslinked RNPs are biotinylated on protein cysteines and immobilized on streptavidin; "
-    "a biotinylated RNA linker is ligated to RNA 5′ ends and proximity-ligated to the 3′ end of a "
-    "co-bound RNA, giving RNA1–linker–RNA2 chimeras that are selected through the linker biotin "
-    "after reverse transcription.",
-    "truseq", ("RNA1 fragment", "MARIO linker", "RNA2 fragment"),
-    "Paired-end Illumina HiSeq reads (read length not stated). Read 1 starts with the inline "
-    "random/sample barcode (NNNNXXXXNN in the generic Methods form) and then reads the RNA from "
-    "the cDNA end; PE PCR Primer 2.0 adds no i7 index.",
-    "RNA")
+TITLE = "MARIO — mapping RNA interactome in vivo"
+NOTES = "01_mario.html"
+SOURCE = '<a href="https://doi.org/10.1038/ncomms12023">Nguyen et al., Nature Communications (2016)</a>, Methods and Supplementary Figure1.'
+SUMMARY = "Protein-bound RNAs receive an internally biotinylated RNA linker before dilute proximity ligation. Linker-bearing RNA/cDNA hybrids are captured after RT; cDNA circularization, BamHI reopening and PCR yield the library."
+SEQUENCING_INTRO = "Published paired-end HiSeq sequencing; biological read lengths remain unassigned. The explicitly printed ES-1 RT primer supplies five random bases plus a four-base sample index, conflicting with the generic six-random-base description. The inline identifier is reverse-complemented in Read1."
+SEQUENCING_ENDING = SEQUENCING_INTRO
+SEQUENCING_UNAVAILABLE = "Only the compatible Read1 primer is placed. The source-positive Read2 is unplaced; its exact primer and both read lengths remain unassigned."
+READ_LENGTHS = {}
+ACQUIRED_ROLES = ("Read 1", "Read 2")
+READ_USES = {"Read 1": "extract_then_include", "Read 2": "include"}
+SHOW_READ_CONTENT = False
+READ_SPECS = (
+    sp.read_spec("Read 1", "unassigned", "ES-1 copied inline identifier (3 random + ACCT + 2 random), then chimera-derived sequence", "extract_then_include"),
+    sp.read_spec("Read 2", "unassigned", "Opposite chimera-derived end; source-positive paired read, primer geometry unassigned", "include"),
+)
+READ_SPECS_NOTE = "The paper declares paired biological reads; no external index acquisition recipe is inferred from the inline sample barcode."
+FINAL_CAPTION = "Source-primer-derived ES-1 target amplicon; variable RNA-fragment lengths and actual DSN/PCR yield remain unassigned."
 
 CAVEAT = (
     "<b>Drawn sample:</b> ES-1 (RT primer <code>/5Phos/NNAGGTNNN…</code>). Exact sequences come "
-    "from the paper's oligo list; RNA fragments are role tokens. The Read 2 sequencing primer "
-    "of the Illumina PE kit is not printed in the paper, so only Read 1 is placed. The "
+    "from the paper's oligo list; RNA fragments are role tokens. The exact Read2 sequencing primer "
+    "is unassigned in this bounded model, so only the compatible Read1 site is placed. The "
     "linker-to-read transfer of the internal biotin-dT as T is derived. rRNA depletion "
-    "(DSN for ES-1/ES-indirect; GeneRead for ES-2/MEF), the dual-cross-linked ES-indirect "
-    "branch and the gel size selections are described but not drawn as separate molecules.")
+    "(DSN selected here for ES-1; GeneRead applies to ES-2/MEF), the dual-cross-linked ES-indirect "
+    "branch are separate source variants. The selected ES-1 pathway includes DSN rRNA-cDNA depletion. "
+    "The two PCR steps use their actual ss or post-DSN precursors; exact first-cycle duplex geometry is not asserted.")
 
 LINKER_DNA = (mc.RNA_LINKER_LEFT + "T" + mc.RNA_LINKER_RIGHT).replace("U", "T")
 ES1_INDEX = "AGGT"
-RT_ARM5 = mc.RT_BODY[:19]       # AGATCGGAAGAGCGTCGTG, ends with the BamHI G
-RT_ARM3 = mc.RT_BODY[19:]       # GATCCTGAACCGCTCTTCCGATCT
+BAMHI_CUT = mc.RT_BODY.index("GGATCC") + 1  # G^GATCC; source RT-primer site
+RT_ARM5 = mc.RT_BODY[:BAMHI_CUT]
+RT_ARM3 = mc.RT_BODY[BAMHI_CUT:]
 if RT_ARM3[4:] != revcomp(mc.RT_ADAPTER):
     raise AssertionError("RT primer 3′ end must anneal to the printed RT adapter")
 if mc.PE1 != il.P5[:-4] + il.TRUSEQ_READ1 or not mc.PE1.endswith(mc.DP5):
@@ -74,7 +80,7 @@ def _linear_cdna() -> Construct:
     """BamHI-relinearized ES-1 cDNA strand, written 5′→3′."""
     return Construct([
         Segment("RT-primer 3′ part after BamHI", RT_ARM3),
-        Segment("antisense chimera cDNA", "X" * 20, placeholder=True),
+        role("antisense chimera cDNA; variable RT extent"),
         _umi("part 1", 2),
         Segment("sample barcode", ES1_INDEX, "cbc", feature=_INDEX),
         _umi("part 2", 3),
@@ -90,13 +96,13 @@ def _final() -> tuple[Construct, tuple]:
         _umi("part 2", 3),
         Segment("sample barcode", revcomp(ES1_INDEX), "cbc", feature=_INDEX),
         _umi("part 1", 2),
-        Segment("RNA1 fragment", "X" * 14, placeholder=True),
+        role("RNA1 fragment"),
         Segment("MARIO linker copy", LINKER_DNA, "linker"),
-        Segment("RNA2 fragment", "X" * 14, placeholder=True),
-        Segment("RT adapter copy", right[:20]),
-        Segment("PE 2.0 read-2 arm", right[20:-len(il.P7)], "s7"),
+        role("RNA2 fragment"),
+        Segment("RT adapter copy", right[:len(mc.RT_ADAPTER)]),
+        Segment("PE 2.0 read-2 arm", right[len(mc.RT_ADAPTER):-len(il.P7)], "s7"),
         Segment("P7 reverse complement", il.P7_RC, "p7"),
-    ], name=DEFINITION.title + " final library (ES-1)")
+    ], name=TITLE + " final library (ES-1)")
     primers = (sp.TRUSEQ["R1"],)
     problems = sp.verify(lib, primers, required_roles=("Read 1",))
     if problems:
@@ -106,23 +112,51 @@ def _final() -> tuple[Construct, tuple]:
 
 LINEAR_CDNA = _linear_cdna()
 FINAL_LIBRARY, SEQ_PRIMERS = _final()
-SPEC = get("mario", definition=DEFINITION, final_override=(FINAL_LIBRARY, SEQ_PRIMERS),
-           oligos_fn=mc.oligos,
-           sequencing_unavailable=(
-               "The paper prints PE PCR Primers 1.0/2.0 but not the Illumina PE Read 2 "
-               "sequencing primer; read lengths are not stated."))
-SPEC.CAVEAT = CAVEAT
 
 
-def _state(label, *names):
-    return molecule(label, tuple(role(n) for n in names))
+def rt_primer_parts():
+    return (_umi("part 1", 2), Segment("sample barcode", ES1_INDEX, "cbc", feature=_INDEX), _umi("part 2", 3), Segment("RT-primer body including BamHI", mc.RT_BODY))
 
 
-def _local_graph(d, final, primers):
-    source = f"{d.source_label}; doi:{d.doi}"
-    g = ProtocolGraph(d.title, authority=source)
-    rnps = g.input("rnps", "E14 mES, MEF or S2 cells with protein-bound RNAs",
-                   MaterialKind.BIOLOGICAL, state=_state("cellular RNPs", "protein-bound RNA"),
+def rnp_state(*, mod5="OH", mod3="P", linked=False):
+    sc = Scene()
+    for name in ("RNA1", "RNA2"):
+        parts = list(linker_parts()) + [role(name + " fragment")] if linked else [role(name + " fragment")]
+        sc.strand(name, parts, label="independent RNA in one retained protein complex", mod5=mod5, mod3=mod3)
+        sc.note(name, "protein contact retains the RNAs; it is not a covalent RNA–protein–RNA strand")
+    return sc
+
+
+def linker_parts():
+    return (Segment("RNA linker left arm", mc.RNA_LINKER_LEFT), Segment("internal biotin-dT", "T", note="source /iBiodT/"), Segment("RNA linker right arm", mc.RNA_LINKER_RIGHT))
+
+
+def chimera_parts():
+    return (role("RNA1 fragment; upstream terminal occupancy unassigned"), *linker_parts(), role("RNA2 fragment"))
+
+
+def rt_adapter_parts():
+    return (Segment("RT adapter core", mc.RT_ADAPTER, note="source /5rApp/ precursor"),
+            Segment("terminal ddC", "C", note="source /3ddC/; blocked3′end"))
+
+
+def hybrid_state():
+    sc = Scene()
+    sc.strand("RNA", (*chimera_parts(), *rt_adapter_parts()), label="RNA template with linker biotin and retained terminal ddC; paired extent varies", mod3="ddC")
+    sc.strand("cDNA", (*rt_primer_parts(), role("antisense chimera cDNA; variable RT extent")), label="independent complementary cDNA; paired extent unassigned", mod5="P")
+    return sc
+
+
+def cdna_construct():
+    return Construct((*rt_primer_parts(), role("antisense chimera cDNA; variable RT extent")), name="actual ES-1 first-strand cDNA")
+
+
+def protocol_graph():
+    source = SOURCE
+    final, primers = FINAL_LIBRARY, SEQ_PRIMERS
+    g = ProtocolGraph(TITLE, authority=source)
+    rnps = g.input("rnps", "E14 mES ES-1 cells with protein-bound RNAs",
+                   MaterialKind.BIOLOGICAL, state=rnp_state(mod5="unassigned", mod3="unassigned"),
                    primary=True)
     uv = g.input("uv", "UV-C 254 nm, 400 mJ cm⁻² on ice", MaterialKind.CONDITION)
     fixed = g.product("fixed", "UV-cross-linked RNPs", MaterialKind.MOLECULAR, state=rnps.state)
@@ -132,7 +166,7 @@ def _local_graph(d, final, primers):
                       MaterialKind.CATALYST)
     frag = g.product("fragmented", "lysate RNA fragments (5′-OH, 3′-P) on cross-linked proteins",
                      MaterialKind.MOLECULAR,
-                     state=_state("fragmented RNP", "5′-HO-RNA fragment-3′-P", "protein"))
+                     state=rnp_state())
     g.react("fragment", "Lyse, DNase-treat and RNase I-fragment RNA", StepKind.FRAGMENTATION,
             ((fixed, InputRole.TEMPLATE), (rnase_i, InputRole.CATALYST)), (frag,))
     ipb = g.input("ipb", "EZ-link iodoacetyl-PEG2-biotin (cysteine biotinylation), after 500 mM "
@@ -151,18 +185,15 @@ def _local_graph(d, final, primers):
     pnk = g.input("pnk_minus", "T4 PNK (3′-phosphatase minus) + ATP, 37 °C 1 h",
                   MaterialKind.CATALYST)
     p5rna = g.product("p5_rna", "RNA fragments with 5′-P, 3′-P retained", MaterialKind.MOLECULAR,
-                      state=_state("5′-phosphorylated RNA", "5′-P-RNA fragment-3′-P"))
+                      state=rnp_state(mod5="P"))
     g.react("phosphorylate_rna", "Phosphorylate RNA 5′ ends without removing 3′ phosphates",
             StepKind.PHOSPHORYLATION,
             ((bound, InputRole.TEMPLATE), (pnk, InputRole.CATALYST)), (p5rna,))
-    linker = g.input("linker", "biotinylated RNA linker (5′-OH), 30 µL 20 µM; exact state = 19-nt RNA arm after /iBiodT/",
-                     MaterialKind.ADAPTER, state=mc.RNA_LINKER_RIGHT)
+    linker = g.input("linker", "whole internally biotinylated RNA linker (5′-OH), 30 µL 20 µM",
+                     MaterialKind.ADAPTER, state=molecule("source RNA linker", linker_parts()))
     rnl1 = g.input("rnl1", "T4 RNA ligase 1, PEG8000, 16 °C overnight", MaterialKind.CATALYST)
     linked = g.product("linker_rna", "5′-HO-linker–RNA-3′-P", MaterialKind.MOLECULAR,
-                       state=molecule("linker-ligated RNA", (role("biotinylated linker"),
-                                                             role("RNA2 fragment")),
-                                      junctions=(("biotinylated linker", "RNA2 fragment",
-                                                  "linker 3′-OH to RNA 5′-P"),)))
+                       state=rnp_state(linked=True))
     g.react("ligate_linker", "Ligate the linker 3′ end to RNA 5′ ends", StepKind.LIGATION,
             ((p5rna, InputRole.TEMPLATE), (linker, InputRole.STRUCTURAL),
              (rnl1, InputRole.CATALYST)), (linked,),
@@ -172,25 +203,19 @@ def _local_graph(d, final, primers):
     pnk_buf = g.input("pnk_ph65", "'T4 PNK (3′-phosphatase minus)' in pH 6.5 PNK buffer without "
                       "ATP, 37 °C 20 min (as printed)", MaterialKind.CATALYST)
     oh3 = g.product("oh3", "linker–RNA with 3′-OH (intended)", MaterialKind.MOLECULAR,
-                    state=linked.state)
-    g.react("dephosphorylate", "Remove RNA 3′ phosphates", StepKind.DEPHOSPHORYLATION,
+                    state=rnp_state(linked=True, mod3="OH"), inferred=True)
+    g.react("dephosphorylate", "INFERRED intended outcome — remove RNA 3′ phosphates", StepKind.DEPHOSPHORYLATION,
             ((linked, InputRole.TEMPLATE), (pnk_buf, InputRole.CATALYST)), (oh3,))
     pnk2 = g.input("pnk_linker", "T4 PNK (3′-phosphatase minus) + ATP, 37 °C 1 h",
                    MaterialKind.CATALYST)
-    ready = g.product("ready", "5′-P-linker–RNA-3′-OH", MaterialKind.MOLECULAR, state=linked.state)
+    ready = g.product("ready", "5′-P-linker–RNA-3′-OH", MaterialKind.MOLECULAR, state=rnp_state(linked=True, mod5="P", mod3="OH"), inferred=True)
     g.react("phosphorylate_linker", "Phosphorylate the linker 5′ end",
             StepKind.PHOSPHORYLATION, ((oh3, InputRole.TEMPLATE), (pnk2, InputRole.CATALYST)),
             (ready,))
     rnl1_dilute = g.input("rnl1_dilute", "T4 RNA ligase 1 in 15 mL with DMSO, 16 °C overnight",
                           MaterialKind.CATALYST)
     chimera = g.product("chimera", "5′-RNA1–linker–RNA2-3′ chimera", MaterialKind.MOLECULAR,
-                        state=molecule("MARIO chimera", (role("RNA1 fragment"),
-                                                         role("biotinylated linker"),
-                                                         role("RNA2 fragment")),
-                                       junctions=(("RNA1 fragment", "biotinylated linker",
-                                                   "proximity ligation"),
-                                                  ("biotinylated linker", "RNA2 fragment",
-                                                   "linker ligation"))))
+                        state=molecule("internal target chimera region; terminal classes vary", chimera_parts()))
     g.react("proximity_ligate", "Proximity-ligate a co-bound RNA 3′-OH to the linker 5′-P",
             StepKind.PROXIMITY_LIGATION,
             ((ready, InputRole.TEMPLATE), (rnl1_dilute, InputRole.CATALYST)), (chimera,))
@@ -199,12 +224,15 @@ def _local_graph(d, final, primers):
     protk = g.input("proteinase", "Proteinase K, 55 °C 2 h", MaterialKind.CATALYST)
     rna_mix = g.product("rna_mix", "purified RNA: chimeras plus unligated linker–RNA2 and "
                         "linker-free RNA", MaterialKind.MOLECULAR, state=chimera.state)
-    protein_waste = g.product("protein_waste", "beads, digested protein and organic phase",
+    protein_waste = g.product("protein_waste", "physically separated beads and non-retained extraction fractions",
                               MaterialKind.WASTE)
+    protein_digest = g.product("protein_digest", "protein-derived digestion products; exact extraction partition unassigned", MaterialKind.MOLECULAR)
     g.react("extract", "Elute, deproteinize and purify RNA", StepKind.DEPROTEINIZATION,
             ((chimera, InputRole.TEMPLATE), (elute, InputRole.SELECTION),
-             (protk, InputRole.CATALYST)), (rna_mix, protein_waste))
-    g.discard(protein_waste, "beads, protein digest and organic phase discarded")
+             (protk, InputRole.CATALYST)), (rna_mix, protein_waste, protein_digest))
+    g.discard(protein_waste, "physically separated beads and extraction fractions; this is not a quantitative assignment of every peptide")
+    g.mark_terminal(Terminal(protein_digest.id, Disposition.UNRESOLVED,
+        "Proteolysis does not establish physical disposal; exact peptide partition through RNA extraction/precipitation remains unassigned."))
     guard = g.input("linker_cdna_oligo", "T*C*G*C*-protected linker-complement DNA oligo",
                     MaterialKind.OLIGO, state=mc.LINKER_CDNA)
     t7 = g.input("t7_exo", "T7 exonuclease, 37 °C 1 h; then rigorous TURBO DNase",
@@ -212,19 +240,21 @@ def _local_graph(d, final, primers):
     trimmed = g.product("trimmed", "RNA with terminal (5′) linkers degraded; internal "
                         "linkers of chimeras retained", MaterialKind.MOLECULAR,
                         state=chimera.state)
+    degraded_linkers=g.product("terminal_digest_products", "terminal-linker RNA and guard-DNA degradation products", MaterialKind.MOLECULAR)
     g.react("remove_terminal_linker", "Degrade biotin-bearing terminal linkers on "
             "linker–RNA2 with the hybridized guard oligo and T7 exonuclease",
             StepKind.DIGESTION,
             ((rna_mix, InputRole.TEMPLATE), (guard, InputRole.STRUCTURAL),
-             (t7, InputRole.CATALYST)), (trimmed,), changes_molecule=False)
+             (t7, InputRole.CATALYST)), (trimmed, degraded_linkers))
+    g.mark_terminal(Terminal(degraded_linkers.id, Disposition.UNRESOLVED, "Exonuclease/DNase chemistry does not establish physical disposal; partition through the following extraction/precipitation remains unassigned."))
     rnase_iii = g.input("rnase_iii", "RNase III fragmentation kit (150–400 nt); 2.2× SPRISelect",
                         MaterialKind.CATALYST)
     sheared = g.product("sheared", "sheared chimera fragments", MaterialKind.MOLECULAR,
-                        state=chimera.state)
+                        state=molecule("target junction-bearing sheared RNA", chimera_parts()))
     g.react("shear", "Shear RNA with RNase III", StepKind.FRAGMENTATION,
             ((trimmed, InputRole.TEMPLATE), (rnase_iii, InputRole.CATALYST)), (sheared,))
     adapter = g.input("rt_adapter", "/5rApp/AGATCGGAAGAGCGGTTCAG/3ddC/ RT adapter",
-                      MaterialKind.ADAPTER, state=mc.RT_ADAPTER)
+                      MaterialKind.ADAPTER, state=Construct(rt_adapter_parts()))
     rnl2 = g.input("rnl2", "T4 RNA ligase 2 truncated KQ, PEG8000, 16 °C overnight",
                    MaterialKind.CATALYST)
     adapted = g.product("adapted", "RNA with 3′ RT adapter", MaterialKind.MOLECULAR,
@@ -241,12 +271,11 @@ def _local_graph(d, final, primers):
                 "Single-stranded 3′ ligation of the 5′-adenylated, 3′-ddC adapter to variable "
                 "RNA 3′-OH ends; no duplex end geometry applies."))
     rt_primer = g.input("rt_primer", "5′-phosphorylated ES-1 RT primer", MaterialKind.OLIGO,
-                        state="NN" + ES1_INDEX + "NNN" + mc.RT_BODY)
+                        state=molecule("5′phosphorylated ES-1 RT primer", rt_primer_parts()))
     ssiii = g.input("ssiii", "SuperScript III with T4 gp32, 50 °C 45 min, 55 °C 20 min; "
                     "no heat inactivation", MaterialKind.CATALYST)
     hybrid = g.product("hybrid", "RNA–cDNA hybrid", MaterialKind.MOLECULAR,
-                       state=_state("RNA–cDNA hybrid", "RNA (with biotin linker)",
-                                    "cDNA from 5′-P RT primer"))
+                       state=hybrid_state())
     g.react("reverse_transcribe", "Reverse-transcribe from the adapter-annealed RT primer",
             StepKind.REVERSE_TRANSCRIPTION,
             ((adapted, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
@@ -260,21 +289,24 @@ def _local_graph(d, final, primers):
             StepKind.AFFINITY_CAPTURE,
             ((hybrid, InputRole.TEMPLATE), (c1, InputRole.SELECTION)), (captured, no_linker))
     g.discard(no_linker, "unbound fraction and B&W washes discarded")
-    rnase_h = g.input("rnase_h", "RNase H, 37 °C 1 h; 70 °C 20 min; 2.2× SPRISelect",
+    rnase_h = g.input("rnase_h", "RNase H, 37 °C 1 h; collect supernatant,70 °C 20 min;2.2×SPRISelect",
                       MaterialKind.CATALYST)
+    cdna_chemical = cdna_construct()
     cdna = g.product("cdna", "released single-stranded cDNA", MaterialKind.MOLECULAR,
-                     state=_state("ss cDNA", "5′-P RT primer", "antisense chimera cDNA"))
+                     state=molecule("5′phosphorylated first-strand cDNA", tuple(cdna_chemical)), chemical_state=cdna_chemical)
+    rna_digest = g.product("rnase_h_products", "RNA hydrolysates after RNase H; biotin-bearing fraction remains with beads", MaterialKind.MOLECULAR)
     g.react("release", "Release cDNA by digesting the RNA strand", StepKind.DIGESTION,
-            ((captured, InputRole.TEMPLATE), (rnase_h, InputRole.CATALYST)), (cdna,))
+            ((captured, InputRole.TEMPLATE), (rnase_h, InputRole.CATALYST)), (cdna, rna_digest))
+    g.mark_terminal(Terminal(rna_digest.id, Disposition.UNRESOLVED, "Source collects cDNA-containing supernatant; exact hydrolysate partition between beads, supernatant and SPRI cleanup is unassigned."))
     circligase = g.input("circligase", "CircLigase II, betaine/MnCl₂, 60 °C 2 h",
                          MaterialKind.CATALYST)
+    circle_chemical = circularize_ssdna(cdna_chemical, five_prime_phosphate=True)
     circle = g.product("circle", "circular ss cDNA", MaterialKind.MOLECULAR,
-                       state=closed_circle("circular cDNA", (role("RT primer"),
-                                                             role("antisense chimera cDNA")),
-                                           closure_label="CircLigase cDNA 3′ to RT-primer 5′-P"))
+                       state=circle_chemical, chemical_state=circle_chemical)
     g.react("circularize", "Circularize cDNA (truncated cDNAs included)",
             StepKind.CIRCULARIZATION,
             ((cdna, InputRole.TEMPLATE), (circligase, InputRole.CATALYST)), (circle,),
+            relations=(MolecularRelation.CIRCLE_CLOSURE,),
             geometry=CircularizationGeometry.known(
                 "single-strand intramolecular ligation",
                 statement="Methods 'Circularization': CircLigase II joins the cDNA 3′ end to the "
@@ -295,34 +327,45 @@ def _local_graph(d, final, primers):
                    MaterialKind.CATALYST)
     pre_amp_state = Construct([
         Segment("DP3 site", mc.DP3),
-        Segment("antisense chimera cDNA", "X" * 20, placeholder=True),
-        *list(LINEAR_CDNA)[2:],
+        role("antisense chimera cDNA; variable RT extent"),
+        *list(LINEAR_CDNA)[2:-1],
+        Segment("DP5-derived opposite arm", revcomp(mc.DP5)),
     ], name="DP5/DP3 pre-amplicon")
-    pre = g.product("preamp", "DP5/DP3 pre-amplified cDNA (6 cycles; 150–350 bp gel cut)",
-                    MaterialKind.MOLECULAR, state=molecule("DP pre-amplicon",
-                                                           tuple(pre_amp_state)))
-    g.react("preamplify", "Pre-amplify with DP5/DP3", StepKind.PCR,
+    pre = g.product("preamp", "ES-1 DP5/DP3 pre-amplified cDNA; cycles titrated to80–100ng, no pre-DSN gel",
+                    MaterialKind.MOLECULAR, state=pre_amp_state)
+    g.react("preamplify", "ES-1: pre-amplify with DP5/DP3 for DSN depletion", StepKind.PCR,
             ((linear, InputRole.TEMPLATE), (dp5, InputRole.STRUCTURAL),
              (dp3, InputRole.STRUCTURAL), (hifi, InputRole.CATALYST)), (pre,),
-            geometry=PCRGeometry.exact(
-                LINEAR_CDNA, PCRPrimer("DP3", mc.DP3), PCRPrimer("DP5", mc.DP5),
-                statement="DP3 equals the RT-primer 3′ part retained after BamHI; DP5 is "
-                          "complementary to the RT-primer 5′ arm (Methods oligo list)."))
+            geometry=PCRGeometry.unavailable(linear.state,
+                reason="Actual BamHI-reopened first-strand cDNA is single stranded. Exact primer sequences are known, but a duplex with both initial primer sites is not supplied."))
+    dsn_prep=g.input("dsn_preparation", "1.8×SPRI; ES-1 80–100ng, skip150–350gel;98°C2min then68°C5h reannealing", MaterialKind.CONDITION)
+    dsn=g.input("dsn", "DSN1U/µl2µl;68°C25min, stopsolution and1.8×SPRI", MaterialKind.CATALYST)
+    surviving=g.product("dsn_survivors", "ES-1 surviving cDNA population after DSN; native ss/ds ends unassigned", MaterialKind.MOLECULAR,
+        state=molecule("actual post-DSN candidates", (role("remaining cDNA species; duplex extent and surviving PCR ends unassigned"),)))
+    hydrolysed=g.product("dsn_hydrolysates", "DSN-derived DNA products; cleanup partition unassigned", MaterialKind.MOLECULAR)
+    g.react("dsn_deplete", "ES-1: reanneal and digest rapidly forming abundant duplexes with DSN", StepKind.DIGESTION,
+        ((pre,InputRole.TEMPLATE),(dsn_prep,InputRole.CONDITION),(dsn,InputRole.CATALYST)),(surviving,hydrolysed))
+    g.mark_terminal(Terminal(hydrolysed.id, Disposition.UNRESOLVED, "DSN hydrolysis does not establish quantitative physical exclusion through the source1.8×SPRI cleanup."))
     pe1 = g.input("pe1", "Illumina PE PCR Forward Primer 1.0", MaterialKind.OLIGO,
                   state=mc.PE1)
     pe2 = g.input("pe2", "Illumina PE PCR Reverse Primer 2.0", MaterialKind.OLIGO,
                   state=mc.PE2)
-    library = g.product("library", "MARIO sequencing library (250–550 bp)",
-                        MaterialKind.LIBRARY, state=final)
+    library = g.product("library", "MARIO PE-primer PCR products before size selection",
+                        MaterialKind.MOLECULAR, state=final)
     g.react("final_pcr", "Amplify with full PE 1.0/2.0 primers (titrated cycles)",
             StepKind.PCR,
-            ((pre, InputRole.TEMPLATE), (pe1, InputRole.STRUCTURAL),
+            ((surviving, InputRole.TEMPLATE), (pe1, InputRole.STRUCTURAL),
              (pe2, InputRole.STRUCTURAL), (hifi, InputRole.CATALYST)), (library,),
-            geometry=PCRGeometry.exact(
-                pre_amp_state, PCRPrimer("PE 2.0", mc.PE2, anneal_nt=len(mc.DP3)),
-                PCRPrimer("PE 1.0", mc.PE1, anneal_nt=len(mc.DP5)),
-                statement="PE 1.0 and PE 2.0 end in DP5 and DP3 (Methods oligo list)."))
-    g.sequence(library, SequencingPlan(library=final, primers=tuple(primers)))
+            geometry=PCRGeometry.unavailable(surviving.state,
+                reason="Actual post-DSN DNA population; source primers are explicit but native surviving strand pairing/ends are unassigned, not a reconstructed pre-DSN duplex."))
+    cleanup=g.input("final_selection", "1.8×SPRI and gel selection250–550bp", MaterialKind.SELECTION)
+    selected=g.product("selected_library", "size-selected ES-1 MARIO library", MaterialKind.LIBRARY,state=final)
+    excluded=g.product("final_excluded", "SPRI supernatants/washes and non-excised gel material", MaterialKind.WASTE)
+    g.react("final_select", "Clean up and select250–550bp final products", StepKind.SELECTION,
+        ((library,InputRole.TEMPLATE),(cleanup,InputRole.SELECTION)),(selected,excluded),changes_molecule=False)
+    g.discard(excluded, "Source physical supernatant/wash removals and gel excision; no molecular hydrolysate is equated with this entire discarded fraction.")
+    g.sequence(selected, SequencingPlan(library=final, primers=tuple(primers),acquired_roles=("Read 1",),
+        unplaced_reads=(sp.read_spec("Read 2", "unassigned", "Source-positive paired biological read; primer unassigned", "include"),),limitation=SEQUENCING_UNAVAILABLE))
     g.annotate(SourceDiscrepancy(
         "rt_primer", "RT-primer random-base count differs",
         (SourceClaim("Methods 'Reverse transcription' (PMC4931010 JATS line 175)",
@@ -347,12 +390,13 @@ def _local_graph(d, final, primers):
         "Both statements are in the published Methods; the printed mix is a pH 6.5 PNK "
         "buffer without ATP (line 149).",
         "The enzyme actually used for 3′ dephosphorylation is unresolved."))
-    g.declare_reviewed_scope(tuple(g.materials) + tuple(g.steps), source)
+    g.declare_reviewed_scope(("rnps", "uv", "crosslink", "rnase_i", "fragment", "ipb", "t1_beads", "immobilize", "pnk_minus", "phosphorylate_rna", "linker", "rnl1", "ligate_linker", "pnk_ph65", "dephosphorylate", "pnk_linker", "phosphorylate_linker", "rnl1_dilute", "proximity_ligate", "elution", "proteinase", "extract", "linker_cdna_oligo", "t7_exo", "remove_terminal_linker", "rnase_iii", "shear", "rt_adapter", "rnl2", "ligate_rt_adapter", "rt_primer", "ssiii", "reverse_transcribe", "c1_beads", "capture", "rnase_h", "release", "circligase", "circularize", "cut_oligo", "bamhi", "relinearize", "dp5", "dp3", "nebnext_hifi", "preamplify", "dsn_preparation", "dsn", "dsn_deplete", "pe1", "pe2", "final_pcr", "final_selection", "final_select", "selected_library"), source)
     return g.require_publishable()
 
 
-def protocol_graph():
-    return _local_graph(DEFINITION, SPEC.FINAL_LIBRARY, SPEC.SEQ_PRIMERS)
-
-
-SPEC.protocol_graph = protocol_graph
+SPEC = SimpleNamespace(TITLE=TITLE, NOTES=NOTES, SOURCE=SOURCE, SUMMARY=SUMMARY, CAVEAT=CAVEAT,
+    FINAL_LIBRARY=FINAL_LIBRARY, SEQ_PRIMERS=SEQ_PRIMERS, READ_LENGTHS=READ_LENGTHS,
+    ACQUIRED_ROLES=ACQUIRED_ROLES, READ_USES=READ_USES, SHOW_READ_CONTENT=SHOW_READ_CONTENT,
+    READ_SPECS=READ_SPECS, READ_SPECS_NOTE=READ_SPECS_NOTE, FINAL_CAPTION=FINAL_CAPTION,
+    SEQUENCING_INTRO=SEQUENCING_INTRO, SEQUENCING_ENDING=SEQUENCING_ENDING,
+    SEQUENCING_UNAVAILABLE=SEQUENCING_UNAVAILABLE, oligos=mc.oligos, protocol_graph=protocol_graph)

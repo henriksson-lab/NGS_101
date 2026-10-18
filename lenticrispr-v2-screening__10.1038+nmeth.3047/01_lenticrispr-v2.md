@@ -79,3 +79,37 @@ full map also remains available in the pooled-vector reference directory; its pr
 and restoration route are recorded in that directory's MANIFEST.md. The historic
 `genome-engineering.org/gecko/` link could not be opened in the current check; that
 failed route does not establish that the original library data are unpublished.
+
+
+## Native graph migration (2026-10-18, batch11)
+
+This graph follows the defining publication rather than attaching a later compatible
+readout as the original experiment's sequencing product. The Joung readout remains
+linked as a separate protocol. Empty deposited vector maps establish only the
+invariant terminal hU6 and scaffold components and cPPT ordering; the synthesized
+member, clone junctions and study-specific library choices do not come from those maps.
+Copied or integrated representative guide states remain inferred. Independent native
+polymers and unresolved original/unreacted classes retain their own physical lineage.
+
+The native graph retains source array cleavage/deprotection, drying/resuspension,
+column purification, actual single-stranded pool PCR input, 140bp selection, vector
+digestion/dephosphorylation and backbone selection, bounded pooled Gibson assembly,
+the actual 0.5µl assembly aliquot and its remainder, colony recovery and maxiprep.
+The original excised filler remains present through digestion/dephosphorylation until
+physical gel selection; possible co-migrating classes remain unresolved afterwards.
+Two independent barcoded validation PCR aliquots receive actual plasmid templates;
+the original plasmid remainder is not discarded merely because it is not sequenced.
+MiSeq v3 150-cycle kit identity and 10% PhiX do not establish the actual read/index
+cycle allocation. Exact QC primers and adapters remain unassigned.
+
+This capped pass inspected three originals: published PMC4486245 main text/Fig1
+caption for study scope; published MOESM647 SupplementaryMethods286–340 for pooled
+construction and duplicate library validation; deposited Addgene52961 full map,
+U6/scaffold/cPPT annotations and source-sequence comparison. It did not use the
+superseded preprint or claim that its labelled sequence material is published absence.
+Native synthesized member/overlap geometry, QC primer/index strands and run allocation,
+SupplementaryData identity and original author-resource links remain follow-up targets.
+
+Critical implementation review also checked structured guide identity through unplaced
+intermediate/final inventories. Duplicate QC libraries have independent technical
+barcode identities; unknown widths, sequences and cycle positions are not supplied.

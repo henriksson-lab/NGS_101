@@ -5,7 +5,7 @@
 doi:10.1038/nprot.2013.045. The PMC author manuscript, supplementary workflow and
 protocol description were read. The 2010 Supplementary Information was recovered from
 Springer Nature's static supplement and the [SOLiD Small RNA Expression Kit guide](https://documents.thermofisher.com/TFS-Assets/LSG/manuals/cms_054973.pdf)
-(Applied Biosystems PN 4399434b, 2009) was checked.
+(Applied Biosystems PN 4399434 Rev. C, April2009) was checked.
 
 ## Evidence used
 
@@ -17,7 +17,7 @@ Springer Nature's static supplement and the [SOLiD Small RNA Expression Kit guid
   adapter ligation are followed by RT-PCR and SOLiD sequencing.
 - 🟢 Supplementary Methods lines 90–127 specify Adaptor Mix A of the SOLiD Small RNA
   Expression Kit, phosphatase treatment, the second adapter ligation and kit PCR
-  primers. The Thermo Fisher guide, Appendix A p. 26, prints the common P1/5′ PCR
+  primers. The Thermo Fisher guide, Appendix A printedp21, prints the common P1/5′ PCR
   primer and all ten indexed 3′ PCR primer sequences. The public oligo list shows
   index set 1 as a **kit example** because the paper does not identify which of the
   ten sets was assigned to each library.
@@ -39,3 +39,11 @@ Inspected: Published PMC3847670 JATS68–82, Methods Summary and SOLiD mapping.
 Made the original SOLiD branch explicit and recorded truncation to35 bases for mapping without inventing acquired cycle count. Added caveat that original supplementary library methods still need checking; later 2013 protocol cannot substitute for that verification.
 
 Deferred: Original supplementary methods, random fragmentation/order, selective adapter capture geometry, SOLiD vendor original and actual acquisition; no source absence accepted. This pass does not establish a complete source review or publication-wide absence.
+
+## Native graph migration (2026-10-18, batch03)
+
+Inspected: Published PMC3847670 JATS Results42–44, Methods74–80 and Fig1caption258; published MOESM294 SupplementaryMethods90–143, SOLiD Library construction and Sequencing; original kit guide cms_054973 printed identity PartNumber4399434 RevC04/2009 and AppendixA printedp21 text1570–1608 commonP1/6nt barcode primer descriptions. Mandatory whole-bundle scraper completed; P1 string verified directly in guide.
+
+Native graph follows original2010 workflow, preserving independent V1/S1 aliquots. Added source alkaline fragmentation95°C3min and50–200nt6%denaturingPAGE recovery before first5′P-selective MixA ligation, AntarcticPhosphatase37°C1h and secondMixA16°C6h. First-strand ArrayScript cDNA remains ss target; RNA persists until sourceRNaseH digestion, whose products are molecular/unresolved. Actual ss postRNaseH targets enter18–20round PCR rather than an expected finished library. Physical gel exclusion is distinct from failed ligation and chemical hydrolysis. Historical2009RevC commonP1 primer is source-owned, selected indexed reverse member and completeMixA states remain unassigned. Two branch-specific terminal sequencing plans preserve35–50bp generated sequence lengths separately from35bp mapping truncation, without inventing color-space/index cycle acquisition.
+
+Deferred: Exact MixA species/terminal chemistry, RT/reverse-primer member and native binding/first-copy geometry; color-space run cycles/barcode acquisition remain unassigned. Later2013 protocol is not substituted for original2010 chemistry; complete vendor instruction set outside selected Appendix scope not re-audited. This capped pass does not establish complete molecular proof or publication-wide absence.

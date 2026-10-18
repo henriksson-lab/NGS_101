@@ -379,6 +379,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite passes (workflow construction, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/18 unresolved/0 contradictory; source guard 2 exact checked (P5 ×2), 0 failed, BOB excepted (ASAP-seq source), 8 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-validation-migration-multimodal",
+      "reviewer": "protocol-migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC11794950 JATS s41467-025-56590-7_PMC11794950.xml.txt Methods Antibody conjugation and pooling lines 211–217 and Phospho-seq lines 239–245; cited ASAP-seq PMC8763625_PMC8763625.xml.txt Results lines 122,132, Methods line 234 and Extended Data Fig. 1b legend line 332. Superseded preprint not used for active claims.",
+      "oligo_scraper": "Ran tools/scrape_primers.py on the cached source bundle; followed relevant hits to the original printed passages. The scraper output is not used as independent evidence.",
+      "findings": "Owned cell/tag/index fields and branch-specific final constructs. TSB keeps printed 10+9-base multipart intrinsic UMI and 15-base antibody tag; TSA has 15-base hash barcode plus 10-base BOA-derived UBI, explicitly distinct from an intrinsic UMI. Blocking oligo includes its terminal ddC nucleotide. PCR unavailable scenes use incoming states. Explicit curator-written source coverage replaces graph-generated target coverage; kit steps remain source-named delegations. Non-library tagmentation and failed-partition physical fates unresolved.",
+      "deferred": [
+        "10x scATAC v1.1 vendor guide and exact gel-bead/bridge junctions",
+        "Author step-by-step PDFs",
+        "ATAC kit endpoint and Phospho-seq-multi variant geometry"
+      ],
+      "scope": "Ownership and explicit-uncertainty migration for the named shared dependencies; bounded source scope only. No full chemical validation or accepted missing-information claim. Historical source passes retained.",
+      "verification": "Protocol suite and page build pass; source guard 5 exact strands checked, 0 failures; 1 BOB text-match exemption independently checked against the cited ASAP original by local source test; pairing lint 0 problems; scoped chemistry 0 established/0 conditional/18 unresolved/0 contradictory. Notes and review schema checked."
+    },
+    {
+      "round": "2026-10-18-container-state-correction",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only population/container modelling correction; original-source scope remains preceding bounded migration 2026-10-18-validation-migration-multimodal. No new scientific-source, endpoint or absence conclusion.",
+      "locations": "Local protocol module role-level molecular states and existing workflow-derived graph inputs; no original documents re-read.",
+      "findings": "Split cell chromatin/phosphoproteins, hashing/tagged-cell material, capturable ATAC/antibody populations, barcoded ATAC/tag products and workflow final-library populations into independent Scene rows. True CELL/UMI/tag order within one reporter retained. Existing aliquot/selection/PCR topology and source scope unchanged.",
+      "deferred": [
+        "Existing unassigned source/geometry boundaries and linked-source review targets remain open."
+      ],
+      "verification": "2 original-source checks passes; page builds; chemistry 0 established/0 conditional/18 unresolved/0 contradictory. Combined five-protocol guard:17 exact checked,0 failed,1 existing inherited-source exemption,23 inputs without exact states. Pairing0 problems; review schema/diff check pass."
     }
   ]
 }

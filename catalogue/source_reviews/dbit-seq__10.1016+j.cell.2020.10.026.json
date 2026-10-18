@@ -204,6 +204,36 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 98/98 pass; page build pass; pairing 0 problems; chemistry 2 established/0 conditional/9 unresolved/0 contradictory; source guard 5 exact checked, 0 failed, 4 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 3,
+      "scope": "Capped source-owned native graph migration; no accepted absence claim and no full protocol validation.",
+      "locations": "Published2020Cell PMC7736559 JATS98,214–236,252–254; published2021STAR PMC8132129 cleanup45–59/library60–67; original2021 TableS2 PMC8132129_supp_mmc2.xlsx PCRoligo andA/Bsheets (manifest identity checked).",
+      "oligo_scraper": "Full cached-bundle scraper run; relevant pointers followed into named originals. Source versions/manifest identities retained, superseded preprints not used.",
+      "findings": "Removed batch_ngs.nextera_library/seg; explicit2021 detailed implementation reference retains original2020 scope boundary and does not establish2020TableS2 identity. Source2021 fixedP5i5TAGATCGC andP7-701 index local; source-transcription correction A1polyT16→15. Actualfirst/switchedcDNA ssScenes, realPCRincomingprecursors, source0.8×cDNA and0.7×finalcleanup added; candidateunamplifiedfragments unresolved, not physically discarded. PE100/100 retained; indexacquisition/cycles unassigned. Curated reviewlist explicit.",
+      "deferred": [
+        "Cell2020 originalTableS2 identity/workbook and2020exactprimerconfiguration unresolved",
+        "2020antibodybranch not drawn; no2021cleanup ratio substituted for2020Cell0.6×fractionation",
+        "Native ss first-cycle and tagmented first-cycle geometry",
+        "Index-read acquisition/cycles"
+      ],
+      "verification": "suite7;9steps;3established/2conditional/11unresolved/0contradictory; all3pages/docs build; combinedsourceguard17exact/0failed/1documentedparser-exemption/9unassigned inputs; pairing0; review schema and diffcheck pass."
+    },
+    {
+      "round": "2026-10-18-independent-version-run-correction",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 1,
+      "scope": "Recheck of one already-read original within the same capped migration; no additional original beyond the3 previously reported. Not an absence audit.",
+      "locations": "Existing STAR2021 PMC8132129 JATS title/author header1–17 and library/QC steps60–67,1085–1133. Local graph and page sequencing declarations.",
+      "findings": "Printed2021 firstauthor is GrahamSu: corrected source citation toSu etal; defining2020 Liu unaffected. Inspected2021librarypassage supports construction/QC but no positive run recipe assigned here. Removed2020PE100/100 from2021graph and page generatedspans: acquisitionunspecified and READ_LENGTHSempty. Retained2020HiSeqPE100/100 only as explicitly separate historical narrative, not a2021terminal plan.",
+      "deferred": [
+        "Exact2020TableS2 identity and source2021 acquired run recipe remain unassigned; no sourceabsence conclusion."
+      ],
+      "verification": "Code/page builds and chemistry pass; parent finalfocused/site validation started on stablecode; targetednotes/reviewschema checked."
     }
   ]
 }

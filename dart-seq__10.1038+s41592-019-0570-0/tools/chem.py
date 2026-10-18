@@ -8,51 +8,52 @@ commercial NEBNext kit whose internal oligos and steps these sources do not prin
 """
 from __future__ import annotations
 
-from batch_ngs import truseq_library
-from chemdraw import Segment
+from chemdraw import Construct, Scene, Segment
+from types import SimpleNamespace
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 from protocol_model import molecule, role
-from protocol_specs import Definition, get
+from protocol_graph import Disposition, Terminal
 
-DEFINITION = Definition(
-    "DART-seq — antibody-free m6A mapping", "10.1038/s41592-019-0570-0",
-    "Meyer, Nature Methods (2019)",
-    "APOBEC1 fused to the YTH m6A-binding domain of YTHDF2 is expressed in cells and "
-    "writes nearby C-to-U marks; total RNA is then made into a standard directional "
-    "RNA-seq library, where the marks appear as C-to-T mismatches.",
-    "truseq", ("cDNA carrying m6A-adjacent C-to-T mark",),
-    "Typically single-read 50-bp Illumina HiSeq 4000 sequencing (Supplementary Protocol C); "
-    "reads are reverse-complemented before C-to-U calling (Methods, Data analysis).",
-    "RNA")
+DEFINITION = SimpleNamespace(
+    title='DART-seq — antibody-free m6A mapping',
+    doi='10.1038/s41592-019-0570-0',
+    source_label='Meyer, Nature Methods (2019)',
+    summary='APOBEC1 fused to the YTH m6A-binding domain of YTHDF2 is expressed in cells and writes nearby C-to-U marks; total RNA is then made into a standard directional RNA-seq library, where the marks appear as C-to-T mismatches.',
+    sequencing='Typically single-read 50-bp Illumina HiSeq 4000 sequencing (Supplementary Protocol C); reads are reverse-complemented before C-to-U calling (Methods, Data analysis).',
+)
 
 KIT = "NEBNext Ultra II Directional RNA Library Prep Kit for Illumina"
 LOW_INPUT_KIT = "NEBNext Single Cell/Low Input RNA Library Prep Kit"
 READ_LENGTHS = {"Read 1": 50}
 
-CAVEAT = (
-    "<b>Library adapters are inferred.</b> Methods and the Supplementary Protocol name the "
-    f"{KIT} (1 µg total RNA, no rRNA removal) and NEBNext Multiplex Oligos for Illumina, "
-    "but print no adapter, index or primer sequence and do not say which index set was used. "
-    "The Illumina arms, the i5/i7 windows and their 8-nt lengths are therefore a conventional "
-    "TruSeq-compatible placeholder, not a source-specified layout; kit-internal steps "
-    "(fragmentation, reverse transcription, second-strand synthesis, end prep, adaptor "
-    "ligation) are collapsed into one unresolved step. The low-input branch "
-    f"({LOW_INPUT_KIT}, 10 or 100 ng total RNA) and the PacBio Iso-Seq long-read branch "
-    "are not drawn. Only Read 1 (SR50, the authors' typical run) is stated; index-read "
-    "cycles are not.")
+TITLE=DEFINITION.title
+NOTES="01_dart_seq.html"
+SOURCE=f'<a href="https://doi.org/{DEFINITION.doi}">{DEFINITION.source_label}</a>.'
+SUMMARY=DEFINITION.summary
+CAVEAT=("The selected route uses1µg totalRNA and the source-named NEBNext UltraII Directional kit. "
+        "Native fragmentation/RT/second-strand/end-prep/ligation/PCR steps and historical adapter/index species "
+        "are not reconstructed; a generic TruSeq dual-index shell is not supplied. Low-input10/100ng and "
+        "PacBio Iso-Seq are separate source variants outside this selected graph. RNA C→U chemistry is "
+        "distinct from strand-dependent cDNA A/T and reference-oriented C→T variant reporting.")
+FINAL_LIBRARY=Construct([role("NEBNext directional RNA-seq endpoint; native arms/index geometry unassigned",inferred=True),
+                         role("cDNA encoding edited and unedited RNA; strand-specific base orientation unassigned")],
+                        name="DART-seq source-limited directional library")
+SEQ_PRIMERS=()
+FINAL_CAPTION="NEBNext directional library, not a source-exact adapter reconstruction. RNA U is read as a reference-oriented T substitution after strand-aware processing."
+SEQUENCING_INTRO=DEFINITION.sequencing
+SEQUENCING_ENDING="Source also permits paired-end sequencing; the graph selects typical SR50."
+SEQUENCING_UNAVAILABLE="Native sequencing primer/index geometry is unassigned; SR50 acquisition is source-declared."
 
+def oligos():
+    return ()
 
-def _final():
-    insert = [Segment("cDNA carrying m6A-adjacent C-to-T mark", "X" * 28, placeholder=True)]
-    return truseq_library(insert, DEFINITION.title + " final library", inferred_adapters=True)
-
-
-FINAL_LIBRARY, SEQ_PRIMERS = _final()
-SPEC = get("dart-seq", definition=DEFINITION, final_override=(FINAL_LIBRARY, SEQ_PRIMERS))
-SPEC.CAVEAT = CAVEAT
-SPEC.READ_LENGTHS = READ_LENGTHS
+def extraction_mixture():
+    sc=Scene()
+    sc.strand("RNA",[role("edited and unedited total RNA")],label="RNA population")
+    sc.strand("DNA",[role("contaminating genomic DNA")],label="independent genomic DNA")
+    return sc
 
 
 def _state(label, *names):
@@ -90,49 +91,27 @@ def protocol_graph():
     trizol = g.input("trizol", "TRIzol (or RNeasy Plus Mini; Supplementary Protocol B)",
                      MaterialKind.CONDITION)
     extracted = g.product("extracted", "total RNA with genomic DNA", MaterialKind.MOLECULAR,
-                          state=marked.state)
+                          state=extraction_mixture())
     g.react("extract", "Isolate total RNA", StepKind.EXTRACTION,
             ((marked, InputRole.TEMPLATE), (trizol, InputRole.CONDITION)), (extracted,),
             changes_molecule=False)
     dnase = g.input("dnase", "RNase-free DNase I, 20 min at 37 °C", MaterialKind.CATALYST)
     rna = g.product("total_rna", "DNase-treated total RNA (1 µg into library prep)",
                     MaterialKind.MOLECULAR, state=marked.state)
-    dna_waste = g.product("dna_digest", "digested genomic DNA", MaterialKind.WASTE)
+    dna_waste = g.product("dna_digest", "hydrolysis products of contaminating genomic DNA", MaterialKind.MOLECULAR)
     g.react("dnase_step", "Digest contaminating DNA", StepKind.DIGESTION,
             ((extracted, InputRole.TEMPLATE), (dnase, InputRole.CATALYST)), (rna, dna_waste))
-    g.discard(dna_waste, "DNase digestion products; not carried as library template")
-    kit = g.input("kit", KIT, MaterialKind.CONDITION)
-    ligated = g.product("adaptor_cdna", "adaptor-ligated directional cDNA", MaterialKind.MOLECULAR,
-                        inferred=True,
-                        state=_state("adaptor-ligated cDNA", "NEBNext adaptor end",
-                                     "cDNA carrying m6A-adjacent C-to-T mark",
-                                     "NEBNext adaptor end"))
-    g.react("kit_prep", "INFERRED — kit-internal directional cDNA and adaptor-ligation steps",
-            StepKind.MAGIC, ((rna, InputRole.TEMPLATE), (kit, InputRole.CONDITION)), (ligated,),
-            reason=f"Methods and the Supplementary Protocol name only the {KIT}; its "
-                   "fragmentation, RT, second-strand, end-prep and adaptor reagents and "
-                   "geometry are not printed and the kit manual was not inspected in this pass.")
-    fwd = g.input("pcr_universal", "NEBNext Universal PCR primer (sequence not printed)",
-                  MaterialKind.OLIGO, inferred=True)
-    rev = g.input("pcr_index", "NEBNext Multiplex Oligos index primer (set not stated)",
-                  MaterialKind.OLIGO, inferred=True)
-    pol = g.input("pcr_polymerase", "kit PCR master mix", MaterialKind.CATALYST)
-    library = g.product("library", "DART-seq indexed RNA-seq library", MaterialKind.LIBRARY,
-                        state=FINAL_LIBRARY, inferred=True)
-    g.react("index_pcr", "INFERRED — barcode samples by PCR with NEBNext Multiplex Oligos", StepKind.PCR,
-            ((ligated, InputRole.TEMPLATE), (fwd, InputRole.STRUCTURAL),
-             (rev, InputRole.STRUCTURAL), (pol, InputRole.CATALYST)), (library,),
-            geometry=PCRGeometry.unavailable(
-                FINAL_LIBRARY, reason="The sources name NEBNext Multiplex Oligos but print no "
-                                      "primer sequence or index set."))
-    g.sequence(library, SequencingPlan(library=FINAL_LIBRARY, primers=SEQ_PRIMERS,
-                                       acquired_roles=("Read 1",),
-                                       read_lengths=READ_LENGTHS))
+    g.mark_terminal(Terminal(dna_waste.id,Disposition.UNRESOLVED,"DNase hydrolysis changes DNA into fragments/nucleotides, not a physical discard. Handling through source extraction/library preparation is not followed here."))
+    kit = g.input("kit", KIT+";1µg totalRNA,no rRNA removal required", MaterialKind.CONDITION)
+    indexes=g.input("multiplex_oligos","NEBNext Multiplex Oligos for sample barcoding; historical set/species unassigned",MaterialKind.OLIGO)
+    library=g.product("library","DART-seq directional indexed library",MaterialKind.LIBRARY,state=FINAL_LIBRARY,inferred=True)
+    g.react("kit_prep","Prepare directional RNA-seq library and barcode with source-named NEBNext reagents",StepKind.MAGIC,
+        ((rna,InputRole.TEMPLATE),(kit,InputRole.CONDITION),(indexes,InputRole.STRUCTURAL)),(library,),
+        reason="The article and Supplementary Protocol delegate library preparation/barcoding to named NEBNext kits. Native molecular intermediates, physical oligos and operation boundaries are not reconstructed here; no terminal PCR is invented.")
+    g.sequence(library,SequencingPlan(library=FINAL_LIBRARY,acquired_roles=("Read 1",),read_lengths=READ_LENGTHS,
+        limitation=SEQUENCING_UNAVAILABLE+" "+SEQUENCING_ENDING))
     reviewed = ["cells", "fusion_plasmid", "fugene", "transfect", "growth", "deaminate",
                 "trizol", "extract", "dnase", "dnase_step", "kit", "kit_prep",
-                "pcr_universal", "pcr_index", "pcr_polymerase", "index_pcr", "library"]
+                "multiplex_oligos", "library"]
     g.declare_reviewed_scope(reviewed, source)
     return g.require_publishable()
-
-
-SPEC.protocol_graph = protocol_graph

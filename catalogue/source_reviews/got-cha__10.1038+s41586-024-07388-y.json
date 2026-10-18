@@ -103,6 +103,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local constructor suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 2 exact checked (P5 ×2) against slug bundle, 0 failed, 7 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration-multimodal",
+      "reviewer": "protocol-migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published PMC11139586 JATS s41586-024-07388-y_PMC11139586.xml.txt Methods scATAC-seq with GoT-ChA lines 205–217; source printed P5, nested and RPI-X passages. Superseded preprint not used for active claims.",
+      "oligo_scraper": "Ran tools/scrape_primers.py on the cached source bundle; followed relevant hits to the original printed passages. The scraper output is not used as independent evidence.",
+      "findings": "Owned 16-base i5 cell-barcode and 8-base RPI-X sample-index declarations; explicit 50/8/16/50 graph plans and public read specs. Removed generic parent ATAC PCR finisher and replaced it with a source-named CG000209 Rev F delegated preparation boundary. Final endpoint roles owned locally; unavailable PCR geometry refers to incoming target/captured materials. Existing published discrepancies preserved.",
+      "deferred": [
+        "CG000209 Rev F kit reaction/primer geometry",
+        "Per-locus R1N/Rev/nested landing and exact genotype product",
+        "Multiplex and ASAP/DOGMA extensions"
+      ],
+      "scope": "Ownership and explicit-uncertainty migration for the named shared dependencies; bounded source scope only. No full chemical validation or accepted missing-information claim. Historical source passes retained.",
+      "verification": "Protocol suite and page build pass; source guard 3 exact strands checked, 0 failures; pairing lint 0 problems; scoped chemistry 0 established/0 conditional/9 unresolved/0 contradictory. Notes and review schema checked."
+    },
+    {
+      "round": "2026-10-18-container-state-correction",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only population/container modelling correction; original-source scope remains preceding bounded migration 2026-10-18-validation-migration-multimodal. No new scientific-source, endpoint or absence conclusion.",
+      "locations": "Local protocol module role-level molecular states and existing workflow-derived graph inputs; no original documents re-read.",
+      "findings": "Split reaction-level tagmented-DNA/target-locus populations and barcoded ordinary-ATAC/target-amplicon populations into separate Scene rows. Each barcoded population retains its own CELL identifier; actual recovered/aliquoted PCR inputs inherit the mixed state.",
+      "deferred": [
+        "Existing unassigned source/geometry boundaries and linked-source review targets remain open."
+      ],
+      "verification": "construction and workflow suite passes; page builds; chemistry 0 established/0 conditional/9 unresolved/0 contradictory. Combined five-protocol guard:17 exact checked,0 failed,1 existing inherited-source exemption,23 inputs without exact states. Pairing0 problems; review schema/diff check pass."
     }
   ]
 }

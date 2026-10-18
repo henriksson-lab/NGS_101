@@ -71,3 +71,11 @@ three-base linker; Index 2 is the N5XX PCR-well index.
 sequencing-primer site is assembled from the `GTCTCGT` tail of the round-1 barcode
 and the `GGGCTCGGAGATGTGTATAAGAGACAG` handle introduced by Tn5-B2S or the RT
 primer. Together these form the canonical Nextera Read 2 primer sequence.
+
+## Native graph migration — 2026-10-18 batch02
+
+The source is the published eLife2026 version of record, not a preprint recipe. Supplementary file1 was read through the cached media-6 workbook: MANIFEST.tsv identifies published eLife/PMC downloads with the same md5 ec0bcfbd863f68a46d70cfac79d0e4c6. N501(RNA) and N502(ATAC) are distinct source-printed illustrative choices: the published Sequencing section explicitly uses different N5XX indices for the modalities, without assigning this example pair to a particular run. Both libraries retain the published150/17/8/150 cycle layout. Exact workbook source tests cover the physical RT biotin-dT residue,26T tail, TSO RNA residues, transposome strands, barcode duplexes and both N5 primers.
+
+The local graph owns the named reagents, source order, physical branch decisions, primers, endpoint and read declarations. Independent molecular populations occupy separate Scene rows; subsequent RNA-template fate and complete native end geometry remain explicit model boundaries. Curator-written review targets are local and are not derived from graph contents. This is a capped migration pass, not a completed missing-information audit; no missing-information claim is accepted.
+
+Existing barcode identities are attached to the actual native barcode/primer segments as well as their endpoint complements; orientation transforms preserve identity without treating the reported sequencing base as the physical copied base.

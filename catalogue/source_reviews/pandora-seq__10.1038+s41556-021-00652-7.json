@@ -107,6 +107,33 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 3 checked, 2 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch03-native-graph-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published PMC8236090 JATS Introduction/Results154–168 (modifications and preselection); Methods RNA isolation/size selection around297–307, AlkB/PNK and separate adapter-validation assay309–319, and Library preparation329–331. Whole-bundle scraper completed: one23MB workbook skipped by ordinary size cap, no negative conclusion drawn; assay/2025-manual hits were not promoted into historical library chemistry.",
+      "findings": "Native graph selects PNK-first/AlkB-second, with initial15–50nt selection, explicit TRIzol recovery after each pretreatment and source library-stage15–45nt reselection. Source RT-primer annealing occurs between3′ and5′adapter additions.2025 E7330 ordering oligos remain clearly labeled comparator inventory only; no2025 adapter bases/modifications, example index member or fixed6nt index width enters actual2021 molecular states. Takara validation-assay chemistry remains separate. Historical adapter-ligated RNA/primer populations have separate strands; actual ss first-strand target feeds11–22cycle PCR, with RNA-template fate molecular/unresolved rather than invented removal. Source postPCRPAGE and SE50/general versus SE75/sperm alternatives are explicit.",
+      "deferred": [
+        "Historical2021 E7330S revision-specific oligos/end modifications and native binding/copying/ligation geometry; selected sample index members/widths/acquisition; exact finalPAGE window and sample-specific run assignment remain unassigned. Later vendor comparator was not newly read or accepted as revision-equivalent."
+      ],
+      "scope": "Capped published-source native graph migration; not complete two-reader review, no accepted absence claim.",
+      "verification": "Suite2/2; page/pairing pass; chemistry12steps13unresolved0contradictory. Combined3graph source guard2checked0failed0exempt17inputs without exact states. Read tables explicitly retain unassigned acquisition rather than marking unsupported reads not acquired."
+    },
+    {
+      "round": "2026-10-18-batch03-independent-review",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "tools/chem.py and current research note: pretreatment/recovery/size selection, rna_scene, adapter and RT-primer order, first-strand/residual RNA, library_pcr and read declarations.",
+      "findings": "No new critical implementation issue found. Selected PNK-first/AlkB-second route and both source size windows are distinct. Historical2021 adapter states do not inherit later2025 comparator oligos or the separate Takara assay. Independent RT primer and RNA/cDNA populations remain separate; actual ss first-strand cDNA feeds PCR, with original RNA terminal fate unresolved. SourceSE50/general versusSE75/sperm alternatives are declared, while historical index width/acquisition and exact native geometry remain unassigned.",
+      "deferred": [
+        "Historical2021 E7330S oligos, end/modification and binding geometry, selected sample index/run and final PAGE window remain deferred.",
+        "No original-source reinspection or verification of later-manual revision equivalence in this implementation-only pass."
+      ],
+      "scope": "Independent critical implementation/current-note review only; no new source reading, source scraping or accepted publication-absence claim. Existing review status preserved.",
+      "verification": "Read-only inspection of actual graph states, input/output references, molecular modifications, fates and read declarations. No code edits or independent test reruns; parent reports focused checks passing."
     }
   ]
 }

@@ -468,6 +468,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/17 unresolved/0 contradictory; source guard 0 exact checked, 13 oligo inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch09-native-graph-migration",
+      "reviewer": "native_cell_assay_implementation",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "PublishedPMC6436961 KeyResources477–502 and STARMethods593–611; mmc1 original full-length96well protocol Steps1–46 (lysis/RT/preamp, bead recovery, XTSteps25–37, genotypePCRSteps38–46); originalmmc3TableS2a/b/c headers and representative native target primer rows.",
+      "oligo_scraper": "Mandatory bundle scrapers FIND14/GoT55/TARGET376 hits; relevant source passages/modified oligos verified in originals. No-hit/unread boundaries are not absence evidence.",
+      "findings": "Selected full-length96well HSPC route. Native oligo(dT)-ISPCR, sample-specific mRNA primers and SMARTScribe produce actual ss cDNA; the physical TSO ends rGrG+G (RNA/RNA/LNA), while its copied cDNA is normal DNA. Native genomic DNA, endogenous/ERCC RNA and separate target cDNA populations remain explicit. SeqAmp22cycle preamp receives actual mixed originals/copies with ISPCR and target primer pairs; its product is not a final Illumina construct.\n\nMixed physical allocations feed transcriptome and genotype preparation; they are not molecule-type purification. The detailed protocol uses14µl plus11µlwater and16µlbeads labelled0.6X, whereas STARMethods gives15µl. The graph selects the detailed14µl route and leaves the published difference visible. Two EtOH washes,8µlEB elution/7.5µl transfer precede700pg ATM55°C6min, NT and explicit initial72°C3min extension. Actual partial native strands enter NPM14cycle PCR; no9base gap size is asserted. Source postPCR dilution/beads/twoEtOH/elution/transfer and equimolar pooling are explicit. The KeyResources v2SetA/C versus detailedStep25FC-131-1001 index-kit difference stays public; no canonical8base width or executed transcriptome index length is assigned. The source biological run is75nt single-end.\n\nThe independent1.5µl unpurified genotype aliquot undergoes dilution and CS1/CS2-tailed targetPCR1 (20cycles), an actual2.5µl aliquot enters AccessArray PCR2 (10cycles), and unallocatedPCR1 remains unresolved. Only after the source10base single-direction cell barcode is attached are other cell products pooled and0.8X purified. Ordered AccessArray strands/barcode side are unassigned. MiSeq acquired151/10/151 and four source LNA-modified custom sequencing primers are distinct from unmodified CS1/CS2 PCRtags. Target selection and computational QC do not destroy original/RNA/nonproductive products; their actual physical recovery is unresolved.\n\nThe exact57nt oligo(dT)-ISPCR is independently source-tested against the original lowercase KeyResources string. The bundle oligo guard cannot match that extraction and is narrowly exempted; no absence conclusion follows. The separate3′-TARGET/K562/cell-line recipes remain outside this selected native graph.",
+      "deferred": [
+        "Separate3′TARGET/K562/cellline native variants",
+        "Native AccessArray primer members/barcode side and full PCR/priming geometry",
+        "Source-specific Nextera index-kit execution assignment and native strands",
+        "Mixed original/copy species-specific recovery"
+      ],
+      "scope": "Capped source pass/native migration for selected experiments only; GoT circular graph coverage explicitly deferred. Historical status and absence gate unchanged.",
+      "verification": "Focused suites3/3/5 pass; all3pages build; chemistry0contradictions56unresolved; sourceguard8checked0failed2narrowtranscription exceptions13unassigned; pairing0; review schema/build_docs/staticOUT discovery pass; scoped diffcheck clean. Wrapper-free tools/protocol.py is inapplicable to these existing build_page entrypoints; actual pages built with their wrappers."
+    },
+    {
+      "round": "2026-10-18-batch09-native-graph-migration",
+      "reviewer": "root_critical_implementation_review",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "target-seq__10.1016+j.molcel.2019.01.009/tools/chem.py and source-transcription suite; code-only review of native molecular states, actual PCR inputs, original/copy populations, aliquots, mod inheritance, source boundaries and read plans.",
+      "findings": "Actual native incoming states feed PCR geometry; independent RNA/genomicDNA/ssDNA and original-template classes remain explicit or unresolved, not chemically discarded. FIND copiedTSO residues are DNA without inheritedRNA/biotin modifications. TARGET2.5µl PCR1 aliquot now explicitly split from unresolved remainingPCR1 beforePCR2; transcriptome/genotype aliquots remain mixed populations. GoT selectedlinear3primev2 native route remains separate from source-known circular/Gibson variants and public source discrepancy; those native topology graphs remain a named coverage follow-up. No legacy family import or borrowed default shell.",
+      "deferred": [
+        "Independent original-source second pass; this review read no originals",
+        "GoT circular/U/Gibson native graph variants and unassigned native first-cycle/end geometry"
+      ],
+      "scope": "Independent critical implementation review, documents0; does not satisfy a second original-source reading or upgrade absence status.",
+      "verification": "Focused suites/pages/chemistry/sourceguard/review schema pass; parent whole-site integration pending."
     }
   ]
 }

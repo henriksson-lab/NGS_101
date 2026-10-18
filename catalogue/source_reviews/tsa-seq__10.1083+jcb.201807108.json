@@ -202,6 +202,34 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 13 steps 0 established/0 conditional/15 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch07-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published PMC6219710 Methods222–260: TSA labelling conditions, isolation, fragmentation, affinity-purification original/modified procedures, library preparation and sequencing. Mandatory bundle scraper reviewed; large source-data workbook skipped by scraper, not interpreted as absence.",
+      "findings": "Local graph replaces shared endprep/endpoint defaults. Source condition1 and later modified all-at-once capture are procedural references with actual sample pairing unassigned. DNA/protein/carrier populations are independent. Physical extraction/washes,10%input split, binding/release, ER/dA/ligation and actual adapted PCR inputs are explicit. DNA-biotin and original/carrier fates remain unresolved; unstained cells are not discarded. Six-base physical sample-index feature is separate from unassigned index acquisition;101cycles/100nt does not establish single-end mode. BufferB concentrations precede equal-volume A mixing.",
+      "deferred": [
+        "Native study-lot adapters, ligation geometry, amplification primers and exact acquisition mask",
+        "Sample-to-capture-variant mapping; no-primary and other staining conditions remain separate undeclared routes",
+        "Historical KAPA sheet was not freshly reread and does not establish the study adapter supplier"
+      ],
+      "scope": "Capped source pass and native graph migration; no absence acceptance or historical status upgrade.",
+      "verification": "Local suites4/1/3 and pages pass; combined guard7checked0failed9unassigned0exemptions; pairing0; chemistry5established57unresolved0contradictory. Notes/review schema checked after record creation."
+    },
+    {
+      "round": "2026-10-18-batch07-independent-implementation-review",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current native protocol module/local helper, final notes and owner bounded source3/2/1 handoff. No new original-source investigation.",
+      "findings": "Confirmed source biotin originals are not computational spatial barcodes, matched10percentinput and90percentpulldown remain distinct, actual native adapted substrates feedPCR, and physical6nt adapterbarcode is not asserted as6cycle acquisition. Source101cycles/100nt reads stay qualified without SE/PE overassignment. Corrected a definite carrier continuity gap: independent glycogen present before endprep now persists in the pulldown A-tailed Scene instead of disappearing and reappearing afterligation. Originalbiotin/carrier/offtarget fates stay unresolved.",
+      "deferred": [
+        "NativeKAPA adapter/primer geometry and class-specific RNA/DNA/carrier recovery; sample-specific capturevariant pairing and run acquisition remain unassigned."
+      ],
+      "scope": "Independent critical implementation-only peer review. Automated source checks do not constitute an independent original-source absence pass; no status upgrade.",
+      "verification": "Suites4/1/3pass; pagesbuild; sourceguard7checked0failed9unassigned0exemptions; pairing0problems; chemistry5established57unresolved0contradictory; schema checked."
     }
   ]
 }

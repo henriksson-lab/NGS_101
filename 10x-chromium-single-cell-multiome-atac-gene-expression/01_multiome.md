@@ -71,3 +71,11 @@ CG000168 Rev A Appendix Step 4.1 for the SI-PCR Primer B part number. Model corr
 
 Still open: transposon and kit oligo bases; ATAC bead joining chemistry; identity of
 Pre-Amp primer ends; CG000338 Rev B/F step differences beyond the Appendix comparison.
+
+## Source-owned validation migration, 2026-10-18
+
+Removed shared PCR-finishing recipe and its final-product primer-site assumptions. All four PCR geometries now refer to their actual preceding recovered/split/adapted inputs; the ATAC/GEX index PCRs remain explicitly unavailable because complete physical primers/precursors are unassigned, instead of claiming exact sites from the completed final library. The two local sequencing terminals retain source ATAC50/8/24/49 and GEX28/10/10/90 plans; the ATAC NextSeq500/5508dark+16reported cycle caveat is explicit. SI-PCRPrimerB is a source-qualified catalog-linked input with a direct predecessor-original transcription check. Same-end/GEM candidate classes have molecular unresolved fates, and the existing four-P5-base source-discrepancy notice remains. Known T30 is now a concrete segment separate from the two-base VN anchor, preserving sequence and exact lengths rather than treating all32positions as placeholders.
+
+Source scope: 10x CG000338 RevG original: §5.1 SI-PCRPrimerB PN-2000128, §7.5 TT sample-index PCR, sequencing tables around lines5150–5178 and Appendix pp80–81 around lines5890–5950; catalog-linked CG000168 RevA Appendix SI-PCRPrimerB line3411. Existing RevB/RevG discrepancy source checks rerun without replacing their prior located reviews.
+
+Deferred: Physical Pre-AmpPrimers PN-2000271 and cDNA/index primer mixtures, full transposome/adaptor states and ATAC barcode-joining mechanism remain unassigned; Complete intermediate PCR products and input-output molecular relations remain unresolved; RevB/RevF guide differences beyond the existing scoped P5 discrepancy were not re-reviewed; later revisions are not substitutes for cited RevG. This bounded check establishes neither complete chemistry validation nor confirmed source absence.

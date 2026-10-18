@@ -1,42 +1,56 @@
 """Source-owned protocol definition and reaction graph."""
 from __future__ import annotations
 
-from protocol_specs import Definition, get
+from types import SimpleNamespace
+from chemdraw import Construct, Scene
+from pcr import PCRGeometry
+from protocol_model import molecule, role
+from protocol_graph import SequencingPlan
 from protocol_graph import Disposition
 from protocol_graph import InputRole
 from protocol_graph import Terminal
 from protocol_graph import MaterialKind
 from protocol_graph import ProtocolGraph
 from protocol_graph import StepKind
-from rna_library_operations import finish_pcr
-from rna_library_operations import molecule
 
-DEFINITION = Definition("PLAC-seq — proximity ligation-assisted ChIP-seq", "10.1038/cr.2016.137", "Fang et al., Cell Research (2016)", "In-nucleus restriction digestion and proximity ligation precede shearing and chromatin immunoprecipitation, enriching contacts anchored at a chosen protein or mark.", "truseq", ("locus A", "biotinylated contact junction", "locus B"), "Paired-end Illumina reads identify both genomic sides of a protein-anchored proximity-ligation product. Data S1 maps each end separately with BWA-MEM, keeps uniquely mapped cis pairs within 500 bp of an MboI site and removes PCR duplicates; it does not state read lengths.", "DNA",
-    caveat="The adapter shell is a model of a standard dual-indexed TruSeq library. Data S1 performs the biotin pull-down and library construction according to the in situ Hi-C protocol (Rao et al. 2014; not inspected here) with 20 µL T1 beads and a qPCR-chosen minimal PCR cycle number, and prints no adapter or index oligo. Adapters, indexes and read lengths are therefore not source-exact.")
+DEFINITION = SimpleNamespace(
+    title='PLAC-seq — proximity ligation-assisted ChIP-seq',
+    doi='10.1038/cr.2016.137',
+    source_label='Fang et al., Cell Research (2016)',
+    summary='In-nucleus restriction digestion and proximity ligation precede shearing and chromatin immunoprecipitation, enriching contacts anchored at a chosen protein or mark.',
+    sequencing='Paired-end Illumina reads identify both genomic sides of a protein-anchored proximity-ligation product. Data S1 maps each end separately with BWA-MEM, keeps uniquely mapped cis pairs within 500 bp of an MboI site and removes PCR duplicates; it does not state read lengths.',
+    caveat='The endpoint records library-adapter roles without assigning a TruSeq shell or index layout. Data S1 performs the biotin pull-down and library construction according to the in situ Hi-C protocol (Rao et al. 2014; not inspected here) with 20 µL T1 beads and a qPCR-chosen minimal PCR cycle number, and prints no adapter or index oligo. Adapter identities, index layout and read lengths remain unresolved within this source scope; this is not an accepted publication-absence claim.',
+)
 
 
-from protocol_specs import workflow, two_branch
+# Data S1 delegates post-ChIP library chemistry to Rao 2014. No generic platform
+# selector supplies adapter/index sequences or end geometry at that boundary.
+FINAL_LIBRARY = Construct([
+    role("left library adapter; exact sequence and index assignment unresolved"),
+    role("locus A"), role("biotinylated contact junction"), role("locus B"),
+    role("right library adapter; exact sequence and index assignment unresolved"),
+], name="PLAC-seq contact library (role-level endpoint)")
+SPEC = SimpleNamespace(
+    TITLE=DEFINITION.title, NOTES="01_plac_seq.html",
+    SOURCE='<a href="https://doi.org/10.1038/cr.2016.137">Fang et al. 2016</a>; published Data S1.',
+    SUMMARY=DEFINITION.summary, CAVEAT=DEFINITION.caveat,
+    FINAL_LIBRARY=FINAL_LIBRARY, SEQ_PRIMERS=(),
+    FINAL_CAPTION=DEFINITION.sequencing, SEQUENCING_INTRO=DEFINITION.sequencing,
+    SEQUENCING_ENDING=DEFINITION.sequencing,
+    SEQUENCING_UNAVAILABLE="Paired-end sequencing is established by Data S1; primer identities, index assignment and acquired cycle counts remain unassigned pending the delegated library method and run metadata.",
+    READ_LENGTHS=None, oligos=lambda: (),
+)
 
 
-def _source_workflow():
-    return workflow(molecule("cross-linked nuclei", ("chromatin contacts",)), (
-        ("Restriction-digest chromatin and fill ends with biotinylated nucleotides",
-         two_branch("one chromatin contact", "filled locus A end", "filled locus B end"),
-         "Biotin marks the ends that can become contact junctions."),
-        ("Proximity-ligate inside intact nuclei",
-         molecule("contact product", ("locus A", "locus B"), joined=True,
-                  junctions=(("locus A", "locus B", "biotinylated proximity ligation"),)),
-         "The junction preserves the same in-nucleus contact geometry as in situ Hi-C."),
-        ("Shear, immunoprecipitate the chosen chromatin target, and enrich biotin",
-         molecule("protein-anchored contact library", ("left Illumina adapter", "locus A", "locus B", "right Illumina adapter"), joined=True,
-                  junctions=(("left Illumina adapter", "locus A", "adapter ligation"),
-                             ("locus A", "locus B", "contact ligation"),
-                             ("locus B", "right Illumina adapter", "adapter ligation"))),
-         "ChIP occurs after proximity ligation, defining the distinction from HiChIP."),
-    ))
-
-SPEC = get('plac-seq', definition=DEFINITION,
-           workflow_fn=_source_workflow)
+def filled_ends_scene():
+    """Separate restriction-fragment ends before proximity ligation."""
+    scene = Scene()
+    for name in ("A", "B"):
+        strand = "locus_" + name
+        scene.strand(strand, [role("filled locus " + name + " end")],
+                     label="separate filled locus " + name + " end")
+        scene.labels(strand)
+    return scene
 
 
 def _local_graph(d, final, primers):
@@ -45,7 +59,7 @@ def _local_graph(d, final, primers):
     graph = ProtocolGraph(d.title, authority=data_s1)
     nuclei = graph.input("nuclei", "0.5–5 M 1% formaldehyde-fixed cells, lysed and SDS-permeabilized (62 °C), Triton-quenched",
                          MaterialKind.BIOLOGICAL,
-                         state=molecule("crosslinked nuclei", ("chromatin contacts",)), primary=True)
+                         state=molecule("crosslinked nuclei", (role("chromatin contacts"),)), primary=True)
     restriction = graph.input("restriction_enzyme", "MboI, 100 U in NEBuffer 2 (37 °C, 2 h; inactivated 62 °C, 20 min)",
                               MaterialKind.CATALYST)
     digested = graph.product("digested", "restriction-digested chromatin contacts",
@@ -58,7 +72,7 @@ def _local_graph(d, final, primers):
                              MaterialKind.CATALYST)
     filled = graph.product("filled", "biotin-filled restriction fragment ends",
                            MaterialKind.MOLECULAR,
-                           state=molecule("filled contact ends", ("filled locus A end", "filled locus B end")))
+                           state=filled_ends_scene())
     graph.react("fill", "Fill restriction ends with biotinylated nucleotides",
                 StepKind.EXTENSION,
                 ((digested, InputRole.TEMPLATE), (fill_primer, InputRole.STRUCTURAL),
@@ -66,7 +80,7 @@ def _local_graph(d, final, primers):
     ligase = graph.input("proximity_ligase", "T4 DNA ligase, 4000 U in 1.2 mL with 1% Triton X-100 and BSA (RT)", MaterialKind.CATALYST)
     contacts = graph.product("contacts", "biotinylated proximity-ligation products",
                              MaterialKind.MOLECULAR,
-                             state=molecule("contact product", ("locus A", "locus B"),
+                             state=molecule("contact product", (role("locus A"), role("locus B")),
                                             junctions=(("locus A", "locus B",
                                                         "biotinylated proximity ligation"),)))
     graph.react("proximity_ligation", "Proximity-ligate inside intact nuclei",
@@ -115,7 +129,11 @@ def _local_graph(d, final, primers):
                 (enriched, nonjunction))
     graph.discard(nonjunction, "does not retain a biotinylated proximity-ligation junction")
     adapted = graph.product("adapter_ready", "bead-bound PLAC-seq contacts with Illumina adapter ends",
-                            MaterialKind.MOLECULAR, state=enriched.state)
+                            MaterialKind.MOLECULAR, state=Construct([
+                                role("left adapter-bearing end; unresolved"), role("locus A"),
+                                role("biotinylated contact junction"), role("locus B"),
+                                role("right adapter-bearing end; unresolved"),
+                            ], name="PLAC-seq pre-PCR substrate (unresolved ends)"))
     graph.react("hic_library_construction", "Construct the library as in the in situ Hi-C protocol",
                 StepKind.MAGIC, ((enriched, InputRole.TEMPLATE),), (adapted,),
                 reason="Data S1 delegates library construction after biotin pull-down to the cited in situ Hi-C protocol (Rao et al. 2014), which was not inspected in this pass; adapter, end-processing and enzyme details are therefore not represented.")
@@ -124,8 +142,20 @@ def _local_graph(d, final, primers):
                 "shear_condition", "shear", "antibody", "chip_capture",
                 "reverse_crosslinking", "reverse_crosslink", "streptavidin",
                 "junction_capture", "hic_library_construction"]
-    finish_pcr(graph, "library", adapted, final, primers, d.sequencing, reviewed,
-                label="PLAC-seq contact")
+    # Data S1 lines 57–61 establishes amplification and qPCR cycle selection,
+    # without assigning the delegated primer/enzyme choices in this review.
+    forward = graph.input("library_forward", "delegated in situ Hi-C forward PCR primer (identity unresolved)", MaterialKind.OLIGO)
+    reverse = graph.input("library_reverse", "delegated in situ Hi-C reverse PCR primer (identity unresolved)", MaterialKind.OLIGO)
+    polymerase = graph.input("library_polymerase", "library PCR polymerase (identity unresolved in inspected Data S1)", MaterialKind.CATALYST)
+    library = graph.product("library_library", "PLAC-seq contact sequencing library", MaterialKind.LIBRARY, state=final)
+    graph.react("library_pcr", "Amplify PLAC-seq contacts with a qPCR-chosen minimal cycle number", StepKind.PCR,
+                ((adapted, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
+                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
+                (library,), geometry=PCRGeometry.unavailable(
+                    adapted.state, reason="Data S1 lines 57–61 delegates library construction to Rao 2014 and specifies qPCR cycle selection; exact primer sites on this pre-PCR substrate remain unresolved pending that method."))
+    graph.sequence(library, SequencingPlan(library=final, acquired_roles=("Read 1", "Read 2"),
+        limitation=SPEC.SEQUENCING_UNAVAILABLE))
+    reviewed.extend(("library_forward", "library_reverse", "library_polymerase", "library_pcr", "library_library"))
     graph.declare_reviewed_scope(reviewed, source)
     return graph.require_publishable()
 

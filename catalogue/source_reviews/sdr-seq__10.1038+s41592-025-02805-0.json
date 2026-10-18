@@ -371,6 +371,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite (workflow construction, 0 explicit checks) passes; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 1 exact checked (Droplet_amplification_fwd), 0 failed, 8 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch11-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "PublishedPMC12510883 Methods199–221 (historical readstructure declarations retained, not re-read); citedprotocols.io detailedv1 printedAugust11,2025/intID119358, overview98–109,RTmaterials/oligotable126–187 and RTmastermix960–1070, Steps9–11 approximately1219–1504; publishedMOESM3Tables1–3 V1/V2 RT,indexprimerfamilies andPOP naming.",
+      "oligo_scraper": "Mandatory sourcebundle scraper run; publishedoriginal sourcepassages and modifications verified ratherthan treating hits asfacts. Large dataworkbooks notexpanded; supersededpreprints excludedfromactiveauthority.",
+      "findings": "LocalV2 native graph removes role_library/readout recipes. ActualssRT preserves originalgDNA/RNA; sourcephysicalRTpool/pellet, firstdropletlysis, secondfusion, explicitUVboundary andmixedmultiplexPCR precede emulsionbreak/cleanup. Samephysicalrecoveredmixture supplies15µl inputs tobothdistinctoverhangPCRs; otherclasses are notpurifiedbyaliquoting or nonamplification. SourceV2RTsample8/N8UMI and multipartcommercialcellID remain structured. LocalexactP5/i5,R2N-i7 andR2-i7 sourceexamples replace genericmatchedlibrary roles; onlypreferentiallyamplifiedclasses installtheirindex lineage. Detailedv1recommendedDNA161/161 andRNA76/46,8+8indices areexplicit. PublicV1POPnaming,RNAindexPCRR2N/R2,dNTPmM/µM andMaxima catalogidentity differences remain qualified.",
+      "deferred": [
+        "ExactnativeTapestribeadbases/linker/photo-releasechemistry/PCRenzyme andunreadv2guide detailedStep6/7.7recoveries staybounded, notinvented kitdefaults.",
+        "Panel-specifictargets and actualstudy-specificrunmasks remainunassigned; sourcev1runrecommendations are not auniversalempiricalrun.",
+        "V1POPbarcode/spacer discrepancy andsourceRTcatalogEP0751/EP0752identity unresolved; no absence acceptance."
+      ],
+      "scope": "Cappednativegraph migration only; historicalreviewstatuses and missing-information gate unchanged. No acceptedabsence claim.",
+      "verification": "4 originalV2primer tests;17steps/20unresolved0contradictory. Allfourpages build; sourceguard17checked/0failed/9unassigned; pairing0; schema pass."
+    },
+    {
+      "round": "2026-10-18-batch11-independent-implementation-review",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "sdr-seq__10.1038+s41592-025-02805-0/tools/chem.py,build_page.py,selftest.py; currentreleasednativegraph/Scene/primerfeatures/source-boundary/readspec implementation. No originalsource documents reread.",
+      "findings": "Actualin-situss-cDNA/originalRNA/genomicDNA mixtures throughsourceRTpooling/cellwashes, dropletfusion/bead/UVnativeboundary, mixedmultiplexPCR→break/cleanup→actualmixed15µlaliquots→preferentialDNA/RNAoverhangindexPCRs. No physicalmodalitypurification inferred fromprimerchoice. SourceV2nativeRTsample/UMI/cellID/indexfeaturelineages, unassignedbead/linker/indexassembly andsourceV1recommendedrunmask scope remainseparate. PublishedPOP/R2vsR2N/dNTPsource-versionnotices preserved. No concretecriticalmoleculardefect found inreviewedscope. No remaining concretecriticaldefect identified withinstatedimplementationreview scope.",
+      "deferred": [
+        "Existingoriginalsourcechecklists/deferrals andnativegeometry/member/acquisition limits unchanged. This documents0 code-only pass isnot an independent secondoriginalreading or acceptedabsenceaudit."
+      ],
+      "scope": "Independent criticalimplementation-onlyreview; authorimplemented requestedcorrections, reviewer made no chemistrycode edits. No sourceexpansion orhistoricalstatusupgrade.",
+      "verification": "4originaltranscriptionchecks;17steps;0established20unresolved0contradictory. Fourpagesbuild;combined62steps2established81unresolved0contradictory; sourceguard17checked0failed0skip9inputswithout exactstates;pairing0; schema/whitespace checkedafterrecordwrite."
     }
   ]
 }

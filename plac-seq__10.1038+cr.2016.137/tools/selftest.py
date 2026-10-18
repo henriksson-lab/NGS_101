@@ -1,2 +1,3 @@
 #!/usr/bin/env python3
-# Construction and primer landing are enforced by protocol_specs.get during the page build.
+# Molecular-role construction and graph checks run during the page build.
+# Source-specific primer identities remain unresolved at the delegated method.

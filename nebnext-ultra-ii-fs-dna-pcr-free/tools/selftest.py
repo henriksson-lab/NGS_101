@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import sys
-H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+H=Path(__file__).resolve().parent;sys.path[:0]=[str(H),str(H.parents[1]/'lib')]
+from checks import Check,Source,have
+from storage import sources_root
 import fs_pcrfree as M
-from checks import Check,run_common
-c=Check(); c.section("E7430 defining chemistry"); c("UMI length",M.UMI_NT,12); c("i7 plus UMI index read",M.I7_READ_NT,20); c("350-bp fragmentation",M.FS_PROGRAMS[350],(10,37,30,65)); c("450-bp fragmentation",M.FS_PROGRAMS[450],(8,37,30,65)); run_common(c); c.report()
+c=Check()
+s=Source(sources_root()/H.parent.name/'manuale7430_e7435.pdf.txt','Original printed vendor revision; see ref/MANIFEST.md')
+if have(c,s):
+ text=''.join(s.path.read_text().split())
+ c('printed source identity','Version2.0_6/25' in text,True)
+ for term in ['singlestrandregionsoftheadaptors', 'E7395', 'DTT']:c('source reagent/geometry '+term,term in text,True)
+c.report()

@@ -1,189 +1,220 @@
 {
- "dir": "lenticrispr-v2-screening__10.1038+nmeth.3047",
- "status": "in_progress",
- "source_checklist": [
-  {
-   "id": "paper",
-   "role": "defining",
-   "locator": "Sanjana et al Nature Methods 2014 doi:10.1038/nmeth.3047; PMC4486245 JATS",
-   "availability": "read",
-   "relevance": "relevant",
-   "pass_1": {
-    "reviewer": "audit_s_z",
-    "date": "2026-10-15",
-    "locations": "JATS lines 29-39 and supplementary pointer",
-    "finding": "Original describes GeCKOv2 vector/library design and points to Supplementary Methods."
-   },
-   "pass_2": {
-    "reviewer": "audit_a_h",
-    "date": "2026-10-15",
-    "locations": "PMC4486245 JATS opening through supplementary pointer lines 29-39",
-    "finding": "Original Sanjana article describes redesigned GeCKOv2 libraries and points to Supplementary Methods."
-   },
-   "additional_checks": [
+  "dir": "lenticrispr-v2-screening__10.1038+nmeth.3047",
+  "status": "in_progress",
+  "source_checklist": [
     {
-     "reviewer": "audit_editing_closeout",
-     "date": "2026-10-16",
-     "locations": "Original JATS lines29–39 and Fig1 caption; complete source-bundle scraper",
-     "finding": "Defining paper describes synthesized pooled guides and links Addgene/author resource. Single-guide annealed duplex ligation is insufficient to represent its pooled-library construction."
-    }
-   ]
-  },
-  {
-   "id": "supp_methods",
-   "role": "supplement",
-   "locator": "Springer MOESM647 PDF, local nmeth.3047...MOESM647_ESM.pdf.txt",
-   "availability": "read",
-   "relevance": "relevant",
-   "pass_1": {
-    "reviewer": "audit_s_z",
-    "date": "2026-10-15",
-    "locations": "Lines 300-335",
-    "finding": "Supplement gives ArrayR and library QC: 16-cycle PCR adds Illumina adapters, duplicate barcoding and MiSeq v3 150-cycle run; checked paragraph does not name PCR oligo sequences."
-   },
-   "pass_2": {
-    "reviewer": "audit_a_h",
-    "date": "2026-10-15",
-    "locations": "MOESM647 Supplementary Methods text around lines 300-335",
-    "finding": "Original supplement prints ArrayR and says 16-cycle QC PCR adds Illumina adapters with replicate barcoding, but does not establish complete per-sample historical ordering list here."
-   },
-   "additional_checks": [
-    {
-     "reviewer": "audit_editing_closeout",
-     "date": "2026-10-16",
-     "locations": "Original publisher MOESM647 PDF text lines286–335, GeCKO library pooled synthesis and cloning, validation and vector/resource paragraphs",
-     "finding": "Printed ArrayF/ArrayR primers amplify 74-nt synthesized pool into 140-bp inserts. Vector is BsmBI-digested/FastAP-treated and joined by Gibson assembly. Updated graph and page to include those operations and source-known primers. Historical Illumina validation PCR primer/barcode members remain unassigned; this is an unresolved source review, not accepted absence."
+      "id": "paper",
+      "role": "defining",
+      "locator": "Sanjana et al Nature Methods 2014 doi:10.1038/nmeth.3047; PMC4486245 JATS",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "JATS lines 29-39 and supplementary pointer",
+        "finding": "Original describes GeCKOv2 vector/library design and points to Supplementary Methods."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "PMC4486245 JATS opening through supplementary pointer lines 29-39",
+        "finding": "Original Sanjana article describes redesigned GeCKOv2 libraries and points to Supplementary Methods."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_editing_closeout",
+          "date": "2026-10-16",
+          "locations": "Original JATS lines29–39 and Fig1 caption; complete source-bundle scraper",
+          "finding": "Defining paper describes synthesized pooled guides and links Addgene/author resource. Single-guide annealed duplex ligation is insufficient to represent its pooled-library construction."
+        }
+      ]
     },
     {
-     "reviewer": "root",
-     "date": "2026-10-16",
-     "locations": "Original publisher MOESM647_ESM.pdf.txt lines289–309; full protocol-bundle oligo scraper reviewed ArrayF and ArrayR source pointers first",
-     "finding": "Independently confirmed the defining pooled-library branch: 74-nt oligo pool amplified by printed ArrayF/ArrayR to a source-reported 140-bp insert, then Gibson assembly into BsmBI/FastAP-opened vector. The individual-guide annealing paragraph elsewhere in the same supplement is a separate branch and cannot represent the pooled assembly."
-    }
-   ]
-  },
-  {
-   "id": "preprint",
-   "role": "linked_material",
-   "locator": "bioRxiv predecessor 006726_v1.full.pdf.txt",
-   "availability": "read",
-   "relevance": "relevant",
-   "pass_1": {
-    "reviewer": "audit_s_z",
-    "date": "2026-10-15",
-    "locations": "Methods/header and oligo keyword search",
-    "finding": "Preprint variant present; exact publication-to-preprint library-readout differences not established."
-   },
-   "pass_2": {
-    "reviewer": "second_pass_d_e",
-    "date": "2026-10-16",
-    "locations": "Cached bioRxiv 006726_v1.full.pdf.txt lines 586–640 (pooled oligo synthesis, ArrayF/ArrayR, library validation), 641–652 (linked vector maps and Supplementary Data); source-bundle scraper run",
-    "finding": "Preprint prints ArrayF/ArrayR synthesis primers and says 74-nt array oligos yield a 140-bp amplicon, then BsmBI cloning into lentiCRISPRv2/lentiGuide-Puro. Library validation adds Illumina adapters by PCR and MiSeq v3 150-cycle sequencing, but this section does not print those validation primer strands or assign barcodes. It links vector maps and library Supplementary Data; preprint-to-published readout equivalence remains to be checked against those linked originals."
-   },
-   "discovered_from": "paper",
-   "additional_checks": [
+      "id": "supp_methods",
+      "role": "supplement",
+      "locator": "Springer MOESM647 PDF, local nmeth.3047...MOESM647_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Lines 300-335",
+        "finding": "Supplement gives ArrayR and library QC: 16-cycle PCR adds Illumina adapters, duplicate barcoding and MiSeq v3 150-cycle run; checked paragraph does not name PCR oligo sequences."
+      },
+      "pass_2": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "MOESM647 Supplementary Methods text around lines 300-335",
+        "finding": "Original supplement prints ArrayR and says 16-cycle QC PCR adds Illumina adapters with replicate barcoding, but does not establish complete per-sample historical ordering list here."
+      },
+      "additional_checks": [
+        {
+          "reviewer": "audit_editing_closeout",
+          "date": "2026-10-16",
+          "locations": "Original publisher MOESM647 PDF text lines286–335, GeCKO library pooled synthesis and cloning, validation and vector/resource paragraphs",
+          "finding": "Printed ArrayF/ArrayR primers amplify 74-nt synthesized pool into 140-bp inserts. Vector is BsmBI-digested/FastAP-treated and joined by Gibson assembly. Updated graph and page to include those operations and source-known primers. Historical Illumina validation PCR primer/barcode members remain unassigned; this is an unresolved source review, not accepted absence."
+        },
+        {
+          "reviewer": "root",
+          "date": "2026-10-16",
+          "locations": "Original publisher MOESM647_ESM.pdf.txt lines289–309; full protocol-bundle oligo scraper reviewed ArrayF and ArrayR source pointers first",
+          "finding": "Independently confirmed the defining pooled-library branch: 74-nt oligo pool amplified by printed ArrayF/ArrayR to a source-reported 140-bp insert, then Gibson assembly into BsmBI/FastAP-opened vector. The individual-guide annealing paragraph elsewhere in the same supplement is a separate branch and cannot represent the pooled assembly."
+        }
+      ]
+    },
     {
-     "reviewer": "audit_editing_closeout",
-     "date": "2026-10-16",
-     "locations": "Original bioRxiv006726v1 PDF text lines586–655 plus Supplementary Data opening lines655–675; full source-bundle scraper",
-     "finding": "Independently confirmed pooled synthesis, both Array primers, BsmBI/FastAP and Gibson assembly in preprint. The PDF itself continues with labelled vector Supplementary Data; a missing standalone file is not evidence that vector sequences were not supplied. Remaining embedded sequence material still needs full review."
+      "id": "preprint",
+      "role": "linked_material",
+      "locator": "bioRxiv predecessor 006726_v1.full.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-15",
+        "locations": "Methods/header and oligo keyword search",
+        "finding": "Preprint variant present; exact publication-to-preprint library-readout differences not established."
+      },
+      "pass_2": {
+        "reviewer": "second_pass_d_e",
+        "date": "2026-10-16",
+        "locations": "Cached bioRxiv 006726_v1.full.pdf.txt lines 586–640 (pooled oligo synthesis, ArrayF/ArrayR, library validation), 641–652 (linked vector maps and Supplementary Data); source-bundle scraper run",
+        "finding": "Preprint prints ArrayF/ArrayR synthesis primers and says 74-nt array oligos yield a 140-bp amplicon, then BsmBI cloning into lentiCRISPRv2/lentiGuide-Puro. Library validation adds Illumina adapters by PCR and MiSeq v3 150-cycle sequencing, but this section does not print those validation primer strands or assign barcodes. It links vector maps and library Supplementary Data; preprint-to-published readout equivalence remains to be checked against those linked originals."
+      },
+      "discovered_from": "paper",
+      "additional_checks": [
+        {
+          "reviewer": "audit_editing_closeout",
+          "date": "2026-10-16",
+          "locations": "Original bioRxiv006726v1 PDF text lines586–655 plus Supplementary Data opening lines655–675; full source-bundle scraper",
+          "finding": "Independently confirmed pooled synthesis, both Array primers, BsmBI/FastAP and Gibson assembly in preprint. The PDF itself continues with labelled vector Supplementary Data; a missing standalone file is not evidence that vector sequences were not supplied. Remaining embedded sequence material still needs full review."
+        }
+      ]
+    },
+    {
+      "id": "joung_detailed",
+      "role": "linked_material",
+      "locator": "/husky/henriksson/NGS101_papers/sources/joung-one-pcr-crispr-screen-readout__10.1038+nprot.2017.016/PMC5526071_PMC5526071.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "reason": "Recovered later author manuscript; cannot substitute for original 2014 study-specific readout oligos.",
+      "pass_1": {
+        "reviewer": "audit_a_h",
+        "date": "2026-10-15",
+        "locations": "Joung 2017 Table 3 lines 2159–2204",
+        "finding": "Later author protocol prints ten NGS-Lib-Fwd and eight each GeCKO/SAM indexed reverse primers. Relation to this earlier study requires a separate inheritance check."
+      },
+      "pass_2": {
+        "reviewer": "audit_s_z",
+        "date": "2026-10-16",
+        "locations": "Joung 2017 JATS Table 3, extracted lines 2159–2204, independently read; oligo scraper rerun",
+        "finding": "Later detailed method lists ten forward NGS library primers and distinct GeCKO/SAM reverse series. Exact primer use in the 2014 v2 screening study remains unverified."
+      },
+      "discovered_from": "paper"
+    },
+    {
+      "id": "addgene_v2",
+      "role": "linked_material",
+      "locator": "https://www.addgene.org/52961/; https://www.addgene.org/52961/sequences/; local ref/plasmids/addgene-52961_lentiCRISPRv2.gb under lentiCRISPRv1 directory",
+      "availability": "read",
+      "relevance": "relevant",
+      "discovered_from": "supp_methods",
+      "pass_1": {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "https://www.addgene.org/52961/; https://www.addgene.org/52961/sequences/; local ref/plasmids/addgene-52961_lentiCRISPRv2.gb under lentiCRISPRv1 directory",
+        "finding": "Opened depositor resource and sequence inventory; product links Sanjana2014 and full 14,873-bp map. Local original GenBank header/feature annotations identify Addgene-verified v2 and cPPT/CTS upstream of hU6. Current download page requires login; already available original local map remains reviewable. Complete sequence/primer comparison not yet done."
+      }
+    },
+    {
+      "id": "historic_gecko",
+      "role": "linked_material",
+      "locator": "http://genome-engineering.org/gecko/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "discovered_from": "supp_methods",
+      "reason": "Tried exact historic source URL with browser; it returned an internal fetch error. This route failure is not proof that data are absent. Current author/Addgene alternatives and embedded preprint Supplementary Data still need full examination."
     }
-   ]
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "audit_s_z",
+      "date": "2026-10-15",
+      "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
+      "finding": "Read defining article and original Supplementary Methods; later Joung readout is separate and unavailable."
+    },
+    "pass_2": {
+      "reviewer": "audit_a_h",
+      "date": "2026-10-15",
+      "locations": "Sanjana original JATS and MOESM647 Supplementary Methods; Joung 2017 Table 3",
+      "finding": "Original supplement identifies library PCR and barcoding procedure, and later Joung 2017 prints a GeCKO primer family. Those later primers cannot be silently assigned to the 2014 v2 study; its per-sample choices remain unverified."
+    },
+    "additional_checks": [
+      {
+        "reviewer": "audit_editing_closeout",
+        "date": "2026-10-16",
+        "locations": "Original supplement resource paragraph, preprint Supplementary Data opening, Addgene52961 product and sequences pages",
+        "finding": "Followed Addgene resource and inspected existing local map header/features. Historic GeCKO link failed in current browser. Embedded preprint Supplementary Data are present. Full vector/library resource inventory and independent link pass remain open."
+      }
+    ]
   },
-  {
-   "id": "joung_detailed",
-   "role": "linked_material",
-   "locator": "/husky/henriksson/NGS101_papers/sources/joung-one-pcr-crispr-screen-readout__10.1038+nprot.2017.016/PMC5526071_PMC5526071.xml.txt",
-   "availability": "read",
-   "relevance": "relevant",
-   "reason": "Recovered later author manuscript; cannot substitute for original 2014 study-specific readout oligos.",
-   "pass_1": {
-    "reviewer": "audit_a_h",
-    "date": "2026-10-15",
-    "locations": "Joung 2017 Table 3 lines 2159–2204",
-    "finding": "Later author protocol prints ten NGS-Lib-Fwd and eight each GeCKO/SAM indexed reverse primers. Relation to this earlier study requires a separate inheritance check."
-   },
-   "pass_2": {
-    "reviewer": "audit_s_z",
-    "date": "2026-10-16",
-    "locations": "Joung 2017 JATS Table 3, extracted lines 2159–2204, independently read; oligo scraper rerun",
-    "finding": "Later detailed method lists ten forward NGS library primers and distinct GeCKO/SAM reverse series. Exact primer use in the 2014 v2 screening study remains unverified."
-   },
-   "discovered_from": "paper"
-  },
-  {
-   "id": "addgene_v2",
-   "role": "linked_material",
-   "locator": "https://www.addgene.org/52961/; https://www.addgene.org/52961/sequences/; local ref/plasmids/addgene-52961_lentiCRISPRv2.gb under lentiCRISPRv1 directory",
-   "availability": "read",
-   "relevance": "relevant",
-   "discovered_from": "supp_methods",
-   "pass_1": {
-    "reviewer": "audit_editing_closeout",
-    "date": "2026-10-16",
-    "locations": "https://www.addgene.org/52961/; https://www.addgene.org/52961/sequences/; local ref/plasmids/addgene-52961_lentiCRISPRv2.gb under lentiCRISPRv1 directory",
-    "finding": "Opened depositor resource and sequence inventory; product links Sanjana2014 and full 14,873-bp map. Local original GenBank header/feature annotations identify Addgene-verified v2 and cPPT/CTS upstream of hU6. Current download page requires login; already available original local map remains reviewable. Complete sequence/primer comparison not yet done."
-   }
-  },
-  {
-   "id": "historic_gecko",
-   "role": "linked_material",
-   "locator": "http://genome-engineering.org/gecko/",
-   "availability": "unavailable",
-   "relevance": "relevant",
-   "discovered_from": "supp_methods",
-   "reason": "Tried exact historic source URL with browser; it returned an internal fetch error. This route failure is not proof that data are absent. Current author/Addgene alternatives and embedded preprint Supplementary Data still need full examination."
-  }
- ],
- "linked_information": {
-  "result": "blocked",
-  "pass_1": {
-   "reviewer": "audit_s_z",
-   "date": "2026-10-15",
-   "locations": "Source text method citations and links; local source MANIFEST.tsv; oligo scraper on the protocol bundle",
-   "finding": "Read defining article and original Supplementary Methods; later Joung readout is separate and unavailable."
-  },
-  "pass_2": {
-   "reviewer": "audit_a_h",
-   "date": "2026-10-15",
-   "locations": "Sanjana original JATS and MOESM647 Supplementary Methods; Joung 2017 Table 3",
-   "finding": "Original supplement identifies library PCR and barcoding procedure, and later Joung 2017 prints a GeCKO primer family. Those later primers cannot be silently assigned to the 2014 v2 study; its per-sample choices remain unverified."
-  },
-  "additional_checks": [
-   {
-    "reviewer": "audit_editing_closeout",
-    "date": "2026-10-16",
-    "locations": "Original supplement resource paragraph, preprint Supplementary Data opening, Addgene52961 product and sequences pages",
-    "finding": "Followed Addgene resource and inspected existing local map header/features. Historic GeCKO link failed in current browser. Embedded preprint Supplementary Data are present. Full vector/library resource inventory and independent link pass remain open."
-   }
+  "missing_claims": [
+    {
+      "claim": "Selected GeCKOv2 library QC adapter/primer members unresolved",
+      "disposition": "blocked",
+      "evidence": "The original pooled synthesis and assembly branch is now checked, including ArrayF/ArrayR and Gibson assembly. Historical QC primer/barcode assignment and the complete inventory of linked original guides still need source-specific independent review; no absence is accepted."
+    }
+  ],
+  "conclusion": "Corrected defining pooled-library front end and added source-transcribed ArrayF/ArrayR inputs. Later Joung readout remains an explicitly cited example. Historical validation primer/barcode assignment and complete linked-original review remain open; no absence accepted.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-17-breadth-first-12",
+      "reviewer": "root",
+      "date": "2026-10-17",
+      "documents": 2,
+      "locations": "Published Sanjana/Shalem/Zhang Nature Methods 2014 supplement nmeth.3047_41592_2014_BFnmeth3047_MOESM647_ESM.pdf.txt, 'GeCKO library pooled synthesis and cloning' lines286-309 (synthesis, Phusion HS Flex PCR conditions, ArrayF/ArrayR, 140-bp E-Gel size selection, BsmBI/FastAP, 20 ul Gibson 10ng:25ng, Lucigen electroporation, carbenicillin plates 30-200x, maxiprep) and 'Library sequencing and validation' lines319-332 plus 'Vector maps, library sequences and reagent distribution' lines335-339; defining JATS nmeth.3047_PMC4486245.xml.txt re-checked for a Methods section",
+      "oligo_scraper": "Bundle scraper used as the reading aid for ArrayF/ArrayR; both verified at supplement lines300 and 304 with the PDF line-wrap space removed. No adapter/validation primer strand appears anywhere in the extracted supplement text.",
+      "findings": "Corrections, all from the two cited supplement paragraphs: pool PCR now carries Phusion HS Flex and the 63C/15s/20-cycle condition and outputs a raw amplicon that a 2% E-Gel EX cleanup step size-selects to the 140-bp insert, with off-size product discarded; BsmBI labelled Fermentas and the discarded fragment named the 1.8-kb filler removed by 1% E-Gel purification; FastAP labelled 37C/2h; Gibson step labelled 20ul NEB with 10ng insert into 25ng vector; added electroporation into Lucigen cells with carbenicillin selection at 30-200x coverage (untransformed cells discarded) and the Endotoxin-Free maxiprep that yields the pooled plasmid library, which is now what gets packaged. Added the paper's actual sequencing endpoint: 16-cycle Phusion Flash duplicate barcoded Illumina-adapter PCR on the plasmid library, terminating in a sequencing plan carrying only the limitation 'MiSeq v3 150-cycle kit, 10% PhiX; adapter primers and barcodes not printed'. Page and note state that the Joung one-PCR library is a separately cited compatible readout, not Sanjana et al.'s own experiment.",
+      "deferred": [
+        "Adapter-adding validation primers and their duplicate barcodes (not printed in the supplement); GeCKO website and preprint Supplementary Data still unchecked for them",
+        "http://genome-engineering.org/gecko/ - route still unavailable (timeout), recorded as a retrieval failure",
+        "Preprint/published Supplementary Data labelled vector sequences and Addgene #52961 map vs the drawn cassette",
+        "lentiGuide-Puro branch (5 ng insert) deliberately not drawn on this page",
+        "Exact synthesized 74-nt pool member and the Gibson junctions (clone_guide keeps its warned unresolved transition)"
+      ],
+      "scope": "Capped defining-supplement pass; corrections are local to this protocol. No missing-information claim accepted.",
+      "verification": "local suite 1/1 check passes; page builds; pairing 0 problem duplexes; chemistry 12 steps, 0 established/0 conditional/15 unresolved/0 contradictory with the clone_guide MAGIC warning; source guard 2 exact checked (ArrayF, ArrayR), 0 failed, 4 inputs without exact states; Markdown rebuilt (01_lenticrispr-v2.html + notes.html); audit_protocol_sources --check passes (status stays in_progress)"
+    },
+    {
+      "round": "2026-10-18-batch11-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC4486245 maintext andFig1caption; publishedMOESM647 SupplementaryMethods286–340 pooledsynthesis/cloning/duplicatevalidation; deposited52961map U6/scaffold/cPPTfeatures andinvariantsequencecomparison.",
+      "oligo_scraper": "Mandatory bundle scraper run. Published/author-original hits checked in listed sections; no superseded preprint authority. Deposited map components compared directly with parsed original feature sequences.",
+      "findings": "Native source-owned v2 graph retainsfullsourcepoolconstruction fromdeprotection toactualssPCRinput, vectorend/fillerlineage, sourceGibsonboundary, real0.5µlallocation, colony/maxiprep and independentbarcodedduplicateplasmidQC-PCRs. LaterJoungreadout movedtoseparatepagelink. No kit150cycle→readallocationdefault; actualQCprimerends unassigned. Critical code review also corrected persistent unplacedGUIDE identity and independent technicalQCbarcode identities; no invented width/strand/readcycles.",
+      "deferred": [
+        "PublishedSupplementaryData/sourceauthorresource identity andlabelledmembersequences",
+        "Synthesized74ntmember/Gibsonoverlap andstrandends",
+        "NativeQCprimer/barcodes andactualread/indexallocation",
+        "Class-specificrecovery/loadedprimers"
+      ],
+      "scope": "Capped source-positive architecture pass only; sourcechecklist/absence acceptance unchanged. Native unknown chemistry remains unresolved rather than supplied by a compatible later protocol.",
+      "verification": "Parent focused source suite (2v1/4v2), page, scoped chemistry, source guard, review schema andpairing pass. Independent code-only review recorded separately; no sourcechecklist/absence upgrade."
+    },
+    {
+      "round": "2026-10-18-batch11-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Read tools/lenticrispr_v2.py sourceprotected74ntpool/140bpPCRactualssinput; independentfiller/backbone5OH/gelrecovery; sourceGibsonmixture0.5µlallocation; colony/maxiprep/QCduplicateinputs; actualnativeQC-PCRsubstrates, identifierfates andunassigned150kitacquisition.",
+      "findings": "FoundGUIDEidentity lostfromsource74nt/pool/140bpproduct andnativeQC roles, andtechnicalQCbarcodes lackedstructuredidentity. Owner addedunplacedGUIDEinventories andsameunknown-width/member/positionQCsampleindex feature on eachreverseprimer anditsdaughterQCpopulation. Uniqueperreplicatebarcodeids remainindependent; removedmultipartgroup/part relation. Recheckedactualmixedassemblyallocation andseparateQC-PCRinputs, independentfiller/residualfates, no completedendpointtemplate.",
+      "deferred": [
+        "ExactGibsonjunctions/selectedguide andnativeQCprimer/endassembly remainbounded;150cyclekitdoesnot establishroleallocation.",
+        "Owner3-original sourcepass not re-read; no sourcebreadthexpansion or sourceabsenceconclusion."
+      ],
+      "scope": "Independent implementation-only review ofowner cappedsourcepass. No originalsread, no sourcebreadthexpansion, no historicalstatus/absencegate changes.",
+      "verification": "Finalcorrections re-read; suites2/4pass; combined21steps/24unresolved/0contradictory; sourceguard2checked0failed6unassigned; pairing0; schema pass. Ownerbuilt bothpages; barcodegroup/part removal metadata-only."
+    }
   ]
- },
- "missing_claims": [
-  {
-   "claim": "Selected GeCKOv2 library QC adapter/primer members unresolved",
-   "disposition": "blocked",
-   "evidence": "The original pooled synthesis and assembly branch is now checked, including ArrayF/ArrayR and Gibson assembly. Historical QC primer/barcode assignment and the complete inventory of linked original guides still need source-specific independent review; no absence is accepted."
-  }
- ],
- "conclusion": "Corrected defining pooled-library front end and added source-transcribed ArrayF/ArrayR inputs. Later Joung readout remains an explicitly cited example. Historical validation primer/barcode assignment and complete linked-original review remain open; no absence accepted.",
- "bounded_checks": [
-  {
-   "round": "2026-10-17-breadth-first-12",
-   "reviewer": "root",
-   "date": "2026-10-17",
-   "documents": 2,
-   "locations": "Published Sanjana/Shalem/Zhang Nature Methods 2014 supplement nmeth.3047_41592_2014_BFnmeth3047_MOESM647_ESM.pdf.txt, 'GeCKO library pooled synthesis and cloning' lines286-309 (synthesis, Phusion HS Flex PCR conditions, ArrayF/ArrayR, 140-bp E-Gel size selection, BsmBI/FastAP, 20 ul Gibson 10ng:25ng, Lucigen electroporation, carbenicillin plates 30-200x, maxiprep) and 'Library sequencing and validation' lines319-332 plus 'Vector maps, library sequences and reagent distribution' lines335-339; defining JATS nmeth.3047_PMC4486245.xml.txt re-checked for a Methods section",
-   "oligo_scraper": "Bundle scraper used as the reading aid for ArrayF/ArrayR; both verified at supplement lines300 and 304 with the PDF line-wrap space removed. No adapter/validation primer strand appears anywhere in the extracted supplement text.",
-   "findings": "Corrections, all from the two cited supplement paragraphs: pool PCR now carries Phusion HS Flex and the 63C/15s/20-cycle condition and outputs a raw amplicon that a 2% E-Gel EX cleanup step size-selects to the 140-bp insert, with off-size product discarded; BsmBI labelled Fermentas and the discarded fragment named the 1.8-kb filler removed by 1% E-Gel purification; FastAP labelled 37C/2h; Gibson step labelled 20ul NEB with 10ng insert into 25ng vector; added electroporation into Lucigen cells with carbenicillin selection at 30-200x coverage (untransformed cells discarded) and the Endotoxin-Free maxiprep that yields the pooled plasmid library, which is now what gets packaged. Added the paper's actual sequencing endpoint: 16-cycle Phusion Flash duplicate barcoded Illumina-adapter PCR on the plasmid library, terminating in a sequencing plan carrying only the limitation 'MiSeq v3 150-cycle kit, 10% PhiX; adapter primers and barcodes not printed'. Page and note state that the Joung one-PCR library is a separately cited compatible readout, not Sanjana et al.'s own experiment.",
-   "deferred": [
-    "Adapter-adding validation primers and their duplicate barcodes (not printed in the supplement); GeCKO website and preprint Supplementary Data still unchecked for them",
-    "http://genome-engineering.org/gecko/ - route still unavailable (timeout), recorded as a retrieval failure",
-    "Preprint/published Supplementary Data labelled vector sequences and Addgene #52961 map vs the drawn cassette",
-    "lentiGuide-Puro branch (5 ng insert) deliberately not drawn on this page",
-    "Exact synthesized 74-nt pool member and the Gibson junctions (clone_guide keeps its warned unresolved transition)"
-   ],
-   "scope": "Capped defining-supplement pass; corrections are local to this protocol. No missing-information claim accepted.",
-   "verification": "local suite 1/1 check passes; page builds; pairing 0 problem duplexes; chemistry 12 steps, 0 established/0 conditional/15 unresolved/0 contradictory with the clone_guide MAGIC warning; source guard 2 exact checked (ArrayF, ArrayR), 0 failed, 4 inputs without exact states; Markdown rebuilt (01_lenticrispr-v2.html + notes.html); audit_protocol_sources --check passes (status stays in_progress)"
-  }
- ]
 }

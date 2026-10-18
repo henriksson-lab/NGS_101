@@ -33,3 +33,11 @@ The sequenced material is targeted human genomic loci, quantifying editing outco
 ## Represented branch
 
 The page uses the published N501 Tn5 top oligo, N701 P7 primer and CEP290 guide-323 anchor as concrete examples. Article Table 2 (and Additional file 2 Appendix A) publishes eight Tn5 pooling-index top oligos (OLI6380–OLI6387; Table 2 leaves OLI6387 unnamed, Appendix A names it i5_N508), four locus anchors (OLI6062, OLI6256, OLI6253, OLI6259) and twelve i7 primers (N701–N707, N710–N712, N714, N715). These alternatives change index or target sequence, not the library architecture.
+
+## Source-owned validation migration, 2026-10-18
+
+Local graph now consumes the exact N501 adapter (paired 15-base phosphorylated/ddC bottom), article CEP290 anchor, P5 and N701 PCR inputs. The copied anchor tail constructs the actual round1 amplicon; round2 primer geometry is computed from that precursor. Round1 genomic target coordinates remain explicitly unavailable rather than using the final library as its PCR template. N701 index sequence is derived from the declared primer. Preserved 300/8/18/300 MiSeq plan and structured joint i5/UMI handling; tagmentation off-products have unresolved recovery instead of presumed physical removal.
+
+Read source scope: Published article PMC5861650 Table2 line171 OLI6062 CEP290 anchor; Additional file2 MOESM2_ESM.docx.txt §6–7 lines103–188, §13 lines276–287 and AppendixA lines289–330.
+
+Remaining work: Exact genomic anchor coordinate/fragment extent in the tagmented input population remains unassigned; Full Tn5/gap repair and round1 input-output relations and omitted bead cleanups remain chemistry-coverage work. No accepted missing-information claim is added.

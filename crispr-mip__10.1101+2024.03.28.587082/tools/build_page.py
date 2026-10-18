@@ -13,7 +13,7 @@ import crisprmip as cm
 import illumina as il
 import seqprimers as sp
 from chemdraw import (Construct, Row, Scene, Segment, annotation_rows, bridge,
-                      complement_segments, oligo, panel, revcomp, strand_row)
+                      complement_segments, oligo, panel, protocol_graph_panels, revcomp, strand_row)
 from crispr import SCAFFOLD_V1
 from page import caveat, head, info, legend, table
 from plasmid import amplify
@@ -117,21 +117,7 @@ BACKBONE_INNER = [[("[13-nt UMI]", "umi", False), ("  ", None, False),
 
 # ------------------------------------------------- the final library, as segments
 def library() -> Construct:
-    s = lib_seq.seq
-    return Construct([
-        seg("Illumina P5", s[0:len(il.P5)], "p5"),
-        seg("vector 3'", s[len(il.P5):48], "r2"),     # captured: past the scaffold
-        seg("lig arm", cm.LIG_ARM, "r1"),
-        seg("UMI", "N" * 13, "umi", placeholder=True),
-        seg("Read 2 site", cm.READ2_SITE, "t7"),
-        seg("i7", cm.PROBE_INDICES[0], None),
-        seg("Read 1 site", cm.READ1_SITE, "s5"),
-        seg("ext arm", cm.EXT_ARM, "r3"),
-        seg("", "G", None),                           # the Pol III +1
-        seg("sgRNA spacer", "N" * 20, "cbc", placeholder=True),
-        seg("scaffold", s[195:245], "r2"),
-        seg("Illumina P7", s[245:], "p7"),
-    ], name="CRISPR-MIP library")
+    return cm.library_construct()
 
 
 LIB = library()
@@ -360,8 +346,7 @@ def step_exo() -> str:
             for n, g, v in EXO_FATES]
     return f"""<h3>(4) Exonuclease I and III &mdash; 37&nbsp;&deg;C, 45&nbsp;min</h3>
 {panel(rows, cls="small",
-       caption="Everything with a free end is degraded. Only correctly closed circles "
-               "remain.")}
+       caption="Exonuclease I and III target unclosed probes and genomic DNA. Closed capture circles supply the inverse-PCR templates.")}
 {caveat("""<b>This is the selection, and there are four of them in series</b> &mdash; none
 of which is a size selection or a bead cleanup (the AMPure XP cleanup comes only after the
 PCR, step 5):
@@ -436,7 +421,7 @@ KAPA HiFi HotStart ReadyMix PCR</h3>
 {panel(scene_pcr_cycle2().rows(), cls="long",
        caption="Cycle 2. The P5 primer anneals to that first-strand copy, at a site that "
                "also lies inside the captured sequence, and extends to the P7 adapter's "
-               "end. From here on it is ordinary PCR.")}
+               "end. A following P7 copy supplies the complement of the newly added P5 tail; later cycles amplify the bounded duplex.")}
 {info("""Both 3' tails lie in sequence that exists only if the gap was actually filled.
 A probe that annealed but was never extended carries no primer site at all &mdash; the
 fourth and last selection step.""")}
@@ -509,7 +494,7 @@ def scene_read1() -> Scene:
 
 def scene_index1() -> Scene:
     return scene_primer("Index 1 (i7)", "Index 1 primer", "t7",
-                        f"Index 1, {cm.INDEX_LEN} cycles: the i7", 6)
+                        f"Index 1: the {cm.INDEX_LEN}-nt i7", 6)
 
 
 def scene_read2() -> Scene:
@@ -526,7 +511,7 @@ captured vector sequence.""")}
 <h3>Read 1 &mdash; {cm.READ1_CYCLES} cycles, the sgRNA</h3>
 {panel(scene_read1().rows(), cls="long")}
 
-<h3>Index 1 and Read 2 &mdash; {cm.INDEX_LEN} and {cm.READ2_CYCLES} cycles, the i7 and the UMI</h3>
+<h3>Index 1 ({cm.INDEX_LEN}-nt i7) and Read 2 ({cm.READ2_CYCLES} cycles, the UMI)</h3>
 {panel(scene_index1().rows(), cls="long",
        caption="Index 1 primes on the Read 2 site in its own sense and reads the i7 "
                "immediately 3' of it.")}
@@ -538,7 +523,6 @@ captured vector sequence.""")}
             required_roles=("Read 1", "Index 1 (i7)", "Read 2"),
             content_primers=(cm.SEQ_PRIMERS[0], cm.SEQ_PRIMERS[1], cm.SEQ_PRIMERS[4]),
             read_lengths={"Read 1": cm.READ1_CYCLES,
-                          "Index 1 (i7)": cm.INDEX_LEN,
                           "Read 2": cm.READ2_CYCLES})}
 {info("""<b>Why the UMI is the point.</b> It was attached during the capture, before any
 amplification, so two reads sharing a UMI came from the same original genomic molecule.
@@ -550,7 +534,10 @@ GC% bias of their own.""")}
 
 
 def main() -> None:
-    parts = [head("CRISPR-MIP Chemistry"), preamble(), oligos(), step_target(),
+    graph = cm.protocol_graph()
+    parts = [head("CRISPR-MIP Chemistry"), preamble(), oligos(),
+             "<h2>Reaction workflow</h2>", protocol_graph_panels(graph, cls="long", annotations=True),
+             "<h2>Molecular details</h2>", step_target(),
              step_hybridise(), step_fill(), step_exo(), step_pcr(), final(), sequencing()]
     OUT.write_text("\n".join(parts), encoding="utf-8")
     print(f"wrote {OUT}  ({OUT.stat().st_size:,} bytes)")

@@ -69,3 +69,19 @@ a computational filter, not a physical separation.
 
 🔴 Still open: exact kit guide revision, cDNA primer bases, fragmentation/adapter
 steps, chosen i7 wells, and acquired index-read cycles.
+
+## Local chemistry ownership migration — 2026-10-18
+
+Removed the queued shared endpoint recipe and its assumed eight-base sample
+index. Cell barcode, UMI and i7 roles now belong to this protocol and retain
+unassigned original-implementation lengths. Both source variants keep the
+53 °C RT and the 12/14-cycle cDNA PCR. Its geometry points to the switched-cDNA
+substrate; primer footprints remain unassigned. The subsequent standard kit
+route ends at an explicit library boundary, without adding a generic terminal
+PCR after an unreviewed kit workflow. Each branch carries the source-stated
+75/75 HiSeq acquisition. This source-qualified boundary does not assert that
+kit chemistry was unpublished. CG000086 Rev K remains a comparator.
+
+Re-read one original: bioRxiv v2 Methods lines 1381–1457; the bundle scraper was
+run and the exact primer/control distinctions checked. No new absence audit
+or source-version equivalence claim is made.

@@ -1,5 +1,22 @@
 # Fiber-seq — research notes
 
+## Active native migration, 2026-10-18
+
+The graph selects original2020 Hia5 marking of isolated nuclei:200U,10min at37°C, source0.8mMSAM in BufferA. It preserves both original genomic DNA strands with independent, unassigned methylation patterns. There is no invented poly(A)-like accessibility tract or fixed methylation mask. Protein/RNA populations and their digestion products are distinct from the marked DNA.
+
+The source order is explicit: SDS stop; RNaseA/ProteinaseK50°C1h; first phenol/chloroform extraction and upper aqueous transfer; first sodium-acetate/ethanol precipitation overnight, pellet/70%ethanol wash/resuspension; second RNaseA37°C1h; second phenol/chloroform extraction; separate chloroform/isoamyl extraction; second ethanol precipitation1h, pellet/70%wash/resuspension; AMPure repurification; Megaruptor10–15kb target. These are successive physical recoveries, not one catch-all extraction node. Digestion does not itself physically discard RNA/protein products, and individual species-specific recovery remains unassigned.
+
+Original2020 library preparation identity remains unassigned in the inspected passages. The SequelII system/version designation is not a preparation-kit identity. A bounded native PacBio preparation stage retains original modified DNA without importing the living bench protocol's SMRTbellkit3.0 repair/tailing/hairpin/nuclease recipe. The later25°C/commercial-Hia5 implementation is a distinct version, not a source discrepancy or proof of2020 execution. No arbitrary18base adapter, A/T ligation geometry, exact circular circuit, methylation copying or polymerase-entry polarity is supplied.
+
+PacBio kinetics interrogate original modified template; a sequencer's normal DNA synthesis/read reporting is not inherited methylation on a copied preparative library. System1.0/Sequel,20U and untreated/deproteinized controls are separate source experiments, outside the selected graph. The original unassigned kit/geometry is a model boundary, not an accepted publication-absence claim.
+
+This capped pass read 2 originals within the selected round and reran the mandatory bundle primer scraper. All historical review statuses and the independent two-reader missing-information gate are unchanged.
+
+## Historical observations
+
+The earlier material below retains its original scope; current source-owned declarations above replace family-selected geometry and later-version execution defaults.
+
+
 ## Sources read
 
 - 🟢 Stergachis et al. 2020, *Science* 368:1449–1454, DOI [10.1126/science.aaz1646](https://doi.org/10.1126/science.aaz1646),

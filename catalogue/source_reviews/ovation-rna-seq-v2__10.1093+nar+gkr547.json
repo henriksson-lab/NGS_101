@@ -134,6 +134,36 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/14 unresolved/0 contradictory; source guard 0 exact checked, 0 failed (all oligo inputs inferred, no printed bases); Markdown built/checked; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch03-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "scope": "Bounded native architecture/source correction; not a complete chemistry review or accepted absence claim.",
+      "verification": "Parent verified affected suite, page, scoped chemistry (0 contradictions), source guard (0 exact checked/0 failed; inferred/role inputs, not exact chemistry proof), review schema and page pairing (0 problems).",
+      "documents": 1,
+      "locations": "Published PMC3185437 JATS Introduction26, Methods56/60/64, Results108. Mandatory bundle scraper: zero hits (not absence).",
+      "findings": "Native local graph; separate RNA/cDNA/displaced-copy populations; RNA-hydrolysis products unresolved; random-hexamer duplex, Covaris/agarose/endrepair/true opposed dA, native ligation/cleanup/gel actual PCR precursor. Removed canonical shell/index acquisition assumption; positive paired2×50 retained, barcode feature unknown encoding/position. Published second-strand discrepancy retained; chosen manual gel/PCR order explicitly unresolved. Independent implementation review corrected role-width overhang geometry and primer-derived RNA strand lineage.",
+      "deferred": [
+        "V2 guide M01206; Kurn2005 and Dafforn2004",
+        "Historical NEB kit adapter/primer/index architecture and acquisition",
+        "Manual gel/PCR experimental relative order; unsheared/mixed/SOLiD branches"
+      ]
+    },
+    {
+      "round": "2026-10-18-batch03-independent-implementation-review",
+      "reviewer": "migration_peer",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current declarations and quoted source scopes; no additional originals read.",
+      "findings": "Implementation review identified dA role-width geometry, missing barcode feature and primer-derived RNA strand lineage issues; parent derived complement widths, added unknownencoding feature and corrected lineage. Actual PCR precursor reviewed.",
+      "scope": "Implementation-only independent review; not a second original-source reader or absence acceptance.",
+      "deferred": [
+        "V2 guide M01206; Kurn2005 and Dafforn2004",
+        "Historical NEB kit adapter/primer/index architecture and acquisition",
+        "Manual gel/PCR experimental relative order; unsheared/mixed/SOLiD branches"
+      ],
+      "verification": "Peer re-inspected corrected implementation, 0 additional originals. No further critical issue found in this scope; parent focused suite/page/chemistry/sourceguard/schema and pairing pass."
     }
   ]
 }

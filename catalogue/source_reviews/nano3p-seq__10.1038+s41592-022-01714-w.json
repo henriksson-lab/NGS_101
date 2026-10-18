@@ -125,6 +125,32 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 3 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch02-native-graph-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC9834059 JATS Methods241–243; published supplementary protocol MOESM1 oligo table86–125 and first Nano3P workflow235–355. Mandatory whole-bundle scraper reviewed; source oligos/modifications verified directly.",
+      "findings": "Native graph preserves modified RNA/DNA starter annealing, physical capture N, actual ss-cDNA and distinct RNA populations. RNase digestion precedes source recovery, followed by exact CompA annealing with its published cDNA-side A overhang and unavailable AMX-side ligation geometry. Source article94°C annealing/100µL ligation selected, with supplement90°C/50µL recipe kept as a distinct published condition. Final WSB recovery and historical SQK-DCS109/R9.4.1 motor boundary retained; comparator dd-cDNA and current ONT recipes are not substituted.",
+      "deferred": [
+        "Kit-specific AMX sequence/ligating-end/motor geometry and full molecular ligation proof; original historical kit guide not newly inspected."
+      ],
+      "scope": "Capped source-qualified native graph migration; not a full two-reader audit and no accepted absence claim.",
+      "verification": "4 source/actual-precursor checks pass; page/pairing pass; chemistry6 steps,2 established,6 unresolved,0 contradictory. Whole three-protocol guard initially found only the mim ddC parser mismatch, resolved by documented scoped exemption and independently checked complete modified oligo."
+    },
+    {
+      "round": "2026-10-18-batch02-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current implementation and migration notes/review scope only; original published sources not re-read.",
+      "findings": "Read current local chem module/local oligo module, migration note/review record and tests: source-blocked starter RNA remains separate until RNase, D_DNA-derived ss-cDNA retained, CompA provides only local partial-duplex/A-overhang, native AMX joining not borrowed from another kit. PCR-free sequence path and source recipe/run alternatives explicit. No concrete critical defect found; complete AMX motor/end geometry remains unassigned.",
+      "scope": "Independent implementation review referencing existing migration source scope, not an independent source-reading or absence pass.",
+      "verification": "Read-only critical review; author focused checks reported separately.",
+      "deferred": [
+        "Original-source and linked-material rereading not part of this implementation-only review; prior migration source scope and deferred targets remain."
+      ]
     }
   ]
 }

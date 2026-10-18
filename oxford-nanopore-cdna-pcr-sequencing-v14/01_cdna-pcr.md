@@ -75,3 +75,26 @@ uracils, phosphorylation); the rapid-attachment chemistry carried by the cPRM 5�
 the complete motor-bearing Rapid Adapter assembly and which or how many ends are
 adapted. Still to inspect: an ONT component-level source for RA/cPRM attachment, and the
 pre-March-2026 SQK-PCS114 revisions if a dataset used them. No absence claim is accepted.
+
+## Native graph scope, 2026-10-18
+
+Native graph migration (2026-10-18): the incoming RT mixture is explicit RNA,
+CRTA, inferred first-strand cDNA and SSPII populations. SSPII terminal mGmGmG
+means three physical 2′O-methyl RNA guanosines; copied DNA is a separate molecular
+class. Native CRTA ligation/hybrid and second-strand geometry remain unassigned.
+The exact cPRM landing calculation is a derived duplex reference, never the graph's
+incoming PCR substrate. Each of four 5 µl aliquots has its own PCR and ExoI reaction;
+the 2.5 µl unallocated RT remainder and original-template recovery are unresolved.
+ExoI hydrolysates remain reaction constituents until physical cleanup; digestion
+alone is not a discard. The 204 µl pool is recovered, then 50 fmol is sampled for RA;
+excess amplified cDNA may be frozen as the source specifies. The graph draws the
+Rapid Adapter/motor as an associated component without a covalent DNA placement or
+assigned 5′/3′ strand-entry polarity. March workflow and July sequence reference
+retain their distinct revision identities; complete historical reagent equivalence
+is not established. This supersedes the earlier pore-entry strand assembly.
+
+Independent implementation review corrected SSPII identifier encoding to the
+known degenerate T/V synthesis pattern and retained free-primer/ExoI hydrolysate
+classes through the post-digestion recovery boundary.
+This code review read no additional originals and does not count as an independent
+second source-reading pass.

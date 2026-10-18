@@ -98,6 +98,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite passes (workflow construction, 0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/19 unresolved/0 contradictory with meta_amplify_library MAGIC warning; source guard 0 checked, 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch10-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC11166570 Methods181–213; directly cited author protocol10.21203/rs.3.pex-2423/v1 originalPDF120–246; original attached LiMCAOligos workbook3b3ac9309196696067b340eb.xlsx, META20/META40/MErows1–64, UDPexamples65onward and Smartseq2 oligos. Attachment manifest identity checked; workbookMD5 31b5de54798ff75a5f17f0c022b4bd86.",
+      "oligo_scraper": "Mandatory defining/source bundle scraper run; actual source passages verified. iMARGI linked detailed-protocol bundle scraper also run; pointer output is not evidence.",
+      "findings": "Native source-owned compartment graphs replace endpoint/branch recipes. Physical5µl cytoplasmic supernatant and2µl pellet are explicit without assigning purity. RNA firstSS and switchedSS are actual ISPCR substrates; native TD502 input and initial extension feed source9-cycle UDP PCR. Nuclear NlaIII3′CATG/contact DNA feeds actual META20/native tagging, protease,13-cycle PCR,ExoI,META40 two cycles,ExoI,DM two cycles and source recoveries. META technical family is not promoted to UMI/cell barcode. Printed META20/ME pair has13bp overlap and6nt companion overhang; no missing bases silently added. Primary72°C preheat/0.6×+0.2× selection versus v1 70°C/0.55×+0.25× are displayed as version differences.",
+      "deferred": [
+        "Complete native META20 loaded-transposase insertion/first-cycle geometry and DM5xx/DM7xx fullstrands/member/width remain unassigned.",
+        "RNA UDP example physical10nt does not assign nuclear DMwidth or acquired cycles.",
+        "Primary/article versus directly cited protocol ordinary version differences remain explicit; no complete revision equivalence claimed."
+      ],
+      "scope": "Capped source-qualified implementation migration only; historical statuses/absence gate preserved. No accepted missing-information claim.",
+      "verification": "7 original-workbook transcription checks;34graphsteps;43unresolved/0contradictory; page/pairing/schema pass."
+    },
+    {
+      "round": "2026-10-18-batch10-independent-implementation-review",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "limca__10.1038+s41592-024-02239-0/tools/chem.py, build_page.py, selftest.py; released native ProtocolGraph, source-boundary/caveat and paired state declarations only. No original-source rereading.",
+      "findings": "Critical code-only review of physical5µlcytoplasm/2µlnuclearpellet allocation, compartmentcarryover, actualssRT→switchedSS→ISPCR and tagged/extended nativeRNA-PCR inputs, NlaIII3′CATG opposedends/contactjunction,13bpMETAtransfer/19bpcompanion partialduplex, actualMETA→META20→META40→nativeDMindexPCR inputs, nativeindexwidth/acquisition and independentresidualoriginal/copy/oligo lineages throughrecoveries. No concretecriticalmoleculardefect found within stated implementation scope. Stale workflow() test wrapper was reported and replaced by ownerwith7optional originalworkbook transcriptions.",
+      "deferred": [
+        "Existing original-source deferrals, nativegeometry/member/acquisition limits and historicalmissinginformation gate unchanged; this documents0 implementation review is not an independent second source reading."
+      ],
+      "scope": "Independent critical implementation-only review. No new original documents, source expansion, absence acceptance or historical reviewstatus upgrade. Owner made corrections; reviewer made no chemistrycode edits.",
+      "verification": "7 optional original-transcription checks pass;34steps;4established43unresolved0contradictory. All3pages build; pairing0; combinedchemistry7established94unresolved0contradictory. Review schema/whitespace checked after recordwrite."
     }
   ]
 }

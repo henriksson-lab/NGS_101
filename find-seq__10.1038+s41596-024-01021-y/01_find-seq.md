@@ -1,5 +1,20 @@
 # FIND-seq — research notes
 
+## Active native migration, 2026-10-18
+
+Selected demonstrated Smart-seq3 scFIND route. Native 5′acrydite-T6-ACGAGCATCAGCAGCATACGA-T30V is matrix linked; the 5′biotin-AGAGACAGATTGCGCAATG-N8-rGrGrG TSO is a separate physical oligo. Source forward primer ends A*T*G (two phosphorothioate bonds); reverse source typography “…AC*G*−3′” is retained rather than used to infer an unprinted bond. Copied TSO DNA retains UMI identity while shedding the original RNA/biotin chemical annotations.
+
+Actual RNA and genomic DNA are independent populations. Matrix-bound ss cDNA is distinct from free WTA daughters. Source cold wash1, two wash2, two RT-buffer washes, EDTA stop and three Tween washes precede detection-PCR sorting. Diagnostic hydrolysis probes and marker PCR products are not sequencing barcodes or library arms. One sorted droplet is a single-cell allocation; bulk bins, validation aliquots and cycle-calibration reactions are separate experiments. Freeze/thaw/60°C aqueous recovery does not cleave the acrydite linkage. Actual recovered matrix-associated ss cDNA enters WTA, followed by source0.8X AMPure and20µl elution. Original/matrix/RNA/marker populations have unresolved species-specific bead recovery.
+
+Step102 delegates to Nextera XT manufacturer instructions. The exact native guide revision, ATM inventory, run and cleanup/PCR internals are not established by this capped pass; a bounded commercial stage represents that genuine source boundary. A canonical final duplex or acquired index recipe is not substituted. Smart2 alternatives and source enrichment-marker optimization remain outside the selected graph.
+
+This bounded pass read 3 originals and reran the mandatory bundle primer scraper. Original/source identity was checked in the external manifest. Historical review status and the two-reader missing-information gate are unchanged.
+
+## Historical observations
+
+The earlier observations below retain their original review scope; current source-owned declarations above replace earlier canonical endpoint and recipe defaults.
+
+
 Primary protocol: Shin *et al.*, *Nature Protocols* (2024), [10.1038/s41596-024-01021-y](https://doi.org/10.1038/s41596-024-01021-y) ([open author manuscript](https://pmc.ncbi.nlm.nih.gov/articles/PMC11537836/)). Defining study: Clark *et al.*, *Nature* (2023), [10.1038/s41586-022-05613-0](https://doi.org/10.1038/s41586-022-05613-0).
 
 ## 1. What it is

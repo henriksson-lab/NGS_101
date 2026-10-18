@@ -1,5 +1,18 @@
 # CEL-seq and CEL-seq2: barcoded 3' RNA-seq by T7 linear amplification
 
+## Active native migration, 2026-10-18
+
+Source scope: Published CellReports original+S1 j.celrep.2012.08.003_mmc5.pdf.txt Results75–100 and ExperimentalProcedures450–493; original detailed CEL-Seq Protocol2012-07-16 j.celrep.2012.08.003_mmc4.pdf.txt primer design38–85, amplification93–214, fragmentation216–248, library259–429.
+
+The2012 original protocol now owns its15step graph in tools/native.py. Per-cell ArrayScript RT and DNApolymerase/RNaseH second-strand synthesis precede pooling and Ambion cDNA-column recovery. The physical paired T7 promoter is drawn before13h IVT. New antisense RNA includes transcribed GGG and uses U; DNAprimer/T7template still use T. ERCC and original endogenous RNA are independent populations. IVT does not consume promoter DNA; no uninspected DNase step is invented. RNA fragmentation, Ambion recovery, phosphatase, PNK, RNeasy recovery, native RA3 ligation/stop, RTP/SuperScriptII RT, RP1/RPIX PCR and two final AMPure recoveries remain explicit. Native RP1/RPIX sequence/index extent and RA3/RTP/end geometry are open assignments. Actual RTP-derived ssDNA feeds PCR, with possible original RNA/DNA, RT copies and nonamplifying fragments retained as unresolved co-carried populations. HiSeq2000 Read1≥15,Read2=50 and conditional library-index acquisition are distinct from the physical barcode8/T24V primer. No UMI is invented.
+
+This capped pass establishes no confirmed absence or complete chemistry review. Historical observations and audits below retain their original scope. Current source-owned declarations replace the earlier shared endpoint and IVT recipes; molecular hydrolysis, nonamplification and computational filtering are distinct from physical discard.
+
+Deferred: Actual2012TruSeqSmallRNA revision and ordered RA3/RTP/RP1/RPIX strands/modifications/end geometry; Selected RPIX member/index extent and conditional acquisition; Exact molecular partition/integrity of original RNA, promoter templates and other fragments through columns/SPRI.
+
+Mandatory scraper: 38hits3files; published mmc4 primer1 and full design verified; no outside-original sequence substitution.
+
+
 > **Evidence marking.** 🟢 verbatim from a primary source (paper, supplement, detailed
 > protocol) · 🟡 derived, inferred, or only in a secondary source (the upstream
 > scg_lib_structs page) · 🔴 not published / not available to us. Relationships marked

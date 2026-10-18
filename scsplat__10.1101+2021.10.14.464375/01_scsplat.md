@@ -31,7 +31,7 @@ named for the superseded bioRxiv preprint
 - 🟡 ss1a's 20-nt arm pairs with ss1b over its full length (checked by `Scene`), leaving the
   3′ N6 as the splint that captures the single-stranded 3′ end beside the ss1b 5′ phosphate.
 - 🔴 The NEBNext primer bases (P5, i5, first seven Read 1 bases, Read 2 remainder, i7, P7) are
-  drawn as inferred standard arms; the paper does not print them.
+  not assigned as native components in this capped reconstruction; no completed canonical shell or default index width is substituted.
 
 ## Step by step (Methods, JATS line 131)
 
@@ -53,10 +53,9 @@ bulk ligation unresolved rather than claiming physical removal.
 
 ## Final library and reads
 
-P5–i5–Read 1 arm–SSO tail–cell barcode (6)–H8 random-primer copy–converted insert–ss1b–Read 2
-arm–i7–P7. 🟢 Read 1 begins with the six-base cell barcode (demultiplexed with je). 🟢 Analysis
+Native outer-primer boundary–SSO tail–cell barcode (6)–H8 random-primer copy–copied insert–ss1b–opposite native boundary. 🟢 Read 1 begins with the six-base cell barcode (demultiplexed with je). 🟢 Analysis
 clips 15 bases from the 5′ and 10 from the 3′ end of reads (computational, not a separation).
-🟡 Index-read cycles are not stated; the model treats both index reads as pool demultiplexing.
+🟡 Index-read cycles are not stated; native acquisition remains unassigned, separately from physical pool indexing.
 
 ## Published discrepancy
 
@@ -68,3 +67,26 @@ the 2017 SPLAT paper is checked. The discrepancy is shown on the schematic page.
 ## Protocol boundary
 
 The page retains the cell-first barcode/pool/splint order that distinguishes scSPLAT from PBAT and snmC-seq2.
+
+
+## Native graph migration (2026-10-18, batch06)
+
+Two originals were reread: defining published JATS Methods131–135 and published
+MOESM1 TableS1 opening rows11–65 and closing rows120–149; middle family rows were not separately reread. The mandatory scraper returned five representative
+hits, including the32-member SSO family and blocked ss1a/ss1b. Preprint material
+was excluded; no absence follows from extraction counts.
+
+The graph and endpoint declarations are protocol-owned. Actual SPLAT-ligated ssDNA
+enters index PCR, retaining the source5′AmMC6 and ss1b3′AmMo chemistry in intermediate
+states. The ss1a3′random splint also retains its source3′AmMo block; a splint is not
+a ligating hydroxyl. Physical bisulfite U originals remain distinct from Klenow
+copies. Exonuclease hydrolysis is not physical discard; original converted-strand
+ligation/recovery and off-target amplification remain unresolved. Native NEBNext
+outer ends, selected members/index widths, complete PCR geometry and sequencing
+primer sites are explicit roles. Source PE150 and six-base inline Read1 barcode
+remain positive facts; computational clipping is not a physical selection.
+
+Deferred originals: cited2017SPLAT, linked low-volume conversion protocol and
+applicable Zymo/NEBNext documents. Historical missing-information status unchanged.
+
+The two source post-PCR0.8×SPRI recoveries are separate successive graph steps. Native blocked ss-template/off-target classes are unresolved PCR outputs; copying does not erase them or prove their later removal.

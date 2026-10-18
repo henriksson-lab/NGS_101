@@ -88,3 +88,26 @@ geometry is declared unavailable rather than computed.
   settle the stagger-label and "5 mM" questions.
 - GSE200457 raw reads could support an inference of the invariant amplicon flanks,
   but cannot establish ordered oligo identity.
+
+## Local chemistry ownership migration — 2026-10-18
+
+The protocol now owns its endpoint and identifier declarations. The guide is
+the recovered biological sgRNA insert; no synthetic guide-barcode feature is
+added. Only the source P7 N8 region is a sample index. The variable phasing
+stagger remains non-identifying. The PCR geometry boundary now refers to the
+actual recovered gDNA substrate, not the output library. Its linked vector map
+is still an uninspected source target. Both sorted response fractions and
+physical extraction/AMPure fractions are retained; unpaired droplets are not
+physically discarded merely by the partitioning step.
+
+Re-reading the PCR table exposed another unit ambiguity now shown on the
+public page: ExTaq is printed as 5 U/mL stock, 75 mU under “Final concentration”
+and 1.5 µL in 100 µL. The stock/volume would provide 7.5 mU total, while bare mU
+does not specify a concentration. The previous model's 75 mU total per100 µL
+is therefore unsupported. The model retains enzyme identity and cycling while
+leaving the intended dose/stock unresolved, without repairing the original.
+Prior printed-stagger and P7-stock discrepancy notices remain.
+
+Re-read one original: PMC11805652 Oligonucleotides lines 151–175 and PCR/cleanup
+lines 647–687. The bundle scraper was run and source sequences checked. This
+ownership migration does not establish publication-wide sequence absence.

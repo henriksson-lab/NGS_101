@@ -40,3 +40,11 @@ Specified T4PNK37°C20min and AlkB37°C30min, plus 11–22 library PCR cycles. K
 Deferred: Original preceding RNA-size-selection/order and Fig1 workflow, manual-version adapter assignments, interposed RT-primer annealing, cleanup states and sample-specific run choice. This pass does not establish a complete source review or publication-wide absence.
 
 Vendor manual now resides in this protocol source bundle; adapter-source guard passes. Public caveat distinguishes later manual from unverified historical kit revision.
+
+## Native graph migration (2026-10-18, batch03)
+
+Inspected: Published PMC8236090 JATS Introduction/Results154–168 (modifications and preselection); Methods RNA isolation/size selection around297–307, AlkB/PNK and separate adapter-validation assay309–319, and Library preparation329–331. Whole-bundle scraper completed: one23MB workbook skipped by ordinary size cap, no negative conclusion drawn; assay/2025-manual hits were not promoted into historical library chemistry.
+
+Native graph selects PNK-first/AlkB-second, with initial15–50nt selection, explicit TRIzol recovery after each pretreatment and source library-stage15–45nt reselection. Source RT-primer annealing occurs between3′ and5′adapter additions.2025 E7330 ordering oligos remain clearly labeled comparator inventory only; no2025 adapter bases/modifications, example index member or fixed6nt index width enters actual2021 molecular states. Takara validation-assay chemistry remains separate. Historical adapter-ligated RNA/primer populations have separate strands; actual ss first-strand target feeds11–22cycle PCR, with RNA-template fate molecular/unresolved rather than invented removal. Source postPCRPAGE and SE50/general versus SE75/sperm alternatives are explicit.
+
+Deferred: Historical2021 E7330S revision-specific oligos/end modifications and native binding/copying/ligation geometry; selected sample index members/widths/acquisition; exact finalPAGE window and sample-specific run assignment remain unassigned. Later vendor comparator was not newly read or accepted as revision-equivalent. This capped pass does not establish complete molecular proof or publication-wide absence.

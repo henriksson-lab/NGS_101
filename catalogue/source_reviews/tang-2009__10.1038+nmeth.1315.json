@@ -235,6 +235,36 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "local suite and page pass; pairing pass; review schema pass; chemistry no contradictions; source guard 10 checked, 0 unrepresented"
+    },
+    {
+      "round": "2026-10-18-batch10-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Original defining published paper: https://gene-quantification.eu/tang-et-al-solid-nature-methods-2009.pdf, DOI10.1038/nmeth.1315, Online Methods Single-cell cDNA preparation / mRNA-Seq library preparation lines950–986; original Springer MOESM297 supplementary PDF identity/contents and Table1–9 pointers; original Springer MOESM306_ESM.xls SupplementaryTable9, all ten oligo rows and both footnotes.",
+      "oligo_scraper": "Tang bundle mandatory scraper281hits7files; source-pointer hits verified against defining Methods and Table9, excluding upstream rendered page.",
+      "findings": "Native UP1/UP2/amine declarations replace tang_cdna. Variable TdT tail; actual UP2-extended input to20cycle PCR; purification before and after9cycle NH2-C6-primer PCR; primer-derived amines distinct from unmodified originals; both source adapter strands/distal3TT vs fragment-facing blunt ends; native ligated strands feed finalPCR; explicit residualRNA/lysate/primer/original/blockedfragment classes through recoveries. Source operation order and2009 fragment/gel/cycle values retained; emulsionPCR/instrument chemistry explicitly bounded.",
+      "deferred": [
+        "Cited Kurimoto2007 original protocol for precise native front-end enzyme/conditions; not reread this capped pass",
+        "SOLiD2.0 lower-input20ng–2µg guide PN4415121RevA December2008 (cms_059673.pdf) for detailed end-repair/ligation/nick/fill/recovery/emulsion implementation; not read",
+        "Tang2010 original detailed companion and its multiplexed branch remain historical context, not newly inherited2009 chemistry",
+        "Class-specific recoveries, exact variable tail/primer landing and loaded SOLiD sequencing oligo remain open values; no invented absent disclosure document"
+      ],
+      "scope": "Capped source pass (maximum3originals/10minutes); investigation frozen before implementation. Native source-qualified implementation, not full protocolreview, acceptedabsence, independent secondsourcepass or reviewstatusupgrade. Historical statuses/passes unchanged.",
+      "verification": "Affected original-transcription suites11/8/10 pass; all3pages build; scopedchemistry10established15conditional64unresolved0contradictory; sourceguard17checked0failed1bundle skipped (Quartz2 originals remain explicitly in Quartz1externalcollection); pairing0; literalOUTstaticdiscovery3pass. Schema/notes/whitespace checked after recordwrite."
+    },
+    {
+      "round": "2026-10-18-migration-10-peer",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Critical implementation-only review of local protocol module, native_state constructors, protocol_graph reactions, PCR/ligation geometry and source-qualified notes; no original sources reread.",
+      "findings": "Caught and corrected native ligated P2 strand orientation and premature PCR-truncated distalTT endpoint. Full P1TOP/insert/P2TOP and P2BOTTOM/opposite/P1BOTTOM stay in the native precursor; amplified endpoint remains separate. Amine-blocked terminal fragments and original/unreacted classes retain their own lineage.",
+      "deferred": [
+        "Source-qualified native gaps and first-cycle completion remain unresolved; code review supplies no independent original-source absence pass."
+      ],
+      "scope": "Independent critical code review only; documents0. Existing source-checklist and missing-claim status unchanged.",
+      "verification": "Parent focused suites/pages/chemistry/source guard/review schemas pass after fixes; rebuilt page pairing checked in final batch integration."
     }
   ]
 }

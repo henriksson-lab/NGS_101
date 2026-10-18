@@ -169,6 +169,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 2 established/0 conditional/19 unresolved/0 contradictory; source guard 9 exact checked (RNA linker arm, guard oligo, RT adapter, ES-1 RT primer, Cut_oligo, DP5, DP3, PE1.0, PE2.0), 0 failed, 0 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch02-independent-review",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC4931010 JATS ncomms12023_PMC4931010.xml.txt lines 166–261 (RT adapter, RT, hybrid capture/release, circularization, relinearization, PCR/DSN routes and oligo list); published supplementary PDF ncomms12023_supp_ncomms12023-s1.pdf.txt Supplementary Figure 1 legend, lines 1–17. No independent rendered-figure inspection.",
+      "findings": "Independent critical implementation review found two correctable continuity errors, reported to the parent for correction: DP5/DP3 pre-amplification retained the full BamHI-derived RT_ARM5 terminal G rather than ending at revcomp(DP5), and the RNA row of hybrid_state omitted the terminal ddC explicitly present in its RT-adapter reagent. Final PE-primer-derived library order was consistent. The selected ES-1 DSN route, actual ss relinearized first PCR template, actual post-DSN second PCR template, unresolved RNase H/DSN product partition, source-positive unplaced Read 2, and source discrepancies were preserved. No absence claim was accepted.",
+      "deferred": [
+        "Parent correction and verification of the reported terminal-G and hybrid ddC issues.",
+        "Other supplementary figures and exact Read 2 primer geometry were not investigated in this independent pass."
+      ],
+      "verification": "Read-only source and implementation review of chem.py and mario_chem.py; no code edits or independent build/check reruns in this pass. The two implementation findings were reported as correctable, not accepted source absences.",
+      "oligo_scraper": "Mandatory local source-bundle scraper run; relevant original passages checked directly. Scraper output was used only as a pointer.",
+      "scope": "Independent bounded source and critical graph review; not a comprehensive protocol review or missing-information acceptance."
+    },
+    {
+      "documents": 2,
+      "locations": "Published PMC4931010 JATS Methods116–261, all custom oligos211–261, ES-1 DSN section199–209; published supplement PDF Figure1 legend1–17. No linked iCLIP, exonuclease, vendor or software originals newly read.",
+      "oligo_scraper": "Mandatory bundle scraper24 hits in2files; original JATS modified oligo list inspected directly;11 whole modified-source transcription checks added. Source guard verifies full linker/adapter/primer inputs.",
+      "findings": "Removed protocol_specs assembly, fixed arbitrary biological fragment widths, separate protein-associated RNA partners and RNA/cDNA hybrid strands. Whole biotin RNA linker and terminal ddC retained. Actual ss first PCR and source ES-1 post-DSN second PCR substrates replace manufactured exact duplexes; ES-1 preamp titrated80–100ng without the alternative six-cycle/150–350gel route. Source DSN and final250–550selection explicit, molecular hydrolysates unresolved. Conditional circle-order relation preserves same source cDNA parts/features, without claiming end chemistry or whole-route proof. Source-positive paired readout includes unplacedRead2 and unknown lengths. Independent correction removes extra BamHIG from DP5-derived preamp arm and retains ddC on RNA template. Both published barcode and PNK discrepancies retained; manual reviewed targets. Proteinase-derived peptides likewise remain a molecular unresolved class, separate from physically removed beads/extraction fractions.",
+      "deferred": [
+        "Linked iCLIP/exonuclease-protection/vendor/software originals and other sample branches",
+        "Actual3primephosphatase identity and ES-1 five-versus-six random-base source discrepancy",
+        "Exact read lengths, Read2 primer, native PCR/BamHI/recovery proof"
+      ],
+      "round": "2026-10-18-batch02-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "scope": "Capped source-qualified ownership/native graph migration only. Independent implementation corrections incorporated; no complete reaction validation or accepted missing-information claim.",
+      "verification": "Parent:11modified-source checks, page, scoped chemistry, source guard and review schema pass; conditional circle-order claim only, no whole-route proof."
     }
   ]
 }

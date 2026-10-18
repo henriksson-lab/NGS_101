@@ -82,6 +82,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 1 established/1 conditional/12 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 11 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "CG000734 Rev A Step4.2 p74 (extracted lines4360–4425), sequencing p98 (lines5910–6000), Appendix pp111–112 (lines6520–6560); CG000331 Rev E Appendix p72 cDNA Primers PN-2000089 (lines6814–6838) in predecessor source bundle. Independent migration review additionally read CG000734 Rev A pp17–18 (lines1040–1106) and Appendix p111 gel-bead sequence (lines6520–6544); rechecked CG000331 Rev E p72 printed PN-2000089 primers (lines6814–6838).",
+      "findings": "Removed shared Chromium partition/PCR recipes. Local graph declares all four PCR operations and consumes the primers from source-qualified exact/regional geometries; regional reverse pools retain unknown transcript coordinates and inferred index primers stay inferred. Empty/multiplet GEM outcomes remain unresolved after pooling. Physical PN-2001109 adapter end geometry is now explicitly unavailable; the predecessor PN-2000094 drawing remains an inferred hypothesis only. Preserved all graph steps and 28/10/10/90 read plan. The scoped VDJChemistry predecessor constructor remains with its existing component/version justification; no whole shared route is inherited. Independent correction: RT and template-switch products no longer reuse the same already amplified/barcoded duplex. They are distinct single strands: unbarcoded Primer B-derived first strand, then a known-bead-sequence copy with preserved identifier features. Primer B bases remain unassigned. Early cDNA PCR uses that actual switched strand and unavailable geometry rather than proving a reverse site by inserting its expected output. Exact printed PN-2000089 primer inputs remain, including the source-verified 22-base reverse primer. Public amplification panel uses the same incoming strand.",
+      "deferred": [
+        "Poly-dT RT Primer B exact sequence and physical PN-2001109 adapter architecture remain unresolved",
+        "Dual Index TT primer original and transcript-specific V(D)J reverse-primer coordinates not inspected",
+        "Unrepresented Silane/SPRI cleanup/cDNA split and exact Primer B-derived cDNA-PCR binding end remain coverage work; this migration does not establish complete reaction validation"
+      ],
+      "scope": "Guide-specific ownership migration and scoped source verification; not a complete chemistry review or a two-reader absence audit.",
+      "oligo_scraper": "Ran the full local source-bundle oligo scraper; precursor PN-2000089 also checked in its separate predecessor bundle.",
+      "verification": "After independent correction: local suite2/2 direct PN-2000089 original-source transcription checks; page build; chemistry0 established/2 conditional/13 unresolved/0 contradictory; source guard4 checked0 failed1 cross-bundle exemption backed by dedicated source check,3 unrepresented; pairing0 problems. Unavailable PCR geometry renders the supplied single-strand Scene; shared rendering regression checked by integrating parent."
+    },
+    {
+      "round": "2026-10-18-population-display-correction",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only molecular representation correction; original migration source scope retained. No new scientific choices or absence conclusions.",
+      "locations": "Local protocol molecular states; original migration source locations remain recorded in the preceding bounded check.",
+      "findings": "Representative receptor-transcript and other poly(A)-RNA populations occupy separate Scene rows in cells and occupied GEMs. No transcript-to-transcript covalent junction is implied; cDNA/primer segment ordering remains intact.",
+      "deferred": [
+        "Original migration evidence limits and deferred targets remain unchanged."
+      ],
+      "verification": "Local suite and page build pass; scoped chemistry total across four protocols:1established5conditional44unresolved0contradictory (limited coverage). Source guard8exact strands checked0failed,1existing cross-bundle exemption,11inputs without exact states. Pairing0problems. Source-review schema and focused note builds pass. Independent population rows checked directly; legacy DISCOVER workflow also constructs successfully."
     }
   ]
 }

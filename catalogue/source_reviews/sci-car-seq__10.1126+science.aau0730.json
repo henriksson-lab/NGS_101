@@ -228,6 +228,37 @@
       ],
       "verification": "Applicable protocol suite, page build, source guard and scoped chemistry passed (zero contradictions); review schema passed. Shared 1275 and source fetcher 226 checks pass. Whole-site verification is recorded in HANDOVER-REVIEW.md.",
       "documents": 0
+    },
+    {
+      "round": "2026-10-18-batch05-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "scope": "Capped source-owned native graph migration; defining published sources first, maximum3originals/10minutes of investigation. No absence acceptance or review-status upgrade.",
+      "oligo_scraper": "Full cached source-bundle scrape run; relevant exact oligo/modification hits verified against the named original passages. Large analysis/data tables skipped by scraper are not absence evidence.",
+      "verification": "Affected protocol suites3/13/6 pass; all3page builds pass; combined sourceguard21checked/0failed/7unassigned/0exempted; pairing0; chemistry0contradictions (19conditional68unresolved combined). Scoped whitespace check passes. Review schema and note builds run after this record.",
+      "documents": 3,
+      "locations": "Published Cao2018 Supplementary Materials science.aau0730_supp_NIHMS1033869-supplement-1.pdf.txt, Sample processing for cultured cells pp16–18/text62–255; defining PMC6571013 Fig1 legend/text471–475; cited Amini2014 Table4 original corrected publisher workbook41588_2014_BFng3119_MOESM2_ESM.xlsx.txt Correction Notice/text1–6 and indexed-transposon rows9–28. Fixed kidney/control variants not reread as chemistry authorities in this pass.",
+      "findings": "Removed batch_ngs/multimodal_spatial/protocol_model construction/default imports and source-owned the native graph. Independent cDNA/RNA/ATAC populations retain RT features through second strand and both mixed physical aliquots. Separate source DNA-binding/AMPure cleanup precedes6+6µL split; nominal0.5µL remainder explicit unresolved. RNA-only i7TDE1/SDS+BSA+P7/Tween operation is distinct from source ATAC co-assay PCR; actual native mixed state supplies PCR geometry, not expected product. Source18/10/10/52 RNA and51/51 ATAC recipes retained. Physical PCR index widths unassigned rather than inferred10nt from index cycles. Amini interior/custom-primer applicability remains conditional, corrected predecessor notice retained. Physical cleanup/ATAC gel selection distinct from non-amplification and unresolved co-carried polymer fates.",
+      "deferred": [
+        "Exact sci-CAR indexed transposome member identity/native end and gap geometry; Amini architecture remains inferred",
+        "Cusanovich2018 custom ATAC primer/recipe applicability and index cycle counts",
+        "Physical PCR i5/i7 widths and plate barcode members",
+        "Native RNA/off-target recovery through cleanup and PCR",
+        "PFA-fixed kidney and single-modality control native graphs"
+      ]
+    },
+    {
+      "round": "2026-10-18-batch05-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current protocol-owned graph/module, structured oligos, intermediate populations, actual PCR inputs, fates and read declarations; owner supplied capped source scope. No original reread in this pass.",
+      "findings": "Independent chromatin/RNA/cDNA species, actual ss first copy, actual tagged mixed aliquots, RNA-specific SDS/BSA/P7 treatment and actual-input PCR are explicit. Both aliquots remain mixed; non-library classes/hydrolysates/computational collisions are not fabricated physical discards. Native physical PCR-index lengths remain roles despite source10-cycle index acquisition. Inferred Amini transposon interiors and ATAC custom primer geometry remain qualified; corrected predecessor table notice preserved. Source-known cleanups/gel selection explicit, acquired RNA18/52 and ATAC51/51 distinct.",
+      "deferred": [
+        "Native source boundaries and linked originals recorded in owner bounded source pass; residual class recovery and conditional molecular geometry remain scoped follow-ups."
+      ],
+      "scope": "Independent critical implementation review only; no new source claim, source-status upgrade or missing-information acceptance.",
+      "verification": "Owner focused checks passed; final parent checks and site build follow."
     }
   ],
   "conclusion_update": "2026-10-17 (deferred-followup-03): the defining supplementary Materials and Methods and the supplementary workbook are now on disk and read once (rows cao2018_methods, cao2018_table). Reaction order, conditions, printed primers and the RNA read recipe come from the SM; the workbook is not an oligo table. Status in_progress: rows need an independent second reader, and ref 29 (Cusanovich 2018) is a newly linked unread source for the ATAC sequencing primers."

@@ -22,7 +22,7 @@ SQK-LSK114,” **GDE_9161_v114_revAC_24Sep2025**.
 
 🟢 NEBNext FFPE DNA Repair v2 and Ultra II End Prep act at 20 °C for 5 min and 65 °C
 for 5 min. The chemistry document states that repair/end prep produces uniform 5′
-phosphates and single 3′ dA overhangs. `repair_and_dA_tail()` records these as properties
+phosphates and single 3′ dA overhangs. The local explicit `EndPreparedDuplex` declaration records these as properties
 of both insert ends.
 
 🟢 Input is 1 µg (or 100–200 fmol) DNA in 47 µl, with optional DNA Control Sample
@@ -70,3 +70,24 @@ not a version-specific molecular inventory for SQK-LSK114. The page therefore sh
 a named unresolved leader/motor feature and does not invent bases or a covalent
 tether segment. An independent source check of that explanation and its links remains
 open before any absence claim can be accepted.
+
+## Native graph scope, 2026-10-18
+
+Native graph migration (2026-10-18): source-qualified LA strands and the selected
+no-DCS genomic-DNA route are owned locally. Explicit prepared ends and paired
+adapter strands feed the ligation geometry; the terminal T is represented once.
+The 61 µl eluate is split into a 1 µl Qubit aliquot and 60 µl ligation input;
+measurement-aliquot fate is unresolved. The disclosed adapter DNA and sealed
+junctions are separate from the associated, unplaced motor/leader component.
+No protein or speculative leader is appended as a covalent DNA segment. The
+September 2025 workflow and July 2026 oligo reference retain distinct identities;
+they do not establish full historical reagent equivalence. Optional DCS is outside
+this selected no-control route. Source-known operation order and both physical
+cleanups remain explicit. This is a native graph migration within the stated source
+scope, not complete leader/motor validation or an accepted absence audit.
+
+Independent implementation review retained unligated/partly adapted molecular
+classes and unresolved later bead recovery; ligation does not establish complete
+adaptation or physical purity.
+This code review read no additional originals and does not count as an independent
+second source-reading pass.

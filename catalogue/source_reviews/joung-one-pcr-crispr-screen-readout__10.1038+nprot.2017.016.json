@@ -84,6 +84,21 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "suite 1 check passes; page builds; pairing 0 problems; chemistry 0 established/0 conditional/3 unresolved/0 contradictory; source guard 2 exact checked (NGS-Lib-Fwd-1, NGS-Lib-KO-Rev-1), 0 failed, 0 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch11-native-graph-partial",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC5526071 Table3 2160–2214, Steps32–37 856–906 and58–64 1120–1160; deposited52961 map invariant U6/scaffold comparison andfeaturepositions.",
+      "oligo_scraper": "Mandatory originalbundle scraper run andsource Table3/Table1 oligos verified in the sections listed. No additional originals after sourcepass frozen.",
+      "findings": "Partial native graph/declarations written. Independent code-only review task stopped by content filter; no migration-completion claim.",
+      "deferred": [
+        "Independent critical code review stopped by contentfilter; no retry performed.",
+        "Source-qualified control/variant/assignment questions remain open."
+      ],
+      "scope": "Partial native implementation, not a completed ownership migration or accepted absence claim.",
+      "verification": "Preliminary page construction only. Finalfocused verification andsource-suite migration not complete."
     }
   ]
 }

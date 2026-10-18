@@ -282,6 +282,35 @@
       ],
       "scope": "Capped vendor-manual pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 5 checks pass; page builds; pairing 0 problems; chemistry 0 established/6 conditional/13 unresolved/0 contradictory with attach_ab MAGIC warning; source guard 0 exact checked, 0 failed, 1 input without exact state; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "tenx_multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "scope": "Protocol ownership/native graph and bounded original-guide inspection only; source-limited primer geometries remain unresolved.",
+      "locations": "10x CG000674 RevC original §3.1 recovery lines3640–3680, §3.2 eight-cycle preamp PN-2000953 lines3697–3810, §3.3 SPRI1.8× lines3816–3898, §4.1 TS/§5.1 TN sample-index PCR, §4.2/§5.2 SPRI1.0×, sequencing28/10/10/90 lines4920–4951 and Appendix p85; CG000621 RevD Table7 around1124–1146 custom25bp LHS/RHS architecture; CG000529 RevC p4 around480–494 TotalSeq-C capture oligo.",
+      "findings": "Replaced shared PCR-finishing recipe with a local native graph of mixed-population GEM recovery, eight-cycle shared Pre-AmpPrimersC PN-2000953 PCR,1.8×SPRI cleanup, distinct20µl gene/protein aliquots, TS gene-expression versus TN protein-expression sample-index PCR and two separate1.0×SPRI cleanups. The unused reporter aliquots have unresolved fates; physically removed oil/SPRI supernatants are explicit discards. Two binding roles of the one unassigned Pre-AmpPrimersC pool are explicitly role placeholders, not a claim of two known physical oligo species. PCR limitations use the actual recovered/aliquoted precursors, never final libraries. Added the printed gel-bead primer and custom-architecture probe inputs; barcoded RNA reporter is a single strand and mixed-population recovery is drawn as separate population rows. Known NN/N5/N9/N10 and custom25bp target-arm lengths are recorded where printed; commercial WTA probe/AB identities remain unassigned. GEM barcode-resolvability does not create a physical discard. Both source28/10/10/90 sequencing branches are retained.",
+      "deferred": [
+        "Complete commercial WTA physical LHS/RHS oligos, AB001–AB016 physical assignments and attachment mechanism remain unassigned",
+        "Actual Pre-AmpPrimersC and TS/TN sample-index primers and complete preamplification product ends remain unavailable; the corresponding PCR geometries are deliberately source limited",
+        "Source fixation guide CG000478 and other revisions were not re-read in this capped pass; their prior scope is preserved"
+      ],
+      "verification": "local suite5/5 plus three existing native graph/order assertions; native page build; chemistry17steps0established6conditional20unresolved0contradictory; deliberate AB-attachment MAGIC warning retained; source guard1 exact gel-bead strand0failed0exempt4 unrepresented physical TS/TN primer sequences; pairing0 problems",
+      "oligo_scraper": "Both complete source bundles scraped; Multiome catalog-linked CG000168 predecessor bundle also scraped before checking its printed PrimerB sequence. No drawn upstream schematic supplied source facts."
+    },
+    {
+      "round": "2026-10-18-container-state-correction",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only rendering/model correction; source scope remains that of preceding bounded migration 2026-10-18-validation-migration. No new source or scientific claim, and no absence audit.",
+      "locations": "Local protocol graph container/population molecular-state constructors; no original documents re-read.",
+      "findings": "Replaced one-strand molecule() concatenations with separate Scene rows for cell RNA and surface protein/antibody-linked material before labeling, after labeling and after fixation. Existing reporter-mixture recovery/preamp and mixed-aliquot topology is unchanged.",
+      "deferred": [
+        "Existing source and native-geometry boundaries from preceding migration remain open."
+      ],
+      "verification": "Local suite 5 source checks plus 3 construction/order checks pass; page build; chemistry 0 established/6 conditional/20 unresolved/0 contradictory. Combined guard 4 exact checked, 0 failed, 8 inputs without exact states; pairing 0 problems; review schema checked."
     }
   ]
 }

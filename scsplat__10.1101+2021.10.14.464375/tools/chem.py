@@ -14,11 +14,11 @@ from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             SourceClaim, SourceDiscrepancy, StepKind, Terminal,
                             Disposition)
-from protocol_specs import Definition, get
+from protocol_model import role
 
 PUBLISHED = "Raine et al., Scientific Reports (2022), doi:10.1038/s41598-022-09798-2"
-NEBNEXT = (PUBLISHED + " names NEBNext dual index primers but does not print them; "
-           "the P5/i5/i7/P7 bases are the standard TruSeq-compatible arms (inferred)")
+NEBNEXT = (PUBLISHED + " names NEBNext dual index primers; native full outer arms, "
+           "selected members and physical widths remain unassigned in this pass")
 
 # Supplementary Table S1 (MOESM1): SSO_H_1..SSO_H_32 share this 5′ tail, then a
 # six-base cell barcode and eight H (A/C/T) random bases. SSO_H_1 is drawn as the
@@ -40,46 +40,28 @@ CELL_BARCODE = feature("scsplat_cell_barcode", "cell_barcode", "whitelist",
                        whitelist="32 six-base SSO_H_X barcodes, Supplementary Table S1",
                        note="Methods: first six bases of Read 1; demultiplexed with je")
 
-DEFINITION = Definition(
-    "scSPLAT — scalable single-cell WGBS", "10.1101/2021.10.14.464375",
-    "Raine et al., Scientific Reports (2022); bioRxiv 2021 preprint",
-    "Bisulfite-converted single-cell DNA receives a P5-tail/cell-barcode random-primer copy "
-    "(SSO_H_X, Klenow exo−) before pooling and bulk splinted ligation (SPLAT) of the opposite adapter.",
-    "truseq", ("cell barcode", "bisulfite-converted insert"),
-    "The first six bases of Read 1 are the inline cell barcode; reads were PE150 "
-    "(HiSeqX or NovaSeq 6000). Index-read cycles are not stated.",
-    "DNA",
-    caveat=("INFERRED — the NEBNext dual-index PCR primers are not printed in the paper; the "
-            "P5, i5, first seven Read 1 bases, Read 2 remainder, i7 and P7 bases shown are the "
-            "standard TruSeq-compatible arms, not source transcriptions. The SSO_H tail, cell "
-            "barcode/H8 primer and ss1a/ss1b adapter are printed in Methods and Table S1."))
-
-
-def _final_library() -> tuple[Construct, tuple]:
-    lib = Construct([
-        Segment("P5", il.P5, "p5", inferred=True),
-        Segment("i5", "J" * 8, "cbc", placeholder=True, inferred=True,
-                feature=feature("sample_index_i5", "sample_index", "unknown")),
-        Segment("Read 1 arm from i5 primer", il.TRUSEQ_READ1[:-len(SSO_TAIL)], "r1",
-                inferred=True),
-        Segment("SSO_H P5 tail", SSO_TAIL, "r1"),
-        Segment("cell barcode", "X" * 6, "cbc", placeholder=True, feature=CELL_BARCODE),
-        Segment("H8 random-primer copy", H8, placeholder=True),
-        Segment("bisulfite-converted insert", "X" * 28, placeholder=True),
-        Segment("ss1b SPLAT adapter", SS1B, "r2"),
-        Segment("Read 2 arm from i7 primer", _READ2_TOP[len(SS1B):], "r2", inferred=True),
-        Segment("i7 reverse complement", "I" * 8, "cbc", placeholder=True, inferred=True,
-                feature=feature("sample_index_i7", "sample_index", "unknown")),
-        Segment("P7 reverse complement", il.P7_RC, "p7", inferred=True),
-    ], name="scSPLAT final library")
-    primers = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["I2"], sp.TRUSEQ["R2"])
-    problems = sp.verify(lib, primers)
-    if problems:
-        raise ValueError("invalid scSPLAT endpoint: " + "; ".join(problems))
-    return lib, primers
-
-
-FINAL_LIBRARY, SEQ_PRIMERS = _final_library()
+TITLE = 'scSPLAT — scalable single-cell WGBS'
+NOTES = '01_scsplat.html'
+SOURCE = '<a href="https://doi.org/10.1038/s41598-022-09798-2">Raine et al., Scientific Reports2022</a>, Methods and SupplementaryTableS1. Directory retains superseded preprint identity.'
+SUMMARY = 'Converted single-cell DNA receives a barcoded random-primer copy before pooling and bulk splinted ligation of the opposite adapter.'
+CAVEAT = 'INFERRED — native NEBNext dual-index primer members, physical index widths and complete outer-arm architecture remain unassigned in this capped reconstruction. Exact source SSO_H and blocked ss1a/ss1b components are retained without a default completed TruSeq shell. Physical converted U strands are distinct from copied DNA. Nonamplification and ExoI hydrolysis do not establish physical removal.'
+INDEX5 = feature('sample_index_i5','sample_index','unknown',note='Native member/width unassigned')
+INDEX7 = feature('sample_index_i7','sample_index','unknown',note='Native member/width unassigned')
+FINAL_LIBRARY = Construct([
+    role('native NEBNext forward end; full arm/member/width unassigned',inferred=True,molecular_feature=INDEX5),
+    Segment('SSO_H P5 tail',SSO_TAIL,'r1'),
+    Segment('cell barcode','N'*6,'cbc',placeholder=True,feature=CELL_BARCODE),
+    Segment('H8 random-primer copy',H8,placeholder=True),
+    role('copied genomic DNA reflecting bisulfite conversion'),
+    Segment('ss1b SPLAT adapter',SS1B,'r2'),
+    role('native NEBNext opposite end; full arm/member/width unassigned',inferred=True,molecular_feature=INDEX7),
+],name='source-qualified scSPLAT endpoint')
+SEQ_PRIMERS = ()
+FINAL_CAPTION = 'INFERRED native outer ends — source SSO_H/barcode/H8/copy/ss1b components; no default index widths or completed canonical shell.'
+SEQUENCING_UNAVAILABLE = 'Native sequencing-primer sites and outer adapter/index architecture remain unassigned. Source PE150 and inline six-base Read1 barcode do not establish physical index widths or acquired index cycles.'
+SEQUENCING_ENDING = 'Published PE150 on HiSeqX or NovaSeq6000; Read1 begins with the six-base cell barcode. Native index acquisition and primer-site geometry remain unassigned.'
+SHOW_READ_CONTENT = False
+READ_SPECS = (sp.read_spec('Read 1',150,'six-base inline cell barcode followed by random-primer/copied-DNA sequence','extract_then_include'),sp.read_spec('Read 2',150,'opposite copied-DNA end','include'),sp.read_spec('Index 1 (i7)','unassigned','Native pool index; acquisition/cycles unassigned','undetermined'),sp.read_spec('Index 2 (i5)','unassigned','Native pool index; acquisition/cycles unassigned','undetermined'))
 
 
 def sso_h_1() -> Scene:
@@ -99,7 +81,7 @@ def splat_adapter() -> Scene:
     sc.anneal("ss1a", [Segment("ss1a paired arm", SS1A[:-6]),
                        Segment("ss1a random splint", "N" * 6)],
               to="ss1b", pair=("ss1a paired arm", "ss1b ligating strand"),
-              label="SPLAT adapter", mod5="AmMC6", mod3="",
+              label="SPLAT adapter", mod5="AmMC6", mod3="AmMo",
               unpaired=("ss1a random splint",))
     sc.overhang("ss1a", "ss1a random splint", polarity="3-prime", owner="adapter",
                 text="3′ random hexamer splint")
@@ -120,7 +102,7 @@ def adapter_geometry() -> AdapterLigationGeometry:
 def oligos():
     return [
         oligo("SSO_H_1 (Table S1; SSO_H_2–32 differ only in the six-base barcode)",
-              (Segment("tail", SSO_TAIL, "r1"), Segment("barcode", SSO_H_1_BARCODE, "cbc"),
+              (Segment("tail", SSO_TAIL, "r1"), Segment("barcode", SSO_H_1_BARCODE, "cbc", feature=CELL_BARCODE),
                Segment("H8", H8, placeholder=True)), mods="/5AmMC6/"),
         oligo("ss1a (SPLAT adapter bottom strand)", (Segment("ss1a", SS1A),),
               mods="/5AmMC6/", three="/3AmMo/-3′"),
@@ -138,7 +120,7 @@ def _barcoded_segments() -> list[Segment]:
 
 def _single(label: str, segs: list[Segment]) -> Scene:
     sc = Scene()
-    sc.strand("strand", segs, label=label)
+    sc.strand("strand", segs, label=label, mod5="AmMC6" if label in ("barcoded second strand", "SPLAT-ligated single strand") else "", mod3="AmMo" if label=="SPLAT-ligated single strand" else "")
     return sc
 
 
@@ -164,20 +146,15 @@ def _ss(label: str) -> Scene:
     return _single(label, [Segment(label, "X" * 28, placeholder=True)])
 
 
-SPEC = get("scsplat", definition=DEFINITION,
-           final_override=(FINAL_LIBRARY, SEQ_PRIMERS), oligos_fn=oligos)
-
-
 def protocol_graph():
-    d = DEFINITION
     src = PUBLISHED + ", Methods scWGBS library preparation and sequencing"
-    graph = ProtocolGraph(d.title, authority=src)
+    graph = ProtocolGraph(TITLE, authority=src)
     cell = graph.input("cell", "FACS-sorted single cell or nucleus in 2 µl Zymo M-digestion buffer with proteinase K",
                        MaterialKind.BIOLOGICAL, state=Construct([Segment("single-cell genomic DNA", "X" * 28, placeholder=True)], name="genomic DNA"), primary=True)
     bisulfite = graph.input("bisulfite", "15 µl EZ Methylation Direct conversion reagent (manufacturer's program)",
                             MaterialKind.CONDITION)
     converted_raw = graph.product("converted_raw", "bisulfite-treated DNA in conversion reagent",
-                                  MaterialKind.MOLECULAR, state=_ss("bisulfite-converted DNA"))
+                                  MaterialKind.MOLECULAR, state=_ss("bisulfite-converted DNA: physical U at converted C, retained methylcytosines"))
     graph.react("convert", "Lyse and bisulfite-convert DNA in each 384-plate well",
                 StepKind.CHEMICAL_CONVERSION,
                 ((cell, InputRole.TEMPLATE), (bisulfite, InputRole.CONDITION)), (converted_raw,))
@@ -187,7 +164,7 @@ def protocol_graph():
                       MaterialKind.OLIGO, state=sso_h_1(),
                       source=PUBLISHED + ", Supplementary Table S1 (SSO_H_1 drawn)")
     converted = graph.product("converted", "desulphonated single-stranded converted DNA eluted with SSO_H_X",
-                              MaterialKind.MOLECULAR, state=_ss("single-stranded converted DNA"))
+                              MaterialKind.MOLECULAR, state=_ss("single-stranded converted DNA with physical U and retained methylcytosines"))
     column_waste = graph.product("column_waste", "spin-plate flow-through, desulphonation buffer and washes",
                                  MaterialKind.WASTE)
     graph.react("desulphonate", "Desulphonate and wash on the 384 spin plate; elute with SSO_H_X",
@@ -206,11 +183,11 @@ def protocol_graph():
     exo = graph.input("exonuclease_i", "Exonuclease I (0.5 µl), 37 °C 30 min", MaterialKind.CATALYST)
     digested = graph.product("exo_treated", "barcoded duplex after excess-oligo digestion",
                              MaterialKind.MOLECULAR, state=barcoded.state)
-    spent = graph.product("digested_sso", "Exo I-degraded excess SSO_H_X", MaterialKind.WASTE)
+    spent = graph.product("digested_sso", "Exo I-degraded excess SSO_H_X", MaterialKind.MOLECULAR)
     graph.react("exo_digest", "Digest excess strand-synthesis oligos with Exonuclease I",
                 StepKind.DIGESTION,
                 ((barcoded, InputRole.TEMPLATE), (exo, InputRole.CATALYST)), (digested, spent))
-    graph.discard(spent, "digestion products removed by the pooled 1.2× SPRI purification")
+    graph.mark_terminal(Terminal(spent.id, Disposition.UNRESOLVED,"ExoI hydrolysis is not separation; exact class recovery through subsequent beads is unassigned."))
     spri1 = graph.input("spri_pool", "AMPure XP 1.2×; elute 10 µl 10 mM Tris–HCl pH 8.5",
                         MaterialKind.SELECTION)
     pooled = graph.product("pooled", "pooled barcoded reactions from up to 32 wells",
@@ -229,9 +206,7 @@ def protocol_graph():
                 StepKind.STRAND_SEPARATION,
                 ((pooled, InputRole.TEMPLATE), (ssb, InputRole.CONDITION)), (single, original))
     graph.mark_terminal(Terminal("original_strand", Disposition.UNRESOLVED,
-                                 "Carried into the bulk SPLAT reaction (not separated); without the "
-                                 "SSO_H P5 tail it cannot form the two-primer PCR product. Its "
-                                 "ligation and fate are not modelled."))
+                                 "Carried into the bulk SPLAT reaction without physical separation. Missing SSO_H tail limits the intended primer-defined route, but does not establish zero off-target amplification or removal; native ligation/recovery unresolved."))
     adapter = graph.input("splat_adapter", "SPLAT 3′ adapter ss1a/ss1b, 5 µM final",
                           MaterialKind.ADAPTER, state=splat_adapter(),
                           source=PUBLISHED + ", Methods and Supplementary Table S1")
@@ -258,29 +233,35 @@ def protocol_graph():
     kapa = graph.input("kapa", "KAPA HiFi 2× PCR mastermix, 12–16 cycles", MaterialKind.CATALYST)
     amplified = graph.product("amplified", "dual-indexed scSPLAT pool library", MaterialKind.LIBRARY,
                               state=FINAL_LIBRARY, inferred=True, source=NEBNEXT)
+    pcr_residual=graph.product('pcr_residual','carried native blocked template strands and off-target PCR species; recovery unassigned',MaterialKind.MOLECULAR,state=clean.state)
     graph.react("index_pcr", "INFERRED — Amplify with NEBNext dual-index primers (arms not printed)",
                 StepKind.PCR,
                 ((clean, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
-                 (reverse, InputRole.STRUCTURAL), (kapa, InputRole.CATALYST)), (amplified,),
+                 (reverse, InputRole.STRUCTURAL), (kapa, InputRole.CATALYST)), (amplified,pcr_residual),
                 geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY, reason="The paper names NEBNext dual index primers without printing them."))
-    spri3 = graph.input("spri_pcr", "two 0.8× SPRI purifications; elute 10 µl 10 mM Tris pH 8.0",
+                    clean.state, reason="Actual single-strand SPLAT-ligated precursor enters PCR; native primer/first-copy geometry unassigned. Final library is a separate endpoint."))
+    graph.mark_terminal(Terminal(pcr_residual.id,Disposition.UNRESOLVED,'PCR copying does not chemically erase original5AmMC6/3AmMo strands or imply off-target removal. Class-specific recovery through two final bead selections remains unassigned.'))
+    spri3 = graph.input("spri_pcr", "0.8× SPRI reagent for two successive source recoveries; final10µlTris pH8.0",
                         MaterialKind.SELECTION)
+    first_recovered=graph.product('pcr_cleanup_first_retained','first0.8×SPRI-recovered PCR library',MaterialKind.LIBRARY,state=FINAL_LIBRARY,inferred=True,source=NEBNEXT)
+    first_waste=graph.product('pcr_cleanup_first_waste','first0.8×SPRI supernatant/washes',MaterialKind.WASTE)
+    graph.react('pcr_cleanup_first','First post-PCR0.8×SPRI recovery',StepKind.CLEANUP,((amplified,InputRole.TEMPLATE),(spri3,InputRole.SELECTION)),(first_recovered,first_waste),changes_molecule=False)
+    graph.discard(first_waste,'Physically removed first recovery supernatant/washes; class depletion unassigned.')
     library = graph.product("library", "purified scSPLAT sequencing library", MaterialKind.LIBRARY,
                             state=FINAL_LIBRARY, inferred=True, source=NEBNEXT)
     pcr_waste = graph.product("pcr_spri_waste", "0.8× SPRI supernatants (primers, short products)",
                               MaterialKind.WASTE)
-    graph.react("pcr_cleanup", "Purify the PCR twice with 0.8× SPRI", StepKind.CLEANUP,
-                ((amplified, InputRole.TEMPLATE), (spri3, InputRole.SELECTION)), (library, pcr_waste))
+    graph.react("pcr_cleanup", "Second post-PCR0.8×SPRI recovery; final10µl elution", StepKind.CLEANUP,
+                ((first_recovered, InputRole.TEMPLATE), (spri3, InputRole.SELECTION)), (library, pcr_waste))
     graph.discard(pcr_waste, "removed with the bead supernatants")
     graph.sequence(library, SequencingPlan(
-        library=FINAL_LIBRARY, primers=SEQ_PRIMERS, acquired_roles=("Read 1", "Index 1 (i7)", "Index 2 (i5)", "Read 2"),
+        library=FINAL_LIBRARY, primers=SEQ_PRIMERS, limitation=SEQUENCING_UNAVAILABLE, acquired_roles=("Read 1", "Read 2"),
         # PE150 is stated; index-read cycles are not. Pools carrying unique dual
         # indices were combined before sequencing, so the index reads demultiplex pools.
         read_lengths={"Read 1": 150, "Read 2": 150},
         read_uses={"Read 1": "extract_then_include", "Index 1 (i7)": "demultiplex",
                    "Index 2 (i5)": "demultiplex", "Read 2": "include"}))
-    graph.declare_reviewed_scope(tuple(graph.materials) + tuple(graph.steps), src)
+    graph.declare_reviewed_scope(REVIEWED_TARGETS, src)
     graph.annotate(SourceDiscrepancy(
         "splat_adapter", "Published SPLAT-adapter partner name differs",
         (SourceClaim("Scientific Reports Methods, adapter preparation (PMC8986790 JATS line 131)",
@@ -293,4 +274,4 @@ def protocol_graph():
     return graph.require_publishable()
 
 
-SPEC.protocol_graph = protocol_graph
+REVIEWED_TARGETS = ('cell','bisulfite','convert','spin_plate','sso_h','desulphonate','klenow','strand_synthesis','exonuclease_i','exo_digest','spri_pool','pool_purify','et_ssb','denature','original_strand','splat_adapter','t4_ligase','splat','spri_ligation','ligation_cleanup','pcr_i5','pcr_i7','kapa','index_pcr','spri_pcr','pcr_cleanup_first','pcr_cleanup_first_retained','pcr_cleanup','library')

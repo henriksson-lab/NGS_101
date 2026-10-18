@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Source-boundary checks for SQK-LSK114."""
-from __future__ import annotations
-import sys
 from pathlib import Path
-HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "lib"))
-import nanopore_ligation as N
-from checks import Check, run_common
-check = Check()
-check.section("Oxford Nanopore V14 protocol choices")
-check("LA top as disclosed", N.LA_TOP, "CCTGTACTTCGTTCAGTTACGTATTGCT")
-check("LA bottom as disclosed", N.LA_BOTTOM, "GCAATACGTAACTGAACGAAGTACAGG")
-check("repair/end-prep incubations", N.END_PREP_TIMES, ((20, 5), (65, 5)))
-run_common(check)
-check.report()
+import re,sys
+HERE=Path(__file__).resolve().parent
+sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
+from checks import Check,Source,have
+from storage import sources_root
+import nanopore_ligation as M
+c=Check()
+s=Source(sources_root()/HERE.parent.name/"chemistry-technical-document.html.txt","ONT CHTD_500 v1 revAV; ref/MANIFEST.md")
+if have(c,s):
+ text="".join(s.path.read_text().split())
+ c("source identity","CHTD_500_v1_revAV_24July2026" in text,True)
+ c("source transcription LA_TOP", M.LA_TOP in text, True)
+ c("source transcription LA_BOTTOM", M.LA_BOTTOM in text, True)
+c.report()

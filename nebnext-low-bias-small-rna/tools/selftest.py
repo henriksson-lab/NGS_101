@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import sys
-H=Path(__file__).resolve().parent; sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
+H=Path(__file__).resolve().parent;sys.path[:0]=[str(H),str(H.parents[1]/'lib')]
+from checks import Check,Source,have
+from storage import sources_root
 import low_bias_small_rna as M
-from checks import Check,run_common
-c=Check(); c.section("E3420 defining chemistry"); c("compatible 5-prime end","5′-phosphorylated" in next(iter(M.INPUT)).name,True); c("no DNA dA junction","dA junction" in tuple(s.name for s in M.final_library()),False); run_common(c); c.report()
+c=Check()
+s=Source(sources_root()/H.parent.name/'manuale3420.pdf.txt','Source original manual printed E3420v2.0_5/26; see local ref/MANIFEST.md')
+if have(c,s):
+ text=''.join(s.path.read_text().split())
+ c('manual identity','Version2.0_5/26' in text,True)
+ c('source Read1 trim motif',M.MANUAL_TRIM['Read 1'] in text,True)
+ c('source Read2 trim motif',M.MANUAL_TRIM['Read 2'] in text,True)
+ c('source simultaneous adapter modification creates RT primer','3´adaptorisenzymaticallymodifiedtocreateaprimerforreverse' in text,True)
+c.report()

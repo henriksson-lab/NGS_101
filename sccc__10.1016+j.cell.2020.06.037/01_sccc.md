@@ -79,3 +79,25 @@ Deferred: base-exact adapter-end Scene and circle/junction geometry; Nextera Mat
 reference guide 15035209 v02 end-repair/A-tail/ligation chemistry; the 10x v2 gel-bead
 primer and 10x_TSO bases (CG00052 route); bulk calling-cards protocol beyond the
 single-cell one.
+
+## Local validation migration (2026-10-18)
+
+Re-read published Cell PMC7510185 Methods lines 220–234 (expression and scCC
+library preparation), 296–300 (sequencing/analysis), and final supplement
+`1-s2.0-S009286742030814X-mmc1.pdf.txt` Table S4 lines 448–535. Ran the bundle oligo
+scraper and verified the two enrichment primers, custom adapters and final PCR
+primers against Table S4. These published originals govern the migration; no later
+protocols.io revision was substituted for them.
+
+🟢 Junction finishing is local: custom-adapter ligation carries the sample index;
+scCC P5/P7 PCR adds no new index; the PCR supernatant then undergoes a distinct
+0.7× AMPure cleanup. The shared eight-base sample index is removed because Table S4
+prints `[index]`, leaving the selected member length open. The expression branch
+has its own unassigned kit index and a source-delegated preparation boundary.
+Its endpoint does not inherit the calling-card custom adapters.
+
+🟡 Exact custom-adapter landing and circle/junction structures remain unassembled;
+PCR limitation scenes use incoming templates. Linear-DNA digestion does not itself
+establish physical disposal of all hydrolysis products, so their later partition
+remains unresolved. The ownership migration supplies no full chemistry validation
+or accepted missing-information conclusion.

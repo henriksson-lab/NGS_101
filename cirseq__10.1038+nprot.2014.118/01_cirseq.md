@@ -17,11 +17,38 @@ The scraper finds no printed oligo sequences in either document.
 - 🔴 The protocol does not describe how the NEBNext module primes the second strand (the model no longer declares an unsupported "random second-strand primer"), and does not print the PCR primer-cocktail sequences; that PCR is drawn without primer geometry.
 - 🟡 Open: the drawn canonical TruSeq single-index adapter segments (from `lib/illumina`) total fewer than the 135 adapter bases stated at Step 43. The kit-original adapter sequences were not inspected, so this is an unresolved model/source difference, not a published error.
 
-The named FC-121-4001 kit is the Illumina TruSeq Nano DNA LT Set A kit, which has twelve
-six-base index choices ([Illumina guide, kit contents and index table](https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_truseq/truseqnanodna/truseq-nano-dna-library-prep-guide-15041110-d.pdf),
+The later guide associates FC-121-4001 with TruSeq Nano DNA LT Set A, with twelve
+six-base reported index choices (plus a seventh adapter base for each member) ([Illumina guide, kit contents and index table](https://support.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/samplepreps_truseq/truseqnanodna/truseq-nano-dna-library-prep-guide-15041110-d.pdf),
 pp. 28–29, 34). This 2015 revision postdates the 2014 paper; its revision history traces
 the kit guide to May 2013. The protocol does not assign a particular Set A member or
 specify index cycles for the reported run. An adapter Read 2 landing site does not
 establish that a paired Read 2 was acquired.
 
 Mapping the consensus to a known reference resolves the RNA circle's 3′→5′ ligation junction.
+
+## Native ownership migration — 2026-10-18
+
+Re-read the published PMC4418788 protocol, experimental-design line 46, reagent
+lines134–138 and library Steps25–53, together with the cached Illumina guide
+15041110-D (2015), index table12 and 3′-T end description. The bundle scraper
+was run. The later guide confirms family-level index/read and ligation facts,
+but it is a comparator and does not establish complete2014 adapter identity.
+
+The shared canonical TruSeq shell is removed. It did not reproduce the
+protocol's stated135 combined adapter bases, so neither its exact outer arms
+nor its six-base molecular index region can define this experiment's library.
+The native endpoint retains source-supported historical adapter/index roles,
+with unknown sequences and molecular index extent, plus the source dA junction.
+Adapter boundaries are marked on a candidate strand; their exact historical
+end geometry remains unassigned. The 2015 guide's six reported index bases and
+seventh adapter base are not silently promoted into the 2014 molecule.
+
+The RNA window remains85–100 nt, with variable fragment length; the former
+92-nt assignment was an arbitrary midpoint. Random hexamers are explicit
+priming reagents, not UMIs. Source RNA circularization, rolling-circle RT,
+second-strand synthesis, repair, dA-tailing, ligation, size selection and 15-cycle
+PCR remain local. PCR's unresolved geometry now uses the actual ligated
+candidate precursor rather than a canonical duplex endpoint. The selected
+recommended MiSeq profile retains one 300-nt read, with historical primer sites
+unassigned and no invented paired/index acquisition. No new publication-absence
+claim or complete source-review claim is made.

@@ -154,6 +154,36 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim; existing blocked missing claims unchanged.",
       "verification": "local suite comment-only (0 explicit checks) passes; page builds; pairing 0 problems; chemistry 0 established/4 conditional/13 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 4 oligo inputs without exact states (kit oligos unprinted); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch02-independent-review",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Manifest-identified coauthor-hosted published article plus complete Supplemental Experimental Procedures, Sterne-Weiler_MolCell_2016.pdf.txt lines 798–873: crosslinking, extraction, ligation, RNase R, photoreversal and library preparation. Text read; no independent rendered-page inspection.",
+      "findings": "Independent critical implementation review found no remaining critical issue in the inspected scope. The source supports ligation before RNase R, subsequent photoreversal, source-described SMARTer first/second strand synthesis, actual preceding cDNA as PCR input, and unresolved RT RNA fate. Verified the printed 1:2 sample:beads ratio and <100 bp SPRI wording alongside final >200 nt PAGE excision; the public discrepancy annotation preserves both without inventing a SPRI cutoff.",
+      "deferred": [
+        "Native SMARTer kit revision and oligo/primer geometry remain unassigned; no new vendor-document investigation performed.",
+        "This independent pass did not inspect rendered source figures or the full article chemistry beyond the named SI section."
+      ],
+      "verification": "Read-only source and implementation review of local chem.py; no code edits or independent build/check reruns in this pass. Findings are limited to inspected source passages and graph continuity.",
+      "oligo_scraper": "Mandatory local source-bundle scraper run; relevant original passages checked directly. Scraper output was used only as a pointer.",
+      "scope": "Independent bounded source and critical graph review; not a comprehensive protocol review or missing-information acceptance."
+    },
+    {
+      "documents": 1,
+      "locations": "Manifest-identified coauthor article plus complete supplement Sterne-Weiler_MolCell_2016.pdf.txt: ExperimentalProcedures520–545, FigureS1A/C690–710, SupplementalExperimentalProcedures798–866; rendered originalPDFp21 inspected for literal <100 mark. No vendor original newly read.",
+      "oligo_scraper": "Mandatory bundle scraper:36 sequence hits in combined article/SI, selected validation-oligo context1068–1090 inspected; no validation oligo reassigned as library reagent.",
+      "findings": "Removed protocol_specs assembly and shared24nt duplex/chimera defaults. Protocol owns metadata, role endpoints and independent partner/circular-class states. Corrected actual cleaned-cDNA PCR input instead of finished library, internal index-position uncertainty, molecular S1/DNase/RNaseR/RT-template/nonligated-class fates and explicit reviewed targets. Source SPRI <100bp versus final PAGE above200nt wording displayed with both locations, bead ratio retained without invented size cutoff. Source single-end/read barcode semantics retained without UMI or index-acquisition assumptions.",
+      "deferred": [
+        "Historical SMARTer kit revision/primer/end/second-strand implementation and actual read/index acquisition",
+        "Linked RNaseR/psoralen/vendor originals and complete native reaction/recovery proof",
+        "SPRI retained-versus-excluded meaning of published <100bp wording"
+      ],
+      "round": "2026-10-18-batch02-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "scope": "Capped source-qualified ownership/native graph migration only. Independent implementation corrections incorporated; no complete reaction validation or accepted missing-information claim."
     }
   ]
 }

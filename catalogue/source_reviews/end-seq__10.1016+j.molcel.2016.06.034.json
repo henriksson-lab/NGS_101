@@ -11,14 +11,14 @@
       "pass_1": {
         "reviewer": "audit_s_z",
         "date": "2026-10-16",
-        "locations": "Methods lines 159–161; scraper hits line 159",
-        "finding": "Original author JATS prints hairpin adaptor 1 with two biotin-dT and adaptor 2 with U stretch, both 5′ phosphorylated; USER opens hairpins after ligation. Exact PCR primer pair should be checked against missing supplements."
+        "locations": "Methods lines 159\u2013161; scraper hits line 159",
+        "finding": "Original author JATS prints hairpin adaptor 1 with two biotin-dT and adaptor 2 with U stretch, both 5\u2032 phosphorylated; USER opens hairpins after ligation. Exact PCR primer pair should be checked against missing supplements."
       },
       "pass_2": {
         "reviewer": "second_pass_d_e",
         "date": "2026-10-16",
-        "locations": "Original PMC6299834 JATS lines 63, 159–161",
-        "finding": "Original prints both modified hairpin adaptor strings, including 5′ phosphate, RNA U, biotin-dT and terminal phosphorothioate; DNA blunting/A-tailing, first hairpin, shearing, capture, second hairpin, USER and PCR order explicit."
+        "locations": "Original PMC6299834 JATS lines 63, 159\u2013161",
+        "finding": "Original prints both modified hairpin adaptor strings, including 5\u2032 phosphate, RNA U, biotin-dT and terminal phosphorothioate; DNA blunting/A-tailing, first hairpin, shearing, capture, second hairpin, USER and PCR order explicit."
       }
     },
     {
@@ -34,7 +34,7 @@
     {
       "id": "supp2_6",
       "role": "supplement",
-      "locator": "PMC6299834 NIHMS998981 Supplement 2–6 XLSX",
+      "locator": "PMC6299834 NIHMS998981 Supplement 2\u20136 XLSX",
       "availability": "unavailable",
       "relevance": "relevant",
       "pass_1": null,
@@ -64,7 +64,7 @@
     "pass_2": {
       "reviewer": "second_pass_d_e",
       "date": "2026-10-16",
-      "locations": "Original PMC6299834 JATS lines 63, 159–161",
+      "locations": "Original PMC6299834 JATS lines 63, 159\u2013161",
       "finding": "Independently inspected listed originals and linked materials. Relevant unavailable primary/supplement/predecessor rows remain blocked pending access."
     }
   },
@@ -82,12 +82,40 @@
       "reviewer": "root",
       "date": "2026-10-16",
       "documents": 1,
-      "locations": "Original PMC6299834 JATS152–164, especially159,161; mandatory bundle scraper reviewed.",
+      "locations": "Original PMC6299834 JATS152\u2013164, especially159,161; mandatory bundle scraper reviewed.",
       "findings": "Added source-written modified hairpins, GELase plug recovery, 16-cycle END-seq PCR and alternative 50/75-base single-end runs. Canonical outer library is inferred; index acquisition unassigned. USER fragments remain unresolved rather than presumed discarded.",
       "deferred": [
-        "Original NIHMS998981 Supplement1 PDF and Supplement2–6 tables; cited BLESS method; exact index assignment"
+        "Original NIHMS998981 Supplement1 PDF and Supplement2\u20136 tables; cited BLESS method; exact index assignment"
       ],
       "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "PublishedPMC6299834JATS Results61 and ExperimentalProcedures159\u2013161: modifiedhairpins, recovery, distalenzymes, USERbefore16cyclePCR, alternative50/75SEruns.",
+      "oligo_scraper": "Mandatory localbundle scraper run; activeoriginal passages verified. ENDadaptor1 bracketedbiotin-dT splits scraperhit; directwholemodifiedsourcecheck documented asguardexemption.",
+      "scope": "Capped source-owned moleculargraph migration; no completeprotocol review oracceptedpublicationabsenceclaim.",
+      "findings": "Removed sharedTruSeq/defaultindexshell and source-selectingend_capture renderers/unusedworkflow; neutralUserHairpinrecord retained. LocalretainedA1Read1arm/A2arm derivefromactualsourceUSERoligos; exactPCRouterends/indexarchitectureunassigned. Pairedfoldtopology declaredforbothhairpins; actualdA-preparedmaterialusedinligationgeometry; actualUSERopenedprecursor isPCRtemplate. Source-modifiedhairpins/phosphate/biotin-dT/dU/terminalC*T preserved. Sourceknownrecovery/distalreagents and50/75alternativeSEscopes remain; loopproductsUNRESOLVED.",
+      "deferred": [
+        "Initialinplugblunting/tailing enzymeassignments deferredtoFigure1A original; supplements andhistoricalindexprimers notread. Physicalouterends/indexmembers/widths/completePCRgeometry/acquiredindexcycles unassigned."
+      ],
+      "verification": "Suite4/4wholemodifiedsourcechecks; page/note/schema pass; chemistry12steps0est0cond13unresolved0contra; sourceguard1checked0failed1documentedparserexemptA1strand2unrepresentedPCRprimers; pairing0. Scopedchecks do not establishfullreactionvalidation. Noactualqueuedrecipe/defaultdependenciesremain."
+    },
+    {
+      "round": "2026-10-18-independent-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Read-only independent molecular implementation review; existing original-source scope retained, not re-read. No new scientific or absence conclusion.",
+      "locations": "tools/end_seq.py: source hairpin models/topologies, prepared_end_state(), hairpin_ligation_geometry(), opened_template(), protocol_graph(), sequencing declaration",
+      "source_scope": "Published PMC6299834 Methods scope from preceding migration record retained without new original reading.",
+      "findings": "Confirmed actual USER-opened retained-arm Scene enters PCR, hydrolysed loops remain molecular/unresolved, source-derived adapter arms remain separate from unassigned PCR outer ends/index geometry, and biological read alternatives are not merged.",
+      "deferred": [
+        "Declared native molecular-proof, historical reagent/version and read-acquisition limits remain as recorded in the preceding migration check."
+      ],
+      "verification": "Code/state/fate/source-flag review completed; parent owns focused runtime verification. Review schema checked."
     }
   ]
 }

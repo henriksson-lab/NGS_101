@@ -4,14 +4,11 @@ from __future__ import annotations
 import illumina as il
 import rt
 import seqprimers as sp
-from chemdraw import Construct, Scene, Segment, complement_segments, feature, revcomp
-import sys as _sys
-from pathlib import Path as _Path
-_sys.path.insert(0, str(_Path(__file__).resolve().parents[2]))
-from protocol_families.tenx_graph import ChromiumRNAOps
+from chemdraw import Construct, Scene, Segment, feature, revcomp
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import InputRole, MaterialKind, StepKind
+from protocol_graph import Disposition, InputRole, MaterialKind, SequencingPlan, StepKind, Terminal
+from protocol_model import molecule, role
 from protocol_graph import ProtocolGraph, SourceClaim, SourceDiscrepancy
 
 USER_GUIDE = ('<a href="https://assets.ctfassets.net/an68im79xiti/UhAMGmlaEMmYMaA4A4Uwa/'
@@ -151,10 +148,9 @@ def pre_index_library(insert_nt=36):
                      name="v2 adapter-ligated cDNA fragment")
 
 
-def _cleanup(ops, ident, label, material, reagent, wastes, *, state=None,
+def _cleanup(g, reviewed, ident, label, material, reagent, wastes, *, state=None,
              kind=MaterialKind.MOLECULAR, kept_id=None, kept_label=None):
     """A CG00052 Rev D bead cleanup: the kept fraction and each removed fraction."""
-    g=ops.graph
     beads=g.input(ident+"_beads", reagent, MaterialKind.SELECTION, source=USER_GUIDE)
     kept=g.product(kept_id or ident+"_kept", kept_label or label+" (retained DNA)", kind,
                    state=material.state if state is None else state, source=USER_GUIDE)
@@ -165,7 +161,7 @@ def _cleanup(ops, ident, label, material, reagent, wastes, *, state=None,
             (kept,*removed), source=USER_GUIDE, changes_molecule=False)
     for waste, (_, why) in zip(removed, wastes):
         g.discard(waste, why)
-    ops.reviewed.extend((beads.id, ident, kept.id, *(w.id for w in removed)))
+    reviewed.extend((beads.id, ident, kept.id, *(w.id for w in removed)))
     return kept
 
 
@@ -177,14 +173,13 @@ SMALL=("supernatant after 0.8X SPRIselect (below the lower size cut-off)",
        "supernatant removed from the magnet-held SPRIselect beads")
 
 
-def _source_pcr(ops, prefix, label, template, product_state, primers, *, library=False,
+def _source_pcr(g, reviewed, prefix, label, template, product_state, primers, *, library=False,
                 site_template=None):
     """The source prints both primers; locate their sites rather than claiming absence.
 
     ``site_template`` is the duplex on which both primer sites are drawn when the input
     material is single-stranded (the switched first strand gains its complement in cycle 1).
     """
-    g=ops.graph
     forward, reverse=primers
     f=g.input(prefix+"_forward", forward.name, MaterialKind.OLIGO,
               state=Construct([Segment(forward.name, forward.sequence)]))
@@ -198,12 +193,11 @@ def _source_pcr(ops, prefix, label, template, product_state, primers, *, library
              (r,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)), (product,),
             geometry=PCRGeometry.exact(site_template or template.state,forward,reverse,
                 statement="Both primer architectures are printed in CG000108 Rev A Fig. 4."))
-    ops.reviewed.extend((f.id,r.id,polymerase.id,prefix,product.id))
+    reviewed.extend((f.id,r.id,polymerase.id,prefix,product.id))
     return product
 
 
-def _source_ligation(ops, tailed):
-    g=ops.graph
+def _source_ligation(g, reviewed, tailed):
     adapter=g.input("read2_adapter", "3-prime-dT Read-2 adapter", MaterialKind.ADAPTER,
                     state=adapter_scene())
     ligase=g.input("ligase", "adapter ligase", MaterialKind.CATALYST)
@@ -212,50 +206,87 @@ def _source_ligation(ops, tailed):
     g.react("ligate", "Ligate the Read-2 adapter", StepKind.LIGATION,
             ((tailed,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),
              (ligase,InputRole.CATALYST)),(adapted,),geometry=read2_adapter_end())
-    ops.reviewed.extend((adapter.id,ligase.id,"ligate"))
+    reviewed.extend((adapter.id,ligase.id,"ligate"))
     return adapted
 
 def protocol_graph():
     authority = ('Primary chemistry source: <a href="https://www.10xgenomics.com/support">'
                  '10x Genomics Technical Note CG000108 Rev A</a>.')
     graph = ProtocolGraph("10x Chromium Single Cell 3-prime Gene Expression v2", authority=authority)
-    ops = ChromiumRNAOps(graph, inferred_intermediates=False)
-    first_state = first_strand()
+    # Reaction choices and source coverage belong to this guide-specific declaration.
+    reviewed = ["cells", "gems", "partition", "rt_primer", "rt", "reverse_transcribe",
+                "tso", "template_switch", "gem_recovery", "recover", "fragmentase",
+                "fragment", "end_mix", "end_prep"]
     final = final_library()
-    cells = ops.cells()
-    occupied = ops.partition(cells)
-    first, rt_enzyme = ops.reverse_transcribe(
-        occupied, first_state, primer_label="cell-barcode/UMI oligo(dT) gel-bead primer",
-        primer_state=Construct(bead_oligo(), name="gel-bead primer"))
-    switched = ops.template_switch(
-        first, rt_enzyme, switched_cdna(), tso_label="template-switch oligo",
-        tso_state=Construct(tso(), name="template-switch oligo"))
-    recovered = ops.recover(switched, switched_cdna())
-    recovered = _cleanup(ops, "silane_cleanup", "Post GEM-RT cleanup with Dynabeads MyOne Silane",
+    cells = graph.input("cells", "cells containing poly(A) RNA", MaterialKind.BIOLOGICAL,
+                        state=molecule("cells", (role("poly(A) RNA"),)), primary=True)
+    gems = graph.input("gems", "Chromium GEM partitioning condition", MaterialKind.CONDITION)
+    occupied = graph.product("occupied", "occupied GEMs containing cells", MaterialKind.MOLECULAR,
+                             state=cells.state)
+    failed = graph.product("failed", "empty, multiplet or unresolved GEM products", MaterialKind.MOLECULAR)
+    graph.react("partition", "Partition cells with barcoded gel beads", StepKind.PARTITION,
+                ((cells, InputRole.TEMPLATE), (gems, InputRole.CONDITION)),
+                (occupied, failed), changes_molecule=False)
+    graph.mark_terminal(Terminal(failed.id, Disposition.UNRESOLVED,
+        "GEM contents are pooled after GEM break. Barcode resolution is a downstream analysis "
+        "criterion; the guide does not establish physical removal of these GEM classes here."))
+    primer = graph.input("rt_primer", "cell-barcode/UMI oligo(dT) gel-bead primer", MaterialKind.OLIGO,
+                         state=Construct(bead_oligo(), name="gel-bead primer"))
+    enzyme = graph.input("rt", "template-switching reverse transcriptase", MaterialKind.CATALYST)
+    first_state = Scene()
+    first_state.strand("first", list(first_strand()), label="first-strand transcript cDNA")
+    first = graph.product("first_strand", "first-strand transcript cDNA", MaterialKind.MOLECULAR,
+                          state=first_state)
+    graph.react("reverse_transcribe", "Capture and reverse-transcribe poly(A) RNA", StepKind.REVERSE_TRANSCRIPTION,
+                ((occupied, InputRole.TEMPLATE), (primer, InputRole.STRUCTURAL),
+                 (enzyme, InputRole.CATALYST)), (first,))
+    switch_oligo = graph.input("tso", "template-switch oligo", MaterialKind.OLIGO,
+                              state=Construct(tso(), name="template-switch oligo"))
+    switched = graph.product("switched", "template-switched cell-barcoded cDNA", MaterialKind.MOLECULAR,
+                             state=switched_cdna())
+    graph.react("template_switch", "Install the opposite cDNA amplification handle", StepKind.TEMPLATE_SWITCHING,
+                ((first, InputRole.TEMPLATE), (switch_oligo, InputRole.STRUCTURAL),
+                 (enzyme, InputRole.CATALYST)), (switched,))
+    recovery = graph.input("gem_recovery", "GEM break and cDNA recovery condition", MaterialKind.CONDITION)
+    recovered = graph.product("recovered", "recovered cell-barcoded cDNA", MaterialKind.MOLECULAR,
+                              state=switched.state)
+    graph.react("recover", "Break GEMs and recover pooled cDNA", StepKind.EXTRACTION,
+                ((switched, InputRole.TEMPLATE), (recovery, InputRole.CONDITION)),
+                (recovered,), changes_molecule=False)
+    recovered = _cleanup(graph, reviewed, "silane_cleanup", "Post GEM-RT cleanup with Dynabeads MyOne Silane",
         recovered, "Dynabeads MyOne Silane beads",
         (("Silane-bead supernatant (leftover GEM-RT reagents and primers)",
           "removed from the magnet-held Silane beads"),))
-    amplified = _source_pcr(ops, "preamp", "Amplify recovered full-length cDNA",
+    amplified = _source_pcr(graph, reviewed, "preamp", "Amplify recovered full-length cDNA",
                             recovered, amplified_cdna(), cdna_primers(),
                             site_template=amplified_cdna())
-    amplified = _cleanup(ops, "cdna_spri", "Post cDNA amplification SPRIselect cleanup (0.6X)",
+    amplified = _cleanup(graph, reviewed, "cdna_spri", "Post cDNA amplification SPRIselect cleanup (0.6X)",
                          amplified, "SPRIselect reagent, 0.6X", (SUPERNATANT,))
-    fragments = ops.fragment(amplified, reagent_label="CG00052 Rev D Step 3.1 Fragmentation Enzyme Blend")
-    tailed = ops.end_prepare(fragments)
-    tailed = _cleanup(ops, "fragment_size_selection",
+    fragmentase = graph.input("fragmentase", "CG00052 Rev D Step 3.1 Fragmentation Enzyme Blend", MaterialKind.CATALYST)
+    fragments = graph.product("fragments", "fragmented barcode-bearing cDNA", MaterialKind.MOLECULAR)
+    graph.react("fragment", "Fragment amplified cDNA", StepKind.FRAGMENTATION,
+                ((amplified, InputRole.TEMPLATE), (fragmentase, InputRole.CATALYST)), (fragments,))
+    end_mix = graph.input("end_mix", "CG00052 Rev D Step 3.1 end-repair and dA-tailing mix", MaterialKind.CATALYST)
+    tailed = graph.product("tailed", "end-repaired dA-tailed cDNA fragments", MaterialKind.MOLECULAR)
+    graph.react("end_prep", "End-repair and dA-tail cDNA fragments", StepKind.END_REPAIR,
+                ((fragments, InputRole.TEMPLATE), (end_mix, InputRole.CATALYST)), (tailed,))
+    tailed = _cleanup(graph, reviewed, "fragment_size_selection",
                       "Double-sided SPRIselect size selection (0.6X, then 0.8X)",
                       tailed, "SPRIselect reagent, 0.6X then 0.8X", (LARGE, SMALL))
-    adapted = _source_ligation(ops, tailed)
-    adapted = _cleanup(ops, "ligation_spri", "Post-ligation SPRIselect cleanup (0.8X)",
+    adapted = _source_ligation(graph, reviewed, tailed)
+    adapted = _cleanup(graph, reviewed, "ligation_spri", "Post-ligation SPRIselect cleanup (0.8X)",
                        adapted, "SPRIselect reagent, 0.8X", (SUPERNATANT,))
-    indexed = _source_pcr(ops, "index_pcr", "Select barcode-bearing end and add sample index",
+    indexed = _source_pcr(graph, reviewed, "index_pcr", "Select barcode-bearing end and add sample index",
                           adapted, final, index_primers(), library=True)
-    library = _cleanup(ops, "index_size_selection",
+    library = _cleanup(graph, reviewed, "index_size_selection",
                        "Double-sided SPRIselect size selection (0.6X, then 0.8X)",
                        indexed, "SPRIselect reagent, 0.6X then 0.8X", (LARGE, SMALL),
                        kind=MaterialKind.LIBRARY, kept_id="library",
                        kept_label="size-selected indexed v2 library")
-    ops.sequence(library, final, SEQ_PRIMERS, {"Read 1": 26, "Index 1 (i7)": 8, "Read 2": 98})
+    graph.sequence(library, SequencingPlan(library=final, primers=SEQ_PRIMERS,
+        acquired_roles=tuple(p.role for p in SEQ_PRIMERS), read_lengths={"Read 1": 26, "Index 1 (i7)": 8, "Read 2": 98}))
+    graph.declare_reviewed_scope(reviewed, authority)
+    graph.require_publishable()
     graph.annotate(SourceDiscrepancy(
         "preamp_forward", "cDNA Primer Mix part number",
         (SourceClaim("CG000108 Rev A, Fig. 4, Protocol Step 2.2", "cDNA Primer Mix is labelled PN-22016."),

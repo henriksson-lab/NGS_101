@@ -382,6 +382,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 2 established/0 conditional/9 unresolved/0 contradictory; source guard 1 exact checked (connector), 0 failed, 3 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch11-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "PublishedPMC11289786 Methods129–175 (probeconjugation,selectednonPFAplatebinding/ligation/sort,sequencing); publishedMOESM1 supplementaryMethods plate366–395 and separateDrop/10x preparation/run sections; publishedMOESM3Table7–10 oligos,includingSmartPLA_P5 family/P7N701 andTable10firstA/B probes.",
+      "oligo_scraper": "Mandatory sourcebundle scraper run; publishedoriginal sourcepassages and modifications verified ratherthan treating hits asfacts. Large dataworkbooks notexpanded; supersededpreprints excludedfromactiveauthority.",
+      "findings": "Select actual publishednonPFAplate chemistry: covalentA–BssDNA reporter directlyfeeds DNAprePCR frommixedlysate, not an inventedRT/mRNAmeasurement path. Source17+5prePCRcycles,12indexcycles,1.8×recoveries andphysicalequimolarpool are local. Onlyactual aliquots, wash/selectionfractions are physicalallocations; originalRNA/genomicDNA/antibody/freeprobe classes persist unresolved. Source constrainedHHHHACHHHHACHHHN hasdegenerateUMI metadata. Sourcei5member/physicalwidth unassigned instead ofborrowedS502; source8acquiredcycles retained. Publishedplate75/8/8 single-end andcustomprimer names are explicit.",
+      "deferred": [
+        "Drop-seq/10x dualRNA/PLA nativechemistry remains a separate implementation, not collapsed into selectedplate path.",
+        "Complete nativefirst-cycle/primer/endassembly and selectedi5 member/physicalwidth remain unassigned; acquired8indexcycles do not prove molecularwidth.",
+        "Table10 targetbarcodefamily is shownasunknown8ntmembers; actualantibodytargetpair foranycell isnot assigned."
+      ],
+      "scope": "Cappednativegraph migration only; historicalreviewstatuses and missing-information gate unchanged. No acceptedabsence claim.",
+      "verification": "5 source tests;13steps/2established15unresolved0contradictory. Allfourpages build; sourceguard17checked/0failed/9unassigned; pairing0; schema pass."
+    },
+    {
+      "round": "2026-10-18-batch11-independent-implementation-review",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "prox-seq__10.1038+s41592-022-01684-z/tools/chem.py,build_page.py,selftest.py; currentreleasednativegraph/Scene/primerfeatures/source-boundary/readspec implementation. No originalsource documents reread.",
+      "findings": "SelectednonPFAplate directDNAreporterpath, originalazide/antibodyconjugates vsnormalPCRcopies, connector-splintedA3OH/B5P physicaljunction andnoninsertedconnector, actualmixedlysate/preamp/indexPCR precursors, mixedlysatealiquot/unallocatedremainder, sourcei5/i7 widths vsacquisition andseparateDrop/10xroutes. Reviewer requested sourceconstrainedHHHHACHHHHACHHHN featureencodingdegenerate; ownerfixed. SourceP5indexmember/widthunassignedversusacquired8cycles preserved; no inventedexpressionterminal. No remaining concretecriticaldefect identified withinstatedimplementationreview scope.",
+      "deferred": [
+        "Existingoriginalsourcechecklists/deferrals andnativegeometry/member/acquisition limits unchanged. This documents0 code-only pass isnot an independent secondoriginalreading or acceptedabsenceaudit."
+      ],
+      "scope": "Independent criticalimplementation-onlyreview; authorimplemented requestedcorrections, reviewer made no chemistrycode edits. No sourceexpansion orhistoricalstatusupgrade.",
+      "verification": "5originaltranscriptionchecks;13steps;2established15unresolved0contradictory. Fourpagesbuild;combined62steps2established81unresolved0contradictory; sourceguard17checked0failed0skip9inputswithout exactstates;pairing0; schema/whitespace checkedafterrecordwrite."
     }
   ]
 }

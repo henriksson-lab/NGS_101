@@ -14,7 +14,7 @@
 3. 🟢 Linker-R04 splints the terminal oligo, which carries the TruSeq Read-2 arm, 10-nt UMI, BC4, a 0–3-nt phase block and its ligating arm. The Terminator is the reverse complement of Linker-R04.
    After 30 min of each of rounds 2 and 3, Blocker-R02/Blocker-R03 are added and ligation continues for 30 min; round 4 is quenched with the R04 Terminator plus EDTA (Methods line 133). The page shows them as round inputs.
 4. 🟢 After lysis (NaCl, SDS, proteinase K, 55 °C 2 h; 1× SPRI), TdT adds poly(C); the nine-G tract in Anchor primes linear extension. PA-F and PA-R then preamplify the indexed molecules.
-5. 🟢 The material is divided. NotI removes the DNA architecture from the RNA aliquot, while SbfI removes the RNA architecture from the DNA aliquot. Tn5-P5 retagmentation and N5XX/P7XX PCR complete both sequencing libraries.
+5. 🟢 The material is divided. NotI cleaves the DNA architecture in the RNA aliquot, while SbfI cleaves the RNA architecture in the DNA aliquot; cleavage does not prove physical removal. Tn5-P5 retagmentation and N5XX/P7XX PCR complete both sequencing libraries.
 
 ## Read structure
 
@@ -24,11 +24,21 @@
 
 Model corrections (2026-10-17): the RNA library now keeps the poly(A) copied from the oligo-dT/VN primer between cDNA and SbfI; the base before the TruSeq Read-2 arm was labelled a "dA junction" but is the last base of the R04 Read-2 arm (`...CGATCT`), so the model now draws the R04 arm and the P7XX extension separately (sequence unchanged).
 
-The N5XX oligo contains an 8-nt i5 sequence, but the defining run description does not acquire an i5 index read. The completed construct retains that sequence while the read table lists only the three acquired reads.
+The N5XX oligo contains an 8-nt i5 sequence, but the stated defining run does not assign index2acquisition. The completed construct retains that sequence while the read table retains the three positive acquired reads and explicitly leaves index2acquisition/cycles unassigned.
 
 ## Open questions
 
 - Tn5-P5 loading: Methods does not state which adapter is loaded; AdaptorA in Table 1 is the likely candidate but is not assigned.
 - TELP predecessor (ref. 43) for the TdT/Anchor chemistry was not followed.
-- Cleanup steps (1× SPRI, double SPRI, QIAquick, 0.85× SPRI) and the fate of restriction-cut opposite-modality molecules are not drawn as graph products.
+- Cleanupsteps now have separategraphproducts; quantitative recovery ofrestriction-cleaved opposite-modality fragments remains unassigned.
 - Extended Data Fig. 1a (read layout drawing) was not inspected; the JATS text was used.
+
+## Native graph migration — 2026-10-18 batch03
+
+Three published originals were inspected: PMC7231560Methods and SupplementaryTables1/2. The sourceworkbooks happen to have scg_ cache names; MANIFEST confirms the corresponding publisheroriginals are md5-identical. Their identity is the published tables, not the upstream drawnpage. Local source-owned splints preserve BC1/2/3/4 features and Round4N10UMI. SourcepMENTs writes a physical terminalddC; the nontransferredstrand retains thatC but the transferredtaggedDNA does not copy it. A scoped sourceguard parserexception for thisinput is covered by an exact wholemodifiedpMENTs regression plus a sourcewhole transferredstrand check; scraper._letters otherwise drops the nucleotide as a modification. The Anchor9G tract does not establish a nine-C TdTtail. Native tail/register/extension remainsunassigned and actualAnchor-extension products feed PA-PCR. Restriction cuts damage the opposite-modalityarchitecture inside each mixed aliquot; they do not physically discard thosemolecules. Sourcecleanup,QCaliquot andsublibrary handling are separategraphstates. The exactprintedP7XX ends...CTTCCGATC, onebase shorter than canonicalRead2; priorcode silently appendedT. The correctedprimer matchesTable1, while the R04terminalT/fullRead2 endpoint junction remains a conditional polymeraseextension reference. That is a repositorytranscription correction, not a publishedconflict. SourceTn5-P5 is named; assigning Table1AdaptorA as its exactload remainsunresolved. Positive53+7+130acquisition and6nti7/8nti5 physicalprimerwindows remain, whileIndex2acquisition/cycles are explicitunassigned.
+
+Curator-written local review targets identify the source/implementation scope; targets are not derived from graph contents. This capped pass does not establish publication-wide absence or complete missing-information review.
+
+### Implementation review corrections
+
+Implementation corrections align displayed P7XX with its printed32nt arm, remove the obsolete workflow, preserve source barcode/UMI chain features in Anchor/preamp and intact restriction-target states, and mark a new native P5-associated end/gap role after retagmentation while retaining carried cleavage products. Native tail length and full first-cycle/end assembly stay unassigned. These corrections reference the original source pass above; no additional originals were read.

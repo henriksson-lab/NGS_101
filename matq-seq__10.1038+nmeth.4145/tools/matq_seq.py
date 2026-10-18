@@ -1,19 +1,12 @@
-"""Molecular model for MATQ-seq (Sheng et al., 2017)."""
-from __future__ import annotations
-
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
-
-from batch_ngs import seg, truseq_library
+"""MATQ-seq source-owned mixed priming, tailing, conversion and library graph."""
+from chemdraw import Construct,Scene,Segment,oligo,revcomp,feature
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Construct, MolecularState, Scene, Workflow, annotation_rows, oligo
-from rna_amplification import poly_a_capture, terminal_tail
 from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
-from protocol_model import molecule, role
-
+from protocol_graph import InputRole,MaterialKind,ProtocolGraph,SequencingPlan,StepKind,Disposition,Terminal,SourceDiscrepancy,SourceClaim
+from protocol_model import molecule,role
+import seqprimers as sp
+from endprep import repair_and_dA_tail,dA_tailed_scene
+seg=Segment
 GAT27 = "GTGAGTGATGGTTGAGGATGTGTGGAG"
 GAT27_DT = GAT27 + "N" * 5 + "T" * 20
 GAT27_5N3G = GAT27 + "N" * 5 + "GGG"
@@ -21,89 +14,25 @@ GAT27_5N3T = GAT27 + "N" * 5 + "TTT"
 GAT21_6N3G = "GATGGTTGAGGATGTGTGGAG" + "N" * 6 + "GGG"
 THREE_N_GAT24 = "N" * 3 + "AGTGATGGTTGAGGATGTGTGGAG"
 
-
-def initial_scene():
-    primer = [seg("GAT27 handle", GAT27, "tso"),
-              seg("five random bases", "N" * 5, placeholder=True),
-              seg("dT20", "T" * 20)]
-    sc = poly_a_capture(primer, annealing_segment="dT20",
-                        primer_label="GAT27dT primer")
-    sc.note("primer", "the same RT also contains GAT27-5N3G and GAT27-5N3T random primers")
-    return sc
-
-
-FIRST_STRAND = Construct([
-    seg("GAT27 handle", GAT27, "tso"), seg("primer N5", "N" * 5, placeholder=True),
-    seg("first-strand cDNA", "X" * 38, placeholder=True)], name="MATQ first strand")
-
-
-def first_strand_scene():
-    sc = Scene(); sc.strand("cDNA", list(FIRST_STRAND), label="first-strand cDNA")
-    sc.arrow("cDNA", "ten stepped-temperature annealing/extension cycles")
-    sc.labels("cDNA")
-    return sc
-
-
-TAILED, _TAIL_SCENE = terminal_tail(FIRST_STRAND, "C", 12, enzyme="TdT")
-
-
-def second_strand_scene():
-    primer = [seg("GAT21 handle", "GATGGTTGAGGATGTGTGGAG", "tso"),
-              seg("random N6", "N" * 6, placeholder=True), seg("3G", "GGG")]
-    sc = Scene(); sc.strand("dC-tailed cDNA", list(TAILED), label="dC-tailed first strand")
-    sc.anneal("GAT21-6N3G", primer, to="dC-tailed cDNA",
-              pair=("3G", "poly(dC) tail"), label="second-strand primer",
-              unpaired=("GAT21 handle", "random N6"))
-    sc.arrow("GAT21-6N3G", "Deep Vent exo−; repeated annealing and extension")
-    sc.labels("GAT21-6N3G")
-    return sc
-
-
-FINAL_LIBRARY, SEQ_PRIMERS = truseq_library(
-    [seg("sheared MATQ cDNA", "X" * 42, placeholder=True)],
-    "MATQ-seq paired-end library", inferred_adapters=True)
-
-
-def final_rows():
-    sc = Scene.duplex(list(FINAL_LIBRARY), label="MATQ-seq")
-    sc.junction("top", "Read 1 arm", "sheared MATQ cDNA", "adapter ligation")
-    sc.junction("top", "dA junction", "Index 1 / Read 2 arm", "adapter ligation")
-    sc.labels("top")
-    return [*sc.rows(), *annotation_rows(FINAL_LIBRARY)]
-
-
-def workflow():
-    wf = Workflow(MolecularState("Mixed oligo-dT and random priming",
-                                 tuple(initial_scene().rows())))
-    wf.react("SuperScript III reverse transcription", first_strand_scene().rows(),
-             note="Ten low-to-high-temperature cycles repeatedly anneal the mixed primers across total RNA.")
-    wf.react("T4 DNA polymerase primer digestion, optional Exonuclease I, then RNase H/RNase I",
-             first_strand_scene().rows(),
-             note="Unused primers and the RNA template are removed before homopolymer tailing.")
-    wf.react("TdT adds a poly(dC) tail", _TAIL_SCENE.rows(),
-             note="The common GAT27-bearing first strand receives a terminal dC tract.")
-    wf.react("GAT21-6N3G priming and second-strand synthesis",
-             second_strand_scene().rows(),
-             note="The terminal GGG anchors at the dC tail; random bases promote repeated annealing/looping amplification.")
-    wf.ligate_adapter("GAT27 PCR, shearing, end repair, dA tailing and TruSeq adapter ligation",
-             AdapterLigationGeometry.unavailable("The defining article names TruSeq adapters but does not print their selected oligo or ligation-ready end geometry."), final_rows(),
-             note="T4 Quick Ligase attaches TruSeq adapters; the exact adapter variant and molecular sequence are not given.")
-    return wf
-
-
-TITLE = "MATQ-seq — multiple annealing and dC-tailing single-cell RNA-seq"
-NOTES = "01_matq-seq.html"
-SOURCE = ('Defining source: <a href="https://doi.org/10.1038/nmeth.4145">'
-          'Sheng et al., <i>Nature Methods</i> (2017)</a>.')
-SUMMARY = ("A mixture of oligo-dT and random primers repeatedly samples total RNA. After RT, "
-           "TdT adds dC, a G-anchored primer makes the second strand, and one common handle amplifies the transcriptome.")
-CAVEAT = ("INFERRED — the defining article names TruSeq adapters but does not identify the selected adapter/index oligo; terminal bases show canonical TruSeq geometry. "
-          "Published read-length discrepancy: Online Methods say a NextSeq 500 2×75 midoutput kit (cost paragraph), while Supplementary Fig. 21 says paired-end reads of 85×2 bases. This model uses the explicitly named 2×75 kit; the origin of the 85×2 figure remains unresolved.")
-FINAL_CAPTION = "INFERRED — representative sheared MATQ amplicon in a canonical paired-end Illumina library; the GAT27 amplification products themselves are source-defined."
-SEQUENCING_INTRO = "The defining Online Methods name a NextSeq 500 2×75 run. Standard TruSeq primer sites are inferred because the selected adapter/index oligos are not printed. Supplementary Fig. 21 instead states 85×2 reads; see the discrepancy notice above."
-READ_LENGTHS = {"Read 1": 75, "Read 2": 75}
-SHOW_READ_CONTENT = True
-
+TITLE="MATQ-seq — multiple annealing and dC-tailing single-cell RNA-seq"
+NOTES="01_matq-seq.html"
+SOURCE='Sheng et al., Nature Methods(2017), <a href="https://doi.org/10.1038/nmeth.4145">doi:10.1038/nmeth.4145</a>; published supplementary protocol.'
+SUMMARY="Mixed oligo-dT/random RT primers repeatedly sample total RNA; variable dC tails support second-strand synthesis before GAT27 amplification and3NGAT24 conversion."
+CAVEAT="INFERRED library ends — the dC tract length and complete multi-priming product geometries are unassigned, not fixed12nt tails or annealed-primer views used as synthesized products. Native TruSeq adapter/index species remain unassigned. Prior article2×75 versus SupplementaryFig21 85×2 read statements remain distinct below."
+FINAL_LIBRARY=Construct([role("TruSeq-family left end; physical species unassigned",inferred=True),role("sheared MATQ amplified cDNA"),role("TruSeq-family opposite end/index architecture unassigned",inferred=True,molecular_feature=feature("matq_sample_index","sample_index","unknown"))],name="MATQ source-limited TruSeq endpoint")
+SEQ_PRIMERS=()
+FINAL_CAPTION="INFERRED library ends — historical TruSeq endpoint roles; native primer/adapter geometry and index widths remain unassigned."
+SEQUENCING_INTRO="Prior defining OnlineMethods review records NextSeq5002×75; published SupplementaryFig21 says85×2. The graph selects2×75 without merging the alternatives."
+SEQUENCING_ENDING=SEQUENCING_INTRO
+SEQUENCING_UNAVAILABLE="Physical sequencing primers and acquired index reads remain unassigned."
+READ_LENGTHS={"Read 1":75,"Read 2":75}
+READ_SPECS=(
+    sp.read_spec("Read 1",75,"MATQ cDNA; physical primer site and exact entry unassigned","include"),
+    sp.read_spec("Read 2",75,"Opposite cDNA end; physical primer site unassigned","include"),
+    sp.read_spec("Index 1 (i7)","unassigned","Index acquisition and cycles unassigned","undetermined"),
+    sp.read_spec("Index 2 (i5)","unassigned","Index acquisition and cycles unassigned","undetermined"),
+)
+READ_SPECS_NOTE="Selected prior defining2×75 run; SupplementaryFig21 85×2 remains a separate claim. Unknown index acquisition is not a negative acquisition finding."
 
 def oligos():
     yield oligo("GAT27dT", [seg("GAT27", GAT27, "tso"),
@@ -119,104 +48,79 @@ def oligos():
                              seg("GAT24", "AGTGATGGTTGAGGATGTGTGGAG", "tso")])
 
 
+def rt_primers():
+    sc=Scene()
+    for key,seq in (("dT",GAT27_DT),("3G",GAT27_5N3G),("3T",GAT27_5N3T)):
+        sc.strand(key,[Segment("GAT27 "+key,seq)],label="source RT primer "+key)
+    return sc
+
+def target_copies(*,tailed=False):
+    sc=Scene()
+    for key,primer in rt_primers().strands.items():
+        parts=[*primer.segs,role("RNA-derived first-strand cDNA; variable extent")]
+        if tailed:parts.append(role("TdT dC tract; length unassigned"))
+        sc.strand(key,parts,label="independent "+key+"-primed cDNA target class")
+    return sc
+
+def duplex_products(label):
+    sc=Scene()
+    sc.strand("representative strand",[role(label+" cDNA product; native handle/loop extents unassigned")],label=label+" representative strand")
+    sc.strand("opposite strand",[role(label+" complementary product; native geometry unassigned")],label=label+" opposite strand")
+    return sc
+
 def protocol_graph():
-    graph = ProtocolGraph(TITLE, authority=SOURCE)
-    rna = graph.input("rna", "single-cell total RNA", MaterialKind.BIOLOGICAL,
-                      state=molecule("total RNA", (role("polyadenylated and non-polyadenylated transcripts"),)),
-                      primary=True)
-    primers = graph.input("mixed_rt_primers", "GAT27 oligo-dT and random-primer mixture",
-                          MaterialKind.OLIGO)
-    rt = graph.input("reverse_transcriptase", "SuperScript III", MaterialKind.CATALYST)
-    first = graph.product("first_strand", "GAT27-bearing first-strand cDNA",
-                          MaterialKind.MOLECULAR, state=FIRST_STRAND)
-    graph.react("reverse_transcribe", "Repeatedly anneal and extend the mixed RT primers",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((rna, InputRole.TEMPLATE), (primers, InputRole.STRUCTURAL),
-                 (rt, InputRole.CATALYST)), (first,))
-    cleanup = graph.input("cleanup_enzymes", "T4 DNA polymerase, optional Exonuclease I, and RNase H/If",
-                          MaterialKind.CATALYST)
-    cleaned = graph.product("cleaned", "primer- and RNA-depleted first-strand cDNA",
-                            MaterialKind.MOLECULAR, state=FIRST_STRAND)
-    graph.react("cleanup", "Remove unused primers and the RNA template", StepKind.DIGESTION,
-                ((first, InputRole.TEMPLATE), (cleanup, InputRole.CATALYST)), (cleaned,))
-    tdt = graph.input("tdt", "terminal deoxynucleotidyl transferase", MaterialKind.CATALYST)
-    tailed = graph.product("tailed", "poly(dC)-tailed first-strand cDNA",
-                           MaterialKind.MOLECULAR, state=TAILED)
-    graph.react("tail", "Add a terminal poly(dC) tract", StepKind.TAILING,
-                ((cleaned, InputRole.TEMPLATE), (tdt, InputRole.CATALYST)), (tailed,))
-    second_primer = graph.input("second_strand_primer", "GAT21-6N3G primer",
-                                MaterialKind.OLIGO)
-    vent = graph.input("deep_vent", "Deep Vent exo-minus polymerase",
-                       MaterialKind.CATALYST)
-    duplex = graph.product("duplex", "MATQ second-strand amplification product",
-                           MaterialKind.MOLECULAR, state=second_strand_scene())
-    graph.react("second_strand", "Prime the dC tail and synthesize the second strand",
-                StepKind.EXTENSION,
-                ((tailed, InputRole.TEMPLATE), (second_primer, InputRole.STRUCTURAL),
-                 (vent, InputRole.CATALYST)), (duplex,))
-    handle_f = graph.input("gat27_primer", "GAT27 PCR primer", MaterialKind.OLIGO)
-    handle_r = graph.input("gat24_primer", "3NGAT24 conversion primer", MaterialKind.OLIGO)
-    wta_pol = graph.input("wta_polymerase", "whole-transcriptome PCR polymerase",
-                          MaterialKind.CATALYST)
-    amplified = graph.product("amplified", "GAT-handle-amplified MATQ cDNA",
-                              MaterialKind.MOLECULAR, state=duplex.state)
-    graph.react("wta", "24-cycle WTA then20-cycle3NGAT24 conversion (summarized)", StepKind.PCR,
-                ((duplex, InputRole.TEMPLATE), (handle_f, InputRole.STRUCTURAL),
-                 (handle_r, InputRole.STRUCTURAL), (wta_pol, InputRole.CATALYST)),
-                (amplified,), geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY, reason="The WTA product precedes shearing and sequencing-adapter installation."))
-    shear = graph.input("shear_condition", "Covaris S220 shearing to about 200 bp",
-                        MaterialKind.CONDITION)
-    fragments = graph.product("fragments", "sheared MATQ cDNA",
-                              MaterialKind.MOLECULAR, state=amplified.state)
-    graph.react("shear", "Shear the whole-transcriptome amplicons", StepKind.FRAGMENTATION,
-                ((amplified, InputRole.TEMPLATE), (shear, InputRole.CONDITION)), (fragments,))
-    repair = graph.input("end_repair_mix", "NEBNext End Repair Module", MaterialKind.CATALYST)
-    repaired = graph.product("repaired", "end-repaired MATQ fragments",
-                             MaterialKind.MOLECULAR, state=fragments.state)
-    graph.react("end_repair", "Repair the sheared fragment ends", StepKind.END_REPAIR,
-                ((fragments, InputRole.TEMPLATE), (repair, InputRole.CATALYST)), (repaired,))
-    klenow = graph.input("klenow_exo", "Klenow exo-minus DNA polymerase", MaterialKind.CATALYST)
-    dA_tailed = graph.product("da_tailed", "dA-tailed MATQ fragments",
-                              MaterialKind.MOLECULAR, state=repaired.state)
-    graph.react("da_tail", "Add dA to the repaired fragment ends", StepKind.TAILING,
-                ((repaired, InputRole.TEMPLATE), (klenow, InputRole.CATALYST)), (dA_tailed,))
-    adapter = graph.input("illumina_adapter", "TruSeq adapter (selected variant unreported)",
-                          MaterialKind.ADAPTER, source=SOURCE + " (Online Methods, library preparation)")
-    ligase = graph.input("adapter_ligase", "T4 DNA Quick Ligase", MaterialKind.CATALYST,
-                         source=SOURCE + " (Online Methods, library preparation)")
-    ligated = graph.product("ligated", "adapter-ligated sheared MATQ cDNA",
-                            MaterialKind.MOLECULAR, state=fragments.state, inferred=True,
-                            source=SOURCE + " (adapter identity unavailable)")
-    graph.react("ligate_adapter", "Ligate a TruSeq adapter",
-                StepKind.LIGATION,
-                ((dA_tailed, InputRole.TEMPLATE), (adapter, InputRole.STRUCTURAL),
-                 (ligase, InputRole.CATALYST)), (ligated,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "The defining article names TruSeq adapters but not the selected variant, its ordered bases, or its ligation-ready end."))
-    pcr_f = graph.input("library_forward", "TruSeq PCR primer mix, forward site", MaterialKind.OLIGO,
-                        inferred=True, source=SOURCE + " (TruSeq PCR primer named; constituent oligos not printed)")
-    pcr_r = graph.input("library_reverse", "TruSeq PCR primer mix, reverse site", MaterialKind.OLIGO,
-                        inferred=True, source=SOURCE + " (TruSeq PCR primer named; constituent oligos not printed)")
-    library_pol = graph.input("library_polymerase", "KAPA HiFi HotStart Ready Mix",
-                              MaterialKind.CATALYST)
-    library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
-                            state=FINAL_LIBRARY, inferred=True,
-                            source=SOURCE + " (canonical compatible shell inferred)")
-    graph.react("library_pcr", "Amplify the paired-end sequencing library", StepKind.PCR,
-                ((ligated, InputRole.TEMPLATE), (pcr_f, InputRole.STRUCTURAL),
-                 (pcr_r, InputRole.STRUCTURAL), (library_pol, InputRole.CATALYST)),
-                (library,), geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY, reason="The article names the TruSeq PCR primer but does not print its ordered bases or selected index variant."))
-    graph.sequence(library, SequencingPlan(library=FINAL_LIBRARY,
-                                           primers=tuple(SEQ_PRIMERS),
-                                           read_lengths=READ_LENGTHS))
-    graph.declare_reviewed_scope([
-        "rna", "mixed_rt_primers", "reverse_transcriptase", "reverse_transcribe",
-        "cleanup_enzymes", "cleanup", "tdt", "tail", "second_strand_primer",
-        "deep_vent", "second_strand", "gat27_primer", "gat24_primer",
-        "wta_polymerase", "wta", "shear_condition", "shear", "end_repair_mix", "end_repair",
-        "klenow_exo", "da_tail", "illumina_adapter",
-        "adapter_ligase", "ligate_adapter", "library_forward", "library_reverse",
-        "library_polymerase", "library_pcr", "library"], SOURCE)
-    return graph.require_publishable()
+    g=ProtocolGraph(TITLE,authority=SOURCE)
+    rna=g.input("rna","single-cell total RNA",MaterialKind.BIOLOGICAL,state=molecule("total RNA",(role("poly(A) and other RNA templates"),)),primary=True)
+    primers=g.input("mixed_rt_primers","GAT27dT1.5µM/GAT27-5N3G5µM/GAT27-5N3T5µM mix",MaterialKind.OLIGO,state=rt_primers())
+    rt=g.input("reverse_transcriptase","SuperScriptIII;10stepped8–50°Ccycles,then50°C15min",MaterialKind.CATALYST)
+    first=g.product("first_strand","three priming classes of first-strand cDNA",MaterialKind.MOLECULAR,state=target_copies())
+    template=g.product("rt_template_rna","RNA templates remaining after RT",MaterialKind.MOLECULAR,state=rna.state)
+    g.react("reverse_transcribe","Repeated mixed-primer RT",StepKind.REVERSE_TRANSCRIPTION,((rna,InputRole.TEMPLATE),(primers,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(first,template))
+    cleanup=g.input("cleanup_enzymes","T4DNApolymerase primer digestion;RNaseH/RNaseI37°C15min,72°C15min",MaterialKind.CATALYST)
+    cleaned=g.product("cleaned","cDNA targets after source primer/RNA digestion",MaterialKind.MOLECULAR,state=first.state)
+    debris=g.product("digestion_products","RNA/unused-primer hydrolysis products; not physically removed by digestion",MaterialKind.MOLECULAR)
+    g.react("cleanup","Digest unused primers and RNA templates in the same tube",StepKind.DIGESTION,((first,InputRole.TEMPLATE),(template,InputRole.TEMPLATE),(cleanup,InputRole.CATALYST)),(cleaned,debris))
+    g.mark_terminal(Terminal(debris.id,Disposition.UNRESOLVED,"Source enzyme digestion/heat treatment changes molecules; physical handling of small products through later preparation is not reconstructed."))
+    tdt=g.input("tdt","TdT withdCTP,37°C15min,72°C15min",MaterialKind.CATALYST)
+    tailed=g.product("tailed","variable dC-tailed cDNA target populations",MaterialKind.MOLECULAR,state=target_copies(tailed=True))
+    g.react("tail","Add terminal dC tract; do not assign tail length",StepKind.TAILING,((cleaned,InputRole.TEMPLATE),(tdt,InputRole.CATALYST)),(tailed,))
+    secondp=g.input("second_strand_primer","GAT21-6N3G",MaterialKind.OLIGO,state=GAT21_6N3G)
+    vent=g.input("deep_vent","DeepVent exo−;10×48°C20s/72°C1min",MaterialKind.CATALYST)
+    second=g.product("duplex","second-strand extension/amplification products",MaterialKind.MOLECULAR,state=duplex_products("post-GAT21 synthesis"))
+    g.react("second_strand","GAT21-6N3G priming and second-strand synthesis",StepKind.EXTENSION,((tailed,InputRole.TEMPLATE),(secondp,InputRole.STRUCTURAL),(vent,InputRole.CATALYST)),(second,))
+    p=g.input("gat27_primer","single source GAT27 PCR primer",MaterialKind.OLIGO,state=GAT27)
+    wta=g.product("wta_product","GAT27-amplified cDNA",MaterialKind.MOLECULAR,state=duplex_products("GAT27 amplification"))
+    g.react("wta","DeepVent24-cycle GAT27 amplification",StepKind.PCR,((second,InputRole.TEMPLATE),(p,InputRole.STRUCTURAL),(vent,InputRole.CATALYST)),(wta,),geometry=PCRGeometry.unavailable(second.state,symmetric_species=True,reason="Actual post-second-strand product classes enter this single-primer amplification. Native loop/handle first-cycle geometry is unassigned."))
+    column=g.input("wta_column","QiagenPCR purification",MaterialKind.SELECTION)
+    cleanw=g.product("wta_clean","column-purified WTA product",MaterialKind.MOLECULAR,state=wta.state)
+    cw=g.product("wta_column_waste","column flowthrough/washes",MaterialKind.WASTE)
+    g.react("wta_cleanup","Purify WTA product",StepKind.CLEANUP,((wta,InputRole.TEMPLATE),(column,InputRole.SELECTION)),(cleanw,cw),changes_molecule=False);g.discard(cw,"source column exclusion")
+    conv=g.input("gat24_primer","3NGAT24 conversion primer",MaterialKind.OLIGO,state=THREE_N_GAT24)
+    converted=g.product("converted","3NGAT24 converted duplex target population",MaterialKind.MOLECULAR,state=duplex_products("post-3NGAT24 conversion"))
+    g.react("conversion","200ng input;source conversion lists two20-cycle blocks with intervening95°C",StepKind.PCR,((cleanw,InputRole.TEMPLATE),(conv,InputRole.STRUCTURAL),(vent,InputRole.CATALYST)),(converted,),geometry=PCRGeometry.unavailable(cleanw.state,symmetric_species=True,reason="The published protocol lists a single3NGAT24 species and two20-cycle blocks; conversion-end geometry remains undeclared rather than borrowing the final sequencing library."))
+    cb=g.input("conversion_beads","1.2×AMPureXP",MaterialKind.SELECTION)
+    amplified=g.product("amplified","purified converted MATQ cDNA",MaterialKind.MOLECULAR,state=converted.state)
+    cwater=g.product("conversion_waste","AMPure supernatant/washes",MaterialKind.WASTE)
+    g.react("conversion_cleanup","Purify converted cDNA",StepKind.CLEANUP,((converted,InputRole.TEMPLATE),(cb,InputRole.SELECTION)),(amplified,cwater),changes_molecule=False);g.discard(cwater,"source1.2×bead cleanup")
+    shear=g.input("shear_condition","CovarisS220~200bp;prior defining OnlineMethods scope retained",MaterialKind.CONDITION)
+    fragments=g.product("fragments","sheared cDNA fragments",MaterialKind.MOLECULAR,state=molecule("fragment target population",(role("sheared MATQ cDNA; inherited handle classes not retained whole"),)))
+    g.react("shear","Shear converted amplicons",StepKind.FRAGMENTATION,((amplified,InputRole.TEMPLATE),(shear,InputRole.CONDITION)),(fragments,))
+    er=g.input("end_repair_mix","NEBNext EndRepairModule",MaterialKind.CATALYST)
+    repaired=g.product("repaired","end-repaired fragments",MaterialKind.MOLECULAR,state=fragments.state)
+    g.react("end_repair","Repair fragment ends",StepKind.END_REPAIR,((fragments,InputRole.TEMPLATE),(er,InputRole.CATALYST)),(repaired,))
+    k=g.input("klenow_exo","Klenow exo− dA-tailing",MaterialKind.CATALYST)
+    tailed2=g.product("da_tailed","dA-tailed fragments",MaterialKind.MOLECULAR,state=dA_tailed_scene(repair_and_dA_tail(Construct([role("sheared MATQ cDNA")]))))
+    g.react("da_tail","dA-tail repaired fragments",StepKind.TAILING,((repaired,InputRole.TEMPLATE),(k,InputRole.CATALYST)),(tailed2,))
+    adapter=g.input("illumina_adapter","historical TruSeq adapter; selected species unassigned",MaterialKind.ADAPTER)
+    ligase=g.input("adapter_ligase","T4DNA QuickLigase",MaterialKind.CATALYST)
+    ligated=g.product("ligated","adapter-ligated fragments",MaterialKind.MOLECULAR,state=molecule("actual pre-index fragment",(role("TruSeq-adapter-bearing fragment; native strands/ends unassigned"),)))
+    g.react("ligate_adapter","Ligate source-named TruSeq adapters",StepKind.LIGATION,((tailed2,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(ligated,),geometry=AdapterLigationGeometry.unavailable("Historical TruSeq variant/physical adapter ends remain unassigned in prior article source scope; native geometry is not supplied by a canonical shell."))
+    f=g.input("library_forward","TruSeqPCR primer mix first binding role; species unassigned",MaterialKind.OLIGO)
+    r=g.input("library_reverse","same supplied primer mix opposite binding role; species unassigned",MaterialKind.OLIGO)
+    pol=g.input("library_polymerase","KAPAHiFi HotStart;5cycles from prior defining OnlineMethods review",MaterialKind.CATALYST)
+    lib=g.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+    g.react("library_pcr","INFERRED ends — amplify sequencing library for5cycles",StepKind.PCR,((ligated,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(lib,),geometry=PCRGeometry.unavailable(ligated.state,reason="Actual adapter-ligated fragment is the input, with historical primer/end geometry unassigned."))
+    g.sequence(lib,SequencingPlan(library=FINAL_LIBRARY,acquired_roles=("Read 1","Read 2"),read_lengths=READ_LENGTHS,limitation=SEQUENCING_INTRO+" "+SEQUENCING_UNAVAILABLE))
+    g.annotate(SourceDiscrepancy("library","Source run alternatives remain unresolved",(SourceClaim("Prior defining OnlineMethods cost paragraph","NextSeq5002×75 midoutput kit"),SourceClaim("Published SupplementaryFig21","paired85×2 bases")),"Select2×75; keep85×2 as separate source claim.","Existing article/facet source review retained; Supplementary figure source inspected in this round.","Exact relation between those statements remains unassigned."))
+    g.declare_reviewed_scope(("rna","mixed_rt_primers","reverse_transcriptase","reverse_transcribe","cleanup_enzymes","cleanup","tdt","tail","second_strand_primer","deep_vent","second_strand","gat27_primer","wta","wta_column","wta_cleanup","gat24_primer","conversion","conversion_beads","conversion_cleanup","shear_condition","shear","end_repair_mix","end_repair","klenow_exo","da_tail","illumina_adapter","adapter_ligase","ligate_adapter","library_forward","library_reverse","library_polymerase","library_pcr","library"),SOURCE)
+    return g.require_publishable()

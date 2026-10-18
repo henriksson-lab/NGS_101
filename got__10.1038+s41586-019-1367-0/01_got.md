@@ -1,5 +1,20 @@
 # GoT — research notes
 
+## Active native migration, 2026-10-18
+
+Selected linear GoT from native 10x3′v2 recovered first-strand cDNA. Native version-specific kit amplification is bounded; its source extra cycle is explicit. SPRIselect recovery precedes physical allocation of3µl for genotyping and the distinct expression remainder. The genotyping aliquot receives source3–4 extra cycles with KAPA/10x primer mix and another cleanup, then SI-PCR plus a locus-specific reverse primer, SPRI, and P5generic/RPI-X PCR. The selected zero-stagger CALR reverse is assembled from the source handle row and gene-specific row; its two components are source-tested. The source P5generic is not placed on a pre-indexPCR product as if SI-PCR were a disclosed P5 primer. Cell/UMI identities retain lineage with native widths unresolved; the RPI sample index is source-positive8bases. Acquired linear3′v2 reads26/index8/98or130 are separate from physical native geometry.
+
+Other 3′v3/5′ inputs and optional spike-ins are distinct experimental variants. Circular GoT remains outside the selected native graph, with its extensive source-known operations and discrepancy summarized publicly: optional SF3B1 pre-enrichment; PCR1;1.3XSPRI; USERII; overnight T4 circularization; lambda exonuclease;1.3XSPRI; PCR2 followed by the analogous conversion/closure/digestion/recovery; PCR3 linearization; SPRI; P5/RPI indexPCR; PE150MiSeq. The Gibson variant uses distinct complementary handles/KAPA and50°C1h assembly. Methods PCR2Fw/Rv U handles are AGGUCAGTCU/AGACUGACCU while Table5 assigns the reverse names; Methods PCR1Rv omits the Table5 terminal phosphorothioate “…CCGATC*T”. Neither ambiguity is silently repaired. Native circular topology/primer assignment requires a follow-up graph; the linear migration is not complete circular-variant coverage.
+
+Digestion, nonamplification and computational filtering never imply physical discard. Actual first/native/targetPCR templates remain separate from their daughter endpoint, and unknown kit stages do not manufacture symmetric primer species.
+
+This bounded pass read 2 originals and reran the mandatory bundle primer scraper. Original/source identity was checked in the external manifest. Historical review status and the two-reader missing-information gate are unchanged.
+
+## Historical observations
+
+The earlier observations below retain their original review scope; current source-owned declarations above replace earlier canonical endpoint and recipe defaults.
+
+
 Defining source: Nam *et al.*, *Nature* (2019), [10.1038/s41586-019-1367-0](https://doi.org/10.1038/s41586-019-1367-0) ([open author manuscript](https://pmc.ncbi.nlm.nih.gov/articles/PMC6782071/)).
 
 ## 1. What it is

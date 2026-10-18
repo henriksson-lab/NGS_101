@@ -273,6 +273,49 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "suite 8/8 pass; page builds; pairing 0 problems; chemistry 2 established/0 conditional/29 unresolved/0 contradictory with 5 MAGIC warnings; source guard 9 exact checked, 0 failed, 3 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "documents": 2,
+      "locations": "Published PMC11499997 JATS Methods186–205: OAKscRNA-Seq and OAKpairedsnRNA/snATAC (fixation,37°C1hbulkTDE1,overloading,RT,125µlrecovery,SSCwash/count/aliquots−80°C,80°Crelease/silane,sourceRNAprimers,Multiome10cyclepreamp/10µlATACsplit/ATACPCR and bothrunlayouts). Existing cited10x original CG000183RevA Appendix54 extracted4874–4946: v3 bead andRT/cDNA-strand architecture; targetedsourceoligoscraper run onthat original.",
+      "findings": "Removed shared endpoint/carrier overload/recovery/analyte-split recipes. Local sourcefixedcarrier pathways preserve independent chromatin/RNA/sscDNA, sourceorder, physicalrecovery/washes,countingaliquots and frozenstores. SourceRNA3′v3 positive16barcode/12UMI/T30 retained onlyRNA-only; unverifiedMultiome nativebead/ends/widths remainunassigned. ActualsourceRNA-onlyssinput and mixedMultiomepreamp/aliquotPCRinput used, no expectedduplexshortcut. Both10µlATAC andRNApreparation aliquots retainmixedpreamp, with carriedbackgroundnotpresumedpurified. SourceprintedRNAprimers retain8ntaliquotindex/10ntlibraryi7 semantics. Positive28/10/8/90 and50/8/24/49 acquisition retained in explicitreadtables; sourceRNA R1site preserved, otherhistoricalprimergeometry bounded. OtherGEM/Tn5outcomesunresolved ratherthan rejected bycomputationalQC.",
+      "deferred": [
+        "ExactOAK-era Multiome bead/librarykitrevision/nativecommercialprimer/end assembly",
+        "Native full first-cyclecDNA/MultiomePCR/gap/ligation geometry; source delegatedfragmentationrecovery remainskitboundary",
+        "OptionalHTO/lineagebranch primerrecipes not substituted into threeexisting terminalpaths",
+        "Actualselectedindexmembers; printedRNAprimers remainrepresentative"
+      ],
+      "round": "2026-10-18-batch03-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "oligo_scraper": "Mandatory bundle scraper reviewed; relevant printed primer/modification hits verified against actualselected originals. OAK targetedscraper also run on alreadycitedCG000183RevAoriginal. Large unrelated dataworkbook skips are not absence evidence.",
+      "scope": "Capped nativegraph migration, not full source/linked audit; no accepted missing-information claims.",
+      "verification": "Focused source suite5/5 pass; page builds; pairing0; chemistry34 unresolved/0contradictory; scoped batch sourceguard28checked/0failed/2documented pMENTs strand exemptions/18unassigned inputs; review schema, notes and diffcheck pass."
+    },
+    {
+      "round": "2026-10-18-batch03-implementation-correction",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Local model, rendered page and parent independent review findings; existing batch03 original-source scope referenced, no originals re-read.",
+      "findings": "Implementation correction retains the installed source aliquot i5, P5 and full R1 primer arm in the cDNA-PCR product, with a distinct carried DNA population and bounded complementary-strand geometry. RNA-only Read1 explicitly retains the original3′v3 N16/N12 scope; Multiome native widths remain unassigned.",
+      "deferred": [
+        "Existing migration native-geometry and historical-source boundaries remain; no additional source reading or absence conclusion."
+      ],
+      "scope": "Implementation correction referencing the original migration evidence scope; not an independent original-source review.",
+      "verification": "Focused source suite5/5 pass; page builds; pairing0; chemistry34 unresolved/0contradictory; scoped batch sourceguard28checked/0failed/2documented pMENTs strand exemptions/18unassigned inputs; review schema, notes and diffcheck pass."
+    },
+    {
+      "round": "2026-10-18-batch03-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current protocol declarations, notes and quoted source scopes; no additional originals read.",
+      "findings": "Checked carrier recovery, storage/counting fractions and actual mixed Multiome preamp/split inputs. Corrected missing installed aliquot-i5 lineage in cDNA-PCR product; independent background and opposite strands retained. Read table now distinguishes sourcechecked RNA-only N16/N12 from unassigned Multiome widths; fullnative first-copy geometry remains bounded.",
+      "deferred": [
+        "Existing migration native-geometry and historical-source boundaries remain; no additional source reading or absence conclusion."
+      ],
+      "scope": "Independent implementation review only; not a second original-source pass or accepted absence claim.",
+      "verification": "Parent focused suite/page/scopedchemistry/sourceguard/schema pass, page pairing0problems; corrected implementation re-inspected."
     }
   ]
 }

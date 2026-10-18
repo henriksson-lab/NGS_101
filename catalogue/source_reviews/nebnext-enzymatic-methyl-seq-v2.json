@@ -95,6 +95,35 @@
       ],
       "scope": "Capped vendor-manual pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 103 checks pass (incl. 2 new trimming-sequence checks); page builds; pairing 0 problems; chemistry 0 established/1 conditional/13 unresolved/0 contradictory; source guard 0 checked, 0 failed, 0 inputs without exact states (adaptor/UDI primers unprinted); Markdown built; review schema check pass"
+    },
+    {
+      "round": "2026-10-18-batch07-native-graph-migration",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Cached E8015 original manual printedVersion2.0_7/26 title; Overview/Fig1/Fig2 and trim motifs139–151; §1.1–1.10 including1.4.9B carrier, protection/denaturation/deamination/PCR/recovery. MANIFEST source URL retains rev224af38f17a145749b296dab1c27cea0. Dedicated LVUDI original printedVersion2.0_6/26 title and Overview/index-set identity lines26–50.",
+      "oligo_scraper": "Mandatory cached-bundle scraper run before decisions. Relevant exactoligo/trim motifs verified in namedmanuals; no-hit and otherbundle documents do not establish absence.",
+      "findings": "Removed indexed_library/STANDARD_PRIMERS and rna_library_operations.molecule. Explicit selected≤10ng branch keeps independent sample,lambda,pUC19 and postligation-added carrier DNA; carrier is not given invented ligated adapters. Actual six protected original DNAstrand classes remain separate after denaturation and physicalC→U conversion; carrier identity/chemistry unassigned. Q5U consumes that native mixture, not final duplex. Physical original/offtarget material remains unresolved through final beads. Canonical completed shell removed; contemporaneous LVUDI physical8-base index family source-positive but selectedwell/position/run unassigned. SourceE8015E3390/E3392 versusFig1E3900/E3902 discrepancy retained.",
+      "deferred": [
+        "Native EM adaptor strand/end/cytosine-protection and selected LVUDI PCR assembly",
+        "Carrier chemical state and class-specific conversion/cleanup recovery",
+        "Above10ng branch, NaOH alternative and executed read/index acquisition remain outside selected route"
+      ],
+      "scope": "Capped native migration/source pass; no accepted missing-information claim or historical review-status upgrade. Source originals2/2/1 across assigned three protocols.",
+      "verification": "Local source suites4/4/4pass; all3page builds; chemistry14/11/15steps and15/12/18unresolved,0contradictory; sourceguard3checked0failed11unassigned0exemptions; pairing0problems; schema/whitespacepass. Independent critical implementation review remains pending."
+    },
+    {
+      "round": "2026-10-18-batch07-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "nebnext-enzymatic-methyl-seq-v2/tools native molecular declarations and graph; source-reader handoff and capped evidence scope.",
+      "findings": "Checked independent sample/lambda/pUC19/carrier populations, source-specific protection labels, opposed dA ends, six original ssDNA classes and physical C-to-U before Q5U copying. Actual converted originals enter PCR; carrier has no invented ligated adapters. First input branch/formamide choice and v2.0 originals qualified. Physical N8 index information not an acquired mask. No critical implementation defect found.",
+      "deferred": [
+        "Source-reading and molecular-coverage obligations stay at their declared scope."
+      ],
+      "scope": "Independent implementation-only critical review, no original documents read and no missing-information acceptance.",
+      "verification": "Released worker suites/pages/chemistry/source guards passed; parent focused verifier and whole-site checks pending."
     }
   ]
 }

@@ -78,6 +78,34 @@
         "Detailed source steps outside inspected passages; exact selected sequencing/index mask; fuller library states and tagmentation products"
       ],
       "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    },
+    {
+      "round": "2026-10-18-batch02-native-graph-migration",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "PublishedPMC5537732 JATS identity/overview92,kit/linker reagents190/222,and procedural49–72: tagmentation/column/capture/PPC-indexPCR/cleanup/selection/reads.",
+      "oligo_scraper": "Mandatory localbundle scraper run; relevant original passages verified. SupersededDropBSpreprint and large derivedmethylation/GAManalysis tables not used as chemistry evidence.",
+      "scope": "Capped original-source/localnativegraph migration, not fullprotocol review oracceptedpublicationabsenceclaim.",
+      "findings": "Removed queuedNextera recipe; locallyconditionalnamedFC1211031kitreference hasunknownphysicalPPC/indexspecies,widths andacquisition. Independentloci remainseparateuntiltruebridgeligation; sourceactualdAends present. Actualtagged/capturedpre-PCR state, notfinalduplex, enters unavailablePCRgeometry; source72°C3min initialphase andPPC inputincluded. ZymopostTn5/AmpurepostPCR/BluePippin300–600 explicit. Source2x150/250 alternatives do not assign indexmask; chemical/nonamplifyingclasses distinguishedfromphysicalwashfates.",
+      "deferred": [
+        "Fullfirst-cyclecopying/gapgeometry; historicalkit/indexspecies/widths andindexacquisition; exact nativeendproof deferred."
+      ],
+      "verification": "Suite 4/4 pass; page and notes build; chemistry 12 steps, 2 established, 2 conditional, 13 unresolved, 0 contradictory; pairing 0 problems; source guard 0 failed, 4 inputs without exact states (loaded_nextera_adapter, ppc_primers, pcr_forward, pcr_reverse); source-review schema passes."
+    },
+    {
+      "round": "2026-10-18-batch02-independent-critical-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "tools/long_read_chia_pet.py independent_loci, prepared_fragments, contact_scene, tagmented_precursor, protocol_graph and read declarations; source-review migration target list and newest bounded source scope.",
+      "existing_source_scope": "Published PMC5537732 overview92, kit/linker190/222 and Procedure Steps49–72 from existing batch02 source scope, not re-read here.",
+      "findings": "No concrete critical implementation defect found. Separate loci become one molecular product only at bridge ligation; known bridge topology/modification and representative source dA ends are retained. Actual captured pre-fill Tn5 substrate enters unavailable PCR geometry, with source initial72°C phase and PPC/index inputs. Conditional named historical Nextera reference is visibly inferred; physical cleanup/capture fates and alternative paired read lengths stay separate from unknown acquired index cycles. Explicit curator target list is independent of graph traversal.",
+      "deferred": [
+        "Full first-copy/gap geometry and historical loaded adapter/PPC/index strands, widths and exact acquisition remain declared proof/source boundaries, not identified migration defects."
+      ],
+      "scope": "Independent code-only critical review; no new source search or original reading, no accepted absence claim and no complete molecular-proof claim.",
+      "verification": "Read-only code/semantics and existing bounded source-scope inspection; parent/author own fresh focused checks."
     }
   ]
 }

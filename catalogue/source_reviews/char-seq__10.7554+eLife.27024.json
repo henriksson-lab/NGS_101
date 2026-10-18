@@ -175,6 +175,48 @@
         "Historical NEBNext kit/index identity and precise internal desthiobiotin linkage remain unresolved; earlier checklist and absence gates remain in force."
       ],
       "verification": "Local transcription suite, page build, source guard, review schema, pairing and site checks recorded in HANDOVER-REVIEW.md after the critical review."
+    },
+    {
+      "round": "2026-10-18-validation-migration-char",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published eLife v2 JATS Results157–163 and extended protocol20–27,756–901; original elife-27024-fig1-figsupp1.jpg upper bridge diagram visually inspected from identity-checked PMC5962340 supplementary ZIP. No new vendor/preprint original used.",
+      "oligo_scraper": "Mandatory full-bundle scraper:13hits in6files; later2020 and superseded-preprint sequence hits not active2018 bridge evidence. Original published graphic visually verifies both bridge strands and App/Sp3/internaldesthiobiotinTEG. Existing image-only guard exemption retained, not a text-match pass.",
+      "findings": "Removed shared TruSeq recipe, keeps canonical endpoint only as conditional local compatibility hypothesis with unassigned i7 length. Preserves original bridge-bottom primer after RNA ligation; Bst copy is a distinct DNA strand while source RNA and independent nearby gDNA remain present. DpnII-opened end states and genomic5GATCjunction explicit; contact retains RNA until RNaseH/PolI conversion. Actual USER-opened/first-PCR states replace expectedfinal PCR templates. Added source postUSERwash, firstAMPure, qPCR/productionaliquots and finaldouble-sidedAMPure; savedfractions remainstored rather than discarded. Publication-family uncertainty not confused with source absence.",
+      "deferred": [
+        "Historical NEBNext kit/index member, physical adapter/PCR ends and acquired index cycle plan",
+        "Complete native molecular/topological relation proof and exact desthiobiotin-TEG attachment",
+        "Hi-C/mock-ChAR and other control variants not part of selected pathway"
+      ],
+      "scope": "Capped defining-source/native-graph migration; not a complete source audit, kit-version equivalence proof or missing-information acceptance."
+    },
+    {
+      "round": "2026-10-18-native-graph-independent-review",
+      "reviewer": "independent_bounded_reader",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published2018article extendedprotocolSteps20–27: PMC5962340 XML export755–907 and eLifev2samearticle export161/906 for152SE. Twoexports ofoneoriginal, nottwooriginals. Existing rootfiguretranscription/geometry reviewed; originalJPG not independently reopened.",
+      "oligo_scraper": "Existing whole-bundle scraper log reviewed; no retrieval or newvariantoriginal used. Publishedimage guard exemption remains limited to bridge input.",
+      "findings": "Finished source-specific USERwash, firstAMPure with savedfraction,5µlqPCR/25µlproduction split and two-sided finalAMPure with savedhigh/lowfractions and discardedEtOHwashes. PCR1product is actualunknown-end duplexScene, preservedthrough cleanup/aliquots intoPCR2; conditionalfinishedreference onlyat finalpolishing. SourceRNA remains presentbeforesecondstrand; Bst uses pre-existing bridgecomplex SELF_PRIMER instead of introducing freebridge again. DpnII cutadds detachedblockedbridgepiece as unresolvedmolecularmaterial; explicitgenomicGATCjunction retainedin tailedinsert. Onlysource-positiveR1primer isdeclared; indexacquisition/cyclesunassigned, rather thanassertedunacquired.",
+      "deferred": [
+        "Originalpublishedfigure wasnot independently reread in thispass; priorlocatedroot/imagechecks remain the visualtranscription evidence",
+        "HistoricalNEBNext kit/indexandphysicalends, completeRNA/DNAextension/ligationrelationproof and alternativecontrols remain open"
+      ],
+      "scope": "Independent bounded source/implementation migration review, not a completechemistry or two-readerabsence audit."
+    },
+    {
+      "round": "2026-10-18-readout-display-correction",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current protocol module sequencing declarations and generated primer/read-content section; independent implementation reviewer chromium_migration identified the index row. No originals re-read.",
+      "oligo_scraper": "Implementation-only display correction; no new source reading or oligo assignment.",
+      "findings": "Preserved compatible primer geometry and source-positive biological run declarations. Replaced the generic acquired-role table with explicit source read specifications so unassigned Index1 acquisition/cycles are shown as undetermined instead of incorrectly not acquired. No index read recipe is inferred.",
+      "deferred": [
+        "Actual index acquisition/cycles and selected physical index member remain source follow-ups."
+      ],
+      "scope": "Display correction only, not new original-source review or missing-information acceptance."
     }
   ]
 }

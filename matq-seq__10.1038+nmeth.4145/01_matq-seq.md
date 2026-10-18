@@ -37,7 +37,7 @@ approximately 200 bp, NEBNext end repair, Klenow exo− dA tailing, ligation of 
 TruSeq adapters with T4 DNA Quick Ligase, five cycles of KAPA HiFi PCR with a TruSeq PCR
 primer, and NextSeq 500 sequencing. The exact selected TruSeq adapter/index oligo and
 ligation-ready end geometry are 🔴 unavailable in the checked materials. The page
-therefore shows 🟡 inferred canonical TruSeq terminal bases.
+now uses source-limited TruSeq endpoint roles with no canonical terminal bases or invented index widths; native library-PCR geometry is unavailable on its actual adapter-ligated precursor.
 The author protocol preprint links a `supplement0.docx` attachment that remains
 inaccessible; the source review keeps this missing-detail claim blocked.
 
@@ -55,3 +55,11 @@ Inspected: Published Supplementary detailed protocol MOESM227 PDF text1–120; M
 Distinguished24-cycle WTA and subsequent20-cycle3NGAT24 conversion in the summarized graph label. Source confirms T4DNApolymerase primer digestion, RNaseH/I and TdT dC tailing before second-strand synthesis.
 
 Deferred: Published main article and primer table, complete adapter/index acquisition and source mixture-unit wording; graph separation of WTA/conversion and recovery. This capped pass does not establish a complete source review or publication-wide absence.
+
+## Native graph migration (2026-10-18, batch02)
+
+Inspected: Published supplementary protocol MOESM227 extracted text1–142 (entire protocol); published supplementary figures MOESM220 Fig21 caption309–319. Mandatory whole-bundle scraper reviewed; six primer sequences verified directly in the original supplementary protocol.
+
+Native graph separates three RT primer/target populations, retained RNA, source RNase digestion, variable TdT dC tail, ten-cycle second-strand extension, 24-cycle GAT27 WTA and two 20-cycle 3NGAT24 conversion blocks with their separate recoveries. Fragmentation, end repair, dA tailing, source-limited TruSeq ligation and five-cycle KAPA PCR use actual precursor states. Prior independently reviewed Online Methods end preparation and five-cycle/2×75 run scope retained, not re-read in this pass. The earlier bounded conversion label understated the two source blocks. Fig21 85×2 versus named 2×75 run discrepancy remains displayed.
+
+Deferred: Full adapter/index family and ligation geometry; complete WTA/conversion molecular geometry; cached defining main article not re-read this pass; acquired index-cycle assignment. This capped pass does not establish publication-wide absence or complete molecular proof.

@@ -1,97 +1,66 @@
-"""Herzog et al. SLAM-seq chemistry and QuantSeq endpoint."""
+"""Herzog et al. 2017; source-owned metabolic conversion and QuantSeq boundary."""
 from pathlib import Path
 import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
 from base_conversion import BasePath
-from batch_ngs import seg, truseq_library
-from chemdraw import Row
-from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
-
-
-
+from chemdraw import Construct, Scene
+from protocol_model import role
+from protocol_graph import Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+import seqprimers as sp
 def slam_path(*, labelled: bool) -> BasePath:
-    """SLAM-seq base path through IAA derivatization and RT readout."""
+    """SLAM readout path: terminal C/T is RNA-sense sequencing, not first-strand cDNA G/A."""
     return BasePath(("s4U", "IAA-s4U", "C")) if labelled else BasePath(("U", "T"))
 
-TITLE = "SLAM-seq — thiol-linked metabolic RNA sequencing"
-NOTES = "01_slam-seq.html"
-SOURCE = ('Defining source: <a href="https://doi.org/10.1038/nmeth.4435">Herzog et al., <i>Nature Methods</i> (2017)</a>.')
-SUMMARY = ("Metabolically label new RNA with 4-thiouridine, alkylate its thiol with iodoacetamide, and prepare a 3′ mRNA library in which reverse transcription records labeled uridines as T-to-C substitutions.")
-CAVEAT = ("The paper specifies the commercial Lexogen QuantSeq FWD kit but does not print its adapter oligos. The dotted adapter skeleton is therefore an inferred single-index Illumina-compatible endpoint; the s4U chemistry and readout are published.")
-ALKYLATION = {"IAA_mM": 10, "DMSO_percent": 50, "phosphate_mM": 50, "pH": 8, "temperature_C": 50, "minutes": 15}
 
-FINAL_LIBRARY, SEQ_PRIMERS = truseq_library(
-    [seg("INFERRED — QuantSeq 3′-end cDNA", "X" * 42, placeholder=True, inferred=True)],
-    "SLAM-seq QuantSeq library", dual_index=False, inferred_adapters=True)
-FINAL_CAPTION = ("INFERRED — a single-index Illumina-compatible QuantSeq endpoint. Within the cDNA insert, IAA-alkylated s4U is reported as C where the reference RNA has U.")
-SEQUENCING_INTRO = ("The inferred QuantSeq FWD adapter skeleton places standard TruSeq Read 1, Index 1 and Read 2 sites. The published study used HiSeq 2500 SR50, with SR100 for transcriptional-output measurements (Fig.3). Read 1 is the informative 3′-end read; these study settings are distinct from later protocol recommendations.")
-
-def sections():
-    return [
-        ("Label newly synthesized RNA", [Row(chunks=[("nascent RNA incorporates s4U during the pulse; pre-existing RNA retains U", "w1", False)])], "The nucleotide analogue marks synthesis time without biochemical enrichment."),
-        ("Alkylate the thiol", [Row(chunks=[(slam_path(labelled=True).text(), "w1", False)]), Row(chunks=[("10 mM IAA · 50% DMSO · 50 mM phosphate pH 8 · 50 °C · 15 min → DTT quench", None, False)])], "Iodoacetamide covalently carboxyamidomethylates s4U; ordinary U is unchanged."),
-        ("Reverse-transcribe and build the 3′-end library", [Row(chunks=[("poly(A) RNA → oligo(dT)-anchored QuantSeq RT → second strand → indexed PCR", None, True)]), Row(chunks=[("labeled position: RNA s4U → cDNA G → sequenced C     ordinary RNA U → cDNA A → sequenced T", "w1", False)])], "INFERRED — the kit-specific adapter bases are unavailable. The defining paper establishes the 3′-end workflow and T-to-C readout."),
-    ]
-
+TITLE='SLAM-seq — thiol-linked metabolic RNA sequencing'
+NOTES='01_slam-seq.html'
+SOURCE='Defining source: <a href="https://doi.org/10.1038/nmeth.4435">Herzog et al., Nature Methods (2017)</a>, published Online Methods.'
+SUMMARY='Pulse-labelled total RNA is isolated, IAA-alkylated, quenched and ethanol-precipitated before QuantSeq 3′-end library preparation.'
+CAVEAT='Native QuantSeq strand ends, internal second-strand/PCR order and kit oligos remain unassigned in this source scope. No TruSeq adapter shell, index count or fixed index length is inferred. Physical IAA-s4U is an RNA modification; the T-to-C sequencing signal is a subsequent readout.'
+ALKYLATION={'IAA_mM':10,'DMSO_percent':50,'phosphate_mM':50,'pH':8,'temperature_C':50,'minutes':15}
+FINAL_LIBRARY=Construct([role('QuantSeq native end A; sequence unassigned'),role('3′-end DNA insert; labelled-site readout C or unconverted T'),role('QuantSeq native end B; sequence unassigned')],name='SLAM-seq source-limited QuantSeq endpoint')
+SEQ_PRIMERS=()
+FINAL_CAPTION='Native kit-end roles; no standard TruSeq sites assigned. T>C detection is probabilistic and does not mean every labelled position converts.'
+SEQUENCING_INTRO='HiSeq2500 SR50; Fig.3 transcriptional-output experiments SR100. Index acquisition is unassigned.'
+SEQUENCING_ENDING=SEQUENCING_INTRO
+SHOW_READ_CONTENT=False
+READ_SPECS=(sp.read_spec('Read 1','50; 100 for Fig.3','3′ transcript read; reference-U positions can report C','include'),sp.read_spec('Index 1 (i7)',None,'Index geometry and cycle allocation unassigned','undetermined'))
+def mixture(label):
+ sc=Scene(); sc.strand('labelled',[role(label)],label='newly synthesized RNA population'); sc.strand('other',[role('unlabelled RNA containing ordinary U')],label='pre-existing and unlabelled RNA retained'); return sc
 
 def protocol_graph():
-    graph=ProtocolGraph(TITLE,authority=SOURCE)
-    cells=graph.input("cells","cells during the metabolic pulse",MaterialKind.BIOLOGICAL,
-                      primary=True)
-    s4u=graph.input("s4u","4-thiouridine metabolic label",MaterialKind.MOLECULAR)
-    rnap=graph.input("rna_polymerase","cellular RNA polymerases",MaterialKind.CATALYST)
-    labelled=graph.product("labelled_rna","newly synthesized s4U-labelled RNA",
-                           MaterialKind.MOLECULAR)
-    graph.react("pulse_label","Transcribe RNA during the s4U pulse",StepKind.TRANSCRIPTION,
-                ((cells,InputRole.TEMPLATE),(s4u,InputRole.STRUCTURAL),
-                 (rnap,InputRole.CATALYST)),(labelled,))
-    iaa=graph.input("iaa","iodoacetamide alkylation condition",MaterialKind.CONDITION)
-    alkylated=graph.product("alkylated","IAA-alkylated s4U RNA",MaterialKind.MOLECULAR)
-    graph.react("alkylate","Alkylate s4U (50°C, 15 min), then quench with DTT",
-                StepKind.CHEMICAL_CONVERSION,
-                ((labelled,InputRole.TEMPLATE),(iaa,InputRole.CONDITION)),(alkylated,))
-    rt_primer=graph.input("oligo_dt","QuantSeq oligo-dT RT primer",MaterialKind.OLIGO,
-                          inferred=True,source=SOURCE+" (kit oligo sequence not assigned in this model)")
-    rt=graph.input("reverse_transcriptase","QuantSeq reverse transcriptase",
-                   MaterialKind.CATALYST)
-    cdna=graph.product("cdna","3-prime-end first-strand cDNA",MaterialKind.MOLECULAR,
-                       inferred=True,source=SOURCE+" (commercial kit construct)")
-    graph.react("reverse_transcribe","Reverse-transcribe from the poly(A) boundary",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((alkylated,InputRole.TEMPLATE),(rt_primer,InputRole.STRUCTURAL),
-                 (rt,InputRole.CATALYST)),(cdna,))
-    second_primer=graph.input("second_primer","QuantSeq second-strand primer/adapter",
-                              MaterialKind.OLIGO,inferred=True,
-                              source=SOURCE+" (kit oligo sequence not assigned in this model)")
-    second_polymerase=graph.input("second_polymerase","second-strand polymerase",
-                                  MaterialKind.CATALYST)
-    duplex=graph.product("duplex","QuantSeq double-stranded library precursor",
-                         MaterialKind.MOLECULAR,inferred=True,
-                         source=SOURCE+" (commercial kit construct)")
-    graph.react("second_strand","Synthesize the second strand and opposite adapter end",
-                StepKind.EXTENSION,
-                ((cdna,InputRole.TEMPLATE),(second_primer,InputRole.STRUCTURAL),
-                 (second_polymerase,InputRole.CATALYST)),(duplex,))
-    fwd=graph.input("pcr_forward","QuantSeq PCR forward primer",MaterialKind.OLIGO,
-                    inferred=True,source=SOURCE+" (kit oligo sequence not assigned in this model)")
-    rev=graph.input("pcr_reverse","QuantSeq indexed PCR reverse primer",MaterialKind.OLIGO,
-                    inferred=True,source=SOURCE+" (kit oligo sequence not assigned in this model)")
-    polymerase=graph.input("pcr_polymerase","library PCR polymerase",MaterialKind.CATALYST)
-    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
-                          state=FINAL_LIBRARY,inferred=True,
-                          source=SOURCE+" (inferred Illumina-compatible kit endpoint)")
-    graph.react("library_pcr","Amplify and index the 3-prime-end library",StepKind.PCR,
-                ((duplex,InputRole.TEMPLATE),(fwd,InputRole.STRUCTURAL),
-                 (rev,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
-                (library,),geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY,reason="The QuantSeq kit primers are not printed in the defining paper."))
-    graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
-                                          primers=tuple(SEQ_PRIMERS)))
-    graph.declare_reviewed_scope((
-        "cells","s4u","rna_polymerase","pulse_label","iaa","alkylate",
-        "oligo_dt","reverse_transcriptase","reverse_transcribe","second_primer",
-        "second_polymerase","second_strand","pcr_forward","pcr_reverse",
-        "pcr_polymerase","library_pcr","library"),SOURCE)
-    return graph.require_publishable()
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ cells=g.input('cells','mESC population',MaterialKind.BIOLOGICAL,primary=True)
+ s4u=g.input('s4u','100 µM s4U in medium; exchange every 3 h during pulse',MaterialKind.CONDITION)
+ pulse=g.product('pulse','cells containing labelled and unlabelled RNA',MaterialKind.BIOLOGICAL,state=mixture('new RNA with stochastic s4U incorporation'))
+ rnap=g.input('rnap','cellular RNA polymerase',MaterialKind.CATALYST)
+ g.react('pulse_label','Metabolic pulse; selected duration is experiment-specific',StepKind.TRANSCRIPTION,((cells,InputRole.TEMPLATE),(s4u,InputRole.CONDITION),(rnap,InputRole.CATALYST)),(pulse,))
+ trizol=g.input('trizol','TRIzol; 0.1 mM DTT during isopropanol precipitation',MaterialKind.CONDITION)
+ total=g.product('total_rna','total RNA resuspended in 1 mM DTT',MaterialKind.MOLECULAR,state=mixture('s4U-bearing RNA'))
+ waste=g.product('isolate_rna_waste','TRIzol extraction/precipitation non-retained material; composition unassigned',MaterialKind.WASTE)
+ g.react('isolate_rna','Harvest and isolate total RNA; retain labelled and unlabelled species',StepKind.CLEANUP,((pulse,InputRole.TEMPLATE),(trizol,InputRole.CONDITION)),(total,waste))
+ g.mark_terminal(Terminal(waste.id,Disposition.DISCARD,reason='Non-retained physical fraction at this source-described purification; no species-specific depletion asserted.'))
+ iaa=g.input('iaa','10 mM IAA, 50% DMSO, 50 mM sodium phosphate pH8',MaterialKind.CONDITION)
+ alk=g.product('alkylated','IAA-reacted total RNA',MaterialKind.MOLECULAR,state=mixture('RNA bearing carboxyamidomethyl-s4U; conversion yield unassigned'))
+ g.react('alkylate','Typical 5 µg total RNA: 50°C for 15 min',StepKind.CHEMICAL_CONVERSION,((total,InputRole.TEMPLATE),(iaa,InputRole.CONDITION)),(alk,))
+ dtt=g.input('dtt','excess DTT',MaterialKind.CONDITION)
+ quenched=g.product('quenched','quenched total RNA reaction',MaterialKind.MOLECULAR,state=alk.state)
+ g.react('quench','Quench excess IAA with DTT',StepKind.CHEMICAL_CONVERSION,((alk,InputRole.TEMPLATE),(dtt,InputRole.CONDITION)),(quenched,))
+ ethanol=g.input('ethanol','ethanol precipitation reagents',MaterialKind.CONDITION)
+ recovered=g.product('recovered','precipitated total RNA for QuantSeq',MaterialKind.MOLECULAR,state=alk.state)
+ waste=g.product('precipitate_waste','ethanol precipitation supernatant; molecular composition unassigned',MaterialKind.WASTE)
+ g.react('precipitate','Ethanol precipitate RNA after alkylation',StepKind.CLEANUP,((quenched,InputRole.TEMPLATE),(ethanol,InputRole.CONDITION)),(recovered,waste))
+ g.mark_terminal(Terminal(waste.id,Disposition.DISCARD,reason='Non-retained physical fraction at this source-described purification; no species-specific depletion asserted.'))
+ kit=g.input('quantseq','Lexogen QuantSeq 3′ mRNA library reagents',MaterialKind.CONDITION)
+ cdna_sc=Scene(); cdna_sc.strand('RNA',[role('alkylated poly(A) RNA template')],label='RNA'); cdna_sc.strand('cDNA',[role('oligo(dT)-initiated first-strand cDNA; G can be incorporated opposite IAA-s4U, A opposite U')],label='cDNA; conversion is probabilistic')
+ cdna=g.product('cdna','first-strand RNA/cDNA reaction',MaterialKind.MOLECULAR,state=cdna_sc)
+ rtp=g.input('rt_primer','QuantSeq oligo(dT) RT primer; native ends unassigned',MaterialKind.OLIGO)
+ rtenz=g.input('rt_enzyme','QuantSeq RT enzyme',MaterialKind.CATALYST)
+ g.react('reverse_transcribe','QuantSeq oligo(dT) reverse transcription',StepKind.REVERSE_TRANSCRIPTION,((recovered,InputRole.TEMPLATE),(rtp,InputRole.STRUCTURAL),(rtenz,InputRole.CATALYST)),(cdna,))
+ library=g.product('library',FINAL_LIBRARY.name,MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+ residual=g.product('kit_residual','RNA templates and kit byproducts; physical fate unassigned',MaterialKind.MOLECULAR)
+ g.react('kit_construct','Native QuantSeq library-construction boundary after verified RT',StepKind.MAGIC,((cdna,InputRole.TEMPLATE),(kit,InputRole.CONDITION)),(library,residual),reason='Inspected published Methods names QuantSeq and establishes RT readout, but does not establish its native second-strand/PCR order or intermediate strands. Version-matched kit guide remains deferred; no speculative internal route is substituted.')
+ g.mark_terminal(Terminal(residual.id,Disposition.UNRESOLVED,reason='The inspected scope does not assign RNA destruction or kit purification fractions.'))
+ g.sequence(library,SequencingPlan(library=FINAL_LIBRARY,primers=(),limitation='SR50 or Fig.3 SR100, exact native primer and index acquisition unassigned.'))
+ g.declare_reviewed_scope(('rnap','rt_primer','rt_enzyme','cells','s4u','pulse_label','pulse','trizol','isolate_rna','total_rna','iaa','alkylate','alkylated','dtt','quench','quenched','ethanol','precipitate','recovered','quantseq','reverse_transcribe','cdna','kit_construct','kit_residual','library'),SOURCE)
+ return g.require_publishable()

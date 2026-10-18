@@ -140,3 +140,25 @@ UMI adapter are exact graph inputs, with the 3′ C3 blocks printed. The read la
 2 × 150 paired-end, with R2 analysed. The unsupported "4 °C overnight" claim was removed.
 Still deferred: PCR primer bases (NEBNext E7335 vendor document), index read length, 2024
 Procedure steps beyond those listed, and the kit-alternative branches.
+
+## Local validation migration (2026-10-18)
+
+Re-read the defining Liu 2023 Methods, text lines 2614–2659 and 2685–2697; ran the
+source-bundle scraper and checked its printed oligo/modification hits in those
+passages. This graph follows the 2023 modified-eCLIP branch; 2024 PCR reagent choices
+are not silently installed in it.
+
+Every stage now carries its own molecular state. RNA inosine, copied cDNA and the
+RNA-sense G base call are distinct; m6A remains chemically unconverted. The printed
+linker, RT primer and N10 DNA adapter are source-exact inputs. Single-strand donor
+end chemistry and both ligation junctions are shown. The RT primer's 19-base 3′
+region pairs with the linker and its extra 5′ A remains unpaired, computed with Scene.
+Digestion of excess reagent does not establish physical disposal of every hydrolysis
+product; subsequent precipitation/Silane purification are separate operations.
+
+The graph declares both acquired 150-base reads. R1 is explicitly acquired but unused
+for site analysis. R2 is RNA-sense; its initial ten-base UMI supports deduplication
+and is then trimmed. The local source test compares acquisition and analysis to the
+original Methods. Exact selected PCR/sequence-primer members and index read length
+remain unassigned; PCR uses the incoming UMI-tagged cDNA. All chemical relations
+still need their scoped molecular validation; no source-absence claim is accepted.

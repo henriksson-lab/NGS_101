@@ -304,6 +304,23 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite passes (1 render check); page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory over 8 steps; source guard 0 exact checked, 0 failed, 4 inputs without exact states (cDNA/GEX/ADT branch primers); Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "PMC5669064 published JATS Online Methods82–144; published author protocol MOESM3 printed version2017-07-11 staining/fractionation196–268,PCR/cleanup269–317,sequencing330–335,oligos403–444.",
+      "oligo_scraper": "Ran full cached-bundle scrape_primers; relevant pointers checked in named published originals. Superseded preprints not used.",
+      "scope": "Capped native graph/source ownership migration; no accepted absence claim or full protocol validation.",
+      "findings": "Removed batch_ngs transcript endpoint and multimodal_spatial PCR finishers. Explicit native independent populations and single-strand ADT copy; actual cDNA-PCR inputs and unresolved native pre-ADT-PCR state, never final-library template. Source PE1.0/RPI/KAPA PCR and new1.6X finalcleanup are local; Methods10cycles retained within protocol8–12. Transcript manufacturer multistep route/endpoint explicitly bounded rather than installing dA,8ntindex,fullpolyT defaults. Unresolved GEMs are not physical discards; source wash/SPRI fates retained. Separate read plans and explicit curated target list preserved.",
+      "deferred": [
+        "10x v2 manufacturer cDNA/library route and native primer/end geometry",
+        "Native strand/end state of ADTs after vendor cDNA PCR",
+        "Run cycles and selected small-RNA sequencing-primer assignments",
+        "Supplementary Table2/vendor documents not re-read this pass"
+      ],
+      "verification": "3 local original-source checks pass; page builds; chemistry0 established/0 conditional/11 unresolved/0 contradictory. Combined guard5 exact checked/0fail/1 inherited vendor-scaffold exemption/2 inputs without exact states; pairing0; targeted docs and review schema/diff checked."
     }
   ]
 }

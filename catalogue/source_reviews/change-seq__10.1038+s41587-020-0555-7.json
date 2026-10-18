@@ -169,6 +169,21 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation and no accepted missing-information claim.",
       "verification": "local suite 2 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "editing_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "scope": "Source-owned typed graph and actual PCR precursor migration; bounded original-source checks, not a complete chemistry/absence audit.",
+      "locations": "Published Supplementary Information 41587_2020_555_MOESM1_ESM.pdf.txt: reagent/oligo section lines57–105, library steps19–27 lines351–480 and sequencing steps39–40 lines585–590; published article PMC7652380 Methods, extracted line172.",
+      "findings": "Local graph now owns the E7600S Set1 endpoint, eight-cycle dual indexes, Kapa PCR inputs and exact binding geometry on the USER-opened adapter template. The template is the preceding open_hairpin product, not the final indexed library. Canonical vendor arms/primer architecture remain kit-qualified, with index members unassigned. Custom dU transposon consumes a paired phosphorylated oligo scene; dA-tail state uses explicit opposed strands/overhangs instead of two dA labels on one strand. Distinct symbolic intermediates preserve opened ends/circle/cut provenance without claiming exact sequence derivation. Tagmentation off-product recovery remains unresolved instead of an unsupported physical discard.",
+      "deferred": [
+        "Actual study-specific Set1 member assignment and physical kit reagent verification beyond the named product",
+        "Exact input-output relations for Tn5 gap repair, USER opening, circle closure and nuclease linearization remain unvalidated; graph cleanups remain incomplete"
+      ],
+      "verification": "local suite2/2, page build; chemistry1 established/1 conditional/13 unresolved/0 contradictory; source guard2 custom transposon strands checked0 failed; pairing0 problems",
+      "oligo_scraper": "Full local source-bundle scraper run; relevant hits followed into the named original sections. No drawn upstream page used as evidence."
     }
   ]
 }

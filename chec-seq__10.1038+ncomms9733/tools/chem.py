@@ -1,12 +1,14 @@
 """Protocol-owned source, oligos, workflow and reaction graph."""
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Construct, Scene, Segment, feature
+from chemdraw import Construct, Scene, Segment, feature, panel
 import illumina as il
 import seqprimers as sp
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             SourceClaim, SourceDiscrepancy, StepKind)
-from protocol_model import da_tailed, molecule, role
+from protocol_model import molecule, role
+from endprep import EndPreparedDuplex, dA_tailed_scene
+from protocol_graph import Disposition, Terminal
 
 CHEC_UNIVERSAL_ADAPTER = il.P5[:-4] + il.TRUSEQ_READ1
 
@@ -46,7 +48,7 @@ def orsi_adapter_scene():
 
 
 ORSI_DA_LIGATION = AdapterLigationGeometry.known("cohesive", orsi_adapter_scene(),
-    da_tailed("Orsi illustrative dA-tailed insert", "ChEC insert"),
+    dA_tailed_scene(EndPreparedDuplex(Construct([role("reference ChEC insert")]), five_prime_phosphate=True, three_prime_overhang="A")),
     statement="Separate Orsi Basic Protocol3 supplies both protected Y-adapter oligos and the dA-tailed insert workflow. The universal adapter's terminal T is unpaired and complements the fragment dA; these exact oligos are an illustrated variant, not a demonstrated 2015 sample-index assignment.")
 
 
@@ -71,17 +73,36 @@ def oligos():
     )
 
 
-FINAL_LIBRARY, SEQ_PRIMERS = chec_library()
+ORSI_REFERENCE, ORSI_REFERENCE_PRIMERS = chec_library()
+FINAL_LIBRARY = None
+SEQ_PRIMERS = ()
+TOPOLOGY_PANELS = (("Separate later Orsi adapter reference", panel(orsi_adapter_scene().rows(), caption="2015 Basic Protocol3 reagent reference; not a study-specific adapter assignment.")),)
 TITLE = 'ChEC-seq — calcium-triggered chromatin endogenous cleavage sequencing'
 NOTES = '01_chec_seq.html'
 SOURCE = '<a href="https://doi.org/10.1038/ncomms9733">Zentner et al., Nature Communications (2015)</a>; the exact displayed library oligos come from the Henikoff laboratory’s separate <a href="https://doi.org/10.1002/0471142727.mb2131s110">Orsi et al. stepwise protocol (2015)</a>.'
 SUMMARY = 'A protein of interest is genetically fused to MNase. Digitonin admits calcium into living yeast, activating cleavage beside occupied binding sites; short two-cut fragments are selected and converted into a paired-end Illumina library.'
 CAVEAT = 'ChEC-seq reports calcium-triggered cleavage by a mobile protein–MNase fusion, not an antibody-captured footprint. A free nuclear MNase control and early kinetic samples are essential because slower cleavage contains accessibility, enzyme-bias and transient-collision signal. The defining Methods specify2.5:1 negative AMPure selection: keep the small-DNA supernatant, then re-extract and precipitate it to remove RNase before library preparation; this second recovery is summarized in the graph. The exact oligo strings shown here come from a separate same-laboratory Orsi procedure; the defining ChEC article does not itself print a sample-index assignment.'
 FINAL_CAPTION = 'The selected insert is bounded by two MNase-created ends near a protein-binding event. End repair and dA-tailing erase the original overhang geometry but retain both genomic boundary coordinates; the illustrated Orsi variant has one six-base i7 index and no i5 index. This does not identify the exact adapters/index member in the defining 2015 ChEC experiment.'
-READ_LENGTHS = {'Read 1': 25, 'Index 1 (i7)': 6, 'Read 2': 25}
+READ_LENGTHS = {'Read 1': 25, 'Read 2': 25}
 SEQUENCING_INTRO = 'The defining data set used 25-base paired-end reads. Standard TruSeq Read 1 and Read 2 sites are computed here on the separately illustrated Orsi-derived construct. Its six-position index is shown with six Index1 cycles; this is not a recovered 2015 instrument mask or sample-index assignment.'
 SEQUENCING_ENDING = ''
 SEQUENCING_UNAVAILABLE = ''
+
+def dna_population(label, *, rna=False, protein=False, carrier=False):
+    sc=Scene();sc.strand("dna",[role(label)],label="native DNA population; strand pairing/ends unassigned")
+    if rna:sc.strand("rna",[role("independent native RNA/hydrolysates; stage-dependent")],label="separate RNA-derived population")
+    if protein:sc.strand("protein",[role("associated protein/proteolysis products; stage-dependent")],label="separate non-DNA material")
+    if carrier:sc.strand("carrier",[role("GlycoBlue carrier; component-specific recovery unassigned")],label="independent recovery carrier")
+    return sc
+
+def native_library_state(label, *, carrier=False):
+    sc=Scene();parts=[role("native library end A; strand/boundary unassigned",inferred=True),role(label,inferred=True),
+         role("native indexed end(s); scheme/width unassigned",inferred=True,molecular_feature=feature("native_sample_index","sample_index","unknown"))]
+    sc.strand("native",parts,label="INFERRED boundaries — native library molecule")
+    sc.strand("opposite",[role("native opposite strand class; copied/paired extent unassigned",inferred=True)],label="native opposite DNA strand")
+    if carrier:sc.strand("carrier",[role("possible co-carried GlycoBlue; recovery unassigned")],label="independent carrier")
+    if carrier:sc.strand("rna_residual",[role("possible co-carried RNAhydrolysates; class-specific recovery unassigned")],label="independent RNA-derived residuals")
+    return sc
 
 def protocol_graph() -> ProtocolGraph:
     final = FINAL_LIBRARY
@@ -92,15 +113,14 @@ def protocol_graph() -> ProtocolGraph:
     cells = graph.input(
         "fusion_cells", "living yeast expressing the chromatin-protein–MNase fusion",
         MaterialKind.BIOLOGICAL,
-        state=molecule("living budding yeast expressing a protein–MNase fusion", (
-            role("chromatin"), role("DNA-bound protein fused to 3xFLAG-MNase"))),
+        state=dna_population("native chromatin DNA",rna=True,protein=True),
         primary=True)
     digitonin = graph.input("digitonin", "0.1% digitonin permeabilization condition",
                             MaterialKind.CONDITION)
     chromatin = graph.product(
         "permeabilized_chromatin", "accessible intracellular chromatin",
         MaterialKind.MOLECULAR,
-        state=molecule("permeabilized cells", (role("accessible intracellular chromatin"),)))
+        state=dna_population("accessible intracellular DNA",rna=True,protein=True))
     tethered_mnase = graph.product("tethered_mnase", "inactive protein-tethered MNase",
                                    MaterialKind.CATALYST)
     graph.react("permeabilize", "Permeabilize cells with digitonin",
@@ -112,10 +132,7 @@ def protocol_graph() -> ProtocolGraph:
     cut = graph.product(
         "cut_chromatin", "chromatin cut near occupied protein sites",
         MaterialKind.MOLECULAR,
-        state=molecule("chromatin cut near occupied protein sites", (
-            role("distal chromatin"), role("MNase cleavage end"),
-            role("protein-protected binding region"), role("MNase cleavage end"),
-            role("distal chromatin"))))
+        state=dna_population("MNase-cut DNA fragment population",rna=True,protein=True))
     graph.react("timed_digest", "Activate tethered MNase and remove timed aliquots",
                 StepKind.DIGESTION,
                 ((chromatin, InputRole.TEMPLATE), (tethered_mnase, InputRole.CATALYST),
@@ -124,27 +141,32 @@ def protocol_graph() -> ProtocolGraph:
                          MaterialKind.CONDITION)
     stopped = graph.product(
         "stopped_digest", "stopped ChEC digest", MaterialKind.MOLECULAR,
-        state=molecule("stopped ChEC digest", (
-            role("large background genomic DNA"), role("short two-cut protein-site fragment"))))
+        state=dna_population("quenched MNase-cut DNA",rna=True,protein=True))
     graph.react("quench", "Quench each timed digestion aliquot", StepKind.QUENCHING,
                 ((cut, InputRole.TEMPLATE), (quench, InputRole.CONDITION)), (stopped,))
     proteinase = graph.input("proteinase_k", "proteinase K, 55°C for30min", MaterialKind.CATALYST)
-    deproteinized = graph.product("deproteinized", "deproteinized ChEC digest", MaterialKind.MOLECULAR, state=stopped.state)
+    deproteinized = graph.product("deproteinized", "deproteinized ChEC digest", MaterialKind.MOLECULAR, state=dna_population("DNA after proteolysis; digestionproducts remain until extraction",rna=True,protein=True))
     graph.react("deproteinize", "Digest proteins before nucleic-acid extraction", StepKind.DEPROTEINIZATION,
                 ((stopped, InputRole.TEMPLATE), (proteinase, InputRole.CATALYST)), (deproteinized,))
-    extraction = graph.input("extraction_condition", "nucleic-acid extraction and RNase condition",
-                             MaterialKind.CONDITION)
-    extracted = graph.product("extracted_dna", "extracted ChEC DNA",
-                              MaterialKind.MOLECULAR, state=stopped.state)
-    graph.react("extract", "Extract nucleic acid and digest RNA", StepKind.EXTRACTION,
-                ((deproteinized, InputRole.TEMPLATE), (extraction, InputRole.CONDITION)),
-                (extracted,))
+    extraction=graph.input("extraction_condition","phenol/chloroform/isoamyl extraction",MaterialKind.CONDITION)
+    extracted=graph.product("extracted_nucleic_acids","aqueous extracted ChEC nucleic acid",MaterialKind.MOLECULAR,state=dna_population("native cut DNA after organic extraction",rna=True))
+    waste=graph.product("extraction_waste","removed organic/interface fraction",MaterialKind.WASTE)
+    graph.react("extract","Extract nucleic acids",StepKind.EXTRACTION,((deproteinized,InputRole.TEMPLATE),(extraction,InputRole.CONDITION)),(extracted,waste))
+    graph.discard(waste,"Physical phenol/chloroform extraction fraction; proteolysis itself is not discard.")
+    etoh=graph.input("ethanol","ethanol precipitation and source ethanolwash",MaterialKind.SELECTION)
+    carrier=graph.input("glycoblue","GlycoBlue recovery carrier",MaterialKind.MOLECULAR)
+    precip=graph.product("precipitated","recovered nucleic acids and carrier",MaterialKind.MOLECULAR,state=dna_population("native recovered DNA",rna=True,carrier=True))
+    sup=graph.product("precipitation_waste","removed precipitation supernatant/wash fraction",MaterialKind.WASTE)
+    graph.react("precipitate","Precipitate and wash extracted nucleic acids",StepKind.CLEANUP,((extracted,InputRole.TEMPLATE),(carrier,InputRole.SPIKE_IN),(etoh,InputRole.SELECTION)),(precip,sup))
+    graph.discard(sup,"Physical source ethanol recovery fraction.")
+    rnase=graph.input("rnase","RNaseA;37°C20min",MaterialKind.CATALYST)
+    extracted=graph.product("extracted_dna","DNA/RNAhydrolysates afterRNase",MaterialKind.MOLECULAR,state=dna_population("native ChEC DNA",rna=True,carrier=True))
+    graph.react("digest_rna","Digest RNA after nucleic-acid recovery",StepKind.DIGESTION,((precip,InputRole.TEMPLATE),(rnase,InputRole.CATALYST)),(extracted,))
     beads = graph.input("ampure_selection", "2.5:1 AMPure size-selection rule",
                         MaterialKind.SELECTION)
     selected = graph.product(
         "selected_fragments", "short ChEC DNA fragments", MaterialKind.MOLECULAR,
-        state=molecule("size-selected ChEC DNA", (
-            role("short fragment bounded by two MNase cleavage ends"),)))
+        state=dna_population("selected short MNase fragments",rna=True,protein=True,carrier=True))
     large = graph.product("large_genomic_dna", "large bead-bound genomic DNA",
                           MaterialKind.WASTE)
     graph.react("size_select", "Retain the small-DNA supernatant", StepKind.SELECTION,
@@ -153,67 +175,36 @@ def protocol_graph() -> ProtocolGraph:
     graph.discard(large, "binds the AMPure beads while the short ChEC fragments remain in supernatant")
     reviewed = [
         "fusion_cells", "digitonin", "permeabilize", "calcium", "timed_digest",
-        "proteinase_k", "deproteinize", "quench_reagents", "quench", "extraction_condition", "extract",
+        "proteinase_k", "deproteinize", "quench_reagents", "quench", "extraction_condition", "extract","ethanol","glycoblue","precipitate","rnase","digest_rna",
         "ampure_selection", "size_select",
     ]
-    # Source-owned Orsi variant. The 2015 ChEC short-fragment selection above and
-    # these positive downstream cleanups retain different physical fractions.
-    polish = graph.input("chec_repair_polymerases", "Orsi end-polish T4 DNA polymerase and Klenow fragment", MaterialKind.CATALYST)
-    kinase = graph.input("chec_kinase", "Orsi T4 PNK in the same end-polish mix", MaterialKind.CATALYST)
-    repaired = graph.product("chec_repaired", "End-polished/phosphorylated DNA; illustrated Orsi variant", MaterialKind.MOLECULAR)
-    graph.react("chec_repair", "Combined end polishing and phosphorylation (Orsi variant)", StepKind.END_REPAIR,
-                ((selected, InputRole.TEMPLATE), (polish, InputRole.CATALYST), (kinase, InputRole.CATALYST)), (repaired,))
-    organic = graph.input("chec_organic_cleanup", "Orsi phenol/chloroform and S-300 cleanup", MaterialKind.CONDITION)
-    clean = graph.product("chec_repair_clean", "Cleaned end-polished DNA", MaterialKind.MOLECULAR)
-    repair_waste = graph.product("chec_repair_waste", "Material removed by Orsi end-polish cleanup", MaterialKind.WASTE)
-    graph.react("chec_clean_repair", "Clean up after end polishing", StepKind.CLEANUP,
-                ((repaired, InputRole.TEMPLATE), (organic, InputRole.CONDITION)), (clean, repair_waste))
-    graph.discard(repair_waste, "Reported phenol/chloroform and S-300 cleanup; no exact molecular identities assigned.")
-    tailing = graph.input("chec_tailing_enzyme", "Orsi Klenow exo−, source materials M0212M", MaterialKind.CATALYST)
-    datp = graph.input("chec_datp", "Orsi dATP tailing condition", MaterialKind.CONDITION)
-    tailed = graph.product("chec_tailed", "Orsi dA-tailed ChEC fragment", MaterialKind.MOLECULAR,
-                           state=da_tailed("dA-tailed DNA", "ChEC insert"))
-    graph.react("chec_tail", "Add fragment 3′ dA tails (Orsi variant)", StepKind.TAILING,
-                ((clean, InputRole.TEMPLATE), (tailing, InputRole.CATALYST), (datp, InputRole.CONDITION)), (tailed,))
-    tail_clean = graph.product("chec_tail_clean", "Cleaned dA-tailed DNA", MaterialKind.MOLECULAR, state=tailed.state)
-    tail_waste = graph.product("chec_tail_waste", "Material removed by Orsi A-tail cleanup", MaterialKind.WASTE)
-    graph.react("chec_clean_tail", "Clean up after A-tailing", StepKind.CLEANUP,
-                ((tailed, InputRole.TEMPLATE), (organic, InputRole.CONDITION)), (tail_clean, tail_waste))
-    graph.discard(tail_waste, "Reported phenol/chloroform and S-300 cleanup.")
-    adapters = graph.input("chec_adapters", "Separately documented protected Orsi Y adapters", MaterialKind.ADAPTER,
-                           state=orsi_adapter_scene().rows())
-    ligase = graph.input("chec_adapter_ligase", "Orsi Rapid DNA ligase, Enzymatics L6030-HC-L", MaterialKind.CATALYST)
-    adapted = graph.product("chec_adapted", "Y-adapter-ligated DNA; physical Y arms not fully constructed", MaterialKind.MOLECULAR)
-    graph.react("chec_ligation", "Ligate the illustrated Orsi adapters", StepKind.LIGATION,
-                ((tail_clean, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)),
-                (adapted,), geometry=ORSI_DA_LIGATION)
-    positive_beads = graph.input("chec_positive_beads", "Orsi positive AMPure cleanup; retain bead-bound DNA", MaterialKind.SELECTION)
-    ligation_clean = graph.product("chec_ligation_clean", "Bead-purified adapter-ligated DNA", MaterialKind.MOLECULAR)
-    ligation_waste = graph.product("chec_ligation_waste", "Unbound material from post-ligation cleanup", MaterialKind.WASTE)
-    graph.react("chec_clean_ligation", "Retain bead-bound ligated DNA", StepKind.CLEANUP,
-                ((adapted, InputRole.TEMPLATE), (positive_beads, InputRole.SELECTION)), (ligation_clean, ligation_waste))
-    graph.discard(ligation_waste, "Source positive cleanup discards supernatant; distinct from initial ChEC negative selection.")
-    p5 = graph.input("chec_p5_primer", "Orsi P5 enrichment primer", MaterialKind.OLIGO,
-                     state=Construct([Segment("P5 primer", CHEC_P5_PCR)]))
-    p7 = graph.input("chec_p7_primer", "Orsi P7 enrichment primer", MaterialKind.OLIGO,
-                     state=Construct([Segment("P7 primer", CHEC_P7_PCR)]))
-    polymerase = graph.input("chec_pcr_polymerase", "KAPA HiFi HotStart polymerase; defining ChEC and Orsi sources", MaterialKind.CATALYST)
-    amplified = graph.product("chec_amplified", "PCR-amplified illustrated Orsi library", MaterialKind.MOLECULAR, state=final)
-    graph.react("chec_pcr", "PCR-enrich the illustrated Orsi library", StepKind.PCR,
-                ((ligation_clean, InputRole.TEMPLATE), (p5, InputRole.STRUCTURAL),
-                 (p7, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)), (amplified,),
-                geometry=PCRGeometry.unavailable(molecule("initial Y-adapter-ligated DNA", (role("Y-adapter-ligated DNA"),)),
-                    reason="Both Orsi enrichment primers are source-known, but the complete initial Y-arm strand state and first PCR copies are not constructed here. A fully complementary amplified endpoint is not substituted as the physical pre-PCR template."))
-    library = graph.product("chec_library", final.name, MaterialKind.LIBRARY, state=final)
-    pcr_waste = graph.product("chec_pcr_waste", "Unbound material from post-PCR cleanup", MaterialKind.WASTE)
-    graph.react("chec_clean_pcr", "Retain bead-bound amplified library", StepKind.CLEANUP,
-                ((amplified, InputRole.TEMPLATE), (positive_beads, InputRole.SELECTION)), (library, pcr_waste))
-    graph.discard(pcr_waste, "Source post-PCR positive AMPure cleanup; no consensus or mapping filter is represented as physical removal.")
-    graph.sequence(library, SequencingPlan(final, tuple(primers), tuple(p.role for p in primers), READ_LENGTHS))
-    reviewed.extend(("chec_repair_polymerases", "chec_kinase", "chec_repair", "chec_organic_cleanup", "chec_clean_repair",
-        "chec_tailing_enzyme", "chec_datp", "chec_tail", "chec_clean_tail", "chec_adapters", "chec_adapter_ligase",
-        "chec_ligation", "chec_positive_beads", "chec_clean_ligation", "chec_p5_primer", "chec_p7_primer",
-        "chec_pcr_polymerase", "chec_pcr", "chec_clean_pcr", "chec_library"))
+    # Defining article explicitly re-extracts and precipitates the negative-selection supernatant.
+    recovery = graph.input("postselect_recovery", "phenol/chloroform extraction then ethanol/GlycoBlue precipitation", MaterialKind.CONDITION)
+    recovered = graph.product("recovered_chec", "recovered ChEC DNA after RNase-removal extraction", MaterialKind.MOLECULAR,
+                              state=dna_population("recovered selected fragments", rna=True, carrier=True))
+    removed = graph.product("postselect_removed", "physically removed extraction/precipitation fraction", MaterialKind.WASTE)
+    graph.react("recover_selected", "Re-extract small-DNA supernatant and precipitate before library preparation", StepKind.CLEANUP,
+                ((selected, InputRole.TEMPLATE), (recovery, InputRole.CONDITION)), (recovered, removed))
+    graph.discard(removed, "Physical source recovery removes RNase/reagents; complete species-specific depletion is not asserted.")
+    preparation = graph.input("native_method", "native library preparation from cited2011/2013 methods; exact implementation unassigned", MaterialKind.CONDITION)
+    prepared = graph.product("native_prepared", "actual native library-PCR precursor; ends unassigned", MaterialKind.MOLECULAR,
+                             state=native_library_state("native pre-PCR molecules", carrier=True))
+    graph.react("native_prepare", "Native cited-method library preparation boundary", StepKind.MAGIC,
+                ((recovered,InputRole.TEMPLATE),(preparation,InputRole.CONDITION)), (prepared,),
+                reason="Defining Methods cites Henikoff2011 and Zentner2013 and specifies KAPA amplification. Those detailed predecessor implementations are outside this capped pass; the later Orsi reference does not establish native ends, chemistry or primer identity.")
+    forward=graph.input("native_forward", "unassigned native forward library-primer role", MaterialKind.OLIGO, inferred=True)
+    reverse=graph.input("native_reverse", "unassigned native opposite library-primer role", MaterialKind.OLIGO, inferred=True)
+    polymerase=graph.input("native_kapa", "KAPA polymerase named by defining ChEC Methods", MaterialKind.CATALYST)
+    library=graph.product("native_library", "INFERRED — native ChEC amplified library", MaterialKind.LIBRARY,
+                          state=native_library_state("native amplified DNA; end/index scheme unassigned", carrier=True), inferred=True)
+    residual=graph.product("native_residual", "original pre-PCR molecules/carrier after copying", MaterialKind.MOLECULAR, state=prepared.state)
+    graph.react("native_pcr", "INFERRED boundaries — KAPA library amplification", StepKind.PCR,
+                ((prepared,InputRole.TEMPLATE),(forward,InputRole.STRUCTURAL),(reverse,InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)),
+                (library,residual), geometry=PCRGeometry.unavailable(prepared.state,
+                    reason="Actual native prepared molecules are the input. Opposing primer roles are unassigned, not two verified source oligos; first-cycle chemistry and ends remain unresolved."))
+    graph.mark_terminal(Terminal(residual.id,Disposition.UNRESOLVED,"Copying does not erase original templates or carrier; source-specific final recovery is unassigned."))
+    graph.sequence(library,SequencingPlan(acquired_roles=("Read 1","Read 2"),read_lengths=READ_LENGTHS,limitation=SEQUENCING_ENDING))
+    reviewed.extend(("postselect_recovery","recover_selected","native_method","native_prepare","native_forward","native_reverse","native_kapa","native_pcr","native_library"))
     graph.declare_reviewed_scope(reviewed, source)
     graph.annotate(SourceDiscrepancy(
         "fusion_cells", "Published correction: original Reb1 result table",
@@ -234,3 +225,13 @@ def protocol_graph() -> ProtocolGraph:
         "The authors' correction withdraws that interpretation and states that it does not invalidate ChEC-seq as a method to identify binding sites.",
         "Cleavage kinetics alone do not establish the molecular basis of a particular binding event; the linked correspondence and reply are separate analysis sources."))
     return graph.require_publishable()
+
+# The separate 2015 ordering reference above is not the defining experiment's endpoint.
+SHOW_READ_CONTENT=False
+READ_SPECS=(sp.read_spec("Read 1",25,"Defining source paired-end genomic boundary read","include"),
+            sp.read_spec("Read 2",25,"Defining source paired-end opposite boundary read","include"),
+            sp.read_spec("Index 1 (i7)",None,"Native historical index acquisition/width unassigned","undetermined"),
+            sp.read_spec("Index 2 (i5)",None,"Native historical index scheme/acquisition unassigned","undetermined"))
+SEQUENCING_ENDING="Defining source25-cycle paired-end sequencing. Native adapter/index identity, acquired index cycles and run-primer landing remain unassigned in this capped pass."
+SEQUENCING_INTRO=""
+CAVEAT += " INFERRED — native library ends and opposing primer roles are unassigned. The exact Orsi oligos are a separate2015 reference and do not assign historical native index geometry or sequencing cycles."

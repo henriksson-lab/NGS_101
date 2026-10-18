@@ -160,6 +160,35 @@
       ],
       "scope": "Bounded follow-up; defining Science original still unread, so not a defining-source review and no missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/15 unresolved/0 contradictory; source guard 2 checked, 0 failed, 2 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch10-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Author Bio-protocol4886 PDF (2023-11-20), materials135–147/procedureC–H392–700, including amplification540–605 and library preparation610–700; accession-specific GEO GSM6998595 source record extraction/sequencing/processing10–24; TruePrep TD501/TD502/TD503 manual Version6.2 printedtitle/introduction only.",
+      "oligo_scraper": "Mandatory defining/source bundle scraper run; actual source passages verified. iMARGI linked detailed-protocol bundle scraper also run; pointer output is not evidence.",
+      "findings": "Native joint graph replaces generic two-library finishing. Genomic DNA remains original through in-nucleus RT; MboI5′GATC ends ligate without fill-in. GAT5-RT N8 is the UMI; GAT5-7N N7 is random priming. Actual mixed inputs feed joint preamplification and both source PCR stages; RNA-P7 carries into the second reaction. SDS stop, initial72°C extension, physical pool and source double selection are explicit. DNA/RNA endpoint views are computational classes of one physical library; no modality purification or default Illumina shell/indexwidth is inferred.",
+      "deferred": [
+        "Defining Science main and supplement not inspected this capped pass; author protocol supplies active chemistry scope.",
+        "Native TruePrep loaded adapter strands, exact RNA-P7 junction/full first-cycle geometry, selected UD members/widths and index acquisition remain unassigned.",
+        "TruePrep Version6.2 manual title/scope only; historical detailed shell is not promoted as new evidence."
+      ],
+      "scope": "Capped source-qualified implementation migration only; historical statuses/absence gate preserved. No accepted missing-information claim.",
+      "verification": "2 source transcription checks;14graphsteps;18unresolved/0contradictory; page/pairing/schema pass."
+    },
+    {
+      "round": "2026-10-18-batch10-independent-implementation-review",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "hires__10.1126+science.adg3797/tools/chem.py, build_page.py, selftest.py; released native ProtocolGraph, source-boundary/caveat and paired state declarations only. No original-source rereading.",
+      "findings": "Critical code-only review of independent originalRNA/genomicDNA and in-situ RTcopy populations, GAT5RT N8UMI versus GAT5-7N randompriming, MboIcohesiveGATC→contactjunction, sourcewell indexing versus acquiredcycles, actualmixed preamp/tagged/extended/enrichmentPCR/indexPCR inputs and carriedoriginal/nonproductive lineages. Reviewer reported premature random-primer-derived DNA label immediatelyafterRT and missing opposed MboIcohesiveend semantics; owner corrected both and reviewer rechecked. No further concretecriticaldefect found within implementation scope.",
+      "deferred": [
+        "Existing original-source deferrals, nativegeometry/member/acquisition limits and historicalmissinginformation gate unchanged; this documents0 implementation review is not an independent second source reading."
+      ],
+      "scope": "Independent critical implementation-only review. No new original documents, source expansion, absence acceptance or historical reviewstatus upgrade. Owner made corrections; reviewer made no chemistrycode edits.",
+      "verification": "2 optional original-transcription checks pass;14steps;0established18unresolved0contradictory. All3pages build; pairing0; combinedchemistry7established94unresolved0contradictory. Review schema/whitespace checked after recordwrite."
     }
   ]
 }

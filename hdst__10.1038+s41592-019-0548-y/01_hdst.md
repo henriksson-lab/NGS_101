@@ -1,5 +1,18 @@
 # HDST — research notes
 
+## Active native migration, 2026-10-18
+
+Source scope: Published PMC6765407 s41592-019-0548-y_PMC6765407.xml.txt Methods119–145 (bead synthesis/decoding/tissue/RT/release/readmask), original SI s41592-019-0548-y_supp_NIHMS1536533-supplement-1.docx.txt first SupplementFig1/2 captions1–9 (split-pool/opticaldecoding/computationalretention), directly cited Jemt2016 PMC5111054_PMC5111054.xml.txt49–51 (known native operation order/reaction cleanups) and89 (delegation to Ståhl2016SI; first RNAClean elution modification).
+
+The protocol now owns18native operations. Three bead pools are covalently assembled with source completed bridges and physical15/14/15barcodes,UMI5,T20VN. SourcedU5/AmC6bead linkage and actualextendedssDNA persist before USER; released5′geometry and bead-remnant recovery remain unassigned. Actual paired T7promoter precedes IVT, new antisense RNA usesU/transcribedGGG, promoterDNA and originalRNA remain independent. Jemt source-known secondstrand/endrepair/IVT/RNAadapter/RT2 order and reaction cleanups are explicit; detailed enzymes/oligos/ends remain deferred. Actual recovered RT2ssDNA feeds PCR; no genericTruSeq/index8 shell. Public synthesis versus preprocessingmask15/15/16+UMI6 conflict remains unresolved; supersededpreprintUMI7 is not active authority. MOB125/175 and breast150/150 are independent runs, not a fabricated physical split.
+
+Mandatory scraper: 24hits5files;5largefiles skipped (17MBxlsx,15MBxlsxtext,29MBxlsx,39MBxlsx,30MBxlsx). Oligohits used only as source pointers; precursor/bridges/widths checked against published Methods.
+
+Deferred: Ståhl2016SupplementaryInformation explicitly delegated by Jemt2016 for detailed enzymes/adapter/RT/PCR strands and native end geometry; HDST selected vendor barcode/decoder members and experimental indexing scheme/acquisition; Exact USER5′junction and component-specific recovery of originals/copies/fragments.
+
+This is a capped implementation/source pass, not a complete chemistry review or accepted missing-information finding. Historical source passes below retain their original scope; sources were frozen before implementation and no source expansion followed the cap.
+
+
 Vickovic et al., *Nature Methods* (2019),
 [doi:10.1038/s41592-019-0548-y](https://doi.org/10.1038/s41592-019-0548-y).
 

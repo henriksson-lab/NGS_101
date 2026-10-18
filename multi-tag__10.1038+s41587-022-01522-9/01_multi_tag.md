@@ -55,8 +55,7 @@ adapter, and the i7 primer 3′ end equals the first 27 nt of every P7_i7 adapte
 3. 🟢 Nuclei on beads (bulk: 50,000 on ConA; single-cell: 1.8 million on biotin-WGA /
    streptavidin T1 Dynabeads). First conjugate transposome in Wash-300 + 2 mM EDTA,
    1 h RT or overnight 4 °C; three Wash-300 washes; tagment in Wash-300 + 10 mM MgCl2,
-   1 h 37 °C; 5 min Wash-300 + 5 mM EDTA. Repeat for each conjugate; the published orders
-   always end with H3K27me3.
+   1 h 37 °C; 5 min Wash-300 + 5 mM EDTA. Repeat through final-conjugate incubation; the finalH3K27me3 conjugate is held for the final joint tagmentation after secondary/i7 binding. The published orders always end with H3K27me3.
 4. 🟢 Secondary antibodies (species of the conjugates), 1 h RT, two Wash Buffer washes;
    i7 transposome in Wash-300 1 h RT (single-cell: nuclei split across 96 uniquely
    barcoded i7 transposomes), three washes, final tagmentation with 10 mM MgCl2 1 h 37 °C.
@@ -89,3 +88,12 @@ is the combination of i7 well (96), ICELL8 i5 primer and i7 primer.
   version named was not found in any inspected source text and is no longer asserted.
 - Bulk branch (12 bulk P7_i7 rows, tube PCR with specific primer pairs) is described
   here but not drawn.
+
+
+## Bounded native migration — 2026-10-18 batch09
+
+Inspected 2 originals: Published PMC10188359 JATS107–121 Conjugates/Bulk/SingleCell/Sequencing; published SupplementaryTable1MOESM2 identity established by manifestMD5=5cd0f4d7b6de26836d8c04dac29ecb93 (byte-identical cached2021.07.08.451691_media-2.xlsx), README/targetP5rows/firstsinglecellP7_i7_13and72primerfamilyexamples. Mandatory bundle scraper/hits reviewed; large otherpreprintworkbook skipped, not evidence ofabsence.
+
+Removed extended_protocols Definition/ident, chain/role_library defaults. Local selected singlecell source orderH3K4me2→H3K36me3→finalH3K27me3 uses actualtargetfamilycomponents. FinalH3K27me3 waits after incubation throughsecondary/i7binding thenjointtagmentation, correcting oldgraph earlyfinaltargettag. Source annealing/amineconjugation, binding/washes/Mg/EDTA,96wellaggregation, DNaseStop/wash/straining, ICELL8SDS/Triton/PCR and twoHighPrep recoveries explicit. Independenttarget DNApopulations preserve knownidentifiers; possible covalent5′antibody–amino-adapter original ends retained, not chemically removed by SDS orcopied into daughters. Microwellref62conditions/firstcycleunread, no bulkprogramme substituted; actual native input feedsPCR. PE25positive; barcode8widths do not assign index acquisition.
+
+Deferred: Microwell ref62 original/setup/extension/PCRcycling and precise native tagged/gap/primer strand geometry; Original antibody-adapter-covalent DNA/free-adapter/nontransfer/offproduct componentrecovery throughSDS/PCR/cleanups; Sequencingprimer landing and actual barcode/indexacquisition; remaining publishedfigures/vendor/predecessor scope. This capped pass does not accept source-wide absence or establish complete experimental validation. Earlier dated/provisional interpretations above are historical; this entry describes the current source scope.

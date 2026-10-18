@@ -17,7 +17,7 @@
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "Original PMC5024639 HTML text lines 1237–1256 and Methods line 1463",
+        "locations": "Original PMC5024639 HTML text lines 1237\u20131256 and Methods line 1463",
         "finding": "BotSeqS shears genomic DNA, ligates TruSeq DNA PCR-Free Y adapters, dilutes the ligated library before PCR, then amplifies and sequences paired-end 100; endogenous mapping endpoints and two strand families are the identifiers, not a newly synthesized UMI."
       }
     },
@@ -52,7 +52,7 @@
       "pass_2": {
         "reviewer": "audit_a_h",
         "date": "2026-10-16",
-        "locations": "Official TruSeq DNA PCR-Free guide lines 59–62 and 114–135",
+        "locations": "Official TruSeq DNA PCR-Free guide lines 59\u201362 and 114\u2013135",
         "finding": "Vendor workflow confirms standard fragment/end-repair/size-select/dA-tail/adapter ligation sequence; BotSeqS adds a post-ligation bottleneck and PCR. Kit guide does not establish a unique BotSeqS index choice."
       }
     }
@@ -86,11 +86,11 @@
       "reviewer": "root",
       "date": "2026-10-17",
       "documents": 2,
-      "locations": "Published PMC5024639 article HTML text lines 1243, 1246–1256 (library generation, Watson/Crick, HiSeq 2500 rapid 2x100, Fig. 1 legend), 1460–1463 (Methods DNA prep, BioRuptor shearing, TruSeq PCR-Free low-input ligation with 350-bp selection, 10^5-fold dilution); TruSeq DNA PCR-Free Reference Guide 1000000039279 v00 (Oct 2017) workflow contents lines 55–66 for step order only",
+      "locations": "Published PMC5024639 article HTML text lines 1243, 1246\u20131256 (library generation, Watson/Crick, HiSeq 2500 rapid 2x100, Fig. 1 legend), 1460\u20131463 (Methods DNA prep, BioRuptor shearing, TruSeq PCR-Free low-input ligation with 350-bp selection, 10^5-fold dilution); TruSeq DNA PCR-Free Reference Guide 1000000039279 v00 (Oct 2017) workflow contents lines 55\u201366 for step order only",
       "oligo_scraper": "Bundle scraper run: 0 oligo hits; the article prints no oligos.",
-      "findings": "Added source shearing settings (BioRuptor high, 15 s on/90 s off, 7 cycles, 3 °C), AllPrep DNA input, kit reagent identities, 10-fold MiSeq dilution-series basis for the dilution, and an inferred 350-bp size-selection step (placement from the 2017 guide, caveated on page). Model correction: post-dilution PCR primers were labelled TruSeq indexed reverse primer; article names no PCR primers/polymerase/cycles and the index is carried by the PCR-free adapter, so they are now marked unidentified (SI Appendix). Acquired roles limited to Read 1/Read 2 x100; index read not stated.",
+      "findings": "Added source shearing settings (BioRuptor high, 15 s on/90 s off, 7 cycles, 3 \u00b0C), AllPrep DNA input, kit reagent identities, 10-fold MiSeq dilution-series basis for the dilution, and an inferred 350-bp size-selection step (placement from the 2017 guide, caveated on page). Model correction: post-dilution PCR primers were labelled TruSeq indexed reverse primer; article names no PCR primers/polymerase/cycles and the index is carried by the PCR-free adapter, so they are now marked unidentified (SI Appendix). Acquired roles limited to Read 1/Read 2 x100; index read not stated.",
       "deferred": [
-        "PNAS SI Appendix PDF (PMC download gate; pnas.org 403; PMC Cloud 404) — dilution, PCR and sequencing details",
+        "PNAS SI Appendix PDF (PMC download gate; pnas.org 403; PMC Cloud 404) \u2014 dilution, PCR and sequencing details",
         "Dataset S1 XLSX (same gates)",
         "2016 TruSeq DNA PCR-Free kit revision: adapter index length/arrangement and size-selection placement",
         "8-nt i7 placeholder of the canonical drawn library unchecked"
@@ -139,6 +139,37 @@
         "Index-read acquisition (SI names 'well-barcoded' MiSeq samples, no index set)"
       ],
       "verification": "local suite 2/2 pass; page builds; pairing 0 problems; chemistry 1 established/0 conditional/8 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 1 input without exact state; Markdown built"
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "scope": "Capped native graph migration; published/vendor original scope stated below. No accepted missing-information claim.",
+      "oligo_scraper": "Ran full cached-bundle scrape_primers; relevant oligo pointers checked in original extracted text; scraper is not evidence by itself.",
+      "documents": 3,
+      "locations": "Published article pnas.1607794113_PMC5024639.html.txt 1246\u20131256 and 1460\u20131463; published SI pnas.1607794113.sapp.pdf.txt Materials and Methods 4\u201361; published Dataset S1 pnas.1607794113.sd01.xlsx.txt Table S1 Bot01\u2013Bot44.",
+      "findings": "Removed batch_ngs endpoint/defaults; local canonical single-index arrangement is explicitly inferred, not native-2016 proof. Native Y-adapter end geometry and PCR first-cycle geometry remain unavailable with actual incoming templates. Source modified primers, Q5 program, cleanup and PE100 retained. Source optional 10 \u00b5L retained-stock matched-WGS branch is separate from BotSeqS dilution; unsampled stock is not a physical-discard claim. Watson/Crick consensus families are computational, not one combined molecular output. Recount corrects repository 43/35 counts to 44 libraries/36 typical; no publication discrepancy. Pilot MiSeq barcode details are not assigned to the main native-end-key method.",
+      "deferred": [
+        "2016 TruSeq DNA PCR-Free guide revision and study-specific adapter/index architecture",
+        "Native Y-adapter/first-cycle PCR geometry",
+        "Index-read acquisition; source PE100 does not specify index cycles",
+        "Two 10-fold Table S1 entries versus serial SI scheme: exact implementation unassigned",
+        "2017-guide size-selection placement remains explicitly inferred; guide not re-read this pass"
+      ],
+      "verification": "5 local original-source checks pass; page builds; chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard passes; pairing 0 problems; targeted Markdown and review schema checked."
+    },
+    {
+      "round": "2026-10-18-native-precursor-implementation-review",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only independent review and correction; no new original-source reading or absence claim. Existing protocol-maintenance source scope remains authoritative.",
+      "locations": "tools/chem.py adapter_ligated_precursor(), adapted_pool, both retained aliquots, bottleneck, wgs_pcr and library_pcr; existing bounded migration scope above.",
+      "findings": "Corrected pre-PCR reuse of the inferred completed compatibility Construct. Adapter-ligated stock now has an explicit unresolved native Y-adapter precursor Scene, preserved through matched-WGS and bottleneck aliquots into both unavailable PCR geometries; no complementary finished strand is manufactured for PCR input. Completed compatibility constructs remain post-PCR products. Aliquot, cleanup and unsampled-stock fates unchanged.",
+      "deferred": [
+        "Study-specific 2016 adapter architecture and native first-cycle molecular proof remain unresolved as previously recorded."
+      ],
+      "verification": "5 source checks pass; page builds; scoped chemistry 0 established/0 conditional/13 unresolved/0 contradictory; source guard 2 exact checked/0 failed/3 inputs without exact states; pairing 0 problems; review schema checked."
     }
   ]
 }

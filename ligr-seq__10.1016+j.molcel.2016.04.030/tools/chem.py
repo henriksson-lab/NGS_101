@@ -10,13 +10,13 @@ endpoint rather than an inferred TruSeq shell.
 """
 from __future__ import annotations
 
-from chemdraw import Construct, feature
-from interaction_capture import ReversibleDuplexCrosslink
+from types import SimpleNamespace
+import seqprimers as sp
+from chemdraw import Construct, Scene, feature
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
-from protocol_model import chain, molecule, role
-from protocol_specs import Definition, get
+                            StepKind, Disposition, Terminal, SourceClaim, SourceDiscrepancy)
+from protocol_model import molecule, role
 
 RANDOM_BARCODE = feature("ligr.random_barcode", "inline_barcode", "random",
                          note="5-prime random barcode trimmed from single-end reads; "
@@ -25,87 +25,75 @@ INDEX = feature("ligr.index", "sample_index", "unknown",
                 note="barcode index carried by the kit reverse PCR primer; selected index not stated")
 
 FINAL_LIBRARY = Construct([
-    role("SMARTer forward-primer end (kit sequence not printed)"),
+    role("SMARTer forward-primer end; unassigned", inferred=True),
     role("5-prime random barcode", molecular_feature=RANDOM_BARCODE),
     role("RNA partner A-derived cDNA"),
     role("RNA partner B-derived cDNA"),
-    role("SMARTer reverse-primer end (kit sequence not printed)"),
-    role("barcode index (position within the reverse primer not stated)", molecular_feature=INDEX),
+    role("indexed SMARTer reverse-primer end; internal index position unassigned", molecular_feature=INDEX, inferred=True),
 ], name="LIGR-seq SMARTer stranded library (role endpoint)")
 
 SEQUENCING = ("Single-end, strand-specific reads; the 5-prime random barcode is trimmed "
               "before Aligater chimera detection. Read length, platform primer sequences "
-              "and the selected index are not given in the inspected sources. Partner order "
+              "and the selected index remain unassigned in this bounded model. Partner order "
               "in a read depends on which RNA end was ligated, and circular ligation "
               "products can appear as concatemers of the two RNAs (Figure S1C).")
 
-DEFINITION = Definition(
-    "LIGR-seq — ligation of interacting RNA", "10.1016/j.molcel.2016.04.030",
-    "Sharma et al., Molecular Cell (2016)",
-    "In vivo AMT crosslinks hold RNA duplexes together while S1-trimmed ends are joined by circRNA ligase; RNase R then enriches crosslinked, ligated RNA before 254 nm reversal and SMARTer stranded library construction.",
-    "role", ("5-prime random barcode", "RNA A-derived cDNA", "RNA B-derived cDNA"),
-    SEQUENCING, "RNA",
-    "Model correction (2026-10-17): earlier versions enriched with RNase R before ligation and drew a dual-indexed TruSeq shell with a dA ligation junction; the source performs ligation first, and the SMARTer kit is a template-switching library whose oligo sequences are not printed in the article or supplement. The library is therefore shown by role. The supplement names the SMARTer stranded kit generically (no catalogue number or revision); the 2013 Clontech components list and a third-party transcript of the 2014 manual (revision 050714) mark the SMARTer and N6 oligos proprietary. The study's kit generation, selected index and read length remain unverified."
-)
+TITLE = "LIGR-seq — ligation of interacting RNA"
+NOTES = "01_ligr_seq.html"
+SOURCE = '<a href="https://doi.org/10.1016/j.molcel.2016.04.030">Sharma et al., Molecular Cell (2016)</a>, Experimental Procedures and Supplemental Experimental Procedures.'
+SUMMARY = "AMT holds RNA partners through S1 trimming and proximity ligation; RNase R enrichment precedes photoreversal and SMARTer stranded library construction."
+CAVEAT = "INFERRED ends — the native SMARTer kit version, molecular ends and primer species remain unassigned in this bounded model. RNA partner lengths and crosslinked pairing extent are unassigned. Linear and circular ligation classes may coexist; their proportions and RT products are not fixed. The 5′ random barcode is source-reported read content, not a proven UMI."
+SEQ_PRIMERS = ()
+READ_LENGTHS = None
+ACQUIRED_ROLES = ("Read 1",)
+READ_SPECS = (sp.read_spec("Read 1", "unassigned", "Source-reported 5′ random barcode followed by chimera-derived sequence; partner order and possible concatemers vary", "extract_then_include"),)
+SEQUENCING_INTRO = SEQUENCING
+SEQUENCING_ENDING = SEQUENCING
+SEQUENCING_UNAVAILABLE = "Kit version, primer sites, read length and actual index acquisition remain unassigned; a compatible later kit does not establish them."
+FINAL_CAPTION = "INFERRED ends — role-level SMARTer endpoint; no fixed partner lengths, index length or primer geometry is assigned."
 
 
-def _workflow():
-    x = ReversibleDuplexCrosslink("AMT", "RNase R digests uncrosslinked RNA")
-    return chain(molecule("cellular RNA in 293T cells", (role("RNA molecules"),)), (
-        ("Crosslink paired RNA in cells with AMT and 365 nm UV", x.duplex(),
-         "20 µg/ml AMT on ice, 365 nm for 30 min in 5-min intervals; TRI-reagent extraction and TURBO DNase I follow."),
-        ("Deplete rRNA, then limited S1 nuclease digestion", x.duplex(),
-         "Ribo-Zero Gold on 4 µg total RNA; 400 ng digested with diluted S1 nuclease 30 min at room temperature, stopped by phenol–chloroform. S1 trims single-stranded RNA next to duplexes to create ligatable free ends."),
-        ("Proximity-ligate free ends with circRNA ligase", x.chimera(),
-         "50 ng RNA denatured 2 min at 85 °C, chilled, then ATP and circRNA ligase for 1 h at 60 °C. The elevated temperature limits in vitro rehybridization while the AMT crosslink keeps partners together."),
-        ("Enrich with RNase R, then reverse crosslinks at 254 nm", molecule(
-            "photoreversed RNA chimera", (role("RNA partner A fragment"), role("RNA partner B fragment")),
-            junctions=(("RNA partner A fragment", "RNA partner B fragment", "RNA proximity ligation"),)),
-         "RNase R (10 min, 37 °C) degrades linear RNA lacking crosslink protection; circular ligation products also resist it. After phenol–chloroform and ethanol, 254 nm for 10 min reverses AMT, which is removed by ethanol precipitation."),
-        ("Build a SMARTer stranded library and PAGE-select >200 nt", molecule(
-            "LIGR-seq library", tuple(FINAL_LIBRARY)),
-         "First-strand primer adds a 5-prime universal sequence; the reverse transcriptase adds non-templated nucleotides that anneal a universal forward primer for second-strand synthesis. PCR (20 or 17 cycles) uses an indexed reverse primer; AMPure 1:2 cleanups; 6% TBE PAGE, products above 200 nt excised."),
-    ))
+def crosslinked_state():
+    sc = Scene()
+    for name in ("RNA partner A", "RNA partner B"):
+        sc.strand(name, [role(name + "; sequence and paired extent unassigned")], label=name)
+        sc.note(name, "AMT interstrand crosslink retains the partners; no base-resolved fold assigned")
+    return sc
 
 
-SPEC = get("ligr-seq", definition=DEFINITION, final_override=FINAL_LIBRARY,
-           workflow_fn=_workflow,
-           sequencing_unavailable="The SMARTer kit primer sequences are not printed in the inspected article, supplement or kit components list, so read-primer landing is shown by role only.")
+def chimera_state():
+    sc = Scene()
+    sc.strand("linear chimera", [role("RNA partner A fragment"), role("RNA partner B fragment")], label="representative ligated RNA class")
+    sc.junction("linear chimera", "RNA partner A fragment", "RNA partner B fragment", "proximity-ligation junction; bases unassigned")
+    sc.strand("circular class", [role("circular ligation products; native strand order/closure unassigned")], label="separate source-reported circular class; not a linear continuation")
+    sc.note("circular class", "Figure S1A/C: circular products resist RNase R and can yield concatenated RNA-partner alignments")
+    return sc
 
 
 def protocol_graph():
-    d = DEFINITION
-    source = f"{d.source_label}; doi:{d.doi}"
-    graph = ProtocolGraph(d.title, authority=source)
-    topology = ReversibleDuplexCrosslink("AMT", "RNase R digests uncrosslinked RNA")
-    reviewed = []
-
-    def add(*ids):
-        reviewed.extend(ids)
-
+    source = SOURCE
+    graph = ProtocolGraph(TITLE, authority=source)
     rna = graph.input("rna", "293T cellular RNA containing paired regions",
                       MaterialKind.BIOLOGICAL,
                       state=molecule("cellular RNA", (role("RNA molecules"),)), primary=True)
     amt = graph.input("crosslinker", "20 µg/ml AMT, 365 nm UV 30 min on ice",
                       MaterialKind.CONDITION)
     crosslinked = graph.product("crosslinked", "AMT-crosslinked RNA duplexes in cells",
-                                MaterialKind.MOLECULAR, state=topology.duplex())
+                                MaterialKind.MOLECULAR, state=crosslinked_state())
     graph.react("crosslink", "Photocrosslink paired RNA in vivo with AMT",
                 StepKind.CROSS_LINKING,
                 ((rna, InputRole.TEMPLATE), (amt, InputRole.CONDITION)), (crosslinked,))
-    add("rna", "crosslinker", "crosslink")
 
     extraction = graph.input("tri_dnase", "TRI-reagent extraction and TURBO DNase I",
                              MaterialKind.SELECTION)
     total = graph.product("total_rna", "crosslinked total RNA", MaterialKind.MOLECULAR,
                           state=crosslinked.state)
-    dna_waste = graph.product("dna_waste", "DNase-degraded DNA and non-aqueous fractions",
-                              MaterialKind.WASTE)
+    dna_waste = graph.product("dna_waste", "DNase-derived DNA material; later recovery unassigned",
+                              MaterialKind.MOLECULAR)
     graph.react("extract", "Extract RNA and digest DNA", StepKind.EXTRACTION,
                 ((crosslinked, InputRole.TEMPLATE), (extraction, InputRole.SELECTION)),
                 (total, dna_waste))
-    graph.discard(dna_waste, "TRI-reagent phase separation and DNase I digestion")
-    add("tri_dnase", "extract", "dna_waste")
+    graph.mark_terminal(Terminal(dna_waste.id, Disposition.UNRESOLVED, "DNA hydrolysis does not establish physical disposal; the exact partition through subsequent RNA recovery is unassigned."))
 
     ribozero = graph.input("ribozero", "Ribo-Zero Gold rRNA depletion (4 µg input)",
                            MaterialKind.SELECTION)
@@ -116,53 +104,50 @@ def protocol_graph():
                 ((total, InputRole.TEMPLATE), (ribozero, InputRole.SELECTION)),
                 (depleted, rrna))
     graph.discard(rrna, "removed by Ribo-Zero Gold capture")
-    add("ribozero", "deplete_rrna", "rrna")
 
     s1 = graph.input("s1_nuclease", "S1 nuclease (1:100), 30 min room temperature; phenol–chloroform stop",
                      MaterialKind.CATALYST)
     trimmed = graph.product("trimmed", "S1-trimmed crosslinked duplexes with free RNA ends",
                             MaterialKind.MOLECULAR, state=crosslinked.state)
+    s1_products = graph.product("s1_products", "RNA material hydrolysed during S1 trimming", MaterialKind.MOLECULAR)
     graph.react("s1_digest", "Limited S1 single-strand digestion of 400 ng RNA",
                 StepKind.DIGESTION,
-                ((depleted, InputRole.TEMPLATE), (s1, InputRole.CATALYST)), (trimmed,))
-    add("s1_nuclease", "s1_digest")
+                ((depleted, InputRole.TEMPLATE), (s1, InputRole.CATALYST)), (trimmed, s1_products))
+    graph.mark_terminal(Terminal(s1_products.id, Disposition.UNRESOLVED,
+        "S1 hydrolysis does not establish physical disposal; partition through the source phenol–chloroform recovery is unassigned."))
 
     ligase = graph.input("proximity_ligase",
                          "circRNA ligase with ATP (85 °C denaturation, 1 h 60 °C)",
                          MaterialKind.CATALYST)
     chimera = graph.product("chimera", "crosslinked, proximity-ligated RNA chimera",
-                            MaterialKind.MOLECULAR, state=topology.chimera())
+                            MaterialKind.MOLECULAR, state=chimera_state())
+    unligated = graph.product("unligated", "RNA outside the tracked chimera class", MaterialKind.MOLECULAR)
     graph.react("proximity_ligation", "Ligate proximal free RNA ends of 50 ng RNA",
                 StepKind.PROXIMITY_LIGATION,
-                ((trimmed, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)), (chimera,))
-    add("proximity_ligase", "proximity_ligation")
+                ((trimmed, InputRole.TEMPLATE), (ligase, InputRole.CATALYST)), (chimera, unligated))
+    graph.mark_terminal(Terminal(unligated.id, Disposition.UNRESOLVED,
+        "These classes are accounted separately, not physically purified here. RNaseR resistance and recovery of nonchimeric RNA through later steps remain unassigned."))
 
     rnase_r = graph.input("rnase_r", "RNase R, 10 min 37 °C; phenol–chloroform, ethanol",
                           MaterialKind.CATALYST)
     enriched = graph.product("enriched", "RNase R-resistant crosslinked or circular RNA",
                              MaterialKind.MOLECULAR, state=chimera.state)
-    linear = graph.product("linear_digested", "RNase R-degraded uncrosslinked linear RNA",
-                           MaterialKind.WASTE)
+    linear = graph.product("linear_digested", "RNase R hydrolysis products from susceptible linear RNA",
+                           MaterialKind.MOLECULAR)
     graph.react("rnase_r_digest", "Digest uncrosslinked RNA with RNase R",
                 StepKind.DIGESTION,
                 ((chimera, InputRole.TEMPLATE), (rnase_r, InputRole.CATALYST)),
                 (enriched, linear))
-    graph.discard(linear, "nucleotides from RNase R degradation are removed by phenol–chloroform extraction and ethanol precipitation")
-    add("rnase_r", "rnase_r_digest", "linear_digested")
+    graph.mark_terminal(Terminal(linear.id, Disposition.UNRESOLVED, "RNase R hydrolyses RNA. Phenol–chloroform and ethanol recovery follow, but quantitative exclusion of these molecular products is not modelled."))
 
     uv254 = graph.input("photoreversal", "254 nm UV 10 min on ice; ethanol precipitation removes AMT",
                         MaterialKind.CONDITION)
     reversed_chimera = graph.product("reversed_chimera", "photoreversed RNA chimera",
-                                     MaterialKind.MOLECULAR, state=molecule(
-                                         "photoreversed RNA chimera",
-                                         (role("RNA partner A fragment"), role("RNA partner B fragment")),
-                                         junctions=(("RNA partner A fragment", "RNA partner B fragment",
-                                                     "RNA proximity ligation"),)))
+                                     MaterialKind.MOLECULAR, state=chimera_state())
     graph.react("photoreverse", "Reverse AMT crosslinks at 254 nm",
                 StepKind.CHEMICAL_CONVERSION,
                 ((enriched, InputRole.TEMPLATE), (uv254, InputRole.CONDITION)),
                 (reversed_chimera,))
-    add("photoreversal", "photoreverse")
 
     rt_primer = graph.input("rt_primer", "SMARTer first-strand primer adding a 5-prime universal sequence (sequence not printed)",
                             MaterialKind.OLIGO)
@@ -172,21 +157,21 @@ def protocol_graph():
                           MaterialKind.MOLECULAR, state=molecule("first-strand cDNA", (
                               role("universal sequence"), role("chimera cDNA"),
                               role("non-templated nucleotides"))))
+    residual_rna = graph.product("rt_rna", "RNA templates after RT; fate unassigned", MaterialKind.MOLECULAR, state=reversed_chimera.state)
     graph.react("reverse_transcribe", "First-strand cDNA synthesis", StepKind.REVERSE_TRANSCRIPTION,
                 ((reversed_chimera, InputRole.TEMPLATE), (rt_primer, InputRole.STRUCTURAL),
-                 (rt, InputRole.CATALYST)), (first,))
-    add("rt_primer", "rt_enzyme", "reverse_transcribe")
+                 (rt, InputRole.CATALYST)), (first, residual_rna))
+    graph.mark_terminal(Terminal(residual_rna.id, Disposition.UNRESOLVED, "RT does not physically remove its RNA templates; their recovery through the kit cleanup remains unassigned."))
 
     forward = graph.input("universal_forward", "SMARTer universal forward primer annealing to the added nucleotides (sequence not printed)",
                           MaterialKind.OLIGO)
+    ds_parts = (role("universal forward sequence"), role("chimera cDNA"), role("universal sequence"))
     double = graph.product("ds_cdna", "double-stranded SMARTer cDNA", MaterialKind.MOLECULAR,
-                           state=molecule("ds cDNA", (role("universal forward sequence"),
-                                                      role("chimera cDNA"), role("universal sequence"))))
+                           state=Scene.duplex(ds_parts, unpaired=tuple(x.name + "'" for x in ds_parts)))
     graph.react("second_strand", "Second-strand synthesis from the universal forward primer",
                 StepKind.TEMPLATE_SWITCHING,
                 ((first, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL), (rt, InputRole.CATALYST)),
                 (double,))
-    add("universal_forward", "second_strand")
 
     ampure = graph.input("ampure_rt", "AMPure SPRI 1:2 sample:beads", MaterialKind.SELECTION)
     cleaned = graph.product("cleaned_cdna", "bead-recovered cDNA", MaterialKind.MOLECULAR,
@@ -195,7 +180,6 @@ def protocol_graph():
     graph.react("cleanup_rt", "SPRI cleanup of the RT reaction", StepKind.CLEANUP,
                 ((double, InputRole.TEMPLATE), (ampure, InputRole.SELECTION)), (cleaned, sup))
     graph.discard(sup, "unbound material removed with the bead supernatant")
-    add("ampure_rt", "cleanup_rt", "rt_supernatant")
 
     pcr_f = graph.input("pcr_forward", "SMARTer forward PCR primer (sequence not printed)", MaterialKind.OLIGO)
     pcr_r = graph.input("pcr_reverse", "SMARTer indexed reverse PCR primer (index not stated)", MaterialKind.OLIGO)
@@ -203,12 +187,11 @@ def protocol_graph():
                       MaterialKind.CATALYST)
     amplified = graph.product("amplified", "indexed SMARTer amplicons", MaterialKind.MOLECULAR,
                               state=molecule("amplified library", tuple(FINAL_LIBRARY)))
-    graph.react("library_pcr", "Amplify and index the library", StepKind.PCR,
+    graph.react("library_pcr", "INFERRED ends — amplify and index the library", StepKind.PCR,
                 ((cleaned, InputRole.TEMPLATE), (pcr_f, InputRole.STRUCTURAL),
                  (pcr_r, InputRole.STRUCTURAL), (pol, InputRole.CATALYST)), (amplified,),
                 geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY, reason="SMARTer kit primer sequences are not printed in the inspected sources."))
-    add("pcr_forward", "pcr_reverse", "pcr_polymerase", "library_pcr")
+                    cleaned.state, reason="Actual preceding cDNA state; native kit primer strands and first-cycle copying remain unassigned, not a completed library template."))
 
     gel = graph.input("page_select", "AMPure 1:2, then 6% TBE PAGE; excise >200 nt, elute overnight",
                       MaterialKind.SELECTION)
@@ -216,14 +199,24 @@ def protocol_graph():
                             state=FINAL_LIBRARY)
     short = graph.product("short_products", "products below 200 nt left in the gel",
                           MaterialKind.WASTE)
-    graph.react("size_select", "Bead cleanup and PAGE size selection", StepKind.SELECTION,
+    graph.react("size_select", "INFERRED ends — bead cleanup and PAGE size selection", StepKind.SELECTION,
                 ((amplified, InputRole.TEMPLATE), (gel, InputRole.SELECTION)), (library, short))
     graph.discard(short, "not excised from the PAGE gel")
-    add("page_select", "size_select", "short_products", "library")
 
-    graph.sequence(library, SequencingPlan(limitation=SEQUENCING))
-    graph.declare_reviewed_scope(reviewed, source)
+    graph.sequence(library, SequencingPlan(library=FINAL_LIBRARY, acquired_roles=ACQUIRED_ROLES, limitation=SEQUENCING))
+    graph.annotate(SourceDiscrepancy("cleanup_rt", "SPRI size wording and final PAGE window",
+        (SourceClaim("Supplemental Experimental Procedures, Library Preparation, lines846–850", "1:2 sample:beads to obtain fragments <100 bp"),
+         SourceClaim("Same section, lines851–853", "products above 200 nt excised from 6% TBE PAGE")),
+        "Use the printed 1:2 bead ratio without assigning a SPRI size cutoff; retain the explicit final PAGE threshold above200nt.",
+        "Both statements appear in the same published library-preparation paragraph; the model keeps their different scopes visible.",
+        "The retained-versus-excluded meaning of the <100bp wording is unresolved; it is not silently corrected."))
+    graph.declare_reviewed_scope(("rna", "crosslinker", "crosslink", "tri_dnase", "extract", "ribozero", "deplete_rrna", "s1_nuclease", "s1_digest", "proximity_ligase", "proximity_ligation", "rnase_r", "rnase_r_digest", "photoreversal", "photoreverse", "rt_primer", "rt_enzyme", "reverse_transcribe", "universal_forward", "second_strand", "ampure_rt", "cleanup_rt", "pcr_forward", "pcr_reverse", "pcr_polymerase", "library_pcr", "page_select", "size_select", "library"), source)
     return graph.require_publishable()
 
 
-SPEC.protocol_graph = protocol_graph
+SPEC = SimpleNamespace(TITLE=TITLE, NOTES=NOTES, SOURCE=SOURCE, SUMMARY=SUMMARY,
+    CAVEAT=CAVEAT, FINAL_LIBRARY=FINAL_LIBRARY, SEQ_PRIMERS=SEQ_PRIMERS,
+    READ_LENGTHS=READ_LENGTHS, ACQUIRED_ROLES=ACQUIRED_ROLES, READ_SPECS=READ_SPECS,
+    SEQUENCING_INTRO=SEQUENCING_INTRO, SEQUENCING_ENDING=SEQUENCING_ENDING,
+    SEQUENCING_UNAVAILABLE=SEQUENCING_UNAVAILABLE, FINAL_CAPTION=FINAL_CAPTION,
+    oligos=lambda: (), protocol_graph=protocol_graph)

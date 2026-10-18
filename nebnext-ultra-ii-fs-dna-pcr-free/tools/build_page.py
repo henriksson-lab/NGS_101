@@ -3,6 +3,6 @@ from pathlib import Path
 import sys
 HERE=Path(__file__).resolve().parent; sys.path[:0]=[str(HERE),str(HERE.parents[1]/"lib")]
 import fs_pcrfree as M
-from neb_commercial_page import render
+from batch_page import render
 OUT=HERE.parent/"nebnext-ultra-ii-fs-dna-pcr-free.html"
 if __name__=="__main__": OUT.write_text(render(M),encoding="utf-8"); print(f"wrote {OUT}")

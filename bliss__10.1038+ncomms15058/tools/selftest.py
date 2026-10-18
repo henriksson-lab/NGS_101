@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Source-transcription check for the representative classic BLISS adapter A1.
 
-Construction and read-entry completeness are enforced by protocol_specs.get.
+Construction is owned locally; exact finishing geometry remains unresolved.
 """
 from pathlib import Path
 import sys

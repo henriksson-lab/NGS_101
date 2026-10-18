@@ -24,5 +24,13 @@ The spatial coordinate is installed during reverse transcription, before cDNA le
 ## 4. Open questions
 
 - Slide attachment chemistry and the strand left on the slide are not printed in CG000239 Rev F.
-- The model collapses the qPCR cycle-number test and leaves out the final double-sided size selection after Sample Index PCR (Step 4.6).
-- Exact binding coordinates for the cDNA PCR primers stay role-level, because the cDNA states are not drawn base by base.
+- qPCR is represented as a consumed 1 µL analytical aliquot with its cycle-selection role; its complete fluorescence/threshold reaction is outside the native graph.
+- Native first-cycle PCR geometry remains unassigned for the inferred released single strand and the forked adapter-ligated precursor. Printed oligos and source intermediate patterns are explicit; they do not establish validator coverage of these substrates.
+
+## 5. Native graph migration, 2026-10-18
+
+Read the printed Rev F guide: Appendix oligonucleotide/intermediate panels (text lines 4960–5118), second-strand synthesis/denaturation, qPCR and cDNA amplification (2880–3510), index PCR and final size selection (4253–4415). Ran the bundle oligo scraper and followed its relevant pointers into this original. This pass inspected one original; TT tables and Space Ranger material were not re-read.
+
+The local graph now follows first-strand RT/template switching → second-strand duplex → conditional KOH-released single strand → amplification. The source qPCR aliquot is distinct from the main approximately 35 µL amplification pool. Fragmentation/end preparation produces a population of fragment ends, rather than preserving a full cDNA as an exact cleavage product. The ligation product carries the printed partial Read 1 and forked Read 2 adapter, without P5/P7 or sample indexes; the printed index primers create the indexed final product. Both PCR declarations retain the actual incoming molecular state and explicitly leave native first-cycle geometry unresolved. The final Step 4.6 0.6X/0.8X double-sided selection now records first-cut beads and second-cut supernatant as physical waste, with the final eluate sequenced at 28/10/10/90 cycles. No shared protocol finisher selects these products.
+
+This is a bounded migration check, not an absence audit. Slide attachment and native PCR validation remain open model/source questions; no missing-information conclusion is accepted.

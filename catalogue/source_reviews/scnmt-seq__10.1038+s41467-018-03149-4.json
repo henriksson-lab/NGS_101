@@ -350,6 +350,49 @@
         "Exact 6NF identities and potential source wording ambiguity; original supplements and linked protocols; separate recovery states and complete verified DNA assembly"
       ],
       "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    },
+    {
+      "round": "2026-10-18-batch05-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC5823944 Methods136–144 (marking, RNA/DNA recovery, RT/TSO,18-cycle RNA PCR, NexteraXT, native6NF two-stage synthesis, ExoI,14-cycle DNA PCR and cohort-specific sequencing) and interpretation Results; original MOESM1 SupplementaryInformation figures including context filtering; MOESM2 EditorialNote/reviewer-report head, irrelevant to recipe and no chemistry fact used.",
+      "oligo_scraper": "Root mandatory scraper /tmp/chem-scnmt-batch05-primers.log:24hits/8hit-files; one15MB source-data workbook skipped. Implementation worker opened no additional original. No absence inferred from counts or skipped files.",
+      "findings": "Known source order includes marking/stop, oligo-dT capture and three15µl washes transferred to DNA, RNA RT/TSO/ISPCR18PCR and1:1AMPure,100–400pg cDNA NexteraXT one-fifth preparation, DNA0.8×AMPure/bisulfite,6NF+Klenow five first-stage rounds, ExoI and0.75×AMPure,6NF second-stage setup/Klenow90min,0.75×AMPure,PE1.0+iTAG14PCR,0.7×AMPure. Selected EL16 PE125; E14 EB and initial QC runs remain distinct. GCG/CCG exclusions are computational.",
+      "deferred": [
+        "Exact native6NF strands/handles/tail widths, PE1.0/iTAG member/family/index width and native primer geometry; no borrowed N9/8-base scaffold accepted",
+        "Smart-seq2 source-specific ordered TSO/RT/ISPCR components and NexteraXT native geometry; index acquisition; source-data workbook scope"
+      ],
+      "scope": "Three-original capped source pass; unchanged historical review status and missing-information gate. No source expansion.",
+      "verification": "Native implementation and focused checks recorded separately."
+    },
+    {
+      "round": "2026-10-18-batch05-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Local scnmt_seq.py, main note and source-review record; facts supplied by root source pass above. No additional original inspected.",
+      "findings": "Removed all queued endpoint/finisher/scBS/Smart-seq2 recipe imports and native N9/TSO/index defaults. Actual switched ss-cDNA, tagged cDNA and two-stage copied DNA feed their PCR operations. Source-known recovery stages explicit. Independent RNA/DNA populations and sample-index/plate-well feature meaning retained. Physical converted U, chemical ExoI products and computational context exclusions distinguished.",
+      "deferred": [
+        "Native molecular geometry and direct originals listed in root bounded source check."
+      ],
+      "scope": "Implementation and graph review only; not an independent original-source or absence review.",
+      "verification": "Focused suite/page/source guard/schema/pairing pass; chemistry33unresolved,0contradictory. No exact source oligo assignment made. Shared/static/full-site verification parent-owned."
+    },
+    {
+      "round": "2026-10-18-batch05-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current local native protocol module, input/state/geometry/terminal/read declarations, latest bounded migration source scope supplied by parent/owner. Original articles/supplements/predecessors were not reread in this independent pass.",
+      "scope": "Independent implementation-only review; no source expansion, missing-information acceptance or status upgrade.",
+      "findings": "Independent code-only review found no concrete critical defect: independent RNA/DNA populations preserve M.CviPI marking and carried endogenous methylation; source three washes transfer to DNA rather than being discarded. Actual switched ss RNA/cDNA mixture feeds cDNA PCR; selected100–400pg cDNA feeds native XT-tagged precursor and library PCR. DNA original converted U strands remain distinct from first-copy products; source6NF is used in both synthesis stages, five first-copy rounds and postExoI survival uncertainty are explicit, second-stage setup/copy/cleanup precedes actual-input PE1.0/iTAG14cycle PCR. GCG/CCG interpretation exclusions remain computational; EL16PE125 remains distinct from SE/PE75 alternatives and unassigned native indexes.",
+      "deferred": [
+        "Native6NF handle/tail/modified oligo identity and complete copy/PCR geometry",
+        "Study TSO variant, native XT/index/read-primer landing and source run alternatives",
+        "Residual RNA/originalDNA/copy/hydrolysate physical recovery"
+      ],
+      "verification": "Read-only critical implementation review except this documents0 record. Owner reports focused suites/pages/chemistry/sourceguard/pairing passed; shared/final verification remains parent-owned."
     }
   ]
 }

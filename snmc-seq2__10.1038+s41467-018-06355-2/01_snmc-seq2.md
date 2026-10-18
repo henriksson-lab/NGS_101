@@ -1,41 +1,21 @@
-# snmC-seq2
+# snmC-seq2 — native source notes
 
-## 1. What it is
+## Active source scope
 
-snmC-seq2 is a plate-scalable single-nucleus methylome protocol that improves library complexity and combines inline molecular barcodes with dual unique indexes.
+Inspected in the capped2026-10-18 migration: Published PMC6147798 Results87–95 and Methods141–153; original MOESM1 SupplementaryMethods RP-H oligos861–892, indexed-primer mix/Table2 reference1055–1063, recovery/priming/pooling/Adaptase/PCR/cleanup1093–1260 and Table2 primer/code rows6639–6846; MOESM2 Description of Additional Supplementary Files, software description only.
 
-## 2. Authoritative source
+## Native declarations
 
-🟢 Luo et al., *Robust single-cell DNA methylome profiling with snmC-seq2*, Nature Communications (2018), DOI `10.1038/s41467-018-06355-2`.
+Source-printed AD002_H and dual-index pair1 retained as representatives. Table2 prints10bp codes; native subregions derived by finding those codes in the printed primers, including the P7 reverse-complement code at22–32 rather than assuming a canonical24-base prefix. Actual original/copy mixtures and ss Adaptase precursor replace final-duplex shortcuts. Independent genomic/lambda populations,5′C3/H9, eight-way pooling, ExoI/rSAP chemical fates, three final0.8×SPRI recoveries and physical U before copying are explicit.
 
-## 3. Construct-changing operations
+🟢 The published RP-H order is `/5SpC3/TTCCCTACACGACGCTCTTCCGATCTCGATGT` followed by nine H1 mix specifications, with the first written `(H1:33340033)`. Main Results defines H as A/C/T. The native expected copy retains the5′C3 until PCR makes new primer-defined product strands. Original DNA templates and copies are distinct molecules; original/copy duplex occupancy before denaturation is unassigned.
 
-🟢 The workflow performs bisulfite conversion and random-primer-based adapter incorporation on single-nucleus DNA, followed by indexed amplification.
+🟢 Representative Table2 P5 code is `ACGATCAGAC`; P7 code is `CATTGCCTAT`, both explicitly10bp. The P7 primer contains its reverse complement after22upstream bases, not after a guessed canonical24-base arm. This fixes a repository endpoint-assembly assumption; it is not a publication discrepancy. The PCR output declaration uses exact source-primer ends while leaving the Adaptase-dependent span outside the installed P7 footprint unassigned. Complete input-site chemistry remains unresolved.
 
-## 4. Barcode geometry
+🟢 Eight separately RP-indexed reactions are combined before0.8×SPRI/Adaptase. The displayed AD002/index-pair1 lineage is representative within a physical mixture, not an experimentally purified single-nucleus library. Later indexed source plates are consolidated during three final0.8×SPRI cleanups. Acquisition cycles are not derived from source10bp oligo codes.
 
-🟢 Supplementary Methods list eight random primers. Each has a 5′ spacer, a partial
-TruSeq Read 1 tail, a 6-nt inline cell barcode, and nine 3′ H bases (each A, C or T;
-G is excluded). The paper explicitly contrasts this RP-H pool with the earlier RP-N
-pool, so an unrestricted N9 representation would change the chemistry.
-`P5L_AD002_H` carries `CGATGT` as the representative inline barcode drawn on the page.
+Deferred: Native Adaptase-added extent, target-site geometry and vendor original; experiment-specific barcode/dual-index assignments and acquired cycle recipe; Remaining detailed source-supplement content, source software and predecessor isolation material; no absence gate accepted. This capped pass does not establish complete source review or publication-wide absence.
 
-🟢 Supplementary Table 2 supplies 768 paired P5/i5 and P7/i7 amplification-primer
-pairs. Pair 1 is shown base by base on the page: its P5 index is `ACGATCAGAC` and its
-P7 index, read from the library, is `CATTGCCTAT`. The 25-nt and 27-nt 3′ annealing
-regions land on the two final-library arms by computation. The Accel-NGS Adaptase-added
-bases have not been verified from the checked sources; the original vendor guide remains
-to be read. That short region is explicitly inferred on the schematic.
+The PCR output and all subsequent cleanup drawings explicitly retain possible co-carried original DNA and blocked native template lineages, with integrity/abundance/partition unassigned. The expected amplified library is a separate molecule population in that same state. Cleanup fractions therefore do not silently assert physical elimination of originals or native precursor templates.
 
-Sources read: the defining Nature Communications article, its Supplementary Methods
-(`s41467-018-06355-2_supp_41467_2018_6355_MOESM1_ESM.pdf`), Supplementary Table 2
-(`294355_294355-3.xlsx`, identical material linked from the associated preprint), and
-the associated bioRxiv manuscript (doi `10.1101/294355`).
-
-## Bounded curation round 3 (2026-10-16)
-
-Inspected: Published PMC6147798 JATS147–155.
-
-Added ExonucleaseI/rSAP treatment and0.8xSPRI purification before Adaptase; added15-cycle KAPAHiFi PCR label. Source also requires three finalSPRI rounds, currently deferred in graph.
-
-Deferred: Published random-primer/index tables, exact Adaptase completion and acquired run mask; final threeSPRI cleanup states. This capped pass does not establish a complete source review or publication-wide absence.
+The source order is random extension → ExoI/rSAP treatment → eight-way pooling → pooled SPRI recovery → denaturation/Adaptase. The summary follows that order; original-template rows occur once in the copied-mixture state.

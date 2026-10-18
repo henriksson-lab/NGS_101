@@ -38,17 +38,12 @@ an earlier version of these notes misattributed it to "Chen *et al.*".
 - 🟢 1 µL per well is pooled and purified with 0.8× AMPure; the Nextera kit tagments, and Ix-Tru2
   primers replace the Nextera S7XX primer to select the barcoded 3′ ends. The automated
   plate used Vazyme TruePrep and NovaSeq 2 × 150 bp with a custom Read 2 primer.
-- 🔴 No sequence or modification is printed for RT-An, RT-Bn, GAT-7N, GAT-COM, Tru2-Gn-RT or
-  Ix-Tru2 in the article or SI Appendix. Do not invent them from the names.
+- 🔴 Exact native RT-An, RT-Bn, GAT-7N, GAT-COM, Tru2-Gn-RT and Ix-Tru2 strands remain unassigned in this model; the linked automated-protocol identity is unresolved. No complete absence claim is accepted.
 
 ## Model (derived)
 
-- 🟡 Final library: Nextera P5–i5–S5–ME, transcript cDNA, then the barcoded 3′ end on the
-  Ix-Tru2 side. Barcode/UMI therefore lie on the Read 2 side (custom Read 2 primer); Read 1
-  reads transcript. This corrects the previous model, which put the barcode/UMI after the
-  Read 1 mosaic end and drew a symmetric Nextera product.
-- 🟡 The order poly(T)/UMI/inner barcode/RT handle inside RT-An, Tru2–Gn–RT order (from the
-  primer name) and the P7 end are inferred and drawn as `<inf>` role tokens.
+- 🟡 Source-named native Nextera/S5XX plus Ix-Tru2 regions define the original route; a full canonicalP5/i5/S5/ME shell is not assigned. AutomatedTruePrep/customRead2 remains distinct. Transcript and identifier read roles are interpreted with physical primer sites unassigned.
+- 🟡 Displayed internal identifier/handle region order remains inferred. No physical P7 end, fixed index width or exact native primer sequence is assigned from primer names alone.
 
 ## Open questions
 
@@ -60,3 +55,30 @@ an earlier version of these notes misattributed it to "Chen *et al.*".
 
 MALBAC-DT applies MALBAC-style amplification to digital transcriptomics and is separate from
 the MALBAC single-cell DNA protocol.
+
+## Native graph migration (2026-10-18, batch04)
+
+Inspected two published originals: PMC9907105 JATS originalMALBAC-DT Methods195–247,
+automated249–251, SequenceProcessing257–259 and earlierFig1D/Results109–121; original
+SI Appendix contents/FigsS1–S10/TablesS1–S3 headings/performance tables165–276.
+Mandatory bundle scraper returned zerohits, which does not establish publication-wide
+absence. Superseded preprint was not re-read or used. Linked automated-protocol
+reference33 identity remains unresolved; the original cited protocol stays deferred.
+
+The local graph separates originalU2OS/HEK293T Nextera/S5XX+Ix-Tru2 from automatedK562
+TruePrep/customRead2. Originalenzyme/primer identities are not copied into unnamed
+automatedRT/Exomix/PCRmastermix formulations. Original10loopingcycles precede a distinct
+PCR phase (printedGoto13 seventeen times); actual looping-cycle/sscDNA populations
+enter PCR, followed by source5cycle Tru2 completion. Automated15+5cycles remain separate.
+RNA templates, cDNA and primer/hydrolysis/nontarget populations remain distinct and
+carry through Tn5; finalPCR exposes unresolved carried-species fates. Nonamplification
+and computational UMI/barcode filters do not physically discard molecules.
+
+Source-known inner/outer barcode and consensusUMI feature identities persist through
+intermediate populations. Their displayed region order is inferred, not established
+from primer names. The20nt length derives from the reported consensus(HBDV)5pattern;
+that does not establish the physicalRTprimer sequence/orientation. Native kit ends,
+index widths/P7 shell and physicalRead1/Read2 sites remain unassigned. Automated2×150
+is positive; originalreadmask and both index acquisitions are unassigned. Original
+0.8×pooling is not silently assigned to the automatedsummary; its recovery is bounded.
+No prior broad missing-oligo statement is promoted to confirmedabsence.

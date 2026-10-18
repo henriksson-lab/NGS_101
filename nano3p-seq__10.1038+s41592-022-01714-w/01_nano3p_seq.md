@@ -34,3 +34,11 @@ Inspected: Published PMC9834059 JATS241–243, Nano3P-seq library preparation.
 Added RNase Cocktail digestion (37°C/10min) and 0.8xAMPure cleanup before CompA annealing. Kept RNA-fragment recovery unresolved; confirmed modified starter/CompA oligos in Methods and PCR-free AMX finish.
 
 Deferred: Supplementary step-by-step protocol and kit-specific motor-adapter end geometry, explicit reagent release and final WSB purification. This pass does not establish a complete source review or publication-wide absence.
+
+## Native graph migration (2026-10-18, batch02)
+
+Inspected: Published PMC9834059 JATS Methods241–243; published supplementary protocol MOESM1 oligo table86–125 and first Nano3P workflow235–355. Mandatory whole-bundle scraper reviewed; source oligos/modifications verified directly.
+
+Native graph preserves modified RNA/DNA starter annealing, physical capture N, actual ss-cDNA and distinct RNA populations. RNase digestion precedes source recovery, followed by exact CompA annealing with its published cDNA-side A overhang and unavailable AMX-side ligation geometry. Source article94°C annealing/100µL ligation selected, with supplement90°C/50µL recipe kept as a distinct published condition. Final WSB recovery and historical SQK-DCS109/R9.4.1 motor boundary retained; comparator dd-cDNA and current ONT recipes are not substituted.
+
+Deferred: Kit-specific AMX sequence/ligating-end/motor geometry and full molecular ligation proof; original historical kit guide not newly inspected. This capped pass does not establish publication-wide absence or complete molecular proof.

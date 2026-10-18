@@ -9,7 +9,6 @@ from storage import data_root
 from checks import Check, Source, have
 import chem
 
-chem.workflow()
 check = Check()
 supp = Source(data_root() / "sources" / HERE.parent.name /
               "science.aaw1219_supp_NIHMS1036108-supplement-1.docx.txt",

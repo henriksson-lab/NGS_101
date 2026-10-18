@@ -3,15 +3,21 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from protocol_families.atac import AtacVariant, workflow as build_workflow
-from batch_ngs import nextera_library, seg
+from types import SimpleNamespace
+from chemdraw import Construct, Segment, feature
+import seqprimers as sp
 import illumina as il
 import nextera as nx
-from pcr import PCRGeometry
+from pcr import PCRGeometry, PCRPrimer
 from protocol_graph import Disposition, InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind, Terminal
 from protocol_model import molecule, role
 
-VARIANT = AtacVariant(
+SOURCE_OLIGO_EXCEPTIONS={
+    "ad1_primer":"2015 Nature14590 SupplementaryTable1 MOESM36 predecessor original lives in its own bundle; local suite checks every published v2_Ad1 family member.",
+    "ad2_primer":"2015 Nature14590 SupplementaryTable1 MOESM36 predecessor original lives in its own bundle; local suite checks every published v2_Ad2 family member."
+}
+
+VARIANT = SimpleNamespace(
         key="fast-atac",
         title="Fast-ATAC — one-step accessibility sequencing for primary blood cells",
         source='<a href="https://doi.org/10.1038/ng.3646">Corces et al., Nature Genetics (2016)</a> and its Online Methods.',
@@ -32,10 +38,35 @@ NOTES = "01_fast_atac.html"
 SOURCE = VARIANT.source
 SUMMARY = VARIANT.summary
 CAVEAT = VARIANT.caveat
-workflow = lambda: build_workflow(VARIANT)
-FINAL_LIBRARY, SEQ_PRIMERS = nextera_library(
-    [seg("accessible genomic DNA", "X" * 44, placeholder=True)],
-    "Fast-ATAC dual-index library", dual_index=True, i5_nt=8, i7_nt=8)
+def final_library():
+    # Fast-ATAC cites the2015 single-cell Ad1/Ad2 dual-index primer family;
+    # both8-base member assignments remain unknown for the chosen sample.
+    lib=Construct([Segment("P5",il.P5,"p5"),
+        Segment("i5","I"*8,"cbc",placeholder=True,feature=feature("sample_index_i5","sample_index","unknown")),
+        Segment("S5",nx.S5,"s5"),Segment("left mosaic end",nx.ME,"me"),
+        role("accessible genomic DNA"),Segment("right mosaic end reverse complement",nx.ME_RC,"me"),
+        Segment("S7 reverse complement",nx.S7_RC,"s7"),
+        Segment("i7 reverse complement","I"*8,"cbc",placeholder=True,feature=feature("sample_index_i7","sample_index","unknown")),
+        Segment("P7 reverse complement",il.P7_RC,"p7")],name="Fast-ATAC2015-family dual-index library")
+    primers=(sp.NEXTERA["R1"],sp.NEXTERA["I1"],sp.NEXTERA["I2"],sp.NEXTERA["R2"])
+    problems=sp.verify(lib,primers,required_roles=tuple(p.role for p in primers))
+    if problems:raise ValueError("Fast-ATAC library: "+"; ".join(problems))
+    return lib,primers
+
+
+def primer_states():
+    return (Construct([Segment("P5",il.P5),Segment("i5","N"*8,placeholder=True,feature=feature("sample_index_i5","sample_index","unknown")),
+                       Segment("S5 and10ME bases",nx.S5+nx.ME[:10])]),
+            Construct([Segment("P7",il.P7),Segment("i7 oligo","N"*8,placeholder=True,feature=feature("sample_index_i7","sample_index","unknown")),
+                       Segment("S7 and7ME bases",nx.S7+nx.ME[:7])]))
+
+
+def gap_filled_template():
+    return Construct([Segment("S5",nx.S5,"s5"),Segment("left mosaic end",nx.ME,"me"),
+        role("accessible genomic DNA"),Segment("right mosaic end reverse complement",nx.ME_RC,"me"),
+        Segment("S7 reverse complement",nx.S7_RC,"s7")],name="gap-filled heterologous transposition template")
+
+FINAL_LIBRARY,SEQ_PRIMERS=final_library()
 FINAL_CAPTION = "The 2015 dual-index Ad1/Ad2 family cited by the defining article is shown. Tn5 supplies complete 19-bp mosaic ends; PCR appends P5 and an eight-base i5 on the S5 side, and P7 plus an eight-base i7 on the S7 side. Exact sample index members are not assigned."
 READ_LENGTHS = VARIANT.read_lengths
 SEQUENCING_INTRO = VARIANT.sequencing_intro
@@ -77,14 +108,15 @@ def protocol_graph():
     digitonin = graph.input("digitonin_td", "2x TD buffer plus 0.5 µl 1% digitonin (Promega G9441) in 50 µl",
                             MaterialKind.CONDITION)
     tagged = graph.product("tagged", "heterologously tagmented accessible-DNA fragments",
-                           MaterialKind.MOLECULAR, state=pellet.state)
+                           MaterialKind.MOLECULAR, state=molecule("staggered transposition product",(role("S5-bearing end"),role("gapped genomic DNA"),role("S7-bearing end"))))
     non_library = graph.product("non_library", "S5/S5, S7/S7 and other unusable products",
-                                MaterialKind.WASTE)
+                                MaterialKind.MOLECULAR)
     graph.react("tagment", variant.transposition_action, StepKind.TAGMENTATION,
                 ((pellet, InputRole.TEMPLATE), (tde1, InputRole.STRUCTURAL),
                  (tn5, InputRole.CATALYST), (digitonin, InputRole.CONDITION)),
                 (tagged, non_library))
-    graph.discard(non_library, "lacks the heterologous S5/S7 end pair required for amplification")
+    graph.mark_terminal(Terminal(non_library.id,Disposition.UNRESOLVED,
+        "Missing intended S5/S7 geometry does not establish failure to amplify or physical removal by the column. Class-specific recovery remains unresolved."))
     cleanup = graph.input("cleanup_column", "QIAGEN MinElute Reaction Cleanup column (Cat# 28204)",
                           MaterialKind.SELECTION)
     purified = graph.product("purified", "purified tagmented DNA in 10 µl elution buffer",
@@ -98,18 +130,21 @@ def protocol_graph():
     # Amplification below is inherited: the defining article says only "amplified and
     # purified as described previously" (ref. 48, Buenrostro 2015 Curr Protoc) "with
     # modified primers" (ref. 23, Buenrostro 2015 Nature MOESM36 v2_Ad1/v2_Ad2).
-    ad1 = graph.input("ad1_primer", "indexed v2_Ad1 amplification primer family", MaterialKind.OLIGO)
-    ad2 = graph.input("ad2_primer", "indexed v2_Ad2 amplification primer family", MaterialKind.OLIGO)
+    ad1 = graph.input("ad1_primer", "indexed v2_Ad1 amplification primer family", MaterialKind.OLIGO,state=primer_states()[0])
+    ad2 = graph.input("ad2_primer", "indexed v2_Ad2 amplification primer family", MaterialKind.OLIGO,state=primer_states()[1])
     polymerase = graph.input("polymerase", "NEBNext High-Fidelity 2x PCR Master Mix (cited 2015 workflow)",
                             MaterialKind.CATALYST)
+    extended=graph.product("gap_filled","gap-filled accessible-DNA template",MaterialKind.MOLECULAR,state=gap_filled_template())
+    graph.react("gap_fill","72°C5min extension of transposition ends",StepKind.EXTENSION,
+        ((purified,InputRole.TEMPLATE),(polymerase,InputRole.CATALYST)),(extended,))
+    forward,reverse=("".join(x.top for x in con) for con in primer_states())
     preamp = graph.product("preamp", "five-cycle pre-amplified ATAC library",
                            MaterialKind.MOLECULAR, state=FINAL_LIBRARY)
-    graph.react("pre_amplify", "72 °C 5 min gap-fill, then five pre-amplification cycles", StepKind.PCR,
-                ((purified, InputRole.TEMPLATE), (ad1, InputRole.STRUCTURAL),
+    graph.react("pre_amplify", "Five pre-amplification cycles after gap filling", StepKind.PCR,
+                ((extended, InputRole.TEMPLATE), (ad1, InputRole.STRUCTURAL),
                  (ad2, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (preamp,), geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY,
-                    reason="The exact final primer sites are checked on the completed library; the staggered pre-gap-fill substrate is not represented as a Construct."))
+                (preamp,), geometry=PCRGeometry.exact(extended.state,PCRPrimer("Ad1",forward),PCRPrimer("Ad2",reverse),
+                    statement="Source-qualified primer-family footprints are checked on the gap-filled precursor; this relation does not validate transposition or gap filling."))
     qPCR = graph.input("qpcr_rule", "5 µl SYBR Green I qPCR side reaction; N = cycle at ¼ maximum fluorescence",
                        MaterialKind.CONDITION)
     remaining = graph.product("remaining_reaction", "remaining 45 µl pre-amplified reaction",
@@ -124,10 +159,9 @@ def protocol_graph():
                               MaterialKind.MOLECULAR, state=FINAL_LIBRARY)
     graph.react("amplify_n", "Run the remaining reaction for the additional N cycles", StepKind.PCR,
                 ((remaining, InputRole.TEMPLATE), (ad1, InputRole.STRUCTURAL),
-                 (ad2, InputRole.STRUCTURAL)), (amplified,), changes_molecule=False,
-                geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY,
-                    reason="Continues the same 45 µl reaction with the v2_Ad1/v2_Ad2 primers and master mix already present; primer sites are checked on the completed library."))
+                 (ad2, InputRole.STRUCTURAL),(polymerase,InputRole.CATALYST)), (amplified,), changes_molecule=False,
+                geometry=PCRGeometry.exact(remaining.state,PCRPrimer("Ad1",forward),PCRPrimer("Ad2",reverse),
+                    statement="Continued PCR uses the actual preamplified remainder with the same primer-family architectures; physical index members remain unassigned."))
     final_column = graph.input("final_column", "QIAGEN MinElute PCR purification column (cited 2015 workflow)",
                                MaterialKind.SELECTION)
     final = graph.product("library", "purified ATAC sequencing library (20 µl elution)",
@@ -139,10 +173,10 @@ def protocol_graph():
                 (final, pcr_waste))
     graph.discard(pcr_waste, "is removed during the post-PCR column cleanup")
     graph.sequence(final, SequencingPlan(library=FINAL_LIBRARY,
-                                         primers=tuple(SEQ_PRIMERS)))
+                                         primers=tuple(SEQ_PRIMERS),acquired_roles=tuple(p.role for p in SEQ_PRIMERS),read_lengths=READ_LENGTHS))
     graph.declare_reviewed_scope([
         "cells", "pellet_condition", "pellet_cells", "tde1_adapter", "tn5", "digitonin_td",
         "tagment", "cleanup_column", "cleanup", "ad1_primer", "ad2_primer",
-        "polymerase", "pre_amplify", "qpcr_rule", "choose_cycles", "amplify_n",
+        "polymerase", "gap_fill", "pre_amplify", "qpcr_rule", "choose_cycles", "amplify_n",
         "final_column", "final_cleanup", "library"], source)
     return graph.require_publishable()

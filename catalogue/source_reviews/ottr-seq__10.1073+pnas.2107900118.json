@@ -103,6 +103,33 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 4 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch03-native-graph-migration",
+      "reviewer": "rna_finisher_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published PMC8594491 JATS Results/Fig3 around128–140 and Methods186–196 (RT assays and OTTR Library Generation/Sequencing). Whole-bundle scraper completed; its highest oligo hits identify superseded preprint, which was excluded. Existing manifest records published SI Appendix retrieval HTTP403; no new download/source hunting.",
+      "findings": "Native universal-adapter graph explicitly represents single-ddA/ddG capped RNA populations, free-ddNTP dephosphorylation without physical discard, blocked starter RNA/DNA and terminating adapter roles, and the two relay phases within one RT incubation. The cDNA retains its primer terminalY and relay dG without copying the matched ddR/AT terminalC twice. Methods194 processed-as-previously-discussed recovery is scoped through Methods186 RNA nuclease treatment and PCI/ethanol recovery. Original RNA/starterRNA persist until digestion; AT recovery remains unresolved. Half of the recovered10µL ss cDNA enters Q5 PCR4–8cycles, followed by source column/7.5%ureaPAGE/diffusion/PCI/ethanol recovery. The expected endpoint is never reused as PCR substrate. MiniSeq75-cycle kit does not assign read or index acquisition.",
+      "deferred": [
+        "Published SI TableS1 exact primer/template bases and blocking groups; full starter/first-copy/PCR geometry, AT nucleic-acid identity/recovery and actual index/read acquisition remain unassigned. Full-length PCR-free branch is not merged into selected universal branch."
+      ],
+      "scope": "Capped published-source native graph migration; not complete two-reader review, no accepted absence claim.",
+      "verification": "Suite2/2; page/pairing pass; chemistry9steps10unresolved0contradictory. Combined3graph source guard2checked0failed0exempt17inputs without exact states. Read tables explicitly retain unassigned acquisition rather than marking unsupported reads not acquired."
+    },
+    {
+      "round": "2026-10-18-batch03-independent-review",
+      "reviewer": "chromium_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "tools/chem.py and current research note: capped_rna/starter_scene/copy_parts, first/second jump, RNA digestion, recovery/aliquot, library_pcr and sequencing declarations.",
+      "findings": "No new critical implementation issue found. The ddR-capped RNA populations and blocked starter RNA occupy separate strands. Copy states retain the primer terminalY and one dG relay base without duplicating matched terminal ddR/C bases. Original RNA and adapter-template fates remain explicit; hydrolysis is not physical discard. Actual recovered ss relay cDNA aliquot feeds PCR; final expected library is not reused as template. Universal-PCR and full-length PCR-free versions remain distinct. MiniSeq75-cycle kit does not become an invented read/index allocation.",
+      "deferred": [
+        "Published SI TableS1 exact sequences/block identities, complete starter/PCR geometry and actual read/index acquisition remain source-review obligations.",
+        "No originals or source passages independently read; this pass does not establish chemistry beyond represented implementation continuity."
+      ],
+      "scope": "Independent critical implementation/current-note review only; no new source reading, source scraping or accepted publication-absence claim. Existing review status preserved.",
+      "verification": "Read-only inspection of actual graph states, input/output references, molecular modifications, fates and read declarations. No code edits or independent test reruns; parent reports focused checks passing."
     }
   ]
 }

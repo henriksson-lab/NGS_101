@@ -14,7 +14,11 @@
 
 ## Final readout
 
-The final construct is a single-index TruSeq bisulfite library. Paired or single-end genomic reads carry the converted-base signal; the index read identifies the library.
+The separately labelled 2013 reference endpoint has native TruSeq end roles whose
+selected historical strands and index architecture are unassigned. Step 35 names MiSeq
+or HiSeq, without assigning an acquired read layout in this bounded reconstruction.
+No index length or acquisition follows from compatibility alone. The final construct
+illustrates genomic PCR signal; control-derived products remain separately bounded.
 
 ## Implementation and recovered control oligos
 
@@ -55,3 +59,36 @@ Inspected: Original detailed2013 protocol PMC3919000 JATS43,55,265–319, Steps8
 Added alkaline denaturation before ice-cooled perruthenate oxidation and corrected post-bisulfite state from T to U before PCR. Public notice records contamination-sensitive preparation and need for parallel nonoxidized BS control. Preserved2012oxRRBS versus2013TruSeq distinction.
 
 Deferred: Defining2012original/SOM; full2013supplements and library primers; parallel BS branch, buffer-exchange/recovery graph stages. This capped pass does not establish a complete source review or publication-wide absence.
+
+## Native graph migration (2026-10-18, batch03)
+
+Inspected three originals: defining Science 2012 `22539555.pdf.txt` pp.934–937,
+oxidation discussion and oxRRBS experiment (text 110–145, 470–488); published detailed
+2013 PMC3919000 JATS Development 55, Steps 6–22 (255–378) and 32–36 (440–481);
+2013 Supplementary Fig. 1b original MOESM11 p.1 caption. Mandatory bundle scraper
+returned zero hits; this does not close image-based tables or establish absence.
+The original Science SOM `booth-som.revision.1.pdf` remains a named deferred target.
+
+The native graph explicitly selects the later sonicated 2013 reference implementation.
+It does not stand in for the original 2012 oxRRBS construction. Step 8 delegates native
+TruSeq preparation to a historical kit: this is an explicit unresolved boundary rather
+than invented end-repair/dA/Y geometry. Sequencing controls (Step 7) remain separate DNA
+molecules, bead cleanup reserves an ordinary BS aliquot (Step 9), digestion control is
+added to the oxidation aliquot (Step 10), and water-equilibrated P-6 eluate recovery is
+shown before and after alkaline denaturation/oxidation. Both denatured strand populations
+feed oxidation. The digestion control persists through the oxidized/converted states;
+control-derived amplification/QC fates remain separately unresolved, not discarded.
+
+🟢 Both aliquots receive modified EpiTect FFPE bisulfite conversion (Steps 20–22).
+For oxBS, original C and 5fC become U before PCR while 5mC is retained. For ordinary BS,
+5hmC forms the stable methyl-sulfonate adduct described in Development 55; it does not
+remain physically unchanged or become U. PCR then reports that adduct as C. The model
+uses actual converted-strand scenes for native TruSeq primer-cocktail/PfuTurbo Cx PCR
+(2 µl input in 50 µl, 12–15 cycles), followed by AMPure recovery (Steps 32–34).
+No canonical genomic adapter/PCR primer or index width is inferred from kit compatibility.
+The published Supplementary Fig.1b caption discrepancy remains visible publicly.
+
+Deferred: original Science SOM and RRBS construction; exact historical TruSeq strands,
+indices, native primer sites and acquired read layout; strand-specific control reconstruction
+and Step 23–31 digestion QC. The prior recovered control-table history is preserved,
+but that table was not re-read in this capped pass. No absence claim is accepted.

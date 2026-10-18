@@ -1,5 +1,46 @@
 # LAST-seq — research notes
 
+## Current native graph scope — 2026-10-18 batch11
+
+Three originals were inspected: published PMC10413806 Methods150–195; original
+MOESM2 XLSX TablesS2/S3; original MOESM1 DOCX FigS3/S8 legends and the rendered
+FigS8 original image. Mandatory scraper:107hits in1file. Source investigation is
+frozen; no further originals were opened.
+
+🟢 Source modules form a covalent hairpin/rU-dT primer by E.coli DNA ligase,
+then ureaPAGE/elution/ethanol recovery. Its mixedDNA/rU19 tail includes a physical
+terminalddC residue. Cell lysis introduces independent60pgRNA carrier and ERCC
+spike molecules. After evaporation, RNaseH nicks originalRNA in the RNA/dT hybrid;
+Klenow extends that RNA3′end with DNA copied from the source captureprimer.
+This installs a duplexDNA T7 promoter on a mixedRNA–DNA template without prior
+reverse transcription. Ten independent well mixtures are pooled for the selected
+route (80-well is separate), bead-recovered, directly transcribed, bead-recovered,
+then reverse-transcribed with the source RandomRT primer. Originaltemplate,
+physicalcaptureprimer, aRNA copies, carrier/spikes and possible genomicDNA/offtarget
+copies remain independent populations or explicit unresolved residuals.
+
+🟡 Actual random-RT ssDNA enters the first source8-cyclePCR, followed by0.9×
+beads, furtherPCR and finalbeads/11µlTE. The source phase conflict is bounded:
+Methods namesP5/P7 for firstPCR; TableS3 prints shortP5/P7 and NEBNextUniversal/
+Index; renderedFigS8 shows completedNEBNext ends. The short primers lack full
+known RT-product landing sites. The graph preserves named source reagents/order
+with unavailable first-cycle geometry; it no longer silently assigns NEBNext to
+firstPCR or shortP5/P7 to secondPCR. Completed endpointreference is not an incoming
+PCR template. SourceUMI/cellbarcode features persist through native RNA/DNA copies.
+
+The17bp paired linker plus11bp closing arm supplies the sourceFigS8 28bp linker
+reference; the additional unpairedlinkerT belongs with the adjacentT/A context.
+Exact RNaseH nick/extension positions remain unassigned, rather than fixing all
+molecules to an illustrative tail length. SourceBC5/BC7 bothprintCAGGAA; the public
+collision notice remains and BC2 is used as an independent printed example.
+Read1/Read2=50/25; native6nt NEB index family does not establish acquired indexcycles.
+Computational low-quality/emptywell filters are not physical discard.
+
+Deferred: exact nick/extension/first-cycle geometry and PCR-stage primer assignment,
+second-PCR cycles, source barcode collision and native index acquisition. No
+missing-information acceptance or review-status upgrade.
+
+
 > 🟢 source transcription · 🟡 derived from the listed oligos · 🔴 unavailable
 
 Defining source: Lyu J, Chen C. “LAST-seq: single-cell RNA sequencing by direct
@@ -45,9 +86,11 @@ index-read cycles are not stated.
 (24 nt) "library enrichment" primers and NEBNext Universal / NEBNext1–9, 12 index
 primers (3′ phosphorothioate, printed `C*T`). Computed in the model, the short primers'
 3′ ends match only {{= last_seq.SHORT_SITE_NT }} nt of the RandomRT handle and hairpin PCR
-handle, while the NEBNext primers have {{= last_seq.NEB_SITE_NT }}-nt sites. The model
-therefore assigns the 8-cycle PCR to the NEBNext primers and the unnamed second PCR to
-P5/P7; both are inferred. The NEBNext index is 6 nt (previous model drew 8).
+handle, while the NEBNext primers have {{= last_seq.NEB_SITE_NT }}-nt sites. The historical model
+assigned the 8-cycle PCR to NEBNext and the unnamed second PCR to P5/P7. The current
+native graph withdraws those stage assignments: the source named P5/P7 remain an
+unresolved first-cycle interpretation and the further-PCR family is unassigned. The
+NEBNext endpoint family has a6nt native index; acquired index cycles remain unassigned.
 
 🟡 Read layout derived from the hairpin sequence: Read 2 (25 cycles) reads UMI (8), cell
 barcode (6) and the 11-nt hairpin closing arm `TCGTATTAGAG`; the rU-dT linker and

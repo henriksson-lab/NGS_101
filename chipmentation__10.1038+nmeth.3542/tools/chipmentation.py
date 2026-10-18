@@ -1,100 +1,80 @@
-"""Schmidl et al. ChIPmentation molecular model."""
+"""Schmidl2015 native bead-bound ChIPmentation; actual tagged DNA before PCR."""
 from pathlib import Path
 import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
-from chemdraw import Row
-from chromatin_epigenetics import antibody_enzyme_rows, tagmented_library, tagmentation_scene
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'lib'))
+from chemdraw import Construct,Scene,Segment,feature
+from protocol_model import role
 from pcr import PCRGeometry
-from protocol_graph import (Disposition, Terminal, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
-from protocol_model import molecule, role
+from protocol_graph import ProtocolGraph,InputRole as I,MaterialKind as M,StepKind as K,Terminal,Disposition,SequencingPlan
+import seqprimers as sp
+TITLE='ChIPmentation — bead-bound ChIP DNA tagmentation'
+NOTES='01_chipmentation.html'
+SOURCE='<a href="https://doi.org/10.1038/nmeth.3542">Schmidl et al., Nature Methods2015</a>, Methods ChIPmentation/amplification and published SupplementaryTable2.'
+SUMMARY='Antibody-selected bead-bound chromatin is tagmented37°C10min. Physical washes and source ChIP recovery precede native nick-translation/indexPCR; a separate qPCR aliquot chooses enrichment cycles.'
+CAVEAT='Selected bead-bound route is distinct from55°C5min purified-ChIP-DNA tagmentation. Native Nextera loaded strands, gaps and exact customATAC primer member/width remain unassigned; no canonical endpoint is substituted. Main Methods explicitly preactivates KAPA98°C45s for successful first-step nick translation. This establishes the operation, not a9nt gap or complete native extension geometry. The24-cycleqPCR assay is not final enrichment cycle count. Source sequencingTable2 contains differing SR/PE runs; no universal index mask inferred.'
+SAMPLE=feature('chipmentation_sample','sample_index','unknown',note='Native customNextera index count/member/width unassigned')
+FINAL_LIBRARY=Construct([role('native primer-derived end A'),role('ChIP-selected DNA copy'),role('native index-bearing end B',molecular_feature=SAMPLE)],name='source-bounded ChIPmentation daughter library')
+SEQ_PRIMERS=()
+FINAL_CAPTION='Source-native library end roles; loaded transposon/custom primer sequences not assigned.'
+SEQUENCING_INTRO='Published SupplementaryTable2 rows25/26: the same listed K562 ChIPmentation sample has HiSeq2000 SR50 and PE100 runs; other rows remain separate study runs. Index acquisition remains unassigned.'
+SEQUENCING_ENDING=SEQUENCING_INTRO
+SHOW_READ_CONTENT=False
+READ_SPECS=(sp.read_spec('Read 1','50 SR example;100 PE example','target-selected genomic insert; source run variants retained','include'),sp.read_spec('Read 2','100 PE example;not acquired for SR example','opposite genomic insert only in paired-end runs','include'),sp.read_spec('Index 1 (i7)','unassigned','Native acquisition allocation unassigned','undetermined'),sp.read_spec('Index 2 (i5)','unassigned','Native acquisition allocation unassigned','undetermined'))
+TAG_MINUTES=10
+TAG_TEMP=37
+QPCR_CYCLES=24
 
-TITLE = "ChIPmentation — tagmentation of bead-bound ChIP DNA"
-NOTES = "01_chipmentation.html"
-SOURCE = 'Defining source: <a href="https://doi.org/10.1038/nmeth.3542">Schmidl et al., <i>Nature Methods</i> (2015)</a>.'
-SUMMARY = "Immunoprecipitate crosslinked chromatin first, then let Tn5 fragment and adapter-tag the bead-bound ChIP DNA in a single reaction before indexed PCR."
-CAVEAT = "Original Methods distinguish bead-bound ChIPmentation (37°C, 10 min) from tagmentation of purified ChIP DNA (55°C, 5 min). Enrichment cycles are the rounded-up qPCR Cq; the24-cycle assay is not the final enrichment cycle count. Post-PCR bead size selection remains summarized outside the graph. The defining chemistry uses Nextera reagents; the final molecule is assembled from the repository’s canonical Nextera components."
-FINAL_LIBRARY, SEQ_PRIMERS = tagmented_library("ChIP-selected DNA")
-FINAL_CAPTION = "Indexed Nextera library whose insert was selected by chromatin immunoprecipitation before tagmentation."
-SEQUENCING_INTRO = ("Read primers can enter the immunoprecipitated fragment from either Tn5 insertion site; "
-                    "the published sequencing summary includes both single-read and paired-end runs. "
-                    "Sample indexes are installed during PCR.")
+def chromatin_scene(tagged=False,extended=False):
+ sc=Scene()
+ for k in ('A','B'):
+  p=[role('genomic strand '+k+'; native modifications retained')]
+  if tagged:p=[role('native Tn5-transferred end '+k+'; '+('nick translation applied; extent unassigned' if extended else 'gap/nick geometry unassigned')),*p,role('opposite native tagged boundary; composition unassigned')]
+  sc.strand(k,p,label='actual native '+('tagged DNA' if tagged else 'chromatin DNA')+' population')
+ sc.strand('independent context',[role('protein/antibody/bead and other molecular context; physical recovery unassigned')],label='independent context, not covalent DNA sequence')
+ return sc
 
-def sections():
-    return [
-        ("Fragment and immunoprecipitate chromatin", antibody_enzyme_rows("bead capture", "retain target-associated chromatin"),
-         "Crosslinked, sonicated chromatin is enriched with a target-specific antibody."),
-        ("Tagment on beads", tagmentation_scene("ChIP-selected DNA").rows(),
-         "Tn5 replaces conventional end repair, dA addition and adapter ligation; ** marks both adapter-transfer boundaries."),
-        ("Reverse crosslinks and amplify", [Row(chunks=[("bead-bound tagged DNA → proteinase/reverse crosslink → indexed PCR", None, False)])],
-         "PCR adds complete flow-cell adapters and sample indexes to productive two-ended fragments."),
-    ]
-
+def daughter_scene():
+ sc=Scene.duplex(list(FINAL_LIBRARY),label='normal daughter library DNA',unpaired=tuple(p.name+"'" for p in FINAL_LIBRARY))
+ sc.strand('residuals',[role('possible original tagged DNA and other co-carried molecules; physical recovery unresolved')],label='independent original/background lineage');return sc
 
 def protocol_graph():
-    graph = ProtocolGraph(TITLE, authority=SOURCE)
-    chromatin = graph.input(
-        "crosslinked_chromatin", "cross-linked chromatin", MaterialKind.BIOLOGICAL,
-        state=molecule("cross-linked chromatin", (role("target-associated chromatin"),)),
-        primary=True)
-    sonication = graph.input("sonication", "chromatin-sonication condition",
-                             MaterialKind.CONDITION)
-    fragments = graph.product("chromatin_fragments", "sonicated cross-linked chromatin",
-                              MaterialKind.MOLECULAR, state=chromatin.state)
-    graph.react("fragment", "Sonicate cross-linked chromatin", StepKind.FRAGMENTATION,
-                ((chromatin, InputRole.TEMPLATE), (sonication, InputRole.CONDITION)),
-                (fragments,))
-    antibody = graph.input("target_antibody", "target-specific antibody and capture beads",
-                           MaterialKind.SELECTION)
-    selected = graph.product("selected_chromatin", "bead-bound ChIP-selected chromatin",
-                             MaterialKind.MOLECULAR, state=fragments.state)
-    flowthrough = graph.product("ip_flowthrough", "unbound chromatin fragments",
-                                MaterialKind.WASTE)
-    graph.react("immunoprecipitate", "Immunoprecipitate target-associated chromatin",
-                StepKind.AFFINITY_CAPTURE,
-                ((fragments, InputRole.TEMPLATE), (antibody, InputRole.SELECTION)),
-                (selected, flowthrough))
-    graph.discard(flowthrough, "is not retained by the target-directed immunoprecipitation")
-    transposome = graph.input("loaded_nextera_adapter", "Nextera adapter-loaded transposome",
-                              MaterialKind.ADAPTER)
-    tn5 = graph.input("tn5", "Nextera Tn5 transposase", MaterialKind.CATALYST)
-    tagged = graph.product("tagmented_chromatin", "bead-bound tagmented ChIP DNA",
-                           MaterialKind.MOLECULAR, state=selected.state)
-    tn5_waste = graph.product("tn5_waste", "candidate non-library tagmentation products",
-                              MaterialKind.MOLECULAR)
-    graph.react("tagment", "Tagment bead-bound ChIP DNA: 37°C for 10 minutes", StepKind.TAGMENTATION,
-                ((selected, InputRole.TEMPLATE), (transposome, InputRole.STRUCTURAL),
-                 (tn5, InputRole.CATALYST)), (tagged, tn5_waste))
-    graph.mark_terminal(Terminal(tn5_waste.id, Disposition.UNRESOLVED, "A productive adapter configuration does not establish physical discard of other insertion products."))
-    proteinase = graph.input("proteinase", "proteinase and cross-link reversal condition",
-                             MaterialKind.CONDITION)
-    released = graph.product("released_tagged_dna", "de-cross-linked tagmented ChIP DNA",
-                             MaterialKind.MOLECULAR, state=tagged.state)
-    graph.react("release_dna", "Digest protein and reverse cross-links",
-                StepKind.DEPROTEINIZATION,
-                ((tagged, InputRole.TEMPLATE), (proteinase, InputRole.CONDITION)),
-                (released,))
-    forward = graph.input("pcr_forward", "Nextera indexed PCR forward primer",
-                          MaterialKind.OLIGO)
-    reverse = graph.input("pcr_reverse", "Nextera indexed PCR reverse primer",
-                          MaterialKind.OLIGO)
-    polymerase = graph.input("pcr_polymerase", "indexed-library PCR polymerase",
-                             MaterialKind.CATALYST)
-    library = graph.product("sequencing_library", FINAL_LIBRARY.name,
-                            MaterialKind.LIBRARY, state=FINAL_LIBRARY)
-    graph.react("library_pcr", "Complete and index the ChIPmentation library: cycles determined by qPCR Cq",
-                StepKind.PCR,
-                ((released, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
-                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (library,), geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY,
-                    reason="Variable Tn5 insertion positions do not define one exact pre-PCR construct."))
-    graph.sequence(library, SequencingPlan(
-        library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
-        acquired_roles=tuple(p.role for p in SEQ_PRIMERS)))
-    graph.declare_reviewed_scope((
-        "crosslinked_chromatin", "sonication", "fragment", "target_antibody",
-        "immunoprecipitate", "loaded_nextera_adapter", "tn5", "tagment",
-        "proteinase", "release_dna", "pcr_forward", "pcr_reverse",
-        "pcr_polymerase", "library_pcr", "sequencing_library"), SOURCE)
-    return graph.require_publishable()
+ g=ProtocolGraph(TITLE,authority=SOURCE)
+ def inp(i,l,k=M.CONDITION):return g.input(i,l,k)
+ def op(i,l,k,x,reagents,state):
+  y=g.product(i+'_out',l,M.MOLECULAR,state=state);g.react(i,l,k,((x,I.TEMPLATE),*reagents),(y,));return y
+ def recover(i,l,x):
+  sel=inp(i+'_selection',l,M.SELECTION);y=g.product(i+'_out',l+' retained fraction',M.MOLECULAR,state=x.state);w=g.product(i+'_waste','physical nonretained fraction',M.WASTE)
+  g.react(i,l,K.CLEANUP,((x,I.TEMPLATE),(sel,I.SELECTION)),(y,w));g.discard(w,'Physical source fraction; no complete molecular-class depletion assumed.');return y
+ x=g.input('chromatin','crosslinked chromatin',M.BIOLOGICAL,state=chromatin_scene(),primary=True)
+ son=inp('sonication','source ChIP sonication');x=op('sonicate','Sonicate crosslinked chromatin',K.FRAGMENTATION,x,((son,I.CONDITION),),x.state)
+ ab=inp('antibody','source antibody/capturebeads',M.SELECTION);bound=g.product('bound','bead-bound ChIP selected chromatin',M.MOLECULAR,state=x.state);flow=g.product('flowthrough','IP supernatant',M.WASTE)
+ g.react('chip','Immunoprecipitate target-associated chromatin',K.AFFINITY_CAPTURE,((x,I.TEMPLATE),(ab,I.SELECTION)),(bound,flow));g.discard(flow,'Removed ChIP flowthrough; no complete target/background partition assumed.')
+ x=recover('pretag_wash','SourceLiClwash followed by two cold10mMTris washes',bound)
+ loaded=inp('loaded_ends','native Nextera Tn5-loaded adapter ends; actual strands unassigned',M.ADAPTER);tn5=inp('tn5','Nextera TagmentDNAEnzyme',M.CATALYST)
+ x=op('tagment',f'Bead-bound tagmentation{TAG_TEMP}°C{TAG_MINUTES}min',K.TAGMENTATION,x,((loaded,I.STRUCTURAL),(tn5,I.CATALYST)),chromatin_scene(True))
+ x=recover('posttag_wash','Two150µl cold sourceWBI/RIPA/TF-WBI washes',x)
+ x=recover('final_chip_wash','Chosen ChIP final beadwash; variant-specific buffer unassigned',x)
+ elution=inp('chip_elution','source chosen ChIP elution conditions; variant unassigned')
+ x=op('elute','Elute tagged ChIP chromatin from beads',K.EXTRACTION,x,((elution,I.CONDITION),),chromatin_scene(True))
+ reversal=inp('chip_reversal','source chosen ChIP reversecrosslink/protein handling; exact variant reagents unassigned')
+ x=op('reverse_crosslinks','Reverse crosslinks after bead elution',K.DEPROTEINIZATION,x,((reversal,I.CONDITION),),chromatin_scene(True))
+ x=recover('dna_purification','Source chosen ChIP DNA purification; native recovery mechanism unassigned',x)
+ qamount=inp('q_aliquot','1µl template for10µl qPCR; enrichment remainder separate')
+ q=g.product('q_template','qPCR template aliquot',M.MOLECULAR,state=x.state);main=g.product('main_template','remaining native taggedDNA for enrichment',M.MOLECULAR,state=x.state)
+ g.react('aliquot','Separate qPCR aliquot and enrichment input',K.PARTITION,((x,I.TEMPLATE),(qamount,I.CONDITION)),(q,main))
+ f=inp('forward','customATAC/Nextera forward primer; source member/sequence unassigned',M.OLIGO);r=inp('reverse','customATAC/Nextera reverse primer; source member/sequence unassigned',M.OLIGO)
+ pol=inp('kapa','KAPAHiFiHotStartReadyMix preactivated98°C45s',M.CATALYST)
+ qex=op('q_nick','qPCR initial72°C5min nick translation',K.EXTENSION,q,((f,I.STRUCTURAL),(r,I.STRUCTURAL),(pol,I.CATALYST)),chromatin_scene(True,True))
+ qamp=g.product('qamp','24cycle qPCR for cycle estimation',M.QC,state=daughter_scene())
+ g.react('qpcr',f'qPCR{QPCR_CYCLES}cycles98/63/72 after98°C30s',K.PCR,((qex,I.TEMPLATE),(f,I.STRUCTURAL),(r,I.STRUCTURAL),(pol,I.CATALYST)),(qamp,),geometry=PCRGeometry.unavailable(qex.state,reason='Actual native nick-translated aliquot; source custom primer sequence/end layout unassigned.'))
+ g.mark_terminal(Terminal(qamp.id,Disposition.QC,'Analytical qPCR cycle choice; not selected sequencing library.'))
+ ex=op('main_nick','Enrichment native first-step nick translation; exact fill geometry unassigned',K.EXTENSION,main,((f,I.STRUCTURAL),(r,I.STRUCTURAL),(pol,I.CATALYST)),chromatin_scene(True,True))
+ choice=inp('cycles','N=rounded-up qPCR Cq; source50µl enrichment reaction')
+ amp=g.product('amp','N-cycle enriched library mixture',M.MOLECULAR,state=daughter_scene())
+ g.react('enrich','Enrich using qPCR-selected cycle number',K.PCR,((ex,I.TEMPLATE),(f,I.STRUCTURAL),(r,I.STRUCTURAL),(pol,I.CATALYST),(choice,I.CONDITION)),(amp,),geometry=PCRGeometry.unavailable(ex.state,reason='Actual native extended taggedDNA; no expected finalduplex used as PCR template.'))
+ x=recover('size_upper','0.7×AMPure removes long>600bp fraction; retain supernatant',amp)
+ x=recover('size_lower','2×AMPure recovery from remaining reaction DNA',x)
+ lib=g.product('library',FINAL_LIBRARY.name,M.LIBRARY,state=x.state);g.react('retain','Retain recovered library',K.GENERIC,((x,I.TEMPLATE),),(lib,),changes_molecule=False)
+ g.sequence(lib,SequencingPlan(library=FINAL_LIBRARY,limitation=SEQUENCING_ENDING))
+ g.declare_reviewed_scope(('chromatin','sonication','sonicate','antibody','chip','pretag_wash','pretag_wash_selection','loaded_ends','tn5','tagment','posttag_wash','posttag_wash_selection','final_chip_wash','final_chip_wash_selection','chip_elution','elute','chip_reversal','reverse_crosslinks','dna_purification','dna_purification_selection','q_aliquot','aliquot','forward','reverse','kapa','q_nick','qpcr','qamp','main_nick','cycles','enrich','size_upper','size_upper_selection','size_lower','size_lower_selection','retain','library'),SOURCE)
+ return g.require_publishable()

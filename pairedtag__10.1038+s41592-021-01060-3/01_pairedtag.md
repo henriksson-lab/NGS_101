@@ -94,3 +94,9 @@ branch; random-N6-primed molecules replace that primer-derived tract.
   anchor `*`, the T15/T16 naming and the R04 Terminator identity.
 - The purpose of SbfI/NotI cross-modality digestion is inferred from site placement.
 - Which Read 1 length (50 or 100) applies to each published dataset is not assigned.
+
+## Native graph migration — 2026-10-18 batch04
+
+This pass inspected three originals: the published article Methods, Supplementary Table1, and the MOESM13 numerical-data heading/initial rows (classified as data, no chemistry imported). Local native graphs now retain three independent molecular populations: histone-mark DNA, dT-primed cDNA and N6-primed cDNA. The physical pMENTs terminal ddC stays on the nontransferred oligo; an exact whole-modified-source regression covers the documented parser exemption. The printed Anchor9G tract does not establish a9C TdT tail. Tail/register/extension boundaries are unassigned while source barcode/UMI lineage remains attached. Actual Anchor-extension material feeds PA-PCR; source aliquots retain mixtures, and cleavage does not itself purify modalities. Source cleanups, sublibrary choices and the1µl aliquot remainder are explicit. Final P5/Tn5-N5 library references are conditional and cannot supply their own PCR substrates. Both published50+7+100 and100+7+100 layouts remain; the100cycle example is drawn, and index2 acquisition stays unassigned. Existing dT15-versus-tableT16 and AnchorGSH/name/*mark discrepancies remain public. Source* is retained as printed; its exact chemical meaning is not assigned.
+
+The local curator-written review target tuple is independent of graph contents. This capped pass does not complete the missing-information audit and accepts no source-absence claim.

@@ -1,9 +1,8 @@
-#!/usr/bin/env python3
-import sys
 from pathlib import Path
-HERE = Path(__file__).resolve().parent
-sys.path[:0] = [str(HERE), str(HERE.parents[1] / "lib")]
+import sys
+H=Path(__file__).resolve().parent;sys.path[:0]=[str(H),str(H.parents[1]/"lib")]
 import chem
-from protocol_build import build
-OUT = HERE.parent / "slide-seq.html"
-build(chem, OUT)
+from batch_page import render
+OUT=H.parent/"slide-seq.html"
+if __name__=="__main__":
+ OUT.write_text(render(chem),encoding="utf-8");print(f"wrote {OUT}")

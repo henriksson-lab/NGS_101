@@ -9,8 +9,7 @@ import illumina as il
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import (Construct, MolecularState, Row, Scene, Segment, Workflow,
-                      annotation_rows, feature, oligo)
-from rna_amplification import direct_ssrna_ivt, poly_a_capture
+                      annotation_rows, feature, oligo, complement_segments)
 from pcr import PCRGeometry, PCRPrimer
 from chemdraw import revcomp
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
@@ -77,70 +76,45 @@ CELL_FEATURE = feature("last_cell_barcode", "cell_barcode", "whitelist",
 UMI_FEATURE = feature("last_umi", "umi", "random")
 
 
-def capture_primer():
-    return [
-        seg("hairpin module", "[hairpin: PCR handle + T7 promoter + UMI + cell barcode]",
-            "r2", placeholder=True),
-        seg("complementary linker", DTRU_LINKER, "tso"),
-        seg("dT7", DTRU_DNA),
-        seg("rU19", DTRU_RNA),
-    ]
+def hairpin_parts():
+    before=HAIRPIN_LINKER_ARM+HAIRPIN_CORE
+    return [seg("hairpin fixedDNA",before),seg("UMI", "N"*8,"umi",placeholder=True,feature=UMI_FEATURE),seg("cell barcode",BC2,"cbc",feature=CELL_FEATURE),seg("closingarm",HAIRPIN_CLOSING_ARM)]
 
+def tail_parts():
+    return [seg("sourceDNA linker",DTRU_LINKER),seg("dT6",DTRU_DNA),seg("rU19",DTRU_RNA,note="19 physicalRNA uridines"),seg("physicalterminalddC","C",note="source/3ddC/ addsphysicalC; no3′OH")]
+
+def capture_primer():return [*hairpin_parts(),*tail_parts()]
 
 def capture_scene():
-    sc = poly_a_capture(capture_primer(), annealing_segment="rU19",
-                        primer_label="3′-ddC-blocked LAST-seq primer")
-    sc.junction("primer", "hairpin module", "complementary linker", "primer assembly ligation")
-    sc.note("primer", "the dT/rU tract is nicked by RNase H; 3′ ddC blocks extension from the primer end")
+    sc=Scene();sc.strand("primer",capture_primer(),mod3="ddC-blocked",label="actual covalent assembledcaptureprimer; nativehairpinfold validatedseparately")
+    sc.strand("RNA",[role("independentRNAbody; physicalU"),role("originalRNApolyAtail; annealing/nickcoordinateunassigned")],label="originalRNA; no RT beforeIVT")
+    sc.strand("genomicDNA",[role("possible independent genomicDNA/othercellularpolymers; puritynotasserted")])
     return sc
-
 
 def primer_ligation_geometry():
-    sc = Scene(); sc.strand("hairpin", [seg("hairpin linker arm", HAIRPIN_LINKER_ARM),
-                                         seg("folded barcode/promoter hairpin", "[folded hairpin]", placeholder=True)],
-                                    label="hairpin module")
-    sc.anneal("rU-dT module", [seg("phosphorylated paired linker", DTRU_LINKER[:-1]),
-                                seg("linker 3-prime dT overhang", DTRU_LINKER[-1])],
-              to="hairpin", pair=("phosphorylated paired linker", "hairpin linker arm"),
-              label="rU-dT module", mod5="p")
-    sc.ligation_end("rU-dT module", "phosphorylated paired linker", kind="splinted",
-                    polarity="5-prime", owner="adapter", text="5′-phosphorylated nick end")
-    sc.overhang("rU-dT module", "linker 3-prime dT overhang", polarity="3-prime",
-                owner="adapter", text="one unpaired dT")
-    return AdapterLigationGeometry.known(
-        "splinted", sc,
-        statement="Supplementary Table S2 gives a 17-base hairpin arm complementary to the first 17 bases of the 18-base rU-dT linker; E. coli DNA ligase seals their annealed nick and one linker dT remains unpaired.")
-
+    sc=Scene();sc.strand("hairpin",[seg("hairpin linker arm",HAIRPIN_LINKER_ARM),role("remaining foldedhairpin; native3′OH nickend")])
+    sc.anneal("rU-dTmodule",[seg("paired linker",DTRU_LINKER[:-1]),seg("unpairedlinkerT",DTRU_LINKER[-1]),seg("dT6",DTRU_DNA),seg("rU19",DTRU_RNA),seg("terminalddC","C")],to="hairpin",pair=("paired linker","hairpin linker arm"),unpaired=("unpairedlinkerT","dT6","rU19","terminalddC"),mod5="p",mod3="ddC")
+    sc.ligation_end("rU-dTmodule","paired linker",kind="splinted",polarity="5-prime",owner="adapter",text="sourceEcoliDNAligase seals hairpin3′OH→module5′P nick")
+    return AdapterLigationGeometry.known("splinted",sc,statement="SourceTableS3 gives17bp overlap plusoneunpairedlinkerdT; originalFigS3 showsEcoli nickligation. AdditionalphysicalterminalddC blocks3′extension, not an inertannotation.")
 
 def promoter_scene():
-    promoter = seg("T7 promoter", T7_PROMOTER, "t7")
-    template = [seg("cell barcode", "B" * CELL_BARCODE_LEN, "cbc", placeholder=True,
-                    feature=CELL_FEATURE),
-                seg("UMI", "U" * UMI_LEN, "umi", placeholder=True, feature=UMI_FEATURE),
-                seg("mRNA template", "X" * 34, placeholder=True)]
-    return direct_ssrna_ivt(template, promoter)
-
-
-def arna_scene():
-    sc = Scene(); sc.strand("aRNA", [
-        seg("aRNA transcript", "X" * 34, placeholder=True),
-        seg("copied UMI", "U" * UMI_LEN, "umi", placeholder=True, feature=UMI_FEATURE),
-        seg("copied cell barcode", "B" * CELL_BARCODE_LEN, "cbc", placeholder=True,
-            feature=CELL_FEATURE)], label="antisense RNA copies")
-    sc.note("aRNA", "hundreds of linear-amplification products from one original ssRNA")
+    sc=Scene();p=seg("T7promoter",T7_PROMOTER,"t7");sc.strand("nontemplate",[p],label="sourcepromoterDNA inhairpin")
+    sc.anneal("template",[seg("promotercomplement",revcomp(T7_PROMOTER))],to="nontemplate",pair=("promotercomplement","T7promoter"),label="new DNAextension copieshairpinpromoter")
+    sc.strand("templatecontext",[role("originalRNA5′body/polyA remnant covalentlyjoined tonew3′DNAextension; nick/extensionextentunassigned"),seg("copiedUMI","N"*8,"umi",placeholder=True,feature=UMI_FEATURE),seg("copiedBC2",revcomp(BC2),"cbc",feature=CELL_FEATURE)],label="context ofsameRNA–DNAtemplate; diagramnot a secondequivalenttemplate or fullfold")
+    sc.strand("originalprimer",capture_primer(),mod3="ddC",label="independent originalhairpin/rU-dT captureprimer")
+    sc.strand("residuals",[role("RNaseH-cleaved originalRNA3′fragments, carrier/spikeRNA, residualprimerRNA and independentgenomicDNA; hydrolysisnotphysicalremoval")])
     return sc
 
+def arna_scene():
+    sc=Scene();sc.strand("aRNA",[role("T7initiatedRNA5′footprint fromsourcehairpin; nativeendpointunassigned"),seg("RNAcopiedUMI","N"*8,"umi",placeholder=True,feature=UMI_FEATURE),seg("RNAcopiedBC2",BC2,"cbc",feature=CELL_FEATURE),seg("RNAcopiedclosingarm",HAIRPIN_CLOSING_ARM.replace("T","U")),role("RNAcopyoflinker/polyAcontext and antisensetranscript; physicalU, junctionextentunassigned")],label="antisenseRNA copies; linear amplification")
+    sc.strand("originals",[role("originalRNA–DNAtemplate/promoter and physicalddCcaptureprimer persist; not consumedbytranscription")])
+    sc.strand("residuals",[role("carrier/spike/otherRNA, independentgenomicDNA/possibleofftargetcopies and primer/RNaseHfragments; unknownclassrecovery")])
+    return sc
 
 def random_rt_scene():
-    arna = [seg("aRNA body", "X" * 34, placeholder=True)]
-    primer = [seg("Read 1 handle", RANDOM_RT_HANDLE, "r1"),
-              seg("random N6", "N" * 6, placeholder=True)]
-    sc = Scene(); sc.strand("aRNA", arna, label="amplified antisense RNA")
-    sc.anneal("random RT primer", primer, to="aRNA", pair=("random N6", "aRNA body"),
-              shift=len(arna[0]) - 6, label="random RT primer",
-              unpaired=("Read 1 handle", "random N6", "aRNA body"))
-    sc.arrow("random RT primer", "SuperScript IV")
-    sc.labels("random RT primer")
+    sc=Scene();sc.strand("cDNA",[seg("RandomRT handle",RANDOM_RT_HANDLE),seg("randomN6","N"*6,placeholder=True,note="randomprimingpositions, not a newUMI"),role("actualssDNAcopyofantisenseRNA; nativeendpointunassigned"),role("copiedsourceUMI; orientationunassigned",length_bp=8,molecular_feature=UMI_FEATURE),role("copiedsourcecellbarcode; orientationunassigned",length_bp=6,molecular_feature=CELL_FEATURE)],label="actualincoming firstssDNA, not anannealedunextendedRTprimer")
+    sc.strand("aRNA",[role("independent originalaRNAtemplates; physicalU; noRNAremovaloperation assigned")])
+    sc.strand("template_residuals",[role("possible originalssRNA–DNAtemplate/captureprimer/carrier/spike/cleavedRNA/oligos and independentgenomicDNA/possibleofftargetcopies; physicalrecoveryunassigned")])
     return sc
 
 
@@ -149,12 +123,12 @@ FINAL_LIBRARY = Construct([
     seg("Read 1 arm", NEBNEXT_UNIVERSAL[len(LIB_P5):], "r1"),
     seg("random-primer N6", "N" * 6, placeholder=True, length_bp=6),
     seg("aRNA-derived cDNA", "X" * 38, placeholder=True),
-    seg("mRNA poly(A) tract (variable)", "A" * 8, placeholder=True),
-    seg("rU-dT linker complement", revcomp(DTRU_LINKER), "tso"),
+    role("T-Acontext; sourceFigureS8 labels26bp, exactnickposition notassigned"),
+    seg("rU-dT linker complement", revcomp(DTRU_LINKER[:-1]), "tso"),
     seg("hairpin closing-arm complement", revcomp(HAIRPIN_CLOSING_ARM)),
-    seg("cell barcode", "B" * CELL_BARCODE_LEN, "cbc", placeholder=True,
+    seg("cell barcode", revcomp(BC2), "cbc",
         feature=CELL_FEATURE),
-    seg("UMI", "U" * UMI_LEN, "umi", placeholder=True, feature=UMI_FEATURE),
+    seg("UMI", "N" * UMI_LEN, "umi", placeholder=True, feature=UMI_FEATURE),
     seg("Read 2 arm (NEBNext index primer)", revcomp(NEBNEXT_INDEX_3), "r2"),
     seg("i7 reverse complement", "I" * NEBNEXT_INDEX_LEN, "cbc", placeholder=True,
         feature=feature("last_sample_index", "sample_index", "whitelist",
@@ -170,29 +144,11 @@ if _errors:
 
 
 def final_rows():
-    sc = Scene.duplex(list(FINAL_LIBRARY), label="LAST-seq")
+    sc = Scene.duplex(list(FINAL_LIBRARY), label="LAST-seq",unpaired=tuple(p.name+"'" for p in FINAL_LIBRARY if p.is_role_token()))
     sc.labels("top")
     return [*sc.rows(), *annotation_rows(FINAL_LIBRARY)]
 
 
-def workflow():
-    wf = Workflow(MolecularState("Separate hairpin and rU-dT primer modules",
-                                 (Row(chunks=[("hairpin module + 5′-phosphorylated rU-dT module", None, False)]),)))
-    wf.ligate_adapter("Anneal and nick-ligate the LAST-seq capture primer",
-                      primer_ligation_geometry(), capture_scene().rows(),
-                      name="assembled hairpin/rU-dT primer",
-                      note="The gel-purified product is then annealed to mRNA poly(A).")
-    wf.react("RNase H nicking and Klenow exo− extension", promoter_scene().rows(),
-             note="A short rA/dT hybrid is nicked and extended so the original RNA gains a duplex T7 promoter without reverse transcription.")
-    wf.react("T7 in-vitro transcription directly from ssRNA", arna_scene().rows(),
-             note="The original single-stranded RNA is the transcription template; amplification is linear.")
-    wf.react("Random-prime the pooled aRNA and reverse-transcribe", random_rt_scene().rows(),
-             note="Reverse transcription occurs only after direct RNA amplification.")
-    wf.react("INFERRED — 8-cycle Q5 PCR with NEBNext primers, then further P5/P7 PCR", final_rows(),
-             note=("Methods name 'P5/P7 primers' for the 8-cycle PCR; only the Table S3 NEBNext "
-                   "primers have full sites on the RT-product ends (see caveat). PCR completes the "
-                   "Illumina library; the inline cell barcode and UMI originate in the capture hairpin."))
-    return wf
 
 
 TITLE = "LAST-seq — direct linear amplification of single-stranded RNA"
@@ -201,36 +157,22 @@ SOURCE = ('Defining source: <a href="https://doi.org/10.1186/s13059-023-03025-5"
           'Lyu and Chen, <i>Genome Biology</i> (2023)</a>.')
 SUMMARY = ("A ligated hairpin/rU-dT primer installs a short duplex T7 promoter at an mRNA’s "
            "3′ end. T7 polymerase then amplifies the original RNA directly, before any reverse transcription.")
-CAVEAT = ("Source ambiguity in library PCR: Methods 'Library preparation of the amplified "
-          "products' say the RT products were amplified for 8 cycles with Q5 and 'P5/P7 "
-          "primers', then 'further PCR amplified'. Additional file 2, Table S3 prints both "
-          "short P5 (29 nt) and P7 (24 nt) primers and NEBNext Universal/Index primers. "
-          "Computed from those sequences, the short P5/P7 3′ ends match only %d and %d nt of "
-          "the RandomRT handle and hairpin PCR handle, whereas the NEBNext primers have "
-          "%d- and %d-nt sites. The model therefore assigns the first PCR to the NEBNext "
-          "primers and the unnamed second PCR to short P5/P7 re-amplification; both "
-          "assignments are inferred, and the second PCR's cycle number is not stated. "
-          % (SHORT_SITE_NT + NEB_SITE_NT) +
-          "Published barcode collision: Additional file 2, Table S3, BC5 and BC7 rows "
-          "(extracted lines 48 and 50) both print CAGGAA, although the article's LAST-seq "
-          "assay section describes 80 selected cellular barcodes. The model displays BC2 "
-          "(GTATCC), a separate printed member, as an example and does not silently "
-          "assign a replacement to BC5 or BC7. Which entry was intended to differ "
-          "remains unresolved.")
+CAVEAT = ("Published PCR-stage ambiguity: Methods names shortP5/P7 primers for8-cycle firstPCR, then furtherPCR, while sourceFigureS8 displays NEBNextUniversal/Index endpoints. TableS3 suppliesboth families. Source shortP5/P7 have only%d/%d nt3′matches onknownRT/hairpinends versus%d/%d forNEBNext. This graph preservesnamedP5/P7 reagentinput and actualssDNAprecursor while leaving firstcycle/productassembly unavailable; it doesnot silentlysubstituteNEBNext asactualfirstPCR. The unassignedsecondPCR is not assigned to a particularfamily/cyclecount. Endpointreference followsoriginalFigS8 without claimingstageidentity. SourceBC5 andBC7 bothprintCAGGAA despite80selectedbarcodes; BC2(GTATCC) is the selectedexample, no correctioninvented. " % (SHORT_SITE_NT+NEB_SITE_NT))
 FINAL_CAPTION = ("Representative PCR-completed LAST-seq molecule. Read 2 reads the hairpin-derived "
                  "UMI, then the cell barcode, then the 11-nt hairpin closing arm; Read 1 enters "
-                 "the randomly primed aRNA-derived insert. The P7 side is drawn from the "
+                 "the randomly primed aRNA-derived insert. Native completed endpointreference fromsourceFigS8; exactfirstPCRproductisnotasserted. The P7 side is drawn from the "
                  "NEBNext index primer (6-nt index) printed in Table S3; the poly(A) length is variable.")
 SEQUENCING_INTRO = ("NextSeq 550, High Output v2.5 kit: Read 1, 50 cycles; Read 2, 25 cycles. "
                     "The paper reports 6-nt cellular barcodes and 8-nt UMIs; index-read cycles "
                     "are not stated.")
 READ_LENGTHS = {"Read 1": 50, "Read 2": 25}
-SHOW_READ_CONTENT = True
+SHOW_READ_CONTENT = False
+READ_SPECS=(sp.read_spec("Read 1",50,"aRNA-derived transcriptDNA; sourceFigS8compatible endpointreference","include"),sp.read_spec("Read 2",25,"sourcehairpin UMI8 + cellbarcode6 + closingarm11","extract"),sp.read_spec("Index 1 (i7)","unassigned","native6ntNEBNextindexfamily; acquiredcyclesunassigned","undetermined"),sp.read_spec("Index 2 (i5)","unassigned","nativei5presence/acquisitionunassigned","undetermined"))
 
 
 def oligos():
     yield oligo("rU-dT module", [seg("linker", DTRU_LINKER, "tso"),
-                                  seg("dT7", DTRU_DNA), seg("rU19", DTRU_RNA)],
+                                  seg("dT6", DTRU_DNA), seg("rU19", DTRU_RNA), seg("physicalterminalddC","C")],
                 mods="5′ phosphate; 3′ ddC")
     yield oligo("NEBNext Universal (Table S3)",
                 [seg("P5", LIB_P5, "p5"),
@@ -247,165 +189,58 @@ def oligos():
                                       seg("N6", "N" * 6, placeholder=True)])
 
 
+def native_pcr_state(stage):
+    sc=Scene();sc.strand("PCRproducts",[role("source"+stage+"PCR products; actualfirstcycle/primerfootprints unassigned becauseMethods/TableS3/FigS8 stageidentityisambiguous"),role("retainedsourceUMI; strandextentunassigned",length_bp=8,molecular_feature=UMI_FEATURE),role("retainedsourcewellbarcode; strandextentunassigned",length_bp=6,molecular_feature=CELL_FEATURE)],label="actualnative PCRproductpopulation")
+    sc.strand("originals",[role("possible originalssDNA/aRNA, RNA–DNAtemplate/promoter, physicalcaptureprimer/ddC, carrier/spikeRNA, independentgenomicDNA/possibleofftargetcopies; classrecoveryunassigned")])
+    return sc
+
+
 def protocol_graph():
-    graph = ProtocolGraph(TITLE, authority=SOURCE)
-    rna = graph.input("rna", "polyadenylated cellular RNA", MaterialKind.BIOLOGICAL,
-                      state=molecule("mRNA", (role("transcript body"), role("poly(A) tail"))),
-                      primary=True)
-    hairpin = graph.input("hairpin", "barcode/UMI/T7-promoter hairpin module",
-                          MaterialKind.MOLECULAR)
-    rudt = graph.input("rudt", "5-prime-phosphorylated rU-dT module",
-                       MaterialKind.ADAPTER)
-    ligase = graph.input("primer_ligase", "E. coli DNA ligase", MaterialKind.CATALYST)
-    assembled = graph.product("capture_primer", "assembled hairpin/rU-dT capture primer",
-                              MaterialKind.MOLECULAR, state=capture_scene())
-    lig_condition = graph.input("ligation_condition",
-                                "self-fold hairpin by heating/cooling; 16 °C, 30 min, 20 µl",
-                                MaterialKind.CONDITION)
-    ligated = graph.product("ligated_primer", "nick-ligated hairpin/rU-dT primer",
-                            MaterialKind.MOLECULAR, state=capture_scene())
-    graph.react("assemble_primer", "Nick-ligate the LAST-seq capture primer",
-                StepKind.LIGATION,
-                ((hairpin, InputRole.TEMPLATE), (rudt, InputRole.STRUCTURAL),
-                 (ligase, InputRole.CATALYST), (lig_condition, InputRole.CONDITION)),
-                (ligated,), geometry=primer_ligation_geometry())
-    page_gel = graph.input("urea_page", "10% urea PAGE, gel soak in NaOAc, ethanol precipitation",
-                           MaterialKind.CONDITION)
-    unligated = graph.product("unligated_modules", "unligated hairpin and rU-dT modules",
-                              MaterialKind.WASTE)
-    graph.react("gel_purify_primer", "Gel-purify the ligated primer", StepKind.CLEANUP,
-                ((ligated, InputRole.TEMPLATE), (page_gel, InputRole.CONDITION)),
-                (assembled, unligated))
-    graph.discard(unligated, "outside the excised ligation-product gel band")
-    lysis = graph.input("lysis", "sort into 2 µl lysis buffer (0.1% Triton X-100, 2 nM "
-                        "primer, dNTP, RNA carrier, spike-in); 65 °C 5 min, then ice",
-                        MaterialKind.CONDITION)
-    hybrid = graph.product("captured_rna", "capture primer annealed to mRNA poly(A)",
-                           MaterialKind.MOLECULAR, state=capture_scene())
-    graph.react("capture", "Lyse single cells and anneal the primer to mRNA poly(A)",
-                StepKind.HYBRIDIZATION,
-                ((rna, InputRole.TEMPLATE), (assembled, InputRole.STRUCTURAL),
-                 (lysis, InputRole.CONDITION)), (hybrid,))
-    rnase = graph.input("rnase_h", "RNase H", MaterialKind.CATALYST)
-    klenow = graph.input("klenow", "Klenow exo-minus polymerase", MaterialKind.CATALYST)
-    nick_condition = graph.input("nick_condition", "evaporate lysate; 1X NEBuffer2, "
-                                 "0.02 U/µl RNase H, 0.3 U/µl Klenow exo−, 37 °C 30 min",
-                                 MaterialKind.CONDITION)
-    promoter_rna = graph.product("promoter_rna", "ssRNA carrying a duplex T7 promoter",
-                                 MaterialKind.MOLECULAR, state=promoter_scene())
-    graph.react("install_promoter", "Nick the rA/dT tract and extend the duplex promoter",
-                StepKind.EXTENSION,
-                ((hybrid, InputRole.TEMPLATE), (rnase, InputRole.CATALYST),
-                 (klenow, InputRole.CATALYST), (nick_condition, InputRole.CONDITION)),
-                (promoter_rna,))
-    beads_05 = graph.input("beads_05x", "pool 10 or 80 lysates; 0.5X beads + 1.3X buffer",
-                           MaterialKind.CONDITION)
-    bound = graph.product("bead_bound_rna", "pooled promoter-bearing RNA on beads",
-                          MaterialKind.MOLECULAR, state=promoter_scene())
-    waste_05 = graph.product("pool_cleanup_waste", "material not retained by 0.5X beads",
-                             MaterialKind.WASTE)
-    graph.react("pool_cleanup", "Pool cell lysates and bead-purify", StepKind.CLEANUP,
-                ((promoter_rna, InputRole.TEMPLATE), (beads_05, InputRole.CONDITION)),
-                (bound, waste_05))
-    graph.discard(waste_05, "not retained by the 0.5X bead cleanup")
-    ivt_condition = graph.input("ivt_condition", "beads rehydrated in 25 µl T7 IVT mix; "
-                                "37 °C overnight, up to 16 h", MaterialKind.CONDITION)
-    t7 = graph.input("t7_polymerase", "T7 RNA polymerase", MaterialKind.CATALYST)
-    arna = graph.product("arna", "linearly amplified antisense RNA copies",
-                         MaterialKind.MOLECULAR, state=arna_scene())
-    graph.react("transcribe", "Transcribe antisense RNA directly from the original ssRNA",
-                StepKind.TRANSCRIPTION,
-                ((bound, InputRole.TEMPLATE), (t7, InputRole.CATALYST),
-                 (ivt_condition, InputRole.CONDITION)), (arna,))
-    beads_08 = graph.input("beads_08x", "0.8X beads + 1X buffer; elute in 7 µl",
-                           MaterialKind.CONDITION)
-    arna_clean = graph.product("arna_clean", "purified aRNA", MaterialKind.MOLECULAR,
-                               state=arna_scene())
-    waste_08 = graph.product("arna_cleanup_waste", "material not retained by 0.8X beads",
-                             MaterialKind.WASTE)
-    graph.react("arna_cleanup", "Bead-purify aRNA", StepKind.CLEANUP,
-                ((arna, InputRole.TEMPLATE), (beads_08, InputRole.CONDITION)),
-                (arna_clean, waste_08))
-    graph.discard(waste_08, "not retained by the 0.8X bead cleanup")
-    rt_condition = graph.input("rt_condition", "70 °C 2 min with dNTP and primer; "
-                               "23 °C 10 min, 50 °C 15 min, 80 °C 10 min",
-                               MaterialKind.CONDITION)
-    random_primer = graph.input("random_rt_primer", "RandomRT primer6", MaterialKind.OLIGO)
-    rt = graph.input("reverse_transcriptase", "SuperScript IV", MaterialKind.CATALYST)
-    cdna = graph.product("cdna", "random-primed cDNA from pooled aRNA",
-                         MaterialKind.MOLECULAR, state=random_rt_scene())
-    graph.react("reverse_transcribe", "Random-prime and reverse-transcribe pooled aRNA",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((arna_clean, InputRole.TEMPLATE), (random_primer, InputRole.STRUCTURAL),
-                 (rt, InputRole.CATALYST), (rt_condition, InputRole.CONDITION)), (cdna,))
-    forward = graph.input("pcr_forward", "NEBNext Universal primer (Table S3)",
-                          MaterialKind.OLIGO, inferred=True,
-                          source=SOURCE + " (assignment to the first PCR inferred; see caveat)")
-    reverse = graph.input("pcr_reverse", "NEBNext index primer (Table S3)",
-                          MaterialKind.OLIGO, inferred=True,
-                          source=SOURCE + " (assignment to the first PCR inferred; see caveat)")
-    polymerase = graph.input("pcr_polymerase", "Q5 High-Fidelity Master Mix",
-                             MaterialKind.CATALYST)
-    pcr1_condition = graph.input("pcr1_condition", "8 cycles", MaterialKind.CONDITION)
-    amplified = graph.product("pcr1_product", "first-PCR library", MaterialKind.MOLECULAR,
-                              state=FINAL_LIBRARY)
-    graph.react("library_pcr", "Amplify RT products with indexing primers (8 cycles)",
-                StepKind.PCR,
-                ((cdna, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
-                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST),
-                 (pcr1_condition, InputRole.CONDITION)),
-                (amplified,), geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY, reason=("The pooled random-RT precursor is heterogeneous; "
-                                           "computed NEBNext 3′ sites on the RandomRT handle "
-                                           "and hairpin PCR handle are %d and %d nt."
-                                           % NEB_SITE_NT)))
-    beads_09 = graph.input("beads_09x", "0.9X beads", MaterialKind.CONDITION)
-    pcr1_clean = graph.product("pcr1_clean", "purified first-PCR library",
-                               MaterialKind.MOLECULAR, state=FINAL_LIBRARY)
-    waste_09 = graph.product("pcr1_cleanup_waste", "primers and short products not retained",
-                             MaterialKind.WASTE)
-    graph.react("pcr1_cleanup", "Bead-purify the first PCR", StepKind.CLEANUP,
-                ((amplified, InputRole.TEMPLATE), (beads_09, InputRole.CONDITION)),
-                (pcr1_clean, waste_09))
-    graph.discard(waste_09, "not retained by the 0.9X bead cleanup")
-    p5 = PCRPrimer("P5 (Table S3)", LIB_P5)
-    p7 = PCRPrimer("P7 (Table S3)", LIB_P7)
-    p5_in = graph.input("pcr2_p5", "P5 primer (Table S3)", MaterialKind.OLIGO,
-                        inferred=True, source=SOURCE + " (second-PCR primers not named)")
-    p7_in = graph.input("pcr2_p7", "P7 primer (Table S3)", MaterialKind.OLIGO,
-                        inferred=True, source=SOURCE + " (second-PCR primers not named)")
-    polymerase2 = graph.input("pcr2_polymerase", "second-PCR polymerase (not stated)",
-                              MaterialKind.CATALYST)
-    reamplified = graph.product("pcr2_product", "re-amplified library",
-                                MaterialKind.MOLECULAR, state=FINAL_LIBRARY, inferred=True)
-    graph.react("library_pcr2", "Further PCR amplification (primers and cycles not stated)",
-                StepKind.PCR,
-                ((pcr1_clean, InputRole.TEMPLATE), (p5_in, InputRole.STRUCTURAL),
-                 (p7_in, InputRole.STRUCTURAL), (polymerase2, InputRole.CATALYST)),
-                (reamplified,), geometry=PCRGeometry.exact(
-                    FINAL_LIBRARY, p5, p7,
-                    statement=("Inferred assignment: Table S3 'library enrichment' P5/P7 "
-                               "primers on the completed library ends.")))
-    beads_final = graph.input("beads_final", "bead purification; elute in 11 µl 0.1× TE",
-                              MaterialKind.CONDITION)
-    library = graph.product("library", FINAL_LIBRARY.name, MaterialKind.LIBRARY,
-                            state=FINAL_LIBRARY)
-    waste_final = graph.product("final_cleanup_waste", "material not retained by beads",
-                                MaterialKind.WASTE)
-    graph.react("final_cleanup", "Bead-purify the final library", StepKind.CLEANUP,
-                ((reamplified, InputRole.TEMPLATE), (beads_final, InputRole.CONDITION)),
-                (library, waste_final))
-    graph.discard(waste_final, "not retained by the final bead cleanup")
-    graph.sequence(library, SequencingPlan(
-        library=FINAL_LIBRARY, primers=tuple(SEQ_PRIMERS),
-        read_lengths=READ_LENGTHS))
-    graph.declare_reviewed_scope([
-        "rna", "hairpin", "rudt", "primer_ligase", "ligation_condition",
-        "assemble_primer", "urea_page", "gel_purify_primer", "lysis", "capture",
-        "rnase_h", "klenow", "nick_condition", "install_promoter", "beads_05x",
-        "pool_cleanup", "t7_polymerase", "ivt_condition", "transcribe", "beads_08x",
-        "arna_cleanup", "random_rt_primer", "reverse_transcriptase", "rt_condition",
-        "reverse_transcribe", "pcr_forward", "pcr_reverse", "pcr_polymerase",
-        "pcr1_condition", "library_pcr", "beads_09x", "pcr1_cleanup", "pcr2_p5", "pcr2_p7",
-        "pcr2_polymerase", "library_pcr2", "beads_final", "final_cleanup", "library"], SOURCE)
-    return graph.require_publishable()
+    from protocol_graph import Terminal,Disposition
+    g=ProtocolGraph(TITLE,authority=SOURCE)
+    M,I,K=MaterialKind,InputRole,StepKind
+    def inp(i,l,k=M.CONDITION,state=None):return g.input(i,l,k,state=state)
+    def op(i,l,k,x,extra,state,kind=M.MOLECULAR):
+        y=g.product(i+"_out",l,kind,state=state);g.react(i,l,k,((x,I.TEMPLATE),*extra),(y,));return y
+    def clean(i,l,x):
+        sel=inp(i+"_selection",l,M.SELECTION);y=g.product(i+"_out",l+"retainedmixture",x.kind,state=x.state);w=g.product(i+"_waste","physicalnonretainedfraction",M.WASTE)
+        g.react(i,l,K.CLEANUP,((x,I.TEMPLATE),(sel,I.SELECTION)),(y,w));g.discard(w,"Actualphysicalnonretainedfraction; no completeclassclearanceasserted.");return y
+    h=inp("hairpin","originalBC2hairpinDNA; N8UMI/6ntwellbarcode",M.OLIGO,Construct(hairpin_parts()))
+    tailstate=Scene();tailstate.strand("rU-dT",tail_parts(),mod5="p",mod3="ddC")
+    tail=inp("ru_dt","source5′P mixedDNA/rU19/physicalterminalddCmodule",M.OLIGO,tailstate)
+    lig=inp("ecoli_ligase","EcoliDNAligase16°C30min",M.CATALYST)
+    assembled=Scene();assembled.strand("primer",capture_primer(),mod3="ddC-blocked",label="assembledsourcecaptureprimer; no cellularRNA introduced yet")
+    capture=g.product("captureprimer","assembledcaptureprimer",M.OLIGO,state=assembled)
+    g.react("assemble","Anneal andnickligate originalmodules",K.LIGATION,((h,I.TEMPLATE),(tail,I.STRUCTURAL),(lig,I.CATALYST)),(capture,),geometry=primer_ligation_geometry())
+    capture=clean("primer_page","10%ureaPAGE;300µMNaOAc sourceunit;ethanolprecipitation",capture)
+    sample=Scene();sample.strand("RNA",[role("singlecellRNA; physicalU andnativepolyA")]);sample.strand("other",[role("independent cellularDNA/otherpolymers")])
+    cell=g.input("cell","onecell in2µllysisbuffer; selected10wellpoolroute",M.BIOLOGICAL,state=sample,primary=True)
+    carrier=inp("carrier","60pg physicalRNAcarrier",M.MOLECULAR,Construct([seg("sourcecarrierRNA","AUCCGUCAGGUUUUCCUGAC")]))
+    spike=inp("spike","independentERCCRNA source1:1000000; A60is separatealternative",M.MOLECULAR)
+    ly=inp("lysis","0.1%Triton/RNaseinhibitor/dNTP;65°C5min/ice")
+    lysed=g.product("lysed","nativeRNA plusindependentcarrier/spike andcaptureprimer",M.MOLECULAR,state=capture_scene())
+    lysed.state.strand("carrier",[role("independent60pgsourcecarrierRNA; no covalentjoining")]);lysed.state.strand("spike",[role("independentERCCRNA; samecaptureoperations applytoeligibleRNA")])
+    g.react("lyse","Lyse independentlybarcodedcellwell",K.THERMAL_TREATMENT,((cell,I.TEMPLATE),(capture,I.STRUCTURAL),(carrier,I.SPIKE_IN),(spike,I.SPIKE_IN),(ly,I.CONDITION)),(lysed,))
+    dry=inp("evaporation","Vacufuge30°C25min");x=op("dry","Evaporate eachsourcewelllysate",K.THERMAL_TREATMENT,lysed,((dry,I.CONDITION),),lysed.state)
+    rh=inp("rnase_h","RNaseH0.02U/µl; nicksoriginalRNA withinRNA/dT hybrid",M.CATALYST);kl=inp("klenow","Klenowexo−0.3U/µl plusdNTP;37°C30min",M.CATALYST)
+    x=op("install_promoter","RNaseHnicking plusDNAextension oforiginalRNA3′end; noRT",K.EXTENSION,x,((rh,I.CATALYST),(kl,I.CATALYST)),promoter_scene())
+    peers=inp("other_wells","nineother independent sourcebarcodedcelllysates/promotertemplates",M.MOLECULAR,promoter_scene());pooled=g.product("pooled","tenindependentwellmixtures pooled; not concatenated",M.MOLECULAR,state=x.state)
+    g.react("pool","Physicallypool10barcodedlysates;80wellroute is separate",K.POOL,((x,I.TEMPLATE),(peers,I.TEMPLATE)),(pooled,),changes_molecule=False)
+    x=clean("pool_cleanup","0.5×Alinebeads+1.3×buffer;rehydratebeadsin25µlIVTmix",pooled)
+    t7=inp("t7","T7RNApolymerase2.5U/µl",M.CATALYST);ntp=inp("ivt_mix","sourceNTP1.25mM/Mg/DTT;37°Covernight≤16h")
+    x=op("ivt","DirectlinearIVT from originalRNA–DNApromotertemplate",K.TRANSCRIPTION,x,((t7,I.CATALYST),(ntp,I.CONDITION)),arna_scene())
+    x=clean("arna_cleanup","0.8×beads+1×buffer;7µlwater",x)
+    rp=inp("random_rt","RandomRTprimer6",M.OLIGO,Construct([seg("RandomRT",RANDOM_RT)]));rt=inp("ssiv","SSIV;23°C10min50°C15min80°C10min",M.CATALYST)
+    x=op("rt","Random-prime actualaRNAcopies; RTafterIVT",K.REVERSE_TRANSCRIPTION,x,((rp,I.STRUCTURAL),(rt,I.CATALYST)),random_rt_scene())
+    p5=inp("methods_p5","MethodsfirstPCRP5;TableS3shortP5 stageapplicabilityunresolved",M.OLIGO,Construct([seg("shortP5",LIB_P5)]));p7=inp("methods_p7","MethodsfirstPCRP7;TableS3shortP7 stageapplicabilityunresolved",M.OLIGO,Construct([seg("shortP7",LIB_P7)]));pol=inp("q5","Q5HighFidelityMasterMix",M.CATALYST)
+    amp=g.product("first_pcr","source8cyclePCRoutput; firstcycleassemblyunassigned",M.MOLECULAR,state=native_pcr_state("first"))
+    g.react("first_pcr_step","Methods8cyclePCR withnamedP5/P7; sourcephaseconflictbounded",K.PCR,((x,I.TEMPLATE),(p5,I.STRUCTURAL),(p7,I.STRUCTURAL),(pol,I.CATALYST)),(amp,),geometry=PCRGeometry.unavailable(x.state,reason="ActualrandomRTssDNA input; TableS3shortP5/P7 lack fullnativefirstcyclesites. Sourceknown8cyclePCRpreserved without silentlyusingNEBNext endpointsastemplate or assertedreactionreagents."))
+    x=clean("pcr1_cleanup","0.9×Alinebeads",amp)
+    f=inp("further_forward","sourcefurtherPCRforwardprimer; familyassignmentunresolved",M.OLIGO);r=inp("further_reverse","sourcefurtherPCRreverseprimer; familyassignmentunresolved",M.OLIGO)
+    lib=g.product("amplified_library","nativefurtherPCR librarymixture; endpointreference separate",M.LIBRARY,state=native_pcr_state("further"))
+    g.react("further_pcr","FurtherPCR; cycles/primerstageidentity unassigned",K.PCR,((x,I.TEMPLATE),(f,I.STRUCTURAL),(r,I.STRUCTURAL),(pol,I.CATALYST)),(lib,),geometry=PCRGeometry.unavailable(x.state,reason="ActualrecoveredfirstPCRmixture enterssourcefurtherPCR. Nativeassemblyphase remainsbounded; sourceFigS8finishedNEBNextcomponentreference isnot actualinputgeometry."))
+    x=clean("final_cleanup","Sourcefurtherbeadpurification;11µl0.1×TE",lib)
+    g.sequence(x,SequencingPlan(acquired_roles=("Read 1","Read 2"),read_lengths={"Read 1":50,"Read 2":25},read_uses={"Read 1":"include","Read 2":"extract"},limitation="SourceNextSeq55050/25mask; R2sourcehairpin8ntUMI+6ntwellbarcode+11ntclosingarm; native6ntNEBindexfamily separatefromunassignedindexacquisition. Physicalcarrier/spike/originalRNA do not disappear by nonamplification or computationalQC."))
+    g.declare_reviewed_scope(REVIEWED,SOURCE)
+    return g.require_publishable()
+REVIEWED=("hairpin","ru_dt","ecoli_ligase","assemble","primer_page_selection","primer_page","cell","carrier","spike","lysis","lyse","evaporation","dry","rnase_h","klenow","install_promoter","other_wells","pool","pool_cleanup_selection","pool_cleanup","t7","ivt_mix","ivt","arna_cleanup_selection","arna_cleanup","random_rt","ssiv","rt","methods_p5","methods_p7","q5","first_pcr_step","pcr1_cleanup_selection","pcr1_cleanup","further_forward","further_reverse","further_pcr","final_cleanup_selection","final_cleanup","final_cleanup_out")

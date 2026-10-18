@@ -97,6 +97,37 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 5 checked, 3 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch07-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "oligo_scraper": "Mandatory bundle scraper run; relevant source arm/adapter hits verified in named original Methods or v22 CD sections. No-hit does not establish absence.",
+      "scope": "Capped native migration/source pass only; no accepted missing-information claim or historical status upgrade.",
+      "verification": "Native page and source-transcription suite pass; focused scoped chemistry/source guards/review schema and independent implementation review pending.",
+      "documents": 2,
+      "locations": "Published PMC5605243 Methods46–68 and Results80–95; published supplement opening FigS1–S3 headings/captions/control descriptions.",
+      "findings": "Removed structured_rna finisher/default6index. Native local deacylation→ethanol recovery→separate Y-adapter population→noncovalent partial stem/NCCA pairing→both Rnl2 covalent junctions→actualSSIII first-strand input→11cyclePCR→8%nativePAGE. Physical RNAU retained in Y5-U; Methods5P/3ddC versus Results3OH conflict retained publicly. Kit RT/PCR geometry unknown rather than control-primer substitution. OriginalRNA/cDNA retained throughPCR/recovery or explicitly unresolved. SingleRead100 known; indexwidth and landing unassigned. Ordered /3ddC/ adds a separately modelled physical terminal C on reagent, annealed and sealed states; it does not merely annotate the precedingG.",
+      "deferred": [
+        "Complete folded acceptor stem and both spatial nick geometries",
+        "Historical native TruSeq Small RNA kit primer members/index width",
+        "First-strand extent and residual template recovery"
+      ]
+    },
+    {
+      "round": "2026-10-18-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Code-only review of tools/chem.py adapter_set_scene/annealed_scene/ligated_scene/cdna_scene/library_scene/protocol_graph and rendered read-content table; existing root batch07 source scope was not reread.",
+      "findings": "Physical RNAU and additional terminal ddC C retained in ordered reagent, partial annealing and sealed strand. Source stem/terminal-NCCA pairing is explicitly bounded against full tRNA fold and spatial nick geometry. Actual first-strand cDNA plus retained original template feeds PCR; PAGE does not arbitrarily discard residual RNA/cDNA classes. Native kit index width remains unassigned and Methods3ddC/Results3OH discrepancy is public. Corrected generated index rows that falsely said not acquired by adding explicit local unknown Index1/Index2 acquisition; source100nt single-read and noRead2 remain distinct. No further concrete implementation defect found in reviewed scope.",
+      "deferred": [
+        "Complete folded acceptor-stem and nick geometry",
+        "Historical selected TruSeq Small RNA RTP/PCR/index members and sequencing primer landing",
+        "Full cDNA extent and component-specific residual-template recovery; existing source deferrals unchanged"
+      ],
+      "scope": "Independent implementation review only; no new original source opened, absence conclusion or historical status upgrade.",
+      "verification": "Suite5/page pass; sourceguard5checked0failed3unassigned; pairing0; chemistry4established10unresolved0contradictory; rendered both index rows unassigned/undetermined; schema pass."
     }
   ]
 }

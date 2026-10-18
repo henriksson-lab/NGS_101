@@ -111,6 +111,36 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 5 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch05-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published PMC10182092 JATS Methods230–266: DNA block, RT, dA tailing, bead synthesis, droplet barcoding, library preparation and preprocessing; original MOESM1 SupplementaryInformation Table1 (text190–260).",
+      "oligo_scraper": "Ran tools/scrape_primers.py on external source bundle and checked relevant published source lines; superseded preprint hits excluded. snRandom source-data workbook exceeds default scan cap and remains deferred. No-hit or class-expansion mismatch is not an absence finding.",
+      "findings": "Removed generic TruSeq dual-index shell, fixed12-A TdT tract and unsupported enzymatic fragmentation inference. Preserved source-specific barcode/UMI features through role-level fragments, native adapter ends and library. Separate genome/RNA/cDNA populations, three washes after each nuclear operation, source deoxyuridine/acrydite bead tether, PFO aqueous recovery, AMPure before/after cDNA PCR, native endprep/ligation/size-selection/PCR/final cleanup. Both PCR geometries use actual precursors. Nonamplified genomic DNA/RNA remains unresolved; cleanup fractions do not assert species-specific removal. Native release site and fragmentation mechanism remain unassigned. Directly counted Table1 bead primer N8/T20; corrected the prior repository T21 transcription (not a publication error).",
+      "deferred": [
+        "Vazyme ND607-01 version-matched adapter and PCR source; exact fragmentation mechanism and native read-primer geometry",
+        "Bead predecessor Delley2021, full five-member RT primer population/whitelist scope and source-data workbook; no new absence claim accepted."
+      ],
+      "scope": "Bounded native-declaration migration only; prior status and historical independent passes unchanged. No absence gate accepted.",
+      "verification": "Affected suites/pages pass; chemistry zero contradictions (SHERRY two exact loaded-adapter duplex claims); source guard passes with source-specific shorthand/placeholder exemptions; local pairing and review schema pass. Shared/static/full-site checks remain parent-owned."
+    },
+    {
+      "round": "2026-10-18-batch05-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current local protocol module, protocol graph input/product/geometry/terminal declarations, oligo/read declarations, latest migration notes and bounded source scope. Published originals were not reread in this independent implementation pass.",
+      "scope": "Independent code-only review using existing bounded source migration scope. No new source assertion, absence acceptance or status upgrade.",
+      "findings": "Independent implementation review identified that original native bead-extension strand started at PCR2, losing its physical upstream acrydite/anchor/dU region while release site was unassigned. Owner correction verified: explicit upstream acrydite–ATTATATATAT–dU boundary role now precedes PCR2 in barcoded/PFO/preamp-input state, with release/retention unassigned; PCR2-bounded amplified product can omit that upstream boundary. Independent genome/RNA/cDNA populations, N10+TGGT+N10+GAGA+N10/N8/T20 identifiers, actual PCR precursor geometry, native vendor end/fragmentation boundaries, washes/AMPure and unresolved non-amplified fates otherwise coherent.",
+      "deferred": [
+        "Native bead release/retention geometry and exact first-copy duplex proof",
+        "Version-matched ND607-01 fragmentation/end/adapter/PCR and native read-primer/index geometry",
+        "Full RT variant/barcode member scope and molecular-class recovery"
+      ],
+      "verification": "Read-only critical review except this documents0 record; snRandom owner correction checked in current code and owner-rebuilt page. Full focused verification remains parent-owned."
     }
   ]
 }

@@ -298,6 +298,33 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite all 4 checks passed; page builds; pairing 0 problems; chemistry 0 established/0 conditional/11 unresolved/0 contradictory with circle_and_dnb MAGIC warning; source guard 4 exact checked, 0 failed, transposome without exact state; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch07-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC6499310 Methods193–214; original Cheng2018 ProtocolExchange manuscript attachment5 pp9–10, steps61–81/text317–365 and demultiplexing; genuine original ordered workbook 324392_324392-2.xlsx Commonadapter/Transposon/Branch/PCR rows and barcode architecture. Mandatory bundle scraper reviewed.",
+      "findings": "Replaced shared factory with local native graph. Separate DNA/dU transposon donor, RNA bridge and bead populations; source BranchB terminal ddG contributes its physical G without inventing a copied internal base. Capture/ligation, washes, Exo/SDS, UDG/APE1, ETSSB, branch ligation and actual washed PCR precursor are explicit. Hydrolysis products retain unresolved fate separately from physical wash waste. Primer-derived daughter reference loses original biotin/A10 prefix; circle and DNB chemistry remain bounded. Published PCR programme discrepancy retained; historical Figure1/common-adapter and author-demultiplexer variant scope is not newly reread.",
+      "deferred": [
+        "Drmanac2010 circularization precursor and complete native circle/DNB priming geometry",
+        "Full barcode/genomic branch junction and platform-native sequencing primer geometry; historical Figure1 and current repository variants not freshly reread"
+      ],
+      "scope": "Capped source pass and native graph migration; no absence acceptance or historical status upgrade.",
+      "verification": "Local suites4/1/3 and pages pass; combined guard7checked0failed9unassigned0exemptions; pairing0; chemistry5established57unresolved0contradictory. Notes/review schema checked after record creation."
+    },
+    {
+      "round": "2026-10-18-batch07-independent-implementation-review",
+      "reviewer": "rna_native_batch06",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current native protocol module/local helper, final notes and owner bounded source3/2/1 handoff. No new original-source investigation.",
+      "findings": "Reviewed source selected3-prime branch route, TransposonB DNA/dU versus RNAbridge, physical BranchB11nt+terminalddG geometry, actual washedbranch PCR template and original/blocked-strand fates. Corrected physical readout representation: unknown native circle and DNB stages now retain all three structured barcode identities without assigning native strand/repeat positions or multiplicity. DNB is not represented by the readout-reference duplex. The source42position barcode architecture remains a separately labelled single-string reference panel. No source-original rereading or biological gap-filling was done.",
+      "deferred": [
+        "Native circle precursor/closure, DNB repeat/primer geometry, strand selection and source programme variant remain unresolved."
+      ],
+      "scope": "Independent critical implementation-only peer review. Automated source checks do not constitute an independent original-source absence pass; no status upgrade.",
+      "verification": "Suites4/1/3pass; pagesbuild; sourceguard7checked0failed9unassigned0exemptions; pairing0problems; chemistry5established57unresolved0contradictory; schema checked."
     }
   ]
 }

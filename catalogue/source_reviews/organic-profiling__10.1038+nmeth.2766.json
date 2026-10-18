@@ -981,6 +981,35 @@
       ],
       "scope": "Capped primary-source pass, not a full review or acceptance of absent information.",
       "verification": "Local suite and page build pass; pairing0; review schema valid; scoped chemistry0contradictions (limited coverage); batch sourceguard39checked0failed"
+    },
+    {
+      "round": "2026-10-18-batch08-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published author-manuscript PMC3929178 Introduction/Results55–88 native yeast/IP/input and cited2011 method; published SI FigS1a/c, rendered originalPDFpage3 plus extracted text150–273; Orsi2015 PMC4410783 BasicProtocol3 sourceoligos812–832 and steps4–39/text950–1205, same original separately cached for this protocol. Mandatory scraper relevant Orsi hits checked in original.",
+      "oligo_scraper": "Mandatory scraper run on each complete cached bundle; relevant Orsi oligo/modification hits verified against original text. NicE no-hit is not absence; large metadata/workbooks not scanned remain outside chemistry decisions.",
+      "findings": "Defining FigS1a now owns sequential needle/S1, salt/S2 and S1/S2pool beforeIP/input branches. FigS1c native endrepair→phenol→S300→opposed3A→phenol→S300→nativeTruSeqligation→AMPure→actualnativePCRprecursor→AMPure order explicit. Historical adapter/enzymes/primer/5P/indexidentity unassigned, instead of filling from laterOrsi. Later exactoligos retained as separate referencepanel/sourcechecks. SourcePE25 kept; physical6 laterreference notnativeindexcycles. DNA/protein/RNA populations separate; originaltemplates unresolved afterPCR/recovery.",
+      "deferred": [
+        "Historical2014 exact adapter/primer/index assignments and cited2011 SI/OnlineMethods",
+        "Native ligation-ready adapter geometry and first-cycle PCR boundaries",
+        "Complete component-specific recovery, fly/high-salt experimental variants"
+      ],
+      "scope": "Capped3-original native migration source pass; no historical review-status upgrade or missing-information acceptance.",
+      "verification": "Local suites2/2/5 and pagebuilds pass; sourceguard0checked0failed5unassigned; chemistry0contradictions; independent critical implementation review and parent integration pending."
+    },
+    {
+      "round": "2026-10-18-batch08-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Independent code-only review of tools/chem.py: separate Orsi reference, native yeast needle/S1/S2/salt extraction and input/IP populations, _recover_native_dna, _native_library_branch, native PCR/residual/terminal readout declarations.",
+      "findings": "Confirmed source-known selected yeast S1/S2extraction/pooling and independent matchedinput/IP branches. RNA/protein digestion products remain until physicalDNA recovery; digestion itself is not physicaldiscard. Native FigS1c endrepair/recoveries/opposed3′A/unknownnativeadapter/PCR/recoveries are explicit, with enzyme identities/5′chemistry/adaptermember unassigned. Actual adapter-ligated precursor feeds PCR, original templates have explicit unresolved recovery fate. Later2015Orsi exact oligos and six-position index stay a separate reference, without imposing native2014indexcycles. NativePE25 acquisition and index uncertainty retained. No concrete implementation defect found within stated scope.",
+      "deferred": [
+        "Original-source reinspection and existing source-specific native oligo/kit/revision assignments remain outside this implementation-only review."
+      ],
+      "scope": "Independent implementation-only critical review using released protocol declarations and parent-supplied frozen source scope. No original documents inspected; automated source suites/guards run. Does not supply an independent original-source absence pass, change historical status, or accept missing-information claims.",
+      "verification": "Source suite2pass; pagebuild; chemistry36steps0contradictions; pairing0; guard0exact0failed5unassigned across3; diffcheckpass."
     }
   ]
 }

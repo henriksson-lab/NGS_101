@@ -86,6 +86,21 @@
         "Cited adapter method33 (Barski); exact adapter identity, index width and run lengths; graph recovery stages"
       ],
       "scope": "Bounded original-source check, not a complete review; no publication-wide absence accepted."
+    },
+    {
+      "round": "2026-10-18-validation-migration",
+      "reviewer": "nuclease_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "scope": "Local graph ownership and bounded original-source correction; no full chemical validation or accepted absence claim.",
+      "locations": "Lai etal.2018 published Supplementary Methods MOESM1 PDF pp2–3, extracted lines27–46: cell lysis/CaCl2, MNase incubation, SDS/EGTA stop/PK, phenol–chloroform/ethanol/glycogen recovery, cited universal-adapter ligation,23cycle indexPCR,160–300bp E-gel and paired-end HiSeq2500.",
+      "findings": "Replaced shared nuclease_accessibility recipe with a local scMNase graph. Added the source-described stop/proteinaseK and DNA recovery steps. No carrier assumption inherited from scDNase. Physical universal-adapter end geometry remains unavailable; inferred TruSeq end-prep/adapter/primer drawings are conditional references only. Removed the six-base illustrative index length from molecular declarations and use an unknown-length structured cell-index role. PCR source limitation references the actual ligated precursor, while the plan preserves source paired-end read roles and leaves run/index acquisition unknown.",
+      "deferred": [
+        "Cited universal-adapter method33 Barski etal. remains deferred; exact study adapter/indexed primer identities and index length remain unassigned",
+        "Exact input-output molecular reaction relations and read/index cycle mask remain unresolved"
+      ],
+      "verification": "local graph suite passes with0 independent source-transcription checks; both pages build; chemistry7steps0established5conditional8unresolved0contradictory; source guard0 exact candidates0failed (inferred reference oligos excluded); pairing0 problems",
+      "oligo_scraper": "Ran full local source-bundle scraper; vendor oligo pointers followed into the obsolete Multiplexing originals for scDNase. No drawn upstream content used as evidence."
     }
   ]
 }

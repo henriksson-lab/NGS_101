@@ -60,6 +60,36 @@
         "Uninspected source sections, original application and referenced method/vendor originals; no recursive retrieval this round."
       ],
       "scope": "Bounded primary-source curation, not full source review or accepted absence."
+    },
+    {
+      "round": "2026-10-18-batch11-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published Flynn2016 author-manuscriptPMC4896316 originalJATS reagents154–206; Procedure3/13–68 (polyA/click/fragmentation/endprep/adapterligation/PAGE/RT/capture/RNasedigestion/DMSOmagneticrelease/SSrecovery/circle/qPCR/PAGE/readout). DetailedRNAisolation4–11notreconstructed.",
+      "oligo_scraper": "5hits1file; originalorderedRTprimer/PCRoligos andProcedureenzyme/order read; scraperisnotchemicalorder evidence.",
+      "findings": "Local nativegraph replacesrna_cell_assays defaults. Physicaladapter3ddC addsC; RTprimer5P/twoiSp18 nonnucleotide spacers/DDDNN-AACC-NNNN retained onactualssDNA/circle. TwoUMIfeatures sharegroupicshape.umi parts1/2; first5encodingdegenerate(D=A/G/T), last4random, onecompound9ntUMI around4ntsampleID. NAI2Oadduct/biotin are notbaseIDs or copiedDNAmodifications. SourceT4RNL1/RTbeforecapture, knowncolumn/gel/wash/release/circle/qPCR operations explicit. Actualnativecircle/residuals feedPCR, notfinalduplex. Step68singleend75 andomittedexternalindexreads separatefromnativeinlineIDs. ExistingStep49P3unitdiscrepancy preserved.",
+      "deferred": [
+        "SourceRNAisolationProcedure4–11 detailedchemistry deferredwithinoriginal",
+        "Fullcircle/spacer/finalPCRfirstcycle/loadedrunprimergeometry andclass-specificresidualrecoveries unassigned",
+        "Step49P3concentration contradiction remainsunresolved; no correctedexperimentalvalue"
+      ],
+      "scope": "Capped sourcepass≤3originals/10min, investigation frozenbeforeimplementation. Protocol-ownednativegraphmigration, notcompleteprotocolreview, acceptedabsence, independentsecondoriginalreading orhistoricalstatusupgrade. Existingstatuses/passes preserved.",
+      "verification": "5 optionaloriginalchecks;29steps;0established30unresolved0contradictory. Fourpagesbuild;sourceguard12checked0failed0skipped5inputswithout exactstates; scopedchemistry15established72unresolved0contradictory. Pairing/schema/staticOUT/whitespace verifiedafterrecordwrite."
+    },
+    {
+      "round": "2026-10-18-batch11-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Read chem.py actualRNAadduct/click states; physicaladditionalddC adapterC; twointernal iSp18 spacers; interruptedSSRTbeforecapture; RNasedigestion/physicalelution; actualSScirclePCR; inlinecompoundidentifier/readmask/recoveries.",
+      "findings": "Identified structuredcompoundUMI metadata that onlyprose connected. Owner assignedcommonicshape.umi group/parts1/2 toDDDNN+NNNN anddegenerateencoding toDDDNN; verified correction. Sourcechemicaladduct/biotin andspacers remainoriginal-only; PCRactualinput iscircularSS, not completedendpoint.",
+      "deferred": [
+        "Exactcirclefold/firstcycle/fullendpoint assembly and sourceStep49concentration conflict remainbounded.",
+        "Existing1-original sourcepass not re-read; thisdocs0review isnot secondsourceevidence."
+      ],
+      "scope": "Independent code-only review ofowner boundedsourcepass. No originalsopened, no sourcebreadthexpansion, historicalstatus/absencegate unchanged.",
+      "verification": "Re-readfinalfixes; combinedchemistry68steps/15established72unresolved0contradictory; pairing0; LASTrenderedindexnegativeacquisition absent. Owner reports suites2/5/8/4, guard12checked0failed5unassigned, builds/schema/staticOUT pass."
     }
   ]
 }

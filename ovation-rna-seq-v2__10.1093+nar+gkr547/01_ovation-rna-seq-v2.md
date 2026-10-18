@@ -50,9 +50,11 @@ Figure 1). The eight mouse libraries were also sequenced single-read on SOLiD (n
 
 ## Final library and reads
 
-🟡 The final adapter shell is a canonical TruSeq-compatible construct marked inferred.
-The paper does not name the NEB kit, adapter strands, PCR primers, barcode position or
-index length, so the page draws an index read without a length.
+🟡 The endpoint uses inferred native NEB adapter regions, with unknown barcode encoding
+and placement, rather than a canonical TruSeq shell. The inspected article establishes
+bar-coded adapters and paired 2 × 50 reads. Exact adapter strands, primer sites, barcode
+position/width and index acquisition remain unassigned. An unknown index-read assignment
+is not evidence that index reads were absent.
 
 ## Open questions
 
@@ -61,3 +63,25 @@ random-hexamer bases or modifications; polymerase identities; the NEB kit, adapt
 index oligos, and PCR primers. Still to inspect: the V2 user guide (M01206), Kurn et al.
 2005 (Clin Chem, doi:10.1373/clinchem.2005.053694, ref. 8) and Dafforn et al. 2004
 (Biotechniques, doi:10.2144/04375PF01, ref. 9). No absence claim is accepted.
+
+## Native graph migration (2026-10-18, batch03)
+
+Re-read the published PMC3185437 JATS Introduction 26, Methods 56/60/64 and
+Results 108 (one original); ran the mandatory source-bundle scraper (zero hits,
+not an absence finding). The current graph owns the selected sheared Illumina
+branch. RNA template and first-strand cDNA, opposite DNA strands and displaced SPIA
+copies are separate rows, never covalently concatenated populations. The primer-derived
+RNA region is attached to the first-strand lineage; exact heteroduplex pairing remains
+unassigned. Heat/RNase H products have unresolved physical fates; hydrolysis does not
+physically discard them. Random-hexamer second-strand products are duplexes. End-repaired
+and dA-tailed states are separate, with opposed exposed dA ends computed from complementary
+segments. Native ligation, purification and gel states feed PCR directly; the final
+PCR duplex is not substituted for that precursor. The listed manual gel-before-PCR
+order is a selected schematic order, explicitly unresolved experimentally in this scope.
+
+The previous canonical adapter shell, default index position and implied acquired index
+read were model assumptions, not publication errors. They have been removed. The page
+retains the published Introduction/Methods second-strand wording discrepancy. Commercial
+V2 guide M01206, Kurn 2005, Dafforn 2004, exact historical NEB adapters/primers, unsheared,
+mixed and SOLiD branches remain deferred. This is a bounded migration, not acceptance of
+missing-information claims or proof of native commercial chemistry.

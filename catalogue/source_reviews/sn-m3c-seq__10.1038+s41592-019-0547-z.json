@@ -161,6 +161,35 @@
       ],
       "scope": "Bounded defining-article pass, not complete validation or accepted missing-information review. Inherited endpoint remains provisional and source-specific follow-up is deferred.",
       "verification": "local suite102/102 includes legacy common checks; page/pairing pass; chemistry1 established/0 conditional/10 unresolved/0 contradictory; source guard0 exact checked (all structural oligos inferred/excluded),0 unrepresented; Markdown built/checked; review schema pass"
+    },
+    {
+      "round": "2026-10-18-batch06-native-graph-migration",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC6765423 SupplementalMethods Hi-C/3C, FANS, methylome library preparation and DataProcessing (text130–150); directly cited published PMC6147798 Methods149–153 and original2018 MOESM1 SupplementaryMethods RP-H/pooling/Adaptase/PCR/recovery and Table2, already read for snmC-seq2 in this batch and applied only to explicitly inherited post-bisulfite finishing.",
+      "oligo_scraper": "Ran mandatory scraper on external source bundle; inspected relevant published source pointers and excluded superseded preprint hits. Source custom H1 mixes and modified DNA-dU/RNA/LNA syntax remain source-qualified. Large data files skipped by cap are deferred, not evidence of absence.",
+      "findings": "Owned DpnII overnight digestion,62°C10min inactivation, no biotin fill-in/capture,4h room-temperature ligation,10% conventional-library MiSeq QC aliquot and FANS lineage. Removed shared ContactWorkflow/snmc2_core endpoint recipes and legacy rendering constraints. Actual converted contact strands contain physical U; native original/copy mixtures, ss Adaptase inputs, RP-H lineage/dual-index meaning and inherited recovery order remain explicit. PE150 and25/3 computational trims are source-declared and do not assign chemical adapter lengths. Parent implementation review fixes: post-PCR states carry possible original/blocked-template lineages through each cleanup without asserted physical separation. Source order/modified nucleotide representation and unresolved original RNA fates made explicit; DpnII cut ends retained through inactivation where applicable.",
+      "deferred": [
+        "Own published MOESM1 and additional chemistry-relevant supplemental content not newly inspected; native sample-specific RP/index members and Adaptase guide/geometry",
+        "Detailed sorted-nucleus release conditions and any contact-context changes to inherited finishing; no full source review or absence gate accepted."
+      ],
+      "scope": "Bounded ownership/native-graph migration; source reuse is limited to the explicitly inherited2018 finishing component. Historical review status and independent passes unchanged; no absence claim accepted.",
+      "verification": "Focused suites/pages/source guard/pairing/review schemas pass; chemistry0contradictions across all three. Source guard2exact oligos checked,1narrow H1-synthesis-notation exemption, no failures. Parent owns shared/static/full-site checks."
+    },
+    {
+      "round": "2026-10-18-batch06-independent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current native local modules, cut/converted/copied/modified material states, actual PCR geometries, product fates, source scopes and read declarations. No original source reread in this pass.",
+      "findings": "SourceDpnII/no-biotin-fill contactroute islocal; sortedcontactDNA passesphysicalUconversion beforeexplicitlyqualified2018finish. Parent found cut/inactivatedstates reuseduncutchromatin drawing; ownernowdrawscomputedopposed5GATC5P/3OH ends and preservescutstate throughinactivation. Unconvertedcontactmotif isnotprePCRconvertedsubstrate. NativeblockedRP-H/Adaptase actualsscopies feedPCR; originalcontactDNA/blockedcopyresiduals remainexplicitthroughrecoveries. Source10%QCbranch isanalytical; PE150/25-and3computationaltrims do not establishnativeadapterlengths/indexacquisition.",
+      "deferred": [
+        "Complete nativeAdaptase/input-to-amplicon/read-primer geometry and study-specific selected members; physical class recovery",
+        "Originals and linked chemistry outside owner capped source scope remain deferred."
+      ],
+      "scope": "Independent critical implementation-only review and verified owner corrections; no newsource original, source-status upgrade, accepted absence or whole-chemistry certification.",
+      "verification": "Owner reports focused suite/page/chemistry/sourceguard/schema/pairing passes after corrections; final parent focused/full-site validation follows."
     }
   ]
 }

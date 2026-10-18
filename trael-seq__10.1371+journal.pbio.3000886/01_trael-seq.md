@@ -1,5 +1,13 @@
 # TrAEL-seq — research notes
 
+## Active native migration, 2026-10-18
+
+Three originals inspected: published PMC8021198 Results69 and Methods199–225; original S2 detailed protocol `pbio.3000886.s009.doc.txt`20–289; NEB E7645S/L,E7103S/L manual **Version6.1_5/20**, title/header and overview79. The last explicitly describes end repair,5′phosphorylation and dA-tailing, qualifying the same named kit's activity. Actual experimental revision/lot remains unpinned. The TA-compatible drawing stays inferred; the paper's “blunting” terminology is not called a publication error. Older statements below that the vendor original was unread describe historical scope.
+
+Native ordered adapter1 has5′[Phos], becomes5′rApp before capture, contains physical dU and BtndT; adapter2 has5′phosphate,31bp stem,4dU loop and terminal phosphorothioate-linked3′T. The graph preserves UMI8 through the Bst-connected original/hairpin/copy polymer, sonicated/end-prepared capture population and actual USER-opened PCR input. Full two-hairpin nick/seal/closure topology and USER footprints remain unassigned. Salmon-sperm carrier is an independent population added at on-bead EndPrep, with possible co-carried original/copy/carrier residuals retained through main PCR and both final cleanups. The test18cycle PCR is a QC aliquot; main cycle n is selected experimentally. E7335S is an example set only; no exact member/index width is assigned. Chemical tail1–4rA differs from computational removal of up to3T. MiSeq50SR/NextSeq50075SE are positive acquisition choices; index acquisition is unassigned.
+
+The mandatory scraper returned27hits/4files; superseded preprint hits were excluded. Remaining deferred targets: actual kit revision/lot, library index set/member, complete native USER/PCR strand geometry and optional barcoded-adapter quantitative variant. This capped pass establishes no accepted absence claim and preserves historical reviews.
+
 ## Sources read
 
 - 🟢 Kara et al. 2021, DOI `10.1371/journal.pbio.3000886`, PMC8021198 JATS (`journal.pbio.3000886_PMC8021198.xml.txt`): Results lines 62–71 (TdT/RNA-ligase rationale, Fig 1A legend, adapter roles) and Methods "TrAEL-seq library preparation and sequencing" lines 199–225; S2 File detailed protocol `pbio.3000886.s009.doc.txt` lines 20–289.

@@ -96,3 +96,17 @@ need source-specific checks. Main-article references to optional Duplex-Repair,
 restrictive ddBTP repair and targeted enrichment are distinct branches; their
 recipes are not assigned to the selected baseline. No missing-information claim
 has been accepted, and the audit remains in progress.
+
+## Native ownership migration, 2026-10-18
+
+Sources read: Published PMC10181940 JATS .xml.txt: Results Adapter quadruplex and workflow/Fig1, lines100–118; Methods DNA samples/ERAT/CODEC/Sequencing197–220. Published MOESM1 supplementary PDF .txt Table5 lines481–548, allfour modified set1 ordering sequences and eightmatched sets. Preprint and current vendor manual not used.
+
+Removed protocol_specs.get/Definition/workflow and rna_library_operations.molecule. Native graph owns actual genomic duplex and dA-tailed substrate, four-strand representative adapter (two bridge strands plus two phosphorothioate terminal-T arms), separate ligated Watson/Crick intermediate chains and actual linked single-chain PCR precursor. Sample/UMI feature identities preserved from adapter through local endpoint. Original Methods quantities/variant conditions retained, including pre-ligation cleanup absent from v0, cfDNA alternate final cleanup and166/260 paired-cycle alternatives. Candidate blank/double/intermolecular byproducts are unresolved material fates rather than unsupported physical discards.
+
+Model boundaries: Native complete ligation branch geometry/contiguous extension product; xGen1077677 ordered physical primers/first-copy PCR proof; optional capture and ERAT alternative graphs remain outside selected baseline route. No source-absence claim is accepted by this capped pass. Bundle oligo scraper run and source passages checked.
+
+### Local SID7 orientation correction, 2026-10-18
+
+The final region-level reference now retains the source bridge7 orientation: reverse complement of SID7 → three UMI positions → reverse complement of the Read 2 primer site. Its previous SID7 segment had the sense ordering-oligo value adjacent to a Read2rc site, disagreeing with the exact bridge7 local region already verified against Supplementary Table 5. This was a repository orientation error, not a publication discrepancy. Read 2 extends toward that region's 5′ end and reports the source SID7 value; the sample-index feature identity is unchanged, and no alternate/transformed source index was invented to preserve the old computed readout.
+
+The complete concatenated post-extension architecture and xGen PCR geometry remain explicitly unassigned. This implementation-only correction relies on the existing Table 5 source scope; no new original was investigated and no absence conclusion is made.

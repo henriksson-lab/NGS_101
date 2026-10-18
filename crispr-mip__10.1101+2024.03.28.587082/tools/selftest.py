@@ -43,6 +43,8 @@ XLSX = Source(_source_table if _source_table.exists() else _legacy_table,
 N_SPACER = cm.EXAMPLE_SPACER             # Brunello spacers are not G-initiated
 G_SPACER = "GTCGCTGAGTACTTCGAAAT"
 
+cm.protocol_graph()  # Exercise native graph invariants alongside source/model checks.
+
 check = Check()
 run_common(check)
 
@@ -256,7 +258,7 @@ if HAVE_VEC:
 
     _r1, _i1, _r2 = bp.scene_read1(), bp.scene_index1(), bp.scene_read2()
     check("Read 1 primer's 3' end is immediately before the extension arm",
-          _r1.strands["Read 1 primer"].end(), _r1.strands["top"].span("ext arm")[0])
+          _r1.strands["Read 1 primer"].end(), _r1.strands["top"].span(list(cm.probe_construct())[-1].name)[0])
     check("Index 1 primer's 3' end is immediately before the i7",
           _i1.strands["Index 1 primer"].end(), _i1.strands["top"].span("i7")[0])
     check("Read 2 primer's 3' end is immediately after the UMI (reads leftward into it)",

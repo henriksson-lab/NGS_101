@@ -68,3 +68,23 @@ the chemical signal from ordinary RT stops.
 - RT primer, adapter and circle junction geometry is still drawn at role level;
   the two iSp18 spacers printed in the RT primer are kept in the
   displayed oligo but not modelled as a molecular feature.
+
+## Local validation migration (2026-10-18)
+
+Re-read published author manuscript PMC4224642 Methods lines 54–64; ran the source
+scraper and checked all four modified primer/adapter strings directly. The graph
+separates Zn fragmentation, CMC derivatization, alkaline reversal, CIP/PNK repair,
+RNA PAGE selection, reported ligation, AMV-RT, truncated-cDNA selection, CircLigase,
+Phusion PCR and final gel purification/precipitation. The mock-treated preparation
+remains the source comparison; it is not converted into CMC-modified RNA.
+
+The adapter includes the terminal dideoxyC nucleotide. The RT primer preserves both
+non-nucleotide `/iSp18/` spacers; its 22-base 3′ region is paired by computation with
+the full printed adapter, including that ddC nucleotide. Exact PCR primers and the
+six-base sample-index window are explicit inputs. The published phosphate versus
+adenylate discrepancy remains visible and its reacted donor state unresolved.
+
+The spacer-containing circle and exact PCR path remain unassembled. PCR uses that
+actual circle boundary rather than the expected library as its geometry template.
+Read type/cycle counts/sequence-primer landing remain unassigned. These source and
+geometry boundaries remain open; no publication-wide absence conclusion is made.

@@ -244,6 +244,37 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite passes (101 checks incl. run_common); page builds; pairing 0 problems; chemistry 0 established/0 conditional/4 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 0 inputs without exact states (adapter/barcode inputs carry no exact graph oligo state); Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch09-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "GDE_9161_v114_revAC_24Sep2025 printed166/208/249,505–612(endprep/AMPure61µl/Qubit1µl),665–773(LA/SaltT4/cleanup/LFBvsSFB). CHTD_500_v1_revAV_24July2026 printedidentity and345(5P/3A),2066–2134(LAstrands/motor roles).",
+      "oligo_scraper": "Mandatory complete-bundle scraper run; source-line hits and physical modified oligos checked directly. Barcode F/R joined scraper hits were resolved against original distinct table columns; scraper output is not source evidence.",
+      "findings": "Native graph migration (2026-10-18): source-qualified LA strands and the selected no-DCS genomic-DNA route are owned locally. Explicit prepared ends and paired adapter strands feed the ligation geometry; the terminal T is represented once. The 61 µl eluate is split into a 1 µl Qubit aliquot and 60 µl ligation input; measurement-aliquot fate is unresolved. The disclosed adapter DNA and sealed junctions are separate from the associated, unplaced motor/leader component. No protein or speculative leader is appended as a covalent DNA segment. The September 2025 workflow and July 2026 oligo reference retain distinct identities; they do not establish full historical reagent equivalence. Optional DCS is outside this selected no-control route. Source-known operation order and both physical cleanups remain explicit. This is a native graph migration within the stated source scope, not complete leader/motor validation or an accepted absence audit.",
+      "deferred": [
+        "Full version-specific LA leader/motor architecture and strand-entry polarity",
+        "Historical reagent equivalence beyond disclosed DNA components",
+        "Component-specific recovery and optional DCS route"
+      ],
+      "scope": "Capped native graph/source pass; historical review statuses and absence gate remain unchanged.",
+      "verification": "Local source transcription suites7/3/27 pass; scoped chemistry0contradictions; independent critical implementation review and parent integration pending."
+    },
+    {
+      "round": "2026-10-18-batch09-native-independent-implementation-review",
+      "reviewer": "independent_native_review",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Released protocol-owned native modules cdna_pcr.py, nanopore_ligation.py and native_barcoding.py; owner source-bounded records and notes. No original sources reread.",
+      "findings": "Critical fixes independently rechecked: LSK and both native-barcode ligations preserve actual unligated/partially ligated precursor/off-product classes as molecular unresolved outputs with later bead partition unassigned. cDNA ExoI products/pool/cleanup/attachment retain independent possible free-primer/hydrolysate row. LSK disclosed DNA geometry explicitly remains a later-reference conditional assignment rather than historical2025 lot proof. SSPII constrained T/V UMI synthesis has degenerate feature encoding in all reagent/copy states, preserving identity. Actual cDNA PCR input is the native ssDNA/RNA/SSPII mixture; four physical5µl allocations and original-template residual fates are explicit. Motor association is a separate component, never a fabricated covalent DNA–protein polymer. Native-barcode sample/control populations and logical barcode survive pooling without converting analysis-context flanks into complete native adapter geometry. No remaining concrete critical defect found in the inspected scope.",
+      "deferred": [
+        "Source-specific complete motor/leader attachment and entry polarity",
+        "Native undisclosed adapter assemblies and sequential first-cycle geometry remain owner-qualified",
+        "Historical source-identity/absence gate unchanged"
+      ],
+      "scope": "Independent implementation-only review, zero new originals. No source absence/status upgrade.",
+      "verification": "Focused suites7/3/27 pass; all3pages build; chemistry3established27conditional39unresolved0contradictions; sourceguard5checked0failed0unknown; pairing0; staticOUTdiscovery passes; schema checked after append."
     }
   ]
 }

@@ -37,3 +37,67 @@ Defining source: Russell et al., 2024, [doi:10.1038/s41586-023-06837-4](https://
 🟢 Multiome ATAC library (round 2026-10-17 follow-up). The model now draws the CG000338 Rev F Appendix p. 81 ATAC structure instead of a generic Nextera dual-index shell: P5, the 16-base GEM barcode and the `{{= slide_tags.MULTIOME_SPACER }}` spacer precede the Read 1N S5/ME arm, and the only sample index is the 8-base i7. Rev F "Sequencing" states that the 24-cycle i5 read covers the 8-base spacer and 16-base 10x Barcode; the derived read table reproduces that order. The earlier shell put the cell barcode after the mosaic end and added an i5 sample index, which this Multiome library does not have. Its Tn5 adaptors and the Sample Index N set are not printed in Rev F, so the transposome and ATAC index-PCR primer inputs remain without exact sequence.
 
 🔴/open: The SLAC (ligated) mouse-brain branch, amplified with a custom PCR using `STAG_P701_NEX` and `P5-Truseq Hybrid` (MOESM1 line 87; bases not printed), and the Multiome spatial-tag shell are not drawn. The inspected Methods do not state which puck design was used with Multiome; the Multiome spike-in `GTGACTGGAGTTCAGACGT` equals the first 19 nt of the TAGS/poly(A) puck 5′ arm, and `STAG_iP7_a1` carries the same arm, but the capture junction on Multiome gel beads is not reconstructed.
+
+
+## Native graph implementation handoff, 2026-10-18 batch06
+
+Root completed a three-original source pass; this implementation opened no new
+originals. Root's scope: published PMC10764288 Methods219–250 (bead designs,
+transfer/nucleus procedure, library preparation and sequencing), computational
+filter268; published MOESM1 DOCX§1.3–1.6/text65–100; genuine CG000338RevF
+PDF title/TOC pp.4–5,§2.2,§3.1,§4.1–4.3/text3182–3380 and§7.1heading.
+The root source scrape is /tmp/chem-slide-tags-batch06-primers.log; skipped large
+superseded-preprint/data files do not establish absence. Earlier CG317RevC
+Appendix71–72/scaffold/CSP component readings remain historical component
+provenance, not a fresh full3′GEX method review. The source-confirmed
+main-article z versus published-supplement G SLAC discrepancy remains visible;
+the superseded preprint is not current chemistry authority.
+
+Source-qualified separate tissue sections represent TAGS3′,SLACbrain3′ and
+Multiome experiments. They do not denote the same nuclei processed three ways.
+TAGS365nm30s/7.5min diffusion and SLAC3min/5min are distinct. The Multiome
+puck-design-specific exposure/assembly remains unassigned. Actual nucleus
+recovery has600g pelleting,40µmfiltration,DAPI and200g pelleting, with physical
+rejected fractions distinct from ambient tags or computational nucleus calling.
+
+RNA, chromatin, spatialtags and their native copies remain independent polymers
+within mixed GEM/RT reactions. Source3′cDNA amplification precedes the§2.3
+SPRI fractionation; spatialcopies are recovered from the supernatant. TAGS
+spatial libraries use the historicalCG317CSP reference and source7cycles
+(5.5mmpuck)/9cycles(3mmpuck). SLACbrain instead uses10µlcleaned supernatant
+and namedSTAG_P701_NEX/P5TruseqHybrid for10cycles; their strands remain
+unassigned. The remaining3′GEX construction internals are an explicit unread
+CG317 boundary, not a projection of CG338 operations.
+
+The Multiome route explicitly models transposition, GEM RT/extension, Recovery
+Agent/oil phase separation and Dynabeads recovery, source4.1PreAmpMix/Primers
+with theGTGACTGGAGTTCAGACGT spike (1µl0.329µM),7cycles and4.3SPRI. The
+recovered160µleluate is split40µlATAC/35µlcDNA/85µlstored; both working
+aliquots remain mixed. Known source stages are local:5.1ATACindexPCR→5.2
+doublesidedSPRI;6.1cDNAPCR→6.2SPRI→7.1fragmentation/end repair/A-tailing→
+7.2doublesidedSPRI→7.3adapterligation→7.4SPRI→7.5indexPCR→7.6doublesidedSPRI.
+Unread reagent identities/conditions, size cutoffs and native end/primer
+geometry stay unassigned. Physical opposed3′A geometry is drawn without a
+5′phosphate assignment. Actual native adapted fragments supply indexPCR,
+not a completed final library or an upstream GEM state.
+
+Multiome spatialPCR uses5µlcleaned4.3supernatant, the two source custom
+primers with both terminal phosphorothioate linkages, and15cycles. The actual
+supernatant remains its PCR input; puck design and native capture junction are
+explicitly bounded. No genericGEX TruSeq shell or8nt sample-index defaults
+remain. Existing TAGS3′ and CG338ATAC endpoint geometry is retained only with
+its earlier component-source scope. The article's NextSeq1000P2 100cyclekit
+and someNovaSeqSP usage do not specify a branch run mask; explicit read tables
+keep all study cycle/index-acquisition allocation unassigned.
+
+No nonamplification, empty/noncalled GEM or computational QC class is treated as
+physical waste. Off-target/RNA/tag persistence and class-specific cleanup
+recovery remain unresolved. This handoff does not accept missing information or
+upgrade source-review status.
+
+
+Independent implementation review also prompted an explicit bounded CG317
+post-GEM recovery stage before3′cDNA amplification. It carries the actual mixed
+RT material through without borrowing CG338 RecoveryAgent/oil/Dynabeads operations.
+The Multiome spatial endpoint retains structuredI5/I7 identifier meanings on
+unknown native indexing-end roles, without assigning their positions or widths.

@@ -1,194 +1,162 @@
-"""ZipSeq photocaged spatial barcode model."""
+"""Source-owned ZipSeq tumor-v3 chemistry; unknown native kit boundaries explicit."""
 from pathlib import Path
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"lib"))
-from chemdraw import Construct, Row, Segment, feature, oligo, revcomp
-import illumina as il
+from chemdraw import Construct, Scene, Segment, feature, oligo, revcomp, complement_segments
+from protocol_model import role
+from endprep import EndPreparedDuplex, dA_tailed_scene
+from adapter_ligation import AdapterLigationGeometry
+from pcr import PCRGeometry
+from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind, Terminal, Disposition
 import seqprimers as sp
-from pcr import PCRGeometry, PCRPrimer
-from multimodal_spatial import finish_pcr_branch
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
-from protocol_model import molecule, role
 ZIP1="GTAGCAACCACAGATCGCACCCGAGAATTCCATGATGC"+"A"*28
-# This page represents the tumor experiment's v3 branch. Hu Methods delegates
-# GEX to 10x and zipcode amplification to the original CITE-seq protocol.
-RNA_PRIMERS = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["R2"])
-CELL = feature("cell_barcode", "cell_barcode", "whitelist", whitelist="10x Chromium 3-prime v3")
-UMI = feature("umi", "umi", "random")
-INDEX = feature("sample_index_i7", "sample_index", "unknown")
-REGION = feature("zipseq_region", "spatial_barcode", "whitelist", whitelist="Hu named zipcodes")
-O1_PRIME = revcomp("CGATCTGTGGTTGCTAC")
-ZIPCODE1 = ZIP1[-36:-28]
-ZIP_HANDLE = ZIP1[len(O1_PRIME):-36]
-# CITE-seq original supplemental protocol, 2017-07-03, p.6, RPI1.
-CITE_RPI1 = "CAAGCAGAAGACGGCATACGAGATCGTGATGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA"
-CITE_P5 = il.NEBNEXT_UNIVERSAL_PRIMER
-SMALL_RNA_R2_SITE = CITE_RPI1[len(il.P7)+6:]
-RPI_FAMILY = il.P7 + "N"*6 + SMALL_RNA_R2_SITE
-ZIP_READ_LIMITATION = ("INFERRED — The zipcode endpoint and I1/R2 binding view are reconstructed from the cited CITE-seq RPIx architecture. "
-                      "The loaded sequencing-primer sequences and exact RPI member for Hu's run have not been independently verified. "
-                      "The PCR-derived reverse-primer footprint overlaps the initial CA of the named eight-base zipcode; its actual sequencing entry is not assigned from that footprint alone.")
-ZIP_PRIMERS = ()  # Loaded zipcode sequencing oligos remain under source review.
 
-
-def _cell_end(*, completed):
-    left = ([Segment("P5", il.P5, "p5"),
-             Segment("TruSeq Read 1 arm", il.TRUSEQ_READ1[4:], "r1")]
-            if completed else [Segment("gel-bead Read 1 handle", il.TRUSEQ_READ1[11:], "r1")])
-    return [*left,
-        Segment("cell barcode", "B"*16, "cbc", placeholder=True, feature=CELL),
-        Segment("UMI", "U"*12, "umi", placeholder=True, feature=UMI)]
-
-
-def require_zipcode_primer_sites(library, *, native_template=False):
-    """Check the endpoint against the separately printed predecessor PCR pair."""
-    return PCRGeometry.exact(library, PCRPrimer("CITE-seq 10x P5", CITE_P5, anneal_nt=22 if native_template else len(CITE_P5)),
-        PCRPrimer("CITE-seq RPIx family", RPI_FAMILY, anneal_nt=len(ZIP_HANDLE)+2 if native_template else len(SMALL_RNA_R2_SITE)),
-        statement="Hu Methods inherits these primer classes from CITE-seq; exact RPI index member remains unspecified.")
-
-
-def _gene_expression_library():
-    library = Construct([*_cell_end(completed=True),
-        Segment("poly(dT)30", "T"*30), Segment("cDNA insert", "X"*40, placeholder=True),
-        Segment("dA junction", "A"), Segment("Index 1 / Read 2 arm", il.INDEX1_PRIMER, "r2"),
-        Segment("i7 reverse complement", "I"*8, "cbc", placeholder=True, feature=INDEX),
-        Segment("P7 reverse complement", il.P7_RC, "p7")], "ZipSeq v3 gene-expression library")
-    problems = sp.verify(library, RNA_PRIMERS, required_roles=tuple(p.role for p in RNA_PRIMERS))
-    if problems: raise ValueError("ZipSeq GEX: "+"; ".join(problems))
-    return library
-
-
-def zipcode_captured_cdna():
-    return Construct([*_cell_end(completed=False), Segment("poly(dT)30", "T"*30),
-        Segment("Zipcode 1 reverse complement", revcomp(ZIPCODE1), "cbc", feature=REGION),
-        Segment("copied partial Small RNA handle", revcomp(ZIP_HANDLE), "r2"),
-        Segment("copied O1-prime overhang", revcomp(O1_PRIME))], "captured Zipcode 1 cDNA")
-
-
-def _zipcode_library():
-    native_site = ZIP_HANDLE + ZIPCODE1[:2]
-    if not SMALL_RNA_R2_SITE.endswith(native_site):
-        raise ValueError("Hu native zipcode no longer supplies the CITE-seq RPI 3-prime binding region")
-    library = Construct([*_cell_end(completed=True), Segment("poly(dT)30", "T"*30),
-        Segment("Zipcode 1 reverse complement", revcomp(ZIPCODE1), "cbc", feature=REGION),
-        Segment("copied partial Small RNA handle", revcomp(ZIP_HANDLE), "r2"),
-        Segment("RPI-derived extension of Small RNA arm", revcomp(SMALL_RNA_R2_SITE[:-len(native_site)]), "r2", inferred=True),
-        Segment("RPI i7 reverse complement", "I"*6, "cbc", placeholder=True, feature=INDEX, inferred=True),
-        Segment("P7 reverse complement", il.P7_RC, "p7", inferred=True)], "INFERRED Zipcode 1 PCR endpoint")
-    require_zipcode_primer_sites(library)
-    return library
-
-
-RNA_LIB = _gene_expression_library()
-ZIP_LIB = _zipcode_library()
-READ_LENGTHS = {"Gene-expression library (v3 example)": {"Read 1":28, "Index 1 (i7)":8, "Read 2":91},
-                "Zipcode 1 library (conditional primer-derived view)": {"Read 1":28, "Index 1 (i7)":8, "Read 2":91}}
-READ_SPECS = {"Zipcode 1 library (conditional primer-derived view)": (
-    sp.read_spec("Read 1",28,"16-base cell barcode;12-base UMI (represented v3 branch)","extract"),
-    sp.read_spec("Index 1 (i7)",8,"sample index;exact RPI member/index extent not yet verified","demultiplex"),
-    sp.read_spec("Index 2 (i5)","not acquired","not acquired in the represented single-index branch","not_applicable"),
-    sp.read_spec("Read 2",91,"zipcode identity;exact entry relative to its eight-base identifier remains unverified","extract"),
-)}
-FINAL_LIBRARIES = (
-    ("Gene-expression library (v3 example)", RNA_LIB, RNA_PRIMERS,
-     "10x 3-prime v3 transcript endpoint; the paper also used v2 for other experiments.",
-     "The represented v3 run follows CG000183: 28/8/91 cycles. Read 1 reports cell barcode and UMI; Read 2 enters cDNA."),
-    ("Zipcode 1 library (conditional primer-derived view)", ZIP_LIB, ZIP_PRIMERS,
-     "INFERRED — Zipcode 1 endpoint reconstructed using Hu's native tag and the cited CITE-seq PCR-primer architecture.",
-     ZIP_READ_LIMITATION))
 TITLE="ZipSeq — sequential photo-uncaging of spatial zipcodes"
 NOTES="01_zipseq.html"
-SOURCE='<a href="https://doi.org/10.1038/s41592-020-0880-2">Hu et al., <i>Nature Methods</i> (2020)</a>.'
-SUMMARY="A photocaged DNA anchor coats cells. Patterned illumination exposes an overhang, and a complementary polyadenylated zipcode is added after each illumination round. 10x RNA-seq reads the accumulated spatial tags with the transcriptome."
-CAVEAT="The two drawn libraries represent the published tumor experiment's 10x 3-prime v3 endpoint (16-base cell barcode, 12-base UMI). The paper used v2 for its in-tube, wound-healing and lymph-node experiments (16-base barcode, 10-base UMI). Hu et al., Methods (in-tube, wound, lymph-node, tumor and Library Construction); original 10x CG00052 Rev D Sequencing and CG000183 Rev A Step 4/oligo appendix. The page does not assign one kit version to every ZipSeq run. The represented tumor branch uses the internal-Cy5 antibody anchor (oligo list line 126) and a live Cy5+ sort (Methods line 272). Library Construction (line 276) spikes a CITE-seq additive primer (partial Small RNA Read 2) into cDNA amplification and recovers zipcode products from the SPRI supernatant before two 3X SPRI cleanups; the additive-primer sequence is not printed by Hu et al. and was not found on the 2017-07-03 CITE-seq protocol pages inspected (pp. 3–6; the cited protocol version is unconfirmed), so it remains an unsequenced input. "+ZIP_READ_LIMITATION
-# Published Methods oligonucleotide list (PMC7891292 JATS lines 118-166).
-O1_CAGED = "CGATCTGTGGTTGCTACCCGTCAACATCAAAAAAAAAAAA"   # line 130, NPOM-caged
-O1_BLOCK = "CGATCTGTGGTTGCTAC"                          # line 134
+SOURCE='<a href="https://doi.org/10.1038/s41592-020-0880-2">Hu et al., Nature Methods (2020)</a>'
+SUMMARY="Independent RNA and hybridized DNA zipcodes acquire the same GEM cell identifier. Physical SPRI fractionation separates transcript and zipcode products before native library construction and a 1:10 zipcode:RNA molar sequencing pool."
+CAVEAT="This is the tumor experiment's 10x 3-prime v3 branch, not the paper's v2 experiments. CG000183 Rev A supplies the represented 28/8/91 acquisition and 16-base cell barcode/12-base UMI; the actual experimental guide revision is unpinned. Native kit oligo bases, adapter geometry, additive-primer sequence and CITE RPI member/index extent remain unassigned in this capped pass. The published typeset oligo table was inspected: its text describes red NPOM-modified T positions, but those marks were not resolved; no preprint positions are substituted. Chemical uncaging and blocking do not themselves remove DNA. Computational RNA-cell whitelisting of zipcode counts does not physically discard GEM molecules."
+CELL=feature("cell_barcode","cell_barcode","whitelist",whitelist="10x Chromium v3")
+UMI=feature("umi","umi","random")
+INDEX=feature("sample_index_i7","sample_index","unknown")
+REGION=feature("zipseq_region","spatial_barcode","whitelist",whitelist="Hu named zipcodes")
+O1_BLOCK="CGATCTGTGGTTGCTAC"
+O1_CAGED=O1_BLOCK+"CCGTCAACATCAAAAAAAAAAAA"
+O1_PRIME=revcomp(O1_BLOCK)
+ZIPCODE1=ZIP1[-36:-28]
+ZIP_HANDLE=ZIP1[len(O1_PRIME):-36]
+CITE_RPI1="CAAGCAGAAGACGGCATACGAGATCGTGATGTGACTGGAGTTCCTTGGCACCCGAGAATTCCA"
+LIMIT="Native end/primer geometry and exact zipcode sequencing entry remain unassigned; 28/8/91 are guide acquisition cycles, not proof of the native RPI molecular index width."
+def cell_parts():
+ return [role("native bead-derived handle"),Segment("cell barcode","B"*16,"cbc",placeholder=True,feature=CELL),Segment("UMI","N"*12,"umi",placeholder=True,feature=UMI),role("oligo(dT) priming tract; length unassigned")]
+def copied_parts(z=False):
+ return [*cell_parts(),*([Segment("copied zipcode",revcomp(ZIPCODE1),"cbc",feature=REGION),Segment("copied handle",revcomp(ZIP_HANDLE)),Segment("copied O1 prime",revcomp(O1_PRIME))] if z else [role("transcript cDNA; physical RNA U copied as DNA A")]),role("native opposite end; RT/switch/PCR footprint unassigned")]
+def final(z=False):
+ return Construct([role("native P5/Read1 end"),*copied_parts(z),role("native sample-index-bearing end",molecular_feature=INDEX),role("native P7 end")],"ZipSeq zipcode" if z else "ZipSeq transcript")
+RNA_LIB=final(); ZIP_LIB=final(True)
+HEADINGS=("Gene-expression library (tumor v3)","Zipcode 1 library (tumor v3)")
+READ_LENGTHS={h:{"Read 1":28,"Index 1 (i7)":8,"Read 2":91} for h in HEADINGS}
+READ_SPECS={h:(sp.read_spec("Read 1",28,"16-base cell barcode +12-base UMI","extract"),sp.read_spec("Index 1 (i7)",8,"sample index; native member/extent unassigned","demultiplex"),sp.read_spec("Read 2",91,"zipcode identity; exact entry unassigned" if n else "transcript insert","extract" if n else "include")) for n,h in enumerate(HEADINGS)}
+SEQUENCING_UNAVAILABLE={h:LIMIT for h in HEADINGS}
+FINAL_LIBRARIES=((HEADINGS[0],RNA_LIB,(),"Native GEX end roles; actual kit bases unassigned.",LIMIT),(HEADINGS[1],ZIP_LIB,(),"Native zipcode end roles; no assumed RPI member or index width.",LIMIT))
+def anchor_scene(tagged=False,with_rna=False):
+ sc=Scene(); a=[Segment("anchor prefix","ATCCAG"),Segment("anchor docking","T"*12+"GATGTTGACGG")]
+ sc.strand("anchor",a,mod5="anti-CD45–Amine-C6",label="antibody-linked DNA anchor")
+ sc.junction("anchor","anchor prefix","anchor docking","internal Cy5")
+ c=[Segment("O1 overhang",O1_BLOCK),Segment("anchor complement",O1_CAGED[len(O1_BLOCK):])]
+ sc.anneal("caged",c,to="anchor",pair=("anchor complement","anchor docking"),unpaired=("O1 overhang",),label="DNA; NPOM T positions unassigned before illumination")
+ if tagged:
+  sc.anneal("zipcode",[Segment("O1 prime",O1_PRIME),Segment("zipcode handle",ZIP_HANDLE),Segment("region zipcode",ZIPCODE1,"cbc",feature=REGION),Segment("poly(A)28","A"*28)],to="caged",pair=("O1 prime","O1 overhang"),unpaired=("zipcode handle","region zipcode","poly(A)28"),label="independent hybridized DNA zipcode")
+ if with_rna: sc.strand("RNA",[role("independent cellular poly(A) RNA population; physical U")],label="RNA, not covalent to anchor or zipcode")
+ return sc
 
+def add_duplex(sc,key,parts,label):
+ sc.strand(key,parts,label=label)
+ bottom=complement_segments(parts)
+ sc.anneal(key+" complement",bottom,to=key,pair=(bottom[0].name,parts[0].name),unpaired=tuple(p.name for p in bottom if p.is_role_token()),label=label)
+
+def copies(which="both",amp=False):
+ sc=Scene()
+ for z,key in ((False,"transcript"),(True,"zipcode")):
+  if which not in ("both",key): continue
+  parts=copied_parts(z)
+  if amp: add_duplex(sc,key,parts,"amplified "+key)
+  else: sc.strand(key,parts,label="actual single-stranded "+key+" copy; native switched end bounded")
+ sc.strand("residual",[role("possible original RNA, zipcode templates, anchor/blocker DNA and amplification precursors; partition/integrity unresolved")],label="independent possible co-carried lineages; no purity assumption")
+ return sc
+
+def gex_intermediate(ligated=False):
+ parts=[*cell_parts(),role("fragmented transcript cDNA")]
+ if ligated:
+  parts.extend([Segment("source dA junction","A"),role("ligated native v3 adapter; strand/ligation footprint unassigned")])
+  sc=Scene();add_duplex(sc,"adapted",parts,"adapter-ligated actual PCR precursor; native geometry bounded")
+ else:
+  sc=dA_tailed_scene(EndPreparedDuplex(Construct(parts),five_prime_phosphate=False,three_prime_overhang="A"),label="source guide3.1 fragmented/end-prepared dA-tailed cDNA;5′P marking unassigned")
+ sc.strand("residual",[role("possible original RNA/zipcode/anchor/blocker/copied products; partition unassigned")],label="independent unresolved residual lineages")
+ return sc
+
+def library_scene(z=False):
+ sc=Scene(); lib=ZIP_LIB if z else RNA_LIB
+ add_duplex(sc,"library",list(lib),"expected amplified native library")
+ sc.strand("residual",[role("possible co-carried original/copy/template/anchor/blocker products; unresolved recovery")],label="independent possible molecular residuals")
+ return sc
 
 def oligos():
- yield oligo("antibody anchor, internal Cy5 (Fig. 3, 4; represented tumor branch)",[Segment("anchor 5′ bases","ATCCAG"),Segment("anchor after internal Cy5","TTTTTTTTTTTTGATGTTGACGG")],mods="Amine-C6 linker; internal Cy5 (\\iCy5\\) between ATCCAG and the T run")
- yield oligo("antibody anchor without Cy5 (Fig. 1, S1)",[Segment("anchor sequence","ATCGTTTTTTTTTTTTGATGTTGACGG")],mods="Amine-C6 linker")
- yield oligo("O1 caged strand",[Segment("published O1 caged-strand bases",O1_CAGED)],mods="NPOM-caged T; published list says caged T are highlighted in red but the accessible JATS drops the colour; positions 4, 8, 11, 15 come from the rendered bioRxiv v1 Methods p. 17 (preprint-supplied detail, same bases; published-PDF marking not inspected)")
- yield oligo("O1 blocking strand",[Segment("caged-overhang blocker",O1_BLOCK)])
- yield oligo("zipcode 1",[Segment("O1′ complement + read handle","GTAGCAACCACAGATCGCACCCGAGAATTC"),Segment("8-base region zipcode","CATGATGC","cbc",feature=feature("zipseq_region","spatial_barcode","whitelist",whitelist="paper zipcode list")),Segment("poly(A)28","A"*28)])
-def sections(): return [
- ("Coat cells with photocaged anchors",[Row(chunks=[("cell membrane — anchor || caged strand [overhang hidden]",None,False)])],"The anchor may be antibody- or lipid-conjugated."),
- ("Illuminate a selected region",[Row(chunks=[("365-nm light → cage removed → overhang exposed", "w1",False)])],"Only cells in the projected region become competent for that round's zipcode."),
- ("Hybridize a poly(A)-tailed zipcode",[Row(chunks=[("exposed overhang || zipcode — poly(A)28", "cbc",False)])],"Repeated uncaging and hybridization give cells a history of illuminated regions."),
- ("Dissociate and run 10x 3′ RNA-seq",[Row(chunks=[("same cell barcode ├─ endogenous transcript\n                  └─ zipcode feature",None,False)])],"Zipcodes and mRNA are captured by poly(dT) in the same droplet."),]
+ yield oligo("tumor antibody anchor",[Segment("prefix","ATCCAG"),Segment("docking","T"*12+"GATGTTGACGG")],mods="Amine-C6; internal Cy5 between prefix and docking")
+ yield oligo("O1 caged",[Segment("source bases",O1_CAGED)],mods="NPOM-modified T; exact published marks unassigned in this pass")
+ yield oligo("O1 blocker",[Segment("source bases",O1_BLOCK)])
+ yield oligo("Zipcode 1",[Segment("O1 prime",O1_PRIME),Segment("handle",ZIP_HANDLE),Segment("region",ZIPCODE1,"cbc",feature=REGION),Segment("poly(A)28","A"*28)])
 
 def protocol_graph():
- """Represented tumor branch (Methods lines 238, 272, 274-276)."""
  g=ProtocolGraph(TITLE,authority=SOURCE)
- cells=g.input("cells","live tumor sections (150 µm) containing poly(A) RNA",MaterialKind.BIOLOGICAL,state=molecule("ZipSeq cells",(role("cell membrane"),role("poly(A) RNA"))),primary=True)
- conjugate=g.input("anchors","anti-CD45 (30F-11) antibody conjugated to the internal-Cy5 amine anchor strand (Thunder-Link)",MaterialKind.MOLECULAR)
- caged=g.input("caged_strand","O1 NPOM-caged strand",MaterialKind.OLIGO,state=O1_CAGED)
- caged_anchor=g.product("caged_anchor","antibody–anchor conjugate prehybridized to the caged O1 strand",MaterialKind.MOLECULAR,state=molecule("caged anchor",(role("antibody anchor"),role("caged O1 overhang"))))
- g.react("prehybridize","Prehybridize caged strand to antibody–anchor conjugate, 1:1, 37 °C 15 min, cool to RT",StepKind.HYBRIDIZATION,((conjugate,InputRole.TEMPLATE),(caged,InputRole.STRUCTURAL)),(caged_anchor,))
- coated=g.product("coated","sections stained with photocaged anchors",MaterialKind.MOLECULAR,state=molecule("anchor-coated cells",(role("poly(A) RNA"),role("caged anchor overhang"))))
- excess=g.product("excess","unbound photocaged anchors",MaterialKind.WASTE)
- g.react("coat","Block with ssDNA/BSA, then stain sections with caged anchor 1 h 4 °C and wash",StepKind.BINDING,((cells,InputRole.TEMPLATE),(caged_anchor,InputRole.ANALYTE)),(coated,excess)); g.discard(excess,"removed by washes")
- light=g.input("light","patterned 365-nm illumination, 1000 ms pulses through the DMD",MaterialKind.CONDITION)
- uncaged=g.product("uncaged","region-selected cells with exposed anchor overhangs",MaterialKind.MOLECULAR,state=molecule("uncaged cells",(role("poly(A) RNA"),role("exposed anchor overhang"))))
- g.react("uncage","Illuminate a selected region to expose anchor overhangs",StepKind.CHEMICAL_CONVERSION,((coated,InputRole.TEMPLATE),(light,InputRole.CONDITION)),(uncaged,))
- zipcode=g.input("zipcode","Zipcode 1 (poly(A)-tailed, O1′ overhang)",MaterialKind.OLIGO,state=ZIP1)
- hybrid=g.product("hybridized","cells carrying the hybridized regional zipcode",MaterialKind.MOLECULAR,state=molecule("zipcode-tagged cells",(role("poly(A) RNA"),role("region zipcode"),role("zipcode poly(A)"))))
- g.react("hybridize","Hybridize Zipcode 1 and wash (1 µM, 10 min in the lymph-node Methods the tumor study follows)",StepKind.HYBRIDIZATION,((uncaged,InputRole.TEMPLATE),(zipcode,InputRole.STRUCTURAL)),(hybrid,))
- block=g.input("blocking_strand","O1 blocking strand (0.25 µM in the lymph-node Methods)",MaterialKind.OLIGO,state=O1_BLOCK)
- tagged=g.product("tagged","zipcoded cells with carried-over zipcode neutralized",MaterialKind.MOLECULAR,state=hybrid.state)
- neutralized=g.product("neutralized","carried-over Zipcode 1 bound by blocking strand",MaterialKind.WASTE)
- g.react("block","Neutralize carried-over zipcode with O1 blocking strand, 5 min; repeat illumination/hybridization for Zipcode 2",StepKind.HYBRIDIZATION,((hybrid,InputRole.TEMPLATE),(block,InputRole.STRUCTURAL)),(tagged,neutralized)); g.discard(neutralized,"removed by washes")
- sorter=g.input("facs","collagenase I/IV dissociation then FACSAria II live Cy5+ sort",MaterialKind.SELECTION)
- sorted_cells=g.product("sorted","live Cy5+ anchor-labelled cells",MaterialKind.MOLECULAR,state=tagged.state)
- unsorted=g.product("unsorted","dead or Cy5-negative cells and debris",MaterialKind.WASTE)
- g.react("sort","Dissociate sections and sort live Cy5+ cells",StepKind.SELECTION,((tagged,InputRole.TEMPLATE),(sorter,InputRole.SELECTION)),(sorted_cells,unsorted),changes_molecule=False); g.discard(unsorted,"excluded by the sort gate")
- droplets=g.input("droplets","10x 3-prime v3 GEM partitioning, 8k target cells",MaterialKind.CONDITION)
- occupied=g.product("occupied","partitioned cells with barcoded beads",MaterialKind.MOLECULAR,state=sorted_cells.state)
- failed=g.product("failed","empty or unresolved GEM products",MaterialKind.WASTE)
- g.react("partition","Partition sorted cells with barcoded beads",StepKind.PARTITION,((sorted_cells,InputRole.TEMPLATE),(droplets,InputRole.CONDITION)),(occupied,failed),changes_molecule=False); g.discard(failed,"does not retain a resolvable cell barcode")
- bead=g.input("bead_primer","10x v3 cell-barcode/UMI oligo(dT) bead primer",MaterialKind.OLIGO)
- rt=g.input("rt","10x reverse transcription reagents",MaterialKind.CATALYST)
- cdna=g.product("cdna","cell-barcoded transcript cDNA",MaterialKind.MOLECULAR,state=molecule("ZipSeq cDNA",(role("cell barcode"),role("UMI"),role("cDNA"))))
- copied=g.product("copied","cell-barcoded zipcode copies",MaterialKind.MOLECULAR,state=zipcode_captured_cdna())
- g.react("reverse_transcribe","In-GEM bead primer captures poly(A) mRNA and poly(A) zipcodes; RT copies both",StepKind.REVERSE_TRANSCRIPTION,((occupied,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(cdna,copied))
- cdna_primers=g.input("cdna_primers","10x cDNA amplification primers",MaterialKind.OLIGO)
- additive=g.input("additive_primer","CITE-seq additive primer (partial Small RNA Read 2)",MaterialKind.OLIGO)
- amp_pol=g.input("cdna_polymerase","10x cDNA amplification mix",MaterialKind.CATALYST)
- amp_cdna=g.product("amp_cdna","amplified full-length cDNA",MaterialKind.MOLECULAR,state=cdna.state)
- amp_zip=g.product("amp_zip","amplified short zipcode products (<200 bp)",MaterialKind.MOLECULAR,state=copied.state)
- g.react("cdna_amp","Amplify cDNA with the additive primer spiked in",StepKind.PCR,
-     ((cdna,InputRole.TEMPLATE),(copied,InputRole.TEMPLATE),(cdna_primers,InputRole.STRUCTURAL),(additive,InputRole.STRUCTURAL),(amp_pol,InputRole.CATALYST)),
-     (amp_cdna,amp_zip),geometry=PCRGeometry.unavailable(copied.state,reason="Hu et al. name the additive primer only as partial Read 2 Small RNA and follow CITE-seq; neither its sequence nor the 10x cDNA-primer sequences are printed in the article."))
- spri=g.input("spri_split","post-amplification SPRI selection",MaterialKind.SELECTION)
- rna=g.product("rna_branch","bead-bound cDNA fraction",MaterialKind.MOLECULAR,state=amp_cdna.state)
- zips=g.product("zip_branch","supernatant zipcode fraction",MaterialKind.MOLECULAR,state=amp_zip.state)
- g.react("split","SPRI: keep bead-bound cDNA and decant the zipcode-containing supernatant",StepKind.SELECTION,((amp_cdna,InputRole.TEMPLATE),(amp_zip,InputRole.TEMPLATE),(spri,InputRole.SELECTION)),(rna,zips),changes_molecule=False)
- spri3=g.input("spri_3x","two successive 3X SPRI cleanups",MaterialKind.SELECTION)
- zip_clean=g.product("zip_clean","purified zipcode fraction",MaterialKind.MOLECULAR,state=zips.state)
- zip_waste=g.product("zip_spri_waste","3X SPRI supernatants",MaterialKind.WASTE)
- g.react("zip_cleanup","Purify the zipcode fraction with two successive 3X SPRI cleanups",StepKind.CLEANUP,((zips,InputRole.TEMPLATE),(spri3,InputRole.SELECTION)),(zip_clean,zip_waste)); g.discard(zip_waste,"removed with the bead supernatants")
- lib_kit=g.input("tenx_library_reagents","10x v3 fragmentation, end-repair/A-tailing and adapter-ligation reagents",MaterialKind.CATALYST)
- ligated=g.product("rna_ligated","fragmented, adapter-ligated cDNA",MaterialKind.MOLECULAR,state=molecule("ligated cDNA",(role("cell barcode"),role("UMI"),role("cDNA fragment"),role("Read 2 adapter"))))
- g.react("rna_construct","10x library construction of the bead-bound cDNA",StepKind.MAGIC,((rna,InputRole.TEMPLATE),(lib_kit,InputRole.CATALYST)),(ligated,),
-     reason="Hu et al. process the cDNA fraction 'as recommended in the 10X user guide'; the CG000183 fragmentation, ligation and adapter geometry are not modelled in this pass.")
- reviewed=["cells","anchors","caged_strand","prehybridize","coat","light","uncage","zipcode","hybridize","blocking_strand","block","facs","sort","droplets","partition","bead_primer","rt","reverse_transcribe","cdna_primers","additive_primer","cdna_polymerase","cdna_amp","spri_split","split","spri_3x","zip_cleanup","tenx_library_reagents","rna_construct"]
- finish_pcr_branch(g,"rna",ligated,RNA_LIB,RNA_PRIMERS,reviewed,label="ZipSeq gene expression",read_lengths=READ_LENGTHS["Gene-expression library (v3 example)"])
- zip_forward=g.input("zip_forward", "CITE-seq 10x P5 PCR primer", MaterialKind.OLIGO,
-     state=Construct([Segment("10x P5 primer", CITE_P5)]), source="CITE-seq original supplemental protocol p.6")
- zip_reverse=g.input("zip_reverse", "CITE-seq RPIx indexed PCR-primer family", MaterialKind.OLIGO,
-     state=Construct([Segment("RPIx architecture", RPI_FAMILY)]), inferred=True,
-     source="Hu Library Construction inherits CITE-seq primers; exact RPI member not assigned")
- zip_pol=g.input("zip_polymerase", "2X KAPA HiFi HotStart Master Mix", MaterialKind.CATALYST)
- zip_library=g.product("zip_library", "INFERRED Zipcode 1 PCR endpoint", MaterialKind.LIBRARY,
-     state=ZIP_LIB, inferred=True, source="Hu native zipcode and cited CITE-seq PCR architecture")
- g.react("zip_pcr", "INFERRED — amplify zipcode branch with cited CITE-seq primer classes", StepKind.PCR,
-     ((zip_clean,InputRole.TEMPLATE),(zip_forward,InputRole.STRUCTURAL),(zip_reverse,InputRole.STRUCTURAL),
-      (zip_pol,InputRole.CATALYST)),(zip_library,),geometry=require_zipcode_primer_sites(zip_clean.state,native_template=True))
- g.sequence(zip_library, SequencingPlan(library=ZIP_LIB,primers=ZIP_PRIMERS,
-     acquired_roles=("Read 1","Index 1 (i7)","Read 2"),
-     read_lengths=READ_LENGTHS["Zipcode 1 library (conditional primer-derived view)"],
-     read_uses={"Read 2":"extract"},limitation=ZIP_READ_LIMITATION))
- reviewed.extend((zip_forward.id,zip_reverse.id,zip_pol.id,"zip_pcr",zip_library.id))
- g.declare_reviewed_scope(reviewed,SOURCE)
+ def inp(i,l,k=MaterialKind.CONDITION,state=None): return g.input(i,l,k,state=state)
+ def prod(i,l,state,k=MaterialKind.MOLECULAR): return g.product(i,l,k,state=state)
+ def op(i,l,k,inputs,state):
+  out=prod(i+"_out",l,state); g.react(i,l,k,inputs,(out,),geometry=AdapterLigationGeometry.unavailable("Native v3 adapter strand/end geometry not assigned in this capped pass.") if k is StepKind.LIGATION else None); return out
+ def clean(i,l,x,state=None):
+  sel=inp(i+"_selection",l,MaterialKind.SELECTION); out=prod(i+"_out",l,state or x.state); waste=prod(i+"_waste","physically removed wash/supernatant fraction",None,MaterialKind.WASTE)
+  g.react(i,l,StepKind.CLEANUP,((x,InputRole.TEMPLATE),(sel,InputRole.SELECTION)),(out,waste));g.discard(waste,"physically removed fraction; exact molecular partition unassigned");return out
+ starting=Scene();starting.strand("RNA",[role("cellular poly(A) RNA population; physical U")],label="RNA within live cells")
+ cells=g.input("cells","150 µm live tumor sections; independent cellular RNA",MaterialKind.BIOLOGICAL,state=starting,primary=True)
+ antibody=inp("antibody_anchor","anti-CD45 internal-Cy5 DNA conjugate",MaterialKind.MOLECULAR)
+ cage=inp("caged_oligo","O1 NPOM strand",MaterialKind.OLIGO,O1_CAGED)
+ pre=op("prehybridize","Prehybridize anchor and caged strand 1:1,37°C15min; cool",StepKind.HYBRIDIZATION,((antibody,InputRole.TEMPLATE),(cage,InputRole.STRUCTURAL)),anchor_scene())
+ coat=op("coat","ssDNA/BSA block; antibody-anchor stain 1h4°C",StepKind.BINDING,((cells,InputRole.TEMPLATE),(pre,InputRole.ANALYTE)),anchor_scene(with_rna=True))
+ washed=clean("coat_wash","Wash unbound conjugates",coat)
+ light=inp("light","365 nm patterned1000ms pulses")
+ unc=op("uncage","Photolyze NPOM cages; DNA sequence retained",StepKind.CHEMICAL_CONVERSION,((washed,InputRole.TEMPLATE),(light,InputRole.CONDITION)),anchor_scene(with_rna=True))
+ zipin=inp("zipcode","Zipcode1 poly(A) DNA",MaterialKind.OLIGO,ZIP1)
+ tagged=op("hybridize","Hybridize zipcode to exposed O1 overhang",StepKind.HYBRIDIZATION,((unc,InputRole.TEMPLATE),(zipin,InputRole.STRUCTURAL)),anchor_scene(True,True))
+ washed=clean("tag_wash","Wash excess zipcode",tagged)
+ blocker=inp("blocker","O1 blocking strand",MaterialKind.OLIGO,O1_BLOCK)
+ blocked=op("block","Hybridize blocker to carried zipcode; repeat spatial rounds as required",StepKind.HYBRIDIZATION,((washed,InputRole.TEMPLATE),(blocker,InputRole.STRUCTURAL)),anchor_scene(True,True))
+ blocked.state.strand("blocker products",[role("independent blocked excess zipcode; not chemically destroyed")],label="possible carried blocking complexes")
+ washed=clean("block_wash","Wash following blocking/labeling rounds",blocked)
+ sort=inp("sort_gate","collagenase I/IV +mechanical dissociation; live Cy5+ FACS",MaterialKind.SELECTION)
+ selected=prod("sorted","live Cy5+ cells",washed.state); rejected=prod("sort_waste","gate-excluded cells/debris",None,MaterialKind.WASTE)
+ g.react("sort","Dissociate, strain and sort live Cy5+ cells",StepKind.SELECTION,((washed,InputRole.TEMPLATE),(sort,InputRole.SELECTION)),(selected,rejected));g.discard(rejected,"physical FACS gate")
+ selected=clean("cell_wash","PBS0.04%BSA wash",selected)
+ gem=inp("gem_conditions","10x3′v3 GEM partitioning;8k cell target")
+ occupied=prod("occupied","represented cell-containing GEM population",selected.state)
+ other=prod("other_gems","other GEM populations; unresolved molecular fates",None)
+ g.react("partition","Partition cells into GEMs",StepKind.PARTITION,((selected,InputRole.TEMPLATE),(gem,InputRole.CONDITION)),(occupied,other))
+ g.mark_terminal(Terminal(other.id,Disposition.UNRESOLVED,"Empty/multiple/unassigned GEM populations; no physical discard inferred from barcode QC."))
+ bead=inp("bead_primer","v3 native cell16/UMI12 oligo(dT) primer; full strand unassigned",MaterialKind.OLIGO)
+ rt=inp("rt_mix","native v3 RT mix",MaterialKind.CATALYST)
+ copied=op("rt","Copy independent RNA and zipcode-DNA templates with bead primers",StepKind.REVERSE_TRANSCRIPTION,((occupied,InputRole.TEMPLATE),(bead,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),copies())
+ recovery=inp("gem_recovery_conditions","CG000183 native post-GEM recovery/cleanup boundary; detailed operations not assigned in inspected sections")
+ recovered=prod("recovered_copies","native recovered mixed RT copies; physical partition/integrity unresolved",copies())
+ g.react("gem_recovery","Native post-GEM recovery before cDNA amplification",StepKind.MAGIC,((copied,InputRole.TEMPLATE),(recovery,InputRole.CONDITION)),(recovered,),reason="Guide process has post-GEM recovery before cDNA amplification; detailed native recovery operations/partition were not inspected within the frozen source cap.")
+ copied=recovered
+ f=inp("cdna_primer","native10x cDNA amplification primer species",MaterialKind.OLIGO);r=inp("additive","partial SmallRNA Read2 additive; native sequence/revision unassigned",MaterialKind.OLIGO);pol=inp("amp_mix","native cDNA amplification mix",MaterialKind.CATALYST)
+ amp=prod("amplified","amplified transcript and short zipcode molecules",copies(amp=True))
+ g.react("cdna_pcr","Amplify cDNA with partial SmallRNA Read2 additive",StepKind.PCR,((copied,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(amp,),geometry=PCRGeometry.unavailable(copied.state,reason="Native primer species/end geometry not assigned in inspected sources."))
+ spri=inp("split_selection","post-amplification SPRI",MaterialKind.SELECTION)
+ rna=prod("rna_fraction","bead-bound transcript cDNA",copies("transcript",True));z=prod("zip_fraction","decanted <200bp zipcode supernatant",copies("zipcode",True))
+ g.react("split","SPRI physical bead/supernatant split; purity unassigned",StepKind.SELECTION,((amp,InputRole.TEMPLATE),(spri,InputRole.SELECTION)),(rna,z))
+ z=clean("zip_clean1","First3×SPRI zipcode recovery",z);z=clean("zip_clean2","Second3×SPRI zipcode recovery",z)
+ endmix=inp("fragment_endprep_mix","CG0001833.1 fragmentation/endrepair/A-tailing mix",MaterialKind.CATALYST)
+ rna=op("fragment_endprep","Fragment/end-repair/A-tail cDNA (CG0001833.1)",StepKind.END_REPAIR,((rna,InputRole.TEMPLATE),(endmix,InputRole.CATALYST)),gex_intermediate())
+ rna=clean("rna_size","Double-sided SPRI3.2",rna)
+ adapter=inp("rna_adapter","native v3 adapter; ligation geometry unassigned",MaterialKind.OLIGO);lig=inp("ligase","native adapter-ligation mix",MaterialKind.CATALYST)
+ rna=op("rna_ligate","Adapter ligation3.3; native geometry remains bounded",StepKind.LIGATION,((rna,InputRole.TEMPLATE),(adapter,InputRole.STRUCTURAL),(lig,InputRole.CATALYST)),gex_intermediate(True))
+ rna=clean("rna_lig_cleanup","Post-ligation cleanup3.4",rna)
+ outputs=[]
+ for prefix,x,iszip in (("rna",rna,False),("zip",z,True)):
+  f=inp(prefix+"_forward","CITE10xP5 class" if iszip else "native10x forward index-PCR primer",MaterialKind.OLIGO)
+  r=inp(prefix+"_reverse","CITE smallRNA RPIx class; member/extent unassigned" if iszip else "native10x sample-index primer",MaterialKind.OLIGO)
+  pol=inp(prefix+"_polymerase","KAPA HiFi" if iszip else "native10x PCR mix",MaterialKind.CATALYST)
+  out=prod(prefix+"_library","native amplified "+prefix+" library",library_scene(iszip),MaterialKind.LIBRARY)
+  g.react(prefix+"_index_pcr","Amplify actual native "+prefix+" precursor",StepKind.PCR,((x,InputRole.TEMPLATE),(f,InputRole.STRUCTURAL),(r,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(out,),geometry=PCRGeometry.unavailable(x.state,reason="Native ordered primer/member geometry unassigned; no completed library used as input."))
+  if not iszip: out=clean("rna_final_size","Final double-sided SPRI3.6",out)
+  outputs.append(out)
+ poolstate=Scene()
+ for name,lib in (("RNA",RNA_LIB),("zipcode",ZIP_LIB)):
+  add_duplex(poolstate,name,list(lib),"independent "+name+" library molecules")
+ poolstate.strand("residual",[role("possible co-carried original/templates/anchor/blocker fragments; fate unresolved")],label="independent residual populations")
+ pooled=prod("sequencing_pool","1:10 zipcode:RNA molar pool; Bioanalyzer/qPCR",poolstate,MaterialKind.LIBRARY)
+ g.react("pool","Mix zipcode and associated RNA libraries1:10molar",StepKind.POOL,tuple((x,InputRole.TEMPLATE) for x in outputs),(pooled,),changes_molecule=False)
+ g.sequence(pooled,SequencingPlan(primers=(),acquired_roles=("Read 1","Index 1 (i7)","Read 2"),read_lengths=READ_LENGTHS[HEADINGS[0]],limitation=LIMIT))
+ # Manual source scope: local known operations only; no absence/full-review claim.
+ g.declare_reviewed_scope(("gem_recovery","gem_recovery_conditions","prehybridize","coat","coat_wash","uncage","hybridize","tag_wash","block","block_wash","sort","cell_wash","partition","rt","cdna_pcr","split","zip_clean1","zip_clean2","fragment_endprep","rna_size","rna_ligate","rna_lig_cleanup","rna_index_pcr","zip_index_pcr","rna_final_size","pool","cells","antibody_anchor","caged_oligo","coat_wash_selection","light","zipcode","tag_wash_selection","blocker","block_wash_selection","sort_gate","cell_wash_selection","gem_conditions","bead_primer","rt_mix","cdna_primer","additive","amp_mix","split_selection","zip_clean1_selection","zip_clean2_selection","fragment_endprep_mix","rna_size_selection","rna_adapter","ligase","rna_lig_cleanup_selection","rna_forward","rna_reverse","rna_polymerase","zip_forward","zip_reverse","zip_polymerase","rna_final_size_selection","sequencing_pool"),SOURCE)
  return g.require_publishable()

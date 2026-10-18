@@ -7,40 +7,35 @@ The published article text is paywalled here; the accepted author manuscript
 """
 from __future__ import annotations
 
-import illumina as il
+from types import SimpleNamespace
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
-from chemdraw import Construct, Segment, feature, oligo, revcomp
+from chemdraw import Construct, Segment, feature, oligo
 from nanoseq_chem import (oligo_scene, a_tailed_fragment, ddbtp_blocked_nick, duplex_adapter_end,
-                          hpych4v_fragment, umi, INSERT_N,
+                          hpych4v_fragment, umi,
                           NANOQPCR1, NANOQPCR2)
 from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
                             SequencingPlan, StepKind, Terminal)
 from pcr import PCRGeometry
-from protocol_specs import Definition, get
-from rna_library_operations import molecule
+from protocol_model import molecule, role
 
 AM = "Abascal et al. 2021 author manuscript"
 SI = "Abascal et al. 2021 published Supplementary Information"
 
-DEFINITION = Definition(
-    "NanoSeq — nanorate duplex sequencing", "10.1038/s41586-021-03477-4",
-    "Abascal et al., Nature (2021)",
-    "HpyCH4V restriction fragmentation avoids end repair, and A-tailing with dATP plus "
-    "dideoxy non-A nucleotides (ddBTPs) makes nick-extended strands unamplifiable before "
-    "duplex-barcoded adapter ligation and duplex consensus sequencing.",
-    "truseq", ("3-nt random barcode", "genomic insert", "3-nt random barcode"),
-    "NanoSeq and BotSeqS libraries were sequenced as 150 bp paired-end reads on HiSeq2500, "
-    "HiSeqX and NovaSeq. Each read begins NNNTCA (or NNNXTCA): a 3-nt random barcode, an "
-    "optional spacer base, the adapter T and the HpyCH4V CA end; barcodes and genomic "
-    "coordinates group Watson and Crick read families into duplex consensus.",
-    "DNA",
-    "INFERRED adapter and PCR shell: the paper names xGen Duplex Seq Adapters (IDT 1080799) "
-    "and dried UDI-containing PCR primers but prints neither. The TruSeq-type Read 1/Read 2 "
-    "arms, P5/P7 and 8-nt index windows drawn in the final library are inferred from the "
-    "printed qPCR primers NanoqPCR1/2 (which match TruSeq Read 1 and Read 2 arm bases) and "
-    "from the read layout; the optional spacer base is not drawn. The published article "
-    "text itself was not available here; the accepted author manuscript was read.")
+TITLE="NanoSeq — nanorate duplex sequencing"
+SOURCE='Abascal et al., <a href="https://doi.org/10.1038/s41586-021-03477-4">Nature (2021)</a>; accepted author manuscript Methods and published SI Notes2/4.'
+SUMMARY="HpyCH4V fragmentation, modified dATP/ddBTP A-tailing, duplex-barcoded adapter ligation and a molecular bottleneck precede UDI PCR and duplex consensus analysis."
+CAVEAT="Selected HpyCH4V plus ddBTP route, without the optional diversity spacer. Complete historical xGen1080799 adapter strands, UDI primer ends and index widths remain unassigned. The exact qPCR oligos do not establish a full TruSeq/P5/P7 shell. Proposed nick-termination chemistry remains a candidate mechanism (SI Note4)."
+SEQUENCING="150bp paired-end HiSeq2500/HiSeqX/NovaSeq. Source read starts NNNTCA or NNNXTCA: 3 random barcode bases, optional spacer, adapter T and HpyCH4V CA. The no-spacer representative is drawn; index acquisition and cycles remain unassigned."
+READ_SPECS=(sp.read_spec("Read 1",150,"NNN barcode, adapter T, HpyCH4V CA then genomic sequence; optional spacer source alternative","extract_then_include"),sp.read_spec("Read 2",150,"Opposite duplex barcode and genomic end; optional spacer source alternative","extract_then_include"),sp.read_spec("Index 1 (i7)","unassigned","UDI index; acquired cycles unassigned","undetermined"),sp.read_spec("Index 2 (i5)","unassigned","UDI index; acquired cycles unassigned","undetermined"))
+
+
+def core_parts():
+ return (umi("random barcode A","nanoseq_umi_a"),Segment("adapter T","T"),Segment("HpyCH4V 5′ end","CA"),role("genomic insert; variable length"),Segment("HpyCH4V 3′ end","TG"),Segment("dA tail","A"),Segment("random barcode B complement","nnn","umi",placeholder=True,length_bp=3,feature=feature("nanoseq_umi_b","umi","random")))
+
+
+def adapted_precursor():
+ return molecule("actual ligated native xGen fragment; strand/end occupancy unassigned",(role("native xGen left arm"),*core_parts(),role("native xGen right arm")))
 
 
 def nanoseq_oligos():
@@ -52,37 +47,9 @@ def nanoseq_oligos():
 
 
 def final_library():
-    """HpyCH4V NanoSeq library; adapter/PCR shell inferred (see DEFINITION caveat)."""
-    lib = Construct([
-        Segment("P5", il.P5, "p5", inferred=True),
-        Segment("i5", "J" * 8, "cbc", placeholder=True, inferred=True,
-                feature=feature("sample_index_i5", "sample_index", "unknown")),
-        Segment("Read 1 adapter arm", il.TRUSEQ_READ1, "r1", inferred=True),
-        umi("random barcode A", "nanoseq_umi_a"),
-        Segment("adapter T", "T"),
-        Segment("HpyCH4V 5' end", "CA"),
-        Segment("genomic insert", "X" * INSERT_N, placeholder=True),
-        Segment("HpyCH4V 3' end", "TG"),
-        Segment("dA tail", "A"),
-        Segment("random barcode B (complement)", "nnn", "umi", placeholder=True, length_bp=3,
-                feature=feature("nanoseq_umi_b", "umi", "random")),
-        Segment("Read 2 adapter arm (rc)", revcomp(il.TRUSEQ_READ2), "r2", inferred=True),
-        Segment("i7 reverse complement", "I" * 8, "cbc", placeholder=True, inferred=True,
-                feature=feature("sample_index_i7", "sample_index", "unknown")),
-        Segment("P7 reverse complement", il.P7_RC, "p7", inferred=True),
-    ], name="NanoSeq final library (HpyCH4V)")
-    primers = (sp.TRUSEQ["R1"], sp.TRUSEQ["I1"], sp.TRUSEQ["I2"], sp.TRUSEQ["R2"])
-    problems = sp.verify(lib, primers, required_roles=tuple(p.role for p in primers))
-    if problems:
-        raise ValueError("; ".join(problems))
-    return lib, primers
+ return Construct([role("UDI PCR left end; native arrangement and index width unassigned",molecular_feature=feature("nanoseq_udi_left","sample_index","unknown",note="Index carried within this unresolved primer-derived end; position, width and bases unassigned")),*core_parts(),role("UDI PCR right end; native arrangement and index width unassigned",molecular_feature=feature("nanoseq_udi_right","sample_index","unknown",note="Index carried within this unresolved primer-derived end; position, width and bases unassigned"))],name="NanoSeq HpyCH4V final target library"),()
 
-
-FINAL, PRIMERS = final_library()
-
-
-SPEC = get('nanoseq', definition=DEFINITION,
-           final_override=(FINAL, PRIMERS), oligos_fn=nanoseq_oligos)
+FINAL,PRIMERS=final_library()
 
 
 def _cleanup(graph, ident, label, template, beads, state, kind=MaterialKind.MOLECULAR):
@@ -95,11 +62,11 @@ def _cleanup(graph, ident, label, template, beads, state, kind=MaterialKind.MOLE
     return kept
 
 
-def _local_graph(d):
-    source = f"{d.source_label}; doi:{d.doi}"
-    graph = ProtocolGraph(d.title, authority=source)
+def protocol_graph():
+    source=SOURCE
+    graph=ProtocolGraph(TITLE,authority=source)
     dna = graph.input("dna", "10 ng genomic DNA or LCM lysate in 20 µl", MaterialKind.BIOLOGICAL,
-                      state=molecule("genomic DNA", ("genomic DNA",)), primary=True,
+                      state=molecule("genomic DNA", (role("genomic DNA"),)), primary=True,
                       source=AM + " Methods, NanoSeq library preparation")
     beads = graph.input("ampure", "AMPure XP beads (50:50 water mix; later 2.5x, 1x, 2x 0.7x)",
                         MaterialKind.SELECTION)
@@ -121,8 +88,8 @@ def _local_graph(d):
                            state=a_tailed_fragment())
     blocked = graph.product("ddbtp_blocked", "candidate: nick-extended strand ending in a ddBTP",
                             MaterialKind.MOLECULAR, state=ddbtp_blocked_nick(),
-                            source=SI + " Note 4 (proposed mechanism)")
-    graph.react("a_tail", "A-tail with dATP plus ddBTPs (37 °C 30 min)", StepKind.TAILING,
+                            source=SI + " Note 4 (proposed mechanism)",inferred=True)
+    graph.react("a_tail", "A-tail with dATP/ddBTPs; INFERRED nick-termination candidate (37 °C 30 min)", StepKind.TAILING,
                 ((frag_clean, InputRole.TEMPLATE), (klenow, InputRole.CATALYST),
                  (nts, InputRole.CONDITION)), (tailed, blocked))
     graph.mark_terminal(Terminal(blocked.id, Disposition.UNRESOLVED,
@@ -136,9 +103,7 @@ def _local_graph(d):
                          MaterialKind.CATALYST)
     adapted = graph.product("adapted", "adapter-ligated duplex-barcoded fragments",
                             MaterialKind.MOLECULAR,
-                            state=molecule("adapter-ligated fragment", (
-                                "adapter + NNN + T", "CA…genomic insert…TG", "A + nnn + adapter"),
-                                joined=True), inferred=True)
+                            state=adapted_precursor())
     graph.react("ligate", "Ligate duplex adapters (20 °C 20 min)", StepKind.LIGATION,
                 ((tailed, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (adapted,),
@@ -149,7 +114,7 @@ def _local_graph(d):
                               "'T is the adapter overhang'); remaining adapter strands unprinted."))
     ligated = _cleanup(graph, "ligated_clean", "1x AMPure-purified ligation product",
                        adapted, beads, adapted.state)
-    qpcr_mix = graph.input("kapa_qpcr", "KAPA library quantification kit (KK4835) SYBR FAST mix",
+    qpcr_mix = graph.input("kapa_qpcr", "KAPA library quantification KK4835 SYBR FAST mix plus supplied primer premix",
                            MaterialKind.CATALYST)
     qpcr1 = graph.input("nanoqpcr1", "NanoqPCR1 (HPLC), added to the KAPA mix", MaterialKind.OLIGO,
                         state=oligo_scene(NANOQPCR1),
@@ -157,18 +122,22 @@ def _local_graph(d):
     qpcr2 = graph.input("nanoqpcr2", "NanoqPCR2 (HPLC), added to the KAPA mix", MaterialKind.OLIGO,
                         state=oligo_scene(NANOQPCR2),
                         source=AM + " Methods, DNA quantification")
+    dilution_500=graph.input("qpcr_dilution","1:500 aliquot dilution; 2µl sample in10µl qPCR",MaterialKind.CONDITION)
+    aliquot=graph.product("qpcr_aliquot","diluted qPCR aliquot",MaterialKind.MOLECULAR,state=ligated.state)
+    quantified=graph.product("quantified","retained main library stock; concentration inferred from aliquot",MaterialKind.MOLECULAR,state=ligated.state)
+    graph.react("sample_qpcr","Sample and dilute aliquot; retain main stock",StepKind.SAMPLING,((ligated,InputRole.TEMPLATE),(dilution_500,InputRole.CONDITION)),(aliquot,quantified),changes_molecule=False)
     readout = graph.product("qpcr_readout", "qPCR concentration (fmol/µl, 1:500 dilution)",
                             MaterialKind.QC)
-    quantified = graph.product("quantified", "quantified adapter-ligated library",
-                               MaterialKind.MOLECULAR, state=ligated.state)
+    qpcr_products=graph.product("qpcr_products","quantification PCR amplicons in assay aliquot",MaterialKind.MOLECULAR,state=molecule("qPCR amplicons; native complete ends unassigned",(role("NanoqPCR/KAPA assay amplicon"),)))
     graph.react("qpcr", "qPCR-quantify a 1:500 aliquot", StepKind.PCR,
-                ((ligated, InputRole.TEMPLATE), (qpcr1, InputRole.STRUCTURAL),
+                ((aliquot, InputRole.TEMPLATE), (qpcr1, InputRole.STRUCTURAL),
                  (qpcr2, InputRole.STRUCTURAL), (qpcr_mix, InputRole.CATALYST)),
-                (quantified, readout), changes_molecule=False,
+                (qpcr_products, readout),
                 geometry=PCRGeometry.unavailable(
-                    ligated.state, reason="Adapter strands are not printed, so qPCR primer "
+                    aliquot.state, reason="Adapter strands are not printed, so qPCR primer "
                                           "landing on the ligated molecule cannot be drawn."))
-    graph.mark_terminal(Terminal(readout.id, Disposition.QC))
+    graph.mark_terminal(Terminal(readout.id,Disposition.QC))
+    graph.mark_terminal(Terminal(qpcr_products.id,Disposition.UNRESOLVED,"Analytical aliquot; not the main library stock used for production PCR."))
     diluted = graph.product("diluted", "library diluted to ~0.3 fmol in 25 µl (bottleneck)",
                             MaterialKind.MOLECULAR, state=ligated.state)
     target = graph.input("dilution_target", "volume from qPCR fmol/µl and r_opt ≈ 5.1 read pairs "
@@ -190,22 +159,17 @@ def _local_graph(d):
     q5 = graph.input("q5", "NEBNext Ultra II Q5 Master Mix; 98/65 °C cycling, 10–16 cycles by input",
                      MaterialKind.CATALYST)
     amplified = graph.product("amplified", "UDI-indexed NanoSeq library", MaterialKind.LIBRARY,
-                              state=FINAL, inferred=True)
+                              state=FINAL)
     graph.react("library_pcr", "Amplify with UDI-containing PCR primers", StepKind.PCR,
                 ((diluted, InputRole.TEMPLATE), (fwd, InputRole.STRUCTURAL),
                  (rev, InputRole.STRUCTURAL), (q5, InputRole.CATALYST)), (amplified,),
                 geometry=PCRGeometry.unavailable(
-                    FINAL, reason="The UDI-containing PCR primers are named but not printed."))
+                    diluted.state, reason="Actual preceding diluted native adapter-ligated fragment; UDI-containing PCR primers and exact strand ends remain unassigned."))
     final = _cleanup(graph, "library", "two consecutive 0.7x AMPure clean-ups",
                      amplified, beads, FINAL, kind=MaterialKind.LIBRARY)
-    graph.sequence(final, SequencingPlan(library=FINAL, primers=PRIMERS,
-                                         read_lengths={"Read 1": 150, "Read 2": 150}))
-    graph.declare_reviewed_scope(tuple(graph.materials) + tuple(graph.steps), source)
+    graph.sequence(final, SequencingPlan(library=FINAL, acquired_roles=("Read 1","Read 2"),limitation="Source-positive paired150 reads; exact native sequencing-primer sites remain unassigned."))
+    graph.declare_reviewed_scope(("dna","ampure","bead_bound_cleanup","hpych4v","digest","fragments_clean_cleanup","klenow","datp_ddbtp","a_tail","duplex_adapters","ligase","ligate","ligated_clean_cleanup","kapa_qpcr","qpcr_dilution","sample_qpcr","nanoqpcr1","nanoqpcr2","qpcr","dilution_target","bottleneck","udi_forward","udi_reverse","q5","library_pcr","library_cleanup","library"),source)
     return graph.require_publishable()
 
 
-def protocol_graph():
-    return _local_graph(DEFINITION)
-
-
-SPEC.protocol_graph = protocol_graph
+SPEC=SimpleNamespace(TITLE=TITLE,NOTES="01_nanoseq.html",SOURCE=SOURCE,SUMMARY=SUMMARY,CAVEAT=CAVEAT,FINAL_LIBRARY=FINAL,SEQ_PRIMERS=PRIMERS,READ_LENGTHS=None,ACQUIRED_ROLES=("Read 1","Read 2"),SHOW_READ_CONTENT=False,READ_SPECS=READ_SPECS,SEQUENCING_INTRO=SEQUENCING,SEQUENCING_ENDING=SEQUENCING,SEQUENCING_UNAVAILABLE="Native sequencing-primer geometry and UDI index acquisition remain unassigned.",FINAL_CAPTION="Source-reported HpyCH4V/barcode core; native UDI ends are role-level.",oligos=nanoseq_oligos,protocol_graph=protocol_graph)

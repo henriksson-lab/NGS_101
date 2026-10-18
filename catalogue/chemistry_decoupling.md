@@ -239,3 +239,373 @@ graph recipes. Spatial-epigenome and the rare-cell PCR finish are resolved. SPAT
 supplies its GEO nuclei route and PE150 acquisition to the split-pool graph. The
 telomere adapter drawing now marks the adapter 3-prime end at the native C-rich
 5-prime end. Removing dead code does not complete any caller's source audit.
+
+
+## Initial validation migration snapshot — 2026-10-18
+
+The latest approach combines protocol-owned typed provenance graphs with the
+independent narrow molecular checker described in DESIGN.md. Passing graph
+completeness is not evidence that molecular transitions are validated. Conversely,
+a deliberately unresolved relation is not automatically an architecture defect.
+
+Three TSV snapshots list protocol names, directories, code locations, queued
+dependencies, graph/check coverage and next actions:
+
+- [Migration worklist](validation_migration_pending.tsv): **182 protocols**.
+  **181** reference currently queued shared recipes/defaults in non-test code,
+  directly or through the inspected TruSeq PCR-free wrapper; **CRISPR-MIP**
+  additionally needs a native typed graph. Priorities inherited from the ownership
+  queue are P0: 122, P1: 46, P2: 13; the graph-less CRISPR-MIP is listed first.
+- [Molecular-coverage follow-ups](validation_migration_coverage_followup.tsv):
+  **190 graph-backed protocols** whose current checker emits no established or
+  conditional claim. This overlaps the ownership worklist; it is not another 190
+  disjoint migrations. Missing source evidence, unsupported molecular states and
+  absent checker primitives require different follow-up decisions.
+- [Whole-catalogue inventory](validation_migration.tsv): **410 protocols**,
+  including the six ledger-only ownership entries needing reconciliation,
+  notes-only entries, non-sequencing assays and partial molecular coverage.
+
+Method: loaded each catalogue protocol in an isolated Python process and ran the
+existing chemistry checker; no contradictions or import errors occurred. Compared
+open `chemistry_decoupling.tsv` rows against non-test Python imports/references,
+with file/line pointers. The SMART-seq3 predecessor import was inspected separately;
+its queued alias has no callers listed in the old ledger. TruSeq PCR-free reaches
+`batch_ngs.truseq_pcr_free_library` through the vendor wrapper and still selects
+full-length-adapter defaults locally. Static references are evidence of code
+dependencies, not proof that every referenced branch executes or that its chemistry
+is erroneous. The snapshot is seeded by known queue entries, not a proof that all
+unlisted shared operations are neutral. It does not authorize source-independent
+recipe substitutions. Commit identity and observation date are columns in each TSV.
+
+The old queue names 186 distinct protocols. The reconciled migration worklist
+retains 180 of them, adds SMART-seq3, and adds graph-less CRISPR-MIP. The six old
+entries without a current non-test reference to their queued symbols are
+Chromium Single Cell ATAC v1, Duplex-Repair, LamPORE, Olink Explore, PEM-seq and
+TIME-seq. Their stale import entries need reconciliation; this does not declare
+those protocols fully validated. Historical ownership rows are preserved.
+
+Runtime coverage: 402 native graphs; 201 have some established/conditional local
+checks but no declared `MolecularRelation` transition; 190 have only unresolved
+claims; 11 declare at least one checked transition relation. Those 11 are
+SMART-seq2, in situ Hi-C, Nagano single-cell Hi-C, Stevens single-cell Hi-C,
+FISSEQ, ASTAR-seq, SPLiT-seq, microSPLiT, sci-ATAC-seq (2018), MALBAC and smMIP.
+All 402 graphs still contain unresolved claims. Exact PCR binding or paired-column
+checks are legitimate typed checks without a `MolecularRelation` flag, so flag
+absence alone is not a migration verdict. No protocol is marked fully validated
+by this inventory.
+
+CRISPR-MIP is the single documented NGS page without a native graph. The other
+seven graph-less entries are three notes-only protocols (CapSeq, SELECT-seq and
+SIMPLE-seq) and four non-sequencing assays (superRCA, RNAscope, PrimeFlow and
+PLAYR); keep their respective modelling/assay scopes separate. This snapshot
+changes neither source-review acceptance nor the capped-curation census.
+
+
+## Current migration progress — 2026-10-18
+
+The user-selected cohort is the initial 182-protocol worklist.
+[Pending migrations](validation_migration_pending.tsv) now contains **13**
+protocols; [completed migrations](validation_migration_completed.tsv) records
+**169** verified migrations with their former dependencies and current scoped
+coverage. The remaining cohort is blocked by repeated automatic content filtering; see the Batch11 checkpoint. Entries leave the
+pending file only after their source-qualified declarations and affected checks
+are verified; a temporarily removed import alone does not complete a migration.
+
+The completed record contains all 169 protocol names and per-protocol coverage.
+The batches cover CRISPR-MIP, three Chromium protocols, five multimodal protocols,
+PLAC/SNuBar, three editing-outcome methods, two nuclease protocols, four extended
+RNA workflows, three break-capture methods, four RNA-end methods, three ATAC
+methods, DMS-MaPseq and PacBio Iso-Seq. Additional migrations cover Multiome, Flex,
+Visium, BotSeqS, ACE-seq, DRIP-seq, AlkAniline-Seq and CirSeq. Further completed
+entries are BLISS, CRISPR CIRCLE-seq, CITE-seq, Direct-seq, cfMeDIP-seq, CODEC,
+ChAR-seq and ChIL-seq. Further migrations cover Digenome-seq, END-seq, eccDNA Circle-Seq,
+DBiT-seq, DR-seq, ECCITE-seq, DART-seq, FragSeq, HRF-seq, E/L Repli-seq
+and DRIPc-seq. Batch02 adds Drop-BS, GAM, Long-read ChIA-PET, easySHARE-seq,
+G&T-seq, GAGE-seq, MATQ-seq, mim-tRNAseq, Nano3P-seq, LIGR-seq and MARIO.
+Batch03 adds DNA Prep shotgun metagenomics, NanoSeq, NG Capture-C, INVADEseq,
+OAK, Paired-seq, OTTR-seq, PANDORA-seq, PARS, oxBS-seq and Ovation RNA-Seq V2.
+Batch04 adds MALBAC-DT, Paired-tag, PARIS, R-ChIP, RAGE-seq, RAISIN RNA-seq,
+RamDA-seq, ReDeeM and RIC-seq.
+Batch05 adds scCARE-seq, sci-CAR-seq, scRICA-seq, scM&T-seq, scMT-seq,
+scNMT-seq, SHERRY, SLAM-seq and snRandom-seq.
+Batch06 adds scSNV-seq, scTrio-seq, SHARE-seq, snmC-seq2, snmC2T-seq,
+sn-m3C-seq, SMART-seq, SMART-seq3, Structure-seq2, scSPLAT, Slide-tags and SPLASH.
+
+The migrations include actual molecular/source corrections, not just relocated
+helpers: declared precursor strands and PCR templates, index/UMI provenance,
+source-specific recovery and cleanup steps, and hydrolysis versus physical
+discard. CRISPR-MIP now has a native graph built from the existing published-data
+constructors. Its initial P7 copying and subsequent P5 copying are distinguished
+from later duplex PCR within the same reaction. Missing graph/checker machinery
+is an implementation gap, not an assertion of missing publication information.
+
+Independent review corrected premature template-switch/barcode installation in
+the VDJ precursor and false initial duplex primer availability in CRISPR-MIP.
+The neutral PCR renderer now preserves a source-limited single-stranded Scene
+without drawing an invented complementary strand. Further independent review
+separated cellular containers and independent molecular populations that had
+been falsely concatenated on one strand. BotSeqS now propagates an unresolved
+Y-adapter precursor into both PCR branches, rather than a completed duplex.
+Source-review targets are explicitly curated rather than generated from graph nodes.
+The next reviews corrected CODEC SID7 orientation against its source bridge and
+the retained nine-base bead-handle suffix in Direct-seq. ChAR-seq now preserves
+RNA through contact ligation and follows the actual USER/PCR/selection states;
+ChIL-seq uses its actual single-strand RT precursor. CIRCLE-seq hydrolysis
+products remain molecular material rather than invented physical discards.
+Further review corrected copied ECCITE tag-barcode polarity, separated the later
+DBiT implementation from the defining experiment's read acquisition, removed
+unsupported reuse of DR-seq's initial RT enzyme in its CEL-Seq finish, and restored
+FragSeq's published PNK/gel order, post-PCR selection and 50-base read statement.
+RT RNA-template fates remain explicit where physical recovery is unresolved.
+Batch02 restores MARIO's source-selected ES-1 DSN branch and actual PCR inputs,
+retains physical blocked nucleotides, corrects GAGE primer/index transcriptions,
+and derives Drop-BS's blunt duplex from paired strands. LIGR's published SPRI
+size wording and final PAGE threshold remain visible without a guessed repair.
+A scoped MARIO circle-order relation preserves source-defined part identity; it
+does not establish complete circularization, restriction or PCR chemistry.
+
+Batch03 separates source-version reference implementations from historical executed runs,
+removes unsupported canonical adapter shells/index widths, preserves identifier lineage
+through intermediate states and supplies actual native PCR inputs. Matched ordinary BS
+is represented in the explicitly selected 2013 oxBS reference; original 2012 oxRRBS
+construction remains deferred. Independent review corrected dA overhang geometry,
+control continuity and displayed primer transcription; physical blocked nucleotides
+and mixed off-target populations are retained. Removing unsupported exact assumptions
+can increase unresolved molecular coverage even as ownership migration completes.
+
+Batch04 preserves native RNA/template populations, physical terminal modifications,
+source-defined library routes and actual ss/circular/capture-bound PCR substrates.
+RamDA models coupled RT/nicking/displacement and the selected standard plate finish;
+MALBAC-DT separates original Nextera from automated TruePrep without inheriting unnamed
+formulations. R-ChIP selects the detailed 2019 reference, with its actual partly duplex
+ligation precursor and separate test/final PCR aliquots; its original 2017 execution
+is not inferred from that reference. ReDeeM's known RNA reaction sequence is explicit.
+Four unchanged DNA entries remain deferred in the batch04 ledger after worker tool
+filter failures; they are retained in the pending file, not counted as completions.
+
+Batch05 replaces completed-library intermediates with actual ss-cDNA, converted DNA,
+native tagged fragments and copied-product populations. Separate RNA/DNA routes,
+source-specific oligo modifications, native recovery stages and sequenced primer-derived
+products remain explicit. Unverified kit geometry and index acquisition remain bounded;
+SLAM's unread QuantSeq construction and scRICA's delegated low-throughput ATAC preparation
+remain genuine source boundaries. Parent review restored scRICA's full structured RT
+primer/RNA-tailed TSO and scCARE's native tagged cDNA end. The batch05 worker filter stop
+left Seq-Scope, SHAPE-MaP and SHAPE-seq deferred; together with batch04, seven entries
+remain pending under task-execution deferrals, not disclosure findings. No filtered task
+was retried or bypassed.
+
+Batch06 preserves separate sampled populations in scSNV, independent native RNA/DNA
+and original/copy lineages, exact modified oligos and native ss/circle PCR precursors.
+SHARE seals the three preassembled barcode rounds once and separates analytical qPCR
+from production libraries. snmC-seq2 retains source ten-base index definitions without
+canonical arm boundaries; snmC2T separates chemical methylation from copied-base signal;
+sn-m3C retains DpnII cohesive ends through inactivation and physical converted U.
+SMART-seq's published single-end acquisition, SMART-seq3 retained-TSO/internal classes,
+Structure-seq2's retained RT hexamer and physical index versus acquired cycles are local.
+scSPLAT and SPLASH include source-known successive recovery stages and explicit original
+strand/circle fates. Slide-tags uses separate experimental allocations and actual mixed
+SPRI supernatants; known CG000338 operations are explicit, while unread CG000317 details
+remain bounded. Independent implementation reviews found and corrected these issues;
+implementation-only readers are not counted as original-source absence readers.
+No new tool-filter deferral occurred in batch06; the earlier seven remain pending.
+
+The initial snapshot above is historical: runtime inventories now contain 403
+graph-backed protocols and 193 with only unresolved claims. Completed ownership
+entries may remain in molecular/source-coverage follow-up. The original goal
+remains active until every selected pending migration is completed and verified.
+Details and source scopes: [migration round](migration_rounds/2026-10-18-01.tsv).
+
+
+### Batch07 native graph migration
+
+Twelve more protocols have verified native, source-qualified declarations: stLFR,
+TAB-seq, TSA-seq, TrAEL-seq, Tri-C, ZipSeq, NEBNext Enzymatic Methyl-seq v2,
+NEBNext Low-bias Small RNA, NEBNext Single Cell/Low Input RNA, TruSeq DNA
+PCR-Free, SurePlex and YAMAT-seq. See the [batch07 ledger](migration_rounds/2026-10-18-07.tsv)
+for actual capped source sections and separate independent implementation reviews.
+
+Critical changes retain physical forked PCR-free adapters, RNA U and dideoxy
+terminal residues, carrier/barcode identity through intermediate states, original
+versus copied converted bases and actual native PCR substrates. Source-known
+recoveries are explicit, including the two SPB rounds, sequential RNA/cDNA
+bead bindings, SurePlex ss normalization and YAMAT native PAGE. stLFR physical
+circle/DNB material stays distinct from its readout reference. ZipSeq owns native
+GEX/zipcode branches with an explicit unread post-GEM-recovery boundary. Native
+index widths and acquisition remain unassigned where the inspected originals do
+not support a choice; this does not establish publication absence.
+
+All12 focused suites/pages/scoped chemistry/source guards/review schemas pass
+after critical reviews. Pairing and P5 lint pass, as do shared1277 and catalogue83
+checks. Site builds407/407 diagrams, publishes406 schematics, satisfies402/402
+documented NGS graph contracts and resolves all relative links. Current runtime
+coverage is403 graph-backed protocols,199 with only unresolved claims and no
+contradictions. The original182 cohort partitions into123 completed and59 pending;
+the seven earlier filter deferrals remain pending. Ownership completion does not
+close molecular/source follow-ups. The goal remains active.
+
+
+### Batch08 native graph migration
+
+Twelve more migrations are verified: Methyl-HiC, Nagano single-cell Hi-C, Stevens
+single-cell Hi-C, CEL-seq, MARS-seq, MARS-seq2.0, NEBNext Ultra II Directional RNA,
+NEBNext Ultra II FS DNA PCR-free, Nextera XT, ChEC-seq, NicE-seq and ORGANIC
+profiling. The [batch08 ledger](migration_rounds/2026-10-18-08.tsv) distinguishes capped
+source readings from independent implementation-only critical reviews.
+
+Native IVT graphs retain paired T7 promoters, initialGGG, physicalRNAU, actual
+RT2/PCR inputs and original-versus-copy fates. Hi-C graphs retain their different
+restriction enzymes/order, native tagged Y substrates and dT/A junctions; primer
+phosphorothioate bonds remain distinct from template copying. Commercial graphs
+retain dU/USER and source forks/ss normalization, with separately chosen oligo-kit
+and source-revision limits. Source-positive adapter installation is explicit.
+
+ChEC/ORGANIC native graphs now keep the later Orsi oligos as a separate reference,
+without assigning historical native reagents or index acquisition. ChEC's cited
+library preparation remains a bounded unread-source stage; its RNA/carrier fates
+stay unresolved. ORGANIC follows rendered defining FigS1a/c, including S1/S2 and
+sequential native recoveries. NicE uses actual bead-bound original templates and
+keeps internally biotinylated originals distinct from PCR copies.
+
+All12 focused suites/pages/chemistry/source guards/review schemas pass. Guards
+check13 strands with zero failures, two historical narrowly scoped exceptions
+and24 inputs without exact states. Pairing/P5 lint pass. Runtime coverage remains
+403 graph-backed protocols, with201 emitting only unresolved claims and no
+contradictions. The increase from199 follows removal of unsupported native Orsi
+assignments, not new evidence of source absence. Ownership completion stays
+separate from molecular/source follow-up. The original182 cohort is135 completed
+and47 pending; the seven prior tool-filter deferrals remain pending. Whole-site
+verification passes:407/407 diagrams,406 published schematics,402/402 documented
+NGS contracts,813 files and no broken relative links; catalogue83 passes. See
+AUDIT.md for builder-discovery corrections and compatibility checks.
+
+
+### Batch09 native graph migration
+
+Twelve migrations are verified: ChIPmentation, CoTECH, MulTI-Tag, HDST,
+Slide-seq, sci-Space, FIND-seq, GoT, TARGET-seq and the three Oxford Nanopore V14
+cDNA-PCR, ligation and native-barcode kits. The [batch09 ledger](migration_rounds/2026-10-18-09.tsv) records each capped
+source pass separately from independent implementation reviews that read zero
+additional originals.
+
+Native graphs retain actual incoming PCR material, independently allocated
+RNA/DNA/control populations, identifiers and physical versus copied modifications.
+Critical corrections include Slide decoding-primer inputs and native initial
+extensions; HDST dU/IVT/RNA and copied VN-anchor handling; sci-Space independent
+hash/transcript lineages and selected nuclear cohort; FIND matrix-linked originals
+versus free WTA copies; TARGET mixed aliquots and the explicit PCR1-to-PCR2 sample;
+and the three Nanopore kits' real adapter geometry, allocations, digestion products
+and associated motor boundaries. Ligation leaves unadapted molecular classes
+unresolved through later recovery instead of implying complete adaptation.
+
+CoTECH does not promote superseded preprint order: published Table1 components
+are conditional native declarations with unread execution/allocation boundaries.
+MulTI-Tag keeps its source final joint tagmentation and excludes future conjugate
+lineages from raw input. GoT's selected linear graph remains distinct from its
+source-known circular/Gibson variants, whose complete native topology is a named
+follow-up. Later Nanopore sequence references do not prove historical reagent-lot
+identity. No missing-information claim or source-review status was upgraded.
+
+All 12 focused suites/pages/chemistry/source guards/review schemas pass following
+critical reviews. Source guards check 53 strands with zero failures,
+3 narrowly recorded transcription exceptions and 35 inputs without
+exact states. Shared 1277, source-fetcher 226 and catalogue 83 checks pass. The exact
+cached sci-Space grid PDF URL is now registered alongside its cited DOI; its printed
+DOI/ID/date, rather than its normalized download slug, establish the inspected
+revision. No oligo exemption was needed for that locator repair.
+
+All 410 runtime entries reconcile: 403 graph-backed protocols, 193 with only
+unresolved claims, no errors or contradictions; 390 still lack declared transition
+relations. These are scoped model checks, not whole-protocol validation. The 57-row
+ownership queue remains intact. The original 182 cohort partitions into 147 completed
+and 35 pending, including the seven prior tool-filter deferrals. The overall goal
+remains active; nothing staged or committed. Whole-site verification passes: 407/407 diagrams build, 406 finished schematics
+publish, 402/402 documented NGS graph contracts pass, and all 813 site files have
+resolving relative links. Pairing and P5 lint have zero findings (the existing
+source-known PEM exemption remains). All 777 note pages are current.
+
+
+### Batch10 native graph migration
+
+Twelve more protocols now have verified native migrations: Tang2009, Quartz-Seq,
+Quartz-Seq2, Fiber-seq, SAMOSA-Tag, ScISOr-seq2, HiRES, LiMCA, iMARGI,
+sciPlex-ATAC-seq, spatial-ATAC-RNA-seq and spatial-CUT&Tag-RNA-seq. The
+[batch10 ledger](migration_rounds/2026-10-18-10.tsv) records bounded source passes separately from independent
+implementation reviews that read zero additional originals.
+
+Critical review corrected Tang's native P2 orientation and retained distal TT
+before PCR; Quartz-Seq2's opposite-strand adapter ligation and original terminal
+dA; SAMOSA's post-repair molecular mixture; ScISOr's capture-reagent timing;
+and the spatial assays' free molecular classes after bead removal. Native graphs
+keep actual incoming PCR material, original versus copied modifications, independent
+RNA/DNA/hash populations, physical allocations and source-known recovery steps.
+Completed product references never supply an unknown incoming PCR substrate.
+
+The spatial DNA reference uses source N501/N701 members conditionally; native RNA
+library ends and index acquisition remain unassigned. sciPlex's published capture
+LNA, gel-window and hash-read discrepancies stay public. Fiber-seq does not inherit
+a later SMRTbell kit. LiMCA preserves the source 13bp duplex/6nt overhang rather
+than repairing it by appending bases. The explicitly linked Wu2019 iMARGI original
+now enters the source guard from its existing canonical DOI cache; no source copies,
+recursive lookup or oligo exemption was added. Synthetic tests also exclude
+undeclared neighboring documents.
+
+All twelve focused suites, pages, chemistry checks, source guards and review schemas
+pass after critical review. Source guards check 73 strands with zero failures or
+exceptions, one absent dedicated bundle skipped (Quartz-Seq2 checks the actual
+shared original in its own suite), and 16 inputs without exact states. Shared 1280
+and source-fetcher 226 checks pass. All 410 runtime entries reconcile: 403 graph-backed,
+193 with only unresolved claims, no errors or contradictions; 390 still lack declared
+transition relations. These scoped results do not establish whole-protocol validation
+or accept a missing-information claim. The 57-row ownership queue stays intact.
+The original 182 cohort now partitions into 159 completed and 23 pending, including
+seven prior tool-filter deferrals. The overall goal remains active; nothing staged
+or committed. Whole-site integration passes: 407/407 diagrams build, 406 finished schematics
+publish, 402/402 documented NGS graph contracts pass and all 813 site files have
+resolving relative links. Pairing and P5 lint have zero findings (the existing
+source-known PEM exemption remains). Catalogue 83 checks pass; all 777 note pages
+are regenerated after the final checkpoint update.
+
+
+### Batch11 native graph migration
+
+Ten further migrations are verified: CAP-seq, icSHAPE, LAST-seq, PAIso-seq,
+Prox-seq, scGESTALT, scGRO-seq, SDR-seq and lentiCRISPR v1/v2. The
+[batch11 ledger](migration_rounds/2026-10-18-11.tsv) preserves each capped source pass and independent implementation
+review separately. Forty source-transcription checks pass; source guards check 31
+strands with zero failures, skips or exceptions and 20 inputs without exact states.
+
+Critical corrections retain icSHAPE's physical terminalddC and multipart degenerate
+UMI; LAST's original RNA/DNA/IVT lineage and unassigned index acquisition; PAIso's
+native single-stranded PCR precursor and distinct size-selection portions; Prox's
+actual plate-specific DNA-only preparation and constrained UMI encoding; scGESTALT's
+real 5µl allocation and duplex T7 input; and scGRO's source chemical residue versus
+ordinary copiedDNA, original populations and single-stranded native PCR material.
+SDR preserves its source V2 read allocation and public source discrepancies.
+
+The v1 screen no longer receives a later compatible Joung library as its own native
+endpoint: its original unread SupplementaryMethods remain an explicit boundary.
+The v2 source plasmid-construction and independent duplicate validation-PCR route
+retains actual synthesis-pool inputs, 5OH backbone/filler lineage, the 0.5µl assembly
+aliquot and independent technical QC barcodes. Guide identifiers persist through
+unplaced native inventories. A 150-cycle kit does not assign acquired read/index
+cycles. These graphs expose unresolved source/molecular transitions rather than
+claiming complete chemistry validation or accepting publication absence.
+
+The batch selected 16 protocols before reading. The worker handling four protocols
+was stopped by the content filter: Digital Telomere Measurement, scRRBS, meta3C and scDam&T-seq.
+Independent review of the partial Joung/Moffat implementations was also stopped.
+Those six remain pending; no retry, reassignment or migration-completion claim is
+recorded. Partial code is retained with compatible existing build entry points.
+Together with the seven earlier tool-filter deferrals, 13 entries remain pending.
+The original 182 cohort partitions into 169 completed and 13 pending, with all 57
+ownership-queue rows retained. All 410 runtime entries reconcile: 403 graph-backed,
+193 with only unresolved claims, 390 without declared transition relations and no
+errors or contradictions. Completion remains unproven: thirteen original-cohort migrations/reviews are
+incomplete. The same automatic content-filter blocker persists across the Batch09,
+Batch10 and Batch11 checkpoints; no remaining migration can proceed without an
+external change. The goal is blocked, not complete. Nothing staged or committed.
+Whole-site verification passes: 407/407 diagrams build, 406 finished schematics publish,
+402/402 documented NGS graph contracts pass and all 813 site files have resolving
+relative links. Pairing and P5 lint report zero findings (the source-known PEM
+exception remains); catalogue 83 checks pass. All 777 generated note pages are
+current after this final checkpoint update.

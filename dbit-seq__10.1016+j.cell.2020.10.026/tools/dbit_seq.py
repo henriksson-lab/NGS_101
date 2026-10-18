@@ -6,7 +6,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 
-from batch_ngs import nextera_library, seg
+import illumina as il
+import nextera as nx
+import seqprimers as sp
+from dataclasses import replace
+from protocol_model import molecule, role
 from adapter_ligation import AdapterLigationGeometry
 from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
                       complement_segments, feature, oligo, revcomp)
@@ -14,20 +18,21 @@ from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
 
+seg=Segment
 
 TITLE = "DBiT-seq — deterministic barcoding in tissue"
 NOTES = "01_dbit-seq.html"
 SOURCE = ('Defining source: <a href="https://doi.org/10.1016/j.cell.2020.10.026">'
           'Liu et al., <i>Cell</i> (2020)</a>; exact oligos: '
           '<a href="https://doi.org/10.1016/j.xpro.2021.100532">'
-          'Liu et al., <i>STAR Protocols</i> (2021)</a>.')
+          'Su et al., <i>STAR Protocols</i> (2021)</a>.')
 SUMMARY = ("Two perpendicular 50-channel microfluidic flows install an 8-nt A barcode "
            "during reverse transcription and ligate an 8-nt B barcode plus UMI at each "
            "channel intersection, creating up to 2,500 addressable tissue pixels.")
 CAVEAT = ("The exact A and B whitelist entries vary by channel. This page uses A-1 and "
           "B-1 printed in the authors' 2021 STAR Protocols Table S2 to show the splinted "
           "ligation geometry. The defining 2020 Cell article points to its own Table S2; "
-          "that original workbook has not yet been recovered here, so exact 2020/2021 "
+          "that original workbook remains an unresolved source target, so exact 2020/2021 "
           "oligo-table identity remains under source review. "
           "<b>Model correction (2026-10-17):</b> earlier versions of this page placed the "
           "spatial address at the Read 1 end and drew the Primer 2 handle in the wrong "
@@ -35,7 +40,7 @@ CAVEAT = ("The exact A and B whitelist entries vary by channel. This page uses A
           "Cell analysis extracts UMI/Barcode A/Barcode B from Read 2, so the address is now "
           "read by Read 2 and the first-strand 3′ end carries the template-switch-oligo "
           "complement. The P5 oligo in Table S2 carries a fixed i5 (TAGATCGC), drawn here "
-          "as a generic i5 window. The antibody-tag (ADT) branch (0.6× supernatant, 2× "
+          "as its source-defined fixed index. The detailed native graph selects the 2021 implementation reference (including its 0.8× cDNA cleanup), not an asserted reconstruction of the 2020 Table S2. The 2020 Cell Methods instead use 0.6× cDNA fractionation.  The antibody-tag (ADT) branch (0.6× supernatant, 2× "
           "AMPure, 10-cycle PCR with P7 and P5-cite primers, pooled 1:9) is not drawn.")
 
 BARCODE_A = feature("spatial_barcode_a", "spatial_barcode", "whitelist",
@@ -49,6 +54,7 @@ UMI_FEATURE = feature("umi", "umi", "random")
 # STAR Protocols Table S2, written 5′→3′.
 A_LINKER = "AGGCCAGAGCATTCG"
 A1_BARCODE = "AACGTGAT"
+A_POLYT_NT=15 # literal2021 TableS2 A1 tract after its8-base barcode
 B_LINKER = "ATCCACGTGCTTGAG"
 B1_BARCODE = "AACGTGAT"
 B_PCR_HANDLE = "CAAGCGTTGGCTTCTCGCATCT"
@@ -70,7 +76,7 @@ if LIGATION_SPLINT != revcomp(B_LINKER + A_LINKER):
 def a_oligo() -> list[Segment]:
     return [seg("A linker", A_LINKER, "me"),
             seg("barcode A", A1_BARCODE, "cbc", feature=BARCODE_A),
-            seg("poly(dT)16", "T" * 16), seg("V", "V", placeholder=True),
+            seg("poly(dT)15", "T" * A_POLYT_NT), seg("V", "V", placeholder=True),
             seg("N", "N", placeholder=True)]
 
 
@@ -85,7 +91,7 @@ def rt_scene() -> Scene:
     mrna = [seg("transcript", "R" * 34, placeholder=True),
             seg("poly(A)", "A" * 18, placeholder=True)]
     sc = Scene(); sc.strand("mRNA", mrna, label="polyadenylated RNA")
-    sc.anneal("A oligo", a_oligo(), to="mRNA", pair=("poly(dT)16", "poly(A)"),
+    sc.anneal("A oligo", a_oligo(), to="mRNA", pair=("poly(dT)15", "poly(A)"),
               label="Barcode A-1", mod5="p", unpaired=("A linker", "barcode A", "V", "N"))
     sc.mark("A oligo", "A linker", "5′-phosphorylated A linker remains unpaired")
     sc.arrow("A oligo", "reverse transcriptase")
@@ -165,14 +171,28 @@ P7_701 = ("CAAGCAGAAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG"
 FINAL_INSERT = [seg("cDNA insert (transcript sense)", "X" * 34, placeholder=True),
                 seg("N complement", "N", placeholder=True),
                 seg("V complement", "B", placeholder=True),
-                seg("poly(A)16", "A" * 16),
+                seg("poly(A)15", "A" * A_POLYT_NT),
                 seg("barcode A (rc)", revcomp(A1_BARCODE), "cbc", feature=BARCODE_A),
                 seg("A linker (rc)", revcomp(A_LINKER), "me"),
                 seg("B linker (rc)", revcomp(B_LINKER), "me"),
                 seg("barcode B (rc)", revcomp(B1_BARCODE), "cbc", feature=BARCODE_B),
                 seg("UMI (rc)", "N" * 10, "umi", placeholder=True, feature=UMI_FEATURE),
                 seg("B PCR handle (rc)", revcomp(B_PCR_HANDLE), "r1")]
-FINAL_LIBRARY, SEQ_PRIMERS = nextera_library(FINAL_INSERT, "DBiT-seq mRNA library")
+P5_OLIGO = il.P5 + "TAGATCGC" + nx.ADAPTOR_S5
+I5_FEATURE=feature("sample_index_i5","sample_index","fixed",note="STAR2021 TableS2 P5 fixed TAGATCGC")
+I7_FEATURE=feature("sample_index_i7","sample_index","whitelist",whitelist="STAR2021 TableS2 P7 701–706")
+# Source-owned physical primers install the ends; no endpoint recipe chooses indexes.
+FINAL_LIBRARY=Construct([
+    Segment("P5",il.P5,"p5"),Segment("fixed i5","TAGATCGC",feature=I5_FEATURE),
+    Segment("S5",nx.S5,"s5"),Segment("left mosaic end",nx.ME,"me"),*FINAL_INSERT,
+    Segment("right mosaic end reverse complement",nx.ME_RC,"me"),
+    Segment("S7 reverse complement",nx.S7_RC,"s7"),
+    Segment("P7-701 index reverse complement",revcomp(P7_701[len(il.P7):len(il.P7)+8]),feature=I7_FEATURE),
+    Segment("P7 reverse complement",il.P7_RC,"p7")],name="2021 TableS2 DBiT mRNA library reference (A1/B1/P7-701)")
+SEQ_PRIMERS=(sp.NEXTERA["R1"],sp.NEXTERA["R2"])
+errors=sp.verify(FINAL_LIBRARY,SEQ_PRIMERS,required_roles=("Read 1","Read 2"))
+if errors:raise ValueError("DBiT source endpoint: "+"; ".join(errors))
+
 if "".join(s.top for s in FINAL_LIBRARY if s.name in (
         "B PCR handle (rc)", "right mosaic end reverse complement")) != revcomp(
         P7_701[P7_701.index("AGATGTGTATAAGAGACAG"):]):
@@ -181,13 +201,10 @@ FINAL_CAPTION = ("mRNA library: Nextera XT Amplicon Tagment Mix cuts the amplifi
                  "PCR with the P5 oligo (Tn5 S5 end) and an indexed P7 oligo whose 3′ end is "
                  "the Barcode B handle keeps the transcript fragment joined to the A–B "
                  "address (STAR Protocols steps 60–66, Table S2).")
-SEQUENCING_INTRO = ("HiSeq 4000 paired-end 100×100 (Cell STAR Methods). Read 1 enters the "
-                    "Tn5-cut transcript end; Read 2 crosses the B handle and reads UMI, "
-                    "Barcode B and Barcode A, as the Cell analysis extracts them from Read 2.")
-READ_LENGTHS = {"Read 1": 100, "Index 1 (i7)": 8,
-                "Index 2 (i5)": 8, "Read 2": 100}
-READ_USES = {"Read 1": "include", "Index 1 (i7)": "demultiplex",
-             "Index 2 (i5)": "demultiplex", "Read 2": "extract"}
+SEQUENCING_INTRO = ("Geometry-only 2021 TableS2 reference: Read1 can enter the Tn5-cut transcript end, and Read2 can cross the B handle into UMI/B/A identifiers. No acquired reads or cycle spans are assigned to this later implementation. The defining 2020 Cell article separately reports HiSeq4000 paired100/100; that historical run is not transferred to this reference.")
+READ_LENGTHS={}
+READ_USES={"Read 1":"include","Read 2":"extract"}
+SEQUENCING_ENDING="2021 physical index values and compatible primer sites do not establish acquisition, run length or physical sequencing reagent identity. The source2020 run is a separate historical reference."
 
 
 def workflow() -> Workflow:
@@ -224,94 +241,85 @@ def oligos():
     ]
 
 
+def first_cdna_parts(*, switched=False):
+    parts=[*a_oligo(),role("transcript-derived cDNA; variable length")]
+    if switched:parts.append(Segment("template-switch oligo complement",revcomp(TSO_DNA)))
+    return parts
+
+
+def joined_cdna_parts(*, switched=False):
+    return [*b_oligo(),*first_cdna_parts(switched=switched)]
+
+
 def protocol_graph():
+    detailed="Su et al. STAR Protocols2021 PMC8132129 detailed implementation; exact TableS2 examples; not established2020 TableS2 identity"
     graph=ProtocolGraph(TITLE,authority=SOURCE)
-    tissue=graph.input("tissue_rna","polyadenylated RNA in fixed tissue",
-                       MaterialKind.BIOLOGICAL,primary=True)
-    a_oligo_input=graph.input("a_oligo","phosphorylated Barcode A oligo-dT",
-                              MaterialKind.OLIGO,state=tuple(rt_scene().rows()))
-    rt=graph.input("reverse_transcriptase","reverse transcriptase",MaterialKind.CATALYST)
-    a_cdna=graph.product("a_cdna","A-coordinate first-strand cDNA",
-                         MaterialKind.MOLECULAR,state=tuple(rt_scene().rows()))
-    graph.react("reverse_transcribe","Flow Barcode A and reverse-transcribe tissue RNA",
-                StepKind.REVERSE_TRANSCRIPTION,
-                ((tissue,InputRole.TEMPLATE),(a_oligo_input,InputRole.STRUCTURAL),
-                 (rt,InputRole.CATALYST)),(a_cdna,))
-    b_oligo_input=graph.input("b_oligo","biotinylated Barcode B oligo",
-                              MaterialKind.ADAPTER,state=tuple(b_oligo()))
-    splint=graph.input("ligation_splint","universal B-A ligation splint",
-                       MaterialKind.ADAPTER,state=(Segment("universal ligation linker",LIGATION_SPLINT),))
+    tissue=graph.input("tissue_rna","polyadenylated RNA in fixed tissue (mRNA route)",MaterialKind.BIOLOGICAL,
+        state=molecule("tissue RNA",(role("transcript"),role("poly(A)"))),primary=True)
+    a=graph.input("a_oligo","2021 TableS2 5′phosphorylated BarcodeA1",MaterialKind.OLIGO,
+        state=molecule("BarcodeA1",tuple(a_oligo())),source=detailed)
+    rt=graph.input("reverse_transcriptase","Maxima H Minus reverse transcriptase",MaterialKind.CATALYST,source=detailed)
+    first=graph.product("a_cdna","single-stranded A-coordinate cDNA",MaterialKind.MOLECULAR,
+        state=molecule("first-strand A-cDNA",tuple(first_cdna_parts())))
+    graph.react("reverse_transcribe","2021 reference — flow A oligo and reverse-transcribe",StepKind.REVERSE_TRANSCRIPTION,
+        ((tissue,InputRole.TEMPLATE),(a,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(first,),source=detailed)
+    b=graph.input("b_oligo","2021 TableS2 5′biotin BarcodeB1",MaterialKind.ADAPTER,state=molecule("BarcodeB1",tuple(b_oligo())),source=detailed)
+    splint=graph.input("ligation_splint","universal B–A linker",MaterialKind.OLIGO,
+        state=molecule("splint",(Segment("linker",LIGATION_SPLINT),)),source=detailed)
     ligase=graph.input("ligase","T4 DNA ligase",MaterialKind.CATALYST)
-    sealed=graph.product("sealed","sealed B-A spatial barcode junction",
-                         MaterialKind.MOLECULAR,state=tuple(ligation_scene().rows()))
-    graph.react("ligate_ba","Seal the Barcode B-to-A nick",StepKind.LIGATION,
-                ((a_cdna,InputRole.TEMPLATE),(b_oligo_input,InputRole.STRUCTURAL),
-                 (splint,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),
-                (sealed,),geometry=ligation_geometry())
-    streptavidin=graph.input("streptavidin","Dynabeads MyOne Streptavidin C1",
-                            MaterialKind.SELECTION)
-    lysis=graph.input("lysis","Proteinase K lysis (2 mg/mL, 2% SDS, 55 °C 2 h), PMSF quench",
-                      MaterialKind.CONDITION)
-    recovered=graph.product("recovered","recovered biotinylated spatial cDNA",
-                            MaterialKind.MOLECULAR)
-    unrecovered=graph.product("unrecovered","unbiotinylated tissue material",
-                              MaterialKind.WASTE)
-    graph.react("recover","Recover biotinylated spatial cDNA",StepKind.AFFINITY_CAPTURE,
-                ((sealed,InputRole.TEMPLATE),(streptavidin,InputRole.SELECTION),
-                 (lysis,InputRole.CONDITION)),
-                (recovered,unrecovered))
-    graph.discard(unrecovered,"material without the biotinylated Barcode B oligo is washed away")
-    tso=graph.input("tso","template-switch oligo: "+TEMPLATE_SWITCH_PRIMER,MaterialKind.OLIGO,
-                    state=(Segment("template-switch oligo",PRIMER_2+"GAATGGG"),),
-                    source=SOURCE+" (STAR Protocols Supplementary Table S2)")
-    switched=graph.product("switched","template-switched spatially barcoded cDNA",
-                           MaterialKind.MOLECULAR,state=tuple(amplified_scene().rows()))
-    graph.react("template_switch","Install the distal cDNA handle by template switching",
-                StepKind.TEMPLATE_SWITCHING,
-                ((recovered,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),
-                 (rt,InputRole.CATALYST)),(switched,))
-    p1=graph.input("primer1","Primer 1 at the Barcode B handle",MaterialKind.OLIGO,
-                   state=(Segment("Primer 1",B_PCR_HANDLE),))
-    p2=graph.input("primer2","Primer 2 at the template-switch handle",MaterialKind.OLIGO,
-                   state=(Segment("Primer 2",PRIMER_2),))
-    preamp_pol=graph.input("preamp_polymerase","Kapa HiFi HotStart (5 cycles on beads, then qPCR-monitored to plateau)",
-                           MaterialKind.CATALYST)
-    amplified=graph.product("amplified","amplified spatially barcoded cDNA",
-                            MaterialKind.MOLECULAR,state=tuple(amplified_scene().rows()))
-    graph.react("preamp","Amplify the spatially barcoded cDNA",StepKind.PCR,
-                ((switched,InputRole.TEMPLATE),(p1,InputRole.STRUCTURAL),
-                 (p2,InputRole.STRUCTURAL),(preamp_pol,InputRole.CATALYST)),
-                (amplified,),geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY,reason="The exact Primer 1/2 sequences are known, but the compact graph does not reconstruct both strands of the preamplification substrate."))
-    transposome=graph.input("transposome","Nextera XT Amplicon Tagment Mix (0.75–1 ng cDNA, 55 °C 5 min)",
-                            MaterialKind.ADAPTER)
+    sealed=graph.product("sealed","covalently sealed B–A spatially barcoded cDNA",MaterialKind.MOLECULAR,state=ligation_scene())
+    graph.react("ligate_ba","Seal B3′OH to A5′phosphate at the splinted nick",StepKind.LIGATION,
+        ((first,InputRole.TEMPLATE),(b,InputRole.STRUCTURAL),(splint,InputRole.STRUCTURAL),(ligase,InputRole.CATALYST)),(sealed,),geometry=ligation_geometry(),source=detailed)
+    beads=graph.input("streptavidin","Dynabeads MyOne StreptavidinC1; twoB&W washes and Tris/Tween rinse",MaterialKind.SELECTION)
+    lysis=graph.input("lysis","2mg/mL ProteinaseK,2%SDS,55°C2h; PMSF quench",MaterialKind.CONDITION)
+    recovered=graph.product("recovered","bead-retained biotinylated ss cDNA",MaterialKind.MOLECULAR,
+        state=molecule("recovered B–A cDNA",tuple(joined_cdna_parts())))
+    waste=graph.product("unrecovered","removed lysate/wash fractions",MaterialKind.WASTE)
+    graph.react("recover","Lyse tissue and capture biotinylated spatial cDNA",StepKind.AFFINITY_CAPTURE,
+        ((sealed,InputRole.TEMPLATE),(beads,InputRole.SELECTION),(lysis,InputRole.CONDITION)),(recovered,waste),source=detailed)
+    graph.discard(waste,"Source capture/wash transfers remove supernatants; component recovery is not quantitatively assigned")
+    tso=graph.input("tso","TableS2 TSO rGrG+G; Maxima buffer/Ficoll/dNTP",MaterialKind.OLIGO,
+        state=molecule("TSO",(Segment("DNA part",PRIMER_2+"GAAT"),Segment("modified guanosines","GGG",note="rGrG+G"))),source=detailed)
+    switched=graph.product("switched","single-stranded switched B–A cDNA",MaterialKind.MOLECULAR,
+        state=molecule("switched ss cDNA",tuple(joined_cdna_parts(switched=True))))
+    graph.react("template_switch","Template-switch recovered cDNA (RT30min,42°C90min)",StepKind.TEMPLATE_SWITCHING,
+        ((recovered,InputRole.TEMPLATE),(tso,InputRole.STRUCTURAL),(rt,InputRole.CATALYST)),(switched,),source=detailed)
+    p1=graph.input("primer1","TableS2 Primer1",MaterialKind.OLIGO,state=Construct([Segment("Primer1",B_PCR_HANDLE)]),source=detailed)
+    p2=graph.input("primer2","TableS2 Primer2",MaterialKind.OLIGO,state=Construct([Segment("Primer2",PRIMER_2)]),source=detailed)
+    pol=graph.input("preamp_polymerase","KAPA HiFi HotStart; five cycles on beads, then monitored amplification",MaterialKind.CATALYST)
+    amplicon=graph.product("amplified","duplex B–A cDNA amplicon",MaterialKind.MOLECULAR,state=amplified_scene())
+    graph.react("preamp","Amplify with Primer1/Primer2",StepKind.PCR,
+        ((switched,InputRole.TEMPLATE),(p1,InputRole.STRUCTURAL),(p2,InputRole.STRUCTURAL),(pol,InputRole.CATALYST)),(amplicon,),
+        geometry=PCRGeometry.unavailable(switched.state,reason="Actual incoming cDNA is single stranded; native first-cycle primer pairing is not implemented. Known final amplicon is not substituted as its template."),source=detailed)
+    clean_beads=graph.input("cdna_beads","2021 steps45–59:0.8×KAPA Pure,15µl elution",MaterialKind.SELECTION)
+    clean=graph.product("clean_cdna","purified cDNA for tagmentation",MaterialKind.MOLECULAR,state=amplicon.state)
+    clean_waste=graph.product("cdna_waste","0.8×supernatant and ethanol washes",MaterialKind.WASTE)
+    graph.react("cdna_cleanup","2021 implementation: purify cDNA with0.8×beads",StepKind.CLEANUP,
+        ((amplicon,InputRole.TEMPLATE),(clean_beads,InputRole.SELECTION)),(clean,clean_waste),changes_molecule=False,source=detailed)
+    graph.discard(clean_waste,"2021 steps49–53 physically discard supernatant/ethanol; not substituted for2020 Cell0.6×modality split")
+    transposome=graph.input("transposome","Nextera XT Amplicon Tagment Mix;0.75–1ng,55°C5min; NT buffer5minRT",MaterialKind.ADAPTER,source=detailed)
     tn5=graph.input("tn5","Tn5 transposase",MaterialKind.CATALYST)
-    tagged=graph.product("tagged","Nextera-tagged spatial cDNA",MaterialKind.MOLECULAR)
-    tagment_waste=graph.product("tagment_waste","candidate fragments lacking the B-handle end",
-                                MaterialKind.WASTE)
-    graph.react("tagment","Tagment amplified spatial cDNA",StepKind.TAGMENTATION,
-                ((amplified,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),
-                 (tn5,InputRole.CATALYST)),(tagged,tagment_waste))
-    graph.discard(tagment_waste,"not exponentially amplified by the P5 + B-handle P7 pair; "
-                  "not separately removed, only diluted and size-trimmed by the 0.7× KAPA Pure cleanup")
-    i5=graph.input("i5_primer","P5 oligo (Table S2; S5/mosaic-end 3′ end, fixed i5)",MaterialKind.OLIGO)
-    i7=graph.input("i7_primer","indexed P7 oligo 701–706 (Table S2; 3′ end = Barcode B handle)",
-                   MaterialKind.OLIGO,state=(Segment("P7 oligo (701)",P7_701),))
-    index_pol=graph.input("index_polymerase","index PCR polymerase",MaterialKind.CATALYST)
-    library=graph.product("library",FINAL_LIBRARY.name,MaterialKind.LIBRARY,
-                          state=FINAL_LIBRARY)
-    graph.react("index_pcr","Complete and index the Nextera library",StepKind.PCR,
-                ((tagged,InputRole.TEMPLATE),(i5,InputRole.STRUCTURAL),
-                 (i7,InputRole.STRUCTURAL),(index_pol,InputRole.CATALYST)),
-                (library,),geometry=PCRGeometry.unavailable(
-                    FINAL_LIBRARY,reason="Index-member identities vary; the P7 oligo primes the Barcode B handle while the P5 oligo primes the Tn5 S5 end (STAR Protocols step 64, 12 cycles)."))
-    graph.sequence(library,SequencingPlan(
-        library=FINAL_LIBRARY,primers=tuple(SEQ_PRIMERS),read_lengths=READ_LENGTHS,
-        read_uses=READ_USES))
-    graph.declare_reviewed_scope((
-        "tissue_rna","a_oligo","reverse_transcriptase","reverse_transcribe",
-        "b_oligo","ligation_splint","ligase","ligate_ba","streptavidin","lysis",
-        "recover","tso","template_switch","primer1","primer2",
-        "preamp_polymerase","preamp","transposome","tn5","tagment",
-        "i5_primer","i7_primer","index_polymerase","index_pcr","library"),SOURCE)
+    tagged=graph.product("tagged","tagmented cDNA population; native ends unassigned",MaterialKind.MOLECULAR,
+        state=molecule("actual pre-index tagmented population",(role("tagmented cDNA with possible B-handle retention; native end geometry unassigned"),)))
+    off=graph.product("tagment_other","candidate fragments lacking the B handle",MaterialKind.MOLECULAR)
+    graph.react("tagment","Tagment the amplified cDNA",StepKind.TAGMENTATION,
+        ((clean,InputRole.TEMPLATE),(transposome,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),(tagged,off),source=detailed)
+    from protocol_graph import Disposition,Terminal
+    graph.mark_terminal(Terminal(off.id,Disposition.UNRESOLVED,"Lack of exponential amplification is not physical removal; recovery through later cleanup unassigned."))
+    ip5=graph.input("i5_primer","2021 P5 fixed i5TAGATCGC",MaterialKind.OLIGO,state=Construct([Segment("P5 oligo",P5_OLIGO)]),source=detailed)
+    ip7=graph.input("i7_primer","2021 P7-701 representative",MaterialKind.OLIGO,state=Construct([Segment("P7-701",P7_701)]),source=detailed)
+    ipol=graph.input("index_polymerase","PCR master mix,12cycles per2021step65",MaterialKind.CATALYST)
+    raw=graph.product("index_pcr_product","2021 primer-derived indexed mRNA library",MaterialKind.MOLECULAR,state=FINAL_LIBRARY)
+    graph.react("index_pcr","2021 reference — amplify with P5/P7-701",StepKind.PCR,
+        ((tagged,InputRole.TEMPLATE),(ip5,InputRole.STRUCTURAL),(ip7,InputRole.STRUCTURAL),(ipol,InputRole.CATALYST)),(raw,),
+        geometry=PCRGeometry.unavailable(tagged.state,reason="Actual tagmented incoming population and first-cycle ends are unassigned. The source-primer-derived final reference is not a pre-PCR duplex."),source=detailed)
+    final_beads=graph.input("final_beads","2021 step66:0.7×KAPA Pure cleanup",MaterialKind.SELECTION)
+    final=graph.product("library","purified2021 reference mRNA sequencing library",MaterialKind.LIBRARY,state=FINAL_LIBRARY)
+    final_waste=graph.product("final_waste","0.7×supernatant and ethanol wash material",MaterialKind.WASTE)
+    graph.react("index_cleanup","Purify indexed library with0.7×KAPA Pure",StepKind.CLEANUP,
+        ((raw,InputRole.TEMPLATE),(final_beads,InputRole.SELECTION)),(final,final_waste),changes_molecule=False,source=detailed)
+    graph.discard(final_waste,"2021step66 follows physical supernatant/wash removals")
+    graph.sequence(final,SequencingPlan(library=FINAL_LIBRARY,primers=SEQ_PRIMERS,acquisition="unspecified",read_uses=READ_USES,
+        limitation="Geometry-only2021 TableS2 endpoint reference; acquired reads/cycles unassigned. Published2020PE100/100 remains a separate historical narrative, not a run declaration for this later implementation. Exact2020oligo-table identity unresolved."))
+    graph.declare_reviewed_scope(("tissue_rna","a_oligo","reverse_transcriptase","reverse_transcribe","b_oligo","ligation_splint","ligase","ligate_ba","streptavidin","lysis","recover","tso","template_switch","primer1","primer2","preamp_polymerase","preamp","cdna_beads","cdna_cleanup","transposome","tn5","tagment","i5_primer","i7_primer","index_polymerase","index_pcr","final_beads","index_cleanup","library"),detailed)
     return graph.require_publishable()

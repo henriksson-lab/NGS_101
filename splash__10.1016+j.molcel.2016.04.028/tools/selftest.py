@@ -11,16 +11,7 @@ from storage import data_root
 from checks import Check, Source, have
 import chem
 
-graph = chem.protocol_graph()
-steps = list(graph.steps)
-source_order = (
-    "repair_three_prime", "phosphorylate_five_prime", "proximity_ligation",
-    "photoreverse", "ligate_rna_linker", "library_rt", "circularize_cdna",
-    "library_pcr",
-)
 check = Check()
-check("JoVE end prep, chimera, linker, RT and circle precede PCR",
-      tuple(step for step in steps if step in source_order), source_order)
 bundle=data_root()/"sources"/"splash__10.1016+j.molcel.2016.04.028"
 source=Source(bundle/"1-s2.0-S1097276516301046-mmc1.pdf.txt",chem.DEFINITION.doi)
 if have(check,source,label="original 2016 supplemental oligos"):

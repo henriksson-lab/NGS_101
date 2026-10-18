@@ -153,6 +153,50 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "suite 7/7 pass; page builds; pairing 0 problems; chemistry 9 established/0 conditional/17 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 13 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "documents": 3,
+      "locations": "Published2024 PMC11323187 JATS Methods136–177 (RT before MseI/CviQI digestion, T4proximityligation/no fill-in, DdeI, barcode rounds, PK/isopropanol/streptavidin split, sequencing/demultiplexing); published Supplementary Methods MOESM1 lines84–132; published Table1 MOESM3 sheets1a/1b and representativeA1 rows1c–1i. Original XLSX rich-text index coloring inspected for Trueseq-F-L-1.",
+      "findings": "Removed shared RNA splint/default barcode length, proximity constructor and terminal finishers. Source-owned local RNA splint geometry includes Round2 N10 UMI. Actual RNA first-strand/barcoded/G-tailed precursor distinct from final library; DNA capped/pre-amplified/pre-index precursors explicit. Source pre-PCR/final PCR and branch-specific tagmentation/NT-stop/cleanups local. Tn5 end-class off-products unresolved, not physically discarded by nonamplification. Corrected repository transcription: Post-TdT primer AGAGTGAA+C12 (12 total terminalCs); RNAi5 CATGCGAGAA is10nt per green originalrich-text span C ATG CGA GAA, not12nt with duplicated canonicalAC. Physical terminal primers now match original. PE150 declared, acquired index cycles remain unassigned. DNA endpoint stays inferred due source12nt read1trim/start ambiguity.",
+      "deferred": [
+        "DNA read1 12nt trim versus conditional Tn5 start",
+        "Complete native adapter/blocker/first-cycle/gap geometry",
+        "Index acquisition/cycle counts",
+        "Cited predecessor/kit implementations beyond selected3 originals",
+        "Superseded preprint excluded, not re-read"
+      ],
+      "round": "2026-10-18-batch02-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "oligo_scraper": "Bundle scraper run; source-line pointers verified directly. GAGE large workbook additionally loaded with targeted --find RT_HANDLE and AD2 queries; default large-file skip is not an absence finding.",
+      "scope": "Capped source-owned native graph migration only; existing missing-information gate remains blocked. No source absence accepted.",
+      "verification": "Focused suite 12/12 pass; page builds; pairing0; chemistry 6 established/27 unresolved/0 contradictory; review schema and Markdown build pass; final source guard33checked/0failed/0exemptions/6unassigned inputs across batch after shared parser correction; diffcheck clean."
+    },
+    {
+      "round": "2026-10-18-batch02-independent-implementation-correction",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Local GAGE module/read-table rendering; existing batch02 three-original migration scope referenced, no originals re-read.",
+      "findings": "Parent review found that generic R1/R2-only geometry filled omitted index roles with negative acquisition rows. Local explicit READ_SPECS plus suppressed generic read-content table now retain PE150 and conditional DNA read1 start while all four index rows say cycles unassigned and handling Undetermined. Physical index feature identities and primer geometry preserved.",
+      "deferred": [
+        "Existing source migration limits including DNA read1 start and native PCR/gap geometry remain; no additional source review undertaken."
+      ],
+      "scope": "Implementation-only correction; no new source reading or accepted missing-information claim.",
+      "verification": "12/12 suite; page/pairing pass; chemistry6established/27unresolved/0contradictory; rendered table checked for explicit unassigned index rows and no negative index acquisition; review schema/notes build checked."
+    },
+    {
+      "round": "2026-10-18-batch02-parent-implementation-review",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current native graph modules: actual ss/captured/PCR substrates, barcode propagation, independent modalities and source kit boundaries, cleanups/terminal fates, declared sequencing plans and explicit reviewed-target tuples. Originals not re-read in this independent implementation pass.",
+      "oligo_scraper": "No new original-source reading; author scraper/source-transcription scope retained separately.",
+      "findings": "No further critical defect found in reviewed molecular boundaries. GAGE generated index non-acquisition claims identified and corrected to explicit source read specifications; original PE150 retained while index acquisition/cycles remain unassigned. G&T keeps historical-kit steps explicitly unresolved; easySHARE retains source-defined identifiers and actual precursors.",
+      "deferred": [
+        "Existing native geometry/source follow-ups and linked-source obligations remain unchanged."
+      ],
+      "scope": "Implementation-only independent review, not new source or absence acceptance."
     }
   ]
 }

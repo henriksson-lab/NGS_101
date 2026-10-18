@@ -156,6 +156,38 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "selftest 1/1 pass; page builds; pairing 0 problems; chemistry 2 established/1 conditional/11 unresolved/0 contradictory over 11 steps; source guard 2 exact checked, 0 failed, 9 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-batch05-independent-implementation-review",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "Current tools/chem.py native input/product/geometry/terminal/read declarations; parent-supplied existing source scope: defining2016 main82–88/69, citedSmallwood2014 Methods78–80, citedG&T2015 originalpp13–14/text315–350. None of these originals were reread in this implementation pass. Final post-PCR0.8×cleanup lines139–146 independently rereviewed after parent addition.",
+      "scope": "Independent code-only critical review; no source expansion, absence acceptance or status upgrade.",
+      "findings": "No concrete critical defect found. Actual captured-biotin RNA/cDNA ss and switched-ss states supply ISPCR geometry; recovered cDNA supplies native XT-tagged PCR precursor without a completed endpoint substitution. Independent converted DNA originals and oligo1/oligo2 copy populations preserve sourceN6 inheritance, while oligo1 native5′biotin/chemistry remains explicitly unassigned despite omitted affinity capture. ExoI hydrolysis is distinct from physical cleanup. Actual copied DNA enters PE1.0/iPCRTag PCR, with selected index member/width and complete native assembly unassigned. Sequenced primer-derived non-genomic products remain a retained class rather than waste. Verified final source-qualified0.8×postPCR cleanup consumes both genomic and primer-derived classes, co-recovers both as sequencing outputs, and represents separate physical supernatant/wash waste without claiming complete contamination removal.",
+      "deferred": [
+        "Native first-cycle RT/switch/PCR end geometry and exact2016TSO assignment",
+        "Selected XT/iPCRTag members, native complete index architecture and acquired index cycles",
+        "Exact primer-derived contamination assembly/formation stage and class-specific recovery",
+        "Linked-source breadth remains as existing source scope; no absence gate completed"
+      ],
+      "verification": "Read-only critical implementation review except this documents0 record. Parent owns focused and shared final verification; schema checked after append."
+    },
+    {
+      "round": "2026-10-18-batch05-native-graph-migration",
+      "reviewer": "root",
+      "date": "2026-10-18",
+      "documents": 3,
+      "locations": "Published PMC4770512 JATS Methods82–88 and main primer-contamination observation; cited Smallwood2014 PMC4117646 Methods78–80 (Single-Cell Library Preparation); cited G&T2015 publisher original zenodo895966_nmeth.3370_article.pdf.txt pp13–14/lines315–350 in the G&T bundle. No additional original or later G&T revision read.",
+      "oligo_scraper": "Mandatory bundle scraper:19hits/fivehitfiles; five11–33MB analysis files skipped. No absence inferred.",
+      "findings": "Local native RNA/DNA graph replaces queued Smart-seq2/scBS/finisher endpoint recipes. Cited2015 biotin-triethyleneglycol capture/T30VN, AC+rGrG+G TSO and ISPCR source-qualified; native2016 TSO assignment inferred. Actual switched ss-cDNA enters one-species PCR; native XT-tagged state enters index PCR. DNA source N6 substitutions, no first-strand biotin capture, physical U conversion, original/copy populations, ExoI hydrolysates, inherited bead recoveries and extra0.8x prePCR recovery explicit. Actual copied mixture enters PE1/iPCRTag PCR, with native index/5prime chemistry unassigned. Primer-derived non-genomic products are co-recovered sequenced classes, not waste. Both outputs PE125; acquired indexes unassigned.",
+      "deferred": [
+        "G&T2015 S1 supplement; Smallwood binary Word supplement; historical NexteraXT guide",
+        "Study-specific TSO choice, complete first-copy and native XT/index/iPCRTag geometry and acquisition",
+        "Exact primer-derived product assembly/formation stage and molecular-class recovery"
+      ],
+      "scope": "Three-original capped pass and local native implementation; preserves historical source status and missing-information gate. No accepted absence or entire-chemistry certification.",
+      "verification": "Focused parent suite/page/chemistry/sourceguard/review-schema/pairing and whole-site checks recorded after final implementation review."
     }
   ]
 }

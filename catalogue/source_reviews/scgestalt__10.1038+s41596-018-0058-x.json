@@ -127,6 +127,35 @@
       ],
       "scope": "Capped defining-source pass on the Nature Protocols article and its MOESM1 supplement only; no inDrops predecessor reading, no full chemistry validation and no accepted missing-information claim. The protocol's existing blocked status for inDrops capture oligos is unchanged.",
       "verification": "local suite (comment-only, no explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/22 unresolved/0 contradictory over 18 steps; source guard 6 exact oligos checked, 0 failed, 3 inputs without exact states; Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-18-batch11-native-graph-migration",
+      "reviewer": "multimodal_migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "PublishedPMC6279253 ReagentsprimerTable263–273, Procedure82–105 approximately731–941 andFig3b/c; publishedMOESM1 originalSupplementaryTable2ix1–24, includingix1–6 approximately91–116.",
+      "oligo_scraper": "Mandatory sourcebundle scraper run; publishedoriginal sourcepassages and modifications verified ratherthan treating hits asfacts. Large dataworkbooks notexpanded; supersededpreprints excludedfromactiveauthority.",
+      "findings": "Source-owned graph replaces rna_cell_assays defaultendpoints/states. ActualfirstSS, sourcepositive secondstrand/T7promoterduplex, IVTRNA and original/copyfates are distinguished. Both9µl expression and5µl unfragmentedlineage allocations retain the full transcriptmixture ratherthan modalitypurification; unallocatedRNA isunresolved. SourcePrimeScript randomhexamerSS feeds actualnestedPCRinputs, followedsourcecleanups/finalindexPCR. GP12N9 remains diversity, notUMI; multipartcellID andN6UMI persist withsource8ntlibraryindex identity. Bothknown61/8/8/14 expression and250/8/8/14 lineage runs remain. Publicprimer-tablecrossreference andround2cycle-row discrepancies are preserved.",
+      "deferred": [
+        "inDrops citedsource73 nativecapture/bead/RT/secondstrand/expressionlibrary components not read thispass; reactionorder known fromdefiningFig3/Procedure isretained without exactnativegeometry.",
+        "Lineageeditedarray sequence/extent is source/sampledependent; no generic44ntinsert default.",
+        "Round2amplificationcount remains sourceambiguous; final55°Ctwo+65°Csix-to-eightcycles sourcequalified."
+      ],
+      "scope": "Cappednativegraph migration only; historicalreviewstatuses and missing-information gate unchanged. No acceptedabsence claim.",
+      "verification": "5 originalprimer tests;19steps/31unresolved0contradictory afteroppositestrand/actual5µlsampling correction. Allfourpages build; sourceguard17checked/0failed/9unassigned; pairing0; schema pass."
+    },
+    {
+      "round": "2026-10-18-batch11-independent-implementation-review",
+      "reviewer": "rna_chemical_migration",
+      "date": "2026-10-18",
+      "documents": 0,
+      "locations": "scgestalt__10.1038+s41596-018-0058-x/tools/chem.py,build_page.py,selftest.py; currentreleasednativegraph/Scene/primerfeatures/source-boundary/readspec implementation. No originalsource documents reread.",
+      "findings": "Physicalsame-mixture IVTRNA9µlexpression aliquot and5µllineagealiquot, actualfirstss→duplex/nativeT7→IVTRNA→randomRTss→three lineagePCRinputs, independentoriginalRNA/genomicDNA/templateDNA/copies, sourceN9diversitynotUMI andmultipartcellID/sampleindexlineage, boundednativeinDropspredecessorcomponents andsourcepublicationdiscrepancies. Reviewer requested5µlsampling withunallocatedsame-mixtureremainder, actualoppositestrand/nativeT7duplexrolebeforeIVT, nofuturecDNA inoriginalRNAresidualstage, andsameSAMPLEidentity onsourceR1PCRix anddaughterindex. Ownercorrectionsrechecked; sourcepositiveassembly retainedwithoutcanonicalbases. No remaining concretecriticaldefect identified withinstatedimplementationreview scope.",
+      "deferred": [
+        "Existingoriginalsourcechecklists/deferrals andnativegeometry/member/acquisition limits unchanged. This documents0 code-only pass isnot an independent secondoriginalreading or acceptedabsenceaudit."
+      ],
+      "scope": "Independent criticalimplementation-onlyreview; authorimplemented requestedcorrections, reviewer made no chemistrycode edits. No sourceexpansion orhistoricalstatusupgrade.",
+      "verification": "5originaltranscriptionchecks;19steps;0established31unresolved0contradictory. Fourpagesbuild;combined62steps2established81unresolved0contradictory; sourceguard17checked0failed0skip9inputswithout exactstates;pairing0; schema/whitespace checkedafterrecordwrite."
     }
   ]
 }

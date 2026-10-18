@@ -279,6 +279,35 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite (constructor-only, no explicit checks) and page build pass; pairing 0 problems; chemistry 0 established/0 conditional/17 unresolved/0 contradictory; source guard 2 exact checked, 0 failed, 7 inputs without exact states; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-18-validation-migration-multimodal",
+      "reviewer": "protocol-migration",
+      "date": "2026-10-18",
+      "documents": 2,
+      "locations": "Published Cell j.cell.2020.06.037_PMC7510185.xml.txt Methods lines 220–234 and sequencing/analysis lines 296–300; original final supplement 1-s2.0-S009286742030814X-mmc1.pdf.txt Table S4 lines 448–535. No later protocols.io export substituted.",
+      "oligo_scraper": "Ran tools/scrape_primers.py on the cached source bundle; followed relevant hits to the original printed passages. The scraper output is not used as independent evidence.",
+      "findings": "Owned cell/UMI/index fields and separate expression versus calling-card endpoints. Unassigned custom-adapter index length replaces shared eight-base default; expression kit index is a separate feature. Expression preparation is a local source-delegated boundary. Source-named scCC P5/P7 final PCR and separate 0.7× AMPure cleanup are explicit, with no new PCR index. PCR limitation uses actual incoming material. Linear-DNA hydrolysis product partition remains unresolved physically.",
+      "deferred": [
+        "Exact circle/junction, custom-adapter ends and PCR landing geometry",
+        "Study-specific custom-adapter index member",
+        "Versioned 10x expression and Nextera Mate Pair kit molecular steps"
+      ],
+      "scope": "Ownership and explicit-uncertainty migration for the named shared dependencies; bounded source scope only. No full chemical validation or accepted missing-information claim. Historical source passes retained.",
+      "verification": "Protocol suite and page build pass; source guard 4 exact strands checked, 0 failures; pairing lint 0 problems; scoped chemistry 0 established/0 conditional/17 unresolved/0 contradictory. Notes and review schema checked."
+    },
+    {
+      "round": "2026-10-18-container-state-correction",
+      "reviewer": "protocol-maintenance",
+      "date": "2026-10-18",
+      "documents": 0,
+      "scope": "Implementation-only population/container modelling correction; original-source scope remains preceding bounded migration 2026-10-18-validation-migration-multimodal. No new scientific-source, endpoint or absence conclusion.",
+      "locations": "Local protocol module role-level molecular states and existing workflow-derived graph inputs; no original documents re-read.",
+      "findings": "Separate TF-directed piggyBac protein from integrated SRT in the cell container, including native graph starting state derived from workflow. True SRT transcript/cDNA/junction constructs unchanged.",
+      "deferred": [
+        "Existing unassigned source/geometry boundaries and linked-source review targets remain open."
+      ],
+      "verification": "construction and workflow suite passes; page builds; chemistry 0 established/0 conditional/17 unresolved/0 contradictory. Combined five-protocol guard:17 exact checked,0 failed,1 existing inherited-source exemption,23 inputs without exact states. Pairing0 problems; review schema/diff check pass."
     }
   ]
 }

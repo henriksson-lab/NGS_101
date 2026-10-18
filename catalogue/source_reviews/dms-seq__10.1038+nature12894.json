@@ -114,6 +114,21 @@
       ],
       "scope": "Capped source pass; not a full two-reader review or acceptance of missing information.",
       "verification": "local suite/page pass; pairing pass; chemistry no contradictions; source guard 0 checked, 4 unrepresented; review schema pass"
+    },
+    {
+      "round": "2026-10-18-validation-migration-rna-end",
+      "reviewer": "protocol-migration",
+      "date": "2026-10-18",
+      "documents": 1,
+      "locations": "Published PMC3966492 JATS nature12894_PMC3966492.xml.txt Methods DMS Modification and Library Generation lines48–58 (in-vivo 30 C yeast branch, quench/extraction/polyA, fragmentation, three gel selections, linker, RT/circle/PCR, HiSeq2000).",
+      "oligo_scraper": "Ran tools/scrape_primers.py on the actual cached source bundle; relevant hits checked in the defining printed passages. Scraper output/no-hit results are not independent evidence or accepted absence.",
+      "findings": "Local graph places in-vivo DMS probing before quench/RNA extraction/polyA selection, then source Zn fragmentation and 60–80-nt PAGE, PNK 3′ dephosphorylation, source-exact rApp/ddC linker ligation, ligation-product PAGE, SSIII52 C, cDNA selection25–50nt above primer size, CircLigase and8–10 PCR cycles. Linker includes its terminal ddC nucleotide and explicit single-strand end chemistry/junction. RT/circle/PCR members and indexing remain unassigned rather than inherited from a modified predecessor. PCR geometry uses actual incoming circle boundary; acquisition unspecified instead of guessed.",
+      "deferred": [
+        "Selected DMS-seq RT/PCR members and applicability of the cited modified Ingolia predecessor",
+        "Exact circle/PCR/sequence-primer geometry and run acquisition"
+      ],
+      "scope": "Source-specific graph/ownership migration; bounded original-reading scope only, no full reaction validation or accepted missing-information claim. Historical independent passes retained.",
+      "verification": "Native suite passes (1 explicit original-source checks), page builds, source guard1 checked0 failed, pairing0; chemistry0 established/0 conditional/12 unresolved/0 contradictory. Source-review schema and note build checked."
     }
   ]
 }
