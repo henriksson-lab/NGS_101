@@ -122,13 +122,23 @@ def protocol_graph():
     off=g.product("off_products","candidate s5/s5 and s7/s7 tagmentation products",
                   MaterialKind.WASTE,inferred=True,
                   source=authority+" (candidate end classes derived from the two adaptors; not described in CG000168)")
-    g.react("tagment","Tagment accessible chromatin in intact nuclei",
+    g.react("tagment","Tagment accessible chromatin in intact nuclei (37 C, 60 min)",
             StepKind.TAGMENTATION,((nuclei,InputRole.TEMPLATE),
             (transposome,InputRole.STRUCTURAL),(tn5,InputRole.CATALYST)),(tagged,off))
+    # CG000168 Rev A describes only the s5/s7 product (Stepwise Objectives; Appendix
+    # "Oligonucleotide Sequences") and says nothing about same-adaptor products. Keep
+    # physical amplification, sequencer compatibility and computational filtering apart.
     g.mark_terminal(Terminal(off.id,Disposition.UNRESOLVED,
-        "Candidate same-adaptor products lack an s5/s7 end pair; they stay in the nuclei "
-        "through partitioning and are not physically removed at tagmentation. Their "
-        "recovery through SILANE/SPRIselect cleanups is not assigned."))
+        "Candidate same-adaptor products stay in the nuclei through partitioning; CG000168 "
+        "Rev A describes no step that removes them physically. Physical amplification is "
+        "not assigned: an s5/s5 fragment extended by bead primers from both ends "
+        "(P5 ... P5') could be primed at both ends by SI-PCR Primer B, and a gap-filled "
+        "s7/s7 fragment (s7' at both 3' ends) by the i7 primer's partial Read 2N, but the guide states no "
+        "yield or suppression for either. Neither would carry both P5 and P7, which the "
+        "guide says the final library provides for Illumina bridge amplification (Step 4 "
+        "overview), so neither is a sequencer-compatible endpoint. Recovery through the "
+        "SILANE/SPRIselect cleanups is not assigned, and no computational filter is "
+        "involved."))
     reviewed=["nuclei","transposome","tn5","tagment"]
     occupied=partition_material(g,tagged,reviewed,label="tagmented nuclei",
         unresolved_reason=("CG000168 Rev A Step 2 overview: most GEMs contain no nuclei, and after "

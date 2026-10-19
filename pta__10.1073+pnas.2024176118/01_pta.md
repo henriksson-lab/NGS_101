@@ -14,8 +14,8 @@
 buffer and 1 µl 500 µM exonuclease-resistant random primer denature the DNA for 15 min at
 65 °C; 4 µl Stop solution neutralizes it.
 
-🟢 The 56-µl phi29 amplification mix contains an equal mixture of alpha-thio-ddNTPs at
-1,200 µM total final concentration. Amplification runs 8 h at 30 °C and is stopped for
+🟢 The 56-µl phi29 amplification mix contained alpha-thio-ddNTPs (TriLink) at equal ratios
+"at a concentration of 1,200 µM" (Methods173). 🟡 Whether 1,200 µM is per ddNTP or total, and whether it refers to the mix or the final reaction, is not stated. Amplification runs 8 h at 30 °C and is stopped for
 3 min at 65 °C. The alpha-thio-ddN creates an exonuclease-resistant phosphorothioate bond
 at the terminated 3′ end. Unlike an ordinary ddN that phi29 proofreading can remove, this
 end cannot be rescued, so products stay shorter and undergo less secondary amplification.

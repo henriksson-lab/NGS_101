@@ -85,6 +85,23 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local construction suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 0 established/0 conditional/12 unresolved/0 contradictory with kit_processing MAGIC warning; source guard 2 exact checked (MM76, MM77), 0 failed, PCR primers inferred and excluded; Markdown built/checked; review schema checked"
+    },
+    {
+      "round": "2026-10-19-migration-finalize",
+      "reviewer": "root",
+      "date": "2026-10-19",
+      "documents": 1,
+      "locations": "Published eLife PMC4381813 JATS Methods 356 (bacterial cross-linking, lysis, HpaII digestion, dilute ligation, reversal/recovery), 362 and 366 (yeast DpnII and river HaeIII digestion identity), 370 (Covaris, QIAquick, PE-930-1001, custom adapter ligation), 393 (PippinPrep, test and eight large-scale PCRs, MinElute, HiSeq2000)",
+      "oligo_scraper": "Not rerun; adapter strands unchanged and checked by the source guard (MM76, MM77).",
+      "findings": "Architecture migration: removed the last import of the queued protocol_extensions.proximity_product shortcut (it fed only the unused sections() fallback; the native graph already rendered the page). Added the published bacterial lysis step (Ready-Lyse lysozyme 20 min RT, then 0.5% SDS 10 min RT) between cross-linking and digestion, the 3% formaldehyde/0.25 M glycine conditions, HpaII 100 U in NEBuffer 1 with 1% Triton X-100 for 3 h at 37 C, and dilute ligation conditions (125 U T4 ligase in 8 ml, 4 h 16 C). The retired shortcuts had no remaining callers.",
+      "deferred": [
+        "Illumina PE-930-1001 kit original (pre-ligation end processing, PE PCR primers, polymerase)",
+        "Adapter annealing/phosphorylation and the derived N6-then-tag read order",
+        "Acquired read length for the bacterial library (104 vs 100)",
+        "Yeast DpnII and river HaeIII branches not drawn"
+      ],
+      "scope": "Bounded migration check of the defining Methods only; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local construction suite passes; page builds; pairing checked; source guard 2 exact checked (MM76, MM77), 0 failed; review schema checked"
     }
   ]
 }

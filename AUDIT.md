@@ -1940,7 +1940,7 @@ shared recipes/defaults and CRISPR-MIP, which then lacked a native typed graph.
 The [current migration worklist](catalogue/validation_migration_pending.tsv)
 tracks the remaining cohort; see the progress section below. The
 [whole-catalogue snapshot](catalogue/validation_migration.tsv) records all 410
-protocols, including six stale ledger-only ownership entries.
+protocols, including six stale ledger-only ownership entries (migrated 2026-10-19; see the Batch14 checkpoint).
 [Molecular-coverage follow-ups](catalogue/validation_migration_coverage_followup.tsv)
 initially listed 190 graph-backed protocols emitting only unresolved claims; this overlaps
 the ownership worklist and is not a separate migration count.
@@ -1956,11 +1956,11 @@ or change the capped-source-curation census.
 
 ## Protocol migration progress (2026-10-18)
 
-The initial 182-protocol migration cohort now has **177 verified completions and
-5 pending**. The authoritative current worklist is
+The initial 182-protocol migration cohort now has **182 verified completions and
+0 pending** (Batch13 checkpoint, 2026-10-19). The authoritative current worklist is
 [catalogue/validation_migration_pending.tsv](catalogue/validation_migration_pending.tsv);
 [completed records](catalogue/validation_migration_completed.tsv) preserve former
-dependencies and scoped verification. The remaining cohort includes three implementations awaiting independent review, one historical-source blocker and one execution filter stop; see the Batch12 checkpoint. Batch03 adds native declarations for DNA Prep shotgun metagenomics, NanoSeq, NG Capture-C, INVADEseq, OAK, Paired-seq, OTTR-seq, PANDORA-seq, PARS, oxBS-seq and Ovation RNA-Seq V2.
+dependencies and scoped verification. Batch13 finished the last five (meta3C, PTA, scRepli-seq, scRRBS, REPLI-g Single Cell); see the Batch13 checkpoint. Batch03 adds native declarations for DNA Prep shotgun metagenomics, NanoSeq, NG Capture-C, INVADEseq, OAK, Paired-seq, OTTR-seq, PANDORA-seq, PARS, oxBS-seq and Ovation RNA-Seq V2.
 The [migration round](catalogue/migration_rounds/2026-10-18-01.tsv)
 and protocol bounded checks record actual source scope and corrections.
 
@@ -2294,3 +2294,64 @@ scoped molecular checks; whole-protocol validation and source-absence obligation
 remain separate. Current pending and completed files retain the original 182 scope.
 
 Final batch12 verification: focused suites/pages, source guards and review schemas pass; catalogue 83 checks pass. Whole-site build passes 407/407 diagrams, 406 finished schematics, 402/402 documented NGS graph contracts and all 813 site-file relative links. Pairing and P5 lint have zero findings beyond the existing source-known PEM exemption. Changes remain unstaged and uncommitted.
+
+
+### Batch13 migration checkpoint (2026-10-19)
+
+The last five original-cohort entries are verified, each with a separate independent
+implementation review (one reviewer per protocol, so a tool stop could not take down
+the others; none stopped). See the [batch13 ledger](catalogue/migration_rounds/2026-10-19-13.tsv).
+
+- **meta3C**: the last `protocol_extensions.proximity_product` import fed only a dead
+  `sections()` fallback; it was removed and the unused chemistry shortcuts in
+  `lib/protocol_extensions.py` were retired (`chemistry_decoupling.tsv` row resolved).
+  The graph gained the published bacterial lysis step and digestion/ligation conditions.
+  Review fixes: MM77 tag boundary (`CTG`, extra 3′ T separate), recovery waste output,
+  and a read description that states both the Methods "tag at the beginning" wording and
+  the MM77-derived N6-before-tag order.
+- **PTA, scRepli-seq, scRRBS**: the batch12 native implementations passed independent
+  review with wording/condition corrections (PTA terminator concentration ambiguity and
+  daughters-vs-originals; scRepli-seq SEQXE end claims, WGA initial denaturation and
+  library PCR conditions; scRRBS sulfonated intermediate before desulfonation). With no
+  remaining importer, `lib/rrbs.py` was retired (row resolved); `batch_ngs` now has five
+  direct callers.
+- **REPLI-g Single Cell**: the maintainer confirmed no further originals are obtainable.
+  The graph is now built from the identified October 2012 handbook only (D2 lysis/
+  denaturation, Stop Solution, phi29 MDA with unassigned primer composition, inactivation,
+  NTC primer-dimer discard) and ends in an explicit library-preparation boundary naming
+  the unavailable RG35 August 2014 and Nextera 15027987 Rev B revisions. No adapters,
+  indexes or read plan are drawn; the 2018 Advanced DNA document is not substituted. Its
+  source review remains `blocked`.
+
+Completed migration means verified local ownership and scoped molecular checks; it does
+not certify whole-protocol chemistry or accept any missing-information claim. Remaining
+`queued` rows in `catalogue/chemistry_decoupling.tsv` concern protocols outside the
+original cohort. Nothing staged or committed.
+
+### Batch14 migration checkpoint (2026-10-19)
+
+The six ledger-only ownership entries outside the original cohort, plus UMI-4C (found
+by an indirect-import scan), are migrated. Each has a separate independent
+implementation review. See the [batch14 ledger](catalogue/migration_rounds/2026-10-19-14.tsv).
+[Completed records](catalogue/validation_migration_completed.tsv) now hold 189 entries.
+
+- **10x Chromium scATAC**: the note no longer relies on the blanket `nextera` same-end
+  rule. Same-adaptor products stay unresolved, with physical amplification, sequencer
+  compatibility and computational filtering kept separate.
+- **Duplex-Repair, LamPORE, Olink Explore**: the `batch_ngs` constructors were imported
+  but unused. Review then found unsupported fates or labels: random UMIs (Duplex-Repair),
+  and rapid-barcode off-products and unbound probes recorded as discarded (LamPORE,
+  Olink). These are now explicit unknowns or unresolved terminals, and Olink's inferred
+  Read 1 end is marked as inferred.
+- **TIME-seq**: `seg` was replaced by `chemdraw.Segment`. Same-adaptor fragments are
+  unresolved. **Published discrepancy:** the Supplementary Table 5 "Adaptor A Blocking
+  Oligo" is the reverse complement of the Nextera B arm plus mosaic end, not of TIME-seq
+  adaptor A. It is shown on the page and in the note.
+- **PEM-seq**: the bridge-adapter ligation is an explicit splinted geometry built from
+  the printed BA-up/BA-lower strands. The splint role is inferred, and the library bases
+  are unchanged.
+- **UMI-4C**: the executed `da_tailed` calls are replaced by explicit protocol-owned
+  end states. The Supplementary Table 4 fork adapter has cohesive geometry. End repair
+  and dA tailing are marked inferred.
+
+These are ownership migrations; source-absence gates are unchanged.

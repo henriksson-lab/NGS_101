@@ -119,6 +119,43 @@
       ],
       "scope": "Capped source pass; not complete chemistry validation or a new two-reader absence review.",
       "verification": "page build pass; local selftest is construction-only (zero explicit checks); pairing 0 problems; chemistry 2 established/0 conditional/13 unresolved/0 contradictory; source guard 2 exact checked (adapter strand1, Universal Primer 2), 3 unrepresented (adapter strand2 N6, US/DS bait primers); Markdown built/checked; review schema checked"
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "root",
+      "date": "2026-10-19",
+      "documents": 3,
+      "locations": "Defining article: not on disk (MANIFEST.tsv '(manual) nmeth.3922 full text', publisher page only; main text and Online Methods unread, not downloaded in this pass). MOESM330 Supplementary Information PDF .txt: Supp Fig1 legend 79–85 (sonication, two PCR rounds, linear products), keyword search for tail/phosph/adapt/end repair/ligat/Klenow (no library-prep reaction text; only Table4 'Forked adapter sequences' 2595), Supp Table4 2529–2641; MOESM331 umi4c-usage.html.txt Background 74–83 (prior reading, not re-read beyond scope). GEO GSM2054403 3way 4C protocol: relied on prior 2026-10-17 reading for related-study dephosphorylation/strand release; not re-read.",
+      "oligo_scraper": "Not rerun; Table4 adapter strand 1/2, Universal Primer 2 and G1p1 US/DS rows rechecked in the .txt and by tools/source_oligo_check.py (3 checked, 0 failed). Scraper output not counted as reading.",
+      "findings": "protocol_model.da_tailed (via conformation_replication_specs) removed from graph and workflow. The dA-tailed and dephosphorylated substrates are now protocol-owned explicit duplexes (endprep.EndPreparedDuplex/dA_tailed_scene) over viewpoint-side sheared end, viewpoint, DpnII GATC, reporter and sonication endpoint, with inferred single 3-prime dA on each strand; 5-prime phosphate after end repair unassigned, absent on the ligation substrate only per related-study dephosphorylation. AdapterLigationGeometry.known('cohesive') now pairs that dephosphorylated substrate with the Table4 fork (computed 12-bp core, unpaired 3-prime T, strand 2 5-prime PO4), and the statement separates source-known adapter end from inferred substrate end. End repair and dA tailing inputs/products/steps are now inferred=True with INFERRED captions and reasons (no defining-source statement); sonication cites Supp Fig1. Dead 4C-seq/NG Capture-C/Tri-C branches of the copied shared builder were removed; remaining symbols imported from their real modules (seqprimers, adapter_ligation, chemdraw, chromosome_capture, endprep, pcr, protocol_graph); Definition/chain/molecule/role still from conformation_replication_specs. Reviewed scope and step order unchanged otherwise.",
+      "deferred": [
+        "defining article main text and Online Methods (not on disk; manual row; not downloaded)",
+        "end-repair/dA-tailing enzymes, 5-prime phosphate state, adapter ligase, PCR polymerase/cycles and cleanups in the defining experiments",
+        "applicability of C-walks 3way 4C dephosphorylation and heat strand release to defining UMI-4C",
+        "acquired read lengths and whether the six-base adapter window was read",
+        "US-first nested primer order (inferred)"
+      ],
+      "scope": "Bounded migration check of the dA-tailing/adapter-ligation states and imports against the on-disk supplements; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest pass (construction-only); build_page pass; lint_pairing 0 problem duplexes; selftest_source_oligos 3 checked/0 failed/2 inputs without exact states; build_docs 1 written, --check up to date; check_chemistry totals unchanged (established=44, conditional=37, unresolved=220, contradictory=0; umi-4c not among its pilots); no queued symbol imported in the directory"
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "batch14_independent",
+      "date": "2026-10-19",
+      "documents": 1,
+      "locations": "MOESM330 Supplementary Information PDF .txt: Supp Table 4 2529–2641 (Forked adapter sequences 2595–2597: strand 1 unmodified, strand 2 '(PO4)-GATCGG…(NNNNNN)…'; DS Illumina prefix 2591–2592; Universal Primer 2 2593–2594; G1p1 US/DS rows), Supp Fig1 legend 79–85 (1a sonication, 1c two PCR rounds and non-sequenceable linear products). Defining article/Online Methods not on disk (manual row), unread. GEO GSM2054403 not on disk; related-study claims checked only against the two-pass record in this JSON (pass_2 lines 48–53), not re-read. Pre-migration page rebuilt from HEAD worktree and text-diffed against the migrated page.",
+      "oligo_scraper": "Not rerun; fork strands, Universal Primer 2 and G1p1 rows read directly in the .txt; fork core (12 bp, GCTCTTCCGATC/GATCGGAAGAGC) and single 3-prime T recomputed; tools/source_oligo_check.py 3 checked, 0 failed.",
+      "findings": "Migration correct: adapter geometry (12-bp core, one unpaired 3-prime T on strand 1, 5-prime PO4 only on strand 2) matches Table 4; dephosphorylation/strand release remain source=RELATED, inferred=True and are described as related-study context in the graph, page caveat and note; GEO 3way 4C is a same-group study applying UMI-4C, so use as labelled context is acceptable but its applicability stays deferred. Page text-diff against HEAD shows no lost steps, inputs, oligos, final library or read layout; only the dA-tailed/dephosphorylated states became explicit duplexes and captions/statement gained INFERRED/related-study wording. Pruned branches were never reachable for umi-4c. Fixes: sonication input/product/step cited 'Supplementary Figure 1c legend' (1c is linear-product quantification) — now SUPP_FIG1A (1a, sonication); dephosphorylation and heat-release step captions prefixed 'INFERRED —' to match their inferred related-study status; page caveat now states end repair and dA tailing are inferred. Note: 'unassigned' 5-prime phosphate state on the tailed duplex is drawn without a phosphate mark (EndPreparedDuplex has no unknown value); label states it is unassigned.",
+      "deferred": [
+        "defining article main text and Online Methods (not on disk; manual row)",
+        "re-reading GEO GSM2054403 original record (not on disk) and applicability of its dephosphorylation/strand release to defining UMI-4C",
+        "end-repair/dA-tailing enzymes, adapter ligase, PCR polymerase/cycles and cleanups",
+        "acquired read lengths and whether the six-base adapter window was read",
+        "US-first nested primer order (inferred)",
+        "representing an unknown 5-prime phosphate state in EndPreparedDuplex"
+      ],
+      "scope": "Independent bounded review of the migration diff against on-disk supplements; no full chemistry validation or accepted missing-information claim.",
+      "verification": "selftest pass (construction-only, no checks); build_page pass; lint_pairing 0 problem duplexes; selftest_source_oligos 3 checked/0 failed/2 inputs without exact states; build_docs 0 written/--check all up to date; protocol_graph builds (11 steps) and require_publishable passes"
     }
   ]
 }

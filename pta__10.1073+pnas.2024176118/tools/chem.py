@@ -19,7 +19,7 @@ SUMMARY = ("Random-primed phi29 synthesis incorporates exonuclease-resistant alp
            "The entire purified PTA reaction enters KAPA HyperPlus without fragmentation, "
            "followed by IDT unique-dual-index adapter ligation, 15 PCR cycles and gel recovery.")
 CAVEAT = ("Native random-primer chemistry, KAPA intermediate ends and IDT UDI strands remain "
-          "unassigned in this bounded source scope. Terminated originals retain their no-3′-OH chemistry; "
+          "unassigned in this bounded source scope. Terminated PTA daughters retain their no-3′-OH chemistry; "
           "ordinary PCR copies do not inherit a template phosphorothioate modification. "
           "Component recovery and kit processing of blocked ends are unresolved. No canonical adapter "
           "bases, index widths or read mask are substituted.")
@@ -69,10 +69,10 @@ def populations(stage):
 
 def protocol_graph():
     g = ProtocolGraph("PTA", authority=AUTHORITY)
-    genome = g.input("genome", "denatured single-cell genomic DNA after source lysis/neutralization", M.BIOLOGICAL, state=populations("genome"), primary=True)
-    primer = g.input("random_primer", "exonuclease-resistant random primer; native bases/length/modification pattern unassigned", M.OLIGO)
+    genome = g.input("genome", "single-cell genomic DNA after lysis, Buffer D2/primer denaturation (65 °C, 15 min) and Stop solution", M.BIOLOGICAL, state=populations("genome"), primary=True)
+    primer = g.input("random_primer", "exonuclease-resistant random primer, 1 µL of 500 µM added with Buffer D2 before denaturation; native bases/length/modification pattern unassigned", M.OLIGO)
     phi29 = g.input("phi29", "REPLI-g amplification mix / phi29", M.CATALYST)
-    terminators = g.input("terminators", "equal alpha-thio-ddATP/ddCTP/ddGTP/ddTTP mixture", M.MOLECULAR)
+    terminators = g.input("terminators", "alpha-thio-ddNTPs at equal ratios in the 56-µL amplification mix; stated 1,200 µM (per-ddNTP vs total and reference volume not specified)", M.MOLECULAR)
     amplified = g.product("pta_product", "PTA reaction: genomic originals and daughter populations", M.MOLECULAR, state=populations("amplified"))
     g.react("pta_amplification", "Random-prime and displace DNA at 30 °C for 8 h; heat-stop 65 °C for 3 min", K.EXTENSION,
             ((genome,I.TEMPLATE),(primer,I.STRUCTURAL),(phi29,I.CATALYST),(terminators,I.STRUCTURAL)),(amplified,))
@@ -87,7 +87,7 @@ def protocol_graph():
             ((purified,I.TEMPLATE),(kit,I.CONDITION)),(prepared,),
             reason="Methods177 names KAPA HyperPlus without fragmentation. Native kit intermediates and conversion/recovery of alpha-thio-ddN-blocked ends are not established in the inspected article/SI; an extendable dA-tailed duplex is not assumed.")
     adapters = g.input("udi_adapters", "IDT UDI adapters, 2.5 µM; native strands/member unassigned", M.ADAPTER)
-    ligase = g.input("ligase", "native KAPA ligation mix", M.CATALYST)
+    ligase = g.input("ligase", "ligation reagents assumed from the KAPA HyperPlus kit; not itemized in Methods177", M.CATALYST)
     ligated = g.product("ligated", "native UDI-ligated reaction", M.MOLECULAR,state=populations("ligated"))
     g.react("adapter_ligation", "Ligate source IDT unique-dual-index adapters", K.LIGATION,
             ((prepared,I.TEMPLATE),(adapters,I.STRUCTURAL),(ligase,I.CATALYST)),(ligated,),

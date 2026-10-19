@@ -183,6 +183,40 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 3 checks pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/10 unresolved/0 contradictory; source guard 1 exact checked, 0 failed, 5 inputs without exact states; Markdown built; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "root",
+      "date": "2026-10-19",
+      "documents": 2,
+      "locations": "Defining Cell Discovery PMC6434046 JATS Materials and methods lines131-163 (Primer extension; Bridge adapter (with RMB) ligation; PCR amplification for Illumina sequencing); publisher supplement 41421_2019_88_MOESM1_ESM.pdf.txt Supplementary TableS11 lines7085-7130 (BA-up/BA-lower with /5phos/ and NH2(C7), purpose columns 'link ssDNA with RMB' and 'common bridge oligo'; P5-I5 and P7 tagging oligos; I7-B01) and lines7190-7300 (I7-B/R series, biotinylated bait primers)",
+      "oligo_scraper": "Targeted grep over the local source bundle for the bridge strands and the I5/I7 oligos: BA-up is printed in one table cell wrapped over three lines (the extraction interleaves the section/name cells after its first line), BA-lower on one line; the nested I5/I7 oligos are likewise line-split, so they stay named inputs.",
+      "findings": "Bounded decoupling check of the queued shared recipes. batch_ngs.truseq_library and protocol_model.da_tailed/closed_circle were imported but never called (also unused: nebnext, nextera, circular.CircularizationGeometry, adapter_ligation.reported_adapter_end); the imports were removed and the graph confirmed native - no inherited dual indexing, generic TruSeq assembly or dA junction. The source performs no end repair or dA-tailing. The bridge-adapter ligation's AdapterLigationGeometry.unavailable was replaced by an explicit known('splinted', ...) with two Scenes: the bead-bound captured single strand (3'-OH, terminal bases kept as an undisclosed placeholder) and the BA-up/BA-lower duplex built from the printed oligos (BA-up /5phos/ and 3'-NH2(C7); BA-lower pairing the 16-base anchor with six degenerate bases past that phosphate, 3'-NH2(C7)). The ligated product is a separate state with its T4-ligase junction marked, and the bridge-adapter input now carries that duplex as its declared state with a SOURCE_OLIGO_EXCEPTIONS entry quoting the printed lines. The final library's Read 2 side is now derived from PEM_BA_UP[-31:] plus the three bases contributed only by the I7 primer, replacing a whole illumina.INDEX1_PRIMER segment preceded by a loose 'bridge adapter leading A' label; library bases unchanged. Note updated accordingly.",
+      "deferred": [
+        "Nested-PCR amplicon as an exact Construct; nested I5/I7 and P5-I5 tagging primers remain named inputs because TableS11 prints them across broken cells",
+        "Dead workflow() prose chain retained in the module although the graph-driven page no longer renders it",
+        "2019 TableS11 vs 2022 STAR TableS2 random-barcode conflict unresolved (displayed on the page)",
+        "LAM-HTGTS predecessor (doi:10.1038/nbt.3101), STAR-linked vendor guide and the PEM-Q repository remain unavailable"
+      ],
+      "scope": "Bounded migration check of the queued batch_ngs/protocol_model shared-recipe imports and the bridge-adapter ligation geometry; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3 checks pass; page builds (64,120 bytes); pairing 0 problems; source guard 1 checked, 0 failed, 2 strands exempted, 4 inputs without exact states; P5/Read1 lint 0 findings, 1 exempted; build_docs 2 written; check_chemistry 0 contradictory; grep: no queued symbol imported in the directory"
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "batch14_independent",
+      "date": "2026-10-19",
+      "documents": 3,
+      "locations": "Defining Cell Discovery PMC6434046 JATS Materials and methods lines131-163 (Primer extension; Bridge adapter (with RMB) ligation; PCR amplification for Illumina sequencing); publisher supplement 41421_2019_88_MOESM1_ESM.pdf Supplementary TableS11 (rendered page 27; .txt lines7080-7110: BA-up, BA-lower, P5-I5, P7, I7-B01); Liu et al. 2022 STAR Protocols PMC9019705 JATS lines840-915 (On-beads ligation steps 45-48, bridge-adapter annealing)",
+      "oligo_scraper": "scrape_primers --find TGTAGAGCACGCGTGGNNNNNN over the bundle: 1 exact hit (MOESM1 .txt line7093), 4 IUPAC-only README hits; BA-up and BA-lower checked base-by-base and modification-by-modification against the rendered TableS11 page and pdftotext -layout.",
+      "findings": "Independent check of the migration. BA-up (/5phos/, 64 nt, 3'-NH2(C7)) and BA-lower (22 nt, six degenerate 3' bases, 3'-NH2(C7)) match the rendered TableS11 exactly; BA-lower[:16] is the reverse complement of BA-up[:16], so its hexamer lies past BA-up's 5' phosphate. The final library built from HEAD and from the working tree has identical top and bottom bases; the only change is that the former 'bridge adapter leading A' is now tagged as part of the Read 2 arm, which is correct for the TruSeq Read 2 primer site. Neither the 2019 Methods nor the 2022 STAR protocol perform end repair or dA-tailing. Fixes: BA-up and P5-I5 are each printed in one table cell wrapped over several lines, not across two cells (exception quote, comments, page input label, note and root ledger wording corrected); the ligation geometry statement and note now state that the 'splinted' role of the hexamer is inferred from the printed structure rather than stated, and cite STAR Protocols steps 45-47 for annealing the two strands into the single 50 uM 'Bridge adapter' reagent of the 2019 Methods; the note's BA-lower pairing claim is marked derived.",
+      "deferred": [
+        "Nested-PCR amplicon as an exact Construct; nested I5/I7 and P5-I5 tagging primers remain named inputs",
+        "Dead workflow() prose chain retained in the module",
+        "2019 TableS11 vs 2022 STAR Table 2 random-barcode conflict unresolved (displayed on the page)",
+        "LAM-HTGTS predecessor (doi:10.1038/nbt.3101), STAR-linked vendor guide and the PEM-Q repository remain unavailable"
+      ],
+      "scope": "Independent bounded check of the bridge-adapter geometry, BA-up/BA-lower transcription and final-library rewrite; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 3 checks pass; page builds (64,397 bytes); pairing 0 problems; source guard 1 checked, 0 failed, 2 strands exempted, 4 inputs without exact states; build_docs 2 written; check_chemistry 0 contradictory; HEAD vs working library bases identical"
     }
   ]
 }

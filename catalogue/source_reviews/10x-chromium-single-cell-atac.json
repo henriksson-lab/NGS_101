@@ -97,6 +97,41 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problems; chemistry 5 established/3 conditional/5 unresolved/0 contradictory; source guard 1 exact checked (SI-PCR Primer B), 0 failed, 3 inputs without exact states (transposome, bead_primer, i7 N8 primer); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "root",
+      "date": "2026-10-19",
+      "documents": 1,
+      "locations": "10x CG000168 Rev A (local CG000168_..._RevA.pdf.txt) Stepwise Objectives lines 800-935 (Step 4 overview 867-875: final libraries contain P5 and P7 used in bridge amplification), Transposition incubation lines 1560-1600 (37 C 60 min), GEM incubation 2000-2035, Sequencing 2860-2910, Appendix Oligonucleotide Sequences 3343-3441",
+      "oligo_scraper": "Not re-run; no oligo changed. Source guard re-run: SI-PCR Primer B and one further strand match the Appendix exactly.",
+      "findings": "Queued nextera TAGMENTATION_OUTCOMES/amplifiable were not imported by the module; the graph was already native with an UNRESOLVED same-adaptor terminal. Terminal reason rewritten to separate physical amplification (not assigned: s5/s5 could be primed at both ends by SI-PCR Primer B after bead extension, s7/s7 by the i7 primer; guide states no yield or suppression), sequencer compatibility (neither carries the P5/P7 pair the guide says bridge amplification uses) and computational filtering (not involved). Note section 3 claim 'only s5/s7 becomes a sequenceable library' citing upstream and the shared outcome table was replaced; the 'not amplifiable due to semi-suppressive PCR' upstream framing was replaced by an explicit unassigned-amplification statement. Tagmentation step label now carries 37 C, 60 min. The upstream page row in the note's source table is relabelled orientation only.",
+      "deferred": [
+        "Post-GEM SILANE/SPRIselect cleanup and double-sided size selection not modelled as graph steps",
+        "Recovery of same-adaptor candidates through cleanups",
+        "Tn5 release mechanism inside GEMs and Barcoding Enzyme identity",
+        "Shared partition_material handling of empty/multiplet GEMs (protocol_families/tenx_graph.py)"
+      ],
+      "scope": "Bounded migration check of the queued nextera same-adaptor outcome rule against CG000168 Rev A; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problem duplexes; source guard 2 checked, 0 failed, 2 inputs without exact states; build_docs wrote the note; check_chemistry totals established=44 conditional=37 unresolved=220 contradictory=0 (protocol not among pilots); no queued symbol imported in the directory"
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "batch14_independent",
+      "date": "2026-10-19",
+      "documents": 1,
+      "locations": "10x CG000168 Rev A (local CG000168_..._RevA.pdf.txt) Stepwise Objectives lines 795-935 (Step 4 overview 867-875: final libraries contain P5 and P7), Transposition incubation lines 1570-1590 (37 C 00:60:00), GEM incubation 1995-2035 (72 C 5 min, 12 cycles), Sequencing 2865-2905 (begin with P5 and end with P7; Cell Ranger groups read pairs by 10x Barcode), Appendix Oligonucleotide Sequences 3343-3441 (Read 1N/2N, bead oligo, SI-PCR Primer B partial P5, i7 primer P7-N8-GTCTCGTGGGCTCGG)",
+      "oligo_scraper": "Not re-run; no oligo changed. Primer annealing claims checked by hand against the Appendix sequences; source guard re-run.",
+      "findings": "Migrator's same-adaptor terminal claim checked against the Appendix: SI-PCR Primer B is partial P5 (22 nt) and anneals only to P5', so it can prime both ends of an s5/s5 product only after bead primers have extended from both ends (P5...P5'); a singly extended s5/s5 product has one P5 and no Primer B site on its 3' end. The i7 primer's 3' 15 nt equal the start of Read 2N (s7), so it can anneal to s7' at both 3' ends of a gap-filled s7/s7 fragment, as claimed. Terminal reason and note section 3 reworded to state that precondition; the note's '(computed)' label on the inverted-repeat structure was not backed by a model function and became 'derived'; 'P5 at both ends' for s5/s5 corrected to 'P5 at one or both ends, no P7'; the computational-filtering bullet's green mark was split (Cell Ranger grouping green, its irrelevance here yellow); 'one strand per cycle' for s5/s7 marked yellow. Other migrator claims (Step 4 overview quote, Sequencing quote, 37 C 60 min at line 1586, upstream row relabelled) verified.",
+      "deferred": [
+        "Pre-existing upstream-comparison material in the note (section 6 table, evidence preamble treating upstream-only claims as yellow, 'Secondary' scg_lib_structs citation, barcode count marked upstream-only) not reworked in this migration check",
+        "Post-GEM SILANE/SPRIselect cleanup and double-sided size selection not modelled as graph steps",
+        "Recovery of same-adaptor candidates through cleanups",
+        "Tn5 release mechanism inside GEMs and Barcoding Enzyme identity",
+        "Shared partition_material handling of empty/multiplet GEMs (protocol_families/tenx_graph.py)"
+      ],
+      "scope": "Independent bounded review of the migration of the queued nextera same-adaptor outcome rule against CG000168 Rev A; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite passes (0 explicit checks); page builds; pairing 0 problem duplexes; source guard 2 checked, 0 failed, 2 inputs without exact states; build_docs current (note HTML carries the revised section 3)"
     }
   ]
 }

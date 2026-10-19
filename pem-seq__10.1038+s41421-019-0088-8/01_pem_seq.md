@@ -20,7 +20,7 @@ The sequenced material is human genomic DNA around a bait double-strand break, q
 1. 🟢 Cells are allowed to repair a recurrent bait DSB. Genomic DNA therefore already contains germline/perfect-rejoin, insertion, deletion, inversion, and translocation outcomes before library preparation.
 2. 🟢 Extracted DNA is sonicated to 0.3–2 kb. A 5′-biotinylated locus primer then makes one extension product from each recoverable template. The single extension avoids the 80-cycle linear amplification used by LAM-HTGTS.
 3. 🟢 Free biotin primer is removed, strands are denatured, and biotinylated extension products are immobilized on streptavidin beads.
-4. 🟢 A 5′-phosphorylated bridge upper strand is ligated to the free 3′ end. Both bridge strands carry 3′ C7 amino blocks. The upper strand contains the pattern `NNNNTNNNANNNTNNNN`: fourteen random bases separated by fixed T/A/T bases.
+4. 🟢 A 5′-phosphorylated bridge upper strand (BA-up, "link ssDNA with RMB") is ligated to the free 3′ end with T4 DNA ligase in 15% PEG8000 at room temperature overnight. Both bridge strands carry 3′ C7 amino blocks. The upper strand contains the pattern `NNNNTNNNANNNTNNNN`: fourteen random bases separated by fixed T/A/T bases. 🟢 BA-lower ("common bridge oligo") is printed as `TGT AGA GCA CGC GTG GNN NNN N-NH2(C7)`; 🟡 computed from the printed strands, its first 16 bases pair the fixed anchor and its six degenerate bases lie past BA-up's 5′ phosphate. 🟢 Liu et al. 2022 STAR Protocols (steps 45–47) anneal the two strands into the 50 µM bridge adapter. 🟡 Those six bases are modelled as the splint over the captured strand's own 3′ end, whose bases the source does not disclose. There is no end repair and no dA-tailing anywhere in this protocol: the ligation substrate is a bead-bound single strand.
 5. 🟢 On-bead nested PCR uses a bait-side I5 primer and an I7-series bridge-side primer. The inline sample barcode is the **four** bases between the Read 1 tail and the locus-specific nested primer: `AGCG` (I5-R1), `GCCT` (R2), `AGGA` (R3), `TCAG` (R4). For the RAG1A/B example the nested primer is therefore `AGGATCTCACCCGGAACAGC` (20 nt), and the oligo reads `ACTCTTTCCCTACACGACGCTCTTCCGATCT` + `AGCG` + `AGGATCTCACCCGGAACAGC`. I7-B01 carries the six-base index `CGTGAT` in the ordering oligo; its reverse complement is present on the displayed library strand.
 6. 🟢 A tagging PCR with the published P5-I5 and P7 oligos completes the flow-cell ends. The authors sequence 2×150 bp on HiSeq.
 
@@ -93,8 +93,40 @@ tagging PCR with FastPfu that adds the P5 and P7 ends, sequenced 2 × 150 bp on 
 selection explicitly, each with its discarded material, and declares the tagging PCR
 locally (P7 as an exact source Construct) instead of using the shared generic finisher.
 
-🟡 Table S11 prints the P5-I5 tagging primer across two table cells, so no contiguous
+🟡 Table S11 prints the P5-I5 tagging primer in one cell wrapped over two lines, so no contiguous
 source line carries the whole oligo; it stays a named input whose transcription is
 checked in the selftest. The bridge-ligation substrate geometry and the nested-PCR
 amplicon are still not reconstructed as Scenes, and the 2019 vs 2022 random-barcode
 conflict remains displayed on the page unchanged.
+
+## Bounded migration check 2026-10-19 (round 2026-10-19-migration-final)
+
+🟢 The module no longer imports the shared `batch_ngs` library recipe or the
+`protocol_model` schematic shortcuts `da_tailed` / `closed_circle` (they were imported but
+never called; the graph was already native), nor the unused `nebnext`, `nextera`,
+`circular` and `reported_adapter_end` helpers. No generic TruSeq library assembly, no
+dual-index default and no dA junction is inherited: the P5/P7 ends, the single six-base
+i7 index and the four-base inline I5 index are the module's own transcriptions of
+Supplementary Table S11, and the canonical Illumina arms come from `lib/illumina.py`.
+
+🟢 The bridge-adapter ligation now carries an explicit
+`AdapterLigationGeometry.known("splinted", …)` built from two Scenes: the bead-bound
+captured single strand with its 3′-OH and an undisclosed terminal sequence, and the
+BA-up/BA-lower duplex drawn from the printed oligos — BA-up 5′-phosphorylated and
+3′-NH2(C7)-blocked, BA-lower pairing the 16-base anchor with its six degenerate bases
+reaching past that phosphate. 🟡 The `splinted` classification is inferred from that
+printed structure (the hexamer annealing over the captured strand's undisclosed 3′ end);
+the Methods state only the ligation. The ligated intermediate is a separate state whose
+junction is marked. Because BA-up wraps over three printed lines of one cell and the extraction
+interleaves the name cells, the adapter input is listed in `SOURCE_OLIGO_EXCEPTIONS` with
+the printed lines quoted; both strands remain transcribed verbatim in the selftest.
+
+🟢 The final library's Read 2 side is now assembled from the bridge adapter's own 3′
+31 bases (`PEM_BA_UP[-31:]`) plus the three bases that only the I7 primer contributes,
+instead of a whole `illumina.INDEX1_PRIMER` segment preceded by a separate "A"; the
+library bases are unchanged.
+
+🟡 Still deferred: the nested-PCR amplicon as an exact Construct (both nested primers and
+the P5-I5 tagging primer stay named inputs, since Table S11 prints them across broken
+cells), and the dead `workflow()` prose chain that the graph-driven page no longer
+renders.

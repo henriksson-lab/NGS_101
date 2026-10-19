@@ -262,7 +262,8 @@ dependencies, graph/check coverage and next actions:
   disjoint migrations. Missing source evidence, unsupported molecular states and
   absent checker primitives require different follow-up decisions.
 - [Whole-catalogue inventory](validation_migration.tsv): **410 protocols**,
-  including the six ledger-only ownership entries needing reconciliation,
+  including six ledger-only ownership entries that needed reconciliation (migrated
+  2026-10-19, round 2026-10-19-14),
   notes-only entries, non-sequencing assays and partial molecular coverage.
 
 Method: loaded each catalogue protocol in an isolated Python process and ran the
@@ -304,10 +305,11 @@ changes neither source-review acceptance nor the capped-curation census.
 ## Current migration progress — 2026-10-18
 
 The user-selected cohort is the initial 182-protocol worklist.
-[Pending migrations](validation_migration_pending.tsv) now contains **5**
+[Pending migrations](validation_migration_pending.tsv) now contains **0**
 protocols; [completed migrations](validation_migration_completed.tsv) records
-**177** verified migrations with their former dependencies and current scoped
-coverage. The remaining cohort includes three implementations awaiting independent review, one historical-source blocker and one execution filter stop; see the Batch12 checkpoint. Entries leave the
+**189** verified migrations (the 182-protocol cohort plus seven later entries, see
+below) with their former dependencies and current scoped
+coverage. Entries leave the
 pending file only after their source-qualified declarations and affected checks
 are verified; a temporarily removed import alone does not complete a migration.
 
@@ -641,3 +643,20 @@ scoped molecular checks; whole-protocol validation and source-absence obligation
 remain separate. Current pending and completed files retain the original 182 scope.
 
 Final batch12 verification: focused suites/pages, source guards and review schemas pass; catalogue 83 checks pass. Whole-site build passes 407/407 diagrams, 406 finished schematics, 402/402 documented NGS graph contracts and all 813 site-file relative links. Pairing and P5 lint have zero findings beyond the existing source-known PEM exemption. Changes remain unstaged and uncommitted.
+
+## Final ownership-queue entries — 2026-10-19
+
+After the cohort closed, six protocols outside it still sat in the ownership queue:
+10x Chromium Single Cell ATAC v1 (`nextera` outcomes), Duplex-Repair, LamPORE, Olink
+Explore, TIME-seq (`batch_ngs`), and PEM-seq (`batch_ngs`, `protocol_model.da_tailed`).
+An indirect-import scan added UMI-4C. It executed `da_tailed` through the
+`conformation_replication_specs` re-export, which the static direct-caller count missed.
+All seven are migrated, each with an independent implementation review
+([round 2026-10-19-14](migration_rounds/2026-10-19-14.tsv)). The `batch_ngs`,
+`nextera` and `protocol_model.da_tailed` rows are now `ownership_resolved` with no
+direct protocol callers; no queue row remains `queued` or `in_progress`.
+
+A runtime trace over every protocol suite showed that no protocol executes the
+`batch_ngs` library constructors or `da_tailed`. `nextera.amplifiable` is called only
+by the shared `checks.run_common` invariant test. Several legacy `lib/` modules still
+import these constructors, so they are not retired.

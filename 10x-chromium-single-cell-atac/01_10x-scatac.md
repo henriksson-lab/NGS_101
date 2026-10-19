@@ -32,7 +32,7 @@ Sources read (in `$CHEM_DATA/sources/10x-chromium-single-cell-atac/`, never comm
 
 | File | What | Used for |
 |---|---|---|
-| `upstream_10xChromium_scATAC.html.txt` | scg_lib_structs page (fetched by `get_sources.py`) | complete second account: oligos, steps, final library, read layout |
+| `upstream_10xChromium_scATAC.html.txt` | scg_lib_structs page (fetched by `get_sources.py`) | orientation only, not a source: its oligos, steps and layout were compared, never used as evidence |
 | `CG000168_ChromiumSingleCellATAC_ReagentKits_UserGuide_RevA.pdf(.txt)` | 10x User Guide Rev A — fetched **by hand** from the copy upstream links (`teichlab.github.io/scg_lib_structs/data/10X-Genomics/`) | **every oligo** (Appendix "Oligonucleotide Sequences", txt lines 3343–3441), all reaction conditions, sequencing parameters |
 | `10x_Single_Index_Kit_N_Set_A.csv` | 10x Genomics Single Index Kit N Set A index list | all four 8-nt i7 index sequences for each of 96 wells |
 | `10x_CG000209_Chromium_NextGEM_SingleCell_ATAC_ReagentKits_v1.1_UserGuide_RevG.pdf.txt` | 10x Next GEM ATAC v1.1 guide, Appendix A1 | confirms the five v1 library oligo structures recur in v1.1; gel-bead part number changes to PN-2000210 |
@@ -136,9 +136,10 @@ Conditions 🟢 from CG000168 Rev A unless marked.
 2. **Transposition (bulk)**: 7 µl ATAC Buffer + 3 µl ATAC Enzyme + 5 µl nuclei/buffer =
    15 µl; **37 °C 60 min**, hold 4 °C (lid 50 °C). Tn5 inserts s5-ME and s7-ME adaptors
    into accessible chromatin with the usual 9-bp gap — see
-   [Tn5 tagmentation](../ref/concepts/tn5-tagmentation.md). Three end combinations arise
-   (s5/s5, s7/s7, s5/s7); only s5/s7 becomes a sequenceable library. 🟡 (upstream draws
-   all three; `nextera.TAGMENTATION_OUTCOMES`)
+   [Tn5 tagmentation](../ref/concepts/tn5-tagmentation.md). With two adaptors, s5/s5 and
+   s7/s7 fragments are candidate products besides s5/s7. 🟡 (derived from the two
+   adaptors; CG000168 describes only the s5/s7 product.) Their physical fate is not
+   assigned (see "Same-adaptor candidates" below).
    - The DNA is **not released**: Tn5 stays bound after transposition until denatured
      (Amini 2014: dissociates only with SDS or protease 🟢 in Amini), so nuclei stay intact
      and keep their own fragments. 🟡 for the 10x case (the guide only says the transposase
@@ -176,21 +177,37 @@ Conditions 🟢 from CG000168 Rev A unless marked.
    is not stated.)
 8. QC and **qPCR quantification** (KAPA Library Quantification Kit; 95 °C / 67 °C, 30 cycles); Bioanalyzer High Sensitivity or TapeStation. 🟢
 
-### Why only s5/s7 fragments become library — 🟡
+### Same-adaptor candidates: amplification, sequencer compatibility, filtering — 🟡
 
-- **s7/s7**: no s5 complement anywhere, so the bead primer never extends on it; no
-  barcode, no P5 → not sequenced.
-- **s5/s5**: the bead primer can barcode **both** strands, giving
-  `P5 · <cbc> · Read 1N · insert · revcomp(Read 1N) · revcomp(<cbc>) · revcomp(P5)` with
-  inverted repeats at the two ends (same barcode, same GEM). Upstream calls these "not
-  amplifiable due to semi-suppressive PCR" (the ends fold into a panhandle); in any case
-  they carry no P7 and cannot form clusters.
-- **s5/s7**: one barcoded strand per template per cycle, ending in revcomp(Read 2N) — the
-  substrate for the i7 primer.
+CG000168 Rev A describes and draws only the s5/s7 product (Stepwise Objectives, txt
+lines 800–935; Appendix 3343–3441). It says nothing about s5/s5 or s7/s7 fragments, and
+no step removes them physically: they stay in the nuclei through partitioning and pass
+into the SILANE and SPRIselect cleanups with everything else. The three questions are
+therefore kept apart:
 
-nanoCAGE (Plessy 2010) defines semi-suppressive PCR for linkers that are "similar (but not
-identical)" at the two ends, with identical-end templates forming homo-duplexes. 🟢 in
-Plessy 2010; its application to scATAC is upstream's interpretation. 🟡
+- **Physical amplification — not assigned.** A gap-filled s5/s5 fragment ends in s5' on
+  both strands, so the bead primer (3' end = s5) can anneal to either strand. A linear
+  product ends in s5', so a second bead primer can copy it back through the barcode,
+  giving `P5 · <cbc> · s5 · ME · insert · ME' · s5' · <cbc>' · P5'` (derived from the
+  Appendix sequences, not drawn by the model). Only this doubly extended form carries
+  P5' at its 3' end, where SI-PCR Primer B (partial P5, Appendix Step 4.1) can anneal; it
+  could then prime both ends. On an s7/s7 fragment the bead primer has no site, but the
+  i7 primer's 3' partial Read 2N (`GTCTCGTGGGCTCGG`, the first 15 nt of the Read 2N
+  primer) can anneal to s7' at the 3' end of both strands in the Sample Index PCR. The guide states no yield or suppression for either. nanoCAGE (Plessy 2010) shows
+  that identical-end templates can be suppressed (🟢 in Plessy 2010), but no 10x source
+  applies this to scATAC. 🟡
+- **Sequencer compatibility — not compatible.** The guide says the final libraries carry
+  "the P5 and P7 primers used in Illumina® bridge amplification" (Step 4 overview, txt
+  lines 867–875) and "begin with P5 and end with P7" (Sequencing). An s5/s5 product
+  carries P5 (at one or both ends) but no P7, and an s7/s7 product carries P7 but no P5,
+  so neither has the P5/P7 pair.
+  🟡 (inference from 🟢 statements)
+- **Computational filtering — not involved.** Cell Ranger ATAC groups read pairs by
+  10x Barcode (Sequencing, txt lines 2901–2903 🟢); it is not a way of removing these
+  products, which lack the P5/P7 pair needed to be sequenced at all. 🟡
+- **s5/s7** is the substrate the guide describes: one barcoded strand per template per
+  linear cycle, ending in revcomp(Read 2N), which the i7 primer completes. 🟢 (Appendix
+  intermediate and final products; "one strand per cycle" is 🟡 from "linear amplification")
 
 ## 4. Final library — 🟢 (CG000168 Appendix, "Sample Index PCR Product")
 
@@ -287,3 +304,14 @@ Set A CSV rows. Model corrections made against those passages:
 Still open: Tn5 release mechanism in GEMs; Barcoding Enzyme identity; v1.1 (CG000209)
 and v2 differences beyond the Appendix comparison; Demonstrated Protocol for nuclei
 isolation (CG000169) not read.
+
+## 10. Migration check 2026-10-19
+
+The model no longer relies on a shared same-adaptor outcome rule: s5/s5 and s7/s7
+fragments are candidate products with an unresolved terminal whose reason separates
+physical amplification (not assigned), sequencer compatibility (no P5/P7 pair, from the
+guide's Step 4 and Sequencing statements) and computational filtering (not involved).
+The §3 statement that "only s5/s7 becomes a sequenceable library", which cited upstream
+and the shared outcome table, was replaced. The tagmentation step now carries its
+37 °C, 60 min condition (CG000168 Rev A Step 1, txt line 1586). Post-GEM and
+size-selection cleanups remain outside the graph.

@@ -280,6 +280,40 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "suite 3 checks pass; page builds; pairing 0 problems; chemistry 1 established/0 conditional/12 unresolved/0 contradictory; source guard 6 exact checked, 0 failed, 1 input without exact state (biotin-RNA baits); Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "root",
+      "date": "2026-10-19",
+      "documents": 3,
+      "locations": "PMC11332592 JATS lines 117 (overview), 189–201 (TIME-seq library preparation), 205 (Sequencing), 281 (ED Fig. 2 legend); publisher MOESM1 Supplementary Note II lines 79–100 (adaptor annealing, 1:1:2 A:B:glycerol transposome loading, test tagmentation) and IV lines 152–163 (read protocol); MOESM7 Supplementary Table 5 sheets TIME-Seq TN5 Adaptors (lines 1–75), Hyb Blocking Oligos (76–80), Indexed PCR Primers (81–99), Sequencing Primers (100–104), cross-checked in the original workbook sharedStrings",
+      "oligo_scraper": "Bundle scraper rerun (215 TSV rows); --find GTCTCGTGGGCTCGG locates only the MOESM7 Adaptor A blocker (rc, line 80). Tn5 reverse, methylated adaptor A, TS301/TS302, both blockers, N501 (of N501–N506), N701 (of N701–N704) and custom Read 2/Index 1 primers verified verbatim against the declarations.",
+      "findings": "Removed batch_ngs import (nextera_library, truseq_library unused; seg replaced by chemdraw.Segment, 10 uses). Native graph had no inherited batch defaults: 8-nt dual indexes, custom R2/I1 handle (AAGCAGTGGTATCAACGCAGATC + B prefix TGGGTGGAGGGTGG) and 145/8/8/5 read plan match Table 5 and Supplementary Note IV. Replaced the per-sample tagmentation discard ('does not retain an amplifiable A/B configuration') with an UNRESOLVED molecular terminal for same-adaptor A/A and B/B fragments: no inspected source removes them, they continue through pooling, column, capture and PCR. N501/N701 labelled as representatives of published N501–N506/N701–N704. Published discrepancy added to page caveat and note: Table 5 'Adaptor A Blocking Oligo' is the reverse complement of the Nextera Tn5ME-B (S7) arm + ME rather than of TIME-seq adaptor A (S5 arm); minor table inconsistencies (7-N i5 placeholder under an 8-nt header; B-prefix labelled 'Adaptor A').",
+      "deferred": [
+        "Intended Adaptor A blocker sequence (published value vs adaptor A arm) unresolved; preprint and author contact not used",
+        "Physical/computational fate of same-adaptor tagmentation fragments (N701-only amplification, clustering) unreported",
+        "Extended Data Fig. 2 rendered library schematic not inspected (figure image not on disk)",
+        "Supplementary Note III bait production and Supplementary Tables 2–4 still not re-read",
+        "1 µl ScreenTape QC aliquot after pool cleanup not modelled"
+      ],
+      "scope": "Bounded migration check of batch_ngs removal, tagmentation-product fate, PCR index and sequencing-handle declarations; no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 3 checks pass; page builds; pairing 0 problem duplexes; source guard 6 exact checked, 0 failed, 1 input without exact state (biotin-RNA baits); build_docs wrote note; check_chemistry total established=44/conditional=37/unresolved=220/contradictory=0; no batch_ngs symbol imported in directory"
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "batch14_independent",
+      "date": "2026-10-19",
+      "documents": 3,
+      "locations": "PMC11332592 JATS lines 189–205 (TIME-seq library preparation incl. 0.6 µl hybridization blocking primers, PCR, Sequencing); publisher MOESM1 Supplementary Note II lines 79–100 (adaptor annealing, 1:1:2 A:B:glycerol loading); MOESM7 Supplementary Table 5 sheets TIME-Seq TN5 Adaptors (1–75), Hyb Blocking Oligos (76–80), Indexed PCR Primers (81–99), Sequencing Primers (100–104), cross-checked in the original workbook sharedStrings (NNNNNNN under 'i5 Index (8-nt)'; 'Adaptor A' header over TGGGTGGAGGGTGG; A-blocker string)",
+      "oligo_scraper": "Not rerun; migrator's bundle scrape relied on. Adaptor A blocker reverse complement recomputed independently: GTCTCGTGGGCTCGG + ME (Nextera S7/Tn5ME-B), versus adaptor A S5 arm TCGTCGGCAGCGTC; only the 19-nt ME portion pairs.",
+      "findings": "Published A-blocker discrepancy and both minor table inconsistencies confirmed in the original workbook and shown on page caveat and in note. seg→Segment conversion is attribute-preserving (batch_ngs.seg was a pure passthrough to Segment); no seg uses remain. Fixed the same-adaptor UNRESOLVED terminal reason and note bullet, which asserted that these fragments are captured and PCR-amplified while also saying amplification is unreported; reworded as inferred formation from equal A/B loading, no removal before PCR, capture/amplification/sequencing unreported; note mark split 🟡 (formation inferred) / 🔴 (fate unpublished). Renamed variable losses→same_adaptor.",
+      "deferred": [
+        "Intended Adaptor A blocker sequence unresolved (preprint and author contact not used)",
+        "Fate of same-adaptor tagmentation fragments unreported",
+        "Extended Data Fig. 2 rendered schematic, Supplementary Note III and Supplementary Tables 2–4 not inspected"
+      ],
+      "scope": "Independent bounded check of the migration edits (blocker discrepancy, table inconsistencies, same-adaptor terminal, Segment conversion); no full chemistry validation or accepted missing-information claim.",
+      "verification": "suite 3 checks pass; page builds; pairing 0 problem duplexes; source guard 6 checked, 0 failed, 1 input without exact state; build_docs --check up to date; check_chemistry total established=44/conditional=37/unresolved=220/contradictory=0"
     }
   ]
 }

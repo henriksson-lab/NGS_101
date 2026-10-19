@@ -260,3 +260,57 @@ Atrandi's three historical locator failures, were not resolved by this review.
 No files were staged or committed.
 
 Final rebuild: **407/407 diagram pages built**, 402/402 documented NGS graph contracts pass, and every relative site link resolves. The index reports 5525 checks total. All 777 Markdown outputs were current before this final verification entry; rebuilt after adding it. No protocol page is omitted.
+
+## Migration finalization: meta3C, PTA, scRepli-seq, scRRBS, REPLI-g (2026-10-19)
+
+These were the five entries left in the original 182-protocol migration cohort. Each
+one now has its own independent implementation review, recorded in
+`catalogue/migration_rounds/2026-10-19-13.tsv`. The pending worklist is empty and all
+182 entries are in `validation_migration_completed.tsv`.
+
+What to look at critically:
+- **Two retired lib modules.** `lib/rrbs.py` was deleted (no importer left). The
+  chemistry-bearing shortcuts in `lib/protocol_extensions.py` were deleted:
+  `proximity_product`, `capped_full_length_cdna`, `clicked_nascent_rna`,
+  `indexed_molecule`, `multiplex_target_fragment`, `coamplified_analytes`,
+  `overload_then_unpack`. `analyte_split` and `native_three_prime_end` keep their
+  callers.
+- **`chemistry_decoupling.tsv`.** The `rrbs` and `protocol_extensions` rows are now
+  resolved. `batch_ngs` dropped PTA, scRepli-seq and REPLI-g, leaving five callers.
+- **REPLI-g.** The maintainer confirmed no more originals exist. The graph uses only
+  the October 2012 handbook (distributor mirror, identity from the printed code
+  1073014 10/2012) and stops at a library-preparation boundary. That boundary names
+  the unavailable RG35 August 2014 and Nextera 15027987 Rev B revisions. No final
+  library or read plan is drawn. The source review stays `blocked`.
+- **meta3C read description.** Methods says the tag is "at the beginning of each
+  sequence". The MM77 order gives N6 first, and both statements are now on the page.
+
+Verification: 402 local suites, shared 1280, sources 226 and catalogue 83 pass.
+Chemistry has 0 contradictory claims; review schemas pass. The site builds 407/407
+pages with every link resolving. Nothing staged or committed.
+
+## Final ownership-queue migrations: Chromium ATAC, Duplex-Repair, LamPORE, Olink Explore, PEM-seq, TIME-seq, UMI-4C (2026-10-19)
+
+These were the six ownership-queue entries outside the 182 cohort, plus UMI-4C. Each
+has its own independent implementation review, recorded in
+`catalogue/migration_rounds/2026-10-19-14.tsv`. No `chemistry_decoupling.tsv` row is
+still `queued` or `in_progress`.
+
+What to look at critically:
+- **Physical fates.** Four protocols had products recorded as physically discarded
+  when no source describes a removal step: TIME-seq and Chromium same-adaptor
+  tagmentation products, LamPORE rapid-barcode off-products, and Olink unbound probes.
+  They are now `Disposition.UNRESOLVED` terminals with reasons tied to the sources.
+- **TIME-seq published discrepancy.** I checked it in the workbook myself: the "Adaptor A
+  Blocking Oligo" reverse-complements GTCTCGTGGGCTCGG+ME (the Nextera B arm), while
+  TIME-seq adaptor A carries TCGTCGGCAGCGTC.
+- **PEM-seq.** The bridge adapter is now `AdapterLigationGeometry.known("splinted")`.
+  The splint role is inferred from the printed strands, and the final library bases
+  are identical to HEAD.
+- **UMI-4C.** It was not in the queue's static count, because it executed `da_tailed`
+  through a re-export. Its dephosphorylated substrate state comes from the related
+  C-walks GEO description and is labelled inferred everywhere it appears.
+- **Olink.** The 5-nt linker and 33-nt Rd1SP after the patent P5 are inferred and
+  marked as inferred on the page.
+- **Ledgers.** `validation_migration_completed.tsv` has 189 entries: the 182 cohort
+  plus these 7.

@@ -3,13 +3,13 @@ import illumina as il
 import nextera as nx
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
-from batch_ngs import nextera_library, seg, truseq_library
 from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, revcomp
 from circular import CircularizationGeometry
 from endprep import ThreePrimeOverhangAdapter, ligation_product_scene, react_dA_tail_then_ligate, repair_and_dA_tail
 from protocol_model import closed_circle, molecule, role
 from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
+                            StepKind, Terminal)
 from accuracy_protocols import _workflow
 
 TIME_B_PREFIX = "TGGGTGGAGGGTGG"
@@ -43,23 +43,23 @@ TIME_CUSTOM_I1 = revcomp(TIME_CUSTOM_R2)
 
 def _time_library():
     lib = Construct([
-        seg("P5", il.P5, "p5"),
-        seg("i5 (N501)", TIME_I5, "cbc",
+        Segment("P5", il.P5, "p5"),
+        Segment("i5 (N501)", TIME_I5, "cbc",
             feature=feature("pool_index_i5", "sample_index", "whitelist",
                             whitelist="TIME-seq Supplementary Table 5 indexed PCR primers")),
-        seg("S5", nx.S5, "s5"), seg("left mosaic end", nx.ME, "me"),
+        Segment("S5", nx.S5, "s5"), Segment("left mosaic end", nx.ME, "me"),
         role("bisulfite-converted captured insert"),
-        seg("right mosaic end reverse complement", nx.ME_RC, "me"),
-        seg("Tn5 sample barcode reverse complement", revcomp(TIME_BARCODE), "cbc",
+        Segment("right mosaic end reverse complement", nx.ME_RC, "me"),
+        Segment("Tn5 sample barcode reverse complement", revcomp(TIME_BARCODE), "cbc",
             feature=feature("tn5_sample_barcode", "inline_barcode", "whitelist",
                             whitelist="TIME-seq Supplementary Table 5 TS301–TS364")),
-        seg("B-adaptor prefix reverse complement", revcomp(TIME_B_PREFIX)),
-        seg("custom sequencing handle reverse complement",
+        Segment("B-adaptor prefix reverse complement", revcomp(TIME_B_PREFIX)),
+        Segment("custom sequencing handle reverse complement",
             revcomp("AAGCAGTGGTATCAACGCAGATC"), "r2"),
-        seg("i7 reverse complement (N701)", revcomp(TIME_I7), "cbc",
+        Segment("i7 reverse complement (N701)", revcomp(TIME_I7), "cbc",
             feature=feature("pool_index_i7", "sample_index", "whitelist",
                             whitelist="TIME-seq Supplementary Table 5 indexed PCR primers")),
-        seg("P7 reverse complement", il.P7_RC, "p7"),
+        Segment("P7 reverse complement", il.P7_RC, "p7"),
     ], name="TIME-seq final library")
     primers = (sp.NEXTERA["R1"],
                sp.custom("Index 1 (i7)", "TIME-seq custom Index 1", TIME_CUSTOM_I1,
@@ -107,7 +107,18 @@ TITLE = 'TIME-seq — tagmentation-based indexing for methylation sequencing'
 NOTES = '01_time_seq.html'
 SOURCE = '<a href="https://doi.org/10.1038/s43587-023-00555-2">Griffin et al., <i>Nature Aging</i> (2024)</a>, Supplementary Information and Supplementary Table 5.'
 SUMMARY = 'Bisulfite-resistant Tn5 adapters install a 5-nt sample barcode before pooling; methylated end repair, hybrid capture, bisulfite conversion and indexed PCR produce the targeted methylation library.'
-CAVEAT = 'The displayed B-adapter uses published representative TS301; the paper publishes 64 alternative 5-nt sample indexes.'
+CAVEAT = ('The displayed B-adapter uses published representative TS301; the paper publishes 64 alternative 5-nt sample indexes. '
+          'N501 and N701 are drawn as representatives of the published N501–N506 and N701–N704 pool-index primers; '
+          'pool-to-index assignments are study specific. '
+          'SOURCE DISCREPANCY — Supplementary Table 5, sheet “Hyb Blocking Oligos”, lists the “Adaptor A Blocking Oligo” as '
+          'CTGTCTCTTATACACATCTCCGAGCCCACGAGAC, the reverse complement of the Nextera Tn5ME-B arm GTCTCGTGGGCTCGG plus the '
+          'mosaic end, whereas TIME-seq methylated adaptor A (same table, sheet “TIME-Seq TN5 Adaptors”) carries the TCGTCGGCAGCGTC arm; '
+          'only its 19-nt mosaic-end part is complementary to adaptor A. The adaptor B blocker is the exact B-adaptor reverse complement '
+          '(HHHHH opposite DDDDD). The model transcribes the blocker as published, uses it only as a hybridization input, and does not '
+          'infer which sequence was intended or how well it blocks adaptor A. Minor table inconsistencies: the P5 primer structure row shows a '
+          '7-N i5 placeholder under an “i5 Index (8-nt)” header while every listed N50x index has 8 nt (the model uses 8), and the adaptor B '
+          'structure row labels its 14-nt TGGGTGGAGGGTGG prefix “Adaptor A”. '
+          'Tagmentation fragments carrying the same adaptor at both ends have an unresolved fate; no inspected source removes them.')
 READ_LENGTHS = {'Read 1': 145, 'Index 1 (i7)': 8, 'Index 2 (i5)': 8, 'Read 2': 5}
 SHOW_READ_CONTENT = True
 FINAL_CAPTION = 'The internal five-base Tn5 barcode identifies the pre-pooling sample; i5 and i7 identify the PCR pool. TS301 is drawn as one published representative.'
@@ -156,14 +167,19 @@ def protocol_graph():
                          "tn5_sample_barcode", "inline_barcode", "whitelist",
                          whitelist="TIME-seq Supplementary Table 5 TS301–TS364")),
                 role("B adapter"))))
-        losses = graph.product(prefix + "_losses", barcode_label + " non-library Tn5 products",
-                               MaterialKind.WASTE)
+        same_adaptor = graph.product(prefix + "_same_adaptor", barcode_label
+                               + " A/A and B/B tagmentation fragments", MaterialKind.MOLECULAR)
         graph.react(
             prefix + "_tagment", "Tagment " + barcode_label + " with its indexed B transposome",
             StepKind.TAGMENTATION,
             ((sample, InputRole.TEMPLATE), (adapters, InputRole.STRUCTURAL),
-             (tn5, InputRole.CATALYST)), (tagged, losses))
-        graph.discard(losses, "does not retain an amplifiable A/B tagmentation configuration")
+             (tn5, InputRole.CATALYST)), (tagged, same_adaptor))
+        graph.mark_terminal(Terminal(
+            same_adaptor.id, Disposition.UNRESOLVED,
+            "Inferred: equal A and indexed B adaptor loading (1:1:2 A:B:glycerol, Supplementary Note II) "
+            "also yields fragments with the same adaptor at both ends. No inspected source removes them "
+            "before PCR: they remain in the pool through column cleanup, end repair and hybridization, "
+            "and whether they are captured, amplified by the N50x/N70x primers or sequenced is not reported."))
         reviewed.extend((prefix + "_adapters", prefix + "_tn5", prefix + "_tagment"))
         return tagged
 
@@ -261,10 +277,10 @@ def protocol_graph():
                 StepKind.CHEMICAL_CONVERSION,
                 ((captured, InputRole.TEMPLATE), (bisulfite, InputRole.CONDITION)),
                 (converted,))
-    n501 = graph.input("n501_primer", "published indexed PCR primer N501",
+    n501 = graph.input("n501_primer", "indexed PCR primer N501 (representative of published N501–N506)",
                        MaterialKind.OLIGO, state=TIME_N501,
                        source=source + " (Supplementary Table 5, Indexed PCR Primers)")
-    n701 = graph.input("n701_primer", "published indexed PCR primer N701",
+    n701 = graph.input("n701_primer", "indexed PCR primer N701 (representative of published N701–N704)",
                        MaterialKind.OLIGO, state=TIME_N701,
                        source=source + " (Supplementary Table 5, Indexed PCR Primers)")
     polymerase = graph.input(

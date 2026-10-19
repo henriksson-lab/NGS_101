@@ -26,6 +26,14 @@ reverse preamplification site. Both carry assay-specific barcodes and complement
 hybridization arms. Co-binding to the same protein raises their effective local
 concentration, allowing the arms to hybridize.
 
+🟢 The PCR1 mix (article) or extension mix (patent worked example) is added to each
+incubation reaction or plate, with no wash described between the immunoreaction and
+extension (JATS lines 164–168; patent text lines 4128–4135, 4994–4996). The article
+says only that proximal matched pairs generate detectable amplicons (Fig. 1A legend,
+line 152). 🟡 Free and non-proximal probes are therefore inferred to stay in the
+reaction; the model leaves their later physical fate unresolved rather than calling
+them discarded.
+
 🟢 Samples are used undiluted and at 1:10, 1:100 and 1:1000; 0.2 µl sample is mixed
 with 0.6 µl block incubation mix (80 µl incubation solution + 10 µl forward + 10 µl
 reverse probes) and incubated at 4 °C for 16–24 h (PMC8633680 JATS lines 162–164).
@@ -62,8 +70,9 @@ primer sequences.
 🟡 The rest of the exact standard Illumina P5/Rd1SP end shown on the schematic
 comes from Illumina's adapter documentation. The combined end is 58 nt. Together
 with the patent's 24-nt P7 adapter, the published 148-bp total leaves exactly 66 nt
-between Rd1SP and P7. This agrees with the published 66-cycle read, which starts at
-Rd1SP and covers the inline assay and sample identifiers. The individual lengths
+between Rd1SP and P7. This agrees with the published 66-cycle read covering the inline
+assay and sample identifiers; it is a consistency check, not proof of the bases, and
+the article does not state where Read 1 starts or ends. The individual lengths
 within those 66 nt have not yet been verified from an original oligo table.
 
 🔴 The original article, its four supplements and the checked patent do not supply
@@ -97,3 +106,14 @@ abundance after control normalization.
   condition, PCR1-mix extension catalyst, panel pooling and AMPure XP cleanup with
   its discarded supernatant, and the forward-primer wording discrepancy. Not
   re-read: supplements mmc1–mmc4, the 2026 preprocessing guide, `combine-olink`.
+- 2026-10-19 bounded migration check (round 2026-10-19-migration-final): removed the
+  unused shared `batch_ngs` imports (the graph was already native); re-read JATS
+  lines 152, 158–176 and patent lines 1753, 4128–4135, 4996. Unbound probes changed
+  from a physical discard to an unresolved terminal (no wash step); the linker and
+  Rd1SP bases between patent SEQ ID 1 and the inline region are now marked inferred
+  on the page, matching the 🟡 label above.
+- 2026-10-19 independent migration review (batch14_independent): re-read JATS lines
+  152, 164–176 and patent lines 1753, 4128–4135, 4946–4996. The no-wash statement is
+  now 🟢 only for the described mix addition, with probe carry-over 🟡; the 58 + 66
+  + 24 = 148 arithmetic was confirmed as a consistency check, and the page caption no
+  longer calls the derived 66-nt inline length published.

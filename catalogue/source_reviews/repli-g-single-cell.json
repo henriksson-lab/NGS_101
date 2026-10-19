@@ -144,6 +144,39 @@
       ],
       "scope": "Metadata/source-identity stop; documents0; no source-reading or independent absence pass.",
       "verification": "No protocol edit; moved to next protocol under user instruction."
+    },
+    {
+      "round": "2026-10-19-native-graph-migration",
+      "reviewer": "native_migration_repli_g",
+      "date": "2026-10-19",
+      "documents": 1,
+      "locations": "QIAGEN REPLI-g Single Cell Handbook 10/2012 (supplier mirror, md5 6411c5e2; printed 'October 2012', footer 'REPLI-g Single Cell Handbook 10/2012', '1073014 10/2012') EN-REPLI-g-Single-Cell-Handbook.pdf.txt title lines 1–6; Introduction/Principle lines 224–315; Protocol: Amplification of Genomic DNA from Single Cells lines 477–655 (steps 1–13, Tables 4–5, no-template-control note). MANIFEST.tsv: other three rows are (manual) failed QIAGEN routes with no content.",
+      "oligo_scraper": "Bundle scraper re-run 2026-10-19: 0 sequences in 0 files; handbook prints no primer bases (not evidence of absence).",
+      "findings": "Maintainer instruction: no further data obtainable. Removed queued batch_ngs.nextera_library endpoint (dual 8-base indexes, canonical Nextera arms, 2x150 read plan, inferred index PCR). Module now owns lysis/denaturation (Buffer D2, 10 min 65 C; no alkaline claim), Stop Solution neutralization, phi29 MDA with exonuclease-resistant primers (composition unassigned; no hexamer/random claim beyond the handbook's primer-dimer note), 65 C/3 min inactivation, aliquot vs stored-remainder split (steps 11-12), discarded no-template primer-dimer control, and one MAGIC library-preparation boundary whose reason names the unavailable August 2014 RG35 and Nextera 15027987 Rev B originals; 2018 RG35 (Advanced DNA Single Cell) not substituted. Sequencing plan acquisition unspecified; no primers or read lengths.",
+      "deferred": [
+        "QIAGEN RG35 Nextera protocol, August 2014 (cited named-kit library route): unavailable",
+        "Illumina Nextera DNA Sample Preparation Guide 15027987 Rev B, October 2012: unavailable",
+        "Current QIAGEN 2024 handbook hb-1306-003: unavailable",
+        "Kit primer bases/length/protection and carrying component"
+      ],
+      "scope": "Native-graph ownership migration under a capped one-original pass; no missing-information claim accepted and blocked status unchanged.",
+      "verification": "local suite 5/5 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/8 unresolved/0 contradictory over 8 steps; source guard 0 checked, 0 failed, 0 inputs without exact states; Markdown built; no batch_ngs/protocol_families import remains"
+    },
+    {
+      "round": "2026-10-19-native-graph-implementation-review",
+      "reviewer": "independent_review_repli_g",
+      "date": "2026-10-19",
+      "documents": 1,
+      "locations": "QIAGEN REPLI-g Single Cell Handbook 10/2012 (PDF md5 6411c5e2; printed 'October 2012', footer code '1073014 10/2012' line 1320; Dean et al. 2002 cited line 1178) EN-REPLI-g-Single-Cell-Handbook.pdf.txt lines 1-30, 224-330, 470-660.",
+      "oligo_scraper": "Not re-run; prior entry's 0-hit result unchanged (no primer bases printed in the inspected handbook lines).",
+      "findings": "Step order, volumes, temperatures and times match steps 1-13 and Tables 4-5. Corrected: step 11 storage is conditional ('if not being used directly'), so the stored node no longer claims 'the rest'; no-template-control primer-dimer extension now takes the same reaction buffer as the sample MDA; 2018 RG35 kit identity hedged as manifest-recorded/not inspected in the boundary reason; note's RG35 kit-listing statements re-marked from green to yellow (neither RG35 revision read); protocol line range corrected to 541-655. Self-test now walks the graph to show primer-dimer and stored material never feed the library. No hexamer, alkaline, index, read-length or Nextera-sequence claim found in module or page.",
+      "deferred": [
+        "QIAGEN RG35 Nextera protocol, August 2014: unavailable",
+        "Illumina Nextera DNA Sample Preparation Guide 15027987 Rev B, October 2012: unavailable",
+        "Kit primer bases/length/protection and carrying component"
+      ],
+      "scope": "Independent implementation review of the native-graph migration against the one on-disk original; not an absence-gate pass; blocked status unchanged.",
+      "verification": "local suite 7/7 pass; page builds; pairing 0 problems; chemistry 8 steps, 0 established/0 conditional/8 unresolved/0 contradictory; source guard 0 checked, 0 failed, 0 inputs without exact states; audit check blocked 1; build_docs --check up to date"
     }
   ]
 }

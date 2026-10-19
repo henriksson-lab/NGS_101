@@ -1,6 +1,5 @@
 """meta3C restriction-ligation library from mixed microbial populations."""
-from protocol_extensions import proximity_product
-from chemdraw import Row, Scene, Segment, Construct, feature
+from chemdraw import Scene, Segment, Construct, feature
 import seqprimers as sp
 from adapter_ligation import AdapterLigationGeometry
 from pcr import PCRGeometry
@@ -32,7 +31,8 @@ SEQUENCING_UNAVAILABLE = "Historical PE-930-1001 primer sites and custom-adapter
 READ_CYCLES = "100 (Methods) or 104 (Results, bacterial library)"
 READ_SPECS = tuple(sp.read_spec(r, READ_CYCLES,
     "Table 1 places six random bases and a short fixed library tag at the adapter end adjacent to the insert; "
-    "the paper says reads begin with the tag. Exact cycle boundaries are unresolved because the kit primer site is not reconstructed.",
+    "Methods (PE-read processing) says the tag is at the beginning of each sequence, whereas MM77 read 5′→3′ from its Read 1 primer site gives N6 before the tag. "
+    "Exact cycle boundaries are unresolved because the kit primer site and adapter geometry are not reconstructed.",
     "extract_then_include") for r in ("Read 1", "Read 2"))
 
 def bacterial_adapters():
@@ -49,12 +49,13 @@ def bacterial_adapters():
               label="MM76 (ordering strand)")
     sc.strand("MM77", [Segment("MM77 PE adapter", MM77[:33]),
                        Segment("MM77 N6", MM77[33:39], feature=umi),
-                       Segment("MM77 tag", MM77[39:], feature=tag)],
+                       Segment("MM77 tag", MM77[39:42], feature=tag),
+                       # Extra 3' base beyond the MM76-complementary region; the
+                       # paper assigns it no meaning (T-overhang role is inferred in notes).
+                       Segment("MM77 3' T", MM77[42:])],
               label="MM77 (ordering strand)")
     return sc
 FINAL_CAPTION="Paired-end reads include ordinary genomic fragments and restriction-junction contact products."
-def sections():
-    return [("Crosslink the mixed microbial community",[Row(chunks=[("species A cells + species B cells + … → formaldehyde-fixed chromosomes", None, False)])],"Crosslinking occurs before lysis so contacts retain cellular provenance."),("Digest fixed chromatin",[Row(chunks=[("bacteria: HpaII C^CGG; yeast: DpnII G^ATC", "me", False)])],"The enzyme is chosen for the organisms and crosslinking conditions."),("Dilute and ligate proximal restriction ends",proximity_product(left="microbial locus A",right="microbial locus B",bridge="restriction junction").rows(),"Ligation produces within-cell contact chimeras; no biotin fill-in or junction pull-down is used."),("Reverse crosslinks, shear and make a paired-end library",[Row(chunks=[("3C pool → Covaris shear → custom PE adapters → size select → PCR", "r1", False)])],"Keeping non-junction fragments also supplies shotgun coverage for metagenome assembly."),]
 
 
 def protocol_graph():
@@ -63,7 +64,7 @@ def protocol_graph():
         "microbial_community", "mixed microbial community", MaterialKind.BIOLOGICAL,
         state=molecule("mixed microbial cells", (role("species-resolved chromosomes"),)),
         primary=True)
-    formaldehyde = graph.input("formaldehyde", "formaldehyde cross-linking condition",
+    formaldehyde = graph.input("formaldehyde", "3% formaldehyde, 30 min RT + 30 min 4 °C; 0.25 M glycine quench 5 min RT + 15 min 4 °C",
                                MaterialKind.CONDITION)
     fixed = graph.product("fixed_chromatin", "cross-linked microbial chromatin",
                           MaterialKind.MOLECULAR, state=sample.state)
@@ -72,16 +73,22 @@ def protocol_graph():
                 ((sample, InputRole.TEMPLATE), (formaldehyde, InputRole.CONDITION)),
                 (fixed,))
 
+    lysis = graph.input("lysis", "Ready-Lyse lysozyme 20 min RT, then 0.5% SDS 10 min RT",
+                        MaterialKind.CONDITION)
+    lysed = graph.product("lysed_chromatin", "lysed cross-linked chromatin",
+                          MaterialKind.MOLECULAR, state=fixed.state)
+    graph.react("lyse", "Lyse fixed cells (bacterial library)", StepKind.PERMEABILIZATION,
+                ((fixed, InputRole.TEMPLATE), (lysis, InputRole.CONDITION)), (lysed,))
     restriction_enzyme = graph.input(
-        "restriction_enzyme", "HpaII (selected bacterial demonstration; yeast DpnII, river HaeIII)",
+        "restriction_enzyme", "HpaII 100 U in NEBuffer 1 + 1% Triton X-100, 3 h 37 °C (selected bacterial demonstration; yeast DpnII, river HaeIII)",
         MaterialKind.CATALYST)
     digested = graph.product("digested_chromatin", "restriction-digested fixed chromatin",
                              MaterialKind.MOLECULAR, state=fixed.state)
     graph.react("digest", "Digest fixed chromatin", StepKind.DIGESTION,
-                ((fixed, InputRole.TEMPLATE),
+                ((lysed, InputRole.TEMPLATE),
                  (restriction_enzyme, InputRole.CATALYST)), (digested,))
 
-    ligase = graph.input("proximity_ligase", "T4 DNA ligase for dilute proximity ligation",
+    ligase = graph.input("proximity_ligase", "T4 DNA ligase, 125 U in 8 ml per aliquot, 4 h 16 °C",
                          MaterialKind.CATALYST)
     pool = graph.product(
         "three_c_pool", "3C pool containing contact junctions and ordinary genomic fragments",
@@ -97,9 +104,14 @@ def protocol_graph():
                            MaterialKind.CONDITION)
     purified = graph.product("purified_three_c", "de-cross-linked meta3C DNA pool",
                              MaterialKind.MOLECULAR, state=pool.state)
+    reversal_waste = graph.product(
+        "reversal_waste", "digested protein, RNase-degraded RNA, phenol–chloroform phases and precipitation supernatants",
+        MaterialKind.WASTE)
     graph.react("reverse_crosslinks", "Reverse cross-links and recover DNA",
                 StepKind.DEPROTEINIZATION,
-                ((pool, InputRole.TEMPLATE), (reversal, InputRole.CONDITION)), (purified,))
+                ((pool, InputRole.TEMPLATE), (reversal, InputRole.CONDITION)),
+                (purified, reversal_waste))
+    graph.discard(reversal_waste, "removed by proteinase K/RNase digestion, extraction and precipitation")
     covaris = graph.input("covaris", "Covaris S220 shearing of 5 µg 3C DNA", MaterialKind.CONDITION)
     sheared = graph.product("sheared_three_c", "sheared meta3C DNA pool",
                             MaterialKind.MOLECULAR, state=purified.state)
@@ -186,7 +198,7 @@ def protocol_graph():
         "The article does not say whether 104 includes extra cycles or the Methods value is generic; the river library reports 91 useful bases."))
     graph.declare_reviewed_scope((
         "microbial_community", "formaldehyde", "crosslink", "restriction_enzyme",
-        "digest", "proximity_ligase", "proximity_ligation", "crosslink_reversal",
+        "digest", "lysis", "lyse", "proximity_ligase", "proximity_ligation", "crosslink_reversal",
         "reverse_crosslinks", "covaris", "shear", "paired_end_adapter",
         "adapter_ligase", "ligate_adapters", "size_selection", "size_select",
         "pcr_forward", "pcr_reverse", "pcr_polymerase", "library_pcr",

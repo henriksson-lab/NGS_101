@@ -4,15 +4,12 @@ from __future__ import annotations
 from types import SimpleNamespace
 
 import illumina as il
-from batch_ngs import nextera_library, truseq_amplicon_library, truseq_library
-from chemdraw import Construct, Segment, feature, oligo, revcomp
-from isothermal import (lamp_product, lamp_topology, mda_product, proximity_extension_pair,
-                        proximity_extension_product, spia_product)
-from nanopore_library import (motor_library, motor_sequencing_plan, no_primer_ending,
-                              role as nanopore_role)
-from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            SourceClaim, SourceDiscrepancy, StepKind)
+from chemdraw import Construct, Segment, feature, revcomp
+from isothermal import proximity_extension_pair, proximity_extension_product
+from pcr import PCRGeometry
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph,
+                            SequencingPlan, SourceClaim, SourceDiscrepancy, StepKind,
+                            Terminal)
 from protocol_model import molecule, role
 import seqprimers as sp
 from proximity_topology import ProximityExtensionTopology
@@ -39,10 +36,11 @@ if not il.TRUSEQ_P5_FULL.startswith(OLINK_P5_ADAPTER):
 if OLINK_P7_ADAPTER != il.P7:
     raise ValueError("Olink patent P7 sequence is inconsistent with canonical Illumina end")
 
-# Wik et al. report a 148-bp product and a 66-cycle Read 1 that starts immediately
-# after Rd1SP and covers every inline identifier.  The complete canonical Illumina
-# P5/Rd1SP end is 58 nt; together with the patent's 24-nt P7 end, this accounts for
-# the product exactly.  Keep this arithmetic beside construction so a future adapter
+# Wik et al. report a 148-bp product and a 66-cycle Read 1 covering FBC, RBC and the
+# sample index (JATS lines 168, 176); they do not say where Read 1 starts or ends.
+# The complete canonical Illumina P5/Rd1SP end is 58 nt; with the patent's 24-nt P7
+# end it leaves exactly 66 nt for the inline region (148 - 58 - 24), equal to the
+# read length.  This is a consistency check on the inferred end, not a derivation.  Keep this arithmetic beside construction so a future adapter
 # revision cannot silently turn the labelled 148-bp molecule into a different length.
 OLINK_PRODUCT_BP = 148
 OLINK_READ_CYCLES = 66
@@ -56,9 +54,12 @@ if OLINK_INLINE_BP != OLINK_READ_CYCLES:
 
 OLINK_LIBRARY = Construct([
     Segment("P5 adapter (patent SEQ ID 1)", OLINK_P5_ADAPTER, "p5"),
+    # Neither Olink original prints the bases after SEQ ID 1: the linker and Rd1SP are
+    # inferred as the standard Illumina TruSeq P5 end, consistent with (not determined
+    # by) the 148-bp/66-cycle arithmetic above.
     Segment("canonical Illumina sequence between P5 and Rd1SP",
-            OLINK_P5_TO_RD1_LINKER, "p5"),
-    Segment("Read 1 sequencing-primer site", il.TRUSEQ_READ1, "r1"),
+            OLINK_P5_TO_RD1_LINKER, "p5", inferred=True),
+    Segment("Read 1 sequencing-primer site", il.TRUSEQ_READ1, "r1", inferred=True),
     role("forward assay barcode", tag="cbc", molecular_feature=OLINK_FBC),
     role("probe-arm hybridization junction"),
     role("reverse assay barcode", tag="cbc", molecular_feature=OLINK_RBC),
@@ -80,8 +81,14 @@ def _olink_graph(source: str) -> ProtocolGraph:
                            MaterialKind.OLIGO)
     bound = g.product("bound_pair", "target-bound matched PEA probe pair",
                       MaterialKind.MOLECULAR, state=proximity_extension_pair())
-    unbound = g.product("unbound_probes", "unbound and mismatched probe population",
-                        MaterialKind.WASTE)
+    # No wash is described between binding and extension: the PCR1/extension mix is
+    # added to each incubation reaction (Wik et al. JATS line 168; patent worked
+    # example, Google Patents text lines 4128-4135).  Free and non-proximal probes
+    # are therefore inferred to stay in the well; the source only says they yield no detectable
+    # amplicon (Fig. 1A legend, JATS line 152).
+    unbound = g.product("unbound_probes",
+                        "free or non-proximal probes left in the well (no wash described)",
+                        MaterialKind.MOLECULAR)
     # Wik et al. Experimental Procedures (PMC8633680 JATS line 164): 0.2 ul sample
     # plus 0.6 ul block incubation mix, sealed and incubated at 4 C for 16-24 h.
     incubation = g.input("immuno_incubation",
@@ -92,7 +99,12 @@ def _olink_graph(source: str) -> ProtocolGraph:
             ((sample, InputRole.TEMPLATE), (antibodies, InputRole.SELECTION),
              (probe_oligos, InputRole.STRUCTURAL), (incubation, InputRole.CONDITION)),
             (bound, unbound))
-    g.discard(unbound, "Only correctly proximal probe pairs generate amplifiable reporters.")
+    g.mark_terminal(Terminal(unbound.id, Disposition.UNRESOLVED,
+        "No removal is described: the PCR1/extension mix is added to each incubation "
+        "reaction with no intervening wash, so these probes are inferred to be carried "
+        "into the extension/PCR1 reaction. Wik et al. state only that proximal matched pairs "
+        "generate detectable amplicons; the model does not follow these oligos further "
+        "or assign their removal to the later AMPure XP cleanup."))
 
     # JATS line 168: the PCR1 mix (Olink PCR1 solution, enhancer, PCR1 Enzyme and the
     # universal primers) is added and an initial 50 C, 20 min extension precedes PCR1.
@@ -168,7 +180,7 @@ def _olink_graph(source: str) -> ProtocolGraph:
         "pcr1", "block_pooling", "pool_blocks", "pcr2_f", "pcr2_r",
         "pcr2_enzyme", "pcr2", "library", "immuno_incubation", "panel_pooling",
         "panel_pool", "pool_panel", "ampure", "purified_library", "bead_supernatant",
-        "bead_cleanup"), source)
+        "bead_cleanup", "unbound_probes"), source)
     g.annotate(SourceDiscrepancy(
         "pcr1", "Wording of the common forward-primer identity differs",
         (SourceClaim("Wik et al. 2021, Experimental Procedures, PCR Amplification "
@@ -200,13 +212,18 @@ spec = SimpleNamespace(
              "the paired assay barcodes and add an inline sample index for counting."),
     CAVEAT=("Olink publishes the 148-bp element order and run layout. Complete "
             "probe, assay-barcode, hybridization-arm, sample-index and PCR-primer "
-            "sequences remain unverified in the source audit. Only the standard "
-            "Illumina end is rendered base by base; the other regions remain "
-            "structured roles."),
+            "sequences remain unverified in the source audit. Only the Illumina "
+            "end is rendered base by base: the 20-nt P5 and 24-nt P7 portions are "
+            "printed in Olink's patent, while the linker and Rd1SP bases following P5 "
+            "are INFERRED as the standard Illumina TruSeq P5 end (consistent with the "
+            "published 148-bp length and 66-cycle read, but not printed by Olink). The "
+            "other regions remain structured roles."),
     TOPOLOGY_PANELS=ProximityExtensionTopology().panels(),
     oligos=lambda: (), FINAL_LIBRARY=OLINK_LIBRARY,
-    FINAL_CAPTION=("Published 148-bp architecture: the canonical overlapping P5 / "
-                   "Read 1 site, a 66-nt proprietary inline region containing both "
+    FINAL_CAPTION=("INFERRED — linker and Rd1SP bases taken from Illumina's standard "
+                   "P5 end, not printed by Olink; the 66-nt inline length follows from that "
+                   "inferred 58-nt end. Published 148-bp element order: P5, the "
+                   "Read 1 site, a proprietary inline region containing both "
                    "assay barcodes, the copied probe junction and sample index, then "
                    "P7."),
     SEQ_PRIMERS=OLINK_SEQ_PRIMERS, ACQUIRED_ROLES=("Read 1",),
@@ -217,7 +234,8 @@ spec = SimpleNamespace(
         "Read 1", OLINK_READ_CYCLES,
         "forward assay barcode + reverse assay barcode + inline sample index",
         "extract_and_demultiplex"),),
-    SEQUENCING_INTRO=("A standard Read 1 primer binds the published Rd1SP site. "
+    SEQUENCING_INTRO=("A Read 1 primer binds the published Rd1SP site (bases inferred "
+                      "as Illumina's standard Read 1 site). "
                       "The NovaSeq run acquires one 66-cycle read and no separate "
                       "index read; assay and sample identities are inline."))
 

@@ -3,18 +3,14 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-import illumina as il
-from batch_ngs import nextera_library, truseq_amplicon_library, truseq_library
-from chemdraw import Construct, Segment, feature, oligo, revcomp
-from isothermal import (lamp_product, lamp_topology, mda_product, proximity_extension_pair,
-                        proximity_extension_product, spia_product)
+from chemdraw import feature
+from isothermal import lamp_product, lamp_topology
 from nanopore_library import (motor_library, motor_sequencing_plan, no_primer_ending,
                               role as nanopore_role)
-from pcr import PCRGeometry, PCRPrimer
-from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
+from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph, StepKind,
+                            Terminal)
 from protocol_model import molecule, role
 import seqprimers as sp
-from proximity_topology import ProximityExtensionTopology
 
 
 
@@ -72,7 +68,9 @@ def _lampore_graph(source: str) -> ProtocolGraph:
                     MaterialKind.ADAPTER, inferred=True,
                     source=PREPRINT + " (commercial barcode and tag bases not disclosed)")
     transposase = g.input("transposase", "rapid-barcode transposase (in the kit barcode)",
-                          MaterialKind.CATALYST, source=PREPRINT)
+                          MaterialKind.CATALYST,
+                          source=PREPRINT + " (Introduction: the ONT rapid kit uses a "
+                          "transposase); " + JCM)
     rapid_condition = g.input("rapid_condition", "30 °C for 2 min, then 80 °C for 2 min",
                               MaterialKind.CONDITION, source=PREPRINT)
     tagged = g.product("tagged", "rapid-barcoded LAMP fragments", MaterialKind.MOLECULAR,
@@ -81,14 +79,22 @@ def _lampore_graph(source: str) -> ProtocolGraph:
                            role("transposase attachment tag"),
                            role("target and repeated FIP barcode"))), inferred=True,
                        source=source + " (commercial tag bases not disclosed)")
-    waste = g.product("off_products", "non-sequenceable transposition products",
-                      MaterialKind.WASTE)
+    off_products = g.product("off_products",
+                             "LAMP fragments without a rapid-barcode attachment end",
+                             MaterialKind.MOLECULAR, inferred=True,
+                             source=PREPRINT + " (such fragments are not described; inferred "
+                             "from transposase fragmentation)")
     g.react("rapid_barcode", "Fragment and add the second, rapid barcode",
             StepKind.TAGMENTATION,
             ((pooled, InputRole.TEMPLATE), (rapid, InputRole.STRUCTURAL),
              (transposase, InputRole.CATALYST), (rapid_condition, InputRole.CONDITION)),
-            (tagged, waste))
-    g.discard(waste, "does not carry the productive rapid-adapter attachment end")
+            (tagged, off_products))
+    g.mark_terminal(Terminal(off_products.id, Disposition.UNRESOLVED,
+        "Fragments lacking a rapid-barcode attachment end are not assigned a physical fate: "
+        "all reactions are pooled and the 0.8x AMPure step is not described as removing them. "
+        "The preprint states only that all LamPORE reads carry an ONT barcode at one end "
+        "(Barcode demultiplexing). Its ~70% read selection concerns reads lacking a LAMP "
+        "barcode, a different, computational exclusion, and does not assign this fate."))
     pooled_all = g.product("pooled_library", "single pool of all rapid-barcoded columns",
                            MaterialKind.MOLECULAR, state=tagged.state, inferred=True,
                            source=PREPRINT)
@@ -127,7 +133,9 @@ def _lampore_graph(source: str) -> ProtocolGraph:
         limitation=("Commercial rapid barcode, attachment tag and motor-adapter bases are "
                     "unpublished. Preprint Methods: one MinION flow cell, 1 h (JCM: on a "
                     "GridION, 60 min). Calls: invalid <50 classified reads; negative <20, "
-                    "inconclusive 20–49, positive >=50 SARS-CoV-2 reads."),
+                    "inconclusive 20–49, positive >=50 SARS-CoV-2 reads. Every read carries an ONT "
+                    "barcode at one end; selecting reads that also contain a LAMP barcode "
+                    "retains about 70% of reads (preprint Barcode demultiplexing)."),
         read_uses={"Nanopore strand": "extract_then_include"}))
     g.declare_reviewed_scope((
         "sample", "lamp_primers", "lamp_enzymes", "lamp_condition", "rt_lamp",

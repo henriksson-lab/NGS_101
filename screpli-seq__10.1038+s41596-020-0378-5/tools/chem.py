@@ -34,7 +34,11 @@ def state(label, stage):
     if stage in {"cell", "fragmented"}:
         sc.strand("genomic", [role(label+" genomic DNA" if stage=="cell" else label+" heat-fragmented genomic DNA; native ends unassigned")],label="genomic population within this one cell lineage")
     elif stage in {"preamp", "wga"}:
-        sc.strand("copies", [role("native SEQXE end A"),role(label+" DNA copies"),role("native SEQXE end B")],label="pre-amplification DNA" if stage=="preamp" else "SeqPlex WGA daughter population")
+        # Source places universal SEQXE adaptor sequence at the ends of WGA products
+        # (overview); pre-amplification ends and any end asymmetry are not reported.
+        end = ("pre-amplification end; SEQXE presence/structure unassigned" if stage=="preamp"
+               else "universal SEQXE adaptor end; native strands unassigned")
+        sc.strand("copies", [role("left "+end),role(label+" DNA copies"),role("right "+end)],label="pre-amplification DNA" if stage=="preamp" else "SeqPlex WGA daughter population")
         sc.strand("originals", [role("possible carried original genomic DNA and primers; native recovery unassigned")],label="independent possible carried populations")
     elif stage in {"digested", "repaired", "tailed"}:
         sc.strand("dna", [role("possible residual SEQXE; left end unassigned"),role(label+" WGA genomic fragment"),role("possible residual SEQXE; right end unassigned")],label=stage+" native DNA population")
@@ -96,11 +100,11 @@ def protocol_graph():
         prep=inp("seqplex_prep","SeqPlex Library Preparation Buffer/Enzyme;95°C2min then16/24/37°C20min each,75°C5min",M.CATALYST)
         pre=prod("preamp","native pre-amplification population","preamp")
         react("preamp_step","Perform source SeqPlex pre-amplification",K.MAGIC,((x,I.TEMPLATE),(prep,I.CATALYST)),(pre,),reason="Steps20–22 specify kit preparation but native ordered oligos, priming geometry and intermediates remain unassigned; no final library is substituted.")
-        f=inp("wga_forward","native SeqPlex amplification priming role A; species/sequence unassigned",M.OLIGO)
-        r=inp("wga_reverse","native SeqPlex amplification priming role B; species/sequence unassigned",M.OLIGO)
+        f=inp("wga_forward","native SeqPlex (DOP-PCR-based) priming role A within kit reagents; sequence and number of distinct species unassigned (not asserted distinct from role B)",M.OLIGO)
+        r=inp("wga_reverse","native SeqPlex (DOP-PCR-based) priming role B within kit reagents; sequence and number of distinct species unassigned (may be the same species as role A)",M.OLIGO)
         enzyme=inp("wga_polymerase","DNA Polymerase for SeqPlex and5×Amplification Mix",M.CATALYST)
         wga=prod("wga","SeqPlex WGA population","wga")
-        react("wga_step","Whole-genome amplify24cycles94°C15s/70°C5min;70°C30min",K.PCR,((pre,I.TEMPLATE),(f,I.STRUCTURAL),(r,I.STRUCTURAL),(enzyme,I.CATALYST)),(wga,),geometry=PCRGeometry.unavailable(pre.state,reason="Actual native pre-amplification input. SeqPlex primer species and first-cycle sites unassigned; end roles do not establish distinct ordered primer species."))
+        react("wga_step","Whole-genome amplify 94°C2min;24cycles94°C15s/70°C5min;70°C30min (Steps23–25)",K.PCR,((pre,I.TEMPLATE),(f,I.STRUCTURAL),(r,I.STRUCTURAL),(enzyme,I.CATALYST)),(wga,),geometry=PCRGeometry.unavailable(pre.state,reason="Actual native pre-amplification input. SeqPlex primer species and first-cycle sites unassigned; end roles do not establish distinct ordered primer species."))
         x=cleanup("wga_cleanup",wga,"1.7×AMPure XP;Steps26–32","wga")
         x=aliquot("digestion_input",x,"500–800ng (Step34)","wga")
         eco=inp("eco57i","Primer Removal Enzyme Eco57I / Buffer / Solution;37°C1h,65°C20min",M.CATALYST)
@@ -137,7 +141,7 @@ def protocol_graph():
         qc=prod("qpcr_product","real-time PCR product for cycle determination","pcr",kind=M.QC)
         react("qpcr","Determine cycle count from least cycle exceedingStd2;5–7cycles for bulkPCR",K.PCR,((q,I.TEMPLATE),(pf,I.STRUCTURAL),(pr,I.STRUCTURAL),(qmix,I.CATALYST)),(qc,),geometry=PCRGeometry.unavailable(q.state,reason="Actual1.5µl native ligated aliquot; TPC strands are known but their native NEXTflex sites are unassigned."))
         g.mark_terminal(Terminal(qc.id,Disposition.QC,"Physically separate diagnostic PCR aliquot; not returned to bulk library."))
-        mix=inp("pcr_mix","KAPA HiFi HotStart ReadyMix KK2602;5–7cycles,source datasets5or6",M.CATALYST)
+        mix=inp("pcr_mix","KAPA HiFi HotStart ReadyMix KK2602 7.5µl, 0.5µl 10µM TPC primer mix;98°C2min, n×(98°C15s/60°C30s/72°C30s), 72°C1min; n=5–7, source datasets5or6 (Steps70–71)",M.CATALYST)
         amplified=prod("pcr_product","TPC-initiated library daughters and possible carried originals","pcr")
         react("library_pcr","Amplify separate bulk-library aliquot with TPC1/TPC2",K.PCR,((bulk,I.TEMPLATE),(pf,I.STRUCTURAL),(pr,I.STRUCTURAL),(mix,I.CATALYST)),(amplified,),geometry=PCRGeometry.unavailable(bulk.state,reason="Actual7µl native ligated aliquot; source TPC sequences alone do not establish complete native NEXTflex sites or first-cycle product ends."))
         x=cleanup("post_pcr_cleanup",amplified,"0.9×AMPure XP;repeat if adaptor dimers remain;Steps72–78","pcr")

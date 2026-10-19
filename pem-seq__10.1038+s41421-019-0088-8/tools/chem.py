@@ -1,15 +1,11 @@
 """Protocol-owned source, oligos, molecular workflow and reaction graph."""
 import illumina as il
-import nebnext as nb
-import nextera as nx
 import seqprimers as sp
-from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
-from batch_ngs import truseq_library
-from chemdraw import Construct, Segment, feature
-from circular import CircularizationGeometry
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, Scene, Segment, feature
 from pcr import PCRGeometry
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
-from protocol_model import chain, closed_circle, da_tailed, molecule, role
+from protocol_model import chain, molecule, role
 
 # Yin et al. 2019 Supplementary Table S11 has 14 random bases in four tracts
 # separated by fixed T/A/T. Liu et al. 2022 STAR Protocols Table 2 prints a
@@ -38,6 +34,21 @@ P5_READ1_JUNCTION_EXCEPTIONS = {
         "CGC: full P5 followed by the Read 1 arm, so ACAC occurs twice as printed."),
 }
 
+# Table S11 prints BA-up in one table cell wrapped over three lines; the text extraction
+# interleaves the section row "Bridge adapters oligos (PEM-seq)" and the "BA-up" name cell
+# after the first line, so no contiguous source line carries the whole upper strand. Both bridge strands are
+# transcribed verbatim in tools/selftest.py instead.
+SOURCE_OLIGO_EXCEPTIONS = {
+    "bridge_adapter": (
+        "Yin et al. 2019 Supplementary Table S11 (MOESM1, 'Bridge adapters oligos "
+        "(PEM-seq)') prints BA-up in one cell wrapped over three lines, '/5phos/CCA CGC "
+        "GTG CTC TAC ANN NNT NNN ANN' / 'NTN NNN AGA TCG GAA GAG CAC ACG TCT GAA CTC' / "
+        "'CAG T-NH2(C7)'; the text extraction places the section and name cells after the "
+        "first line. BA-lower, "
+        "'TGT AGA GCA CGC GTG GNN NNN N-NH2(C7)', is printed on one line. The verbatim "
+        "transcription of both strands is checked in tools/selftest.py."),
+}
+
 PEM_I7_B01 = "CAGAAGACGGCATACGAGATCGTGATGTGACTGGAGTTCAGACGTGTGC"
 
 PEM_BIO_RAG1AB = "GGACTGCTGGAGATTGCTCCAGAGAGGGTTTCCCCTCAAAGGAATCCTTC"
@@ -51,9 +62,87 @@ PEM_I5_TAIL = il.TRUSEQ_READ1[2:]
 PEM_I5_R1_RAG1AB = PEM_I5_TAIL + PEM_I5_BARCODES[0] + PEM_NESTED_RAG1AB
 
 
+PEM_BA_ANCHOR = PEM_BA_UP[:16]            # CCACGCGTGCTCTACA, paired by BA-lower
+PEM_BA_READ2_ARM = PEM_BA_UP[-31:]        # AGATCGG…CCAGT, the bridge's Read 2 side
+PEM_BA_LOWER_PAIRED = PEM_BA_LOWER[:16]   # complement of the fixed anchor
+PEM_BA_LOWER_HEXAMER = PEM_BA_LOWER[16:]  # degenerate 3′ end, 3′-NH2(C7) blocked
+
+
+def _rmb_segments() -> list[Segment]:
+    """The four random tracts and the fixed T/A/T separators of BA-up, in order."""
+    umi_kw = dict(tag="umi", placeholder=True)
+
+    def tract(i: int, n: int) -> Segment:
+        return Segment(f"RMB part {i}", "N" * n,
+                       feature=feature(f"rmb_{i}", "umi", "random",
+                                       group="pem_rmb", part=f"{i}/4"), **umi_kw)
+
+    return [tract(1, 4), Segment("RMB separator T1", "T"), tract(2, 3),
+            Segment("RMB separator A", "A"), tract(3, 3),
+            Segment("RMB separator T2", "T"), tract(4, 4)]
+
+
+def bridge_adapter_scene() -> Scene:
+    """BA-up/BA-lower exactly as Supplementary Table S11 prints them.
+
+    BA-lower pairs the 16-base fixed anchor and carries a degenerate 3′ hexamer that
+    extends past the 5′-phosphorylated end of BA-up; both strands are 3′-NH2(C7) blocked.
+    """
+    top = ([Segment("bridge fixed anchor", PEM_BA_ANCHOR)] + _rmb_segments()
+           + [Segment("bridge Read 2 arm", PEM_BA_READ2_ARM)])
+    sc = Scene()
+    sc.strand("BA-up", top, label="BA-up", mod5="/5phos/", mod3="NH2(C7)")
+    sc.anneal("BA-lower",
+              [Segment("BA-lower anchor complement", PEM_BA_LOWER_PAIRED),
+               Segment("BA-lower degenerate 3-prime hexamer", PEM_BA_LOWER_HEXAMER)],
+              to="BA-up", pair=("BA-lower anchor complement", "bridge fixed anchor"),
+              label="BA-lower", mod3="NH2(C7)")
+    sc.ligation_end("BA-up", "bridge fixed anchor", kind="splinted",
+                    polarity="5-prime", owner="adapter",
+                    text="BA-up 5′-phosphate joined to the captured strand")
+    sc.note("BA-lower",
+            "Table S11 prints BA-lower as TGT AGA GCA CGC GTG GNN NNN N-NH2(C7): six "
+            "degenerate bases beyond the paired anchor. Their pairing partner on the "
+            "captured strand is not disclosed.")
+    return sc
+
+
+def captured_strand_scene() -> Scene:
+    """The bead-bound single strand that BA-up is ligated to."""
+    sc = Scene()
+    sc.strand("captured strand",
+              [role("streptavidin-bound 5-prime biotin bait primer"),
+               role("copied repair product"),
+               Segment("captured-strand 3-prime bases", "[not disclosed]",
+                       placeholder=True)],
+              label="bead-bound bait extension", mod3="OH")
+    sc.ligation_end("captured strand", "captured-strand 3-prime bases",
+                    kind="splinted", polarity="3-prime", owner="substrate",
+                    text="free 3′ end of the captured extension")
+    return sc
+
+
+def bridge_ligation_geometry() -> AdapterLigationGeometry:
+    return AdapterLigationGeometry.known(
+        "splinted", captured_strand_scene(), bridge_adapter_scene(),
+        statement=(
+            "Yin et al. 2019 Supplementary Table S11 prints BA-up as /5phos/CCA CGC GTG "
+            "CTC TAC A…CCA GT-NH2(C7) 'link ssDNA with RMB' and BA-lower as TGT AGA GCA "
+            "CGC GTG GNN NNN N-NH2(C7) 'common bridge oligo'; Methods → Bridge adapter "
+            "(with RMB) ligation ligates them to the bead-bound denatured extension "
+            "products with T4 DNA ligase in 15% PEG8000 at room temperature overnight. "
+            "The printed 5′ phosphate on BA-up and the 3′ blocks on both strands are "
+            "source-stated, as is BA-lower's degenerate 3′ hexamer reaching past that "
+            "phosphate. The 2019 Methods add a single 'Bridge adapter (50 μM)'; Liu et "
+            "al. 2022 STAR Protocols steps 45–47 state that the upper and lower strands "
+            "are first annealed into that adapter. That the hexamer splints the "
+            "captured strand's 3′ end is inferred from this structure, not stated; the "
+            "captured strand's own 3′ bases, and therefore the exact junction, are not "
+            "disclosed. Neither source performs end repair or dA-tailing."))
+
+
 def pem_library() -> tuple[Construct, tuple]:
     """RAG1A/B, I5-R1 and I7-B01 example from the original PEM-seq table."""
-    umi_kw = dict(tag="umi", placeholder=True)
     lib = Construct([
         Segment("P5", il.P5, "p5"),
         Segment("Read 1 arm", il.TRUSEQ_READ1, "r1"),
@@ -61,16 +150,10 @@ def pem_library() -> tuple[Construct, tuple]:
                 feature=feature("sample_index_i5", "sample_index", "whitelist",
                                 whitelist="PEM-seq I5-R1–R4")),
         role("bait-primer sequence and genomic DNA through the repair junction to the prey/shear end"),
-        Segment("bridge fixed anchor", "CCACGCGTGCTCTACA"),
-        Segment("RMB part 1", "N" * 4, feature=feature("rmb_1", "umi", "random", group="pem_rmb", part="1/4"), **umi_kw),
-        Segment("RMB separator T1", "T"),
-        Segment("RMB part 2", "N" * 3, feature=feature("rmb_2", "umi", "random", group="pem_rmb", part="2/4"), **umi_kw),
-        Segment("RMB separator A", "A"),
-        Segment("RMB part 3", "N" * 3, feature=feature("rmb_3", "umi", "random", group="pem_rmb", part="3/4"), **umi_kw),
-        Segment("RMB separator T2", "T"),
-        Segment("RMB part 4", "N" * 4, feature=feature("rmb_4", "umi", "random", group="pem_rmb", part="4/4"), **umi_kw),
-        Segment("bridge adapter leading A", "A"),
-        Segment("Index 1 + Read 2 arm", il.INDEX1_PRIMER, "r2"),
+        Segment("bridge fixed anchor", PEM_BA_ANCHOR),
+        *_rmb_segments(),
+        Segment("bridge Read 2 arm (BA-up 3-prime end)", PEM_BA_READ2_ARM, "r2"),
+        Segment("Read 2 arm completion from the I7 primer", il.INDEX1_PRIMER[-3:], "r2"),
         Segment("I7-B01 sample index reverse complement", "ATCACG", "cbc",
                 feature=feature("sample_index_i7", "sample_index", "whitelist",
                                 whitelist="PEM-seq I7-B/R series")),
@@ -154,7 +237,11 @@ def protocol_graph():
     extension_enzyme = graph.input("extension_enzyme", "Bst polymerase 3.0 (NEB), 65 °C 10 min then 80 °C 5 min",
                                    MaterialKind.CATALYST)
     extended = graph.product("extended", "single-copy biotinylated extension strands",
-                             MaterialKind.MOLECULAR, state=fragments.state)
+                             MaterialKind.MOLECULAR,
+                             state=molecule("biotinylated bait extension strand", (
+                                 role("5-prime biotin bait primer"),
+                                 role("copied repair product"),
+                                 role("3-prime end set by where the template ran out; bases not disclosed"))))
     graph.react("extend", "Perform one extension from the biotinylated bait primer",
                 StepKind.EXTENSION,
                 ((fragments, InputRole.TEMPLATE), (bait, InputRole.STRUCTURAL),
@@ -172,24 +259,37 @@ def protocol_graph():
     beads = graph.input("streptavidin", "Dynabeads MyOne Streptavidin C1, B&W-buffer washes",
                         MaterialKind.SELECTION)
     captured = graph.product("captured", "bead-bound bait extensions",
-                             MaterialKind.MOLECULAR, state=extended.state)
+                             MaterialKind.MOLECULAR, state=captured_strand_scene())
     rejected = graph.product("uncaptured", "uncaptured extension material", MaterialKind.WASTE)
     graph.react("capture", "Capture biotinylated extension strands", StepKind.AFFINITY_CAPTURE,
                 ((denatured, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
                 (captured, rejected))
     graph.discard(rejected, "lacks a captured biotinylated bait extension")
-    bridge = graph.input("bridge_adapter", "blocked random-molecular-barcode bridge adapter",
-                         MaterialKind.ADAPTER)
+    bridge = graph.input("bridge_adapter",
+                         "BA-up/BA-lower bridge adapter (50 µM): 5′-phosphorylated upper "
+                         "strand carrying the random molecular barcode, 3′-NH2(C7)-blocked "
+                         "lower strand with a degenerate 3′ hexamer",
+                         MaterialKind.ADAPTER, state=bridge_adapter_scene(),
+                         source="Yin 2019 Supplementary Table S11")
     ligase = graph.input("bridge_ligase", "T4 DNA ligase (Thermo Fisher) on beads in 15% PEG8000, room temperature overnight",
                          MaterialKind.CATALYST)
     tagged = graph.product("tagged", "RMB-tagged captured strands",
-                           MaterialKind.MOLECULAR, state=captured.state)
+                           MaterialKind.MOLECULAR,
+                           state=molecule("bridge-ligated captured strand", (
+                               role("streptavidin-bound 5-prime biotin bait primer"),
+                               role("copied repair product"),
+                               role("captured-strand 3-prime bases, not disclosed"),
+                               Segment("bridge fixed anchor", PEM_BA_ANCHOR),
+                               *_rmb_segments(),
+                               Segment("bridge Read 2 arm", PEM_BA_READ2_ARM)),
+                               junctions=(("captured-strand 3-prime bases, not disclosed",
+                                           "bridge fixed anchor",
+                                           "T4 ligase seal to BA-up 5-prime phosphate"),)))
     graph.react("ligate_bridge", "Ligate the bridge adapter to the free 3-prime end",
                 StepKind.LIGATION,
                 ((captured, InputRole.TEMPLATE), (bridge, InputRole.STRUCTURAL),
                  (ligase, InputRole.CATALYST)), (tagged,),
-                geometry=AdapterLigationGeometry.unavailable(
-                    "The source gives the bridge oligos and blocking groups, but this graph does not yet reconstruct the on-bead single-strand ligation substrate as a Scene."))
+                geometry=bridge_ligation_geometry())
     nested_f = graph.input("nested_forward", "nested bait-side PCR primer", MaterialKind.OLIGO)
     nested_r = graph.input("nested_reverse", "bridge-side indexed PCR primer", MaterialKind.OLIGO)
     nested_polymerase = graph.input("nested_polymerase", "Taq (Transgen), on-bead nested PCR, 16 cycles",
@@ -218,10 +318,10 @@ def protocol_graph():
                 ((nested, InputRole.TEMPLATE), (size_beads, InputRole.SELECTION)),
                 (sized, short_products))
     graph.discard(short_products, "removed with the size-selection supernatant")
-    # Table S11 prints P5-I5 split across two table cells ("...TAC ACA CAC" and
+    # Table S11 prints P5-I5 in one cell wrapped over two lines ("...TAC ACA CAC" and
     # "TCT TTC CCT ACA CGA CGC"), so no contiguous source line carries the whole
     # oligo; it is declared by name here and transcribed in the selftest instead.
-    tag_f = graph.input("tagging_forward", "P5-I5 tagging primer (Table S11, printed in two cells)",
+    tag_f = graph.input("tagging_forward", "P5-I5 tagging primer (Table S11, wrapped over two printed lines)",
                         MaterialKind.OLIGO)
     tag_r = graph.input("tagging_reverse", "P7 tagging primer", MaterialKind.OLIGO,
                         state=Construct([Segment("P7 tagging primer", PEM_P7)]),

@@ -111,6 +111,40 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite passes (workflow construction only, 0 explicit checks); page builds; pairing 0 problems; chemistry 10 steps 0 established/0 conditional/12 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 oligo/adapter inputs without exact states (bases unpublished); Markdown built/checked; review schema (audit --check) pass"
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "root",
+      "date": "2026-10-19",
+      "documents": 2,
+      "locations": "Published NAR PMC8755016 JATS xml.txt Materials and Methods 'Duplex-Repair workflow' line83 (steps 1-4, ligation in step 4 mix, 1.2X Ampure, PCR) and 'Clinical specimens' line103 (custom dual index duplex UMI adapters, two rounds xGen HS, post-HS amplification, HiSeq 2500 2x100 / HiSeq X 2x151); published supplementary PDF txt ddPCR assay design lines56-63 and Figure S8-S10 legends lines107-136 (3- or 4-bp UMIs, adapters add 39-40/37-38 bp)",
+      "oligo_scraper": "Bundle scraper rerun (--tsv): 24 published-supplement hits (ddPCR adapter-flank QC primers lines62-63; Table S1 CE substrates), 1 article hit, 19 superseded-preprint hits not used; no library adapter, index or library/post-capture PCR primer bases.",
+      "findings": "Graph was already native: batch_ngs (nextera_library, seg, truseq_library) and protocol_model.closed_circle were imported but unused, as were illumina/nextera/seqprimers, reported_adapter_end, CircularizationGeometry, ThreePrimeOverhangAdapter, react_dA_tail_then_ligate, repair_and_dA_tail, PCRPrimer and several chemdraw names; all removed. No shared library default executed: adapter ligation keeps AdapterLigationGeometry.unavailable, both PCRs keep PCRGeometry.unavailable, no sequencing primers or read roles are declared, no index length/dual-index layout is assumed. One inherited default corrected: the duplex UMI features were encoded 'random' without source support; now 'unknown' with a note recording the source-stated 3- or 4-bp length (Supp. Fig. S9-S10 legends) and unpublished composition/position. Library-PCR polymerase/primer labels now say unspecified/unpublished. Reaction order, conditions, cleanups, capture and off-target waste re-checked against line83/line103. Note updated for UMI encoding and unplaced dual sample indexes. No published discrepancy found.",
+      "deferred": [
+        "Custom IDT dual-index duplex-UMI adapter bases, ligating-end geometry, sample-index lengths/positions and UMI composition (unpublished in inspected sources; IDT order unavailable)",
+        "Library and post-capture PCR primers/polymerase and between-round hybrid-selection handling",
+        "Predecessor methods refs 24/28 (Parsons-lab duplex pipeline) not followed in this bounded check",
+        "Independent implementation review of this migration"
+      ],
+      "scope": "Bounded migration check of shared-recipe ownership and inherited defaults in the native graph; no full chemistry validation or accepted missing-information claim.",
+      "verification": "duplex-repair selftest rc=0; build_page wrote duplex-repair.html; lint_pairing 0 problem duplexes; selftest_source_oligos 0 checked/0 failed, 1 graph; build_docs 4 written/774 unchanged; check_chemistry rc=0 (established=44, conditional=37, unresolved=220, contradictory=0); grep finds no batch_ngs/nextera_library/truseq_library/closed_circle/seg/da_tailed/TAGMENTATION_OUTCOMES import in the directory."
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "batch14_independent",
+      "date": "2026-10-19",
+      "documents": 2,
+      "locations": "Published NAR PMC8755016 JATS xml.txt Materials and Methods 'Duplex-Repair workflow' line83 and 'Clinical specimens' line103 (re-read in full; no UMI composition, index layout, PCR primer or polymerase stated; grep for barcode/consensus/HiFi/amplif/PCR elsewhere in the article gives no library-PCR detail); published supplementary PDF txt Figure S9-S10 legends lines119-136",
+      "oligo_scraper": "Not rerun; root entry's same-day bundle scraper pass relied on, and no new sequence claim was made.",
+      "findings": "Migration diff verified: 'random' -> 'unknown' UMI encoding is correct (no source states random or fixed-set UMIs); PCR input labels match line83/line103. Import removal checked by building the page from the HEAD chem.py and the migrated chem.py and diffing: the only change is the three PCR input labels, so the page still renders everything it did; all remaining imports are used. One fix: the S9-S10 legends give 3- or 4-bp UMIs for the 'NGS adapters' of those capillary-electrophoresis assays and do not state that these are the custom IDT dual-index adapters of the sequenced libraries; the UMI feature note and the note bullet now mark that identity as inferred (yellow), state that UMI position within the adapter is also unpublished, and describe the feature as attached to each whole adapter role rather than a UMI segment. No physical discard without source removal (Ampure supernatants, hybrid-selection off-target); adapter ligation and both PCRs keep unavailable geometry; no sequencing primers, read roles or index lengths assumed. No published discrepancy.",
+      "deferred": [
+        "Custom IDT dual-index duplex-UMI adapter bases, ligating-end geometry, UMI position/composition and sample-index lengths/positions (unpublished in inspected sources)",
+        "Library and post-capture PCR primers/polymerase and between-round hybrid-selection handling",
+        "Predecessor methods refs 24/28 (Parsons-lab duplex pipeline) not followed",
+        "Intermediate products excised_dna, blunt_dna, sealed_dna, tailed_dna, adapted_dna remain outside declare_reviewed_scope (pre-existing; not changed)"
+      ],
+      "scope": "Independent bounded review of the migration diff and inherited defaults; no full chemistry validation or accepted missing-information claim.",
+      "verification": "duplex-repair selftest rc=0; build_page wrote duplex-repair.html (38,218 bytes, identical to pre-fix migrated build); old-vs-new page diff 1 line (PCR input labels); lint_pairing 0 problem duplexes; selftest_source_oligos 0 checked/0 failed, 5 inputs without exact states, 1 graph; build_docs 5 written/773 unchanged; check_chemistry rc=0 (established=44, conditional=37, unresolved=220, contradictory=0)."
     }
   ]
 }

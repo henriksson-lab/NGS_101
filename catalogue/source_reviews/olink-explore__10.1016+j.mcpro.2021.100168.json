@@ -210,6 +210,41 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 7 steps 0 established/0 conditional/9 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 5 inputs without exact states; Markdown built; audit --check pass"
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "root",
+      "date": "2026-10-19",
+      "documents": 2,
+      "locations": "Published Wik et al. MCP 2021 PMC8633680 JATS Fig1 legend line152 (amplicons only from pairwise binding; element order), Experimental Procedures lines158, 162-164 (immunoreaction), 168 (PCR1 mix added directly; PCR1/PCR2; 148 bp), 172 (AMPure XP), 176 (66-cycle single read); WO2021191442A1 Google Patents text lines 1753 (SEQ ID 1/2), 4128-4135 and 4996 (extension mix added directly to the incubation plate)",
+      "oligo_scraper": "Bundle scraper re-run: only patent SEQ ID 1 (P5 20-nt) and SEQ ID 2 (P7 24-nt) at en.html.txt line1753, both in the model; no probe, primer, barcode or index bases.",
+      "findings": "Removed the unused batch_ngs imports (nextera_library, truseq_amplicon_library, truseq_library) and other unused imports; the graph was already native with no shared library defaults (single 66-cycle Read 1, no index reads, inline sample index, no dA junction or tagmentation). Unbound/non-proximal probes changed from a waste discard to an UNRESOLVED terminal: neither source has a wash, the PCR1/extension mix is added directly to the incubation plate, so the probes are carried into PCR1 and the source states only non-amplification. The 5-nt linker and 33-nt Rd1SP between patent SEQ ID 1 and the inline region are now inferred segments (standard Illumina TruSeq P5 end, supported only by 148-bp/66-cycle arithmetic) with page caveat and INFERRED caption, matching the note's yellow label. Note gained the no-wash fact and review trail.",
+      "deferred": [
+        "Supplements mmc1-mmc4 not re-read this pass",
+        "Complete probe oligos, universal PCR1 primers, sample-index primers and assay-barcode dictionary (unassigned; no absence claim)",
+        "Whether a custom or the standard Illumina Read 1 primer is used and the exact Rd1SP bases",
+        "Later physical fate of unextended probes (carry-through vs AMPure removal)",
+        "Olink software archive (password protected), 2026 NPX preprocessing guide, CRUK combine-olink example files"
+      ],
+      "scope": "Bounded migration check of batch_ngs import removal, inherited defaults and physical-vs-computational fates; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problem duplexes; source oligo guard rc 0 (0 exact checked, 0 failed, 5 inputs without exact states); build_docs --check all 778 up to date; check_chemistry rc 0 (protocol not in its pilot set); no queued symbol imported in the directory"
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "batch14_independent",
+      "date": "2026-10-19",
+      "documents": 2,
+      "locations": "Published Wik et al. MCP 2021 PMC8633680 JATS Fig1 legend line152, Experimental Procedures lines164 (immunoreaction), 168 (PCR1 mix added to each reaction; 148 bp), 172 (AMPure XP), 176 (66-cycle single read); WO2021191442A1 Google Patents text lines 1753 (SEQ ID 1/2), 4128-4135 and 4946-4996 (Step 1 incubation then extension mix added to the incubation plate)",
+      "oligo_scraper": "Not re-run as a new discovery pass; root entry's bundle scrape (patent SEQ ID 1 and 2 only, line1753) was checked against en.html.txt line1753.",
+      "findings": "Confirmed no batch_ngs/nextera/da_tailed imports or inherited defaults remain and the UNRESOLVED unbound-probe terminal is correct: no wash or removal is described between incubation and extension in either source. Tightened evidence marks: the note's no-wash paragraph had called the probe carry-over 🟢; it is now 🟢 for the described mix addition and 🟡 for the carry-over, and the terminal reason/label say 'no wash described'. Arithmetic checked: 20-nt SEQ ID 1 + 5-nt GATCT + 33-nt Rd1SP = 58 nt, 148 - 58 - 24 = 66 = Read 1 cycles, consistent; reworded code comments, note and page caption to call this a consistency check, not a derivation, and removed the unsupported claim that the read starts immediately after Rd1SP. The final caption no longer calls the derived 66-nt inline length or an 'overlapping P5 / Read 1 site' published; the caveat says the linker and Rd1SP follow P5, not 'between' P5 and P7.",
+      "deferred": [
+        "Supplements mmc1-mmc4 not re-read this pass",
+        "Complete probe oligos, universal PCR1 primers, sample-index primers and assay-barcode dictionary (unassigned; no absence claim)",
+        "Whether a custom or the standard Illumina Read 1 primer is used and the exact Rd1SP bases",
+        "Later physical fate of unextended probes (carry-through vs AMPure removal)"
+      ],
+      "scope": "Independent bounded review of the migration edits; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problem duplexes; source oligo guard 0 checked, 0 failed, 5 inputs without exact states; build_docs --check all 778 up to date"
     }
   ]
 }

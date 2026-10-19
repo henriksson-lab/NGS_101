@@ -36,12 +36,14 @@ def population(stage,*,carrier=False):
                 if stage=="prepared":
                     parts=[role(species+" "+strand+" fragment; native methylation and unmodified-dCTP fill-in distinguished"),Segment("extra3′A","A")]
                 sc.strand(species+strand,parts,label=("source3′A-tailed strand; exact genome/end lengths unassigned" if stage=="prepared" else "independent strand population; partner relationship not base-resolved"))
-        elif stage in {"ligated","converted"}:
+        elif stage in {"ligated","sulfonated","converted"}:
             for strand in ("a","b"):
                 text=(species+" "+strand+" native premethylated-indexed-adaptor-ligated DNA; strands/junctions/index coordinate unassigned")
+                if stage=="sulfonated":
+                    text=(species+" "+strand+" bisulfite-treated original: unmethylatedC deaminated to sulfonated uracil adduct before desulfonation; "+("original genomic5mC and " if species=="mouse genomic" else "")+"protected-adaptorC retained; native junctions unassigned")
                 if stage=="converted":
                     text=(species+" "+strand+" converted original: unmethylatedC→U when converted; "+("original genomic5mC and " if species=="mouse genomic" else "")+"protected-adaptorC retained; native junctions unassigned")
-                sc.strand(species+strand,[role(text,indexed=True)],label="independent converted original; former genomic partners need not complement" if stage=="converted" else "native adaptor-ligated original strand class")
+                sc.strand(species+strand,[role(text,indexed=True)],label="independent converted original; former genomic partners need not complement" if stage in {"sulfonated","converted"} else "native adaptor-ligated original strand class")
         elif stage in {"first_pcr","second_template","second_pcr"}:
             sc.strand(species+" daughters",[role(species+" ordinary PCR DNA daughters; converted-site readoutT/A and retainedC/G; native ends/index coordinate unassigned",indexed=True)],label="ordinary DNA copies; methyl protection is not copied")
             sc.strand(species+" originals",[role(species+" possible carried U-bearing originals / protected methylated adaptors; recovery and second-round transfer unassigned",indexed=True)],label="independent original polymers; not chemically erased by PCR")
@@ -75,11 +77,11 @@ def protocol_graph():
     ligated=g.product("ligated","native premethylated-indexed-adaptor ligation population",M.MOLECULAR,state=population("ligated"))
     g.react("adapter_ligation","Ligate native source premethylated indexed adaptors",K.LIGATION,((prepared,I.TEMPLATE),(adapter,I.STRUCTURAL),(ligase,I.CATALYST)),(ligated,),geometry=AdapterLigationGeometry.unavailable("Methods105 identifies standard premethylated indexed Illumina adaptors, but native physical strands, exact junctions and ligation-facing end geometry remain unassigned in this scope. Canonical TruSeq is not substituted."))
     bis=g.input("bisulfite","MethyCode/Invitrogen kit,150µl;98°C10min denaturation then64°C2.5h conversion",M.CONDITION)
-    converted=g.product("converted","separate U-bearing converted original strands;protected adaptorC retained",M.MOLECULAR,state=population("converted"))
+    converted=g.product("converted","separate bisulfite-treated original strands;sulfonated deaminated sites before desulfonation;protected adaptorC retained",M.MOLECULAR,state=population("sulfonated"))
     g.react("bisulfite_conversion","Denature and bisulfite-convert native ligated populations",K.CHEMICAL_CONVERSION,((ligated,I.TEMPLATE),(bis,I.CONDITION)),(converted,))
     trna=g.input("trna","10ng tRNA carrier",M.MOLECULAR)
     column=g.input("column","Zymo-Spin columns;on-column desulfonation;30µl eluate",M.SELECTION)
-    purified=g.product("purified","30µl recovered converted DNA plus possible carried tRNA",M.MOLECULAR,state=population("converted",carrier=True))
+    purified=g.product("purified","30µl recovered desulfonated U-bearing DNA plus possible carried tRNA",M.MOLECULAR,state=population("converted",carrier=True))
     waste=g.product("column_waste","physically removed column flowthrough/washes;class composition unassigned",M.WASTE)
     g.react("column_recovery","Desulfonate and column-purify converted DNA with tRNA carrier",K.CLEANUP,((converted,I.TEMPLATE),(trna,I.STRUCTURAL),(column,I.SELECTION)),(purified,waste))
     g.discard(waste,"Physical column removal; no class-specific RNA/modified-DNA depletion is assumed.")

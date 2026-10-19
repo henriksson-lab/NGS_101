@@ -40,8 +40,24 @@ epigenetic clock construction,” *Nature Aging* (2024),
 ## Oligos and read layout
 
 🟢 Supplementary Table 5 publishes 64 indexed B adaptors (TS301–TS364). The schematic
-uses TS301 (`AAAGA`) as one explicit representative and N501/N701 as representative PCR
-indices. It preserves `/5Phos/` and `/iMe-dC/` exactly as written in the source.
+uses TS301 (`AAAGA`) as one explicit representative and N501/N701 as representatives of
+the published N501–N506 (P5/i5) and N701–N704 (P7/i7) PCR primers. 🟢 Each N70x primer is
+P7, the 8-nt i7 pool index, the 23-nt custom sequencing handle `AAGCAGTGGTATCAACGCAGATC`
+and the 14-nt B-adaptor prefix `TGGGTGGAGGGTGG`; the custom Read 2 primer is handle + prefix
+and the custom Index 1 primer is its reverse complement (Table 5, sheets “Indexed PCR
+Primers” and “Sequencing Primers”). It preserves `/5Phos/` and `/iMe-dC/` exactly as written
+in the source.
+
+🟡 Published discrepancy (computed from Supplementary Table 5, sheet “Hyb Blocking Oligos”,
+checked in the original workbook): the “Adaptor A Blocking Oligo”
+`CTGTCTCTTATACACATCTCCGAGCCCACGAGAC` is the reverse complement of the Nextera Tn5ME-B arm
+`GTCTCGTGGGCTCGG` plus the mosaic end, not of TIME-seq methylated adaptor A (arm
+`TCGTCGGCAGCGTC`); only its 19-nt mosaic-end portion pairs with adaptor A. The B blocker is
+the exact reverse complement of adaptor B (`HHHHH` opposite `DDDDD`). The model keeps the
+published sequence as a hybridization input and draws no blocker duplex; which sequence was
+intended is unresolved. Minor table inconsistencies, also shown on the page: the P5 structure
+row has a 7-N i5 placeholder under an “(8-nt)” header while all listed indexes have 8 nt, and
+the adaptor B structure row labels the 14-nt prefix “Adaptor A”.
 
 🟢 TIME-seq requires its published custom Read 2 and Index Read 1 primers. Read 1 and
 Index 2 use the corresponding Nextera sites. The economical MiSeq/NextSeq program is
@@ -57,6 +73,12 @@ short Read 2 reports the internal Tn5 sample barcode.
   mosaic end and barcode complement were copied by Klenow with 5-methyl-dCTP; the
   complementary strand-of-origin product (B adaptor top strand converted at that C) is
   not drawn. Neither source discusses this strand.
+- 🟡 Tagmentation with equal A and indexed B adaptor loading (1:1:2 A:B:glycerol,
+  Supplementary Note II) is inferred also to yield fragments carrying the same adaptor at
+  both ends. 🔴 Neither the Methods nor Supplementary Note II removes or quantifies them;
+  the graph keeps them as an unresolved terminal rather than a physical discard (no
+  removal step precedes PCR; whether they are captured, amplified or sequenced is not
+  reported).
 - Sample B in the graph uses TS302 only to show two distinct published barcodes; actual
   barcode-to-sample assignments are study specific.
 - Bait sequences, bait production (Supplementary Note III) and Supplementary Tables 2–4

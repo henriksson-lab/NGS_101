@@ -108,6 +108,40 @@
       ],
       "scope": "Capped defining-source pass; one new original read; no full chemistry validation or accepted missing-information claim.",
       "verification": "local suite 1/1 pass; page builds; pairing 0 problems; chemistry 0 established/0 conditional/6 unresolved/0 contradictory; source guard 0 exact checked, 0 failed, 1 input without exact states; Markdown built (01_lampore.md); audit --check pass (blocked 1)"
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "root",
+      "date": "2026-10-19",
+      "documents": 2,
+      "locations": "Defining James et al. medRxiv 10.1101/2020.08.07.20161737 v3 pdf.txt Introduction lines 150-156, Methods 1 lines 196-256, Barcode demultiplexing lines 948-968; Peto et al. JCM 2021 PMC8315953 JATS Methods 'LamPORE' xml.txt lines 216-220; MANIFEST.tsv rows for published-version status.",
+      "oligo_scraper": "Not re-run; previous runs: 0 hits in the v3 pdf.txt, bundle total 6 hits all Zhang bioRxiv Table 1. No new oligo claims made.",
+      "findings": "batch_ngs symbols (nextera_library, truseq_amplicon_library, truseq_library) were imported but unused; graph already native. Removed them and unused illumina, Construct/Segment/oligo/revcomp, mda/proximity/spia helpers, PCRGeometry/PCRPrimer, SequencingPlan and ProximityExtensionTopology imports. No dual-index, Illumina arm, dA junction or read-role defaults present. The rapid-barcoding off-product was a WASTE discard ('does not carry the productive rapid-adapter attachment end') without source support for physical removal: now a molecular product with an UNRESOLVED terminal (all reactions pooled; 0.8x AMPure not described as removing it; read selection for LAMP barcodes is computational, ~70% retained, lines 962-968). Transposase input now cites preprint Introduction and JCM 'rapid transposase-based method'. Sequencing limitation records the computational LAMP-barcode read selection. Published-version check: JCM PMC8315953 is the published version of the separate preprint 10.1101/2020.09.18.20195370, not of the defining preprint; no published version of the defining preprint is in the bundle/manifest (medRxiv API: unpublished); no new download attempted. Note updated accordingly. No published discrepancy found.",
+      "deferred": [
+        "ONT LamPORE protocol 1 July 2020 v1 rev4 (vendor, not in bundle)",
+        "Published Zhang et al. BioTechniques btn-2020-0078 primer table (manual)",
+        "FIP barcode, rapid barcode, attachment tag and RAP bases and attachment chemistry (commercial, undisclosed)",
+        "Physical fate of fragments without a rapid-barcode attachment end"
+      ],
+      "scope": "Bounded migration check of the batch_ngs import queue and graph defaults against the defining preprint and JCM Methods; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problem duplexes; source guard 0 checked, 0 failed, 1 input without exact states; build_docs 2 written; check_chemistry rc 0 (total established=44/conditional=37/unresolved=220/contradictory=0); no queued symbol imported in the directory"
+    },
+    {
+      "round": "2026-10-19-migration-final",
+      "reviewer": "batch14_independent",
+      "date": "2026-10-19",
+      "documents": 2,
+      "locations": "Defining James et al. medRxiv 10.1101/2020.08.07.20161737 v3 pdf.txt Introduction lines 153-155, Methods 1 lines 196-256, Barcode demultiplexing lines 948-968, reference 20 lines 1820-1824; Peto et al. JCM 2021 PMC8315953 JATS xml.txt lines 136 (citation), 218-220 (Methods LamPORE); MANIFEST.tsv rows.",
+      "oligo_scraper": "Not re-run; no oligo claims changed.",
+      "findings": "Confirmed the root migration: no batch_ngs or other inherited Illumina/Nextera defaults; off-product is an UNRESOLVED molecular terminal (pooling line 242 and 0.8x AMPure lines 244-245 state no removal). Confirmed JCM PMC8315953 is a separate study: defining preprint reference 20 cites Peto L et al., medRxiv 10.1101/2020.09.18.20195370 with the JCM title (JCM line 136), and JCM line 218 cites James et al. as the assay description; no published version of the defining preprint is on disk. Fixes: the terminal reason conflated the ~70% LAMP-barcode read selection (lines 962-968, a computational exclusion of reads lacking a LAMP barcode) with the rapid-barcode off-product; reworded to say it concerns a different population and assigns no fate. The off-product material's source no longer implies the preprint describes it (now 'not described; inferred from transposase fragmentation'). Note: split the model decision out of the green-marked source paragraph into a yellow-marked sentence, and cited the reference-20 location for the separate-preprint claim. No published discrepancy.",
+      "deferred": [
+        "ONT LamPORE protocol 1 July 2020 v1 rev4 (vendor, not in bundle)",
+        "Published Zhang et al. BioTechniques btn-2020-0078 primer table (manual)",
+        "FIP barcode, rapid barcode, attachment tag and RAP bases and attachment chemistry (commercial, undisclosed)",
+        "Physical fate of fragments without a rapid-barcode attachment end"
+      ],
+      "scope": "Independent bounded check of the migration edits against the defining preprint, JCM Methods and manifest; no full chemistry validation or accepted missing-information claim.",
+      "verification": "local suite 1/1 pass; page builds; pairing 0 problem duplexes; source guard 0 checked, 0 failed, 1 input without exact states; build_docs 2 written; check_chemistry total established=44/conditional=37/unresolved=220/contradictory=0"
     }
   ]
 }

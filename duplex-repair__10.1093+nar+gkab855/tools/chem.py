@@ -1,16 +1,26 @@
 """Protocol-owned source, oligos, workflow and reaction graph."""
-import illumina as il
-import nextera as nx
-import seqprimers as sp
-from adapter_ligation import AdapterLigationGeometry, reported_adapter_end
-from batch_ngs import nextera_library, seg, truseq_library
-from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature, revcomp
-from circular import CircularizationGeometry
-from endprep import ThreePrimeOverhangAdapter, ligation_product_scene, react_dA_tail_then_ligate, repair_and_dA_tail
-from protocol_model import closed_circle, molecule, role
-from pcr import PCRGeometry, PCRPrimer
+from adapter_ligation import AdapterLigationGeometry
+from chemdraw import Construct, Workflow, feature
+from endprep import ligation_product_scene
+from protocol_model import molecule, role
+from pcr import PCRGeometry
 from protocol_graph import InputRole, MaterialKind, ProtocolGraph, SequencingPlan, StepKind
 from accuracy_protocols import _workflow
+
+# Supplementary Figures S9-S10 legends: in those capillary-electrophoresis assays the NGS
+# adapters add 39-40 or 37-38 bp to the exposed 3' and 5' ends because "unique molecular
+# indices can be either 3 or 4 base pairs".  The legends do not say these are the custom
+# IDT dual-index adapters used for the sequenced libraries (inferred, not stated).
+# Neither the UMI composition (random or a fixed set) nor the position of the UMI or the
+# dual sample indexes within the custom adapters is published, so each feature marks the
+# whole adapter role, unsized, with unknown encoding.
+_UMI_NOTE = ("UMI within this custom IDT dual-index adapter; position, bases and composition "
+             "unpublished. Supplementary Figures S9-S10 legends give 3- or 4-bp UMIs for the "
+             "adapters in those CE assays; that these are the library adapters is inferred")
+
+
+def _umi(side):
+    return feature(f"duplex_umi_{side}", "umi", "unknown", note=_UMI_NOTE)
 
 
 def workflow() -> Workflow:
@@ -21,10 +31,10 @@ def workflow() -> Workflow:
     ata = molecule("dA-tailed duplex", (role("original duplex interior"), role("3′ dA", length_bp=1)))
     adapted_construct = Construct((
         role("custom duplex UMI adapter A", tag="umi",
-             molecular_feature=feature("duplex_umi_a", "umi", "random")),
+             molecular_feature=_umi("a")),
         role("repaired insert"),
         role("custom duplex UMI adapter B", tag="umi",
-             molecular_feature=feature("duplex_umi_b", "umi", "random"))),
+             molecular_feature=_umi("b"))),
         name="duplex-UMI library")
     adapted = ligation_product_scene(
         adapted_construct, "repaired insert", adapter_group="duplex UMI adapter A",
@@ -44,9 +54,9 @@ def workflow() -> Workflow:
 
 
 FINAL_LIBRARY = Construct([
-    role("custom left duplex-UMI adapter", tag="umi", molecular_feature=feature("duplex_umi_a", "umi", "random")),
+    role("custom left duplex-UMI adapter", tag="umi", molecular_feature=_umi("a")),
     role("repaired insert"),
-    role("custom right duplex-UMI adapter", tag="umi", molecular_feature=feature("duplex_umi_b", "umi", "random")),
+    role("custom right duplex-UMI adapter", tag="umi", molecular_feature=_umi("b")),
 ], name="Duplex-Repair sequencing library")
 SEQ_PRIMERS = ()
 TITLE = 'Duplex-Repair — damage-aware end repair for duplex sequencing'
@@ -151,11 +161,11 @@ def protocol_graph():
                     "The paper identifies custom duplex-UMI adapters but does not publish their ligating-end sequences."))
     adapted_clean = _cleanup(graph, "ligation_cleanup", "1.2X Ampure cleanup after ligation",
                              adapted, "purified adapter-ligated DNA", reviewed)
-    forward = graph.input("pcr_forward", "custom duplex-library PCR forward primer",
+    forward = graph.input("pcr_forward", "custom duplex-library PCR forward primer (sequence not published)",
                           MaterialKind.OLIGO)
-    reverse = graph.input("pcr_reverse", "custom duplex-library PCR reverse primer",
+    reverse = graph.input("pcr_reverse", "custom duplex-library PCR reverse primer (sequence not published)",
                           MaterialKind.OLIGO)
-    polymerase = graph.input("pcr_polymerase", "library PCR polymerase",
+    polymerase = graph.input("pcr_polymerase", "library PCR polymerase (not specified in this article)",
                              MaterialKind.CATALYST)
     amplified = graph.product("amplified_library", "amplified pre-capture duplex-UMI library",
                               MaterialKind.MOLECULAR, state=final)
