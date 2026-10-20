@@ -2355,3 +2355,32 @@ implementation review. See the [batch14 ledger](catalogue/migration_rounds/2026-
   and dA tailing are marked inferred.
 
 These are ownership migrations; source-absence gates are unchanged.
+
+
+## Post-migration code cleanup (2026-10-20)
+
+Retired 21 unused shared modules: the 18 initial no-import candidates, their orphaned
+`pooled_crispr` dependency, and `rna_library_operations` / `replication_labeling` after
+the unused fallback and imports were removed. Reference checks include Python
+imports/re-exports, dependency chains and executable Markdown expressions. The
+Markdown loader's generic discovery is not evidence of an actual consumer.
+
+Pruned unused library constructors, adapter assemblies, graph/PCR finishers and
+legacy end/library shortcuts from live helpers. `batch_ngs` retains supplied-state
+drawing primitives; `protocol_specs` retains the metadata dataclass still declared
+locally by SPLASH; `protocol_build` accepts the module/spec objects used by all its
+callers and no longer offers an unused string-key lookup into an empty registry.
+`tenx_graph` retains `partition_material`. Removed HiChIP's unused `sections()`
+fallback, which the graph renderer never selected; its rebuilt schematic is
+byte-for-byte identical. No source claims, molecular states or read layouts were
+changed. Updated current maintainer pointers, the Tang constructor reference and
+TODOFINAL's stale pending wording; historical audit records and all 57 queue rows remain.
+
+Verification: all 407 protocol suites pass, along with shared 1281, source-tool 226
+and catalogue 83 checks. All 407 diagram pages build; 402 documented NGS graph
+contracts pass; all 813 published site files have resolving relative links. Pairing
+and P5 lint have zero findings beyond the existing source-known PEM exemption.
+The static dependency/executable-Markdown scan finds no remaining orphan shared
+modules. In retained modules, 50 unused top-level definitions were removed.
+All 57 resolved ownership rows and the empty migration pending list are preserved.
+The cleanup is uncommitted.

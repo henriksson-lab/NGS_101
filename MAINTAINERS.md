@@ -92,7 +92,7 @@ scheme; `catalogue/scg_lib_structs.tsv` is the worklist of what is out there.
 │   ├── mdfacts.py           {{= ...}} computed facts inside the Markdown notes
 │   ├── page.py              shared stylesheet and page scaffolding
 │   └── checks.py            self-test harness + checks true for every protocol
-├── protocol_families/       legacy family recipes being migrated to protocol owners
+├── protocol_families/       remaining shared Chromium partition helper
 ├── ref/                     shared reference material
 │   ├── concepts/            chemistry that recurs across protocols, written once
 │   │   ├── tn5-tagmentation.md

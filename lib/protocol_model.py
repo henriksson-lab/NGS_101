@@ -1,10 +1,6 @@
-"""Constructors for declared molecular roles and legacy schematic shortcuts.
+"""Constructors for explicitly supplied molecular roles and workflow views.
 
-An unassigned role records the model's scope; it does not establish source absence.
-Supplied parts can share placeholder handling, drawing and workflow continuity.
-Legacy ``role_library`` and ``da_tailed`` choose platform or end representations;
-their caller reviews are tracked in catalogue/chemistry_decoupling.tsv. Do not add
-callers to those shortcuts while their source choices are being migrated.
+An unassigned role records model scope; it does not establish source absence.
 """
 from __future__ import annotations
 
@@ -47,11 +43,6 @@ def molecule(label: str, parts: tuple[Segment, ...], *,
     return sc
 
 
-def da_tailed(label: str, insert: str = "end-repaired DNA insert") -> Scene:
-    """Role-level product after dA-tailing and before adapter ligation."""
-    return molecule(label, (role("3-prime dA"), role(insert), role("3-prime dA")))
-
-
 def closed_circle(label: str, parts: tuple[Segment, ...], *,
                   closure_label: str = "covalently closed") -> Drawing:
     """A readable circular molecule whose last-to-first closure is model-derived."""
@@ -64,13 +55,3 @@ def chain(initial: Scene, steps: tuple[tuple[str, Scene, str], ...]) -> Workflow
     for action, state, note in steps:
         workflow.react(action, state.rows(), name=action, note=note)
     return workflow
-
-
-def role_library(name: str, payload: tuple[Segment, ...], *,
-                 index: Segment | None = None) -> Construct:
-    parts = [role("Illumina-compatible left end")]
-    if index is not None:
-        parts.append(index)
-    parts.extend(payload)
-    parts.append(role("Illumina-compatible right end"))
-    return Construct(parts, name=name)

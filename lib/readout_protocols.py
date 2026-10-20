@@ -2,13 +2,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from types import SimpleNamespace
 
-from chemdraw import Construct, Segment, feature
+from chemdraw import Construct
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind)
-from protocol_model import chain, molecule, role, role_library
+from protocol_model import molecule, role
 
 @dataclass(frozen=True)
 class Definition:

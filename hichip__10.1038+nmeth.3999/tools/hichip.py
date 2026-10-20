@@ -5,8 +5,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "lib"))
 import illumina as il
 import nextera as nx
 import seqprimers as sp
-from chemdraw import Construct, Row, Segment, feature, revcomp
-from chromatin_epigenetics import proximity_rows, tagmentation_scene
+from chemdraw import Construct, Segment, feature, revcomp
 from pcr import PCRGeometry
 from protocol_graph import (Disposition, InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
                             StepKind, Terminal)
@@ -39,17 +38,6 @@ def oligos():
 FINAL_CAPTION = "Tn5-built paired-end library from immunoprecipitated, biotin-bearing proximity-ligation products."
 SEQUENCING_INTRO = "Paired reads recover the two genomic ends of each protein-enriched contact molecule; an internal ligation scar identifies informative contacts."
 SHOW_READ_CONTENT = True
-
-def sections():
-    return [
-        ("Create in situ proximity ligations", proximity_rows(),
-         "MboI ends are filled with biotin-dATP and ligated in intact nuclei; ** marks the exact boundary in the derived GATCGATC contact scar."),
-        ("Immunoprecipitate protein-associated contacts", [Row(chunks=[("contact chromatin + target antibody → protein-directed bead capture", "cbc", False)])],
-         "Chromatin is sheared after proximity ligation and enriched with an antibody to the factor or histone mark of interest."),
-        ("Tagment bead-bound DNA", tagmentation_scene("protein-enriched contact fragment").rows(),
-         "After IP elution, reverse crosslinking and biotin capture, Tn5 installs sequencing ends on streptavidin-bound DNA; ** marks the two adapter-transfer boundaries."),
-    ]
-
 
 def protocol_graph():
     graph = ProtocolGraph(TITLE, authority=SOURCE)

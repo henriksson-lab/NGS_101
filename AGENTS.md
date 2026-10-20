@@ -199,12 +199,13 @@ distinction does not waive source checks or establish that information is absent
   Read 1/2 + index primers on a library by computation), `mdfacts.py` + `mdrender.py`
   (Markdown with computed facts), `page.py` (shared HTML/CSS), `checks.py` (harness +
   `run_common`, retained for legacy suites; new protocol suites do not repeat it).
-  Some legacy recipes still live here: directory placement does not make them
-  neutral. Check `catalogue/chemistry_decoupling.tsv` and do not add callers to
-  recipes awaiting migration. A readout label check is not reaction validation;
+  Directory placement does not make a helper neutral. The completed ownership
+  migrations are recorded in `catalogue/chemistry_decoupling.tsv`; do not reintroduce
+  retired source-selecting recipes. A readout label check is not reaction validation;
   distinguish the chemical product from the base reported by sequencing.
-- **`protocol_families/`** — legacy family recipes being migrated to their protocol
-  owners (see `catalogue/chemistry_decoupling.md`). A family name or matching endpoint
+- **`protocol_families/`** — remaining shared Chromium partition helper. Legacy
+  family recipes were migrated to their protocol owners and retired (see
+  `catalogue/chemistry_decoupling.md`). A family name or matching endpoint
   does not establish shared chemistry. Shared operations must receive the molecular
   inputs, reagents, geometry and outputs explicitly; they must not supply biological
   defaults or source conclusions. Protocol modules assemble their own graphs.

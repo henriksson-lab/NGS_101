@@ -2,20 +2,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from types import SimpleNamespace
 
-import seqprimers as sp
-from adapter_ligation import AdapterLigationGeometry
-from batch_ngs import seg, truseq_library
-from chemdraw import Construct, MolecularState, Scene, Segment, Workflow, feature
-from circular import CircularizationGeometry
-from chromosome_capture import (Circular4CTemplate, ThreeCLibrary,
-                                inverse_pcr_product, multiway_contact, region)
-from replication_labeling import CopyNumberReplication, NascentPulse
-from protocol_model import da_tailed
-from pcr import PCRGeometry
-from protocol_graph import (InputRole, MaterialKind, ProtocolGraph, SequencingPlan,
-                            StepKind)
+from chemdraw import MolecularState, Scene, Segment, Workflow
+from chromosome_capture import region
 
 def role(name: str, *, tag=None, molecular_feature=None) -> Segment:
     return Segment(name, f"[{name}]", tag, placeholder=True,
@@ -36,8 +25,6 @@ def chain(initial: Scene, steps: tuple[tuple[str, Scene, str], ...]) -> Workflow
         w.react(action, state.rows(), name=action, note=note)
     return w
 
-def _three_c(enzyme: str, names: tuple[str, ...]) -> ThreeCLibrary:
-    return ThreeCLibrary(enzyme, names)
 
 @dataclass(frozen=True)
 class Definition:

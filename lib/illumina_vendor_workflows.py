@@ -5,14 +5,9 @@ from dataclasses import dataclass
 
 import nextera as nx
 import illumina as il
-from batch_ngs import (nextera_library, seg, truseq_full_length_adapter, truseq_library,
-                       truseq_pcr_free_library, truseq_pcr_free_rows)
 from chemdraw import (Construct, MolecularState, Scene, Segment, Workflow,
                       complement_segments)
-from endprep import (ThreePrimeOverhangAdapter, cohesive_ligation_geometry,
-                     dA_tailed_scene, ligation_product_scene, repair_and_dA_tail)
-from pcr import PCRGeometry
-from protocol_graph import InputRole, MaterialKind, SequencingPlan, StepKind
+from endprep import ThreePrimeOverhangAdapter
 
 TRUSEQ_Y_END = ThreePrimeOverhangAdapter(
     "TruSeq Y adapter", il.STEM + "T", il.STEM_COMPLEMENT)
@@ -33,22 +28,6 @@ def _workflow(initial_name: str, initial: Scene,
         w.react(action, state.rows(), name=name, note=note)
     return w
 
-def _truseq_final(insert_name: str, title: str, *, dual_index: bool = True):
-    return truseq_library([seg(insert_name, "N" * 42, placeholder=True)], title,
-                          dual_index=dual_index)
-
-def _truseq_pcr_free_final(insert_name: str, title: str, *, adapter):
-    return truseq_pcr_free_library([seg(insert_name, "N" * 42, placeholder=True)], title,
-                                   adapter=adapter)
-
-def _nextera_final(insert_name: str, title: str):
-    return nextera_library([seg(insert_name, "N" * 42, placeholder=True)], title)
-
-def truseq_final_rows(library: Construct) -> list:
-    insert = next(s.name for s in library if "insert" in s.name or "cDNA" in s.name)
-    return ligation_product_scene(
-        library, insert, label=library.name, adapter_group="TruSeq adapter",
-        highlight_components=False).rows()
 
 def nextera_final_rows(library: Construct) -> list:
     sc = Scene.duplex(list(library), label=library.name)
@@ -108,54 +87,3 @@ class Definition:
     final_kind: str
     insert_name: str
     workflow_builder: object
-
-def _sequence(graph, material, library, primers, endpoint):
-    graph.sequence(material, SequencingPlan(
-        library=library, primers=tuple(primers), limitation=""))
-
-def _finish_pcr(graph, prefix, template, library, primers, endpoint, reviewed, *, label,
-                step_label=None, forward_label=None, reverse_label=None,
-                polymerase_label=None, forward_state=None, reverse_state=None,
-                primer_source=None, geometry=None, unavailable_reason=None,
-                cleanup=None):
-    """Legacy vendor index PCR; callers supply printed primers, geometry and cleanup.
-
-    ``geometry`` takes an exact :class:`PCRGeometry` for a kit revision whose primers
-    are printed.  ``cleanup`` is an optional ``(step_label, reagent_label,
-    discarded_label)`` tuple for a post-PCR bead cleanup before sequencing.
-    """
-    forward = graph.input(prefix + "_forward", forward_label or label + " index PCR forward primer",
-                          MaterialKind.OLIGO, state=forward_state, source=primer_source)
-    reverse = graph.input(prefix + "_reverse", reverse_label or label + " index PCR reverse primer",
-                          MaterialKind.OLIGO, state=reverse_state, source=primer_source)
-    polymerase = graph.input(prefix + "_polymerase", polymerase_label or label + " PCR polymerase",
-                             MaterialKind.CATALYST)
-    amplified_id = prefix + ("_amplified" if cleanup else "_library")
-    product = graph.product(amplified_id, label + (" amplified library" if cleanup
-                                                    else " sequencing library"),
-                            MaterialKind.MOLECULAR if cleanup else MaterialKind.LIBRARY,
-                            state=library)
-    graph.react(prefix + "_pcr", step_label or "Complete and index the " + label + " library",
-                StepKind.PCR,
-                ((template, InputRole.TEMPLATE), (forward, InputRole.STRUCTURAL),
-                 (reverse, InputRole.STRUCTURAL), (polymerase, InputRole.CATALYST)),
-                (product,), geometry=geometry or PCRGeometry.unavailable(
-                    library,
-                    reason=unavailable_reason or "The vendor workflow supports several index-component revisions; the canonical final library and sequencing sites are exact, while one universal PCR-primer pair is not."))
-    reviewed.extend((prefix + "_forward", prefix + "_reverse", prefix + "_polymerase",
-                     prefix + "_pcr", amplified_id))
-    if cleanup:
-        cleanup_label, reagent_label, discarded_label = cleanup
-        beads = graph.input(prefix + "_cleanup_beads", reagent_label, MaterialKind.SELECTION)
-        cleaned = graph.product(prefix + "_library", label + " sequencing library",
-                                MaterialKind.LIBRARY, state=library)
-        discarded = graph.product(prefix + "_cleanup_waste", discarded_label,
-                                  MaterialKind.WASTE)
-        graph.react(prefix + "_cleanup", cleanup_label, StepKind.CLEANUP,
-                    ((product, InputRole.TEMPLATE), (beads, InputRole.SELECTION)),
-                    (cleaned, discarded), changes_molecule=False)
-        graph.discard(discarded, "left in the bead supernatant")
-        reviewed.extend((prefix + "_cleanup_beads", prefix + "_cleanup", prefix + "_library"))
-        product = cleaned
-    _sequence(graph, product, library, primers, endpoint)
-    return product
