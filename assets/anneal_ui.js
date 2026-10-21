@@ -27,6 +27,16 @@
     if(c.kind==='linear')return `Linear · ${c.length} bp · sequence 1: ${c.first_start+1}–${c.first_start+c.length}; sequence 2: ${c.second_start+1}–${c.second_start+c.length}`;
     return `Padlock sequence ${3-c.target} on ${c.target} · ${c.ligation_length} + ${c.extension_length} arm bases · target starts ${c.ligation_start+1}, ${c.extension_start+1}`;
   }
+  function fitDiagram(svg){
+    // Measure the shared renderer's actual geometry/text; keep its scale and trim
+    // unused canvas space in both the displayed diagram and the exported SVG.
+    const box=svg.getBBox(),padding=8;
+    if(!box.width||!box.height)return;
+    svg.setAttribute('viewBox',`${box.x-padding} ${box.y-padding} ${box.width+2*padding} ${box.height+2*padding}`);
+    svg.setAttribute('width',String(Math.ceil(box.width+2*padding)));
+    svg.setAttribute('height',String(Math.ceil(box.height+2*padding)));
+    currentSVG=new XMLSerializer().serializeToString(svg);
+  }
   async function show(){
     clearOutput();const token=++revision,candidate=result.candidates[Number($('anneal-candidate').value)];if(!candidate)return;
     $('anneal-cancel').disabled=false;status('Rendering…');
@@ -34,7 +44,9 @@
       const response=await request('render',{first:result.first,second:result.second,candidate});if(token!==revision)return;
       const documentSVG=new DOMParser().parseFromString(response.result.svg,'image/svg+xml');
       if(documentSVG.querySelector('parsererror')||documentSVG.documentElement.localName!=='svg')throw new Error('The model returned an invalid SVG.');
-      $('anneal-diagram').replaceChildren(document.importNode(documentSVG.documentElement,true));currentSVG=response.result.svg;
+      const svg=document.importNode(documentSVG.documentElement,true);
+      $('anneal-diagram').replaceChildren(svg);currentSVG=response.result.svg;fitDiagram(svg);
+      if(document.fonts)document.fonts.ready.then(()=>{if(token===revision&&svg.isConnected)fitDiagram(svg);});
       $('anneal-summary').textContent=response.result.summary;
       const coordinates=response.result.coordinates || {},names={first:'Sequence 1 paired span',second:'Sequence 2 paired span',first_overhangs:'Sequence 1 overhangs (5′ / 3′)',second_overhangs:'Sequence 2 overhangs (5′ / 3′)',target_sequence:'Target sequence',probe_sequence:'Padlock sequence',target_extension_arm:'Target extension arm',target_ligation_arm:'Target ligation arm',probe_extension_arm:'Padlock extension arm',probe_ligation_arm:'Padlock ligation arm',probe_backbone:'Padlock backbone',target_gap:'Target gap'};
       $('anneal-coordinate-text').textContent=Object.entries(coordinates).map(([key,value])=>{

@@ -98,6 +98,9 @@ const NativeWorker=window.Worker;window.Worker=class extends NativeWorker{constr
   wait("!!document.querySelector('#anneal-diagram svg')")
   first=json.loads(evaluate("JSON.stringify({count:document.getElementById('anneal-count').textContent,summary:document.getElementById('anneal-summary').textContent,timings:window.__workerLog,beats:window.__beats,maxGap:window.__maxGap,svg:document.querySelector('#anneal-diagram svg').outerHTML})"))
   assert 'arm bases' in first['summary'],first
+  canvas=json.loads(evaluate("JSON.stringify((()=>{const s=document.querySelector('#anneal-diagram svg'),b=s.getBBox(),v=s.viewBox.baseVal;return {width:s.width.baseVal.value,height:s.height.baseVal.value,contentWidth:b.width,contentHeight:b.height,left:b.x-v.x,top:b.y-v.y,right:v.x+v.width-b.x-b.width,bottom:v.y+v.height-b.y-b.height};})())"))
+  assert canvas['height'] < 250 and canvas['width'] < 620,canvas
+  assert all(0 < canvas[edge] <= 12 for edge in ('left','top','right','bottom')),canvas
   assert evaluate("document.getElementById('anneal-coordinate-text').textContent.includes('Target gap: 11–14 (4 bases)')")
   if evaluate("!!document.querySelector('nav.site-nav')"):
    assert evaluate("[...document.querySelectorAll('nav.site-nav a')].every(a=>new URL(a.href).pathname.startsWith("+json.dumps(prefix+'/')+"))")
@@ -115,9 +118,13 @@ const NativeWorker=window.Worker;window.Worker=class extends NativeWorker{constr
   evaluate("document.getElementById('anneal-mode').value='linear';document.getElementById('anneal-example').click();document.getElementById('anneal-form').requestSubmit();true")
   wait("document.getElementById('anneal-summary').textContent==='12 exact base pairs'")
   # Exercise real SVG download via the UI, intercepting the local link only.
-  evaluate("window.__download='';const click=HTMLAnchorElement.prototype.click;HTMLAnchorElement.prototype.click=function(){window.__download=this.download;};document.getElementById('anneal-download').click();HTMLAnchorElement.prototype.click=click;true")
+  evaluate("window.__download='';window.__exportText='';const createURL=URL.createObjectURL;URL.createObjectURL=function(blob){blob.text().then(text=>window.__exportText=text);return createURL.call(this,blob);};const click=HTMLAnchorElement.prototype.click;HTMLAnchorElement.prototype.click=function(){window.__download=this.download;};document.getElementById('anneal-download').click();HTMLAnchorElement.prototype.click=click;URL.createObjectURL=createURL;true")
   assert evaluate('window.__download')=='annealing.svg'
-  report={'browser':json.load(urllib.request.urlopen(base+'/json/version'))['Browser'],'cold':{k:v for k,v in first.items() if k!='svg'},'warm_timings':warm,'final_summary':evaluate("document.getElementById('anneal-summary').textContent"),'svg_download':True,'invalid_input':True,'unknown_backbone':True,'cancellation':True,'runtime_retry':True,'url_prefix':prefix}
+  wait("window.__exportText.includes('viewBox')")
+  exported=ET.fromstring(evaluate('window.__exportText'))
+  visible=json.loads(evaluate("JSON.stringify([...document.querySelector('#anneal-diagram svg').attributes].filter(a=>['width','height','viewBox'].includes(a.name)).map(a=>[a.name,a.value]))"))
+  assert all(exported.attrib.get(name)==value for name,value in visible),'Export canvas differs from the compact display'
+  report={'browser':json.load(urllib.request.urlopen(base+'/json/version'))['Browser'],'cold':{k:v for k,v in first.items() if k!='svg'},'warm_timings':warm,'final_summary':evaluate("document.getElementById('anneal-summary').textContent"),'svg_download':True,'invalid_input':True,'unknown_backbone':True,'cancellation':True,'runtime_retry':True,'url_prefix':prefix,'compact_canvas':canvas}
   args.report.write_text(json.dumps(report,indent=2));print(json.dumps(report))
   shot=ws.call('Page.captureScreenshot',{'format':'png'})['result']['data'];args.screenshot.write_bytes(base64.b64decode(shot))
  finally:
