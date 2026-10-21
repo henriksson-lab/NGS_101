@@ -56,7 +56,7 @@ NEVER = {"_data", "pdf", ".cache", ".git", "__pycache__", "_site"}
 # Files a page may link to and that we may copy, if they are ours. Everything else -- in
 # particular the types .gitignore lists as third-party source material (pdf, xlsx, txt,
 # images, plasmid maps) -- is never copied.
-ASSET_TYPES = {".py", ".R", ".sh", ".css", ".js", ".svg", ".json", ".tsv", ".csv"}
+ASSET_TYPES = {".py", ".R", ".sh", ".css", ".js", ".mjs", ".svg", ".json", ".tsv", ".csv"}
 THIRD_PARTY_TYPES = {".pdf", ".xls", ".xlsx", ".doc", ".docx", ".pptx", ".txt", ".jpg",
                      ".jpeg", ".png", ".gif", ".tif", ".tiff", ".dna", ".gb", ".gbk",
                      ".fa", ".fasta"}
@@ -202,8 +202,11 @@ def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
     files["about.html"] = ROOT / "about.html"
     files["annotate.html"] = ROOT / "annotate.html"
     files["samplesheet.html"] = ROOT / "samplesheet.html"
+    files["anneal.html"] = ROOT / "anneal.html"
     # fetch() dependencies are not discovered by the HTML href/src walker.
     files["assets/sequence_components.json"] = ROOT / "assets" / "sequence_components.json"
+    files["assets/anneal_python.json"] = ROOT / "assets" / "anneal_python.json"
+    files["assets/anneal_worker.mjs"] = ROOT / "assets" / "anneal_worker.mjs"
 
     skipped = []
     public_dirs = {r["dir"] for r in build_index.cat.ours() if r["section"] == "published"}
@@ -353,6 +356,7 @@ def build_annotation(results: dict[str, tuple[bool, str]]) -> None:
         run("tools/build_sequence_index.py", "--eligible", str(eligibility))
     run("build_annotate.py")
     run("build_samplesheet.py")
+    run("build_anneal.py")
 
 
 def main() -> int:

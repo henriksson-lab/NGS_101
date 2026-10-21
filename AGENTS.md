@@ -16,6 +16,12 @@ presentation, protocol boundaries, evidence display, or model/test responsibilit
 Pure Python 3 standard library — **no third-party dependencies, don't add any** (that is
 why `lib/mdrender.py` is a home-grown Markdown renderer).
 
+Approved browser-only exception (2026-10-21): the Anneal primers tab may load pinned
+Pyodide 314.0.7 on demand to run the existing Python model in a Web Worker. Keep the
+Python/site build offline and standard-library-only; add no Python packages, npm
+packages or Rust toolchain. Runtime binaries are not checked in. See
+[plans/annealing.md](plans/annealing.md).
+
 ```sh
 # self-tests: shared primitives once, then only protocol suites affected by an edit
 for t in */tools/selftest.py */*/tools/selftest.py; do python3 "$t"; done

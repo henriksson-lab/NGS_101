@@ -12,27 +12,40 @@
     if(!loading)loading=fetch('assets/sequence_components.json').then(r=>{if(!r.ok)throw new Error('The component catalogue could not be loaded. Please try again.');return r.json();}).then(data=>catalogue=data).catch(error=>{loading=null;throw error;});
     return loading;
   }
+  function refreshReuseControls(){
+    rows.forEach((row,index)=>row.reuse.forEach((buttons,slot)=>{
+      buttons.replaceChildren();
+      if(index===0)for(const role of ['i5','i7']){
+        const button=node('button','Use for all '+role);button.type='button';
+        button.addEventListener('click',()=>reuse(row,slot+1,role));buttons.append(button);
+      }
+    }));
+  }
   function addRow(value={}){
     if(rows.length>=api.MAX_ROWS){status('The table is limited to '+api.MAX_ROWS+' samples.',true);return;}
-    invalidate();const tr=node('tr'),id=node('input'),primers=[node('textarea'),node('textarea')],i7=node('td'),i5=node('td'),note=node('div'),actions=node('td');
+    invalidate();const tr=node('tr'),id=node('input'),primers=[node('input'),node('input')],i7=node('td'),i5=node('td'),note=node('div'),actions=node('td');
     let next=1;while(rows.some(r=>r.id.value==='Sample_'+next))next++;
     id.type='text';id.value=value.sampleId===undefined?'Sample_'+next:value.sampleId;id.setAttribute('aria-label','Sample_ID');id.addEventListener('input',invalidate);
     const first=node('td');first.append(id);tr.append(first);
-    const row={tr,id,primers,i7,i5,note};
+    const row={tr,id,primers,i7,i5,note,reuse:[]};
     primers.forEach((input,index)=>{
-      input.value=value['primer'+(index+1)]||'';input.rows=3;input.spellcheck=false;input.setAttribute('aria-label','Primer '+(index+1));input.addEventListener('input',invalidate);
+      input.type='text';input.className='primer-input';input.value=value['primer'+(index+1)]||'';input.spellcheck=false;input.autocomplete='off';input.setAttribute('aria-label','Primer '+(index+1));input.addEventListener('input',invalidate);
       const cell=node('td'),buttons=node('div');buttons.className='primer-reuse';cell.append(input,buttons);
-      for(const role of ['i5','i7']){const button=node('button','Use for all '+role);button.type='button';button.addEventListener('click',()=>reuse(row,index+1,role));buttons.append(button);}
+      row.reuse.push(buttons);
       tr.append(cell);
     });
-    const remove=node('button','Remove');remove.type='button';remove.addEventListener('click',()=>{invalidate();rows=rows.filter(r=>r!==row);tr.remove();});
-    actions.append(note,remove);tr.append(i7,i5,actions);rows.push(row);$('primer-rows').append(tr);
+    const remove=node('button','Remove');remove.type='button';remove.addEventListener('click',()=>{invalidate();rows=rows.filter(r=>r!==row);tr.remove();refreshReuseControls();});
+    actions.append(note,remove);tr.append(i7,i5,actions);rows.push(row);$('primer-rows').append(tr);refreshReuseControls();
   }
   function replaceRows(values){invalidate();rows=[];$('primer-rows').replaceChildren();values.forEach(addRow);}
   function profile(){
     const p=policy.describeProfile($('batch-instrument').value,$('batch-workflow').value),box=$('batch-profile');
-    box.textContent=p.note+' i7 → index; i5 → index2 ('+(p.i5Orientation==='reverse_complement'?'reverse complement':'forward')+').';
-    for(const url of p.sources||[])if(/^https:\/\/[a-zA-Z0-9.-]*illumina\.com\//.test(url)){const a=node('a',' Illumina guidance');a.href=url;box.append(a);}
+    box.textContent=p.supported?'index: i7 forward · index2: i5 '+(p.i5Orientation==='reverse_complement'?'reverse complement':'forward')+'. ':p.note;
+    if(p.supported){
+      const guidance=node('details'),summary=node('summary','Orientation guidance');guidance.append(summary,node('p',p.note));
+      let number=0;for(const url of p.sources||[])if(/^https:\/\/[a-zA-Z0-9.-]*illumina\.com\//.test(url)){const a=node('a',' Illumina ['+(++number)+']');a.href=url;guidance.append(a);}
+      box.append(guidance);
+    }
     return p;
   }
   async function reuse(row,slot,role){
@@ -57,14 +70,14 @@
         if(result.empty){row.note.textContent='No primers supplied.';return;}
         if(result.error){row.note.textContent=result.error;return;}
         for(const role of ['i7','i5'])field(row[role],result.values[role]?policy.formatIndex(result.values[role],role,instrument,workflow).value:'',role==='i7'?'index':'index2');
-        row.note.textContent=Object.keys(result.values).length===1?'One primer/index omitted. ':'Indexes detected. ';
+        row.note.textContent=Object.keys(result.values).length===1?'Partial: '+Object.keys(result.values)[0]+' only. ':'i7 + i5. ';
         for(const detail of result.results)for(const warning of detail.warnings||[])row.note.append(document.createTextNode(warning+' '));
-        row.note.append(document.createTextNode('Matching templates: '));
+        const matches=node('details'),summary=node('summary',result.protocols.length+' template matches');matches.append(summary);row.note.append(matches);
         for(const id of result.protocols.slice(0,5)){
           const p=protocols.get(id);if(!p)continue;
-          const a=node('a',p.title+' ');if(typeof p.url==='string'&&!p.url.includes('..')&&/^[a-zA-Z0-9_+./%~-]+\.html$/.test(p.url)&&!p.url.startsWith('/'))a.href=p.url;row.note.append(a);
+          const a=node('a',p.title+' ');if(typeof p.url==='string'&&!p.url.includes('..')&&/^[a-zA-Z0-9_+./%~-]+\.html$/.test(p.url)&&!p.url.startsWith('/'))a.href=p.url;matches.append(a);
         }
-        if(result.protocols.length>5)row.note.append(document.createTextNode('('+result.protocols.length+' total)'));
+        if(result.protocols.length>5)matches.append(document.createTextNode('('+result.protocols.length+' total)'));
       });
       $('batch-export').hidden=!analysis.valid.length;
       $('batch-copy-csv').hidden=analysis.inputOnly;
@@ -85,6 +98,10 @@
   }
   $('batch-add').addEventListener('click',()=>addRow());
   $('batch-detect').addEventListener('click',detect);
+  $('batch-examples').addEventListener('click',()=>{
+    try{replaceRows(JSON.parse($('batch-example-data').textContent));status('Synthetic example combinations loaded; not a validated experimental pair.');}
+    catch(_){status('Example primers could not be loaded.',true);}
+  });
   $('batch-import').addEventListener('click',()=>{try{replaceRows(api.parseTSV($('batch-paste').value));status('Imported '+rows.length+' sample rows.');}catch(error){status(error.message,true);}});
   $('batch-copy-tsv').addEventListener('click',()=>{if(output&&output.valid.length)copyText(output.tsv);});
   $('batch-copy-csv').addEventListener('click',()=>{if(output&&output.valid.length&&!output.inputOnly)copyText(output.csv);});

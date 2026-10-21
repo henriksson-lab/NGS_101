@@ -44,12 +44,12 @@
     query.append(node('span','Query    ','alignment-row-label'),document.createTextNode(result.sequence.slice(start,hit.start)),node('strong',result.sequence.slice(hit.start,hit.end),'alignment-match'),document.createTextNode(result.sequence.slice(hit.end,end)));
     component.append(node('span','Selected ','alignment-row-label'),document.createTextNode(' '.repeat(hit.start-start)),node('strong',sequence,'alignment-match'));
     pre.append(query,component);
-    const orientation = hit.strand === '-' ? 'The selected canonical component is reverse-complemented to align with the submitted strand.' : hit.strand === 'both' ? 'This component is palindromic; either orientation has the same sequence.' : 'The canonical component is shown in the submitted strand’s orientation.';
-    const details = node('p',`${orientation} Query context: ${start+1}–${end}. Rows run left to right in query order. Equality does not establish primer binding.`,'muted');
+    const orientation = hit.strand === '-' ? 'Reverse-complemented' : hit.strand === 'both' ? 'Palindromic' : 'Forward';
+    const details = node('p',`${orientation} · query context ${start+1}–${end}`,'muted');
     container.append(heading,pre,details);
     const occurrences = hit.occurrences || [];
     if (occurrences.some(o => o.inferred)) container.append(node('p','Includes inferred declaration.','muted'));
-    if (occurrences.some(o => o.reference_only || o.reference)) container.append(node('p','Compatible sequencing reference; loaded reagent may be unverified.','muted'));
+    if (occurrences.some(o => o.reference_only || o.reference)) container.append(node('p','Sequencing reference · reagent identity unverified','muted'));
     // A deduplicated component can be a fixed part rather than the full source oligo.
     const declarations = node('details'); declarations.append(node('summary','Primer/component declarations'));
     for (const occurrence of occurrences.slice(0,8)) {
@@ -70,7 +70,7 @@
       if (start > cursor) pre.append(document.createTextNode(result.sequence.slice(cursor,start)));
       const mark = node('mark',result.sequence.slice(start,stop));
       mark.tabIndex = 0; mark.setAttribute('role','button'); mark.title = `${title(hit)} · ${hit.start+1}–${hit.end} (${hit.strand})`;
-      const region = node('section',undefined,'region-selector'), label = node('label',`Region ${hit.start+1}–${hit.end}: matching primer/component`), select = node('select'), alignment = node('div');
+      const region = node('section',undefined,'region-selector'), label = node('label',`${hit.start+1}–${hit.end} · primer/component`), select = node('select'), alignment = node('div');
       const selectId = `region-select-${regionNumber++}`; select.id = selectId; label.htmlFor = selectId;
       // Use full overview coordinates, including when a region crosses a preview page.
       // Retain partial overlaps and contained components for explicit inspection.
@@ -85,7 +85,7 @@
       select.addEventListener('change',update); region.append(label,select,alignment);
       if (overlapping.length > candidates.length) region.append(node('p','Selector capped at 100 matches; further matches remain in the component table.','muted'));
       regions.append(region); update();
-      const focus = () => { $('region-detail').textContent = `Inspecting region ${hit.start+1}–${hit.end}. Choose a primer/component in its selector.`; select.focus(); };
+      const focus = () => { $('region-detail').textContent = `Selected region ${hit.start+1}–${hit.end}`; select.focus(); };
       mark.addEventListener('click',focus); mark.addEventListener('keydown',event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); focus(); } });
       pre.append(mark); cursor = stop;
     }
@@ -104,7 +104,7 @@
       const occurrences = hit.occurrences || [], kinds = [...new Set(occurrences.map(o => o.role || o.kind || o.usage || 'sequence component'))];
       evidence.append(node('div',kinds.slice(0,5).join('; ') || 'Sequence component'));
       if (occurrences.some(o => o.inferred)) evidence.append(node('div','Includes inferred declaration','muted'));
-      if (occurrences.some(o => o.reference || o.reference_only)) evidence.append(node('div','Compatible reference; loaded reagent may be unverified','muted'));
+      if (occurrences.some(o => o.reference || o.reference_only)) evidence.append(node('div','Sequencing reference · reagent identity unverified','muted'));
       if (occurrences.length) {
         const d = node('details'), s = node('summary','Declaration details'); d.append(s);
         for (const o of occurrences.slice(0,8)) d.append(node('p',[o.name,o.locator,o.orientation ? 'Local component orientation: '+o.orientation : '',o.source,o.reason].filter(Boolean).map(v => typeof v === 'object' ? JSON.stringify(v) : v).join(' · '),'muted'));
@@ -113,14 +113,14 @@
       associations.append(protocolLinks(hit.protocols)); tr.append(position,description,evidence,associations); tbody.append(tr);
     }
     const shown = Math.min(rowsShown,MAX_ROWS,result.hits.length);
-    $('match-table-limit').textContent = `${shown.toLocaleString()} of ${result.hits.length.toLocaleString()} stored matches shown. Coordinates are 1-based inclusive. Strand is the matched canonical component relative to your submitted strand; local declarations can use the opposite orientation.` + (result.hits.length > MAX_ROWS ? ` Table display is capped at ${MAX_ROWS} rows.` : '');
+    $('match-table-limit').textContent = `${shown.toLocaleString()} of ${result.hits.length.toLocaleString()} matches` + (result.hits.length > MAX_ROWS ? ` · table capped at ${MAX_ROWS}` : '');
     $('more-matches').hidden = shown >= Math.min(MAX_ROWS,result.hits.length);
   }
   function renderProtocols() {
     clear($('protocol-matches'));
     const matchedNames = new Map(result.hits.map(hit => [hit.component,title(hit)]));
     const rows = (result.protocols || []).slice(0,20), informative = rows.some(p => p.informative);
-    $('protocol-explanation').textContent = informative ? 'Up to 20 protocols ranked by informative shared components and covered bases. Nested matches are not independent evidence. This is a navigation aid, not a confidence score.' : 'Only common components, or no informative components, matched. Protocol links are examples of shared parts and do not establish an origin.';
+    $('protocol-explanation').textContent = informative ? 'Ranked by informative shared parts · up to 20 protocols' : rows.length ? 'Common parts only · protocol origin unresolved' : 'No matching protocols';
     for (const p of rows) { const li = node('li'); li.append(safeLink(p.url,p.title || p.id)); li.append(node('small', (p.informative ? 'Shared parts: ' : 'Common components: ') + (p.support || []).map(id => { return matchedNames.get(id) || id; }).join('; '))); $('protocol-matches').append(li); }
   }
   $('annotate-form').addEventListener('submit',async event => {
@@ -133,14 +133,14 @@
       status('Finding exact matches…'); await new Promise(resolve => setTimeout(resolve,0)); if (token !== generation) return;
       result = window.SequenceAnnotation.annotate(sequence,data,{includeInferred:$('include-inferred').checked,maxHits:10000,maxProtocols:20});
       previewStart = 0; rowsShown = PAGE_ROWS;
-      $('result-summary').textContent = `${sequence.length.toLocaleString()} nt · ${result.hits.length.toLocaleString()} exact matches` + ($('convert-u').checked ? ' · U converted to T' : ' · U retained') + (result.truncated ? ' · Hit limit reached: results are incomplete.' : '');
+      $('result-summary').textContent = `${sequence.length.toLocaleString()} nt · ${result.hits.length.toLocaleString()} exact matches` + ($('convert-u').checked ? ' · U converted to T' : '') + (result.truncated ? ' · Hit limit reached: results are incomplete.' : '');
       renderPreview(); renderTable(); renderProtocols(); $('annotation-results').hidden = false;
-      status(result.hits.length ? 'Annotation complete.' : 'No exact component matches found.');
+      status(result.hits.length ? '' : 'No exact component matches found.');
     } catch (error) { if (token === generation) status(error.message || 'Annotation failed. Please try again.',true); }
     finally { if (token === generation) $('annotate-button').disabled = false; }
   });
   $('example-button').addEventListener('click',() => { $('sequence-input').value = $('example-button').dataset.sequence; $('sequence-input').focus(); });
-  $('clear-button').addEventListener('click',() => { generation++; $('sequence-input').value = ''; $('annotation-results').hidden = true; $('annotate-button').disabled = false; result = null; status('Paste a sequence to begin.'); $('sequence-input').focus(); });
+  $('clear-button').addEventListener('click',() => { generation++; $('sequence-input').value = ''; $('annotation-results').hidden = true; $('annotate-button').disabled = false; result = null; status(''); $('sequence-input').focus(); });
   $('preview-prev').addEventListener('click',() => { previewStart = Math.max(0,previewStart-PREVIEW); renderPreview(); });
   $('preview-next').addEventListener('click',() => { previewStart += PREVIEW; renderPreview(); });
   $('more-matches').addEventListener('click',() => { rowsShown += PAGE_ROWS; renderTable(); });

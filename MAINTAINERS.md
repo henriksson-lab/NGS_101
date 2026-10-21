@@ -529,3 +529,26 @@ node tools/selftest_illumina_samplesheet.js
 node tools/selftest_sequence_annotation_ui.js
 node tools/selftest_samplesheet_batch.js
 ```
+
+## Annealing tab
+
+`python3 build_anneal.py` generates `anneal.html` and the ignored
+`assets/anneal_python.json` from the shared model. The normal site build invokes it
+and explicitly publishes the worker and JSON dependencies. Builds remain offline and
+standard-library-only. No runtime binaries or third-party Python packages are installed.
+
+The user-authorized browser exception is pinned Pyodide 314.0.7, loaded from jsDelivr
+on first calculation in a module Web Worker. Sequences pass as JSON to fixed Python
+operations and remain local. `lib/annealing.py` discovers candidates;
+`Scene.anneal()` and `PadlockCaptureTopology` validate/render them. Do not add a parallel
+JavaScript chemistry implementation. Exact pairings are geometry, not thermodynamic
+folds or evidence of a successful reaction.
+
+Run `python3 tools/selftest_annealing.py` for offline behavior and build packaging checks.
+After building, `python3 tools/benchmark_anneal_browser.py --site _site` exercises the
+actual page in an isolated Chrome profile, including startup failure/retry, cancellation,
+linear/padlock selection, unknown backbones and SVG export. That manual browser check
+needs network access to the pinned CDN and permission to bind a local test server.
+The standalone `tools/build_anneal_prototype.py` remains available for testing a separately
+downloaded local runtime without changing site output. See [the design and benchmark
+record](plans/annealing.md) for limits and measurements.

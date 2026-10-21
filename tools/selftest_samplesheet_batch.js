@@ -59,15 +59,27 @@ class Element{
  append(...items){for(const item of items){item.parent=this;this.children.push(item);}}replaceChildren(...items){this.children=[];this._text='';this.append(...items);}
  addEventListener(name,fn){this.listeners[name]=fn;}setAttribute(k,v){this[k]=v;}focus(){}select(){}remove(){this.parent.children=this.parent.children.filter(c=>c!==this);}
 }
-const ids=['batch-instrument','batch-workflow','batch-profile','batch-paste','batch-import','primer-rows','batch-add','batch-detect','batch-status','batch-export','batch-output','batch-copy-tsv','batch-copy-csv','batch-copy-status','batch-copy-fallback'];
+const ids=['batch-instrument','batch-workflow','batch-profile','batch-paste','batch-import','primer-rows','batch-add','batch-examples','batch-example-data','batch-detect','batch-status','batch-export','batch-output','batch-copy-tsv','batch-copy-csv','batch-copy-status','batch-copy-fallback'];
 const elements=Object.fromEntries(ids.map(id=>[id,new Element('div')])),get=id=>elements[id];
+get('batch-example-data').textContent=JSON.stringify([{sampleId:'Example_1',primer1:p5,primer2:p7},{sampleId:'Example_2',primer1:'',primer2:p7}]);
 const source=fs.readFileSync(require('path').join(__dirname,'../build_samplesheet.py'),'utf8');for(const id of ids)assert(source.includes('id="'+id+'"'));
 const context={document:{getElementById:get,createElement:tag=>new Element(tag),createTextNode:text=>({textContent:text})},window:{SampleSheetBatch:api,IlluminaSampleSheet:policy},navigator:{},fetch:async()=>({ok:true,json:async()=>catalogue}),setTimeout,Map,Promise};
 vm.runInNewContext(fs.readFileSync(require('path').join(__dirname,'../assets/samplesheet_ui.js'),'utf8'),context);
 (async()=>{
+ const controls=row=>row.children.slice(1,3).flatMap(cell=>cell.children[1].children);
+ const compactRows=()=>{
+   get('primer-rows').children.forEach((tr,index)=>{
+     assert.equal(controls(tr).length,index===0?4:0,'Reuse buttons occur only on the first current row');
+     for(const cell of tr.children.slice(1,3)){assert.equal(cell.children[0].tag,'input');assert.equal(cell.children[0].type,'text');}
+   });
+ };
+ compactRows();
+ get('primer-rows').children[0].children[5].children[1].listeners.click();compactRows();
+ assert.equal(get('primer-rows').children.length,2,'Removal promotes reuse controls to the next row');
+ get('batch-add').listeners.click();compactRows();
  assert.equal(get('batch-instrument').value,'novaseqx');assert.equal(get('batch-workflow').value,'manual-bcl2fastq');assert.equal(get('primer-rows').children.length,3);
  get('batch-paste').value='Sample_ID\tPrimer1\tPrimer2\nOne\t'+p5+'\t'+p7+'\nTwo\t'+p7;
- get('batch-import').listeners.click();await get('batch-detect').listeners.click();
+ get('batch-import').listeners.click();compactRows();await get('batch-detect').listeners.click();
  assert.equal(get('batch-export').hidden,false);assert.match(get('batch-output').value,/One,AACCGGTA,TGCAACGT/);assert.match(get('batch-output').value,/Two,AACCGGTA,/);
  const tr=get('primer-rows').children[0];assert.match(tr.children[5].textContent,/<b>Synthetic<\/b>/,'Catalogue names remain text');
  get('batch-copy-csv').listeners.click();await new Promise(r=>setTimeout(r,0));assert.equal(get('batch-copy-fallback').hidden,false);assert.match(get('batch-copy-fallback').value,/\[Data\]/);
@@ -77,6 +89,11 @@ vm.runInNewContext(fs.readFileSync(require('path').join(__dirname,'../assets/sam
  const active=get('primer-rows').children[0];active.children[1].children[0].value='BAD!';active.children[1].children[0].listeners.input();
  assert.equal(get('batch-export').hidden,true);assert.equal(get('batch-output').value,'');await get('batch-detect').listeners.click();assert.match(get('batch-status').textContent,/1 unresolved/);
  get('batch-workflow').value='run-planning';get('batch-workflow').listeners.change();await get('batch-detect').listeners.click();assert.equal(get('batch-copy-csv').hidden,true);assert.match(get('batch-output').value,/Sample_ID\tindex\tindex2/);
+ get('batch-examples').listeners.click();compactRows();assert.equal(get('batch-export').hidden,true,'Loading examples clears stale output');
+ assert.equal(get('primer-rows').children.length,2);assert.equal(get('primer-rows').children[0].children[0].children[0].value,'Example_1');
+ assert.equal(get('primer-rows').children[1].children[1].children[0].value,'','Example may omit a primer');
+ assert.match(get('batch-status').textContent,/Synthetic example/);await get('batch-detect').listeners.click();assert.match(get('batch-output').value,/Example_1/);
+ console.log('PASS compact table DOM: single-line inputs, first-row reuse after add/import/removal, example loading and stale output clearing');
  console.log('PASS primer table DOM: defaults, list import, automatic roles, missing primer, literal text, per-row reuse, stale export clearing, clipboard fallback and planning-only inputs');
  console.log(count+' batch checks passed');
 })().catch(e=>{console.error(e);process.exitCode=1;});

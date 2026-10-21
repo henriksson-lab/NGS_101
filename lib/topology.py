@@ -731,7 +731,8 @@ class PadlockCaptureTopology:
 
     Probe order is 5′ ligation arm → unpaired backbone → extension arm 3′. Exact target
     sites are located from the arm sequences, so binding position and flexible backbone
-    follow from sequence rather than caller-supplied coordinates.
+    follow from sequence. An explicit checked site selects among repeated exact matches;
+    without one, an arm must have a unique site.
     """
 
     name: str
@@ -739,16 +740,26 @@ class PadlockCaptureTopology:
     ligation_arm: str
     backbone: str
     extension_arm: str
+    ligation_site: int | None = None
+    extension_site: int | None = None
+
+    def _site(self, arm: str, site: int | None, label: str) -> int:
+        if site is not None:
+            if isinstance(site, bool) or not isinstance(site, int) or site < 0:
+                raise ValueError(label + " site must be a non-negative integer")
+            if self.target_sequence[site:site + len(arm)] != revcomp(arm):
+                raise ValueError(label + " arm does not pair at the supplied target site")
+            return site
+        site = self.target_sequence.find(revcomp(arm))
+        if site < 0 or self.target_sequence.find(revcomp(arm), site + 1) >= 0:
+            raise ValueError(label + " arm must have one exact target site, or an explicit site")
+        return site
 
     def __post_init__(self) -> None:
         for attr in ("target_sequence", "ligation_arm", "backbone", "extension_arm"):
             object.__setattr__(self, attr, _clean(getattr(self, attr), attr))
-        ext_site = self.target_sequence.find(revcomp(self.extension_arm))
-        lig_site = self.target_sequence.find(revcomp(self.ligation_arm))
-        if ext_site < 0 or self.target_sequence.find(revcomp(self.extension_arm), ext_site + 1) >= 0:
-            raise ValueError("extension arm must have one exact target site")
-        if lig_site < 0 or self.target_sequence.find(revcomp(self.ligation_arm), lig_site + 1) >= 0:
-            raise ValueError("ligation arm must have one exact target site")
+        ext_site = self._site(self.extension_arm, self.extension_site, "extension")
+        lig_site = self._site(self.ligation_arm, self.ligation_site, "ligation")
         ext_end = ext_site + len(self.extension_arm)
         lig_end = lig_site + len(self.ligation_arm)
         if not (ext_end <= lig_site or lig_end <= ext_site):
@@ -760,8 +771,8 @@ class PadlockCaptureTopology:
                               for i in range(len(self.target_sequence)))
         target = FoldStrand("target", self.target_sequence, target_points, "var(--ink)",
                             label="target")
-        ext_site = self.target_sequence.index(revcomp(self.extension_arm))
-        lig_site = self.target_sequence.index(revcomp(self.ligation_arm))
+        ext_site = self._site(self.extension_arm, self.extension_site, "extension")
+        lig_site = self._site(self.ligation_arm, self.ligation_site, "ligation")
         lig_points = tuple((target_points[lig_site + len(self.ligation_arm) - 1 - i][0], 226.0)
                            for i in range(len(self.ligation_arm)))
         ext_points = tuple((target_points[ext_site + len(self.extension_arm) - 1 - i][0], 226.0)

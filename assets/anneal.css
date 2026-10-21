@@ -1,0 +1,3 @@
+.anneal-inputs{display:grid;grid-template-columns:1fr 1fr;gap:20px}.anneal-inputs label{display:block}.anneal-controls{display:flex;align-items:end;gap:16px;flex-wrap:wrap;margin-top:16px}.anneal-controls label{flex:1;min-width:160px}.anneal-tool #anneal-diagram{overflow:auto;max-height:600px}.anneal-tool #anneal-diagram svg{max-width:none}.anneal-tool #anneal-candidate{margin-bottom:15px}.anneal-tool #anneal-status{min-height:1.5em}@media(max-width:700px){.anneal-inputs{grid-template-columns:1fr}}
+
+.anneal-controls input[type=number]{box-sizing:border-box;width:100%;display:block;padding:10px;border:1px solid var(--rule);border-radius:4px;background:var(--bg);color:var(--ink);font:inherit}.anneal-controls select{display:block}.anneal-controls label{font-size:.85rem}

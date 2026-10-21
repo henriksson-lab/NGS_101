@@ -19,6 +19,9 @@ const pageSource=fs.readFileSync(path.join(root,'build_annotate.py'),'utf8');
 for (const id of ids) assert(pageSource.includes('id="'+id+'"'),'Page declares '+id);
 assert(!pageSource.includes('id="index-i7"'),'Sample-sheet indexes have moved out of the detect view');
 assert(pageSource.includes('sequence_alignment.css'),'Page includes alignment styles');
+assert(!pageSource.includes('Sequence tools'),'Page omits redundant eyebrow');
+assert(!pageSource.includes('Your sequence stays in this browser.'),'Page omits redundant privacy copy');
+assert(pageSource.includes('<summary>About matching</summary>'),'Matching scope and coordinate help remain available on demand');
 const elements = Object.fromEntries(ids.map(id=>[id,new Element('div')]));
 const get = id => elements[id];
 const left='ACGTCAGATCGT', middle='GCTACGATCGTA', right='TGCATACGTGCA';
@@ -63,7 +66,7 @@ function pick(select,text) { const option=select.options.find(o=>o.textContent.i
   let prevented=false;mark.listeners.keydown({key:'Enter',preventDefault(){prevented=true;}});assert(prevented,'Highlight is keyboard accessible');
   await submit(prefix+api.revcomp(full)+suffix);
   const reverseRegion=get('region-alignments').children[0]; const reverseSelect=byTag(reverseRegion,'select')[0];pick(reverseSelect,'Full primer');
-  assert(reverseRegion.textContent.includes('reverse-complemented'),'Reverse strand orientation is explicit');
+  assert(reverseRegion.textContent.includes('Reverse-complemented'),'Reverse strand orientation is explicit');
   assert.equal(byTag(reverseRegion,'pre')[0].children[1].textContent,'Selected '+' '.repeat(prefix.length)+api.revcomp(full),'Reverse hit aligns exact query-oriented sequence');
   await submit('GGTTACGTCGAT');assert.equal(get('region-alignments').children.length,0,'Inferred declarations are excluded by default');
   get('include-inferred').checked=true; await submit('GGTTACGTCGAT');assert(get('region-alignments').textContent.includes('Includes inferred declaration'));

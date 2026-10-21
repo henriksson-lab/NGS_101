@@ -881,3 +881,29 @@ an exact sequence comparison, not a molecular binding diagram or an annealing cl
 
 **Why.** Batch index extraction needs paired inputs and reusable primers, while sequence
 discovery benefits from inspecting alternative exact matches within a highlighted region.
+
+## 2026-10-21 — Reuse Python in the browser for annealing
+
+**Decision.** The user approved a browser-only exception for pinned Pyodide 314.0.7.
+The Anneal primers tab loads it on demand in a module Web Worker from its versioned
+jsDelivr distribution. The Python/site build stays offline and standard-library-only;
+no runtime binaries, additional Python packages, npm dependencies or Rust build are added.
+The normal build bundles our existing Python modules as generated site-local JSON.
+
+Candidate discovery lives once in `lib/annealing.py`; the existing Scene and topology
+constructors validate selected arrangements and generate portable SVG. Both supplied
+sequences stay in their physical 5′→3′ identity. Alternative exact spans, repeated sites,
+padlock target assignments and competing maximal arm boundaries remain selectable.
+Unknown N bases can remain unpaired, including in padlock backbones, but never count as
+known base pairs. Search/size/time limits are visible and cancellation stops the worker.
+
+This tab reports possible pairing geometry. It does not predict the preferred fold,
+binding probability, polymerase activity or successful ligation. Source-qualified protocol
+claims are not inferred from user-entered sequences. Coordinate responses retain the
+original strand spans, overhangs, arms, backbone and target gap. The runtime loading,
+network failure/retry, worker responsiveness and SVG export have real-browser coverage;
+the shared molecular behavior and build packaging have offline checks.
+
+**Why.** Reusing Python avoids independently maintained Python/browser chemistry code.
+The accepted tradeoff is an initial runtime download/startup; subsequent operations reuse
+the worker. Prototype measurements and scope are in [plans/annealing.md](plans/annealing.md).

@@ -154,3 +154,6 @@ pdf/
 
 # Generated exact-match catalogue; rebuilt offline by build_site.py.
 assets/sequence_components.json
+
+# Generated shared Python bundle for browser-local annealing.
+assets/anneal_python.json
