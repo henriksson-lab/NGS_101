@@ -1,0 +1,8 @@
+identifier	label
+CIRCLE_CLOSURE	circle closure preserves strand order
+RESTRICTION_FILL	restriction end fill follows cut coordinates
+ROLLING_CIRCLE_COPY	rolling-circle repeats copy the circle
+CONTACT_JUNCTION	contact product contains the derived junction
+HAIRPIN_STEM	intramolecular stem can pair
+STRAND_ORDER	covalent strand order is preserved
+END_COMBINATIONS	end combinations have the declared primer sites

@@ -844,3 +844,23 @@ copying a secondary sequence into the main construct.
 **Why.** Hiding the research trail must not turn a model into an unsupported assertion.
 The three signals make the boundary clear without turning the schematic back into a
 research report.
+
+## 2026-10-21 — Compare declared sequence parts locally in the browser
+
+**Decision.** The annotation tab compares exact nucleotide strings from independently
+owned protocol declarations. Deduplication joins sequence identities while preserving
+protocol occurrences, roles, locators and inference/reference status. Canonical parts
+may be recognized inside declared concrete oligos; the match establishes identity only.
+Unknown regions remain boundaries. Inferred associations require explicit opt-in.
+Protocol suggestions are capped navigation aids, with common and overlapping support
+prevented from inflating the apparent evidence. The submitted sequence stays local.
+
+Sample-sheet export requires a structured sample-index feature, anchored template match
+and established orientation axis. Instrument and preparation/demultiplexing workflow
+jointly select the manufacturer-documented transformation and output column. Unresolved
+index values or unsupported combinations remain unexportable. A matching sequence does
+not verify source transcription, chemistry, experimental index pairing or run settings.
+See [implementation and profile scope](plans/sequence_annotation.md).
+
+**Why.** Shared adapter sequence is useful for discovery but does not identify a
+protocol. Instrument name alone is insufficient to determine sample-sheet i5 orientation.

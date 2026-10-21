@@ -151,3 +151,6 @@ _data/
 
 # papers and anything extracted from them -- source material, not code
 pdf/
+
+# Generated exact-match catalogue; rebuilt offline by build_site.py.
+assets/sequence_components.json

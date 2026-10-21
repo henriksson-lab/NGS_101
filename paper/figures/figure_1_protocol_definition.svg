@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="180mm" height="135mm" viewBox="0 0 1440 1080" role="img" aria-labelledby="title description">
+  <title id="title">Protocol-owned definitions form a typed provenance hypergraph</title>
+  <desc id="description">A: source-qualified materials, steps, outcomes and evidence. B: an illustrative material-step graph with explicit reagent roles and a physical cleanup branch. C: views derived from the declarations.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#516373" />
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1440" height="1080" fill="white" />
+  <text x="48" y="53" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="48" dy="0">Protocol definitions</tspan></text>
+  <text x="48" y="88" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#516373" text-anchor="start"><tspan x="48" dy="0">Source-specific Python objects; shared computation and rendering</tspan></text>
+  <text x="48" y="139" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="48" dy="0">A</tspan></text>
+  <text x="87" y="139" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="87" dy="0">What each protocol declares</tspan></text>
+  <rect x="48" y="165" width="318" height="218" rx="12" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="68" y="204" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="68" dy="0">Materials</tspan></text>
+  <text x="68" y="249" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="68" dy="0">Material kind and identity</tspan><tspan x="68" dy="32">Sequence or symbolic state</tspan><tspan x="68" dy="32">Features and modifications</tspan><tspan x="68" dy="32">Inference and provenance</tspan></text>
+  <rect x="390" y="165" width="318" height="218" rx="12" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="410" y="204" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="410" dy="0">Steps</tspan></text>
+  <text x="410" y="249" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="410" dy="0">Operation label (StepKind)</tspan><tspan x="410" dy="32">Inputs with explicit roles</tspan><tspan x="410" dy="32">Products and geometry</tspan><tspan x="410" dy="32">Optional molecular relations</tspan></text>
+  <rect x="732" y="165" width="318" height="218" rx="12" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="752" y="204" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="752" dy="0">Outcomes</tspan></text>
+  <text x="752" y="249" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="752" dy="0">Retained and residual classes</tspan><tspan x="752" dy="32">Physical discard, QC or gaps</tspan><tspan x="752" dy="32">Sequencing plan / limitation</tspan><tspan x="752" dy="32">Read and identifier layout</tspan></text>
+  <rect x="1074" y="165" width="318" height="218" rx="12" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="1094" y="204" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="1094" dy="0">Evidence</tspan></text>
+  <text x="1094" y="249" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="1094" dy="0">Defining source and revision</tspan><tspan x="1094" dy="32">Manual source inventory</tspan><tspan x="1094" dy="32">Review scope and exclusions</tspan><tspan x="1094" dy="32">Discrepancies and limitations</tspan></text>
+  <text x="48" y="440" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="48" dy="0">B</tspan></text>
+  <text x="87" y="440" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="87" dy="0">Materials and steps form a provenance hypergraph</tspan></text>
+  <rect x="285" y="491" width="225" height="82" rx="28" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="397" y="524" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#172b3a" text-anchor="middle"><tspan x="397" dy="0">Primers</tspan><tspan x="397" dy="27">structural input</tspan></text>
+  <rect x="545" y="491" width="250" height="82" rx="28" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="670" y="524" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#172b3a" text-anchor="middle"><tspan x="670" dy="0">Catalyst + conditions</tspan><tspan x="670" dy="27">role-labelled inputs</tspan></text>
+  <rect x="855" y="491" width="225" height="82" rx="28" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="967" y="524" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#172b3a" text-anchor="middle"><tspan x="967" dy="0">Selection reagent</tspan><tspan x="967" dy="27">selection input</tspan></text>
+  <path d="M 397 573 L 397 630" fill="none" stroke="#516373" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 670 573 L 670 599 L 463 599 L 463 630" fill="none" stroke="#516373" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 967 573 L 967 630" fill="none" stroke="#516373" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 258 671 L 300 671" fill="none" stroke="#516373" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 510 671 L 560 671" fill="none" stroke="#516373" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 810 671 L 855 671" fill="none" stroke="#516373" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 1080 671 L 1130 671" fill="none" stroke="#516373" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 967 714 L 967 784" fill="none" stroke="#516373" stroke-width="2" marker-end="url(#arrow)" />
+  <rect x="48" y="620" width="210" height="102" rx="28" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="153" y="662" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#172b3a" text-anchor="middle"><tspan x="153" dy="0">Native input</tspan><tspan x="153" dy="29">molecular state</tspan></text>
+  <rect x="300" y="630" width="210" height="84" rx="12" fill="#e4efef" stroke="#176c68" stroke-width="1.6" />
+  <text x="405" y="664" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#172b3a" text-anchor="middle"><tspan x="405" dy="0">PCR</tspan><tspan x="405" dy="29">declared geometry</tspan></text>
+  <rect x="560" y="620" width="250" height="102" rx="28" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="685" y="649" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#172b3a" text-anchor="middle"><tspan x="685" dy="0">Mixture: daughters,</tspan><tspan x="685" dy="27">possible originals</tspan><tspan x="685" dy="27">and residuals</tspan></text>
+  <rect x="855" y="630" width="225" height="84" rx="12" fill="#e4efef" stroke="#176c68" stroke-width="1.6" />
+  <text x="967" y="664" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#172b3a" text-anchor="middle"><tspan x="967" dy="0">Physical cleanup</tspan><tspan x="967" dy="29">declared recovery</tspan></text>
+  <rect x="1130" y="620" width="262" height="102" rx="28" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="1261" y="662" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#172b3a" text-anchor="middle"><tspan x="1261" dy="0">Retained mixture</tspan><tspan x="1261" dy="29">sequencing plan</tspan></text>
+  <rect x="855" y="784" width="225" height="82" rx="28" fill="#eff1f4" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="967" y="817" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#172b3a" text-anchor="middle"><tspan x="967" dy="0">Removed fraction</tspan><tspan x="967" dy="27">discard terminal</tspan></text>
+  <rect x="48" y="784" width="747" height="82" rx="12" fill="#f7f9fa" stroke="#dce4e9" stroke-width="1.6" />
+  <text x="68" y="817" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#516373" text-anchor="start"><tspan x="68" dy="0">Illustrative topology; no experimental recipe is specified.</tspan><tspan x="68" dy="28">Independent polymers remain distinct within a mixture.</tspan></text>
+  <text x="1130" y="804" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#516373" text-anchor="start"><tspan x="1130" dy="0">Rounded nodes: materials</tspan><tspan x="1130" dy="28">Rectangles: operations</tspan><tspan x="1130" dy="28">Arrows: input / output ports</tspan></text>
+  <text x="48" y="931" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="48" dy="0">C</tspan></text>
+  <text x="87" y="931" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="87" dy="0">Shared readers use the same declarations</tspan></text>
+  <rect x="48" y="958" width="432" height="86" rx="12" fill="white" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="66" y="992" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="66" dy="0">Schematic rendering</tspan></text>
+  <text x="66" y="1023" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="66" dy="0">States, reactions and evidence notices</tspan></text>
+  <rect x="504" y="958" width="432" height="86" rx="12" fill="white" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="522" y="992" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="522" dy="0">Sequencing interpretation</tspan></text>
+  <text x="522" y="1023" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="522" dy="0">Primer sites, read cycles and identifiers</tspan></text>
+  <rect x="960" y="958" width="432" height="86" rx="12" fill="white" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="978" y="992" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="978" dy="0">Validation and audit</tspan></text>
+  <text x="978" y="1023" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="978" dy="0">Graph contracts and scoped chemistry claims</tspan></text>
+</svg>

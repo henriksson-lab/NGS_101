@@ -46,6 +46,19 @@ jobs:
             echo "::endgroup::"
           done
 
+      - name: Sequence catalogue self-test
+        run: python3 tools/selftest_sequence_catalogue.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Browser sequence and samplesheet tests
+        run: |
+          node tools/selftest_sequence_annotation.js
+          node tools/selftest_illumina_samplesheet.js
+          node tools/selftest_sequence_annotation_ui.js
+
       - name: Build the site
         run: python3 build_site.py
 

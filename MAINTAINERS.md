@@ -502,3 +502,28 @@ hold if the model is right — for instance, the Atrandi Read-2 layout is derive
 segment table and then asserted against the offsets hard-coded in Bascet
 (`0, 12, 24, 36`, trim `45`), which were arrived at independently from sequencing data.
 When a model reproduces a number nobody fed it, that is worth locking down.
+
+## Sequence annotation tool
+
+`python3 build_site.py` builds `annotate.html` and the generated
+`assets/sequence_components.json` automatically, using successfully built public
+protocol pages. The JSON is ignored build output, not a second curated primer table.
+Use `python3 tools/build_sequence_index.py --help` for restricted exports and coverage
+reports. `python3 build_annotate.py` rebuilds just the page, using an existing catalogue.
+Serve `_site/` over HTTP so the browser can fetch its JSON asset.
+
+The extractor reads reagent declarations, PCR primers and sequencing references;
+canonical parts receive protocol associations only through exact contained matches.
+It retains unknown/inferred/reference distinctions. Matching, capped protocol navigation
+and sample-sheet formatting run entirely in the browser without sequence uploads.
+The implementation, supported profiles and manufacturer references are documented in
+[the annotation design](plans/sequence_annotation.md).
+
+Feature checks (Node is a test runtime only; no packages to install):
+
+```sh
+python3 tools/selftest_sequence_catalogue.py
+node tools/selftest_sequence_annotation.js
+node tools/selftest_illumina_samplesheet.js
+node tools/selftest_sequence_annotation_ui.js
+```

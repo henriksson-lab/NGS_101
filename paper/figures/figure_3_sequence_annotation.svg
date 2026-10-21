@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="180mm" height="140mm" viewBox="0 0 1440 1120" role="img" aria-labelledby="title description">
+  <title id="title">Sequence annotations drive semantic molecular rendering</title>
+  <desc id="description">Sequence segments carry molecular content, identifier features, styling and inference. Scene assembly computes pairing coordinates and typed visuals. The actual shared renderer generates selectable SVG text and geometry for a synthetic example.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#516373" />
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1440" height="1120" fill="white" />
+  <text x="48" y="53" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="48" dy="0">From annotated sequence to SVG</tspan></text>
+  <text x="48" y="88" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#516373" text-anchor="start"><tspan x="48" dy="0">Molecular content, identifier meaning and presentation are separate declarations</tspan></text>
+  <text x="48" y="145" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="48" dy="0">A</tspan></text>
+  <text x="87" y="145" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="87" dy="0">Annotate named sequence segments</tspan></text>
+  <rect x="48" y="170" width="432" height="206" rx="12" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="68" y="211" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="68" dy="0">Molecular content</tspan></text>
+  <text x="68" y="254" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="68" dy="0">Segment: name + sequence</tspan><tspan x="68" dy="31">Placeholder / inferred flags</tspan><tspan x="68" dy="31">Known or unassigned length</tspan><tspan x="68" dy="31">Strand-end modifications</tspan></text>
+  <rect x="504" y="170" width="432" height="206" rx="12" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="524" y="211" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="524" dy="0">Identifier semantics</tspan></text>
+  <text x="524" y="254" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="524" dy="0">MolecularFeature: stable ID</tspan><tspan x="524" dy="31">Role: UMI, barcode, index…</tspan><tspan x="524" dy="31">Encoding and group / part</tspan><tspan x="524" dy="31">Independent of colour tags</tspan></text>
+  <rect x="960" y="170" width="432" height="206" rx="12" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="980" y="211" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="980" dy="0">Presentation</tspan></text>
+  <text x="980" y="254" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="980" dy="0">Segment.tag: display colour</tspan><tspan x="980" dy="31">Marks anchor to segments</tspan><tspan x="980" dy="31">Polarity follows strand order</tspan><tspan x="980" dy="31">Tooltips derive from content</tspan></text>
+  <text x="48" y="433" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="48" dy="0">B</tspan></text>
+  <text x="87" y="433" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="87" dy="0">Assemble once; derive geometry and text</tspan></text>
+  <rect x="48" y="460" width="360" height="127" rx="12" fill="white" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="66" y="500" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="66" dy="0">Construct + Scene</tspan></text>
+  <text x="66" y="540" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="66" dy="0">Order segments; anneal strands</tspan><tspan x="66" dy="29">Pair named regions; check columns</tspan></text>
+  <rect x="540" y="460" width="360" height="127" rx="12" fill="#e4efef" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="558" y="500" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#176c68" text-anchor="start"><tspan x="558" dy="0">Semantic row metadata</tspan></text>
+  <text x="558" y="540" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="558" dy="0">StrandVisual, SpanVisual,</tspan><tspan x="558" dy="29">ArrowVisual and CommentVisual</tspan></text>
+  <rect x="1032" y="460" width="360" height="127" rx="12" fill="white" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="1050" y="500" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="1050" dy="0">SVG primitives</tspan></text>
+  <text x="1050" y="540" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="1050" dy="0">Polygons and paths</tspan><tspan x="1050" dy="29">Selectable text and tspan regions</tspan></text>
+  <path d="M 408 523 L 540 523" fill="none" stroke="#516373" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 900 523 L 1032 523" fill="none" stroke="#516373" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="48" y="644" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="48" dy="0">C</tspan></text>
+  <text x="87" y="644" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="87" dy="0">Actual shared-renderer output from synthetic annotations</tspan></text>
+  <rect x="48" y="671" width="1344" height="250" rx="12" fill="white" stroke="#bdcbd5" stroke-width="1.6" />
+  <svg class="chem-svg small" width="860" height="205" viewBox="0 0 471.67 100.11" role="img" aria-label="Molecular construct diagram" x="65" y="690">
+    <style>
+.chem-svg {font-family: "DejaVu Sans Mono", "Liberation Mono", monospace; fill:#172b3a;}
+.chem-svg.small {font-size:13.4px;}
+.chem-strand-box {fill:#f2f6f9;stroke:#516373;stroke-width:1;}
+.chem-binding-span {fill:none;stroke:#285c88;stroke-width:1.5;}
+.chem-binding-label {fill:#516373;font-family:Arial,Helvetica,sans-serif;font-size:.92em;}
+.chem-p5 {fill:#285c88;} .chem-umi {fill:#7755a2;} .chem-r2 {fill:#176c68;}
+.chem-inferred {text-decoration:underline;text-decoration-style:dotted;text-decoration-color:#9a6b28;}
+.fold-svg .fold-pair {stroke:#516373;stroke-width:1;opacity:.55;}
+.fold-svg .fold-base {font-size:11px;font-weight:600;}
+.fold-svg .fold-end {fill:#516373;font-size:11px;}
+.fold-svg .fold-label {fill:#172b3a;font-family:Arial,Helvetica,sans-serif;font-size:12px;}
+.fold-svg .fold-ligation {stroke:#9a6b28;stroke-width:3;}
+</style>
+    <polygon class="chem-strand-box" points="106.80,11.00 338.74,11.00 348.74,20.20 338.74,29.40 106.80,29.40" />
+    <text class="chem-strand-text" x="14" y="25.40" xml:space="preserve"><tspan>top    5'-P </tspan><tspan class="chem-p5 chem-has-tip"><title>handle · 12 bp · Tm 41.0 °C</title>ACGTCGATGCAT</tspan><tspan class="chem-umi chem-has-tip"><title>UMI · 4 bp</title>NNNN</tspan><tspan class="chem-has-tip"><title>insert · 10 bp · Tm 25.4 °C</title>GATCAGTACG</tspan><tspan class="chem-r2 chem-inferred chem-has-tip"><title>tail · 3 bp</title>TTA</tspan><tspan> -3'</tspan></text>
+    <polygon class="chem-strand-box" points="348.74,30.03 116.80,30.03 106.80,39.23 116.80,48.43 348.74,48.43" />
+    <text class="chem-strand-text" x="14" y="44.43" xml:space="preserve"><tspan>bottom  3'- </tspan><tspan class="chem-p5 chem-has-tip"><title>handle' · 12 bp · Tm 39.1 °C</title>TGCAGCTACGTA</tspan><tspan class="chem-umi chem-has-tip"><title>UMI' · 4 bp</title>nnnn</tspan><tspan class="chem-has-tip"><title>insert' · 10 bp · Tm 25.4 °C</title>CTAGTCATGC</tspan><tspan class="chem-r2 chem-inferred chem-has-tip"><title>tail' · 3 bp</title>AAT</tspan><tspan> -5'</tspan></text>
+    <path class="chem-binding-span" d="M 207.60 57.06 V 53.06 H 239.87 V 57.06" />
+    <text class="chem-binding-label" x="246.87" y="63.46">UMI span</text>
+    <path class="chem-binding-span" d="M 320.54 76.08 V 72.08 H 344.74 V 76.08" />
+    <text class="chem-binding-label" x="351.74" y="82.48">inferred tail</text>
+  </svg>
+  <text x="980" y="718" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#7755a2" text-anchor="start"><tspan x="980" dy="0">UMI feature</tspan></text>
+  <text x="980" y="756" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="980" dy="0">id: paper_umi</tspan><tspan x="980" dy="31">role: umi</tspan><tspan x="980" dy="31">encoding: random</tspan></text>
+  <text x="980" y="865" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#516373" text-anchor="start"><tspan x="980" dy="0">Colour is presentation;</tspan><tspan x="980" dy="27">the feature carries meaning.</tspan></text>
+  <text x="48" y="973" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="48" dy="0">D</tspan></text>
+  <text x="87" y="973" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="87" dy="0">Coordinates and hover information are computed</tspan></text>
+  <rect x="48" y="998" width="660" height="87" rx="12" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="68" y="1032" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="68" dy="0">Span location: derived from the named UMI segment</tspan></text>
+  <text x="68" y="1064" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#516373" text-anchor="start"><tspan x="68" dy="0">Complement and alignment: computed, not hand-spaced</tspan></text>
+  <rect x="732" y="998" width="660" height="87" rx="12" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="752" y="1032" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="752" dy="0">Example hover title from Segment.hover_text()</tspan></text>
+  <text x="752" y="1064" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#516373" text-anchor="start"><tspan x="752" dy="0">handle · 12 bp · Tm 41.0 °C</tspan></text>
+</svg>

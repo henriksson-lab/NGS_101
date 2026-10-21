@@ -27,12 +27,14 @@ from __future__ import annotations
 
 import argparse
 import html
+import json
 import os
 import posixpath
 import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import urllib.parse
 from html.parser import HTMLParser
 from pathlib import Path
@@ -198,6 +200,9 @@ def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
 
     files["index.html"] = ROOT / "index.html"
     files["about.html"] = ROOT / "about.html"
+    files["annotate.html"] = ROOT / "annotate.html"
+    # fetch() dependencies are not discovered by the HTML href/src walker.
+    files["assets/sequence_components.json"] = ROOT / "assets" / "sequence_components.json"
 
     skipped = []
     public_dirs = {r["dir"] for r in build_index.cat.ours() if r["section"] == "published"}
@@ -333,6 +338,21 @@ def graph_complete_pages(results: dict[str, tuple[bool, str]]) -> set[str]:
     return complete
 
 
+def build_annotation(results: dict[str, tuple[bool, str]]) -> None:
+    """Export only successfully built public protocols and generate the tool page."""
+    eligible = []
+    for row in build_index.cat.ours():
+        directory = row["dir"]
+        output = build_index.diagram_out(directory)
+        if row["section"] == "published" and results.get(directory, (False, ""))[0] and output is not None:
+            eligible.append({"id": directory, "title": row["protocol"], "url": rel(output)})
+    with tempfile.TemporaryDirectory(prefix="chem-sequence-index-") as temp:
+        eligibility = Path(temp) / "eligible.json"
+        eligibility.write_text(json.dumps(eligible), encoding="utf-8")
+        run("tools/build_sequence_index.py", "--eligible", str(eligibility))
+    run("build_annotate.py")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--no-checks", action="store_true",
@@ -343,7 +363,8 @@ def main() -> int:
     results = build_pages()
     failed = sorted(d for d, (ok, _) in results.items() if not ok)
 
-    print("2. notes (build_docs.py) and index (build_index.py)")
+    print("2. sequence tool, notes and index")
+    build_annotation(results)
     run("build_docs.py")
     run("build_index.py", *(a for d in failed for a in ("--omit", d)),
         *(["--no-checks"] if args.no_checks else []))

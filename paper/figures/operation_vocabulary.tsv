@@ -1,0 +1,42 @@
+identifier	label
+GENERIC	generic transformation
+MAGIC	magic happens
+INTEGRATION	genomic integration
+GENOME_EDITING	genome editing
+CROSS_LINKING	cross-linking
+PERMEABILIZATION	permeabilization
+SOLUBILIZATION	solubilization
+QUENCHING	reaction quenching
+THERMAL_TREATMENT	thermal treatment
+FRAGMENTATION	fragmentation
+EXTRACTION	extraction
+DEPROTEINIZATION	deproteinization
+END_REPAIR	end repair
+REVERSE_TRANSCRIPTION	reverse transcription
+TEMPLATE_SWITCHING	template switching
+TRANSCRIPTION	transcription
+RUN_ON	nuclear run-on
+PCR	PCR
+LIGATION	ligation
+PROXIMITY_LIGATION	proximity ligation
+DIGESTION	digestion
+TAGMENTATION	tagmentation
+ADAPTER_ATTACHMENT	non-ligase adapter attachment
+HYBRIDIZATION	hybridization
+BINDING	binding
+FOLDING	intramolecular folding
+STRAND_SEPARATION	strand separation
+EXTENSION	extension or fill-in
+NICK_SEALING	nick sealing
+TAILING	tailing
+PHOSPHORYLATION	phosphorylation
+DEPHOSPHORYLATION	dephosphorylation
+CHEMICAL_CONVERSION	chemical conversion
+CIRCULARIZATION	circularization
+SELECTION	selection
+SAMPLING	sampling or bottleneck
+AFFINITY_CAPTURE	affinity capture
+CLEANUP	cleanup
+SPLIT	split
+POOL	pool
+PARTITION	partition

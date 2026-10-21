@@ -1,0 +1,27 @@
+'use strict';
+const assert=require('node:assert/strict');
+const sheet=require('../assets/illumina_samplesheet.js');
+let count=0;
+function check(label,fn){fn();count++;console.log('PASS '+label);}
+check('i7 belongs in index and remains forward',()=>assert.deepEqual(sheet.formatIndex('ACGATTCG','i7','nextseq500','standalone-bclconvert'),{column:'index',value:'ACGATTCG',orientation:'forward',note:'Illumina-forward index; unchanged.'}));
+check('old NextSeq standalone i5 is RC',()=>assert.equal(sheet.formatIndex('ACGATTCG','i5','nextseq500','standalone-bclconvert').value,'CGAATCGT'));
+check('modern NextSeq standalone uses RunInfo flag and forward i5',()=>assert.equal(sheet.formatIndex('ACGATTCG','i5','nextseq2000','standalone-bclconvert').value,'ACGATTCG'));
+check('modern NextSeq manual bcl2fastq remains RC',()=>assert.equal(sheet.describeProfile('nextseq2000','manual-bcl2fastq').i5Orientation,'reverse_complement'));
+check('NovaSeqX standalone forward differs from manual bcl2fastq',()=>{assert.equal(sheet.describeProfile('novaseqx','standalone-bclconvert').i5Orientation,'forward');assert.equal(sheet.describeProfile('novaseqx','manual-bcl2fastq').i5Orientation,'reverse_complement');});
+check('NovaSeq6000 standalone requires RC',()=>assert.equal(sheet.describeProfile('novaseq6000','standalone-bclconvert').i5Orientation,'reverse_complement'));
+check('BSSH v2 old instruments require header flag',()=>{const p=sheet.describeProfile('novaseq6000','bssh-bclconvert-v2');assert.equal(p.i5Orientation,'forward');assert.deepEqual(p.headerRows,[['IndexOrientation','Forward']]);});
+check('original MiSeq manual sheet is forward',()=>assert.equal(sheet.describeProfile('miseq','manual-bcl2fastq').i5Orientation,'forward'));
+check('rapid and standard MiniSeq differ',()=>{assert.equal(sheet.describeProfile('miniseq','standalone-bclconvert').i5Orientation,'reverse_complement');assert.equal(sheet.describeProfile('miniseq-rapid','standalone-bclconvert').i5Orientation,'forward');});
+check('MiSeq i100 read-first and index-first differ for manual workflow',()=>{assert.equal(sheet.describeProfile('miseqi100-indexfirst','manual-bcl2fastq').i5Orientation,'forward');assert.equal(sheet.describeProfile('miseqi100-readfirst','manual-bcl2fastq').i5Orientation,'reverse_complement');});
+check('MiSeq i100 BCLConvert reads flag for either order',()=>assert.equal(sheet.describeProfile('miseqi100-readfirst','standalone-bclconvert').i5Orientation,'forward'));
+check('planning forward input is not an LRM profile',()=>assert.match(sheet.describeProfile('miniseq-rapid','run-planning').note,/not covered/));
+check('legacy HiSeq bcl2fastq orientation remains supported',()=>{assert.equal(sheet.describeProfile('hiseq2500','manual-bcl2fastq').i5Orientation,'forward');assert.equal(sheet.describeProfile('hiseq4000','manual-bcl2fastq').i5Orientation,'reverse_complement');});
+check('unsupported legacy software combination cannot format',()=>assert.throws(()=>sheet.formatIndex('ACGT','i5','hiseq2500','standalone-bclconvert')));
+check('unknown profiles cannot silently default',()=>assert.throws(()=>sheet.describeProfile('','')));
+check('unresolved bases cannot export',()=>assert.throws(()=>sheet.formatIndex('ACGN','i7','miseq','manual-bcl2fastq')));
+check('inline barcodes cannot become sample-sheet fields',()=>assert.throws(()=>sheet.formatIndex('ACGT','cell_barcode','miseq','manual-bcl2fastq')));
+check('single-index row omits index2',()=>{const r=sheet.makeRow({sampleId:'sample1',i7:'ACGA',instrument:'miseq',workflow:'manual-bcl2fastq'});assert.equal(r.tsv,'Sample_ID\tindex\nsample1\tACGA');assert.equal(r.section,'Data');});
+check('dual-index row exposes both correct columns',()=>{const r=sheet.makeRow({sampleId:'sample-1',i7:'ACGA',i5:'AATC',instrument:'nextseq500',workflow:'standalone-bclconvert'});assert.equal(r.csv,'Sample_ID,index,index2\nsample-1,ACGA,GATT');assert.equal(r.section,'BCLConvert_Data');});
+check('i5-only is not a complete data row',()=>assert.throws(()=>sheet.makeRow({sampleId:'s',i5:'AATC',instrument:'miseq',workflow:'manual-bcl2fastq'})));
+check('CSV injection in sample identifiers is rejected',()=>assert.throws(()=>sheet.makeRow({sampleId:'=bad',i7:'ACGT',instrument:'miseq',workflow:'manual-bcl2fastq'})));
+console.log('all '+count+' checks passed');

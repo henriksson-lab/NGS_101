@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "commit": "ea0e1a6606d42fad55b2ebbb768fcc0e4cde40c3",
+  "counts": {
+    "operation_labels": 41,
+    "relation_types": 7,
+    "claim_statuses": 4
+  },
+  "source_sha256": {
+    "lib/protocol_graph.py": "68f23cf2eba3651b8ea406b7dc45ff06f6e466e4637daf2c78a87610b987afa6",
+    "lib/chemistry_validation.py": "410fabade7048ab091caf5f8cdb50621819541fea005e9c69092be66ca49e89a",
+    "lib/chemdraw.py": "dc79765c67a58e0f46c622f82da33fe2fd7093c11324a7edbd80a85bf753b142",
+    "lib/seqprimers.py": "707fe9d01be93a81fed5919f30283477b4844ca49c4249192c358e0301d349aa",
+    "lib/pcr.py": "f8f1410d094e6fc4692f04aa1c4aaa9b0d4b91596380dc22ad2eaa6829f44d16",
+    "lib/topology.py": "325703164976047b4f53ada9243349aea7ca26d5b69dd8080e87fbf1d70803ad",
+    "lib/page.py": "f138953c83582ab72bcaab7799018667c0fe4e63a93b53f9ec4bd7d26c051d30",
+    "paper/tools/figure_examples.py": "c831ca86dea7df2278fa255986b74aa50ae756a44f8b3ce500f054618cf5ecd8",
+    "DESIGN.md": "f94be3454bcf66d4dd36bed16dac4e9d7049edd0d2dee5355db2e615010a216c"
+  },
+  "scope": "Implementation architecture, not a measurement of validation coverage or protocol correctness."
+}

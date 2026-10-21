@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="180mm" height="145mm" viewBox="0 0 1440 1160" role="img" aria-labelledby="title description">
+  <title id="title">Broad operation vocabulary, explicitly declared narrow molecular checks</title>
+  <desc id="description">Operation labels do not automatically map to molecular relations. The author supplies states, geometry and optional relation tags. Seven relation checks and four typed-state check families yield scoped claims with four statuses; source fidelity is assessed separately.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#516373" />
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1440" height="1160" fill="white" />
+  <text x="48" y="53" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="48" dy="0">Validation of declared molecular claims</tspan></text>
+  <text x="48" y="88" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#516373" text-anchor="start"><tspan x="48" dy="0">A reusable check kernel acts on explicit states and relations</tspan></text>
+  <text x="48" y="145" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="48" dy="0">A</tspan></text>
+  <text x="87" y="145" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="87" dy="0">Operation vocabulary</tspan></text>
+  <text x="390" y="145" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="390" dy="0">B</tspan></text>
+  <text x="428" y="145" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="428" dy="0">Explicit declarations</tspan></text>
+  <text x="750" y="145" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="750" dy="0">C</tspan></text>
+  <text x="788" y="145" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="788" dy="0">Narrow relation kernel</tspan></text>
+  <rect x="48" y="170" width="282" height="486" rx="12" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="68" y="211" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="68" dy="0">41 operation labels</tspan></text>
+  <text x="68" y="243" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#516373" text-anchor="start"><tspan x="68" dy="0">StepKind (examples)</tspan></text>
+  <text x="68" y="284" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="68" dy="0">PCR</tspan><tspan x="68" dy="31">Reverse transcription</tspan><tspan x="68" dy="31">Ligation</tspan><tspan x="68" dy="31">Circularization</tspan><tspan x="68" dy="31">Tagmentation</tspan><tspan x="68" dy="31">Fragmentation</tspan><tspan x="68" dy="31">End repair</tspan><tspan x="68" dy="31">Chemical conversion</tspan><tspan x="68" dy="31">Folding</tspan><tspan x="68" dy="31">Cleanup</tspan><tspan x="68" dy="31">Sampling, split and pool</tspan></text>
+  <rect x="390" y="223" width="300" height="375" rx="12" fill="#e4efef" stroke="#176c68" stroke-width="1.6" />
+  <text x="410" y="263" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#176c68" text-anchor="start"><tspan x="410" dy="0">Protocol supplies</tspan></text>
+  <text x="410" y="307" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="410" dy="0">Input / output states</tspan><tspan x="410" dy="37">Actual template geometry</tspan><tspan x="410" dy="37">Optional relation tags</tspan></text>
+  <line x1="410" y1="411" x2="670" y2="411" stroke="#bdcbd5" />
+  <text x="410" y="448" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="410" dy="0">No automatic</tspan><tspan x="410" dy="32">StepKind → relation</tspan><tspan x="410" dy="32">lookup is performed.</tspan></text>
+  <text x="410" y="562" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#516373" text-anchor="start"><tspan x="410" dy="0">States determine what</tspan><tspan x="410" dy="27">can actually be checked.</tspan></text>
+  <path d="M 330 405 L 390 405" fill="none" stroke="#516373" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 690 405 L 750 405" fill="none" stroke="#516373" stroke-width="2" marker-end="url(#arrow)" />
+  <rect x="750" y="170" width="642" height="486" rx="12" fill="white" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="770" y="211" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="770" dy="0">7 explicit MolecularRelation types</tspan></text>
+  <text x="770" y="254" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="770" dy="0">Circle closure</tspan></text>
+  <text x="770" y="279" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="770" dy="0">Linear substrate and circle preserve strand order</tspan></text>
+  <text x="770" y="309" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="770" dy="0">Restriction-end fill</tspan></text>
+  <text x="770" y="334" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="770" dy="0">New tracts follow the declared cut overhang</tspan></text>
+  <text x="770" y="364" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="770" dy="0">Rolling-circle copying</tspan></text>
+  <text x="770" y="389" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="770" dy="0">Repeats and primer landing derive from the circle</tspan></text>
+  <text x="770" y="419" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="770" dy="0">Contact junction</tspan></text>
+  <text x="770" y="444" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="770" dy="0">Product contains the derived restriction junction</tspan></text>
+  <text x="770" y="474" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="770" dy="0">Hairpin stem</tspan></text>
+  <text x="770" y="499" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="770" dy="0">Declared intramolecular stem can base-pair</tspan></text>
+  <text x="770" y="529" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="770" dy="0">Strand-order preservation</tspan></text>
+  <text x="770" y="554" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="770" dy="0">Declared covalent sequence remains unchanged</tspan></text>
+  <text x="770" y="584" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="770" dy="0">End combinations</tspan></text>
+  <text x="770" y="609" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="770" dy="0">End classes match declared downstream primer sites</tspan></text>
+  <text x="48" y="692" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="48" dy="0">Step labels enforce graph-shape contracts.</tspan><tspan x="48" dy="27">Generic and unmodelled labels are included.</tspan></text>
+  <path d="M 540 598 L 540 728" fill="none" stroke="#516373" stroke-width="2" marker-end="url(#arrow)" />
+  <rect x="390" y="728" width="1002" height="145" rx="12" fill="#edf4f8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="410" y="766" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="410" dy="0">Additional checks from typed states and geometry</tspan></text>
+  <text x="410" y="811" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="410" dy="0">Base pairing</tspan></text>
+  <text x="410" y="842" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="410" dy="0">Scene columns</tspan></text>
+  <text x="656" y="811" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="656" dy="0">PCR primer sites</tspan></text>
+  <text x="656" y="842" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="656" dy="0">PCRGeometry</tspan></text>
+  <text x="902" y="811" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="902" dy="0">Restriction cuts</tspan></text>
+  <text x="902" y="842" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="902" dy="0">Digest</tspan></text>
+  <text x="1148" y="811" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="1148" dy="0">View agreement</tspan></text>
+  <text x="1148" y="842" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#516373" text-anchor="start"><tspan x="1148" dy="0">RCA state vs drawing</tspan></text>
+  <text x="48" y="926" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#285c88" text-anchor="start"><tspan x="48" dy="0">D</tspan></text>
+  <text x="87" y="926" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="87" dy="0">Each checked question produces its own claim status</tspan></text>
+  <rect x="48" y="949" width="318" height="119" rx="12" fill="#e7f3ed" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="66" y="988" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#176c68" text-anchor="start"><tspan x="66" dy="0">Established</tspan></text>
+  <text x="66" y="1022" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="66" dy="0">Local relation supported</tspan><tspan x="66" dy="28">by exact declared data</tspan></text>
+  <rect x="390" y="949" width="318" height="119" rx="12" fill="#fff3dc" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="408" y="988" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#855f13" text-anchor="start"><tspan x="408" dy="0">Conditional</tspan></text>
+  <text x="408" y="1022" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="408" dy="0">Compatible under uncertain</tspan><tspan x="408" dy="28">or inferred bases</tspan></text>
+  <rect x="732" y="949" width="318" height="119" rx="12" fill="#eff1f4" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="750" y="988" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#516373" text-anchor="start"><tspan x="750" dy="0">Unresolved</tspan></text>
+  <text x="750" y="1022" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="750" dy="0">Missing relation, states</tspan><tspan x="750" dy="28">or required geometry</tspan></text>
+  <rect x="1074" y="949" width="318" height="119" rx="12" fill="#fae8e8" stroke="#bdcbd5" stroke-width="1.6" />
+  <text x="1092" y="988" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#953838" text-anchor="start"><tspan x="1092" dy="0">Contradictory</tspan></text>
+  <text x="1092" y="1022" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#172b3a" text-anchor="start"><tspan x="1092" dy="0">Declared states or geometry</tspan><tspan x="1092" dy="28">disagree with the check</tspan></text>
+  <text x="48" y="1111" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#172b3a" text-anchor="start"><tspan x="48" dy="0">A successful local claim does not establish the whole reaction or protocol.</tspan></text>
+  <text x="48" y="1143" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#516373" text-anchor="start"><tspan x="48" dy="0">Source fidelity, graph completeness and experimental performance are separate questions.</tspan></text>
+</svg>
