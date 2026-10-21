@@ -201,6 +201,7 @@ def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
     files["index.html"] = ROOT / "index.html"
     files["about.html"] = ROOT / "about.html"
     files["annotate.html"] = ROOT / "annotate.html"
+    files["samplesheet.html"] = ROOT / "samplesheet.html"
     # fetch() dependencies are not discovered by the HTML href/src walker.
     files["assets/sequence_components.json"] = ROOT / "assets" / "sequence_components.json"
 
@@ -351,6 +352,7 @@ def build_annotation(results: dict[str, tuple[bool, str]]) -> None:
         eligibility.write_text(json.dumps(eligible), encoding="utf-8")
         run("tools/build_sequence_index.py", "--eligible", str(eligibility))
     run("build_annotate.py")
+    run("build_samplesheet.py")
 
 
 def main() -> int:

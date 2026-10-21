@@ -864,3 +864,20 @@ See [implementation and profile scope](plans/sequence_annotation.md).
 
 **Why.** Shared adapter sequence is useful for discovery but does not identify a
 protocol. Instrument name alone is insufficient to determine sample-sheet i5 orientation.
+
+## 2026-10-21 — Separate primer-pair export from sequence discovery
+
+**Decision.** Keep the sequence annotator and sample-sheet index tool in separate tabs.
+Sample-sheet rows accept two unlabeled primer sequences in either order, with either
+omitted. Template geometry determines i5/i7; users do not choose candidate roles. Agreeing
+values across declarations are deduplicated without identifying experimental chemistry.
+Conflicting values or unresolved supplied primers block their row. The requested defaults
+are NovaSeq X and manual bcl2fastq; users can change instrument and workflow independently.
+Missing input stays an empty column, and an i5-only row is explicitly partial.
+
+Per-region annotation selectors display concrete matched primers/components in query
+coordinates with flanks, including contained overlaps and reverse complements. This is
+an exact sequence comparison, not a molecular binding diagram or an annealing claim.
+
+**Why.** Batch index extraction needs paired inputs and reusable primers, while sequence
+discovery benefits from inspecting alternative exact matches within a highlighted region.

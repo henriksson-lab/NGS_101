@@ -505,11 +505,12 @@ When a model reproduces a number nobody fed it, that is worth locking down.
 
 ## Sequence annotation tool
 
-`python3 build_site.py` builds `annotate.html` and the generated
+`python3 build_site.py` builds `annotate.html`, `samplesheet.html` and the generated
 `assets/sequence_components.json` automatically, using successfully built public
 protocol pages. The JSON is ignored build output, not a second curated primer table.
 Use `python3 tools/build_sequence_index.py --help` for restricted exports and coverage
-reports. `python3 build_annotate.py` rebuilds just the page, using an existing catalogue.
+reports. `python3 build_annotate.py` and `python3 build_samplesheet.py` rebuild the tool pages,
+using an existing catalogue.
 Serve `_site/` over HTTP so the browser can fetch its JSON asset.
 
 The extractor reads reagent declarations, PCR primers and sequencing references;
@@ -526,4 +527,5 @@ python3 tools/selftest_sequence_catalogue.py
 node tools/selftest_sequence_annotation.js
 node tools/selftest_illumina_samplesheet.js
 node tools/selftest_sequence_annotation_ui.js
+node tools/selftest_samplesheet_batch.js
 ```

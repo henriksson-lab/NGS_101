@@ -7,5 +7,6 @@ builds a molecular construct and how the completed library is read.
 [About this project](https://henriksson-lab.github.io/NGS_101/about.html)
 
 The **Annotate sequence** tab finds known primer and adapter parts in pasted DNA,
-links to protocols sharing those parts, and extracts supported Illumina sample-sheet
-indexes. Matching runs locally in your browser.
+links to protocols sharing those parts, and aligns selected matches with query context.
+The **Sample-sheet indexes** tab extracts Illumina indexes from lists of primer pairs.
+Both tools run locally in your browser.

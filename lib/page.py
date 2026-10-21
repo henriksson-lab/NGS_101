@@ -335,10 +335,11 @@ def site_header(home: str = "../index.html") -> str:
     home_href = html.escape(home, quote=True)
     about_href = html.escape(prefix + "about.html", quote=True)
     annotate_href = html.escape(prefix + "annotate.html", quote=True)
+    samplesheet_href = html.escape(prefix + "samplesheet.html", quote=True)
     return (f'<header class="site-header"><div class="site-header-inner">'
             f'<a class="site-brand" href="{home_href}" aria-label="NGS 101 home">'
             'NGS 101</a><nav class="site-nav" aria-label="Site">'
-            f'<a href="{home_href}">Index</a><a href="{annotate_href}">Annotate sequence</a><a href="{about_href}">About</a>'
+            f'<a href="{home_href}">Index</a><a href="{annotate_href}">Annotate sequence</a><a href="{samplesheet_href}">Sample-sheet indexes</a><a href="{about_href}">About</a>'
             '</nav></div></header>')
 
 
