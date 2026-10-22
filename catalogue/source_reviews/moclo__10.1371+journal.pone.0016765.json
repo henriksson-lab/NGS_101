@@ -1,0 +1,64 @@
+{
+  "dir": "moclo__10.1371+journal.pone.0016765",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1371/journal.pone.0016765; /husky/henriksson/NGS101_papers/sources/moclo__10.1371+journal.pone.0016765/PMC3041749_PMC3041749.xml",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "table_s1",
+      "role": "supplement",
+      "locator": "PMC3041749_supp_pone.0016765.s001.doc; Table S1 module inventory",
+      "availability": "available",
+      "relevance": "relevant"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Initial defining-source layer; partial reading only, not either independent full review pass",
+      "locations": "JATS text 46–166, 236–254; original PDF page 3 Figure 1A–C; Supplementary Table S1 inventory",
+      "findings": "Verified module fusion sites in the original figure, cytosolic versus secreted architectures, assembly levels and construct endpoint.",
+      "documents": 2,
+      "deferred": [
+        "Defining article PDF Figures 3 and 5",
+        "Source-cited predecessor Golden Gate method, DOI 10.1371/journal.pone.0003647"
+      ],
+      "oligo_scraper": "Ran tools/scrape_primers.py on retrieved bundle; candidate hits checked only within the named source scope. Fetched preprints do not supply published evidence."
+    },
+    {
+      "round": "2026-10-21-pooled-cloning-followup",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "One directly identified original; Figures 3 and 5–6; module-to-level-2 implementation",
+      "locations": "Original article PDF pp5 and7; Figures3,5,6 and associated Results; initial Figure1 part definitions",
+      "findings": "Verified nested BsaI/BpiI boundaries, forward positions1–2 and pELE-2. Added protocol-owned construct graph and native SVG. Cohesive-end/product checks remain conditional for role cores; complete restriction digests and clone identity are not proved.",
+      "documents": 1,
+      "deferred": [
+        "Directly cited Engler2008 and Engler2009 originals, DOIs 10.1371/journal.pone.0003647 and 10.1371/journal.pone.0005553",
+        "Defining article Figure2 part entry and Figure6 extended-linker branch details outside the current scope"
+      ],
+      "verification": "MoClo local suite and pairing pass; independent chemistry 23 established,6 conditional,33 unresolved,0 contradictory; full site 408/408 existing+new pages and links pass; final offline full site409/409 diagrams and all links pass, current root/Site page and browser bundle bytes agree."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full source/link inventory and independent checks pending; no absence conclusion accepted."
+  },
+  "pending_sources": [
+    "Source-cited Engler et al. 2008 Golden Gate original DOI 10.1371/journal.pone.0003647",
+    "Source-cited Engler et al. 2009 Golden Gate shuffling original DOI 10.1371/journal.pone.0005553"
+  ],
+  "missing_claims": [],
+  "conclusion": "Source-scoped module-to-level-2 construct graph and schematic implemented. Whole-source inventory, part-entry/extended-linker models and independent full source checks remain open; no confirmed absence claim.",
+  "open_questions": [
+    "Assign full vector and payload sequences before full-map modelling. This is a component-assignment question, not an invented unavailable disclosure document.",
+    "Model PCR-based part entry and the source-described extended pELB/pELR routes with their own source-qualified retained states."
+  ]
+}

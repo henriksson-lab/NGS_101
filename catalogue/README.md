@@ -93,7 +93,7 @@ methods are not in it yet.
 
 Recorded in `ours.tsv`, which is also the source of the directory names on disk and of the
 `our_dir` column in the scraped table — so the two cannot disagree. Its columns: `dir`,
-`protocol`, `doi`, `status` (`documented` / `assay` / `draft` / `notes`), `section` (where the website
+`protocol`, `doi`, `status` (`documented` / `construct` / `assay` / `draft` / `notes`), `section` (where the website
 lists it: `published` protocols in the searchable list, `wip` for our own unpublished work),
 `modality` (`DNA` / `RNA` / `multi`; checked against the scg_lib_structs category where that
 implies one), and a free-text `note`.
@@ -102,6 +102,9 @@ implies one), and a free-text `note`.
 typed `ProtocolGraph` ending in at least one sequencing library. `assay` is the explicit
 status for complete, public non-sequencing pages such as RNAscope and PrimeFlow; those
 pages are not allowed to satisfy the NGS contract by inventing a sequencing endpoint.
+`construct` instead identifies a public DNA-assembly page whose graph explicitly ends
+in constructed DNA; it retains source coverage and molecular provenance checks without
+asserting an NGS acquisition. Stored intermediates do not satisfy this endpoint.
 
 `properties.tsv` is the separate property catalogue used by the front-page finder. Each
 row chooses a complete profile and supplies semicolon-separated `facet=value|value`

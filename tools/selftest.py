@@ -57,6 +57,102 @@ with patch.object(build_index.subprocess, "run", return_value=type("FailedSuite"
     check("a successful check banner cannot hide a failing suite exit status",
           build_index.checks("char-seq__10.7554+eLife.27024"), (0, False))
 
+check.section("canonical citation records for duplicated DOI search hits")
+import fetch_citations
+_citation_doi = "10.1038/nbt.2137"
+_citation_main = {"doi": "https://doi.org/" + _citation_doi,
+                  "id": "https://openalex.org/W2023386301", "cited_by_count": 706}
+_citation_duplicate = dict(_citation_main, id="https://openalex.org/W1538757697",
+                           cited_by_count=0)
+for _citation_hits in ([_citation_main, _citation_duplicate],
+                       [_citation_duplicate, _citation_main]):
+    with patch.object(fetch_citations, "request_batch", return_value=_citation_hits), \
+            patch.object(fetch_citations, "request_one", return_value=_citation_main) as _resolve:
+        check("conflicting search hits resolve through the DOI endpoint regardless of order",
+              fetch_citations.fetch([_citation_doi]),
+              {_citation_doi: (706, _citation_main["id"])})
+        check("an ambiguous DOI is resolved exactly once", _resolve.call_count, 1)
+with patch.object(fetch_citations, "request_batch", return_value=[_citation_main] * 2), \
+        patch.object(fetch_citations, "request_one") as _resolve:
+    check("identical repeated search records are harmless",
+          fetch_citations.fetch([_citation_doi]), {_citation_doi: (706, _citation_main["id"])})
+    check("identical records do not trigger a DOI retry", _resolve.call_count, 0)
+with patch.object(fetch_citations, "request_batch",
+                  return_value=[_citation_main, _citation_duplicate]), \
+        patch.object(fetch_citations, "request_one", return_value=None):
+    check("an unresolved DOI collision remains unknown instead of choosing a count",
+          fetch_citations.fetch([_citation_doi]), {})
+
+check.section("unreviewed property facets stay limited to source notes")
+import properties
+from tempfile import TemporaryDirectory
+with TemporaryDirectory() as _prop_temp:
+    _prop_file = Path(_prop_temp) / "properties.tsv"
+    _prop_file.write_text("dir\tprofile\toverrides\nsource-notes"
+                          "\tpending_source_review\t\n")
+    with patch.object(build_index.cat, "ours", return_value=(
+            {"dir": "source-notes", "status": "notes"},)):
+        check("unreviewed partitioning does not imply bulk",
+              properties.load(path=_prop_file)["source-notes"]["scale"],
+              (properties.UNASSIGNED,))
+    for _prop_status in ("draft", "assay", "construct", "documented"):
+        with patch.object(build_index.cat, "ours", return_value=(
+                {"dir": "source-notes", "status": _prop_status},)):
+            try:
+                properties.load(path=_prop_file)
+            except ValueError as _prop_error:
+                _rejected_unassigned = "unassigned facets require notes status" in str(_prop_error)
+            else:
+                _rejected_unassigned = False
+            check(f"{_prop_status} protocols cannot use unknown source-review facets",
+                  _rejected_unassigned, True)
+
+check.section("unfinished schematic publication")
+import build_site
+import json as _publication_json
+_notes_record = build_index.cat.ours()[0]
+_notes_properties = build_index.props.load()[_notes_record["dir"]]
+with TemporaryDirectory() as _publication_temp:
+    _publication_root = Path(_publication_temp)
+    _existing_draft = _publication_root / "diagram.html"
+    _existing_draft.write_text('<h1>Draft</h1><div data-protocol-complete="true"></div>')
+    with patch.object(build_index, "ROOT", _publication_root), \
+            patch.object(build_index, "diagram_out", return_value=_existing_draft):
+        for _publication_status in ("notes", "draft", "documented"):
+            _record = _notes_record | {"status": _publication_status}
+            _entry = build_index.entry(_record, _notes_properties, None, set(), False)
+            check(f"index links an existing {_publication_status} diagram only when finished",
+                  bool(_entry["page"]), _publication_status == "documented")
+    _publication_rows = [dict(dir=name, protocol=name, status=status, section=section)
+        for name, status, section in (("notes", "notes", "published"), ("draft", "draft", "published"),
+                                     ("finished", "documented", "published"), ("private", "documented", "wip"))]
+    for _row in _publication_rows:
+        _directory = _publication_root / _row["dir"]
+        _directory.mkdir()
+        (_directory / "diagram.html").write_text('<h1>Diagram</h1><div data-protocol-complete="true"></div>')
+    for _name in ("index", "about", "annotate", "samplesheet", "anneal"):
+        (_publication_root / (_name + ".html")).write_text('<h1>Tools</h1>')
+    (_publication_root / "assets").mkdir()
+    for _name in ("sequence_components.json", "anneal_python.json", "anneal_worker.mjs"):
+        (_publication_root / "assets" / _name).write_text("{}")
+    _eligibility = []
+    def _capture_publication_run(script, *args):
+        if script == "tools/build_sequence_index.py":
+            _eligibility.extend(_publication_json.loads(Path(args[-1]).read_text()))
+    _results = {r["dir"]: (True, "fixture built") for r in _publication_rows}
+    with patch.object(build_site, "ROOT", _publication_root), \
+            patch.object(build_site, "SITE", _publication_root / "_site"), \
+            patch.object(build_index.cat, "ours", return_value=_publication_rows), \
+            patch.object(build_index, "diagram_out", side_effect=lambda d: _publication_root / d / "diagram.html"), \
+            patch.object(build_site, "run", side_effect=_capture_publication_run):
+        build_site.build_annotation(_results)
+        build_site.assemble(_results)
+        check("sequence tools exclude built notes, drafts and private work",
+              [r["id"] for r in _eligibility], ["finished"])
+        check("site assembly publishes only the finished public diagram",
+              [r["dir"] for r in _publication_rows
+               if (build_site.SITE / r["dir"] / "diagram.html").exists()], ["finished"])
+
 check.section("IUPAC nucleotide-class complements")
 from chemdraw import iupac_complement  # noqa: E402
 check("all IUPAC classes complement in place and preserve case",
@@ -149,6 +245,13 @@ branch_graph.sequence(branch_library, SequencingPlan(limitation="Test endpoint; 
 branch_graph.declare_reviewed_scope(("sample", "condition", "prep_a", "prep_b", "pool", "library"), "test source")
 check("matching the displayed output to one input must not hide another input's preparation",
       "Prepare second aliquot" in protocol_graph_panels(branch_graph), True)
+_branch_views = protocol_graph_panels(branch_graph, paths=(("a", ()), ("b", ()), ("library", ("prep_a",))))
+check("explicit path layout presents both preparations before their joined output",
+      _branch_views.index("Prepare second aliquot") < _branch_views.index("Pool preparations"), True)
+check.raises("an explicit path layout cannot hide a contributing branch reaction",
+             lambda: protocol_graph_panels(branch_graph, paths=(("library", ()),)))
+check.raises("an explicit path layout cannot omit the primary output",
+             lambda: protocol_graph_panels(branch_graph, paths=(("a", ()), ("b", ()))))
 from types import SimpleNamespace
 from batch_page import _render_terminal_sequencing
 mixed_graph = ProtocolGraph("mixed read plans", authority="test source")
@@ -212,6 +315,135 @@ def _complete_graph():
 
 check("a connected, source-covered graph with a sequencing terminal is publishable",
       _complete_graph().publication_problems(), [])
+
+check.section("source-declared cohesive assembly and construct endpoints")
+from cohesive_assembly import CircularCohesiveAssembly, CohesiveFragment, FivePrimeFragment
+_frag_a = FivePrimeFragment("fragment A", "AATG", (Segment("core A", "ACGTAC"),), "GCTT")
+_frag_b = FivePrimeFragment("fragment B", "GCTT", (Segment("core B", "TTGCCA"),), "AATG")
+_assembly_geometry = CircularCohesiveAssembly((("fragment_a", _frag_a), ("fragment_b", _frag_b)),
+                                            "Synthetic explicit-order fixture, not a protocol recipe")
+
+
+def _assembly_graph(required_output=Disposition.CONSTRUCT):
+    graph = ProtocolGraph("explicit assembly", authority="synthetic fixture", required_output=required_output)
+    a = graph.input("fragment_a", "A", MaterialKind.MOLECULAR, primary=True,
+                    state=_frag_a, chemical_state=_frag_a)
+    b = graph.input("fragment_b", "B", MaterialKind.MOLECULAR, state=_frag_b, chemical_state=_frag_b)
+    ligase = graph.input("ligase", "caller-declared ligase", MaterialKind.CATALYST)
+    product = _assembly_geometry.product("fixture circle")
+    out = graph.product("assembled", "assembled DNA", MaterialKind.MOLECULAR, state=product)
+    graph.react("ligation", "join explicit fragments", StepKind.LIGATION,
+                ((a, InputRole.TEMPLATE), (b, InputRole.STRUCTURAL), (ligase, InputRole.CATALYST)),
+                (out,), geometry=_assembly_geometry, relations=(MolecularRelation.COHESIVE_ASSEMBLY,))
+    graph.constructed(out, "Synthetic construct endpoint")
+    graph.declare_reviewed_scope(("fragment_a", "fragment_b", "ligase", "ligation", "assembled"),
+                                 "synthetic fixture")
+    return graph
+
+
+_assembly = _assembly_graph()
+check("an explicit construct endpoint satisfies its own source/provenance contract",
+      _assembly.publication_problems(), [])
+check("an exact supplied assembly relation is independently established",
+      [c.status for c in check_chemistry(_assembly) if c.target == "ligation"
+       and c.question == MolecularRelation.COHESIVE_ASSEMBLY.value], [Status.ESTABLISHED])
+check("construct rendering includes its complete preparation lineage",
+      "join explicit fragments" in protocol_graph_panels(_assembly), True)
+check("construct outcomes are not relegated to side-product listings",
+      "Other material outcomes" in protocol_graph_panels(_assembly), False)
+check.raises("construct output does not waive a sequencing protocol's endpoint requirement",
+             lambda: _assembly_graph(Disposition.SEQUENCING).require_publishable())
+check.raises("discard cannot be chosen as the required endpoint",
+             lambda: ProtocolGraph("invalid purpose", required_output=Disposition.DISCARD))
+_invalid_output = _assembly_graph()
+_invalid_output.required_output = Disposition.STORED
+check.raises("publication rechecks the required endpoint after graph mutation",
+             _invalid_output.require_publishable)
+_missing_state = _assembly_graph()
+_missing_state.materials["assembled"] = replace(_missing_state.materials["assembled"], state=None)
+check.raises("a construct endpoint cannot omit its molecular state", _missing_state.require_publishable)
+_stored_only = _assembly_graph()
+_stored_only.terminals["assembled"] = Terminal("assembled", Disposition.STORED, "kept for later work")
+check.raises("a stored intermediate does not satisfy a construct endpoint", _stored_only.require_publishable)
+_uncovered_construct = _assembly_graph()
+del _uncovered_construct.source_coverage["source_assembled"]
+check.raises("a construct endpoint needs independent source-inventory coverage", _uncovered_construct.require_publishable)
+_raw_construct = ProtocolGraph("raw part is not an assembly", authority="synthetic fixture",
+                               required_output=Disposition.CONSTRUCT)
+_raw_part = _raw_construct.input("part", "unassembled input", MaterialKind.MOLECULAR,
+                                 state=Construct((Segment("part", "ACGT"),)), primary=True)
+_raw_construct.constructed(_raw_part, "unjustified raw-part endpoint")
+_raw_construct.declare_reviewed_scope(("part",), "synthetic fixture")
+check.raises("an unprocessed input is not a constructed product", _raw_construct.require_publishable)
+_wrong_product = _assembly_graph()
+_wrong_product.materials["assembled"] = replace(_wrong_product.materials["assembled"],
+    state=Construct((Segment("wrong product", "AATGACGTACGCTTGCTTTTGCCA"),)))
+check("independent check rejects a duplicated fusion in the claimed output",
+      [c.status for c in check_chemistry(_wrong_product) if c.target == "ligation"], [Status.CONTRADICTORY])
+_wrong_input = _assembly_graph()
+_changed_fragment = replace(_frag_a, core=(Segment("different core", "AAAAAA"),))
+_wrong_input.materials["fragment_a"] = replace(_wrong_input.materials["fragment_a"],
+                                             chemical_state=_changed_fragment)
+check("geometry cannot substitute different input fragment DNA",
+      [c.status for c in check_chemistry(_wrong_input) if c.target == "ligation"], [Status.CONTRADICTORY])
+_rotated = _assembly_graph()
+_rotated.materials["assembled"] = replace(_rotated.materials["assembled"],
+    state=Construct((Segment("rotated circular origin", "GCTTTTGCCAAATGACGTAC"),)))
+check("a different circular drawing origin preserves the declared assembly",
+      [c.status for c in check_chemistry(_rotated) if c.target == "ligation"], [Status.ESTABLISHED])
+check.raises("incompatible last-to-first cohesive ends fail construction",
+             lambda: CircularCohesiveAssembly((("a", _frag_a),
+                 ("b", replace(_frag_b, right="ACAC"))), "explicit fixture"))
+check.raises("a fragment cannot contain incompatible explicitly supplied strands",
+             lambda: FivePrimeFragment("bad duplex", "AATG",
+                 (Segment("core", "ACGTAC", bottom="AAAAAA"),), "GCTT"))
+_three = CohesiveFragment("three-prime fixture", "AATG", (Segment("core", "ACGTAC"),),
+                          "GCTT", "3-prime", "3-prime")
+check("three-prime cohesive ends occupy the opposite strands from five-prime ends",
+      [(e.strand, e.polarity) for e in _three.scene().ligation_ends],
+      [("bottom", "3-prime"), ("top", "3-prime")])
+check("three-prime left overhang is physically upstream of the duplex core",
+      _three.scene().strands["bottom"].span("left fusion bottom"), (-4, 0))
+check.raises("unsupported cohesive-end polarity is rejected",
+             lambda: replace(_three, left_polarity="unknown"))
+_mixed_a = CohesiveFragment("mixed A", "AATG", _frag_a.core, "GCTT", "3-prime", "5-prime")
+_mixed_b = CohesiveFragment("mixed B", "GCTT", _frag_b.core, "AATG", "5-prime", "3-prime")
+_mixed_geometry = CircularCohesiveAssembly((("fragment_a", _mixed_a), ("fragment_b", _mixed_b)),
+                                         "Explicit mixed-polarity synthetic fixture")
+for _scene in _mixed_geometry.scenes:
+    _scene.rows()  # construction itself checks each antiparallel fusion
+_mixed_graph = _assembly_graph()
+for _identifier, _fragment in _mixed_geometry.fragments:
+    _mixed_graph.materials[_identifier] = replace(_mixed_graph.materials[_identifier],
+        state=_fragment, chemical_state=_fragment)
+_mixed_graph.steps["ligation"] = replace(_mixed_graph.steps["ligation"], geometry=_mixed_geometry)
+_mixed_graph.materials["assembled"] = replace(_mixed_graph.materials["assembled"],
+                                            state=_mixed_geometry.product("mixed circle"))
+check("independent assembly validation accepts compatible mixed-polarity ends",
+      [c.status for c in check_chemistry(_mixed_graph) if c.target == "ligation"], [Status.ESTABLISHED])
+check.raises("matching bases cannot join a three-prime end to a five-prime end",
+             lambda: CircularCohesiveAssembly((("a", _mixed_a), ("b", _frag_b)), "bad polarity"))
+_wrong_polarity = _assembly_graph()
+_wrong_polarity.materials["fragment_a"] = replace(_wrong_polarity.materials["fragment_a"],
+                                                chemical_state=_three)
+check("geometry cannot silently replace an input's physical end polarity",
+      [c.status for c in check_chemistry(_wrong_polarity) if c.target == "ligation"], [Status.CONTRADICTORY])
+_conditional = _assembly_graph()
+_unknown_fragment = replace(_frag_a, core=(Segment("unknown core", "NNNNNN", placeholder=True),))
+_unknown_geometry = CircularCohesiveAssembly((("fragment_a", _unknown_fragment), ("fragment_b", _frag_b)),
+                                           "Synthetic unspecified-core fixture")
+_conditional.materials["fragment_a"] = replace(_conditional.materials["fragment_a"],
+    state=_unknown_fragment, chemical_state=_unknown_fragment)
+_conditional.materials["assembled"] = replace(_conditional.materials["assembled"],
+    state=_unknown_geometry.product("unspecified-core product"))
+_conditional.steps["ligation"] = replace(_conditional.steps["ligation"], geometry=_unknown_geometry)
+check("exact ends with an unspecified core cannot establish an exact product",
+      [c.status for c in check_chemistry(_conditional) if c.target == "ligation"], [Status.CONDITIONAL])
+_conditional.materials["assembled"] = replace(_conditional.materials["assembled"],
+    state=Construct((Segment("possible assignment of unknown core", "AATGTTTTTTGCTTTTGCCA"),)))
+check("a possible concrete assignment to an unknown core is not a sequence contradiction",
+      [c.status for c in check_chemistry(_conditional) if c.target == "ligation"], [Status.UNRESOLVED])
+
 annotated = _complete_graph()
 annotated.annotate(Highlight("tagment", "Branch", "Retained < discarded.",
                              slot=AnnotationSlot.AFTER_WORKFLOW))

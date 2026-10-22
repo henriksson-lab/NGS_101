@@ -60,6 +60,10 @@ check("a graph owned by a page builder enters the source transcription guard",
       [path.name for path in graph_module_paths(
           ROOT / "quartz-seq__10.1186+gb-2013-14-4-r31")],
       ["quartz_seq.py"])
+check("test-parameter factories do not hide the public pooled-cloning graphs from audits",
+      [[path.name for path in graph_module_paths(ROOT / name)] for name in (
+          "combigem__10.1038+nbt.3326", "mpra__10.1038+nbt.2137")],
+      [["combigem.py"], ["mpra.py"]])
 
 # ------------------------------------------------------------------------------
 check.section("DOI routing")

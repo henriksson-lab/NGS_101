@@ -32,9 +32,9 @@ FACETS = OrderedDict([
         "promoter / RNA 5-prime mapping", "RNA structure", "RNA accessibility",
         "targeted DNA sequencing", "DNA mutation detection",
         "amplicon profiling", "metagenomics", "metabolite detection", "spatial / in situ", "telomere",
-        "replication timing", "multiomic"))),
+        "replication timing", "multiomic", "DNA construct assembly", "combinatorial genetic screening", "regulatory reporter assay"))),
     ("platform", ("Sequencing platform", (
-        "Illumina", "SOLiD", "DNBSEQ", "PacBio", "Oxford Nanopore", "in situ imaging", "flow cytometry"))),
+        "Illumina", "SOLiD", "DNBSEQ", "PacBio", "Oxford Nanopore", "in situ imaging", "flow cytometry", "not applicable"))),
     ("partitioning", ("Partitioning", (
         "bulk", "plate / well", "droplet", "microwell", "combinatorial indexing",
         "single nucleus", "single cell", "spatial / in situ"))),
@@ -43,7 +43,7 @@ FACETS = OrderedDict([
         "fixed cells / nuclei", "damaged DNA", "native RNA", "adapter-ligated library",
         "amplicon", "pre-amplified cDNA", "synthetic DNA reporter", "microbial community DNA",
         "ribosome-protected RNA", "nascent RNA", "RNA-DNA hybrid",
-        "immune-receptor RNA", "protein analyte"))),
+        "immune-receptor RNA", "protein analyte", "cloned DNA parts", "synthetic DNA oligos"))),
     ("fragmentation", ("Fragmentation or entry", (
         "mechanical", "enzymatic", "restriction digest", "Tn5 / tagmentation",
         "RNase / MNase", "Cas nuclease cleavage", "chemical fragmentation", "no fragmentation"))),
@@ -52,13 +52,13 @@ FACETS = OrderedDict([
         "padlock / circularization", "splint ligation", "hairpin / dumbbell", "full-length adaptor",
         "hybridization scaffold", "bead-mediated barcoding", "RNA-DNA bridge",
         "random priming", "extension / fill-in", "overlap assembly",
-        "proximity extension"))),
+        "proximity extension", "not applicable"))),
     ("amplification", ("Amplification", (
         "PCR-free", "endpoint PCR", "linear amplification", "rolling-circle amplification",
         "whole-genome amplification", "whole-transcriptome amplification", "two-stage PCR",
         "branched-DNA signal amplification", "loop-mediated isothermal amplification",
         "multiple-displacement amplification", "single-primer isothermal amplification",
-        "displacement DOP-PCR"))),
+        "displacement DOP-PCR", "plasmid propagation"))),
     ("topology", ("Molecular topology", (
         "linear", "circular", "hairpin", "dumbbell / SMRTbell", "concatemer",
         "proximity-ligation junction", "RNA-DNA hybrid", "DNA nanoball",
@@ -67,20 +67,20 @@ FACETS = OrderedDict([
     ("strand_handling", ("Strand handling", (
         "unstranded", "directional RNA", "strand displacement", "second-strand destruction",
         "single-stranded library", "duplex sequencing", "native RNA sequencing",
-        "RNA hybridization", "crosslink-induced RT signature"))),
+        "RNA hybridization", "crosslink-induced RT signature", "not applicable"))),
     ("identifiers", ("Molecular identifiers", (
         "UMI", "cell barcode", "sample index", "guide barcode", "spatial barcode",
-        "lineage barcode", "linked-read barcode", "molecular complex barcode", "cluster barcode", "feature barcode", "no UMI"))),
+        "lineage barcode", "linked-read barcode", "molecular complex barcode", "cluster barcode", "feature barcode", "assembly barcode", "no UMI"))),
     ("read_structure", ("Read structure", (
         "paired-end", "single-end", "index reads", "inline barcode", "barcode in Read 1",
         "barcode in Read 2", "barcode in Index 1", "barcode in Index 2",
         "custom sequencing primer", "long-read consensus",
-        "microscopy", "flow cytometry"))),
+        "microscopy", "flow cytometry", "not applicable"))),
     ("selection", ("Selection or enrichment", (
         "poly(A) selection", "rRNA depletion", "size selection", "hybrid capture",
         "restriction-site selection", "spatial capture", "affinity / antibody capture",
         "guide-specific enrichment", "circularization selection", "ribosome-footprint selection",
-        "cap selection", "constant-region enrichment", "none"))),
+        "cap selection", "constant-region enrichment", "clone selection", "none"))),
     ("conversion", ("Base conversion or marking", (
         "bisulfite", "enzymatic methyl conversion", "GpC methyltransferase",
         "adenine methyltransferase", "dUTP strand marking", "chemical conversion",
@@ -92,10 +92,17 @@ FACETS = OrderedDict([
         "inferred regions present"))),
 ])
 
+# Notes can precede the source reading needed to assign every molecular facet.
+# This value records curation state, never that a publication omitted a detail.
+# It is rejected for every status other than notes when loading the table.
+UNASSIGNED = "not yet curated"
+FACETS = OrderedDict((key, (label, allowed + (UNASSIGNED,)))
+                     for key, (label, allowed) in FACETS.items())
+
 # Values below are computed from the required molecular facets.  They are exposed to the
 # finder like ordinary facets but are never hand-maintained in properties.tsv.
 DERIVED_FACETS = OrderedDict([
-    ("scale", ("Bulk or single-cell", ("bulk", "single-cell", "spatial / in situ"))),
+    ("scale", ("Bulk or single-cell", ("bulk", "single-cell", "spatial / in situ", UNASSIGNED))),
 ])
 FILTER_FACETS = FACETS | DERIVED_FACETS
 
@@ -126,6 +133,32 @@ def _from(base: dict[str, str], **changes: str) -> dict[str, tuple[str, ...]]:
 
 
 PROFILES = {
+    "pending_source_review": _profile(**{key: UNASSIGNED for key in FACETS}),
+    "modular_cloning": _profile(
+        index_introduction="no index", index_architecture="no barcode",
+        assay="DNA construct assembly", platform="not applicable", partitioning="bulk",
+        starting_material="cloned DNA parts", fragmentation="restriction digest",
+        adapter_installation="not applicable", amplification="plasmid propagation",
+        topology="circular", strand_handling="not applicable", identifiers="no UMI",
+        read_structure="not applicable", selection="clone selection", conversion="none",
+        availability="published academic protocol"),
+    "combinatorial_genetics": _profile(
+        index_introduction="PCR", index_architecture="custom Illumina|inline barcode|single index",
+        assay="combinatorial genetic screening", platform="Illumina", partitioning="bulk",
+        starting_material="cloned DNA parts|genomic DNA", fragmentation="restriction digest|no fragmentation",
+        adapter_installation="PCR-added", amplification="endpoint PCR", topology="circular|linear",
+        strand_handling="not applicable", identifiers="feature barcode|sample index|no UMI",
+        read_structure="barcode in Read 1|index reads|custom sequencing primer", selection="size selection",
+        conversion="none", availability="published academic protocol"),
+    "regulatory_reporter": _profile(
+        index_introduction="PCR", index_architecture="TruSeq|inline barcode|single index",
+        assay="regulatory reporter assay", platform="Illumina", partitioning="bulk",
+        starting_material="synthetic DNA reporter|total RNA|cloned DNA parts",
+        fragmentation="restriction digest|no fragmentation", adapter_installation="PCR-added",
+        amplification="endpoint PCR", topology="linear|circular", strand_handling="not applicable",
+        identifiers="feature barcode|sample index|no UMI",
+        read_structure="single-end|index reads|barcode in Read 1", selection="size selection|poly(A) selection",
+        conversion="none", availability="published academic protocol|inferred regions present"),
     "illumina_dna": _profile(**_ILLUMINA),
     "illumina_rna": _from(_ILLUMINA, assay="RNA-seq", starting_material="total RNA",
                            fragmentation="enzymatic"),
@@ -279,6 +312,11 @@ def load(expected_dirs: set[str] | None = None, path: Path = TSV) -> dict[str, d
             if bad:
                 raise ValueError(f"{path}:{line}: {d}: unknown {key}: {sorted(bad)}")
             rec[key] = values
+        if any(UNASSIGNED in values for values in rec.values()):
+            from catalogue import ours
+            status = next((item["status"] for item in ours() if item["dir"] == d), None)
+            if status != "notes":
+                raise ValueError(f"{path}:{line}: {d}: unassigned facets require notes status")
         partitioning = set(rec["partitioning"])
         scales = []
         if "bulk" in partitioning:
@@ -291,7 +329,8 @@ def load(expected_dirs: set[str] | None = None, path: Path = TSV) -> dict[str, d
             scales.append("spatial / in situ")
         # Plate/well is a container, not proof of single-cell resolution. Anything not
         # explicitly single-cell or spatial is therefore bulk.
-        rec["scale"] = tuple(scales or ["bulk"])
+        rec["scale"] = ((UNASSIGNED,) if UNASSIGNED in partitioning
+                        else tuple(scales or ["bulk"]))
         out[d] = rec
     if expected_dirs is not None and set(out) != expected_dirs:
         missing, extra = expected_dirs - set(out), set(out) - expected_dirs

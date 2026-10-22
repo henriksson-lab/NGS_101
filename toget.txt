@@ -1,0 +1,29 @@
+Documents for deferred source follow-up
+
+Update 2026-10-22: all three requested sets were supplied in up2/ and moved
+to /husky/henriksson/NGS101_papers/sources/<protocol-directory>/.
+Document receipt and identity checks are complete; detailed review is pending.
+TT-seq article and supplement were supplied too; its supplement is byte-identical
+to the existing cached original. Source manifests record the uploaded provenance.
+
+Please obtain the published versions, rather than preprints.
+
+1. DropSynth — Plesa et al., 2018
+   DOI: https://doi.org/10.1126/science.aao5167
+   Received: aao5167-plesa-sm.pdf and the Tables S8–S14 workbook, plus article PDF.
+   Known filename: NIHMS995415-supplement-Supplemental_Information.pdf
+
+2. STARR-seq — Arnold et al., 2013
+   DOI: https://doi.org/10.1126/science.1232542
+   Received: article PDF, corrected supplement revision1, earlier supplement,
+   and the Tables S1–S12 archive (workbooks extracted).
+   Prefer corrected revision1; its cover identifies a posting-date correction.
+
+3. CHyMErA — Gonatopoulos-Pournatzis et al., 2020
+   DOI: https://doi.org/10.1038/s41587-020-0437-z
+   Received: original 2020 article PDF; printed DOI verified.
+   The current model uses the separately identified 2021 detailed protocol.
+
+No further document request is outstanding on this list.
+Review may identify specific additional needs; receipt does not resolve model gaps.
+The current implementation is accepted as done for now.

@@ -102,10 +102,12 @@ class MolecularRelation(str, Enum):
     HAIRPIN_STEM = "intramolecular stem can pair"
     STRAND_ORDER = "covalent strand order is preserved"
     END_COMBINATIONS = "end combinations have the declared primer sites"
+    COHESIVE_ASSEMBLY = "cohesive ends and ordered circular product sequence agree"
 
 
 class Disposition(str, Enum):
     SEQUENCING = "sequencing"
+    CONSTRUCT = "constructed DNA"
     DISCARD = "discard"
     QC = "QC"
     STORED = "stored intermediate"
@@ -211,7 +213,7 @@ class Terminal:
 
     def __post_init__(self) -> None:
         _identifier(self.material, "terminal material id")
-        if self.disposition in {Disposition.DISCARD, Disposition.STORED,
+        if self.disposition in {Disposition.CONSTRUCT, Disposition.DISCARD, Disposition.STORED,
                                 Disposition.UNRESOLVED} and not self.reason.strip():
             raise ValueError(f"a {self.disposition.value} terminal needs an explanation")
 
@@ -344,11 +346,16 @@ GraphAnnotation = Highlight | DetailView | SourceDiscrepancy
 class ProtocolGraph:
     """A typed protocol hypergraph built strictly in topological order."""
 
-    def __init__(self, name: str, *, authority: str = ""):
+    def __init__(self, name: str, *, authority: str = "",
+                 required_output: Disposition = Disposition.SEQUENCING):
         if not name.strip():
             raise ValueError("protocol graph needs a name")
+        if not isinstance(required_output, Disposition) or required_output not in {
+                Disposition.SEQUENCING, Disposition.CONSTRUCT}:
+            raise ValueError("required output must be sequencing or constructed DNA")
         self.name = name
         self.authority = authority
+        self.required_output = required_output
         self.materials: dict[str, Material] = {}
         self.steps: dict[str, Step] = {}
         self.terminals: dict[str, Terminal] = {}
@@ -412,6 +419,11 @@ class ProtocolGraph:
         """Declare a discarded terminal; the validator still requires waste typing."""
         identifier = material.id if isinstance(material, Material) else material
         return self.mark_terminal(Terminal(identifier, Disposition.DISCARD, reason))
+
+    def constructed(self, material: Material | str, reason: str) -> Terminal:
+        """Declare an assembled construct endpoint, without a sequencing claim."""
+        identifier = material.id if isinstance(material, Material) else material
+        return self.mark_terminal(Terminal(identifier, Disposition.CONSTRUCT, reason))
 
     def _add_material(self, material: Material) -> None:
         if material.id in self.materials:
@@ -766,12 +778,19 @@ class ProtocolGraph:
     def publication_problems(self) -> list[str]:
         """Return every reason this graph is not eligible for a finished public page."""
         problems: list[str] = []
+        if not isinstance(self.required_output, Disposition) or self.required_output not in {
+                Disposition.SEQUENCING, Disposition.CONSTRUCT}:
+            problems.append("required output must be sequencing or constructed DNA")
         if not self.authority.strip():
             problems.append("no defining paper or commercial authority")
         sequencing = [t.material for t in self.terminals.values()
                       if t.disposition is Disposition.SEQUENCING]
-        if not sequencing:
+        constructs = [t.material for t in self.terminals.values()
+                      if t.disposition is Disposition.CONSTRUCT]
+        if self.required_output is Disposition.SEQUENCING and not sequencing:
             problems.append("no terminal output is designated for sequencing")
+        if self.required_output is Disposition.CONSTRUCT and not constructs:
+            problems.append("no terminal output is designated as constructed DNA")
         if not self.source_items:
             problems.append("no authoritative source items declare the reviewed scope")
 
@@ -801,6 +820,18 @@ class ProtocolGraph:
                 problems.append(f"construct-changing step {step.id!r} has generic chemistry")
             if not step.source.strip():
                 problems.append(f"step {step.id!r} has no source attribution")
+
+        for material_id in constructs:
+            material = self.materials[material_id]
+            if material.kind is not MaterialKind.MOLECULAR:
+                problems.append(f"construct output {material_id!r} is not molecular material")
+            if material_id not in self._producer:
+                problems.append(f"construct output {material_id!r} was not produced by this graph")
+            if material.state is None and material.chemical_state is None:
+                problems.append(f"construct output {material_id!r} has no molecular state")
+            if not any(self.materials[x].primary
+                       for x in self._contributing_origins(material_id)):
+                problems.append(f"construct output {material_id!r} lacks primary-template provenance")
 
         for material_id in sequencing:
             material = self.materials[material_id]
@@ -840,7 +871,7 @@ class ProtocolGraph:
                            if coverage.disposition == "modelled"}
         required_targets = (set(self.steps)
                             | {key for key in self.materials if key not in self._producer}
-                            | set(sequencing))
+                            | set(sequencing) | set(constructs))
         for target in sorted(required_targets - covered_targets):
             problems.append(f"graph input/step {target!r} has no source-inventory item")
 

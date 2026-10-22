@@ -95,6 +95,7 @@ def request_one(doi: str, api_key: str = "") -> dict | None:
 
 def fetch(dois: list[str], api_key: str = "") -> dict[str, tuple[int, str]]:
     out: dict[str, tuple[int, str]] = {}
+    ambiguous: set[str] = set()
     for group in batches(dois):
         for work in request_batch(group, api_key):
             doi_url = work.get("doi") or ""
@@ -104,9 +105,17 @@ def fetch(dois: list[str], api_key: str = "") -> dict[str, tuple[int, str]]:
                 continue                    # canonical record returned for a DOI alias
             if not isinstance(count, int) or count < 0 or not work_id:
                 raise RuntimeError(f"unexpected OpenAlex work record: {work!r}")
-            if doi in out:
-                raise RuntimeError(f"OpenAlex returned DOI {doi!r} more than once")
-            out[doi] = (count, work_id)
+            candidate = (count, work_id)
+            if doi in ambiguous:
+                continue
+            if doi in out and out[doi] != candidate:
+                # OpenAlex can retain multiple works for one DOI (e.g. nbt.2137).
+                # Resolve through its DOI endpoint below, never by batch order or
+                # by choosing whichever record happens to have more citations.
+                del out[doi]
+                ambiguous.add(doi)
+            else:
+                out[doi] = candidate
     for doi in (d for d in dois if d not in out):
         work = request_one(doi, api_key)
         if work is None:

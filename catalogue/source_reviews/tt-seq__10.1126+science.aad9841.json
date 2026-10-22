@@ -84,6 +84,20 @@
         "locations": "Original TT-seq supplement lines 29–33; searched NuGEN/Tecan original manual routes, former Encore Whole Blood name, part numbers 0337-32 and 0338-32; distributor product listing https://bmlabosis.com/en/product/ovation%C2%AE-human-blood-rna-seq-library-systems-p2746 lines 374–384",
         "finding": "The exact historical guide remains unavailable. Distributor listing identifies eight barcoded adaptors in each part-numbered system and describes strand selection with a nucleotide analogue; it provides no adapter/index bases. Related Ovation RNA-Seq V2 or Encore Complete manuals are distinct products and cannot supply this kit’s oligos."
       }
+    },
+    {
+      "id": "upload_20261022_science_aad9841_pdf",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tt-seq__10.1126+science.aad9841/science.aad9841.pdf",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "upload_20261022_aad9841-Schwalb-SM_pdf",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/tt-seq__10.1126+science.aad9841/aad9841-Schwalb-SM.pdf",
+      "availability": "available",
+      "relevance": "relevant"
     }
   ],
   "linked_information": {
@@ -123,7 +137,7 @@
       "disposition": "blocked"
     }
   ],
-  "conclusion": "Two independent located reads now cover the original Science article, supplement and cited Dölken 2008 capture method. HPDP-biotin/streptavidin capture with DTT release is supported; the relevant historical NuGEN kit guide is unavailable, so its adapter/index bases remain blocked and no absence claim is accepted.",
+  "conclusion": "Supplied published originals received and bounded chemistry/readout follow-up recorded2026-10-22. See latest bounded check for resolved and remaining model tasks. Full linked-source and independent review remain incomplete; no absence conclusion accepted.",
   "bounded_checks": [
     {
       "round": "2026-10-17-breadth-first-21",
@@ -141,6 +155,20 @@
       ],
       "scope": "Capped defining-source pass only; no full chemistry validation or accepted missing-information claim.",
       "verification": "local construction suite passes (1 PASS); page builds; pairing 0 problems; chemistry 9 steps 0 established/0 conditional/10 unresolved/0 contradictory; source guard 0 checked, 0 failed (all kit oligos inferred and excluded); audit --check in_progress; Markdown built; review schema checked"
+    },
+    {
+      "round": "2026-10-22-uploaded-originals",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Supplied-original bounded follow-up; not an independent full source review",
+      "documents": 2,
+      "locations": "## Supplied originals checked, 2026-10-22\n\nThe uploaded TT-seq article PDF was checked against its printed title and own DOI;\nits first-page TT-seq description confirms fragmentation before labelled-RNA isolation.\nIt also contains the preceding article's tail, which is not TT-seq evidence. The\nsupplied supplement is byte-identical (MD5 recorded in MANIFEST.tsv) to the existing\npublished `aad9841-Schwalb-SM.pdf`; no duplicate original is retained.\n\nRead supplementary Methods RNA-seq, spike-in mix preparation and Sequencing data\nprocessing (printed pp2–3; text lines21–49). Ran the full bundle primer scraper;\nits reporter-assay/termination-primer hits do not identify the commercial sequencing\nadapters. Existing source-scoped chemistry agrees with this supplied original.\nThe typed sequencing plan now carries the source50/6/50 run lengths as structured\ndata, instead of leaving those values only in prose. The inferred NuGEN-compatible\nadapter shell is still explicitly inferred; the supplied documents do not establish\nits exact historical kit sequences. This is a bounded check, not an accepted absence audit.",
+      "findings": "\n## Supplied originals checked, 2026-10-22\n\nThe uploaded TT-seq article PDF was checked against its printed title and own DOI;\nits first-page TT-seq description confirms fragmentation before labelled-RNA isolation.\nIt also contains the preceding article's tail, which is not TT-seq evidence. The\nsupplied supplement is byte-identical (MD5 recorded in MANIFEST.tsv) to the existing\npublished `aad9841-Schwalb-SM.pdf`; no duplicate original is retained.\n\nRead supplementary Methods RNA-seq, spike-in mix preparation and Sequencing data\nprocessing (printed pp2–3; text lines21–49). Ran the full bundle primer scraper;\nits reporter-assay/termination-primer hits do not identify the commercial sequencing\nadapters. Existing source-scoped chemistry agrees with this supplied original.\nThe typed sequencing plan now carries the source50/6/50 run lengths as structured\ndata, instead of leaving those values only in prose. The inferred NuGEN-compatible\nadapter shell is still explicitly inferred; the supplied documents do not establish\nits exact historical kit sequences. This is a bounded check, not an accepted absence audit.\n",
+      "oligo_scraper": "Ran tools/scrape_primers.py on the supplied original or full relevant bundle; verified relevant source pointers; no negative disclosure claim.",
+      "deferred": [
+        "Exact source-qualified molecular assignments and independent linked-source review remain unfinished; see latest note."
+      ]
     }
-  ]
+  ],
+  "pending_sources": []
 }

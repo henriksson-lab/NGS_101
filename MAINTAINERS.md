@@ -285,10 +285,16 @@ deployment → Source: **GitHub Actions**. The next push to `main` (or a manual 
    identity when that molecular region is copied or reverse-complemented.
 4. Build a `ProtocolGraph`: declare the primary template and every used structural,
    catalytic, selection and condition input; connect them through typed steps; terminate
-   every material branch as sequencing, discard, QC, stored or explicitly unresolved; and
+   every material branch as sequencing, constructed DNA, discard, QC, stored or explicitly unresolved; and
    map the reviewed source inventory to its graph targets. A sequencing terminal carries
    the final construct and sequencing plan. `require_publishable()` is the completeness
    gate; do not manually assert that an incomplete graph is documented.
+   For a construct-building method, explicitly choose
+   `required_output=Disposition.CONSTRUCT`, call `graph.constructed(...)`, and use
+   catalogue status `construct`. The endpoint needs its molecular state, producer,
+   source inventory and primary-template provenance; no sequencing plan is invented.
+   A `WorkflowSection` may supply ordered graph paths for a branched assembly, but
+   the renderer rejects a layout that omits a reaction or primary output.
 5. Put chemistry invariants in the model and rendering functions used by the page. Add a
    self-test only for source transcription or behavior that cannot be enforced by those
    functions; do not restate model constants as checks.

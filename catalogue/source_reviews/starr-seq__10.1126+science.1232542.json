@@ -1,0 +1,168 @@
+{
+  "dir": "starr-seq__10.1126+science.1232542",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1126/science.1232542",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Published original supplied by user2026-10-22; printed DOI verified; bounded reading recorded below."
+    },
+    {
+      "id": "author_project",
+      "role": "linked_material",
+      "locator": "/husky/henriksson/NGS101_papers/sources/starr-seq__10.1126+science.1232542/arnold_science_2013.html",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "Defining-publication bibliographic/source-discovery record, doi:10.1126/science.1232542"
+    },
+    {
+      "id": "dscp_vector",
+      "role": "linked_material",
+      "locator": "/husky/henriksson/NGS101_papers/sources/starr-seq__10.1126+science.1232542/STARR-seq_DSCP.gbk",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "https://starklab.org/data/arnold_science_2013/"
+    },
+    {
+      "id": "input_sample",
+      "role": "linked_material",
+      "locator": "/husky/henriksson/NGS101_papers/sources/starr-seq__10.1126+science.1232542/geo-GSM1000405-self-full.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "https://starklab.org/data/arnold_science_2013/"
+    },
+    {
+      "id": "series_record",
+      "role": "linked_material",
+      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE40739&targ=self&form=text&view=full",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "Original author project page and GSE40739 sample list"
+    },
+    {
+      "id": "osc_transcript",
+      "role": "linked_material",
+      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM1000403&targ=self&form=text&view=full",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "Original author project page and GSE40739 sample list"
+    },
+    {
+      "id": "upload_20261022_science_1232542_pdf",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/starr-seq__10.1126+science.1232542/science.1232542.pdf",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "upload_20261022_1232542_arnold_sm_revision1_pdf",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/starr-seq__10.1126+science.1232542/1232542.arnold.sm.revision1.pdf",
+      "availability": "available",
+      "relevance": "relevant"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Initial defining-source layer; partial reading only, not either independent full review pass",
+      "locations": "Published bibliographic record; author project page https://starklab.org/data/arnold_science_2013/; university-PDF timeout",
+      "findings": "Main article and published supplement not yet read; author page identifies distinct vector records without establishing their contents.",
+      "documents": 0,
+      "deferred": [
+        "Defining published article DOI 10.1126/science.1232542",
+        "Published Supporting Online Material for 10.1126/science.1232542",
+        "Author-linked DSCP, hsp70 and human vector records"
+      ]
+    },
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Three-original acquisition/identity pass; not complete review",
+      "locations": "Author project publication/vector links; DSCP GenBank LOCUS, FEATURES and ORIGIN; GSM1000405 all deposited metadata",
+      "documents": 3,
+      "findings": "Input-library construction route verified. DSCP record LOCUS4080 conflicts with case-insensitive ORIGIN5592 and source feature1..5592; no whole-vector assignment. Published supplement candidate HTTP403 and university article timeout. No readout primer/geometry assignment.",
+      "deferred": [
+        "Published main and Supporting Online Material",
+        "Expression-library deposited methods",
+        "Applicability and sequence-level vector-region/primer assignments"
+      ],
+      "oligo_scraper": "Ran tools/scrape_primers.py; zero eligible files, not an absence claim. Inspected GenBank and deposited text originals directly."
+    },
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Acquisition route only; no additional original read",
+      "documents": 0,
+      "locations": "CiteSeerX repository candidate URL declared in catalogue/extra_sources.tsv and external MANIFEST.tsv",
+      "findings": "Normal PDF fetch returnedHTTP404; no document saved or chemistry inferred.",
+      "deferred": [
+        "Published main/supplement and expression-library methods",
+        "Vector/primer applicability and graph"
+      ],
+      "oligo_scraper": "No new original retrieved; earlier scraper limitations remain unchanged."
+    },
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Original-deposit graph, not a replacement for published main/supplement",
+      "documents": 3,
+      "locations": "GSE40739 identity/overall-design; complete GSM1000403 record; GSM1000405 accession/description/series fields checked against original",
+      "findings": "Confirmed OSC transcript biological replicate2 and distinct OSC input population, GAIIx and paired acquisition. Deposited transcript extraction field repeats cloning methods; no exact RT/PCR geometry assigned. Draft notes-only graph with unexpanded kit/In-Fusion/assay/RT boundaries and separate readouts.",
+      "deferred": [
+        "Published article and Supporting Online Material",
+        "Exact original kit, adapter/index, RNA/RT and PCR geometry",
+        "Original vector applicability and full source/independent review"
+      ],
+      "oligo_scraper": "Reran after deposited records; zero eligible files. Deposited plain-text originals read directly, not treated as a negative oligo audit. Seven graph inputs lack exact molecular states."
+    },
+    {
+      "round": "2026-10-22-uploaded-originals",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Supplied-original bounded follow-up; not an independent full source review",
+      "documents": 2,
+      "locations": "## Supplied published originals, 2026-10-22 — current model scope\n\nThis section supersedes the acquisition-only limitations above where explicitly resolved.\nThe uploaded published article (`science.1232542.pdf`, own DOI verified) and corrected\nSOM (`1232542.arnold.sm.revision1.pdf`) are now available in the external source store.\nThe SOM cover says published 17 January 2013, corrected 6 February 2013, with a\nposting-date correction. The older uploaded `arnold.sm.pdf` is retained as history;\nits chemistry has not been assumed equivalent wholesale. Twelve supplementary workbooks\nwere extracted from the uploaded archive; their individual tables remain unreviewed.",
+      "findings": "🟢 Read article first-page description and Fig1A caption; corrected SOM printed pp5–8\n(screening vector, input construction, RNA recovery, RT and nested PCR) and Mapping p11.\nRan the primer scraper on the full source directory and checked its relevant pointers\nagainst the printed primer strings. Table S1/S12 hits concern luciferase validation;\nthey are not automatically the pooled STARR-seq readout primers.\n\n🟢 The Drosophila source places candidates downstream of sgGFP in the reporter 3′ UTR,\nuses DSCP/mhc16/sgGFP/ccdB context, Covaris S220 fragmentation, a 500–700-bp size class,\nPE-400-1001 adapters with E6000L preparation, exact cloning primers and AgeI-HF/SalI-HF\nrecipient preparation before In-Fusion. The source says eight cloning PCR reactions,\nthen “the five PCR reactions were pooled” in the same p6 paragraph. The page preserves\nboth counts and models the common reaction class without selecting a batch count.\n\n🟢 Oligo-dT25 beads select poly(A) RNA before Turbo DNase; they are not the RT primer.\nRT uses SuperScript III and `CAAACTCATCAATGTATCTTATCATG`, followed by RNase A.\nThe reporter first PCR uses `AAGCCACCATGGAAAAGGCCAT` and\n`TATCATGTCTGCTCGAAGCGG`; terminal five and three nucleotides respectively have\nphosphorothioate protection as stated in the source (the printed base strings have\nno bond symbols). The reporter forward spans the mhc16 splice junction. Input uses\n`CTAGGCACACCGAAACGACTAAC` and the same reverse sequence. Source modifications of\nthe different input forward are not assigned by analogy. Second PCR uses NEBNext\nMultiplex Oligos E7335L and KAPA HiFi HotStart ReadyMix. Exact selected historical\nkit oligos/index values remain unassigned. Mapping specifies 36-mer paired reads for\nDrosophila, versus 50-mer single reads for human; these variants are kept separate.\n\nThe notes-only graph now represents these reagents, RNA selection/DNase/RT/RNase,\nseparate first and second PCRs and 36/36 acquisition. Exact full vector/adapter states,\nsource-derived intron/splice coordinates, primer landing sites and sequencing endpoints\nremain unfinished modelling work. The published p5 vector sequence is available and\nmust be assessed directly; its existence is not a missing-information claim. No whole\nGenBank map is silently repaired or substituted. This bounded review is not an independent\nfull source review. Entry remains notes until those exact molecular assignments are ready.\n",
+      "oligo_scraper": "Ran tools/scrape_primers.py on the supplied original or full relevant bundle; verified relevant source pointers; no negative disclosure claim.",
+      "deferred": [
+        "Exact original kit, adapter/index, RNA/RT and PCR geometry",
+        "Original vector applicability and full source/independent review"
+      ]
+    },
+    {
+      "round": "2026-10-22-uploaded-originals",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Bounded follow-up geometry pass on supplied or already-linked originals; not an independent full review",
+      "documents": 2,
+      "locations": "Corrected SOM rendered pp5,8; printed Drosophila sequence block text1176–1196; author-linked DSCP ORIGIN plus intron399..469/402..468 annotations and short downstream first-PCR/RT context",
+      "findings": "Source cassette equality and short readout context verified. Partial intended input-DNA PCR geometry/product now computed with unknown interior intervals and inferred placements. Published reporter forward terminatesT whereas the402..468 source splice candidate terminatesA; exact reporter-RNA geometry remains unresolved and source discrepancy is visible.",
+      "deferred": [
+        "Experimental splice choice and reporter forward-primer conflict; no silent source correction",
+        "Complete historical adapter/kit ends, final sample-index and read-entry assignments",
+        "Full linked-source and independent source review"
+      ],
+      "oligo_scraper": "Earlier bundle scraper plus direct original checks; STARR-seq strict primer search and rendered pp5/8 inspected; DropSynth TableS6 original rendered p52 inspected."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full source/link inventory and independent checks pending; no absence conclusion accepted."
+  },
+  "pending_sources": [
+    "Experimental splice choice and reporter forward-primer conflict; no silent source correction",
+    "Complete historical adapter/kit ends, final sample-index and read-entry assignments",
+    "Full linked-source and independent source review"
+  ],
+  "missing_claims": [],
+  "conclusion": "Source cassette equality and short readout context verified. Partial intended input-DNA PCR geometry/product now computed with unknown interior intervals and inferred placements. Published reporter forward terminatesT whereas the402..468 source splice candidate terminatesA; exact reporter-RNA geometry remains unresolved and source discrepancy is visible. Entry remains notes; independent full review unfinished; no accepted absence claim."
+}

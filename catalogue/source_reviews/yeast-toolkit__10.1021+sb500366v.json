@@ -1,0 +1,87 @@
+{
+  "dir": "yeast-toolkit__10.1021+sb500366v",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1021/sb500366v; /husky/henriksson/NGS101_papers/sources/yeast-toolkit__10.1021+sb500366v/Pub_2015_Highly-Characterized.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "version_note": "Author-hosted copy bears the published DOI but has unfinished journal pagination; exact publication-version identity is unverified. Publisher SI supplies the checked boundaries."
+    },
+    {
+      "id": "assembly_si",
+      "role": "supplement",
+      "locator": "10.1021/sb500366v.s001; Figshare2054070 v1; sb500366v_si_001.pdf; MD5 b77fcc4261f4f2954586ccb9f8c9f72c",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "sequence_workbook",
+      "role": "supplement",
+      "locator": "10.1021/sb500366v.s002; Figshare2054064 v1; YTK_Parts.xls inside sb500366v_si_002.zip; archive MD5 260662b165a4d6b402015c95b202ba9f",
+      "availability": "available",
+      "relevance": "relevant"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Initial defining-source layer; partial reading only, not either independent full review pass",
+      "locations": "PDF text 120–190 and 930–942",
+      "findings": "Verified separate BsmBI part entry, BsaI cassette assembly and BsmBI multigene assembly; connector order and supporting-info obligations identified.",
+      "documents": 1,
+      "deferred": [
+        "Lee 2015 original Supporting Information: assembly scheme and 96 vector records"
+      ],
+      "oligo_scraper": "Ran tools/scrape_primers.py on retrieved bundle; candidate hits checked only within the named source scope. Fetched preprints do not supply published evidence."
+    },
+    {
+      "round": "2026-10-21-pooled-cloning-followup",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Published SI and its sequence workbook; direct source layer only",
+      "locations": "SI original PDF pp12,20–23; FiguresS6,S21 and assembly/differences text; YTK_Parts.xls Sequences.txt sheet headings and representative primary-type records",
+      "findings": "Verified publisher resource DOI/version and both file checksums; read distinct fusion scheme, reversed connectors, barcode verification scars and retained-BsaI GFP-dropout branch. Computed BsaI cuts in representative primary-type plasmids agree with FigS6. No genotype, yield or pool coverage is inferred.",
+      "documents": 2,
+      "deferred": [
+        "SI Type1/5 connector details and FiguresS7,S15,S19–20 retained sequence assignments",
+        "Selected original GenBank records from the published archive for independently scoped map checks"
+      ],
+      "oligo_scraper": "Ran tools/scrape_primers.py on expanded original bundle; followed the workbook and SI directly. Individual GenBank records not read in this pass."
+    },
+    {
+      "round": "2026-10-21-pooled-cloning-cassette",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Direct eight-primary-type cassette route; not a full independent source review",
+      "documents": 3,
+      "locations": "Published SI FiguresS6–S7,S15–S17 and pp20–22; workbook pYTK002,009,032,051,067,074,081,083; author-copy Methods Golden Gate Assembly Protocol text723–739",
+      "findings": "Source-scoped direct cassette graph and SVG. Independently checked BsaI cut ends and ConLS/ConR1 retained motifs and barcode lengths against workbook. Original SI FigS16B conflicts with FigS16A/text and workbook: public discrepancy uses supported TACA/GAGT. Author copy specifies T7 ligase but final version unresolved, so graph leaves identity unassigned. No yield, genotype or library coverage inferred.",
+      "oligo_scraper": "Reran on expanded bundle; source workbook and rendered SI figures supply facts, not scraper hits.",
+      "deferred": [
+        "Final article publication-version identity",
+        "SI part entry, subtype geometry, retained-site cassette-vector and multigene routes",
+        "Selected source-owned GenBank maps and full linked inventory"
+      ],
+      "verification": "13 local checks and pairing pass; chemistry11 established,2 conditional,16 unresolved,0 contradictory.; final offline full site409/409 diagrams and all links pass, current root/Site page and browser bundle bytes agree."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full source/link inventory and independent checks pending; no absence conclusion accepted."
+  },
+  "pending_sources": [
+    "Published SI remaining connector/subtype and entry-branch sections",
+    "Selected source-owned vector maps in the published GenBank archive"
+  ],
+  "missing_claims": [],
+  "conclusion": "Direct primary-type cassette graph and SVG implemented; remaining branches and independent full source checks open. No confirmed absence claim.",
+  "open_questions": [
+    "Resolve author-copy/final article version before assigning detailed ligase identity.",
+    "Assign retained multigene barcode scar sequence and boundaries from source maps; direct cassette barcode features do not establish this later scar."
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "dir": "in4mer__10.1038+s41467-024-47795-3",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41467-024-47795-3; /husky/henriksson/NGS101_papers/sources/in4mer__10.1038+s41467-024-47795-3/PMC11055879_PMC11055879.xml",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "oligos",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11055879.1/41467_2024_47795_MOESM13_ESM.xlsx; Supplementary Data10 original sheet",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11055879.1/41467_2024_47795_MOESM1_ESM.pdf; Supplementary Information figure captions inventoried; full figures not inspected in this pass",
+      "availability": "available",
+      "relevance": "relevant"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Initial defining-source layer; partial reading only, not either independent full review pass",
+      "locations": "JATS text 197–231, 251–261; published Supplementary Data 10 (MOESM13)",
+      "findings": "Prototype and Inzolia have distinct synthesis handles, assembly reagents and sequencing scope; workbook [s] token remains unassigned.",
+      "documents": 2,
+      "deferred": [
+        "Original pRDA-550 and pRDA-052 vector maps cited by the article",
+        "Published Supplementary Information original figures"
+      ],
+      "oligo_scraper": "Ran tools/scrape_primers.py on retrieved bundle; candidate hits checked only within the named source scope. Fetched preprints do not supply published evidence."
+    },
+    {
+      "round": "2026-10-21-pooled-cloning-in4mer",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Four-guide prototype and two candidate Inzolia recipient/readout alternatives; not a complete independent source review",
+      "documents": 3,
+      "locations": "Article Methods text197–231 and251–261; published Data10 MOESM13 complete oligo sheet; SI MOESM1 figure-caption inventory only",
+      "findings": "Kept source-specific pool handles, PCR/cleanup/assembly reagents and recipient alternatives distinct. Selected source type-IIS terminal cuts release AGAT/GAAT with four ordered guide features and distinct repeats. Recipient geometry is independently unassigned; no complete cohesive-product relation is claimed. Prototype context is inferred from its custom primer and covers the four guide windows in the reported151–8–8 run. Vector-specific Inzolia rows retain literal[s] and unresolved experiment assignment; neither a stagger nor a run recipe is invented. Unexpanded biological assay/recovery is an explicit boundary, not a proved delivery or editing transformation.",
+      "oligo_scraper": "Reran tools/scrape_primers.py across article/supplements; followed Methods and Data10 originals. SI caption inventory does not establish rendered figure contents or absence.",
+      "deferred": [
+        "Original pRDA-550/pRDA-052 map identity, opened cassette and genomic primer coordinates",
+        "Original definition of literal[s] and experiment assignment of duplicated-heading rows",
+        "Applicable Inzolia run recipe and prototype random-library spike identity/composition",
+        "Complete linked-source inventory and independent reader"
+      ],
+      "verification": "Local12 and source-pattern11 checks pass; four inferred candidate primer rows separately checked literally against Data10. Pairing and visual review pass. Chemistry24 steps:0 established,6 conditional,24 unresolved,0 contradictory; recipients and three explicit assay boundaries remain unresolved. Shared1344,source227,catalogue83 pass; source-free local suite8 pass with one source-dependent group skipped. Full site412/412 diagrams,411 public schematics and all links pass. Final page/data regenerated and reassembled with publication/link audit passing."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full source/link inventory and independent checks pending; no absence conclusion accepted."
+  },
+  "pending_sources": [
+    "Original pRDA-550 Addgene203398 source map",
+    "Original pRDA-052 record named in Methods; original record identity not yet assigned",
+    "Published Supplementary Information rendered figures beyond caption inventory"
+  ],
+  "missing_claims": [],
+  "conclusion": "Source-scoped24-step four-guide graph and SVG implemented. Full recipient maps/geometry, actual genomic coordinates, candidate primer use, literal[s], Inzolia acquisition and full independent source review remain open. No absence conclusion.",
+  "open_questions": [
+    "The repeated Data10 heading does not establish whether the vector-specific block is Inzolia; source use remains a candidate assignment.",
+    "The source kit capacity200 does not assign Inzolia read roles or per-read cycles.",
+    "Guide targets, sample-index values and random-library spike composition are unassigned study-specific values, not invented unavailable documents.",
+    "Literal[s] meaning/length and source experiment assignment remain questions in the available Data10/article, not an invented inaccessible disclosure document."
+  ]
+}

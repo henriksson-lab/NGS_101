@@ -5,6 +5,44 @@ not a protocol reference and does not establish scientific facts. Dates record w
 decision was adopted; revise entries when the project changes direction rather than
 letting implementation conventions become accidental policy.
 
+## 2026-10-21 — Construct assembly has its own typed endpoint
+
+**Decision.** A protocol graph defaults to a sequencing output. A construct-building
+protocol must explicitly request a constructed-DNA output and identify that terminal.
+That terminal requires a molecular state, a producer, contributing primary-template
+provenance and source coverage. Stored intermediates, QC and waste cannot satisfy it.
+Existing sequencing graphs retain their sequencing requirement and read-plan checks.
+
+Construct pages use catalogue status `construct`, rather than inventing a sequencing
+library or using an assay status to bypass graph validation. The graph renderer supplies
+their completion/output markers only after validation; the index and site build require
+both markers. Finder properties describe construct assembly, with sequencing facets
+explicitly inapplicable for the declared scope.
+
+The cohesive-assembly checker compares explicitly supplied fragment states, their
+declared circular order, complementary ends with explicit compatible 5′/3′ polarity,
+and the product sequence with each
+fusion retained once. It does not predict restriction digests, alternative products,
+clone identity, assembly efficiency or experimental coverage. Source-specific part
+choices, fusion vocabularies and reaction order remain in protocol modules.
+
+## 2026-10-21 — Keep unreviewed discovery facets explicit on notes
+
+**Decision.** A newly registered notes entry may use the `pending_source_review`
+property profile. Its `not yet curated` values describe unfinished metadata review,
+not a claim that a source lacks the information. Source-supported facets may replace
+them individually. The property loader rejects any such value for a schematic
+status; unknown partitioning does not default to bulk.
+
+Local page generation does not promote a notes/draft entry. The public index,
+site assembly and sequence-tool eligibility all require a finished catalogue status
+(`documented`, `assay` or `construct`). A valid graph or an existing HTML file alone
+cannot publish unfinished source curation.
+
+**Why.** Adding construct-building methods exposed the risk of assigning an Illumina
+library profile merely to register their source notes. Source review must establish
+their actual assembly and readout before the finder describes them as known chemistry.
+
 ## 2026-10-16 — Published versions take precedence over preprints
 
 **Decision.** When a protocol has a published paper, curate from the published

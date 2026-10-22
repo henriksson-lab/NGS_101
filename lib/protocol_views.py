@@ -41,9 +41,11 @@ class OligoSection:
 class WorkflowSection:
     title: str
     cls: str = "long"
+    paths: tuple[tuple[str, tuple[str, ...]], ...] | None = None
 
     def render(self, graph: ProtocolGraph) -> str:
-        return f"<h2>{html.escape(self.title)}</h2>\n" + protocol_graph_panels(graph, cls=self.cls)
+        return f"<h2>{html.escape(self.title)}</h2>\n" + protocol_graph_panels(
+            graph, cls=self.cls, paths=self.paths)
 
 
 def _sequencing_plan(graph: ProtocolGraph, terminal: str):

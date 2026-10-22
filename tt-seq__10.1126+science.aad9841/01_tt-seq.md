@@ -71,3 +71,20 @@ The 2026-10-17 capped pass (round 21) re-read supplement Materials and Methods l
 21–49 and the original article p.1 lines 88–103, and checked Dölken 2008 Methods for
 Biotin-HPDP, chloroform/isoamyl-alcohol removal, µMACS capture and DTT release; the
 scraper's supplement hits (lines 202–460) are reporter-cloning primers, not library oligos.
+
+## Supplied originals checked, 2026-10-22
+
+The uploaded TT-seq article PDF was checked against its printed title and own DOI;
+its first-page TT-seq description confirms fragmentation before labelled-RNA isolation.
+It also contains the preceding article's tail, which is not TT-seq evidence. The
+supplied supplement is byte-identical (MD5 recorded in MANIFEST.tsv) to the existing
+published `aad9841-Schwalb-SM.pdf`; no duplicate original is retained.
+
+Read supplementary Methods RNA-seq, spike-in mix preparation and Sequencing data
+processing (printed pp2–3; text lines21–49). Ran the full bundle primer scraper;
+its reporter-assay/termination-primer hits do not identify the commercial sequencing
+adapters. Existing source-scoped chemistry agrees with this supplied original.
+The typed sequencing plan now carries the source50/6/50 run lengths as structured
+data, instead of leaving those values only in prose. The inferred NuGEN-compatible
+adapter shell is still explicitly inferred; the supplied documents do not establish
+its exact historical kit sequences. This is a bounded check, not an accepted absence audit.

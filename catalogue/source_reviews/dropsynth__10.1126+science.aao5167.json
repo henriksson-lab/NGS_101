@@ -1,0 +1,130 @@
+{
+  "dir": "dropsynth__10.1126+science.aao5167",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1126/science.aao5167; /husky/henriksson/NGS101_papers/sources/dropsynth__10.1126+science.aao5167/science.aao5167_PMC6261299.xml",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Published original supplied by user2026-10-22; printed DOI verified; bounded reading recorded below."
+    },
+    {
+      "id": "published_pdf",
+      "role": "defining",
+      "locator": "https://arep.med.harvard.edu/pdf/Plesa_Kosuri_2018.pdf; /husky/henriksson/NGS101_papers/sources/dropsynth__10.1126+science.aao5167/Plesa_Kosuri_2018.pdf",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "original_repository",
+      "role": "linked_material",
+      "locator": "https://github.com/kosurilab/DropSynth; /husky/henriksson/NGS101_papers/sources/dropsynth__10.1126+science.aao5167/DropSynth.html",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "Defining article source/code statement"
+    },
+    {
+      "id": "upload_20261022_science_aao5167_pdf",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dropsynth__10.1126+science.aao5167/science.aao5167.pdf",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "upload_20261022_aao5167-plesa-sm_pdf",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dropsynth__10.1126+science.aao5167/aao5167-plesa-sm.pdf",
+      "availability": "available",
+      "relevance": "relevant"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Initial defining-source layer; partial reading only, not either independent full review pass",
+      "locations": "JATS text 36–50 and 72; published supplementary inventory",
+      "findings": "Verified bead-associated fragment grouping and compartmentalized assembly; published supplement retrieval unresolved; fetched preprint excluded.",
+      "documents": 1,
+      "deferred": [
+        "Published Supplemental Information NIHMS995415-supplement-Supplemental_Information.pdf",
+        "Original Figure 1",
+        "Source-cited repository https://github.com/kosurilab/DropSynth"
+      ],
+      "oligo_scraper": "Ran tools/scrape_primers.py on retrieved bundle; candidate hits checked only within the named source scope. Fetched preprints do not supply published evidence."
+    },
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Published Figure1 and direct repository inventory pass; not full review",
+      "documents": 2,
+      "locations": "Published PDF own title/DOI, initial assembly description, original Figure1A–D page2; repository landing inventory/readme",
+      "findings": "Verified nicking/exposure, bead pulldown, emulsion assembly/recovery and later clone barcoding as separate stages. Twelve-base bead capture barcode differs from random20bp clone barcode. Exact capture geometry/occupancy and target-gene design not assigned.",
+      "deferred": [
+        "Published Supplemental Information NIHMS995415-supplement-Supplemental_Information.pdf",
+        "Version-applicable bead/primer and overlap definitions",
+        "Source-specific cloning/sequencing branches and graph",
+        "Full linked-source and independent review"
+      ],
+      "oligo_scraper": "Reran tools/scrape_primers.py after retrieving the published PDF; all hits retain original-source provenance, and fetched preprint materials remain excluded. Published Figure1 inspected directly. Repository inventory did not supply a source-assigned primer recipe."
+    },
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Limited construction implementation from already read main/Figure1; published SI still unresolved",
+      "documents": 1,
+      "locations": "Published main-text capture12nt/clone20bp clauses and source four-fragment model; original Figure1 previously inspected",
+      "findings": "Draft graph preserves separate fragment/group identities, unplaced capture feature, compartment classes and later independent clone barcode. Short-strand/bead-remnant fates are unresolved terminals, cloning an unexpanded boundary. Catalogue remains notes; no sequencing completion claimed.",
+      "deferred": [
+        "Published SI and applicable capture/nick/release/overlap definitions",
+        "Original recipient/cloning mechanism and full sequencing/QC branch",
+        "Full source/link inventory and independent review"
+      ],
+      "oligo_scraper": "Reran bundle scraper. Superseded preprint candidates excluded. No exact graph oligo sequences; three inputs without exact molecular states."
+    },
+    {
+      "round": "2026-10-22-uploaded-originals",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Supplied-original bounded follow-up; not an independent full source review",
+      "documents": 1,
+      "locations": "## Supplied published supplement, 2026-10-22 — current generic processing scope\n\nThe user supplied the published supplementary PDF `aao5167-plesa-sm.pdf`, its separately\nnamed Tables S8–S14 workbook and the article PDF. DOI/title and supplement inventory\nwere checked; provenance and hashes are in the external MANIFEST.tsv. The workbook is\nreceived, not an inspected collection of target sequences. Earlier acquisition failures\nabove no longer describe the availability of this supplied supplement.",
+      "findings": "🟢 Read the generic DropSynth protocol (printed p4), bead-preparation description p3,\nand p5 statement that presence/absence of post-assembly size selection was tested.\nRan `scrape_primers.py` on the supplied supplement; target-specific assay/design and\nfunctional-selection sequences are outside this generic construction pass.\n\n🟢 The protocol specifies initial and bulk pool amplification with KAPA HiFi and15-mer\nprimers; the bulk forward is biotinylated. Nt.BspQI processing exposes the capture\nregion. M270 streptavidin beads remove the short biotinylated product, with column\ncleanup before association with separately prepared barcoded capture beads and Taq\nligase. Generic emulsion assembly uses KAPA2G Robust, BtsI and Bio-Rad Droplet\nGeneration Oil, followed by chloroform emulsion break, purification and re-amplification.\nThe graph now records these reagent identities and the short-strand-removal branch.\nSize selection is labelled as a tested option, not a universal protocol step.\n\nThe four-fragment A/B classes remain source-model schematic examples, not a declaration\nof every experimental oligo design. Equal unknown barcode strings do not establish\nphysical binding. Bead anchor/ligation/barcode-oligo geometry, both pre-capture PCRs,\npost-recovery PCR, exact selected-oligo cut/overlap states and downstream cloning/QC\nremain unexpanded. Relevant original figures/tables are supplied and await direct review;\nthese are modelling/review tasks, not confirmed absent disclosures. Target-specific\nsequence design, rescue/functional-selection experiments and activity optimization are\noutside this generic graph. The protocol remains notes-only.\n",
+      "oligo_scraper": "Ran tools/scrape_primers.py on the supplied original or full relevant bundle; verified relevant source pointers; no negative disclosure claim.",
+      "deferred": [
+        "Direct original figure/table review for exact selected oligo/bead topology and cut/overlap states (published SI now supplied)",
+        "Separate initial/bulk pre-capture PCR and post-recovery PCR; original recipient/cloning mechanism and sequencing/QC branch",
+        "Full source/link inventory and independent review"
+      ]
+    },
+    {
+      "round": "2026-10-22-uploaded-originals",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Bounded follow-up geometry pass on supplied or already-linked originals; not an independent full review",
+      "documents": 1,
+      "locations": "Published SI p4; detailed bead preparation pp10–11; emulsion amplification Steps2,3,10 pp12–17; TableS6 rendered original p52 and text1607–1626",
+      "findings": "Separate amplification stages and source5-prime capture overhang implemented. Source TableS6 common-arm bead assembly validates exact pairing, ligated junction and source modifications, then PNK and immobilization/washes. Unknown barcode values and selected-gene geometry remain explicit. Two format-limited generic transcription exceptions have independent original-table checks.",
+      "deferred": [
+        "Selected fragment cut/overlap states and actual subpool/assembly primer values",
+        "Downstream cloning and sequencing/QC; full source/link and independent review"
+      ],
+      "oligo_scraper": "Earlier bundle scraper plus direct original checks; STARR-seq strict primer search and rendered pp5/8 inspected; DropSynth TableS6 original rendered p52 inspected."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full source/link inventory and independent checks pending; no absence conclusion accepted."
+  },
+  "pending_sources": [
+    "Selected fragment cut/overlap states and actual subpool/assembly primer values",
+    "Downstream cloning and sequencing/QC; full source/link and independent review"
+  ],
+  "missing_claims": [],
+  "conclusion": "Separate amplification stages and source5-prime capture overhang implemented. Source TableS6 common-arm bead assembly validates exact pairing, ligated junction and source modifications, then PNK and immobilization/washes. Unknown barcode values and selected-gene geometry remain explicit. Two format-limited generic transcription exceptions have independent original-table checks. Entry remains notes; independent full review unfinished; no accepted absence claim."
+}

@@ -27,7 +27,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Iterable, Sequence
 
-from protocol_graph import (Input as GraphInput, InputRole, Material, MaterialKind,
+from protocol_graph import (Disposition, Input as GraphInput, InputRole, Material, MaterialKind,
                             ProtocolGraph, Step, StepKind)
 
 # --------------------------------------------------------------------------- bases
@@ -760,10 +760,11 @@ def workflow_from_protocol_graph(graph: ProtocolGraph, terminal: str, *,
                 and callable(getattr(geometry, "rows", None))):
             # The same ligation-ready state Workflow.ligate_adapter draws: the step's
             # declared adapter-end geometry (or its explicit source limitation).
-            ready = MolecularState("ligation-ready adapter ends", tuple(geometry.rows()))
-            workflow.reactions.append(Reaction("Present adapter and substrate ends",
-                                               workflow.current, ready,
-                                               getattr(geometry, "statement", "")))
+            ready = MolecularState(getattr(geometry, "ready_label", "ligation-ready adapter ends"),
+                                   tuple(geometry.rows()))
+            workflow.reactions.append(Reaction(
+                getattr(geometry, "action_label", "Present adapter and substrate ends"),
+                workflow.current, ready, getattr(geometry, "statement", "")))
             workflow.current = ready
         reagents = [graph.materials[p.material].label for p in step.inputs
                     if p.role is not InputRole.TEMPLATE]
@@ -800,7 +801,8 @@ def _workflow_start(graph: ProtocolGraph, terminal: str, stop_steps) -> str:
 
 
 def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long", *,
-                          annotations: bool = False) -> str:
+                          annotations: bool = False,
+                          paths: tuple[tuple[str, tuple[str, ...]], ...] | None = None) -> str:
     """Render sequencing lineages, produced precursors, and every other terminal.
 
     Linear SVGs stay readable while the graph may branch and join.  A non-spine input
@@ -813,6 +815,10 @@ def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long", *,
     discrepancies): intro and before-workflow slots ahead of the panels, after-workflow
     and sequencing slots after them.  Pages that place annotation slots themselves keep
     the default and must not combine both.
+
+    ``paths`` optionally supplies ordered (endpoint, stop-step IDs) views. Every
+    graph reaction must appear on at least one displayed spine. This changes only
+    presentation: paths use the same graph states and cannot omit a branch reaction.
     """
     graph.require_publishable()
     panels = []
@@ -842,7 +848,30 @@ def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long", *,
         panels.append(
             '<aside class="validation-warnings"><h3>Validation warnings</h3>'
             f'<ul>{items}</ul></aside>')
-    for material_id in graph.sequencing:
+    main_outputs = list(graph.sequencing) + [
+        t.material for t in graph.terminals.values()
+        if t.disposition is Disposition.CONSTRUCT]
+    if paths is not None:
+        displayed = set()
+        for endpoint, stop_steps in paths:
+            if endpoint not in graph.materials or set(stop_steps) - set(graph.steps):
+                raise ValueError("workflow path refers to an unknown material or stop step")
+            current = endpoint
+            while ((step := graph.producer_of(current)) is not None
+                   and step.id not in stop_steps):
+                displayed.add(step.id)
+                current, _ = _display_spine(graph, step, current)
+            material = graph.materials[endpoint]
+            panels.append(f"<h3>{html.escape(material.label)}</h3>")
+            panels.append(workflow_panel(
+                workflow_from_protocol_graph(graph, endpoint, stop_steps=frozenset(stop_steps)),
+                cls=cls, caption=f"{material.label} preparation"))
+        missing = set(graph.steps) - displayed
+        if missing:
+            raise ValueError("explicit workflow paths omit graph reactions: " + ", ".join(sorted(missing)))
+        if not set(main_outputs) <= {endpoint for endpoint, _ in paths}:
+            raise ValueError("explicit workflow paths omit a primary graph output")
+    for material_id in (() if paths is not None else main_outputs):
         material = graph.materials[material_id]
         panels.append(f"<h3>{html.escape(material.label)}</h3>")
         rendered_precursors = set()
@@ -905,7 +934,7 @@ def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long", *,
         panels.append(workflow_panel(workflow_from_protocol_graph(graph, material_id), cls=cls,
                                      caption=f"{material.label} provenance"))
     other_terminals = [terminal for terminal in graph.terminals.values()
-                       if terminal.material not in graph.sequencing]
+                       if terminal.material not in main_outputs]
     if other_terminals:
         panels.append("<h3>Other material outcomes</h3>")
         for terminal in other_terminals:
@@ -930,7 +959,11 @@ def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long", *,
             markup = render_annotations(graph, slot)
             if markup:
                 panels.append(markup)
-    return "\n".join(panels)
+    rendered = "\n".join(panels)
+    if graph.required_output is Disposition.CONSTRUCT:
+        return ('<section data-protocol-complete="true" data-protocol-output="constructed DNA">'
+                + rendered + '</section>')
+    return rendered
 
 
 def strand_row(con: Construct, strand: str = "top", indent: int = 0,

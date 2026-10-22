@@ -235,6 +235,10 @@ distinction does not waive source checks or establish that information is absent
   beside the import/use. Similar names or matching sequences alone do not establish it.
   Status `notes` directories hold reference notes only. Scripts bootstrap
   `sys.path` with `HERE` and `HERE.parents[1] / "lib"` (see MAINTAINERS.md "Adding a protocol").
+  Construct-building pages use status `construct` and an explicit
+  `ProtocolGraph(..., required_output=Disposition.CONSTRUCT)` with a constructed-DNA
+  terminal. Do not invent a sequencing output for them. The graph renderer and site
+  build check their construct endpoint separately from NGS readiness.
 - **`catalogue/`** — scraped worklist of protocols from scg_lib_structs
   (`tools/fetch_scg_lib_structs.py`, network, cached). `properties.tsv` drives the public
   chemistry finder: every `ours.tsv` directory must choose a profile and record overrides;

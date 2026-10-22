@@ -5,7 +5,7 @@ Nothing about an individual protocol is typed here. The list comes from
 `catalogue/ours.tsv` (one row per directory; its `section` column says whether it is a
 published protocol or our own work in progress), joined to the scraped catalogue for
 category, family members, papers and year. Every published protocol is listed by name; its
-name becomes a link only when a generated diagram page exists. Notes and work in progress
+name becomes a link only with a finished catalogue status and a generated diagram. Notes and work in progress
 stay out of the public index.
 
 The published schematics get a client-side property finder backed by the validated chemistry
@@ -40,6 +40,9 @@ import citations as cites  # noqa: E402
 import paper_overrides  # noqa: E402
 import properties as props  # noqa: E402
 import vendors  # noqa: E402
+
+# File discovery also finds unfinished pages; it cannot promote catalogue status.
+FINISHED_SCHEMATIC_STATUSES = frozenset({"documented", "assay", "construct"})
 from mdfacts import expand  # noqa: E402
 from mdrender import render  # noqa: E402
 from page import head, info, site_header  # noqa: E402
@@ -243,9 +246,12 @@ def entry(r: dict, properties: dict, citation: cites.Citation | None,
                 aka.append(name)
     notes = [read_note(p) for p in notes_of(d)]
     page = diagram_out(d)
-    has_page = bool(page and page.exists() and d not in omit)
-    if has_page and r["status"] == "documented":
+    has_page = bool(r["status"] in FINISHED_SCHEMATIC_STATUSES
+                    and page and page.exists() and d not in omit)
+    if has_page and r["status"] in {"documented", "construct"}:
         has_page = 'data-protocol-complete="true"' in page.read_text(encoding="utf-8")
+        if has_page and r["status"] == "construct":
+            has_page = 'data-protocol-output="constructed DNA"' in page.read_text(encoding="utf-8")
     n, ok = checks(d) if run_checks else (0, False)
     category = crows[0]["category"] if crows else ""
     commercial = "commercial kit" in properties["availability"]

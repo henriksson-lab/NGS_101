@@ -155,7 +155,8 @@ def protocol_graph():
                 (library,),geometry=PCRGeometry.unavailable(
                     FINAL_LIBRARY,reason="The defining supplement names the NuGEN kit without printing its PCR oligos."))
     graph.sequence(library,SequencingPlan(library=FINAL_LIBRARY,
-                                          primers=tuple(SEQ_PRIMERS)))
+                                          primers=tuple(SEQ_PRIMERS),
+                                          read_lengths={"Read 1":50,"Index 1 (i7)":6,"Read 2":50}))
     graph.declare_reviewed_scope((
         "cells","s4u","rna_polymerase","pulse_label","fragmentation_condition",
         "fragment","biotin_reagent","biotinylate","streptavidin","capture",

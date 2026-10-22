@@ -1,0 +1,69 @@
+{
+  "dir": "combigem__10.1038+nbt.3326",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nbt.3326; /husky/henriksson/NGS101_papers/sources/combigem__10.1038+nbt.3326/PMC4785103_PMC4785103.xml",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "published_tables",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.3326/MediaObjects/41587_2015_BFnbt3326_MOESM33_ESM.pdf; original PDF MOESM33, Table1 pp3–4 and Table13 pp60–62",
+      "availability": "available",
+      "relevance": "relevant"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Initial defining-source layer; partial reading only, not either independent full review pass",
+      "locations": "Online Methods JATS text 109–119, 129–135",
+      "findings": "Source declares repeated precursor/barcode assembly and custom barcode/index readout; exact barcode order requires cut-strand derivation.",
+      "documents": 1,
+      "deferred": [
+        "Published ESM Supplementary Table 1 and Table 13",
+        "Source-cited pBT264 and pAWp11 vector originals"
+      ],
+      "oligo_scraper": "Ran tools/scrape_primers.py on retrieved bundle; candidate hits checked only within the named source scope. Fetched preprints do not supply published evidence."
+    },
+    {
+      "round": "2026-10-21-pooled-cloning-combigem",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Selected-cassette assembly and barcode recovery; partial reading only, not a complete independent source pass",
+      "documents": 3,
+      "locations": "Online Methods creation/pooled assembly and barcode sequencing text109–119,129–135; published MOESM33 Table1 first three rows in rendered PDFp3 and Table13 construct inventory pp60–62; MOESM32 Figure1 caption (expression context only)",
+      "findings": "Verified inter-site GCAACG spacer and reverse-primer orientation of barcode assignments. Declared three-round products append precursor roles and prepend associated barcodes; circular traversal crosses the drawing origin. Added source-scoped graph, explicit independent member and sample identifiers, separate plasmid/genomic recovery, concentration measurement and sample pooling. Seven exact oligo inputs match source text. Selected-site/cohesive relations do not establish full-map digestion, experimental association fidelity or coverage. Repeated source members preserve multiplicity in the model; this does not deduplicate or guarantee experimental representation.",
+      "oligo_scraper": "Reran tools/scrape_primers.py on bundle; followed Table1 rendered page and Methods originals rather than treating hits as evidence.",
+      "deferred": [
+        "Original main Figure1 graphical assembly layout",
+        "Remaining Table1 primer rows and initial precursor PCR/storage-library construction",
+        "Original source-cited pBT264 Addgene27428 and pAWp11 maps",
+        "Pooled ligase identity, full template PCR coordinates and acquisition cycle assignments"
+      ],
+      "verification": "10 local checks,7 source-exact input oligos and pairing pass; chemistry16 steps:18 established,9 conditional,13 unresolved,0 contradictory; shared1334,catalogue83,source226 pass. Source-free local suite passes7 checks with the source-dependent group skipped. Full site410/410 diagrams,409 public schematics and every relative link pass. Published schematic/browser bundle bytes match the current root; published note content matches apart from expected publication navigation."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full source/link inventory and independent checks pending; no absence conclusion accepted."
+  },
+  "pending_sources": [
+    "Defining original main Figure1 graphic",
+    "Published Table1 remaining rows and initial-library creation details",
+    "Source-cited pBT264 Addgene27428 and pAWp11 original vector records"
+  ],
+  "missing_claims": [],
+  "conclusion": "Public source-scoped iterative assembly and barcode-library graph/SVG implemented. Initial precursor/storage creation, full map checks, complete linked inventory and independent source review remain open. No confirmed absence claim.",
+  "open_questions": [
+    "Assign the pooled-reaction ligase from the applicable source scope; the T4 reagent in the individual-vector validation passage is not automatically inherited.",
+    "Resolve full vector/genomic primer coordinates and sequencing acquisition cycles before making those exact claims.",
+    "Sample-index values and pool proportions are study-specific unassigned values, not invented unavailable documents."
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "dir": "mpra__10.1038+nbt.2137",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nbt.2137; /husky/henriksson/NGS101_papers/sources/mpra__10.1038+nbt.2137/nbt.2137_PMC3297981.xml",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "published_si",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2137/MediaObjects/41587_2012_BFnbt2137_MOESM10_ESM.pdf; Supplementary Figure1, original PDFp2",
+      "availability": "available",
+      "relevance": "relevant"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Initial defining-source layer; partial reading only, not either independent full review pass",
+      "locations": "JATS text 152–166 and 176–182",
+      "findings": "Verified ordered synthesis cassette, sequential cloning, distinct reporter tag/sample index, and plasmid versus cDNA Tag-Seq branches.",
+      "documents": 1,
+      "deferred": [
+        "Published Supplementary Figure 1",
+        "Original pGL4.10 and pGL4.23 vector records named by the article"
+      ],
+      "oligo_scraper": "Ran tools/scrape_primers.py on retrieved bundle; candidate hits checked only within the named source scope. Fetched preprints do not supply published evidence."
+    },
+    {
+      "round": "2026-10-21-pooled-cloning-mpra",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Source-defined generic construction and Tag-Seq architecture; not a full independent source review",
+      "documents": 2,
+      "locations": "Defining author-manuscript Methods text152–166,176–182; published MOESM10 Supplementary Figure1 original rendered PDFp2; corresponding NIHMS Figure1 text locator; workbook headings inventoried without selecting design/tag rows",
+      "findings": "Read explicit SfiI 3-prime and KpnI/XbaI mixed-polarity geometry, final Read1 orientation, background-removal and DNA/RNA branches. Added21-step source-scoped graph/SVG. Seven exact input oligos match source text; synthesis template and RT primer species have unassigned sequence portions. Gene-side Tag-Seq site is inferred from the written primer/final-library figure and remains marked in pre-PCR template states. Full written PCR primers supply the known product ends; their source-template placement uncertainty is retained separately. Reporter identity, activity, experimental association, coverage and balance are not proved. Vector self-ligation retains the repaired backbone; source SfiI regional annotation is a separate view rather than a sequence creation claim.",
+      "oligo_scraper": "Reran tools/scrape_primers.py on the full retrieved bundle; inspected Methods and rendered Figure1 directly rather than treating hits as evidence.",
+      "deferred": [
+        "Full original pGL4.10 and pGL4.23 maps and source-specific coordinates",
+        "Selected published workbook design/tag assignments if displaying a concrete member",
+        "Applicable kit RT primer identity, ligase identity and additional acquisition details",
+        "Full linked-information inventory and independent review"
+      ],
+      "verification": "7 local checks and pairing pass; source guard7 exact inputs pass,2 inputs have unassigned sequence states. Independent chemistry21 steps:15 established,7 conditional,17 unresolved,0 contradictory. Shared1342,source227,catalogue83 pass; existing MoClo1,YTK13,CombiGEM10 suites pass after the shared polarity extension. Full site411/411 diagrams,410 public schematics and all links pass. Final MPRA/source-view changes were rebuilt and reassembled with the regenerated sequence catalogue; publication/link audit passes."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full source/link inventory and independent checks pending; no absence conclusion accepted."
+  },
+  "pending_sources": [
+    "Original pGL4.10[luc2] and pGL4.23[luc2/minP] vector records named in Methods",
+    "Published supplementary design-table rows for any selected concrete design/tag pair",
+    "Applicable High Capacity RNA-to-cDNA kit original documentation"
+  ],
+  "missing_claims": [],
+  "conclusion": "Public source-scoped generic construct/readout graph and SVG implemented. Full vector-map proof, selected design/tag rows, reagent identity and independent full source/link review remain open. No confirmed missing-information claim.",
+  "open_questions": [
+    "Confirm the inferred gene-side site and full-map cleavage/repair relations with original vector records.",
+    "Generic view selects no actual sample-index value, regulatory variant or design tag; these are assignment questions, not invented unavailable documents.",
+    "Initial complementary-copy PCR transitions and bacterial population propagation are not expanded; no experimental efficiency or balance is inferred."
+  ]
+}

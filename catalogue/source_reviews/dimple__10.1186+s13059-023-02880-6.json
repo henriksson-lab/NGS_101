@@ -1,0 +1,72 @@
+{
+  "dir": "dimple__10.1186+s13059-023-02880-6",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1186/s13059-023-02880-6; /husky/henriksson/NGS101_papers/sources/dimple__10.1186+s13059-023-02880-6/s13059-023-02880-6_PMC9951526.xml",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "table_s3",
+      "role": "supplement",
+      "locator": "https://doi.org/10.1186/s13059-023-02880-6; /husky/henriksson/NGS101_papers/sources/dimple__10.1186+s13059-023-02880-6/s13059-023-02880-6_supp_13059_2023_2880_MOESM6_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "figure_s2",
+      "role": "supplement",
+      "locator": "https://doi.org/10.1186/s13059-023-02880-6; /husky/henriksson/NGS101_papers/sources/dimple__10.1186+s13059-023-02880-6/s13059-023-02880-6_supp_13059_2023_2880_MOESM3_ESM.docx",
+      "availability": "available",
+      "relevance": "relevant"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Initial defining-source layer; partial reading only, not either independent full review pass",
+      "locations": "JATS text 137\u2013175 and supplementary inventory 183\u2013201",
+      "findings": "Verified sublibrary/backbone assembly, separate landing-pad transfer, target-dependent recovery and Nextera XT sequencing route; publication supersedes fetched preprint.",
+      "documents": 1,
+      "deferred": [
+        "Published Additional file 6 Table S3",
+        "Published Additional file 3 Figure S2",
+        "Cited protocols.io version 1 DOI 10.17504/protocols.io.rm7vzy7k8lx1/v1"
+      ],
+      "oligo_scraper": "Ran tools/scrape_primers.py on retrieved bundle; candidate hits checked only within the named source scope. Fetched preprints do not supply published evidence."
+    },
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Scoped implementation pass, not a complete or independent source review",
+      "locations": "Published Methods 137\u2013175; TableS3 all36 Kir2.1 primer rows; FigureS2 original page2 and caption",
+      "documents": 3,
+      "findings": "Implemented nine independent sublibrary branches, source primer-written BsaI ends, inferred insert-side junctions, separate BsmBI donor/recipient transfer, explicit unmodelled assay boundary and Nextera XT/IDT UD sequencing route with unknown exact product/length/cycles.",
+      "deferred": [
+        "Cited protocols.io version1 DOI10.17504/protocols.io.rm7vzy7k8lx1/v1",
+        "Actual Kir2.1 oligo members and cited predecessor reference sequence",
+        "Source landing-pad donor/recipient maps and exact kit/index product originals",
+        "Other target-specific branches and full linked-source/independent review"
+      ],
+      "oligo_scraper": "Ran tools/scrape_primers.py; read source TableS3 and FigureS2. Superseded preprint inputs excluded. Published large OLS CSV header and first four row names only inspected for inventory, not searched as a Kir2.1 source."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full source/link inventory and independent checks pending; no absence conclusion accepted."
+  },
+  "pending_sources": [
+    "Cited protocols.io version1 DOI10.17504/protocols.io.rm7vzy7k8lx1/v1",
+    "Actual Kir2.1 oligo members and cited predecessor reference sequence",
+    "Source landing-pad donor/recipient maps and exact kit/index product originals",
+    "Other target-specific branches and full linked-source/independent review"
+  ],
+  "missing_claims": [],
+  "conclusion": "Source-scoped Kir2.1 graph and native SVG implemented. Known primer-written backbone ends independently checked. Insert-side junctions inferred, not a complete assembly proof; remaining source assignments and independent full review pending. No absence claim accepted."
+}

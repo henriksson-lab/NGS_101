@@ -209,7 +209,9 @@ def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
     files["assets/anneal_worker.mjs"] = ROOT / "assets" / "anneal_worker.mjs"
 
     skipped = []
-    public_dirs = {r["dir"] for r in build_index.cat.ours() if r["section"] == "published"}
+    public_dirs = {r["dir"] for r in build_index.cat.ours()
+                   if r["section"] == "published"
+                   and r["status"] in build_index.FINISHED_SCHEMATIC_STATUSES}
     for d, (ok, why) in sorted(results.items()):
         if d not in public_dirs:
             continue
@@ -348,7 +350,9 @@ def build_annotation(results: dict[str, tuple[bool, str]]) -> None:
     for row in build_index.cat.ours():
         directory = row["dir"]
         output = build_index.diagram_out(directory)
-        if row["section"] == "published" and results.get(directory, (False, ""))[0] and output is not None:
+        if (row["section"] == "published"
+                and row["status"] in build_index.FINISHED_SCHEMATIC_STATUSES
+                and results.get(directory, (False, ""))[0] and output is not None):
             eligible.append({"id": directory, "title": row["protocol"], "url": rel(output)})
     with tempfile.TemporaryDirectory(prefix="chem-sequence-index-") as temp:
         eligibility = Path(temp) / "eligible.json"
@@ -385,7 +389,8 @@ def main() -> int:
     bad = check_links() + audit()
 
     built = len(results) - len(failed)
-    public_rows = [r for r in build_index.cat.ours() if r["section"] == "published"]
+    public_rows = [r for r in build_index.cat.ours() if r["section"] == "published"
+                   and r["status"] in build_index.FINISHED_SCHEMATIC_STATUSES]
     public_dirs = {r["dir"] for r in public_rows}
     public_built = sum(d in public_dirs and ok for d, (ok, _) in results.items())
     graph_complete = graph_complete_pages(results)
@@ -394,6 +399,13 @@ def main() -> int:
     missing_graph = sorted(ngs_built - graph_complete)
     for d in missing_graph:
         bad.append(f"{d}: documented sequencing page lacks a publishable ProtocolGraph")
+    construct_dirs = {r["dir"] for r in public_rows if r["status"] == "construct"}
+    construct_built = {d for d in construct_dirs if results.get(d, (False, ""))[0]}
+    for d in sorted(construct_built):
+        page_out = build_index.diagram_out(d)
+        if (d not in graph_complete or page_out is None
+                or 'data-protocol-output="constructed DNA"' not in page_out.read_text()):
+            bad.append(f"{d}: construct page lacks a publishable construct-output graph")
     for b in bad:
         print(f"  BROKEN  {b}")
     print(f"\n{built} of {len(results)} diagram pages built; "
@@ -401,7 +413,8 @@ def main() -> int:
           + (f"; left out (stand-in page instead): {', '.join(skipped)}" if skipped else ""))
     print(f"{len(graph_complete & ngs_dirs)} of {len(ngs_built)} built documented NGS "
           "schematics satisfy the typed protocol-graph completeness contract; "
-          f"{sum(r['status'] == 'assay' for r in public_rows)} non-sequencing assay pages are explicit")
+          f"{sum(r['status'] == 'assay' for r in public_rows)} non-sequencing assay pages are explicit; "
+          f"{len(construct_built)} construct assembly pages have explicit construct endpoints")
     if bad:
         print(f"{len(bad)} problem(s) in _site/ -- not deployable", file=sys.stderr)
         return 1

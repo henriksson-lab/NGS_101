@@ -11,6 +11,7 @@ from enum import Enum
 
 from chemdraw import Construct, Scene, bases_pair
 from circular import ClosedCircle, RCAProduct, rolling_circle
+from cohesive_assembly import CircularCohesiveAssembly, CohesiveFragment
 from end_combinations import EndCombinationGeometry, LoadedEndPool, validate_groups
 from pcr import PCRGeometry
 from protocol_graph import (InputRole, MaterialKind, MolecularRelation,
@@ -168,6 +169,67 @@ def _transition(graph: ProtocolGraph, step,
     if step.kind is StepKind.MAGIC:
         return Claim(target, question, Status.UNRESOLVED,
                      f"unmodelled transition: {step.reason}")
+    if relation is MolecularRelation.COHESIVE_ASSEMBLY:
+        question = relation.value
+        geometry = step.geometry
+        if not isinstance(geometry, CircularCohesiveAssembly):
+            return Claim(target, question, Status.UNRESOLVED,
+                         "explicit circular cohesive-fragment geometry is required")
+        ports = [port.material for port in step.inputs
+                 if port.role in {InputRole.TEMPLATE, InputRole.STRUCTURAL}]
+        declared = dict(geometry.fragments)
+        if len(ports) != len(set(ports)) or set(ports) != set(declared):
+            return Claim(target, question, Status.CONTRADICTORY,
+                         "assembly geometry does not account for the molecular input IDs")
+        fragments = []
+        for identifier, declared_fragment in geometry.fragments:
+            actual = _chemical(graph.materials[identifier])
+            if not isinstance(actual, CohesiveFragment):
+                return Claim(target, question, Status.UNRESOLVED,
+                             f"input {identifier} has no declared cohesive fragment state")
+            actual_core = "".join(seg.top for seg in actual.core).upper()
+            declared_core = "".join(seg.top for seg in declared_fragment.core).upper()
+            if (actual.left, actual.right, actual.left_polarity, actual.right_polarity) != (
+                    declared_fragment.left, declared_fragment.right,
+                    declared_fragment.left_polarity, declared_fragment.right_polarity):
+                return Claim(target, question, Status.CONTRADICTORY,
+                             f"geometry changes the known cohesive ends of {identifier}")
+            if actual_core != declared_core:
+                uncertain_core = any(seg.placeholder or seg.inferred or set(seg.top.upper()) - set("ACGT")
+                                     for fragment in (actual, declared_fragment) for seg in fragment.core)
+                return Claim(target, question,
+                             Status.UNRESOLVED if uncertain_core else Status.CONTRADICTORY,
+                             f"geometry and input core differ for {identifier}; "
+                             + ("unspecified cores do not establish sequence identity"
+                                if uncertain_core else "known core DNA is changed"))
+            fragments.append(actual)
+        if any((a.right, a.right_polarity) != (b.left, b.left_polarity)
+               for a, b in zip(fragments, fragments[1:] + fragments[:1])):
+            return Claim(target, question, Status.CONTRADICTORY,
+                         "consecutive fragments have incompatible cohesive ends")
+        products = [_chemical(graph.materials[out]) for out in step.outputs
+                    if graph.materials[out].kind is not MaterialKind.WASTE]
+        if len(products) != 1 or not isinstance(products[0], Construct):
+            return Claim(target, question, Status.UNRESOLVED,
+                         "one molecular product strand is required")
+        expected = "".join(fragment.left + "".join(seg.top for seg in fragment.core)
+                           for fragment in fragments)
+        observed = products[0].top().upper()
+        expected = expected.upper()
+        uncertain = (_uncertain_construct(products[0]) or any(
+            seg.placeholder or seg.inferred or set(seg.top.upper()) - set("ACGT")
+            for fragment in fragments for seg in fragment.core))
+        if len(observed) != len(expected) or observed not in expected + expected:
+            return Claim(target, question,
+                         Status.UNRESOLVED if uncertain else Status.CONTRADICTORY,
+                         "unspecified sequence prevents an exact product comparison"
+                         if uncertain else
+                         "product changes fragment order, core sequence or fusion multiplicity")
+        return Claim(target, question,
+                     Status.CONDITIONAL if uncertain else Status.ESTABLISHED,
+                     "declared ends and ordered cores agree with one fusion per seam; "
+                     + ("cores include unspecified or inferred sequence; " if uncertain else "")
+                     + "digestion, reaction efficiency and competing products are not established")
     if relation is MolecularRelation.END_COMBINATIONS:
         question = "all loaded end combinations match their two-primer library fate"
         pools = [graph.materials[port.material].chemical_state for port in step.inputs

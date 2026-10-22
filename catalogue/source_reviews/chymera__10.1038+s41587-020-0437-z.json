@@ -1,0 +1,134 @@
+{
+  "dir": "chymera__10.1038+s41587-020-0437-z",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41587-020-0437-z",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Published original supplied by user2026-10-22; printed DOI verified; bounded reading recorded below."
+    },
+    {
+      "id": "protocol2021",
+      "role": "detailed_protocol",
+      "locator": "10.1038/s41596-021-00595-1; PMC12314557_PMC12314557.xml in defining protocol source folder",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "detailed_2021",
+      "role": "detailed_protocol",
+      "locator": "https://doi.org/10.1038/s41596-021-00595-1; /husky/henriksson/NGS101_papers/sources/chymera__10.1038+s41587-020-0437-z/PMC12314557_PMC12314557.xml",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "published_si_2020",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chymera__10.1038+s41587-020-0437-z/s41587-020-0437-z_41587_2020_437_MOESM1_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "table14_2020",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chymera__10.1038+s41587-020-0437-z/s41587-020-0437-z_41587_2020_437_MOESM16_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "geo_series",
+      "role": "linked_material",
+      "locator": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE144281&targ=self&form=text&view=full",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "2020 publisher article Data availability"
+    },
+    {
+      "id": "upload_20261022_s41587-020-0437-z_pdf",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/chymera__10.1038+s41587-020-0437-z/s41587-020-0437-z.pdf",
+      "availability": "available",
+      "relevance": "relevant"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Initial defining-source layer; partial reading only, not either independent full review pass",
+      "locations": "Published bibliographic record; author-PDF 404 and publisher identity-service redirect",
+      "findings": "Main Methods not yet read. ESM retrieval does not verify chemistry.",
+      "documents": 0,
+      "deferred": [
+        "Defining published article DOI 10.1038/s41587-020-0437-z",
+        "Published detailed protocol DOI 10.1038/s41596-021-00595-1 (PMC12314557)",
+        "Defining article published ESM chemistry supplements"
+      ]
+    },
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "Partial later-method and original-supplement reading; not inheritance validation",
+      "documents": 2,
+      "locations": "2021 detailed protocol identity, Experimental Design cloning/NGS, JATS60–108 and584–690; 2020 SI identity and extracted captions only",
+      "findings": "2021 distinguishes two successive pooled cloning assemblies, nested PCR index/stagger alternatives and separate focused-cloning options. No source choice assigned to2020 without applicability checks; no physical delivery pathway modelled.",
+      "deferred": [
+        "2020 defining main Methods",
+        "2021 Table1 and original Figures4/5",
+        "2021 second assembly and complete NGS-library section",
+        "Source-specific applicability and independent full review"
+      ],
+      "oligo_scraper": "Ran complete-bundle scraper; large guide-screen workbooks skipped by size limit, not negative evidence. Used source text pointers only within recorded sections."
+    },
+    {
+      "round": "2026-10-21-pooled-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-21",
+      "scope": "2021 scoped implementation; 2020 source equality limited to named primer rows. Four originals including metadata previews were touched, exceeding the three-original cap; no further original was followed in this pass.",
+      "documents": 4,
+      "locations": "2021 pooled Steps34–69, Table1 six primer rows, nested-PCR/acquisition Steps126–140 and Figs4/5 captions; 2020 Table14 six named primer rows; publisher preview identity/supplement inventory and GEO-series title/summary/overall-design fields only",
+      "findings": "Implemented 2021 two-round paired-spacer/scaffold assembly, separate ssDNA input and known primer-tail PCR product, recipient-side stuffer cuts, inferred donor junctions, explicit downstream assay boundary and nested readout. Example A502/A701 indexes are not experimental sample assignments. Step139 read-side naming versus source oligo/primer orientation remains unresolved and public.",
+      "deferred": [
+        "2020 main Methods and component applicability",
+        "Original2021 Figures4/5 graphics and read-side reconciliation",
+        "pLCHKO and TOPO donor maps, end geometry and genomic coordinates",
+        "GSE144281 sample-specific preparation methods",
+        "Focused/higher-order branches and independent full review"
+      ],
+      "oligo_scraper": "Bundle scraper run; large-workbook exclusions retained. Seven graph oligo inputs source-match, six named primers also checked directly against2020 Table14. No absence claim."
+    },
+    {
+      "round": "2026-10-22-uploaded-originals",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Supplied-original bounded follow-up; not an independent full source review",
+      "documents": 1,
+      "locations": "## Supplied 2020 article, 2026-10-22\n\nThe user supplied the original publisher PDF `s41587-020-0437-z.pdf`; its printed own\nDOI/title were verified and its chemistry-relevant Methods subsections inspected:\n“Lentiviral hgRNA library construction” (construction portion only) and\n“Preparation of CRISPR sequencing libraries and Illumina sequencing”. Ran the primer\nscraper on that original and reviewed the relevant construction/readout pointers.\nThe downstream delivery, target optimization and functional-selection procedures are\noutside the current model and were not incorporated.",
+      "findings": "🟢 The 2020 Methods independently describe the113-nt paired-spacer pool and two\nsuccessive construction rounds, with32-nt stuffer, BfuAI-flanked pool, BveI insert\nprocessing, BfuAI/BspMI recipient processing and later Esp3I/BsmBI opening. This confirms\nthe broad architecture, not identity of every2021 reagent choice, condition or map.\nThe page continues to identify the exact2021 detailed protocol as its implemented recipe.\n\n🟢 The2020 readout explicitly differs:29 dark cycles then31 imaged bases for Cas12a,\n20 dark cycles then30 imaged bases for Cas9, with8-base indexes on each side. Step139\nof the2021 protocol instead gives27 imaged bases for each side. The page now presents\nthis as version-specific acquisition, retaining the2021 values and the unresolved\nread-side orientation. A later recipe must not silently overwrite the defining article.\n\nThe previously requested2020 main is now available and partially reviewed; remaining\nwork is exact component/map applicability, original figure/read-side reconciliation and\nindependent full review. No complete review or missing-information conclusion is implied.\n",
+      "oligo_scraper": "Ran tools/scrape_primers.py on the supplied original or full relevant bundle; verified relevant source pointers; no negative disclosure claim.",
+      "deferred": [
+        "Original2021 Figures4/5 graphics and read-side reconciliation",
+        "pLCHKO and TOPO donor maps, end geometry and genomic coordinates",
+        "GSE144281 sample-specific preparation methods",
+        "Focused/higher-order branches and independent full review"
+      ]
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full source/link inventory and independent checks pending; no absence conclusion accepted."
+  },
+  "pending_sources": [
+    "Original2021 Figures4/5 graphics and read-side reconciliation",
+    "pLCHKO and TOPO donor maps, end geometry and genomic coordinates",
+    "GSE144281 sample-specific preparation methods",
+    "Focused/higher-order branches and independent full review"
+  ],
+  "missing_claims": [],
+  "conclusion": "Supplied published originals received and bounded chemistry/readout follow-up recorded2026-10-22. See latest bounded check for resolved and remaining model tasks. Full linked-source and independent review remain incomplete; no absence conclusion accepted."
+}
