@@ -1,0 +1,36 @@
+{
+  "dir": "user-cloning__10.1093+nar+gkm041",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "defining",
+      "role": "defining",
+      "locator": "https://doi.org/10.1093/nar/gkm041; nar_gkm041_PMC1874603.xml",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Bounded source scope: Published abstract/Introduction and Results USER enzyme activity, JATS lines20\u201330,108\u2013112. Table1 inspected as context; no oligo adopted."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-23-foundational-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-23",
+      "scope": "Illustrative example mechanism only; source-defined method distinct from invented sequences",
+      "locations": "Published abstract/Introduction and Results USER enzyme activity, JATS lines20\u201330,108\u2013112. Table1 inspected as context; no oligo adopted.",
+      "findings": "reference uracil excision and repair boundary; illustrative metadata and invented bases explicit.",
+      "documents": 1,
+      "oligo_scraper": "Run on external bundle. No source oligo adopted; empty extraction is not absence evidence.",
+      "deferred": [
+        "Actual recipient nicking/restriction preparation, source primer maps, detailed removed species and independent linked-source review.",
+        "Complete source/link inventory and independent review"
+      ],
+      "verification": "Seven illustrative pages: local11 checks pass; assembly negative controls14 pass; shared1405/source227/catalogue83/sequence-export35 pass. Legacy MoClo1 and YTK13 pass. Pairing0 problems; source guard0 exact source oligos (invented inputs explicitly qualified); chemistry51 conditional6 unresolved0 contradictory. Full site433/433 diagrams426 finished schematics and all relative links pass. Seven public example classifications and reference-export exclusion directly verified. Full source reviews remain in_progress; retrieval follow-up in geturl.txt."
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full original or directly linked document inventory and independent review remain incomplete within capped scope; see deferred targets."
+  }
+}

@@ -8,6 +8,9 @@ from __future__ import annotations
 
 
 EXACT = {
+    "topo-ta-cloning": "Thermo Fisher Scientific / Invitrogen",
+    "q5-site-directed-mutagenesis": "New England Biolabs",
+    "quikchange-ii-site-directed-mutagenesis": "Agilent Technologies",
     "surecell-3-wta-for-ddseq": "Illumina / Bio-Rad",
     "dnbseq-library-circularization": "MGI Tech",
     "repli-g-single-cell": "QIAGEN",

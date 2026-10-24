@@ -1,0 +1,42 @@
+{
+  "dir": "megawhop__10.2144+02335st03",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "abstract",
+      "role": "defining",
+      "locator": "https://pubmed.ncbi.nlm.nih.gov/12449380/",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://www.tandfonline.com/doi/pdf/10.2144/02335st03",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher retrieval returned HTTP403 within capped pass; abstract is not full methods."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-22-inverse-pcr-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Generic topology only; not full source or absence review",
+      "locations": "primary PubMed abstract PMID12449380; publisher PDF403",
+      "findings": "Abstract-scoped synthesis graph; full original methods and product topology unresolved. Not published as a schematic.",
+      "documents": 2,
+      "oligo_scraper": "Run on external source bundle; sequences not adopted in this generic model.",
+      "deferred": [
+        "Full original methods/figures and exact sequence maps",
+        "Complete linked-source inventory and independent review"
+      ]
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Original methods unavailable; links cannot yet be inventoried."
+  }
+}

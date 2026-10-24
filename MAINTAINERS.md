@@ -317,6 +317,22 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[1] / "lib"))
 ```
 
+## Illustrative examples and method metadata
+
+`ours.tsv` records `representation` separately from status and assay facets:
+`illustrative_example`, `published_instance`, `own_design`, or `unspecified`.
+Legacy entries remain unspecified until reviewed; a paper citation never proves that an
+invented example was used experimentally. For cloning, use the DNA-construct-assembly
+facet and typed `construct` endpoint, with sequencing facets inapplicable to that scope.
+
+An illustrative graph declares `representation="illustrative_example"` and a nonempty
+`example_description` identifying invented components and limits. Shared rendering adds
+the public label; the index rejects a labelled catalogue entry whose page omits it.
+Invented DNA remains inferred in drawings and separate from source-backed mechanism.
+Both the sequence exporter and graph extraction exclude illustrative examples from
+annotation and sample-sheet reference data. Concrete source recognition sites must be
+verified, or explicitly unassigned; do not invent functional sites merely to fill a map.
+
 ## Conventions
 
 **Drawing.** Duplex ladders draw the bottom strand as the plain *complement* of the top
@@ -558,3 +574,10 @@ needs network access to the pinned CDN and permission to bind a local test serve
 The standalone `tools/build_anneal_prototype.py` remains available for testing a separately
 downloaded local runtime without changing site output. See [the design and benchmark
 record](plans/annealing.md) for limits and measurements.
+
+### Parenthesized DOI suffixes
+
+The slash-to-plus directory convention preserves other DOI punctuation, including
+parentheses in older publisher identifiers. Pass paths as subprocess arguments or
+quote them in shell commands, for example:
+`python3 tools/protocol.py test 'soe-pcr__10.1016+0378-1119(89)90359-4'`.

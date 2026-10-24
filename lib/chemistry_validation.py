@@ -9,8 +9,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum
 
-from chemdraw import Construct, Scene, bases_pair
+from chemdraw import Construct, Scene, bases_pair, revcomp
 from circular import ClosedCircle, RCAProduct, rolling_circle
+from assembly_geometry import StrandRetention, BridgedAssembly, OverlapExtension, ActivatedEndTransfer, DuplexEndState, LinearFivePrimeAssembly, CircularOverlapReference, strands as cohesive_strands
 from cohesive_assembly import CircularCohesiveAssembly, CohesiveFragment
 from end_combinations import EndCombinationGeometry, LoadedEndPool, validate_groups
 from pcr import PCRGeometry
@@ -59,6 +60,20 @@ def warnings(graph: ProtocolGraph) -> tuple[ValidationWarning, ...]:
 
 def _chemical(material):
     return material.chemical_state if material.chemical_state is not None else material.state
+
+
+def _duplex_reference_construct(value):
+    """Read an explicitly supplied full duplex view as one reference axis."""
+    if isinstance(value,Construct):
+        return value
+    if isinstance(value,Scene) and set(value.strands)=={'top','bottom'}:
+        top,bottom=value.strands['top'],value.strands['bottom']
+        a=''.join(seg.top for seg in top.segs);b=''.join(seg.top for seg in bottom.segs)
+        if (not top.rev and bottom.rev and top.col==bottom.col and len(a)==len(b)
+                and bottom.partner=='top' and not top.unpaired and not bottom.unpaired
+                and a.upper()==revcomp(b).upper()):
+            return Construct(tuple(top.segs),'explicit duplex reference')
+    return None
 
 
 def _uncertain_construct(value: Construct) -> bool:
@@ -139,7 +154,7 @@ def _pcr(target: str, geometry: PCRGeometry) -> Claim:
         if claimed not in hits:
             return Claim(target, question, Status.CONTRADICTORY,
                          f"{primer.name} claimed site is absent from the declared template")
-        uncertain |= (bool(set(primer.sequence.upper()) - set("ACGT"))
+        uncertain |= (primer.inferred or bool(set(primer.sequence.upper()) - set("ACGT"))
                       or _uncertain_construct_window(geometry.template,
                                                      claimed.start, claimed.end))
     return Claim(target, question,
@@ -162,6 +177,31 @@ def _cut(target: str, digest: Digest) -> Claim:
                  "both strand paths and the cohesive end follow the declared site cuts")
 
 
+def _circular_overlap_reference(graph, step) -> Claim:
+    """Check intended reference arithmetic, independently of unmodelled chemistry."""
+    target=step.id
+    geom=step.geometry
+    if not isinstance(geom,CircularOverlapReference):
+        return Claim(target,"conditional circular reference",Status.UNRESOLVED,'explicit duplex-map overlap reference required')
+    ports={p.material for p in step.inputs if p.role in {InputRole.TEMPLATE,InputRole.STRUCTURAL} and graph.materials[p.material].kind is MaterialKind.MOLECULAR}
+    if ports!={i for i,_,_,_ in geom.parts}:
+        return Claim(target,"conditional circular reference",Status.CONTRADICTORY,'reference order changes molecular contributors')
+    maps=[]
+    for identifier,declared,left,right in geom.parts:
+        actual=_chemical(graph.materials[identifier])
+        if not isinstance(actual,Construct):
+            return Claim(target,"conditional circular reference",Status.UNRESOLVED,'an actual duplex reference map is required')
+        if actual.top()!=declared.top():
+            return Claim(target,"conditional circular reference",Status.CONTRADICTORY,'actual duplex map differs from intended reference')
+        maps.append((actual,left,right))
+    if any(ra!=lb or a.top()[-ra:]!=b.top()[:lb] for (a,_,ra),(b,lb,_) in zip(maps,maps[1:]+maps[:1])):
+        return Claim(target,"conditional circular reference",Status.CONTRADICTORY,'reference overlaps differ')
+    expected=''.join(c.top()[:-r] for c,_,r in maps)
+    products=[_chemical(graph.materials[o]) for o in step.outputs if isinstance(_chemical(graph.materials[o]),Construct)]
+    if len(products)!=1 or products[0].top()!=expected:
+        return Claim(target,"conditional circular reference",Status.CONTRADICTORY,'intended reference loses, changes or duplicates an overlap')
+    return Claim(target,"conditional circular reference",Status.CONDITIONAL,'Only intended circular reference order is checked; resection, recombination, repair, closure and biological recovery remain unestablished')
+
 def _transition(graph: ProtocolGraph, step,
                 relation: MolecularRelation | None) -> Claim:
     target = step.id
@@ -169,6 +209,133 @@ def _transition(graph: ProtocolGraph, step,
     if step.kind is StepKind.MAGIC:
         return Claim(target, question, Status.UNRESOLVED,
                      f"unmodelled transition: {step.reason}")
+    if relation is MolecularRelation.LINEAR_COHESIVE_ASSEMBLY:
+        geom=step.geometry
+        if not isinstance(geom,LinearFivePrimeAssembly):
+            return Claim(target,relation.value,Status.UNRESOLVED,'explicit linear fragment order required')
+        ports={p.material for p in step.inputs if p.role in {InputRole.TEMPLATE,InputRole.STRUCTURAL}}
+        if ports!={i for i,_ in geom.fragments}:
+            return Claim(target,relation.value,Status.CONTRADICTORY,'linear geometry changes contributors')
+        fragments=[]
+        for identifier,declared in geom.fragments:
+            actual=_chemical(graph.materials[identifier])
+            if not isinstance(actual,CohesiveFragment):
+                return Claim(target,relation.value,Status.UNRESOLVED,'explicit actual cohesive fragments required')
+            if cohesive_strands(actual)!=cohesive_strands(declared):
+                return Claim(target,relation.value,Status.CONTRADICTORY,'linear assembly changes an input strand')
+            fragments.append(actual)
+        if any(a.right!=b.left or (a.right_polarity,b.left_polarity)!=('5-prime','5-prime') for a,b in zip(fragments,fragments[1:])):
+            return Claim(target,relation.value,Status.CONTRADICTORY,'linear seams do not pair')
+        products=[_chemical(graph.materials[o]) for o in step.outputs if isinstance(_chemical(graph.materials[o]),CohesiveFragment)]
+        expected=''.join(('' if i==0 else f.left)+''.join(s.top for s in f.core) for i,f in enumerate(fragments))
+        if len(products)!=1 or ''.join(s.top for s in products[0].core)!=expected or (products[0].left,products[0].right,products[0].left_polarity,products[0].right_polarity)!=(fragments[0].left,fragments[-1].right,'5-prime','5-prime'):
+            return Claim(target,relation.value,Status.CONTRADICTORY,'linear product loses external ends or changes seam multiplicity')
+        return Claim(target,relation.value,Status.CONDITIONAL if products[0].inferred or any(s.inferred or s.placeholder for s in products[0].core) else Status.ESTABLISHED,'Ordered cores and internal seams agree; external ends are retained, not joined. End-group declarations are preconditions, not experimental evidence')
+    if relation is MolecularRelation.ACTIVATED_END_TRANSFER:
+        geom=step.geometry
+        if not isinstance(geom,ActivatedEndTransfer):
+            return Claim(target,relation.value,Status.UNRESOLVED,'explicit activated end chemistry required')
+        ports={p.material for p in step.inputs if p.role in {InputRole.TEMPLATE,InputRole.STRUCTURAL}}
+        if ports!={geom.vector_id,geom.insert_id}:
+            return Claim(target,relation.value,Status.CONTRADICTORY,'transfer changes molecular contributors')
+        for identifier,declared in ((geom.vector_id,geom.vector),(geom.insert_id,geom.insert)):
+            actual=_chemical(graph.materials[identifier])
+            if not isinstance(actual,DuplexEndState) or (actual.top5,actual.top3,actual.bottom5,actual.bottom3)!=(declared.top5,declared.top3,declared.bottom5,declared.bottom3) or cohesive_strands(actual.fragment)!=cohesive_strands(declared.fragment):
+                return Claim(target,relation.value,Status.CONTRADICTORY,'actual substrate end groups or strands differ from transfer geometry')
+        if (geom.vector.top3,geom.vector.bottom3)!=('phosphotyrosyl','phosphotyrosyl') or (geom.insert.top5,geom.insert.bottom5)!=('OH','OH'):
+            return Claim(target,relation.value,Status.CONTRADICTORY,'activated donor/hydroxyl acceptor requirement is not met')
+        a,b=geom.insert.fragment,geom.vector.fragment
+        if (a.right,a.right_polarity)!=(b.left,b.left_polarity) or (b.right,b.right_polarity)!=(a.left,a.left_polarity):
+            return Claim(target,relation.value,Status.CONTRADICTORY,'declared donor and insert ends do not pair')
+        expected=a.left+''.join(s.top for s in a.core)+b.left+''.join(s.top for s in b.core)
+        products=[_chemical(graph.materials[o]) for o in step.outputs if isinstance(_chemical(graph.materials[o]),Construct)]
+        if len(products)!=1 or products[0].top()!=expected:
+            return Claim(target,relation.value,Status.CONTRADICTORY,'transfer reference loses or changes a contributor')
+        return Claim(target,relation.value,Status.CONDITIONAL if _uncertain_construct(products[0]) else Status.ESTABLISHED,'Activated donor and hydroxyl acceptor end declarations and paired reference order agree. Remaining strand closures and biological recovery are not established')
+    if relation is MolecularRelation.PCR_PRODUCT:
+        geom=step.geometry
+        if not isinstance(geom,PCRGeometry) or geom.availability!='exact':
+            return Claim(target,relation.value,Status.UNRESOLVED,'exact primer-binding geometry required')
+        templates=[_chemical(graph.materials[p.material]) for p in step.inputs if p.role is InputRole.TEMPLATE]
+        oligos=[_chemical(graph.materials[p.material]) for p in step.inputs if p.role is InputRole.STRUCTURAL]
+        if geom.amplicon_id and geom.amplicon_id not in step.outputs:
+            return Claim(target,relation.value,Status.CONTRADICTORY,'declared amplicon is not an output of this PCR')
+        output_ids=(geom.amplicon_id,) if geom.amplicon_id else step.outputs
+        actual=[_chemical(graph.materials[o]) for o in output_ids if isinstance(_chemical(graph.materials[o]),Construct)]
+        if len(templates)!=1 or not isinstance(templates[0],Construct) or templates[0].top()!=geom.template.top():
+            return Claim(target,relation.value,Status.CONTRADICTORY,'PCR template differs from binding geometry')
+        if not all(isinstance(o,Construct) for o in oligos) or sorted(o.top() for o in oligos)!=sorted((geom.forward.sequence,geom.reverse.sequence)):
+            return Claim(target,relation.value,Status.CONTRADICTORY,'input primer polymers differ from geometry')
+        expected=geom.forward.sequence+templates[0].top()[geom.forward_hit.end:geom.reverse_hit.start]+revcomp(geom.reverse.sequence)
+        if len(actual)!=1 or actual[0].top()!=expected:
+            return Claim(target,relation.value,Status.CONTRADICTORY,'product changes primer tails or retained template interval')
+        return Claim(target,relation.value,Status.CONDITIONAL if _uncertain_construct(actual[0]) else Status.ESTABLISHED,'Reference primer polymers and selected template interval agree; terminal additions, errors and yield are outside scope')
+    if relation is MolecularRelation.OVERLAP_EXTENSION:
+        geom=step.geometry
+        if not isinstance(geom,OverlapExtension):
+            return Claim(target,relation.value,Status.UNRESOLVED,'explicit terminal overlap required')
+        declared=((geom.left_id,geom.left),(geom.right_id,geom.right))
+        ports={p.material for p in step.inputs if p.role in {InputRole.TEMPLATE,InputRole.STRUCTURAL}}
+        if ports!={geom.left_id,geom.right_id}:
+            # A separately drawn active pair retains its molecular parents; it is
+            # not a new covalent template or an excuse to skip their provenance.
+            if len(ports)!=1:
+                return Claim(target,relation.value,Status.CONTRADICTORY,'overlap geometry changes contributing inputs')
+            active_id=next(iter(ports));active=_chemical(graph.materials[active_id])
+            producer=graph.producer_of(active_id)
+            if (not isinstance(active,OverlapExtension) or producer is None
+                    or producer.kind is not StepKind.HYBRIDIZATION
+                    or {p.material for p in producer.inputs if p.role in {InputRole.TEMPLATE,InputRole.STRUCTURAL}}!={geom.left_id,geom.right_id}
+                    or active.left.top()!=geom.left.top() or active.right.top()!=geom.right.top()
+                    or active.overlap_nt!=geom.overlap_nt):
+                return Claim(target,relation.value,Status.CONTRADICTORY,'active pair does not retain the declared contributing fragment geometry')
+        for identifier,con in declared:
+            actual=_chemical(graph.materials[identifier])
+            if not isinstance(actual,Construct) or actual.top()!=con.top():
+                return Claim(target,relation.value,Status.CONTRADICTORY,'fragment differs from declared overlap')
+        products=[_chemical(graph.materials[o]) for o in step.outputs if isinstance(_chemical(graph.materials[o]),Construct)]
+        n=geom.overlap_nt
+        if geom.left.top()[-n:]!=geom.right.top()[:n] or len(products)!=1 or products[0].top()!=geom.left.top()+geom.right.top()[n:]:
+            return Claim(target,relation.value,Status.CONTRADICTORY,'product duplicates, loses or changes the shared interval')
+        return Claim(target,relation.value,Status.CONDITIONAL if _uncertain_construct(products[0]) else Status.ESTABLISHED,'Two reference fragments share the declared overlap once; successful extension and competing products are not established')
+    if relation is MolecularRelation.STRAND_RETENTION:
+        geometry=step.geometry
+        if not isinstance(geometry,StrandRetention):
+            return Claim(target,relation.value,Status.UNRESOLVED,'explicit retained strand intervals required')
+        if geometry.input_id not in {p.material for p in step.inputs} or geometry.output_id not in step.outputs:
+            return Claim(target,relation.value,Status.CONTRADICTORY,'interval geometry names different reaction materials')
+        before=_chemical(graph.materials[geometry.input_id]);after=_chemical(graph.materials[geometry.output_id])
+        if not isinstance(before,Scene) or not isinstance(after,CohesiveFragment):
+            return Claim(target,relation.value,Status.UNRESOLVED,'parent duplex Scene and cohesive product required')
+        actual=tuple(''.join(s.top for s in strand.segs) for strand in before.strands.values())
+        if actual != (geometry.top,geometry.bottom) or cohesive_strands(after) != cohesive_strands(geometry.fragment):
+            return Claim(target,relation.value,Status.CONTRADICTORY,'physical parent/product strands differ from retained intervals')
+        kept=(actual[0][slice(*geometry.top_span)],actual[1][slice(*geometry.bottom_span)])
+        uncertain = after.inferred or any(seg.inferred or seg.placeholder for strand in before.strands.values() for seg in strand.segs)
+        return Claim(target,relation.value,Status.CONDITIONAL if uncertain else Status.ESTABLISHED,
+                     'Explicit physical strands match retained intervals; enzyme specificity and the experimental distribution of ends are not established') if kept==cohesive_strands(after) else Claim(target,relation.value,Status.CONTRADICTORY,'retained bases differ')
+    if relation is MolecularRelation.BRIDGED_ASSEMBLY:
+        geometry=step.geometry
+        if not isinstance(geometry,BridgedAssembly):
+            return Claim(target,relation.value,Status.UNRESOLVED,'explicit bridge geometry required')
+        for identifier,con in geometry.fragments:
+            if identifier not in graph.materials:
+                return Claim(target,relation.value,Status.CONTRADICTORY,'geometry names an unknown reaction material')
+            actual=_chemical(graph.materials[identifier])
+            if identifier not in {p.material for p in step.inputs} or not isinstance(actual,Construct) or actual.top()!=con.top():
+                return Claim(target,relation.value,Status.CONTRADICTORY,'fragment input differs from bridge geometry')
+        for identifier,sequence in geometry.bridges:
+            if identifier not in graph.materials:
+                return Claim(target,relation.value,Status.CONTRADICTORY,'geometry names an unknown reaction material')
+            actual=_chemical(graph.materials[identifier])
+            if identifier not in {p.material for p in step.inputs} or not isinstance(actual,Construct) or actual.top()!=sequence:
+                return Claim(target,relation.value,Status.CONTRADICTORY,'bridge input differs from declared geometry')
+        products=[_chemical(graph.materials[o]) for o in step.outputs if isinstance(_chemical(graph.materials[o]),Construct)]
+        expected=geometry.product('expected').top()
+        if len(products)!=1 or products[0].top()!=expected:
+            return Claim(target,relation.value,Status.CONTRADICTORY,'product incorporates bridge DNA or changes fragment order')
+        return Claim(target,relation.value,Status.CONDITIONAL if _uncertain_construct(products[0]) else Status.ESTABLISHED,
+                     'Bridge arms complement adjacent ends; circular product concatenates only the declared fragments. Ligation chemistry, yield and other products remain outside this relation')
     if relation is MolecularRelation.COHESIVE_ASSEMBLY:
         question = relation.value
         geometry = step.geometry
@@ -207,16 +374,16 @@ def _transition(graph: ProtocolGraph, step,
                for a, b in zip(fragments, fragments[1:] + fragments[:1])):
             return Claim(target, question, Status.CONTRADICTORY,
                          "consecutive fragments have incompatible cohesive ends")
-        products = [_chemical(graph.materials[out]) for out in step.outputs
+        products = [_duplex_reference_construct(_chemical(graph.materials[out])) for out in step.outputs
                     if graph.materials[out].kind is not MaterialKind.WASTE]
-        if len(products) != 1 or not isinstance(products[0], Construct):
+        if len(products) != 1 or products[0] is None:
             return Claim(target, question, Status.UNRESOLVED,
                          "one molecular product strand is required")
         expected = "".join(fragment.left + "".join(seg.top for seg in fragment.core)
                            for fragment in fragments)
         observed = products[0].top().upper()
         expected = expected.upper()
-        uncertain = (_uncertain_construct(products[0]) or any(
+        uncertain = (_uncertain_construct(products[0]) or any(fragment.inferred for fragment in fragments) or any(
             seg.placeholder or seg.inferred or set(seg.top.upper()) - set("ACGT")
             for fragment in fragments for seg in fragment.core))
         if len(observed) != len(expected) or observed not in expected + expected:
@@ -407,6 +574,8 @@ def check_graph(graph: ProtocolGraph) -> tuple[Claim, ...]:
         if isinstance(state, Scene) and state is not material.state:
             claims.extend(_pairing(material.id, state))
     for step in graph.steps.values():
+        if isinstance(step.geometry,CircularOverlapReference):
+            claims.append(_circular_overlap_reference(graph,step))
         if isinstance(step.geometry, PCRGeometry):
             claims.append(_pcr(step.id, step.geometry))
         scenes = getattr(step.geometry, "scenes", ())

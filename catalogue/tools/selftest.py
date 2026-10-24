@@ -63,10 +63,13 @@ check("...because '_' is left alone and only '/' is substituted",
       encode_doi("10.1038/nbt0400_424"), "10.1038+nbt0400_424")
 check("a DOI with TWO slashes round-trips as well (Research Square)",
       encode_doi("10.21203/rs.3.rs-3210240/v1"), "10.21203+rs.3.rs-3210240+v1")
+check("parenthesized publisher DOI suffixes are preserved reversibly",
+      decode_doi(encode_doi("10.1016/0378-1119(89)90359-4")),
+      "10.1016/0378-1119(89)90359-4")
 check("no DOI in the table contains the '+' the scheme reserves",
       [d for d in dois if "+" in d], [])
 check("slugs are filesystem-safe",
-      [s for s in {r["slug"] for r in rows} if not re.fullmatch(r"[A-Za-z0-9._+-]+", s)], [])
+      [s for s in {r["slug"] for r in rows} if not re.fullmatch(r"[A-Za-z0-9._+()-]+", s)], [])
 check("the name and the DOI are separated by '__'",
       [r["slug"] for r in cat.defining() if r["doi"] and "__" not in r["slug"]], [])
 check("a slugified name never contains '__', so the split is unambiguous",
@@ -235,7 +238,7 @@ check("ours.tsv has exactly the declared columns, in order",
 check("the fetcher and catalogue.py agree on those columns", OURS_COLUMNS, cat.OURS_COLUMNS)
 check("...and on each closed vocabulary",
       OURS_VOCAB, {"status": cat.STATUSES, "section": cat.SECTIONS,
-                   "modality": cat.MODALITIES})
+                   "modality": cat.MODALITIES, "representation": cat.REPRESENTATIONS})
 check("the fetcher reads ours.tsv without complaint", len(read_ours()), cat.n_ours())
 check("section is one of published / wip",
       sorted({r["dir"] for r in cat.ours() if r["section"] not in cat.SECTIONS}), [])

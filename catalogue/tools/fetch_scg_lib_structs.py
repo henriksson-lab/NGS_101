@@ -443,12 +443,13 @@ def esummary(pmids: list[str], cache: Path, offline: bool) -> dict[str, dict]:
 # A protocol directory is named "<protocol>__<doi>", e.g.
 #     smart-seq-family__10.1038+nmeth.2639
 # Every "/" in the DOI becomes "+", which is the only substitution needed: "+" is
-# filesystem- and shell-safe and does not occur in DOIs (the selftest checks that for
+# filesystem-safe and does not occur in DOIs (the selftest checks that for
 # every DOI in the table), so decoding is a plain reverse. Replacing only the first "/"
 # would not do -- a Research Square DOI has two (10.21203/rs.3.rs-3210240/v1) -- and
 # using "_" would be ambiguous, because DOI suffixes contain underscores themselves
 # (10.1038/nbt0400_424). "__" separates the name from the DOI; a slugified name never
-# contains a run of underscores.
+# contains a run of underscores. Other DOI punctuation, including parentheses, is
+# retained reversibly; quote complete directory paths in shell commands.
 #
 # DOI rather than PMID because every preprint has one from the day it is posted, and
 # because far more rows here carry a DOI than a PMID. A protocol with no paper at all
@@ -566,10 +567,11 @@ RESOLVED = ("doi", "pmid", "pmcid", "title", "first_author", "journal", "year")
 # ours.tsv: one row per directory of ours. `section` says where the website lists it
 # (published protocols, searchable; or wip, our own unpublished work) -- it is not
 # copied into the scraped table, but a bad value stops the build here rather than later.
-OURS_COLUMNS = ["dir", "protocol", "doi", "status", "section", "modality", "note"]
+OURS_COLUMNS = ["dir", "protocol", "doi", "status", "section", "modality", "representation", "note"]
 OURS_VOCAB = {"status": ("documented", "construct", "assay", "draft", "notes"),
               "section": ("published", "wip"),
-              "modality": ("DNA", "RNA", "multi")}
+              "modality": ("DNA", "RNA", "multi"),
+              "representation": ("unspecified", "published_instance", "illustrative_example", "own_design")}
 
 
 def read_ours(path: Path = OURS) -> list[dict]:

@@ -54,6 +54,7 @@ class StepKind(str, Enum):
     MAGIC = "magic happens"
     INTEGRATION = "genomic integration"
     GENOME_EDITING = "genome editing"
+    SITE_SPECIFIC_RECOMBINATION = "site-specific recombination"
     CROSS_LINKING = "cross-linking"
     PERMEABILIZATION = "permeabilization"
     SOLUBILIZATION = "solubilization"
@@ -102,7 +103,13 @@ class MolecularRelation(str, Enum):
     HAIRPIN_STEM = "intramolecular stem can pair"
     STRAND_ORDER = "covalent strand order is preserved"
     END_COMBINATIONS = "end combinations have the declared primer sites"
+    LINEAR_COHESIVE_ASSEMBLY = "ordered linear assembly retains external cohesive ends"
     COHESIVE_ASSEMBLY = "cohesive ends and ordered circular product sequence agree"
+    ACTIVATED_END_TRANSFER = "activated donor ends accept incoming hydroxyl ends"
+    OVERLAP_EXTENSION = "overlap extension retains one shared interval"
+    PCR_PRODUCT = "amplicon reference follows primer polymers and binding sites"
+    STRAND_RETENTION = "retained physical strand intervals match the declared product"
+    BRIDGED_ASSEMBLY = "splints pair adjacent fragment ends without incorporation"
 
 
 class Disposition(str, Enum):
@@ -347,12 +354,19 @@ class ProtocolGraph:
     """A typed protocol hypergraph built strictly in topological order."""
 
     def __init__(self, name: str, *, authority: str = "",
-                 required_output: Disposition = Disposition.SEQUENCING):
+                 required_output: Disposition = Disposition.SEQUENCING,
+                 representation: str = "unspecified", example_description: str = ""):
         if not name.strip():
             raise ValueError("protocol graph needs a name")
         if not isinstance(required_output, Disposition) or required_output not in {
                 Disposition.SEQUENCING, Disposition.CONSTRUCT}:
             raise ValueError("required output must be sequencing or constructed DNA")
+        if representation not in {"unspecified", "published_instance", "illustrative_example", "own_design"}:
+            raise ValueError("unknown protocol representation")
+        if representation == "illustrative_example" and not example_description.strip():
+            raise ValueError("an illustrative example needs a description of what was invented")
+        self.representation = representation
+        self.example_description = example_description
         self.name = name
         self.authority = authority
         self.required_output = required_output
@@ -601,6 +615,10 @@ class ProtocolGraph:
         elif step.kind is StepKind.PROXIMITY_LIGATION:
             need(InputRole.TEMPLATE, "needs restriction-fragment substrates")
             need(InputRole.CATALYST, "needs a ligase")
+        elif step.kind is StepKind.SITE_SPECIFIC_RECOMBINATION:
+            if roles.count(InputRole.TEMPLATE) < 2:
+                raise ValueError("site-specific recombination needs two explicit molecular templates")
+            need(InputRole.CATALYST, "needs a source-declared recombination catalyst")
         elif step.kind is StepKind.DIGESTION:
             need(InputRole.TEMPLATE, "needs a substrate")
             need(InputRole.CATALYST, "needs a nuclease")

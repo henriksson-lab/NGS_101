@@ -1,0 +1,43 @@
+{
+  "dir": "basic__10.1021+sb500356d",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1021/sb500356d",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Publisher text previously read via indexed primary source; complete local original remains unavailable."
+    },
+    {
+      "id": "published_si",
+      "role": "supplement",
+      "locator": "https://oww-files-public.s3.amazonaws.com/0/02/BASIC_all.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Identified published author-distributed SI, retrieval403. Its actual standard sequences are unassigned, not invented."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-23-cloning-examples-02",
+      "reviewer": "primary-curator",
+      "date": "2026-10-23",
+      "scope": "Capped source-qualified illustrative example only; not a completed experimental-instance or absence review",
+      "locations": "Published publisher main text and Figure1 caption previously inspected; linker-adaptation discussion permits reuse of other TypeIIS parts through adapted ligation ends. Full main original and identified published SI mirror returned403.",
+      "findings": "BsaI releases invented customized precursors. Prefix/suffix linker oligos join linearly with both external overlaps retained. Source purification removes excess free linkers; adapted parts anneal without added ligase and enter an explicit host-repair boundary. Canonical iP/iS and actual source linker sequences remain unassigned.",
+      "documents": 1,
+      "oligo_scraper": "Run on external source bundle. No source oligo adopted; Loop preprint hits explicitly excluded.",
+      "deferred": [
+        "Published main PDF, original Figure1 graphic and SI iP/iS/linker tables; canonical-source instance and independent linked-source review."
+      ],
+      "verification": "Finite illustrative-example pass complete: local12 checks and all7 builds pass; optional supplier source group skips when absent. Assembly negative controls39/shared1445/source227/catalogue84/sequence-export35 pass; legacy MoClo1/YTK13 pass. Pairing0 problems; chemistry162 conditional11 unresolved0 contradictory. Source guard0 exact source oligos (invented inputs explicitly qualified), no failures. Source-free local suites pass. Full offline site440/440 diagrams433 finished schematics and every relative link pass. All7 cloning/example classifications, constructed-DNA endpoints, SVG/labels, notes/manifests and both extraction/export exclusions directly verified, including assembled-site export. Full source reviews remain in_progress; outstanding originals in geturl.txt."
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full linked-original inventory and independent review remain incomplete; actual deferred documents are named, not treated as absent."
+  }
+}

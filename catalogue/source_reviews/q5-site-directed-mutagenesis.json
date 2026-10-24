@@ -1,0 +1,37 @@
+{
+  "dir": "q5-site-directed-mutagenesis",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "vendor_manual",
+      "role": "vendor",
+      "locator": "https://www.neb.com/en/-/media/nebus/files/manuals/manuale0554.pdf?hash=B7F6605B20F0E0E661C478FF15479353&rev=53eb54a2178645ed8d2a1ac82c55afc8; /husky/henriksson/NGS101_papers/sources/q5-site-directed-mutagenesis/manuale0554.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Printed identity is NEB E0554S Version 2.0_7/20; revision-pinned URL and original hash retained in external manifest."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-22-inverse-pcr-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Recorded capped original-manual pass and integration verification of the selected control example; not an independent source audit or absence review",
+      "locations": "Printed pp2–5 overview, Figure3, non-overlapping primer design and KLD components; printed p7 control template and primer table",
+      "findings": "Original defines back-to-back primers, linear amplification and kinase/ligase/DpnI in one KLD incubation. Both source control oligos and mixed case retained. Graph separates molecular relations without prescribing separate incubations; partial product has an unassigned interval and no fabricated full map or exact primer coordinates. Parental digest fragments retain unresolved fate rather than an invented cleanup.",
+      "documents": 1,
+      "oligo_scraper": "Primer scraper run on the local original bundle; control forward/reverse hits verified in original p7. Integration source guard finds both exact source oligos.",
+      "verification": "Protocol suite 4 passed; native page build and pairing lint passed; source guard checked 2 exact oligos with no failures. Source revision check passed.",
+      "deferred": [
+        "Independent reading of the original manual and complete linked-information inventory",
+        "Control-template map, mismatch coordinates and exact terminal base states remain outside the selected partial-product model",
+        "Other manual design examples, transformation, recovery and clone-screening branches"
+      ]
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "enumerated",
+    "reason": "Bounded pass names the original vendor manual and inspected sections. Other examples and downstream branches are deferred; no exhaustive linked-source or absence conclusion is made."
+  }
+}

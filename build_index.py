@@ -252,6 +252,9 @@ def entry(r: dict, properties: dict, citation: cites.Citation | None,
         has_page = 'data-protocol-complete="true"' in page.read_text(encoding="utf-8")
         if has_page and r["status"] == "construct":
             has_page = 'data-protocol-output="constructed DNA"' in page.read_text(encoding="utf-8")
+    if has_page and r.get("representation") == "illustrative_example":
+        if 'data-protocol-representation="illustrative_example"' not in page.read_text(encoding="utf-8"):
+            raise ValueError(f"{d}: illustrative example page omits its representation label")
     n, ok = checks(d) if run_checks else (0, False)
     category = crows[0]["category"] if crows else ""
     commercial = "commercial kit" in properties["availability"]
@@ -274,6 +277,10 @@ def entry(r: dict, properties: dict, citation: cites.Citation | None,
         reference_href = ""
     return {
         "dir": d, "name": r["protocol"], "doi": r["doi"], "status": r["status"],
+        "representation": r.get("representation", "unspecified"),
+        "protocol_kind": ("cloning" if properties["assay"] == ("DNA construct assembly",) else
+                          "mixed" if "DNA construct assembly" in properties["assay"] else
+                          "assay" if r["status"] == "assay" else "sequencing" if r["status"] == "documented" else "unspecified"),
         "section": r["section"], "modality": r["modality"],
         "category": CATEGORY_LABEL.get(category, category),
         "aka": aka,
@@ -310,7 +317,8 @@ e = html.escape
 
 
 def status_label(p: dict) -> str:
-    return "schematic" if p["page"] else "source notes"
+    return ("illustrative example" if p.get("representation") == "illustrative_example" else
+            "schematic" if p["page"] else "source notes")
 
 
 def links(p: dict) -> str:
@@ -362,7 +370,7 @@ def result_item(i: int, p: dict) -> str:
     else:
         reference = '<span class="no-reference">&mdash;</span>'
     return f"""<tr class="pr" data-i="{i}" id="p-{e(p['dir'])}">
-<th scope="row">{name}</th>
+<th scope="row">{name}{' <small class="example-label">illustrative example</small>' if p.get("representation") == "illustrative_example" else ''}</th>
 <td class="reference-cell">{reference}</td>
 <td class="citation-cell">{citation}</td>
 <td>{e(family)}</td>
@@ -374,7 +382,8 @@ def result_item(i: int, p: dict) -> str:
 def search_data(ps: list[dict]) -> str:
     """The search index: one record per published protocol, in list order."""
     recs = [{"n": p["name"], "a": p["aka"], "c": p["category"], "m": p["modality"],
-             "s": status_label(p),
+             "s": status_label(p), "representation": p.get("representation", "unspecified"),
+             "protocol_kind": p.get("protocol_kind", "unspecified"),
              "d": p["doi"], "y": p["year"],
              "r": p["reference"],
              "t": " ".join([*p["papers"], p["blurb"]]),

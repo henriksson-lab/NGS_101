@@ -1,0 +1,36 @@
+{
+  "dir": "slice__10.1093+nar+gkr1288",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "defining",
+      "role": "defining",
+      "locator": "https://doi.org/10.1093/nar/gkr1288; nar_gkr1288_PMC3333860.xml",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Bounded source scope: Published Introduction and Discussion, JATS lines18\u201324,223\u2013235; generic extract/end-homology scope only. Strain optimization and functional applications excluded."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-23-foundational-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-23",
+      "scope": "Illustrative example mechanism only; source-defined method distinct from invented sequences",
+      "locations": "Published Introduction and Discussion, JATS lines18\u201324,223\u2013235; generic extract/end-homology scope only. Strain optimization and functional applications excluded.",
+      "findings": "reference order with unresolved extract boundary; illustrative metadata and invented bases explicit.",
+      "documents": 1,
+      "oligo_scraper": "Run on external bundle. No source oligo adopted; empty extraction is not absence evidence.",
+      "deferred": [
+        "Original figures and supplement; extract composition/activities and exact intermediate chemistry, complete linked-source and independent review.",
+        "Complete source/link inventory and independent review"
+      ],
+      "verification": "Seven illustrative pages: local11 checks pass; assembly negative controls14 pass; shared1405/source227/catalogue83/sequence-export35 pass. Legacy MoClo1 and YTK13 pass. Pairing0 problems; source guard0 exact source oligos (invented inputs explicitly qualified); chemistry51 conditional6 unresolved0 contradictory. Full site433/433 diagrams426 finished schematics and all relative links pass. Seven public example classifications and reference-export exclusion directly verified. Full source reviews remain in_progress; retrieval follow-up in geturl.txt."
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full original or directly linked document inventory and independent review remain incomplete within capped scope; see deferred targets."
+  }
+}

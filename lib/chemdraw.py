@@ -960,10 +960,15 @@ def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long", *,
             if markup:
                 panels.append(markup)
     rendered = "\n".join(panels)
+    example = ''
+    if graph.representation == 'illustrative_example':
+        example = ('<p class="info" data-protocol-representation="illustrative_example">'
+                   '<strong>Illustrative example.</strong> '
+                   + html.escape(graph.example_description) + '</p>')
     if graph.required_output is Disposition.CONSTRUCT:
-        return ('<section data-protocol-complete="true" data-protocol-output="constructed DNA">'
+        return (example + '<section data-protocol-complete="true" data-protocol-output="constructed DNA">'
                 + rendered + '</section>')
-    return rendered
+    return example + rendered
 
 
 def strand_row(con: Construct, strand: str = "top", indent: int = 0,

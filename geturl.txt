@@ -1,0 +1,136 @@
+Outstanding document requests — updated 2026-10-23
+
+Scope: the inverse-PCR and foundational cloning additions. This list contains
+outstanding requests only; already retrieved documents are excluded. Download the identified
+published original/revision, not a preprint or a substitute protocol revision.
+Place originals in /husky/henriksson/NGS101_papers/sources/<directory>/.
+Do not put the downloaded papers or supplements in this repository.
+
+FULL ORIGINALS NOT YET OBTAINED (highest priority)
+
+1. Classical inverse PCR — Ochman, Gerber and Hartl, 1988
+   DOI: https://doi.org/10.1093/genetics/120.3.621
+   Publisher PDF:
+   https://academic.oup.com/genetics/article-pdf/120/3/621/34457330/genetics0621.pdf
+   Alternate PMC PDF:
+   https://pmc.ncbi.nlm.nih.gov/articles/PMC1203539/pdf/ge1203621.pdf
+   Status: publisher HTTP 403; PMC "Preparing to download" gate. The cached
+   PMC HTML/abstract does not replace the full original methods and Figure 1.
+   Needed: published full article, including its methods and figures.
+   Directory: inverse-pcr__10.1093+genetics+120.3.621
+
+2. RCA-GIP — Tsaftaris, Pasentzis and Argiriou, online 2009 / issue 2010
+   Published article / recorded retrieval locator:
+   https://doi.org/10.1007/s10529-009-0128-9
+   Status: no open full text obtained; publisher page only. Primary PubMed
+   abstract was browser-readable, but its local retrieval also failed validation.
+   Needed: published full article and its methods/figures; the abstract does not
+   establish the complete circle-preparation and inverse-PCR chemistry.
+   Directory: rca-gip__10.1007+s10529-009-0128-9
+
+3. MEGAWHOP — Miyazaki and Takenouchi, 2002
+   DOI: https://doi.org/10.2144/02335st03
+   Publisher PDF:
+   https://www.tandfonline.com/doi/pdf/10.2144/02335st03
+   Status: HTTP 403. Primary PubMed abstract was inspected; full methods were not.
+   Needed: published full article, including methods and product-topology figures.
+   Directory: megawhop__10.2144+02335st03
+
+ORIGINALS BROWSER-READABLE; LOCAL VALIDATED COPY STILL NEEDED
+
+4. PIPE — Klock, Koesema, Knuth and Lesley, 2008
+   DOI: https://doi.org/10.1002/prot.21786
+   Official article:
+   https://onlinelibrary.wiley.com/doi/10.1002/prot.21786
+   Status: ordinary local retrieval HTTP 403, but official browser text was read.
+   Needed: local complete published original for repeatable source checks and
+   inspection of the rendered original Figure 1; its caption was already read.
+   Directory: pipe__10.1002+prot.21786
+
+5. Agilent QuikChange II instruction manual, catalog 200523/200524,
+   Revision E1 (2023 footer)
+   Official PDF:
+   https://www.agilent.com/cs/library/usermanuals/public/200523.pdf
+   Status: ordinary local retrieval HTTP 403. This exact official Revision E1
+   was browser-readable and inspected; the methods are not wholly inaccessible.
+   Needed: validated local copy of the same revision for repeatable transcription
+   checks. Do not substitute an older mirrored revision.
+   Directory: quikchange-ii-site-directed-mutagenesis
+
+SEPARATE, LOWER-PRIORITY DETAILED SOURCE
+
+6. PIPE detailed chapter — Klock and Lesley, 2009
+   Published chapter identity:
+   https://doi.org/10.1007/978-1-59745-196-3_6
+   Attempted chapter mirror:
+   https://is.muni.cz/el/1431/jaro2010/Bi8980/um/IV.ChapterCloning4.pdf
+   Status: the attempted mirror returned HTML, not a valid PDF.
+   Needed for deferred detailed-method review, separately identified as a later
+   source. It must not replace or silently supply the 2008 defining article.
+   Directory: pipe__10.1002+prot.21786
+
+ADDITIONAL FOUNDATIONAL-CLONING ORIGINALS (2026-10-23)
+
+These are needed for fuller source review beyond the explicitly labelled invented
+examples. Available supplements/explanatory articles do not replace their identities.
+
+7. Gibson et al.2009, defining main article (published supplement is cached):
+   https://doi.org/10.1038/nmeth.1318
+   https://www.nature.com/articles/nmeth.1318
+   Status: publisher preview/abstract only; no local full main article obtained.
+   Directory: gibson-assembly__10.1038+nmeth.1318
+
+8. Hartley et al.2000, defining Gateway article:
+   https://doi.org/10.1101/gr.143000
+   https://genome.cshlp.org/content/10/11/1788.full
+   https://pmc.ncbi.nlm.nih.gov/articles/PMC310948/
+   Status: publisher403; PMC challenge; EuropePMC retrieval500. The separately
+   identified2018 explanation is cached as JATS and is not requested again.
+   Directory: gateway__10.1101+gr.143000
+
+9. de Kok et al.2014, defining LCR article:
+   https://doi.org/10.1021/sb4001992
+   https://pubs.acs.org/doi/10.1021/sb4001992
+   Status: abstract inspected; no open full original obtained. Inspect actual
+   article-linked supplements once the original is available; none invented here.
+   Directory: lcr__10.1021+sb4001992
+
+10. Li and Elledge2007, defining SLIC main article:
+    https://doi.org/10.1038/nmeth1010
+    https://www.nature.com/articles/nmeth1010
+    Status: publisher preview/abstract only; seven published supplementary files
+    are cached. Full original and its primary figures remain needed.
+    Directory: slic__10.1038+nmeth1010
+
+CLONING EXAMPLES ROUND2 — outstanding originals (2026-10-23)
+
+11. SOE-PCR — Horton et al.1989 defining full article and figures:
+    https://doi.org/10.1016/0378-1119(89)90359-4
+    Primary abstract was inspected; no open full original obtained.
+    Directory: soe-pcr__10.1016+0378-1119(89)90359-4
+
+12. LIC-PCR — Aslanidis and de Jong1990 defining full article:
+    https://doi.org/10.1093/nar/18.20.6069
+    https://pmc.ncbi.nlm.nih.gov/articles/PMC332407/
+    Abstract inspected; EuropePMC retrieval500, PMC host remains in challenge cool-down.
+    Directory: lic-pcr__10.1093+nar+18.20.6069
+
+13. BASIC — Storch et al.2015 main article and published supporting information:
+    https://doi.org/10.1021/sb500356d
+    https://pubs.acs.org/doi/10.1021/sb500356d
+    Identified author-distributed published SI mirror:
+    https://oww-files-public.s3.amazonaws.com/0/02/BASIC_all.pdf
+    Main publisher and supplement mirror returned403. Need the original iP/iS and
+    linker tables/figures; inventoried documents, not invented disclosure requests.
+    Directory: basic__10.1021+sb500356d
+
+14. Loop assembly — published2019 article local original and its published SI:
+    https://doi.org/10.1111/nph.15625
+    https://nph.onlinelibrary.wiley.com/doi/10.1111/nph.15625
+    https://haseloff.plantsci.cam.ac.uk/resources/LabPapers/Pollak_et_al-2018-New_Phytologist.pdf
+    Publisher HTML text is browser-readable; author-institution PDF retrieval failed
+    certificate validation. Need a local final publication for rendered-figure review.
+    Its actual linked supplement is nph15625-sup-0001-Supinfo.pdf (retrieval403).
+    https://nph.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1111%2Fnph.15625&file=nph15625-sup-0001-Supinfo.pdf
+    The automatically fetched preprint supplements are superseded and cannot replace it.
+    Directory: loop-assembly__10.1111+nph.15625

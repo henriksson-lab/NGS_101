@@ -1,0 +1,48 @@
+{
+  "dir": "slim__10.1093+nar+gnh172",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1093/nar/gnh172; /husky/henriksson/NGS101_papers/sources/slim__10.1093+nar+gnh172/nar_gnh172_PMC535700.html",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "figure1",
+      "role": "linked_material",
+      "locator": "https://cdn.ncbi.nlm.nih.gov/pmc/blobs/d17f/535700/ec571d333d95/gnh172f1.jpg; /husky/henriksson/NGS101_papers/sources/slim__10.1093+nar+gnh172/gnh172f1.jpg",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "Article Figure1"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-22-inverse-pcr-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Capped first pass; source-defined assembly topology, not complete source review or absence audit",
+      "locations": "Methods primer design/PCR/hybridization; Table1; Results Design of SLIM primers; original Figure1A\u2013C and caption",
+      "findings": "Source defines four PCR classes, productive 5prime/3prime heteroduplexes, noncovalent nicked circles, no in-vitro ligase. Exact source insertion tail retained; target cores and body are inferred roles.",
+      "documents": 2,
+      "oligo_scraper": "20 candidates in original article; inspected Table1 context; source tails checked against original full primer entries.",
+      "deferred": [
+        "Full source-specific target maps and exact binding/junction geometry",
+        "Separate source variants and downstream QC",
+        "Direct predecessor checks and independent source review"
+      ],
+      "verification": "Protocol test3pass; native SVG build and pairing lint pass. Representation follow-up: noncovalent circle uses explicit unsealed-duplex limitation state, not a covalently closed strand; exact nick coordinates remain unassigned and host-repaired circle is separate."
+    }
+  ],
+  "missing_claims": [],
+  "pending_sources": [
+    "Tillett and Neilan1999, Nucleic Acids Research27,e26; article reference17; Deferred after bounded defining-article/figure pass; not judged irrelevant.",
+    "Sambrook,Fritsch,Maniatis1989 Molecular Cloning2nded; article reference18; Host transformation/QC predecessor deferred; not used to fill chemical detail."
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "reason": "Bounded defining-source inspection enumerated figure/supplement scope and named deferred branches/predecessors; full linked-source review and independent passes remain pending."
+  }
+}

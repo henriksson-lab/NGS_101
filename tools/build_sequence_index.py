@@ -74,6 +74,10 @@ def build(output, protocol_ids=None, eligible=None):
         raise ValueError('unknown protocols: ' + ', '.join(sorted(unknown)))
     protocols, extractions, report = [], [], []
     for name in sorted(set(selected)):
+        if rows[name].get("representation") == "illustrative_example":
+            report.append({"protocol": name, "status": "illustrative_example",
+                           "reason": "Invented demonstration sequences are excluded from identification."})
+            continue
         supplied = overrides.get(name, {})
         protocols.append({'id': name, 'title': supplied.get('title', rows[name]['protocol']),
                           'url': supplied.get('url', public_url(name))})

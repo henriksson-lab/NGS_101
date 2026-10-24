@@ -20,6 +20,7 @@ class PCRPrimer:
     name: str
     sequence: str
     anneal_nt: int = seqprimers.MIN_ANNEAL
+    inferred: bool = False
 
     def __post_init__(self) -> None:
         sequence = self.sequence.upper()
@@ -54,7 +55,7 @@ def _primer_row(template: Construct, primer: PCRPrimer, hit: seqprimers.Landing,
                 *, gutter: int) -> Row:
     tag = "r1" if hit.strand == "bottom" else "r2"
     if hit.strand == "bottom":
-        shown = Construct([Segment(primer.name, primer.sequence, tag)], primer.name)
+        shown = Construct([Segment(primer.name, primer.sequence, tag, inferred=primer.inferred)], primer.name)
         row = strand_row(shown, "top", indent=gutter + hit.start - hit.free5,
                          prefix="5'- ", suffix=" -3'")
         strand = row.visual
@@ -63,7 +64,7 @@ def _primer_row(template: Construct, primer: PCRPrimer, hit: seqprimers.Landing,
                                           strand.end + len(row.suffix) + 10,
                                           "right", primer.name))
         return row
-    shown = Construct([Segment(primer.name, revcomp(primer.sequence), tag)], primer.name)
+    shown = Construct([Segment(primer.name, revcomp(primer.sequence), tag, inferred=primer.inferred)], primer.name)
     row = strand_row(shown, "bottom", indent=gutter + hit.start,
                      prefix="3'- ", suffix=" -5'")
     strand = row.visual
@@ -85,6 +86,7 @@ class PCRGeometry:
     reverse_region: str = ""
     reverse_pool: str = ""
     symmetric_species: bool = False
+    amplicon_id: str = ""
 
     def __post_init__(self) -> None:
         if self.availability not in ("exact", "regional", "unavailable"):
@@ -117,9 +119,9 @@ class PCRGeometry:
 
     @classmethod
     def exact(cls, template: Construct, forward: PCRPrimer, reverse: PCRPrimer,
-              *, statement: str) -> "PCRGeometry":
+              *, statement: str, amplicon_id: str = "") -> "PCRGeometry":
         return cls(template, forward, reverse, "exact", statement,
-                   _landing(template, forward), _landing(template, reverse))
+                   _landing(template, forward), _landing(template, reverse), amplicon_id=amplicon_id)
 
     @classmethod
     def symmetric(cls, template: Construct, primer: PCRPrimer, *,

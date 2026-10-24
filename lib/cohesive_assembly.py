@@ -28,6 +28,7 @@ class CohesiveFragment:
     right: str
     left_polarity: str
     right_polarity: str
+    inferred: bool = False
 
     def __post_init__(self) -> None:
         if not self.name.strip() or not self.core:
@@ -48,13 +49,13 @@ class CohesiveFragment:
         sc = Scene()
         top_parts, bottom_parts = list(core), list(bottom)
         if self.left_polarity == "5-prime":
-            top_parts.insert(0, Segment("left fusion", self.left))
+            top_parts.insert(0, Segment("left fusion", self.left, inferred=self.inferred))
         else:
-            bottom_parts.append(Segment("left fusion bottom", revcomp(self.left)))
+            bottom_parts.append(Segment("left fusion bottom", revcomp(self.left), inferred=self.inferred))
         if self.right_polarity == "5-prime":
-            bottom_parts.insert(0, Segment("right fusion bottom", revcomp(self.right)))
+            bottom_parts.insert(0, Segment("right fusion bottom", revcomp(self.right), inferred=self.inferred))
         else:
-            top_parts.append(Segment("right fusion", self.right))
+            top_parts.append(Segment("right fusion", self.right, inferred=self.inferred))
         sc.strand("top", top_parts, label=self.name)
         sc.anneal("bottom", bottom_parts,
                   to="top", pair=(bottom[-1].name, core[0].name),
@@ -113,7 +114,7 @@ class CircularCohesiveAssembly:
         """Derive one reference strand, recording each shared fusion exactly once."""
         parts = []
         for identifier, fragment in self.fragments:
-            parts.append(Segment(identifier + " fusion", fragment.left))
+            parts.append(Segment(identifier + " fusion", fragment.left, inferred=fragment.inferred))
             parts.extend(replace(seg, name=identifier + ": " + seg.name) for seg in fragment.core)
         return Construct(parts, name)
 
@@ -132,19 +133,19 @@ class CircularCohesiveAssembly:
             if before.right_polarity == "5-prime":
                 sc.strand("upstream top", [a], label=before.name)
                 sc.anneal("upstream bottom",
-                          [Segment("upstream exposed end", revcomp(before.right)), ac],
+                          [Segment("upstream exposed end", revcomp(before.right), inferred=before.inferred), ac],
                           to="upstream top", pair=(ac.name, a.name),
                           unpaired=(ac.name,) if ac.is_role_token() else ())
-                sc.anneal("downstream top", [Segment("downstream exposed end", after.left), b],
+                sc.anneal("downstream top", [Segment("downstream exposed end", after.left, inferred=after.inferred), b],
                           to="upstream bottom", pair=("downstream exposed end", "upstream exposed end"),
                           label=after.name)
                 sc.anneal("downstream bottom", [bc], to="downstream top", pair=(bc.name, b.name),
                           unpaired=(bc.name,) if bc.is_role_token() else ())
             else:
-                sc.strand("upstream top", [a, Segment("upstream exposed end", before.right)], label=before.name)
+                sc.strand("upstream top", [a, Segment("upstream exposed end", before.right, inferred=before.inferred)], label=before.name)
                 sc.anneal("upstream bottom", [ac], to="upstream top", pair=(ac.name, a.name),
                           unpaired=(ac.name,) if ac.is_role_token() else ())
-                sc.anneal("downstream bottom", [bc, Segment("downstream exposed end", revcomp(after.left))],
+                sc.anneal("downstream bottom", [bc, Segment("downstream exposed end", revcomp(after.left), inferred=after.inferred)],
                           to="upstream top", pair=("downstream exposed end", "upstream exposed end"), above=True)
                 sc.anneal("downstream top", [b], to="downstream bottom", pair=(b.name, bc.name),
                           label=after.name, above=True, unpaired=(b.name,) if b.is_role_token() else ())

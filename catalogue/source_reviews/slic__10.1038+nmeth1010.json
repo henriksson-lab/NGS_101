@@ -1,0 +1,52 @@
+{
+  "dir": "slic__10.1038+nmeth1010",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "defining",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nmeth1010",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Full defining article unavailable; abstract inspected, exact inspected published supplement listed separately."
+    },
+    {
+      "id": "published_supplement",
+      "role": "supplement",
+      "locator": "External nmeth1010_41592_2007_BFnmeth1010_MOESM308_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Defining abstract; published Supplementary Figure1 caption (MOESM308) and Supplementary Table1 (MOESM310), T4 DNA polymerase treatment/annealing/transformation. Later SLiCE Discussion independently describes the 3-prime exonuclease activity; it is explanatory context, not inheritance of SLiCE chemistry."
+    },
+    {
+      "id": "table_s1",
+      "role": "supplement",
+      "locator": "External nmeth1010_41592_2007_BFnmeth1010_MOESM310_ESM.doc",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Table1 treatment, annealing and transformation caption inspected; other alternatives deferred."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-23-foundational-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-23",
+      "scope": "Illustrative example mechanism only; source-defined method distinct from invented sequences",
+      "locations": "Defining abstract; published Supplementary Figure1 caption (MOESM308) and Supplementary Table1 (MOESM310), T4 DNA polymerase treatment/annealing/transformation. Later SLiCE Discussion independently describes the 3-prime exonuclease activity; it is explanatory context, not inheritance of SLiCE chemistry.",
+      "findings": "reference exonuclease processing and repair boundary; illustrative metadata and invented bases explicit.",
+      "documents": 3,
+      "oligo_scraper": "Run on external bundle. No source oligo adopted; empty extraction is not absence evidence.",
+      "deferred": [
+        "Full original main article; remaining supplementary figures, actual target maps, RecA branch and heterogeneous resection/repair.",
+        "Complete source/link inventory and independent review"
+      ],
+      "verification": "Seven illustrative pages: local11 checks pass; assembly negative controls14 pass; shared1405/source227/catalogue83/sequence-export35 pass. Legacy MoClo1 and YTK13 pass. Pairing0 problems; source guard0 exact source oligos (invented inputs explicitly qualified); chemistry51 conditional6 unresolved0 contradictory. Full site433/433 diagrams426 finished schematics and all relative links pass. Seven public example classifications and reference-export exclusion directly verified. Full source reviews remain in_progress; retrieval follow-up in geturl.txt."
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full original or directly linked document inventory and independent review remain incomplete within capped scope; see deferred targets."
+  }
+}

@@ -49,6 +49,25 @@ def _raise_fact():
 
 check = Check()
 run_common(check)
+from selftest_assembly import run as run_assembly_checks
+run_assembly_checks(check)
+
+# Unassigned nicks must never acquire a drawn covalent closure or coordinates.
+from protocol_model import unsealed_circular_duplex
+_unsealed_parts = (Segment("declared component", "ACGT", inferred=True),)
+_unsealed = unsealed_circular_duplex(_unsealed_parts, statement="Caller-scoped nick uncertainty")
+check("unsealed duplex retains supplied molecular identities", _unsealed.parts, _unsealed_parts)
+check("unsealed duplex preserves the caller statement", _unsealed.statement, "Caller-scoped nick uncertainty")
+check("unsealed duplex renders a limitation without molecular return paths",
+      all(not row.visual for row in _unsealed.rows()), True)
+for _parts, _statement in (((), "scope"), (_unsealed_parts, "")):
+    try:
+        unsealed_circular_duplex(_parts, statement=_statement)
+    except ValueError:
+        _rejected = True
+    else:
+        _rejected = False
+    check("unsealed duplex rejects absent components or source scope", _rejected, True)
 
 from unittest.mock import patch
 import build_index

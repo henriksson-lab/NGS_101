@@ -1,0 +1,40 @@
+{
+  "dir": "pipe__10.1002+prot.21786",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://onlinelibrary.wiley.com/doi/10.1002/prot.21786",
+      "availability": "available",
+      "relevance": "relevant"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-22-inverse-pcr-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Generic assembly boundary only; no absence audit",
+      "locations": "Methods PIPE overview/PIPE cloning; Results Application of PIPE; Figure1 caption",
+      "findings": "Population-level model; source diagnostic experiment excluded. Exact strand states unassigned.",
+      "documents": 1,
+      "oligo_scraper": "0 files, 0 sequences; local original fetch403; browser original inspected. No sequence-absence conclusion.",
+      "deferred": [
+        "Rendered original Figure1",
+        "Full local article transcription",
+        "Direct predecessor methods and independent review"
+      ],
+      "verification": "Protocol test1pass+1source skip; native SVG build and pairing lint pass."
+    }
+  ],
+  "missing_claims": [],
+  "pending_sources": [
+    "Klock and Lesley2009, DOI10.1007/978-1-59745-196-3_6; distinct later detailed chapter, not substituted for defining original.",
+    "Figure1 rendered original; caption inspected, drawing not yet inspected."
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Complete directly cited predecessor inventory and independent review remain incomplete within capped pass; later chapter and original Figure1 rendering deferred."
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "dir": "tla__10.1038+nbt.2959",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nbt.2959; /husky/henriksson/NGS101_papers/sources/tla__10.1038+nbt.2959/DeLaat_Key_2014_DeVree_Targeted-sequencing-by-proximity-ligation-for-comprehensive-variant-deletion-and-local-haplotyping.pdf",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2959/MediaObjects/41587_2014_BFnbt2959_MOESM1_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-22-inverse-pcr-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Capped scope and documentation pass; not complete source review or independent absence audit",
+      "locations": "Initial review: published Online Methods TLA sample preparation/Bioinformatics; Supplementary Fig1 and generic tissue-culture protocol through TLA PCR. Documentation check: main lines1097\u20131123; supplement lines87\u2013104 and protocol heading3814 onward. Not a second full-source reading.",
+      "findings": "Generic locus model retains primary/secondary restriction hierarchy, proximity ligation, circle/inverse-PCR classes and separate library-preparation boundary. No selected target primer, adapter kit or study-specific functional branch. Paired acquisition and independent-end mapping remain distinct.",
+      "documents": 2,
+      "oligo_scraper": "66 candidates in two originals; study-specific table context inspected; no pair chosen for generic locus. No absent-sequence conclusion.",
+      "deferred": [
+        "Simonis et al. Nat Genet38:1348\u20131354 (2006), main reference10; predecessor chemistry deferred, not judged irrelevant.",
+        "Splinter et al. Methods58:221\u2013230 (2012), main reference37; predecessor chemistry deferred, not judged irrelevant."
+      ],
+      "verification": "6 checks passed; protocol page build and pairing lint passed; source-review schema validated."
+    }
+  ],
+  "missing_claims": [],
+  "pending_sources": [
+    "Simonis et al. Nat Genet38:1348\u20131354 (2006), main reference10; predecessor chemistry deferred, not judged irrelevant.",
+    "Splinter et al. Methods58:221\u2013230 (2012), main reference37; predecessor chemistry deferred, not judged irrelevant."
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Defining-source access/scope and named predecessor boundaries recorded. Full linked-source enumeration and independent review remain pending; no confirmed absence claim."
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "dir": "cpec__10.1371+journal.pone.0006441",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1371/journal.pone.0006441; external journal.pone.0006441_PMC2713398.xml.txt",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "methods_s1",
+      "role": "supplement",
+      "locator": "https://doi.org/10.1371/journal.pone.0006441.s001; external journal.pone.0006441_supp_pone.0006441.s001.doc",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original, sequence maps and fragment preparation deferred in this topology-only pass."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-22-inverse-pcr-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Generic topology only; not full source or absence review",
+      "locations": "published Results Single gene cloning using CPEC and Figure1A caption text36\u201349",
+      "findings": "Generic single-insert CPEC extension, unsealed circular duplex and host-recovery boundary. Prepared fragments and unknown maps; extended branches deferred.",
+      "documents": 2,
+      "oligo_scraper": "Run on external source bundle; sequences not adopted in this generic model.",
+      "deferred": [
+        "Full original methods/figures and exact sequence maps",
+        "Complete linked-source inventory and independent review"
+      ]
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "enumerated",
+    "reason": "Methods S1 is named and available but deferred; remaining linked predecessors unreviewed."
+  }
+}

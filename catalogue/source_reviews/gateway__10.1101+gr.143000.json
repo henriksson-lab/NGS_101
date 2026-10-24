@@ -1,0 +1,44 @@
+{
+  "dir": "gateway__10.1101+gr.143000",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "defining",
+      "role": "defining",
+      "locator": "https://doi.org/10.1101/gr.143000; https://doi.org/10.1101/gr.143000",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Bounded source scope: Defining original retrieval blocked. Explicit explanatory original: Reece-Hoyes and Walhout2018 doi10.1101/pdb.top094912, Basic principles and applications, Figures1\u20134 text (browser-readable primary methods article)."
+    },
+    {
+      "id": "explanatory_2018",
+      "role": "detailed_protocol",
+      "locator": "https://doi.org/10.1101/pdb.top094912; https://pmc.ncbi.nlm.nih.gov/articles/PMC5935001/; cached pdb.top094912_PMC5935001.xml.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Primary2018 methods explanation, Basic principles/Figures1\u20134 text. Browser text and cached original JATS checked; not substituted for the defining2000 experimental instance."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-23-foundational-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-23",
+      "scope": "Illustrative example mechanism only; source-defined method distinct from invented sequences",
+      "locations": "Defining original retrieval blocked. Explicit explanatory original: Reece-Hoyes and Walhout2018 doi10.1101/pdb.top094912, Basic principles and applications, Figures1\u20134 text (browser-readable primary methods article).",
+      "findings": "symbolic site-specific recombination; illustrative metadata and invented bases explicit.",
+      "documents": 2,
+      "oligo_scraper": "Run on external bundle. No source oligo adopted; empty extraction is not absence evidence.",
+      "deferred": [
+        "Full defining original and its linked documents; exact att-site sequences, crossover maps, byproduct strands and selection.",
+        "Complete source/link inventory and independent review"
+      ],
+      "verification": "Seven illustrative pages: local11 checks pass; assembly negative controls14 pass; shared1405/source227/catalogue83/sequence-export35 pass. Legacy MoClo1 and YTK13 pass. Pairing0 problems; source guard0 exact source oligos (invented inputs explicitly qualified); chemistry51 conditional6 unresolved0 contradictory. Full site433/433 diagrams426 finished schematics and all relative links pass. Seven public example classifications and reference-export exclusion directly verified. Full source reviews remain in_progress; retrieval follow-up in geturl.txt."
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full original or directly linked document inventory and independent review remain incomplete within capped scope; see deferred targets."
+  }
+}

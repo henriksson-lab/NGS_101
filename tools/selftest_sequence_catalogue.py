@@ -158,6 +158,13 @@ def main():
               and item['occurrence']['locator'].startswith('sequencing:')), True)
     check('deterministic JSON-ready output', json.dumps(catalogue, sort_keys=True),
           json.dumps(combine([{'id': 'fixture', 'title': 'Fixture', 'url': 'fixture.html'}], [extracted]), sort_keys=True))
+    synthetic = ProtocolGraph('synthetic source', representation='illustrative_example',
+                              example_description='invented fixture DNA')
+    synthetic.input('oligo', 'even a matching canonical fixture is invented', MaterialKind.OLIGO,
+                    state=Construct([Segment('invented', fwd)]))
+    synthetic_export = extract_graph(synthetic, 'synthetic')
+    check('invented examples cannot become annotation or sample-sheet references',
+          (synthetic_export['occurrences'], synthetic_export['templates']), ([], []))
     check.report()
 
 

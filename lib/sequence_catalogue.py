@@ -143,6 +143,8 @@ def extract_graph(graph, protocol):
     whole reference components. Their source-identifiable reagent components enter
     through explicit oligo declarations instead.
     """
+    if getattr(graph, "representation", "unspecified") == "illustrative_example":
+        return {"occurrences": [], "templates": [], "unrepresented_oligos": []}
     occurrences, templates, unrepresented = [], [], []
     declared_sequences = {}
 

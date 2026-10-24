@@ -1,0 +1,39 @@
+{
+  "dir": "quikchange-ii-site-directed-mutagenesis",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "vendor_manual",
+      "role": "vendor",
+      "locator": "https://www.agilent.com/cs/library/usermanuals/public/200523.pdf; Agilent catalog200523/200524 instruction manual Revision E1, official browser-readable PDF",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Primary curator read the official original in the browser and checked Revision E1 on its cover, with 2023 footer. Ordinary validated local acquisition returned HTTP403; external MANIFEST.tsv preserves that result. Browser reading is not a local cached original or a repeatable transcription guard."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-22-inverse-pcr-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Recorded bounded official-original browser reading and integration verification of the selected control example; not an independent source audit or absence review",
+      "locations": "Original cover Revision E1; printed p1 Materials control oligos; Introduction and Figure1 pp2–3; control p4 and primer design p5",
+      "findings": "Source gives complementary overlapping control primers, PfuUltra strand synthesis without strand displacement, staggered-nick duplex product, DpnI parental digestion and host nick repair. Graph retains an unsealed circular-duplex limitation state before the host, a separate intended repaired endpoint and unresolved digest-fragment fate. No Q5/KLD kinase or in-vitro ligase recipe is imported.",
+      "documents": 1,
+      "attempted_routes": "Ordinary tools/get_sources.py official PDF route returned HTTP403. Official PDF was readable through the browser. No older mirrored revision was substituted and no challenge workaround was attempted.",
+      "oligo_scraper": "Integration run on the external local bundle reported 0 sequences in 0 files. This is an acquisition limitation, not missing disclosure; control sequences were read in the official browser original.",
+      "verification": "Protocol graph check passed; optional original transcription group skipped because the local original/text twin is absent. Native page build and pairing lint passed. Source guard skipped this unavailable local text bundle as designed. Control-primer complementarity is enforced by construction.",
+      "deferred": [
+        "Validated local acquisition of the same Revision E1 official original for repeatable transcription checks",
+        "Independent source reading and complete linked-information inventory",
+        "Full control-plasmid map, exact nick positions and parental/new-strand mixture geometry remain outside the selected partial-product model",
+        "Downstream clone-screening and other source examples"
+      ]
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "enumerated",
+    "reason": "The selected official original and bounded inspected sections are identified. Local acquisition, independent reading and complete link inventory remain pending; no absence conclusion is made."
+  }
+}

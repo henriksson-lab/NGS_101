@@ -1,0 +1,45 @@
+{
+  "dir": "rca-gip__10.1007+s10529-009-0128-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "pubmed_abstract",
+      "role": "defining",
+      "locator": "https://pubmed.ncbi.nlm.nih.gov/19760115/",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1007/s10529-009-0128-9",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Full original not obtained within bounded source pass; see external MANIFEST and bounded-check locations for retrieval disposition."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-22-inverse-pcr-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Capped scope and documentation pass; not complete source review or independent absence audit",
+      "locations": "Prior curator recorded reading primary PubMed author abstract. Current pass inspected module and external MANIFEST only, not an independent abstract reading. Local abstract retrieval invalid HTTP203; full methods unavailable.",
+      "findings": "Existing abstract-scoped declaration retains circles, phi29 RCA, concatemer and inverse-PCR classes. Circle preparation, primers and repeat geometry remain unresolved; no exact chemistry added in documentation pass.",
+      "documents": 0,
+      "oligo_scraper": "Run against manifest-only bundle: no eligible files/hits; not evidence of absent oligos.",
+      "deferred": [
+        "Published Tsaftaris/Pasentzis/Argiriou article doi10.1007/s10529-009-0128-9: full methods and associated chemistry material; linked inventory deferred until original obtained."
+      ],
+      "verification": "1 check passed; source-dependent group skipped because local primary abstract text is unavailable; protocol page build and pairing lint passed; source-review schema validated."
+    }
+  ],
+  "missing_claims": [],
+  "pending_sources": [
+    "Published Tsaftaris/Pasentzis/Argiriou article doi10.1007/s10529-009-0128-9: full methods and associated chemistry material; linked inventory deferred until original obtained."
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Defining-source access/scope and named predecessor boundaries recorded. Full linked-source enumeration and independent review remain pending; no confirmed absence claim."
+  }
+}

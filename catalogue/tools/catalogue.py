@@ -25,12 +25,13 @@ SOURCE_REPO = "https://github.com/Teichlab/scg_lib_structs"
 SOURCE_PAGES = "https://teichlab.github.io/scg_lib_structs/"
 
 # ours.tsv's columns, and the closed vocabularies of three of them.
-OURS_COLUMNS = ["dir", "protocol", "doi", "status", "section", "modality", "note"]
+OURS_COLUMNS = ["dir", "protocol", "doi", "status", "section", "modality", "representation", "note"]
 STATUSES = ("documented", "construct", "assay", "draft", "notes")
 # Which part of the website a directory is listed in: `published` protocols go into the
 # searchable list, `wip` (our own unpublished designs) into a separate section.
 SECTIONS = ("published", "wip")
 MODALITIES = ("DNA", "RNA", "multi")
+REPRESENTATIONS = ("unspecified", "published_instance", "illustrative_example", "own_design")
 # What each scg_lib_structs category implies about the molecule sequenced. The other two
 # categories ("TODO list", "Ours, not in scg_lib_structs") imply nothing, which is why
 # `modality` is recorded in ours.tsv rather than derived.

@@ -1,0 +1,51 @@
+{
+  "dir": "emp-cloning__10.1371+journal.pone.0053360",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "paper",
+      "role": "defining",
+      "locator": "https://doi.org/10.1371/journal.pone.0053360; /husky/henriksson/NGS101_papers/sources/emp-cloning__10.1371+journal.pone.0053360/journal.pone.0053360_PMC3534072.pdf",
+      "availability": "available",
+      "relevance": "relevant"
+    },
+    {
+      "id": "table_s1",
+      "role": "supplement",
+      "locator": "PMC supplementary archive /husky/henriksson/NGS101_papers/sources/emp-cloning__10.1371+journal.pone.0053360/journal.pone.0053360_PMC3534072_supplementary.zip member pone.0053360.s004.tif",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Original rendered protocol table inspected, no text extraction assumed."
+    },
+    {
+      "id": "other_published_supplements",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/emp-cloning__10.1371+journal.pone.0053360/journal.pone.0053360_PMC3534072_supplementary.zip members pone.0053360.s001\u2013s003.tif and s005\u2013s007.tif",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Archive inventory checked; result figures and one-step/multi-insert/RF tables deferred outside original two-step scope."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-22-inverse-pcr-cloning",
+      "reviewer": "primary-curator",
+      "date": "2026-10-22",
+      "scope": "Capped first pass; source-defined assembly topology, not complete source review or absence audit",
+      "locations": "Published Figure1A p2; Methods p3 synthesis/insertion/in-vitro phosphorylation-ligation-transformation; Discussion inverse-PCR mechanism; original TableS1 image pone.0053360.s004.tif",
+      "findings": "Source defines duplex megaprimer, active strand landing, F1/R2 exponential continuation and PNK before T4ligase before DpnI. Public discrepancy records Methods25 vs TableS1 35 second-PCRcycles and TableS1 2ndRF heading. Neutral roles are inferred, no particular insert or target design.",
+      "documents": 2,
+      "oligo_scraper": "Scraper run: zero candidate sequences; actual PDF text and original image inspected directly, not evidence of absence.",
+      "deferred": [
+        "Full source-specific target maps and exact binding/junction geometry",
+        "Separate source variants and downstream QC",
+        "Direct predecessor checks and independent source review"
+      ]
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "enumerated",
+    "reason": "Bounded defining-source inspection enumerated figure/supplement scope and named deferred branches/predecessors; full linked-source review and independent passes remain pending."
+  }
+}

@@ -945,3 +945,33 @@ the shared molecular behavior and build packaging have offline checks.
 **Why.** Reusing Python avoids independently maintained Python/browser chemistry code.
 The accepted tradeoff is an initial runtime download/startup; subsequent operations reuse
 the worker. Prototype measurements and scope are in [plans/annealing.md](plans/annealing.md).
+
+## 2026-10-23 — Distinguish illustrative constructs from experimental instances
+
+**Decision.** `catalogue/ours.tsv` records `representation` independently of completion
+status, assay type and public/private section. `illustrative_example` identifies an
+invented demonstration; `published_instance` requires affirmative source support,
+`own_design` identifies our designs, and `unspecified` preserves unreviewed legacy scope.
+The defining paper describes the method, not evidence that invented sequences were used.
+Construct status and the DNA-construct-assembly facet identify cloning endpoints; they
+must not acquire NGS readiness or index metadata merely to fit a sequencing profile.
+
+Illustrative examples label their invented DNA on the public catalogue and page, identify
+source-backed mechanism separately, and retain an explicit scope and unresolved physical
+boundaries. They are excluded from sequence-identification and sample-sheet reference
+exports. Exact arithmetic/pairing on an example validates only that declared example;
+it does not establish published use, biological function, reaction success or yield.
+
+## 2026-10-23 — Keep intended-reference checks separate from unmodelled host chemistry
+
+**Decision.** An explicit overlap-reference geometry can check intended circular base
+order alongside an unmodelled host step. It supplies no biochemical pathway, covalent
+intermediate, repair mechanism or recovery claim. Its product defaults to inferred
+segments, the comparison stays conditional, and the whole transformation remains
+unresolved. Magic steps still cannot declare checked reaction relations.
+
+Reference PCR checks name their amplicon when a reaction also outputs template carryover;
+known background classes must not be mistaken for additional amplification products.
+Linear linker-assembly checks retain external ends and incorporated linker DNA separately
+from circular overlap deduplication or nonincorporated LCR splints. These checks compare
+explicit declarations; they do not establish enzyme specificity or experimental yield.
