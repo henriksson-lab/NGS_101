@@ -226,6 +226,14 @@ nothing from `_data/`, `pdf/`, the catalogue's download cache, archived exemplar
 data file, or a file type `.gitignore` treats as source material. It then checks that every
 relative link and anchor in `_site/` resolves, and fails if one does not.
 
+The explicitly unlisted retrieval helper is `source-downloads.html`. The site build
+runs `python3 build_source_downloads.py` to generate it from the outstanding requests
+in `geturl.txt`; update that ledger and remove fulfilled requests there. The helper
+has no link in the index, shared navigation or protocol search, and carries a
+`noindex,nofollow` directive. It remains accessible by its direct URL. Only request
+links and context are published; downloaded originals and raw ledgers stay outside
+the site.
+
 **The front page** (`index.html`) is built from data, not a hand-written list:
 
 - **Published protocols** -- every row of `catalogue/ours.tsv` with `section` = `published`,

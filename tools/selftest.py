@@ -149,7 +149,7 @@ with TemporaryDirectory() as _publication_temp:
         _directory = _publication_root / _row["dir"]
         _directory.mkdir()
         (_directory / "diagram.html").write_text('<h1>Diagram</h1><div data-protocol-complete="true"></div>')
-    for _name in ("index", "about", "annotate", "samplesheet", "anneal"):
+    for _name in ("index", "about", "annotate", "samplesheet", "anneal", "source-downloads"):
         (_publication_root / (_name + ".html")).write_text('<h1>Tools</h1>')
     (_publication_root / "assets").mkdir()
     for _name in ("sequence_components.json", "anneal_python.json", "anneal_worker.mjs"):
@@ -171,6 +171,10 @@ with TemporaryDirectory() as _publication_temp:
         check("site assembly publishes only the finished public diagram",
               [r["dir"] for r in _publication_rows
                if (build_site.SITE / r["dir"] / "diagram.html").exists()], ["finished"])
+        check("unlisted source helper is published without adding an index link",
+              ((build_site.SITE / "source-downloads.html").exists(),
+               'source-downloads.html' in (build_site.SITE / "index.html").read_text()),
+              (True, False))
 
 check.section("IUPAC nucleotide-class complements")
 from chemdraw import iupac_complement  # noqa: E402
@@ -1087,6 +1091,8 @@ import build_index  # noqa: E402
 
 from selftest_model_completeness import run as check_model_completeness
 check_model_completeness(check)
+from selftest_source_downloads import run as check_source_downloads
+check_source_downloads(check)
 
 _front, _ = build_index.build(run_checks=False)
 _public = [p for p in build_index.collect(run_checks=False) if p["section"] == "published"]

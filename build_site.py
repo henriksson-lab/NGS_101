@@ -203,6 +203,8 @@ def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
     files["annotate.html"] = ROOT / "annotate.html"
     files["samplesheet.html"] = ROOT / "samplesheet.html"
     files["anneal.html"] = ROOT / "anneal.html"
+    # Deliberately unlisted: requested source-retrieval helper, never navigation/search.
+    files["source-downloads.html"] = ROOT / "source-downloads.html"
     # fetch() dependencies are not discovered by the HTML href/src walker.
     files["assets/sequence_components.json"] = ROOT / "assets" / "sequence_components.json"
     files["assets/anneal_python.json"] = ROOT / "assets" / "anneal_python.json"
@@ -375,6 +377,7 @@ def main() -> int:
 
     print("2. sequence tool, notes and index")
     build_annotation(results)
+    run("build_source_downloads.py")
     run("build_docs.py")
     run("build_index.py", *(a for d in failed for a in ("--omit", d)),
         *(["--no-checks"] if args.no_checks else []))

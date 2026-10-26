@@ -1006,3 +1006,13 @@ A readout limitation can describe primer-free acquisition without implying a mis
 sequencing primer. Chemistry-check claim counts are deliberately not percentages or
 completeness grades. The public dropdown states this source/validation boundary briefly;
 detailed model signals stay in generated machine-readable metadata.
+
+## 2026-10-26 — Provide an unlisted source-download helper
+
+The site explicitly includes `source-downloads.html`, generated offline from the
+outstanding requests in `geturl.txt`. This retrieval helper is excluded from index
+navigation, protocol search data and shared navigation, and asks search engines not
+to index it. Direct access remains public. It contains source URLs, document/revision
+identity and request context, never fetched originals or the local source-root preamble.
+Removing a fulfilled ledger request removes it from the generated page. The build
+continues to prohibit publication of raw source materials and internal evidence logs.
