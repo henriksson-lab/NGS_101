@@ -975,3 +975,34 @@ known background classes must not be mistaken for additional amplification produ
 Linear linker-assembly checks retain external ends and incorporated linker DNA separately
 from circular overlap deduplication or nonincorporated LCR splints. These checks compare
 explicit declarations; they do not establish enzyme specificity or experimental yield.
+
+## 2026-10-24 — Preserve unresolved historical readout facets
+
+A source-established sequencing endpoint may retain an unresolved preparation
+boundary. Adapter installation, strand handling and read structure may explicitly
+say `unassigned in model`. This asserts neither publication absence nor equivalence
+to a current kit. The schematic identifies its source-supported kit/readout and
+unresolved scope. The separate `not yet curated` sentinel remains notes-only;
+an unsupported substrate or method branch is not promoted by these facet values.
+
+## 2026-10-26 — Filter declared model completeness separately from source review
+
+The index computes its model-completeness filter from a versioned report emitted by
+`protocol_graph_panels()` after graph publication validation. No protocol receives a
+hand-assigned completeness rating. A missing schematic is separate from a schematic
+with no readable current report; the latter remains unassessed.
+
+An assessed graph first distinguishes unmodelled steps or unresolved material fates.
+Otherwise, molecular/readout limits record unavailable/regional geometry, a sequencing-plan
+limitation, or an oligo, adapter, molecular material or library without a represented
+molecular segment. In their absence, inferred objects distinguish an inferred model
+from one without declared gaps. Variable
+inserts and barcode placeholders alone do not lower the level. Multiple reports combine
+conservatively, and malformed or old-version metadata cannot acquire the highest level.
+
+These categories describe recorded model scope. They do not establish complete source
+reading, source absence, reaction-check coverage, experimental validity or recovery.
+A readout limitation can describe primer-free acquisition without implying a missing
+sequencing primer. Chemistry-check claim counts are deliberately not percentages or
+completeness grades. The public dropdown states this source/validation boundary briefly;
+detailed model signals stay in generated machine-readable metadata.

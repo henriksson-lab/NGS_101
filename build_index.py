@@ -47,6 +47,7 @@ from mdfacts import expand  # noqa: E402
 from mdrender import render  # noqa: E402
 from page import head, info, site_header  # noqa: E402
 from protocol_pages import page_module  # noqa: E402
+from model_completeness import LEVELS as MODEL_LEVELS, page_level  # noqa: E402
 
 OUT = ROOT / "index.html"
 
@@ -248,13 +249,15 @@ def entry(r: dict, properties: dict, citation: cites.Citation | None,
     page = diagram_out(d)
     has_page = bool(r["status"] in FINISHED_SCHEMATIC_STATUSES
                     and page and page.exists() and d not in omit)
+    page_html = page.read_text(encoding="utf-8") if has_page else ""
     if has_page and r["status"] in {"documented", "construct"}:
-        has_page = 'data-protocol-complete="true"' in page.read_text(encoding="utf-8")
+        has_page = 'data-protocol-complete="true"' in page_html
         if has_page and r["status"] == "construct":
-            has_page = 'data-protocol-output="constructed DNA"' in page.read_text(encoding="utf-8")
+            has_page = 'data-protocol-output="constructed DNA"' in page_html
     if has_page and r.get("representation") == "illustrative_example":
-        if 'data-protocol-representation="illustrative_example"' not in page.read_text(encoding="utf-8"):
+        if 'data-protocol-representation="illustrative_example"' not in page_html:
             raise ValueError(f"{d}: illustrative example page omits its representation label")
+    model_level = page_level(page_html) if has_page else "none"
     n, ok = checks(d) if run_checks else (0, False)
     category = crows[0]["category"] if crows else ""
     commercial = "commercial kit" in properties["availability"]
@@ -293,7 +296,8 @@ def entry(r: dict, properties: dict, citation: cites.Citation | None,
         "text": " ".join(n_["text"] for n_ in notes),
         "page": (str(page.relative_to(ROOT)).replace("\\", "/") if has_page else ""),
         "checks": n, "checks_ok": ok,
-        "properties": properties,
+        "properties": {**properties, "model_completeness": (model_level,)},
+        "model_completeness": model_level,
         "citations": citation.citations if citation else None,
         "citations_retrieved": citation.retrieved if citation else "",
         "citation_openalex": citation.openalex_id if citation else "",
@@ -442,6 +446,7 @@ EXTRA_CSS = """<style>
 .facet-options label { display:flex; gap:7px; align-items:baseline; padding:3px 5px;
           border-radius:3px; font-size:.84rem; cursor:pointer; }
 .facet-options label:hover { background:var(--surface-2); }
+.facet-note { max-width:31em; margin:2px 5px 5px; font-size:.78rem; color:var(--ink-muted); }
 .facet-options small { color:var(--ink-muted); font-variant-numeric:tabular-nums; }
 .more-facets { margin:0; }
 .more-facets > summary, .text-search > summary { display:inline-block; }
@@ -688,12 +693,14 @@ SEARCH_JS = r"""<script>
 </script>"""
 
 
-PRIMARY_FACETS = ("scale", "assay", "platform", "index_introduction", "index_architecture",
+INDEX_FACETS = {"model_completeness": ("Model completeness", tuple(MODEL_LEVELS)),
+                **props.FILTER_FACETS}
+PRIMARY_FACETS = ("model_completeness", "scale", "assay", "platform", "index_introduction", "index_architecture",
                   "partitioning", "amplification")
 
 
 def facet_group(key: str, counts: dict[str, dict[str, int]]) -> str:
-    label, allowed = props.FILTER_FACETS[key]
+    label, allowed = INDEX_FACETS[key]
     options = []
     for i, value in enumerate(allowed):
         n = counts[key][value]
@@ -703,16 +710,22 @@ def facet_group(key: str, counts: dict[str, dict[str, int]]) -> str:
         options.append(
             f'<label for="{ident}"><input id="{ident}" type="checkbox" '
             f'data-facet="{e(key)}" value="{e(value)}">'
-            f'<span>{e(value)}</span> <small>{n}</small></label>')
+            f'<span>{e(MODEL_LEVELS[value] if key == "model_completeness" else value)}</span> '
+            f'<small>{n}</small></label>')
+    scope = ('<p class="facet-note">Computed from declared model limits and inference. '
+             'Not a source-review or experimental-validation grade.</p>'
+             if key == "model_completeness" else '')
     return (f'<details class="facet"><summary>{e(label)}'
             f'<span class="selected"></span></summary>'
-            f'<div class="facet-options">{"".join(options)}</div></details>')
+            f'<div class="facet-options">{scope}{"".join(options)}</div></details>')
 
 
 def facet_controls(ps: list[dict]) -> str:
-    counts = props.option_counts(ps)
+    counts = {key: {value: sum(value in p["properties"][key] for p in ps)
+                    for value in allowed}
+              for key, (_, allowed) in INDEX_FACETS.items()}
     primary = "".join(facet_group(key, counts) for key in PRIMARY_FACETS)
-    more = "".join(facet_group(key, counts) for key in props.FILTER_FACETS
+    more = "".join(facet_group(key, counts) for key in INDEX_FACETS
                    if key not in PRIMARY_FACETS)
     return f"""<div class="facetbar">
 {primary}

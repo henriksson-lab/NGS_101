@@ -1,0 +1,43 @@
+{
+  "dir": "catch-nanopore__10.1093+nar+gky411",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1093/nar/gky411; external nar_gky411_PMC6101500.xml.txt",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Published JATS Methods54\u201370, Figure1 caption42 and native target Results78\u201380."
+    },
+    {
+      "id": "published_si",
+      "role": "supplement",
+      "locator": "external nar_gky411_supp_gky411_supplemental_files.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Scraper run; full chemistry review deferred."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-24-cloning-examples-03",
+      "reviewer": "primary-curator",
+      "date": "2026-10-24",
+      "scope": "Capped positive-source illustrative-example review only",
+      "locations": "Published JATS Methods54\u201370, Figure1 caption42 and native target Results78\u201380.",
+      "findings": "Selected native-DNA branch uses PFGE band isolation and recovery without amplification, low input expansion pack plus SQK-MAP007 R9 and R9.4 flow cells. Human MDA/T7-endonuclease/SQK-LSK308 R9.5 and companion Illumina branches are excluded. Historical kit chemistry stays unassigned. Focused independent graph review corrected protein removal to consume the whole digest, with treated target and both flank references proceeding to PFGE; it did not supply an independent absence review.",
+      "documents": 1,
+      "oligo_scraper": "Run on bundle; no source genomic target or guide adopted.",
+      "deferred": [
+        "Applicable historical MAP007/low input expansion protocol revision, adapter polymers/end geometry, acquired-strand geometry, rendered figures and full linked-source inventory."
+      ],
+      "verification": "Local19 checks pass across8 modules; source-free suites pass with optional source skips. Shared1468, assembly45, catalogue84, source227 and sequence-export35 pass. All8 review schemas and source guards pass. Chemistry196 conditional20 unresolved0 contradictory after whole-digest correction; affected CATCH build and chemistry rechecked, site reassembled and publication/link/export audits passed. Pairing0 problems. Full offline site448/448 diagrams,440 public schematics and every relative link pass. Direct graph/reference-export and assembled-site exclusions verified;7 public example endpoints and private ET exclusion verified.391 defining-DOI citation snapshot rows resolve. ET remains private because original substrate/topology branch is unverified; source review and archived RFC10 comparison remain deferred, not accepted absence."
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full linked-source inventory and independent reading remain incomplete; no accepted absence claim."
+  }
+}

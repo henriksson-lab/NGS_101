@@ -1,0 +1,59 @@
+{
+  "dir": "goldenbraid__10.1371+journal.pone.0021622",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1371/journal.pone.0021622; external journal.pone.0021622_PMC3131274.xml/.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Original2011 article, selected Results/Methods and rendered Figures1\u20133/assembly rules inspected. GB2.0 and functional plant-expression branches excluded."
+    },
+    {
+      "id": "supplier_specificities",
+      "role": "vendor",
+      "locator": "https://www.neb.com/en-us/tools-and-resources/selection-charts/alphabetized-list-of-recognition-specificities",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Browser original inspected for BsaI and Esp3I motif/cut coordinates; current table is supplementary specificity context, not historical reagent identity."
+    },
+    {
+      "id": "supplier_bsmbi",
+      "role": "vendor",
+      "locator": "https://www.neb.com/en-us/products/r0739-bsmbi-v2",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Browser original inspected for replacement identity and Esp3I-isoschizomer statement only. Its current formulation/conditions are not assigned to the original2011 reaction."
+    },
+    {
+      "id": "predecessor_golden_gate",
+      "role": "predecessor",
+      "locator": "Engler et al.2008 doi10.1371/journal.pone.0003647, cited as reference11 in original2011 assembly Methods",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Already separately curated in this repository; not re-read for this capped pass. The present example is owned by GoldenBraid2011 and does not inherit a predecessor recipe or claim full linked-source review."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-24-cloning-examples-03",
+      "reviewer": "primary-curator",
+      "date": "2026-10-24",
+      "scope": "Capped source-qualified neutral example; not full experimental-instance or absence review",
+      "locations": "Published JATS Results Part standardization and multipartite assembly/The Double loop Design (text53\u2013100), Methods Cloning and assembly of modular pieces (text171\u2013175); rendered original PDF Figures1\u20133 and four assembly rules, printed pp3\u20135. Supplier recognition-specificity table BsaI/Esp3I rows and BsmBI-v2 product identity/isoshizomer statement inspected only as independent specificity context.",
+      "findings": "Original2011 GoldenBraid uses a BsaI/BsmBI four-receiver double loop. Multipartite alpha assemblies feed binary omega assembly; complementary omega products return to binary alpha assembly. The invented maps explicitly remove current-enzyme recognition sites, retain alternate-enzyme sites and retain each junction once. Exact fusion strings are invented rather than copied from published functional constructs or GB2.0.",
+      "documents": 3,
+      "oligo_scraper": "Run on external published-source bundle; hits reviewed, no source oligo adopted.",
+      "deferred": [
+        "Source functional part/vector maps, BbsI domestication, twister variants and host recovery are outside this prepared-reference example. Full linked-source and independent reviews remain deferred. No claim of experimental success, historical reagent-formulation equivalence or source-standard map compatibility is made."
+      ],
+      "verification": "Local19 checks pass across8 modules; source-free suites pass with optional source skips. Shared1468, assembly45, catalogue84, source227 and sequence-export35 pass. All8 review schemas and source guards pass. Chemistry196 conditional20 unresolved0 contradictory after whole-digest correction; affected CATCH build and chemistry rechecked, site reassembled and publication/link/export audits passed. Pairing0 problems. Full offline site448/448 diagrams,440 public schematics and every relative link pass. Direct graph/reference-export and assembled-site exclusions verified;7 public example endpoints and private ET exclusion verified.391 defining-DOI citation snapshot rows resolve. ET remains private because original substrate/topology branch is unverified; source review and archived RFC10 comparison remain deferred, not accepted absence."
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full linked-original inventory and independent review incomplete. Deferred or unassigned values are not accepted absence claims."
+  }
+}

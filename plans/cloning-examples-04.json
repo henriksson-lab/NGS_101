@@ -1,0 +1,59 @@
+{
+  "requested": "2026-10-26",
+  "objective": "Add all eight recommended methods as source-qualified neutral illustrative examples with protocol-owned graphs and independent molecular validation.",
+  "tracking_status": "queued; goal tracker refuses a second goal while earlier ET goal is unfinished",
+  "methods": [
+    {
+      "protocol": "Twin-Primer Assembly (TPA)",
+      "doi": "10.1093/nar/gkx132",
+      "focus": "PCR products, reannealing, productive and competing strand combinations"
+    },
+    {
+      "protocol": "NE-LIC",
+      "doi": "10.1371/journal.pone.0057943",
+      "focus": "Nicking, retained/displaced strands and overlap preparation"
+    },
+    {
+      "protocol": "MASTER ligation",
+      "doi": "10.1093/nar/gkt122",
+      "focus": "Methylation-dependent recognition, cleavage geometry and junctions"
+    },
+    {
+      "protocol": "MetClo",
+      "doi": "10.1093/nar/gky596",
+      "focus": "Methylation-dependent protection and hierarchical type IIS assembly"
+    },
+    {
+      "protocol": "SSRTA (original serine-integrase implementation)",
+      "doi": "10.1038/srep00141",
+      "focus": "Source-specific attachment-site identity, ordered recombination and products"
+    },
+    {
+      "protocol": "Cre/lox FLEx rearrangement",
+      "doi": "10.1038/nbt811",
+      "focus": "Site identity/orientation, inversion, excision and physical byproducts"
+    },
+    {
+      "protocol": "Hot Fusion",
+      "doi": "10.1371/journal.pone.0115318",
+      "focus": "Source-specific overlap processing and assembly without added ligase"
+    },
+    {
+      "protocol": "Golden Mutagenesis",
+      "doi": "10.1038/s41598-019-47376-1",
+      "focus": "Declared variant population and ambiguous bases, without a coverage or performance claim"
+    }
+  ],
+  "requirements": [
+    "Read current AGENTS.md and DESIGN.md; inspect existing coverage and preserve staged work.",
+    "Follow capped published-first source review, scraper verification, source identity and missing-information gates; retain source/version ownership.",
+    "Use invented neutral DNA with illustrative_example catalogue and graph metadata; distinguish source mechanism from invented instance.",
+    "Provide protocol-owned molecular graphs, research notes, reference manifests and constructed-DNA endpoints; keep unverified states and host repair explicit.",
+    "Preserve applicable cleavage geometry, scars, copying relations, methylation states, recombination products and physical byproducts.",
+    "Extend generic model operations and independent validation only as needed; claim neither experimental use, feasibility, yield nor complete variant coverage.",
+    "Register catalogue, properties, citation snapshot, source routes and review ledgers; exclude invented examples from annotation and sample-sheet reference exports.",
+    "Maintain geturl.txt as outstanding requests only; move to other methods when source-blocked and retain justified private drafts.",
+    "Run appropriate source, molecular, rendering, export and site checks; stage completed changes.",
+    "Keep the earlier ET original-paper blocker in its existing records; do not treat that earlier goal as complete."
+  ]
+}

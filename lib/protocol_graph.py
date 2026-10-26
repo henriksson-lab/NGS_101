@@ -109,6 +109,7 @@ class MolecularRelation(str, Enum):
     OVERLAP_EXTENSION = "overlap extension retains one shared interval"
     PCR_PRODUCT = "amplicon reference follows primer polymers and binding sites"
     STRAND_RETENTION = "retained physical strand intervals match the declared product"
+    DUPLEX_PARTITION = "reference intervals partition the declared duplex without loss"
     BRIDGED_ASSEMBLY = "splints pair adjacent fragment ends without incorporation"
 
 

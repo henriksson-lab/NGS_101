@@ -821,7 +821,10 @@ def protocol_graph_panels(graph: ProtocolGraph, cls: str = "long", *,
     presentation: paths use the same graph states and cannot omit a branch reaction.
     """
     graph.require_publishable()
-    panels = []
+    # Computed from this validated graph, not publication status or source prose.
+    # Kept as machine-readable page metadata for the index's model-scope filter.
+    from model_completeness import markup as completeness_markup
+    panels = [completeness_markup(graph)]
     if annotations:
         from protocol_views import render_annotations
         from protocol_graph import AnnotationSlot

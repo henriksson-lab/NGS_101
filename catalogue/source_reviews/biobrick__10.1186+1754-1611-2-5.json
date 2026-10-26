@@ -1,0 +1,51 @@
+{
+  "dir": "biobrick__10.1186+1754-1611-2-5",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1186/1754-1611-2-5; external 1754-1611-2-5_PMC2373286.xml",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Inspected Results Assembling BioBrick parts/Figure3 caption, text72\u201380; Methods Assembly of BioBrick parts, text151\u2013153. Functional vector-construction branch excluded."
+    },
+    {
+      "id": "standard",
+      "role": "detailed_protocol",
+      "locator": "https://openwetware.org/mediawiki/index.php?title=Biobrick_standard&oldid=118773; external Biobrick_standard.html",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Inspected noncoding prefix/suffix and excluded recognition-site strings, text53\u201385. Source-specific neutral flanks, not functional parts or coding-prefix branch."
+    },
+    {
+      "id": "archived_rfc10",
+      "role": "detailed_protocol",
+      "locator": "https://hdl.handle.net/1721.1/45138; BBFRFC10.txt, May3,2007; https://dspace.mit.edu/bitstreams/8fb97656-129f-4a32-8983-6b424654c95d/download",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Archive identity inspected; original export not obtained within capped pass. Separate source/revision not silently equated to OpenWetWare standard."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-24-cloning-examples-03",
+      "reviewer": "primary-curator",
+      "date": "2026-10-24",
+      "scope": "Capped source-qualified illustrative example; not a complete experimental-instance or absence review",
+      "locations": "Inspected Results Assembling BioBrick parts/Figure3 caption, text72\u201380; Methods Assembly of BioBrick parts, text151\u2013153. Functional vector-construction branch excluded.; Inspected noncoding prefix/suffix and excluded recognition-site strings, text53\u201385. Source-specific neutral flanks, not functional parts or coding-prefix branch.; Archive identity inspected; original export not obtained within capped pass. Separate source/revision not silently equated to OpenWetWare standard.",
+      "findings": "Mixed 5-prime EcoRI/SpeI/XbaI and 3-prime PstI ends; three source-specific digest pairs and neutral noncoding scar. Published destination dephosphorylation prevents drawing a fully sealed in-vitro circle; recipient hydroxyls, unsealed class and host repair boundary retained.",
+      "documents": 2,
+      "oligo_scraper": "Run on external defining-original bundle, including extracted available standard. No source functional primer adopted. Empty RF hit list is not an absence claim.",
+      "deferred": [
+        "Archived RFC10 original/version comparison; rendered Figure3; complete source parent maps, site specificity, complete linked-source inventory and independent review."
+      ],
+      "verification": "Local19 checks pass across8 modules; source-free suites pass with optional source skips. Shared1468, assembly45, catalogue84, source227 and sequence-export35 pass. All8 review schemas and source guards pass. Chemistry196 conditional20 unresolved0 contradictory after whole-digest correction; affected CATCH build and chemistry rechecked, site reassembled and publication/link/export audits passed. Pairing0 problems. Full offline site448/448 diagrams,440 public schematics and every relative link pass. Direct graph/reference-export and assembled-site exclusions verified;7 public example endpoints and private ET exclusion verified.391 defining-DOI citation snapshot rows resolve. ET remains private because original substrate/topology branch is unverified; source review and archived RFC10 comparison remain deferred, not accepted absence."
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Complete linked-original inventory and independent second reading remain unfinished; actual deferred originals named, no accepted absence claim."
+  }
+}

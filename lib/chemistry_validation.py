@@ -11,7 +11,7 @@ from enum import Enum
 
 from chemdraw import Construct, Scene, bases_pair, revcomp
 from circular import ClosedCircle, RCAProduct, rolling_circle
-from assembly_geometry import StrandRetention, BridgedAssembly, OverlapExtension, ActivatedEndTransfer, DuplexEndState, LinearFivePrimeAssembly, CircularOverlapReference, strands as cohesive_strands
+from assembly_geometry import StrandRetention, BridgedAssembly, OverlapExtension, ActivatedEndTransfer, DuplexEndState, LinearFivePrimeAssembly, CircularOverlapReference, DuplexPartition, strands as cohesive_strands
 from cohesive_assembly import CircularCohesiveAssembly, CohesiveFragment
 from end_combinations import EndCombinationGeometry, LoadedEndPool, validate_groups
 from pcr import PCRGeometry
@@ -298,6 +298,24 @@ def _transition(graph: ProtocolGraph, step,
         if geom.left.top()[-n:]!=geom.right.top()[:n] or len(products)!=1 or products[0].top()!=geom.left.top()+geom.right.top()[n:]:
             return Claim(target,relation.value,Status.CONTRADICTORY,'product duplicates, loses or changes the shared interval')
         return Claim(target,relation.value,Status.CONDITIONAL if _uncertain_construct(products[0]) else Status.ESTABLISHED,'Two reference fragments share the declared overlap once; successful extension and competing products are not established')
+    if relation is MolecularRelation.DUPLEX_PARTITION:
+        geom=step.geometry
+        if not isinstance(geom,DuplexPartition):
+            return Claim(target,relation.value,Status.UNRESOLVED,'explicit reference partition required')
+        if geom.input_id not in {p.material for p in step.inputs} or set(step.outputs)!={i for i,_,_ in geom.intervals}:
+            return Claim(target,relation.value,Status.CONTRADICTORY,'partition changes input or output accounting')
+        parent=_duplex_reference_construct(_chemical(graph.materials[geom.input_id]))
+        if not isinstance(parent,Construct):
+            return Claim(target,relation.value,Status.UNRESOLVED,'explicit parent reference required')
+        if parent.top()!=geom.parent.top():
+            return Claim(target,relation.value,Status.CONTRADICTORY,'partition parent differs')
+        for identifier,start,end in geom.intervals:
+            actual=_duplex_reference_construct(_chemical(graph.materials[identifier]))
+            if not isinstance(actual,Construct):
+                return Claim(target,relation.value,Status.UNRESOLVED,'each output needs a reference map')
+            if actual.top()!=parent.top()[start:end]:
+                return Claim(target,relation.value,Status.CONTRADICTORY,'partition output changes or duplicates parent bases')
+        return Claim(target,relation.value,Status.CONDITIONAL,'Reference intervals account for each parent base once; physical cut offsets, end chemistry, recognition and yield remain unassigned')
     if relation is MolecularRelation.STRAND_RETENTION:
         geometry=step.geometry
         if not isinstance(geometry,StrandRetention):

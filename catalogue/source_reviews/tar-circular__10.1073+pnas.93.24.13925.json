@@ -1,0 +1,43 @@
+{
+  "dir": "tar-circular__10.1073+pnas.93.24.13925",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1073/pnas.93.24.13925; external pnas.93.24.13925_PMC19470.html",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Published text Introduction1146\u20131173; TAR Cloning Vectors1192\u20131216,1230\u20131238; Figure1 caption1243\u20131260; analytical probe primer context1304\u20131312."
+    },
+    {
+      "id": "linear_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1073/pnas.93.1.491",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Identified cited predecessor for earlier linear TAR and source components; not retrieved or inspected in this capped pass, so not available to this review. This does not establish public inaccessibility. Not used to fill circular source details."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-24-cloning-examples-03",
+      "reviewer": "primary-curator",
+      "date": "2026-10-24",
+      "scope": "Capped illustrative-reference review, not a complete experimental-instance or missing-information review",
+      "locations": "Published text Introduction1146\u20131173; TAR Cloning Vectors1192\u20131216,1230\u20131238; Figure1 caption1243\u20131260; analytical probe primer context1304\u20131312.",
+      "findings": "Source-specific single-recipient circular TAR is distinguished from telomere/linear YAC. Invented prepared neutral maps have two homology stand-ins and a conditional intended circular reference check; host transformation remains unresolved. Analytical probe oligos are not graph reagents.",
+      "documents": 1,
+      "oligo_scraper": "Ran on final fetched source bundle; two Alu-probe PCR hits verified in source1304\u20131312, not adopted; name-derived false hit rejected.",
+      "deferred": [
+        "Original Figure1 graphic, complete vector/repeat maps and orientations; remaining Methods/Results; directly linked predecessor DOI10.1073/pnas.93.1.491 and full linked-original/independent review."
+      ],
+      "verification": "Local19 checks pass across8 modules; source-free suites pass with optional source skips. Shared1468, assembly45, catalogue84, source227 and sequence-export35 pass. All8 review schemas and source guards pass. Chemistry196 conditional20 unresolved0 contradictory after whole-digest correction; affected CATCH build and chemistry rechecked, site reassembled and publication/link/export audits passed. Pairing0 problems. Full offline site448/448 diagrams,440 public schematics and every relative link pass. Direct graph/reference-export and assembled-site exclusions verified;7 public example endpoints and private ET exclusion verified.391 defining-DOI citation snapshot rows resolve. ET remains private because original substrate/topology branch is unverified; source review and archived RFC10 comparison remain deferred, not accepted absence."
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Complete linked-original inventory and independent source review remain incomplete; deferred originals are not evidence of missing disclosure."
+  }
+}

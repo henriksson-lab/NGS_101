@@ -1,0 +1,43 @@
+{
+  "dir": "rf-cloning__10.1016+j.jbbm.2005.12.008",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://www2.mrc-lmb.cam.ac.uk/groups/JYL/PDF/rfcloning2006%20published.pdf; doi10.1016/j.jbbm.2005.12.008; external rfcloning2006_published.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Published original inspected Methods2.1/2.2, Results and Figure1 caption, printed pp68\u201371. Functional protein-expression/host-production branches excluded."
+    },
+    {
+      "id": "pfuturbo_manual",
+      "role": "vendor",
+      "locator": "PfuTurbo manual (Stratagene), explicitly cited in defining Results printed p71; exact historical revision unresolved",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Named cited document with unresolved revision/locator; deferred within cap. No inferred complete polymerase stopping mechanism from current product pages."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-24-cloning-examples-03",
+      "reviewer": "primary-curator",
+      "date": "2026-10-24",
+      "scope": "Capped source-qualified illustrative example; not a complete experimental-instance or absence review",
+      "locations": "Published original inspected Methods2.1/2.2, Results and Figure1 caption, printed pp68\u201371. Functional protein-expression/host-production branches excluded.; Named cited document with unresolved revision/locator; deferred within cap. No inferred complete polymerase stopping mechanism from current product pages.",
+      "findings": "Source RF duplex PCR-product megaprimer and linear amplification remain separate from first insert PCR, EMP and exponential copying. Local windows/reference arithmetic checked; nick positions/stopping remain unassigned. Parental methylated background persists through DpnI; source host repair/recovery stays unresolved.",
+      "documents": 1,
+      "oligo_scraper": "Run on external defining-original bundle, including extracted available standard. No source functional primer adopted. Empty RF hit list is not an absence claim.",
+      "deferred": [
+        "Rendered original Figure1; complete source parent maps; cited historical PfuTurbo manual identity/revision and stopping mechanism; linked-original and independent review."
+      ],
+      "verification": "Local19 checks pass across8 modules; source-free suites pass with optional source skips. Shared1468, assembly45, catalogue84, source227 and sequence-export35 pass. All8 review schemas and source guards pass. Chemistry196 conditional20 unresolved0 contradictory after whole-digest correction; affected CATCH build and chemistry rechecked, site reassembled and publication/link/export audits passed. Pairing0 problems. Full offline site448/448 diagrams,440 public schematics and every relative link pass. Direct graph/reference-export and assembled-site exclusions verified;7 public example endpoints and private ET exclusion verified.391 defining-DOI citation snapshot rows resolve. ET remains private because original substrate/topology branch is unverified; source review and archived RFC10 comparison remain deferred, not accepted absence."
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Complete linked-original inventory and independent second reading remain unfinished; actual deferred originals named, no accepted absence claim."
+  }
+}

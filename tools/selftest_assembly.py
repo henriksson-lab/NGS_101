@@ -6,7 +6,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'lib'))
 from checks import Check
 from chemdraw import Construct,Scene,Segment,revcomp,feature
 from cohesive_assembly import CohesiveFragment,CircularCohesiveAssembly
-from assembly_geometry import StrandRetention,BridgedAssembly,OverlapExtension,NucleotideBoundary,pcr_product,DuplexEndState,ActivatedEndTransfer,LinearFivePrimeAssembly,CircularOverlapReference
+from assembly_geometry import StrandRetention,BridgedAssembly,OverlapExtension,NucleotideBoundary,pcr_product,DuplexEndState,ActivatedEndTransfer,LinearFivePrimeAssembly,CircularOverlapReference,DuplexPartition
 from pcr import PCRGeometry,PCRPrimer
 from protocol_graph import ProtocolGraph,Disposition,MaterialKind as K,InputRole as R,StepKind as S,MolecularRelation as M
 from chemistry_validation import Status,check_graph
@@ -151,6 +151,25 @@ def run(check):
     check('independent intended-reference check rejects duplicated overlaps',any(c.status is Status.CONTRADICTORY for c in check_graph(g)),True)
     g.materials['b']=replace(mb,state=None)
     check('unknown contributor remains unresolved rather than confirmed contradictory',any(c.status is Status.UNRESOLVED and c.question=='conditional circular reference' for c in check_graph(g)),True)
+
+    check.section('reference partition accounting independent of nuclease chemistry')
+    parent=Construct((Segment('parent','ACGTCAGTGCTA'),))
+    geom=DuplexPartition('parent',parent,(('left',0,3),('target',3,8),('right',8,12)),'chosen reference boundaries only')
+    check.raises('partition rejects an omitted parent interval',lambda:replace(geom,intervals=(('left',0,3),('right',4,12))))
+    check.raises('partition rejects duplicated parent interval',lambda:replace(geom,intervals=(('left',0,8),('right',7,12))))
+    check.raises('partition rejects lost suffix',lambda:replace(geom,intervals=(('left',0,3),('right',3,11))))
+    g=ProtocolGraph('reference partition fixture',required_output=Disposition.CONSTRUCT)
+    source=g.input('parent','parent',K.MOLECULAR,primary=True,state=Scene.duplex(tuple(parent)),chemical_state=parent)
+    enzyme=g.input('enzyme','unassigned nuclease',K.CATALYST)
+    products=[g.product(i,i,K.MOLECULAR,state=Scene.duplex(tuple(con)),chemical_state=con) for i,con in geom.products()]
+    g.react('partition','chosen reference partition',S.DIGESTION,[(source,R.TEMPLATE),(enzyme,R.CATALYST)],products,geometry=geom,relations=(M.DUPLEX_PARTITION,))
+    check('reference partition remains conditional even on explicit bases',any(c.status is Status.CONDITIONAL and c.question==M.DUPLEX_PARTITION.value for c in check_graph(g)),True)
+    target=g.materials['target']
+    g.materials['target']=replace(target,chemical_state=Construct((Segment('changed','CAGTGA'),)))
+    check('independent partition relation rejects changed output',any(c.status is Status.CONTRADICTORY for c in check_graph(g)),True)
+    g.materials['target']=target
+    g.materials['parent']=replace(source,chemical_state=Construct((Segment('changed','TCGTCAGTGCTA'),)))
+    check('independent partition relation rejects changed parent',any(c.status is Status.CONTRADICTORY for c in check_graph(g)),True)
 
     check.section('explicit duplex reference views across recursive assembly')
     af=CohesiveFragment('a','AGTC',(Segment('a body','ACGTA'),),'TGAC','5-prime','5-prime')

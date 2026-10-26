@@ -1,0 +1,44 @@
+{
+  "dir": "in-fusion__10.1093+nar+gkm047",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1093/nar/gkm047; external nar_gkm047_PMC1874605.xml and .pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Published2007 article; selected cloning Methods and Discussion inspected. Functional expression and host/vector engineering branches excluded."
+    },
+    {
+      "id": "published_table",
+      "role": "supplement",
+      "locator": "external nar_gkm047_supp_nar_gkm047_nar-02689-met-g-2006-File001.doc",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Header identifies SupplementaryTable1 as case-study targets. Full content deferred; no source target/primer/vector sequences adopted."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-24-cloning-examples-03",
+      "reviewer": "primary-curator",
+      "date": "2026-10-24",
+      "scope": "Capped source-qualified neutral example; not full experimental-instance or absence review",
+      "locations": "Published JATS Methods In-Fusion cloning of PCR products (text110\u2013116) and Discussion first paragraph (text232); published identity header. Supplementary Table1 header inspected only to identify its case-study scope; it supplies no input to this neutral example.",
+      "findings": "The historical implementation uses In-Fusion Dry-Down 96-well reagent on purified PCR insert and prepared linear recipient, followed by bacterial transformation. The Discussion permits arbitrary15-base homology regions. Neutral tailed-PCR references are derived from declared primers. Intended circular order is checked separately from the unresolved reagent-treated intermediate and intracellular repair/recovery.",
+      "documents": 2,
+      "oligo_scraper": "Run on external published-source bundle; hits reviewed, no source oligo adopted.",
+      "deferred": [
+        "Original pOPIN maps and Table1 extension values are deliberately not transcribed; their biological contexts are outside this neutral example. Detailed reagent molecular intermediate/end chemistry and host-repair pathway are unassigned. Full case-study supplement, cited predecessor and vendor-original/linked-source reviews remain deferred; no missing-information claim is made.",
+        "Historical reagent molecular composition/intermediate is an unassigned model question; this pass has not identified a specific missing vendor document. Current HD/Snap documentation is not a substitute."
+      ],
+      "verification": "Local19 checks pass across8 modules; source-free suites pass with optional source skips. Shared1468, assembly45, catalogue84, source227 and sequence-export35 pass. All8 review schemas and source guards pass. Chemistry196 conditional20 unresolved0 contradictory after whole-digest correction; affected CATCH build and chemistry rechecked, site reassembled and publication/link/export audits passed. Pairing0 problems. Full offline site448/448 diagrams,440 public schematics and every relative link pass. Direct graph/reference-export and assembled-site exclusions verified;7 public example endpoints and private ET exclusion verified.391 defining-DOI citation snapshot rows resolve. ET remains private because original substrate/topology branch is unverified; source review and archived RFC10 comparison remain deferred, not accepted absence."
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Full linked-original inventory and independent review incomplete. Deferred or unassigned values are not accepted absence claims."
+  }
+}

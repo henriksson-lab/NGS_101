@@ -1085,6 +1085,9 @@ check("rendering is deterministic -- building twice gives the same bytes",
 
 import build_index  # noqa: E402
 
+from selftest_model_completeness import run as check_model_completeness
+check_model_completeness(check)
+
 _front, _ = build_index.build(run_checks=False)
 _public = [p for p in build_index.collect(run_checks=False) if p["section"] == "published"]
 check("the public index retains the complete published catalogue",
@@ -1097,6 +1100,18 @@ check("work in progress and the all-notes index are absent from the public front
       ("Work in progress" in _front, 'href="notes.html"' in _front), (False, False))
 check("reference-note bodies are not embedded in public search data",
       "Evidence marking" in _front, False)
+check("every public protocol has exactly one computed model-completeness value",
+      all(p["properties"]["model_completeness"] == (p["model_completeness"],)
+          and p["model_completeness"] in build_index.MODEL_LEVELS for p in _public), True)
+check("an unavailable public schematic cannot inherit a model assessment",
+      all(p["model_completeness"] == "none" for p in _public if not p["page"]), True)
+_model_data = _publication_json.loads(build_index.search_data(_public))
+check("computed model levels reach the same client-side facet data as chemistry filters",
+      [r["p"]["model_completeness"] for r in _model_data],
+      [[p["model_completeness"]] for p in _public])
+check("model completeness is a primary filter with an explicit source-review boundary",
+      ('data-facet="model_completeness"' in _front
+       and 'Not a source-review or experimental-validation grade.' in _front), True)
 
 # ------------------------------------------------- computed facts inside the notes
 check.section("computed facts in notes expand (lib/mdfacts.py)")

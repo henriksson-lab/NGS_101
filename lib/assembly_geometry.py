@@ -288,3 +288,35 @@ class CircularOverlapReference:
 
     def reference(self,name):
         return Construct(tuple(replace(s,inferred=True) for identifier,con,_,right in self.parts for s in dna_window(con,0,len(con)-right,prefix=identifier+': ')),name)
+
+
+@dataclass(frozen=True)
+class DuplexPartition:
+    """Partition an explicit duplex reference at supplied top-axis boundaries.
+
+    This compares base accounting only. It assigns no recognition sites, physical
+    end offsets, end groups, nuclease specificity or product frequencies.
+    """
+    input_id: str
+    parent: Construct
+    intervals: tuple[tuple[str, int, int], ...]
+    statement: str
+
+    def __post_init__(self):
+        if not self.input_id or not self.statement.strip() or not self.intervals:
+            raise ValueError('a partition requires a parent, intervals and scope')
+        if len({i for i,_,_ in self.intervals}) != len(self.intervals):
+            raise ValueError('partition output IDs must be distinct')
+        if set(self.parent.top())-set('ACGT'):
+            raise ValueError('partition requires an explicit DNA reference')
+        cursor=0
+        for _,start,end in self.intervals:
+            if start!=cursor or not start<end<=len(self.parent):
+                raise ValueError('partition intervals must cover the parent once in order')
+            cursor=end
+        if cursor!=len(self.parent):
+            raise ValueError('partition loses the parent suffix')
+
+    def products(self):
+        return tuple((identifier,Construct(dna_window(self.parent,start,end,prefix=identifier+': '),identifier))
+                     for identifier,start,end in self.intervals)

@@ -52,7 +52,7 @@ FACETS = OrderedDict([
         "padlock / circularization", "splint ligation", "hairpin / dumbbell", "full-length adaptor",
         "hybridization scaffold", "bead-mediated barcoding", "RNA-DNA bridge",
         "random priming", "extension / fill-in", "overlap assembly",
-        "proximity extension", "not applicable"))),
+        "proximity extension", "not applicable", "unassigned in model"))),
     ("amplification", ("Amplification", (
         "PCR-free", "endpoint PCR", "linear amplification", "rolling-circle amplification",
         "whole-genome amplification", "whole-transcriptome amplification", "two-stage PCR",
@@ -67,7 +67,7 @@ FACETS = OrderedDict([
     ("strand_handling", ("Strand handling", (
         "unstranded", "directional RNA", "strand displacement", "second-strand destruction",
         "single-stranded library", "duplex sequencing", "native RNA sequencing",
-        "RNA hybridization", "crosslink-induced RT signature", "not applicable"))),
+        "RNA hybridization", "crosslink-induced RT signature", "not applicable", "unassigned in model"))),
     ("identifiers", ("Molecular identifiers", (
         "UMI", "cell barcode", "sample index", "guide barcode", "spatial barcode",
         "lineage barcode", "linked-read barcode", "molecular complex barcode", "cluster barcode", "feature barcode", "assembly barcode", "no UMI"))),
@@ -75,7 +75,7 @@ FACETS = OrderedDict([
         "paired-end", "single-end", "index reads", "inline barcode", "barcode in Read 1",
         "barcode in Read 2", "barcode in Index 1", "barcode in Index 2",
         "custom sequencing primer", "long-read consensus",
-        "microscopy", "flow cytometry", "not applicable"))),
+        "microscopy", "flow cytometry", "not applicable", "unassigned in model"))),
     ("selection", ("Selection or enrichment", (
         "poly(A) selection", "rRNA depletion", "size selection", "hybrid capture",
         "restriction-site selection", "spatial capture", "affinity / antibody capture",

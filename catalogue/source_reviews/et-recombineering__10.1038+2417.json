@@ -1,0 +1,65 @@
+{
+  "dir": "et-recombineering__10.1038+2417",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/2417",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Published abstract PMID9771703, Abstract; Nature ng1098_123 full article inaccessible."
+    },
+    {
+      "id": "abstract",
+      "role": "other",
+      "locator": "https://pubmed.ncbi.nlm.nih.gov/9771703/",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Published defining abstract inspected; this is an abstract view of the defining original, not a second full document."
+    },
+    {
+      "id": "author_published_copy",
+      "role": "defining",
+      "locator": "https://www.researchgate.net/profile/Adrian-Stewart-2/publication/13513898_Zhang_Y_Buchholz_F_Muyrers_JP_Stewart_AF_A_new_logic_for_DNA_engineering_using_recombination_in_E_coli_Nat_Genet_20_123-128/links/0deec517ba6a802d3a000000/Zhang-Y-Buchholz-F-Muyrers-JP-Stewart-AF-A-new-logic-for-DNA-engineering-using-recombination-in-E-coli-Nat-Genet-20-123-128.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Author Adrian Stewart upload page identifies the published original and its printed title, Nature Genetics20 October1998 p123. Web preview text is fragmented and methods were not read; PDF retrieval through registered source route returns HTTP403. This is another copy of the same defining original, not a different method."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-24-cloning-examples-03",
+      "reviewer": "primary-curator",
+      "date": "2026-10-24",
+      "scope": "Capped illustrative-reference review, not a complete experimental-instance or missing-information review",
+      "locations": "Published abstract PMID9771703, Abstract; Nature ng1098_123 full article inaccessible.",
+      "findings": "RecE/RecT identity and homologous-recombination target classes verified. Chosen two-sided replacement topology is explicitly hypothetical, not a verified source branch. Full source review blocks public promotion.",
+      "documents": 0,
+      "oligo_scraper": "Ran on external bundle: zero files, no inference of absence.",
+      "deferred": [
+        "Defining published full methods/figures and its linked-original inventory; substrate topology, host implementation, oligos and physical byproduct chemistry remain unassigned."
+      ],
+      "verification": "Local19 checks pass across8 modules; source-free suites pass with optional source skips. Shared1468, assembly45, catalogue84, source227 and sequence-export35 pass. All8 review schemas and source guards pass. Chemistry196 conditional20 unresolved0 contradictory after whole-digest correction; affected CATCH build and chemistry rechecked, site reassembled and publication/link/export audits passed. Pairing0 problems. Full offline site448/448 diagrams,440 public schematics and every relative link pass. Direct graph/reference-export and assembled-site exclusions verified;7 public example endpoints and private ET exclusion verified.391 defining-DOI citation snapshot rows resolve. ET remains private because original substrate/topology branch is unverified; source review and archived RFC10 comparison remain deferred, not accepted absence."
+    },
+    {
+      "round": "2026-10-24-et-direct-original-followup",
+      "reviewer": "primary-curator",
+      "date": "2026-10-24",
+      "scope": "Direct defining-original availability and identity follow-up only; no new chemistry or absence conclusion",
+      "locations": "Author upload page header, author-content attribution and printed title/journal/page fragment. Full PDF unavailable; no methods, figures or linked chemistry inspected.",
+      "findings": "A source-author upload identifies another copy of the published original, but direct PDF returns403. Fragmented web preview does not verify the substrate branch. Private hypothetical graph remains unchanged.",
+      "documents": 0,
+      "oligo_scraper": "Rerun on external bundle:0files. No absence inference.",
+      "deferred": [
+        "Published full original methods and figures; source-specific ET substrate/topology and donor preparation remain unverified."
+      ],
+      "verification": "Source fetcher manifest records failed PDF identity and403; source-review schema, reference-doc build and staged whitespace checked."
+    }
+  ],
+  "missing_claims": [],
+  "linked_information": {
+    "result": "blocked",
+    "reason": "Complete linked-original inventory and independent source review remain incomplete; deferred originals are not evidence of missing disclosure."
+  }
+}

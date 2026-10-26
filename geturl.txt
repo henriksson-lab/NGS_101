@@ -1,6 +1,6 @@
-Outstanding document requests — updated 2026-10-23
+Outstanding document requests — updated 2026-10-24
 
-Scope: the inverse-PCR and foundational cloning additions. This list contains
+Scope: the inverse-PCR and successive cloning-example additions. This list contains
 outstanding requests only; already retrieved documents are excluded. Download the identified
 published original/revision, not a preprint or a substitute protocol revision.
 Place originals in /husky/henriksson/NGS101_papers/sources/<directory>/.
@@ -134,3 +134,28 @@ CLONING EXAMPLES ROUND2 — outstanding originals (2026-10-23)
     https://nph.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1111%2Fnph.15625&file=nph15625-sup-0001-Supinfo.pdf
     The automatically fetched preprint supplements are superseded and cannot replace it.
     Directory: loop-assembly__10.1111+nph.15625
+
+15. RecE/RecT ET recombineering — Zhang et al., 1998
+    DOI: https://doi.org/10.1038/2417
+    Published original: https://www.nature.com/articles/ng1098_123
+    PDF: https://www.nature.com/articles/ng1098_123.pdf
+    Status: only the defining abstract was accessible; publisher redirects to
+    inaccessible authorization and no open full original was found by source tools.
+    Needed: published methods and figures to identify the original substrate and
+    topology branch. The hypothetical neutral replacement remains private notes.
+    Alternate author-uploaded published copy (PDF retrieval also HTTP403):
+    https://www.researchgate.net/publication/13513898_Zhang_Y_Buchholz_F_Muyrers_JP_Stewart_AF_A_new_logic_for_DNA_engineering_using_recombination_in_E_coli_Nat_Genet_20_123-128
+    Direct PDF:
+    https://www.researchgate.net/profile/Adrian-Stewart-2/publication/13513898_Zhang_Y_Buchholz_F_Muyrers_JP_Stewart_AF_A_new_logic_for_DNA_engineering_using_recombination_in_E_coli_Nat_Genet_20_123-128/links/0deec517ba6a802d3a000000/Zhang-Y-Buchholz-F-Muyrers-JP-Stewart-AF-A-new-logic-for-DNA-engineering-using-recombination-in-E-coli-Nat-Genet-20-123-128.pdf
+    Directory: et-recombineering__10.1038+2417
+
+16. BioBrick — archived RFC10 original, 3 May 2007
+    Archive identity: https://hdl.handle.net/1721.1/45138
+    Original BBFRFC10.txt:
+    https://dspace.mit.edu/bitstreams/8fb97656-129f-4a32-8983-6b424654c95d/download
+    Status: archived export retrieval failed in browser; archive record identifies
+    the document. Defining Shetty2008 main article and OpenWetWare standard are
+    already available and are not requested again.
+    Needed: original text for formal revision comparison; current example is
+    qualified to the inspected source branch rather than asserting full equivalence.
+    Directory: biobrick__10.1186+1754-1611-2-5
