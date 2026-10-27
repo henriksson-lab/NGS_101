@@ -589,3 +589,31 @@ The slash-to-plus directory convention preserves other DOI punctuation, includin
 parentheses in older publisher identifiers. Pass paths as subprocess arguments or
 quote them in shell commands, for example:
 `python3 tools/protocol.py test 'soe-pcr__10.1016+0378-1119(89)90359-4'`.
+
+### Restriction analysis tab
+
+`python3 build_restriction.py` generates `restriction.html` and the browser's enzyme
+JSON; `build_site.py` runs it automatically. The matcher, worker and UI are in
+`assets/restriction_*.js`. No additional packages or browser runtime are required.
+Run `node tools/selftest_restriction.js` and
+`python3 tools/selftest_restriction.py`; the latter is included in the shared suite.
+
+The checked-in reference snapshot `catalogue/restriction_enzymes.json` contains
+1,088 Biopython enzyme records, derived from REBASE release 404 (2024). Its pinned
+source revision, source hash, copyright and full distribution license travel with
+the generated browser data. `tools/fetch_restriction_catalogue.py` deliberately
+refreshes that snapshot using standard-library downloads and AST literal parsing;
+ordinary builds never fetch or execute upstream code.
+`python3 tools/benchmark_restriction_browser.py --site _site` runs the opt-in real
+Chrome checks for filters, circular sites, SVG/TSV exports, failure/retry and cancellation
+without installing packages. It needs permission to bind a localhost server.
+A different upstream revision
+requires updating the pinned revision and expected source hash together.
+
+`catalogue/restriction_methylation.tsv` holds a separate small set of locally curated
+factual annotations with exact named-enzyme identity, primary URLs and inspection
+date. Current coverage is 36 enzymes; other entries remain unknown, including product
+variants without their own annotation. Add verified rows rather than inferring
+sensitivity from a motif, an isoschizomer or a different reagent formulation.
+The tab filters sensitivity independently from actual-sequence CpG/Dam/Dcm overlaps;
+it does not apply methylation occupancy or predict experimental digestion.

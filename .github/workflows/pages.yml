@@ -62,6 +62,7 @@ jobs:
           node tools/selftest_illumina_samplesheet.js
           node tools/selftest_sequence_annotation_ui.js
           node tools/selftest_samplesheet_batch.js
+          node tools/selftest_restriction.js
 
       - name: Build the site
         run: python3 build_site.py

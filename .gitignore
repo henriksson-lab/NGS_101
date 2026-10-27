@@ -157,3 +157,6 @@ assets/sequence_components.json
 
 # Generated shared Python bundle for browser-local annealing.
 assets/anneal_python.json
+
+# Generated restriction catalogue for the browser; licensed source snapshot is in catalogue/.
+assets/restriction_catalogue.json

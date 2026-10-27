@@ -203,12 +203,15 @@ def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
     files["annotate.html"] = ROOT / "annotate.html"
     files["samplesheet.html"] = ROOT / "samplesheet.html"
     files["anneal.html"] = ROOT / "anneal.html"
+    files["restriction.html"] = ROOT / "restriction.html"
     # Deliberately unlisted: requested source-retrieval helper, never navigation/search.
     files["source-downloads.html"] = ROOT / "source-downloads.html"
     # fetch() dependencies are not discovered by the HTML href/src walker.
     files["assets/sequence_components.json"] = ROOT / "assets" / "sequence_components.json"
     files["assets/anneal_python.json"] = ROOT / "assets" / "anneal_python.json"
     files["assets/anneal_worker.mjs"] = ROOT / "assets" / "anneal_worker.mjs"
+    files["assets/restriction_catalogue.json"] = ROOT / "assets" / "restriction_catalogue.json"
+    files["assets/restriction_worker.js"] = ROOT / "assets" / "restriction_worker.js"
 
     skipped = []
     public_dirs = {r["dir"] for r in build_index.cat.ours()
@@ -363,6 +366,7 @@ def build_annotation(results: dict[str, tuple[bool, str]]) -> None:
     run("build_annotate.py")
     run("build_samplesheet.py")
     run("build_anneal.py")
+    run("build_restriction.py")
 
 
 def main() -> int:

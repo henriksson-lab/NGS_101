@@ -1016,3 +1016,31 @@ to index it. Direct access remains public. It contains source URLs, document/rev
 identity and request context, never fetched originals or the local source-root preamble.
 Removing a fulfilled ledger request removes it from the generated page. The build
 continues to prohibit publication of raw source materials and internal evidence logs.
+
+## 2026-10-27 — Analyze restriction sites from a licensed reference snapshot
+
+The Restriction sites tab searches a pinned Biopython restriction dictionary derived
+from REBASE, with its permission notice, copyright and source identity retained in
+the shipped metadata. This is a deliberate reference-data snapshot for the requested
+tool, like the citation snapshot, not a Python dependency or a redistribution of
+downloaded papers. The standard-library refresh tool parses literal assignments;
+ordinary builds remain offline and never execute fetched Python.
+
+The browser matcher reuses existing sequence normalization and IUPAC reverse
+complement helpers. It reports declared cut-coordinate arithmetic separately from
+recognition matches, including reverse orientations, circular-origin matches,
+linear-end exclusions, nicking and two-cut geometry. It does not reuse the narrower
+source-protocol digest helper or change any protocol's enzyme declarations.
+Certain and possible matches remain distinct; additional possible cuts prevent
+an unqualified exact-count/unique-cutter result. Resource limits fail explicitly
+rather than returning partial counts. Position retention limits affect display
+and exports only and are labelled when reached.
+
+CpG, Dam and Dcm sequence-context filters are independent of sensitivity filters.
+Context includes motifs overlapping recognition flanks, without changing whole-DNA
+cut counts. Exact-name sensitivity facts are curated separately with primary source
+links; unreviewed enzymes remain unknown, with no inheritance across product
+variants or isoschizomers. Filters do not simulate methylation occupancy, enzyme
+activity, digestion yield or reaction conditions. Reference fragment lengths use
+top-strand coordinate boundaries; these sequence predictions do not validate a
+reaction or a protocol. Custom enzymes are explicitly user-supplied declarations.

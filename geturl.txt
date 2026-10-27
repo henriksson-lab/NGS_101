@@ -1,4 +1,4 @@
-Outstanding document requests — updated 2026-10-24
+Outstanding document requests — updated 2026-10-27
 
 Scope: the inverse-PCR and successive cloning-example additions. This list contains
 outstanding requests only; already retrieved documents are excluded. Download the identified
@@ -143,6 +143,8 @@ CLONING EXAMPLES ROUND2 — outstanding originals (2026-10-23)
     inaccessible authorization and no open full original was found by source tools.
     Needed: published methods and figures to identify the original substrate and
     topology branch. The hypothetical neutral replacement remains private notes.
+    Rechecked 2026-10-27: direct publisher PDF returned HTML, rejected by
+    PDF validation; author-upload PDF again returned HTTP403.
     Alternate author-uploaded published copy (PDF retrieval also HTTP403):
     https://www.researchgate.net/publication/13513898_Zhang_Y_Buchholz_F_Muyrers_JP_Stewart_AF_A_new_logic_for_DNA_engineering_using_recombination_in_E_coli_Nat_Genet_20_123-128
     Direct PDF:

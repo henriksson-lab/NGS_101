@@ -55,6 +55,20 @@
         "Published full original methods and figures; source-specific ET substrate/topology and donor preparation remain unverified."
       ],
       "verification": "Source fetcher manifest records failed PDF identity and403; source-review schema, reference-doc build and staged whitespace checked."
+    },
+    {
+      "round": "2026-10-27-et-resume-original-availability",
+      "reviewer": "primary-curator",
+      "date": "2026-10-27",
+      "scope": "Capped direct-original availability recheck after user resumed the goal; no chemistry or absence conclusion",
+      "locations": "Existing source manifest and upload directory inspected; publisher article request inaccessible. Direct publisher PDF response failed PDF validation; author-upload PDF returned403. Original methods and figures remain uninspected.",
+      "findings": "No supplied or retrieved original. Registered the explicit publisher PDF route. Generic source validation rejected HTML returned as PDF; no rejected response was used as scientific evidence. ET substrate and topology remain hypothetical and private.",
+      "documents": 0,
+      "oligo_scraper": "Run on external bundle:0files. No absence inference.",
+      "deferred": [
+        "Defining published methods and figures, source-specific ET substrate and topology, and original donor/host implementation."
+      ],
+      "verification": "Fetcher completed with0valid files and3manual manifest rows; source-review schema and helper/ledger checks run before staging."
     }
   ],
   "missing_claims": [],
