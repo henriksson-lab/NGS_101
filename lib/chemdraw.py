@@ -70,6 +70,16 @@ TM_PRIMER_MOLAR = 0.5e-6
 TM_NA_MOLAR = 0.05
 
 
+def tm_model_parameters() -> dict:
+    """Published DNA nearest-neighbour data for reusable browser calculators.
+
+    This exports thermodynamic constants, not a reagent-specific buffer recipe.
+    """
+    return {"nearest_neighbours": {key: list(value) for key, value in _NN.items()}, "gas_constant": _R,
+            "terminal_gc": [0.1, -2.8], "terminal_at": [2.3, 4.1],
+            "symmetry_entropy": -1.4}
+
+
 def tm(seq: str, primer_molar: float = TM_PRIMER_MOLAR,
        na_molar: float = TM_NA_MOLAR) -> float:
     """Nearest-neighbour melting temperature in degrees C.

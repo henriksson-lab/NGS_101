@@ -240,3 +240,33 @@ Verified 45 matcher checks, 13 catalogue/build checks, 1,520 shared checks, and 
 Chrome checks, including actual pointer hover, horizontal connectors, circular
 origin splits, reverse type IIS sites, and native scrolling to a motif after base
 10,000 with bounded DOM size. Site assembly/link/publication checks pass. No deploy.
+
+### Primer Tm tab — 28 Oct
+
+Added `tm.html` to the shared navigation and offline site build. Starts with KAPA
+HiFi HotStart ReadyMix PCR Kit (Roche KR0370 v16.25, May 2025): 2.5 mM Mg²⁺,
+0.3 mM EACH dNTP, and 300 nM primer. Complete monovalent composition is not supplied
+by the cited composition paragraph; the visible, editable 50 mM starting value is
+explicitly an assumption. This is a conditional Tm estimate, not a verified full
+KAPA buffer model. Fidelity/GC and Library Amplification products are not included.
+
+`assets/primer_tm.js` provides independent SantaLucia 1998/Owczarzy 2008 math with
+Mg–dNTP equilibrium. Build exports existing canonical NN parameters through
+`chemdraw.tm_model_parameters()`. All concentrations are explicit in the reusable
+API, including target concentration; the UI assumes trace template. Supports one
+or two primers, exclusion of specified 5′ tails, symmetry correction, ΔTm, editable
+conditions, scope warnings, and TSV with units/assumptions/model. Changing disclosed
+concentrations labels conditions custom. Roche's 60–72°C gradient / initial 65°C Ta
+guidance is kept separate, with no invented numerical Tm-to-Ta offset. No vendor
+code, calculator API or runtime dependency; existing diagram Tm behaviour unchanged.
+
+Validation: 30 Node numerical/API checks (including published independent reference
+values), 6 offline build checks integrated into the 1,527-check shared suite, 47
+annealing checks, all pre-existing Node sequence-tool suites, and 19 actual Chrome
+UI checks. Full `build_site.py --no-checks`: 448/448 diagrams built, 440 finished
+public schematics, every site-relative link resolves. Optional browser command:
+`python3 tools/benchmark_primer_tm_browser.py --site _site`.
+
+The previous staged KAPA calculator investigation is preserved and extended in
+`plans/tm_calibration_sources.json`; the unqualified third-party KAPA preset was
+not adopted. No deployment or commit performed.

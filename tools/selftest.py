@@ -149,7 +149,7 @@ with TemporaryDirectory() as _publication_temp:
         _directory = _publication_root / _row["dir"]
         _directory.mkdir()
         (_directory / "diagram.html").write_text('<h1>Diagram</h1><div data-protocol-complete="true"></div>')
-    for _name in ("index", "about", "annotate", "samplesheet", "anneal", "restriction", "source-downloads"):
+    for _name in ("index", "about", "annotate", "samplesheet", "anneal", "restriction", "tm", "source-downloads"):
         (_publication_root / (_name + ".html")).write_text('<h1>Tools</h1>')
     (_publication_root / "assets").mkdir()
     for _name in ("sequence_components.json", "anneal_python.json", "anneal_worker.mjs", "restriction_catalogue.json", "restriction_worker.js"):
@@ -1095,6 +1095,8 @@ from selftest_source_downloads import run as check_source_downloads
 check_source_downloads(check)
 from selftest_restriction import run as check_restriction
 check_restriction(check)
+from selftest_primer_tm import run as check_primer_tm
+check_primer_tm(check)
 
 _front, _ = build_index.build(run_checks=False)
 _public = [p for p in build_index.collect(run_checks=False) if p["section"] == "published"]

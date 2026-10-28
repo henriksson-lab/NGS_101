@@ -617,3 +617,24 @@ variants without their own annotation. Add verified rows rather than inferring
 sensitivity from a motif, an isoschizomer or a different reagent formulation.
 The tab filters sensitivity independently from actual-sequence CpG/Dam/Dcm overlaps;
 it does not apply methylation occupancy or predict experimental digestion.
+
+### Primer Tm tab
+
+`python3 build_tm.py` builds `tm.html`. The shared navigation and normal site build
+include it. `assets/primer_tm.js` exports the reusable DNA/DNA calculation model;
+`assets/primer_tm_ui.js` supplies the form and TSV export. Thermodynamic constants
+come from `chemdraw.tm_model_parameters()` and are embedded offline in the page.
+No calculator API, runtime package or network source is needed during a build/run.
+
+Start with the source-qualified KAPA HiFi HotStart ReadyMix PCR Kit preset in
+`build_tm.model_data()`. Keep disclosed concentrations distinct from assumed
+monovalent salt; preserve per-nucleotide versus total-dNTP units. Do not transfer
+this preset to KAPA Fidelity/GC or Library Amplification formulations. The model
+requires explicit target concentration; this page uses a trace-template assumption.
+Roche's Ta guidance is separate from calculated Tm, with no fitted Ta offset.
+
+Checks: `node tools/selftest_primer_tm.js` (numerical reference examples and API
+behaviour), `python3 tools/selftest_primer_tm.py` (offline page/preset export; also
+included by the shared suite), and optionally
+`python3 tools/benchmark_primer_tm_browser.py --site _site --screenshot /tmp/tm.png`
+(actual Chrome form, tails, units, export and mobile-layout checks).

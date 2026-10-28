@@ -1064,3 +1064,30 @@ recognition/cut coordinates, not a reaction intermediate or an experimentally
 established digest. It needs no Python runtime in the browser. Retained-position
 limits remain explicit, while counts and TSV exports use the full filtered analysis.
 The SVG export contains the visible sequence rows and any active cut geometry.
+
+## 2026-10-28 — Calculate primer Tm from explicit ionic conditions
+
+The Primer Tm tab starts with the disclosed 1× magnesium and per-nucleotide dNTP
+concentrations of KAPA HiFi HotStart ReadyMix PCR Kit (KR0370 v16.25, May 2025).
+It does not inherit the generic third-party KAPA preset investigated in
+`plans/tm_calibration_sources.json`. Monovalent concentration remains a visible,
+editable assumption; the initial 50 mM value is not presented as Roche's recipe.
+Editing magnesium or dNTP concentrations labels the calculation custom.
+
+`assets/primer_tm.js` is an independent, reusable implementation of SantaLucia
+1998 DNA/DNA thermodynamics and the Owczarzy 2008 salt decision tree, with a 1:1
+Mg–dNTP binding equilibrium. The build exports the existing canonical nearest-
+neighbour data from `chemdraw`, rather than copying a vendor calculator or adding
+a package. The reusable API requires explicit primer, target, monovalent, magnesium
+and total-dNTP concentrations. The UI explicitly assumes primer excess over trace
+template and converts each-nucleotide dNTP concentration to total by multiplying
+by four. Self-complementarity and its concentration/symmetry terms are computed.
+
+The user can exclude a specified 5′ tail; only the remaining binding sequence
+enters thermodynamics. Results are estimates under entered conditions, with scope
+warnings, not KAPA-validated predictions, folding calculations or reaction claims.
+Roche's experimental annealing guidance remains separate: no invented fixed Tm-to-Ta
+offset. TSV exports carry units, conditions and model identity. All computation
+runs offline in the browser. Numerical checks include independent published worked
+examples and documented reference results, not a fit to a third-party preset.
+Existing comparative diagram Tm values retain their existing model and defaults.

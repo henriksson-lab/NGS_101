@@ -204,6 +204,7 @@ def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
     files["samplesheet.html"] = ROOT / "samplesheet.html"
     files["anneal.html"] = ROOT / "anneal.html"
     files["restriction.html"] = ROOT / "restriction.html"
+    files["tm.html"] = ROOT / "tm.html"
     # Deliberately unlisted: requested source-retrieval helper, never navigation/search.
     files["source-downloads.html"] = ROOT / "source-downloads.html"
     # fetch() dependencies are not discovered by the HTML href/src walker.
@@ -367,6 +368,7 @@ def build_annotation(results: dict[str, tuple[bool, str]]) -> None:
     run("build_samplesheet.py")
     run("build_anneal.py")
     run("build_restriction.py")
+    run("build_tm.py")
 
 
 def main() -> int:

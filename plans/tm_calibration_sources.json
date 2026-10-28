@@ -1,0 +1,59 @@
+{
+  "reviewed": "2026-10-28",
+  "scope": "Candidate numerical references for an independently implemented primer Tm model; no product preset approved by this investigation.",
+  "plasmidstudio": {
+    "url": "https://www.plasmidstudio.ai/tools/tm-calculator",
+    "inspection": "Rendered public calculator in Chrome: selected KAPA HiFi; read displayed reaction inputs, example result, and generated Choosing the Right Polymerase table. No implementation code copied or fitted.",
+    "preset_label": "KAPA HiFi",
+    "displayed_inputs": {
+      "na_mM": 50,
+      "mg_mM": 1.5,
+      "dntp_mM_as_labelled": 0.2,
+      "oligo_nM": 250
+    },
+    "dntp_convention": "The input label inspected does not specify whether this concentration is per nucleotide or total; leave unresolved.",
+    "displayed_ta_rule": "Lower primer Tm + 3 degrees C, capped at 72 degrees C; table also applies the same rule and Na/Mg values to several other products.",
+    "example_observation": {
+      "sequence_5to3": "TGTAAAACGACGGCCAGT",
+      "tm_C_displayed": 60.0,
+      "ta_C_displayed": 63.0
+    },
+    "claimed_model": "SantaLucia 1998 nearest-neighbour with Owczarzy 2008 salt correction, per calculator documentation; implementation not independently verified.",
+    "provenance_limit": "No source citation or experimental calibration for the KAPA preset identified in the inspected form, result or explanatory table. This is not an exhaustive absence review.",
+    "formulation_limit": "Generic KAPA HiFi label does not identify ReadyMix, Fidelity or GC formulation. Displayed Mg differs from the Roche ReadyMix source below.",
+    "terms_url": "https://www.plasmidstudio.ai/terms",
+    "terms_revision": "April 2026",
+    "terms_observation": "Software/interface/documentation are proprietary; copying/modifying/redistributing the service is restricted. Automated access beyond the intended interface is restricted. No open implementation license established; this record grants no permission.",
+    "decision": "Do not promote to a verified KAPA reagent preset. Values are already displayed, so parameter fitting is unnecessary for identifying this calculator preset."
+  },
+  "roche_readymix": {
+    "url": "https://elabdoc-prod.roche.com/eLD/api/downloads/20bd78d2-bc2e-f011-2f91-005056a71a5d?countryIsoCode=XG",
+    "document": "KAPA HiFi HotStart ReadyMix PCR Kit, KR0370 v16.25, effective May 2025",
+    "inspected": "Pages 1-3: product identity, final composition and annealing guidance; page 6: copyright and limited reagent license.",
+    "mg_mM_at_1x": 2.5,
+    "dntp_mM_each_at_1x": 0.3,
+    "buffer_composition": "Described as proprietary; complete monovalent composition not disclosed in inspected product-description paragraph.",
+    "ta_guidance": {
+      "gradient_C": [
+        60,
+        72
+      ],
+      "initial_C_if_gradient_not_feasible": 65
+    },
+    "decision": "Retain formulation-specific disclosed concentrations and experimental guidance separately from any fitted Tm/Ta model. These facts do not identify a unique effective salt correction."
+  },
+  "next_evidence_needed": [
+    "Specify intended KAPA formulation, including whether PCR ReadyMix or the distinct Library Amplification product.",
+    "Obtain provenance for effective buffer parameters or independent experimental calibration before describing a numerical preset as KAPA-validated.",
+    "For Q5 and Phusion, keep any future NEB-output calibration separate from KAPA and record exact product/buffer, model, observations and validation error."
+  ],
+  "implementation_followup": {
+    "date": "2026-10-28",
+    "page": "tm.html",
+    "builder": "build_tm.py",
+    "model": "assets/primer_tm.js",
+    "formulation": "KAPA HiFi HotStart ReadyMix PCR Kit, KR0370 v16.25",
+    "basis": "Published SantaLucia/Owczarzy equations with Roche-disclosed Mg and each-dNTP concentrations; editable assumed monovalent concentration. No PlasmidStudio or other third-party preset was adopted.",
+    "status": "Implemented as a conditional Tm estimate, not a calibrated or experimentally validated full KAPA buffer model."
+  }
+}
