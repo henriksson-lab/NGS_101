@@ -8,6 +8,7 @@ import sys
 ROOT=Path(__file__).resolve().parent
 sys.path.insert(0,str(ROOT/'lib'))
 from page import head
+from chemdraw import Scene, Segment
 
 STATES={'unknown','unaffected','blocked','impaired','overlap_blocked','some_overlap_blocked','overlap_impaired','some_overlap_impaired','requires'}
 
@@ -34,6 +35,14 @@ def catalogue():
 
 def methylation_select(name):
     return f'<label>{name}<select id="restriction-{name.lower()}"><option value="any">Any sensitivity</option><option value="unaffected">Not sensitive</option><option value="sensitive">Sensitive / conditional</option><option value="requires">Requires methylation</option><option value="unknown">Unknown</option></select></label>'
+
+
+def duplex_model():
+    """Scene owns aligned strand columns and polarity; the browser fills this viewport."""
+    rows=Scene.duplex([Segment("viewport", "A"*160)]).rows()
+    return {"columns":160, "strands":[{"start":r.visual[0].start,
+            "end":r.visual[0].end,"direction":r.visual[0].direction,
+            "prefix":r.chunks[0][0],"suffix":r.chunks[-1][0]} for r in rows]}
 
 
 def render_page():
@@ -70,8 +79,21 @@ def render_page():
 <label><input id="restriction-possible" type="checkbox"> Include possible matches in counts</label></div>
 <button id="restriction-reset-filters" type="button">Reset filters</button></details></section>
 <section id="restriction-results" hidden><div class="restriction-result-heading"><h2 id="restriction-summary">Results</h2><div><button id="restriction-export" type="button">Export summary TSV</button><button id="restriction-export-sites" type="button">Export sites TSV</button></div></div>
-<p id="restriction-result-note" class="muted"></p><div class="tw"><table><thead><tr><th scope="col">Enzyme</th><th scope="col">Recognition</th><th scope="col">Cuts</th><th scope="col">Sites</th><th scope="col">Ends</th><th scope="col">CpG</th><th scope="col">Dam</th><th scope="col">Dcm</th></tr></thead><tbody id="restriction-rows"></tbody></table></div>
-<button id="restriction-more" type="button" hidden>Show more enzymes</button></section>
+<p id="restriction-result-note" class="muted"></p>
+<div class="annotation-card restriction-viewer">
+<div class="restriction-controls"><label>Enzyme<select id="restriction-view-enzyme"><option value="">All filtered enzymes</option></select></label>
+<label>Site<select id="restriction-view-site"></select></label><button id="restriction-site-prev" type="button">Previous site</button><button id="restriction-site-next" type="button">Next site</button>
+<button id="restriction-export-view" type="button">Export view SVG</button></div>
+<div id="restriction-overview" class="restriction-overview"></div>
+<div class="restriction-controls"><button id="restriction-pan-prev" type="button" aria-label="Previous sequence window">←</button>
+<label>Start base<input id="restriction-view-start" type="number" min="1" value="1"></label><button id="restriction-pan-next" type="button" aria-label="Next sequence window">→</button>
+<label>Window<select id="restriction-view-width"><option value="40">40 bp</option><option value="80" selected>80 bp</option><option value="160">160 bp</option></select></label></div>
+<input id="restriction-view-slider" class="restriction-view-slider" type="range" min="1" value="1" aria-label="Sequence window start">
+<div id="restriction-duplex" class="restriction-duplex"></div>
+<p id="restriction-view-note" class="muted"></p><div id="restriction-selection" aria-live="polite"></div>
+</div>
+<details id="restriction-table" class="restriction-table"><summary>Enzyme table</summary><div class="tw"><table><thead><tr><th scope="col">Enzyme</th><th scope="col">Recognition</th><th scope="col">Cuts</th><th scope="col">Sites</th><th scope="col">Ends</th><th scope="col">CpG</th><th scope="col">Dam</th><th scope="col">Dcm</th></tr></thead><tbody id="restriction-rows"></tbody></table></div>
+<button id="restriction-more" type="button" hidden>Show more enzymes</button></details></section>
 <details class="restriction-about"><summary>Data and interpretation</summary>
 <p>Counts are sequence-based predictions, without applying methylation effects or reaction conditions. The default requires exactly one certain complete cleavage and no additional possible cuts. A two-cut enzyme can contribute two cleavage sites for one recognition site. Linear-end cuts without a bond on either required strand are excluded; circular-origin sites are included.</p>
 <p>Input accepts one FASTA record or IUPAC DNA, up to 100,000 bases. Ambiguous bases can yield possible sites. Site-context filters inspect recognition intervals plus overlapping flanks; they select enzymes without changing whole-sequence cut counts. Avoidance requires no certain or possible overlap.</p>
@@ -80,7 +102,8 @@ def render_page():
 <p>Methylation sensitivity is separate from sequence motifs. Unknown sensitivity is never treated as resistance. Curated annotations cover exact named enzymes; other product variants and isoschizomers do not inherit them. Conditional sensitivity can depend on flanking sequence. Source links accompany annotated results.</p>
 <div id="restriction-data-info"></div><details><summary>Catalogue license</summary><pre id="restriction-license" class="restriction-license"></pre></details></details>
 <noscript><p>This tool requires JavaScript.</p></noscript></main>
-<script src="assets/sequence_annotation.js" defer></script><script src="assets/restriction_analysis.js" defer></script><script src="assets/restriction_ui.js" defer></script></html>
+<script type="application/json" id="restriction-duplex-model">'''+json.dumps(duplex_model())+'''</script>
+<script src="assets/sequence_annotation.js" defer></script><script src="assets/restriction_analysis.js" defer></script><script src="assets/restriction_view.js" defer></script><script src="assets/restriction_ui.js" defer></script></html>
 '''
 
 

@@ -200,3 +200,23 @@ All prior staged work, including the earlier CI fixture fix and ET source eviden
 is preserved. The annealing and publication fixtures also include the new tab and
 its explicit worker/data assets. The older ET goal remains blocked; the next
 protocol batch in `plans/cloning-examples-04.json` remains unimplemented.
+
+### Interactive restriction display — 28 Oct
+
+The restriction tab now opens with a clickable whole-molecule overview and a
+zoomable paired-sequence viewport. Recognition spans and top/bottom cut boundaries
+come from the matcher; the aligned column/polarity template comes from
+`Scene.duplex`, and the existing browser IUPAC helper derives the complement.
+Select a span, enzyme or site; pan or choose a 40/80/160 bp window; export the
+current duplex as standalone SVG. The enzyme table is retained under a collapsed
+“Enzyme table” disclosure. Circular-origin, outside-recognition and incomplete
+linear-end geometry retain their existing coordinate meaning. Dense displays and
+retained-position limits are labelled.
+
+New asset: `assets/restriction_view.js`, loaded explicitly by the restriction page
+and copied through the usual site asset walk. Verified: 45 matcher checks, 13
+catalogue/build checks, 1,520 shared checks, and 34 actual Chrome checks against the
+assembled site, including complement alignment, both EcoRI cut boundaries, span
+selection, pan/zoom, reverse type IIS, circular sites and standalone SVG export.
+All assembled-site links/publication checks passed. Browser helper accepts an
+optional `--screenshot PATH` for visual inspection. Changes staged; no deployment.

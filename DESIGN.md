@@ -1044,3 +1044,17 @@ variants or isoschizomers. Filters do not simulate methylation occupancy, enzyme
 activity, digestion yield or reaction conditions. Reference fragment lengths use
 top-strand coordinate boundaries; these sequence predictions do not validate a
 reaction or a protocol. Custom enzymes are explicitly user-supplied declarations.
+
+## 2026-10-28 — Inspect restriction matches on paired DNA
+
+The restriction tool presents a clickable overview and a bounded, scrollable duplex
+viewport before its collapsed enzyme table. The build derives aligned strand columns
+and polarity from `Scene.duplex`; the browser fills those columns with the query and
+its plain IUPAC complement using the existing shared sequence helper. This viewport
+represents the supplied sequence and declared recognition/cut coordinates, not a
+reaction intermediate or an experimentally established digest. It needs no Python
+runtime in the browser. Recognition spans and strand-specific cut boundaries retain
+separate identities, including reverse sites, nicking and type IIS geometry.
+Circular molecules are unrolled with the origin marked; position retention and dense
+view limits remain explicit. Selecting an enzyme isolates its retained sites, while
+counts and TSV exports continue to use the full filtered analysis.

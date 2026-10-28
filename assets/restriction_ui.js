@@ -36,6 +36,7 @@
   function counts(n,possible){return n===null?'—':String(n)+(possible?` + ${possible} possible`:'');}
   function cutCoordinate(p){return p===null?'—':String(result.circular && p===0?result.length:p);}
   function download(text,name,type){const url=URL.createObjectURL(new Blob([text],{type}));const a=node('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  const viewer=window.RestrictionView.create({$,node,download});
   function svgMap(row){
     const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');
     svg.setAttribute('viewBox','0 0 840 86');svg.setAttribute('class','restriction-map');svg.setAttribute('role','img');svg.setAttribute('aria-label',row.enzyme.name+' cut positions');
@@ -94,11 +95,11 @@
     try {
       visible=api.filter(result.results,options());shown=50;$('rows').replaceChildren();$('results').hidden=false;
       $('summary').textContent=`${visible.length} of ${result.results.length} enzymes`;
-      $('result-note').textContent=`${result.length.toLocaleString()} bp · ${result.circular?'circular':'linear'} · select an enzyme for positions, context and reference fragments.`;
+      $('result-note').textContent=`${result.length.toLocaleString()} bp · ${result.circular?'circular':'linear'} · click a recognition span to inspect its cuts.`;
       const capped=visible.filter(r=>r.positionsTruncated).length;
       if(capped)$('result-note').textContent+=` Position display/export is capped for ${capped} enzyme(s); all counts are complete.`;
       $('export').disabled=!visible.length;$('export-sites').disabled=!visible.length;
-      appendRows(0);status('');
+      viewer.render(result,visible);appendRows(0);status('');
     }catch(error){$('rows').replaceChildren();$('results').hidden=true;visible=[];status(error.message,true);}
   }
   $('form').addEventListener('submit',async event=>{
