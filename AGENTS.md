@@ -188,6 +188,12 @@ distinction does not waive source checks or establish that information is absent
    **verbatim with modifications**, how they interlock (compute with `lib/`, do not
    eyeball), step by step, final library, read layout, open questions. Example:
    `astar-seq__10.1101+829960/01_astar-seq.md`.
+   Curate method-development or component-adaptation links alongside the notes in
+   `catalogue/protocol_lineage.json` (see MAINTAINERS.md, "Protocol relationships").
+   Multiple parents are allowed. Record inspected evidence, scope and limits, and
+   distinguish documented ancestry from design-based inference. Shared primers
+   suggest links to investigate; computed similarity never establishes ancestry
+   or authorizes inheriting chemistry. Leave uncurated origins unspecified.
 5. Add the directory to `catalogue/ours.tsv` with status `notes`, `section` `published`
    (or `wip` for our own unpublished work; the catalogue self-test pins the wip set, so
    update its `WIP` too) and `modality` `DNA` / `RNA` / `multi`. Re-run

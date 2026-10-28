@@ -1,0 +1,83 @@
+{
+  "dir": "abseq__10.1038+srep44447",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/abseq__10.1038+srep44447/srep44447_PMC5349531.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Results Optimization/Microfluidic/Bioinformatic workflow; Methods conjugation, staining/lysis, SOE-PCR, NGS and Bioinformatics; reference identities 26/33/34. Rendered original Fig1 PDF page2 read."
+    },
+    {
+      "id": "figure_archive",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/abseq__10.1038+srep44447/srep44447_PMC5349531_supplementary.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "inspection_scope": "Archive member names inspected: figure GIF/JPG counterparts. Fig1 read in article PDF; other image originals not individually inspected."
+    },
+    {
+      "id": "lan2016",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/ncomms11784",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Retrieval/read deferred by cap; not asserted inaccessible.",
+      "inspection_scope": "Article reference26 identity read; predecessor original not inspected."
+    },
+    {
+      "id": "eastburn2014",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1093/nar/gku606",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Retrieval/read deferred by cap; not asserted inaccessible.",
+      "inspection_scope": "Reference33 identity read; original not inspected."
+    },
+    {
+      "id": "eastburn2013",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1021/ac402057q",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Retrieval/read deferred by cap; not asserted inaccessible.",
+      "inspection_scope": "Reference34 identity read; original not inspected."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-02",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-28",
+      "scope": "Original Abseq droplet SOE-PCR overview; source-limited graph with no full tag/amplicon sequence reconstruction",
+      "locations": "Article XML Results paragraphs46\u201394 and Methods116\u2013150; rendered Fig1 PDF page2; exact source sections listed in note",
+      "findings": "Thiol/SM(PEG)6 conjugation; proteinaseK droplet release/heat inactivation; separate clonal barcode PCR; merged-droplet SOE-PCR; column, ExoI and bulk PCR. Results barcode10 versus Methods eight-N notation retained as structured discrepancy. UMI8 and CD3/CD19 identities sourced; tag full strands not invented.",
+      "documents": 1,
+      "deferred": [
+        "Lan2016 source original and precise oligo inheritance",
+        "Eastburn2013/2014 protease-droplet source originals",
+        "Full antibody/tag/barcode oligos and SOE overlap geometry",
+        "Resolve cell-barcode width disagreement",
+        "Exact sequencing primer/cycle map",
+        "Complete original/linked-material inventory and independent reading"
+      ],
+      "verification": "Seven local checks and preview build pass; source-oligo guard across current pair checks8 strands with0 failures (six inputs lack exact states); duplex lint0 problems. Scoped chemistry across pair:0 contradictory,23 unresolved,0 established; no exact whole-amplicon relation claimed.",
+      "oligo_scraper": "Ran source-bundle scraper; relevant oligo hits verified against article/supplement text. Logs under /tmp; not an absence determination."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Article Results cites Lan2016 for molecular droplet barcoding and Eastburn2013/2014 for protease-enabled droplets. Component lineage candidates only until originals read. Drop-seq/inDrop comparisons do not establish direct ancestry."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Lan2016 source original and precise oligo inheritance",
+    "Eastburn2013/2014 protease-droplet source originals",
+    "Full antibody/tag/barcode oligos and SOE overlap geometry",
+    "Resolve cell-barcode width disagreement",
+    "Exact sequencing primer/cycle map",
+    "Complete original/linked-material inventory and independent reading"
+  ]
+}

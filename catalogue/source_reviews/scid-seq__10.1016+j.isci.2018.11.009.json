@@ -1,0 +1,78 @@
+{
+  "dir": "scid-seq__10.1016+j.isci.2018.11.009",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scid-seq__10.1016+j.isci.2018.11.009/j.isci.2018.11.009_PMC6249387.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Results scID workflow,15ntUMI/preamplification and direct reference to Transparent Methods;reference identities for2016/2018 ID-seq."
+    },
+    {
+      "id": "transparent_methods",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scid-seq__10.1016+j.isci.2018.11.009/j.isci.2018.11.009_supp_mmc1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Transparent Methods135\u2013185 conjugation,fixation/staining/sorting,DTT release and threePCRs/pooling/cleanup. BulkCELseq2/ChIP procedures distinguished from scID and not used as scID read layout."
+    },
+    {
+      "id": "table_s1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/scid-seq__10.1016+j.isci.2018.11.009/j.isci.2018.11.009_supp_mmc2.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "antibody_barcode_index_overview sheet:headers and Actin barcode1/replicate1 mapping;full antibody dictionary/family assignment review deferred."
+    },
+    {
+      "id": "idseq2018",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/s41467-018-04761-0",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Exact downstream barcode sequences explicitly inherited in Transparent Methods;original not read.",
+      "reason": "Retrieval/read deferred by cap."
+    },
+    {
+      "id": "conjugation2016",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/srep22675",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Cited for conjugation;source identity read in article references but original not read.",
+      "reason": "Retrieval/read deferred by cap."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-04",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "scID protein-only post-sort reporter branch;two symbolic well classes expose per-plate pooling, not invented experimental well IDs",
+      "locations": "Defining article Results;Transparent Methods135\u2013185;TableS1antibody_barcode_index_overview first Actin row",
+      "findings": "Preamplify15cycles before five-cycle well barcoding;pool perplate,remove oil,purify/ExoI/repurify,then five-cycle platePCR. Source-forward/reverse/Fw_long verified;UMI15 and antibody identity remain separate components,well/plate spans unassigned. BulkRNA/ChIP validation methods are not extra scID outputs.",
+      "deferred": [
+        "ID-seq2018 original and exact barcode/anchor/primer lists",
+        "Conjugation2016 original and exact modified dsDNA design",
+        "Complete well/plate library/read geometry",
+        "Remaining original sections and independent source review"
+      ],
+      "verification": "Seven local checks and preview build pass. Round04 modeled trio sourceguard9checked0failed,no exemptions;pairing0. No complete amplicon or exact read-cycle claim.",
+      "oligo_scraper": "Ran standard bundle scrape: /tmp/scid-seq-primer-hits.log. Relevant published hits verified. A zero-hit blocked bundle does not establish absence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Transparent Methods says same downstream sequences as ID-seq2018 and conjugation as2016. Component ancestry candidates only pending original reading; no predecessor constructor imported."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "ID-seq2018 original and exact barcode/anchor/primer lists",
+    "Conjugation2016 original and exact modified dsDNA design",
+    "Complete well/plate library/read geometry",
+    "Remaining original sections and independent source review"
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "dir": "irclip__10.1038+nmeth.3840",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/irclip__10.1038+nmeth.3840/nmeth.3840_PMC5477425.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5477425.1/PMC5477425.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_bounded_curation",
+        "date": "2026-10-28",
+        "locations": "JATS31–45,53–55,61–77,79–81,137–159",
+        "finding": "Activated IR/biotin adapter, source oligos and C18-spacer-dependent cDNA circle/PCR; customsequencingprimer printed; exact acquisition cycles not assigned."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "publisher_supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/irclip__10.1038+nmeth.3840/nmeth.3840_41592_2016_BFnmeth3840_MOESM217_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3840/MediaObjects/41592_2016_BFnmeth3840_MOESM217_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_bounded_curation",
+        "date": "2026-10-28",
+        "locations": "FigS1 originalPDFp1 visually inspected and caption; FigS2–S5 extracted captions",
+        "finding": "Publisher FigS1a labels click1h whereas accepted-manuscript Methods55 says2h. Final published procedural text is unreconciled; revision differences have not been excluded. Remaining panels/tables uninspected; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "gated_nihms_supplement",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5477425/bin/NIHMS864699-supplement-nmethS1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Download gate; publisher supplement was read, but full equivalence of this counterpart is not verified.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_bounded_curation",
+      "date": "2026-10-28",
+      "locations": "Defining original sections and explicit predecessor citations enumerated above; manifests checked.",
+      "finding": "Inspected accepted manuscript supports adapter preparation and ligation; publisher-figure timing comparison remains a source-version limit, not an established publication error. Local spacer model now adds a conditional first-extension path, with complete PCR/readout still unresolved."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1261/rna.047803.114",
+      "scope": "Direct FAST-iCLIP predecessor, uninspected."
+    },
+    {
+      "locator": "https://www.nature.com/articles/nmeth.3840",
+      "scope": "Final publisher procedural text and applicability to inspected accepted-manuscript oligos/steps."
+    },
+    {
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3840/MediaObjects/41592_2016_BFnmeth3840_MOESM217_ESM.pdf",
+      "scope": "Remaining original supplementary panels/tables not yet inspected."
+    },
+    {
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5477425/bin/NIHMS864699-supplement-nmethS1.pdf",
+      "scope": "Gated NIHMS counterpart identity/equivalence not established."
+    }
+  ],
+  "conclusion": "One capped first pass; no second independent reader and no confirmed-absence claims. Proposed catalogue status remains notes.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion",
+      "reviewer": "rna_bounded_curation",
+      "date": "2026-10-28",
+      "documents": 2,
+      "scope": "Two accessible originals inspected at stated sections; capped source pass, not full chemical completeness.",
+      "findings": "Source supports adapter preparation and ligation; carbon spacers retained as a downstream modelling boundary. Published click timing difference recorded.",
+      "deferred": [
+        "FAST-iCLIP original 10.1261/rna.047803.114: direct predecessor remains uninspected.",
+        "Remaining supplement panels/tables and gated NIHMS counterpart identity.",
+        "Non-nucleotideC18 linkers and source-qualified circularPCR stopping/linearproduct; exact acquired run layout."
+      ],
+      "locations": "JATS31–45,53–55,61–77,79–81,137–159; FigS1 originalPDFp1 visually inspected and caption; FigS2–S5 extracted captions"
+    },
+    {
+      "round": "2026-10-28-irclip-spacer-model-review",
+      "reviewer": "coordinator_model_review",
+      "date": "2026-10-28",
+      "documents": 0,
+      "scope": "Local backbone/copy algorithm review against the existing source-qualified model; no new original-source reading.",
+      "locations": "spacer_backbone.py and synthetic traversal suite.",
+      "findings": "Preserved typed C18 links and inferred stop hypothesis; corrected reverse copying of accepted IUPAC classes using the canonical class-complement helper, rather than the plain-base complement.",
+      "deferred": [
+        "Full PCR1/PCR2, readout and final-VOR applicability remain unresolved."
+      ],
+      "verification": "22 local tests pass, including a synthetic ARYK-copy case; private builder passes. No shared chemical reaction proof claimed."
+    },
+    {
+      "round": "2026-10-28-irclip-feature-contract",
+      "reviewer": "local_feature_contract_review",
+      "date": "2026-10-28",
+      "documents": 0,
+      "scope": "Narrow local metadata/representation correction; no new source reading or chemical assumptions.",
+      "locations": "rt_primer_backbone, Backbone.display_segments and identifier-preservation tests.",
+      "findings": "W3/N3/N5 now have distinct stable feature IDs and share one composite UMI group; conditional copying preserves full feature definitions. Source-primer annotation forms a valid Construct while retaining both C18 placeholders. Existing shared IUPAC-complement fix and source/inferred-stop boundaries unchanged.",
+      "deferred": [
+        "Full PCR/readout and final-VOR applicability remain unresolved."
+      ],
+      "verification": "24 local checks pass; private builder passes; pairing lint0. No protocol/source numerical facts changed."
+    }
+  ],
+  "source_version_limit": "The inspected JATS is an accepted manuscript, not the version of record. Timing differs from publisher FigS1a; ordinary revision differences have not been excluded, so this is not an established publication error.",
+  "modelling_deferrals": [
+    "Full two-primer PCR1 paths, competing products and cycle-dependent strand populations.",
+    "Experimental C18 stop/readthrough behavior: manuscript functional statement supports a hypothesis, not exact source-established stop coordinates.",
+    "Complete PCR2 amplication, exact acquired read geometry and run cycles.",
+    "Exact captured RNA length/sequence and sample assignment beyond source-defined barcode1 component remain unassigned."
+  ],
+  "model_followups": [
+    {
+      "date": "2026-10-28",
+      "reviewer": "rna_local_spacer_model",
+      "new_source_documents": 0,
+      "locations": "Previously inspected accepted-manuscript JATS71–77 only; optional cached-source transcription checks, no new source chasing.",
+      "model": "Local typed DNA, variable-DNA and non-nucleotide C18 nodes preserve primer and cDNA circle. Conditional P6 extension crosses closure and stops before second C18 only under explicit inferred hypothesis.",
+      "uncertainty": "Printed spacer function is distinguished from inferred stop/traversal mechanism. Final VOR procedural applicability and full two-primer PCR/readout unresolved.",
+      "validation": "21 local checks pass, including independent synthetic paths and two optional source checks; source oligo guard3checked0failed2inputswithout exact states; global chemistry audit11unresolved0contradictory, not established reaction validation."
+    }
+  ]
+}

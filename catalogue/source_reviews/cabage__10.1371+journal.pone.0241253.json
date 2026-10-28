@@ -1,0 +1,83 @@
+{
+  "dir": "cabage__10.1371+journal.pone.0241253",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cabage__10.1371+journal.pone.0241253/journal.pone.0241253_PMC8031414.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Methods198\u2013226; overview81\u201390; introduction73\u201377"
+    },
+    {
+      "id": "referee",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cabage__10.1371+journal.pone.0241253/journal.pone.0241253_supp_pone.0241253.s007.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Opening comparison; identified as reviewer report, not bench protocol"
+    },
+    {
+      "id": "response",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cabage__10.1371+journal.pone.0241253/journal.pone.0241253_supp_pone.0241253.s008.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Author response to reviewer1 on Negative Enrichment novelty and experimental distinctions"
+    },
+    {
+      "id": "guide_table",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cabage__10.1371+journal.pone.0241253/journal.pone.0241253_supp_pone.0241253.s004.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Follow-up pass: complete S1 Table sheet guide rows and gBlock entry; exact genomic cut mapping and modifications remain unresolved."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-01",
+      "reviewer": "bounded-source-pass",
+      "date": "2026-10-28",
+      "scope": "Published native-DNA CaBagE workflow; source identity and experimental scope, not a complete missing-information review.",
+      "locations": "Article JATS text 73\u201390,198\u2013226; published referee comparison and author response to reviewer1.",
+      "findings": "PAM-in Cas9 protection; ExoI/III/lambda background digestion before heat release; dA-tail and LSK109 adapter ligation; SFB washes. Background is degraded, not physically discarded before cleanup. nCATS inheritance is downstream-only.",
+      "documents": 3,
+      "deferred": [
+        "S1 Table original guide/gBlock sequences (pone.0241253.s004.xlsx)",
+        "S1 Figure SFB/LFB comparison (pone.0241253.s001.tif)",
+        "Cited Negative Enrichment original identity and chemistry",
+        "Historical LSK109 protocol/vendor guide and FFPE Repair Mix M6630S protocol",
+        "Other experimental branches and linked sources; independent checks"
+      ],
+      "verification": "Source-reading note written; molecular model and checks pending.",
+      "oligo_scraper": "Ran full source-bundle scrape; superseded preprint hits excluded and published S1 Table left uninspected, not absent."
+    },
+    {
+      "round": "2026-10-28-ngs-expansion-01",
+      "reviewer": "native-model-followup",
+      "date": "2026-10-28",
+      "scope": "Native genomic branch molecular model; no absence determination",
+      "locations": "Article overview81\u201394 and Methods198\u2013226; S1 Table complete sheet guide rows/gBlock entry",
+      "documents": 2,
+      "findings": "C9 guide transcription verified; local qualitative Cas9-protected duplex; background debris consumed at cleanup; LSK109 adapter geometry unavailable; SFB retained.",
+      "deferred": [
+        "S1 Figure rendered original",
+        "Negative Enrichment defining original",
+        "Revision-qualified LSK109 and FFPE repair documentation",
+        "Remaining branches, linked sources and independent review"
+      ],
+      "verification": "Seven local checks and preview build pass; pairing lint and scoped chemistry validation pass. Source oligo guard reads two graphs but checks zero exact structural-input strands; local external-source transcription checks verify guide rows.",
+      "oligo_scraper": "Full source bundle scraped into /tmp/cabage-primer-hits-worker.log; superseded preprint hits excluded."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Main article cites nCATS downstream preparation, Negative Enrichment and FFPE Repair Mix protocol; source identity/revision review deferred. No absence determination."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Published S1 Figure: pone.0241253.s001.tif"
+  ]
+}

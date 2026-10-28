@@ -125,10 +125,11 @@ def main():
         page = (root / 'anneal.html').read_text()
         check('production page includes shared navigation and no prototype restriction',
               'href="anneal.html"' in page and 'prototype' not in page.lower() and 'pending' not in page.lower())
-        for name in ('index', 'about', 'annotate', 'samplesheet', 'restriction', 'tm', 'source-downloads'):
+        for name in ('index', 'about', 'annotate', 'samplesheet', 'restriction', 'tm', 'lineage', 'source-downloads'):
             (root / (name + '.html')).write_text('<!doctype html><title>Build fixture</title>')
         (root / 'assets' / 'sequence_components.json').write_text('{}')
         (root / 'assets' / 'restriction_catalogue.json').write_text('{}')
+        (root / 'assets' / 'protocol_lineage.json').write_text('{}')
         (root / 'assets' / 'restriction_worker.js').write_text('')
         for name in ('anneal_worker.mjs', 'anneal_ui.js', 'anneal.css', 'sequence_annotation.css'):
             shutil.copyfile(ROOT / 'assets' / name, root / 'assets' / name)

@@ -149,10 +149,10 @@ with TemporaryDirectory() as _publication_temp:
         _directory = _publication_root / _row["dir"]
         _directory.mkdir()
         (_directory / "diagram.html").write_text('<h1>Diagram</h1><div data-protocol-complete="true"></div>')
-    for _name in ("index", "about", "annotate", "samplesheet", "anneal", "restriction", "tm", "source-downloads"):
+    for _name in ("index", "about", "annotate", "samplesheet", "anneal", "restriction", "tm", "lineage", "source-downloads"):
         (_publication_root / (_name + ".html")).write_text('<h1>Tools</h1>')
     (_publication_root / "assets").mkdir()
-    for _name in ("sequence_components.json", "anneal_python.json", "anneal_worker.mjs", "restriction_catalogue.json", "restriction_worker.js"):
+    for _name in ("sequence_components.json", "anneal_python.json", "anneal_worker.mjs", "restriction_catalogue.json", "restriction_worker.js", "protocol_lineage.json"):
         (_publication_root / "assets" / _name).write_text("{}")
     _eligibility = []
     def _capture_publication_run(script, *args):
@@ -1097,6 +1097,8 @@ from selftest_restriction import run as check_restriction
 check_restriction(check)
 from selftest_primer_tm import run as check_primer_tm
 check_primer_tm(check)
+from selftest_protocol_lineage import run as check_protocol_lineage
+check_protocol_lineage(check)
 
 _front, _ = build_index.build(run_checks=False)
 _public = [p for p in build_index.collect(run_checks=False) if p["section"] == "published"]
@@ -1441,6 +1443,50 @@ check("a printed [i7] of unstated length stands only for a model N window",
        _exact_hit("P7 CAAGCAGAAGACGGCATACGAGAT[i7]GTCTCGTGGGCTCGG\n",
                   "CAAGCAGAAGACGGCATACGAGATNNNNACGTNNGTCTCGTGGGCTCGG")],
       [True, False])
+
+_quantified_left = 'CAAGCAGAAGACGGCATACGAGAT'
+_quantified_right = 'GTCTCGTGGGCTCGG'
+_quantified_written = 'P7\t' + _quantified_left + '[X]8' + _quantified_right + '\n'
+_quantified_model = _quantified_left + 'N' * 8 + _quantified_right
+check("source guard reads TAP-seq's inline [X]8 as exactly eight variable bases",
+      _exact_hit(_quantified_written, _quantified_model), True)
+check("quantified bracket variables retain opposite-strand matching",
+      _exact_hit(_quantified_written, spx.revcomp(_quantified_model)), True)
+check("quantified bracket variables retain their stated width",
+      [_exact_hit(_quantified_written, _quantified_left + 'N' * n + _quantified_right)
+       for n in (7, 9)], [False, False])
+check("quantified bracket variables do not hide a changed fixed flank",
+      [_exact_hit(_quantified_written, 'A' + _quantified_model[1:]),
+       _exact_hit(_quantified_written, _quantified_model[:-1] + 'A')],
+      [False, False])
+check("a printed [X]8 does not establish a concrete barcode member",
+      _exact_hit(_quantified_written, _quantified_left + 'TCGCCTTA' + _quantified_right), False)
+check("quantified bracket support handles explicit multi-digit widths",
+      _exact_hit(_quantified_written.replace('[X]8', '[X]12'),
+                 _quantified_left + 'N' * 12 + _quantified_right), True)
+check("quantified bracket support does not reinterpret a fixed-base bracket or zero width",
+      [_exact_hit(_quantified_written.replace('[X]8', value), _quantified_model)
+       for value in ('[A]8', '[X]0')], [False, False])
+
+_gapped_left = 'GCTAGTACCTGACTGACGAT'
+_gapped_right = 'TCGACTGGTACCGATGCTGA'
+_gapped_written = '/5AzideN/' + _gapped_left + 'NNNNN[barcode]NNNNN' + _gapped_right
+_gapped_model = _gapped_left + 'N' * 18 + _gapped_right
+check("source guard matches a whole mixed UMI/unknown-width barcode window",
+      _exact_hit('tag\t' + _gapped_written + '\n', _gapped_model), True)
+check("gapped whole-oligo matching accepts the opposite strand",
+      _exact_hit('tag\t' + _gapped_written + '\n', spx.revcomp(_gapped_model)), True)
+check("gapped fallback does not swallow a known model base into [barcode]",
+      _exact_hit('tag\t' + _gapped_written + '\n',
+                 _gapped_left + 'NNNNNACGTACGTNNNNN' + _gapped_right), False)
+check("gapped fallback rejects a changed fixed source flank",
+      _exact_hit('tag\t' + _gapped_written + '\n',
+                 'A' + _gapped_model[1:]), False)
+check("gapped fallback retains the minimum width of printed random flanks",
+      _exact_hit('tag\t' + _gapped_written + '\n',
+                 _gapped_left + 'N' * 10 + _gapped_right), False)
+check("gapped fallback cannot promote a matching partial strand to a whole oligo",
+      _exact_hit('tag\t' + _gapped_written + '\n', _gapped_model[4:]), False)
 
 check("a 3' run of slash-delimited modified bases reads as bases; A/G stays an alternative",
       [spx.internal_base("iXNA_G"), spx.internal_base("Index_A"),

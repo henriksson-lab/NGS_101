@@ -1,0 +1,5 @@
+# Sources
+
+Run `python3 tools/get_sources.py --slugs emriboseq__10.1038+nature14183`. Allarticle/supplementoriginalsandtexttwinsremainunder `/husky/henriksson/NGS101_papers/sources/emriboseq__10.1038+nature14183/`; externalMANIFEST.tsv recordsURL,MD5,availabilityandmanuscriptidentity. Nooriginalscheckedin.
+
+Readtheassociatedacceptedmanuscriptwithitsidentityexplicit;publisherchemistrysupplementisspecifiedin01notes/reviewJSON. Nocurrentvendorguideislabeledhistoricallyequivalentwithoutreview.

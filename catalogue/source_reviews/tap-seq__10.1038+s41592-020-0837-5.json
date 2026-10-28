@@ -1,0 +1,73 @@
+{
+  "dir": "tap-seq__10.1038+s41592-020-0837-5",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7610614.1/PMC7610614.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "OnlineMethods189–207:10xv2RT,PCR1–PCR3,sequencing",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/tap-seq__10.1038+s41592-020-0837-5/s41592-020-0837-5_PMC7610614.xml",
+      "source_identity": "full-text JATS XML (PMC Cloud)",
+      "md5": "bf3b232ceb8c4aed8e278bdfe8538e5b",
+      "source_version": "Associated accepted manuscript of published article; final version-of-record procedural equivalence not established."
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-020-0837-5/MediaObjects/41592_2020_837_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "TAP-seqPCR1–PCR3 workflow; version-compatibility scope distinguished",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/tap-seq__10.1038+s41592-020-0837-5/s41592-020-0837-5_41592_2020_837_MOESM1_ESM.pdf",
+      "source_identity": "Springer supplementary file",
+      "md5": "e662b9fb0de60b4a6825b02e82d4d554"
+    },
+    {
+      "id": "oligo-table",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7610614.1/EMS118361-supplement-Table_S6.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedMOESM8 exact duplicate bymanifestMD5; all universal primer rows and thioatecomment",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/tap-seq__10.1038+s41592-020-0837-5/s41592-020-0837-5_supp_EMS118361-supplement-Table_S6.xlsx",
+      "source_identity": "supplementary file (PMC Cloud)",
+      "md5": "8d312404aefdb7285ee9f30d6bba1c85"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-05",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Bounded primary source/local partial model; not a complete disclosure review",
+      "locations": "OnlineMethods189–207:10xv2RT,PCR1–PCR3,sequencing; TAP-seqPCR1–PCR3 workflow; version-compatibility scope distinguished; PublishedMOESM8 exact duplicate bymanifestMD5; all universal primer rows and thioatecomment",
+      "findings": "See protocol note for source-positive molecular distinction and explicit uncertainty.",
+      "deferred": [
+        "Historical10x3primev2 full input strands and source guide, no contemporary-kit substitution.",
+        "Gene-specificTableS1 panel landing and full final-strand geometry; all sources available, unassembled.",
+        "Separate Drop-seq,no-CROP bone-marrow and large-screen modified loading/RT variants."
+      ],
+      "verification": "Protocol-local suites: Han6,epicPCR9,DART8,TAP8 passed (31total); all four private previews build, no completion marker; duplex pairing0problems; scoped chemistry4established,51unresolved,0contradictory. Sourceguard8checked1failed: faithful TAP N7XX8base window fails matcher against source [X]8 notation; reported to coordinator, no exemption added.",
+      "oligo_scraper": "Mandatory standard scraper; relevant source hits checked, including modifications. DART large code-reference FASTA skipped, not a chemistry omission."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Only stated directly linked targets considered. No recursive source chase or confirmed absence."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Historical10x3primev2 full input strands and source guide, no contemporary-kit substitution.",
+    "Gene-specificTableS1 panel landing and full final-strand geometry; all sources available, unassembled.",
+    "Separate Drop-seq,no-CROP bone-marrow and large-screen modified loading/RT variants."
+  ],
+  "implementation_verification": {
+    "date": "2026-10-28",
+    "scope": "Code/source-transcription guard follow-up, not a second independent source or absence review.",
+    "outcome": "Quantified [X]8 variable notation now checked at its exact stated width; TAP4checked0failed0exemptions. Protocol polymers were not altered to satisfy matcher. Other scoped checks to be reconciled at integration."
+  }
+}

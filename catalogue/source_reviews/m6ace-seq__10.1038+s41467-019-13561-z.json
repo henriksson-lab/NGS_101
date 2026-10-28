@@ -1,0 +1,223 @@
+{
+  "dir": "m6ace-seq__10.1038+s41467-019-13561-z",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_PMC6904561.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/PMC6904561.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published VOR JATS",
+      "pass_1": {
+        "reviewer": "rna_round05_reader",
+        "date": "2026-10-28",
+        "locations": "Results39–44, discussion130, Methods168–170; original non-manuscript provenance",
+        "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "original_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_supp_41467_2019_13561_MOESM4_ESM.xlsx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/41467_2019_13561_MOESM4_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published Supplementary Data1",
+      "pass_1": {
+        "reviewer": "rna_round05_reader",
+        "date": "2026-10-28",
+        "locations": "Sheet1 methylated spike and library adapter/RT-primer rows; all source modifications checked",
+        "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "original_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_supp_41467_2019_13561_MOESM3_ESM.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/41467_2019_13561_MOESM3_ESM.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published source-file index",
+      "pass_1": {
+        "reviewer": "rna_round05_reader",
+        "date": "2026-10-28",
+        "locations": "Opening source-file index identifying Supplementary Data1 oligo workbook",
+        "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_PMC6904561.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/PMC6904561.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_supp_41467_2019_13561_MOESM10_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/41467_2019_13561_MOESM10_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_supp_41467_2019_13561_MOESM11_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/41467_2019_13561_MOESM11_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_supp_41467_2019_13561_MOESM12_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/41467_2019_13561_MOESM12_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_supp_41467_2019_13561_MOESM13_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/41467_2019_13561_MOESM13_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_supp_41467_2019_13561_MOESM1_ESM.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/41467_2019_13561_MOESM1_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_supp_41467_2019_13561_MOESM2_ESM.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/41467_2019_13561_MOESM2_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_supp_41467_2019_13561_MOESM5_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/41467_2019_13561_MOESM5_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_supp_41467_2019_13561_MOESM6_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/41467_2019_13561_MOESM6_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_supp_41467_2019_13561_MOESM7_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/41467_2019_13561_MOESM7_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_supp_41467_2019_13561_MOESM8_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/41467_2019_13561_MOESM8_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6ace-seq__10.1038+s41467-019-13561-z/s41467-019-13561-z_supp_41467_2019_13561_MOESM9_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6904561.1/41467_2019_13561_MOESM9_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round05_reader",
+      "date": "2026-10-28",
+      "locations": "Inspected sections listed in source_checklist and protocol notes",
+      "finding": "Direct linked/source-version tasks enumerated; full two-reader source/linked-information audit incomplete."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1093/nar/gky1104",
+      "scope": "Direct defining/predecessor/detailed source; not followed in this capped pass"
+    }
+  ],
+  "open_questions": [
+    "Exact historical TruSeq PCR/index primers and acquired read geometry; upstream adapter ligations; m6Am cap boundary; spike 5′end preparation; calibration and crosslink remnants."
+  ],
+  "source_version_limit": "Explicit source versions recorded per original. Manuscript/VOR equivalence is not assumed.",
+  "conclusion": "One capped source-reading/model pass. Notes status; graph partial; no confirmed missing-information claim, second pass or completed read plan.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-05",
+      "reviewer": "rna_round05_reader",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Defining originals/chemistry supplements first; source-qualified local molecular relations only",
+      "locations": "Results39–44, discussion130, Methods168–170; original non-manuscript provenance; Sheet1 methylated spike and library adapter/RT-primer rows; all source modifications checked; Opening source-file index identifying Supplementary Data1 oligo workbook",
+      "findings": "Exact historical TruSeq PCR/index primers and acquired read geometry; upstream adapter ligations; m6Am cap boundary; spike 5′end preparation; calibration and crosslink remnants.",
+      "deferred": [
+        "https://doi.org/10.1093/nar/gky1104"
+      ],
+      "oligo_scraper": "Full downloaded bundle scanned with tools/scrape_primers.py; selected hits verified in originals, image figure inspected where stated."
+    }
+  ]
+}

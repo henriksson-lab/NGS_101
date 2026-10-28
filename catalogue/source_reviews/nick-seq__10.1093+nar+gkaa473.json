@@ -1,0 +1,94 @@
+{
+  "dir": "nick-seq__10.1093+nar+gkaa473",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nick-seq__10.1093+nar+gkaa473/nar_gkaa473_PMC7337925.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round03",
+        "date": "2026-10-28",
+        "locations": "Manifest published/CCBYNC/author-manuscriptFalse; complete MaterialsandMethods123-153; mechanism/discussion; reference9.",
+        "finding": "Common restriction/SAP/ddNTP blocking, targetnick creation and positive NT/TdT routes; source PT copied backbone vs naturalPT distinctions; actualpolyT tailing; SMARTkit12cyclePCR/NextSeqPE75. AP exposure0.2mMResults versusMethods0.1/0.5/1/2mM source difference retained; nickase graph avoids unverified choice."
+      }
+    },
+    {
+      "id": "supporting_docx",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nick-seq__10.1093+nar+gkaa473/nar_gkaa473_supp_gkaa473_supplemental_files_Cao_et_al_Supporting_Information_2020_4-25.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round03",
+        "date": "2026-10-28",
+        "locations": "Complete extracted captions and supplement inventory; original ZIP media inventory confirmed3EMF images. InstalledLibreOffice render attempted and failed due sandbox/read-only runtime error.",
+        "finding": "Captions identify nickase/AP sequence-context plots and paired-end statistics. EmbeddedFiguresS1/S2/TableS1 not visually inspected; cannot infer oligo absence. Source spreadsheet sequence hits are genomic neighborhoods, not automatically ordering oligos."
+      }
+    },
+    {
+      "id": "smart_concept",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.2144/01304pf02",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Article reference9 identifies Zhu2001 SMART concept. Parent original not followed within cap; not evidence of exact historical kit/adapters."
+    },
+    {
+      "id": "software",
+      "role": "linked_material",
+      "locator": "https://github.com/BoCao2019/Nick-seq",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "reason": "Published data-availability URL and script names read; repository revision/code not retrieved in cap. Computational NT/TdT integration not a molecular product reaction."
+    },
+    {
+      "id": "tables2_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nick-seq__10.1093+nar+gkaa473/nar_gkaa473_supp_gkaa473_supplemental_files.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "OriginalZIP contains separately namedTable2–6 files; mandatory scraper inspected sequence-hit context, but complete source tables not read. Identity/filedates preserved; no source absence accepted."
+    },
+    {
+      "id": "preprint_v2",
+      "role": "other",
+      "locator": "https://www.biorxiv.org/content/10.1101/845768v2.full.pdf",
+      "availability": "available",
+      "relevance": "not_relevant",
+      "reason": "Fetched superseded preprint of published2020article; no preprint chemistry adopted. No claim of independent full chemistry re-review of excluded version."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round03",
+      "date": "2026-10-28",
+      "locations": "Published Methods and original bibliography/source-availability links; see checklist.",
+      "finding": "Source-linked originals and exact component scope enumerated; deferred within cap; no unavailable disclosure document invented."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "First bounded source/model pass, not a completed independent review or accepted missing-information audit.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-expansion-round03",
+      "reviewer": "expansion_dna_round03",
+      "date": "2026-10-28",
+      "documents": 2,
+      "scope": "Capped investigation of at most3originals; chemistry source versions preserved. No recursive source chase or complete missing-information claim.",
+      "locations": "Manifest published/CCBYNC/author-manuscriptFalse; complete MaterialsandMethods123-153; mechanism/discussion; reference9.; Complete extracted captions and supplement inventory; original ZIP media inventory confirmed3EMF images. InstalledLibreOffice render attempted and failed due sandbox/read-only runtime error.",
+      "findings": "Partial positive Nick-seq validation graph models dd-endblocking, source NT PTbackbone protection and separateTdTpolyT branch. Digestion/nucleotide-processing debris retained until physical source cleanup. TwoSMARTkit internals explicitMAGIC, not generic inherited library assembly.",
+      "deferred": [
+        "Rendered EMFFiguresS1/S2/TableS1 remain unread after failed local conversion; no absence inference.",
+        "Exact historical ClontechSMARTChIPkit source revision, adapter/primer polymers and barcode members; desired components remain open questions, not invented unavailable documents.",
+        "Negative-control molecular workflows/pooling, PT/AP conversion alternatives and source AP-exposure discrepancy, codeversion/integration and secondreader."
+      ],
+      "oligo_scraper": "Mandatory full-bundle scraper run; source sequences/modifications checked where exact oligos are modeled. Nick genomic sequence hits distinguished from ordering oligos; empty/incomplete graphic extraction not treated as absence.",
+      "verification": "Graphconstruction/renderpass; build/pairingpass; chemistry20unresolved/0contradictory and2explicitkit warnings; sourceguard0exactNickchecked,2kit-oligo inputsunrepresented; no oligoabsenceclaim."
+    }
+  ]
+}

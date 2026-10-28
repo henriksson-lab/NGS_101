@@ -1,272 +1,182 @@
 # Restart handoff
 
-Snapshot: 26 October 2026, repository `/data/henriksson/github/chem`.
-Read `AGENTS.md` and `DESIGN.md`, then inspect the current worktree before continuing.
-The next substantial requested work is the eight-method batch in
-`plans/cloning-examples-04.json`. The earlier ET source blocker remains unresolved.
+Snapshot: 28 October 2026, repository `/data/henriksson/github/chem`.
+Read `AGENTS.md` and `DESIGN.md`, then inspect git status and the active goal.
+The user handles commits; do not commit or push.
 
-## Immediate working state
+## Paused work
 
-At this snapshot, HEAD is `0ee7a45` (source-download helper). The preceding commit
-`d62d4a9` contains the preceding protocol batch and computed index completeness filter.
-The user makes the commits; no commit or push was made for the latest CI fix.
+The active goal expands the NGS collection toward at most 1,000 actual protocols,
+or stops earlier at defensible candidate exhaustion. It is paused at the user's
+explicit request; do not restart curation without explicit resumption. Do not
+restore the old cloning/ET goal or treat a capped source pass as a full review.
+`plans/ngs-expansion.json` records baseline, counts, admission policy and rounds.
+Use parallel disjoint protocol workers as explicitly authorized by the user.
+Keep shared catalogue, citation, round-ledger and progress edits with the coordinator.
 
-`tools/selftest_annealing.py` has a staged one-line fix: add `source-downloads` to
-the temporary site's HTML fixtures. Preserve that staged change. This handoff is
-also staged when saved. There are no ongoing tool processes to resume.
+Baseline commit: `fe8eac0146c54e557fbc2f91c8bfb37856108c48`.
+The baseline had 451 total entries, including 414 NGS entries (413 published,
+408 finished published). Five bounded rounds added46 source-read NGS methods
+(460 collected including WIP,459 published). One more registered name,DNTR-seq,
+is identity-only and excluded from that count. Catalogue has498 entries total,
+461 registered NGS names including WIP. New43 source-read additions stay notes-only.
+All have source-reading notes and local graphs; GLOE-seq native-end single-index,
+bulk ACT-seq and the NHF1/CS-B XR-seq branch have finished schematics (411 finished published NGS). Other additions remain notes-only.
+Status, computed model completeness and a completed source/absence audit are
+separate. No new accepted-missing claims.
 
-## Latest CI failure and fix
+The three `2026-10-28-expansion-discovery-*.tsv` ledgers hold screened candidates;
+they do not count as collected. Select the next bounded batch from them after
+reviewing the five current round ledgers and their deferred targets. Prioritize
+breadth, 10 minutes/three originals per protocol, published originals first,
+mandatory primer scraper and source verification. Move past blocked sources.
+Do not recursively chase citations or fill chemistry from related protocols.
 
-The Pages run for `0ee7a45` failed in the shared annealing self-test:
-https://github.com/henriksson-lab/NGS_101/actions/runs/40406737576
+## Pause checkpoint
 
-The new mandatory standalone page was missing from the annealing test's temporary
-site. `build_site.assemble({})` raised `FileNotFoundError` for
-`source-downloads.html`. The fixture now includes the page. Production build
-requirements were retained; the fix does not silently omit the helper.
+The user requested pausing the goal, stabilizing the checkout and staging files.
+Verified work through round05 is preserved. Round06 selected13candidates and
+started source retrieval, but no protocol directories/models/review records were
+created. Its provisional catalogue/properties/citation additions were restored
+to the verified staged round05 versions so no empty notes entries remain.
+`plans/ngs-expansion.json` saves the exact selected registration records and
+preliminary reading pointers; the round06 ledger marks them paused/unregistered.
+Do not count them as collected. On explicit resumption, re-register and refresh
+catalogue/citations before continuing bounded source checks.
 
-Verified locally after the fix:
+All root/worker fetch processes are terminal. External caches remain intact.
+Xdrop retains an interrupted `MANIFEST.tsv.part` beside its ordinary manifest;
+validate source identities/manifests before cache reuse on resumption. No temporary
+source file or downloaded original is staged. NOMe source retrieval completed,
+but no NOMe chemistry was read or scraped. FLEP/CLASH and DNaseHi-C received only
+the preliminary inspections listed in the paused ledger; no conclusions saved.
 
-- `python3 tools/selftest_annealing.py`: 47 checks pass.
-- `python3 tools/selftest.py`: 1,505 checks pass.
-- Staged whitespace check passes.
+## Relationships feature
 
-The patch has not been pushed or verified by a new remote CI run. Useful local
-logs, if still present: `/tmp/ci-annealing-fixed.log` and `/tmp/ci-shared-fixed.log`.
-These temporary logs are convenience pointers, not permanent evidence.
+User also requested method ancestry, multiple parents, inferred links, sequence
+similarity, a full graph tab and local views. Implemented in:
 
-## Completed index filter
+- `catalogue/protocol_lineage.json`: qualified curated relationships.
+- `lib/protocol_lineage.py`, `build_lineage.py`: validation, similarity and views.
+- `assets/protocol_lineage.js` / `.css`: pan/zoom, focus/search, evidence, SVG export.
+- Site assembly inserts a collapsed local graph on eligible protocol pages.
 
-The public index has a primary **Model completeness** filter, computed from
-versioned graph-renderer reports rather than manual per-protocol ratings.
-Implementation: `lib/model_completeness.py`, `lib/chemdraw.py`, `build_index.py`;
-checks: `tools/selftest_model_completeness.py` and the shared suite.
+Ancestry never supplies molecular constructors. Exact known sequence-component
+similarity is an optional independent layer, with inverse-frequency weighted
+Jaccard and strand deduplication; it never becomes ancestry automatically.
+Only finished public non-illustrative protocols appear. Notes-only edges remain
+validated but private. Curation coverage is partial, not evidence of independent
+origins. Follow `MAINTAINERS.md` when adding relationships during source reading.
 
-The levels are no schematic, unassessed model, unresolved steps/material fates,
-molecular/readout limits, inferred regions, and no declared model gaps. This is
-model scope, separate from source review, chemistry-check coverage or experimental
-validation. Malformed, missing and old reports remain unassessed. Variable inserts
-and barcodes alone do not create a gap.
+Private iCLIP→irCLIP inference is explicitly accepted-manuscript-based. Its
+2 h versus publisher-figure1 h click timing is a source-version comparison;
+ordinary revision differences have not been excluded. Do not call it a confirmed
+publication error. Other source/revision limits live in each note/review JSON.
 
-The index's search, combined filters, URL persistence/reload and Clear were tested
-in Chrome. The feature's full site build passed: 448 diagram pages, 440 finished
-public schematics and every relative link. Current counts should be recomputed if
-protocols or model declarations change.
+## Validation and staging
 
-## Unlisted download page
+Validation logs are transient `/tmp/ngs-expansion-*` and
+`/tmp/protocol-lineage-browser.json`; the durable feature report is
+`plans/protocol-lineage-implementation.json`. The full viewer passed 21 semantic
+and 17 real Chrome checks, including prefix hosting, evidence filters, multi-parent
+focus, local/full links, SVG export, failed data loading and mobile layout.
+Shared suite, catalogue, source-tool checks and full assembled-site link checks
+are recorded in the expansion plan as completed. Inspect final git status for
+staging; generated HTML, `_site/` and source originals must remain untracked.
 
-`build_source_downloads.py` generates `source-downloads.html` offline from the
-outstanding-only ledger `geturl.txt`. `build_site.py` builds and explicitly publishes
-it. Direct deployed path: `/NGS_101/source-downloads.html`.
+Source originals live at `/husky/henriksson/NGS101_papers/sources/`.
+No third-party materials belong in the checkout. Recent source-specific model
+gaps include carbon-spacer polymerase stopping (irCLIP), AtRNL-compatible
+ribonucleotide circularization (Ribose-seq), reversible G-adduct occupancy
+(KAS-seq), and Cas-bound exonuclease protection (CaBagE). Local typed declarations
+are source-scoped and do not claim unsupported reaction/yield validation.
 
-The page has no inbound site-navigation/index links or protocol-search entry and
-has a `noindex,nofollow` directive. It remains publicly accessible by direct URL.
-It publishes document links and request context, not source originals or the raw
-ledger. Current input has 16 requests and 37 links. Remove fulfilled requests from
-`geturl.txt`; do not maintain a second request list in the builder.
+## Round03 integration
 
-Ten helper checks and the site publication/link/asset audit passed. The source
-helper addition is committed in `0ee7a45`; its missed annealing fixture is the staged
-CI fix described above. Other site-assembly fixtures in `tools/selftest.py` already
-include the new page.
+Added HydraPsiSeq, hydro-tRNAseq, XR-seq, Nick-seq, QuRIE-seq, DAb-seq and
+PhIP-Seq; only XR is newly public. PhIP's detailed author supplement remains
+provisional against the final article; its exact VOR endpoint is now queued in
+extra_sources.tsv, not declared inaccessible. The other new notes preserve
+kit/end/read-layout boundaries and source discrepancies.
 
-## Previous protocol batch and source blocker
+The local irCLIP C18 backbone now supports explicit closure and conditional
+first-extension traversal with22 passing checks. It never flattens spacers into
+DNA or assumes rolling-circle copying. Full two-primer PCR/readout stays deferred.
+Both iCLIP and irCLIP private builders use the supported literal OUT assignment.
 
-Seven public illustrative examples are implemented: BioBrick/RFC10, RF cloning,
-circular TAR, original cloning CATCH, historical In-Fusion Dry-Down (2007), original
-GoldenBraid (2011), and native-DNA CATCH nanopore (2018). The latter keeps its
-historical MAP007 kit chemistry explicitly unassigned and separate from the
-human-target amplified branch and current ONT kits.
+Source guard whole-strand fallback fixes mixed known-N/unknown-width barcode
+windows, with6 new positive/negative regression checks;1592 shared checks pass.
+Current catalogue84/source-tools227 checks pass. All464 builders were verified,
+then assembly/link checks completed after fixing the new private irCLIP OUT
+parser integration;443 public pages and411 documented NGS graph contracts pass.
+No global shared reaction claim validates the conditional spacer mechanism.
 
-RecE/RecT ET (`et-recombineering__10.1038+2417`) is private status `notes` with an
-explicitly hypothetical neutral replacement graph. Do not promote it on the
-strength of an abstract or matching intended DNA alone. The defining paper is
-Zhang et al. 1998, DOI `10.1038/2417`. Publisher retrieval is inaccessible; an
-identified Adrian Stewart author-uploaded PDF also returned HTTP403. Its fragmented
-web preview did not verify the original substrate/topology branch. The source
-cache contains only its manifest, not a retrieved original.
+Select further candidates from the three discovery ledgers; e.g. POINT/nano-COP,
+HydEn-seq/emRiboSeq and LIBRA-seq/scID-seq remain eligible for another bounded
+round, after checking current registration. Do not count them before source notes.
 
-The earlier tracked goal is **blocked** on this source. It was not completed.
-Its blocker recurred over three goal turns before that status was set. Avoid
-repeating the same blocked fetches or bypassing publisher challenges.
+## Round04 integration
 
-Author-copy and publisher links are in `geturl.txt`, request 15. Request 16 is the
-archived RFC10 text needed for formal revision comparison. The BioBrick defining
-article and inspected OpenWetWare standard are already available. Other outstanding
-requests remain in that ledger. Batch evidence:
-`catalogue/curation_rounds/2026-10-24-cloning-examples-03.tsv` and the corresponding
-`catalogue/source_reviews/*.json`. These bounded passes are not completed two-reader
-absence reviews; no absence claims were accepted.
+Twelve additional source-read models/notes, plus DNTR identity-only source-blocked
+notes with no graph. Registered NGS total447;collection count446. All12 new
+models remain notes-only. The original emRiboSeq uses Ion Torrent (new valid
+platform facet) with instrument emPCR,not an invented library-PCR series.
 
-## User-authorized next batch
+CPT's local ContiguityState preserves source protein-held fragment association
+through pooling/dilution,then SDS dissociation in a physical well. Corrected
+Table4 supplies20 transferred oligos and4 other stock/run oligos. Thirty-one local
+checks pass. Four code components use distinct IDs with a common group;custom
+physical index-cycle mapping and historical PCR primers remain unresolved.
 
-The user requested adding **all eight**, including the two lower-priority suggestions:
+irCLIP multipart IDs were also corrected:W3/N3/N5 have unique IDs sharing one
+UMI group. Actual C18 nodes stay present and Construct compatibility is checked;
+24 local checks pass. Full PCR/readout and final-VOR applicability still deferred.
 
-| Method | Defining DOI | Main modelling addition |
-|---|---|---|
-| Twin-Primer Assembly (TPA) | 10.1093/nar/gkx132 | PCR products and reannealing alternatives |
-| NE-LIC | 10.1371/journal.pone.0057943 | Nicking and retained/displaced strands |
-| MASTER ligation | 10.1093/nar/gkt122 | Methylation-dependent recognition and cleavage |
-| MetClo | 10.1093/nar/gky596 | Methylation protection during hierarchical assembly |
-| Original SSRTA | 10.1038/srep00141 | Source-specific integrase sites and recombination products |
-| Cre/lox FLEx | 10.1038/nbt811 | Orientation-dependent inversion/excision and byproducts |
-| Hot Fusion | 10.1371/journal.pone.0115318 | Source-specific assembly without added ligase |
-| Golden Mutagenesis | 10.1038/s41598-019-47376-1 | Declared variant population and ambiguity |
+PhIP's final publisher HTML is subscription-preview only,and its exact PDF URL
+returns HTML. Its source review is now blocked;the existing source-read author
+model is still counted as provisional notes. DNTR has no chemistry originals
+and is explicitly uncollected in plans/ngs-expansion.json. Geturl adds9 groups
+with22 actual blocked documents;none of16old groups was verifiably fulfilled.
 
-The complete objective and requirements are saved in
-`plans/cloning-examples-04.json`; implementation has not started. A new tracked goal
-could not be created because the earlier blocked goal remains unfinished and the
-goal tools do not support replacing it. Do not falsely complete ET to clear that
-tracker. A fresh conversation may allow a new goal; otherwise the repository plan
-still records the authorized scope.
+Validation:1614shared/84catalogue checks;472current diagram builders,443public
+pages,411NGS contracts;all relative links resolve. Scoped round04sourceguard
+22checked/0failed,1source-notation exception,21unrepresented inputs. Source
+reviews across new33registered names:30in_progress,3blocked,noaccepted absence.
 
-Use neutral invented examples with structured `illustrative_example` metadata,
-protocol-owned graphs and constructed-DNA endpoints. Preserve source-specific
-implementations, molecular geometry, copying, methylation, rearrangement products
-and unresolved host boundaries. Golden Mutagenesis needs an explicit variant
-population without a coverage/performance claim. Exclude invented sequences from
-annotation and sample-sheet references. Register catalogue/properties/citations,
-source routes/reviews and outstanding requests; verify and stage completed work.
+The source queues still contain defensible candidates. Select another bounded
+round after checking registration;ID-seq (10.1038/s41467-018-04761-0) was added
+as a citation-identity-only discovery lead,not admitted/curated. Do not treat
+empty initial candidate queues as proof of global NGS-method exhaustion.
 
-The user has authorized parallel workers in this protocol-curation work and asked
-for a parallel worker on the completeness filter. Move to the next method when
-source-blocked. Do not turn bounded source review into a fetcher/architecture
-migration or treat unavailable material as confirmed absent information.
+## Round05 integration
 
-## Storage and build reminders
+Fourteen further source-read methods, all notes-only: m6ACE, BID, Nm, CeU,
+RRBS2008, MiGS, FAIRE, Boyle DNase, Han TCR/phenotype, epicPCR, targeted DART,
+TAP, MAZTER and m6A-REF. Collection460 incl WIP; registered461 because DNTR
+remains identity-only/uncollected. No new public promotion or accepted absence.
 
-Originals and extracted text live under
-`/husky/henriksson/NGS101_papers/sources/<slug>/`, never in this checkout. Use the
-registered source tools, preserve document/version identity, run primer scraping
-and verify actual source sections. Respect source-review caps and the two-reader
-missing-information gate in `AGENTS.md`.
+Ten new private previews render model-derived workflows without completion
+markers. Four RNA models expose scoped graphs/notes without a preview. CeU
+has only source-inspected probe label/click events; its full Methods remain
+blocked. Actual Han corrigendum and Boyle chemistry supplement blockers stay
+explicit. MAZTER TableS7 is source-referred but attachment identity unresolved.
 
-Keep Python/builds offline and standard-library-only. Generated HTML and `_site/`
-are ignored output; downloaded originals must not be staged. Site delivery is via
-CI after the user commits/pushes. Stage completed changes; do not commit unless
-requested. Existing user preferences favor concise public pages and SVG figures.
+Independent implementation review fixed two omitted source heat operations
+(MAZTER RNA+adapter preligation and m6A-REF first pre-FTO heat), plus MiGS
+conjugate washing and possible blocking-DNA persistence through protease/cleanup.
+Source-version differences, exact unassembled library geometries and chemical
+versus computational fates remain explicit. The fourteen graphs have8established
+narrow pairing relations and166unresolved claims;0contradictory does not mean
+complete chemistry validation. Source guard15exact checked,0failed,0exemptions,
+34inputs without exact states. All local suites pass;1647shared/84catalogue/
+227source-tool checks pass. Final full-site result/staging is recorded in the plan.
 
-## Resumed goal update on 27 October 2026
+TAP's published [X]8 notation now normalizes narrowly to exactly8variable positions
+in source_oligo_check, with seven semantic regressions. No protocol was changed
+to satisfy matching. Existing whole-strand gap and fixed-flank protections remain.
 
-The user resumed the earlier eight-method goal. Its tracker was reactivated; the
-ET blocker remained during the fresh blocked-goal audit. No new
-original was found in its source cache or `up2/`. The author PDF again returned403;
-the direct publisher PDF route returned HTML and failed PDF validation. The route,
-source review, reference manifest and outstanding request were updated. No ET
-chemistry was promoted. Preserve the previously staged CI fixture fix.
-
-The resumed audit has now confirmed the same missing ET original over three
-consecutive turns. The source cache still has only `MANIFEST.tsv`, `up2/` has no
-new source files, and the last fetch completed with zero valid originals. All
-other entries in the earlier eight-method goal retain their public example and
-endpoint declarations. No source-qualified ET implementation can be completed
-without the full published methods and figures. The blocked-status threshold
-is met; do not mark this older goal complete or repeatedly retry blocked hosts.
-
-## Restriction analysis tab added on 27 October 2026
-
-The new `restriction.html` tab is implemented and ready for deployment after commit/push.
-`build_restriction.py` builds it and the site-local catalogue; `build_site.py` includes
-its page, worker and data. Shared navigation includes Restriction sites. Source and
-UI code are `assets/restriction_analysis.js`, `restriction_worker.js`,
-`restriction_ui.js` and `restriction.css`.
-
-It supports unique/zero/arbitrary count ranges, separate cut/recognition counts,
-linear/circular topology, both orientations, IUPAC ambiguity, type IIS/two-cut
-coordinates, end-type/length filters, custom enzymes, context/flank views, reference
-fragments and TSV/SVG export. CpG/Dam/Dcm sequence-context and sensitivity filters
-are independent; sensitivity does not automatically alter cut counts. Unknown
-sensitivity remains unknown. Exact-count defaults exclude uncertain extra cuts.
-
-The checked-in reference snapshot is `catalogue/restriction_enzymes.json`: 1,088
-Biopython 1.88 records, including 754 defined cut geometries, derived from REBASE 404
-(2024), with pinned source SHA/revision, copyright and full permission notice.
-`catalogue/restriction_methylation.tsv` has 36 exact-name factual annotations with
-primary source URLs. No variant or isoschizomer inherits another annotation.
-The refresh tool parses literal data without executing upstream Python or adding
-Biopython as a dependency. Builds are offline. The generated
-`assets/restriction_catalogue.json` is ignored output.
-
-Validation: 45 Node matcher checks, 13 Python catalogue/build checks, 1,520 shared
-checks, 47 annealing checks, existing browser sequence/samplesheet Node suites,
-full 448-diagram site build/link audit and 25 actual Chrome smoke assertions pass.
-`tools/benchmark_restriction_browser.py --site _site` repeats browser checks, including
-catalogue-load retry, deliberately failed worker import, cancellation/retry,
-GitHub Pages paths, CpG modes and exports. Worker errors are handled explicitly so
-cancellation during import does not produce an uncaught browser error.
-A local 100,000-base/1,088-enzyme matcher benchmark completed in about 3.3 seconds.
-
-All prior staged work, including the earlier CI fixture fix and ET source evidence,
-is preserved. The annealing and publication fixtures also include the new tab and
-its explicit worker/data assets. The older ET goal remains blocked; the next
-protocol batch in `plans/cloning-examples-04.json` remains unimplemented.
-
-### Interactive restriction display — 28 Oct
-
-The restriction tab now opens with a clickable whole-molecule overview and a
-zoomable paired-sequence viewport. Recognition spans and top/bottom cut boundaries
-come from the matcher; the aligned column/polarity template comes from
-`Scene.duplex`, and the existing browser IUPAC helper derives the complement.
-Select a span, enzyme or site; pan or choose a 40/80/160 bp window; export the
-current duplex as standalone SVG. The enzyme table is retained under a collapsed
-“Enzyme table” disclosure. Circular-origin, outside-recognition and incomplete
-linear-end geometry retain their existing coordinate meaning. Dense displays and
-retained-position limits are labelled.
-
-New asset: `assets/restriction_view.js`, loaded explicitly by the restriction page
-and copied through the usual site asset walk. Verified: 45 matcher checks, 13
-catalogue/build checks, 1,520 shared checks, and 34 actual Chrome checks against the
-assembled site, including complement alignment, both EcoRI cut boundaries, span
-selection, pan/zoom, reverse type IIS, circular sites and standalone SVG export.
-All assembled-site links/publication checks passed. Browser helper accepts an
-optional `--screenshot PATH` for visual inspection. Changes staged; no deployment.
-
-### Restriction viewer revised to full-sequence scrolling — 28 Oct
-
-Supersedes the earlier overview/window design above. The overview, pan/zoom/slider
-controls and tall per-enzyme tracks are removed. The query wraps into continuous
-paired rows in a native scroll area; virtualized rows preserve the entire sequence
-and its absolute coordinates without creating 200,000 base elements for a 100 kb
-query. Motifs sharing recognition and cut geometry combine into compact labels.
-Hover labels or bases (including overlapping motifs) to see associated cuts and
-coordinates; click a label to pin, or clear the selection. Tooltip sits above the
-hover target so it does not cover the cut. Every cut path has vertical strand marks
-and a horizontal middle segment. The matcher now retains raw (unwrapped) cut
-coordinates alongside normalized coordinates to preserve origin-crossing geometry.
-The collapsed enzyme table, filters and TSV exports remain; SVG exports visible
-sequence rows and active cut geometry.
-
-Verified 45 matcher checks, 13 catalogue/build checks, 1,520 shared checks, and 37
-Chrome checks, including actual pointer hover, horizontal connectors, circular
-origin splits, reverse type IIS sites, and native scrolling to a motif after base
-10,000 with bounded DOM size. Site assembly/link/publication checks pass. No deploy.
-
-### Primer Tm tab — 28 Oct
-
-Added `tm.html` to the shared navigation and offline site build. Starts with KAPA
-HiFi HotStart ReadyMix PCR Kit (Roche KR0370 v16.25, May 2025): 2.5 mM Mg²⁺,
-0.3 mM EACH dNTP, and 300 nM primer. Complete monovalent composition is not supplied
-by the cited composition paragraph; the visible, editable 50 mM starting value is
-explicitly an assumption. This is a conditional Tm estimate, not a verified full
-KAPA buffer model. Fidelity/GC and Library Amplification products are not included.
-
-`assets/primer_tm.js` provides independent SantaLucia 1998/Owczarzy 2008 math with
-Mg–dNTP equilibrium. Build exports existing canonical NN parameters through
-`chemdraw.tm_model_parameters()`. All concentrations are explicit in the reusable
-API, including target concentration; the UI assumes trace template. Supports one
-or two primers, exclusion of specified 5′ tails, symmetry correction, ΔTm, editable
-conditions, scope warnings, and TSV with units/assumptions/model. Changing disclosed
-concentrations labels conditions custom. Roche's 60–72°C gradient / initial 65°C Ta
-guidance is kept separate, with no invented numerical Tm-to-Ta offset. No vendor
-code, calculator API or runtime dependency; existing diagram Tm behaviour unchanged.
-
-Validation: 30 Node numerical/API checks (including published independent reference
-values), 6 offline build checks integrated into the 1,527-check shared suite, 47
-annealing checks, all pre-existing Node sequence-tool suites, and 19 actual Chrome
-UI checks. Full `build_site.py --no-checks`: 448/448 diagrams built, 440 finished
-public schematics, every site-relative link resolves. Optional browser command:
-`python3 tools/benchmark_primer_tm_browser.py --site _site`.
-
-The previous staged KAPA calculator investigation is preserved and extended in
-`plans/tm_calibration_sources.json`; the unqualified third-party KAPA preset was
-not adopted. No deployment or commit performed.
+Lineage registry22 relations, including5new private scoped component adaptations;
+public8links unchanged. RNA discovery ledger adds two unread leads from actual
+references: DNA method10.1093/nar/gky1104 and RBS-seq10.1073/pnas.1817334116.
+Do not count or register them without boundary/source review. Remaining verified
+candidates in all three ledgers are still available; global exhaustion is unproven.

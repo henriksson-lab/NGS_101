@@ -1,0 +1,77 @@
+{
+  "dir": "mab-seq__10.1038+nbt.3073",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "accepted_article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mab-seq__10.1038+nbt.3073/nbt.3073_PMC4269366.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_pair2",
+        "date": "2026-10-28",
+        "locations": "Manifest author-manuscript status; Results Experimental strategy lines44-50; genome-scale library generation line110; locus-specific and caMAB Methods124-162; printed custom adapter polymers.",
+        "finding": "Genome-scale adapter ligation precedes2roundM.SssI, thenbisulfite/KAPAPCR/qPCR/finalPCR. CpG-qualified protection; physicalU/5caU distinct from readT. Source says5mC-methylated adapters; per-position modification map not independently assigned."
+      }
+    },
+    {
+      "id": "publisher_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mab-seq__10.1038+nbt.3073/nbt.3073_41587_2014_BFnbt3073_MOESM33_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_pair2",
+        "date": "2026-10-28",
+        "locations": "Figure1/2/3 chemistry and conversion controls; Table2 locus-primer inventory at lines2931onward.",
+        "finding": "Control conversion fractions and source-specific locus primer sequences inspected; they are not genome-scale PCR primers. No zero-hit or source-absence conclusion."
+      }
+    },
+    {
+      "id": "published_vor",
+      "role": "other",
+      "locator": "https://doi.org/10.1038/nbt.3073",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Full VOR Methods not inspected in capped pass; main text read from explicitly identified accepted manuscript. No whole-version equivalence claimed."
+    },
+    {
+      "id": "later_protocol",
+      "role": "other",
+      "locator": "https://doi.org/10.1038/nprot.2016.069",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Known published later protocol for MAB/caMAB; not inspected or substituted for2014original. Follow-up source rather than inferred predecessor. Route discovered during initial candidate screening, not a link claimed to be present in2014article."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_pair2",
+      "date": "2026-10-28",
+      "locations": "Defining source Methods/references and linked revision/follow-up identifiers; see original-by-original checklist.",
+      "finding": "Scoped ancestry/revision targets identified and capped follow-up deferred; no unavailable disclosure document invented for unassigned study values."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped source/model pass only. Source-qualified partial graph, not full chemistry validation or a completed missing-information audit.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-expansion-pair2",
+      "reviewer": "expansion_dna_pair2",
+      "date": "2026-10-28",
+      "documents": 2,
+      "scope": "Bounded source investigation, no more than3chemistry originals; source qualifications retained. Not a completed review or absence acceptance.",
+      "locations": "Manifest author-manuscript status; Results Experimental strategy lines44-50; genome-scale library generation line110; locus-specific and caMAB Methods124-162; printed custom adapter polymers.; Figure1/2/3 chemistry and conversion controls; Table2 locus-primer inventory at lines2931onward.",
+      "findings": "Genome-scale2round protection graph; source methylatedY adapter pair, explicit2roundpurifications, CpG chemical classes and distinct readout products. Five-cycle preamp/qPCR aliquot/finalPCR kept distinct. Source exact universal/index primers remain unassembled; no library recipe imported.",
+      "deferred": [
+        "Independent second reader and complete published VOR Methods.",
+        "Later2016detailedprotocol and chemistry-relevant historical vendor identities/primer members; desired values remain open, not invented missing documents.",
+        "Full final strand/index/run-primer architecture; optionalChIP/locus-specific/caMAB alternatives not modeled."
+      ],
+      "oligo_scraper": "Mandatory full-bundle scraper run; source lines and modifications read. Ribose corrected Table8 rendered. Hits are not absence evidence.",
+      "verification": "2source adapter transcription checks pass; page build/pairing pass; chemistry0contradictory; sourceguard2primer inputs explicitly unrepresented, no absence claim."
+    }
+  ]
+}

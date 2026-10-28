@@ -1,0 +1,130 @@
+{
+  "dir": "act-seq__10.1038+s41467-019-11559-1",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/act-seq__10.1038+s41467-019-11559-1/s41467-019-11559-1_PMC6702168.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_first_pass",
+        "date": "2026-10-28",
+        "locations": "Published title/DOI and correction relation; Results lines41-71; Methods bulk/single-cell preparation through oligos lines75-109; cited references14/15 lines238-249.",
+        "finding": "Bulk complex assembly, antibody-first targeting, washes, Mg tagmentation, extraction, initial extension, PCR and gel selection; paired HiSeq2500. Results5000 versus Methods10000 first-well cells retained as single-cell discrepancy."
+      }
+    },
+    {
+      "id": "corrected_data2",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-019-11559-1/MediaObjects/41467_2019_11559_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_first_pass",
+        "date": "2026-10-28",
+        "locations": "Local publisher workbook s41467-019-11559-1_41467_2019_11559_MOESM3_ESM.xlsx; md5 faf90e8f9fa86272817fa1c3ccda94d7; Sheet1 all oligo rows; text lines1-132.",
+        "finding": "Corrected oligo list with full bulk adapter/PCR polymers and pMENTS phosphate; single-cell families inspected for scope. Complete extracted bases present; no image-only table substitution needed."
+      }
+    },
+    {
+      "id": "correction",
+      "role": "other",
+      "locator": "https://doi.org/10.1038/s41467-020-18309-8",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_first_pass",
+        "date": "2026-10-28",
+        "locations": "Full one-paragraph correction notice on primary Nature page; published1September2020; PMC7463242.",
+        "finding": "Data2 originally duplicated Data1; correction replaces workbook. Local PMC-mirrored MOESM3 md5 7bc556f080952a6bdd587304ace63fef contains statistics; not used as oligo source."
+      }
+    },
+    {
+      "id": "protocol_exchange",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.1038/protex.2019.026",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Published linked protocol identified but not inspected within three-original cap; no source absence assertion.",
+      "discovered_from": "article"
+    },
+    {
+      "id": "addgene",
+      "role": "linked_material",
+      "locator": "https://www.addgene.org/121137/",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Article explicitly names expression vector; plasmid original not inspected within cap. Protein identity comes from article, not invented sequence.",
+      "discovered_from": "article"
+    },
+    {
+      "id": "illumina_design_background",
+      "role": "linked_material",
+      "locator": "https://support.illumina.com/downloads/illumina-adapter-sequences-document-1000000002694.html",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Article names design background; exact study oligos instead verified in corrected Data2. No current vendor revision treated as historical equivalent; linked guide not inspected.",
+      "discovered_from": "article"
+    },
+    {
+      "id": "rosenberg2018",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1126/science.aam8999",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Article reference14 explicitly supports similarity of multiplexing strategy. Original not followed in capped pass; no oligo or enzyme inheritance."
+    },
+    {
+      "id": "cusanovich2015",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1126/science.aab1601",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Article reference15 supports combinatorial-indexing analogy. Original not followed in capped pass; no transfer of adapter sequences or chromatin assay chemistry."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_first_pass",
+      "date": "2026-10-28",
+      "locations": "Defining article cited predecessors and methods links; see source checklist.",
+      "finding": "Linked material enumerated and deferred within three-original source-investigation cap; no absence claim accepted."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "First capped source/model pass complete; source investigation limited to three originals. No two-reader completed review or missing-information acceptance claimed.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-expansion-first-pass",
+      "reviewer": "expansion_dna_first_pass",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Capped published-original source pass, not a complete chemistry review or an absence audit.",
+      "locations": "Published title/DOI and correction relation; Results lines41-71; Methods bulk/single-cell preparation through oligos lines75-109; cited references14/15 lines238-249.; Local publisher workbook s41467-019-11559-1_41467_2019_11559_MOESM3_ESM.xlsx; md5 faf90e8f9fa86272817fa1c3ccda94d7; Sheet1 all oligo rows; text lines1-132.; Full one-paragraph correction notice on primary Nature page; published1September2020; PMC7463242.",
+      "findings": "Bulk-only graph with source-corrected oligos, preassembled antibody complex, explicit Mg activation, extraction, initial extension, PCR and gel selection. Product reference checked against PCR inputs; same-end classes explicitly unresolved.",
+      "deferred": [
+        "Independent second reader; source-linked ProtocolExchange, Addgene and dated Illumina design background.",
+        "iACT endpoint, selected first-round barcode pairing and run cycle mask.",
+        "Source-specific Tn5 end/dimer distributions and strand-level transposition product validation; conditional A/B endpoint only."
+      ],
+      "oligo_scraper": "Mandatory scrape_primers.py run on complete bundle; hits and modifications checked in cited originals. Superseded preprint not adopted.",
+      "verification": "Protocol-local suite and page build pass; pairing 0 problems; zero contradictory chemistry claims. Source guard checks corrected source oligos; no GLOE-specific exception applies to ACT."
+    },
+    {
+      "round": "2026-10-28-ngs-expansion-01-model-review",
+      "reviewer": "coordinator_model_review",
+      "date": "2026-10-28",
+      "documents": 0,
+      "scope": "Implementation review against previously inspected source notes; not an independent source or absence audit.",
+      "locations": "Protocol-local module and first-pass source-qualified reaction order.",
+      "findings": "Carried loaded adapter complexes through antibody targeting into tagmentation; no reuse of free starting adapter pool. Kept same-end product populations in separate Scene rows with unresolved fates.",
+      "deferred": [
+        "Original first-pass source limitations and independent complete source review remain."
+      ],
+      "verification": "Local source transcription suite and graph/page build pass; scoped chemistry has zero contradictions with unresolved transformations explicitly retained."
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "dir": "arm-seq__10.1038+nmeth.3508",
+  "status": "in_progress",
+  "review_scope": "Initial capped breadth-first pass; <=3 independent originals; not a complete source or absence review.",
+  "scraper": "Full source-bundle scrape_primers run 2026-10-28 before source transcription.",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/arm-seq__10.1038+nmeth.3508/nmeth.3508_PMC4553111.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4553111.1/PMC4553111.1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_first_capped_pass",
+        "date": "2026-10-28",
+        "locations": "Abstract28–35; Introduction85–108; Discussion272–297; Methods315–402; processing403–426; differential458–465",
+        "finding": "Wild-type AlkB/cofactors/time, matched control, MirVana selection, named NEBNext kit, insert selection and MiSeq paired-end."
+      },
+      "pass_2": null,
+      "linked_information": "Only named deferred targets followed up later; no confirmed-absence conclusion.",
+      "inspection_scope": "Only locations recorded in pass_1; remaining material not adjudicated."
+    },
+    {
+      "id": "publisher_supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/arm-seq__10.1038+nmeth.3508/nmeth.3508_41592_2015_BFnmeth3508_MOESM407_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3508/MediaObjects/41592_2015_BFnmeth3508_MOESM407_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_first_capped_pass",
+        "date": "2026-10-28",
+        "locations": "Figure1caption1–13; Figures2–5captions15–65",
+        "finding": "Substrate-specific blocks and incomplete demethylation; not nucleotide-complete library chemistry. Cached NIHMS DOC corresponding caption opening compared; duplicate content, not a fourth independent original."
+      },
+      "pass_2": null,
+      "linked_information": "Only named deferred targets followed up later; no confirmed-absence conclusion.",
+      "inspection_scope": "Only locations recorded in pass_1; remaining material not adjudicated."
+    },
+    {
+      "id": "result_workbook",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/arm-seq__10.1038+nmeth.3508/nmeth.3508_41592_2015_BFnmeth3508_MOESM408_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.3508/MediaObjects/41592_2015_BFnmeth3508_MOESM408_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_first_capped_pass",
+        "date": "2026-10-28",
+        "locations": "First sheet heading and opening rows only",
+        "finding": "Result table; remaining workbook not reviewed and not judged globally irrelevant."
+      },
+      "pass_2": null,
+      "linked_information": "Only named deferred targets followed up later; no confirmed-absence conclusion.",
+      "inspection_scope": "Only locations recorded in pass_1; remaining material not adjudicated."
+    }
+  ],
+  "deferred": [
+    "Applicable historical NEBNext Small RNA Library Prep Kit for Illumina vendor guide; identity/revision unresolved, source target not an asserted unavailable document.",
+    "Supplementary Table5 primer-extension oligos and remaining figure panels/workbook sheets, MOESM409/410 not inspected.",
+    "Exact adapter/index/run-primer geometry and cycle counts; matched control branch.",
+    "PANDORA defining original inheritance/citation statement not followed."
+  ],
+  "proposed_status": "notes",
+  "model_scope": "Explicit unresolved terminal prevents sequencing publishability.",
+  "missing_claims": [],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Actual deferred source targets and unresolved identities are recorded in deferred; predecessor and vendor material not followed in this capped pass. No missing-information acceptance."
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-01",
+      "reviewer": "rna_first_capped_pass",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Initial capped breadth-first pass; <=3 independent originals; not a complete source or absence review.",
+      "locations": "article: Abstract28–35; Introduction85–108; Discussion272–297; Methods315–402; processing403–426; differential458–465; publisher_supplement: Figure1caption1–13; Figures2–5captions15–65; result_workbook: First sheet heading and opening rows only",
+      "findings": "Wild-type AlkB/cofactors/time, matched control, MirVana selection, named NEBNext kit, insert selection and MiSeq paired-end.; Substrate-specific blocks and incomplete demethylation; not nucleotide-complete library chemistry. Cached NIHMS DOC corresponding caption opening compared; duplicate content, not a fourth independent original.; Result table; remaining workbook not reviewed and not judged globally irrelevant.",
+      "deferred": [
+        "Applicable historical NEBNext Small RNA Library Prep Kit for Illumina vendor guide; identity/revision unresolved, source target not an asserted unavailable document.",
+        "Supplementary Table5 primer-extension oligos and remaining figure panels/workbook sheets, MOESM409/410 not inspected.",
+        "Exact adapter/index/run-primer geometry and cycle counts; matched control branch.",
+        "PANDORA defining original inheritance/citation statement not followed."
+      ],
+      "oligo_scraper": "Full source-bundle scrape_primers run 2026-10-28 before source transcription.",
+      "verification": "Protocol-local partial graph suite/build; no sequencing-publishability claim."
+    }
+  ]
+}

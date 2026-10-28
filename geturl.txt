@@ -1,7 +1,8 @@
-Outstanding document requests — updated 2026-10-27
+Outstanding document requests — updated 2026-10-28
 
-Scope: the inverse-PCR and successive cloning-example additions. This list contains
-outstanding requests only; already retrieved documents are excluded. Download the identified
+Scope: inverse-PCR/cloning additions and NGS expansion rounds 01–04. This list
+contains actual outstanding retrieval requests; available but unread originals and
+unattempted or unidentified sources remain review tasks, not download requests. Download the identified
 published original/revision, not a preprint or a substitute protocol revision.
 Place originals in /husky/henriksson/NGS101_papers/sources/<directory>/.
 Do not put the downloaded papers or supplements in this repository.
@@ -161,3 +162,178 @@ CLONING EXAMPLES ROUND2 — outstanding originals (2026-10-23)
     Needed: original text for formal revision comparison; current example is
     qualified to the inspected source branch rather than asserting full equivalence.
     Directory: biobrick__10.1186+1754-1611-2-5
+
+NGS EXPANSION ROUNDS 01–04 — confirmed retrieval blockers (2026-10-28)
+
+These URLs are identified in the external source manifests or in the source-access
+review. Download the published originals named below. Superseded preprints are not
+requested. Existing readable article XML does not make unavailable figure originals
+or separately required version-of-record Methods available.
+
+17. REAP-seq — Peterson et al.2017, published main article/Methods
+    DOI: https://doi.org/10.1038/nbt.3973
+    Identified institutional mirror of the published article:
+    https://rnajc.ucsf.edu/sites/rnajc.ucsf.edu/files/nbt.3973_0.pdf
+    Status: standard retrieval recorded HTTP403 for this PDF; defining main article
+    remains unavailable locally. Published MOESM5 and MOESM6 PDFs are already cached
+    and are not requested again.
+    Needed: published main article and Methods to complement the available supplement.
+    Directory: reap-seq__10.1038+nbt.3973
+
+18. CaBagE — Wallace et al.2021, published S1 Figure
+    Article identity: https://doi.org/10.1371/journal.pone.0241253
+    Exact article-linked original (pone.0241253.s001.tif):
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/8031414/bin/pone.0241253.s001.tif
+    Status: standard retrieval stopped at the PMC preparing-download gate; no local
+    original of this figure is available. The article, guide workbook and reviewer
+    attachments are already cached and are not requested again.
+    Needed: S1 Figure, read length/quality with Short versus Long Fragment Buffer,
+    for the deferred rendered-source comparison of the cleanup branch.
+    Directory: cabage__10.1371+journal.pone.0241253
+
+19. PAR-CLIP — Hafner et al.2010, article-linked supplementary originals
+    Article identity: https://doi.org/10.1016/j.cell.2010.03.009
+    Supplement DOC:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplement.doc
+    Supplementary Table S1:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S1.xls
+    Supplementary Table S2:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S2.xls
+    Supplementary Table S3:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S3.xls
+    Supplementary Table S4:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S4.xls
+    Supplementary Table S5:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S5.xls
+    Supplementary Table S6:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S6.xls
+    Supplementary Table S7:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S7.xls
+    Status: standard fetches recorded PMC download gates; these attachment identities
+    are linked by the defining article and none has a validated local counterpart.
+    Needed: the original supplementary set for the deferred source review. Its
+    contents have not been inspected; this is not a claim that every table contains
+    reagent sequences. The main article XML is available and is not requested again.
+    Directory: par-clip__10.1016+j.cell.2010.03.009
+
+20. Hydro-tRNAseq — Gogakos et al.2017, supplementary PDF original
+    Article identity: https://doi.org/10.1016/j.celrep.2017.07.029
+    Exact article-linked supplementary PDF:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/5564215/bin/NIHMS894202-supplement-7.pdf
+    Status: standard retrieval recorded a PMC download gate; main article XML is
+    available but the supplementary PDF has no validated local original.
+    Needed: original supplementary PDF for deferred methods/figure review; its
+    contents remain uninspected. Blocked analysis-result workbooks
+    are not automatically additional chemistry-document requests here.
+    Directory: hydro-trnaseq__10.1016+j.celrep.2017.07.029
+
+21. nano-COP — Drexler et al.2020, supplementary PDF and library metadata
+    Article identity: https://doi.org/10.1016/j.molcel.2019.11.017
+    Article-linked supplementary PDF:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7060811/bin/NIHMS1546147-supplement-1.pdf
+    Table S1, experimental differences and sequencing/library statistics:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7060811/bin/NIHMS1546147-supplement-2.xlsx
+    Status: standard fetches recorded PMC download gates; neither original is local.
+    Needed: original supplementary PDF and Table S1's source-specific tailing,
+    instrument and library metadata. The main article XML is already available.
+    The separate intron-feature result tables are not requested for chemistry review.
+    Directory: nano-cop__10.1016+j.molcel.2019.11.017
+
+22. DAMAGE-seq — Hu et al.2016, published SI Appendix
+    Article identity: https://doi.org/10.1073/pnas.1614430113
+    Exact article-linked SI Appendix:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/5068337/bin/pnas.1614430113.sapp.pdf
+    Status: standard retrieval returned the PMC preparing-download gate. Main article
+    HTML is available, but the relevant SI Appendix remains unavailable.
+    Needed: original SI Appendix for source-specific oligos, ligation and polymerase
+    stopping geometry; current model limits are blocked review, not confirmed absence.
+    Directory: damage-seq__10.1073+pnas.1614430113
+
+23. LIBRA-seq — Setliff et al.2019, article-linked figure originals
+    Article identity: https://doi.org/10.1016/j.cell.2019.11.003
+    Supplemental Figure 1, antigen purification and validation sorting:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7158953/bin/NIHMS1542046-supplement-1.pdf
+    Supplemental Figure 2, donor NIAID45 sorting:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7158953/bin/NIHMS1542046-supplement-2.pdf
+    Supplemental Figure 3, antibody characterization:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7158953/bin/NIHMS1542046-supplement-3.pdf
+    Supplemental Figure 4, donor N90 sorting/validation:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7158953/bin/NIHMS1542046-supplement-4.pdf
+    Supplemental Figure 6, sequencing preprocessing and insert-size statistics:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7158953/bin/NIHMS1542046-supplement-6.pdf
+    Supplemental Figure 5, antigen reactivity:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/7158953/bin/NIHMS1542046-supplement-Supplementary_Figure_5.pdf
+    Status: standard fetches recorded PMC gates and no Cloud counterparts. Captions
+    are available in the published-version article XML; figure originals are not.
+    Needed: rendered originals for source-method/validation review. These are the
+    article's identified figure attachments, not an invented oligo table or a request
+    for an unidentified current 10x/CITE-seq vendor revision.
+    Directory: libra-seq__10.1016+j.cell.2019.11.003
+
+24. DNTR-seq — Zachariadis et al.2020, published main article/STAR Methods
+    DOI: https://doi.org/10.1016/j.molcel.2020.09.025
+    Published article and STAR Methods:
+    https://www.sciencedirect.com/science/article/pii/S1097276520306559
+    Status: standard fetch obtained no published original; direct published page
+    access returned HTTP403. An indexed summary establishes identity only.
+    Needed: complete published article, especially STAR Methods. Published supplement
+    identities must be checked from that original before requesting any specific
+    attachment; no URL or disclosure document is guessed here. The superseded
+    preprint is not an acceptable replacement and is not requested.
+    Directory: dntr-seq__10.1016+j.molcel.2020.09.025
+
+25. PhIP-Seq — Larman et al.2011, exact published main article/Methods
+    DOI: https://doi.org/10.1038/nbt.1856
+    Publisher citation_pdf_url:
+    https://www.nature.com/articles/nbt.1856.pdf
+    Status: standard fetch returned HTML instead of PDF. The publisher HTML is a
+    subscription preview with abstract/identity, not the final Methods.
+    Needed: version-of-record main article and Methods for exact procedural review.
+    The cached 13-page publisher supplement and longer NIHMS supplement are already
+    available and must not be requested again or treated as equivalent by length.
+    Directory: phip-seq__10.1038+nbt.1856
+
+26. MAZTER-seq — Garcia-Campos et al.2019, published Table S7
+    DOI: https://doi.org/10.1016/j.cell.2019.06.013
+    Publisher article/supplement index:
+    https://www.sciencedirect.com/science/article/pii/S0092867419306762
+    Status: standard index request returned HTTP403. Published STAR Methods and
+    resource table explicitly refer to Table S7 for library adapters, primers,
+    barcodes and calibration oligos; its exact attachment URL is unresolved.
+    Needed: that published Table S7 original with its identity preserved. The
+    published main/STAR Methods PDF is already available from the institutional
+    repository and is not requested. Superseded preprint material is excluded.
+    Directory: mazter-seq__10.1016+j.cell.2019.06.013
+
+27. Single-cell TCR/phenotype sequencing (Han) — linked 2015 corrigendum
+    Defining article DOI: https://doi.org/10.1038/nbt.2938
+    Corrigendum original linked by that article:
+    https://pmc.ncbi.nlm.nih.gov/articles/PMC5800857/
+    Status: direct original request returned a browser challenge. The correction
+    text was not read; its applicability to the model remains unresolved.
+    Needed: exact published corrigendum (2015, Nat Biotechnol33:210,
+    PMID25658286), not another revision of the main article or an assumed statement
+    that the correction is irrelevant. Main article and supplement are available.
+    Directory: single-cell-tcr-phenotype-sequencing-han__10.1038+nbt.2938
+
+28. Boyle DNase-seq — chemistry supplement to the 2008 Cell article
+    DOI: https://doi.org/10.1016/j.cell.2007.12.014
+    Identified source attachment:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/2669738/bin/NIHMS106456-supplement-supplemental.pdf
+    Status: standard retrieval returned a Preparing-to-download gate. The relevant
+    supplement remains uninspected; this does not show its details are absent.
+    Needed: that original for nuclei preparation/titration, end preparation,
+    linker ligation and MmeI workup. Seven main-article oligos are already read
+    and available, and are not requested again.
+    Directory: dnase-seq-boyle-2008__10.1016+j.cell.2007.12.014
+
+29. CeU-Seq — published defining article and Methods
+    DOI: https://doi.org/10.1038/nchembio.1836
+    Publisher article route:
+    https://www.nature.com/articles/nchembio.1836
+    Status: generic source retrieval found no open full text; the publisher route
+    redirected to Nature authorization. No authorization workaround was attempted.
+    Needed: published main article/Methods for full preparation, enrichment,
+    library and readout chemistry. Publisher supplementary information is already
+    available; its selected probe-label/click figure is read and not requested again.
+    Directory: ceu-seq__10.1038+nchembio.1836

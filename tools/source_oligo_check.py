@@ -348,8 +348,45 @@ def excluded_text_count(folder: Path, doi: str = "") -> int:
     return max(0, len(_present(folder)) - len(_bundle_source_texts(folder, doi)))
 
 
-def _exact_hit(text: str, seq: str, scan=None) -> bool:
+def _gapped_oligos(text: str, scan) -> tuple[str, ...]:
+    """Whole parsed oligos with printed, unknown-width identifier windows.
+
+    The general search cannot match a continuous model N run against a printed
+    N-run / [barcode] / N-run mixture. Keep complete parsed strands here so the
+    fallback cannot turn a matching flank into whole-oligo transcription evidence.
+    """
+    if scrape_primers.GAP not in scan.text:
+        return ()
+    result = []
+    for hit in scrape_primers.scan(Path('<source>'), text, {}, sc=scan):
+        if scrape_primers.GAP not in hit.seq:
+            continue
+        try:
+            result.append(scrape_primers._letters(hit.written))
+        except ValueError:
+            continue
+    return tuple(dict.fromkeys(result))
+
+
+def _quantified_bracket_variables(text: str) -> str:
+    """Expand inline ``[X]8`` into eight variable positions, not an open gap.
+
+    TAP-seq's published Table S6 explicitly defines this notation as an eight-base
+    sample barcode. Limit this normalization to a quantified X bracket between
+    nucleotide flanks; do not reinterpret named brackets or arbitrary quantities.
+    The resulting source N positions cannot establish a concrete barcode member.
+    """
+    return re.sub(r"(?<=[ACGTU])\[X\]([1-9][0-9]{0,2})(?=[ACGTU])",
+                  lambda match: "N" * int(match.group(1)), text)
+
+
+def _exact_hit(text: str, seq: str, scan=None, *, gapped=None) -> bool:
     """Require every fixed query base to agree; N in the model is variable."""
+    normalized = _quantified_bracket_variables(text)
+    if normalized != text:
+        # A supplied scan uses original offsets; rebuild it for the normalized text.
+        text, scan, gapped = normalized, None, None
+    scan = scan or scrape_primers.scan_copy(text)
     for _, strand, _, written in scrape_primers.find(text, seq, sc=scan, detail=True):
         try:
             observed = scrape_primers._letters(written)
@@ -363,6 +400,11 @@ def _exact_hit(text: str, seq: str, scan=None) -> bool:
             observed = scrape_primers.complement(observed)
         if _agrees(seq, observed):
             return True
+    for observed in _gapped_oligos(text, scan) if gapped is None else gapped:
+        for strand in (observed, scrape_primers.revcomp(observed),
+                       observed[::-1], scrape_primers.complement(observed)):
+            if _agrees(seq, strand):
+                return True
     return False
 
 
@@ -396,14 +438,18 @@ def check_graph(graph: ProtocolGraph, folder: Path,
     docs = source_texts(folder, doi)
     if not docs:
         return failures, [f"{graph.name}: no extracted source text in {folder}"], 0
-    scans = [(path, text, scrape_primers.scan_copy(text)) for path, text in docs]
+    scans = [(path, normalized, scrape_primers.scan_copy(normalized))
+             for path, text in docs
+             for normalized in (_quantified_bracket_variables(text),)]
+    # Parse the uncommon fallback once per original, rather than per model oligo.
+    gapped = {path: _gapped_oligos(text, scan) for path, text, scan in scans}
     checked = 0
     for candidate in found:
         if candidate.material in exceptions:
             continue
         checked += 1
-        if not any(_exact_hit(text, candidate.sequence, scan)
-                   for _, text, scan in scans):
+        if not any(_exact_hit(text, candidate.sequence, scan, gapped=gapped[path])
+                   for path, text, scan in scans):
             note = ""
             dropped = excluded_text_count(folder, doi)
             if dropped:

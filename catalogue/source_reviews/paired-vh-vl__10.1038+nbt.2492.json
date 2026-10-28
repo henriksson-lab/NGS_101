@@ -1,0 +1,84 @@
+{
+  "dir": "paired-vh-vl__10.1038+nbt.2492",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paired-vh-vl__10.1038+nbt.2492/nbt.2492_PMC3910347.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Final-version author manuscript of published article, DOI/title verified: Results overview paragraph71; Online Methods memory-B-cell workflow103\u2013107, repertoire readout/bioinformatics. Not a superseded preprint."
+    },
+    {
+      "id": "published_supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paired-vh-vl__10.1038+nbt.2492/nbt.2492_41587_2013_BFnbt2492_MOESM35_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Supplementary Fig1 and Tables5\u20137 text read; rendered Fig1 PDF page2 (printed10) inspected, including explicit by-product class. Representative Table5/6 sequences checked. Rest and full rendered table alignment deferred."
+    },
+    {
+      "id": "supplementary_data",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/paired-vh-vl__10.1038+nbt.2492/nbt.2492_41587_2013_BFnbt2492_MOESM36_ESM.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "inspection_scope": "Repertoire-result archive identified by fetch manifest, not treated as primer authority or independently read. Bundle scraper scanned extracted result tables except one>10MB file; no absence inference."
+    },
+    {
+      "id": "ippo2012",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1371/journal.pone.0035497",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original retrieval/read deferred by cap, network accessibility untested.",
+      "inspection_scope": "Reference3 identity read, cited with linkage primers; exact inherited components need predecessor-source reading."
+    },
+    {
+      "id": "v_gene2010",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1016/j.nbt.2010.01.001",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Original retrieval/read deferred by cap, network accessibility untested.",
+      "inspection_scope": "Reference25 identity read: V-gene amplification revisited; exact primer inheritance unresolved."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-02",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-28",
+      "scope": "Linked-repertoire branch from bead capture through nested PCR and source-limited sequencing handoff; optional separate-chain/antibody-expression branches deferred",
+      "locations": "Article overview71; Methods103\u2013107; published Supplementary Fig1 and Tables5\u20137; rendered Fig1 printed10",
+      "findings": "Poly(dT) capture in dialysis-sealed microwells, bead recovery, emulsion RT/overlap PCR, ether/column recovery and nested PCR/gel. Heavy/light source primer tails are complementary17-base intervals; local reference retains one copy. Source Fig1c by-product has explicit unresolved fate. Full chain templates/adapters/read priming unassigned; no arbitrary kit substituted.",
+      "documents": 2,
+      "deferred": [
+        "Remaining article/supplement sections and rendered full Tables5\u20137",
+        "Ippolito2012 and V-gene2010 cited originals, exact inherited primer scope",
+        "Complete primer-pool and study-template mapping",
+        "Sequencing-library adapter construction and priming procedure",
+        "Source Fig1c by-product downstream disposition",
+        "Optional separate-chain and expression-validation branches",
+        "Independent source reading"
+      ],
+      "verification": "Ten local checks and preview build pass. Source-oligo guard current pair checks8 strands with0 failures; pairing lint0. Chemistry remains source-limited (pair total23 unresolved,0 contradictory); exact tail complement is a local sequence relation, not amplification/pairing fidelity validation.",
+      "oligo_scraper": "Ran source-bundle scraper; relevant oligo hits verified against article/supplement text. Logs under /tmp; not an absence determination."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Methods cites references3/25 beside linkage primer pools. Candidate component ancestry only; neither original was read within cap. No claim of inheritance from 10x or separate-chain cell-barcoded repertoire methods."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Remaining article/supplement sections and rendered full Tables5\u20137",
+    "Ippolito2012 and V-gene2010 cited originals, exact inherited primer scope",
+    "Complete primer-pool and study-template mapping",
+    "Sequencing-library adapter construction and priming procedure",
+    "Source Fig1c by-product downstream disposition",
+    "Optional separate-chain and expression-validation branches",
+    "Independent source reading"
+  ]
+}

@@ -1,0 +1,354 @@
+{
+  "created": "2026-10-28",
+  "objective": "Collect up to 1,000 distinct NGS protocols in total; stop earlier if defensible candidates are exhausted.",
+  "status": "paused",
+  "baseline_commit": "fe8eac0146c54e557fbc2f91c8bfb37856108c48",
+  "baseline": {
+    "all_catalogue_entries": 451,
+    "ngs_entries_including_wip": 414,
+    "published_ngs_entries": 413,
+    "finished_published_ngs": 408,
+    "ngs_notes": 5,
+    "nonsequencing_assay_entries": 4,
+    "construct_entries": 28,
+    "nonsequencing_notes_excluded": [
+      "dropsynth__10.1126+science.aao5167",
+      "et-recombineering__10.1038+2417",
+      "inverse-pcr__10.1093+genetics+120.3.621",
+      "megawhop__10.2144+02335st03",
+      "rca-gip__10.1007+s10529-009-0128-9"
+    ]
+  },
+  "counting": "A registered, source-identified protocol with actual source-reading notes counts as collected. Discovery candidates do not. Catalogue status and computed completeness remain distinct; registration does not claim a publishable or chemically validated graph. Do not count copied names, incidental parameter variants, reviews or non-NGS methods toward the target.",
+  "scope_rules": [
+    "Published defining article first; check source identity, supersession and corrections.",
+    "Inspect defining original plus chemistry supplements before following links.",
+    "Source investigation cap: 10 minutes and 3 originals per protocol; record actual scope and deferred targets.",
+    "Do not infer confirmed missing information from unavailable sources or empty scraping; retain the two-independent-reader absence gate.",
+    "Implement justified protocol-local graphs and new neutral model primitives where needed; never invent source chemistry or borrow a family recipe by resemblance.",
+    "Prioritize breadth; move past inaccessible sources and leave pending/notes entries accurately marked.",
+    "Only the coordinator edits shared catalogue, citation snapshot, metadata vocabularies, AUDIT and this plan. Workers own disjoint protocol dirs/review records and dedicated discovery ledgers.",
+    "Stage verified task files, preserve unrelated existing changes, never commit third-party originals or generated HTML."
+  ],
+  "discovery_ledgers": [
+    "catalogue/curation_rounds/2026-10-28-expansion-discovery-rna.tsv",
+    "catalogue/curation_rounds/2026-10-28-expansion-discovery-dna.tsv",
+    "catalogue/curation_rounds/2026-10-28-expansion-discovery-multi.tsv"
+  ],
+  "selected_rounds": [
+    "catalogue/curation_rounds/2026-10-28-ngs-expansion-01.tsv",
+    "catalogue/curation_rounds/2026-10-28-ngs-expansion-02.tsv",
+    "catalogue/curation_rounds/2026-10-28-ngs-expansion-03.tsv",
+    "catalogue/curation_rounds/2026-10-28-ngs-expansion-04.tsv",
+    "catalogue/curation_rounds/2026-10-28-ngs-expansion-05.tsv",
+    "catalogue/curation_rounds/2026-10-28-ngs-expansion-06.tsv"
+  ],
+  "model_gaps": [
+    {
+      "protocol": "irclip__10.1038+nmeth.3840",
+      "gap": "Non-nucleotide oligo spacers and polymerase traversal/stop declarations",
+      "status": "Local typed spacer/copy model plus distinct multipart feature IDs/common group;24 local checks pass. Full PCR1/PCR2 and final published applicability remain deferred."
+    },
+    {
+      "protocol": "kas-seq__10.1038+s41592-020-0797-9",
+      "gap": "Typed base adducts and reversible tag occupancy; positions/accessibility/yield may remain unassigned",
+      "status": "Source-scoped local tagged-DNA states implemented; no mechanistic validation claim"
+    },
+    {
+      "protocol": "cabage__10.1371+journal.pone.0241253",
+      "gap": "Cas-bound protected DNA and exonuclease background processing",
+      "status": "Source-scoped ProtectedTarget implemented locally; qualitative survival only"
+    },
+    {
+      "protocol": "ribose-seq__10.1038+nmeth.3259",
+      "gap": "AtRNL-compatible cyclic/2-prime-phosphate RNA ends and circle junction phosphate removal",
+      "status": "Local RiboseState records topology and junction2primeP; exact closure/PCR chemistry validation remains unresolved"
+    },
+    {
+      "protocol": "hydrapsiseq__10.1093+nar+gkaa769",
+      "gap": "Hydrazine/aniline residue excision and distinct upstream/downstream phosphate ends",
+      "status": "Local selected-product end states implemented; yields, probabilities and downstream historical kit remain unresolved."
+    },
+    {
+      "protocol": "phip-seq__10.1038+nbt.1856",
+      "gap": "Phage genotype/display association and affinity-selected particle populations",
+      "status": "Local DisplayParticle records qualitative source association; affinity, genotype integrity and yields not predicted. Author-supplement procedural applicability unverified."
+    },
+    {
+      "protocol": "cpt-seq__10.1038+ng.3119",
+      "gap": "Protein-held contiguity and discontiguous two-level index-cycle acquisition",
+      "status": "Local ContiguityState,source-owned adapters/four-part barcode and known run-primer bindings implemented. Historical PCR and custom physical-cycle mapping remain unresolved;31 local checks pass. Main-branch phase ordering and association consistency are constructor invariants;pre-dilution SDS controls are explicitly outside that route."
+    },
+    {
+      "protocol": "mazter-seq__10.1016+j.cell.2019.06.013",
+      "gap": "Methylation-sensitive selected RNA scission distinct from population cleavage probability and computational site calls",
+      "status": "Local selected ACA event conserves RNA substrings and rejects protected-site use; uncut molecules persist through cleanup; source end chemistry and library/read geometry unresolved.6local checks pass."
+    },
+    {
+      "protocol": "m6ace-seq__10.1038+s41467-019-13561-z",
+      "gap": "Blocked terminal nucleotide versus non-nucleotide spacer and antibody-protected exonuclease footprint",
+      "status": "Typed terminalddC plus source N7B and selected XRN1 event preserve retained modified base; downstream library gates unresolved."
+    },
+    {
+      "protocol": "bid-seq__10.1038+s41587-022-01505-w",
+      "gap": "Physical RNA adduct versus alternate RT deletion/background outcomes",
+      "status": "Local Psi-BS/adduct and copied-product states distinguish physical and reported fates; no stochastic yield prediction."
+    },
+    {
+      "protocol": "nm-seq__10.1038+nmeth.4294",
+      "gap": "Iterated oxidative elimination and phosphate/OH-dependent terminal survival",
+      "status": "Local cycle/end states preserve Nm-resistant3primeOH versus susceptible3primeP; historical downstream kit/source-version reconciliation pending."
+    },
+    {
+      "protocol": "dart-seq-targeted-capture__10.1038+s41592-018-0259-9",
+      "gap": "Splinted addition of a phosphorylated primer to a partial bead-DNA window",
+      "status": "Source-window annealing and sealed junction computed; free splint remains noncovalent until washing. Full historical bead/RT/library unassembled."
+    }
+  ],
+  "deferred": [
+    {
+      "protocol": "dntr-seq__10.1016+j.molcel.2020.09.025",
+      "kind": "published Methods access",
+      "target": "https://www.sciencedirect.com/science/article/pii/S1097276520306559",
+      "disposition": "Registered identity-only notes,not evidence-collected,no graph. Move onward until published originals available."
+    },
+    {
+      "protocol": "phip-seq__10.1038+nbt.1856",
+      "kind": "final published procedural applicability",
+      "target": "https://www.nature.com/articles/nbt.1856.pdf",
+      "disposition": "HTMLpreview accessible;exact PDFroute returnsHTML. Author-supplement model stays provisional;manual target in geturl."
+    }
+  ],
+  "progress": {
+    "new_collected": 46,
+    "new_finished": 3,
+    "candidate_discovery_in_progress": false,
+    "next_batch_selected": 13,
+    "current_ngs_entries_including_wip": 461,
+    "current_published_ngs_entries": 460,
+    "current_finished_published_ngs": 411,
+    "new_notes_only": 43,
+    "staging": "Verified rounds01–05 plus paused round06 roster/handoff staged;no commit or push.",
+    "evidence_collected_ngs_entries_including_wip": 460,
+    "evidence_collected_published_ngs_entries": 459,
+    "uncollected_registered": [
+      "dntr-seq__10.1016+j.molcel.2020.09.025"
+    ],
+    "registered_new_notes_including_identity_only": 44
+  },
+  "stop_rule": "Reaching the cap or documented candidate exhaustion completes the goal. Source gates, a capped pass, or a large queue do not imply chemistry completeness or global exhaustion.",
+  "parallel_workstreams": [
+    {
+      "feature": "Protocol relationships",
+      "plan": "plans/protocol-lineage-implementation.json",
+      "registry": "catalogue/protocol_lineage.json",
+      "status": "Implemented and verified: 21 semantic and 17 Chrome checks; full assembled-site integration passes.",
+      "rule": "Curated directed lineage, inferred lineage and undirected sequence similarity stay separate; multiple component-scoped parents supported; curate alongside protocol sources.",
+      "registry_relations": 22
+    }
+  ],
+  "verification": {
+    "shared_suite": "1647 checks passed",
+    "catalogue": "84 checks passed",
+    "source_tools": "227 checks passed",
+    "lineage_semantics": "21 checks passed",
+    "lineage_chrome": "17 checks passed",
+    "source_reviews": {
+      "in_progress": 41,
+      "blocked": 6
+    },
+    "final_full_site": "482/482 diagram builders;443 public schematics;411 NGS graph contracts;all relative links resolve. Ten new private previews without finished markers;four graph-only notes;no new public leaks.",
+    "round03_oligos": "14 exact inputs checked across7new graphs,0failures,9 inputs without exact states; irCLIP followup3checked0failed2unrepresented.",
+    "irclip_spacers": "24 local checks;unique feature IDs with common multipart group survive copying and form a valid Construct without erasing C18.",
+    "round04_oligos": "22exact inputs checked across12new graphs,0failures,1narrow source-notation exemption backed by local transcription,21inputs without exact states.",
+    "round05_oligos": "15exact graph inputs checked,0failed,0exemptions,34inputs without exact states across14graphs.",
+    "round05_chemistry": "8established narrow pairing relations,166unresolved molecular claims,0contradictory; no full protocol validation claim.",
+    "round05_local": "All14 local suites pass; independent implementation reviews corrected thermal order and blocker/wash bookkeeping.",
+    "docs": "All959 note pages current."
+  },
+  "tool_fixes": [
+    {
+      "file": "tools/source_oligo_check.py",
+      "reason": "General oligo search missed a source NNNNN[barcode]NNNNN window against contiguous model Ns.",
+      "change": "Fallback compares only whole parsed source oligos, anchors every fixed base, and permits an unknown-width token only across model N positions; parsed candidates cached per original.",
+      "validation": "6 regression assertions plus actual DAb/QuRIE source-guard checks; width/modification applicability still requires reading originals."
+    },
+    {
+      "file": "tools/source_oligo_check.py",
+      "reason": "Published TAP TableS6 uses quantified [X]8 for an eight-base sample barcode; original matcher treated the suffix incorrectly.",
+      "change": "Normalize only inline quantified X bracket variables between nucleotide flanks to their exact N width, preserving strict fixed bases and preventing concrete-barcode inference. Source scans cached after normalization.",
+      "validation": "Seven semantic regressions including width/flank/member negatives; actual TAP4checked0failed0exemptions;full shared1647 and source227 checks pass."
+    }
+  ],
+  "turn_progress": {
+    "previous_goal_turn": "Progress:relationships feature reviewed in parallel;21semantic and17Chrome checks pass;ongoing curation instructions staged.",
+    "current_goal_turn": "User requested pause and stable staged checkpoint. Stopped workers/fetches; saved selected13 and preliminary pointers; restored verified round05 registration; no new collected protocols."
+  },
+  "source_request_queue": {
+    "ledger": "geturl.txt",
+    "new_request_groups": 9,
+    "new_document_targets": 22,
+    "old_requests_removed": 0,
+    "reason": "No exact validated source-identity match justified removal of the16older request groups. Available/unread and superseded preprint material excluded from automatic requests.",
+    "round05": {
+      "new_request_groups": 4,
+      "old_requests_removed": 0,
+      "targets": [
+        "MAZTER publishedTableS7 via blocked index",
+        "Han linked publishedcorrigendum",
+        "BoyleDNase identified chemistry supplement",
+        "CeU mainarticle/Methods"
+      ],
+      "rule": "Only actual failed relevant originals requested; available supplements, superseded preprints and unassigned historical kit revisions excluded."
+    }
+  },
+  "pause_checkpoint": {
+    "requested_by_user": true,
+    "date": "2026-10-28",
+    "catalogue_state": "Verified round05:498total entries,461registeredNGS,460source-read includingWIP. Thirteen provisional round06 registrations/citation additions rolled back to index; no unfinished notes admitted.",
+    "selected_ledger": "catalogue/curation_rounds/2026-10-28-ngs-expansion-06.tsv",
+    "selected_registrations": [
+      {
+        "dir": "flep-seq__10.1038+s41477-020-0688-1",
+        "protocol": "FLEP-seq",
+        "doi": "10.1038/s41477-020-0688-1",
+        "status": "notes",
+        "section": "published",
+        "modality": "RNA",
+        "representation": "published_instance",
+        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
+      },
+      {
+        "dir": "clash__10.1073+pnas.1017386108",
+        "protocol": "CLASH",
+        "doi": "10.1073/pnas.1017386108",
+        "status": "notes",
+        "section": "published",
+        "modality": "RNA",
+        "representation": "published_instance",
+        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
+      },
+      {
+        "dir": "hiclip__10.1038+nature14280",
+        "protocol": "hiCLIP",
+        "doi": "10.1038/nature14280",
+        "status": "notes",
+        "section": "published",
+        "modality": "RNA",
+        "representation": "published_instance",
+        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
+      },
+      {
+        "dir": "smart-seq-total__10.1073+pnas.2113568118",
+        "protocol": "Smart-seq-total",
+        "doi": "10.1073/pnas.2113568118",
+        "status": "notes",
+        "section": "published",
+        "modality": "RNA",
+        "representation": "published_instance",
+        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
+      },
+      {
+        "dir": "dnase-hi-c__10.1038+nmeth.3205",
+        "protocol": "DNase Hi-C",
+        "doi": "10.1038/nmeth.3205",
+        "status": "notes",
+        "section": "published",
+        "modality": "DNA",
+        "representation": "published_instance",
+        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
+      },
+      {
+        "dir": "excision-seq__10.1101+gr.174052.114",
+        "protocol": "Excision-seq",
+        "doi": "10.1101/gr.174052.114",
+        "status": "notes",
+        "section": "published",
+        "modality": "DNA",
+        "representation": "published_instance",
+        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
+      },
+      {
+        "dir": "cpd-seq__10.1073+pnas.1606667113",
+        "protocol": "CPD-seq",
+        "doi": "10.1073/pnas.1606667113",
+        "status": "notes",
+        "section": "published",
+        "modality": "DNA",
+        "representation": "published_instance",
+        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
+      },
+      {
+        "dir": "click-code-seq__10.1021+jacs.8b03715",
+        "protocol": "Click-code-seq",
+        "doi": "10.1021/jacs.8b03715",
+        "status": "notes",
+        "section": "published",
+        "modality": "DNA",
+        "representation": "published_instance",
+        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
+      },
+      {
+        "dir": "nome-seq-bulk__10.1101+gr.143008.112",
+        "protocol": "NOMe-seq (bulk)",
+        "doi": "10.1101/gr.143008.112",
+        "status": "notes",
+        "section": "published",
+        "modality": "DNA",
+        "representation": "published_instance",
+        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
+      },
+      {
+        "dir": "xdrop__10.1002+humu.24063",
+        "protocol": "Xdrop",
+        "doi": "10.1002/humu.24063",
+        "status": "notes",
+        "section": "published",
+        "modality": "DNA",
+        "representation": "published_instance",
+        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
+      },
+      {
+        "dir": "perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038",
+        "protocol": "Perturb-seq (original barcode proxy)",
+        "doi": "10.1016/j.cell.2016.11.038",
+        "status": "notes",
+        "section": "published",
+        "modality": "RNA",
+        "representation": "published_instance",
+        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
+      },
+      {
+        "dir": "gel-seq__10.1039+c7lc00430c",
+        "protocol": "Gel-seq",
+        "doi": "10.1039/c7lc00430c",
+        "status": "notes",
+        "section": "published",
+        "modality": "multi",
+        "representation": "published_instance",
+        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
+      },
+      {
+        "dir": "multi-seq__10.1038+s41592-019-0433-8",
+        "protocol": "MULTI-seq",
+        "doi": "10.1038/s41592-019-0433-8",
+        "status": "notes",
+        "section": "published",
+        "modality": "multi",
+        "representation": "published_instance",
+        "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
+      }
+    ],
+    "registered": false,
+    "source_reading_complete": false,
+    "source_fetches": "All known root/worker processes terminal. NOMe and citation refresh completed; other workers stopped their outstanding fetches, preserving external caches. Smart-seq-total retrieval not reached.",
+    "partial_reading": {
+      "flep-seq__10.1038+s41477-020-0688-1": "Preliminary only: publisher SI title/DOI and processing/polyA caption pointers; oligo workbook first headers/false-hit contexts; main abstract/identity, full Methods gated. Scraper scratch /tmp/rna06-flep-scrape. No chemistry conclusions/model.",
+      "clash__10.1073+pnas.1017386108": "Preliminary published PMC3116431 abstract/Results1121–1151 and library overview1218–1220; supplementary PDF/XLS gated. Scraper scratch /tmp/rna06-clash-scrape. No model or completed source review.",
+      "dnase-hi-c__10.1038+nmeth.3205": "Preliminary associated-supplement NIHMS641840-supplement-1.pdf.txt line searches7819–7980 and manifest URLs only. Defining article chemistry not read; mandatory scraper not yet run."
+    },
+    "source_cache_followup": "Xdrop has MANIFEST.tsv.part beside its canonical manifest after interrupted atomic write. Both retained externally; on resumption validate manifest/cache identity before reuse. No original read or fact established by cached filenames.",
+    "resume_rule": "Wait for explicit user resumption. Re-register selected13 and refresh catalogue/citations before source fetches; finish bounded originals/scrapers/notes before any collected count. No current chemistry conclusions from preliminary checks.",
+    "verification": "84catalogue checks pass;all959 note pages current;498verified catalogue entries;all13selected round06 IDs absent from live catalogue and no protocol dirs created. Prior1647shared/482builders/link-clean round05 validation retained;no public model/code change during pause cleanup."
+  }
+}

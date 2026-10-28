@@ -1,0 +1,74 @@
+{
+  "dir": "reap-seq__10.1038+nbt.3973",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nbt.3973",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Institutional published PDF retrieval manifest reports HTTP403; main Methods not inspected. No repeated request/challenge bypass.",
+      "reason": "No local published main article; institutional mirror returned HTTP403 according to source manifest."
+    },
+    {
+      "id": "moesm5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/reap-seq__10.1038+nbt.3973/nbt.3973_41587_2017_BFnbt3973_MOESM5_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Discussion1\u201334; Fig2 caption194\u2013203; Fig3 caption233\u2013248; Tables6\u20137 3528\u20133678. Rendered original Table7 PDF page35 inspected. Rest of supplement not comprehensively reviewed."
+    },
+    {
+      "id": "moesm6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/reap-seq__10.1038+nbt.3973/nbt.3973_41587_2017_BFnbt3973_MOESM6_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "inspection_scope": "Provisionally retained as chemistry-relevant pending identity/content inspection; not inspected or judged irrelevant."
+    },
+    {
+      "id": "zheng2017",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/ncomms14049",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Explicitly cited in published supplementary Discussion and Fig3 for inherited 10x v1 processing. Original not retrieved/read during this capped pass; availability not tested.",
+      "reason": "Not available to this capped reading pass because retrieval was deferred; actual network accessibility untested, not asserted inaccessible."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-01",
+      "reviewer": "supplement-model-pass",
+      "date": "2026-10-28",
+      "scope": "Published supplementary protein chemistry and read layout; partial post-SPRI protein graph only",
+      "locations": "MOESM5 Discussion/Figs2\u20133/Tables6\u20137; rendered Table7 page35",
+      "documents": 1,
+      "findings": "Ab barcode8; CBC14; UMI10; /5AmMC6/; A-ending barcode gets24dA otherwise25. Read1 CBC14+P7 12, custom i7 Ab8, i5 sample8, Read2 UMI10. Table6 P7 literal retained; PCR polarity unresolved, not declared publication error.",
+      "deferred": [
+        "Main published Methods",
+        "Remaining MOESM5 sections/Table1 antibody dictionary/bulk Table8",
+        "MOESM6 identity/relevance",
+        "Zheng2017 original and specific 10x v1 vendor documents",
+        "PCR stage and primer polarity",
+        "RNA branch and upstream graph",
+        "Instrument-specific i5 orientation",
+        "Independent review"
+      ],
+      "verification": "Eleven local source/manufacturing/read-site checks pass and preview builds; partial graph publication deliberately blocked by uncovered cell-to-libraries source item. No exhaustive missing-information audit. Source-oligo guard counts zero exact structural-input strands; separate local external-source transcription checks cover key oligos.",
+      "oligo_scraper": "Full bundle scraped into /tmp/reap-primer-hits-worker.log; sequence hits checked against original Tables6\u20137/Fig2; rendered Table7 inspected."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Discussion/Fig3 explicitly cites Zheng2017 and standard 10x v1 RNA processing. Original/revision check and rest of supplements deferred. No absence determination."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Main published article Methods",
+    "Remainder MOESM5 including Table1 and Table8",
+    "MOESM6 inspection",
+    "Zheng2017 defining original and revision-qualified 10x v1 documents"
+  ]
+}

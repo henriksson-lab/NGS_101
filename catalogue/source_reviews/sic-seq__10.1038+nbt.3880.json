@@ -1,0 +1,82 @@
+{
+  "dir": "sic-seq__10.1038+nbt.3880",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sic-seq__10.1038+nbt.3880/nbt.3880_PMC5531050.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Final-version author manuscript of published paper:Results39\u201343,OnlineMethods107\u2013131 barcodePCR,gel handling/lysis/tagmentation and barcoding/cleanup. Not a superseded preprint."
+    },
+    {
+      "id": "manuscript_supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sic-seq__10.1038+nbt.3880/nbt.3880_supp_NIHMS865786-supplement-1.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Figure1/2captions read. Publisher corrected supplement remains preferred for version identity;no obsolete taxonomy claim used."
+    },
+    {
+      "id": "published_supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/sic-seq__10.1038+nbt.3880/nbt.3880_41587_2017_BFnbt3880_MOESM21_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Correction notice/identity inspected:21June2017 correction toFig11a hidden taxonomic levels. Molecular model does not use that panel;full rendered figure review deferred."
+    },
+    {
+      "id": "barcode_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/ncomms11784",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Cited for barcode-droplet library strategy;original not read in this pass.",
+      "reason": "Retrieval/read deferred by cap."
+    },
+    {
+      "id": "retention_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/ng.3119",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "CPT-seq cited for transposase-retained DNA macromolecular complex;not treated as nuclei indexing recipe.",
+      "reason": "Original reading/precise mechanism applicability deferred by cap."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-04",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Source-prepared microbial gels through synthetic-community library;qualitative retention only,not gel fabrication/marine collection or full product-geometry validation",
+      "locations": "Article Results39\u201343 and OnlineMethods107\u2013131;author-supplement captions1/2;publisher correction notice",
+      "findings": "Microgel washing removes debris only at separations;Nextera DNAFC1211030 tagmentation and XTNT bufferFC1311024 have distinct roles. Random15barcode is cell identity,notUMI/sampleindex. BarcodePCR landing computed from source template/primers;whole genome splicing/read map unassigned. Large coalesced droplets physically discarded before emulsion recovery. Gel-retained states are local source-qualified declarations,not diffusion calculations.",
+      "deferred": [
+        "Full rendered publisher supplement figures",
+        "Lan2016 barcode source original",
+        "CPT-seq retention original and precise scope",
+        "Historical Nextera loaded-end design/outcome classes",
+        "Exact genomic splicing/final read geometry",
+        "Other samples and independent source review"
+      ],
+      "verification": "Eight local checks and preview build pass. Modeled-trio sourceguard9checked0failed,no exemptions,nine inputs lack exact states;pairing0. Narrow primer landing/qualitative states do not establish yield,retention efficiency or whole products.",
+      "oligo_scraper": "Ran standard bundle scrape: /tmp/sic-seq-primer-hits.log. Relevant published hits verified. A zero-hit blocked bundle does not establish absence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Lan2016 barcode droplet strategy and CPT-seq macromolecular retention are component-scoped candidates. No combinatorial nuclei or modern kit recipe inferred."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Full rendered publisher supplement figures",
+    "Lan2016 barcode source original",
+    "CPT-seq retention original and precise scope",
+    "Historical Nextera loaded-end design/outcome classes",
+    "Exact genomic splicing/final read geometry",
+    "Other samples and independent source review"
+  ]
+}

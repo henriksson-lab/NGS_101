@@ -1,0 +1,295 @@
+{
+  "dir": "bid-seq__10.1038+s41587-022-01505-w",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_PMC10017504.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/PMC10017504.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published article JATS",
+      "pass_1": {
+        "reviewer": "rna_round05_reader",
+        "date": "2026-10-28",
+        "locations": "Results81–113, limitations209, Methods231–237, processing281; non-manuscript provenance",
+        "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "original_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM1_ESM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published author-provided SI",
+      "pass_1": {
+        "reviewer": "rna_round05_reader",
+        "date": "2026-10-28",
+        "locations": "Original title/DOI and FigS1 caption264–266 only; graphical panels unreviewed",
+        "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_PMC10017504.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/PMC10017504.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM10_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM10_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM11_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM11_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM12_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM12_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM13_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM13_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM14_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM14_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM15_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM15_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM16_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM16_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM17_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM17_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM18_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM18_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM19_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM19_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM20_ESM.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM20_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM2_ESM.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM2_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_14",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM3_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM3_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_15",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM4_ESM.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM4_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_16",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM5_ESM.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM5_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_17",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM6_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM6_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_18",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM7_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM7_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_19",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM8_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM8_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_20",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/bid-seq__10.1038+s41587-022-01505-w/s41587-022-01505-w_supp_41587_2022_1505_MOESM9_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10017504.1/41587_2022_1505_MOESM9_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round05_reader",
+      "date": "2026-10-28",
+      "locations": "Inspected sections listed in source_checklist and protocol notes",
+      "finding": "Direct linked/source-version tasks enumerated; full two-reader source/linked-information audit incomplete."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/s41596-023-00917-5",
+      "scope": "Direct defining/predecessor/detailed source; not followed in this capped pass"
+    }
+  ],
+  "open_questions": [
+    "Upstream ligation geometry; exact applicable NEBNext index/PCR oligos and read plan; conversion/dropout/calibration models; original SI panels/tables."
+  ],
+  "source_version_limit": "Explicit source versions recorded per original. Manuscript/VOR equivalence is not assumed.",
+  "conclusion": "One capped source-reading/model pass. Notes status; graph partial; no confirmed missing-information claim, second pass or completed read plan.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-05",
+      "reviewer": "rna_round05_reader",
+      "date": "2026-10-28",
+      "documents": 2,
+      "scope": "Defining originals/chemistry supplements first; source-qualified local molecular relations only",
+      "locations": "Results81–113, limitations209, Methods231–237, processing281; non-manuscript provenance; Original title/DOI and FigS1 caption264–266 only; graphical panels unreviewed",
+      "findings": "Upstream ligation geometry; exact applicable NEBNext index/PCR oligos and read plan; conversion/dropout/calibration models; original SI panels/tables.",
+      "deferred": [
+        "https://doi.org/10.1038/s41596-023-00917-5"
+      ],
+      "oligo_scraper": "Full downloaded bundle scanned with tools/scrape_primers.py; selected hits verified in originals, image figure inspected where stated."
+    }
+  ]
+}

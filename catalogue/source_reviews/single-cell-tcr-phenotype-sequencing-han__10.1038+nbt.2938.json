@@ -1,0 +1,72 @@
+{
+  "dir": "single-cell-tcr-phenotype-sequencing-han__10.1038+nbt.2938",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4337815.1/PMC4337815.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Online Methods112–133; source identity/correction link",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/single-cell-tcr-phenotype-sequencing-han__10.1038+nbt.2938/nbt.2938_PMC4337815.xml",
+      "source_identity": "full-text JATS XML (PMC Cloud)",
+      "md5": "5b014194e6e9d9c9a72c90062beca9b5",
+      "source_version": "Associated accepted manuscript of published article; final version-of-record procedural equivalence not established."
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2938/MediaObjects/41587_2014_BFnbt2938_MOESM24_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "SupplementaryFigure1 original renderedpage1+caption; common handle literals; full Tables1–3 not transcribed",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/single-cell-tcr-phenotype-sequencing-han__10.1038+nbt.2938/nbt.2938_41587_2014_BFnbt2938_MOESM24_ESM.pdf",
+      "source_identity": "Springer supplementary file",
+      "md5": "1a784591c120839127daad8cef7ad8f1"
+    },
+    {
+      "id": "corrigendum",
+      "role": "other",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5800857/",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Direct primary page returned reCAPTCHA; not bypassed. PMID25658286, NatBiotechnol33(2):210(2015); applicability unresolved.",
+      "inspection_scope": "Identity/link recorded from defining article; correction text not read."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-05",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-28",
+      "documents": 2,
+      "scope": "Bounded primary source/local partial model; not a complete disclosure review",
+      "locations": "Online Methods112–133; source identity/correction link; SupplementaryFigure1 original renderedpage1+caption; common handle literals; full Tables1–3 not transcribed; Identity/link recorded from defining article; correction text not read.",
+      "findings": "See protocol note for source-positive molecular distinction and explicit uncertainty.",
+      "deferred": [
+        "Linked Corrigendum PMC5800857 applicability (direct PMC challenge).",
+        "Complete Tables1–3 primer pools and barcode whitelists, study-specific final strands and read cycles.",
+        "Cited three-PCR predecessor: identity/component scope not resolved in this capped pass."
+      ],
+      "verification": "Protocol-local suites: Han6,epicPCR9,DART8,TAP8 passed (31total); all four private previews build, no completion marker; duplex pairing0problems; scoped chemistry4established,51unresolved,0contradictory. Sourceguard8checked1failed: faithful TAP N7XX8base window fails matcher against source [X]8 notation; reported to coordinator, no exemption added.",
+      "oligo_scraper": "Mandatory standard scraper; relevant source hits checked, including modifications. DART large code-reference FASTA skipped, not a chemistry omission."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "notes": "Only stated directly linked targets considered. No recursive source chase or confirmed absence."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Linked Corrigendum PMC5800857 applicability (direct PMC challenge).",
+    "Complete Tables1–3 primer pools and barcode whitelists, study-specific final strands and read cycles.",
+    "Cited three-PCR predecessor: identity/component scope not resolved in this capped pass."
+  ],
+  "blocking_condition": "Published linked corrigendum applicability remains uninspected after actual challenged request; source-read partial model retained.",
+  "implementation_verification": {
+    "date": "2026-10-28",
+    "scope": "Code/source-transcription guard follow-up, not a second independent source or absence review.",
+    "outcome": "Quantified [X]8 variable notation now checked at its exact stated width; TAP4checked0failed0exemptions. Protocol polymers were not altered to satisfy matcher. Other scoped checks to be reconciled at integration."
+  }
+}

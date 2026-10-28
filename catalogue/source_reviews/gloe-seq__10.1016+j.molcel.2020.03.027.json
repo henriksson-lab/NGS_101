@@ -1,0 +1,103 @@
+{
+  "dir": "gloe-seq__10.1016+j.molcel.2020.03.027",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gloe-seq__10.1016+j.molcel.2020.03.027/j.molcel.2020.03.027_PMC7276987.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_first_pass",
+        "date": "2026-10-28",
+        "locations": "Published title/DOI; Results Development and EndoSeq Comparison; STAR Methods GLOE-Seq library preparation, sequencing and GLOE-Pipe; lines79-127,484-506,528-540.",
+        "finding": "Capture-before-fragmentation order; random-splinter ancestry explicitly scoped; opposite-strand reporting and direct versus indirect coordinate assignment; single/dual run descriptions."
+      }
+    },
+    {
+      "id": "methods_s1",
+      "role": "detailed_protocol",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gloe-seq__10.1016+j.molcel.2020.03.027/j.molcel.2020.03.027_supp_mmc2_Methods_S1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_first_pass",
+        "date": "2026-10-28",
+        "locations": "MethodsS1 p4 oligos; y23-28/m22-28; steps29-50; notes7-17; lines195-245,353-670.",
+        "finding": "Exact modified splint, proximal biotin-dT adapter, second-strand/distal/P5/P7 oligos; complete core order, washes, A-tail and PCR. (X)6 notation checked locally."
+      }
+    },
+    {
+      "id": "supplement_s1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/gloe-seq__10.1016+j.molcel.2020.03.027/j.molcel.2020.03.027_supp_mmc1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_first_pass",
+        "date": "2026-10-28",
+        "locations": "FigureS1A, physical PDF page2, rendered original inspected; extracted lines12-160.",
+        "finding": "Verified splinted proximal geometry and distal T/A geometry; release is operational, covalent biotin-release product unassigned."
+      }
+    },
+    {
+      "id": "gansauge2017",
+      "role": "predecessor",
+      "locator": "Gansauge et al.2017, Single-stranded DNA library preparation from highly degraded DNA using T4 DNA ligase; cited in defining Results Development",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Original not inspected within three-original cap; availability here means cited original identified, retrieval not attempted; linked random-splinter mechanism only, no oligos inherited."
+    },
+    {
+      "id": "emriboseq_endoseq",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nprot.2015.099",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Published predecessor identified; original not inspected in capped pass; GLOE source explicitly contrasts reaction order, so no constructor inheritance."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_first_pass",
+      "date": "2026-10-28",
+      "locations": "Defining article cited predecessors and methods links; see source checklist.",
+      "finding": "Linked material enumerated and deferred within three-original source-investigation cap; no absence claim accepted."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "First capped source/model pass complete; source investigation limited to three originals. No two-reader completed review or missing-information acceptance claimed.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-expansion-first-pass",
+      "reviewer": "expansion_dna_first_pass",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Capped published-original source pass, not a complete chemistry review or an absence audit.",
+      "locations": "Published title/DOI; Results Development and EndoSeq Comparison; STAR Methods GLOE-Seq library preparation, sequencing and GLOE-Pipe; lines79-127,484-506,528-540.; MethodsS1 p4 oligos; y23-28/m22-28; steps29-50; notes7-17; lines195-245,353-670.; FigureS1A, physical PDF page2, rendered original inspected; extracted lines12-160.",
+      "findings": "Native-end core graph and conditional single-index endpoint assembled locally; known splinted and cohesive geometry; seven modified-source transcription checks; no predecessor constructor import.",
+      "deferred": [
+        "Independent second reader; exact study run/index assignment and dual-index molecular architecture.",
+        "Linked Gansauge2017 and emRiboSeq/EndoSeq originals, depth-one follow-up only.",
+        "Neutral physical-strand ligation/retention validation and covalent biotin-release chemistry; source-defined operations are declared, not chemically proven merely by graph connectivity."
+      ],
+      "oligo_scraper": "Mandatory scrape_primers.py run on complete bundle; hits and modifications checked in cited originals. Superseded preprint not adopted.",
+      "verification": "Protocol-local suite and page build pass; pairing 0 problems. Chemistry checks have 0 contradictions; unresolved transformations are explicitly unvalidated. Source guard passes with one scoped GLOE (X)6-notation exception independently covered by local source transcription check."
+    },
+    {
+      "round": "2026-10-28-ngs-expansion-01-model-review",
+      "reviewer": "coordinator_model_review",
+      "date": "2026-10-28",
+      "documents": 0,
+      "scope": "Implementation review against previously inspected source notes; not an independent source or absence audit.",
+      "locations": "Protocol-local module and first-pass source-qualified reaction order.",
+      "findings": "Retained untagged fragments until actual capture; split wash populations into independent Scene rows; preserved one index feature identity; added source-described second-strand cleanup.",
+      "deferred": [
+        "Original first-pass source limitations and independent complete source review remain."
+      ],
+      "verification": "Local source transcription suite and graph/page build pass; scoped chemistry has zero contradictions with unresolved transformations explicitly retained."
+    }
+  ]
+}

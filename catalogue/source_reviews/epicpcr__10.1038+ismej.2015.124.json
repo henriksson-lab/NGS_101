@@ -1,0 +1,73 @@
+{
+  "dir": "epicpcr__10.1038+ismej.2015.124",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4737934.1/PMC4737934.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Methods bead/fusion/nested/sequencing sections; Figure1",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/epicpcr__10.1038+ismej.2015.124/ismej.2015.124_PMC4737934.xml",
+      "source_identity": "full-text JATS XML (PMC Cloud)",
+      "md5": "e83b6908f0dc8fac0999a566e85860f4",
+      "source_version": "Associated accepted manuscript of published article; final version-of-record procedural equivalence not established."
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4737934.1/ismej2015124x1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "SupplementaryMethods andTablesS2,S4,S5; original printedp18 rendered",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/epicpcr__10.1038+ismej.2015.124/ismej.2015.124_supp_ismej2015124x1.pdf",
+      "source_identity": "supplementary file (PMC Cloud)",
+      "md5": "b86b6baa7a0f7c47f84359deb29bd44b"
+    },
+    {
+      "id": "supplement-index",
+      "role": "other",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4737934.1/ismej2015124x2.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Supplementary file index only, not chemistry authority",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/epicpcr__10.1038+ismej.2015.124/ismej.2015.124_supp_ismej2015124x2.pdf",
+      "source_identity": "supplementary file (PMC Cloud)",
+      "md5": "24d88efb7e61fbcb9446c4cb78d2cd42"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-05",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Bounded primary source/local partial model; not a complete disclosure review",
+      "locations": "Methods bead/fusion/nested/sequencing sections; Figure1; SupplementaryMethods andTablesS2,S4,S5; original printedp18 rendered; Supplementary file index only, not chemistry authority",
+      "findings": "See protocol note for source-positive molecular distinction and explicit uncertainty.",
+      "deferred": [
+        "Full source bead/lysis route and PCR aliquot bookkeeping.",
+        "Exact target template, reverse primer panel, selected sample index and all final/read-primer coordinates.",
+        "Directly cited Wetmur2005/Turchaninova2013/Cradic2004 blocker-design ancestry, not followed within cap."
+      ],
+      "verification": "Protocol-local suites: Han6,epicPCR9,DART8,TAP8 passed (31total); all four private previews build, no completion marker; duplex pairing0problems; scoped chemistry4established,51unresolved,0contradictory. Sourceguard8checked1failed: faithful TAP N7XX8base window fails matcher against source [X]8 notation; reported to coordinator, no exemption added.",
+      "oligo_scraper": "Mandatory standard scraper; relevant source hits checked, including modifications. DART large code-reference FASTA skipped, not a chemistry omission."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Only stated directly linked targets considered. No recursive source chase or confirmed absence."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Full source bead/lysis route and PCR aliquot bookkeeping.",
+    "Exact target template, reverse primer panel, selected sample index and all final/read-primer coordinates.",
+    "Directly cited Wetmur2005/Turchaninova2013/Cradic2004 blocker-design ancestry, not followed within cap."
+  ],
+  "implementation_verification": {
+    "date": "2026-10-28",
+    "scope": "Code/source-transcription guard follow-up, not a second independent source or absence review.",
+    "outcome": "Quantified [X]8 variable notation now checked at its exact stated width; TAP4checked0failed0exemptions. Protocol polymers were not altered to satisfy matcher. Other scoped checks to be reconciled at integration."
+  }
+}

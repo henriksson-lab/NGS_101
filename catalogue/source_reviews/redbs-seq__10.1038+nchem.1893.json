@@ -1,0 +1,77 @@
+{
+  "dir": "redbs-seq__10.1038+nchem.1893",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "accepted_article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redbs-seq__10.1038+nchem.1893/nchem.1893_PMC4188980.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round04",
+        "date": "2026-10-28",
+        "locations": "Manifest author-manuscript identity; chemicalrationale andphysicalCMS/readoutparagraphs44-61; GeneralredBSMethods81-89.",
+        "finding": "NaBH4 reduces5fC→5hmC;bisulfiteproducesCMS,readasC; matchedBS5fC→U/readT. Conversionnotperfect;separatechemicalproduct/readoutmaintained."
+      }
+    },
+    {
+      "id": "publisher_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/redbs-seq__10.1038+nchem.1893/nchem.1893_41557_2014_BFnchem1893_MOESM165_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round04",
+        "date": "2026-10-28",
+        "locations": "ExperimentalMethodsPDFpp2–5 reflowedfromtexttwin; genomicMspI/TruSeqlibraryparagraphp5; Table3controltemplate/primerhitswithsourcecontext.",
+        "finding": "MspI→controlspike→TruSeq1:10adapterlibrary→4red/4ox/4untreatedarms→bisulfite→KAPA12cycles→HiSeqSE100. SyntheticcontrolIlluminaprimersnotusedasgenomicprimermembers; oxidationarmoutsidegraph."
+      }
+    },
+    {
+      "id": "published_vor",
+      "role": "other",
+      "locator": "https://doi.org/10.1038/nchem.1893",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "CompletepublishedMethodsnotinspected; mainacceptedmanuscriptandpublisherSIidentitiesexplicit."
+    },
+    {
+      "id": "rrbs_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nature07107",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Article explicitly selects RRBS/MspI front end and cites Meissner2008 ref24. Parent original not read within cap; no2014TruSeq/NaBH4 recipe inherited."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round04",
+      "date": "2026-10-28",
+      "locations": "Definingoriginalandselectedchemistrysupplementswithidentifiedversions;seechecklist.",
+      "finding": "Directlinked-sourcefollowupsdeferredwithinboundedpass;sourceunavailabilityisnotabsenceandnohistoricalkitrevisionisinvented."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Cappedsource-qualifiedmodelpass,notcompleteindependentreviewormissing-informationacceptance.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-expansion-round04",
+      "reviewer": "expansion_dna_round04",
+      "date": "2026-10-28",
+      "documents": 2,
+      "scope": "Atmost3originalsandboundedsourceinvestigationpermethod;sourceversionsandpartialmodelboundariesexplicit. Noabstract-onlychemicalreview.",
+      "locations": "Manifest author-manuscript identity; chemicalrationale andphysicalCMS/readoutparagraphs44-61; GeneralredBSMethods81-89.; ExperimentalMethodsPDFpp2–5 reflowedfromtexttwin; genomicMspI/TruSeqlibraryparagraphp5; Table3controltemplate/primerhitswithsourcecontext.",
+      "findings": "Source-ownedRRredBS/untreatedBSgraphpreservesMspI/kitpreparationbefore reduction; physical5hmC/CMSvsCreadoutclasses;12cycleKAPA;CMSnotsilentlytreatedasunchangedC. ExactTruSeqinternalsunvalidated.",
+      "deferred": [
+        "FullVOR/historicalsourcerevisionsandsecondreader; desiredkitvaluesremainquestionsratherthanunavailable-docclaims.",
+        "ExactgenomicTruSeqadapter/primer/indexmembers,fullfinalassembly/runprimers;controlTable3primersnotborrowed.",
+        "StudyoxBS/controlbranchesandcompletechemical-linkedchecklist; conversionefficiencynotprovenbyclassdiagram."
+      ],
+      "oligo_scraper": "Mandatoryfull-bundlescraperoutputread;hitsvalidatedagainstsourcecontext. HydEnTable1rendered. Damagezero-hitsnotabsenceevidence;relevantSIunavailable.",
+      "verification": "Graph/render/build/pairingpass;1explicitTruSeqMAGICboundary,2genomicprimerinputswithoutpolymers;noexactoligoassertions."
+    }
+  ]
+}

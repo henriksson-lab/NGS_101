@@ -1,0 +1,73 @@
+{
+  "dir": "dart-seq-targeted-capture__10.1038+s41592-018-0259-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6378878.1/PMC6378878.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "OnlineMethods bead synthesis/single-cell preparation; BcellResults",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/dart-seq-targeted-capture__10.1038+s41592-018-0259-9/s41592-018-0259-9_PMC6378878.xml",
+      "source_identity": "full-text JATS XML (PMC Cloud)",
+      "md5": "59e54ba4e64b26f8e9d3ac931b3f3dea",
+      "source_version": "Associated accepted manuscript of published article; final version-of-record procedural equivalence not established."
+    },
+    {
+      "id": "detailed-protocol",
+      "role": "detailed_protocol",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6378878.1/NIHMS1512056-supplement-2.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedMOESM3 exact duplicate bymanifestMD5; primer design,ligase steps,sections4–5",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/dart-seq-targeted-capture__10.1038+s41592-018-0259-9/s41592-018-0259-9_supp_NIHMS1512056-supplement-2.pdf",
+      "source_identity": "supplementary file (PMC Cloud)",
+      "md5": "287feaffd15ebc1b1b6a48907c7722d2"
+    },
+    {
+      "id": "oligo-table",
+      "role": "supplement",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6378878.1/NIHMS1512056-supplement-Sup_Table_1.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedMOESM4 exact duplicate bymanifestMD5; IgG custom primer5Phos/splint",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/dart-seq-targeted-capture__10.1038+s41592-018-0259-9/s41592-018-0259-9_supp_NIHMS1512056-supplement-Sup_Table_1.xlsx",
+      "source_identity": "supplementary file (PMC Cloud)",
+      "md5": "7f510365677b36285f1372ddaef362ab"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-05",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Bounded primary source/local partial model; not a complete disclosure review",
+      "locations": "OnlineMethods bead synthesis/single-cell preparation; BcellResults; PublishedMOESM3 exact duplicate bymanifestMD5; primer design,ligase steps,sections4–5; PublishedMOESM4 exact duplicate bymanifestMD5; IgG custom primer5Phos/splint",
+      "findings": "See protocol note for source-positive molecular distinction and explicit uncertainty.",
+      "deferred": [
+        "Full historical bead barcode/UMI and template-switching geometry.",
+        "NexteraXT selected index, tagmentation outcome classes, final strands/read-primer landing.",
+        "Directly cited Drop-seq original backend not re-read or inherited wholesale."
+      ],
+      "verification": "Protocol-local suites: Han6,epicPCR9,DART8,TAP8 passed (31total); all four private previews build, no completion marker; duplex pairing0problems; scoped chemistry4established,51unresolved,0contradictory. Sourceguard8checked1failed: faithful TAP N7XX8base window fails matcher against source [X]8 notation; reported to coordinator, no exemption added.",
+      "oligo_scraper": "Mandatory standard scraper; relevant source hits checked, including modifications. DART large code-reference FASTA skipped, not a chemistry omission."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Only stated directly linked targets considered. No recursive source chase or confirmed absence."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Full historical bead barcode/UMI and template-switching geometry.",
+    "NexteraXT selected index, tagmentation outcome classes, final strands/read-primer landing.",
+    "Directly cited Drop-seq original backend not re-read or inherited wholesale."
+  ],
+  "implementation_verification": {
+    "date": "2026-10-28",
+    "scope": "Code/source-transcription guard follow-up, not a second independent source or absence review.",
+    "outcome": "Quantified [X]8 variable notation now checked at its exact stated width; TAP4checked0failed0exemptions. Protocol polymers were not altered to satisfy matcher. Other scoped checks to be reconciled at integration."
+  }
+}

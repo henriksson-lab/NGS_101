@@ -1,0 +1,162 @@
+{
+  "date": "2026-10-28",
+  "status": "implemented and integration-verified",
+  "files_added": [
+    "catalogue/protocol_lineage.json",
+    "lib/protocol_lineage.py",
+    "build_lineage.py",
+    "assets/protocol_lineage.css",
+    "assets/protocol_lineage.js",
+    "tools/selftest_protocol_lineage.py",
+    "tools/benchmark_protocol_lineage_browser.py",
+    "plans/protocol-lineage-implementation.json"
+  ],
+  "files_modified": [
+    ".gitignore",
+    "DESIGN.md",
+    "MAINTAINERS.md",
+    "lib/page.py",
+    "build_site.py",
+    "tools/selftest.py",
+    "tools/selftest_annealing.py"
+  ],
+  "decisions": [
+    "Curated directed ancestry is independent of undirected computed similarity. Neither supplies chemistry declarations.",
+    "Multiple component-scoped parents supported, with source-documented versus inferred evidence and visible limits.",
+    "Successful finished public non-illustrative pages only; notes/private relations remain validated but unpublished.",
+    "Exact concrete non-inferred components >=16 nt and >=3 base types; strand deduplication; inverse-frequency weighted Jaccard, two shared components, threshold 0.15, symmetrized three nearest neighbours.",
+    "Local views enriched only during public assembly; standalone protocol outputs retain existing behavior.",
+    "Disconnected curated families are laid out together; uncurated nodes use a compact grid. Similarity never determines ancestry rank."
+  ],
+  "curated_evidence_inspected": [
+    {
+      "parent": "smart-seq__10.1038+nbt.2282",
+      "child": "smart-seq2__10.1038+nmeth.2639",
+      "basis": "documented",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/nmeth.2639",
+          "locator": "Published 2013 article, introduction; local nmeth.2639.pdf.txt lines 166–178"
+        }
+      ]
+    },
+    {
+      "parent": "smart-seq2__10.1038+nmeth.2639",
+      "child": "smart-seq3__10.1038+s41587-020-0497-0",
+      "basis": "inferred",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41587-020-0497-0",
+          "locator": "Published article abstract; local s41587-020-0497-0.html.txt line 613; local protocol declarations and notes"
+        }
+      ]
+    },
+    {
+      "parent": "smart-seq3__10.1038+s41587-020-0497-0",
+      "child": "smart-seq3xpress__10.1038+s41587-022-01311-4",
+      "basis": "documented",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41587-022-01311-4",
+          "locator": "Published article opening text; PMC9546772 JATS text line 28; optimization text lines 40–44"
+        }
+      ]
+    },
+    {
+      "parent": "cel-seq__10.1016+j.celrep.2012.08.003",
+      "child": "cel-seq2__10.1186+s13059-016-0938-8",
+      "basis": "documented",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1186/s13059-016-0938-8",
+          "locator": "Published abstract and Results, PMC4848782 JATS text lines 45, 63–67"
+        }
+      ]
+    },
+    {
+      "parent": "scrb-seq__10.1101+003236",
+      "child": "mcscrb-seq__10.1038+s41467-018-05347-6",
+      "basis": "documented",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41467-018-05347-6",
+          "locator": "Published abstract and Results, PMC6062574 JATS text lines 33–35 and 51"
+        }
+      ]
+    },
+    {
+      "parent": "slide-seq__10.1126+science.aaw1219",
+      "child": "slide-seqv2__10.1038+s41587-020-0739-1",
+      "basis": "documented",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41587-020-0739-1",
+          "locator": "Published abstract and opening Results, PMC8606189 JATS text lines 49–57"
+        }
+      ]
+    },
+    {
+      "parent": "split-seq__10.1126+science.aam8999",
+      "child": "share-seq__10.1016+j.cell.2020.09.056",
+      "basis": "documented",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.cell.2020.09.056",
+          "locator": "Published Results overview, PMC7669735 JATS text line 87"
+        }
+      ]
+    },
+    {
+      "parent": "paired-seq__10.1038+s41594-019-0323-x",
+      "child": "share-seq__10.1016+j.cell.2020.09.056",
+      "basis": "documented",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.cell.2020.09.056",
+          "locator": "Published Results overview, PMC7669735 JATS text line 87"
+        }
+      ]
+    },
+    {
+      "parent": "nanopore-cas9-targeted-sequencing-ncats__10.1038+s41587-020-0407-5",
+      "child": "cabage__10.1371+journal.pone.0241253",
+      "basis": "documented",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1371/journal.pone.0241253",
+          "locator": "Published article, main text lines 83 and 220–226 in journal.pone.0241253_PMC8031414.xml.txt; current CaBagE source note"
+        }
+      ]
+    }
+  ],
+  "source_primer_scrapers": "Ran for SMART-seq2, SMART-seq3, SMART-seq3xpress, CEL-Seq2, mcSCRB-seq, Slide-seqV2 and SHARE-seq originals; transient outputs /tmp/lineage-scrape-*.log. CaBagE source inspection supplied by main curator and scoped to downstream ONT adapter ligation only.",
+  "tests": {
+    "lineage_semantics": "21 passed",
+    "annealing_integration": "47 passed",
+    "actual_chrome": "17 passed on assembled site after family layout update; /tmp/protocol-lineage-browser.json; screenshot /tmp/lineage-final.png",
+    "javascript_syntax": "node --check passed",
+    "whitespace": "git diff --check passed for owned edits",
+    "shared_suite": "1647 checks passed",
+    "full_site": "482/482 current builders;443public schematics;all relative links resolve;22registry edges validated,8public unchanged.",
+    "source_tools": "227 offline checks passed",
+    "latest_registry_semantics": "21 checks passed with22registry relations; public counts unchanged."
+  },
+  "unresolved": [
+    "Similarity is a sequence-component heuristic sensitive to exported coverage and nested parts; never interpreted as ancestry.",
+    "CaBagE component relationship stays private while its catalogue status is notes.",
+    "Standalone builder uses existing generated pages; normal site build is authoritative for success eligibility.",
+    "Private iCLIP→irCLIP inference uses associated accepted-manuscript strategy comparison; final published procedural identity remains pending, no publication-error claim."
+  ],
+  "publication_counts_at_validation": {
+    "protocols": 422,
+    "curated_relations": 8,
+    "documented": 7,
+    "inferred": 1,
+    "curated_protocols": 13,
+    "similarities": 520
+  },
+  "no_staging_or_commit": false,
+  "registry_relations": 22,
+  "commit_policy": "Verified task files staged by coordinator; no commit or push.",
+  "subsequent_curation": "Round04 adds3private version-qualified component links:CITE→LIBRA,SAC→eTAM,CPT→SiC. Round05 adds5private scoped links:RRBS→redBS,Drop-seq→targetedDART,10x3primev2→TAP,CROP→TAP,and separateDrop-seq→TAP backend. No source-selecting recipe reuse or inferred shared ancestry between concurrent MazF methods."
+}

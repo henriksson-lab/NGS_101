@@ -1,0 +1,91 @@
+{
+  "dir": "rrbs-illumina__10.1038+nature07107",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rrbs-illumina__10.1038+nature07107/nature07107_PMC2896277.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round05",
+        "date": "2026-10-28",
+        "locations": "Methods Summary lines 112–120; assay rationale 68–70",
+        "finding": "Author manuscript; MspI size fractions, A extension, methylated adapters, EpiTect, PCR and 1G sequencing."
+      }
+    },
+    {
+      "id": "publisher_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rrbs-illumina__10.1038+nature07107/nature07107_41586_2008_BFnature07107_MOESM261_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round05",
+        "date": "2026-10-28",
+        "locations": "Supplementary Figure S2 text 1010–1186; S1 caption; Table S2",
+        "finding": "Publisher supplement; chemical C→U and PCR-copy/readout distinction; illustrative genome strings are not oligos."
+      }
+    },
+    {
+      "id": "vor",
+      "role": "other",
+      "locator": "https://doi.org/10.1038/nature07107",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Publisher version of record not compared; accepted manuscript identity explicit."
+    },
+    {
+      "id": "rrbs_2005",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1093/nar/gki901",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Explicitly cited RRBS predecessor; directly linked follow-up deferred; no complete historical library recipe imported."
+    },
+    {
+      "id": "publisher_supplementary_data",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/rrbs-illumina__10.1038+nature07107/nature07107_41586_2008_BFnature07107_MOESM262_ESM.xls.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round05",
+        "date": "2026-10-28",
+        "locations": "Header only, HCP states sheet lines1–5; full workbook not inspected.",
+        "finding": "Header describes mean promoter methylation, expression and histone-state data. No recipe claim is derived from this sampled header; remaining workbook contents deferred."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round05",
+      "date": "2026-10-28",
+      "locations": "Defining original/associated author manuscript and inspected supplements listed above.",
+      "finding": "Direct linked originals and historical vendor/component questions enumerated, not recursively chased. No source absence acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source pass; source versions explicit. Not a complete independent two-reader review or accepted absence finding.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-expansion-round05",
+      "reviewer": "expansion_dna_round05",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Bounded defining-original and chemistry-supplement pass; no family recipe import.",
+      "locations": "Methods Summary lines 112–120; assay rationale 68–70; Supplementary Figure S2 text 1010–1186; S1 caption; Table S2",
+      "findings": "Author manuscript; MspI size fractions, A extension, methylated adapters, EpiTect, PCR and 1G sequencing.; Publisher supplement; chemical C→U and PCR-copy/readout distinction; illustrative genome strings are not oligos.",
+      "deferred": [
+        "Historical Illumina kit revision, methylated adapter and PCR/sequencing-primer identities.",
+        "Original EpiTect workup and complete linked-source coverage; no absence finding.",
+        "Full published article and independent second reader.",
+        "Full supplementary-data workbook and presentation-slide originals remain unreviewed; workbook header only was sampled."
+      ],
+      "oligo_scraper": "3 scraper hits, all illustrative source/reference genome strings in Supplementary Figure S2, checked in context; not adapter disclosures. Final rerun after supplementary XLS download gave the same three illustrative hits.",
+      "verification": "Local test/build and pairing lint pass; explicit pending original blocks publication; no finished-page marker. Chemistry claims unresolved12/contradictory0; three library oligo inputs unassembled. No exact oligo transcript assertions."
+    }
+  ]
+}

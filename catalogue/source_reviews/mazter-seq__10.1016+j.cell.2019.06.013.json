@@ -1,0 +1,100 @@
+{
+  "dir": "mazter-seq__10.1016+j.cell.2019.06.013",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "vor",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/mazter-seq__10.1016+j.cell.2019.06.013/ss_Cell_DecipheringThe-m6ACode_PV2019.pdf.txt",
+      "original": "https://weizmann.elsevierpure.com/ws/portalfiles/portal/111306132/ss_Cell_DecipheringThe-m6ACode_PV2019.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Institutional cover identifies publisher PDF/version of record; DOI and printed Cell article/STAR Methods checked.",
+      "pass_1": {
+        "reviewer": "round05_coordinator",
+        "date": "2026-10-28",
+        "locations": "Identity1–35; Results188–219; limitations2755–2784; oligo referrals3148–3183; Methods3330–3376; bias-assay context3377–3386; read/efficiency3464–3486",
+        "finding": "Published no-IP route represented with selected ACA scission and uncut RNA retained; RNA/cDNA hybrid persists through ExoSAP; hydrolysis products persist until cleanup. TableS7 polymers/end geometry and full readout unassembled."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "publisher_index",
+      "role": "defining",
+      "locator": "https://www.sciencedirect.com/science/article/pii/S0092867419306762",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Standard declared extra-source request returned HTTP403; TableS7 supplement target unresolved. Same article representation/index, not counted as a second inspected chemistry original.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "round05_coordinator",
+      "date": "2026-10-28",
+      "locations": "Identity1–35; Results188–219; limitations2755–2784; oligo referrals3148–3183; Methods3330–3376; bias-assay context3377–3386; read/efficiency3464–3486",
+      "finding": "Published no-IP route represented with selected ACA scission and uncut RNA retained; RNA/cDNA hybrid persists through ExoSAP; hydrolysis products persist until cleanup. TableS7 polymers/end geometry and full readout unassembled."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Published Table S7, referred from STAR Methods e3–e4 and resource-table Oligonucleotides; attachment URL unresolved; publisher index https://www.sciencedirect.com/science/article/pii/S0092867419306762",
+      "scope": "Exact library adapters/primers/barcodes and IVT controls."
+    },
+    {
+      "locator": "Imanishi et al.2017, Detection of N6-methyladenosine based on the methyl-sensitivity of MazF RNA endonuclease, Chem.Commun.53:12930–12933; defining article reference list",
+      "scope": "Directly cited chemical predecessor, uninspected within cap."
+    },
+    {
+      "locator": "Source-listed Takara2415A MazF, FastAP and NEB M0201L historical reagent documents; exact revisions unassigned",
+      "scope": "Terminal chemistry and end-repair mechanistic validation; no unavailable document invented."
+    },
+    {
+      "locator": "Safra2017 and Schwartz2013, cited by the published optional m6A-IP Methods",
+      "scope": "Optional IP route lies outside this graph; originals remain uninspected."
+    }
+  ],
+  "open_questions": [
+    "TableS7 polymers/modifications and exact reaction/product/read geometry.",
+    "RNA end chemistry, optional IP/calibration branches and independent linked-source review.",
+    "Printed synthetic calibration lengths88nt(Results) versus103nt(IVT Methods); no selection made; TableS7 comparison deferred."
+  ],
+  "conclusion": "Bounded partial review; no confirmed absence, no second independent reader, no source-complete or molecular validation claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-05",
+      "reviewer": "round05_coordinator",
+      "date": "2026-10-28",
+      "documents": 1,
+      "scope": "Defining VOR with printed STAR Methods and integrated figure captions; exact original sections stated. No recursive source following.",
+      "locations": "Identity1–35; Results188–219; limitations2755–2784; oligo referrals3148–3183; Methods3330–3376; bias-assay context3377–3386; read/efficiency3464–3486",
+      "findings": "Published no-IP route represented with selected ACA scission and uncut RNA retained; RNA/cDNA hybrid persists through ExoSAP; hydrolysis products persist until cleanup. TableS7 polymers/end geometry and full readout unassembled.",
+      "deferred": [
+        "TableS7 attachment identity and chemistry",
+        "Cited MazF predecessor/optional IP methods",
+        "Exact library/readout assembly and second reader"
+      ]
+    }
+  ],
+  "superseded_sources": [
+    {
+      "doi": "10.1101/571679",
+      "disposition": "Superseded preprint excluded; failed auto-download not a requested source blocker."
+    }
+  ],
+  "local_validation": {
+    "selftest_checks": 6,
+    "result": "pass",
+    "scope": "Selected-event conservation/boundaries and incomplete-publication gate only; no validation of end chemistry or population cleavage."
+  },
+  "implementation_verification": {
+    "date": "2026-10-28",
+    "scope": "Independent code/order review against already inspected source sections, not an absence audit or new source investigation.",
+    "findings": "Added omitted source thermal operation: RNA+3iLL heat/snap-cool before MAZTER ligation; first pre-FTO heating distinct from second pre-MazF heating in m6A-REF. Explicit unreviewed adapter-end state replaces an unsupported not-reported placeholder.",
+    "verification": "Local suites6/7pass; both private pages rebuilt without finished marker."
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "dir": "migs__10.1093+nar+gkp992",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/migs__10.1093+nar+gkp992/nar_gkp992_PMC2811030.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round05",
+        "date": "2026-10-28",
+        "locations": "Materials and Methods lines 38–52; publication identity line16; refs22/26",
+        "finding": "Published OA original; His-MBD2/anti-His/proteinG capture, blocking DNA, workup and named original Illumina ChIP-Seq kit/GAII36bp. Methods44 explicitly washes/resuspends bead conjugates before genomic capture; implementation now models the removed wash as physical waste. Possible blocking DNA recovery remains unquantified and is not erased by proteolysis or extraction/precipitation."
+      }
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/migs__10.1093+nar+gkp992/nar_gkp992_supp_gkp992_1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round05",
+        "date": "2026-10-28",
+        "locations": "Supplemental Figures1–5 captions; Table1 header/primer rows; Table2 context",
+        "finding": "Published supplement: Table1 primers are validation bisulfite oligos and not adopted as MiGS library oligos."
+      }
+    },
+    {
+      "id": "compare_ms",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1093/nar/gnj022",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Ref22 explicitly named for His-MBD2 expression/purification; depth-one follow-up deferred."
+    },
+    {
+      "id": "mbd_expression",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1074/jbc.M505593200",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Ref26 expression/purification ancestry; original not read within cap."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round05",
+      "date": "2026-10-28",
+      "locations": "Defining original/associated author manuscript and inspected supplements listed above.",
+      "finding": "Direct linked originals and historical vendor/component questions enumerated, not recursively chased. No source absence acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source pass; source versions explicit. Not a complete independent two-reader review or accepted absence finding.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-expansion-round05",
+      "reviewer": "expansion_dna_round05",
+      "date": "2026-10-28",
+      "documents": 2,
+      "scope": "Bounded defining-original and chemistry-supplement pass; no family recipe import.",
+      "locations": "Materials and Methods lines 38–52; publication identity line16; refs22/26; Supplemental Figures1–5 captions; Table1 header/primer rows; Table2 context",
+      "findings": "Published OA original; His-MBD2/anti-His/proteinG capture, blocking DNA, workup and named original Illumina ChIP-Seq kit/GAII36bp.; Published supplement: Table1 primers are validation bisulfite oligos and not adopted as MiGS library oligos. Corrected physical reagent flow: conjugate prewash precedes capture; possible independent blocking DNA persists through release/recovery and is unresolved at the kit boundary.",
+      "deferred": [
+        "Historical Illumina ChIP-Seq Sample Prep Kit revision, component polymers, PCR and sequencing primer/run architecture.",
+        "Resolve printed elution formulation “20 ml Tris (pH8)” against linked authoritative original without silent repair.",
+        "Direct MBD expression/purification references and independent reader.",
+        "Quantitative blocking-vector partition, recovery and eventual library/read contribution are unresolved; no complete-removal claim."
+      ],
+      "oligo_scraper": "44 supplement sequence hits, inspected in validation bisulfite-primer Table1 context; not substituted for library oligos.",
+      "verification": "Eight local checks pass, including pre-capture conjugate-wash ordering/physical waste and independent possible blocking-DNA retention through capture, release, recovered DNA and kit output. Build, pairing lint and review schema pass. Source guard: no exact oligo candidates, zero failures/exemptions. Chemistry: eight unresolved step relations, zero established/conditional/contradictory; no complete chemical validation claimed. Both reagent-preparation and genomic branches are rendered on the private preview without a finished marker."
+    }
+  ]
+}

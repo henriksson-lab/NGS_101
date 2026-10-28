@@ -1,0 +1,65 @@
+{
+  "dir": "damage-seq__10.1073+pnas.1614430113",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/damage-seq__10.1073+pnas.1614430113/pnas.1614430113_PMC5068337.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round04",
+        "date": "2026-10-28",
+        "locations": "Publishedfullmainarticle: Results DevelopingDamage-seq1138;Figure1caption1146; lesion/readinterpretation1152;MaterialsandMethods1197-1199;mainexplicitSIreferral.",
+        "finding": "Positivefragmentation/adapter1/antiPt/biotinprimerQ5stall/capture/adapter2/indexPCRorder; bothstalled/unblockedclassesretainedthroughsequencing. Mainfulltextread,notabstract-only. Run/oligos/endconditionsnotinspectedwithoutSI."
+      }
+    },
+    {
+      "id": "si_appendix",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5068337/bin/pnas.1614430113.sapp.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "RelevantSIAppendixdownloadreturnsPMCPreparing-to-downloadgate inexternalMANIFEST. PrimaryEuropePMCXMLalsoHTTP500,whilemainHTMLisavailable. Nochallengebypass. Missinggeometry/sequencesblockedforreview,notconfirmedabsent."
+    },
+    {
+      "id": "uv_xr_predecessor",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.1101/gad.261271.115",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "MainarticleexplicitlymodifiesUVXRseqforseparatePt-XRbranch;thisdoesnotestablishDamage-seqrecipeinheritance. Pt-XRbranchnotinDamagegraph.",
+      "discovered_from": "published_article"
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "expansion_dna_round04",
+      "date": "2026-10-28",
+      "locations": "Definingoriginalandselectedchemistrysupplementswithidentifiedversions;seechecklist.",
+      "finding": "Directlinked-sourcefollowupsdeferredwithinboundedpass;sourceunavailabilityisnotabsenceandnohistoricalkitrevisionisinvented."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Cappedsource-qualifiedmodelpass,notcompleteindependentreviewormissing-informationacceptance.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-expansion-round04",
+      "reviewer": "expansion_dna_round04",
+      "date": "2026-10-28",
+      "documents": 1,
+      "scope": "Atmost3originalsandboundedsourceinvestigationpermethod;sourceversionsandpartialmodelboundariesexplicit. Noabstract-onlychemicalreview.",
+      "locations": "Publishedfullmainarticle: Results DevelopingDamage-seq1138;Figure1caption1146; lesion/readinterpretation1152;MaterialsandMethods1197-1199;mainexplicitSIreferral.",
+      "findings": "Main-fulltext-limitedgraphdistinguishesPt-templatefromnewstalledDNA;sourceunblockedclassretainedthroughlibrary/sequencing. Filteringadapter1-startreadskeptcomputational. Ligatingends/primergeometryexplicitlyuninspected,notunpublished.",
+      "deferred": [
+        "SIAppendixoriginal andallitslinkedchemistry-relevantdocuments; independentreader.",
+        "Exactadapter/biotinprimer/indexpolymers,ligationendgeometry,template-separationconditions andPCRprogram;nodetailclaimedabsent.",
+        "Precisedrug/assay/runassignmentfromcompressed200µM/1.5/3hmainMethods; lesion-endstrandvalidation andreadmask."
+      ],
+      "oligo_scraper": "Mandatoryfull-bundlescraperoutputread;hitsvalidatedagainstsourcecontext. HydEnTable1rendered. Damagezero-hitsnotabsenceevidence;relevantSIunavailable.",
+      "verification": "Graph/render/build/pairingpass;5sourceoligoinputsunrepresented;0exactoligoclaims;relevantSIunavailable;noabsenceacceptance."
+    }
+  ]
+}

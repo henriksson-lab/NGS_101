@@ -1,0 +1,112 @@
+{
+  "dir": "xr-seq__10.1101+gad.261271.115",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/xr-seq__10.1101+gad.261271.115/gad.261271.115_PMC4421983.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round03",
+        "date": "2026-10-28",
+        "locations": "Published article title/DOI; Results XR method and strand/length interpretation; Oligonucleotides and adaptors lines158-164; UV/XR-seq Methods166-188; cited Hu2013 and Selby2006/2012 bibliography.",
+        "finding": "All four adapters and two full PCR polymers, five-base random splints/SpacerC3/5Phos; TFIIH capture before ligation; genotype-qualified sequential lesion IP; photolyase/QC/PCR/gel/HiSeqSE50. PCR-reference template interval checked with source primers; run-primer acquisition unassigned."
+      }
+    },
+    {
+      "id": "supplement_material",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/xr-seq__10.1101+gad.261271.115/gad.261271.115_supp_supp_29.9.948_SuppMaterial.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round03",
+        "date": "2026-10-28",
+        "locations": "SupplementaryFigure9 insert-length caption; figures10-12 context/strand captions; table5 inventory caption; no source-exact oligo table substituted.",
+        "finding": "Observed20–30nt inserts/mean26 and lesion-relative sequence contexts are population observations, not fixed molecular coordinates. Full rendered supplement figures not all chemically reviewed in this capped pass."
+      }
+    },
+    {
+      "id": "table5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/xr-seq__10.1101+gad.261271.115/gad.261271.115_supp_supp_29.9.948_SuppTable5_LibrarySamplesAlignment.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round03",
+        "date": "2026-10-28",
+        "locations": "Complete Sheet1 sample/replicate,inputdishes,PCRcycles,plus/minus aligned-read rows; Sheets2/3 empty extraction headers.",
+        "finding": "Source-specificPCRcycles6–15; no universal cycle assignment inferred. These rows are original experimental metadata, not missing-information evidence."
+      }
+    },
+    {
+      "id": "hu2013",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.1074/jbc.M113.482257",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "article",
+      "reason": "Article explicitly cites TFIIH/excision-product isolation and lesion IP procedures. Original not inspected within three-original cap; no invented buffer recipe or complete inheritance claim."
+    },
+    {
+      "id": "selby2006",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1073/pnas.0607993103",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Source cites photolyase preparation/activity. Original not followed within cap; library adapters and NGS readout not inherited."
+    },
+    {
+      "id": "selby2012",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1021/bi201536w",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Source cites photolyase preparation. Protein/source identity beyond source wording remains to be inspected; no unrelated enzyme recipe borrowed."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round03",
+      "date": "2026-10-28",
+      "locations": "Published Methods and original bibliography/source-availability links; see checklist.",
+      "finding": "Source-linked originals and exact component scope enumerated; deferred within cap; no unavailable disclosure document invented."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "First bounded source/model pass, not a completed independent review or accepted missing-information audit.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-expansion-round03",
+      "reviewer": "expansion_dna_round03",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Capped investigation of at most3originals; chemistry source versions preserved. No recursive source chase or complete missing-information claim.",
+      "locations": "Published article title/DOI; Results XR method and strand/length interpretation; Oligonucleotides and adaptors lines158-164; UV/XR-seq Methods166-188; cited Hu2013 and Selby2006/2012 bibliography.; SupplementaryFigure9 insert-length caption; figures10-12 context/strand captions; table5 inventory caption; no source-exact oligo table substituted.; Complete Sheet1 sample/replicate,inputdishes,PCRcycles,plus/minus aligned-read rows; Sheets2/3 empty extraction headers.",
+      "findings": "Scoped NHF1/CS-B graph keeps CPDflowthrough into6-4IP; repairedQC aliquots and two lesion-specific terminal libraries. Exact end splints and conditionalPCR_PRODUCT relation; unbounded genome role retained semantically between known adapter boundaries.",
+      "deferred": [
+        "Hu2013 linked isolation/IP original; source photolyase-production originals; independent second reader.",
+        "Full rendered supplementary panels and all chemistry-relevant linked originals; no missing claim accepted.",
+        "Exact selected sample index/run mask/run primers and genotype-specific XP-C inverse-IP branch; chemical photorepair/strand-order validation beyond source declarations."
+      ],
+      "oligo_scraper": "Mandatory full-bundle scraper run; source sequences/modifications checked where exact oligos are modeled. Nick genomic sequence hits distinguished from ordering oligos; empty/incomplete graphic extraction not treated as absence.",
+      "verification": "6source oligo transcriptionspass; build/pairingpass; chemistry4established/6conditional/17unresolved/0contradictory; sourceguard6exact acrosspair,0failed/0exceptions."
+    },
+    {
+      "round": "2026-10-28-ngs-expansion-03-model-review",
+      "reviewer": "coordinator_model_review",
+      "date": "2026-10-28",
+      "documents": 0,
+      "scope": "Implementation review against first-reader source notes, not an independent source/absence pass.",
+      "locations": "Protocol-local graph, ligation-end Scenes, PCR reference and source-qualified note.",
+      "findings": "Confirmed physical CPD-IP flowthrough feeds6-4IP; exact source-derived fixed adapters/PCR arms retain genomic role; requested separate DNA/RNA species rows, now fixed. Public scope limited to NHF1/CS-B branch.",
+      "deferred": [
+        "Original linked-IP recipe, run-primer/mask and independent source-review deferrals unchanged."
+      ],
+      "verification": "6source tests and local build pass; pairing0; chemistry4established6conditional17unresolved0contradictory."
+    }
+  ]
+}

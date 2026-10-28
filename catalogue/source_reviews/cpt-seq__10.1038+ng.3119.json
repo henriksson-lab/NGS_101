@@ -1,0 +1,53 @@
+{
+  "dir": "cpt-seq__10.1038+ng.3119",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "manuscript",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cpt-seq__10.1038+ng.3119/ng.3119_PMC4409979.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated manuscript identity/flags;Results54–66;Methods104–130."
+    },
+    {
+      "id": "publisher_figures",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cpt-seq__10.1038+ng.3119/ng.3119_41588_2014_BFng3119_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Correction notice;Figures1–4captions;Figure3/4originalPDFpp4–5 rendered,Figure3 enlarged for connector typography."
+    },
+    {
+      "id": "corrected_table4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cpt-seq__10.1038+ng.3119/ng.3119_41588_2014_BFng3119_MOESM2_ESM.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Both workbook sheets including20May2015notice;all20transferred oligos,3runprimers and pMENTS."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Nextera kit/predecessors and final published procedural text remain named follow-up targets;no recursive chasing."
+  },
+  "missing_claims": [],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-04",
+      "reviewer": "coordinator_bounded_pass",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Capped source pass and private representative route,not full protocol/absence review.",
+      "locations": "Associated manuscript identity/flags;Results54–66;Methods104–130.; Correction notice;Figures1–4captions;Figure3/4originalPDFpp4–5 rendered,Figure3 enlarged for connector typography.; Both workbook sheets including20May2015notice;all20transferred oligos,3runprimers and pMENTS.",
+      "findings": "Protein-held contiguity,EDTA/dilution/SDS order,two indexing tiers and historical kit IDs;not version-of-record procedural identity.; Restored Table4 notice and distinct molecular/index-cycle layouts;connectorA appears TCCACCC ingraphic vsTCCACGC in workbook,unadjudicated.; All24source transcriptions and5prime phosphate retained;no historical PCR oligos invented.",
+      "deferred": [
+        "Historical PCR primer members,final published procedural applicability and exact PCR product geometry.",
+        "Custom recipe physical mapping across connectors;independent graphic/Table4 comparison.",
+        "Gated Word supplement identity/contents,linked-original review and second reader."
+      ],
+      "oligo_scraper": "Mandatory complete-bundle --all;all24workbook hits checked in original rows.",
+      "verification": "31local checks and private preview pass;known run primers bind conditional reference without fabricating acquisition-cycle map. Sourceguard3checked0failed2unrepresented;chemistry4established10unresolved0contradictory;pairing0."
+    }
+  ]
+}

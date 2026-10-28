@@ -1,0 +1,101 @@
+{
+  "dir": "phip-seq__10.1038+nbt.1856",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article_manuscript",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phip-seq__10.1038+nbt.1856/nbt.1856_PMC4169279.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Identity and manuscript flags; Introduction/Results60–93; background101–103; Discussion127–135; Fig1caption353.",
+      "pass_1": {
+        "reviewer": "coordinator_bounded_pass",
+        "date": "2026-10-28",
+        "locations": "Identity and manuscript flags; Introduction/Results60–93; background101–103; Discussion127–135; Fig1caption353.",
+        "finding": "Associated accepted manuscript; final version-of-record procedural text not reconciled."
+      }
+    },
+    {
+      "id": "author_supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phip-seq__10.1038+nbt.1856/nbt.1856_supp_NIHMS284271-supplement-1.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Methods1055–1088; detailed protocol1107–1178; originalPDFpp14–15 rendered including color/underline primer marks and image-based PCR table.",
+      "pass_1": {
+        "reviewer": "coordinator_bounded_pass",
+        "date": "2026-10-28",
+        "locations": "Methods1055–1088; detailed protocol1107–1178; originalPDFpp14–15 rendered including color/underline primer marks and image-based PCR table.",
+        "finding": "Detailed assay and oligos recorded provisionally, not promoted over final published source."
+      }
+    },
+    {
+      "id": "publisher_supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/phip-seq__10.1038+nbt.1856/nbt.1856_41587_2011_BFnbt1856_MOESM57_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Document identity;13pages; rendered finalp13 Table3 and reference. Remaining pages uninspected.",
+      "pass_1": {
+        "reviewer": "coordinator_bounded_pass",
+        "date": "2026-10-28",
+        "locations": "Document identity;13pages; rendered finalp13 Table3 and reference. Remaining pages uninspected.",
+        "finding": "Publisher and author supplements not assumed fully equivalent; empty scraper does not prove absence."
+      }
+    },
+    {
+      "id": "vor_preview",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/nbt.1856",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Retrieved nbt.1856.html/.txt:publisher identity/abstract around615;explicit subscription-preview/access-options statement around640–700. No final procedural text inspected."
+    },
+    {
+      "id": "vor_pdf",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/nbt.1856.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual publisher citation_pdf_url;standard fetch returnedHTML rather than PDF,validated and rejected in MANIFEST. No paywall/challenge workaround."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "notes": "Final-published procedural applicability remains blocked after primary preview/PDF attempts;author-supplement model remains provisional. No absence accepted."
+  },
+  "missing_claims": [],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-03",
+      "reviewer": "coordinator_bounded_pass",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Capped source pass; provisional author-supplement assay branch only.",
+      "locations": "Identity and manuscript flags; Introduction/Results60–93; background101–103; Discussion127–135; Fig1caption353.; Methods1055–1088; detailed protocol1107–1178; originalPDFpp14–15 rendered including color/underline primer marks and image-based PCR table.; Document identity;13pages; rendered finalp13 Table3 and reference. Remaining pages uninspected.",
+      "findings": "Qualitative phage genotype/display association, antibody incubation and physical bead selection, heat release, inline-barcoded PCR, gel purification and mass pooling. Exact PCR geometry and final procedural applicability unverified.",
+      "deferred": [
+        "Version-of-record procedural text at https://doi.org/10.1038/nbt.1856 and remaining publisher-supplement pages.",
+        "Exact T7FNS2/vector and oligo-pool assemblies, packaging/propagation; historical supplier-original identities unresolved.",
+        "PCR mismatch/strand geometry, acquired instrument/read length, final study sample assignments and second reader."
+      ],
+      "oligo_scraper": "Complete bundle scraper and --all rerun after publisher supplement arrived; all10author-supplement oligos verified in original PDFp14.",
+      "verification": "12local checks; private preview build; pairing0; source guard2checked0failed; chemistry7unresolved0contradictory. No sequencing-completeness marker."
+    },
+    {
+      "round": "2026-10-28-ngs-expansion-04-phip-vor-followup",
+      "reviewer": "coordinator_bounded_followup",
+      "date": "2026-10-28",
+      "documents": 1,
+      "scope": "Exact final-article identity/availability follow-up only;HTML/PDF are representations of the same original.",
+      "locations": "Publisher subscription preview,abstract andcitation_pdf_url;standard source MANIFEST validation.",
+      "findings": "Published abstract confirms36residue display concept. Full finalMethods not obtained;PDFrequest returnsnon-PDFHTML. Existing provisional chemistry unchanged.",
+      "deferred": [
+        "Exact final article/onlineMethods or PDF from https://www.nature.com/articles/nbt.1856.pdf",
+        "Original exact PCR/kit/cycle and library-construction deferrals unchanged."
+      ],
+      "verification": "Complete bundle mandatory scraper rerun after preview retrieval;no new chemistry oligo hits or new proof of author/publisher equivalence."
+    }
+  ]
+}

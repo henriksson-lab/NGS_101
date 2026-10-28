@@ -1,0 +1,109 @@
+{
+  "dir": "nano-cop__10.1016+j.molcel.2019.11.017",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nano-cop__10.1016+j.molcel.2019.11.017/j.molcel.2019.11.017_PMC7060811.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7060811.1/PMC7060811.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Accepted author manuscript, not final publisher VOR",
+      "pass_1": {
+        "reviewer": "rna_round04_reader",
+        "date": "2026-10-28",
+        "locations": "JATS44–68,160,176,180,192,269,688,764; referenceR27",
+        "finding": "Native RNA plus artificial A/I tails and supportive cDNA retained as typed states. CustomC10 sequences and per-sample RNA001/002 assignments remain blocked by real source supplements."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "blocked_original_0",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7060811/bin/NIHMS1546147-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate; actual original unavailable in this pass, contents not inspected or judged irrelevant.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_original_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7060811/bin/NIHMS1546147-supplement-2.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); actual original unavailable in this pass, contents not inspected or judged irrelevant.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_original_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7060811/bin/NIHMS1546147-supplement-3.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); actual original unavailable in this pass, contents not inspected or judged irrelevant.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_original_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7060811/bin/NIHMS1546147-supplement-4.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); actual original unavailable in this pass, contents not inspected or judged irrelevant.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round04_reader",
+      "date": "2026-10-28",
+      "locations": "JATS44–68,160,176,180,192,269,688,764; referenceR27; Defining supplements all gated; no original supplement content inspected",
+      "finding": "Native RNA plus artificial A/I tails and supportive cDNA retained as typed states. CustomC10 sequences and per-sample RNA001/002 assignments remain blocked by real source supplements."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/nmeth.4577",
+      "scope": "Explicit adoption of Garalde2018 direct-RNA sequencing strategy; original not followed in this cap."
+    },
+    {
+      "locator": "https://doi.org/10.1016/j.molcel.2019.11.017",
+      "scope": "Final published procedural identity/applicability remains to inspect."
+    }
+  ],
+  "open_questions": [
+    "Final VOR comparison; exact C10/T10 ligation/RT/motor inputs and tail lengths.",
+    "Sample-specific historical kit/rRNA choices, rRNA-kit internals and rejected-material physical fate."
+  ],
+  "source_version_limit": "Accepted author manuscript, not final publisher VOR",
+  "conclusion": "Capped source pass at stated sections; not full chemical/source review, no second independent reader or accepted absence. Proposed notes/pending_source_review retained.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-04",
+      "reviewer": "rna_round04_reader",
+      "date": "2026-10-28",
+      "documents": 1,
+      "scope": "Defining original and available chemistry supplement first; no linked-source chasing; source versions distinct.",
+      "locations": "JATS44–68,160,176,180,192,269,688,764; referenceR27; Defining supplements all gated; no original supplement content inspected",
+      "findings": "Native RNA plus artificial A/I tails and supportive cDNA retained as typed states. CustomC10 sequences and per-sample RNA001/002 assignments remain blocked by real source supplements.",
+      "deferred": [
+        "Final VOR comparison; exact C10/T10 ligation/RT/motor inputs and tail lengths.",
+        "Sample-specific historical kit/rRNA choices, rRNA-kit internals and rejected-material physical fate."
+      ]
+    }
+  ],
+  "local_validation": {
+    "selftest_checks": 3,
+    "result": "pass",
+    "scope": "Local behavior/source-transcription checks only. Default-graph shared chemistry claims remain unresolved; not complete reaction/source validation."
+  }
+}

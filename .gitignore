@@ -160,3 +160,6 @@ assets/anneal_python.json
 
 # Generated restriction catalogue for the browser; licensed source snapshot is in catalogue/.
 assets/restriction_catalogue.json
+
+# Generated public relationship/similarity payload; curated source registry is tracked.
+assets/protocol_lineage.json

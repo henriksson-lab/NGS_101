@@ -1,0 +1,155 @@
+{
+  "dir": "par-clip__10.1016+j.cell.2010.03.009",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/par-clip__10.1016+j.cell.2010.03.009/j.cell.2010.03.009_PMC2861495.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2861495.1/PMC2861495.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_bounded_curation",
+        "date": "2026-10-28",
+        "locations": "JATS59–79,101–103,179–189,201–205,365–367",
+        "finding": "4SU/365nm recovery and mutation readout; original Methods explicitly inherits library preparation from Hafner2008. Read length contexts differ, not assigned as universal cycles."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "library_predecessor",
+      "role": "predecessor",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1016+j.ymeth.2007.09.009/j.ymeth.2007.09.009_PMC2847350.html.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2847350/",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_bounded_curation",
+        "date": "2026-10-28",
+        "locations": "Overview1143–1163; Solexa1352–1399; ligations1402–1463; RT/hydrolysis/PCR1470–1504",
+        "finding": "Original Solexa table prints preadenylated blocked DNA3prime adapter, RNA5prime adapter and historicalPCR primers. Defining PAR-CLIP supplement remains needed for source-specific variants."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "gated_source_0",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplement.doc",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate; contents not inspected or judged irrelevant.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "gated_source_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S1.xls",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); contents not inspected or judged irrelevant.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "gated_source_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S2.xls",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); contents not inspected or judged irrelevant.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "gated_source_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S3.xls",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); contents not inspected or judged irrelevant.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "gated_source_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S4.xls",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); contents not inspected or judged irrelevant.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "gated_source_5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S5.xls",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); contents not inspected or judged irrelevant.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "gated_source_6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S6.xls",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); contents not inspected or judged irrelevant.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "gated_source_7",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/2861495/bin/NIHMS195398-supplement-Supplementary_Table_S7.xls",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); contents not inspected or judged irrelevant.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_bounded_curation",
+      "date": "2026-10-28",
+      "locations": "Defining original sections and explicit predecessor citations enumerated above; manifests checked.",
+      "finding": "PAR-CLIP recovered-RNA chemistry and mutation interpretation are source-qualified; inherited library original read, gated supplement not replaced."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Defining chemistry supplement and tables: real blocked originals listed above."
+    },
+    {
+      "locator": "Applicability of each 2008 Solexa enzyme/adapter alternative to actual 2010 instances."
+    },
+    {
+      "locator": "Complete downstream molecular library and acquired sequencing geometry."
+    }
+  ],
+  "conclusion": "One capped first pass; no second independent reader and no confirmed-absence claims. Proposed catalogue status remains notes.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion",
+      "reviewer": "rna_bounded_curation",
+      "date": "2026-10-28",
+      "documents": 2,
+      "scope": "Two accessible originals inspected at stated sections; capped source pass, not full chemical completeness.",
+      "findings": "PAR-CLIP recovered-RNA chemistry and mutation interpretation are source-qualified; inherited library original read, gated supplement not replaced.",
+      "deferred": [
+        "Defining chemistry supplement and tables: real blocked originals listed above.",
+        "Applicability of each 2008 Solexa enzyme/adapter alternative to actual 2010 instances.",
+        "Complete downstream molecular library and acquired sequencing geometry."
+      ],
+      "locations": "JATS59–79,101–103,179–189,201–205,365–367; Overview1143–1163; Solexa1352–1399; ligations1402–1463; RT/hydrolysis/PCR1470–1504"
+    }
+  ]
+}

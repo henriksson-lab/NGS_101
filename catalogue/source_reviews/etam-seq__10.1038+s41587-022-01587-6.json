@@ -1,0 +1,150 @@
+{
+  "dir": "etam-seq__10.1038+s41587-022-01587-6",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/etam-seq__10.1038+s41587-022-01587-6/s41587-022-01587-6_PMC10625715.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10625715.1/PMC10625715.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Accepted author manuscript for procedure; publisher SI separately identified",
+      "pass_1": {
+        "reviewer": "rna_round04_reader",
+        "date": "2026-10-28",
+        "locations": "JATS173–195,203–217,843–845; refR14; cached source checks205/211",
+        "finding": "FTO-/FTO+/IVT target branches preserve selected RNAA→I, complementary DNA C and reference-reportG separately. FTO-erased paths retain origin and residual populations remain unassigned; RNA template retained at RT."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "chemistry_supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/etam-seq__10.1038+s41587-022-01587-6/s41587-022-01587-6_41587_2022_1587_MOESM1_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-022-01587-6/MediaObjects/41587_2022_1587_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "publisher original supplement",
+      "pass_1": {
+        "reviewer": "rna_round04_reader",
+        "date": "2026-10-28",
+        "locations": "Publisher SI identity and actual Notes1–2 lines90–128; remaining statistical notes/tables/panels uninspected",
+        "finding": "Inspected only stated sections; no complete panel/table or absence review."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "available_original_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/etam-seq__10.1038+s41587-022-01587-6/s41587-022-01587-6_41587_2022_1587_MOESM2_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-022-01587-6/MediaObjects/41587_2022_1587_MOESM2_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Cached original; chemistry/content not systematically inspected within this cap. Filename/extraction is not a source conclusion.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "available_original_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/etam-seq__10.1038+s41587-022-01587-6/s41587-022-01587-6_41587_2022_1587_MOESM3_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-022-01587-6/MediaObjects/41587_2022_1587_MOESM3_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Cached original; chemistry/content not systematically inspected within this cap. Filename/extraction is not a source conclusion.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "available_original_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/etam-seq__10.1038+s41587-022-01587-6/s41587-022-01587-6_41587_2022_1587_MOESM4_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-022-01587-6/MediaObjects/41587_2022_1587_MOESM4_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Cached original; chemistry/content not systematically inspected within this cap. Filename/extraction is not a source conclusion.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "available_original_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/etam-seq__10.1038+s41587-022-01587-6/s41587-022-01587-6_41587_2022_1587_MOESM5_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-022-01587-6/MediaObjects/41587_2022_1587_MOESM5_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Cached original; chemistry/content not systematically inspected within this cap. Filename/extraction is not a source conclusion.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "available_original_8",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/etam-seq__10.1038+s41587-022-01587-6/s41587-022-01587-6_supp_NIHMS1932016-supplement-SI.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10625715.1/NIHMS1932016-supplement-SI.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Cached original; chemistry/content not systematically inspected within this cap. Filename/extraction is not a source conclusion.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round04_reader",
+      "date": "2026-10-28",
+      "locations": "JATS173–195,203–217,843–845; refR14; cached source checks205/211; Publisher SI identity and actual Notes1–2 lines90–128; remaining statistical notes/tables/panels uninspected",
+      "finding": "FTO-/FTO+/IVT target branches preserve selected RNAA→I, complementary DNA C and reference-reportG separately. FTO-erased paths retain origin and residual populations remain unassigned; RNA template retained at RT."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/s41587-022-01243-z",
+      "scope": "Explicit m6A-SAC library-subroute reference14 in Methods205/211, with local changes, not inherited chemical detection."
+    },
+    {
+      "locator": "https://doi.org/10.1038/s41587-022-01587-6",
+      "scope": "Final published procedural identity/applicability remains to inspect."
+    }
+  ],
+  "open_questions": [
+    "Final VOR comparison and remaining original supplement/statistical model review.",
+    "Full IVT/spike-in material states, upstream preparation, exact cDNA-adapter/PCR/index/read geometry and run cycles."
+  ],
+  "source_version_limit": "Accepted author manuscript for procedure; publisher SI separately identified",
+  "conclusion": "Capped source pass at stated sections; not full chemical/source review, no second independent reader or accepted absence. Proposed notes/pending_source_review retained.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-04",
+      "reviewer": "rna_round04_reader",
+      "date": "2026-10-28",
+      "documents": 2,
+      "scope": "Defining original and available chemistry supplement first; no linked-source chasing; source versions distinct.",
+      "locations": "JATS173–195,203–217,843–845; refR14; cached source checks205/211; Publisher SI identity and actual Notes1–2 lines90–128; remaining statistical notes/tables/panels uninspected",
+      "findings": "FTO-/FTO+/IVT target branches preserve selected RNAA→I, complementary DNA C and reference-reportG separately. FTO-erased paths retain origin and residual populations remain unassigned; RNA template retained at RT.",
+      "deferred": [
+        "Final VOR comparison and remaining original supplement/statistical model review.",
+        "Full IVT/spike-in material states, upstream preparation, exact cDNA-adapter/PCR/index/read geometry and run cycles."
+      ]
+    }
+  ],
+  "lineage_candidates": [
+    {
+      "parent_dir": "m6a-sac-seq__10.1038+s41587-022-01243-z",
+      "child_dir": "etam-seq__10.1038+s41587-022-01587-6",
+      "basis": "explicit library-strategy citation",
+      "component_scope": "end repair/RNA3prime adapter and cDNA-adapter library subroute, with local changes",
+      "evidence": "Accepted-manuscript Methods205/211 and refR14",
+      "limitation": "Both inspected procedures are accepted manuscripts; no chemical-detection or exact-sequence equivalence implied."
+    }
+  ],
+  "local_validation": {
+    "selftest_checks": 9,
+    "result": "pass",
+    "scope": "Local behavior/source-transcription checks only. Default-graph shared chemistry claims remain unresolved; not complete reaction/source validation."
+  }
+}

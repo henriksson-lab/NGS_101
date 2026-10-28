@@ -1,0 +1,98 @@
+{
+  "dir": "ribose-seq__10.1038+nmeth.3259",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "accepted_article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribose-seq__10.1038+nmeth.3259/nmeth.3259_PMC4686381.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_pair2",
+        "date": "2026-10-28",
+        "locations": "Manifest author-manuscript status; Results mechanism, library construction Methods lines105-109, sequencing111-121, analysis123-125; reference24.",
+        "finding": "AtRNL noncanonical ends; T5 digestion and Tpt1;50cycleSE and first8UMI bases; accepted article retains superseded directionality statements, not adopted."
+      }
+    },
+    {
+      "id": "addendum",
+      "role": "other",
+      "locator": "https://doi.org/10.1038/s41592-019-0505-9",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_pair2",
+        "date": "2026-10-28",
+        "locations": "Full primary publisher2019Addendum notice;19July2019.",
+        "finding": "Corrects coordinate directions, context plots/Table4 and reverse-strand software offsets; identifies revised SI. No altered chemical recipe asserted."
+      }
+    },
+    {
+      "id": "revised_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/doi_10.1038+s41592-019-0505-9/s41592-019-0505-9_41592_2019_505_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_pair2",
+        "date": "2026-10-28",
+        "locations": "Corrected Supplementary Table8, physical PDF page20 rendered and text lines936-1210; Figure1 and chemical capture/bypass captions.",
+        "finding": "Adaptor.L87nt, Adaptor.S20nt plusAm=amine; all four index/PCR2 polymers. Scraper21ntS call rejected against rendered original. Source-defined captured rNMP/cyclicP/2primeP states, not generic3primeOH ligation."
+      }
+    },
+    {
+      "id": "schutz2010",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1261/rna.1934910",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Article reference24 identifies original for AtRNL/Tpt1 and related cyclic-phosphate capture. Not inspected within cap; complete RNA library chemistry not inherited."
+    },
+    {
+      "id": "original2015_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ribose-seq__10.1038+nmeth.3259/nmeth.3259_41592_2015_BFnmeth3259_MOESM373_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Fetched historical source and mandatory scraper inspected. Addendum explicitly supersedes corrected figures/tables; not used to establish old directional claims. Selected oligo hits agree with rendered revised Table8; full revision equivalence not claimed."
+    },
+    {
+      "id": "published_vor",
+      "role": "other",
+      "locator": "https://doi.org/10.1038/nmeth.3259",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Published identity established; full corrected VOR Methods not inspected. Associated PMC accepted manuscript identity retained explicitly."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_pair2",
+      "date": "2026-10-28",
+      "locations": "Defining source Methods/references and linked revision/follow-up identifiers; see original-by-original checklist.",
+      "finding": "Scoped ancestry/revision targets identified and capped follow-up deferred; no unavailable disclosure document invented for unassigned study values."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped source/model pass only. Source-qualified partial graph, not full chemistry validation or a completed missing-information audit.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-expansion-pair2",
+      "reviewer": "expansion_dna_pair2",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Bounded source investigation, no more than3chemistry originals; source qualifications retained. Not a completed review or absence acceptance.",
+      "locations": "Manifest author-manuscript status; Results mechanism, library construction Methods lines105-109, sequencing111-121, analysis123-125; reference24.; Full primary publisher2019Addendum notice;19July2019.; Corrected Supplementary Table8, physical PDF page20 rendered and text lines936-1210; Figure1 and chemical capture/bypass captions.",
+      "findings": "Local typed RiboseState separates linear terminal classes from closed circles and junction2primeP status. Source AtRNL geometry does not invoke3primeOH helper. T5 debris stays molecular through Tpt1 until actual AMPуре cleanup. Exact circular-PCR endpoint unassembled; printed primer example/index/UMI roles kept positive.",
+      "deferred": [
+        "Independent second reader; complete corrected VOR Methods and source-linked predecessor original.",
+        "Noncanonical AtRNL site/end/strand preservation relation and exact circular-PCR amplicon/read-primer derivation.",
+        "Source-version run mask/index assignments and full chemistry-linked checklist; no absence accepted."
+      ],
+      "oligo_scraper": "Mandatory full-bundle scraper run; source lines and modifications read. Ribose corrected Table8 rendered. Hits are not absence evidence.",
+      "verification": "7source transcription checks pass; page build/pairing pass; chemistry0contradictory; sourceguard5checked acrosspair,0failed,1scopedS-Am notation exception backed by rendered-original/localtest."
+    }
+  ]
+}

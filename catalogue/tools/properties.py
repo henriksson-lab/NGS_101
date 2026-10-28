@@ -34,7 +34,7 @@ FACETS = OrderedDict([
         "amplicon profiling", "metagenomics", "metabolite detection", "spatial / in situ", "telomere",
         "replication timing", "multiomic", "DNA construct assembly", "combinatorial genetic screening", "regulatory reporter assay"))),
     ("platform", ("Sequencing platform", (
-        "Illumina", "SOLiD", "DNBSEQ", "PacBio", "Oxford Nanopore", "in situ imaging", "flow cytometry", "not applicable"))),
+        "Illumina", "Ion Torrent", "SOLiD", "DNBSEQ", "PacBio", "Oxford Nanopore", "in situ imaging", "flow cytometry", "not applicable"))),
     ("partitioning", ("Partitioning", (
         "bulk", "plate / well", "droplet", "microwell", "combinatorial indexing",
         "single nucleus", "single cell", "spatial / in situ"))),

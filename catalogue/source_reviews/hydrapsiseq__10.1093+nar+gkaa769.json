@@ -1,0 +1,77 @@
+{
+  "dir": "hydrapsiseq__10.1093+nar+gkaa769",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hydrapsiseq__10.1093+nar+gkaa769/nar_gkaa769_PMC7641733.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7641733.1/PMC7641733.1.xml",
+      "source_version": "published version of record; PMC author-manuscript false",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round03_capped_reader",
+        "date": "2026-10-28",
+        "locations": "JATS57,65–69,87–107,127–135,197–211",
+        "finding": "VOR supports hydrazine/aniline cleavage, selected U-excision product ends, ATP-free PNK3phosphatase and HiSeq1000 SE50. Historical kit oligos/revision unreviewed."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hydrapsiseq__10.1093+nar+gkaa769/nar_gkaa769_supp_gkaa769_supplemental_file.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC7641733.1/gkaa769_supplemental_file.docx",
+      "source_version": "published article supplement",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_round03_capped_reader",
+        "date": "2026-10-28",
+        "locations": "Text1–45 score description and TableS1; original embedded FigureS1(word/media/image4.png) visually inspected",
+        "finding": "FigureS1 shows N−1 3p and N+1 5p products, removed central U and preservation of downstream5p during ATP-free PNK. Other panels not systematically inspected; incidental image11 view is calibration only."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round03_capped_reader",
+      "date": "2026-10-28",
+      "locations": "Source sections/citations and manifests enumerated above.",
+      "finding": "Published HydraPsiSeq cleavage and end-repair support scoped local event model, with molecular debris retained until physical separation; kit remains an unresolved boundary."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Historical NEBNext SmallRNA Library kit original: edition/catalogue identity unresolved, not an invented unavailable document."
+    },
+    {
+      "locator": "Remaining supplement panels, directly cited chemistry originals and scoring code not followed in first cap."
+    },
+    {
+      "locator": "Complete adapter/RT/PCR/read-plan model; quantitative cleavage/background/protection scoring."
+    }
+  ],
+  "conclusion": "Capped first pass, two accessible originals; not a complete source review and no confirmed missing-information claim. Proposed notes/pending_source_review retained.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-03",
+      "reviewer": "rna_round03_capped_reader",
+      "date": "2026-10-28",
+      "documents": 2,
+      "scope": "First capped original-source pass; distinct source versions and downstream boundaries retained.",
+      "locations": "JATS57,65–69,87–107,127–135,197–211; Text1–45 score description and TableS1; original embedded FigureS1(word/media/image4.png) visually inspected",
+      "findings": "Published HydraPsiSeq cleavage and end-repair support scoped local event model, with molecular debris retained until physical separation; kit remains an unresolved boundary.",
+      "deferred": [
+        "Historical NEBNext SmallRNA Library kit original: edition/catalogue identity unresolved, not an invented unavailable document.",
+        "Remaining supplement panels, directly cited chemistry originals and scoring code not followed in first cap.",
+        "Complete adapter/RT/PCR/read-plan model; quantitative cleavage/background/protection scoring."
+      ]
+    }
+  ]
+}

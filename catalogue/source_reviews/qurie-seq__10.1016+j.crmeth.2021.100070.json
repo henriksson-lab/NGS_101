@@ -1,0 +1,95 @@
+{
+  "dir": "qurie-seq__10.1016+j.crmeth.2021.100070",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/qurie-seq__10.1016+j.crmeth.2021.100070/j.crmeth.2021.100070_PMC9017125.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Results overview104; STAR Methods281\u2013327: antibody labeling, BJAB fixation/permeabilization/staining, bead/RT microfluidics, post-RT recovery and RNA/protein preparation. Other experiment/analysis branches not comprehensively reviewed."
+    },
+    {
+      "id": "mmc1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/qurie-seq__10.1016+j.crmeth.2021.100070/j.crmeth.2021.100070_supp_mmc1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "TableS3 text1073\u20131125 and rendered PDF14/printed13 checked for sequence letters/column assignment. Other table/figure sections deferred."
+    },
+    {
+      "id": "mmc2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/qurie-seq__10.1016+j.crmeth.2021.100070/j.crmeth.2021.100070_supp_mmc2.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "inspection_scope": "Header/extracted counterparts identified as combined published article/supplement; not used as independent corroboration. Full identity/equivalence audit deferred."
+    },
+    {
+      "id": "indrop_original",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1016/j.cell.2015.04.044",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Retrieval/reading deferred by cap; not asserted inaccessible.",
+      "inspection_scope": "Explicit Klein2015 citation in defining Results and methods; exact inherited bead design unreviewed."
+    },
+    {
+      "id": "indrop_protocol",
+      "role": "detailed_protocol",
+      "locator": "https://doi.org/10.1038/nprot.2016.154",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Retrieval/reading deferred by cap; not asserted inaccessible.",
+      "inspection_scope": "Zilionis2017 cited for platform with modifications; exact version/design review pending."
+    },
+    {
+      "id": "gerlach2019",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/s41598-018-37977-7",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Source original retrieval/reading deferred by cap.",
+      "inspection_scope": "Prior intracellular epitope/fixation work cited in defining article; no molecular defaults imported."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-03",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-28",
+      "scope": "BJAB QuRIE-seq source-limited RNA/protein branches, not primary-B-cell efficacy or complete source review",
+      "locations": "Published article281\u2013327 and Results104; supplementary TableS3 1073\u20131125, rendered PDF14/printed13",
+      "findings": "Reversible DSP/SPDP fixation and5prime azide/DBCO-S-S conjugation; UV/DTT droplet barcoding; retain both0.6x fractions. RNA IVT37C versus protein IVT50C kept as source-specific conditions. RNA second-strand/fragment/randomRT branch differs from protein sequence-specific RT; post-IVT protein backup and qPCR aliquots explicit. TableS3 PE2-N6 prints5Ns/37characters versus declared38/randomhexamer; no silent correction.",
+      "documents": 2,
+      "deferred": [
+        "Remaining source sections and full antibody dictionary",
+        "Exact bead-primer/promoter/RT designs and source revision",
+        "Klein2015 and Zilionis2017 originals",
+        "Gerlach2019 applicability to fixation/epitope chemistry",
+        "Resolve PE2-N6 N-count discrepancy",
+        "Protein Next1/BioHash2 primer sequence/version mapping",
+        "Final read-cycle/primer geometry and QC scope",
+        "Independent source review"
+      ],
+      "verification": "Nine local source/branch checks and preview build pass; pair duplex lint0. Whole-library/PCR geometry remains unresolved. Pair shared source checker initially fails only the DAb source-template placeholder (reported to coordinator); no QuRIE source-strand failure. Scoped chemistry pair:1 established,48 unresolved,0 contradictory.",
+      "oligo_scraper": "Full bundle scraper run after retrieval; published sequence/modification hits verified; downloaded superseded preprints excluded. Logs /tmp/qurie-primer-hits.log and /tmp/dab-primer-hits.log."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Defining Results and microfluidic Methods explicitly say inDrop-based and cite Klein2015/Zilionis2017. Component-scoped platform edge only; exact recipe/version not imported. Gerlach2019 is a prior-method candidate, source-original applicability deferred."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Remaining source sections and full antibody dictionary",
+    "Exact bead-primer/promoter/RT designs and source revision",
+    "Klein2015 and Zilionis2017 originals",
+    "Gerlach2019 applicability to fixation/epitope chemistry",
+    "Resolve PE2-N6 N-count discrepancy",
+    "Protein Next1/BioHash2 primer sequence/version mapping",
+    "Final read-cycle/primer geometry and QC scope",
+    "Independent source review"
+  ]
+}

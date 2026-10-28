@@ -1,0 +1,98 @@
+{
+  "dir": "point__10.1016+j.molcel.2021.02.034",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/point__10.1016+j.molcel.2021.02.034/j.molcel.2021.02.034_PMC8122139.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8122139.1/PMC8122139.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "VOR; CC BY, author-manuscript false",
+      "pass_1": {
+        "reviewer": "rna_round04_reader",
+        "date": "2026-10-28",
+        "locations": "JATS323–325,405–409,487–503,515–521; reference bib37",
+        "finding": "Published isolation and three kit branches inspected. Default seq prefix and alternative5/nano prefixes remain source-limited; direct-cDNA RNA precursor is distinct from native-RNA sequencing."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "chemistry_supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/point__10.1016+j.molcel.2021.02.034/j.molcel.2021.02.034_supp_mmc1.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8122139.1/mmc1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "publisher original supplement",
+      "pass_1": {
+        "reviewer": "rna_round04_reader",
+        "date": "2026-10-28",
+        "locations": "Supplement FigS1caption346–373 and FigS5caption1303–1312; mmc2 opening identity and repeated primer hit only",
+        "finding": "Inspected only stated sections; no complete panel/table or absence review."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "available_original_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/point__10.1016+j.molcel.2021.02.034/j.molcel.2021.02.034_supp_mmc2.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8122139.1/mmc2.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Cached original; chemistry/content not systematically inspected within this cap. Filename/extraction is not a source conclusion.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round04_reader",
+      "date": "2026-10-28",
+      "locations": "JATS323–325,405–409,487–503,515–521; reference bib37; Supplement FigS1caption346–373 and FigS5caption1303–1312; mmc2 opening identity and repeated primer hit only",
+      "finding": "Published isolation and three kit branches inspected. Default seq prefix and alternative5/nano prefixes remain source-limited; direct-cDNA RNA precursor is distinct from native-RNA sequencing."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/nprot.2016.012",
+      "scope": "Explicit mNET-seq2016 isolation-strategy predecessor, not whole2015 recipe equivalence."
+    }
+  ],
+  "open_questions": [
+    "Exact historical kit revisions, oligos and molecular library/read plans for E7760S,634836,SQK-DCS109.",
+    "Actual barcode members, acquired cycles and remaining original panels."
+  ],
+  "source_version_limit": "VOR; CC BY, author-manuscript false",
+  "conclusion": "Capped source pass at stated sections; not full chemical/source review, no second independent reader or accepted absence. Proposed notes/pending_source_review retained.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-04",
+      "reviewer": "rna_round04_reader",
+      "date": "2026-10-28",
+      "documents": 2,
+      "scope": "Defining original and available chemistry supplement first; no linked-source chasing; source versions distinct.",
+      "locations": "JATS323–325,405–409,487–503,515–521; reference bib37; Supplement FigS1caption346–373 and FigS5caption1303–1312; mmc2 opening identity and repeated primer hit only",
+      "findings": "Published isolation and three kit branches inspected. Default seq prefix and alternative5/nano prefixes remain source-limited; direct-cDNA RNA precursor is distinct from native-RNA sequencing.",
+      "deferred": [
+        "Exact historical kit revisions, oligos and molecular library/read plans for E7760S,634836,SQK-DCS109.",
+        "Actual barcode members, acquired cycles and remaining original panels."
+      ]
+    }
+  ],
+  "superseded_sources": [
+    {
+      "doi": "10.1101/2020.11.09.374108",
+      "disposition": "Excluded superseded preprint; failed auto-retrieval not a current source blocker."
+    }
+  ],
+  "local_validation": {
+    "selftest_checks": 3,
+    "result": "pass",
+    "scope": "Local behavior/source-transcription checks only. Default-graph shared chemistry claims remain unresolved; not complete reaction/source validation."
+  }
+}

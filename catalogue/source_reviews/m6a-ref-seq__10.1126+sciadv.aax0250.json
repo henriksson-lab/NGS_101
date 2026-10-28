@@ -1,0 +1,106 @@
+{
+  "dir": "m6a-ref-seq__10.1126+sciadv.aax0250",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "vor",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6a-ref-seq__10.1126+sciadv.aax0250/sciadv.aax0250_PMC6609220.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6609220.1/PMC6609220.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published original; defining PMC record author-manuscript false.",
+      "pass_1": {
+        "reviewer": "round05_coordinator",
+        "date": "2026-10-28",
+        "locations": "Identity/manifest;JATS49–69,139–169,171–175,177–183",
+        "finding": "Published matched FTO and minus-enzyme source preparation differs from MAZTER adapter/RT recipe. Two physical prefixes preserve treatment history, uncut RNA and unassigned conversion/cleavage/end chemistry; stop before historical NR801 kit. Validation assay oligos are not library adapters."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m6a-ref-seq__10.1126+sciadv.aax0250/sciadv.aax0250_supp_aax0250_SM.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6609220.1/aax0250_SM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published original; defining PMC record author-manuscript false.",
+      "pass_1": {
+        "reviewer": "round05_coordinator",
+        "date": "2026-10-28",
+        "locations": "Printed identity/contents;FigS1–S3/S15captions,TableS1 headings/treatments;TableS2/S3 validation-only headings",
+        "finding": "Published matched FTO and minus-enzyme source preparation differs from MAZTER adapter/RT recipe. Two physical prefixes preserve treatment history, uncut RNA and unassigned conversion/cleavage/end chemistry; stop before historical NR801 kit. Validation assay oligos are not library adapters."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "round05_coordinator",
+      "date": "2026-10-28",
+      "locations": "JATS49–69; Methods139–169; read analysis171–175; separate validation177–183. SI identity/contents,FigS1–S3/S15captions,TableS1 headings/treatments,TableS2/S3 headings.",
+      "finding": "Published matched FTO and minus-enzyme source preparation differs from MAZTER adapter/RT recipe. Two physical prefixes preserve treatment history, uncut RNA and unassigned conversion/cleavage/end chemistry; stop before historical NR801 kit. Validation assay oligos are not library adapters."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Published library-construction Methods: VAHTS Small RNA Library Prep Kit Vazyme NR801; applicable historical original/revision unassigned",
+      "scope": "Kit molecular inputs, ligation/RT/PCR products and read-primer architecture; not an unavailable-document assertion."
+    },
+    {
+      "locator": "Imanishi2017 Detection of N6-methyladenosine based on the methyl-sensitivity of MazF RNA endonuclease, direct reference29",
+      "scope": "Chemical predecessor, end chemistry and methyl-sensitivity details."
+    },
+    {
+      "locator": "Source Takara2415A MazF and VazymeT4PNK reagent documents; exact historical revisions unassigned",
+      "scope": "Precise source enzyme terminal chemistry/repair, no other-vendor default."
+    },
+    {
+      "locator": "Site-validation direct predecessor reference17; mainMethods ligation-based detection",
+      "scope": "Distinct ligation-assay branch not part of the NGS prefix; pending linked original."
+    }
+  ],
+  "open_questions": [
+    "Historical NR801 source identity and complete library geometry/read/index plan.",
+    "Exact MazF scission/PNK end chemistry and residual/intermediate modification populations.",
+    "Remaining original panels/tables/linked material and independent reader."
+  ],
+  "conclusion": "Two-original capped review; source-limited prefixes, no absence accepted and no second independent pass.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-05",
+      "reviewer": "round05_coordinator",
+      "date": "2026-10-28",
+      "documents": 2,
+      "scope": "Defining published article and chemistry supplement before linked-source following.",
+      "locations": "JATS49–69; Methods139–169; read analysis171–175; separate validation177–183. SI identity/contents,FigS1–S3/S15captions,TableS1 headings/treatments,TableS2/S3 headings.",
+      "findings": "Published matched FTO and minus-enzyme source preparation differs from MAZTER adapter/RT recipe. Two physical prefixes preserve treatment history, uncut RNA and unassigned conversion/cleavage/end chemistry; stop before historical NR801 kit. Validation assay oligos are not library adapters.",
+      "deferred": [
+        "Historical kit/reagent originals",
+        "Exact molecular end/library/read assembly",
+        "Remaining original/control branches and independent reader"
+      ]
+    }
+  ],
+  "superseded_sources": [
+    {
+      "doi": "10.1101/575555",
+      "disposition": "Superseded preprint excluded; failed auto-fetch is not a current chemistry-source request."
+    }
+  ],
+  "local_validation": {
+    "selftest_checks": 7,
+    "result": "pass",
+    "scope": "One original control transcription plus route-history and incomplete-publication checks; not chemical efficiency/terminal validation."
+  },
+  "implementation_verification": {
+    "date": "2026-10-28",
+    "scope": "Independent code/order review against already inspected source sections, not an absence audit or new source investigation.",
+    "findings": "Added omitted source thermal operation: RNA+3iLL heat/snap-cool before MAZTER ligation; first pre-FTO heating distinct from second pre-MazF heating in m6A-REF. Explicit unreviewed adapter-end state replaces an unsupported not-reported placeholder.",
+    "verification": "Local suites6/7pass; both private pages rebuilt without finished marker."
+  }
+}

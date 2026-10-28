@@ -1,3 +1,87 @@
+# NGS expansion and relationship viewer — 28 October 2026
+
+The collection goal is paused at the user's request. Baseline, checkpoint and
+admission/counting rules are in
+`plans/ngs-expansion.json`. Five bounded rounds add46 source-read protocols:
+the collection count is460 NGS entries including the baseline WIP design,
+459 published. The catalogue registers461 NGS names: DNTR-seq is an additional
+source-blocked identity only, not counted as collected and not given a chemistry
+graph. There remain411 finished published NGS schematics, including the three
+new finished branches (GLOE native-end single-index, bulk ACT and NHF1/CS-B XR).
+The other43 source-read additions stay notes-only. No new accepted absence.
+
+Round01: iCLIP, ARM-seq, GLOE-seq, ACT-seq, KAS-seq, REAP-seq and CaBagE.
+Round02: PAR-CLIP, irCLIP, Ribose-seq, MAB-seq, Abseq and Paired VH:VL.
+Round03: HydraPsiSeq, hydro-tRNAseq, XR-seq, Nick-seq, QuRIE-seq, DAb-seq and PhIP-Seq.
+Round04: POINT, nano-COP, m6A-SAC-seq, eTAM-seq, HydEn-seq, emRiboSeq,
+redBS-seq, Damage-seq, LIBRA-seq, scID-seq, SiC-seq and CPT-seq; DNTR-seq
+received only identity/access screening.
+Round05: m6ACE, BID, Nm, CeU, RRBS2008, MiGS, FAIRE, Boyle DNase,
+Han TCR/phenotype, epicPCR, targeted-capture DART, TAP, MAZTER and m6A-REF.
+All14 have source-reading notes and scoped graphs; none is promoted. CeU's
+available supplement supports only selected label/click chemistry, with full
+Methods blocked. Per-round ledgers and source-review
+JSONs record exact inspected sections, originals/versions and deferred targets.
+Three discovery ledgers remain candidate queues, not an exhaustion claim.
+
+CPT now represents protein-held contiguity until physical-well allocation, both
+indexing tiers and four barcode components. Historical PCR geometry and custom
+index-cycle mapping across connectors remain unresolved. Corrected20May2015
+Table4 is authoritative for its sequences; apparent Figure3 connector typography
+is visible and unadjudicated. emRiboSeq retains the original Ion Torrent/OneTouch
+workflow; Ion Torrent is now a valid platform facet. No Illumina substitution.
+
+The irCLIP follow-up retains actual C18 nodes and computes a conditional stopped
+first extension. It now uses distinct multipart feature IDs with one shared
+composite group. All24 local checks pass; this does not validate full PCR1/PCR2
+or final published applicability. Its source-version timing comparison is not an
+established publication error. DAb's unknown-width barcode transcription guard
+fix remains covered by six positive/negative whole-strand regressions.
+
+The source-download ledger `geturl.txt` adds9 groups/22 concrete blocked document
+targets; none of16 older groups had an exact validated identity match permitting
+removal. Available/unread originals and superseded preprints were excluded from
+automatic requests. PhIP's new exact publisher PDF request returns HTML; final
+Methods remain blocked and its author-supplement model remains provisional.
+Round05 adds4 request groups: MAZTER TableS7, Han's linked corrigendum,
+Boyle's identified chemistry supplement and CeU's full Methods. Available
+supplements and unidentified historical kit revisions are not requested.
+
+Relationships remains independent of chemistry declarations and of optional
+sequence similarity. Round04 adds source/version-qualified component links for
+CITE→LIBRA, SAC→eTAM and CPT→SiC. Notes-only edges remain private. Missing edges
+mean uncurated relations, not independent origins.
+Round05 adds5 private component links: RRBS→redBS, Drop-seq→targeted DART,
+10x3primev2→TAP, CROP→TAP and the separate Drop-seq→TAP backend. Registry22;
+public8links remain unchanged. External chemical-principle ancestors are not
+replaced with a nearby registered method. Two further NGS discovery leads were
+recorded without registration or a chemistry-reading claim.
+
+Round05 independent implementation review corrected omitted source thermal
+operations in MAZTER and m6A-REF and explicit conjugate-wash/blocking-DNA
+bookkeeping in MiGS. m6ACE preserves a blocked terminal cytidine and constrained
+N7B UMI; BID separates the physical Ψ-BS RNA adduct from a cDNA deletion; Nm
+preserves susceptible3prime phosphate versus resistant Nm3primeOH. These are
+scoped local models, not quantitative chemistry predictions or full validation.
+The source guard now recognizes the published quantified [X]8 notation with
+strict width/fixed-flank checks; seven regressions, no exemption or polymer change.
+
+Current validation:1647 shared checks,84 catalogue checks,227 source-tool checks;
+482 diagram builders,443 public schematics,411 NGS graph contracts and zero
+site link errors. All959 note pages current; ten new private previews have no
+finished markers and none of the14notes-only additions leaks into published pages.
+Round04 source guard:22 exact inputs checked,0 failures;21 inputs lack exact states,
+and one narrow source-notation exemption has independent local transcription
+coverage. Round05 source guard15exact/0failed/0exemptions/34unrepresented across14
+graphs; chemistry8established pairing relations,166unresolved,0contradictory.
+New source-review records total41 in_progress and6 blocked, with no
+accepted missing-information claim. Verified task files through round05 are staged. No commit/push.
+The larger objective is preserved but paused; no further curation until explicit
+user resumption. Round06's13selected candidates remain unregistered/uncollected
+with preliminary pointers saved separately; verified round05 work is staged.
+
+The material below records earlier completed work and historical queues.
+
 # Protocol audit status
 
 Snapshot: 2026-10-17. This is the persistent curation worklist; use it with the

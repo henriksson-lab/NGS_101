@@ -1,0 +1,41 @@
+{
+  "dir": "dntr-seq__10.1016+j.molcel.2020.09.025",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://www.sciencedirect.com/science/article/pii/S1097276520306559",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Indexed title/summary identity verified only;published article/STARMethods not read.",
+      "reason": "Standard source fetch obtained0published originals;full primary ScienceDirect open returnedHTTP403. No challenge bypass."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-04",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-28",
+      "documents": 0,
+      "scope": "Identity and access screening only;no chemistry model/source-complete review",
+      "locations": "Standard source-store MANIFEST.tsv and primary publisher indexed title/summary;full pageHTTP403",
+      "findings": "Published DNTR-seq identity verified, chemistry reading blocked. No molecular graph generated from abstract. Superseded preprint cooldown/manual routes excluded, not used to supply chemistry.",
+      "deferred": [
+        "Published main article/STARMethods at identified ScienceDirect URL",
+        "Identify and inspect published chemistry supplements and directly cited protocols after article access"
+      ],
+      "verification": "Mandatory bundle scrape returned0sequences in0files;this is blocked availability,not absence. No model/preview/check suite exists because Methods remains unread.",
+      "oligo_scraper": "Standard bundle scraper returned0sequences in0files. No published chemistry originals were available,so no oligo could be verified;not absence evidence."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "notes": "No protocol ancestry inference made from abstract. Supplement identities and detailed protocol applicability are unresolved questions,not invented unavailable disclosure documents."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Published main article/STARMethods at identified ScienceDirect URL",
+    "Identify and inspect published chemistry supplements and directly cited protocols after article access"
+  ]
+}

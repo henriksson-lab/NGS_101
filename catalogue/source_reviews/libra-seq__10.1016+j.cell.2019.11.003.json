@@ -1,0 +1,118 @@
+{
+  "dir": "libra-seq__10.1016+j.cell.2019.11.003",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/libra-seq__10.1016+j.cell.2019.11.003/j.cell.2019.11.003_PMC7158953.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Final-version author manuscript of published article:Methods198\u2013220 antigen oligos/conjugation/staining,10x/CITE library preparation and read parsing;Figure1caption618. Not treated as superseded preprint."
+    },
+    {
+      "id": "supplement1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7158953/bin/NIHMS1542046-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Article-linked supplement route recorded by standard fetcher; exact content not inspected.",
+      "reason": "PMC preparing-download gate and no PMCCloud counterpart; no challenge bypass."
+    },
+    {
+      "id": "cite_protocol",
+      "role": "detailed_protocol",
+      "locator": "https://cite-seq.com",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Article explicitly says CITE library prep with increased antigenPCR cycles; historical website/protocol revision unresolved.",
+      "reason": "Original revision retrieval/read deferred by cap; no current export substituted."
+    },
+    {
+      "id": "chromium_vdj",
+      "role": "vendor",
+      "locator": "10x Genomics B-cell Single Cell V(D)J solution cited in defining Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Historical guide revision/design unassigned.",
+      "reason": "Exact cited kit revision not established in this capped reading."
+    },
+    {
+      "id": "supp_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7158953/bin/NIHMS1542046-supplement-2.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Individual article-linked original identified by fetch manifest; contents uninspected.",
+      "reason": "Standard fetcher recorded PMC download gate/no Cloud object."
+    },
+    {
+      "id": "supp_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7158953/bin/NIHMS1542046-supplement-3.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Individual article-linked original identified by fetch manifest; contents uninspected.",
+      "reason": "Standard fetcher recorded PMC download gate/no Cloud object."
+    },
+    {
+      "id": "supp_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7158953/bin/NIHMS1542046-supplement-4.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Individual article-linked original identified by fetch manifest; contents uninspected.",
+      "reason": "Standard fetcher recorded PMC download gate/no Cloud object."
+    },
+    {
+      "id": "supp_6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7158953/bin/NIHMS1542046-supplement-6.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Individual article-linked original identified by fetch manifest; contents uninspected.",
+      "reason": "Standard fetcher recorded PMC download gate/no Cloud object."
+    },
+    {
+      "id": "supp_Supplementary_Figure_5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/7158953/bin/NIHMS1542046-supplement-Supplementary_Figure_5.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Individual article-linked original identified by fetch manifest; contents uninspected.",
+      "reason": "Standard fetcher recorded PMC download gate/no Cloud object."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-04",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-28",
+      "documents": 1,
+      "scope": "13-base antigen-library branch and BCR source-limited handoff; not N90 15-base variant or complete vendor review",
+      "locations": "Published-version article Methods198\u2013220;Figure1caption618",
+      "findings": "5prime-amino antigen DNA with PS bonds and TSO-compatible3prime sequence;4FB/HyNic conjugation and FPLC;streptavidinPE/FACS;source bead co-indexing; additiveprimer amplification and retained SPRI branches. Antigen13 differs from N90 15; cell barcode length not supplied from memory. CITE inheritance is library-processing scoped, not polyA antigen capture.",
+      "deferred": [
+        "Article-linked original supplements from individual manifest URLs",
+        "Historical cited CITE protocol revision",
+        "Historical10x B-cellVDJ guide and bead/TSO design",
+        "Complete antigen/BCR library geometry and read schedule",
+        "Other antigen-panel variants and independent source review"
+      ],
+      "verification": "Seven local source/branch checks and preview build pass. Round04 modeled trio sourceguard9 checked0failed,no exemptions,nine inputs lack exact states;pairing0. Full gene/primer products remain unassigned.",
+      "oligo_scraper": "Ran standard bundle scrape: /tmp/libra-seq-primer-hits.log. Relevant published hits verified. A zero-hit blocked bundle does not establish absence."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Methods216 explicitly follows CITE library preparation except antigenPCR cycles;Chromium B-cellVDJ is explicit platform parent. No antibody/polyA/current-kit recipes inherited."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Article-linked original supplements from individual manifest URLs",
+    "Historical cited CITE protocol revision",
+    "Historical10x B-cellVDJ guide and bead/TSO design",
+    "Complete antigen/BCR library geometry and read schedule",
+    "Other antigen-panel variants and independent source review"
+  ]
+}

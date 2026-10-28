@@ -205,10 +205,14 @@ def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
     files["anneal.html"] = ROOT / "anneal.html"
     files["restriction.html"] = ROOT / "restriction.html"
     files["tm.html"] = ROOT / "tm.html"
+    files["lineage.html"] = ROOT / "lineage.html"
     # Deliberately unlisted: requested source-retrieval helper, never navigation/search.
     files["source-downloads.html"] = ROOT / "source-downloads.html"
     # fetch() dependencies are not discovered by the HTML href/src walker.
     files["assets/sequence_components.json"] = ROOT / "assets" / "sequence_components.json"
+    files["assets/protocol_lineage.json"] = ROOT / "assets" / "protocol_lineage.json"
+    from protocol_lineage import enrich_page
+    lineage = json.loads((ROOT / "assets" / "protocol_lineage.json").read_text())
     files["assets/anneal_python.json"] = ROOT / "assets" / "anneal_python.json"
     files["assets/anneal_worker.mjs"] = ROOT / "assets" / "anneal_worker.mjs"
     files["assets/restriction_catalogue.json"] = ROOT / "assets" / "restriction_catalogue.json"
@@ -225,7 +229,7 @@ def assemble(results: dict[str, tuple[bool, str]]) -> list[str]:
         if out is None:
             continue
         if ok and out.exists():
-            page = out.read_text(encoding="utf-8")
+            page = enrich_page(out.read_text(encoding="utf-8"), d, lineage)
             notes = sorted((ROOT / d).glob("0*.md"))
             if notes:
                 note = notes[0]
@@ -364,6 +368,7 @@ def build_annotation(results: dict[str, tuple[bool, str]]) -> None:
         eligibility = Path(temp) / "eligible.json"
         eligibility.write_text(json.dumps(eligible), encoding="utf-8")
         run("tools/build_sequence_index.py", "--eligible", str(eligibility))
+        run("build_lineage.py", "--eligible", str(eligibility))
     run("build_annotate.py")
     run("build_samplesheet.py")
     run("build_anneal.py")

@@ -1,0 +1,64 @@
+{
+  "dir": "faire-seq__10.1016+j.ymeth.2009.03.003",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/faire-seq__10.1016+j.ymeth.2009.03.003/j.ymeth.2009.03.003_PMC2710428.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round05",
+        "date": "2026-10-28",
+        "locations": "Methods 41–71; branch distinction 87–91; High-throughput sequencing 99–103",
+        "finding": "Accepted author manuscript: phase-based FAIRE enrichment; RNase followed by cleanup; source-positive A/T-overhang GAII branch and 36bp reads."
+      }
+    },
+    {
+      "id": "vor",
+      "role": "other",
+      "locator": "https://doi.org/10.1016/j.ymeth.2009.03.003",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Publisher original not compared against author manuscript."
+    },
+    {
+      "id": "faire_2007",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1101/gr.5533506",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Explicitly cited original FAIRE report; source-positive fractionation ancestry candidate, no NGS recipe inheritance."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round05",
+      "date": "2026-10-28",
+      "locations": "Defining original/associated author manuscript and inspected supplements listed above.",
+      "finding": "Direct linked originals and historical vendor/component questions enumerated, not recursively chased. No source absence acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source pass; source versions explicit. Not a complete independent two-reader review or accepted absence finding.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-expansion-round05",
+      "reviewer": "expansion_dna_round05",
+      "date": "2026-10-28",
+      "documents": 1,
+      "scope": "Bounded defining-original and chemistry-supplement pass; no family recipe import.",
+      "locations": "Methods 41–71; branch distinction 87–91; High-throughput sequencing 99–103",
+      "findings": "Accepted author manuscript: phase-based FAIRE enrichment; RNase followed by cleanup; source-positive A/T-overhang GAII branch and 36bp reads.",
+      "deferred": [
+        "Resolve original one-page supplementary cell/tissue protocol attachment identities mentioned in Methods.",
+        "Historical Illumina #1000521 and #1000537/#1000538 documentation and exact polymers/run primer.",
+        "Publisher version and independent source review."
+      ],
+      "oligo_scraper": "One collapsed sequence family, verified as the microarray LM-PCR branch; not used as NGS library adapters.",
+      "verification": "Local test/build and pairing lint pass; required pending original blocks publication; no finished-page marker. Chemistry unresolved16/contradictory0; three historical adapter/primer inputs unassembled."
+    }
+  ]
+}

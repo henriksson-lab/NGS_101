@@ -1,0 +1,110 @@
+{
+  "dir": "dab-seq__10.1038+s41467-021-21810-3",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dab-seq__10.1038+s41467-021-21810-3/s41467-021-21810-3_PMC7952600.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Published Results72–80 and Methods138–176: conjugation/staining, AMLV1 capture/PCR, fractionation/probe capture, libraryPCR and run/read processing."
+    },
+    {
+      "id": "moesm1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dab-seq__10.1038+s41467-021-21810-3/s41467-021-21810-3_supp_41467_2021_21810_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Tables1/2/6 text plus rendered PDF14/15/19. RUNX1_4 reverse omission note, tag/UMI/barcode pattern, PS stars and indexed primer rows inspected. Other sections deferred."
+    },
+    {
+      "id": "protocol_v2",
+      "role": "detailed_protocol",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dab-seq__10.1038+s41467-021-21810-3/protocolsio_dab-seq-single-cell-dna-and-antibody-sequencing-8epv5z96jv1b.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Cover identity only:Version2,28Oct2020,10.17504/protocols.io.bn4ymgxw, matching article citedDOI. Chemistry not read; cannot stand as completed bench-protocol review."
+    },
+    {
+      "id": "aml_v1",
+      "role": "vendor",
+      "locator": "Mission Bio Tapestri AML V1 protocol explicitly named in article Methods",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Historical revision-qualified original not retrieved/read in capped pass.",
+      "inspection_scope": "Named historical V1 identity retained; no current kit replacement assumed."
+    },
+    {
+      "id": "moesm2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dab-seq__10.1038+s41467-021-21810-3/s41467-021-21810-3_supp_41467_2021_21810_MOESM2_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "inspection_scope": "Identified as reporting summary; comprehensive chemistry-relevance review deferred."
+    },
+    {
+      "id": "moesm3",
+      "role": "other",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dab-seq__10.1038+s41467-021-21810-3/s41467-021-21810-3_supp_41467_2021_21810_MOESM3_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "inspection_scope": "Identified from opening material as peer-review/response file, not used as bench-protocol authority. Full linked-information disposition deferred."
+    },
+    {
+      "id": "source_data",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dab-seq__10.1038+s41467-021-21810-3/s41467-021-21810-3_supp_41467_2021_21810_MOESM4_ESM.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "inspection_scope": "Archive member names identify source_data/*.h5ad derived genotype/expression results; contents not read or used as molecular authority. No absence-audit exclusion accepted."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-03",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-28",
+      "scope": "Published patient DNA/antibody branches with local source-derived binding states; detailed protocol identity only",
+      "locations": "Article72–80,138–176; supplementTables1/2/6 rendered PDF14/15/19; detailed protocolV2 printed cover",
+      "findings": "5prime azide click-conjugated tag pattern; RUNX1_4 forward captures tag3prime while reverse omitted.0.75x retains DNA bead/protein supernatant branches; biotin/C6 probe binds copied complementary strand; streptavidin selection then10cycle DNA and20cycle antibodyPCR. SplitUMI5+5 has common feature identity. Patient runs differ from three-cell MiSeq control; no bead barcode or complete library invented.",
+      "documents": 3,
+      "deferred": [
+        "Detailed protocolV2 chemistry and linked attachments",
+        "Historical MissionBio AMLV1 guide/bead barcode/primer design",
+        "Full genomic and antibody primer pools with patient index assignments",
+        "Final library/primer-coordinate and read-cycle reconstruction",
+        "Remaining supplement sections/reporting/peer-review disposition",
+        "Complete original/linked-source checklist and independent reading"
+      ],
+      "verification": "Ten local source-modification/binding/branch checks and preview build pass; pair duplex lint0. Shared source checker initially checks6 strands and flags only source family tag: _agrees accepts Table2 [barcode] pattern but scrape_primers.find produces no candidate, reported to coordinator without exemption. Local verbatim tag/modification test independently passes. Scoped chemistry pair1 established,48 unresolved,0 contradictory.",
+      "oligo_scraper": "Full bundle scraper run after retrieval; published sequence/modification hits verified; downloaded superseded preprints excluded. Logs /tmp/qurie-primer-hits.log and /tmp/dab-primer-hits.log."
+    },
+    {
+      "round": "2026-10-28-ngs-expansion-03-tool-review",
+      "reviewer": "coordinator_model_review",
+      "date": "2026-10-28",
+      "documents": 0,
+      "scope": "Source-checker reproduction/fix using the first-reader verified source pattern; not another original-source pass.",
+      "locations": "tools/source_oligo_check.py, synthetic regression cases and already inspected DAb tag pattern.",
+      "findings": "Unknown-width [barcode] amid two five-N windows now matches only a whole parsed source oligo; every fixed model base remains anchored. No source value, modification, biological barcode length or protocol state changed to suppress failure.",
+      "deferred": [
+        "Original source-review and complete barcode/kit applicability obligations unchanged."
+      ],
+      "verification": "DAb/QuRIE combined6whole-input checks0failed;6newmatcher regressions in passing1592-check shared suite."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Results72 explicitly says Tapestri modified to support Abseq (ref23). Scope antibody-DNA measurement/adapted capture, not inheritance of thiol or randomer chemistry. Historical AMLV1 is source-named platform parent; vendor original pending. Superseded preprint and its429/cooldown manual rows excluded from active chemistry/source requests."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Detailed protocolV2 chemistry and linked attachments",
+    "Historical MissionBio AMLV1 guide/bead barcode/primer design",
+    "Full genomic and antibody primer pools with patient index assignments",
+    "Final library/primer-coordinate and read-cycle reconstruction",
+    "Remaining supplement sections/reporting/peer-review disposition",
+    "Complete original/linked-source checklist and independent reading"
+  ]
+}

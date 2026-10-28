@@ -1,0 +1,89 @@
+{
+  "dir": "iclip__10.1038+nsmb.1838",
+  "status": "in_progress",
+  "review_scope": "Initial capped breadth-first pass; <=3 independent originals; not a complete source or absence review.",
+  "scraper": "Full source-bundle scrape_primers run 2026-10-28 before source transcription.",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/iclip__10.1038+nsmb.1838/nsmb.1838_PMC3000544.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3000544.1/PMC3000544.1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_first_capped_pass",
+        "date": "2026-10-28",
+        "locations": "Introduction71–83; Results87–110; Discussion288–296",
+        "finding": "Crosslink truncation and circular-cDNA recovery; barcode deduplication."
+      },
+      "pass_2": null,
+      "linked_information": "Only named deferred targets followed up later; no confirmed-absence conclusion.",
+      "inspection_scope": "Only locations recorded in pass_1; remaining material not adjudicated."
+    },
+    {
+      "id": "publisher_supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/iclip__10.1038+nsmb.1838/nsmb.1838_41594_2010_BFnsmb1838_MOESM21_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnsmb.1838/MediaObjects/41594_2010_BFnsmb1838_MOESM21_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_first_capped_pass",
+        "date": "2026-10-28",
+        "locations": "Supplementary Methods2048–2195; original PDF15–16 visually inspected",
+        "finding": "Verbatim L3/RT/PCR inventory, modifications, circle closure and downstream reaction order. RT1 exact overlap computed; no mismatch claim."
+      },
+      "pass_2": null,
+      "linked_information": "Only named deferred targets followed up later; no confirmed-absence conclusion.",
+      "inspection_scope": "Only locations recorded in pass_1; remaining material not adjudicated."
+    },
+    {
+      "id": "manuscript_supplement",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/iclip__10.1038+nsmb.1838/nsmb.1838_supp_NIHMS31547-supplement-1.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3000544.1/NIHMS31547-supplement-1.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "rna_first_capped_pass",
+        "date": "2026-10-28",
+        "locations": "Corresponding Methods2024–2155",
+        "finding": "Compared author-manuscript counterpart with publisher original; publisher governs transcription."
+      },
+      "pass_2": null,
+      "linked_information": "Only named deferred targets followed up later; no confirmed-absence conclusion.",
+      "inspection_scope": "Only locations recorded in pass_1; remaining material not adjudicated."
+    }
+  ],
+  "deferred": [
+    "Earlier cited CLIP originals not followed within capped pass; conceptual ancestry only.",
+    "Replicate2 oligo/orientation comparison; explicit BamHI circular opening and PCR product.",
+    "Upstream IP graph, molecular RNA removal and gel reject branches; exact acquired run-primer geometry."
+  ],
+  "proposed_status": "notes",
+  "model_scope": "Explicit unresolved terminal prevents sequencing publishability.",
+  "missing_claims": [],
+  "linked_information": {
+    "result": "enumerated",
+    "notes": "Actual deferred source targets and unresolved identities are recorded in deferred; predecessor and vendor material not followed in this capped pass. No missing-information acceptance."
+  },
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-01",
+      "reviewer": "rna_first_capped_pass",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Initial capped breadth-first pass; <=3 independent originals; not a complete source or absence review.",
+      "locations": "article: Introduction71–83; Results87–110; Discussion288–296; publisher_supplement: Supplementary Methods2048–2195; original PDF15–16 visually inspected; manuscript_supplement: Corresponding Methods2024–2155",
+      "findings": "Crosslink truncation and circular-cDNA recovery; barcode deduplication.; Verbatim L3/RT/PCR inventory, modifications, circle closure and downstream reaction order. RT1 exact overlap computed; no mismatch claim.; Compared author-manuscript counterpart with publisher original; publisher governs transcription.",
+      "deferred": [
+        "Earlier cited CLIP originals not followed within capped pass; conceptual ancestry only.",
+        "Replicate2 oligo/orientation comparison; explicit BamHI circular opening and PCR product.",
+        "Upstream IP graph, molecular RNA removal and gel reject branches; exact acquired run-primer geometry."
+      ],
+      "oligo_scraper": "Full source-bundle scrape_primers run 2026-10-28 before source transcription.",
+      "verification": "Protocol-local partial graph suite/build; no sequencing-publishability claim."
+    }
+  ]
+}

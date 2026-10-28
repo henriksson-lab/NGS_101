@@ -147,6 +147,9 @@ python3 tools/scrape_primers.py DIR --find AGATGTGTATAAGAGACAG  # where does an 
 python3 tools/audit_missing_oligos.py --write
 python3 tools/selftest_source_oligos.py        # local text twins: exact graph oligo inputs
 python3 tools/selftest_source_oligos.py <dir>  # one protocol; absent defining text SKIPs
+# A printed unknown-width [barcode] may match only model N positions, with all
+# fixed flanks agreeing in a whole parsed strand. That does not verify the chosen
+# barcode length or chemical modifications; check those in the originals too.
 
 # the catalogue of what exists (network; cached, so re-running is cheap)
 python3 catalogue/tools/fetch_scg_lib_structs.py
@@ -638,3 +641,34 @@ behaviour), `python3 tools/selftest_primer_tm.py` (offline page/preset export; a
 included by the shared suite), and optionally
 `python3 tools/benchmark_primer_tm_browser.py --site _site --screenshot /tmp/tm.png`
 (actual Chrome form, tails, units, export and mobile-layout checks).
+
+### Protocol relationships
+
+`catalogue/protocol_lineage.json` records curated directed relationships using
+`ours.tsv` directory IDs. Each edge needs `parent`, `child`, `relation`
+(`derived_from` or `adapted_component`), `basis` (`documented` or `inferred`),
+`scope`, identified HTTPS evidence URLs and exact `locator`s, `rationale`,
+`limits`, and a `reviewed` date. Read the original before calling inheritance
+documented; design comparisons may be recorded as inferred with explicit limits.
+When reading a new protocol, record explicit method-development or component
+links alongside its source notes and propose registry edges. Shared primers can
+suggest a relationship to investigate; the computed similarity layer alone never
+establishes descent. Keep component inheritance narrower than whole-method ancestry
+when appropriate.
+Multiple parents are supported. Unknown IDs, duplicate endpoint pairs, self-links
+and cycles fail validation. A relation may be curated while an endpoint remains
+notes-only; it is withheld publicly until both endpoints are eligible.
+
+`python3 build_lineage.py` builds `lineage.html` and the ignored generated
+`assets/protocol_lineage.json`. The normal site build runs it after sequence
+component export with the same successful-public-page eligibility and inserts
+local SVG graphs during assembly. The Relationships tab's independent similarity
+layer uses `assets/sequence_components.json`; it is a coverage-dependent sequence
+heuristic, never an ancestry assertion or authority for molecular declarations.
+See `lib/protocol_lineage.py` and the decision in `DESIGN.md` for the exact metric.
+
+Run `python3 tools/selftest_protocol_lineage.py` (also in the shared suite).
+Optional real Chrome checks need a localhost server:
+`python3 tools/benchmark_protocol_lineage_browser.py --site _site --screenshot /tmp/lineage.png`.
+These cover evidence filters, multi-parent focus, local/full links, zoom/pan,
+SVG export, failed data loading and mobile layout without installing packages.

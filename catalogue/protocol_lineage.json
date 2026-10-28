@@ -1,0 +1,358 @@
+{
+  "schema_version": 1,
+  "scope": "Curated method relationships for visualization. Partial coverage; missing edges are not evidence of independent origins. Links never supply molecular declarations.",
+  "relations": [
+    {
+      "parent": "smart-seq__10.1038+nbt.2282",
+      "child": "smart-seq2__10.1038+nmeth.2639",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Full-length template-switching RNA library preparation",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/nmeth.2639",
+          "locator": "Published 2013 article, introduction; local nmeth.2639.pdf.txt lines 166–178"
+        }
+      ],
+      "rationale": "The original introduces Smart-seq2 as an improved continuation of the authors' Smart-seq workflow.",
+      "limits": "Only method-level development is linked; exact oligos, enzymes and library products remain separately declared.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "smart-seq2__10.1038+nmeth.2639",
+      "child": "smart-seq3__10.1038+s41587-020-0497-0",
+      "relation": "derived_from",
+      "basis": "inferred",
+      "scope": "Full-length template-switching strategy with a new 5-prime UMI counting design",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41587-020-0497-0",
+          "locator": "Published article abstract; local s41587-020-0497-0.html.txt line 613; local protocol declarations and notes"
+        }
+      ],
+      "rationale": "Design-based inference from full-length coverage, template switching and the source comparison with Smart-seq2.",
+      "limits": "The inspected abstract compares performance but is not by itself an explicit statement of direct ancestry; no component identity or inherited chemistry is asserted.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "smart-seq3__10.1038+s41587-020-0497-0",
+      "child": "smart-seq3xpress__10.1038+s41587-022-01311-4",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Nanoliter, faster implementation of Smart-seq3 with revised TSO and reactions",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41587-022-01311-4",
+          "locator": "Published article opening text; PMC9546772 JATS text line 28; optimization text lines 40–44"
+        }
+      ],
+      "rationale": "The source explicitly states that Smart-seq3xpress is based on Smart-seq3.",
+      "limits": "The revised TSO, polymerase choices and cleanup changes are not identical predecessor chemistry.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "cel-seq__10.1016+j.celrep.2012.08.003",
+      "child": "cel-seq2__10.1186+s13059-016-0938-8",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Multiplexed linear-amplification single-cell RNA workflow",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1186/s13059-016-0938-8",
+          "locator": "Published abstract and Results, PMC4848782 JATS text lines 45, 63–67"
+        }
+      ],
+      "rationale": "The abstract explicitly calls CEL-Seq2 a modified version of CEL-Seq and identifies changed protocol steps.",
+      "limits": "UMIs, primers, amplification and library recovery are version-specific and are not filled from this link.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "scrb-seq__10.1101+003236",
+      "child": "mcscrb-seq__10.1038+s41467-018-05347-6",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Molecular-crowding and amplification optimization of SCRB-seq",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41467-018-05347-6",
+          "locator": "Published abstract and Results, PMC6062574 JATS text lines 33–35 and 51"
+        }
+      ],
+      "rationale": "The original systematically optimizes SCRB-seq and names the resulting protocol mcSCRB-seq.",
+      "limits": "The paper also discusses an intermediate SCRB implementation; this is a method-level link, not inheritance of the complete 2014 reagent recipe.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "slide-seq__10.1126+science.aaw1219",
+      "child": "slide-seqv2__10.1038+s41587-020-0739-1",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Spatial bead-array capture, indexing and cDNA-processing improvements",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41587-020-0739-1",
+          "locator": "Published abstract and opening Results, PMC8606189 JATS text lines 49–57"
+        }
+      ],
+      "rationale": "The source identifies the earlier Slide-seq and describes the changes defining Slide-seqV2.",
+      "limits": "Bead variants, readout indexing and reaction chemistry require their own source-qualified declarations.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "split-seq__10.1126+science.aam8999",
+      "child": "share-seq__10.1016+j.cell.2020.09.056",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Split-pool co-profiling and hybridization/barcoding strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.cell.2020.09.056",
+          "locator": "Published Results overview, PMC7669735 JATS text line 87"
+        }
+      ],
+      "rationale": "The source explicitly states that SHARE-seq was built on SPLiT-seq and Paired-seq.",
+      "limits": "This records acknowledged method development; it does not declare identical linkers, adapters, enzymes, substrates or products.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "paired-seq__10.1038+s41594-019-0323-x",
+      "child": "share-seq__10.1016+j.cell.2020.09.056",
+      "relation": "derived_from",
+      "basis": "documented",
+      "scope": "Split-pool co-profiling and hybridization/barcoding strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.cell.2020.09.056",
+          "locator": "Published Results overview, PMC7669735 JATS text line 87"
+        }
+      ],
+      "rationale": "The source explicitly states that SHARE-seq was built on SPLiT-seq and Paired-seq.",
+      "limits": "This records acknowledged method development; it does not declare identical linkers, adapters, enzymes, substrates or products.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "nanopore-cas9-targeted-sequencing-ncats__10.1038+s41587-020-0407-5",
+      "child": "cabage__10.1371+journal.pone.0241253",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Downstream ONT Cas-mediated adapter ligation and flow-cell preparation only",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1371/journal.pone.0241253",
+          "locator": "Published article, main text lines 83 and 220–226 in journal.pone.0241253_PMC8031414.xml.txt; current CaBagE source note"
+        }
+      ],
+      "rationale": "The source starts the ONT library preparation at the adapter-ligation step of the Cas-mediated PCR-free protocol developed for nCATS.",
+      "limits": "CaBagE uses physical exonuclease background elimination. This link does not import nCATS dephosphorylation enrichment or assert whole-protocol equivalence; the newly curated child remains private while at notes status.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "10x-chromium-single-cell-3-ge-v1__10.1038+ncomms14049",
+      "child": "reap-seq__10.1038+nbt.3973",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Chromium 3-prime v1 bead-primer capture and RNA-library branch",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/nbt.3973",
+          "locator": "Published Supplementary Information MOESM5: Supplementary Discussion lines1–21 and Figure3 caption lines233–248; curated REAP source note"
+        }
+      ],
+      "rationale": "The published supplement explicitly describes adapting the 10x Chromium v1 workflow for simultaneous protein reporters and RNA.",
+      "limits": "The relationship is version- and branch-specific. It does not supply a current 10x recipe, establish CITE-seq ancestry or resolve the deferred REAP upstream/RNA molecular model. The child remains private at notes status.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "iclip__10.1038+nsmb.1838",
+      "child": "irclip__10.1038+nmeth.3840",
+      "relation": "derived_from",
+      "basis": "inferred",
+      "scope": "Crosslink-dependent RT-stop mapping and circular-cDNA library recovery strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/nmeth.3840",
+          "locator": "Associated accepted manuscript PMC5477425 JATS lines37–45; final publisher procedural text not reconciled in capped pass"
+        }
+      ],
+      "rationale": "The inspected manuscript discusses evaluating and improving iCLIP library construction, then incorporating the changes into irCLIP. The relationship is retained as an inference pending final-publication verification.",
+      "limits": "No original iCLIP oligo, BamHI opening or buffer is inherited. FAST-iCLIP is an additional cited predecessor still uninspected. Both endpoint protocols remain notes-only and this edge is private.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "indrop-v1__10.1016+j.cell.2015.04.044",
+      "child": "qurie-seq__10.1016+j.crmeth.2021.100070",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Four-inlet microfluidic chip design for droplet co-encapsulation",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.crmeth.2021.100070",
+          "locator": "Published STAR Methods, microfluidic device design309 and encapsulation313; Results104"
+        }
+      ],
+      "rationale": "The source explicitly uses the Klein2015 chip design and identifies the barcoding-bead/cell co-encapsulation platform.",
+      "limits": "Only device/design provenance is linked. No v1 adapter, bead oligo, enzyme recipe or RNA-library endpoint is inherited. New child remains private at notes status.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "indrop-v2__10.1038+nprot.2016.154",
+      "child": "qurie-seq__10.1016+j.crmeth.2021.100070",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Modified droplet/bead single-cell barcoding workflow described in the2017 inDrop protocol",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.crmeth.2021.100070",
+          "locator": "Published STAR Methods, encapsulation313, explicitly citing Zilionis2017"
+        }
+      ],
+      "rationale": "The source states that the experimental single-cell barcoding workflow follows Zilionis2017 with modifications.",
+      "limits": "This is a scoped protocol-development link. Exact inherited oligos, promoter and kit versions remain unreviewed; the child supplies its own fixation and protein/RNA branch declarations. New child remains private at notes status.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "abseq__10.1038+srep44447",
+      "child": "dab-seq__10.1038+s41467-021-21810-3",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Antibody-DNA staining and sequencing-based single-cell surface-protein measurement",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41467-021-21810-3",
+          "locator": "Published Results72–80; reference23 identifies Shahi2017"
+        }
+      ],
+      "rationale": "The authors explicitly modify the Tapestri workflow to support their earlier Abseq method.",
+      "limits": "DAb-seq uses different conjugation chemistry, target-linked capture and commercial barcoding. The Abseq thiol chemistry and randomer-droplet recipe are not inherited; the source-specific child graph stays separate. New child remains private at notes status.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "cite-seq__10.1038+nmeth.4380",
+      "child": "libra-seq__10.1016+j.cell.2019.11.003",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Antigen-reporter library amplification/separation strategy, as described in associated manuscript",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1016/j.cell.2019.11.003",
+          "locator": "Associated accepted manuscript PMC7158953 Methods216;reference to Stoeckius2017 and cited CITE website"
+        }
+      ],
+      "rationale": "The inspected manuscript explicitly follows the CITE-seq library protocol, with increased antigen-barcode PCR cycles.",
+      "limits": "Cited website revision/final procedural comparison remain unreviewed. No antibody conjugation,poly(A) reporter or entire CITE/Chromium recipe is inherited. Both endpoint publication eligibility and source versions remain independently controlled.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "m6a-sac-seq__10.1038+s41587-022-01243-z",
+      "child": "etam-seq__10.1038+s41587-022-01587-6",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "RNA3-prime adapter/end-repair and cDNA-adapter library strategy, in associated manuscript",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41587-022-01587-6",
+          "locator": "Associated accepted-manuscript Methods205/211 explicitly follows reference14;R14 identifies DOI10.1038/s41587-022-01243-z"
+        }
+      ],
+      "rationale": "The inspected eTAM Methods explicitly delegates this library-preparation subroute to m6A-SAC-seq with local changes.",
+      "limits": "The m6A-detection reactions differ. No allylation/cyclization is transferred to eTAM; exact stock identity and final published procedural applicability remain separately unresolved. Both endpoint publication eligibility and source versions remain independently controlled.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "cpt-seq__10.1038+ng.3119",
+      "child": "sic-seq__10.1038+nbt.3880",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Protein-held post-tagmentation DNA contiguity as a cited physical rationale",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/nbt.3880",
+          "locator": "Associated manuscript PMC5531050 Results41;reference17 explicitly identifies Amini2014 CPT-seq DOI10.1038/ng.3119"
+        }
+      ],
+      "rationale": "The inspected SiC source cites CPT-seq for retention of the fragmented genome as a transposase-associated macromolecular complex.",
+      "limits": "This records cited physical rationale,not equal substrate handling,adapter design,gel retention or compartmentalization. Source-specific association/yield behavior is not predicted;final article-version comparison remains pending. Both endpoint publication eligibility and source versions remain independently controlled.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "rrbs-illumina__10.1038+nature07107",
+      "child": "redbs-seq__10.1038+nchem.1893",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Reduced-representation MspI/CCGG CpG enrichment, not downstream adapter or reduction chemistry",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/nchem.1893",
+          "locator": "Associated accepted manuscript PMC4188980 Results JATS57; reference24 JATS245–247 resolves to Meissner2008 DOI10.1038/nature07107"
+        }
+      ],
+      "rationale": "The child explicitly chooses the cited2008 reduced-representation bisulfite method for MspI-based CpG enrichment.",
+      "limits": "Associated manuscript claim only; final-VOR applicability remains scoped. The2014TruSeq adapters, NaBH4 and subsequent reactions are locally defined, not inherited from2008.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "drop-seq__10.1016+j.cell.2015.05.002",
+      "child": "dart-seq-targeted-capture__10.1038+s41592-018-0259-9",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Drop-seq single-cell capture/RT and amplification backend with locally modified bead primers",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41592-018-0259-9",
+          "locator": "Associated accepted manuscript PMC6378878 OnlineMethods Single cell library preparation JATS84 and reference2; published detailed-protocol supplement independently identity-checked by MD5"
+        }
+      ],
+      "rationale": "Source explicitly says single-cell library preparation was performed as described in the Drop-seq reference, with the custom DART bead preparation.",
+      "limits": "Accepted manuscript procedure is source-version qualified. Modified bead ligation is local; this edge does not supply historical full bead polymers or establish identical molecular substrates or outcomes.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "10x-chromium-single-cell-3-ge-v2",
+      "child": "tap-seq__10.1038+s41592-020-0837-5",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Source10x3prime v2 cell barcoding/GEM-RT input to targeted library amplification",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41592-020-0837-5",
+          "locator": "Associated accepted manuscript PMC7610614 Methods JATS185–189: optimized using3prime reagentkitv2; Cell barcoding and reverse transcription"
+        }
+      ],
+      "rationale": "The source explicitly uses10x3primev2 guidelines with omission of its template-switch oligo before targeted PCR.",
+      "limits": "Accepted manuscript scope only; standard branch and separately modified large-screen loading/SuperScriptIV branch are distinct. No substitution of v3/NextGEM, whole-kit equality or source-default constructor reuse.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "crop-seq__10.1038+nmeth.4177",
+      "child": "tap-seq__10.1038+s41592-020-0837-5",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "CROP-seq guide-encoding transcript/vector input for targeted guide readout",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41592-020-0837-5",
+          "locator": "Associated accepted manuscript PMC7610614 Results JATS57 and Methods111–117: original CROPseq-Puro, modified F+E tracrRNA and targeted guide transcripts"
+        }
+      ],
+      "rationale": "Source explicitly targets the CROP-seq vector transcript alongside genes, using a locally modified CROPseq-Puro-F+E construct.",
+      "limits": "This is vector/readout-component adaptation, not inheritance of whole CROP-seq library preparation; the F+E tracrRNA modification and targeted primers remain protocol-owned. Accepted manuscript applicability is scoped.",
+      "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "drop-seq__10.1016+j.cell.2015.05.002",
+      "child": "tap-seq__10.1038+s41592-020-0837-5",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Separately implemented Drop-seq barcoded-cDNA backend for TAP-seq",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41592-020-0837-5",
+          "locator": "Associated accepted manuscript PMC7610614 Results JATS57 explicitly lists10x andDrop-seq implementations"
+        }
+      ],
+      "rationale": "Source explicitly reports TAP-seq implemented for Drop-seq as an alternative source of barcoded cDNA.",
+      "limits": "This separate source branch is outside the current local10xv2 graph. It does not authorize substituting Drop-seq oligos, barcode widths or molecular geometry into that graph; accepted manuscript source-version scope.",
+      "reviewed": "2026-10-28"
+    }
+  ]
+}

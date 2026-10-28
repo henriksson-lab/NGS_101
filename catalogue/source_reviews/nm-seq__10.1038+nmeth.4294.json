@@ -1,0 +1,119 @@
+{
+  "dir": "nm-seq__10.1038+nmeth.4294",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nm-seq__10.1038+nmeth.4294/nmeth.4294_PMC5712428.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5712428.1/PMC5712428.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Accepted author manuscript NIHMS922173; VOR procedure unreconciled",
+      "pass_1": {
+        "reviewer": "rna_round05_reader",
+        "date": "2026-10-28",
+        "locations": "Provenance61; chemistry71–77; Methods117–133; Fig1 caption341",
+        "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "original_2",
+      "role": "detailed_protocol",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nm-seq__10.1038+nmeth.4294/nmeth.4294_41592_2017_BFnmeth4294_MOESM3_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.4294/MediaObjects/41592_2017_BFnmeth4294_MOESM3_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published supplementary protocol",
+      "pass_1": {
+        "reviewer": "rna_round05_reader",
+        "date": "2026-10-28",
+        "locations": "Full Supplementary Protocol1 steps1–19; publisher original DOI and E7330S kit identity",
+        "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nm-seq__10.1038+nmeth.4294/nmeth.4294_41592_2017_BFnmeth4294_MOESM1_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.4294/MediaObjects/41592_2017_BFnmeth4294_MOESM1_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nm-seq__10.1038+nmeth.4294/nmeth.4294_41592_2017_BFnmeth4294_MOESM2_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnmeth.4294/MediaObjects/41592_2017_BFnmeth4294_MOESM2_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "excluded_correction_pointer",
+      "role": "other",
+      "locator": "https://www.nature.com/articles/nmeth0318-226b",
+      "original": "https://www.nature.com/articles/nmeth0318-226b",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "reason": "Publisher original title and linked defining DOI identify correction of protein crosslink modelling paper nmeth.3838, not Nm-seq. Prior discovery pointer excluded.",
+      "source_version": "Published correction identity page",
+      "pass_1": {
+        "reviewer": "rna_round05_reader",
+        "date": "2026-10-28",
+        "locations": "Publisher title, original-article DOI and citation metadata only",
+        "finding": "Unrelated source; no Nm-seq correction established."
+      },
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round05_reader",
+      "date": "2026-10-28",
+      "locations": "Inspected sections listed in source_checklist and protocol notes",
+      "finding": "Direct linked/source-version tasks enumerated; full two-reader source/linked-information audit incomplete."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/protex.2017.088",
+      "scope": "Direct defining/predecessor/detailed source; not followed in this capped pass"
+    },
+    {
+      "locator": "https://doi.org/10.1038/nmeth.4294",
+      "scope": "Direct defining/predecessor/detailed source; not followed in this capped pass"
+    }
+  ],
+  "open_questions": [
+    "VOR/main procedural reconciliation; post-PNK cleanup and exact historical E7330S adapter/PCR/index/read geometry; linked ProtocolExchange; remaining publisher SI."
+  ],
+  "source_version_limit": "Explicit source versions recorded per original. Manuscript/VOR equivalence is not assumed.",
+  "conclusion": "One capped source-reading/model pass. Notes status; graph partial; no confirmed missing-information claim, second pass or completed read plan.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-05",
+      "reviewer": "rna_round05_reader",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Defining originals/chemistry supplements first; source-qualified local molecular relations only",
+      "locations": "Provenance61; chemistry71–77; Methods117–133; Fig1 caption341; Full Supplementary Protocol1 steps1–19; publisher original DOI and E7330S kit identity",
+      "findings": "VOR/main procedural reconciliation; post-PNK cleanup and exact historical E7330S adapter/PCR/index/read geometry; linked ProtocolExchange; remaining publisher SI.",
+      "deferred": [
+        "https://doi.org/10.1038/protex.2017.088",
+        "https://doi.org/10.1038/nmeth.4294"
+      ],
+      "oligo_scraper": "Full downloaded bundle scanned with tools/scrape_primers.py; selected hits verified in originals, image figure inspected where stated."
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "dir": "kas-seq__10.1038+s41592-020-0797-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "accepted_manuscript",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/kas-seq__10.1038+s41592-020-0797-9/s41592-020-0797-9_PMC7205578.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_kas_first_pass",
+        "date": "2026-10-28",
+        "locations": "Manifest author-manuscript flag and article title/DOI; Results chemical principle lines36-44; bulk/low-input Methods122-139; references17/43; sequencing/data-analysis paragraph.",
+        "finding": "Accepted manuscript, not corrected published VOR. Exposed guanine N1/N2 adduct, click handle, reversible heat removal; distinct sonication/Swift versus Tn5/on-bead PCR branches. Conditions differ from publisher supplement; not silently merged."
+      }
+    },
+    {
+      "id": "publisher_supplementary_protocol",
+      "role": "detailed_protocol",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41592-020-0797-9/MediaObjects/41592_2020_797_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_kas_first_pass",
+        "date": "2026-10-28",
+        "locations": "Local s41592-020-0797-9_41592_2020_797_MOESM1_ESM.pdf.txt; md5 85ebf543a30f87a62ceff2cad42edfde; complete Supplementary Protocol sections1,2,3, extracted lines28-159.",
+        "finding": "Selected preparation authority. Bulk2ug click, RNase15min, sonication150-350bp,5/100 input, streptavidin/heat, sourceSwift30024 with7-8 versus12-14PCR cycles. Low inputD4074, RNase5min, Tn5 enzyme15027865/buffer15027866,5/55 input, on-bead i5/i7 PCR and MinElute. Full extracted prose; no missing image-based sequence table presumed."
+      }
+    },
+    {
+      "id": "author_correction",
+      "role": "other",
+      "locator": "https://doi.org/10.1038/s41592-020-0881-1",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_kas_first_pass",
+        "date": "2026-10-28",
+        "locations": "Full primary-publisher correction notice; published31May2020; correction text on publisher amendments PDF page749.",
+        "finding": "Synthetic DNA oligo100mM is corrected to100uM in in-vitro Methods. Does not change5mM live-cell reagent concentration. Archived manuscript retains old value; source caveat shown on schematic."
+      }
+    },
+    {
+      "id": "published_vor",
+      "role": "other",
+      "locator": "https://doi.org/10.1038/s41592-020-0797-9",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Publisher identity/abstract and correction relation located; complete corrected VOR Methods not inspected in this pass. No complete equivalence of accepted manuscript and corrected VOR asserted."
+    },
+    {
+      "id": "protocol_exchange_v1",
+      "role": "linked_material",
+      "locator": "https://doi.org/10.21203/rs.2.24141/v1",
+      "availability": "available",
+      "relevance": "relevant",
+      "discovered_from": "accepted_manuscript",
+      "reason": "Reference43 specifies version1; detailed original not retrieved/inspected within cap. Do not substitute a current export or count source bundles as equivalent."
+    },
+    {
+      "id": "keth_seq_synthesis",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/s41589-019-0459-3",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Reference17 explicitly supplies N3-kethoxal synthesis and prior RNA structure labeling. Parent original not inspected within cap; only reagent-synthesis ancestry suggested, no RNA library inheritance."
+    },
+    {
+      "id": "reporting_summary",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/kas-seq__10.1038+s41592-020-0797-9/s41592-020-0797-9_41592_2020_797_MOESM2_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Fetched document identified by root as reporting summary; chemistry relevance not independently audited within three-original cap."
+    },
+    {
+      "id": "source_data_fig1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/kas-seq__10.1038+s41592-020-0797-9/s41592-020-0797-9_41592_2020_797_MOESM4_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Fetched original identified by root as source-data figures; rendered chemistry/oligo information not independently inspected in this capped pass. No absence claim accepted."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_kas_first_pass",
+      "date": "2026-10-28",
+      "locations": "Accepted manuscript Methods/Results and references17/43; publisher supplement kit identifiers.",
+      "finding": "ProtocolExchange version1 and Keth-seq synthesis original identified; exact historical vendor-guide identity remains an open question, not an invented unavailable document."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first pass builds a source-qualified partial graph, not a chemically validated complete library. No two-reader review or missing-information acceptance claimed.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-expansion-first-pass",
+      "reviewer": "expansion_dna_kas_first_pass",
+      "date": "2026-10-28",
+      "documents": 3,
+      "scope": "Three chemistry originals inspected: accepted manuscript, published detailed Supplementary Protocol and Author Correction. Publisher VOR metadata checked only; full VOR deferred. Not a completed protocol review or source-absence audit.",
+      "locations": "Accepted manuscript Results chemical principle, Methods122-139, refs17/43; publisher Supplementary Protocol complete sections1-3; full Author Correction notice.",
+      "findings": "Protocol-local bulk and low-input graph branches preserve RNase treatment, fraction splits, heating, distinct kit boundaries and input/enriched terminal libraries. Typed local TaggedDNA separates guanine adduct state from unassigned genomic positions. BulkSwift internals explicitly MAGIC/unvalidated; low-input adapter/index primers and PCR geometry explicitly unresolved. No inherited vendor defaults or bisulfite conversion.",
+      "deferred": [
+        "Complete corrected published VOR Methods and independent second reader.",
+        "ProtocolExchange DOI10.21203/rs.2.24141/v1, preserve cited revision; sourceKeth-seq synthesis original.",
+        "Historical Swift30024 and Illumina15027865/15027866/20027213 original guide identities and exact adapters/index members; desired chemistry values remain questions, not claimed unavailable disclosure documents.",
+        "Publisher reporting summary and source-data figures and remaining chemistry-relevant linked originals; no absence accepted.",
+        "Neutral site-adduct/reference-strand preservation relation; actual reaction kinetics, labeling/capture yield and genomic site assignment not validated by this partial graph."
+      ],
+      "oligo_scraper": "Mandatory full-bundle scrape_primers.py run and output inspected; only CHRNA10 gene-name false hit. No sequence absence inferred.",
+      "verification": "Protocol-local construction/render pass; page build; pairing0problems; chemistry27steps,0established,0conditional,29unresolved,0contradictory plus2explicit kit warnings; sourceguard0checked/0failed/3unrepresented (loaded adapters,i5,i7); exact polymers deliberately not asserted."
+    }
+  ]
+}

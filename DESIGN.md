@@ -1091,3 +1091,31 @@ offset. TSV exports carry units, conditions and model identity. All computation
 runs offline in the browser. Numerical checks include independent published worked
 examples and documented reference results, not a fit to a third-party preset.
 Existing comparative diagram Tm values retain their existing model and defaults.
+
+## 2026-10-28 — Curated method ancestry and independent sequence similarity
+
+Protocol relationships live in a separate registry,
+`catalogue/protocol_lineage.json`, rather than molecular declarations. Multiple
+parents are allowed; a link records its component scope, evidence locations,
+rationale, limits and whether the relationship is source-documented or inferred.
+The directed ancestry graph rejects unknown endpoints, self-links, duplicates and
+cycles. Curation is partial: missing links do not establish independent origins.
+An ancestry edge never authorizes chemistry reuse or fills missing declarations.
+
+The Relationships tab shows source-documented and inferred links distinctly and
+offers a separate optional, undirected sequence-similarity layer. Exact known
+primer, adapter and fixed-component sequences are strand-deduplicated before
+comparison. Only concrete sequences of at least 16 bases, with at least three
+different bases and explicitly non-inferred occurrences, contribute. Weighted
+Jaccard uses log inverse protocol frequency to suppress ubiquitous platform
+handles; it requires two positively weighted shared components and a score of
+at least 0.15, retaining three nearest neighbours per protocol symmetrically.
+Coverage differences and nested components can affect this heuristic. Similarity
+never becomes ancestry automatically, and unknown sequence coverage is not
+reported as dissimilarity.
+
+Only successfully built public finished protocols participate; notes, private
+work and illustrative examples remain excluded. The normal offline build exports
+the relationship payload, full SVG viewer and collapsed local parent/child views
+on protocol pages. Evidence remains visible when a link is selected. Neither the
+public payload nor the graph includes third-party source documents.

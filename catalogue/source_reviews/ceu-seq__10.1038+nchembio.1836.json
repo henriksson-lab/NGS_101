@@ -1,0 +1,82 @@
+{
+  "dir": "ceu-seq__10.1038+nchembio.1836",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "original_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ceu-seq__10.1038+nchembio.1836/nchembio.1836_41589_2015_BFnchembio1836_MOESM157_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnchembio.1836/MediaObjects/41589_2015_BFnchembio1836_MOESM157_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published publisher SI",
+      "pass_1": {
+        "reviewer": "rna_round05_reader",
+        "date": "2026-10-28",
+        "locations": "Title/DOI, original rendered FigS2(b) pageS10; captions916–935; synthesis NoteS21–S22 lines1040–end",
+        "finding": "Source-qualified limited local model and notes; uninspected sections remain open; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "defining_article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/nchembio.1836",
+      "original": "https://doi.org/10.1038/nchembio.1836",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Standard fetch found no open full text; publisher page authorization failed. Full Methods not inspected.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_original_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ceu-seq__10.1038+nchembio.1836/nchembio.1836_41589_2015_BFnchembio1836_MOESM158_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnchembio.1836/MediaObjects/41589_2015_BFnchembio1836_MOESM158_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Deferred at capped breadth-first pass; contents and applicability not fully inspected.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round05_reader",
+      "date": "2026-10-28",
+      "locations": "Inspected sections listed in source_checklist and protocol notes",
+      "finding": "Direct linked/source-version tasks enumerated; full two-reader source/linked-information audit incomplete."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/nchembio.1836",
+      "scope": "Direct defining/predecessor/detailed source; not followed in this capped pass"
+    }
+  ],
+  "open_questions": [
+    "Defining article full Methods; preparative capture/workup, RT stop geometry, adapters/PCR/index/read layout; remaining SI tables/figures and workbook."
+  ],
+  "source_version_limit": "Explicit source versions recorded per original. Manuscript/VOR equivalence is not assumed.",
+  "conclusion": "One capped source-reading/model pass. Notes status; graph partial; no confirmed missing-information claim, second pass or completed read plan.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-05",
+      "reviewer": "rna_round05_reader",
+      "date": "2026-10-28",
+      "documents": 1,
+      "scope": "Defining originals/chemistry supplements first; source-qualified local molecular relations only",
+      "locations": "Title/DOI, original rendered FigS2(b) pageS10; captions916–935; synthesis NoteS21–S22 lines1040–end",
+      "findings": "Defining article full Methods; preparative capture/workup, RT stop geometry, adapters/PCR/index/read layout; remaining SI tables/figures and workbook.",
+      "deferred": [
+        "https://doi.org/10.1038/nchembio.1836"
+      ],
+      "oligo_scraper": "Full downloaded bundle scanned with tools/scrape_primers.py; selected hits verified in originals, image figure inspected where stated."
+    }
+  ],
+  "blocking_condition": "Defining main article/Methods inaccessible after publisher authorization failure; read publisher SI supports only selected label/click chemistry."
+}
