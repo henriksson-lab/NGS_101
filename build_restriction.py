@@ -80,17 +80,11 @@ def render_page():
 <button id="restriction-reset-filters" type="button">Reset filters</button></details></section>
 <section id="restriction-results" hidden><div class="restriction-result-heading"><h2 id="restriction-summary">Results</h2><div><button id="restriction-export" type="button">Export summary TSV</button><button id="restriction-export-sites" type="button">Export sites TSV</button></div></div>
 <p id="restriction-result-note" class="muted"></p>
-<div class="annotation-card restriction-viewer">
-<div class="restriction-controls"><label>Enzyme<select id="restriction-view-enzyme"><option value="">All filtered enzymes</option></select></label>
-<label>Site<select id="restriction-view-site"></select></label><button id="restriction-site-prev" type="button">Previous site</button><button id="restriction-site-next" type="button">Next site</button>
-<button id="restriction-export-view" type="button">Export view SVG</button></div>
-<div id="restriction-overview" class="restriction-overview"></div>
-<div class="restriction-controls"><button id="restriction-pan-prev" type="button" aria-label="Previous sequence window">←</button>
-<label>Start base<input id="restriction-view-start" type="number" min="1" value="1"></label><button id="restriction-pan-next" type="button" aria-label="Next sequence window">→</button>
-<label>Window<select id="restriction-view-width"><option value="40">40 bp</option><option value="80" selected>80 bp</option><option value="160">160 bp</option></select></label></div>
-<input id="restriction-view-slider" class="restriction-view-slider" type="range" min="1" value="1" aria-label="Sequence window start">
-<div id="restriction-duplex" class="restriction-duplex"></div>
-<p id="restriction-view-note" class="muted"></p><div id="restriction-selection" aria-live="polite"></div>
+<div class="restriction-viewer">
+<div class="restriction-sequence-heading"><span id="restriction-sequence-info"></span><div><button id="restriction-unpin" type="button" hidden>Clear selection</button><button id="restriction-export-view" type="button">Export view SVG</button></div></div>
+<div id="restriction-duplex" class="restriction-sequence-scroll" tabindex="0" aria-label="Full double-stranded sequence, scroll to explore"></div>
+<div id="restriction-hover" class="restriction-hover" hidden></div>
+<p id="restriction-view-note" class="muted"></p>
 </div>
 <details id="restriction-table" class="restriction-table"><summary>Enzyme table</summary><div class="tw"><table><thead><tr><th scope="col">Enzyme</th><th scope="col">Recognition</th><th scope="col">Cuts</th><th scope="col">Sites</th><th scope="col">Ends</th><th scope="col">CpG</th><th scope="col">Dam</th><th scope="col">Dcm</th></tr></thead><tbody id="restriction-rows"></tbody></table></div>
 <button id="restriction-more" type="button" hidden>Show more enzymes</button></details></section>

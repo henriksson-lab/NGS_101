@@ -83,7 +83,7 @@
       let t=strand==='-' ? bottom===null?null:start+length-bottom : top===null?null:start+top;
       let b=strand==='-' ? top===null?null:start+length-top : bottom===null?null:start+bottom;
       const valid=circular || [t,b].every(x=>x===null || (x>0 && x<n));
-      const result={top:circular && t!==null?mod(t,n):t,bottom:circular && b!==null?mod(b,n):b,valid,
+      const result={top:circular && t!==null?mod(t,n):t,bottom:circular && b!==null?mod(b,n):b,valid,rawTop:t,rawBottom:b,
                     end:t===null || b===null?'nick':t===b?'blunt':b>t?'5prime':'3prime',overhang:t===null || b===null?null:Math.abs(t-b)};
       return result;
     });

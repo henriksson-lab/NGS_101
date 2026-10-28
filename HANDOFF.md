@@ -220,3 +220,23 @@ assembled site, including complement alignment, both EcoRI cut boundaries, span
 selection, pan/zoom, reverse type IIS, circular sites and standalone SVG export.
 All assembled-site links/publication checks passed. Browser helper accepts an
 optional `--screenshot PATH` for visual inspection. Changes staged; no deployment.
+
+### Restriction viewer revised to full-sequence scrolling — 28 Oct
+
+Supersedes the earlier overview/window design above. The overview, pan/zoom/slider
+controls and tall per-enzyme tracks are removed. The query wraps into continuous
+paired rows in a native scroll area; virtualized rows preserve the entire sequence
+and its absolute coordinates without creating 200,000 base elements for a 100 kb
+query. Motifs sharing recognition and cut geometry combine into compact labels.
+Hover labels or bases (including overlapping motifs) to see associated cuts and
+coordinates; click a label to pin, or clear the selection. Tooltip sits above the
+hover target so it does not cover the cut. Every cut path has vertical strand marks
+and a horizontal middle segment. The matcher now retains raw (unwrapped) cut
+coordinates alongside normalized coordinates to preserve origin-crossing geometry.
+The collapsed enzyme table, filters and TSV exports remain; SVG exports visible
+sequence rows and active cut geometry.
+
+Verified 45 matcher checks, 13 catalogue/build checks, 1,520 shared checks, and 37
+Chrome checks, including actual pointer hover, horizontal connectors, circular
+origin splits, reverse type IIS sites, and native scrolling to a motif after base
+10,000 with bounded DOM size. Site assembly/link/publication checks pass. No deploy.

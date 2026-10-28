@@ -8,7 +8,7 @@
   function status(text,error){$('status').textContent=text;$('status').className=error?'restriction-error':'';}
   function busy(value){$('analyze').disabled=value;$('cancel').disabled=!value;}
   function cancel(){generation++;if(worker)worker.terminate();worker=null;busy(false);}
-  function invalidate(){cancel();result=null;visible=[];$('results').hidden=true;status('');}
+  function invalidate(){viewer.clear();cancel();result=null;visible=[];$('results').hidden=true;status('');}
   async function catalogue(){
     if(data)return data;
     if(!loading)loading=fetch('assets/restriction_catalogue.json').then(r=>{if(!r.ok)throw new Error('Could not load the enzyme catalogue. Try again.');return r.json();}).then(value=>{
@@ -95,7 +95,7 @@
     try {
       visible=api.filter(result.results,options());shown=50;$('rows').replaceChildren();$('results').hidden=false;
       $('summary').textContent=`${visible.length} of ${result.results.length} enzymes`;
-      $('result-note').textContent=`${result.length.toLocaleString()} bp · ${result.circular?'circular':'linear'} · click a recognition span to inspect its cuts.`;
+      $('result-note').textContent='';
       const capped=visible.filter(r=>r.positionsTruncated).length;
       if(capped)$('result-note').textContent+=` Position display/export is capped for ${capped} enzyme(s); all counts are complete.`;
       $('export').disabled=!visible.length;$('export-sites').disabled=!visible.length;
@@ -103,7 +103,7 @@
     }catch(error){$('rows').replaceChildren();$('results').hidden=true;visible=[];status(error.message,true);}
   }
   $('form').addEventListener('submit',async event=>{
-    event.preventDefault();cancel();const id=generation;result=null;$('results').hidden=true;busy(true);status('Loading catalogue…');
+    event.preventDefault();viewer.clear();cancel();const id=generation;result=null;$('results').hidden=true;busy(true);status('Loading catalogue…');
     try {
       const sequence=api.normalize($('sequence').value),catalog=await catalogue();if(id!==generation)return;
       const custom=api.parseCustom($('custom').value,catalog.enzymes),enzymes=catalog.enzymes.concat(custom);

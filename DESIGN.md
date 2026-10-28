@@ -1047,14 +1047,20 @@ reaction or a protocol. Custom enzymes are explicitly user-supplied declarations
 
 ## 2026-10-28 — Inspect restriction matches on paired DNA
 
-The restriction tool presents a clickable overview and a bounded, scrollable duplex
-viewport before its collapsed enzyme table. The build derives aligned strand columns
-and polarity from `Scene.duplex`; the browser fills those columns with the query and
-its plain IUPAC complement using the existing shared sequence helper. This viewport
-represents the supplied sequence and declared recognition/cut coordinates, not a
-reaction intermediate or an experimentally established digest. It needs no Python
-runtime in the browser. Recognition spans and strand-specific cut boundaries retain
-separate identities, including reverse sites, nicking and type IIS geometry.
-Circular molecules are unrolled with the origin marked; position retention and dense
-view limits remain explicit. Selecting an enzyme isolates its retained sites, while
-counts and TSV exports continue to use the full filtered analysis.
+The restriction tool presents the full query as continuous, wrapped rows in a native
+scroll area, before its collapsed enzyme table. It has no overview or separate
+window/pan controls. Long sequences virtualize rows while preserving the full scroll
+extent and absolute base coordinates. Shared recognition/cut geometries combine
+into compact enzyme labels; overlapping motifs remain discoverable on base hover.
+Hover or keyboard focus highlights recognition and reveals the associated cuts;
+click pins them. Cut paths join vertical strand marks with a horizontal middle
+segment. Unwrapped cut coordinates preserve the direction of paths across the
+circular origin, with both ends marked in the linear display.
+
+The build derives aligned strand columns and polarity from `Scene.duplex`; the
+browser fills those columns with the query and its plain IUPAC complement using
+the existing shared sequence helper. This represents supplied sequence and declared
+recognition/cut coordinates, not a reaction intermediate or an experimentally
+established digest. It needs no Python runtime in the browser. Retained-position
+limits remain explicit, while counts and TSV exports use the full filtered analysis.
+The SVG export contains the visible sequence rows and any active cut geometry.
