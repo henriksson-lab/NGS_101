@@ -1,0 +1,88 @@
+{
+  "dir": "dnase-hi-c__10.1038+nmeth.3205",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "accepted_article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dnase-hi-c__10.1038+nmeth.3205/nmeth.3205_PMC4281301.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round06",
+        "date": "2026-10-29",
+        "locations": "Online Methods114–158; whole-genome vs targeted branches",
+        "finding": "Accepted manuscript: full source operation order, blocker classes, physical workups andPE150readout."
+      }
+    },
+    {
+      "id": "publisher_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dnase-hi-c__10.1038+nmeth.3205/nmeth.3205_41592_2015_BFnmeth3205_MOESM45_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round06",
+        "date": "2026-10-29",
+        "locations": "Supplementary Note2, text7983–8026",
+        "finding": "Published rationale: DNase5P/3OH products, random-fragmentation and in-gel proximity ligation; no quantitative fragmentation prediction."
+      }
+    },
+    {
+      "id": "table23",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/dnase-hi-c__10.1038+nmeth.3205/nmeth.3205_supp_NIHMS641840-supplement-S23.xlsx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round06",
+        "date": "2026-10-29",
+        "locations": "Both bridge/blocker rows and library adapter/PCR/index rows",
+        "finding": "Source-written biotin/phosphate bridge and blunt blocker; full sequencing library assembly not completed. Publisher MOESM57 export is a byte-identical alias of the inspected NIHMS S23 workbook according to MANIFEST.tsv."
+      }
+    },
+    {
+      "id": "vor",
+      "role": "other",
+      "locator": "https://doi.org/10.1038/nmeth.3205",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Publisher article comparison deferred; accepted manuscript explicitly identified."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round06",
+      "date": "2026-10-29",
+      "locations": "Original sources and specific sections listed above; no recursive source chase.",
+      "finding": "Direct relevant source targets remain deferred; no confirmed absence or full two-reader review."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source/model pass only; original versions and unresolved chemistry explicit. No accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-06",
+      "reviewer": "expansion_dna_round06",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Published-first bounded source pass; accepted-manuscript status preserved where applicable.",
+      "locations": "Online Methods114–158; whole-genome vs targeted branches; Supplementary Note2, text7983–8026; Both bridge/blocker rows and library adapter/PCR/index rows",
+      "findings": "Accepted manuscript: full source operation order, blocker classes, physical workups andPE150readout.; Published rationale: DNase5P/3OH products, random-fragmentation and in-gel proximity ligation; no quantitative fragmentation prediction.; Source-written biotin/phosphate bridge and blunt blocker; full sequencing library assembly not completed.",
+      "deferred": [
+        "Exact strand-resolved bridge/genomic and proximity ligation geometries and side-product classes.",
+        "Historical library end processing and full adapter/PCR/run/index assembly; remaining original figures/tables.",
+        "Optional SeqCap target-capture branch and original directly linked kit versions; independent review."
+      ],
+      "oligo_scraper": "19 hits in Table23; short bridge/blocker rows inspected manually because below normal scraper minimum.",
+      "verification": "Seven local checks pass (four exact short bridge/blocker source transcriptions, incomplete/no-marker guards and washed-capture-reagent ordering). Build and pairing lint pass. Chemistry: four established input-pairing relations only,39unresolved,zero contradictory. Source guard: five unrepresented inputs (two short bridge/blocker stocks below minimum and three unassembled historical library reagents); no failures or exemptions. Final whole-bundle scraper rerun19hits. Private unresolved graph retained."
+    }
+  ],
+  "integration_verification": {
+    "date": "2026-10-29",
+    "source_collected": true,
+    "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
+    "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
+  }
+}

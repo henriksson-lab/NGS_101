@@ -1,0 +1,99 @@
+{
+  "dir": "clash__10.1073+pnas.1017386108",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "read_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/clash__10.1073+pnas.1017386108/pnas.1017386108_PMC3116431.html.txt",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3116431/",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published PMC full article HTML",
+      "pass_1": {
+        "reviewer": "rna_round06_reader",
+        "date": "2026-10-29",
+        "locations": "Title/abstract1121, rationale1127–1129, Fig1caption1137, Results1142–1151, Methods1218–1220, ref2",
+        "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "blocked_0",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3116431/bin/1017386108_pnas.201017386SI.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3116431/bin/1017386108_pnas.201017386SI.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3116431/bin/1017386108_sd01.xls",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3116431/bin/1017386108_sd01.xls",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3116431/bin/supp_108_24_10010__index.html",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3116431/bin/supp_108_24_10010__index.html",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round06_reader",
+      "date": "2026-10-29",
+      "locations": "Exact source_checklist and protocol note locations; actual linked targets retained",
+      "finding": "Defining/chemistry material inspected within cap; unresolved linked originals/version applicability retained explicitly. No second independent pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1073/pnas.0901997106",
+      "scope": "Direct defining/predecessor/procedure source deferred; actual identity/edition must be checked"
+    }
+  ],
+  "open_questions": [
+    "SI Materials/Methods and cited CRAC predecessor needed for exact ligase, RNA ends/adapters, PCR and read geometry. Direct RNA joining only; no RT-switch inheritance."
+  ],
+  "conclusion": "One capped source-limited pass; retain notes status. No finished schematic, full source completion or absent-information claim.",
+  "preliminary_history": "2026-10-28 task paused before completed source review. Preliminary pointers/fetches are not a separate independent reader or completed pass. Resumed2026-10-29 inspection scope is listed here.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-06",
+      "reviewer": "rna_round06_reader",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Bounded originals-first source review; partial protocol-owned model with explicit unreviewed SourceItems",
+      "locations": "Title/abstract1121, rationale1127–1129, Fig1caption1137, Results1142–1151, Methods1218–1220, ref2",
+      "findings": "SI Materials/Methods and cited CRAC predecessor needed for exact ligase, RNA ends/adapters, PCR and read geometry. Direct RNA joining only; no RT-switch inheritance.",
+      "deferred": [
+        "https://doi.org/10.1073/pnas.0901997106"
+      ],
+      "oligo_scraper": "Mandatory complete downloaded-bundle scan; selected source hits verified in Methods/original tables as noted.",
+      "verification": "Local suites: CLASH4, hiCLIP8, Smart-seq-total9 checks pass. Across three graphs source guard3 exact input oligos pass; one typed modified TSO lacks Construct state. Chemistry audit11 unresolved claims,0contradictions; no shared reaction relations declared. Notes/ref docs build. Not validation of full preparation/readout."
+    }
+  ],
+  "integration_verification": {
+    "date": "2026-10-29",
+    "source_collected": true,
+    "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
+    "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
+  }
+}

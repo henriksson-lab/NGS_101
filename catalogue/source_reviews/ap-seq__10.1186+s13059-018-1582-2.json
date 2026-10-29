@@ -1,0 +1,74 @@
+{
+  "dir": "ap-seq__10.1186+s13059-018-1582-2",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ap-seq__10.1186+s13059-018-1582-2/s13059-018-1582-2_PMC6284305.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round07",
+        "date": "2026-10-29",
+        "locations": "AP/OGG1 Methods171–179; library181–183; relative-enrichment interpretation",
+        "finding": "Published article: ARP-before-fragmentation,tagged input,OGG1 branch,PreCR and recombination of soluble plus bead-associated pulldown before KAPA/HiSeq."
+      }
+    },
+    {
+      "id": "supplement_figure",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ap-seq__10.1186+s13059-018-1582-2/s13059-018-1582-2_supp_13059_2018_1582_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round07",
+        "date": "2026-10-29",
+        "locations": "FigureS1 rendered PDFpage2; corresponding chemical-enrichment caption",
+        "finding": "Visually inspected intact AP and beta-elimination carbonyl classes tagged byARP; no atom-level reaction validator claimed."
+      }
+    },
+    {
+      "id": "supplement_table",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ap-seq__10.1186+s13059-018-1582-2/s13059-018-1582-2_supp_13059_2018_1582_MOESM2_ESM.docx.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round07",
+        "date": "2026-10-29",
+        "locations": "TableS1 header and all synthetic pulldown/qPCR oligo rows",
+        "finding": "Validation oligos are not genomic KAPA library primers; no cross-branch substitution."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round07",
+      "date": "2026-10-29",
+      "locations": "Defining originals/associated manuscript versions and chemistry supplements listed above.",
+      "finding": "Direct pending originals and component questions remain deferred within cap; no recursive source chase or absence acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Bounded first source/model pass, not complete review or two-reader missing-information acceptance.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-07",
+      "reviewer": "expansion_dna_round07",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Published-first source pass; accepted manuscript identities explicit; no recipe inheritance by resemblance.",
+      "locations": "AP/OGG1 Methods171–179; library181–183; FigureS1 rendered PDFpage2; DOCXTableS1",
+      "findings": "Published article: ARP-before-fragmentation,tagged input,OGG1 branch,PreCR and recombination of soluble plus bead-associated pulldown before KAPA/HiSeq.; Visually inspected intact AP and beta-elimination carbonyl classes tagged byARP; no atom-level reaction validator claimed.; Validation oligos are not genomic KAPA library primers; no cross-branch substitution.",
+      "deferred": [
+        "Historical PreCR/KK8504 reaction products, adapter/primer/run/index geometry and source-local tag fate.",
+        "Direct OGG1/ARP chemistry originals and complete linked-source checklist.",
+        "Independent review and remaining original figures/tables; no accepted absence."
+      ],
+      "oligo_scraper": "6hits inDOCXTableS1; in-vitro validation oligos checked but not imported into genomic library.",
+      "verification": "Six local checks pass including post-tagging input allocation,soluble/bead fraction recombination in both branches and publication/private-page guards. Build/pairing/schema pass; no exact genomic library oligo candidates asserted. Chemistry29unresolved,zero contradictory. Final scraper6hits in validation TableS1; no M13/genomic primer substitution."
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "dir": "m1a-map__10.1016+j.molcel.2017.10.019",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "associated_article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/m1a-map__10.1016+j.molcel.2017.10.019/j.molcel.2017.10.019_PMC5722686.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5722686.1/PMC5722686.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated accepted manuscript; manifest author-manuscript True,final-VOR equivalence not established.",
+      "pass_1": {
+        "reviewer": "round07_coordinator",
+        "date": "2026-10-29",
+        "locations": "Associated manuscript JATS144–146,172,176–180,184–188,264–272,324–334,Figure1caption600–608;Methods164–166 ΔN11 enzyme identity",
+        "finding": "Three source input/IP-minus/IP-plus preparations and all named main-library operations represented; original oligos/modifications checked. Physical RNA state versus caller-selected DNA mismatch/arrest separate; exact complete strand/read geometry and final-VOR applicability unestablished."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "methods_s1",
+      "role": "detailed_protocol",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5722686/bin/NIHMS915125-supplement-2.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Actual source-linked MethodsS1 request reached PMC download gate; no substitute revision used.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "round07_coordinator",
+      "date": "2026-10-29",
+      "locations": "Associated manuscript JATS144–146,172,176–180,184–188,264–272,324–334,Figure1caption600–608",
+      "finding": "Three source input/IP-minus/IP-plus preparations and all named main-library operations represented; original oligos/modifications checked. Physical RNA state versus caller-selected DNA mismatch/arrest separate; exact complete strand/read geometry and final-VOR applicability unestablished."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "Li2016a prior m1A-IP original, explicitly cited by Methods178; exact component/version applicability pending",
+      "scope": "IP recipe and specificity not imported without reading."
+    },
+    {
+      "locator": "VanNostrand2016 eCLIP original, directly cited by Methods180",
+      "scope": "Modified library predecessor; no full-recipe or RT inheritance."
+    },
+    {
+      "locator": "Associated article Methods164–166, AlkB expression/purification; source ΔN11 identity inspected",
+      "scope": "Remaining in-article protein preparation and exact reagent characterization; no external disclosure document invented."
+    },
+    {
+      "locator": "Published version DOI10.1016/j.molcel.2017.10.019 and actual remaining supplementary originals in MANIFEST.tsv",
+      "scope": "Final-VOR applicability and source-complete checklist remain pending; not absence accepted."
+    }
+  ],
+  "open_questions": [
+    "MethodsS1 and final-VOR procedural applicability.",
+    "Complete RNA/linker/cDNA/PCR/run-primer geometry,chemical sugar/end validation and full physical acquired-window geometry (computational Read2 N10 prefix is source-known).",
+    "Directly cited prior originals and independent full source/linked-material reading."
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-07",
+      "reviewer": "round07_coordinator",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Defining associated manuscript before linked-source investigation; actual detailed protocol blocked.",
+      "locations": "Associated manuscript JATS144–146,172,176–180,184–188,264–272,324–334,Figure1caption600–608",
+      "findings": "Three source input/IP-minus/IP-plus preparations and all named main-library operations represented; original oligos/modifications checked. Physical RNA state versus caller-selected DNA mismatch/arrest separate; exact complete strand/read geometry and final-VOR applicability unestablished.",
+      "deferred": [
+        "Published MethodsS1/finalVOR",
+        "Directly cited IP/eCLIP/demethylase originals",
+        "Full physical library/read mapping and independent reader"
+      ]
+    }
+  ],
+  "conclusion": "Capped chemistry-source reading supports private incomplete graph; relevant actual source blocked,no completed absence/source/chemical validation claim.",
+  "superseded_sources": [
+    {
+      "doi": "10.1101/202747",
+      "disposition": "Superseded preprint excluded; failed auto-fetch not a current original-source request."
+    }
+  ],
+  "local_validation": {
+    "selftest_checks": 12,
+    "result": "pass",
+    "sourceguard": "15exact input occurrences checked,0failed,0exemptions;one graph with three preparations.",
+    "chemistry": "49steps,52unresolvedclaims,0contradictory;not full validation."
+  }
+}

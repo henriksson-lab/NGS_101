@@ -1,0 +1,124 @@
+{
+  "dir": "flep-seq__10.1038+s41477-020-0688-1",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "read_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flep-seq__10.1038+s41477-020-0688-1/s41477-020-0688-1_41477_2020_688_MOESM1_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41477-020-0688-1/MediaObjects/41477_2020_688_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published publisher SI",
+      "pass_1": {
+        "reviewer": "rna_round06_reader",
+        "date": "2026-10-29",
+        "locations": "Original title/DOI, FigS1 caption48, FigS2 workflow85–141, FigS4 caption441–446",
+        "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flep-seq__10.1038+s41477-020-0688-1/s41477-020-0688-1_41477_2020_688_MOESM3_ESM.xlsx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41477-020-0688-1/MediaObjects/41477_2020_688_MOESM3_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published publisher workbook",
+      "pass_1": {
+        "reviewer": "rna_round06_reader",
+        "date": "2026-10-29",
+        "locations": "First library-information table headers; scraper validation-primer/dataset false-hit contexts only; rest unreviewed",
+        "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_3",
+      "role": "defining",
+      "locator": "https://www.nature.com/articles/s41477-020-0688-1",
+      "original": "https://www.nature.com/articles/s41477-020-0688-1",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Publisher VOR webpage preview",
+      "pass_1": {
+        "reviewer": "rna_round06_reader",
+        "date": "2026-10-29",
+        "locations": "Published article identity/abstract only; full Methods gated",
+        "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "blocked_0",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41477-020-0688-1",
+      "original": "https://doi.org/10.1038/s41477-020-0688-1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "journal article; no open full text found (publisher page only)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/flep-seq__10.1038+s41477-020-0688-1/s41477-020-0688-1_41477_2020_688_MOESM2_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41477-020-0688-1/MediaObjects/41477_2020_688_MOESM2_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round06_reader",
+      "date": "2026-10-29",
+      "locations": "Exact source_checklist and protocol note locations; actual linked targets retained",
+      "finding": "Defining/chemistry material inspected within cap; unresolved linked originals/version applicability retained explicitly. No second independent pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/s41477-020-0688-1",
+      "scope": "Direct defining/predecessor/procedure source deferred; actual identity/edition must be checked"
+    },
+    {
+      "locator": "https://www.nature.com/articles/s41477-020-0688-1/figures/1",
+      "scope": "Direct defining/predecessor/procedure source deferred; actual identity/edition must be checked"
+    }
+  ],
+  "open_questions": [
+    "Full defining biochemical Methods, RNA ends/tails/adapters, actual pore substrate and sequencing preparation are unreviewed. No source-specific ancestry established."
+  ],
+  "conclusion": "Source-blocked identity/processing notes only. No molecular preparation original inspected, no chemistry graph and no collected-method increment. Full defining Methods remain unavailable; no absent-information claim.",
+  "preliminary_history": "2026-10-28 task paused before completed source review. Preliminary pointers/fetches are not a separate independent reader or completed pass. Resumed2026-10-29 inspection scope is listed here.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-06",
+      "reviewer": "rna_round06_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Identity/processing source check only; insufficient accessible preparative chemistry for a molecular review/model",
+      "locations": "Original title/DOI, FigS1 caption48, FigS2 workflow85–141, FigS4 caption441–446; First library-information table headers; scraper validation-primer/dataset false-hit contexts only; rest unreviewed; Published article identity/abstract only; full Methods gated",
+      "findings": "Full defining biochemical Methods, RNA ends/tails/adapters, actual pore substrate and sequencing preparation are unreviewed. No source-specific ancestry established.",
+      "deferred": [
+        "https://doi.org/10.1038/s41477-020-0688-1",
+        "https://www.nature.com/articles/s41477-020-0688-1/figures/1"
+      ],
+      "oligo_scraper": "Mandatory complete downloaded-bundle scan; selected source hits verified in Methods/original tables as noted."
+    }
+  ],
+  "integration_verification": {
+    "date": "2026-10-29",
+    "source_collected": false,
+    "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
+    "result": "Identity-only excluded from collected count;no graph/test fabricated."
+  }
+}

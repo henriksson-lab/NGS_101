@@ -1,0 +1,69 @@
+{
+  "dir": "gel-seq__10.1039+c7lc00430c",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://escholarship.org/content/qt4120h56x/qt4120h56x.pdf?t=pgbs82",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Institutional copy of publisher-typeset2017VOR:DOI/pages verified;Experimental and Gel-seq protocolpp2620–2624;discussion on no requiredMDA. Cover-sheet metadata distinguished.",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/gel-seq__10.1039+c7lc00430c/qt4120h56x.pdf",
+      "md5": "ef06a7224ea945bc256fa17583a057b4",
+      "source_identity": "Institutional Gel-seq published article PDF; why: Original institutional copy identified after publisher body access failed; verify printed DOI/version before chemistry use."
+    },
+    {
+      "id": "attempted-original-1",
+      "role": "defining",
+      "locator": "https://pubs.rsc.org/en/content/articlehtml/2017/lc/c7lc00430c",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "Published Gel-seq article HTML; why: Exact publisher original inspected for identity; full body availability unresolved.; HTTP 403"
+    },
+    {
+      "id": "attempted-original-2",
+      "role": "supplement",
+      "locator": "https://www.rsc.org/suppdata/c7/lc/c7lc00430c/c7lc00430c1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "Published Gel-seq supporting information; why: Exact publisher-linked chemistry supplement target; record actual retrieval failure without substituting a later protocol.; HTTP 404"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-06",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Bounded published-first local partial model; versions kept separate; not full source review",
+      "locations": "Institutional copy of publisher-typeset2017VOR:DOI/pages verified;Experimental and Gel-seq protocolpp2620–2624;discussion on no requiredMDA. Cover-sheet metadata distinguished.",
+      "findings": "Source-positive molecular mechanism, physical fates and explicit unknowns recorded in protocol note.",
+      "deferred": [
+        "Publisher-linked original supporting information PDF returned404.",
+        "Original SMART-Seqv4 manual/oligos and cited NexteraXT manual; no laterJoVE revision substitution.",
+        "Exact RT/PCR substrate and kit library/run geometry."
+      ],
+      "verification": "Final local suites38checks passed(Xdrop9,Perturb7,Gel7,MULTI15); four private previews build, no completion marker; sourceguard10checked0failed0exemptions; pairing0problems; chemistry2established42unresolved0contradictory. Guard text matching is not provenance verification: Xdrop canonicalPDF+renderedp1672 is authority; orphanXML remains unreconciled.",
+      "oligo_scraper": "Standard full-bundle scraper run; relevant source pointers checked. Gel rerun after institutional original retrieval. Image/layout-critical MULTI protocolp33 rendered and inspected."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "notes": "Direct source checklist only; superseded preprints excluded. Generic kit/full-polymer questions remain questions, not invented disclosure documents."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Publisher-linked original supporting information PDF returned404.",
+    "Original SMART-Seqv4 manual/oligos and cited NexteraXT manual; no laterJoVE revision substitution.",
+    "Exact RT/PCR substrate and kit library/run geometry."
+  ],
+  "integration_verification": {
+    "date": "2026-10-29",
+    "source_collected": true,
+    "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
+    "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
+  }
+}

@@ -19,7 +19,7 @@
       "rca-gip__10.1007+s10529-009-0128-9"
     ]
   },
-  "counting": "A registered, source-identified protocol with actual source-reading notes counts as collected. Discovery candidates do not. Catalogue status and computed completeness remain distinct; registration does not claim a publishable or chemically validated graph. Do not count copied names, incidental parameter variants, reviews or non-NGS methods toward the target.",
+  "counting": "A registered, source-identified protocol counts as collected only when actual chemistry-source reading yields preparative facts and source-qualified notes. Abstract/identity/processing-only notes and registration do not count. Catalogue status and computed model completeness remain distinct; collection does not claim a publishable or fully validated graph. Do not count copied names, incidental parameter variants, reviews or non-NGS methods.",
   "scope_rules": [
     "Published defining article first; check source identity, supersession and corrections.",
     "Inspect defining original plus chemistry supplements before following links.",
@@ -41,7 +41,8 @@
     "catalogue/curation_rounds/2026-10-28-ngs-expansion-03.tsv",
     "catalogue/curation_rounds/2026-10-28-ngs-expansion-04.tsv",
     "catalogue/curation_rounds/2026-10-28-ngs-expansion-05.tsv",
-    "catalogue/curation_rounds/2026-10-28-ngs-expansion-06.tsv"
+    "catalogue/curation_rounds/2026-10-28-ngs-expansion-06.tsv",
+    "catalogue/curation_rounds/2026-10-29-ngs-expansion-07.tsv"
   ],
   "model_gaps": [
     {
@@ -103,6 +104,31 @@
       "protocol": "dart-seq-targeted-capture__10.1038+s41592-018-0259-9",
       "gap": "Splinted addition of a phosphorylated primer to a partial bead-DNA window",
       "status": "Source-window annealing and sealed junction computed; free splint remains noncovalent until washing. Full historical bead/RT/library unassembled."
+    },
+    {
+      "protocol": "nome-seq-bulk__10.1101+gr.143008.112",
+      "gap": "Same-molecule methylation origins versus unidentifiable GCG readout; physicalU versus copiedT",
+      "status": "Local caller-supplied m5C reference/context helper; GCG ambiguity and CCG off-target caveat preserved. IMR90SE76 kept distinct from GBM paired runs;8local checks. Full library/source validation remains unresolved."
+    },
+    {
+      "protocol": "hiclip__10.1038+nature14280",
+      "gap": "Two RNA linkers with distinct nucleotide-versus-phosphate 3prime blockers and ordered bridge installation",
+      "status": "Local actual terminalddC and B3prime-phosphate states preserve nucleotide counts and phosphorylation/ligation order; final RT/library source-version boundaries unresolved."
+    },
+    {
+      "protocol": "smart-seq-total__10.1073+pnas.2113568118",
+      "gap": "Mixed DNA/dU/RNA/LNA TSO and base excision without false backbone cleavage",
+      "status": "Local typed TSO creates AP sites/free uracil while retaining scaffold and RNA. BareU notation ambiguity and actualv2Read1 source-string difference distinguished; no acquired endpoint asserted."
+    },
+    {
+      "protocol": "xdrop__10.1002+humu.24063",
+      "gap": "Detector amplicons versus long genomic template populations through FACS and two MDA rounds",
+      "status": "Local DetectionMixture preserves both cohorts/unknown impurity; two physical transfers tracked. CanonicalPDF authority checked; orphanXMLURL remains unresolved."
+    },
+    {
+      "protocol": "gel-seq__10.1039+c7lc00430c",
+      "gap": "RT-before-separation and independent gel-retained genomic versus transcript-derived fractions",
+      "status": "Local gel fraction states separate genomic protease/concentration from cDNA PCR/AMPure; evaporation removes water rather than protein/DNA contamination. Historical libraries unassembled."
     }
   ],
   "deferred": [
@@ -120,21 +146,24 @@
     }
   ],
   "progress": {
-    "new_collected": 46,
+    "new_collected": 69,
     "new_finished": 3,
     "candidate_discovery_in_progress": false,
-    "next_batch_selected": 13,
-    "current_ngs_entries_including_wip": 461,
-    "current_published_ngs_entries": 460,
+    "next_batch_selected": 0,
+    "current_ngs_entries_including_wip": 487,
+    "current_published_ngs_entries": 486,
     "current_finished_published_ngs": 411,
-    "new_notes_only": 43,
-    "staging": "Verified rounds01–05 plus paused round06 roster/handoff staged;no commit or push.",
-    "evidence_collected_ngs_entries_including_wip": 460,
-    "evidence_collected_published_ngs_entries": 459,
+    "new_notes_only": 66,
+    "staging": "Rounds01–07 and pause checkpoint staged;124files total;no commit/push.",
+    "evidence_collected_ngs_entries_including_wip": 483,
+    "evidence_collected_published_ngs_entries": 482,
     "uncollected_registered": [
-      "dntr-seq__10.1016+j.molcel.2020.09.025"
+      "dntr-seq__10.1016+j.molcel.2020.09.025",
+      "flep-seq__10.1038+s41477-020-0688-1",
+      "click-code-seq__10.1021+jacs.8b03715",
+      "mosaic-seq__10.1016+j.molcel.2017.03.007"
     ],
-    "registered_new_notes_including_identity_only": 44
+    "registered_new_notes_including_identity_only": 70
   },
   "stop_rule": "Reaching the cap or documented candidate exhaustion completes the goal. Source gates, a capped pass, or a large queue do not imply chemistry completeness or global exhaustion.",
   "parallel_workstreams": [
@@ -144,27 +173,33 @@
       "registry": "catalogue/protocol_lineage.json",
       "status": "Implemented and verified: 21 semantic and 17 Chrome checks; full assembled-site integration passes.",
       "rule": "Curated directed lineage, inferred lineage and undirected sequence similarity stay separate; multiple component-scoped parents supported; curate alongside protocol sources.",
-      "registry_relations": 22
+      "registry_relations": 26
     }
   ],
   "verification": {
-    "shared_suite": "1647 checks passed",
+    "shared_suite": "1691 checks passed",
     "catalogue": "84 checks passed",
     "source_tools": "227 checks passed",
     "lineage_semantics": "21 checks passed",
     "lineage_chrome": "17 checks passed",
     "source_reviews": {
-      "in_progress": 41,
-      "blocked": 6
+      "in_progress": 60,
+      "blocked": 13
     },
-    "final_full_site": "482/482 diagram builders;443 public schematics;411 NGS graph contracts;all relative links resolve. Ten new private previews without finished markers;four graph-only notes;no new public leaks.",
+    "final_full_site": "498/498 builders;443finished published schematics;411/411NGS completeness contracts;all relative links resolve. Eight new private previews,four graph-only notes,one blocked identity remain unpublished.",
     "round03_oligos": "14 exact inputs checked across7new graphs,0failures,9 inputs without exact states; irCLIP followup3checked0failed2unrepresented.",
     "irclip_spacers": "24 local checks;unique feature IDs with common multipart group survive copying and form a valid Construct without erasing C18.",
     "round04_oligos": "22exact inputs checked across12new graphs,0failures,1narrow source-notation exemption backed by local transcription,21inputs without exact states.",
     "round05_oligos": "15exact graph inputs checked,0failed,0exemptions,34inputs without exact states across14graphs.",
     "round05_chemistry": "8established narrow pairing relations,166unresolved molecular claims,0contradictory; no full protocol validation claim.",
     "round05_local": "All14 local suites pass; independent implementation reviews corrected thermal order and blocker/wash bookkeeping.",
-    "docs": "All959 note pages current."
+    "docs": "1011 note outputs current.",
+    "round06_local": "85focused checks across11source-read models pass;two identity-only entries have no fabricated chemistry suites.",
+    "round06_oligos": "18exact graph inputs checked,0failures,1narrow CPD source-notation exemption backed by full original/local transcription,13inputs without exact states;11graphs.",
+    "round06_chemistry": "6established narrow pairing relations,134unresolved claims,0contradictory. Not full reaction/source validation.",
+    "round07_local": "84 focused checks pass across12 chemistry-source models; identity-only Mosaic has no fabricated suite.",
+    "round07_oligos": "28 exact inputs checked;0failed,0exemptions,5inputs without exact states;12graphs.",
+    "round07_chemistry": "2established narrow relations,178unresolved claims,0contradictory. Not complete protocol validation."
   },
   "tool_fixes": [
     {
@@ -181,8 +216,8 @@
     }
   ],
   "turn_progress": {
-    "previous_goal_turn": "Progress:relationships feature reviewed in parallel;21semantic and17Chrome checks pass;ongoing curation instructions staged.",
-    "current_goal_turn": "User requested pause and stable staged checkpoint. Stopped workers/fetches; saved selected13 and preliminary pointers; restored verified round05 registration; no new collected protocols."
+    "previous_goal_turn": "Progress:11source-read models and2excluded identities;source-qualified lineage/cache/version distinctions;1669shared/490builders;staged.",
+    "current_goal_turn": "User paused after round07 implementation and review; stabilization/staging only."
   },
   "source_request_queue": {
     "ledger": "geturl.txt",
@@ -200,9 +235,25 @@
         "CeU mainarticle/Methods"
       ],
       "rule": "Only actual failed relevant originals requested; available supplements, superseded preprints and unassigned historical kit revisions excluded."
+    },
+    "round06": {
+      "new_request_groups": 7,
+      "exact_failed_targets": 9,
+      "unresolved_attachment_requests": 1,
+      "old_requests_removed": 0,
+      "targets": [
+        "NOMe publisher supplements",
+        "FLEP full Methods",
+        "CLASH PDF/XLS originals",
+        "Original2018Click-code main/SI index",
+        "Gel2017SI",
+        "Excision source-cited Supplemental Methods with unresolved attachment identity",
+        "OriginalPerturb selected method/construct FigureS1/FigureS5/TableS1"
+      ],
+      "rule": "Available main articles/SI, superseded versions, unassigned kit revisions and caption-described result matrices not automatically requested as missing oligo disclosure."
     }
   },
-  "pause_checkpoint": {
+  "previous_pause_checkpoint": {
     "requested_by_user": true,
     "date": "2026-10-28",
     "catalogue_state": "Verified round05:498total entries,461registeredNGS,460source-read includingWIP. Thirteen provisional round06 registrations/citation additions rolled back to index; no unfinished notes admitted.",
@@ -339,7 +390,7 @@
         "note": "Selected capped original-source review; registration alone does not establish evidence collection or a complete molecular model."
       }
     ],
-    "registered": false,
+    "registered": true,
     "source_reading_complete": false,
     "source_fetches": "All known root/worker processes terminal. NOMe and citation refresh completed; other workers stopped their outstanding fetches, preserving external caches. Smart-seq-total retrieval not reached.",
     "partial_reading": {
@@ -349,6 +400,24 @@
     },
     "source_cache_followup": "Xdrop has MANIFEST.tsv.part beside its canonical manifest after interrupted atomic write. Both retained externally; on resumption validate manifest/cache identity before reuse. No original read or fact established by cached filenames.",
     "resume_rule": "Wait for explicit user resumption. Re-register selected13 and refresh catalogue/citations before source fetches; finish bounded originals/scrapers/notes before any collected count. No current chemistry conclusions from preliminary checks.",
-    "verification": "84catalogue checks pass;all959 note pages current;498verified catalogue entries;all13selected round06 IDs absent from live catalogue and no protocol dirs created. Prior1647shared/482builders/link-clean round05 validation retained;no public model/code change during pause cleanup."
+    "verification": "84catalogue checks pass;all959 note pages current;498verified catalogue entries;all13selected round06 IDs absent from live catalogue and no protocol dirs created. Prior1647shared/482builders/link-clean round05 validation retained;no public model/code change during pause cleanup.",
+    "resumed": "2026-10-29: user explicitly reactivated the goal; selected13 re-registered for bounded source review.",
+    "resume_rule_satisfied": true
+  },
+  "pause_checkpoint": {
+    "requested_by_user": true,
+    "date": "2026-10-29",
+    "selected_ledger": "catalogue/curation_rounds/2026-10-29-ngs-expansion-07.tsv",
+    "catalogue_state": "524 registrations;487NGS includingWIP;483chemistry-source-collected;411finished publishedNGS. Round07 adds12source-read notes and1blocked identity,all notes-only.",
+    "resume_rule": "Wait for explicit user resumption. No further acquisition or protocol expansion while paused.",
+    "remaining_integration": [
+      "Curate positive properties: round07 retains pending_source_review profiles intentionally.",
+      "Curate source-qualified round07 lineage edges; registry remains26 relations.",
+      "Transfer exact failed round07 source requests into geturl.txt; current per-protocol notes/review checklists retain URLs.",
+      "Continue only after explicit resumption; global candidate exhaustion not established."
+    ],
+    "review": "Independent implementation spot-reviews completed, not independent missing-information passes. Fixed ac4C false source-absence geometry text; RAID/CRISP physical geometry and RNA identity fixes retained; m1A Read2 barcode processing now recorded.",
+    "verification": "84focused,1691shared,84catalogue,227source-tool checks pass;1011note outputs current;duplex lint0problems. 498/498 builders;443finished published schematics;411/411NGS completeness contracts;all relative links resolve. Eight new private previews,four graph-only notes,one blocked identity remain unpublished.",
+    "processes": "All delegated workers finished and full-site build exited0. No source acquisition remains running."
   }
 }

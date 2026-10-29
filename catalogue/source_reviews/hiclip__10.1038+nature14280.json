@@ -1,0 +1,213 @@
+{
+  "dir": "hiclip__10.1038+nature14280",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "read_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hiclip__10.1038+nature14280/nature14280_PMC4376666.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4376666.1/PMC4376666.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Accepted author manuscript NIHMS62067; VOR applicability unverified",
+      "pass_1": {
+        "reviewer": "rna_round06_reader",
+        "date": "2026-10-29",
+        "locations": "Provenance44, Introduction46–48, detailed hiCLIP Methods104–174; actual adapter modifications/RT primers verified; sequencing206; barcode-processing240/290",
+        "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hiclip__10.1038+nature14280/nature14280_supp_NIHMS62067-supplement-Guide.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4376666.1/NIHMS62067-supplement-Guide.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated accepted-manuscript supplement guide",
+      "pass_1": {
+        "reviewer": "rna_round06_reader",
+        "date": "2026-10-29",
+        "locations": "Opening inventory identifying supplementary note and two result tables",
+        "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hiclip__10.1038+nature14280/nature14280_supp_NIHMS62067-supplement-Note.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4376666.1/NIHMS62067-supplement-Note.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated accepted-manuscript supplementary note",
+      "pass_1": {
+        "reviewer": "rna_round06_reader",
+        "date": "2026-10-29",
+        "locations": "Opening title/discussion scope only; embedded reference-code noise not treated as chemistry",
+        "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "deferred_1",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hiclip__10.1038+nature14280/nature14280_41586_2015_BFnature14280_MOESM44_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14280/MediaObjects/41586_2015_BFnature14280_MOESM44_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hiclip__10.1038+nature14280/nature14280_41586_2015_BFnature14280_MOESM45_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14280/MediaObjects/41586_2015_BFnature14280_MOESM45_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hiclip__10.1038+nature14280/nature14280_41586_2015_BFnature14280_MOESM46_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14280/MediaObjects/41586_2015_BFnature14280_MOESM46_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hiclip__10.1038+nature14280/nature14280_41586_2015_BFnature14280_MOESM47_ESM.ppt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14280/MediaObjects/41586_2015_BFnature14280_MOESM47_ESM.ppt",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hiclip__10.1038+nature14280/nature14280_41586_2015_BFnature14280_MOESM48_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14280/MediaObjects/41586_2015_BFnature14280_MOESM48_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hiclip__10.1038+nature14280/nature14280_41586_2015_BFnature14280_MOESM49_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14280/MediaObjects/41586_2015_BFnature14280_MOESM49_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hiclip__10.1038+nature14280/nature14280_41586_2015_BFnature14280_MOESM50_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnature14280/MediaObjects/41586_2015_BFnature14280_MOESM50_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_8",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hiclip__10.1038+nature14280/nature14280_PMC4376666.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4376666.1/PMC4376666.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hiclip__10.1038+nature14280/nature14280_supp_NIHMS62067-supplement-Supp_Tab_1.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4376666.1/NIHMS62067-supplement-Supp_Tab_1.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/hiclip__10.1038+nature14280/nature14280_supp_NIHMS62067-supplement-Supp_Tab_2.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4376666.1/NIHMS62067-supplement-Supp_Tab_2.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round06_reader",
+      "date": "2026-10-29",
+      "locations": "Exact source_checklist and protocol note locations; actual linked targets retained",
+      "finding": "Defining/chemistry material inspected within cap; unresolved linked originals/version applicability retained explicitly. No second independent pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/nature14280",
+      "scope": "Direct defining/predecessor/procedure source deferred; actual identity/edition must be checked"
+    },
+    {
+      "locator": "https://doi.org/10.1073/pnas.1017386108",
+      "scope": "Direct defining/predecessor/procedure source deferred; actual identity/edition must be checked"
+    }
+  ],
+  "open_questions": [
+    "Final VOR procedure applicability, upstream purification and downstream RT/circle/cut/PCR/read geometry unresolved. Selected A/B bridge class modeled locally; no inherited recipe."
+  ],
+  "conclusion": "One capped source-limited pass; retain notes status. No finished schematic, full source completion or absent-information claim.",
+  "preliminary_history": "2026-10-28 task paused before completed source review. Preliminary pointers/fetches are not a separate independent reader or completed pass. Resumed2026-10-29 inspection scope is listed here.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-06",
+      "reviewer": "rna_round06_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Bounded originals-first source review; partial protocol-owned model with explicit unreviewed SourceItems",
+      "locations": "Provenance44, Introduction46–48, detailed hiCLIP Methods104–174; actual adapter modifications/RT primers verified; Opening inventory identifying supplementary note and two result tables; Opening title/discussion scope only; embedded reference-code noise not treated as chemistry",
+      "findings": "Final VOR procedure applicability, upstream purification and downstream RT/circle/cut/PCR/read geometry unresolved. Selected A/B bridge class modeled locally; no inherited recipe.",
+      "deferred": [
+        "https://doi.org/10.1038/nature14280",
+        "https://doi.org/10.1073/pnas.1017386108"
+      ],
+      "oligo_scraper": "Mandatory complete downloaded-bundle scan; selected source hits verified in Methods/original tables as noted.",
+      "verification": "Local suites: CLASH4, hiCLIP8, Smart-seq-total9 checks pass. Across three graphs source guard3 exact input oligos pass; one typed modified TSO lacks Construct state. Chemistry audit11 unresolved claims,0contradictions; no shared reaction relations declared. Notes/ref docs build. Not validation of full preparation/readout."
+    }
+  ],
+  "integration_verification": {
+    "date": "2026-10-29",
+    "source_collected": true,
+    "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
+    "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
+  }
+}

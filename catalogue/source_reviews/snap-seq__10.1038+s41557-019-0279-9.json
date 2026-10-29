@@ -1,0 +1,70 @@
+{
+  "dir": "snap-seq__10.1038+s41557-019-0279-9",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "accepted_article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/snap-seq__10.1038+s41557-019-0279-9/s41557-019-0279-9_PMC6589398.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round07",
+        "date": "2026-10-29",
+        "locations": "Methods105–115; chemistry/assay rationale and Figure1–2 captions445–449",
+        "finding": "Associated accepted manuscript: HIPS/CuAAC tagging, room-temp complementary-strand release vs hotAP cleavage, negative second capture and source library steps."
+      }
+    },
+    {
+      "id": "publisher_si",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/snap-seq__10.1038+s41557-019-0279-9/s41557-019-0279-9_41557_2019_279_MOESM1_ESM.pdf.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round07",
+        "date": "2026-10-29",
+        "locations": "Adapter annealing196–200; extraction240–245; Table1~635–665/caption713; controlN10 dedup282–284/1241–1251",
+        "finding": "Published source custom oligos/modifications,6nt sample index and different P5top/PCR sequences; N10 controls not generalized to genomicUMIs."
+      }
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round07",
+      "date": "2026-10-29",
+      "locations": "Defining originals/associated manuscript versions and chemistry supplements listed above.",
+      "finding": "Direct pending originals and component questions remain deferred within cap; no recursive source chase or absence acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Bounded first source/model pass, not complete review or two-reader missing-information acceptance.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-07",
+      "reviewer": "expansion_dna_round07",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Published-first source pass; accepted manuscript identities explicit; no recipe inheritance by resemblance.",
+      "locations": "Methods105–115; chemistry/assay rationale and Figure1–2 captions445–449; Adapter annealing196–200; extraction240–245; Table1~635–665/caption713; controlN10 dedup282–284/1241–1251",
+      "findings": "Associated accepted manuscript: HIPS/CuAAC tagging, room-temp complementary-strand release vs hotAP cleavage, negative second capture and source library steps.; Published source custom oligos/modifications,6nt sample index and different P5top/PCR sequences; N10 controls not generalized to genomicUMIs.",
+      "deferred": [
+        "Exact probe/adduct constitution and complete adapter/primer/product/run/index assembly.",
+        "Historical NEBNextUltraII instructions and remaining publisher original sections/reporting summary.",
+        "SMUG1/UNG and input/control branches; independent linked-source review."
+      ],
+      "oligo_scraper": "64hits in2supplement representations; publisher Table1 used, associated SI not merged.",
+      "verification": "Ten local checks pass including six publisherSI oligo/modification transcriptions,correct negative-selection/cold-versus-hot routing and publication/private-page guards. Source guard7strands pass,zero failures/exemptions; build/pairing/schema pass. Chemistry2established input-pairing claims,24unresolved,zero contradictory; no full reaction validator claim."
+    }
+  ],
+  "pending_linked_targets": [
+    {
+      "id": "vor",
+      "role": "other",
+      "locator": "https://doi.org/10.1038/s41557-019-0279-9",
+      "access": "not_assessed_in_this_pass",
+      "scope": "Full publisher-article comparison not completed; associated manuscript identity explicit."
+    }
+  ]
+}

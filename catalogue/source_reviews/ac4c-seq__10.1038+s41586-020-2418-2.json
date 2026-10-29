@@ -1,0 +1,327 @@
+{
+  "dir": "ac4c-seq__10.1038+s41586-020-2418-2",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "read_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ac4c-seq__10.1038+s41586-020-2418-2/s41586-020-2418-2_PMC8130014.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8130014.1/PMC8130014.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated accepted manuscript NIHMS1686616; final VOR applicability unverified",
+      "pass_1": {
+        "reviewer": "rna_round07_reader",
+        "date": "2026-10-29",
+        "locations": "Accepted-manuscript provenance94; reduction rationale100; model-validation/treatment196–218; NGS library228–230; Fig1caption1186",
+        "finding": "Limited AM-qualified reduction/copying model. Original-count cap reached after two early structural-table identity screens; publisher chemistry SI and oligo workbook are available but unreviewed. No absent-oligo or VOR-equivalence claim."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ac4c-seq__10.1038+s41586-020-2418-2/s41586-020-2418-2_41586_2020_2418_MOESM10_ESM.docx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-020-2418-2/MediaObjects/41586_2020_2418_MOESM10_ESM.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published structural table original; remainder unreviewed",
+      "pass_1": {
+        "reviewer": "rna_round07_reader",
+        "date": "2026-10-29",
+        "locations": "Opening accession/chain/model-length table rows only, screened before chemistry SI arrived; no library/chemistry conclusion from header",
+        "finding": "Limited AM-qualified reduction/copying model. Original-count cap reached after two early structural-table identity screens; publisher chemistry SI and oligo workbook are available but unreviewed. No absent-oligo or VOR-equivalence claim."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ac4c-seq__10.1038+s41586-020-2418-2/s41586-020-2418-2_41586_2020_2418_MOESM11_ESM.docx.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-020-2418-2/MediaObjects/41586_2020_2418_MOESM11_ESM.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published structural table original; remainder unreviewed",
+      "pass_1": {
+        "reviewer": "rna_round07_reader",
+        "date": "2026-10-29",
+        "locations": "Opening accession/chain/model-length table rows only; no whole-document irrelevance judgment or chemical review",
+        "finding": "Limited AM-qualified reduction/copying model. Original-count cap reached after two early structural-table identity screens; publisher chemistry SI and oligo workbook are available but unreviewed. No absent-oligo or VOR-equivalence claim."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "blocked_0",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Data_1.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Data_1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Information.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Information.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate; the publisher's ESM files were fetched, so probably redundant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_1.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_1.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_2.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_2.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_3.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_3.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_4.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_4.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_5.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_5.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_7",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_6.docx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_6.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_8",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_7.docx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_7.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_9",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_8.docx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_8.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_10",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_9.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/8130014/bin/NIHMS1686616-supplement-Supplementary_Table_9.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM); the publisher's ESM files were fetched, so probably redundant",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_14",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ac4c-seq__10.1038+s41586-020-2418-2/s41586-020-2418-2_41586_2020_2418_MOESM12_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-020-2418-2/MediaObjects/41586_2020_2418_MOESM12_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_15",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ac4c-seq__10.1038+s41586-020-2418-2/s41586-020-2418-2_41586_2020_2418_MOESM1_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-020-2418-2/MediaObjects/41586_2020_2418_MOESM1_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_16",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ac4c-seq__10.1038+s41586-020-2418-2/s41586-020-2418-2_41586_2020_2418_MOESM2_ESM.pdf",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-020-2418-2/MediaObjects/41586_2020_2418_MOESM2_ESM.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_17",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ac4c-seq__10.1038+s41586-020-2418-2/s41586-020-2418-2_41586_2020_2418_MOESM3_ESM.zip",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-020-2418-2/MediaObjects/41586_2020_2418_MOESM3_ESM.zip",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_18",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ac4c-seq__10.1038+s41586-020-2418-2/s41586-020-2418-2_41586_2020_2418_MOESM4_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-020-2418-2/MediaObjects/41586_2020_2418_MOESM4_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_19",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ac4c-seq__10.1038+s41586-020-2418-2/s41586-020-2418-2_41586_2020_2418_MOESM5_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-020-2418-2/MediaObjects/41586_2020_2418_MOESM5_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_20",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ac4c-seq__10.1038+s41586-020-2418-2/s41586-020-2418-2_41586_2020_2418_MOESM6_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-020-2418-2/MediaObjects/41586_2020_2418_MOESM6_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_21",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ac4c-seq__10.1038+s41586-020-2418-2/s41586-020-2418-2_41586_2020_2418_MOESM7_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-020-2418-2/MediaObjects/41586_2020_2418_MOESM7_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_22",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ac4c-seq__10.1038+s41586-020-2418-2/s41586-020-2418-2_41586_2020_2418_MOESM8_ESM.xlsx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-020-2418-2/MediaObjects/41586_2020_2418_MOESM8_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_23",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/ac4c-seq__10.1038+s41586-020-2418-2/s41586-020-2418-2_41586_2020_2418_MOESM9_ESM.docx",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-020-2418-2/MediaObjects/41586_2020_2418_MOESM9_ESM.docx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round07_reader",
+      "date": "2026-10-29",
+      "locations": "Exact inspected locations listed in source_checklist and protocol notes",
+      "finding": "Limited AM-qualified reduction/copying model. Original-count cap reached after two early structural-table identity screens; publisher chemistry SI and oligo workbook are available but unreviewed. No absent-oligo or VOR-equivalence claim. Directly linked originals/version questions remain deferred; no independent second pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/s41586-020-2418-2",
+      "scope": "Actual defining/detailed original; identity/edition/procedure reconciliation pending before inheritance"
+    },
+    {
+      "locator": "https://doi.org/10.1038/s41596-021-00501-9",
+      "scope": "Actual defining/detailed original; identity/edition/procedure reconciliation pending before inheritance"
+    }
+  ],
+  "open_questions": [
+    "Published chemistry SI/oligo tables, precise NGS treatment/control conditions, directly cited library39/40 versions and final read plan. Validation assay conditions are not substituted."
+  ],
+  "conclusion": "One capped source-qualified local chemistry pass; notes status. No full source/chemical/readout completion, finished schematic or accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-07",
+      "reviewer": "rna_round07_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Defining originals and available chemistry material first; precise limited inspection recorded",
+      "locations": "Accepted-manuscript provenance94; reduction rationale100; model-validation/treatment196–218; NGS library228–230; Fig1caption1186; Opening accession/chain/model-length table rows only, screened before chemistry SI arrived; no library/chemistry conclusion from header; Opening accession/chain/model-length table rows only; no whole-document irrelevance judgment or chemical review",
+      "findings": "Limited AM-qualified reduction/copying model. Original-count cap reached after two early structural-table identity screens; publisher chemistry SI and oligo workbook are available but unreviewed. No absent-oligo or VOR-equivalence claim.",
+      "deferred": [
+        "https://doi.org/10.1038/s41586-020-2418-2",
+        "https://doi.org/10.1038/s41596-021-00501-9"
+      ],
+      "oligo_scraper": "Mandatory full downloaded-bundle scan; actual relevant hits verified in their original contexts. Zero hits are not an absence conclusion.",
+      "verification": "Local suites22checks pass across4models. Source guard0exact oligo inputs checked,0failures,2unassembled oligo inputs,4graphs. Chemistry audit18unresolved claims,0contradictions; no shared relation declarations, explicit unresolved workup warning. Not full chemical validation."
+    }
+  ]
+}

@@ -337,3 +337,82 @@ or separately required version-of-record Methods available.
     library and readout chemistry. Publisher supplementary information is already
     available; its selected probe-label/click figure is read and not requested again.
     Directory: ceu-seq__10.1038+nchembio.1836
+
+30. Bulk NOMe-seq — published supplemental originals
+    DOI: https://doi.org/10.1101/gr.143008.112
+    Publisher supplemental-material index:
+    https://genome.cshlp.org/content/suppl/2012/10/04/gr.143008.112.DC1
+    Status: standard declared request returned HTTP403. The PMC article is already
+    available; the Europe PMC archive contains figure images rather than an
+    inspected chemistry supplement. Exact attachment identities remain unresolved.
+    Needed: published supplemental originals for condition, off-target and method
+    review. No unavailable oligo table or attachment URL is invented here.
+    Directory: nome-seq-bulk__10.1101+gr.143008.112
+
+31. FLEP-seq — published main article and preparative Methods
+    DOI: https://doi.org/10.1038/s41477-020-0688-1
+    Publisher route:
+    https://www.nature.com/articles/s41477-020-0688-1
+    Status: full Methods/figure route reaches publisher authorization. Available
+    abstract, processing/result captions and workbook headers do not establish
+    preparative RNA-end, adapter or library chemistry.
+    Needed: original published preparation/Methods. Publisher SI already fetched
+    is not requested again. This entry remains identity-only, not collected.
+    Directory: flep-seq__10.1038+s41477-020-0688-1
+
+32. CLASH — original chemistry supplements
+    DOI: https://doi.org/10.1073/pnas.1017386108
+    Published SI PDF:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/3116431/bin/1017386108_pnas.201017386SI.pdf
+    Linked workbook:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/3116431/bin/1017386108_sd01.xls
+    Status: standard fetches reached Preparing-to-download gates; neither original
+    was read. Main article is available and supports only the scoped hybrid-ligation
+    graph. No CRAC recipe or unknown end geometry is filled from similarity.
+    Directory: clash__10.1073+pnas.1017386108
+
+33. Original Click-code-seq (2018) — main article and supporting information
+    DOI: https://doi.org/10.1021/jacs.8b03715
+    Exact publisher article/supporting-information index:
+    https://pubs.acs.org/doi/10.1021/jacs.8b03715
+    Status: generic original retrieval found no chemistry full text; exact publisher
+    request returned403. Only abstract/identity was readable.
+    Needed: original2018 main and SI, with identities preserved. Neither the2023v2.0
+    nor2025/26human-genome implementation substitutes for the defining recipe.
+    No specific unresolved SI filename is guessed. Entry is identity-only/uncollected.
+    Directory: click-code-seq__10.1021+jacs.8b03715
+
+34. Gel-seq — original published supporting information
+    DOI: https://doi.org/10.1039/c7lc00430c
+    Publisher-linked SI:
+    https://www.rsc.org/suppdata/c7/lc/c7lc00430c/c7lc00430c1.pdf
+    Status: exact source link returned404. Published main PDF was obtained from the
+    institutional repository and is not requested again. Later JoVE chemistry is
+    not a replacement for this2017 original.
+    Directory: gel-seq__10.1039+c7lc00430c
+
+35. Excision-seq — source-cited Supplemental Methods
+    Defining article: https://doi.org/10.1101/gr.174052.114
+    Status: main article obtained, but its explicitly cited Supplemental Methods
+    original has not been identified/retrieved. The fetched Europe PMC archive has
+    figure images only; that does not establish missing disclosure. Exact attachment
+    URL remains unresolved, so this is an original-identification request rather
+    than a claim that the main article is unavailable.
+    Needed: published Supplemental Methods for detailed pre/post recipes and the
+    source-printed gap-enzyme identity. No replacement document is invented.
+    Directory: excision-seq__10.1101+gr.174052.114
+
+36. Original Perturb-seq — method/construct-relevant supplemental originals
+    DOI: https://doi.org/10.1016/j.cell.2016.11.038
+    FigureS1, barcode detection/assignment validation:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-1.pdf
+    FigureS5, pooled vector/library cloning strategy:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-5.pdf
+    TableS1, pool summary/sgRNA libraries:
+    https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-8.xlsx
+    Status: standard requests reached PMC download gates; originals unread. Their
+    source roles are identified by the article captions. Other failed result-matrix,
+    enrichment and computational-analysis attachments stay in the source checklist;
+    they are not automatically requested as oligo disclosures. No absence claim or
+    full independent source review is accepted. Main associated manuscript is available.
+    Directory: perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038

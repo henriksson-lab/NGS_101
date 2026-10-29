@@ -136,10 +136,10 @@
     "actual_chrome": "17 passed on assembled site after family layout update; /tmp/protocol-lineage-browser.json; screenshot /tmp/lineage-final.png",
     "javascript_syntax": "node --check passed",
     "whitespace": "git diff --check passed for owned edits",
-    "shared_suite": "1647 checks passed",
-    "full_site": "482/482 current builders;443public schematics;all relative links resolve;22registry edges validated,8public unchanged.",
+    "shared_suite": "1669checks passed",
+    "full_site": "490/490builders;443public schematics;all relative links resolve.",
     "source_tools": "227 offline checks passed",
-    "latest_registry_semantics": "21 checks passed with22registry relations; public counts unchanged."
+    "latest_registry_semantics": "21checks passed with26registry relations;public counts unchanged."
   },
   "unresolved": [
     "Similarity is a sequence-component heuristic sensitive to exported coverage and nested parts; never interpreted as ancestry.",
@@ -156,7 +156,7 @@
     "similarities": 520
   },
   "no_staging_or_commit": false,
-  "registry_relations": 22,
+  "registry_relations": 26,
   "commit_policy": "Verified task files staged by coordinator; no commit or push.",
-  "subsequent_curation": "Round04 adds3private version-qualified component links:CITE→LIBRA,SAC→eTAM,CPT→SiC. Round05 adds5private scoped links:RRBS→redBS,Drop-seq→targetedDART,10x3primev2→TAP,CROP→TAP,and separateDrop-seq→TAP backend. No source-selecting recipe reuse or inferred shared ancestry between concurrent MazF methods."
+  "subsequent_curation": "Round04 adds3private version-qualified component links:CITE→LIBRA,SAC→eTAM,CPT→SiC. Round05 adds5private scoped links:RRBS→redBS,Drop-seq→targetedDART,10x3primev2→TAP,CROP→TAP,and separateDrop-seq→TAP backend. No source-selecting recipe reuse or inferred shared ancestry between concurrent MazF methods. Round06 adds4private scoped adaptations:Smartseq2→SmartTotal,CLASH→hiCLIP,version-qualified2015emRibo companion→CPD,and publishedSI10xv2→MULTI. Public8links unchanged."
 }

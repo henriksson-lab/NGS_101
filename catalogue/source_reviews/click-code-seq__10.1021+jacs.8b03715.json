@@ -1,0 +1,48 @@
+{
+  "dir": "click-code-seq__10.1021+jacs.8b03715",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "defining_article",
+      "role": "defining",
+      "locator": "https://doi.org/10.1021/jacs.8b03715",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Canonical fetcher: no open full text found; no chemistry original inspected. Distinct later implementations excluded."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "expansion_dna_round06",
+      "date": "2026-10-29",
+      "locations": "Original sources and specific sections listed above; no recursive source chase.",
+      "finding": "Direct relevant source targets remain deferred; no confirmed absence or full two-reader review."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source/model pass only; original versions and unresolved chemistry explicit. No accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-06",
+      "reviewer": "expansion_dna_round06",
+      "date": "2026-10-29",
+      "documents": 0,
+      "scope": "Published-first bounded source pass; accepted-manuscript status preserved where applicable.",
+      "locations": "No chemistry originals inspected.",
+      "findings": "Identity-only blocked entry; no chemistry model justified.",
+      "deferred": [
+        "Published2018 article and its exact supporting-information original; attachment identity and actual availability unresolved.",
+        "All chemical states, reaction order, oligos, platform/readout and lineage require source reading."
+      ],
+      "oligo_scraper": "0hits/0files, explicitly only an availability observation.",
+      "verification": "Identity-only notes/review schema and note rendering checked. Mandatory scraper0hits/0files records unavailable cache only. No chemistry original read, model/suite/build/chemical-validation claim or collected-protocol claim."
+    }
+  ],
+  "integration_verification": {
+    "date": "2026-10-29",
+    "source_collected": false,
+    "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
+    "result": "Identity-only excluded from collected count;no graph/test fabricated."
+  }
+}

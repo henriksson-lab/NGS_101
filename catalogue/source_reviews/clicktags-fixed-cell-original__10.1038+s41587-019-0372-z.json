@@ -1,0 +1,74 @@
+{
+  "dir": "clicktags-fixed-cell-original__10.1038+s41587-019-0372-z",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "figures",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-019-0372-z/MediaObjects/41587_2019_372_MOESM1_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "PublishedSupplementaryFig1a\u2013c originalPDFp2+caption; sample-tagFig2/3captions; no full Methods",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/clicktags-fixed-cell-original__10.1038+s41587-019-0372-z/s41587-019-0372-z_41587_2019_372_MOESM1_ESM.pdf",
+      "md5": "28ba9d580d950398bec436b449252154",
+      "source_identity": "Springer supplementary file"
+    },
+    {
+      "id": "oligos",
+      "role": "supplement",
+      "locator": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41587-019-0372-z/MediaObjects/41587_2019_372_MOESM4_ESM.xlsx",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Publishedmodifiedoligoinventory:BC21and3primeaminevariants; exactmodifications/sequencefamily; workbookheaderTable2,publisherTable4",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/clicktags-fixed-cell-original__10.1038+s41587-019-0372-z/s41587-019-0372-z_41587_2019_372_MOESM4_ESM.xlsx",
+      "md5": "eceda39ac85c662ab113e1f3078574ad",
+      "source_identity": "Springer supplementary file"
+    },
+    {
+      "id": "unavailable-main-1",
+      "role": "defining",
+      "locator": "https://doi.org/10.1038/s41587-019-0372-z",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Full original not read; main Methods unavailable in this pass.",
+      "reason": "journal article; no open full text found (publisher page only)"
+    },
+    {
+      "id": "submitted-exclusion",
+      "role": "other",
+      "locator": "https://authors.library.caltech.edu/records/m07dw-3jq86",
+      "availability": "read",
+      "relevance": "not_relevant",
+      "inspection_scope": "Repository identity/file label only;315333.full.pdf explicitly Submitted; chemistry not read.",
+      "reason": "Superseded submitted/preprint source excluded under published-first policy; published supplements used."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-07",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Bounded source-positive component/prefix model; not full preparation/source review",
+      "locations": "PublishedSupplementaryFig1a\u2013c originalPDFp2+caption; sample-tagFig2/3captions; no full Methods; Publishedmodifiedoligoinventory:BC21and3primeaminevariants; exactmodifications/sequencefamily; workbookheaderTable2,publisherTable4",
+      "findings": "See note for exact source-positive molecular distinction and explicit physical fates/unknowns.",
+      "deferred": [
+        "Published mainMethods/PDF (normal NaturePDF request yielded subscription HTML).",
+        "Exact assay strand/lane mapping and full fixed-cell tagging/capture/library procedure.",
+        "Original linked chemistry/capture predecessors, exact read/primer geometry."
+      ],
+      "verification": "After independentreview fixes:local27checks passed(Click6,RAID9,CRISP12);threepreviewsbuild;sourceguard4checked0failed0exemptions;pairing0;chemistry0established26unresolved0contradictory. RAID RNA marker usesU;CRISP consumedreagent carries5P/3C3;localunreviewedgeometry makes no source-absence claim.",
+      "oligo_scraper": "Mandatory standard bundle scraper run; pointer hits verified only in stated original scope. CRISP rerun after mainPDFdownload; Clickactualsequenceunassignedinsourceassay, inventoryseparate."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "notes": "Only named original targets considered; no recursive or absence audit. Desired full-polymer specifications remain questions,not invented unavailable documents."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Published mainMethods/PDF (normal NaturePDF request yielded subscription HTML).",
+    "Exact assay strand/lane mapping and full fixed-cell tagging/capture/library procedure.",
+    "Original linked chemistry/capture predecessors, exact read/primer geometry."
+  ]
+}

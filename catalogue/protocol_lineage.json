@@ -353,6 +353,70 @@
       "rationale": "Source explicitly reports TAP-seq implemented for Drop-seq as an alternative source of barcoded cDNA.",
       "limits": "This separate source branch is outside the current local10xv2 graph. It does not authorize substituting Drop-seq oligos, barcode widths or molecular geometry into that graph; accepted manuscript source-version scope.",
       "reviewed": "2026-10-28"
+    },
+    {
+      "parent": "smart-seq2__10.1038+nmeth.2639",
+      "child": "smart-seq-total__10.1073+pnas.2113568118",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Template-switching full-length cDNA strategy explicitly inspired by Smart-seq2",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1073/pnas.2113568118",
+          "locator": "Published PMC8713755 JATS53 and reference19: explicitly inspired by Smart-seq2"
+        }
+      ],
+      "rationale": "The original explicitly identifies Smart-seq2 inspiration while adding total-RNA polyadenylation and later local designs.",
+      "limits": "Method-strategy ancestry only; total-RNA tailing/capping, mixed-polymer TSO, UMI, UDG, direct-index/tagmentation and depletion choices remain source-qualified locally. No whole-recipe or primer inheritance.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "clash__10.1073+pnas.1017386108",
+      "child": "hiclip__10.1038+nature14280",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "RNA-duplex hybrid recovery refined from direct arm ligation to a bridging-adapter strategy",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/nature14280",
+          "locator": "Associated accepted manuscript PMC4376666 Introduction JATS46–48, references8–9 and SupplementaryNote"
+        }
+      ],
+      "rationale": "The source explicitly contrasts CLASH direct ligation with hiCLIP adapter bridging for control and unambiguous arm boundaries.",
+      "limits": "Accepted-manuscript strategy claim with final-VOR applicability unestablished. Linkers, blockers, phosphorylation, purification and library/readout chemistry are independently declared; no direct-ligation recipe is copied.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "emriboseq__10.1038+nature14183",
+      "child": "cpd-seq__10.1073+pnas.1606667113",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Adapted blocking/capture/library strategy from the cited2015 emRiboSeq/EndoSeq companion protocol",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1073/pnas.1606667113",
+          "locator": "Published PMC4987812 Methods HTMLtext1268 and reference19 at1387: DOI10.1038/nprot.2015.099; inline SI1289–1297 gives CPD-local preparation"
+        }
+      ],
+      "rationale": "The child explicitly states adoption of emRiboSeq with CPD-specific enzymatic cleavage that generates ligatable3primeOH ends.",
+      "limits": "The cited source is Ding2015 detailed protocol DOI10.1038/nprot.2015.099, not automatic identity with the defining Nature14183 recipe. Parent entry identifies the method; component/version scope stays explicit. CPD T4endoV/APE1, local oligos and run states are not inherited.",
+      "reviewed": "2026-10-29"
+    },
+    {
+      "parent": "10x-chromium-single-cell-3-ge-v2",
+      "child": "multi-seq__10.1038+s41592-019-0433-8",
+      "relation": "adapted_component",
+      "basis": "documented",
+      "scope": "Published SI10x3primev2 capture and RT backend for membrane-tagged sample pools",
+      "evidence": [
+        {
+          "url": "https://doi.org/10.1038/s41592-019-0433-8",
+          "locator": "Published SupplementaryInformation MOESM1 protocol pp32–35, text2089–2192; independent implementation spot review confirms retained bead/supernatant fractions"
+        }
+      ],
+      "rationale": "The published SI explicitly prepares MULTI-seq libraries through the10xv2 workflow before separating endogenous and barcode products.",
+      "limits": "Current local graph follows the published SI; accepted-manuscript anchor/additive-primer interface is a separate version. This edge supplies no historical full bead/RT geometry and does not establish v3/NextGEM equivalence or membrane-tag chemistry inheritance.",
+      "reviewed": "2026-10-29"
     }
   ]
 }

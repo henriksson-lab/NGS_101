@@ -1,0 +1,70 @@
+{
+  "dir": "cpd-seq__10.1073+pnas.1606667113",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article_inline_si",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/cpd-seq__10.1073+pnas.1606667113/pnas.1606667113_PMC4987812.html.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round06",
+        "date": "2026-10-29",
+        "locations": "Results/Figure1 and inlineS1:1120–1143; Methods1266–1268; inlineSI1277–1297; ref19:1387",
+        "finding": "Published main+inlineSI: source oligos/modifications, blocked3OH→lesion-derived3OH, capture and NONbiotin alkali release,6-cyclePCR,IonProton and opposite-strand lesion inference."
+      }
+    },
+    {
+      "id": "emriboseq_protocol",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1038/nprot.2015.099",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Directly cited emRiboSeq/EndoSeq protocol, depth-one follow-up deferred; no full recipe identity with Nature14183 asserted."
+    },
+    {
+      "id": "t4endov_original",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1016/0921-8777(89)90011-6",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Source ref35 enzyme-specificity original, not read within cap."
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "expansion_dna_round06",
+      "date": "2026-10-29",
+      "locations": "Original sources and specific sections listed above; no recursive source chase.",
+      "finding": "Direct relevant source targets remain deferred; no confirmed absence or full two-reader review."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source/model pass only; original versions and unresolved chemistry explicit. No accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-06",
+      "reviewer": "expansion_dna_round06",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Published-first bounded source pass; accepted-manuscript status preserved where applicable.",
+      "locations": "Results/Figure1 and inlineS1:1120–1143; Methods1266–1268; inlineSI1277–1297; ref19:1387",
+      "findings": "Published main+inlineSI: source oligos/modifications, blocked3OH→lesion-derived3OH, capture and NONbiotin alkali release,6-cyclePCR,IonProton and opposite-strand lesion inference.",
+      "deferred": [
+        "Exact final strand/adapter/PCR assembly, source sample-barcode boundaries and physical Ion run-primer/cycle layout.",
+        "Intermediate T4endoV terminal chemistry, quantitative blocking/selection and APE1 background/offset behavior.",
+        "Direct companion protocol/enzyme originals and historical sequencing documents; independent review."
+      ],
+      "oligo_scraper": "10 hits in inlineSIoligo paragraph1289; trP1-top terminalT is separated by English phosphorothioate wording, checked verbatim locally.",
+      "verification": "Nine local checks pass, including six complete source-oligo transcriptions, incomplete/no-marker guards and distinct nonbiotin release/bead-retained strand outputs. Build/pairing pass. Source guard five checked strands,zero failures,one narrowly documented trP1-top parser exemption with verbatim local source check. Chemistry23unresolved/zero contradictory; no complete reaction-validation claim."
+    }
+  ],
+  "integration_verification": {
+    "date": "2026-10-29",
+    "source_collected": true,
+    "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
+    "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
+  }
+}

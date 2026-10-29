@@ -1,0 +1,153 @@
+{
+  "dir": "smart-seq-total__10.1073+pnas.2113568118",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "read_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smart-seq-total__10.1073+pnas.2113568118/pnas.2113568118_PMC8713755.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8713755.1/PMC8713755.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published non-manuscript article",
+      "pass_1": {
+        "reviewer": "rna_round06_reader",
+        "date": "2026-10-29",
+        "locations": "Provenance47; Results53–57, limitations99; Methods111–133; rendered original PDFpp6–7 checked for TSO/read oligos",
+        "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smart-seq-total__10.1073+pnas.2113568118/pnas.2113568118_supp_pnas.2113568118.sapp.pdf.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8713755.1/pnas.2113568118.sapp.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published SI PDF original",
+      "pass_1": {
+        "reviewer": "rna_round06_reader",
+        "date": "2026-10-29",
+        "locations": "Supplementary Protocol beginning69–134; FigS2/S3 captions439–469; TableS2 lines11491–11565 and rendered originalp37",
+        "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_3",
+      "role": "vendor",
+      "locator": "https://www.neb.com/en/products/m0280-uracil-dna-glycosylase-udg",
+      "original": "https://www.neb.com/en/products/m0280-uracil-dna-glycosylase-udg",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Current NEB M0280 product original, consulted2026-10-29; not a historical formulation guide",
+      "pass_1": {
+        "reviewer": "rna_round06_reader",
+        "date": "2026-10-29",
+        "locations": "Product description/monofunctional glycosylase catalytic relation only; current reformulation/unit-change notice seen, not inherited",
+        "finding": "Limited actually inspected source scope; protocol-owned partial model/notes only. Remaining sections/linked originals unreviewed; no absence conclusion."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "deferred_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smart-seq-total__10.1073+pnas.2113568118/pnas.2113568118_PMC8713755.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8713755.1/PMC8713755.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smart-seq-total__10.1073+pnas.2113568118/pnas.2113568118_supp_pnas.2113568118.sd01.csv",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8713755.1/pnas.2113568118.sd01.csv",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smart-seq-total__10.1073+pnas.2113568118/pnas.2113568118_supp_pnas.2113568118.sd02.csv",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8713755.1/pnas.2113568118.sd02.csv",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smart-seq-total__10.1073+pnas.2113568118/pnas.2113568118_supp_pnas.2113568118.sd03.csv",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8713755.1/pnas.2113568118.sd03.csv",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/smart-seq-total__10.1073+pnas.2113568118/pnas.2113568118_supp_pnas.2113568118.sd04.csv",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8713755.1/pnas.2113568118.sd04.csv",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Available original left uninspected in this bounded pass; neither absence nor irrelevance inferred.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round06_reader",
+      "date": "2026-10-29",
+      "locations": "Exact source_checklist and protocol note locations; actual linked targets retained",
+      "finding": "Defining/chemistry material inspected within cap; unresolved linked originals/version applicability retained explicitly. No second independent pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://github.com/aisakova/smart-seq-total/blob/master/README.md",
+      "scope": "Direct defining/predecessor/procedure source deferred; actual identity/edition must be checked"
+    }
+  ],
+  "open_questions": [
+    "Substrate-specific capping, subsequent AP/backbone processing, cDNA/index/PCR/tagmentation branches, DASH physical fates and read-plan discrepancies remain unassembled. No source/absence completion."
+  ],
+  "conclusion": "One capped source-limited pass; retain notes status. No finished schematic, full source completion or absent-information claim.",
+  "preliminary_history": "2026-10-28 task paused before completed source review. Preliminary pointers/fetches are not a separate independent reader or completed pass. Resumed2026-10-29 inspection scope is listed here.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-06",
+      "reviewer": "rna_round06_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Bounded originals-first source review; partial protocol-owned model with explicit unreviewed SourceItems",
+      "locations": "Provenance47; Results53–57, limitations99; Methods111–133; rendered original PDFpp6–7 checked for TSO/read oligos; Supplementary Protocol beginning69–134; FigS2/S3 captions439–469; TableS2 lines11491–11565 and rendered originalp37; Product description/monofunctional glycosylase catalytic relation only; current reformulation/unit-change notice seen, not inherited",
+      "findings": "Substrate-specific capping, subsequent AP/backbone processing, cDNA/index/PCR/tagmentation branches, DASH physical fates and read-plan discrepancies remain unassembled. No source/absence completion.",
+      "deferred": [
+        "https://github.com/aisakova/smart-seq-total/blob/master/README.md"
+      ],
+      "oligo_scraper": "Mandatory complete downloaded-bundle scan; selected source hits verified in Methods/original tables as noted.",
+      "verification": "Local suites: CLASH4, hiCLIP8, Smart-seq-total9 checks pass. Across three graphs source guard3 exact input oligos pass; one typed modified TSO lacks Construct state. Chemistry audit11 unresolved claims,0contradictions; no shared reaction relations declared. Notes/ref docs build. Not validation of full preparation/readout."
+    }
+  ],
+  "integration_verification": {
+    "date": "2026-10-29",
+    "source_collected": true,
+    "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
+    "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
+  }
+}

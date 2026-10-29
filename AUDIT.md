@@ -1,14 +1,14 @@
-# NGS expansion and relationship viewer — 28 October 2026
+# NGS expansion and relationship viewer — 29 October 2026
 
-The collection goal is paused at the user's request. Baseline, checkpoint and
-admission/counting rules are in
-`plans/ngs-expansion.json`. Five bounded rounds add46 source-read protocols:
-the collection count is460 NGS entries including the baseline WIP design,
-459 published. The catalogue registers461 NGS names: DNTR-seq is an additional
-source-blocked identity only, not counted as collected and not given a chemistry
-graph. There remain411 finished published NGS schematics, including the three
-new finished branches (GLOE native-end single-index, bulk ACT and NHF1/CS-B XR).
-The other43 source-read additions stay notes-only. No new accepted absence.
+The collection goal is active following explicit user resumption on 29 October.
+`plans/ngs-expansion.json` records the baseline, admission rules and checkpoints.
+Six bounded rounds added 57 protocols with chemistry-source reading, bringing
+the collection to 471 NGS protocols including WIP (470 published). The catalogue
+registers 474 NGS names: DNTR-seq, FLEP-seq and original Click-code-seq remain
+identity-only, without chemistry graphs, and are excluded from collection counts.
+There are 411 finished published NGS schematics, including three new finished
+branches (GLOE native-end single-index, bulk ACT and NHF1/CS-B XR). The other
+54 source-read additions remain notes-only. No new absence claim is accepted.
 
 Round01: iCLIP, ARM-seq, GLOE-seq, ACT-seq, KAS-seq, REAP-seq and CaBagE.
 Round02: PAR-CLIP, irCLIP, Ribose-seq, MAB-seq, Abseq and Paired VH:VL.
@@ -23,6 +23,12 @@ available supplement supports only selected label/click chemistry, with full
 Methods blocked. Per-round ledgers and source-review
 JSONs record exact inspected sections, originals/versions and deferred targets.
 Three discovery ledgers remain candidate queues, not an exhaustion claim.
+Round06 adds source-read CLASH, hiCLIP, Smart-seq-total, DNase Hi-C,
+Excision-seq, CPD-seq, bulk NOMe-seq, Xdrop, original Perturb-seq, Gel-seq and
+MULTI-seq. FLEP and original Click-code receive identity/access notes only.
+All eleven models remain incomplete; eight have private previews and three expose
+only their scoped graphs. Exact source versions and linked-original limits persist.
+
 
 CPT now represents protein-held contiguity until physical-well allocation, both
 indexing tiers and four barcode components. Historical PCR geometry and custom
@@ -38,7 +44,7 @@ or final published applicability. Its source-version timing comparison is not an
 established publication error. DAb's unknown-width barcode transcription guard
 fix remains covered by six positive/negative whole-strand regressions.
 
-The source-download ledger `geturl.txt` adds9 groups/22 concrete blocked document
+The round04 source-download ledger `geturl.txt` added9 groups/22 concrete blocked document
 targets; none of16 older groups had an exact validated identity match permitting
 removal. Available/unread originals and superseded preprints were excluded from
 automatic requests. PhIP's new exact publisher PDF request returns HTML; final
@@ -53,9 +59,12 @@ CITE→LIBRA, SAC→eTAM and CPT→SiC. Notes-only edges remain private. Missing
 mean uncurated relations, not independent origins.
 Round05 adds5 private component links: RRBS→redBS, Drop-seq→targeted DART,
 10x3primev2→TAP, CROP→TAP and the separate Drop-seq→TAP backend. Registry22;
-public8links remain unchanged. External chemical-principle ancestors are not
+public8links remained unchanged at round05. External chemical-principle ancestors are not
 replaced with a nearby registered method. Two further NGS discovery leads were
 recorded without registration or a chemistry-reading claim.
+Round06 adds four private component links: Smart-seq2→Smart-seq-total,
+CLASH→hiCLIP, the exact 2015 emRibo companion strategy→CPD, and published-SI
+10xv2→MULTI. Registry26; public8 links unchanged.
 
 Round05 independent implementation review corrected omitted source thermal
 operations in MAZTER and m6A-REF and explicit conjugate-wash/blocking-DNA
@@ -66,19 +75,32 @@ scoped local models, not quantitative chemistry predictions or full validation.
 The source guard now recognizes the published quantified [X]8 notation with
 strict width/fixed-flank checks; seven regressions, no exemption or polymer change.
 
-Current validation:1647 shared checks,84 catalogue checks,227 source-tool checks;
-482 diagram builders,443 public schematics,411 NGS graph contracts and zero
-site link errors. All959 note pages current; ten new private previews have no
-finished markers and none of the14notes-only additions leaks into published pages.
-Round04 source guard:22 exact inputs checked,0 failures;21 inputs lack exact states,
-and one narrow source-notation exemption has independent local transcription
-coverage. Round05 source guard15exact/0failed/0exemptions/34unrepresented across14
-graphs; chemistry8established pairing relations,166unresolved,0contradictory.
-New source-review records total41 in_progress and6 blocked, with no
-accepted missing-information claim. Verified task files through round05 are staged. No commit/push.
-The larger objective is preserved but paused; no further curation until explicit
-user resumption. Round06's13selected candidates remain unregistered/uncollected
-with preliminary pointers saved separately; verified round05 work is staged.
+Round06 preserves mixed DNA/dU/RNA/LNA TSO chemistry: UDG removes the DNA
+uracil base and leaves an abasic site/backbone, rather than deleting a nucleotide
+or RNA. hiCLIP distinguishes terminal ddC from a removable phosphate blocker.
+NOMe separates methylation origin from an ambiguous GCG readout and physical U
+from copied T. Gel-seq performs RT before gel separation; CPD retains the original
+Ion Torrent route. MULTI's published SI recipe and associated-manuscript interface
+variant remain separate; their differences are not called a proven publication error.
+Xdrop source authority is its canonical URL/MD5-qualified PDF. Adopting an orphan
+XML with an empty URL did not establish its provenance. Independent implementation
+reviews found no critical defect in these stated scopes; none was an absence audit.
+
+Current validation: 1,669 shared, 84 catalogue and 227 source-tool checks pass.
+All 490 builders succeed; 443 public schematics and 411 documented NGS contracts
+pass, with no relative-link errors. Notes total985. Round06's eleven local suites
+pass 85 checks. Source guard checks18 exact inputs, with0 failures, one narrow CPD
+notation exemption backed by local original transcription, and13 unrepresented
+inputs. Chemistry has6 established pairing relations,134 unresolved claims and
+no contradictions; that is not full reaction/source validation. The60 new source
+reviews comprise50 in_progress and10 blocked, with no accepted absence claim.
+
+Geturl round06 adds7 groups:9 exact failed routes plus one explicitly source-cited
+Supplemental Methods original whose attachment identity remains unresolved.
+Available originals, superseded versions, unidentified kit revisions and caption-
+described result matrices are not automatically requested as missing oligo tables.
+The objective remains active; defensible candidates and discovery leads remain.
+Verified work through round06 is staged, with no commit or push.
 
 The material below records earlier completed work and historical queues.
 
@@ -2468,3 +2490,26 @@ The static dependency/executable-Markdown scan finds no remaining orphan shared
 modules. In retained modules, 50 unused top-level definitions were removed.
 All 57 resolved ownership rows and the empty migration pending list are preserved.
 The cleanup is uncommitted.
+
+## Paused checkpoint — 2026-10-29, round07
+
+The user explicitly paused the expansion goal. Do not resume acquisition or expansion
+without an explicit request. Round07 retains13 notes-only registrations:12 have
+chemistry-source notes and scoped incomplete graphs; Mosaic remains identity-only,
+blocked and excluded from the evidence-collected count. Current524catalogue entries,
+487NGS registrations includingWIP,483chemistry-source-collected includingWIP,
+411finished publishedNGS. No new public promotion or accepted missing-information claim.
+
+Independent implementation spot-reviews completed. Corrections preserve actual RNA
+versus DNA identity and consumed adapter ends in RAID/CRISP; ac4C now labels its
+geometry unreviewed rather than asserting source nondisclosure. m1A-MAP records the
+source computational Read2 N10 prefix while full physical run geometry remains open.
+All84local,1691shared,84catalogue and227source-tool checks pass. Source guard:
+28exact inputs,0failures,0exemptions,5unrepresented. Chemistry:2established narrow
+relations,178unresolved,0contradictory. These are not full chemistry validations.
+
+Round07 positive facet curation, scoped lineage additions and consolidation of failed
+source URLs into geturl.txt are deferred integration work. Existing notes/review
+checklists retain source locators. Pending-source profiles remain deliberate; lineage
+registry stays26relations. See plans/ngs-expansion.json for the pause checkpoint and
+final assembled-site/staging results. No commit or push. Global exhaustion unproven.

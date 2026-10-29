@@ -1,0 +1,62 @@
+{
+  "dir": "excision-seq__10.1101+gr.174052.114",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/excision-seq__10.1101+gr.174052.114/gr.174052.114_PMC4158761.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round06",
+        "date": "2026-10-29",
+        "locations": "Results50–62,70,78–88; Methods110–122",
+        "finding": "Published main distinguishes pre/post-digestion, UDG/abasic/gap classes and amplification selection; detailed recipes assigned to Supplemental Methods."
+      }
+    },
+    {
+      "id": "supplemental_methods",
+      "role": "supplement",
+      "locator": "https://doi.org/10.1101/gr.174052.114",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Main explicitly cites published Supplemental Methods; attachment identity unresolved in current export. EuropePMC ZIP has figure files only; availability elsewhere not assessed."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "expansion_dna_round06",
+      "date": "2026-10-29",
+      "locations": "Original sources and specific sections listed above; no recursive source chase.",
+      "finding": "Direct relevant source targets remain deferred; no confirmed absence or full two-reader review."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Capped first source/model pass only; original versions and unresolved chemistry explicit. No accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-06",
+      "reviewer": "expansion_dna_round06",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Published-first bounded source pass; accepted-manuscript status preserved where applicable.",
+      "locations": "Results50–62,70,78–88; Methods110–122",
+      "findings": "Published main distinguishes pre/post-digestion, UDG/abasic/gap classes and amplification selection; detailed recipes assigned to Supplemental Methods.",
+      "deferred": [
+        "Identify/read actual published Supplemental Methods and oligo table before assigning library polymers or reaction conditions.",
+        "Source-printed “T4 endonuclease IV” identity and exact uracil/AP/gap end chemistry.",
+        "UVDE/photolyase branches, original direct links and independent review."
+      ],
+      "oligo_scraper": "Whole bundle scraper0hits; this is not evidence of unpublished oligos. Figure ZIP inventory contains figure files only.",
+      "verification": "Two local construction/rendering and incomplete/no-marker checks pass; build and pairing lint pass. Chemistry:8unresolved,zero contradictory. No exact oligo candidates or source-absence claim. Actual Supplemental Methods remains a required unreviewed source; graph has separate pre/post branches and preserves broken DNA physically."
+    }
+  ],
+  "integration_verification": {
+    "date": "2026-10-29",
+    "source_collected": true,
+    "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
+    "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
+  }
+}

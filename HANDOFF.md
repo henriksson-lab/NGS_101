@@ -1,14 +1,15 @@
 # Restart handoff
 
-Snapshot: 28 October 2026, repository `/data/henriksson/github/chem`.
+Snapshot: 29 October 2026, repository `/data/henriksson/github/chem`.
 Read `AGENTS.md` and `DESIGN.md`, then inspect git status and the active goal.
 The user handles commits; do not commit or push.
 
-## Paused work
+## Active work
 
 The active goal expands the NGS collection toward at most 1,000 actual protocols,
-or stops earlier at defensible candidate exhaustion. It is paused at the user's
-explicit request; do not restart curation without explicit resumption. Do not
+or stops earlier at defensible candidate exhaustion. The user explicitly resumed
+it on29October2026. Round06 is verified: eleven chemistry-source models and two identity-only
+registrations, with no new public promotion. Further candidates remain. Do not
 restore the old cloning/ET goal or treat a capped source pass as a full review.
 `plans/ngs-expansion.json` records baseline, counts, admission policy and rounds.
 Use parallel disjoint protocol workers as explicitly authorized by the user.
@@ -16,23 +17,31 @@ Keep shared catalogue, citation, round-ledger and progress edits with the coordi
 
 Baseline commit: `fe8eac0146c54e557fbc2f91c8bfb37856108c48`.
 The baseline had 451 total entries, including 414 NGS entries (413 published,
-408 finished published). Five bounded rounds added46 source-read NGS methods
-(460 collected including WIP,459 published). One more registered name,DNTR-seq,
-is identity-only and excluded from that count. Catalogue has498 entries total,
-461 registered NGS names including WIP. New43 source-read additions stay notes-only.
-All have source-reading notes and local graphs; GLOE-seq native-end single-index,
-bulk ACT-seq and the NHF1/CS-B XR-seq branch have finished schematics (411 finished published NGS). Other additions remain notes-only.
+408 finished published). Six rounds added57 source-read NGS methods, for471
+collected including WIP (470 published). Registered identities total474NGS among
+511catalogue entries. DNTR, FLEP and original Click-code are identity-only and
+excluded from collected counts. The57 source-read additions have notes/graphs;
+54remain notes-only. GLOE native-end, bulk ACT and NHF1/CS-B XR have finished
+schematics, bringing finished published NGS to411.
 Status, computed model completeness and a completed source/absence audit are
 separate. No new accepted-missing claims.
 
 The three `2026-10-28-expansion-discovery-*.tsv` ledgers hold screened candidates;
 they do not count as collected. Select the next bounded batch from them after
-reviewing the five current round ledgers and their deferred targets. Prioritize
+reviewing the six current round ledgers and their deferred targets. Prioritize
 breadth, 10 minutes/three originals per protocol, published originals first,
 mandatory primer scraper and source verification. Move past blocked sources.
 Do not recursively chase citations or fill chemistry from related protocols.
 
-## Pause checkpoint
+## Historical pause checkpoint
+
+The following records the28October pause. It was superseded by explicit user
+resumption on29October. The goal is active; selected13were re-registered, catalogue
+and citation refresh completed, and ordinary source validation resumed. Xdrop's
+three canonical manifest rows had assigned URLs and valid hashes; its interrupted
+temporary manifest was empty. Standard revalidation adopted its XML with an empty source URL; that does not
+establish original identity. Round06 uses the canonical URL/MD5-verified published
+article PDF instead; orphan XML provenance remains unresolved.
 
 The user requested pausing the goal, stabilizing the checkout and staging files.
 Verified work through round05 is preserved. Round06 selected13candidates and
@@ -180,3 +189,62 @@ public8links unchanged. RNA discovery ledger adds two unread leads from actual
 references: DNA method10.1093/nar/gky1104 and RBS-seq10.1073/pnas.1817334116.
 Do not count or register them without boundary/source review. Remaining verified
 candidates in all three ledgers are still available; global exhaustion is unproven.
+
+
+## Round06 integration
+
+Explicit user resumption restored the13 selected registrations and refreshed
+catalogue/citations. Eleven protocols now have chemistry-source notes and scoped
+graphs; FLEP and original Click-code stay identity-only/uncollected. Do not mistake
+their processing/abstract sources for a preparative chemistry pass. Source review
+records total50 in_progress/10blocked among60new registrations; no absence accepted.
+
+New constructs include hiCLIP's ddC versus phosphate blockers, Smart-seq-total's
+mixed-polymer TSO/base excision without backbone cleavage, NOMe conditional
+methylation-origin/readout classes, and Xdrop's separate genomic/detector cohorts.
+Gel RT precedes physical fractionation; CPD uses Ion Torrent. MULTI primary graph
+uses its published SI consistently, with the accepted-manuscript interface variant
+separate. Source differences are not automatically publication errors. All remain
+notes-only; eight private previews have no completion markers and three graph-only
+models have no preview. Two identity-only entries have no fabricated suite/model.
+
+Independent implementation reviews found no critical defect within inspected
+scopes. All85 local checks,1669shared,84catalogue,227source-tool checks pass.
+Sourceguard18exact/0failed/1narrow source-notation exemption/13unrepresented;
+chemistry6established pairing claims,134unresolved,0contradictory. All490builders,
+443public pages and411NGS graph contracts pass;relative links resolve. Final
+freshness/staging is recorded in the plan. No commit/push.
+
+Lineage registry26,public8unchanged. Four new private component links preserve
+exact source versions, including CPD's2015nprot.2015.099 predecessor rather than
+assuming the defining Nature recipe. Three unread discovery leads were added:
+DASH10.1186/s13059-016-0904-5,CRAC10.1073/pnas.0901997106,and original
+Hi-C10.1126/science.1181369. Not registered or counted; boundary review remains.
+
+Xdrop's valid canonicalPDF was read/rendered. Its orphanXML was adopted without
+an assignedURL; do not treat that adoption as original-source reconciliation.
+Geturl adds7 source-request groups, retaining actually available originals and
+excluding superseded versions. Global candidate exhaustion is not established.
+
+## Paused checkpoint — 2026-10-29, round07
+
+The user explicitly paused the expansion goal. Do not resume acquisition or expansion
+without an explicit request. Round07 retains13 notes-only registrations:12 have
+chemistry-source notes and scoped incomplete graphs; Mosaic remains identity-only,
+blocked and excluded from the evidence-collected count. Current524catalogue entries,
+487NGS registrations includingWIP,483chemistry-source-collected includingWIP,
+411finished publishedNGS. No new public promotion or accepted missing-information claim.
+
+Independent implementation spot-reviews completed. Corrections preserve actual RNA
+versus DNA identity and consumed adapter ends in RAID/CRISP; ac4C now labels its
+geometry unreviewed rather than asserting source nondisclosure. m1A-MAP records the
+source computational Read2 N10 prefix while full physical run geometry remains open.
+All84local,1691shared,84catalogue and227source-tool checks pass. Source guard:
+28exact inputs,0failures,0exemptions,5unrepresented. Chemistry:2established narrow
+relations,178unresolved,0contradictory. These are not full chemistry validations.
+
+Round07 positive facet curation, scoped lineage additions and consolidation of failed
+source URLs into geturl.txt are deferred integration work. Existing notes/review
+checklists retain source locators. Pending-source profiles remain deliberate; lineage
+registry stays26relations. See plans/ngs-expansion.json for the pause checkpoint and
+final assembled-site/staging results. No commit or push. Global exhaustion unproven.

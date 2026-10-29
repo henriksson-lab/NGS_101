@@ -1,0 +1,178 @@
+{
+  "dir": "perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5181115.1/PMC5181115.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Associated accepted manuscript Results105–113,Methods256–379,processing387; vector/GBC distinction and exact post-WTA primers. FinalVOR equivalence not established.",
+      "local_file": "/husky/henriksson/NGS101_papers/sources/perturb-seq-original-barcode-proxy__10.1016+j.cell.2016.11.038/j.cell.2016.11.038_PMC5181115.xml",
+      "md5": "ec266a69e883bae03f3e32bf911ade48",
+      "source_identity": "full-text JATS XML (PMC Cloud)"
+    },
+    {
+      "id": "attempted-original-1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate"
+    },
+    {
+      "id": "attempted-original-2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-10.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "attempted-original-3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-11.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "attempted-original-4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-12.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "attempted-original-5",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-13.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "attempted-original-6",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-2.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "attempted-original-7",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-3.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "attempted-original-8",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-4.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "attempted-original-9",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-5.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "attempted-original-10",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-6.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "attempted-original-11",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-7.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "attempted-original-12",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-8.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    },
+    {
+      "id": "attempted-original-13",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5181115/bin/NIHMS835459-supplement-9.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Original not read. Availability failure recorded by standard fetcher; no absence inference.",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)"
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-06",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Bounded published-first local partial model; versions kept separate; not full source review",
+      "locations": "Associated accepted manuscript Results105–113,Methods256–379,processing387; vector/GBC distinction and exact post-WTA primers. FinalVOR equivalence not established.",
+      "findings": "Source-positive molecular mechanism, physical fates and explicit unknowns recorded in protocol note.",
+      "deferred": [
+        "Published VOR comparison and linked published chemistry/vector supplements behind download gate.",
+        "Historical10xChromium manufacturer guide/version, complete GBC transcript, full sequencing primer/read layout.",
+        "Separate intermediate-plasmid dictionary library and vector inheritance with Adamson2016 not molecularly assembled."
+      ],
+      "verification": "Final local suites38checks passed(Xdrop9,Perturb7,Gel7,MULTI15); four private previews build, no completion marker; sourceguard10checked0failed0exemptions; pairing0problems; chemistry2established42unresolved0contradictory. Guard text matching is not provenance verification: Xdrop canonicalPDF+renderedp1672 is authority; orphanXML remains unreconciled.",
+      "oligo_scraper": "Standard full-bundle scraper run; relevant source pointers checked. Gel rerun after institutional original retrieval. Image/layout-critical MULTI protocolp33 rendered and inspected."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "notes": "Direct source checklist only; superseded preprints excluded. Generic kit/full-polymer questions remain questions, not invented disclosure documents."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Published VOR comparison and linked published chemistry/vector supplements behind download gate.",
+    "Historical10xChromium manufacturer guide/version, complete GBC transcript, full sequencing primer/read layout.",
+    "Separate intermediate-plasmid dictionary library and vector inheritance with Adamson2016 not molecularly assembled."
+  ],
+  "source_request_selection": {
+    "date": "2026-10-29",
+    "basis": "Main associated-manuscript supplementary-material captions:FigureS1 detection validation,FigureS5 vector cloning,TableS1 pool/guide libraries. Originals not inspected.",
+    "requested": [
+      "NIHMS835459-supplement-1.pdf",
+      "NIHMS835459-supplement-5.pdf",
+      "NIHMS835459-supplement-8.xlsx"
+    ],
+    "other_failed_attachments": "Retained in checklist. Caption-described regulatory matrices,GO enrichment and computational results not automatically requested in this capped molecular pass; not an accepted irrelevance/absence audit."
+  },
+  "integration_verification": {
+    "date": "2026-10-29",
+    "source_collected": true,
+    "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
+    "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "dir": "og-seq__10.1021+jacs.6b12604",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/og-seq__10.1021+jacs.6b12604/jacs.6b12604_PMC5440228.xml.txt",
+      "availability": "read",
+      "relevance": "relevant",
+      "pass_1": {
+        "reviewer": "expansion_dna_round07",
+        "date": "2026-10-29",
+        "locations": "Chemical rationale/enrichment24–32; genomic release/NGS32–36; ref17",
+        "finding": "Associated accepted manuscript: oxidative amine-BTN tagging, streptavidin selection, complementary-strand release and HiSeq PE125. Exact SI/kit geometry deferred."
+      }
+    },
+    {
+      "id": "supporting_information",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/5440228/bin/NIHMS860150-supplement-Supporting_Information.docx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Canonical request returned Preparing-to-download gate; relevant original not inspected."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "expansion_dna_round07",
+      "date": "2026-10-29",
+      "locations": "Defining originals/associated manuscript versions and chemistry supplements listed above.",
+      "finding": "Direct pending originals and component questions remain deferred within cap; no recursive source chase or absence acceptance."
+    }
+  },
+  "missing_claims": [],
+  "conclusion": "Bounded first source/model pass, not complete review or two-reader missing-information acceptance.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-07",
+      "reviewer": "expansion_dna_round07",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Published-first source pass; accepted manuscript identities explicit; no recipe inheritance by resemblance.",
+      "locations": "Chemical rationale/enrichment24–32; genomic release/NGS32–36; ref17",
+      "findings": "Associated accepted manuscript: oxidative amine-BTN tagging, streptavidin selection, complementary-strand release and HiSeq PE125. Exact SI/kit geometry deferred.",
+      "deferred": [
+        "Supporting Information, full VOR and exact genomic reaction/workup scope.",
+        "Historical ssDNA adapter-kit identity/version, molecular steps, oligos and physical run geometry.",
+        "Direct chemical predecessor and independent linked-source review."
+      ],
+      "oligo_scraper": "Main-text whole-bundle scraper0hits; no absence inference.",
+      "verification": "Two local source-boundary/no-marker checks pass; build/pairing/schema pass. Chemistry5unresolved,zero contradictory; no exact oligo candidates. Main accepted manuscript supports tagging/capture/complement release; original SI gate remains blocking."
+    }
+  ],
+  "pending_linked_targets": [
+    {
+      "id": "vor",
+      "role": "other",
+      "locator": "https://doi.org/10.1021/jacs.6b12604",
+      "access": "not_assessed_in_this_pass",
+      "scope": "Publisher article comparison deferred; accepted manuscript used explicitly."
+    },
+    {
+      "id": "chemical_predecessor",
+      "role": "predecessor",
+      "locator": "https://doi.org/10.1021/tx500120p",
+      "access": "not_assessed_in_this_pass",
+      "scope": "Article explicitly cites Greenberg chemical-tagging approach; original not followed within cap."
+    }
+  ]
+}

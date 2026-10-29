@@ -1,0 +1,58 @@
+{
+  "dir": "mosaic-seq__10.1016+j.molcel.2017.03.007",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "unavailable-main-1",
+      "role": "defining",
+      "locator": "https://doi.org/10.1016/j.molcel.2017.03.007",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Full original not read; main Methods unavailable in this pass.",
+      "reason": "journal article; no open full text found (publisher page only)"
+    },
+    {
+      "id": "unavailable-main-2",
+      "role": "defining",
+      "locator": "http://www.cell.com/article/S1097276517301740/pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "inspection_scope": "Full original not read; main Methods unavailable in this pass.",
+      "reason": "Mosaic-seq publisher PDF identified by metadata; why: Defining original needed to determine molecular boundary; no chemistry taken from abstract or a neighbouring Perturb-seq recipe.; HTTP 403"
+    },
+    {
+      "id": "primary-identity",
+      "role": "other",
+      "locator": "https://pubmed.ncbi.nlm.nih.gov/28416141/",
+      "availability": "read",
+      "relevance": "relevant",
+      "inspection_scope": "Primarybibliographic/abstractidentity only; no Methods or preparation boundary conclusion."
+    }
+  ],
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-07",
+      "reviewer": "bounded-source-model-pass",
+      "date": "2026-10-29",
+      "documents": 0,
+      "scope": "Identity-only and molecular boundary BLOCKED,notcollected",
+      "locations": "No defining chemistry original available;primaryidentity only",
+      "findings": "Molecular boundary unresolved; no graph/collected increment",
+      "deferred": [
+        "Exact published mainMethods/PDF and directly linked chemistry supplements (publisherPDF403).",
+        "Molecular-boundary comparison against originalPerturb/CRISP/CROP/directguidecapture remains unresolved."
+      ],
+      "verification": "No model,sourceguardorchemistryclaim; emptybundlescraper0hitsnotabsence",
+      "oligo_scraper": "Mandatory standard bundle scraper run; pointer hits verified only in stated original scope. CRISP rerun after mainPDFdownload; Clickactualsequenceunassignedinsourceassay, inventoryseparate."
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "notes": "Only named original targets considered; no recursive or absence audit. Desired full-polymer specifications remain questions,not invented unavailable documents."
+  },
+  "missing_claims": [],
+  "pending_sources": [
+    "Exact published mainMethods/PDF and directly linked chemistry supplements (publisherPDF403).",
+    "Molecular-boundary comparison against originalPerturb/CRISP/CROP/directguidecapture remains unresolved."
+  ]
+}

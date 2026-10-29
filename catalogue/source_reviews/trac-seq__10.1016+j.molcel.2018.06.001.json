@@ -1,0 +1,119 @@
+{
+  "dir": "trac-seq__10.1016+j.molcel.2018.06.001",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "read_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/trac-seq__10.1016+j.molcel.2018.06.001/j.molcel.2018.06.001_PMC6086580.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6086580.1/PMC6086580.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated accepted manuscript NIHMS978370; VOR applicability unverified",
+      "pass_1": {
+        "reviewer": "rna_round07_reader",
+        "date": "2026-10-29",
+        "locations": "Accepted-manuscript provenance79; Results99–107; Discussion137; AlkB context345–349; TRAC Methods351–353",
+        "finding": "Actual RNA reduction/aniline chemistry read from defining AM, including free m7GTP carrier and downstream5′p. Gated defining SI and exact historical library/predecessor chemistry remain unreviewed."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "blocked_0",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-1.pdf",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-1.pdf",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC 'Preparing to download' gate",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_1",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-2.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-2.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_2",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-3.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-3.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_3",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-4.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-4.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "blocked_4",
+      "role": "supplement",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-5.xlsx",
+      "original": "https://pmc.ncbi.nlm.nih.gov/articles/instance/6086580/bin/NIHMS978370-supplement-5.xlsx",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "PMC supplementary file; PMC download gate (not in the PMC Cloud bucket: licence TDM)",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "blocked",
+    "pass_1": {
+      "reviewer": "rna_round07_reader",
+      "date": "2026-10-29",
+      "locations": "Exact inspected locations listed in source_checklist and protocol notes",
+      "finding": "Actual RNA reduction/aniline chemistry read from defining AM, including free m7GTP carrier and downstream5′p. Gated defining SI and exact historical library/predecessor chemistry remain unreviewed. Directly linked originals/version questions remain deferred; no independent second pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1016/j.molcel.2018.06.001",
+      "scope": "Actual defining/detailed original; identity/edition/procedure reconciliation pending before inheritance"
+    },
+    {
+      "locator": "https://doi.org/10.1038/s41596-019-0226-7",
+      "scope": "Actual defining/detailed original; identity/edition/procedure reconciliation pending before inheritance"
+    }
+  ],
+  "open_questions": [
+    "Final VOR/defining supplements, detailed AlkB applicability, old reduction/aniline originals, exact adapter/end/PCR/read geometry. No RNA-site inference from sequence motif alone."
+  ],
+  "conclusion": "One capped source-qualified local chemistry pass; notes status. No full source/chemical/readout completion, finished schematic or accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-07",
+      "reviewer": "rna_round07_reader",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Defining originals and available chemistry material first; precise limited inspection recorded",
+      "locations": "Accepted-manuscript provenance79; Results99–107; Discussion137; AlkB context345–349; TRAC Methods351–353",
+      "findings": "Actual RNA reduction/aniline chemistry read from defining AM, including free m7GTP carrier and downstream5′p. Gated defining SI and exact historical library/predecessor chemistry remain unreviewed.",
+      "deferred": [
+        "https://doi.org/10.1016/j.molcel.2018.06.001",
+        "https://doi.org/10.1038/s41596-019-0226-7"
+      ],
+      "oligo_scraper": "Mandatory full downloaded-bundle scan; actual relevant hits verified in their original contexts. Zero hits are not an absence conclusion.",
+      "verification": "Local suites22checks pass across4models. Source guard0exact oligo inputs checked,0failures,2unassembled oligo inputs,4graphs. Chemistry audit18unresolved claims,0contradictions; no shared relation declarations, explicit unresolved workup warning. Not full chemical validation."
+    }
+  ]
+}

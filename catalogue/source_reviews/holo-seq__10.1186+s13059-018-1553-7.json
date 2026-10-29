@@ -1,0 +1,135 @@
+{
+  "dir": "holo-seq__10.1186+s13059-018-1553-7",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "read_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/holo-seq__10.1186+s13059-018-1553-7/s13059-018-1553-7_PMC6193298.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6193298.1/PMC6193298.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published GenomeBiology VOR",
+      "pass_1": {
+        "reviewer": "rna_round07_reader",
+        "date": "2026-10-29",
+        "locations": "Published identity/non-manuscript59; Results75; Methods163–197, captured-library primer context219–233",
+        "finding": "Published source supports carrier-DNA cleavage after library formation and actual branch-specific cleanup. Full historical upstream kit/USER/oligo/read geometry remains unassembled; no full depletion/specificity claim."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/holo-seq__10.1186+s13059-018-1553-7/s13059-018-1553-7_supp_13059_2018_1553_MOESM1_ESM.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6193298.1/13059_2018_1553_MOESM1_ESM.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published Additionalfile1",
+      "pass_1": {
+        "reviewer": "rna_round07_reader",
+        "date": "2026-10-29",
+        "locations": "FigS1 original embedded image1 inspected: carrier transcription-template architecture/NotI motif labels; FigS2/S8/S13 captions; no full template-base transcription",
+        "finding": "Published source supports carrier-DNA cleavage after library formation and actual branch-specific cleanup. Full historical upstream kit/USER/oligo/read geometry remains unassembled; no full depletion/specificity claim."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_3",
+      "role": "detailed_protocol",
+      "locator": "/husky/henriksson/NGS101_papers/sources/holo-seq__10.1186+s13059-018-1553-7/s13059-018-1553-7_supp_13059_2018_1553_MOESM4_ESM.docx.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6193298.1/13059_2018_1553_MOESM4_ESM.docx",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published Additionalfile4 step-by-step protocols",
+      "pass_1": {
+        "reviewer": "rna_round07_reader",
+        "date": "2026-10-29",
+        "locations": "Complete mRNA/total/small-RNA and dual-branch step-by-step recipes; branch-specific USER/NotI/PCR order, lateDNA carrier and smallRNA22cycle block",
+        "finding": "Published source supports carrier-DNA cleavage after library formation and actual branch-specific cleanup. Full historical upstream kit/USER/oligo/read geometry remains unassembled; no full depletion/specificity claim."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "deferred_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/holo-seq__10.1186+s13059-018-1553-7/s13059-018-1553-7_PMC6193298.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6193298.1/PMC6193298.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/holo-seq__10.1186+s13059-018-1553-7/s13059-018-1553-7_supp_13059_2018_1553_MOESM2_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6193298.1/13059_2018_1553_MOESM2_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/holo-seq__10.1186+s13059-018-1553-7/s13059-018-1553-7_supp_13059_2018_1553_MOESM3_ESM.xlsx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6193298.1/13059_2018_1553_MOESM3_ESM.xlsx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_7",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/holo-seq__10.1186+s13059-018-1553-7/s13059-018-1553-7_supp_13059_2018_1553_MOESM5_ESM.docx",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6193298.1/13059_2018_1553_MOESM5_ESM.docx",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round07_reader",
+      "date": "2026-10-29",
+      "locations": "Exact inspected locations listed in source_checklist and protocol notes",
+      "finding": "Published source supports carrier-DNA cleavage after library formation and actual branch-specific cleanup. Full historical upstream kit/USER/oligo/read geometry remains unassembled; no full depletion/specificity claim. Directly linked originals/version questions remain deferred; no independent second pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1186/s13059-018-1553-7",
+      "scope": "Actual defining/detailed original; identity/edition/procedure reconciliation pending before inheritance"
+    }
+  ],
+  "open_questions": [
+    "Actual historical E7490/E7530/E7420/E7300 adapter/USER/primer/read architecture; full carrier-template sequences and exact end chemistry; smallRNA main15cycles/protocol22cycles applicability."
+  ],
+  "conclusion": "One capped source-qualified local chemistry pass; notes status. No full source/chemical/readout completion, finished schematic or accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-07",
+      "reviewer": "rna_round07_reader",
+      "date": "2026-10-29",
+      "documents": 3,
+      "scope": "Defining originals and available chemistry material first; precise limited inspection recorded",
+      "locations": "Published identity/non-manuscript59; Results75; Methods163–197, captured-library primer context219–233; FigS1 original embedded image1 inspected: carrier transcription-template architecture/NotI motif labels; FigS2/S8/S13 captions; no full template-base transcription; Complete mRNA/total/small-RNA and dual-branch step-by-step recipes; branch-specific USER/NotI/PCR order, lateDNA carrier and smallRNA22cycle block",
+      "findings": "Published source supports carrier-DNA cleavage after library formation and actual branch-specific cleanup. Full historical upstream kit/USER/oligo/read geometry remains unassembled; no full depletion/specificity claim.",
+      "deferred": [
+        "https://doi.org/10.1186/s13059-018-1553-7"
+      ],
+      "oligo_scraper": "Mandatory full downloaded-bundle scan; actual relevant hits verified in their original contexts. Zero hits are not an absence conclusion.",
+      "verification": "Local suites22checks pass across4models. Source guard0exact oligo inputs checked,0failures,2unassembled oligo inputs,4graphs. Chemistry audit18unresolved claims,0contradictions; no shared relation declarations, explicit unresolved workup warning. Not full chemical validation."
+    }
+  ]
+}

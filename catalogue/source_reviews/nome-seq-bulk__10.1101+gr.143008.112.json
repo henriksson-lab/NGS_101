@@ -1,0 +1,98 @@
+{
+  "dir": "nome-seq-bulk__10.1101+gr.143008.112",
+  "status": "blocked",
+  "source_checklist": [
+    {
+      "id": "published_article",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/nome-seq-bulk__10.1101+gr.143008.112/gr.143008.112_PMC3514679.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3514679.1/PMC3514679.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published GenomeResearch article; author-manuscript false per manifest, printed PDF identity checked.",
+      "pass_1": {
+        "reviewer": "round06_coordinator",
+        "date": "2026-10-29",
+        "locations": "Published identity/manifest;JATS55–75,119–135;reference identities for Miranda2010/Kelly2010/Berman2012;mainPDF printed title/DOI/page identity.",
+        "finding": "IMR90 bulk two-dose M.CviPI/SAM, extraction/fragmentation, methylated adapters before bisulfite and single-end76 kept distinct from GBM paired-end runs. GCG ambiguous origin and CCG off-target caveat retained; idealized physicalU versus newDNA-T are local conditional classes, not quantitative prediction."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "publisher_supplement_index",
+      "role": "supplement",
+      "locator": "https://genome.cshlp.org/content/suppl/2012/10/04/gr.143008.112.DC1",
+      "availability": "unavailable",
+      "relevance": "relevant",
+      "reason": "Standard declared fetch returned403. Actual attachment identities unresolved; EuropePMC archive lists JPG/GIF figure files, no chemistry supplement was inspected from that archive.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "round06_coordinator",
+      "date": "2026-10-29",
+      "locations": "Published identity/manifest;JATS55–75,119–135;reference identities for Miranda2010/Kelly2010/Berman2012;mainPDF printed title/DOI/page identity.",
+      "finding": "IMR90 bulk two-dose M.CviPI/SAM, extraction/fragmentation, methylated adapters before bisulfite and single-end76 kept distinct from GBM paired-end runs. GCG ambiguous origin and CCG off-target caveat retained; idealized physicalU versus newDNA-T are local conditional classes, not quantitative prediction."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1002/0471142727.mb2117s89",
+      "scope": "Miranda2010 explicit nuclear isolation/single-promoter predecessor, unreviewed."
+    },
+    {
+      "locator": "https://doi.org/10.1038/nature08514",
+      "scope": "Lister2009 directly cited library predecessor; source applicability/exact component scope unreviewed."
+    },
+    {
+      "locator": "https://doi.org/10.1016/j.molcel.2010.08.026",
+      "scope": "Kelly2010 directly cited library/footprinting predecessor; unreviewed."
+    },
+    {
+      "locator": "https://doi.org/10.1038/ng.969",
+      "scope": "Berman2012 directly cited library/analysis predecessor; unreviewed."
+    },
+    {
+      "locator": "Source-named historical Epicentre end-repair,Illumina methylated adapters andZymoEZ DNA Methylation kit; applicable documents/revisions unassigned",
+      "scope": "Exact full oligo/end/stop/workup/read geometry; desired historical specifications are open questions, not invented unavailable disclosure documents."
+    }
+  ],
+  "open_questions": [
+    "Publisher supplemental originals and all linked chemistry-relevant originals.",
+    "Source stop/extraction/fragmentation procedures and full historical adapter/kit/PCR/run geometry.",
+    "Independent original/linked-information pass; no absence claim accepted."
+  ],
+  "conclusion": "Capped one-original chemistry pass with source-positive private graph; source completeness blocked by actual publisher supplemental index. No full validation/absence claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-28-ngs-expansion-06",
+      "reviewer": "round06_coordinator",
+      "date": "2026-10-29",
+      "documents": 1,
+      "scope": "Defining published original and attempted chemistry-supplement index before following cited predecessors.",
+      "locations": "Published identity/manifest;JATS55–75,119–135;reference identities for Miranda2010/Kelly2010/Berman2012;mainPDF printed title/DOI/page identity.",
+      "findings": "IMR90 bulk two-dose M.CviPI/SAM, extraction/fragmentation, methylated adapters before bisulfite and single-end76 kept distinct from GBM paired-end runs. GCG ambiguous origin and CCG off-target caveat retained; idealized physicalU versus newDNA-T are local conditional classes, not quantitative prediction.",
+      "deferred": [
+        "Publisher supplements",
+        "Directly cited nuclear/library predecessors",
+        "Exact full molecular/readout assembly and independent reader"
+      ]
+    }
+  ],
+  "local_validation": {
+    "selftest_checks": 8,
+    "result": "pass",
+    "scope": "Conditional reference/context/physicalU-newDNA-T behavior plus incomplete-publication gate only; no chemical efficiency or native modification-origin validation."
+  },
+  "integration_verification": {
+    "date": "2026-10-29",
+    "source_collected": true,
+    "scope": "Capped chemistry-source reading and bounded independent implementation spot review,not full-source/absence review.",
+    "result": "Scoped local suites/sourceguard/chemistry checks pass;private/incomplete state preserved. Fullsite490builders/link clean;no new public promotion."
+  }
+}

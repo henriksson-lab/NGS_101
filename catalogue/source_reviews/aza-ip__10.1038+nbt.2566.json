@@ -1,0 +1,212 @@
+{
+  "dir": "aza-ip__10.1038+nbt.2566",
+  "status": "in_progress",
+  "source_checklist": [
+    {
+      "id": "read_1",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_PMC3791587.xml.txt",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3791587.1/PMC3791587.1.xml",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Associated accepted manuscript NIHMS463348; final VOR applicability unverified",
+      "pass_1": {
+        "reviewer": "rna_round07_reader",
+        "date": "2026-10-29",
+        "locations": "Accepted-manuscript provenance17; covalent mechanism27–31; experiment34–42; lysis/IP/fragmentation/extraction/library82–100; proposed ring-open Fig2caption372",
+        "finding": "Actual covalent RNA capture and fragment/supernatant/precipitation/Trizol recovery read. Ring-opening/readout is retained as a source-proposed mechanism, not established universal RNA chemistry."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "read_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_41587_2013_BFnbt2566_MOESM18_ESM.pdf.txt",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2566/MediaObjects/41587_2013_BFnbt2566_MOESM18_ESM.pdf",
+      "availability": "read",
+      "relevance": "relevant",
+      "source_version": "Published publisher SI original",
+      "pass_1": {
+        "reviewer": "rna_round07_reader",
+        "date": "2026-10-29",
+        "locations": "Original title/DOI and opening SupplementaryResult1; validation-table headings and relevant tRNA/primer scraper contexts, not library-oligo assumptions",
+        "finding": "Actual covalent RNA capture and fragment/supernatant/precipitation/Trizol recovery read. Ring-opening/readout is retained as a source-proposed mechanism, not established universal RNA chemistry."
+      },
+      "pass_2": null
+    },
+    {
+      "id": "deferred_2",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_41587_2013_BFnbt2566_MOESM19_ESM.xls",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2566/MediaObjects/41587_2013_BFnbt2566_MOESM19_ESM.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_3",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_41587_2013_BFnbt2566_MOESM20_ESM.xls",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2566/MediaObjects/41587_2013_BFnbt2566_MOESM20_ESM.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_4",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_41587_2013_BFnbt2566_MOESM21_ESM.xls",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2566/MediaObjects/41587_2013_BFnbt2566_MOESM21_ESM.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_5",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_41587_2013_BFnbt2566_MOESM22_ESM.xls",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2566/MediaObjects/41587_2013_BFnbt2566_MOESM22_ESM.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_6",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_41587_2013_BFnbt2566_MOESM23_ESM.xls",
+      "original": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fnbt.2566/MediaObjects/41587_2013_BFnbt2566_MOESM23_ESM.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_7",
+      "role": "defining",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_PMC3791587.pdf",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3791587.1/PMC3791587.1.pdf",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_9",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_supp_NIHMS463348-supplement-1.doc",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3791587.1/NIHMS463348-supplement-1.doc",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_10",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_supp_NIHMS463348-supplement-2.xls",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3791587.1/NIHMS463348-supplement-2.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_11",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_supp_NIHMS463348-supplement-3.xls",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3791587.1/NIHMS463348-supplement-3.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_12",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_supp_NIHMS463348-supplement-4.xls",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3791587.1/NIHMS463348-supplement-4.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_13",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_supp_NIHMS463348-supplement-5.xls",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3791587.1/NIHMS463348-supplement-5.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    },
+    {
+      "id": "deferred_14",
+      "role": "supplement",
+      "locator": "/husky/henriksson/NGS101_papers/sources/aza-ip__10.1038+nbt.2566/nbt.2566_supp_NIHMS463348-supplement-6.xls",
+      "original": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3791587.1/NIHMS463348-supplement-6.xls",
+      "availability": "available",
+      "relevance": "relevant",
+      "reason": "Actual original acquired but not inspected in this capped pass; no absence/irrelevance judgment.",
+      "pass_1": null,
+      "pass_2": null
+    }
+  ],
+  "linked_information": {
+    "result": "enumerated",
+    "pass_1": {
+      "reviewer": "rna_round07_reader",
+      "date": "2026-10-29",
+      "locations": "Exact inspected locations listed in source_checklist and protocol notes",
+      "finding": "Actual covalent RNA capture and fragment/supernatant/precipitation/Trizol recovery read. Ring-opening/readout is retained as a source-proposed mechanism, not established universal RNA chemistry. Directly linked originals/version questions remain deferred; no independent second pass."
+    },
+    "pass_2": null
+  },
+  "missing_claims": [],
+  "pending_linked_targets": [
+    {
+      "locator": "https://doi.org/10.1038/nbt.2566",
+      "scope": "Actual defining/detailed original; identity/edition/procedure reconciliation pending before inheritance"
+    },
+    {
+      "locator": "https://doi.org/10.1038/nprot.2014.014",
+      "scope": "Actual defining/detailed original; identity/edition/procedure reconciliation pending before inheritance"
+    }
+  ],
+  "open_questions": [
+    "Final VOR, actual processed-site chemistry and ring-opening applicability, full directional-library adapter/RT/PCR/read geometry and detailed2014 source; validation oligos not reused as library primers."
+  ],
+  "conclusion": "One capped source-qualified local chemistry pass; notes status. No full source/chemical/readout completion, finished schematic or accepted missing-information claim.",
+  "bounded_checks": [
+    {
+      "round": "2026-10-29-ngs-expansion-07",
+      "reviewer": "rna_round07_reader",
+      "date": "2026-10-29",
+      "documents": 2,
+      "scope": "Defining originals and available chemistry material first; precise limited inspection recorded",
+      "locations": "Accepted-manuscript provenance17; covalent mechanism27–31; experiment34–42; lysis/IP/fragmentation/extraction/library82–100; proposed ring-open Fig2caption372; Original title/DOI and opening SupplementaryResult1; validation-table headings and relevant tRNA/primer scraper contexts, not library-oligo assumptions",
+      "findings": "Actual covalent RNA capture and fragment/supernatant/precipitation/Trizol recovery read. Ring-opening/readout is retained as a source-proposed mechanism, not established universal RNA chemistry.",
+      "deferred": [
+        "https://doi.org/10.1038/nbt.2566",
+        "https://doi.org/10.1038/nprot.2014.014"
+      ],
+      "oligo_scraper": "Mandatory full downloaded-bundle scan; actual relevant hits verified in their original contexts. Zero hits are not an absence conclusion.",
+      "verification": "Local suites22checks pass across4models. Source guard0exact oligo inputs checked,0failures,2unassembled oligo inputs,4graphs. Chemistry audit18unresolved claims,0contradictions; no shared relation declarations, explicit unresolved workup warning. Not full chemical validation."
+    }
+  ]
+}
